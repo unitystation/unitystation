@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -6,6 +7,9 @@ using UnityEngine;
 	public class MetaTileMap : MonoBehaviour
 	{
 		public Dictionary<LayerType, Layer> Layers { get; private set; }
+
+		private Matrix matrix;
+		private Matrix Matrix => matrix ? matrix : ( matrix = GetComponent<Matrix>() );
 
 		private void OnEnable()
 		{
@@ -21,8 +25,8 @@ using UnityEngine;
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
-			
-			return _IsPassableAt(origin, toX) && _IsPassableAt(toX, to) || 
+
+			return _IsPassableAt(origin, toX) && _IsPassableAt(toX, to) ||
 			        _IsPassableAt(origin, toY) && _IsPassableAt(toY, to);
 		}
 
@@ -38,7 +42,7 @@ using UnityEngine;
 
 			return true;
 		}
-		
+
 		//TODO:  Remove this
 		public bool IsPassableAt(Vector3Int position)
 		{
@@ -49,10 +53,10 @@ using UnityEngine;
 					return false;
 				}
 			}
-			
+
 			return true;
 		}
-		
+
 		//TODO:  Refactor to take origin and destination
 		public bool IsAtmosPassableAt(Vector3Int position)
 		{
@@ -108,9 +112,17 @@ using UnityEngine;
 		{
 			foreach (LayerType layer in Layers.Keys)
 			{
-				if (layer != LayerType.Objects && HasTile(position, layer))
-				{
+				if (layer != LayerType.Objects && HasTile(position, layer)) {
 					return false;
+				}
+				if ( layer == LayerType.Objects ) { //probably expensive
+					var objects = Matrix.Get<RegisterTile>( position ).ToArray();
+					for ( var i = 0; i < objects.Length; i++ ) {
+						var o = objects[i] as RegisterPlayer;
+						if ( o == null ) {
+							return false;
+						}
+					}
 				}
 			}
 			return true;
@@ -153,10 +165,10 @@ using UnityEngine;
 				minPosition = Vector3Int.Min(layerBounds.min, minPosition);
 				maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);
 			}
-			
+
 			return new BoundsInt(minPosition, maxPosition-minPosition);
 		}
-		
+
 
 #if UNITY_EDITOR
 		public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)

@@ -37,7 +37,7 @@ public partial class PlayerSync
 	private bool isApplyingSpaceDmg;
 
 	///
-	public bool IsInSpace => MatrixManager.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.WorldPosition));
+	public bool IsSpaceFloating => MatrixManager.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.WorldPosition));
 
 	/// Whether player is considered to be floating on server
 	private bool consideredFloatingServer => serverState.Impulse != Vector2.zero;
@@ -335,9 +335,9 @@ public partial class PlayerSync
 		private bool InteractCooldown = false;
 
 		private void Interact(Vector3 currentPosition, Vector3 direction) {
-//			if ( !InteractCooldown ) {
+			if ( !InteractCooldown ) {
 				StartCoroutine( TryInteract( currentPosition, direction ) );
-//			}
+			}
 		}
 
 		private IEnumerator TryInteract( Vector3 currentPosition, Vector3 direction ) {
@@ -348,24 +348,25 @@ public partial class PlayerSync
 			InteractDoor(worldPos, worldTarget);
 
 			Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.PushPull, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
-			// Is the object pushable (iterate through all of the objects at the position):
-			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTarget ).ToArray();
-			for (int i = 0; i < pushPulls.Length; i++)
-			{
-				if (pushPulls[i] && pushPulls[i].gameObject != gameObject
-//				&& PlayerScript.IsInReach( pushPulls[i].gameObject )
-				)
-				{
-//					Logger.LogTraceFormat( "Trying to push {0} when walking {1}->{2}", Category.PushPull, pushPulls[i].gameObject, worldPos, worldTarget );
-					pushPulls[i].TryPush( worldTarget, Vector2Int.RoundToInt(direction) );
-				}
-			} //TODO fix lightbulbs getting in the way
+			InteractPushable( worldTarget, direction );
 
 			yield return YieldHelper.DeciSecond;
 			InteractCooldown = false;
 		}
 
-		// Cross-matrix now! uses world positions
+		private void InteractPushable( Vector3Int worldTarget, Vector3 direction ) {
+			// Is the object pushable (iterate through all of the objects at the position):
+			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTarget ).ToArray();
+			for ( int i = 0; i < pushPulls.Length; i++ ) {
+				var pushPull = pushPulls[i];
+				if ( pushPull && pushPull.gameObject != gameObject && pushPull.isPushable ) {
+	//					Logger.LogTraceFormat( "Trying to push {0} when walking {1}->{2}", Category.PushPull, pushPulls[i].gameObject, worldPos, worldTarget );
+					pushPull.TryPush( worldTarget, Vector2Int.RoundToInt( /*ServerState.*/direction ) );
+					break;
+				}
+			}
+		}
+
 		private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 		{
 			// Make sure there is a door controller
@@ -426,7 +427,7 @@ public partial class PlayerSync
 		}
 
 		//Space walk checks
-		if (IsInSpace)
+		if (IsSpaceFloating)
 		{
 			if (serverTargetState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
 			{
@@ -446,7 +447,7 @@ public partial class PlayerSync
 			}
 		}
 
-		if (consideredFloatingServer && !IsInSpace)
+		if (consideredFloatingServer && !IsSpaceFloating)
 		{
 			//finish floating. players will be notified as soon as serverState catches up
 			serverState.Impulse = Vector2.zero;
@@ -487,7 +488,7 @@ public partial class PlayerSync
 	private IEnumerator ApplyTempSpaceDamage()
 	{
 		yield return new WaitForSeconds(1f);
-		healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+//		healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
 		isApplyingSpaceDmg = false;
 	}
 

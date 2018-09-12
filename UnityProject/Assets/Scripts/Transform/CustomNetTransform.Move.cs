@@ -146,7 +146,7 @@ public partial class CustomNetTransform {
 		} else {
 			//stop
 //			Logger.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
-			clientState.Speed = 0f;
+//			clientState.Speed = 0f;
 			clientState.Impulse = Vector2.zero;
 			clientState.SpinFactor = 0;
 		}
@@ -341,7 +341,7 @@ public partial class CustomNetTransform {
 //			}
 		}
 		serverState.Impulse = Vector2.zero;
-		serverState.Speed = 0;
+		serverState.Speed = 6; //?
 		serverState.Rotation = transform.rotation.eulerAngles.z;
 		serverState.SpinFactor = 0;
 		serverState.ActiveThrow = ThrowInfo.NoThrow;

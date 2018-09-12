@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-public class PlayerNetworkActions : NetworkBehaviour
+public partial class PlayerNetworkActions : NetworkBehaviour
 {
 	private readonly string[] slotNames =
 	{
@@ -339,7 +339,7 @@ public class PlayerNetworkActions : NetworkBehaviour
 		throwable.GetComponent<CustomNetTransform>().Throw( throwInfo );
 
 		//Simplified counter-impulse for players in space
-		if ( playerScript.PlayerSync.IsInSpace ) {
+		if ( playerScript.PlayerSync.IsSpaceFloating ) {
 			playerScript.PlayerSync.Push( Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized) );
 		}
 	}
