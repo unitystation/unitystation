@@ -127,7 +127,7 @@ public class PlayerList : NetworkBehaviour
 				ReportKills();
 			}
 			
-			PostToChatMessage.Send("Game Restarting in 10 seconds...", ChatChannel.System);
+			PostToChatMessage.Send("Game Restarting in 30 seconds...", ChatChannel.System);
 			reportDone = true;
 		}
 	}
