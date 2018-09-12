@@ -16,6 +16,11 @@ using UnityEditor;
 		public bool Offset;
 		public bool Rotatable;
 
+		[Header("Wire Stuff:")]
+		public bool IsWire;
+		public Vector2Int WireStartEnd;
+		public Sprite wireSprite;
+
 #if UNITY_EDITOR
 		private void OnValidate()
 		{
@@ -26,8 +31,15 @@ using UnityEditor;
 					// if sprite already exists (e.g. at startup), then load it, otherwise create a new one
 					EditorApplication.delayCall += () =>
 					{
+						if(IsWire && wireSprite != null)
+						{
+							PreviewSprite = wireSprite;
+						} 
+						else 
+						{
 						PreviewSprite = PreviewSpriteBuilder.LoadSprite(Object) ??
 						                PreviewSpriteBuilder.Create(Object);
+						}
 					};
 				}
 				else if (Object != _objectCurrent)
@@ -81,11 +93,21 @@ using UnityEditor;
 			go.name = Object.name;
 
 			go.SetActive(true);
+
+			if(IsWire){
+				SetWireSettings(go);
+			}
+		}
+
+		void SetWireSettings(GameObject spawnedObj)
+		{
+			var wireScript = spawnedObj.GetComponent<StructurePowerWire>();
+			wireScript.SetDirection(WireStartEnd.x, WireStartEnd.y);
 		}
 
 		public override Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool anticlockwise = true, int count = 1)
 		{
-			if (Rotatable)
+			if (Rotatable && !IsWire)
 			{
 				for (int i = 0; i < count; i++)
 				{

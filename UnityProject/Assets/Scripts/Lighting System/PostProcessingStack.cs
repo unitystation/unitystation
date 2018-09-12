@@ -82,17 +82,18 @@ public class PostProcessingStack
 	/// <param name="iMask">Raw Occlusion mask with R and G channels.</param>
 	/// <param name="iDestination">Write Destination texture.</param>
 	/// <param name="iRenderSettings">Settings to use</param>
-	public void BlurOcclusionMask(RenderTexture iMask, RenderSettings iRenderSettings)
+	public void BlurOcclusionMask(RenderTexture iMask, RenderSettings iRenderSettings, float iCameraSize)
 	{
 		// Blur G channel only.
-		Blur(iMask, mMaterialContainer.fovBlurMaterial, iRenderSettings.fovBlurInterpolation, iRenderSettings.fovBlurIterations, blurRenderTexture);
+		Blur(iMask, mMaterialContainer.fovBlurMaterial, iRenderSettings.fovBlurInterpolation, iRenderSettings.fovBlurIterations, blurRenderTexture, iCameraSize);
 	}
 
 	public void BlurLightMask(
 		RenderTexture iMask,
-		RenderSettings iRenderSettings)
+		RenderSettings iRenderSettings,
+		float iCameraSize)
 	{
-		Blur(iMask, mMaterialContainer.lightBlurMaterial, iRenderSettings.lightBlurInterpolation, iRenderSettings.lightBlurIterations, blurRenderTextureLight);
+		Blur(iMask, mMaterialContainer.lightBlurMaterial, iRenderSettings.lightBlurInterpolation, iRenderSettings.lightBlurIterations, blurRenderTextureLight, iCameraSize);
 
 		return;
 	}
@@ -139,8 +140,11 @@ public class PostProcessingStack
 		Material iBlurMaterial,
 		float iInterpolation,
 		int iIteration,
-		RenderTexture iBlurRenderTexture)
+		RenderTexture iBlurRenderTexture,
+		float iCameraSize)
 	{
+		const float DefaultCameraSize = 4f;
+
 		if (iSource == null)
 			throw new ArgumentNullException(nameof(iSource));
 
@@ -153,10 +157,12 @@ public class PostProcessingStack
 			return false;
 		}
 
+		float _cameraSizeInterpolationMultiplier = DefaultCameraSize / iCameraSize;
+
 		for (int _iteration = 0; _iteration < iIteration; _iteration++)
 		{
 			// Helps to achieve a larger blur.
-			float _blurRadius = (_iteration * iInterpolation) + iInterpolation;
+			float _blurRadius = ((_iteration * iInterpolation) + iInterpolation) * 0.005f * _cameraSizeInterpolationMultiplier;
 
 			iBlurMaterial.SetFloat("_Radius", _blurRadius);
 
@@ -182,11 +188,19 @@ public class PostProcessingStack
 		RenderTexture iRawOcclusionMask,
 		RenderTexture iGlobalOcclusionExtendedMask,
 		RenderSettings iRenderSettings,
-		Vector3 iFovCenterInViewSpace)
+		Vector3 iFovCenterInViewSpace,
+		float iFovDistance,
+		MaskParameters iMaskParameters)
 	{
 		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
 		mMaterialContainer.fovMaterial.SetFloat("_OcclusionSpread", iRenderSettings.fovOcclusionSpread);
 
+		// Adjust scale from Extended mask to Screen size mask.
+		float _yUVScale = 1 / iMaskParameters.cameraAspect;
+		Vector3 _adjustedDistance = iFovDistance * iMaskParameters.worldUnitInViewportSpace * (float)iMaskParameters.cameraOrthographicSize / iMaskParameters.extendedCameraSize;
+
+		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
+		
 		Graphics.Blit(iRawOcclusionMask, iGlobalOcclusionExtendedMask, mMaterialContainer.fovMaterial);
 	}
 
@@ -200,13 +214,14 @@ public class PostProcessingStack
 	public void CreateWallLightMask(
 		RenderTexture iLightMask,
 		RenderTexture iObstacleLightMask,
-		RenderSettings iRenderSettings)
+		RenderSettings iRenderSettings,
+		float iCameraSize)
 	{
 		// Down Scale light mask and blur it.
 		Graphics.Blit(iLightMask, iObstacleLightMask);
 
 		mMaterialContainer.lightWallBlurMaterial.SetVector("_MultiLimit", new Vector4(iRenderSettings.occlusionMaskMultiplier,iRenderSettings.occlusionMaskLimit,0,0));
 
-		Blur(iObstacleLightMask, mMaterialContainer.lightWallBlurMaterial, iRenderSettings.occlusionBlurInterpolation, iRenderSettings.occlusionBlurIterations, blurRenderTextureWallLight);
+		Blur(iObstacleLightMask, mMaterialContainer.lightWallBlurMaterial, iRenderSettings.occlusionBlurInterpolation, iRenderSettings.occlusionBlurIterations, blurRenderTextureWallLight, iCameraSize);
 	}
 }
