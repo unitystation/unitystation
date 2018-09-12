@@ -16,6 +16,8 @@ public class LightingSystem : MonoBehaviour
 
 	public float fovDistance;
 
+	public RenderSettings.Quality quality;
+
 	public RenderSettings renderSettings;
 	public MaterialContainer materialContainer;
 
@@ -182,6 +184,9 @@ public class LightingSystem : MonoBehaviour
 
 	private void Update()
 	{
+		// Drive render quality from light system inspector.
+		renderSettings.quality = quality;
+
 		// Monitor state to detect when we should trigger reinitialization of rendering textures.
 		var _newParameters = new MaskParameters(mMainCamera, renderSettings);
 
@@ -255,7 +260,7 @@ public class LightingSystem : MonoBehaviour
 		using (new DisposableProfiler("4. Blur Fit Occlusion Mask"))
 		{
 			// Note: This blur is used only with shaders during scene render, so 1 pass should be enough.
-			mPostProcessingStack.BlurOcclusionMask(globalOcclusionMask, renderSettings);
+			mPostProcessingStack.BlurOcclusionMask(globalOcclusionMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
 		}
 
 		// Note: After execution of this method, MainCamera.Render will be executed and scene will be drawn.
@@ -284,7 +289,7 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("6. Generate Obstacle Light Mask"))
 		{
-			mPostProcessingStack.CreateWallLightMask(_lightMask, obstacleLightMask, renderSettings);
+			mPostProcessingStack.CreateWallLightMask(_lightMask, obstacleLightMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
 		}
 		
 		// Debug View Selection.
@@ -311,7 +316,7 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("7. Light Mask Blur"))
 		{
-			mPostProcessingStack.BlurLightMask(_lightMask, renderSettings);
+			mPostProcessingStack.BlurLightMask(_lightMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
 		}
 
 		using (new DisposableProfiler("8. Mix Light Masks"))
