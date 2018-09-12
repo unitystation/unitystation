@@ -4,6 +4,7 @@ using UnityEngine;
 [Serializable]
 public class RenderSettings
 {
+
 	[Tooltip("View override for quick overview of the process stages. For Debug purposes.")]
 	public ViewMode viewMode;
 
@@ -45,9 +46,6 @@ public class RenderSettings
 	[Tooltip("Spread of blur post-effect that will be applied inside each pass")]
 	public float lightBlurInterpolation;
 
-	[Tooltip("Scale of rendered Light texture. Affects quality of shadows but has a huge impact on performance. Try to set as low as passable light quality will allow.")]
-	public float lightTextureRescale = 0.5f;
-
 	[Tooltip("Number of passes for blur post-effect.")]
 	public int occlusionBlurIterations;
 
@@ -57,7 +55,7 @@ public class RenderSettings
 	public float occlusionMaskMultiplier;
 	public float occlusionMaskLimit;
 
-	[Tooltip("Scale of Occlusion light texture. Affected by lightTextureRescale. Occlusion light texture are quite small and mostly controlled to produce desired blur effect.")]
+	[Tooltip("Scale of Occlusion light texture. Affected by lightTextureWidth. Occlusion light texture are quite small and mostly controlled to produce desired blur effect.")]
 	public float occlusionLightTextureRescale = 0.25f;
 
 	[Tooltip("Orthographic Size addition to Occlusion camera. Affects Extended texture size. Used to properly draw out of bounds light sources.")]
@@ -65,6 +63,19 @@ public class RenderSettings
 
 	[Tooltip("Used for occlusion texture only. 4 is a good balance..")]
 	public int antiAliasing = 4;
+
+	[NonSerialized]
+	public Quality quality;
+
+	private static int[] LightTextureResolutions = {300, 512, 700};
+
+	public int lightTextureWidth
+	{
+		get
+		{
+			return LightTextureResolutions[(int)quality];
+		}
+	}
 
 	public enum ViewMode
 	{
@@ -77,4 +88,11 @@ public class RenderSettings
 		FovObstacleExtended,
 		Background,
 	};
+
+	public enum Quality
+	{
+		Low,
+		Mid,
+		High,
+	}
 }
