@@ -99,9 +99,9 @@
 			Renderer = GetComponentInChildren<SpriteRenderer>();
 
 			// Slight color variance.
-			Color _color = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.7f); //+ UnityEngine.Random.ColorHSV() * 0.3f;
+			Color _color = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f); //+ UnityEngine.Random.ColorHSV() * 0.3f;
 
-			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, _color, 15);
+			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, _color, 12);
 
 			State = InitialState;
 
