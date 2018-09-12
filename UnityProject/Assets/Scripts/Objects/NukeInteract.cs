@@ -43,7 +43,7 @@ public class NukeInteract : NetworkTabTrigger
 		GibMessage.Send();
 		yield return new WaitForSeconds(2f);
 		PlayerList.Instance.ReportScores(); //Report scores for who won (Crew or Syndicate)
-		yield return new WaitForSeconds(10f);
+		yield return new WaitForSeconds(30f);
 		//Restart Round:
 		GameManager.Instance.RestartRound();
 	}
@@ -85,7 +85,8 @@ public class NukeInteract : NetworkTabTrigger
 		PlayerList.Instance.nukeSetOff = true;
 
 		//Playing the video
-		UIManager.Display.selfDestructVideo.SetActive(true);
+		UIManager.Display.PlayNukeDetVideo();
+
 		//Playing the sound
 		SoundManager.Play("SelfDestruct");
 	}
