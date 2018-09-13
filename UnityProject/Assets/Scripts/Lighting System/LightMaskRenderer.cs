@@ -61,6 +61,7 @@ public class LightMaskRenderer : MonoBehaviour
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;
 		_newRenderTexture.filterMode = FilterMode.Bilinear;
+		_newRenderTexture.antiAliasing = iParameters.antiAliasing;
 
 		// Note: Assignment will release previous texture if exist.
 		mask = _newRenderTexture;
