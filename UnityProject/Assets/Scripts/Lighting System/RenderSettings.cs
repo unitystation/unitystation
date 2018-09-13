@@ -69,6 +69,16 @@ public class RenderSettings
 
 	private static int[] LightTextureResolutions = {300, 512, 700};
 
+	private static float[] OcclusionUvAdjustments = {-0.007f, -0.004f, -0.004f};
+
+	public float occlusionUvAdjustment
+	{
+		get
+		{
+			return OcclusionUvAdjustments[(int)quality];
+		}
+	}
+
 	public int lightTextureWidth
 	{
 		get
