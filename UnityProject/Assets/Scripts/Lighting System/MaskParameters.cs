@@ -11,13 +11,13 @@ public struct MaskParameters : IEquatable<MaskParameters>
 	public readonly float wallTextureRescale;
 	public readonly Vector3 worldUnitInViewportSpace;
 
+	private const float DefaultCameraSize = 4;
+
 	private bool mExtendedDataCalculated;
 	private float mExtendedCameraSize;
 	private Vector2Int mExtendedTextureSize;
 	private int lightTextureWidth;
 	private Vector2Int mLightTextureSize;
-
-
 
 	public MaskParameters(Camera iCamera, RenderSettings iRenderSettings)
 	{
@@ -29,9 +29,6 @@ public struct MaskParameters : IEquatable<MaskParameters>
 		antiAliasing = Mathf.Clamp(iRenderSettings.antiAliasing, 1, 16);
 		wallTextureRescale = iRenderSettings.occlusionLightTextureRescale;
 		worldUnitInViewportSpace = iCamera.WorldToViewportPoint(Vector3.zero) - iCamera.WorldToViewportPoint(Vector3.one);
-
-		var _bla1 = iCamera.WorldToViewportPoint(Vector3.zero);
-		var _bla2 = iCamera.WorldToViewportPoint(Vector3.one);
 
 		// Set data default.
 		// This will be lazy-calculated when required.
@@ -85,11 +82,12 @@ public struct MaskParameters : IEquatable<MaskParameters>
 		// Light Texture.
 		mLightTextureSize = new Vector2Int(lightTextureWidth, (int)(lightTextureWidth / cameraAspect));
 
-		// Extended Texture.
-		mExtendedCameraSize = cameraOrthographicSize + maskCameraSizeAdd;
+		float _lightToExtendedProportions = (DefaultCameraSize + maskCameraSizeAdd) / DefaultCameraSize;
 
-		float _extendedProportions = ((float)mExtendedCameraSize / cameraOrthographicSize);
-		mExtendedTextureSize = new Vector2Int((int)(mLightTextureSize.x * _extendedProportions), (int)(mLightTextureSize.y * _extendedProportions));
+		// Extended Texture.
+		mExtendedCameraSize = cameraOrthographicSize * _lightToExtendedProportions;
+
+		mExtendedTextureSize = new Vector2Int((int)(mLightTextureSize.x * _lightToExtendedProportions), (int)(mLightTextureSize.y * _lightToExtendedProportions));
 
 		mExtendedDataCalculated = true;
 	}
