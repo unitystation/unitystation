@@ -77,20 +77,20 @@ public class GameManager : MonoBehaviour
 		GetRoundTime = RoundTime;
 		GameOver = false;
 		RespawnAllowed = true;
-		if (scene.name != "Lobby")
-		{
-			SetUpGameMode();
-		}
+		// if (scene.name != "Lobby")
+		// {
+		// 	SetUpGameMode();
+		// }
 	}
 
-	private void SetUpGameMode()
-	{
-		//Do all game related set up here. Starting with the nuke ops demos, showing a Syndicate or Nanotrasen badge to chosen between before joinging
-		if(gameMode == GameMode.nukeops){
-			//Show nuke opes selection
-			Debug.Log("TODO Set up UI for nuke ops game");
-		}
-	}
+	//this could all still be used in the future for selecting traitors/culties/revs at game start:
+	// private void SetUpGameMode()
+	// {
+	// 	if(gameMode == GameMode.nukeops){
+	// 		//Show nuke opes selection
+	// 		Debug.Log("TODO Set up UI for nuke ops game");
+	// 	}
+	// }
 
 	public void SyncTime(float currentTime)
 	{
@@ -193,7 +193,7 @@ public class GameManager : MonoBehaviour
 		for (var i = 0; i < PlayerList.Instance.ClientConnectedPlayers.Count; i++)
 		{
 			var player = PlayerList.Instance.ClientConnectedPlayers[i];
-			if (player.Job != JobType.SYNDICATE)
+			if (player.Job != JobType.SYNDICATE && player.Job != JobType.NULL)
 			{
 				startCount++;
 			}
