@@ -67,7 +67,7 @@ public class RenderSettings
 	[NonSerialized]
 	public Quality quality;
 
-	private static int[] LightTextureResolutions = {300, 512, 700};
+	private static int[] LightTextureResolutions = {600, 1024, 1400};
 
 	private static float[] OcclusionUvAdjustments = {-0.007f, -0.004f, -0.004f};
 
@@ -83,7 +83,7 @@ public class RenderSettings
 	{
 		get
 		{
-			return LightTextureResolutions[(int)quality];
+			return LightTextureResolutions[(int)quality] / PlayerPrefs.GetInt("CamZoomSetting");
 		}
 	}
 
