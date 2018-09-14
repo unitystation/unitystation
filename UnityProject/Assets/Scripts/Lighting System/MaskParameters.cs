@@ -25,7 +25,7 @@ public struct MaskParameters : IEquatable<MaskParameters>
 		screenSize = new Vector2Int(Screen.width, Screen.height);
 		cameraAspect = iCamera.aspect;
 		maskCameraSizeAdd = iRenderSettings.maskCameraSizeAdd;
-		this.lightTextureWidth = iRenderSettings.lightTextureWidth;
+		lightTextureWidth = iRenderSettings.lightTextureWidth;
 		antiAliasing = Mathf.Clamp(iRenderSettings.antiAliasing, 1, 16);
 		wallTextureRescale = iRenderSettings.occlusionLightTextureRescale;
 		worldUnitInViewportSpace = iCamera.WorldToViewportPoint(Vector3.zero) - iCamera.WorldToViewportPoint(Vector3.one);
@@ -80,7 +80,16 @@ public struct MaskParameters : IEquatable<MaskParameters>
 	private void CalculateExtendedData()
 	{
 		// Light Texture.
-		mLightTextureSize = new Vector2Int(lightTextureWidth, (int)(lightTextureWidth / cameraAspect));
+		if (screenSize.x > screenSize.y)
+		{
+			float _widthAspect = (float)screenSize.x / screenSize.y;
+			mLightTextureSize = new Vector2Int(lightTextureWidth, (int)(lightTextureWidth / _widthAspect));
+		}
+		else
+		{
+			float _highAspect = (float)screenSize.y / screenSize.x;
+			mLightTextureSize = new Vector2Int((int)(lightTextureWidth / _highAspect), lightTextureWidth);
+		}
 
 		float _lightToExtendedProportions = (DefaultCameraSize + maskCameraSizeAdd) / DefaultCameraSize;
 

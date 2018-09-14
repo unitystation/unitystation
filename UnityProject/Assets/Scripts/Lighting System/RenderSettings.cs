@@ -67,23 +67,22 @@ public class RenderSettings
 	[NonSerialized]
 	public Quality quality;
 
-	private static int[] LightTextureResolutions = {300, 512, 700};
+	private static readonly int[] LightTextureResolutions = {600, 1024, 1400};
 
-	private static float[] OcclusionUvAdjustments = {-0.007f, -0.004f, -0.004f};
-
-	public float occlusionUvAdjustment
-	{
-		get
-		{
-			return OcclusionUvAdjustments[(int)quality];
-		}
-	}
+	private static readonly AnimationCurve OcclusionUvAdjustments = new AnimationCurve(
+		new Keyframe(60, 0.048f),
+		new Keyframe(102, 0.024f),
+		new Keyframe(140, 0.012f),
+		new Keyframe(280, 0.007f),
+		new Keyframe(350, 0.006f),
+		new Keyframe(700, 0.004f),
+		new Keyframe(1400, 0.002f));
 
 	public int lightTextureWidth
 	{
 		get
 		{
-			return LightTextureResolutions[(int)quality];
+			return LightTextureResolutions[(int)quality] / PlayerPrefs.GetInt("CamZoomSetting");
 		}
 	}
 
@@ -104,5 +103,11 @@ public class RenderSettings
 		Low,
 		Mid,
 		High,
+	}
+
+	public static float GetOcclusionUvAdjustment(int iTextureWidth)
+	{
+
+		return OcclusionUvAdjustments.Evaluate(iTextureWidth);
 	}
 }

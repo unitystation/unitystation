@@ -54,7 +54,7 @@ Shader "PostProcess/Light Mixer"
 				fixed4 obstacleLightSample = tex2D(_ObstacleLightMask, i.uv);
 
 				// Adjust for wierd mismatch in far left side of the screen.
-				float2 occlusionUV = i.uv - half2(clamp(0.5f - i.uv.x, 0,1) * _OcclusionUVAdjustment, (1 - i.uv.y) * 0.003f);
+				float2 occlusionUV = i.uv - half2(clamp(0.5f - i.uv.x, 0,1) * -_OcclusionUVAdjustment, (1 - i.uv.y) * 0.003f);
 				fixed4 occlusionSample = tex2D(_OcclusionMask, occlusionUV);
 				
 				return lightSample + obstacleLightSample * clamp(occlusionSample.r - 0.5f, 0, 1) * 2;
