@@ -3160,7 +3160,7 @@ GameObject:
   - component: {fileID: 114445223306499362}
   - component: {fileID: 114211092006301886}
   m_Layer: 5
-  m_Name: PANEL_Top_Windows
+  m_Name: NetworkTabs (Top Right windows)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10513,8 +10513,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114986867525342648}
   m_HandleRect: {fileID: 224599716051025124}
   m_Direction: 2
-  m_Value: 0.00000067104367
-  m_Size: 0.41528565
+  m_Value: 1
+  m_Size: 0.4152857
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -17353,6 +17353,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameList: {fileID: 114016090460978448}
   window: {fileID: 1301679347078100}
+  scrollRect: {fileID: 114188317122129664}
 --- !u!114 &114827665712633906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -21637,7 +21638,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 409.29993}
+  m_AnchoredPosition: {x: 0, y: 0.000091552734}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224265194266767286
@@ -23104,8 +23105,8 @@ RectTransform:
   m_Father: {fileID: 224982044586477944}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.00000039236886}
-  m_AnchorMax: {x: 1, y: 0.41528603}
+  m_AnchorMin: {x: 0, y: 0.5847143}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
