@@ -326,7 +326,11 @@ public class LightingSystem : MonoBehaviour
 			_fovLightMixMaterial.SetTexture("_LightMask", _lightMask);
 			_fovLightMixMaterial.SetTexture("_OcclusionMask", globalOcclusionMask);
 			_fovLightMixMaterial.SetTexture("_ObstacleLightMask", obstacleLightMask);
-			_fovLightMixMaterial.SetFloat("_OcclusionUVAdjustment", this.renderSettings.occlusionUvAdjustment);
+
+			if (globalOcclusionMask != null)
+			{
+				_fovLightMixMaterial.SetFloat("_OcclusionUVAdjustment", RenderSettings.GetOcclusionUvAdjustment(_lightMask.width));
+			}
 
 			Graphics.Blit(null, mixedLightMask, _fovLightMixMaterial);
 		}
