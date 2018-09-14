@@ -11,13 +11,13 @@ public struct MaskParameters : IEquatable<MaskParameters>
 	public readonly float wallTextureRescale;
 	public readonly Vector3 worldUnitInViewportSpace;
 
+	private const float DefaultCameraSize = 4;
+
 	private bool mExtendedDataCalculated;
 	private float mExtendedCameraSize;
 	private Vector2Int mExtendedTextureSize;
 	private int lightTextureWidth;
 	private Vector2Int mLightTextureSize;
-
-
 
 	public MaskParameters(Camera iCamera, RenderSettings iRenderSettings)
 	{
@@ -25,13 +25,10 @@ public struct MaskParameters : IEquatable<MaskParameters>
 		screenSize = new Vector2Int(Screen.width, Screen.height);
 		cameraAspect = iCamera.aspect;
 		maskCameraSizeAdd = iRenderSettings.maskCameraSizeAdd;
-		this.lightTextureWidth = iRenderSettings.lightTextureWidth;
+		lightTextureWidth = iRenderSettings.lightTextureWidth;
 		antiAliasing = Mathf.Clamp(iRenderSettings.antiAliasing, 1, 16);
 		wallTextureRescale = iRenderSettings.occlusionLightTextureRescale;
 		worldUnitInViewportSpace = iCamera.WorldToViewportPoint(Vector3.zero) - iCamera.WorldToViewportPoint(Vector3.one);
-
-		var _bla1 = iCamera.WorldToViewportPoint(Vector3.zero);
-		var _bla2 = iCamera.WorldToViewportPoint(Vector3.one);
 
 		// Set data default.
 		// This will be lazy-calculated when required.
@@ -83,13 +80,23 @@ public struct MaskParameters : IEquatable<MaskParameters>
 	private void CalculateExtendedData()
 	{
 		// Light Texture.
-		mLightTextureSize = new Vector2Int(lightTextureWidth, (int)(lightTextureWidth / cameraAspect));
+		if (screenSize.x > screenSize.y)
+		{
+			float _widthAspect = (float)screenSize.x / screenSize.y;
+			mLightTextureSize = new Vector2Int(lightTextureWidth, (int)(lightTextureWidth / _widthAspect));
+		}
+		else
+		{
+			float _highAspect = (float)screenSize.y / screenSize.x;
+			mLightTextureSize = new Vector2Int((int)(lightTextureWidth / _highAspect), lightTextureWidth);
+		}
+
+		float _lightToExtendedProportions = (DefaultCameraSize + maskCameraSizeAdd) / DefaultCameraSize;
 
 		// Extended Texture.
-		mExtendedCameraSize = cameraOrthographicSize + maskCameraSizeAdd;
+		mExtendedCameraSize = cameraOrthographicSize * _lightToExtendedProportions;
 
-		float _extendedProportions = ((float)mExtendedCameraSize / cameraOrthographicSize);
-		mExtendedTextureSize = new Vector2Int((int)(mLightTextureSize.x * _extendedProportions), (int)(mLightTextureSize.y * _extendedProportions));
+		mExtendedTextureSize = new Vector2Int((int)(mLightTextureSize.x * _lightToExtendedProportions), (int)(mLightTextureSize.y * _lightToExtendedProportions));
 
 		mExtendedDataCalculated = true;
 	}
