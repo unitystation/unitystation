@@ -238,7 +238,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 		public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 		{
-			if(gameObject == null){
+			if(this == null){
 				return ChatChannel.OOC;
 			}
 			PlayerMove pm = gameObject.GetComponent<PlayerMove>();
