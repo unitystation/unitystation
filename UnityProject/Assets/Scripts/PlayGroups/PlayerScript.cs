@@ -122,8 +122,9 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 				if (PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
 				{
-					// I (client) have connected to the server, ask what my job preference is
-					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+					// I (client) have connected to the server, ask server what is going on, by first asking what the UI should be? 
+
+					UIManager.Display.DetermineGameMode();
 				}
 				UIManager.SetDeathVisibility(true);
 				if ( BuildPreferences.isSteamServer ) {

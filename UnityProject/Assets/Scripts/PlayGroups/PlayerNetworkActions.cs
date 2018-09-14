@@ -8,9 +8,23 @@ using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
-	private readonly string[] slotNames =
-	{
-		"suit", "belt", "feet", "head", "mask", "uniform", "neck", "ear", "eyes", "hands", "id", "back", "rightHand", "leftHand", "storage01", "storage02",
+	private readonly string[] slotNames = {
+		"suit",
+		"belt",
+		"feet",
+		"head",
+		"mask",
+		"uniform",
+		"neck",
+		"ear",
+		"eyes",
+		"hands",
+		"id",
+		"back",
+		"rightHand",
+		"leftHand",
+		"storage01",
+		"storage02",
 		"suitStorage"
 	};
 
@@ -63,7 +77,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
 		if (Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied)
 		{
-			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}",Category.Inventory);
+			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}", Category.Inventory);
 			return false;
 		}
 
@@ -89,9 +103,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void Consume(GameObject item)
 	{
-		foreach ( var slot in Inventory )
+		foreach (var slot in Inventory)
 		{
-			if ( item == slot.Value )
+			if (item == slot.Value)
 			{
 				ClearInventorySlot(slot.Key);
 				break;
@@ -104,9 +118,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public bool HasItem(GameObject item)
 	{
-		foreach ( var slot in Inventory )
+		foreach (var slot in Inventory)
 		{
-			if ( item == slot.Value )
+			if (item == slot.Value)
 			{
 				return true;
 			}
@@ -243,7 +257,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//Dropping from a slot on the UI
 	[Server]
-	public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/)
+	public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/ )
 	{
 		//decline if not dropped from hands?
 		if (Inventory.ContainsKey(slot) && Inventory[slot])
@@ -252,7 +266,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return true;
 		}
 
-		Logger.Log("Object not found in Inventory",Category.Inventory);
+		Logger.Log("Object not found in Inventory", Category.Inventory);
 		return false;
 	}
 
@@ -262,12 +276,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void DropItem(string slot = "", bool forceClientInform = true)
 	{
 		//Drop random item
-		if ( slot == "" )
+		if (slot == "")
 		{
 			slot = "uniform";
-			foreach ( var key in Inventory.Keys )
+			foreach (var key in Inventory.Keys)
 			{
-				if ( Inventory[key] )
+				if (Inventory[key])
 				{
 					slot = key;
 					break;
@@ -285,12 +299,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void DropAll(bool onQuit = false)
 	{
 		//Dropping whatever player has got
-		if ( !onQuit )
+		if (!onQuit)
 		{
 			//fixme: modified collectionz
-			foreach ( var key in Inventory.Keys )
+			foreach (var key in Inventory.Keys)
 			{
-				if ( Inventory[key] )
+				if (Inventory[key])
 				{
 					DropItem(key);
 				}
@@ -299,15 +313,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		// Drop all shit from player's inventory when he's leaving, ignoring pools
 		{
-			foreach ( var item in Inventory.Values )
+			foreach (var item in Inventory.Values)
 			{
-				if ( !item )
+				if (!item)
 				{
 					continue;
 				}
 
 				var objTransform = item.GetComponent<CustomNetTransform>();
-				if ( objTransform )
+				if (objTransform)
 				{
 					objTransform.ForceDrop(gameObject.transform.position);
 				}
@@ -317,9 +331,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	/// Client requesting throw to clicked position
 	[Command]
-	public void CmdRequestThrow(string slot, Vector3 worldTargetPos, int aim) {
-		if ( playerScript.canNotInteract() || slot != "leftHand" && slot != "rightHand" || !SlotNotEmpty( slot ) ) {
-			RollbackPrediction( slot );
+	public void CmdRequestThrow(string slot, Vector3 worldTargetPos, int aim)
+	{
+		if (playerScript.canNotInteract() || slot != "leftHand" && slot != "rightHand" || !SlotNotEmpty(slot))
+		{
+			RollbackPrediction(slot);
 			return;
 		}
 		GameObject throwable = Inventory[slot];
@@ -328,19 +344,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		EquipmentPool.DisposeOfObject(gameObject, throwable);
 		ClearInventorySlot(slot);
-		var throwInfo = new ThrowInfo {
+		var throwInfo = new ThrowInfo
+		{
 			ThrownBy = gameObject,
-			Aim = (BodyPartType) aim,
-			OriginPos	= playerPos,
-			TargetPos = worldTargetPos,
-			//Clockwise spin from left hand and Counterclockwise from the right hand
-			SpinMode = slot == "leftHand" ? SpinMode.Clockwise : SpinMode.CounterClockwise,
+				Aim = (BodyPartType) aim,
+				OriginPos = playerPos,
+				TargetPos = worldTargetPos,
+				//Clockwise spin from left hand and Counterclockwise from the right hand
+				SpinMode = slot == "leftHand" ? SpinMode.Clockwise : SpinMode.CounterClockwise,
 		};
-		throwable.GetComponent<CustomNetTransform>().Throw( throwInfo );
-
+		throwable.GetComponent<CustomNetTransform>().Throw(throwInfo);
 		//Simplified counter-impulse for players in space
-		if ( playerScript.PlayerSync.IsSpaceFloating ) {
-			playerScript.PlayerSync.Push( Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized) );
+		if (playerScript.PlayerSync.IsSpaceFloating)
+		{
+			playerScript.PlayerSync.Push(Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized));
 		}
 	}
 
@@ -372,23 +389,23 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			item.transform.parent = newParent.transform;
 			// TODO
-//			ReorderGameobjectsOnTile(pos);
+			//			ReorderGameobjectsOnTile(pos);
 		}
 	}
 
-//	private void ReorderGameobjectsOnTile(Vector2 position)
-//	{
-//		List<RegisterItem> items = registerTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
-//
-//		for (int i = 0; i < items.Count; i++)
-//		{
-//			SpriteRenderer sRenderer = items[i].gameObject.GetComponentInChildren<SpriteRenderer>();
-//			if (sRenderer != null)
-//			{
-//				sRenderer.sortingOrder = (i + 1);
-//			}
-//		}
-//	}
+	//	private void ReorderGameobjectsOnTile(Vector2 position)
+	//	{
+	//		List<RegisterItem> items = registerTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
+	//
+	//		for (int i = 0; i < items.Count; i++)
+	//		{
+	//			SpriteRenderer sRenderer = items[i].gameObject.GetComponentInChildren<SpriteRenderer>();
+	//			if (sRenderer != null)
+	//			{
+	//				sRenderer.sortingOrder = (i + 1);
+	//			}
+	//		}
+	//	}
 
 	public bool SlotNotEmpty(string eventName)
 	{
@@ -401,7 +418,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ClosetControl closetControl = cupbObj.GetComponent<ClosetControl>();
 		closetControl.ServerToggleCupboard();
 	}
-
 
 	[Command]
 	public void CmdStartMicrowave(string slotName, GameObject microwave, string mealName)
@@ -496,12 +512,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (conscious)
 		{
 			playerMove.allowInput = true;
-			playerSprites.RpcSetPlayerRot( 0f);
+			playerSprites.RpcSetPlayerRot(0f);
 		}
 		else
 		{
 			playerMove.allowInput = false;
-			playerSprites.RpcSetPlayerRot( -90f);
+			playerSprites.RpcSetPlayerRot(-90f);
 			soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
 			if (Random.value > 0.5f)
 			{
@@ -540,7 +556,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-
 	[Command]
 	public void CmdCommitSuicide()
 	{
@@ -568,8 +583,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			//Show ghosts and hide FieldOfView
-			Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("Ghosts");
-			Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("FieldOfView"));
+			var mask = Camera2DFollow.followControl.cam.cullingMask;
+			mask |= 1 << LayerMask.NameToLayer("Ghosts");
+			Camera2DFollow.followControl.cam.cullingMask = mask;
 		}
 	}
 
@@ -578,7 +594,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void RespawnPlayer(int timeout = 0)
 	{
-		if (GameManager.Instance.RespawnAllowed) {
+		if (GameManager.Instance.RespawnAllowed)
+		{
 			StartCoroutine(InitiateRespawn(timeout));
 		}
 	}
@@ -608,8 +625,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript.ghost.SetActive(false);
 		isGhost = false;
 		//Hide ghosts and show FieldOfView
-		Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-		Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("FieldOfView");
+
+		var mask = Camera2DFollow.followControl.cam.cullingMask;
+		mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+		Camera2DFollow.followControl.cam.cullingMask = mask;
+
 		gameObject.GetComponent<InputController>().enabled = false;
 	}
 

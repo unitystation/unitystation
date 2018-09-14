@@ -9,6 +9,7 @@ using UnityEngine.UI;
 		public ControlChat chatControl;
 		public ControlDisplays displayControl;
 		public DisplayManager displayManager;
+		public GameObject bottomBar;
 		public Hands hands;
 		public ControlIntent intentControl;
 		public InventorySlotCache inventorySlotCache;
