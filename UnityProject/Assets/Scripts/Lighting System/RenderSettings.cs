@@ -4,7 +4,6 @@ using UnityEngine;
 [Serializable]
 public class RenderSettings
 {
-
 	[Tooltip("View override for quick overview of the process stages. For Debug purposes.")]
 	public ViewMode viewMode;
 
@@ -82,7 +81,13 @@ public class RenderSettings
 	{
 		get
 		{
-			return LightTextureResolutions[(int)quality] / PlayerPrefs.GetInt("CamZoomSetting");
+			float _qualityResolution = LightTextureResolutions[(int)quality] / PlayerPrefs.GetInt("CamZoomSetting");
+
+			float _widestSceneResolution = Screen.width > Screen.height ? Screen.width : Screen.height;
+
+			int _clampedResolution = (int)Mathf.Clamp(_qualityResolution, 0, _widestSceneResolution);
+
+			return _clampedResolution;
 		}
 	}
 
