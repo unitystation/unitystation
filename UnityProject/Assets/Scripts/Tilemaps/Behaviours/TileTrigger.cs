@@ -97,7 +97,7 @@ public class TileTrigger : InputTrigger
 			{
 				var pna = originator.GetComponent<PlayerNetworkActions>();
 				var cellPos = baseTileMap.WorldToCell(position);
-				pna.CmdPlaceFloorTile(transform.root.gameObject, TileChangeLayer.Floor,
+				pna.CmdPlaceFloorTile(transform.root.gameObject,
 					new Vector2(cellPos.x, cellPos.y), handObj);
 			}
 		}

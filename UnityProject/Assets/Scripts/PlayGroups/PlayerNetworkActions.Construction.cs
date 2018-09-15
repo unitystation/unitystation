@@ -16,13 +16,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		tm.RemoveTile(Vector2Int.RoundToInt(cellPos), layer);
 
-		CraftingManager.Construction.SpawnFloorTile(worldPos, tm.ObjectParent.transform);
+		CraftingManager.Construction.SpawnFloorTile(Vector3Int.RoundToInt(worldPos), tm.ObjectParent.transform);
 		RpcPlayerSoundAtPos("Crowbar", transform.position, true);
 	}
 
 	[Command]
 	public void CmdPlaceFloorTile(GameObject tileChangeRoot,
-		TileChangeLayer layer, Vector2 cellPos, GameObject tileToPlace)
+		Vector2 cellPos, GameObject tileToPlace)
 	{
 		TileChangeManager tm = tileChangeRoot.GetComponent<TileChangeManager>();
 		if (tm == null)
@@ -30,8 +30,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Logger.LogError("TileChangeManager not found", Category.Construction);
 			return;
 		}
-
-		Debug.Log("PLACE THE FLOOR TILE! " + tileToPlace.name);
+		var floorTile = tileToPlace.GetComponent<UniFloorTile>();
+		tm.ChangeTile(floorTile.FloorTileType,Vector2Int.RoundToInt(cellPos), TileChangeLayer.Floor);
+		Consume(tileToPlace);
 	}
 
 	[ClientRpc(channel = 1)]

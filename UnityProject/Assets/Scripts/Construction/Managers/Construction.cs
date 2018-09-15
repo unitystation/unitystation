@@ -11,6 +11,6 @@ public class Construction : MonoBehaviour
 	public void SpawnFloorTile(Vector3 pos, Transform parent) //TODO: Floor Tile Type!
 	{
 		var floorTile = PoolManager.Instance.PoolNetworkInstantiate(uniFloorTilePrefab, pos, Quaternion.identity, parent);
-		//TODO SET UP THE FLOOR TILE HERE 
+		//TODO we need to get the tile that was removed from MetaData and add its name to the unifloortile script
 	}
 }
