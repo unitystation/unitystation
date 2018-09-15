@@ -33,6 +33,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var floorTile = tileToPlace.GetComponent<UniFloorTile>();
 		tm.ChangeTile(floorTile.FloorTileType,Vector2Int.RoundToInt(cellPos), TileChangeLayer.Floor);
 		Consume(tileToPlace);
+		RpcPlayerSoundAtPos("Deconstruct", transform.position, false);
 	}
 
 	[ClientRpc(channel = 1)]
