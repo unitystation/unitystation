@@ -5,7 +5,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 {
 	[Command]
 	public void CmdCrowBarRemoveFloorTile (GameObject tileChangeRoot,
-		TileChangeLayer layer, Vector2 cellPos)
+		TileChangeLayer layer, Vector2 cellPos, Vector2 worldPos)
 	{
 		TileChangeManager tm = tileChangeRoot.GetComponent<TileChangeManager> ();
 		if (tm == null)
@@ -15,6 +15,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		tm.RemoveTile (Vector2Int.RoundToInt (cellPos), layer);
+
+		CraftingManager.Construction.SpawnFloorTile(worldPos, tm.ObjectParent.transform);
 		RpcPlayerSoundAtPos ("Crowbar", transform.position, true);
 	}
 

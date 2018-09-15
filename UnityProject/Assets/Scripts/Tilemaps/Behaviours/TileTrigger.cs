@@ -11,6 +11,7 @@ public class TileTrigger : InputTrigger
 	private Tilemap wallTileMap;
 	private Tilemap windowTileMap;
 	private Tilemap objectTileMap;
+
 	void Start(){
 		CacheTileMaps();
 	}
@@ -78,7 +79,8 @@ public class TileTrigger : InputTrigger
 			{
 				var pna = originator.GetComponent<PlayerNetworkActions>();
 				var cellPos = floorTileMap.WorldToCell(position);
-				pna.CmdCrowBarRemoveFloorTile(transform.root.gameObject, TileChangeLayer.Floor, new Vector2(cellPos.x, cellPos.y));
+				pna.CmdCrowBarRemoveFloorTile(transform.root.gameObject, TileChangeLayer.Floor,
+				new Vector2(cellPos.x, cellPos.y), position);
 			}
 		}
 	}
