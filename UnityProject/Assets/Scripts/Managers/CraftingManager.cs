@@ -1,23 +1,30 @@
 ﻿using UnityEngine;
 
+public class CraftingManager : MonoBehaviour
+{
+	private static CraftingManager craftingManager;
+	[SerializeField] private CraftingDatabase meals = new CraftingDatabase();
 
-	public class CraftingManager : MonoBehaviour
+	public static CraftingDatabase Meals => Instance.meals;
+
+	public static CraftingManager Instance
 	{
-		private static CraftingManager craftingManager;
-		[SerializeField] private CraftingDatabase meals = new CraftingDatabase();
-
-		public static CraftingDatabase Meals => Instance.meals;
-
-		public static CraftingManager Instance
+		get
 		{
-			get
+			if (!craftingManager)
 			{
-				if (!craftingManager)
-				{
-					craftingManager = FindObjectOfType<CraftingManager>();
-				}
-
-				return craftingManager;
+				craftingManager = FindObjectOfType<CraftingManager>();
 			}
+
+			return craftingManager;
 		}
 	}
+
+	public Techweb techweb;
+	public Designs designs;
+	public Construction construction;
+
+	public static Construction Construction => Instance.construction;
+	public static Designs Designs => Instance.designs;
+	public static Techweb TechWeb => Instance.techweb;
+}

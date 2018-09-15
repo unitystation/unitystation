@@ -14,6 +14,8 @@ public class TileChangeManager : NetworkBehaviour
 	private Tilemap windowTileMap;
 	private Tilemap objectTileMap;
 
+	public GameObject ObjectParent => objectTileMap.gameObject;
+
 	private Dictionary<string, TileBase> FloorAssets = new Dictionary<string, TileBase> ();
 	private Dictionary<string, TileBase> WallAssets = new Dictionary<string, TileBase> ();
 	private Dictionary<string, TileBase> WindowAssets = new Dictionary<string, TileBase> ();
