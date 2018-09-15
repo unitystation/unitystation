@@ -8,11 +8,11 @@ using UnityEngine.Tilemaps;
 //To track tile changes on the server and update on the client
 public class TileChangeManager : NetworkBehaviour
 {
-	private Tilemap floorTileMap;
-	private Tilemap baseTileMap;
-	private Tilemap wallTileMap;
-	private Tilemap windowTileMap;
-	private Tilemap objectTileMap;
+	public Tilemap floorTileMap{ get; private set; }
+	public Tilemap baseTileMap{ get; private set; }
+	public Tilemap wallTileMap{ get; private set; }
+	public Tilemap windowTileMap{ get; private set; }
+	public Tilemap objectTileMap{ get; private set; }
 
 	public GameObject ObjectParent => objectTileMap.gameObject;
 

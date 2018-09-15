@@ -11,6 +11,8 @@ public abstract class BulletBehaviour : MonoBehaviour
 	private Rigidbody2D thisRigi;
 	//	public BodyPartType BodyPartAim { get; private set; };
 
+	public Vector2 Direction { get; private set; }
+
 
 	public void Shoot(Vector2 dir, float angle, GameObject controlledByPlayer, BodyPartType targetZone = BodyPartType.CHEST)
 	{
@@ -20,6 +22,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 
 	private void StartShoot(Vector2 dir, float angle, GameObject controlledByPlayer, BodyPartType targetZone)
 	{
+		Direction = dir;
 		bodyAim = targetZone;
 		shooter = controlledByPlayer;
 		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
