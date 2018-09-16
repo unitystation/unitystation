@@ -22,27 +22,34 @@ public class TilemapDamage : MonoBehaviour
 	}
 	public void OnCollisionEnter2D(Collision2D coll)
 	{
-		DetermineAction(coll.gameObject);
+		var firstContact = coll.GetContact(0);
+		var dirOfForce = (firstContact.point - (Vector2)coll.transform.position).normalized;
+		DetermineAction(coll.gameObject, dirOfForce);
 	}
 
-	private void DetermineAction(GameObject objectColliding)
+	private void DetermineAction(GameObject objectColliding, Vector2 forceDirection)
 	{
 		var bulletBehaviour = objectColliding.GetComponent<BulletBehaviour>();
 		if (bulletBehaviour != null)
 		{
-			DoBulletDamage(bulletBehaviour);
+			DoBulletDamage(bulletBehaviour, forceDirection);
 			return;
 		}
 	}
 
-	private void DoBulletDamage(BulletBehaviour bullet)
+	private void DoBulletDamage(BulletBehaviour bullet, Vector2 forceDir)
 	{
 		if (thisLayer.LayerType == LayerType.Windows)
 		{
-			var cellPos = tileChangeManager.wallTileMap.WorldToCell((Vector2) bullet.transform.position + bullet.Direction);
+			var cellPos = tileChangeManager.windowTileMap.WorldToCell((Vector2) bullet.transform.position + (forceDir * 0.5f));
 			var data = metaDataLayer.Get(cellPos);
-			data.AddDamage(40);
-			Debug.Log("DAMAGE!: " + data.GetDamage);
+			var getTile = tileChangeManager.windowTileMap.GetTile(cellPos);
+			if (getTile != null)
+			{
+				data.AddDamage(40);
+				Debug.Log("OBJ NAME: " + getTile.ToString());
+				Debug.Log("DAMAGE!: " + data.GetDamage);
+			}
 		}
 	}
 }
