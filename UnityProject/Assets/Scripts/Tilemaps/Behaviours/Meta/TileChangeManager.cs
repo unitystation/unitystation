@@ -8,109 +8,74 @@ using UnityEngine.Tilemaps;
 //To track tile changes on the server and update on the client
 public class TileChangeManager : NetworkBehaviour
 {
-	public Tilemap floorTileMap{ get; private set; }
-	public Tilemap baseTileMap{ get; private set; }
-	public Tilemap wallTileMap{ get; private set; }
-	public Tilemap windowTileMap{ get; private set; }
-	public Tilemap objectTileMap{ get; private set; }
+	public Tilemap floorTileMap { get; private set; }
+	public Tilemap baseTileMap { get; private set; }
+	public Tilemap wallTileMap { get; private set; }
+	public Tilemap windowTileMap { get; private set; }
+	public Tilemap objectTileMap { get; private set; }
 
 	public GameObject ObjectParent => objectTileMap.gameObject;
 
-	private Dictionary<string, TileBase> FloorAssets = new Dictionary<string, TileBase> ();
-	private Dictionary<string, TileBase> WallAssets = new Dictionary<string, TileBase> ();
-	private Dictionary<string, TileBase> WindowAssets = new Dictionary<string, TileBase> ();
-	private Dictionary<string, TileBase> TableAssets = new Dictionary<string, TileBase> ();
+	private TileChangeRegister ChangeRegister = new TileChangeRegister();
 
-	private TileChangeRegister ChangeRegister = new TileChangeRegister ();
-
-	bool init = false;
-	void Start ()
+	void Start()
 	{
-		CacheTileMaps ();
-		LoadAllTileAssets ();
+		CacheTileMaps();
 	}
 
 	[Server]
-	public void NotifyPlayer (GameObject requestedBy)
+	public void NotifyPlayer(GameObject requestedBy)
 	{
 		Logger.LogWarning("We do not need to sync tilemap change data anymore but the system is in place " +
-		"to preform database state backups", Category.TileMaps);
-		
+			"to preform database state backups", Category.TileMaps);
+
 		//Example of converting all the tile change data into json which can be stored as a blob in a database:
 		// var jsondata = JsonUtility.ToJson (ChangeRegister);
 		// TileChangesNewClientSync.Send (gameObject, requestedBy, jsondata);
 	}
 
-	public void InitServerSync (string data)
+	public void InitServerSync(string data)
 	{
 		//Unpacking the data example (and then run action change)
-		var newChangeRegister = JsonUtility.FromJson<TileChangeRegister> (data);
+		var newChangeRegister = JsonUtility.FromJson<TileChangeRegister>(data);
 	}
 
-	void CacheTileMaps ()
+	void CacheTileMaps()
 	{
-		var tilemaps = GetComponentsInChildren<Tilemap> (true);
+		var tilemaps = GetComponentsInChildren<Tilemap>(true);
 		for (int i = 0; i < tilemaps.Length; i++)
 		{
-			if (tilemaps[i].name.Contains ("Floors"))
+			if (tilemaps[i].name.Contains("Floors"))
 			{
 				floorTileMap = tilemaps[i];
 			}
 
-			if (tilemaps[i].name.Contains ("Base"))
+			if (tilemaps[i].name.Contains("Base"))
 			{
 				baseTileMap = tilemaps[i];
 			}
 
-			if (tilemaps[i].name.Contains ("Walls"))
+			if (tilemaps[i].name.Contains("Walls"))
 			{
 				wallTileMap = tilemaps[i];
 			}
 
-			if (tilemaps[i].name.Contains ("Windows"))
+			if (tilemaps[i].name.Contains("Windows"))
 			{
 				windowTileMap = tilemaps[i];
 			}
 
-			if (tilemaps[i].name.Contains ("Objects"))
+			if (tilemaps[i].name.Contains("Objects"))
 			{
 				objectTileMap = tilemaps[i];
 			}
 		}
 	}
 
-	void LoadAllTileAssets ()
-	{
-		TileBase[] floorTiles = Resources.LoadAll<TileBase> ("Tiles/Floors");
-		for (int i = 0; i < floorTiles.Length; i++)
-		{
-			FloorAssets.Add (floorTiles[i].name, floorTiles[i]);
-		}
-
-		TileBase[] windowTiles = Resources.LoadAll<TileBase> ("Tiles/Windows");
-		for (int i = 0; i < windowTiles.Length; i++)
-		{
-			WindowAssets.Add (windowTiles[i].name, windowTiles[i]);
-		}
-
-		TileBase[] wallTiles = Resources.LoadAll<TileBase> ("Tiles/Walls");
-		for (int i = 0; i < wallTiles.Length; i++)
-		{
-			WallAssets.Add (wallTiles[i].name, wallTiles[i]);
-		}
-
-		TileBase[] tableTiles = Resources.LoadAll<TileBase> ("Tiles/Tables");
-		for (int i = 0; i < tableTiles.Length; i++)
-		{
-			TableAssets.Add (tableTiles[i].name, tableTiles[i]);
-		}
-		init = true;
-	}
-
 	[Server]
-	public void ChangeTile (string newTileName, Vector2Int tileCellPos, TileChangeLayer layer)
+	public void ChangeTile(string newTileName, Vector2Int tileCellPos, TileChangeLayer layer)
 	{
-		ActionChange (new TileChangeEntry
+		ActionChange(new TileChangeEntry
 		{
 			cellPosition = tileCellPos,
 				tileKey = newTileName,
@@ -119,9 +84,9 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void RemoveTile (Vector2Int tileCellPos, TileChangeLayer layer)
+	public void RemoveTile(Vector2Int tileCellPos, TileChangeLayer layer)
 	{
-		ActionChange (new TileChangeEntry
+		ActionChange(new TileChangeEntry
 		{
 			cellPosition = tileCellPos,
 				tileKey = "",
@@ -129,24 +94,25 @@ public class TileChangeManager : NetworkBehaviour
 		});
 	}
 
-	private void ActionChange (TileChangeEntry changeEntry)
+	private void ActionChange(TileChangeEntry changeEntry)
 	{
-		if (!ValidateChange (changeEntry.layerToChange, changeEntry.tileKey))
+		if (!TilesManager.ValidateTileKey(changeEntry.layerToChange, changeEntry.tileKey))
 		{
-			Logger.LogError ("No key found for Tile Change", Category.TileMaps);
+			Logger.LogError("No key found for Tile Change", Category.TileMaps);
 			return;
 		}
 
-		var tileMap = GetTilemap (changeEntry.layerToChange);
-		if(tileMap == null)
+		var tileMap = GetTilemap(changeEntry.layerToChange);
+		if (tileMap == null)
 		{
 			return;
 		}
-		TileBase newTile = GetTile(changeEntry.layerToChange, changeEntry.tileKey);
+		TileBase newTile = TilesManager.GetTile(changeEntry.layerToChange, changeEntry.tileKey);
 		tileMap.SetTile(new Vector3Int(changeEntry.cellPosition.x,
-		changeEntry.cellPosition.y, 0), newTile);
+			changeEntry.cellPosition.y, 0), newTile);
 
-		if(isServer){
+		if (isServer)
+		{
 			RpcActionChange(changeEntry.cellPosition, changeEntry.tileKey, changeEntry.layerToChange);
 		}
 
@@ -155,16 +121,17 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[ClientRpc]
-	private void RpcActionChange(Vector2 cellPos, string tileKey, TileChangeLayer layer){
+	private void RpcActionChange(Vector2 cellPos, string tileKey, TileChangeLayer layer)
+	{
 		ActionChange(new TileChangeEntry
 		{
 			cellPosition = Vector2Int.RoundToInt(cellPos),
-			tileKey = tileKey,
-			layerToChange = layer
+				tileKey = tileKey,
+				layerToChange = layer
 		});
 	}
 
-	private Tilemap GetTilemap (TileChangeLayer layer)
+	private Tilemap GetTilemap(TileChangeLayer layer)
 	{
 		switch (layer)
 		{
@@ -181,83 +148,12 @@ public class TileChangeManager : NetworkBehaviour
 		}
 		return null;
 	}
-
-	private TileBase GetTile (TileChangeLayer layer, string tileKey)
-	{
-		switch (layer)
-		{
-			case TileChangeLayer.Base:
-			case TileChangeLayer.Floor:
-				if (FloorAssets.ContainsKey (tileKey))
-				{
-					return FloorAssets[tileKey];
-				}
-				break;
-			case TileChangeLayer.Object:
-				if (TableAssets.ContainsKey (tileKey))
-				{
-					return TableAssets[tileKey];
-				}
-				break;
-			case TileChangeLayer.Wall:
-				if (WallAssets.ContainsKey (tileKey))
-				{
-					return WallAssets[tileKey];
-				}
-				break;
-			case TileChangeLayer.Window:
-				if (WindowAssets.ContainsKey (tileKey))
-				{
-					return WindowAssets[tileKey];
-				}
-				break;
-		}
-		return null;
-	}
-
-	private bool ValidateChange (TileChangeLayer layer, string tileKey)
-	{
-		if (string.IsNullOrEmpty (tileKey))
-		{
-			return true;
-		}
-
-		switch (layer)
-		{
-			case TileChangeLayer.Base:
-			case TileChangeLayer.Floor:
-				if (FloorAssets.ContainsKey (tileKey))
-				{
-					return true;
-				}
-				break;
-			case TileChangeLayer.Object:
-				if (TableAssets.ContainsKey (tileKey))
-				{
-					return true;
-				}
-				break;
-			case TileChangeLayer.Wall:
-				if (WallAssets.ContainsKey (tileKey))
-				{
-					return true;
-				}
-				break;
-			case TileChangeLayer.Window:
-				if (WindowAssets.ContainsKey (tileKey))
-				{
-					return true;
-				}
-				break;
-		}
-		return false;
-	}
 }
 
 [System.Serializable]
 public class TileChangeRegister
 {
-	public List<TileChangeEntry> allEntries = new List<TileChangeEntry> ();
+	public List<TileChangeEntry> allEntries = new List<TileChangeEntry>();
 }
 
 [System.Serializable]
