@@ -23,11 +23,13 @@ public class TilesManager : MonoBehaviour
 	private Dictionary<string, TileBase> wallAssets = new Dictionary<string, TileBase>();
 	private Dictionary<string, TileBase> windowAssets = new Dictionary<string, TileBase>();
 	private Dictionary<string, TileBase> tableAssets = new Dictionary<string, TileBase>();
+	private Dictionary<string, TileBase> windowDmgAssets = new Dictionary<string, TileBase>();
 
 	public static Dictionary<string, TileBase> FloorAssets => Instance.floorAssets;
 	public static Dictionary<string, TileBase> WallAssets => Instance.wallAssets;
 	public static Dictionary<string, TileBase> WindowAssets => Instance.windowAssets;
 	public static Dictionary<string, TileBase> TableAssets => Instance.tableAssets;
+	public static Dictionary<string, TileBase> WindowDmgAssets => Instance.windowDmgAssets;
 
 	void Start()
 	{
@@ -59,6 +61,12 @@ public class TilesManager : MonoBehaviour
 		{
 			tableAssets.Add(tableTiles[i].name, tableTiles[i]);
 		}
+
+		TileBase[] windowDmgTiles = Resources.LoadAll<TileBase>("Tiles/WindowDamage");
+		for (int i = 0; i < windowDmgTiles.Length; i++)
+		{
+			windowDmgAssets.Add(windowDmgTiles[i].name, windowDmgTiles[i]);
+		}
 	}
 
 	public static TileBase GetTile(TileChangeLayer layer, string tileKey)
@@ -88,6 +96,12 @@ public class TilesManager : MonoBehaviour
 				if (WindowAssets.ContainsKey(tileKey))
 				{
 					return WindowAssets[tileKey];
+				}
+				break;
+			case TileChangeLayer.WindowDamage:
+				if (WindowDmgAssets.ContainsKey(tileKey))
+				{
+					return WindowDmgAssets[tileKey];
 				}
 				break;
 		}
@@ -124,6 +138,12 @@ public class TilesManager : MonoBehaviour
 				break;
 			case TileChangeLayer.Window:
 				if (WindowAssets.ContainsKey(tileKey))
+				{
+					return true;
+				}
+				break;
+			case TileChangeLayer.WindowDamage:
+				if (WindowDmgAssets.ContainsKey(tileKey))
 				{
 					return true;
 				}

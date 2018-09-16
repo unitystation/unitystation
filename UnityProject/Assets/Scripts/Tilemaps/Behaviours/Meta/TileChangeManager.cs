@@ -13,6 +13,7 @@ public class TileChangeManager : NetworkBehaviour
 	public Tilemap wallTileMap { get; private set; }
 	public Tilemap windowTileMap { get; private set; }
 	public Tilemap objectTileMap { get; private set; }
+	public Tilemap windowDmgTileMap { get; private set; }
 
 	public GameObject ObjectParent => objectTileMap.gameObject;
 
@@ -68,6 +69,11 @@ public class TileChangeManager : NetworkBehaviour
 			if (tilemaps[i].name.Contains("Objects"))
 			{
 				objectTileMap = tilemaps[i];
+			}
+
+			if (tilemaps[i].name.Contains("WindowDamage"))
+			{
+				windowDmgTileMap = tilemaps[i];
 			}
 		}
 	}
@@ -145,6 +151,8 @@ public class TileChangeManager : NetworkBehaviour
 				return objectTileMap;
 			case TileChangeLayer.Window:
 				return windowTileMap;
+			case TileChangeLayer.WindowDamage:
+				return windowDmgTileMap;
 		}
 		return null;
 	}
@@ -174,5 +182,6 @@ public enum TileChangeLayer
 	Base,
 	Wall,
 	Window,
-	Object
+	Object,
+	WindowDamage
 }

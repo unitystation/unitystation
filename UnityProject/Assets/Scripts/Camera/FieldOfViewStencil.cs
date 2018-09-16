@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[Obsolete] //No longer used
 public class FieldOfViewStencil : MonoBehaviour
 {
 	public float ViewRadius;
@@ -212,19 +213,19 @@ public class FieldOfViewStencil : MonoBehaviour
 
 				if (!hitWalls.ContainsKey(wallCellPos))
 				{
-					Tilemap fxTileMap = MatrixManager.Instance.wallsToTopLayerFX[hit.collider];
-					/// Check that there actually is a tile on the wall Tilemap as the hitPosition isn't accurate
-					TileBase getTile = wallTilemap.GetTile(wallCellPos);
-					if (getTile != null)
-					{
-						Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
-						newTile.sprite = SpriteManager.Instance.shroudSprite;
-						fxTileMap.SetTile(wallCellPos, newTile);
-						hitWalls.Add(wallCellPos, fxTileMap);
+					//Tilemap fxTileMap = MatrixManager.Instance.wallsToTopLayerFX[hit.collider];
+					///// Check that there actually is a tile on the wall Tilemap as the hitPosition isn't accurate
+					//TileBase getTile = wallTilemap.GetTile(wallCellPos);
+					//if (getTile != null)
+					//{
+					//	Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
+					//	newTile.sprite = SpriteManager.Instance.shroudSprite;
+					//	fxTileMap.SetTile(wallCellPos, newTile);
+					//	hitWalls.Add(wallCellPos, fxTileMap);
 
-						//fxTileMap.SetTile(fxTileMap.WorldToCell(hitPosition), null);
-						//hitWalls.Add(wallCellPos, fxTileMap);
-					}
+					//	//fxTileMap.SetTile(fxTileMap.WorldToCell(hitPosition), null);
+					//	//hitWalls.Add(wallCellPos, fxTileMap);
+					//}
 				}
 				if (!curWalls.Contains(wallCellPos))
 				{

@@ -11,7 +11,6 @@ using UnityEngine.Tilemaps;
 		protected Tilemap tilemap;
 
 		public BoundsInt Bounds => tilemap.cellBounds;
-		public Tilemap topLayerFX;
 
 		public void Awake()
 		{
@@ -36,13 +35,6 @@ using UnityEngine.Tilemaps;
 				
 				if (LayerType == LayerType.Walls)
 				{
-
-					
-					if (topLayerFX != null) {
-						MatrixManager.Instance.wallsToTopLayerFX.Add(GetComponent<TilemapCollider2D>(), topLayerFX);
-					}
-					
-
 					MatrixManager.Instance.wallsTileMaps.Add(GetComponent<TilemapCollider2D>(), tilemap);
 				}
 				

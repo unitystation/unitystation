@@ -19,12 +19,6 @@ public class MatrixManager : MonoBehaviour
 	public List<MatrixInfo> Matrices => activeMatrices;
 
 	/// <summary>
-	/// using the Collider2D of a wall tile you can find the tilemap of the topLayerFX in that matrix.
-	/// Used for FOV and any effects that can be shown over the top of walls
-	/// </summary>
-	public Dictionary<Collider2D, Tilemap> wallsToTopLayerFX = new Dictionary<Collider2D, Tilemap>();
-
-	/// <summary>
 	/// Find a wall tilemap via its Tilemap collider
 	/// </summary>
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
