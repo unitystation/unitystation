@@ -7,6 +7,8 @@ public class MetaDataNode
 
 	private int damage = 0;
 
+	public string WindowDmgType { get; set; } = "";
+
 	public int Room
 	{
 		get { return room; }
@@ -16,6 +18,11 @@ public class MetaDataNode
 	public void Reset()
 	{
 		Room = 0;
+	}
+
+	public void ResetDamage()
+	{
+		damage = 0;
 	}
 
 	public bool IsSpace()

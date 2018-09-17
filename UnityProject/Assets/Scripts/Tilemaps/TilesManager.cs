@@ -59,6 +59,12 @@ public class TilesManager : MonoBehaviour
 		{
 			tableAssets.Add(tableTiles[i].name, tableTiles[i]);
 		}
+
+		TileBase[] windowDmgTiles = Resources.LoadAll<TileBase>("Tiles/WindowDamage");
+		for (int i = 0; i < windowDmgTiles.Length; i++)
+		{
+			windowAssets.Add(windowDmgTiles[i].name, windowDmgTiles[i]);
+		}
 	}
 
 	public static TileBase GetTile(TileChangeLayer layer, string tileKey)
@@ -85,6 +91,7 @@ public class TilesManager : MonoBehaviour
 				}
 				break;
 			case TileChangeLayer.Window:
+			case TileChangeLayer.WindowDamage:
 				if (WindowAssets.ContainsKey(tileKey))
 				{
 					return WindowAssets[tileKey];
@@ -123,6 +130,7 @@ public class TilesManager : MonoBehaviour
 				}
 				break;
 			case TileChangeLayer.Window:
+			case TileChangeLayer.WindowDamage:
 				if (WindowAssets.ContainsKey(tileKey))
 				{
 					return true;

@@ -73,8 +73,9 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void ChangeTile(string newTileName, Vector2Int tileCellPos, TileChangeLayer layer)
+	public void ChangeTile(string newTileName, Vector3Int tileCellPos, TileChangeLayer layer)
 	{
+
 		ActionChange(new TileChangeEntry
 		{
 			cellPosition = tileCellPos,
@@ -83,8 +84,11 @@ public class TileChangeManager : NetworkBehaviour
 		});
 	}
 
+	///<Summary>
+	/// Please use RemoteTile instead of ChangeTile with null tilekey as additional clean up is preformed in this method
+	///</Summary>
 	[Server]
-	public void RemoveTile(Vector2Int tileCellPos, TileChangeLayer layer)
+	public void RemoveTile(Vector3Int tileCellPos, TileChangeLayer layer)
 	{
 		ActionChange(new TileChangeEntry
 		{
@@ -92,6 +96,17 @@ public class TileChangeManager : NetworkBehaviour
 				tileKey = "",
 				layerToChange = layer
 		});
+
+		if (layer == TileChangeLayer.Window)
+		{
+			//Clear the crack effects if they exist:
+			ActionChange(new TileChangeEntry
+			{
+				cellPosition = tileCellPos,
+					tileKey = "",
+					layerToChange = TileChangeLayer.WindowDamage
+			});
+		}
 	}
 
 	private void ActionChange(TileChangeEntry changeEntry)
@@ -102,14 +117,16 @@ public class TileChangeManager : NetworkBehaviour
 			return;
 		}
 
+		//Set the correct z Level for the tile
+		changeEntry.cellPosition.z = GetLayerZLevel(changeEntry.layerToChange);
+
 		var tileMap = GetTilemap(changeEntry.layerToChange);
 		if (tileMap == null)
 		{
 			return;
 		}
 		TileBase newTile = TilesManager.GetTile(changeEntry.layerToChange, changeEntry.tileKey);
-		tileMap.SetTile(new Vector3Int(changeEntry.cellPosition.x,
-			changeEntry.cellPosition.y, 0), newTile);
+		tileMap.SetTile(Vector3Int.RoundToInt(changeEntry.cellPosition), newTile);
 
 		if (isServer)
 		{
@@ -121,11 +138,11 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[ClientRpc]
-	private void RpcActionChange(Vector2 cellPos, string tileKey, TileChangeLayer layer)
+	private void RpcActionChange(Vector3 cellPos, string tileKey, TileChangeLayer layer)
 	{
 		ActionChange(new TileChangeEntry
 		{
-			cellPosition = Vector2Int.RoundToInt(cellPos),
+			cellPosition = Vector3Int.RoundToInt(cellPos),
 				tileKey = tileKey,
 				layerToChange = layer
 		});
@@ -142,11 +159,32 @@ public class TileChangeManager : NetworkBehaviour
 			case TileChangeLayer.Object:
 				return objectTileMap;
 			case TileChangeLayer.Wall:
-				return objectTileMap;
+				return wallTileMap;
 			case TileChangeLayer.Window:
+			case TileChangeLayer.WindowDamage:
 				return windowTileMap;
 		}
 		return null;
+	}
+
+	private int GetLayerZLevel(TileChangeLayer layer)
+	{
+		switch (layer)
+		{
+			case TileChangeLayer.Base:
+				return 0;
+			case TileChangeLayer.Floor:
+				return 0;
+			case TileChangeLayer.Object:
+				return 0;
+			case TileChangeLayer.Wall:
+				return 0;
+			case TileChangeLayer.Window:
+				return 0;
+			case TileChangeLayer.WindowDamage:
+				return -1;
+		}
+		return 0;
 	}
 }
 
@@ -159,7 +197,7 @@ public class TileChangeRegister
 [System.Serializable]
 public class TileChangeEntry
 {
-	public Vector2Int cellPosition;
+	public Vector3Int cellPosition;
 	///<Summary>
 	/// Set tileKey to empty string to deconstruct
 	///</Summary>
@@ -174,5 +212,6 @@ public enum TileChangeLayer
 	Base,
 	Wall,
 	Window,
-	Object
+	Object,
+	WindowDamage,
 }

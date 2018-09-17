@@ -20,6 +20,7 @@ internal enum MessageTypes : short
 	DoorUpdateMessage = 1016,
 	AnnouncementMessage = 1017,
 	TileChangesNewClientSync = 1018,
+	PlaySoundMessage = 1019,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
