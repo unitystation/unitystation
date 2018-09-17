@@ -7,6 +7,8 @@ public class MetaDataNode
 
 	private int damage = 0;
 
+	public string WindowDmgType {get; set; } = "";
+
 	public int Room
 	{
 		get { return room; }

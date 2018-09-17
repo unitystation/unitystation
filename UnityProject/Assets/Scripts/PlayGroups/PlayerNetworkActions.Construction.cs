@@ -5,7 +5,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 {
 	[Command]
 	public void CmdCrowBarRemoveFloorTile(GameObject tileChangeRoot,
-		TileChangeLayer layer, Vector2 cellPos, Vector2 worldPos)
+		TileChangeLayer layer, Vector3 cellPos, Vector3 worldPos)
 	{
 		TileChangeManager tm = tileChangeRoot.GetComponent<TileChangeManager>();
 		if (tm == null)
@@ -14,7 +14,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		tm.RemoveTile(Vector2Int.RoundToInt(cellPos), layer);
+		tm.RemoveTile(Vector3Int.RoundToInt(cellPos), layer);
 
 		CraftingManager.Construction.SpawnFloorTile(Vector3Int.RoundToInt(worldPos), tm.ObjectParent.transform);
 		RpcPlayerSoundAtPos("Crowbar", transform.position, true);
@@ -22,7 +22,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	[Command]
 	public void CmdPlaceFloorTile(GameObject tileChangeRoot,
-		Vector2 cellPos, GameObject tileToPlace)
+		Vector3 cellPos, GameObject tileToPlace)
 	{
 		TileChangeManager tm = tileChangeRoot.GetComponent<TileChangeManager>();
 		if (tm == null)
@@ -31,7 +31,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 		var floorTile = tileToPlace.GetComponent<UniFloorTile>();
-		tm.ChangeTile(floorTile.FloorTileType,Vector2Int.RoundToInt(cellPos), TileChangeLayer.Floor);
+		tm.ChangeTile(floorTile.FloorTileType,Vector3Int.RoundToInt(cellPos), TileChangeLayer.Floor);
 		Consume(tileToPlace);
 		RpcPlayerSoundAtPos("Deconstruct", transform.position, false);
 	}
