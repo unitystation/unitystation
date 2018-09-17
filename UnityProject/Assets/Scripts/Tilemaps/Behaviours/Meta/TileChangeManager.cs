@@ -163,6 +163,8 @@ public class TileChangeManager : NetworkBehaviour
 			case TileChangeLayer.Window:
 			case TileChangeLayer.WindowDamage:
 				return windowTileMap;
+			case TileChangeLayer.BrokenGrill: //Broken grills go over floors so there is no collider on the objects layer (so bullets can pass)
+				return floorTileMap;
 		}
 		return null;
 	}
@@ -183,6 +185,8 @@ public class TileChangeManager : NetworkBehaviour
 				return 0;
 			case TileChangeLayer.WindowDamage:
 				return -1;
+			case TileChangeLayer.BrokenGrill:
+				return -10;
 		}
 		return 0;
 	}
@@ -206,6 +210,9 @@ public class TileChangeEntry
 	public TileChangeLayer layerToChange;
 }
 
+//Remember: That tilemaps can have tile stacked ontop of each other. 
+//The lower the number the higher it is in the stack (-10 will be shown ontop of -9)
+//Layer Z positions are determined off the TileChangeLayer types below
 public enum TileChangeLayer
 {
 	Floor,
@@ -214,4 +221,5 @@ public enum TileChangeLayer
 	Window,
 	Object,
 	WindowDamage,
+	BrokenGrill, //Damaged grill sprites are placed over a floor tile at position -10 this is because we don't want a collider on this tile on the object layer
 }
