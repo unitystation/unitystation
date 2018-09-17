@@ -12,6 +12,8 @@ public class TilemapDamage : MonoBehaviour
 
 	private Layer thisLayer;
 
+	private GameObject glassShardPrefab;
+
 	void Awake()
 	{
 		tileChangeManager = transform.root.GetComponent<TileChangeManager>();
@@ -19,6 +21,10 @@ public class TilemapDamage : MonoBehaviour
 		metaDataLayer = transform.parent.GetComponent<MetaDataLayer>();
 		metaTileMap = transform.parent.GetComponent<MetaTileMap>();
 		thisLayer = GetComponent<Layer>();
+	}
+
+	void Start(){
+		glassShardPrefab = Resources.Load("GlassShard") as GameObject;
 	}
 
 	//Server Only:
@@ -49,7 +55,8 @@ public class TilemapDamage : MonoBehaviour
 		if (thisLayer.LayerType == LayerType.Windows)
 		{
 			forceDir.z = 0;
-			var cellPos = tileChangeManager.windowTileMap.WorldToCell(bullet.transform.position + (forceDir * 0.5f));
+			var bulletHitTarget = bullet.transform.position + (forceDir * 0.5f);
+			var cellPos = tileChangeManager.windowTileMap.WorldToCell(bulletHitTarget);
 			var data = metaDataLayer.Get(cellPos);
 			var getTile = tileChangeManager.windowTileMap.GetTile(cellPos);
 			if (getTile != null)
@@ -72,7 +79,22 @@ public class TilemapDamage : MonoBehaviour
 
 				if(data.GetDamage >= 100 && data.WindowDmgType != "broken"){
 					tileChangeManager.RemoveTile(cellPos, TileChangeLayer.Window);
+
+					//Spawn 3 glass shards with different sprites:
+					PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(bulletHitTarget), 
+					Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().spriteIndex = 0;
+
+					PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(bulletHitTarget), 
+					Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().spriteIndex = 1;
+
+					PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(bulletHitTarget), 
+					Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().spriteIndex = 2;
+					
+					//Play the breaking window sfx:
+					PlaySoundMessage.SendToAll("GlassBreak0" + Random.Range(1,4).ToString(), bulletHitTarget, 1f);
+
 					data.WindowDmgType = "broken";
+					data.ResetDamage();
 				}
 				
 			}

@@ -8,8 +8,7 @@
 		Objects,
 		Floors,
 		Base,
-		None,
-		WindowDamage
+		None
 	}
 
 	public enum TileType
