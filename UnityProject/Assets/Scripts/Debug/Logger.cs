@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 /// Logger with categories support.
@@ -28,25 +29,28 @@ public static class Logger
 
 	/// <inheritdoc cref="LogTrace"/>
 	/// <inheritdoc cref="LogFormat"/>
+	[StringFormatMethod("msg")]
 	public static void LogTraceFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Trace, category, args );
 	}
 
-//	/// <inheritdoc cref="Log"/>
 	/// LogFormats won't format string if it's not getting printed, therefore perform better.
 	/// This is most useful for Trace level that is rarely enabled.
+	[StringFormatMethod("msg")]
 	public static void LogFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Info, category, args );
 	}
 
 	/// <inheritdoc cref="LogWarning"/>
 	/// <inheritdoc cref="LogFormat"/>
+	[StringFormatMethod("msg")]
 	public static void LogWarningFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Warning, category, args );
 	}
 
 	/// <inheritdoc cref="LogWarning"/>
 	/// <inheritdoc cref="LogFormat"/>
+	[StringFormatMethod("msg")]
 	public static void LogErrorFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Error, category, args );
 	}
