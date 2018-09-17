@@ -12,7 +12,9 @@ public class TilemapDamage : MonoBehaviour
 
 	private Layer thisLayer;
 
+	//FIXME: cache construction prefabs in CraftingManager.Construction:
 	private GameObject glassShardPrefab;
+	private GameObject rodsPrefab;
 
 	void Awake()
 	{
@@ -26,6 +28,7 @@ public class TilemapDamage : MonoBehaviour
 	void Start()
 	{
 		glassShardPrefab = Resources.Load("GlassShard") as GameObject;
+		rodsPrefab = Resources.Load("Rods") as GameObject;
 	}
 
 	//Server Only:
@@ -119,13 +122,13 @@ public class TilemapDamage : MonoBehaviour
 
 			//Spawn 3 glass shards with different sprites:
 			PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(bulletHitTarget),
-				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().spriteIndex = 0;
+				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().SetSpriteAndScatter(0);
 
 			PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(bulletHitTarget),
-				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().spriteIndex = 1;
+				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().SetSpriteAndScatter(1);
 
 			PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(bulletHitTarget),
-				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().spriteIndex = 2;
+				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().SetSpriteAndScatter(2);
 
 			//Play the breaking window sfx:
 			PlaySoundMessage.SendToAll("GlassBreak0" + Random.Range(1, 4).ToString(), bulletHitTarget, 1f);
@@ -144,6 +147,13 @@ public class TilemapDamage : MonoBehaviour
 		{
 			tileChangeManager.RemoveTile(cellPos, TileChangeLayer.Object);
 			tileChangeManager.ChangeTile("GrillDestroyed", cellPos, TileChangeLayer.BrokenGrill);
+			//Spawn rods:
+			var rods = PoolManager.Instance.PoolNetworkInstantiate(rodsPrefab, Vector3Int.RoundToInt(bulletHitTarget), 
+			Quaternion.identity,tileChangeManager.ObjectParent.transform);
+
+			var netTransform = rods.GetComponent<CustomNetTransform>();
+			netTransform?.SetPosition(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f)));
+
 			data.ResetDamage();
 		}
 	}

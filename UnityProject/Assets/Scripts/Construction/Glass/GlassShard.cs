@@ -23,13 +23,25 @@ public class GlassShard : NetworkBehaviour
 		SpriteChange(spriteIndex);
 	}
 
+	[Server]
+	public void SetSpriteAndScatter(int index){
+		//Set the syncvar and update to all clientS:
+		spriteIndex = index;
+
+		var netTransform = GetComponent<CustomNetTransform>();
+
+		netTransform?.SetPosition(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.4f, 0.4f), Random.Range(-0.4f, 0.4f)));
+	}
 	public void SpriteChange(int index)
 	{
 		spriteIndex = index;
 		spriteRenderer.sprite = glassSprites[spriteIndex];
+
+		
+
 		//Scatter them around (just for visual candy, no need to network sync as they are on the same grid co-ord anyway):
-		spriteRenderer.transform.localPosition = new Vector3(
-			Random.Range(-0.4f, 0.4f), Random.Range(-0.4f, 0.4f), 0f);
+		// spriteRenderer.transform.localPosition = new Vector3(
+		// 	Random.Range(-0.4f, 0.4f), Random.Range(-0.4f, 0.4f), 0f);
 
 		//Also add a bit of rotation variance to the sprite obj:
 		var axis = new Vector3(0,0,1);
