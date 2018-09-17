@@ -9,12 +9,12 @@ public struct TransformState {
 	public bool Active => Position != HiddenPos;
 	///Don't set directly, use Speed instead.
 	///public in order to be serialized :\
-	public float speed; 
+	public float speed;
 	public float Speed {
 		get { return speed; }
 		set { speed = value < 0 ? 0 : value; }
 	}
-	
+
 	///Direction of throw
 	public Vector2 Impulse;
 
@@ -53,12 +53,12 @@ public struct TransformState {
 	public float Rotation;
 	public bool IsLocalRotation;
 	/// Spin direction and speed, if it should spin
-	public sbyte SpinFactor; 
-	
+	public sbyte SpinFactor;
+
 	/// Means that this object is hidden
 	public static readonly Vector3Int HiddenPos = new Vector3Int(0, 0, -100);
 	/// Means that this object is hidden
-	public static readonly TransformState HiddenState = 
+	public static readonly TransformState HiddenState =
 		new TransformState{ Position = HiddenPos, ActiveThrow = ThrowInfo.NoThrow, MatrixId = 0};
 
 	public override string ToString()
@@ -69,7 +69,7 @@ public struct TransformState {
 	}
 }
 
-public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
+public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //see UpdateManager
 {
 	private RegisterTile registerTile;
 	private ItemAttributes ItemAttributes {
@@ -87,7 +87,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	private TransformState clientState = TransformState.HiddenState; //client's transform, can get dirty/predictive
 
 	private Matrix matrix => registerTile.Matrix;
-	
+
 	public TransformState ServerState => serverState;
 	public TransformState ClientState => clientState;
 
@@ -105,7 +105,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 	[Server]
 	private void InitServerState()
-	{ 
+	{
 //		isPushing = false;
 //		predictivePushing = false;
 		if ( IsHiddenOnInit ) {
@@ -118,7 +118,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		serverState.Rotation = transform.rotation.eulerAngles.z;
 		serverState.SpinFactor = 0;
 		registerTile = GetComponent<RegisterTile>();
-		
+
 		//Matrix id init
 		if ( registerTile && registerTile.Matrix ) {
 			//pre-placed
@@ -183,7 +183,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 //					predictivePushing = false;
 //				}
 //			}
-		} 
+		}
 
 		if (IsFloatingClient)
 		{
@@ -335,7 +335,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		{
 			registerTile.Unregister();
 		}
-		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example. 
+		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example.
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < renderers.Length; i++)
 		{

@@ -331,14 +331,7 @@ public partial class CustomNetTransform {
 	private void StopFloating() {
 //		Logger.Log( $"{gameObject.name} stopped floating" );
 		if ( PushPull && PushPull.isPushable ) { //todo: decent criteria for objects that are supposed to be tile snapped
-//			var futureTile = CeilWithContext( serverState.Position, serverState.Impulse );
-//			if ( matrix.IsPassableAt( futureTile ) ) {
-//				serverState.Position = futureTile;
-//				Logger.LogTrace( $"Chose future tile {serverState.Position}", Category.PushPull );
-//			} else {
 				serverState.Position = Vector3Int.RoundToInt( serverState.Position );
-				Logger.LogTrace( $"Chose current tile {serverState.Position}", Category.PushPull );
-//			}
 		}
 		serverState.Impulse = Vector2.zero;
 		serverState.Speed = 6; //?

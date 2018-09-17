@@ -82,7 +82,7 @@ using UnityEngine.Networking;
 		}
 	}
 
-	public partial class PlayerSync : NetworkBehaviour, IPlayerSync
+	public partial class PlayerSync : NetworkBehaviour, IPushable
 	{
 		public float offsetTest = 1f;
 		///For server code. Contains position

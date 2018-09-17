@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -246,12 +247,12 @@ public partial class PlayerSync
 	[Command]
 	public void CmdSetPositionFromReset(GameObject fromObj, GameObject otherPlayer, Vector3 setPos)
 	{
-		if (fromObj.GetComponent<IPlayerSync>() == null) //Validation
+		if (fromObj.GetComponent<PlayerSync>() == null) //Validation
 		{
 			return;
 		}
 
-		IPlayerSync otherPlayerSync = otherPlayer.GetComponent<IPlayerSync>();
+		PlayerSync otherPlayerSync = otherPlayer.GetComponent<PlayerSync>();
 		otherPlayerSync.SetPosition(setPos);
 	}
 
@@ -347,7 +348,7 @@ public partial class PlayerSync
 
 			InteractDoor(worldPos, worldTarget);
 
-			Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.PushPull, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
+			Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.Movement, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
 			InteractPushable( worldTarget, direction );
 
 			yield return YieldHelper.DeciSecond;

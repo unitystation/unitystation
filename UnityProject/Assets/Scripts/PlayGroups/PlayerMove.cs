@@ -35,7 +35,7 @@ using UnityEngine.Networking;
 
 		public PlayerMatrixDetector playerMatrixDetector;
 		private PlayerSprites playerSprites;
-		private IPlayerSync playerSync;
+		private PlayerSync playerSync;
 
 		[HideInInspector] public PlayerNetworkActions pna;
 //		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
@@ -52,7 +52,7 @@ using UnityEngine.Networking;
 		private void Start()
 		{
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
-			playerSync = GetComponent<IPlayerSync>();
+			playerSync = GetComponent<PlayerSync>();
 //			pushPull = GetComponent<PushPull>();
 			registerTile = GetComponent<RegisterTile>();
 			pna = gameObject.GetComponent<PlayerNetworkActions>();

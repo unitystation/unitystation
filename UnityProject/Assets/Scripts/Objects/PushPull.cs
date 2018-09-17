@@ -2,37 +2,45 @@
 using UnityEngine.Networking;
 
 public class PushPull : VisibleBehaviour {
-//	public bool allowedToMove = true;
-//
-//	[SyncVar] public Vector3 currentPos;
 	public bool isPushable = true;
-	//push limits: U,D,L,R only
-	private PlayerSync playerSync;
-	public PlayerSync PlayerSync => playerSync ? playerSync : ( playerSync = GetComponent<PlayerSync>() );
-	private CustomNetTransform netTransform;
-	public CustomNetTransform NetTransform => netTransform ? netTransform : ( netTransform = GetComponent<CustomNetTransform>() );
+	private IPushable pushableTransform;
+	public IPushable PushableTransform => pushableTransform ?? ( pushableTransform = GetComponent<IPushable>() );
+
+	private bool isPushing;
+	private Vector3Int pushTarget = TransformState.HiddenPos;
 
 	[Server]
 	public bool TryPush( Vector3Int from, Vector2Int dir ) {
+		if ( isPushing || PushableTransform == null ) {
+			return false;
+		}
 		Vector3Int currentPos = registerTile.WorldPosition;
 		if ( from != currentPos ) {
 			return false;
 		}
 		Vector3Int to = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		Logger.LogTraceFormat( "Attempting push {0}->{1}", Category.PushPull, from, to );
 		if ( !isPushable ||
 		     Vector2.Distance( (Vector3)from, (Vector3)currentPos) > 1 ||
 		     !MatrixManager.IsPassableAt( to ) ) {
 			return false;
 		}
-		if ( NetTransform ) {
-			NetTransform.Push( dir );
-		} else if ( PlayerSync ) {
-			PlayerSync.Push( dir );
-		} else {
-			return false;
-		}
+
+		Logger.LogTraceFormat( "Started push {0}->{1}", Category.PushPull, from, to );
+		isPushing = true;
+		pushTarget = to;
+		PushableTransform.Push( dir );
+
 		return true;
+	}
+
+		private void Update()
+	{
+		if (isPushing && isServer) {
+			if (Vector3.Distance(transform.position, pushTarget) < 0.1f) {
+				isPushing = false;
+				Logger.LogTraceFormat( "Stopped push at {0}", Category.PushPull, registerTile.WorldPosition);
+			}
+		}
 	}
 
 	#region old

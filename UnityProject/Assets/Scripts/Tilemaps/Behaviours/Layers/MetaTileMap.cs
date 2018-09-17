@@ -118,8 +118,8 @@ using UnityEngine;
 				if ( layer == LayerType.Objects ) { //probably expensive
 					var objects = Matrix.Get<RegisterTile>( position ).ToArray();
 					for ( var i = 0; i < objects.Length; i++ ) {
-						var o = objects[i] as RegisterPlayer;
-						if ( o == null ) {
+						var o = objects[i];
+						if ( o.ObjectType != ObjectType.Player && !o.IsPassable() ) {
 							return false;
 						}
 					}
