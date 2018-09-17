@@ -22,12 +22,12 @@ public class TilesManager : MonoBehaviour
 	private Dictionary<string, TileBase> floorAssets = new Dictionary<string, TileBase>();
 	private Dictionary<string, TileBase> wallAssets = new Dictionary<string, TileBase>();
 	private Dictionary<string, TileBase> windowAssets = new Dictionary<string, TileBase>();
-	private Dictionary<string, TileBase> tableAssets = new Dictionary<string, TileBase>();
+	private Dictionary<string, TileBase> objectAssets = new Dictionary<string, TileBase>();
 
 	public static Dictionary<string, TileBase> FloorAssets => Instance.floorAssets;
 	public static Dictionary<string, TileBase> WallAssets => Instance.wallAssets;
 	public static Dictionary<string, TileBase> WindowAssets => Instance.windowAssets;
-	public static Dictionary<string, TileBase> TableAssets => Instance.tableAssets;
+	public static Dictionary<string, TileBase> ObjectAssets => Instance.objectAssets;
 
 	void Start()
 	{
@@ -57,7 +57,15 @@ public class TilesManager : MonoBehaviour
 		TileBase[] tableTiles = Resources.LoadAll<TileBase>("Tiles/Tables");
 		for (int i = 0; i < tableTiles.Length; i++)
 		{
-			tableAssets.Add(tableTiles[i].name, tableTiles[i]);
+			objectAssets.Add(tableTiles[i].name, tableTiles[i]);
+		}
+
+		//FIXME: Do a recursive search through all sub folders in Objects:
+
+		TileBase[] grillTiles = Resources.LoadAll<TileBase>("Tiles/Objects/Grills");
+		for (int i = 0; i < grillTiles.Length; i++)
+		{
+			objectAssets.Add(grillTiles[i].name, grillTiles[i]);
 		}
 
 		TileBase[] windowDmgTiles = Resources.LoadAll<TileBase>("Tiles/WindowDamage");
@@ -79,9 +87,10 @@ public class TilesManager : MonoBehaviour
 				}
 				break;
 			case TileChangeLayer.Object:
-				if (TableAssets.ContainsKey(tileKey))
+			case TileChangeLayer.BrokenGrill:
+				if (ObjectAssets.ContainsKey(tileKey))
 				{
-					return TableAssets[tileKey];
+					return ObjectAssets[tileKey];
 				}
 				break;
 			case TileChangeLayer.Wall:
@@ -118,7 +127,8 @@ public class TilesManager : MonoBehaviour
 				}
 				break;
 			case TileChangeLayer.Object:
-				if (TableAssets.ContainsKey(tileKey))
+			case TileChangeLayer.BrokenGrill:
+				if (ObjectAssets.ContainsKey(tileKey))
 				{
 					return true;
 				}
