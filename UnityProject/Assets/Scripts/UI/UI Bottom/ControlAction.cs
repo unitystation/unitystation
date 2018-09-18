@@ -129,7 +129,7 @@ using UnityEngine.UI;
 
 		/// Throw mode toggle. Actual throw is in
 		/// <see cref="InputController.CheckThrow()"/>
-		public void Throw(bool enable = true)
+		public void Throw(bool enable)
 		{
 			// See if requesting to enable or disable throw (for keyDown or keyUp)
 			if (enable && UIManager.IsThrow == false)
