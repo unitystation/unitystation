@@ -147,6 +147,8 @@ public class TilemapDamage : MonoBehaviour
 		{
 			tileChangeManager.RemoveTile(cellPos, TileChangeLayer.Object);
 			tileChangeManager.ChangeTile("GrillDestroyed", cellPos, TileChangeLayer.BrokenGrill);
+
+			PlaySoundMessage.SendToAll("GrillHit", bulletHitTarget, 1f);
 			//Spawn rods:
 			var rods = PoolManager.Instance.PoolNetworkInstantiate(rodsPrefab, Vector3Int.RoundToInt(bulletHitTarget), 
 			Quaternion.identity,tileChangeManager.ObjectParent.transform);

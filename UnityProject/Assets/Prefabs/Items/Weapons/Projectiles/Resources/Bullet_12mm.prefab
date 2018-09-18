@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1704367564361390
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,6 +263,7 @@ MonoBehaviour:
   shooter: {fileID: 0}
   damageType: 0
   isSuicide: 0
+  trail: {fileID: 96931813345718644}
 --- !u!212 &212426495759714984
 SpriteRenderer:
   m_ObjectHideFlags: 1
