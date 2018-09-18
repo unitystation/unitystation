@@ -129,9 +129,9 @@ using UnityEngine.UI;
 
 		/// Throw mode toggle. Actual throw is in
 		/// <see cref="InputController.CheckThrow()"/>
-		public void Throw(bool enable)
+		public void Throw(bool enable = true)
 		{
-			// See if requesting to enable or disable throw (keyDown or keyUp)
+			// See if requesting to enable or disable throw (for keyDown or keyUp)
 			if (enable && UIManager.IsThrow == false)
 			{
 				PlayerScript lps = PlayerManager.LocalPlayerScript;
@@ -145,16 +145,16 @@ using UnityEngine.UI;
 					return;
 				}
 
-				SoundManager.Play("Click01");
-				Logger.Log("Throw Button Enabled");
-
 				// Enable throw
+				Logger.Log("Throw Button Enabled", Category.UI);
+				SoundManager.Play("Click01");
 				UIManager.IsThrow = true;
 				throwImage.sprite = throwSprites[1];
 			}
 			else if (!enable && UIManager.IsThrow == true)
 			{
 				// Disable throw
+				Logger.Log("Throw Button Disabled", Category.UI);
 				UIManager.IsThrow = false;
 				throwImage.sprite = throwSprites[0];
 			}
