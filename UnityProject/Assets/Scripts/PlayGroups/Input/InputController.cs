@@ -38,7 +38,7 @@ using UnityEngine.Tilemaps;
 
 			//Do not include the Default layer! Assign your object to one of the layers below:
 			layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
-				"HiddenWalls", "Objects");
+				"HiddenWalls", "Objects", "Matrix");
 		}
 
 		private void OnGUI() {

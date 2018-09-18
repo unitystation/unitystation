@@ -126,7 +126,9 @@ using UnityEngine;
 			foreach (Layer layer in Layers.Values)
 			{
 				if (layer.LayerType < refLayer &&
-				    !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors))
+				    !(refLayer == LayerType.Objects && 
+					layer.LayerType == LayerType.Floors) &&
+					refLayer != LayerType.Grills)
 				{
 					layer.RemoveTile(position);
 				}
@@ -168,7 +170,10 @@ using UnityEngine;
 					Layers[layer.LayerType].SetPreviewTile(position, LayerTile.EmptyTile, Matrix4x4.identity);
 				}
 			}
-
+			if(!Layers.ContainsKey(tile.LayerType)){
+				Debug.LogError($"LAYER TYPE: {tile.LayerType} not found!");
+				return;
+			}
 			Layers[tile.LayerType].SetPreviewTile(position, tile, transformMatrix);
 		}
 

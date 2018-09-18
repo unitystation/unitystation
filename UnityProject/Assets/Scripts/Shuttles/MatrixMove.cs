@@ -58,6 +58,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 	/// Initial flying direction from editor
 	public Vector2 flyingDirection = Vector2.up;
+	private Orientation initialOrientation;
+
 	/// max flying speed from editor
 	public float maxSpeed = 20f;
 	private readonly int rotTime = 90;
@@ -72,7 +74,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	[SyncVar] private Vector3 pivot;
 	private Vector3Int[] SensorPositions;
 
-	private MatrixInfo MatrixInfo;
+	public MatrixInfo MatrixInfo;
 
 	public override void OnStartServer()
 	{
@@ -93,12 +95,14 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 		Vector3Int initialPositionInt = Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
 		initialPosition = initialPositionInt;
+		initialOrientation = Orientation.From( serverState.Direction );
+
 		var child = transform.GetChild( 0 );
 		MatrixInfo = MatrixManager.Get( child.gameObject );
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
 		pivot =  initialPosition - childPosition;
 
-//		Logger.Log( $"Calculated pivot {pivot} for {gameObject.name}" );
+		Logger.LogTraceFormat( "{0}: pivot={1} initialPos={2}, initialOrientation={3}", Category.Matrix, gameObject.name, pivot, initialPositionInt, initialOrientation );
 		serverState.Speed = 1f;
 		serverState.Position = initialPosition;
 		serverState.Orientation = Orientation.Up;
@@ -169,6 +173,42 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		serverTargetState.IsMoving = false;
 		//To stop autopilot
 		DisableAutopilotTarget();
+	}
+
+	public int MoveCur = -1;
+	public int MoveLimit = -1;
+
+	/// Move for n tiles, regardless of direction, and stop
+	[Server]
+	public void MoveFor(int tiles) {
+		if ( tiles < 1 ) {
+			tiles = 1;
+		}
+		if ( !isMovingServer ) {
+			StartMovement();
+		}
+		MoveCur = 0;
+		MoveLimit = tiles;
+	}
+
+	/// Checks if it still can move according to MoveFor limits.
+	/// If true, increment move count
+	[Server]
+	public bool CanMoveFor() {
+		if ( MoveCur == MoveLimit && MoveCur != -1 ) {
+			MoveCur = -1;
+			MoveLimit = -1;
+			return false;
+		}
+		MoveCur++;
+		return true;
+	}
+
+	/// Changes moving direction, for use in reversing in EscapeShuttle.cs
+	[Server]
+	public void ChangeDir(Vector2 newdir)
+	{
+		serverTargetState.Direction = newdir;
 	}
 
 	/// Call to stop chasing target
@@ -270,7 +310,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			return;
 		}
 
-		if ( !SafetyProtocolsOn || CanMoveTo( serverTargetState.Direction ) )
+		if ( CanMoveFor() && ( !SafetyProtocolsOn || CanMoveTo( serverTargetState.Direction ) ) )
 		{
 			var goal = Vector3Int.RoundToInt( serverState.Position + ( Vector3 ) serverTargetState.Direction );
 			//keep moving
@@ -426,7 +466,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 		//Correcting direction
 		Vector3 newDirection = Quaternion.Euler( 0, 0, angleBetween ) * serverTargetState.Direction;
-//		Logger.Log($"Orientation is now {serverTargetState.Orientation}, Corrected direction from {serverTargetState.Direction} to {newDirection}");
+		Logger.LogTraceFormat("Orientation is now {0}, Corrected direction from {1} to {2}", Category.Matrix,
+			serverTargetState.Orientation, serverTargetState.Direction, newDirection);
 		serverTargetState.Direction = newDirection;
 		RequestNotify();
 	}
@@ -441,7 +482,12 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	}
 
 	///Zero means 100% accurate, but will lead to peculiar behaviour (autopilot not reacting fast enough on high speed -> going back/in circles etc)
-	private static readonly int AccuracyThreshold = 1;
+	private static int AccuracyThreshold = 1;
+
+	public void SetAccuracy(int newAccuracy)
+	{
+		AccuracyThreshold = newAccuracy;
+	}
 
 	private IEnumerator TravelToTarget() {
 		if ( isAutopilotEngaged )
@@ -464,8 +510,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			bool xNeedsChange = Mathf.Abs(xProjectionX - targetX) > AccuracyThreshold;
 			bool yNeedsChange = Mathf.Abs(yProjectionY - targetY) > AccuracyThreshold;
 
-			Orientation xDesiredDir = ( targetX - xProjectionX ) > 0 ? Orientation.Left : Orientation.Right;
-			Orientation yDesiredDir = ( targetY - yProjectionY ) > 0 ? Orientation.Up : Orientation.Down;
+			Orientation xDesiredDir = Orientation.From( ( targetX - xProjectionX > 0 ? Orientation.Left : Orientation.Right ).Degree + initialOrientation.Degree );
+			Orientation yDesiredDir = Orientation.From( ( targetY - yProjectionY > 0 ? Orientation.Up : Orientation.Down ).Degree + initialOrientation.Degree );
 
 			if ( xNeedsChange || yNeedsChange )
 			{

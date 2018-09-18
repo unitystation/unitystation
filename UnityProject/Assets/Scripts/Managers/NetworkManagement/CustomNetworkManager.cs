@@ -328,6 +328,12 @@ public class CustomNetworkManager : NetworkManager
 			players[i].Script.PlayerSync.NotifyPlayer( playerGameObject, true );
 		}
 
+		//TileChange Data
+		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
+		for(var i = 0; i < tcManagers.Length; i++){
+			tcManagers[i].NotifyPlayer( playerGameObject );
+		}
+
 		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {players.Count} players) to {playerGameObject.name}", Category.Connections);
 	}
 
