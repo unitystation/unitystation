@@ -13,6 +13,7 @@ public class TileChangeManager : NetworkBehaviour
 	public Tilemap wallTileMap { get; private set; }
 	public Tilemap windowTileMap { get; private set; }
 	public Tilemap objectTileMap { get; private set; }
+	public Tilemap grillTileMap { get; private set; }
 
 	public GameObject ObjectParent => objectTileMap.gameObject;
 
@@ -68,6 +69,11 @@ public class TileChangeManager : NetworkBehaviour
 			if (tilemaps[i].name.Contains("Objects"))
 			{
 				objectTileMap = tilemaps[i];
+			}
+
+			if (tilemaps[i].name.Contains("Grill"))
+			{
+				grillTileMap = tilemaps[i];
 			}
 		}
 	}
@@ -163,8 +169,10 @@ public class TileChangeManager : NetworkBehaviour
 			case TileChangeLayer.Window:
 			case TileChangeLayer.WindowDamage:
 				return windowTileMap;
-			case TileChangeLayer.BrokenGrill: //Broken grills go over floors so there is no collider on the objects layer (so bullets can pass)
+			case TileChangeLayer.BrokenGrill: //Broken grills go over floors so there is no collider on the grills layer
 				return floorTileMap;
+			case TileChangeLayer.Grill:
+				return grillTileMap;
 		}
 		return null;
 	}
@@ -221,5 +229,6 @@ public enum TileChangeLayer
 	Window,
 	Object,
 	WindowDamage,
+	Grill,
 	BrokenGrill, //Damaged grill sprites are placed over a floor tile at position -10 this is because we don't want a collider on this tile on the object layer
 }

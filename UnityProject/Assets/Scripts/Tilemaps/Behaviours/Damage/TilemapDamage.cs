@@ -71,25 +71,18 @@ public class TilemapDamage : MonoBehaviour
 				return;
 			}
 		}
-		if (thisLayer.LayerType == LayerType.Objects)
+		if (thisLayer.LayerType == LayerType.Grills)
 		{
 			var getWindowTile = tileChangeManager.windowTileMap.GetTile(cellPos);
 
 			//Make sure a window is not protecting it first:
 			if (!getWindowTile)
 			{
-				var getObjectTile = tileChangeManager.objectTileMap.GetTile(cellPos);
-				if (getObjectTile != null)
+				var getGrillTile = tileChangeManager.grillTileMap.GetTile(cellPos);
+				if (getGrillTile != null)
 				{
-					//Check what type of tile it is from its name:
-					//Debug.Log("TILE NAME: " + getObjectTile.name);
-
-					//Do grill things:
-					if (getObjectTile.name == "Grill")
-					{
-						//TODO damage amt based off type of bullet
-						AddGrillDamage(20, data, cellPos, bulletHitTarget);
-					}
+					//TODO damage amt based off type of bullet
+					AddGrillDamage(20, data, cellPos, bulletHitTarget);
 				}
 			}
 		}
@@ -145,11 +138,13 @@ public class TilemapDamage : MonoBehaviour
 		//Make grills a little bit weaker (set to 60 hp):
 		if (data.GetDamage >= 60)
 		{
-			tileChangeManager.RemoveTile(cellPos, TileChangeLayer.Object);
+			tileChangeManager.RemoveTile(cellPos, TileChangeLayer.Grill);
 			tileChangeManager.ChangeTile("GrillDestroyed", cellPos, TileChangeLayer.BrokenGrill);
+
+			PlaySoundMessage.SendToAll("GrillHit", bulletHitTarget, 1f);
 			//Spawn rods:
-			var rods = PoolManager.Instance.PoolNetworkInstantiate(rodsPrefab, Vector3Int.RoundToInt(bulletHitTarget), 
-			Quaternion.identity,tileChangeManager.ObjectParent.transform);
+			var rods = PoolManager.Instance.PoolNetworkInstantiate(rodsPrefab, Vector3Int.RoundToInt(bulletHitTarget),
+				Quaternion.identity, tileChangeManager.ObjectParent.transform);
 
 			var netTransform = rods.GetComponent<CustomNetTransform>();
 			netTransform?.SetPosition(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f)));
