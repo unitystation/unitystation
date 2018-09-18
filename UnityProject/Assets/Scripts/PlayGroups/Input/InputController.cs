@@ -109,8 +109,8 @@ using UnityEngine.Tilemaps;
 				PlayerManager.LocalPlayerScript.playerNetworkActions
 					.CmdRequestThrow( currentSlot.eventName, position, (int) UIManager.DamageZone );
 
-				//Disabling throw button (not needed since holding R now enables throw)
-				// UIManager.Action.Throw();
+				//Disabling throw button
+				UIManager.Action.Throw(false);
 				e.Use();
 			}
 		}
