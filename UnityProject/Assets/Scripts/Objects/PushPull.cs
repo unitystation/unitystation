@@ -4,44 +4,109 @@ using UnityEngine.Networking;
 public class PushPull : VisibleBehaviour {
 	public bool isPushable = true;
 	private IPushable pushableTransform;
-	public IPushable PushableTransform => pushableTransform ?? ( pushableTransform = GetComponent<IPushable>() );
+	public IPushable Pushable {
+		get {
+			IPushable pushable;
+			if ( pushableTransform != null ) {
+				pushable = pushableTransform;
+			} else {
+				pushable = pushableTransform = GetComponent<IPushable>();
+				pushable?.OnUpdateRecieved().AddListener( () => isPredictivePushing = false );
+				pushable?.OnTileReached().AddListener( pos => {
+					Logger.LogTraceFormat( "They claim {0} is reached", Category.PushPull, pos );
+					isPushing = false;
+				} );
+			}
+			return pushable;
+		}
+	}
 
 	private bool isPushing;
+	private bool isPredictivePushing;
 	private Vector3Int pushTarget = TransformState.HiddenPos;
+	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
 
 	[Server]
 	public bool TryPush( Vector3Int from, Vector2Int dir ) {
-		if ( isPushing || PushableTransform == null ) {
+		if ( isPushing || Pushable == null ) {
 			return false;
 		}
 		Vector3Int currentPos = registerTile.WorldPosition;
 		if ( from != currentPos ) {
 			return false;
 		}
-		Vector3Int to = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
+		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
 		if ( !isPushable ||
 		     Vector2.Distance( (Vector3)from, (Vector3)currentPos) > 1 ||
-		     !MatrixManager.IsPassableAt( to ) ) {
+		     !MatrixManager.IsPassableAt( target ) ) {
 			return false;
 		}
 
-		Logger.LogTraceFormat( "Started push {0}->{1}", Category.PushPull, from, to );
+		Logger.LogTraceFormat( "Started push {0}->{1}", Category.PushPull, from, target );
 		isPushing = true;
-		pushTarget = to;
-		PushableTransform.Push( dir );
+		pushTarget = target;
+		Pushable.Push( dir );
 
 		return true;
 	}
 
-		private void Update()
-	{
-		if (isPushing && isServer) {
-			if (Vector3.Distance(transform.position, pushTarget) < 0.1f) {
-				isPushing = false;
-				Logger.LogTraceFormat( "Stopped push at {0}", Category.PushPull, registerTile.WorldPosition);
-			}
+	public bool TryPredictivePush( Vector3Int from, Vector2Int dir ) {
+		if ( isPredictivePushing || Pushable == null ) {
+			return false;
 		}
+		Vector3Int currentPos = registerTile.WorldPosition;
+		if ( from != currentPos ) {
+			return false;
+		}
+		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
+		if ( !isPushable ||
+		     Vector2.Distance( (Vector3)from, (Vector3)currentPos) > 1 ||
+		     !MatrixManager.IsPassableAt( target ) ) {
+			return false;
+		}
+
+		Logger.LogTraceFormat( "Started predictive push {0}->{1}", Category.PushPull, from, target );
+		isPredictivePushing = true;
+		predictivePushTarget = target;
+		Pushable.PredictivePush( dir );
+
+		return true;
 	}
+
+//	private void Update()
+//	{
+//		if ( isPredictivePushing ) {
+//			if (Vector3.Distance(transform.position, predictivePushTarget) < 0.1f) {
+//				isPredictivePushing = false;
+//				Logger.LogTraceFormat( "Stopped predictive push at {0}", Category.PushPull, registerTile.WorldPosition);
+//			}
+//		}
+//		if (isPushing && isServer) {
+//			if (Vector3.Distance(Pushable.ServerTransform().position, pushTarget) < 0.1f) {
+//				isPushing = false;
+//				Logger.LogTraceFormat( "Stopped push at {0}", Category.PushPull, registerTile.WorldPosition);
+//			}
+//		}
+//	}
+
+	#region cnt
+//	/// Client side prediction for pushing
+//	/// This allows instant pushing reaction to a pushing event
+//	/// on the client who instigated it. The server then validates
+//	/// the transform position and returns it if it is illegal
+//	public void PushToPosition( Vector3 pos, float speed, PushPull pushComponent ) {
+//		if(pushComponent.pushing || predictivePushing){
+//			return;
+//		}
+//		TransformState newState = clientState;
+//		newState.Active = true;
+//		newState.Speed = speed;
+//		newState.Position = pos;
+//		UpdateClientState(newState);
+//		predictivePushing = true;
+//		pushComponent.pushing = true;
+//	}
+	#endregion
 
 	#region old
 

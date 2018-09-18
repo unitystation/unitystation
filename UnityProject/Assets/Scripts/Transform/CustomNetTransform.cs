@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
@@ -71,6 +72,21 @@ public struct TransformState {
 
 public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //see UpdateManager
 {
+	////for independent serverside lerping
+//	private Transform serverTransform;
+//	public Transform ServerTransform() {
+//		return serverTransform;
+//	}
+
+	private UnityEvent onServerUpdate = new UnityEvent();
+	public UnityEvent OnUpdateRecieved() {
+		return onServerUpdate;
+	}
+	private Vector3IntEvent onTileReached = new Vector3IntEvent();
+	public Vector3IntEvent OnTileReached() {
+		return onTileReached;
+	}
+
 	private RegisterTile registerTile;
 	private ItemAttributes ItemAttributes {
 		get {
@@ -83,12 +99,14 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private ItemAttributes itemAttributes;
 
 	private TransformState serverState = TransformState.HiddenState; //used for syncing with players, matters only for server
+	private TransformState serverLerpState = TransformState.HiddenState; //used for simulating lerp on server
 
 	private TransformState clientState = TransformState.HiddenState; //client's transform, can get dirty/predictive
 
 	private Matrix matrix => registerTile.Matrix;
 
 	public TransformState ServerState => serverState;
+	public TransformState ServerLerpState => serverLerpState;
 	public TransformState ClientState => clientState;
 
 	private void Start()
@@ -106,8 +124,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	[Server]
 	private void InitServerState()
 	{
-//		isPushing = false;
-//		predictivePushing = false;
+
 		if ( IsHiddenOnInit ) {
 			return;
 		}
@@ -137,6 +154,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			serverState.WorldPosition = Vector3Int.RoundToInt((Vector2)transform.position);
 		}
 
+		serverLerpState = serverState;
 	}
 
 	/// Is it supposed to be hidden? (For init purposes)
@@ -194,6 +212,10 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		{
 			Lerp();
 		}
+		if (serverState.Position != serverLerpState.Position)
+		{
+			ServerLerp();
+		}
 
 		if ( clientState.SpinFactor != 0 ) {
 			transform.Rotate( Vector3.forward, Time.deltaTime * clientState.Speed * clientState.SpinFactor );
@@ -237,9 +259,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		if (notify) {
 			NotifyPlayers();
 		}
+
+		serverLerpState.MatrixId = serverState.MatrixId;//?
 		//Set it to being pushed if it is a push net action
 //		if(_isPushing){
-			//This is synced via syncvar with all players
+		//This is synced via syncvar with all players
 //			isPushing = true;
 //		}
 	}
@@ -263,6 +287,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			var worldPosToPreserve = serverState.WorldPosition;
 			serverState.MatrixId = newMatrixId;
 			serverState.WorldPosition = worldPosToPreserve;
+			serverLerpState.MatrixId = serverState.MatrixId;//?
 			if ( notify ) {
 				NotifyPlayers();
 			}
@@ -304,6 +329,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	/// Called from TransformStateMessage, applies state received from server to client
 	public void UpdateClientState(TransformState newState)
 	{
+		onServerUpdate.Invoke();
+
 		//Don't lerp (instantly change pos) if active state was changed
 		if (clientState.Active != newState.Active /*|| newState.Speed == 0*/)
 		{
@@ -376,10 +403,4 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private void RegisterObjects() {
 		registerTile.UpdatePosition();
 	}
-
-//	//For space drift, the server will confirm an update is required and inform the clients
-//	[ClientRpc]
-//	private void RpcForceRegisterUpdate(){
-//		registerTile.UpdatePosition();
-//	}
 }

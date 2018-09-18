@@ -10,11 +10,11 @@ public class TransformGizmoDrawer : MonoBehaviour {
 	}
 #if UNITY_EDITOR
 	//Visual debug
-//	private Vector3 size1 = Vector3.one;
+	private Vector3 size1 = Vector3.one;
 	private Vector3 size2 = new Vector3( 0.9f, 0.9f, 0.9f );
 	private Vector3 size3 = new Vector3( 0.8f, 0.8f, 0.8f );
 	private Vector3 size4 = new Vector3( 0.7f, 0.7f, 0.7f );
-//	private Color color1 = Color.red;
+	private Color color1 = Color.red;
 	private Color color2 = DebugTools.HexToColor( "fd7c6e" );
 	private Color color3 = DebugTools.HexToColor( "5566ff" );//blue
 	private Color color4 = DebugTools.HexToColor( "ebfceb" );
@@ -23,6 +23,13 @@ public class TransformGizmoDrawer : MonoBehaviour {
 		if ( !cnt ) {
 			return;
 		}
+		//server lerp
+		Gizmos.color = color1;
+		Vector3 stPos = cnt.ServerLerpState.WorldPosition;
+		Gizmos.DrawWireCube( stPos, size1 );
+//		GizmoUtils.DrawArrow( stPos + Vector3.right / 2, cnt.ServerState.Impulse );
+//		GizmoUtils.DrawText( cnt.ServerState.MatrixId.ToString(), stPos + Vector3.right / 2 + Vector3.up / 3, 15 );
+
 		//serverState
 		Gizmos.color = color2;
 		Vector3 ssPos = cnt.ServerState.WorldPosition;
@@ -30,7 +37,7 @@ public class TransformGizmoDrawer : MonoBehaviour {
 		GizmoUtils.DrawArrow( ssPos + Vector3.right / 2, cnt.ServerState.Impulse );
 		GizmoUtils.DrawText( cnt.ServerState.MatrixId.ToString(), ssPos + Vector3.right / 2 + Vector3.up / 3, 15 );
 //		GizmoUtils.DrawText( cnt.ServerState.Speed.ToString(), ssPos + Vector3.right / 1.5f + Vector3.up / 3, 10 );
-		
+
 		//registerTile pos
 		Gizmos.color = color3;
 		Vector3 regPos = rt.WorldPosition;

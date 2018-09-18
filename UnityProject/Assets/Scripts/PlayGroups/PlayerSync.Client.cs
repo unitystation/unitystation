@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-
-	public partial class PlayerSync
+public partial class PlayerSync
 	{
 		//Client-only fields, don't concern server
 		/// Trusted state, received from server
@@ -73,6 +73,8 @@ using UnityEngine;
 
 					LastDirection = action.Direction();
 					UpdatePredictedState();
+				} else {
+					PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
 				}
 
 				//Seems like Cmds are reliable enough in this case
@@ -82,6 +84,21 @@ using UnityEngine;
 
 			yield return YieldHelper.DeciSecond;
 			MoveCooldown = false;
+		}
+
+		/// <param name="worldTile">Tile you're interacting with</param>
+		/// <param name="direction">Direction you're pushing</param>
+		private void PredictiveInteract( Vector3Int worldTile, Vector2Int direction ) {//todo: untested!
+			// Is the object pushable (iterate through all of the objects at the position):
+			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
+			for ( int i = 0; i < pushPulls.Length; i++ ) {
+				var pushPull = pushPulls[i];
+				if ( pushPull && pushPull.gameObject != gameObject && pushPull.isPushable ) {
+//					Logger.LogTraceFormat( "Predictive pushing {0} from {1} to {2}", Category.PushPull, pushPulls[i].gameObject, worldTile, (Vector2)(Vector3)worldTile+(Vector2)direction );
+					pushPull.TryPredictivePush( worldTile, direction );
+					break;
+				}
+			}
 		}
 
 		private void UpdatePredictedState() {
@@ -109,6 +126,8 @@ using UnityEngine;
 
 		/// Called when PlayerMoveMessage is received
 		public void UpdateClientState( PlayerState state ) {
+			onServerUpdate.Invoke();
+
 			playerState = state;
 //			if ( !isServer ) {
 //				Logger.Log( $"Got server update {playerState}" );

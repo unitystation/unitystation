@@ -1,15 +1,22 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
-
 
 public partial class PlayerSync
 {
 	//Server-only fields, don't concern clients in any way
+	private Vector3IntEvent onTileReached = new Vector3IntEvent();
+	public Vector3IntEvent OnTileReached() {
+		return onTileReached;
+	}
+
+	private UnityEvent onServerUpdate = new UnityEvent();
+	public UnityEvent OnUpdateRecieved() {
+		return onServerUpdate;
+	}
 
 	/// Current server state. Lerps towards target state, so its position can be non-integer in the process.
 	/// Updates to players, however, are only sent when it approaches target state's position,
@@ -31,7 +38,6 @@ public partial class PlayerSync
 	private int playerWarnings;
 
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
-	[SyncVar]
 	private Vector2 serverLastDirection;
 
 	//TODO: Remove the space damage coroutine when atmos is implemented
@@ -138,6 +144,33 @@ public partial class PlayerSync
 			}
 		}
 	}
+	//Client predictive push
+	public void PredictivePush(Vector2Int direction)
+	{
+		if (direction == Vector2Int.zero)
+		{
+			Logger.Log("PredictivePush with zero impulse??", Category.PushPull);
+			return;
+		}
+
+		predictedState.Impulse = direction;
+		if (matrix != null)
+		{
+			Vector3Int pushGoal =
+				Vector3Int.RoundToInt(playerState.Position + (Vector3)predictedState.Impulse);
+			if (matrix.IsPassableAt(pushGoal))
+			{
+				Logger.Log($"Client predictive push to {pushGoal}", Category.PushPull);
+				predictedState.Position = pushGoal;
+				predictedState.ImportantFlightUpdate = true;
+				predictedState.ResetClientQueue = true;
+			}
+			else
+			{
+				predictedState.Impulse = Vector2.zero;
+			}
+		}
+	}
 
 	/// Manually set player to a specific world position.
 	/// Also clears prediction queues.
@@ -171,6 +204,7 @@ public partial class PlayerSync
 			//				When serverState reaches its planned destination,
 			//				embrace all other updates like updated moveNumber and flags
 			serverState = serverTargetState;
+			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
 			SyncMatrix();
 			NotifyPlayers();
 		}
@@ -355,14 +389,19 @@ public partial class PlayerSync
 			InteractCooldown = false;
 		}
 
-		private void InteractPushable( Vector3Int worldTarget, Vector3 direction ) {
+	/// <summary>
+	///
+	/// </summary>
+	/// <param name="worldTile">Tile you're interacting with</param>
+	/// <param name="direction">Direction you're pushing</param>
+		private void InteractPushable( Vector3Int worldTile, Vector3 direction ) {
 			// Is the object pushable (iterate through all of the objects at the position):
-			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTarget ).ToArray();
+			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
 			for ( int i = 0; i < pushPulls.Length; i++ ) {
 				var pushPull = pushPulls[i];
 				if ( pushPull && pushPull.gameObject != gameObject && pushPull.isPushable ) {
 	//					Logger.LogTraceFormat( "Trying to push {0} when walking {1}->{2}", Category.PushPull, pushPulls[i].gameObject, worldPos, worldTarget );
-					pushPull.TryPush( worldTarget, Vector2Int.RoundToInt( /*ServerState.*/direction ) );
+					pushPull.TryPush( worldTile, Vector2Int.RoundToInt( direction ) );
 					break;
 				}
 			}

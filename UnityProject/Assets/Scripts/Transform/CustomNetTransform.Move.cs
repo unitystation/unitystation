@@ -31,9 +31,6 @@ public struct ThrowInfo
 }
 
 public partial class CustomNetTransform {
-	//	[SyncVar]
-//	public bool isPushing;
-//	public bool predictivePushing = false;
 	private PushPull pushPull;
 	public PushPull PushPull => pushPull ? pushPull : ( pushPull = GetComponent<PushPull>() );
 
@@ -41,17 +38,6 @@ public partial class CustomNetTransform {
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
 	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
-
-	//future optimization thoughts:
-	//if (not in limbo && space flying for 30 tiles in a row):
-	//do a 50 tile raycast?
-	//if (raycast results == null)
-	//enter limbo.
-	//
-	//limbo mode: no matrix sync checks, one collision check per 20 tiles/no collision checks at all
-	//quit limbo if: player within 20 tiles
-	//
-	//
 
 	/// (Server) Did the flying item reach the planned landing point?
 	private bool ShouldStopThrow {
@@ -81,36 +67,19 @@ public partial class CustomNetTransform {
 		SetPosition( target );
 	}
 
-//	/// Apply impulse while setting position
-//	[Server]
-//	public void PushTo( Vector3 pos, Vector2 impulseDir, bool notify = true, float speed = 4f, bool _isPushing = false ) {
-//		if (IsInSpace()) {
-//			serverTransformState.Impulse = impulseDir;
-//		} else {
-//			SetPosition(pos, notify, speed, _isPushing);
-//		}
-//	}
+	public void PredictivePush( Vector2Int direction ) {//fixme:bogus
+		Vector2 target = ( Vector2 ) clientState.WorldPosition + direction;
+		clientState.Speed = 6; //?
+		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
+			clientState.Impulse = direction;
+		}
 
-//	/// Client side prediction for pushing
-//	/// This allows instant pushing reaction to a pushing event
-//	/// on the client who instigated it. The server then validates
-//	/// the transform position and returns it if it is illegal
-//	public void PushToPosition( Vector3 pos, float speed, PushPull pushComponent ) {
-//		if(pushComponent.pushing || predictivePushing){
-//			return;
-//		}
-//		TransformState newState = clientState;
-//		newState.Active = true;
-//		newState.Speed = speed;
-//		newState.Position = pos;
-//		UpdateClientState(newState);
-//		predictivePushing = true;
-//		pushComponent.pushing = true;
-//	}
+		clientState.WorldPosition = target;
+	}
 
 	/// Predictive client movement
-	/// Mimics server collision checks for obviously unpassable things.
-	/// That prevents objects going through walls if server doen't respond in time
+	/// Mimics server collision checks for obviously impassable things.
+	/// That prevents objects going through walls if server doesn't respond in time
 	private void CheckFloatingClient() {
 		CheckFloatingClient(TransformState.HiddenPos);
 	}
@@ -140,12 +109,12 @@ public partial class CustomNetTransform {
 		Vector3Int intGoal = Vector3Int.RoundToInt( newGoal );
 
 		bool isWithinTile = intOrigin == intGoal; //same tile, no need to validate stuff
-		if ( isWithinTile || MatrixManager.IsPassableAt( intOrigin, intGoal ) ) {
+		if ( isWithinTile || MatrixManager.IsPassableAt( /*intOrigin, */intGoal ) ) {
 			//advance
 			clientState.WorldPosition += moveDelta;
 		} else {
 			//stop
-//			Logger.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
+			Logger.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
 //			clientState.Speed = 0f;
 			clientState.Impulse = Vector2.zero;
 			clientState.SpinFactor = 0;
@@ -166,6 +135,23 @@ public partial class CustomNetTransform {
 		}
 		transform.localPosition =
 			Vector3.MoveTowards( transform.localPosition, targetPos, clientState.Speed * Time.deltaTime );
+	}
+	/// Serverside lerping
+	private void ServerLerp() {
+		Vector3 targetPos = MatrixManager.WorldToLocal( serverState.WorldPosition, MatrixManager.Get( matrix ) );
+		//Set position immediately if not moving
+		if ( serverState.Speed.Equals( 0 ) ) {
+//			serverTransform.localPosition = targetPos;
+			serverLerpState = serverState;
+			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
+			return;
+		}
+		serverLerpState.Position =
+			Vector3.MoveTowards( serverLerpState.Position, targetPos, serverState.Speed * Time.deltaTime );
+
+		if ( /*Vector3Int.RoundToInt(*/serverLerpState.Position/*)*/ == targetPos ) {
+			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
+		}
 	}
 
 	/// Drop with some inertia.
@@ -287,7 +273,6 @@ public partial class CustomNetTransform {
 		serverState.WorldPosition = tempGoal;
 		//Spess drifting is perpetual, but speed decreases each tile if object has landed (no throw) on the floor
 		if ( !IsBeingThrown && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
-//		if ( !IsBeingThrown && !MatrixManager.IsSpaceAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
 			//on-ground resistance
 			serverState.Speed = serverState.Speed - ( serverState.Speed * 0.10f ) - 0.5f;
 			if ( serverState.Speed <= 0.05f ) {
