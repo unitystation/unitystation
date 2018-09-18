@@ -8,6 +8,7 @@
 		Objects,
 		Floors,
 		Base,
+		Grills,
 		None
 	}
 
@@ -18,7 +19,8 @@
 		Window,
 		Floor,
 		Table,
-		Effects
+		Effects,
+		Grill
 	}
 
 	public class LayerTile : GenericTile
