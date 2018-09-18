@@ -11,7 +11,7 @@ public class BulletCasing : NetworkBehaviour
 		{
 			var netTransform = GetComponent<CustomNetTransform>();
 
-			netTransform?.SetPosition(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.4f, 0.4f), Random.Range(-0.4f, 0.4f)));
+			netTransform?.ForceDrop(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.6f, 0.6f), Random.Range(-0.6f, 0.6f)));
 		}
 
 		var axis = new Vector3(0, 0, 1);
