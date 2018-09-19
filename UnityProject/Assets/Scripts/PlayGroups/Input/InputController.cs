@@ -93,6 +93,12 @@ using UnityEngine.Tilemaps;
 			}
 		}
 		private void CheckThrow() {
+			//Ignore throw if pointer is hovering over GUI
+			if (EventSystem.current.IsPointerOverGameObject())
+			{
+				return;
+			}
+
 			Event e = Event.current;
 			if (e.type != EventType.Used && e.button == 0 && UIManager.IsThrow)
 			{
@@ -110,7 +116,7 @@ using UnityEngine.Tilemaps;
 					.CmdRequestThrow( currentSlot.eventName, position, (int) UIManager.DamageZone );
 
 				//Disabling throw button
-				UIManager.Action.Throw(false);
+				UIManager.Action.Throw();
 				e.Use();
 			}
 		}
