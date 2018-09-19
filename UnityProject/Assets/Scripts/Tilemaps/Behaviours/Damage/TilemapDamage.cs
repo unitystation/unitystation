@@ -88,6 +88,42 @@ public class TilemapDamage : MonoBehaviour
 		}
 	}
 
+	//Only works serverside:
+	public void DoMeleeDamage(Vector2 dmgPosition, GameObject originator, int dmgAmt)
+	{
+		var cellPos = tileChangeManager.baseTileMap.WorldToCell(dmgPosition);
+		var data = metaDataLayer.Get(cellPos);
+
+		if (thisLayer.LayerType == LayerType.Windows)
+		{
+			var getTile = tileChangeManager.windowTileMap.GetTile(cellPos);
+			if (getTile != null)
+			{
+				PlaySoundMessage.SendToAll("GlassHit", dmgPosition, Random.Range(0.9f, 1.1f));
+				AddWindowDamage(dmgAmt, data, cellPos, dmgPosition);
+				return;
+			}
+		}
+
+		if (thisLayer.LayerType == LayerType.Grills)
+		{
+
+			var getWindowTile = tileChangeManager.windowTileMap.GetTile(cellPos);
+
+			//Make sure a window is not protecting it first:
+			if (!getWindowTile)
+			{
+				var getGrillTile = tileChangeManager.grillTileMap.GetTile(cellPos);
+				if (getGrillTile != null)
+				{
+					PlaySoundMessage.SendToAll("GrillHit", dmgPosition, Random.Range(0.9f, 1.1f));
+					AddGrillDamage(dmgAmt, data, cellPos, dmgPosition);
+				}
+			}
+		}
+
+	}
+
 	private void AddWindowDamage(int damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
 	{
 		data.AddDamage(damage);

@@ -79,10 +79,10 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		var tileMapDamage = victim.GetComponent<TilemapDamage>();
 		if (tileMapDamage != null)
 		{
+			tileMapDamage.DoMeleeDamage((Vector2)transform.position + stabDirection, 
+			gameObject, (int)weaponAttr.hitDamage);
 			RpcMeleeAttackLerp(stabDirection, weapon);
-			soundNetworkActions.RpcPlayNetworkSound(weaponAttr.hitSound, transform.position);
 			StartCoroutine(AttackCoolDown());
-			Debug.Log("TILEMAP HIT: " + tileMapDamage.name);
 			return;
 		}
 
