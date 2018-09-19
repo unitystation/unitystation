@@ -57,7 +57,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRequestMeleeAttack(GameObject victim, string slot, Vector2 stabDirection, BodyPartType damageZone)
+	public void CmdRequestMeleeAttack(GameObject victim, string slot, Vector2 stabDirection,
+		BodyPartType damageZone, LayerType layerType)
 	{
 		if (!playerMove.allowInput ||
 			playerMove.isGhost ||
@@ -75,28 +76,40 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		var weapon = playerScript.playerNetworkActions.Inventory[slot];
 		ItemAttributes weaponAttr = weapon.GetComponent<ItemAttributes>();
 
-		//Tilemap stuff:
-		var tileMapDamage = victim.GetComponent<TilemapDamage>();
-		if (tileMapDamage != null)
+		// If Tilemap LayerType is not None then it is a tilemap being attacked
+		if (layerType != LayerType.None)
 		{
-			//Wire cutters should snip the grills instead:
-			if(weaponAttr.itemName == "wirecutters" && 
-			tileMapDamage.Layer.LayerType == LayerType.Grills)
+			var tileChangeManager = victim.GetComponent<TileChangeManager>();
+			if (tileChangeManager == null)
 			{
-				tileMapDamage.WireCutGrill((Vector2)transform.position + stabDirection);
-				StartCoroutine(AttackCoolDown());
 				return;
 			}
 
-			tileMapDamage.DoMeleeDamage((Vector2)transform.position + stabDirection, 
-			gameObject, (int)weaponAttr.hitDamage);
-			RpcMeleeAttackLerp(stabDirection, weapon);
-			StartCoroutine(AttackCoolDown());
+			//Tilemap stuff:
+			var tileMapDamage = tileChangeManager.GetTilemap(layerType).gameObject.GetComponent<TilemapDamage>();
+			if (tileMapDamage != null)
+			{
+				//Wire cutters should snip the grills instead:
+				if (weaponAttr.itemName == "wirecutters" &&
+					tileMapDamage.Layer.LayerType == LayerType.Grills)
+				{
+					tileMapDamage.WireCutGrill((Vector2) transform.position + stabDirection);
+					StartCoroutine(AttackCoolDown());
+					return;
+				}
+
+				tileMapDamage.DoMeleeDamage((Vector2) transform.position + stabDirection,
+					gameObject, (int) weaponAttr.hitDamage);
+				RpcMeleeAttackLerp(stabDirection, weapon);
+				StartCoroutine(AttackCoolDown());
+				return;
+			}
 			return;
 		}
 
 		//This check cannot be used with TilemapDamage as the transform position is always far away
-		if(!playerScript.IsInReach(victim.transform.position)){
+		if (!playerScript.IsInReach(victim.transform.position))
+		{
 			return;
 		}
 
@@ -170,9 +183,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (lerpSprite != null)
 		{
 			playerScript.hitIcon.ShowHitIcon(stabDir, lerpSprite);
-			if (PlayerManager.LocalPlayer && PlayerManager.LocalPlayer.gameObject.name == gameObject.name)
+			if (PlayerManager.LocalPlayer)
 			{
-				PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
+				if (PlayerManager.LocalPlayer == gameObject)
+				{
+					PlayerManager.LocalPlayerScript.playerMove.allowInput = false;
+				}
 			}
 		}
 		lerpFrom = transform.position;
@@ -197,9 +213,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				{
 					ResetLerp();
 					spritesObj.transform.localPosition = Vector3.zero;
-					if (PlayerManager.LocalPlayer && PlayerManager.LocalPlayer.gameObject.name == gameObject.name)
+					if (PlayerManager.LocalPlayer)
 					{
-						PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
+						if (PlayerManager.LocalPlayer == gameObject)
+						{
+							PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
+						}
 					}
 				}
 				else

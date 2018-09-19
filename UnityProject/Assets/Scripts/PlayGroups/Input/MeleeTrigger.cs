@@ -6,6 +6,22 @@ using UnityEngine;
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 public class MeleeTrigger : MonoBehaviour
 {
+	//Cache these on start for checking at runtime
+	private Layer tileMapLayer;
+	private GameObject gameObjectRoot;
+
+	private void Start()
+	{
+		gameObjectRoot = transform.root.gameObject;
+
+		var layer = gameObject.GetComponent<Layer>();
+		if (layer != null)
+		{
+			//this is on a tilemap:
+			tileMapLayer = layer;
+		}
+	}
+
 	public virtual bool MeleeInteract(GameObject originator, string hand)
 	{
 		if (UIManager.Hands.CurrentSlot.Item != null)
@@ -34,8 +50,17 @@ public class MeleeTrigger : MonoBehaviour
 					Vector2 dir = (mousePos - PlayerManager.LocalPlayer.transform.position).normalized;
 
 					PlayerScript lps = PlayerManager.LocalPlayerScript;
-					lps.weaponNetworkActions.CmdRequestMeleeAttack(gameObject, UIManager.Hands.CurrentSlot.eventName, dir,
-						UIManager.DamageZone);
+
+					if (tileMapLayer == null)
+					{
+						lps.weaponNetworkActions.CmdRequestMeleeAttack(gameObject, UIManager.Hands.CurrentSlot.eventName, dir,
+							UIManager.DamageZone, LayerType.None);
+					}
+					else
+					{
+						lps.weaponNetworkActions.CmdRequestMeleeAttack(gameObjectRoot, UIManager.Hands.CurrentSlot.eventName, dir,
+							UIManager.DamageZone, tileMapLayer.LayerType);
+					}
 					return true;
 				}
 			}

@@ -154,7 +154,7 @@ public class TileChangeManager : NetworkBehaviour
 		});
 	}
 
-	private Tilemap GetTilemap(TileChangeLayer layer)
+	public Tilemap GetTilemap(TileChangeLayer layer)
 	{
 		switch (layer)
 		{
@@ -172,6 +172,26 @@ public class TileChangeManager : NetworkBehaviour
 			case TileChangeLayer.BrokenGrill: //Broken grills go over floors so there is no collider on the grills layer
 				return floorTileMap;
 			case TileChangeLayer.Grill:
+				return grillTileMap;
+		}
+		return null;
+	}
+
+	public Tilemap GetTilemap(LayerType layer)
+	{
+		switch (layer)
+		{
+			case LayerType.Base:
+				return baseTileMap;
+			case LayerType.Floors:
+				return floorTileMap;
+			case LayerType.Objects:
+				return objectTileMap;
+			case LayerType.Walls:
+				return wallTileMap;
+			case LayerType.Windows:
+				return windowTileMap;
+			case LayerType.Grills:
 				return grillTileMap;
 		}
 		return null;
