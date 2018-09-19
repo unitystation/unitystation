@@ -10,7 +10,7 @@ public class TilemapDamage : MonoBehaviour
 	private MetaDataLayer metaDataLayer;
 	private MetaTileMap metaTileMap;
 
-	private Layer thisLayer;
+	public Layer Layer { get; private set; }
 
 	//FIXME: cache construction prefabs in CraftingManager.Construction:
 	private GameObject glassShardPrefab;
@@ -22,7 +22,7 @@ public class TilemapDamage : MonoBehaviour
 		tileTrigger = transform.root.GetComponent<TileTrigger>();
 		metaDataLayer = transform.parent.GetComponent<MetaDataLayer>();
 		metaTileMap = transform.parent.GetComponent<MetaTileMap>();
-		thisLayer = GetComponent<Layer>();
+		Layer = GetComponent<Layer>();
 	}
 
 	void Start()
@@ -61,7 +61,7 @@ public class TilemapDamage : MonoBehaviour
 		var cellPos = tileChangeManager.baseTileMap.WorldToCell(bulletHitTarget);
 		var data = metaDataLayer.Get(cellPos);
 
-		if (thisLayer.LayerType == LayerType.Windows)
+		if (Layer.LayerType == LayerType.Windows)
 		{
 			var getTile = tileChangeManager.windowTileMap.GetTile(cellPos);
 			if (getTile != null)
@@ -71,7 +71,7 @@ public class TilemapDamage : MonoBehaviour
 				return;
 			}
 		}
-		if (thisLayer.LayerType == LayerType.Grills)
+		if (Layer.LayerType == LayerType.Grills)
 		{
 			var getWindowTile = tileChangeManager.windowTileMap.GetTile(cellPos);
 
@@ -86,6 +86,42 @@ public class TilemapDamage : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	//Only works serverside:
+	public void DoMeleeDamage(Vector2 dmgPosition, GameObject originator, int dmgAmt)
+	{
+		var cellPos = tileChangeManager.baseTileMap.WorldToCell(dmgPosition);
+		var data = metaDataLayer.Get(cellPos);
+
+		if (Layer.LayerType == LayerType.Windows)
+		{
+			var getTile = tileChangeManager.windowTileMap.GetTile(cellPos);
+			if (getTile != null)
+			{
+				PlaySoundMessage.SendToAll("GlassHit", dmgPosition, Random.Range(0.9f, 1.1f));
+				AddWindowDamage(dmgAmt, data, cellPos, dmgPosition);
+				return;
+			}
+		}
+
+		if (Layer.LayerType == LayerType.Grills)
+		{
+
+			var getWindowTile = tileChangeManager.windowTileMap.GetTile(cellPos);
+
+			//Make sure a window is not protecting it first:
+			if (!getWindowTile)
+			{
+				var getGrillTile = tileChangeManager.grillTileMap.GetTile(cellPos);
+				if (getGrillTile != null)
+				{
+					PlaySoundMessage.SendToAll("GrillHit", dmgPosition, Random.Range(0.9f, 1.1f));
+					AddGrillDamage(dmgAmt, data, cellPos, dmgPosition);
+				}
+			}
+		}
+
 	}
 
 	private void AddWindowDamage(int damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
@@ -114,14 +150,7 @@ public class TilemapDamage : MonoBehaviour
 			tileChangeManager.RemoveTile(cellPos, TileChangeLayer.Window);
 
 			//Spawn 3 glass shards with different sprites:
-			PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(bulletHitTarget),
-				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().SetSpriteAndScatter(0);
-
-			PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(bulletHitTarget),
-				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().SetSpriteAndScatter(1);
-
-			PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(bulletHitTarget),
-				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().SetSpriteAndScatter(2);
+			SpawnGlassShards(bulletHitTarget);
 
 			//Play the breaking window sfx:
 			PlaySoundMessage.SendToAll("GlassBreak0" + Random.Range(1, 4).ToString(), bulletHitTarget, 1f);
@@ -142,14 +171,64 @@ public class TilemapDamage : MonoBehaviour
 			tileChangeManager.ChangeTile("GrillDestroyed", cellPos, TileChangeLayer.BrokenGrill);
 
 			PlaySoundMessage.SendToAll("GrillHit", bulletHitTarget, 1f);
-			//Spawn rods:
-			var rods = PoolManager.Instance.PoolNetworkInstantiate(rodsPrefab, Vector3Int.RoundToInt(bulletHitTarget),
-				Quaternion.identity, tileChangeManager.ObjectParent.transform);
 
-			var netTransform = rods.GetComponent<CustomNetTransform>();
-			netTransform?.SetPosition(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f)));
+			//Spawn rods:
+			SpawnRods(bulletHitTarget);
 
 			data.ResetDamage();
 		}
+	}
+
+	//Only works server side:
+	public void WireCutGrill(Vector3 snipPosition)
+	{
+		var cellPos = tileChangeManager.baseTileMap.WorldToCell(snipPosition);
+		var data = metaDataLayer.Get(cellPos);
+
+		if (Layer.LayerType == LayerType.Grills)
+		{
+
+			var getWindowTile = tileChangeManager.windowTileMap.GetTile(cellPos);
+
+			//Make sure a window is not protecting it first:
+			if (!getWindowTile)
+			{
+				var getGrillTile = tileChangeManager.grillTileMap.GetTile(cellPos);
+				if (getGrillTile != null)
+				{
+					tileChangeManager.RemoveTile(cellPos, TileChangeLayer.Grill);
+
+					PlaySoundMessage.SendToAll("WireCutter", snipPosition, 1f);
+					SpawnRods(snipPosition);
+				}
+			}
+		}
+
+		data.ResetDamage();
+	}
+
+	private void SpawnRods(Vector3 pos)
+	{
+		var rods = PoolManager.Instance.PoolNetworkInstantiate(rodsPrefab, Vector3Int.RoundToInt(pos),
+			Quaternion.identity, tileChangeManager.ObjectParent.transform);
+
+		var netTransform = rods.GetComponent<CustomNetTransform>();
+		netTransform?.SetPosition(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f)));
+	}
+
+	private void SpawnGlassShards(Vector3 pos){
+
+			//Spawn 3 glass shards with different sprites:
+			PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos),
+				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().SetSpriteAndScatter(0);
+
+			PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos),
+				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().SetSpriteAndScatter(1);
+
+			PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos),
+				Quaternion.identity, tileChangeManager.ObjectParent.transform).GetComponent<GlassShard>().SetSpriteAndScatter(2);
+
+			//Play the breaking window sfx:
+			PlaySoundMessage.SendToAll("GlassBreak0" + Random.Range(1, 4).ToString(), pos, 1f);
 	}
 }

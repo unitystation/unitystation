@@ -93,6 +93,12 @@ using UnityEngine.Tilemaps;
 			}
 		}
 		private void CheckThrow() {
+			//Ignore throw if pointer is hovering over GUI
+			if (EventSystem.current.IsPointerOverGameObject())
+			{
+				return;
+			}
+
 			Event e = Event.current;
 			if (e.type != EventType.Used && e.button == 0 && UIManager.IsThrow)
 			{
@@ -108,6 +114,7 @@ using UnityEngine.Tilemaps;
 //				Logger.Log( $"Requesting throw from {currentSlot.eventName} to {position}" );
 				PlayerManager.LocalPlayerScript.playerNetworkActions
 					.CmdRequestThrow( currentSlot.eventName, position, (int) UIManager.DamageZone );
+
 				//Disabling throw button
 				UIManager.Action.Throw();
 				e.Use();
@@ -151,7 +158,10 @@ using UnityEngine.Tilemaps;
 				foreach (Renderer _renderer in renderers.OrderByDescending(sr => sr.sortingOrder)) 
 				{
 					// If the ray hits a FOVTile, we can continue down (don't count it as an interaction)
-					if (!_renderer.sortingLayerName.Equals("FieldOfView"))
+					// Matrix is the base Tilemap layer. It is used for matrix detection but gets in the way 
+					// of player interaction
+					if (!_renderer.sortingLayerName.Equals("FieldOfView") &&
+					_renderer.gameObject.layer != LayerMask.NameToLayer("Matrix"))
 					{
 						if (Interact(_renderer.transform, position))
 						{
@@ -237,8 +247,17 @@ using UnityEngine.Tilemaps;
 			}
 
 			//attempt to trigger the things in range we clicked on
-			if (PlayerManager.LocalPlayerScript.IsInReach(position))
+			if (PlayerManager.LocalPlayerScript.IsInReach(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
 			{
+				//Check for melee triggers first:
+				MeleeTrigger meleeTrigger = _transform.GetComponentInParent<MeleeTrigger>();
+				if(meleeTrigger != null){
+					if(meleeTrigger.MeleeInteract(gameObject, UIManager.Hands.CurrentSlot.eventName))
+					{
+						return true;
+					} 
+				}
+
 				//check the actual transform for an input trigger and if there is non, check the parent
 				InputTrigger inputTrigger = _transform.GetComponentInParent<InputTrigger>();
 				if (inputTrigger)
