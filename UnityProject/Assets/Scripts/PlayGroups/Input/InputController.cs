@@ -246,6 +246,15 @@ using UnityEngine.Tilemaps;
 			//attempt to trigger the things in range we clicked on
 			if (PlayerManager.LocalPlayerScript.IsInReach(position))
 			{
+				//Check for melee triggers first:
+				MeleeTrigger meleeTrigger = _transform.GetComponentInParent<MeleeTrigger>();
+				if(meleeTrigger != null){
+					if(meleeTrigger.MeleeInteract(gameObject, position, UIManager.Hands.CurrentSlot.eventName))
+					{
+						return true;
+					}
+				}
+
 				//check the actual transform for an input trigger and if there is non, check the parent
 				InputTrigger inputTrigger = _transform.GetComponentInParent<InputTrigger>();
 				if (inputTrigger)
