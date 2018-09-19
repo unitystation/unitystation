@@ -56,48 +56,66 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		w.MagNetID = networkID;
 	}
 
-	[Command] 
+	[Command]
 	public void CmdRequestMeleeAttack(GameObject victim, string slot, Vector2 stabDirection, BodyPartType damageZone)
 	{
-		if (!playerMove.allowInput 
-		    || playerMove.isGhost
-		    || !victim
-		    || !playerScript.playerNetworkActions.SlotNotEmpty( slot ) 
-			|| !playerScript.IsInReach(victim.transform.position)
-		    ) {
+		if (!playerMove.allowInput ||
+			playerMove.isGhost ||
+			!victim ||
+			!playerScript.playerNetworkActions.SlotNotEmpty(slot)
+		)
+		{
 			return;
 		}
+		if (!allowAttack)
+		{
+			return;
+		}
+
 		var weapon = playerScript.playerNetworkActions.Inventory[slot];
 		ItemAttributes weaponAttr = weapon.GetComponent<ItemAttributes>();
-		HealthBehaviour victimHealth = victim.GetComponent<HealthBehaviour>();
 
+		//Tilemap stuff:
+		var tileMapDamage = victim.GetComponent<TilemapDamage>();
+		if (tileMapDamage != null)
+		{
+			RpcMeleeAttackLerp(stabDirection, weapon);
+			soundNetworkActions.RpcPlayNetworkSound(weaponAttr.hitSound, transform.position);
+			StartCoroutine(AttackCoolDown());
+			Debug.Log("TILEMAP HIT: " + tileMapDamage.name);
+			return;
+		}
+
+		//This check cannot be used with TilemapDamage as the transform position is always far away
+		if(!playerScript.IsInReach(victim.transform.position)){
+			return;
+		}
+
+		//Meaty bodies:
+		HealthBehaviour victimHealth = victim.GetComponent<HealthBehaviour>();
 
 		// checks object and component existence before defining healthBehaviour variable.
 		if (victimHealth.IsDead == false)
 		{
-			if (!allowAttack)
-			{
-				return;
-			}
-
 			if (victim != gameObject)
 			{
 				RpcMeleeAttackLerp(stabDirection, weapon);
 			}
 
-			victimHealth.ApplyDamage(gameObject, ( int ) weaponAttr.hitDamage, DamageType.BRUTE, damageZone);
-			if ( weaponAttr.hitDamage > 0 ) {
-				PostToChatMessage.SendItemAttackMessage( weapon, gameObject, victim, (int)weaponAttr.hitDamage, damageZone );
+			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, DamageType.BRUTE, damageZone);
+			if (weaponAttr.hitDamage > 0)
+			{
+				PostToChatMessage.SendItemAttackMessage(weapon, gameObject, victim, (int) weaponAttr.hitDamage, damageZone);
 			}
 
 			soundNetworkActions.RpcPlayNetworkSound(weaponAttr.hitSound, transform.position);
 			StartCoroutine(AttackCoolDown());
-
 		}
 		else
 		{
 			//Butchering if we can
-			if ( weaponAttr.type != ItemType.Knife ) {
+			if (weaponAttr.type != ItemType.Knife)
+			{
 				return;
 			}
 			if (victim.GetComponent<SimpleAnimal>())
@@ -125,7 +143,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	// Harvest should only be used for animals like pete and cows
-
 
 	[ClientRpc]
 	private void RpcMeleeAttackLerp(Vector2 stabDir, GameObject weapon)
@@ -171,10 +188,10 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				{
 					ResetLerp();
 					spritesObj.transform.localPosition = Vector3.zero;
-						if (PlayerManager.LocalPlayer && PlayerManager.LocalPlayer.gameObject.name == gameObject.name)
-						{
-							PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
-						}
+					if (PlayerManager.LocalPlayer && PlayerManager.LocalPlayer.gameObject.name == gameObject.name)
+					{
+						PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
+					}
 				}
 				else
 				{

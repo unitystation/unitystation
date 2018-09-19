@@ -158,7 +158,10 @@ using UnityEngine.Tilemaps;
 				foreach (Renderer _renderer in renderers.OrderByDescending(sr => sr.sortingOrder)) 
 				{
 					// If the ray hits a FOVTile, we can continue down (don't count it as an interaction)
-					if (!_renderer.sortingLayerName.Equals("FieldOfView"))
+					// Matrix is the base Tilemap layer. It is used for matrix detection but gets in the way 
+					// of player interaction
+					if (!_renderer.sortingLayerName.Equals("FieldOfView") &&
+					_renderer.gameObject.layer != LayerMask.NameToLayer("Matrix"))
 					{
 						if (Interact(_renderer.transform, position))
 						{
@@ -244,15 +247,15 @@ using UnityEngine.Tilemaps;
 			}
 
 			//attempt to trigger the things in range we clicked on
-			if (PlayerManager.LocalPlayerScript.IsInReach(position))
+			if (PlayerManager.LocalPlayerScript.IsInReach(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
 			{
 				//Check for melee triggers first:
 				MeleeTrigger meleeTrigger = _transform.GetComponentInParent<MeleeTrigger>();
 				if(meleeTrigger != null){
-					if(meleeTrigger.MeleeInteract(gameObject, position, UIManager.Hands.CurrentSlot.eventName))
+					if(meleeTrigger.MeleeInteract(gameObject, UIManager.Hands.CurrentSlot.eventName))
 					{
 						return true;
-					}
+					} 
 				}
 
 				//check the actual transform for an input trigger and if there is non, check the parent
