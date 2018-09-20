@@ -1,14 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
+using System.Collections;
 
-public class Chair : NetworkBehaviour
+public class Chair : MonoBehaviour
 {
-
 	public Orientation currentDirection;
-
-	public Vector2 directionOnStart;
 
 	public Sprite s_right;
 	public Sprite s_down;
@@ -19,32 +14,33 @@ public class Chair : NetworkBehaviour
 
 	private MatrixMove matrixMove;
 
-	public override void OnStartClient()
+	public void Start()
 	{
-		
-
-		base.OnStartClient();
-		StartCoroutine(WaitForLoad());
+		matrixMove = transform.root.GetComponent<MatrixMove>();
+		if (matrixMove != null)
+		{
+			SetUpRotationListener();
+			StartCoroutine(WaitForInit());
+		}
 	}
 
-	IEnumerator WaitForLoad()
+	IEnumerator WaitForInit()
 	{
-		yield return new WaitForSeconds(2f);
-		Vector3Int worldPos = Vector3Int.RoundToInt((Vector2)transform.position); //cutting off Z-axis & rounding
-		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos);
-
-		if (matrixAtPoint.MatrixMove != null)
+		while (!matrixMove.StateInit)
 		{
-			matrixMove = matrixAtPoint.MatrixMove;
-			matrixMove.OnRotate.AddListener(OnRotation);
-			ChangeDirection(matrixMove.ClientState.Orientation);
+			yield return YieldHelper.EndOfFrame;
 		}
+		ChangeSprite(matrixMove.ClientState.Orientation.Vector);
+	}
 
+	void SetUpRotationListener()
+	{
+		matrixMove.OnRotate.AddListener(OnRotation);
 	}
 
 	private void OnDisable()
 	{
-		if(matrixMove != null)
+		if (matrixMove != null)
 		{
 			matrixMove.OnRotate.RemoveListener(OnRotation);
 		}
@@ -52,45 +48,29 @@ public class Chair : NetworkBehaviour
 
 	public void OnRotation(Orientation before, Orientation next)
 	{
-		ChangeChairDirection(Orientation.DegreeBetween(before, next));
+		ChangeSprite(next.Vector);
 	}
 
-	void ChangeChairDirection(int degrees)
+	void ChangeSprite(Vector2 dir)
 	{
-		for (int i = 0; i < Mathf.Abs(degrees / 90); i++)
-		{
-			if (degrees < 0)
-			{
-				ChangeDirection(currentDirection.Previous());
-			}
-			else
-			{
-				ChangeDirection(currentDirection.Next());
-			}
-		}
-	}
-
-	void ChangeDirection(Orientation dir)
-	{
-		if(dir == Orientation.Up)
+		if (dir == Vector2.up)
 		{
 			spriteRenderer.sprite = s_up;
 		}
 
-		if (dir == Orientation.Right)
+		if (dir == Vector2.right)
 		{
 			spriteRenderer.sprite = s_right;
 		}
 
-		if (dir == Orientation.Down)
+		if (dir == Vector2.down)
 		{
 			spriteRenderer.sprite = s_down;
 		}
 
-		if (dir == Orientation.Left)
+		if (dir == Vector2.left)
 		{
 			spriteRenderer.sprite = s_left;
 		}
 	}
-
 }
