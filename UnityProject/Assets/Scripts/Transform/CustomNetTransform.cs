@@ -72,19 +72,17 @@ public struct TransformState {
 
 public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //see UpdateManager
 {
-	////for independent serverside lerping
-//	private Transform serverTransform;
-//	public Transform ServerTransform() {
-//		return serverTransform;
-//	}
-
-	private UnityEvent onServerUpdate = new UnityEvent();
-	public UnityEvent OnUpdateRecieved() {
-		return onServerUpdate;
+	private Vector3IntEvent onUpdateReceived = new Vector3IntEvent();
+	public Vector3IntEvent OnUpdateRecieved() {
+		return onUpdateReceived;
 	}
 	private Vector3IntEvent onTileReached = new Vector3IntEvent();
 	public Vector3IntEvent OnTileReached() {
 		return onTileReached;
+	}
+	private Vector3IntEvent onClientTileReached = new Vector3IntEvent();
+	public Vector3IntEvent OnClientTileReached() {
+		return onClientTileReached;
 	}
 
 	private RegisterTile registerTile;
@@ -329,7 +327,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	/// Called from TransformStateMessage, applies state received from server to client
 	public void UpdateClientState(TransformState newState)
 	{
-		onServerUpdate.Invoke();
+		onUpdateReceived.Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
 
 		//Don't lerp (instantly change pos) if active state was changed
 		if (clientState.Active != newState.Active /*|| newState.Speed == 0*/)

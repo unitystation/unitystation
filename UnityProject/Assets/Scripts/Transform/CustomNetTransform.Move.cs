@@ -131,10 +131,14 @@ public partial class CustomNetTransform {
 		//Set position immediately if not moving
 		if ( clientState.Speed.Equals( 0 ) ) {
 			transform.localPosition = targetPos;
+			onClientTileReached.Invoke( Vector3Int.RoundToInt(clientState.WorldPosition) );
 			return;
 		}
 		transform.localPosition =
 			Vector3.MoveTowards( transform.localPosition, targetPos, clientState.Speed * Time.deltaTime );
+		if ( transform.localPosition == targetPos ) {
+			onClientTileReached.Invoke( Vector3Int.RoundToInt(clientState.WorldPosition) );
+		}
 	}
 	/// Serverside lerping
 	private void ServerLerp() {
@@ -149,7 +153,7 @@ public partial class CustomNetTransform {
 		serverLerpState.Position =
 			Vector3.MoveTowards( serverLerpState.Position, targetPos, serverState.Speed * Time.deltaTime );
 
-		if ( /*Vector3Int.RoundToInt(*/serverLerpState.Position/*)*/ == targetPos ) {
+		if ( serverLerpState.Position == targetPos ) {
 			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
 		}
 	}
@@ -315,7 +319,7 @@ public partial class CustomNetTransform {
 	[Server]
 	private void StopFloating() {
 //		Logger.Log( $"{gameObject.name} stopped floating" );
-		if ( PushPull && PushPull.isPushable ) { //todo: decent criteria for objects that are supposed to be tile snapped
+		if ( PushPull && PushPull.CanBePushed ) { //todo: decent criteria for objects that are supposed to be tile snapped
 				serverState.Position = Vector3Int.RoundToInt( serverState.Position );
 		}
 		serverState.Impulse = Vector2.zero;

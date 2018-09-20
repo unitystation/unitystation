@@ -6,6 +6,11 @@ using UnityEngine;
 public partial class PlayerSync
 	{
 		//Client-only fields, don't concern server
+		private Vector3IntEvent onClientTileReached = new Vector3IntEvent();
+		public Vector3IntEvent OnClientTileReached() {
+			return onClientTileReached;
+		}
+
 		/// Trusted state, received from server
 		private PlayerState playerState;
 
@@ -57,7 +62,7 @@ public partial class PlayerSync
 		private bool MoveCooldown = false; //cooldown is here just for client performance
 		private void DoAction() {
 			PlayerAction action = playerMove.SendAction();
-			if ( action.keyCodes.Length != 0 && !MoveCooldown ) {
+			if ( action.keyCodes.Length != 0  && !MoveCooldown ) {
 				StartCoroutine( DoProcess( action ) );
 			}
 		}
@@ -72,10 +77,12 @@ public partial class PlayerSync
 					pendingActions.Enqueue( action );
 
 					LastDirection = action.Direction();
-					UpdatePredictedState();
-				} else {
-					PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
-				}
+//					UpdatePredictedState();
+				} //else {
+//					PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
+//				}
+
+				UpdatePredictedState();
 
 				//Seems like Cmds are reliable enough in this case
 				CmdProcessAction( action );
@@ -86,17 +93,45 @@ public partial class PlayerSync
 			MoveCooldown = false;
 		}
 
+		/// Predictive interaction with object you can't move through
 		/// <param name="worldTile">Tile you're interacting with</param>
 		/// <param name="direction">Direction you're pushing</param>
-		private void PredictiveInteract( Vector3Int worldTile, Vector2Int direction ) {//todo: untested!
+		private void PredictiveInteract( Vector3Int worldTile, Vector2Int direction ) {
 			// Is the object pushable (iterate through all of the objects at the position):
 			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
 			for ( int i = 0; i < pushPulls.Length; i++ ) {
 				var pushPull = pushPulls[i];
-				if ( pushPull && pushPull.gameObject != gameObject && pushPull.isPushable ) {
+				if ( pushPull && pushPull.gameObject != gameObject && pushPull.CanBePushed ) {
 //					Logger.LogTraceFormat( "Predictive pushing {0} from {1} to {2}", Category.PushPull, pushPulls[i].gameObject, worldTile, (Vector2)(Vector3)worldTile+(Vector2)direction );
 					pushPull.TryPredictivePush( worldTile, direction );
 					break;
+				}
+			}
+		}
+		//Predictively pushing this player
+		public void PredictivePush(Vector2Int direction)//todo: untested!
+		{
+			if (direction == Vector2Int.zero)
+			{
+				Logger.Log("PredictivePush with zero impulse??", Category.PushPull);
+				return;
+			}
+
+			predictedState.Impulse = direction;
+			if (matrix != null)
+			{
+				Vector3Int pushGoal =
+					Vector3Int.RoundToInt(playerState.Position + (Vector3)predictedState.Impulse);
+				if (matrix.IsPassableAt(pushGoal))
+				{
+					Logger.Log($"Client predictive push to {pushGoal}", Category.PushPull);
+					predictedState.Position = pushGoal;
+					predictedState.ImportantFlightUpdate = true;
+					predictedState.ResetClientQueue = true;
+				}
+				else
+				{
+					predictedState.Impulse = Vector2.zero;
 				}
 			}
 		}
@@ -113,8 +148,12 @@ public partial class PlayerSync
 				foreach ( PlayerAction action in pendingActions ) {
 					//isReplay determines if this action is a replayed action for use in the prediction system
 					bool isReplay = predictedState.MoveNumber <= curPredictedMove;
-					bool matrixChanged;
-					tempState = NextState( tempState, action, out matrixChanged, isReplay );
+//					bool matrixChanged;
+					tempState = NextStateClient( tempState, action, /*out matrixChanged,*/ isReplay );
+//					if ( tempState.WorldPosition == playerState.WorldPosition ) { //?
+//
+//					}
+
 //					if ( matrixChanged ) {
 //						Logger.Log( $"{gameObject.name}: Predictive matrix change to {tempState}, {pendingActions.Count} pending" );
 //					}
@@ -124,9 +163,19 @@ public partial class PlayerSync
 			}
 		}
 
+		private PlayerState NextStateClient( PlayerState state, PlayerAction action,/* out bool matrixChanged,*/ bool isReplay ) {
+			if ( !CanMoveThere( state, action ) ) {
+				//gotta try pushing things
+				PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
+				return state;
+			}
+			bool matrixChanged;
+			return NextState( state, action, out matrixChanged, isReplay );
+		}
+
 		/// Called when PlayerMoveMessage is received
 		public void UpdateClientState( PlayerState state ) {
-			onServerUpdate.Invoke();
+			onUpdateReceived.Invoke( Vector3Int.RoundToInt( state.WorldPosition ) );
 
 			playerState = state;
 //			if ( !isServer ) {

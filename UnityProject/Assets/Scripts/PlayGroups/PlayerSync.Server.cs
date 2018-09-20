@@ -12,10 +12,9 @@ public partial class PlayerSync
 	public Vector3IntEvent OnTileReached() {
 		return onTileReached;
 	}
-
-	private UnityEvent onServerUpdate = new UnityEvent();
-	public UnityEvent OnUpdateRecieved() {
-		return onServerUpdate;
+	private Vector3IntEvent onUpdateReceived = new Vector3IntEvent();
+	public Vector3IntEvent OnUpdateRecieved() {
+		return onUpdateReceived;
 	}
 
 	/// Current server state. Lerps towards target state, so its position can be non-integer in the process.
@@ -141,33 +140,6 @@ public partial class PlayerSync
 			{
 				serverState.Impulse = Vector2.zero;
 				serverTargetState.Impulse = Vector2.zero;
-			}
-		}
-	}
-	//Client predictive push
-	public void PredictivePush(Vector2Int direction)
-	{
-		if (direction == Vector2Int.zero)
-		{
-			Logger.Log("PredictivePush with zero impulse??", Category.PushPull);
-			return;
-		}
-
-		predictedState.Impulse = direction;
-		if (matrix != null)
-		{
-			Vector3Int pushGoal =
-				Vector3Int.RoundToInt(playerState.Position + (Vector3)predictedState.Impulse);
-			if (matrix.IsPassableAt(pushGoal))
-			{
-				Logger.Log($"Client predictive push to {pushGoal}", Category.PushPull);
-				predictedState.Position = pushGoal;
-				predictedState.ImportantFlightUpdate = true;
-				predictedState.ResetClientQueue = true;
-			}
-			else
-			{
-				predictedState.Impulse = Vector2.zero;
 			}
 		}
 	}
@@ -370,9 +342,9 @@ public partial class PlayerSync
 		private bool InteractCooldown = false;
 
 		private void Interact(Vector3 currentPosition, Vector3 direction) {
-			if ( !InteractCooldown ) {
+//			if ( !InteractCooldown ) {
 				StartCoroutine( TryInteract( currentPosition, direction ) );
-			}
+//			}
 		}
 
 		private IEnumerator TryInteract( Vector3 currentPosition, Vector3 direction ) {
@@ -389,9 +361,6 @@ public partial class PlayerSync
 			InteractCooldown = false;
 		}
 
-	/// <summary>
-	///
-	/// </summary>
 	/// <param name="worldTile">Tile you're interacting with</param>
 	/// <param name="direction">Direction you're pushing</param>
 		private void InteractPushable( Vector3Int worldTile, Vector3 direction ) {
@@ -399,7 +368,7 @@ public partial class PlayerSync
 			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
 			for ( int i = 0; i < pushPulls.Length; i++ ) {
 				var pushPull = pushPulls[i];
-				if ( pushPull && pushPull.gameObject != gameObject && pushPull.isPushable ) {
+				if ( pushPull && pushPull.gameObject != gameObject && pushPull.CanBePushed ) {
 	//					Logger.LogTraceFormat( "Trying to push {0} when walking {1}->{2}", Category.PushPull, pushPulls[i].gameObject, worldPos, worldTarget );
 					pushPull.TryPush( worldTile, Vector2Int.RoundToInt( direction ) );
 					break;

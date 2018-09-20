@@ -5,10 +5,10 @@ using UnityEngine.Events;
 public interface IPushable {
 	void Push( Vector2Int direction );
 	void PredictivePush( Vector2Int direction );
-	UnityEvent OnUpdateRecieved();
+	Vector3IntEvent OnUpdateRecieved();
 	Vector3IntEvent OnTileReached();
+	Vector3IntEvent OnClientTileReached();
 //	Transform ServerTransform();
 }
 
-public class Vector3IntEvent : UnityEvent<Vector3Int> {
-}
+public class Vector3IntEvent : UnityEvent<Vector3Int> {}

@@ -170,6 +170,7 @@ using UnityEngine.Networking;
 //				}
 				if ( ClientPositionReady && !playerMove.isGhost
 				   || GhostPositionReady && playerMove.isGhost ) {
+//					onClientTileReached.Invoke( Vector3Int.RoundToInt(playerState.WorldPosition) );//fixme: wrong place, gets invoked like every frame
 					DoAction();
 				}
 			}
