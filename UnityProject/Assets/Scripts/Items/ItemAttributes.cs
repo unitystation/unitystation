@@ -78,6 +78,11 @@ public class ItemAttributes : NetworkBehaviour
 	[TooltipAttribute("Sound to be played when we click someone with harm intent")]
 	public string hitSound = "GenericHit";
 
+	///<Summary>
+	/// Can this item protect humans against spess?
+	///</Summary>
+	public bool evaCapable {get; private set; }
+
 	public List<string> attackVerb = new List<string>();
 	private static readonly char[] ListSplitters = new[]{',', ' '};
 
@@ -196,6 +201,17 @@ public class ItemAttributes : NetworkBehaviour
 		//			          + icon_state + " / " + item_state + " / C: " + clothingReference
 		//			          + ", L: " + inHandReferenceLeft + ", R: " + inHandReferenceRight + ", I: " + inventoryIcon.icon + '\n'
 		//			          +	dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"));
+		CheckEvaCapatibility();
+	}
+
+	private void CheckEvaCapatibility()
+	{	
+		if(hier.Contains("/obj/item/clothing/head/helmet/space/hardsuit/") || 
+		hier.Contains("/obj/item/clothing/suit/space/hardsuit/")){
+			evaCapable = true;
+		} else {
+			evaCapable = false;
+		}
 	}
 
 	private static Sprite tryGetStateSprite(DmiIcon dmiIcon, string icon_state)
@@ -217,6 +233,15 @@ public class ItemAttributes : NetworkBehaviour
 		return null;
 	}
 
+	[ContextMenu("GetItemInfo")]
+	private void DebugInfo()
+	{
+		//Use this method to retrieve item info at runtime (right click the component from editor)
+	//	Debug.Log(getItemDebugInfo());
+	Debug.Log("hier: " + hier);
+	Debug.Log("is server: " + isServer);
+	Debug.Log("is eva capable: " + evaCapable);
+	}
 	private string getItemDebugInfo()
 	{
 		return string.Format(

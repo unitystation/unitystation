@@ -40,11 +40,15 @@ public class Camera2DFollow : MonoBehaviour
 
     public GameObject stencilMask;
 
+	[HideInInspector]
+	public Camera cam;
+
 	private void Awake()
 	{
 		if (followControl == null)
 		{
 			followControl = this;
+			cam = GetComponent<Camera>();
 		}
 		else
 		{

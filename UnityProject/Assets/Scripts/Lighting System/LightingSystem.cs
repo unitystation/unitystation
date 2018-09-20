@@ -13,6 +13,11 @@ public class LightingSystem : MonoBehaviour
 	/// Assumption that it may be changed during game. Otherwise it should be moved in to rendering settings.
 	/// </summary>
 	public Vector3 fovCenterOffset;
+
+	public float fovDistance;
+
+	public RenderSettings.Quality quality;
+
 	public RenderSettings renderSettings;
 	public MaterialContainer materialContainer;
 
@@ -179,6 +184,9 @@ public class LightingSystem : MonoBehaviour
 
 	private void Update()
 	{
+		// Drive render quality from light system inspector.
+		renderSettings.quality = quality;
+
 		// Monitor state to detect when we should trigger reinitialization of rendering textures.
 		var _newParameters = new MaskParameters(mMainCamera, renderSettings);
 
@@ -240,7 +248,7 @@ public class LightingSystem : MonoBehaviour
 			Vector3 _fovCenterOffsetInViewSpace = mMainCamera.WorldToViewportPoint(_fovCenterInWorldSpace) - new Vector3(0.5f, 0.5f, 0);
 			Vector3 _fovCenterOffsetInExtendedViewSpace = _fovCenterOffsetInViewSpace * (float)mCurrentMaskParameters.cameraOrthographicSize / mCurrentMaskParameters.extendedCameraSize;
 
-			mPostProcessingStack.GenerateFovMask(_rawOcclusionMask, occlusionMaskExtended, renderSettings, _fovCenterOffsetInExtendedViewSpace);
+			mPostProcessingStack.GenerateFovMask(_rawOcclusionMask, occlusionMaskExtended, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, mCurrentMaskParameters);
 		}
 
 		using (new DisposableProfiler("3. Fit Occlusion Mask"))
@@ -252,7 +260,7 @@ public class LightingSystem : MonoBehaviour
 		using (new DisposableProfiler("4. Blur Fit Occlusion Mask"))
 		{
 			// Note: This blur is used only with shaders during scene render, so 1 pass should be enough.
-			mPostProcessingStack.BlurOcclusionMask(globalOcclusionMask, renderSettings);
+			mPostProcessingStack.BlurOcclusionMask(globalOcclusionMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
 		}
 
 		// Note: After execution of this method, MainCamera.Render will be executed and scene will be drawn.
@@ -281,7 +289,7 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("6. Generate Obstacle Light Mask"))
 		{
-			mPostProcessingStack.CreateWallLightMask(_lightMask, obstacleLightMask, renderSettings);
+			mPostProcessingStack.CreateWallLightMask(_lightMask, obstacleLightMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
 		}
 		
 		// Debug View Selection.
@@ -308,7 +316,7 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("7. Light Mask Blur"))
 		{
-			mPostProcessingStack.BlurLightMask(_lightMask, renderSettings);
+			mPostProcessingStack.BlurLightMask(_lightMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
 		}
 
 		using (new DisposableProfiler("8. Mix Light Masks"))
@@ -318,6 +326,11 @@ public class LightingSystem : MonoBehaviour
 			_fovLightMixMaterial.SetTexture("_LightMask", _lightMask);
 			_fovLightMixMaterial.SetTexture("_OcclusionMask", globalOcclusionMask);
 			_fovLightMixMaterial.SetTexture("_ObstacleLightMask", obstacleLightMask);
+
+			if (globalOcclusionMask != null)
+			{
+				_fovLightMixMaterial.SetFloat("_OcclusionUVAdjustment", RenderSettings.GetOcclusionUvAdjustment(_lightMask.width));
+			}
 
 			Graphics.Blit(null, mixedLightMask, _fovLightMixMaterial);
 		}

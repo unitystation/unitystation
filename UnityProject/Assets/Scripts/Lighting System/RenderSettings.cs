@@ -37,14 +37,13 @@ public class RenderSettings
 
 	public float fovOcclusionSpread;
 
+	public float fovHorizonSmooth;
+
 	[Tooltip("Number of passes for blur post-effect. Higher values will improve quality but has a negative performance impact. 2 is reasonable.")]
 	public int lightBlurIterations;
 
 	[Tooltip("Spread of blur post-effect that will be applied inside each pass")]
 	public float lightBlurInterpolation;
-
-	[Tooltip("Scale of rendered Light texture. Affects quality of shadows but has a huge impact on performance. Try to set as low as passable light quality will allow.")]
-	public float lightTextureRescale = 0.5f;
 
 	[Tooltip("Number of passes for blur post-effect.")]
 	public int occlusionBlurIterations;
@@ -55,7 +54,7 @@ public class RenderSettings
 	public float occlusionMaskMultiplier;
 	public float occlusionMaskLimit;
 
-	[Tooltip("Scale of Occlusion light texture. Affected by lightTextureRescale. Occlusion light texture are quite small and mostly controlled to produce desired blur effect.")]
+	[Tooltip("Scale of Occlusion light texture. Affected by lightTextureWidth. Occlusion light texture are quite small and mostly controlled to produce desired blur effect.")]
 	public float occlusionLightTextureRescale = 0.25f;
 
 	[Tooltip("Orthographic Size addition to Occlusion camera. Affects Extended texture size. Used to properly draw out of bounds light sources.")]
@@ -63,6 +62,34 @@ public class RenderSettings
 
 	[Tooltip("Used for occlusion texture only. 4 is a good balance..")]
 	public int antiAliasing = 4;
+
+	[NonSerialized]
+	public Quality quality;
+
+	private static readonly int[] LightTextureResolutions = {600, 1024, 1400};
+
+	private static readonly AnimationCurve OcclusionUvAdjustments = new AnimationCurve(
+		new Keyframe(60, 0.048f),
+		new Keyframe(102, 0.024f),
+		new Keyframe(140, 0.012f),
+		new Keyframe(280, 0.007f),
+		new Keyframe(350, 0.006f),
+		new Keyframe(700, 0.004f),
+		new Keyframe(1400, 0.002f));
+
+	public int lightTextureWidth
+	{
+		get
+		{
+			float _qualityResolution = LightTextureResolutions[(int)quality] / PlayerPrefs.GetInt("CamZoomSetting");
+
+			float _widestSceneResolution = Screen.width > Screen.height ? Screen.width : Screen.height;
+
+			int _clampedResolution = (int)Mathf.Clamp(_qualityResolution, 0, _widestSceneResolution);
+
+			return _clampedResolution;
+		}
+	}
 
 	public enum ViewMode
 	{
@@ -75,4 +102,17 @@ public class RenderSettings
 		FovObstacleExtended,
 		Background,
 	};
+
+	public enum Quality
+	{
+		Low,
+		Mid,
+		High,
+	}
+
+	public static float GetOcclusionUvAdjustment(int iTextureWidth)
+	{
+
+		return OcclusionUvAdjustments.Evaluate(iTextureWidth);
+	}
 }
