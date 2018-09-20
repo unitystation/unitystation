@@ -44,6 +44,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	public MatrixState ClientState => clientState;
 	///client's transform, can get dirty/predictive
 	private MatrixState clientState = MatrixState.Invalid;
+	public bool StateInit { get; private set; } = false;
 	/// Is only present to match server's flight routines
 	private MatrixState clientTargetState = MatrixState.Invalid;
 	private bool isMovingClient => clientState.IsMoving && clientState.Speed > 0f;
@@ -361,6 +362,11 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 		clientState = newState;
 		clientTargetState = newState;
+
+		if (!StateInit)
+		{
+			StateInit = true;
+		}
 
 		if (!Equals(oldState.Orientation, newState.Orientation))
 		{
