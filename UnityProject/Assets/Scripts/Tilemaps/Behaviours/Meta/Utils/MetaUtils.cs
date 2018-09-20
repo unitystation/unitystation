@@ -22,7 +22,7 @@ namespace Tilemaps.Behaviours.Meta
 
 		public static void AddToNeighbors(MetaDataNode node)
 		{
-			foreach (MetaDataNode neighbor in node.Neighbors)
+			foreach (MetaDataNode neighbor in node.GetNeighbors())
 			{
 				neighbor.AddNeighbor(node);
 			}
@@ -30,7 +30,7 @@ namespace Tilemaps.Behaviours.Meta
 
 		public static void RemoveFromNeighbors(MetaDataNode node)
 		{
-			foreach (MetaDataNode neighbor in node.Neighbors)
+			foreach (MetaDataNode neighbor in node.GetNeighbors())
 			{
 				neighbor.RemoveNeighbor(node);
 			}

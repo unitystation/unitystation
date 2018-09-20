@@ -15,8 +15,8 @@ using UnityEngine.Networking;
 		private float BloodPercentage = 100f;
 
 		//server only caches
-		private int healthServerCache;
-		//TODO if client disconnects and reconnects then the clients UI needs to 
+		private float healthServerCache;
+		//TODO if client disconnects and reconnects then the clients UI needs to
 		//poll this component and request updated values from the server to set
 		//the current state of the UI overlays and hud
 
@@ -66,7 +66,7 @@ using UnityEngine.Networking;
 
 		private void ServerMonitorHealth()
 		{
-			//Add other damage methods here like burning, 
+			//Add other damage methods here like burning,
 			//suffication, etc
 
 			//If already dead then do not check the status of the body anymore
@@ -108,7 +108,7 @@ using UnityEngine.Networking;
 
 		//Sends msg to the owner of this player to update their UI
 		[Server]
-		private void UpdateClientUI(int newHealth)
+		private void UpdateClientUI(float newHealth)
 		{
 			UpdateUIMessage.Send(gameObject, newHealth);
 		}

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using NUnit.Framework.Constraints;
 using UnityEngine.Networking;
 using UnityEngine.XR.WSA.Persistence;
@@ -38,5 +39,13 @@ namespace Atmospherics
 		{
 			return gases[i];
 		}
+
+		public static Gas[] All => gases.ToArray();
+
+		public static implicit operator int(Gas gas)
+		{
+			return gas.Index;
+		}
+
 	}
 }

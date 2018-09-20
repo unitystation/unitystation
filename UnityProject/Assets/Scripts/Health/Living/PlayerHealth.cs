@@ -50,7 +50,7 @@ using UnityEngine.Networking;
 			base.OnStartClient();
 		}
 
-		public override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
+		public override float ReceiveAndCalculateDamage(GameObject damagedBy, float damage, DamageType damageType,
 			BodyPartType bodyPartAim)
 		{
 			base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
@@ -219,7 +219,7 @@ using UnityEngine.Networking;
 				PlayerMove pm = gameObject.GetComponent<PlayerMove>();
 
 				ConnectedPlayer player = PlayerList.Instance.Get(gameObject);
-				
+
 				string killerName = "Stressful work";
 				if (LastDamagedBy != null)
 				{
@@ -297,7 +297,7 @@ using UnityEngine.Networking;
 				}
 			}
 		}
-		
+
 		///     make player unconscious upon crit
 		protected override void OnCritActions() {
 			playerNetworkActions.SetConsciousState( false );

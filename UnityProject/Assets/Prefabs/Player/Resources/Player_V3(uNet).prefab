@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: 114449635359748350}
   - component: {fileID: 50851566022184656}
   - component: {fileID: 114908475728415800}
+  - component: {fileID: 114667164538832976}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -1683,6 +1684,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: back
+--- !u!114 &114667164538832976
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93ccc9623b8f47b29f3d6886a25da747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
 --- !u!114 &114683599938915282
 MonoBehaviour:
   m_ObjectHideFlags: 1

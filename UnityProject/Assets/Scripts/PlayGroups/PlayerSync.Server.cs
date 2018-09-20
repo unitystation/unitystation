@@ -386,29 +386,5 @@ using UnityEngine.Networking;
 				//Notify if position stayed the same
 				TryNotifyPlayers();
 			}
-
-			CheckSpaceDamage();
-		}
-
-		/// Checking whether player should suffocate
-		[Server]
-		private void CheckSpaceDamage()
-		{
-			if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition))
-			    && !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
-			{
-				// Hurting people in space even if they are next to the wall
-				StartCoroutine(ApplyTempSpaceDamage());
-				isApplyingSpaceDmg = true;
-			}
-		}
-
-		// TODO: Remove this when atmos is implemented
-		// This prevents players drifting into space indefinitely
-		private IEnumerator ApplyTempSpaceDamage()
-		{
-			yield return new WaitForSeconds(1f);
-			healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
-			isApplyingSpaceDmg = false;
 		}
 	}

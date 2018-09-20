@@ -112,6 +112,7 @@ public class Matrix : MonoBehaviour
 			return objects.Get<RegisterTile>(position).Contains(registerTile);
 		}
 
+		// TODO remove and replace by Get<IElectricityIO>
 		public IEnumerable<IElectricityIO> GetElectricalConnections(Vector3Int position)
 		{
 			return objects.Get(position).Select(x => x.GetComponent<IElectricityIO>()).Where(x => x != null);

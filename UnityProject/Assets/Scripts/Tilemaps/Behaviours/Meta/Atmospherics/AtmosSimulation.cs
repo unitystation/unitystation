@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Atmospherics;
 using Tilemaps.Behaviours.Meta;
+using Tilemaps.Behaviours.Meta.Utils;
 using UnityEngine;
 
 namespace Atmospherics
@@ -21,12 +24,7 @@ namespace Atmospherics
 
 		public void AddToUpdateList(Vector3Int position)
 		{
-			AddToUpdateList(metaDataLayer.Get(position));
-		}
-
-		private void AddToUpdateList(MetaDataNode node)
-		{
-			updateList.Enqueue(node);
+			updateList.Enqueue(metaDataLayer.Get(position));
 		}
 
 		public void Run()
@@ -42,29 +40,49 @@ namespace Atmospherics
 		private void Update(MetaDataNode node)
 		{
 			var nodes = new List<MetaDataNode>(5) {node};
-			MetaDataNode[] neighbors = node.Neighbors.ToArray();
+
+			MetaDataNode[] neighbors = node.GetNeighbors();
 
 			nodes.AddRange(neighbors);
 
-			if (node.IsOccupied || IsPressureChanged(node))
+			if (node.IsOccupied || AtmosUtils.IsPressureChanged(node))
 			{
-				AtmosUtils.Equalize(nodes);
+				Equalize(nodes);
 
 				updateList.EnqueueAll(neighbors);
 			}
 		}
 
-		private static bool IsPressureChanged(MetaDataNode node)
+		private static void Equalize(IReadOnlyCollection<MetaDataNode> nodes)
 		{
-			foreach (MetaDataNode neighbor in node.Neighbors)
+			List<MetaDataNode> targetNodes = new List<MetaDataNode>();
+			GasMix gasMix = GasMixUtils.Space;
+
+			foreach (MetaDataNode node in nodes)
 			{
-				if (Mathf.Abs(node.Atmos.Pressure - neighbor.Atmos.Pressure) > AtmosUtils.MinimumPressure)
+				gasMix += node.Atmos;
+
+				switch (node.Type)
 				{
-					return true;
+					case NodeType.Room:
+						targetNodes.Add(node);
+						break;
+					case NodeType.Space:
+						AtmosUtils.SetEmpty(nodes);
+						return; // exit here
+					default:
+						AtmosUtils.SetEmpty(node);
+						break;
 				}
 			}
 
-			return false;
+			gasMix /= targetNodes.Count;
+
+			// Copy to other nodes
+			for (int i = 0; i < targetNodes.Count; i++)
+			{
+				targetNodes[i].Atmos = gasMix;
+			}
 		}
 	}
 }

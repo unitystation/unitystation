@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tilemaps.Behaviours.Meta.Utils;
+using UnityEngine;
 
 namespace Atmospherics
 {
 	public static class AtmosUtils
 	{
-		public const float MinimumPressure = 0.01f;
+		public const float MinimumPressure = 0.00001f;
 
-		public static void SetEmpty(params MetaDataNode[] nodes)
+		public static void SetEmpty(IEnumerable<MetaDataNode> nodes)
 		{
 			foreach (MetaDataNode node in nodes)
 			{
-				SetGasMix(node, GasMixUtils.Space);
+				SetEmpty(node);
 			}
+		}
+
+		public static void SetEmpty(MetaDataNode node)
+		{
+			SetGasMix(node, GasMixUtils.Space);
 		}
 
 		public static void SetAir(MetaDataNode node)
@@ -26,48 +32,18 @@ namespace Atmospherics
 			node.Atmos = gasMix;
 		}
 
-		public static void Equalize(List<MetaDataNode> nodes)
+		public static bool IsPressureChanged(MetaDataNode node)
 		{
-			List<MetaDataNode> targetNodes = new List<MetaDataNode>();
-
-			bool isSpace = false;
-
-			GasMix gasMix = GasMixUtils.Space;
-
-			foreach (MetaDataNode node in nodes)
+			foreach (MetaDataNode neighbor in node.GetNeighbors())
 			{
-				if (node.IsSpace)
+				if (Mathf.Abs(node.Atmos.Pressure - neighbor.Atmos.Pressure) > MinimumPressure)
 				{
-					isSpace = true;
-					break;
-				}
-
-				gasMix += node.Atmos;
-
-				if (node.IsRoom)
-				{
-					targetNodes.Add(node);
-				}
-				else
-				{
-					SetEmpty(node);
+					return true;
 				}
 			}
 
-			if (isSpace)
-			{
-				SetEmpty(nodes.ToArray());
-			}
-			else
-			{
-				gasMix /= targetNodes.Count;
-
-				// Copy to other nodes
-				for (int i = 0; i < targetNodes.Count; i++)
-				{
-					targetNodes[i].Atmos = gasMix;
-				}
-			}
+			return false;
 		}
+
 	}
 }

@@ -77,9 +77,11 @@ public class MetaDataView : BasicView
 		{
 			MetaDataNode node = source.Get(position, false);
 
-			if (node.Neighbors.Count > 0)
+			int neighborCount = node.GetNeighbors().Length;
+
+			if (neighborCount > 0)
 			{
-				GizmoUtils.DrawCube(position,  Color.blue, alpha:0.25f * node.Neighbors.Count);
+				GizmoUtils.DrawCube(position,  Color.blue, alpha:0.25f * neighborCount);
 			}
 		}
 
@@ -87,10 +89,12 @@ public class MetaDataView : BasicView
 		{
 			MetaDataNode node = source.Get(position, false);
 
-			if (node.Neighbors.Count > 0)
+			int neighborCount = node.GetNeighbors().Length;
+
+			if (neighborCount > 0)
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
-				GizmoUtils.DrawText($"{node.Neighbors.Count}", p, false);
+				GizmoUtils.DrawText($"{neighborCount}", p, false);
 			}
 		}
 	}
@@ -105,7 +109,7 @@ public class MetaDataView : BasicView
 
 			if (node.Exists)
 			{
-				GizmoUtils.DrawCube(position, Color.blue, alpha:node.Atmos.Pressure / 1000 / 200);
+				GizmoUtils.DrawCube(position, Color.blue, alpha:node.Atmos.Pressure / 200);
 			}
 		}
 
@@ -116,7 +120,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
-				GizmoUtils.DrawText($"{node.Atmos.Pressure / 1000:0.###}", p, false);
+				GizmoUtils.DrawText($"{node.Atmos.Pressure:0.###}", p, false);
 			}
 		}
 	}

@@ -1,13 +1,12 @@
 using Atmospherics;
 using Tilemaps.Behaviours.Meta.Utils;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Tilemaps.Behaviours.Objects
 {
-	public class AirVent : NetworkBehaviour
+	public class Scrubber : MonoBehaviour
 	{
-		private const float MinimumPressure = 101325f;
+		private const float MaximumPressure = 101525f;
 
 		private SystemManager systemManager;
 		private MetaDataNode metaNode;
@@ -25,19 +24,13 @@ namespace Tilemaps.Behaviours.Objects
 
 		private void Update()
 		{
-			if (isServer)
+			lock (metaNode)
 			{
-				CheckAtmos();
-			}
-		}
-
-		[Server]
-		private void CheckAtmos()
-		{
-			if (metaNode.Atmos.Pressure < MinimumPressure)
-			{
-				metaNode.Atmos = GasMixUtils.Air;
-				systemManager.UpdateAt(metaNode.Position);
+				if (metaNode.Atmos.Pressure > MaximumPressure)
+				{
+					metaNode.Atmos = GasMixUtils.Space;
+					systemManager.UpdateAt(metaNode.Position);
+				}
 			}
 		}
 	}

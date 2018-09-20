@@ -1,10 +1,16 @@
-﻿using Tilemaps.Behaviours.Meta;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class MetaDataLayer : MonoBehaviour
 {
 	private MetaDataDictionary nodes = new MetaDataDictionary();
+
+	private SystemManager systemManager;
+
+	private void Awake()
+	{
+		systemManager = GetComponentInParent<SystemManager>();
+	}
 
 	public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
 	{
@@ -46,5 +52,10 @@ public class MetaDataLayer : MonoBehaviour
 	public bool ExistsAt(Vector3Int position)
 	{
 		return Get(position, false).Exists;
+	}
+
+	public void UpdateSystemsAt(Vector3Int position)
+	{
+		systemManager.UpdateAt(position);
 	}
 }

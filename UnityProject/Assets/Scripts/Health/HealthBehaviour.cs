@@ -12,7 +12,7 @@ public abstract class HealthBehaviour : InputTrigger
 
 	public int maxHealth = 100;
 
-	public int Health { get; private set; }
+	public float Health { get; private set; }
 
 	public DamageType LastDamageType { get; private set; }
 
@@ -45,7 +45,7 @@ public abstract class HealthBehaviour : InputTrigger
 	}
 
 	[Server]
-	public void ServerOnlySetHealth(int newValue)
+	public void ServerOnlySetHealth(float newValue)
 	{
 		if (isServer)
 		{
@@ -66,14 +66,14 @@ public abstract class HealthBehaviour : InputTrigger
 		ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
 	}
 
-	public void ApplyDamage(GameObject damagedBy, int damage,
+	public void ApplyDamage(GameObject damagedBy, float damage,
 		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
 	{
 		if (damage <= 0 || IsDead)
 		{
 			return;
 		}
-		int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
+		float calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
 
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 		calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
@@ -81,7 +81,7 @@ public abstract class HealthBehaviour : InputTrigger
 		CheckDeadCritStatus();
 	}
 
-	public virtual int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
+	public virtual float ReceiveAndCalculateDamage(GameObject damagedBy, float damage, DamageType damageType,
 		BodyPartType bodyPartAim)
 	{
 		LastDamageType = damageType;

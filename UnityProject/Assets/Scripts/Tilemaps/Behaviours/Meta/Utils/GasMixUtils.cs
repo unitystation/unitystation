@@ -12,15 +12,15 @@ namespace Tilemaps.Behaviours.Meta.Utils
 		static GasMixUtils()
 		{
 			float[] gases = new float[Gas.Count];
-			gases[Gas.Oxygen.Index] = 16.628484400890768491815384755837f;
-			gases[Gas.Nitrogen.Index] = 66.513937603563073967261539023347f;
+			gases[Gas.Oxygen] = 16.628484400890768491815384755837f;
+			gases[Gas.Nitrogen] = 66.513937603563073967261539023347f;
 
 			Air = new GasMix(gases, 293.15f);
 		}
 
 		public static float CalcPressure(float volume, float moles, float temperature)
 		{
-			return moles * Gas.R * temperature / volume;
+			return moles * Gas.R * temperature / volume / 1000;
 		}
 
 		public static float CalcVolume(float pressure, float moles, float temperature)
@@ -30,12 +30,12 @@ namespace Tilemaps.Behaviours.Meta.Utils
 
 		public static float CalcMoles(float pressure, float volume, float temperature)
 		{
-			return pressure * volume / (Gas.R * temperature);
+			return pressure * volume / (Gas.R * temperature) * 1000;
 		}
 
 		public static float CalcTemperature(float pressure, float volume, float moles)
 		{
-			return pressure * volume / (Gas.R * moles);
+			return pressure * volume / (Gas.R * moles) * 1000;
 		}
 	}
 }

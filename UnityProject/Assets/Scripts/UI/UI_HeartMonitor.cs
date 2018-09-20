@@ -101,7 +101,7 @@ using UnityEngine.UI;
 			yield return new WaitForEndOfFrame();
 		}
 
-		public void DetermineDisplay(PlayerHealthUI pHealthUI, int curHealth)
+		public void DetermineDisplay(PlayerHealthUI pHealthUI, float curHealth)
 		{
 			if (pHealthUI == null)
 			{
@@ -116,7 +116,7 @@ using UnityEngine.UI;
 			CheckHealth(curHealth);
 		}
 
-		private void CheckHealth(int cHealth)
+		private void CheckHealth(float cHealth)
 		{
 			//PlayGroup.PlayerManager.PlayerScript.playerNetworkActions.CmdSendAlertMessage("mHealth: " + cHealth, true);
 			//Logger.Log("PlayerHealth: " + PlayGroup.PlayerManager.PlayerScript.playerHealth.Health);
