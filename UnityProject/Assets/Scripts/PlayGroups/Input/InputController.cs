@@ -160,8 +160,7 @@ using UnityEngine.Tilemaps;
 					// If the ray hits a FOVTile, we can continue down (don't count it as an interaction)
 					// Matrix is the base Tilemap layer. It is used for matrix detection but gets in the way 
 					// of player interaction
-					if (!_renderer.sortingLayerName.Equals("FieldOfView") &&
-					_renderer.gameObject.layer != LayerMask.NameToLayer("Matrix"))
+					if (!_renderer.sortingLayerName.Equals("FieldOfView"))
 					{
 						if (Interact(_renderer.transform, position))
 						{

@@ -49,6 +49,7 @@ public class TilemapDamage : MonoBehaviour
 		var bulletBehaviour = objectColliding.GetComponent<BulletBehaviour>();
 		if (bulletBehaviour != null)
 		{
+			Debug.Log("Bullet behaviour found: " + bulletBehaviour.damage);
 			DoBulletDamage(bulletBehaviour, forceDirection);
 			return;
 		}
@@ -57,7 +58,7 @@ public class TilemapDamage : MonoBehaviour
 	private void DoBulletDamage(BulletBehaviour bullet, Vector3 forceDir)
 	{
 		forceDir.z = 0;
-		var bulletHitTarget = bullet.transform.position + (forceDir * 0.5f);
+		var bulletHitTarget = bullet.transform.position + (forceDir * 0.2f);
 		var cellPos = tileChangeManager.baseTileMap.WorldToCell(bulletHitTarget);
 		var data = metaDataLayer.Get(cellPos);
 
@@ -67,7 +68,7 @@ public class TilemapDamage : MonoBehaviour
 			if (getTile != null)
 			{
 				//TODO damage amt based off type of bullet
-				AddWindowDamage(20, data, cellPos, bulletHitTarget);
+				AddWindowDamage(bullet.damage, data, cellPos, bulletHitTarget);
 				return;
 			}
 		}
@@ -82,7 +83,7 @@ public class TilemapDamage : MonoBehaviour
 				if (getGrillTile != null)
 				{
 					//TODO damage amt based off type of bullet
-					AddGrillDamage(20, data, cellPos, bulletHitTarget);
+					AddGrillDamage(bullet.damage, data, cellPos, bulletHitTarget);
 				}
 			}
 		}
