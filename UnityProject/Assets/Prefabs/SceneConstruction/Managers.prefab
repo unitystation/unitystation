@@ -14041,22 +14041,26 @@ MonoBehaviour:
     holeRadius: 0.03
     holeShape: 2
     shroudActive: 1
+    shroudColor: {r: 0, g: 0, b: 0, a: 0}
   currentState: 0
   holeMat: {fileID: 2100000, guid: ecc97e9b19bc34985b4b01b0121c9683, type: 2}
   injuredSettings:
     holeRadius: 0.38
     holeShape: 3.2
     shroudActive: 1
+    shroudColor: {r: 0, g: 0, b: 0, a: 1}
   normalSettings:
     holeRadius: 0
     holeShape: 0
     shroudActive: 0
+    shroudColor: {r: 0, g: 0, b: 0, a: 1}
   shroud: {fileID: 224764007668439884}
   shroudImg: {fileID: 114621395524279694}
   unconsciousSettings:
     holeRadius: 0.06
     holeShape: 1
     shroudActive: 1
+    shroudColor: {r: 0.509434, g: 0, b: 0, a: 1}
 --- !u!114 &114374712854906660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17125,7 +17129,7 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: rightHand
-  maxItemSize: 2
+  maxItemSize: 4
 --- !u!114 &114699049006164702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19509,6 +19513,7 @@ MonoBehaviour:
     source: {fileID: 82031792218308314}
   - name: WireCutter
     source: {fileID: 82120523105431272}
+  MusicVolume: 0.13
 --- !u!114 &114895201461877466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -20260,7 +20265,7 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: leftHand
-  maxItemSize: 2
+  maxItemSize: 4
 --- !u!114 &114981731806659250
 MonoBehaviour:
   m_ObjectHideFlags: 1

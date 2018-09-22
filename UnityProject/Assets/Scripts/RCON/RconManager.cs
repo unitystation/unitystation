@@ -151,7 +151,7 @@ public class RconManager : RconConsole
 			if (monitorUpdate > 4f)
 			{
 				monitorUpdate = 0f;
-				monitorHost.Sessions.Broadcast(GetMonitorReadOut());
+				BroadcastToSessions(GetMonitorReadOut(), monitorHost.Sessions.Sessions);
 			}
 		}
 	}
@@ -161,6 +161,7 @@ public class RconManager : RconConsole
 		msg = DateTime.UtcNow + ":    " + msg + "<br>";
 		AmendChatLog(msg);
 		Instance.chatHost.Sessions.Broadcast(msg);
+		BroadcastToSessions(msg, Instance.chatHost.Sessions.Sessions);
 	}
 
 	public static void AddLog(string msg)
@@ -169,14 +170,14 @@ public class RconManager : RconConsole
 		AmendLog(msg);
 		if (Instance.consoleHost != null)
 		{
-			Instance.consoleHost.Sessions.Broadcast(msg);
+			BroadcastToSessions(msg, Instance.consoleHost.Sessions.Sessions);
 		}
 	}
 
 	public static void UpdatePlayerListRcon()
 	{
 		var json = JsonUtility.ToJson(new Players());
-		Instance.playerListHost.Sessions.Broadcast(json);
+		BroadcastToSessions(json, Instance.playerListHost.Sessions.Sessions);
 	}
 
 	//On worker thread from websocket:
@@ -188,6 +189,18 @@ public class RconManager : RconConsole
 	public void ReceiveRconCommand(string cmd)
 	{
 		commandQueue.Enqueue(cmd);
+	}
+
+	private static void BroadcastToSessions(string msg, IEnumerable<IWebSocketSession> sessions)
+	{
+		foreach(var conn in sessions){
+			if(conn.ConnectionState != WebSocketState.Closing || 
+			conn.ConnectionState != WebSocketState.Closed){
+				conn.Context.WebSocket.Send(msg);
+			} else {
+				Debug.Log("Do not broadcast to (connection not ready): " + conn.ID);
+			}
+		}
 	}
 
 	//Monitoring:
@@ -243,36 +256,22 @@ public class RconMonitor : WebSocketBehavior
 {
 	protected override void OnOpen()
 	{
-		try
+		if (Context.User.Identity.IsAuthenticated)
 		{
-			if (Context.User.Identity.IsAuthenticated)
-			{
-				Logger.Log("admin logged in", Category.Rcon);
-			}
+			Logger.Log("admin logged in", Category.Rcon);
+		}
 
-			base.OnOpen();
-		}
-		catch
-		{
-			Logger.Log("Caught exception while trying to log in admin: NetworkStream has been disposed", Category.Rcon);
-		}
+		base.OnOpen();
 	}
 
 	protected override void OnClose(CloseEventArgs e)
 	{
-		try
+		if (Context.User.Identity.IsAuthenticated)
 		{
-			if (Context.User.Identity.IsAuthenticated)
-			{
-				Logger.Log("admin closed. reason: " + e.Reason, Category.Rcon);
-			}
+			Logger.Log("admin closed. reason: " + e.Reason, Category.Rcon);
+		}
 
-			base.OnClose(e);
-		}
-		catch
-		{
-			Logger.Log("Caught exception while trying to log out admin: NetworkStream has been disposed", Category.Rcon);
-		}
+		base.OnClose(e);
 	}
 }
 
