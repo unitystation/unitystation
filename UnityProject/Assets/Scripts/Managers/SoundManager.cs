@@ -39,6 +39,9 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
+	[Range(0f, 1f)]
+	public float MusicVolume = 1;
+
 	public AudioSource this [string key]
 	{
 		get
@@ -113,6 +116,11 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
+	[ContextMenu("PlayRandomMusicTrack")]
+	public void PlayRndTrackEditor(){
+		PlayRandomTrack();
+	}
+
 	public static void PlayRandomTrack ()
 	{
 		StopMusic ();
@@ -120,6 +128,7 @@ public class SoundManager : MonoBehaviour
 		{
 			//Traditional music
 			int randTrack = Random.Range (0, Instance.musicTracks.Length);
+			Instance.musicTracks[randTrack].volume = Instance.MusicVolume;
 			Instance.musicTracks[randTrack].Play ();
 		}
 		else
@@ -131,7 +140,8 @@ public class SoundManager : MonoBehaviour
 				"echo_sound.xm",
 				"tintin.xm"
 			};
-			Synth.Instance.PlayMusic (trackerMusic.Wrap (Random.Range (1, 100)));
+			var vol = 255 * Instance.MusicVolume;
+			Synth.Instance.PlayMusic (trackerMusic.Wrap (Random.Range (1, 100)),false, (byte)(int)vol);
 		}
 	}
 

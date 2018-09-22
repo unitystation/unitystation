@@ -8,9 +8,12 @@ public abstract class BulletBehaviour : MonoBehaviour
 	public DamageType damageType;
 	public bool isSuicide = false;
 
+	public TrailRenderer trail;
+
 	private Rigidbody2D thisRigi;
 	//	public BodyPartType BodyPartAim { get; private set; };
 
+	public Vector2 Direction { get; private set; }
 
 	public void Shoot(Vector2 dir, float angle, GameObject controlledByPlayer, BodyPartType targetZone = BodyPartType.CHEST)
 	{
@@ -20,6 +23,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 
 	private void StartShoot(Vector2 dir, float angle, GameObject controlledByPlayer, BodyPartType targetZone)
 	{
+		Direction = dir;
 		bodyAim = targetZone;
 		shooter = controlledByPlayer;
 		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -34,14 +38,15 @@ public abstract class BulletBehaviour : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D coll)
 	{
-		PoolManager.Instance.PoolClientDestroy(gameObject);
+		ReturnToPool();
 	}
 
 	private void OnTriggerEnter2D(Collider2D coll)
 	{
 		HealthBehaviour damageable = coll.GetComponent<HealthBehaviour>();
 
-		if(coll.gameObject == shooter && !isSuicide){
+		if (coll.gameObject == shooter && !isSuicide)
+		{
 			return;
 		}
 
@@ -51,6 +56,15 @@ public abstract class BulletBehaviour : MonoBehaviour
 		}
 		damageable.ApplyDamage(shooter, damage, damageType, bodyAim);
 		Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, damageable.gameObject.name, damage);
+		ReturnToPool();
+	}
+
+	private void ReturnToPool()
+	{
 		PoolManager.Instance.PoolClientDestroy(gameObject);
+		if (trail != null)
+		{
+			trail.Clear();
+		}
 	}
 }

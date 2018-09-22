@@ -56,48 +56,88 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		w.MagNetID = networkID;
 	}
 
-	[Command] 
-	public void CmdRequestMeleeAttack(GameObject victim, string slot, Vector2 stabDirection, BodyPartType damageZone)
+	[Command]
+	public void CmdRequestMeleeAttack(GameObject victim, string slot, Vector2 stabDirection,
+		BodyPartType damageZone, LayerType layerType)
 	{
-		if (!playerMove.allowInput 
-		    || playerMove.isGhost
-		    || !victim
-		    || !playerScript.playerNetworkActions.SlotNotEmpty( slot ) 
-			|| !playerScript.IsInReach(victim.transform.position)
-		    ) {
+		if (!playerMove.allowInput ||
+			playerMove.isGhost ||
+			!victim ||
+			!playerScript.playerNetworkActions.SlotNotEmpty(slot)
+		)
+		{
 			return;
 		}
+		if (!allowAttack)
+		{
+			return;
+		}
+
 		var weapon = playerScript.playerNetworkActions.Inventory[slot];
 		ItemAttributes weaponAttr = weapon.GetComponent<ItemAttributes>();
-		HealthBehaviour victimHealth = victim.GetComponent<HealthBehaviour>();
 
-
-		// checks object and component existence before defining healthBehaviour variable.
-		if (victimHealth.IsDead == false)
+		// If Tilemap LayerType is not None then it is a tilemap being attacked
+		if (layerType != LayerType.None)
 		{
-			if (!allowAttack)
+			var tileChangeManager = victim.GetComponent<TileChangeManager>();
+			if (tileChangeManager == null)
 			{
 				return;
 			}
 
+			//Tilemap stuff:
+			var tileMapDamage = tileChangeManager.GetTilemap(layerType).gameObject.GetComponent<TilemapDamage>();
+			if (tileMapDamage != null)
+			{
+				//Wire cutters should snip the grills instead:
+				if (weaponAttr.itemName == "wirecutters" &&
+					tileMapDamage.Layer.LayerType == LayerType.Grills)
+				{
+					tileMapDamage.WireCutGrill((Vector2) transform.position + stabDirection);
+					StartCoroutine(AttackCoolDown());
+					return;
+				}
+
+				tileMapDamage.DoMeleeDamage((Vector2) transform.position + stabDirection,
+					gameObject, (int) weaponAttr.hitDamage);
+				RpcMeleeAttackLerp(stabDirection, weapon);
+				StartCoroutine(AttackCoolDown());
+				return;
+			}
+			return;
+		}
+
+		//This check cannot be used with TilemapDamage as the transform position is always far away
+		if (!playerScript.IsInReach(victim.transform.position))
+		{
+			return;
+		}
+
+		//Meaty bodies:
+		HealthBehaviour victimHealth = victim.GetComponent<HealthBehaviour>();
+
+		// checks object and component existence before defining healthBehaviour variable.
+		if (victimHealth.IsDead == false)
+		{
 			if (victim != gameObject)
 			{
 				RpcMeleeAttackLerp(stabDirection, weapon);
 			}
 
-			victimHealth.ApplyDamage(gameObject, ( int ) weaponAttr.hitDamage, DamageType.BRUTE, damageZone);
-			if ( weaponAttr.hitDamage > 0 ) {
-				PostToChatMessage.SendItemAttackMessage( weapon, gameObject, victim, (int)weaponAttr.hitDamage, damageZone );
+			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, DamageType.BRUTE, damageZone);
+			if (weaponAttr.hitDamage > 0)
+			{
+				PostToChatMessage.SendItemAttackMessage(weapon, gameObject, victim, (int) weaponAttr.hitDamage, damageZone);
 			}
 
 			soundNetworkActions.RpcPlayNetworkSound(weaponAttr.hitSound, transform.position);
 			StartCoroutine(AttackCoolDown());
-
 		}
 		else
 		{
 			//Butchering if we can
-			if ( weaponAttr.type != ItemType.Knife ) {
+			if (weaponAttr.type != ItemType.Knife)
+			{
 				return;
 			}
 			if (victim.GetComponent<SimpleAnimal>())
@@ -126,7 +166,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 	// Harvest should only be used for animals like pete and cows
 
-
 	[ClientRpc]
 	private void RpcMeleeAttackLerp(Vector2 stabDir, GameObject weapon)
 	{
@@ -144,9 +183,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (lerpSprite != null)
 		{
 			playerScript.hitIcon.ShowHitIcon(stabDir, lerpSprite);
-			if (PlayerManager.LocalPlayer && PlayerManager.LocalPlayer.gameObject.name == gameObject.name)
+			if (PlayerManager.LocalPlayer)
 			{
-				PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
+				if (PlayerManager.LocalPlayer == gameObject)
+				{
+					PlayerManager.LocalPlayerScript.playerMove.allowInput = false;
+				}
 			}
 		}
 		lerpFrom = transform.position;
@@ -171,10 +213,13 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				{
 					ResetLerp();
 					spritesObj.transform.localPosition = Vector3.zero;
-						if (PlayerManager.LocalPlayer && PlayerManager.LocalPlayer.gameObject.name == gameObject.name)
+					if (PlayerManager.LocalPlayer)
+					{
+						if (PlayerManager.LocalPlayer == gameObject)
 						{
 							PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
 						}
+					}
 				}
 				else
 				{
