@@ -51,7 +51,7 @@ public class InputController : MonoBehaviour
 		{
 			CheckHandSwitch();
 		}
-		if (Input.GetMouseButton(0))
+		if (Input.GetMouseButtonDown(0))
 		{
 			if (!CheckAltClick())
 			{
