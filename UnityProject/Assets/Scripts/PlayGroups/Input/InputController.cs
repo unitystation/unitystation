@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
-
 public class InputController : MonoBehaviour
 {
 	/// <summary>
@@ -46,31 +45,32 @@ public class InputController : MonoBehaviour
 			"HiddenWalls", "Objects", "Matrix");
 	}
 
-	private void OnGUI()
+	void Update()
 	{
-		if (Event.current.type == EventType.MouseDown)
+		if (Input.GetMouseButtonDown(2))
 		{
 			CheckHandSwitch();
-			CheckAltClick();
-			CheckThrow();
-			CheckClick();
+		}
+		if (Input.GetMouseButton(0))
+		{
+			if (!CheckAltClick())
+			{
+				if (!CheckThrow())
+				{
+					CheckClick();
+				}
+			}
 		}
 	}
 
 	private void CheckHandSwitch()
 	{
-		Event e = Event.current;
-		if (e.type != EventType.Used && e.button == 2)
-		{
-			UIManager.Hands.Swap();
-			e.Use();
-		}
+		UIManager.Hands.Swap();
 	}
 
 	private void CheckClick()
 	{
-		Event e = Event.current;
-		if (e.type != EventType.Used && e.button == 0 && !UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
+		if (!UnityEngine.Input.GetKey(KeyCode.LeftControl) && !UnityEngine.Input.GetKey(KeyCode.LeftAlt))
 		{
 			//change the facingDirection of player on click
 			ChangeDirection();
@@ -83,10 +83,9 @@ public class InputController : MonoBehaviour
 		}
 	}
 
-	private void CheckAltClick()
+	private bool CheckAltClick()
 	{
-		Event e = Event.current;
-		if (e.type != EventType.Used && e.button == 0 && (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt)))
+		if (UnityEngine.Input.GetKey(KeyCode.LeftAlt) || UnityEngine.Input.GetKey(KeyCode.RightAlt))
 		{
 			//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
 			Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
@@ -99,24 +98,24 @@ public class InputController : MonoBehaviour
 			}
 
 			UIManager.SetToolTip = $"clicked position: {Vector3Int.RoundToInt(position)}";
-			e.Use();
+			return true;
 		}
+		return false;
 	}
-	private void CheckThrow()
+	private bool CheckThrow()
 	{
 		//Ignore throw if pointer is hovering over GUI
 		if (EventSystem.current.IsPointerOverGameObject())
 		{
-			return;
+			return false;
 		}
 
-		Event e = Event.current;
-		if (e.type != EventType.Used && e.button == 0 && UIManager.IsThrow)
+		if (UIManager.IsThrow)
 		{
 			var currentSlot = UIManager.Hands.CurrentSlot;
 			if (!currentSlot.CanPlaceItem())
 			{
-				return;
+				return false;
 			}
 			//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
 			Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
@@ -124,12 +123,13 @@ public class InputController : MonoBehaviour
 			currentSlot.Clear();
 			//				Logger.Log( $"Requesting throw from {currentSlot.eventName} to {position}" );
 			PlayerManager.LocalPlayerScript.playerNetworkActions
-				.CmdRequestThrow(currentSlot.eventName, position, (int)UIManager.DamageZone);
+				.CmdRequestThrow(currentSlot.eventName, position, (int) UIManager.DamageZone);
 
 			//Disabling throw button
 			UIManager.Action.Throw();
-			e.Use();
+			return true;
 		}
+		return false;
 	}
 
 	private void ChangeDirection()
@@ -146,7 +146,7 @@ public class InputController : MonoBehaviour
 		Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 
 		//for debug purpose, mark the most recently touched tile location
-	//	LastTouchedTile = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
+		//	LastTouchedTile = new Vector2(Mathf.Round(position.x), Mathf.Round(position.y));
 
 		RaycastHit2D[] hits = Physics2D.RaycastAll(position, Vector2.zero, 10f, layerMask);
 
@@ -251,7 +251,7 @@ public class InputController : MonoBehaviour
 		Vector2 mousePos = Input.mousePosition;
 		Vector2 viewportPos = cam.ScreenToViewportPoint(mousePos);
 		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f) return false; // out of viewport bounds
-																														// Cast a ray from viewport point into world
+		// Cast a ray from viewport point into world
 		Ray ray = cam.ViewportPointToRay(viewportPos);
 
 		// Check for intersection with sprite and get the color
@@ -279,17 +279,17 @@ public class InputController : MonoBehaviour
 		// Intersect the ray and the plane
 		float rayIntersectDist; // the distance from the ray origin to the intersection point
 		if (!plane.Raycast(ray, out rayIntersectDist)) return false; // no intersection
-																	 // Convert world position to sprite position
-																	 // worldToLocalMatrix.MultiplyPoint3x4 returns a value from based on the texture dimensions (+/- half texDimension / pixelsPerUnit) )
-																	 // 0, 0 corresponds to the center of the TEXTURE ITSELF, not the center of the trimmed sprite textureRect
+		// Convert world position to sprite position
+		// worldToLocalMatrix.MultiplyPoint3x4 returns a value from based on the texture dimensions (+/- half texDimension / pixelsPerUnit) )
+		// 0, 0 corresponds to the center of the TEXTURE ITSELF, not the center of the trimmed sprite textureRect
 		Vector3 spritePos = spriteRenderer.worldToLocalMatrix.MultiplyPoint3x4(ray.origin + (ray.direction * rayIntersectDist));
 		Rect textureRect = sprite.textureRect;
 		float pixelsPerUnit = sprite.pixelsPerUnit;
 		float halfRealTexWidth = sprite.rect.width * 0.5f;
 		float halfRealTexHeight = sprite.rect.height * 0.5f;
 
-		int texPosX = (int)(sprite.rect.x + (spritePos.x * pixelsPerUnit + halfRealTexWidth));
-		int texPosY = (int)(sprite.rect.y + (spritePos.y * pixelsPerUnit + halfRealTexHeight));
+		int texPosX = (int) (sprite.rect.x + (spritePos.x * pixelsPerUnit + halfRealTexWidth));
+		int texPosY = (int) (sprite.rect.y + (spritePos.y * pixelsPerUnit + halfRealTexHeight));
 
 		// Check if pixel is within texture
 		if (texPosX < 0 || texPosX < textureRect.x || texPosX >= Mathf.FloorToInt(textureRect.xMax)) return false;
