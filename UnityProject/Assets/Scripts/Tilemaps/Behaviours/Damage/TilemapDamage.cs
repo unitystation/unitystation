@@ -49,7 +49,6 @@ public class TilemapDamage : MonoBehaviour
 		var bulletBehaviour = objectColliding.GetComponent<BulletBehaviour>();
 		if (bulletBehaviour != null)
 		{
-			Debug.Log("Bullet behaviour found: " + bulletBehaviour.damage);
 			DoBulletDamage(bulletBehaviour, forceDirection);
 			return;
 		}
