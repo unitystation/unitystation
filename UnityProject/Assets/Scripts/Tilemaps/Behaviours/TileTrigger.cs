@@ -66,6 +66,7 @@ public class TileTrigger : InputTrigger
 	{
 		metaTileMap = originator.GetComponentInParent<MetaTileMap>();
 		objectLayer = originator.GetComponentInParent<ObjectLayer>();
+		var pna = originator.GetComponent<PlayerNetworkActions>();
 
 		Vector3Int pos = objectLayer.transform.InverseTransformPoint(position).RoundToInt();
 		pos.z = 0;
@@ -83,9 +84,9 @@ public class TileTrigger : InputTrigger
 
 		if (tile?.TileType == TileType.Table)
 		{
-			TableInteraction interaction = new TableInteraction(gameObject, originator, position, hand);
-
-			interaction.Interact(isServer);
+			Vector3 targetPosition = position;
+			targetPosition.z = -0.2f;
+			pna.CmdPlaceItem(hand, targetPosition, transform.root.gameObject, true);
 		}
 
 		
@@ -95,7 +96,6 @@ public class TileTrigger : InputTrigger
 			//Crowbar
 			if (handObj.GetComponent<CrowbarTrigger>())
 			{
-				var pna = originator.GetComponent<PlayerNetworkActions>();
 				pna.CmdCrowBarRemoveFloorTile(transform.root.gameObject, TileChangeLayer.Floor,
 					new Vector2(cellPos.x, cellPos.y), position);
 			}
@@ -105,7 +105,6 @@ public class TileTrigger : InputTrigger
 		{
 			if (handObj.GetComponent<UniFloorTile>())
 			{
-				var pna = originator.GetComponent<PlayerNetworkActions>();
 				pna.CmdPlaceFloorTile(transform.root.gameObject,
 					new Vector2(cellPos.x, cellPos.y), handObj);
 			}
