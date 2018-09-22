@@ -34,7 +34,7 @@ public class EscapeShuttle : MonoBehaviour {
 
 	void Update ()
 	{
-		if(GameManager.Instance.GetRoundTime <= 180f && spawnedIn == false && setCourse == false) // Warp close to station 3 mins before round ends
+		if(GameManager.Instance.GetRoundTime <= 150f && spawnedIn == false && setCourse == false) // Warp close to station 2.5 mins before round ends
 		{
 			SpawnNearStation();
 			setCourse = true;
@@ -54,7 +54,7 @@ public class EscapeShuttle : MonoBehaviour {
 			StartCoroutine(ReverseIntoStation(mm));
 		}
 
-		if (GameManager.Instance.GetRoundTime <= 60f && arrivedAtStation == true) // Depart the shuttle
+		if (GameManager.Instance.GetRoundTime <= 30f && arrivedAtStation == true) // Depart the shuttle
 		{
 			mm.ChangeDir(Vector2.right);
 			mm.StartMovement();
