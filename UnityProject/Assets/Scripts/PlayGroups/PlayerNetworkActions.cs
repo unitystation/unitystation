@@ -375,8 +375,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		EquipmentPool.DisposeOfObject(gameObject, obj);
 	}
 
-	[Command]
-	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent)
+	[Command] //Remember with the parent you can only send networked objects:
+	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
 		if (!SlotNotEmpty(slotName))
 		{
@@ -388,7 +388,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ClearInventorySlot(slotName);
 		if (item != null && newParent != null)
 		{
-			item.transform.parent = newParent.transform;
+			if (isTileMap)
+			{
+				var tileChangeManager = newParent.GetComponent<TileChangeManager>();
+				item.transform.parent = tileChangeManager.ObjectParent.transform;
+			}
+			else
+			{
+				item.transform.parent = newParent.transform;
+			}
 			// TODO
 			//			ReorderGameobjectsOnTile(pos);
 		}
