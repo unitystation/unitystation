@@ -73,12 +73,15 @@ public partial class PlayerSync
 			//arguably it shouldn't really be like that in the future
 			if ( !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement ) {
 //				Logger.Log($"{gameObject.name} requesting {action.Direction()} ({pendingActions.Count} in queue)");
-				if ( CanMoveThere( predictedState, action ) ) {
+
+//				if ( CanMoveThere( predictedState, action ) ) {
 					pendingActions.Enqueue( action );
 
 					LastDirection = action.Direction();
 //					UpdatePredictedState();
-				} //else {
+//				}
+
+				//else {
 //					PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
 //				}
 
@@ -111,29 +114,30 @@ public partial class PlayerSync
 		//Predictively pushing this player
 		public void PredictivePush(Vector2Int direction)//todo: untested!
 		{
-			if (direction == Vector2Int.zero)
-			{
-				Logger.Log("PredictivePush with zero impulse??", Category.PushPull);
-				return;
-			}
-
-			predictedState.Impulse = direction;
-			if (matrix != null)
-			{
-				Vector3Int pushGoal =
-					Vector3Int.RoundToInt(playerState.Position + (Vector3)predictedState.Impulse);
-				if (matrix.IsPassableAt(pushGoal))
-				{
-					Logger.Log($"Client predictive push to {pushGoal}", Category.PushPull);
-					predictedState.Position = pushGoal;
-					predictedState.ImportantFlightUpdate = true;
-					predictedState.ResetClientQueue = true;
-				}
-				else
-				{
-					predictedState.Impulse = Vector2.zero;
-				}
-			}
+			Logger.Log($"PredictivePush to {direction} is disabled for player", Category.PushPull);
+//			if (direction == Vector2Int.zero)
+//			{
+//				Logger.Log("PredictivePush with zero impulse??", Category.PushPull);
+//				return;
+//			}
+//
+//			predictedState.Impulse = direction;
+//			if (matrix != null)
+//			{
+//				Vector3Int pushGoal =
+//					Vector3Int.RoundToInt(playerState.Position + (Vector3)predictedState.Impulse);
+//				if (matrix.IsPassableAt(pushGoal))
+//				{
+//					Logger.Log($"Client predictive push to {pushGoal}", Category.PushPull);
+//					predictedState.Position = pushGoal;
+//					predictedState.ImportantFlightUpdate = true;
+//					predictedState.ResetClientQueue = true;
+//				}
+//				else
+//				{
+//					predictedState.Impulse = Vector2.zero;
+//				}
+//			}
 		}
 
 		private void UpdatePredictedState() {
@@ -163,10 +167,13 @@ public partial class PlayerSync
 			}
 		}
 
-		private PlayerState NextStateClient( PlayerState state, PlayerAction action,/* out bool matrixChanged,*/ bool isReplay ) {
-			if ( !CanMoveThere( state, action ) ) {
-				//gotta try pushing things
-				PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
+		private PlayerState NextStateClient( PlayerState state, PlayerAction action, bool isReplay ) {
+			if ( !CanMoveThere( state, action ) /*&& !isReplay*/ ) {
+//				if ( !isReplay )
+//				{
+					//gotta try pushing things
+					PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
+//				}
 				return state;
 			}
 			bool matrixChanged;
@@ -274,9 +281,11 @@ public partial class PlayerSync
 		{
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
 
+			var worldPos = state.WorldPosition;
+
 			if ( !ClientPositionReady ) {
 				//PlayerLerp
-				Vector3 targetPos = MatrixManager.WorldToLocal(state.WorldPosition, MatrixManager.Get( matrix ) );
+				Vector3 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get( matrix ) );
 				transform.localPosition = Vector3.MoveTowards( transform.localPosition,
 					targetPos,
 					playerMove.speed * Time.deltaTime );
@@ -284,11 +293,16 @@ public partial class PlayerSync
 				if ( playerState.NoLerp || Vector3.Distance( transform.localPosition, targetPos ) > 30 ) {
 					transform.localPosition = targetPos;
 				}
+
+				if ( ClientPositionReady )
+				{
+					onClientTileReached.Invoke( Vector3Int.RoundToInt(worldPos) );
+				}
 			}
 
 			playerState.NoLerp = false;
 
-			bool isFloating = MatrixManager.IsFloatingAt( Vector3Int.RoundToInt(state.WorldPosition) );
+			bool isFloating = MatrixManager.IsFloatingAt( Vector3Int.RoundToInt(worldPos) );
 			//Space walk checks
 			if ( isPseudoFloatingClient && !isFloating ) {
 //                Logger.Log( "Stopped clientside floating to avoid going through walls" );

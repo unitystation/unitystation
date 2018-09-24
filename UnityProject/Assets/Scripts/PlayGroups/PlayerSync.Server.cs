@@ -115,8 +115,10 @@ public partial class PlayerSync
 	/// Impulse should be consumed after one tile if indoors,
 	/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space
 	[Server]
-	public void Push(Vector2Int direction)
+	public void Push(Vector2Int direction)//fixme: not robust
 	{
+//		Logger.Log($"Push to {direction} is disabled for player", Category.PushPull);
+
 		if (direction == Vector2Int.zero)
 		{
 			Logger.Log("Push with zero impulse??", Category.PushPull);
@@ -176,7 +178,7 @@ public partial class PlayerSync
 			//				When serverState reaches its planned destination,
 			//				embrace all other updates like updated moveNumber and flags
 			serverState = serverTargetState;
-			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
+			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );//fixme: possibly not the best place
 			SyncMatrix();
 			NotifyPlayers();
 		}
@@ -302,19 +304,19 @@ public partial class PlayerSync
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{
 		if ( !CanMoveThere( state, action ) ) {
-				//gotta try pushing things
-				Interact( state.WorldPosition, (Vector2) action.Direction() );
-				return state;
-			}
+			//gotta try pushing things
+			Interact( state.WorldPosition, (Vector2) action.Direction() );
+			return state;
+		}
 
-			bool matrixChangeDetected;
-			PlayerState nextState = NextState(state, action, out matrixChangeDetected);
+		bool matrixChangeDetected;
+		PlayerState nextState = NextState(state, action, out matrixChangeDetected);
 
-			if (!matrixChangeDetected)
-			{
+		if (!matrixChangeDetected)
+		{
 //				if ( state.Position.Equals( nextState.Position ) ) {
-				return nextState;
-			}
+			return nextState;
+		}
 
 		//todo: subscribe to current matrix rotations on spawn
 		var newMatrix = MatrixManager.Get(nextState.MatrixId);

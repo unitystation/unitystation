@@ -66,7 +66,7 @@ public class RenderSettings
 	[NonSerialized]
 	public Quality quality;
 
-	private static readonly int[] LightTextureResolutions = {600, 1024, 1400};
+	private static readonly int[] LightTextureResolutions = {400, 512, 600};
 
 	private static readonly AnimationCurve OcclusionUvAdjustments = new AnimationCurve(
 		new Keyframe(60, 0.048f),

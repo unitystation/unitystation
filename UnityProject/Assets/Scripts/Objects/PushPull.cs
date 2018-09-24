@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class PushPull : VisibleBehaviour {
@@ -10,30 +11,85 @@ public class PushPull : VisibleBehaviour {
 				pushable = pushableTransform;
 			} else {
 				pushable = pushableTransform = GetComponent<IPushable>();
-//				pushable?.OnUpdateRecieved().AddListener( pos => {
-//					if ( pos != predictivePushTarget ) {
-//						predictivePushTarget = pos;
-//					}
-//				} );
 				pushable?.OnTileReached().AddListener( pos => {
-					Logger.LogTraceFormat( "They claim {0} is reached ON SERVER", Category.PushPull, pos );
+					Logger.LogTraceFormat( "{0} is reached ON SERVER", Category.PushPull, pos );
 					isPushing = false;
 				} );
+				pushable?.OnUpdateRecieved().AddListener( serverPos => {
+					if ( prediction == PushState.None ){
+						return;
+					}
+					approval = serverPos == predictivePushTarget ? ApprovalState.Approved : ApprovalState.Invalid;
+					Logger.LogTraceFormat( "{0} predictive push to {1}", Category.PushPull, approval, serverPos );
+
+					//if predictive lerp is finished
+					if ( approval == ApprovalState.Approved )
+					{
+						if ( prediction == PushState.Finished )
+						{
+							FinishPush();
+						}
+						else if ( prediction == PushState.InProgress )
+						{
+							Logger.LogTraceFormat( "Approved and waiting till lerp is finished", Category.PushPull );
+						}
+					}
+					else if ( approval == ApprovalState.Invalid )
+					{
+						Logger.LogWarningFormat( "Invalid push detected in OnUpdateRecieved!", Category.PushPull );
+					}
+
+				} );
 				pushable?.OnClientTileReached().AddListener( pos => {
-					Logger.LogTraceFormat( "They claim {0} is reached ON CLIENT", Category.PushPull, pos );
-					isPredictivePushing = false;
+					if ( prediction == PushState.None ){
+						return;
+					}
+					if ( pos != predictivePushTarget )
+					{
+						Logger.LogWarningFormat( "Lerped to {0} while target pos was {1}, wtf?", Category.PushPull, pos, predictivePushTarget );
+						return;
+					}
+					Logger.LogTraceFormat( "{0} is reached ON CLIENT, approval={1}", Category.PushPull, pos, approval );
+					prediction = PushState.Finished;
+					switch ( approval )
+					{
+						/*|| approval == ApprovalState.Invalid*/
+						case ApprovalState.Approved:
+							//ok, finishing
+							FinishPush();
+							break;
+						case ApprovalState.Invalid:
+							Logger.LogWarningFormat( "Invalid push detected in OnClientTileReached!", Category.PushPull );
+							break;
+						case ApprovalState.None:
+							Logger.LogTraceFormat( "Finished lerp, waiting for server approval...", Category.PushPull );
+							break;
+					}
 				} );
 			}
 			return pushable;
 		}
 	}
 
+	private void FinishPush()
+	{
+		Logger.LogTraceFormat( "Finishing predictive push", Category.PushPull );
+		prediction = PushState.None;
+		approval = ApprovalState.None;
+		predictivePushTarget = TransformState.HiddenPos;
+	}
+
 	public bool CanBePushed => !registerTile.IsPassable();
 
+	//Server fields
 	private bool isPushing;
-	private bool isPredictivePushing;
 //	private Vector3Int pushTarget = TransformState.HiddenPos;
-//	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
+
+	//Client fields
+	private PushState prediction = PushState.None;
+	private ApprovalState approval = ApprovalState.None;
+	private bool allowedToPush => prediction == PushState.None;
+	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
 
 	[Server]
 	public bool TryPush( Vector3Int from, Vector2Int dir ) {
@@ -59,7 +115,7 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	public bool TryPredictivePush( Vector3Int from, Vector2Int dir ) {
-		if ( !CanBePushed || isPredictivePushing || Pushable == null ) {
+		if ( !CanBePushed || !allowedToPush || Pushable == null ) {
 			return false;
 		}
 		Vector3Int currentPos = registerTile.WorldPosition;
@@ -73,13 +129,16 @@ public class PushPull : VisibleBehaviour {
 		}
 
 		Logger.LogTraceFormat( "Started predictive push {0}->{1}", Category.PushPull, from, target );
-		isPredictivePushing = true;
-//		predictivePushTarget = target;
+		prediction = PushState.InProgress;
+		approval = ApprovalState.None;
+		predictivePushTarget = target;
 		Pushable.PredictivePush( dir );
 
 		return true;
 	}
 
+	enum PushState { None, InProgress, Finished }
+	enum ApprovalState { None, Approved, Invalid }
 
 	#region cnt
 //	/// Client side prediction for pushing

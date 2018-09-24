@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-
-	/// <summary>
+/// <summary>
 	///     Player move queues the directional move keys
 	///     to be processed along with the server.
 	///     It also changes the sprite direction and
@@ -33,7 +28,6 @@ using UnityEngine.Networking;
 			KeyCode.RightArrow
 		};
 
-		public PlayerMatrixDetector playerMatrixDetector;
 		private PlayerSprites playerSprites;
 		private PlayerSync playerSync;
 
@@ -86,14 +80,14 @@ using UnityEngine.Networking;
 			}
 
 			Vector3Int direction = GetDirection(action, MatrixManager.Get(curMatrix));
-			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix);
+//			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix);
 
 //			if (adjustedDirection == Vector3.zero && !isReplay)
 //			{
 //				Interact(currentPosition, direction);
 //			}
 
-			return currentPosition + adjustedDirection;
+			return currentPosition + direction;
 		}
 
 		public string ChangeKeyboardInput(bool setAzerty)
@@ -163,7 +157,7 @@ using UnityEngine.Networking;
 
 			direction.x = Mathf.Clamp(direction.x, -1, 1);
 			direction.y = Mathf.Clamp(direction.y, -1, 1);
-			Logger.Log(direction.ToString(), Category.Movement);
+//			Logger.LogTrace(direction.ToString(), Category.Movement);
 
 			if (!isGhost && PlayerManager.LocalPlayer == gameObject)
 			{
@@ -246,10 +240,10 @@ using UnityEngine.Networking;
 			if (!isReplay)
 			{
 				// Check the high level matrix detector
-				if (!playerMatrixDetector.CanPass(currentPosition, direction, curMatrix))
-				{
-					return Vector3Int.zero;
-				}
+//				if (!MatrixManager.CanPass(currentPosition, direction, curMatrix))
+//				{
+//					Logger.LogError( $"Why the hell did this trigger? localPos={currentPosition}+{Orientation.From( direction )} on {curMatrix}", Category.Movement );
+//				}
 
 //				// Not to be checked while performing a replay:
 //				if (playerSync.PullingObject != null)
@@ -294,6 +288,7 @@ using UnityEngine.Networking;
 			return Vector3Int.zero;
 
 		}
+
 
 
 	}
