@@ -80,7 +80,10 @@ public class MatrixManager : MonoBehaviour
 		return true;
 	}
 
+	/// <Summary>
 	/// Cross-matrix edition of GetFirst
+	/// Use a Vector3Int of the WorldPosition to use
+	/// </Summary>
 	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
 	{
 		for (var i = 0; i < activeMatrices.Count; i++)
