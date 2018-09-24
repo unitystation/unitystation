@@ -156,7 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26fa92bf17c5d3d459ff63a0ac3aca0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directionOnStart: {x: 0, y: 0}
   s_right: {fileID: 21300006, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
   s_down: {fileID: 21300002, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
   s_left: {fileID: 21300008, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
@@ -242,7 +241,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300006, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
