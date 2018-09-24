@@ -2,6 +2,13 @@
 
 public class WelderTrigger : PickUpTrigger
 {
+
+    private Welder welder;
+
+    private void Start()
+    {
+        welder = GetComponent<Welder>();
+    }
     public override void Interact(GameObject originator, Vector3 position, string hand)
     {
         //TODO:  Fill this in.
@@ -12,6 +19,8 @@ public class WelderTrigger : PickUpTrigger
             return;
         }
 
-        base.Interact(originator, position, hand);
+        Debug.Log("CLICKED TOOL");
+
+        // base.Interact(originator, position, hand);
     }
 }
