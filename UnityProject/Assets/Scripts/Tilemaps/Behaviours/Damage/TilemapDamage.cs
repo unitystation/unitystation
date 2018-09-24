@@ -88,6 +88,10 @@ public class TilemapDamage : MonoBehaviour
 		}
 	}
 
+	public void DoThrowDamage(Vector3Int worldTargetPos, ThrowInfo throwInfo, int dmgAmt)
+	{
+		DoMeleeDamage(new Vector2(worldTargetPos.x,worldTargetPos.y), throwInfo.ThrownBy, dmgAmt );
+	}
 	//Only works serverside:
 	public void DoMeleeDamage(Vector2 dmgPosition, GameObject originator, int dmgAmt)
 	{
