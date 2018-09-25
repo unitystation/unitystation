@@ -255,7 +255,7 @@ using UnityEngine.Networking;
 		{
 			ItemAttributes att = obj.GetComponent<ItemAttributes>();
 			EquipmentPool.AddGameObject(gameObject, obj);
-			SetHandItemSprite(slotName, att);
+			SetHandItemSprite(att);
 			RpcSendMessage(slotName, obj);
 		}
 
@@ -308,10 +308,10 @@ using UnityEngine.Networking;
 		}
 
 		//To set the actual sprite on the player obj
-		public void SetHandItemSprite(string slotName, ItemAttributes att)
+		public void SetHandItemSprite(ItemAttributes att)
 		{
-			Epos enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
-			if (slotName == "leftHand")
+			Epos enumA = (Epos) Enum.Parse(typeof(Epos), playerNetworkActions.activeHand);
+			if (playerNetworkActions.activeHand == "leftHand")
 			{
 				syncEquipSprites[(int) enumA] = att.NetworkInHandRefLeft();
 			}

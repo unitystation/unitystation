@@ -30,6 +30,7 @@ using UnityEngine.Networking;
 					//Client informs server of interaction attempt
 					InteractMessage.Send(gameObject, hand);
 				}
+
 			}
 			else
 			{

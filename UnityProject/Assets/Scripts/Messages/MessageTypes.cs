@@ -34,5 +34,6 @@ internal enum MessageTypes : short
 	RequestMoveMessage = 2008,
 	RequestShootMessage = 2009,
 	TabInteractMessage = 2010,
+	UIInteractMessage = 2011,
 
 }
