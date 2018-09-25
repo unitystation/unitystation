@@ -53,6 +53,12 @@ public class Welder : NetworkBehaviour
 		UpdateState(isOn);
 	}
 
+	[Server]
+	public void Refuel(){
+		serverFuelAmt = 100f;
+		clientFuelAmt = 100f;
+	}
+
 	void Init()
 	{
 		itemAtts = GetComponent<ItemAttributes>();
