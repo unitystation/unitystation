@@ -674,4 +674,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		activeHand = hand;
 	}
+
+	[Command]
+	public void CmdRefillWelder(GameObject welder, GameObject weldingTank)
+	{
+		//Double check reach just in case:
+		if(playerScript.IsInReach(weldingTank)){
+			var w = welder.GetComponent<Welder>();
+
+			//is the welder on?
+			if(w.isOn){
+				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
+			} else {
+				//Refuel!
+				w.Refuel();
+				RpcPlayerSoundAtPos("Refill", transform.position, true);
+			}
+		}
+	}
 }
