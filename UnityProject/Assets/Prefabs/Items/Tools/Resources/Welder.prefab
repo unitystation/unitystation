@@ -243,6 +243,9 @@ MonoBehaviour:
   - {fileID: 21300014, guid: e648057ab7554119b73f083cc0c06981, type: 3}
   welderRenderer: {fileID: 212316710125154168}
   flameRenderer: {fileID: 212351652085156724}
+  clientFuelAmt: 0
+  heldByPlayer: {fileID: 0}
+  isOn: 0
 --- !u!114 &114909773131868738
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -261,13 +264,13 @@ MonoBehaviour:
   itemDescription: 
   itemName: 
   itemType: 0
-  size: 2
+  size: 1
   spriteType: 0
   type: 0
-  throwDamage: 1
+  throwDamage: 4
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 1
+  hitDamage: 7
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114998062039538404

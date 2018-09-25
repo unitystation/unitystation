@@ -11,6 +11,8 @@ using UnityEngine.UI;
 		public string eventName;
 
 		private Image image;
+
+		private Image secondaryImage; //For sprites that require two images
 		public ItemSize maxItemSize;
 
 		public GameObject Item { get; private set; }
@@ -20,6 +22,9 @@ using UnityEngine.UI;
 		private void Awake()
 		{
 			image = GetComponent<Image>();
+			secondaryImage = GetComponentsInChildren<Image>()[1];
+			secondaryImage.alphaHitTestMinimumThreshold = 0.5f;
+			secondaryImage.enabled = false;
             image.alphaHitTestMinimumThreshold = 0.5f;
             image.enabled = false;
 			if (eventName.Length > 0)
@@ -57,10 +62,27 @@ using UnityEngine.UI;
 				return;
 			}
 			Logger.LogTraceFormat("Setting item {0} to {1}", Category.UI, item.name, eventName);
-			image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
+			var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
+			image.sprite = spriteRends[0].sprite;
+			if(spriteRends.Length > 1){
+				if(spriteRends[1].sprite != null){
+					SetSecondaryImage(spriteRends[1].sprite);
+				}
+			}
 			image.enabled = true;
 			Item = item;
 			item.transform.position = transform.position;
+		}
+
+		public void SetSecondaryImage(Sprite sprite)
+		{
+			if(sprite != null){
+				secondaryImage.sprite = sprite;
+				secondaryImage.enabled = true;
+			} else {
+				secondaryImage.sprite = null;
+				secondaryImage.enabled = false;
+			}
 		}
 
 		//        public bool TrySetItem(GameObject item) {
@@ -94,6 +116,8 @@ using UnityEngine.UI;
 			Item = null;
 			image.sprite = null;
 			image.enabled = false;
+			secondaryImage.sprite = null;
+			secondaryImage.enabled = false;
 
 			return item;
 		}
@@ -127,6 +151,8 @@ using UnityEngine.UI;
 		{
 			image.sprite = null;
 			image.enabled = false;
+			secondaryImage.sprite = null;
+			secondaryImage.enabled = false;
 			Item = null;
 		}
 
@@ -147,5 +173,13 @@ using UnityEngine.UI;
 				return false;
 			}
 			return allowAllItems || allowedItemTypes.Contains(attributes.type);
+		}
+
+		public void TryItemInteract()
+		{
+			if(Item != null){
+				var inputTrigger = Item.GetComponent<InputTrigger>();
+				inputTrigger.UI_Interact(PlayerManager.LocalPlayer, eventName);
+			}
 		}
 	}
