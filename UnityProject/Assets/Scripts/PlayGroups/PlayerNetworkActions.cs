@@ -30,7 +30,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
-	[NonSerialized] public string activeHand = "right";
+	[NonSerialized] public string activeHand = "rightHand";
 
 	private ChatIcon chatIcon;
 
@@ -228,7 +228,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ItemAttributes att = obj.GetComponent<ItemAttributes>();
 		if (slotName == "leftHand" || slotName == "rightHand")
 		{
-			equipment.SetHandItemSprite(slotName, att);
+			equipment.SetHandItemSprite(att);
 		}
 		else
 		{

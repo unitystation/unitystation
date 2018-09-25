@@ -21,7 +21,7 @@ public class WelderTrigger : PickUpTrigger
                 return;
             }
         }
-        // base.Interact(originator, position, hand);
+        base.Interact(originator, position, hand);
     }
 
     public override void UI_Interact(GameObject originator, string hand)
@@ -30,13 +30,12 @@ public class WelderTrigger : PickUpTrigger
 
         if (!isServer)
         {
-            //FIXME need a new message for ItemToggle:
-            InteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+            UIInteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
         }
         else
         {
             //Toggle the welder:
-            welder.UpdateState(!welder.isOn);
+            welder.ToggleWelder(originator);
         }
     }
 }

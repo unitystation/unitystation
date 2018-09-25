@@ -177,7 +177,7 @@ using UnityEngine.UI;
 
 		public void TryItemInteract()
 		{
-			if(Item != null){
+			if(Item != null && UIManager.Hands.CurrentSlot.eventName == eventName){
 				var inputTrigger = Item.GetComponent<InputTrigger>();
 				inputTrigger.UI_Interact(PlayerManager.LocalPlayer, eventName);
 			}

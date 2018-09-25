@@ -5,6 +5,9 @@ using UnityEngine.Networking;
 
 public class Welder : NetworkBehaviour
 {
+
+	//TODO: Update the sprites from the array below based on how much fuel is left:
+
 	[Header("Place sprites in order from full gas to no gas 5 all up!")]
 	public Sprite[] welderSprites;
 
@@ -29,6 +32,7 @@ public class Welder : NetworkBehaviour
 	private float burnRate = 0.2f;
 
 	public GameObject heldByPlayer;
+	private string currentHand;
 
 	private ItemAttributes itemAtts;
 
@@ -59,7 +63,14 @@ public class Welder : NetworkBehaviour
 		rightHandFlame = rightHandOriginal + 4;
 	}
 
-	public void UpdateState(bool _isOn)
+	[Server]
+	public void ToggleWelder(GameObject originator)
+	{
+		heldByPlayer = originator;
+		UpdateState(!isOn);
+	}
+
+	void UpdateState(bool _isOn)
 	{
 		if (isServer)
 		{
@@ -83,15 +94,23 @@ public class Welder : NetworkBehaviour
 			StartCoroutine(BurnFuel());
 
 		}
-		else if (!isOn && isBurning || clientFuelAmt <= 0f)
+
+		if (!isOn || clientFuelAmt <= 0f)
 		{
 			itemAtts.inHandReferenceLeft = leftHandOriginal;
 			itemAtts.inHandReferenceRight = rightHandOriginal;
 			isBurning = false;
+			StopCoroutine(BurnFuel());
 			flameRenderer.sprite = null;
 		}
 
 		CheckHeldByPlayer();
+	}
+
+	//A broadcast message from EquipmentPool.cs on the server:
+	public void OnRemoveFromPool()
+	{
+		heldByPlayer = null;
 	}
 
 	void CheckHeldByPlayer()
@@ -99,9 +118,15 @@ public class Welder : NetworkBehaviour
 		//Local player is holding it
 		if (heldByPlayer == PlayerManager.LocalPlayer && heldByPlayer != null)
 		{
-			if(UIManager.Hands.CurrentSlot.Item == gameObject){
+			if (UIManager.Hands.CurrentSlot.Item == gameObject)
+			{
 				UIManager.Hands.CurrentSlot.SetSecondaryImage(flameRenderer.sprite);
 			}
+		}
+
+		if (isServer && heldByPlayer != null)
+		{
+			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts);
 		}
 	}
 
@@ -110,8 +135,6 @@ public class Welder : NetworkBehaviour
 		int spriteIndex = 0;
 		while (isBurning)
 		{
-			yield return YieldHelper.DeciSecond;
-
 			flameRenderer.sprite = flameSprites[spriteIndex];
 			spriteIndex++;
 			if (spriteIndex == 2)
@@ -130,6 +153,7 @@ public class Welder : NetworkBehaviour
 					UpdateState(false);
 				}
 			}
+			yield return YieldHelper.DeciSecond;
 		}
 	}
 }
