@@ -7,13 +7,13 @@ public class Deconstruction : MonoBehaviour
 	public GameObject wallGirderPrefab;
 
 	//Server only:
-	public void TryTileDeconstruct(TileChangeManager tileChangeManager, TileType tileType, Vector3 cellPos)
+	public void TryTileDeconstruct(TileChangeManager tileChangeManager, TileType tileType, Vector3 cellPos, Vector3 worldPos)
 	{
 		var cellPosInt = Vector3Int.RoundToInt(cellPos);
 		switch (tileType)
 		{
 			case TileType.Wall:
-				DoWallDeconstruction(cellPosInt, tileChangeManager);
+				DoWallDeconstruction(cellPosInt, tileChangeManager, worldPos);
 				tileChangeManager.gameObject.GetComponent<SystemManager>().UpdateAt(cellPosInt);
 				break;
 		}
@@ -42,14 +42,16 @@ public class Deconstruction : MonoBehaviour
 
 			//Start the progress bar:
 			UIManager.ProgressBar.StartProgress(Vector3Int.RoundToInt(worldCellPos),
-				10f, progressFinishAction, player);
+				10f, progressFinishAction, player, "Weld", 0.8f);
+
+			PlaySoundMessage.SendToAll("Weld", worldCellPos, Random.Range(0.9f, 1.1f));
 		}
 	}
 
-	private void DoWallDeconstruction(Vector3Int cellPos, TileChangeManager tcm)
+	private void DoWallDeconstruction(Vector3Int cellPos, TileChangeManager tcm, Vector3 soundPos)
 	{
 		tcm.RemoveTile(cellPos, TileChangeLayer.Wall);
-		//TODO do sfx and spawn girders
+		PlaySoundMessage.SendToAll("Deconstruct", soundPos, 1f);
 	}
 
 }

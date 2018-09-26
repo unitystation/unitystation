@@ -31,7 +31,8 @@ public class ProgressBar : NetworkBehaviour
 
 	[Server]
 	public void StartProgress(Vector3 pos, float timeForCompletion,
-		FinishProgressAction finishProgressAction, GameObject _player)
+		FinishProgressAction finishProgressAction, GameObject _player,
+		string _additionalSfx = "", float _additionalSfxPitch = 1f)
 	{
 		var _playerSprites = _player.GetComponent<PlayerSprites>();
 		playerProgress.Add(new PlayerProgressEntry
@@ -42,7 +43,9 @@ public class ProgressBar : NetworkBehaviour
 				position = pos,
 				playerSprites = _playerSprites,
 				playerPositionCache = _player.transform.position,
-				facingDirectionCache = _playerSprites.currentDirection
+				facingDirectionCache = _playerSprites.currentDirection,
+				additionalSfx = _additionalSfx,
+				additionalSfxPitch = _additionalSfxPitch
 		});
 
 		//Start the progress for the player:
@@ -86,6 +89,11 @@ public class ProgressBar : NetworkBehaviour
 				//Update the players progress bar
 				ProgressBarMessage.Send(playerProgress[i].player,
 					playerProgress[i].spriteIndex, playerProgress[i].position);
+
+				if(playerProgress[i].spriteIndex == 12){
+					//Almost done, check to see if there is an additionalSFX to play:
+					playerProgress[i].PlayAdditionalSound();
+				}
 			}
 
 			//Cancel the progress bar if the player moves away or faces another direction:
@@ -127,6 +135,8 @@ public class PlayerProgressEntry
 	public int spriteIndex { get { return Mathf.Clamp((int) (progress / progUnit), 0, 20); } }
 	public int lastSpriteIndex = 0;
 	public bool timeToNotifyPlayer { get { return lastSpriteIndex != spriteIndex; } }
+	public string additionalSfx = "";  // leave empty if you don't want one to play (plays at sprite index 12)
+	public float additionalSfxPitch = 1f;
 
 	//has the player moved away while the progress bar is in progress?
 	public bool HasMovedAway()
@@ -137,6 +147,14 @@ public class PlayerProgressEntry
 			return true;
 		}
 		return false;
+	}
+
+	public void PlayAdditionalSound()
+	{
+		if (!string.IsNullOrEmpty(additionalSfx))
+		{
+			PlaySoundMessage.SendToAll(additionalSfx, position, additionalSfxPitch);
+		}
 	}
 }
 
@@ -189,7 +207,7 @@ public class FinishProgressAction
 
 	private void DoTileDeconstruction()
 	{
-		CraftingManager.Deconstruction.TryTileDeconstruct( 
-		tileChangeManager, tileType, cellPos);
+		CraftingManager.Deconstruction.TryTileDeconstruct(
+			tileChangeManager, tileType, cellPos, originator.transform.position);
 	}
 }
