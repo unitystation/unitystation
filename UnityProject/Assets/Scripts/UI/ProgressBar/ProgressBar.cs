@@ -20,6 +20,7 @@ public class ProgressBar : NetworkBehaviour
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		spriteRenderer.gameObject.SetActive(false);
+		UIManager.Instance.progressBar = this;
 	}
 
 	///<Summary>
