@@ -22,7 +22,7 @@ public class Rightclick : MonoBehaviour {
 		int bob = 10;
 	} 
 
-	public Dictionary<string,Buttonfunction> FunctionButtons {
+	public Dictionary<string,Rightclick.Buttonfunction> FunctionButtons {
 		
 	}
 
