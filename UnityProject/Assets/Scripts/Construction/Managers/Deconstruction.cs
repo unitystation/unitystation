@@ -9,10 +9,12 @@ public class Deconstruction : MonoBehaviour
 	//Server only:
 	public void TryTileDeconstruct(TileChangeManager tileChangeManager, TileType tileType, Vector3 cellPos)
 	{
+		var cellPosInt = Vector3Int.RoundToInt(cellPos);
 		switch (tileType)
 		{
 			case TileType.Wall:
-				DoWallDeconstruction(Vector3Int.RoundToInt(cellPos), tileChangeManager);
+				DoWallDeconstruction(cellPosInt, tileChangeManager);
+				tileChangeManager.gameObject.GetComponent<SystemManager>().UpdateAt(cellPosInt);
 				break;
 		}
 	}
