@@ -124,7 +124,16 @@ public class TileTrigger : InputTrigger
 
 		if (tile?.TileType == TileType.Wall)
 		{
-			
+			var welder = handObj.GetComponent<Welder>();
+			if (welder)
+			{
+				if (welder.isOn)
+				{
+					//Request to deconstruct from the server:
+					RequestTileDeconstructMessage.Send(originator, gameObject, TileType.Wall,
+						cellPos, position);
+				}
+			}
 		}
 	}
 }
