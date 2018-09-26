@@ -17,14 +17,7 @@ public class Rightclick : MonoBehaviour {
 	public List<Sprite> Spritenames = new List<Sprite>(){
 		
 	};
-	public class Buttonfunction
-	{
-		int bob = 10;
-	} 
 
-	public Dictionary<string,Rightclick.Buttonfunction> FunctionButtons {
-		
-	}
 
 	public class Menu {
 		public Color colour;
