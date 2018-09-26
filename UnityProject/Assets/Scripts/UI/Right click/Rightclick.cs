@@ -17,35 +17,14 @@ public class Rightclick : MonoBehaviour {
 	public List<Sprite> Spritenames = new List<Sprite>(){
 		
 	};
+	public class Buttonfunction
+	{
+		int bob = 10;
+	} 
 
-	public List<string> names = new List<string>(){
-		"Menu1",
-		"Menu2",
-		"Menu3",
-		"Menu4",
-		"Menu5",
-		"Menu6",
-	};
-
-	public List<Color> Colours = new List<Color>(){
-		Color.gray,
-		Color.red,
-		Color.blue,
-		Color.black,
-		Color.cyan,
-		Color.green,
-	};
-
-	public List<int> submenuAmounts = new List<int>(){
-		1,
-		5,
-		3,
-		2,
-		4,
-		6
-	};
-
-
+	public Dictionary<string,Buttonfunction> FunctionButtons {
+		
+	}
 
 	public class Menu {
 		public Color colour;
@@ -86,10 +65,19 @@ public class Rightclick : MonoBehaviour {
 			newMenu.colour = Color.gray;
 			ItemAttributes Nameues = objects[i].GetComponent<ItemAttributes>();
 			if (Nameues == null) {
-				newMenu.title = ins.names[i];
+				newMenu.title = "Unknown";
 
 			} else {
 				newMenu.title = Nameues.itemName;
+
+				Menu NewSubMenu = new Menu ();
+				NewSubMenu.colour = Color.gray;
+				NewSubMenu.FunctionType = "Examine";
+				NewSubMenu.Item = objects [i];		
+				NewSubMenu.title = "Examine";
+				NewSubMenu.sprite = ins.Spritenames [1];
+				newMenu.SubMenus.Add (NewSubMenu);
+			
 			}
 
 			var UseSprite = objects[i].GetComponentInChildren<SpriteRenderer>();
@@ -103,19 +91,29 @@ public class Rightclick : MonoBehaviour {
 				Menu NewSubMenu = new Menu();
 				NewSubMenu.colour = Color.gray;
 				NewSubMenu.FunctionType = "PickUpTrigger";
-				NewSubMenu.Item = objects [i];			
-				//NewSubMenu.title = "sub " + ins.names[L];
-				NewSubMenu.sprite = ins.Spritenames[1];
+				NewSubMenu.Item = objects[i];		
+				NewSubMenu.title = "PickUp";
+				NewSubMenu.sprite = ins.Spritenames[2];
+				newMenu.SubMenus.Add (NewSubMenu);
+			}
+			var draggingTriggerues = objects[i].GetComponent<PickUpTrigger>();
+			if (!(draggingTriggerues == null)) {
+				Menu NewSubMenu = new Menu();
+				NewSubMenu.colour = Color.gray;
+				NewSubMenu.FunctionType = "draggingTriggerues";
+				NewSubMenu.Item = objects[i];			
+				NewSubMenu.title = "Drag";
+				NewSubMenu.sprite = ins.Spritenames[3];
 				newMenu.SubMenus.Add (NewSubMenu);
 			}
 
-			for (int L = 0; L < 3; L++) {
-				Menu NewSubMenu = new Menu();
-				NewSubMenu.colour = Color.gray;
-				//NewSubMenu.title = "sub " + ins.names[L];
-				NewSubMenu.sprite = ins.Spritenames[0];
-				newMenu.SubMenus.Add (NewSubMenu);
-			}
+			//for (int L = 0; L < 3; L++) {
+			//	Menu NewSubMenu = new Menu();
+			//	NewSubMenu.colour = Color.gray;
+			//	NewSubMenu.title = "sub " + ins.names[L];
+			//	NewSubMenu.sprite = ins.Spritenames[0];
+			//	newMenu.SubMenus.Add (NewSubMenu);
+			//}
 			ins.options.Add (newMenu);
 		}
 

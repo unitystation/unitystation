@@ -16,10 +16,10 @@ public class RadialMenu : MonoBehaviour {
 
 	public Dictionary<int,int> Density = new  Dictionary<int,int>(){
 		{100,6},
-		{200,12},
-		{300,24},
-		{400,48},
-		{500,96}
+		{200,15},
+		{300,32},
+		{400,64},
+		{500,128}
 
 	};
 
@@ -49,7 +49,7 @@ public class RadialMenu : MonoBehaviour {
 
 	// Use this for initialization
 	public void SetupMenu (Rightclick obj) {
-		centercirlce = new Vector2 (Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
+		centercirlce = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
 		StoredObject = obj;
 		SpawnButtons (obj.options,100,0);
 
@@ -61,16 +61,15 @@ public class RadialMenu : MonoBehaviour {
 		int MinimumAngle = 0;
 		int MaximumAngle = 360;
 		if (Menudepth > 100) {
-			//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ if manu is 0  
 			Range = Menus.Count * (360 / Density [Menudepth]);
 			MinimumAngle = (int) (StartingAngle - ((Range/2) - (0.5f * (360 / Density [Menudepth]))));
 			MaximumAngle = StartingAngle + Range;
-		}
+		} 
 		for (int i = 0; i < Menus.Count; i++) {
 			RadialButton newButton = Instantiate (ButtonPrefab) as RadialButton;
 			newButton.transform.SetParent (transform, false);
 			//Logger.Log((Range*Mathf.Deg2Rad).ToString() + "man", Category.UI);
-			float theta = ((Range*Mathf.Deg2Rad) / Menus.Count) * i;
+			float theta = (float)(((Range*Mathf.Deg2Rad) / Menus.Count) * i);
 			//float theta = (2 * Mathf.PI / Menus.Count) * i;
 			theta = (theta + (MinimumAngle * Mathf.Deg2Rad));
 			float xpos = Mathf.Sin (theta);
@@ -79,8 +78,10 @@ public class RadialMenu : MonoBehaviour {
 			//newButton.transform.localPosition = new Vector2 (0f, 100f);
 			newButton.Circle.color = Menus[i].colour;
 			newButton.Icon.sprite = Menus[i].sprite;
+			newButton.FunctionType = Menus [i].FunctionType;
+			newButton.Item = Menus [i].Item;
 			newButton.MenuDepth = Menudepth;
-			//newButton.title.text = Menus[i].title;
+			newButton.Hiddentitle = Menus[i].title;
 			newButton.MyMenu = this;
 			if (CurrentOptionsDepth.ContainsKey (Menudepth)) {
 				CurrentOptionsDepth[Menudepth].Add (newButton);
@@ -111,7 +112,7 @@ public class RadialMenu : MonoBehaviour {
 			List<RadialButton> CurrentOptions = CurrentOptionsDepth [CurrentMenuDepth];
 
 			MousePosition = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
-			toVector2M = new Vector2 (Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
+			toVector2M = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
 
 			Vector2 Relativecentre = toVector2M - centercirlce;
 			//Logger.Log (Relativecentre.ToString ()+ " Relativecentre" , Category.UI);
@@ -125,10 +126,13 @@ public class RadialMenu : MonoBehaviour {
 			}
 			Angle = Angle * -1;
 
-			//Angle = Angle + SelectionRange[CurrentMenuDepth][1];
+			//Logger.Log (Angle.ToString () + " old Angle", Category.UI);
+			//Logger.Log (((int)((Angle) / (SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count))).ToString () + " old MenuItem", Category.UI);
 			//Logger.Log (Angle.ToString ()+ " Angle" , Category.UI);
 
 			Angle = Angle + ((SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count) / 2);
+
+
 			//Angle = Angle + SelectionRange[CurrentMenuDepth][1];
 			if (Angle > 360) {
 				Angle += -360;
@@ -137,6 +141,7 @@ public class RadialMenu : MonoBehaviour {
 			//MenuItem = (int)(Angle / (360 / CurrentOptions.Count));
 			//SelectionRange[CurrentMenuDepth][1] 
 			MenuItem = (int)((Angle) / (SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count));
+
 			//Logger.Log ((SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count).ToString () + " Density", Category.UI);
 			//Logger.Log (Angle.ToString () + " Angle", Category.UI);
 			//Logger.Log (SelectionRange[CurrentMenuDepth][0].ToString () + " Range", Category.UI);
@@ -151,6 +156,7 @@ public class RadialMenu : MonoBehaviour {
 					if (LastSelectedset) {
 						//LastSelected.SetColour (LastSelected.DefaultColour);
 						if (LastSelected.MenuDepth == CurrentMenuDepth) {
+							LastSelected.title.text = "";
 							LastSelected.transform.SetSiblingIndex (LastSelected.DefaultPosition); 
 							LastSelected.SetColour (LastSelected.DefaultColour);
 						} else {
@@ -158,7 +164,7 @@ public class RadialMenu : MonoBehaviour {
 						}
 
 					}
-
+					CurrentOptions [MenuItem].title.text = CurrentOptions [MenuItem].Hiddentitle;
 					CurrentOptions [MenuItem].DefaultColour = CurrentOptions [MenuItem].ReceiveCurrentColour ();
 					CurrentOptions [MenuItem].DefaultPosition = CurrentOptions[MenuItem].transform.GetSiblingIndex();
 					CurrentOptions [MenuItem].SetColour (Color.white);
@@ -189,13 +195,18 @@ public class RadialMenu : MonoBehaviour {
 
 			} else {
 				if ((Time.time - LastInRangeSubMenu) > 0.3f && (CurrentMenuDepth > 100)){
+
 					Logger.Log ("yo am Destroying", Category.UI);
-					if (ResetDepthOnDestroy.ContainsKey (CurrentMenuDepth)) {
+					if (ResetDepthOnDestroy.ContainsKey (CurrentMenuDepth))  {
+						ResetDepthOnDestroy [CurrentMenuDepth].title.text = "";
 						ResetDepthOnDestroy [CurrentMenuDepth].transform.SetSiblingIndex (ResetDepthOnDestroy [CurrentMenuDepth].DefaultPosition); 
 						ResetDepthOnDestroy [CurrentMenuDepth].SetColour (ResetDepthOnDestroy [CurrentMenuDepth].DefaultColour);
 					} else {
 						LastSelected.transform.SetSiblingIndex(LastSelected.DefaultPosition); 
 						LastSelected.SetColour(LastSelected.DefaultColour);
+						LastSelected.title.text = "";
+						LastSelected = null;
+						LastSelectedset = false;
 					}
 					List<RadialButton> Acopy = CurrentOptions;
 					for (int i = 0; i < Acopy.Count; i++) {
@@ -217,11 +228,18 @@ public class RadialMenu : MonoBehaviour {
 		if (Input.GetMouseButtonUp (1))
 		{
 			if (Selected) {
+				Logger.Log (Selected.FunctionType, Category.UI);
 				if (Selected.FunctionType == "PickUpTrigger") {
 
-					//Selected.GetComponents<PickUpTrigger>().Interact(Selected.Item, PlayerManager.LocalPlayerScript.WorldPos, UIManager.Instance.Hands.CurrentSlot.eventName );
+					Selected.Item.GetComponent<PickUpTrigger>().Interact(
+						PlayerManager.LocalPlayerScript.gameObject,
+						PlayerManager.LocalPlayerScript.WorldPos,
+						UIManager.Instance.hands.CurrentSlot.eventName );
 				}
-
+				if (Selected.FunctionType == "Examine") {
+					Selected.Item.GetComponent<ItemAttributes>().OnExamine();
+				}
+				//PlayerManager.LocalPlayerScript.WorldPos
 				Logger.Log ("yo this "+Selected.title.text , Category.UI);
 			}
 			//CurrentOptions = null;
