@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class Managers : MonoBehaviour
 {
@@ -32,12 +33,18 @@ public class Managers : MonoBehaviour
 		}
 	}
 
-	public void SetScreenForGame()
+	public async void SetScreenForGame()
 	{
 		//Called by GameData
-
 		UIParent.SetActive(true);
 		UIManager.Display.SetScreenForGame();
+
+		await Task.Delay(100);
+
+		//Spawn the ProgressBar handler:
+		var p = PoolManager.Instance.PoolNetworkInstantiate(Resources.Load("ProgressBar") as GameObject
+		, Vector3.zero, Quaternion.identity);
+		UIManager.Instance.progressBar = p.GetComponent<ProgressBar>();
 	}
 
 	public void SetScreenForLobby()

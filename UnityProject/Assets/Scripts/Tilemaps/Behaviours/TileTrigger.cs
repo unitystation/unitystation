@@ -89,8 +89,6 @@ public class TileTrigger : InputTrigger
 			pna.CmdPlaceItem(hand, targetPosition, transform.root.gameObject, true);
 		}
 
-		
-
 		if (tile?.TileType == TileType.Floor)
 		{
 			//Crowbar
@@ -110,16 +108,23 @@ public class TileTrigger : InputTrigger
 			}
 		}
 
-		if(tile?.TileType == TileType.Window){
+		if (tile?.TileType == TileType.Window)
+		{
 			//Check Melee:
 			MeleeTrigger melee = windowTileMap.gameObject.GetComponent<MeleeTrigger>();
 			melee?.MeleeInteract(originator, hand);
 		}
 
-		if(tile?.TileType == TileType.Grill){
+		if (tile?.TileType == TileType.Grill)
+		{
 			//Check Melee:
 			MeleeTrigger melee = grillTileMap.gameObject.GetComponent<MeleeTrigger>();
 			melee?.MeleeInteract(originator, hand);
+		}
+
+		if (tile?.TileType == TileType.Wall)
+		{
+			
 		}
 	}
 }

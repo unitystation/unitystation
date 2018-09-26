@@ -4,17 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-//Server controls the progress rate and finishedAction is called serverside to finish the crafting
+//Server controls the progress rate and finishedAction is used serverside to determine the action when progress completes
 //As there may be many progress bars being used by multiple players throughout then the server needs to
 //be capable of keeping track of more then 1 progress state at any given time
-public class ProgressBarCrafting : NetworkBehaviour
+public class ProgressBar : NetworkBehaviour
 {
 	public Sprite[] progressSprites;
 
 	private SpriteRenderer spriteRenderer;
 
 	//only useful serverside:
-	private List<PlayerProgressCrafting> playerProgress = new List<PlayerProgressCrafting>();
+	private List<PlayerProgressEntry> playerProgress = new List<PlayerProgressEntry>();
 
 	void Start()
 	{
@@ -30,14 +30,14 @@ public class ProgressBarCrafting : NetworkBehaviour
 
 	[Server]
 	public void StartProgress(Vector3 pos, float timeForCompletion,
-		Action serverCompletedAction, GameObject _player)
+		FinishProgressAction finishProgressAction, GameObject _player)
 	{
 		var _playerSprites = _player.GetComponent<PlayerSprites>();
-		playerProgress.Add(new PlayerProgressCrafting
+		playerProgress.Add(new PlayerProgressEntry
 		{
 			player = _player,
 				timeToFinish = timeForCompletion,
-				completedAction = serverCompletedAction,
+				completedAction = finishProgressAction,
 				position = pos,
 				playerSprites = _playerSprites,
 				playerPositionCache = _player.transform.position,
@@ -97,13 +97,13 @@ public class ProgressBarCrafting : NetworkBehaviour
 			//Finished! Invoke the action and close the progress bar for the player
 			if (playerProgress[i].progress >= playerProgress[i].timeToFinish)
 			{
-				playerProgress[i].completedAction.Invoke();
+				playerProgress[i].completedAction.DoAction();
 				CloseProgressBar(playerProgress[i]);
 			}
 		}
 	}
 
-	private void CloseProgressBar(PlayerProgressCrafting playerProg)
+	private void CloseProgressBar(PlayerProgressEntry playerProg)
 	{
 		//Notify player to turn off progress bar:
 		ProgressBarMessage.Send(playerProg.player, -1, playerProg.position);
@@ -112,7 +112,7 @@ public class ProgressBarCrafting : NetworkBehaviour
 	}
 }
 
-public class PlayerProgressCrafting
+public class PlayerProgressEntry
 {
 	public float progress = 0f;
 	public float timeToFinish;
@@ -120,10 +120,10 @@ public class PlayerProgressCrafting
 	public PlayerSprites playerSprites;
 	public Vector3 playerPositionCache;
 	public Orientation facingDirectionCache;
-	public Action completedAction;
+	public FinishProgressAction completedAction;
 	public Vector3 position;
 	public float progUnit { get { return timeToFinish / 21f; } }
-	public int spriteIndex { get { return Mathf.Clamp((int) (progress / progUnit), 0, 21); } }
+	public int spriteIndex { get { return Mathf.Clamp((int) (progress / progUnit), 0, 20); } }
 	public int lastSpriteIndex = 0;
 	public bool timeToNotifyPlayer { get { return lastSpriteIndex != spriteIndex; } }
 
@@ -137,5 +137,58 @@ public class PlayerProgressCrafting
 		}
 		return false;
 	}
+}
 
+public class FinishProgressAction
+{
+	public enum Action
+	{
+		TileConstruction,
+		TileDeconstruction,
+		//Add whatever else you need here
+	}
+
+	private FinishProgressAction.Action actionType;
+
+	//Tile change stuff:
+	private TileChangeManager tileChangeManager;
+	private TileType tileType;
+	private Vector3 cellPos;
+
+	private GameObject originator;
+
+	//Create a constructor for each new use type of FinishProgressAction (i.e you might add an Action type called HandCuff)
+	public FinishProgressAction(FinishProgressAction.Action action, TileChangeManager _tileChangeManager,
+		TileType _tileType, Vector3 _cellPos, GameObject _originator)
+	{
+		actionType = action;
+		tileChangeManager = _tileChangeManager;
+		tileType = _tileType;
+		cellPos = _cellPos;
+		originator = _originator;
+	}
+
+	public void DoAction()
+	{
+		switch (actionType)
+		{
+			case Action.TileConstruction:
+				DoTileConstruction();
+				break;
+			case Action.TileDeconstruction:
+				DoTileDeconstruction();
+				break;
+		}
+	}
+
+	private void DoTileConstruction()
+	{
+		//TODO
+	}
+
+	private void DoTileDeconstruction()
+	{
+		CraftingManager.Deconstruction.TryTileDeconstruct( 
+		tileChangeManager, tileType, cellPos);
+	}
 }

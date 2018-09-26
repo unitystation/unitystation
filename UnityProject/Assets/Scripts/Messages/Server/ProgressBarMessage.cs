@@ -16,7 +16,7 @@ public class ProgressBarMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(Recipient);
-		CraftingManager.ProgressBar.ClientUpdateProgress(Position, SpriteIndex);
+		UIManager.ProgressBar.ClientUpdateProgress(Position, SpriteIndex);
 	}
 
 	public static ProgressBarMessage Send(GameObject recipient, int spriteIndex, Vector3 pos)
