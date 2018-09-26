@@ -2114,6 +2114,7 @@ GameObject:
   - component: {fileID: 114249993451222874}
   - component: {fileID: 114113997428961118}
   - component: {fileID: 114025630962641706}
+  - component: {fileID: 114920310630293518}
   m_Layer: 0
   m_Name: CraftingManager
   m_TagString: Untagged
@@ -12314,6 +12315,7 @@ MonoBehaviour:
   techweb: {fileID: 114132697322968044}
   designs: {fileID: 114249993451222874}
   construction: {fileID: 114025630962641706}
+  deconstruction: {fileID: 114920310630293518}
 --- !u!114 &114124074369832178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -20443,6 +20445,7 @@ MonoBehaviour:
   toolTip: {fileID: 114819375966709390}
   walkRunControl: {fileID: 114928448129669528}
   ttsToggle: {fileID: 114913463177449856}
+  progressBar: {fileID: 0}
   isInputFocus: 0
 --- !u!114 &114897793867991922
 MonoBehaviour:
@@ -20668,6 +20671,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114920310630293518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1422774297365668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88089395c4b1d4419b37a8390bf9b277, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wallGirderPrefab: {fileID: 0}
 --- !u!114 &114921633164852696
 MonoBehaviour:
   m_ObjectHideFlags: 1

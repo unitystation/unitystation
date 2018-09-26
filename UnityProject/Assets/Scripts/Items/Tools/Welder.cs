@@ -6,7 +6,8 @@ using UnityEngine.Networking;
 public class Welder : NetworkBehaviour
 {
 
-	//TODO: Update the sprites from the array below based on how much fuel is left:
+	//TODO: Update the sprites from the array below based on how much fuel is left
+	//TODO: gas readout in stats
 
 	[Header("Place sprites in order from full gas to no gas 5 all up!")]
 	public Sprite[] welderSprites;
@@ -121,7 +122,7 @@ public class Welder : NetworkBehaviour
 
 	void CheckHeldByPlayer()
 	{
-		//Local player is holding it
+		//Local player is holding it, this is so we can update the UISlot of that player holding it
 		if (heldByPlayer == PlayerManager.LocalPlayer && heldByPlayer != null)
 		{
 			if (UIManager.Hands.CurrentSlot.Item == gameObject)
@@ -130,6 +131,8 @@ public class Welder : NetworkBehaviour
 			}
 		}
 
+		//Server also needs to know which player is holding the item so that it can sync
+		//the inhand image when the player turns it on and off:
 		if (isServer && heldByPlayer != null)
 		{
 			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts);
@@ -139,8 +142,10 @@ public class Welder : NetworkBehaviour
 	IEnumerator BurnFuel()
 	{
 		int spriteIndex = 0;
+		int serverFuelCheck = (int)serverFuelAmt;
 		while (isBurning)
 		{
+			//Flame animation:
 			flameRenderer.sprite = flameSprites[spriteIndex];
 			spriteIndex++;
 			if (spriteIndex == 2)
@@ -148,10 +153,18 @@ public class Welder : NetworkBehaviour
 				spriteIndex = 0;
 			}
 
+			//Server fuel burning:
 			if (isServer)
 			{
 				serverFuelAmt -= 0.041f;
-				clientFuelAmt = serverFuelAmt;
+
+				//This is so that the syncvar isn't being updated every DeciSecond:
+				if((int)serverFuelAmt != serverFuelCheck){
+					serverFuelCheck = (int)serverFuelAmt;
+					clientFuelAmt = serverFuelAmt;
+				}
+
+				//Ran out of fuel
 				if (serverFuelAmt < 0f)
 				{
 					serverFuelAmt = 0f;
