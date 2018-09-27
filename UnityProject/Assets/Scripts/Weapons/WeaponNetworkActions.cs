@@ -63,7 +63,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (!playerMove.allowInput ||
 			playerMove.isGhost ||
 			!victim ||
-			!playerScript.playerNetworkActions.SlotNotEmpty(slot)
+			!playerScript.playerNetworkActions.SlotNotEmpty(slot) ||
+			!playerScript.playerHealth.serverPlayerConscious
 		)
 		{
 			return;
@@ -200,6 +201,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		lerping = true;
 	}
 
+	[Command]
+	private void CmdRequestInputActivation(){
+		if(playerScript.playerHealth.serverPlayerConscious){
+			playerMove.allowInput = true;
+		} else {
+			playerMove.allowInput = false;
+		}
+	}
+
 	//Server lerps
 	public override void UpdateMe()
 	{
@@ -217,7 +227,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 					{
 						if (PlayerManager.LocalPlayer == gameObject)
 						{
-							PlayerManager.LocalPlayerScript.playerMove.allowInput = true;
+							CmdRequestInputActivation(); //Ask server if you can move again after melee attack
 						}
 					}
 				}
