@@ -518,6 +518,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void SetConsciousState(bool conscious)
 	{
+		//Store the server conscious state for this player:
+		playerScript.playerHealth.serverPlayerConscious = conscious;
+
 		if (conscious)
 		{
 			playerMove.allowInput = true;
