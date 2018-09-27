@@ -12,7 +12,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 	private bool isForLerpBack;
 	private Vector3 lerpFrom;
-	private bool lerping;
+	public bool lerping { get; private set; } //needs to be read by Camera2DFollow
 
 	private float lerpProgress;
 
@@ -101,6 +101,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 				tileMapDamage.DoMeleeDamage((Vector2) transform.position + stabDirection,
 					gameObject, (int) weaponAttr.hitDamage);
+
+				playerMove.allowInput = false;
 				RpcMeleeAttackLerp(stabDirection, weapon);
 				StartCoroutine(AttackCoolDown());
 				return;
@@ -117,34 +119,13 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		//Meaty bodies:
 		HealthBehaviour victimHealth = victim.GetComponent<HealthBehaviour>();
 
-		// checks object and component existence before defining healthBehaviour variable.
-		if (victimHealth.IsDead == false)
+		if (victimHealth.IsDead && weaponAttr.type == ItemType.Knife)
 		{
-			if (victim != gameObject)
-			{
-				RpcMeleeAttackLerp(stabDirection, weapon);
-			}
-
-			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, DamageType.BRUTE, damageZone);
-			if (weaponAttr.hitDamage > 0)
-			{
-				PostToChatMessage.SendItemAttackMessage(weapon, gameObject, victim, (int) weaponAttr.hitDamage, damageZone);
-			}
-
-			soundNetworkActions.RpcPlayNetworkSound(weaponAttr.hitSound, transform.position);
-			StartCoroutine(AttackCoolDown());
-		}
-		else
-		{
-			//Butchering if we can
-			if (weaponAttr.type != ItemType.Knife)
-			{
-				return;
-			}
 			if (victim.GetComponent<SimpleAnimal>())
 			{
 				SimpleAnimal attackTarget = victim.GetComponent<SimpleAnimal>();
 				RpcMeleeAttackLerp(stabDirection, weapon);
+				playerMove.allowInput = false;
 				attackTarget.Harvest();
 				soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 			}
@@ -152,10 +133,28 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			{
 				PlayerHealth attackTarget = victim.GetComponent<PlayerHealth>();
 				RpcMeleeAttackLerp(stabDirection, weapon);
+				playerMove.allowInput = false;
 				attackTarget.Harvest();
 				soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
 			}
+			return;
 		}
+
+		if (victim != gameObject)
+		{
+			RpcMeleeAttackLerp(stabDirection, weapon);
+			playerMove.allowInput = false;
+		}
+
+		victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, DamageType.BRUTE, damageZone);
+		if (weaponAttr.hitDamage > 0)
+		{
+			PostToChatMessage.SendItemAttackMessage(weapon, gameObject, victim, (int) weaponAttr.hitDamage, damageZone);
+		}
+
+		soundNetworkActions.RpcPlayNetworkSound(weaponAttr.hitSound, transform.position);
+		StartCoroutine(AttackCoolDown());
+
 	}
 
 	private IEnumerator AttackCoolDown(float seconds = 0.5f)
@@ -184,13 +183,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (lerpSprite != null)
 		{
 			playerScript.hitIcon.ShowHitIcon(stabDir, lerpSprite);
-			if (PlayerManager.LocalPlayer)
-			{
-				if (PlayerManager.LocalPlayer == gameObject)
-				{
-					PlayerManager.LocalPlayerScript.playerMove.allowInput = false;
-				}
-			}
 		}
 		lerpFrom = transform.position;
 		Vector3 newDir = stabDir * 0.5f;
@@ -202,10 +194,14 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	[Command]
-	private void CmdRequestInputActivation(){
-		if(playerScript.playerHealth.serverPlayerConscious){
+	private void CmdRequestInputActivation()
+	{
+		if (playerScript.playerHealth.serverPlayerConscious)
+		{
 			playerMove.allowInput = true;
-		} else {
+		}
+		else
+		{
 			playerMove.allowInput = false;
 		}
 	}

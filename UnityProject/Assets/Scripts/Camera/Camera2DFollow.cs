@@ -70,7 +70,14 @@ public class Camera2DFollow : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		if (target != null && !isShaking)
+		if(!PlayerManager.LocalPlayerScript){
+			return;
+		}
+		//Really should sort out the load order and then we can remove this check:
+		if(!PlayerManager.LocalPlayerScript.weaponNetworkActions){
+			return;
+		}
+		if (target != null && !isShaking && !PlayerManager.LocalPlayerScript.weaponNetworkActions.lerping)
 		{
 			// only update lookahead pos if accelerating or changed direction
 			float xMoveDelta = (target.position - lastTargetPosition).x;

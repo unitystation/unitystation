@@ -93,10 +93,12 @@ using UnityEngine.Networking;
 			}
 			gameObject.GetComponent<RegisterPlayer>().IsBlocking = false;
 			gameObject.GetComponent<ForceRotation>().Rotation.eulerAngles = new Vector3(0,0,rot);
-			if ( Math.Abs( rot ) > 0 ) {
-				//So other players can walk over the Unconscious
-				AdjustSpriteOrders(-30);
-			}
+
+			//Might be no longer needed as all spriteRenderers are set to Blood layer
+			// if ( Math.Abs( rot ) > 0 ) {
+			// 	//So other players can walk over the Unconscious
+			// 	AdjustSpriteOrders(-30);
+			// }
 		}
 
 		/// Changes direction by degrees; positive = CW, negative = CCW
