@@ -5,15 +5,16 @@ using UnityEngine;
 public class Deconstruction : MonoBehaviour
 {
 	public GameObject wallGirderPrefab;
+	public GameObject metalPrefab;
 
 	//Server only:
-	public void TryTileDeconstruct(TileChangeManager tileChangeManager, TileType tileType, Vector3 cellPos)
+	public void TryTileDeconstruct(TileChangeManager tileChangeManager, TileType tileType, Vector3 cellPos, Vector3 worldPos)
 	{
 		var cellPosInt = Vector3Int.RoundToInt(cellPos);
 		switch (tileType)
 		{
 			case TileType.Wall:
-				DoWallDeconstruction(cellPosInt, tileChangeManager);
+				DoWallDeconstruction(cellPosInt, tileChangeManager, worldPos);
 				tileChangeManager.gameObject.GetComponent<SystemManager>().UpdateAt(cellPosInt);
 				break;
 		}
@@ -37,19 +38,32 @@ public class Deconstruction : MonoBehaviour
 				matrixRoot.GetComponent<TileChangeManager>(),
 				tileType,
 				cellPos,
+				worldCellPos,
 				player
 			);
 
 			//Start the progress bar:
 			UIManager.ProgressBar.StartProgress(Vector3Int.RoundToInt(worldCellPos),
-				10f, progressFinishAction, player);
+				10f, progressFinishAction, player, "Weld", 0.8f);
+
+			PlaySoundMessage.SendToAll("Weld", worldCellPos, Random.Range(0.9f, 1.1f));
 		}
 	}
 
-	private void DoWallDeconstruction(Vector3Int cellPos, TileChangeManager tcm)
+	private void DoWallDeconstruction(Vector3Int cellPos, TileChangeManager tcm, Vector3 worldPos)
 	{
 		tcm.RemoveTile(cellPos, TileChangeLayer.Wall);
-		//TODO do sfx and spawn girders
+		PlaySoundMessage.SendToAll("Deconstruct", worldPos, 1f);
+
+		//Spawn 4 metal sheets:
+		int spawnMetalsAmt = 0;
+		while (spawnMetalsAmt < 4)
+		{
+			spawnMetalsAmt++;
+			PoolManager.Instance.PoolNetworkInstantiate(metalPrefab, worldPos, Quaternion.identity, tcm.transform);
+		}
+
+		//TODO spawn wall girder!
 	}
 
 }
