@@ -5,6 +5,7 @@ using UnityEngine;
 public class Deconstruction : MonoBehaviour
 {
 	public GameObject wallGirderPrefab;
+	public GameObject metalPrefab;
 
 	//Server only:
 	public void TryTileDeconstruct(TileChangeManager tileChangeManager, TileType tileType, Vector3 cellPos, Vector3 worldPos)
@@ -37,6 +38,7 @@ public class Deconstruction : MonoBehaviour
 				matrixRoot.GetComponent<TileChangeManager>(),
 				tileType,
 				cellPos,
+				worldCellPos,
 				player
 			);
 
@@ -48,10 +50,20 @@ public class Deconstruction : MonoBehaviour
 		}
 	}
 
-	private void DoWallDeconstruction(Vector3Int cellPos, TileChangeManager tcm, Vector3 soundPos)
+	private void DoWallDeconstruction(Vector3Int cellPos, TileChangeManager tcm, Vector3 worldPos)
 	{
 		tcm.RemoveTile(cellPos, TileChangeLayer.Wall);
-		PlaySoundMessage.SendToAll("Deconstruct", soundPos, 1f);
+		PlaySoundMessage.SendToAll("Deconstruct", worldPos, 1f);
+
+		//Spawn 4 metal sheets:
+		int spawnMetalsAmt = 0;
+		while (spawnMetalsAmt < 4)
+		{
+			spawnMetalsAmt++;
+			PoolManager.Instance.PoolNetworkInstantiate(metalPrefab, worldPos, Quaternion.identity, tcm.transform);
+		}
+
+		//TODO spawn wall girder!
 	}
 
 }

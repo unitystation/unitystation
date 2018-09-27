@@ -173,17 +173,19 @@ public class FinishProgressAction
 	private TileChangeManager tileChangeManager;
 	private TileType tileType;
 	private Vector3 cellPos;
+	private Vector3 worldPos; //worldPos of the action or tile
 
 	private GameObject originator;
 
 	//Create a constructor for each new use type of FinishProgressAction (i.e you might add an Action type called HandCuff)
 	public FinishProgressAction(FinishProgressAction.Action action, TileChangeManager _tileChangeManager,
-		TileType _tileType, Vector3 _cellPos, GameObject _originator)
+		TileType _tileType, Vector3 _cellPos, Vector3 _worldPos, GameObject _originator)
 	{
 		actionType = action;
 		tileChangeManager = _tileChangeManager;
 		tileType = _tileType;
 		cellPos = _cellPos;
+		worldPos = _worldPos;
 		originator = _originator;
 	}
 
@@ -208,6 +210,6 @@ public class FinishProgressAction
 	private void DoTileDeconstruction()
 	{
 		CraftingManager.Deconstruction.TryTileDeconstruct(
-			tileChangeManager, tileType, cellPos, originator.transform.position);
+			tileChangeManager, tileType, cellPos, worldPos);
 	}
 }
