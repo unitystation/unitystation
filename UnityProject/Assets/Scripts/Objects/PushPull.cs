@@ -11,72 +11,12 @@ public class PushPull : VisibleBehaviour {
 				pushable = pushableTransform;
 			} else {
 				pushable = pushableTransform = GetComponent<IPushable>();
-				pushable?.OnTileReached().AddListener( pos => {
-					Logger.LogTraceFormat( "{0} is reached ON SERVER", Category.PushPull, pos );
-					isPushing = false;
-				} );
-				pushable?.OnUpdateRecieved().AddListener( serverPos => {
-					if ( prediction == PushState.None ){
-						return;
-					}
-					approval = serverPos == predictivePushTarget ? ApprovalState.Approved : ApprovalState.Invalid;
-					Logger.LogTraceFormat( "{0} predictive push to {1}", Category.PushPull, approval, serverPos );
-
-					//if predictive lerp is finished
-					if ( approval == ApprovalState.Approved )
-					{
-						if ( prediction == PushState.Finished )
-						{
-							FinishPush();
-						}
-						else if ( prediction == PushState.InProgress )
-						{
-							Logger.LogTraceFormat( "Approved and waiting till lerp is finished", Category.PushPull );
-						}
-					}
-					else if ( approval == ApprovalState.Invalid )
-					{
-						Logger.LogWarningFormat( "Invalid push detected in OnUpdateRecieved!", Category.PushPull );
-					}
-
-				} );
-				pushable?.OnClientTileReached().AddListener( pos => {
-					if ( prediction == PushState.None ){
-						return;
-					}
-					if ( pos != predictivePushTarget )
-					{
-						Logger.LogWarningFormat( "Lerped to {0} while target pos was {1}, wtf?", Category.PushPull, pos, predictivePushTarget );
-						return;
-					}
-					Logger.LogTraceFormat( "{0} is reached ON CLIENT, approval={1}", Category.PushPull, pos, approval );
-					prediction = PushState.Finished;
-					switch ( approval )
-					{
-						/*|| approval == ApprovalState.Invalid*/
-						case ApprovalState.Approved:
-							//ok, finishing
-							FinishPush();
-							break;
-						case ApprovalState.Invalid:
-							Logger.LogWarningFormat( "Invalid push detected in OnClientTileReached!", Category.PushPull );
-							break;
-						case ApprovalState.None:
-							Logger.LogTraceFormat( "Finished lerp, waiting for server approval...", Category.PushPull );
-							break;
-					}
-				} );
+				pushable?.OnUpdateRecieved().AddListener( OnUpdateReceived );
+				pushable?.OnTileReached().AddListener( OnServerTileReached );
+				pushable?.OnClientTileReached().AddListener( OnClientTileReached );
 			}
 			return pushable;
 		}
-	}
-
-	private void FinishPush()
-	{
-		Logger.LogTraceFormat( "Finishing predictive push", Category.PushPull );
-		prediction = PushState.None;
-		approval = ApprovalState.None;
-		predictivePushTarget = TransformState.HiddenPos;
 	}
 
 	public bool CanBePushed => !registerTile.IsPassable();
@@ -93,7 +33,7 @@ public class PushPull : VisibleBehaviour {
 
 	[Server]
 	public bool TryPush( Vector3Int from, Vector2Int dir ) {
-		if ( !CanBePushed || isPushing || Pushable == null ) {
+		if ( !CanBePushed || isPushing || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
 		Vector3Int currentPos = registerTile.WorldPosition;
@@ -106,16 +46,18 @@ public class PushPull : VisibleBehaviour {
 			return false;
 		}
 
-		Logger.LogTraceFormat( "Started push {0}->{1}", Category.PushPull, from, target );
-		isPushing = true;
-//		pushTarget = target;
-		Pushable.Push( dir );
+		bool success = Pushable.Push( dir );
+		if ( success ) {
+			isPushing = true;
+	//		pushTarget = target;
+			Logger.LogTraceFormat( "Started push {0}->{1}", Category.PushPull, from, target );
+		}
 
-		return true;
+		return success;
 	}
 
 	public bool TryPredictivePush( Vector3Int from, Vector2Int dir ) {
-		if ( !CanBePushed || !allowedToPush || Pushable == null ) {
+		if ( !CanBePushed || !allowedToPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
 		Vector3Int currentPos = registerTile.WorldPosition;
@@ -128,17 +70,87 @@ public class PushPull : VisibleBehaviour {
 			return false;
 		}
 
-		Logger.LogTraceFormat( "Started predictive push {0}->{1}", Category.PushPull, from, target );
-		prediction = PushState.InProgress;
-		approval = ApprovalState.None;
-		predictivePushTarget = target;
-		Pushable.PredictivePush( dir );
+		bool success = Pushable.PredictivePush( dir );
+		if ( success ) {
+			prediction = PushState.InProgress;
+			approval = ApprovalState.None;
+			predictivePushTarget = target;
+			Logger.LogTraceFormat( "Started predictive push {0}->{1}", Category.PushPull, from, target );
+		}
 
-		return true;
+		return success;
+	}
+
+	private void FinishPush()
+	{
+		Logger.LogTraceFormat( "Finishing predictive push", Category.PushPull );
+		prediction = PushState.None;
+		approval = ApprovalState.None;
+		predictivePushTarget = TransformState.HiddenPos;
+	}
+
+	private bool isAllowedDir( Vector2Int dir ) {
+		return dir == Vector2Int.up || dir == Vector2Int.down || dir == Vector2Int.left || dir == Vector2Int.right;
 	}
 
 	enum PushState { None, InProgress, Finished }
 	enum ApprovalState { None, Approved, Invalid }
+
+	#region Events
+
+	private void OnServerTileReached( Vector3Int pos ) {
+		Logger.LogTraceFormat( "{0} is reached ON SERVER", Category.PushPull, pos );
+		isPushing = false;
+	}
+
+	private void OnUpdateReceived( Vector3Int serverPos ) {
+		if ( prediction == PushState.None ) {
+			return;
+		}
+
+		approval = serverPos == predictivePushTarget ? ApprovalState.Approved : ApprovalState.Invalid;
+		Logger.LogTraceFormat( "{0} predictive push to {1}", Category.PushPull, approval, serverPos );
+
+		//if predictive lerp is finished
+		if ( approval == ApprovalState.Approved ) {
+			if ( prediction == PushState.Finished ) {
+				FinishPush();
+			} else if ( prediction == PushState.InProgress ) {
+				Logger.LogTraceFormat( "Approved and waiting till lerp is finished", Category.PushPull );
+			}
+		} else if ( approval == ApprovalState.Invalid ) {
+			Logger.LogWarningFormat( "Invalid push detected in OnUpdateRecieved!", Category.PushPull );
+		}
+	}
+
+	private void OnClientTileReached( Vector3Int pos ) {
+		if ( prediction == PushState.None ) {
+			return;
+		}
+
+		if ( pos != predictivePushTarget ) {
+			Logger.LogWarningFormat( "Lerped to {0} while target pos was {1}, wtf?", Category.PushPull, pos, predictivePushTarget );
+			return;
+		}
+
+		Logger.LogTraceFormat( "{0} is reached ON CLIENT, approval={1}", Category.PushPull, pos, approval );
+		prediction = PushState.Finished;
+		switch ( approval ) {
+			/*|| approval == ApprovalState.Invalid*/
+			case ApprovalState.Approved:
+				//ok, finishing
+				FinishPush();
+				break;
+			case ApprovalState.Invalid:
+				Logger.LogWarningFormat( "Invalid push detected in OnClientTileReached!", Category.PushPull );
+				break;
+			case ApprovalState.None:
+				Logger.LogTraceFormat( "Finished lerp, waiting for server approval...", Category.PushPull );
+				break;
+		}
+	}
+
+	#endregion
 
 	#region cnt
 //	/// Client side prediction for pushing

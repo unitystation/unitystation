@@ -85,14 +85,12 @@ using UnityEngine.Networking;
 
 	public partial class PlayerSync : NetworkBehaviour, IPushable
 	{
-		public float offsetTest = 1f;
 		///For server code. Contains position
 		public PlayerState ServerState => serverState;
 
 		/// For client code
 		public PlayerState ClientState => playerState;
 
-//		private bool canRegister = false;
 		private HealthBehaviour healthBehaviorScript;
 
 		public PlayerMove playerMove;
@@ -100,8 +98,6 @@ using UnityEngine.Networking;
 		private PlayerSprites playerSprites;
 
 		private Matrix matrix => registerTile.Matrix;
-
-		public LayerMask matrixLayerMask;
 
 		private RaycastHit2D[] rayHit;
 
@@ -119,7 +115,7 @@ using UnityEngine.Networking;
 
 		private float pullJourney;
 
-		private RegisterTile pullRegister;
+//		private RegisterTile pullRegister;
 
 //		private PushPull pushPull; //The pushpull component on this player
 
@@ -140,11 +136,11 @@ using UnityEngine.Networking;
 			for ( var i = 0; i < playersOnTile.Length; i++ ) {
 				var player = playersOnTile[i];
 				if ( player.gameObject != gameObject && !player.IsPassable() ) {
-					Logger.LogTraceFormat( "Player CAN NOT pass due to {0} standing on localpos {1}", Category.Movement, player.gameObject, origin + direction );
+//					Logger.LogTraceFormat( "Player CAN NOT pass due to {0} standing on localpos {1}", Category.Movement, player.gameObject, origin + direction );
 					return false;
 				}
 			}
-			Logger.LogTraceFormat( "Player CAN pass localpos {0}->{1}", Category.Movement, origin, origin + direction );
+//			Logger.LogTraceFormat( "Player CAN pass localpos {0}->{1}", Category.Movement, origin, origin + direction );
 			return true;
 //			return MatrixManager.IsPassableAt( origin, destination );
 //			return state.WorldPosition.Equals( NextState( state, action, out change ).WorldPosition );
@@ -159,7 +155,7 @@ using UnityEngine.Networking;
 			Vector3Int position = MatrixManager.LocalToWorldInt( localPos, matrixInfo );
 
 			if ( !MatrixManager.IsPassableAt( position, position + direction ) ) {
-				Logger.LogTraceFormat( "Player CAN NOT pass localpos {0}->{1}", Category.Movement, position, position + direction );
+//				Logger.LogTraceFormat( "Player CAN NOT pass localpos {0}->{1}", Category.Movement, position, position + direction );
 				return false;
 			}
 
@@ -216,17 +212,14 @@ using UnityEngine.Networking;
 			//Register playerpos in matrix
 			registerTile.UpdatePosition();
 			//Registering objects being pulled in matrix
-			if ( pullRegister != null ) {
-				pullRegister.UpdatePosition();
-			}
+//			if ( pullRegister != null ) {
+//				pullRegister.UpdatePosition();
+//			}
 		}
 
 		private void Synchronize() {
 			if ( isLocalPlayer && GameData.IsHeadlessServer ) {
 				return;
-			}
-			if ( isServer ) {
-				CheckTargetUpdate();
 			}
 
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
@@ -376,10 +369,12 @@ using UnityEngine.Networking;
 		private Vector3 size2 = new Vector3( 0.9f, 0.9f, 0.9f );
 		private Vector3 size3 = new Vector3( 0.8f, 0.8f, 0.8f );
 		private Vector3 size4 = new Vector3( 0.7f, 0.7f, 0.7f );
+		private Vector3 size5 = new Vector3( 1.1f, 1.1f, 1.1f );
 		private Color color1 = Color.red;
 		private Color color2 = DebugTools.HexToColor( "fd7c6e" );
 		private Color color3 = DebugTools.HexToColor( "22e600" );
 		private Color color4 = DebugTools.HexToColor( "ebfceb" );
+		private Color color5 = DebugTools.HexToColor( "5566ff99" );
 
 		private void OnDrawGizmos() {
 			//serverTargetState
@@ -409,6 +404,11 @@ using UnityEngine.Networking;
 			Gizmos.DrawWireCube( clientState, size4 );
 			GizmoUtils.DrawArrow( clientState + Vector3.right / 5, playerState.Impulse );
 			GizmoUtils.DrawText( playerState.MoveNumber.ToString(), clientState + Vector3.right, 15 );
+
+			//registerTile pos
+			Gizmos.color = color5;
+			Vector3 regPos = registerTile.WorldPosition;
+			Gizmos.DrawCube( regPos, size5 );
 		}
 #endif
 	}

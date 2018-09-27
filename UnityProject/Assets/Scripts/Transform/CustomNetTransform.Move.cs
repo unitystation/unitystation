@@ -32,6 +32,7 @@ public struct ThrowInfo
 
 public partial class CustomNetTransform {
 	private PushPull pushPull;
+	private int PushSpeed = 1;
 	public PushPull PushPull => pushPull ? pushPull : ( pushPull = GetComponent<PushPull>() );
 
 //	public bool IsInSpace => MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( transform.position ) );
@@ -57,24 +58,27 @@ public partial class CustomNetTransform {
 	}
 
 	[Server]
-	public void Push( Vector2Int direction ) {
+	public bool Push( Vector2Int direction ) {
 		Vector2 target = ( Vector2 ) serverState.WorldPosition + direction;
-		serverState.Speed = 6; //?
+		serverState.Speed = PushSpeed; //?
 		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
 			serverState.Impulse = direction;
 		}
 
 		SetPosition( target );
+		return true;
 	}
 
-	public void PredictivePush( Vector2Int direction ) {//fixme:bogus
+	public bool PredictivePush( Vector2Int direction ) {//fixme:bogus?
+//		return false;
 		Vector2 target = ( Vector2 ) clientState.WorldPosition + direction;
-		clientState.Speed = 6; //?
+		clientState.Speed = PushSpeed; //?
 		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
 			clientState.Impulse = direction;
 		}
 
 		clientState.WorldPosition = target;
+		return true;
 	}
 
 	/// Predictive client movement
@@ -323,7 +327,7 @@ public partial class CustomNetTransform {
 				serverState.Position = Vector3Int.RoundToInt( serverState.Position );
 		}
 		serverState.Impulse = Vector2.zero;
-		serverState.Speed = 6; //?
+		serverState.Speed = PushSpeed; //?
 		serverState.Rotation = transform.rotation.eulerAngles.z;
 		serverState.SpinFactor = 0;
 		serverState.ActiveThrow = ThrowInfo.NoThrow;

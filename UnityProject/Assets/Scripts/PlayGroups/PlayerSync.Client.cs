@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -72,24 +73,22 @@ public partial class PlayerSync
 			//experiment: not enqueueing or processing action if floating.
 			//arguably it shouldn't really be like that in the future
 			if ( !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement ) {
-//				Logger.Log($"{gameObject.name} requesting {action.Direction()} ({pendingActions.Count} in queue)");
+				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
-//				if ( CanMoveThere( predictedState, action ) ) {
+				//Sending action for server approval
+				CmdProcessAction( action );
+				//RequestMoveMessage.Send(action);
+				if ( CanMoveThere( predictedState, action ) ) {
 					pendingActions.Enqueue( action );
 
 					LastDirection = action.Direction();
-//					UpdatePredictedState();
-//				}
-
-				//else {
-//					PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
-//				}
-
-				UpdatePredictedState();
-
-				//Seems like Cmds are reliable enough in this case
-				CmdProcessAction( action );
-				//				RequestMoveMessage.Send(action);
+					UpdatePredictedState();
+				} else {
+					PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
+					//cooldown is longer when humping walls or pushables
+//					yield return YieldHelper.DeciSecond;
+//					yield return YieldHelper.DeciSecond;
+				}
 			}
 
 			yield return YieldHelper.DeciSecond;
@@ -112,7 +111,7 @@ public partial class PlayerSync
 			}
 		}
 		//Predictively pushing this player
-		public void PredictivePush(Vector2Int direction)//todo: untested!
+		public bool PredictivePush(Vector2Int direction)//todo: untested!
 		{
 			Logger.Log($"PredictivePush to {direction} is disabled for player", Category.PushPull);
 //			if (direction == Vector2Int.zero)
@@ -138,6 +137,7 @@ public partial class PlayerSync
 //					predictedState.Impulse = Vector2.zero;
 //				}
 //			}
+			return false;
 		}
 
 		private void UpdatePredictedState() {
@@ -152,30 +152,17 @@ public partial class PlayerSync
 				foreach ( PlayerAction action in pendingActions ) {
 					//isReplay determines if this action is a replayed action for use in the prediction system
 					bool isReplay = predictedState.MoveNumber <= curPredictedMove;
-//					bool matrixChanged;
-					tempState = NextStateClient( tempState, action, /*out matrixChanged,*/ isReplay );
-//					if ( tempState.WorldPosition == playerState.WorldPosition ) { //?
-//
-//					}
+					var nextState = NextStateClient( tempState, action, isReplay );
 
-//					if ( matrixChanged ) {
-//						Logger.Log( $"{gameObject.name}: Predictive matrix change to {tempState}, {pendingActions.Count} pending" );
-//					}
-//					Logger.Log($"Generated {tempState}");
+					tempState = nextState;
+
+					Logger.LogTraceFormat("Client generated {0}", Category.Movement, tempState);
 				}
 				predictedState = tempState;
 			}
 		}
 
 		private PlayerState NextStateClient( PlayerState state, PlayerAction action, bool isReplay ) {
-			if ( !CanMoveThere( state, action ) /*&& !isReplay*/ ) {
-//				if ( !isReplay )
-//				{
-					//gotta try pushing things
-					PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
-//				}
-				return state;
-			}
 			bool matrixChanged;
 			return NextState( state, action, out matrixChanged, isReplay );
 		}
@@ -277,7 +264,7 @@ public partial class PlayerSync
 
 		///Lerping; simulating space walk by server's orders or initiate/stop them on client
 		///Using predictedState for your own player and playerState for others
-		private void CheckMovementClient()
+		private void CheckMovementClient() //FIXME 26.09.18 C-S DESYNC!
 		{
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
 

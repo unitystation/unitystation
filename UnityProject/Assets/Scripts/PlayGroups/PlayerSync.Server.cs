@@ -71,7 +71,7 @@ public partial class PlayerSync
 				WorldPosition = worldPos
 			};
 			Logger.LogTraceFormat( "{0}: InitServerState for {1} found matrix {2} resulting in\n{3}", Category.Movement,
-				PlayerList.Instance.Get( gameObject ).Name, worldPos, matrixAtPoint, state, Category.Movement );
+				PlayerList.Instance.Get( gameObject ).Name, worldPos, matrixAtPoint, state );
 			serverState = state;
 			serverTargetState = state;
 
@@ -115,35 +115,72 @@ public partial class PlayerSync
 	/// Impulse should be consumed after one tile if indoors,
 	/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space
 	[Server]
-	public void Push(Vector2Int direction)//fixme: not robust
+	public bool Push(Vector2Int direction)//fixme: not robust
 	{
 //		Logger.Log($"Push to {direction} is disabled for player", Category.PushPull);
 
 		if (direction == Vector2Int.zero)
 		{
 			Logger.Log("Push with zero impulse??", Category.PushPull);
-			return;
+			return false;
 		}
 
-		serverState.Impulse = direction;
-		serverTargetState.Impulse = direction;
-		if (matrix != null)
-		{
-			Vector3Int pushGoal =
-				Vector3Int.RoundToInt(serverState.Position + (Vector3)serverTargetState.Impulse);
-			if (matrix.IsPassableAt(pushGoal))
-			{
-				Logger.Log($"Server push to {pushGoal}", Category.PushPull);
-				serverTargetState.Position = pushGoal;
-				serverTargetState.ImportantFlightUpdate = true;
-				serverTargetState.ResetClientQueue = true;
-			}
-			else
-			{
-				serverState.Impulse = Vector2.zero;
-				serverTargetState.Impulse = Vector2.zero;
-			}
+		Vector3Int pushGoal =
+				Vector3Int.RoundToInt((Vector2)serverState.WorldPosition + direction);
+
+		if ( !MatrixManager.IsPassableAt( pushGoal ) ) {
+			return false;
 		}
+
+		Logger.Log($"Server push to {pushGoal}", Category.PushPull);
+		ClearQueueServer();
+		MatrixInfo newMatrix = MatrixManager.AtPoint(pushGoal);
+		//Note the client queue reset
+		var newState = new PlayerState
+		{
+			MoveNumber = 0,
+			Impulse = direction,
+			MatrixId = newMatrix.Id,
+			WorldPosition = pushGoal,
+			ImportantFlightUpdate = true,
+			ResetClientQueue = true
+		};
+//		serverState = newState;
+		serverTargetState = newState;
+//		SyncMatrix();
+//		NotifyPlayers();
+
+		return true;
+
+//		if (direction == Vector2Int.zero)
+//		{
+//			Logger.Log("Push with zero impulse??", Category.PushPull);
+//			return false;
+//		}
+//
+//		serverState.Impulse = direction;
+//		serverTargetState.Impulse = direction;
+//		if (matrix != null)
+//		{
+//			Vector3Int pushGoal =
+//				Vector3Int.RoundToInt(serverState.Position + (Vector3)serverTargetState.Impulse);
+//			if (matrix.IsPassableAt(pushGoal))
+//			{
+//				Logger.Log($"Server push to {pushGoal}", Category.PushPull);
+//				serverTargetState.Position = pushGoal;
+//				serverTargetState.ImportantFlightUpdate = true;
+//				serverTargetState.ResetClientQueue = true;
+//				return true;
+//			}
+//			else
+//			{
+//				serverState.Impulse = Vector2.zero;
+//				serverTargetState.Impulse = Vector2.zero;
+//				return false;
+//			}
+//		}
+//
+//		return false;
 	}
 
 	/// Manually set player to a specific world position.
@@ -177,10 +214,12 @@ public partial class PlayerSync
 		{
 			//				When serverState reaches its planned destination,
 			//				embrace all other updates like updated moveNumber and flags
+			Logger.LogTrace( $"{gameObject.name}: PSync Notify success!", Category.Movement );
 			serverState = serverTargetState;
 			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );//fixme: possibly not the best place
 			SyncMatrix();
 			NotifyPlayers();
+			TryUpdateServerTarget(); //?
 		}
 	}
 
@@ -239,17 +278,6 @@ public partial class PlayerSync
 		SetPosition(serverState.WorldPosition);
 	}
 
-	/// try getting moves from server queue if server and target states match
-	[Server]
-	private void CheckTargetUpdate()
-	{
-		//checking only player movement for now
-		if (ServerPositionsMatch)
-		{
-			TryUpdateServerTarget();
-		}
-	}
-
 	///Currently used to set the pos of a player that has just been dragged by another player
 	//Fixme: prone to exploits, very hacky
 	[Command]
@@ -285,6 +313,11 @@ public partial class PlayerSync
 				}
 
 				PlayerState nextState = NextStateServer(serverTargetState, serverPendingActions.Dequeue());
+
+				if ( Equals( serverTargetState, nextState ) ) {
+					return;
+				}
+
 				serverLastDirection = Vector2Int.RoundToInt(nextState.WorldPosition - serverTargetState.WorldPosition);
 				serverTargetState = nextState;
 				//In case positions already match
@@ -433,8 +466,9 @@ public partial class PlayerSync
 					$"Target    :{serverTargetState}", Category.Movement);
 				serverState.WorldPosition = serverTargetState.WorldPosition;
 			}
-
 			TryNotifyPlayers();
+		} else {
+			TryUpdateServerTarget(); //?
 		}
 
 		//Space walk checks
@@ -472,7 +506,9 @@ public partial class PlayerSync
 			serverLastDirection = Vector2.zero;
 
 			//Notify if position stayed the same
-			TryNotifyPlayers();
+//			TryNotifyPlayers();
+			serverState = serverTargetState;
+			NotifyPlayers();
 		}
 
 		CheckSpaceDamage();
