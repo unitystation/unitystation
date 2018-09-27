@@ -106,7 +106,6 @@ public class RconManager : RconConsole
 		httpServer.UserCredentialsFinder = id =>
 		{
 			var name = id.Name;
-			Logger.Log("ATTEMPT AUTH", Category.Rcon);
 			return name == config.RconPass ?
 				new NetworkCredential("admin", null, "admin") :
 				null;
@@ -194,6 +193,9 @@ public class RconManager : RconConsole
 	private static void BroadcastToSessions(string msg, IEnumerable<IWebSocketSession> sessions)
 	{
 		foreach(var conn in sessions){
+			if(conn == null){
+				continue;
+			}
 			if(conn.ConnectionState != WebSocketState.Closing || 
 			conn.ConnectionState != WebSocketState.Closed){
 				conn.Context.WebSocket.Send(msg);
