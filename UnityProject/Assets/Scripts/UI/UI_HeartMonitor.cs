@@ -119,7 +119,7 @@ using UnityEngine.UI;
 		private void CheckHealth(float cHealth)
 		{
 			//PlayGroup.PlayerManager.PlayerScript.playerNetworkActions.CmdSendAlertMessage("mHealth: " + cHealth, true);
-			//Logger.Log("PlayerHealth: " + PlayGroup.PlayerManager.PlayerScript.playerHealth.Health);
+			//Logger.Log("PlayerHealth: " + PlayerManager.PlayerScript.playerHealth.Health);
 			if (cHealth >= 90
 			    && spriteStart != fullHealthStart)
 			{

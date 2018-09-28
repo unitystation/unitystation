@@ -46,13 +46,15 @@
 			{
 				CurrentSlot = Slots.RightHandSlot;
 				OtherSlot = Slots.LeftHandSlot;
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("right");
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("rightHand");
+				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "rightHand";
 			}
 			else
 			{
 				CurrentSlot = Slots.LeftHandSlot;
 				OtherSlot = Slots.RightHandSlot;
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("left");
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("leftHand");
+				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "leftHand";
 			}
 
 			IsRight = right;

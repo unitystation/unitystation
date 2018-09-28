@@ -18,6 +18,8 @@ using UnityEngine.UI;
 		public Text toolTip;
 		public ControlWalkRun walkRunControl;
 		public Toggle ttsToggle;
+		[HideInInspector]
+		public ProgressBar progressBar;
 
 		///Global flag for focused input field. Movement keystrokes are ignored if true.
 		/// <see cref="InputFieldFocus"/> handles this flag automatically
@@ -50,7 +52,7 @@ using UnityEngine.UI;
 		}
 
 //		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
-
+		public static ProgressBar ProgressBar => Instance.progressBar;
 		public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
 
 		public static Hands Hands => Instance.hands;
