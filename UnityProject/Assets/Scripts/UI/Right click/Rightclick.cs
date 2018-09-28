@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Reflection;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -20,14 +19,20 @@ public class Rightclick : MonoBehaviour {
 	{
 		public string Title;
 	}
-		
+	public Dictionary<string,int> MenuOrder = new Dictionary<string,int>(){
+		["Examine"] = 1, 
+		["Pick Up"] = 2,
+		["Drag"] = 3, 
+		["Open/close"] = 4, 
+		["Unknown"] = 5, 
+	};
 
 	public Dictionary<string, Sprite> SpriteDictionary = new Dictionary<string, Sprite>()	{	};
 
 	public class Menu {
 		public Color colour;
 		public Sprite sprite;
-		public string title;
+		public string title = "Unregistered";
 		public GameObject Item;
 		public List<Menu> SubMenus = new List<Menu>();
 		public MethodInfo Method;
@@ -114,8 +119,26 @@ public class Rightclick : MonoBehaviour {
 			//	NewSubMenu.sprite = ins.Spritenames[0];
 			//	newMenu.SubMenus.Add (NewSubMenu);
 			//}
+			//Sort
+			List<Menu> Sortlist = newMenu.SubMenus;
+			Menu[] array = new Menu[MenuOrder.Count+1];
+
+			foreach (Menu SubMenu in Sortlist) {
+				array[MenuOrder[SubMenu.title]] = SubMenu;
+			}
+
+			newMenu.SubMenus = new List<Menu>();
+
+			for (int S = 0; S < array.Length; S++)  {
+				if (!(array[S] == null)) {
+					newMenu.SubMenus.Add (array [S]);
+				}
+			}
+
 			ins.options.Add (newMenu);
 		}
+		//Sort
+		 
 
 	}
 }
