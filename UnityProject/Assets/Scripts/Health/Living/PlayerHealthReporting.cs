@@ -18,7 +18,7 @@ public class PlayerHealthReporting : ManagedNetworkBehaviour
 	private float stoppedBreathingCount = 0f;
 
 	//server only caches
-	private int healthServerCache;
+	private float healthServerCache;
 	//TODO if client disconnects and reconnects then the clients UI needs to
 	//poll this component and request updated values from the server to set
 	//the current state of the UI overlays and hud
@@ -132,7 +132,7 @@ public class PlayerHealthReporting : ManagedNetworkBehaviour
 
 	//Sends msg to the owner of this player to update their UI
 	[Server]
-	private void UpdateClientUI(int newHealth)
+	private void UpdateClientUI(float newHealth)
 	{
 		UpdateUIMessage.Send(gameObject, newHealth);
 	}
