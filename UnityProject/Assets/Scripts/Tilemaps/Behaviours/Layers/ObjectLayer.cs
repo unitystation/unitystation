@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tilemaps.Behaviours.Objects;
-using Tilemaps.Tiles;
-using Tilemaps.Utils;
 using UnityEngine;
 
-namespace Tilemaps.Behaviours.Layers
-{
+
 	[ExecuteInEditMode]
 	public class ObjectLayer : Layer
 	{
@@ -49,20 +45,16 @@ namespace Tilemaps.Behaviours.Layers
 
 		public override bool IsPassableAt(Vector3Int origin, Vector3Int to)
 		{
-			RegisterTile objTo = Objects.GetFirst<RegisterTile>(to);
+			List<RegisterTile> objectsTo = Objects.Get<RegisterTile>(to);
 
-			if (objTo && !objTo.IsPassable(origin))
+			if (!objectsTo.All(o => o.IsPassable(origin)))
 			{
 				return false;
 			}
 
-			RegisterTile objOrigin = Objects.GetFirst<RegisterTile>(origin);
-			if (objOrigin && !objOrigin.IsPassable(to))
-			{
-				return false;
-			}
+			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
 
-			return base.IsPassableAt(origin, to);
+			return objectsOrigin.All(o => o.IsPassable(origin)) && base.IsPassableAt(origin, to);
 		}
 
 		public override bool IsPassableAt(Vector3Int position)
@@ -97,4 +89,3 @@ namespace Tilemaps.Behaviours.Layers
 			base.ClearAllTiles();
 		}
 	}
-}

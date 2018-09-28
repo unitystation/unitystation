@@ -1,17 +1,10 @@
 ﻿using System.Collections;
-using System.Runtime.Serialization.Formatters;
-using Items;
-using PlayGroup;
-using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
-using Equipment;
 
-namespace Weapons
-{
-	/// <summary>
+
+/// <summary>
 	///     Generic weapon types
 	/// </summary>
 	public enum WeaponType
@@ -158,7 +151,7 @@ namespace Weapons
 				if ((currentHandItem != null) && (otherHandItem != null))
 				{
 					if (CurrentMagazine == null)
-					{  
+					{
 						//RELOAD
 						if (currentHandItem.GetComponent<MagazineBehaviour>() && otherHandItem.GetComponent<Weapon>())
 						{
@@ -168,12 +161,12 @@ namespace Weapons
 							{
 								hand = UIManager.Hands.CurrentSlot.eventName;
 								Reload(currentHandItem, hand, true);
-								
+
 							}
 
 							if (AmmoType != ammoType)
 							{
-								UIManager.Chat.AddChatEvent(new ChatEvent("You try to load the wrong ammo into your weapon", ChatChannel.Examine));
+								ChatRelay.Instance.AddToChatLogClient( "You try to load the wrong ammo into your weapon", ChatChannel.Examine );
 							}
 						}
 
@@ -188,11 +181,11 @@ namespace Weapons
 							}
 							if (AmmoType != ammoType)
 							{
-								UIManager.Chat.AddChatEvent(new ChatEvent("You try to load the wrong ammo into your weapon", ChatChannel.Examine));
+								ChatRelay.Instance.AddToChatLogClient( "You try to load the wrong ammo into your weapon", ChatChannel.Examine );
 							}
 						}
-	
-						
+
+
 					}
 					else
 					{
@@ -205,12 +198,12 @@ namespace Weapons
 
 						else if (currentHandItem.GetComponent<Weapon>() && otherHandItem.GetComponent<MagazineBehaviour>())
 						{
-							UIManager.Chat.AddChatEvent(new ChatEvent("You weapon is already loaded, you cant fit more Magazines in it, silly!", ChatChannel.Examine));
+							ChatRelay.Instance.AddToChatLogClient("You weapon is already loaded, you cant fit more Magazines in it, silly!", ChatChannel.Examine);
 
 						}
 						else if (otherHandItem.GetComponent<Weapon>() && currentHandItem.GetComponent<MagazineBehaviour>())
 						{
-							UIManager.Chat.AddChatEvent(new ChatEvent("You weapon is already loaded, you cant fit more Magazines in it, silly!", ChatChannel.Examine));
+							ChatRelay.Instance.AddToChatLogClient("You weapon is already loaded, you cant fit more Magazines in it, silly!", ChatChannel.Examine);
 
 						}
 					}
@@ -249,9 +242,9 @@ namespace Weapons
 		public override void OnStartServer()
 		{
 			GameObject ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType)  as GameObject;
-			
+
 			GameObject m = ItemFactory.SpawnItem(ammoPrefab, transform.parent);
-			
+
 			StartCoroutine(SetMagazineOnStart(m));
 
 			base.OnStartServer();
@@ -407,7 +400,7 @@ namespace Weapons
 
 		private void Reload(GameObject m, string hand, bool current)
 		{
-			Debug.Log("Reloading");
+			Logger.LogTrace("Reloading", Category.Firearms);
 			PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, m, hand);
 			if (current)
 			{
@@ -417,14 +410,14 @@ namespace Weapons
 			{
 				UIManager.Hands.OtherSlot.Clear();
 			}
-			
+
 		}
 
 		//atm unload with shortcut 'e'
 		//TODO dev right click unloading so it goes into the opposite hand if it is selected
 		private void ManualUnload(MagazineBehaviour m)
 		{
-			Debug.Log("Unloading");
+			Logger.LogTrace("Unloading", Category.Firearms);
 			if (m != null)
 			{
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(m.gameObject);
@@ -459,7 +452,7 @@ namespace Weapons
 					PlayerManager.LocalPlayerScript.playerNetworkActions.DisposeOfChildItem(CurrentMagazine.gameObject);
 				}
 			}
-			Debug.Log("Dropped Weapon");
+			Logger.LogTrace("Dropped Weapon", Category.Firearms);
 		}
 
 		public void LoadUnloadAmmo(NetworkInstanceId magazineID)
@@ -477,7 +470,7 @@ namespace Weapons
 				{
 					MagazineBehaviour magazineBehavior = magazine.GetComponent<MagazineBehaviour>();
 					CurrentMagazine = magazineBehavior;
-					//					Debug.LogFormat("MagazineBehaviour found ok: {0}", magazineID);
+					Logger.LogTraceFormat("MagazineBehaviour found ok: {0}", Category.Firearms, magazineID);
 				}
 			}
 		}
@@ -547,4 +540,3 @@ namespace Weapons
 
 		#endregion
 	}
-}

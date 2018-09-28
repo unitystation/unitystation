@@ -14,6 +14,8 @@ public class Camera2DFollow : MonoBehaviour
 	private Vector3 cachePos;
 	private Vector3 currentVelocity;
 
+	public float starScroll = 0.03f;
+
 	public float damping;
 
 	private bool isShaking;
@@ -38,11 +40,15 @@ public class Camera2DFollow : MonoBehaviour
 
     public GameObject stencilMask;
 
+	[HideInInspector]
+	public Camera cam;
+
 	private void Awake()
 	{
 		if (followControl == null)
 		{
 			followControl = this;
+			cam = GetComponent<Camera>();
 		}
 		else
 		{
@@ -64,7 +70,14 @@ public class Camera2DFollow : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		if (target != null && !isShaking)
+		if(!PlayerManager.LocalPlayerScript){
+			return;
+		}
+		//Really should sort out the load order and then we can remove this check:
+		if(!PlayerManager.LocalPlayerScript.weaponNetworkActions){
+			return;
+		}
+		if (target != null && !isShaking && !PlayerManager.LocalPlayerScript.weaponNetworkActions.lerping)
 		{
 			// only update lookahead pos if accelerating or changed direction
 			float xMoveDelta = (target.position - lastTargetPosition).x;
@@ -91,10 +104,10 @@ public class Camera2DFollow : MonoBehaviour
 				newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
 			}
 			transform.position = newPos;
-			starsBackground.position = -newPos * 0.06f;
+			starsBackground.position = -newPos * starScroll;
 
 			lastTargetPosition = target.position;
-			if (stencilMask.transform.parent != target) {
+			if (stencilMask != null && stencilMask.transform.parent != target) {
 				stencilMask.transform.parent = target;
 				stencilMask.transform.localPosition = Vector3.zero;
 			}

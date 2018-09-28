@@ -12,6 +12,8 @@
 /UnityProject/.idea/
 /UnityProject/.vs/
 .vs
+/UnityProject/Assets/Resources/BuildPrefs.json
+/UnityProject/Assets/StreamingAssets/config/
 
 /Assets/Photon\ Unity\ Networking/
 /Assets/PhotonChatApi
@@ -79,6 +81,10 @@ UnityProject/ProjectSettings/ProjectVersion.txt
 !/Tools/ContentBuilder/content/Server/Unitystation-Server_Data/Mono
 !/Tools/ContentBuilder/content/Server/Unitystation-Server_Data/Plugins
 /Tools/ContentBuilder/output/*
+/Tools/config/
 
 # Make sure to include everything in Reference Material.
 !Reference Material/**
+UnityProject/.vscode/settings.json
+UnityProject/Assets/StreamingAssets/config.meta
+UnityProject/Assets/UI/Fonts/Font_Awesome_4.7.0.meta

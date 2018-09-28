@@ -1,10 +1,7 @@
-﻿using PlayGroup;
-using PlayGroups.Input;
-using UI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract class HealthBehaviour : InputTrigger
+public abstract class HealthBehaviour : NetworkBehaviour
 {
 	//For meat harvest (pete etc)
 	public bool allowKnifeHarvest;
@@ -15,7 +12,7 @@ public abstract class HealthBehaviour : InputTrigger
 
 	public int maxHealth = 100;
 
-	public int Health { get; private set; }
+	public float Health { get; private set; }
 
 	public DamageType LastDamageType { get; private set; }
 
@@ -40,7 +37,7 @@ public abstract class HealthBehaviour : InputTrigger
 	{
 		if (initialHealth <= 0)
 		{
-			Debug.LogWarningFormat("Initial health ({0}) set to zero/below zero!", initialHealth);
+			Logger.LogWarning($"Initial health ({initialHealth}) set to zero/below zero!", Category.Health);
 			initialHealth = 1;
 		}
 
@@ -48,7 +45,7 @@ public abstract class HealthBehaviour : InputTrigger
 	}
 
 	[Server]
-	public void ServerOnlySetHealth(int newValue)
+	public void ServerOnlySetHealth(float newValue)
 	{
 		if (isServer)
 		{
@@ -69,22 +66,22 @@ public abstract class HealthBehaviour : InputTrigger
 		ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
 	}
 
-	public void ApplyDamage(GameObject damagedBy, int damage,
+	public void ApplyDamage(GameObject damagedBy, float damage,
 		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
 	{
 		if (damage <= 0 || IsDead)
 		{
 			return;
 		}
-		int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
+		float calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
 
-		//        Debug.LogFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}",
-		//            calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
+		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
+		calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
 		Health -= calculatedDamage;
 		CheckDeadCritStatus();
 	}
 
-	public virtual int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
+	public virtual float ReceiveAndCalculateDamage(GameObject damagedBy, float damage, DamageType damageType,
 		BodyPartType bodyPartAim)
 	{
 		LastDamageType = damageType;
@@ -156,22 +153,6 @@ public abstract class HealthBehaviour : InputTrigger
 	}
 
 	protected abstract void OnDeathActions();
-	
-	//TODO move to p2pinteractions?
-	public override void Interact(GameObject originator, Vector3 position, string hand) {
-		if ( UIManager.Hands.CurrentSlot.Item == null 
-		     || !PlayerManager.PlayerInReach( transform ) 
-		     || UIManager.CurrentIntent != Intent.Attack
-//		     || UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>().type != ItemType.Knife
-		     ) {
-			return;
-		}
-			Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-	
-			PlayerScript lps = PlayerManager.LocalPlayerScript;
-			lps.weaponNetworkActions.CmdRequestMeleeAttack(gameObject, UIManager.Hands.CurrentSlot.eventName, dir,
-				UIManager.DamageZone);
-	}
 }
 
 public static class HealthThreshold

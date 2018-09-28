@@ -1,5 +1,4 @@
-﻿using InputControl;
-using UnityEngine;
+﻿using UnityEngine;
 
 [ExecuteInEditMode]
 public class AmbientTile : ObjectTrigger
@@ -15,13 +14,13 @@ public class AmbientTile : ObjectTrigger
 	}
 
 	//LightSource sends a message to this method
-	public override void Trigger(bool state)
+	public override void Trigger(bool iState)
 	{
 		if (spriteRend == null)
 		{
 			spriteRend = GetComponent<SpriteRenderer>();
 		}
 
-		spriteRend.color = state ? onColor : offColor;
+		spriteRend.color = iState ? onColor : offColor;
 	}
 }

@@ -1,9 +1,7 @@
-﻿using PlayGroup;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class UIManager : MonoBehaviour
 	{
 		private static UIManager uiManager;
@@ -11,6 +9,7 @@ namespace UI
 		public ControlChat chatControl;
 		public ControlDisplays displayControl;
 		public DisplayManager displayManager;
+		public GameObject bottomBar;
 		public Hands hands;
 		public ControlIntent intentControl;
 		public InventorySlotCache inventorySlotCache;
@@ -18,6 +17,9 @@ namespace UI
 		public PlayerListUI playerListUIControl;
 		public Text toolTip;
 		public ControlWalkRun walkRunControl;
+		public Toggle ttsToggle;
+		[HideInInspector]
+		public ProgressBar progressBar;
 
 		///Global flag for focused input field. Movement keystrokes are ignored if true.
 		/// <see cref="InputFieldFocus"/> handles this flag automatically
@@ -49,8 +51,8 @@ namespace UI
 			}
 		}
 
-		public static ControlChat Chat => Instance.chatControl;
-
+//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
+		public static ProgressBar ProgressBar => Instance.progressBar;
 		public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
 
 		public static Hands Hands => Instance.hands;
@@ -128,7 +130,7 @@ namespace UI
 		/// </summary>
 		public static void UpdateSlot(UISlotObject slotInfo)
 		{
-			//			Debug.LogFormat("Updating slots: {0}", slotInfo);
+			Logger.LogTraceFormat("Updating slots: {0}", Category.UI, slotInfo);
 			//			InputTrigger.Touch(slotInfo.SlotContents);
 			InventorySlots[slotInfo.Slot].SetItem(slotInfo.SlotContents);
 			ClearObjectIfNotInSlot(slotInfo);
@@ -177,7 +179,7 @@ namespace UI
 			//			{
 			//				return CanTrySendAgain(lastSend, lastReceive);
 			//			}
-			//			Debug.LogFormat("ItemAction allowed! {2} msgcache {0} {1}", InputTrigger.interactCache.Count, lastSend, item.name);
+//			Logger.LogTraceFormat("ItemAction allowed! {2} msgcache {0} {1}", Category.UI, InputTrigger.interactCache.Count, lastSend, item.name);
 			return true;
 		}
 
@@ -186,7 +188,7 @@ namespace UI
 			float f = Time.time - lastSend;
 			float d = lastSend - lastReceive;
 			bool canTrySendAgain = f >= d || f >= 1.5;
-			Debug.LogFormat("canTrySendAgain = {0} {1}>={2} ", canTrySendAgain, f, d);
+			Logger.LogTraceFormat("canTrySendAgain = {0} {1}>={2} ", Category.UI, canTrySendAgain, f, d);
 			return canTrySendAgain;
 		}
 
@@ -207,7 +209,7 @@ namespace UI
 
 		public static void SetDeathVisibility(bool vis)
 		{
-//			Debug.Log("I was activated!");
+//			Logger.Log("I was activated!");
 			foreach (Transform child in Display.hudRight.GetComponentsInChildren<Transform>(true))
 			{
 				if (child.gameObject.name != "OxygenSelector" && child.gameObject.name != "PlayerHealth_UI_Hud")
@@ -226,4 +228,3 @@ namespace UI
 			}
 		}
 	}
-}

@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Sprites;
 
+[Obsolete] //No longer used
 public class FieldOfViewStencil : MonoBehaviour
 {
 	public float ViewRadius;
@@ -22,28 +23,36 @@ public class FieldOfViewStencil : MonoBehaviour
 
 	private HashSet<GameObject> hitDoors = new HashSet<GameObject>();
 	private HashSet<GameObject> curDoors = new HashSet<GameObject>();
+	private MeshBuffer mMeshBuffer;
+
+	List<Vector3> viewPoints = new List<Vector3>(400);
 
 	RaycastHit2D hit;
 
 	public MeshFilter ViewMeshFilter;
-	Mesh ViewMesh;
 
-    int waitToCheck = 0;
+	public bool AffectWalls = false;
+
+	float waitTime = 0f;
 
 	void Start()
 	{
-		ViewMesh = new Mesh();
-		ViewMesh.name = "View Mesh";
-		ViewMeshFilter.mesh = ViewMesh;
+		if (mMeshBuffer == null)
+			mMeshBuffer = new MeshBuffer();
+
+		ViewMeshFilter.mesh = mMeshBuffer.mesh;
 	}
 
 	void Update()
 	{
-        waitToCheck++;
-        if (waitToCheck > 5)
+        if (AffectWalls)
         {
-            waitToCheck = 0;
-            CheckHitWallsCache();
+			waitTime += Time.deltaTime;
+			if (waitTime > 0.2f)
+			{
+				waitTime = 0f;
+				CheckHitWallsCache();
+			}
         }
     }
 
@@ -52,21 +61,33 @@ public class FieldOfViewStencil : MonoBehaviour
         DrawFieldOfView();
     }
 
-    void CheckHitWallsCache(){
+    void CheckHitWallsCache()
+    {
 		var missingWalls = hitWalls.Keys.Except(curWalls).ToList();
-		for (int i = 0; i < missingWalls.Count() ;i++){
-			Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
-			newTile.sprite = SpriteManager.Instance.shroudSprite;
-			hitWalls[missingWalls[i]].SetTile(missingWalls[i], newTile);
-			hitWalls.Remove(missingWalls[i]);
-		}
+
+	    if (missingWalls.Any())
+	    {
+		    for (int i = 0; i < missingWalls.Count(); i++)
+		    {
+			    //Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
+			    //newTile.sprite = SpriteManager.Instance.shroudSprite;
+			    //hitWalls[missingWalls[i]].SetTile(missingWalls[i], newTile);
+			    //hitWalls.Remove(missingWalls[i]);
+
+			    hitWalls[missingWalls[i]].SetTile(missingWalls[i], null);
+			    hitWalls.Remove(missingWalls[i]);
+		    }
+	    }
+
 		curWalls.Clear();
 
 		var missingDoors = hitDoors.Except(curDoors).ToList();
-		for (int i = 0; i < missingDoors.Count(); i++){
+		for (int i = 0; i < missingDoors.Count(); i++)
+		{
 			missingDoors[i].SendMessage("TurnOnDoorFov", null, SendMessageOptions.DontRequireReceiver);
 			hitDoors.Remove(missingDoors[i]);
 		}
+
 		curDoors.Clear();
 	}
 
@@ -74,22 +95,28 @@ public class FieldOfViewStencil : MonoBehaviour
 	{
 		int stepCount = Mathf.RoundToInt(ViewAngle * MeshResolution);
 		float stepAngleSize = ViewAngle / stepCount;
-		List<Vector3> viewPoints = new List<Vector3>();
+
 
 		ViewCastInfo oldViewCast = new ViewCastInfo();
 
-		for (int i = 0; i <= stepCount; i++) {
+		for (int i = 0; i <= stepCount; i++)
+		{
 			float angle = transform.eulerAngles.z - ViewAngle / 2 + stepAngleSize * i;
 			ViewCastInfo newViewCast = ViewCast(angle);
 
-			if (i > 0) {
+			if (i > 0)
+			{
 				bool edgeDstThreshholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > EdgeDistanceThreshhold;
-				if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && edgeDstThreshholdExceeded)) {
+
+				if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && edgeDstThreshholdExceeded))
+				{
 					EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
-					if (edge.pointA != Vector3.zero) {
+					if (edge.pointA != Vector3.zero)
+					{
 						viewPoints.Add(edge.pointA);
 					}
-					if (edge.pointB != Vector3.zero) {
+					if (edge.pointB != Vector3.zero)
+					{
 						viewPoints.Add(edge.pointB);
 					}
 				}
@@ -99,26 +126,29 @@ public class FieldOfViewStencil : MonoBehaviour
 			oldViewCast = newViewCast;
 		}
 
-		int vertexCount = viewPoints.Count + 1;
-		Vector3[] verticies = new Vector3[vertexCount];
-		int[] triangles = new int[(vertexCount - 2) * 3];
+		int pointCount = viewPoints.Count + 1;
 
-		verticies[0] = Vector3.zero;
+		if (pointCount > mMeshBuffer.bufferSize)
+			mMeshBuffer.bufferSize = pointCount;
 
-		for (int i = 0; i < vertexCount - 1; i++) {
-			verticies[i + 1] = transform.InverseTransformPoint(viewPoints[i]);// + Vector3.up * maskCutawayDst;
+		// Fill.
+		mMeshBuffer.vertices[0] = Vector3.zero;
 
-			if (i < vertexCount - 2) {
-				triangles[i * 3] = 0;
-				triangles[i * 3 + 1] = i + 1;
-				triangles[i * 3 + 2] = i + 2;
+		for (int index = 0; index < mMeshBuffer.vertices.Length - 1; index++)
+		{
+			if (index < viewPoints.Count)
+			{
+				mMeshBuffer.vertices[index + 1] = transform.InverseTransformPoint(viewPoints[index]); // + Vector3.up * maskCutawayDst;
+			}
+			else
+			{
+				mMeshBuffer.vertices[index + 1] = Vector3.zero;
 			}
 		}
 
-		ViewMesh.Clear();
-		ViewMesh.vertices = verticies;
-		ViewMesh.triangles = triangles;
-		ViewMesh.RecalculateNormals();
+		mMeshBuffer.Update();
+
+		viewPoints.Clear();
 	}
 
 	EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
@@ -128,19 +158,25 @@ public class FieldOfViewStencil : MonoBehaviour
 		Vector3 minPoint = Vector3.zero;
 		Vector3 maxPoint = Vector3.zero;
 
-		for (int i = 0; i < EdgeResolveIterations; i++) {
+		for (int i = 0; i < EdgeResolveIterations; i++)
+		{
 			float angle = (minAngle + maxAngle) / 2;
 			ViewCastInfo newViewCast = ViewCast(angle);
 
 			bool edgeDstThreshholdExceeded = Mathf.Abs(minViewCast.dst - newViewCast.dst) > EdgeDistanceThreshhold;
-			if (newViewCast.hit == minViewCast.hit && !edgeDstThreshholdExceeded) {
+
+			if (newViewCast.hit == minViewCast.hit && !edgeDstThreshholdExceeded)
+			{
 				minAngle = angle;
 				minPoint = newViewCast.point;
-			} else {
+			}
+			else
+			{
 				maxAngle = angle;
 				maxPoint = newViewCast.point;
 			}
 		}
+
 		return new EdgeInfo(minPoint, maxPoint);
 	}
 
@@ -149,44 +185,59 @@ public class FieldOfViewStencil : MonoBehaviour
 		Vector3 dir = DirFromAngle(globalAngle, true);
 		hit = Physics2D.Raycast(transform.position, dir, ViewRadius, ObstacleMask);
 		//	Debug.DrawRay(transform.position, dir * 40f, Color.red, 0.1f);
-		if (hit && hit.collider != null) {
+		if (hit && hit.collider != null)
+		{
 			Vector3 hitPosition = Vector3.zero;
 
 			//Hit a closed door (Layer 17)
-			if(hit.collider.gameObject.layer == 17){
-				if(!hitDoors.Contains(hit.collider.gameObject)){
+			if(hit.collider.gameObject.layer == 17 && AffectWalls)
+			{
+				if(!hitDoors.Contains(hit.collider.gameObject))
+				{
 					hit.collider.gameObject.SendMessage("TurnOffDoorFov", null, SendMessageOptions.DontRequireReceiver);
-
 					hitDoors.Add(hit.collider.gameObject);
 				}
-				if (!curDoors.Contains(hit.collider.gameObject)) {
+
+				if (!curDoors.Contains(hit.collider.gameObject))
+				{
 					curDoors.Add(hit.collider.gameObject);
 				}
 			}
 
 			//Hit a wall (layer 9):
-			if (hit.collider.gameObject.layer == 9) {
-				//Turn the tilemap color of the wall to white so it is visible
+			if (hit.collider.gameObject.layer == 9 && AffectWalls)
+			{
 				hitPosition = Vector3Int.RoundToInt(hit.point + ((Vector2)dir * 0.5f));
 				Tilemap wallTilemap = MatrixManager.Instance.wallsTileMaps[hit.collider];
 				Vector3Int wallCellPos = wallTilemap.WorldToCell(hitPosition);
-				if (!hitWalls.ContainsKey(wallCellPos)) {
-					Tilemap fxTileMap = MatrixManager.Instance.wallsToTopLayerFX[hit.collider];
-					/// Check that there actually is a tile on the wall Tilemap as the hitPosition isn't accurate
-					TileBase getTile = wallTilemap.GetTile(wallCellPos);
-					if (getTile != null) {
-						fxTileMap.SetTile(fxTileMap.WorldToCell(hitPosition), null);
-						hitWalls.Add(wallCellPos, fxTileMap);
-					}
+
+				if (!hitWalls.ContainsKey(wallCellPos))
+				{
+					//Tilemap fxTileMap = MatrixManager.Instance.wallsToTopLayerFX[hit.collider];
+					///// Check that there actually is a tile on the wall Tilemap as the hitPosition isn't accurate
+					//TileBase getTile = wallTilemap.GetTile(wallCellPos);
+					//if (getTile != null)
+					//{
+					//	Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
+					//	newTile.sprite = SpriteManager.Instance.shroudSprite;
+					//	fxTileMap.SetTile(wallCellPos, newTile);
+					//	hitWalls.Add(wallCellPos, fxTileMap);
+
+					//	//fxTileMap.SetTile(fxTileMap.WorldToCell(hitPosition), null);
+					//	//hitWalls.Add(wallCellPos, fxTileMap);
+					//}
 				}
-				if (!curWalls.Contains(wallCellPos)) {
+				if (!curWalls.Contains(wallCellPos))
+				{
 					curWalls.Add(wallCellPos);
 				}
 			}
+
 			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
-		} else {
-			return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius,
-									globalAngle);
+		}
+		else
+		{
+			return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius, globalAngle);
 		}
 	}
 
@@ -208,8 +259,7 @@ public class FieldOfViewStencil : MonoBehaviour
 		public float dst;
 		public float angle;
 
-		public ViewCastInfo(bool _hit, Vector3 _point, float _dst,
-							float _angle)
+		public ViewCastInfo(bool _hit, Vector3 _point, float _dst, float _angle)
 		{
 			hit = _hit;
 			point = _point;
@@ -228,5 +278,95 @@ public class FieldOfViewStencil : MonoBehaviour
 			pointA = _pointA;
 			pointB = _pointB;
 		}
+	}
+
+	private class MeshBuffer
+	{
+		public Vector3[] vertices;
+		public int[] triangles;
+
+		private const int DefaultSize = 1500;
+
+		private int mBufferSize;
+
+		public MeshBuffer()
+		{
+			mesh = new Mesh { name = "Buffered View Mesh" };
+
+			bufferSize = DefaultSize;
+		}
+
+		public int bufferSize
+		{
+			get
+			{
+				return mBufferSize;
+			}
+
+			set
+			{
+				if (mBufferSize == value)
+					return;
+
+				mBufferSize = value;
+
+				RebuildVertices();
+
+				RebuildTriangles();
+			}
+		}
+
+		public void Update()
+		{
+			mesh.vertices = vertices;
+		}
+
+		private void RebuildVertices()
+		{
+			// Set array size.
+			int _vertsSize = bufferSize + 1;
+
+			if (vertices == null)
+			{
+				vertices = new Vector3[_vertsSize];
+			}
+			if (vertices.Length < _vertsSize)
+			{
+				Array.Resize(ref vertices, _vertsSize);
+			}
+
+			mesh.vertices = vertices;
+		}
+
+		private void RebuildTriangles()
+		{
+			int _triangleSize = (bufferSize - 2) * 3;
+
+			// Set array size.
+			if (triangles == null)
+			{
+				triangles = new int[_triangleSize];
+			}
+			if (triangles.Length < _triangleSize)
+			{
+				Array.Resize(ref triangles, _triangleSize);
+			}
+
+			// Fill data.
+			for (int index = 0; index < bufferSize - 2; index++)
+			{
+				//if (index < bufferSize - 2)
+				{
+					triangles[index * 3] = 0;
+					triangles[index * 3 + 1] = index + 1;
+					triangles[index * 3 + 2] = index + 2;
+				}
+			}
+
+			// Apply data.
+			mesh.triangles = triangles;
+		}
+
+		public Mesh mesh { get; private set; }
 	}
 }

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Events
-{
+
 	public class UIEvent : UnityEvent<GameObject>
 	{
 	}
@@ -12,7 +11,7 @@ namespace Events
 	//For simple broadcasts:
 	public enum EVENT
 	{
-		UpdateFov, PowerNetSelfCheck
+		UpdateFov, PowerNetSelfCheck, ChatFocused, ChatUnfocused
 	} // + other events. Add them as you need them
 
 	[ExecuteInEditMode]
@@ -81,4 +80,3 @@ namespace Events
 			}
 		}
 	}
-}

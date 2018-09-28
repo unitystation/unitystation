@@ -1,13 +1,11 @@
 ﻿using System.Collections;
-using Events;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 
 #endif
 
-namespace Doors
-{
+
 	[ExecuteInEditMode]
 	public class AirLockAnimator : DoorAnimator
 	{
@@ -119,7 +117,7 @@ namespace Doors
 			}
 			else
 			{
-				Debug.Log("Offset and the range of sprites must be a positive or zero.");
+				Logger.Log("Offset and the range of sprites must be a positive or zero.", Category.Doors);
 			}
 		}
 
@@ -173,4 +171,3 @@ namespace Doors
 		}
 #endif
 	}
-}

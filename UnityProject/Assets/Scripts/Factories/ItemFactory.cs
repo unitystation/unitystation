@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AccessType;
 using UnityEngine;
 
 public class ItemFactory : MonoBehaviour
@@ -88,7 +87,7 @@ public class ItemFactory : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("Food prefab not added to ItemFactory: " + mealPrefab.name);
+			Logger.LogError("Food prefab not added to ItemFactory: " + mealPrefab.name,Category.ItemSpawn);
 		}
 
 		return mealObj;

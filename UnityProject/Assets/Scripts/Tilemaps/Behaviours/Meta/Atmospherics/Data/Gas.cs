@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using NUnit.Framework.Constraints;
+using UnityEngine.Networking;
 using UnityEngine.XR.WSA.Persistence;
 
-namespace Tilemaps.Behaviours.Meta.Data
+namespace Atmospherics
 {
-	
-	
 	public struct Gas
 	{
 		private static List<Gas> gases = new List<Gas>();
-		
+
 		// Gas constant
 		public const float R = 8.3144598f;
-		
+
 		public static readonly Gas Plasma = new Gas("Plasma", 0.8f, 40f);
 		public static readonly Gas Oxygen = new Gas("Oxygen", 0.659f, 31.9988f);
 		public static readonly Gas Nitrogen = new Gas("Nitrogen", 0.743f, 28.0134f);
@@ -31,7 +31,7 @@ namespace Tilemaps.Behaviours.Meta.Data
 			MolarMass = molarMass;
 			Name = name;
 			Index = Count;
-			
+
 			gases.Add(this);
 		}
 
@@ -39,5 +39,13 @@ namespace Tilemaps.Behaviours.Meta.Data
 		{
 			return gases[i];
 		}
+
+		public static Gas[] All => gases.ToArray();
+
+		public static implicit operator int(Gas gas)
+		{
+			return gas.Index;
+		}
+
 	}
 }

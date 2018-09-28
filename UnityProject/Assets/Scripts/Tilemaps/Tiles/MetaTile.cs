@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Utils;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace Tilemaps.Tiles
-{
+
 	public class MetaTile : GenericTile
 	{
 		private LayerTile _baseCurrent;
 		private LayerTile _floorCurrent;
 		private LayerTile _objectCurrent;
-
+		private LayerTile _grillCurrent;
 		private LayerTile _structureCurrent;
 		public LayerTile Base;
 		public LayerTile Floor;
 		public LayerTile Object;
+		public LayerTile Grill; //Has to be separate here to get it off objects layer
 		public LayerTile Structure;
 
 #if UNITY_EDITOR
@@ -24,13 +23,14 @@ namespace Tilemaps.Tiles
 			CheckTileType(ref Structure, LayerType.Walls, LayerType.Windows);
 			CheckTileType(ref Object, LayerType.Objects);
 			CheckTileType(ref Floor, LayerType.Floors);
+			CheckTileType(ref Grill, LayerType.Grills);
 			CheckTileType(ref Base, LayerType.Base);
 
 			if (Structure != _structureCurrent || Object != _objectCurrent || Floor != _floorCurrent ||
-			    Base != _baseCurrent)
+			    Base != _baseCurrent || Grill != _grillCurrent)
 			{
 				if (_structureCurrent == null && _objectCurrent == null && _floorCurrent == null &&
-				    _baseCurrent == null)
+				    _baseCurrent == null && _grillCurrent == null)
 				{
 					// if everything is null, it could be that it's loading on startup, so there already should be an preview sprite to load
 					EditorApplication.delayCall += () =>
@@ -50,6 +50,7 @@ namespace Tilemaps.Tiles
 			_objectCurrent = Object;
 			_floorCurrent = Floor;
 			_baseCurrent = Base;
+			_grillCurrent = Grill;
 		}
 #endif
 
@@ -84,6 +85,10 @@ namespace Tilemaps.Tiles
 			{
 				list.Add(Object);
 			}
+			if (Grill)
+			{
+				list.Add(Grill);
+			}
 			if (Structure)
 			{
 				list.Add(Structure);
@@ -92,4 +97,3 @@ namespace Tilemaps.Tiles
 			return list.ToArray();
 		}
 	}
-}

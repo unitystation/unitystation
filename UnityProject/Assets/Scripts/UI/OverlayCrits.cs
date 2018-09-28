@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	/// <summary>
 	///     To control the critical overlays (unconscious, dying, oxygen loss etc)
 	/// </summary>
@@ -71,6 +69,7 @@ namespace UI
 			}
 			DoAdjust();
 			shroudImg.enabled = true;
+			holeMat.SetColor("_Color", pref.shroudColor);
 			holeMat.SetFloat("_Radius", pref.holeRadius);
 			holeMat.SetFloat("_Shape", pref.holeShape);
 		}
@@ -82,6 +81,8 @@ namespace UI
 		public float holeRadius;
 		public float holeShape;
 		public bool shroudActive = true;
+
+		public Color shroudColor;
 	}
 
 	public enum OverlayState
@@ -92,4 +93,3 @@ namespace UI
 		crit,
 		death
 	}
-}

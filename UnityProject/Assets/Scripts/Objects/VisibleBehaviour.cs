@@ -1,7 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
-using PlayGroup;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -133,6 +132,15 @@ public class VisibleBehaviour : NetworkBehaviour
 
 	private bool CanBeDisabled(MonoBehaviour script)
 	{
-		return !neverDisabled.Contains(script.GetType().Name);
+		try
+		{
+			return !neverDisabled.Contains(script.GetType().Name);
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			throw;
+		}
+		
 	}
 }

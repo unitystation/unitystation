@@ -1,30 +1,43 @@
 ﻿using UnityEngine;
 
-namespace Doors
+/// <summary>
+/// Controls FoV visibility, at the moment it is using messages from FieldOfViewStencil to switch it
+/// </summary>
+public class FovDoorController : MonoBehaviour
 {
-	/// <summary>
-	/// Controls FoV visibility, at the moment it is using messages from FieldOfViewStencil to switch it
-	/// </summary>
-	public class FovDoorController : MonoBehaviour
+	public Material normalMat;
+	public Material greyScaleMat;
+	public Material fovMaskMat;
+
+	private SpriteRenderer tileSpriteRenderer;
+
+	private SpriteRenderer[] cacheRends;
+
+	void Awake()
 	{
-		public GameObject fovTileSprite;
-		private SpriteRenderer tileSpriteRenderer;
+		cacheRends = GetComponentsInChildren<SpriteRenderer>(true);
+		CheckIfWindowed();
+	}
 
-		void Awake()
+	void CheckIfWindowed()
+	{
+		//windowed = 18, Door Opened = 16
+		if (gameObject.layer == 18
+		    || gameObject.layer == 16)
 		{
-			GameObject fTile = Instantiate(fovTileSprite, transform.position, Quaternion.identity);
-			fTile.transform.parent = transform;
-			fTile.transform.localPosition = Vector3.zero;
-			tileSpriteRenderer = fTile.GetComponent<SpriteRenderer>();
-		}
-
-		//Broadcast msg from FieldOfViewStencil:
-		public void TurnOnDoorFov(){
-			tileSpriteRenderer.enabled = true;
-		}
-
-		public void TurnOffDoorFov(){
-			tileSpriteRenderer.enabled = false;
+			SetForWindowDoor();
 		}
 	}
+
+	void SetForWindowDoor()
+	{
+		//Apply mask mat and turn off this component
+		for (int i = 0; i < cacheRends.Length; i++)
+		{
+			cacheRends[i].material = fovMaskMat;
+		}
+		this.enabled = false;
+	}
+
 }
+

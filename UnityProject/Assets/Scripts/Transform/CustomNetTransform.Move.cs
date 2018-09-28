@@ -38,6 +38,8 @@ public partial class CustomNetTransform {
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
 	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
+
+	private LayerMask tileDmgMask;
 	
 	//future optimization thoughts:
 	//if (not in limbo && space flying for 30 tiles in a row):
@@ -49,7 +51,7 @@ public partial class CustomNetTransform {
 	//quit limbo if: player within 20 tiles
 	//
 	//
-	
+
 	/// (Server) Did the flying item reach the planned landing point?
 	private bool ShouldStopThrow {
 		get {
@@ -60,7 +62,7 @@ public partial class CustomNetTransform {
 			bool shouldStop =
 				Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition ) >= serverState.ActiveThrow.Trajectory.magnitude;
 //			if ( shouldStop ) {
-//				Debug.Log( $"Should stop throw: {Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition )}" +
+//				Logger.Log( $"Should stop throw: {Vector3.Distance( serverState.ActiveThrow.OriginPos, serverState.WorldPosition )}" +
 //				           $" >= {trajectory.magnitude}" );
 //			}
 			return shouldStop;
@@ -131,7 +133,7 @@ public partial class CustomNetTransform {
 			clientState.WorldPosition += moveDelta;
 		} else {
 			//stop
-//			Debug.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
+//			Logger.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
 			clientState.Speed = 0f;
 			clientState.Impulse = Vector2.zero;
 			clientState.SpinFactor = 0;
@@ -179,7 +181,7 @@ public partial class CustomNetTransform {
 		//limit throw range here
 		if ( Vector2.Distance( info.OriginPos, info.TargetPos ) > throwRange ) {
 			correctedInfo.TargetPos = info.OriginPos + ( ( Vector3 ) impulse * throwRange );
-//			Debug.Log( $"Throw distance clamped to {correctedInfo.Trajectory.magnitude}, " +
+//			Logger.Log( $"Throw distance clamped to {correctedInfo.Trajectory.magnitude}, " +
 //			           $"target changed {info.TargetPos}->{correctedInfo.TargetPos}" );
 		}
 
@@ -196,7 +198,7 @@ public partial class CustomNetTransform {
 			                                     * ( info.SpinMode == SpinMode.Clockwise ? 1 : -1 ) );
 		}
 		serverState.ActiveThrow = correctedInfo;
-//		Debug.Log( $"Throw:{correctedInfo} {serverState}" );
+//		Logger.Log( $"Throw:{correctedInfo} {serverState}" );
 		NotifyPlayers();
 	}
 
@@ -263,7 +265,7 @@ public partial class CustomNetTransform {
 	private void AdvanceMovement( Vector3 tempOrigin, Vector3 tempGoal ) {
 		//Natural throw ending
 		if ( IsBeingThrown && ShouldStopThrow ) {
-//			Debug.Log( $"{gameObject.name}: Throw ended at {serverState.WorldPosition}" );
+//			Logger.Log( $"{gameObject.name}: Throw ended at {serverState.WorldPosition}" );
 			serverState.ActiveThrow = ThrowInfo.NoThrow;
 			//Change spin when we hit the ground. Zero was kinda dull
 			serverState.SpinFactor = ( sbyte ) ( -serverState.SpinFactor * 0.2f );
@@ -287,34 +289,49 @@ public partial class CustomNetTransform {
 	/// This check works only for 2 adjacent tiles, that's why floating check is recursive
 	[Server]
 	private bool ValidateFloating( Vector3 origin, Vector3 goal ) {
-//		Debug.Log( $"{gameObject.name} check {origin}->{goal}. Speed={serverState.Speed}" );
+//		Logger.Log( $"{gameObject.name} check {origin}->{goal}. Speed={serverState.Speed}" );
 		Vector3Int intOrigin = Vector3Int.RoundToInt( origin );
 		Vector3Int intGoal = Vector3Int.RoundToInt( goal );
 		var info = serverState.ActiveThrow;
 		List<HealthBehaviour> hitDamageables;
 		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) ) {
 			return true;
+		} else {
+			//Can't drift to goal for some reason:
+			//Check Tile damage from throw
+			var hit2D = Physics2D.RaycastAll(origin, info.Trajectory.normalized, 1.5f, tileDmgMask);
+
+			for(int i = 0; i < hit2D.Length; i++){
+				//Debug.Log("THROW HIT: " + hit2D[i].collider.gameObject.name);
+
+				//TilemapDamage automatically detects if a layer is below another damageable layer and won't affect it
+				var tileDmg = hit2D[i].collider.gameObject.GetComponent<TilemapDamage>();
+				if(tileDmg != null){
+					var damage = ( int ) ( ItemAttributes.throwDamage * 2 );
+					tileDmg.DoThrowDamage(intGoal, info, damage);
+				}
+			}
 		}
 
 		//Hurting what we can
-		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
+		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow )) {
 			for ( var i = 0; i < hitDamageables.Count; i++ ) {
 				//Remove cast to int when moving health values to float
 				var damage = ( int ) ( ItemAttributes.throwDamage * 2 );
 				hitDamageables[i].ApplyDamage( info.ThrownBy, damage, DamageType.BRUTE, info.Aim );
 				PostToChatMessage.SendThrowHitMessage( gameObject, hitDamageables[i].gameObject, damage, info.Aim );
 			}
-			//todo:hit sound
+			//hit sound
+			PlaySoundMessage.SendToAll("GenericHit", transform.position, 1f);
 		}
 
 		return false;
-//				RpcForceRegisterUpdate();
 	}
 
 	///Stopping drift, killing impulse
 	[Server]
 	private void StopFloating() {
-//		Debug.Log( $"{gameObject.name} stopped floating" );
+//		Logger.Log( $"{gameObject.name} stopped floating" );
 		serverState.Impulse = Vector2.zero;
 		serverState.Speed = 0;
 		serverState.Rotation = transform.rotation.eulerAngles.z;
@@ -323,6 +340,7 @@ public partial class CustomNetTransform {
 		NotifyPlayers();
 		RegisterObjects();
 	}
+
 
 	///Special rounding for collision detection
 	///returns V3Int of next tile
@@ -335,11 +353,17 @@ public partial class CustomNetTransform {
 			0 );
 	}
 
+	/// <Summary>
 	/// Can it drift to given pos?
+	/// Use World positions
+	/// </Summary>
 	private bool CanDriftTo( Vector3Int targetPos ) {
 		return CanDriftTo( Vector3Int.RoundToInt( serverState.WorldPosition ), targetPos );
 	}
 
+	/// <Summary>
+	/// Use World positions
+	/// </Summary>
 	private bool CanDriftTo( Vector3Int originPos, Vector3Int targetPos ) {
 		return MatrixManager.IsPassableAt( originPos, targetPos );
 	}
@@ -357,7 +381,7 @@ public partial class CustomNetTransform {
 			foreach ( HealthBehaviour obj in objectsOnTile ) {
 				//Skip thrower for now
 				if ( obj.gameObject == thrownBy ) {
-					Debug.Log( $"{thrownBy.name} not hurting himself" );
+					Logger.Log( $"{thrownBy.name} not hurting himself", Category.Throwing );
 					continue;
 				}
 				//Skip dead bodies
@@ -369,7 +393,7 @@ public partial class CustomNetTransform {
 				victims = damageables;
 				return true;
 			}
-		}
+		} 
 
 		victims = null;
 		return false;

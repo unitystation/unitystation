@@ -1,10 +1,7 @@
-﻿using Cupboards;
-using Tilemaps.Behaviours.Objects;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Objects
-{
+
 	public class ClosetHealthBehaviour : HealthBehaviour
 	{
 		private ClosetControl closetControl;
@@ -25,14 +22,6 @@ namespace Objects
 			if (isServer)
 			{
 				ServerDeathActions();
-			}
-		}
-
-		public override void Interact(GameObject originator, Vector3 position, string hand)
-		{
-			if (closetControl.IsClosed)
-			{
-				base.Interact(originator, position, hand);
 			}
 		}
 
@@ -83,4 +72,3 @@ namespace Objects
 			transform.Rotate(0, 0, 90);
 		}
 	}
-}

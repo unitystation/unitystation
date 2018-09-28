@@ -15,7 +15,7 @@ public class TransformStateMessage : ServerMessage
 	///To be run on client
 	public override IEnumerator Process()
 	{
-//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 		if (TransformedObject == NetworkInstanceId.Invalid)
 		{
 			//Doesn't make any sense
@@ -28,7 +28,7 @@ public class TransformStateMessage : ServerMessage
 			{
 				//update NetworkObject transform state
 				var transform = NetworkObject.GetComponent<CustomNetTransform>();
-//				Debug.Log($"{transform.ClientState} ->\n{State}");
+//				Logger.Log($"{transform.ClientState} ->\n{State}");
 				transform.UpdateClientState(State);
 			}
 		}

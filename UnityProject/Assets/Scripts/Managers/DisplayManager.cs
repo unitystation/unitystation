@@ -1,5 +1,4 @@
 ﻿using Light2D;
-using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,9 +8,9 @@ public class DisplayManager : MonoBehaviour
 	public static DisplayManager Instance;
 
 	private CanvasScaler canvasScaler;
+
 	public FieldOfViewStencil fieldOfView;
 	private int height;
-	public LightingSystem lightingSystem;
 	public Camera mainCamera;
 
 	public Dropdown resoDropDown;
@@ -66,19 +65,15 @@ public class DisplayManager : MonoBehaviour
 		}
 	}
 
-	public void SetCameraFollowPos(bool isPanelHidden = false)
+	public void SetCameraFollowPos()
 	{
 		if(Camera2DFollow.followControl == null){
 			return;
 		}
 
-		float xOffSet =
-			Mathf.Abs(Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x - Camera2DFollow.followControl.transform.position.x) + -0.06f;
+        float xOffSet =
+             (Camera2DFollow.followControl.transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x) * 1.38f;
 
-		if (isPanelHidden)
-		{
-			xOffSet = -xOffSet;
-		}
 		Camera2DFollow.followControl.listenerObj.transform.localPosition = new Vector3(-xOffSet, 1f); //set listenerObj's position to player's pos
 		Camera2DFollow.followControl.SetXOffset(xOffSet);
 	}

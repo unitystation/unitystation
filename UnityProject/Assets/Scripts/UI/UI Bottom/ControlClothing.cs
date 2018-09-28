@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class ControlClothing : MonoBehaviour
 	{
 		public Image[] equipImgs;
@@ -55,4 +54,3 @@ namespace UI
 			}
 		}
 	}
-}

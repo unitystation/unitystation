@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Util;
 
 public class GUI_Spawner : NetTab 
 {
@@ -40,7 +39,7 @@ public class GUI_Spawner : NetTab
 	public void SpawnItemByIndex( string index ) {
 		ItemEntry item = GetItemFromIndex( index );
 		var prefab = item?.Prefab;
-//		Debug.Log( $"Spawning item '{prefab?.name}'!" );
+//		Logger.Log( $"Spawning item '{prefab?.name}'!" );
 		
 		Vector3 originPos = Provider.WorldPos();
 		Vector3 nearestPlayerPos = GetNearestPlayerPos(originPos);

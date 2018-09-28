@@ -1,8 +1,6 @@
-﻿using Tilemaps.Behaviours.Meta;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Tilemaps.Behaviours.Objects
-{
+
 	[ExecuteInEditMode]
 	public class RegisterDoor : RegisterTile
 	{
@@ -53,4 +51,3 @@ namespace Tilemaps.Behaviours.Objects
 			return !isClosed;
 		}
 	}
-}

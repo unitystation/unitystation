@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class GibMessage : ServerMessage
 {
@@ -8,8 +7,6 @@ public class GibMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-		Debug.Log(ToString());
-
 		foreach (HealthBehaviour living in Object.FindObjectsOfType<HealthBehaviour>())
 		{
 			living.Death();

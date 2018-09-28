@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Light2D;
-using PlayGroup;
-using Tilemaps;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
-using Tilemaps.Tiles;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -202,7 +194,7 @@ public class UITileList : MonoBehaviour
 	{
 		if (!Instance.listedObjects.Contains(tileListItemObject))
 		{
-			Debug.LogError("Attempted to remove tileListItem not on list");
+			Logger.LogError("Attempted to remove tileListItem not on list", Category.UI);
 			return;
 		}
 

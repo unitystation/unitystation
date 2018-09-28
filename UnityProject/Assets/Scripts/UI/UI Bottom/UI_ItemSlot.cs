@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using Events;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class UI_ItemSlot : MonoBehaviour
 	{
 		public bool allowAllItems;
@@ -14,6 +11,8 @@ namespace UI
 		public string eventName;
 
 		private Image image;
+
+		private Image secondaryImage; //For sprites that require two images
 		public ItemSize maxItemSize;
 
 		public GameObject Item { get; private set; }
@@ -23,11 +22,14 @@ namespace UI
 		private void Awake()
 		{
 			image = GetComponent<Image>();
+			secondaryImage = GetComponentsInChildren<Image>()[1];
+			secondaryImage.alphaHitTestMinimumThreshold = 0.5f;
+			secondaryImage.enabled = false;
             image.alphaHitTestMinimumThreshold = 0.5f;
             image.enabled = false;
 			if (eventName.Length > 0)
 			{
-				//                Debug.LogErrorFormat("Triggered SetItem for {0}",slotName);
+//				Logger.LogTraceFormat("Triggered SetItem for {0}", Category.UI, eventName);
 				EventManager.UI.AddListener(eventName, SetItem);
 			}
 		}
@@ -59,12 +61,28 @@ namespace UI
 				Clear();
 				return;
 			}
-			//            var itemAttributes = item.GetComponent<ItemAttributes>();
-			//            Debug.LogFormat("Setting item {0}/{1} to {2}", item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName);
-			image.sprite = item.GetComponentInChildren<SpriteRenderer>().sprite;
+			Logger.LogTraceFormat("Setting item {0} to {1}", Category.UI, item.name, eventName);
+			var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
+			image.sprite = spriteRends[0].sprite;
+			if(spriteRends.Length > 1){
+				if(spriteRends[1].sprite != null){
+					SetSecondaryImage(spriteRends[1].sprite);
+				}
+			}
 			image.enabled = true;
 			Item = item;
 			item.transform.position = transform.position;
+		}
+
+		public void SetSecondaryImage(Sprite sprite)
+		{
+			if(sprite != null){
+				secondaryImage.sprite = sprite;
+				secondaryImage.enabled = true;
+			} else {
+				secondaryImage.sprite = null;
+				secondaryImage.enabled = false;
+			}
 		}
 
 		//        public bool TrySetItem(GameObject item) {
@@ -98,6 +116,8 @@ namespace UI
 			Item = null;
 			image.sprite = null;
 			image.enabled = false;
+			secondaryImage.sprite = null;
+			secondaryImage.enabled = false;
 
 			return item;
 		}
@@ -123,7 +143,7 @@ namespace UI
 			var itemTransform = item.GetComponent<CustomNetTransform>();
 			itemTransform.AppearAtPosition(pos);
 			var itemAttributes = item.GetComponent<ItemAttributes>();
-			Debug.LogFormat("Placing item {0}/{1} from {2} to {3}", item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
+			Logger.LogTraceFormat("Placing item {0}/{1} from {2} to {3}", Category.UI, item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
 			return true;
 		}
 
@@ -131,6 +151,8 @@ namespace UI
 		{
 			image.sprite = null;
 			image.enabled = false;
+			secondaryImage.sprite = null;
+			secondaryImage.enabled = false;
 			Item = null;
 		}
 
@@ -147,10 +169,17 @@ namespace UI
 			}
 			else if ( attributes.size > maxItemSize )
 			{
-				Debug.Log($"{attributes.size} {item} is too big for {maxItemSize} {eventName}!");
+				Logger.LogWarning($"{attributes.size} {item} is too big for {maxItemSize} {eventName}!", Category.UI);
 				return false;
 			}
 			return allowAllItems || allowedItemTypes.Contains(attributes.type);
 		}
+
+		public void TryItemInteract()
+		{
+			if(Item != null && UIManager.Hands.CurrentSlot.eventName == eventName){
+				var inputTrigger = Item.GetComponent<InputTrigger>();
+				inputTrigger.UI_Interact(PlayerManager.LocalPlayer, eventName);
+			}
+		}
 	}
-}

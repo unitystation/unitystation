@@ -1,10 +1,8 @@
 ﻿using System.IO;
-using Tilemaps.Tiles;
 using UnityEditor;
 using UnityEngine;
 
-namespace Tilemaps.Editor.Utils
-{
+
 	public static class TileBuilder
 	{
 		public static void CreateTile<T>(LayerType layer, string tileName, string path = null) where T : LayerTile
@@ -55,4 +53,3 @@ namespace Tilemaps.Editor.Utils
 			return path;
 		}
 	}
-}

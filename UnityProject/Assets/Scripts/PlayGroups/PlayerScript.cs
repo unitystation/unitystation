@@ -1,16 +1,10 @@
 using System.Collections;
-using PlayGroups.Input;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using Facepunch.Steamworks;
-using Tilemaps.Behaviours.Objects;
-using UnityEngine.Experimental.UIElements;
-using Util;
 
-namespace PlayGroup
-{
-	public class PlayerScript : ManagedNetworkBehaviour
+
+public class PlayerScript : ManagedNetworkBehaviour
 	{
 		// the maximum distance the player needs to be to an object to interact with it
 		//1.75 is the optimal distance to now have any direction click too far
@@ -40,17 +34,9 @@ namespace PlayGroup
 
 		public PlayerSprites playerSprites { get; set; }
 
-		private PlayerSync _playerSync;
-		public PlayerSync playerSync {
-			get {
-				if ( !_playerSync ) {
-					_playerSync = GetComponent<PlayerSync>();
-				}
+		private PlayerSync playerSync; //Example of good on-demand reference init
+		public PlayerSync PlayerSync => playerSync ? playerSync : ( playerSync = GetComponent<PlayerSync>() );
 
-				return _playerSync;
-			}
-		}
-		
 		public RegisterTile registerTile { get; set; }
 
 		public InputController inputController { get; set; }
@@ -78,13 +64,13 @@ namespace PlayGroup
 
 		private IEnumerator WaitForLoad()
 		{
-			//fixme: name isn't resolved at the moment of pool creation 
+			//fixme: name isn't resolved at the moment of pool creation
 			//(player pools now use netIDs, but it would be nice to have names for readability)
 			yield return new WaitForSeconds(2f);
 			OnNameChange(playerName);
 			yield return new WaitForSeconds(1f);
 			//Refresh chat log:
-			ChatRelay.Instance.RefreshLog();
+	//s		ChatRelay.Instance.RefreshLog();
 		}
 
 		//isLocalPlayer is always called after OnStartClient
@@ -105,7 +91,6 @@ namespace PlayGroup
 		private void Start()
 		{
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
-//			playerSync = GetComponent<PlayerSync>();
 			registerTile = GetComponent<RegisterTile>();
 			playerHealth = GetComponent<PlayerHealth>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
@@ -137,21 +122,22 @@ namespace PlayGroup
 
 				if (PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
 				{
-					// I (client) have connected to the server, ask what my job preference is
-					UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(true);
+					// I (client) have connected to the server, ask server what is going on, by first asking what the UI should be? 
+
+					UIManager.Display.DetermineGameMode();
 				}
 				UIManager.SetDeathVisibility(true);
-				if ( CustomNetworkManager.Instance.SteamServer ) {
+				if ( BuildPreferences.isSteamServer ) {
 					// Send request to be authenticated by the server
 					if ( Client.Instance != null ) {
-						Debug.Log( "Client Requesting Auth" );
+						Logger.Log( "Client Requesting Auth", Category.Steam );
 						// Generate authentication Ticket
 						var ticket = Client.Instance.Auth.GetAuthSessionTicket();
 						var ticketBinary = ticket.Data;
 						// Send Clientmessage to authenticate
 						RequestAuthMessage.Send( Client.Instance.SteamId, ticketBinary );
 					} else {
-						Debug.Log( "Client NOT requesting auth" );
+						Logger.Log( "Client NOT requesting auth", Category.Steam );
 					}
 				}
 //				Request sync to get all the latest transform data
@@ -162,7 +148,7 @@ namespace PlayGroup
 			else if (isServer)
 			{
 				playerMove = GetComponent<PlayerMove>();
-								
+
 				//Add player to player list
 				PlayerList.Instance.Add(new ConnectedPlayer
 				{
@@ -191,12 +177,12 @@ namespace PlayGroup
 		}
 
 		/// <summary>
-		/// Trying to set initial name, if player has none 
+		/// Trying to set initial name, if player has none
 		/// </summary>
 		[Command]
 		private void CmdTrySetInitialName(string name)
 		{
-//			Debug.Log($"TrySetName {name}");
+//			Logger.Log($"TrySetName {name}");
 			if (PlayerList.Instance != null)
 			{
 				var player = PlayerList.Instance.Get(connectionToClient);
@@ -215,10 +201,10 @@ namespace PlayGroup
 		{
 			if (string.IsNullOrEmpty(newName))
 			{
-				Debug.LogError("NO NAME PROVIDED!");
+				Logger.LogError("NO NAME PROVIDED!", Category.Connections);
 				return;
 			}
-//			Debug.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");
+//			Logger.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");
 			playerName = newName;
 			gameObject.name = newName;
 		}
@@ -252,6 +238,9 @@ namespace PlayGroup
 
 		public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 		{
+			if(this == null){
+				return ChatChannel.OOC;
+			}
 			PlayerMove pm = gameObject.GetComponent<PlayerMove>();
 			if (pm.isGhost)
 			{
@@ -318,7 +307,7 @@ namespace PlayGroup
 			if (JobType == JobType.CLOWN)
 			{
 				modifiers |= ChatModifier.Clown;
-				
+
 			}
 
 			return modifiers;
@@ -335,4 +324,3 @@ namespace PlayGroup
 			UIManager.SetToolTip = "";
 		}
 	}
-}

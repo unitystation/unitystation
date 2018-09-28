@@ -1,50 +1,61 @@
-﻿using System.Security.Permissions;
-using Tilemaps.Behaviours.Meta;
-using Tilemaps.Utils;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Tilemaps.Behaviours.Layers
+
+public class MetaDataLayer : MonoBehaviour
 {
-	public class MetaDataLayer : MonoBehaviour
+	private MetaDataDictionary nodes = new MetaDataDictionary();
+
+	private SystemManager systemManager;
+
+	private void Awake()
 	{
-		private MetaDataDictionary nodes = new MetaDataDictionary();
+		systemManager = GetComponentInParent<SystemManager>();
+	}
 
-		private MetaTileMap metaTileMap;
-
-		private void Awake()
+	public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
+	{
+		if (!nodes.ContainsKey(position))
 		{
-			metaTileMap = GetComponent<MetaTileMap>();
-		}
-
-		public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
-		{
-			if (!nodes.ContainsKey(position))
+			if (createIfNotExists)
 			{
-				if (createIfNotExists)
-				{
-					nodes[position] = new MetaDataNode();
-				}
-				else
-				{
-					return MetaDataNode.None;
-				}
+				nodes[position] = new MetaDataNode(position);
 			}
-
-			return nodes[position];
+			else
+			{
+				return MetaDataNode.None;
+			}
 		}
 
-		public bool IsSpaceAt(Vector3Int position)
-		{
-			MetaDataNode node = Get(position, false);
+		return nodes[position];
+	}
 
-			return node.IsSpace;
-		}
+	public bool IsSpaceAt(Vector3Int position)
+	{
+		return Get(position, false).IsSpace;
+	}
 
-		public bool IsRoomAt(Vector3Int position)
-		{
-			MetaDataNode node = Get(position, false);
+	public bool IsRoomAt(Vector3Int position)
+	{
+		return Get(position, false).IsRoom;
+	}
 
-			return node.IsRoom;
-		}
+	public bool IsEmptyAt(Vector3Int position)
+	{
+		return !Get(position, false).Exists;
+	}
+
+	public bool IsOccupiedAt(Vector3Int position)
+	{
+		return Get(position, false).IsOccupied;
+	}
+
+	public bool ExistsAt(Vector3Int position)
+	{
+		return Get(position, false).Exists;
+	}
+
+	public void UpdateSystemsAt(Vector3Int position)
+	{
+		systemManager.UpdateAt(position);
 	}
 }

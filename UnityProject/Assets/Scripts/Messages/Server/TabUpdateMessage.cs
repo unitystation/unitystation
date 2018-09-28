@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 
 public class TabUpdateMessage : ServerMessage {
 	public static short MessageType = (short) MessageTypes.TabUpdateMessage;
@@ -17,7 +15,7 @@ public class TabUpdateMessage : ServerMessage {
 	public bool Touched;
 	
 	public override IEnumerator Process() {
-//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 		yield return WaitFor( Provider );
 		switch ( Action ) {
 			case TabAction.Open:
@@ -49,7 +47,7 @@ public class TabUpdateMessage : ServerMessage {
 				Send( connectedPlayer.GameObject, provider, type, tabAction, null, values );
 		}
 //		if ( logMessage != null ) {
-//			Debug.Log( $"Sending {logMessage}" );
+//			Logger.Log( $"Sending {logMessage}" );
 //		}
 	}
 

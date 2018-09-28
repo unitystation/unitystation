@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tilemaps.Tiles
-{
+
 	public enum LayerType
 	{
 		Walls,
@@ -9,8 +8,8 @@ namespace Tilemaps.Tiles
 		Objects,
 		Floors,
 		Base,
-		None,
-		TopLayerEffects
+		Grills,
+		None
 	}
 
 	public enum TileType
@@ -20,7 +19,10 @@ namespace Tilemaps.Tiles
 		Window,
 		Floor,
 		Table,
-		TopLayerEffects
+		Effects,
+		Grill,
+		Base,
+		ReinforcedWall
 	}
 
 	public class LayerTile : GenericTile
@@ -38,4 +40,3 @@ namespace Tilemaps.Tiles
 			return transformMatrix;
 		}
 	}
-}

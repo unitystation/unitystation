@@ -1,8 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-namespace Electricity{
-	
+﻿	
 	public static class ConnectionMap {
 		/// <summary>
 		/// Given the output position of a wire and an adjacent tile to check
@@ -91,4 +87,3 @@ namespace Electricity{
 		public int pointA;
 		public int pointB;
 	}
-}

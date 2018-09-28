@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class ControlAmbientVolume : MonoBehaviour
 	{
 		private Slider slider;
@@ -22,4 +21,3 @@ namespace UI
 			PlayerPrefs.SetFloat("AmbientVol", slider.value);
 		}
 	}
-}

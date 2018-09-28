@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using Tilemaps.Tiles;
 using UnityEngine;
 
-namespace Tilemaps.Behaviours.Layers
-{
+
 	[ExecuteInEditMode]
 	public class MetaTileMap : MonoBehaviour
 	{
@@ -128,7 +126,9 @@ namespace Tilemaps.Behaviours.Layers
 			foreach (Layer layer in Layers.Values)
 			{
 				if (layer.LayerType < refLayer &&
-				    !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors))
+				    !(refLayer == LayerType.Objects && 
+					layer.LayerType == LayerType.Floors) &&
+					refLayer != LayerType.Grills)
 				{
 					layer.RemoveTile(position);
 				}
@@ -170,7 +170,10 @@ namespace Tilemaps.Behaviours.Layers
 					Layers[layer.LayerType].SetPreviewTile(position, LayerTile.EmptyTile, Matrix4x4.identity);
 				}
 			}
-
+			if(!Layers.ContainsKey(tile.LayerType)){
+				Debug.LogError($"LAYER TYPE: {tile.LayerType} not found!");
+				return;
+			}
 			Layers[tile.LayerType].SetPreviewTile(position, tile, transformMatrix);
 		}
 
@@ -183,4 +186,3 @@ namespace Tilemaps.Behaviours.Layers
 		}
 #endif
 	}
-}

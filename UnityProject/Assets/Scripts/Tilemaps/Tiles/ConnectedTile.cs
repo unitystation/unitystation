@@ -1,12 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Tilemaps.Behaviours.Layers;
-using Sprites;
 
-namespace Tilemaps.Tiles
-{
-	public enum ConnectCategory
+
+public enum ConnectCategory
 	{
 		Walls,
 		Windows,
@@ -56,7 +53,9 @@ namespace Tilemaps.Tiles
 			if (Application.isPlaying) {
 				Layer layer = tilemap.GetComponent<Layer>();
 
+				// TODO Clean up
 				/// Walls Only:
+				/*
 				if (layer.LayerType == LayerType.Walls) {
 					
 					/// Add the black fov above all wall tiles
@@ -67,6 +66,7 @@ namespace Tilemaps.Tiles
 						topLayer.SetTile(location, newTile);
 					}
 				}
+				*/
 			}
 				return true;
 		}
@@ -134,4 +134,3 @@ namespace Tilemaps.Tiles
 			}
 		}
 	}
-}

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sprites;
 using UnityEngine;
 
-namespace Electricity
-{
+
 	[ExecuteInEditMode]
 	public class StructurePowerWire : MonoBehaviour
 	{
@@ -68,7 +66,7 @@ namespace Electricity
 			//Casting here is to solve nullable somehow not noticing my nullcheck earlier
 			this.DirectionStart = Math.Min(DirectionStart, DirectionEnd);
 			this.DirectionEnd = Math.Max(DirectionStart, DirectionEnd);
-			Debug.Log($"DIR START: {DirectionStart} DIR END: {DirectionEnd}");
+			Logger.Log($"DIR START: {DirectionStart} DIR END: {DirectionEnd}", Category.Power);
 			SetSprite();
 		}
 
@@ -99,4 +97,3 @@ namespace Electricity
 			}
 		}
 	}
-}

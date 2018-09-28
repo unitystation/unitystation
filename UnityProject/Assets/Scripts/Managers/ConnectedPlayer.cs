@@ -1,5 +1,4 @@
-﻿using PlayGroup;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 /// Server-only full player information class
@@ -77,10 +76,11 @@ public class ConnectedPlayer
         get { return steamId; }
         set
         {
+			
             if ( value != 0 )
             {
                 steamId = value;
-                Debug.Log( $"Updated steamID! {this}" );
+				Logger.Log( $"Updated steamID! {this}" , Category.Steam);
             }
         }
     }
@@ -114,7 +114,7 @@ public class ConnectedPlayer
         var playerList = PlayerList.Instance;
         if ( playerList == null )
         {
-//			Debug.Log("PlayerList not instantiated, setting name blindly");
+//			Logger.Log("PlayerList not instantiated, setting name blindly");
             name = playerName;
             return;
         }
@@ -135,11 +135,11 @@ public class ConnectedPlayer
         if ( sameNames != 0 )
         {
             proposedName = $"{name}{sameNames + 1}";
-            Debug.Log($"TRYING: {proposedName}");
+            Logger.LogTrace($"TRYING: {proposedName}", Category.Connections);
         }
         if ( PlayerList.Instance.ContainsName(proposedName) )
         {
-            Debug.Log($"NAME ALREADY EXISTS: {proposedName}");
+            Logger.LogTrace($"NAME ALREADY EXISTS: {proposedName}", Category.Connections);
             sameNames++;
             return GetUniqueName(name, sameNames);
         }

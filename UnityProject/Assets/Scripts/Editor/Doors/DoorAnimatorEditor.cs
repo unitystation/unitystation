@@ -1,8 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Doors
-{
+
 	/// <summary>
 	///     DoorAnimatorEditor helps determine if the door
 	///     prefab has been set up correctly by the creator.
@@ -45,4 +44,3 @@ namespace Doors
 			}
 		}
 	}
-}

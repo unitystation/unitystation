@@ -1,37 +1,40 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using Cupboards;
-using Doors;
-using Equipment;
-using Lighting;
-using PlayGroup;
-using PlayGroups.Input;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
-	private readonly string[] slotNames =
-	{
-		"suit", "belt", "feet", "head", "mask", "uniform", "neck", "ear", "eyes", "hands", "id", "back", "rightHand", "leftHand", "storage01", "storage02",
+	private readonly string[] slotNames = {
+		"suit",
+		"belt",
+		"feet",
+		"head",
+		"mask",
+		"uniform",
+		"neck",
+		"ear",
+		"eyes",
+		"hands",
+		"id",
+		"back",
+		"rightHand",
+		"leftHand",
+		"storage01",
+		"storage02",
 		"suitStorage"
 	};
 
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
-	[NonSerialized] public string activeHand = "right";
+	[NonSerialized] public string activeHand = "rightHand";
 
 	private ChatIcon chatIcon;
 
-	private Equipment.Equipment equipment;
+	private Equipment equipment;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private PlayerSprites playerSprites;
@@ -45,7 +48,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private void Start()
 	{
-		equipment = GetComponent<Equipment.Equipment>();
+		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
 		playerScript = GetComponent<PlayerScript>();
@@ -74,7 +77,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
 		if (Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied)
 		{
-			Debug.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}");
+			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}", Category.Inventory);
 			return false;
 		}
 
@@ -100,9 +103,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void Consume(GameObject item)
 	{
-		foreach ( var slot in Inventory )
+		foreach (var slot in Inventory)
 		{
-			if ( item == slot.Value )
+			if (item == slot.Value)
 			{
 				ClearInventorySlot(slot.Key);
 				break;
@@ -115,9 +118,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public bool HasItem(GameObject item)
 	{
-		foreach ( var slot in Inventory )
+		foreach (var slot in Inventory)
 		{
-			if ( item == slot.Value )
+			if (item == slot.Value)
 			{
 				return true;
 			}
@@ -153,7 +156,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SetInventorySlot(slot, gObj);
 			//Clean up other slots
 			ClearObjectIfNotInSlot(gObj, slot, forceClientInform);
-			//Debug.LogFormat("Approved moving {0} to slot {1}", gObj, slot);
+			Logger.LogTraceFormat("Approved moving {0} to slot {1}", Category.Inventory, gObj, slot);
 			return true;
 		}
 
@@ -162,7 +165,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return ValidateDropItem(slot, forceClientInform);
 		}
 
-		Debug.LogWarningFormat("Unable to validateInvInteraction {0}:{1}", slot, gObj.name);
+		Logger.LogWarning($"Unable to validateInvInteraction {slot}:{gObj.name}", Category.Inventory);
 		return false;
 	}
 
@@ -215,7 +218,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			UpdateSlotMessage.Send(gameObject, slotNames[i], null, forceClientInform);
 		}
 
-		//        Debug.LogFormat("Cleared {0}", slotNames);
+		Logger.LogTraceFormat("Cleared {0}", Category.Inventory, slotNames);
 	}
 
 	[Server]
@@ -225,7 +228,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ItemAttributes att = obj.GetComponent<ItemAttributes>();
 		if (slotName == "leftHand" || slotName == "rightHand")
 		{
-			equipment.SetHandItemSprite(slotName, att);
+			equipment.SetHandItemSprite(att);
 		}
 		else
 		{
@@ -237,7 +240,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset"))
 				{
-					// Debug.Log("slotName = " + slotName);
+					// Logger.Log("slotName = " + slotName);
 					Epos enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
 					equipment.syncEquipSprites[(int) enumA] = att.clothingReference;
 				}
@@ -254,7 +257,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//Dropping from a slot on the UI
 	[Server]
-	public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/)
+	public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/ )
 	{
 		//decline if not dropped from hands?
 		if (Inventory.ContainsKey(slot) && Inventory[slot])
@@ -263,7 +266,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return true;
 		}
 
-		Debug.Log("Object not found in Inventory");
+		Logger.Log("Object not found in Inventory", Category.Inventory);
 		return false;
 	}
 
@@ -273,12 +276,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void DropItem(string slot = "", bool forceClientInform = true)
 	{
 		//Drop random item
-		if ( slot == "" )
+		if (slot == "")
 		{
 			slot = "uniform";
-			foreach ( var key in Inventory.Keys )
+			foreach (var key in Inventory.Keys)
 			{
-				if ( Inventory[key] )
+				if (Inventory[key])
 				{
 					slot = key;
 					break;
@@ -296,12 +299,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void DropAll(bool onQuit = false)
 	{
 		//Dropping whatever player has got
-		if ( !onQuit )
+		if (!onQuit)
 		{
 			//fixme: modified collectionz
-			foreach ( var key in Inventory.Keys )
+			foreach (var key in Inventory.Keys)
 			{
-				if ( Inventory[key] )
+				if (Inventory[key])
 				{
 					DropItem(key);
 				}
@@ -310,48 +313,52 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		// Drop all shit from player's inventory when he's leaving, ignoring pools
 		{
-			foreach ( var item in Inventory.Values )
+			foreach (var item in Inventory.Values)
 			{
-				if ( !item )
+				if (!item)
 				{
 					continue;
 				}
 
 				var objTransform = item.GetComponent<CustomNetTransform>();
-				if ( objTransform )
+				if (objTransform)
 				{
 					objTransform.ForceDrop(gameObject.transform.position);
 				}
 			}
 		}
 	}
-	
+
 	/// Client requesting throw to clicked position
 	[Command]
-	public void CmdRequestThrow(string slot, Vector3 worldTargetPos, int aim) {
-		if ( playerScript.canNotInteract() || slot != "leftHand" && slot != "rightHand" || !SlotNotEmpty( slot ) ) {
-			RollbackPrediction( slot );
+	public void CmdRequestThrow(string slot, Vector3 worldTargetPos, int aim)
+	{
+		if (playerScript.canNotInteract() || slot != "leftHand" && slot != "rightHand" || !SlotNotEmpty(slot))
+		{
+			RollbackPrediction(slot);
 			return;
 		}
 		GameObject throwable = Inventory[slot];
-		
-		Vector3 playerPos = playerScript.playerSync.ServerState.WorldPosition;
 
-		EquipmentPool.DisposeOfObject(gameObject, throwable); 
+		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
+
+		EquipmentPool.DisposeOfObject(gameObject, throwable);
 		ClearInventorySlot(slot);
-		var throwInfo = new ThrowInfo {
+		var throwInfo = new ThrowInfo
+		{
 			ThrownBy = gameObject,
-			Aim = (BodyPartType) aim,
-			OriginPos	= playerPos,
-			TargetPos = worldTargetPos,
-			//Clockwise spin from left hand and Counterclockwise from the right hand
-			SpinMode = slot == "leftHand" ? SpinMode.Clockwise : SpinMode.CounterClockwise,
+				Aim = (BodyPartType) aim,
+				OriginPos = playerPos,
+				TargetPos = worldTargetPos,
+				//Clockwise spin from left hand and Counterclockwise from the right hand
+				SpinMode = slot == "leftHand" ? SpinMode.Clockwise : SpinMode.CounterClockwise,
 		};
-		throwable.GetComponent<CustomNetTransform>().Throw( throwInfo );
-		
+		throwable.GetComponent<CustomNetTransform>().Throw(throwInfo);
+
 		//Simplified counter-impulse for players in space
-		if ( playerScript.playerSync.IsInSpace ) {
-			playerScript.playerSync.Push( Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized) );
+		if (playerScript.PlayerSync.IsInSpace)
+		{
+			playerScript.PlayerSync.Push(Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized));
 		}
 	}
 
@@ -368,8 +375,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		EquipmentPool.DisposeOfObject(gameObject, obj);
 	}
 
-	[Command]
-	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent)
+	[Command] //Remember with the parent you can only send networked objects:
+	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
 		if (!SlotNotEmpty(slotName))
 		{
@@ -381,25 +388,33 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ClearInventorySlot(slotName);
 		if (item != null && newParent != null)
 		{
-			item.transform.parent = newParent.transform;
+			if (isTileMap)
+			{
+				var tileChangeManager = newParent.GetComponent<TileChangeManager>();
+				item.transform.parent = tileChangeManager.ObjectParent.transform;
+			}
+			else
+			{
+				item.transform.parent = newParent.transform;
+			}
 			// TODO
-//			ReorderGameobjectsOnTile(pos);
+			//			ReorderGameobjectsOnTile(pos);
 		}
 	}
 
-//	private void ReorderGameobjectsOnTile(Vector2 position)
-//	{
-//		List<RegisterItem> items = registerTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
-//
-//		for (int i = 0; i < items.Count; i++)
-//		{
-//			SpriteRenderer sRenderer = items[i].gameObject.GetComponentInChildren<SpriteRenderer>();
-//			if (sRenderer != null)
-//			{
-//				sRenderer.sortingOrder = (i + 1);
-//			}
-//		}
-//	}
+	//	private void ReorderGameobjectsOnTile(Vector2 position)
+	//	{
+	//		List<RegisterItem> items = registerTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
+	//
+	//		for (int i = 0; i < items.Count; i++)
+	//		{
+	//			SpriteRenderer sRenderer = items[i].gameObject.GetComponentInChildren<SpriteRenderer>();
+	//			if (sRenderer != null)
+	//			{
+	//				sRenderer.sortingOrder = (i + 1);
+	//			}
+	//		}
+	//	}
 
 	public bool SlotNotEmpty(string eventName)
 	{
@@ -412,7 +427,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ClosetControl closetControl = cupbObj.GetComponent<ClosetControl>();
 		closetControl.ServerToggleCupboard();
 	}
-
 
 	[Command]
 	public void CmdStartMicrowave(string slotName, GameObject microwave, string mealName)
@@ -504,15 +518,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void SetConsciousState(bool conscious)
 	{
+		//Store the server conscious state for this player:
+		playerScript.playerHealth.serverPlayerConscious = conscious;
+
 		if (conscious)
 		{
 			playerMove.allowInput = true;
-			playerSprites.RpcSetPlayerRot( 0f);
+			playerSprites.RpcSetPlayerRot(0f);
 		}
 		else
 		{
 			playerMove.allowInput = false;
-			playerSprites.RpcSetPlayerRot( -90f);
+			playerSprites.RpcSetPlayerRot(-90f);
 			soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
 			if (Random.value > 0.5f)
 			{
@@ -551,7 +568,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-
 	[Command]
 	public void CmdCommitSuicide()
 	{
@@ -579,8 +595,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			//Show ghosts and hide FieldOfView
-			Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("Ghosts");
-			Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("FieldOfView"));
+			var mask = Camera2DFollow.followControl.cam.cullingMask;
+			mask |= 1 << LayerMask.NameToLayer("Ghosts");
+			Camera2DFollow.followControl.cam.cullingMask = mask;
 		}
 	}
 
@@ -589,7 +606,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void RespawnPlayer(int timeout = 0)
 	{
-		if (GameManager.Instance.RespawnAllowed) {
+		if (GameManager.Instance.RespawnAllowed)
+		{
 			StartCoroutine(InitiateRespawn(timeout));
 		}
 	}
@@ -619,14 +637,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript.ghost.SetActive(false);
 		isGhost = false;
 		//Hide ghosts and show FieldOfView
-		Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-		Camera.main.cullingMask |= 1 << LayerMask.NameToLayer("FieldOfView");
+
+		var mask = Camera2DFollow.followControl.cam.cullingMask;
+		mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+		Camera2DFollow.followControl.cam.cullingMask = mask;
+
 		gameObject.GetComponent<InputController>().enabled = false;
 	}
 
 	//FOOD
 	[Command]
-	public void CmdEatFood(GameObject food, string fromSlot)
+	public void CmdEatFood(GameObject food, string fromSlot, bool isDrink)
 	{
 		if (Inventory[fromSlot] == null)
 		{
@@ -635,7 +656,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
-		soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
+		if (isDrink)
+		{
+			soundNetworkActions.CmdPlaySoundAtPlayerPos("Slurp");
+		}
+		else
+		{
+			soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
+		}
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
 		//FIXME: remove health and blood changes after TDM
@@ -655,5 +683,27 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSetActiveHand(string hand)
 	{
 		activeHand = hand;
+	}
+
+	[Command]
+	public void CmdRefillWelder(GameObject welder, GameObject weldingTank)
+	{
+		//Double check reach just in case:
+		if (playerScript.IsInReach(weldingTank))
+		{
+			var w = welder.GetComponent<Welder>();
+
+			//is the welder on?
+			if (w.isOn)
+			{
+				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
+			}
+			else
+			{
+				//Refuel!
+				w.Refuel();
+				RpcPlayerSoundAtPos("Refill", transform.position, true);
+			}
+		}
 	}
 }

@@ -1,12 +1,9 @@
 ﻿using System.Collections;
-using PlayGroup;
-using Sprites;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	/// <summary>
 	///     Controller for the heart monitor GUI
 	/// </summary>
@@ -104,7 +101,7 @@ namespace UI
 			yield return new WaitForEndOfFrame();
 		}
 
-		public void DetermineDisplay(PlayerHealthUI pHealthUI, int curHealth)
+		public void DetermineDisplay(PlayerHealthUI pHealthUI, float curHealth)
 		{
 			if (pHealthUI == null)
 			{
@@ -119,10 +116,10 @@ namespace UI
 			CheckHealth(curHealth);
 		}
 
-		private void CheckHealth(int cHealth)
+		private void CheckHealth(float cHealth)
 		{
 			//PlayGroup.PlayerManager.PlayerScript.playerNetworkActions.CmdSendAlertMessage("mHealth: " + cHealth, true);
-			//Debug.Log("PlayerHealth: " + PlayGroup.PlayerManager.PlayerScript.playerHealth.Health);
+			//Logger.Log("PlayerHealth: " + PlayerManager.PlayerScript.playerHealth.Health);
 			if (cHealth >= 90
 			    && spriteStart != fullHealthStart)
 			{
@@ -189,4 +186,3 @@ namespace UI
 			}
 		}
 	}
-}

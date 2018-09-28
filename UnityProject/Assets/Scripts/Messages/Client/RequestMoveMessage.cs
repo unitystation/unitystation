@@ -1,7 +1,4 @@
 ﻿using System.Collections;
-using PlayGroup;
-using PlayGroups.Input;
-using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
@@ -14,7 +11,7 @@ public class RequestMoveMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 
 		yield return WaitFor(SentBy);
 

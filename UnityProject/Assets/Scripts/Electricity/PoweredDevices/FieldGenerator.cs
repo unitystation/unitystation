@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using PlayGroups.Input;
 
-namespace Electricity
-{
-	public class FieldGenerator : InputTrigger
+
+public class FieldGenerator : InputTrigger
 	{
 		public PoweredDevice poweredDevice;
 
@@ -94,4 +92,4 @@ namespace Electricity
 			yield return new WaitForEndOfFrame();
 		}
 	}
-}
+

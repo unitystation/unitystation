@@ -1,9 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using PlayGroup;
-using UnityEngine;
-using UnityEngine.Networking;
 
 /// <summary>
 ///     Message that tells clients what their ConnectedPlayers list should contain
@@ -15,7 +10,7 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 
 		PlayerList.Instance.ClientConnectedPlayers.Clear();
 		for ( var i = 0; i < Players.Length; i++ )

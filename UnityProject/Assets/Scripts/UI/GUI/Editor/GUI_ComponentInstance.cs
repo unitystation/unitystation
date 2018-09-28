@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace UI
-{
+
 	abstract public class GUI_ComponentInstance : Editor
 	{
 
@@ -22,4 +21,4 @@ namespace UI
 			return GuiComponent;
 		}
 	}
-}
+

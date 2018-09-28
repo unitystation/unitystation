@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,7 +8,7 @@ using UnityEngine.Networking;
 public class UpdateUIMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateUIMessage;
-	public int CurHealth;
+	public float CurHealth;
 	public NetworkInstanceId Recipient;
 
 	public override IEnumerator Process()
@@ -25,7 +24,7 @@ public class UpdateUIMessage : ServerMessage
 	/// </summary>
 	/// <param name="recipient">Recipient.</param>
 	/// <param name="cHealth">Current server health.</param>
-	public static UpdateUIMessage Send(GameObject recipient, int cHealth)
+	public static UpdateUIMessage Send(GameObject recipient, float cHealth)
 	{
 		UpdateUIMessage msg = new UpdateUIMessage
 		{

@@ -1,59 +1,57 @@
-﻿using System.Collections.Concurrent;
+﻿using System.Collections.Generic;
 using System.Threading;
-using Tilemaps.Behaviours.Layers;
+using Atmospherics;
+using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
-namespace Tilemaps.Behaviours.Meta
+public class AtmosThread
 {
-	public class AtmosThread
+	private bool running = true;
+
+	private Object lockGetWork = new Object();
+
+	private AtmosSimulation simulation;
+
+	public AtmosThread(MetaDataLayer metaDataLayer)
 	{
-		private bool running = true;
+		simulation = new AtmosSimulation(metaDataLayer);
+	}
 
-		private Object lockGetWork = new Object();
+	public void Enqueue(Vector3Int position)
+	{
+		simulation.AddToUpdateList(position);
 
-		private Atmospherics atmos;
-		
-		public AtmosThread(MetaDataLayer metaDataLayer)
+		lock (lockGetWork)
 		{
-			atmos = new Atmospherics(metaDataLayer);
+			Monitor.PulseAll(lockGetWork);
 		}
+	}
 
-		public void Enqueue(Vector3Int position)
+	public void Run()
+	{
+		while (running)
 		{
-			atmos.AddToUpdateList(position);
-			
-			lock (lockGetWork)
+			if (!simulation.IsIdle)
 			{
-				Monitor.PulseAll(lockGetWork);
+				simulation.Run();
 			}
-		}
-
-		public void Run()
-		{
-			while (running)
+			else
 			{
-				if (!atmos.IsIdle)
+				lock (lockGetWork)
 				{
-					atmos.run();
-				}
-				else
-				{
-					lock (lockGetWork)
-					{
-						Monitor.Wait(lockGetWork);
-					}
+					Monitor.Wait(lockGetWork);
 				}
 			}
 		}
+	}
 
-		public void Stop()
+	public void Stop()
+	{
+		running = false;
+
+		lock (lockGetWork)
 		{
-			running = false;
-
-			lock (lockGetWork)
-			{
-				Monitor.PulseAll(lockGetWork);
-			}
+			Monitor.PulseAll(lockGetWork);
 		}
 	}
 }

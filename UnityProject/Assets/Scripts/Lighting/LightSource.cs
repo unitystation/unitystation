@@ -1,96 +1,64 @@
-﻿using System.Collections;
-using InputControl;
-using Sprites;
-using UnityEngine;
+﻿	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Linq;
+	using Light2D;
+	using UnityEngine;
 
-namespace Lighting
-{
+	// Note: Judging the "lighting" sprite sheet it seems that light source can have many disabled states.
+	// At this point i just want to do a basic setup for an obvious extension, so only On / Off states are actually implemented 
+	// and for other states is just a state and sprite assignment.
 	internal enum LightState
 	{
+		None = 0,
+
 		On,
 		Off,
-		Broken
+
+		// Placeholder states, i assume naming would change.
+		MissingBulb,
+		Dirty,
+		Broken,
+
+		TypeCount,
 	}
 
 	public class LightSource : ObjectTrigger
 	{
-		private const int MAX_TARGETS = 400;
+		private const LightState InitialState = LightState.On;
 
-		private readonly Collider2D[] lightSpriteColliders = new Collider2D[MAX_TARGETS];
+		private readonly Dictionary<LightState, Sprite> mSpriteDictionary = new Dictionary<LightState, Sprite>((int)LightState.TypeCount);
 
-		private int ambientMask;
-
-		/// <summary>
-		///     The actual light effect that the light source represents
-		/// </summary>
-		public GameObject Light;
-
-		/// <summary>
-		///     The state of this light
-		/// </summary>
-		private LightState LightState;
-
-		private int obstacleMask;
-		public float radius = 6f;
-
-		/// <summary>
-		///     The SpriteRenderer for this light
-		/// </summary>
+		private GameObject mLightRendererObject;
+		private LightState mState;
 		private SpriteRenderer Renderer;
-
-		/// <summary>
-		///     The sprite to show when this light is turned off
-		/// </summary>
-		public Sprite SpriteLightOff;
-
-		/// <summary>
-		///     The sprite to show when this light is turned on
-		/// </summary>
-		public Sprite SpriteLightOn;
-
 		private bool tempStateCache;
 
-		//For network sync reliability
+		// For network sync reliability.
 		private bool waitToCheckState;
 
-		private void Awake()
+		private LightState State
 		{
-			Renderer = GetComponentInChildren<SpriteRenderer>();
-		}
-
-		private void Start()
-		{
-			ambientMask = LayerMask.GetMask("LightingAmbience");
-			obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
-			InitLightSprites();
-		}
-
-		private void SetLocalAmbientTiles(bool state)
-		{
-			int length = Physics2D.OverlapCircleNonAlloc(transform.position, radius, lightSpriteColliders, ambientMask);
-			for (int i = 0; i < length; i++)
+			get
 			{
-				Collider2D localCollider = lightSpriteColliders[i];
-				GameObject localObject = localCollider.gameObject;
-				Vector2 localObjectPos = localObject.transform.position;
-				float distance = Vector3.Distance(transform.position, localObjectPos);
-				if (IsWithinReach(transform.position, localObjectPos, distance))
-				{
-					localObject.SendMessage("Trigger", state, SendMessageOptions.DontRequireReceiver);
-				}
+				return mState;
+			}
+
+			set
+			{
+				if (mState == value)
+					return;
+
+				mState = value;
+
+				OnStateChange(value);
 			}
 		}
-
-		private bool IsWithinReach(Vector2 pos, Vector2 targetPos, float distance)
+	
+		public override void Trigger(bool iState)
 		{
-			return distance <= radius
-			       &&
-			       Physics2D.Raycast(pos, targetPos - pos, distance, obstacleMask).collider == null;
-		}
-
-		public override void Trigger(bool state)
-		{
-			tempStateCache = state;
+			// Leo Note: Some sync magic happening here. Decided not to touch it.
+			tempStateCache = iState;
 
 			if (waitToCheckState)
 			{
@@ -103,30 +71,91 @@ namespace Lighting
 				StartCoroutine(WaitToTryAgain());
 				return;
 			}
-			Renderer.sprite = state ? SpriteLightOn : SpriteLightOff;
-			if (Light != null)
+			else
 			{
-				Light.SetActive(state);
+				State = iState ? LightState.On : LightState.Off;
 			}
-			SetLocalAmbientTiles(state);
 		}
 
-		private void InitLightSprites()
+		private void OnStateChange(LightState iValue)
 		{
-			LightState = LightState.On;
+			// Assign state appropriate sprite to the LightSourceObject.
+			if (mSpriteDictionary.ContainsKey(iValue))
+			{
+				Renderer.sprite = mSpriteDictionary[iValue];
+			}
+			else if (mSpriteDictionary.Any())
+			{
+				Renderer.sprite = mSpriteDictionary.Values.First();
+			}
 
-			//set the ON sprite to whatever the spriterenderer child has?
-			Sprite[] lightSprites = SpriteManager.LightSprites["lights"];
-			SpriteLightOn = Renderer.sprite;
-
-			//find the OFF light?
-			string[] split = SpriteLightOn.name.Split('_');
-			int onPos;
-			int.TryParse(split[1], out onPos);
-			SpriteLightOff = lightSprites[onPos + 4];
+			// Switch Light renderer.
+			if (mLightRendererObject != null)
+				mLightRendererObject.SetActive(iValue == LightState.On);
 		}
 
-		//Handle sync failure
+		private void Awake()
+		{
+			Renderer = GetComponentInChildren<SpriteRenderer>();
+
+			// Slight color variance.
+			Color _color = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f); //+ UnityEngine.Random.ColorHSV() * 0.3f;
+
+			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, _color, 12);
+
+			State = InitialState;
+
+			ExtractLightSprites();
+		}
+
+		private void ExtractLightSprites()
+		{
+			// Reimplementation of sprite location on atlas.
+
+			// Note: It is quite magical and really should not be done like this:
+			// It takes an assigned sprite name, parses its index, adds 4 to it and takes resulting sprite from the sheet.
+			// There is a bold assumption that sprite sheets associated with states are spaced 4 indexes between, and that nobody has changed any sprite names.
+			// My reimplementation just grabs more sprites for associated states.
+
+			const int SheetSpacing = 4;
+
+			var _assignedSprite = Renderer.sprite;
+
+			if (_assignedSprite == null)
+			{
+				UnityEngine.Debug.LogError("LightSource: Unable to extract light source state sprites from SpriteSheet. Operation require Renderer.sprite to be assigned in inspector.");
+				return;
+			}
+
+			// Try to parse base sprite index.
+			string[] _splitedName = _assignedSprite.name.Split('_');
+			var _spriteSheet = SpriteManager.LightSprites["lights"];
+
+			int _baseIndex;
+			if (_spriteSheet != null && _splitedName.Length == 2 && int.TryParse(_splitedName[1], out _baseIndex))
+			{
+				Func<int, Sprite> ExtractSprite = delegate(int iIndex)
+					{
+						if (iIndex >= 0 && iIndex < _spriteSheet.Length)
+							return _spriteSheet[iIndex];
+
+						return null;
+					};
+
+				// Extract sprites from sprite sheet based on spacing from base index.
+				mSpriteDictionary.Add(LightState.On, _assignedSprite);
+				mSpriteDictionary.Add(LightState.Off, ExtractSprite(_baseIndex + SheetSpacing));
+				mSpriteDictionary.Add(LightState.MissingBulb, ExtractSprite(_baseIndex + (SheetSpacing * 2)));
+				mSpriteDictionary.Add(LightState.Dirty, ExtractSprite(_baseIndex + (SheetSpacing * 3)));
+				mSpriteDictionary.Add(LightState.Broken, ExtractSprite(_baseIndex + (SheetSpacing * 4)));
+			}
+			else
+			{
+				mSpriteDictionary.Add(LightState.On, _assignedSprite);
+			}
+		}
+
+		// Handle sync failure.
 		private IEnumerator WaitToTryAgain()
 		{
 			yield return new WaitForSeconds(0.2f);
@@ -135,26 +164,25 @@ namespace Lighting
 				Renderer = GetComponentInChildren<SpriteRenderer>();
 				if (Renderer != null)
 				{
-					Renderer.sprite = tempStateCache ? SpriteLightOn : SpriteLightOff;
-					if (Light != null)
+					State = tempStateCache ? LightState.On : LightState.Off;
+					if (mLightRendererObject != null)
 					{
-						Light.SetActive(tempStateCache);
+						mLightRendererObject.SetActive(tempStateCache);
 					}
 				}
 				else
 				{
-					Debug.LogWarning("LightSource still failing Renderer sync");
+					Logger.LogWarning("LightSource still failing Renderer sync", Category.Lighting);
 				}
 			}
 			else
 			{
-				Renderer.sprite = tempStateCache ? SpriteLightOn : SpriteLightOff;
-				if (Light != null)
+				State = tempStateCache ? LightState.On : LightState.Off;
+				if (mLightRendererObject != null)
 				{
-					Light.SetActive(tempStateCache);
+					mLightRendererObject.SetActive(tempStateCache);
 				}
 			}
 			waitToCheckState = false;
 		}
 	}
-}

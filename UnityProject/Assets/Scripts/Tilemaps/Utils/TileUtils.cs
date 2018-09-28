@@ -1,11 +1,7 @@
 ﻿using System.Linq;
-using Light2D;
-using Tilemaps.Tiles;
-using UnityEngine;
 
-namespace Tilemaps.Utils
-{
-	public static class TileUtils
+
+public static class TileUtils
 	{
 		public static bool IsPassable(params BasicTile[] tile)
 		{
@@ -23,4 +19,3 @@ namespace Tilemaps.Utils
 		}
 		
 	}
-}

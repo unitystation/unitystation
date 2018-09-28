@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public class ControlWalkRun : MonoBehaviour
 	{
 		private Image image;
@@ -21,7 +20,7 @@ namespace UI
 
 		public void RunWalk()
 		{
-			Debug.Log("RunWalk Button");
+			Logger.Log("RunWalk Button",Category.UI);
 
 			SoundManager.Play("Click01");
 
@@ -37,4 +36,3 @@ namespace UI
 			}
 		}
 	}
-}

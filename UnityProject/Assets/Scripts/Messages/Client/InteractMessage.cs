@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,7 +14,7 @@ public class InteractMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-//		Debug.Log("Processed " + ToString());
+//		Logger.Log("Processed " + ToString());
 
 		yield return WaitFor(Subject, SentBy);
 

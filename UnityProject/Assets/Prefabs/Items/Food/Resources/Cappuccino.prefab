@@ -8,15 +8,15 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1110193000772614}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1110193000772614
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4645335817288720}
   - component: {fileID: 61202592083071704}
@@ -25,8 +25,8 @@ GameObject:
   - component: {fileID: 114608524725813366}
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
-  - component: {fileID: 114298061437451200}
   - component: {fileID: 114208883059431984}
+  - component: {fileID: 114880268731048502}
   m_Layer: 10
   m_Name: Cappuccino
   m_TagString: Untagged
@@ -37,9 +37,9 @@ GameObject:
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4207712374710558}
   - component: {fileID: 212850123619449406}
@@ -53,7 +53,7 @@ GameObject:
 --- !u!4 &4207712374710558
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1469747287601084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -66,7 +66,7 @@ Transform:
 --- !u!4 &4645335817288720
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1110193000772614}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
@@ -80,7 +80,7 @@ Transform:
 --- !u!61 &61202592083071704
 BoxCollider2D:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
@@ -105,7 +105,7 @@ BoxCollider2D:
 --- !u!114 &114121219251840654
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
@@ -117,7 +117,7 @@ MonoBehaviour:
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
@@ -125,26 +125,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
-  pushPull: {fileID: 0}
   isPushing: 0
---- !u!114 &114298061437451200
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c0c3fdf2ebd41beb789f2d99f818ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healAmount: 5
-  healHungerAmount: 5
+  predictivePushing: 0
 --- !u!114 &114608524725813366
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
@@ -155,7 +141,7 @@ MonoBehaviour:
 --- !u!114 &114828422824226692
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
@@ -163,20 +149,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cloth: 0
   clothingReference: -1
   hierarchy: 
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
   itemDescription: 
   itemName: A Cappuccino in an edible mug
+  itemType: 14
   size: 0
   spriteType: 0
   type: 14
+  throwDamage: 2
+  throwSpeed: 2
+  throwRange: 7
+  hitDamage: 2
+  hitSound: GenericHit
+  attackVerb: []
 --- !u!114 &114842434566603030
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
@@ -205,10 +197,23 @@ MonoBehaviour:
     i15: 225
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114880268731048502
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a522f189bd3d44f9b962f977bec7a0a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healAmount: 5
+  healHungerAmount: 5
 --- !u!114 &114931546224579044
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
@@ -220,13 +225,18 @@ MonoBehaviour:
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
+  allowedToMove: 1
+  currentPos: {x: 0, y: 0, z: 0}
+  isPushable: 1
   pulledBy: {fileID: 0}
-  pullSync: {fileID: 0}
+  custNetActiveState: 0
+  pushing: 0
+  pushTarget: {x: 0, y: 0, z: 0}
   closetHandlerCache: {fileID: 0}
 --- !u!212 &212850123619449406
 SpriteRenderer:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1469747287601084}
   m_Enabled: 1
@@ -236,8 +246,9 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -255,7 +266,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300292, guid: 3547c548ae071487c84212e8ee25d554, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -267,3 +278,4 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+  m_SpriteSortPoint: 0

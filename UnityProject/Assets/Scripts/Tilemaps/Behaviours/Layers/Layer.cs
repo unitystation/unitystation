@@ -1,11 +1,7 @@
-﻿using Tilemaps.Behaviours.Meta;
-using Tilemaps.Tiles;
-using Tilemaps.Utils;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tilemaps.Behaviours.Layers
-{
+
 	[ExecuteInEditMode]
 	public class Layer : MonoBehaviour
 	{
@@ -15,7 +11,6 @@ namespace Tilemaps.Behaviours.Layers
 		protected Tilemap tilemap;
 
 		public BoundsInt Bounds => tilemap.cellBounds;
-		public Tilemap topLayerFX;
 
 		public void Awake()
 		{
@@ -32,17 +27,17 @@ namespace Tilemaps.Behaviours.Layers
 
 			if (MatrixManager.Instance == null)
 			{
-				Debug.LogError("Matrix Manager is missing from the scene");
+				Logger.LogError("Matrix Manager is missing from the scene", Category.Matrix);
 			}
 			else
 			{
+				// TODO Clean up
+				
 				if (LayerType == LayerType.Walls)
 				{
-					if (topLayerFX != null) {
-						MatrixManager.Instance.wallsToTopLayerFX.Add(GetComponent<TilemapCollider2D>(), topLayerFX);
-					}
 					MatrixManager.Instance.wallsTileMaps.Add(GetComponent<TilemapCollider2D>(), tilemap);
 				}
+				
 			}
 		}
 
@@ -117,4 +112,3 @@ namespace Tilemaps.Behaviours.Layers
 		}
 #endif
 	}
-}

@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using PlayGroup;
 using UnityEngine;
 using UnityEngine.Networking;
-using Util;
 
 /// <summary>
 ///     Attempts to send a chat message to the server

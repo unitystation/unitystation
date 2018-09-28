@@ -1,11 +1,8 @@
 ﻿using System.Collections;
-using PlayGroup;
-using PlayGroups.Input;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Lighting
-{
+
 	public class LightSwitchTrigger : InputTrigger
 	{
 		private const int MAX_TARGETS = 44;
@@ -99,7 +96,7 @@ namespace Lighting
 
 		private Vector2 GetCastPos()
 		{
-			Vector2 newPos = transform.position + (transform.position - spriteRenderer.transform.position);
+			Vector2 newPos = transform.position + ((spriteRenderer.transform.position - transform.position).normalized);
 			return newPos;
 		}
 
@@ -119,4 +116,3 @@ namespace Lighting
 			soundAllowed = true;
 		}
 	}
-}

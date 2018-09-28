@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Lighting
-{
+
 	public class LightingTileManager : MonoBehaviour
 	{
 		public Vector4 bounds;
@@ -31,7 +30,7 @@ namespace Lighting
 				}
 				else
 				{
-					Debug.LogError("No LightTile component found!");
+					Logger.LogError("No LightTile component found!",Category.Lighting);
 				}
 			}
 
@@ -86,4 +85,3 @@ namespace Lighting
 			return curValue;
 		}
 	}
-}

@@ -1,7 +1,4 @@
 ﻿using System.Collections;
-using PlayGroup;
-using PlayGroups.Input;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -44,11 +41,11 @@ public class NukeInteract : NetworkTabTrigger
 	{
 		yield return new WaitForSeconds(5f);
 		GibMessage.Send();
-//		GameManager.Instance.RespawnAllowed = false;
 		yield return new WaitForSeconds(2f);
+		PlayerList.Instance.ReportScores(); //Report scores for who won (Crew or Syndicate)
+		yield return new WaitForSeconds(30f);
 		//Restart Round:
 		GameManager.Instance.RestartRound();
-//		GameManager.Instance.RespawnAllowed = true;
 	}
 
 	//Server validating the code sent back by the GUI
@@ -61,6 +58,7 @@ public class NukeInteract : NetworkTabTrigger
 			//Kill Everyone in the universe
 			//FIXME kill only people on the station matrix that the nuke was detonated on
 			StartCoroutine(WaitForDeath());
+			GameManager.Instance.RespawnAllowed = false;
 			return true;
 		} else {
 			//if no, tell the GUI that it was an incorrect code
@@ -82,11 +80,16 @@ public class NukeInteract : NetworkTabTrigger
 		UIManager.Display.hudRight.gameObject.SetActive(false);
 		UIManager.Display.hudBottom.gameObject.SetActive(false);
 		UIManager.Display.backGround.SetActive(false);
-		UIManager.Display.logInWindow.SetActive(false);
-		UIManager.Display.infoWindow.SetActive(false);
+		ControlChat.Instance.CloseChatWindow();
+		GameManager.Instance.GameOver = true;
+		//		UIManager.Display.logInWindow.SetActive(false);
+		//		UIManager.Display.infoWindow.SetActive(false);
+
+		PlayerList.Instance.nukeSetOff = true;
 
 		//Playing the video
-		UIManager.Display.selfDestructVideo.SetActive(true);
+		UIManager.Display.PlayNukeDetVideo();
+
 		//Playing the sound
 		SoundManager.Play("SelfDestruct");
 	}

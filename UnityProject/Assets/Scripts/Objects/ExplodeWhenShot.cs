@@ -1,10 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Light2D;
-using PlayGroup;
-using Tilemaps;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -45,7 +41,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		{
 			return;
 		}
-		//        Debug.Log("Exploding on damage!");
+		//        Logger.Log("Exploding on damage!");
 		if (isServer)
 		{
 			Explode(damagedBy); //fixme
@@ -149,7 +145,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		}
 		catch
 		{
-			Debug.LogWarning("Object may of already been removed");
+			Logger.LogWarning("Object may of already been removed", Category.Health);
 		}
 
 		foreach (Collider2D collider2d in gameObject.GetComponents<Collider2D>())
@@ -170,7 +166,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		GameObject lightFx = Resources.Load<GameObject>("lighting/BoomLight");
 		lightFxInstance = Instantiate(lightFx, transform.position, Quaternion.identity);
 		lightSprite = lightFxInstance.GetComponentInChildren<LightSprite>();
-		lightSprite.fadeFX(1f);
+		//lightSprite.fadeFX(1f); // TODO Removed animation (Should be in a separate component)
 		SetFire();
 	}
 

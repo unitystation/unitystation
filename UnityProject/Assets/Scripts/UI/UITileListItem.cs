@@ -1,6 +1,4 @@
-﻿using PlayGroup;
-using Tilemaps.Tiles;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class UITileListItem : MonoBehaviour

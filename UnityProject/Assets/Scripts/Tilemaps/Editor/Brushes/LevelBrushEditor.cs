@@ -1,13 +1,9 @@
 using System.Linq;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Editor.Brushes.Utils;
-using Tilemaps.Tiles;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Tilemaps.Editor.Brushes
-{
+
 	[CustomEditor(typeof(LevelBrush))]
 	public class LevelBrushEditor : GridBrushEditor
 	{
@@ -113,4 +109,3 @@ namespace Tilemaps.Editor.Brushes
 			metaTilemap.SetPreviewTile(position, tile, brush.cells[0].matrix);
 		}
 	}
-}

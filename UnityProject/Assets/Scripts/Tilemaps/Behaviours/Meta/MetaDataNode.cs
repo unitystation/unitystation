@@ -1,29 +1,100 @@
 ﻿using System;
-using Tilemaps.Behaviours.Meta.Data;
-using UI;
+using System.Collections.Generic;
+using System.Linq;
+using Atmospherics;
+using Tilemaps.Behaviours.Meta.Utils;
+using UnityEngine;
 
-namespace Tilemaps.Behaviours.Meta
+
+public enum NodeType
 {
-	public enum NodeType
+	Space,
+	Room,
+	Occupied
+}
+
+[Serializable]
+public class MetaDataNode
+{
+	public static readonly MetaDataNode None = new MetaDataNode(Vector3Int.zero) {Room = -1};
+
+	public readonly Vector3Int Position;
+
+	private HashSet<MetaDataNode> neighbors;
+	private MetaDataNode[] Neighbors;
+
+	public GasMix Atmos;
+
+	public int Room; // TODO
+
+	public NodeType Type;
+
+	public MetaDataNode(Vector3Int position)
 	{
-		Space, Room, Wall
+		Position = position;
+		neighbors = new HashSet<MetaDataNode>();
+		Neighbors = new MetaDataNode[0];
+		Atmos = GasMixUtils.Space;
 	}
-	
-	[Serializable]
-	public class MetaDataNode
+
+	public bool IsSpace => Type == NodeType.Space;
+	public bool IsRoom => Type == NodeType.Room;
+	public bool IsOccupied => Type == NodeType.Occupied;
+
+	public bool Exists => this != None;
+
+	public MetaDataNode[] GetNeighbors()
 	{
-		public static readonly MetaDataNode None = new MetaDataNode() {Room = -1};
+		return Neighbors;
+	}
 
-		public AtmosValues Atmos { get; } = new AtmosValues();
+	public void ClearNeighbors()
+	{
+		foreach (MetaDataNode neighbor in neighbors)
+		{
+			neighbor.RemoveNeighbor(this);
+		}
 
-		public int Room;
-		
-		public NodeType Type;
+		neighbors.Clear();
 
-		public bool IsSpace => Type == NodeType.Space;
-		public bool IsRoom => Type == NodeType.Room;
-		public bool IsWall => Type == NodeType.Wall;
-		
-		public bool Exists => this != None;
+		Neighbors = neighbors.ToArray();
+	}
+
+	public void AddNeighbor(MetaDataNode neighbor)
+	{
+		neighbors.Add(neighbor);
+
+		Neighbors = neighbors.ToArray();
+	}
+
+	public void RemoveNeighbor(MetaDataNode neighbor)
+	{
+		neighbors.Remove(neighbor);
+
+		Neighbors = neighbors.ToArray();
+	}
+
+	private int damage = 0;
+
+	public string WindowDmgType { get; set; } = "";
+
+	public void Reset()
+	{
+		Room = 0;
+	}
+
+	public void ResetDamage()
+	{
+		damage = 0;
+	}
+
+	public int GetDamage
+	{
+		get { return damage; }
+	}
+
+	public void AddDamage(int amt)
+	{
+		damage += amt;
 	}
 }

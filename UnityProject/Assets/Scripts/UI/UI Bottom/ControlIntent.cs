@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
-{
+
 	public enum Intent
 	{
 		Help,
@@ -25,7 +24,7 @@ namespace UI
 		//OnClick method
 		public void IntentButton()
 		{
-			Debug.Log("Intent Button");
+			Logger.Log("Intent Button", Category.UI);
 
 			SoundManager.Play("Click01");
 
@@ -45,4 +44,3 @@ namespace UI
             thisImg.sprite = sprites[intent];
         }
 	}
-}

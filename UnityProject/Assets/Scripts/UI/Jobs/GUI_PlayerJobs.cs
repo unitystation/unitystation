@@ -1,6 +1,4 @@
-﻿using PlayGroup;
-using UI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GUI_PlayerJobs : MonoBehaviour
@@ -41,8 +39,13 @@ public class GUI_PlayerJobs : MonoBehaviour
 
 		foreach (GameObject occupationGo in GameManager.Instance.Occupations)
 		{
+			
 			GameObject occupation = Instantiate(buttonPrefab);
 			JobType jobType = occupationGo.GetComponent<OccupationRoster>().Type;
+			//For nuke ops mode, syndis spawn via a different button
+			if(jobType == JobType.SYNDICATE){
+				continue;
+			}
 			int active = GameManager.Instance.GetOccupationsCount(jobType);
 			int available = GameManager.Instance.GetOccupationMaxCount(jobType);
 

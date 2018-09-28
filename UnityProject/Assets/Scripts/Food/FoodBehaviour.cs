@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using PlayGroup;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -44,6 +42,6 @@ public class FoodBehaviour : NetworkBehaviour
 	{
 		//FIXME: PNA Cmd is being used to heal the player instead of heal hunger for the TDM
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdEatFood(gameObject,
-			UIManager.Hands.CurrentSlot.eventName);
+			UIManager.Hands.CurrentSlot.eventName, false);
 	}
 }

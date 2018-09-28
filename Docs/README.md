@@ -15,7 +15,7 @@ Please join us on Discord:<br>
 
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://github.com/unitystation/unitystation/wiki/Starting-contribution)
-1. [Get Unity 2017.3.1**p4**](https://unity3d.com/unity/qa/patch-releases)
+1. [Get Unity 2018.2 and above](https://store.unity.com/download?ref=personal)
 2. Fork the repo
 3. Add your changes
 4. Read the contribution guidelines

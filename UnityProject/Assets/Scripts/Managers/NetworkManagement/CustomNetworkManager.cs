@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Facepunch.Steamworks;
-using PlayGroup;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Profiling;
@@ -16,7 +14,6 @@ public class CustomNetworkManager : NetworkManager
 	public static CustomNetworkManager Instance;
 	[HideInInspector] public bool _isServer;
 	[HideInInspector] public bool spawnableListReady;
-	public bool SteamServer = true;
 	private Server server;
 
 
@@ -38,19 +35,26 @@ public class CustomNetworkManager : NetworkManager
 		customConfig = true;
 
 		SetSpawnableList();
-		if (!IsClientConnected() && !GameData.IsHeadlessServer &&
-		    GameData.IsInGame)
-		{
-			UIManager.Display.logInWindow.SetActive(true);
-		}
+//		if (!IsClientConnected() && !GameData.IsHeadlessServer &&
+//		    GameData.IsInGame)
+//		{
+//			UIManager.Display.logInWindow.SetActive(true);
+//		}
 
 		channels.Add(QosType.ReliableSequenced);
+		channels.Add(QosType.UnreliableFragmented);
 
 		connectionConfig.AcksType = ConnectionAcksType.Acks64;
 		connectionConfig.FragmentSize = 512;
+		connectionConfig.PacketSize = 1440;
 
 		if(GameData.IsInGame && PoolManager.Instance == null){
 			ObjectManager.StartPoolManager();
+		}
+
+		//Automatically host if starting up game *not* from lobby
+		if ( SceneManager.GetActiveScene().name != offlineScene ) {
+			StartHost();
 		}
 	}
 
@@ -103,7 +107,7 @@ public class CustomNetworkManager : NetworkManager
 	{
 		if (_isServer && server != null && server.IsValid)
 		{
-			server.Auth.OnAuthChange += AuthChange;
+			server.Auth.OnAuthChange -= AuthChange;
 		}
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
@@ -113,21 +117,21 @@ public class CustomNetworkManager : NetworkManager
 		_isServer = true;
 		base.OnStartServer();
 		this.RegisterServerHandlers();
-		if (SteamServer)
+		if (BuildPreferences.isSteamServer)
 		{
 			SteamServerStart();
 		}
 	}
-	
+
 	public void SteamServerStart()
 	{
 		// init the SteamServer needed for authentication of players
-		//		
+		//
 		Config.ForUnity( Application.platform.ToString() );
 		string path = Path.GetFullPath(".");
 		string folderName = Path.GetFileName(Path.GetDirectoryName( path ) );
 		ServerInit options = new ServerInit(folderName, "Unitystation");
-		server = new Server(787180, options);
+		server = new Server(801140, options);
 
 		if (server != null)
 		{
@@ -139,35 +143,35 @@ public class CustomNetworkManager : NetworkManager
 			server.ServerName = "Unitystation Official";
 			// Set required settings for dedicated server
 
-			Debug.Log("Setting up Auth hook");
+			Logger.Log("Setting up Auth hook", Category.Steam);
 			//Process callback data for authentication
 			server.Auth.OnAuthChange = AuthChange;
 		}
 		// confirm in log if server is actually registered or not
 		if (server.IsValid)
 		{
-			Debug.Log("Server registered");
+			Logger.Log("Server registered", Category.Steam);
 		}
 		else
 		{
-			Debug.Log("Server NOT registered");
+			Logger.Log("Server NOT registered", Category.Steam);
 		}
 
 	}
-	
+
 	/// Processes the callback data when authentication statuses change
 	public void AuthChange(ulong steamid, ulong ownerid, ServerAuth.Status status)
 	{
 		var player = PlayerList.Instance.Get(steamid);
 		if ( player == ConnectedPlayer.Invalid )
 		{
-			Debug.LogWarning( $"Steam gave us a {status} ticket response for unconnected id {steamid}" );
+			Logger.LogWarning( $"Steam gave us a {status} ticket response for unconnected id {steamid}" , Category.Steam);
 			return;
 		}
 
 		if ( status == ServerAuth.Status.OK )
 		{
-			Debug.LogWarning( $"Steam gave us a 'ok' ticket response for already connected id {steamid}" );
+			Logger.LogWarning( $"Steam gave us a 'ok' ticket response for already connected id {steamid}" , Category.Steam);
 			return;
 		}
 
@@ -178,15 +182,15 @@ public class CustomNetworkManager : NetworkManager
 
 		Kick( player, $"Steam: {status}" );
 	}
-	
+
 	public static void Kick( ConnectedPlayer player, string raisins="4 no raisins" )
 	{
 		if ( !player.Connection.isConnected )
 		{
-			Debug.Log($"Not kicking, already disconnected: {player}");
+			Logger.Log($"Not kicking, already disconnected: {player}", Category.Connections);
 			return;
 		}
-		Debug.Log( $"Kicking {player} : {raisins}" );
+		Logger.Log( $"Kicking {player} : {raisins}" , Category.Connections);
 		InfoWindowMessage.Send(player.GameObject, $"Kicked: {raisins}", "Kicked");
 		PostToChatMessage.Send($"Player '{player.Name}' got kicked: {raisins}", ChatChannel.System);
 		player.Connection.Disconnect();
@@ -258,7 +262,7 @@ public class CustomNetworkManager : NetworkManager
 			{
 				return;
 			}
-			Debug.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");
+			Logger.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.", Category.Connections);
 		}
 		else if (playerPrefab.GetComponent<NetworkIdentity>() == null)
 		{
@@ -266,7 +270,7 @@ public class CustomNetworkManager : NetworkManager
 			{
 				return;
 			}
-			Debug.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.");
+			Logger.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.", Category.Connections);
 		}
 		else if (playerControllerId < conn.playerControllers.Count && conn.playerControllers[playerControllerId].IsValid &&
 		         conn.playerControllers[playerControllerId].gameObject != null)
@@ -275,7 +279,7 @@ public class CustomNetworkManager : NetworkManager
 			{
 				return;
 			}
-			Debug.LogError("There is already a player at that playerControllerId for this connections.");
+			Logger.LogError("There is already a player at that playerControllerId for this connections.", Category.Connections);
 		}
 		else
 		{
@@ -321,10 +325,16 @@ public class CustomNetworkManager : NetworkManager
 		//All players
 		List<ConnectedPlayer> players = PlayerList.Instance.InGamePlayers;
 		for ( var i = 0; i < players.Count; i++ ) {
-			players[i].Script.playerSync.NotifyPlayer( playerGameObject, true );
+			players[i].Script.PlayerSync.NotifyPlayer( playerGameObject, true );
 		}
 
-		Debug.LogFormat($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {players.Count} players) to {playerGameObject.name}");
+		//TileChange Data
+		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
+		for(var i = 0; i < tcManagers.Length; i++){
+			tcManagers[i].NotifyPlayer( playerGameObject );
+		}
+
+		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {players.Count} players) to {playerGameObject.name}", Category.Connections);
 	}
 
 	private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)
@@ -337,7 +347,7 @@ public class CustomNetworkManager : NetworkManager
 		base.OnClientConnect(conn);
 	}
 
-	/// server actions when client disconnects 
+	/// server actions when client disconnects
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
 		var player = PlayerList.Instance.Get(conn);
@@ -345,7 +355,7 @@ public class CustomNetworkManager : NetworkManager
 		{
 			player.GameObject.GetComponent<PlayerNetworkActions>().DropAll(true);
 		}
-		Debug.Log($"Player Disconnected: {player.Name}");
+		Logger.Log($"Player Disconnected: {player.Name}", Category.Connections);
 		PlayerList.Instance.Remove(conn);
 	}
 
@@ -359,8 +369,8 @@ public class CustomNetworkManager : NetworkManager
 		if (IsClientConnected() && GameData.IsInGame)
 		{
 			//make sure login window does not show on scene changes if connected
-			UIManager.Display.logInWindow.SetActive(false);
-			UIManager.Display.infoWindow.SetActive(false);
+//			UIManager.Display.logInWindow.SetActive(false);
+//			UIManager.Display.infoWindow.SetActive(false);
 			StartCoroutine(DoHeadlessCheck());
 		}
 		else
@@ -376,9 +386,9 @@ public class CustomNetworkManager : NetworkManager
 		{
 			if (!IsClientConnected())
 			{
-				if (GameData.IsInGame) {
-					UIManager.Display.logInWindow.SetActive(true);
-				}
+//				if (GameData.IsInGame) {
+//					UIManager.Display.logInWindow.SetActive(true);
+//				}
 				UIManager.Display.jobSelectWindow.SetActive(false);
 			}
 		}

@@ -1,9 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using InputControl;
-using Tilemaps;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -41,9 +37,9 @@ public class ShutterController : ObjectTrigger
 		gameObject.SendMessage("TurnOffDoorFov", null, SendMessageOptions.DontRequireReceiver);
 	}
 
-	public override void Trigger(bool state)
+	public override void Trigger(bool iState)
 	{
-		tempStateCache = state;
+		tempStateCache = iState;
 		if (waitToCheckState)
 		{
 			return;
@@ -55,7 +51,7 @@ public class ShutterController : ObjectTrigger
 			return;
 		}
 
-		SetState(state);
+		SetState(iState);
 	}
 
 	private void SetState(bool state)
@@ -115,7 +111,7 @@ public class ShutterController : ObjectTrigger
 			}
 			else
 			{
-				Debug.LogWarning("ShutterController still failing Animator sync");
+				Logger.LogWarning("ShutterController still failing Animator sync", Category.Shutters);
 			}
 		}
 		else

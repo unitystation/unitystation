@@ -1,16 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using PlayGroup;
-using PlayGroups.Input;
-using Tilemaps;
-using Tilemaps.Behaviours.Layers;
-using Tilemaps.Behaviours.Objects;
-using UI;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Cupboards
-{
+
 	public class ClosetControl : InputTrigger
 	{
 		private Sprite doorClosed;
@@ -171,7 +164,7 @@ namespace Cupboards
 					Vector3 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 					targetPosition.z = 0f;
 					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItem(
-						UIManager.Hands.CurrentSlot.eventName, transform.position, null);
+						UIManager.Hands.CurrentSlot.eventName, transform.position, null, false);
 
 					item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 				}
@@ -246,4 +239,3 @@ namespace Cupboards
 			}
 		}
 	}
-}

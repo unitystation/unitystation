@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Sprites;
 using UnityEngine;
 
 public class MonitorCamera : MonoBehaviour

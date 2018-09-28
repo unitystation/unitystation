@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Tilemaps.Behaviours.Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace PlayGroup
-{
-	public class PlayerSprites : ManagedNetworkBehaviour
+
+	public class PlayerSprites : NetworkBehaviour
 	{
 		private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
-		[SyncVar(hook = nameof( FaceDirectionSync ))] public Orientation currentDirection;
-		public Quaternion Rotation;
+		[SyncVar(hook = nameof( FaceDirectionSync ))]
+		public Orientation currentDirection;
+
 		public PlayerMove playerMove;
 
 		private void Awake()
@@ -19,7 +18,6 @@ namespace PlayGroup
 			foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>()) {
 				clothes[c.name] = c;
 			}
-			Rotation = Quaternion.Euler( Vector3.zero );
 		}
 
 		public override void OnStartServer()
@@ -46,12 +44,6 @@ namespace PlayGroup
 				int newOrder = s.sortingOrder;
 				newOrder += offsetOrder;
 				s.sortingOrder = newOrder;
-			}
-		}
-
-		public override void UpdateMe() {
-			if ( transform.rotation != Rotation ) {
-				RefreshRotation();
 			}
 		}
 
@@ -93,24 +85,22 @@ namespace PlayGroup
 		[ClientRpc]
 		public void RpcSetPlayerRot( float rot )
 		{
-			//		Debug.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
+			//		Logger.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
 			SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
 			foreach (SpriteRenderer sR in spriteRends)
 			{
 				sR.sortingLayerName = "Blood";
 			}
 			gameObject.GetComponent<RegisterPlayer>().IsBlocking = false;
-			Rotation.eulerAngles = new Vector3(0,0,rot);
-			if ( Math.Abs( rot ) > 0 ) {
-				//So other players can walk over the Unconscious
-				AdjustSpriteOrders(-30);
-			}
+			gameObject.GetComponent<ForceRotation>().Rotation.eulerAngles = new Vector3(0,0,rot);
+
+			//Might be no longer needed as all spriteRenderers are set to Blood layer
+			// if ( Math.Abs( rot ) > 0 ) {
+			// 	//So other players can walk over the Unconscious
+			// 	AdjustSpriteOrders(-30);
+			// }
 		}
-		/// Not letting transform.rotation deviate from intended value
-		/// (For keeping players upright on rotating matrices)
-		private void RefreshRotation() {
-			transform.rotation = Rotation;
-		}
+
 		/// Changes direction by degrees; positive = CW, negative = CCW
 		public void ChangePlayerDirection( int degrees ) {
 			for ( int i = 0; i < Math.Abs(degrees/90); i++ ) {
@@ -128,4 +118,3 @@ namespace PlayGroup
 			FaceDirection(orientation);
 		}
 	}
-}

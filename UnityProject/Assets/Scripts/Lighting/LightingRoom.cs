@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Lighting
-{
+
 	public class LightingRoom : MonoBehaviour
 	{
 		public LightingTileManager tileManager { get; set; }
@@ -47,7 +46,7 @@ namespace Lighting
 
 		private void PrintBounds()
 		{
-			Debug.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + bounds);
+			Logger.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + bounds, Category.Lighting);
 		}
 
 		public void LightSwitchOff()
@@ -66,4 +65,3 @@ namespace Lighting
 			}
 		}
 	}
-}

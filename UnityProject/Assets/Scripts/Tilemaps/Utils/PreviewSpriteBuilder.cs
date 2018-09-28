@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Tilemaps.Tiles;
 using UnityEditor;
 using UnityEngine;
 
-namespace Tilemaps.Utils
-{
+
 	public static class PreviewSpriteBuilder
 	{
 		private const string previewPath = "Assets/Textures/TilePreviews";
@@ -158,5 +156,5 @@ namespace Tilemaps.Utils
 			return assetPath;
 		}
 	}
-}
+
 #endif
