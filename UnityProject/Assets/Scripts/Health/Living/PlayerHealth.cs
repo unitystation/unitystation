@@ -45,6 +45,8 @@ public class PlayerHealth : HealthBehaviour
 			}
 
 			ConsciousState = ConsciousState.DEAD;
+
+			//Fixme: No more setting allowInputs on client:
 			playerMove.allowInput = false;
 		}
 
