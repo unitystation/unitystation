@@ -208,8 +208,12 @@ public class RconManager : RconConsole
 	//Monitoring:
 	public static string GetMonitorReadOut()
 	{
+		//Removed GC Check for time being
 		return $"FPS Stats: Current: {Instance.fpsMonitor.Current} Average: {Instance.fpsMonitor.Average}" +
-			$" GC MEM: {GC.GetTotalMemory( false ) / 1024 / 1024} MB  Admins Online: " + Instance.monitorHost.Sessions.Count;
+			$" Admins Online: " + Instance.monitorHost.Sessions.Count;
+
+			// return $"FPS Stats: Current: {Instance.fpsMonitor.Current} Average: {Instance.fpsMonitor.Average}" +
+			// $" GC MEM: {GC.GetTotalMemory( false ) / 1024 / 1024} MB  Admins Online: " + Instance.monitorHost.Sessions.Count;
 	}
 
 	public static string GetLastLog()
