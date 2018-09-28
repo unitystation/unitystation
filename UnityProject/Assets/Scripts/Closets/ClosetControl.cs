@@ -28,10 +28,6 @@ using UnityEngine.Networking;
 		private void Awake()
 		{
 			doorClosed = spriteRenderer.sprite;
-			//ButtonEntry Button =  new ButtonEntry();
-			//Button.Action = GUIInteract;
-			//Button.Title = "yo man";
-			//StoredButtons.Add(Button)
 		}
 
 		private void Start()
