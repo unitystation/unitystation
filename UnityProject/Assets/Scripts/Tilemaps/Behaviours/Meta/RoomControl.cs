@@ -1,87 +1,183 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
-
 [ExecuteInEditMode]
-	public class RoomControl : SystemBehaviour
+public class RoomControl : SystemBehaviour
+{
+	// Set higher priority to ensure that it is executed before other systems
+	public override int Priority => 100;
+
+	public override void Initialize()
 	{
-		public override void Initialize()
+		Stopwatch sw = new Stopwatch();
+		sw.Start();
+
+		if (MatrixManager.IsInitialized)
 		{
-			BoundsInt bounds = metaTileMap.GetBounds();
+			LocateRooms();
+		}
 
-			int roomCounter = 1;
+		sw.Stop();
 
-			System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-			sw.Start();
+		Logger.Log("Room init: " + sw.ElapsedMilliseconds + " ms", Category.Atmos);
+	}
 
-			foreach (Vector3Int position in bounds.allPositionsWithin)
+	public override void UpdateAt(Vector3Int position)
+	{
+		MetaDataNode node = metaDataLayer.Get(position);
+
+		if (metaTileMap.IsAtmosPassableAt(position))
+		{
+			if (node.IsOccupied)
 			{
-				MetaDataNode node = metaDataLayer.Get(position, false);
+				node.ClearNeighbors();
+				SetupNeighbors(position);
+				MetaUtils.AddToNeighbors(node);
 
-				if ((node == null || node.Room == 0) && !metaTileMap.IsSpaceAt(position) && metaTileMap.IsAtmosPassableAt(position))
+				if (metaTileMap.IsSpaceAt(position))
 				{
-					if (FindRoom(position, roomCounter))
-					{
-						roomCounter++;
-					}
+					node.Type = NodeType.Space;
+				}
+				else
+				{
+					node.Type = NodeType.Room;
 				}
 			}
-
-			sw.Stop();
-			Logger.Log("Room init: " + sw.ElapsedMilliseconds + " ms",Category.Atmos);
 		}
-		
-		public override void UpdateAt(Vector3Int position)
+		else
 		{
-			MetaDataNode node = metaDataLayer.Get(position);
-			if (metaTileMap.IsAtmosPassableAt(position))
+			node.Type = NodeType.Occupied;
+			MetaUtils.RemoveFromNeighbors(node);
+		}
+	}
+
+	private void LocateRooms()
+	{
+		BoundsInt bounds = metaTileMap.GetBounds();
+
+		foreach (Vector3Int position in bounds.allPositionsWithin)
+		{
+			FindRoomAt(position);
+		}
+	}
+
+	private void FindRoomAt(Vector3Int position)
+	{
+		if (Check(position) && !metaDataLayer.IsRoomAt(position))
+		{
+			CreateRoom(position);
+		}
+		else
+		{
+			if (!metaTileMap.IsAtmosPassableAt(position))
 			{
-				node.Room = 10000000;
-			}
-			else
-			{
-				node.Room = 0;
+				MetaDataNode node = metaDataLayer.Get(position);
+				node.Type = NodeType.Occupied;
+
+				SetupNeighbors(position);
 			}
 		}
+	}
 
-		private bool FindRoom(Vector3Int position, int roomNumber)
+	private void CreateRoom(Vector3Int origin)
+	{
+		var roomPositions = new HashSet<Vector3Int>();
+		var freePositions = new UniqueQueue<Vector3Int>();
+
+		freePositions.Enqueue(origin);
+
+		var isSpace = false;
+
+		while (!freePositions.IsEmpty)
 		{
-			Queue<Vector3Int> posToCheck = new Queue<Vector3Int>();
-			HashSet<Vector3Int> roomPosition = new HashSet<Vector3Int>();
-
-			posToCheck.Enqueue(position);
-
-			bool isSpace = false;
-
-			while (posToCheck.Count > 0)
+			Vector3Int position;
+			if (freePositions.TryDequeue(out position))
 			{
-				Vector3Int pos = posToCheck.Dequeue();
-				roomPosition.Add(pos);
+				roomPositions.Add(position);
 
-				foreach (Vector3Int dir in new[] {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right})
+				foreach (Vector3Int neighbor in MetaUtils.GetNeighbors(position))
 				{
-					Vector3Int neighbor = pos + dir;
-
-					if (!posToCheck.Contains(neighbor) && !roomPosition.Contains(neighbor))
+					if (Check(neighbor))
 					{
-						if (metaTileMap.IsSpaceAt(neighbor))
+						if (!roomPositions.Contains(neighbor) && !freePositions.Contains(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
+						{
+							freePositions.Enqueue(neighbor);
+						}
+					}
+					else if (metaTileMap.IsSpaceAt(neighbor))
+					{
+						Vector3 worldPosition = transform.TransformPoint(neighbor);
+						if (MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
 						{
 							isSpace = true;
 						}
-						else if (metaTileMap.IsAtmosPassableAt(neighbor))
-						{
-							posToCheck.Enqueue(neighbor);
-						}
 					}
 				}
 			}
+		}
 
-			foreach (Vector3Int p in roomPosition)
-			{
-				MetaDataNode node = metaDataLayer.Get(p);
-				node.Room = isSpace ? -1 : roomNumber;
-			}
+		if (!isSpace)
+		{
+			AssignRoom(roomPositions);
+		}
 
-			return !isSpace;
+		SetupNeighbors(roomPositions);
+	}
+
+	private void AssignRoom(IEnumerable<Vector3Int> positions)
+	{
+		foreach (Vector3Int position in positions)
+		{
+			MetaDataNode node = metaDataLayer.Get(position);
+
+			node.Type = NodeType.Room;
 		}
 	}
+
+	private bool Check(Vector3Int position)
+	{
+		return metaTileMap.IsAtmosPassableAt(position) && !metaTileMap.IsSpaceAt(position);
+	}
+
+	private void SetupNeighbors(IEnumerable<Vector3Int> positions)
+	{
+		foreach (Vector3Int position in positions)
+		{
+			SetupNeighbors(position);
+		}
+	}
+
+	private void SetupNeighbors(Vector3Int position)
+	{
+		MetaDataNode node = metaDataLayer.Get(position);
+
+		foreach (Vector3Int neighbor in MetaUtils.GetNeighbors(position))
+		{
+			if (metaTileMap.IsSpaceAt(neighbor))
+			{
+				Vector3 worldPosition = transform.TransformPoint(neighbor) + Vector3.one * 0.5f;
+				worldPosition.z = 0;
+				if (!MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
+				{
+					MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPosition.RoundToInt());
+
+					Vector3Int localPosition = MatrixManager.WorldToLocalInt(worldPosition, matrixInfo);
+
+					if (matrixInfo.MetaTileMap.IsAtmosPassableAt(localPosition))
+					{
+						node.AddNeighbor(matrixInfo.MetaDataLayer.Get(localPosition));
+					}
+
+					continue;
+				}
+			}
+
+			if (metaTileMap.IsAtmosPassableAt(neighbor))
+			{
+				node.AddNeighbor(metaDataLayer.Get(neighbor));
+			}
+		}
+	}
+}

@@ -11,16 +11,17 @@ public class Matrix : MonoBehaviour
 	private Vector3Int initialOffset;
 	public Vector3Int InitialOffset => initialOffset;
 
-	private MetaDataLayer metaDataLayer;
+	private void Awake()
+	{
+		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
+		metaTileMap = GetComponent<MetaTileMap>();
+	}
 
 	private void Start()
 	{
-		metaDataLayer = GetComponentInChildren<MetaDataLayer>(true);
-		metaTileMap = GetComponent<MetaTileMap>();
-
 		try
 		{
-			objects = ((ObjectLayer)metaTileMap.Layers[LayerType.Objects]).Objects;
+			objects = ((ObjectLayer) metaTileMap.Layers[LayerType.Objects]).Objects;
 		}
 		catch
 		{
@@ -28,14 +29,14 @@ public class Matrix : MonoBehaviour
 		}
 	}
 
-	private void Awake()
-	{
-		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
-	}
-
 	public bool IsPassableAt(Vector3Int origin, Vector3Int position)
 	{
 		return metaTileMap.IsPassableAt(origin, position);
+	}
+
+	public bool IsSpaceAt(Vector3Int position)
+	{
+		return metaTileMap.IsSpaceAt(position);
 	}
 
 	//TODO:  This should be removed, due to windows mucking things up, and replaced with origin and position
@@ -50,14 +51,9 @@ public class Matrix : MonoBehaviour
 		return metaTileMap.IsAtmosPassableAt(position);
 	}
 
-	public bool IsSpaceAt(Vector3Int position)
-	{
-		return metaDataLayer.IsSpaceAt(position);
-	}
-
 	public bool IsEmptyAt(Vector3Int position)
 	{
-			return metaTileMap.IsEmptyAt(position);
+		return metaTileMap.IsEmptyAt(position);
 	}
 
 	public bool IsFloatingAt(Vector3Int position)

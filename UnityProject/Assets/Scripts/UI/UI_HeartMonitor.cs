@@ -13,7 +13,9 @@ using UnityEngine.UI;
 		private int currentSprite;
 		public int deathStart;
 
-		[Header("Start of sprite positions for anim")] public int fullHealthStart;
+		[Header("Start of sprite positions for anim")]
+		public int fullHealthStart;
+
 		public int medDmgStart;
 		public int minorDmgStart;
 		public int mjrDmgStart;
@@ -80,6 +82,7 @@ using UnityEngine.UI;
 				{
 					yield return new WaitForSeconds(1f);
 				}
+
 				pulseImg.sprite = sprites[spriteStart + currentSprite++];
 				while (currentSprite == 28)
 				{
@@ -98,12 +101,13 @@ using UnityEngine.UI;
 			yield return new WaitForEndOfFrame();
 		}
 
-		public void DetermineDisplay(PlayerHealthUI pHealthUI, int curHealth)
+		public void DetermineDisplay(PlayerHealthUI pHealthUI, float curHealth)
 		{
 			if (pHealthUI == null)
 			{
 				return;
 			}
+
 			if (curHealth <= -1 && spriteStart == deathStart)
 			{
 				return; //Ensure that messages are not spammed when there is no more health to go
@@ -112,7 +116,7 @@ using UnityEngine.UI;
 			CheckHealth(curHealth);
 		}
 
-		private void CheckHealth(int cHealth)
+		private void CheckHealth(float cHealth)
 		{
 			//PlayGroup.PlayerManager.PlayerScript.playerNetworkActions.CmdSendAlertMessage("mHealth: " + cHealth, true);
 			//Logger.Log("PlayerHealth: " + PlayerManager.PlayerScript.playerHealth.Health);
@@ -124,6 +128,7 @@ using UnityEngine.UI;
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.normal);
 			}
+
 			if (cHealth < 90
 			    && cHealth > 80
 			    && spriteStart != minorDmgStart)
@@ -133,6 +138,7 @@ using UnityEngine.UI;
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.injured);
 			}
+
 			if (cHealth < 80
 			    && cHealth > 50
 			    && spriteStart != medDmgStart)
@@ -142,6 +148,7 @@ using UnityEngine.UI;
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.injured);
 			}
+
 			if (cHealth < 50
 			    && cHealth > 30
 			    && spriteStart != mjrDmgStart)
@@ -151,6 +158,7 @@ using UnityEngine.UI;
 				pulseImg.sprite = sprites[spriteStart];
 				overlayCrits.SetState(OverlayState.injured);
 			}
+
 			if (cHealth < 30
 			    && cHealth > 0
 			    && spriteStart != critStart)

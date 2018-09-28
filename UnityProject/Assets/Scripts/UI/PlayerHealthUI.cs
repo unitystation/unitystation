@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 		//Server calls to update the UI
 
-		public void UpdateHealthUI(UpdateUIMessage validateMsg, int curHealth)
+		public void UpdateHealthUI(UpdateUIMessage validateMsg, float curHealth)
 		{
 			if (validateMsg == null) //can only be called from server msg
 			{
@@ -19,7 +19,7 @@ using UnityEngine.UI;
 			DetermineUIDisplay(curHealth);
 		}
 
-		private void DetermineUIDisplay(int curHealth)
+		private void DetermineUIDisplay(float curHealth)
 		{
 			heartMonitor.DetermineDisplay(this,
 				curHealth); //For the heart monitor anim (atm just working off maxHealth)

@@ -2,7 +2,7 @@
 
 public class BodyPartBehaviour : MonoBehaviour
 {
-	private int _damage;
+	private float _damage;
 	public Sprite GrayDamageMonitorIcon;
 
 	public Sprite GreenDamageMonitorIcon;
@@ -17,13 +17,13 @@ public class BodyPartBehaviour : MonoBehaviour
 
 	public DamageSeverity Severity { get; private set; }
 
-	public virtual void ReceiveDamage(DamageType damageType, int damage)
+	public virtual void ReceiveDamage(DamageType damageType, float damage)
 	{
 		UpdateDamage(damage);
 		Logger.LogTraceFormat("{0} received {1} {2} damage. Total {3}/{4}, limb condition is {5}", Category.Health, Type, damage, damageType, _damage, MaxDamage, Severity);
 	}
 
-	private void UpdateDamage(int damage)
+	private void UpdateDamage(float damage)
 	{
 		_damage += damage;
 		if (_damage > MaxDamage)

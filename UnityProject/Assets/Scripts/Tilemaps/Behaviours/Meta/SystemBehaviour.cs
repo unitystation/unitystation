@@ -6,6 +6,8 @@ public abstract class SystemBehaviour : MonoBehaviour
 		protected MetaDataLayer metaDataLayer;
 		protected MetaTileMap metaTileMap;
 
+		public virtual int Priority => 0;
+
 		public void Awake()
 		{
 			metaDataLayer = GetComponentInChildren<MetaDataLayer>();

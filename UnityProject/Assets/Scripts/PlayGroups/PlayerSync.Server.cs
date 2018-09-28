@@ -29,8 +29,7 @@ public partial class PlayerSync
 	private int playerWarnings;
 
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
-	[SyncVar]
-	private Vector2 serverLastDirection;
+	[SyncVar] private Vector2 serverLastDirection;
 
 	//TODO: Remove the space damage coroutine when atmos is implemented
 	private bool isApplyingSpaceDmg;
@@ -50,12 +49,13 @@ public partial class PlayerSync
 		base.OnStartServer();
 		InitServerState();
 	}
+
 	//TODO: don't allow walking when stopped in vacuum
 	///
 	[Server]
 	private void InitServerState()
 	{
-		Vector3Int worldPos = Vector3Int.RoundToInt((Vector2)transform.position); //cutting off Z-axis & rounding
+		Vector3Int worldPos = Vector3Int.RoundToInt((Vector2) transform.position); //cutting off Z-axis & rounding
 		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos);
 		PlayerState state = new PlayerState
 		{
@@ -121,7 +121,7 @@ public partial class PlayerSync
 		if (matrix != null)
 		{
 			Vector3Int pushGoal =
-				Vector3Int.RoundToInt(serverState.Position + (Vector3)serverTargetState.Impulse);
+				Vector3Int.RoundToInt(serverState.Position + (Vector3) serverTargetState.Impulse);
 			if (matrix.IsPassableAt(pushGoal))
 			{
 				Logger.Log($"Server push to {pushGoal}", Category.PushPull);
@@ -144,7 +144,7 @@ public partial class PlayerSync
 	public void SetPosition(Vector3 worldPos)
 	{
 		ClearQueueServer();
-		Vector3Int roundedPos = Vector3Int.RoundToInt((Vector2)worldPos); //cutting off z-axis
+		Vector3Int roundedPos = Vector3Int.RoundToInt((Vector2) worldPos); //cutting off z-axis
 		MatrixInfo newMatrix = MatrixManager.AtPoint(roundedPos);
 		//Note the client queue reset
 		var newState = new PlayerState
@@ -201,6 +201,7 @@ public partial class PlayerSync
 		{
 			return;
 		}
+
 		serverState.NoLerp = noLerp;
 		var msg = PlayerMoveMessage.SendToAll(gameObject, serverState);
 		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
@@ -344,7 +345,7 @@ public partial class PlayerSync
 			if (distance > 1.5)
 			{
 				Logger.LogWarning($"Dist {distance} > 1:{serverState}\n" +
-					$"Target    :{serverTargetState}", Category.Movement);
+				                  $"Target    :{serverTargetState}", Category.Movement);
 				serverState.WorldPosition = serverTargetState.WorldPosition;
 			}
 
@@ -366,7 +367,7 @@ public partial class PlayerSync
 			if (ServerPositionsMatch && !serverTargetState.ImportantFlightUpdate)
 			{
 				//Extending prediction by one tile if player's transform reaches previously set goal
-				Vector3Int newGoal = Vector3Int.RoundToInt(serverTargetState.Position + (Vector3)serverTargetState.Impulse);
+				Vector3Int newGoal = Vector3Int.RoundToInt(serverTargetState.Position + (Vector3) serverTargetState.Impulse);
 				serverTargetState.Position = newGoal;
 				ClearQueueServer();
 			}
@@ -397,7 +398,7 @@ public partial class PlayerSync
 	private void CheckSpaceDamage()
 	{
 		if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition))
-			&& !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
+		    && !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
 		{
 			// Hurting people in space even if they are next to the wall
 			if (!IsEvaCompatible())
@@ -428,7 +429,7 @@ public partial class PlayerSync
 	private bool IsEvaCompatible()
 	{
 		if (playerScript.playerNetworkActions.Inventory["head"] != null
-			&& playerScript.playerNetworkActions.Inventory["suit"] != null)
+		    && playerScript.playerNetworkActions.Inventory["suit"] != null)
 		{
 			if (headObjCache != playerScript.playerNetworkActions.Inventory["head"])
 			{
@@ -436,6 +437,7 @@ public partial class PlayerSync
 				if (headObjCache != null)
 					headItemAtt = headObjCache.GetComponent<ItemAttributes>();
 			}
+
 			if (suitObjCache != playerScript.playerNetworkActions.Inventory["suit"])
 			{
 				suitObjCache = playerScript.playerNetworkActions.Inventory["suit"];
@@ -447,14 +449,8 @@ public partial class PlayerSync
 			{
 				return true;
 			}
-			else
-			{
-				return false;
-			}
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 }

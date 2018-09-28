@@ -312,11 +312,11 @@ using UnityEngine.Networking;
 		private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 		{
 			// Make sure there is a door controller
-			DoorTrigger door = MatrixManager.Instance.GetFirst<DoorTrigger>(targetPos);
+			DoorTrigger door = MatrixManager.GetFirst<DoorTrigger>(targetPos);
 
 			if (!door)
 			{
-				door = MatrixManager.Instance.GetFirst<DoorTrigger>(Vector3Int.RoundToInt(currentPos));
+				door = MatrixManager.GetFirst<DoorTrigger>(Vector3Int.RoundToInt(currentPos));
 
 				if (door)
 				{

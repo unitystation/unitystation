@@ -19,7 +19,7 @@ public class PlayerHealthReporting : ManagedNetworkBehaviour
 
 	//server only caches
 	private int healthServerCache;
-	//TODO if client disconnects and reconnects then the clients UI needs to 
+	//TODO if client disconnects and reconnects then the clients UI needs to
 	//poll this component and request updated values from the server to set
 	//the current state of the UI overlays and hud
 
@@ -69,7 +69,7 @@ public class PlayerHealthReporting : ManagedNetworkBehaviour
 
 	private void ServerMonitorHealth()
 	{
-		//Add other damage methods here like burning, 
+		//Add other damage methods here like burning,
 		//suffication, etc
 
 		//If already dead then do not check the status of the body anymore

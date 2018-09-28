@@ -56,8 +56,8 @@ public static class Logger
 	}
 
 	/// Try printing Info level entry.
-	public static void Log( string msg, Category category = Category.Unknown ){
-		TryLog( msg, Level.Info, category );
+	public static void Log( object msg, Category category = Category.Unknown ){
+		TryLog( msg.ToString(), Level.Info, category );
 	}
 
 	/// Try printing Warning level entry.

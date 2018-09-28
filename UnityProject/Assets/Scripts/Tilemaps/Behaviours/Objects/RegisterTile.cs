@@ -51,8 +51,12 @@ public abstract class RegisterTile : NetworkBehaviour
 		get { return position; }
 		private set
 		{
-			layer?.Objects.Remove(position, this);
-			layer?.Objects.Add(value, this);
+			if (layer)
+			{
+				layer.Objects.Remove(position, this);
+				layer.Objects.Add(value, this);
+			}
+
 			position = value;
 		}
 	}
@@ -75,6 +79,14 @@ public abstract class RegisterTile : NetworkBehaviour
 		base.OnStartServer();
 	}
 
+	public void OnDestroy()
+	{
+		if (layer)
+		{
+			layer.Objects.Remove(Position, this);
+		}
+	}
+
 	private void OnEnable()
 	{
 		ForceRegister();
@@ -89,30 +101,26 @@ public abstract class RegisterTile : NetworkBehaviour
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 			UpdatePosition();
 		}
-
-		// In case of recompilation and Start doesn't get called
-		layer?.Objects.Add(Position, this);
 	}
+
+	public void Unregister()
+		{
+			Position = TransformState.HiddenPos;
+
+			if (layer)
+			{
+				layer.Objects.Remove(Position, this);
+			}
+		}
 
 	private void OnDisable()
 	{
 		Unregister();
 	}
 
-	public void OnDestroy()
-	{
-		layer?.Objects.Remove(Position, this);
-	}
-
 	public void UpdatePosition()
 	{
 		Position = Vector3Int.RoundToInt(transform.localPosition);
-	}
-
-	public void Unregister()
-	{
-		Position = TransformState.HiddenPos;
-		layer?.Objects.Remove(Position, this);
 	}
 
 	public virtual bool IsPassable()
