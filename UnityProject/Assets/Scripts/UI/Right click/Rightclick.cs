@@ -13,7 +13,6 @@ public class Rightclick : MonoBehaviour {
 	public bool Initialise = false;
 	public List<Menu> options = new List<Menu>();
 
-	public int NumberofMenus = new int ();
 	public List<Sprite> Spritenames = new List<Sprite>(){
 
 	};
@@ -23,19 +22,11 @@ public class Rightclick : MonoBehaviour {
 	}
 		
 
-	public Dictionary<string, ButtonEntry> ButtonDictionary = new Dictionary<string, ButtonEntry>()
-	{
-		{ "yothisone", new ButtonEntry(){ Title = "Open/close" }},
-
-	};
-
-	public delegate void Passto();
-
+	public Dictionary<string, Sprite> SpriteDictionary = new Dictionary<string, Sprite>()	{	};
 
 	public class Menu {
 		public Color colour;
 		public Sprite sprite;
-		public string FunctionType;
 		public string title;
 		public GameObject Item;
 		public List<Menu> SubMenus = new List<Menu>();
@@ -46,6 +37,11 @@ public class Rightclick : MonoBehaviour {
 
 	void Awake(){
 		ins = this;
+		//Make sure to add your sprite on load
+		SpriteDictionary ["hand"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "hand");
+		SpriteDictionary ["Magnifying_glass"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Magnifying_glass");
+		SpriteDictionary ["question_mark"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "question_mark");
+		SpriteDictionary ["Drag_Hand"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Drag_Hand");
 	}
 
 
@@ -53,12 +49,13 @@ public class Rightclick : MonoBehaviour {
 		if (Input.GetMouseButtonDown (1)) {
 			Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 			position.z = 0f;
+			//gets Items on the position of the mouse
 			List<GameObject> objects = UITileList.GetItemsAtPosition(position);
-
+			//Generates menus
 			Generate (objects);
 			//Logger.Log ("yo", Category.UI);
 			if (options.Count > 0){
-				RadialMenuSpawner.ins.SpawnRadialMenu(this);
+				RadialMenuSpawner.ins.SpawnRadialMenu(options);
 			}
 
 		}
@@ -66,8 +63,6 @@ public class Rightclick : MonoBehaviour {
 	}
 	private void Generate(List<GameObject> objects){
 		options = new List<Menu> ();
-
-
 		for (int i = 0; i < objects.Count; i++) {
 			Menu newMenu = new Menu();
 			newMenu.colour = Color.gray;
@@ -78,7 +73,7 @@ public class Rightclick : MonoBehaviour {
 				newMenu.title = Nameues.itemName;
 			}
 
-			var UseSprite = objects[i].GetComponentInChildren<SpriteRenderer>();
+			SpriteRenderer UseSprite = objects[i].GetComponentInChildren<SpriteRenderer>();
 			if (UseSprite == null) {
 				newMenu.sprite = ins.Spritenames [0];
 			} else {
@@ -90,19 +85,19 @@ public class Rightclick : MonoBehaviour {
 
 			//For each monoBehaviour in the list of script components
 			foreach (MonoBehaviour mono in scriptComponents) {
-				var monoType = mono.GetType();
-				foreach (var method in monoType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)) {
+				Type monoType = mono.GetType();
+				foreach (MethodInfo method in monoType.GetMethods(BindingFlags.Public | BindingFlags.Instance)) {
 					var attributes = method.GetCustomAttributes(typeof(contextMethod), true);
 					if (attributes.Length > 0) {
 						
-						Logger.Log("Script: " + mono + " Method: " + method.ToString(), Category.UI);
-						Logger.Log (method.ToString (), Category.UI);
+						//Logger.Log("Script: " + mono + " Method: " + method.ToString(), Category.UI);
+						//Logger.Log (method.ToString (), Category.UI);
 						Menu NewSubMenu = new Menu();
-
+						contextMethod contextMethodMenu = (contextMethod)method.GetCustomAttributes (typeof(contextMethod), true)[0];
 						NewSubMenu.colour = Color.gray;
 						NewSubMenu.Item = objects[i];			
-						NewSubMenu.title = ((contextMethod)method.GetCustomAttributes (typeof(contextMethod), true) [0]).ButtonTitle;
-						NewSubMenu.sprite = Resources.Load<Sprite>("UI/RightClickButtonIcon/" + ((contextMethod)method.GetCustomAttributes (typeof(contextMethod), true) [0]).SpriteName);
+						NewSubMenu.title = contextMethodMenu.ButtonTitle;
+						NewSubMenu.sprite =  SpriteDictionary[contextMethodMenu.SpriteName];
 						NewSubMenu.Mono = mono;
 						NewSubMenu.Method = method;
 

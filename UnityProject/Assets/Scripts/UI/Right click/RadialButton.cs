@@ -7,7 +7,6 @@ using System.Reflection;
 
 public class RadialButton : MonoBehaviour{
 
-	public string FunctionType;
 	public GameObject Item;
 	public Image Circle;
 	public Image Icon;
@@ -17,7 +16,6 @@ public class RadialButton : MonoBehaviour{
 	public int DefaultPosition;
 	public Color DefaultColour;
 	public int MenuDepth;
-	public GameObject Scriptty;
 	public MethodInfo Method;
 	public MonoBehaviour Mono;
 

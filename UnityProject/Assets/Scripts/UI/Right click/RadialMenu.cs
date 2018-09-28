@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RadialMenu : MonoBehaviour {
 
-	public Rightclick StoredObject;
 	public Vector2 centercirlce = new Vector2(0.5f,0.5f);
 
 	public Dictionary<int,RadialButton> ResetDepthOnDestroy = new Dictionary<int,RadialButton>();
@@ -33,7 +32,7 @@ public class RadialMenu : MonoBehaviour {
 
 	public float LastInRangeSubMenu;
 
-	public RadialButton LastSelected; //Unity can be seen crying its eyes out because using an everyday c# command Is apparently not allowed
+	public RadialButton LastSelected;
 
 
 	public bool LastSelectedset = false;
@@ -44,47 +43,43 @@ public class RadialMenu : MonoBehaviour {
 
 	public float LastSelectedTime;
 
-	//public List<RadialButton> CurrentOptions;
-	public bool CapturedCentre = false;
-
-	// Use this for initialization
-	public void SetupMenu (Rightclick obj) {
+	public void SetupMenu (List<Rightclick> ListRightclick) {
+		//Captures the centre circle
 		centercirlce = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
-		StoredObject = obj;
-		SpawnButtons (obj.options,100,0);
+		SpawnButtons (ListRightclick,100,0);
 
 	}
 	public void SpawnButtons (List<Rightclick.Menu> Menus,int Menudepth,int StartingAngle) {
 		Initialised = false;
 		CurrentMenuDepth = Menudepth;
-		int Range = 360;
-		int MinimumAngle = 0;
-		int MaximumAngle = 360;
+		int Range = 360; //is the range that the buttons will be on in degrees
+		int MinimumAngle = 0; //The initial offset Of the buttons in degrees
+		int MaximumAngle = 360; //Linked to range
 		if (Menudepth > 100) {
-			Range = Menus.Count * (360 / Density [Menudepth]);
+			Range = Menus.Count * (360 / Density [Menudepth]); //Try and keep the icons nicely spaced on the outer rings
 			MinimumAngle = (int) (StartingAngle - ((Range/2) - (0.5f * (360 / Density [Menudepth]))));
 			MaximumAngle = StartingAngle + Range;
 		} 
 		for (int i = 0; i < Menus.Count; i++) {
 			RadialButton newButton = Instantiate (ButtonPrefab) as RadialButton;
 			newButton.transform.SetParent (transform, false);
-			//Logger.Log((Range*Mathf.Deg2Rad).ToString() + "man", Category.UI);
+			//Magic maths
 			float theta = (float)(((Range*Mathf.Deg2Rad) / Menus.Count) * i);
-			//float theta = (2 * Mathf.PI / Menus.Count) * i;
 			theta = (theta + (MinimumAngle * Mathf.Deg2Rad));
 			float xpos = Mathf.Sin (theta);
 			float ypos = Mathf.Cos (theta);
 			newButton.transform.localPosition = new Vector2 (xpos, ypos) * Menudepth; 
-			//newButton.transform.localPosition = new Vector2 (0f, 100f);
+
 			newButton.Circle.color = Menus[i].colour;
 			newButton.Icon.sprite = Menus[i].sprite;
-			newButton.FunctionType = Menus [i].FunctionType;
 			newButton.Item = Menus [i].Item;
 			newButton.MenuDepth = Menudepth;
 			newButton.Mono = Menus[i].Mono;
 			newButton.Method = Menus[i].Method;
 			newButton.Hiddentitle = Menus[i].title;
 			newButton.MyMenu = this;
+
+			// Annoying dictionary not containing list when Initialised
 			if (CurrentOptionsDepth.ContainsKey (Menudepth)) {
 				CurrentOptionsDepth[Menudepth].Add (newButton);
 			} else {
@@ -97,9 +92,9 @@ public class RadialMenu : MonoBehaviour {
 				DepthMenus [Menudepth] = new List<Rightclick.Menu>();
 				DepthMenus [Menudepth].Add (Menus [i]);
 			}
-
-			//Logger.Log ("yo added this", Category.UI);
+				
 		}
+		//Pushes the parameters to the selection system
 		List<int> QuickList = new List<int> {
 			Range,MinimumAngle,MaximumAngle
 		};
@@ -110,7 +105,6 @@ public class RadialMenu : MonoBehaviour {
 
 	void Update () {
 		if (Initialised) {
-			//Logger.Log (CurrentMenuDepth.ToString (), Category.UI);
 			List<RadialButton> CurrentOptions = CurrentOptionsDepth [CurrentMenuDepth];
 
 			MousePosition = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
@@ -119,30 +113,29 @@ public class RadialMenu : MonoBehaviour {
 			Vector2 Relativecentre = toVector2M - centercirlce;
 			//Logger.Log (Relativecentre.ToString ()+ " Relativecentre" , Category.UI);
 			float Angle = (Mathf.Atan2 (Relativecentre.y, Relativecentre.x) * Mathf.Rad2Deg);
-
+			//off sets the Angle because it starts as -180 to 180
 			Angle += -90;
-			//Angle += 180;
 			Angle = Angle + SelectionRange[CurrentMenuDepth][1];
 			if (Angle > 0) {
 				Angle += -360;
 			}
-			Angle = Angle * -1;
+			Angle = Angle * -1; //Turns it from negative to positive
 
 			//Logger.Log (Angle.ToString () + " old Angle", Category.UI);
 			//Logger.Log (((int)((Angle) / (SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count))).ToString () + " old MenuItem", Category.UI);
 			//Logger.Log (Angle.ToString ()+ " Angle" , Category.UI);
 
-			Angle = Angle + ((SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count) / 2);
+			Angle = Angle + ((SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count) / 2); //Offsets by half a menu so So the different selection areas aren't in the middle of the menu
 
 
 			//Angle = Angle + SelectionRange[CurrentMenuDepth][1];
-			if (Angle > 360) {
+			if (Angle > 360) { //Makes sure it's 360
 				Angle += -360;
 			} 
+
 			//Logger.Log (Angle.ToString ()+ " Angle" , Category.UI);
-			//MenuItem = (int)(Angle / (360 / CurrentOptions.Count));
-			//SelectionRange[CurrentMenuDepth][1] 
-			MenuItem = (int)((Angle) / (SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count));
+
+			MenuItem = (int)((Angle) / (SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count)); 
 
 			//Logger.Log ((SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count).ToString () + " Density", Category.UI);
 			//Logger.Log (Angle.ToString () + " Angle", Category.UI);
@@ -150,10 +143,10 @@ public class RadialMenu : MonoBehaviour {
 			//Logger.Log (SelectionRange[CurrentMenuDepth][1].ToString () + " MinimumAngle", Category.UI);
 			//Logger.Log (MenuItem.ToString () + "MenuItem", Category.UI);
 			//Logger.Log (CurrentOptions.Count.ToString () + "CurrentOptions.Count", Category.UI);
-			if (!(MenuItem > (CurrentOptions.Count - 1)) && !(MenuItem < 0)) {
+
+			if (!(MenuItem > (CurrentOptions.Count - 1)) && !(MenuItem < 0)) { //Ensures its in range Of selection
 				LastInRangeSubMenu = Time.time;
 				Selected = CurrentOptions [MenuItem];
-
 				if (!(LastSelected == Selected)) {
 					if (LastSelectedset) {
 						//LastSelected.SetColour (LastSelected.DefaultColour);
@@ -178,7 +171,7 @@ public class RadialMenu : MonoBehaviour {
 					//Logger.Log (LastSelectedTime.ToString (), Category.UI);
 				}
 				if (LastSelectedset) {
-					if ((Time.time - LastSelectedTime) > 0.4f) {
+					if ((Time.time - LastSelectedTime) > 0.4f) { //How long it takes to make a menu
 						
 						if ((!(DepthMenus [CurrentMenuDepth] [MenuItem].SubMenus == null)) && DepthMenus [CurrentMenuDepth] [MenuItem].SubMenus.Count > 0) {
 							Logger.Log (MenuItem.ToString () + " Selected", Category.UI);
@@ -196,7 +189,7 @@ public class RadialMenu : MonoBehaviour {
 			
 
 			} else {
-				if ((Time.time - LastInRangeSubMenu) > 0.3f && (CurrentMenuDepth > 100)){
+				if ((Time.time - LastInRangeSubMenu) > 0.3f && (CurrentMenuDepth > 100)){ //How long it takes to exit a menu
 
 					Logger.Log ("yo am Destroying", Category.UI);
 					if (ResetDepthOnDestroy.ContainsKey (CurrentMenuDepth))  {
@@ -214,7 +207,7 @@ public class RadialMenu : MonoBehaviour {
 					for (int i = 0; i < Acopy.Count; i++) {
 						Destroy (CurrentOptions[i].gameObject);
 					}
-
+					//Cleans up the dictionarys
 					SelectionRange.Remove (CurrentMenuDepth);
 					CurrentOptionsDepth.Remove (CurrentMenuDepth);
 					DepthMenus.Remove (CurrentMenuDepth);
@@ -230,11 +223,11 @@ public class RadialMenu : MonoBehaviour {
 		if (Input.GetMouseButtonUp (1))
 		{
 			if (Selected) {
-				Logger.Log (Selected.FunctionType, Category.UI);
-				if (!(Selected.Mono == null)) {
+				if (!(Selected.Mono == null)) { 
+					//The magic function
 					Selected.Method.Invoke(Selected.Mono, new object[] {  });
 				}
-				Logger.Log ("yo this "+Selected.title.text , Category.UI);
+				//Logger.Log ("yo this "+Selected.title.text , Category.UI);
 			}
 			//CurrentOptions = null;
 			LastSelectedset = false;
