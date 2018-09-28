@@ -8,15 +8,15 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1624884259146988}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1624884259146988
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4821836103487530}
   - component: {fileID: 114418886390058330}
@@ -30,7 +30,7 @@ GameObject:
 --- !u!4 &4821836103487530
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1624884259146988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -43,7 +43,7 @@ Transform:
 --- !u!114 &114418886390058330
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1624884259146988}
   m_Enabled: 1
@@ -51,28 +51,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef832313bc8da84b8fa31c209efe06e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uniform: /obj/item/clothing/under/rank/head_of_personnel
-  jobType: 22
-  allowedAccess: 06000000080000001a0000001b0000001e000000200000001f0000002200000026000000280000002b0000002c0000002f000000300000003100000033000000340000001800000042000000440000004300000015000000
-  ears: /obj/item/device/radio/headset/heads/hop
-  belt: /obj/item/device/pda/heads/hop
-  back: 
-  shoes: /obj/item/clothing/shoes/sneakers/brown
-  glasses: 
-  gloves: 
-  suit: 
-  head: /obj/item/clothing/head/hopcap
   accessory: 
-  mask: 
+  allowedAccess: 06000000080000001a0000001b0000001e000000200000001f0000002200000026000000280000002b0000002c0000002f00000030000000310000003300000034000000180000004200000044000000430000001500000035000000
+  back: 
   backpack: 
-  satchel: 
-  duffelbag: 
-  box: 
-  l_hand: 
-  l_pocket: 
-  r_pocket: 
-  suit_store: 
   backpack_contents:
   - /obj/item/weapon/storage/box/ids
   - /obj/item/weapon/melee/classic_baton/telescopic
   - /obj/item/device/modular_computer/tablet/preset/advanced
+  belt: /obj/item/device/pda/heads/hop
+  box: 
+  duffelbag: 
+  ears: /obj/item/device/radio/headset/heads/hop
+  glasses: 
+  gloves: 
+  head: /obj/item/clothing/head/hopcap
+  jobType: 22
+  l_hand: 
+  l_pocket: 
+  mask: 
+  r_pocket: 
+  satchel: 
+  shoes: /obj/item/clothing/shoes/sneakers/brown
+  suit: 
+  suit_store: 
+  uniform: /obj/item/clothing/under/rank/head_of_personnel
