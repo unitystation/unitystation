@@ -73,4 +73,28 @@ public class MetaDataNode
 
 		Neighbors = neighbors.ToArray();
 	}
+
+	private int damage = 0;
+
+	public string WindowDmgType { get; set; } = "";
+
+	public void Reset()
+	{
+		Room = 0;
+	}
+
+	public void ResetDamage()
+	{
+		damage = 0;
+	}
+
+	public int GetDamage
+	{
+		get { return damage; }
+	}
+
+	public void AddDamage(int amt)
+	{
+		damage += amt;
+	}
 }

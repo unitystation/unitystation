@@ -83,13 +83,15 @@ public class GasContainerEditor : Editor
 	{
 		pressure = EditorGUILayout.FloatField("Pressure", container.GasMix.Pressure);
 
+		float moles = GasMixUtils.CalcMoles(pressure, container.GasMix.Volume, container.GasMix.Temperature);
+
 		ratios = ShowGasValues(ratios, "Ratios");
 
 		float total = ratios.Sum();
 
 		foreach (Gas gas in Gas.All)
 		{
-			container.Gases[gas] = total > 0 ? ratios[gas] / total * container.GasMix.Moles : 0;
+			container.Gases[gas] = total > 0 ? ratios[gas] / total * moles : 0;
 		}
 	}
 

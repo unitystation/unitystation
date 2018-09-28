@@ -106,15 +106,6 @@ using UnityEngine.Networking;
 				yield break;
 			}
 
-			if(playerScript.JobType == JobType.SYNDICATE){
-				//Check to see if there is a nuke and communicate the nuke code:
-				NukeInteract nuke = FindObjectOfType<NukeInteract>();
-				if(nuke != null){
-					UpdateChatMessage.Send(gameObject, ChatChannel.Syndicate, 
-					                       "We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
-				}
-			}
-
 			PlayerScript pS = GetComponent<PlayerScript>();
 			pS.JobType = playerScript.JobType;
 
@@ -224,6 +215,18 @@ using UnityEngine.Networking;
 				}
 			}
 			SpawnID(jobOutfit);
+
+			yield return new WaitForSeconds(3f); //Wait a bit for headset to be fully setup and player to be fully spawned.
+			if (playerScript.JobType == JobType.SYNDICATE)
+			{
+				//Check to see if there is a nuke and communicate the nuke code:
+				NukeInteract nuke = FindObjectOfType<NukeInteract>();
+				if (nuke != null)
+				{
+					UpdateChatMessage.Send(gameObject, ChatChannel.Syndicate,
+														"We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
+				}
+			}	
 		}
 
 		private void SpawnID(JobOutfit outFit)

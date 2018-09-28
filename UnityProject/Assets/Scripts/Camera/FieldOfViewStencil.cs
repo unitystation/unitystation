@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[Obsolete] //No longer used
 public class FieldOfViewStencil : MonoBehaviour
 {
 	public float ViewRadius;
@@ -60,21 +61,33 @@ public class FieldOfViewStencil : MonoBehaviour
         DrawFieldOfView();
     }
 
-    void CheckHitWallsCache(){
+    void CheckHitWallsCache()
+    {
 		var missingWalls = hitWalls.Keys.Except(curWalls).ToList();
-		for (int i = 0; i < missingWalls.Count() ;i++){
-			Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
-			newTile.sprite = SpriteManager.Instance.shroudSprite;
-			hitWalls[missingWalls[i]].SetTile(missingWalls[i], newTile);
-			hitWalls.Remove(missingWalls[i]);
-		}
+
+	    if (missingWalls.Any())
+	    {
+		    for (int i = 0; i < missingWalls.Count(); i++)
+		    {
+			    //Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
+			    //newTile.sprite = SpriteManager.Instance.shroudSprite;
+			    //hitWalls[missingWalls[i]].SetTile(missingWalls[i], newTile);
+			    //hitWalls.Remove(missingWalls[i]);
+
+			    hitWalls[missingWalls[i]].SetTile(missingWalls[i], null);
+			    hitWalls.Remove(missingWalls[i]);
+		    }
+	    }
+
 		curWalls.Clear();
 
 		var missingDoors = hitDoors.Except(curDoors).ToList();
-		for (int i = 0; i < missingDoors.Count(); i++){
+		for (int i = 0; i < missingDoors.Count(); i++)
+		{
 			missingDoors[i].SendMessage("TurnOnDoorFov", null, SendMessageOptions.DontRequireReceiver);
 			hitDoors.Remove(missingDoors[i]);
 		}
+
 		curDoors.Clear();
 	}
 
@@ -194,21 +207,25 @@ public class FieldOfViewStencil : MonoBehaviour
 			//Hit a wall (layer 9):
 			if (hit.collider.gameObject.layer == 9 && AffectWalls)
 			{
-				//Turn the tilemap color of the wall to white so it is visible
 				hitPosition = Vector3Int.RoundToInt(hit.point + ((Vector2)dir * 0.5f));
 				Tilemap wallTilemap = MatrixManager.Instance.wallsTileMaps[hit.collider];
 				Vector3Int wallCellPos = wallTilemap.WorldToCell(hitPosition);
 
 				if (!hitWalls.ContainsKey(wallCellPos))
 				{
-					Tilemap fxTileMap = MatrixManager.Instance.wallsToTopLayerFX[hit.collider];
-					/// Check that there actually is a tile on the wall Tilemap as the hitPosition isn't accurate
-					TileBase getTile = wallTilemap.GetTile(wallCellPos);
-					if (getTile != null)
-					{
-						fxTileMap.SetTile(fxTileMap.WorldToCell(hitPosition), null);
-						hitWalls.Add(wallCellPos, fxTileMap);
-					}
+					//Tilemap fxTileMap = MatrixManager.Instance.wallsToTopLayerFX[hit.collider];
+					///// Check that there actually is a tile on the wall Tilemap as the hitPosition isn't accurate
+					//TileBase getTile = wallTilemap.GetTile(wallCellPos);
+					//if (getTile != null)
+					//{
+					//	Tile newTile = (Tile)ScriptableObject.CreateInstance("Tile");
+					//	newTile.sprite = SpriteManager.Instance.shroudSprite;
+					//	fxTileMap.SetTile(wallCellPos, newTile);
+					//	hitWalls.Add(wallCellPos, fxTileMap);
+
+					//	//fxTileMap.SetTile(fxTileMap.WorldToCell(hitPosition), null);
+					//	//hitWalls.Add(wallCellPos, fxTileMap);
+					//}
 				}
 				if (!curWalls.Contains(wallCellPos))
 				{

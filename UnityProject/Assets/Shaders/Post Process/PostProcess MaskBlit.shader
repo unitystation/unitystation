@@ -3,8 +3,8 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_Mask ("Texture", 2D) = "white" {}
-		_Alpha ("Alpha", Float) = 1
+		_BackgroundTex ("Background", 2D) = "black" {}
+		_LightTex ("LightTexture", 2D) = "white" {}
 	}
 	SubShader
 	{
@@ -42,19 +42,37 @@
 				return o;
 			}
 			
+			sampler2D _LightTex;
 			sampler2D _MainTex;
-			sampler2D _Mask;
-			float _Alpha;
+			sampler2D _BackgroundTex;
+			float4 _AmbLightBloomSA;
+			float _BackgroundMultiplier;
+
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 screen = tex2D(_MainTex, i.uv);
-				fixed4 maskSample = tex2D(_Mask, i.uv);
+				fixed4 lightSample = tex2D(_LightTex, i.uv);
 
-				float mask = 1 - clamp(maskSample.g + maskSample.r, 0, 1);
+				float ambient = _AmbLightBloomSA.r;
+				float lightMultyplier = _AmbLightBloomSA.g;
+				float bloomSensitivity = _AmbLightBloomSA.b;
+				float bloomAdd = _AmbLightBloomSA.a;
 
-				return lerp(screen, screen * (1 - _Alpha), mask);
+				fixed4 screenUnlit = (screen * ambient);
+
+				// Mix Light.
+				half3 bloom = (screenUnlit.rgb + bloomAdd) * pow(lightSample.rgb, bloomSensitivity) * step(0.005, bloomSensitivity);
+				fixed4 screenLit = screenUnlit + fixed4(screenUnlit.rgb * lightSample.rgb * lightMultyplier + bloom, screenUnlit.a) * 1;
+
+				// Mix Background.
+				fixed4 background = tex2D(_BackgroundTex, i.uv) * _BackgroundMultiplier;
+				float backgroundMask = 1 - screen.a;
+				fixed4 screenLitBackground = background * backgroundMask + screenLit;
+
+				return screenLitBackground;
 			}
+			
 			ENDCG
 		}
 	}

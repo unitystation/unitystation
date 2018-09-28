@@ -122,6 +122,8 @@ public static class Logger
 		if(RconManager.Instance != null){
 			RconManager.AddLog(msg);
 		}
+
+		DebugConsole.AmendLog(msg);
 	}
 }
 
@@ -157,5 +159,8 @@ public enum Category {
 	Chemistry,
 	SunVox,
 	Rcon,
-	Audio
+	Audio,
+	Research,
+	TileMaps,
+	Construction
 }

@@ -91,13 +91,15 @@ public static class GizmoUtils
 
 	public static void DrawCube(Vector3 position, Color color, bool local=true, float alpha = 0.5f)
 	{
-		Gizmos.color = color.WithAlpha(alpha);
+		color.a = alpha;
+		Gizmos.color =color;
 		Gizmos.DrawCube(position + (local ? HalfOne: Vector3.zero), Vector3.one);
 	}
 
 	public static void DrawWireCube(Vector3 position, Color color, bool local=true, float alpha = 0.5f)
 	{
-		Gizmos.color = color.WithAlpha(alpha);
+		color.a = alpha;
+		Gizmos.color =color;
 		Gizmos.DrawWireCube(position + (local ? HalfOne: Vector3.zero), Vector3.one);
 	}
 
