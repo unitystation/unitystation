@@ -59,7 +59,7 @@ using UnityEngine.SceneManagement;
 
 			PlayerScript =
 				LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
-			Camera2DFollow.followControl.target = LocalPlayer.transform;
+			Camera2DFollow.followControl.target = LocalPlayer.transform.Find("Sprites");
 
 			HasSpawned = true;
 		}

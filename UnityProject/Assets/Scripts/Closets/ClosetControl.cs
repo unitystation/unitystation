@@ -164,7 +164,7 @@ using UnityEngine.Networking;
 					Vector3 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 					targetPosition.z = 0f;
 					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItem(
-						UIManager.Hands.CurrentSlot.eventName, transform.position, null);
+						UIManager.Hands.CurrentSlot.eventName, transform.position, null, false);
 
 					item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 				}

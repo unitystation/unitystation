@@ -38,6 +38,8 @@ public partial class CustomNetTransform {
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
 	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
+
+	private LayerMask tileDmgMask;
 	
 	//future optimization thoughts:
 	//if (not in limbo && space flying for 30 tiles in a row):
@@ -49,7 +51,7 @@ public partial class CustomNetTransform {
 	//quit limbo if: player within 20 tiles
 	//
 	//
-	
+
 	/// (Server) Did the flying item reach the planned landing point?
 	private bool ShouldStopThrow {
 		get {
@@ -294,21 +296,36 @@ public partial class CustomNetTransform {
 		List<HealthBehaviour> hitDamageables;
 		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) ) {
 			return true;
+		} else {
+			//Can't drift to goal for some reason:
+			//Check Tile damage from throw
+			var hit2D = Physics2D.RaycastAll(origin, info.Trajectory.normalized, 1.5f, tileDmgMask);
+
+			for(int i = 0; i < hit2D.Length; i++){
+				//Debug.Log("THROW HIT: " + hit2D[i].collider.gameObject.name);
+
+				//TilemapDamage automatically detects if a layer is below another damageable layer and won't affect it
+				var tileDmg = hit2D[i].collider.gameObject.GetComponent<TilemapDamage>();
+				if(tileDmg != null){
+					var damage = ( int ) ( ItemAttributes.throwDamage * 2 );
+					tileDmg.DoThrowDamage(intGoal, info, damage);
+				}
+			}
 		}
 
 		//Hurting what we can
-		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
+		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow )) {
 			for ( var i = 0; i < hitDamageables.Count; i++ ) {
 				//Remove cast to int when moving health values to float
 				var damage = ( int ) ( ItemAttributes.throwDamage * 2 );
 				hitDamageables[i].ApplyDamage( info.ThrownBy, damage, DamageType.BRUTE, info.Aim );
 				PostToChatMessage.SendThrowHitMessage( gameObject, hitDamageables[i].gameObject, damage, info.Aim );
 			}
-			//todo:hit sound
+			//hit sound
+			PlaySoundMessage.SendToAll("GenericHit", transform.position, 1f);
 		}
 
 		return false;
-//				RpcForceRegisterUpdate();
 	}
 
 	///Stopping drift, killing impulse
@@ -324,6 +341,7 @@ public partial class CustomNetTransform {
 		RegisterObjects();
 	}
 
+
 	///Special rounding for collision detection
 	///returns V3Int of next tile
 	private static Vector3Int CeilWithContext( Vector3 roundable, Vector2 impulseContext ) {
@@ -335,11 +353,17 @@ public partial class CustomNetTransform {
 			0 );
 	}
 
+	/// <Summary>
 	/// Can it drift to given pos?
+	/// Use World positions
+	/// </Summary>
 	private bool CanDriftTo( Vector3Int targetPos ) {
 		return CanDriftTo( Vector3Int.RoundToInt( serverState.WorldPosition ), targetPos );
 	}
 
+	/// <Summary>
+	/// Use World positions
+	/// </Summary>
 	private bool CanDriftTo( Vector3Int originPos, Vector3Int targetPos ) {
 		return MatrixManager.IsPassableAt( originPos, targetPos );
 	}
@@ -369,7 +393,7 @@ public partial class CustomNetTransform {
 				victims = damageables;
 				return true;
 			}
-		}
+		} 
 
 		victims = null;
 		return false;
