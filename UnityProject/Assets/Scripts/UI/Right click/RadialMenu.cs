@@ -43,7 +43,7 @@ public class RadialMenu : MonoBehaviour {
 
 	public float LastSelectedTime;
 
-	public void SetupMenu (List<Rightclick> ListRightclick) {
+	public void SetupMenu (List<Rightclick.Menu> ListRightclick) {
 		//Captures the centre circle
 		centercirlce = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
 		SpawnButtons (ListRightclick,100,0);
