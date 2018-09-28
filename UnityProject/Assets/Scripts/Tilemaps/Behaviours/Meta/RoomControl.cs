@@ -3,7 +3,6 @@ using System.Diagnostics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class RoomControl : SystemBehaviour
 {
 	// Set higher priority to ensure that it is executed before other systems
