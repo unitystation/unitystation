@@ -66,7 +66,8 @@ public class RenderSettings
 	[NonSerialized]
 	public Quality quality;
 
-	private static readonly int[] LightTextureResolutions = {600, 1024, 1400};
+	// Note: Round numbers produce less pixel marching (?)
+	private static readonly int[] LightTextureResolutions = {400, 600, 700};
 
 	private static readonly AnimationCurve OcclusionUvAdjustments = new AnimationCurve(
 		new Keyframe(60, 0.048f),
@@ -81,7 +82,9 @@ public class RenderSettings
 	{
 		get
 		{
-			float _qualityResolution = LightTextureResolutions[(int)quality] / PlayerPrefs.GetInt("CamZoomSetting");
+			bool _requireMoreDetail = quality != Quality.High && PlayerPrefs.GetInt("CamZoomSetting") == 1;
+
+			float _qualityResolution = LightTextureResolutions[(int)quality] + (_requireMoreDetail ? 100 : 0); // / PlayerPrefs.GetInt("CamZoomSetting");
 
 			float _widestSceneResolution = Screen.width > Screen.height ? Screen.width : Screen.height;
 
