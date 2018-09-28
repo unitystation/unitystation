@@ -81,6 +81,8 @@ public class RadialMenu : MonoBehaviour {
 			newButton.FunctionType = Menus [i].FunctionType;
 			newButton.Item = Menus [i].Item;
 			newButton.MenuDepth = Menudepth;
+			newButton.Mono = Menus[i].Mono;
+			newButton.Method = Menus[i].Method;
 			newButton.Hiddentitle = Menus[i].title;
 			newButton.MyMenu = this;
 			if (CurrentOptionsDepth.ContainsKey (Menudepth)) {
@@ -229,17 +231,9 @@ public class RadialMenu : MonoBehaviour {
 		{
 			if (Selected) {
 				Logger.Log (Selected.FunctionType, Category.UI);
-				if (Selected.FunctionType == "PickUpTrigger") {
-
-					Selected.Item.GetComponent<PickUpTrigger>().Interact(
-						PlayerManager.LocalPlayerScript.gameObject,
-						PlayerManager.LocalPlayerScript.WorldPos,
-						UIManager.Instance.hands.CurrentSlot.eventName );
+				if (!(Selected.Mono == null)) {
+					Selected.Method.Invoke(Selected.Mono, new object[] {  });
 				}
-				if (Selected.FunctionType == "Examine") {
-					Selected.Item.GetComponent<ItemAttributes>().OnExamine();
-				}
-				//PlayerManager.LocalPlayerScript.WorldPos
 				Logger.Log ("yo this "+Selected.title.text , Category.UI);
 			}
 			//CurrentOptions = null;

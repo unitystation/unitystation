@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Reflection;
 
 public class RadialButton : MonoBehaviour{
 
@@ -16,6 +17,9 @@ public class RadialButton : MonoBehaviour{
 	public int DefaultPosition;
 	public Color DefaultColour;
 	public int MenuDepth;
+	public GameObject Scriptty;
+	public MethodInfo Method;
+	public MonoBehaviour Mono;
 
 	public void SetColour (Color Color)
 	{ 

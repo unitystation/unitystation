@@ -15,8 +15,21 @@ public class Rightclick : MonoBehaviour {
 
 	public int NumberofMenus = new int ();
 	public List<Sprite> Spritenames = new List<Sprite>(){
-		
+
 	};
+	public class ButtonEntry
+	{
+		public string Title;
+	}
+		
+
+	public Dictionary<string, ButtonEntry> ButtonDictionary = new Dictionary<string, ButtonEntry>()
+	{
+		{ "yothisone", new ButtonEntry(){ Title = "Open/close" }},
+
+	};
+
+	public delegate void Passto();
 
 
 	public class Menu {
@@ -26,6 +39,8 @@ public class Rightclick : MonoBehaviour {
 		public string title;
 		public GameObject Item;
 		public List<Menu> SubMenus = new List<Menu>();
+		public MethodInfo Method;
+		public MonoBehaviour Mono;
 	}
 		
 
@@ -59,45 +74,42 @@ public class Rightclick : MonoBehaviour {
 			ItemAttributes Nameues = objects[i].GetComponent<ItemAttributes>();
 			if (Nameues == null) {
 				newMenu.title = "Unknown";
-
 			} else {
 				newMenu.title = Nameues.itemName;
-
-				Menu NewSubMenu = new Menu ();
-				NewSubMenu.colour = Color.gray;
-				NewSubMenu.FunctionType = "Examine";
-				NewSubMenu.Item = objects [i];		
-				NewSubMenu.title = "Examine";
-				NewSubMenu.sprite = ins.Spritenames [1];
-				newMenu.SubMenus.Add (NewSubMenu);
-			
 			}
 
 			var UseSprite = objects[i].GetComponentInChildren<SpriteRenderer>();
 			if (UseSprite == null) {
-				newMenu.sprite = ins.Spritenames [i];
+				newMenu.sprite = ins.Spritenames [0];
 			} else {
 				newMenu.sprite = UseSprite.sprite;
 			}
-			var PickUpTriggerues = objects[i].GetComponent<PickUpTrigger>();
-			if (!(PickUpTriggerues == null)) {
-				Menu NewSubMenu = new Menu();
-				NewSubMenu.colour = Color.gray;
-				NewSubMenu.FunctionType = "PickUpTrigger";
-				NewSubMenu.Item = objects[i];		
-				NewSubMenu.title = "PickUp";
-				NewSubMenu.sprite = ins.Spritenames[2];
-				newMenu.SubMenus.Add (NewSubMenu);
-			}
-			var draggingTriggerues = objects[i].GetComponent<PickUpTrigger>();
-			if (!(draggingTriggerues == null)) {
-				Menu NewSubMenu = new Menu();
-				NewSubMenu.colour = Color.gray;
-				NewSubMenu.FunctionType = "draggingTriggerues";
-				NewSubMenu.Item = objects[i];			
-				NewSubMenu.title = "Drag";
-				NewSubMenu.sprite = ins.Spritenames[3];
-				newMenu.SubMenus.Add (NewSubMenu);
+
+			//Find all monoBehaviours on object and store in a list
+			MonoBehaviour[] scriptComponents = objects[i].GetComponents<MonoBehaviour>();
+
+			//For each monoBehaviour in the list of script components
+			foreach (MonoBehaviour mono in scriptComponents) {
+				var monoType = mono.GetType();
+				foreach (var method in monoType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)) {
+					var attributes = method.GetCustomAttributes(typeof(contextMethod), true);
+					if (attributes.Length > 0) {
+						
+						Logger.Log("Script: " + mono + " Method: " + method.ToString(), Category.UI);
+						Logger.Log (method.ToString (), Category.UI);
+						Menu NewSubMenu = new Menu();
+
+						NewSubMenu.colour = Color.gray;
+						NewSubMenu.Item = objects[i];			
+						NewSubMenu.title = ((contextMethod)method.GetCustomAttributes (typeof(contextMethod), true) [0]).ButtonTitle;
+						NewSubMenu.sprite = Resources.Load<Sprite>("UI/RightClickButtonIcon/" + ((contextMethod)method.GetCustomAttributes (typeof(contextMethod), true) [0]).SpriteName);
+						NewSubMenu.Mono = mono;
+						NewSubMenu.Method = method;
+
+						newMenu.SubMenus.Add (NewSubMenu);
+
+					}
+				}
 			}
 
 			//for (int L = 0; L < 3; L++) {
@@ -110,6 +122,19 @@ public class Rightclick : MonoBehaviour {
 			ins.options.Add (newMenu);
 		}
 
+	}
+}
+
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+public class contextMethod : Attribute
+{
+	public string ButtonTitle;
+	public string SpriteName;
+
+	public contextMethod(string ButtonTitle,string SpriteName)
+	{
+		this.ButtonTitle = ButtonTitle;
+		this.SpriteName = SpriteName;
 	}
 }
 

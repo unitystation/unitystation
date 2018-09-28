@@ -22,6 +22,19 @@ public class ObjectBehaviour : PushPull
 		//Determines if it is a player
 		playerScript = GetComponent<PlayerScript>();
 	}
+	[contextMethod("Drag","Drag_Hand")]
+	public void GUIOnMouseDown()
+	{
+		if (PlayerManager.LocalPlayerScript.IsInReach (transform.position)) 
+		{
+			if (pickUpTrigger != null && pulledBy != null)
+			{
+				CancelPullBehaviour();
+			}
+
+		}
+		base.OnMouseDown();
+	}
 
 	public override void OnMouseDown()
 	{
