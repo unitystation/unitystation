@@ -988,7 +988,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovCenterOffset: {x: 0, y: 0.5, z: 0}
   fovDistance: 13
-  quality: 2
+  quality: 1
   renderSettings:
     viewMode: 0
     ambient: 0.32
@@ -1006,7 +1006,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 16
     fovBlurIterations: 1
-    fovBlurInterpolation: 0.6
+    fovBlurInterpolation: 2.5
     fovOcclusionSpread: 0.2
     fovHorizonSmooth: 23
     lightBlurIterations: 2
@@ -1118,6 +1118,7 @@ MonoBehaviour:
   target: {fileID: 0}
   xOffset: 0
   stencilMask: {fileID: 0}
+  cam: {fileID: 0}
 --- !u!114 &114598608611931166
 MonoBehaviour:
   m_ObjectHideFlags: 1

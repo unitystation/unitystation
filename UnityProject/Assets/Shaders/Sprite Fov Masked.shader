@@ -66,7 +66,7 @@ Shader "Stencil/Unlit background masked" {
 		UNITY_APPLY_FOG(i.fogCoord, col);
 
 		float maskChennel = mask.g + mask.r;
-		col.a = col.a * maskChennel;
+		col.a = col.a * clamp(maskChennel * 3,0,10);
 
 		return col;
 	}
