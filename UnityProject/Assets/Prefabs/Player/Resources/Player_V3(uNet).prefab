@@ -154,7 +154,8 @@ GameObject:
   - component: {fileID: 114449635359748350}
   - component: {fileID: 50851566022184656}
   - component: {fileID: 114908475728415800}
-  - component: {fileID: 114667164538832976}
+  - component: {fileID: 114908376472113748}
+  - component: {fileID: 114458435295420412}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -467,7 +468,6 @@ GameObject:
   - component: {fileID: 4419411151277026}
   - component: {fileID: 212492286651421720}
   - component: {fileID: 114354390467757956}
-  - component: {fileID: 114175335926449026}
   m_Layer: 8
   m_Name: body
   m_TagString: Untagged
@@ -1141,18 +1141,6 @@ MonoBehaviour:
   butcherResults:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
---- !u!114 &114175335926449026
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1795409780741894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: body
 --- !u!114 &114176283518884694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1458,6 +1446,18 @@ MonoBehaviour:
   Type: 1
   YellowDamageMonitorIcon: {fileID: 21300766, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+--- !u!114 &114458435295420412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 275a750a762e9054da6ae10a47b445e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!114 &114505375981646366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1695,19 +1695,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventName: back
---- !u!114 &114667164538832976
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93ccc9623b8f47b29f3d6886a25da747, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pressureDamage: 5
-  breathTime: 1
 --- !u!114 &114683599938915282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1957,6 +1944,17 @@ MonoBehaviour:
     i15: 179
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114908376472113748
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114908475728415800
 MonoBehaviour:
   m_ObjectHideFlags: 1
