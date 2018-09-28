@@ -76,7 +76,7 @@ public class InputController : MonoBehaviour
 			ChangeDirection();
 
 			//if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
-			if (!RayHit())
+			if (!RayHit() && !EventSystem.current.IsPointerOverGameObject())
 			{
 				InteractHands();
 			}

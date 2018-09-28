@@ -30,7 +30,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
-	[NonSerialized] public string activeHand = "right";
+	[NonSerialized] public string activeHand = "rightHand";
 
 	private ChatIcon chatIcon;
 
@@ -228,7 +228,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ItemAttributes att = obj.GetComponent<ItemAttributes>();
 		if (slotName == "leftHand" || slotName == "rightHand")
 		{
-			equipment.SetHandItemSprite(slotName, att);
+			equipment.SetHandItemSprite(att);
 		}
 		else
 		{
@@ -518,6 +518,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void SetConsciousState(bool conscious)
 	{
+		//Store the server conscious state for this player:
+		playerScript.playerHealth.serverPlayerConscious = conscious;
+
 		if (conscious)
 		{
 			playerMove.allowInput = true;
@@ -673,5 +676,23 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSetActiveHand(string hand)
 	{
 		activeHand = hand;
+	}
+
+	[Command]
+	public void CmdRefillWelder(GameObject welder, GameObject weldingTank)
+	{
+		//Double check reach just in case:
+		if(playerScript.IsInReach(weldingTank)){
+			var w = welder.GetComponent<Welder>();
+
+			//is the welder on?
+			if(w.isOn){
+				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
+			} else {
+				//Refuel!
+				w.Refuel();
+				RpcPlayerSoundAtPos("Refill", transform.position, true);
+			}
+		}
 	}
 }

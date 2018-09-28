@@ -21,6 +21,7 @@ internal enum MessageTypes : short
 	AnnouncementMessage = 1017,
 	TileChangesNewClientSync = 1018,
 	PlaySoundMessage = 1019,
+	ProgressBarMessage = 1020,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
@@ -34,5 +35,6 @@ internal enum MessageTypes : short
 	RequestMoveMessage = 2008,
 	RequestShootMessage = 2009,
 	TabInteractMessage = 2010,
-
+	UIInteractMessage = 2011,
+	RequestTileDeconstructMessage = 2012,
 }

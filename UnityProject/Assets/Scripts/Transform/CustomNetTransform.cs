@@ -95,6 +95,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	{
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributes>();
+		tileDmgMask = LayerMask.GetMask ("Windows", "Walls");
 	}
 
 	public override void OnStartServer()
