@@ -647,7 +647,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//FOOD
 	[Command]
-	public void CmdEatFood(GameObject food, string fromSlot)
+	public void CmdEatFood(GameObject food, string fromSlot, bool isDrink)
 	{
 		if (Inventory[fromSlot] == null)
 		{
@@ -656,7 +656,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
-		soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
+		if (isDrink)
+		{
+			soundNetworkActions.CmdPlaySoundAtPlayerPos("Slurp");
+		}
+		else
+		{
+			soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
+		}
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
 		//FIXME: remove health and blood changes after TDM
@@ -682,13 +689,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdRefillWelder(GameObject welder, GameObject weldingTank)
 	{
 		//Double check reach just in case:
-		if(playerScript.IsInReach(weldingTank)){
+		if (playerScript.IsInReach(weldingTank))
+		{
 			var w = welder.GetComponent<Welder>();
 
 			//is the welder on?
-			if(w.isOn){
+			if (w.isOn)
+			{
 				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
-			} else {
+			}
+			else
+			{
 				//Refuel!
 				w.Refuel();
 				RpcPlayerSoundAtPos("Refill", transform.position, true);
