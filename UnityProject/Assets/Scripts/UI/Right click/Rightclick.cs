@@ -32,7 +32,7 @@ public class Rightclick : MonoBehaviour {
 	public class Menu {
 		public Color colour;
 		public Sprite sprite;
-		public string title = "Unregistered";
+		public string title;
 		public GameObject Item;
 		public List<Menu> SubMenus = new List<Menu>();
 		public MethodInfo Method;
@@ -137,9 +137,6 @@ public class Rightclick : MonoBehaviour {
 
 			ins.options.Add (newMenu);
 		}
-		//Sort
-		 
-
 	}
 }
 
