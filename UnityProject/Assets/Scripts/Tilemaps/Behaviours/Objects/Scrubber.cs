@@ -8,12 +8,12 @@ namespace Tilemaps.Behaviours.Objects
 	{
 		private const float MaximumPressure = 101525f;
 
-		private SystemManager systemManager;
+		private SubsystemManager _subsystemManager;
 		private MetaDataNode metaNode;
 
 		private void Awake()
 		{
-			systemManager = GetComponentInParent<SystemManager>();
+			_subsystemManager = GetComponentInParent<SubsystemManager>();
 		}
 
 		private void Start()
@@ -29,7 +29,7 @@ namespace Tilemaps.Behaviours.Objects
 				if (metaNode.Atmos.Pressure > MaximumPressure)
 				{
 					metaNode.Atmos = GasMixUtils.Space;
-					systemManager.UpdateAt(metaNode.Position);
+					_subsystemManager.UpdateAt(metaNode.Position);
 				}
 			}
 		}

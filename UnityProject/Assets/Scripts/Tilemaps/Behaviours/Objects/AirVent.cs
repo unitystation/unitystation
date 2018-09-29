@@ -9,12 +9,12 @@ namespace Tilemaps.Behaviours.Objects
 	{
 		private const float MinimumPressure = 101325f;
 
-		private SystemManager systemManager;
+		private SubsystemManager _subsystemManager;
 		private MetaDataNode metaNode;
 
 		private void Awake()
 		{
-			systemManager = GetComponentInParent<SystemManager>();
+			_subsystemManager = GetComponentInParent<SubsystemManager>();
 		}
 
 		private void Start()
@@ -37,7 +37,7 @@ namespace Tilemaps.Behaviours.Objects
 			if (metaNode.Atmos.Pressure < MinimumPressure)
 			{
 				metaNode.Atmos = GasMixUtils.Air;
-				systemManager.UpdateAt(metaNode.Position);
+				_subsystemManager.UpdateAt(metaNode.Position);
 			}
 		}
 	}

@@ -5,11 +5,11 @@ public class MetaDataLayer : MonoBehaviour
 {
 	private MetaDataDictionary nodes = new MetaDataDictionary();
 
-	private SystemManager systemManager;
+	private SubsystemManager _subsystemManager;
 
 	private void Awake()
 	{
-		systemManager = GetComponentInParent<SystemManager>();
+		_subsystemManager = GetComponentInParent<SubsystemManager>();
 	}
 
 	public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
@@ -56,6 +56,6 @@ public class MetaDataLayer : MonoBehaviour
 
 	public void UpdateSystemsAt(Vector3Int position)
 	{
-		systemManager.UpdateAt(position);
+		_subsystemManager.UpdateAt(position);
 	}
 }

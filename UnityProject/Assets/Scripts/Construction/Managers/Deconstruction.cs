@@ -15,7 +15,7 @@ public class Deconstruction : MonoBehaviour
 		{
 			case TileType.Wall:
 				DoWallDeconstruction(cellPosInt, tileChangeManager, worldPos);
-				tileChangeManager.gameObject.GetComponent<SystemManager>().UpdateAt(cellPosInt);
+				tileChangeManager.gameObject.GetComponent<SubsystemManager>().UpdateAt(cellPosInt);
 				break;
 		}
 	}

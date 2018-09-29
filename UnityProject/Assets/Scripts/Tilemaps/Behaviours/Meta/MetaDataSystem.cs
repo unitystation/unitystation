@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
-public class RoomControl : SystemBehaviour
+public class MetaDataSystem : SubsystemBehaviour
 {
 	// Set higher priority to ensure that it is executed before other systems
 	public override int Priority => 100;
@@ -20,7 +20,7 @@ public class RoomControl : SystemBehaviour
 
 		sw.Stop();
 
-		Logger.Log("Room init: " + sw.ElapsedMilliseconds + " ms", Category.Atmos);
+		Logger.Log("MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
 	}
 
 	public override void UpdateAt(Vector3Int position)

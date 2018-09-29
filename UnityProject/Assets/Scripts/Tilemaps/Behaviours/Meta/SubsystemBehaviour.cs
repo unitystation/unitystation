@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public abstract class SystemBehaviour : MonoBehaviour
+public abstract class SubsystemBehaviour : MonoBehaviour
 	{
 		protected MetaDataLayer metaDataLayer;
 		protected MetaTileMap metaTileMap;
@@ -12,8 +12,8 @@ public abstract class SystemBehaviour : MonoBehaviour
 		{
 			metaDataLayer = GetComponentInChildren<MetaDataLayer>();
 			metaTileMap = GetComponentInChildren<MetaTileMap>();
-			
-			GetComponent<SystemManager>().Register(this);
+
+			GetComponent<SubsystemManager>().Register(this);
 		}
 
 		public abstract void Initialize();

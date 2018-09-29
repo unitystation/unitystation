@@ -248,7 +248,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
+	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction,
 	/// otherwise client will forcefully receive update slot messages
 	public void RequestDropItem(string hand, bool forceClientInform = true)
 	{
@@ -390,7 +390,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (isTileMap)
 			{
-				var tileChangeManager = newParent.GetComponent<TileChangeManager>();
+				var tileChangeManager = newParent.GetComponentInParent<TileChangeManager>();
 				item.transform.parent = tileChangeManager.ObjectParent.transform;
 			}
 			else
@@ -404,7 +404,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//	private void ReorderGameobjectsOnTile(Vector2 position)
 	//	{
-	//		List<RegisterItem> items = registerTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
+	//		List<RegisterItem> items = regCallCmdCrowBarRemoveFloorTileisterTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
 	//
 	//		for (int i = 0; i < items.Count; i++)
 	//		{
@@ -667,7 +667,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
 		//FIXME: remove health and blood changes after TDM
-		//and use this Cmd for healing hunger and applying 
+		//and use this Cmd for healing hunger and applying
 		//food related attributes instead:
 		playerHealth.AddHealth(baseFood.healAmount);
 		playerHealth.BloodLevel += baseFood.healAmount;

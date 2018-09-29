@@ -86,7 +86,7 @@ public class TileTrigger : InputTrigger
 		{
 			Vector3 targetPosition = position;
 			targetPosition.z = -0.2f;
-			pna.CmdPlaceItem(hand, targetPosition, transform.root.gameObject, true);
+			pna.CmdPlaceItem(hand, targetPosition, originator, true);
 		}
 
 		if (tile?.TileType == TileType.Floor)
@@ -94,7 +94,7 @@ public class TileTrigger : InputTrigger
 			//Crowbar
 			if (handObj.GetComponent<CrowbarTrigger>())
 			{
-				pna.CmdCrowBarRemoveFloorTile(transform.root.gameObject, TileChangeLayer.Floor,
+				pna.CmdCrowBarRemoveFloorTile(originator, TileChangeLayer.Floor,
 					new Vector2(cellPos.x, cellPos.y), position);
 			}
 		}
@@ -103,7 +103,7 @@ public class TileTrigger : InputTrigger
 		{
 			if (handObj.GetComponent<UniFloorTile>())
 			{
-				pna.CmdPlaceFloorTile(transform.root.gameObject,
+				pna.CmdPlaceFloorTile(originator,
 					new Vector2(cellPos.x, cellPos.y), handObj);
 			}
 		}

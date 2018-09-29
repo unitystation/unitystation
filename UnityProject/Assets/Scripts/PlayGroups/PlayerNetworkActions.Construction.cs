@@ -4,10 +4,10 @@ using UnityEngine.Networking;
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
 	[Command]
-	public void CmdCrowBarRemoveFloorTile(GameObject tileChangeRoot,
+	public void CmdCrowBarRemoveFloorTile(GameObject originator,
 		TileChangeLayer layer, Vector3 cellPos, Vector3 worldPos)
 	{
-		TileChangeManager tm = tileChangeRoot.GetComponent<TileChangeManager>();
+		TileChangeManager tm = originator.GetComponentInParent<TileChangeManager>();
 		if (tm == null)
 		{
 			Logger.LogError("TileChangeManager not found", Category.Construction);
@@ -21,10 +21,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdPlaceFloorTile(GameObject tileChangeRoot,
+	public void CmdPlaceFloorTile(GameObject originator,
 		Vector3 cellPos, GameObject tileToPlace)
 	{
-		TileChangeManager tm = tileChangeRoot.GetComponent<TileChangeManager>();
+		TileChangeManager tm = originator.GetComponentInParent<TileChangeManager>();
 		if (tm == null)
 		{
 			Logger.LogError("TileChangeManager not found", Category.Construction);
