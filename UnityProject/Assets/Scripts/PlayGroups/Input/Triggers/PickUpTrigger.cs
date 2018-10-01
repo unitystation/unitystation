@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 		{
 			CheckSpriteOrder();
 		}
-		[contextMethod("Pick Up","hand")]
+		[ContextMethod("Pick Up","hand")]
 		public void GUIInteract(){
 			Interact(
 			PlayerManager.LocalPlayerScript.gameObject,

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 using System.Reflection;
 using UnityEngine;
@@ -41,7 +40,12 @@ public class Rightclick : MonoBehaviour {
 		
 
 	void Awake(){
-		ins = this;
+		if(ins == null){
+			ins = this;
+		} else {
+			Destroy(this);
+		}
+	
 		//Make sure to add your sprite on load
 		SpriteDictionary ["hand"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "hand");
 		SpriteDictionary ["Magnifying_glass"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Magnifying_glass");
@@ -71,11 +75,11 @@ public class Rightclick : MonoBehaviour {
 		for (int i = 0; i < objects.Count; i++) {
 			Menu newMenu = new Menu();
 			newMenu.colour = Color.gray;
-			ItemAttributes Nameues = objects[i].GetComponent<ItemAttributes>();
-			if (Nameues == null) {
+			ItemAttributes ItemAttribute = objects[i].GetComponent<ItemAttributes>();
+			if (ItemAttribute == null) {
 				newMenu.title = "Unknown";
 			} else {
-				newMenu.title = Nameues.itemName;
+				newMenu.title = ItemAttribute.itemName;
 			}
 
 			SpriteRenderer UseSprite = objects[i].GetComponentInChildren<SpriteRenderer>();
@@ -92,13 +96,13 @@ public class Rightclick : MonoBehaviour {
 			foreach (MonoBehaviour mono in scriptComponents) {
 				Type monoType = mono.GetType();
 				foreach (MethodInfo method in monoType.GetMethods(BindingFlags.Public | BindingFlags.Instance)) {
-					var attributes = method.GetCustomAttributes(typeof(contextMethod), true);
+					var attributes = method.GetCustomAttributes(typeof(ContextMethod), true);
 					if (attributes.Length > 0) {
 						
 						//Logger.Log("Script: " + mono + " Method: " + method.ToString(), Category.UI);
 						//Logger.Log (method.ToString (), Category.UI);
 						Menu NewSubMenu = new Menu();
-						contextMethod contextMethodMenu = (contextMethod)method.GetCustomAttributes (typeof(contextMethod), true)[0];
+						ContextMethod contextMethodMenu = (ContextMethod)method.GetCustomAttributes (typeof(ContextMethod), true)[0];
 						NewSubMenu.colour = Color.gray;
 						NewSubMenu.Item = objects[i];			
 						NewSubMenu.title = contextMethodMenu.ButtonTitle;
@@ -141,12 +145,12 @@ public class Rightclick : MonoBehaviour {
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public class contextMethod : Attribute
+public class ContextMethod : Attribute
 {
 	public string ButtonTitle;
 	public string SpriteName;
 
-	public contextMethod(string ButtonTitle,string SpriteName)
+	public ContextMethod(string ButtonTitle,string SpriteName)
 	{
 		this.ButtonTitle = ButtonTitle;
 		this.SpriteName = SpriteName;

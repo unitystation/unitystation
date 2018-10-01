@@ -141,7 +141,7 @@ using UnityEngine.Networking;
 				lockLight.Hide();
 			}
 		}
-		[contextMethod("Open/close","hand")]
+		[ContextMethod("Open/close","hand")]
 		public void GUIInteract(){
 			Interact(
 				PlayerManager.LocalPlayerScript.gameObject,

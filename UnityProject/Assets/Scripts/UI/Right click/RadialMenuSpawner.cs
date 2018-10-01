@@ -8,7 +8,11 @@ public class RadialMenuSpawner : MonoBehaviour {
 	public RadialMenu menuPrefab;
 
 	void Awake(){
-		ins = this;
+		if(ins == null){
+			ins = this;
+		} else {
+			Destroy(this);
+		}
 	}
 	public void SpawnRadialMenu(List<Rightclick.Menu> ListRightclick){
 		RadialMenu newMenu = Instantiate (menuPrefab) as RadialMenu;

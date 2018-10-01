@@ -22,7 +22,7 @@ public class ObjectBehaviour : PushPull
 		//Determines if it is a player
 		playerScript = GetComponent<PlayerScript>();
 	}
-	[contextMethod("Drag","Drag_Hand")]
+	[ContextMethod("Drag","Drag_Hand")]
 	public void GUIOnMouseDown()
 	{
 		if (PlayerManager.LocalPlayerScript.IsInReach (transform.position)) 
