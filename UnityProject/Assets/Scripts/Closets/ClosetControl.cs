@@ -141,7 +141,13 @@ using UnityEngine.Networking;
 				lockLight.Hide();
 			}
 		}
-
+		[ContextMethod("Open/close","hand")]
+		public void GUIInteract(){
+			Interact(
+				PlayerManager.LocalPlayerScript.gameObject,
+				PlayerManager.LocalPlayerScript.WorldPos,
+				UIManager.Instance.hands.CurrentSlot.eventName );
+		}
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
 			//FIXME this should be rewritten to net messages, see i.e. TableTrigger
