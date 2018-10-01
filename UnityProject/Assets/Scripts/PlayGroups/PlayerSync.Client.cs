@@ -75,8 +75,6 @@ public partial class PlayerSync
 			if ( !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement ) {
 				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
-				//Sending action for server approval
-				CmdProcessAction( action );
 				//RequestMoveMessage.Send(action);
 				if ( CanMoveThere( predictedState, action ) ) {
 					pendingActions.Enqueue( action );
@@ -84,11 +82,15 @@ public partial class PlayerSync
 					LastDirection = action.Direction();
 					UpdatePredictedState();
 				} else {
+					//cannot move -> tell server we're just bumping in that direction
+					action.isBump = true;
 					PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
 					//cooldown is longer when humping walls or pushables
 //					yield return YieldHelper.DeciSecond;
 //					yield return YieldHelper.DeciSecond;
 				}
+				//Sending action for server approval
+				CmdProcessAction( action );
 			}
 
 			yield return YieldHelper.DeciSecond;
@@ -264,7 +266,7 @@ public partial class PlayerSync
 
 		///Lerping; simulating space walk by server's orders or initiate/stop them on client
 		///Using predictedState for your own player and playerState for others
-		private void CheckMovementClient() //FIXME 26.09.18 C-S DESYNC!
+		private void CheckMovementClient()
 		{
 			PlayerState state = isLocalPlayer ? predictedState : playerState;
 

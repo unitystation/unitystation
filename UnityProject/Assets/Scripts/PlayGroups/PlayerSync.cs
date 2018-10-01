@@ -48,6 +48,8 @@ using UnityEngine.Networking;
 	public struct PlayerAction
 	{
 		public int[] keyCodes;
+		/// Set to true when client believes this action doesn't make player move
+		public bool isBump;
 
 		//clone of PlayerMove GetMoveDirection stuff
 		//but there should be a way to see the direction of these keycodes ffs

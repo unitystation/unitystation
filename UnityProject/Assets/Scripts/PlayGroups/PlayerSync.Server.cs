@@ -27,11 +27,11 @@ public partial class PlayerSync
 
 	/// Max size of serverside queue, client will be rolled back and punished if it overflows
 	private readonly int maxServerQueue = 10;
-
-	/// Amount of soft punishments before the hard one kicks in
-	private readonly int maxWarnings = 3;
-
-	private int playerWarnings;
+//
+//	/// Amount of soft punishments before the hard one kicks in
+//	private readonly int maxWarnings = 3;
+//
+//	private int playerWarnings;
 
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
 	private Vector2 serverLastDirection;
@@ -97,14 +97,17 @@ public partial class PlayerSync
 		if (serverPendingActions.Count > maxServerQueue)
 		{
 			RollbackPosition();
-			if (++playerWarnings < maxWarnings)
-			{
-				TortureChamber.Torture(playerScript, TortureSeverity.S);
-			}
-			else
-			{
-				TortureChamber.Torture(playerScript, TortureSeverity.L);
-			}
+			Logger.LogWarning( $"{gameObject.name}: Server pending actions overflow! (More than {maxServerQueue})." +
+			                   "\nEither server lagged or player is attempting speedhack", Category.Movement );
+
+//			if (++playerWarnings < maxWarnings)
+//			{
+//				TortureChamber.Torture(playerScript, TortureSeverity.S);
+//			}
+//			else
+//			{
+//				TortureChamber.Torture(playerScript, TortureSeverity.L);
+//			}
 		}
 	}
 
@@ -283,7 +286,7 @@ public partial class PlayerSync
 	[Server]
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{
-		if ( !CanMoveThere( state, action ) ) {
+		if ( action.isBump || !CanMoveThere( state, action ) ) {
 			//gotta try pushing things
 			Interact( state.WorldPosition, (Vector2) action.Direction() );
 			return state;
