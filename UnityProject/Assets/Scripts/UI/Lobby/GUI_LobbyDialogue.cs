@@ -1,25 +1,36 @@
-﻿using Facepunch.Steamworks;
+﻿using DatabaseAPI;
+using Facepunch.Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
+namespace Lobby
+{
 	public class GUI_LobbyDialogue : MonoBehaviour
 	{
-
 		private const string DefaultServerAddress = "localhost";
 		private const int DefaultServerPort = 7777;
 		private const string UserNamePlayerPref = "PlayerName";
 
-		public GameObject startGamePanel;
+		public GameObject accountLoginPanel;
+		public GameObject createAccountPanel;
+		public GameObject pendingCreationPanel;
 		public GameObject informationPanel;
 		public GameObject wrongVersionPanel;
 		public GameObject controlInformationPanel;
 
-		public InputField playerNameInput;
+		//Account login screen:
+		public InputField userNameInput;
+		public InputField passwordInput;
+		public Toggle autoLoginToggle;
+
+		//Account Creation screen:
+		public InputField chosenUsernameInput;
+		public InputField chosenPasswordInput;
+
 		public InputField serverAddressInput;
 		public InputField serverPortInput;
 		public Text dialogueTitle;
+		public Text pleaseWaitCreationText;
 		public Toggle hostServerToggle;
 
 		private CustomNetworkManager networkManager;
@@ -44,82 +55,111 @@ using UnityEngine.UI;
 			// disable server address and port
 			// input fields
 			hostServerToggle.onValueChanged.AddListener(isOn =>
-				{
-					serverAddressInput.interactable = !isOn;
-					serverPortInput.interactable = !isOn;
-				}
-			);
-			hostServerToggle.onValueChanged.Invoke( hostServerToggle.isOn );
+			{
+				serverAddressInput.interactable = !isOn;
+				serverPortInput.interactable = !isOn;
+			});
+			hostServerToggle.onValueChanged.Invoke(hostServerToggle.isOn);
 
 			// Init Lobby UI
 			InitPlayerName();
-			ShowStartGamePanel();
+			HideAllPanels();
+
+			//TODO TODO: Check if Auto login is set and if both username and password are saved
+			accountLoginPanel.SetActive(true);
 		}
 
-		// Button handlers
-		public void OnStartGame()
+		public void ShowCreationPanel()
 		{
 			SoundManager.Play("Click01");
+			HideAllPanels();
+			createAccountPanel.SetActive(true);
+		}
 
-			// Return if no player name or incorrect screen
-			if (string.IsNullOrEmpty(playerNameInput.text.Trim()))
-			{
-				return;
-			}
-			if (!startGamePanel.activeInHierarchy)
-			{
-				return;
-			}
+		public void CreationNextButton()
+		{
+			SoundManager.Play("Click01");
+			HideAllPanels();
+			pendingCreationPanel.SetActive(true);
+			ServerData.CheckUsernameAvailable(chosenUsernameInput.text, UsernameAvailability);
+		}
 
-			// Return if no network address is specified
-			if (string.IsNullOrEmpty(serverAddressInput.text))
+		private void UsernameAvailability(bool isAvailable)
+		{
+			if (isAvailable)
 			{
-				return;
-			}
-
-			// Set and cache player name
-			PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
-			PlayerManager.PlayerNameCache = playerNameInput.text;
-
-			// Start game
-			dialogueTitle.text = "Starting Game...";
-			if (BuildPreferences.isForRelease || !hostServerToggle.isOn)
-			{
-				ConnectToServer();
+				pleaseWaitCreationText.text = "Account successfully created!";
 			}
 			else
 			{
-				networkManager.StartHost();
+				pleaseWaitCreationText.text = "Username is not Available \n Please choose another one..";
 			}
-
-			// Hide dialogue and show status text
-			gameObject.SetActive(false);
-		//	UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
 		}
 
-		public void OnShowInformationPanel()
-		{
-			SoundManager.Play("Click01");
-			ShowInformationPanel();
-		}
+		// Button handlers
+		// public void OnStartGame()
+		// {
+		// 	SoundManager.Play("Click01");
 
-		public void OnShowControlInformationPanel()
-		{
-			SoundManager.Play("Click01");
-			ShowControlInformationPanel();
-		}
+		// 	// Return if no player name or incorrect screen
+		// 	if (string.IsNullOrEmpty(playerNameInput.text.Trim()))
+		// 	{
+		// 		return;
+		// 	}
+		// 	if (!startGamePanel.activeInHierarchy)
+		// 	{
+		// 		return;
+		// 	}
 
-		public void OnTryAgain()
-		{
-			SoundManager.Play("Click01");
-			ShowStartGamePanel();
-		}
+		// 	// Return if no network address is specified
+		// 	if (string.IsNullOrEmpty(serverAddressInput.text))
+		// 	{
+		// 		return;
+		// 	}
 
-		public void OnReturnToPlayerLogin()
-		{
-			SoundManager.Play("Click01");
-			ShowStartGamePanel();
-		}
+		// 	// Set and cache player name
+		// 	PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
+		// 	PlayerManager.PlayerNameCache = playerNameInput.text;
+
+		// 	// Start game
+		// 	dialogueTitle.text = "Starting Game...";
+		// 	if (BuildPreferences.isForRelease || !hostServerToggle.isOn)
+		// 	{
+		// 		ConnectToServer();
+		// 	}
+		// 	else
+		// 	{
+		// 		networkManager.StartHost();
+		// 	}
+
+		// 	// Hide dialogue and show status text
+		// 	gameObject.SetActive(false);
+		// 	//	UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
+		// }
+
+		// public void OnShowInformationPanel()
+		// {
+		// 	SoundManager.Play("Click01");
+		// 	ShowInformationPanel();
+		// }
+
+		// public void OnShowControlInformationPanel()
+		// {
+		// 	SoundManager.Play("Click01");
+		// 	ShowControlInformationPanel();
+		// }
+
+		// public void OnTryAgain()
+		// {
+		// 	SoundManager.Play("Click01");
+		// 	ShowStartGamePanel();
+		// }
+
+		// public void OnReturnToPlayerLogin()
+		// {
+		// 	SoundManager.Play("Click01");
+		// 	ShowStartGamePanel();
+		// }
 
 		// Game handlers
 		void ConnectToServer()
@@ -176,41 +216,47 @@ using UnityEngine.UI;
 
 			if (!string.IsNullOrEmpty(prefsName))
 			{
-				playerNameInput.text = prefsName;
+				//FIXME
+				//	playerNameInput.text = prefsName;
 			}
 		}
 
 		// Panel helpers
-		void ShowStartGamePanel()
-		{
-			HideAllPanels();
-			startGamePanel.SetActive(true);
-		}
+		// void ShowStartGamePanel()
+		// {
+		// 	HideAllPanels();
+		// 	//FIXME
+		// 	//	startGamePanel.SetActive(true);
+		// }
 
-		void ShowInformationPanel()
-		{
-			HideAllPanels();
-			informationPanel.SetActive(true);
-		}
+		// void ShowInformationPanel()
+		// {
+		// 	HideAllPanels();
+		// 	informationPanel.SetActive(true);
+		// }
 
-		void ShowControlInformationPanel()
-		{
-			HideAllPanels();
-			controlInformationPanel.SetActive(true);
-		}
+		// void ShowControlInformationPanel()
+		// {
+		// 	HideAllPanels();
+		// 	controlInformationPanel.SetActive(true);
+		// }
 
-		void ShowWrongVersionPanel()
-		{
-			HideAllPanels();
-			wrongVersionPanel.SetActive(true);
-		}
+		// void ShowWrongVersionPanel()
+		// {
+		// 	HideAllPanels();
+		// 	wrongVersionPanel.SetActive(true);
+		// }
 
 		void HideAllPanels()
 		{
-			startGamePanel.SetActive(false);
+			//FIXME
+			//	startGamePanel.SetActive(false);
+			accountLoginPanel.SetActive(false);
+			createAccountPanel.SetActive(false);
+			pendingCreationPanel.SetActive(false);
 			informationPanel.SetActive(false);
 			wrongVersionPanel.SetActive(false);
 			controlInformationPanel.SetActive(false);
 		}
 	}
-
+}
