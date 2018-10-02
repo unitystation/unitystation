@@ -5,6 +5,8 @@ using UnityEngine.Events;
 public interface IPushable {
 	bool Push( Vector2Int direction );
 	bool PredictivePush( Vector2Int direction );
+	/// Rollback predictive push using last good position
+	void NotifyPlayers();
 	Vector3IntEvent OnUpdateRecieved();
 	Vector3IntEvent OnTileReached();
 	Vector3IntEvent OnClientTileReached();

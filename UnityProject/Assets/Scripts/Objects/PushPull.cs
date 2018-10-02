@@ -30,6 +30,7 @@ public class PushPull : VisibleBehaviour {
 	private ApprovalState approval = ApprovalState.None;
 	private bool allowedToPush => prediction == PushState.None;
 	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
+	private Vector3Int lastReliablePos = TransformState.HiddenPos;
 
 	[Server]
 	public bool TryPush( Vector3Int from, Vector2Int dir ) {
@@ -60,12 +61,12 @@ public class PushPull : VisibleBehaviour {
 		if ( !CanBePushed || !allowedToPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
-		Vector3Int currentPos = registerTile.WorldPosition;
-		if ( from != currentPos ) {
+		lastReliablePos = registerTile.WorldPosition;
+		if ( from != lastReliablePos ) {
 			return false;
 		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( Vector2.Distance( (Vector3)from, (Vector3)currentPos) > 1 ||
+		if ( Vector2.Distance( (Vector3)from, (Vector3)lastReliablePos) > 1 ||
 		     !MatrixManager.IsPassableAt( target ) ) {
 			return false;
 		}
@@ -87,6 +88,19 @@ public class PushPull : VisibleBehaviour {
 		prediction = PushState.None;
 		approval = ApprovalState.None;
 		predictivePushTarget = TransformState.HiddenPos;
+		lastReliablePos = TransformState.HiddenPos;
+	}
+
+	[Server]
+	public void NotifyPlayers() {
+		Pushable.NotifyPlayers();
+//		if ( lastReliablePos != TransformState.HiddenPos ) {
+//			Pushable?.RollbackPush();
+//		}
+//		prediction = PushState.None;
+//		approval = ApprovalState.None;
+//		predictivePushTarget = TransformState.HiddenPos;
+//		lastReliablePos = TransformState.HiddenPos;
 	}
 
 	private bool isAllowedDir( Vector2Int dir ) {
@@ -119,7 +133,8 @@ public class PushPull : VisibleBehaviour {
 				Logger.LogTraceFormat( "Approved and waiting till lerp is finished", Category.PushPull );
 			}
 		} else if ( approval == ApprovalState.Invalid ) {
-			Logger.LogWarningFormat( "Invalid push detected in OnUpdateRecieved!", Category.PushPull );
+			Logger.LogErrorFormat( "Invalid push detected in OnUpdateRecieved!", Category.PushPull );
+			Pushable.NotifyPlayers();
 		}
 	}
 
@@ -142,7 +157,8 @@ public class PushPull : VisibleBehaviour {
 				FinishPush();
 				break;
 			case ApprovalState.Invalid:
-				Logger.LogWarningFormat( "Invalid push detected in OnClientTileReached!", Category.PushPull );
+				Logger.LogErrorFormat( "Invalid push detected in OnClientTileReached!", Category.PushPull );
+				Pushable.NotifyPlayers();
 				break;
 			case ApprovalState.None:
 				Logger.LogTraceFormat( "Finished lerp, waiting for server approval...", Category.PushPull );

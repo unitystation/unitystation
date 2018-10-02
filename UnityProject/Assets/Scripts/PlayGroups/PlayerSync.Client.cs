@@ -84,7 +84,7 @@ public partial class PlayerSync
 				} else {
 					//cannot move -> tell server we're just bumping in that direction
 					action.isBump = true;
-					PredictiveInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
+					PredictiveBumpInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
 					//cooldown is longer when humping walls or pushables
 //					yield return YieldHelper.DeciSecond;
 //					yield return YieldHelper.DeciSecond;
@@ -100,7 +100,7 @@ public partial class PlayerSync
 		/// Predictive interaction with object you can't move through
 		/// <param name="worldTile">Tile you're interacting with</param>
 		/// <param name="direction">Direction you're pushing</param>
-		private void PredictiveInteract( Vector3Int worldTile, Vector2Int direction ) {
+		private void PredictiveBumpInteract( Vector3Int worldTile, Vector2Int direction ) {
 			// Is the object pushable (iterate through all of the objects at the position):
 			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
 			for ( int i = 0; i < pushPulls.Length; i++ ) {
@@ -108,6 +108,9 @@ public partial class PlayerSync
 				if ( pushPull && pushPull.gameObject != gameObject && pushPull.CanBePushed ) {
 //					Logger.LogTraceFormat( "Predictive pushing {0} from {1} to {2}", Category.PushPull, pushPulls[i].gameObject, worldTile, (Vector2)(Vector3)worldTile+(Vector2)direction );
 					pushPull.TryPredictivePush( worldTile, direction );
+					//telling server what we just predictively pushed this thing
+					//so that server could rollback
+					CmdValidatePush( pushPull.gameObject );
 					break;
 				}
 			}
@@ -141,6 +144,7 @@ public partial class PlayerSync
 //			}
 			return false;
 		}
+
 
 		private void UpdatePredictedState() {
 			if ( pendingActions.Count == 0 ) {

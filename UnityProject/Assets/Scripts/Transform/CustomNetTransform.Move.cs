@@ -70,15 +70,15 @@ public partial class CustomNetTransform {
 	}
 
 	public bool PredictivePush( Vector2Int direction ) {//fixme:bogus?
-//		return false;
-		Vector2 target = ( Vector2 ) clientState.WorldPosition + direction;
-		clientState.Speed = PushSpeed; //?
-		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
-			clientState.Impulse = direction;
-		}
-
-		clientState.WorldPosition = target;
-		return true;
+		return false;
+//		Vector2 target = ( Vector2 ) clientState.WorldPosition + direction;
+//		clientState.Speed = PushSpeed; //?
+//		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
+//			clientState.Impulse = direction;
+//		}
+//
+//		clientState.WorldPosition = target;
+//		return true;
 	}
 
 	/// Predictive client movement

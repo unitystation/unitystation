@@ -205,7 +205,13 @@ public partial class PlayerSync
 
 	/// Send current serverState to all players
 	[Server]
-	public void NotifyPlayers(bool noLerp = false)
+	public void NotifyPlayers() {
+		NotifyPlayers(false);
+	}
+
+	/// Send current serverState to all players
+	[Server]
+	public void NotifyPlayers(bool noLerp)
 	{
 		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
 		if (!serverState.ImportantFlightUpdate && consideredFloatingServer)
@@ -286,9 +292,15 @@ public partial class PlayerSync
 	[Server]
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{
-		if ( action.isBump || !CanMoveThere( state, action ) ) {
+		bool isServerBump = !CanMoveThere( state, action );
+		bool isClientBump = action.isBump;
+		if ( !isClientBump && isServerBump ) {
+			Logger.LogErrorFormat( "isBump mismatch: C={0} S={1}", Category.Movement, isClientBump, isServerBump );
+			RollbackPosition();
+		}
+		if ( isClientBump || isServerBump ) {
 			//gotta try pushing things
-			Interact( state.WorldPosition, (Vector2) action.Direction() );
+			BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
 			return state;
 		}
 
@@ -324,79 +336,89 @@ public partial class PlayerSync
 
 	#region walk interactions
 
-		private bool InteractCooldown = false;
+	private bool InteractCooldown = false;
 
-		private void Interact(Vector3 currentPosition, Vector3 direction) {
-//			if ( !InteractCooldown ) {
-				StartCoroutine( TryInteract( currentPosition, direction ) );
-//			}
+	///Revert client push prediction straight ahead if it's wrong
+	[Command(channel = 0)]
+	private void CmdValidatePush( GameObject pushable ) {
+		var pushPull = pushable.GetComponent<PushPull>();
+		if ( pushPull && !playerScript.IsInReach(pushPull.registerTile.WorldPosition) ) {
+			pushPull.NotifyPlayers();
+			NotifyPlayers();
 		}
+	}
 
-		private IEnumerator TryInteract( Vector3 currentPosition, Vector3 direction ) {
-			InteractCooldown = true;
-			var worldPos = Vector3Int.RoundToInt(currentPosition);
-			var worldTarget = Vector3Int.RoundToInt(currentPosition + direction);
+	private void BumpInteract(Vector3 currentPosition, Vector3 direction) {
+//		if ( !InteractCooldown ) {
+			StartCoroutine( TryInteract( currentPosition, direction ) );
+//		}
+	}
 
-			InteractDoor(worldPos, worldTarget);
+	private IEnumerator TryInteract( Vector3 currentPosition, Vector3 direction ) {
+		InteractCooldown = true;
+		var worldPos = Vector3Int.RoundToInt(currentPosition);
+		var worldTarget = Vector3Int.RoundToInt(currentPosition + direction);
 
-			Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.Movement, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
-			InteractPushable( worldTarget, direction );
+		InteractDoor(worldPos, worldTarget);
 
-			yield return YieldHelper.DeciSecond;
-			InteractCooldown = false;
-		}
+		Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.Movement, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
+		InteractPushable( worldTarget, direction );
+
+		yield return YieldHelper.DeciSecond;
+		InteractCooldown = false;
+	}
 
 	/// <param name="worldTile">Tile you're interacting with</param>
 	/// <param name="direction">Direction you're pushing</param>
-		private void InteractPushable( Vector3Int worldTile, Vector3 direction ) {
-			// Is the object pushable (iterate through all of the objects at the position):
-			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
-			for ( int i = 0; i < pushPulls.Length; i++ ) {
-				var pushPull = pushPulls[i];
-				if ( pushPull && pushPull.gameObject != gameObject && pushPull.CanBePushed ) {
+	private void InteractPushable( Vector3Int worldTile, Vector3 direction ) {
+		// Is the object pushable (iterate through all of the objects at the position):
+		PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
+		for ( int i = 0; i < pushPulls.Length; i++ ) {
+			var pushPull = pushPulls[i];
+			if ( pushPull && pushPull.gameObject != gameObject && pushPull.CanBePushed ) {
 	//					Logger.LogTraceFormat( "Trying to push {0} when walking {1}->{2}", Category.PushPull, pushPulls[i].gameObject, worldPos, worldTarget );
-					pushPull.TryPush( worldTile, Vector2Int.RoundToInt( direction ) );
-					break;
-				}
+				pushPull.TryPush( worldTile, Vector2Int.RoundToInt( direction ) );
+				break;
 			}
 		}
+	}
 
-		private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
+	private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
+	{
+		// Make sure there is a door controller
+		DoorTrigger door = MatrixManager.Instance.GetFirst<DoorTrigger>(targetPos);
+
+		if (!door)
 		{
-			// Make sure there is a door controller
-			DoorTrigger door = MatrixManager.Instance.GetFirst<DoorTrigger>(targetPos);
+			door = MatrixManager.Instance.GetFirst<DoorTrigger>(Vector3Int.RoundToInt(currentPos));
 
-			if (!door)
+			if (door)
 			{
-				door = MatrixManager.Instance.GetFirst<DoorTrigger>(Vector3Int.RoundToInt(currentPos));
+				RegisterDoor registerDoor = door.GetComponent<RegisterDoor>();
+				Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(targetPos, matrix);
 
-				if (door)
+				if (registerDoor.IsPassable(localPos))
 				{
-					RegisterDoor registerDoor = door.GetComponent<RegisterDoor>();
-					Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(targetPos, matrix);
-
-					if (registerDoor.IsPassable(localPos))
-					{
-						door = null;
-					}
+					door = null;
 				}
 			}
-
-			// Attempt to open door
-			if (door != null)
-			{
-				door.Interact(gameObject, TransformState.HiddenPos);
-			}
 		}
 
-			#endregion
-
-		[Server]
-		private void OnRotation(Orientation from, Orientation to)
+		// Attempt to open door
+		if (door != null)
 		{
-			//fixme: doesn't seem to change orientation for clients from their point of view
-			playerSprites.ChangePlayerDirection(Orientation.DegreeBetween(from, to));
+			door.Interact(gameObject, TransformState.HiddenPos);
 		}
+	}
+
+		#endregion
+
+	[Server]
+	private void OnRotation(Orientation from, Orientation to)
+	{
+		//fixme: doesn't seem to change orientation for clients from their point of view
+		playerSprites.ChangePlayerDirection(Orientation.DegreeBetween(from, to));
+	}
 
 	/// Lerping and ensuring server authority for space walk
 	[Server]
