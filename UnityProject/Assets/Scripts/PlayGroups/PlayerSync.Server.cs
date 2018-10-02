@@ -437,12 +437,16 @@ public partial class PlayerSync
 			}
 
 			//Perpetual floating sim
-			if (ServerPositionsMatch && !serverState.ImportantFlightUpdate)
+			if (ServerPositionsMatch)
 			{
-				//Extending prediction by one tile if player's transform reaches previously set goal
-				Vector3Int newGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3)serverState.Impulse);
-				serverState.Position = newGoal;
-				ClearQueueServer();
+				if ( serverState.ImportantFlightUpdate ) {
+					NotifyPlayers();
+				} else {
+					//Extending prediction by one tile if player's transform reaches previously set goal
+					Vector3Int newGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3)serverState.Impulse);
+					serverState.Position = newGoal;
+					ClearQueueServer();
+				}
 			}
 		}
 
@@ -460,7 +464,7 @@ public partial class PlayerSync
 
 			//Notify if position stayed the same(?)
 //			TryNotifyPlayers();
-//			NotifyPlayers();
+			NotifyPlayers();
 		}
 
 		CheckSpaceDamage();
