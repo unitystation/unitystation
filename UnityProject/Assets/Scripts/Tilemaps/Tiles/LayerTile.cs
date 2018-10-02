@@ -8,8 +8,8 @@
 		Objects,
 		Floors,
 		Base,
-		None,
-		TopLayerEffects
+		Grills,
+		None
 	}
 
 	public enum TileType
@@ -19,7 +19,10 @@
 		Window,
 		Floor,
 		Table,
-		TopLayerEffects
+		Effects,
+		Grill,
+		Base,
+		ReinforcedWall
 	}
 
 	public class LayerTile : GenericTile

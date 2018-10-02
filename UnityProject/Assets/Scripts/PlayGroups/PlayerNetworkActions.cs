@@ -30,7 +30,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
-	[NonSerialized] public string activeHand = "right";
+	[NonSerialized] public string activeHand = "rightHand";
 
 	private ChatIcon chatIcon;
 
@@ -228,7 +228,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ItemAttributes att = obj.GetComponent<ItemAttributes>();
 		if (slotName == "leftHand" || slotName == "rightHand")
 		{
-			equipment.SetHandItemSprite(slotName, att);
+			equipment.SetHandItemSprite(att);
 		}
 		else
 		{
@@ -375,8 +375,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		EquipmentPool.DisposeOfObject(gameObject, obj);
 	}
 
-	[Command]
-	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent)
+	[Command] //Remember with the parent you can only send networked objects:
+	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
 		if (!SlotNotEmpty(slotName))
 		{
@@ -388,7 +388,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		ClearInventorySlot(slotName);
 		if (item != null && newParent != null)
 		{
-			item.transform.parent = newParent.transform;
+			if (isTileMap)
+			{
+				var tileChangeManager = newParent.GetComponent<TileChangeManager>();
+				item.transform.parent = tileChangeManager.ObjectParent.transform;
+			}
+			else
+			{
+				item.transform.parent = newParent.transform;
+			}
 			// TODO
 			//			ReorderGameobjectsOnTile(pos);
 		}
@@ -510,6 +518,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void SetConsciousState(bool conscious)
 	{
+		//Store the server conscious state for this player:
+		playerScript.playerHealth.serverPlayerConscious = conscious;
+
 		if (conscious)
 		{
 			playerMove.allowInput = true;
@@ -636,7 +647,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//FOOD
 	[Command]
-	public void CmdEatFood(GameObject food, string fromSlot)
+	public void CmdEatFood(GameObject food, string fromSlot, bool isDrink)
 	{
 		if (Inventory[fromSlot] == null)
 		{
@@ -645,7 +656,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
-		soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
+		if (isDrink)
+		{
+			soundNetworkActions.CmdPlaySoundAtPlayerPos("Slurp");
+		}
+		else
+		{
+			soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
+		}
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
 		//FIXME: remove health and blood changes after TDM
@@ -665,5 +683,27 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSetActiveHand(string hand)
 	{
 		activeHand = hand;
+	}
+
+	[Command]
+	public void CmdRefillWelder(GameObject welder, GameObject weldingTank)
+	{
+		//Double check reach just in case:
+		if (playerScript.IsInReach(weldingTank))
+		{
+			var w = welder.GetComponent<Welder>();
+
+			//is the welder on?
+			if (w.isOn)
+			{
+				weldingTank.GetComponent<ExplodeWhenShot>().ExplodeOnDamage(gameObject.name);
+			}
+			else
+			{
+				//Refuel!
+				w.Refuel();
+				RpcPlayerSoundAtPos("Refill", transform.position, true);
+			}
+		}
 	}
 }

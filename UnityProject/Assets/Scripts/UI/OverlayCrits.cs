@@ -69,6 +69,7 @@ using UnityEngine.UI;
 			}
 			DoAdjust();
 			shroudImg.enabled = true;
+			holeMat.SetColor("_Color", pref.shroudColor);
 			holeMat.SetFloat("_Radius", pref.holeRadius);
 			holeMat.SetFloat("_Shape", pref.holeShape);
 		}
@@ -80,6 +81,8 @@ using UnityEngine.UI;
 		public float holeRadius;
 		public float holeShape;
 		public bool shroudActive = true;
+
+		public Color shroudColor;
 	}
 
 	public enum OverlayState

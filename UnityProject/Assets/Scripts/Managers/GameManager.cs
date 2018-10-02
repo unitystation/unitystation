@@ -262,21 +262,10 @@ public class GameManager : MonoBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			MapRotationCount++;
-			if (MapRotationCount < RoundsPerMap * Maps.Length)
-			{
-				if ((MapRotationCount % RoundsPerMap) == 0)
-				{
-					MapRotationMapsCounter++;
-				}
-			}
-			else
-			{
-				MapRotationCount = 0;
-				MapRotationMapsCounter = 0;
-			}
+			//TODO allow map change from admin portal
+			// until then it is just OPDM on repeat:
 
-			CustomNetworkManager.Instance.ServerChangeScene(Maps[MapRotationMapsCounter]);
+			CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
 		}
 	}
 }

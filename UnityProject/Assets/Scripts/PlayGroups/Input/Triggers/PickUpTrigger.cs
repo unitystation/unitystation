@@ -8,7 +8,13 @@ using UnityEngine.Networking;
 		{
 			CheckSpriteOrder();
 		}
-
+		[ContextMethod("Pick Up","hand")]
+		public void GUIInteract(){
+			Interact(
+			PlayerManager.LocalPlayerScript.gameObject,
+			PlayerManager.LocalPlayerScript.WorldPos,
+			UIManager.Instance.hands.CurrentSlot.eventName );
+		}
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
 			if (originator.GetComponent<PlayerScript>().canNotInteract())
@@ -30,6 +36,7 @@ using UnityEngine.Networking;
 					//Client informs server of interaction attempt
 					InteractMessage.Send(gameObject, hand);
 				}
+
 			}
 			else
 			{
