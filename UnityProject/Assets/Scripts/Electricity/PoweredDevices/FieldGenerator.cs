@@ -11,7 +11,7 @@ public class FieldGenerator : InputTrigger
 		[SyncVar(hook = "CheckState")]
 		public bool isOn = false;
 		public bool connectedToOther = false;
-		private bool spriteAnimRunning = false;
+		private Coroutine coSpriteAnimator;
 
 		public Sprite offSprite;
 		public Sprite onSprite;
@@ -54,34 +54,38 @@ public class FieldGenerator : InputTrigger
 		void CheckState(bool _isOn){
 			if(isOn){
 				if(poweredDevice.suppliedElectricity.current == 0){
-					StopCoroutine(SpriteAnimator());
-					spriteAnimRunning = false;
+					if (coSpriteAnimator != null) {
+						StopCoroutine(coSpriteAnimator);
+						coSpriteAnimator = null;
+					}
 					spriteRend.sprite = onSprite;
 				}
 				if(poweredDevice.suppliedElectricity.current > 15){
 					if(!connectedToOther){
 						animSprites = new List<Sprite>(searchingSprites);
-						if (!spriteAnimRunning) {
-							StartCoroutine(SpriteAnimator());
+						if (coSpriteAnimator == null) {
+							coSpriteAnimator = StartCoroutine(SpriteAnimator());
 						}
 					} else {
 						animSprites = new List<Sprite>(connectedSprites);
-						if(!spriteAnimRunning){
-							StartCoroutine(SpriteAnimator());
+						if(coSpriteAnimator == null) {
+							coSpriteAnimator = StartCoroutine(SpriteAnimator());
 						}
 					}
 				}
 			} else {
-				StopCoroutine(SpriteAnimator());
-				spriteAnimRunning = false;
+				if (coSpriteAnimator != null) {
+					StopCoroutine(coSpriteAnimator);
+					coSpriteAnimator = null;
+				}
 				spriteRend.sprite = offSprite;
 			}
 		}
 
 		IEnumerator SpriteAnimator(){
-			spriteAnimRunning = true;
 			int index = 0;
-			while(spriteAnimRunning){
+			while(true){
+				Debug.Log("animating shield");
 				if(index >= animSprites.Count){
 					index = 0;
 				}
@@ -89,7 +93,6 @@ public class FieldGenerator : InputTrigger
 				index++;
 				yield return new WaitForSeconds(0.3f);
 			}
-			yield return new WaitForEndOfFrame();
 		}
 	}
 
