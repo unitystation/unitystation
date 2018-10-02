@@ -40,6 +40,8 @@ public class Welder : NetworkBehaviour
 	[SyncVar(hook = "UpdateState")]
 	public bool isOn;
 
+	private Coroutine coBurnFuel;
+
 	public override void OnStartServer()
 	{
 		Init();
@@ -98,7 +100,8 @@ public class Welder : NetworkBehaviour
 			itemAtts.inHandReferenceRight = rightHandFlame;
 			isBurning = true;
 			flameRenderer.sprite = flameSprites[0];
-			StartCoroutine(BurnFuel());
+			if (coBurnFuel == null)
+				coBurnFuel = StartCoroutine(BurnFuel());
 
 		}
 
@@ -107,7 +110,10 @@ public class Welder : NetworkBehaviour
 			itemAtts.inHandReferenceLeft = leftHandOriginal;
 			itemAtts.inHandReferenceRight = rightHandOriginal;
 			isBurning = false;
-			StopCoroutine(BurnFuel());
+			if (coBurnFuel != null) {
+				StopCoroutine(coBurnFuel);
+				coBurnFuel = null;
+			}
 			flameRenderer.sprite = null;
 		}
 
