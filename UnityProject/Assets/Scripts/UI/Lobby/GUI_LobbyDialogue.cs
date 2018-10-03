@@ -17,11 +17,7 @@ namespace Lobby
 		public GameObject informationPanel;
 		public GameObject wrongVersionPanel;
 		public GameObject controlInformationPanel;
-
-		//Account login screen:
-		public InputField userNameInput;
-		public InputField passwordInput;
-		public Toggle autoLoginToggle;
+		public GameObject loggingInPanel;
 
 		//Account Creation screen:
 		public InputField chosenUsernameInput;
@@ -30,10 +26,15 @@ namespace Lobby
 		public GameObject goBackCreationButton;
 		public GameObject nextCreationButton;
 
+		//Account login:
+		public GameObject loginNextButton;
+		public GameObject loginGoBackButton;
+
 		public InputField serverAddressInput;
 		public InputField serverPortInput;
 		public Text dialogueTitle;
 		public Text pleaseWaitCreationText;
+		public Text loggingInText;
 		public Toggle hostServerToggle;
 
 		private CustomNetworkManager networkManager;
@@ -108,6 +109,33 @@ namespace Lobby
 		{
 			pleaseWaitCreationText.text = errorText;
 			goBackCreationButton.SetActive(true);
+		}
+
+		public void OnLogin()
+		{
+			SoundManager.Play("Click01");
+			HideAllPanels();
+			loggingInPanel.SetActive(true);
+			loggingInText.text = "Logging in..";
+			loginNextButton.SetActive(false);
+			loginGoBackButton.SetActive(false);
+			LobbyManager.Instance.accountLogin.TryLogin(LoginSuccess, LoginError);
+		}
+
+		private void LoginSuccess(string msg)
+		{
+			loggingInText.text = "Login Success..";
+			loginNextButton.SetActive(true);
+		}
+
+		private void LoginError(string msg)
+		{
+			loggingInText.text = "Login failed:" + msg;
+			loginGoBackButton.SetActive(true);
+		}
+
+		public void OnLoginNextBtn(){
+
 		}
 
 		// Button handlers
@@ -271,6 +299,7 @@ namespace Lobby
 			informationPanel.SetActive(false);
 			wrongVersionPanel.SetActive(false);
 			controlInformationPanel.SetActive(false);
+			loggingInPanel.SetActive(false);
 		}
 	}
 }
