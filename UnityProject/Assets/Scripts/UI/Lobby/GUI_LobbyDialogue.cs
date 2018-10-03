@@ -67,6 +67,7 @@ namespace Lobby
 
 			//TODO TODO: Check if Auto login is set and if both username and password are saved
 			accountLoginPanel.SetActive(true);
+			dialogueTitle.text = "Account Login";
 		}
 
 		public void ShowCreationPanel()
@@ -74,6 +75,7 @@ namespace Lobby
 			SoundManager.Play("Click01");
 			HideAllPanels();
 			createAccountPanel.SetActive(true);
+			dialogueTitle.text = "Create an Account";
 		}
 
 		public void CreationNextButton()
@@ -81,19 +83,17 @@ namespace Lobby
 			SoundManager.Play("Click01");
 			HideAllPanels();
 			pendingCreationPanel.SetActive(true);
-			ServerData.CheckUsernameAvailable(chosenUsernameInput.text, UsernameAvailability);
+			ServerData.TryCreateAccount(chosenUsernameInput.text, chosenPasswordInput.text, 
+			"none@none.com", AccountCreationSuccess, AccountCreationError);
 		}
 
-		private void UsernameAvailability(bool isAvailable)
+		private void AccountCreationSuccess(string message){
+			pleaseWaitCreationText.text = message;
+		}
+
+		private void AccountCreationError(string errorText)
 		{
-			if (isAvailable)
-			{
-				pleaseWaitCreationText.text = "Account successfully created!";
-			}
-			else
-			{
-				pleaseWaitCreationText.text = "Username is not Available \n Please choose another one..";
-			}
+			pleaseWaitCreationText.text = errorText;
 		}
 
 		// Button handlers
