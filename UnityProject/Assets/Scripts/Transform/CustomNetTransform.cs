@@ -372,7 +372,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	[Server]
 	public void NotifyPlayers()
 	{
-		Logger.LogTraceFormat( "{0} Notified", Category.Transform, gameObject.name );
+		Logger.LogFormat( "{0} Notified: {1}", Category.Transform, gameObject.name, serverState.WorldPosition );
 		SyncMatrix();
 		serverState.IsLocalRotation = false;
 		TransformStateMessage.SendToAll(gameObject, serverState);

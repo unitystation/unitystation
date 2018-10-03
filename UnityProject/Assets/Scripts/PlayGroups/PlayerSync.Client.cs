@@ -31,6 +31,8 @@ public partial class PlayerSync
 				lastDirection = value;
 			}
 		}
+		public bool CanPredictPush => ClientPositionReady;
+
 		/// Does client's transform pos match state pos? Ignores Z-axis.
 		private bool ClientPositionReady {
 			get {
@@ -73,7 +75,7 @@ public partial class PlayerSync
 			//experiment: not enqueueing or processing action if floating.
 			//arguably it shouldn't really be like that in the future
 			if ( !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement ) {
-				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
+//				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
 				//RequestMoveMessage.Send(action);
 				if ( CanMoveThere( predictedState, action ) ) {
@@ -84,7 +86,10 @@ public partial class PlayerSync
 				} else {
 					//cannot move -> tell server we're just bumping in that direction
 					action.isBump = true;
-					PredictiveBumpInteract( Vector3Int.RoundToInt( (Vector2)predictedState.WorldPosition + action.Direction() ), action.Direction());
+					//todo: less strict prediction that doesn't require this clause
+					if ( pendingActions == null || pendingActions.Count == 0 ) {
+					PredictiveBumpInteract( Vector3Int.RoundToInt( ( Vector2 ) predictedState.WorldPosition + action.Direction() ), action.Direction() );
+					}
 					//cooldown is longer when humping walls or pushables
 //					yield return YieldHelper.DeciSecond;
 //					yield return YieldHelper.DeciSecond;
@@ -105,7 +110,7 @@ public partial class PlayerSync
 			PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
 			for ( int i = 0; i < pushPulls.Length; i++ ) {
 				var pushPull = pushPulls[i];
-				if ( pushPull && pushPull.gameObject != gameObject && pushPull.CanBePushed ) {
+				if ( pushPull && pushPull.gameObject != gameObject && pushPull.IsSolid ) {
 //					Logger.LogTraceFormat( "Predictive pushing {0} from {1} to {2}", Category.PushPull, pushPulls[i].gameObject, worldTile, (Vector2)(Vector3)worldTile+(Vector2)direction );
 					pushPull.TryPredictivePush( worldTile, direction );
 					//telling server what we just predictively pushed this thing
@@ -162,7 +167,7 @@ public partial class PlayerSync
 
 					tempState = nextState;
 
-					Logger.LogTraceFormat("Client generated {0}", Category.Movement, tempState);
+//					Logger.LogTraceFormat("Client generated {0}", Category.Movement, tempState);
 				}
 				predictedState = tempState;
 			}

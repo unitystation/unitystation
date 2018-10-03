@@ -11,6 +11,7 @@ public interface IPushable {
 	Vector3IntEvent OnTileReached();
 	Vector3IntEvent OnClientTileReached();
 //	Transform ServerTransform();
+	bool CanPredictPush { get; }
 }
 
 public class Vector3IntEvent : UnityEvent<Vector3Int> {}

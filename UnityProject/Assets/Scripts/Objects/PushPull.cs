@@ -19,7 +19,7 @@ public class PushPull : VisibleBehaviour {
 		}
 	}
 
-	public bool CanBePushed => !registerTile.IsPassable();
+	public bool IsSolid => !registerTile.IsPassable();
 
 	//Server fields
 	private bool isPushing;
@@ -28,13 +28,13 @@ public class PushPull : VisibleBehaviour {
 	//Client fields
 	private PushState prediction = PushState.None;
 	private ApprovalState approval = ApprovalState.None;
-	private bool allowedToPush => prediction == PushState.None;
+	private bool CanPredictPush => prediction == PushState.None && Pushable.CanPredictPush;
 	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
 	private Vector3Int lastReliablePos = TransformState.HiddenPos;
 
 	[Server]
 	public bool TryPush( Vector3Int from, Vector2Int dir ) {
-		if ( !CanBePushed || isPushing || Pushable == null || !isAllowedDir( dir ) ) {
+		if ( !IsSolid || isPushing || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
 		Vector3Int currentPos = registerTile.WorldPosition;
@@ -58,7 +58,7 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	public bool TryPredictivePush( Vector3Int from, Vector2Int dir ) {
-		if ( !CanBePushed || !allowedToPush || Pushable == null || !isAllowedDir( dir ) ) {
+		if ( !IsSolid || !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
 		lastReliablePos = registerTile.WorldPosition;
@@ -108,7 +108,7 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	enum PushState { None, InProgress, Finished }
-	enum ApprovalState { None, Approved, Invalid }
+	enum ApprovalState { None, Approved, Unexpected }
 
 	#region Events
 
@@ -117,12 +117,13 @@ public class PushPull : VisibleBehaviour {
 		isPushing = false;
 	}
 
+	/// For prediction
 	private void OnUpdateReceived( Vector3Int serverPos ) {
 		if ( prediction == PushState.None ) {
 			return;
 		}
 
-		approval = serverPos == predictivePushTarget ? ApprovalState.Approved : ApprovalState.Invalid;
+		approval = serverPos == predictivePushTarget ? ApprovalState.Approved : ApprovalState.Unexpected;
 		Logger.LogTraceFormat( "{0} predictive push to {1}", Category.PushPull, approval, serverPos );
 
 		//if predictive lerp is finished
@@ -132,12 +133,26 @@ public class PushPull : VisibleBehaviour {
 			} else if ( prediction == PushState.InProgress ) {
 				Logger.LogTraceFormat( "Approved and waiting till lerp is finished", Category.PushPull );
 			}
-		} else if ( approval == ApprovalState.Invalid ) {
-			Logger.LogErrorFormat( "Invalid push detected in OnUpdateRecieved!", Category.PushPull );
-			Pushable.NotifyPlayers();
+		} else if ( approval == ApprovalState.Unexpected ) {
+			var info = "";
+			if ( serverPos == lastReliablePos ) {
+				info += $"lastReliablePos match!({lastReliablePos})";
+			} else {
+				info += "NO reliablePos match";
+			}
+			if ( prediction == PushState.Finished ) {
+				info += ". Finishing!";
+				FinishPush();
+			} else {
+				info += ". NOT Finishing yet";
+			}
+			Logger.LogErrorFormat( "Unexpected push detected OnUpdateRecieved! {0}", Category.PushPull, info );
+//			Pushable.NotifyPlayers();
+//			FinishPush();
 		}
 	}
 
+	/// For prediction
 	private void OnClientTileReached( Vector3Int pos ) {
 		if ( prediction == PushState.None ) {
 			return;
@@ -156,9 +171,10 @@ public class PushPull : VisibleBehaviour {
 				//ok, finishing
 				FinishPush();
 				break;
-			case ApprovalState.Invalid:
-				Logger.LogErrorFormat( "Invalid push detected in OnClientTileReached!", Category.PushPull );
-				Pushable.NotifyPlayers();
+			case ApprovalState.Unexpected:
+				Logger.LogErrorFormat( "Invalid push detected in OnClientTileReached, finishing", Category.PushPull );
+//				Pushable.NotifyPlayers();
+				FinishPush();
 				break;
 			case ApprovalState.None:
 				Logger.LogTraceFormat( "Finished lerp, waiting for server approval...", Category.PushPull );

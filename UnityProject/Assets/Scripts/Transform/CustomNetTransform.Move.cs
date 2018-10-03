@@ -69,17 +69,21 @@ public partial class CustomNetTransform {
 		return true;
 	}
 
-	public bool PredictivePush( Vector2Int direction ) {//fixme:bogus?
-		return false;
-//		Vector2 target = ( Vector2 ) clientState.WorldPosition + direction;
-//		clientState.Speed = PushSpeed; //?
-//		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
-//			clientState.Impulse = direction;
-//		}
-//
-//		clientState.WorldPosition = target;
-//		return true;
+	public bool PredictivePush( Vector2Int direction ) {
+//		return false;
+		Vector2 target = ( Vector2 ) clientState.WorldPosition + direction;
+		clientState.Speed = PushSpeed; //?
+		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
+			clientState.Impulse = direction;
+		}
+
+		clientState.WorldPosition = target;
+		return true;
 	}
+
+	public bool CanPredictPush => !IsClientLerping;
+	//todo: simplify to transform.localPosition == cS.Position ????
+	public bool IsClientLerping => transform.localPosition != MatrixManager.WorldToLocal( clientState.WorldPosition, MatrixManager.Get( matrix ) );
 
 	/// Predictive client movement
 	/// Mimics server collision checks for obviously impassable things.
@@ -323,8 +327,9 @@ public partial class CustomNetTransform {
 	[Server]
 	private void StopFloating() {
 //		Logger.Log( $"{gameObject.name} stopped floating" );
-		if ( PushPull && PushPull.CanBePushed ) { //todo: decent criteria for objects that are supposed to be tile snapped
-				serverState.Position = Vector3Int.RoundToInt( serverState.Position );
+		//insert decent criteria for objects that are supposed to be tile snapped
+		if ( PushPull && PushPull.IsSolid ) {
+			serverState.Position = Vector3Int.RoundToInt( serverState.Position );
 		}
 		serverState.Impulse = Vector2.zero;
 		serverState.Speed = PushSpeed; //?

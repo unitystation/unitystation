@@ -33,6 +33,8 @@ public partial class PlayerSync
 //
 //	private int playerWarnings;
 
+	private HashSet<PushPull> questionablePushables = new HashSet<PushPull>();
+
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
 	private Vector2 serverLastDirection;
 
@@ -177,7 +179,7 @@ public partial class PlayerSync
 	{
 		if (ServerPositionsMatch)
 		{
-			Logger.LogTrace( $"{gameObject.name}: PSync Notify success!", Category.Movement );
+//			Logger.LogTrace( $"{gameObject.name}: PSync Notify success!", Category.Movement );
 			serverLerpState = serverState;
 			SyncMatrix();
 			NotifyPlayers();
@@ -220,7 +222,7 @@ public partial class PlayerSync
 		}
 		serverState.NoLerp = noLerp;
 		var msg = PlayerMoveMessage.SendToAll(gameObject, serverState);
-		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
+//		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
 		//Clearing state flags
 		serverState.ImportantFlightUpdate = false;
 		serverState.ResetClientQueue = false;
@@ -241,7 +243,12 @@ public partial class PlayerSync
 	[Server]
 	private void RollbackPosition()
 	{
+		foreach ( var questionablePushable in questionablePushables ) {
+			Logger.LogWarningFormat( "Notified questionable pushable {0}", Category.PushPull, questionablePushable );
+			questionablePushable.NotifyPlayers();
+		}
 		SetPosition(serverState.WorldPosition);
+		questionablePushables.Clear();
 	}
 
 //	///Currently used to set the pos of a player that has just been dragged by another player
@@ -343,8 +350,10 @@ public partial class PlayerSync
 	private void CmdValidatePush( GameObject pushable ) {
 		var pushPull = pushable.GetComponent<PushPull>();
 		if ( pushPull && !playerScript.IsInReach(pushPull.registerTile.WorldPosition) ) {
-			pushPull.NotifyPlayers();
-			NotifyPlayers();
+//			pushPull.NotifyPlayers();
+//			NotifyPlayers();
+			questionablePushables.Add( pushPull );
+			Logger.LogWarningFormat( "Added questionable {0}", Category.PushPull, pushPull );
 		}
 	}
 
@@ -361,7 +370,7 @@ public partial class PlayerSync
 
 		InteractDoor(worldPos, worldTarget);
 
-		Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.Movement, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
+//		Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.Movement, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
 		InteractPushable( worldTarget, direction );
 
 		yield return YieldHelper.DeciSecond;
@@ -375,7 +384,7 @@ public partial class PlayerSync
 		PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
 		for ( int i = 0; i < pushPulls.Length; i++ ) {
 			var pushPull = pushPulls[i];
-			if ( pushPull && pushPull.gameObject != gameObject && pushPull.CanBePushed ) {
+			if ( pushPull && pushPull.gameObject != gameObject && pushPull.IsSolid ) {
 	//					Logger.LogTraceFormat( "Trying to push {0} when walking {1}->{2}", Category.PushPull, pushPulls[i].gameObject, worldPos, worldTarget );
 				pushPull.TryPush( worldTile, Vector2Int.RoundToInt( direction ) );
 				break;
