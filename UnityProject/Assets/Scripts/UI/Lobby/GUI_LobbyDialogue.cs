@@ -26,6 +26,9 @@ namespace Lobby
 		//Account Creation screen:
 		public InputField chosenUsernameInput;
 		public InputField chosenPasswordInput;
+		public InputField emailAddressInput;
+		public GameObject goBackCreationButton;
+		public GameObject nextCreationButton;
 
 		public InputField serverAddressInput;
 		public InputField serverPortInput;
@@ -63,9 +66,14 @@ namespace Lobby
 
 			// Init Lobby UI
 			InitPlayerName();
-			HideAllPanels();
 
 			//TODO TODO: Check if Auto login is set and if both username and password are saved
+			ShowLoginScreen();
+		}
+
+		public void ShowLoginScreen()
+		{
+			HideAllPanels();
 			accountLoginPanel.SetActive(true);
 			dialogueTitle.text = "Account Login";
 		}
@@ -83,17 +91,23 @@ namespace Lobby
 			SoundManager.Play("Click01");
 			HideAllPanels();
 			pendingCreationPanel.SetActive(true);
-			ServerData.TryCreateAccount(chosenUsernameInput.text, chosenPasswordInput.text, 
-			"none@none.com", AccountCreationSuccess, AccountCreationError);
+			nextCreationButton.SetActive(false);
+			goBackCreationButton.SetActive(false);
+			pleaseWaitCreationText.text = "Please wait..";
+			ServerData.TryCreateAccount(chosenUsernameInput.text, chosenPasswordInput.text,
+				emailAddressInput.text, AccountCreationSuccess, AccountCreationError);
 		}
 
-		private void AccountCreationSuccess(string message){
+		private void AccountCreationSuccess(string message)
+		{
 			pleaseWaitCreationText.text = message;
+			nextCreationButton.SetActive(true);
 		}
 
 		private void AccountCreationError(string errorText)
 		{
 			pleaseWaitCreationText.text = errorText;
+			goBackCreationButton.SetActive(true);
 		}
 
 		// Button handlers
