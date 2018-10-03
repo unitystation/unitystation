@@ -26,11 +26,24 @@ using UnityEditor;
 		{
 			doorController.isPerformingAction = true;
 			SoundManager.PlayAtPosition("AccessDenied", transform.position);
-			if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
+
+			// check if door uses a simple denied animation (flashes 1 frame on and off)
+			if (doorController.useSimpleDeniedAnimation)
 			{
-				StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + 2, 1));
+				StartCoroutine(PlaySimpleDeniedAnim());
+				// StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorDeniedSpriteOffset, animSize, true, false, true));
 			}
-			StartCoroutine(PlayAnim(overlay_Lights, overlayLights, 12, 6, true, false, true));
+			else
+			{
+				if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
+				{
+					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + 2, 1));
+				}
+				else 
+				{
+					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorDeniedSpriteOffset, animSize, true, false, true));
+				}
+			}
 		}
 
 		public override void OpenDoor()
@@ -38,13 +51,22 @@ using UnityEditor;
 			doorController.isPerformingAction = true;
 			doorController.PlayOpenSound();
 			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, animSize, false, true, true));
-			if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
+
+			// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
+			if (doorController.useSimpleLightAnimation)
 			{
-				StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1));
+				StartCoroutine(PlaySimpleLightAnim());
 			}
-			else
-			{
-				StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset));
+			else 
+			{			
+				if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
+				{
+					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1));
+				}
+				else
+				{
+					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, animSize, true));
+				}
 			}
 			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset));
 			//mabe the boxColliderStuff should be on the DoorController. 
@@ -61,13 +83,22 @@ using UnityEditor;
 			doorController.isPerformingAction = true;
 			doorController.PlayCloseSound();
 			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset + animSize, animSize, false, true, true));
-			if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
+			
+			// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
+			if (doorController.useSimpleLightAnimation)
 			{
-				StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true));
+				StartCoroutine(PlaySimpleLightAnim());
 			}
-			else
+			else 
 			{
-				StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true));
+				if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
+				{
+					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true));
+				}
+				else
+				{
+					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true));
+				}
 			}
 			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6));
 			StartCoroutine(MakeSolid());
@@ -119,6 +150,45 @@ using UnityEditor;
 			{
 				Logger.Log("Offset and the range of sprites must be a positive or zero.", Category.Doors);
 			}
+		}
+
+		/// <summary>
+		///     plays 1 frame for the light animation instead of 6
+		///		uses 1 frame from the overlayLights sprite sheet which is specified with the DoorLightSpriteOffset, then nullifies it at the end
+		/// </summary>
+		private IEnumerator PlaySimpleLightAnim()
+		{
+			overlay_Lights.sprite = overlayLights[doorController.DoorLightSpriteOffset];
+			yield return new WaitForSeconds(0.6f);
+			overlay_Lights.sprite = null;
+		}
+
+		/// <summary>
+		///     plays 1 frame for the denied animation instead of 6
+		///		flashes a frame from the overlayLights sprite sheet which is specified with the DoorDeniedSpriteOffset, then nullifies it at the end
+		/// </summary>
+		private IEnumerator PlaySimpleDeniedAnim()
+		{
+			Logger.Log("doorbase.sprite = " + doorbase.sprite, Category.Doors);
+			doorbase.sprite = doorBaseSprites[doorController.DoorSpriteOffset];
+			bool light = false;
+			for (int i = 0; i < animSize; i++)
+			{
+
+				if (!light)
+				{
+					overlay_Lights.sprite = overlayLights[doorController.DoorDeniedSpriteOffset];
+				}
+				else
+				{
+					overlay_Lights.sprite = null;
+					
+				}
+				light = !light;
+				yield return new WaitForSeconds(0.05f);
+			}
+			overlay_Lights.sprite = null;
+			doorController.isPerformingAction = false;
 		}
 
 #if UNITY_EDITOR
