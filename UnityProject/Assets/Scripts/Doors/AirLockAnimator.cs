@@ -169,8 +169,6 @@ using UnityEditor;
 		/// </summary>
 		private IEnumerator PlaySimpleDeniedAnim()
 		{
-			Logger.Log("doorbase.sprite = " + doorbase.sprite, Category.Doors);
-			doorbase.sprite = doorBaseSprites[doorController.DoorSpriteOffset];
 			bool light = false;
 			for (int i = 0; i < animSize; i++)
 			{
