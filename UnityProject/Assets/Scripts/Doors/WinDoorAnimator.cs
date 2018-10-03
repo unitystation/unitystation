@@ -115,6 +115,7 @@ using UnityEngine;
 				{
 					doorbase.sprite = sprites[closeFrame + (int) direction];
 				}
+				light = !light;
 				yield return new WaitForSeconds(0.05f);
 			}
 			doorbase.sprite = sprites[closeFrame + (int) direction];
