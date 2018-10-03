@@ -1,12 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
 public class MetaDataSystem : SubsystemBehaviour
 {
+	private Matrix matrix;
+	private SubsystemManager subsystemManager;
+	private Dictionary<Matrix, HashSet<MetaDataNode>> externalNodes2;
+	private HashSet<MetaDataNode> externalNodes;
+
 	// Set higher priority to ensure that it is executed before other systems
 	public override int Priority => 100;
+
+	public override void Awake()
+	{
+		base.Awake();
+
+		matrix = GetComponentInParent<Matrix>();
+		subsystemManager = GetComponentInParent<SubsystemManager>();
+
+//		externalNodes = new Dictionary<Matrix, HashSet<MetaDataNode>> {{matrix, new HashSet<MetaDataNode>()}};
+		externalNodes = new HashSet<MetaDataNode>();
+	}
 
 	public override void Initialize()
 	{
@@ -29,21 +46,13 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		if (metaTileMap.IsAtmosPassableAt(position))
 		{
-			if (node.IsOccupied)
-			{
-				node.ClearNeighbors();
-				SetupNeighbors(position);
-				MetaUtils.AddToNeighbors(node);
+			MetaUtils.RemoveFromNeighbors(node);
+			node.ClearNeighbors();
 
-				if (metaTileMap.IsSpaceAt(position))
-				{
-					node.Type = NodeType.Space;
-				}
-				else
-				{
-					node.Type = NodeType.Room;
-				}
-			}
+			SetupNeighbors(node);
+			MetaUtils.AddToNeighbors(node);
+
+			node.Type = metaTileMap.IsSpaceAt(position) ? NodeType.Space : NodeType.Room;
 		}
 		else
 		{
@@ -75,7 +84,7 @@ public class MetaDataSystem : SubsystemBehaviour
 				MetaDataNode node = metaDataLayer.Get(position);
 				node.Type = NodeType.Occupied;
 
-				SetupNeighbors(position);
+				SetupNeighbors(node);
 			}
 		}
 	}
@@ -144,18 +153,21 @@ public class MetaDataSystem : SubsystemBehaviour
 	{
 		foreach (Vector3Int position in positions)
 		{
-			SetupNeighbors(position);
+			SetupNeighbors(metaDataLayer.Get(position));
 		}
 	}
 
-	private void SetupNeighbors(Vector3Int position)
+	private void SetupNeighbors(MetaDataNode node)
 	{
-		MetaDataNode node = metaDataLayer.Get(position);
-
-		foreach (Vector3Int neighbor in MetaUtils.GetNeighbors(position))
+		foreach (Vector3Int neighbor in MetaUtils.GetNeighbors(node.Position))
 		{
 			if (metaTileMap.IsSpaceAt(neighbor))
 			{
+				if (node.IsRoom)
+				{
+					externalNodes.Add(node);
+				}
+
 				Vector3 worldPosition = transform.TransformPoint(neighbor) + Vector3.one * 0.5f;
 				worldPosition.z = 0;
 				if (!MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
@@ -177,6 +189,14 @@ public class MetaDataSystem : SubsystemBehaviour
 			{
 				node.AddNeighbor(metaDataLayer.Get(neighbor));
 			}
+		}
+	}
+
+	private void Update()
+	{
+		foreach (MetaDataNode node in externalNodes)
+		{
+			subsystemManager.UpdateAt(node.Position);
 		}
 	}
 }

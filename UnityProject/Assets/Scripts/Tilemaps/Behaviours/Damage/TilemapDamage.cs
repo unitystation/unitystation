@@ -130,26 +130,26 @@ public class TilemapDamage : MonoBehaviour
 
 	private void AddWindowDamage(int damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
 	{
-		data.AddDamage(damage);
-		if (data.GetDamage >= 20 && data.GetDamage < 50 && data.WindowDmgType != "crack01")
+		data.Damage += damage;
+		if (data.Damage >= 20 && data.Damage < 50 && data.WindowDmgType != "crack01")
 		{
 			tileChangeManager.ChangeTile("crack01", cellPos, TileChangeLayer.WindowDamage);
 			data.WindowDmgType = "crack01";
 		}
 
-		if (data.GetDamage >= 50 && data.GetDamage < 75 && data.WindowDmgType != "crack02")
+		if (data.Damage >= 50 && data.Damage < 75 && data.WindowDmgType != "crack02")
 		{
 			tileChangeManager.ChangeTile("crack02", cellPos, TileChangeLayer.WindowDamage);
 			data.WindowDmgType = "crack02";
 		}
 
-		if (data.GetDamage >= 75 && data.GetDamage < 100 && data.WindowDmgType != "crack03")
+		if (data.Damage >= 75 && data.Damage < 100 && data.WindowDmgType != "crack03")
 		{
 			tileChangeManager.ChangeTile("crack03", cellPos, TileChangeLayer.WindowDamage);
 			data.WindowDmgType = "crack03";
 		}
 
-		if (data.GetDamage >= 100 && data.WindowDmgType != "broken")
+		if (data.Damage >= 100 && data.WindowDmgType != "broken")
 		{
 			tileChangeManager.RemoveTile(cellPos, TileChangeLayer.Window);
 
@@ -166,10 +166,10 @@ public class TilemapDamage : MonoBehaviour
 
 	private void AddGrillDamage(int damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
 	{
-		data.AddDamage(damage);
+		data.Damage += damage;
 
 		//Make grills a little bit weaker (set to 60 hp):
-		if (data.GetDamage >= 60)
+		if (data.Damage >= 60)
 		{
 			tileChangeManager.RemoveTile(cellPos, TileChangeLayer.Grill);
 			tileChangeManager.ChangeTile("GrillDestroyed", cellPos, TileChangeLayer.BrokenGrill);

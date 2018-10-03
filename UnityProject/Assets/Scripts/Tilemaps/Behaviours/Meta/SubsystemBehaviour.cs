@@ -8,7 +8,7 @@ public abstract class SubsystemBehaviour : MonoBehaviour
 
 		public virtual int Priority => 0;
 
-		public void Awake()
+		public virtual void Awake()
 		{
 			metaDataLayer = GetComponentInChildren<MetaDataLayer>();
 			metaTileMap = GetComponentInChildren<MetaTileMap>();

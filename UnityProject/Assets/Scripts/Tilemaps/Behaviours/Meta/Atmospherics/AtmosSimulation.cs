@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Atmospherics;
+﻿using System.Collections.Generic;
 using Tilemaps.Behaviours.Meta;
 using Tilemaps.Behaviours.Meta.Utils;
 using UnityEngine;
@@ -67,12 +63,13 @@ namespace Atmospherics
 					case NodeType.Room:
 						targetNodes.Add(node);
 						break;
-					case NodeType.Space:
-						AtmosUtils.SetEmpty(nodes);
-						return; // exit here
-					default:
+					case NodeType.Occupied:
 						AtmosUtils.SetEmpty(node);
 						break;
+					case NodeType.Space:
+						targetNodes.Add(node);
+						AtmosUtils.SetEmpty(nodes);
+						return; // exit here
 				}
 			}
 

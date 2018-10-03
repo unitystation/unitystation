@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class MetaDataView : BasicView
 		localChecks.Add(new ExistCheck());
 		localChecks.Add(new WallCheck());
 		localChecks.Add(new NeighborCheck());
+		localChecks.Add(new SpaceConnectCheck());
 	}
 
 	public override void DrawContent()
@@ -65,6 +67,24 @@ public class MetaDataView : BasicView
 			if (source.IsOccupiedAt(position))
 			{
 				GizmoUtils.DrawCube(position,  Color.blue);
+			}
+		}
+	}
+
+	private class SpaceConnectCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Connected to Space";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				if (node.IsSpace || node.GetNeighbors().Any(n => n.IsSpace))
+				{
+					GizmoUtils.DrawCube(position,  Color.red);
+				}
 			}
 		}
 	}

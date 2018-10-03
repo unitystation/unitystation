@@ -8,7 +8,7 @@ public class SubsystemManager : NetworkBehaviour
 {
 	private List<SubsystemBehaviour> systems = new List<SubsystemBehaviour>();
 
-	public override void OnStartServer()
+	public void Start()
 	{
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
 		Initialize();

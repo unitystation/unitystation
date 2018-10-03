@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Atmospherics;
+using Tilemaps.Behaviours.Meta;
 using Tilemaps.Behaviours.Meta.Utils;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public enum NodeType
@@ -16,18 +18,18 @@ public enum NodeType
 [Serializable]
 public class MetaDataNode
 {
-	public static readonly MetaDataNode None = new MetaDataNode(Vector3Int.zero) {Room = -1};
+	public static readonly MetaDataNode None = new MetaDataNode(Vector3Int.one * -1000000);
 
 	public readonly Vector3Int Position;
 
 	private HashSet<MetaDataNode> neighbors;
 	private MetaDataNode[] Neighbors;
 
+	public NodeType Type;
+
 	public GasMix Atmos;
 
-	public int Room; // TODO
-
-	public NodeType Type;
+	public int Damage;
 
 	public MetaDataNode(Vector3Int position)
 	{
@@ -50,11 +52,6 @@ public class MetaDataNode
 
 	public void ClearNeighbors()
 	{
-		foreach (MetaDataNode neighbor in neighbors)
-		{
-			neighbor.RemoveNeighbor(this);
-		}
-
 		neighbors.Clear();
 
 		Neighbors = neighbors.ToArray();
@@ -73,28 +70,15 @@ public class MetaDataNode
 
 		Neighbors = neighbors.ToArray();
 	}
-
-	private int damage = 0;
-
 	public string WindowDmgType { get; set; } = "";
-
-	public void Reset()
-	{
-		Room = 0;
-	}
 
 	public void ResetDamage()
 	{
-		damage = 0;
+		Damage = 0;
 	}
 
-	public int GetDamage
+	public override string ToString()
 	{
-		get { return damage; }
-	}
-
-	public void AddDamage(int amt)
-	{
-		damage += amt;
+		return Position.ToString();
 	}
 }
