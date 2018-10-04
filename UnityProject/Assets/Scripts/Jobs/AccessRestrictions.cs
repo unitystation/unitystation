@@ -17,10 +17,10 @@ public class AccessRestrictions : MonoBehaviour
 		{
 			card = PNA.Inventory["id"].GetComponent<IDCard>();
 		}
-		else if (PNA.Inventory.ContainsKey(hand) &&
-		         PNA.Inventory[hand]?.GetComponent<IDCard>() != null)
+		else if (PNA.Inventory.ContainsKey(PNA.activeHand) &&
+		         PNA.Inventory[PNA.activeHand]?.GetComponent<IDCard>() != null)
 		{
-			card = PNA.Inventory[hand].GetComponent<IDCard>();
+			card = PNA.Inventory[PNA.activeHand].GetComponent<IDCard>();
 		}
 		else
 		{
