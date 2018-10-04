@@ -61,7 +61,7 @@ using UnityEngine;
 
 				//experiment: not enqueueing or processing action if floating.
 				//arguably it shouldn't really be like that in the future 
-				if ( (!isPseudoFloatingClient && !isFloatingClient && !blockClientMovement) || (playerScript.gameObject.GetComponent<PlayerMove>().isGhost && !blockClientMovement)) {
+				if ( (!isPseudoFloatingClient && !isFloatingClient && !blockClientMovement) || (playerMove.isGhost && !blockClientMovement)) {
 //				Logger.Log($"{gameObject.name} requesting {action.Direction()} ({pendingActions.Count} in queue)");
 					pendingActions.Enqueue( action );
 
