@@ -14,6 +14,10 @@ namespace Lobby
 		public InputField passwordInput;
 		public Toggle autoLoginToggle;
 
+		void Start(){
+			userNameInput.text = "CubanPete";
+			passwordInput.text = "cuban123";
+		}
 		public void TryLogin(Action<string> successAction, Action<string> errorAction)
 		{
 			ServerData.AttemptLogin(userNameInput.text, passwordInput.text,

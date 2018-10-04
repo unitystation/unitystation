@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace DatabaseAPI
 {
@@ -21,10 +22,27 @@ namespace DatabaseAPI
 			}
 		}
 
+		private string sessionCookie;
 		private const string ServerRoot = "https://dev.unitystation.org"; //dev mode (todo: load release url and key data through build server)
 		private const string ApiKey = "77bCwycyzm4wJY5X"; //preloaded for development. Keys are replaced on the server
 		private const string URL_TryCreate = ServerRoot + "/create?data=";
 		private const string URL_TryLogin = ServerRoot + "/login?data=";
+
+
+		//Example of request with cookie auth
+		// IEnumerator AttemptTest(string request)
+		// {
+		// 	UnityWebRequest r = UnityWebRequest.Get(ServerRoot + "/test?data=" + WWW.EscapeURL(request));
+		// 	r.SetRequestHeader("Cookie", sessionCookie);
+			
+		// 	yield return r.SendWebRequest();
+		// 	if (r.error != null)
+		// 	{
+		// 		Logger.Log("DB request failed: " + r.error, Category.DatabaseAPI);
+		// 	} else {
+				
+		// 	}
+		// }
 	}
 
 	[Serializable]

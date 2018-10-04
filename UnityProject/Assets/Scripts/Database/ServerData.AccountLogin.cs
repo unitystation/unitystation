@@ -32,12 +32,19 @@ namespace DatabaseAPI
 			{
 				Logger.Log("Login request failed: " + r.error, Category.DatabaseAPI);
 				errorCallBack.Invoke(r.error);
-			} else {
+			}
+			else
+			{
 				var apiResponse = JsonUtility.FromJson<ApiResponse>(r.downloadHandler.text);
-				if(apiResponse.errorCode != 0){
+				if (apiResponse.errorCode != 0)
+				{
 					errorCallBack.Invoke(apiResponse.errorMsg);
-				} else {
+				}
+				else
+				{
 					successCallBack.Invoke(apiResponse.message);
+					string s = r.GetResponseHeader("set-cookie");
+					sessionCookie = s.Split(';')[0];
 				}
 			}
 		}
