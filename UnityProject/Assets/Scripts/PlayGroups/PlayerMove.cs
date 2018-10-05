@@ -79,7 +79,7 @@ using UnityEngine.Networking;
 				curMatrix = matrix;
 			}
 
-			Vector3Int direction = GetDirection(action, MatrixManager.Get(curMatrix));
+			Vector3Int direction = GetDirection(action, MatrixManager.Get(curMatrix), isReplay);
 			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix);
 
 			if (adjustedDirection == Vector3.zero)
@@ -113,13 +113,13 @@ using UnityEngine.Networking;
 			return "QWERTY";
 		}
 
-		private Vector3Int GetDirection(PlayerAction action, MatrixInfo matrixInfo)
+		private Vector3Int GetDirection(PlayerAction action, MatrixInfo matrixInfo, bool isReplay)
 		{
 			ProcessAction(action);
 
 			if (diagonalMovement)
 			{
-				return GetMoveDirection(matrixInfo);
+				return GetMoveDirection(matrixInfo, isReplay);
 			}
 			if (pressedKeys.Count > 0)
 			{
@@ -146,7 +146,7 @@ using UnityEngine.Networking;
 			}
 		}
 
-		private Vector3Int GetMoveDirection(MatrixInfo matrixInfo)
+		private Vector3Int GetMoveDirection(MatrixInfo matrixInfo, bool isReplay)
 		{
 			Vector3Int direction = Vector3Int.zero;
 
@@ -159,7 +159,7 @@ using UnityEngine.Networking;
 			direction.y = Mathf.Clamp(direction.y, -1, 1);
 			Logger.Log(direction.ToString(), Category.Movement);
 
-			if (!isGhost && PlayerManager.LocalPlayer == gameObject)
+			if (!isGhost && PlayerManager.LocalPlayer == gameObject && !isReplay)
 			{
 				playerSprites.CmdChangeDirection(Orientation.From(direction));
 				// Prediction:

@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 50851566022184656}
   - component: {fileID: 114908475728415800}
   - component: {fileID: 114908376472113748}
+  - component: {fileID: 114458435295420412}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -1199,7 +1200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b405755a3db467098b2349af2167119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rotation: {x: 0, y: 0, z: 0, w: 0}
   playerMove: {fileID: 114792299177679754}
 --- !u!114 &114285504268110804
 MonoBehaviour:
@@ -1446,6 +1446,18 @@ MonoBehaviour:
   Type: 1
   YellowDamageMonitorIcon: {fileID: 21300766, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+--- !u!114 &114458435295420412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 275a750a762e9054da6ae10a47b445e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!114 &114505375981646366
 MonoBehaviour:
   m_ObjectHideFlags: 1

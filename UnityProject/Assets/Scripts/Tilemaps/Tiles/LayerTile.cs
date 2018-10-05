@@ -20,7 +20,9 @@
 		Floor,
 		Table,
 		Effects,
-		Grill
+		Grill,
+		Base,
+		ReinforcedWall
 	}
 
 	public class LayerTile : GenericTile

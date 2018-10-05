@@ -112,10 +112,10 @@ public class Synth : MonoBehaviour {
 		if ( loadResult == 0 ) {
 			SunVox.sv_stop( (int)Slot.Music );
 			SunVox.sv_set_autostop( (int)Slot.Music, repeat ? 0 : 1 );
+			SunVox.sv_volume( (int)Slot.Music, volume );
 			SunVox.sv_play_from_beginning( (int)Slot.Music );
 		} else {
 			Logger.LogWarning( $"Music load error: {path}", Category.SunVox );
-//			SunVox.sv_volume( (int)Slot.Music, volume );
 		}
 	}
 

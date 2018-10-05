@@ -17,6 +17,11 @@ using UnityEngine;
 			}
 		}
 
+        public bool IsPassableAt(Vector3Int position)
+        {
+            return IsPassableAt(position, position);
+        }
+
 		public bool IsPassableAt(Vector3Int origin, Vector3Int to)
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
@@ -38,31 +43,31 @@ using UnityEngine;
 
 			return true;
 		}
-		
-		//TODO:  Remove this
-		public bool IsPassableAt(Vector3Int position)
-		{
-			foreach (Layer layer in Layers.Values)
-			{
-				if (!layer.IsPassableAt(position))
-				{
-					return false;
-				}
-			}
-			
-			return true;
-		}
-		
-		//TODO:  Refactor to take origin and destination
+
 		public bool IsAtmosPassableAt(Vector3Int position)
 		{
+			return IsAtmosPassableAt(position, position);
+		}
+
+		public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
+		{
+			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
+			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
+			
+			return _IsAtmosPassableAt(origin, toX) && _IsAtmosPassableAt(toX, to) || 
+					_IsAtmosPassableAt(origin, toY) && _IsAtmosPassableAt(toY, to);
+		}
+
+		private bool _IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
+		{
 			foreach (Layer layer in Layers.Values)
 			{
-				if (!layer.IsAtmosPassableAt(position))
+				if (!layer.IsAtmosPassableAt(origin, to))
 				{
 					return false;
 				}
 			}
+
 			return true;
 		}
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 /// <summary>
 ///     Handles the update methods for in game objects
@@ -13,6 +14,7 @@ public class UpdateManager : MonoBehaviour
 
 	//List of all the objects to override UpdateMe method in Update
 	private readonly List<ManagedNetworkBehaviour> regularUpdate = new List<ManagedNetworkBehaviour>();
+	private readonly List<Action> regularUpdateAction = new List<Action>();
 
 	public static UpdateManager Instance
 	{
@@ -34,10 +36,26 @@ public class UpdateManager : MonoBehaviour
 		}
 	}
 
+	public void Add(Action updatable)
+	{
+		if (!regularUpdateAction.Contains(updatable))
+		{
+			regularUpdateAction.Add(updatable);
+		}
+	}
+
 	public void Remove(ManagedNetworkBehaviour updatable)
 	{
 		if (regularUpdate.Contains(updatable)) {
 			regularUpdate.Remove(updatable);
+		}
+	}
+
+	public void Remove(Action updatable)
+	{
+		if (regularUpdateAction.Contains(updatable))
+		{
+			regularUpdateAction.Remove(updatable);
 		}
 	}
 
@@ -69,6 +87,11 @@ public class UpdateManager : MonoBehaviour
 			regularUpdate[i].UpdateMe();
 			regularUpdate[i].FixedUpdateMe();
 			regularUpdate[i].LateUpdateMe();
+		}
+
+		for(int i = 0; i < regularUpdateAction.Count; i++)
+		{
+			regularUpdateAction[i].Invoke();
 		}
 	}
 }

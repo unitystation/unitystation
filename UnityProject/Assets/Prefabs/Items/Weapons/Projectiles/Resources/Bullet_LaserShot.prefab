@@ -104,7 +104,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.021432877, y: 0.014288902}
+  m_Offset: {x: -0.046427295, y: -0.037719727}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -115,7 +115,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7285118, y: 0.79995537}
+  m_Size: {x: 0.2001104, y: 0.124632}
   m_EdgeRadius: 0
 --- !u!114 &114036214839416986
 MonoBehaviour:
@@ -132,6 +132,7 @@ MonoBehaviour:
   shooter: {fileID: 0}
   damageType: 1
   isSuicide: 0
+  trail: {fileID: 0}
 --- !u!212 &212330207800450856
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -165,7 +166,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21301844, guid: 166411a427a249d692cc1274cc54ce19, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
