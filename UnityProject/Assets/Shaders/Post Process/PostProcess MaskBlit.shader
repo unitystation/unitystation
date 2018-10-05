@@ -67,7 +67,7 @@
 
 				// Mix Background.
 				fixed4 background = tex2D(_BackgroundTex, i.uv) * _BackgroundMultiplier;
-				float backgroundMask = 1 - screen.a;
+				float backgroundMask = clamp(1 - (screen.a * 2),0,1);
 				fixed4 screenLitBackground = background * backgroundMask + screenLit;
 
 				return screenLitBackground;

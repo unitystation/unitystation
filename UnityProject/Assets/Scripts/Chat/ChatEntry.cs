@@ -8,6 +8,8 @@ public class ChatEntry : MonoBehaviour {
     private bool isCoolingDown = true;
 	public RectTransform rect;
 
+	private Coroutine coCoolDown;
+
     void OnEnable()
     {
         EventManager.AddHandler(EVENT.ChatFocused, OnChatFocused);
@@ -15,7 +17,7 @@ public class ChatEntry : MonoBehaviour {
         if (!ControlChat.Instance.chatInputWindow.gameObject.activeInHierarchy){
             if (isCoolingDown)
             {
-                StartCoroutine(CoolDown());
+				coCoolDown = StartCoroutine(CoolDown());
             }
         }
     }
@@ -30,7 +32,10 @@ public class ChatEntry : MonoBehaviour {
     {
         if (isCoolingDown)
         {
-            StopCoroutine(CoolDown());
+			if (coCoolDown != null) {
+				StopCoroutine(coCoolDown);
+				coCoolDown = null;
+			}
         }
         text.CrossFadeAlpha(1f, 0f, false);
     }
@@ -39,7 +44,7 @@ public class ChatEntry : MonoBehaviour {
     {
         if (isCoolingDown)
         {
-            StartCoroutine(CoolDown());
+			coCoolDown = StartCoroutine(CoolDown());
         } else
         {
             text.CrossFadeAlpha(0f, 0f, false);

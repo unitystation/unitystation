@@ -610,7 +610,7 @@ public class ItemAttributes : NetworkBehaviour
 			SendExamine();
 		}
 	}
-
+	[ContextMethod("Examine","Magnifying_glass")]
 	public void OnExamine()
 	{
 		if (!string.IsNullOrEmpty(itemDescription))
