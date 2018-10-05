@@ -35,7 +35,7 @@ public class Matrix : MonoBehaviour
 
     public bool IsPassableAt(Vector3Int position)
     {
-        return IsPassableAt(position + Vector3Int.up, position);
+        return IsPassableAt(position, position);
     }
 
 	public bool IsPassableAt(Vector3Int origin, Vector3Int position)
