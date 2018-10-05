@@ -57,23 +57,23 @@ using UnityEngine;
 			return objectsOrigin.All(o => o.IsPassable(origin)) && base.IsPassableAt(origin, to);
 		}
 
-		public override bool IsPassableAt(Vector3Int position)
+		public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
 		{
-			List<RegisterTile> objects = Objects.Get<RegisterTile>(position);
+			List<RegisterTile> objectsTo = Objects.Get<RegisterTile>(to);
 
-			return objects.All(x => x.IsPassable()) && base.IsPassableAt(position);
-		}
+            if (!objectsTo.All(o => o.IsAtmosPassable()))
+			{
+				return false;
+			}
+			
+			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
 
-		public override bool IsAtmosPassableAt(Vector3Int position)
-		{
-			RegisterTile obj = Objects.GetFirst<RegisterTile>(position);
-
-			return obj ? obj.IsAtmosPassable() : base.IsAtmosPassableAt(position);
+			return objectsOrigin.All(o => o.IsAtmosPassable()) && base.IsAtmosPassableAt(origin, to);
 		}
 
 		public override bool IsSpaceAt(Vector3Int position)
 		{
-			return IsAtmosPassableAt(position) && base.IsSpaceAt(position);
+			return IsAtmosPassableAt(position, position) && base.IsSpaceAt(position);
 		}
 
 		public override void ClearAllTiles()
