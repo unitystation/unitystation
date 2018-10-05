@@ -43,26 +43,14 @@ using UnityEngine.Tilemaps;
 
 		public virtual bool IsPassableAt(Vector3Int from, Vector3Int to)
 		{
-			if (from == to)
-			{
-				return true;
-			}
-
 			BasicTile tileTo = tilemap.GetTile<BasicTile>(to);
-
 			return TileUtils.IsPassable(tileTo);
 		}
 
-		public virtual bool IsPassableAt(Vector3Int position)
+		public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to)
 		{
-			BasicTile tile = tilemap.GetTile<BasicTile>(position);
-			return TileUtils.IsPassable(tile);
-		}
-
-		public virtual bool IsAtmosPassableAt(Vector3Int position)
-		{
-			BasicTile tile = tilemap.GetTile<BasicTile>(position);
-			return TileUtils.IsAtmosPassable(tile);
+			BasicTile tileTo = tilemap.GetTile<BasicTile>(to);
+			return TileUtils.IsAtmosPassable(tileTo);
 		}
 
 		public virtual bool IsSpaceAt(Vector3Int position)
