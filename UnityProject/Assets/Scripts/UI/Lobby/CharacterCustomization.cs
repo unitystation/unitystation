@@ -9,6 +9,16 @@ namespace Lobby
 	public class CharacterCustomization : MonoBehaviour
 	{
 		public InputField characterNameField;
+		public InputField ageField;
+		public Button genderButton;
+		public Text hairStyleText;
+		public Text facialHairText;
+		public Text underwearText;
+		public Text socksText;
+		public Image hairColor;
+		public Image eyeColor;
+		public Image facialColor;
+		public Image skinColor;
 
 		private CharacterSettings currentCharacter;
 
@@ -39,6 +49,9 @@ namespace Lobby
 			RefreshName();
 		}
 
+		//------------------
+		//NAME:
+		//------------------
 		private void RefreshName()
 		{
 			characterNameField.text = currentCharacter.Name;
@@ -49,5 +62,37 @@ namespace Lobby
 			currentCharacter.Name = StringManager.GetRandomMaleName();
 			RefreshName();
 		}
+
+		//------------------
+		//GENDER:
+		//------------------
+
+		//------------------
+		//AGE:
+		//------------------
+
+		//------------------
+		//HAIR STYLE:
+		//------------------
+
+		//------------------
+		//EYE COLOR:
+		//------------------
+
+		//------------------
+		//FACIAL HAIR:
+		//------------------
+
+		//------------------
+		//SKIN TONE:
+		//------------------
+
+		//------------------
+		//UNDERWEAR:
+		//------------------
+
+		//------------------
+		//SOCKS:
+		//------------------
 	}
 }
