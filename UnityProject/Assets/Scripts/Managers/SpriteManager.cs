@@ -84,10 +84,10 @@ public class SpriteManager : MonoBehaviour
 	private AccessoryCollection underwearCollection;
 	private AccessoryCollection socksCollection;
 
-	public static AccessoryCollection HairCollection => Instance.hairCollection;
-	public static AccessoryCollection FacialHairCollection => Instance.facialHairCollection;
-	public static AccessoryCollection UnderwearCollection => Instance.underwearCollection;
-	public static AccessoryCollection SocksCollection => Instance.socksCollection;
+	public static List<SpriteAccessory> HairCollection => Instance.hairCollection.spriteAccessories;
+	public static List<SpriteAccessory>  FacialHairCollection => Instance.facialHairCollection.spriteAccessories;
+	public static List<SpriteAccessory>  UnderwearCollection => Instance.underwearCollection.spriteAccessories;
+	public static List<SpriteAccessory>  SocksCollection => Instance.socksCollection.spriteAccessories;
 
 	void Awake()
 	{

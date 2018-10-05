@@ -417,16 +417,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterNameField: {fileID: 1097934861}
-  ageField: {fileID: 0}
+  ageField: {fileID: 1818085121}
   genderText: {fileID: 506934251}
-  hairStyleText: {fileID: 0}
-  facialHairText: {fileID: 0}
-  underwearText: {fileID: 0}
-  socksText: {fileID: 0}
-  hairColor: {fileID: 0}
-  eyeColor: {fileID: 0}
-  facialColor: {fileID: 0}
-  skinColor: {fileID: 0}
+  hairStyleText: {fileID: 1186330122}
+  facialHairText: {fileID: 2026111425}
+  underwearText: {fileID: 172952585}
+  socksText: {fileID: 356346655}
+  hairColor: {fileID: 902508924}
+  eyeColor: {fileID: 1526962162}
+  facialColor: {fileID: 1595538784}
+  skinColor: {fileID: 508474985}
+  hairSpriteController: {fileID: 1971573767}
+  facialHairSpriteController: {fileID: 967628546}
+  underwearSpriteController: {fileID: 1110664443}
+  socksSpriteController: {fileID: 1277379917}
 --- !u!114 &61182276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9025,7 +9029,7 @@ Prefab:
     - target: {fileID: 224759607104819202, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000068636415
+      value: 0.000018265966
       objectReference: {fileID: 0}
     - target: {fileID: 224709062734776106, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}

@@ -61,12 +61,13 @@ namespace Lobby
 			UpdateSprite();
 		}
 
-		private void UpdateSprite()
+		public void UpdateSprite()
 		{
 			if (image != null)
 			{
 				if (reference >= 0)
 				{
+					image.enabled = true;
 					//If reference -1 then clear the sprite
 					if (sprites != null)
 					{
@@ -76,6 +77,7 @@ namespace Lobby
 				else
 				{
 					image.sprite = null;
+					image.enabled = false;
 				}
 			}
 		}
