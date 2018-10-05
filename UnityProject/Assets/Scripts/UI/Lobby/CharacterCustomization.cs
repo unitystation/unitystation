@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Lobby
 	{
 		public InputField characterNameField;
 		public InputField ageField;
-		public Button genderButton;
+		public Text genderText;
 		public Text hairStyleText;
 		public Text facialHairText;
 		public Text underwearText;
@@ -47,6 +48,7 @@ namespace Lobby
 		private void RefreshAll()
 		{
 			RefreshName();
+			RefreshGender();
 		}
 
 		//------------------
@@ -63,16 +65,34 @@ namespace Lobby
 			RefreshName();
 		}
 
+		public void OnManualNameChange()
+		{
+			currentCharacter.Name = characterNameField.text;
+		}
+
 		//------------------
 		//GENDER:
 		//------------------
 
-		//------------------
-		//AGE:
-		//------------------
+		public void OnGenderChange()
+		{
+			int gender = (int) currentCharacter.Gender;
+			gender++;
+			if (gender == (int) Gender.Neuter)
+			{
+				gender = 0;
+			}
+			currentCharacter.Gender = (Gender) gender;
+			RefreshGender();
+		}
+
+		private void RefreshGender()
+		{
+			genderText.text = currentCharacter.Gender.ToString();
+		}
 
 		//------------------
-		//HAIR STYLE:
+		//AGE:
 		//------------------
 
 		//------------------
@@ -95,4 +115,18 @@ namespace Lobby
 		//SOCKS:
 		//------------------
 	}
+}
+
+[Serializable]
+public class CharacterSettings
+{
+	public string Name;
+	public Gender Gender;
+}
+
+public enum Gender
+{
+	Male,
+	Female,
+	Neuter //adding anymore genders will break things do not edit
 }

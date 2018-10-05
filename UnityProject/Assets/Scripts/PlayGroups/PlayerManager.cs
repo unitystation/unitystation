@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using Lobby;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -82,9 +83,4 @@ public class PlayerManager : MonoBehaviour
 		}
 		return false;
 	}
-}
-
-public class CharacterSettings
-{
-	public string Name;
 }

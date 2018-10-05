@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Sprites
@@ -71,9 +72,35 @@ public class SpriteManager : MonoBehaviour
 
 	public static Sprites ScreenUISprites => Instance.screenUISprites;
 
+	//Sprite Accessories:
+	public TextAsset hairJson;
+	public TextAsset facialHairJson;
+	public TextAsset underwearJson;
+	public TextAsset socksJson;
+	//TODO undershirts (json data is available for it)
+
+	private AccessoryCollection hairCollection;
+	private AccessoryCollection facialHairCollection;
+	private AccessoryCollection underwearCollection;
+	private AccessoryCollection socksCollection;
+
+	public static AccessoryCollection HairCollection => Instance.hairCollection;
+	public static AccessoryCollection FacialHairCollection => Instance.facialHairCollection;
+	public static AccessoryCollection UnderwearCollection => Instance.underwearCollection;
+	public static AccessoryCollection SocksCollection => Instance.socksCollection;
+
 	void Awake()
 	{
 		InitializeSpriteSheets();
+		InitializeSpriteAccessories();
+	}
+
+	private void InitializeSpriteAccessories()
+	{
+		hairCollection = JsonUtility.FromJson<AccessoryCollection>(hairJson.text);
+		facialHairCollection = JsonUtility.FromJson<AccessoryCollection>(facialHairJson.text);
+		underwearCollection = JsonUtility.FromJson<AccessoryCollection>(underwearJson.text);
+		socksCollection = JsonUtility.FromJson<AccessoryCollection>(socksJson.text);
 	}
 	private void InitializeSpriteSheets()
 	{
@@ -196,4 +223,20 @@ public enum WiringColor
 	pink,
 	white,
 	yellow
+}
+
+[Serializable]
+public class AccessoryCollection
+{
+	public List<SpriteAccessory> spriteAccessories = new List<SpriteAccessory>();
+}
+
+[Serializable]
+public class SpriteAccessory
+{
+	public string name;
+	public string iconstate;
+	public Gender gender = Gender.Neuter;
+	public string spriteSheetName;
+	public int spritePos;
 }
