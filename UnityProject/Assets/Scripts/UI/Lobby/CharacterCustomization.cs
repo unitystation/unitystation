@@ -81,16 +81,25 @@ namespace Lobby
 
 		public void RollRandomCharacter()
 		{
-			currentCharacter.Name = StringManager.GetRandomMaleName();
+			if (currentCharacter.Gender == Gender.Male)
+			{
+				currentCharacter.Name = StringManager.GetRandomMaleName();
+			}
+			else
+			{
+				currentCharacter.Name = StringManager.GetRandomFemaleName();
+			}
 			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[
 				UnityEngine.Random.Range(0, SpriteManager.HairCollection.Count - 1)]);
 			currentCharacter.LoadFacialHairSetting(SpriteManager.FacialHairCollection[
-				UnityEngine.Random.Range(0, SpriteManager.FacialHairCollection.Count - 1)]);
+				SpriteManager.FacialHairCollection.Count - 1]);
 			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[
 				UnityEngine.Random.Range(0, SpriteManager.UnderwearCollection.Count - 1)]);
 			currentCharacter.LoadSocksSetting(SpriteManager.SocksCollection[
 				UnityEngine.Random.Range(0, SpriteManager.SocksCollection.Count - 1)]);
 			currentCharacter.skinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
+
+			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
 			RefreshAll();
 		}
@@ -105,7 +114,14 @@ namespace Lobby
 
 		public void RandomNameBtn()
 		{
-			currentCharacter.Name = StringManager.GetRandomMaleName();
+			if (currentCharacter.Gender == Gender.Male)
+			{
+				currentCharacter.Name = StringManager.GetRandomMaleName();
+			}
+			else
+			{
+				currentCharacter.Name = StringManager.GetRandomFemaleName();
+			}
 			RefreshName();
 		}
 
@@ -133,6 +149,23 @@ namespace Lobby
 		private void RefreshGender()
 		{
 			genderText.text = currentCharacter.Gender.ToString();
+			DoGenderChecks();
+		}
+
+		private void DoGenderChecks()
+		{
+			//Check underwear:
+			if(SpriteManager.UnderwearCollection[currentCharacter.underwearCollectionIndex].gender != currentCharacter.Gender){
+				int indexSearch = currentCharacter.underwearCollectionIndex;
+				while(SpriteManager.UnderwearCollection[indexSearch].gender != currentCharacter.Gender){
+					indexSearch++;
+					if(indexSearch == SpriteManager.UnderwearCollection.Count){
+						indexSearch = 0;
+					}
+				}
+				currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[indexSearch]);
+				RefreshUnderwear();
+			}
 		}
 
 		//------------------
@@ -361,6 +394,7 @@ namespace Lobby
 				index = 0;
 			}
 			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[index]);
+			DoGenderChecks();
 			RefreshUnderwear();
 		}
 
@@ -372,6 +406,7 @@ namespace Lobby
 				index = SpriteManager.UnderwearCollection.Count - 1;
 			}
 			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[index]);
+			DoGenderChecks();
 			RefreshUnderwear();
 		}
 
