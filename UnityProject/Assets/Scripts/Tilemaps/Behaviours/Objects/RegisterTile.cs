@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public enum ObjectType
@@ -119,11 +119,18 @@ public abstract class RegisterTile : NetworkBehaviour
 	{
 		return true;
 	}
-
-	public virtual bool IsPassable(Vector3Int from)
+    
+	/// Is it passable when approaching from outside?
+	public virtual bool IsPassable( Vector3Int from )
 	{
 		return true;
 	}
+
+	/// Is it passable when trying to leave it?
+    public virtual bool IsPassableTo( Vector3Int to )
+    {
+        return true;
+    }
 
 	public virtual bool IsAtmosPassable()
 	{
