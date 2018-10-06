@@ -55,7 +55,7 @@ public class Matrix : MonoBehaviour
 
 	public bool IsEmptyAt(Vector3Int position)
 	{
-			return metaTileMap.IsEmptyAt(position);
+		return metaTileMap.IsEmptyAt(position);
 	}
 
 	public bool IsFloatingAt(Vector3Int position)

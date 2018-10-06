@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 	public class SystemManager: NetworkBehaviour
 	{
 		private List<SystemBehaviour> systems = new List<SystemBehaviour>();
+		private bool initialized = false;
 		
 		public override void OnStartServer()
 		{
@@ -18,6 +19,8 @@ using UnityEngine.Networking;
 			{
 				systems[i].Initialize();
 			}
+
+			initialized = true;
 		}
 		
 		public void Register(SystemBehaviour system)
@@ -27,6 +30,10 @@ using UnityEngine.Networking;
 
 		public void UpdateAt(Vector3Int position)
 		{
+			if ( !initialized )
+			{
+				return;
+			}
 			for (int i = 0; i < systems.Count; i++)
 			{
 				systems[i].UpdateAt(position);
