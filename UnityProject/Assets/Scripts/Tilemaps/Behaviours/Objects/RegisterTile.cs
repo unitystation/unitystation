@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public enum ObjectType
@@ -107,7 +107,10 @@ public abstract class RegisterTile : NetworkBehaviour
 	public void UpdatePosition()
 	{
 		Position = Vector3Int.RoundToInt(transform.localPosition);
+		AfterUpdate();
 	}
+
+	public virtual void AfterUpdate() {}
 
 	public void Unregister()
 	{
