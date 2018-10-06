@@ -439,6 +439,8 @@ MonoBehaviour:
   - {fileID: 1777410413}
   - {fileID: 1746006411}
   - {fileID: 1048204384}
+  torsoSpriteController: {fileID: 1026955647}
+  headSpriteController: {fileID: 1048204384}
   availableHairColors:
   - '#cebeaf'
   - '#fdfbd9'
@@ -3009,7 +3011,7 @@ GameObject:
   - component: {fileID: 415963221}
   - component: {fileID: 415963222}
   m_Layer: 5
-  m_Name: CharacterView
+  m_Name: CHARACTERVIEW
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9538,7 +9540,7 @@ Prefab:
     - target: {fileID: 224759607104819202, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000018683519
+      value: 0.000027856862
       objectReference: {fileID: 0}
     - target: {fileID: 224709062734776106, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}

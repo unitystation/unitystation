@@ -28,6 +28,9 @@ namespace Lobby
 		public CharacterSprites eyesSpriteController;
 		public CharacterSprites[] skinControllers;
 
+		public CharacterSprites torsoSpriteController;
+		public CharacterSprites headSpriteController;
+
 		[SerializeField]
 		public List<string> availableHairColors = new List<string>();
 
@@ -149,17 +152,25 @@ namespace Lobby
 		private void RefreshGender()
 		{
 			genderText.text = currentCharacter.Gender.ToString();
+			currentCharacter.RefreshGenderBodyParts();
+			headSpriteController.reference = currentCharacter.headSpriteIndex;
+			torsoSpriteController.reference = currentCharacter.torsoSpriteIndex;
+			headSpriteController.UpdateSprite();
+			torsoSpriteController.UpdateSprite();
 			DoGenderChecks();
 		}
 
 		private void DoGenderChecks()
 		{
 			//Check underwear:
-			if(SpriteManager.UnderwearCollection[currentCharacter.underwearCollectionIndex].gender != currentCharacter.Gender){
+			if (SpriteManager.UnderwearCollection[currentCharacter.underwearCollectionIndex].gender != currentCharacter.Gender)
+			{
 				int indexSearch = currentCharacter.underwearCollectionIndex;
-				while(SpriteManager.UnderwearCollection[indexSearch].gender != currentCharacter.Gender){
+				while (SpriteManager.UnderwearCollection[indexSearch].gender != currentCharacter.Gender)
+				{
 					indexSearch++;
-					if(indexSearch == SpriteManager.UnderwearCollection.Count){
+					if (indexSearch == SpriteManager.UnderwearCollection.Count)
+					{
 						indexSearch = 0;
 					}
 				}
@@ -503,6 +514,15 @@ public class CharacterSettings
 	public string socksName;
 	public int socksCollectionIndex;
 
+	int maleHeadIndex = 20;
+	int femaleHeadIndex = 24;
+	int maleTorsoIndex = 28;
+	int femaleTorsoIndex = 32;
+
+	public int headSpriteIndex;
+	public int torsoSpriteIndex;
+
+
 	public void LoadHairSetting(SpriteAccessory hair)
 	{
 		hairStyleOffset = hair.spritePos;
@@ -529,6 +549,17 @@ public class CharacterSettings
 		socksOffset = socks.spritePos;
 		socksName = socks.name;
 		socksCollectionIndex = SpriteManager.SocksCollection.IndexOf(socks);
+	}
+
+	public void RefreshGenderBodyParts()
+	{
+		if(Gender == Gender.Male){
+			torsoSpriteIndex = maleTorsoIndex;
+			headSpriteIndex = maleHeadIndex;
+		} else {
+			torsoSpriteIndex = femaleTorsoIndex;
+			headSpriteIndex = femaleHeadIndex;
+		}
 	}
 }
 
