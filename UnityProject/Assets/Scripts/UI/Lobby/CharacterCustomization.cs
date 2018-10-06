@@ -26,11 +26,22 @@ namespace Lobby
 		public CharacterSprites underwearSpriteController;
 		public CharacterSprites socksSpriteController;
 
+		[SerializeField]
+		public List<string> availableHairColors = new List<string>();
 		private CharacterSettings currentCharacter;
+
+		public ColorPicker colorPicker;
 
 		void OnEnable()
 		{
 			LoadSettings();
+			colorPicker.gameObject.SetActive(false);
+			colorPicker.onValueChanged.AddListener(OnColorChange);
+		}
+
+		void OnDisable()
+		{
+			colorPicker.onValueChanged.RemoveListener(OnColorChange);
 		}
 		private async void LoadSettings()
 		{
@@ -71,7 +82,7 @@ namespace Lobby
 				UnityEngine.Random.Range(0, SpriteManager.UnderwearCollection.Count - 1)]);
 			currentCharacter.LoadSocksSetting(SpriteManager.SocksCollection[
 				UnityEngine.Random.Range(0, SpriteManager.SocksCollection.Count - 1)]);
-				
+
 			RefreshAll();
 		}
 
@@ -124,14 +135,79 @@ namespace Lobby
 		//------------------
 
 		//------------------
-		//FACIAL HAIR:
+		//HAIR:
 		//------------------
+
+		public void HairScrollRight()
+		{
+			int tryNext = currentCharacter.hairCollectionIndex + 1;
+			if (tryNext >= SpriteManager.HairCollection.Count)
+			{
+				tryNext = 0;
+			}
+			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[tryNext]);
+			RefreshHair();
+		}
+
+		public void HairScrollLeft()
+		{
+			int tryNext = currentCharacter.hairCollectionIndex - 1;
+			if (tryNext < 0)
+			{
+				tryNext = SpriteManager.HairCollection.Count - 1;
+			}
+			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[tryNext]);
+			RefreshHair();
+		}
+
+		public void HairColorScrollRight()
+		{
+			int tryNext = availableHairColors.IndexOf(currentCharacter.hairColor);
+			tryNext++;
+			if (tryNext == availableHairColors.Count)
+			{
+				tryNext = 0;
+			}
+			currentCharacter.hairColor = availableHairColors[tryNext];
+			RefreshHair();
+		}
+
+		public void HairColorScrollLeft()
+		{
+			int tryNext = availableHairColors.IndexOf(currentCharacter.hairColor);
+			tryNext--;
+			if (tryNext < 0)
+			{
+				tryNext = availableHairColors.Count - 1;
+			}
+			currentCharacter.hairColor = availableHairColors[tryNext];
+			RefreshHair();
+		}
+
+		public void OpenHairColorPicker()
+		{
+			if (!colorPicker.gameObject.activeInHierarchy)
+			{
+				OpenColorPicker(hairColor.color, HairColorChange);
+			}
+		}
+
+		private void HairColorChange(Color newColor)
+		{
+			hairColor.color = newColor;
+			currentCharacter.hairColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+			RefreshHair();
+		}
 
 		private void RefreshHair()
 		{
 			hairSpriteController.reference = currentCharacter.hairStyleOffset;
 			hairSpriteController.UpdateSprite();
 			hairStyleText.text = currentCharacter.hairStyleName;
+			Color setColor = Color.black;
+			ColorUtility.TryParseHtmlString(currentCharacter.hairColor, out setColor);
+			hairSpriteController.image.color = setColor;
+			hairColor.color = setColor;
 		}
 
 		//------------------
@@ -170,6 +246,37 @@ namespace Lobby
 			socksSpriteController.UpdateSprite();
 			socksText.text = currentCharacter.socksName;
 		}
+
+		//------------------
+		//COLOR SELECTOR:
+		//------------------
+
+		private void OpenColorPicker(Color currentColor, Action<Color> _colorChangeEvent)
+		{
+			colorPicker.gameObject.SetActive(true);
+			colorChangedEvent = _colorChangeEvent;
+			beforeEditingColor = currentColor;
+			colorPicker.CurrentColor = currentColor;
+		}
+
+		private Action<Color> colorChangedEvent;
+		private Color beforeEditingColor;
+		private void OnColorChange(Color newColor)
+		{
+			colorChangedEvent.Invoke(newColor);
+		}
+
+		public void CancelColorPicker()
+		{
+			colorChangedEvent.Invoke(beforeEditingColor);
+			CloseColorPicker();
+		}
+
+		public void CloseColorPicker()
+		{
+			colorChangedEvent = null;
+			colorPicker.gameObject.SetActive(false);
+		}
 	}
 }
 
@@ -182,7 +289,7 @@ public class CharacterSettings
 	public int hairStyleOffset;
 	public string hairStyleName;
 	public int hairCollectionIndex;
-	public string hairColor;
+	public string hairColor = "black";
 	public string eyeColor;
 	public int facialHairOffset;
 	public string facialHairName;

@@ -14,7 +14,7 @@ namespace Lobby
 		private int referenceOffset;
 		private CharacterView characterView;
 
-		private Image image;
+		public Image image { get; private set; }
 		private void Start()
 		{
 			sprites = SpriteManager.PlayerSprites[spriteSheetName];
