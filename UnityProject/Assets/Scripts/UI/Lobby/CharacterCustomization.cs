@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,11 +41,15 @@ namespace Lobby
 
 		public ColorPicker colorPicker;
 
+		private CharacterSettings lastSettings;
+
 		void OnEnable()
 		{
 			LoadSettings();
 			colorPicker.gameObject.SetActive(false);
 			colorPicker.onValueChanged.AddListener(OnColorChange);
+			var copyStr = JsonUtility.ToJson(currentCharacter);
+			lastSettings = JsonUtility.FromJson<CharacterSettings>(copyStr);
 		}
 
 		void OnDisable()
@@ -61,12 +66,17 @@ namespace Lobby
 		//First time setting up this character etc?
 		private void DoInitChecks()
 		{
-			if (string.IsNullOrEmpty(currentCharacter.Name))
+			if (string.IsNullOrEmpty(currentCharacter.username))
 			{
+				currentCharacter.username = GameData.LoggedInUsername;
 				RollRandomCharacter();
+				RefreshAge();
+				SaveData();
 			}
-
-			RefreshAll();
+			else
+			{
+				RefreshAll();
+			}
 		}
 
 		private void RefreshAll()
@@ -105,6 +115,43 @@ namespace Lobby
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
 			RefreshAll();
+		}
+
+		//------------------
+		//PLAYER ACCOUNTS:
+		//------------------
+		private void SaveData()
+		{
+			ServerData.UpdateCharacterProfile(currentCharacter, SaveDataSuccess, SaveDataError);
+		}
+
+		public void SaveDataError(string msg)
+		{
+			//Log out on any error for the moment:
+			GameData.IsLoggedIn = false;
+			Logger.LogError(msg, Category.DatabaseAPI);
+		}
+
+		public void SaveDataSuccess(string msg)
+		{
+			Debug.Log("TODO: Turn on nav panel top");
+		}
+
+		//------------------
+		//SAVE & CANCEL BUTTONS:
+		//------------------
+
+		public void OnApplyBtn()
+		{
+			SaveData();
+			gameObject.SetActive(false);
+		}
+
+		public void OnCancelBtn()
+		{
+			currentCharacter = lastSettings;
+			RefreshAll();
+			gameObject.SetActive(false);
 		}
 
 		//------------------
@@ -494,6 +541,7 @@ namespace Lobby
 [Serializable]
 public class CharacterSettings
 {
+	public string username;
 	public string Name;
 	public Gender Gender = Gender.Male;
 	public int Age = 22;
@@ -521,7 +569,6 @@ public class CharacterSettings
 
 	public int headSpriteIndex;
 	public int torsoSpriteIndex;
-
 
 	public void LoadHairSetting(SpriteAccessory hair)
 	{
@@ -553,10 +600,13 @@ public class CharacterSettings
 
 	public void RefreshGenderBodyParts()
 	{
-		if(Gender == Gender.Male){
+		if (Gender == Gender.Male)
+		{
 			torsoSpriteIndex = maleTorsoIndex;
 			headSpriteIndex = maleHeadIndex;
-		} else {
+		}
+		else
+		{
 			torsoSpriteIndex = femaleTorsoIndex;
 			headSpriteIndex = femaleHeadIndex;
 		}

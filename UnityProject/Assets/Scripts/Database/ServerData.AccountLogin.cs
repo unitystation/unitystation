@@ -18,15 +18,14 @@ namespace DatabaseAPI
 					apiKey = ApiKey
 			};
 
-			var request = JsonUtility.ToJson(newRequest);
-
-			Instance.StartCoroutine(Instance.PreformLogin(request, successCallBack, failedCallBack));
+			Instance.StartCoroutine(Instance.PreformLogin(newRequest, successCallBack, failedCallBack));
 		}
 
-		IEnumerator PreformLogin(string request,
+		IEnumerator PreformLogin(RequestLogin request,
 			Action<string> successCallBack, Action<string> errorCallBack)
 		{
-			UnityWebRequest r = UnityWebRequest.Get(URL_TryLogin + WWW.EscapeURL(request));
+			var requestData = JsonUtility.ToJson(request);
+			UnityWebRequest r = UnityWebRequest.Get(URL_TryLogin + WWW.EscapeURL(requestData));
 			yield return r.SendWebRequest();
 			if (r.error != null)
 			{
@@ -39,12 +38,15 @@ namespace DatabaseAPI
 				if (apiResponse.errorCode != 0)
 				{
 					errorCallBack.Invoke(apiResponse.errorMsg);
+					GameData.IsLoggedIn = false;
 				}
 				else
 				{
 					successCallBack.Invoke(apiResponse.message);
 					string s = r.GetResponseHeader("set-cookie");
 					sessionCookie = s.Split(';')[0];
+					GameData.IsLoggedIn = true;
+					GameData.LoggedInUsername = request.username;
 				}
 			}
 		}

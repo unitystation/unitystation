@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DatabaseAPI;
+using UnityEngine;
 
 namespace Lobby
 {
@@ -6,6 +7,7 @@ namespace Lobby
 	{
 		public static LobbyManager Instance;
 		public AccountLogin accountLogin;
+		public CharacterCustomization characterCustomization;
 
 		void Awake()
 		{
@@ -18,5 +20,22 @@ namespace Lobby
 				Destroy(this);
 			}
 		}
+
+		void OnEnable()
+		{
+			EventManager.AddHandler(EVENT.LoggedOut, SetOnLogOut);
+		}
+
+		void OnDisable()
+		{
+			EventManager.RemoveHandler(EVENT.LoggedOut, SetOnLogOut);
+		}
+
+		private void SetOnLogOut()
+		{
+			characterCustomization.gameObject.SetActive(false);
+			accountLogin.gameObject.SetActive(true);
+		}
+
 	}
 }

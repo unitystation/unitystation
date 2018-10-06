@@ -25,22 +25,36 @@ namespace DatabaseAPI
 		private string sessionCookie;
 		private const string ServerRoot = "https://dev.unitystation.org"; //dev mode (todo: load release url and key data through build server)
 		private const string ApiKey = "77bCwycyzm4wJY5X"; //preloaded for development. Keys are replaced on the server
-		private const string URL_TryCreate = ServerRoot + "/create?data=";
-		private const string URL_TryLogin = ServerRoot + "/login?data=";
+		private const string URL_TryCreate = ServerRoot + "/create?key=" + ApiKey + "&data=";
+		private const string URL_TryLogin = ServerRoot + "/login?key=" + ApiKey + "&data=";
+		private const string URL_UpdateChar = ServerRoot + "/updatechar?key=" + ApiKey + "&data=";
 
+		void OnEnable()
+		{
+			EventManager.AddHandler(EVENT.LoggedOut, OnLogOut);
+		}
 
+		void OnDisable()
+		{
+			EventManager.RemoveHandler(EVENT.LoggedOut, OnLogOut);
+		}
+
+		public void OnLogOut()
+		{
+			sessionCookie = null;
+		}
 		//Example of request with cookie auth
 		// IEnumerator AttemptTest(string request)
 		// {
 		// 	UnityWebRequest r = UnityWebRequest.Get(ServerRoot + "/test?data=" + WWW.EscapeURL(request));
 		// 	r.SetRequestHeader("Cookie", sessionCookie);
-			
+
 		// 	yield return r.SendWebRequest();
 		// 	if (r.error != null)
 		// 	{
 		// 		Logger.Log("DB request failed: " + r.error, Category.DatabaseAPI);
 		// 	} else {
-				
+
 		// 	}
 		// }
 	}
@@ -55,14 +69,16 @@ namespace DatabaseAPI
 	}
 
 	[Serializable]
-	public class RequestLogin{
+	public class RequestLogin
+	{
 		public string username;
 		public string password;
 		public string apiKey;
 	}
 
 	[Serializable]
-	public class ApiResponse{
+	public class ApiResponse
+	{
 		public int errorCode; //0 = all good, read the message variable now, otherwise read errorMsg
 		public string errorMsg;
 		public string message;
