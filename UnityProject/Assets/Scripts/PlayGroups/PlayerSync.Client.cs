@@ -74,7 +74,7 @@ public partial class PlayerSync
 			MoveCooldown = true;
 			//experiment: not enqueueing or processing action if floating.
 			//arguably it shouldn't really be like that in the future
-			if ( !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement ) {
+			if ( (!isPseudoFloatingClient && !isFloatingClient && !blockClientMovement) || (playerMove.isGhost && !blockClientMovement)) {
 //				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
 				//RequestMoveMessage.Send(action);

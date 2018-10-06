@@ -111,6 +111,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	{
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributes>();
+		tileDmgMask = LayerMask.GetMask ("Windows", "Walls");
 	}
 
 	public override void OnStartServer()

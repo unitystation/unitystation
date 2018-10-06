@@ -29,17 +29,24 @@ using UnityEngine.UI;
 				if (Input.GetKeyDown(KeyCode.A))
 				{
 					Drop();
+					Throw(true); //true is for force disable flag
 				}
 			} else {
 				if (Input.GetKeyDown(KeyCode.Q))
 				{
 					Drop();
+					Throw(true);
 				}
 			}
 
 			if (Input.GetKeyDown(KeyCode.R))
 			{
 				Throw();
+			}
+
+			if (Input.GetKeyUp(KeyCode.R))
+			{
+				Throw(true);
 			}
 			
 			if (Input.GetKeyDown(KeyCode.X))
@@ -124,27 +131,39 @@ using UnityEngine.UI;
 
 		/// Throw mode toggle. Actual throw is in
 		/// <see cref="InputController.CheckThrow()"/>
-		public void Throw()
+		public void Throw(bool forceDisable = false)
 		{
-			PlayerScript lps = PlayerManager.LocalPlayerScript;
-			UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
-			if (!lps || lps.canNotInteract() || !currentSlot.CanPlaceItem())
+			if(forceDisable)
 			{
+				Debug.Log("Force disable");
 				UIManager.IsThrow = false;
 				throwImage.sprite = throwSprites[0];
 				return;
 			}
-
-			SoundManager.Play("Click01");
-//			Logger.Log("Throw Button");
-
-			if (!UIManager.IsThrow)
+			// See if requesting to enable or disable throw (for keyDown or keyUp)
+			if (throwImage.sprite == throwSprites[0] && UIManager.IsThrow == false)
 			{
+				PlayerScript lps = PlayerManager.LocalPlayerScript;
+				UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
+
+				// Check if player can throw
+				if (!lps || lps.canNotInteract() || !currentSlot.CanPlaceItem())
+				{
+					UIManager.IsThrow = false;
+					throwImage.sprite = throwSprites[0];
+					return;
+				}
+
+				// Enable throw
+				Logger.Log("Throw Button Enabled", Category.UI);
+				SoundManager.Play("Click01");
 				UIManager.IsThrow = true;
 				throwImage.sprite = throwSprites[1];
 			}
-			else
+			else if (throwImage.sprite == throwSprites[1] && UIManager.IsThrow == true)
 			{
+				// Disable throw
+				Logger.Log("Throw Button Disabled", Category.UI);
 				UIManager.IsThrow = false;
 				throwImage.sprite = throwSprites[0];
 			}

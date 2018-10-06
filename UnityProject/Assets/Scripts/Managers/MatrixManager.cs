@@ -19,12 +19,6 @@ public class MatrixManager : MonoBehaviour
 	public List<MatrixInfo> Matrices => activeMatrices;
 
 	/// <summary>
-	/// using the Collider2D of a wall tile you can find the tilemap of the topLayerFX in that matrix.
-	/// Used for FOV and any effects that can be shown over the top of walls
-	/// </summary>
-	public Dictionary<Collider2D, Tilemap> wallsToTopLayerFX = new Dictionary<Collider2D, Tilemap>();
-
-	/// <summary>
 	/// Find a wall tilemap via its Tilemap collider
 	/// </summary>
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
@@ -62,10 +56,6 @@ public class MatrixManager : MonoBehaviour
 	public static bool IsPassableAt(Vector3Int worldTarget) {
 		return isAtInternal( mat => mat.Matrix.IsPassableAt( WorldToLocalInt( worldTarget, mat ) ) );
 	}
-	public static bool IsAtmosPassableAt(/*Vector3Int worldOrigin, */Vector3Int worldTarget) {
-		return isAtInternal( mat => mat.Matrix.IsAtmosPassableAt( /*WorldToLocalInt( worldOrigin, mat ),*/
-															 WorldToLocalInt( worldTarget, mat ) ) );
-	}
 
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>
 	public static IEnumerable<T> GetAt<T>( Vector3Int worldPos ) where T : MonoBehaviour {
@@ -93,7 +83,10 @@ public class MatrixManager : MonoBehaviour
 		return true;
 	}
 
+	/// <Summary>
 	/// Cross-matrix edition of GetFirst
+	/// Use a Vector3Int of the WorldPosition to use
+	/// </Summary>
 	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
 	{
 		for (var i = 0; i < activeMatrices.Count; i++)

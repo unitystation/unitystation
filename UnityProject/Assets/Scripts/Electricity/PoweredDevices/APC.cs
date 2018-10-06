@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 	{
 		public PoweredDevice poweredDevice;
 
-		List<Sprite> loadedScreenSprites = new List<Sprite>();
+		Sprite[] loadedScreenSprites;
 
 		public Sprite[] redSprites;
 		public Sprite[] blueSprites;
@@ -24,6 +24,8 @@ using UnityEngine.Networking;
 		private int charge = 10; //charge percent
 		private int displayIndex = 0; //for the animation
 
+		private Coroutine coScreenDisplayRefresh;
+
 		//green - fully charged and sufficient power from wire
 		//blue - charging, sufficient power from wire
 		//red - running off internal battery, not enough power from wire
@@ -31,15 +33,18 @@ using UnityEngine.Networking;
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
-			loadedScreenSprites.Add(deadSprite);
 			poweredDevice.OnSupplyChange.AddListener(SupplyUpdate);
-			StartCoroutine(ScreenDisplayRefresh());
+			if (coScreenDisplayRefresh == null)
+				coScreenDisplayRefresh = StartCoroutine(ScreenDisplayRefresh());
 		}
 
 		private void OnDisable()
 		{
 			poweredDevice.OnSupplyChange.RemoveListener(SupplyUpdate);
-			StopCoroutine(ScreenDisplayRefresh());
+			if (coScreenDisplayRefresh != null) {
+				StopCoroutine(coScreenDisplayRefresh);
+				coScreenDisplayRefresh = null;
+			}
 		}
 
 		//Called whenever the PoweredDevice updates
@@ -48,29 +53,31 @@ using UnityEngine.Networking;
 		}
 
 		void UpdateDisplay(){
-			loadedScreenSprites.Clear();
 			if (poweredDevice.suppliedElectricity.current == 0 && charge == 0){
-				loadedScreenSprites.Add(deadSprite);
+				loadedScreenSprites = null; // dead
 			}
 			if (poweredDevice.suppliedElectricity.current > 10 && charge > 0 && charge < 98) {
-				loadedScreenSprites = new List<Sprite>(blueSprites);
+				loadedScreenSprites = blueSprites;
 			}
 			if (poweredDevice.suppliedElectricity.current > 10 && charge >= 98) {
-				loadedScreenSprites = new List<Sprite>(greenSprites);
+				loadedScreenSprites = greenSprites;
 			}
 			if (poweredDevice.suppliedElectricity.current < 10 && charge > 0) {
-				loadedScreenSprites = new List<Sprite>(redSprites);
+				loadedScreenSprites = redSprites;
 			}
 		}
 
 		IEnumerator ScreenDisplayRefresh(){
 			yield return new WaitForEndOfFrame();
-			while(true){
-				displayIndex++;
-				if(displayIndex >= loadedScreenSprites.Count){
-					displayIndex = 0;
+			while(true) {
+				if (loadedScreenSprites == null)
+					screenDisplay.sprite = deadSprite;
+				else {
+					if (++displayIndex >= loadedScreenSprites.Length) {
+						displayIndex = 0;
+					}
+					screenDisplay.sprite = loadedScreenSprites[displayIndex];
 				}
-				screenDisplay.sprite = loadedScreenSprites[displayIndex];
 				yield return new WaitForSeconds(3f);
 			}
 		}

@@ -25,14 +25,6 @@ using UnityEngine.Networking;
 			}
 		}
 
-		public override void Interact(GameObject originator, Vector3 position, string hand)
-		{
-			if (closetControl.IsClosed)
-			{
-				base.Interact(originator, position, hand);
-			}
-		}
-
 		[Server]
 		private void ServerDeathActions()
 		{
