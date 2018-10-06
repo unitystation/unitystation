@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 
 	[ExecuteInEditMode]
@@ -11,6 +11,11 @@ using UnityEngine;
 		private void Awake()
 		{
 			systemManager = GetComponentInParent<SystemManager>();
+		}
+
+		public override void AfterUpdate()
+		{
+			systemManager?.UpdateAt(Position);
 		}
 
 		[SerializeField]
