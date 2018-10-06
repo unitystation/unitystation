@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 
 	[ExecuteInEditMode]
@@ -29,7 +29,7 @@
 			}
 		}
 
-		public override bool IsPassable(Vector3Int to)
+		public override bool IsPassableTo( Vector3Int to )
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
@@ -41,6 +41,11 @@
 			return !isClosed;
 		}
 
+		public override bool IsPassable( Vector3Int from )
+		{
+			return IsPassableTo( from );
+		}
+		
 		public override bool IsPassable()
 		{
 			return !isClosed;

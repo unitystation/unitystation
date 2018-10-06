@@ -53,6 +53,9 @@ public class MatrixManager : MonoBehaviour
 		return isAtInternal( mat => mat.Matrix.IsPassableAt( WorldToLocalInt( worldOrigin, mat ),
 															 WorldToLocalInt( worldTarget, mat ) ) );
 	}
+	public static bool IsPassableAt(Vector3Int worldTarget) {
+		return isAtInternal( mat => mat.Matrix.IsPassableAt( WorldToLocalInt( worldTarget, mat ) ) );
+	}
 
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>
 	public static IEnumerable<T> GetAt<T>( Vector3Int worldPos ) where T : MonoBehaviour {
