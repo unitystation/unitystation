@@ -24,7 +24,7 @@ public class ObjectBehaviour : PushPull
 	}
 	[ContextMethod("Drag","Drag_Hand")]
 	public void GUIOnMouseDown()
-	{
+	{ //TODO pull integration
 //		if (PlayerManager.LocalPlayerScript.IsInReach (transform.position)) 
 //		{
 //			if (pickUpTrigger != null && pulledBy != null)
