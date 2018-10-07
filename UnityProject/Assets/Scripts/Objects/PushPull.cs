@@ -43,7 +43,7 @@ public class PushPull : VisibleBehaviour {
 		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
 		if ( Vector2.Distance( (Vector3)from, (Vector3)currentPos) > 1 ||
-		     !MatrixManager.IsPassableAt( target ) ) {
+		     !MatrixManager.IsPassableAt( from, target ) ) {
 			return false;
 		}
 
@@ -67,7 +67,7 @@ public class PushPull : VisibleBehaviour {
 		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
 		if ( Vector2.Distance( (Vector3)from, (Vector3)lastReliablePos) > 1 ||
-		     !MatrixManager.IsPassableAt( target ) ) {
+		     !MatrixManager.IsPassableAt( from, target ) ) {
 			return false;
 		}
 
@@ -109,7 +109,7 @@ public class PushPull : VisibleBehaviour {
 
 	enum PushState { None, InProgress, Finished }
 	enum ApprovalState { None, Approved, Unexpected }
-
+	//todo: handle prediction swearing when pushing shit in space
 	#region Events
 
 	private void OnServerTileReached( Vector3Int pos ) {
