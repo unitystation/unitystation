@@ -42,6 +42,8 @@ namespace DatabaseAPI
 					errorCallBack.Invoke(apiResponse.errorMsg);
 				} else {
 					callBack.Invoke(apiResponse.message);
+					string s = r.GetResponseHeader("set-cookie");
+					sessionCookie = s.Split(';')[0];
 				}
 			}
 		}

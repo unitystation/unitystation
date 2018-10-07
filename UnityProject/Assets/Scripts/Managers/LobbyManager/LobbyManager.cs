@@ -9,6 +9,8 @@ namespace Lobby
 		public AccountLogin accountLogin;
 		public CharacterCustomization characterCustomization;
 
+		public GameObject lobbyDialogue;
+
 		void Awake()
 		{
 			if (Instance == null)
@@ -37,5 +39,15 @@ namespace Lobby
 			accountLogin.gameObject.SetActive(true);
 		}
 
+		public void CheckIfFirstTime(){
+			if(PlayerManager.CurrentCharacterSettings.username == null){
+				//is First time, show the character settings screen
+				lobbyDialogue.SetActive(false);
+				characterCustomization.gameObject.SetActive(true);
+			} else {
+				//show something else
+				lobbyDialogue.gameObject.SetActive(false);
+			}
+		}
 	}
 }

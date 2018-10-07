@@ -95,14 +95,18 @@ namespace Lobby
 			nextCreationButton.SetActive(false);
 			goBackCreationButton.SetActive(false);
 			pleaseWaitCreationText.text = "Please wait..";
+			
 			ServerData.TryCreateAccount(chosenUsernameInput.text, chosenPasswordInput.text,
 				emailAddressInput.text, AccountCreationSuccess, AccountCreationError);
 		}
 
 		private void AccountCreationSuccess(string message)
 		{
-			pleaseWaitCreationText.text = message;
-			nextCreationButton.SetActive(true);
+			pleaseWaitCreationText.text = "Created Successfully";
+			PlayerManager.CurrentCharacterSettings = new CharacterSettings();
+			GameData.LoggedInUsername = chosenUsernameInput.text;
+			GameData.IsLoggedIn = true;
+		//	nextCreationButton.SetActive(true);
 		}
 
 		private void AccountCreationError(string errorText)
@@ -125,7 +129,10 @@ namespace Lobby
 		private void LoginSuccess(string msg)
 		{
 			loggingInText.text = "Login Success..";
-			loginNextButton.SetActive(true);
+			var characterSettings = JsonUtility.FromJson<CharacterSettings>(msg);
+			PlayerManager.CurrentCharacterSettings = characterSettings;
+			GameData.IsLoggedIn = true;
+			
 		}
 
 		private void LoginError(string msg)

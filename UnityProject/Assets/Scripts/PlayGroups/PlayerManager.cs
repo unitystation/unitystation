@@ -18,7 +18,7 @@ public class PlayerManager : MonoBehaviour
 
 	public static string PlayerNameCache { get; set; } = "Cuban Pete";
 
-	public static CharacterSettings CurrentCharacterSettings { get; private set; }
+	public static CharacterSettings CurrentCharacterSettings { get; set; }
 
 	public static PlayerManager Instance
 	{

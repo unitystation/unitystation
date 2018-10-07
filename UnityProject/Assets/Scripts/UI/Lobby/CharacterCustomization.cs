@@ -58,7 +58,7 @@ namespace Lobby
 		}
 		private async void LoadSettings()
 		{
-			await Task.Delay(2000);
+			await Task.Delay(500);
 			currentCharacter = PlayerManager.CurrentCharacterSettings;
 			DoInitChecks();
 		}

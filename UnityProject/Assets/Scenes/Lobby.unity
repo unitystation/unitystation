@@ -384,7 +384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &61182274
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2973,6 +2973,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   accountLogin: {fileID: 394047187}
+  characterCustomization: {fileID: 61182275}
+  lobbyDialogue: {fileID: 1498495212}
 --- !u!4 &394047186
 Transform:
   m_ObjectHideFlags: 0
@@ -9108,8 +9110,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: ShowCreationPanel
+      - m_Target: {fileID: 61182275}
+        m_MethodName: OnCancelBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9540,7 +9542,7 @@ Prefab:
     - target: {fileID: 224759607104819202, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000027856862
+      value: 0.000053872795
       objectReference: {fileID: 0}
     - target: {fileID: 224709062734776106, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
@@ -10181,7 +10183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1498495213
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12062,8 +12064,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnLogin
+      - m_Target: {fileID: 61182275}
+        m_MethodName: OnApplyBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
