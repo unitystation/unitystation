@@ -107,7 +107,10 @@ public abstract class RegisterTile : NetworkBehaviour
 	public void UpdatePosition()
 	{
 		Position = Vector3Int.RoundToInt(transform.localPosition);
+		AfterUpdate();
 	}
+
+	public virtual void AfterUpdate() {}
 
 	public void Unregister()
 	{
@@ -119,11 +122,18 @@ public abstract class RegisterTile : NetworkBehaviour
 	{
 		return true;
 	}
-
-	public virtual bool IsPassable(Vector3Int from)
+    
+	/// Is it passable when approaching from outside?
+	public virtual bool IsPassable( Vector3Int from )
 	{
 		return true;
 	}
+
+	/// Is it passable when trying to leave it?
+    public virtual bool IsPassableTo( Vector3Int to )
+    {
+        return true;
+    }
 
 	public virtual bool IsAtmosPassable()
 	{

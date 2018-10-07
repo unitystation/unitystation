@@ -33,21 +33,19 @@ public class Matrix : MonoBehaviour
 		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
 	}
 
+    public bool IsPassableAt(Vector3Int position)
+    {
+        return IsPassableAt(position, position);
+    }
+
 	public bool IsPassableAt(Vector3Int origin, Vector3Int position)
 	{
 		return metaTileMap.IsPassableAt(origin, position);
 	}
 
-	//TODO:  This should be removed, due to windows mucking things up, and replaced with origin and position
-	public bool IsPassableAt(Vector3Int position)
+	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position)
 	{
-		return metaTileMap.IsPassableAt(position);
-	}
-
-	//TODO:  This should also be removed, due to windows mucking things up, and replaced with origin and position
-	public bool IsAtmosPassableAt(Vector3Int position)
-	{
-		return metaTileMap.IsAtmosPassableAt(position);
+		return metaTileMap.IsAtmosPassableAt(origin, position);
 	}
 
 	public bool IsSpaceAt(Vector3Int position)
@@ -57,7 +55,7 @@ public class Matrix : MonoBehaviour
 
 	public bool IsEmptyAt(Vector3Int position)
 	{
-			return metaTileMap.IsEmptyAt(position);
+		return metaTileMap.IsEmptyAt(position);
 	}
 
 	public bool IsFloatingAt(Vector3Int position)

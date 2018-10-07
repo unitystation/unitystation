@@ -8,7 +8,7 @@ public class ChatIcon : MonoBehaviour
 	private SpriteRenderer spriteRend;
 	public Sprite talkSprite;
 
-	private bool waitToTurnOff;
+	private Coroutine coWaitToTurnOff;
 
 	// Use this for initialization
 	private void Start()
@@ -22,28 +22,27 @@ public class ChatIcon : MonoBehaviour
 	{
 		spriteRend.sprite = talkSprite;
 		spriteRend.enabled = true;
-		if (waitToTurnOff)
+		if (coWaitToTurnOff != null)
 		{
-			StopCoroutine(WaitToTurnOff());
-			waitToTurnOff = false;
+			StopCoroutine(coWaitToTurnOff);
+			coWaitToTurnOff = null;
 		}
-		StartCoroutine(WaitToTurnOff());
+		coWaitToTurnOff = StartCoroutine(WaitToTurnOff());
 	}
 
 	public void TurnOffTalkIcon()
 	{
-		if (waitToTurnOff)
+		if (coWaitToTurnOff != null)
 		{
-			StopCoroutine(WaitToTurnOff());
+			StopCoroutine(coWaitToTurnOff);
+			coWaitToTurnOff = null;
 		}
 		spriteRend.enabled = false;
-		waitToTurnOff = false;
 	}
 
 	private IEnumerator WaitToTurnOff()
 	{
 		yield return new WaitForSeconds(3f);
 		spriteRend.enabled = false;
-		waitToTurnOff = false;
 	}
 }
