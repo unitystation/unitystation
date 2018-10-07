@@ -1,4 +1,5 @@
-﻿using DatabaseAPI;
+﻿using System.Text.RegularExpressions;
+using DatabaseAPI;
 using Facepunch.Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,7 @@ namespace Lobby
 		public GameObject wrongVersionPanel;
 		public GameObject controlInformationPanel;
 		public GameObject loggingInPanel;
+		public GameObject connectionPanel;
 
 		//Account Creation screen:
 		public InputField chosenUsernameInput;
@@ -87,6 +89,19 @@ namespace Lobby
 			dialogueTitle.text = "Create an Account";
 		}
 
+		public void ShowConnectionPanel()
+		{
+			HideAllPanels();
+			if (GameData.IsLoggedIn)
+			{
+				connectionPanel.SetActive(true);
+			}
+			else
+			{
+				loggingInPanel.SetActive(true);
+			}
+		}
+
 		public void CreationNextButton()
 		{
 			SoundManager.Play("Click01");
@@ -95,7 +110,7 @@ namespace Lobby
 			nextCreationButton.SetActive(false);
 			goBackCreationButton.SetActive(false);
 			pleaseWaitCreationText.text = "Please wait..";
-			
+
 			ServerData.TryCreateAccount(chosenUsernameInput.text, chosenPasswordInput.text,
 				emailAddressInput.text, AccountCreationSuccess, AccountCreationError);
 		}
@@ -106,7 +121,7 @@ namespace Lobby
 			PlayerManager.CurrentCharacterSettings = new CharacterSettings();
 			GameData.LoggedInUsername = chosenUsernameInput.text;
 			GameData.IsLoggedIn = true;
-		//	nextCreationButton.SetActive(true);
+			//	nextCreationButton.SetActive(true);
 		}
 
 		private void AccountCreationError(string errorText)
@@ -129,10 +144,8 @@ namespace Lobby
 		private void LoginSuccess(string msg)
 		{
 			loggingInText.text = "Login Success..";
-			var characterSettings = JsonUtility.FromJson<CharacterSettings>(msg);
+			var characterSettings = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(msg));
 			PlayerManager.CurrentCharacterSettings = characterSettings;
-			GameData.IsLoggedIn = true;
-			
 		}
 
 		private void LoginError(string msg)
@@ -141,74 +154,69 @@ namespace Lobby
 			loginGoBackButton.SetActive(true);
 		}
 
-		public void OnLoginNextBtn(){
+		public void OnLoginNextBtn()
+		{
 
 		}
 
 		// Button handlers
-		// public void OnStartGame()
-		// {
-		// 	SoundManager.Play("Click01");
+		public void OnStartGame()
+		{
+			SoundManager.Play("Click01");
 
-		// 	// Return if no player name or incorrect screen
-		// 	if (string.IsNullOrEmpty(playerNameInput.text.Trim()))
-		// 	{
-		// 		return;
-		// 	}
-		// 	if (!startGamePanel.activeInHierarchy)
-		// 	{
-		// 		return;
-		// 	}
+			if (!connectionPanel.activeInHierarchy)
+			{
+				return;
+			}
 
-		// 	// Return if no network address is specified
-		// 	if (string.IsNullOrEmpty(serverAddressInput.text))
-		// 	{
-		// 		return;
-		// 	}
+			// Return if no network address is specified
+			if (string.IsNullOrEmpty(serverAddressInput.text))
+			{
+				return;
+			}
 
-		// 	// Set and cache player name
-		// 	PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
-		// 	PlayerManager.PlayerNameCache = playerNameInput.text;
+			// Set and cache player name
+			PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSettings.Name);
 
-		// 	// Start game
-		// 	dialogueTitle.text = "Starting Game...";
-		// 	if (BuildPreferences.isForRelease || !hostServerToggle.isOn)
-		// 	{
-		// 		ConnectToServer();
-		// 	}
-		// 	else
-		// 	{
-		// 		networkManager.StartHost();
-		// 	}
+			// Start game
+			dialogueTitle.text = "Starting Game...";
+			if (BuildPreferences.isForRelease || !hostServerToggle.isOn)
+			{
+				ConnectToServer();
+			}
+			else
+			{
+				networkManager.StartHost();
+			}
 
-		// 	// Hide dialogue and show status text
-		// 	gameObject.SetActive(false);
-		// 	//	UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
-		// }
+			// Hide dialogue and show status text
+			gameObject.SetActive(false);
+			//	UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
+		}
 
-		// public void OnShowInformationPanel()
-		// {
-		// 	SoundManager.Play("Click01");
-		// 	ShowInformationPanel();
-		// }
+		public void OnShowInformationPanel()
+		{
+			SoundManager.Play("Click01");
+			ShowInformationPanel();
+		}
 
-		// public void OnShowControlInformationPanel()
-		// {
-		// 	SoundManager.Play("Click01");
-		// 	ShowControlInformationPanel();
-		// }
+		public void OnShowControlInformationPanel()
+		{
+			SoundManager.Play("Click01");
+			ShowControlInformationPanel();
+		}
 
-		// public void OnTryAgain()
-		// {
-		// 	SoundManager.Play("Click01");
-		// 	ShowStartGamePanel();
-		// }
+		public void OnTryAgain()
+		{
+			SoundManager.Play("Click01");
+			ShowStartGamePanel();
+		}
 
-		// public void OnReturnToPlayerLogin()
-		// {
-		// 	SoundManager.Play("Click01");
-		// 	ShowStartGamePanel();
-		// }
+		public void OnReturnToPlayerLogin()
+		{
+			SoundManager.Play("Click01");
+			ShowStartGamePanel();
+		}
 
 		// Game handlers
 		void ConnectToServer()
@@ -271,30 +279,30 @@ namespace Lobby
 		}
 
 		// Panel helpers
-		// void ShowStartGamePanel()
-		// {
-		// 	HideAllPanels();
-		// 	//FIXME
-		// 	//	startGamePanel.SetActive(true);
-		// }
+		void ShowStartGamePanel()
+		{
+			HideAllPanels();
+			//FIXME
+			//startGamePanel.SetActive(true);
+		}
 
-		// void ShowInformationPanel()
-		// {
-		// 	HideAllPanels();
-		// 	informationPanel.SetActive(true);
-		// }
+		void ShowInformationPanel()
+		{
+			HideAllPanels();
+			informationPanel.SetActive(true);
+		}
 
-		// void ShowControlInformationPanel()
-		// {
-		// 	HideAllPanels();
-		// 	controlInformationPanel.SetActive(true);
-		// }
+		void ShowControlInformationPanel()
+		{
+			HideAllPanels();
+			controlInformationPanel.SetActive(true);
+		}
 
-		// void ShowWrongVersionPanel()
-		// {
-		// 	HideAllPanels();
-		// 	wrongVersionPanel.SetActive(true);
-		// }
+		void ShowWrongVersionPanel()
+		{
+			HideAllPanels();
+			wrongVersionPanel.SetActive(true);
+		}
 
 		void HideAllPanels()
 		{
@@ -307,6 +315,7 @@ namespace Lobby
 			wrongVersionPanel.SetActive(false);
 			controlInformationPanel.SetActive(false);
 			loggingInPanel.SetActive(false);
+			connectionPanel.SetActive(false);
 		}
 	}
 }

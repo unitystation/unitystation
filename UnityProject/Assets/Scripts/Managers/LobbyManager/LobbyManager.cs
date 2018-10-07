@@ -9,7 +9,7 @@ namespace Lobby
 		public AccountLogin accountLogin;
 		public CharacterCustomization characterCustomization;
 
-		public GameObject lobbyDialogue;
+		public GUI_LobbyDialogue lobbyDialogue;
 
 		void Awake()
 		{
@@ -42,11 +42,11 @@ namespace Lobby
 		public void CheckIfFirstTime(){
 			if(PlayerManager.CurrentCharacterSettings.username == null){
 				//is First time, show the character settings screen
-				lobbyDialogue.SetActive(false);
+				lobbyDialogue.gameObject.SetActive(false);
 				characterCustomization.gameObject.SetActive(true);
 			} else {
-				//show something else
-				lobbyDialogue.gameObject.SetActive(false);
+				//Show logged in things:
+				lobbyDialogue.ShowConnectionPanel();
 			}
 		}
 	}

@@ -16,7 +16,7 @@ public class PlayerManager : MonoBehaviour
 
 	public static bool HasSpawned { get; private set; }
 
-	public static string PlayerNameCache { get; set; } = "Cuban Pete";
+	public static string PlayerNameCache => CurrentCharacterSettings.Name;
 
 	public static CharacterSettings CurrentCharacterSettings { get; set; }
 
