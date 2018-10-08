@@ -37,6 +37,7 @@ namespace Lobby
 		{
 			characterCustomization.gameObject.SetActive(false);
 			accountLogin.gameObject.SetActive(true);
+			lobbyDialogue.ShowLoginScreen();
 		}
 
 		public void CheckIfFirstTime(){

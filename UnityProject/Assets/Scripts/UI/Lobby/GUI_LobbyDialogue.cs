@@ -38,6 +38,7 @@ namespace Lobby
 		public Text pleaseWaitCreationText;
 		public Text loggingInText;
 		public Toggle hostServerToggle;
+		public Toggle autoLoginToggle;
 
 		private CustomNetworkManager networkManager;
 
@@ -57,15 +58,7 @@ namespace Lobby
 			}
 			serverPortInput.text = DefaultServerPort.ToString();
 
-			// OnChange handler for toggle to
-			// disable server address and port
-			// input fields
-			hostServerToggle.onValueChanged.AddListener(isOn =>
-			{
-				serverAddressInput.interactable = !isOn;
-				serverPortInput.interactable = !isOn;
-			});
-			hostServerToggle.onValueChanged.Invoke(hostServerToggle.isOn);
+			OnHostToggle();
 
 			// Init Lobby UI
 			InitPlayerName();
@@ -89,16 +82,25 @@ namespace Lobby
 			dialogueTitle.text = "Create an Account";
 		}
 
+		public void ShowCharacterEditor()
+		{
+			SoundManager.Play("Click01");
+			HideAllPanels();
+			LobbyManager.Instance.characterCustomization.gameObject.SetActive(true);
+		}
+
 		public void ShowConnectionPanel()
 		{
 			HideAllPanels();
 			if (GameData.IsLoggedIn)
 			{
 				connectionPanel.SetActive(true);
+				dialogueTitle.text = "Logged in as: " + GameData.LoggedInUsername;
 			}
 			else
 			{
 				loggingInPanel.SetActive(true);
+				dialogueTitle.text = "Please Wait..";
 			}
 		}
 
@@ -121,6 +123,9 @@ namespace Lobby
 			PlayerManager.CurrentCharacterSettings = new CharacterSettings();
 			GameData.LoggedInUsername = chosenUsernameInput.text;
 			GameData.IsLoggedIn = true;
+			chosenPasswordInput.text = "";
+			chosenUsernameInput.text = "";
+			emailAddressInput.text = "";
 			//	nextCreationButton.SetActive(true);
 		}
 
@@ -138,13 +143,26 @@ namespace Lobby
 			loggingInText.text = "Logging in..";
 			loginNextButton.SetActive(false);
 			loginGoBackButton.SetActive(false);
-			LobbyManager.Instance.accountLogin.TryLogin(LoginSuccess, LoginError);
+
+			LobbyManager.Instance.accountLogin.TryLogin(LoginSuccess, LoginError, autoLoginToggle.isOn);
+		}
+
+		public void OnLogout()
+		{
+			SoundManager.Play("Click01");
+			HideAllPanels();
+			GameData.IsLoggedIn = false;
+			PlayerPrefs.SetString("username", "");
+			PlayerPrefs.SetString("cookie", "");
+			PlayerPrefs.SetInt("autoLogin", 0);
+			PlayerPrefs.Save();
 		}
 
 		private void LoginSuccess(string msg)
 		{
 			loggingInText.text = "Login Success..";
 			var characterSettings = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(msg));
+			PlayerPrefs.SetString("currentcharacter", msg);
 			PlayerManager.CurrentCharacterSettings = characterSettings;
 		}
 
@@ -154,9 +172,10 @@ namespace Lobby
 			loginGoBackButton.SetActive(true);
 		}
 
-		public void OnLoginNextBtn()
+		public void OnHostToggle()
 		{
-
+			serverAddressInput.interactable = !hostServerToggle.isOn;
+			serverPortInput.interactable = !hostServerToggle.isOn;
 		}
 
 		// Button handlers
@@ -206,16 +225,9 @@ namespace Lobby
 			ShowControlInformationPanel();
 		}
 
-		public void OnTryAgain()
+		public void OnCharacterButton()
 		{
-			SoundManager.Play("Click01");
-			ShowStartGamePanel();
-		}
-
-		public void OnReturnToPlayerLogin()
-		{
-			SoundManager.Play("Click01");
-			ShowStartGamePanel();
+			ShowCharacterEditor();
 		}
 
 		// Game handlers
@@ -276,14 +288,6 @@ namespace Lobby
 				//FIXME
 				//	playerNameInput.text = prefsName;
 			}
-		}
-
-		// Panel helpers
-		void ShowStartGamePanel()
-		{
-			HideAllPanels();
-			//FIXME
-			//startGamePanel.SetActive(true);
 		}
 
 		void ShowInformationPanel()

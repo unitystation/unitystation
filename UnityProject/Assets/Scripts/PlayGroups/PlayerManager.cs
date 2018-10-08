@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using Lobby;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using Lobby;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -33,9 +33,16 @@ public class PlayerManager : MonoBehaviour
 		}
 	}
 
-	void Start()
+	void Awake()
 	{
-		if(!PlayerPrefs.HasKey("currentcharacter")){
+		if (!PlayerPrefs.HasKey("currentcharacter"))
+		{
+			PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(new CharacterSettings()));
+			PlayerPrefs.Save();
+		}
+
+		if (string.IsNullOrWhiteSpace(PlayerPrefs.GetString("currentcharacter")))
+		{
 			PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(new CharacterSettings()));
 			PlayerPrefs.Save();
 		}
@@ -51,6 +58,8 @@ public class PlayerManager : MonoBehaviour
 	private void OnDisable()
 	{
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(new CharacterSettings()));
+		PlayerPrefs.Save();
 	}
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)

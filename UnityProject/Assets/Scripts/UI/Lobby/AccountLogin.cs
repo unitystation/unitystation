@@ -18,10 +18,10 @@ namespace Lobby
 			userNameInput.text = "CubanPete";
 			passwordInput.text = "cuban123";
 		}
-		public void TryLogin(Action<string> successAction, Action<string> errorAction)
+		public void TryLogin(Action<string> successAction, Action<string> errorAction, bool autoLoginSetting)
 		{
 			ServerData.AttemptLogin(userNameInput.text, passwordInput.text,
-				successAction, errorAction);
+				successAction, errorAction, autoLoginSetting);
 
 		}
 

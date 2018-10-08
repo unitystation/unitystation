@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,9 +55,8 @@ namespace Lobby
 		{
 			colorPicker.onValueChanged.RemoveListener(OnColorChange);
 		}
-		private async void LoadSettings()
+		private void LoadSettings()
 		{
-			await Task.Delay(500);
 			currentCharacter = PlayerManager.CurrentCharacterSettings;
 			DoInitChecks();
 		}
@@ -123,6 +121,8 @@ namespace Lobby
 		private void SaveData()
 		{
 			ServerData.UpdateCharacterProfile(currentCharacter, SaveDataSuccess, SaveDataError);
+			PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(currentCharacter));
+			PlayerPrefs.Save();
 		}
 
 		public void SaveDataError(string msg)
@@ -144,6 +144,12 @@ namespace Lobby
 		public void OnApplyBtn()
 		{
 			SaveData();
+			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
+			if(GameData.IsLoggedIn){
+				LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
+			} else {
+				LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+			}
 			gameObject.SetActive(false);
 		}
 
@@ -151,6 +157,12 @@ namespace Lobby
 		{
 			currentCharacter = lastSettings;
 			RefreshAll();
+			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
+			if(GameData.IsLoggedIn){
+				LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
+			} else {
+				LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
+			}
 			gameObject.SetActive(false);
 		}
 
@@ -542,33 +554,33 @@ namespace Lobby
 public class CharacterSettings
 {
 	public string username;
-	public string Name;
+	public string Name = "Cuban Pete";
 	public Gender Gender = Gender.Male;
 	public int Age = 22;
-	public int hairStyleOffset;
-	public string hairStyleName;
-	public int hairCollectionIndex;
+	public int hairStyleOffset = -1;
+	public string hairStyleName = "Bald";
+	public int hairCollectionIndex = 4;
 	public string hairColor = "black";
 	public string eyeColor = "black";
-	public int facialHairOffset;
-	public string facialHairName;
-	public int facialHairCollectionIndex;
-	public string facialHairColor;
+	public int facialHairOffset = -1;
+	public string facialHairName = "Shaved";
+	public int facialHairCollectionIndex = 4;
+	public string facialHairColor = "black";
 	public string skinTone = "#ffe0d1";
-	public int underwearOffset;
-	public string underwearName;
-	public int underwearCollectionIndex;
-	public int socksOffset;
-	public string socksName;
-	public int socksCollectionIndex;
+	public int underwearOffset = 20;
+	public string underwearName = "Mankini";
+	public int underwearCollectionIndex = 1;
+	public int socksOffset = 376;
+	public string socksName = "Knee-High (Freedom)";
+	public int socksCollectionIndex = 3;
 
 	int maleHeadIndex = 20;
 	int femaleHeadIndex = 24;
 	int maleTorsoIndex = 28;
 	int femaleTorsoIndex = 32;
 
-	public int headSpriteIndex;
-	public int torsoSpriteIndex;
+	public int headSpriteIndex = 20;
+	public int torsoSpriteIndex = 28;
 
 	public void LoadHairSetting(SpriteAccessory hair)
 	{

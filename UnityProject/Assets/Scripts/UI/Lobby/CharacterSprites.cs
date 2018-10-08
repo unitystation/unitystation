@@ -15,10 +15,14 @@ namespace Lobby
 		private CharacterView characterView;
 
 		public Image image { get; private set; }
+
+		void Awake()
+		{
+			image = GetComponent<Image>();
+		}
 		private void Start()
 		{
 			sprites = SpriteManager.PlayerSprites[spriteSheetName];
-			image = GetComponent<Image>();
 			UpdateSprite();
 		}
 

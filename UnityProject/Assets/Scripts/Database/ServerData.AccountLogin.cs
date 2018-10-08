@@ -9,7 +9,7 @@ namespace DatabaseAPI
 	public partial class ServerData
 	{
 		public static void AttemptLogin(string username, string _password,
-			Action<string> successCallBack, Action<string> failedCallBack)
+			Action<string> successCallBack, Action<string> failedCallBack, bool autoLoginSetting)
 		{
 			var newRequest = new RequestLogin
 			{
@@ -18,11 +18,11 @@ namespace DatabaseAPI
 					apiKey = ApiKey
 			};
 
-			Instance.StartCoroutine(Instance.PreformLogin(newRequest, successCallBack, failedCallBack));
+			Instance.StartCoroutine(Instance.PreformLogin(newRequest, successCallBack, failedCallBack, autoLoginSetting));
 		}
 
 		IEnumerator PreformLogin(RequestLogin request,
-			Action<string> successCallBack, Action<string> errorCallBack)
+			Action<string> successCallBack, Action<string> errorCallBack, bool autoLoginSetting)
 		{
 			var requestData = JsonUtility.ToJson(request);
 			UnityWebRequest r = UnityWebRequest.Get(URL_TryLogin + WWW.EscapeURL(requestData));
@@ -37,16 +37,27 @@ namespace DatabaseAPI
 				var apiResponse = JsonUtility.FromJson<ApiResponse>(r.downloadHandler.text);
 				if (apiResponse.errorCode != 0)
 				{
-					errorCallBack.Invoke(apiResponse.errorMsg);
 					GameData.IsLoggedIn = false;
+					PlayerPrefs.SetString("username","");
+					PlayerPrefs.SetString("cookie", "");
+					PlayerPrefs.SetInt("autoLogin", 0);
+					PlayerPrefs.Save();
+					errorCallBack.Invoke(apiResponse.errorMsg);
 				}
 				else
 				{
-					successCallBack.Invoke(apiResponse.message);
 					string s = r.GetResponseHeader("set-cookie");
-					sessionCookie = s.Split(';')[0];
-					GameData.IsLoggedIn = true;
+					sessionCookie = s.Split(';') [0];
 					GameData.LoggedInUsername = request.username;
+					GameData.IsLoggedIn = true;
+					if (autoLoginSetting)
+					{
+						PlayerPrefs.SetString("username", request.username);
+						PlayerPrefs.SetString("cookie", s);
+						PlayerPrefs.SetInt("autoLogin", 1);
+						PlayerPrefs.Save();
+					}
+					successCallBack.Invoke(apiResponse.message);
 				}
 			}
 		}
