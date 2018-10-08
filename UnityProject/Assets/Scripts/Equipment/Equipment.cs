@@ -64,8 +64,6 @@ using UnityEngine.Networking;
 				}
 			}
 			isInit = true;
-			//Player sprite offset:
-			clothingSlots[10].Reference = 33;
 			if (isServer)
 			{
 				StartCoroutine(SetPlayerLoadOuts());
