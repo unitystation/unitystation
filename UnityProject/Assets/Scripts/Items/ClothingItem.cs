@@ -124,7 +124,7 @@
 			UpdateSprite();
 		}
 
-		private void UpdateSprite()
+		public void UpdateSprite()
 		{
 			if (spriteRenderer != null)
 			{
