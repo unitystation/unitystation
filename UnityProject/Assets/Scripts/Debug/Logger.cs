@@ -162,5 +162,6 @@ public enum Category {
 	Audio,
 	Research,
 	TileMaps,
-	Construction
+	Construction,
+	DatabaseAPI
 }
