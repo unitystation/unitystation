@@ -1,6 +1,7 @@
 ﻿using Lobby;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Text.RegularExpressions;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class PlayerManager : MonoBehaviour
 			PlayerPrefs.Save();
 		}
 
-		CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(PlayerPrefs.GetString("currentcharacter"));
+		CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(PlayerPrefs.GetString("currentcharacter")));
 	}
 
 	private void OnEnable()

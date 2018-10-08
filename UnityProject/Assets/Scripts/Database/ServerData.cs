@@ -80,6 +80,10 @@ namespace DatabaseAPI
 		public void OnLogOut()
 		{
 			sessionCookie = null;
+			PlayerPrefs.SetString("username", "");
+			PlayerPrefs.SetString("cookie", "");
+			PlayerPrefs.SetInt("autoLogin", 0);
+			PlayerPrefs.Save();
 		}
 		//Example of request with cookie auth
 		// IEnumerator AttemptTest(string request)

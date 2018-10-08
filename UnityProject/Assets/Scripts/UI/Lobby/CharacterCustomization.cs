@@ -102,8 +102,14 @@ namespace Lobby
 			}
 			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[
 				UnityEngine.Random.Range(0, SpriteManager.HairCollection.Count - 1)]);
+
+			currentCharacter.hairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];
+
 			currentCharacter.LoadFacialHairSetting(SpriteManager.FacialHairCollection[
 				SpriteManager.FacialHairCollection.Count - 1]);
+
+			currentCharacter.facialHairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];
+
 			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[
 				UnityEngine.Random.Range(0, SpriteManager.UnderwearCollection.Count - 1)]);
 			currentCharacter.LoadSocksSetting(SpriteManager.SocksCollection[
@@ -145,9 +151,12 @@ namespace Lobby
 		{
 			SaveData();
 			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
-			if(GameData.IsLoggedIn){
+			if (GameData.IsLoggedIn)
+			{
 				LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
-			} else {
+			}
+			else
+			{
 				LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
 			}
 			gameObject.SetActive(false);
@@ -158,9 +167,12 @@ namespace Lobby
 			currentCharacter = lastSettings;
 			RefreshAll();
 			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
-			if(GameData.IsLoggedIn){
+			if (GameData.IsLoggedIn)
+			{
 				LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
-			} else {
+			}
+			else
+			{
 				LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
 			}
 			gameObject.SetActive(false);
