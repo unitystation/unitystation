@@ -54,4 +54,14 @@ public class AtmosThread
 			Monitor.PulseAll(lockGetWork);
 		}
 	}
+
+	public void SetSpeed(float speed)
+	{
+		simulation.Speed = speed;
+	}
+
+	public int GetUpdateListCount()
+	{
+		return simulation.UpdateListCount;
+	}
 }

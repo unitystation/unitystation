@@ -4,19 +4,31 @@ using UnityEngine;
 
 public class AtmosSystem : SubsystemBehaviour
 {
+	public float Speed = 0.1f;
+
 	private AtmosThread thread;
 
 	public override void Initialize()
 	{
+		InitializeAtmos();
+
 		thread = new AtmosThread(metaDataLayer);
 		new Thread(thread.Run).Start();
-
-		InitializeAtmos();
 	}
 
 	public override void UpdateAt(Vector3Int position)
 	{
 		thread?.Enqueue(position);
+	}
+
+	public int GetUpdateListCount()
+	{
+		return thread?.GetUpdateListCount() ?? 0;
+	}
+
+	private void OnValidate()
+	{
+		thread?.SetSpeed(Speed);
 	}
 
 	private void OnDestroy()
@@ -32,14 +44,13 @@ public class AtmosSystem : SubsystemBehaviour
 		{
 			MetaDataNode node = metaDataLayer.Get(position, false);
 
-			switch (node.Type)
+			if (node.IsRoom)
 			{
-				case NodeType.Room:
-					AtmosUtils.SetAir(node);
-					break;
-				case NodeType.Space:
-					AtmosUtils.SetEmpty(node);
-					break;
+				AtmosUtils.SetAir(node);
+			}
+			else
+			{
+				AtmosUtils.SetEmpty(node);
 			}
 		}
 	}

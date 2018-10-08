@@ -12,6 +12,7 @@ public class MetaDataView : BasicView
 		localChecks.Add(new RoomCheck());
 		localChecks.Add(new PressureCheck());
 		localChecks.Add(new TemperatureCheck());
+		localChecks.Add(new MolesCheck());
 		localChecks.Add(new ExistCheck());
 		localChecks.Add(new WallCheck());
 		localChecks.Add(new NeighborCheck());
@@ -149,16 +150,6 @@ public class MetaDataView : BasicView
 	{
 		public override string Label { get; } = "Temperature";
 
-		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
-		{
-			MetaDataNode node = source.Get(position, false);
-
-			if (node.Exists)
-			{
-//				GizmoUtils.DrawCube(position, Color.blue, alpha:node.Atmos.Temperature / 200);
-			}
-		}
-
 		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
 		{
 			MetaDataNode node = source.Get(position, false);
@@ -167,6 +158,22 @@ public class MetaDataView : BasicView
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
 				GizmoUtils.DrawText($"{node.Atmos.Temperature:0.###}", p, false);
+			}
+		}
+	}
+
+	private class MolesCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Moles";
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				GizmoUtils.DrawText($"{node.Atmos.Moles:0.###}", p, false);
 			}
 		}
 	}

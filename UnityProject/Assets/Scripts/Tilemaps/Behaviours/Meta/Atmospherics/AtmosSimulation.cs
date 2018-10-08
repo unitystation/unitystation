@@ -1,17 +1,28 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Tilemaps.Behaviours.Meta;
 using Tilemaps.Behaviours.Meta.Utils;
 using UnityEngine;
+using UnityEngine.VR;
+using Debug = UnityEngine.Debug;
 
 namespace Atmospherics
 {
 	public class AtmosSimulation
 	{
-		private readonly MetaDataLayer metaDataLayer;
-
-		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
+		public float Speed = 0.1f;
 
 		public bool IsIdle => updateList.IsEmpty;
+
+		public int UpdateListCount => updateList.Count;
+
+		private readonly MetaDataLayer metaDataLayer;
+
+		private float factor;
+
+		private MetaDataNode[] nodes = new MetaDataNode[5];
+
+		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
 
 		public AtmosSimulation(MetaDataLayer metaDataLayer)
 		{
@@ -25,61 +36,107 @@ namespace Atmospherics
 
 		public void Run()
 		{
-			MetaDataNode node;
+			int count = updateList.Count;
 
-			while (updateList.TryDequeue(out node))
+			factor = Mathf.Clamp(Speed * count / 100f, 0.01f, 1f);
+
+			for (int i = 0; i < count; i++)
 			{
-				Update(node);
+				MetaDataNode node;
+				if (updateList.TryDequeue(out node))
+				{
+					Update(node);
+				}
 			}
 		}
 
 		private void Update(MetaDataNode node)
 		{
-			var nodes = new List<MetaDataNode>(5) {node};
+			nodes[0] = node;
 
 			MetaDataNode[] neighbors = node.GetNeighbors();
 
-			nodes.AddRange(neighbors);
-
-			if (node.IsOccupied || AtmosUtils.IsPressureChanged(node))
+			for (int i = 0; i < neighbors.Length; i++)
 			{
-				Equalize(nodes);
+				nodes[1 + i] = neighbors[i];
+			}
+
+			if (node.IsOccupied || node.IsSpace || AtmosUtils.IsPressureChanged(node))
+			{
+				Equalize(1 + neighbors.Length);
 
 				updateList.EnqueueAll(neighbors);
 			}
 		}
 
-		private static void Equalize(IReadOnlyCollection<MetaDataNode> nodes)
+		private void Equalize(int nodesCount)
 		{
-			List<MetaDataNode> targetNodes = new List<MetaDataNode>();
-			GasMix gasMix = GasMixUtils.Space;
+			int targetCount = 0;
 
-			foreach (MetaDataNode node in nodes)
+			float[] gases = new float[Gas.Count];
+			float pressure = 0f;
+
+			for (var i = 0; i < nodesCount; i++)
 			{
-				gasMix += node.Atmos;
+				MetaDataNode node = nodes[i];
 
-				switch (node.Type)
+				if (node.IsSpace)
 				{
-					case NodeType.Room:
-						targetNodes.Add(node);
-						break;
-					case NodeType.Occupied:
-						AtmosUtils.SetEmpty(node);
-						break;
-					case NodeType.Space:
-						targetNodes.Add(node);
-						AtmosUtils.SetEmpty(nodes);
-						return; // exit here
+					node.Atmos *= 1 - factor;
+				}
+
+				for (int j = 0; j < Gas.Count; j++)
+				{
+					gases[j] += node.Atmos.Gases[j];
+				}
+
+				pressure += node.Atmos.Pressure;
+
+				if (!node.IsOccupied)
+				{
+					targetCount++;
+				}
+				else
+				{
+					node.Atmos *= 1 - factor;
+
+					if (node.Atmos.Pressure > AtmosUtils.MinimumPressure)
+					{
+						updateList.Enqueue(node);
+					}
 				}
 			}
 
-			gasMix /= targetNodes.Count;
-
-			// Copy to other nodes
-			for (int i = 0; i < targetNodes.Count; i++)
+			for (int j = 0; j < Gas.Count; j++)
 			{
-				targetNodes[i].Atmos = gasMix;
+				gases[j] /= targetCount;
 			}
+
+			GasMix gasMix = GasMix.FromPressure(gases, pressure / targetCount);
+
+			for (var i = 0; i < nodesCount; i++)
+			{
+				MetaDataNode node = nodes[i];
+
+				if (!node.IsOccupied)
+				{
+					node.Atmos = CalcAtmos(node.Atmos, gasMix);
+				}
+			}
+		}
+
+		private GasMix CalcAtmos(GasMix atmos, GasMix gasMix)
+		{
+			float[] gases = new float[Gas.Count];
+
+			for (int i = 0; i < Gas.Count; i++)
+			{
+				gases[i] = atmos.Gases[i] + (gasMix.Gases[i] - atmos.Gases[i]) * factor;
+			}
+
+			float pressure = atmos.Pressure + (gasMix.Pressure - atmos.Pressure) * factor;
+
+			return GasMix.FromPressure(gases, pressure, atmos.Volume);
 		}
 	}
 }

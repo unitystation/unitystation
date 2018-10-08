@@ -9,14 +9,6 @@ namespace Atmospherics
 	{
 		public const float MinimumPressure = 0.00001f;
 
-		public static void SetEmpty(IEnumerable<MetaDataNode> nodes)
-		{
-			foreach (MetaDataNode node in nodes)
-			{
-				SetEmpty(node);
-			}
-		}
-
 		public static void SetEmpty(MetaDataNode node)
 		{
 			SetGasMix(node, GasMixUtils.Space);

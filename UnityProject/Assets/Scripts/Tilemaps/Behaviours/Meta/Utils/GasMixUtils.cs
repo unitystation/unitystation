@@ -6,7 +6,7 @@ namespace Tilemaps.Behaviours.Meta.Utils
 	{
 		public const float TileVolume = 2;
 
-		public static GasMix Space = new GasMix(new float[Gas.Count], 2.7f);
+		public static GasMix Space = GasMix.FromTemperature(new float[Gas.Count], 2.7f);
 		public static GasMix Air;
 
 		static GasMixUtils()
@@ -15,7 +15,7 @@ namespace Tilemaps.Behaviours.Meta.Utils
 			gases[Gas.Oxygen] = 16.628484400890768491815384755837f;
 			gases[Gas.Nitrogen] = 66.513937603563073967261539023347f;
 
-			Air = new GasMix(gases, 293.15f);
+			Air = GasMix.FromTemperature(gases, 293.15f);
 		}
 
 		public static float CalcPressure(float volume, float moles, float temperature)

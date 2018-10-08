@@ -15,7 +15,6 @@ public enum NodeType
 	Occupied
 }
 
-[Serializable]
 public class MetaDataNode
 {
 	public static readonly MetaDataNode None = new MetaDataNode(Vector3Int.one * -1000000);

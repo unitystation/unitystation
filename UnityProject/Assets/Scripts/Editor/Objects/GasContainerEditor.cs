@@ -66,7 +66,7 @@ public class GasContainerEditor : Editor
 
 	private void UpdateGasMix()
 	{
-		container.GasMix = new GasMix(container.Gases, container.Temperature, container.Volume);
+		container.GasMix = GasMix.FromTemperature(container.Gases, container.Temperature, container.Volume);
 	}
 
 	private void AbsolutSelection()

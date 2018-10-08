@@ -6,7 +6,7 @@ namespace Tilemaps.Behaviours.Objects
 {
 	public class Scrubber : MonoBehaviour
 	{
-		private const float MaximumPressure = 101525f;
+		public float MaximumPressure = 101.025f;
 
 		private SubsystemManager _subsystemManager;
 		private MetaDataNode metaNode;
@@ -24,13 +24,10 @@ namespace Tilemaps.Behaviours.Objects
 
 		private void Update()
 		{
-			lock (metaNode)
+			if (metaNode.Atmos.Pressure > MaximumPressure)
 			{
-				if (metaNode.Atmos.Pressure > MaximumPressure)
-				{
-					metaNode.Atmos = GasMixUtils.Space;
-					_subsystemManager.UpdateAt(metaNode.Position);
-				}
+				metaNode.Atmos = GasMixUtils.Space;
+				_subsystemManager.UpdateAt(metaNode.Position);
 			}
 		}
 	}

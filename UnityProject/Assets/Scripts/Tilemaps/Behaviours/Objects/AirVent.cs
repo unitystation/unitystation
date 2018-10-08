@@ -7,7 +7,7 @@ namespace Tilemaps.Behaviours.Objects
 {
 	public class AirVent : NetworkBehaviour
 	{
-		private const float MinimumPressure = 101325f;
+		public float MinimumPressure = 101.325f;
 
 		private SubsystemManager _subsystemManager;
 		private MetaDataNode metaNode;
@@ -36,7 +36,7 @@ namespace Tilemaps.Behaviours.Objects
 		{
 			if (metaNode.Atmos.Pressure < MinimumPressure)
 			{
-				metaNode.Atmos = GasMixUtils.Air;
+				AtmosUtils.SetAir(metaNode);
 				_subsystemManager.UpdateAt(metaNode.Position);
 			}
 		}
