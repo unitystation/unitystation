@@ -27,20 +27,10 @@ public class PlayerSprites : NetworkBehaviour
 			clothes[c.name] = c;
 		}
 
-		foreach (Sprite s in SpriteManager.PlayerSprites["mob"])
-		{
-			if (s.name == "mob_268")
-				ghostSprites.Add(Orientation.Down, s);
-
-			if (s.name == "mob_269")
-				ghostSprites.Add(Orientation.Up, s);
-
-			if (s.name == "mob_270")
-				ghostSprites.Add(Orientation.Right, s);
-
-			if (s.name == "mob_271")
-				ghostSprites.Add(Orientation.Left, s);
-		}
+		ghostSprites.Add(Orientation.Down, SpriteManager.PlayerSprites["mob"][268]);
+		ghostSprites.Add(Orientation.Up, SpriteManager.PlayerSprites["mob"][269]);
+		ghostSprites.Add(Orientation.Right, SpriteManager.PlayerSprites["mob"][270]);
+		ghostSprites.Add(Orientation.Left, SpriteManager.PlayerSprites["mob"][271]);
 
 		ghostRenderer = transform.Find("Ghost").GetComponent<SpriteRenderer>();
 	}
