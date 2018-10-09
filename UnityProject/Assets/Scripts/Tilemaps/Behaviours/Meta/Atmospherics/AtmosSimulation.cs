@@ -13,15 +13,12 @@ namespace Atmospherics
 		public float Speed = 0.1f;
 
 		public bool IsIdle => updateList.IsEmpty;
-
 		public int UpdateListCount => updateList.Count;
 
 		private readonly MetaDataLayer metaDataLayer;
 
 		private float factor;
-
 		private MetaDataNode[] nodes = new MetaDataNode[5];
-
 		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
 
 		public AtmosSimulation(MetaDataLayer metaDataLayer)
@@ -71,6 +68,21 @@ namespace Atmospherics
 
 		private void Equalize(int nodesCount)
 		{
+			GasMix gasMix = CalcMeanGasMix(nodesCount);
+
+			for (var i = 0; i < nodesCount; i++)
+			{
+				MetaDataNode node = nodes[i];
+
+				if (!node.IsOccupied)
+				{
+					node.Atmos = CalcAtmos(node.Atmos, gasMix);
+				}
+			}
+		}
+
+		private GasMix CalcMeanGasMix(int nodesCount)
+		{
 			int targetCount = 0;
 
 			float[] gases = new float[Gas.Count];
@@ -113,16 +125,7 @@ namespace Atmospherics
 			}
 
 			GasMix gasMix = GasMix.FromPressure(gases, pressure / targetCount);
-
-			for (var i = 0; i < nodesCount; i++)
-			{
-				MetaDataNode node = nodes[i];
-
-				if (!node.IsOccupied)
-				{
-					node.Atmos = CalcAtmos(node.Atmos, gasMix);
-				}
-			}
+			return gasMix;
 		}
 
 		private GasMix CalcAtmos(GasMix atmos, GasMix gasMix)

@@ -5,9 +5,9 @@ using UnityEngine.Tilemaps;
 	[ExecuteInEditMode]
 	public class Layer : MonoBehaviour
 	{
-		private SubsystemManager _subsystemManager;
-		
-		public LayerType LayerType; 
+		private SubsystemManager subsystemManager;
+
+		public LayerType LayerType;
 		protected Tilemap tilemap;
 
 		public BoundsInt Bounds => tilemap.cellBounds;
@@ -15,7 +15,7 @@ using UnityEngine.Tilemaps;
 		public void Awake()
 		{
 			tilemap = GetComponent<Tilemap>();
-			_subsystemManager = GetComponentInParent<SubsystemManager>();
+			subsystemManager = GetComponentInParent<SubsystemManager>();
 		}
 
 		public void Start()
@@ -32,12 +32,12 @@ using UnityEngine.Tilemaps;
 			else
 			{
 				// TODO Clean up
-				
+
 				if (LayerType == LayerType.Walls)
 				{
 					MatrixManager.Instance.wallsTileMaps.Add(GetComponent<TilemapCollider2D>(), tilemap);
 				}
-				
+
 			}
 		}
 
@@ -75,7 +75,7 @@ using UnityEngine.Tilemaps;
 		{
 			tilemap.SetTile(position, tile);
 			tilemap.SetTransformMatrix(position, transformMatrix);
-			_subsystemManager.UpdateAt(position);
+			subsystemManager.UpdateAt(position);
 		}
 
 		public virtual LayerTile GetTile(Vector3Int position)
@@ -91,7 +91,7 @@ using UnityEngine.Tilemaps;
 		public virtual void RemoveTile(Vector3Int position)
 		{
 			tilemap.SetTile(position, null);
-			_subsystemManager.UpdateAt(position);
+			subsystemManager.UpdateAt(position);
 		}
 
 		public virtual void ClearAllTiles()

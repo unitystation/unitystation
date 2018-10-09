@@ -9,7 +9,7 @@ using UnityEditor;
 	[Serializable]
 	public class ObjectTile : LayerTile
 	{
-		private GameObject _objectCurrent;
+		private GameObject objectCurrent;
 		public bool IsItem;
 		public bool KeepOrientation;
 		public GameObject Object;
@@ -26,7 +26,7 @@ using UnityEditor;
 		{
 			if (Object != null)
 			{
-				if (_objectCurrent == null)
+				if (objectCurrent == null)
 				{
 					// if sprite already exists (e.g. at startup), then load it, otherwise create a new one
 					EditorApplication.delayCall += () =>
@@ -34,30 +34,30 @@ using UnityEditor;
 						if(IsWire && wireSprite != null)
 						{
 							PreviewSprite = wireSprite;
-						} 
-						else 
+						}
+						else
 						{
 						PreviewSprite = PreviewSpriteBuilder.LoadSprite(Object) ??
 						                PreviewSpriteBuilder.Create(Object);
 						}
 					};
 				}
-				else if (Object != _objectCurrent)
+				else if (Object != objectCurrent)
 				{
 					// from one object -> other (overwrite current sprite)
 					EditorApplication.delayCall += () => { PreviewSprite = PreviewSpriteBuilder.Create(Object); };
 				}
 			}
-			else if (_objectCurrent != null)
+			else if (objectCurrent != null)
 			{
 				// setting to None object (delete current sprite)
-				GameObject obj = _objectCurrent;
+				GameObject obj = objectCurrent;
 				EditorApplication.delayCall += () => { PreviewSpriteBuilder.DeleteSprite(obj); };
 			}
 
-			_objectCurrent = Object;
+			objectCurrent = Object;
 
-			if (_objectCurrent != null && _objectCurrent.GetComponentInChildren<RegisterItem>() != null)
+			if (objectCurrent != null && objectCurrent.GetComponentInChildren<RegisterItem>() != null)
 			{
 				IsItem = true;
 			}

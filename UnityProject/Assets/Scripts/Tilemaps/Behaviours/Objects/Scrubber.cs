@@ -26,7 +26,7 @@ namespace Tilemaps.Behaviours.Objects
 		{
 			if (metaNode.Atmos.Pressure > MaximumPressure)
 			{
-				metaNode.Atmos = GasMixUtils.Space;
+				metaNode.Atmos = GasMixes.Space;
 				_subsystemManager.UpdateAt(metaNode.Position);
 			}
 		}

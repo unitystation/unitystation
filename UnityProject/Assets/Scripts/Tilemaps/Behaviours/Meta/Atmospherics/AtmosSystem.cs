@@ -44,14 +44,7 @@ public class AtmosSystem : SubsystemBehaviour
 		{
 			MetaDataNode node = metaDataLayer.Get(position, false);
 
-			if (node.IsRoom)
-			{
-				AtmosUtils.SetAir(node);
-			}
-			else
-			{
-				AtmosUtils.SetEmpty(node);
-			}
+			node.Atmos = node.IsRoom ? GasMixes.Air : GasMixes.Space;
 		}
 	}
 }

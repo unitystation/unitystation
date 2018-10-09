@@ -74,7 +74,7 @@ public class GasContainerEditor : Editor
 		EditorGUILayout.LabelField("Moles", $"{container.GasMix.Moles}");
 		container.Gases = ShowGasValues(container.GasMix.Gases);
 
-		pressure = GasMixUtils.CalcPressure(container.Volume, container.GasMix.Moles, container.Temperature);
+		pressure = AtmosUtils.CalcPressure(container.Volume, container.GasMix.Moles, container.Temperature);
 
 		EditorGUILayout.LabelField("Pressure", $"{pressure}");
 	}
@@ -83,7 +83,7 @@ public class GasContainerEditor : Editor
 	{
 		pressure = EditorGUILayout.FloatField("Pressure", container.GasMix.Pressure);
 
-		float moles = GasMixUtils.CalcMoles(pressure, container.GasMix.Volume, container.GasMix.Temperature);
+		float moles = AtmosUtils.CalcMoles(pressure, container.GasMix.Volume, container.GasMix.Temperature);
 
 		ratios = ShowGasValues(ratios, "Ratios");
 

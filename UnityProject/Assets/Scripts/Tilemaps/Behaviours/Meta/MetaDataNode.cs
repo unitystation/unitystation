@@ -35,7 +35,7 @@ public class MetaDataNode
 		Position = position;
 		neighbors = new HashSet<MetaDataNode>();
 		Neighbors = new MetaDataNode[0];
-		Atmos = GasMixUtils.Space;
+		Atmos = GasMixes.Space;
 	}
 
 	public bool IsSpace => Type == NodeType.Space;

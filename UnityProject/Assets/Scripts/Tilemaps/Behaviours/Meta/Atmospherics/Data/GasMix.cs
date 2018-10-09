@@ -13,25 +13,25 @@ namespace Atmospherics
 		public readonly float Volume; // in m3
 
 		public float Moles =>  Gases.Sum();
-		public float Temperature => GasMixUtils.CalcTemperature(Pressure, Volume, Gases.Sum());
+		public float Temperature => AtmosUtils.CalcTemperature(Pressure, Volume, Gases.Sum());
 
-		private GasMix(float[] gases, float pressure, float volume = GasMixUtils.TileVolume)
+		private GasMix(float[] gases, float pressure, float volume = AtmosUtils.TileVolume)
 		{
 			Gases = gases;
 			Pressure = pressure;
 			Volume = volume;
 		}
 
-		public static GasMix FromTemperature(float[] gases, float temperature, float volume = GasMixUtils.TileVolume)
+		public static GasMix FromTemperature(float[] gases, float temperature, float volume = AtmosUtils.TileVolume)
 		{
 			float moles = gases.Sum();
 
-			float pressure = GasMixUtils.CalcPressure(volume, moles, temperature);
+			float pressure = AtmosUtils.CalcPressure(volume, moles, temperature);
 
 			return new GasMix(gases, pressure, volume);
 		}
 
-		public static GasMix FromPressure(float[] gases, float pressure, float volume = GasMixUtils.TileVolume)
+		public static GasMix FromPressure(float[] gases, float pressure, float volume = AtmosUtils.TileVolume)
 		{
 			return new GasMix(gases, pressure, volume);
 		}
