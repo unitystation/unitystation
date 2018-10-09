@@ -17,12 +17,32 @@ public class PlayerSprites : NetworkBehaviour
 	public ClothingItem[] characterSprites; //For character customization
 	private CharacterSettings characterSettings;
 
+	private SpriteRenderer ghostRenderer; //For ghost sprites
+	private readonly Dictionary<Orientation, Sprite> ghostSprites = new Dictionary<Orientation, Sprite>();
+
 	private void Awake()
 	{
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes[c.name] = c;
 		}
+
+		foreach (Sprite s in SpriteManager.PlayerSprites["mob"])
+		{
+			if (s.name == "mob_268")
+				ghostSprites.Add(Orientation.Down, s);
+
+			if (s.name == "mob_269")
+				ghostSprites.Add(Orientation.Up, s);
+
+			if (s.name == "mob_270")
+				ghostSprites.Add(Orientation.Right, s);
+
+			if (s.name == "mob_271")
+				ghostSprites.Add(Orientation.Left, s);
+		}
+
+		ghostRenderer = transform.Find("Ghost").GetComponent<SpriteRenderer>();
 	}
 
 	public override void OnStartServer()
@@ -139,6 +159,8 @@ public class PlayerSprites : NetworkBehaviour
 	{
 		if (playerMove.isGhost)
 		{
+			ghostRenderer.sprite = ghostSprites[direction];
+			currentDirection = direction;
 			return;
 		}
 
