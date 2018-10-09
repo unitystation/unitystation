@@ -159,7 +159,7 @@ using UnityEngine.Networking;
 			direction.y = Mathf.Clamp(direction.y, -1, 1);
 			Logger.Log(direction.ToString(), Category.Movement);
 
-			if (!isGhost && PlayerManager.LocalPlayer == gameObject && !isReplay)
+			if (PlayerManager.LocalPlayer == gameObject && !isReplay)
 			{
 				playerSprites.CmdChangeDirection(Orientation.From(direction));
 				// Prediction:
