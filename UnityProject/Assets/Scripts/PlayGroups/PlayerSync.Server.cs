@@ -308,6 +308,8 @@ public partial class PlayerSync
 		if ( isClientBump || isServerBump ) {
 			//gotta try pushing things
 			BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
+
+			playerSprites.FaceDirection( Orientation.From( action.Direction() ) );
 			return state;
 		}
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,7 +88,13 @@ public partial class PlayerSync
 					action.isBump = true;
 					//todo: less strict prediction that doesn't require this clause
 					if ( pendingActions == null || pendingActions.Count == 0 ) {
-					PredictiveBumpInteract( Vector3Int.RoundToInt( ( Vector2 ) predictedState.WorldPosition + action.Direction() ), action.Direction() );
+						PredictiveBumpInteract( Vector3Int.RoundToInt( ( Vector2 ) predictedState.WorldPosition + action.Direction() ), action.Direction() );
+					}
+					if (PlayerManager.LocalPlayer == gameObject)
+					{
+						playerSprites.CmdChangeDirection(Orientation.From(action.Direction()));
+						// Prediction:
+						playerSprites.FaceDirection(Orientation.From(action.Direction()));
 					}
 					//cooldown is longer when humping walls or pushables
 //					yield return YieldHelper.DeciSecond;
@@ -162,7 +168,7 @@ public partial class PlayerSync
 
 				foreach ( PlayerAction action in pendingActions ) {
 					//isReplay determines if this action is a replayed action for use in the prediction system
-					bool isReplay = predictedState.MoveNumber <= curPredictedMove;
+					bool isReplay = predictedState.MoveNumber < curPredictedMove;
 					var nextState = NextStateClient( tempState, action, isReplay );
 
 					tempState = nextState;
