@@ -9,6 +9,8 @@ public class Asteroid : NetworkBehaviour {
 
 	private float asteroidDistance = 550; //How far can asteroids be spawned
 
+	private float distanceFromStation = 175; //Offset from station so it doesnt spawn into station
+
 
 	private void Start()
 	{
@@ -23,7 +25,7 @@ public class Asteroid : NetworkBehaviour {
 		if (isServer)
 		{
 			//Based on EscapeShuttle.cs
-			mm.SetPosition(Random.insideUnitCircle * asteroidDistance);
+			mm.SetPosition(Random.insideUnitCircle * asteroidDistance + new Vector2(distanceFromStation, -distanceFromStation));
 		}
 	}
 
