@@ -50,7 +50,7 @@ public class LightMaskRenderer : MonoBehaviour
 		return _maskProcessor;
 	}
 
-	public void ResetRenderingTextures(MaskParameters iParameters)
+	public void ResetRenderingTextures(OperationParameters iParameters)
 	{
 		// Prepare and assign RenderTexture.
 		int _textureWidth = iParameters.lightTextureSize.x;

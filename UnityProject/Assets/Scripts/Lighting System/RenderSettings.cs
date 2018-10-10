@@ -57,11 +57,13 @@ public class RenderSettings
 	[Tooltip("Scale of Occlusion light texture. Affected by lightTextureWidth. Occlusion light texture are quite small and mostly controlled to produce desired blur effect.")]
 	public float occlusionLightTextureRescale = 0.25f;
 
-	[Tooltip("Orthographic Size addition to Occlusion camera. Affects Extended texture size. Used to properly draw out of bounds light sources.")]
-	public float maskCameraSizeAdd;
+	[Tooltip("Unit Size addition to Occlusion camera. Affects Extended texture size. Used to properly draw out of bounds light sources.")]
+	public Vector2Int occlusionMaskSizeAdd;
 
 	[Tooltip("Used for occlusion texture only. 4 is a good balance..")]
 	public int antiAliasing = 4;
+
+	public PixelPerfectRTParameter occlusionRTParameter;
 
 	[NonSerialized]
 	public Quality quality;
@@ -77,6 +79,8 @@ public class RenderSettings
 		new Keyframe(350, 0.006f),
 		new Keyframe(700, 0.004f),
 		new Keyframe(1400, 0.002f));
+
+	public int occlusionMaskPixelsInUnit;
 
 	public int lightTextureWidth
 	{
@@ -103,6 +107,7 @@ public class RenderSettings
 		WallLayer,
 		FovObstacle,
 		FovObstacleExtended,
+		Obstacle,
 		Background,
 	};
 

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class OcclusionMaskRenderer : MonoBehaviour
+public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 {
 	private const string MaskCameraName = "Obstacle Mask Camera";
 
@@ -53,20 +53,15 @@ public class OcclusionMaskRenderer : MonoBehaviour
 		return _maskProcessor;
 	} 
 
-	public void ResetRenderingTextures(MaskParameters iParameters)
+	public void ResetRenderingTextures(OperationParameters iParameters)
 	{
-		int _textureWidth = iParameters.extendedTextureSize.x;
-		int _textureHeight = iParameters.extendedTextureSize.y;
-
-		var _newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
+		var _newRenderTexture = new RenderTexture(iParameters.occlusionPPRTParameter.resolution.x, iParameters.occlusionPPRTParameter.resolution.y, 0, RenderTextureFormat.Default);
 		_newRenderTexture.name = "Raw Scaled Occlusion Mask";
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;
 
-
-		// Important to filter out matching pixels!
-		_newRenderTexture.antiAliasing = iParameters.antiAliasing;
-		_newRenderTexture.filterMode = FilterMode.Bilinear;
+		_newRenderTexture.antiAliasing = 1;
+		_newRenderTexture.filterMode = FilterMode.Point;
 
 		// Note: Assignment will release previous texture if exist.
 		mask = _newRenderTexture;
@@ -74,15 +69,30 @@ public class OcclusionMaskRenderer : MonoBehaviour
 		mMaskCamera.orthographicSize = iParameters.extendedCameraSize;
 	}
 
-	public RenderTexture Render()
+	public PixelPerfectRTP Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter)
 	{
+		// Arrange.
 		mMaskCamera.enabled = false;
-
 		mMaskCamera.backgroundColor = new Color(0, 0, 0, 0);
+		var _renderPosition = iPPRTParameter.GetRendererPosition(iCameraToMatch.transform.position);
+		mMaskCamera.transform.position = _renderPosition;
 
+		SetViewPort(iPPRTParameter.GetRendererViewport());
+
+
+		// Execute.
 		mMaskCamera.Render();
 
-		return mask;
+		// Wrap.
+		var pprt = new PixelPerfectRTP(iPPRTParameter, mask, mMaskCamera.transform.position);
+
+		return pprt;
+	}
+
+	private void SetViewPort(Vector2 iViewport)
+	{
+		mMaskCamera.rect = new Rect((1 - iViewport.x) * 0.5f, 0, iViewport.x, 1);
+		mMaskCamera.orthographicSize = iViewport.y * 0.5f;
 	}
 
 	private static OcclusionMaskRenderer SetUpCameraObject(
@@ -101,11 +111,10 @@ public class OcclusionMaskRenderer : MonoBehaviour
 		iSetupCamera.backgroundColor = Color.black;
 		iSetupCamera.depth = 9;
 		iSetupCamera.allowHDR = false;
-		iSetupCamera.allowMSAA = true; //?
-		
+
+		iSetupCamera.nearClipPlane = -3f;
 		iSetupCamera.farClipPlane = 3f;
 		iSetupCamera.SetReplacementShader(iReplacementShader, string.Empty);
-		
 
 		// Get or add processor component.
 		var _processor = iSetupCamera.gameObject.GetComponent<OcclusionMaskRenderer>();

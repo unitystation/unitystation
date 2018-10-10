@@ -98,7 +98,7 @@ public class PostProcessingStack
 		return;
 	}
 
-	public void ResetRenderingTextures(MaskParameters iParameters)
+	public void ResetRenderingTextures(OperationParameters iParameters)
 	{
 		// Prepare and assign RenderTexture.
 		int _textureWidth = iParameters.screenSize.x;
@@ -190,23 +190,23 @@ public class PostProcessingStack
 		RenderSettings iRenderSettings,
 		Vector3 iFovCenterInViewSpace,
 		float iFovDistance,
-		MaskParameters iMaskParameters)
+		OperationParameters iOperationParameters)
 	{
 		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
 		mMaterialContainer.fovMaterial.SetFloat("_OcclusionSpread", iRenderSettings.fovOcclusionSpread);
 
 		// Adjust scale from Extended mask to Screen size mask.
-		float _yUVScale = 1 / iMaskParameters.cameraAspect;
-		Vector3 _adjustedDistance = iFovDistance * iMaskParameters.worldUnitInViewportSpace * (float)iMaskParameters.cameraOrthographicSize / iMaskParameters.extendedCameraSize;
+		float _yUVScale = 1 / iOperationParameters.cameraAspect;
+		Vector3 _adjustedDistance = iFovDistance * iOperationParameters.cameraViewportUnitsInWorldSpace * (float)iOperationParameters.cameraOrthographicSize / iOperationParameters.extendedCameraSize;
 
 		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
 		
 		Graphics.Blit(iRawOcclusionMask, iGlobalOcclusionExtendedMask, mMaterialContainer.fovMaterial);
 	}
 
-	public void FitExtendedOcclusionMask(RenderTexture iSource, RenderTexture iDestination, MaskParameters iMaskParameters)
+	public void FitExtendedOcclusionMask(RenderTexture iSource, RenderTexture iDestination, OperationParameters iOperationParameters)
 	{
-		Vector2 _scale = new Vector2((float)iMaskParameters.cameraOrthographicSize / iMaskParameters.extendedCameraSize, (float)iMaskParameters.cameraOrthographicSize / iMaskParameters.extendedCameraSize);
+		Vector2 _scale = new Vector2((float)iOperationParameters.cameraOrthographicSize / iOperationParameters.extendedCameraSize, (float)iOperationParameters.cameraOrthographicSize / iOperationParameters.extendedCameraSize);
 
 		Graphics.Blit(iSource, iDestination, _scale, (Vector2.one - _scale) * 0.5f);
 	}

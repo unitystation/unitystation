@@ -61,7 +61,7 @@ public class BackgroundRenderer : MonoBehaviour
 		return mask;
 	}
 
-	public void ResetRenderingTextures(MaskParameters iParameters)
+	public void ResetRenderingTextures(OperationParameters iParameters)
 	{
 		// Prepare and assign RenderTexture.
 		int _textureWidth = iParameters.screenSize.x;

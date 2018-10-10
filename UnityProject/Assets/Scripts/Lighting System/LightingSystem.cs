@@ -13,16 +13,15 @@ public class LightingSystem : MonoBehaviour
 	/// Assumption that it may be changed during game. Otherwise it should be moved in to rendering settings.
 	/// </summary>
 	public Vector3 fovCenterOffset;
-
 	public float fovDistance;
-
 	public RenderSettings.Quality quality;
-
 	public RenderSettings renderSettings;
 	public MaterialContainer materialContainer;
 
+	public Texture2D mbla;
+
 	private Camera mMainCamera;
-	private OcclusionMaskRenderer mOcclusionMaskRenderer;
+	private ITextureRenderer mOcclusionRenderer;
 	private LightMaskRenderer mLightMaskRenderer;
 	private BackgroundRenderer mBackgroundRenderer;
 	private PostProcessingStack mPostProcessingStack;
@@ -30,8 +29,8 @@ public class LightingSystem : MonoBehaviour
 	private RenderTexture mOcclusionMaskExtended;
 	private RenderTexture mMixedLightMask;
 	private RenderTexture mObstacleLightMask;
-
-	private MaskParameters mCurrentMaskParameters;
+	private OperationParameters mCurrentOperationParameters;
+	private PixelPerfectRTP mOcclusionPPRT;
 
 	// Note: globalOcclusionMask and occlusionMaskExtended are shader seters.
 	private RenderTexture globalOcclusionMask
@@ -152,9 +151,9 @@ public class LightingSystem : MonoBehaviour
 
 		ValidateMainCamera(mMainCamera, renderSettings);
 
-		if (mOcclusionMaskRenderer == null)
+		if (mOcclusionRenderer == null)
 		{
-			mOcclusionMaskRenderer = OcclusionMaskRenderer.InitializeMaskRenderer(gameObject, renderSettings.occlusionLayers, materialContainer.OcclusionMaskShader);
+			mOcclusionRenderer = OcclusionMaskRenderer.InitializeMaskRenderer(gameObject, renderSettings.occlusionLayers, materialContainer.OcclusionMaskShader);
 		}
 
 		if (mLightMaskRenderer == null)
@@ -162,14 +161,14 @@ public class LightingSystem : MonoBehaviour
 			mLightMaskRenderer = LightMaskRenderer.InitializeMaskRenderer(gameObject);
 		}
 
-		if (mPostProcessingStack == null)
-		{
-			mPostProcessingStack = new PostProcessingStack(materialContainer);
-		}
-
 		if (mBackgroundRenderer == null)
 		{
 			mBackgroundRenderer = BackgroundRenderer.InitializeMaskRenderer(gameObject);
+		}
+
+		if (mPostProcessingStack == null)
+		{
+			mPostProcessingStack = new PostProcessingStack(materialContainer);
 		}
 	}
 
@@ -179,7 +178,7 @@ public class LightingSystem : MonoBehaviour
 		Shader.SetGlobalTexture("_FovMask", Texture2D.whiteTexture);
 
 		// Default parameters to force parameters update on enable.
-		mCurrentMaskParameters = default(MaskParameters);
+		mCurrentOperationParameters = default(OperationParameters);
 	}
 
 	private void Update()
@@ -188,30 +187,54 @@ public class LightingSystem : MonoBehaviour
 		renderSettings.quality = quality;
 
 		// Monitor state to detect when we should trigger reinitialization of rendering textures.
-		var _newParameters = new MaskParameters(mMainCamera, renderSettings);
+		var _newParameters = new OperationParameters(mMainCamera, renderSettings);
 
-		bool _shouldReinitializeTextures = _newParameters != mCurrentMaskParameters;
+		bool _shouldReinitializeTextures = _newParameters != mCurrentOperationParameters;
 
 		if (_shouldReinitializeTextures)
 		{
-			mCurrentMaskParameters = _newParameters;
+			mCurrentOperationParameters = _newParameters;
 
-			ResetRenderingTextures(mCurrentMaskParameters);
+			ResetRenderingTextures(mCurrentOperationParameters);
 		}
+
+		//Adjust();
 	}	
 
-	private void ResetRenderingTextures(MaskParameters iParameters)
+
+	void Adjust ()
+	{
+		var _camera = gameObject.GetComponent<Camera>();
+		Vector3 _unitsInViewport = _camera.ViewportToWorldPoint(Vector3.one) - _camera.ViewportToWorldPoint(Vector3.zero);
+
+		//Vector2 _pixelsPerUnit = new Vector2(Screen.width / _unitsInViewport.x, Screen.height / _unitsInViewport.z);
+		Vector2 _unitPerPixel = new Vector2(_unitsInViewport.x / Screen.width, _unitsInViewport.z / Screen.height);
+
+		float _pixelsPerUnit = Screen.height / (_camera.orthographicSize * 2);
+
+		float _nearestDividable = Mathf.RoundToInt(_pixelsPerUnit / renderSettings.occlusionMaskPixelsInUnit) * renderSettings.occlusionMaskPixelsInUnit;
+
+		float _newOrto = (float)Screen.height / 128 * 0.5f;
+
+		_camera.orthographicSize = _newOrto;
+
+
+	}
+
+	private void ResetRenderingTextures(OperationParameters iParameters)
 	{
 		// Prepare render textures.
 		globalOcclusionMask = new RenderTexture(Screen.width, Screen.height, 0)
 			                      {
 				                      name = "Processed Occlusion Mask"
 			                      };
+		globalOcclusionMask.filterMode = FilterMode.Point;
 
 		occlusionMaskExtended = new RenderTexture(iParameters.extendedTextureSize.x, iParameters.extendedTextureSize.y, 0)
 			                        {
 				                        name = "Processed Extended Occlusion Mask"
 			                        };
+		occlusionMaskExtended.filterMode = FilterMode.Point;
 
 		mixedLightMask = new RenderTexture(Screen.width, Screen.height, 0)
 			                {
@@ -225,7 +248,7 @@ public class LightingSystem : MonoBehaviour
 
 		// Let members handle their own textures.
 		// Possibly move to container?
-		mOcclusionMaskRenderer.ResetRenderingTextures(iParameters);
+		mOcclusionRenderer.ResetRenderingTextures(iParameters);
 		mLightMaskRenderer.ResetRenderingTextures(iParameters);
 		mPostProcessingStack.ResetRenderingTextures(iParameters);
 		mBackgroundRenderer.ResetRenderingTextures(iParameters);
@@ -237,7 +260,9 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("1. Occlusion Mask Render (No Gfx Time)"))
 		{
-			_rawOcclusionMask = mOcclusionMaskRenderer.Render();
+			mOcclusionPPRT = mOcclusionRenderer.Render(mMainCamera, mCurrentOperationParameters.occlusionPPRTParameter);
+
+			_rawOcclusionMask = mOcclusionPPRT.renderTexture;
 		}
 
 		using (new DisposableProfiler("2. Generate FoV"))
@@ -246,21 +271,21 @@ public class LightingSystem : MonoBehaviour
 			// and second "Fit Occlusion Mask" will be created next and used during scene rendering.
 			Vector3 _fovCenterInWorldSpace = transform.TransformPoint(fovCenterOffset);
 			Vector3 _fovCenterOffsetInViewSpace = mMainCamera.WorldToViewportPoint(_fovCenterInWorldSpace) - new Vector3(0.5f, 0.5f, 0);
-			Vector3 _fovCenterOffsetInExtendedViewSpace = _fovCenterOffsetInViewSpace * (float)mCurrentMaskParameters.cameraOrthographicSize / mCurrentMaskParameters.extendedCameraSize;
+			Vector3 _fovCenterOffsetInExtendedViewSpace = _fovCenterOffsetInViewSpace * (float)mCurrentOperationParameters.cameraOrthographicSize / mCurrentOperationParameters.extendedCameraSize;
 
-			mPostProcessingStack.GenerateFovMask(_rawOcclusionMask, occlusionMaskExtended, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, mCurrentMaskParameters);
+			mPostProcessingStack.GenerateFovMask(_rawOcclusionMask, occlusionMaskExtended, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, mCurrentOperationParameters);
 		}
 
 		using (new DisposableProfiler("3. Fit Occlusion Mask"))
 		{
 			// Note: Fit Occlusion Mask is cut from "Extended Occlusion Mask" to be used in Occlusion affected shaders during scene render.
-			mPostProcessingStack.FitExtendedOcclusionMask(occlusionMaskExtended, globalOcclusionMask, mCurrentMaskParameters);
+			mPostProcessingStack.FitExtendedOcclusionMask(occlusionMaskExtended, globalOcclusionMask, mCurrentOperationParameters);
 		}
 
 		using (new DisposableProfiler("4. Blur Fit Occlusion Mask"))
 		{
 			// Note: This blur is used only with shaders during scene render, so 1 pass should be enough.
-			mPostProcessingStack.BlurOcclusionMask(globalOcclusionMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
+			mPostProcessingStack.BlurOcclusionMask(globalOcclusionMask, renderSettings, mCurrentOperationParameters.cameraOrthographicSize);
 		}
 
 		// Note: After execution of this method, MainCamera.Render will be executed and scene will be drawn.
@@ -279,6 +304,17 @@ public class LightingSystem : MonoBehaviour
 			Graphics.Blit(iSource, iDestination);
 			return;
 		}
+		
+		// Debug View Selection.
+		if (renderSettings.viewMode == RenderSettings.ViewMode.Obstacle)
+		{
+			materialContainer.occlusionBlit.SetTexture("_OcclusionMask", mOcclusionPPRT.renderTexture);
+			materialContainer.occlusionBlit.SetVector("_OcclusionOffset", mOcclusionPPRT.GetOffset(mMainCamera.transform));
+
+			// Store as occlusionMaskExtended to display in OnRenderImage().
+			Graphics.Blit(iSource, iDestination, materialContainer.occlusionBlit);
+			return;
+		}
 
 		RenderTexture _lightMask = null;
 
@@ -289,7 +325,7 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("6. Generate Obstacle Light Mask"))
 		{
-			mPostProcessingStack.CreateWallLightMask(_lightMask, obstacleLightMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
+			mPostProcessingStack.CreateWallLightMask(_lightMask, obstacleLightMask, renderSettings, mCurrentOperationParameters.cameraOrthographicSize);
 		}
 		
 		// Debug View Selection.
@@ -314,9 +350,10 @@ public class LightingSystem : MonoBehaviour
 			return;
 		}
 
+
 		using (new DisposableProfiler("7. Light Mask Blur"))
 		{
-			mPostProcessingStack.BlurLightMask(_lightMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
+			mPostProcessingStack.BlurLightMask(_lightMask, renderSettings, mCurrentOperationParameters.cameraOrthographicSize);
 		}
 
 		using (new DisposableProfiler("8. Mix Light Masks"))

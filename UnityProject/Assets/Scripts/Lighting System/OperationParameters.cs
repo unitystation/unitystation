@@ -1,34 +1,41 @@
 ﻿using System;
 using UnityEngine;
 
-public struct MaskParameters : IEquatable<MaskParameters>
+public struct OperationParameters : IEquatable<OperationParameters>
 {
 	public readonly float cameraOrthographicSize;
 	public readonly Vector2Int screenSize;
 	public readonly float cameraAspect;
-	public readonly float maskCameraSizeAdd;
+	public readonly Vector2Int occlusionMaskSizeAdd;
 	public readonly int antiAliasing;
-	public readonly float wallTextureRescale;
-	public readonly Vector3 worldUnitInViewportSpace;
+	public readonly float wallTextureRescale; // TODO RENAME.
+	public readonly Vector3 cameraViewportUnitsInWorldSpace;
 
 	private const float DefaultCameraSize = 4;
 
 	private bool mExtendedDataCalculated;
 	private float mExtendedCameraSize;
+	private Vector2Int mCameraViewportUnitsCeiled;
 	private Vector2Int mExtendedTextureSize;
 	private int lightTextureWidth;
 	private Vector2Int mLightTextureSize;
+	private int occlusionMaskPixelsInUnit;
+	private Vector3 cameraViewportUnits;
 
-	public MaskParameters(Camera iCamera, RenderSettings iRenderSettings)
+	public OperationParameters(Camera iCamera, RenderSettings iRenderSettings)
 	{
 		cameraOrthographicSize = iCamera.orthographicSize;
 		screenSize = new Vector2Int(Screen.width, Screen.height);
 		cameraAspect = iCamera.aspect;
-		maskCameraSizeAdd = iRenderSettings.maskCameraSizeAdd;
+
 		lightTextureWidth = iRenderSettings.lightTextureWidth;
 		antiAliasing = Mathf.Clamp(iRenderSettings.antiAliasing, 1, 16);
 		wallTextureRescale = iRenderSettings.occlusionLightTextureRescale;
-		worldUnitInViewportSpace = iCamera.WorldToViewportPoint(Vector3.zero) - iCamera.WorldToViewportPoint(Vector3.one);
+		cameraViewportUnitsInWorldSpace = iCamera.WorldToViewportPoint(Vector3.zero) - iCamera.WorldToViewportPoint(Vector3.one);
+		cameraViewportUnits = iCamera.ViewportToWorldPoint(Vector3.one) - iCamera.ViewportToWorldPoint(Vector3.zero);
+
+		occlusionMaskSizeAdd = iRenderSettings.occlusionMaskSizeAdd;
+		occlusionMaskPixelsInUnit = iRenderSettings.occlusionMaskPixelsInUnit;
 
 		// Set data default.
 		// This will be lazy-calculated when required.
@@ -36,6 +43,7 @@ public struct MaskParameters : IEquatable<MaskParameters>
 		mExtendedCameraSize = default(float);
 		mExtendedTextureSize = default(Vector2Int);
 		mLightTextureSize = default(Vector2Int);
+		mCameraViewportUnitsCeiled = default(Vector2Int);
 	}
 
 	public Vector2Int extendedTextureSize
@@ -77,8 +85,36 @@ public struct MaskParameters : IEquatable<MaskParameters>
 		}
 	}
 
+	public PixelPerfectRTParameter occlusionPPRTParameter
+	{
+		get
+		{
+			return new PixelPerfectRTParameter(cameraViewportUnitsCeiled + occlusionMaskSizeAdd, occlusionMaskPixelsInUnit, cameraViewportUnits);
+		}
+	}
+
+	private Vector2Int cameraViewportUnitsCeiled
+	{
+		get
+		{
+			if (mExtendedDataCalculated == false)
+			{
+				CalculateExtendedData();
+			}
+
+			return mCameraViewportUnitsCeiled;
+		}
+
+		set
+		{
+			mCameraViewportUnitsCeiled = value;
+		}
+	}
+
 	private void CalculateExtendedData()
 	{
+		cameraViewportUnitsCeiled = new Vector2Int(Mathf.CeilToInt(cameraViewportUnits.x), Mathf.CeilToInt(cameraViewportUnits.y));
+
 		// Light Texture.
 		if (screenSize.x > screenSize.y)
 		{
@@ -91,7 +127,7 @@ public struct MaskParameters : IEquatable<MaskParameters>
 			mLightTextureSize = new Vector2Int((int)(lightTextureWidth / _highAspect), lightTextureWidth);
 		}
 
-		float _lightToExtendedProportions = (DefaultCameraSize + maskCameraSizeAdd) / DefaultCameraSize;
+		float _lightToExtendedProportions = (DefaultCameraSize + occlusionMaskSizeAdd.y) / DefaultCameraSize;
 
 		// Extended Texture.
 		mExtendedCameraSize = cameraOrthographicSize * _lightToExtendedProportions;
@@ -101,25 +137,26 @@ public struct MaskParameters : IEquatable<MaskParameters>
 		mExtendedDataCalculated = true;
 	}
 
-	public static bool operator ==(MaskParameters iLeftHand, MaskParameters iRightHand)
+	public static bool operator ==(OperationParameters iLeftHand, OperationParameters iRightHand)
 	{
 		// Equals handles case of null on right side.
 		return iLeftHand.Equals(iRightHand);
 	}
 
-	public static bool operator !=(MaskParameters iLeftHand, MaskParameters iRightHand)
+	public static bool operator !=(OperationParameters iLeftHand, OperationParameters iRightHand)
 	{
 		return !(iLeftHand == iRightHand);
 	}
 
-	public bool Equals(MaskParameters iMask)
+	public bool Equals(OperationParameters iOperation)
 	{
-		return this.cameraOrthographicSize == iMask.cameraOrthographicSize &&
-		       this.screenSize == iMask.screenSize &&
-			   this.cameraAspect == iMask.cameraAspect &&
-		       this.maskCameraSizeAdd == iMask.maskCameraSizeAdd &&
-		       this.lightTextureWidth == iMask.lightTextureWidth &&
-			   this.antiAliasing == iMask.antiAliasing &&
-			   this.wallTextureRescale == iMask.wallTextureRescale;
+		return this.cameraOrthographicSize == iOperation.cameraOrthographicSize &&
+		       this.screenSize == iOperation.screenSize &&
+			   this.cameraAspect == iOperation.cameraAspect &&
+		       this.occlusionMaskSizeAdd == iOperation.occlusionMaskSizeAdd &&
+		       this.lightTextureWidth == iOperation.lightTextureWidth &&
+			   this.antiAliasing == iOperation.antiAliasing &&
+			   this.wallTextureRescale == iOperation.wallTextureRescale &&
+			   this.occlusionMaskPixelsInUnit == iOperation.occlusionMaskPixelsInUnit;
 	}
 }
