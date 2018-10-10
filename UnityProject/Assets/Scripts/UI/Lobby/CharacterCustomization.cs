@@ -207,9 +207,9 @@ namespace Lobby
 
 		private string ValidateName(string proposedName)
 		{
-			if (proposedName.Length >= 24)
+			if (proposedName.Length >= 28)
 			{
-				return proposedName.Substring(0, 24);
+				return proposedName.Substring(0, 28);
 			}
 			return proposedName;
 		}
