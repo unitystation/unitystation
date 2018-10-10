@@ -11,7 +11,7 @@ public class MaterialContainer
 	public Material fovMaterial;
 	public Material MaskMixerMaterial;
 
-	public Material occlusionBlit;
+	public Material PPRTPreviewMaterial;
 
 	public Shader OcclusionMaskShader;
 }

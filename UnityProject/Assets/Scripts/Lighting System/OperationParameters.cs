@@ -6,10 +6,11 @@ public struct OperationParameters : IEquatable<OperationParameters>
 	public readonly float cameraOrthographicSize;
 	public readonly Vector2Int screenSize;
 	public readonly float cameraAspect;
-	public readonly Vector2Int occlusionMaskSizeAdd;
 	public readonly int antiAliasing;
 	public readonly float wallTextureRescale; // TODO RENAME.
 	public readonly Vector3 cameraViewportUnitsInWorldSpace;
+	public readonly PixelPerfectRTParameter occlusionPPRTParameter;
+	public readonly PixelPerfectRTParameter fovPPRTParameter;
 
 	private const float DefaultCameraSize = 4;
 
@@ -19,7 +20,6 @@ public struct OperationParameters : IEquatable<OperationParameters>
 	private Vector2Int mExtendedTextureSize;
 	private int lightTextureWidth;
 	private Vector2Int mLightTextureSize;
-	private int occlusionMaskPixelsInUnit;
 	private Vector3 cameraViewportUnits;
 
 	public OperationParameters(Camera iCamera, RenderSettings iRenderSettings)
@@ -34,8 +34,12 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		cameraViewportUnitsInWorldSpace = iCamera.WorldToViewportPoint(Vector3.zero) - iCamera.WorldToViewportPoint(Vector3.one);
 		cameraViewportUnits = iCamera.ViewportToWorldPoint(Vector3.one) - iCamera.ViewportToWorldPoint(Vector3.zero);
 
-		occlusionMaskSizeAdd = iRenderSettings.occlusionMaskSizeAdd;
-		occlusionMaskPixelsInUnit = iRenderSettings.occlusionMaskPixelsInUnit;
+		mCameraViewportUnitsCeiled = new Vector2Int(Mathf.CeilToInt(cameraViewportUnits.x), Mathf.CeilToInt(cameraViewportUnits.y));
+
+		int _initialSampleDetail = iRenderSettings.occlusionDetail % 2 == 0 ? iRenderSettings.occlusionDetail : ++iRenderSettings.occlusionDetail;
+
+		occlusionPPRTParameter = new PixelPerfectRTParameter(mCameraViewportUnitsCeiled + iRenderSettings.occlusionMaskSizeAdd, _initialSampleDetail);
+		fovPPRTParameter = new PixelPerfectRTParameter(occlusionPPRTParameter.units, _initialSampleDetail * (int)iRenderSettings.fovResample);
 
 		// Set data default.
 		// This will be lazy-calculated when required.
@@ -43,7 +47,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		mExtendedCameraSize = default(float);
 		mExtendedTextureSize = default(Vector2Int);
 		mLightTextureSize = default(Vector2Int);
-		mCameraViewportUnitsCeiled = default(Vector2Int);
+
 	}
 
 	public Vector2Int extendedTextureSize
@@ -52,7 +56,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		{
 			if (mExtendedDataCalculated == false)
 			{
-				CalculateExtendedData();
+				InitializeData();
 			}
 
 			return mExtendedTextureSize;
@@ -65,7 +69,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		{
 			if (mExtendedDataCalculated == false)
 			{
-				CalculateExtendedData();
+				InitializeData();
 			}
 
 			return mLightTextureSize;
@@ -78,18 +82,10 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		{
 			if (mExtendedDataCalculated == false)
 			{
-				CalculateExtendedData();
+				InitializeData();
 			}
 
 			return mExtendedCameraSize;
-		}
-	}
-
-	public PixelPerfectRTParameter occlusionPPRTParameter
-	{
-		get
-		{
-			return new PixelPerfectRTParameter(cameraViewportUnitsCeiled + occlusionMaskSizeAdd, occlusionMaskPixelsInUnit, cameraViewportUnits);
 		}
 	}
 
@@ -99,7 +95,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		{
 			if (mExtendedDataCalculated == false)
 			{
-				CalculateExtendedData();
+				InitializeData();
 			}
 
 			return mCameraViewportUnitsCeiled;
@@ -111,9 +107,8 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		}
 	}
 
-	private void CalculateExtendedData()
+	public void InitializeData()
 	{
-		cameraViewportUnitsCeiled = new Vector2Int(Mathf.CeilToInt(cameraViewportUnits.x), Mathf.CeilToInt(cameraViewportUnits.y));
 
 		// Light Texture.
 		if (screenSize.x > screenSize.y)
@@ -127,7 +122,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 			mLightTextureSize = new Vector2Int((int)(lightTextureWidth / _highAspect), lightTextureWidth);
 		}
 
-		float _lightToExtendedProportions = (DefaultCameraSize + occlusionMaskSizeAdd.y) / DefaultCameraSize;
+		float _lightToExtendedProportions = 1; // DefaultCameraSize + occlusionMaskSizeAdd.y) / DefaultCameraSize;
 
 		// Extended Texture.
 		mExtendedCameraSize = cameraOrthographicSize * _lightToExtendedProportions;
@@ -153,10 +148,11 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		return this.cameraOrthographicSize == iOperation.cameraOrthographicSize &&
 		       this.screenSize == iOperation.screenSize &&
 			   this.cameraAspect == iOperation.cameraAspect &&
-		       this.occlusionMaskSizeAdd == iOperation.occlusionMaskSizeAdd &&
 		       this.lightTextureWidth == iOperation.lightTextureWidth &&
 			   this.antiAliasing == iOperation.antiAliasing &&
 			   this.wallTextureRescale == iOperation.wallTextureRescale &&
-			   this.occlusionMaskPixelsInUnit == iOperation.occlusionMaskPixelsInUnit;
+			   this.occlusionPPRTParameter == iOperation.occlusionPPRTParameter &&
+		       this.fovPPRTParameter == iOperation.fovPPRTParameter;
 	}
+
 }

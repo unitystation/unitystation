@@ -5,21 +5,26 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
-public struct PixelPerfectRTParameter 
+public struct PixelPerfectRTParameter : IEquatable<PixelPerfectRTParameter>
 {
-	/// <summary>
-	/// Units to match against.
-	/// </summary>
-	public readonly Vector2 matchUnits;
+	public readonly Vector2Int units;
+	public readonly int pixelPerUnit;
 
-	public Vector2Int units;
-	public int pixelPerUnit;
-
-	public PixelPerfectRTParameter(Vector2Int iUnits, int iPixelPerUnit, Vector2 iMatchUnits)
+	public PixelPerfectRTParameter(Vector2Int iUnits, int iPixelPerUnit)
 	{
 		units = iUnits;
-		pixelPerUnit = iPixelPerUnit;
-		matchUnits = iMatchUnits;
+
+		if (units.x < 1)
+		{
+			units.x = 1;
+		}
+
+		if (units.y < 1)
+		{
+			units.y = 1;
+		}
+
+		pixelPerUnit = Mathf.Clamp(iPixelPerUnit, 1, int.MaxValue);
 	}
 
 	public Vector2Int resolution => units * pixelPerUnit;
@@ -36,10 +41,20 @@ public struct PixelPerfectRTParameter
 		return new Vector2(_x, _y);
 	}
 
-	public Vector2 GetRendererViewport()
+	public static bool operator ==(PixelPerfectRTParameter iLeftHand, PixelPerfectRTParameter iRightHand)
 	{
-		Vector2 _viewportPerUnit = new Vector2(1f / matchUnits.x, 1f / matchUnits.y);
+		// Equals handles case of null on right side.
+		return iLeftHand.Equals(iRightHand);
+	}
 
-		return new Vector2(_viewportPerUnit.x * matchUnits.x, units.y);
+	public static bool operator !=(PixelPerfectRTParameter iLeftHand, PixelPerfectRTParameter iRightHand)
+	{
+		return !(iLeftHand == iRightHand);
+	}
+
+	public bool Equals(PixelPerfectRTParameter iParameter)
+	{
+		return this.units == iParameter.units &&
+		       this.pixelPerUnit == iParameter.pixelPerUnit;
 	}
 }

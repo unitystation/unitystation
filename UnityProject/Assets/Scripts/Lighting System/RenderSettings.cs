@@ -64,7 +64,8 @@ public class RenderSettings
 	[Tooltip("Used for occlusion texture only. 4 is a good balance..")]
 	public int antiAliasing = 1;
 
-	public int occlusionMaskPixelsInUnit;
+	public int occlusionDetail;
+	public ReSamplePower fovResample;
 
 	[NonSerialized]
 	public Quality quality;

@@ -1016,8 +1016,9 @@ MonoBehaviour:
     occlusionMaskMultiplier: 1.25
     occlusionMaskLimit: 0.7
     occlusionLightTextureRescale: 0.4
-    maskCameraSizeAdd: 3
+    occlusionMaskSizeAdd: {x: 0, y: 0}
     antiAliasing: 4
+    occlusionMaskPixelsInUnit: 0
   materialContainer:
     fovBlurMaterial: {fileID: 2100000, guid: 42ccff1e88773c2408dd290281b8e2f5, type: 2}
     blitMaterial: {fileID: 2100000, guid: 340512e20a387c044a10a8b2805b7b98, type: 2}
@@ -1026,6 +1027,7 @@ MonoBehaviour:
       type: 2}
     fovMaterial: {fileID: 2100000, guid: f29510637789e8a4e9488d4e6b488f1f, type: 2}
     MaskMixerMaterial: {fileID: 2100000, guid: 56ac12cf5d6d78044b3066c9b527a237, type: 2}
+    occlusionBlit: {fileID: 2100000, guid: 04e3f30747782cc4b921ea259ae78fed, type: 2}
     OcclusionMaskShader: {fileID: 4800000, guid: 79a500d9ed87cbf4e9c9fe71c73b3d12,
       type: 3}
 --- !u!114 &114279227859847976

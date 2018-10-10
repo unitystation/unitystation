@@ -8,28 +8,8 @@ public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 	private const string MaskCameraName = "Obstacle Mask Camera";
 
 	private Camera mMaskCamera;
-	private RenderTexture mMask;
+	private PixelPerfectRTP mPPRenderTexture;
 
-	private RenderTexture mask
-	{
-		get
-		{
-			return mMask;
-		}
-
-		set
-		{
-			// Release old texture.
-			if (mMask != null)
-			{
-				mMask.Release();
-			}
-
-			// Assign new one. May be null.
-			mMask = value;
-			mMaskCamera.targetTexture = mMask;
-		}
-	}
 
 	public static OcclusionMaskRenderer InitializeMaskRenderer(
 		GameObject iRoot,
@@ -53,22 +33,6 @@ public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 		return _maskProcessor;
 	} 
 
-	public void ResetRenderingTextures(OperationParameters iParameters)
-	{
-		var _newRenderTexture = new RenderTexture(iParameters.occlusionPPRTParameter.resolution.x, iParameters.occlusionPPRTParameter.resolution.y, 0, RenderTextureFormat.Default);
-		_newRenderTexture.name = "Raw Scaled Occlusion Mask";
-		_newRenderTexture.autoGenerateMips = false;
-		_newRenderTexture.useMipMap = false;
-
-		_newRenderTexture.antiAliasing = 1;
-		_newRenderTexture.filterMode = FilterMode.Point;
-
-		// Note: Assignment will release previous texture if exist.
-		mask = _newRenderTexture;
-
-		mMaskCamera.orthographicSize = iParameters.extendedCameraSize;
-	}
-
 	public PixelPerfectRTP Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter)
 	{
 		// Arrange.
@@ -79,13 +43,19 @@ public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 		mMaskCamera.transform.position = _renderPosition;
 		mMaskCamera.orthographicSize = iPPRTParameter.orthographicSize;
 
+		if (mPPRenderTexture == null)
+		{
+			mPPRenderTexture = new PixelPerfectRTP(iPPRTParameter);
+		}
+		else
+		{
+			mPPRenderTexture.Update(iPPRTParameter);
+		}
+
 		// Execute.
-		mMaskCamera.Render();
+		mPPRenderTexture.Render(mMaskCamera);
 
-		// Wrap.
-		var _pprt = new PixelPerfectRTP(iPPRTParameter, mask, _renderPosition);
-
-		return _pprt;
+		return mPPRenderTexture;
 	}
 
 	private static OcclusionMaskRenderer SetUpCameraObject(

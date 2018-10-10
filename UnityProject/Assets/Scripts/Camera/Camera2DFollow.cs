@@ -9,7 +9,7 @@ public class Camera2DFollow : MonoBehaviour
 	private readonly bool adjustPixel = false;
 	private readonly float lookAheadMoveThreshold = 0.1f;
 	private readonly float lookAheadReturnSpeed = 0.5f;
-	private readonly float yOffSet = -0.5f;
+	private readonly float yOffSet = -0.4999f;
 
 	private Vector3 cachePos;
 	private Vector3 currentVelocity;
