@@ -203,7 +203,6 @@ namespace Lobby
 		{
 			currentCharacter.Name = ValidateName(characterNameField.text);
 			characterNameField.text = currentCharacter.Name;
-			Debug.Log("change");
 		}
 
 		private string ValidateName(string proposedName)
