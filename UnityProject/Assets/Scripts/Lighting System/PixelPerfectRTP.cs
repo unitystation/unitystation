@@ -2,8 +2,8 @@
 
 public class PixelPerfectRTP
 {
-	private PixelPerfectRTParameter mPPRTParameter;
-	private RenderTexture mRenderTexture;
+	private readonly PixelPerfectRTParameter mPPRTParameter;
+	private readonly RenderTexture mRenderTexture;
 	private readonly Vector2 mRenderPosition;
 
 	public PixelPerfectRTP(PixelPerfectRTParameter iPPRTParameter, RenderTexture iRenderTexture, Vector2 iRenderPosition)
@@ -15,14 +15,13 @@ public class PixelPerfectRTP
 
 	public RenderTexture renderTexture => mRenderTexture;
 
-	public Vector4 GetOffset(Transform iAgainstTransform)
+	/// <summary>
+	/// Returns transformation that can be used to offset current PPRT from renderer.
+	/// </summary>
+	public Vector4 GetTransformation(Transform iAgainstTransform)
 	{
-		Vector2 _positionDifference = new Vector2(iAgainstTransform.position.x - mRenderPosition.x, iAgainstTransform.position.y - mRenderPosition.y);
-
 		Vector2Int _units = mPPRTParameter.units;
-		Vector2 _matchAgainstUnits = mPPRTParameter.matchAgainstUnits;
-
-		Vector2 _difference = new Vector2(_matchAgainstUnits.x / (float)_units.x, _matchAgainstUnits.y / (float)_units.y);
+		Vector2 _matchUnits = mPPRTParameter.matchUnits;
 
 		// Correct for odd pixel size.
 		// Note: In case when occlusionPixelsPerUnit is set to and odd value and one of unit dimensions
@@ -33,21 +32,25 @@ public class PixelPerfectRTP
 		{
 			if (_units.x % 2 == 0)
 			{
-				_oddPixelCorrection.x = -((1 / _matchAgainstUnits.x) / mPPRTParameter.pixelPerUnit) * 0.5f;
+				_oddPixelCorrection.x = -((1 / _matchUnits.x) / mPPRTParameter.pixelPerUnit) * 0.5f;
 			}
 
 			if (_units.y % 2 == 0)
 			{
-				_oddPixelCorrection.y = -((1 / _matchAgainstUnits.y) / mPPRTParameter.pixelPerUnit) * 0.5f;
+				_oddPixelCorrection.y = -((1 / _matchUnits.y) / mPPRTParameter.pixelPerUnit) * 0.5f;
 			}
 		}
 
-		Vector4 _viewportOffsetScale = new Vector4(
-			_positionDifference.x / _matchAgainstUnits.x + _oddPixelCorrection.x,
-			_positionDifference.y / _matchAgainstUnits.y + _oddPixelCorrection.y,
-			_difference.x,
-			_difference.y);
+		// Calculate transformation.
+		Vector2 _scaleDifference = new Vector2(_matchUnits.x / (float)_units.x, _matchUnits.y / (float)_units.y);
+		Vector2 _positionDifference = new Vector2(iAgainstTransform.position.x - mRenderPosition.x, iAgainstTransform.position.y - mRenderPosition.y);
 
-		return _viewportOffsetScale;
+		Vector4 _transformation = new Vector4(
+			(_positionDifference.x / _matchUnits.x) + _oddPixelCorrection.x,  // Position Offset.
+			(_positionDifference.y / _matchUnits.y) + _oddPixelCorrection.y,
+			_scaleDifference.x,												  // Scale.
+			_scaleDifference.y);
+
+		return _transformation;
 	}
 }

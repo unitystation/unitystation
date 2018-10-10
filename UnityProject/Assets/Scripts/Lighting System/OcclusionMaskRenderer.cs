@@ -72,27 +72,20 @@ public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 	public PixelPerfectRTP Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter)
 	{
 		// Arrange.
+		var _renderPosition = iPPRTParameter.GetRendererPosition(iCameraToMatch.transform.position);
+
 		mMaskCamera.enabled = false;
 		mMaskCamera.backgroundColor = new Color(0, 0, 0, 0);
-		var _renderPosition = iPPRTParameter.GetRendererPosition(iCameraToMatch.transform.position);
 		mMaskCamera.transform.position = _renderPosition;
-
-		SetViewPort(iPPRTParameter.GetRendererViewport());
-
+		mMaskCamera.orthographicSize = iPPRTParameter.orthographicSize;
 
 		// Execute.
 		mMaskCamera.Render();
 
 		// Wrap.
-		var pprt = new PixelPerfectRTP(iPPRTParameter, mask, mMaskCamera.transform.position);
+		var _pprt = new PixelPerfectRTP(iPPRTParameter, mask, _renderPosition);
 
-		return pprt;
-	}
-
-	private void SetViewPort(Vector2 iViewport)
-	{
-		mMaskCamera.rect = new Rect((1 - iViewport.x) * 0.5f, 0, iViewport.x, 1);
-		mMaskCamera.orthographicSize = iViewport.y * 0.5f;
+		return _pprt;
 	}
 
 	private static OcclusionMaskRenderer SetUpCameraObject(

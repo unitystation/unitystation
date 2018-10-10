@@ -60,10 +60,11 @@ public class RenderSettings
 	[Tooltip("Unit Size addition to Occlusion camera. Affects Extended texture size. Used to properly draw out of bounds light sources.")]
 	public Vector2Int occlusionMaskSizeAdd;
 
+	// TODO Remove?
 	[Tooltip("Used for occlusion texture only. 4 is a good balance..")]
-	public int antiAliasing = 4;
+	public int antiAliasing = 1;
 
-	public PixelPerfectRTParameter occlusionRTParameter;
+	public int occlusionMaskPixelsInUnit;
 
 	[NonSerialized]
 	public Quality quality;
@@ -79,8 +80,6 @@ public class RenderSettings
 		new Keyframe(350, 0.006f),
 		new Keyframe(700, 0.004f),
 		new Keyframe(1400, 0.002f));
-
-	public int occlusionMaskPixelsInUnit;
 
 	public int lightTextureWidth
 	{

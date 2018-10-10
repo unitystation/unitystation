@@ -18,8 +18,6 @@ public class LightingSystem : MonoBehaviour
 	public RenderSettings renderSettings;
 	public MaterialContainer materialContainer;
 
-	public Texture2D mbla;
-
 	private Camera mMainCamera;
 	private ITextureRenderer mOcclusionRenderer;
 	private LightMaskRenderer mLightMaskRenderer;
@@ -197,29 +195,7 @@ public class LightingSystem : MonoBehaviour
 
 			ResetRenderingTextures(mCurrentOperationParameters);
 		}
-
-		//Adjust();
 	}	
-
-
-	void Adjust ()
-	{
-		var _camera = gameObject.GetComponent<Camera>();
-		Vector3 _unitsInViewport = _camera.ViewportToWorldPoint(Vector3.one) - _camera.ViewportToWorldPoint(Vector3.zero);
-
-		//Vector2 _pixelsPerUnit = new Vector2(Screen.width / _unitsInViewport.x, Screen.height / _unitsInViewport.z);
-		Vector2 _unitPerPixel = new Vector2(_unitsInViewport.x / Screen.width, _unitsInViewport.z / Screen.height);
-
-		float _pixelsPerUnit = Screen.height / (_camera.orthographicSize * 2);
-
-		float _nearestDividable = Mathf.RoundToInt(_pixelsPerUnit / renderSettings.occlusionMaskPixelsInUnit) * renderSettings.occlusionMaskPixelsInUnit;
-
-		float _newOrto = (float)Screen.height / 128 * 0.5f;
-
-		_camera.orthographicSize = _newOrto;
-
-
-	}
 
 	private void ResetRenderingTextures(OperationParameters iParameters)
 	{
@@ -261,7 +237,6 @@ public class LightingSystem : MonoBehaviour
 		using (new DisposableProfiler("1. Occlusion Mask Render (No Gfx Time)"))
 		{
 			mOcclusionPPRT = mOcclusionRenderer.Render(mMainCamera, mCurrentOperationParameters.occlusionPPRTParameter);
-
 			_rawOcclusionMask = mOcclusionPPRT.renderTexture;
 		}
 
@@ -305,17 +280,6 @@ public class LightingSystem : MonoBehaviour
 			return;
 		}
 		
-		// Debug View Selection.
-		if (renderSettings.viewMode == RenderSettings.ViewMode.Obstacle)
-		{
-			materialContainer.occlusionBlit.SetTexture("_OcclusionMask", mOcclusionPPRT.renderTexture);
-			materialContainer.occlusionBlit.SetVector("_OcclusionOffset", mOcclusionPPRT.GetOffset(mMainCamera.transform));
-
-			// Store as occlusionMaskExtended to display in OnRenderImage().
-			Graphics.Blit(iSource, iDestination, materialContainer.occlusionBlit);
-			return;
-		}
-
 		RenderTexture _lightMask = null;
 
 		using (new DisposableProfiler("5. Light Mask Render (No Gfx Time)"))
@@ -349,7 +313,15 @@ public class LightingSystem : MonoBehaviour
 			Graphics.Blit(occlusionMaskExtended, iDestination);
 			return;
 		}
+		else if (renderSettings.viewMode == RenderSettings.ViewMode.Obstacle)
+		{
+			materialContainer.occlusionBlit.SetTexture("_OcclusionMask", mOcclusionPPRT.renderTexture);
+			materialContainer.occlusionBlit.SetVector("_OcclusionOffset", mOcclusionPPRT.GetTransformation(mMainCamera.transform));
 
+			// Store as occlusionMaskExtended to display in OnRenderImage().
+			Graphics.Blit(iSource, iDestination, materialContainer.occlusionBlit);
+			return;
+		}
 
 		using (new DisposableProfiler("7. Light Mask Blur"))
 		{
