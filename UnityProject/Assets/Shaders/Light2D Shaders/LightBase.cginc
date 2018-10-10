@@ -92,12 +92,14 @@ half4 light2_fixed_frag (light2d_fixed_v2f i) : COLOR
 
 	half pos = 0;
 	
+	/*
 	for(int i = 0; i < PATH_TRACKING_SAMPLES; i++)
 	{
 		pos += sub; 
 		half4 obstacle = tex2D(_FovExtendedMask, lerp(centerPos, thisPos, pos));
 		col *= 1-obstacle.r; //saturate(1 - (1 - obstacle)*obstacle.a*m); // was a
 	}
+	*/
 
 	half4 fov = tex2D(_FovExtendedMask, thisPos);
 	//col.rgb += colorizedTex * fov.b;

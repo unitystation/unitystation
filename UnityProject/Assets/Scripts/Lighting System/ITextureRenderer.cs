@@ -2,5 +2,5 @@
 
 interface ITextureRenderer
 {
-	PixelPerfectRTP Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter);
+	PixelPerfectRT Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter, RenderSettings iRenderSettings);
 }

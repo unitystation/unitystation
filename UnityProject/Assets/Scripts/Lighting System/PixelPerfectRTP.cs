@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class PixelPerfectRTP
+public class PixelPerfectRT
 {
 	private PixelPerfectRTParameter mPPRTParameter;
 	private RenderTexture mRenderTexture;
 
-	public PixelPerfectRTP(PixelPerfectRTParameter iPprtParameter)
+	public PixelPerfectRT(PixelPerfectRTParameter iPprtParameter)
 	{
 		Update(iPprtParameter);
 	}
@@ -13,6 +13,8 @@ public class PixelPerfectRTP
 	public RenderTexture renderTexture => mRenderTexture;
 
 	private Vector2 renderPosition { get; set; }
+
+	public float orthographicSize => mPPRTParameter.orthographicSize;
 
 	public void Update(PixelPerfectRTParameter iPprtParameter)
 	{
@@ -93,7 +95,7 @@ public class PixelPerfectRTP
 		renderPosition = iCamera.transform.position;
 	}
 
-	public static void Blit(PixelPerfectRTP iSource, PixelPerfectRTP iDestination, Material iMaterial)
+	public static void Blit(PixelPerfectRT iSource, PixelPerfectRT iDestination, Material iMaterial)
 	{
 		Graphics.Blit(iSource.renderTexture, iDestination.renderTexture, iMaterial);
 		iDestination.renderPosition = iSource.renderPosition;

@@ -1,9 +1,8 @@
-﻿Shader "PostProcess/PPRT Preview Blit"
+﻿Shader "PostProcess/PPRT Transform Blit"
 {
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_OcclusionMask ("Background", 2D) = "black" {}
 	}
 	SubShader
 	{
@@ -31,23 +30,21 @@
 				float4 vertex : SV_POSITION;
 			};
 			
-			sampler2D _OcclusionMask;
 			sampler2D _MainTex;
-			float4 _OcclusionOffset;
+			float4 _Transform;
 			
 			v2f vert (appdata v)
 			{
 				v2f o;
 
 				o.vertex = UnityObjectToClipPos(v.vertex);
-				//o.uv =  v.uv;
-				o.occlusionUv = ((v.uv + _OcclusionOffset.xy) * _OcclusionOffset.zw) - (_OcclusionOffset.zw - float2(1,1)) * 0.5f;
+				o.occlusionUv = ((v.uv + _Transform.xy) * _Transform.zw) - (_Transform.zw - float2(1,1)) * 0.5f;
 				return o;
 			}
 
 			fixed4 frag (v2f i) : SV_Target
 			{
-				//fixed4 screen = tex2D(_MainTex, i.occlusionUv);
+
 				fixed4 color = tex2D(_MainTex, i.occlusionUv);
 
 				return color;

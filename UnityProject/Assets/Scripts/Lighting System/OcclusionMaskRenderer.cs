@@ -8,7 +8,7 @@ public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 	private const string MaskCameraName = "Obstacle Mask Camera";
 
 	private Camera mMaskCamera;
-	private PixelPerfectRTP mPPRenderTexture;
+	private PixelPerfectRT mPPRenderTexture;
 
 
 	public static OcclusionMaskRenderer InitializeMaskRenderer(
@@ -33,7 +33,7 @@ public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 		return _maskProcessor;
 	} 
 
-	public PixelPerfectRTP Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter)
+	public PixelPerfectRT Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter, RenderSettings iRenderSettings)
 	{
 		// Arrange.
 		var _renderPosition = iPPRTParameter.GetRendererPosition(iCameraToMatch.transform.position);
@@ -45,7 +45,7 @@ public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 
 		if (mPPRenderTexture == null)
 		{
-			mPPRenderTexture = new PixelPerfectRTP(iPPRTParameter);
+			mPPRenderTexture = new PixelPerfectRT(iPPRTParameter);
 		}
 		else
 		{

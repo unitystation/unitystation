@@ -185,8 +185,8 @@ public class PostProcessingStack
 	}
 
 	public void GenerateFovMask(
-		PixelPerfectRTP iRawOcclusionMask,
-		PixelPerfectRTP iGlobalOcclusionExtendedMask,
+		PixelPerfectRT iRawOcclusionMask,
+		PixelPerfectRT iGlobalOcclusionExtendedMask,
 		RenderSettings iRenderSettings,
 		Vector3 iFovCenterInViewSpace,
 		float iFovDistance,
@@ -201,7 +201,7 @@ public class PostProcessingStack
 
 		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
 		
-		PixelPerfectRTP.Blit(iRawOcclusionMask, iGlobalOcclusionExtendedMask, mMaterialContainer.fovMaterial);
+		PixelPerfectRT.Blit(iRawOcclusionMask, iGlobalOcclusionExtendedMask, mMaterialContainer.fovMaterial);
 	}
 
 	public void FitExtendedOcclusionMask(RenderTexture iSource, RenderTexture iDestination, OperationParameters iOperationParameters)

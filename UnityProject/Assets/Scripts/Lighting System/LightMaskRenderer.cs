@@ -2,33 +2,12 @@
 using System.Linq;
 using UnityEngine;
 
-public class LightMaskRenderer : MonoBehaviour
+public class LightMaskRenderer : MonoBehaviour, ITextureRenderer
 {
 	private const string MaskCameraName = "Light Mask Camera";
 
 	private Camera mMaskCamera;
-	private RenderTexture mMask;
-	
-	private RenderTexture mask
-	{
-		get
-		{
-			return mMask;
-		}
-
-		set
-		{
-			// Release old texture.
-			if (mMask != null)
-			{
-				mMask.Release();
-			}
-
-			// Assign new one. May be null.
-			mMask = value;
-			mMaskCamera.targetTexture = mMask;
-		}
-	}
+	private PixelPerfectRT mPPRenderTexture;
 
 	public static LightMaskRenderer InitializeMaskRenderer(
 		GameObject iRoot)
@@ -63,25 +42,36 @@ public class LightMaskRenderer : MonoBehaviour
 		_newRenderTexture.filterMode = FilterMode.Bilinear;
 		_newRenderTexture.antiAliasing = iParameters.antiAliasing;
 
-		// Note: Assignment will release previous texture if exist.
-		mask = _newRenderTexture;
-
 		mMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
 
 		Vector2 _scale = new Vector2((float)iParameters.cameraOrthographicSize / iParameters.extendedCameraSize, (float)iParameters.cameraOrthographicSize / iParameters.extendedCameraSize);
 		Shader.SetGlobalVector("_ExtendedToSmallTextureScale", _scale);
 	}
-
-	public RenderTexture Render(RenderSettings iRenderSettings)
+	
+	public PixelPerfectRT Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter, RenderSettings iRenderSettings = null)
 	{
+		// Arrange.
+		var _renderPosition = iPPRTParameter.GetRendererPosition(iCameraToMatch.transform.position);
+
 		mMaskCamera.enabled = false;
+		mMaskCamera.backgroundColor = Color.black;
+		mMaskCamera.transform.position = _renderPosition;
+		mMaskCamera.orthographicSize = iPPRTParameter.orthographicSize;
 		mMaskCamera.cullingMask = iRenderSettings.lightSourceLayers; 
 
-		mMaskCamera.backgroundColor = Color.black;
+		if (mPPRenderTexture == null)
+		{
+			mPPRenderTexture = new PixelPerfectRT(iPPRTParameter);
+		}
+		else
+		{
+			mPPRenderTexture.Update(iPPRTParameter);
+		}
 
-		mMaskCamera.Render();
+		// Execute.
+		mPPRenderTexture.Render(mMaskCamera);
 
-		return mask;
+		return mPPRenderTexture;
 	}
 
 	private static Transform CreateNewCameraGo(GameObject iRoot, string iMaskLayerName)
@@ -108,6 +98,7 @@ public class LightMaskRenderer : MonoBehaviour
 		iSetupCamera.allowHDR = false;
 		iSetupCamera.allowMSAA = false;
 		iSetupCamera.farClipPlane = 3f;
+		iSetupCamera.nearClipPlane = -3f;
 
 		// Get or add processor component.
 		var _processor = iSetupCamera.gameObject.GetComponent<LightMaskRenderer>();
@@ -122,4 +113,5 @@ public class LightMaskRenderer : MonoBehaviour
 	{
 		mMaskCamera = gameObject.GetComponent<Camera>();
 	}
+
 }

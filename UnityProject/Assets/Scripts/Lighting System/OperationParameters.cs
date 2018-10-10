@@ -11,6 +11,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 	public readonly Vector3 cameraViewportUnitsInWorldSpace;
 	public readonly PixelPerfectRTParameter occlusionPPRTParameter;
 	public readonly PixelPerfectRTParameter fovPPRTParameter;
+	public readonly PixelPerfectRTParameter lightPPRTParameter;
 
 	private const float DefaultCameraSize = 4;
 
@@ -40,6 +41,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 
 		occlusionPPRTParameter = new PixelPerfectRTParameter(mCameraViewportUnitsCeiled + iRenderSettings.occlusionMaskSizeAdd, _initialSampleDetail);
 		fovPPRTParameter = new PixelPerfectRTParameter(occlusionPPRTParameter.units, _initialSampleDetail * (int)iRenderSettings.fovResample);
+		lightPPRTParameter = new PixelPerfectRTParameter(mCameraViewportUnitsCeiled, fovPPRTParameter.pixelPerUnit);
 
 		// Set data default.
 		// This will be lazy-calculated when required.
@@ -47,7 +49,6 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		mExtendedCameraSize = default(float);
 		mExtendedTextureSize = default(Vector2Int);
 		mLightTextureSize = default(Vector2Int);
-
 	}
 
 	public Vector2Int extendedTextureSize
@@ -152,7 +153,8 @@ public struct OperationParameters : IEquatable<OperationParameters>
 			   this.antiAliasing == iOperation.antiAliasing &&
 			   this.wallTextureRescale == iOperation.wallTextureRescale &&
 			   this.occlusionPPRTParameter == iOperation.occlusionPPRTParameter &&
-		       this.fovPPRTParameter == iOperation.fovPPRTParameter;
+		       this.fovPPRTParameter == iOperation.fovPPRTParameter &&
+			   this.lightPPRTParameter == iOperation.lightPPRTParameter;
 	}
 
 }
