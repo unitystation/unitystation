@@ -7,7 +7,7 @@ public class Asteroid : NetworkBehaviour {
 
 	private MatrixMove mm;
 
-	private float asteroidDistances = 550; //How far can asteroids be spawned
+	private float asteroidDistance = 550; //How far can asteroids be spawned
 
 
 	private void Start()
@@ -23,7 +23,7 @@ public class Asteroid : NetworkBehaviour {
 		if (isServer)
 		{
 			//Based on EscapeShuttle.cs
-			mm.SetPosition(Random.insideUnitCircle * 500 + new Vector2(500, -500));
+			mm.SetPosition(Random.insideUnitCircle * asteroidDistance);
 		}
 	}
 
