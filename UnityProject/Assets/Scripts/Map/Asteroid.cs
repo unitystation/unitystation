@@ -19,13 +19,14 @@ public class Asteroid : NetworkBehaviour {
 		if (isServer)
 		{
 			SpawnNearStation();
+			RandomRotation();
 		}
 	}
 
 	[Server]
 	public void SpawnNearStation()
 	{
-		//Makes sure asteroids don't spawn at/Inside station
+		//Makes sure asteroids don't spawn at/inside station
 		Vector2 clampVal = Random.insideUnitCircle * asteroidDistance;
 		
 		if(clampVal.x > 0)
@@ -37,6 +38,28 @@ public class Asteroid : NetworkBehaviour {
 			clampVal.x = Mathf.Clamp(clampVal.x, -distanceFromStation, -asteroidDistance);
 		}
 		mm.SetPosition(clampVal);
+	}
+
+	[Server] //Asigns random rotation to each asteroid at startup for variety.
+	public void RandomRotation()
+	{
+		int rand = Random.Range(0, 3);
+
+		switch(rand)
+		{
+			case 0:
+				mm.RotateTo(Orientation.Up);
+				break;
+			case 1:
+				mm.RotateTo(Orientation.Down);
+				break;
+			case 2:
+				mm.RotateTo(Orientation.Right);
+				break;
+			case 3:
+				mm.RotateTo(Orientation.Left);
+				break;
+		}
 	}
 
 }
