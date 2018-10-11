@@ -183,25 +183,35 @@ namespace Lobby
 		//------------------
 		private void RefreshName()
 		{
-			characterNameField.text = currentCharacter.Name;
+			characterNameField.text = ValidateName(currentCharacter.Name);
 		}
 
 		public void RandomNameBtn()
 		{
 			if (currentCharacter.Gender == Gender.Male)
 			{
-				currentCharacter.Name = StringManager.GetRandomMaleName();
+				currentCharacter.Name = ValidateName(StringManager.GetRandomMaleName());
 			}
 			else
 			{
-				currentCharacter.Name = StringManager.GetRandomFemaleName();
+				currentCharacter.Name = ValidateName(StringManager.GetRandomFemaleName());
 			}
 			RefreshName();
 		}
 
 		public void OnManualNameChange()
 		{
-			currentCharacter.Name = characterNameField.text;
+			currentCharacter.Name = ValidateName(characterNameField.text);
+			characterNameField.text = currentCharacter.Name;
+		}
+
+		private string ValidateName(string proposedName)
+		{
+			if (proposedName.Length >= 28)
+			{
+				return proposedName.Substring(0, 28);
+			}
+			return proposedName;
 		}
 
 		//------------------
@@ -263,7 +273,9 @@ namespace Lobby
 		{
 			int tryInt = 22;
 			int.TryParse(ageField.text, out tryInt);
+			tryInt = Mathf.Clamp(tryInt, 18, 99);
 			currentCharacter.Age = tryInt;
+			RefreshAge();
 		}
 		//------------------
 		//EYE COLOR:
