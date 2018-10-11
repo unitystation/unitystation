@@ -11,6 +11,8 @@ public class Asteroid : NetworkBehaviour {
 
 	private float distanceFromStation = 175; //Offset from station so it doesnt spawn into station
 
+	private float startDelay = 0.25f;
+
 
 	private void Start()
 	{
@@ -18,8 +20,7 @@ public class Asteroid : NetworkBehaviour {
 
 		if (isServer)
 		{
-			SpawnNearStation();
-			RandomRotation();
+			StartCoroutine(DelayedStart());
 		}
 	}
 
@@ -60,6 +61,15 @@ public class Asteroid : NetworkBehaviour {
 				mm.RotateTo(Orientation.Left);
 				break;
 		}
+	}
+
+	//Delays start functions to avoid issues with matrixmove
+	IEnumerator DelayedStart()
+	{
+		yield return new WaitForSeconds(startDelay);
+
+		SpawnNearStation();
+		RandomRotation();
 	}
 
 }
