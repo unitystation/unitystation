@@ -16,17 +16,17 @@ public class Asteroid : NetworkBehaviour {
 	{
 		mm = GetComponent<MatrixMove>();
 
-		SpawnNearStation();
+		if (isServer)
+		{
+			SpawnNearStation();
+		}
 	}
 
 	[Server]
 	public void SpawnNearStation()
 	{
-		if (isServer)
-		{
-			//Based on EscapeShuttle.cs
-			mm.SetPosition(Random.insideUnitCircle * asteroidDistance + new Vector2(distanceFromStation, -distanceFromStation));
-		}
+		//Based on EscapeShuttle.cs
+		mm.SetPosition(Random.insideUnitCircle * asteroidDistance + new Vector2(distanceFromStation, -distanceFromStation));
 	}
 
 }
