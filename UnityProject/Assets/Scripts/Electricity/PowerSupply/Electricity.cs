@@ -7,4 +7,4 @@
 		//sent the actual electrcity struct. So reference that one for supplySource
 		public PowerSupply[] suppliers; //Where did this electricity come from
 	}
-
+	

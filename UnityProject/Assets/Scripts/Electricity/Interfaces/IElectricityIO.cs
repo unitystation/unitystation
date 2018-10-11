@@ -18,6 +18,28 @@ public interface IElectricityIO
 	/// </summary>
 	void ElectricityOutput(int currentTick, Electricity electricity);
 
+
+
+	/// <summary>
+	/// Pass resistance with ID of the supplying machine
+	/// </summary>
+	void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom);
+
+	/// <summary>
+	/// Passes it on to the next cable
+	/// </summary>
+	void ResistancyOutput(int tick, float Resistance, GameObject SourceInstance);
+
+	/// <summary>
+	///  Sets the upstream 
+	/// </summary>
+	void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom);
+	/// <summary>
+	/// Sets the downstream and pokes the next one along 
+	/// </summary>
+	void DirectionOutput(int tick, GameObject SourceInstance);
+
+
 	/// <summary>
 	///     Returns a struct with both connection points as members
 	///     the connpoint connection positions are represented using 4 bits to indicate N S E W - 1 2 4 8

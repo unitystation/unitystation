@@ -23,7 +23,8 @@ public class Rightclick : MonoBehaviour {
 		["Pick Up"] = 2,
 		["Drag"] = 3, 
 		["Open/close"] = 4, 
-		["Unknown"] = 5, 
+		["Details"] = 5,
+		["Unknown"] = 6, 
 	};
 
 	public Dictionary<string, Sprite> SpriteDictionary = new Dictionary<string, Sprite>()	{	};

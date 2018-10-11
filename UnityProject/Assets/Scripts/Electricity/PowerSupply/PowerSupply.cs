@@ -85,7 +85,6 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO
 			
 			//Tell the electrical network to check all of their connections:
 			EventManager.Broadcast(EVENT.PowerNetSelfCheck);
-
 			//Test //TODO calculate these values and implement a charge variable
 			Voltage = voltage;
 			Current = current;
@@ -145,7 +144,14 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO
 				connectedWire.ElectricityInput(tick, electricity);
 			}
 		}
-
+	public void DirectionOutput(int tick, GameObject SourceInstance) {
+	}
+	public void DirectionInput(int tick, GameObject SourceInstance, GameObject ComingFrom){
+	}
+	public void ResistancyOutput(int tick, float Resistance, GameObject SourceInstance){
+	}
+	public void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, GameObject ComingFrom){
+	}
 		public GameObject GameObject()
 		{
 			return gameObject;

@@ -76,7 +76,14 @@ using UnityEngine.Events;
 		{
 			
 		}
-
+	public void DirectionOutput(int tick, GameObject SourceInstance) {
+	}
+	public void DirectionInput(int tick, GameObject SourceInstance, GameObject ComingFrom){
+	}
+	public void ResistancyOutput(int tick, float Resistance, GameObject SourceInstance){
+	}
+	public void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, GameObject ComingFrom){
+	}
 		public GameObject GameObject()
 		{
 			return gameObject;

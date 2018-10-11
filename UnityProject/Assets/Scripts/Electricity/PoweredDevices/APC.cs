@@ -26,6 +26,8 @@ using UnityEngine.Networking;
 
 		private Coroutine coScreenDisplayRefresh;
 
+		public int Resistance = 240;
+
 		//green - fully charged and sufficient power from wire
 		//blue - charging, sufficient power from wire
 		//red - running off internal battery, not enough power from wire
