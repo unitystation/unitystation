@@ -25,8 +25,18 @@ public class Asteroid : NetworkBehaviour {
 	[Server]
 	public void SpawnNearStation()
 	{
-		//Based on EscapeShuttle.cs
-		mm.SetPosition(Random.insideUnitCircle * asteroidDistance + new Vector2(distanceFromStation, -distanceFromStation));
+		//Makes sure asteroids don't spawn at/Inside station
+		Vector2 clampVal = Random.insideUnitCircle * asteroidDistance;
+		
+		if(clampVal.x > 0)
+		{
+			clampVal.x = Mathf.Clamp(clampVal.x, distanceFromStation, asteroidDistance);
+		}
+		else
+		{
+			clampVal.x = Mathf.Clamp(clampVal.x, -distanceFromStation, -asteroidDistance);
+		}
+		mm.SetPosition(clampVal);
 	}
 
 }
