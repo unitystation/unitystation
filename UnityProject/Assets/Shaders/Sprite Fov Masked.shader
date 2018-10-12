@@ -47,6 +47,7 @@ Shader "Stencil/Unlit background masked" {
 
 	sampler2D _MainTex;
 	sampler2D _FovMask;
+	float4 _FovMaskTransformation;
 	float4 _MainTex_ST;
 
 	v2f vert(appdata_t v)
@@ -54,7 +55,7 @@ Shader "Stencil/Unlit background masked" {
 		v2f o;
 		o.vertex = UnityObjectToClipPos(v.vertex);
 		o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
-		o.screencoord = ComputeScreenPos(o.vertex);
+		o.screencoord = ((ComputeScreenPos(o.vertex) + _FovMaskTransformation.xy) * _FovMaskTransformation.zw) - (_FovMaskTransformation.zw - float2(1,1)) * 0.5f;
 		o.color = v.color;
 
 		return o;

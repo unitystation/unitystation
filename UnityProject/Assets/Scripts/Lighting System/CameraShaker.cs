@@ -14,6 +14,6 @@ public class CameraShaker : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		transform.position = mInitialPosiiton + new Vector3(0, Mathf.Sin(Time.time * 0.5f) * 3f, 0);
+		transform.position = mInitialPosiiton + new Vector3(Mathf.Sin(Time.time * 0.5f) * 3f, Mathf.Sin(Time.time * 0.5f) * 3f, 0);
 	}
 }

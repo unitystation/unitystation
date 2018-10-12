@@ -3,6 +3,7 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+		_SourceTex ("Texture", 2D) = "white" {}
 	}
 	SubShader
 	{
@@ -31,6 +32,8 @@
 			};
 			
 			sampler2D _MainTex;
+			sampler2D _SourceTex;
+			
 			float4 _Transform;
 			
 			v2f vert (appdata v)
@@ -40,12 +43,11 @@
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.occlusionUv = ((v.uv + _Transform.xy) * _Transform.zw) - (_Transform.zw - float2(1,1)) * 0.5f;
 				return o;
-			}
+			} 
 
 			fixed4 frag (v2f i) : SV_Target
 			{
-
-				fixed4 color = tex2D(_MainTex, i.occlusionUv);
+				fixed4 color = tex2D(_SourceTex, i.occlusionUv);
 
 				return color;
 			}
