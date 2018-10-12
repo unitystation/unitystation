@@ -21,6 +21,11 @@ namespace Lobby
 		public Image facialColor;
 		public Image skinColor;
 
+		public Dropdown hairDropdown;
+		public Dropdown facialHairDropdown;
+		public Dropdown underwearDropdown;
+		public Dropdown socksDropdown;
+
 		public CharacterSprites hairSpriteController;
 		public CharacterSprites facialHairSpriteController;
 		public CharacterSprites underwearSpriteController;
@@ -45,6 +50,7 @@ namespace Lobby
 		void OnEnable()
 		{
 			LoadSettings();
+			PopulateAllDropdowns();
 			colorPicker.gameObject.SetActive(false);
 			colorPicker.onValueChanged.AddListener(OnColorChange);
 			var copyStr = JsonUtility.ToJson(currentCharacter);
@@ -119,6 +125,27 @@ namespace Lobby
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
 			RefreshAll();
+		}
+
+		private void PopulateAllDropdowns()
+		{
+			PopulateDropdown(SpriteManager.HairCollection, hairDropdown);
+			PopulateDropdown(SpriteManager.FacialHairCollection, facialHairDropdown);
+			PopulateDropdown(SpriteManager.UnderwearCollection, underwearDropdown);
+			PopulateDropdown(SpriteManager.SocksCollection, socksDropdown);
+		}
+
+		private void PopulateDropdown(List<SpriteAccessory> itemCollection, Dropdown itemDropdown)
+		{
+			// Make a list of all available options which can then be passed to the dropdown box
+			List<string> itemOptions = new List<string>();
+
+			foreach (SpriteAccessory item in itemCollection)
+			{
+				itemOptions.Add(item.name);
+			}
+
+			itemDropdown.AddOptions(itemOptions);
 		}
 
 		//------------------
@@ -307,6 +334,12 @@ namespace Lobby
 		//HAIR:
 		//------------------
 
+		public void HairDropdownChange(int index)
+		{
+			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[index]);
+			RefreshHair();
+		}
+
 		public void HairScrollRight()
 		{
 			int tryNext = currentCharacter.hairCollectionIndex + 1;
@@ -385,6 +418,11 @@ namespace Lobby
 		//FACIAL HAIR:
 		//------------------
 
+		public void FacialHairDropdownChange(int index)
+		{
+			currentCharacter.LoadFacialHairSetting(SpriteManager.FacialHairCollection[index]);
+			RefreshFacialHair();
+		}
 		public void FacialHairScrollRight()
 		{
 			int tryNext = currentCharacter.facialHairCollectionIndex + 1;
@@ -473,6 +511,11 @@ namespace Lobby
 		//UNDERWEAR:
 		//------------------
 
+		public void UnderwearDropdownChange(int index)
+		{
+			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[index]);
+			RefreshUnderwear();
+		}
 		private void RefreshUnderwear()
 		{
 			underwearSpriteController.reference = currentCharacter.underwearOffset;
@@ -508,6 +551,11 @@ namespace Lobby
 		//SOCKS:
 		//------------------
 
+		public void SocksDropdownChange(int index)
+		{
+			currentCharacter.LoadSocksSetting(SpriteManager.SocksCollection[index]);
+			RefreshSocks();
+		}
 		private void RefreshSocks()
 		{
 			socksSpriteController.reference = currentCharacter.socksOffset;
