@@ -56,9 +56,12 @@ namespace PathFinding
 			frontierNodes.Enqueue(startNode);
 			exploredNodes.Clear();
 			allNodes.Clear();
+			allNodes.Add(startNode.position, startNode);
+			allNodes.Add(goalNode.position, goalNode);
 			StartCoroutine(SearchForRoute());
 
 		}
+
 		IEnumerator SearchForRoute()
 		{
 			status = Status.searching;
@@ -69,21 +72,52 @@ namespace PathFinding
 				if (frontierNodes.Count > 0)
 				{
 					Node currentNode = frontierNodes.Dequeue();
+					Debug.Log("Search frontierNode: " + currentNode.position);
 
 					if (currentNode.neighbors.Count == 0)
 					{
 						yield return FindNeighbours(currentNode);
 					}
 
-					if (exploredNodes.Contains(currentNode))
+					if (!exploredNodes.Contains(currentNode))
 					{
 						exploredNodes.Add(currentNode);
 					}
 
 					ExpandFrontierAStar(currentNode);
+
 					yield return YieldHelper.EndOfFrame;
+
+					if (frontierNodes.Contains(goalNode))
+					{
+						Debug.Log("SUCCESS FOUND IT!");
+						isComplete = true;
+						List<Node> path = new List<Node>();
+						path.Add(goalNode);
+
+						Node nextNode = goalNode.previous;
+
+						while (nextNode != null)
+						{
+							Debug.Log("add path entry: " + nextNode.position + " nodeType: " + nextNode.nodeType.ToString());
+							path.Insert(0, nextNode);
+							nextNode = nextNode.previous;
+							yield return YieldHelper.EndOfFrame;
+						}
+
+						pathFoundCallBack.Invoke(path);
+					}
+
+				}
+				else
+				{
+					Debug.Log("Failed");
+					isComplete = true;
+					failedCallBack.Invoke();
 				}
 			}
+
+			Debug.Log("Search complete");
 		}
 
 		IEnumerator FindNeighbours(Node currentNode)
@@ -91,12 +125,15 @@ namespace PathFinding
 			Vector2Int startPos = currentNode.position + new Vector2Int(-1, 1);
 			List<Node> newNeighbours = new List<Node>();
 
-			for(int i = 0; i < 3; i++)
+			for (int i = 0; i < 3; i++)
 			{
-				for(int y = 0; y < 3; y++)
+				for (int y = 0; y < 3; y++)
 				{
-					Vector2Int searchPos = new Vector2Int(startPos.x + i, startPos.y - y); 
-
+					Vector2Int searchPos = new Vector2Int(startPos.x + i, startPos.y - y);
+					if (searchPos == currentNode.position)
+					{
+						continue;
+					}
 					if (!allNodes.ContainsKey(searchPos))
 					{
 						Node newNode = new Node
@@ -114,9 +151,9 @@ namespace PathFinding
 					yield return YieldHelper.EndOfFrame;
 				}
 			}
-		
-			yield return YieldHelper.EndOfFrame;
 
+			yield return YieldHelper.EndOfFrame;
+			Debug.Log("Neighbours found: " + newNeighbours.Count);
 			currentNode.neighbors = newNeighbours;
 		}
 
@@ -128,13 +165,24 @@ namespace PathFinding
 				{
 					if (!exploredNodes.Contains(node.neighbors[i]))
 					{
+						RefreshNodeType(node.neighbors[i]);
+
+						if(node.neighbors[i].nodeType == NodeType.Blocked)
+						{
+							continue;
+						}
+
 						float distanceToNeighbor = GetNodeDistance(node, node.neighbors[i]);
+						Debug.Log($"Node: {node.neighbors[i].position} Distance to Neighbour {distanceToNeighbor}");
 						float newDistanceTraveled = distanceToNeighbor + node.distanceTraveled +
 							(int)node.nodeType;
+						Debug.Log("New distance travelled " + newDistanceTraveled);
 
 						if (float.IsPositiveInfinity(node.neighbors[i].distanceTraveled) ||
 							newDistanceTraveled < node.neighbors[i].distanceTraveled)
 						{
+							Debug.Log("InPositiveInfinity: " + float.IsPositiveInfinity(node.neighbors[i].distanceTraveled));
+							Debug.Log("Node: " + node.position + " added to previous of: " + node.neighbors[i].position);
 							node.neighbors[i].previous = node;
 							node.neighbors[i].distanceTraveled = newDistanceTraveled;
 						}
@@ -147,6 +195,32 @@ namespace PathFinding
 							frontierNodes.Enqueue(node.neighbors[i]);
 						}
 					}
+				}
+			}
+		}
+
+		private void RefreshNodeType(Node node)
+		{
+			Vector3Int checkPos = new Vector3Int(node.position.x,
+				node.position.y, 0);
+
+			if (matrix.IsPassableAt(checkPos))
+			{
+				node.nodeType = NodeType.Open;
+				return;
+			}
+			else
+			{
+				var getDoor = matrix.GetFirst<DoorController>(checkPos);
+				if (!getDoor)
+				{
+					//node.nodeType = NodeType.Door; 
+					//Block for the meantime:
+					node.nodeType = NodeType.Blocked;
+				}
+				else
+				{
+					node.nodeType = NodeType.Blocked;
 				}
 			}
 		}
