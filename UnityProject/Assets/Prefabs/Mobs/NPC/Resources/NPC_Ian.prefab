@@ -27,6 +27,8 @@ GameObject:
   - component: {fileID: 114713267190622314}
   - component: {fileID: 114386898746361270}
   - component: {fileID: 114405087929252270}
+  - component: {fileID: 114123688984495052}
+  - component: {fileID: 114653357792706156}
   m_Layer: 8
   m_Name: NPC_Ian
   m_TagString: Untagged
@@ -72,6 +74,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114123688984495052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a42c936e2703a848bf73f3a8de5b6fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114379432356965050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,6 +154,17 @@ MonoBehaviour:
   pushing: 0
   pushTarget: {x: 0, y: 0, z: 0}
   closetHandlerCache: {fileID: 0}
+--- !u!114 &114653357792706156
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d9eb0f405145e4f88aa44aab92c006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114713267190622314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -202,7 +226,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
