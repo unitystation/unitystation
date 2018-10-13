@@ -18,10 +18,13 @@ namespace PathFinding
 		private bool pathFound = false;
 		PriorityQueue<Node> frontierNodes;
 		private List<Node> exploredNodes = new List<Node>();
+		private Dictionary<Vector2Int, Node> allNodes = new Dictionary<Vector2Int, Node>();
 
 		private Action<List<Node>> pathFoundCallBack;
 		private Action failedCallBack;
 		private bool isComplete = false;
+
+
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
@@ -47,9 +50,13 @@ namespace PathFinding
 				position = targetPos
 			};
 
+			isComplete = false;
+
 			frontierNodes = new PriorityQueue<Node>();
 			frontierNodes.Enqueue(startNode);
 			exploredNodes.Clear();
+			allNodes.Clear();
+			StartCoroutine(SearchForRoute());
 
 		}
 		IEnumerator SearchForRoute()
@@ -63,6 +70,11 @@ namespace PathFinding
 				{
 					Node currentNode = frontierNodes.Dequeue();
 
+					if (currentNode.neighbors.Count == 0)
+					{
+						yield return FindNeighbours(currentNode);
+					}
+
 					if (exploredNodes.Contains(currentNode))
 					{
 						exploredNodes.Add(currentNode);
@@ -72,6 +84,40 @@ namespace PathFinding
 					yield return YieldHelper.EndOfFrame;
 				}
 			}
+		}
+
+		IEnumerator FindNeighbours(Node currentNode)
+		{
+			Vector2Int startPos = currentNode.position + new Vector2Int(-1, 1);
+			List<Node> newNeighbours = new List<Node>();
+
+			for(int i = 0; i < 3; i++)
+			{
+				for(int y = 0; y < 3; y++)
+				{
+					Vector2Int searchPos = new Vector2Int(startPos.x + i, startPos.y - y); 
+
+					if (!allNodes.ContainsKey(searchPos))
+					{
+						Node newNode = new Node
+						{
+							position = searchPos
+						};
+						allNodes.Add(newNode.position, newNode);
+						newNeighbours.Add(newNode);
+					}
+					else
+					{
+						newNeighbours.Add(allNodes[searchPos]);
+					}
+
+					yield return YieldHelper.EndOfFrame;
+				}
+			}
+		
+			yield return YieldHelper.EndOfFrame;
+
+			currentNode.neighbors = newNeighbours;
 		}
 
 		private void ExpandFrontierAStar(Node node)
@@ -84,7 +130,7 @@ namespace PathFinding
 					{
 						float distanceToNeighbor = GetNodeDistance(node, node.neighbors[i]);
 						float newDistanceTraveled = distanceToNeighbor + node.distanceTraveled +
-							(int) node.nodeType;
+							(int)node.nodeType;
 
 						if (float.IsPositiveInfinity(node.neighbors[i].distanceTraveled) ||
 							newDistanceTraveled < node.neighbors[i].distanceTraveled)
@@ -95,8 +141,8 @@ namespace PathFinding
 
 						if (!frontierNodes.Contains(node.neighbors[i]))
 						{
-							int distanceToGoal = (int) GetNodeDistance(node.neighbors[i], goalNode);
-							node.neighbors[i].priority = (int) node.neighbors[i].distanceTraveled +
+							int distanceToGoal = (int)GetNodeDistance(node.neighbors[i], goalNode);
+							node.neighbors[i].priority = (int)node.neighbors[i].distanceTraveled +
 								distanceToGoal;
 							frontierNodes.Enqueue(node.neighbors[i]);
 						}
@@ -118,7 +164,5 @@ namespace PathFinding
 
 			return (1.4f * diagonalSteps + straightSteps);
 		}
-
-		//TODO get neighbours of the node
 	}
 }
