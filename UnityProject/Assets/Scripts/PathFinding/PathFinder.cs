@@ -11,7 +11,7 @@ namespace PathFinding
 		private RegisterTile registerTile;
 		private Matrix matrix => registerTile.Matrix;
 		private CustomNetTransform customNetTransform;
-		public enum Status { idle, searching, navigating, waypointreached }
+		public enum Status { idle, searching }
 		public Status status;
 		private Node startNode;
 		private Node goalNode;
@@ -72,7 +72,6 @@ namespace PathFinding
 				if (frontierNodes.Count > 0)
 				{
 					Node currentNode = frontierNodes.Dequeue();
-					Debug.Log("Search frontierNode: " + currentNode.position);
 
 					if (currentNode.neighbors.Count == 0)
 					{
@@ -86,11 +85,8 @@ namespace PathFinding
 
 					ExpandFrontierAStar(currentNode);
 
-					yield return YieldHelper.EndOfFrame;
-
 					if (frontierNodes.Contains(goalNode))
 					{
-						Debug.Log("SUCCESS FOUND IT!");
 						isComplete = true;
 						List<Node> path = new List<Node>();
 						path.Add(goalNode);
@@ -99,7 +95,6 @@ namespace PathFinding
 
 						while (nextNode != null)
 						{
-							Debug.Log("add path entry: " + nextNode.position + " nodeType: " + nextNode.nodeType.ToString());
 							path.Insert(0, nextNode);
 							nextNode = nextNode.previous;
 							yield return YieldHelper.EndOfFrame;
@@ -107,16 +102,15 @@ namespace PathFinding
 
 						pathFoundCallBack.Invoke(path);
 					}
-
 				}
 				else
 				{
-					Debug.Log("Failed");
 					isComplete = true;
 					failedCallBack.Invoke();
 				}
 			}
-
+			
+			status = Status.idle;
 			Debug.Log("Search complete");
 		}
 
@@ -147,13 +141,10 @@ namespace PathFinding
 					{
 						newNeighbours.Add(allNodes[searchPos]);
 					}
-
-					yield return YieldHelper.EndOfFrame;
 				}
 			}
 
 			yield return YieldHelper.EndOfFrame;
-			Debug.Log("Neighbours found: " + newNeighbours.Count);
 			currentNode.neighbors = newNeighbours;
 		}
 
@@ -173,16 +164,12 @@ namespace PathFinding
 						}
 
 						float distanceToNeighbor = GetNodeDistance(node, node.neighbors[i]);
-						Debug.Log($"Node: {node.neighbors[i].position} Distance to Neighbour {distanceToNeighbor}");
 						float newDistanceTraveled = distanceToNeighbor + node.distanceTraveled +
 							(int)node.nodeType;
-						Debug.Log("New distance travelled " + newDistanceTraveled);
 
 						if (float.IsPositiveInfinity(node.neighbors[i].distanceTraveled) ||
 							newDistanceTraveled < node.neighbors[i].distanceTraveled)
 						{
-							Debug.Log("InPositiveInfinity: " + float.IsPositiveInfinity(node.neighbors[i].distanceTraveled));
-							Debug.Log("Node: " + node.position + " added to previous of: " + node.neighbors[i].position);
 							node.neighbors[i].previous = node;
 							node.neighbors[i].distanceTraveled = newDistanceTraveled;
 						}
@@ -214,8 +201,12 @@ namespace PathFinding
 				var getDoor = matrix.GetFirst<DoorController>(checkPos);
 				if (!getDoor)
 				{
+					//TODO: Door consideration will work if you change this condition back to doors
+					//It is off for the time being as npcs that can't use doors keeps trying to make a path through them
+
 					//node.nodeType = NodeType.Door; 
-					//Block for the meantime:
+
+					//So block doors for the meantime:
 					node.nodeType = NodeType.Blocked;
 				}
 				else
