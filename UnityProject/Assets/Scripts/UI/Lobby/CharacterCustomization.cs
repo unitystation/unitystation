@@ -12,10 +12,6 @@ namespace Lobby
 		public InputField characterNameField;
 		public InputField ageField;
 		public Text genderText;
-		public Text hairStyleText;
-		public Text facialHairText;
-		public Text underwearText;
-		public Text socksText;
 		public Image hairColor;
 		public Image eyeColor;
 		public Image facialColor;
@@ -124,29 +120,87 @@ namespace Lobby
 
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
+			PopulateAllDropdowns();
 			RefreshAll();
 		}
 
+		//------------------
+		//DROPDOWN BOXES:
+		//------------------
 		private void PopulateAllDropdowns()
 		{
-			PopulateDropdown(SpriteManager.HairCollection, hairDropdown);
-			PopulateDropdown(SpriteManager.FacialHairCollection, facialHairDropdown);
-			PopulateDropdown(SpriteManager.UnderwearCollection, underwearDropdown);
-			PopulateDropdown(SpriteManager.SocksCollection, socksDropdown);
+			PopulateDropdown(SpriteManager.HairCollection, hairDropdown, currentCharacter.hairStyleName);
+			PopulateDropdown(SpriteManager.FacialHairCollection, facialHairDropdown, currentCharacter.facialHairName);
+			PopulateDropdown(SpriteManager.UnderwearCollection, underwearDropdown, currentCharacter.underwearName, true);
+			PopulateDropdown(SpriteManager.SocksCollection, socksDropdown, currentCharacter.socksName);
 		}
 
-		private void PopulateDropdown(List<SpriteAccessory> itemCollection, Dropdown itemDropdown)
+		private void PopulateDropdown(List<SpriteAccessory> itemCollection, Dropdown itemDropdown, string currentSetting = null, bool constrainGender = false )
 		{
+			// Clear out old options
+			itemDropdown.ClearOptions();
+
 			// Make a list of all available options which can then be passed to the dropdown box
 			List<string> itemOptions = new List<string>();
 
 			foreach (SpriteAccessory item in itemCollection)
 			{
-				itemOptions.Add(item.name);
+				// Check if options are being constrained by gender, only add valid gender options if so
+				if (constrainGender)
+				{
+					if (item.gender == currentCharacter.Gender || item.gender == Gender.Neuter)
+					{
+						itemOptions.Add(item.name);
+					}
+				}
+				else
+				{
+					itemOptions.Add(item.name);
+				}
+
 			}
 
 			itemDropdown.AddOptions(itemOptions);
+
+			// Select the correct option for the dropdown from character settings
+			if (currentSetting != null) 
+			{
+				itemDropdown.value = itemDropdown.options.FindIndex( option => option.text == currentSetting);
+			}
+			else
+			{
+				itemDropdown.value = 0;
+			}
 		}
+
+		public void DropdownScrollRight(Dropdown dropdown)
+		{
+			// Check if value should wrap around
+			if (dropdown.value < dropdown.options.Count - 1)
+			{
+				dropdown.value++;
+			}
+			else
+			{
+				dropdown.value = 0;
+			}
+			// No need to call Refresh() since it gets called when value changes
+		}
+
+		public void DropdownScrollLeft(Dropdown dropdown)
+		{
+			// Check if value should wrap around
+			if (dropdown.value > 0)
+			{
+				dropdown.value--;
+			}
+			else
+			{
+				dropdown.value = dropdown.options.Count - 1;
+			}
+
+			// No need to call Refresh() since it gets called when value changes
+		}		
 
 		//------------------
 		//PLAYER ACCOUNTS:
@@ -254,6 +308,10 @@ namespace Lobby
 				gender = 0;
 			}
 			currentCharacter.Gender = (Gender) gender;
+			
+			// Repopulate underwear dropdown box
+			PopulateDropdown(SpriteManager.UnderwearCollection, underwearDropdown, null, true);
+			
 			RefreshGender();
 		}
 
@@ -265,7 +323,7 @@ namespace Lobby
 			torsoSpriteController.reference = currentCharacter.torsoSpriteIndex;
 			headSpriteController.UpdateSprite();
 			torsoSpriteController.UpdateSprite();
-			DoGenderChecks();
+			// DoGenderChecks();
 		}
 
 		private void DoGenderChecks()
@@ -340,28 +398,6 @@ namespace Lobby
 			RefreshHair();
 		}
 
-		public void HairScrollRight()
-		{
-			int tryNext = currentCharacter.hairCollectionIndex + 1;
-			if (tryNext >= SpriteManager.HairCollection.Count)
-			{
-				tryNext = 0;
-			}
-			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[tryNext]);
-			RefreshHair();
-		}
-
-		public void HairScrollLeft()
-		{
-			int tryNext = currentCharacter.hairCollectionIndex - 1;
-			if (tryNext < 0)
-			{
-				tryNext = SpriteManager.HairCollection.Count - 1;
-			}
-			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[tryNext]);
-			RefreshHair();
-		}
-
 		//Scrolls have been disabled for time being:
 
 		// public void HairColorScrollRight()
@@ -407,7 +443,6 @@ namespace Lobby
 		{
 			hairSpriteController.reference = currentCharacter.hairStyleOffset;
 			hairSpriteController.UpdateSprite();
-			hairStyleText.text = currentCharacter.hairStyleName;
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.hairColor, out setColor);
 			hairSpriteController.image.color = setColor;
@@ -423,32 +458,11 @@ namespace Lobby
 			currentCharacter.LoadFacialHairSetting(SpriteManager.FacialHairCollection[index]);
 			RefreshFacialHair();
 		}
-		public void FacialHairScrollRight()
-		{
-			int tryNext = currentCharacter.facialHairCollectionIndex + 1;
-			if (tryNext >= SpriteManager.FacialHairCollection.Count)
-			{
-				tryNext = 0;
-			}
-			currentCharacter.LoadFacialHairSetting(SpriteManager.FacialHairCollection[tryNext]);
-			RefreshFacialHair();
-		}
 
-		public void FacialHairScrollLeft()
-		{
-			int tryNext = currentCharacter.facialHairCollectionIndex - 1;
-			if (tryNext < 0)
-			{
-				tryNext = SpriteManager.FacialHairCollection.Count - 1;
-			}
-			currentCharacter.LoadFacialHairSetting(SpriteManager.FacialHairCollection[tryNext]);
-			RefreshFacialHair();
-		}
 		private void RefreshFacialHair()
 		{
 			facialHairSpriteController.reference = currentCharacter.facialHairOffset;
 			facialHairSpriteController.UpdateSprite();
-			facialHairText.text = currentCharacter.facialHairName;
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.facialHairColor, out setColor);
 			facialHairSpriteController.image.color = setColor;
@@ -513,38 +527,14 @@ namespace Lobby
 
 		public void UnderwearDropdownChange(int index)
 		{
-			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[index]);
+			int adjustedIndex = SpriteManager.UnderwearCollection.FindIndex( item => item.name == underwearDropdown.options[index].text);
+			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[adjustedIndex]);
 			RefreshUnderwear();
 		}
 		private void RefreshUnderwear()
 		{
 			underwearSpriteController.reference = currentCharacter.underwearOffset;
 			underwearSpriteController.UpdateSprite();
-			underwearText.text = currentCharacter.underwearName;
-		}
-
-		public void UnderwearScrollRight()
-		{
-			int index = currentCharacter.underwearCollectionIndex + 1;
-			if (index == SpriteManager.UnderwearCollection.Count)
-			{
-				index = 0;
-			}
-			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[index]);
-			DoGenderChecks();
-			RefreshUnderwear();
-		}
-
-		public void UnderwearScrollLeft()
-		{
-			int index = currentCharacter.underwearCollectionIndex - 1;
-			if (index < 0)
-			{
-				index = SpriteManager.UnderwearCollection.Count - 1;
-			}
-			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[index]);
-			DoGenderChecks();
-			RefreshUnderwear();
 		}
 
 		//------------------
@@ -560,29 +550,6 @@ namespace Lobby
 		{
 			socksSpriteController.reference = currentCharacter.socksOffset;
 			socksSpriteController.UpdateSprite();
-			socksText.text = currentCharacter.socksName;
-		}
-
-		public void SocksScrollRight()
-		{
-			int index = currentCharacter.socksCollectionIndex + 1;
-			if (index == SpriteManager.SocksCollection.Count)
-			{
-				index = 0;
-			}
-			currentCharacter.LoadSocksSetting(SpriteManager.SocksCollection[index]);
-			RefreshSocks();
-		}
-
-		public void SocksScrollLeft()
-		{
-			int index = currentCharacter.socksCollectionIndex - 1;
-			if (index < 0)
-			{
-				index = SpriteManager.SocksCollection.Count - 1;
-			}
-			currentCharacter.LoadSocksSetting(SpriteManager.SocksCollection[index]);
-			RefreshSocks();
 		}
 
 		//------------------
