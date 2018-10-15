@@ -11,6 +11,6 @@ public class GUI_Paper : NetTab
 
 	public void ClosePaper()
 	{
-		
+		ControlTabs.CloseTab(Type, Provider);
 	}
 }

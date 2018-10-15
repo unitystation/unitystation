@@ -118,7 +118,7 @@ using UnityEngine.UI;
 			image.enabled = false;
 			secondaryImage.sprite = null;
 			secondaryImage.enabled = false;
-
+			ControlTabs.CheckTabClose();
 			return item;
 		}
 
@@ -144,6 +144,7 @@ using UnityEngine.UI;
 			itemTransform.AppearAtPosition(pos);
 			var itemAttributes = item.GetComponent<ItemAttributes>();
 			Logger.LogTraceFormat("Placing item {0}/{1} from {2} to {3}", Category.UI, item.name, itemAttributes ? itemAttributes.itemName : "(no iAttr)", eventName, pos);
+			ControlTabs.CheckTabClose();
 			return true;
 		}
 
@@ -154,6 +155,7 @@ using UnityEngine.UI;
 			secondaryImage.sprite = null;
 			secondaryImage.enabled = false;
 			Item = null;
+			ControlTabs.CheckTabClose();
 		}
 
 		public bool CheckItemFit(GameObject item)

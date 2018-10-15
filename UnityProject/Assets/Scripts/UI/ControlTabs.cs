@@ -322,6 +322,9 @@ public class ControlTabs : MonoBehaviour
 			SelectTab(tab.gameObject);
 		} else {
 			tab.gameObject.SetActive(true);
+			var localPos = Vector3.zero;
+			localPos.y += 20f;
+			tab.transform.localPosition = localPos;
 		}
 	}
 
@@ -489,9 +492,14 @@ public class ControlTabs : MonoBehaviour
 
 		foreach (NetTab tab in Instance.OpenedNetTabs.Values)
 		{
-			if (playerScript.canNotInteract() || !playerScript.IsInReach(tab.Provider))
+			if (playerScript.canNotInteract() || 
+			!playerScript.IsInReach(tab.Provider))
 			{
-				toClose.Add(tab);
+				//Make sure the item is not in the players hands first:
+				if(UIManager.Hands.CurrentSlot.Item != tab.Provider.gameObject &&
+				UIManager.Hands.OtherSlot.Item != tab.Provider.gameObject){
+					toClose.Add(tab);
+				}
 			}
 		}
 		foreach (NetTab tab in toClose)
