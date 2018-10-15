@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Diagnostics;
 
 namespace PathFinding
 {
@@ -12,33 +13,21 @@ namespace PathFinding
 		Door = 2
 	}
 
+	[DebuggerDisplay("Node @{position}, P={priority}")]
 	public class Node : IComparable<Node>
 	{
 		public NodeType nodeType = NodeType.Open;
 
 		public Vector2Int position; //Localpos 
 
-		public List<Node> neighbors = new List<Node>();
+		public List<Node> neighbors;
 		public float distanceTraveled = Mathf.Infinity;
 		public Node previous = null;
-		public int priority;
+		public uint priority = uint.MaxValue;
 
 		public int CompareTo(Node other)
 		{
-			if (this.priority < other.priority)
-			{
-				return -1;
-
-			}
-			else if (this.priority > other.priority)
-			{
-				return 1;
-
-			}
-			else
-			{
-				return 0;
-			}
+			return priority.CompareTo(other.priority);
 		}
 	}
 }

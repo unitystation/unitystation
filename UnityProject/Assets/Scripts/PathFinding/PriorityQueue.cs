@@ -82,6 +82,46 @@ namespace PathFinding
 			return frontItem;
 		}
 
+		public bool Remove(T item) {
+			int parentindex = data.IndexOf(item);
+			if (parentindex == -1)
+				return false;
+
+			int lastindex = data.Count - 1;
+
+			data[parentindex] = data[lastindex];
+
+			data.RemoveAt(lastindex);
+
+			lastindex--;
+
+			while (true) {
+				int childindex = parentindex * 2 + 1;
+
+				if (childindex > lastindex) {
+					break;
+				}
+
+				int rightchild = childindex + 1;
+
+				if (rightchild <= lastindex && data[rightchild].CompareTo(data[childindex]) < 0) {
+					childindex = rightchild;
+				}
+
+				if (data[parentindex].CompareTo(data[childindex]) <= 0) {
+					break;
+				}
+
+				T tmp = data[parentindex];
+				data[parentindex] = data[childindex];
+				data[childindex] = tmp;
+
+				parentindex = childindex;
+			}
+
+			return true;
+		}
+
 		public T Peek()
 		{
 			T frontItem = data[0];

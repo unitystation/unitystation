@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using PathFinding;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Profiling;
 
 ///<summary>
 /// README:
@@ -33,14 +35,34 @@ public class Ian : MonoBehaviour
 		customNetTransform = GetComponent<CustomNetTransform>();
 	}
 
+	[ContextMenu("TestPathMany")]
+	private void TestTargetPathMany()
+	{
+		var sw = new System.Diagnostics.Stopwatch();
+		var times = new List<float>();
+		List<Node> path = null;
+		for (int i = 0; i < 100; ++i) {
+			sw.Restart();
+			path = pathFinder.FindNewPath(Vector2Int.RoundToInt(transform.localPosition), TestTargetWaypoints[index]);
+			times.Add(sw.ElapsedMilliseconds);
+		}
+		times.Sort();
+		Debug.Log($"Finished running {times.Count} times...\n" +
+		    $"Mean: {times.Average()}ms\n" +
+		    $"Median: {times[times.Count / 2]}ms\n" +
+			$"Best: {times[0]}ms\n" +
+		    $"Worst: {times[times.Count - 1]}ms");
+
+		if (path != null)
+			PathFound(path);
+	}
+
 	//Test can only be performed from Inspector. Right click the component and choose TestPath at runtime
 	[ContextMenu("TestPath")]
-	private void TestTargetPath()
-	{
+	private void TestTargetPath() {
 		customNetTransform.enabled = false;
 
-		if (testStatus == TestStatus.Idle)
-		{
+		if (testStatus == TestStatus.Idle) {
 			Debug.Log("Test path");
 			index = 0;
 			FindPath();
@@ -50,8 +72,9 @@ public class Ian : MonoBehaviour
 	private void FindPath()
 	{
 		testStatus = TestStatus.FindingPath;
-		pathFinder.FindNewPath(Vector2Int.RoundToInt(transform.localPosition), TestTargetWaypoints[index],
-			PathFound, NoPathFound);
+		var path = pathFinder.FindNewPath(Vector2Int.RoundToInt(transform.localPosition), TestTargetWaypoints[index]);
+		if (path == null) NoPathFound();
+		else PathFound(path);
 	}
 
 	private void PathFound(List<Node> path)
@@ -67,8 +90,20 @@ public class Ian : MonoBehaviour
 		testStatus = TestStatus.Idle;
 	}
 
+	private List<Node> _path;
+	void OnDrawGizmos() {
+		if (_path != null) {
+			for(var i = 1; i < _path.Count; ++i) {
+				var from = new Vector3(_path[i - 1].position.x + 1, _path[i - 1].position.y + 1, 0);
+				var to = new Vector3(_path[i].position.x + 1, _path[i].position.y + 1, 0);
+				Gizmos.DrawLine(from, to);
+			}
+		}
+	}
+
 	IEnumerator TestMovement(List<Node> path)
 	{
+		_path = path;
 		yield return YieldHelper.EndOfFrame;
 		//For visual purposes only, not networked synced and CNT is switched off until changes
 		//can be made for path following in the near future:
