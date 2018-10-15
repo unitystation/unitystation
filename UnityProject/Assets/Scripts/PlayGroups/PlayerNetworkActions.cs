@@ -706,4 +706,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
+
+	[Command]
+	public void CmdRequestPaperEdit(GameObject paper, string newMsg)
+	{
+		Debug.Log("Validate paper edit request");
+	}
 }
