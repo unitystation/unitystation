@@ -36,6 +36,9 @@ public partial class CustomNetTransform {
 	public int PushSpeed = 6;
 	public PushPull PushPull => pushPull ? pushPull : ( pushPull = GetComponent<PushPull>() );
 
+	/// Containers and other objects meant to be snapped by tile
+	public bool IsTileSnap => PushPull && PushPull.IsSolid;
+
 //	public bool IsInSpace => MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( transform.position ) );
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
 	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
@@ -86,7 +89,6 @@ public partial class CustomNetTransform {
 	}
 
 	public bool CanPredictPush => !IsClientLerping;
-	//todo: simplify to transform.localPosition == cS.Position ????
 	public bool IsClientLerping => transform.localPosition != MatrixManager.WorldToLocal( clientState.WorldPosition, MatrixManager.Get( matrix ) );
 
 	/// Predictive client movement
@@ -157,7 +159,6 @@ public partial class CustomNetTransform {
 		Vector3 targetPos = MatrixManager.WorldToLocal( serverState.WorldPosition, MatrixManager.Get( matrix ) );
 		//Set position immediately if not moving
 		if ( serverState.Speed.Equals( 0 ) ) {
-//			serverTransform.localPosition = targetPos;
 			serverLerpState = serverState;
 			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
 			return;
@@ -290,6 +291,12 @@ public partial class CustomNetTransform {
 		//Spess drifting is perpetual, but speed decreases each tile if object has landed (no throw) on the floor
 		if ( !IsBeingThrown && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
 			//on-ground resistance
+
+			//no slide inertia for tile snapped objects like closets
+			if ( IsTileSnap ) {
+				StopFloating();
+				return;
+			}
 			serverState.Speed = serverState.Speed - ( serverState.Speed * 0.10f ) - 0.5f;
 			if ( serverState.Speed <= 0.05f ) {
 				StopFloating();
@@ -342,16 +349,16 @@ public partial class CustomNetTransform {
 		return false;
 	}
 
-	///Stopping drift, killing impulse
+	/// Stopping drift, killing impulse
 	[Server]
 	private void StopFloating() {
 //		Logger.Log( $"{gameObject.name} stopped floating" );
-		//insert decent criteria for objects that are supposed to be tile snapped
-		if ( PushPull && PushPull.IsSolid ) {
+		if ( IsTileSnap ) {
 			serverState.Position = Vector3Int.RoundToInt( serverState.Position );
+		} else {
+			serverState.Speed = 0;
 		}
 		serverState.Impulse = Vector2.zero;
-		serverState.Speed = PushSpeed; //?
 		serverState.Rotation = transform.rotation.eulerAngles.z;
 		serverState.SpinFactor = 0;
 		serverState.ActiveThrow = ThrowInfo.NoThrow;

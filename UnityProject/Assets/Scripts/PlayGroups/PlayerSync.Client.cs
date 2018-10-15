@@ -36,7 +36,7 @@ public partial class PlayerSync
 		/// Does client's transform pos match state pos? Ignores Z-axis.
 		private bool ClientPositionReady {
 			get {
-				var state = isLocalPlayer ? predictedState : playerState;
+				var state = /*isLocalPlayer ?*/ predictedState; //: playerState;
 				return ( Vector2 ) state.Position == ( Vector2 ) transform.localPosition;
 			}
 		}
@@ -129,33 +129,26 @@ public partial class PlayerSync
 			}
 		}
 		//Predictively pushing this player
-		public bool PredictivePush(Vector2Int direction)//todo: untested!
+		public bool PredictivePush(Vector2Int direction)
 		{
-			Logger.Log($"PredictivePush to {direction} is disabled for player", Category.PushPull);
-//			if (direction == Vector2Int.zero)
-//			{
-//				Logger.Log("PredictivePush with zero impulse??", Category.PushPull);
-//				return;
-//			}
-//
-//			predictedState.Impulse = direction;
-//			if (matrix != null)
-//			{
-//				Vector3Int pushGoal =
-//					Vector3Int.RoundToInt(playerState.Position + (Vector3)predictedState.Impulse);
-//				if (matrix.IsPassableAt(pushGoal))
-//				{
-//					Logger.Log($"Client predictive push to {pushGoal}", Category.PushPull);
-//					predictedState.Position = pushGoal;
-//					predictedState.ImportantFlightUpdate = true;
-//					predictedState.ResetClientQueue = true;
-//				}
-//				else
-//				{
-//					predictedState.Impulse = Vector2.zero;
-//				}
-//			}
-			return false;
+//			Logger.Log($"PredictivePush to {direction} is disabled for player", Category.PushPull);
+			if (direction == Vector2Int.zero || matrix == null)
+			{
+				return false;
+			}
+			Vector3Int pushGoal =
+				Vector3Int.RoundToInt((Vector2)playerState.Position + direction);
+
+			if ( !matrix.IsPassableAt( Vector3Int.RoundToInt( playerState.Position ), pushGoal ) ) {
+				return false;
+			}
+
+			Logger.Log($"Client predictive push to {pushGoal}", Category.PushPull);
+			predictedState.Impulse = direction;
+			predictedState.Position = pushGoal;
+			predictedState.ImportantFlightUpdate = true;
+			predictedState.ResetClientQueue = true;
+			return true;
 		}
 
 
@@ -191,6 +184,9 @@ public partial class PlayerSync
 			onUpdateReceived.Invoke( Vector3Int.RoundToInt( state.WorldPosition ) );
 
 			playerState = state;
+			if ( !isLocalPlayer ) {
+				predictedState = state;
+			}
 //			if ( !isServer ) {
 //				Logger.Log( $"Got server update {playerState}" );
 //			}
@@ -283,9 +279,9 @@ public partial class PlayerSync
 
 		///Lerping; simulating space walk by server's orders or initiate/stop them on client
 		///Using predictedState for your own player and playerState for others
-		private void CheckMovementClient()
-		{
-			PlayerState state = isLocalPlayer ? predictedState : playerState;
+		private void CheckMovementClient() {
+			PlayerState state = predictedState;
+//				isLocalPlayer ? predictedState : playerState;
 
 			var worldPos = state.WorldPosition;
 

@@ -146,7 +146,7 @@ public class PushPull : VisibleBehaviour {
 			} else {
 				info += ". NOT Finishing yet";
 			}
-			Logger.LogErrorFormat( "Unexpected push detected OnUpdateRecieved! {0}", Category.PushPull, info );
+			Logger.LogFormat( "Unexpected push detected OnUpdateRecieved {0}", Category.PushPull, info );
 //			Pushable.NotifyPlayers();
 //			FinishPush();
 		}
@@ -159,7 +159,7 @@ public class PushPull : VisibleBehaviour {
 		}
 
 		if ( pos != predictivePushTarget ) {
-			Logger.LogWarningFormat( "Lerped to {0} while target pos was {1}, wtf?", Category.PushPull, pos, predictivePushTarget );
+			Logger.LogFormat( "Lerped to {0} while target pos was {1}", Category.PushPull, pos, predictivePushTarget );
 			return;
 		}
 
@@ -172,7 +172,7 @@ public class PushPull : VisibleBehaviour {
 				FinishPush();
 				break;
 			case ApprovalState.Unexpected:
-				Logger.LogErrorFormat( "Invalid push detected in OnClientTileReached, finishing", Category.PushPull );
+				Logger.LogFormat( "Invalid push detected in OnClientTileReached, finishing", Category.PushPull );
 //				Pushable.NotifyPlayers();
 				FinishPush();
 				break;
