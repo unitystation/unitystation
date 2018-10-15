@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GUI_Paper : NetTab
 {
-	public Text text;
+	public InputField textField;
 
 	public override void OnEnable()
 	{
@@ -21,11 +21,18 @@ public class GUI_Paper : NetTab
 		}
 		RefreshText();
 	}
+
+	public override void RefreshTab()
+	{
+		RefreshText();
+		base.RefreshTab();
+	}
+
 	public void RefreshText()
 	{
 		if (Provider != null)
 		{
-			text.text = Provider.GetComponent<Paper>().PaperString;
+			textField.text = Provider.GetComponent<Paper>().PaperString;
 		}
 	}
 
@@ -37,6 +44,6 @@ public class GUI_Paper : NetTab
 	//Request an edit from server:
 	public void OnTextEditEnd()
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestPaperEdit(Provider.gameObject, text.text);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestPaperEdit(Provider.gameObject, textField.text);
 	}
 }

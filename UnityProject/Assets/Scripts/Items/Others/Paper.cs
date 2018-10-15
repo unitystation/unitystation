@@ -15,7 +15,7 @@ public class Paper : NetworkBehaviour
 	///<Summary>
 	/// Synced individually via NetMsg for each client that has permission to view it
 	///</Summary>
-	public string PaperString { get; set; } = "Test String Congrats";
+	public string PaperString { get; set; } = "";
 	public SpriteRenderer spriteRenderer;
 
 	[Server]

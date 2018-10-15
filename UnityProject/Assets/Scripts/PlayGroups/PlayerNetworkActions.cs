@@ -710,6 +710,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestPaperEdit(GameObject paper, string newMsg)
 	{
-		Debug.Log("Validate paper edit request");
+		//Validate paper edit request
+		//TODO Check for Pen
+		if(Inventory["leftHand"] == paper || Inventory["rightHand"] == paper)
+		{
+			PaperUpdateMessage.Send(gameObject, paper, newMsg);
+		}
 	}
 }

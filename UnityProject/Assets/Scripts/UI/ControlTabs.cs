@@ -483,6 +483,15 @@ public class ControlTabs : MonoBehaviour
 		}
 	}
 
+	public static void RefreshTabs()
+	{
+		var activeTabs = Instance.ActiveTabs;
+		for(int i = 0; i < activeTabs.Count; i++)
+		{
+			activeTabs[i].RefreshTab();
+		}
+	}
+
 	///for client.
 	///Close tabs if you're out of interaction radius
 	public static void CheckTabClose()
