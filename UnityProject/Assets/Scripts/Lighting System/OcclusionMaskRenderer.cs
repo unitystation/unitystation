@@ -9,7 +9,9 @@ public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 
 	private Camera mMaskCamera;
 	private PixelPerfectRT mPPRenderTexture;
-
+	private OrthogonalPositionFilter mOrthogonalPositionFilter = new OrthogonalPositionFilter();
+	private Vector3 mPreviousCameraPosition;
+	private Vector2 mPreviousFilteredPosition;
 
 	public static OcclusionMaskRenderer InitializeMaskRenderer(
 		GameObject iRoot,
@@ -36,7 +38,12 @@ public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 	public PixelPerfectRT Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter, RenderSettings iRenderSettings)
 	{
 		// Arrange.
-		var _renderPosition = iPPRTParameter.GetRendererPosition(iCameraToMatch.transform.position);
+		var _renderPosition = iPPRTParameter.GetFilteredRendererPosition(iCameraToMatch.transform.position, mPreviousCameraPosition, mPreviousFilteredPosition);
+
+		Debug.DrawLine(mPreviousFilteredPosition, _renderPosition, Color.green, 1000);
+
+		mPreviousCameraPosition = iCameraToMatch.transform.position;
+		mPreviousFilteredPosition = _renderPosition;
 
 		mMaskCamera.enabled = false;
 		mMaskCamera.backgroundColor = new Color(0, 0, 0, 0);
@@ -100,5 +107,27 @@ public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 	private void Awake()
 	{
 		mMaskCamera = gameObject.GetComponent<Camera>();
+	}
+}
+
+public class OrthogonalPositionFilter
+{
+	private Vector2 mLastPosition;
+
+	public Vector3 Filter(Vector2 iPosition)
+	{
+		bool _xMovement = mLastPosition.x - iPosition.x > 0;
+		bool _yMovement = mLastPosition.y - iPosition.y > 0;
+
+		bool _isOrthogonal = _xMovement && _yMovement;
+
+		if (_isOrthogonal)
+		{
+			// Filter.
+		}
+
+		mLastPosition = iPosition;
+
+		return iPosition;
 	}
 }

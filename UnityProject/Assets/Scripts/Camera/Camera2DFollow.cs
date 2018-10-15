@@ -10,8 +10,7 @@ public class Camera2DFollow : MonoBehaviour
 	private readonly float lookAheadMoveThreshold = 0.1f;
 	private readonly float lookAheadReturnSpeed = 0.5f;
 
-	// Note: I require little 0.0001f offset for reliable int clamp.
-	private readonly float yOffSet = -0.4999f; 
+	private readonly float yOffSet = -0.5f; 
 
 	private Vector3 cachePos;
 	private Vector3 currentVelocity;
@@ -96,8 +95,12 @@ public class Camera2DFollow : MonoBehaviour
 			}
 
 			Vector3 aheadTargetPos = target.position + lookAheadPos + Vector3.forward * offsetZ;
+
 			aheadTargetPos.y += yOffSet;
-			aheadTargetPos.x += xOffset;
+
+			// Disabled for now since it introduced errors in to pixel perfect light renderer.
+			//aheadTargetPos.x += xOffset;
+
 			Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref currentVelocity, damping);
 	
 			if (adjustPixel)

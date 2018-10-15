@@ -2,12 +2,14 @@
 using System.Linq;
 using UnityEngine;
 
-public class LightMaskRenderer : MonoBehaviour, ITextureRenderer
+public class LightMaskRenderer : MonoBehaviour
 {
 	private const string MaskCameraName = "Light Mask Camera";
 
 	private Camera mMaskCamera;
 	private PixelPerfectRT mPPRenderTexture;
+	private Vector3 mPreviousCameraPosition;
+	private Vector2 mPreviousFilteredPosition;
 
 	public static LightMaskRenderer InitializeMaskRenderer(
 		GameObject iRoot)
@@ -28,30 +30,18 @@ public class LightMaskRenderer : MonoBehaviour, ITextureRenderer
 
 		return _maskProcessor;
 	}
-
-	public void ResetRenderingTextures(OperationParameters iParameters)
-	{
-		// Prepare and assign RenderTexture.
-		int _textureWidth = iParameters.lightTextureSize.x;
-		int _textureHeight = iParameters.lightTextureSize.y;
-
-		var _newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
-		_newRenderTexture.name = "Raw Light Mask";
-		_newRenderTexture.autoGenerateMips = false;
-		_newRenderTexture.useMipMap = false;
-		_newRenderTexture.filterMode = FilterMode.Bilinear;
-		_newRenderTexture.antiAliasing = iParameters.antiAliasing;
-
-		mMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
-
-		Vector2 _scale = new Vector2((float)iParameters.cameraOrthographicSize / iParameters.extendedCameraSize, (float)iParameters.cameraOrthographicSize / iParameters.extendedCameraSize);
-		Shader.SetGlobalVector("_ExtendedToSmallTextureScale", _scale);
-	}
 	
-	public PixelPerfectRT Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter, RenderSettings iRenderSettings = null)
+	public PixelPerfectRT Render(
+		Camera iCameraToMatch,
+		PixelPerfectRTParameter iPPRTParameter,
+		PixelPerfectRT iOcclusionMask,
+		RenderSettings iRenderSettings = null)
 	{
 		// Arrange.
-		var _renderPosition = iPPRTParameter.GetRendererPosition(iCameraToMatch.transform.position);
+		var _renderPosition = iPPRTParameter.GetFilteredRendererPosition(iCameraToMatch.transform.position, mPreviousCameraPosition, mPreviousFilteredPosition);
+
+		mPreviousCameraPosition = iCameraToMatch.transform.position;
+		mPreviousFilteredPosition = _renderPosition;
 
 		mMaskCamera.enabled = false;
 		mMaskCamera.backgroundColor = Color.black;
@@ -62,11 +52,18 @@ public class LightMaskRenderer : MonoBehaviour, ITextureRenderer
 		if (mPPRenderTexture == null)
 		{
 			mPPRenderTexture = new PixelPerfectRT(iPPRTParameter);
+			mPPRenderTexture.renderTexture.filterMode = FilterMode.Bilinear;
 		}
 		else
 		{
 			mPPRenderTexture.Update(iPPRTParameter);
 		}
+
+		// Arrange Occlusion RT
+		Shader.SetGlobalTexture("_FovExtendedMask", iOcclusionMask.renderTexture);
+
+		// Note: We need to override mLightPPRT position for transformation, because new position for mLightPPRT will be set during light rendering.
+		Shader.SetGlobalVector("_FovTransformation", iOcclusionMask.GetTransformation(mPPRenderTexture, _renderPosition));
 
 		// Execute.
 		mPPRenderTexture.Render(mMaskCamera);
@@ -113,5 +110,4 @@ public class LightMaskRenderer : MonoBehaviour, ITextureRenderer
 	{
 		mMaskCamera = gameObject.GetComponent<Camera>();
 	}
-
 }

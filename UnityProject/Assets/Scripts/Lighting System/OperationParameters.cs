@@ -7,11 +7,11 @@ public struct OperationParameters : IEquatable<OperationParameters>
 	public readonly Vector2Int screenSize;
 	public readonly float cameraAspect;
 	public readonly int antiAliasing;
-	public readonly float wallTextureRescale; // TODO RENAME.
 	public readonly Vector3 cameraViewportUnitsInWorldSpace;
 	public readonly PixelPerfectRTParameter occlusionPPRTParameter;
 	public readonly PixelPerfectRTParameter fovPPRTParameter;
 	public readonly PixelPerfectRTParameter lightPPRTParameter;
+	public readonly Vector2Int lightOcclusionTextureSize;
 
 	private const float DefaultCameraSize = 4;
 
@@ -23,6 +23,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 	private Vector2Int mLightTextureSize;
 	private Vector3 cameraViewportUnits;
 
+
 	public OperationParameters(Camera iCamera, RenderSettings iRenderSettings)
 	{
 		cameraOrthographicSize = iCamera.orthographicSize;
@@ -31,7 +32,6 @@ public struct OperationParameters : IEquatable<OperationParameters>
 
 		lightTextureWidth = iRenderSettings.lightTextureWidth;
 		antiAliasing = Mathf.Clamp(iRenderSettings.antiAliasing, 1, 16);
-		wallTextureRescale = iRenderSettings.occlusionLightTextureRescale;
 		cameraViewportUnitsInWorldSpace = iCamera.WorldToViewportPoint(Vector3.zero) - iCamera.WorldToViewportPoint(Vector3.one);
 		cameraViewportUnits = iCamera.ViewportToWorldPoint(Vector3.one) - iCamera.ViewportToWorldPoint(Vector3.zero);
 
@@ -42,6 +42,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		occlusionPPRTParameter = new PixelPerfectRTParameter(mCameraViewportUnitsCeiled + iRenderSettings.occlusionMaskSizeAdd, _initialSampleDetail);
 		fovPPRTParameter = new PixelPerfectRTParameter(occlusionPPRTParameter.units, _initialSampleDetail * (int)iRenderSettings.fovResample);
 		lightPPRTParameter = new PixelPerfectRTParameter(mCameraViewportUnitsCeiled, fovPPRTParameter.pixelPerUnit);
+		lightOcclusionTextureSize = new Vector2Int((int)(lightPPRTParameter.resolution.x * iRenderSettings.occlusionLightTextureRescale), (int)(lightPPRTParameter.resolution.y * iRenderSettings.occlusionLightTextureRescale));
 
 		// Set data default.
 		// This will be lazy-calculated when required.
@@ -61,19 +62,6 @@ public struct OperationParameters : IEquatable<OperationParameters>
 			}
 
 			return mExtendedTextureSize;
-		}
-	}
-
-	public Vector2Int lightTextureSize
-	{
-		get
-		{
-			if (mExtendedDataCalculated == false)
-			{
-				InitializeData();
-			}
-
-			return mLightTextureSize;
 		}
 	}
 
@@ -148,13 +136,13 @@ public struct OperationParameters : IEquatable<OperationParameters>
 	{
 		return this.cameraOrthographicSize == iOperation.cameraOrthographicSize &&
 		       this.screenSize == iOperation.screenSize &&
-			   this.cameraAspect == iOperation.cameraAspect &&
+		       this.cameraAspect == iOperation.cameraAspect &&
 		       this.lightTextureWidth == iOperation.lightTextureWidth &&
-			   this.antiAliasing == iOperation.antiAliasing &&
-			   this.wallTextureRescale == iOperation.wallTextureRescale &&
-			   this.occlusionPPRTParameter == iOperation.occlusionPPRTParameter &&
+		       this.antiAliasing == iOperation.antiAliasing &&
+		       this.occlusionPPRTParameter == iOperation.occlusionPPRTParameter &&
 		       this.fovPPRTParameter == iOperation.fovPPRTParameter &&
-			   this.lightPPRTParameter == iOperation.lightPPRTParameter;
+		       this.lightPPRTParameter == iOperation.lightPPRTParameter &&
+		       this.lightOcclusionTextureSize == iOperation.lightOcclusionTextureSize;
 	}
 
 }

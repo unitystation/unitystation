@@ -115,7 +115,7 @@ public class PostProcessingStack
 		}
 
 		{
-			var _newRenderTexture = new RenderTexture(iParameters.lightTextureSize.x, iParameters.lightTextureSize.y, 0, RenderTextureFormat.Default);
+			var _newRenderTexture = new RenderTexture(iParameters.lightPPRTParameter.resolution.x, iParameters.lightPPRTParameter.resolution.y, 0, RenderTextureFormat.Default);
 			_newRenderTexture.name = "Blur Render Texture";
 			_newRenderTexture.autoGenerateMips = false;
 			_newRenderTexture.useMipMap = false;
@@ -125,7 +125,7 @@ public class PostProcessingStack
 		}
 
 		{
-			var _newRenderTexture = new RenderTexture(iParameters.lightTextureSize.x, iParameters.lightTextureSize.y, 0, RenderTextureFormat.Default);
+			var _newRenderTexture = new RenderTexture(iParameters.lightOcclusionTextureSize.x, iParameters.lightOcclusionTextureSize.y, 0, RenderTextureFormat.Default);
 			_newRenderTexture.name = "Blur Render Texture";
 			_newRenderTexture.autoGenerateMips = false;
 			_newRenderTexture.useMipMap = false;
@@ -194,10 +194,11 @@ public class PostProcessingStack
 	{
 		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
 		mMaterialContainer.fovMaterial.SetFloat("_OcclusionSpread", iRenderSettings.fovOcclusionSpread);
+		//mMaterialContainer.fovMaterial.SetVector("_OcclusionTransform", iRawOcclusionMask.GetTransformation(iGlobalOcclusionExtendedMask));
 
 		// Adjust scale from Extended mask to Screen size mask.
-		float _yUVScale = 1 / iOperationParameters.cameraAspect;
-		Vector3 _adjustedDistance = iFovDistance * iOperationParameters.cameraViewportUnitsInWorldSpace * (float)iOperationParameters.cameraOrthographicSize / iOperationParameters.extendedCameraSize;
+		float _yUVScale = 1 / ((float)iGlobalOcclusionExtendedMask.renderTexture.width / iGlobalOcclusionExtendedMask.renderTexture.height);
+		Vector3 _adjustedDistance = iFovDistance * iOperationParameters.cameraViewportUnitsInWorldSpace * iRawOcclusionMask.orthographicSize / iGlobalOcclusionExtendedMask.orthographicSize;
 
 		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
 		

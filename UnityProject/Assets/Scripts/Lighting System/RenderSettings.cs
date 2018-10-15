@@ -70,6 +70,8 @@ public class RenderSettings
 	[NonSerialized]
 	public Quality quality;
 
+	public PixelPerfectRTParameter ligthPPRT;
+
 	// Note: Round numbers produce less pixel marching (?)
 	private static readonly int[] LightTextureResolutions = {400, 600, 700};
 

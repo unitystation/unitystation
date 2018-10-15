@@ -30,26 +30,20 @@
 				float2 uv : TEXCOORD0;
 				float4 uvObstacle : TEXCOORD1;
 				float4 vertex : SV_POSITION;
-
 			};
 
 			sampler2D _MainTex;
 			float4 _PositionOffset;
 			float _OcclusionSpread;
 			float3 _Distance;
-			uniform float2 _ExtendedToSmallTextureScale;
 
 			v2f vert (appdata v)
 			{
 				v2f o;
 
-				//float3 up = mul((float3x3)unity_CameraToWorld, float3(0,-0.01f,0));
-				//v.vertex += mul(float4(0,0.05f,0,0), unity_ObjectToWorld);
 				o.vertex = UnityObjectToClipPos(v.vertex);
-
 				o.uv = v.uv;
-
-				o.uvObstacle.xy = v.uv ;//+ float2(0.0f, 0.03f);
+				o.uvObstacle.xy = v.uv ;
 
 				float2 scale = float2(0.0f, 0.0f);
 				o.uvObstacle.zw = (v.uv.xy * scale) + ((float2(1, 1) - scale) * 0.5f);

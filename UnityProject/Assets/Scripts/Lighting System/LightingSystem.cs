@@ -20,12 +20,12 @@ public class LightingSystem : MonoBehaviour
 
 	private Camera mMainCamera;
 	private ITextureRenderer mOcclusionRenderer;
-	private ITextureRenderer mLightMaskRenderer;
+	private LightMaskRenderer mLightMaskRenderer;
 	private BackgroundRenderer mBackgroundRenderer;
 	private PostProcessingStack mPostProcessingStack;
 	private PixelPerfectRT mGlobalOcclusionMask;
 	private PixelPerfectRT mOcclusionMaskExtended;
-	private RenderTexture mMixedLightMask;
+	private PixelPerfectRT mMixedLightMask;
 	private RenderTexture mObstacleLightMask;
 
 	private PixelPerfectRT mOcclusionPPRT;
@@ -76,7 +76,7 @@ public class LightingSystem : MonoBehaviour
 		}
 	}
 
-	private RenderTexture mixedLightMask
+	private PixelPerfectRT mixedLightMask
 	{
 		get
 		{
@@ -206,15 +206,16 @@ public class LightingSystem : MonoBehaviour
 
 		globalOcclusionMask = new PixelPerfectRT(operationParameters.lightPPRTParameter);
 
-		mixedLightMask = new RenderTexture(Screen.width, Screen.height, 0)
-			                {
-								name = "Mixed Light Mask"
-			                };
+		mixedLightMask = new PixelPerfectRT(operationParameters.lightPPRTParameter);
+		mixedLightMask.renderTexture.filterMode = FilterMode.Point;
 
-		obstacleLightMask = new RenderTexture((int)(iParameters.lightTextureSize.x * iParameters.wallTextureRescale), (int)(iParameters.lightTextureSize.y * iParameters.wallTextureRescale), 0)
-			                    {
-									name = "Light Mask"
-			                    };
+		obstacleLightMask = new RenderTexture(
+			                    operationParameters.lightPPRTParameter.resolution.x,
+			                    operationParameters.lightPPRTParameter.resolution.y,
+			                    0)
+				                    {
+					                    filterMode = FilterMode.Point
+				                    };
 
 		// Let members handle their own textures.
 		// Possibly move to container?
@@ -285,15 +286,12 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("5. Light Mask Render (No Gfx Time)"))
 		{
-			Shader.SetGlobalTexture("_FovExtendedMaskShit", occlusionMaskExtended.renderTexture);
-			Shader.SetGlobalVector("_FovExtendedTransformation", occlusionMaskExtended.GetTransformation(mMainCamera));
-
-			mlightPPRT = mLightMaskRenderer.Render(mMainCamera, operationParameters.lightPPRTParameter, renderSettings);
+			mlightPPRT = mLightMaskRenderer.Render(mMainCamera, operationParameters.lightPPRTParameter, occlusionMaskExtended, renderSettings);
 		}
 
 		using (new DisposableProfiler("6. Generate Obstacle Light Mask"))
 		{
-			//mPostProcessingStack.CreateWallLightMask(_lightRenderTexture, obstacleLightMask, renderSettings, operationParameters.cameraOrthographicSize);
+			mPostProcessingStack.CreateWallLightMask(mlightPPRT.renderTexture, obstacleLightMask, renderSettings, operationParameters.cameraOrthographicSize);
 		}
 
 		// Debug View Selection.
@@ -305,7 +303,7 @@ public class LightingSystem : MonoBehaviour
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.WallLayer)
 		{
-			Graphics.Blit(obstacleLightMask, iDestination);
+			PixelPerfectRT.Transform(obstacleLightMask, iDestination, mlightPPRT, mMainCamera, materialContainer.PPRTTransformMaterial);
 
 			return;
 		}
@@ -317,8 +315,7 @@ public class LightingSystem : MonoBehaviour
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.FovObstacleExtended)
 		{
-			Graphics.Blit(occlusionMaskExtended.renderTexture, iDestination);
-			//PixelPerfectRT.Transform(occlusionMaskExtended, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+			PixelPerfectRT.Transform(occlusionMaskExtended, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
 
 			return;
 		}
@@ -349,7 +346,8 @@ public class LightingSystem : MonoBehaviour
 			}
 			*/
 
-			Graphics.Blit(null, mixedLightMask, _fovLightMixMaterial);
+			Graphics.Blit(null, mixedLightMask.renderTexture, _fovLightMixMaterial);
+			mixedLightMask.renderPosition = mlightPPRT.renderPosition;
 		}
 
 		RenderTexture _backgroundMask = null;
@@ -362,12 +360,14 @@ public class LightingSystem : MonoBehaviour
 		// Debug Views Selection.
 		if (renderSettings.viewMode == RenderSettings.ViewMode.LightMix)
 		{
-			Graphics.Blit(mixedLightMask, iDestination);
+			PixelPerfectRT.Transform(mixedLightMask, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+
 			return;
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.LightLayerBlurred)
 		{
-			Graphics.Blit(mlightPPRT.renderTexture, iDestination);
+			PixelPerfectRT.Transform(mlightPPRT, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+
 			return;
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.Background)
@@ -379,7 +379,8 @@ public class LightingSystem : MonoBehaviour
 		using (new DisposableProfiler("10. Blit Scene with Mixed Lights"))
 		{
 			var _blitMaterial = materialContainer.blitMaterial;
-			_blitMaterial.SetTexture("_LightTex", mixedLightMask);
+			_blitMaterial.SetTexture("_LightTex", mixedLightMask.renderTexture);
+			_blitMaterial.SetVector("_LightTransform", mixedLightMask.GetTransformation(mMainCamera));
 			_blitMaterial.SetTexture("_BackgroundTex", _backgroundMask);
 			_blitMaterial.SetVector("_AmbLightBloomSA", new Vector4(renderSettings.ambient, renderSettings.lightMultiplier, renderSettings.bloomSensitivity, renderSettings.bloomAdd));
 			_blitMaterial.SetFloat("_BackgroundMultiplier", renderSettings.backgroundMultiplier);

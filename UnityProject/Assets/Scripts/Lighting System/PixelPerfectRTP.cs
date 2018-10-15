@@ -12,7 +12,9 @@ public class PixelPerfectRT
 
 	public RenderTexture renderTexture => mRenderTexture;
 
-	private Vector2 renderPosition { get; set; }
+	public PixelPerfectRTParameter parameter => mPPRTParameter;
+
+	public Vector2 renderPosition { get; set; }
 
 	public float orthographicSize => mPPRTParameter.orthographicSize;
 
@@ -44,6 +46,14 @@ public class PixelPerfectRT
 	{
 		Vector2 _pprtUnits = iTargetPerfectRT.mPPRTParameter.units;
 		Vector2 _pprtPosition = iTargetPerfectRT.renderPosition;
+
+		return GetTransformation(_pprtUnits, _pprtPosition);
+	}
+
+	public Vector4 GetTransformation(PixelPerfectRT iTargetPerfectRT, Vector2 iOverridePosition)
+	{
+		Vector2 _pprtUnits = iTargetPerfectRT.mPPRTParameter.units;
+		Vector2 _pprtPosition = iOverridePosition;
 
 		return GetTransformation(_pprtUnits, _pprtPosition);
 	}
@@ -147,5 +157,18 @@ public class PixelPerfectRT
 		iTransformationMaterial.SetTexture("_SourceTex", iSource.renderTexture);
 
 		Graphics.Blit(iSource.renderTexture, iDestination, iTransformationMaterial);
+	}
+
+	public static void Transform(
+		RenderTexture iSource,
+		RenderTexture iDestination,
+		PixelPerfectRT iTransformDriver,
+		Camera iDestinationCamera,
+		Material iTransformationMaterial)
+	{
+		iTransformationMaterial.SetVector("_Transform", iTransformDriver.GetTransformation(iDestinationCamera));
+		iTransformationMaterial.SetTexture("_SourceTex", iSource);
+
+		Graphics.Blit(iSource, iDestination, iTransformationMaterial);
 	}
 }
