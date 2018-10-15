@@ -86,7 +86,6 @@ public partial class PlayerSync
 				} else {
 					//cannot move -> tell server we're just bumping in that direction
 					action.isBump = true;
-					//todo: less strict prediction that doesn't require this clause
 					if ( pendingActions == null || pendingActions.Count == 0 ) {
 						PredictiveBumpInteract( Vector3Int.RoundToInt( ( Vector2 ) predictedState.WorldPosition + action.Direction() ), action.Direction() );
 					}
@@ -118,10 +117,13 @@ public partial class PlayerSync
 				var pushPull = pushPulls[i];
 				if ( pushPull && pushPull.gameObject != gameObject && pushPull.IsSolid ) {
 //					Logger.LogTraceFormat( "Predictive pushing {0} from {1} to {2}", Category.PushPull, pushPulls[i].gameObject, worldTile, (Vector2)(Vector3)worldTile+(Vector2)direction );
-					pushPull.TryPredictivePush( worldTile, direction );
-					//telling server what we just predictively pushed this thing
-					//so that server could rollback
-					CmdValidatePush( pushPull.gameObject );
+					if ( pushPull.TryPredictivePush( worldTile, direction ) )
+					{
+						//telling server what we just predictively pushed this thing
+						//so that server could rollback it for client if it was wrong
+						//instead of leaving it messed up permanently on client side
+						CmdValidatePush( pushPull.gameObject );
+					}
 					break;
 				}
 			}

@@ -32,7 +32,8 @@ public struct ThrowInfo
 
 public partial class CustomNetTransform {
 	private PushPull pushPull;
-	private int PushSpeed = 1;
+	[HideInInspector]
+	public int PushSpeed = 6;
 	public PushPull PushPull => pushPull ? pushPull : ( pushPull = GetComponent<PushPull>() );
 
 //	public bool IsInSpace => MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( transform.position ) );
@@ -41,7 +42,7 @@ public partial class CustomNetTransform {
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
 
 	private LayerMask tileDmgMask;
-	
+
 
 	/// (Server) Did the flying item reach the planned landing point?
 	private bool ShouldStopThrow {
@@ -410,7 +411,7 @@ public partial class CustomNetTransform {
 				victims = damageables;
 				return true;
 			}
-		} 
+		}
 
 		victims = null;
 		return false;
