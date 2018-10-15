@@ -7,6 +7,7 @@ using UnityEngine.UI;
 		private static GameObject FingerPrefab;
 		private static GameObject TabHeaderPrefab;
         public Transform TabStorage;
+		public Transform TabStoragePopOut; //For popout windows
         public Transform HeaderStorage;
 		public Transform rolloutIcon;
         public Canvas canvas;
@@ -298,7 +299,15 @@ using UnityEngine.UI;
 			if ( tabProvider == null ) {
 				return;
 			}
-			if(!Instance.rolledOut){
+
+			bool isPopOut = false;
+
+			//Add the popout types here:
+			if(type == NetTabType.Paper){
+				isPopOut = true;
+			}
+
+			if(!Instance.rolledOut && !isPopOut){
 				Instance.StartCoroutine(Instance.AnimTabRoll());
 			}
 			
@@ -310,15 +319,20 @@ using UnityEngine.UI;
 			}
 			if ( !Instance.OpenedNetTabs.ContainsKey( openedTab ) ) 
 			{
-				var rightPanelParent = Instance.TabStorage;
-				NetTab tabInfo = openedTab.Spawn(rightPanelParent);
+				Transform newParent = !isPopOut ? Instance.TabStorage : Instance.TabStoragePopOut;
+				NetTab tabInfo = openedTab.Spawn(newParent);
 				GameObject tabObject = tabInfo.gameObject;
 
 				//putting into the right place
 				tabObject.transform.localScale = Vector3.one;
 				var rect = tabObject.GetComponent<RectTransform>();
-				rect.offsetMin = new Vector2(15, 15);
-				rect.offsetMax = -new Vector2(15, 50);
+
+				if(!isPopOut){
+					rect.offsetMin = new Vector2(15, 15);
+					rect.offsetMax = -new Vector2(15, 50);
+				} else {
+					//TODO Center it:
+				}
 				
 				Instance.RefreshTabHeaders();
 			}

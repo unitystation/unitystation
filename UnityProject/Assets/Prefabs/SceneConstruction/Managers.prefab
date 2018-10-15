@@ -1163,7 +1163,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1243512860933058
 GameObject:
   m_ObjectHideFlags: 1
@@ -2005,6 +2005,21 @@ GameObject:
   - component: {fileID: 114735600409062504}
   m_Layer: 0
   m_Name: Synth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1398234858704522
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224593821798534752}
+  m_Layer: 5
+  m_Name: NetworkTabStorage_PopOut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12641,7 +12656,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114986867525342648}
   m_HandleRect: {fileID: 224599716051025124}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0.9999997
   m_Size: 0.41528565
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -15631,6 +15646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TabStorage: {fileID: 224433938787789432}
+  TabStoragePopOut: {fileID: 224593821798534752}
   HeaderStorage: {fileID: 224548370573280338}
   rolloutIcon: {fileID: 224188083122147970}
   canvas: {fileID: 223560638589210080}
@@ -24412,7 +24428,7 @@ RectTransform:
   m_Children:
   - {fileID: 224014441259204308}
   m_Father: {fileID: 224582159650461670}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.73144454}
   m_AnchorMax: {x: 1, y: 1}
@@ -24506,7 +24522,7 @@ RectTransform:
   - {fileID: 224433313768616424}
   - {fileID: 224425586602242496}
   m_Father: {fileID: 224582159650461670}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -24914,7 +24930,7 @@ RectTransform:
   - {fileID: 224335990036587416}
   - {fileID: 224770654638950946}
   m_Father: {fileID: 224582159650461670}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -25538,7 +25554,7 @@ RectTransform:
   m_Children:
   - {fileID: 224409095011226914}
   m_Father: {fileID: 224582159650461670}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -25577,7 +25593,7 @@ RectTransform:
   - {fileID: 224338929957183850}
   - {fileID: 4494090616179680}
   m_Father: {fileID: 224582159650461670}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -25931,6 +25947,7 @@ RectTransform:
   - {fileID: 224898205694248858}
   - {fileID: 224202889963668436}
   - {fileID: 224671506930490660}
+  - {fileID: 224593821798534752}
   - {fileID: 224483603005407810}
   - {fileID: 224342957805719492}
   - {fileID: 224486056363285358}
@@ -25999,6 +26016,24 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.5, y: 0}
   m_SizeDelta: {x: -1, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224593821798534752
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1398234858704522}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224582159650461670}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1820, y: -980}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224599343587174230
 RectTransform:
@@ -26380,7 +26415,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -259.5, y: 182}
+  m_AnchoredPosition: {x: -259.5, y: 182.31}
   m_SizeDelta: {x: 547, y: 397.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224672640363186188
