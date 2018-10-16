@@ -180,9 +180,14 @@ using UnityEngine.UI;
 
 		public void TryItemInteract()
 		{
+			Debug.Log("Try Interact " + eventName);
 			if(Item != null && UIManager.Hands.CurrentSlot.eventName == eventName){
 				var inputTrigger = Item.GetComponent<InputTrigger>();
 				inputTrigger.UI_Interact(PlayerManager.LocalPlayer, eventName);
+			} else {
+
 			}
+
+			
 		}
 	}

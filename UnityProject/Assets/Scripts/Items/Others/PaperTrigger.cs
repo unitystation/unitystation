@@ -10,7 +10,7 @@ public class PaperTrigger : PickUpTrigger
 	public override void UI_Interact(GameObject originator, string hand)
 	{
 		var playerScript = originator.GetComponent<PlayerScript>();
-
+		Debug.Log("DO UI INTERACT");
 		if (!isServer)
         { 
             //Client wants this code to be run on server

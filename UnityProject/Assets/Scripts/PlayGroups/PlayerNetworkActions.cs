@@ -715,6 +715,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (Inventory["leftHand"] == paper || Inventory["rightHand"] == paper)
 		{
 			var paperComponent = paper.GetComponent<Paper>();
+			var pen = Inventory["leftHand"]?.GetComponent<Pen>();
+			if (pen == null)
+			{
+				pen = Inventory["rightHand"]?.GetComponent<Pen>();
+				if (pen == null)
+				{
+					//no pen
+					paperComponent.UpdatePlayer(gameObject); //force server string to player
+					return;
+				}
+			}
+
 			if (paperComponent != null)
 			{
 				paperComponent.SetServerString(newMsg);
