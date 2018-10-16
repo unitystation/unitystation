@@ -144,15 +144,16 @@ public partial class PlayerSync
 			}
 
 			Logger.Log($"Client predictive push to {pushGoal}", Category.PushPull);
-			predictedState.Impulse = direction;
 			predictedState.Position = pushGoal;
-			predictedState.ImportantFlightUpdate = true;
-			predictedState.ResetClientQueue = true;
+			LastDirection = direction;
 			return true;
 		}
 
 
 		private void UpdatePredictedState() {
+			if ( !isLocalPlayer ) {
+				return;
+			}
 			if ( pendingActions.Count == 0 ) {
 				//plain assignment if there's nothing to predict
 				RollbackPrediction();
@@ -331,12 +332,7 @@ public partial class PlayerSync
 						return;
 					}
 					//client initiated space dive.
-					state.Impulse = LastDirection;
-					if ( isLocalPlayer ) {
-						predictedState.Impulse = state.Impulse;
-					} else {
-						playerState.Impulse = state.Impulse;
-					}
+					predictedState.Impulse = LastDirection;
 					Logger.Log($"Client init floating with impulse {LastDirection}. FC={isFloatingClient},PFC={isPseudoFloatingClient}",Category.Movement);
 				}
 
@@ -344,9 +340,6 @@ public partial class PlayerSync
 				if ( ClientPositionReady ) {
 					//Extending prediction by one tile if player's transform reaches previously set goal
 					Vector3Int newGoal = Vector3Int.RoundToInt( state.Position + (Vector3) state.Impulse );
-					if ( !isLocalPlayer ) {
-						playerState.Position = newGoal;
-					}
 					predictedState.Position = newGoal;
 				}
 			}

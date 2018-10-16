@@ -67,7 +67,8 @@ public class PushPull : VisibleBehaviour {
 		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
 		if ( Vector2.Distance( (Vector3)from, (Vector3)lastReliablePos) > 1 ||
-		     !MatrixManager.IsPassableAt( from, target ) ) {
+		     !MatrixManager.IsPassableAt( from, target ) ||
+		     MatrixManager.IsFloatingAt( target ) ) {
 			return false;
 		}
 

@@ -123,7 +123,7 @@ public partial class CustomNetTransform {
 		Vector3Int intGoal = Vector3Int.RoundToInt( newGoal );
 
 		bool isWithinTile = intOrigin == intGoal; //same tile, no need to validate stuff
-		if ( isWithinTile || MatrixManager.IsPassableAt( /*intOrigin, */intGoal ) ) {
+		if ( isWithinTile || CanDriftTo( intOrigin, intGoal ) ) {
 			//advance
 			clientState.WorldPosition += moveDelta;
 		} else {
