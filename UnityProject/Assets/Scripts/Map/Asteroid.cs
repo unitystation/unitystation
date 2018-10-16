@@ -33,10 +33,12 @@ public class Asteroid : NetworkBehaviour {
 		if(clampVal.x > 0)
 		{
 			clampVal.x = Mathf.Clamp(clampVal.x, distanceFromStation, asteroidDistance);
+			clampVal.y = Mathf.Clamp(clampVal.y, distanceFromStation, asteroidDistance);
 		}
 		else
 		{
 			clampVal.x = Mathf.Clamp(clampVal.x, -distanceFromStation, -asteroidDistance);
+			clampVal.y = Mathf.Clamp(clampVal.y, -distanceFromStation, -asteroidDistance);
 		}
 		mm.SetPosition(clampVal);
 	}
@@ -44,7 +46,7 @@ public class Asteroid : NetworkBehaviour {
 	[Server] //Asigns random rotation to each asteroid at startup for variety.
 	public void RandomRotation()
 	{
-		int rand = Random.Range(0, 3);
+		int rand = Random.Range(0, 4);
 
 		switch(rand)
 		{
