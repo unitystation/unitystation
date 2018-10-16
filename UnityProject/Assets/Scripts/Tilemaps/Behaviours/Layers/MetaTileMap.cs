@@ -57,8 +57,8 @@ using UnityEngine;
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
-			
-			return _IsAtmosPassableAt(origin, toX) && _IsAtmosPassableAt(toX, to) || 
+
+			return _IsAtmosPassableAt(origin, toX) && _IsAtmosPassableAt(toX, to) ||
 					_IsAtmosPassableAt(origin, toY) && _IsAtmosPassableAt(toY, to);
 		}
 
@@ -120,11 +120,31 @@ using UnityEngine;
 				if (layer != LayerType.Objects && HasTile(position, layer)) {
 					return false;
 				}
-				if ( layer == LayerType.Objects ) { //probably expensive
+				if ( layer == LayerType.Objects ) {
 					var objects = Matrix.Get<RegisterTile>( position ).ToArray();
 					for ( var i = 0; i < objects.Length; i++ ) {
 						var o = objects[i];
-						if ( o.ObjectType != ObjectType.Player && !o.IsPassable() ) {
+						if ( /*o.ObjectType != ObjectType.Player &&*/ !o.IsPassable() ) {
+							return false;
+						}
+					}
+				}
+			}
+			return true;
+		}
+
+		public bool IsEmptyAt(GameObject context, Vector3Int position)
+		{
+			foreach (LayerType layer in Layers.Keys)
+			{
+				if (layer != LayerType.Objects && HasTile(position, layer)) {
+					return false;
+				}
+				if ( layer == LayerType.Objects ) {
+					var objects = Matrix.Get<RegisterTile>( position ).ToArray();
+					for ( var i = 0; i < objects.Length; i++ ) {
+						var o = objects[i];
+						if ( !o.IsPassable() && o.gameObject != context ) {
 							return false;
 						}
 					}
@@ -143,7 +163,7 @@ using UnityEngine;
 			foreach (Layer layer in Layers.Values)
 			{
 				if (layer.LayerType < refLayer &&
-				    !(refLayer == LayerType.Objects && 
+				    !(refLayer == LayerType.Objects &&
 					layer.LayerType == LayerType.Floors) &&
 					refLayer != LayerType.Grills)
 				{

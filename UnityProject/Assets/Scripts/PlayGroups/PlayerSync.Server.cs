@@ -42,7 +42,31 @@ public partial class PlayerSync
 	private bool isApplyingSpaceDmg;
 
 	///
-	public bool IsSpaceFloating => MatrixManager.IsFloatingAt(Vector3Int.RoundToInt(serverState.WorldPosition));
+	public bool IsWeightlessServer => MatrixManager.IsFloatingAt(gameObject, Vector3Int.RoundToInt(serverState.WorldPosition));
+	public bool CanNotSpaceMoveServer {
+		get {
+			if ( !IsWeightlessServer ) {
+				return false;
+			}
+			PushPull[] pushables = MatrixManager.GetAt<PushPull>( Vector3Int.RoundToInt(serverState.WorldPosition) ).ToArray();
+			if ( pushables.Length == 0 ) {
+				return true;
+			}
+
+			for ( var i = 0; i < pushables.Length; i++ ) {
+				var pushable = pushables[i];
+				if ( pushable.gameObject == gameObject ) {
+					continue;
+				}
+				return false;
+			}
+
+			return true;
+		}
+	}
+
+	public bool CanSpacePushServer => IsWeightlessServer && MatrixManager.GetAt<PushPull>( Vector3Int.RoundToInt(serverState.WorldPosition) ).ToArray().Length > 0;
+//	public bool IsSpaceFloating => MatrixManager.IsFloatingAt(Vector3Int.RoundToInt(serverState.WorldPosition));
 
 	/// Whether player is considered to be floating on server
 	private bool consideredFloatingServer => serverState.Impulse != Vector2.zero;
@@ -143,6 +167,7 @@ public partial class PlayerSync
 			ImportantFlightUpdate = true,
 			ResetClientQueue = true
 		};
+		serverLastDirection = direction;
 		serverState = newState;
 		SyncMatrix();
 		NotifyPlayers();
@@ -275,7 +300,7 @@ public partial class PlayerSync
 			return;
 		}
 
-		if (consideredFloatingServer)
+		if (consideredFloatingServer || CanNotSpaceMoveServer)
 		{
 			Logger.LogWarning("Server ignored move while player is floating", Category.Movement);
 			serverPendingActions.Dequeue();
@@ -311,6 +336,11 @@ public partial class PlayerSync
 
 			playerSprites.FaceDirection( Orientation.From( action.Direction() ) );
 			return state;
+		}
+
+		if ( CanSpacePushServer ) {
+			InteractSpacePushable( Vector3Int.RoundToInt( state.WorldPosition ), action.Direction() );
+			return state; //?
 		}
 
 		bool matrixChangeDetected;
@@ -360,13 +390,10 @@ public partial class PlayerSync
 	}
 
 	private void BumpInteract(Vector3 currentPosition, Vector3 direction) {
-//		if ( !InteractCooldown ) {
 			StartCoroutine( TryInteract( currentPosition, direction ) );
-//		}
 	}
 
 	private IEnumerator TryInteract( Vector3 currentPosition, Vector3 direction ) {
-		InteractCooldown = true;
 		var worldPos = Vector3Int.RoundToInt(currentPosition);
 		var worldTarget = Vector3Int.RoundToInt(currentPosition + direction);
 
@@ -376,20 +403,47 @@ public partial class PlayerSync
 		InteractPushable( worldTarget, direction );
 
 		yield return YieldHelper.DeciSecond;
-		InteractCooldown = false;
+	}
+
+	/// <summary>
+	///
+	/// </summary>
+	/// <param name="playerPos">Tile you're at</param>
+	/// <param name="direction"></param>
+	private void InteractSpacePushable( Vector3Int playerPos, Vector2 direction ) {
+		// Is the object pushable (iterate through all of the objects at the position):
+		PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( playerPos ).ToArray();
+		for ( int i = 0; i < pushPulls.Length; i++ ) {
+			var pushPull = pushPulls[i];
+			if ( pushPull && pushPull.gameObject != gameObject ) {
+				Logger.LogTraceFormat( "Trying to space push {0}", Category.PushPull, pushPulls[i].gameObject );
+				Vector2 reflect = Vector2.Reflect(direction, Vector2.up);
+				if ( pushPull.TryPush( playerPos, Vector2Int.RoundToInt( reflect ) ) ) {
+					Push( Vector2Int.RoundToInt( reflect ) );
+				}
+				break;
+			}
+		}
 	}
 
 	/// <param name="worldTile">Tile you're interacting with</param>
 	/// <param name="direction">Direction you're pushing</param>
 	private void InteractPushable( Vector3Int worldTile, Vector3 direction ) {
+		if ( IsWeightlessServer ) {
+		return;
+		}
 		// Is the object pushable (iterate through all of the objects at the position):
 		PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
 		for ( int i = 0; i < pushPulls.Length; i++ ) {
 			var pushPull = pushPulls[i];
 			if ( pushPull && pushPull.gameObject != gameObject && pushPull.IsSolid ) {
 	//					Logger.LogTraceFormat( "Trying to push {0} when walking {1}->{2}", Category.PushPull, pushPulls[i].gameObject, worldPos, worldTarget );
-				pushPull.TryPush( worldTile, Vector2Int.RoundToInt( direction ) );
-				break;
+				if ( IsWeightlessServer ) {
+					break;
+				} else { //Normal push
+					pushPull.TryPush( worldTile, Vector2Int.RoundToInt( direction ) );
+					break;
+				}
 			}
 		}
 	}
@@ -437,7 +491,7 @@ public partial class PlayerSync
 	{
 
 		//Space walk checks
-		if (IsSpaceFloating)
+		if (IsWeightlessServer)
 		{
 			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
 			{
@@ -461,7 +515,7 @@ public partial class PlayerSync
 			}
 		}
 
-		if (consideredFloatingServer && !IsSpaceFloating)
+		if (consideredFloatingServer && !IsWeightlessServer)
 		{
 			//finish floating. players will be notified as soon as serverState catches up
 			serverState.Impulse = Vector2.zero;

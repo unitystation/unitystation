@@ -34,7 +34,7 @@ public class PushPull : VisibleBehaviour {
 
 	[Server]
 	public bool TryPush( Vector3Int from, Vector2Int dir ) {
-		if ( !IsSolid || isPushing || Pushable == null || !isAllowedDir( dir ) ) {
+		if ( /*!IsSolid ||*/ isPushing || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
 		Vector3Int currentPos = registerTile.WorldPosition;
@@ -58,7 +58,7 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	public bool TryPredictivePush( Vector3Int from, Vector2Int dir ) {
-		if ( !IsSolid || !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
+		if ( /*!IsSolid || */!CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
 		lastReliablePos = registerTile.WorldPosition;

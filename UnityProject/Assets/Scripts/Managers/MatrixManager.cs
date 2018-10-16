@@ -23,7 +23,7 @@ public class MatrixManager : MonoBehaviour
 	/// </summary>
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
 
-	[Header("Set the amount of matricies in the scene here")]
+	[Header("Set the amount of matrices in the scene here")]
 	public int matrixCount;
 
 	/// Finds first matrix that is not empty at given world pos
@@ -32,9 +32,14 @@ public class MatrixManager : MonoBehaviour
 		return Equals( matrixInfo, MatrixInfo.Invalid ) ? Instance.activeMatrices[0] : matrixInfo;
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt"/>
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
 	public static bool IsFloatingAt(Vector3Int worldPos){
 		return isAtInternal( mat => mat.Matrix.IsFloatingAt( WorldToLocalInt( worldPos, mat ) ) );
+	}
+
+	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject,UnityEngine.Vector3Int)"/>
+	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos){
+		return isAtInternal( mat => mat.Matrix.IsFloatingAt( context, WorldToLocalInt( worldPos, mat ) ) );
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsSpaceAt"/>

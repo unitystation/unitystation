@@ -47,6 +47,28 @@ public partial class PlayerSync
 				return ( Vector2 ) state.WorldPosition == ( Vector2 ) playerScript.ghost.transform.position;
 			}
 		}
+		private bool IsWeightlessClient => MatrixManager.IsFloatingAt( gameObject, Vector3Int.RoundToInt(predictedState.WorldPosition) );
+		private bool CanNotSpaceMoveClient {
+			get {
+				if ( !IsWeightlessClient ) {
+					return false;
+				}
+				PushPull[] pushables = MatrixManager.GetAt<PushPull>( Vector3Int.RoundToInt(predictedState.WorldPosition) ).ToArray();
+				if ( pushables.Length == 0 ) {
+					return true;
+				}
+
+				for ( var i = 0; i < pushables.Length; i++ ) {
+					var pushable = pushables[i];
+					if ( pushable.gameObject == gameObject ) {
+						continue;
+					}
+					return false;
+				}
+
+				return true;
+			}
+		}
 
 		///Does server claim this client is floating rn?
 		private bool isFloatingClient => playerState.Impulse != Vector2.zero;
@@ -74,7 +96,8 @@ public partial class PlayerSync
 			MoveCooldown = true;
 			//experiment: not enqueueing or processing action if floating.
 			//arguably it shouldn't really be like that in the future
-			if ( (!isPseudoFloatingClient && !isFloatingClient && !blockClientMovement) || (playerMove.isGhost && !blockClientMovement)) {
+			if ( (!CanNotSpaceMoveClient && !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement)
+			     || (playerMove.isGhost && !blockClientMovement) ) {
 //				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
 				//RequestMoveMessage.Send(action);
@@ -282,7 +305,6 @@ public partial class PlayerSync
 		///Using predictedState for your own player and playerState for others
 		private void CheckMovementClient() {
 			PlayerState state = predictedState;
-//				isLocalPlayer ? predictedState : playerState;
 
 			var worldPos = state.WorldPosition;
 
@@ -305,9 +327,9 @@ public partial class PlayerSync
 
 			playerState.NoLerp = false;
 
-			bool isFloating = MatrixManager.IsFloatingAt( Vector3Int.RoundToInt(worldPos) );
+			bool isWeightless = IsWeightlessClient;
 			//Space walk checks
-			if ( isPseudoFloatingClient && !isFloating ) {
+			if ( isPseudoFloatingClient && !isWeightless ) {
 //                Logger.Log( "Stopped clientside floating to avoid going through walls" );
 
 				//stop floating on client (if server isn't responding in time) to avoid players going through walls
@@ -324,7 +346,7 @@ public partial class PlayerSync
 					StartCoroutine( BlockMovement() );
 				}
 			}
-			if ( isFloating ) {
+			if ( isWeightless ) {
 				if ( state.Impulse == Vector2.zero && LastDirection != Vector2.zero ) {
 					if ( pendingActions == null || pendingActions.Count == 0 ) {
 //						Logger.LogWarning( "Just saved your ass; not initiating predictive spacewalk without queued actions" );
@@ -344,4 +366,5 @@ public partial class PlayerSync
 				}
 			}
 		}
+
 	}

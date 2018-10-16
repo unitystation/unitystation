@@ -71,6 +71,19 @@ public class Matrix : MonoBehaviour
 
 		return true;
 	}
+	public bool IsFloatingAt(GameObject context, Vector3Int position)
+	{
+		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
+		foreach (Vector3Int pos in bounds.allPositionsWithin)
+		{
+			if (!metaTileMap.IsEmptyAt(context, pos))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 	public IEnumerable<T> Get<T>(Vector3Int position) where T : MonoBehaviour
 	{
