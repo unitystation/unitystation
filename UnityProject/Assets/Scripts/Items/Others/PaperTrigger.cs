@@ -5,6 +5,7 @@ using UnityEngine;
 public class PaperTrigger : PickUpTrigger
 {
 	public NetTabType NetTabType;
+	public Paper paper;
 
 	public override void UI_Interact(GameObject originator, string hand)
 	{
@@ -19,6 +20,7 @@ public class PaperTrigger : PickUpTrigger
         {
             //Server actions
             TabUpdateMessage.Send( originator, gameObject, NetTabType, TabAction.Open );
+			paper.UpdatePlayer(originator);
         }
 	}
 }

@@ -10,7 +10,8 @@ using UnityEngine.UI;
 		public List<ItemType> allowedItemTypes;
 		public string eventName;
 
-		private Image image;
+		[HideInInspector]
+		public Image image;
 
 		private Image secondaryImage; //For sprites that require two images
 		public ItemSize maxItemSize;

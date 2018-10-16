@@ -712,9 +712,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//Validate paper edit request
 		//TODO Check for Pen
-		if(Inventory["leftHand"] == paper || Inventory["rightHand"] == paper)
+		if (Inventory["leftHand"] == paper || Inventory["rightHand"] == paper)
 		{
-			PaperUpdateMessage.Send(gameObject, paper, newMsg);
+			var paperComponent = paper.GetComponent<Paper>();
+			if (paperComponent != null)
+			{
+				paperComponent.SetServerString(newMsg);
+				paperComponent.UpdatePlayer(gameObject);
+			}
 		}
 	}
 }
