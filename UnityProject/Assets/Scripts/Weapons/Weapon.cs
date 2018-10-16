@@ -141,7 +141,7 @@ using UnityEngine.Networking;
 			}
 
 			//Check if magazine in opposite hand or if unloading
-			if (Input.GetKeyDown(KeyCode.R))
+			if (Input.GetKeyDown(KeyCode.R) && !UIManager.IsInputFocus)
 			{
 				//PlaceHolder for click UI
 				GameObject currentHandItem = UIManager.Hands.CurrentSlot.Item;

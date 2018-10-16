@@ -1,13 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// For server.
 /// </summary>
 public class NetworkTabManager : MonoBehaviour {
-	//Declare in awake as NetTabManager needs to be destroyed on each scene change
-	public static NetworkTabManager Instance;
+
+	private static NetworkTabManager networkTabManager;
+	public static NetworkTabManager Instance{
+		get {
+			if(networkTabManager == null){
+				networkTabManager = FindObjectOfType<NetworkTabManager>();
+			}
+			return networkTabManager;
+		}
+	}
 	private readonly Dictionary<NetTabDescriptor, NetTab> openTabs = new Dictionary<NetTabDescriptor, NetTab>();
 	
 	public List<ConnectedPlayer> GetPeepers(GameObject provider, NetTabType type) 
@@ -23,22 +32,27 @@ public class NetworkTabManager : MonoBehaviour {
 		return info.Peepers.ToList();
 	}
 
-	void Awake()
+	private void OnEnable()
 	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-			// Clearing net tabs on round restart
-//			Logger.LogError( "NTM cleanup!" );
-			foreach ( var tab in Instance.openTabs ) {
+		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+	}
+
+	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	{
+		Instance.ResetManager();
+	}
+
+	void ResetManager(){
+		//Reset manager on round start:
+		foreach ( var tab in Instance.openTabs ) {
 				Destroy(tab.Value.gameObject);
 			}
 			Instance.openTabs.Clear();
-		}
 	}
 
 	/// Used when a new dynamic element is added/removed
@@ -93,11 +107,11 @@ public class NetworkTabManager : MonoBehaviour {
 
 public struct NetTabDescriptor {
 	public static readonly NetTabDescriptor Invalid = new NetTabDescriptor(null, NetTabType.None);
-	private readonly NetworkTabTrigger provider;
+	private readonly InputTrigger provider;
 	private readonly NetTabType type;
 
 	public NetTabDescriptor( GameObject provider, NetTabType type ) {
-		this.provider = provider != null ? provider.GetComponent<NetworkTabTrigger>() : null;
+		this.provider = provider != null ? provider.GetComponent<InputTrigger>() : null;
 		this.type = type;
 		if ( type == NetTabType.None && this.provider != null ) {
 			Logger.LogError( "You forgot to set a proper NetTabType in your new tab!\n" +

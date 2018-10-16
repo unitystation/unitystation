@@ -706,4 +706,32 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
+
+	[Command]
+	public void CmdRequestPaperEdit(GameObject paper, string newMsg)
+	{
+		//Validate paper edit request
+		//TODO Check for Pen
+		if (Inventory["leftHand"] == paper || Inventory["rightHand"] == paper)
+		{
+			var paperComponent = paper.GetComponent<Paper>();
+			var pen = Inventory["leftHand"]?.GetComponent<Pen>();
+			if (pen == null)
+			{
+				pen = Inventory["rightHand"]?.GetComponent<Pen>();
+				if (pen == null)
+				{
+					//no pen
+					paperComponent.UpdatePlayer(gameObject); //force server string to player
+					return;
+				}
+			}
+
+			if (paperComponent != null)
+			{
+				paperComponent.SetServerString(newMsg);
+				paperComponent.UpdatePlayer(gameObject);
+			}
+		}
+	}
 }

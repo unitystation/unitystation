@@ -12,14 +12,15 @@ namespace Lobby
 		public InputField characterNameField;
 		public InputField ageField;
 		public Text genderText;
-		public Text hairStyleText;
-		public Text facialHairText;
-		public Text underwearText;
-		public Text socksText;
 		public Image hairColor;
 		public Image eyeColor;
 		public Image facialColor;
 		public Image skinColor;
+
+		public Dropdown hairDropdown;
+		public Dropdown facialHairDropdown;
+		public Dropdown underwearDropdown;
+		public Dropdown socksDropdown;
 
 		public CharacterSprites hairSpriteController;
 		public CharacterSprites facialHairSpriteController;
@@ -58,6 +59,7 @@ namespace Lobby
 		private void LoadSettings()
 		{
 			currentCharacter = PlayerManager.CurrentCharacterSettings;
+			PopulateAllDropdowns();
 			DoInitChecks();
 		}
 
@@ -68,11 +70,11 @@ namespace Lobby
 			{
 				currentCharacter.username = GameData.LoggedInUsername;
 				RollRandomCharacter();
-				RefreshAge();
 				SaveData();
 			}
 			else
 			{
+				SetAllDropdowns();
 				RefreshAll();
 			}
 		}
@@ -92,34 +94,128 @@ namespace Lobby
 
 		public void RollRandomCharacter()
 		{
+			currentCharacter.Gender = (Gender) UnityEngine.Random.Range(0, 2);
+
+			// Repopulate underwear and facialhair dropdown boxes incase gender changes
+			PopulateDropdown(SpriteManager.UnderwearCollection, underwearDropdown, true);
+			PopulateDropdown(SpriteManager.FacialHairCollection, facialHairDropdown, true);
+
+			// Select a random value from each dropdown
+			hairDropdown.value = UnityEngine.Random.Range(0, hairDropdown.options.Count - 1);
+			facialHairDropdown.value = UnityEngine.Random.Range(0, facialHairDropdown.options.Count - 1);
+			underwearDropdown.value = UnityEngine.Random.Range(0, underwearDropdown.options.Count - 1);
+			socksDropdown.value = UnityEngine.Random.Range(0, socksDropdown.options.Count - 1);
+
+			// Do gender specific randomisation
 			if (currentCharacter.Gender == Gender.Male)
 			{
 				currentCharacter.Name = StringManager.GetRandomMaleName();
+				currentCharacter.facialHairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];				
 			}
 			else
 			{
 				currentCharacter.Name = StringManager.GetRandomFemaleName();
 			}
-			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[
-				UnityEngine.Random.Range(0, SpriteManager.HairCollection.Count - 1)]);
 
-			currentCharacter.hairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];
-
-			currentCharacter.LoadFacialHairSetting(SpriteManager.FacialHairCollection[
-				SpriteManager.FacialHairCollection.Count - 1]);
-
-			currentCharacter.facialHairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];
-
-			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[
-				UnityEngine.Random.Range(0, SpriteManager.UnderwearCollection.Count - 1)]);
-			currentCharacter.LoadSocksSetting(SpriteManager.SocksCollection[
-				UnityEngine.Random.Range(0, SpriteManager.SocksCollection.Count - 1)]);
+			// Randomise rest of data
+			currentCharacter.hairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];	
 			currentCharacter.skinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
-
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
 			RefreshAll();
 		}
+
+		//------------------
+		//DROPDOWN BOXES:
+		//------------------
+		private void PopulateAllDropdowns()
+		{
+			PopulateDropdown(SpriteManager.HairCollection, hairDropdown);
+			PopulateDropdown(SpriteManager.FacialHairCollection, facialHairDropdown, true);
+			PopulateDropdown(SpriteManager.UnderwearCollection, underwearDropdown, true);
+			PopulateDropdown(SpriteManager.SocksCollection, socksDropdown);
+		}
+
+		private void PopulateDropdown(List<SpriteAccessory> itemCollection, Dropdown itemDropdown, bool constrainGender = false )
+		{
+			// Clear out old options
+			itemDropdown.ClearOptions();
+
+			// Make a list of all available options which can then be passed to the dropdown box
+			List<string> itemOptions = new List<string>();
+
+			foreach (SpriteAccessory item in itemCollection)
+			{
+				// Check if options are being constrained by gender, only add valid gender options if so
+				if (constrainGender)
+				{
+					if (item.gender == currentCharacter.Gender || item.gender == Gender.Neuter)
+					{
+						itemOptions.Add(item.name);
+					}
+				}
+				else
+				{
+					itemOptions.Add(item.name);
+				}
+
+			}
+
+			itemDropdown.AddOptions(itemOptions);
+		}
+
+		private void SetAllDropdowns()
+		{
+			SetDropdownValue(hairDropdown, currentCharacter.hairStyleName);
+			SetDropdownValue(facialHairDropdown, currentCharacter.facialHairName);
+			SetDropdownValue(underwearDropdown, currentCharacter.underwearName);
+			SetDropdownValue(socksDropdown, currentCharacter.socksName);
+		}
+
+		private void SetDropdownValue(Dropdown itemDropdown, string currentSetting)
+		{
+			// Find the index of the setting in the dropdown list which matches the currentSetting
+			int settingIndex = itemDropdown.options.FindIndex( option => option.text == currentSetting);
+
+			if (settingIndex != -1)
+			{
+				// Make sure FindIndex is successful before changing value
+				itemDropdown.value = settingIndex;
+			}
+			else
+			{
+				Logger.LogError($"Unable to find index of {currentSetting}!", Category.UI);
+			}
+		}
+
+		public void DropdownScrollRight(Dropdown dropdown)
+		{
+			// Check if value should wrap around
+			if (dropdown.value < dropdown.options.Count - 1)
+			{
+				dropdown.value++;
+			}
+			else
+			{
+				dropdown.value = 0;
+			}
+			// No need to call Refresh() since it gets called when value changes
+		}
+
+		public void DropdownScrollLeft(Dropdown dropdown)
+		{
+			// Check if value should wrap around
+			if (dropdown.value > 0)
+			{
+				dropdown.value--;
+			}
+			else
+			{
+				dropdown.value = dropdown.options.Count - 1;
+			}
+
+			// No need to call Refresh() since it gets called when value changes
+		}		
 
 		//------------------
 		//PLAYER ACCOUNTS:
@@ -227,6 +323,15 @@ namespace Lobby
 				gender = 0;
 			}
 			currentCharacter.Gender = (Gender) gender;
+
+			// Repopulate underwear and facial hair dropdown boxes
+			PopulateDropdown(SpriteManager.UnderwearCollection, underwearDropdown, true);
+			PopulateDropdown(SpriteManager.FacialHairCollection, facialHairDropdown, true);
+			
+			// Set underwear and facial hair to default setting (nude, and shaved)
+			SetDropdownValue(underwearDropdown, "Nude");
+			SetDropdownValue(facialHairDropdown, "Shaved");
+
 			RefreshGender();
 		}
 
@@ -237,27 +342,7 @@ namespace Lobby
 			headSpriteController.reference = currentCharacter.headSpriteIndex;
 			torsoSpriteController.reference = currentCharacter.torsoSpriteIndex;
 			headSpriteController.UpdateSprite();
-			torsoSpriteController.UpdateSprite();
-			DoGenderChecks();
-		}
-
-		private void DoGenderChecks()
-		{
-			//Check underwear:
-			if (SpriteManager.UnderwearCollection[currentCharacter.underwearCollectionIndex].gender != currentCharacter.Gender)
-			{
-				int indexSearch = currentCharacter.underwearCollectionIndex;
-				while (SpriteManager.UnderwearCollection[indexSearch].gender != currentCharacter.Gender)
-				{
-					indexSearch++;
-					if (indexSearch == SpriteManager.UnderwearCollection.Count)
-					{
-						indexSearch = 0;
-					}
-				}
-				currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[indexSearch]);
-				RefreshUnderwear();
-			}
+			torsoSpriteController.UpdateSprite();	
 		}
 
 		//------------------
@@ -307,25 +392,9 @@ namespace Lobby
 		//HAIR:
 		//------------------
 
-		public void HairScrollRight()
+		public void HairDropdownChange(int index)
 		{
-			int tryNext = currentCharacter.hairCollectionIndex + 1;
-			if (tryNext >= SpriteManager.HairCollection.Count)
-			{
-				tryNext = 0;
-			}
-			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[tryNext]);
-			RefreshHair();
-		}
-
-		public void HairScrollLeft()
-		{
-			int tryNext = currentCharacter.hairCollectionIndex - 1;
-			if (tryNext < 0)
-			{
-				tryNext = SpriteManager.HairCollection.Count - 1;
-			}
-			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[tryNext]);
+			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[index]);
 			RefreshHair();
 		}
 
@@ -374,7 +443,6 @@ namespace Lobby
 		{
 			hairSpriteController.reference = currentCharacter.hairStyleOffset;
 			hairSpriteController.UpdateSprite();
-			hairStyleText.text = currentCharacter.hairStyleName;
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.hairColor, out setColor);
 			hairSpriteController.image.color = setColor;
@@ -385,32 +453,24 @@ namespace Lobby
 		//FACIAL HAIR:
 		//------------------
 
-		public void FacialHairScrollRight()
+		public void FacialHairDropdownChange(int index)
 		{
-			int tryNext = currentCharacter.facialHairCollectionIndex + 1;
-			if (tryNext >= SpriteManager.FacialHairCollection.Count)
+			SpriteAccessory newFacialHair = SpriteManager.FacialHairCollection.Find(item => item.name == facialHairDropdown.options[index].text);
+			if (newFacialHair.name != null)
 			{
-				tryNext = 0;
+				currentCharacter.LoadFacialHairSetting(newFacialHair);	
 			}
-			currentCharacter.LoadFacialHairSetting(SpriteManager.FacialHairCollection[tryNext]);
+			else
+			{
+				Logger.LogError($"Unable to find {facialHairDropdown.options[index].text} in UnderwearCollection!", Category.UI);
+			}
 			RefreshFacialHair();
 		}
 
-		public void FacialHairScrollLeft()
-		{
-			int tryNext = currentCharacter.facialHairCollectionIndex - 1;
-			if (tryNext < 0)
-			{
-				tryNext = SpriteManager.FacialHairCollection.Count - 1;
-			}
-			currentCharacter.LoadFacialHairSetting(SpriteManager.FacialHairCollection[tryNext]);
-			RefreshFacialHair();
-		}
 		private void RefreshFacialHair()
 		{
 			facialHairSpriteController.reference = currentCharacter.facialHairOffset;
 			facialHairSpriteController.UpdateSprite();
-			facialHairText.text = currentCharacter.facialHairName;
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.facialHairColor, out setColor);
 			facialHairSpriteController.image.color = setColor;
@@ -473,68 +533,38 @@ namespace Lobby
 		//UNDERWEAR:
 		//------------------
 
+		public void UnderwearDropdownChange(int index)
+		{
+			SpriteAccessory newUnderwear = SpriteManager.UnderwearCollection.Find(item => item.name == underwearDropdown.options[index].text);
+			if (newUnderwear.name != null)
+			{
+				currentCharacter.LoadUnderwearSetting(newUnderwear);	
+			}
+			else
+			{
+				Logger.LogError($"Unable to find {underwearDropdown.options[index].text} in UnderwearCollection!", Category.UI);
+			}
+			RefreshUnderwear();
+		}
 		private void RefreshUnderwear()
 		{
 			underwearSpriteController.reference = currentCharacter.underwearOffset;
 			underwearSpriteController.UpdateSprite();
-			underwearText.text = currentCharacter.underwearName;
-		}
-
-		public void UnderwearScrollRight()
-		{
-			int index = currentCharacter.underwearCollectionIndex + 1;
-			if (index == SpriteManager.UnderwearCollection.Count)
-			{
-				index = 0;
-			}
-			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[index]);
-			DoGenderChecks();
-			RefreshUnderwear();
-		}
-
-		public void UnderwearScrollLeft()
-		{
-			int index = currentCharacter.underwearCollectionIndex - 1;
-			if (index < 0)
-			{
-				index = SpriteManager.UnderwearCollection.Count - 1;
-			}
-			currentCharacter.LoadUnderwearSetting(SpriteManager.UnderwearCollection[index]);
-			DoGenderChecks();
-			RefreshUnderwear();
 		}
 
 		//------------------
 		//SOCKS:
 		//------------------
 
+		public void SocksDropdownChange(int index)
+		{
+			currentCharacter.LoadSocksSetting(SpriteManager.SocksCollection[index]);
+			RefreshSocks();
+		}
 		private void RefreshSocks()
 		{
 			socksSpriteController.reference = currentCharacter.socksOffset;
 			socksSpriteController.UpdateSprite();
-			socksText.text = currentCharacter.socksName;
-		}
-
-		public void SocksScrollRight()
-		{
-			int index = currentCharacter.socksCollectionIndex + 1;
-			if (index == SpriteManager.SocksCollection.Count)
-			{
-				index = 0;
-			}
-			currentCharacter.LoadSocksSetting(SpriteManager.SocksCollection[index]);
-			RefreshSocks();
-		}
-
-		public void SocksScrollLeft()
-		{
-			int index = currentCharacter.socksCollectionIndex - 1;
-			if (index < 0)
-			{
-				index = SpriteManager.SocksCollection.Count - 1;
-			}
-			currentCharacter.LoadSocksSetting(SpriteManager.SocksCollection[index]);
-			RefreshSocks();
 		}
 
 		//------------------
