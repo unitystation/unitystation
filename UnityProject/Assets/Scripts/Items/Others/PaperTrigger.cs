@@ -10,27 +10,28 @@ public class PaperTrigger : PickUpTrigger
 	public override void UI_Interact(GameObject originator, string hand)
 	{
 		var playerScript = originator.GetComponent<PlayerScript>();
-		Debug.Log("DO UI INTERACT");
 		if (!isServer)
-        { 
-            //Client wants this code to be run on server
-            InteractMessage.Send(gameObject, hand);
-        }
-        else
-        {
-            //Server actions
-            TabUpdateMessage.Send( originator, gameObject, NetTabType, TabAction.Open );
+		{
+			//Client wants this code to be run on server
+			InteractMessage.Send(gameObject, hand, true);
+		}
+		else
+		{
+			//Server actions
+			TabUpdateMessage.Send(originator, gameObject, NetTabType, TabAction.Open);
 			paper.UpdatePlayer(originator);
-        }
+		}
 	}
 
-    public override void UI_InteractOtherSlot(GameObject originator, GameObject otherHandItem)
-    {
-        if(otherHandItem != null){
-            var pen = otherHandItem.GetComponent<Pen>();
-            if(pen != null){
-                UI_Interact(originator, UIManager.Hands.OtherSlot.eventName);
-            }
-        }
-    }
+	public override void UI_InteractOtherSlot(GameObject originator, GameObject otherHandItem)
+	{
+		if (otherHandItem != null)
+		{
+			var pen = otherHandItem.GetComponent<Pen>();
+			if (pen != null)
+			{
+				UI_Interact(originator, UIManager.Hands.OtherSlot.eventName);
+			}
+		}
+	}
 }
