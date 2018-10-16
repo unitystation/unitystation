@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,10 +43,27 @@ public class GUI_Paper : NetTab
 		ControlTabs.CloseTab(Type, Provider);
 	}
 
+	public void OnEditStart()
+	{
+		UIManager.IsInputFocus = true;
+		CheckForInput();
+	}
+
+	//Safety measure:
+	private async void CheckForInput()
+	{
+		await Task.Delay(500);
+		if (!textField.isFocused)
+		{
+			UIManager.IsInputFocus = false;
+		}
+	}
+
 	//Request an edit from server:
 	public void OnTextEditEnd()
 	{
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestPaperEdit(Provider.gameObject, textField.text);
+		UIManager.IsInputFocus = false;
 	}
 
 	public void OnTextValueChange()
@@ -53,5 +71,16 @@ public class GUI_Paper : NetTab
 		//Only way to refresh it to get it to do its job (unity bug):
 		contentSizeFitter.enabled = false;
 		contentSizeFitter.enabled = true;
+		CheckLineLimit();
+	}
+
+	private void CheckLineLimit()
+	{
+		Canvas.ForceUpdateCanvases();
+		if (textField.textComponent.cachedTextGenerator.lineCount > 20)
+		{	
+			var sub = textField.text.Substring(0, textField.text.Length - 1);
+			textField.text = sub;
+		}
 	}
 }
