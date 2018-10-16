@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GUI_Paper : NetTab
 {
 	public InputField textField;
+	public ContentSizeFitter contentSizeFitter;
 
 	public override void OnEnable()
 	{
@@ -45,5 +46,12 @@ public class GUI_Paper : NetTab
 	public void OnTextEditEnd()
 	{
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestPaperEdit(Provider.gameObject, textField.text);
+	}
+
+	public void OnTextValueChange()
+	{
+		//Only way to refresh it to get it to do its job (unity bug):
+		contentSizeFitter.enabled = false;
+		contentSizeFitter.enabled = true;
 	}
 }
