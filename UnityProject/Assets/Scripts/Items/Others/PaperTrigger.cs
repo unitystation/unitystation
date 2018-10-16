@@ -23,4 +23,14 @@ public class PaperTrigger : PickUpTrigger
 			paper.UpdatePlayer(originator);
         }
 	}
+
+    public override void UI_InteractOtherSlot(GameObject originator, GameObject otherHandItem)
+    {
+        if(otherHandItem != null){
+            var pen = otherHandItem.GetComponent<Pen>();
+            if(pen != null){
+                UI_Interact(originator, UIManager.Hands.OtherSlot.eventName);
+            }
+        }
+    }
 }

@@ -180,14 +180,20 @@ using UnityEngine.UI;
 
 		public void TryItemInteract()
 		{
-			Debug.Log("Try Interact " + eventName);
 			if(Item != null && UIManager.Hands.CurrentSlot.eventName == eventName){
 				var inputTrigger = Item.GetComponent<InputTrigger>();
 				inputTrigger.UI_Interact(PlayerManager.LocalPlayer, eventName);
 			} else {
-
+				if(UIManager.Hands.CurrentSlot.eventName != eventName){
+					//Clicked on item with otherslot selected
+					if(UIManager.Hands.OtherSlot.Item != null){
+						var trig = UIManager.Hands.OtherSlot.Item.GetComponent<InputTrigger>();
+						if(trig != null){
+							trig.UI_InteractOtherSlot(PlayerManager.LocalPlayer,
+							 UIManager.Hands.CurrentSlot.Item);
+						}
+					}
+				}
 			}
-
-			
 		}
 	}
