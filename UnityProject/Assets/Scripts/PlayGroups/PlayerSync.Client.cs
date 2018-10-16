@@ -34,12 +34,8 @@ public partial class PlayerSync
 		public bool CanPredictPush => ClientPositionReady;
 
 		/// Does client's transform pos match state pos? Ignores Z-axis.
-		private bool ClientPositionReady {
-			get {
-				var state = /*isLocalPlayer ?*/ predictedState; //: playerState;
-				return ( Vector2 ) state.Position == ( Vector2 ) transform.localPosition;
-			}
-		}
+		private bool ClientPositionReady => ( Vector2 ) predictedState.Position == ( Vector2 ) transform.localPosition;
+
 		/// Does ghosts's transform pos match state pos? Ignores Z-axis.
 		private bool GhostPositionReady {
 			get {
@@ -48,26 +44,26 @@ public partial class PlayerSync
 			}
 		}
 		private bool IsWeightlessClient => MatrixManager.IsFloatingAt( gameObject, Vector3Int.RoundToInt(predictedState.WorldPosition) );
-		private bool CanNotSpaceMoveClient {
-			get {
-				if ( !IsWeightlessClient ) {
-					return false;
-				}
-				PushPull[] pushables = MatrixManager.GetAt<PushPull>( Vector3Int.RoundToInt(predictedState.WorldPosition) ).ToArray();
-				if ( pushables.Length == 0 ) {
-					return true;
-				}
 
-				for ( var i = 0; i < pushables.Length; i++ ) {
-					var pushable = pushables[i];
-					if ( pushable.gameObject == gameObject ) {
-						continue;
-					}
-					return false;
+		private bool IsOnPushables( PlayerState state )
+		{
+			var pushables = MatrixManager.GetAt<PushPull>( Vector3Int.RoundToInt( state.WorldPosition ) ).ToArray();
+			if ( pushables.Length == 0 )
+			{
+				return false;
+			}
+			for ( var i = 0; i < pushables.Length; i++ )
+			{
+				var pushable = pushables[i];
+				if ( pushable.gameObject == gameObject )
+				{
+					continue;
 				}
 
 				return true;
 			}
+
+			return false;
 		}
 
 		///Does server claim this client is floating rn?
@@ -96,31 +92,35 @@ public partial class PlayerSync
 			MoveCooldown = true;
 			//experiment: not enqueueing or processing action if floating.
 			//arguably it shouldn't really be like that in the future
-			if ( (!CanNotSpaceMoveClient && !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement)
+			bool isGrounded = !IsWeightlessClient;
+			if ( (isGrounded || IsOnPushables( predictedState ) && !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement)
 			     || (playerMove.isGhost && !blockClientMovement) ) {
 //				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
-				//RequestMoveMessage.Send(action);
-				if ( CanMoveThere( predictedState, action ) ) {
-					pendingActions.Enqueue( action );
-
-					LastDirection = action.Direction();
-					UpdatePredictedState();
-				} else {
-					//cannot move -> tell server we're just bumping in that direction
-					action.isBump = true;
-					if ( pendingActions == null || pendingActions.Count == 0 ) {
-						PredictiveBumpInteract( Vector3Int.RoundToInt( ( Vector2 ) predictedState.WorldPosition + action.Direction() ), action.Direction() );
+				if ( isGrounded )
+				{
+					//RequestMoveMessage.Send(action);
+					if ( CanMoveThere( predictedState, action ) ) {
+						pendingActions.Enqueue( action );
+	
+						LastDirection = action.Direction();
+						UpdatePredictedState();
+					} else {
+						//cannot move -> tell server we're just bumping in that direction
+						action.isBump = true;
+						if ( pendingActions == null || pendingActions.Count == 0 ) {
+							PredictiveBumpInteract( Vector3Int.RoundToInt( ( Vector2 ) predictedState.WorldPosition + action.Direction() ), action.Direction() );
+						}
+						if (PlayerManager.LocalPlayer == gameObject)
+						{
+							playerSprites.CmdChangeDirection(Orientation.From(action.Direction()));
+							// Prediction:
+							playerSprites.FaceDirection(Orientation.From(action.Direction()));
+						}
+						//cooldown is longer when humping walls or pushables
+	//					yield return YieldHelper.DeciSecond;
+	//					yield return YieldHelper.DeciSecond;
 					}
-					if (PlayerManager.LocalPlayer == gameObject)
-					{
-						playerSprites.CmdChangeDirection(Orientation.From(action.Direction()));
-						// Prediction:
-						playerSprites.FaceDirection(Orientation.From(action.Direction()));
-					}
-					//cooldown is longer when humping walls or pushables
-//					yield return YieldHelper.DeciSecond;
-//					yield return YieldHelper.DeciSecond;
 				}
 				//Sending action for server approval
 				CmdProcessAction( action );
