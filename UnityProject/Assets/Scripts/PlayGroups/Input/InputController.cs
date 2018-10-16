@@ -134,7 +134,15 @@ public class InputController : MonoBehaviour
 
 	private void ChangeDirection()
 	{
-		Vector2 dir = (Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition) - transform.position).normalized;
+		Vector3 playerPos;
+
+		if (playerMove.isGhost)
+			playerPos = PlayerManager.PlayerScript.ghost.transform.position;
+		else
+			playerPos = transform.position;
+
+		Vector2 dir = (Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition) - playerPos).normalized;
+
 		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
 		{
 			playerSprites.ChangePlayerDirection(Orientation.From(dir));

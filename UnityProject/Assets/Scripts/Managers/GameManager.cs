@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
 	public int RoundsPerMap = 10;
 
-	public string[] Maps = { "Assets/scenes/OutpostDeathmatch.unity" };
+	public string[] Maps = { "Assets/scenes/OutpostStation.unity" };
 	//Put the scenes in the unity 3d editor.
 
 	private int MapRotationCount = 0;

@@ -109,6 +109,7 @@ public class SpriteManager : MonoBehaviour
 			Instance.dmi = Resources.Load("DmiIconData") as DmiIconData;
 		}
 
+		PlayerSprites["mob"] = dmi.getSprites("mob/mob");
 		PlayerSprites["human"] = dmi.getSprites("mob/human");
 		PlayerSprites["human_parts_greyscale"] = dmi.getSprites("mob/human_parts_greyscale");
 		PlayerSprites["human_face"] = dmi.getSprites("mob/human_face");

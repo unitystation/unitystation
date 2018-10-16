@@ -9,6 +9,7 @@ public enum NetTabType {
 	ShuttleControl = 1,
 	Nuke = 2,
 	Spawner = 3,
+	Paper = 4,
 	//add your tabs here
 }
 /// Descriptor for unique Net UI Tab
