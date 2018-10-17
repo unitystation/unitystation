@@ -71,6 +71,19 @@ public class Matrix : MonoBehaviour
 
 		return true;
 	}
+	public bool IsNonStickyAt(Vector3Int position)
+	{
+		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
+		foreach (Vector3Int pos in bounds.allPositionsWithin)
+		{
+			if (!metaTileMap.IsNoGravityAt(pos))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 	public bool IsFloatingAt(GameObject context, Vector3Int position)
 	{
 		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));

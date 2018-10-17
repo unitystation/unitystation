@@ -132,6 +132,16 @@ using UnityEngine;
 			}
 			return true;
 		}
+		public bool IsNoGravityAt(Vector3Int position)
+		{
+			foreach (LayerType layer in Layers.Keys)
+			{
+				if (layer != LayerType.Objects && HasTile(position, layer)) {
+					return false;
+				}
+			}
+			return true;
+		}
 
 		public bool IsEmptyAt(GameObject context, Vector3Int position)
 		{

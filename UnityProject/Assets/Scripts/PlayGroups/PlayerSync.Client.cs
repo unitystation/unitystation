@@ -44,6 +44,7 @@ public partial class PlayerSync
 			}
 		}
 		private bool IsWeightlessClient => MatrixManager.IsFloatingAt( gameObject, Vector3Int.RoundToInt(predictedState.WorldPosition) );
+		public bool IsNonStickyClient => MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
 
 		///Does server claim this client is floating rn?
 		private bool isFloatingClient => playerState.Impulse != Vector2.zero;
@@ -71,8 +72,8 @@ public partial class PlayerSync
 			MoveCooldown = true;
 			//experiment: not enqueueing or processing action if floating.
 			//arguably it shouldn't really be like that in the future
-			bool isGrounded = !IsWeightlessClient;
-			if ( (isGrounded || IsAroundPushables( predictedState ) && !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement)
+			bool isGrounded = !IsNonStickyClient;
+			if ( (isGrounded || IsAroundPushables( predictedState ) ) && !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement
 			     || (playerMove.isGhost && !blockClientMovement) ) {
 //				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
@@ -309,11 +310,11 @@ public partial class PlayerSync
 			bool isWeightless = IsWeightlessClient;
 			//Space walk checks
 			if ( !isWeightless ) {
-				//Zeroing lastDirection after hitting an obstacle
-				LastDirection = Vector2.zero;
-
 				if ( isPseudoFloatingClient ) {
 					//Logger.Log( "Stopped clientside floating to avoid going through walls" );
+
+					//Zeroing lastDirection after hitting an obstacle
+					LastDirection = Vector2.zero;
 
 					//stop floating on client (if server isn't responding in time) to avoid players going through walls
 					predictedState.Impulse = Vector2.zero;

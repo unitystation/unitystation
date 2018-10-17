@@ -38,6 +38,7 @@ public partial class PlayerSync
 
 	///
 	public bool IsWeightlessServer => MatrixManager.IsFloatingAt(gameObject, Vector3Int.RoundToInt(serverState.WorldPosition));
+	public bool IsNonStickyServer => MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(serverState.WorldPosition));
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
 
 
@@ -211,7 +212,7 @@ public partial class PlayerSync
 		}
 		serverState.NoLerp = noLerp;
 		var msg = PlayerMoveMessage.SendToAll(gameObject, serverState);
-//		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
+		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
 		//Clearing state flags
 		serverState.ImportantFlightUpdate = false;
 		serverState.ResetClientQueue = false;
@@ -303,11 +304,10 @@ public partial class PlayerSync
 			return state;
 		}
 
-		if ( IsWeightlessServer ) {
+		if ( IsNonStickyServer ) {
 			PushPull pushable;
 			if ( IsAroundPushables( serverState, out pushable ) ) {
 				InteractSpacePushable( pushable, Vector3Int.RoundToInt( state.WorldPosition ), action.Direction() );
-//				InteractSpacePushable( Vector3Int.RoundToInt( state.WorldPosition ), action.Direction() );
 			}
 			return state;
 		}
@@ -342,8 +342,6 @@ public partial class PlayerSync
 	}
 
 	#region walk interactions
-
-	private bool InteractCooldown = false;
 
 	///Revert client push prediction straight ahead if it's wrong
 	[Command(channel = 0)]
@@ -387,7 +385,7 @@ public partial class PlayerSync
 	/// <param name="worldTile">Tile you're interacting with</param>
 	/// <param name="direction">Direction you're pushing</param>
 	private void InteractPushable( Vector3Int worldTile, Vector3 direction ) {
-		if ( IsWeightlessServer ) {
+		if ( IsNonStickyServer ) {
 			return;
 		}
 		// Is the object pushable (iterate through all of the objects at the position):
@@ -443,9 +441,8 @@ public partial class PlayerSync
 	[Server]
 	private void CheckMovementServer()
 	{
-
 		//Space walk checks
-		if (IsWeightlessServer)
+		if ( IsNonStickyServer )
 		{
 			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
 			{
@@ -471,10 +468,11 @@ public partial class PlayerSync
 
 		if ( !IsWeightlessServer )
 		{
-			//removing lastDirection when we hit an obstacle in space
-			serverLastDirection = Vector2.zero;
 
 			if ( consideredFloatingServer ) {
+				//removing lastDirection when we hit an obstacle in space
+				serverLastDirection = Vector2.zero;
+
 				//finish floating. players will be notified as soon as serverState catches up
 				serverState.Impulse = Vector2.zero;
 				serverState.ResetClientQueue = true;
@@ -482,8 +480,7 @@ public partial class PlayerSync
 				//Stopping spacewalk increases move number
 				serverState.MoveNumber++;
 
-				//Notify if position stayed the same(?)
-	//			TryNotifyPlayers();
+				//Notify if position stayed the same
 				NotifyPlayers();
 			}
 		}
