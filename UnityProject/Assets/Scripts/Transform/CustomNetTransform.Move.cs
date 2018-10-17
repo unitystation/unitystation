@@ -37,7 +37,7 @@ public partial class CustomNetTransform {
 	public PushPull PushPull => pushPull ? pushPull : ( pushPull = GetComponent<PushPull>() );
 
 	/// Containers and other objects meant to be snapped by tile
-	public bool IsTileSnap => PushPull && PushPull.IsSolid;
+	public bool IsTileSnap => registerTile.ObjectType == ObjectType.Object;
 
 //	public bool IsInSpace => MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( transform.position ) );
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;

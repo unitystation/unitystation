@@ -32,14 +32,22 @@ public class PushPull : VisibleBehaviour {
 	private Vector3Int lastReliablePos = TransformState.HiddenPos;
 
 	[Server]
+	public bool TryPush( Vector2Int dir )
+	{
+		return TryPush( registerTile.WorldPosition, dir );
+	}
+
+	[Server]
 	public bool TryPush( Vector3Int from, Vector2Int dir ) {
 		if ( isPushing || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
 		Vector3Int currentPos = registerTile.WorldPosition;
+		if ( from != currentPos ) {
+			return false;
+		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( !PlayerScript.IsInReach( from, currentPos ) ||
-		     !MatrixManager.IsPassableAt( from, target ) ) {
+		if ( !MatrixManager.IsPassableAt( from, target ) ) {
 			return false;
 		}
 
@@ -58,9 +66,11 @@ public class PushPull : VisibleBehaviour {
 			return false;
 		}
 		lastReliablePos = registerTile.WorldPosition;
+		if ( from != lastReliablePos ) {
+			return false;
+		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( !PlayerScript.IsInReach( from, lastReliablePos ) ||
-		     !MatrixManager.IsPassableAt( from, target ) ||
+		if ( !MatrixManager.IsPassableAt( from, target ) ||
 		     MatrixManager.IsFloatingAt( target ) ) {
 			return false;
 		}

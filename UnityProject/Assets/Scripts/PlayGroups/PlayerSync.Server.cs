@@ -379,8 +379,8 @@ public partial class PlayerSync
 	private void InteractSpacePushable( PushPull pushable, Vector3Int playerPos, Vector2 direction ) {
 		Logger.LogTraceFormat( "Trying to space push {0}", Category.PushPull, pushable.gameObject );
 		Vector2 counterDirection = Vector2.zero - direction;
-		if ( pushable.TryPush( playerPos, Vector2Int.RoundToInt( counterDirection ) ) ) {
-			Push( Vector2Int.RoundToInt( direction ) );//fixme: objects end up half stuck in wall
+		if ( pushable.TryPush( Vector2Int.RoundToInt( counterDirection ) ) ) {
+			Push( Vector2Int.RoundToInt( direction ) );
 		}
 	}
 
