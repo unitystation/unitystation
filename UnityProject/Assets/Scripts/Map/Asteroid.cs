@@ -27,20 +27,8 @@ public class Asteroid : NetworkBehaviour
 	[Server]
 	public void SpawnNearStation()
 	{
-		//Makes sure asteroids don't spawn at/inside station
-		Vector2 clampVal = Random.insideUnitCircle * asteroidDistance;
-
-		if (clampVal.x > 0)
-		{
-			clampVal.x = Mathf.Clamp(clampVal.x, distanceFromStation, asteroidDistance);
-			clampVal.y = Mathf.Clamp(clampVal.y, distanceFromStation, asteroidDistance);
-		}
-		else
-		{
-			clampVal.x = Mathf.Clamp(clampVal.x, -distanceFromStation, -asteroidDistance);
-			clampVal.y = Mathf.Clamp(clampVal.y, -distanceFromStation, -asteroidDistance);
-		}
-		mm.SetPosition(clampVal);
+		//Request a position from GameManager and cache the object in SpaceBodies List
+		GameManager.Instance.ServerSetSpaceBody(mm);
 	}
 
 	[Server] //Asigns random rotation to each asteroid at startup for variety.
