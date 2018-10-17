@@ -293,7 +293,7 @@ public partial class PlayerSync
 		bool isServerBump = !CanMoveThere( state, action );
 		bool isClientBump = action.isBump;
 		if ( !isClientBump && isServerBump ) {
-			Logger.LogErrorFormat( "isBump mismatch: C={0} S={1}", Category.Movement, isClientBump, isServerBump );
+			Logger.LogWarningFormat( "isBump mismatch, resetting: C={0} S={1}", Category.Movement, isClientBump, isServerBump );
 			RollbackPosition();
 		}
 		if ( isClientBump || isServerBump ) {
@@ -307,7 +307,7 @@ public partial class PlayerSync
 		if ( IsNonStickyServer ) {
 			PushPull pushable;
 			if ( IsAroundPushables( serverState, out pushable ) ) {
-				InteractSpacePushable( pushable, Vector3Int.RoundToInt( state.WorldPosition ), action.Direction() );
+				InteractSpacePushable( pushable, action.Direction() );
 			}
 			return state;
 		}
@@ -371,14 +371,21 @@ public partial class PlayerSync
 		yield return YieldHelper.DeciSecond;
 	}
 
-	/// <param name="pushable"></param>
-	/// <param name="playerPos">Tile you're at</param>
-	/// <param name="direction"></param>
-	private void InteractSpacePushable( PushPull pushable, Vector3Int playerPos, Vector2 direction ) {
+	private void InteractSpacePushable( PushPull pushable, Vector2 direction ) {
 		Logger.LogTraceFormat( "Trying to space push {0}", Category.PushPull, pushable.gameObject );
 		Vector2 counterDirection = Vector2.zero - direction;
-		if ( pushable.TryPush( Vector2Int.RoundToInt( counterDirection ) ) ) {
-			Push( Vector2Int.RoundToInt( direction ) );
+		
+		pushable.TryPush( Vector2Int.RoundToInt( counterDirection ) );
+
+		bool pushedPlayer = Push( Vector2Int.RoundToInt( direction ) );
+		PushPull newPushable;
+		if ( pushedPlayer 
+		     && !IsWeightlessServer 
+		     && IsAroundPushables( serverState, out newPushable ) 
+		     && newPushable == pushable //?
+		)
+		{ //pushing player again so he doesn't get stop because of the same pushable again
+			InteractSpacePushable( pushable, direction );
 		}
 	}
 
