@@ -43,14 +43,17 @@ public class GameManager : MonoBehaviour
 
 	public bool GameOver = false;
 
-	//Space bodies in the solar system:
+	//Space bodies in the solar system <Only populated ServerSide>:
 	//---------------------------------
-	private List<MatrixMove> SpaceBodies = new List<MatrixMove>();
+	public List<MatrixMove> SpaceBodies = new List<MatrixMove>();
 	private Queue<MatrixMove> PendingSpaceBodies = new Queue<MatrixMove>();
 	private bool isProcessingSpaceBody = false;
 	public float minDistanceBetweenSpaceBodies = 200f;
 	[Header("Define the default size of all SolarSystems here:")]
 	public float solarSystemRadius = 600f;
+	//---------------------------------
+
+	public CentComm CentComm;
 
 	private void Awake()
 	{
@@ -90,7 +93,7 @@ public class GameManager : MonoBehaviour
 
 		PendingSpaceBodies.Enqueue(mm);
 	}
-	
+
 	IEnumerator ProcessSpaceBody(MatrixMove mm)
 	{
 		bool validPos = false;
@@ -125,7 +128,7 @@ public class GameManager : MonoBehaviour
 		isProcessingSpaceBody = false;
 	}
 
-	private Vector3 RandomPositionInSolarSystem()
+	public Vector3 RandomPositionInSolarSystem()
 	{
 		return Random.insideUnitCircle * solarSystemRadius;
 	}

@@ -4388,6 +4388,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4646995138993998}
   - component: {fileID: 114729471039765908}
+  - component: {fileID: 114078613131190154}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -12306,6 +12307,18 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114078613131190154
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1884472014060252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720905f6b612243a6b1e6bbeaafda241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 114729471039765908}
 --- !u!114 &114087479996582822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12420,6 +12433,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 00000000
   eventName: suit
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114091307373202680
 MonoBehaviour:
@@ -13043,6 +13057,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 09000000
   eventName: feet
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114159423412944964
 MonoBehaviour:
@@ -13170,6 +13185,7 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: storage02
+  image: {fileID: 0}
   maxItemSize: 1
 --- !u!114 &114166745719799342
 MonoBehaviour:
@@ -13937,6 +13953,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 01000000
   eventName: eyes
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114235377848624978
 MonoBehaviour:
@@ -15230,6 +15247,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 05000000
   eventName: ear
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114390879770327936
 MonoBehaviour:
@@ -15259,6 +15277,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 02000000
   eventName: head
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114404547606760358
 MonoBehaviour:
@@ -15603,6 +15622,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0a0000000d000000
   eventName: belt
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114442347035838072
 MonoBehaviour:
@@ -17551,6 +17571,7 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: storage01
+  image: {fileID: 0}
   maxItemSize: 1
 --- !u!114 &114600116059676036
 MonoBehaviour:
@@ -17910,6 +17931,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 07000000
   eventName: uniform
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114648675845146660
 MonoBehaviour:
@@ -18311,6 +18333,7 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: rightHand
+  image: {fileID: 0}
   maxItemSize: 4
 --- !u!114 &114699049006164702
 MonoBehaviour:
@@ -18381,6 +18404,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 08000000
   eventName: hands
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114709461968297762
 MonoBehaviour:
@@ -18441,6 +18465,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 06000000
   eventName: suit
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114712027825894382
 MonoBehaviour:
@@ -18535,6 +18560,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 04000000
   eventName: mask
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114717728226024040
 MonoBehaviour:
@@ -18747,6 +18773,10 @@ MonoBehaviour:
   - Assets/scenes/Flashlight Deathmatch.unity
   shuttleArrived: 0
   GameOver: 0
+  SpaceBodies: []
+  minDistanceBetweenSpaceBodies: 200
+  solarSystemRadius: 600
+  CentComm: {fileID: 114078613131190154}
 --- !u!114 &114729840479090150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18847,6 +18877,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0c0000000d000000
   eventName: id
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114735544628521044
 MonoBehaviour:
@@ -20000,6 +20031,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 03000000
   eventName: neck
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114845639161843692
 MonoBehaviour:
@@ -20505,6 +20537,7 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0b000000
   eventName: back
+  image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &114874368983860994
 MonoBehaviour:
@@ -21605,6 +21638,7 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: leftHand
+  image: {fileID: 0}
   maxItemSize: 4
 --- !u!114 &114981731806659250
 MonoBehaviour:
