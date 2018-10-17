@@ -164,6 +164,51 @@ using UnityEngine.Networking;
 			return true;
 		}
 
+		/// On player's tile
+		private bool IsOnPushables( PlayerState state ) {
+			var stateWorldPosition = state.WorldPosition;
+			PushPull pushable;
+			return HasPushablesAt( stateWorldPosition, out pushable );
+		}
+
+		private bool IsAroundPushables( PlayerState state ) {
+			PushPull pushable;
+			return IsAroundPushables( state, out pushable );
+		}
+
+		/// Around player
+		private bool IsAroundPushables( PlayerState state, out PushPull pushable ) {
+			pushable = null;
+			var position = Vector3Int.RoundToInt(state.WorldPosition);
+			BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
+			foreach (Vector3Int pos in bounds.allPositionsWithin) {
+				if ( HasPushablesAt( pos, out pushable ) ) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		private bool HasPushablesAt( Vector3 stateWorldPosition, out PushPull firstPushable ) {
+			firstPushable = null;
+			var pushables = MatrixManager.GetAt<PushPull>( Vector3Int.RoundToInt( stateWorldPosition ) ).ToArray();
+			if ( pushables.Length == 0 ) {
+				return false;
+			}
+
+			for ( var i = 0; i < pushables.Length; i++ ) {
+				var pushable = pushables[i];
+				if ( pushable.gameObject == gameObject ) {
+					continue;
+				}
+				firstPushable = pushable;
+				return true;
+			}
+
+			return false;
+		}
+
 
 //		private IEnumerator WaitForLoad() {
 //			yield return new WaitForSeconds( 2f );

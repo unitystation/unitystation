@@ -27,11 +27,6 @@ public partial class PlayerSync
 
 	/// Max size of serverside queue, client will be rolled back and punished if it overflows
 	private readonly int maxServerQueue = 10;
-//
-//	/// Amount of soft punishments before the hard one kicks in
-//	private readonly int maxWarnings = 3;
-//
-//	private int playerWarnings;
 
 	private HashSet<PushPull> questionablePushables = new HashSet<PushPull>();
 
@@ -43,7 +38,7 @@ public partial class PlayerSync
 
 	///
 	public bool IsWeightlessServer => MatrixManager.IsFloatingAt(gameObject, Vector3Int.RoundToInt(serverState.WorldPosition));
-	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsOnPushables( serverState );
+	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
 
 
 	/// Whether player is considered to be floating on server
@@ -58,8 +53,8 @@ public partial class PlayerSync
 			base.OnStartServer();
 			InitServerState();
 		}
-//TODO: don't allow walking when stopped in vacuum
-		///
+
+	///
 		[Server]
 		private void InitServerState()
 		{
@@ -103,15 +98,6 @@ public partial class PlayerSync
 			RollbackPosition();
 			Logger.LogWarning( $"{gameObject.name}: Server pending actions overflow! (More than {maxServerQueue})." +
 			                   "\nEither server lagged or player is attempting speedhack", Category.Movement );
-
-//			if (++playerWarnings < maxWarnings)
-//			{
-//				TortureChamber.Torture(playerScript, TortureSeverity.S);
-//			}
-//			else
-//			{
-//				TortureChamber.Torture(playerScript, TortureSeverity.L);
-//			}
 		}
 	}
 
@@ -318,8 +304,10 @@ public partial class PlayerSync
 		}
 
 		if ( IsWeightlessServer ) {
-			if ( IsOnPushables( serverState ) ) {
-				InteractSpacePushable( Vector3Int.RoundToInt( state.WorldPosition ), action.Direction() );
+			PushPull pushable;
+			if ( IsAroundPushables( serverState, out pushable ) ) {
+				InteractSpacePushable( pushable, Vector3Int.RoundToInt( state.WorldPosition ), action.Direction() );
+//				InteractSpacePushable( Vector3Int.RoundToInt( state.WorldPosition ), action.Direction() );
 			}
 			return state;
 		}
@@ -385,24 +373,14 @@ public partial class PlayerSync
 		yield return YieldHelper.DeciSecond;
 	}
 
-	/// <summary>
-	///
-	/// </summary>
+	/// <param name="pushable"></param>
 	/// <param name="playerPos">Tile you're at</param>
 	/// <param name="direction"></param>
-	private void InteractSpacePushable( Vector3Int playerPos, Vector2 direction ) {
-		// Is the object pushable (iterate through all of the objects at the position):
-		PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( playerPos ).ToArray();
-		for ( int i = 0; i < pushPulls.Length; i++ ) {
-			var pushPull = pushPulls[i];
-			if ( pushPull && pushPull.gameObject != gameObject ) {
-				Logger.LogTraceFormat( "Trying to space push {0}", Category.PushPull, pushPulls[i].gameObject );
-				Vector2 counterDirection = Vector2.zero - direction;
-				if ( pushPull.TryPush( playerPos, Vector2Int.RoundToInt( counterDirection ) ) ) {
-					Push( Vector2Int.RoundToInt( direction ) );
-				}
-				break;
-			}
+	private void InteractSpacePushable( PushPull pushable, Vector3Int playerPos, Vector2 direction ) {
+		Logger.LogTraceFormat( "Trying to space push {0}", Category.PushPull, pushable.gameObject );
+		Vector2 counterDirection = Vector2.zero - direction;
+		if ( pushable.TryPush( playerPos, Vector2Int.RoundToInt( counterDirection ) ) ) {
+			Push( Vector2Int.RoundToInt( direction ) );//fixme: objects end up half stuck in wall
 		}
 	}
 

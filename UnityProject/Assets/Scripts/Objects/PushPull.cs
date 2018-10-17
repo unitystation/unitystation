@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class PushPull : VisibleBehaviour {
@@ -34,15 +33,12 @@ public class PushPull : VisibleBehaviour {
 
 	[Server]
 	public bool TryPush( Vector3Int from, Vector2Int dir ) {
-		if ( /*!IsSolid ||*/ isPushing || Pushable == null || !isAllowedDir( dir ) ) {
+		if ( isPushing || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
 		Vector3Int currentPos = registerTile.WorldPosition;
-		if ( from != currentPos ) {
-			return false;
-		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( Vector2.Distance( (Vector3)from, (Vector3)currentPos) > 1 ||
+		if ( !PlayerScript.IsInReach( from, currentPos ) ||
 		     !MatrixManager.IsPassableAt( from, target ) ) {
 			return false;
 		}
@@ -58,15 +54,12 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	public bool TryPredictivePush( Vector3Int from, Vector2Int dir ) {
-		if ( /*!IsSolid || */!CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
+		if ( !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
 		lastReliablePos = registerTile.WorldPosition;
-		if ( from != lastReliablePos ) {
-			return false;
-		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( Vector2.Distance( (Vector3)from, (Vector3)lastReliablePos) > 1 ||
+		if ( !PlayerScript.IsInReach( from, lastReliablePos ) ||
 		     !MatrixManager.IsPassableAt( from, target ) ||
 		     MatrixManager.IsFloatingAt( target ) ) {
 			return false;
@@ -95,13 +88,6 @@ public class PushPull : VisibleBehaviour {
 	[Server]
 	public void NotifyPlayers() {
 		Pushable.NotifyPlayers();
-//		if ( lastReliablePos != TransformState.HiddenPos ) {
-//			Pushable?.RollbackPush();
-//		}
-//		prediction = PushState.None;
-//		approval = ApprovalState.None;
-//		predictivePushTarget = TransformState.HiddenPos;
-//		lastReliablePos = TransformState.HiddenPos;
 	}
 
 	private bool isAllowedDir( Vector2Int dir ) {
@@ -110,7 +96,7 @@ public class PushPull : VisibleBehaviour {
 
 	enum PushState { None, InProgress, Finished }
 	enum ApprovalState { None, Approved, Unexpected }
-	//todo: handle prediction swearing when pushing shit in space
+
 	#region Events
 
 	private void OnServerTileReached( Vector3Int pos ) {
@@ -148,8 +134,6 @@ public class PushPull : VisibleBehaviour {
 				info += ". NOT Finishing yet";
 			}
 			Logger.LogFormat( "Unexpected push detected OnUpdateRecieved {0}", Category.PushPull, info );
-//			Pushable.NotifyPlayers();
-//			FinishPush();
 		}
 	}
 
@@ -167,14 +151,12 @@ public class PushPull : VisibleBehaviour {
 		Logger.LogTraceFormat( "{0} is reached ON CLIENT, approval={1}", Category.PushPull, pos, approval );
 		prediction = PushState.Finished;
 		switch ( approval ) {
-			/*|| approval == ApprovalState.Invalid*/
 			case ApprovalState.Approved:
 				//ok, finishing
 				FinishPush();
 				break;
 			case ApprovalState.Unexpected:
 				Logger.LogFormat( "Invalid push detected in OnClientTileReached, finishing", Category.PushPull );
-//				Pushable.NotifyPlayers();
 				FinishPush();
 				break;
 			case ApprovalState.None:
