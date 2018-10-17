@@ -26,7 +26,7 @@ public class MatrixManager : MonoBehaviour
 	[Header("Set the amount of matricies in the scene here")]
 	public int matrixCount;
 
-	[Header("Matrix that needs to be at position 0 in Matrices List")]
+	[Header("Cache the matrix that also handles space here")]
 	public Matrix spaceMatrix;
 
 	/// Finds first matrix that is not empty at given world pos
