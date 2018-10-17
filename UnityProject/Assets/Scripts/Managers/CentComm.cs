@@ -43,7 +43,7 @@ public class CentComm : MonoBehaviour
 			yield break;
 		}
 		//Wait some time after the round has started
-		yield return new WaitForSeconds(20f);
+		yield return new WaitForSeconds(60f);
 
 		//Gather asteroid locations:
 		for (int i = 0; i < gameManager.SpaceBodies.Count; i++)
@@ -72,12 +72,30 @@ public class CentComm : MonoBehaviour
 
 	private void SendReportToStation()
 	{
-		//TODO print report out on all command consoles:
-		foreach (Vector2 pos in AsteroidLocations)
+		var commConsoles = FindObjectsOfType<CommConsole>();
+		foreach (CommConsole console in commConsoles)
 		{
-			Debug.Log(pos);
+			var p = ItemFactory.SpawnItem(ItemFactory.Instance.paper, console.transform.position, console.transform.parent);
+			var paper = p.GetComponent<Paper>();
+			paper.SetServerString(CreateStartGameReport());
+		}
+	}
+
+	private string CreateStartGameReport()
+	{
+		string report = "<size=38>CentComm Report</size> \n __________________________________ \n \n" +
+			" <size=26>Asteroid bodies have been sighted in the local area around " +
+			"OutpostStation IV. Locate and exploit local sources for plasma deposits.</size>\n \n " +
+			"<color=blue><size=32>Crew Objectives:</size></color>\n \n <size=24>- Locate and mine " +
+			"local Plasma Deposits\n \n - Fulfill order of " + PlasmaOrderRequestAmt + " Solid Plasma units and dispatch to " +
+			"Central Command via Cargo Shuttle</size>\n \n <size=32>Latest Asteroid Sightings:" +
+			"</size>\n \n";
+
+		for (int i = 0; i < AsteroidLocations.Count; i++)
+		{
+			report += " <size=24>" + Vector2Int.RoundToInt(AsteroidLocations[i]).ToString() + "</size> ";
 		}
 
-		Debug.Log("Plasma Order Amount: " + PlasmaOrderRequestAmt);
+		return report;
 	}
 }

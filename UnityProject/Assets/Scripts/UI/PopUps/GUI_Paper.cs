@@ -51,7 +51,9 @@ public class GUI_Paper : NetTab
 		{
 			textField.interactable = false;
 			return;
-		} else {
+		}
+		else
+		{
 			textField.interactable = true;
 			textField.ActivateInputField();
 		}
@@ -96,7 +98,10 @@ public class GUI_Paper : NetTab
 		//Only way to refresh it to get it to do its job (unity bug):
 		contentSizeFitter.enabled = false;
 		contentSizeFitter.enabled = true;
-		CheckLineLimit();
+		if (!textField.placeholder.enabled)
+		{
+			CheckLineLimit();
+		}
 	}
 
 	private void CheckLineLimit()
