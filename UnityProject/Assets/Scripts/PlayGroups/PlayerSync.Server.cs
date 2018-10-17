@@ -318,7 +318,7 @@ public partial class PlayerSync
 		}
 
 		if ( IsWeightlessServer ) {
-			if ( IsOnPushables( serverState ) ) {	
+			if ( IsOnPushables( serverState ) ) {
 				InteractSpacePushable( Vector3Int.RoundToInt( state.WorldPosition ), action.Direction() );
 			}
 			return state;
@@ -491,21 +491,23 @@ public partial class PlayerSync
 			}
 		}
 
-		if (consideredFloatingServer && !IsWeightlessServer)
+		if ( !IsWeightlessServer )
 		{
-			//finish floating. players will be notified as soon as serverState catches up
-			serverState.Impulse = Vector2.zero;
-			serverState.ResetClientQueue = true;
-
-			//Stopping spacewalk increases move number
-			serverState.MoveNumber++;
-
 			//removing lastDirection when we hit an obstacle in space
 			serverLastDirection = Vector2.zero;
 
-			//Notify if position stayed the same(?)
-//			TryNotifyPlayers();
-			NotifyPlayers();
+			if ( consideredFloatingServer ) {
+				//finish floating. players will be notified as soon as serverState catches up
+				serverState.Impulse = Vector2.zero;
+				serverState.ResetClientQueue = true;
+
+				//Stopping spacewalk increases move number
+				serverState.MoveNumber++;
+
+				//Notify if position stayed the same(?)
+	//			TryNotifyPlayers();
+				NotifyPlayers();
+			}
 		}
 
 		CheckSpaceDamage();
