@@ -2,7 +2,10 @@
 using UnityEngine.Networking;
 
 public class PushPull : VisibleBehaviour {
+	public bool isNotPushable = false;
+
 	private IPushable pushableTransform;
+
 	public IPushable Pushable {
 		get {
 			IPushable pushable;
@@ -39,7 +42,7 @@ public class PushPull : VisibleBehaviour {
 
 	[Server]
 	public bool TryPush( Vector3Int from, Vector2Int dir ) {
-		if ( isPushing || Pushable == null || !isAllowedDir( dir ) ) {
+		if ( isNotPushable || isPushing || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
 		Vector3Int currentPos = registerTile.WorldPosition;
@@ -62,7 +65,7 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	public bool TryPredictivePush( Vector3Int from, Vector2Int dir ) {
-		if ( !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
+		if ( isNotPushable || !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
 		lastReliablePos = registerTile.WorldPosition;
@@ -175,25 +178,6 @@ public class PushPull : VisibleBehaviour {
 		}
 	}
 
-	#endregion
-
-	#region cnt
-//	/// Client side prediction for pushing
-//	/// This allows instant pushing reaction to a pushing event
-//	/// on the client who instigated it. The server then validates
-//	/// the transform position and returns it if it is illegal
-//	public void PushToPosition( Vector3 pos, float speed, PushPull pushComponent ) {
-//		if(pushComponent.pushing || predictivePushing){
-//			return;
-//		}
-//		TransformState newState = clientState;
-//		newState.Active = true;
-//		newState.Speed = speed;
-//		newState.Position = pos;
-//		UpdateClientState(newState);
-//		predictivePushing = true;
-//		pushComponent.pushing = true;
-//	}
 	#endregion
 
 	#region old

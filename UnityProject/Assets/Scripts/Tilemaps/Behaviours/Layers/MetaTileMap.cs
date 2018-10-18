@@ -124,7 +124,7 @@ using UnityEngine;
 					var objects = Matrix.Get<RegisterTile>( position ).ToArray();
 					for ( var i = 0; i < objects.Length; i++ ) {
 						var o = objects[i];
-						if ( /*o.ObjectType != ObjectType.Player &&*/ !o.IsPassable() ) {
+						if ( !o.IsPassable() ) {
 							return false;
 						}
 					}

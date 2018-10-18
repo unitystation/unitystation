@@ -32,8 +32,7 @@ public struct ThrowInfo
 
 public partial class CustomNetTransform {
 	private PushPull pushPull;
-	[HideInInspector]
-	public int PushSpeed = 6;
+	private int PushSpeed = 6;
 	public PushPull PushPull => pushPull ? pushPull : ( pushPull = GetComponent<PushPull>() );
 
 	/// Containers and other objects meant to be snapped by tile
@@ -224,8 +223,8 @@ public partial class CustomNetTransform {
 		SetPosition( pos, false );
 		Vector2 impulse = Random.insideUnitCircle.normalized;
 		//don't apply impulses if item isn't going to float in that direction
-		Vector3Int newGoal = CeilWithContext( serverState.WorldPosition + ( Vector3 ) impulse, impulse );
-		if ( CanDriftTo( newGoal ) ) {
+		Vector3Int newGoal = CeilWithContext( serverState.WorldPosition, impulse );
+		if ( MatrixManager.IsNoGravityAt( newGoal ) ) {
 			serverState.Impulse = impulse;
 			serverState.Speed = Random.Range( 0.2f, 2f );
 		}

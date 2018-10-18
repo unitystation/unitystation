@@ -71,6 +71,11 @@ public class Matrix : MonoBehaviour
 
 		return true;
 	}
+
+	public bool IsNoGravityAt( Vector3Int position ) {
+		return metaTileMap.IsNoGravityAt( position );
+	}
+
 	public bool IsNonStickyAt(Vector3Int position)
 	{
 		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));

@@ -40,6 +40,10 @@ public class MatrixManager : MonoBehaviour
 	public static bool IsNonStickyAt(Vector3Int worldPos){
 		return isAtInternal( mat => mat.Matrix.IsNonStickyAt( WorldToLocalInt( worldPos, mat ) ) );
 	}
+	///Cross-matrix edition of <see cref="Matrix.IsNoGravityAt(UnityEngine.Vector3Int)"/>
+	public static bool IsNoGravityAt(Vector3Int worldPos){
+		return isAtInternal( mat => mat.Matrix.IsNoGravityAt( WorldToLocalInt( worldPos, mat ) ) );
+	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject,UnityEngine.Vector3Int)"/>
 	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos){
