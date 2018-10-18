@@ -79,6 +79,15 @@ public class CentComm : MonoBehaviour
 			var paper = p.GetComponent<Paper>();
 			paper.SetServerString(CreateStartGameReport());
 		}
+
+		ChatEvent announcement = new ChatEvent{
+			channels = ChatChannel.System,
+			message = CommandUpdateAnnouncementString()
+		};
+		ChatRelay.Instance.AddToChatLogServer(announcement);
+
+		PlaySoundMessage.SendToAll("Notice1", Vector3.zero, 1f);
+		PlaySoundMessage.SendToAll("InterceptMessage", Vector3.zero, 1f);
 	}
 
 	private string CreateStartGameReport()
@@ -97,5 +106,17 @@ public class CentComm : MonoBehaviour
 		}
 
 		return report;
+	}
+
+	private string CommandUpdateAnnouncementString()
+	{
+		return "\n\n<color=white><size=30><b>Central Command Update</b></size>"
+		+ "\n\n<b><size=20>Enemy communication intercepted. Security level elevated."
+		+ "</size></b></color>\n\n<color=#FF151F><size=18>A summary has been copied and"
+		+ " printed to all communications consoles. </size></color>\n\n<color=#FF151F><b>"
+		+ "Attention! Security level elevated to blue:</b></color>\n<color=white><size=18>"
+		+ "<b>The station has received reliable information about possible hostile activity"
+		+ " on the station. Security staff may have weapons visible. Searches are permitted"
+		+ " only with probable cause.</b></size></color>\n\n";
 	}
 }
