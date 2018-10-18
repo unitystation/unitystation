@@ -236,18 +236,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 	/// Manually set an item to a specific position. Use WorldPosition!
 	[Server]
-	public void SetPosition(Vector3 worldPos, bool notify = true, bool keepRotation = false/*, float speed = 4f, bool _isPushing = false*/) {
-//		Only allow one movement at a time if it is currently being pushed
-//		if(isPushing || predictivePushing){
-//			if(predictivePushing && _isPushing){
-//				This is if the server player is pushing because the predictive flag
-				//will be set early we still need to notify the players so call it here:
-//				UpdateServerTransformState(pos, notify, speed);
-				//And then set the isPushing flag:
-//				isPushing = true;
-//			}
-//			return;
-//		}
+	public void SetPosition(Vector3 worldPos, bool notify = true, bool keepRotation = false) {
 		Vector2 pos = worldPos; //Cut z-axis
 		serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
 //		serverState.Speed = speed;
@@ -259,12 +248,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			NotifyPlayers();
 		}
 
-		serverLerpState.MatrixId = serverState.MatrixId;//?
-		//Set it to being pushed if it is a push net action
-//		if(_isPushing){
-		//This is synced via syncvar with all players
-//			isPushing = true;
-//		}
+		var preservedLerpPos = serverLerpState.WorldPosition;
+		serverLerpState.MatrixId = serverState.MatrixId;
+		serverLerpState.WorldPosition = preservedLerpPos;
 	}
 
 	[Server]
@@ -283,10 +269,13 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, serverState.MatrixId, newMatrixId );
 
 			//It's very important to save World Pos before matrix switch and restore it back afterwards
-			var worldPosToPreserve = serverState.WorldPosition;
+			var preservedPos = serverState.WorldPosition;
 			serverState.MatrixId = newMatrixId;
-			serverState.WorldPosition = worldPosToPreserve;
-			serverLerpState.MatrixId = serverState.MatrixId;//?
+			serverState.WorldPosition = preservedPos;
+
+			var preservedLerpPos = serverLerpState.WorldPosition;
+			serverLerpState.MatrixId = serverState.MatrixId;
+			serverLerpState.WorldPosition = preservedLerpPos;
 			if ( notify ) {
 				NotifyPlayers();
 			}
