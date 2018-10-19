@@ -467,4 +467,9 @@ public class PushPull : VisibleBehaviour {
 //	}
 
 	#endregion
+
+	//Stop object
+	public void Stop() {
+		Pushable.Stop();
+	}
 }

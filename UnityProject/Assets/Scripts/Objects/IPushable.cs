@@ -12,6 +12,8 @@ public interface IPushable {
 	Vector3IntEvent OnClientTileReached();
 //	Transform ServerTransform();
 	bool CanPredictPush { get; }
+	/// Try stopping object if it's flying
+	void Stop();
 }
 
 public class Vector3IntEvent : UnityEvent<Vector3Int> {}

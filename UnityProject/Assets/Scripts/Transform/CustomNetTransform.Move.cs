@@ -89,6 +89,11 @@ public partial class CustomNetTransform {
 	}
 
 	public bool CanPredictPush => !IsClientLerping;
+
+	public void Stop() {
+		StopFloating();
+	}
+
 	public bool IsClientLerping => transform.localPosition != MatrixManager.WorldToLocal( clientState.WorldPosition, MatrixManager.Get( matrix ) );
 
 	/// Predictive client movement

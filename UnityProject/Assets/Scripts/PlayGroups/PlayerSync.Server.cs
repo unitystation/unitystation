@@ -452,7 +452,8 @@ public partial class PlayerSync
 	private void CheckMovementServer()
 	{
 		//Space walk checks
-		if ( IsNonStickyServer )
+		bool nonSticky = IsNonStickyServer;
+		if ( nonSticky )
 		{
 			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
 			{
@@ -476,26 +477,34 @@ public partial class PlayerSync
 			}
 		}
 
-		if ( !IsWeightlessServer )
-		{
-
-			if ( consideredFloatingServer ) {
-				//removing lastDirection when we hit an obstacle in space
-				serverLastDirection = Vector2.zero;
-
-				//finish floating. players will be notified as soon as serverState catches up
-				serverState.Impulse = Vector2.zero;
-				serverState.ResetClientQueue = true;
-
-				//Stopping spacewalk increases move number
-				serverState.MoveNumber++;
-
-				//Notify if position stayed the same
-				NotifyPlayers();
-			}
+		if ( !IsWeightlessServer ) {
+			Stop();
 		}
 
 		CheckSpaceDamage();
+	}
+
+	public void Stop() {
+		if ( consideredFloatingServer ) {
+			PushPull spaceObjToGrab;
+			if ( IsAroundPushables( serverState, out spaceObjToGrab ) && spaceObjToGrab.IsSolid ) {
+				//can sometimes end up one tile away from grab range
+				spaceObjToGrab.Stop();
+			}
+
+			//removing lastDirection when we hit an obstacle in space
+			serverLastDirection = Vector2.zero;
+
+			//finish floating. players will be notified as soon as serverState catches up
+			serverState.Impulse = Vector2.zero;
+			serverState.ResetClientQueue = true;
+
+			//Stopping spacewalk increases move number
+			serverState.MoveNumber++;
+
+			//Notify if position stayed the same
+			NotifyPlayers();
+		}
 	}
 
 	private void ServerLerp() {
