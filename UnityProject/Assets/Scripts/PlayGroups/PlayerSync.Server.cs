@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -212,7 +213,7 @@ public partial class PlayerSync
 		}
 		serverState.NoLerp = noLerp;
 		var msg = PlayerMoveMessage.SendToAll(gameObject, serverState);
-		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
+//		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
 		//Clearing state flags
 		serverState.ImportantFlightUpdate = false;
 		serverState.ResetClientQueue = false;
@@ -371,21 +372,23 @@ public partial class PlayerSync
 		yield return YieldHelper.DeciSecond;
 	}
 
-	private void InteractSpacePushable( PushPull pushable, Vector2 direction ) {
+	private void InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false ) {
 		Logger.LogTraceFormat( "Trying to space push {0}", Category.PushPull, pushable.gameObject );
 		Vector2 counterDirection = Vector2.zero - direction;
-		
-		pushable.TryPush( Vector2Int.RoundToInt( counterDirection ) );
+
+		if ( !isRecursive ) {
+			pushable.TryPush( Vector2Int.RoundToInt( counterDirection ) );
+		}
 
 		bool pushedPlayer = Push( Vector2Int.RoundToInt( direction ) );
 		PushPull newPushable;
-		if ( pushedPlayer 
-		     && !IsWeightlessServer 
-		     && IsAroundPushables( serverState, out newPushable ) 
+		if ( pushedPlayer
+		     && !IsWeightlessServer
+		     && IsAroundPushables( serverState, out newPushable )
 		     && newPushable == pushable //?
 		)
 		{ //pushing player again so he doesn't get stop because of the same pushable again
-			InteractSpacePushable( pushable, direction );
+			InteractSpacePushable( pushable, direction, true );
 		}
 	}
 
@@ -500,7 +503,8 @@ public partial class PlayerSync
 		//and inform players if serverState reached targetState afterwards
 		Vector3 targetPos = serverState.WorldPosition;
 		serverLerpState.WorldPosition =
-			Vector3.MoveTowards( serverLerpState.WorldPosition, targetPos, playerMove.speed * Time.deltaTime );
+			Vector3.MoveTowards( serverLerpState.WorldPosition, targetPos, playerMove.speed * Time.deltaTime
+			                                                                                * Util.SpeedMod(serverLerpState.WorldPosition, targetPos) );
 		//failsafe
 		var distance = Vector3.Distance( serverLerpState.WorldPosition, targetPos );
 		if ( distance > 1.5 ) {

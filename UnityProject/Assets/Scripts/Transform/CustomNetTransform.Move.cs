@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Light2D;
 using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
@@ -148,7 +149,8 @@ public partial class CustomNetTransform {
 			return;
 		}
 		transform.localPosition =
-			Vector3.MoveTowards( transform.localPosition, targetPos, clientState.Speed * Time.deltaTime );
+			Vector3.MoveTowards( transform.localPosition, targetPos, clientState.Speed * Time.deltaTime
+			                                                                           * Util.SpeedMod(transform.localPosition, targetPos) );
 		if ( transform.localPosition == targetPos ) {
 			onClientTileReached.Invoke( Vector3Int.RoundToInt(clientState.WorldPosition) );
 		}
@@ -163,7 +165,8 @@ public partial class CustomNetTransform {
 			return;
 		}
 		serverLerpState.Position =
-			Vector3.MoveTowards( serverLerpState.Position, targetPos, serverState.Speed * Time.deltaTime );
+			Vector3.MoveTowards( serverLerpState.Position, targetPos, serverState.Speed * Time.deltaTime
+			                                                                            * Util.SpeedMod(serverLerpState.Position, targetPos) );
 
 		if ( serverLerpState.Position == targetPos ) {
 			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
@@ -288,7 +291,7 @@ public partial class CustomNetTransform {
 
 		serverState.WorldPosition = tempGoal;
 		//Spess drifting is perpetual, but speed decreases each tile if object has landed (no throw) on the floor
-		if ( !IsBeingThrown && !MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
+		if ( !IsBeingThrown && !MatrixManager.IsNoGravityAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
 			//on-ground resistance
 
 			//no slide inertia for tile snapped objects like closets
@@ -351,10 +354,11 @@ public partial class CustomNetTransform {
 	/// Stopping drift, killing impulse
 	[Server]
 	private void StopFloating() {
-//		Logger.Log( $"{gameObject.name} stopped floating" );
+		Logger.Log( $"{gameObject.name} stopped floating", Category.Transform );
 		if ( IsTileSnap ) {
 			serverState.Position = Vector3Int.RoundToInt( serverState.Position );
-		} else {
+		}
+		else {
 			serverState.Speed = 0;
 		}
 		serverState.Impulse = Vector2.zero;

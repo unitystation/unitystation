@@ -248,9 +248,14 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			NotifyPlayers();
 		}
 
-		var preservedLerpPos = serverLerpState.WorldPosition;
-		serverLerpState.MatrixId = serverState.MatrixId;
-		serverLerpState.WorldPosition = preservedLerpPos;
+		//Don't lerp (instantly change pos) if active state was changed
+		if ( serverState.Speed > 0 ) {
+			var preservedLerpPos = serverLerpState.WorldPosition;
+			serverLerpState.MatrixId = serverState.MatrixId;
+			serverLerpState.WorldPosition = preservedLerpPos;
+		} else {
+			serverLerpState = serverState;
+		}
 	}
 
 	[Server]
@@ -286,6 +291,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public void DisappearFromWorldServer()
 	{
 		serverState = TransformState.HiddenState;
+		serverLerpState = TransformState.HiddenState;
 		NotifyPlayers();
 	}
 

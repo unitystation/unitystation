@@ -578,6 +578,15 @@ namespace Light2D
         {
             return col1.r == col2.r && col1.g == col2.g && col1.b == col2.b && col1.a == col2.a;
         }
+
+	    public static float SpeedMod( Vector3 origin, Vector3 target ) {
+		    float distance = Vector2.Distance( origin, target );
+		    if ( distance <= 0.5 ) {
+			    return 1;
+		    }
+
+		    return distance * 2;
+	    }
     }
 
     internal class GenericEqualityComparer<T> : IEqualityComparer<T>

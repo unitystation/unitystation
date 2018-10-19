@@ -113,7 +113,7 @@ public class PushPull : VisibleBehaviour {
 	#region Events
 
 	private void OnServerTileReached( Vector3Int pos ) {
-		Logger.LogTraceFormat( "{0} is reached ON SERVER", Category.PushPull, pos );
+//		Logger.LogTraceFormat( "{0} is reached ON SERVER", Category.PushPull, pos );
 		isPushing = false;
 	}
 
