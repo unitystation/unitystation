@@ -10,6 +10,9 @@ public class RenderSettings
 	[Tooltip("Intensity of the mask alpha.")]
 	public float ambient = 1;
 
+	[Tooltip("Renders light during two frames, effectively making lighting render in 30fps. Boosts performance, affects quality while moving.")]
+	public bool doubleFrameRenderingMode;
+
 	[Tooltip("Multiplication of lighting pass for quick adjustment.")]
 	public float lightMultiplier;
 

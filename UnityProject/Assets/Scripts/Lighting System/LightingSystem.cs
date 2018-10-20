@@ -16,8 +16,8 @@ public class LightingSystem : MonoBehaviour
 	public float fovDistance;
 	public RenderSettings.Quality quality;
 	public RenderSettings renderSettings;
-	public MaterialContainer materialContainer;
-
+	public MaterialContainer materialContainer;	
+	
 	private Camera mMainCamera;
 	private OcclusionMaskRenderer mOcclusionRenderer;
 	private LightMaskRenderer mLightMaskRenderer;
@@ -29,6 +29,7 @@ public class LightingSystem : MonoBehaviour
 	private PixelPerfectRT mObstacleLightMask;
 	private PixelPerfectRT mOcclusionPPRT;
 	private PixelPerfectRT mlightPPRT;
+	private bool mDoubleFrameRendererSwitch;
 
 	// Note: globalOcclusionMask and occlusionMaskExtended are shader seters.
 	private PixelPerfectRT globalOcclusionMask
@@ -194,11 +195,11 @@ public class LightingSystem : MonoBehaviour
 			_newParameters.InitializeData();
 			operationParameters = _newParameters;
 
-			ResetRenderingTextures(operationParameters);
+			ResolveRenderingTextures(operationParameters);
 		}
 	}	
 
-	private void ResetRenderingTextures(OperationParameters iParameters)
+	private void ResolveRenderingTextures(OperationParameters iParameters)
 	{
 		// Prepare render textures.
 		occlusionMaskExtended = new PixelPerfectRT(operationParameters.fovPPRTParameter);
@@ -218,6 +219,12 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnPreRender()
 	{
+		if (renderSettings.doubleFrameRenderingMode && mDoubleFrameRendererSwitch == false)
+		{
+			Shader.SetGlobalVector("_FovMaskTransformation", globalOcclusionMask.GetTransformation(mMainCamera));
+			return;
+		}
+
 		using (new DisposableProfiler("1. Occlusion Mask Render (No Gfx Time)"))
 		{
 			mOcclusionPPRT = mOcclusionRenderer.Render(mMainCamera, operationParameters.occlusionPPRTParameter, renderSettings);
@@ -265,6 +272,23 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnRenderImage(RenderTexture iSource, RenderTexture iDestination)
 	{
+		if (renderSettings.doubleFrameRenderingMode)
+		{
+			if (mDoubleFrameRendererSwitch)
+			{
+				var _blitMaterial = materialContainer.blitMaterial;
+				_blitMaterial.SetVector("_LightTransform", mlightPPRT.GetTransformation(mMainCamera));
+				_blitMaterial.SetVector("_OcclusionTransform", occlusionMaskExtended.GetTransformation(mMainCamera));
+
+				Graphics.Blit(iSource, iDestination, _blitMaterial);
+
+				mDoubleFrameRendererSwitch = false;
+				return;
+			}
+
+			mDoubleFrameRendererSwitch = true;
+		}
+
 		if (materialContainer.blitMaterial == null)
 		{
 			Debug.Log($"FovSystemManager: Unable to blit Fov mask. {nameof(materialContainer.blitMaterial)} not provided.");
@@ -279,14 +303,22 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("5. Light Mask Render (No Gfx Time)"))
 		{
-			mlightPPRT = mLightMaskRenderer.Render(mMainCamera, operationParameters.lightPPRTParameter, occlusionMaskExtended, renderSettings);
+			mlightPPRT = mLightMaskRenderer.Render(
+				mMainCamera,
+				operationParameters.lightPPRTParameter,
+				occlusionMaskExtended,
+				renderSettings);
 		}
 
 		using (new DisposableProfiler("6. Generate Obstacle Light Mask"))
 		{
-			mPostProcessingStack.CreateWallLightMask(mlightPPRT, obstacleLightMask, renderSettings, operationParameters.cameraOrthographicSize);
+			mPostProcessingStack.CreateWallLightMask(
+				mlightPPRT,
+				obstacleLightMask,
+				renderSettings,
+				operationParameters.cameraOrthographicSize);
 		}
-
+		
 		// Debug View Selection.
 		if (renderSettings.viewMode == RenderSettings.ViewMode.LightLayer)
 		{
@@ -323,7 +355,6 @@ public class LightingSystem : MonoBehaviour
 		{
 			mPostProcessingStack.BlurLightMask(mlightPPRT.renderTexture, renderSettings, operationParameters.cameraOrthographicSize);
 		}
-
 
 		using (new DisposableProfiler("8. Mix Light Masks"))
 		{

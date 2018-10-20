@@ -6,14 +6,11 @@ public struct OperationParameters : IEquatable<OperationParameters>
 	public readonly float cameraOrthographicSize;
 	public readonly Vector2Int screenSize;
 	public readonly float cameraAspect;
-	public readonly int antiAliasing;
 	public readonly Vector3 cameraViewportUnitsInWorldSpace;
 	public readonly PixelPerfectRTParameter occlusionPPRTParameter;
 	public readonly PixelPerfectRTParameter fovPPRTParameter;
 	public readonly PixelPerfectRTParameter lightPPRTParameter;
 	public readonly PixelPerfectRTParameter obstacleLightPPRTParameter;
-
-	private const float DefaultCameraSize = 4;
 
 	private bool mExtendedDataCalculated;
 	private float mExtendedCameraSize;
@@ -31,7 +28,6 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		cameraAspect = iCamera.aspect;
 
 		lightTextureWidth = iRenderSettings.lightTextureWidth;
-		antiAliasing = Mathf.Clamp(iRenderSettings.antiAliasing, 1, 16);
 		cameraViewportUnitsInWorldSpace = iCamera.WorldToViewportPoint(Vector3.zero) - iCamera.WorldToViewportPoint(Vector3.one);
 		cameraViewportUnits = iCamera.ViewportToWorldPoint(Vector3.one) - iCamera.ViewportToWorldPoint(Vector3.zero);
 
@@ -139,11 +135,9 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		       this.screenSize == iOperation.screenSize &&
 		       this.cameraAspect == iOperation.cameraAspect &&
 		       this.lightTextureWidth == iOperation.lightTextureWidth &&
-		       this.antiAliasing == iOperation.antiAliasing &&
 		       this.occlusionPPRTParameter == iOperation.occlusionPPRTParameter &&
 		       this.fovPPRTParameter == iOperation.fovPPRTParameter &&
 		       this.lightPPRTParameter == iOperation.lightPPRTParameter &&
 		       this.obstacleLightPPRTParameter == iOperation.obstacleLightPPRTParameter;
 	}
-
 }
