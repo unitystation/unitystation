@@ -1,7 +1,10 @@
-﻿using UnityEditor;
+﻿
+#if UNITY_EDITOR
+
+using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(PixelPerfectRTParameter))]
+	[CustomPropertyDrawer(typeof(PixelPerfectRTParameter))]
 public class PixelPerfectRTParameterEditor : PropertyDrawer
 {
 	public override void OnGUI(Rect iPosition, SerializedProperty iProperty, GUIContent iLabel)
@@ -46,3 +49,5 @@ public class PixelPerfectRTParameterEditor : PropertyDrawer
 		EditorGUI.EndProperty();
 	}
 }
+
+#endif

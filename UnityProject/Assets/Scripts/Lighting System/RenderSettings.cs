@@ -66,6 +66,8 @@ public class RenderSettings
 
 	public int occlusionDetail;
 	public ReSamplePower fovResample;
+	public ReSamplePower lightResample;
+
 
 	[NonSerialized]
 	public Quality quality;

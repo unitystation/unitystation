@@ -28,8 +28,9 @@ struct light2d_fixed_v2f
 	half2 aspect : TEXCOORD3;
 };
 			
-uniform sampler2D _FovExtendedMask;
-uniform sampler2D _MainTex;
+SamplerState sampler_linear_clamp;
+uniform Texture2D _FovExtendedMask;
+uniform Texture2D _MainTex;
 uniform half _EmissionColorMul;
 uniform float4 _FovTransformation;
 
@@ -67,14 +68,14 @@ light2d_fixed_v2f light2d_fixed_vert (light2d_fixed_data_t v)
 
 half4 light2_fixed_frag (light2d_fixed_v2f i) : COLOR
 {
-    half4 tex = tex2D(_MainTex, i.texcoord);
-
+    half4 tex = _MainTex.Sample(sampler_linear_clamp, i.texcoord); //tex2D(_MainTex, i.texcoord);
+	 
 	half2 thisPos = i.thisPos;
 	half2 centerPos = i.centerPos;
 
 	half sub = 1.0/PATH_TRACKING_SAMPLES;
 		
-	half4 colorizedTex = i.color*tex*tex.a*i.color.a;
+	half4 colorizedTex = i.color * tex * tex.a * i.color.a;
 	half4 col = colorizedTex;
 
 	half pos = 0;
@@ -82,11 +83,12 @@ half4 light2_fixed_frag (light2d_fixed_v2f i) : COLOR
 	for(int i = 0; i < PATH_TRACKING_SAMPLES; i++)
 	{
 		pos += sub; 
-		half4 obstacle = tex2D(_FovExtendedMask, lerp(centerPos, thisPos, pos));
+		//half4 obstacle = tex2D(_FovExtendedMask, lerp(centerPos, thisPos, pos));
+		half4 obstacle = _FovExtendedMask.Sample(sampler_linear_clamp, lerp(centerPos, thisPos, pos));
 		col *= 1-obstacle.r;
 	}
 	
-	half4 fov = tex2D(_FovExtendedMask, thisPos);
+	half4 fov = _FovExtendedMask.Sample(sampler_linear_clamp, thisPos);
 	col.rgb += colorizedTex * fov.b;
 	col.rgb *= fov.g;
 	col.rgb *= _EmissionColorMul;

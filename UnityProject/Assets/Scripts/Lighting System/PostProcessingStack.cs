@@ -6,7 +6,7 @@ public class PostProcessingStack
 	private readonly MaterialContainer mMaterialContainer;
 	private RenderTexture mBlurRenderTexture;
 	private RenderTexture mBlurRenderTextureLight;
-	private RenderTexture mBlurRenderTextureWallLight;
+	private RenderTexture mBlurRenderTextureOccLight;
 
 	public PostProcessingStack(MaterialContainer iMaterialContainer)
 	{
@@ -55,24 +55,24 @@ public class PostProcessingStack
 		}
 	}
 
-	private RenderTexture blurRenderTextureWallLight
+	private RenderTexture blurRenderTextureOccLight
 	{
 		get
 		{
-			return mBlurRenderTextureWallLight;
+			return mBlurRenderTextureOccLight;
 		}
 
 		set
 		{
-			if (mBlurRenderTextureWallLight == value)
+			if (mBlurRenderTextureOccLight == value)
 				return;
 
-			if (mBlurRenderTextureWallLight != null)
+			if (mBlurRenderTextureOccLight != null)
 			{
-				mBlurRenderTextureWallLight.Release();
+				mBlurRenderTextureOccLight.Release();
 			}
 
-			mBlurRenderTextureWallLight = value;
+			mBlurRenderTextureOccLight = value;
 		}
 	}
 
@@ -125,13 +125,13 @@ public class PostProcessingStack
 		}
 
 		{
-			var _newRenderTexture = new RenderTexture(iParameters.lightOcclusionTextureSize.x, iParameters.lightOcclusionTextureSize.y, 0, RenderTextureFormat.Default);
+			var _newRenderTexture = new RenderTexture(iParameters.obstacleLightPPRTParameter.resolution.x, iParameters.obstacleLightPPRTParameter.resolution.y, 0, RenderTextureFormat.Default);
 			_newRenderTexture.name = "Blur Render Texture";
 			_newRenderTexture.autoGenerateMips = false;
 			_newRenderTexture.useMipMap = false;
 
 			// Note: Assignment will release previous texture if exist.
-			blurRenderTextureWallLight = _newRenderTexture;
+			blurRenderTextureOccLight = _newRenderTexture;
 		}
 	}
 
@@ -213,16 +213,16 @@ public class PostProcessingStack
 	}
 	
 	public void CreateWallLightMask(
-		RenderTexture iLightMask,
-		RenderTexture iObstacleLightMask,
+		PixelPerfectRT iLightMask,
+		PixelPerfectRT iObstacleLightMask,
 		RenderSettings iRenderSettings,
 		float iCameraSize)
 	{
 		// Down Scale light mask and blur it.
-		Graphics.Blit(iLightMask, iObstacleLightMask);
+		PixelPerfectRT.Transform(iLightMask, iObstacleLightMask, mMaterialContainer.PPRTTransformMaterial);
 
 		mMaterialContainer.lightWallBlurMaterial.SetVector("_MultiLimit", new Vector4(iRenderSettings.occlusionMaskMultiplier,iRenderSettings.occlusionMaskLimit,0,0));
 
-		Blur(iObstacleLightMask, mMaterialContainer.lightWallBlurMaterial, iRenderSettings.occlusionBlurInterpolation, iRenderSettings.occlusionBlurIterations, blurRenderTextureWallLight, iCameraSize);
+		Blur(iObstacleLightMask.renderTexture, mMaterialContainer.lightWallBlurMaterial, iRenderSettings.occlusionBlurInterpolation, iRenderSettings.occlusionBlurIterations, blurRenderTextureOccLight, iCameraSize);
 	}
 }

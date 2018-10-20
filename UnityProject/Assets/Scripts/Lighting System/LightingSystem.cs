@@ -19,15 +19,14 @@ public class LightingSystem : MonoBehaviour
 	public MaterialContainer materialContainer;
 
 	private Camera mMainCamera;
-	private ITextureRenderer mOcclusionRenderer;
+	private OcclusionMaskRenderer mOcclusionRenderer;
 	private LightMaskRenderer mLightMaskRenderer;
 	private BackgroundRenderer mBackgroundRenderer;
 	private PostProcessingStack mPostProcessingStack;
 	private PixelPerfectRT mGlobalOcclusionMask;
 	private PixelPerfectRT mOcclusionMaskExtended;
 	private PixelPerfectRT mMixedLightMask;
-	private RenderTexture mObstacleLightMask;
-
+	private PixelPerfectRT mObstacleLightMask;
 	private PixelPerfectRT mOcclusionPPRT;
 	private PixelPerfectRT mlightPPRT;
 
@@ -97,7 +96,7 @@ public class LightingSystem : MonoBehaviour
 		}
 	}
 	
-	private RenderTexture obstacleLightMask
+	private PixelPerfectRT obstacleLightMask
 	{
 		get
 		{
@@ -209,13 +208,7 @@ public class LightingSystem : MonoBehaviour
 		mixedLightMask = new PixelPerfectRT(operationParameters.lightPPRTParameter);
 		mixedLightMask.renderTexture.filterMode = FilterMode.Point;
 
-		obstacleLightMask = new RenderTexture(
-			                    operationParameters.lightPPRTParameter.resolution.x,
-			                    operationParameters.lightPPRTParameter.resolution.y,
-			                    0)
-				                    {
-					                    filterMode = FilterMode.Point
-				                    };
+		obstacleLightMask = new PixelPerfectRT(operationParameters.obstacleLightPPRTParameter);
 
 		// Let members handle their own textures.
 		// Possibly move to container?
@@ -246,7 +239,7 @@ public class LightingSystem : MonoBehaviour
 			Vector3 _fovCenterInWorldSpace = transform.TransformPoint(fovCenterOffset);
 			Vector3 _fovCenterOffsetInViewSpace = mMainCamera.WorldToViewportPoint(_fovCenterInWorldSpace) - new Vector3(0.5f, 0.5f, 0);
 			Vector3 _fovCenterOffsetInExtendedViewSpace = _fovCenterOffsetInViewSpace * (float)operationParameters.cameraOrthographicSize / mOcclusionPPRT.orthographicSize;
-
+			
 			mPostProcessingStack.GenerateFovMask(mOcclusionPPRT, occlusionMaskExtended, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, operationParameters);
 		}
 
@@ -291,7 +284,7 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("6. Generate Obstacle Light Mask"))
 		{
-			mPostProcessingStack.CreateWallLightMask(mlightPPRT.renderTexture, obstacleLightMask, renderSettings, operationParameters.cameraOrthographicSize);
+			mPostProcessingStack.CreateWallLightMask(mlightPPRT, obstacleLightMask, renderSettings, operationParameters.cameraOrthographicSize);
 		}
 
 		// Debug View Selection.
@@ -303,7 +296,7 @@ public class LightingSystem : MonoBehaviour
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.WallLayer)
 		{
-			PixelPerfectRT.Transform(obstacleLightMask, iDestination, mlightPPRT, mMainCamera, materialContainer.PPRTTransformMaterial);
+			PixelPerfectRT.Transform(obstacleLightMask, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
 
 			return;
 		}
@@ -331,13 +324,14 @@ public class LightingSystem : MonoBehaviour
 			mPostProcessingStack.BlurLightMask(mlightPPRT.renderTexture, renderSettings, operationParameters.cameraOrthographicSize);
 		}
 
+
 		using (new DisposableProfiler("8. Mix Light Masks"))
 		{
 			// Mix Fov and Light masks.
 			var _fovLightMixMaterial = materialContainer.MaskMixerMaterial;
 			_fovLightMixMaterial.SetTexture("_LightMask", mlightPPRT.renderTexture);
 			_fovLightMixMaterial.SetTexture("_OcclusionMask", globalOcclusionMask.renderTexture);
-			_fovLightMixMaterial.SetTexture("_ObstacleLightMask", obstacleLightMask);
+			_fovLightMixMaterial.SetTexture("_ObstacleLightMask", obstacleLightMask.renderTexture);
 
 			/*
 			if (globalOcclusionMask != null)
@@ -346,8 +340,8 @@ public class LightingSystem : MonoBehaviour
 			}
 			*/
 
-			Graphics.Blit(null, mixedLightMask.renderTexture, _fovLightMixMaterial);
-			mixedLightMask.renderPosition = mlightPPRT.renderPosition;
+			//Graphics.Blit(null, mixedLightMask.renderTexture, _fovLightMixMaterial);
+			//mixedLightMask.renderPosition = mlightPPRT.renderPosition;
 		}
 
 		RenderTexture _backgroundMask = null;
@@ -379,13 +373,19 @@ public class LightingSystem : MonoBehaviour
 		using (new DisposableProfiler("10. Blit Scene with Mixed Lights"))
 		{
 			var _blitMaterial = materialContainer.blitMaterial;
-			_blitMaterial.SetTexture("_LightTex", mixedLightMask.renderTexture);
-			_blitMaterial.SetVector("_LightTransform", mixedLightMask.GetTransformation(mMainCamera));
+			_blitMaterial.SetTexture("_LightMask", mlightPPRT.renderTexture);
+			_blitMaterial.SetTexture("_OcclusionMask", occlusionMaskExtended.renderTexture);
+			_blitMaterial.SetTexture("_ObstacleLightMask", obstacleLightMask.renderTexture);
+			_blitMaterial.SetVector("_LightTransform", mlightPPRT.GetTransformation(mMainCamera));
+			_blitMaterial.SetVector("_OcclusionTransform", occlusionMaskExtended.GetTransformation(mMainCamera));
+
 			_blitMaterial.SetTexture("_BackgroundTex", _backgroundMask);
 			_blitMaterial.SetVector("_AmbLightBloomSA", new Vector4(renderSettings.ambient, renderSettings.lightMultiplier, renderSettings.bloomSensitivity, renderSettings.bloomAdd));
 			_blitMaterial.SetFloat("_BackgroundMultiplier", renderSettings.backgroundMultiplier);
 
 			Graphics.Blit(iSource, iDestination, _blitMaterial);
+
+			mixedLightMask.renderTexture.filterMode = FilterMode.Point;
 		}
 	}
 }

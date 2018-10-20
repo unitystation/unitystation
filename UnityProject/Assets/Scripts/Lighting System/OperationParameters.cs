@@ -11,7 +11,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 	public readonly PixelPerfectRTParameter occlusionPPRTParameter;
 	public readonly PixelPerfectRTParameter fovPPRTParameter;
 	public readonly PixelPerfectRTParameter lightPPRTParameter;
-	public readonly Vector2Int lightOcclusionTextureSize;
+	public readonly PixelPerfectRTParameter obstacleLightPPRTParameter;
 
 	private const float DefaultCameraSize = 4;
 
@@ -41,8 +41,9 @@ public struct OperationParameters : IEquatable<OperationParameters>
 
 		occlusionPPRTParameter = new PixelPerfectRTParameter(mCameraViewportUnitsCeiled + iRenderSettings.occlusionMaskSizeAdd, _initialSampleDetail);
 		fovPPRTParameter = new PixelPerfectRTParameter(occlusionPPRTParameter.units, _initialSampleDetail * (int)iRenderSettings.fovResample);
-		lightPPRTParameter = new PixelPerfectRTParameter(mCameraViewportUnitsCeiled, fovPPRTParameter.pixelPerUnit);
-		lightOcclusionTextureSize = new Vector2Int((int)(lightPPRTParameter.resolution.x * iRenderSettings.occlusionLightTextureRescale), (int)(lightPPRTParameter.resolution.y * iRenderSettings.occlusionLightTextureRescale));
+		lightPPRTParameter = new PixelPerfectRTParameter(mCameraViewportUnitsCeiled, _initialSampleDetail * (int)iRenderSettings.lightResample);
+		//lightOcclusionTextureSize = new Vector2Int((int)(lightPPRTParameter.resolution.x * iRenderSettings.occlusionLightTextureRescale), (int)(lightPPRTParameter.resolution.y * iRenderSettings.occlusionLightTextureRescale));
+		obstacleLightPPRTParameter = new PixelPerfectRTParameter(lightPPRTParameter.units, Mathf.Clamp(_initialSampleDetail, 2, Int32.MaxValue));
 
 		// Set data default.
 		// This will be lazy-calculated when required.
@@ -142,7 +143,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		       this.occlusionPPRTParameter == iOperation.occlusionPPRTParameter &&
 		       this.fovPPRTParameter == iOperation.fovPPRTParameter &&
 		       this.lightPPRTParameter == iOperation.lightPPRTParameter &&
-		       this.lightOcclusionTextureSize == iOperation.lightOcclusionTextureSize;
+		       this.obstacleLightPPRTParameter == iOperation.obstacleLightPPRTParameter;
 	}
 
 }

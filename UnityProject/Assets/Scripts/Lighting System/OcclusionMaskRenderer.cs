@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
+public class OcclusionMaskRenderer : MonoBehaviour
 {
 	private const string MaskCameraName = "Obstacle Mask Camera";
 
@@ -35,7 +35,10 @@ public class OcclusionMaskRenderer : MonoBehaviour, ITextureRenderer
 		return _maskProcessor;
 	} 
 
-	public PixelPerfectRT Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter, RenderSettings iRenderSettings)
+	public PixelPerfectRT Render(
+		Camera iCameraToMatch,
+		PixelPerfectRTParameter iPPRTParameter,
+		RenderSettings iRenderSettings)
 	{
 		// Arrange.
 		var _renderPosition = iPPRTParameter.GetFilteredRendererPosition(iCameraToMatch.transform.position, mPreviousCameraPosition, mPreviousFilteredPosition);
