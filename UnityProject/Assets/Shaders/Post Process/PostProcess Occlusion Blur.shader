@@ -27,15 +27,14 @@ Shader "PostProcess/Occlusion Blur"
 	{
 		float4 vertex : SV_POSITION;
 		float2 texcoord : TEXCOORD0;
-		float2 shifttexcoord : TEXCOORD1;
-		float4 blurTexcoord : TEXCOORD2;
+		float4 blurTexcoord[2] : TEXCOORD2;
 	};
 
 	SamplerState sampler_linear_clamp;
 	uniform Texture2D _MainTex;
 	uniform Texture2D _FovMask;
 	uniform float4 _MainTex_ST;
-	uniform float2 _MainTex_TexelSize;
+	uniform float4 _MainTex_TexelSize;
 
 	uniform float _Radius;
 	float2 _MultiLimit;
@@ -65,7 +64,11 @@ Shader "PostProcess/Occlusion Blur"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
-		float2 offset = float2(_Radius * 0.5f, 0.0); 
+		half aspect = _MainTex_TexelSize.w / _MainTex_TexelSize.z;
+		half _radius = aspect * _Radius;
+ 
+		float2 offset1 = float2(_radius, 0.0); 
+		float2 offset2 = float2(-_radius, _radius);
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
@@ -74,8 +77,10 @@ Shader "PostProcess/Occlusion Blur"
 	#endif
 
 		OUT.texcoord = uv;
-		OUT.blurTexcoord.xy = uv + offset;
-		OUT.blurTexcoord.zw = uv - offset;
+		OUT.blurTexcoord[0].xy = uv + offset1;
+		OUT.blurTexcoord[0].zw = uv - offset1;
+		OUT.blurTexcoord[1].xy = uv + offset2;
+		OUT.blurTexcoord[1].zw = uv - offset2;
 
 		return OUT;
 	}
@@ -86,7 +91,8 @@ Shader "PostProcess/Occlusion Blur"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
-		float2 offset = float2(0.0, _Radius * 1.33333333); 
+		float2 offset1 = float2(0.0, _Radius); 
+		float2 offset2 = float2(_Radius, -_Radius);
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
@@ -95,19 +101,24 @@ Shader "PostProcess/Occlusion Blur"
 	#endif
 
 		OUT.texcoord = uv;
-		OUT.blurTexcoord.xy = uv + offset;
-		OUT.blurTexcoord.zw = uv - offset;
+		OUT.blurTexcoord[0].xy = uv + offset1;
+		OUT.blurTexcoord[0].zw = uv - offset1;
+		OUT.blurTexcoord[1].xy = uv + offset2;
+		OUT.blurTexcoord[1].zw = uv - offset2;
 
 		return OUT;
 	}
 
 	fixed4 frag5Blur (output_5tap IN) : SV_Target
 	{
+		float _samplePower = 0.3;
 		fixed3 mainSample = _MainTex.Sample(sampler_linear_clamp, IN.texcoord).xyz;
 
-		fixed3 blurredSum = mainSample * 0.29411764; 
-		blurredSum += _MainTex.Sample(sampler_linear_clamp, IN.blurTexcoord.xy).xyz * 0.35294117;
-		blurredSum += _MainTex.Sample(sampler_linear_clamp, IN.blurTexcoord.zw).xyz * 0.35294117;
+		fixed3 blurredSum = mainSample * _samplePower; 
+		blurredSum += _MainTex.Sample(sampler_linear_clamp, IN.blurTexcoord[0].xy).xyz * _samplePower;
+		blurredSum += _MainTex.Sample(sampler_linear_clamp, IN.blurTexcoord[0].zw).xyz * _samplePower;
+		blurredSum += _MainTex.Sample(sampler_linear_clamp, IN.blurTexcoord[1].xy).xyz * _samplePower;
+		blurredSum += _MainTex.Sample(sampler_linear_clamp, IN.blurTexcoord[1].zw).xyz * _samplePower;
 
 		float power = _MultiLimit.x;
 		float limit = _MultiLimit.y;

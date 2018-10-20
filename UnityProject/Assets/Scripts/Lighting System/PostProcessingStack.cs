@@ -135,6 +135,40 @@ public class PostProcessingStack
 		}
 	}
 
+	public void GenerateFovMask(
+		PixelPerfectRT iRawOcclusionMask,
+		PixelPerfectRT iGlobalOcclusionExtendedMask,
+		RenderSettings iRenderSettings,
+		Vector3 iFovCenterInViewSpace,
+		float iFovDistance,
+		OperationParameters iOperationParameters)
+	{
+		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
+		mMaterialContainer.fovMaterial.SetFloat("_OcclusionSpread", iRenderSettings.fovOcclusionSpread);
+
+		// Adjust scale from Extended mask to Screen size mask.
+		float _yUVScale = 1 / ((float)iGlobalOcclusionExtendedMask.renderTexture.width / iGlobalOcclusionExtendedMask.renderTexture.height);
+		Vector3 _adjustedDistance = iFovDistance * iOperationParameters.cameraViewportUnitsInWorldSpace * iRawOcclusionMask.orthographicSize / iGlobalOcclusionExtendedMask.orthographicSize;
+
+		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
+		
+		PixelPerfectRT.Blit(iRawOcclusionMask, iGlobalOcclusionExtendedMask, mMaterialContainer.fovMaterial);
+	}
+
+	public void CreateWallLightMask(
+		PixelPerfectRT iLightMask,
+		PixelPerfectRT iObstacleLightMask,
+		RenderSettings iRenderSettings,
+		float iCameraSize)
+	{
+		// Down Scale light mask and blur it.
+		PixelPerfectRT.Transform(iLightMask, iObstacleLightMask, mMaterialContainer.PPRTTransformMaterial);
+
+		mMaterialContainer.lightWallBlurMaterial.SetVector("_MultiLimit", new Vector4(iRenderSettings.occlusionMaskMultiplier,iRenderSettings.occlusionMaskLimit,0,0));
+
+		Blur(iObstacleLightMask.renderTexture, mMaterialContainer.lightWallBlurMaterial, iRenderSettings.occlusionBlurInterpolation, iRenderSettings.occlusionBlurIterations, blurRenderTextureOccLight, iCameraSize);
+	}
+
 	private static bool Blur(
 		RenderTexture iSource,
 		Material iBlurMaterial,
@@ -182,47 +216,5 @@ public class PostProcessingStack
 		}
 
 		return true;
-	}
-
-	public void GenerateFovMask(
-		PixelPerfectRT iRawOcclusionMask,
-		PixelPerfectRT iGlobalOcclusionExtendedMask,
-		RenderSettings iRenderSettings,
-		Vector3 iFovCenterInViewSpace,
-		float iFovDistance,
-		OperationParameters iOperationParameters)
-	{
-		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
-		mMaterialContainer.fovMaterial.SetFloat("_OcclusionSpread", iRenderSettings.fovOcclusionSpread);
-		//mMaterialContainer.fovMaterial.SetVector("_OcclusionTransform", iRawOcclusionMask.GetTransformation(iGlobalOcclusionExtendedMask));
-
-		// Adjust scale from Extended mask to Screen size mask.
-		float _yUVScale = 1 / ((float)iGlobalOcclusionExtendedMask.renderTexture.width / iGlobalOcclusionExtendedMask.renderTexture.height);
-		Vector3 _adjustedDistance = iFovDistance * iOperationParameters.cameraViewportUnitsInWorldSpace * iRawOcclusionMask.orthographicSize / iGlobalOcclusionExtendedMask.orthographicSize;
-
-		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
-		
-		PixelPerfectRT.Blit(iRawOcclusionMask, iGlobalOcclusionExtendedMask, mMaterialContainer.fovMaterial);
-	}
-
-	public void FitExtendedOcclusionMask(RenderTexture iSource, RenderTexture iDestination, OperationParameters iOperationParameters)
-	{
-		Vector2 _scale = new Vector2((float)iOperationParameters.cameraOrthographicSize / iOperationParameters.extendedCameraSize, (float)iOperationParameters.cameraOrthographicSize / iOperationParameters.extendedCameraSize);
-
-		Graphics.Blit(iSource, iDestination, _scale, (Vector2.one - _scale) * 0.5f);
-	}
-	
-	public void CreateWallLightMask(
-		PixelPerfectRT iLightMask,
-		PixelPerfectRT iObstacleLightMask,
-		RenderSettings iRenderSettings,
-		float iCameraSize)
-	{
-		// Down Scale light mask and blur it.
-		PixelPerfectRT.Transform(iLightMask, iObstacleLightMask, mMaterialContainer.PPRTTransformMaterial);
-
-		mMaterialContainer.lightWallBlurMaterial.SetVector("_MultiLimit", new Vector4(iRenderSettings.occlusionMaskMultiplier,iRenderSettings.occlusionMaskLimit,0,0));
-
-		Blur(iObstacleLightMask.renderTexture, mMaterialContainer.lightWallBlurMaterial, iRenderSettings.occlusionBlurInterpolation, iRenderSettings.occlusionBlurIterations, blurRenderTextureOccLight, iCameraSize);
 	}
 }

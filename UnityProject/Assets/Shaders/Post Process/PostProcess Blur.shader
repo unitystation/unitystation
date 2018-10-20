@@ -30,13 +30,10 @@ Shader "PostProcess/Blur"
 		float4 blurTexcoord[2] : TEXCOORD1;
 	};
 
-
 	uniform sampler2D _MainTex;
 	uniform float4 _MainTex_ST;
-	uniform float2 _MainTex_TexelSize;
-
+	uniform float4 _MainTex_TexelSize;
 	uniform float _Radius;
-
 
 	vertexOutput vert (vertexInput IN)
 	{
@@ -63,9 +60,12 @@ Shader "PostProcess/Blur"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
-		
-		float2 offset1 = float2(_Radius, 0.0); 
-		float2 offset2 = float2(-_Radius, _Radius);
+		half aspect = _MainTex_TexelSize.w / _MainTex_TexelSize.z;
+		half _radius = aspect * _Radius;
+
+
+		float2 offset1 = float2(_radius, 0.0); 
+		float2 offset2 = float2(-_radius, _radius);
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
@@ -88,7 +88,7 @@ Shader "PostProcess/Blur"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
-		float2 offset1 = float2(_Radius, 0.0); 
+		float2 offset1 = float2(0.0, _Radius); 
 		float2 offset2 = float2(_Radius, -_Radius);
 
 	#if UNITY_VERSION >= 540
