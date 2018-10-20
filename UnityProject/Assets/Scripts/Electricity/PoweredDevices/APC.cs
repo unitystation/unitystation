@@ -26,7 +26,9 @@ using UnityEngine.Networking;
 
 		private Coroutine coScreenDisplayRefresh;
 
-		public int Resistance = 240;
+		public float  Resistance = 240;
+		public PowerTypeCategory ApplianceType = PowerTypeCategory.APC;
+		public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>();
 
 		//green - fully charged and sufficient power from wire
 		//blue - charging, sufficient power from wire
@@ -35,6 +37,10 @@ using UnityEngine.Networking;
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
+			poweredDevice.CanConnectTo = CanConnectTo;
+			poweredDevice.Categorytype = ApplianceType;
+			poweredDevice.PassedDownResistance = Resistance;
+		//Logger.Log ("Resistance as in model" +poweredDevice.PassedDownResistance.ToString (), Category.Electrical);
 			poweredDevice.OnSupplyChange.AddListener(SupplyUpdate);
 			if (coScreenDisplayRefresh == null)
 				coScreenDisplayRefresh = StartCoroutine(ScreenDisplayRefresh());

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections;
+using System.Collections.Generic;
 
 
 public class SMES : InputTrigger
@@ -22,9 +24,15 @@ public class SMES : InputTrigger
 		public SpriteRenderer statusIndicator;
 		public SpriteRenderer OnOffIndicator;
 		public SpriteRenderer chargeIndicator;
+		public PowerTypeCategory ApplianceType = PowerTypeCategory.SMES;
+		public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
+			PowerTypeCategory.StandardCable
+		};
 
 		public override void OnStartClient(){
 			base.OnStartClient();
+			powerSupply.CanConnectTo = CanConnectTo;
+			powerSupply.Categorytype = ApplianceType;
 			UpdateState(isOn);
 
 			//Test
@@ -36,7 +44,8 @@ public class SMES : InputTrigger
 			isOn = _isOn;
 			if(isOn){
 				//Start the supply of electricity to the circuit:
-				powerSupply.TurnOnSupply(3000f, 20f); //Test supply of 3000volts and 20amps
+
+				powerSupply.TurnOnSupply(20f); //Test supply of 3000volts and 20amps
 
 				OnOffIndicator.sprite = onlineSprite;
 				chargeIndicator.gameObject.SetActive(true);

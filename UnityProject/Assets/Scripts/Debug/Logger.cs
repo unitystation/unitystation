@@ -163,5 +163,6 @@ public enum Category {
 	Research,
 	TileMaps,
 	Construction,
-	DatabaseAPI
+	DatabaseAPI,
+	Electrical
 }

@@ -6,11 +6,6 @@ using UnityEngine;
 	[ExecuteInEditMode]
 	public class StructurePowerWire : MonoBehaviour
 	{
-		/// <summary>
-		///     Go to the Start method to add to this.
-		///     Push the sprite things with a string color as key so you can change it easily or whatever.
-		/// </summary>
-		protected static Dictionary<string, Sprite[]> ColorToSpriteArray;
 
 		/// <summary>
 		///     Color of the wire
@@ -43,7 +38,7 @@ using UnityEngine;
 		{
 			//FIXME this breaks wires that were placed via unity editor:
 			// need to address when we allow users to add wires at runtime
-		//	SetDirection(DirectionStart, DirectionEnd);
+			SetDirection(DirectionStart, DirectionEnd);
 		}
 
 		public void SetDirection(int DirectionStart)
@@ -69,7 +64,7 @@ using UnityEngine;
 			Logger.Log($"DIR START: {DirectionStart} DIR END: {DirectionEnd}", Category.Power);
 			SetSprite();
 		}
-
+		[ContextMenu("FindConnections")]
 		private void SetSprite()
 		{
 			string spritePath = DirectionStart + (DirectionEnd != 0 ? "_" + DirectionEnd : "");

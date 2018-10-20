@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114759812017920740}
   - component: {fileID: 114655278987835384}
   - component: {fileID: 114813624096347676}
+  - component: {fileID: 114487159119372660}
   - component: {fileID: 114267477996268474}
   - component: {fileID: 114605427988546660}
   - component: {fileID: 61191429627008892}
@@ -113,7 +114,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wire: {fileID: 114759812017920740}
   supplySource: {fileID: 0}
+  DownstreamCount: 0
+  UpstreamCount: 0
+  VisibleResistance: 0
   currentTick: 0
+--- !u!114 &114487159119372660
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1042895037894172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8c1a5c007c3dc24f8fb1857c1eeb91a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RelatedWire: {fileID: 114267477996268474}
+  ApplianceType: 1
 --- !u!114 &114605427988546660
 MonoBehaviour:
   m_ObjectHideFlags: 1

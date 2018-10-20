@@ -12,16 +12,30 @@ public class WireConnect : NetworkBehaviour, IElectricityIO
 		private List<IElectricityIO> possibleConns = new List<IElectricityIO>();
 
 		//Objects this wire is connected to
-		private List<IElectricityIO> connections = new List<IElectricityIO>();
+		
 
 		private RegisterItem registerTile;
 		private Matrix matrix => registerTile.Matrix;
+
+		public List<IElectricityIO> connections {get; set;}
 		public PowerSupply supplySource; //Where is the voltage coming from
-		public Dictionary<int,float> ResistanceTosource;
-		public Dictionary<int,HashSet<IElectricityIO>> Downstream;
-		public Dictionary<int,HashSet<IElectricityIO>> Upstream;
-	//public Dictionary<int,float> ResistanceTosource;
-		public Electricity currentChargeInWire;
+		public Dictionary<int,Dictionary<IElectricityIO,float>> CurrentComingFrom {get; set;}
+		public Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceTosource {get; set;}
+		public Dictionary<int,HashSet<IElectricityIO>> Downstream {get; set;}
+		public Dictionary<int,HashSet<IElectricityIO>> Upstream {get; set;}
+		public float ActualCurrent {get; set;}
+		public PowerTypeCategory Categorytype { get; set; }
+		public HashSet<PowerTypeCategory> CanConnectTo {get; set;}
+		public int FirstPresent {get; set;}
+		public int FirstPresentInspector = 0;
+		public float ActualCurrentChargeInWire {get; set;}
+		//For unity editor
+		public int DownstreamCount;
+		public int UpstreamCount;
+		public float VisibleResistance;
+		public float EditorActualCurrentChargeInWire;
+		//public Dictionary<int,float> ResistanceTosource;
+		
 
 		private bool connected = false;
 		public int currentTick = 0;
@@ -35,9 +49,11 @@ public class WireConnect : NetworkBehaviour, IElectricityIO
 		}
 		[ContextMethod("Details","Magnifying_glass")]
 		public void ShowDetails(){
-		Logger.Log("possibleConns " + (connections.Count.ToString()));
-		Logger.Log("possibleConns " + (possibleConns.Count.ToString()));
-		Logger.Log ("ID " + (this.GetInstanceID ()));
+			Logger.Log("connections " + (connections.Count.ToString()), Category.Electrical);
+			Logger.Log("possibleConns " + (possibleConns.Count.ToString()), Category.Electrical);
+			Logger.Log ("ID " + (this.GetInstanceID ()), Category.Electrical);
+			Logger.Log ("Type " + (Categorytype.ToString()), Category.Electrical);
+			Logger.Log ("Can connect to " + (string.Join(",", CanConnectTo)), Category.Electrical);
 		}
 		private void OnDisable()
 		{
@@ -60,29 +76,13 @@ public class WireConnect : NetworkBehaviour, IElectricityIO
 
 		[ContextMenu("FindConnections")]
 		void FindPossibleConnections(){
-			possibleConns.Clear();
 			connections.Clear();
-			int progress = 0;
-			Vector2 searchVec = transform.localPosition;
-			searchVec.x -= 1;
-			searchVec.y -= 1;
-			for (int x = 0; x < 3; x++){
-				for (int y = 0; y < 3; y++){
-					Vector3Int pos = new Vector3Int((int)searchVec.x + x,
-											  (int)searchVec.y + y, 0);
-					var conns = matrix.GetElectricalConnections(pos);
-
-					foreach(IElectricityIO io in conns){
-						possibleConns.Add(io);
-
-						//Check if InputPosition and OutputPosition connect with this wire
-						if(ConnectionMap.IsConnectedToTile(GetConnPoints(), (AdjDir)progress, io.GetConnPoints())){
-							connections.Add(io);
-						} 
-					}
-					progress++;
-				}
-			}
+			connections = ElectricityFunctions.FindPossibleConnections(
+				transform.localPosition,
+				matrix,
+				CanConnectTo,
+				GetConnPoints()
+			);
 		}
 
 		void OnDrawGizmos(){
@@ -117,119 +117,73 @@ public class WireConnect : NetworkBehaviour, IElectricityIO
 			//TODO Remove wire from PowerSupply event if it is no longer connected to it
 			SelfCheckState();
 		}
+	void Awake(){
+		Upstream = new Dictionary<int, HashSet<IElectricityIO>> ();
+		Downstream = new Dictionary<int, HashSet<IElectricityIO>> ();
+		ResistanceTosource = new Dictionary<int, Dictionary<IElectricityIO, float>> ();
+		CurrentComingFrom = new Dictionary<int, Dictionary<IElectricityIO, float>> ();
+		connections = new List<IElectricityIO> ();
+	}
 
 		//Start a monitor of its own state (triggered by a circuit change event)
 		private void SelfCheckState(){
 			//clear the charge in the wire:
-			currentChargeInWire.voltage = 0f;
-			currentChargeInWire.current = 0f;
-			currentChargeInWire.suppliers = new PowerSupply[0];
 
+			ResistanceTosource = new Dictionary<int, Dictionary<IElectricityIO, float>>();
+			Upstream = new Dictionary<int, HashSet<IElectricityIO>> ();
+			Downstream = new Dictionary<int, HashSet<IElectricityIO>> ();
+			CurrentComingFrom = new Dictionary<int, Dictionary<IElectricityIO, float>> ();
 			//After the wire is discharged, wait 1f to see if it has charged again
 			Invoke("CheckState", 1f);
 		}
 
 		//See if there is charge in the wire:
 		private void CheckState(){
-			if(currentChargeInWire.suppliers.Length == 0){
-				if(supplySource != null){
-					//Wire is broken, leave wire discharged and remove the event
-					supplySource.OnCircuitChange.RemoveListener(OnCircuitChanged);
-					connected = false;
-					supplySource = null;
-				}
-			} //else its all good, leave as is
+//			if(currentChargeInWire.suppliers.Length == 0){
+//				if(supplySource != null){
+//					//Wire is broken, leave wire discharged and remove the event
+//					supplySource.OnCircuitChange.RemoveListener(OnCircuitChanged);
+//					connected = false;
+//					supplySource = null;
+//				}
+//			} //else its all good, leave as is
 		}
 
 
 	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom){
-		int SourceInstanceID = SourceInstance.GetInstanceID ();
-		if (!(Upstream.ContainsKey (SourceInstanceID))) {
-			Upstream [SourceInstanceID] = new HashSet<IElectricityIO> ();
-		}
-		Upstream [SourceInstanceID].Add(ComingFrom);
-		DirectionOutput(tick, SourceInstance);
-	}
+		ElectricityFunctions.DirectionInput (tick, SourceInstance,ComingFrom, this);
+		FirstPresentInspector = FirstPresent;
+	} 
 	public void DirectionOutput(int tick, GameObject SourceInstance) {
+		ElectricityFunctions.DirectionOutput (tick, SourceInstance, this);
 		int SourceInstanceID = SourceInstance.GetInstanceID();
-		int Count = 0;
-		for (int i = 0; i < connections.Count; i++){
-			if (Upstream [SourceInstanceID].Contains (connections [i])) {
-				Count++;
-			}
-		}
-		if ((connections.Count - Count) > 1) {
-			//complaina at current source To wait for a bit
-		} else {
-			for (int i = 0; i < connections.Count; i++) {
-				if (!(Upstream [SourceInstanceID].Contains (connections [i]))) {
-					connections [i].DirectionInput (tick, SourceInstance, this.GetComponent<IElectricityIO>);
-				} 
-			}
-		}
+		DownstreamCount = Downstream [SourceInstanceID].Count;
+		UpstreamCount = Upstream [SourceInstanceID].Count;
+		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Upstream[SourceInstanceID].Count.ToString (), Category.Electrical);
 	}
 
 
 	public void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){
-		int SourceInstanceID = SourceInstance.GetInstanceID();
-		if (ResistanceTosource.ContainsKey (SourceInstanceID)) {
-			float Current_resistance = ResistanceTosource [SourceInstanceID];
-			ResistanceTosource [SourceInstanceID] = 1 / ((1 / Current_resistance) + (1 / Resistance));
-
-		} else {
-			ResistanceTosource [SourceInstanceID] = Resistance;
-		}
-			
-		ResistancyOutput(tick, Resistance, SourceInstance);
+		ElectricityFunctions.ResistanceInput (tick, Resistance, SourceInstance, ComingFrom, this);
 	}
 
 	//Output electricity to this next wire/object
 
 	public void ResistancyOutput(int tick, float Resistance, GameObject SourceInstance){
-		float ResistanceSplit = 0;
-		if (connections.Count > 2) {
-			float CalculatedCurrent = 1000 / Resistance;
-			float CurrentSplit = CalculatedCurrent / (connections.Count - 1);
-			ResistanceSplit = 1000 / CurrentSplit;
-		} else {
-			ResistanceSplit = Resistance;
-		}
-		currentTick = tick;
-		for (int i = 0; i < connections.Count; i++){
-			connections[i].ResistanceInput(tick, ResistanceSplit,SourceInstance,this.GetComponent<IElectricityIO>);
-		}
+		VisibleResistance = Resistance; 
+		ElectricityFunctions.ResistancyOutput(tick, Resistance, SourceInstance, this);
+	}
+	public void ElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){ 
+		ElectricityFunctions.ElectricityInput (tick, Current, SourceInstance, ComingFrom, this);
+
 	}
 
-		//Feed electricity into this wire:
-		public void ElectricityInput(int tick, Electricity electricity){ //TODO A struct that can be passed between connections for Voltage, current etc
-			currentChargeInWire = electricity;
 
-			//The supply found at index 0 is the actual source that has combined the resources of the other sources and
-			//sent the actual electrcity struct. So reference that one for supplySource
-			if(supplySource != electricity.suppliers[0]){
-				supplySource = electricity.suppliers[0];
-				supplySource.OnCircuitChange.AddListener(OnCircuitChanged);
-			}
-			//For testing (shows the yellow sphere gizmo that shows it is connected)
-			if (electricity.voltage > 1f) {
-				connected = true;
-			}
-
-			//Pass the charge on:
-			ElectricityOutput(tick, currentChargeInWire);
-		}
-
-		//Output electricity to this next wire/object
-		public void ElectricityOutput(int tick, Electricity electricity){
-			if(currentTick == tick){
-				//No need to process a tick twice
-				return;
-			}
-			currentTick = tick;
-			for (int i = 0; i < connections.Count; i++){
-				connections[i].ElectricityInput(tick, electricity);
-			}
-		}
+	public void ElectricityOutput(int tick, float Current, GameObject SourceInstance){
+		EditorActualCurrentChargeInWire = ActualCurrentChargeInWire;
+		//Logger.Log (EditorActualCurrentChargeInWire.ToString () + " How much current", Category.Electrical);
+		ElectricityFunctions.ElectricityOutput(tick,Current,SourceInstance,this);
+	}
 		
 
 		[ContextMenu("PrintAllLists")]
@@ -248,9 +202,9 @@ public class WireConnect : NetworkBehaviour, IElectricityIO
 
 		[ContextMenu("GenerateTestCurrent")]
 		public void GenerateTestElectricity(){
-			connected = true;
-			Electricity newElec = new Electricity();
-			ElectricityOutput(currentTick + 1, newElec);
+//			connected = true;
+//			Electricity newElec = new Electricity();
+//			ElectricityOutput(currentTick + 1, newElec);
 		}
 	}
 

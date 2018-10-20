@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using System;
 
 /// <summary>
 /// For any object that can conduct electricity
@@ -6,24 +8,34 @@
 /// </summary>
 public interface IElectricityIO
 {
+
+	PowerTypeCategory Categorytype {get; set;}
+	HashSet<PowerTypeCategory> CanConnectTo {get; set;}
+	int FirstPresent {get; set;}
+	Dictionary<int,HashSet<IElectricityIO>> Downstream {get; set;}
+	Dictionary<int,HashSet<IElectricityIO>> Upstream {get; set;}
+	Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceTosource {get; set;}
+	Dictionary<int,Dictionary<IElectricityIO,float>> CurrentComingFrom {get; set;}
+	float ActualCurrentChargeInWire {get; set;}
+	List<IElectricityIO> connections {get; set;}
 	/// <summary>
 	/// The input path to the object/wire
 	/// 
 	/// currentTick = the current tick rate count
 	/// </summary>
-	void ElectricityInput(int currentTick, Electricity electricity);
+	void ElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom);
 
 	/// <summary>
 	/// The output path of the object/wire that is passing electricity through it
 	/// </summary>
-	void ElectricityOutput(int currentTick, Electricity electricity);
+	void ElectricityOutput(int tick, float Current, GameObject SourceInstance);
 
 
 
 	/// <summary>
 	/// Pass resistance with ID of the supplying machine
 	/// </summary>
-	void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom);
+	void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  );
 
 	/// <summary>
 	/// Passes it on to the next cable

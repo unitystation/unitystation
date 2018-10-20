@@ -22,10 +22,18 @@ public class FieldGenerator : InputTrigger
 
 		List<Sprite> animSprites = new List<Sprite>();
 
+		public float  Resistance = 240;
+		public PowerTypeCategory ApplianceType = PowerTypeCategory.FieldGenerator;
+		public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>();
 
 		public override void OnStartClient()
 		{
+			
 			base.OnStartClient();
+			poweredDevice.CanConnectTo = CanConnectTo;
+			poweredDevice.PassedDownResistance = Resistance;
+		//Logger.Log ("Resistance as in model" +poweredDevice.PassedDownResistance.ToString (), Category.Electrical);
+			poweredDevice.Categorytype = ApplianceType;
 			poweredDevice.OnSupplyChange.AddListener(SupplyUpdate);
 			CheckState(isOn);
 		}
