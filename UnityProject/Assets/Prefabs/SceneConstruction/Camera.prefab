@@ -916,15 +916,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba83ad86d60dc1478d96b6283f32732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fovCenterOffset: {x: 0, y: 0.5, z: 0}
+  fovCenterOffset: {x: 0, y: 0.6, z: 0}
   fovDistance: 13
-  quality: 1
   renderSettings:
     viewMode: 0
     ambient: 0.32
-    lightMultiplier: 1.79
-    bloomSensitivity: 0.29
-    bloomAdd: 0.01
+    lightMultiplier: 2
+    bloomSensitivity: 1.75
+    bloomAdd: 0
     backgroundMultiplier: 1.2
     occlusionLayers:
       serializedVersion: 2
@@ -936,23 +935,19 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 16
     fovBlurIterations: 1
-    fovBlurInterpolation: 2.5
-    fovOcclusionSpread: 0.2
+    fovBlurInterpolation: 8
+    fovOcclusionSpread: 0
     fovHorizonSmooth: 23
     lightBlurIterations: 2
-    lightBlurInterpolation: 0.3
+    lightBlurInterpolation: 0.28
     occlusionBlurIterations: 3
-    occlusionBlurInterpolation: 5
-    occlusionMaskMultiplier: 1.25
+    occlusionBlurInterpolation: 3.75
+    occlusionMaskMultiplier: 1
     occlusionMaskLimit: 0.7
-    occlusionLightTextureRescale: 0.4
-    occlusionMaskSizeAdd: {x: 0, y: 0}
-    antiAliasing: 4
-    occlusionDetail: 10
-    fovResample: 1
-    ligthPPRT:
-      units: {x: 7, y: 5}
-      pixelPerUnit: 10
+    occlusionMaskSizeAdd: {x: 5, y: 9}
+    occlusionDetail: 16
+    lightResample: 1
+    doubleFrameRenderingMode: 0
   materialContainer:
     fovBlurMaterial: {fileID: 2100000, guid: 42ccff1e88773c2408dd290281b8e2f5, type: 2}
     blitMaterial: {fileID: 2100000, guid: 340512e20a387c044a10a8b2805b7b98, type: 2}
