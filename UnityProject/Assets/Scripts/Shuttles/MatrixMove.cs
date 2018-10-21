@@ -77,6 +77,20 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 	public MatrixInfo MatrixInfo;
 
+	private Vector3 mPreviousPosition;
+	private Vector2 mPreviousFilteredPosition;
+		
+	private Vector3 clampedPosition
+	{
+		set
+		{
+			transform.position = LightingSystem.GetPixelPerfectPosition(value, mPreviousPosition, mPreviousFilteredPosition);
+
+			mPreviousPosition = value;
+			mPreviousFilteredPosition = transform.position;
+		}
+	}
+
 	public override void OnStartServer()
 	{
 		InitServerState();
@@ -279,13 +293,13 @@ public class MatrixMove : ManagedNetworkBehaviour {
 //			Just set pos without any lerping if distance is too long (serverside teleportation assumed)
 			bool shouldTeleport = distance > 30;
 			if ( shouldTeleport ) {
-				transform.position = clientState.Position;
+				clampedPosition = clientState.Position;
 				return;
 			}
 //			Activate warp speed if object gets too far away or have to rotate
 			bool shouldWarp = distance > 2 || IsRotatingClient;
-			transform.position =
-				Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
+			clampedPosition = clientState.Position;
+				//Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
 		}
 	}
 

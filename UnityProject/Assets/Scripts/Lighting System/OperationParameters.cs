@@ -22,7 +22,9 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		cameraViewportUnits = iCamera.ViewportToWorldPoint(Vector3.one) - iCamera.ViewportToWorldPoint(Vector3.zero);
 		cameraViewportUnitsCeiled = new Vector2Int(Mathf.CeilToInt(cameraViewportUnits.x), Mathf.CeilToInt(cameraViewportUnits.y));
 
-		int _initialSampleDetail = iRenderSettings.occlusionDetail % 2 == 0 ? iRenderSettings.occlusionDetail : ++iRenderSettings.occlusionDetail;
+		bool _highViewMode = PlayerPrefs.GetInt("CamZoomSetting") == 1;
+		var _occlusionDetail = _highViewMode == false ? iRenderSettings.occlusionDetail : iRenderSettings.occlusionDetail / 2;
+		int _initialSampleDetail = iRenderSettings.occlusionDetail % 2 == 0 ? _occlusionDetail : ++_occlusionDetail;
 
 		occlusionPPRTParameter = new PixelPerfectRTParameter(cameraViewportUnitsCeiled + iRenderSettings.occlusionMaskSizeAdd, _initialSampleDetail);
 		fovPPRTParameter = new PixelPerfectRTParameter(occlusionPPRTParameter.units, _initialSampleDetail);

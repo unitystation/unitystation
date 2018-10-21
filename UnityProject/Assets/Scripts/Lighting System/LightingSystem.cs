@@ -16,8 +16,9 @@ public class LightingSystem : MonoBehaviour
 	public float fovDistance;
 	//public RenderSettings.Quality quality;
 	public RenderSettings renderSettings;
-	public MaterialContainer materialContainer;	
-	
+	public MaterialContainer materialContainer;
+
+	private static Func<Vector3, Vector3, Vector2, Vector2> HandlePPPositionRequest;
 	private Camera mMainCamera;
 	private OcclusionMaskRenderer mOcclusionRenderer;
 	private LightMaskRenderer mLightMaskRenderer;
@@ -25,11 +26,20 @@ public class LightingSystem : MonoBehaviour
 	private PostProcessingStack mPostProcessingStack;
 	private PixelPerfectRT mGlobalOcclusionMask;
 	private PixelPerfectRT mOcclusionMaskExtended;
-	private PixelPerfectRT mMixedLightMask;
 	private PixelPerfectRT mObstacleLightMask;
 	private PixelPerfectRT mOcclusionPPRT;
 	private PixelPerfectRT mlightPPRT;
 	private bool mDoubleFrameRendererSwitch;
+
+	public static Vector2 GetPixelPerfectPosition(Vector3 iPosition, Vector3 iPreviousPosition, Vector2 iPreviousFilteredPosition)
+	{
+		if (HandlePPPositionRequest == null)
+		{
+			return iPosition;
+		}
+
+		return HandlePPPositionRequest(iPosition, iPreviousPosition, iPreviousFilteredPosition);
+	}
 
 	// Note: globalOcclusionMask and occlusionMaskExtended are shader seters.
 	private PixelPerfectRT globalOcclusionMask
@@ -76,27 +86,6 @@ public class LightingSystem : MonoBehaviour
 		}
 	}
 
-	private PixelPerfectRT mixedLightMask
-	{
-		get
-		{
-			return mMixedLightMask;
-		}
-
-		set
-		{
-			if (mMixedLightMask == value)
-				return;
-
-			if (mMixedLightMask != null)
-			{
-				mMixedLightMask.Release();
-			}
-
-			mMixedLightMask = value;
-		}
-	}
-	
 	private PixelPerfectRT obstacleLightMask
 	{
 		get
@@ -142,6 +131,8 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnEnable()
 	{
+		HandlePPPositionRequest += ProviderPPPosition;
+
 		// Initialize members.
 		mMainCamera = gameObject.GetComponent<Camera>();
 
@@ -171,6 +162,11 @@ public class LightingSystem : MonoBehaviour
 		}
 	}
 
+	private Vector2 ProviderPPPosition(Vector3 iPosition, Vector3 iPreviousPosition, Vector2 iPreviousFilteredPosition)
+	{
+		return operationParameters.occlusionPPRTParameter.GetFilteredRendererPosition(iPosition, iPreviousPosition, iPreviousFilteredPosition);
+	}
+
 	private void OnDisable()
 	{
 		// Set global occlusion white, so occlusion dependent shaders will show appropriately while system is off.
@@ -178,6 +174,8 @@ public class LightingSystem : MonoBehaviour
 
 		// Default parameters to force parameters update on enable.
 		operationParameters = default(OperationParameters);
+
+		HandlePPPositionRequest -= ProviderPPPosition;
 	}
 
 	private void Update()
@@ -201,9 +199,6 @@ public class LightingSystem : MonoBehaviour
 		occlusionMaskExtended = new PixelPerfectRT(operationParameters.fovPPRTParameter);
 
 		globalOcclusionMask = new PixelPerfectRT(operationParameters.lightPPRTParameter);
-
-		mixedLightMask = new PixelPerfectRT(operationParameters.lightPPRTParameter);
-		mixedLightMask.renderTexture.filterMode = FilterMode.Point;
 
 		obstacleLightMask = new PixelPerfectRT(operationParameters.obstacleLightPPRTParameter);
 
@@ -386,8 +381,6 @@ public class LightingSystem : MonoBehaviour
 			_blitMaterial.SetFloat("_BackgroundMultiplier", renderSettings.backgroundMultiplier);
 
 			Graphics.Blit(iSource, iDestination, _blitMaterial);
-
-			mixedLightMask.renderTexture.filterMode = FilterMode.Point;
 		}
 	}
 }

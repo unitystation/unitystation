@@ -41,12 +41,12 @@ public struct PixelPerfectRTParameter : IEquatable<PixelPerfectRTParameter>
 		bool _yMatchMovement = Mathf.Abs(iPreviousPosition.y - iPositionToMatch.y) > 0.00001f;
 		bool _isMatchDiagonal = _xMatchMovement && _yMatchMovement;
 
-		float _occlusionUnitPerPixel = (float)units.x / (pixelPerUnit * units.x);
+		float _unitPerPixel = (float)units.x / (pixelPerUnit * units.x);
 
 		// Give Position an affinity towards one side. Helps with position noise.
 		var _positionToMatch = iPositionToMatch + new Vector3(0.0001f, -0.0001f, 0);
-		float _x = _occlusionUnitPerPixel * (int)(_positionToMatch.x / _occlusionUnitPerPixel);
-		float _y = _occlusionUnitPerPixel * (int)(_positionToMatch.y / _occlusionUnitPerPixel);
+		float _x = _unitPerPixel * (int)(_positionToMatch.x / _unitPerPixel);
+		float _y = _unitPerPixel * (int)(_positionToMatch.y / _unitPerPixel);
 
 		bool _xFilteredMovement = Mathf.Abs(iPreviousFilteredPosition.x - _x) > 0.00001f;
 		bool _yFilteredMovement = Mathf.Abs(iPreviousFilteredPosition.y - _y) > 0.00001f;
@@ -61,12 +61,16 @@ public struct PixelPerfectRTParameter : IEquatable<PixelPerfectRTParameter>
 		return new Vector2(_x, _y);
 	}
 
-	public static Vector3 NearestPointOnLine(Vector3 linePnt, Vector3 lineDir, Vector3 pnt)
+	public Vector2 GetRendererPosition(Vector3 iPositionToMatch)
 	{
-		lineDir.Normalize();//this needs to be a unit vector
-		var v = pnt - linePnt;
-		var d = Vector3.Dot(v, lineDir);
-		return linePnt + lineDir * d;
+		float _unitPerPixel = (float)units.x / (pixelPerUnit * units.x);
+
+		// Give Position an affinity towards one side. Helps with position noise.
+		var _positionToMatch = iPositionToMatch;// + new Vector3(0.0001f, -0.0001f, 0);
+		float _x = _unitPerPixel * (int)(_positionToMatch.x / _unitPerPixel);
+		float _y = _unitPerPixel * (int)(_positionToMatch.y / _unitPerPixel);
+
+		return new Vector2(_x, _y);
 	}
 
 	public static bool operator ==(PixelPerfectRTParameter iLeftHand, PixelPerfectRTParameter iRightHand)

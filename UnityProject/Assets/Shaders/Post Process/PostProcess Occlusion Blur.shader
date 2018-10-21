@@ -65,10 +65,10 @@ Shader "PostProcess/Occlusion Blur"
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
 		half aspect = _MainTex_TexelSize.w / _MainTex_TexelSize.z;
-		half _radius = aspect * _Radius;
+		half _horRadius = aspect * _Radius;
  
-		float2 offset1 = float2(_radius, 0.0); 
-		float2 offset2 = float2(-_radius, _radius);
+		float2 offset1 = float2(_horRadius, 0.0); 
+		float2 offset2 = float2(_horRadius, _Radius);
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
@@ -91,8 +91,11 @@ Shader "PostProcess/Occlusion Blur"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
+		half aspect = _MainTex_TexelSize.w / _MainTex_TexelSize.z;
+		half _horRadius = aspect * _Radius;
+
 		float2 offset1 = float2(0.0, _Radius); 
-		float2 offset2 = float2(_Radius, -_Radius);
+		float2 offset2 = float2(-_horRadius, _Radius);
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
