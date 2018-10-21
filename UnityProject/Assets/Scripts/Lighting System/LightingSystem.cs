@@ -256,6 +256,7 @@ public class LightingSystem : MonoBehaviour
 		{
 			// Note: This blur is used only with shaders during scene render, so 1 pass should be enough.
 			mPostProcessingStack.BlurOcclusionMask(globalOcclusionMask.renderTexture, renderSettings, operationParameters.cameraOrthographicSize);
+			globalOcclusionMask.renderTexture.filterMode = FilterMode.Point;
 		}
 
 		// Note: After execution of this method, MainCamera.Render will be executed and scene will be drawn.
