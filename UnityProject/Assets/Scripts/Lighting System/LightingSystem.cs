@@ -369,6 +369,10 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("9. Blit Scene with Mixed Lights"))
 		{
+			mlightPPRT.renderTexture.filterMode = FilterMode.Bilinear;
+			obstacleLightMask.renderTexture.filterMode = FilterMode.Bilinear;
+			occlusionMaskExtended.renderTexture.filterMode = FilterMode.Point;
+
 			var _blitMaterial = materialContainer.blitMaterial;
 			_blitMaterial.SetTexture("_LightMask", mlightPPRT.renderTexture);
 			_blitMaterial.SetTexture("_OcclusionMask", occlusionMaskExtended.renderTexture);

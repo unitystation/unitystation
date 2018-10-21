@@ -151,7 +151,8 @@ public class PostProcessingStack
 		Vector3 _adjustedDistance = iFovDistance * iOperationParameters.cameraViewportUnitsInWorldSpace * iRawOcclusionMask.orthographicSize / iGlobalOcclusionExtendedMask.orthographicSize;
 
 		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
-		
+
+		iRawOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
 		PixelPerfectRT.Blit(iRawOcclusionMask, iGlobalOcclusionExtendedMask, mMaterialContainer.fovMaterial);
 	}
 
@@ -199,6 +200,9 @@ public class PostProcessingStack
 			float _blurRadius = ((_iteration * iInterpolation) + iInterpolation) * 0.005f * _cameraSizeInterpolationMultiplier;
 
 			iBlurMaterial.SetFloat("_Radius", _blurRadius);
+
+			iSource.filterMode = FilterMode.Bilinear;
+			iBlurRenderTexture.filterMode = FilterMode.Bilinear;
 
 			Graphics.Blit(iSource, iBlurRenderTexture, iBlurMaterial, 1);
 			iSource.DiscardContents();

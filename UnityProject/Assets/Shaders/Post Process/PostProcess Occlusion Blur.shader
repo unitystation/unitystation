@@ -30,9 +30,8 @@ Shader "PostProcess/Occlusion Blur"
 		float4 blurTexcoord[2] : TEXCOORD2;
 	};
 
-	SamplerState sampler_linear_clamp;
-	uniform Texture2D _MainTex;
-	uniform Texture2D _FovMask;
+	uniform sampler2D _MainTex;
+	uniform sampler2D _FovMask;
 	uniform float4 _MainTex_ST;
 	uniform float4 _MainTex_TexelSize;
 
@@ -51,7 +50,7 @@ Shader "PostProcess/Occlusion Blur"
 
 	fixed4 frag (vertexOutput IN) : SV_Target
 	{
-		fixed3 color = _MainTex.Sample(sampler_linear_clamp, IN.texcoord);
+		//fixed3 color = tex2D(_MainTex, IN.texcoord);
 		return 1;//fixed4(color, 1.0);
 	}
 
@@ -115,16 +114,17 @@ Shader "PostProcess/Occlusion Blur"
 	fixed4 frag5Blur (output_5tap IN) : SV_Target
 	{
 		float _samplePower = 0.3;
-		fixed3 mainSample = _MainTex.Sample(sampler_linear_clamp, IN.texcoord).xyz;
+		
+		fixed3 mainSample = tex2D(_MainTex, IN.texcoord); //_MainTex.Sample(sampler_linear_clamp, IN.texcoord).xyz;
 
 		fixed3 blurredSum = mainSample * _samplePower; 
-		blurredSum += _MainTex.Sample(sampler_linear_clamp, IN.blurTexcoord[0].xy).xyz * _samplePower;
-		blurredSum += _MainTex.Sample(sampler_linear_clamp, IN.blurTexcoord[0].zw).xyz * _samplePower;
-		blurredSum += _MainTex.Sample(sampler_linear_clamp, IN.blurTexcoord[1].xy).xyz * _samplePower;
-		blurredSum += _MainTex.Sample(sampler_linear_clamp, IN.blurTexcoord[1].zw).xyz * _samplePower;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[0].xy).xyz * _samplePower;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[0].zw).xyz * _samplePower;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[1].xy).xyz * _samplePower;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[1].zw).xyz * _samplePower;
 
 		float power = _MultiLimit.x;
-		float limit = _MultiLimit.y;
+		float limit = _MultiLimit.y; 
 
 		return clamp(blurredSum.rgb * power, float3(0,0,0), float3(limit, limit, limit)).rgbb;
 	}

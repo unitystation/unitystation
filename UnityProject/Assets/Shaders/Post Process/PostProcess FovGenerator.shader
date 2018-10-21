@@ -32,8 +32,7 @@
 				float4 vertex : SV_POSITION;
 			};
 
-			Texture2D _MainTex;
-			SamplerState sampler_linear_clamp;
+			sampler2D _MainTex;
 			float4 _PositionOffset;
 			float _OcclusionSpread;
 			float3 _Distance;
@@ -65,7 +64,7 @@
 				for(int i = 0; i < 100; i++)
 				{
 					half time = i / 100.0f;
-					half4 obstacle = _MainTex.Sample(sampler_linear_clamp, lerp(uvFrom, uvTo, time)); //tex2D(_MainTex, lerp(uvFrom, uvTo, time));
+					half4 obstacle = tex2D(_MainTex, lerp(uvFrom, uvTo, time));
 					fov *= 1 - (obstacle.r * spread);
 				}
 
@@ -82,7 +81,7 @@
 				float distanceFromCenter = clamp(1 - distance(float2(0.5f, 0.5f), scalepoint), 0, 1) - _distance - 1;
 				float smoothedDistance = clamp(distanceFromCenter * _horizonSmooth, 0, 1);
 
-				half4 mask = _MainTex.Sample(sampler_linear_clamp, uv);// tex2D(_MainTex, uv);
+				half4 mask = tex2D(_MainTex, uv);
 
 				mask.g = fov * smoothedDistance;
 

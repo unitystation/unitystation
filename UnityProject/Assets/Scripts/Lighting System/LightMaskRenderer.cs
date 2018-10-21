@@ -60,6 +60,7 @@ public class LightMaskRenderer : MonoBehaviour
 		}
 
 		// Arrange Occlusion RT
+		iOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
 		Shader.SetGlobalTexture("_FovExtendedMask", iOcclusionMask.renderTexture);
 
 		// Note: We need to override mLightPPRT position for transformation, because new position for mLightPPRT will be set during light rendering.
