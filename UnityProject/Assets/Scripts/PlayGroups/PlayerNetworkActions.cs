@@ -226,6 +226,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		Inventory[slotName] = obj;
 		ItemAttributes att = obj.GetComponent<ItemAttributes>();
+		Debug.Log("proposed slotName = " + slotName);
+		Debug.Log("attSprite type: " + att.spriteType);
+		Debug.Log("atthierarchy: " + att.hierarchy);
 		if (slotName == "leftHand" || slotName == "rightHand")
 		{
 			equipment.SetHandItemSprite(att);
@@ -235,14 +238,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if (slotName == "id" || slotName == "storage01" || slotName == "storage02" || slotName == "suitStorage")
 			{
 				//Not setting onPlayer sprites for these as they don't have any
+
 			}
 			else
 			{
-				if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset"))
+				if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") ||
+					att.hierarchy.Contains("storage") || att.hierarchy.Contains("tank"))
 				{
-					// Logger.Log("slotName = " + slotName);
-					Epos enumA = (Epos) Enum.Parse(typeof(Epos), slotName);
-					equipment.syncEquipSprites[(int) enumA] = att.clothingReference;
+					Debug.Log("slotName = " + slotName);
+					Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
+					equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
 				}
 			}
 		}
@@ -347,7 +352,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var throwInfo = new ThrowInfo
 		{
 			ThrownBy = gameObject,
-				Aim = (BodyPartType) aim,
+				Aim = (BodyPartType)aim,
 				OriginPos = playerPos,
 				TargetPos = worldTargetPos,
 				//Clockwise spin from left hand and Counterclockwise from the right hand

@@ -15,14 +15,27 @@ public class ItemAttributes : NetworkBehaviour
 	private static DmObjectData dm;
 	private static string[] hierList = { };
 
+	public bool debug;
+
 	//on-player references
-	private static readonly string[] onPlayer =
-	{
-		"mob/uniform", "mob/underwear", "mob/ties", "mob/back", "mob/belt_mirror", "mob/belt", "mob/eyes", "mob/ears", "mob/hands", "mob/feet", "mob/head",
-		"mob/mask", "mob/neck", "mob/suit"
+	private static readonly string[] onPlayer = {
+		"mob/uniform",
+		"mob/underwear",
+		"mob/ties",
+		"mob/back",
+		"mob/belt_mirror",
+		"mob/belt",
+		"mob/eyes",
+		"mob/ears",
+		"mob/hands",
+		"mob/feet",
+		"mob/head",
+		"mob/mask",
+		"mob/neck",
+		"mob/suit"
 	};
 
-//	public ClothEnum cloth;
+	//	public ClothEnum cloth;
 	private int clothingOffset = -1;
 	public int clothingReference = -1;
 	private string desc;
@@ -81,10 +94,10 @@ public class ItemAttributes : NetworkBehaviour
 	///<Summary>
 	/// Can this item protect humans against spess?
 	///</Summary>
-	public bool evaCapable {get; private set; }
+	public bool evaCapable { get; private set; }
 
 	public List<string> attackVerb = new List<string>();
-	private static readonly char[] ListSplitters = new[]{',', ' '};
+	private static readonly char[] ListSplitters = new [] { ',', ' ' };
 
 	public override void OnStartClient()
 	{
@@ -94,11 +107,10 @@ public class ItemAttributes : NetworkBehaviour
 
 	private IEnumerator WaitForLoad()
 	{
-//		yield return new WaitForSeconds(2f);
+		//		yield return new WaitForSeconds(2f);
 		ConstructItem(hierarchy);
 		yield return null;
 	}
-
 
 	//    Enum test:
 	//
@@ -111,13 +123,15 @@ public class ItemAttributes : NetworkBehaviour
 	//        ConstructItem(hierarchy);
 	//    }
 
-	public float? TryParseFloat(string attr) {
+	public float? TryParseFloat(string attr)
+	{
 		float i;
-		return float.TryParse( tryGetAttr(attr), out i ) ? (float?) i : null;
+		return float.TryParse(tryGetAttr(attr), out i) ? (float?)i : null;
 	}
-	public List<string> TryParseList(string attr) {
+	public List<string> TryParseList(string attr)
+	{
 		var list = new List<string>();
-		list.AddRange(tryGetAttr(attr).Trim().Replace( "list(", "" ).Replace( ")", "" ).Split( ListSplitters, StringSplitOptions.RemoveEmptyEntries ));
+		list.AddRange(tryGetAttr(attr).Trim().Replace("list(", "").Replace(")", "").Split(ListSplitters, StringSplitOptions.RemoveEmptyEntries));
 		return list;
 	}
 
@@ -137,12 +151,12 @@ public class ItemAttributes : NetworkBehaviour
 		if (!dmi)
 		{
 			//				Logger.Log("Item DMI data loading...");
-			dmi = Resources.Load("DmiIconData") as DmiIconData;
+			dmi = Resources.Load("DmiIconData")as DmiIconData;
 		}
 		if (!dm)
 		{
 			//				Logger.Log("Item DM data loading...");
-			dm = Resources.Load("DmObjectData") as DmObjectData;
+			dm = Resources.Load("DmObjectData")as DmObjectData;
 		}
 
 		//raw dictionary of attributes
@@ -159,13 +173,13 @@ public class ItemAttributes : NetworkBehaviour
 		icon_state = tryGetAttr("icon_state");
 		item_color = tryGetAttr("item_color"); //also a state
 		item_state = tryGetAttr("item_state");
-		string[] states = {icon_state, item_color, item_state};
+		string[] states = { icon_state, item_color, item_state };
 
-		throwDamage = TryParseFloat( "throwforce" ) ?? throwDamage;
-		throwSpeed = TryParseFloat( "throw_speed" )  ?? throwSpeed;
-		throwRange = TryParseFloat( "throw_range" ) ?? throwRange;
-		hitDamage = TryParseFloat( "force" ) ?? hitDamage;
-		attackVerb = TryParseList( "attack_verb" ) ?? attackVerb;
+		throwDamage = TryParseFloat("throwforce") ?? throwDamage;
+		throwSpeed = TryParseFloat("throw_speed") ?? throwSpeed;
+		throwRange = TryParseFloat("throw_range") ?? throwRange;
+		hitDamage = TryParseFloat("force") ?? hitDamage;
+		attackVerb = TryParseList("attack_verb") ?? attackVerb;
 
 		masterType = getMasterType(hier); // aka SpriteType
 		itemType = getItemType(hier, getInvIconPrefix(masterType));
@@ -205,11 +219,14 @@ public class ItemAttributes : NetworkBehaviour
 	}
 
 	private void CheckEvaCapatibility()
-	{	
-		if(hier.Contains("/obj/item/clothing/head/helmet/space/hardsuit/") || 
-		hier.Contains("/obj/item/clothing/suit/space/hardsuit/")){
+	{
+		if (hier.Contains("/obj/item/clothing/head/helmet/space/hardsuit/") ||
+			hier.Contains("/obj/item/clothing/suit/space/hardsuit/"))
+		{
 			evaCapable = true;
-		} else {
+		}
+		else
+		{
 			evaCapable = false;
 		}
 	}
@@ -237,17 +254,17 @@ public class ItemAttributes : NetworkBehaviour
 	private void DebugInfo()
 	{
 		//Use this method to retrieve item info at runtime (right click the component from editor)
-	//	Debug.Log(getItemDebugInfo());
-	Debug.Log("hier: " + hier);
-	Debug.Log("is server: " + isServer);
-	Debug.Log("is eva capable: " + evaCapable);
+		//	Debug.Log(getItemDebugInfo());
+		Debug.Log("hier: " + hier);
+		Debug.Log("is server: " + isServer);
+		Debug.Log("is eva capable: " + evaCapable);
 	}
 	private string getItemDebugInfo()
 	{
 		return string.Format(
 			$"name={name}, type={itemType}, spriteType={spriteType} ({desc}) : {icon_state} / {item_state} / " +
 			$"C: {clothingReference}, L: {inHandLeft}, R: {inHandRight}, I: {inventoryIcon.icon}{'\n'}" +
-			$"{dmDic.Keys.Aggregate("", (current, key) => current + key + ": " + dmDic[key] + "\n")}" );
+			$"{dmDic.Keys.Aggregate("", (current, key) => current + key + ": " + dmDic[key] + "\n")}");
 	}
 
 	private static SpriteType getMasterType(string hs)
@@ -291,7 +308,7 @@ public class ItemAttributes : NetworkBehaviour
 		return dm != null && dmi != null;
 	}
 
-	private /*static*/ DmiIcon tryGetInventoryIcon( /*DmiIconData dmi, string[] invSheetPaths, string icon = ""*/)
+	private /*static*/ DmiIcon tryGetInventoryIcon( /*DmiIconData dmi, string[] invSheetPaths, string icon = ""*/ )
 	{
 		//determining invIcon
 		for (int i = 0; i < invSheetPaths.Length; i++)
@@ -345,7 +362,7 @@ public class ItemAttributes : NetworkBehaviour
 	{
 		if (item_state.Equals(""))
 		{
-			return new[] {-1, -1};
+			return new [] {-1, -1 };
 		}
 
 		string searchString = getMasterTypeHandsString(masterType);
@@ -354,7 +371,7 @@ public class ItemAttributes : NetworkBehaviour
 
 		DmiState stateRH = dmi.searchStateInIconShallow(item_state, "mob/inhands/" + searchString + "_righthand");
 
-		return new[] {stateLH == null ? -1 : stateLH.offset, stateRH == null ? -1 : stateRH.offset};
+		return new [] { stateLH == null ? -1 : stateLH.offset, stateRH == null ? -1 : stateRH.offset };
 	}
 
 	private static string getInvIconPrefix(SpriteType st)
@@ -374,27 +391,27 @@ public class ItemAttributes : NetworkBehaviour
 		switch (type)
 		{
 			case ItemType.Belt:
-				return new[] {p + "belts"};
+				return new [] { p + "belts" };
 			case ItemType.Back:
-				return new[] {p + "cloaks"};
+				return new [] { "obj/storage" };
 			case ItemType.Glasses:
-				return new[] {p + "glasses"};
+				return new [] { p + "glasses" };
 			case ItemType.Gloves:
-				return new[] {p + "gloves"};
+				return new [] { p + "gloves" };
 			case ItemType.Hat:
-				return new[] {p + "hats"};
+				return new [] { p + "hats" };
 			case ItemType.Mask:
-				return new[] {p + "masks"};
+				return new [] { p + "masks" };
 			case ItemType.Shoes:
-				return new[] {p + "shoes"};
+				return new [] { p + "shoes" };
 			case ItemType.Suit:
-				return new[] {p + "suits"};
+				return new [] { p + "suits" };
 			case ItemType.Neck:
-				return new[] {p + "ties", p + "neck"};
+				return new [] { p + "ties", p + "neck" };
 			case ItemType.Uniform:
-				return new[] {p + "uniforms"};
+				return new [] { p + "uniforms" };
 			default:
-				return new[] {""};
+				return new [] { "" };
 		}
 	}
 
@@ -404,29 +421,29 @@ public class ItemAttributes : NetworkBehaviour
 		switch (type)
 		{
 			case ItemType.Belt:
-				return new[] {p + "belt", p + "belt_mirror"};
+				return new [] { p + "belt", p + "belt_mirror" };
 			case ItemType.Back:
-				return new[] {p + "back"};
+				return new [] { p + "back" };
 			case ItemType.Glasses:
-				return new[] {p + "eyes"};
+				return new [] { p + "eyes" };
 			case ItemType.Gloves:
-				return new[] {p + "hands"};
+				return new [] { p + "hands" };
 			case ItemType.Hat:
-				return new[] {p + "head"};
+				return new [] { p + "head" };
 			case ItemType.Ear:
-				return new[] {p + "ears"};
+				return new [] { p + "ears" };
 			case ItemType.Mask:
-				return new[] {p + "mask"};
+				return new [] { p + "mask" };
 			case ItemType.Shoes:
-				return new[] {p + "feet"};
+				return new [] { p + "feet" };
 			case ItemType.Suit:
-				return new[] {p + "suit"};
+				return new [] { p + "suit" };
 			case ItemType.Neck:
-				return new[] {p + "ties", p + "neck"};
+				return new [] { p + "ties", p + "neck" };
 			case ItemType.Uniform:
-				return new[] {p + "uniform"};
+				return new [] { p + "uniform" };
 			default:
-				return new[] {""};
+				return new [] { "" };
 		}
 	}
 
@@ -434,7 +451,7 @@ public class ItemAttributes : NetworkBehaviour
 	{
 		if (hierList.Length == 0)
 		{
-			TextAsset asset = Resources.Load(Path.Combine("metadata", "hier")) as TextAsset;
+			TextAsset asset = Resources.Load(Path.Combine("metadata", "hier"))as TextAsset;
 			if (asset != null)
 			{
 				List<string> objects = asset.text.Split('\n').ToList();
@@ -451,7 +468,7 @@ public class ItemAttributes : NetworkBehaviour
 
 	private static ItemType getItemType(string s, string cutOff = "")
 	{
-		//			Logger.Log("getItemType for "+ s);
+		//	Logger.Log("getItemType for " + s);
 		string sCut;
 		if (!cutOff.Equals("") && s.StartsWith(cutOff))
 		{
@@ -460,8 +477,17 @@ public class ItemAttributes : NetworkBehaviour
 		}
 		else
 		{
-			sCut = s;
+			if (s.Contains("storage"))
+			{
+				sCut = "back";
+			}
+			else
+			{
+				//All other unknowns:
+				sCut = s;
+			}
 		}
+
 		switch (sCut)
 		{
 			case "uniform":
@@ -504,7 +530,7 @@ public class ItemAttributes : NetworkBehaviour
 				return ItemType.Suit;
 			default:
 				//GetItemType will be called several times on failure, with different string parameters
-//				Logger.Log("Could not find item type for " + sCut + ". Will attempt fallbacks if any exist.");
+				//				Logger.Log("Could not find item type for " + sCut + ". Will attempt fallbacks if any exist.");
 				return ItemType.None;
 		}
 	}
@@ -610,7 +636,8 @@ public class ItemAttributes : NetworkBehaviour
 			SendExamine();
 		}
 	}
-	[ContextMethod("Examine","Magnifying_glass")]
+
+	[ContextMethod("Examine", "Magnifying_glass")]
 	public void OnExamine()
 	{
 		if (!string.IsNullOrEmpty(itemDescription))
