@@ -115,7 +115,7 @@ using UnityEngine.Networking;
 			gear.Add("uniform", standardOutfit.uniform);
 			gear.Add("ears", standardOutfit.ears);
 			gear.Add("belt", standardOutfit.belt);
-			gear.Add("back", standardOutfit.back);
+			gear.Add("back", standardOutfit.backpack);
 			gear.Add("shoes", standardOutfit.shoes);
 			gear.Add("glasses", standardOutfit.glasses);
 			gear.Add("gloves", standardOutfit.gloves);
@@ -146,9 +146,9 @@ using UnityEngine.Networking;
 			{
 				gear["belt"] = jobOutfit.belt;
 			}
-			if (!string.IsNullOrEmpty(jobOutfit.back))
+			if (!string.IsNullOrEmpty(jobOutfit.backpack))
 			{
-				gear["back"] = jobOutfit.back;
+				gear["back"] = jobOutfit.backpack;
 			}
 			if (!string.IsNullOrEmpty(jobOutfit.shoes))
 			{
@@ -195,7 +195,8 @@ using UnityEngine.Networking;
 
 			foreach (KeyValuePair<string, string> gearItem in gear)
 			{
-				if (gearItem.Value.Contains(ClothFactory.ClothingHierIdentifier) || gearItem.Value.Contains(ClothFactory.HeadsetHierIdentifier))
+				if (gearItem.Value.Contains(ClothFactory.ClothingHierIdentifier) || gearItem.Value.Contains(ClothFactory.HeadsetHierIdentifier)||
+				gearItem.Value.Contains(ClothFactory.BackPackHierIdentifier) || gearItem.Value.Contains(ClothFactory.BagHierIdentifier))
 				{
 					GameObject obj = ClothFactory.Instance.CreateCloth(gearItem.Value, TransformState.HiddenPos, transform.parent);
 					//if ClothFactory does not return an object then move on to the next clothing item

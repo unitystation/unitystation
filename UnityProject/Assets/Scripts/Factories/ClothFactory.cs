@@ -7,9 +7,12 @@ public class ClothFactory : NetworkBehaviour
 
 	public static string ClothingHierIdentifier = "cloth";
 	public static string HeadsetHierIdentifier = "headset";
+	public static string BackPackHierIdentifier = "storage/backpack";
+	public static string BagHierIdentifier = "storage/bag";
 
 	private GameObject uniCloth { get; set; }
 	private GameObject uniHeadSet { get; set; }
+	private GameObject uniBackPack { get; set; }
 
 	private void Awake()
 	{
@@ -28,6 +31,7 @@ public class ClothFactory : NetworkBehaviour
 		//Do init stuff
 		uniCloth = Resources.Load("UniCloth") as GameObject;
 		uniHeadSet = Resources.Load("UniHeadSet") as GameObject;
+		uniBackPack = Resources.Load("UniBackPack") as GameObject;
 	}
 
 	public void PreLoadCloth(int preLoads)
@@ -70,7 +74,11 @@ public class ClothFactory : NetworkBehaviour
 		{
 			return uniHeadSet;
 		}
-		Logger.LogError("Clot factory could not pick uni item. Falling back to uniCloth", Category.DmMetadata);
+		if (hierarchy.Contains(BackPackHierIdentifier) || hierarchy.Contains(BagHierIdentifier))
+		{
+			return uniBackPack;
+		}
+		Logger.LogError("Cloth factory could not pick uni item. Falling back to uniCloth", Category.DmMetadata);
 		return uniCloth;
 	}
 }
