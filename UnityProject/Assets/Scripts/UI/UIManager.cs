@@ -6,7 +6,7 @@ using UnityEngine.UI;
 	{
 		private static UIManager uiManager;
 		public ControlAction actionControl;
-		public ControlChat chatControl;
+		public DragAndDrop dragAndDrop;
 		public ControlDisplays displayControl;
 		public DisplayManager displayManager;
 		public GameObject bottomBar;
@@ -60,6 +60,8 @@ using UnityEngine.UI;
 		public static ControlIntent Intent => Instance.intentControl;
 
 		public static ControlAction Action => Instance.actionControl;
+		
+		public static DragAndDrop DragAndDrop => Instance.dragAndDrop;
 
 		public static ControlWalkRun WalkRun => Instance.walkRunControl;
 

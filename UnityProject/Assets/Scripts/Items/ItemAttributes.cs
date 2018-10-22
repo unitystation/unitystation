@@ -15,8 +15,6 @@ public class ItemAttributes : NetworkBehaviour
 	private static DmObjectData dm;
 	private static string[] hierList = { };
 
-	public bool debug;
-
 	//on-player references
 	private static readonly string[] onPlayer = {
 		"mob/uniform",
