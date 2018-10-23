@@ -322,6 +322,12 @@ public partial class PlayerSync
 				InteractSpacePushable( pushable, action.Direction() );
 			}
 			return state;
+		} else {
+			if ( action.isNonPredictive )
+			{
+				Logger.Log( "Ignored action marked as Non-predictive while being indoors", Category.Movement );
+				return state;
+			}
 		}
 
 		bool matrixChangeDetected;
