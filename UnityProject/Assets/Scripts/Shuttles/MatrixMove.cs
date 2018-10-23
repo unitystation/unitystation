@@ -79,6 +79,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 	private Vector3 mPreviousPosition;
 	private Vector2 mPreviousFilteredPosition;
+	private bool monitorOnRot = false;
 		
 	private Vector3 clampedPosition
 	{
@@ -279,15 +280,21 @@ public class MatrixMove : ManagedNetworkBehaviour {
 						Time.deltaTime * clientState.RotationTime );
 			} else {
 				// Finishes the job of Lerp and straightens the ship with exact angle value
-				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.Degree );
+				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.Degree );	
 			}
 		} else if ( isMovingClient ) {
 			//Only move target if rotation is finished
 			SimulateStateMovement();
 		}
 
+		if(!IsRotatingClient && monitorOnRot){
+			monitorOnRot = false;
+			//This is ok for occasional state changes like end of rot:
+			gameObject.BroadcastMessage("MatrixMoveStopRotation", null, SendMessageOptions.DontRequireReceiver);
+		}
+
 		//Lerp
-		if ( clientState.Position != transform.position ) {
+		if(clientState.Position != transform.position){
 			float distance = Vector3.Distance( clientState.Position, transform.position );
 			bool shouldWarp = distance > 2 || IsRotatingClient;
 
@@ -297,7 +304,8 @@ public class MatrixMove : ManagedNetworkBehaviour {
 				return;
 			}
 
-			//If stopped then lerp to target
+			//FIXME Remove this once lerping has been properly fixed with Pixel Perfect movement:
+			//If stopped then lerp to target 
 			if(!clientState.IsMoving && distance > 0f){
 				transform.position = Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
 				mPreviousPosition = transform.position;
@@ -396,6 +404,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		if (!Equals(oldState.Orientation, newState.Orientation))
 		{
 			OnRotate.Invoke(oldState.Orientation, newState.Orientation);
+
+			//This is ok for occasional state changes like beginning of rot:
+			gameObject.BroadcastMessage("MatrixMoveStartRotation", null, SendMessageOptions.DontRequireReceiver);
+			monitorOnRot = true;
 		}
 		if (!oldState.IsMoving && newState.IsMoving)
 		{

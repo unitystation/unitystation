@@ -42,6 +42,9 @@ public class Camera2DFollow : MonoBehaviour
     public GameObject stencilMask;
 
 	[HideInInspector]
+	public LightingSystem lightingSystem;
+
+	[HideInInspector]
 	public Camera cam;
 
 	private void Awake()
@@ -50,6 +53,7 @@ public class Camera2DFollow : MonoBehaviour
 		{
 			followControl = this;
 			cam = GetComponent<Camera>();
+			lightingSystem = GetComponent<LightingSystem>();
 		}
 		else
 		{

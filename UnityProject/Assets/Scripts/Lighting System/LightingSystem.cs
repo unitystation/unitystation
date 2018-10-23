@@ -388,4 +388,15 @@ public class LightingSystem : MonoBehaviour
 			Graphics.Blit(iSource, iDestination, _blitMaterial);
 		}
 	}
+
+	//Called at the start of matrix rotation for localplayer client (if localplayer is a child of the matrixmove that is rotating)
+	public void MatrixMoveStartRotation()
+	{
+		Debug.Log("Matrix has started rotating for local player");
+	}
+
+	public void MatrixMoveStopRotation()
+	{
+		Debug.Log("Matrix has stopped rotating for local player");
+	}
 }
