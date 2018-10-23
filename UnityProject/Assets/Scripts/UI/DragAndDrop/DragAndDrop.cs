@@ -6,13 +6,40 @@ using UnityEngine.UI;
 public class DragAndDrop : MonoBehaviour
 {
 	public Image dragDummy;
+	private bool isDragging = false;
+	private UI_ItemSlot itemSlotCache;
 
 	public void Start()
 	{
 		dragDummy.enabled = false;
 	}
-	public void StartDrag(GameObject item)
+	public void UI_ItemDrag(UI_ItemSlot itemSlot)
 	{
-		Debug.Log("Start Draggin");
+		if (itemSlot.Item != null)
+		{
+			itemSlotCache = itemSlot;
+			isDragging = true;
+			dragDummy.enabled = true;
+			dragDummy.sprite = itemSlot.image.sprite;
+			itemSlot.image.enabled = false;
+		}
+	}
+
+	public void StopDrag()
+	{
+		isDragging = false;
+		dragDummy.enabled = false;
+		if(itemSlotCache != null){
+			itemSlotCache.image.enabled = true;
+		}
+		itemSlotCache = null;
+	}
+
+	public void Update()
+	{
+		if (isDragging)
+		{
+			dragDummy.transform.position = Input.mousePosition;
+		}
 	}
 }

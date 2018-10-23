@@ -22,7 +22,7 @@ public class UI_ItemSlot : MonoBehaviour
 	private void Awake()
 	{
 		image = GetComponent<Image>();
-		secondaryImage = GetComponentsInChildren<Image>() [1];
+		secondaryImage = GetComponentsInChildren<Image>()[1];
 		secondaryImage.alphaHitTestMinimumThreshold = 0.5f;
 		secondaryImage.enabled = false;
 		image.alphaHitTestMinimumThreshold = 0.5f;
@@ -72,6 +72,7 @@ public class UI_ItemSlot : MonoBehaviour
 			}
 		}
 		image.enabled = true;
+		image.preserveAspect = true;
 		Item = item;
 		item.transform.position = transform.position;
 	}
@@ -82,6 +83,7 @@ public class UI_ItemSlot : MonoBehaviour
 		{
 			secondaryImage.sprite = sprite;
 			secondaryImage.enabled = true;
+			secondaryImage.preserveAspect = true;
 		}
 		else
 		{
@@ -205,5 +207,15 @@ public class UI_ItemSlot : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void OnDragStart()
+	{
+		UIManager.DragAndDrop.UI_ItemDrag(this);
+	}
+
+	public void OnDragEnd()
+	{
+		UIManager.DragAndDrop.StopDrag();
 	}
 }
