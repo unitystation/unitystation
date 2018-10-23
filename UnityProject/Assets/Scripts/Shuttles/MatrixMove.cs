@@ -289,16 +289,27 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		//Lerp
 		if ( clientState.Position != transform.position ) {
 			float distance = Vector3.Distance( clientState.Position, transform.position );
+			bool shouldWarp = distance > 2 || IsRotatingClient;
 
-//			Just set pos without any lerping if distance is too long (serverside teleportation assumed)
-			bool shouldTeleport = distance > 30;
-			if ( shouldTeleport ) {
+			//Teleport (Greater then 30 unity meters away from server target):
+			if(distance > 30f) {
 				clampedPosition = clientState.Position;
 				return;
 			}
-//			Activate warp speed if object gets too far away or have to rotate
-			bool shouldWarp = distance > 2 || IsRotatingClient;
+
+			//If stopped then lerp to target
+			if(!clientState.IsMoving && distance > 0f){
+				transform.position = Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
+				mPreviousPosition = transform.position;
+				mPreviousFilteredPosition = transform.position;
+				return;
+			}
+
+			//FIXME: We need to use MoveTowards or some other lerp function as ClientState is like server waypoints and does not contain lerp positions
+			//FIXME: Currently shuttles teleport to each position received via server instead of lerping towards them
 			clampedPosition = clientState.Position;
+
+			// Activate warp speed if object gets too far away or have to rotate
 				//Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
 		}
 	}
