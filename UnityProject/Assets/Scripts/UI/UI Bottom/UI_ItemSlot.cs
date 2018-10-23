@@ -123,11 +123,11 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		GameObject item = Item;
 		//            InputTrigger.Touch(Item);
 		Item = null;
-		image.sprite = null;
 		image.enabled = false;
-		secondaryImage.sprite = null;
 		secondaryImage.enabled = false;
 		ControlTabs.CheckTabClose();
+		image.sprite = null;
+		secondaryImage.sprite = null;
 		return item;
 	}
 

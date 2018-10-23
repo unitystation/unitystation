@@ -11,7 +11,6 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 	}
 	public void OnPointerClick(PointerEventData eventData)
 	{
-		Debug.Log("ON POINTER CLICK");
 		if (eventData.button == PointerEventData.InputButton.Left)
 		{
 			SoundManager.Play("Click01");
@@ -26,6 +25,21 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 
 	public void OnDrop(PointerEventData data)
 	{
-		Debug.Log("DROPPED: " + UIManager.DragAndDrop.ItemCache.name);
+		if (UIManager.DragAndDrop.ItemSlotCache != null && UIManager.DragAndDrop.ItemCache != null)
+		{
+			if (itemSlot.Item == null && itemSlot.CheckItemFit(UIManager.DragAndDrop.ItemCache))
+			{
+				if (PlayerManager.LocalPlayerScript != null)
+				{
+					if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+						PlayerManager.LocalPlayerScript.playerMove.isGhost)
+					{
+						return;
+					}
+				}
+
+				UIManager.TryUpdateSlot(new UISlotObject(itemSlot.eventName, UIManager.DragAndDrop.ItemCache));
+			}
+		}
 	}
 }

@@ -7,7 +7,7 @@ public class DragAndDrop : MonoBehaviour
 {
 	public Image dragDummy;
 	private bool isDragging = false;
-	private UI_ItemSlot itemSlotCache;
+	public UI_ItemSlot ItemSlotCache { get; private set; }
 	public GameObject ItemCache { get; private set; }
 
 	public void Start()
@@ -18,7 +18,7 @@ public class DragAndDrop : MonoBehaviour
 	{
 		if (itemSlot.Item != null)
 		{
-			itemSlotCache = itemSlot;
+			ItemSlotCache = itemSlot;
 			isDragging = true;
 			dragDummy.enabled = true;
 			dragDummy.sprite = itemSlot.image.sprite;
@@ -31,10 +31,14 @@ public class DragAndDrop : MonoBehaviour
 	{
 		isDragging = false;
 		dragDummy.enabled = false;
-		if(itemSlotCache != null){
-			itemSlotCache.image.enabled = true;
+		if (ItemSlotCache != null)
+		{
+			if (ItemSlotCache.Item != null)
+			{
+				ItemSlotCache.image.enabled = true;
+			}
 		}
-		itemSlotCache = null;
+		ItemSlotCache = null;
 		ItemCache = null;
 	}
 
