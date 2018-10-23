@@ -74,9 +74,10 @@ public partial class PlayerSync
 			//experiment: not enqueueing or processing action if floating.
 			//arguably it shouldn't really be like that in the future
 			bool isGrounded = !IsNonStickyClient;
-			if ( (isGrounded || IsAroundPushables( predictedState ) ) && !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement
+			bool isAroundPushables = IsAroundPushables( predictedState );
+			if ( (isGrounded || isAroundPushables ) && !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement
 			     || (playerMove.isGhost && !blockClientMovement) ) {
-//				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
+				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
 				if ( isGrounded )
 				{
@@ -102,6 +103,8 @@ public partial class PlayerSync
 	//					yield return YieldHelper.DeciSecond;
 	//					yield return YieldHelper.DeciSecond;
 					}
+				} else {
+					action.isNonPredictive = true;
 				}
 				//Sending action for server approval
 				CmdProcessAction( action );

@@ -51,6 +51,9 @@ using UnityEngine.Networking;
 		/// Set to true when client believes this action doesn't make player move
 		public bool isBump;
 
+		/// Set to true when client suggests some action that isn't covered by prediction
+		public bool isNonPredictive;
+
 		//clone of PlayerMove GetMoveDirection stuff
 		//but there should be a way to see the direction of these keycodes ffs
 		public Vector2Int Direction() {
@@ -83,6 +86,8 @@ using UnityEngine.Networking;
 			}
 			return Vector2Int.zero;
 		}
+
+		public static PlayerAction None = new PlayerAction();
 	}
 
 	public partial class PlayerSync : NetworkBehaviour, IPushable

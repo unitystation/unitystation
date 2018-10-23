@@ -81,11 +81,21 @@ public partial class PlayerSync
 		}
 	}
 
+	private PlayerAction lastAddedAction = PlayerAction.None;
 	[Command(channel = 0)]
 	private void CmdProcessAction(PlayerAction action)
 	{
+		if ( serverPendingActions.Count > 0 && !lastAddedAction.Equals(PlayerAction.None)
+		     && lastAddedAction.isNonPredictive && action.isNonPredictive )
+		{
+			Logger.Log( $"Ignored {action}: two non-predictive actions in a row!", Category.Movement );
+			return;
+		}
+
 		//add action to server simulation queue
 		serverPendingActions.Enqueue(action);
+
+		lastAddedAction = action;
 
 		//Do not cache the position if the player is a ghost
 		//or else new players will sync the deadbody with the last pos
@@ -392,6 +402,8 @@ public partial class PlayerSync
 			InteractSpacePushable( pushable, direction, true );
 		}
 	}
+
+	//FIXME: second player stops flight after push off
 
 	/// <param name="worldTile">Tile you're interacting with</param>
 	/// <param name="direction">Direction you're pushing</param>
