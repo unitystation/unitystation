@@ -89,7 +89,7 @@ public class PushPull : VisibleBehaviour {
 		return success;
 	}
 
-	private void FinishPush()
+	private void FinishPrediction()
 	{
 		Logger.LogTraceFormat( "Finishing predictive push", Category.PushPull );
 		prediction = PushState.None;
@@ -129,7 +129,7 @@ public class PushPull : VisibleBehaviour {
 		//if predictive lerp is finished
 		if ( approval == ApprovalState.Approved ) {
 			if ( prediction == PushState.Finished ) {
-				FinishPush();
+				FinishPrediction();
 			} else if ( prediction == PushState.InProgress ) {
 				Logger.LogTraceFormat( "Approved and waiting till lerp is finished", Category.PushPull );
 			}
@@ -142,7 +142,7 @@ public class PushPull : VisibleBehaviour {
 			}
 			if ( prediction == PushState.Finished ) {
 				info += ". Finishing!";
-				FinishPush();
+				FinishPrediction();
 			} else {
 				info += ". NOT Finishing yet";
 			}
@@ -158,6 +158,10 @@ public class PushPull : VisibleBehaviour {
 
 		if ( pos != predictivePushTarget ) {
 			Logger.LogFormat( "Lerped to {0} while target pos was {1}", Category.PushPull, pos, predictivePushTarget );
+			if ( MatrixManager.IsNoGravityAt( pos ) ) { //? untested
+				Logger.LogTraceFormat( "...uh, we assume it's a space push and finish prediction", Category.PushPull );
+				FinishPrediction();
+			}
 			return;
 		}
 
@@ -166,11 +170,11 @@ public class PushPull : VisibleBehaviour {
 		switch ( approval ) {
 			case ApprovalState.Approved:
 				//ok, finishing
-				FinishPush();
+				FinishPrediction();
 				break;
 			case ApprovalState.Unexpected:
 				Logger.LogFormat( "Invalid push detected in OnClientTileReached, finishing", Category.PushPull );
-				FinishPush();
+				FinishPrediction();
 				break;
 			case ApprovalState.None:
 				Logger.LogTraceFormat( "Finished lerp, waiting for server approval...", Category.PushPull );

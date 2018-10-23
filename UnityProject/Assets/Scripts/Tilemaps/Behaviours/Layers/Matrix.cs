@@ -53,11 +53,13 @@ public class Matrix : MonoBehaviour
 		return metaDataLayer.IsSpaceAt(position);
 	}
 
+	/// Is this position completely clear of solid objects?
 	public bool IsEmptyAt(Vector3Int position)
 	{
 		return metaTileMap.IsEmptyAt(position);
 	}
 
+	/// Is this position and surrounding area completely clear of solid objects?
 	public bool IsFloatingAt(Vector3Int position)
 	{
 		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
@@ -72,10 +74,12 @@ public class Matrix : MonoBehaviour
 		return true;
 	}
 
+	/// Is current position a station tile? (Objects not taken in mind)
 	public bool IsNoGravityAt( Vector3Int position ) {
 		return metaTileMap.IsNoGravityAt( position );
 	}
 
+	/// Should player NOT stick to the station at this position?
 	public bool IsNonStickyAt(Vector3Int position)
 	{
 		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
@@ -89,6 +93,8 @@ public class Matrix : MonoBehaviour
 
 		return true;
 	}
+
+	/// Is this position and surrounding area completely clear of solid objects except for provided one?
 	public bool IsFloatingAt(GameObject context, Vector3Int position)
 	{
 		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));

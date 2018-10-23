@@ -164,6 +164,8 @@ using UnityEngine.Networking;
 			return true;
 		}
 
+		#region spess interaction logic
+
 		/// On player's tile
 		private bool IsOnPushables( PlayerState state ) {
 			var stateWorldPosition = state.WorldPosition;
@@ -179,8 +181,8 @@ using UnityEngine.Networking;
 		/// Around player
 		private bool IsAroundPushables( PlayerState state, out PushPull pushable ) {
 			pushable = null;
-			var position = Vector3Int.RoundToInt(state.WorldPosition);
-			BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
+			var roundedPos = Vector3Int.RoundToInt(state.WorldPosition);
+			BoundsInt bounds = new BoundsInt(roundedPos - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
 			foreach (Vector3Int pos in bounds.allPositionsWithin) {
 				if ( HasPushablesAt( pos, out pushable ) ) {
 					return true;
@@ -208,6 +210,8 @@ using UnityEngine.Networking;
 
 			return false;
 		}
+
+		#endregion
 
 
 //		private IEnumerator WaitForLoad() {
@@ -423,10 +427,10 @@ using UnityEngine.Networking;
 		private Vector3 size4 = new Vector3( 0.7f, 0.7f, 0.7f );
 		private Vector3 size5 = new Vector3( 1.1f, 1.1f, 1.1f );
 		private Color color1 = Color.red;
-		private Color color2 = DebugTools.HexToColor( "fd7c6e" );
-		private Color color3 = DebugTools.HexToColor( "22e600" );
-		private Color color4 = DebugTools.HexToColor( "ebfceb" );
-		private Color color5 = DebugTools.HexToColor( "5566ff99" );
+		private Color color2 = DebugTools.HexToColor( "fd7c6e" );//pink
+		private Color color3 = DebugTools.HexToColor( "22e600" );//green
+		private Color color4 = DebugTools.HexToColor( "ebfceb" );//white
+		private Color color5 = DebugTools.HexToColor( "5566ff99" );//blue
 
 		private void OnDrawGizmos() {
 			//serverState

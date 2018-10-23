@@ -15,9 +15,9 @@ public class TransformGizmoDrawer : MonoBehaviour {
 	private Vector3 size3 = new Vector3( 0.8f, 0.8f, 0.8f );
 	private Vector3 size4 = new Vector3( 0.7f, 0.7f, 0.7f );
 	private Color color1 = Color.red;
-	private Color color2 = DebugTools.HexToColor( "fd7c6e" );
+	private Color color2 = DebugTools.HexToColor( "fd7c6e" );//pink
 	private Color color3 = DebugTools.HexToColor( "5566ff" );//blue
-	private Color color4 = DebugTools.HexToColor( "ebfceb" );
+	private Color color4 = DebugTools.HexToColor( "ebfceb" );//white
 
 	private void OnDrawGizmos() {
 		if ( !cnt ) {

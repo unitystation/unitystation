@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Light2D;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -323,7 +324,8 @@ public partial class CustomNetTransform {
 		var info = serverState.ActiveThrow;
 		List<HealthBehaviour> hitDamageables;
 		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) ) {
-			return true;
+			//if object is solid, check if player is nearby to make it stop
+			return registerTile.IsPassable() ? true : !IsPlayerNearby(serverState);
 		} else {
 			//Can't drift to goal for some reason:
 			//Check Tile damage from throw
@@ -431,4 +433,50 @@ public partial class CustomNetTransform {
 		victims = null;
 		return false;
 	}
+
+	#region spess interaction logic
+
+	private bool IsPlayerNearby( TransformState state ) {
+		PlayerScript player;
+		return IsPlayerNearby( state, out player );
+	}
+
+	/// Around player
+	private bool IsPlayerNearby( TransformState state, out PlayerScript player ) {
+		player = null;
+		var position = Vector3Int.RoundToInt(state.WorldPosition);
+		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
+		foreach (Vector3Int pos in bounds.allPositionsWithin) {
+			if ( HasPlayersAt( pos, out player ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private bool HasPlayersAt( Vector3 stateWorldPosition, out PlayerScript firstPlayer ) {
+		firstPlayer = null;
+		var intPos = Vector3Int.RoundToInt( stateWorldPosition );
+		var players = MatrixManager.GetAt<PlayerScript>( intPos ).ToArray();
+		if ( players.Length == 0 ) {
+			return false;
+		}
+
+		for ( var i = 0; i < players.Length; i++ ) {
+			var player = players[i];
+			if ( player.registerTile.IsPassable() ||
+				intPos != Vector3Int.RoundToInt( player.PlayerSync.ServerState.WorldPosition )
+			    )
+			{
+				continue;
+			}
+			firstPlayer = player;
+			return true;
+		}
+
+		return false;
+	}
+
+	#endregion
 }

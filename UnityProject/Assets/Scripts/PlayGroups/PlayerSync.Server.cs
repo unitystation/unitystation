@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,8 +39,8 @@ public partial class PlayerSync
 	private bool isApplyingSpaceDmg;
 
 	///
-	public bool IsWeightlessServer => MatrixManager.IsFloatingAt(gameObject, Vector3Int.RoundToInt(serverState.WorldPosition));
-	public bool IsNonStickyServer => MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(serverState.WorldPosition));
+	public bool IsWeightlessServer => MatrixManager.IsFloatingAt(gameObject, Vector3Int.RoundToInt( serverState.WorldPosition ));
+	public bool IsNonStickyServer => MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
 
 
@@ -452,8 +453,7 @@ public partial class PlayerSync
 	private void CheckMovementServer()
 	{
 		//Space walk checks
-		bool nonSticky = IsNonStickyServer;
-		if ( nonSticky )
+		if ( IsNonStickyServer )
 		{
 			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
 			{
@@ -477,7 +477,7 @@ public partial class PlayerSync
 			}
 		}
 
-		if ( !IsWeightlessServer ) {
+		if ( consideredFloatingServer && !IsWeightlessServer ) {
 			Stop();
 		}
 
@@ -488,10 +488,16 @@ public partial class PlayerSync
 		if ( consideredFloatingServer ) {
 			PushPull spaceObjToGrab;
 			if ( IsAroundPushables( serverState, out spaceObjToGrab ) && spaceObjToGrab.IsSolid ) {
-				//can sometimes end up one tile away from grab range
-				spaceObjToGrab.Stop();
+				//some hacks to avoid space closets stopping out of player's reach
+				var cnt = spaceObjToGrab.GetComponent<CustomNetTransform>();
+				if ( cnt && cnt.IsFloatingServer && Vector2Int.RoundToInt(cnt.ServerState.Impulse) == Vector2Int.RoundToInt(serverState.Impulse) )
+				{
+					Logger.LogTraceFormat( "Caught {0} at {1} (registered at {2})", Category.Movement, spaceObjToGrab.gameObject.name,
+							( Vector2 ) cnt.ServerState.WorldPosition, ( Vector2 ) ( Vector3 ) spaceObjToGrab.registerTile.WorldPosition );
+					cnt.SetPosition( spaceObjToGrab.registerTile.WorldPosition );
+					spaceObjToGrab.Stop();
+				}
 			}
-
 			//removing lastDirection when we hit an obstacle in space
 			serverLastDirection = Vector2.zero;
 
