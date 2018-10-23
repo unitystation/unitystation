@@ -579,13 +579,14 @@ namespace Light2D
             return col1.r == col2.r && col1.g == col2.g && col1.b == col2.b && col1.a == col2.a;
         }
 
+	    private const float NO_BOOST_THRESHOLD = 1f;
 	    public static float SpeedMod( Vector3 origin, Vector3 target ) {
 		    float distance = Vector2.Distance( origin, target );
-		    if ( distance <= 0.5 ) {
+		    if ( distance <= NO_BOOST_THRESHOLD ) {
 			    return 1;
 		    }
 
-		    return distance * 2;
+		    return 1 + ( (distance - NO_BOOST_THRESHOLD) * 2 );
 	    }
     }
 
