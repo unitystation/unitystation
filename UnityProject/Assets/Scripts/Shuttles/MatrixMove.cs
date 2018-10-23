@@ -79,6 +79,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 
 	private Vector3 mPreviousPosition;
 	private Vector2 mPreviousFilteredPosition;
+	private bool monitorOnRot = false;
 		
 	private Vector3 clampedPosition
 	{
@@ -279,26 +280,44 @@ public class MatrixMove : ManagedNetworkBehaviour {
 						Time.deltaTime * clientState.RotationTime );
 			} else {
 				// Finishes the job of Lerp and straightens the ship with exact angle value
-				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.Degree );
+				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.Degree );	
 			}
 		} else if ( isMovingClient ) {
 			//Only move target if rotation is finished
 			SimulateStateMovement();
 		}
 
-		//Lerp
-		if ( clientState.Position != transform.position ) {
-			float distance = Vector3.Distance( clientState.Position, transform.position );
+		if(!IsRotatingClient && monitorOnRot){
+			monitorOnRot = false;
+			//This is ok for occasional state changes like end of rot:
+			gameObject.BroadcastMessage("MatrixMoveStopRotation", null, SendMessageOptions.DontRequireReceiver);
+		}
 
-//			Just set pos without any lerping if distance is too long (serverside teleportation assumed)
-			bool shouldTeleport = distance > 30;
-			if ( shouldTeleport ) {
+		//Lerp
+		if(clientState.Position != transform.position){
+			float distance = Vector3.Distance( clientState.Position, transform.position );
+			bool shouldWarp = distance > 2 || IsRotatingClient;
+
+			//Teleport (Greater then 30 unity meters away from server target):
+			if(distance > 30f) {
 				clampedPosition = clientState.Position;
 				return;
 			}
-//			Activate warp speed if object gets too far away or have to rotate
-			bool shouldWarp = distance > 2 || IsRotatingClient;
+
+			//FIXME Remove this once lerping has been properly fixed with Pixel Perfect movement:
+			//If stopped then lerp to target 
+			if(!clientState.IsMoving && distance > 0f){
+				transform.position = Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
+				mPreviousPosition = transform.position;
+				mPreviousFilteredPosition = transform.position;
+				return;
+			}
+
+			//FIXME: We need to use MoveTowards or some other lerp function as ClientState is like server waypoints and does not contain lerp positions
+			//FIXME: Currently shuttles teleport to each position received via server instead of lerping towards them
 			clampedPosition = clientState.Position;
+
+			// Activate warp speed if object gets too far away or have to rotate
 				//Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
 		}
 	}
@@ -385,6 +404,10 @@ public class MatrixMove : ManagedNetworkBehaviour {
 		if (!Equals(oldState.Orientation, newState.Orientation))
 		{
 			OnRotate.Invoke(oldState.Orientation, newState.Orientation);
+
+			//This is ok for occasional state changes like beginning of rot:
+			gameObject.BroadcastMessage("MatrixMoveStartRotation", null, SendMessageOptions.DontRequireReceiver);
+			monitorOnRot = true;
 		}
 		if (!oldState.IsMoving && newState.IsMoving)
 		{
