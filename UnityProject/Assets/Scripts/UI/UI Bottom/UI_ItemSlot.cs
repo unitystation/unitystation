@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class UI_ItemSlot : MonoBehaviour
+public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 {
 	public bool allowAllItems;
 	public List<ItemType> allowedItemTypes;
@@ -209,12 +211,12 @@ public class UI_ItemSlot : MonoBehaviour
 		}
 	}
 
-	public void OnDragStart()
+	public void OnDrag(PointerEventData data)
 	{
 		UIManager.DragAndDrop.UI_ItemDrag(this);
 	}
 
-	public void OnDragEnd()
+	public void OnEndDrag(PointerEventData data)
 	{
 		UIManager.DragAndDrop.StopDrag();
 	}
