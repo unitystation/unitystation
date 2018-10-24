@@ -23,6 +23,7 @@ internal enum MessageTypes : short
 	PlaySoundMessage = 1019,
 	ProgressBarMessage = 1020,
 	PaperUpdateMessage = 1021,
+	StorageItemSyncMessage = 1022,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,

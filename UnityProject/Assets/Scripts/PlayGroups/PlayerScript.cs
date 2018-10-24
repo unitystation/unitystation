@@ -270,7 +270,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			}
 			else
 			{
-				GameObject earSlotItem = UIManager.InventorySlots.EarSlot.Item;
+				GameObject earSlotItem = UIManager.InventorySlots["ear"].Item;
 				if ( earSlotItem )
 				{
 					Headset headset = earSlotItem.GetComponent<Headset>();

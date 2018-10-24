@@ -14,8 +14,8 @@ public class Hands : MonoBehaviour
 
 	private void Start()
 	{
-		CurrentSlot = Slots.RightHandSlot;
-		OtherSlot = Slots.LeftHandSlot;
+		CurrentSlot = Slots["rightHand"];
+		OtherSlot = Slots["leftHand"];
 		IsRight = true;
 	}
 
@@ -46,16 +46,16 @@ public class Hands : MonoBehaviour
 
 		if (right)
 		{
-			CurrentSlot = Slots.RightHandSlot;
-			OtherSlot = Slots.LeftHandSlot;
+			CurrentSlot = Slots["rightHand"];
+			OtherSlot = Slots["leftHand"];
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("rightHand");
 			PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "rightHand";
 			selector.parent = rightHand;
 		}
 		else
 		{
-			CurrentSlot = Slots.LeftHandSlot;
-			OtherSlot = Slots.RightHandSlot;
+			CurrentSlot = Slots["leftHand"];
+			OtherSlot = Slots["rightHand"];
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("leftHand");
 			PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "leftHand";
 			selector.parent = leftHand;

@@ -568,6 +568,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1105671603705378
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224014265981309276}
+  - component: {fileID: 114047347608001584}
+  - component: {fileID: 114441105741538276}
+  m_Layer: 5
+  m_Name: StorageInvenHandler (Storage UI Display)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1109749839652424
 GameObject:
   m_ObjectHideFlags: 1
@@ -12465,6 +12482,29 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114047347608001584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1105671603705378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -2095666955, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 6
+  m_StartCorner: 2
+  m_StartAxis: 0
+  m_CellSize: {x: 82, y: 82}
+  m_Spacing: {x: -5.4, y: -5}
+  m_Constraint: 1
+  m_ConstraintCount: 7
 --- !u!114 &114049260361145378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16146,6 +16186,17 @@ MonoBehaviour:
   - {fileID: 21300080, guid: 21c79b8453b04bf6aca87f6e4b496d5d, type: 3}
   - {fileID: 21300084, guid: 21c79b8453b04bf6aca87f6e4b496d5d, type: 3}
   azerty: 0
+--- !u!114 &114441105741538276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1105671603705378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3bdf2778373f4fdfacd9dea1ec3755d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114441514707964098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -21620,6 +21671,7 @@ MonoBehaviour:
   playerListUIControl: {fileID: 114827065861498824}
   toolTip: {fileID: 114819375966709390}
   walkRunControl: {fileID: 114928448129669528}
+  storageHandler: {fileID: 114441105741538276}
   ttsToggle: {fileID: 114913463177449856}
   progressBar: {fileID: 0}
   isInputFocus: 0
@@ -24114,6 +24166,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224014265981309276
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1105671603705378}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224342957805719492}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -87.21, y: -4.52}
+  m_SizeDelta: {x: 594.3, y: 180.4}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224014441259204308
 RectTransform:
   m_ObjectHideFlags: 1
@@ -25725,6 +25795,7 @@ RectTransform:
   - {fileID: 224336219369032342}
   - {fileID: 224335990036587416}
   - {fileID: 224770654638950946}
+  - {fileID: 224014265981309276}
   m_Father: {fileID: 224582159650461670}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

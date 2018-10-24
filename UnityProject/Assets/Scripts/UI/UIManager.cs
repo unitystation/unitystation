@@ -17,6 +17,7 @@ using UnityEngine.UI;
 		public PlayerListUI playerListUIControl;
 		public Text toolTip;
 		public ControlWalkRun walkRunControl;
+		public UI_StorageHandler storageHandler;
 		public Toggle ttsToggle;
 		[HideInInspector]
 		public ProgressBar progressBar;
@@ -70,6 +71,7 @@ using UnityEngine.UI;
 		public static PlayerListUI PlayerListUI => Instance.playerListUIControl;
 
 		public static DisplayManager DisplayManager => Instance.displayManager;
+		public static UI_StorageHandler StorageHandler => Instance.storageHandler;
 
 		public static string SetToolTip
 		{
@@ -157,7 +159,7 @@ using UnityEngine.UI;
 
 		public static string FindEmptySlotForItem(GameObject itemToPlace)
 		{
-			foreach (UI_ItemSlot slot in Instance.inventorySlotCache)
+			foreach (UI_ItemSlot slot in InventorySlotCache.InventorySlots)
 			{
 				UISlotObject slottingAttempt = new UISlotObject(slot.eventName, itemToPlace);
 				if (CanPutItemToSlot(slottingAttempt))
