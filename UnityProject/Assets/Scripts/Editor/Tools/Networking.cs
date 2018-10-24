@@ -63,10 +63,9 @@ public class Networking : Editor
 
 	}
 
-	private static short conn = 2;
 	[MenuItem("Networking/Spawn dummy player")]
 	private static void SpawnDummyPlayer() {
-		SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
+		SpawnHandler.SpawnDummyPlayer( JobType.CARGOTECH );
 	}
 
 	[MenuItem("Networking/Transform Waltz (Server)")]

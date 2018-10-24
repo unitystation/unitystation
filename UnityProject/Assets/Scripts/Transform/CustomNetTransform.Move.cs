@@ -441,10 +441,15 @@ public partial class CustomNetTransform {
 		return IsPlayerNearby( state, out player );
 	}
 
-	/// Around player
-	private bool IsPlayerNearby( TransformState state, out PlayerScript player ) {
+	private bool IsPlayerNearby( TransformState state, out PlayerScript player )
+	{
+		return IsPlayerNearby( state.WorldPosition, out player );
+	}
+
+	/// Around object
+	private bool IsPlayerNearby( Vector3 stateWorldPosition, out PlayerScript player ) {
 		player = null;
-		var position = Vector3Int.RoundToInt(state.WorldPosition);
+		var position = Vector3Int.RoundToInt(stateWorldPosition);
 		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
 		foreach (Vector3Int pos in bounds.allPositionsWithin) {
 			if ( HasPlayersAt( pos, out player ) ) {
@@ -466,8 +471,8 @@ public partial class CustomNetTransform {
 		for ( var i = 0; i < players.Length; i++ ) {
 			var player = players[i];
 			if ( player.registerTile.IsPassable() ||
-				intPos != Vector3Int.RoundToInt( player.PlayerSync.ServerState.WorldPosition )
-			    )
+			     intPos != Vector3Int.RoundToInt( player.PlayerSync.ServerState.WorldPosition )
+			)
 			{
 				continue;
 			}
@@ -479,4 +484,5 @@ public partial class CustomNetTransform {
 	}
 
 	#endregion
-}
+	}
+
