@@ -5,7 +5,7 @@ using UnityEngine;
 public class UI_StorageHandler : MonoBehaviour
 {
 	private GameObject inventorySlotPrefab;
-	private StorageItem storageCache;
+	public StorageItem storageCache {get; private set;}
 	private List<UI_ItemSlot> localSlotCache = new List<UI_ItemSlot>();
 
 	void Awake()
@@ -22,7 +22,10 @@ public class UI_StorageHandler : MonoBehaviour
 
 	private void PopulateInventorySlots()
 	{
-		localSlotCache.Clear();
+		if(localSlotCache.Count == storageCache.storageProps.slotCount){
+			return;
+		}
+
 		for (int i = 0; i < storageCache.storageProps.slotCount; i++)
 		{
 			GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
