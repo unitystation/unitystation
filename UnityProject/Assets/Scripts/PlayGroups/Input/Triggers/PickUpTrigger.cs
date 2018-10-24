@@ -50,7 +50,7 @@ using UnityEngine.Networking;
 		}
 
 		[Server]
-		public bool ValidatePickUp(GameObject originator, string handSlot = null)
+		public virtual bool ValidatePickUp(GameObject originator, string handSlot = null)
 		{
 			var ps = originator.GetComponent<PlayerScript>();
 			var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;

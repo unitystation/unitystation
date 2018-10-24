@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114677721502774396}
   - component: {fileID: 114120662618608678}
   - component: {fileID: 114336348675555448}
+  - component: {fileID: 114234295319972672}
   m_Layer: 10
   m_Name: UniBackPack
   m_TagString: Untagged
@@ -158,6 +159,21 @@ MonoBehaviour:
     i15: 25
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114234295319972672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1585232330438968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eac5b97f2a9c42ac9f2e98c0316ba2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storageProps:
+    slotCount: 0
+    inventoryInstances: []
+  inventorySlots: 7
 --- !u!114 &114336348675555448
 MonoBehaviour:
   m_ObjectHideFlags: 1

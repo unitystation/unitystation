@@ -73,6 +73,19 @@ public class InventorySlotCache : MonoBehaviour
 		return GetSlotByItemType(item.type);
 	}
 
+	public void Add(UI_ItemSlot item)
+	{
+		InventorySlots.Add(item);
+	}
+
+	public void Remove(UI_ItemSlot item)
+	{
+		if (InventorySlots.Contains(item))
+		{
+			InventorySlots.Remove(item);
+		}
+	}
+
 	public UI_ItemSlot GetSlotByItemType(ItemType type)
 	{
 		string eventName = "storage02";
@@ -128,9 +141,12 @@ public class InventorySlotCache : MonoBehaviour
 	public UI_ItemSlot GetSlotByEvent(string eventName)
 	{
 		int indexSearch = InventorySlots.FindIndex(x => x.eventName == eventName);
-		if(indexSearch != -1){
+		if (indexSearch != -1)
+		{
 			return InventorySlots[indexSearch];
-		} else {
+		}
+		else
+		{
 			return null;
 		}
 	}
