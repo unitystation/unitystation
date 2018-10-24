@@ -50,9 +50,8 @@ public partial class PlayerSync
 	/// Do current and target server positions match?
 	private bool ServerPositionsMatch => serverState.WorldPosition == serverLerpState.WorldPosition;
 
-		public override void OnStartServer()
+	public override void OnStartServer()
 		{
-//			PullObjectID = NetworkInstanceId.Invalid;
 			base.OnStartServer();
 			InitServerState();
 		}
@@ -124,19 +123,18 @@ public partial class PlayerSync
 			return false;
 		}
 
-		Vector3Int pushGoal =
-				Vector3Int.RoundToInt((Vector2)serverState.WorldPosition + direction);
+		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
+		Vector3Int pushGoal = origin + Vector3Int.RoundToInt( (Vector2)direction );
 
-		if ( !MatrixManager.IsPassableAt( pushGoal ) ) {
+		if ( !MatrixManager.IsPassableAt( origin, pushGoal ) ) {
 			return false;
 		}
 
-		Logger.Log($"Server push to {pushGoal}", Category.PushPull);
+		Logger.Log( $"Server push to {pushGoal}", Category.PushPull );
 		ClearQueueServer();
-		MatrixInfo newMatrix = MatrixManager.AtPoint(pushGoal);
+		MatrixInfo newMatrix = MatrixManager.AtPoint( pushGoal );
 		//Note the client queue reset
-		var newState = new PlayerState
-		{
+		var newState = new PlayerState {
 			MoveNumber = 0,
 			Impulse = direction,
 			MatrixId = newMatrix.Id,
@@ -319,7 +317,7 @@ public partial class PlayerSync
 		if ( IsNonStickyServer ) {
 			PushPull pushable;
 			if ( IsAroundPushables( serverState, out pushable ) ) {
-				InteractSpacePushable( pushable, action.Direction() );
+				StartCoroutine( InteractSpacePushable( pushable, action.Direction() ) );
 			}
 			return state;
 		} else {
@@ -389,27 +387,29 @@ public partial class PlayerSync
 		yield return YieldHelper.DeciSecond;
 	}
 
-	private void InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false ) {
-		Logger.LogTraceFormat( "Trying to space push {0}", Category.PushPull, pushable.gameObject );
+	private IEnumerator InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false ) {
+		Logger.LogTraceFormat( (isRecursive ? "Recursive " : "") + "Trying to space push {0}", Category.PushPull, pushable.gameObject );
 		Vector2 counterDirection = Vector2.zero - direction;
 
-		if ( !isRecursive ) {
-			pushable.TryPush( Vector2Int.RoundToInt( counterDirection ) );
-		}
-
 		bool pushedPlayer = Push( Vector2Int.RoundToInt( direction ) );
+
+		yield return YieldHelper.EndOfFrame;
+
+		bool pushedObstacle = pushable.TryPush( Vector2Int.RoundToInt( counterDirection ) );
+
+		yield return YieldHelper.EndOfFrame;
+
 		PushPull newPushable;
-		if ( pushedPlayer
+		if ( (pushedPlayer || pushedObstacle)
 		     && !IsWeightlessServer
-		     && IsAroundPushables( serverState, out newPushable )
-		     && newPushable == pushable //?
+		     && IsAroundPushables( registerTile.WorldPosition, out newPushable )
+		     && newPushable == pushable
 		)
-		{ //pushing player again so he doesn't get stop because of the same pushable again
-			InteractSpacePushable( pushable, direction, true );
+		{ //pushing player and object further away from each other
+		  //so that player wouldn't grab the same object again and stop
+			StartCoroutine( InteractSpacePushable( pushable, direction, true ) );
 		}
 	}
-
-	//FIXME: second player stops flight after push off
 
 	/// <param name="worldTile">Tile you're interacting with</param>
 	/// <param name="direction">Direction you're pushing</param>

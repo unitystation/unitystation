@@ -108,64 +108,27 @@ using UnityEngine.Networking;
 
 		private RaycastHit2D[] rayHit;
 
-//		public GameObject PullingObject { get; set; }
-
-//		public NetworkInstanceId PullObjectID {
-//			get { return pullObjectID; }
-//			set { pullObjectID = value; }
-//		}
-
-		//pull objects
-//		[SyncVar( hook = nameof( PullReset ) )] private NetworkInstanceId pullObjectID;
-
-//		private Vector3 pullPos;
-
 		private float pullJourney;
-
-//		private RegisterTile pullRegister;
-
-//		private PushPull pushPull; //The pushpull component on this player
 
 		private RegisterTile registerTile;
 
 		private bool CanMoveThere( PlayerState state, PlayerAction action ) {
-//			var position = ( Vector2 ) state.WorldPosition;
-//			var origin = Vector3Int.RoundToInt( position );
-//			var destination = Vector3Int.RoundToInt( position + action.Direction() );
-
-			Vector3Int origin = Vector3Int.RoundToInt( state.Position );
+			Vector3Int origin = Vector3Int.RoundToInt( state.WorldPosition );
 			Vector3Int direction = Vector3Int.RoundToInt( ( Vector2 ) action.Direction() );
-			if ( !CanPass( origin, direction, matrix ) ) {
+
+			if ( !MatrixManager.IsPassableAt( origin, origin + direction ) ) {
 				return false;
 			}
 
-			var playersOnTile = matrix.Get<RegisterPlayer>(origin + direction).ToArray();
+			var playersOnTile = MatrixManager.GetAt<RegisterPlayer>(origin + direction).ToArray();
 			for ( var i = 0; i < playersOnTile.Length; i++ ) {
 				var player = playersOnTile[i];
 				if ( player.gameObject != gameObject && !player.IsPassable() ) {
-//					Logger.LogTraceFormat( "Player CAN NOT pass due to {0} standing on localpos {1}", Category.Movement, player.gameObject, origin + direction );
+//					Logger.LogTraceFormat( "Player CAN NOT pass due to {0} standing on worldpos {1}", Category.Movement, player.gameObject, origin + direction );
 					return false;
 				}
 			}
-//			Logger.LogTraceFormat( "Player CAN pass localpos {0}->{1}", Category.Movement, origin, origin + direction );
-			return true;
-//			return MatrixManager.IsPassableAt( origin, destination );
-//			return state.WorldPosition.Equals( NextState( state, action, out change ).WorldPosition );
-		}
-
-		private static bool CanPass( Vector3Int localPos, Vector3Int direction, Matrix currentMatrix ) {//todo: kill this if possible
-			MatrixInfo matrixInfo = MatrixManager.Get( currentMatrix );
-			if ( matrixInfo.MatrixMove ) {
-				//Converting local direction to world direction
-				direction = Vector3Int.RoundToInt( matrixInfo.MatrixMove.ClientState.Orientation.Euler * direction );
-			}
-			Vector3Int position = MatrixManager.LocalToWorldInt( localPos, matrixInfo );
-
-			if ( !MatrixManager.IsPassableAt( position, position + direction ) ) {
-//				Logger.LogTraceFormat( "Player CAN NOT pass localpos {0}->{1}", Category.Movement, position, position + direction );
-				return false;
-			}
-
+//			Logger.LogTraceFormat( "Player CAN pass worldpos {0}->{1}", Category.Movement, origin, origin + direction );
 			return true;
 		}
 
@@ -185,10 +148,14 @@ using UnityEngine.Networking;
 
 		/// Around player
 		private bool IsAroundPushables( PlayerState state, out PushPull pushable ) {
+			return IsAroundPushables( state.WorldPosition, out pushable );
+		}
+
+		private bool IsAroundPushables( Vector3 stateWorldPosition, out PushPull pushable ) {
 			pushable = null;
-			var roundedPos = Vector3Int.RoundToInt(state.WorldPosition);
-			BoundsInt bounds = new BoundsInt(roundedPos - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
-			foreach (Vector3Int pos in bounds.allPositionsWithin) {
+			var roundedPos = Vector3Int.RoundToInt( stateWorldPosition );
+			BoundsInt bounds = new BoundsInt( roundedPos - new Vector3Int( 1, 1, 0 ), new Vector3Int( 3, 3, 1 ) );
+			foreach ( Vector3Int pos in bounds.allPositionsWithin ) {
 				if ( HasPushablesAt( pos, out pushable ) ) {
 					return true;
 				}
@@ -217,13 +184,6 @@ using UnityEngine.Networking;
 		}
 
 		#endregion
-
-
-//		private IEnumerator WaitForLoad() {
-//			yield return new WaitForSeconds( 2f );
-//
-//			PullReset( PullObjectID );
-//		}
 
 		private void Start() {
 			//Init pending actions queue for your local player
