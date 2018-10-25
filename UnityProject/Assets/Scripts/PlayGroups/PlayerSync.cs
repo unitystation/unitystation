@@ -151,12 +151,12 @@ using UnityEngine.Networking;
 			return IsAroundPushables( state.WorldPosition, out pushable );
 		}
 
-		private bool IsAroundPushables( Vector3 stateWorldPosition, out PushPull pushable ) {
+		private bool IsAroundPushables( Vector3 stateWorldPosition, out PushPull pushable, GameObject except = null ) {
 			pushable = null;
 			var roundedPos = Vector3Int.RoundToInt( stateWorldPosition );
 			BoundsInt bounds = new BoundsInt( roundedPos - new Vector3Int( 1, 1, 0 ), new Vector3Int( 3, 3, 1 ) );
 			foreach ( Vector3Int pos in bounds.allPositionsWithin ) {
-				if ( HasPushablesAt( pos, out pushable ) ) {
+				if ( HasPushablesAt( pos, out pushable, except ) ) {
 					return true;
 				}
 			}
@@ -164,7 +164,7 @@ using UnityEngine.Networking;
 			return false;
 		}
 
-		private bool HasPushablesAt( Vector3 stateWorldPosition, out PushPull firstPushable ) {
+		private bool HasPushablesAt( Vector3 stateWorldPosition, out PushPull firstPushable, GameObject except = null ) {
 			firstPushable = null;
 			var pushables = MatrixManager.GetAt<PushPull>( Vector3Int.RoundToInt( stateWorldPosition ) ).ToArray();
 			if ( pushables.Length == 0 ) {
@@ -173,7 +173,7 @@ using UnityEngine.Networking;
 
 			for ( var i = 0; i < pushables.Length; i++ ) {
 				var pushable = pushables[i];
-				if ( pushable.gameObject == gameObject ) {
+				if ( pushable.gameObject == ( except ?? this.gameObject ) ) {
 					continue;
 				}
 				firstPushable = pushable;
