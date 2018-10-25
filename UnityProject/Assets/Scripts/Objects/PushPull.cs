@@ -74,7 +74,7 @@ public class PushPull : VisibleBehaviour {
 		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
 		if ( !MatrixManager.IsPassableAt( from, target ) ||
-		     MatrixManager.IsFloatingAt( target ) ) {
+		     MatrixManager.IsNoGravityAt( target ) ) { //not allowing predictive push into space
 			return false;
 		}
 
