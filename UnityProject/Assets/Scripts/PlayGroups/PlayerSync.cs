@@ -116,20 +116,7 @@ using UnityEngine.Networking;
 			Vector3Int origin = Vector3Int.RoundToInt( state.WorldPosition );
 			Vector3Int direction = Vector3Int.RoundToInt( ( Vector2 ) action.Direction() );
 
-			if ( !MatrixManager.IsPassableAt( origin, origin + direction ) ) {
-				return false;
-			}
-
-			var playersOnTile = MatrixManager.GetAt<RegisterPlayer>(origin + direction).ToArray();
-			for ( var i = 0; i < playersOnTile.Length; i++ ) {
-				var player = playersOnTile[i];
-				if ( player.gameObject != gameObject && !player.IsPassable() ) {
-//					Logger.LogTraceFormat( "Player CAN NOT pass due to {0} standing on worldpos {1}", Category.Movement, player.gameObject, origin + direction );
-					return false;
-				}
-			}
-//			Logger.LogTraceFormat( "Player CAN pass worldpos {0}->{1}", Category.Movement, origin, origin + direction );
-			return true;
+			return MatrixManager.IsPassableAt( origin, origin + direction );
 		}
 
 		#region spess interaction logic
@@ -238,7 +225,6 @@ using UnityEngine.Networking;
 				return;
 			}
 
-			PlayerState state = isLocalPlayer ? predictedState : playerState;
 			if ( !playerMove.isGhost ) {
 				if ( matrix != null ) {
 					//Client zone
@@ -275,12 +261,12 @@ using UnityEngine.Networking;
 //				}
 
 				//Registering
-				if ( registerTile.Position != Vector3Int.RoundToInt( state.Position ) ) {
+				if ( registerTile.Position != Vector3Int.RoundToInt( predictedState.Position ) ) {
 					RegisterObjects();
 				}
 			} else {
 				if ( !GhostPositionReady ) {
-					GhostLerp( state );
+					GhostLerp( predictedState );
 				}
 			}
 		}

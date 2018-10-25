@@ -38,12 +38,8 @@ public partial class PlayerSync
 		private bool ClientPositionReady => ( Vector2 ) predictedState.Position == ( Vector2 ) transform.localPosition;
 
 		/// Does ghosts's transform pos match state pos? Ignores Z-axis.
-		private bool GhostPositionReady {
-			get {
-				var state = isLocalPlayer ? predictedState : playerState;
-				return ( Vector2 ) state.WorldPosition == ( Vector2 ) playerScript.ghost.transform.position;
-			}
-		}
+		private bool GhostPositionReady => ( Vector2 ) predictedState.WorldPosition == ( Vector2 ) playerScript.ghost.transform.position;
+
 		private bool IsWeightlessClient => MatrixManager.IsFloatingAt( gameObject, Vector3Int.RoundToInt(predictedState.WorldPosition) );
 		public bool IsNonStickyClient => MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
 
@@ -57,10 +53,6 @@ public partial class PlayerSync
 		/// where player simulated entire spacewalk (start and stop) without getting server's answer yet
 		private bool blockClientMovement = false;
 
-//		public override void OnStartClient() {
-//			StartCoroutine( WaitForLoad() );
-//			base.OnStartClient();
-//		}
 		private bool MoveCooldown = false; //cooldown is here just for client performance
 		private void DoAction() {
 			PlayerAction action = playerMove.SendAction();
