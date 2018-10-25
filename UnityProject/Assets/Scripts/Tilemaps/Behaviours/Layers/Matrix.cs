@@ -74,7 +74,7 @@ public class Matrix : MonoBehaviour
 		return true;
 	}
 
-	/// Is current position a station tile? (Objects not taken in mind)
+	/// Is current position NOT a station tile? (Objects not taken into consideration)
 	public bool IsNoGravityAt( Vector3Int position ) {
 		return metaTileMap.IsNoGravityAt( position );
 	}

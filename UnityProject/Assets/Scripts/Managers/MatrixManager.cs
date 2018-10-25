@@ -33,39 +33,48 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
 	public static bool IsFloatingAt(Vector3Int worldPos){
 		return isAtInternal( mat => mat.Matrix.IsFloatingAt( WorldToLocalInt( worldPos, mat ) ) );
 	}
 	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
 	public static bool IsNonStickyAt(Vector3Int worldPos){
 		return isAtInternal( mat => mat.Matrix.IsNonStickyAt( WorldToLocalInt( worldPos, mat ) ) );
 	}
 	///Cross-matrix edition of <see cref="Matrix.IsNoGravityAt(UnityEngine.Vector3Int)"/>
+	///<inheritdoc cref="Matrix.IsNoGravityAt(UnityEngine.Vector3Int)"/>
 	public static bool IsNoGravityAt(Vector3Int worldPos){
 		return isAtInternal( mat => mat.Matrix.IsNoGravityAt( WorldToLocalInt( worldPos, mat ) ) );
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(GameObject,UnityEngine.Vector3Int)"/>
+	///<inheritdoc cref="Matrix.IsFloatingAt(GameObject,UnityEngine.Vector3Int)"/>
 	public static bool IsFloatingAt(GameObject context, Vector3Int worldPos){
 		return isAtInternal( mat => mat.Matrix.IsFloatingAt( context, WorldToLocalInt( worldPos, mat ) ) );
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsSpaceAt"/>
+	///<inheritdoc cref="Matrix.IsSpaceAt"/>
 	public static bool IsSpaceAt(Vector3Int worldPos){
 		return isAtInternal( mat => mat.Matrix.IsSpaceAt( WorldToLocalInt( worldPos, mat ) ) );
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
+	///<inheritdoc cref="Matrix.IsEmptyAt"/>
 	public static bool IsEmptyAt(Vector3Int worldPos) {
 		return isAtInternal( mat => mat.Matrix.IsEmptyAt( WorldToLocalInt( worldPos, mat ) ) );
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int)"/>
+	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int)"/>
 	/// FIXME: not truly cross-matrix. can walk diagonally between matrices
 	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget) {
 		return isAtInternal( mat => mat.Matrix.IsPassableAt( WorldToLocalInt( worldOrigin, mat ),
 															 WorldToLocalInt( worldTarget, mat ) ) );
 	}
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
+	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
 	public static bool IsPassableAt(Vector3Int worldTarget) {
 		return isAtInternal( mat => mat.Matrix.IsPassableAt( WorldToLocalInt( worldTarget, mat ) ) );
 	}
