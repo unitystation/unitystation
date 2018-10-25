@@ -3,50 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Asteroid : NetworkBehaviour {
-
+public class Asteroid : NetworkBehaviour
+{
 	private MatrixMove mm;
 
 	private float asteroidDistance = 550; //How far can asteroids be spawned
 
 	private float distanceFromStation = 175; //Offset from station so it doesnt spawn into station
 
-	private float startDelay = 0.25f;
-
-
-	private void Start()
+	void OnEnable()
 	{
-		mm = GetComponent<MatrixMove>();
-
-		if (isServer)
+		if (mm == null)
 		{
-			StartCoroutine(DelayedStart());
+			mm = GetComponent<MatrixMove>();
 		}
+	}
+	public override void OnStartServer()
+	{
+		StartCoroutine(Init());
+		base.OnStartServer();
 	}
 
 	[Server]
 	public void SpawnNearStation()
 	{
-		//Makes sure asteroids don't spawn at/inside station
-		Vector2 clampVal = Random.insideUnitCircle * asteroidDistance;
-		
-		if(clampVal.x > 0)
-		{
-			clampVal.x = Mathf.Clamp(clampVal.x, distanceFromStation, asteroidDistance);
-		}
-		else
-		{
-			clampVal.x = Mathf.Clamp(clampVal.x, -distanceFromStation, -asteroidDistance);
-		}
-		mm.SetPosition(clampVal);
+		//Request a position from GameManager and cache the object in SpaceBodies List
+		GameManager.Instance.ServerSetSpaceBody(mm);
 	}
 
 	[Server] //Asigns random rotation to each asteroid at startup for variety.
 	public void RandomRotation()
 	{
-		int rand = Random.Range(0, 3);
+		int rand = Random.Range(0, 4);
 
-		switch(rand)
+		switch (rand)
 		{
 			case 0:
 				mm.RotateTo(Orientation.Up);
@@ -63,11 +53,13 @@ public class Asteroid : NetworkBehaviour {
 		}
 	}
 
-	//Delays start functions to avoid issues with matrixmove
-	IEnumerator DelayedStart()
+	//Wait for MatrixMove init on the server:
+	IEnumerator Init()
 	{
-		yield return new WaitForSeconds(startDelay);
-
+		while (mm.State.Position == TransformState.HiddenPos)
+		{
+			yield return YieldHelper.EndOfFrame;
+		}
 		SpawnNearStation();
 		RandomRotation();
 	}

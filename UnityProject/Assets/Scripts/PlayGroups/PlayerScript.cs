@@ -322,4 +322,18 @@ public class PlayerScript : ManagedNetworkBehaviour
 		{
 			UIManager.SetToolTip = "";
 		}
+
+		//MatrixMove is rotating (broadcast via MatrixMove)
+		public void MatrixMoveStartRotation(){
+			if(PlayerManager.LocalPlayer == gameObject){
+				//We need to handle lighting stuff for matrix rotations for local player:
+				Camera2DFollow.followControl.lightingSystem.MatrixMoveStartRotation();
+			}
+		}
+		public void MatrixMoveStopRotation(){
+			if(PlayerManager.LocalPlayer == gameObject){
+				//We need to handle lighting stuff for matrix rotations for local player:
+				Camera2DFollow.followControl.lightingSystem.MatrixMoveStopRotation();
+			}
+		}
 	}

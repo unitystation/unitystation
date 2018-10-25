@@ -26,10 +26,14 @@ public class MatrixManager : MonoBehaviour
 	[Header("Set the amount of matrices in the scene here")]
 	public int matrixCount;
 
+	[Header("Cache the matrix that also handles space here")]
+	public Matrix spaceMatrix;
+
 	/// Finds first matrix that is not empty at given world pos
-	public static MatrixInfo AtPoint(Vector3Int worldPos) {
-		MatrixInfo matrixInfo = getInternal( mat => !mat.Matrix.IsEmptyAt( WorldToLocalInt( worldPos, mat ) ) );
-		return Equals( matrixInfo, MatrixInfo.Invalid ) ? Instance.activeMatrices[0] : matrixInfo;
+	public static MatrixInfo AtPoint(Vector3Int worldPos)
+	{
+		MatrixInfo matrixInfo = getInternal(mat => !mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat)));
+		return Equals(matrixInfo, MatrixInfo.Invalid) ? Instance.activeMatrices[0] : matrixInfo;
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
@@ -80,14 +84,16 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>
-	public static IEnumerable<T> GetAt<T>( Vector3Int worldPos ) where T : MonoBehaviour {
-		return getAtInternal( mat => mat.Matrix.Get<T>( WorldToLocalInt( worldPos, mat ) ));
+	public static IEnumerable<T> GetAt<T>(Vector3Int worldPos) where T : MonoBehaviour
+	{
+		return getAtInternal(mat => mat.Matrix.Get<T>(WorldToLocalInt(worldPos, mat)));
 	}
 
 	private static IEnumerable<T> getAtInternal<T>( Func<MatrixInfo, IEnumerable<T>> condition ) where T : MonoBehaviour {
 		IEnumerable<T> t = new List<T>();
-		for (var i = 0; i < Instance.activeMatrices.Count; i++) {
-			t = t.Concat( condition( Instance.activeMatrices[i] ) );
+		for (var i = 0; i < Instance.activeMatrices.Count; i++)
+		{
+			t = t.Concat(condition(Instance.activeMatrices[i]));
 		}
 
 		return t;
@@ -155,7 +161,8 @@ public class MatrixManager : MonoBehaviour
 			return;
 		}
 
-		for (int i = 0; i < findMatrices.Length; i++) {
+		for (int i = 0; i < findMatrices.Length; i++)
+		{
 			MatrixInfo matrixInfo = new MatrixInfo
 			{
 				Id = i,
@@ -166,8 +173,17 @@ public class MatrixManager : MonoBehaviour
 //				NetId is initialized later
 				InitialOffset = findMatrices[i].InitialOffset
 			};
-			if ( !activeMatrices.Contains( matrixInfo ) ) {
-				activeMatrices.Add( matrixInfo );
+			if (!activeMatrices.Contains(matrixInfo))
+			{
+				//Space matrix has to go at index 0 in list
+				if (findMatrices[i] == spaceMatrix)
+				{
+					activeMatrices.Insert(0, matrixInfo);
+				}
+				else
+				{
+					activeMatrices.Add(matrixInfo);
+				}
 			}
 		}
 
@@ -200,8 +216,9 @@ public class MatrixManager : MonoBehaviour
 
 	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
 	{
-		if ( Instance.activeMatrices.Count == 0 ) {
-//			Logger.Log( "MatrixManager list not ready yet, trying to init" );
+		if (Instance.activeMatrices.Count == 0)
+		{
+			//			Logger.Log( "MatrixManager list not ready yet, trying to init" );
 			Instance.InitMatrices();
 		}
 		for (var i = 0; i < Instance.activeMatrices.Count; i++)
@@ -277,7 +294,8 @@ public class MatrixManager : MonoBehaviour
 	public static Vector3 WorldToLocal(Vector3 worldPos, MatrixInfo matrix)
 	{
 		//Invalid matrix info provided
-		if ( matrix.Equals( MatrixInfo.Invalid) ) {
+		if (matrix.Equals(MatrixInfo.Invalid))
+		{
 			return TransformState.HiddenPos;
 		}
 		if (!matrix.MatrixMove)
@@ -308,7 +326,8 @@ public struct MatrixInfo
 		{
 			return InitialOffset;
 		}
-		if ( state.Equals( default(MatrixState) ) ) {
+		if (state.Equals(default(MatrixState)))
+		{
 			state = MatrixMove.ClientState;
 		}
 		return InitialOffset + (Vector3Int.RoundToInt(state.Position) - MatrixMove.InitialPos);
@@ -333,13 +352,13 @@ public struct MatrixInfo
 	}
 
 	/// Null object
-	public static readonly MatrixInfo Invalid = new MatrixInfo {Id = -1};
+	public static readonly MatrixInfo Invalid = new MatrixInfo { Id = -1 };
 
 	public override string ToString()
 	{
-		return Equals(Invalid)
-			? "[Invalid matrix]"
-			: $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.State},netId={NetId}]";
+		return Equals(Invalid) ?
+			"[Invalid matrix]" :
+			$"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.State},netId={NetId}]";
 	}
 
 	///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices

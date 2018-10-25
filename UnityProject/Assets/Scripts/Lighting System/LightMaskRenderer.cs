@@ -7,28 +7,9 @@ public class LightMaskRenderer : MonoBehaviour
 	private const string MaskCameraName = "Light Mask Camera";
 
 	private Camera mMaskCamera;
-	private RenderTexture mMask;
-	
-	private RenderTexture mask
-	{
-		get
-		{
-			return mMask;
-		}
-
-		set
-		{
-			// Release old texture.
-			if (mMask != null)
-			{
-				mMask.Release();
-			}
-
-			// Assign new one. May be null.
-			mMask = value;
-			mMaskCamera.targetTexture = mMask;
-		}
-	}
+	private PixelPerfectRT mPPRenderTexture;
+	private Vector3 mPreviousCameraPosition;
+	private Vector2 mPreviousFilteredPosition;
 
 	public static LightMaskRenderer InitializeMaskRenderer(
 		GameObject iRoot)
@@ -49,39 +30,46 @@ public class LightMaskRenderer : MonoBehaviour
 
 		return _maskProcessor;
 	}
-
-	public void ResetRenderingTextures(MaskParameters iParameters)
+	
+	public PixelPerfectRT Render(
+		Camera iCameraToMatch,
+		PixelPerfectRTParameter iPPRTParameter,
+		PixelPerfectRT iOcclusionMask,
+		RenderSettings iRenderSettings = null)
 	{
-		// Prepare and assign RenderTexture.
-		int _textureWidth = iParameters.lightTextureSize.x;
-		int _textureHeight = iParameters.lightTextureSize.y;
+		// Arrange.
+		var _renderPosition = iPPRTParameter.GetFilteredRendererPosition(iCameraToMatch.transform.position, mPreviousCameraPosition, mPreviousFilteredPosition);
 
-		var _newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
-		_newRenderTexture.name = "Raw Light Mask";
-		_newRenderTexture.autoGenerateMips = false;
-		_newRenderTexture.useMipMap = false;
-		_newRenderTexture.filterMode = FilterMode.Bilinear;
-		_newRenderTexture.antiAliasing = iParameters.antiAliasing;
+		mPreviousCameraPosition = iCameraToMatch.transform.position;
+		mPreviousFilteredPosition = _renderPosition;
 
-		// Note: Assignment will release previous texture if exist.
-		mask = _newRenderTexture;
-
-		mMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
-
-		Vector2 _scale = new Vector2((float)iParameters.cameraOrthographicSize / iParameters.extendedCameraSize, (float)iParameters.cameraOrthographicSize / iParameters.extendedCameraSize);
-		Shader.SetGlobalVector("_ExtendedToSmallTextureScale", _scale);
-	}
-
-	public RenderTexture Render(RenderSettings iRenderSettings)
-	{
 		mMaskCamera.enabled = false;
+		mMaskCamera.backgroundColor = Color.black;
+		mMaskCamera.transform.position = _renderPosition;
+		mMaskCamera.orthographicSize = iPPRTParameter.orthographicSize;
 		mMaskCamera.cullingMask = iRenderSettings.lightSourceLayers; 
 
-		mMaskCamera.backgroundColor = Color.black;
+		if (mPPRenderTexture == null)
+		{
+			mPPRenderTexture = new PixelPerfectRT(iPPRTParameter);
+			mPPRenderTexture.renderTexture.filterMode = FilterMode.Bilinear;
+		}
+		else
+		{
+			mPPRenderTexture.Update(iPPRTParameter);
+		}
 
-		mMaskCamera.Render();
+		// Arrange Occlusion RT
+		iOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
+		Shader.SetGlobalTexture("_FovExtendedMask", iOcclusionMask.renderTexture);
 
-		return mask;
+		// Note: We need to override mLightPPRT position for transformation, because new position for mLightPPRT will be set during light rendering.
+		Shader.SetGlobalVector("_FovTransformation", iOcclusionMask.GetTransformation(mPPRenderTexture, _renderPosition));
+
+		// Execute.
+		mPPRenderTexture.Render(mMaskCamera);
+
+		return mPPRenderTexture;
 	}
 
 	private static Transform CreateNewCameraGo(GameObject iRoot, string iMaskLayerName)
@@ -108,6 +96,7 @@ public class LightMaskRenderer : MonoBehaviour
 		iSetupCamera.allowHDR = false;
 		iSetupCamera.allowMSAA = false;
 		iSetupCamera.farClipPlane = 3f;
+		iSetupCamera.nearClipPlane = -3f;
 
 		// Get or add processor component.
 		var _processor = iSetupCamera.gameObject.GetComponent<LightMaskRenderer>();
