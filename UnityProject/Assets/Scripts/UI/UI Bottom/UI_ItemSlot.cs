@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 {
@@ -17,13 +16,26 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	private Image secondaryImage; //For sprites that require two images
 	public ItemSize maxItemSize;
 
-	public GameObject Item { get; private set; }
+	public GameObject Item
+	{
+		get
+		{
+			return inventorySlot.Item;
+		}
+		set
+		{
+			inventorySlot.Item = value;
+		}
+	}
 
 	public bool IsFull => Item != null;
+
+	private InventorySlot inventorySlot;
 
 	private void Awake()
 	{
 		image = GetComponent<Image>();
+		inventorySlot = new InventorySlot(System.Guid.Empty, eventName, true);
 		secondaryImage = GetComponentsInChildren<Image>()[1];
 		secondaryImage.alphaHitTestMinimumThreshold = 0.5f;
 		secondaryImage.enabled = false;
@@ -34,6 +46,11 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 			//				Logger.LogTraceFormat("Triggered SetItem for {0}", Category.UI, eventName);
 			EventManager.UI.AddListener(eventName, SetItem);
 		}
+	}
+
+	void Start()
+	{
+		InventoryManager.AllClientInventorySlots.Add(inventorySlot);
 	}
 
 	private void OnEnable()

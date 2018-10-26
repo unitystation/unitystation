@@ -61,10 +61,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (isServer)
 		{
+			List<InventorySlot> initSync = new List<InventorySlot>();
 			foreach (string slotName in slotNames)
 			{
-				Inventory.Add(slotName, new InventorySlot(Guid.NewGuid(), slotName));
+				var invSlot =  new InventorySlot(Guid.NewGuid(), slotName, true);
+				Inventory.Add(slotName, invSlot);
+				InventoryManager.AllServerInventorySlots.Add(invSlot);
+				initSync.Add(invSlot);
 			}
+
+			SyncPlayerInventoryGuidMessage.Send(gameObject, initSync);
 		}
 
 		base.OnStartServer();
@@ -74,9 +80,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false, bool forceInform = true)
 	{
 		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
-		if (Inventory[eventName] != null && Inventory[eventName] != itemObject && !replaceIfOccupied)
+		if (Inventory[eventName] != null && Inventory[eventName].Item != itemObject && !replaceIfOccupied)
 		{
-			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].name} with {itemObject.name}", Category.Inventory);
+			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].Item.name} with {itemObject.name}", Category.Inventory);
 			return false;
 		}
 
@@ -104,7 +110,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		foreach (var slot in Inventory)
 		{
-			if (item == slot.Value)
+			if (item == slot.Value.Item)
 			{
 				ClearInventorySlot(slot.Key);
 				break;
@@ -119,7 +125,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		foreach (var slot in Inventory)
 		{
-			if (item == slot.Value)
+			if (item == slot.Value.Item)
 			{
 				return true;
 			}
@@ -150,7 +156,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//security todo: serverside check for item size UI_ItemSlot.CheckItemFit()
 		Debug.Log("!! FIXME: Contains Value needs to be rewritten to InventoryManager");
-		if (!Inventory[slot] && gObj )//&& Inventory.ContainsValue(gObj))
+		if (!Inventory[slot].Item && gObj )//&& Inventory.ContainsValue(gObj))
 		{
 			UpdateSlotMessage.Send(gameObject, slot, gObj, forceClientInform);
 			SetInventorySlot(slot, gObj);
@@ -180,7 +186,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		HashSet<string> toBeCleared = new HashSet<string>();
 		foreach (string key in Inventory.Keys)
 		{
-			if (key.Equals(slot) || !Inventory[key])
+			if (key.Equals(slot) || !Inventory[key].Item)
 			{
 				continue;
 			}
@@ -262,7 +268,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/ )
 	{
 		//decline if not dropped from hands?
-		if (Inventory.ContainsKey(slot) && Inventory[slot])
+		if (Inventory.ContainsKey(slot) && Inventory[slot].Item)
 		{
 			DropItem(slot, forceClientInform);
 			return true;
@@ -283,7 +289,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			slot = "uniform";
 			foreach (var key in Inventory.Keys)
 			{
-				if (Inventory[key])
+				if (Inventory[key].Item)
 				{
 					slot = key;
 					break;
@@ -306,7 +312,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			//fixme: modified collectionz
 			foreach (var key in Inventory.Keys)
 			{
-				if (Inventory[key])
+				if (Inventory[key].Item)
 				{
 					DropItem(key);
 				}
@@ -317,12 +323,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			foreach (var item in Inventory.Values)
 			{
-				if (!item)
+				if (!item.Item)
 				{
 					continue;
 				}
 
-				var objTransform = item.GetComponent<CustomNetTransform>();
+				var objTransform = item.Item.GetComponent<CustomNetTransform>();
 				if (objTransform)
 				{
 					objTransform.ForceDrop(gameObject.transform.position);
@@ -420,7 +426,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	public bool SlotNotEmpty(string eventName)
 	{
-		return Inventory.ContainsKey(eventName) && Inventory[eventName] != null;
+		return Inventory.ContainsKey(eventName) && Inventory[eventName].Item != null;
 	}
 
 	[Command]
@@ -503,7 +509,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 			else
 			{
-				c.storedObject = Inventory[currentSlotName].GetComponent<ObjectBehaviour>();
+				c.storedObject = Inventory[currentSlotName].Item.GetComponent<ObjectBehaviour>();
 				ClearInventorySlot(currentSlotName);
 				c.storedObject.visibleState = false;
 				c.isFull = true;
@@ -714,13 +720,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//Validate paper edit request
 		//TODO Check for Pen
-		if (Inventory["leftHand"] == paper || Inventory["rightHand"] == paper)
+		if (Inventory["leftHand"].Item == paper || Inventory["rightHand"].Item == paper)
 		{
 			var paperComponent = paper.GetComponent<Paper>();
-			var pen = Inventory["leftHand"]?.GetComponent<Pen>();
+			var pen = Inventory["leftHand"].Item?.GetComponent<Pen>();
 			if (pen == null)
 			{
-				pen = Inventory["rightHand"]?.GetComponent<Pen>();
+				pen = Inventory["rightHand"].Item?.GetComponent<Pen>();
 				if (pen == null)
 				{
 					//no pen

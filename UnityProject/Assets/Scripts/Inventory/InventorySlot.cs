@@ -5,10 +5,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [Serializable]
-public class InventorySlot : MonoBehaviour
+public class InventorySlot
 {
-	public Guid UUID;
+	public string UUID;
 	public string SlotName = "";
+	public bool IsUISlot = false;
 	public NetworkInstanceId ItemInstanceId = NetworkInstanceId.Invalid;
 	private GameObject item;
 	public GameObject Item
@@ -38,10 +39,10 @@ public class InventorySlot : MonoBehaviour
 		}
 	}
 
-	//New InventorySlot without any items on start
-	public InventorySlot(Guid uuid, string slotName = "")
+	public InventorySlot(Guid uuid, string slotName = "", bool isUISlot = false)
 	{
-		UUID = uuid;
+		UUID = uuid.ToString();
 		SlotName = slotName;
+		IsUISlot = isUISlot;
 	}
 }

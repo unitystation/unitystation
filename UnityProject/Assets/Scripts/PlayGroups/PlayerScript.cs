@@ -260,7 +260,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 				PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
 				if ( pna && pna.SlotNotEmpty("ear") )
 				{
-					Headset headset = pna.Inventory["ear"].GetComponent<Headset>();
+					Headset headset = pna.Inventory["ear"].Item.GetComponent<Headset>();
 					if ( headset )
 					{
 						EncryptionKeyType key = headset.EncryptionKey;
