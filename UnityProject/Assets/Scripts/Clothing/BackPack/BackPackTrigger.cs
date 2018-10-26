@@ -5,22 +5,22 @@ using UnityEngine.Networking;
 
 public class BackPackTrigger : PickUpTrigger
 {
-	private StorageItem storageItem;
+	private StorageObject storageObj;
 
 	void Awake()
 	{
-		storageItem = GetComponent<StorageItem>();
+		storageObj = GetComponent<StorageObject>();
 	}
 	public override void UI_Interact(GameObject originator, string hand)
 	{
-		UIManager.StorageHandler.OpenStorageUI(storageItem);
+		UIManager.StorageHandler.OpenStorageUI(storageObj);
 	}
 
 	[Server]
 	public override bool ValidatePickUp(GameObject originator, string handSlot = null)
 	{
 		//Do a sync of the storage items when adding to UI
-		storageItem.NotifyPlayer(originator);
+		storageObj.NotifyPlayer(originator);
 
 		return base.ValidatePickUp(originator, handSlot);
 	}
