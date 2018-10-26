@@ -139,11 +139,9 @@ using UnityEngine.Networking;
 			return IsAroundPushables( state.WorldPosition, out pushable );
 		}
 
-		private bool IsAroundPushables( Vector3 stateWorldPosition, out PushPull pushable, GameObject except = null ) {
+		private bool IsAroundPushables( Vector3 worldPos, out PushPull pushable, GameObject except = null ) {
 			pushable = null;
-			var roundedPos = Vector3Int.RoundToInt( (Vector2)stateWorldPosition );
-			BoundsInt bounds = new BoundsInt( roundedPos - new Vector3Int( 1, 1, 0 ), new Vector3Int( 3, 3, 1 ) );
-			foreach ( Vector3Int pos in bounds.allPositionsWithin ) {
+			foreach ( Vector3Int pos in worldPos.CutToInt().BoundsAround().allPositionsWithin ) {
 				if ( HasPushablesAt( pos, out pushable, except ) ) {
 					return true;
 				}
@@ -153,15 +151,13 @@ using UnityEngine.Networking;
 		}
 
 		public static bool HasInReach( Vector3 worldPos, PushPull hasWhat ) {
-			Vector3Int roundedPos = Vector3Int.RoundToInt( (Vector2)worldPos );
 			Vector3Int objectPos = hasWhat.registerTile.WorldPosition;
-			BoundsInt bounds = new BoundsInt( roundedPos - new Vector3Int( 1, 1, 0 ), new Vector3Int( 3, 3, 1 ) );
-			return bounds.Contains( objectPos );
+			return worldPos.CutToInt().BoundsAround().Contains( objectPos );
 		}
 
 		private bool HasPushablesAt( Vector3 stateWorldPosition, out PushPull firstPushable, GameObject except = null ) {
 			firstPushable = null;
-			var pushables = MatrixManager.GetAt<PushPull>( Vector3Int.RoundToInt( stateWorldPosition ) ).ToArray();
+			var pushables = MatrixManager.GetAt<PushPull>( stateWorldPosition.CutToInt() ).ToArray();
 			if ( pushables.Length == 0 ) {
 				return false;
 			}

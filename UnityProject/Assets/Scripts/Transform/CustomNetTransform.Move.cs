@@ -155,8 +155,8 @@ public partial class CustomNetTransform {
 			return;
 		}
 		transform.localPosition =
-			Vector3.MoveTowards( transform.localPosition, targetPos, clientState.Speed * Time.deltaTime
-			                                                                           * Util.SpeedMod(transform.localPosition, targetPos) );
+			Vector3.MoveTowards( transform.localPosition, targetPos,
+								 clientState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos) );
 		if ( transform.localPosition == targetPos ) {
 			onClientTileReached.Invoke( Vector3Int.RoundToInt(clientState.WorldPosition) );
 		}
@@ -171,8 +171,8 @@ public partial class CustomNetTransform {
 			return;
 		}
 		serverLerpState.Position =
-			Vector3.MoveTowards( serverLerpState.Position, targetPos, serverState.Speed * Time.deltaTime
-			                                                                            * Util.SpeedMod(serverLerpState.Position, targetPos) );
+			Vector3.MoveTowards( serverLerpState.Position, targetPos,
+								 serverState.Speed * Time.deltaTime * serverLerpState.Position.SpeedTo(targetPos) );
 
 		if ( serverLerpState.Position == targetPos ) {
 			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
@@ -447,11 +447,9 @@ public partial class CustomNetTransform {
 	}
 
 	/// Around object
-	private bool IsPlayerNearby( Vector3 stateWorldPosition, out PlayerScript player ) {
+	private bool IsPlayerNearby( Vector3 worldPos, out PlayerScript player ) {
 		player = null;
-		var position = Vector3Int.RoundToInt( (Vector2)stateWorldPosition );
-		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
-		foreach (Vector3Int pos in bounds.allPositionsWithin) {
+		foreach (Vector3Int pos in worldPos.CutToInt().BoundsAround().allPositionsWithin) {
 			if ( HasPlayersAt( pos, out player ) ) {
 				return true;
 			}
@@ -459,7 +457,7 @@ public partial class CustomNetTransform {
 
 		return false;
 	}
-//todo extract common bounds shit; V3Int.From(V3)
+
 	private bool HasPlayersAt( Vector3 stateWorldPosition, out PlayerScript firstPlayer ) {
 		firstPlayer = null;
 		var intPos = Vector3Int.RoundToInt( (Vector2)stateWorldPosition );

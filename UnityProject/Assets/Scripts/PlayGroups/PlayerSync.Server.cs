@@ -35,7 +35,6 @@ public partial class PlayerSync
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
 	private Vector2 serverLastDirection;
 
-	//TODO: Remove the space damage coroutine when atmos is implemented
 	private bool isApplyingSpaceDmg;
 
 	///
@@ -534,8 +533,8 @@ public partial class PlayerSync
 		//and inform players if serverState reached targetState afterwards
 		Vector3 targetPos = serverState.WorldPosition;
 		serverLerpState.WorldPosition =
-			Vector3.MoveTowards( serverLerpState.WorldPosition, targetPos, playerMove.speed * Time.deltaTime
-			                                                                                * Util.SpeedMod(serverLerpState.WorldPosition, targetPos) );
+			Vector3.MoveTowards( serverLerpState.WorldPosition, targetPos,
+								 playerMove.speed * Time.deltaTime * serverLerpState.WorldPosition.SpeedTo(targetPos) );
 		//failsafe
 		var distance = Vector3.Distance( serverLerpState.WorldPosition, targetPos );
 		if ( distance > 1.5 ) {

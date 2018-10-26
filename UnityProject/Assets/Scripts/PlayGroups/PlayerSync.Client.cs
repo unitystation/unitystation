@@ -287,8 +287,8 @@ public partial class PlayerSync
 			if ( !ClientPositionReady ) {
 				//PlayerLerp
 				Vector3 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get( matrix ) );
-				transform.localPosition = Vector3.MoveTowards( transform.localPosition, targetPos, playerMove.speed * Time.deltaTime
-				                                                                                                    * Util.SpeedMod(transform.localPosition, targetPos) );
+				transform.localPosition = Vector3.MoveTowards( transform.localPosition, targetPos,
+																playerMove.speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos) );
 				//failsafe
 				if ( playerState.NoLerp || Vector3.Distance( transform.localPosition, targetPos ) > 30 ) {
 					transform.localPosition = targetPos;

@@ -62,8 +62,7 @@ public class Matrix : MonoBehaviour
 	/// Is this position and surrounding area completely clear of solid objects?
 	public bool IsFloatingAt(Vector3Int position)
 	{
-		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
-		foreach (Vector3Int pos in bounds.allPositionsWithin)
+		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
 			if (!metaTileMap.IsEmptyAt(pos))
 			{
@@ -82,8 +81,7 @@ public class Matrix : MonoBehaviour
 	/// Should player NOT stick to the station at this position?
 	public bool IsNonStickyAt(Vector3Int position)
 	{
-		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
-		foreach (Vector3Int pos in bounds.allPositionsWithin)
+		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
 			if (!metaTileMap.IsNoGravityAt(pos))
 			{
@@ -97,8 +95,7 @@ public class Matrix : MonoBehaviour
 	/// Is this position and surrounding area completely clear of solid objects except for provided one?
 	public bool IsFloatingAt(GameObject context, Vector3Int position)
 	{
-		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
-		foreach (Vector3Int pos in bounds.allPositionsWithin)
+		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
 			if (!metaTileMap.IsEmptyAt(context, pos))
 			{
