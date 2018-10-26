@@ -64,7 +64,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			List<InventorySlot> initSync = new List<InventorySlot>();
 			foreach (string slotName in slotNames)
 			{
-				var invSlot =  new InventorySlot(Guid.NewGuid(), slotName, true);
+				var invSlot = new InventorySlot(Guid.NewGuid(), slotName, true, playerScript);
 				Inventory.Add(slotName, invSlot);
 				InventoryManager.AllServerInventorySlots.Add(invSlot);
 				initSync.Add(invSlot);
@@ -77,18 +77,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public bool AddItem(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false, bool forceInform = true)
+	public bool AddItemToUISlot(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false, bool forceInform = true)
 	{
 		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
+
 		if (Inventory[eventName] != null && Inventory[eventName].Item != itemObject && !replaceIfOccupied)
 		{
 			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].Item.name} with {itemObject.name}", Category.Inventory);
 			return false;
 		}
 
-		EquipmentPool.AddGameObject(gameObject, itemObject);
+		//EquipmentPool.AddGameObject(gameObject, itemObject);
 		SetInventorySlot(slotName, itemObject);
-		UpdateSlotMessage.Send(gameObject, eventName, itemObject, forceInform);
 		return true;
 	}
 
@@ -156,7 +156,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//security todo: serverside check for item size UI_ItemSlot.CheckItemFit()
 		Debug.Log("!! FIXME: Contains Value needs to be rewritten to InventoryManager");
-		if (!Inventory[slot].Item && gObj )//&& Inventory.ContainsValue(gObj))
+		if (!Inventory[slot].Item && gObj) //&& Inventory.ContainsValue(gObj))
 		{
 			UpdateSlotMessage.Send(gameObject, slot, gObj, forceClientInform);
 			SetInventorySlot(slot, gObj);
@@ -177,7 +177,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	public void RollbackPrediction(string slot)
 	{
-		UpdateSlotMessage.Send(gameObject, slot, Inventory[slot].Item, true);
+		UpdateSlotMessage.Send(gameObject, slot, "", Inventory[slot].Item, true);
 	}
 
 	[Server]
@@ -221,7 +221,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				equipment.ClearItemSprite(slotNames[i]);
 			}
 
-			UpdateSlotMessage.Send(gameObject, slotNames[i], null, forceClientInform);
+			//UpdateSlotMessage.Send(gameObject, slotNames[i], null, forceClientInform);
+			InventoryManager.UpdateInvSlot(true, slotNames[i], null);
 		}
 
 		Logger.LogTraceFormat("Cleared {0}", Category.Inventory, slotNames);
@@ -230,7 +231,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void SetInventorySlot(string slotName, GameObject obj)
 	{
-		Inventory[slotName].Item = obj;
+		InventoryManager.UpdateInvSlot(true, Inventory[slotName].UUID, obj,
+			InventoryManager.GetSlotIDFromItem(obj));
+
 		ItemAttributes att = obj.GetComponent<ItemAttributes>();
 
 		if (slotName == "leftHand" || slotName == "rightHand")
@@ -246,8 +249,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			else
 			{
 				if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") ||
-					att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag")
-					|| att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank"))
+					att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
+					att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank"))
 				{
 					Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
 					equipment.syncEquipSprites[(int)enumA] = att.clothingReference;

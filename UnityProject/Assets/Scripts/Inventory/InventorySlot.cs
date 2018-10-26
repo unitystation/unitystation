@@ -11,6 +11,7 @@ public class InventorySlot
 	public string SlotName = "";
 	public bool IsUISlot = false;
 	public NetworkInstanceId ItemInstanceId = NetworkInstanceId.Invalid;
+	public PlayerScript Owner { get; set; } //null = no owner (only UI slots have owners)
 	private GameObject item;
 	public GameObject Item
 	{
@@ -39,10 +40,11 @@ public class InventorySlot
 		}
 	}
 
-	public InventorySlot(Guid uuid, string slotName = "", bool isUISlot = false)
+	public InventorySlot(Guid uuid, string slotName = "", bool isUISlot = false, PlayerScript owner = null)
 	{
 		UUID = uuid.ToString();
 		SlotName = slotName;
 		IsUISlot = isUISlot;
+		Owner = owner;
 	}
 }

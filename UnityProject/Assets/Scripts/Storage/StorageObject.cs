@@ -17,7 +17,7 @@ public class StorageObject : NetworkBehaviour
 		storageSlots = new StorageSlots();
 		for (int i = 0; i < maxSlots; i++)
 		{
-			storageSlots.inventoryInstances.Add(new InventorySlot(System.Guid.NewGuid()));
+			storageSlots.inventorySlots.Add(new InventorySlot(System.Guid.NewGuid(), "inventory" + i));
 		}
 
 		RpcInitClient(JsonUtility.ToJson(storageSlots));
@@ -45,7 +45,7 @@ public class StorageObject : NetworkBehaviour
 [Serializable]
 public class StorageSlots
 {
-	public int slotCount => inventoryInstances.Count;
+	public int slotCount => inventorySlots.Count;
 
-	public List<InventorySlot> inventoryInstances = new List<InventorySlot>();
+	public List<InventorySlot> inventorySlots = new List<InventorySlot>();
 }

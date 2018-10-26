@@ -18,7 +18,7 @@ public class SyncPlayerInventoryGuidMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(Recipient);
-
+		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
 		var SlotsList = JsonUtility.FromJson<SyncPlayerInventoryList>(Data);
 
 		if(InventoryManager.AllClientInventorySlots == null){
@@ -30,6 +30,7 @@ public class SyncPlayerInventoryGuidMessage : ServerMessage
 				x => x.SlotName == SlotsList.slotsToUpdate[i].SlotName);
 			if(index != -1){
 				InventoryManager.AllClientInventorySlots[index].UUID = SlotsList.slotsToUpdate[i].UUID;
+				InventoryManager.AllClientInventorySlots[index].Owner = playerScript;
 			}
 		}
 	}

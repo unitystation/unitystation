@@ -4,11 +4,13 @@ public class UISlotObject
 {
 	public readonly string Slot;
 	public readonly GameObject SlotContents;
+	public readonly string FromSlot;
 
-	public UISlotObject(string slot, GameObject slotContents = null)
+	public UISlotObject(string slot, GameObject slotContents = null, string fromSlot = "")
 	{
 		Slot = slot;
 		SlotContents = slotContents;
+		FromSlot = fromSlot;
 	}
 
 	public bool IsEmpty()
