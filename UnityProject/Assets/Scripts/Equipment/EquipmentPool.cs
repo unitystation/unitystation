@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 	public class EquipmentPool : MonoBehaviour
 	{
 		private static EquipmentPool equipmentPool;
-		private readonly Dictionary<NetworkInstanceId, ObjectPool> equipPools = new Dictionary<NetworkInstanceId, ObjectPool>();
+		private readonly Dictionary<NetworkInstanceId, PlayerOwnedItemsPool> equipPools = new Dictionary<NetworkInstanceId, PlayerOwnedItemsPool>();
 
 		private GameObject objectPoolPrefab;
 
@@ -50,7 +50,7 @@ using UnityEngine.Networking;
 					Instantiate(Instance.objectPoolPrefab, Vector2.zero, Quaternion.identity);
 				newPool.transform.parent = Instance.transform;
 				newPool.name = $"{playerName} ({ownerId})";
-				ObjectPool pool = newPool.GetComponent<ObjectPool>();
+				PlayerOwnedItemsPool pool = newPool.GetComponent<PlayerOwnedItemsPool>();
 				pool.Owner = player.GetComponent<PlayerScript>();
 				Instance.equipPools.Add(ownerId, pool);
 				Instance.equipPools[ownerId].AddGameObject(gObj);

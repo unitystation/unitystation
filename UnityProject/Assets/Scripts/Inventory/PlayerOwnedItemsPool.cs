@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 	//For items that are the ownership of players, the items are kept in a pool serverside and sprites references
 	//sent to the client UI and playerobj
-	public class ObjectPool : MonoBehaviour
+	public class PlayerOwnedItemsPool : MonoBehaviour
 	{
 		public Dictionary<NetworkIdentity, ItemAttributes> currentObjects =
 			new Dictionary<NetworkIdentity, ItemAttributes>();

@@ -42,7 +42,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private SoundNetworkActions soundNetworkActions;
 
-	public Dictionary<string, GameObject> Inventory { get; } = new Dictionary<string, GameObject>();
+	public Dictionary<string, InventorySlot> Inventory { get; } = new Dictionary<string, InventorySlot>();
 
 	public bool isGhost;
 
@@ -55,7 +55,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
 		registerTile = GetComponentInParent<RegisterTile>();
-
 	}
 
 	public override void OnStartServer()
@@ -64,7 +63,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			foreach (string slotName in slotNames)
 			{
-				Inventory.Add(slotName, null);
+				Inventory.Add(slotName, new InventorySlot(Guid.NewGuid(), slotName));
 			}
 		}
 
@@ -150,7 +149,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceClientInform = true)
 	{
 		//security todo: serverside check for item size UI_ItemSlot.CheckItemFit()
-		if (!Inventory[slot] && gObj && Inventory.ContainsValue(gObj))
+		Debug.Log("!! FIXME: Contains Value needs to be rewritten to InventoryManager");
+		if (!Inventory[slot] && gObj )//&& Inventory.ContainsValue(gObj))
 		{
 			UpdateSlotMessage.Send(gameObject, slot, gObj, forceClientInform);
 			SetInventorySlot(slot, gObj);
@@ -171,7 +171,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	public void RollbackPrediction(string slot)
 	{
-		UpdateSlotMessage.Send(gameObject, slot, Inventory[slot], true);
+		UpdateSlotMessage.Send(gameObject, slot, Inventory[slot].Item, true);
 	}
 
 	[Server]
@@ -224,7 +224,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void SetInventorySlot(string slotName, GameObject obj)
 	{
-		Inventory[slotName] = obj;
+		Inventory[slotName].Item = obj;
 		ItemAttributes att = obj.GetComponent<ItemAttributes>();
 
 		if (slotName == "leftHand" || slotName == "rightHand")
@@ -290,7 +290,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				}
 			}
 		}
-		EquipmentPool.DropGameObject(gameObject, Inventory[slot]);
+		EquipmentPool.DropGameObject(gameObject, Inventory[slot].Item);
 		Inventory[slot] = null;
 		equipment.ClearItemSprite(slot);
 		UpdateSlotMessage.Send(gameObject, slot, null, forceClientInform);
@@ -340,7 +340,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			RollbackPrediction(slot);
 			return;
 		}
-		GameObject throwable = Inventory[slot];
+		GameObject throwable = Inventory[slot].Item;
 
 		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
 
@@ -385,8 +385,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		GameObject item = Inventory[slotName];
-		EquipmentPool.DropGameObject(gameObject, Inventory[slotName], pos);
+		GameObject item = Inventory[slotName].Item;
+		EquipmentPool.DropGameObject(gameObject, Inventory[slotName].Item, pos);
 		ClearInventorySlot(slotName);
 		if (item != null && newParent != null)
 		{
