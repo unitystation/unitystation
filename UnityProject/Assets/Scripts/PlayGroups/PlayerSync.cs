@@ -108,7 +108,8 @@ using UnityEngine.Networking;
 
 		private RaycastHit2D[] rayHit;
 
-		private float pullJourney;
+//		private float pullJourney;
+		private PushPull pushPull;
 
 		private RegisterTile registerTile;
 
@@ -140,7 +141,7 @@ using UnityEngine.Networking;
 
 		private bool IsAroundPushables( Vector3 stateWorldPosition, out PushPull pushable, GameObject except = null ) {
 			pushable = null;
-			var roundedPos = Vector3Int.RoundToInt( stateWorldPosition );
+			var roundedPos = Vector3Int.RoundToInt( (Vector2)stateWorldPosition );
 			BoundsInt bounds = new BoundsInt( roundedPos - new Vector3Int( 1, 1, 0 ), new Vector3Int( 3, 3, 1 ) );
 			foreach ( Vector3Int pos in bounds.allPositionsWithin ) {
 				if ( HasPushablesAt( pos, out pushable, except ) ) {
@@ -149,6 +150,13 @@ using UnityEngine.Networking;
 			}
 
 			return false;
+		}
+
+		public static bool HasInReach( Vector3 worldPos, PushPull hasWhat ) {
+			Vector3Int roundedPos = Vector3Int.RoundToInt( (Vector2)worldPos );
+			Vector3Int objectPos = hasWhat.registerTile.WorldPosition;
+			BoundsInt bounds = new BoundsInt( roundedPos - new Vector3Int( 1, 1, 0 ), new Vector3Int( 3, 3, 1 ) );
+			return bounds.Contains( objectPos );
 		}
 
 		private bool HasPushablesAt( Vector3 stateWorldPosition, out PushPull firstPushable, GameObject except = null ) {
@@ -186,7 +194,7 @@ using UnityEngine.Networking;
 			playerSprites = GetComponent<PlayerSprites>();
 			healthBehaviorScript = GetComponent<HealthBehaviour>();
 			registerTile = GetComponent<RegisterTile>();
-//			pushPull = GetComponent<PushPull>();
+			pushPull = GetComponent<PushPull>();
 		}
 
 		private void Update() {

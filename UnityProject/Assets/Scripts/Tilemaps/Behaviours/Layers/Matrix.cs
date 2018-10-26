@@ -38,9 +38,9 @@ public class Matrix : MonoBehaviour
         return IsPassableAt(position, position);
     }
 
-	public bool IsPassableAt(Vector3Int origin, Vector3Int position)
+	public bool IsPassableAt( Vector3Int origin, Vector3Int position, bool includingPlayers = true )
 	{
-		return metaTileMap.IsPassableAt(origin, position);
+		return metaTileMap.IsPassableAt(origin, position, includingPlayers);
 	}
 
 	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position)

@@ -50,7 +50,7 @@ public class PushPull : VisibleBehaviour {
 			return false;
 		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( !MatrixManager.IsPassableAt( from, target ) ) {
+		if ( !MatrixManager.IsPassableAt( from, target, false ) ) {
 			return false;
 		}
 

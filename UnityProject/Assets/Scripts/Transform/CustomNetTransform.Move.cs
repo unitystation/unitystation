@@ -449,7 +449,7 @@ public partial class CustomNetTransform {
 	/// Around object
 	private bool IsPlayerNearby( Vector3 stateWorldPosition, out PlayerScript player ) {
 		player = null;
-		var position = Vector3Int.RoundToInt(stateWorldPosition);
+		var position = Vector3Int.RoundToInt( (Vector2)stateWorldPosition );
 		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
 		foreach (Vector3Int pos in bounds.allPositionsWithin) {
 			if ( HasPlayersAt( pos, out player ) ) {
@@ -459,10 +459,10 @@ public partial class CustomNetTransform {
 
 		return false;
 	}
-
+//todo extract common bounds shit; V3Int.From(V3)
 	private bool HasPlayersAt( Vector3 stateWorldPosition, out PlayerScript firstPlayer ) {
 		firstPlayer = null;
-		var intPos = Vector3Int.RoundToInt( stateWorldPosition );
+		var intPos = Vector3Int.RoundToInt( (Vector2)stateWorldPosition );
 		var players = MatrixManager.GetAt<PlayerScript>( intPos ).ToArray();
 		if ( players.Length == 0 ) {
 			return false;

@@ -399,11 +399,9 @@ public partial class PlayerSync
 
 		yield return YieldHelper.EndOfFrame;
 
-		PushPull contact;
 		if ( (pushedPlayer || pushedObstacle)
-		     && !IsWeightlessServer
-		     && IsAroundPushables( pushable.registerTile.WorldPosition, out contact, pushable.gameObject )
-		     && contact.gameObject == this.gameObject
+//		     && !IsWeightlessServer
+		     && HasInReach( pushable.registerTile.WorldPosition, this.pushPull )
 		)
 		{ //pushing player and object further away from each other
 		  //so that player wouldn't grab the same object again and stop

@@ -70,12 +70,12 @@ public class MatrixManager : MonoBehaviour
 		return isAtInternal( mat => mat.Matrix.IsEmptyAt( WorldToLocalInt( worldPos, mat ) ) );
 	}
 
-	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int)"/>
-	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int)"/>
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool)"/>
+	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool)"/>
 	/// FIXME: not truly cross-matrix. can walk diagonally between matrices
-	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget) {
+	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, bool includingPlayers = true) {
 		return isAtInternal( mat => mat.Matrix.IsPassableAt( WorldToLocalInt( worldOrigin, mat ),
-															 WorldToLocalInt( worldTarget, mat ) ) );
+															 WorldToLocalInt( worldTarget, mat ), includingPlayers ) );
 	}
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
