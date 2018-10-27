@@ -61,6 +61,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (isServer)
 		{
+			if(playerScript == null){
+				playerScript = GetComponent<PlayerScript>();
+			}
 			List<InventorySlot> initSync = new List<InventorySlot>();
 			foreach (string slotName in slotNames)
 			{
@@ -74,6 +77,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		base.OnStartServer();
+	}
+
+	public bool InventoryContainsItem(GameObject item, out InventorySlot slot)
+	{
+		foreach (KeyValuePair<string, InventorySlot> entry in Inventory)
+		{
+			if (entry.Value.Item == item)
+			{
+				slot = entry.Value;
+				return true;
+			}
+		}
+		slot = null;
+		return false;
 	}
 
 	[Server]
@@ -155,13 +172,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceClientInform = true)
 	{
 		//security todo: serverside check for item size UI_ItemSlot.CheckItemFit()
-		Debug.Log("!! FIXME: Contains Value needs to be rewritten to InventoryManager");
-		if (!Inventory[slot].Item && gObj) //&& Inventory.ContainsValue(gObj))
+		InventorySlot fromSlot = null;
+		if (!Inventory[slot].Item && gObj && InventoryContainsItem(gObj, out fromSlot))
 		{
-			UpdateSlotMessage.Send(gameObject, slot, gObj, forceClientInform);
 			SetInventorySlot(slot, gObj);
 			//Clean up other slots
-			ClearObjectIfNotInSlot(gObj, slot, forceClientInform);
+			ClearObjectIfNotInSlot(gObj, fromSlot.SlotName, forceClientInform);
 			Logger.LogTraceFormat("Approved moving {0} to slot {1}", Category.Inventory, gObj, slot);
 			return true;
 		}
@@ -299,10 +315,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				}
 			}
 		}
-		EquipmentPool.DropGameObject(gameObject, Inventory[slot].Item);
-		Inventory[slot] = null;
+		InventoryManager.DropGameItem(gameObject,Inventory[slot].Item, transform.position);
 		equipment.ClearItemSprite(slot);
-		UpdateSlotMessage.Send(gameObject, slot, null, forceClientInform);
 	}
 
 	//Drop all items. Use onQuit only if player has left server
@@ -504,7 +518,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if (c.isFull)
 			{
 				c.isFull = false;
-				if (AddItem(c.storedObject.gameObject, currentSlotName))
+				if (AddItemToUISlot(c.storedObject.gameObject, currentSlotName))
 				{
 					c.storedObject.visibleState = true;
 					c.storedObject = null;
@@ -684,10 +698,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerHealth.BloodLevel += baseFood.healAmount;
 		playerHealth.StopBleeding();
 
-		PoolManager.Instance.PoolNetworkDestroy(food);
-		UpdateSlotMessage.Send(gameObject, fromSlot, null, true);
-		Inventory[fromSlot] = null;
+		
+		InventoryManager.UpdateInvSlot(true,"",null, Inventory[fromSlot].UUID );
 		equipment.ClearItemSprite(fromSlot);
+		PoolManager.Instance.PoolNetworkDestroy(food);
 	}
 
 	[Command]

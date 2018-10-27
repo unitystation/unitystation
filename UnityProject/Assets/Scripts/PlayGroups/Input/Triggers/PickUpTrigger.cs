@@ -70,7 +70,7 @@ using UnityEngine.Networking;
 
 
 			//set ForceInform to false for simulation
-			return ps.playerNetworkActions.AddItem(gameObject, slotName, false /*, false*/);
+			return ps.playerNetworkActions.AddItemToUISlot(gameObject, slotName, false /*, false*/);
 		}
 
 		/// <summary>

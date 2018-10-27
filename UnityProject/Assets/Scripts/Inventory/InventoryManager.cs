@@ -45,6 +45,9 @@ public class InventoryManager : MonoBehaviour
 
 	public static void UpdateInvSlot(bool isServer, string UUID, GameObject item, string FromUUID = "")
 	{
+		if(!isServer){
+			Debug.Log("client rec: " + UUID + " item: " + item.name + " from: " + FromUUID);
+		}
 		bool uiSlotChanged = false;
 		string toSlotName = "";
 		string fromSlotName = "";
@@ -82,11 +85,13 @@ public class InventoryManager : MonoBehaviour
 		//Only ever sync UI slots straight away, storage slots will sync when they are being observed (picked up and inspected)
 		if (isServer && uiSlotChanged)
 		{
-			UpdateSlotMessage.Send(owner, toSlotName, fromSlotName, item);
+			Debug.Log("IS SERVER, AND SLOT CHANGED, SEND UPDATE SLOT MSG");
+			UpdateSlotMessage.Send(owner, UUID, FromUUID, item);
 		}
 
 		if (!isServer && uiSlotChanged)
 		{
+			Debug.Log("IS SERVER: " + isServer + " UPDATE SLOT ON UIMANAGER: " + toSlotName + " With item: " + item.name);
 			UIManager.UpdateSlot(new UISlotObject(toSlotName, item, fromSlotName));
 		}
 	}
@@ -98,12 +103,34 @@ public class InventoryManager : MonoBehaviour
 		{
 			return UUID;
 		}
+		
+		UUID = GetSlotFromItem(item)?.UUID;
+		return UUID;
+	}
+
+	public static InventorySlot GetSlotFromItem(GameObject item, bool isServer = true)
+	{
+		InventorySlot slot = null;
+		if (item == null)
+		{
+			return slot;
+		}
 		var index = InventorySlotList(isServer).FindLastIndex(x => x.Item == item);
 		if (index != -1)
 		{
-			UUID = InventorySlotList(isServer)[index].UUID;
+			slot = InventorySlotList(isServer)[index];
 		}
-		return UUID;
+		return slot;
+	}
+
+	public static string GetClientUUIDFromSlotName(string slotName){
+		string eventName = "";
+		var index = AllClientInventorySlots.FindLastIndex(x => x.SlotName == slotName);
+		if (index != -1)
+		{
+			eventName = AllClientInventorySlots[index].SlotName;
+		}
+		return eventName;
 	}
 
 	private static List<InventorySlot> InventorySlotList(bool isServer)
@@ -115,7 +142,7 @@ public class InventoryManager : MonoBehaviour
 		return AllClientInventorySlots;
 	}
 
-	private void DropItem(InventorySlot slot, Vector3 dropPos)
+	private static void DropItem(InventorySlot slot, Vector3 dropPos)
 	{
 		var objTransform = slot.Item.GetComponent<CustomNetTransform>();
 		if (slot.Owner != null)
@@ -127,6 +154,26 @@ public class InventoryManager : MonoBehaviour
 		{
 			objTransform.AppearAtPositionServer(dropPos);
 		}
+		UpdateInvSlot(true, "", slot.Item);
+	}
+	
+	//Server only
+	public static void DropGameItem(GameObject player, GameObject item, Vector3 pos)
+	{
+		if (!item)
+		{
+			Logger.LogWarning("Trying to drop null object", Category.Inventory);
+			return;
+		}
+		NetworkIdentity networkIdentity = player.GetComponent<NetworkIdentity>();
+		if (!networkIdentity)
+		{
+			Logger.LogWarning("Unable to drop as NetIdentity is gone", Category.Equipment);
+			return;
+		}
+
+		DropItem(GetSlotFromItem(item), pos);
+		item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 	}
 }
 

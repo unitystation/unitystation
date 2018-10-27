@@ -18,7 +18,7 @@ public class SyncPlayerInventoryGuidMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(Recipient);
-		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
+		var playerScript = NetworkObject.GetComponent<PlayerScript>();
 		var SlotsList = JsonUtility.FromJson<SyncPlayerInventoryList>(Data);
 
 		if(InventoryManager.AllClientInventorySlots == null){

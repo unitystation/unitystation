@@ -69,7 +69,7 @@ using UnityEngine.Networking;
 				return;
 			}
 			Instance.equipPools[ownerId].DestroyGameObject(gObj);
-			gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
+			gObj.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 			Logger.LogTraceFormat("{0}: destroyed {1} from pool", Category.Equipment, player.name, gObj.name);
 		}
 
@@ -77,12 +77,6 @@ using UnityEngine.Networking;
 		public static void DropGameObject(GameObject player, GameObject gObj)
 		{
 			DropGameObject(player, gObj, player.transform.position);
-		}
-
-		///When dropping items etc, remove them from the player equipment pool and place in scene
-		public static void DropGameObjectAtPos(GameObject player, GameObject gObj, Vector3 dropAtWorldPos)
-		{
-			DropGameObject(player, gObj, dropAtWorldPos);
 		}
 
 		//When placing items at a position etc also removes them from the player equipment pool and places it in scene
@@ -105,7 +99,7 @@ using UnityEngine.Networking;
 				return;
 			}
 			Instance.equipPools[ownerId].DropGameObject(gObj, pos);
-			gObj.BroadcastMessage("OnRemoveFromPool", null, SendMessageOptions.DontRequireReceiver);
+			gObj.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 			Logger.LogTraceFormat("{0}: destroyed {1} from pool", Category.Equipment, player.name, gObj.name);
 		}
 

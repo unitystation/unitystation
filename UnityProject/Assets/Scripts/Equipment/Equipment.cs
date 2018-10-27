@@ -351,6 +351,6 @@ using UnityEngine.Networking;
 		{
 			//Waiting for hier name resolve
 			yield return new WaitForSeconds(0.2f);
-			playerNetworkActions.AddItem(obj, slotName, true);
+			playerNetworkActions.AddItemToUISlot(obj, slotName, true);
 		}
 	}
