@@ -26,13 +26,6 @@ using UnityEngine.Networking;
 		public override void OnStartServer()
 		{
 			InitEquipment();
-
-			EquipmentPool equipPool = FindObjectOfType<EquipmentPool>();
-			if (equipPool == null)
-			{
-				Instantiate(Resources.Load("EquipmentPool") as GameObject, Vector2.zero, Quaternion.identity);
-			}
-
 			base.OnStartServer();
 		}
 
@@ -249,20 +242,19 @@ using UnityEngine.Networking;
 			SetItem("id", idObj);
 		}
 
-		//Hand item sprites after picking up an item (server)
-		public void SetHandItem(string slotName, GameObject obj)
-		{
-			ItemAttributes att = obj.GetComponent<ItemAttributes>();
-			EquipmentPool.AddGameObject(gameObject, obj);
-			SetHandItemSprite(att);
-			RpcSendMessage(slotName, obj);
-		}
+		// //Hand item sprites after picking up an item (server)
+		// public void SetHandItem(string slotName, GameObject obj)
+		// {
+		// 	ItemAttributes att = obj.GetComponent<ItemAttributes>();
+		// 	SetHandItemSprite(att);
+		// 	RpcSendMessage(slotName, obj);
+		// }
 
-		[ClientRpc]
-		private void RpcSendMessage(string eventName, GameObject obj)
-		{
-			obj.BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);
-		}
+		// [ClientRpc]
+		// private void RpcSendMessage(string eventName, GameObject obj)
+		// {
+		// 	obj.BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);
+		// }
 
 		public string GetLoadOutEventName(string uniformPosition)
 		{

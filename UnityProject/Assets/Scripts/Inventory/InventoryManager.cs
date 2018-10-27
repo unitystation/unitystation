@@ -60,8 +60,10 @@ public class InventoryManager : MonoBehaviour
 		if (!isServer)
 		{
 			Debug.Log("client rec: " + UUID + " item: " + item.name + " from: " + FromUUID);
-		} else {
-			Debug.Log("SERVER rec: " + UUID + " item: " + item.name + " from: " + FromUUID);
+		}
+		else
+		{
+			Debug.Log("SERVER rec: " + UUID + " item: " + item?.name + " from: " + FromUUID);
 
 		}
 		bool uiSlotChanged = false;
@@ -161,6 +163,19 @@ public class InventoryManager : MonoBehaviour
 		return eventName;
 	}
 
+	//Server only:
+	public static InventorySlot GetSlotFromOriginatorHand(GameObject originator, string hand)
+	{
+		InventorySlot slot = null;
+
+		var index = AllServerInventorySlots.FindLastIndex(x => x.Owner?.gameObject == originator && x.SlotName == hand);
+		if(index != -1){
+			slot = AllServerInventorySlots[index];
+		}
+
+		return slot;
+	}
+
 	private static List<InventorySlot> InventorySlotList(bool isServer)
 	{
 		if (isServer)
@@ -170,19 +185,30 @@ public class InventoryManager : MonoBehaviour
 		return AllClientInventorySlots;
 	}
 
+	//Server only
+	public static void DisposeItemServer(GameObject item)
+	{
+		DropItem(GetSlotFromItem(item), TransformState.HiddenPos);
+	}
+
 	private static void DropItem(InventorySlot slot, Vector3 dropPos)
 	{
+		slot.Item?.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 		var objTransform = slot.Item.GetComponent<CustomNetTransform>();
-		if (slot.Owner != null)
+		if (dropPos != TransformState.HiddenPos)
 		{
-			//Inertia drop works only if player has external impulse (space floating etc.)
-			objTransform.InertiaDrop(dropPos, slot.Owner.playerMove.speed, slot.Owner.PlayerSync.ServerState.Impulse);
+			if (slot.Owner != null)
+			{
+				//Inertia drop works only if player has external impulse (space floating etc.)
+				objTransform.InertiaDrop(dropPos, slot.Owner.playerMove.speed, slot.Owner.PlayerSync.ServerState.Impulse);
+			}
+			else
+			{
+				objTransform.AppearAtPositionServer(dropPos);
+			}
 		}
-		else
-		{
-			objTransform.AppearAtPositionServer(dropPos);
-		}
-		UpdateInvSlot(true, "", slot.Item);
+		slot.Item.GetComponent<RegisterTile>().UpdatePosition();
+		UpdateInvSlot(true, "", slot.Item, slot.UUID);
 	}
 
 	//Server only
@@ -201,7 +227,6 @@ public class InventoryManager : MonoBehaviour
 		}
 
 		DropItem(GetSlotFromItem(item), pos);
-		item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 	}
 }
 

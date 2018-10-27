@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 /// </summary>
 public class InventoryInteractMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.InventoryInteractMessage;
+	public static short MessageType = (short)MessageTypes.InventoryInteractMessage;
 	public bool ForceSlotUpdate;
 	public string SlotUUID;
 	public string FromSlotUUID;
@@ -35,20 +35,33 @@ public class InventoryInteractMessage : ClientMessage
 		GameObject clientPlayer = player;
 		PlayerNetworkActions pna = clientPlayer.GetComponent<PlayerNetworkActions>();
 		Debug.Log("Process further UUID: " + SlotUUID);
-		if (!pna.ValidateInvInteraction(SlotUUID, FromSlotUUID, item, ForceSlotUpdate))
+		if (string.IsNullOrEmpty(SlotUUID))
 		{
-			pna.RollbackPrediction(SlotUUID, FromSlotUUID, item);
+			//To drop
+			if (!pna.ValidateDropItem(InventoryManager.GetSlotFromUUID(FromSlotUUID, true)
+			, ForceSlotUpdate))
+			{
+				pna.RollbackPrediction(SlotUUID, FromSlotUUID, item);
+			}
+		}
+		else
+		{
+			if (!pna.ValidateInvInteraction(SlotUUID, FromSlotUUID, item, ForceSlotUpdate))
+			{
+				pna.RollbackPrediction(SlotUUID, FromSlotUUID, item);
+			}
 		}
 	}
 
 	public static InventoryInteractMessage Send(string slotUUID, string fromSlotUUID, GameObject subject, bool forceSlotUpdate)
 	{
 		Debug.Log("INT INV SLOT UUID: " + slotUUID);
-		InventoryInteractMessage msg = new InventoryInteractMessage {
+		InventoryInteractMessage msg = new InventoryInteractMessage
+		{
 			Subject = subject ? subject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
-			SlotUUID = slotUUID,
-			FromSlotUUID = fromSlotUUID,
-			ForceSlotUpdate = forceSlotUpdate
+				SlotUUID = slotUUID,
+				FromSlotUUID = fromSlotUUID,
+				ForceSlotUpdate = forceSlotUpdate
 		};
 		msg.Send();
 		return msg;

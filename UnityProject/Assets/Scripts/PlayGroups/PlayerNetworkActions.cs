@@ -95,13 +95,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public bool AddItemToUISlot(GameObject itemObject, string slotName = null, bool replaceIfOccupied = false, bool forceInform = true)
+	public bool AddItemToUISlot(GameObject itemObject, string slotName, bool replaceIfOccupied = false, bool forceInform = true)
 	{
-		string eventName = slotName ?? UIManager.Hands.CurrentSlot.eventName;
-
-		if (Inventory[eventName] != null && Inventory[eventName].Item != itemObject && !replaceIfOccupied)
+		if (Inventory[slotName] == null){
+			Debug.Log("Slotname may be a UUID: " + slotName);
+			foreach(KeyValuePair<string, InventorySlot> slot in Inventory){
+				bool hasSlot = slot.Value != null;
+				Debug.Log("Slot: " + slot.Key + " hasSlot: " + hasSlot);
+			}
+		}
+		if(Inventory[slotName].Item != null && !replaceIfOccupied)
 		{
-			Logger.Log($"{gameObject.name}: Didn't replace existing {eventName} item {Inventory[eventName].Item.name} with {itemObject.name}", Category.Inventory);
+			Logger.Log($"{gameObject.name}: Didn't replace existing {slotName} item {Inventory[slotName].Item?.name} with {itemObject?.name}", Category.Inventory);
 			return false;
 		}
 
@@ -134,7 +139,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 			}
 		}
-		EquipmentPool.DisposeOfObject(gameObject, item);
+		InventoryManager.DisposeItemServer(item);
 	}
 
 	/// Checks if player has this item in any of his slots
@@ -151,18 +156,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return false;
 	}
 
-	[Server]
-	private void RemoveFromEquipmentPool(GameObject obj)
-	{
-		EquipmentPool.DropGameObject(gameObject, obj);
-	}
+	// [Server]
+	// private void RemoveFromEquipmentPool(GameObject obj)
+	// {
+	// 	EquipmentPool.DropGameObject(gameObject, obj);
+	// }
 
 	//This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
 	//TODO make these private(make some public child-aware high level methods instead):
 	[Server]
 	public void AddToEquipmentPool(GameObject obj)
 	{
-		EquipmentPool.AddGameObject(gameObject, obj);
+		Debug.Log("TODO: Inventory slots added to items that need them like weapons: obj: " + obj.name);
+	//	EquipmentPool.AddGameObject(gameObject, obj);
 	}
 
 	/// <summary>
@@ -281,7 +287,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		for (int i = 0; i < slotNames.Length; i++)
 		{
-			Inventory[slotNames[i]] = null;
+			Inventory[slotNames[i]].Item = null;
 			if (slotNames[i] == "id" || slotNames[i] == "storage01" || slotNames[i] == "storage02" || slotNames[i] == "suitStorage")
 			{
 				//Not clearing onPlayer sprites for these as they don't have any
@@ -340,7 +346,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// otherwise client will forcefully receive update slot messages
 	public void RequestDropItem(string handUUID, bool forceClientInform = true)
 	{
-		InventoryInteractMessage.Send(null, handUUID, InventoryManager.GetSlotFromUUID(handUUID, isServer).Item, forceClientInform);
+		InventoryInteractMessage.Send("", handUUID, InventoryManager.GetSlotFromUUID(handUUID, isServer).Item, forceClientInform);
 	}
 
 	//Dropping from a slot on the UI
@@ -428,7 +434,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
 
-		EquipmentPool.DisposeOfObject(gameObject, throwable);
+		InventoryManager.DisposeItemServer(throwable);
 		ClearInventorySlot(slot);
 		var throwInfo = new ThrowInfo
 		{
@@ -453,12 +459,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Obsolete]
 	public void CmdDropItemNotInUISlot(GameObject obj)
 	{
-		EquipmentPool.DropGameObject(gameObject, obj);
+		InventoryManager.DropGameItem(gameObject, obj, gameObject.transform.position);
 	}
 
 	public void DisposeOfChildItem(GameObject obj)
 	{
-		EquipmentPool.DisposeOfObject(gameObject, obj);
+		InventoryManager.DisposeItemServer(obj);
 	}
 
 	[Command] //Remember with the parent you can only send networked objects:
@@ -470,7 +476,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		GameObject item = Inventory[slotName].Item;
-		EquipmentPool.DropGameObject(gameObject, Inventory[slotName].Item, pos);
+		InventoryManager.DropGameItem(gameObject, Inventory[slotName].Item, pos);
 		ClearInventorySlot(slotName);
 		if (item != null && newParent != null)
 		{
@@ -705,8 +711,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		yield return new WaitForSeconds(timeout);
 		RpcAdjustForRespawn();
 
-		EquipmentPool.ClearPool(gameObject);
-
 		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType);
 	}
 
@@ -735,7 +739,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdEatFood(GameObject food, string fromSlot, bool isDrink)
 	{
-		if (Inventory[fromSlot] == null)
+		if (Inventory[fromSlot].Item == null)
 		{
 			//Already been eaten or the food is no longer in hand
 			return;

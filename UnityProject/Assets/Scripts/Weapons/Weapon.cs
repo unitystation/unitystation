@@ -494,7 +494,8 @@ using UnityEngine.Networking;
 		{
 			if (CurrentMagazine != null)
 			{
-				EquipmentPool.DisposeOfObject(NetworkServer.FindLocalObject(ControlledByPlayer).gameObject, CurrentMagazine.gameObject);
+				Debug.Log("TODO: Remove magazine from the weapons inventory slot (ALSO ITem base slot syncing!");
+			//	EquipmentPool.DisposeOfObject(NetworkServer.FindLocalObject(ControlledByPlayer).gameObject, CurrentMagazine.gameObject);
 			}
 			ControlledByPlayer = NetworkInstanceId.Invalid;
 		}

@@ -139,12 +139,27 @@ public class UIManager : MonoBehaviour
 	/// </summary>
 	public static void UpdateSlot(UISlotObject slotInfo)
 	{
+		Debug.Log("UPDATESLOT: " + slotInfo.ToString());
+		if (string.IsNullOrEmpty(slotInfo.SlotUUID) && !string.IsNullOrEmpty(slotInfo.FromSlotUUID))
+		{
+			Debug.Log("ALRIGHT DROP");
+			//Dropping updates:
+			var _fromSlot = InventorySlots.GetSlotByUUID(slotInfo.FromSlotUUID);
+			if (_fromSlot != null)
+			{
+				Debug.Log("Ffound slot");
+				Debug.Log("Clear From slot of Item: " + _fromSlot.Item?.name);
+				_fromSlot.Clear();
+				return;
+
+			}
+		}
 		Logger.LogTraceFormat("Updating slots: {0}", Category.UI, slotInfo);
 		//			InputTrigger.Touch(slotInfo.SlotContents);
 		var slot = InventorySlots.GetSlotByUUID(slotInfo.SlotUUID);
 		slot.SetItem(slotInfo.SlotContents);
 		Debug.Log("Set Slot: " + slot.eventName);
-		
+
 		var fromSlot = InventorySlots.GetSlotByUUID(slotInfo.FromSlotUUID);
 		if (fromSlot?.Item == slotInfo.SlotContents)
 		{

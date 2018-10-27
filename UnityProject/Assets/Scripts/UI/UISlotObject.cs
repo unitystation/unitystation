@@ -8,6 +8,7 @@ public class UISlotObject
 
 	public UISlotObject(string slotUUID, GameObject slotContents = null, string fromSlotUUID = "")
 	{
+		Debug.Log("slotuuid " + slotUUID);
 		SlotUUID = slotUUID;
 		SlotContents = slotContents;
 		FromSlotUUID = fromSlotUUID;
@@ -20,6 +21,6 @@ public class UISlotObject
 
 	public override string ToString()
 	{
-		return string.Format("UISlotObject {0}: {1}", SlotUUID, SlotContents);
+		return string.Format("UISlotObject {0}: {1}: {2}", SlotUUID, SlotContents.name, FromSlotUUID);
 	}
 }
