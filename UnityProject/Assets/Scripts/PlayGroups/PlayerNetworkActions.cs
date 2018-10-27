@@ -184,7 +184,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if (!toSlot.IsUISlot && gObj && InventoryContainsItem(gObj, out fromSlot))
 			{
 				SetStorageInventorySlot(slotUUID, fromUUID, gObj);
-				Debug.Log("Set slot allowed! " + gObj.name + " STORAGE MOVE from: " +  fromSlot.UUID + " to " + toSlot.UUID);
+				Debug.Log("Set slot allowed! " + gObj.name + " STORAGE MOVE from: " + fromSlot.UUID + " to " + toSlot.UUID);
+				return true;
+			}
+			if (toSlot.IsUISlot && gObj && !InventoryContainsItem(gObj, out fromSlot))
+			{
+				SetInventorySlot(toSlot.SlotName, gObj);
 				return true;
 			}
 			if (toSlot.Item != null)
@@ -219,7 +224,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Debug.Log($"Approved moving {gObj.name} to slot {toSlot.SlotName}");
 			return true;
 		}
-		Debug.Log("Unable to do anything returning false");
+		Debug.Log("Unable to do anything returning false: " + slotUUID + " fromUUID " + fromUUID + " objName " + gObj.name);
 		Logger.LogWarning($"Unable to validateInvInteraction {toSlot.SlotName}:{gObj.name}", Category.Inventory);
 		return false;
 	}
