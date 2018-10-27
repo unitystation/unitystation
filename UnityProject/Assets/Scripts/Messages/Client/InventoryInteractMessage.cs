@@ -10,6 +10,7 @@ public class InventoryInteractMessage : ClientMessage
 	public static short MessageType = (short) MessageTypes.InventoryInteractMessage;
 	public bool ForceSlotUpdate;
 	public string SlotUUID;
+	public string FromSlotUUID;
 	public NetworkInstanceId Subject;
 
 	//Serverside
@@ -33,24 +34,20 @@ public class InventoryInteractMessage : ClientMessage
 	{
 		GameObject clientPlayer = player;
 		PlayerNetworkActions pna = clientPlayer.GetComponent<PlayerNetworkActions>();
-
-		if (!pna.ValidateInvInteraction(SlotUUID, item, ForceSlotUpdate))
+		Debug.Log("Process further UUID: " + SlotUUID);
+		if (!pna.ValidateInvInteraction(SlotUUID, FromSlotUUID, item, ForceSlotUpdate))
 		{
-			pna.RollbackPrediction(SlotUUID);
+			pna.RollbackPrediction(SlotUUID, FromSlotUUID, item);
 		}
 	}
 
-	/// <summary>
-	/// A serverside inventory request, for updating UI slots etc. 
-	/// You can give a position to dropWorldPos when dropping an item
-	/// or else use Vector3.zero when not placing or dropping to ignore it.
-	/// (The world pos is converted to local position automatically)
-	/// </summary>
-	public static InventoryInteractMessage Send(string slotUUID, GameObject subject /* = null*/, bool forceSlotUpdate /* = false*/)
+	public static InventoryInteractMessage Send(string slotUUID, string fromSlotUUID, GameObject subject, bool forceSlotUpdate)
 	{
+		Debug.Log("INT INV SLOT UUID: " + slotUUID);
 		InventoryInteractMessage msg = new InventoryInteractMessage {
 			Subject = subject ? subject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
 			SlotUUID = slotUUID,
+			FromSlotUUID = fromSlotUUID,
 			ForceSlotUpdate = forceSlotUpdate
 		};
 		msg.Send();
@@ -61,6 +58,7 @@ public class InventoryInteractMessage : ClientMessage
 	{
 		base.Deserialize(reader);
 		SlotUUID = reader.ReadString();
+		FromSlotUUID = reader.ReadString();
 		Subject = reader.ReadNetworkId();
 		ForceSlotUpdate = reader.ReadBoolean();
 	}
@@ -69,6 +67,7 @@ public class InventoryInteractMessage : ClientMessage
 	{
 		base.Serialize(writer);
 		writer.Write(SlotUUID);
+		writer.Write(FromSlotUUID);
 		writer.Write(Subject);
 		writer.Write(ForceSlotUpdate);
 	}

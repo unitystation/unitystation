@@ -128,7 +128,7 @@ public class UIManager : MonoBehaviour
 		{
 			return false;
 		}
-		InventoryInteractMessage.Send(slotInfo.SlotUUID, slotInfo.SlotContents, true);
+		InventoryInteractMessage.Send(slotInfo.SlotUUID, slotInfo.FromSlotUUID, slotInfo.SlotContents, true);
 		UpdateSlot(slotInfo);
 		return true;
 	}
@@ -142,7 +142,11 @@ public class UIManager : MonoBehaviour
 		Logger.LogTraceFormat("Updating slots: {0}", Category.UI, slotInfo);
 		//			InputTrigger.Touch(slotInfo.SlotContents);
 		InventorySlots.GetSlotByUUID(slotInfo.SlotUUID).SetItem(slotInfo.SlotContents);
-		ClearObjectIfNotInSlot(slotInfo);
+		var fromSlot = InventorySlots.GetSlotByUUID(slotInfo.FromSlotUUID);
+		if (fromSlot?.Item == slotInfo.SlotContents)
+		{
+			fromSlot.Item = null;
+		}
 	}
 
 	public static bool CanPutItemToSlot(UISlotObject proposedSlotInfo)
@@ -209,21 +213,6 @@ public class UIManager : MonoBehaviour
 		bool canTrySendAgain = f >= d || f >= 1.5;
 		Logger.LogTraceFormat("canTrySendAgain = {0} {1}>={2} ", Category.UI, canTrySendAgain, f, d);
 		return canTrySendAgain;
-	}
-
-	private static void ClearObjectIfNotInSlot(UISlotObject slotInfo)
-	{
-		for (int i = 0; i < InventorySlots.Length; i++)
-		{
-			if (InventorySlots[i].inventorySlot.UUID.Equals(slotInfo.SlotUUID) || !InventorySlots[i].Item)
-			{
-				continue;
-			}
-			if (InventorySlots[i].Item.Equals(slotInfo.SlotContents))
-			{
-				InventorySlots[i].Clear();
-			}
-		}
 	}
 
 	public static void SetDeathVisibility(bool vis)

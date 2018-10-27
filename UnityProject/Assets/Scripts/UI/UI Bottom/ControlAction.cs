@@ -122,7 +122,7 @@ public class ControlAction : MonoBehaviour
 		currentSlot.Clear();
 		//            }
 		//Message
-		lps.playerNetworkActions.RequestDropItem(currentSlot.eventName, false);
+		lps.playerNetworkActions.RequestDropItem(currentSlot.inventorySlot.UUID, false);
 		SoundManager.Play("Click01");
 		Logger.Log("Drop Button", Category.UI);
 

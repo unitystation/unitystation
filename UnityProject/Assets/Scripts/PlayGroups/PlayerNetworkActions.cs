@@ -61,7 +61,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (isServer)
 		{
-			if(playerScript == null){
+			if (playerScript == null)
+			{
 				playerScript = GetComponent<PlayerScript>();
 			}
 			List<InventorySlot> initSync = new List<InventorySlot>();
@@ -169,28 +170,40 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// If you are not validating a drop action then pass Vector3.zero to dropWorldPos
 	/// </summary>
 	[Server]
-	public bool ValidateInvInteraction(string slotUUID, GameObject gObj = null, bool forceClientInform = true)
+	public bool ValidateInvInteraction(string slotUUID, string fromUUID, GameObject gObj = null, bool forceClientInform = true)
 	{
 		//security todo: serverside check for item size UI_ItemSlot.CheckItemFit()
 		InventorySlot fromSlot = null;
 		InventorySlot toSlot = InventoryManager.GetSlotFromUUID(slotUUID, true);
-		if(toSlot == null){
+		if (toSlot == null)
+		{
 			Debug.Log("ERROR NO TO SLOT: " + slotUUID);
 		}
-		if(toSlot.Item != null){
-			return false;
+		else
+		{
+			if (toSlot.Item != null)
+			{
+				Debug.Log("item slot is not empty: " + toSlot.Item.name);
+				if(!toSlot.IsUISlot && toSlot.Item == gObj){
+					//It's already been moved to the slot
+					fromSlot = InventoryManager.GetSlotFromUUID(fromUUID, isServer);
+					if(fromSlot?.Item != null){
+						Debug.Log("FROM SLOT IS NOT NULL: " + fromSlot.Item.name);
+					}
+					return true;
+				}
+				return false;
+			}
 		}
 
 		if (!gObj)
 		{
+			Debug.Log("gobj is null so validating a drop");
 			return ValidateDropItem(toSlot, forceClientInform);
 		}
 
-		if(toSlot.Item != null){
-			return false;
-		}
-
-		if(!toSlot.IsUISlot && gObj && InventoryContainsItem(gObj, out fromSlot)){
+		if (!toSlot.IsUISlot && gObj && InventoryContainsItem(gObj, out fromSlot))
+		{
 			SetStorageInventorySlot(slotUUID, gObj);
 			return true;
 		}
@@ -203,14 +216,30 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Logger.LogTraceFormat("Approved moving {0} to slot {1}", Category.Inventory, gObj, toSlot.SlotName);
 			return true;
 		}
-
+		Debug.Log("Unable to do anything returning false");
 		Logger.LogWarning($"Unable to validateInvInteraction {toSlot.SlotName}:{gObj.name}", Category.Inventory);
 		return false;
 	}
 
-	public void RollbackPrediction(string slot)
+	public void RollbackPrediction(string slotUUID, string fromSlotUUID, GameObject item)
 	{
-		UpdateSlotMessage.Send(gameObject, slot, "", Inventory[slot].Item, true);
+		Debug.Log("Rollback UUID: " + slotUUID + " fromUUID " + fromSlotUUID);
+		var toSlotRequest = InventoryManager.GetSlotFromUUID(slotUUID, isServer);
+		var slotItCameFrom = InventoryManager.GetSlotFromUUID(fromSlotUUID, isServer);
+
+		if (toSlotRequest != null)
+		{
+			if (toSlotRequest.Item == item) //it already travelled to slot on the server, send it back for everyone
+			{
+				if (!ValidateInvInteraction(fromSlotUUID, slotUUID, item, true))
+				{
+					Logger.LogError("Rollback failed!", Category.Inventory);
+				}
+				return;
+			}
+		}
+
+		UpdateSlotMessage.Send(gameObject, fromSlotUUID, slotUUID, item, true);
 	}
 
 	[Server]
@@ -262,7 +291,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void SetStorageInventorySlot(string slotUUID, GameObject obj){
+	public void SetStorageInventorySlot(string slotUUID, GameObject obj)
+	{
 		InventoryManager.UpdateInvSlot(true, slotUUID, obj,
 			InventoryManager.GetSlotIDFromItem(obj));
 	}
@@ -300,9 +330,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
 	/// otherwise client will forcefully receive update slot messages
-	public void RequestDropItem(string hand, bool forceClientInform = true)
+	public void RequestDropItem(string handUUID, bool forceClientInform = true)
 	{
-		InventoryInteractMessage.Send(hand, null, forceClientInform);
+		InventoryInteractMessage.Send(null, handUUID, InventoryManager.GetSlotFromUUID(handUUID, isServer).Item, forceClientInform);
 	}
 
 	//Dropping from a slot on the UI
@@ -338,7 +368,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				}
 			}
 		}
-		InventoryManager.DropGameItem(gameObject,Inventory[slot].Item, transform.position);
+		InventoryManager.DropGameItem(gameObject, Inventory[slot].Item, transform.position);
 		equipment.ClearItemSprite(slot);
 	}
 
@@ -383,7 +413,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.canNotInteract() || slot != "leftHand" && slot != "rightHand" || !SlotNotEmpty(slot))
 		{
-			RollbackPrediction(slot);
+			RollbackPrediction("", Inventory[slot].UUID, Inventory[slot].Item);
 			return;
 		}
 		GameObject throwable = Inventory[slot].Item;
@@ -721,8 +751,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerHealth.BloodLevel += baseFood.healAmount;
 		playerHealth.StopBleeding();
 
-		
-		InventoryManager.UpdateInvSlot(true,"",null, Inventory[fromSlot].UUID );
+		InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
 		equipment.ClearItemSprite(fromSlot);
 		PoolManager.Instance.PoolNetworkDestroy(food);
 	}

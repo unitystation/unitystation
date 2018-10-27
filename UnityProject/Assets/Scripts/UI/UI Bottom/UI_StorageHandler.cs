@@ -32,6 +32,7 @@ public class UI_StorageHandler : MonoBehaviour
 			newSlot.transform.parent = transform;
 			var itemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
 			itemSlot.eventName = "inventory" + i;
+			itemSlot.inventorySlot = storageCache.storageSlots.inventorySlots[i];
 			storageCache.storageSlots.inventorySlots[i].SlotName = itemSlot.eventName;
 			localSlotCache.Add(itemSlot);
 			UIManager.InventorySlots.Add(itemSlot);

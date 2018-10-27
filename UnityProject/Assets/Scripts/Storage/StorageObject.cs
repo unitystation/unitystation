@@ -48,6 +48,9 @@ public class StorageObject : NetworkBehaviour
 	{
 		Debug.Log("STORAGE ITEM DATA: " + data);
 		JsonUtility.FromJsonOverwrite(data, storageSlots);
+		for(int i = 0; i < storageSlots.slotCount; i++){
+			Debug.Log("UUIDS CHANGED ON CLIENT: " + storageSlots.inventorySlots[i].UUID);
+		}
 	}
 
 	[Server]
@@ -58,6 +61,7 @@ public class StorageObject : NetworkBehaviour
 
 	public void RefreshStorageItems(string data)
 	{
+		Debug.Log("REFRESH STORAGE: " + data);
 		JsonUtility.FromJsonOverwrite(data, storageSlots);
 	}
 }

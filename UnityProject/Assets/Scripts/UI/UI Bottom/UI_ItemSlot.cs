@@ -30,7 +30,9 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	public bool IsFull => Item != null;
 
-	public InventorySlot inventorySlot {get; private set;}
+	//Inventoryslot theifing is prevented by the UUID system 
+	//(clients don't know what other clients UUID's are and all slots are server authorative with validation checks)
+	public InventorySlot inventorySlot {get; set;}
 
 	private void Awake()
 	{

@@ -23,6 +23,7 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 		itemSlot = GetComponentInChildren<UI_ItemSlot>();
 	}
 
+	//Means OnDrop while drag and dropping an Item. OnDrop is the UISlot that the mouse pointer is over when the user drops the item
 	public void OnDrop(PointerEventData data)
 	{
 		if (UIManager.DragAndDrop.ItemSlotCache != null && UIManager.DragAndDrop.ItemCache != null)
@@ -38,7 +39,8 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 					}
 				}
 
-				UIManager.TryUpdateSlot(new UISlotObject(itemSlot.inventorySlot.UUID, UIManager.DragAndDrop.ItemCache));
+				UIManager.TryUpdateSlot(new UISlotObject(itemSlot.inventorySlot.UUID, UIManager.DragAndDrop.ItemCache,
+					UIManager.DragAndDrop.ItemSlotCache?.inventorySlot.UUID));
 			}
 		}
 	}
