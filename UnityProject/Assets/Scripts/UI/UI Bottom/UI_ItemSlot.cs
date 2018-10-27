@@ -32,7 +32,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	//Inventoryslot theifing is prevented by the UUID system 
 	//(clients don't know what other clients UUID's are and all slots are server authorative with validation checks)
-	public InventorySlot inventorySlot {get; set;}
+	public InventorySlot inventorySlot { get; set; }
 
 	private void Awake()
 	{
@@ -189,7 +189,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	public bool CheckItemFit(GameObject item)
 	{
 		ItemAttributes attributes = item.GetComponent<ItemAttributes>();
-
+		
 		if (!allowAllItems)
 		{
 			if (!allowedItemTypes.Contains(attributes.type))
@@ -202,7 +202,17 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 			Logger.LogWarning($"{attributes.size} {item} is too big for {maxItemSize} {eventName}!", Category.UI);
 			return false;
 		}
-		return allowAllItems || allowedItemTypes.Contains(attributes.type);
+		
+		bool allowed = false;
+		if (allowAllItems || allowedItemTypes.Contains(attributes.type))
+		{
+			allowed = true;
+		}
+		if (!inventorySlot.IsUISlot && UIManager.StorageHandler.storageCache?.gameObject == item)
+		{
+			allowed = false;
+		}
+		return allowed;
 	}
 
 	public void TryItemInteract()

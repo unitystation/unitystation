@@ -12501,7 +12501,7 @@ MonoBehaviour:
   m_ChildAlignment: 6
   m_StartCorner: 2
   m_StartAxis: 0
-  m_CellSize: {x: 82, y: 82}
+  m_CellSize: {x: 88, y: 88}
   m_Spacing: {x: -5.4, y: -5}
   m_Constraint: 1
   m_ConstraintCount: 7
@@ -13120,8 +13120,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114986867525342648}
   m_HandleRect: {fileID: 224599716051025124}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.41528565
+  m_Value: 0.9999998
+  m_Size: 0.41528562
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16180,6 +16180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3bdf2778373f4fdfacd9dea1ec3755d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridLayout: {fileID: 114047347608001584}
 --- !u!114 &114441514707964098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -24162,10 +24163,10 @@ RectTransform:
   m_Father: {fileID: 224342957805719492}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -87.21, y: -4.52}
-  m_SizeDelta: {x: 594.3, y: 180.4}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -87.21002, y: -4.5200043}
+  m_SizeDelta: {x: -1327.7, y: -229.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224014441259204308
 RectTransform:
@@ -25301,7 +25302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 409.30005}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224265194266767286
@@ -26919,8 +26920,8 @@ RectTransform:
   m_Father: {fileID: 224982044586477944}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.41528565}
+  m_AnchorMin: {x: 0, y: 0.5847144}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

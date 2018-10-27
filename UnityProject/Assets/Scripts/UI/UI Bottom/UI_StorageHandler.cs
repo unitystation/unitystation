@@ -30,6 +30,7 @@ public class UI_StorageHandler : MonoBehaviour
 		{
 			GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
 			newSlot.transform.parent = transform;
+			newSlot.transform.localScale = Vector3.one;
 			var itemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
 			itemSlot.eventName = "inventory" + i;
 			itemSlot.inventorySlot = storageCache.storageSlots.inventorySlots[i];
