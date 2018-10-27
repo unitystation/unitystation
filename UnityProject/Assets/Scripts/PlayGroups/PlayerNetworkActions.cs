@@ -181,14 +181,23 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
+			if (!toSlot.IsUISlot && gObj && InventoryContainsItem(gObj, out fromSlot))
+			{
+				SetStorageInventorySlot(slotUUID, fromUUID, gObj);
+				Debug.Log("Set slot allowed! " + gObj.name + " STORAGE MOVE from: " +  fromSlot.UUID + " to " + toSlot.UUID);
+				return true;
+			}
 			if (toSlot.Item != null)
 			{
-				Debug.Log("item slot is not empty: " + toSlot.Item.name);
-				if(!toSlot.IsUISlot && toSlot.Item == gObj){
+				Debug.Log("item slot is not empty: " + toSlot.Item.name + " toItemSlotName: " + toSlot.UUID);
+				if (!toSlot.IsUISlot && toSlot.Item == gObj)
+				{
 					//It's already been moved to the slot
 					fromSlot = InventoryManager.GetSlotFromUUID(fromUUID, isServer);
-					if(fromSlot?.Item != null){
-						Debug.Log("FROM SLOT IS NOT NULL: " + fromSlot.Item.name);
+					if (fromSlot?.Item != null)
+					{
+						Debug.Log("FROM SLOT IS NOT NULL: " + fromSlot.Item.name +
+							"fromItemSlotName: " + fromSlot.UUID);
 					}
 					return true;
 				}
@@ -202,18 +211,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return ValidateDropItem(toSlot, forceClientInform);
 		}
 
-		if (!toSlot.IsUISlot && gObj && InventoryContainsItem(gObj, out fromSlot))
-		{
-			SetStorageInventorySlot(slotUUID, gObj);
-			return true;
-		}
-
 		if (toSlot.IsUISlot && gObj && InventoryContainsItem(gObj, out fromSlot))
 		{
 			SetInventorySlot(toSlot.SlotName, gObj);
 			//Clean up other slots
 			ClearObjectIfNotInSlot(gObj, fromSlot.SlotName, forceClientInform);
-			Logger.LogTraceFormat("Approved moving {0} to slot {1}", Category.Inventory, gObj, toSlot.SlotName);
+			Debug.Log($"Approved moving {gObj.name} to slot {toSlot.SlotName}");
 			return true;
 		}
 		Debug.Log("Unable to do anything returning false");
@@ -291,10 +294,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void SetStorageInventorySlot(string slotUUID, GameObject obj)
+	public void SetStorageInventorySlot(string slotUUID, string fromUUID, GameObject obj)
 	{
 		InventoryManager.UpdateInvSlot(true, slotUUID, obj,
-			InventoryManager.GetSlotIDFromItem(obj));
+			fromUUID);
 	}
 
 	[Server]

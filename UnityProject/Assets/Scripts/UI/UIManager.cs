@@ -141,11 +141,15 @@ public class UIManager : MonoBehaviour
 	{
 		Logger.LogTraceFormat("Updating slots: {0}", Category.UI, slotInfo);
 		//			InputTrigger.Touch(slotInfo.SlotContents);
-		InventorySlots.GetSlotByUUID(slotInfo.SlotUUID).SetItem(slotInfo.SlotContents);
+		var slot = InventorySlots.GetSlotByUUID(slotInfo.SlotUUID);
+		slot.SetItem(slotInfo.SlotContents);
+		Debug.Log("Set Slot: " + slot.eventName);
+		
 		var fromSlot = InventorySlots.GetSlotByUUID(slotInfo.FromSlotUUID);
 		if (fromSlot?.Item == slotInfo.SlotContents)
 		{
-			fromSlot.Item = null;
+			fromSlot.Clear();
+			Debug.Log("Empty FromSlot: " + fromSlot.inventorySlot.SlotName);
 		}
 	}
 

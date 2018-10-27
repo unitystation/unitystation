@@ -60,6 +60,9 @@ public class InventoryManager : MonoBehaviour
 		if (!isServer)
 		{
 			Debug.Log("client rec: " + UUID + " item: " + item.name + " from: " + FromUUID);
+		} else {
+			Debug.Log("SERVER rec: " + UUID + " item: " + item.name + " from: " + FromUUID);
+
 		}
 		bool uiSlotChanged = false;
 		string toSlotName = "";
@@ -70,6 +73,7 @@ public class InventoryManager : MonoBehaviour
 		{
 			var invSlot = InventorySlotList(isServer)[index];
 			invSlot.Item = item;
+			Debug.Log("Set InvSlot: " + invSlot.SlotName + " with: " + item.name);
 			if (invSlot.IsUISlot)
 			{
 				uiSlotChanged = true;
@@ -85,6 +89,7 @@ public class InventoryManager : MonoBehaviour
 			{
 				var invSlot = InventorySlotList(isServer)[index];
 				invSlot.Item = null;
+				Debug.Log("set InvSlot To null: " + invSlot.SlotName);
 				if (invSlot.IsUISlot)
 				{
 					uiSlotChanged = true;
