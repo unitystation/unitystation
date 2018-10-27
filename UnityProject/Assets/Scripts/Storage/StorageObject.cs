@@ -12,23 +12,42 @@ public class StorageObject : NetworkBehaviour
 
 	public Action clientUpdatedDelegate;
 
-	public override void OnStartServer()
+	IEnumerator InitSlots()
 	{
+		//Wait for onscene change event to take place on InventoryManager
+		yield return YieldHelper.EndOfFrame;
 		storageSlots = new StorageSlots();
 		for (int i = 0; i < maxSlots; i++)
 		{
-			storageSlots.inventorySlots.Add(new InventorySlot(System.Guid.NewGuid(), "inventory" + i));
+			var invSlot = new InventorySlot(System.Guid.NewGuid(), "inventory" + i);
+			storageSlots.inventorySlots.Add(invSlot);
+			InventoryManager.AddSlot(invSlot, isServer);
 		}
 
-		RpcInitClient(JsonUtility.ToJson(storageSlots));
+		if (isServer)
+		{
+			Debug.Log("HANDLE SYNC WITH ALL NEW PLAYERS");
+			RpcInitClient(JsonUtility.ToJson(storageSlots));
+		}
+	}
 
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		StartCoroutine(InitSlots());
+	}
+
+	public override void OnStartServer()
+	{
 		base.OnStartServer();
+		StartCoroutine(InitSlots());
 	}
 
 	[ClientRpc] //This just syncs the slots and UUIDs after server creates them
 	public void RpcInitClient(string data)
 	{
-		storageSlots = JsonUtility.FromJson<StorageSlots>(data);
+		Debug.Log("STORAGE ITEM DATA: " + data);
+		JsonUtility.FromJsonOverwrite(data, storageSlots);
 	}
 
 	[Server]
@@ -37,7 +56,8 @@ public class StorageObject : NetworkBehaviour
 		StorageObjectSyncMessage.Send(recipient, gameObject, JsonUtility.ToJson(storageSlots));
 	}
 
-	public void RefreshStorageItems(string data){
+	public void RefreshStorageItems(string data)
+	{
 		JsonUtility.FromJsonOverwrite(data, storageSlots);
 	}
 }

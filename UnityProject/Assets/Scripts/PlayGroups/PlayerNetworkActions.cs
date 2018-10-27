@@ -169,25 +169,42 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// If you are not validating a drop action then pass Vector3.zero to dropWorldPos
 	/// </summary>
 	[Server]
-	public bool ValidateInvInteraction(string slot, GameObject gObj = null, bool forceClientInform = true)
+	public bool ValidateInvInteraction(string slotUUID, GameObject gObj = null, bool forceClientInform = true)
 	{
 		//security todo: serverside check for item size UI_ItemSlot.CheckItemFit()
 		InventorySlot fromSlot = null;
-		if (!Inventory[slot].Item && gObj && InventoryContainsItem(gObj, out fromSlot))
-		{
-			SetInventorySlot(slot, gObj);
-			//Clean up other slots
-			ClearObjectIfNotInSlot(gObj, fromSlot.SlotName, forceClientInform);
-			Logger.LogTraceFormat("Approved moving {0} to slot {1}", Category.Inventory, gObj, slot);
-			return true;
+		InventorySlot toSlot = InventoryManager.GetSlotFromUUID(slotUUID, true);
+		if(toSlot == null){
+			Debug.Log("ERROR NO TO SLOT: " + slotUUID);
+		}
+		if(toSlot.Item != null){
+			return false;
 		}
 
 		if (!gObj)
 		{
-			return ValidateDropItem(slot, forceClientInform);
+			return ValidateDropItem(toSlot, forceClientInform);
 		}
 
-		Logger.LogWarning($"Unable to validateInvInteraction {slot}:{gObj.name}", Category.Inventory);
+		if(toSlot.Item != null){
+			return false;
+		}
+
+		if(!toSlot.IsUISlot && gObj && InventoryContainsItem(gObj, out fromSlot)){
+			SetStorageInventorySlot(slotUUID, gObj);
+			return true;
+		}
+
+		if (toSlot.IsUISlot && gObj && InventoryContainsItem(gObj, out fromSlot))
+		{
+			SetInventorySlot(toSlot.SlotName, gObj);
+			//Clean up other slots
+			ClearObjectIfNotInSlot(gObj, fromSlot.SlotName, forceClientInform);
+			Logger.LogTraceFormat("Approved moving {0} to slot {1}", Category.Inventory, gObj, toSlot.SlotName);
+			return true;
+		}
+
+		Logger.LogWarning($"Unable to validateInvInteraction {toSlot.SlotName}:{gObj.name}", Category.Inventory);
 		return false;
 	}
 
@@ -245,6 +262,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
+	public void SetStorageInventorySlot(string slotUUID, GameObject obj){
+		InventoryManager.UpdateInvSlot(true, slotUUID, obj,
+			InventoryManager.GetSlotIDFromItem(obj));
+	}
+
+	[Server]
 	public void SetInventorySlot(string slotName, GameObject obj)
 	{
 		InventoryManager.UpdateInvSlot(true, Inventory[slotName].UUID, obj,
@@ -284,12 +307,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//Dropping from a slot on the UI
 	[Server]
-	public bool ValidateDropItem(string slot, bool forceClientInform /* = false*/ )
+	public bool ValidateDropItem(InventorySlot invSlot, bool forceClientInform /* = false*/ )
 	{
 		//decline if not dropped from hands?
-		if (Inventory.ContainsKey(slot) && Inventory[slot].Item)
+		if (Inventory.ContainsKey(invSlot.SlotName) && Inventory[invSlot.SlotName].Item)
 		{
-			DropItem(slot, forceClientInform);
+			DropItem(invSlot.SlotName, forceClientInform);
 			return true;
 		}
 

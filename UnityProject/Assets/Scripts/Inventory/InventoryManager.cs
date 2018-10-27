@@ -43,14 +43,26 @@ public class InventoryManager : MonoBehaviour
 		AllServerInventorySlots.Clear();
 	}
 
+	public static void AddSlot(InventorySlot slot, bool isServer)
+	{
+		if (isServer)
+		{
+			AllServerInventorySlots.Add(slot);
+		}
+		else
+		{
+			AllClientInventorySlots.Add(slot);
+		}
+	}
+
 	public static void UpdateInvSlot(bool isServer, string UUID, GameObject item, string FromUUID = "")
 	{
-		if(!isServer){
+		if (!isServer)
+		{
 			Debug.Log("client rec: " + UUID + " item: " + item.name + " from: " + FromUUID);
 		}
 		bool uiSlotChanged = false;
 		string toSlotName = "";
-		string fromSlotName = "";
 		GameObject owner = null;
 		var index = InventorySlotList(isServer).FindIndex(
 			x => x.UUID == UUID);
@@ -76,7 +88,6 @@ public class InventoryManager : MonoBehaviour
 				if (invSlot.IsUISlot)
 				{
 					uiSlotChanged = true;
-					fromSlotName = invSlot.SlotName;
 					owner = invSlot.Owner.gameObject;
 				}
 			}
@@ -92,7 +103,7 @@ public class InventoryManager : MonoBehaviour
 		if (!isServer && uiSlotChanged)
 		{
 			Debug.Log("IS SERVER: " + isServer + " UPDATE SLOT ON UIMANAGER: " + toSlotName + " With item: " + item.name);
-			UIManager.UpdateSlot(new UISlotObject(toSlotName, item, fromSlotName));
+			UIManager.UpdateSlot(new UISlotObject(UUID, item, FromUUID));
 		}
 	}
 
@@ -103,7 +114,7 @@ public class InventoryManager : MonoBehaviour
 		{
 			return UUID;
 		}
-		
+
 		UUID = GetSlotFromItem(item)?.UUID;
 		return UUID;
 	}
@@ -123,7 +134,19 @@ public class InventoryManager : MonoBehaviour
 		return slot;
 	}
 
-	public static string GetClientUUIDFromSlotName(string slotName){
+	public static InventorySlot GetSlotFromUUID(string UUID, bool isServer)
+	{
+		InventorySlot slot = null;
+		var index = InventorySlotList(isServer).FindLastIndex(x => x.UUID == UUID);
+		if (index != -1)
+		{
+			slot = InventorySlotList(isServer)[index];
+		}
+		return slot;
+	}
+
+	public static string GetClientUUIDFromSlotName(string slotName)
+	{
 		string eventName = "";
 		var index = AllClientInventorySlots.FindLastIndex(x => x.SlotName == slotName);
 		if (index != -1)
@@ -156,7 +179,7 @@ public class InventoryManager : MonoBehaviour
 		}
 		UpdateInvSlot(true, "", slot.Item);
 	}
-	
+
 	//Server only
 	public static void DropGameItem(GameObject player, GameObject item, Vector3 pos)
 	{

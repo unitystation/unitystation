@@ -9,7 +9,7 @@ public class InventoryInteractMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.InventoryInteractMessage;
 	public bool ForceSlotUpdate;
-	public string Slot;
+	public string SlotUUID;
 	public NetworkInstanceId Subject;
 
 	//Serverside
@@ -34,9 +34,9 @@ public class InventoryInteractMessage : ClientMessage
 		GameObject clientPlayer = player;
 		PlayerNetworkActions pna = clientPlayer.GetComponent<PlayerNetworkActions>();
 
-		if (!pna.ValidateInvInteraction(Slot, item, ForceSlotUpdate))
+		if (!pna.ValidateInvInteraction(SlotUUID, item, ForceSlotUpdate))
 		{
-			pna.RollbackPrediction(Slot);
+			pna.RollbackPrediction(SlotUUID);
 		}
 	}
 
@@ -46,11 +46,11 @@ public class InventoryInteractMessage : ClientMessage
 	/// or else use Vector3.zero when not placing or dropping to ignore it.
 	/// (The world pos is converted to local position automatically)
 	/// </summary>
-	public static InventoryInteractMessage Send(string slot, GameObject subject /* = null*/, bool forceSlotUpdate /* = false*/)
+	public static InventoryInteractMessage Send(string slotUUID, GameObject subject /* = null*/, bool forceSlotUpdate /* = false*/)
 	{
 		InventoryInteractMessage msg = new InventoryInteractMessage {
 			Subject = subject ? subject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
-			Slot = slot,
+			SlotUUID = slotUUID,
 			ForceSlotUpdate = forceSlotUpdate
 		};
 		msg.Send();
@@ -60,7 +60,7 @@ public class InventoryInteractMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Slot = reader.ReadString();
+		SlotUUID = reader.ReadString();
 		Subject = reader.ReadNetworkId();
 		ForceSlotUpdate = reader.ReadBoolean();
 	}
@@ -68,7 +68,7 @@ public class InventoryInteractMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(Slot);
+		writer.Write(SlotUUID);
 		writer.Write(Subject);
 		writer.Write(ForceSlotUpdate);
 	}

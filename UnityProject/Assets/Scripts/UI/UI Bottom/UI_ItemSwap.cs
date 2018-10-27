@@ -38,7 +38,7 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 					}
 				}
 
-				UIManager.TryUpdateSlot(new UISlotObject(itemSlot.eventName, UIManager.DragAndDrop.ItemCache));
+				UIManager.TryUpdateSlot(new UISlotObject(itemSlot.inventorySlot.UUID, UIManager.DragAndDrop.ItemCache));
 			}
 		}
 	}

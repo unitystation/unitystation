@@ -73,6 +73,17 @@ public class InventorySlotCache : MonoBehaviour
 		return GetSlotByItemType(item.type);
 	}
 
+	public UI_ItemSlot GetSlotByUUID(string UUID)
+	{
+		UI_ItemSlot slot = null;
+		int index = InventorySlots.FindLastIndex(x => x.inventorySlot.UUID == UUID);
+		if (index != -1)
+		{
+			slot = InventorySlots[index];
+		}
+		return slot;
+	}
+
 	public void Add(UI_ItemSlot item)
 	{
 		InventorySlots.Add(item);

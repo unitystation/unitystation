@@ -156,6 +156,6 @@ public class Hands : MonoBehaviour
 			}
 		}
 
-		UIManager.TryUpdateSlot(new UISlotObject(slot1.eventName, slot2.Item));
+		UIManager.TryUpdateSlot(new UISlotObject(slot1.inventorySlot.UUID, slot2.Item));
 	}
 }

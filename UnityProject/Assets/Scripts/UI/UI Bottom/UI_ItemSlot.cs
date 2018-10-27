@@ -30,7 +30,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	public bool IsFull => Item != null;
 
-	private InventorySlot inventorySlot;
+	public InventorySlot inventorySlot {get; private set;}
 
 	private void Awake()
 	{

@@ -24,7 +24,7 @@ using UnityEngine.Networking;
 
 			if (!isServer)
 			{
-				UISlotObject uiSlotObject = new UISlotObject(hand, gameObject);
+				UISlotObject uiSlotObject = new UISlotObject(InventoryManager.GetClientUUIDFromSlotName(hand), gameObject);
 
 				//PreCheck
 				if (UIManager.CanPutItemToSlot(uiSlotObject))
