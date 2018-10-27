@@ -97,20 +97,21 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public bool AddItemToUISlot(GameObject itemObject, string slotName, bool replaceIfOccupied = false, bool forceInform = true)
 	{
-		if (Inventory[slotName] == null){
-			Debug.Log("Slotname may be a UUID: " + slotName);
-			foreach(KeyValuePair<string, InventorySlot> slot in Inventory){
-				bool hasSlot = slot.Value != null;
-				Debug.Log("Slot: " + slot.Key + " hasSlot: " + hasSlot);
-			}
+		if (Inventory[slotName] == null)
+		{
+			return false;
 		}
-		if(Inventory[slotName].Item != null && !replaceIfOccupied)
+		if (Inventory[slotName].Item != null && !replaceIfOccupied)
 		{
 			Logger.Log($"{gameObject.name}: Didn't replace existing {slotName} item {Inventory[slotName].Item?.name} with {itemObject?.name}", Category.Inventory);
 			return false;
 		}
 
-		//EquipmentPool.AddGameObject(gameObject, itemObject);
+		var cnt = itemObject.GetComponent<CustomNetTransform>();
+		if (cnt != null)
+		{
+			cnt.DisappearFromWorldServer();
+		}
 		SetInventorySlot(slotName, itemObject);
 		return true;
 	}
@@ -168,7 +169,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void AddToEquipmentPool(GameObject obj)
 	{
 		Debug.Log("TODO: Inventory slots added to items that need them like weapons: obj: " + obj.name);
-	//	EquipmentPool.AddGameObject(gameObject, obj);
+		//	EquipmentPool.AddGameObject(gameObject, obj);
 	}
 
 	/// <summary>
