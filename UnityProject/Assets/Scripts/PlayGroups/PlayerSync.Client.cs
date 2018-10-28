@@ -40,8 +40,8 @@ public partial class PlayerSync
 		/// Does ghosts's transform pos match state pos? Ignores Z-axis.
 		private bool GhostPositionReady => ( Vector2 ) predictedState.WorldPosition == ( Vector2 ) playerScript.ghost.transform.position;
 
-		private bool IsWeightlessClient => MatrixManager.IsFloatingAt( gameObject, Vector3Int.RoundToInt(predictedState.WorldPosition) );
-		public bool IsNonStickyClient => MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
+		private bool IsWeightlessClient => !playerMove.isGhost && MatrixManager.IsFloatingAt( gameObject, Vector3Int.RoundToInt(predictedState.WorldPosition) );
+		public bool IsNonStickyClient => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
 
 		///Does server claim this client is floating rn?
 		private bool isFloatingClient => playerState.Impulse != Vector2.zero;
@@ -67,14 +67,14 @@ public partial class PlayerSync
 			//arguably it shouldn't really be like that in the future
 			bool isGrounded = !IsNonStickyClient;
 			bool isAroundPushables = IsAroundPushables( predictedState );
-			if ( (isGrounded || isAroundPushables ) && !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement
+			if ( ((isGrounded || isAroundPushables ) && !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement)
 			     || (playerMove.isGhost && !blockClientMovement) ) {
 //				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
 				if ( isGrounded )
 				{
 					//RequestMoveMessage.Send(action);
-					if ( CanMoveThere( predictedState, action ) ) {
+					if ( CanMoveThere( predictedState, action ) || playerMove.isGhost ) {
 						pendingActions.Enqueue( action );
 
 						LastDirection = action.Direction();

@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Light2D;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public partial class PlayerSync
@@ -38,8 +35,8 @@ public partial class PlayerSync
 	private bool isApplyingSpaceDmg;
 
 	///
-	public bool IsWeightlessServer => MatrixManager.IsFloatingAt(gameObject, Vector3Int.RoundToInt( serverState.WorldPosition ));
-	public bool IsNonStickyServer => MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
+	public bool IsWeightlessServer => !playerMove.isGhost && MatrixManager.IsFloatingAt(gameObject, Vector3Int.RoundToInt( serverState.WorldPosition ));
+	public bool IsNonStickyServer => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
 
 
@@ -305,12 +302,12 @@ public partial class PlayerSync
 				StartCoroutine( InteractSpacePushable( pushable, action.Direction() ) );
 			}
 			return state;
-		} else {
-			if ( action.isNonPredictive )
-			{
-				Logger.Log( "Ignored action marked as Non-predictive while being indoors", Category.Movement );
-				return state;
-			}
+		}
+
+		if ( action.isNonPredictive )
+		{
+			Logger.Log( "Ignored action marked as Non-predictive while being indoors", Category.Movement );
+			return state;
 		}
 
 		bool matrixChangeDetected;
@@ -349,8 +346,6 @@ public partial class PlayerSync
 	private void CmdValidatePush( GameObject pushable ) {
 		var pushPull = pushable.GetComponent<PushPull>();
 		if ( pushPull && !playerScript.IsInReach(pushPull.registerTile.WorldPosition) ) {
-//			pushPull.NotifyPlayers();
-//			NotifyPlayers();
 			questionablePushables.Add( pushPull );
 			Logger.LogWarningFormat( "Added questionable {0}", Category.PushPull, pushPull );
 		}
@@ -584,34 +579,26 @@ public partial class PlayerSync
 	//Temp solution (move to playerinventory when its completed):
 	private bool IsEvaCompatible()
 	{
-		if (playerScript.playerNetworkActions.Inventory["head"].Item != null
-		    && playerScript.playerNetworkActions.Inventory["suit"].Item != null)
-		{
-			if (headObjCache != playerScript.playerNetworkActions.Inventory["head"].Item)
-			{
-				headObjCache = playerScript.playerNetworkActions.Inventory["head"].Item;
-				if (headObjCache != null)
-					headItemAtt = headObjCache.GetComponent<ItemAttributes>();
-			}
-			if (suitObjCache != playerScript.playerNetworkActions.Inventory["suit"].Item)
-			{
-				suitObjCache = playerScript.playerNetworkActions.Inventory["suit"].Item;
-				if (suitObjCache != null)
-					suitItemAtt = suitObjCache.GetComponent<ItemAttributes>();
-			}
-
-			if (headItemAtt.evaCapable && suitItemAtt.evaCapable)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
+		var headItem = playerScript.playerNetworkActions.Inventory["head"].Item;
+		var suitItem = playerScript.playerNetworkActions.Inventory["suit"].Item;
+		if ( headItem == null || suitItem == null )
 		{
 			return false;
 		}
+
+		if (headObjCache != headItem)
+		{
+			headObjCache = headItem;
+			if (headObjCache != null)
+				headItemAtt = headObjCache.GetComponent<ItemAttributes>();
+		}
+		if (suitObjCache != suitItem)
+		{
+			suitObjCache = suitItem;
+			if (suitObjCache != null)
+				suitItemAtt = suitObjCache.GetComponent<ItemAttributes>();
+		}
+
+		return headItemAtt.evaCapable && suitItemAtt.evaCapable;
 	}
 }

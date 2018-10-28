@@ -244,32 +244,12 @@ using UnityEngine.Networking;
 					}
 				}
 
-//				if ( isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null ) {
-//					return;
-//				}
-
-//				if ( PullingObject != null ) {
-//
-//					if ( transform.hasChanged ) {
-//						transform.hasChanged = false;
-//						PullObject();
-//					}
-//					if (PullingObject.transform.localPosition != pullPos)
-//					{
-//						PullingObject.transform.localPosition =
-//						Vector3.MoveTowards(PullingObject.transform.localPosition,
-//							pullPos,
-//							(playerMove.speed * pullJourney) * Time.deltaTime );
-//					}
-//
-//				}
-
 				//Registering
 				if ( registerTile.Position != Vector3Int.RoundToInt( predictedState.Position ) ) {
 					RegisterObjects();
 				}
 			} else {
-				if ( !GhostPositionReady ) {
+				if ( !GhostPositionReady ) { //fixme: ghosts position isn't getting updated on server
 					GhostLerp( predictedState );
 				}
 			}
