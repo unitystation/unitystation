@@ -39,7 +39,7 @@ public class MicrowaveTrigger : InputTrigger
 			return false;
 		}
 
-		GameObject item = ps.playerNetworkActions.Inventory[hand];
+		GameObject item = ps.playerNetworkActions.Inventory[hand].Item;
 		if (item == null)
 		{
 			return false;

@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Name: Backpack
   m_EditorClassIdentifier: 
   LayerType: 2
-  TileType: 0
   RequiredTiles: []
-  Object: {fileID: 1426788842454498, guid: 7a7587eaf2b5e1c44addf7d2475d86c9, type: 2}
-  Rotatable: 0
-  KeepOrientation: 0
-  Offset: 0
+  TileType: 0
   IsItem: 1
+  KeepOrientation: 0
+  Object: {fileID: 1585232330438968, guid: b22b8a1b805c44b77a8d1759a6d4e119, type: 2}
+  Offset: 0
+  Rotatable: 0
+  IsWire: 0
+  WireStartEnd: {x: 0, y: 0}
+  wireSprite: {fileID: 0}

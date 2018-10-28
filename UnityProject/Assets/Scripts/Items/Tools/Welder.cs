@@ -120,8 +120,8 @@ public class Welder : NetworkBehaviour
 		CheckHeldByPlayer();
 	}
 
-	//A broadcast message from EquipmentPool.cs on the server:
-	public void OnRemoveFromPool()
+	//A broadcast message from InventoryManager.cs on the server:
+	public void OnRemoveFromInventory()
 	{
 		heldByPlayer = null;
 	}

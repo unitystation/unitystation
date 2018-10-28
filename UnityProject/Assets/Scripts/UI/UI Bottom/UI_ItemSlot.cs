@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UI_ItemSlot : MonoBehaviour
+public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 {
 	public bool allowAllItems;
 	public List<ItemType> allowedItemTypes;
@@ -15,14 +17,29 @@ public class UI_ItemSlot : MonoBehaviour
 	private Image secondaryImage; //For sprites that require two images
 	public ItemSize maxItemSize;
 
-	public GameObject Item { get; private set; }
+	public GameObject Item
+	{
+		get
+		{
+			return inventorySlot.Item;
+		}
+		set
+		{
+			inventorySlot.Item = value;
+		}
+	}
 
 	public bool IsFull => Item != null;
+
+	//Inventoryslot theifing is prevented by the UUID system 
+	//(clients don't know what other clients UUID's are and all slots are server authorative with validation checks)
+	public InventorySlot inventorySlot { get; set; }
 
 	private void Awake()
 	{
 		image = GetComponent<Image>();
-		secondaryImage = GetComponentsInChildren<Image>() [1];
+		inventorySlot = new InventorySlot(System.Guid.Empty, eventName, true);
+		secondaryImage = GetComponentsInChildren<Image>()[1];
 		secondaryImage.alphaHitTestMinimumThreshold = 0.5f;
 		secondaryImage.enabled = false;
 		image.alphaHitTestMinimumThreshold = 0.5f;
@@ -37,6 +54,7 @@ public class UI_ItemSlot : MonoBehaviour
 	private void OnEnable()
 	{
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		StartCoroutine(SetSlotOnEnable());
 	}
 
 	private void OnDisable()
@@ -49,6 +67,16 @@ public class UI_ItemSlot : MonoBehaviour
 	{
 		image.sprite = null;
 		image.enabled = false;
+
+	}
+
+	IEnumerator SetSlotOnEnable()
+	{
+		yield return YieldHelper.EndOfFrame;
+		if (!InventoryManager.AllClientInventorySlots.Contains(inventorySlot))
+		{
+			InventoryManager.AllClientInventorySlots.Add(inventorySlot);
+		}
 	}
 
 	/// <summary>
@@ -63,6 +91,10 @@ public class UI_ItemSlot : MonoBehaviour
 		}
 		Logger.LogTraceFormat("Setting item {0} to {1}", Category.UI, item.name, eventName);
 		var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
+		if (image == null)
+		{
+			image = GetComponent<Image>();
+		}
 		image.sprite = spriteRends[0].sprite;
 		if (spriteRends.Length > 1)
 		{
@@ -72,8 +104,9 @@ public class UI_ItemSlot : MonoBehaviour
 			}
 		}
 		image.enabled = true;
+		image.preserveAspect = true;
 		Item = item;
-		item.transform.position = transform.position;
+		item.transform.position = TransformState.HiddenPos;
 	}
 
 	public void SetSecondaryImage(Sprite sprite)
@@ -82,6 +115,7 @@ public class UI_ItemSlot : MonoBehaviour
 		{
 			secondaryImage.sprite = sprite;
 			secondaryImage.enabled = true;
+			secondaryImage.preserveAspect = true;
 		}
 		else
 		{
@@ -119,11 +153,11 @@ public class UI_ItemSlot : MonoBehaviour
 		GameObject item = Item;
 		//            InputTrigger.Touch(Item);
 		Item = null;
-		image.sprite = null;
 		image.enabled = false;
-		secondaryImage.sprite = null;
 		secondaryImage.enabled = false;
 		ControlTabs.CheckTabClose();
+		image.sprite = null;
+		secondaryImage.sprite = null;
 		return item;
 	}
 
@@ -179,11 +213,32 @@ public class UI_ItemSlot : MonoBehaviour
 			Logger.LogWarning($"{attributes.size} {item} is too big for {maxItemSize} {eventName}!", Category.UI);
 			return false;
 		}
-		return allowAllItems || allowedItemTypes.Contains(attributes.type);
+
+		bool allowed = false;
+		if (allowAllItems || allowedItemTypes.Contains(attributes.type))
+		{
+			allowed = true;
+		}
+		if (!inventorySlot.IsUISlot && UIManager.StorageHandler.storageCache?.gameObject == item)
+		{
+			allowed = false;
+		}
+		return allowed;
 	}
 
 	public void TryItemInteract()
 	{
+		if (eventName != "leftHand" && eventName != "rightHand")
+		{
+			//Clicked on item in another slot other then hands
+			if (Item != null)
+			{
+				var inputTrigger = Item.GetComponent<InputTrigger>();
+				inputTrigger.UI_InteractOtherSlot(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item);
+				return;
+			}
+		}
+
 		if (Item != null && UIManager.Hands.CurrentSlot.eventName == eventName)
 		{
 			var inputTrigger = Item.GetComponent<InputTrigger>();
@@ -205,5 +260,15 @@ public class UI_ItemSlot : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void OnDrag(PointerEventData data)
+	{
+		UIManager.DragAndDrop.UI_ItemDrag(this);
+	}
+
+	public void OnEndDrag(PointerEventData data)
+	{
+		UIManager.DragAndDrop.StopDrag();
 	}
 }

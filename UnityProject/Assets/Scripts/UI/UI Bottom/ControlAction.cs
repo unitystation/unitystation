@@ -119,13 +119,13 @@ public class ControlAction : MonoBehaviour
 		//			CustomNetTransform cnt = dropObj.GetComponent<CustomNetTransform>();
 		//			It is converted to LocalPos in transformstate struct
 		//			cnt.AppearAtPosition(PlayerManager.LocalPlayer.transform.position);
-		currentSlot.Clear();
 		//            }
 		//Message
-		lps.playerNetworkActions.RequestDropItem(currentSlot.eventName, false);
+		UIManager.CheckStorageHandlerOnMove(currentSlot.Item);
+		lps.playerNetworkActions.RequestDropItem(currentSlot.inventorySlot.UUID, false);
 		SoundManager.Play("Click01");
+		
 		Logger.Log("Drop Button", Category.UI);
-
 	}
 
 	private static bool isNotMovingClient(PlayerScript lps)

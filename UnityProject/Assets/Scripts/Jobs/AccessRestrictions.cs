@@ -13,14 +13,14 @@ public class AccessRestrictions : MonoBehaviour
 
 		// Check for an ID card
 		if (PNA.Inventory.ContainsKey("id") &&
-		    PNA.Inventory["id"]?.GetComponent<IDCard>() != null)
+		    PNA.Inventory["id"].Item?.GetComponent<IDCard>() != null)
 		{
-			card = PNA.Inventory["id"].GetComponent<IDCard>();
+			card = PNA.Inventory["id"].Item.GetComponent<IDCard>();
 		}
 		else if (PNA.Inventory.ContainsKey(PNA.activeHand) &&
-		         PNA.Inventory[PNA.activeHand]?.GetComponent<IDCard>() != null)
+		         PNA.Inventory[PNA.activeHand].Item?.GetComponent<IDCard>() != null)
 		{
-			card = PNA.Inventory[PNA.activeHand].GetComponent<IDCard>();
+			card = PNA.Inventory[PNA.activeHand].Item.GetComponent<IDCard>();
 		}
 		else
 		{

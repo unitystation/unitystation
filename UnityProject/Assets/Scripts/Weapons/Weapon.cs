@@ -30,7 +30,7 @@ using UnityEngine.Networking;
 		/// <summary>
 		///     The current magazine for this weapon, null means empty
 		/// </summary>
-		private MagazineBehaviour CurrentMagazine;
+		public MagazineBehaviour CurrentMagazine {get; private set;}
 
 		/// <summary>
 		///     Checks if the weapon should spawn weapon casings
@@ -233,7 +233,10 @@ using UnityEngine.Networking;
 
 		private IEnumerator WaitForLoad()
 		{
-			yield return new WaitForSeconds(3f);
+			while(MagNetID == NetworkInstanceId.Invalid){
+				yield return YieldHelper.EndOfFrame;
+			}
+			yield return YieldHelper.EndOfFrame;
 			LoadUnloadAmmo(MagNetID);
 		}
 
@@ -244,6 +247,8 @@ using UnityEngine.Networking;
 			GameObject ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType)  as GameObject;
 
 			GameObject m = ItemFactory.SpawnItem(ammoPrefab, transform.parent);
+			var cnt = m.GetComponent<CustomNetTransform>();
+			cnt.DisappearFromWorldServer();
 
 			StartCoroutine(SetMagazineOnStart(m));
 
@@ -316,7 +321,7 @@ using UnityEngine.Networking;
 				OutOfAmmoSFX();
 			}
 			else
-			{
+			{	
 				//if we have a projectile to shoot, we have ammo and we are not waiting to be allowed to shoot again, Fire!
 				if (Projectile != null && CurrentMagazine.ammoRemains > 0 && FireCountDown <= 0)
 				{
@@ -328,7 +333,6 @@ using UnityEngine.Networking;
 						Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
 
 						RequestShootMessage.Send(gameObject, dir, Projectile.name, UIManager.DamageZone, suicideShot, PlayerManager.LocalPlayer);
-
 						if (!isServer) {
 							//Prediction (client bullets don't do any damage)
 							Shoot(PlayerManager.LocalPlayer, dir, Projectile.name, UIManager.DamageZone, suicideShot);
@@ -420,7 +424,7 @@ using UnityEngine.Networking;
 			Logger.LogTrace("Unloading", Category.Firearms);
 			if (m != null)
 			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(m.gameObject);
+				//PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItemNotInUISlot(m.gameObject);
 				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdUnloadWeapon(gameObject);
 			}
 		}
@@ -428,32 +432,6 @@ using UnityEngine.Networking;
 		#endregion
 
 		#region Weapon Inventory Management
-
-		//Check which slot it was just added too (broadcast from UI_itemSlot)
-		public void OnAddToInventory(string slotName)
-		{
-			//This checks to see if a new player who has joined needs to load up any weapon magazines because of missing sync hooks
-			if (MagNetID != NetworkInstanceId.Invalid)
-			{
-				if (CurrentMagazine /* && PlayerManager.LocalPlayer != null*/)
-				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.AddToEquipmentPool(CurrentMagazine.gameObject);
-				}
-			}
-		}
-
-		//recieve broadcast msg when item is dropped from hand
-		public void OnRemoveFromInventory()
-		{
-			if (MagNetID != NetworkInstanceId.Invalid && CustomNetworkManager.Instance._isServer)
-			{
-				if (CurrentMagazine)
-				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.DisposeOfChildItem(CurrentMagazine.gameObject);
-				}
-			}
-			Logger.LogTrace("Dropped Weapon", Category.Firearms);
-		}
 
 		public void LoadUnloadAmmo(NetworkInstanceId magazineID)
 		{
@@ -470,6 +448,12 @@ using UnityEngine.Networking;
 				{
 					MagazineBehaviour magazineBehavior = magazine.GetComponent<MagazineBehaviour>();
 					CurrentMagazine = magazineBehavior;
+					var cnt = magazine.GetComponent<CustomNetTransform>();
+					if(isServer){
+						cnt.DisappearFromWorldServer();
+					} else {
+						cnt.DisappearFromWorld();
+					}
 					Logger.LogTraceFormat("MagazineBehaviour found ok: {0}", Category.Firearms, magazineID);
 				}
 			}
@@ -480,22 +464,13 @@ using UnityEngine.Networking;
 		#region Weapon Pooling
 
 		//This is only called on the serverside
-		public void OnAddToPool(NetworkInstanceId ownerId)
+		public override void OnPickUpServer(NetworkInstanceId ownerId)
 		{
 			ControlledByPlayer = ownerId;
-			if (CurrentMagazine != null)
-			{
-				//As the magazine loaded is part of the weapon, then we do not need to add to server cache, we only need to add the item to the equipment pool
-				NetworkServer.FindLocalObject(ownerId).GetComponent<PlayerNetworkActions>().AddToEquipmentPool(CurrentMagazine.gameObject);
-			}
 		}
 
-		public void OnRemoveFromPool()
+		public override void OnDropItemServer()
 		{
-			if (CurrentMagazine != null)
-			{
-				EquipmentPool.DisposeOfObject(NetworkServer.FindLocalObject(ControlledByPlayer).gameObject, CurrentMagazine.gameObject);
-			}
 			ControlledByPlayer = NetworkInstanceId.Invalid;
 		}
 
