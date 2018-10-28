@@ -29,13 +29,9 @@ using UnityEngine.Networking;
 		};
 
 		private PlayerSprites playerSprites;
-		private PlayerSync playerSync;
 
 		[HideInInspector] public PlayerNetworkActions pna;
-//		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
 		public float speed = 10;
-
-//		public bool IsPushing { get; set; }
 
 		private RegisterTile registerTile;
 		private Matrix matrix => registerTile.Matrix;
@@ -46,8 +42,6 @@ using UnityEngine.Networking;
 		private void Start()
 		{
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
-			playerSync = GetComponent<PlayerSync>();
-//			pushPull = GetComponent<PushPull>();
 			registerTile = GetComponent<RegisterTile>();
 			pna = gameObject.GetComponent<PlayerNetworkActions>();
 		}
@@ -63,7 +57,7 @@ using UnityEngine.Networking;
 					return new PlayerAction { keyCodes = actionKeys.ToArray() };
 				}
 
-				if (Input.GetKey(keyCodes[i]) && allowInput /*&& !IsPushing*/)
+				if (Input.GetKey(keyCodes[i]) && allowInput)
 				{
 					actionKeys.Add((int)keyCodes[i]);
 				}
@@ -80,12 +74,6 @@ using UnityEngine.Networking;
 			}
 
 			Vector3Int direction = GetDirection(action, MatrixManager.Get(curMatrix), isReplay);
-//			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix);
-
-//			if (adjustedDirection == Vector3.zero && !isReplay)
-//			{
-//				Interact(currentPosition, direction);
-//			}
 
 			return currentPosition + direction;
 		}
@@ -225,7 +213,7 @@ using UnityEngine.Networking;
 		///     Check current and next tiles to determine their status and if movement is allowed
 		/// </summary>
 		private Vector3Int AdjustDirection(Vector3Int currentPosition, Vector3Int direction, bool isReplay, Matrix curMatrix)
-		{
+		{ //TODO: no longer used, remove after pulling is in
 			if (isGhost)
 			{
 				return direction;

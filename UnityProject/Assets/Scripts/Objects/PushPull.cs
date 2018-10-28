@@ -184,7 +184,7 @@ public class PushPull : VisibleBehaviour {
 
 		if ( pos != predictivePushTarget ) {
 			Logger.LogFormat( "Lerped to {0} while target pos was {1}", Category.PushPull, pos, predictivePushTarget );
-			if ( MatrixManager.IsNoGravityAt( pos ) ) { //? untested
+			if ( MatrixManager.IsNoGravityAt( pos ) ) {
 				Logger.LogTraceFormat( "...uh, we assume it's a space push and finish prediction", Category.PushPull );
 				FinishPrediction();
 			}

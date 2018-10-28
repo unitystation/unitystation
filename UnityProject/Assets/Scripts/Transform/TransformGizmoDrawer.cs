@@ -27,8 +27,6 @@ public class TransformGizmoDrawer : MonoBehaviour {
 		Gizmos.color = color1;
 		Vector3 stPos = cnt.ServerLerpState.WorldPosition;
 		Gizmos.DrawWireCube( stPos, size1 );
-//		GizmoUtils.DrawArrow( stPos + Vector3.right / 2, cnt.ServerState.Impulse );
-//		GizmoUtils.DrawText( cnt.ServerState.MatrixId.ToString(), stPos + Vector3.right / 2 + Vector3.up / 3, 15 );
 
 		//serverState
 		Gizmos.color = color2;
@@ -36,7 +34,6 @@ public class TransformGizmoDrawer : MonoBehaviour {
 		Gizmos.DrawWireCube( ssPos, size2 );
 		GizmoUtils.DrawArrow( ssPos + Vector3.right / 2, cnt.ServerState.Impulse );
 		GizmoUtils.DrawText( cnt.ServerState.MatrixId.ToString(), ssPos + Vector3.right / 2 + Vector3.up / 3, 15 );
-//		GizmoUtils.DrawText( cnt.ServerState.Speed.ToString(), ssPos + Vector3.right / 1.5f + Vector3.up / 3, 10 );
 
 		//registerTile pos
 		Gizmos.color = color3;

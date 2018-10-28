@@ -40,7 +40,6 @@ public partial class CustomNetTransform {
 	/// Containers and other objects meant to be snapped by tile
 	public bool IsTileSnap => registerTile.ObjectType == ObjectType.Object;
 
-//	public bool IsInSpace => MatrixManager.IsEmptyAt( Vector3Int.RoundToInt( transform.position ) );
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
 	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
@@ -68,7 +67,7 @@ public partial class CustomNetTransform {
 	[Server]
 	public bool Push( Vector2Int direction ) {
 		Vector2 target = ( Vector2 ) serverState.WorldPosition + direction;
-		serverState.Speed = PushSpeed; //?
+		serverState.Speed = PushSpeed;
 		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
 			serverState.Impulse = direction;
 		}

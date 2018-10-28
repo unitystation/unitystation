@@ -250,20 +250,6 @@ public partial class PlayerSync
 		questionablePushables.Clear();
 	}
 
-//	///Currently used to set the pos of a player that has just been dragged by another player
-//	//Fixme: prone to exploits, very hacky
-//	[Command]
-//	public void CmdSetPositionFromReset(GameObject fromObj, GameObject otherPlayer, Vector3 setPos)
-//	{
-//		if (fromObj.GetComponent<PlayerSync>() == null) //Validation
-//		{
-//			return;
-//		}
-//
-//		PlayerSync otherPlayerSync = otherPlayer.GetComponent<PlayerSync>();
-//		otherPlayerSync.SetPosition(setPos);
-//	}
-
 	/// Tries to assign next target from queue to serverTargetState if there are any
 	/// (In order to start lerping towards it)
 	[Server]
@@ -584,7 +570,7 @@ public partial class PlayerSync
 	private IEnumerator ApplyTempSpaceDamage()
 	{
 		yield return new WaitForSeconds(1f);
-//		healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+		healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
 		isApplyingSpaceDmg = false;
 	}
 
