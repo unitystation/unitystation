@@ -184,14 +184,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		InventorySlot toSlot = InventoryManager.GetSlotFromUUID(slotUUID, true);
 		if (toSlot == null)
 		{
-			Debug.Log("ERROR NO TO SLOT: " + slotUUID);
+			Logger.Log("Error no slot found for UUID: " + slotUUID, Category.Inventory);
 		}
 		else
 		{
 			if (!toSlot.IsUISlot && gObj && InventoryContainsItem(gObj, out fromSlot))
 			{
 				SetStorageInventorySlot(slotUUID, fromUUID, gObj);
-				Debug.Log("Set slot allowed! " + gObj.name + " STORAGE MOVE from: " + fromSlot.UUID + " to " + toSlot.UUID);
 				return true;
 			}
 			if (toSlot.IsUISlot && gObj && !InventoryContainsItem(gObj, out fromSlot))
@@ -201,15 +200,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 			if (toSlot.Item != null)
 			{
-				Debug.Log("item slot is not empty: " + toSlot.Item.name + " toItemSlotName: " + toSlot.UUID);
 				if (!toSlot.IsUISlot && toSlot.Item == gObj)
 				{
 					//It's already been moved to the slot
 					fromSlot = InventoryManager.GetSlotFromUUID(fromUUID, isServer);
 					if (fromSlot?.Item != null)
 					{
-						Debug.Log("FROM SLOT IS NOT NULL: " + fromSlot.Item.name +
-							"fromItemSlotName: " + fromSlot.UUID);
+						Logger.Log("From slot is not null: " + fromSlot.Item.name +
+							" fromItemSlotName: " + fromSlot.UUID, Category.Inventory);
 					}
 					return true;
 				}
@@ -219,7 +217,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		if (!gObj)
 		{
-			Debug.Log("gobj is null so validating a drop");
 			return ValidateDropItem(toSlot, forceClientInform);
 		}
 
@@ -228,17 +225,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SetInventorySlot(toSlot.SlotName, gObj);
 			//Clean up other slots
 			ClearObjectIfNotInSlot(gObj, fromSlot.SlotName, forceClientInform);
-			Debug.Log($"Approved moving {gObj.name} to slot {toSlot.SlotName}");
+//			Debug.Log($"Approved moving {gObj.name} to slot {toSlot.SlotName}");
 			return true;
 		}
-		Debug.Log("Unable to do anything returning false: " + slotUUID + " fromUUID " + fromUUID + " objName " + gObj.name);
 		Logger.LogWarning($"Unable to validateInvInteraction {toSlot.SlotName}:{gObj.name}", Category.Inventory);
 		return false;
 	}
 
 	public void RollbackPrediction(string slotUUID, string fromSlotUUID, GameObject item)
 	{
-		Debug.Log("Rollback UUID: " + slotUUID + " fromUUID " + fromSlotUUID);
 		var toSlotRequest = InventoryManager.GetSlotFromUUID(slotUUID, isServer);
 		var slotItCameFrom = InventoryManager.GetSlotFromUUID(fromSlotUUID, isServer);
 
