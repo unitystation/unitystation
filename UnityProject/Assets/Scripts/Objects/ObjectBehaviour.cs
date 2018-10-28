@@ -17,40 +17,40 @@ public class ObjectBehaviour : PushPull
 	protected override void Awake()
 	{
 		base.Awake();
-		//Determines if it is an item 
+		//Determines if it is an item
 		pickUpTrigger = GetComponent<PickUpTrigger>();
 		//Determines if it is a player
 		playerScript = GetComponent<PlayerScript>();
 	}
 	[ContextMethod("Drag","Drag_Hand")]
 	public void GUIOnMouseDown()
-	{
-		if (PlayerManager.LocalPlayerScript.IsInReach (transform.position)) 
-		{
-			if (pickUpTrigger != null && pulledBy != null)
-			{
-				CancelPullBehaviour();
-			}
-
-		}
-		base.OnMouseDown();
+	{ //TODO pull integration
+//		if (PlayerManager.LocalPlayerScript.IsInReach (transform.position)) 
+//		{
+//			if (pickUpTrigger != null && pulledBy != null)
+//			{
+//				CancelPullBehaviour();
+//			}
+//
+//		}
+//		base.OnMouseDown();
 	}
 
-	public override void OnMouseDown()
-	{
-		if (PlayerManager.LocalPlayerScript.IsInReach(transform.position))
-		{
-			//If this is an item with a pick up trigger and player is
-			//not holding control, then check if it is being pulled
-			//before adding to inventory
-			if (!Input.GetKey(KeyCode.LeftControl) && pickUpTrigger !=
-			    null && pulledBy != null)
-			{
-				CancelPullBehaviour();
-			}
-		}
-		base.OnMouseDown();
-	}
+//	public override void OnMouseDown()
+//	{
+//		if (PlayerManager.LocalPlayerScript.IsInReach(transform.position))
+//		{
+//			//If this is an item with a pick up trigger and player is
+//			//not holding control, then check if it is being pulled
+//			//before adding to inventory
+//			if (!Input.GetKey(KeyCode.LeftControl) && pickUpTrigger !=
+//			    null && pulledBy != null)
+//			{
+//				CancelPullBehaviour();
+//			}
+//		}
+//		base.OnMouseDown();
+//	}
 
 	public override void OnVisibilityChange(bool state)
 	{

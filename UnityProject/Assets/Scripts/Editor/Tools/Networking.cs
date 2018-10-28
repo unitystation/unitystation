@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Networking : Editor
 {
@@ -60,6 +61,11 @@ public class Networking : Editor
 			Logger.Log( $"{player.Name} ({player.Job}) is located at {player.Script.WorldPos}" );
 		}
 
+	}
+
+	[MenuItem("Networking/Spawn dummy player")]
+	private static void SpawnDummyPlayer() {
+		SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
 	}
 
 	[MenuItem("Networking/Transform Waltz (Server)")]

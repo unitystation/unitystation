@@ -23,6 +23,7 @@ using UnityEngine.Networking;
 		public static NetworkInstanceId NetId( this GameObject go ) {
 			return go ? go.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid;
 		}
+
 		/// Creates garbage! Use very sparsely!
 		public static Vector3 WorldPos( this GameObject go ) {
 			return go.GetComponent<RegisterTile>()?.WorldPosition ?? go.transform.position;
@@ -33,6 +34,22 @@ using UnityEngine.Networking;
 		public static T Wrap<T>(this T[] array, int index)
 		{
 			return array[((index % array.Length) + array.Length) % array.Length];
+		}
+
+		public static BoundsInt BoundsAround( this Vector3Int pos ) {
+			return new BoundsInt( pos - new Vector3Int( 1, 1, 0 ), new Vector3Int( 3, 3, 1 ) );
+		}
+
+		private const float NO_BOOST_THRESHOLD = 1f;
+
+		/// Lerp speed modifier
+		public static float SpeedTo( this Vector3 lerpFrom, Vector3 lerpTo ) {
+			float distance = Vector2.Distance( lerpFrom, lerpTo );
+			if ( distance <= NO_BOOST_THRESHOLD ) {
+				return 1;
+			}
+
+			return 1 + ( (distance - NO_BOOST_THRESHOLD) * 2 );
 		}
 
 		/// Serializing Vector2 (rounded to int) into plaintext

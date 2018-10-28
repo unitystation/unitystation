@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-
-	/// <summary>
+/// <summary>
 	///     Player move queues the directional move keys
 	///     to be processed along with the server.
 	///     It also changes the sprite direction and
@@ -13,6 +11,9 @@ using UnityEngine.Networking;
 	/// </summary>
 	public class PlayerMove : NetworkBehaviour
 	{
+		private PlayerScript playerScript;
+		public PlayerScript PlayerScript => playerScript ? playerScript : ( playerScript = GetComponent<PlayerScript>() );
+
 		public bool diagonalMovement;
 		public bool azerty;
 
@@ -27,15 +28,10 @@ using UnityEngine.Networking;
 			KeyCode.RightArrow
 		};
 
-		public PlayerMatrixDetector playerMatrixDetector;
 		private PlayerSprites playerSprites;
-		private IPlayerSync playerSync;
 
 		[HideInInspector] public PlayerNetworkActions pna;
-		[HideInInspector] public PushPull pushPull; //The push pull component attached to this player
 		public float speed = 10;
-
-		public bool IsPushing { get; set; }
 
 		private RegisterTile registerTile;
 		private Matrix matrix => registerTile.Matrix;
@@ -46,8 +42,6 @@ using UnityEngine.Networking;
 		private void Start()
 		{
 			playerSprites = gameObject.GetComponent<PlayerSprites>();
-			playerSync = GetComponent<IPlayerSync>();
-			pushPull = GetComponent<PushPull>();
 			registerTile = GetComponent<RegisterTile>();
 			pna = gameObject.GetComponent<PlayerNetworkActions>();
 		}
@@ -63,7 +57,7 @@ using UnityEngine.Networking;
 					return new PlayerAction { keyCodes = actionKeys.ToArray() };
 				}
 
-				if (Input.GetKey(keyCodes[i]) && allowInput && !IsPushing)
+				if (Input.GetKey(keyCodes[i]) && allowInput)
 				{
 					actionKeys.Add((int)keyCodes[i]);
 				}
@@ -80,14 +74,8 @@ using UnityEngine.Networking;
 			}
 
 			Vector3Int direction = GetDirection(action, MatrixManager.Get(curMatrix), isReplay);
-			Vector3Int adjustedDirection = AdjustDirection(currentPosition, direction, isReplay, curMatrix);
 
-			if (adjustedDirection == Vector3.zero)
-			{
-				Interact(currentPosition, direction);
-			}
-
-			return currentPosition + adjustedDirection;
+			return currentPosition + direction;
 		}
 
 		public string ChangeKeyboardInput(bool setAzerty)
@@ -157,12 +145,10 @@ using UnityEngine.Networking;
 
 			direction.x = Mathf.Clamp(direction.x, -1, 1);
 			direction.y = Mathf.Clamp(direction.y, -1, 1);
-			Logger.Log(direction.ToString(), Category.Movement);
+//			Logger.LogTrace(direction.ToString(), Category.Movement);
 
-			if (PlayerManager.LocalPlayer == gameObject && !isReplay)
+			if ((PlayerManager.LocalPlayer == gameObject || isServer) && !isReplay)
 			{
-				playerSprites.CmdChangeDirection(Orientation.From(direction));
-				// Prediction:
 				playerSprites.FaceDirection(Orientation.From(direction));
 			}
 
@@ -227,7 +213,7 @@ using UnityEngine.Networking;
 		///     Check current and next tiles to determine their status and if movement is allowed
 		/// </summary>
 		private Vector3Int AdjustDirection(Vector3Int currentPosition, Vector3Int direction, bool isReplay, Matrix curMatrix)
-		{
+		{ //TODO: no longer used, remove after pulling is in
 			if (isGhost)
 			{
 				return direction;
@@ -240,28 +226,28 @@ using UnityEngine.Networking;
 			if (!isReplay)
 			{
 				// Check the high level matrix detector
-				if (!playerMatrixDetector.CanPass(currentPosition, direction, curMatrix))
-				{
-					return Vector3Int.zero;
-				}
+//				if (!MatrixManager.CanPass(currentPosition, direction, curMatrix))
+//				{
+//					Logger.LogError( $"Why the hell did this trigger? localPos={currentPosition}+{Orientation.From( direction )} on {curMatrix}", Category.Movement );
+//				}
 
-				// Not to be checked while performing a replay:
-				if (playerSync.PullingObject != null)
-				{
-					if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
-					{
-						//Vector2 directionToPullObj =
-						//	playerSync.pullingObject.transform.localPosition - transform.localPosition;
-						//if (directionToPullObj.normalized != playerSprites.currentDirection) {
-						//	// Ran into pullObject but was not facing it, saved direction
-						//	return direction;
-						//}
-						//Hit Pull obj
-						pna.CmdStopPulling(playerSync.PullingObject);
-
-						return Vector3Int.zero;
-					}
-				}
+//				// Not to be checked while performing a replay:
+//				if (playerSync.PullingObject != null)
+//				{
+//					if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
+//					{
+//						//Vector2 directionToPullObj =
+//						//	playerSync.pullingObject.transform.localPosition - transform.localPosition;
+//						//if (directionToPullObj.normalized != playerSprites.currentDirection) {
+//						//	// Ran into pullObject but was not facing it, saved direction
+//						//	return direction;
+//						//}
+//						//Hit Pull obj
+//						pna.CmdStopPulling(playerSync.PullingObject);
+//
+//						return Vector3Int.zero;
+//					}
+//				}
 			}
 
 			if (!curMatrix.ContainsAt(newPos, gameObject) && curMatrix.IsPassableAt(currentPosition, newPos) && !isReplay)
@@ -269,14 +255,14 @@ using UnityEngine.Networking;
 				return direction;
 			}
 
-			// This is only for replay (to ignore any interactions with the pulled obj):
-			if (playerSync.PullingObject != null)
-			{
-				if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
-				{
-					return direction;
-				}
-			}
+//			// This is only for replay (to ignore any interactions with the pulled obj):
+//			if (playerSync.PullingObject != null)
+//			{
+//				if (curMatrix.ContainsAt(newPos, playerSync.PullingObject))
+//				{
+//					return direction;
+//				}
+//			}
 
 			if (isReplay)
 			{
@@ -289,51 +275,6 @@ using UnityEngine.Networking;
 
 		}
 
-		private void Interact(Vector3 currentPosition, Vector3 direction)
-		{
-			Vector3Int targetPos = Vector3Int.RoundToInt(currentPosition + direction);
-			var worldPos = MatrixManager.Instance.LocalToWorldInt(currentPosition, matrix);
-			var worldTarget = MatrixManager.Instance.LocalToWorldInt(targetPos, matrix);
 
-			InteractDoor(worldPos, worldTarget);
-			// @TODO: adapt for cross-matrix
-			// Is the object pushable (iterate through all of the objects at the position):
-			PushPull[] pushPulls = matrix.Get<PushPull>(targetPos).ToArray();
-			for (int i = 0; i < pushPulls.Length; i++)
-			{
-				if (pushPulls[i] && pushPulls[i].gameObject != gameObject)
-				{
-					pushPulls[i].TryPush(gameObject, direction);
-				}
-			}
-		}
 
-		// Cross-matrix now! uses world positions
-		private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
-		{
-			// Make sure there is a door controller
-			DoorTrigger door = MatrixManager.Instance.GetFirst<DoorTrigger>(targetPos);
-
-			if (!door)
-			{
-				door = MatrixManager.Instance.GetFirst<DoorTrigger>(Vector3Int.RoundToInt(currentPos));
-
-				if (door)
-				{
-					RegisterDoor registerDoor = door.GetComponent<RegisterDoor>();
-					Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(targetPos, matrix);
-
-					if (registerDoor.IsPassable(localPos))
-					{
-						door = null;
-					}
-				}
-			}
-
-			// Attempt to open door
-			if (door != null && allowInput)
-			{
-				door.Interact(gameObject, TransformState.HiddenPos);
-			}
-		}
 	}

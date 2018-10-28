@@ -132,16 +132,6 @@ public class ExplodeWhenShot : NetworkBehaviour
 		try
 		{
 			registerTile.Unregister();
-
-			PushPull oA = gameObject.GetComponent<PushPull>();
-			if (oA != null)
-			{
-				if (oA.pusher == PlayerManager.LocalPlayer)
-				{
-					PlayerManager.LocalPlayerScript.playerMove.IsPushing = false;
-				}
-				oA.isPushable = false;
-			}
 		}
 		catch
 		{

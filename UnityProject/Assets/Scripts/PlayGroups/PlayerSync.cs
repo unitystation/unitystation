@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
 
-	/// Container with player position, flight direction etc. 
+	/// Container with player position, flight direction etc.
 	/// Gives client enough information for smooth simulation
 	public struct PlayerState
 	{
@@ -28,10 +29,10 @@ using UnityEngine.Networking;
 		///Direction of flying
 		public Vector2 Impulse;
 
-		///Flag for clients to reset their queue when received 
+		///Flag for clients to reset their queue when received
 		public bool ResetClientQueue;
 
-		/// Flag for server to ensure that clients receive that flight update: 
+		/// Flag for server to ensure that clients receive that flight update:
 		/// Only important flight updates (ones with impulse) are being sent out by server (usually start only)
 		[NonSerialized] public bool ImportantFlightUpdate;
 
@@ -47,6 +48,11 @@ using UnityEngine.Networking;
 	public struct PlayerAction
 	{
 		public int[] keyCodes;
+		/// Set to true when client believes this action doesn't make player move
+		public bool isBump;
+
+		/// Set to true when client suggests some action that isn't covered by prediction
+		public bool isNonPredictive;
 
 		//clone of PlayerMove GetMoveDirection stuff
 		//but there should be a way to see the direction of these keycodes ffs
@@ -80,18 +86,18 @@ using UnityEngine.Networking;
 			}
 			return Vector2Int.zero;
 		}
+
+		public static PlayerAction None = new PlayerAction();
 	}
 
-	public partial class PlayerSync : NetworkBehaviour, IPlayerSync
+	public partial class PlayerSync : NetworkBehaviour, IPushable
 	{
-		public float offsetTest = 1f;
 		///For server code. Contains position
 		public PlayerState ServerState => serverState;
 
 		/// For client code
 		public PlayerState ClientState => playerState;
 
-//		private bool canRegister = false;
 		private HealthBehaviour healthBehaviorScript;
 
 		public PlayerMove playerMove;
@@ -100,40 +106,75 @@ using UnityEngine.Networking;
 
 		private Matrix matrix => registerTile.Matrix;
 
-		public LayerMask matrixLayerMask;
-
 		private RaycastHit2D[] rayHit;
 
-		public GameObject PullingObject { get; set; }
-
-		public NetworkInstanceId PullObjectID {
-			get { return pullObjectID; }
-			set { pullObjectID = value; }
-		}
-
-		//pull objects
-		[SyncVar( hook = nameof( PullReset ) )] private NetworkInstanceId pullObjectID;
-
-		private Vector3 pullPos;
-
-		private float pullJourney;
-
-		private RegisterTile pullRegister;
-
-		private PushPull pushPull; //The pushpull component on this player
+//		private float pullJourney;
+		private PushPull pushPull;
 
 		private RegisterTile registerTile;
 
-		private bool IsPointlessMove( PlayerState state, PlayerAction action ) {
-			bool change;
-			return state.WorldPosition.Equals( NextState( state, action, out change ).WorldPosition );
+		private bool CanMoveThere( PlayerState state, PlayerAction action ) {
+			Vector3Int origin = Vector3Int.RoundToInt( state.WorldPosition );
+			Vector3Int direction = Vector3Int.RoundToInt( ( Vector2 ) action.Direction() );
+
+			return MatrixManager.IsPassableAt( origin, origin + direction );
 		}
 
-		private IEnumerator WaitForLoad() {
-			yield return new WaitForSeconds( 2f );
+		#region spess interaction logic
 
-			PullReset( PullObjectID );
+		/// On player's tile
+		private bool IsOnPushables( PlayerState state ) {
+			var stateWorldPosition = state.WorldPosition;
+			PushPull pushable;
+			return HasPushablesAt( stateWorldPosition, out pushable );
 		}
+
+		private bool IsAroundPushables( PlayerState state ) {
+			PushPull pushable;
+			return IsAroundPushables( state, out pushable );
+		}
+
+		/// Around player
+		private bool IsAroundPushables( PlayerState state, out PushPull pushable ) {
+			return IsAroundPushables( state.WorldPosition, out pushable );
+		}
+
+		private bool IsAroundPushables( Vector3 worldPos, out PushPull pushable, GameObject except = null ) {
+			pushable = null;
+			foreach ( Vector3Int pos in worldPos.CutToInt().BoundsAround().allPositionsWithin ) {
+				if ( HasPushablesAt( pos, out pushable, except ) ) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public static bool HasInReach( Vector3 worldPos, PushPull hasWhat ) {
+			Vector3Int objectPos = hasWhat.registerTile.WorldPosition;
+			return worldPos.CutToInt().BoundsAround().Contains( objectPos );
+		}
+
+		private bool HasPushablesAt( Vector3 stateWorldPosition, out PushPull firstPushable, GameObject except = null ) {
+			firstPushable = null;
+			var pushables = MatrixManager.GetAt<PushPull>( stateWorldPosition.CutToInt() ).ToArray();
+			if ( pushables.Length == 0 ) {
+				return false;
+			}
+
+			for ( var i = 0; i < pushables.Length; i++ ) {
+				var pushable = pushables[i];
+				if ( pushable.gameObject == ( except ?? this.gameObject ) ) {
+					continue;
+				}
+				firstPushable = pushable;
+				return true;
+			}
+
+			return false;
+		}
+
+		#endregion
 
 		private void Start() {
 			//Init pending actions queue for your local player
@@ -141,7 +182,7 @@ using UnityEngine.Networking;
 				pendingActions = new Queue<PlayerAction>();
 				UpdatePredictedState();
 			}
-			//Init pending actions queue for server 
+			//Init pending actions queue for server
 			if ( isServer ) {
 				serverPendingActions = new Queue<PlayerAction>();
 			}
@@ -155,16 +196,16 @@ using UnityEngine.Networking;
 		private void Update() {
 			if ( isLocalPlayer && playerMove != null ) {
 				// If being pulled by another player and you try to break free
-				//TODO Condition to check for handcuffs / straight jacket 
+				//TODO Condition to check for handcuffs / straight jacket
 				// (probably better to adjust allowInput or something)
-				if ( pushPull.pulledBy != null && !playerMove.isGhost ) {
-					for ( int i = 0; i < playerMove.keyCodes.Length; i++ ) {
-						if ( Input.GetKey( playerMove.keyCodes[i] ) ) {
-							playerScript.playerNetworkActions.CmdStopOtherPulling( gameObject );
-						}
-					}
-					return;
-				}
+//				if ( pushPull.pulledBy != null && !playerMove.isGhost ) {
+//					for ( int i = 0; i < playerMove.keyCodes.Length; i++ ) {
+//						if ( Input.GetKey( playerMove.keyCodes[i] ) ) {
+//							playerScript.playerNetworkActions.CmdStopOtherPulling( gameObject );
+//						}
+//					}
+//					return;
+//				}
 				if ( ClientPositionReady && !playerMove.isGhost
 				   || GhostPositionReady && playerMove.isGhost ) {
 					DoAction();
@@ -178,57 +219,38 @@ using UnityEngine.Networking;
 			//Register playerpos in matrix
 			registerTile.UpdatePosition();
 			//Registering objects being pulled in matrix
-			if ( pullRegister != null ) {
-				pullRegister.UpdatePosition();
-			}
+//			if ( pullRegister != null ) {
+//				pullRegister.UpdatePosition();
+//			}
 		}
 
 		private void Synchronize() {
 			if ( isLocalPlayer && GameData.IsHeadlessServer ) {
 				return;
 			}
-			if ( isServer ) {
-				CheckTargetUpdate();
-			}
 
-			PlayerState state = isLocalPlayer ? predictedState : playerState;
 			if ( !playerMove.isGhost ) {
 				if ( matrix != null ) {
 					//Client zone
 					CheckMovementClient();
 					//Server zone
 					if ( isServer ) {
+						if (serverState.Position != serverLerpState.Position) {
+							ServerLerp();
+						} else {
+							TryUpdateServerTarget();
+						}
 						CheckMovementServer();
 					}
 				}
 
-				if ( isLocalPlayer && playerMove.IsPushing || pushPull.pulledBy != null ) {
-					return;
-				}
-
-				if ( PullingObject != null ) {
-					
-					if ( transform.hasChanged ) {
-						transform.hasChanged = false;
-						PullObject();
-					}
-					if (PullingObject.transform.localPosition != pullPos)
-					{
-						PullingObject.transform.localPosition =
-						Vector3.MoveTowards(PullingObject.transform.localPosition,
-							pullPos,
-							(playerMove.speed * pullJourney) * Time.deltaTime );
-					}
-
-				}
-
 				//Registering
-				if ( registerTile.Position != Vector3Int.RoundToInt( state.Position ) ) {
+				if ( registerTile.Position != Vector3Int.RoundToInt( predictedState.Position ) ) {
 					RegisterObjects();
 				}
 			} else {
-				if ( !GhostPositionReady ) {
-					GhostLerp( state );
+				if ( !GhostPositionReady ) { //fixme: ghosts position isn't getting updated on server
+					GhostLerp( predictedState );
 				}
 			}
 		}
@@ -240,66 +262,66 @@ using UnityEngine.Networking;
 					playerMove.speed * Time.deltaTime );
 		}
 
-		private void PullObject() {
-			Vector3 proposedPos = Vector3.zero;
-			if (isLocalPlayer) {
-				proposedPos = transform.localPosition - (Vector3)LastDirection;
-			} else {
-				proposedPos = transform.localPosition - (Vector3)serverLastDirection;
-			}
+//		private void PullObject() {
+//			Vector3 proposedPos = Vector3.zero;
+//			if (isLocalPlayer) {
+//				proposedPos = transform.localPosition - (Vector3)LastDirection;
+//			} else {
+//				proposedPos = transform.localPosition - (Vector3)serverLastDirection;
+//			}
+//
+//			Vector3Int pos = Vector3Int.RoundToInt( proposedPos );
+//			if ( matrix.IsPassableAt( pos ) || matrix.ContainsAt( pos, gameObject ) ||
+//			     matrix.ContainsAt( pos, PullingObject ) ) {
+//				//if (isLocalPlayer)
+//				//{
+//				pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - offsetTest;
+//				if(pullJourney < 1.2f){
+//					pullJourney = 1f;
+//				}
+//
+//				if(pullJourney > 1.5f){
+//					pullJourney *= 1.2f;
+//				}
+//				//} else
+//				//{
+//				//	pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
+//				//}
+//				pullPos = proposedPos;
+//				pullPos.z = PullingObject.transform.localPosition.z;
+//				PullingObject.BroadcastMessage( "FaceDirection",
+//					playerSprites.currentDirection,
+//					SendMessageOptions.DontRequireReceiver );
+//			}
+//		}
 
-			Vector3Int pos = Vector3Int.RoundToInt( proposedPos );
-			if ( matrix.IsPassableAt( pos ) || matrix.ContainsAt( pos, gameObject ) ||
-			     matrix.ContainsAt( pos, PullingObject ) ) {
-				//if (isLocalPlayer)
-				//{
-				pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - offsetTest;
-				if(pullJourney < 1.2f){
-					pullJourney = 1f;
-				}
-
-				if(pullJourney > 1.5f){
-					pullJourney *= 1.2f;
-				}
-				//} else
-				//{
-				//	pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
-				//}
-				pullPos = proposedPos;
-				pullPos.z = PullingObject.transform.localPosition.z;
-				PullingObject.BroadcastMessage( "FaceDirection",
-					playerSprites.currentDirection,
-					SendMessageOptions.DontRequireReceiver );
-			}
-		}
-
-		public void PullReset( NetworkInstanceId netID ) {
-			PullObjectID = netID;
-
-			transform.hasChanged = false;
-			if ( netID == NetworkInstanceId.Invalid ) {
-				if ( PullingObject != null ) {
-					pullRegister.UpdatePosition();
-					//Could be another player
-					PlayerSync otherPlayerSync = PullingObject.GetComponent<PlayerSync>();
-					if ( otherPlayerSync != null ) {
-						CmdSetPositionFromReset( gameObject,
-							otherPlayerSync.gameObject,
-							PullingObject.transform.position );
-					}
-				}
-				pullRegister = null;
-				PullingObject = null;
-			} else {
-				PullingObject = ClientScene.FindLocalObject( netID );
-				PushPull oA = PullingObject.GetComponent<PushPull>();
-				pullPos = PullingObject.transform.localPosition;
-				if ( oA != null ) {
-					oA.pulledBy = gameObject;
-				}
-				pullRegister = PullingObject.GetComponent<RegisterTile>();
-			}
-		}
+//		public void PullReset( NetworkInstanceId netID ) {
+//			PullObjectID = netID;
+//
+//			transform.hasChanged = false;
+//			if ( netID == NetworkInstanceId.Invalid ) {
+//				if ( PullingObject != null ) {
+//					pullRegister.UpdatePosition();
+//					//Could be another player
+//					PlayerSync otherPlayerSync = PullingObject.GetComponent<PlayerSync>();
+//					if ( otherPlayerSync != null ) {
+//						CmdSetPositionFromReset( gameObject,
+//							otherPlayerSync.gameObject,
+//							PullingObject.transform.position );
+//					}
+//				}
+//				pullRegister = null;
+//				PullingObject = null;
+//			} else {
+//				PullingObject = ClientScene.FindLocalObject( netID );
+//				PushPull oA = PullingObject.GetComponent<PushPull>();
+//				pullPos = PullingObject.transform.localPosition;
+//				if ( oA != null ) {
+//					oA.pulledBy = gameObject;
+//				}
+//				pullRegister = PullingObject.GetComponent<RegisterTile>();
+//			}
+//		}
 
 		private PlayerState NextState( PlayerState state, PlayerAction action, out bool matrixChanged, bool isReplay = false ) {
 			var newState = state;
@@ -316,12 +338,12 @@ using UnityEngine.Networking;
 
 //			Logger.Log( $"NextState: src={state} proposedPos={newState.WorldPosition}\n" +
 //			           $"mAtPoint={matrixAtPoint.Id} change={matrixChangeDetected} newState={newState}" );
-			
+
 			if ( !matrixChangeDetected ) {
 				matrixChanged = false;
 				return newState;
 			}
-			
+
 			matrixChanged = true;
 			return newState;
 		}
@@ -338,25 +360,27 @@ using UnityEngine.Networking;
 		private Vector3 size2 = new Vector3( 0.9f, 0.9f, 0.9f );
 		private Vector3 size3 = new Vector3( 0.8f, 0.8f, 0.8f );
 		private Vector3 size4 = new Vector3( 0.7f, 0.7f, 0.7f );
+		private Vector3 size5 = new Vector3( 1.1f, 1.1f, 1.1f );
 		private Color color1 = Color.red;
-		private Color color2 = DebugTools.HexToColor( "fd7c6e" );
-		private Color color3 = DebugTools.HexToColor( "22e600" );
-		private Color color4 = DebugTools.HexToColor( "ebfceb" );
+		private Color color2 = DebugTools.HexToColor( "fd7c6e" );//pink
+		private Color color3 = DebugTools.HexToColor( "22e600" );//green
+		private Color color4 = DebugTools.HexToColor( "ebfceb" );//white
+		private Color color5 = DebugTools.HexToColor( "5566ff99" );//blue
 
 		private void OnDrawGizmos() {
-			//serverTargetState
-			Gizmos.color = color1;
-			Vector3 stsPos = serverTargetState.WorldPosition;
-			Gizmos.DrawWireCube( stsPos, size1 );
-            GizmoUtils.DrawArrow( stsPos + Vector3.left/2, serverTargetState.Impulse );
-            GizmoUtils.DrawText( serverTargetState.MoveNumber.ToString(), stsPos + Vector3.left/4, 15 );
-
 			//serverState
+			Gizmos.color = color1;
+			Vector3 stsPos = serverState.WorldPosition;
+			Gizmos.DrawWireCube( stsPos, size1 );
+            GizmoUtils.DrawArrow( stsPos + Vector3.left/2, serverState.Impulse );
+            GizmoUtils.DrawText( serverState.MoveNumber.ToString(), stsPos + Vector3.left/4, 15 );
+
+			//serverLerpState
 			Gizmos.color = color2;
-			Vector3 ssPos = serverState.WorldPosition;
+			Vector3 ssPos = serverLerpState.WorldPosition;
 			Gizmos.DrawWireCube( ssPos, size2 );
-            GizmoUtils.DrawArrow( ssPos + Vector3.right/2, serverState.Impulse );
-            GizmoUtils.DrawText( serverState.MoveNumber.ToString(), ssPos + Vector3.right/4, 15 );
+            GizmoUtils.DrawArrow( ssPos + Vector3.right/2, serverLerpState.Impulse );
+            GizmoUtils.DrawText( serverLerpState.MoveNumber.ToString(), ssPos + Vector3.right/4, 15 );
 
 			//client predictedState
 			Gizmos.color = color3;
@@ -371,6 +395,11 @@ using UnityEngine.Networking;
 			Gizmos.DrawWireCube( clientState, size4 );
 			GizmoUtils.DrawArrow( clientState + Vector3.right / 5, playerState.Impulse );
 			GizmoUtils.DrawText( playerState.MoveNumber.ToString(), clientState + Vector3.right, 15 );
+
+			//registerTile pos
+			Gizmos.color = color5;
+			Vector3 regPos = registerTile.WorldPosition;
+			Gizmos.DrawCube( regPos, size5 );
 		}
 #endif
 	}

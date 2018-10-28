@@ -31,7 +31,7 @@ using UnityEngine;
 				return;
 			}
 			if (!isServer)
-			{ 
+			{
 				//Client wants this code to be run on server
 				InteractMessage.Send(gameObject, interactSlot);
 			}
@@ -48,7 +48,7 @@ using UnityEngine;
 					Controller.TryClose();
 				} else {
 				// Attempt to open if it's closed
-					Controller.TryOpen(originator, interactSlot);
+					Controller.TryOpen(originator, interactSlot);//fixme: hand can be null
 				}
 			}
 			allowInput = false;

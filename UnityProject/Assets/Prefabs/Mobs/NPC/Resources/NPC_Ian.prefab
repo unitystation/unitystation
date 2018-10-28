@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 114405087929252270}
   - component: {fileID: 114123688984495052}
   - component: {fileID: 114653357792706156}
+  - component: {fileID: 114536369792164230}
   m_Layer: 8
   m_Name: NPC_Ian
   m_TagString: Untagged
@@ -143,13 +144,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
+  PushSpeed: 6
 --- !u!114 &114405087929252270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,6 +159,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114536369792164230
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114555785714625820
@@ -172,17 +183,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  custNetActiveState: 0
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114653357792706156
 MonoBehaviour:
@@ -216,7 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectType: 1
   AtmosPassable: 1
-  Passable: 1
+  Passable: 0
 --- !u!114 &114805348083048156
 MonoBehaviour:
   m_ObjectHideFlags: 1

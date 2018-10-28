@@ -525,7 +525,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	}
 
 	///Zero means 100% accurate, but will lead to peculiar behaviour (autopilot not reacting fast enough on high speed -> going back/in circles etc)
-	private static int AccuracyThreshold = 1;
+	private int AccuracyThreshold = 1;
 
 	public void SetAccuracy(int newAccuracy)
 	{

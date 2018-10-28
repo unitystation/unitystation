@@ -38,9 +38,9 @@ public class Matrix : MonoBehaviour
         return IsPassableAt(position, position);
     }
 
-	public bool IsPassableAt(Vector3Int origin, Vector3Int position)
+	public bool IsPassableAt( Vector3Int origin, Vector3Int position, bool includingPlayers = true )
 	{
-		return metaTileMap.IsPassableAt(origin, position);
+		return metaTileMap.IsPassableAt(origin, position, includingPlayers);
 	}
 
 	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position)
@@ -53,17 +53,51 @@ public class Matrix : MonoBehaviour
 		return metaDataLayer.IsSpaceAt(position);
 	}
 
+	/// Is this position completely clear of solid objects?
 	public bool IsEmptyAt(Vector3Int position)
 	{
 		return metaTileMap.IsEmptyAt(position);
 	}
 
+	/// Is this position and surrounding area completely clear of solid objects?
 	public bool IsFloatingAt(Vector3Int position)
 	{
-		BoundsInt bounds = new BoundsInt(position - new Vector3Int(1, 1, 0), new Vector3Int(3, 3, 1));
-		foreach (Vector3Int pos in bounds.allPositionsWithin)
+		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
 			if (!metaTileMap.IsEmptyAt(pos))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/// Is current position NOT a station tile? (Objects not taken into consideration)
+	public bool IsNoGravityAt( Vector3Int position ) {
+		return metaTileMap.IsNoGravityAt( position );
+	}
+
+	/// Should player NOT stick to the station at this position?
+	public bool IsNonStickyAt(Vector3Int position)
+	{
+		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
+		{
+			if (!metaTileMap.IsNoGravityAt(pos))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/// Is this position and surrounding area completely clear of solid objects except for provided one?
+	public bool IsFloatingAt(GameObject context, Vector3Int position)
+	{
+		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
+		{
+			if (!metaTileMap.IsEmptyAt(context, pos))
 			{
 				return false;
 			}

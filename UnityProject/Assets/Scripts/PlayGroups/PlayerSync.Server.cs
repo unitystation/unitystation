@@ -1,72 +1,73 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
-
 
 public partial class PlayerSync
 {
 	//Server-only fields, don't concern clients in any way
+	private Vector3IntEvent onTileReached = new Vector3IntEvent();
+	public Vector3IntEvent OnTileReached() {
+		return onTileReached;
+	}
+	private Vector3IntEvent onUpdateReceived = new Vector3IntEvent();
+	public Vector3IntEvent OnUpdateRecieved() {
+		return onUpdateReceived;
+	}
 
-	/// Current server state. Lerps towards target state, so its position can be non-integer in the process.
-	/// Updates to players, however, are only sent when it approaches target state's position,
-	/// therefore position is always sent as integer (at least in SendToAll()).
+	/// Current server state. Integer positions.
 	private PlayerState serverState;
 
-	/// Future/target server state. All future changes go here
-	/// and are applied to serverState when their positions match up
-	private PlayerState serverTargetState;
+	/// Serverside lerping state that simulates where players should be on clients at the moment
+	private PlayerState serverLerpState;
 
 	private Queue<PlayerAction> serverPendingActions;
 
 	/// Max size of serverside queue, client will be rolled back and punished if it overflows
 	private readonly int maxServerQueue = 10;
 
-	/// Amount of soft punishments before the hard one kicks in
-	private readonly int maxWarnings = 3;
-
-	private int playerWarnings;
+	private HashSet<PushPull> questionablePushables = new HashSet<PushPull>();
 
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
-	[SyncVar]
 	private Vector2 serverLastDirection;
 
-	//TODO: Remove the space damage coroutine when atmos is implemented
 	private bool isApplyingSpaceDmg;
 
 	///
-	public bool IsInSpace => MatrixManager.IsFloatingAt(Vector3Int.RoundToInt(serverTargetState.WorldPosition));
+	public bool IsWeightlessServer => !playerMove.isGhost && MatrixManager.IsFloatingAt(gameObject, Vector3Int.RoundToInt( serverState.WorldPosition ));
+	public bool IsNonStickyServer => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
+	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
+
 
 	/// Whether player is considered to be floating on server
 	private bool consideredFloatingServer => serverState.Impulse != Vector2.zero;
 
 	/// Do current and target server positions match?
-	private bool ServerPositionsMatch => serverTargetState.WorldPosition == serverState.WorldPosition;
+	private bool ServerPositionsMatch => serverState.WorldPosition == serverLerpState.WorldPosition;
 
 	public override void OnStartServer()
-	{
-		PullObjectID = NetworkInstanceId.Invalid;
-		base.OnStartServer();
-		InitServerState();
-	}
-	//TODO: don't allow walking when stopped in vacuum
-	///
-	[Server]
-	private void InitServerState()
-	{
-		Vector3Int worldPos = Vector3Int.RoundToInt((Vector2)transform.position); //cutting off Z-axis & rounding
-		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos);
-		PlayerState state = new PlayerState
 		{
-			MoveNumber = 0,
-			MatrixId = matrixAtPoint.Id,
-			WorldPosition = worldPos
-		};
-		Logger.LogTraceFormat("{0}: InitServerState for {1} found matrix {2} resulting in\n{3}", Category.Movement,
-			PlayerList.Instance.Get(gameObject).Name, worldPos, matrixAtPoint, state, Category.Movement);
-		serverState = state;
-		serverTargetState = state;
+			base.OnStartServer();
+			InitServerState();
+		}
+
+	///
+		[Server]
+		private void InitServerState()
+		{
+			Vector3Int worldPos = Vector3Int.RoundToInt((Vector2) transform.position); //cutting off Z-axis & rounding
+			MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos);
+			PlayerState state = new PlayerState
+			{
+				MoveNumber = 0,
+				MatrixId = matrixAtPoint.Id,
+				WorldPosition = worldPos
+			};
+			Logger.LogTraceFormat( "{0}: InitServerState for {1} found matrix {2} resulting in\n{3}", Category.Movement,
+				PlayerList.Instance.Get( gameObject ).Name, worldPos, matrixAtPoint, state );
+			serverLerpState = state;
+			serverState = state;
 
 		//Subbing to new matrix rotations
 		if (matrixAtPoint.MatrixMove != null)
@@ -75,11 +76,21 @@ public partial class PlayerSync
 		}
 	}
 
+	private PlayerAction lastAddedAction = PlayerAction.None;
 	[Command(channel = 0)]
 	private void CmdProcessAction(PlayerAction action)
 	{
+		if ( serverPendingActions.Count > 0 && !lastAddedAction.Equals(PlayerAction.None)
+		     && lastAddedAction.isNonPredictive && action.isNonPredictive )
+		{
+			Logger.Log( $"Ignored {action}: two non-predictive actions in a row!", Category.Movement );
+			return;
+		}
+
 		//add action to server simulation queue
 		serverPendingActions.Enqueue(action);
+
+		lastAddedAction = action;
 
 		//Do not cache the position if the player is a ghost
 		//or else new players will sync the deadbody with the last pos
@@ -93,14 +104,8 @@ public partial class PlayerSync
 		if (serverPendingActions.Count > maxServerQueue)
 		{
 			RollbackPosition();
-			if (++playerWarnings < maxWarnings)
-			{
-				TortureChamber.Torture(playerScript, TortureSeverity.S);
-			}
-			else
-			{
-				TortureChamber.Torture(playerScript, TortureSeverity.L);
-			}
+			Logger.LogWarning( $"{gameObject.name}: Server pending actions overflow! (More than {maxServerQueue})." +
+			                   "\nEither server lagged or player is attempting speedhack", Category.Movement );
 		}
 	}
 
@@ -108,33 +113,37 @@ public partial class PlayerSync
 	/// Impulse should be consumed after one tile if indoors,
 	/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space
 	[Server]
-	public void Push(Vector2Int direction)
+	public bool Push(Vector2Int direction)
 	{
-		if (direction == Vector2Int.zero)
-		{
-			Logger.Log("Push with zero impulse??", Category.PushPull);
-			return;
+		if (direction == Vector2Int.zero)		{
+			return false;
 		}
 
-		serverState.Impulse = direction;
-		serverTargetState.Impulse = direction;
-		if (matrix != null)
-		{
-			Vector3Int pushGoal =
-				Vector3Int.RoundToInt(serverState.Position + (Vector3)serverTargetState.Impulse);
-			if (matrix.IsPassableAt(pushGoal))
-			{
-				Logger.Log($"Server push to {pushGoal}", Category.PushPull);
-				serverTargetState.Position = pushGoal;
-				serverTargetState.ImportantFlightUpdate = true;
-				serverTargetState.ResetClientQueue = true;
-			}
-			else
-			{
-				serverState.Impulse = Vector2.zero;
-				serverTargetState.Impulse = Vector2.zero;
-			}
+		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
+		Vector3Int pushGoal = origin + Vector3Int.RoundToInt( (Vector2)direction );
+
+		if ( !MatrixManager.IsPassableAt( origin, pushGoal ) ) {
+			return false;
 		}
+
+		Logger.Log( $"Server push to {pushGoal}", Category.PushPull );
+		ClearQueueServer();
+		MatrixInfo newMatrix = MatrixManager.AtPoint( pushGoal );
+		//Note the client queue reset
+		var newState = new PlayerState {
+			MoveNumber = 0,
+			Impulse = direction,
+			MatrixId = newMatrix.Id,
+			WorldPosition = pushGoal,
+			ImportantFlightUpdate = true,
+			ResetClientQueue = true
+		};
+		serverLastDirection = direction;
+		serverState = newState;
+		SyncMatrix();
+		NotifyPlayers();
+
+		return true;
 	}
 
 	/// Manually set player to a specific world position.
@@ -154,8 +163,8 @@ public partial class PlayerSync
 			WorldPosition = roundedPos,
 			ResetClientQueue = true
 		};
+		serverLerpState = newState;
 		serverState = newState;
-		serverTargetState = newState;
 		SyncMatrix();
 		NotifyPlayers();
 	}
@@ -166,11 +175,11 @@ public partial class PlayerSync
 	{
 		if (ServerPositionsMatch)
 		{
-			//				When serverState reaches its planned destination,
-			//				embrace all other updates like updated moveNumber and flags
-			serverState = serverTargetState;
+//			Logger.LogTrace( $"{gameObject.name}: PSync Notify success!", Category.Movement );
+			serverLerpState = serverState;
 			SyncMatrix();
 			NotifyPlayers();
+			TryUpdateServerTarget();
 		}
 	}
 
@@ -194,7 +203,13 @@ public partial class PlayerSync
 
 	/// Send current serverState to all players
 	[Server]
-	public void NotifyPlayers(bool noLerp = false)
+	public void NotifyPlayers() {
+		NotifyPlayers(false);
+	}
+
+	/// Send current serverState to all players
+	[Server]
+	public void NotifyPlayers(bool noLerp)
 	{
 		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
 		if (!serverState.ImportantFlightUpdate && consideredFloatingServer)
@@ -203,12 +218,10 @@ public partial class PlayerSync
 		}
 		serverState.NoLerp = noLerp;
 		var msg = PlayerMoveMessage.SendToAll(gameObject, serverState);
-		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
+//		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
 		//Clearing state flags
-		serverTargetState.ImportantFlightUpdate = false;
-		serverTargetState.ResetClientQueue = false;
 		serverState.ImportantFlightUpdate = false;
-		serverState.ImportantFlightUpdate = false;
+		serverState.ResetClientQueue = false;
 	}
 
 	/// Clears server pending actions queue
@@ -226,32 +239,12 @@ public partial class PlayerSync
 	[Server]
 	private void RollbackPosition()
 	{
+		foreach ( var questionablePushable in questionablePushables ) {
+			Logger.LogWarningFormat( "Notified questionable pushable {0}", Category.PushPull, questionablePushable );
+			questionablePushable.NotifyPlayers();
+		}
 		SetPosition(serverState.WorldPosition);
-	}
-
-	/// try getting moves from server queue if server and target states match
-	[Server]
-	private void CheckTargetUpdate()
-	{
-		//checking only player movement for now
-		if (ServerPositionsMatch)
-		{
-			TryUpdateServerTarget();
-		}
-	}
-
-	///Currently used to set the pos of a player that has just been dragged by another player
-	//Fixme: prone to exploits, very hacky
-	[Command]
-	public void CmdSetPositionFromReset(GameObject fromObj, GameObject otherPlayer, Vector3 setPos)
-	{
-		if (fromObj.GetComponent<IPlayerSync>() == null) //Validation
-		{
-			return;
-		}
-
-		IPlayerSync otherPlayerSync = otherPlayer.GetComponent<IPlayerSync>();
-		otherPlayerSync.SetPosition(setPos);
+		questionablePushables.Clear();
 	}
 
 	/// Tries to assign next target from queue to serverTargetState if there are any
@@ -264,35 +257,59 @@ public partial class PlayerSync
 			return;
 		}
 
-		var nextAction = serverPendingActions.Peek();
-		if (!IsPointlessMove(serverTargetState, nextAction))
+		if (consideredFloatingServer || CanNotSpaceMoveServer)
 		{
-			if (consideredFloatingServer)
-			{
-				Logger.LogWarning("Server ignored move while player is floating", Category.Movement);
-				serverPendingActions.Dequeue();
-				return;
-			}
+			Logger.LogWarning("Server ignored move while player is floating", Category.Movement);
+			serverPendingActions.Dequeue();
+			return;
+		}
 
-			PlayerState nextState = NextStateServer(serverTargetState, serverPendingActions.Dequeue());
-			serverLastDirection = Vector2Int.RoundToInt(nextState.WorldPosition - serverTargetState.WorldPosition);
-			serverTargetState = nextState;
-			//In case positions already match
-			TryNotifyPlayers();
-			//				Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
+		var curState = serverState;
+		PlayerState nextState = NextStateServer( curState, serverPendingActions.Dequeue() );
+
+		if ( Equals( curState, nextState ) ) {
+			return;
 		}
-		else
-		{
-			Logger.LogWarning(
-				$"Pointless move {serverTargetState}+{nextAction.keyCodes[0]} Rolling back to {serverState}", Category.Movement);
-			RollbackPosition();
+
+		serverLastDirection = Vector2Int.RoundToInt(nextState.WorldPosition - serverState.WorldPosition);
+		serverState = nextState;
+		//In case positions already match
+		TryNotifyPlayers();
+//		Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 		}
-	}
 
 	/// NextState that also subscribes player to matrix rotations
 	[Server]
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{
+		bool isServerBump = !CanMoveThere( state, action );
+		bool isClientBump = action.isBump;
+		if ( !isClientBump && isServerBump ) {
+			Logger.LogWarningFormat( "isBump mismatch, resetting: C={0} S={1}", Category.Movement, isClientBump, isServerBump );
+			RollbackPosition();
+		}
+		if ( isClientBump || isServerBump ) {
+			//gotta try pushing things
+			BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
+
+			playerSprites.FaceDirection( Orientation.From( action.Direction() ) );
+			return state;
+		}
+
+		if ( IsNonStickyServer ) {
+			PushPull pushable;
+			if ( IsAroundPushables( serverState, out pushable ) ) {
+				StartCoroutine( InteractSpacePushable( pushable, action.Direction() ) );
+			}
+			return state;
+		}
+
+		if ( action.isNonPredictive )
+		{
+			Logger.Log( "Ignored action marked as Non-predictive while being indoors", Category.Movement );
+			return state;
+		}
+
 		bool matrixChangeDetected;
 		PlayerState nextState = NextState(state, action, out matrixChangeDetected);
 
@@ -322,6 +339,119 @@ public partial class PlayerSync
 		return nextState;
 	}
 
+	#region walk interactions
+
+	///Revert client push prediction straight ahead if it's wrong
+	[Command(channel = 0)]
+	private void CmdValidatePush( GameObject pushable ) {
+		var pushPull = pushable.GetComponent<PushPull>();
+		if ( pushPull && !playerScript.IsInReach(pushPull.registerTile.WorldPosition) ) {
+			questionablePushables.Add( pushPull );
+			Logger.LogWarningFormat( "Added questionable {0}", Category.PushPull, pushPull );
+		}
+	}
+
+	private void BumpInteract(Vector3 currentPosition, Vector3 direction) {
+			StartCoroutine( TryInteract( currentPosition, direction ) );
+	}
+
+	private IEnumerator TryInteract( Vector3 currentPosition, Vector3 direction ) {
+		var worldPos = Vector3Int.RoundToInt(currentPosition);
+		var worldTarget = Vector3Int.RoundToInt(currentPosition + direction);
+
+		InteractDoor(worldPos, worldTarget);
+
+//		Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.Movement, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
+		InteractPushable( worldTarget, direction );
+
+		yield return YieldHelper.DeciSecond;
+	}
+
+	private IEnumerator InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false, int i = 0 ) {
+		Logger.LogTraceFormat( (isRecursive ? "Recursive " : "") + "Trying to space push {0}", Category.PushPull, pushable.gameObject );
+		
+		if ( !isRecursive )
+		{
+			i = CalculateRequiredPushes( serverState.WorldPosition, pushable.registerTile.WorldPosition, direction );
+			Logger.LogFormat( "Calculated {0} required pushes", Category.Movement, i );
+		}
+
+		if ( i <= 0 ) yield break;
+
+		Vector2 counterDirection = Vector2.zero - direction;
+		
+		pushable.QueuePush( Vector2Int.RoundToInt( counterDirection ) );
+		i--;
+		Logger.LogFormat( "Queued obstacle push. {0} pushes left", Category.Movement, i );
+		
+		if ( i <= 0 ) yield break;
+		
+		pushPull.QueuePush( Vector2Int.RoundToInt( direction ) );
+		i--;
+		Logger.LogFormat( "Queued player push. {0} pushes left", Category.Movement, i );
+		
+
+		if ( i > 0 ) 
+		{ 
+			StartCoroutine( InteractSpacePushable( pushable, direction, true, i ) );
+		}
+
+		yield return null;
+	}
+
+	private int CalculateRequiredPushes( Vector3 playerPos, Vector3Int pushablePos, Vector2 impulse )
+	{
+		return 5;
+	}
+
+	/// <param name="worldTile">Tile you're interacting with</param>
+	/// <param name="direction">Direction you're pushing</param>
+	private void InteractPushable( Vector3Int worldTile, Vector3 direction ) {
+		if ( IsNonStickyServer ) {
+			return;
+		}
+		// Is the object pushable (iterate through all of the objects at the position):
+		PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
+		for ( int i = 0; i < pushPulls.Length; i++ ) {
+			var pushPull = pushPulls[i];
+			if ( pushPull && pushPull.gameObject != gameObject && pushPull.IsSolid ) {
+	//					Logger.LogTraceFormat( "Trying to push {0} when walking {1}->{2}", Category.PushPull, pushPulls[i].gameObject, worldPos, worldTarget );
+				pushPull.TryPush( worldTile, Vector2Int.RoundToInt( direction ) );
+				break;
+			}
+		}
+	}
+
+	private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
+	{
+		// Make sure there is a door controller
+		DoorTrigger door = MatrixManager.Instance.GetFirst<DoorTrigger>(targetPos);
+
+		if (!door)
+		{
+			door = MatrixManager.Instance.GetFirst<DoorTrigger>(Vector3Int.RoundToInt(currentPos));
+
+			if (door)
+			{
+				RegisterDoor registerDoor = door.GetComponent<RegisterDoor>();
+				Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(targetPos, matrix);
+
+				if (registerDoor.IsPassable(localPos))
+				{
+					door = null;
+				}
+			}
+		}
+
+		// Attempt to open door
+		if (door != null)
+		{
+			door.Interact(gameObject, TransformState.HiddenPos);
+		}
+	}
+
+		#endregion
+
 	[Server]
 	private void OnRotation(Orientation from, Orientation to)
 	{
@@ -333,63 +463,85 @@ public partial class PlayerSync
 	[Server]
 	private void CheckMovementServer()
 	{
-		if (!ServerPositionsMatch)
-		{
-			//Lerp on server if it's worth lerping
-			//and inform players if serverState reached targetState afterwards
-			serverState.WorldPosition =
-				Vector3.MoveTowards(serverState.WorldPosition, serverTargetState.WorldPosition, playerMove.speed * Time.deltaTime);
-			//failsafe
-			var distance = Vector3.Distance(serverState.WorldPosition, serverTargetState.WorldPosition);
-			if (distance > 1.5)
-			{
-				Logger.LogWarning($"Dist {distance} > 1:{serverState}\n" +
-					$"Target    :{serverTargetState}", Category.Movement);
-				serverState.WorldPosition = serverTargetState.WorldPosition;
-			}
-
-			TryNotifyPlayers();
-		}
-
 		//Space walk checks
-		if (IsInSpace)
+		if ( IsNonStickyServer )
 		{
-			if (serverTargetState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
+			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
 			{
 				//server initiated space dive.
-				serverTargetState.Impulse = serverLastDirection;
-				serverTargetState.ImportantFlightUpdate = true;
-				serverTargetState.ResetClientQueue = true;
+				serverState.Impulse = serverLastDirection;
+				serverState.ImportantFlightUpdate = true;
+				serverState.ResetClientQueue = true;
 			}
 
 			//Perpetual floating sim
-			if (ServerPositionsMatch && !serverTargetState.ImportantFlightUpdate)
+			if (ServerPositionsMatch)
 			{
-				//Extending prediction by one tile if player's transform reaches previously set goal
-				Vector3Int newGoal = Vector3Int.RoundToInt(serverTargetState.Position + (Vector3)serverTargetState.Impulse);
-				serverTargetState.Position = newGoal;
-				ClearQueueServer();
+				if ( serverState.ImportantFlightUpdate ) {
+					NotifyPlayers();
+				} else {
+					//Extending prediction by one tile if player's transform reaches previously set goal
+					Vector3Int newGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3)serverState.Impulse);
+					serverState.Position = newGoal;
+					ClearQueueServer();
+				}
 			}
 		}
 
-		if (consideredFloatingServer && !IsInSpace)
-		{
-			//finish floating. players will be notified as soon as serverState catches up
-			serverState.Impulse = Vector2.zero;
-			serverTargetState.Impulse = Vector2.zero;
-			serverTargetState.ResetClientQueue = true;
-
-			//Stopping spacewalk increases move number
-			serverTargetState.MoveNumber++;
-
-			//removing lastDirection when we hit an obstacle in space
-			serverLastDirection = Vector2.zero;
-
-			//Notify if position stayed the same
-			TryNotifyPlayers();
+		if ( consideredFloatingServer && !IsWeightlessServer ) {
+			Stop();
 		}
 
 		CheckSpaceDamage();
+	}
+
+	public void Stop() {
+		if ( consideredFloatingServer ) {
+			PushPull spaceObjToGrab;
+			if ( IsAroundPushables( serverState, out spaceObjToGrab ) && spaceObjToGrab.IsSolid ) {
+				//some hacks to avoid space closets stopping out of player's reach
+				var cnt = spaceObjToGrab.GetComponent<CustomNetTransform>();
+				if ( cnt && cnt.IsFloatingServer && Vector2Int.RoundToInt(cnt.ServerState.Impulse) == Vector2Int.RoundToInt(serverState.Impulse) )
+				{
+					Logger.LogTraceFormat( "Caught {0} at {1} (registered at {2})", Category.Movement, spaceObjToGrab.gameObject.name,
+							( Vector2 ) cnt.ServerState.WorldPosition, ( Vector2 ) ( Vector3 ) spaceObjToGrab.registerTile.WorldPosition );
+					cnt.SetPosition( spaceObjToGrab.registerTile.WorldPosition );
+					spaceObjToGrab.Stop();
+				}
+			}
+			//removing lastDirection when we hit an obstacle in space
+			serverLastDirection = Vector2.zero;
+
+			//finish floating. players will be notified as soon as serverState catches up
+			serverState.Impulse = Vector2.zero;
+			serverState.ResetClientQueue = true;
+
+			//Stopping spacewalk increases move number
+			serverState.MoveNumber++;
+
+			//Notify if position stayed the same
+			NotifyPlayers();
+		}
+	}
+
+	private void ServerLerp() {
+		//Lerp on server if it's worth lerping
+		//and inform players if serverState reached targetState afterwards
+		Vector3 targetPos = serverState.WorldPosition;
+		serverLerpState.WorldPosition =
+			Vector3.MoveTowards( serverLerpState.WorldPosition, targetPos,
+								 playerMove.speed * Time.deltaTime * serverLerpState.WorldPosition.SpeedTo(targetPos) );
+		//failsafe
+		var distance = Vector3.Distance( serverLerpState.WorldPosition, targetPos );
+		if ( distance > 1.5 ) {
+			Logger.LogWarning( $"Dist {distance} > 1:{serverLerpState}\n" +
+			                   $"Target    :{serverState}", Category.Movement );
+			serverLerpState.WorldPosition = targetPos;
+		}
+		if ( serverLerpState.WorldPosition == targetPos ) {
+			onTileReached.Invoke( Vector3Int.RoundToInt(targetPos) );
+		}
+		TryNotifyPlayers();
 	}
 
 	/// Checking whether player should suffocate
@@ -427,34 +579,26 @@ public partial class PlayerSync
 	//Temp solution (move to playerinventory when its completed):
 	private bool IsEvaCompatible()
 	{
-		if (playerScript.playerNetworkActions.Inventory["head"].Item != null
-			&& playerScript.playerNetworkActions.Inventory["suit"].Item != null)
-		{
-			if (headObjCache != playerScript.playerNetworkActions.Inventory["head"].Item)
-			{
-				headObjCache = playerScript.playerNetworkActions.Inventory["head"].Item;
-				if (headObjCache != null)
-					headItemAtt = headObjCache.GetComponent<ItemAttributes>();
-			}
-			if (suitObjCache != playerScript.playerNetworkActions.Inventory["suit"].Item)
-			{
-				suitObjCache = playerScript.playerNetworkActions.Inventory["suit"].Item;
-				if (suitObjCache != null)
-					suitItemAtt = suitObjCache.GetComponent<ItemAttributes>();
-			}
-
-			if (headItemAtt.evaCapable && suitItemAtt.evaCapable)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
+		var headItem = playerScript.playerNetworkActions.Inventory["head"].Item;
+		var suitItem = playerScript.playerNetworkActions.Inventory["suit"].Item;
+		if ( headItem == null || suitItem == null )
 		{
 			return false;
 		}
+
+		if (headObjCache != headItem)
+		{
+			headObjCache = headItem;
+			if (headObjCache != null)
+				headItemAtt = headObjCache.GetComponent<ItemAttributes>();
+		}
+		if (suitObjCache != suitItem)
+		{
+			suitObjCache = suitItem;
+			if (suitObjCache != null)
+				suitItemAtt = suitObjCache.GetComponent<ItemAttributes>();
+		}
+
+		return headItemAtt.evaCapable && suitItemAtt.evaCapable;
 	}
 }

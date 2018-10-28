@@ -486,7 +486,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		throwable.GetComponent<CustomNetTransform>().Throw(throwInfo);
 
 		//Simplified counter-impulse for players in space
-		if (playerScript.PlayerSync.IsInSpace)
+		if (playerScript.PlayerSync.IsWeightlessServer)
 		{
 			playerScript.PlayerSync.Push(Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized));
 		}

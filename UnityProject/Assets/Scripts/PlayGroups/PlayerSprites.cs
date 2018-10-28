@@ -102,6 +102,7 @@ public class PlayerSprites : NetworkBehaviour
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			CmdUpdateCharacter(JsonUtility.ToJson(PlayerManager.CurrentCharacterSettings));
+			FaceDirection( currentDirection );
 		}
 		while(string.IsNullOrEmpty(characterData)){
 			yield return YieldHelper.DeciSecond;
