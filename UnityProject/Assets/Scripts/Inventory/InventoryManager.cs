@@ -141,13 +141,13 @@ public class InventoryManager : MonoBehaviour
 
 	public static string GetClientUUIDFromSlotName(string slotName)
 	{
-		string eventName = "";
+		string uuid = "";
 		var index = AllClientInventorySlots.FindLastIndex(x => x.SlotName == slotName);
 		if (index != -1)
 		{
-			eventName = AllClientInventorySlots[index].SlotName;
+			uuid = AllClientInventorySlots[index].UUID;
 		}
-		return eventName;
+		return uuid;
 	}
 
 	//Server only:

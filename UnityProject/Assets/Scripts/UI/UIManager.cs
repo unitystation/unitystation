@@ -142,7 +142,7 @@ public class UIManager : MonoBehaviour
 		if (string.IsNullOrEmpty(slotInfo.SlotUUID) && !string.IsNullOrEmpty(slotInfo.FromSlotUUID))
 		{
 			//Dropping updates:
-			var _fromSlot = InventorySlots.GetSlotByUUID(slotInfo.FromSlotUUID);
+			var _fromSlot = InventorySlotCache.GetSlotByUUID(slotInfo.FromSlotUUID);
 			if (_fromSlot != null)
 			{
 				CheckStorageHandlerOnMove(_fromSlot.Item);
@@ -152,10 +152,10 @@ public class UIManager : MonoBehaviour
 		}
 		//Logger.LogTraceFormat("Updating slots: {0}", Category.UI, slotInfo);
 		//			InputTrigger.Touch(slotInfo.SlotContents);
-		var slot = InventorySlots.GetSlotByUUID(slotInfo.SlotUUID);
+		var slot = InventorySlotCache.GetSlotByUUID(slotInfo.SlotUUID);
 		slot.SetItem(slotInfo.SlotContents);
 
-		var fromSlot = InventorySlots.GetSlotByUUID(slotInfo.FromSlotUUID);
+		var fromSlot = InventorySlotCache.GetSlotByUUID(slotInfo.FromSlotUUID);
 		if (fromSlot?.Item == slotInfo.SlotContents)
 		{
 			CheckStorageHandlerOnMove(fromSlot.Item);
@@ -169,7 +169,12 @@ public class UIManager : MonoBehaviour
 		{
 			return;
 		}
-		if (item.GetComponent<StorageObject>() == StorageHandler.storageCache)
+		var storageObj = item.GetComponent<StorageObject>();
+		if (storageObj == null)
+		{
+			return;
+		}
+		if (storageObj == StorageHandler.storageCache)
 		{
 			StorageHandler.CloseStorageUI();
 		}
@@ -189,7 +194,7 @@ public class UIManager : MonoBehaviour
 			return false;
 		}
 
-		UI_ItemSlot uiItemSlot = InventorySlots.GetSlotByUUID(invSlot.UUID);
+		UI_ItemSlot uiItemSlot = InventorySlotCache.GetSlotByUUID(invSlot.UUID);
 		if (uiItemSlot == null)
 		{
 			return false;
@@ -202,19 +207,19 @@ public class UIManager : MonoBehaviour
 		return true;
 	}
 
-	public static string FindEmptySlotForItem(GameObject itemToPlace)
-	{
-		foreach (UI_ItemSlot slot in InventorySlotCache.InventorySlots)
-		{
-			UISlotObject slottingAttempt = new UISlotObject(slot.inventorySlot.UUID, itemToPlace);
-			if (CanPutItemToSlot(slottingAttempt))
-			{
-				return slot.eventName;
-			}
-		}
+	// public static string FindEmptySlotForItem(GameObject itemToPlace)
+	// {
+	// 	foreach (UI_ItemSlot slot in InventorySlotCache.InventorySlots)
+	// 	{
+	// 		UISlotObject slottingAttempt = new UISlotObject(slot.inventorySlot.UUID, itemToPlace);
+	// 		if (CanPutItemToSlot(slottingAttempt))
+	// 		{
+	// 			return slot.eventName;
+	// 		}
+	// 	}
 
-		return null;
-	}
+	// 	return null;
+	// }
 
 	/// Checks if player received transform update after sending interact message
 	/// (Anti-blinking protection)

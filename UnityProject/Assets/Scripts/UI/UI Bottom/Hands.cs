@@ -121,11 +121,11 @@ public class Hands : MonoBehaviour
 		switch (masterType)
 		{
 			case SpriteType.Clothing:
-				UI_ItemSlot slot = Slots.GetSlotByItem(CurrentSlot.Item);
+				UI_ItemSlot slot = InventorySlotCache.GetSlotByItem(CurrentSlot.Item);
 				SwapItem(slot);
 				break;
 			case SpriteType.Items:
-				UI_ItemSlot itemSlot = Slots.GetSlotByItem(CurrentSlot.Item);
+				UI_ItemSlot itemSlot = InventorySlotCache.GetSlotByItem(CurrentSlot.Item);
 				SwapItem(itemSlot);
 				break;
 			case SpriteType.Guns:

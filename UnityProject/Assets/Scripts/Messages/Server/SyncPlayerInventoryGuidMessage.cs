@@ -24,15 +24,8 @@ public class SyncPlayerInventoryGuidMessage : ServerMessage
 		if(InventoryManager.AllClientInventorySlots == null){
 			yield break;
 		}
-		for (int i = 0; i < SlotsList.slotsToUpdate.Count; i++)
-		{
-			int index = InventoryManager.AllClientInventorySlots.FindIndex(
-				x => x.SlotName == SlotsList.slotsToUpdate[i].SlotName);
-			if(index != -1){
-				InventoryManager.AllClientInventorySlots[index].UUID = SlotsList.slotsToUpdate[i].UUID;
-				InventoryManager.AllClientInventorySlots[index].Owner = playerScript;
-			}
-		}
+
+		InventorySlotCache.SyncGUID(SlotsList);
 	}
 
 	public static SyncPlayerInventoryGuidMessage Send(

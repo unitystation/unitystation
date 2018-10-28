@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -54,6 +54,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	private void OnEnable()
 	{
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		StartCoroutine(SetSlotOnEnable());
 	}
 
 	private void OnDisable()
@@ -66,12 +67,16 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	{
 		image.sprite = null;
 		image.enabled = false;
-		StartCoroutine(SetSlotOnSceneChange());
+
 	}
 
-	IEnumerator SetSlotOnSceneChange(){
+	IEnumerator SetSlotOnEnable()
+	{
 		yield return YieldHelper.EndOfFrame;
-		InventoryManager.AllClientInventorySlots.Add(inventorySlot);
+		if (!InventoryManager.AllClientInventorySlots.Contains(inventorySlot))
+		{
+			InventoryManager.AllClientInventorySlots.Add(inventorySlot);
+		}
 	}
 
 	/// <summary>
@@ -86,7 +91,8 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		}
 		Logger.LogTraceFormat("Setting item {0} to {1}", Category.UI, item.name, eventName);
 		var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
-		if(image == null){
+		if (image == null)
+		{
 			image = GetComponent<Image>();
 		}
 		image.sprite = spriteRends[0].sprite;

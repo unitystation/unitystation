@@ -40,12 +40,14 @@ public class InventorySlotCache : MonoBehaviour
 
 	private void Awake()
 	{
-		InventorySlots.Clear();
 		var childSlots = GetComponentsInChildren<UI_ItemSlot>();
 
 		for (int i = 0; i < childSlots.Length; i++)
 		{
-			InventorySlots.Add(childSlots[i]);
+			if (!InventorySlots.Contains(childSlots[i]))
+			{
+				InventorySlots.Add(childSlots[i]);
+			}
 		}
 	}
 
@@ -67,13 +69,13 @@ public class InventorySlotCache : MonoBehaviour
 	/// <remarks>
 	///     Returns the left pocket for non-equippable items.
 	/// </remarks>
-	public UI_ItemSlot GetSlotByItem(GameObject obj)
+	public static UI_ItemSlot GetSlotByItem(GameObject obj)
 	{
 		ItemAttributes item = obj.GetComponent<ItemAttributes>();
 		return GetSlotByItemType(item.type);
 	}
 
-	public UI_ItemSlot GetSlotByUUID(string UUID)
+	public static UI_ItemSlot GetSlotByUUID(string UUID)
 	{
 		UI_ItemSlot slot = null;
 		int index = InventorySlots.FindLastIndex(x => x.inventorySlot.UUID == UUID);
@@ -84,12 +86,12 @@ public class InventorySlotCache : MonoBehaviour
 		return slot;
 	}
 
-	public void Add(UI_ItemSlot item)
+	public static void Add(UI_ItemSlot item)
 	{
 		InventorySlots.Add(item);
 	}
 
-	public void Remove(UI_ItemSlot item)
+	public static void Remove(UI_ItemSlot item)
 	{
 		if (InventorySlots.Contains(item))
 		{
@@ -97,7 +99,7 @@ public class InventorySlotCache : MonoBehaviour
 		}
 	}
 
-	public UI_ItemSlot GetSlotByItemType(ItemType type)
+	public static UI_ItemSlot GetSlotByItemType(ItemType type)
 	{
 		string eventName = "storage02";
 		switch (type)
@@ -149,7 +151,7 @@ public class InventorySlotCache : MonoBehaviour
 		return GetSlotByEvent(eventName);
 	}
 
-	public UI_ItemSlot GetSlotByEvent(string eventName)
+	public static UI_ItemSlot GetSlotByEvent(string eventName)
 	{
 		int indexSearch = InventorySlots.FindIndex(x => x.eventName == eventName);
 		if (indexSearch != -1)
@@ -159,6 +161,20 @@ public class InventorySlotCache : MonoBehaviour
 		else
 		{
 			return null;
+		}
+	}
+
+	public static void SyncGUID(SyncPlayerInventoryList syncList)
+	{
+		for (int i = 0; i < syncList.slotsToUpdate.Count; i++)
+		{
+			var slot = GetSlotByEvent(syncList.slotsToUpdate[i].SlotName);
+			if (slot == null)
+			{
+				return;
+			}
+			slot.inventorySlot.UUID = syncList.slotsToUpdate[i].UUID;
+			slot.inventorySlot.Owner = PlayerManager.LocalPlayerScript;
 		}
 	}
 }
