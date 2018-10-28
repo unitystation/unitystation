@@ -427,18 +427,18 @@ public partial class PlayerSync
 	//Temp solution (move to playerinventory when its completed):
 	private bool IsEvaCompatible()
 	{
-		if (playerScript.playerNetworkActions.Inventory["head"] != null
-			&& playerScript.playerNetworkActions.Inventory["suit"] != null)
+		if (playerScript.playerNetworkActions.Inventory["head"].Item != null
+			&& playerScript.playerNetworkActions.Inventory["suit"].Item != null)
 		{
-			if (headObjCache != playerScript.playerNetworkActions.Inventory["head"])
+			if (headObjCache != playerScript.playerNetworkActions.Inventory["head"].Item)
 			{
-				headObjCache = playerScript.playerNetworkActions.Inventory["head"];
+				headObjCache = playerScript.playerNetworkActions.Inventory["head"].Item;
 				if (headObjCache != null)
 					headItemAtt = headObjCache.GetComponent<ItemAttributes>();
 			}
-			if (suitObjCache != playerScript.playerNetworkActions.Inventory["suit"])
+			if (suitObjCache != playerScript.playerNetworkActions.Inventory["suit"].Item)
 			{
-				suitObjCache = playerScript.playerNetworkActions.Inventory["suit"];
+				suitObjCache = playerScript.playerNetworkActions.Inventory["suit"].Item;
 				if (suitObjCache != null)
 					suitItemAtt = suitObjCache.GetComponent<ItemAttributes>();
 			}

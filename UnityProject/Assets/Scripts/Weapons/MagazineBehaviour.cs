@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Networking;
 
-public class MagazineBehaviour : NetworkBehaviour
+public class MagazineBehaviour : ManagedNetworkBehaviour
 {
 	[SyncVar] public int ammoRemains;
 	public string ammoType; //SET IT IN INSPECTOR
@@ -12,11 +12,8 @@ public class MagazineBehaviour : NetworkBehaviour
 		Usable = true;
 		ammoRemains = magazineSize;
 	}
-
-	//FIXME: this should be moved to an UpdateMe approach. 
-	// 1 manager that updates a list of UpdateMe actions as there may be many magazines
-	// in game at some point
-	private void Update()
+	
+	public override void UpdateMe()
 	{
 		if (ammoRemains <= 0)
 		{
