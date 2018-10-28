@@ -8,7 +8,6 @@ public class UISlotObject
 
 	public UISlotObject(string slotUUID, GameObject slotContents = null, string fromSlotUUID = "")
 	{
-		Debug.Log("slotuuid " + slotUUID);
 		SlotUUID = slotUUID;
 		SlotContents = slotContents;
 		FromSlotUUID = fromSlotUUID;

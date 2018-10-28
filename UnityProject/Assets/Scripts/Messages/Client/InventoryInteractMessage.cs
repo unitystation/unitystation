@@ -34,7 +34,6 @@ public class InventoryInteractMessage : ClientMessage
 	{
 		GameObject clientPlayer = player;
 		PlayerNetworkActions pna = clientPlayer.GetComponent<PlayerNetworkActions>();
-		Debug.Log("Process further UUID: " + SlotUUID);
 		if (string.IsNullOrEmpty(SlotUUID))
 		{
 			//To drop
@@ -55,7 +54,6 @@ public class InventoryInteractMessage : ClientMessage
 
 	public static InventoryInteractMessage Send(string slotUUID, string fromSlotUUID, GameObject subject, bool forceSlotUpdate)
 	{
-		Debug.Log("INT INV SLOT UUID: " + slotUUID);
 		InventoryInteractMessage msg = new InventoryInteractMessage
 		{
 			Subject = subject ? subject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,

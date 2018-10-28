@@ -57,15 +57,6 @@ public class InventoryManager : MonoBehaviour
 
 	public static void UpdateInvSlot(bool isServer, string UUID, GameObject item, string FromUUID = "")
 	{
-		if (!isServer)
-		{
-			Debug.Log("client rec: " + UUID + " item: " + item.name + " from: " + FromUUID);
-		}
-		else
-		{
-			Debug.Log("SERVER rec: " + UUID + " item: " + item?.name + " from: " + FromUUID);
-
-		}
 		bool uiSlotChanged = false;
 		string toSlotName = "";
 		GameObject owner = null;
@@ -75,7 +66,6 @@ public class InventoryManager : MonoBehaviour
 		{
 			var invSlot = InventorySlotList(isServer)[index];
 			invSlot.Item = item;
-			Debug.Log("Set InvSlot: " + invSlot.SlotName + " with: " + item.name);
 			if (invSlot.IsUISlot)
 			{
 				uiSlotChanged = true;
@@ -91,7 +81,6 @@ public class InventoryManager : MonoBehaviour
 			{
 				var invSlot = InventorySlotList(isServer)[index];
 				invSlot.Item = null;
-				Debug.Log("set InvSlot To null: " + invSlot.SlotName);
 				if (invSlot.IsUISlot)
 				{
 					uiSlotChanged = true;
@@ -103,13 +92,11 @@ public class InventoryManager : MonoBehaviour
 		//Only ever sync UI slots straight away, storage slots will sync when they are being observed (picked up and inspected)
 		if (isServer && uiSlotChanged)
 		{
-			Debug.Log("IS SERVER, AND SLOT CHANGED, SEND UPDATE SLOT MSG");
 			UpdateSlotMessage.Send(owner, UUID, FromUUID, item);
 		}
 
 		if (!isServer && uiSlotChanged)
 		{
-			Debug.Log("IS SERVER: " + isServer + " UPDATE SLOT ON UIMANAGER: " + toSlotName + " With item: " + item.name);
 			UIManager.UpdateSlot(new UISlotObject(UUID, item, FromUUID));
 		}
 	}

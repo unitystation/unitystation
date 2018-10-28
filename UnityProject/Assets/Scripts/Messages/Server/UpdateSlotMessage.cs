@@ -29,7 +29,6 @@ public class UpdateSlotMessage : ServerMessage
 		{
 			yield return WaitFor(Recipient, ObjectForSlot);
 			InventoryManager.UpdateInvSlot(false, ToUUID, NetworkObjects[1], FromUUID);
-			Debug.Log("UPDATE INV SLOT CLIENT");
 		}
 	}
 

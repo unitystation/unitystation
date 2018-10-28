@@ -297,8 +297,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				equipment.ClearItemSprite(slotNames[i]);
 			}
-
-			//UpdateSlotMessage.Send(gameObject, slotNames[i], null, forceClientInform);
 			InventoryManager.UpdateInvSlot(true, slotNames[i], null);
 		}
 
@@ -310,37 +308,86 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		InventoryManager.UpdateInvSlot(true, slotUUID, obj,
 			fromUUID);
+
+		UpdatePlayerEquipSprites(InventoryManager.GetSlotFromUUID(fromUUID, true),
+			InventoryManager.GetSlotFromUUID(slotUUID, true));
 	}
 
 	[Server]
 	public void SetInventorySlot(string slotName, GameObject obj)
 	{
-		InventoryManager.UpdateInvSlot(true, Inventory[slotName].UUID, obj,
-			InventoryManager.GetSlotIDFromItem(obj));
+		var fromSlot = InventoryManager.GetSlotFromItem(obj);
+		var toSlot = Inventory[slotName];
+		InventoryManager.UpdateInvSlot(true, toSlot.UUID, obj,
+			fromSlot?.UUID);
 
-		ItemAttributes att = obj.GetComponent<ItemAttributes>();
+		UpdatePlayerEquipSprites(fromSlot, toSlot);
+	}
 
-		if (slotName == "leftHand" || slotName == "rightHand")
+	[Server]
+	public void UpdatePlayerEquipSprites(InventorySlot fromSlot, InventorySlot toSlot)
+	{
+		//Checks both slots and determnes the player equip sprites (only call this after a slot change)
+		if (fromSlot != null)
 		{
-			equipment.SetHandItemSprite(att);
-		}
-		else
-		{
-			if (slotName == "id" || slotName == "storage01" || slotName == "storage02" || slotName == "suitStorage")
+			if (fromSlot.IsUISlot)
 			{
-				//Not setting onPlayer sprites for these as they don't have any
-			}
-			else
-			{
-				if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") ||
-					att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
-					att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank"))
+				if (IsEquipSpriteSlot(fromSlot))
 				{
-					Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
-					equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
+					if (fromSlot.Item == null)
+					{
+						//clear equip sprite
+						SyncEquipSprite(fromSlot.SlotName, -1);
+					}
 				}
 			}
 		}
+
+		if (toSlot != null)
+		{
+			if (toSlot.IsUISlot)
+			{
+				if (IsEquipSpriteSlot(toSlot))
+				{
+					if (toSlot.Item != null)
+					{
+						var att = toSlot.Item.GetComponent<ItemAttributes>();
+						if (toSlot.SlotName == "leftHand" || toSlot.SlotName == "rightHand")
+						{
+							equipment.SetHandItemSprite(att);
+						}
+						else if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") ||
+							att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
+							att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank"))
+						{
+							Epos enumA = (Epos)Enum.Parse(typeof(Epos), toSlot.SlotName);
+							equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private bool IsEquipSpriteSlot(InventorySlot slot)
+	{
+		if (slot.SlotName == "id" || slot.SlotName == "storage01" ||
+		slot.SlotName == "storage02" || slot.SlotName == "suitStorage")
+		{
+		return false;
+		}
+		if (!slot.IsUISlot)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	[Server]
+	private void SyncEquipSprite(string slotName, int spriteRef)
+	{
+		Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
+		equipment.syncEquipSprites[(int)enumA] = spriteRef;
 	}
 
 	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
