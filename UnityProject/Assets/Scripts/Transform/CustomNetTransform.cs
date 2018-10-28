@@ -76,14 +76,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public Vector3IntEvent OnUpdateRecieved() {
 		return onUpdateReceived;
 	}
+	/// Isn't invoked in perpetual space flights
 	private Vector3IntEvent onTileReached = new Vector3IntEvent();
-	public Vector3IntEvent OnTileReached() {
-		return onTileReached;
-	}
+	public Vector3IntEvent OnTileReached() => onTileReached;
 	private Vector3IntEvent onClientTileReached = new Vector3IntEvent();
-	public Vector3IntEvent OnClientTileReached() {
-		return onClientTileReached;
-	}
+	public Vector3IntEvent OnClientTileReached() => onClientTileReached;
 
 	private RegisterTile registerTile;
 	private ItemAttributes ItemAttributes {

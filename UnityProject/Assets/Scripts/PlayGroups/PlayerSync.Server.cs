@@ -386,26 +386,41 @@ public partial class PlayerSync
 		yield return YieldHelper.DeciSecond;
 	}
 
-	private IEnumerator InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false ) {
+	private IEnumerator InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false, int i = 0 ) {
 		Logger.LogTraceFormat( (isRecursive ? "Recursive " : "") + "Trying to space push {0}", Category.PushPull, pushable.gameObject );
-		Vector2 counterDirection = Vector2.zero - direction;
-
-		bool pushedPlayer = Push( Vector2Int.RoundToInt( direction ) );
-
-		yield return YieldHelper.EndOfFrame;
-
-		bool pushedObstacle = pushable.TryPush( Vector2Int.RoundToInt( counterDirection ) );
-
-		yield return YieldHelper.EndOfFrame;
-
-		if ( (pushedPlayer || pushedObstacle)
-//		     && !IsWeightlessServer
-		     && HasInReach( pushable.registerTile.WorldPosition, this.pushPull )
-		)
-		{ //pushing player and object further away from each other
-		  //so that player wouldn't grab the same object again and stop
-			StartCoroutine( InteractSpacePushable( pushable, direction, true ) );
+		
+		if ( !isRecursive )
+		{
+			i = CalculateRequiredPushes( serverState.WorldPosition, pushable.registerTile.WorldPosition, direction );
+			Logger.LogFormat( "Calculated {0} required pushes", Category.Movement, i );
 		}
+
+		if ( i <= 0 ) yield break;
+
+		Vector2 counterDirection = Vector2.zero - direction;
+		
+		pushable.QueuePush( Vector2Int.RoundToInt( counterDirection ) );
+		i--;
+		Logger.LogFormat( "Queued obstacle push. {0} pushes left", Category.Movement, i );
+		
+		if ( i <= 0 ) yield break;
+		
+		pushPull.QueuePush( Vector2Int.RoundToInt( direction ) );
+		i--;
+		Logger.LogFormat( "Queued player push. {0} pushes left", Category.Movement, i );
+		
+
+		if ( i > 0 ) 
+		{ 
+			StartCoroutine( InteractSpacePushable( pushable, direction, true, i ) );
+		}
+
+		yield return null;
+	}
+
+	private int CalculateRequiredPushes( Vector3 playerPos, Vector3Int pushablePos, Vector2 impulse )
+	{
+		return 5;
 	}
 
 	/// <param name="worldTile">Tile you're interacting with</param>

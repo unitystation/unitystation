@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class PushPull : VisibleBehaviour {
@@ -25,7 +26,8 @@ public class PushPull : VisibleBehaviour {
 
 	//Server fields
 	private bool isPushing;
-//	private Vector3Int pushTarget = TransformState.HiddenPos;
+	private Vector3Int pushTarget = TransformState.HiddenPos;
+	private Queue<Vector2Int> pushRequestQueue = new Queue<Vector2Int>();
 
 	//Client fields
 	private PushState prediction = PushState.None;
@@ -33,6 +35,22 @@ public class PushPull : VisibleBehaviour {
 	private bool CanPredictPush => prediction == PushState.None && Pushable.CanPredictPush;
 	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
 	private Vector3Int lastReliablePos = TransformState.HiddenPos;
+
+	[Server]
+	public void QueuePush( Vector2Int dir )
+	{
+		pushRequestQueue.Enqueue( dir );
+		CheckQueue();
+	}
+
+	private void CheckQueue()
+	{
+		if ( pushRequestQueue.Count > 0 && !isPushing )
+		{
+			TryPush( pushRequestQueue.Dequeue() );
+		}
+	}
+
 
 	[Server]
 	public bool TryPush( Vector2Int dir )
@@ -50,14 +68,15 @@ public class PushPull : VisibleBehaviour {
 			return false;
 		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( !MatrixManager.IsPassableAt( from, target, false ) ) {
+		if ( !MatrixManager.IsPassableAt( from, target, IsSolid ) ) //non-solid things can be pushed to player tile
+		{
 			return false;
 		}
 
 		bool success = Pushable.Push( dir );
 		if ( success ) {
 			isPushing = true;
-	//		pushTarget = target;
+			pushTarget = target;
 			Logger.LogTraceFormat( "Started push {0}->{1}", Category.PushPull, from, target );
 		}
 
@@ -113,8 +132,15 @@ public class PushPull : VisibleBehaviour {
 	#region Events
 
 	private void OnServerTileReached( Vector3Int pos ) {
-//		Logger.LogTraceFormat( "{0} is reached ON SERVER", Category.PushPull, pos );
+//		Logger.LogTraceFormat( "{0}: {1} is reached ON SERVER", Category.PushPull, gameObject.name, pos );
 		isPushing = false;
+		if ( pushTarget != TransformState.HiddenPos && 
+		     pushTarget != pos )
+		{
+			//unexpected pos reported by server tile (common in space, space )
+			pushRequestQueue.Clear(); 
+		}
+		CheckQueue();
 	}
 
 	/// For prediction
@@ -186,47 +212,15 @@ public class PushPull : VisibleBehaviour {
 
 	#region old
 
-//	private Matrix matrix => registerTile.Matrix;
-//	private CustomNetTransform customNetTransform;
 //
 //	[SyncVar] public GameObject pulledBy;
 //
 //	//SyncVar to make sure the state is synced with new players
 //	[SyncVar] public bool custNetActiveState;
 //
-//	public bool pushing;
-//
-//	public Vector3 pushTarget;
-//
-//	public GameObject pusher { get; private set; }
-//
-//	public override void OnStartClient()
-//	{
-//		StartCoroutine(WaitForLoad());
-//
-//		base.OnStartClient();
-//	}
-//
 //	public override void OnStartServer(){
 //		custNetActiveState = true;
 //		base.OnStartServer();
-//	}
-//
-//	private IEnumerator WaitForLoad()
-//	{
-//		yield return new WaitForSeconds(2f);
-//
-//		if (registerTile == null) {
-//			registerTile = GetComponent<RegisterTile>();
-//		}
-//
-//		registerTile.UpdatePosition();
-//
-//		customNetTransform = GetComponent<CustomNetTransform>();
-//		//Sync state with new players
-//		if (customNetTransform != null) {
-//			customNetTransform.enabled = custNetActiveState;
-//		}
 //	}
 //
 //	public virtual void OnMouseDown()
@@ -456,17 +450,6 @@ public class PushPull : VisibleBehaviour {
 //		var netTransform = obj.GetComponent<CustomNetTransform>();
 //		if (netTransform != null) {
 //			netTransform.SetPosition(obj.transform.localPosition);
-//		}
-//	}
-//
-//	[Command]
-//	public void CmdTryPush(GameObject obj, Vector3 startLocalPos, Vector3 targetPos, float speed)
-//	{
-//		PushPull pushed = obj.GetComponent<PushPull>();
-//		if (pushed != null)
-//		{
-//			var netTransform = obj.GetComponent<CustomNetTransform>();
-//			netTransform.PushTo(targetPos, playerSprites.currentDirection.Vector, true, speed, true);
 //		}
 //	}
 
