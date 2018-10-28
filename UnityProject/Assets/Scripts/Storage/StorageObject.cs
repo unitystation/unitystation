@@ -26,7 +26,7 @@ public class StorageObject : NetworkBehaviour
 
 		if (isServer)
 		{
-			Debug.Log("HANDLE SYNC WITH ALL NEW PLAYERS");
+			Debug.Log("TODO: HANDLE SYNC WITH ALL NEW PLAYERS");
 			RpcInitClient(JsonUtility.ToJson(storageSlots));
 		}
 	}
@@ -47,20 +47,36 @@ public class StorageObject : NetworkBehaviour
 	public void RpcInitClient(string data)
 	{
 		JsonUtility.FromJsonOverwrite(data, storageSlots);
-		for(int i = 0; i < storageSlots.slotCount; i++){
-			Debug.Log("UUIDS CHANGED ON CLIENT: " + storageSlots.inventorySlots[i].UUID);
+		RefreshInstanceIds();
+		if (clientUpdatedDelegate != null)
+		{
+			clientUpdatedDelegate.Invoke();
 		}
 	}
 
 	[Server]
 	public void NotifyPlayer(GameObject recipient)
 	{
+
 		StorageObjectSyncMessage.Send(recipient, gameObject, JsonUtility.ToJson(storageSlots));
 	}
 
 	public void RefreshStorageItems(string data)
 	{
 		JsonUtility.FromJsonOverwrite(data, storageSlots);
+		RefreshInstanceIds();
+	}
+
+	private void RefreshInstanceIds()
+	{
+		for (int i = 0; i < storageSlots.slotCount; i++)
+		{
+			storageSlots.inventorySlots[i].RefreshInstanceIdFromIdentifier();
+		}
+		if (clientUpdatedDelegate != null)
+		{
+			clientUpdatedDelegate.Invoke();
+		}
 	}
 }
 

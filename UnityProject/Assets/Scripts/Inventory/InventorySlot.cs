@@ -11,7 +11,9 @@ public class InventorySlot
 	public string SlotName = "";
 	public bool IsUISlot = false;
 	[NonSerialized]
-	public NetworkInstanceId ItemInstanceId = NetworkInstanceId.Invalid;
+	public NetworkInstanceId ItemInstanceId = NetworkInstanceId.Invalid; //Cannot add to any json data, use uint instead
+	public uint netInstanceIdentifier; //serialized for json
+
 	public PlayerScript Owner { get; set; } //null = no owner (only UI slots have owners)
 	private GameObject item;
 	public GameObject Item
@@ -32,11 +34,14 @@ public class InventorySlot
 		{
 			if (value != null)
 			{
-				ItemInstanceId = value.GetComponent<NetworkIdentity>().netId;
+				var netID = value.GetComponent<NetworkIdentity>().netId;
+				ItemInstanceId = netID;
+				netInstanceIdentifier = netID.Value;
 			}
 			else
 			{
 				ItemInstanceId = NetworkInstanceId.Invalid;
+				netInstanceIdentifier = 0;
 			}
 		}
 	}
@@ -47,5 +52,18 @@ public class InventorySlot
 		SlotName = slotName;
 		IsUISlot = isUISlot;
 		Owner = owner;
+	}
+
+	//For client only syncing:
+	public void RefreshInstanceIdFromIdentifier()
+	{
+		if (netInstanceIdentifier == 0)
+		{
+			ItemInstanceId = NetworkInstanceId.Invalid;
+		}
+		else
+		{
+			ItemInstanceId = new NetworkInstanceId(netInstanceIdentifier);
+		}
 	}
 }

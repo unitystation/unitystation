@@ -58,6 +58,9 @@ public class UI_StorageHandler : MonoBehaviour
 
 	private void StorageUpdatedEvent()
 	{
-		Debug.Log("Storage updated while open");
+		Logger.Log("Storage updated while open" , Category.Inventory);
+		for(int i = 0; i < localSlotCache.Count; i++){
+			localSlotCache[i].SetItem(localSlotCache[i].Item);
+		}
 	}
 }
