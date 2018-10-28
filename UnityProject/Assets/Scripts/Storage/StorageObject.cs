@@ -46,7 +46,6 @@ public class StorageObject : NetworkBehaviour
 	[ClientRpc] //This just syncs the slots and UUIDs after server creates them
 	public void RpcInitClient(string data)
 	{
-		Debug.Log("STORAGE ITEM DATA: " + data);
 		JsonUtility.FromJsonOverwrite(data, storageSlots);
 		for(int i = 0; i < storageSlots.slotCount; i++){
 			Debug.Log("UUIDS CHANGED ON CLIENT: " + storageSlots.inventorySlots[i].UUID);
@@ -61,7 +60,6 @@ public class StorageObject : NetworkBehaviour
 
 	public void RefreshStorageItems(string data)
 	{
-		Debug.Log("REFRESH STORAGE: " + data);
 		JsonUtility.FromJsonOverwrite(data, storageSlots);
 	}
 }

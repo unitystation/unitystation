@@ -11,9 +11,35 @@ public class BackPackTrigger : PickUpTrigger
 	{
 		storageObj = GetComponent<StorageObject>();
 	}
+	public override void UI_InteractOtherSlot(GameObject originator, GameObject item)
+	{
+		if (item != null)
+		{
+			Debug.Log("TODO: Put item in back without opening it");
+		}
+		else
+		{
+			if (UIManager.StorageHandler.storageCache != storageObj)
+			{
+				UIManager.StorageHandler.OpenStorageUI(storageObj);
+			}
+			else
+			{
+				UIManager.StorageHandler.CloseStorageUI();
+			}
+		}
+	}
+
 	public override void UI_Interact(GameObject originator, string hand)
 	{
-		UIManager.StorageHandler.OpenStorageUI(storageObj);
+		if (UIManager.StorageHandler.storageCache != storageObj)
+		{
+			UIManager.StorageHandler.OpenStorageUI(storageObj);
+		}
+		else
+		{
+			UIManager.StorageHandler.CloseStorageUI();
+		}
 	}
 
 	[Server]

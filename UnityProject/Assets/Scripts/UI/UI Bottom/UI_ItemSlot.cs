@@ -95,7 +95,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		image.enabled = true;
 		image.preserveAspect = true;
 		Item = item;
-		item.transform.position = transform.position;
+		item.transform.position = TransformState.HiddenPos;
 	}
 
 	public void SetSecondaryImage(Sprite sprite)
@@ -189,7 +189,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	public bool CheckItemFit(GameObject item)
 	{
 		ItemAttributes attributes = item.GetComponent<ItemAttributes>();
-		
+
 		if (!allowAllItems)
 		{
 			if (!allowedItemTypes.Contains(attributes.type))
@@ -202,7 +202,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 			Logger.LogWarning($"{attributes.size} {item} is too big for {maxItemSize} {eventName}!", Category.UI);
 			return false;
 		}
-		
+
 		bool allowed = false;
 		if (allowAllItems || allowedItemTypes.Contains(attributes.type))
 		{
@@ -217,6 +217,17 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	public void TryItemInteract()
 	{
+		if (eventName != "leftHand" && eventName != "rightHand")
+		{
+			//Clicked on item in another slot other then hands
+			if (Item != null)
+			{
+				var inputTrigger = Item.GetComponent<InputTrigger>();
+				inputTrigger.UI_InteractOtherSlot(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item);
+				return;
+			}
+		}
+
 		if (Item != null && UIManager.Hands.CurrentSlot.eventName == eventName)
 		{
 			var inputTrigger = Item.GetComponent<InputTrigger>();

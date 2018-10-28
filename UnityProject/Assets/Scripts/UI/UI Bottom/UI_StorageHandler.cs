@@ -37,6 +37,9 @@ public class UI_StorageHandler : MonoBehaviour
 			storageCache.storageSlots.inventorySlots[i].SlotName = itemSlot.eventName;
 			localSlotCache.Add(itemSlot);
 			UIManager.InventorySlots.Add(itemSlot);
+			if(itemSlot.Item != null){
+				itemSlot.SetItem(itemSlot.Item);
+			}
 		}
 	}
 
@@ -48,7 +51,7 @@ public class UI_StorageHandler : MonoBehaviour
 		for (int i = localSlotCache.Count - 1; i >= 0; i--)
 		{
 			UIManager.InventorySlots.Remove(localSlotCache[i]);
-			Destroy(localSlotCache[i].gameObject);
+			Destroy(localSlotCache[i].transform.parent.gameObject);
 		}
 		localSlotCache.Clear();
 	}

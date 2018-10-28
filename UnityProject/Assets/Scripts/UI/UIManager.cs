@@ -145,6 +145,7 @@ public class UIManager : MonoBehaviour
 			var _fromSlot = InventorySlots.GetSlotByUUID(slotInfo.FromSlotUUID);
 			if (_fromSlot != null)
 			{
+				CheckStorageHandlerOnMove(_fromSlot.Item);
 				_fromSlot.Clear();
 				return;
 			}
@@ -157,7 +158,20 @@ public class UIManager : MonoBehaviour
 		var fromSlot = InventorySlots.GetSlotByUUID(slotInfo.FromSlotUUID);
 		if (fromSlot?.Item == slotInfo.SlotContents)
 		{
+			CheckStorageHandlerOnMove(fromSlot.Item);
 			fromSlot.Clear();
+		}
+	}
+
+	public static void CheckStorageHandlerOnMove(GameObject item)
+	{
+		if (item == null)
+		{
+			return;
+		}
+		if (item.GetComponent<StorageObject>() == StorageHandler.storageCache)
+		{
+			StorageHandler.CloseStorageUI();
 		}
 	}
 

@@ -10,6 +10,7 @@ public class InventorySlot
 	public string UUID;
 	public string SlotName = "";
 	public bool IsUISlot = false;
+	[NonSerialized]
 	public NetworkInstanceId ItemInstanceId = NetworkInstanceId.Invalid;
 	public PlayerScript Owner { get; set; } //null = no owner (only UI slots have owners)
 	private GameObject item;
