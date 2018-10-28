@@ -45,9 +45,18 @@ using UnityEngine.Networking;
 				{
 					//Rollback prediction (inform player about item's true state)
 					GetComponent<CustomNetTransform>().NotifyPlayer(originator);
+				} else {
+					OnPickUpServer(originator.GetComponent<NetworkIdentity>().netId);
 				}
 			}
 		}
+		
+		//Broadcast from InventoryManager on server
+		public void OnRemoveFromInventory(){
+			OnDropItemServer();
+		}
+		public virtual void OnPickUpServer(NetworkInstanceId ownerId){}
+		public virtual void OnDropItemServer(){}
 
 		[Server]
 		public virtual bool ValidatePickUp(GameObject originator, string handSlot)

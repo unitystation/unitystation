@@ -112,14 +112,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			cnt.DisappearFromWorldServer();
 		}
+
 		SetInventorySlot(slotName, itemObject);
 		return true;
-	}
-
-	[Server]
-	public void PlaceInSlot(GameObject item, string slotName)
-	{
-		UIManager.InventorySlots.GetSlotByEvent(slotName).SetItem(item);
 	}
 
 	private void PlaceInHand(GameObject item)
