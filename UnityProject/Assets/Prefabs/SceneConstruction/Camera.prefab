@@ -945,6 +945,8 @@ MonoBehaviour:
     occlusionMaskMultiplier: 1
     occlusionMaskLimit: 0.7
     occlusionMaskSizeAdd: {x: 6, y: 9}
+    rotationBlurInterpolation: 0.2
+    rotationBlurIterations: 1
     occlusionDetail: 14
     lightResample: 1
     doubleFrameRenderingMode: 0
@@ -1050,6 +1052,7 @@ MonoBehaviour:
   target: {fileID: 0}
   xOffset: 0
   stencilMask: {fileID: 0}
+  lightingSystem: {fileID: 0}
   cam: {fileID: 0}
 --- !u!114 &114598608611931166
 MonoBehaviour:
