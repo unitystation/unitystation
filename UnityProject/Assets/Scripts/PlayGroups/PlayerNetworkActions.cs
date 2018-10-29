@@ -131,11 +131,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (item == slot.Value.Item)
 			{
+				InventoryManager.DisposeItemServer(item);
 				ClearInventorySlot(slot.Key);
 				break;
 			}
 		}
-		InventoryManager.DisposeItemServer(item);
 	}
 
 	/// Checks if player has this item in any of his slots
