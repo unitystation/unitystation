@@ -33,6 +33,7 @@ public class UI_StorageHandler : MonoBehaviour
 			newSlot.transform.localScale = Vector3.one;
 			var itemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
 			itemSlot.eventName = "inventory" + i;
+			itemSlot.maxItemSize = storageCache.maxItemSize;
 			itemSlot.inventorySlot = storageCache.storageSlots.inventorySlots[i];
 			storageCache.storageSlots.inventorySlots[i].SlotName = itemSlot.eventName;
 			localSlotCache.Add(itemSlot);

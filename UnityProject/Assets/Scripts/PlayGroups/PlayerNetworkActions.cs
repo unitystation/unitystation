@@ -152,21 +152,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return false;
 	}
 
-	// [Server]
-	// private void RemoveFromEquipmentPool(GameObject obj)
-	// {
-	// 	EquipmentPool.DropGameObject(gameObject, obj);
-	// }
-
-	//This is for objects that aren't picked up via the hand (I.E a magazine clip inside a weapon that was picked up)
-	//TODO make these private(make some public child-aware high level methods instead):
-	[Server]
-	public void AddToEquipmentPool(GameObject obj)
-	{
-		Debug.Log("TODO: Inventory slots added to items that need them like weapons: obj: " + obj.name);
-		//	EquipmentPool.AddGameObject(gameObject, obj);
-	}
-
 	/// <summary>
 	/// Validates the inv interaction.
 	/// If you are not validating a drop action then pass Vector3.zero to dropWorldPos
@@ -490,19 +475,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			playerScript.PlayerSync.Push(Vector2Int.RoundToInt(-throwInfo.Trajectory.normalized));
 		}
-	}
-
-	//Dropping from somewhere else in the players equipmentpool (Magazine ejects from weapons etc)
-	[Command]
-	[Obsolete]
-	public void CmdDropItemNotInUISlot(GameObject obj)
-	{
-		InventoryManager.DropGameItem(gameObject, obj, gameObject.transform.position);
-	}
-
-	public void DisposeOfChildItem(GameObject obj)
-	{
-		InventoryManager.DisposeItemServer(obj);
 	}
 
 	[Command] //Remember with the parent you can only send networked objects:
