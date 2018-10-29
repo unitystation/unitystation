@@ -91,11 +91,24 @@ public class PostProcessingStack
 	public void BlurLightMask(
 		RenderTexture iMask,
 		RenderSettings iRenderSettings,
-		float iCameraSize)
+		float iCameraSize,
+		float iMatrixRotationModeBlend)
 	{
-		Blur(iMask, mMaterialContainer.lightBlurMaterial, iRenderSettings.lightBlurInterpolation, iRenderSettings.lightBlurIterations, blurRenderTextureLight, iCameraSize);
+		// In case of matrix rotation we want to blur more to hide quirks.
+		float _interpolation = Mathf.Lerp(iRenderSettings.lightBlurInterpolation, iRenderSettings.lightBlurInterpolation * 4, iMatrixRotationModeBlend);
+ 
+		Blur(iMask, mMaterialContainer.lightBlurMaterial, _interpolation, iRenderSettings.lightBlurIterations, blurRenderTextureLight, iCameraSize);
+	}
 
-		return;
+	public void BlurOcclusionMaskRotation(
+		RenderTexture iMask,
+		RenderSettings iRenderSettings,
+		float iCameraSize,
+		float iMatrixRotationModeBlend)
+	{
+		float _interpolation = Mathf.Lerp(0, iRenderSettings.rotationBlurInterpolation, iMatrixRotationModeBlend);
+
+		Blur(iMask, mMaterialContainer.lightBlurMaterial, _interpolation, iRenderSettings.rotationBlurIterations, blurRenderTextureLight, iCameraSize);
 	}
 
 	public void ResetRenderingTextures(OperationParameters iParameters)
