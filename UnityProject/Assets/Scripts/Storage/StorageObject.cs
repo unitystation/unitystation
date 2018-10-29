@@ -6,11 +6,9 @@ using UnityEngine.Networking;
 
 public class StorageObject : NetworkBehaviour
 {
-	//Had to split the storageSlot caches up because of syncing difficulty with Host players (server and client in one)
+
 	[HideInInspector]
-	public StorageSlots storageSlotsServer;
-	[HideInInspector]
-	public StorageSlots storageSlotsClient;
+	public StorageSlots storageSlots;
 	public int maxSlots = 7;
 	public ItemSize maxItemSize = ItemSize.Large;
 
@@ -32,30 +30,32 @@ public class StorageObject : NetworkBehaviour
 	{
 		//Wait for onscene change event to take place on InventoryManager
 		yield return YieldHelper.EndOfFrame;
-
-		storageSlotsServer = new StorageSlots();
-		storageSlotsClient = new StorageSlots();
+		var syncData = new StorageSlotsUUIDSync();
+		storageSlots = new StorageSlots();
 		for (int i = 0; i < maxSlots; i++)
 		{
 			InventorySlot invSlot = null;
 			if (_isServer)
 			{
 				invSlot = new InventorySlot(System.Guid.NewGuid(), "inventory" + i);
-				storageSlotsServer.inventorySlots.Add(invSlot);
+				storageSlots.inventorySlots.Add(invSlot);
+				syncData.UUIDs.Add(invSlot.UUID);
 			}
 			else
 			{
 				invSlot = new InventorySlot(System.Guid.Empty, "inventory" + i);
-				storageSlotsClient.inventorySlots.Add(invSlot);
+				storageSlots.inventorySlots.Add(invSlot);
 			}
 			
 			InventoryManager.AddSlot(invSlot, _isServer);
 
 		}
 
-		if (_isServer)
+		yield return YieldHelper.DeciSecond;
+
+		if (syncData.UUIDs.Count != 0)
 		{
-			RpcCurrentPlayerUUIDSync(GetUUIDJsonString());
+			StorageObjectUUIDSyncMessage.SendAll(gameObject, JsonUtility.ToJson(syncData));
 		}
 	}
 
@@ -69,51 +69,40 @@ public class StorageObject : NetworkBehaviour
 	private string GetUUIDJsonString()
 	{
 		var syncData = new StorageSlotsUUIDSync();
-		for (int i = 0; i < storageSlotsServer.inventorySlots.Count; i++)
+		for (int i = 0; i < storageSlots.inventorySlots.Count; i++)
 		{
-			Debug.Log("Gather storageSLot UUID: " + storageSlotsServer.inventorySlots[i].UUID);
-			syncData.UUIDs.Add(storageSlotsServer.inventorySlots[i].UUID);
+			syncData.UUIDs.Add(storageSlots.inventorySlots[i].UUID);
 		}
 		
 		return JsonUtility.ToJson(syncData);
 	}
 
-	//Syncing the UUID's of the slots with current players
-	[ClientRpc]
-	public void RpcCurrentPlayerUUIDSync(string data)
-	{
-		SyncUUIDs(data);
-	}
-
 	public void SyncUUIDs(string data)
 	{
 		var syncData = JsonUtility.FromJson<StorageSlotsUUIDSync>(data);
-		Debug.Log("Start sync of: " + gameObject.name + " forServer? " + isServer);
 		for (int i = 0; i < syncData.UUIDs.Count; i++)
 		{
-			Debug.Log("Update slot from server: " + syncData.UUIDs[i] + " from client: " + storageSlotsClient.inventorySlots[i].UUID + " - " + storageSlotsClient.inventorySlots[i].SlotName);
-
-			storageSlotsClient.inventorySlots[i].UUID = syncData.UUIDs[i];
+			storageSlots.inventorySlots[i].UUID = syncData.UUIDs[i];
 		}
 	}
 
 	[Server]
 	public void NotifyPlayer(GameObject recipient)
 	{
-		StorageObjectSyncMessage.Send(recipient, gameObject, JsonUtility.ToJson(storageSlotsServer));
+		StorageObjectSyncMessage.Send(recipient, gameObject, JsonUtility.ToJson(storageSlots));
 	}
 
 	public void RefreshStorageItems(string data)
 	{
-		JsonUtility.FromJsonOverwrite(data, storageSlotsClient);
+		JsonUtility.FromJsonOverwrite(data, storageSlots);
 		RefreshInstanceIds();
 	}
 
 	private void RefreshInstanceIds()
 	{
-		for (int i = 0; i < storageSlotsClient.inventorySlots.Count; i++)
+		for (int i = 0; i < storageSlots.inventorySlots.Count; i++)
 		{
-			storageSlotsClient.inventorySlots[i].RefreshInstanceIdFromIdentifier();
+			storageSlots.inventorySlots[i].RefreshInstanceIdFromIdentifier();
 		}
 		if (clientUpdatedDelegate != null)
 		{
@@ -125,11 +114,11 @@ public class StorageObject : NetworkBehaviour
 	{
 		InventorySlot invSlot = null;
 
-		for (int i = 0; i < storageSlotsClient.inventorySlots.Count; i++)
+		for (int i = 0; i < storageSlots.inventorySlots.Count; i++)
 		{
-			if (storageSlotsClient.inventorySlots[i].Item == null)
+			if (storageSlots.inventorySlots[i].Item == null)
 			{
-				return storageSlotsClient.inventorySlots[i];
+				return storageSlots.inventorySlots[i];
 			}
 		}
 

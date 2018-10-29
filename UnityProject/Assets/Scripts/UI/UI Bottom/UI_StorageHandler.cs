@@ -22,19 +22,19 @@ public class UI_StorageHandler : MonoBehaviour
 
 	private void PopulateInventorySlots()
 	{
-		if(localSlotCache.Count == storageCache.storageSlotsClient.inventorySlots.Count){
+		if(localSlotCache.Count == storageCache.storageSlots.inventorySlots.Count){
 			return;
 		}
 
-		for (int i = 0; i < storageCache.storageSlotsClient.inventorySlots.Count; i++)
+		for (int i = 0; i < storageCache.storageSlots.inventorySlots.Count; i++)
 		{
 			GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
 			newSlot.transform.parent = transform;
 			newSlot.transform.localScale = Vector3.one;
 			var itemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
 			itemSlot.eventName = "inventory" + i;
-			itemSlot.inventorySlot = storageCache.storageSlotsClient.inventorySlots[i];
-			storageCache.storageSlotsClient.inventorySlots[i].SlotName = itemSlot.eventName;
+			itemSlot.inventorySlot = storageCache.storageSlots.inventorySlots[i];
+			storageCache.storageSlots.inventorySlots[i].SlotName = itemSlot.eventName;
 			localSlotCache.Add(itemSlot);
 			InventorySlotCache.Add(itemSlot);
 			if(itemSlot.Item != null){

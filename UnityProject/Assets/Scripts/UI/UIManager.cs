@@ -126,7 +126,6 @@ public class UIManager : MonoBehaviour
 	{
 		if (!CanPutItemToSlot(slotInfo))
 		{
-			Debug.Log("Can't put in slot");
 			return false;
 		}
 		InventoryInteractMessage.Send(slotInfo.SlotUUID, slotInfo.FromSlotUUID, slotInfo.SlotContents, true);
@@ -162,26 +161,11 @@ public class UIManager : MonoBehaviour
 		var fromSlot = InventorySlotCache.GetSlotByUUID(slotInfo.FromSlotUUID);
 		bool fromS = fromSlot != null;
 		bool fromSI = fromSlot?.Item != null;
-		if(fromSlot?.Item != null){
-			Debug.Log("FROMSLOT ITEM NAME: " + fromSlot.Item.name);
-		}
-		if(fromSlot != null){
-			Debug.Log("from slot name: " + fromSlot.eventName);
-			Debug.Log("----Print of all Slots------");
-			for(int i = 0; i < InventorySlotCache.InventorySlots.Count; i++){
-				string item = "";
-				if(InventorySlotCache.InventorySlots[i].Item != null){
-					item = InventorySlotCache.InventorySlots[i].Item.name;
-				}
-				Debug.Log(" SlotName: " + InventorySlotCache.InventorySlots[i].eventName + " item name: " + item);
-			}
-		}
-		Debug.Log("From slot UUID: " + slotInfo.FromSlotUUID + " found the slot? " + fromS + " has item? " + fromSI);
+		
 		if (fromSlot?.Item == slotInfo.SlotContents)
 		{
 			CheckStorageHandlerOnMove(fromSlot.Item);
 			fromSlot.Clear();
-			Debug.Log("CLEAR FROM SLOT");
 		}
 	}
 
@@ -206,26 +190,14 @@ public class UIManager : MonoBehaviour
 	{
 		if (proposedSlotInfo.IsEmpty() || !SendUpdateAllowed(proposedSlotInfo.SlotContents))
 		{
-			Debug.Log("denied 1: " + proposedSlotInfo.IsEmpty() + " : " + !SendUpdateAllowed(proposedSlotInfo.SlotContents));
 			return false;
 		}
 
 		InventorySlot invSlot = InventoryManager.GetSlotFromUUID(proposedSlotInfo.SlotUUID, false);
 		PlayerScript lps = PlayerManager.LocalPlayerScript;
 
-		if (invSlot == null)
-		{
-			Debug.Log("Cannot find inv slot: " + proposedSlotInfo.SlotUUID + " ServerSlotCount: " + InventoryManager.AllServerInventorySlots.Count + " ClientSLotCount: " + InventoryManager.AllClientInventorySlots);
-			for (int i = 0; i < InventoryManager.AllClientInventorySlots.Count; i++)
-			{
-				Debug.Log("SLOT CLIENT UUID: " + InventoryManager.AllClientInventorySlots[i].UUID +
-					" slotName: " + InventoryManager.AllClientInventorySlots[i].SlotName + " SERVER UUID: " + InventoryManager.AllServerInventorySlots[i].UUID);
-			}
-			return false;
-		}
 		if (!lps || lps.canNotInteract() || invSlot.Item != null)
 		{
-			Debug.Log("denied 2");
 			return false;
 		}
 
@@ -245,13 +217,12 @@ public class UIManager : MonoBehaviour
 					}
 				}
 			}
-			Debug.Log("denied 3");
+
 			return false;
 		}
 
 		if (!uiItemSlot.CheckItemFit(proposedSlotInfo.SlotContents))
 		{
-			Debug.Log("denied 4");
 			return false;
 		}
 		return true;
@@ -267,9 +238,9 @@ public class UIManager : MonoBehaviour
 				var storageObj = slot.Item.GetComponent<StorageObject>();
 				if (storageObj != null)
 				{
-					for (int i = 0; i < storageObj.storageSlotsClient.inventorySlots.Count; i++)
+					for (int i = 0; i < storageObj.storageSlots.inventorySlots.Count; i++)
 					{
-						if (storageObj.storageSlotsClient.inventorySlots[i].UUID == invSlot.UUID)
+						if (storageObj.storageSlots.inventorySlots[i].UUID == invSlot.UUID)
 						{
 							slotMaxItemSize = storageObj.maxItemSize;
 							return true;
@@ -280,20 +251,6 @@ public class UIManager : MonoBehaviour
 		}
 		return false;
 	}
-
-	// public static string FindEmptySlotForItem(GameObject itemToPlace)
-	// {
-	// 	foreach (UI_ItemSlot slot in InventorySlotCache.InventorySlots)
-	// 	{
-	// 		UISlotObject slottingAttempt = new UISlotObject(slot.inventorySlot.UUID, itemToPlace);
-	// 		if (CanPutItemToSlot(slottingAttempt))
-	// 		{
-	// 			return slot.eventName;
-	// 		}
-	// 	}
-
-	// 	return null;
-	// }
 
 	/// Checks if player received transform update after sending interact message
 	/// (Anti-blinking protection)
