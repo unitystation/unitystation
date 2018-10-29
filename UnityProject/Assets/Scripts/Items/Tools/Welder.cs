@@ -141,7 +141,7 @@ public class Welder : NetworkBehaviour
 		//the inhand image when the player turns it on and off:
 		if (isServer && heldByPlayer != null)
 		{
-			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts);
+			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, UIManager.Hands.CurrentSlot.eventName);
 		}
 	}
 

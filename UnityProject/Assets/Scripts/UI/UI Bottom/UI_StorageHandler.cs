@@ -22,11 +22,11 @@ public class UI_StorageHandler : MonoBehaviour
 
 	private void PopulateInventorySlots()
 	{
-		if(localSlotCache.Count == storageCache.storageSlots.slotCount){
+		if(localSlotCache.Count == storageCache.storageSlots.inventorySlots.Count){
 			return;
 		}
 
-		for (int i = 0; i < storageCache.storageSlots.slotCount; i++)
+		for (int i = 0; i < storageCache.storageSlots.inventorySlots.Count; i++)
 		{
 			GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
 			newSlot.transform.parent = transform;

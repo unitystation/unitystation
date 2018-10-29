@@ -15,7 +15,13 @@ public class BackPackTrigger : PickUpTrigger
 	{
 		if (item != null)
 		{
-			Debug.Log("TODO: Put item in back without opening it");
+			//Put item in back without opening it
+			//Check if it is a storage obj:
+			if (storageObj.NextSpareSlot() != null)
+			{
+				UIManager.TryUpdateSlot(new UISlotObject(storageObj.NextSpareSlot().UUID, item,
+					InventorySlotCache.GetSlotByItem(item)?.inventorySlot.UUID));
+			}
 		}
 		else
 		{

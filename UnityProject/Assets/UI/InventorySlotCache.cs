@@ -69,10 +69,25 @@ public class InventorySlotCache : MonoBehaviour
 	/// <remarks>
 	///     Returns the left pocket for non-equippable items.
 	/// </remarks>
-	public static UI_ItemSlot GetSlotByItem(GameObject obj)
+	public static UI_ItemSlot GetSlotByItemType(GameObject obj)
 	{
 		ItemAttributes item = obj.GetComponent<ItemAttributes>();
 		return GetSlotByItemType(item.type);
+	}
+
+	public static UI_ItemSlot GetSlotByItem(GameObject obj)
+	{
+		for (int i = 0; i < InventorySlots.Count; i++)
+		{
+			if (InventorySlots[i].Item != null)
+			{
+				if (InventorySlots[i].Item == obj)
+				{
+					return InventorySlots[i];
+				}
+			}
+		}
+		return null;
 	}
 
 	public static UI_ItemSlot GetSlotByUUID(string UUID)

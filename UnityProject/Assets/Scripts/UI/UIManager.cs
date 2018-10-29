@@ -153,9 +153,15 @@ public class UIManager : MonoBehaviour
 		//Logger.LogTraceFormat("Updating slots: {0}", Category.UI, slotInfo);
 		//			InputTrigger.Touch(slotInfo.SlotContents);
 		var slot = InventorySlotCache.GetSlotByUUID(slotInfo.SlotUUID);
-		slot.SetItem(slotInfo.SlotContents);
+		if (slot != null)
+		{
+			slot.SetItem(slotInfo.SlotContents);
+		}
 
 		var fromSlot = InventorySlotCache.GetSlotByUUID(slotInfo.FromSlotUUID);
+		bool fromS = fromSlot != null;
+		bool fromSI = fromSlot?.Item != null;
+		
 		if (fromSlot?.Item == slotInfo.SlotContents)
 		{
 			CheckStorageHandlerOnMove(fromSlot.Item);
@@ -186,6 +192,7 @@ public class UIManager : MonoBehaviour
 		{
 			return false;
 		}
+
 		InventorySlot invSlot = InventoryManager.GetSlotFromUUID(proposedSlotInfo.SlotUUID, false);
 		PlayerScript lps = PlayerManager.LocalPlayerScript;
 
@@ -197,6 +204,20 @@ public class UIManager : MonoBehaviour
 		UI_ItemSlot uiItemSlot = InventorySlotCache.GetSlotByUUID(invSlot.UUID);
 		if (uiItemSlot == null)
 		{
+			//Could it be a storage obj that is closed?
+			ItemSize checkMaxSizeOfStorage;
+			if (SlotIsFromClosedBag(invSlot, out checkMaxSizeOfStorage))
+			{
+				var itemAtts = proposedSlotInfo.SlotContents.GetComponent<ItemAttributes>();
+				if (itemAtts != null)
+				{
+					if (itemAtts.size <= checkMaxSizeOfStorage)
+					{
+						return true;
+					}
+				}
+			}
+
 			return false;
 		}
 
@@ -207,19 +228,29 @@ public class UIManager : MonoBehaviour
 		return true;
 	}
 
-	// public static string FindEmptySlotForItem(GameObject itemToPlace)
-	// {
-	// 	foreach (UI_ItemSlot slot in InventorySlotCache.InventorySlots)
-	// 	{
-	// 		UISlotObject slottingAttempt = new UISlotObject(slot.inventorySlot.UUID, itemToPlace);
-	// 		if (CanPutItemToSlot(slottingAttempt))
-	// 		{
-	// 			return slot.eventName;
-	// 		}
-	// 	}
-
-	// 	return null;
-	// }
+	private static bool SlotIsFromClosedBag(InventorySlot invSlot, out ItemSize slotMaxItemSize)
+	{
+		slotMaxItemSize = ItemSize.Tiny;
+		foreach (UI_ItemSlot slot in InventorySlotCache.InventorySlots)
+		{
+			if (slot.Item != null)
+			{
+				var storageObj = slot.Item.GetComponent<StorageObject>();
+				if (storageObj != null)
+				{
+					for (int i = 0; i < storageObj.storageSlots.inventorySlots.Count; i++)
+					{
+						if (storageObj.storageSlots.inventorySlots[i].UUID == invSlot.UUID)
+						{
+							slotMaxItemSize = storageObj.maxItemSize;
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 	/// Checks if player received transform update after sending interact message
 	/// (Anti-blinking protection)

@@ -42,6 +42,18 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 				UIManager.TryUpdateSlot(new UISlotObject(itemSlot.inventorySlot.UUID, UIManager.DragAndDrop.ItemCache,
 					UIManager.DragAndDrop.ItemSlotCache?.inventorySlot.UUID));
 			}
+			// else if (itemSlot.Item != null)
+			// {
+			// 	//Check if it is a storage obj:
+			// 	var storageObj = itemSlot.Item.GetComponent<StorageObject>();
+			// 	if (storageObj != null)
+			// 	{
+			// 		if(storageObj.NextSpareSlot() != null){
+			// 			UIManager.TryUpdateSlot(new UISlotObject(storageObj.NextSpareSlot().UUID, UIManager.DragAndDrop.ItemCache,
+			// 		UIManager.DragAndDrop.ItemSlotCache?.inventorySlot.UUID));
+			// 		}
+			// 	}
+			// }
 		}
 	}
 }
