@@ -32,6 +32,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 		public PlayerMove playerMove { get; set; }
 
+		public PushPull pushPull { get; set; }
+
 		public PlayerSprites playerSprites { get; set; }
 
 		private PlayerSync playerSync; //Example of good on-demand reference init
@@ -93,6 +95,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			registerTile = GetComponent<RegisterTile>();
 			playerHealth = GetComponent<PlayerHealth>();
+			pushPull = GetComponent<PushPull>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 			soundNetworkActions = GetComponent<SoundNetworkActions>();
 			inputController = GetComponent<InputController>();

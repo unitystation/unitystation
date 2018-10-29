@@ -10,53 +10,18 @@ public class ObjectBehaviour : PushPull
 
 	//Inspector is controlled by ObjectBehaviourEditor
 	//Please expose any properties you need in there
-	private PickUpTrigger pickUpTrigger;
 
-	private PlayerScript playerScript;
-
-	protected override void Awake()
-	{
-		base.Awake();
-		//Determines if it is an item
-		pickUpTrigger = GetComponent<PickUpTrigger>();
-		//Determines if it is a player
-		playerScript = GetComponent<PlayerScript>();
-	}
 	[ContextMethod("Drag","Drag_Hand")]
 	public void GUIOnMouseDown()
-	{ //TODO pull integration
-//		if (PlayerManager.LocalPlayerScript.IsInReach (transform.position)) 
-//		{
-//			if (pickUpTrigger != null && pulledBy != null)
-//			{
-//				CancelPullBehaviour();
-//			}
-//
-//		}
-//		base.OnMouseDown();
+	{
+		OnMouseDown();
 	}
-
-//	public override void OnMouseDown()
-//	{
-//		if (PlayerManager.LocalPlayerScript.IsInReach(transform.position))
-//		{
-//			//If this is an item with a pick up trigger and player is
-//			//not holding control, then check if it is being pulled
-//			//before adding to inventory
-//			if (!Input.GetKey(KeyCode.LeftControl) && pickUpTrigger !=
-//			    null && pulledBy != null)
-//			{
-//				CancelPullBehaviour();
-//			}
-//		}
-//		base.OnMouseDown();
-//	}
 
 	public override void OnVisibilityChange(bool state)
 	{
-		if (playerScript != null)
+		if (registerTile.ObjectType == ObjectType.Player)
 		{
-			if (PlayerManager.LocalPlayerScript == playerScript)
+			if (PlayerManager.LocalPlayerScript.gameObject == this.gameObject)
 			{
 				//Local player, might be in a cupboard so add a cupboard handler. The handler will remove
 				//itself if not needed
