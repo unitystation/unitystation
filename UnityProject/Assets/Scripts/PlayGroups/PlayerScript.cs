@@ -327,13 +327,13 @@ public class PlayerScript : ManagedNetworkBehaviour
 		public void MatrixMoveStartRotation(){
 			if(PlayerManager.LocalPlayer == gameObject){
 				//We need to handle lighting stuff for matrix rotations for local player:
-				Camera2DFollow.followControl.lightingSystem.MatrixMoveStartRotation();
+				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = true;
 			}
 		}
 		public void MatrixMoveStopRotation(){
 			if(PlayerManager.LocalPlayer == gameObject){
 				//We need to handle lighting stuff for matrix rotations for local player:
-				Camera2DFollow.followControl.lightingSystem.MatrixMoveStopRotation();
+				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
 			}
 		}
 	}

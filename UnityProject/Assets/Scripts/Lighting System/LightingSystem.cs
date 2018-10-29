@@ -14,11 +14,11 @@ public class LightingSystem : MonoBehaviour
 	/// </summary>
 	public Vector3 fovCenterOffset;
 	public float fovDistance;
-	//public RenderSettings.Quality quality;
 	public RenderSettings renderSettings;
 	public MaterialContainer materialContainer;
 
 	private static Func<Vector3, Vector3, Vector2, Vector2> HandlePPPositionRequest;
+
 	private Camera mMainCamera;
 	private OcclusionMaskRenderer mOcclusionRenderer;
 	private LightMaskRenderer mLightMaskRenderer;
@@ -29,19 +29,26 @@ public class LightingSystem : MonoBehaviour
 	private PixelPerfectRT mObstacleLightMask;
 	private PixelPerfectRT mOcclusionPPRT;
 	private PixelPerfectRT mlightPPRT;
-	private bool mDoubleFrameRendererSwitch;
+	private bool mDoubleFrameRendererSwitch;	
+	private bool mMatrixRotationMode;
+	private float mMatrixRotationModeBlend;
 
-	public static Vector2 GetPixelPerfectPosition(Vector3 iPosition, Vector3 iPreviousPosition, Vector2 iPreviousFilteredPosition)
+	public bool matrixRotationMode
 	{
-		if (HandlePPPositionRequest == null)
+		get
 		{
-			return iPosition;
+			return mMatrixRotationMode;
 		}
 
-		return HandlePPPositionRequest(iPosition, iPreviousPosition, iPreviousFilteredPosition);
+		set
+		{
+			if (mMatrixRotationMode == value)
+				return;
+
+			mMatrixRotationMode = value;
+		}
 	}
 
-	// Note: globalOcclusionMask and occlusionMaskExtended are shader seters.
 	private PixelPerfectRT globalOcclusionMask
 	{
 		get
@@ -108,6 +115,16 @@ public class LightingSystem : MonoBehaviour
 	}
 
 	private OperationParameters operationParameters { get; set; }
+
+	public static Vector2 GetPixelPerfectPosition(Vector3 iPosition, Vector3 iPreviousPosition, Vector2 iPreviousFilteredPosition)
+	{
+		if (HandlePPPositionRequest == null)
+		{
+			return iPosition;
+		}
+
+		return HandlePPPositionRequest(iPosition, iPreviousPosition, iPreviousFilteredPosition);
+	}
 
 	private static void ValidateMainCamera(Camera iMainCamera, RenderSettings iRenderSettings)
 	{
@@ -181,7 +198,7 @@ public class LightingSystem : MonoBehaviour
 	private void Update()
 	{
 		// Monitor state to detect when we should trigger reinitialization of rendering textures.
-		var _newParameters = new OperationParameters(mMainCamera, renderSettings);
+		var _newParameters = new OperationParameters(mMainCamera, renderSettings, matrixRotationMode);
 
 		bool _shouldReinitializeTextures = _newParameters != operationParameters;
 
@@ -190,6 +207,17 @@ public class LightingSystem : MonoBehaviour
 			operationParameters = _newParameters;
 
 			ResolveRenderingTextures(operationParameters);
+		}
+
+		// Blend switch for matrix rotation effects.
+		// Used to smooth effects in and out.
+		if (mMatrixRotationMode == true)
+		{
+			mMatrixRotationModeBlend = Mathf.MoveTowards(mMatrixRotationModeBlend, 1, Time.unscaledDeltaTime * 5);
+		}
+		else
+		{
+			mMatrixRotationModeBlend = 0;
 		}
 	}	
 
@@ -218,7 +246,13 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("1. Occlusion Mask Render (No Gfx Time)"))
 		{
-			mOcclusionPPRT = mOcclusionRenderer.Render(mMainCamera, operationParameters.occlusionPPRTParameter);
+			mOcclusionPPRT = mOcclusionRenderer.Render(mMainCamera, operationParameters.occlusionPPRTParameter, matrixRotationMode);
+
+			if (mMatrixRotationModeBlend > 0.001f)
+			{
+				mPostProcessingStack.BlurOcclusionMaskRotation(mOcclusionPPRT.renderTexture, renderSettings, operationParameters.cameraOrthographicSize, mMatrixRotationModeBlend);
+			}
+			
 		}
 
 		using (new DisposableProfiler("2. Generate FoV"))
@@ -256,6 +290,7 @@ public class LightingSystem : MonoBehaviour
 		{
 			// Note: This blur is used only with shaders during scene render, so 1 pass should be enough.
 			mPostProcessingStack.BlurOcclusionMask(globalOcclusionMask.renderTexture, renderSettings, operationParameters.cameraOrthographicSize);
+
 			globalOcclusionMask.renderTexture.filterMode = FilterMode.Point;
 		}
 
@@ -299,7 +334,8 @@ public class LightingSystem : MonoBehaviour
 				mMainCamera,
 				operationParameters.lightPPRTParameter,
 				occlusionMaskExtended,
-				renderSettings);
+				renderSettings,
+				matrixRotationMode);
 		}
 
 		using (new DisposableProfiler("6. Generate Obstacle Light Mask"))
@@ -345,7 +381,7 @@ public class LightingSystem : MonoBehaviour
 
 		using (new DisposableProfiler("7. Light Mask Blur"))
 		{
-			mPostProcessingStack.BlurLightMask(mlightPPRT.renderTexture, renderSettings, operationParameters.cameraOrthographicSize);
+			mPostProcessingStack.BlurLightMask(mlightPPRT.renderTexture, renderSettings, operationParameters.cameraOrthographicSize, mMatrixRotationModeBlend);
 		}
 
 		RenderTexture _backgroundMask = null;
@@ -365,6 +401,7 @@ public class LightingSystem : MonoBehaviour
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.Background)
 		{
 			Graphics.Blit(_backgroundMask, iDestination);
+
 			return;
 		}
 
@@ -372,7 +409,7 @@ public class LightingSystem : MonoBehaviour
 		{
 			mlightPPRT.renderTexture.filterMode = FilterMode.Bilinear;
 			obstacleLightMask.renderTexture.filterMode = FilterMode.Bilinear;
-			occlusionMaskExtended.renderTexture.filterMode = FilterMode.Point;
+			occlusionMaskExtended.renderTexture.filterMode = matrixRotationMode ? FilterMode.Bilinear : FilterMode.Point;
 
 			var _blitMaterial = materialContainer.blitMaterial;
 			_blitMaterial.SetTexture("_LightMask", mlightPPRT.renderTexture);
@@ -387,16 +424,5 @@ public class LightingSystem : MonoBehaviour
 
 			Graphics.Blit(iSource, iDestination, _blitMaterial);
 		}
-	}
-
-	//Called at the start of matrix rotation for localplayer client (if localplayer is a child of the matrixmove that is rotating)
-	public void MatrixMoveStartRotation()
-	{
-		Debug.Log("Matrix has started rotating for local player");
-	}
-
-	public void MatrixMoveStopRotation()
-	{
-		Debug.Log("Matrix has stopped rotating for local player");
 	}
 }

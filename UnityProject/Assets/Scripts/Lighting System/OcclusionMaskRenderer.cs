@@ -36,10 +36,21 @@ public class OcclusionMaskRenderer : MonoBehaviour
 
 	public PixelPerfectRT Render(
 		Camera iCameraToMatch,
-		PixelPerfectRTParameter iPPRTParameter)
+		PixelPerfectRTParameter iPPRTParameter,
+		bool iMatrixRotationMode)
 	{
 		// Arrange.
-		var _renderPosition = iPPRTParameter.GetFilteredRendererPosition(iCameraToMatch.transform.position, mPreviousCameraPosition, mPreviousFilteredPosition);
+		Vector2 _renderPosition;
+
+		if (iMatrixRotationMode == false)
+		{
+			_renderPosition = iPPRTParameter.GetFilteredRendererPosition(iCameraToMatch.transform.position, mPreviousCameraPosition, mPreviousFilteredPosition);
+		}
+		else
+		{
+			// Note: Do not apply PixelPerfect position when matrix is rotating.
+			_renderPosition = iCameraToMatch.transform.position;
+		}
 
 		mPreviousCameraPosition = iCameraToMatch.transform.position;
 		mPreviousFilteredPosition = _renderPosition;

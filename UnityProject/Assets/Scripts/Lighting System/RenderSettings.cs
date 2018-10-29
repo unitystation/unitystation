@@ -58,11 +58,15 @@ public class RenderSettings
 	[Tooltip("Unit Size addition to Occlusion camera. Affects Extended texture size. Used to properly draw out of bounds light sources.")]
 	public Vector2Int occlusionMaskSizeAdd;
 
+	public float rotationBlurInterpolation;
+	public int rotationBlurIterations;
+
 	public int occlusionDetail;
 	public ReSamplePower lightResample;
 
 	[Tooltip("Renders light during two frames, effectively making lighting render in 30fps. Boosts performance, affects quality while moving. Should not be enabled in editor.")]
 	public bool doubleFrameRenderingMode;
+
 
 	//[NonSerialized]
 	//public Quality quality;

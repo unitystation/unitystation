@@ -13,7 +13,7 @@ public struct OperationParameters : IEquatable<OperationParameters>
 	private readonly Vector2Int cameraViewportUnitsCeiled;
 	private readonly Vector3 cameraViewportUnits;
 
-	public OperationParameters(Camera iCamera, RenderSettings iRenderSettings)
+	public OperationParameters(Camera iCamera, RenderSettings iRenderSettings, bool iMatrixRotationMode)
 	{
 		cameraOrthographicSize = iCamera.orthographicSize;
 		screenSize = new Vector2Int(Screen.width, Screen.height);
@@ -23,7 +23,15 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		cameraViewportUnitsCeiled = new Vector2Int(Mathf.CeilToInt(cameraViewportUnits.x), Mathf.CeilToInt(cameraViewportUnits.y));
 
 		bool _highViewMode = PlayerPrefs.GetInt("CamZoomSetting") == 1;
-		var _occlusionDetail = _highViewMode == false ? iRenderSettings.occlusionDetail : iRenderSettings.occlusionDetail / 2;
+
+		float _bla = screenSize.x / cameraViewportUnits.x;
+		// Override Occlusion detail to match sprite detail if matrix is rotating.
+		int _occlusionDetail = iMatrixRotationMode == false ? iRenderSettings.occlusionDetail : 32;
+
+		// Reduce detail if player zoomed out.
+		_occlusionDetail = _highViewMode == false ? _occlusionDetail : _occlusionDetail / 2;
+
+		// Make sure detail is even value.
 		int _initialSampleDetail = iRenderSettings.occlusionDetail % 2 == 0 ? _occlusionDetail : ++_occlusionDetail;
 
 		occlusionPPRTParameter = new PixelPerfectRTParameter(cameraViewportUnitsCeiled + iRenderSettings.occlusionMaskSizeAdd, _initialSampleDetail);

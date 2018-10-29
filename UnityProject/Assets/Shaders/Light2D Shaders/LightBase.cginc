@@ -67,7 +67,7 @@ light2d_fixed_v2f light2d_fixed_vert (light2d_fixed_data_t v)
 
 half4 light2_fixed_frag (light2d_fixed_v2f i) : COLOR
 {
-    half4 tex = tex2D(_MainTex, i.texcoord); //_MainTex.Sample(sampler_linear_clamp, i.texcoord); //tex2D(_MainTex, i.texcoord);
+    half4 tex = tex2D(_MainTex, i.texcoord);
 	 
 	half2 thisPos = i.thisPos;
 	half2 centerPos = i.centerPos;
