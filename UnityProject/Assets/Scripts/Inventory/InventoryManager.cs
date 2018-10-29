@@ -48,10 +48,12 @@ public class InventoryManager : MonoBehaviour
 		if (isServer)
 		{
 			AllServerInventorySlots.Add(slot);
+			Debug.Log("Server ADD SLOT: " + slot.UUID);
 		}
 		else
 		{
 			AllClientInventorySlots.Add(slot);
+			Debug.Log("CLIENT ADD SLOT: " + slot.UUID);
 		}
 	}
 
@@ -130,10 +132,12 @@ public class InventoryManager : MonoBehaviour
 
 	public static InventorySlot GetSlotFromUUID(string UUID, bool isServer)
 	{
+		Debug.Log("Get slot by UUID: " + UUID + " isServer: " + isServer);
 		InventorySlot slot = null;
 		var index = InventorySlotList(isServer).FindLastIndex(x => x.UUID == UUID);
 		if (index != -1)
 		{
+			Debug.Log("SLOT FOUND!");
 			slot = InventorySlotList(isServer)[index];
 		}
 		return slot;

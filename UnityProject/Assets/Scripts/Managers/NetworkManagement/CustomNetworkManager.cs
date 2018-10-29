@@ -334,6 +334,12 @@ public class CustomNetworkManager : NetworkManager
 			tcManagers[i].NotifyPlayer( playerGameObject );
 		}
 
+		//StorageObject UUIDs
+		StorageObject[] storageObjs = FindObjectsOfType<StorageObject>();
+		for(var i = 0; i < storageObjs.Length; i++){
+			storageObjs[i].SyncUUIDsWithPlayer(playerGameObject);
+		}
+
 		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {players.Count} players) to {playerGameObject.name}", Category.Connections);
 	}
 
