@@ -299,10 +299,10 @@ using UnityEngine.Networking;
 		}
 
 		//To set the actual sprite on the player obj
-		public void SetHandItemSprite(ItemAttributes att)
+		public void SetHandItemSprite(ItemAttributes att, string hand)
 		{
-			Epos enumA = (Epos) Enum.Parse(typeof(Epos), playerNetworkActions.activeHand);
-			if (playerNetworkActions.activeHand == "leftHand")
+			Epos enumA = (Epos) Enum.Parse(typeof(Epos), hand);
+			if (hand == "leftHand")
 			{
 				syncEquipSprites[(int) enumA] = att.NetworkInHandRefLeft();
 			}

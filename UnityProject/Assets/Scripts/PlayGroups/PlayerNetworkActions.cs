@@ -220,7 +220,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SetInventorySlot(toSlot.SlotName, gObj);
 			//Clean up other slots
 			ClearObjectIfNotInSlot(gObj, fromSlot.SlotName, forceClientInform);
-//			Debug.Log($"Approved moving {gObj.name} to slot {toSlot.SlotName}");
+			//			Debug.Log($"Approved moving {gObj.name} to slot {toSlot.SlotName}");
 			return true;
 		}
 		Logger.LogWarning($"Unable to validateInvInteraction {toSlot.SlotName}:{gObj.name}", Category.Inventory);
@@ -344,7 +344,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 						var att = toSlot.Item.GetComponent<ItemAttributes>();
 						if (toSlot.SlotName == "leftHand" || toSlot.SlotName == "rightHand")
 						{
-							equipment.SetHandItemSprite(att);
+							equipment.SetHandItemSprite(att, toSlot.SlotName);
 						}
 						else if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") ||
 							att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
