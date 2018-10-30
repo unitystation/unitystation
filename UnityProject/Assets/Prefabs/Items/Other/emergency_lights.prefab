@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4486458079919614}
   - component: {fileID: 212552901881477478}
-  - component: {fileID: 114019827544990714}
+  - component: {fileID: 114242018206129058}
   m_Layer: 0
   m_Name: emergency_lights
   m_TagString: Untagged
@@ -35,13 +35,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1275749971873228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 51, y: 23.58, z: 0}
+  m_LocalPosition: {x: 50.92981, y: 23.623413, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114019827544990714
+--- !u!114 &114242018206129058
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,15 +49,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1275749971873228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ebf258fb27bbad4596ac670ea2af82b, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ee25e15c851c447bd342aa75f7ca2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
+  - {fileID: 21300008, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   - {fileID: 21300000, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   - {fileID: 21300002, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   - {fileID: 21300004, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   - {fileID: 21300006, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
-  - {fileID: 21300008, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   animateTime: 0.4
   isOn: 0
 --- !u!212 &212552901881477478
