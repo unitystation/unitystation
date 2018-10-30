@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class EmergencyLightAnimator : MonoBehaviour {
 
-	public Sprite[] sprites; //First 4 sprites are the "turned on" sprites, last one is off one.
-	//public Sprite curSprite;
+	// Experimental animator mostly for show, feel free to configure or rewrite this as needed.
 
+	public Sprite[] sprites; //First 4 sprites are the "turned on" sprites, last one is off one.
+	
 	public float animateTime = 0.4f;
 	int maxSpriteIndex = 3;
 
