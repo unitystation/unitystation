@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 114093823026356112}
   - component: {fileID: 114178605300182066}
   - component: {fileID: 114784912755194898}
+  - component: {fileID: 114080400140570374}
   m_Layer: 11
   m_Name: Cloning_Console
   m_TagString: Untagged
@@ -228,6 +229,43 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114080400140570374
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1581020911112336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8cac74219314e4e8ba276ffc22f95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenFrames: 0.2
+  spriteRenderer: {fileID: 212203174912977006}
+  screenGlow: {fileID: 1753008131445868}
+  onSprites:
+  - {fileID: 21300172, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300174, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300176, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300178, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300180, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300182, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300184, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300186, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300188, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300190, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300192, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300194, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300196, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300198, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300200, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300202, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300204, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300206, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300208, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300210, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300212, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300214, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
 --- !u!114 &114093823026356112
 MonoBehaviour:
   m_ObjectHideFlags: 1

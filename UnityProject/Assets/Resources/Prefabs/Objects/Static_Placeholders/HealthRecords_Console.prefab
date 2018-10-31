@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114501202377991392}
   - component: {fileID: 114053919170897092}
   - component: {fileID: 114431237792223494}
+  - component: {fileID: 114086219514807422}
   m_Layer: 11
   m_Name: HealthRecords_Console
   m_TagString: Untagged
@@ -242,6 +243,49 @@ MonoBehaviour:
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
+--- !u!114 &114086219514807422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1629775996022798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8cac74219314e4e8ba276ffc22f95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenFrames: 0.2
+  spriteRenderer: {fileID: 212379632270881212}
+  screenGlow: {fileID: 1570216273209756}
+  onSprites:
+  - {fileID: 21300220, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300222, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300224, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300226, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300228, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300230, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300232, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300234, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300236, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300238, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300240, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300242, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300244, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300246, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300248, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300250, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300252, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300254, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300256, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300258, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300260, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300262, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300264, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300266, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300268, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300270, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300272, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  - {fileID: 21300274, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
 --- !u!114 &114376900754840046
 MonoBehaviour:
   m_ObjectHideFlags: 1
