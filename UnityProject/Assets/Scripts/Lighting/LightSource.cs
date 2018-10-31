@@ -1,7 +1,7 @@
-﻿	using System;
+﻿	using System.Collections.Generic;
 	using System.Collections;
-	using System.Collections.Generic;
 	using System.Linq;
+	using System;
 	using Light2D;
 	using UnityEngine;
 
@@ -29,7 +29,8 @@
 
 		private readonly Dictionary<LightState, Sprite> mSpriteDictionary = new Dictionary<LightState, Sprite>((int)LightState.TypeCount);
 
-		private GameObject mLightRendererObject;
+		[Header("Generates itself if this is null:")]
+		public GameObject mLightRendererObject;
 		private LightState mState;
 		private SpriteRenderer Renderer;
 		private bool tempStateCache;
@@ -54,7 +55,7 @@
 				OnStateChange(value);
 			}
 		}
-	
+
 		public override void Trigger(bool iState)
 		{
 			// Leo Note: Some sync magic happening here. Decided not to touch it.
@@ -98,10 +99,13 @@
 		{
 			Renderer = GetComponentInChildren<SpriteRenderer>();
 
-			// Slight color variance.
-			Color _color = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f); //+ UnityEngine.Random.ColorHSV() * 0.3f;
+			if (mLightRendererObject == null)
+			{
+				// Slight color variance.
+				Color _color = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f); //+ UnityEngine.Random.ColorHSV() * 0.3f;
 
-			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, _color, 12);
+				mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, _color, 12);
+			}
 
 			State = InitialState;
 
@@ -135,12 +139,12 @@
 			if (_spriteSheet != null && _splitedName.Length == 2 && int.TryParse(_splitedName[1], out _baseIndex))
 			{
 				Func<int, Sprite> ExtractSprite = delegate(int iIndex)
-					{
-						if (iIndex >= 0 && iIndex < _spriteSheet.Length)
-							return _spriteSheet[iIndex];
+				{
+					if (iIndex >= 0 && iIndex < _spriteSheet.Length)
+						return _spriteSheet[iIndex];
 
-						return null;
-					};
+					return null;
+				};
 
 				// Extract sprites from sprite sheet based on spacing from base index.
 				mSpriteDictionary.Add(LightState.On, _assignedSprite);
