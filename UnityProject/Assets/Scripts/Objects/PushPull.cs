@@ -23,7 +23,9 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	public bool IsSolid => !registerTile.IsPassable();
-	public bool IsBeingPulled => false;
+
+
+	#region Push fields
 
 	//Server fields
 	private bool isPushing;
@@ -37,38 +39,109 @@ public class PushPull : VisibleBehaviour {
 	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
 	private Vector3Int lastReliablePos = TransformState.HiddenPos;
 
+	#endregion
+
+	#region Pull Master
+
+	public PushPull ControlledObject;
+
+	/// Client requests to stop pulling any objects
+	[Command]
+	public void CmdStopPulling() {
+		ReleaseControl();
+	}
+
+	private void ReleaseControl() {
+		if ( ControlledObject ) {
+			ControlledObject.StopFollowing();//fixme: infinite recursion w/StopFollowing
+		}
+		ControlledObject = null;
+	}
+
+	/// Client asks to start pulling given object
+	[Command]
+	public void CmdPullObject(GameObject pullable) {
+		var slaveObject = pullable.GetComponent<PushPull>();
+		if ( !slaveObject ) {
+			return;
+		}
+		if ( slaveObject.StartFollowing(this) ) {
+			ControlledObject = slaveObject;
+		}
+	}
+
+	#endregion
+
 	#region Pull
+
+	public bool IsBeingPulled => AttachedTo != null;
+	public bool IsPullingSomething => ControlledObject != null;
+	public PushPull AttachedTo;
 
 	public virtual void OnMouseDown()
 	{
 		//if control clicking
 		if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)) {
-//			var ps = PlayerManager.LocalPlayerScript;
-//			if (ps.IsInReach(transform.position) && transform != ps.transform && !ps.pushPull.IsBeingPulled)
-			//if local player can reach this + not trying to pull himself + not being pulled
+			var initiator = PlayerManager.LocalPlayerScript.pushPull;
+			//client pre-validation
+			if ( PlayerScript.IsInReach(initiator.registerTile.WorldPosition, this.registerTile.WorldPosition)
+				&& initiator != this && !initiator.IsBeingPulled )
 			{
-//				if (ps.PlayerSync.PullingObject != null && ps.PlayerSync.PullingObject != gameObject)
-				//if pulling something that's not this object
+				PushPull pullingObject = initiator.ControlledObject;
+				if (pullingObject)
 				{
-//					p.playerNetworkActions.CmdStopPulling(p.PlayerSync.PullingObject);
 					//client request: stop pulling
+					initiator.CmdStopPulling();
+					//Just stopping pulling of object if we ctrl+click it again
+					if ( pullingObject == this ) {
+						return;
+					}
 				}
 				//client request: start pulling
-//				ps.playerNetworkActions.CmdPullObject(gameObject);
+				initiator.CmdPullObject(gameObject);
+
 				//Predictive pull:
 //				if (customNetTransform != null)
-				{
+//				{
 //					customNetTransform.enabled = false;
-				}
+//				}
 //				p.PlayerSync.PullingObject = gameObject;
 			}
 		} else {
 //			//If this is an item with a pick up trigger and player is
 //			//not holding control, then check if it is being pulled
 //			//before adding to inventory
+			if ( IsBeingPulled ) {
+				//todo track picking up/unexpected moves on server to break pull, PickUpTrigger events?
+//				StopFollowingClient();
+			}
 		}
 	}
 
+	[Server]
+	public bool StartFollowing( PushPull attachTo ) {
+		if ( attachTo == this ) {
+			return false;
+		}
+		//later: experiment with allowing pulling while being pulled, but add condition against deadlocks
+		//if puller can reach this + not trying to pull himself + not being pulled
+		if ( PlayerScript.IsInReach( attachTo.registerTile.WorldPosition, this.registerTile.WorldPosition )
+		     && attachTo != this && !attachTo.IsBeingPulled )
+		{
+			AttachedTo = attachTo;
+			return true;
+		}
+
+		return false;
+	}
+	[Server]
+	public bool StopFollowing() {
+		if ( IsBeingPulled ) {
+			AttachedTo.ReleaseControl();
+		}
+		AttachedTo = null;
+		return true;
+	}
 //	public void CancelPullBehaviour()
 //	{
 //		if (pulledBy == PlayerManager.LocalPlayer) {
@@ -80,13 +153,6 @@ public class PushPull : VisibleBehaviour {
 //		}
 //		PlayerManager.LocalPlayerScript.PlayerSync.PullReset(gameObject.GetComponent<NetworkIdentity>().netId);
 //	}
-
-	[Server]
-	public void StartPull() {
-	}
-	[Server]
-	public void StopPull() {
-	}
 //
 //	[SyncVar] public GameObject pulledBy;
 //
@@ -389,60 +455,6 @@ public class PushPull : VisibleBehaviour {
 				break;
 		}
 	}
-
-	#endregion
-
-	#region old
-//
-//	public virtual void OnMouseDown()
-//	{
-//		// PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null condition makes sure that the player itself
-//		// isn't being pulled. If he is then he is not allowed to pull anything else as this can cause problems
-//		if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)){
-//			if (PlayerManager.LocalPlayerScript.IsInReach(transform.position) &&
-//				transform != PlayerManager.LocalPlayerScript.transform && PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null) {
-//				if (PlayerManager.LocalPlayerScript.PlayerSync.PullingObject != null &&
-//				   PlayerManager.LocalPlayerScript.PlayerSync.PullingObject != gameObject) {
-//					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(PlayerManager.LocalPlayerScript.PlayerSync.PullingObject);
-//				}
-//
-//				if (pulledBy == PlayerManager.LocalPlayer) {
-//					CancelPullBehaviour();
-//				} else {
-//					CancelPullBehaviour();
-//					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPullObject(gameObject);
-//					//Predictive pull:
-//					if (customNetTransform != null) {
-//						customNetTransform.enabled = false;
-//					}
-//					PlayerManager.LocalPlayerScript.PlayerSync.PullingObject = gameObject;
-//				}
-//			}
-//		}
-//	}
-//
-//	//This is to turn off CNT while pulling an object
-//	[ClientRpc]
-//	public void RpcToggleCnt(bool activeState){
-//		if(customNetTransform != null){
-//			customNetTransform.enabled = activeState;
-//		}
-//	}
-//
-//	private void LateUpdate()
-//	{
-//		if (CustomNetworkManager.Instance._isServer) {
-//			if (transform.hasChanged) {
-//				transform.hasChanged = false;
-//				currentPos = transform.localPosition;
-//			}
-//		}
-//	}
-
-	#endregion
-
-	#region PNA
-
 
 	#endregion
 
