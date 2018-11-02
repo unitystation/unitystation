@@ -17,6 +17,7 @@ public class PushPull : VisibleBehaviour {
 				pushable?.OnUpdateRecieved().AddListener( OnUpdateReceived );
 				pushable?.OnTileReached().AddListener( OnServerTileReached );
 				pushable?.OnClientTileReached().AddListener( OnClientTileReached );
+				pushable?.OnPullInterrupt().AddListener( () => StopFollowing() );
 			}
 			return pushable;
 		}
@@ -24,6 +25,10 @@ public class PushPull : VisibleBehaviour {
 
 	public bool IsSolid => !registerTile.IsPassable();
 
+	protected override void Awake() {
+		base.Awake();
+		var pushable = Pushable;
+	}
 
 	#region Push fields
 
@@ -43,6 +48,7 @@ public class PushPull : VisibleBehaviour {
 
 	#region Pull Master
 
+	public bool IsPullingSomething => ControlledObject != null;
 	public PushPull ControlledObject;
 
 	/// Client requests to stop pulling any objects
@@ -52,9 +58,10 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	private void ReleaseControl() {
-		if ( ControlledObject ) {
-			ControlledObject.StopFollowing();//fixme: infinite recursion w/StopFollowing
+		if ( IsPullingSomething ) {
+			ControlledObject.AttachedTo = null;
 		}
+		Logger.LogTraceFormat( "{0} stopped controlling {1}", Category.PushPull, this.gameObject.name, ControlledObject?.gameObject.name );
 		ControlledObject = null;
 	}
 
@@ -75,48 +82,7 @@ public class PushPull : VisibleBehaviour {
 	#region Pull
 
 	public bool IsBeingPulled => AttachedTo != null;
-	public bool IsPullingSomething => ControlledObject != null;
 	public PushPull AttachedTo;
-
-	public virtual void OnMouseDown()
-	{
-		//if control clicking
-		if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)) {
-			var initiator = PlayerManager.LocalPlayerScript.pushPull;
-			//client pre-validation
-			if ( PlayerScript.IsInReach(initiator.registerTile.WorldPosition, this.registerTile.WorldPosition)
-				&& initiator != this && !initiator.IsBeingPulled )
-			{
-				PushPull pullingObject = initiator.ControlledObject;
-				if (pullingObject)
-				{
-					//client request: stop pulling
-					initiator.CmdStopPulling();
-					//Just stopping pulling of object if we ctrl+click it again
-					if ( pullingObject == this ) {
-						return;
-					}
-				}
-				//client request: start pulling
-				initiator.CmdPullObject(gameObject);
-
-				//Predictive pull:
-//				if (customNetTransform != null)
-//				{
-//					customNetTransform.enabled = false;
-//				}
-//				p.PlayerSync.PullingObject = gameObject;
-			}
-		} else {
-//			//If this is an item with a pick up trigger and player is
-//			//not holding control, then check if it is being pulled
-//			//before adding to inventory
-			if ( IsBeingPulled ) {
-				//todo track picking up/unexpected moves on server to break pull, PickUpTrigger events?
-//				StopFollowingClient();
-			}
-		}
-	}
 
 	[Server]
 	public bool StartFollowing( PushPull attachTo ) {
@@ -128,6 +94,7 @@ public class PushPull : VisibleBehaviour {
 		if ( PlayerScript.IsInReach( attachTo.registerTile.WorldPosition, this.registerTile.WorldPosition )
 		     && attachTo != this && !attachTo.IsBeingPulled )
 		{
+			Logger.LogTraceFormat( "{0} started following {1}", Category.PushPull, this.gameObject.name, attachTo.gameObject.name );
 			AttachedTo = attachTo;
 			return true;
 		}
@@ -135,13 +102,57 @@ public class PushPull : VisibleBehaviour {
 		return false;
 	}
 	[Server]
-	public bool StopFollowing() {
+	public void StopFollowing() {
 		if ( IsBeingPulled ) {
-			AttachedTo.ReleaseControl();
+			AttachedTo.ControlledObject = null;
 		}
+		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, AttachedTo?.gameObject.name );
 		AttachedTo = null;
-		return true;
 	}
+
+	//fixme: this only gets called after item is interacted with once
+	public virtual void OnMouseDown()
+	{
+		//if control clicking
+		if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)) {
+			TryPullThis();
+		} else {
+//			//If this is an item with a pick up trigger and player is
+//			//not holding control, then check if it is being pulled
+//			//before adding to inventory
+			if ( IsBeingPulled ) {
+//				StopFollowingClient();
+			}
+		}
+	}
+
+	public void TryPullThis() {
+		var initiator = PlayerManager.LocalPlayerScript.pushPull;
+		//client pre-validation
+		if ( PlayerScript.IsInReach( initiator.registerTile.WorldPosition, this.registerTile.WorldPosition )
+		     && initiator != this && !initiator.IsBeingPulled ) {
+			PushPull pullingObject = initiator.ControlledObject;
+			if ( pullingObject ) {
+				//client request: stop pulling
+				initiator.CmdStopPulling();
+				//Just stopping pulling of object if we ctrl+click it again
+				if ( pullingObject == this ) {
+					return;
+				}
+			}
+
+			//client request: start pulling
+			initiator.CmdPullObject( gameObject );
+
+			//Predictive pull:
+//				if (customNetTransform != null)
+//				{
+//					customNetTransform.enabled = false;
+//				}
+//				p.PlayerSync.PullingObject = gameObject;
+		}
+	}
+
 //	public void CancelPullBehaviour()
 //	{
 //		if (pulledBy == PlayerManager.LocalPlayer) {
@@ -306,18 +317,10 @@ public class PushPull : VisibleBehaviour {
 		{
 			return false;
 		}
-		//TODO: pull checks
-//		if (pulledBy != null) {
-//			if (pulledBy != PlayerManager.LocalPlayer) {
-//				pulledBy.GetComponent<PlayerNetworkActions>().CmdStopOtherPulling(gameObject);
-//			} else {
-//				pulledBy.GetComponent<PlayerNetworkActions>().CmdStopPulling(gameObject);
-//				PlayerManager.LocalPlayerScript.playerNetworkActions.isPulling = false;
-//				PlayerManager.LocalPlayerScript.PlayerSync.PullingObject = null;
-//			}
-//
-//			pulledBy = null;
-//		}
+
+		if ( IsBeingPulled ) {
+			StopFollowing();
+		}
 
 		bool success = Pushable.Push( dir );
 		if ( success ) {
@@ -462,4 +465,17 @@ public class PushPull : VisibleBehaviour {
 	public void Stop() {
 		Pushable.Stop();
 	}
+
+#if UNITY_EDITOR
+	private static Color color1 = Color.red;
+
+	private void OnDrawGizmos() {
+		if ( !IsBeingPulled ) {
+			return;
+		}
+		Gizmos.color = color1;
+//		GizmoUtils.DrawArrow( registerTile.WorldPosition, AttachedTo.registerTile.WorldPosition, 0.1f );
+		GizmoUtils.DrawArrow( transform.position, AttachedTo.transform.position - transform.position, 0.1f );
+	}
+#endif
 }

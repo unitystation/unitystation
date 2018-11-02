@@ -81,6 +81,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public Vector3IntEvent OnTileReached() => onTileReached;
 	private Vector3IntEvent onClientTileReached = new Vector3IntEvent();
 	public Vector3IntEvent OnClientTileReached() => onClientTileReached;
+	private UnityEvent onPullInterrupt = new UnityEvent();
+	public UnityEvent OnPullInterrupt() => onPullInterrupt;
 
 	private RegisterTile registerTile;
 	private ItemAttributes ItemAttributes {
@@ -287,6 +289,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	[Server]
 	public void DisappearFromWorldServer()
 	{
+		OnPullInterrupt().Invoke();
 		serverState = TransformState.HiddenState;
 		serverLerpState = TransformState.HiddenState;
 		NotifyPlayers();

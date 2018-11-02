@@ -2,19 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public partial class PlayerSync
 {
 	//Server-only fields, don't concern clients in any way
 	private Vector3IntEvent onTileReached = new Vector3IntEvent();
-	public Vector3IntEvent OnTileReached() {
-		return onTileReached;
-	}
+	public Vector3IntEvent OnTileReached() => onTileReached;
 	private Vector3IntEvent onUpdateReceived = new Vector3IntEvent();
-	public Vector3IntEvent OnUpdateRecieved() {
-		return onUpdateReceived;
-	}
+	public Vector3IntEvent OnUpdateRecieved() => onUpdateReceived;
+	private UnityEvent onPullInterrupt = new UnityEvent();
+	public UnityEvent OnPullInterrupt() => onPullInterrupt;
 
 	/// Current server state. Integer positions.
 	private PlayerState serverState;
@@ -369,7 +368,7 @@ public partial class PlayerSync
 
 	private IEnumerator InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false, int i = 0 ) {
 		Logger.LogTraceFormat( (isRecursive ? "Recursive " : "") + "Trying to space push {0}", Category.PushPull, pushable.gameObject );
-		
+
 		if ( !isRecursive )
 		{
 			i = CalculateRequiredPushes( serverState.WorldPosition, pushable.registerTile.WorldPosition, direction );
@@ -379,20 +378,20 @@ public partial class PlayerSync
 		if ( i <= 0 ) yield break;
 
 		Vector2 counterDirection = Vector2.zero - direction;
-		
+
 		pushable.QueuePush( Vector2Int.RoundToInt( counterDirection ) );
 		i--;
 		Logger.LogFormat( "Queued obstacle push. {0} pushes left", Category.Movement, i );
-		
+
 		if ( i <= 0 ) yield break;
-		
+
 		pushPull.QueuePush( Vector2Int.RoundToInt( direction ) );
 		i--;
 		Logger.LogFormat( "Queued player push. {0} pushes left", Category.Movement, i );
-		
 
-		if ( i > 0 ) 
-		{ 
+
+		if ( i > 0 )
+		{
 			StartCoroutine( InteractSpacePushable( pushable, direction, true, i ) );
 		}
 
@@ -539,7 +538,7 @@ public partial class PlayerSync
 			serverLerpState.WorldPosition = targetPos;
 		}
 		if ( serverLerpState.WorldPosition == targetPos ) {
-			onTileReached.Invoke( Vector3Int.RoundToInt(targetPos) );
+			OnTileReached().Invoke( Vector3Int.RoundToInt(targetPos) );
 		}
 		TryNotifyPlayers();
 	}

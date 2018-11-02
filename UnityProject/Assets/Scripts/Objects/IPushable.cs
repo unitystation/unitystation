@@ -10,6 +10,8 @@ public interface IPushable {
 	Vector3IntEvent OnUpdateRecieved();
 	Vector3IntEvent OnTileReached();
 	Vector3IntEvent OnClientTileReached();
+	/// When you need to break pulling of this object
+	UnityEvent OnPullInterrupt();
 	bool CanPredictPush { get; }
 	/// Try stopping object if it's flying
 	void Stop();

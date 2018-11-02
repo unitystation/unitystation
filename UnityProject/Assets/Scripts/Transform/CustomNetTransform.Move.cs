@@ -150,14 +150,14 @@ public partial class CustomNetTransform {
 		//Set position immediately if not moving
 		if ( clientState.Speed.Equals( 0 ) ) {
 			transform.localPosition = targetPos;
-			onClientTileReached.Invoke( Vector3Int.RoundToInt(clientState.WorldPosition) );
+			OnClientTileReached().Invoke( Vector3Int.RoundToInt(clientState.WorldPosition) );
 			return;
 		}
 		transform.localPosition =
 			Vector3.MoveTowards( transform.localPosition, targetPos,
 								 clientState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos) );
 		if ( transform.localPosition == targetPos ) {
-			onClientTileReached.Invoke( Vector3Int.RoundToInt(clientState.WorldPosition) );
+			OnClientTileReached().Invoke( Vector3Int.RoundToInt(clientState.WorldPosition) );
 		}
 	}
 	/// Serverside lerping
@@ -166,7 +166,7 @@ public partial class CustomNetTransform {
 		//Set position immediately if not moving
 		if ( serverState.Speed.Equals( 0 ) ) {
 			serverLerpState = serverState;
-			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
+			OnTileReached().Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
 			return;
 		}
 		serverLerpState.Position =
@@ -174,7 +174,7 @@ public partial class CustomNetTransform {
 								 serverState.Speed * Time.deltaTime * serverLerpState.Position.SpeedTo(targetPos) );
 
 		if ( serverLerpState.Position == targetPos ) {
-			onTileReached.Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
+			OnTileReached().Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
 		}
 	}
 

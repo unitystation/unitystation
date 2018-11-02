@@ -181,7 +181,7 @@ public partial class PlayerSync
 
 		/// Called when PlayerMoveMessage is received
 		public void UpdateClientState( PlayerState state ) {
-			onUpdateReceived.Invoke( Vector3Int.RoundToInt( state.WorldPosition ) );
+			OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( state.WorldPosition ) );
 
 			playerState = state;
 			if ( !isLocalPlayer ) {

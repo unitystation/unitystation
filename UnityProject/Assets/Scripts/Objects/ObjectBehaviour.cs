@@ -12,9 +12,8 @@ public class ObjectBehaviour : PushPull
 	//Please expose any properties you need in there
 
 	[ContextMethod("Drag","Drag_Hand")]
-	public void GUIOnMouseDown()
-	{
-		OnMouseDown();
+	public void GUIOnMouseDown() {
+		TryPullThis();
 	}
 
 	public override void OnVisibilityChange(bool state)
