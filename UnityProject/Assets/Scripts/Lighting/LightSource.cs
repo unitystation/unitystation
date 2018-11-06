@@ -34,6 +34,8 @@
 		private SpriteRenderer Renderer;
 		private bool tempStateCache;
 
+		public Color customColor; //Leave null if you want default light color.
+
 		// For network sync reliability.
 		private bool waitToCheckState;
 
@@ -97,9 +99,15 @@
 		private void Awake()
 		{
 			Renderer = GetComponentInChildren<SpriteRenderer>();
-
-			// Slight color variance.
-			Color _color = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f); //+ UnityEngine.Random.ColorHSV() * 0.3f;
+		Color _color;
+		if (customColor == null)
+		{
+			_color = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f);
+		}
+		else
+		{
+			_color = customColor;
+		}
 
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, _color, 12);
 
