@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114838662630386526}
   - component: {fileID: 114065967972627576}
   - component: {fileID: 114088428860614764}
+  - component: {fileID: 114694480355599990}
   m_Layer: 0
   m_Name: emergency_lights
   m_TagString: Untagged
@@ -39,7 +40,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4213808793575886}
   - component: {fileID: 212947661580411708}
-  - component: {fileID: 114222746009679624}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -85,6 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd47c8a7b3ca4905983be3a08c1caf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  customColor: {r: 1, g: 0, b: 0, a: 0.78431374}
 --- !u!114 &114088428860614764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -132,12 +133,12 @@ MonoBehaviour:
     i15: 254
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114222746009679624
+--- !u!114 &114694480355599990
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1892682482372664}
+  m_GameObject: {fileID: 1275749971873228}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47ee25e15c851c447bd342aa75f7ca2b, type: 3}

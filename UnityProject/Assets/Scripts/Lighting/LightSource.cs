@@ -99,15 +99,16 @@
 		private void Awake()
 		{
 			Renderer = GetComponentInChildren<SpriteRenderer>();
-		Color _color;
-		if (customColor == null)
-		{
+			Color _color;
+			
+			if (customColor == new Color(0, 0, 0, 0))
+			{
 			_color = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f);
-		}
-		else
-		{
-			_color = customColor;
-		}
+			}
+			else
+			{
+				_color = customColor;
+			}
 
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, _color, 12);
 
