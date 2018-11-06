@@ -6,14 +6,19 @@ public class EmergencyLightAnimator : MonoBehaviour {
 
 	// Experimental animator mostly for show, feel free to configure or rewrite this as needed.
 
-	public Sprite[] sprites; //First 4 sprites are the "turned on" sprites, last one is off one.
+	public Sprite[] sprites;
 	
 	public float animateTime = 0.4f;
-	int maxSpriteIndex = 2;
 
-	public bool isOn; //Is turned on (being animated)
+	public bool isOn; //Is turned on (being animated/emissing lights)
 	bool isRunningCR = false; //is running coroutine
 
+	private SpriteRenderer spriteRenderer;
+
+	void Start()
+	{
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+	}
 
 	void Update()
 	{
@@ -27,13 +32,13 @@ public class EmergencyLightAnimator : MonoBehaviour {
 	{
 		isRunningCR = true;
 		int curSpriteIndex = 0;
-		GetComponent<SpriteRenderer>().sprite = sprites[curSpriteIndex];
+		spriteRenderer.sprite = sprites[curSpriteIndex];
 		while(enabled)
 		{
 			yield return new WaitForSeconds(animateTime);
 			curSpriteIndex++;
 			GetComponent<SpriteRenderer>().sprite = sprites[curSpriteIndex];
-			if(curSpriteIndex == maxSpriteIndex)
+			if(curSpriteIndex == sprites.Length)
 			{
 				curSpriteIndex = -1; //Start over
 			}
