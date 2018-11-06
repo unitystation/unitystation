@@ -9,7 +9,7 @@ public class EmergencyLightAnimator : MonoBehaviour {
 	public Sprite[] sprites; //First 4 sprites are the "turned on" sprites, last one is off one.
 	
 	public float animateTime = 0.4f;
-	int maxSpriteIndex = 3;
+	int maxSpriteIndex = 2;
 
 	public bool isOn; //Is turned on (being animated)
 	bool isRunningCR = false; //is running coroutine
