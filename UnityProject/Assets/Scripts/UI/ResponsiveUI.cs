@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -38,6 +38,9 @@ using UnityEngine.SceneManagement;
 			if (!checkingDisplayOnLoad) {
 				StartCoroutine(WaitForDisplay());
 			}
+#if UNITY_EDITOR
+			StartCoroutine( ForceGameWindowAspect() );
+#endif
 		}
 
 		private void OnEnable()
