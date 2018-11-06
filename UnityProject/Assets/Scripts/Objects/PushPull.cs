@@ -103,27 +103,17 @@ public class PushPull : VisibleBehaviour {
 	}
 	[Server]
 	public void StopFollowing() {
-		if ( IsBeingPulled ) {
-			AttachedTo.ControlledObject = null;
+		if ( !IsBeingPulled ) {
+			return;
 		}
-		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, AttachedTo?.gameObject.name );
+		AttachedTo.ControlledObject = null;
 		AttachedTo = null;
+		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, AttachedTo?.gameObject.name );
 	}
 
-	//fixme: this only gets called after item is interacted with once
-	public virtual void OnMouseDown()
+	public virtual void OnCtrlClick()
 	{
-		//if control clicking
-		if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)) {
-			TryPullThis();
-		} else {
-//			//If this is an item with a pick up trigger and player is
-//			//not holding control, then check if it is being pulled
-//			//before adding to inventory
-			if ( IsBeingPulled ) {
-//				StopFollowingClient();
-			}
-		}
+		TryPullThis();
 	}
 
 	public void TryPullThis() {

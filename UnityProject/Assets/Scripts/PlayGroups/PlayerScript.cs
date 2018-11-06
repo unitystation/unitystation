@@ -316,12 +316,12 @@ public class PlayerScript : ManagedNetworkBehaviour
 		}
 
 		//Tooltips inspector bar
-		public void OnMouseEnter()
+		public void OnHoverStart()
 		{
 			UIManager.SetToolTip = name;
 		}
 
-		public void OnMouseExit()
+		public void OnHoverEnd()
 		{
 			UIManager.SetToolTip = "";
 		}
