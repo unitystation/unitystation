@@ -35,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1275749971873228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50.92981, y: 23.623413, z: 0}
+  m_LocalPosition: {x: 51.285034, y: 23.53601, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -53,11 +53,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300008, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
+  - {fileID: 21300002, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
+  - {fileID: 21300000, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
+  - {fileID: 21300004, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   - {fileID: 21300000, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   - {fileID: 21300002, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
-  - {fileID: 21300004, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
-  - {fileID: 21300006, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   animateTime: 0.4
   isOn: 0
 --- !u!212 &212552901881477478
@@ -103,6 +103,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
