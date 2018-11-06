@@ -19,6 +19,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4486458079919614}
+  - component: {fileID: 114130103649152614}
+  - component: {fileID: 114838662630386526}
   m_Layer: 0
   m_Name: emergency_lights
   m_TagString: Untagged
@@ -70,6 +72,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114130103649152614
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1275749971873228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 115
+    i1: 93
+    i2: 80
+    i3: 69
+    i4: 60
+    i5: 127
+    i6: 192
+    i7: 84
+    i8: 89
+    i9: 145
+    i10: 88
+    i11: 102
+    i12: 167
+    i13: 44
+    i14: 188
+    i15: 254
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114222746009679624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,10 +119,22 @@ MonoBehaviour:
   - {fileID: 21300002, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   - {fileID: 21300000, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   - {fileID: 21300004, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
-  - {fileID: 21300000, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
-  - {fileID: 21300002, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   animateTime: 0.4
   isOn: 0
+--- !u!114 &114838662630386526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1275749971873228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectType: 1
+  AtmosPassable: 1
+  Passable: 1
 --- !u!212 &212947661580411708
 SpriteRenderer:
   m_ObjectHideFlags: 1
