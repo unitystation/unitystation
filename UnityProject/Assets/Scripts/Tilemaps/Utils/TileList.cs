@@ -5,30 +5,30 @@ using UnityEngine;
 
 	public class TileList
 	{
-		private readonly Dictionary<Vector3Int, List<RegisterTile>> _objects =
+		private readonly Dictionary<Vector3Int, List<RegisterTile>> objects =
 			new Dictionary<Vector3Int, List<RegisterTile>>();
 
-		public List<RegisterTile> AllObjects => _objects.Values.SelectMany(x => x).ToList();
+		public IEnumerable<RegisterTile> AllObjects => objects.Values.SelectMany(x => x).ToList();
 
 		public void Add(Vector3Int position, RegisterTile obj)
 		{
-			if (!_objects.ContainsKey(position))
+			if (!objects.ContainsKey(position))
 			{
-				_objects[position] = new List<RegisterTile>();
+				objects[position] = new List<RegisterTile>();
 			}
 
-			if (!_objects[position].Contains(obj))
+			if (!objects[position].Contains(obj))
 			{
-				_objects[position].Add(obj);
+				objects[position].Add(obj);
 			}
 		}
 
 		public List<RegisterTile> Get(Vector3Int position)
 		{
-			return _objects.ContainsKey(position) ? _objects[position] : new List<RegisterTile>();
+			return objects.ContainsKey(position) ? objects[position] : new List<RegisterTile>();
 		}
 
-		public List<RegisterTile> Get(Vector3Int position, ObjectType type)
+		public IEnumerable<RegisterTile> Get(Vector3Int position, ObjectType type)
 		{
 			return Get(position).Where(x => x.ObjectType == type).ToList();
 		}
@@ -50,15 +50,15 @@ using UnityEngine;
 
 		public void Remove(Vector3Int position, RegisterTile obj = null)
 		{
-			if (_objects.ContainsKey(position))
+			if (objects.ContainsKey(position))
 			{
 				if (obj == null)
 				{
-					_objects[position].Clear();
+					objects[position].Clear();
 				}
 				else
 				{
-					_objects[position].Remove(obj);
+					objects[position].Remove(obj);
 				}
 			}
 		}

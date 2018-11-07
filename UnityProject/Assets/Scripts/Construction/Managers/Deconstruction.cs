@@ -52,7 +52,7 @@ public class Deconstruction : MonoBehaviour
 
 	private void DoWallDeconstruction(Vector3Int cellPos, TileChangeManager tcm, Vector3 worldPos)
 	{
-		tcm.RemoveTile(cellPos, TileChangeLayer.Wall);
+		tcm.RemoveTile(cellPos, LayerType.Walls);
 		PlaySoundMessage.SendToAll("Deconstruct", worldPos, 1f);
 
 		//Spawn 4 metal sheets:

@@ -152,7 +152,9 @@ public abstract class HealthBehaviour : NetworkBehaviour
 	{
 	}
 
-	protected abstract void OnDeathActions();
+	protected virtual void OnDeathActions()
+	{
+	}
 }
 
 public static class HealthThreshold

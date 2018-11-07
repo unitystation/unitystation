@@ -58,7 +58,6 @@ public class TileTrigger : InputTrigger
 
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
-
 		DetermineTileAction(originator, position, hand);
 	}
 
@@ -82,56 +81,64 @@ public class TileTrigger : InputTrigger
 			return;
 		}
 
-		if (tile?.TileType == TileType.Table)
+		if (tile != null)
 		{
-			Vector3 targetPosition = position;
-			targetPosition.z = -0.2f;
-			pna.CmdPlaceItem(hand, targetPosition, originator, true);
-		}
-
-		if (tile?.TileType == TileType.Floor)
-		{
-			//Crowbar
-			if (handObj.GetComponent<CrowbarTrigger>())
+			switch (tile.TileType)
 			{
-				pna.CmdCrowBarRemoveFloorTile(originator, TileChangeLayer.Floor,
-					new Vector2(cellPos.x, cellPos.y), position);
-			}
-		}
-
-		if (tile?.TileType == TileType.Base)
-		{
-			if (handObj.GetComponent<UniFloorTile>())
-			{
-				pna.CmdPlaceFloorTile(originator,
-					new Vector2(cellPos.x, cellPos.y), handObj);
-			}
-		}
-
-		if (tile?.TileType == TileType.Window)
-		{
-			//Check Melee:
-			MeleeTrigger melee = windowTileMap.gameObject.GetComponent<MeleeTrigger>();
-			melee?.MeleeInteract(originator, hand);
-		}
-
-		if (tile?.TileType == TileType.Grill)
-		{
-			//Check Melee:
-			MeleeTrigger melee = grillTileMap.gameObject.GetComponent<MeleeTrigger>();
-			melee?.MeleeInteract(originator, hand);
-		}
-
-		if (tile?.TileType == TileType.Wall)
-		{
-			var welder = handObj.GetComponent<Welder>();
-			if (welder)
-			{
-				if (welder.isOn)
+				case TileType.Table:
 				{
-					//Request to deconstruct from the server:
-					RequestTileDeconstructMessage.Send(originator, gameObject, TileType.Wall,
-						cellPos, position);
+					Vector3 targetPosition = position;
+					targetPosition.z = -0.2f;
+					pna.CmdPlaceItem(hand, targetPosition, originator, true);
+					break;
+				}
+				case TileType.Floor:
+				{
+					//Crowbar
+					if (handObj.GetComponent<CrowbarTrigger>())
+					{
+						pna.CmdCrowBarRemoveFloorTile(originator, LayerType.Floors,
+							new Vector2(cellPos.x, cellPos.y), position);
+					}
+
+					break;
+				}
+				case TileType.Base:
+				{
+					if (handObj.GetComponent<UniFloorTile>())
+					{
+						pna.CmdPlaceFloorTile(originator,
+							new Vector2(cellPos.x, cellPos.y), handObj);
+					}
+
+					break;
+				}
+				case TileType.Window:
+				case TileType.Grill:
+				{
+					//Check Melee:
+					MeleeTrigger melee = grillTileMap.gameObject.GetComponent<MeleeTrigger>();
+					if (melee != null)
+					{
+						melee.MeleeInteract(originator, hand);
+					}
+
+					break;
+				}
+				case TileType.Wall:
+				{
+					var welder = handObj.GetComponent<Welder>();
+					if (welder)
+					{
+						if (welder.isOn)
+						{
+							//Request to deconstruct from the server:
+							RequestTileDeconstructMessage.Send(originator, gameObject, TileType.Wall,
+								cellPos, position);
+						}
+					}
+
+					break;
 				}
 			}
 		}

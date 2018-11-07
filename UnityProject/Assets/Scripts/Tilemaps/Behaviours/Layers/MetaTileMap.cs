@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -21,8 +22,8 @@ using UnityEngine;
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
-			
-			return _IsPassableAt(origin, toX) && _IsPassableAt(toX, to) || 
+
+			return _IsPassableAt(origin, toX) && _IsPassableAt(toX, to) ||
 			        _IsPassableAt(origin, toY) && _IsPassableAt(toY, to);
 		}
 
@@ -38,7 +39,7 @@ using UnityEngine;
 
 			return true;
 		}
-		
+
 		//TODO:  Remove this
 		public bool IsPassableAt(Vector3Int position)
 		{
@@ -49,10 +50,10 @@ using UnityEngine;
 					return false;
 				}
 			}
-			
+
 			return true;
 		}
-		
+
 		//TODO:  Refactor to take origin and destination
 		public bool IsAtmosPassableAt(Vector3Int position)
 		{
@@ -81,6 +82,11 @@ using UnityEngine;
 		public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
 		{
 			Layers[tile.LayerType].SetTile(position, tile, transformMatrix);
+		}
+
+		public void SetTile(Vector3Int position, LayerTile tile)
+		{
+			Layers[tile.LayerType].SetTile(position, tile, Matrix4x4.identity);
 		}
 
 		public LayerTile GetTile(Vector3Int position, LayerType layerType)
@@ -121,18 +127,23 @@ using UnityEngine;
 			return Layers[layerType].HasTile(position);
 		}
 
-		public void RemoveTile(Vector3Int position, LayerType refLayer)
+		public void RemoveTiles(Vector3Int position, LayerType refLayer)
 		{
 			foreach (Layer layer in Layers.Values)
 			{
 				if (layer.LayerType < refLayer &&
-				    !(refLayer == LayerType.Objects && 
-					layer.LayerType == LayerType.Floors) &&
-					refLayer != LayerType.Grills)
+				    !(refLayer == LayerType.Objects &&
+				      layer.LayerType == LayerType.Floors) &&
+				    refLayer != LayerType.Grills)
 				{
 					layer.RemoveTile(position);
 				}
 			}
+		}
+
+		public void RemoveTile(Vector3Int position, LayerType refLayer, bool removeAll=false)
+		{
+			Layers[refLayer].RemoveTile(position, removeAll);
 		}
 
 		public void ClearAllTiles()
@@ -155,10 +166,15 @@ using UnityEngine;
 				minPosition = Vector3Int.Min(layerBounds.min, minPosition);
 				maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);
 			}
-			
+
 			return new BoundsInt(minPosition, maxPosition-minPosition);
 		}
-		
+
+		public Vector3Int WorldToCell(Vector3 worldPosition)
+		{
+			return Layers.First().Value.WorldToCell(worldPosition);
+		}
+
 
 #if UNITY_EDITOR
 		public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)

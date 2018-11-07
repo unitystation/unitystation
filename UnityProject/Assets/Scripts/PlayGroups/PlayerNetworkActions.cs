@@ -390,8 +390,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (isTileMap)
 			{
-				var tileChangeManager = newParent.GetComponentInParent<TileChangeManager>();
-				item.transform.parent = tileChangeManager.ObjectParent.transform;
+				TileChangeManager tileChangeManager = newParent.GetComponentInParent<TileChangeManager>();
+//				item.transform.parent = tileChangeManager.ObjectParent.transform; TODO
 			}
 			else
 			{

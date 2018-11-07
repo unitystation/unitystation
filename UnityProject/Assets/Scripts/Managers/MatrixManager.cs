@@ -165,7 +165,7 @@ public class MatrixManager : MonoBehaviour
 
 	public override string ToString()
 	{
-		return $"MatrixManager: {String.Join(",\n", activeMatrices)}";
+		return $"MatrixManager: {string.Join(",\n", activeMatrices)}";
 	}
 
 	/// Get MatrixInfo by matrix id

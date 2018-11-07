@@ -33,14 +33,14 @@ using UnityEngine;
 			return Objects.Get(position).Count > 0 || base.HasTile(position);
 		}
 
-		public override void RemoveTile(Vector3Int position)
+		public override void RemoveTile(Vector3Int position, bool removeAll=false)
 		{
 			foreach (RegisterTile obj in Objects.Get(position).ToArray())
 			{
 				DestroyImmediate(obj.gameObject);
 			}
 
-			base.RemoveTile(position);
+			base.RemoveTile(position, removeAll);
 		}
 
 		public override bool IsPassableAt(Vector3Int origin, Vector3Int to)

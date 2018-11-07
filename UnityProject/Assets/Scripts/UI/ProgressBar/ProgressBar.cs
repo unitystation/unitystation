@@ -167,7 +167,7 @@ public class FinishProgressAction
 		//Add whatever else you need here
 	}
 
-	private FinishProgressAction.Action actionType;
+	private Action actionType;
 
 	//Tile change stuff:
 	private TileChangeManager tileChangeManager;
@@ -178,7 +178,7 @@ public class FinishProgressAction
 	private GameObject originator;
 
 	//Create a constructor for each new use type of FinishProgressAction (i.e you might add an Action type called HandCuff)
-	public FinishProgressAction(FinishProgressAction.Action action, TileChangeManager _tileChangeManager,
+	public FinishProgressAction(Action action, TileChangeManager _tileChangeManager,
 		TileType _tileType, Vector3 _cellPos, Vector3 _worldPos, GameObject _originator)
 	{
 		actionType = action;

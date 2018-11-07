@@ -1,7 +1,9 @@
 namespace Atmospherics
 {
-	public class Reaction
+	public interface Reaction
 	{
-		
+		bool Satisfies(GasMix gasMix);
+
+		void React();
 	}
 }

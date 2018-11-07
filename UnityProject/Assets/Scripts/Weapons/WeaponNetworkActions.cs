@@ -74,20 +74,21 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		var weapon = playerScript.playerNetworkActions.Inventory[slot];
+		GameObject weapon = playerScript.playerNetworkActions.Inventory[slot];
 		ItemAttributes weaponAttr = weapon.GetComponent<ItemAttributes>();
 
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
 		if (layerType != LayerType.None)
 		{
-			var tileChangeManager = victim.GetComponent<TileChangeManager>();
+			TileChangeManager tileChangeManager = victim.GetComponent<TileChangeManager>();
+			MetaTileMap metaTileMap = victim.GetComponent<MetaTileMap>();
 			if (tileChangeManager == null)
 			{
 				return;
 			}
 
 			//Tilemap stuff:
-			var tileMapDamage = tileChangeManager.GetTilemap(layerType).gameObject.GetComponent<TilemapDamage>();
+			var tileMapDamage = metaTileMap.Layers[layerType].GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
 				//Wire cutters should snip the grills instead:

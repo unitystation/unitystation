@@ -5,7 +5,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 {
 	[Command]
 	public void CmdCrowBarRemoveFloorTile(GameObject originator,
-		TileChangeLayer layer, Vector3 cellPos, Vector3 worldPos)
+		LayerType layer, Vector3 cellPos, Vector3 worldPos)
 	{
 		TileChangeManager tm = originator.GetComponentInParent<TileChangeManager>();
 		if (tm == null)
@@ -16,7 +16,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		tm.RemoveTile(Vector3Int.RoundToInt(cellPos), layer);
 
-		CraftingManager.Construction.SpawnFloorTile(Vector3Int.RoundToInt(worldPos), tm.ObjectParent.transform);
+		CraftingManager.Construction.SpawnFloorTile(Vector3Int.RoundToInt(worldPos), null); // TODO parent ?
 		RpcPlayerSoundAtPos("Crowbar", transform.position, true);
 	}
 
@@ -30,8 +30,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Logger.LogError("TileChangeManager not found", Category.Construction);
 			return;
 		}
-		var floorTile = tileToPlace.GetComponent<UniFloorTile>();
-		tm.ChangeTile(floorTile.FloorTileType,Vector3Int.RoundToInt(cellPos), TileChangeLayer.Floor);
+		UniFloorTile floorTile = tileToPlace.GetComponent<UniFloorTile>();
+
+		tm.UpdateTile(Vector3Int.RoundToInt(cellPos), TileType.Floor, floorTile.FloorTileType );
+
 		Consume(tileToPlace);
 		RpcPlayerSoundAtPos("Deconstruct", transform.position, false);
 	}

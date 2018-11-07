@@ -12,6 +12,8 @@ using UnityEngine.Tilemaps;
 
 		public BoundsInt Bounds => tilemap.cellBounds;
 
+		public Vector3Int WorldToCell(Vector3 pos) => tilemap.WorldToCell(pos);
+
 		public void Awake()
 		{
 			tilemap = GetComponent<Tilemap>();
@@ -88,9 +90,25 @@ using UnityEngine.Tilemaps;
 			return GetTile(position);
 		}
 
-		public virtual void RemoveTile(Vector3Int position)
+		public virtual void RemoveTile(Vector3Int position, bool removeAll=false)
 		{
-			tilemap.SetTile(position, null);
+			if (removeAll)
+			{
+				position.z = 0;
+
+				while (tilemap.HasTile(position))
+				{
+					tilemap.SetTile(position, null);
+
+					position.z--;
+				}
+			}
+			else
+			{
+				tilemap.SetTile(position, null);
+			}
+
+			position.z = 0;
 			subsystemManager.UpdateAt(position);
 		}
 
