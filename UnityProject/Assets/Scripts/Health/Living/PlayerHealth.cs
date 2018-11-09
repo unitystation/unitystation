@@ -228,15 +228,16 @@ public class PlayerHealth : HealthBehaviour
 				killerName = PlayerList.Instance.Get(LastDamagedBy).Name;
 			}
 
-			if (killerName == player.Name)
+			string playerName = player.Name ?? "dummy";
+			if (killerName == playerName)
 			{
-				PostToChatMessage.Send(player.Name + " commited suicide", ChatChannel.System); //Killfeed
+				PostToChatMessage.Send(playerName + " commited suicide", ChatChannel.System); //Killfeed
 			}
-			else if (killerName.EndsWith(player.Name))
+			else if (killerName.EndsWith(playerName))
 			{
 				// chain reactions
 				PostToChatMessage.Send(
-					player.Name + " screwed himself up with some help (" + killerName + ")",
+					playerName + " screwed himself up with some help (" + killerName + ")",
 					ChatChannel.System); //Killfeed
 			}
 			else
