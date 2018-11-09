@@ -19,11 +19,11 @@ public class Rightclick : MonoBehaviour {
 		public string Title;
 	}
 	public Dictionary<string,int> MenuOrder = new Dictionary<string,int>(){
-		["Examine"] = 1, 
+		["Examine"] = 1,
 		["Pick Up"] = 2,
-		["Drag"] = 3, 
-		["Open/close"] = 4, 
-		["Unknown"] = 5, 
+		["Pull"] = 3,
+		["Open/close"] = 4,
+		["Unknown"] = 5,
 	};
 
 	public Dictionary<string, Sprite> SpriteDictionary = new Dictionary<string, Sprite>()	{	};
@@ -37,7 +37,7 @@ public class Rightclick : MonoBehaviour {
 		public MethodInfo Method;
 		public MonoBehaviour Mono;
 	}
-		
+
 
 	void Awake(){
 		if(ins == null){
@@ -45,7 +45,7 @@ public class Rightclick : MonoBehaviour {
 		} else {
 			Destroy(this);
 		}
-	
+
 		//Make sure to add your sprite on load
 		SpriteDictionary ["hand"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "hand");
 		SpriteDictionary ["Magnifying_glass"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Magnifying_glass");
@@ -68,7 +68,7 @@ public class Rightclick : MonoBehaviour {
 			}
 
 		}
-		
+
 	}
 	private void Generate(List<GameObject> objects){
 		options = new List<Menu> ();
@@ -98,13 +98,13 @@ public class Rightclick : MonoBehaviour {
 				foreach (MethodInfo method in monoType.GetMethods(BindingFlags.Public | BindingFlags.Instance)) {
 					var attributes = method.GetCustomAttributes(typeof(ContextMethod), true);
 					if (attributes.Length > 0) {
-						
+
 						//Logger.Log("Script: " + mono + " Method: " + method.ToString(), Category.UI);
 						//Logger.Log (method.ToString (), Category.UI);
 						Menu NewSubMenu = new Menu();
 						ContextMethod contextMethodMenu = (ContextMethod)method.GetCustomAttributes (typeof(ContextMethod), true)[0];
 						NewSubMenu.colour = Color.gray;
-						NewSubMenu.Item = objects[i];			
+						NewSubMenu.Item = objects[i];
 						NewSubMenu.title = contextMethodMenu.ButtonTitle;
 						NewSubMenu.sprite =  SpriteDictionary[contextMethodMenu.SpriteName];
 						NewSubMenu.Mono = mono;

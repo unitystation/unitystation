@@ -16,6 +16,7 @@ public static class Logger
 		[Category.Movement] = Level.Trace,
 		[Category.DmMetadata] = Level.Off,
 		[Category.Light2D] = Level.Off,
+		[Category.RightClick] = Level.Off,
 		[Category.PushPull] = Level.Trace,
 	};
 
@@ -169,5 +170,6 @@ public enum Category {
 	TileMaps,
 	Construction,
 	DatabaseAPI,
-	PlayerSprites
+	PlayerSprites,
+	RightClick
 }
