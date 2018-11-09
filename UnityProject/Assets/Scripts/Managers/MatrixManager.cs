@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -153,15 +153,19 @@ public class MatrixManager : MonoBehaviour
 	///Finding all matrices
 	private void InitMatrices()
 	{
-		Matrix[] findMatrices = FindObjectsOfType<Matrix>();
-		if (findMatrices.Length < matrixCount)
+		List<Matrix> findMatrices = FindObjectsOfType<Matrix>().ToList();
+		if ( spaceMatrix ) {
+			findMatrices.Remove( spaceMatrix );
+			findMatrices.Insert( 0, spaceMatrix );
+		}
+		if (findMatrices.Count < matrixCount)
 		{
 //			Logger.Log( "Matrix init failure, will try in 0.5" );
 			StartCoroutine(WaitForLoad());
 			return;
 		}
 
-		for (int i = 0; i < findMatrices.Length; i++)
+		for (int i = 0; i < findMatrices.Count; i++)
 		{
 			MatrixInfo matrixInfo = new MatrixInfo
 			{
@@ -175,15 +179,7 @@ public class MatrixManager : MonoBehaviour
 			};
 			if (!activeMatrices.Contains(matrixInfo))
 			{
-				//Space matrix has to go at index 0 in list
-				if (findMatrices[i] == spaceMatrix)
-				{
-					activeMatrices.Insert(0, matrixInfo);
-				}
-				else
-				{
-					activeMatrices.Add(matrixInfo);
-				}
+				activeMatrices.Add(matrixInfo);
 			}
 		}
 
