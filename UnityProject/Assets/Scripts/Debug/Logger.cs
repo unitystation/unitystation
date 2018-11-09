@@ -18,6 +18,7 @@ public static class Logger
 		[Category.Light2D] = Level.Off,
 		[Category.RightClick] = Level.Off,
 		[Category.PushPull] = Level.Trace,
+		[Category.PlayerSprites] = Level.Error,
 	};
 
 	private enum Level{

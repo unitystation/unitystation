@@ -18,6 +18,7 @@ public partial class PlayerSync
 
 		/// Client predicted state
 		private PlayerState predictedState;
+		private PlayerState ghostPredictedState;
 
 		private Queue<PlayerAction> pendingActions;
 		private Vector2 lastDirection;
@@ -38,7 +39,7 @@ public partial class PlayerSync
 		private bool ClientPositionReady => ( Vector2 ) predictedState.Position == ( Vector2 ) transform.localPosition;
 
 		/// Does ghosts's transform pos match state pos? Ignores Z-axis.
-		private bool GhostPositionReady => ( Vector2 ) predictedState.WorldPosition == ( Vector2 ) playerScript.ghost.transform.position;
+		private bool GhostPositionReady => ( Vector2 ) ghostPredictedState.WorldPosition == ( Vector2 ) playerScript.ghost.transform.position;
 
 		private bool IsWeightlessClient => !playerMove.isGhost && MatrixManager.IsFloatingAt( gameObject, Vector3Int.RoundToInt(predictedState.WorldPosition) );
 		public bool IsNonStickyClient => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
@@ -159,18 +160,24 @@ public partial class PlayerSync
 			} else {
 				//redraw prediction point from received serverState using pending actions
 				PlayerState tempState = playerState;
-				int curPredictedMove = predictedState.MoveNumber;
+				var state = playerMove.isGhost ? ghostPredictedState : predictedState;
+				int curPredictedMove = state.MoveNumber;
 
 				foreach ( PlayerAction action in pendingActions ) {
 					//isReplay determines if this action is a replayed action for use in the prediction system
-					bool isReplay = predictedState.MoveNumber < curPredictedMove;
+					bool isReplay = state.MoveNumber < curPredictedMove;
 					var nextState = NextStateClient( tempState, action, isReplay );
 
 					tempState = nextState;
 
 //					Logger.LogTraceFormat("Client generated {0}", Category.Movement, tempState);
 				}
-				predictedState = tempState;
+
+				if ( playerMove.isGhost ) {
+					ghostPredictedState = tempState;
+				} else {
+					predictedState = tempState;
+				}
 			}
 		}
 
@@ -280,12 +287,10 @@ public partial class PlayerSync
 		///Lerping; simulating space walk by server's orders or initiate/stop them on client
 		///Using predictedState for your own player and playerState for others
 		private void CheckMovementClient() {
-			PlayerState state = predictedState;
-
-			var worldPos = state.WorldPosition;
 
 			if ( !ClientPositionReady ) {
 				//PlayerLerp
+				var worldPos = predictedState.WorldPosition;
 				Vector3 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get( matrix ) );
 				transform.localPosition = Vector3.MoveTowards( transform.localPosition, targetPos,
 																playerMove.speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos) );
@@ -297,6 +302,12 @@ public partial class PlayerSync
 				if ( ClientPositionReady )
 				{
 					onClientTileReached.Invoke( Vector3Int.RoundToInt(worldPos) );
+				}
+			}
+			if ( playerMove.isGhost ) {
+				if ( !GhostPositionReady ) {
+					//fixme: ghosts position isn't getting updated on server
+					GhostLerp( ghostPredictedState );
 				}
 			}
 
@@ -325,7 +336,7 @@ public partial class PlayerSync
 				}
 			}
 			if ( isWeightless ) {
-				if ( state.Impulse == Vector2.zero && LastDirection != Vector2.zero ) {
+				if ( predictedState.Impulse == Vector2.zero && LastDirection != Vector2.zero ) {
 					if ( pendingActions == null || pendingActions.Count == 0 ) {
 //						not initiating predictive spacewalk without queued actions
 						LastDirection = Vector2.zero;
@@ -339,7 +350,7 @@ public partial class PlayerSync
 				//Perpetual floating sim
 				if ( ClientPositionReady ) {
 					//Extending prediction by one tile if player's transform reaches previously set goal
-					Vector3Int newGoal = Vector3Int.RoundToInt( state.Position + (Vector3) state.Impulse );
+					Vector3Int newGoal = Vector3Int.RoundToInt( predictedState.Position + (Vector3) predictedState.Impulse );
 					predictedState.Position = newGoal;
 				}
 			}

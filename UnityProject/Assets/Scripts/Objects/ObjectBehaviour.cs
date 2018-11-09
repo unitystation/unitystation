@@ -11,11 +11,6 @@ public class ObjectBehaviour : PushPull
 	//Inspector is controlled by ObjectBehaviourEditor
 	//Please expose any properties you need in there
 
-	[ContextMethod("Drag","Drag_Hand")]
-	public void GUIOnMouseDown() {
-		TryPullThis();
-	}
-
 	public override void OnVisibilityChange(bool state)
 	{
 		if (registerTile.ObjectType == ObjectType.Player)

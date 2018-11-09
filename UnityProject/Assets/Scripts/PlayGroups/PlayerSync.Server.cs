@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,8 @@ using UnityEngine.Networking;
 public partial class PlayerSync
 {
 	//Server-only fields, don't concern clients in any way
+	private DualVector3IntEvent onStartMove = new DualVector3IntEvent();
+	public DualVector3IntEvent OnStartMove() => onStartMove;
 	private Vector3IntEvent onTileReached = new Vector3IntEvent();
 	public Vector3IntEvent OnTileReached() => onTileReached;
 	private Vector3IntEvent onUpdateReceived = new Vector3IntEvent();
@@ -61,7 +64,7 @@ public partial class PlayerSync
 			{
 				MoveNumber = 0,
 				MatrixId = matrixAtPoint.Id,
-				WorldPosition = worldPos
+				WorldPosition = worldPos,
 			};
 			Logger.LogTraceFormat( "{0}: InitServerState for {1} found matrix {2} resulting in\n{3}", Category.Movement,
 				PlayerList.Instance.Get( gameObject ).Name, worldPos, matrixAtPoint, state );
@@ -86,18 +89,16 @@ public partial class PlayerSync
 			return;
 		}
 
+		if (playerMove.isGhost)
+		{
+			return;
+		}
+
 		//add action to server simulation queue
 		serverPendingActions.Enqueue(action);
 
 		lastAddedAction = action;
 
-		//Do not cache the position if the player is a ghost
-		//or else new players will sync the deadbody with the last pos
-		//of the gost:
-		if (playerMove.isGhost)
-		{
-			return;
-		}
 
 		//Rollback pos and punish player if server queue size is more than max size
 		if (serverPendingActions.Count > maxServerQueue)
@@ -112,8 +113,8 @@ public partial class PlayerSync
 	/// Impulse should be consumed after one tile if indoors,
 	/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space
 	[Server]
-	public bool Push(Vector2Int direction)
-	{
+	public bool Push(Vector2Int direction, float speed = Single.NaN )
+	{ //player speed change not implemented yet
 		if (direction == Vector2Int.zero)		{
 			return false;
 		}
@@ -121,7 +122,8 @@ public partial class PlayerSync
 		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
 		Vector3Int pushGoal = origin + Vector3Int.RoundToInt( (Vector2)direction );
 
-		if ( !MatrixManager.IsPassableAt( origin, pushGoal ) ) {
+		bool ignorePlayers = !float.IsNaN(speed);//temp hack for TryFollow
+		if ( !MatrixManager.IsPassableAt( origin, pushGoal, !ignorePlayers ) ) {
 			return false;
 		}
 
@@ -251,7 +253,7 @@ public partial class PlayerSync
 	[Server]
 	private void TryUpdateServerTarget()
 	{
-		if (serverPendingActions.Count == 0)
+		if (serverPendingActions.Count == 0 || playerMove.isGhost) //ignoring serverside ghost movement for now
 		{
 			return;
 		}
@@ -270,7 +272,12 @@ public partial class PlayerSync
 			return;
 		}
 
-		serverLastDirection = Vector2Int.RoundToInt(nextState.WorldPosition - serverState.WorldPosition);
+		var newPos = nextState.WorldPosition;
+		var oldPos = serverState.WorldPosition;
+		serverLastDirection = Vector2Int.RoundToInt(newPos - oldPos);
+		if ( serverLastDirection != Vector2.zero ) {
+			OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
+		}
 		serverState = nextState;
 		//In case positions already match
 		TryNotifyPlayers();
@@ -478,11 +485,15 @@ public partial class PlayerSync
 			{
 				if ( serverState.ImportantFlightUpdate ) {
 					NotifyPlayers();
-				} else {
+				} else
+				{
+					var oldPos = serverState.WorldPosition;
 					//Extending prediction by one tile if player's transform reaches previously set goal
 					Vector3Int newGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3)serverState.Impulse);
 					serverState.Position = newGoal;
 					ClearQueueServer();
+					var newPos = serverState.WorldPosition;
+					OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 				}
 			}
 		}
@@ -493,6 +504,8 @@ public partial class PlayerSync
 
 		CheckSpaceDamage();
 	}
+
+	public float MoveSpeedServer => playerMove.speed;
 
 	public void Stop() {
 		if ( consideredFloatingServer ) {
@@ -538,7 +551,7 @@ public partial class PlayerSync
 			serverLerpState.WorldPosition = targetPos;
 		}
 		if ( serverLerpState.WorldPosition == targetPos ) {
-			OnTileReached().Invoke( Vector3Int.RoundToInt(targetPos) );
+			OnTileReached().Invoke( targetPos.RoundToInt() );
 		}
 		TryNotifyPlayers();
 	}

@@ -279,11 +279,11 @@ public class PlayerHealth : HealthBehaviour
 				EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large);
 			}
 
-			pna.RpcSpawnGhost();
+			PlayerDeathMessage.Send(gameObject);
+			//syncvars for everyone
 			pm.isGhost = true;
 			pm.allowInput = true;
 			RpcPassBullets(gameObject);
-			PlayerDeathMessage.Send(gameObject);
 
 			//FIXME Remove for next demo
 			pna.RespawnPlayer(10);

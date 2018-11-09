@@ -196,16 +196,11 @@ using UnityEngine.Networking;
 		private void Update() {
 			if ( isLocalPlayer && playerMove != null ) {
 				// If being pulled by another player and you try to break free
-				//TODO Condition to check for handcuffs / straight jacket
-				// (probably better to adjust allowInput or something)
-//				if ( pushPull.pulledBy != null && !playerMove.isGhost ) {
-//					for ( int i = 0; i < playerMove.keyCodes.Length; i++ ) {
-//						if ( Input.GetKey( playerMove.keyCodes[i] ) ) {
-//							playerScript.playerNetworkActions.CmdStopOtherPulling( gameObject );
-//						}
-//					}
-//					return;
-//				}
+				//todo: won't work for clients; change to IsBeingPulledClient / devise client+server PullState struct
+				if ( pushPull.IsBeingPulled && !playerMove.isGhost && playerMove.allowInput && IsPressingMoveButtons ) {
+					pushPull.CmdStopFollowing();
+					return;
+				}
 				if ( ClientPositionReady && !playerMove.isGhost
 				   || GhostPositionReady && playerMove.isGhost ) {
 					DoAction();
@@ -213,6 +208,22 @@ using UnityEngine.Networking;
 			}
 
 			Synchronize();
+		}
+
+		private bool IsPressingMoveButtons
+		{
+			get
+			{
+				for ( int i = 0; i < playerMove.keyCodes.Length; i++ )
+				{
+					if ( Input.GetKey( playerMove.keyCodes[i] ) )
+					{
+						return true;
+					}
+				}
+
+				return false;
+			}
 		}
 
 		private void RegisterObjects() {
@@ -229,99 +240,44 @@ using UnityEngine.Networking;
 				return;
 			}
 
-			if ( !playerMove.isGhost ) {
-				if ( matrix != null ) {
-					//Client zone
-					CheckMovementClient();
-					//Server zone
-					if ( isServer ) {
-						if (serverState.Position != serverLerpState.Position) {
-							ServerLerp();
-						} else {
-							TryUpdateServerTarget();
-						}
-						CheckMovementServer();
+			if ( matrix != null )
+			{
+				//Client zone
+				CheckMovementClient();
+				//Server zone
+				if ( isServer )
+				{
+					if ( serverState.Position != serverLerpState.Position )
+					{
+						ServerLerp();
 					}
-				}
+					else
+					{
+						TryUpdateServerTarget();
+					}
 
-				//Registering
-				if ( registerTile.Position != Vector3Int.RoundToInt( predictedState.Position ) ) {
-					RegisterObjects();
-				}
-			} else {
-				if ( !GhostPositionReady ) { //fixme: ghosts position isn't getting updated on server
-					GhostLerp( predictedState );
+					CheckMovementServer();
 				}
 			}
+
+			//Registering
+			if ( registerTile.Position != Vector3Int.RoundToInt( predictedState.Position ) )
+			{
+				RegisterObjects();
+			}
+		}
+
+		public void OnBecomeGhost()
+		{
+			playerScript.ghost.transform.position = playerState.WorldPosition;
+			ghostPredictedState = playerState;
 		}
 
 		private void GhostLerp( PlayerState state ) {
 			playerScript.ghost.transform.position =
-				Vector3.MoveTowards( playerScript.ghost.transform.position,
-					state.WorldPosition,
-					playerMove.speed * Time.deltaTime );
+				Vector3.MoveTowards( playerScript.ghost.transform.position, state.WorldPosition,
+					playerMove.speed * Time.deltaTime * playerScript.ghost.transform.position.SpeedTo(state.WorldPosition) );
 		}
-
-//		private void PullObject() {
-//			Vector3 proposedPos = Vector3.zero;
-//			if (isLocalPlayer) {
-//				proposedPos = transform.localPosition - (Vector3)LastDirection;
-//			} else {
-//				proposedPos = transform.localPosition - (Vector3)serverLastDirection;
-//			}
-//
-//			Vector3Int pos = Vector3Int.RoundToInt( proposedPos );
-//			if ( matrix.IsPassableAt( pos ) || matrix.ContainsAt( pos, gameObject ) ||
-//			     matrix.ContainsAt( pos, PullingObject ) ) {
-//				//if (isLocalPlayer)
-//				//{
-//				pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - offsetTest;
-//				if(pullJourney < 1.2f){
-//					pullJourney = 1f;
-//				}
-//
-//				if(pullJourney > 1.5f){
-//					pullJourney *= 1.2f;
-//				}
-//				//} else
-//				//{
-//				//	pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
-//				//}
-//				pullPos = proposedPos;
-//				pullPos.z = PullingObject.transform.localPosition.z;
-//				PullingObject.BroadcastMessage( "FaceDirection",
-//					playerSprites.currentDirection,
-//					SendMessageOptions.DontRequireReceiver );
-//			}
-//		}
-
-//		public void PullReset( NetworkInstanceId netID ) {
-//			PullObjectID = netID;
-//
-//			transform.hasChanged = false;
-//			if ( netID == NetworkInstanceId.Invalid ) {
-//				if ( PullingObject != null ) {
-//					pullRegister.UpdatePosition();
-//					//Could be another player
-//					PlayerSync otherPlayerSync = PullingObject.GetComponent<PlayerSync>();
-//					if ( otherPlayerSync != null ) {
-//						CmdSetPositionFromReset( gameObject,
-//							otherPlayerSync.gameObject,
-//							PullingObject.transform.position );
-//					}
-//				}
-//				pullRegister = null;
-//				PullingObject = null;
-//			} else {
-//				PullingObject = ClientScene.FindLocalObject( netID );
-//				PushPull oA = PullingObject.GetComponent<PushPull>();
-//				pullPos = PullingObject.transform.localPosition;
-//				if ( oA != null ) {
-//					oA.pulledBy = gameObject;
-//				}
-//				pullRegister = PullingObject.GetComponent<RegisterTile>();
-//			}
-//		}
 
 		private PlayerState NextState( PlayerState state, PlayerAction action, out bool matrixChanged, bool isReplay = false ) {
 			var newState = state;
@@ -361,11 +317,14 @@ using UnityEngine.Networking;
 		private Vector3 size3 = new Vector3( 0.8f, 0.8f, 0.8f );
 		private Vector3 size4 = new Vector3( 0.7f, 0.7f, 0.7f );
 		private Vector3 size5 = new Vector3( 1.1f, 1.1f, 1.1f );
+		private Vector3 size6 = new Vector3( 0.6f, 0.6f, 0.6f );
 		private Color color1 = Color.red;
 		private Color color2 = DebugTools.HexToColor( "fd7c6e" );//pink
 		private Color color3 = DebugTools.HexToColor( "22e600" );//green
 		private Color color4 = DebugTools.HexToColor( "ebfceb" );//white
 		private Color color5 = DebugTools.HexToColor( "5566ff99" );//blue
+		private Color color6 = DebugTools.HexToColor( "666666" );//grey
+		private static readonly bool drawMoves = true;
 
 		private void OnDrawGizmos() {
 			//serverState
@@ -373,28 +332,35 @@ using UnityEngine.Networking;
 			Vector3 stsPos = serverState.WorldPosition;
 			Gizmos.DrawWireCube( stsPos, size1 );
             GizmoUtils.DrawArrow( stsPos + Vector3.left/2, serverState.Impulse );
-            GizmoUtils.DrawText( serverState.MoveNumber.ToString(), stsPos + Vector3.left/4, 15 );
+			if ( drawMoves ) GizmoUtils.DrawText( serverState.MoveNumber.ToString(), stsPos + Vector3.left/4, 15 );
 
 			//serverLerpState
 			Gizmos.color = color2;
 			Vector3 ssPos = serverLerpState.WorldPosition;
 			Gizmos.DrawWireCube( ssPos, size2 );
             GizmoUtils.DrawArrow( ssPos + Vector3.right/2, serverLerpState.Impulse );
-            GizmoUtils.DrawText( serverLerpState.MoveNumber.ToString(), ssPos + Vector3.right/4, 15 );
+			if ( drawMoves ) GizmoUtils.DrawText( serverLerpState.MoveNumber.ToString(), ssPos + Vector3.right/4, 15 );
 
 			//client predictedState
 			Gizmos.color = color3;
 			Vector3 clientPrediction = predictedState.WorldPosition;
 			Gizmos.DrawWireCube( clientPrediction, size3 );
 			GizmoUtils.DrawArrow( clientPrediction + Vector3.left / 5, predictedState.Impulse );
-			GizmoUtils.DrawText( predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15 );
+			if ( drawMoves ) GizmoUtils.DrawText( predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15 );
+
+			//client ghostState
+			Gizmos.color = color6;
+			Vector3 ghostPrediction = ghostPredictedState.WorldPosition;
+			Gizmos.DrawWireCube( ghostPrediction, size6 );
+//			GizmoUtils.DrawArrow( ghostPrediction + Vector3.left / 5, predictedState.Impulse );
+			if ( drawMoves ) GizmoUtils.DrawText( ghostPredictedState.MoveNumber.ToString(), ghostPrediction + Vector3.up/2, 15 );
 
 			//client playerState
 			Gizmos.color = color4;
 			Vector3 clientState = playerState.WorldPosition;
 			Gizmos.DrawWireCube( clientState, size4 );
 			GizmoUtils.DrawArrow( clientState + Vector3.right / 5, playerState.Impulse );
-			GizmoUtils.DrawText( playerState.MoveNumber.ToString(), clientState + Vector3.right, 15 );
+			if ( drawMoves ) GizmoUtils.DrawText( playerState.MoveNumber.ToString(), clientState + Vector3.right, 15 );
 
 			//registerTile pos
 			Gizmos.color = color5;

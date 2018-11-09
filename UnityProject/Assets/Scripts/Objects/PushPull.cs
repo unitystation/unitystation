@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public class PushPull : VisibleBehaviour {
@@ -17,7 +19,7 @@ public class PushPull : VisibleBehaviour {
 				pushable?.OnUpdateRecieved().AddListener( OnUpdateReceived );
 				pushable?.OnTileReached().AddListener( OnServerTileReached );
 				pushable?.OnClientTileReached().AddListener( OnClientTileReached );
-				pushable?.OnPullInterrupt().AddListener( () => StopFollowing() );
+				pushable?.OnPullInterrupt().AddListener( StopFollowing );
 			}
 			return pushable;
 		}
@@ -27,29 +29,34 @@ public class PushPull : VisibleBehaviour {
 
 	protected override void Awake() {
 		base.Awake();
-		var pushable = Pushable;
+		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
+
+		followAction = (oldPos, newPos) => {
+			if ( oldPos == newPos || oldPos == TransformState.HiddenPos ) {
+				return;
+			}
+			var masterPos = oldPos.To2Int();
+			var currentSlavePos = registerTile.WorldPosition.To2Int();
+			var followDir =  masterPos - currentSlavePos;
+			if ( !TryFollow( registerTile.WorldPosition, followDir, AttachedTo.Pushable.MoveSpeedServer ) ) {
+				StopFollowing();
+			} else {
+				Logger.Log( $"{gameObject.name}: following {AttachedTo.gameObject.name} " +
+							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
+
+			}
+		};
 	}
-
-	#region Push fields
-
-	//Server fields
-	private bool isPushing;
-	private Vector3Int pushTarget = TransformState.HiddenPos;
-	private Queue<Vector2Int> pushRequestQueue = new Queue<Vector2Int>();
-
-	//Client fields
-	private PushState prediction = PushState.None;
-	private ApprovalState approval = ApprovalState.None;
-	private bool CanPredictPush => prediction == PushState.None && Pushable.CanPredictPush;
-	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
-	private Vector3Int lastReliablePos = TransformState.HiddenPos;
-
-	#endregion
 
 	#region Pull Master
 
 	public bool IsPullingSomething => ControlledObject != null;
-	public PushPull ControlledObject;
+
+	private PushPull controlledObject;
+	public PushPull ControlledObject {
+		get { return controlledObject; }
+		private set { controlledObject = value; }
+	}
 
 	/// Client requests to stop pulling any objects
 	[Command]
@@ -58,10 +65,11 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	private void ReleaseControl() {
-		if ( IsPullingSomething ) {
-			ControlledObject.AttachedTo = null;
+		if ( !IsPullingSomething ) {
+			return;
 		}
-		Logger.LogTraceFormat( "{0} stopped controlling {1}", Category.PushPull, this.gameObject.name, ControlledObject?.gameObject.name );
+		Logger.LogTraceFormat( "{0} stopped controlling {1}", Category.PushPull, this.gameObject.name, ControlledObject.gameObject.name );
+		ControlledObject.AttachedTo = null;
 		ControlledObject = null;
 	}
 
@@ -81,13 +89,34 @@ public class PushPull : VisibleBehaviour {
 
 	#region Pull
 
+	private UnityAction<Vector3Int,Vector3Int> followAction;
+
 	public bool IsBeingPulled => AttachedTo != null;
-	public PushPull AttachedTo;
+
+	private PushPull attachedTo;
+	public PushPull AttachedTo {
+		get { return attachedTo; }
+		private set {
+			if ( value == null ) {
+				if ( attachedTo != null ) {
+					attachedTo.Pushable?.OnStartMove().RemoveListener( followAction );
+				}
+			} else {
+				value.Pushable?.OnStartMove().AddListener( followAction );
+			}
+			attachedTo = value;
+		}
+	}
+
 
 	[Server]
 	public bool StartFollowing( PushPull attachTo ) {
 		if ( attachTo == this ) {
 			return false;
+		}
+		//if attached to someone else:
+		if ( IsBeingPulled ) {
+			StopFollowing();
 		}
 		//later: experiment with allowing pulling while being pulled, but add condition against deadlocks
 		//if puller can reach this + not trying to pull himself + not being pulled
@@ -101,14 +130,21 @@ public class PushPull : VisibleBehaviour {
 
 		return false;
 	}
+	/// Client requests to to break free
+	[Command]
+	public void CmdStopFollowing() {
+		//todo validate:	if ( pushPull.IsBeingPulled && !playerMove.isGhost && playerMove.allowInput )
+
+		StopFollowing();
+	}
 	[Server]
 	public void StopFollowing() {
 		if ( !IsBeingPulled ) {
 			return;
 		}
+		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, AttachedTo.gameObject.name );
 		AttachedTo.ControlledObject = null;
 		AttachedTo = null;
-		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, AttachedTo?.gameObject.name );
 	}
 
 	public virtual void OnCtrlClick()
@@ -116,6 +152,7 @@ public class PushPull : VisibleBehaviour {
 		TryPullThis();
 	}
 
+	[ContextMethod("Pull","Drag_Hand")]
 	public void TryPullThis() {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
@@ -142,7 +179,94 @@ public class PushPull : VisibleBehaviour {
 //				p.PlayerSync.PullingObject = gameObject;
 		}
 	}
+	[Server]
+	private bool TryFollow( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
+		if ( isNotPushable || isPushing || Pushable == null )
+		{
+			return false;
+		}
+		Vector3Int currentPos = registerTile.WorldPosition;
+		if ( from != currentPos ) {
+			return false;
+		}
+		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
+		if ( !MatrixManager.IsPassableAt( from, target, false ) ) //non-solid things can be pushed to player tile
+		{
+			return false;
+		}
+		//todo: tilesnap items so they don't keep their weird offset
+		bool success = Pushable.Push( dir, speed );
+		if ( success ) {
+			pushTarget = target;
+//			Logger.LogTraceFormat( "Following {0}->{1}", Category.PushPull, from, target );
+		}
 
+		return success;
+	}
+	#endregion
+
+	#region PlayerSync
+
+	//		private void PullObject() {
+//			Vector3 proposedPos = Vector3.zero;
+//			if (isLocalPlayer) {
+//				proposedPos = transform.localPosition - (Vector3)LastDirection;
+//			} else {
+//				proposedPos = transform.localPosition - (Vector3)serverLastDirection;
+//			}
+//
+//			Vector3Int pos = Vector3Int.RoundToInt( proposedPos );
+//			if ( matrix.IsPassableAt( pos ) || matrix.ContainsAt( pos, gameObject ) ||
+//			     matrix.ContainsAt( pos, PullingObject ) ) {
+//				//if (isLocalPlayer)
+//				//{
+//				pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - offsetTest;
+//				if(pullJourney < 1.2f){
+//					pullJourney = 1f;
+//				}
+//
+//				if(pullJourney > 1.5f){
+//					pullJourney *= 1.2f;
+//				}
+//				//} else
+//				//{
+//				//	pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
+//				//}
+//				pullPos = proposedPos;
+//				pullPos.z = PullingObject.transform.localPosition.z;
+//				PullingObject.BroadcastMessage( "FaceDirection",
+//					playerSprites.currentDirection,
+//					SendMessageOptions.DontRequireReceiver );
+//			}
+//		}
+
+//		public void PullReset( NetworkInstanceId netID ) {
+//			PullObjectID = netID;
+//
+//			transform.hasChanged = false;
+//			if ( netID == NetworkInstanceId.Invalid ) {
+//				if ( PullingObject != null ) {
+//					pullRegister.UpdatePosition();
+//					//Could be another player
+//					PlayerSync otherPlayerSync = PullingObject.GetComponent<PlayerSync>();
+//					if ( otherPlayerSync != null ) {
+//						CmdSetPositionFromReset( gameObject,
+//							otherPlayerSync.gameObject,
+//							PullingObject.transform.position );
+//					}
+//				}
+//				pullRegister = null;
+//				PullingObject = null;
+//			} else {
+//				PullingObject = ClientScene.FindLocalObject( netID );
+//				PushPull oA = PullingObject.GetComponent<PushPull>();
+//				pullPos = PullingObject.transform.localPosition;
+//				if ( oA != null ) {
+//					oA.pulledBy = gameObject;
+//				}
+//				pullRegister = PullingObject.GetComponent<RegisterTile>();
+//			}
+//		}
 //	public void CancelPullBehaviour()
 //	{
 //		if (pulledBy == PlayerManager.LocalPlayer) {
@@ -266,6 +390,21 @@ public class PushPull : VisibleBehaviour {
 //			netTransform.SetPosition(obj.transform.localPosition);
 //		}
 //	}
+	#endregion
+
+	#region Push fields
+
+	//Server fields
+	private bool isPushing;
+	private Vector3Int pushTarget = TransformState.HiddenPos;
+	private Queue<Vector2Int> pushRequestQueue = new Queue<Vector2Int>();
+
+	//Client fields
+	private PushState prediction = PushState.None;
+	private ApprovalState approval = ApprovalState.None;
+	private bool CanPredictPush => prediction == PushState.None && Pushable.CanPredictPush;
+	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
+	private Vector3Int lastReliablePos = TransformState.HiddenPos;
 
 	#endregion
 
@@ -372,11 +511,12 @@ public class PushPull : VisibleBehaviour {
 
 	#region Events
 
-	private void OnServerTileReached( Vector3Int pos ) {
+	private void OnServerTileReached( Vector3Int newPos ) {
+//todo: ignore this most of the time
 //		Logger.LogTraceFormat( "{0}: {1} is reached ON SERVER", Category.PushPull, gameObject.name, pos );
 		isPushing = false;
 		if ( pushTarget != TransformState.HiddenPos &&
-		     pushTarget != pos )
+		     pushTarget != newPos )
 		{
 			//unexpected pos reported by server tile (common in space, space )
 			pushRequestQueue.Clear();
@@ -464,7 +604,6 @@ public class PushPull : VisibleBehaviour {
 			return;
 		}
 		Gizmos.color = color1;
-//		GizmoUtils.DrawArrow( registerTile.WorldPosition, AttachedTo.registerTile.WorldPosition, 0.1f );
 		GizmoUtils.DrawArrow( transform.position, AttachedTo.transform.position - transform.position, 0.1f );
 	}
 #endif

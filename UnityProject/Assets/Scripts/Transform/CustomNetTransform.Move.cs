@@ -34,7 +34,7 @@ public struct ThrowInfo
 
 public partial class CustomNetTransform {
 	private PushPull pushPull;
-	private int PushSpeed = 6;
+	private float DefaultPushSpeed = 6;
 	public PushPull PushPull => pushPull ? pushPull : ( pushPull = GetComponent<PushPull>() );
 
 	/// Containers and other objects meant to be snapped by tile
@@ -65,9 +65,13 @@ public partial class CustomNetTransform {
 	}
 
 	[Server]
-	public bool Push( Vector2Int direction ) {
+	public bool Push( Vector2Int direction, float speed = Single.NaN ) {
 		Vector2 target = ( Vector2 ) serverState.WorldPosition + direction;
-		serverState.Speed = PushSpeed;
+		if ( !float.IsNaN( speed ) && speed > 0 ) {
+			serverState.Speed = speed;
+		} else {
+			serverState.Speed = DefaultPushSpeed;
+		}
 		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
 			serverState.Impulse = direction;
 		}
@@ -79,7 +83,7 @@ public partial class CustomNetTransform {
 	public bool PredictivePush( Vector2Int direction ) {
 //		return false;
 		Vector2 target = ( Vector2 ) clientState.WorldPosition + direction;
-		clientState.Speed = PushSpeed;
+		clientState.Speed = DefaultPushSpeed;
 		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
 			clientState.Impulse = direction;
 		}
@@ -89,6 +93,7 @@ public partial class CustomNetTransform {
 	}
 
 	public bool CanPredictPush => !IsClientLerping;
+	public float MoveSpeedServer => ServerState.speed;
 
 	public void Stop() {
 		StopFloating();
@@ -166,7 +171,7 @@ public partial class CustomNetTransform {
 		//Set position immediately if not moving
 		if ( serverState.Speed.Equals( 0 ) ) {
 			serverLerpState = serverState;
-			OnTileReached().Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
+			OnTileReached().Invoke( serverState.WorldPosition.RoundToInt() );
 			return;
 		}
 		serverLerpState.Position =
@@ -174,7 +179,7 @@ public partial class CustomNetTransform {
 								 serverState.Speed * Time.deltaTime * serverLerpState.Position.SpeedTo(targetPos) );
 
 		if ( serverLerpState.Position == targetPos ) {
-			OnTileReached().Invoke( Vector3Int.RoundToInt(serverState.WorldPosition) );
+			OnTileReached().Invoke( serverState.WorldPosition.RoundToInt() );
 		}
 	}
 

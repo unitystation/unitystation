@@ -365,7 +365,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		equipment.syncEquipSprites[(int)enumA] = spriteRef;
 	}
 
-	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
+	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction,
 	/// otherwise client will forcefully receive update slot messages
 	public void RequestDropItem(string handUUID, bool forceClientInform = true)
 	{
@@ -638,6 +638,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				playerSprites.currentDirection = Orientation.Up;
 			}
 		}
+		playerScript.pushPull.CmdStopPulling();
 	}
 
 	[Command]
@@ -767,7 +768,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
 		//FIXME: remove health and blood changes after TDM
-		//and use this Cmd for healing hunger and applying 
+		//and use this Cmd for healing hunger and applying
 		//food related attributes instead:
 		playerHealth.AddHealth(baseFood.healAmount);
 		playerHealth.BloodLevel += baseFood.healAmount;

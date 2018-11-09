@@ -112,6 +112,9 @@ public class InputController : MonoBehaviour
 		} else {
 			Renderer hitRenderer;
 			if ( RayHit( out hitRenderer ) ) {
+				if ( !hitRenderer ) {
+					return;
+				}
 				hitRenderer.transform.SendMessageUpwards( "OnCtrlClick", SendMessageOptions.DontRequireReceiver );
 			}
 		}

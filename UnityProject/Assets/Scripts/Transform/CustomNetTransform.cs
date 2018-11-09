@@ -39,8 +39,7 @@ public struct TransformState {
 			MatrixInfo matrix = MatrixManager.Get( MatrixId );
 			return MatrixManager.LocalToWorld( Position, matrix );
 		}
-		set
-		{
+		set {
 			if (value == HiddenPos) {
 				Position = HiddenPos;
 			}
@@ -77,6 +76,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		return onUpdateReceived;
 	}
 	/// Isn't invoked in perpetual space flights
+	private DualVector3IntEvent onStartMove = new DualVector3IntEvent();
+	public DualVector3IntEvent OnStartMove() => onStartMove; //todo: invoke for cnt!
 	private Vector3IntEvent onTileReached = new Vector3IntEvent();
 	public Vector3IntEvent OnTileReached() => onTileReached;
 	private Vector3IntEvent onClientTileReached = new Vector3IntEvent();
