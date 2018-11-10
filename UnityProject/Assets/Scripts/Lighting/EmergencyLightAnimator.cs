@@ -33,16 +33,17 @@ public class EmergencyLightAnimator : MonoBehaviour {
 		isRunningCR = true;
 		int curSpriteIndex = 0;
 		spriteRenderer.sprite = sprites[curSpriteIndex];
-		while(enabled)
+		while(isOn)
 		{
 			yield return new WaitForSeconds(animateTime);
 			curSpriteIndex++;
-			GetComponent<SpriteRenderer>().sprite = sprites[curSpriteIndex];
+			
 			if(curSpriteIndex == sprites.Length)
 			{
-				curSpriteIndex = -1; //Start over
+				curSpriteIndex = 0; //Start over
 			}
+			spriteRenderer.sprite = sprites[curSpriteIndex];
 		}
-
+		isRunningCR = false;
 	}
 }

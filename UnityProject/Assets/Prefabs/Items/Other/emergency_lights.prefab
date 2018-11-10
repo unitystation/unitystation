@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 114130103649152614}
   - component: {fileID: 114838662630386526}
   - component: {fileID: 114065967972627576}
-  - component: {fileID: 114088428860614764}
   - component: {fileID: 114694480355599990}
   m_Layer: 0
   m_Name: emergency_lights
@@ -67,7 +66,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1275749971873228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 51, y: 23.5, z: 0}
+  m_LocalPosition: {x: 51, y: 24, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4213808793575886}
@@ -85,22 +84,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd47c8a7b3ca4905983be3a08c1caf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &114088428860614764
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1275749971873228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c71dff50f4f426eaf5ff7e2079f00fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allowKnifeHarvest: 0
-  initialHealth: 100
-  isNotPlayer: 0
-  maxHealth: 100
+  mLightRendererObject: {fileID: 0}
+  customColor: {r: 0.49056602, g: 0.047911465, b: 0.039337847, a: 1}
 --- !u!114 &114130103649152614
 MonoBehaviour:
   m_ObjectHideFlags: 1
