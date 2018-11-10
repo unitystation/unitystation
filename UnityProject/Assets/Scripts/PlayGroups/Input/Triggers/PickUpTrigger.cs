@@ -24,7 +24,7 @@ using UnityEngine.Networking;
 
 			if (!isServer)
 			{
-				UISlotObject uiSlotObject = new UISlotObject(hand, gameObject);
+				UISlotObject uiSlotObject = new UISlotObject(InventoryManager.GetClientUUIDFromSlotName(hand), gameObject);
 
 				//PreCheck
 				if (UIManager.CanPutItemToSlot(uiSlotObject))
@@ -45,21 +45,43 @@ using UnityEngine.Networking;
 				{
 					//Rollback prediction (inform player about item's true state)
 					GetComponent<CustomNetTransform>().NotifyPlayer(originator);
+				} else {
+					OnPickUpServer(originator.GetComponent<NetworkIdentity>().netId);
 				}
 			}
 		}
+		
+		//Broadcast from InventoryManager on server
+		public void OnRemoveFromInventory(){
+			OnDropItemServer();
+		}
+		public virtual void OnPickUpServer(NetworkInstanceId ownerId){}
+		public virtual void OnDropItemServer(){}
 
 		[Server]
-		public bool ValidatePickUp(GameObject originator, string handSlot = null)
+		public virtual bool ValidatePickUp(GameObject originator, string handSlot)
 		{
 			var ps = originator.GetComponent<PlayerScript>();
-			var slotName = handSlot ?? UIManager.Hands.CurrentSlot.eventName;
-			var cnt = GetComponent<CustomNetTransform>();
-			var state = cnt.ServerState;
-			if (SlotUnavailable(ps, slotName))
-			{
+
+			if(ps == null){
 				return false;
 			}
+
+			var targetSlot = InventoryManager.GetSlotFromOriginatorHand(originator, handSlot);
+			if(targetSlot == null){
+				Logger.Log("Slot not found!", Category.Inventory);
+				return false;
+			}
+
+			if(targetSlot.Item != null){
+				Logger.Log("Slot is full!", Category.Inventory);
+				return false;
+			}
+			
+
+			var cnt = GetComponent<CustomNetTransform>();
+			var state = cnt.ServerState;
+
 			if (cnt.IsFloatingServer ? !CanReachFloating(ps, state) : !ps.IsInReach(state.WorldPosition))
 			{
 				Logger.LogWarning($"Not in reach! server pos:{state.WorldPosition} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer})", Category.Security);
@@ -70,7 +92,7 @@ using UnityEngine.Networking;
 
 
 			//set ForceInform to false for simulation
-			return ps.playerNetworkActions.AddItem(gameObject, slotName, false /*, false*/);
+			return ps.playerNetworkActions.AddItemToUISlot(gameObject, targetSlot.SlotName, false /*, false*/);
 		}
 
 		/// <summary>
@@ -79,13 +101,6 @@ using UnityEngine.Networking;
 		private static bool CanReachFloating(PlayerScript ps, TransformState state)
 		{
 			return ps.IsInReach(state.WorldPosition) || ps.IsInReach(state.WorldPosition - (Vector3) state.Impulse, 2f);
-		}
-
-		private static bool SlotUnavailable(PlayerScript ps, string slotName)
-		{
-			return ps == null
-			       || !ps.playerNetworkActions.Inventory.ContainsKey(slotName)
-			       || ps.playerNetworkActions.SlotNotEmpty(slotName);
 		}
 
 		/// <summary>

@@ -41,6 +41,8 @@ GameObject:
   - component: {fileID: 114558280790144458}
   - component: {fileID: 114958218028397826}
   - component: {fileID: 114970301685184636}
+  - component: {fileID: 114285602872890758}
+  - component: {fileID: 114058896383740318}
   m_Layer: 11
   m_Name: nuke
   m_TagString: Untagged
@@ -125,6 +127,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114058896383740318
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1754288526301548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoredSpriteRenderers: []
+  registerTile: {fileID: 0}
+  visibleState: 1
+--- !u!114 &114285602872890758
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1754288526301548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114558280790144458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,8 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
+  PushSpeed: 6
 --- !u!212 &212440471459260278
 SpriteRenderer:
   m_ObjectHideFlags: 1

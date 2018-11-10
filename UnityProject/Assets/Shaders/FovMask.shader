@@ -58,7 +58,7 @@
 			{
 				half4 col = tex2D(_MainTex, i.texcoord); 
 
-				return float4((1 - _FovBlurSwitch) * (1 - _DemaskSwitch), _FovBlurSwitch, 0, 0); 
+				return float4((1 - _FovBlurSwitch) * (1 - _DemaskSwitch) * col.a * col.r * 1000, _FovBlurSwitch, 0, 0); 
 			}
 			ENDCG
 		}

@@ -9,11 +9,8 @@ using UnityEngine;
 
 		public bool Passable = true;
 	
-		public override bool IsPassable(Vector3Int from)
-		{
-			return Passable;
-		}
-		
+		public override bool IsPassable( Vector3Int from ) => Passable;
+
 		public override bool IsPassable()
 		{
 			return Passable;

@@ -52,6 +52,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdUnloadWeapon(GameObject weapon)
 	{
 		Weapon w = weapon.GetComponent<Weapon>();
+
+		var cnt = w.CurrentMagazine?.GetComponent<CustomNetTransform>();
+		if(cnt != null)
+		{
+			cnt.InertiaDrop(transform.position, playerMove.speed, playerScript.PlayerSync.ServerState.Impulse);
+		} else {
+			Logger.Log("Magazine not found for unload weapon", Category.Firearms);
+		}
+
 		NetworkInstanceId networkID = NetworkInstanceId.Invalid;
 		w.MagNetID = networkID;
 	}
@@ -74,7 +83,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		var weapon = playerScript.playerNetworkActions.Inventory[slot];
+		var weapon = playerScript.playerNetworkActions.Inventory[slot].Item;
 		ItemAttributes weaponAttr = weapon.GetComponent<ItemAttributes>();
 
 		// If Tilemap LayerType is not None then it is a tilemap being attacked

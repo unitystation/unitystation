@@ -38,7 +38,7 @@ public class RadialMenu : MonoBehaviour {
 	public bool LastSelectedset = false;
 	public bool Initialised = false;
 
-	public Dictionary<int,List<int>> SelectionRange = new Dictionary<int,List<int>>(); 
+	public Dictionary<int,List<float>> SelectionRange = new Dictionary<int,List<float>>(); 
 	public int MenuItem;
 
 	public float LastSelectedTime;
@@ -95,7 +95,7 @@ public class RadialMenu : MonoBehaviour {
 				
 		}
 		//Pushes the parameters to the selection system
-		List<int> QuickList = new List<int> {
+		List<float> QuickList = new List<float> {
 			Range,MinimumAngle,MaximumAngle
 		};
 		SelectionRange [Menudepth] = QuickList;
@@ -109,10 +109,10 @@ public class RadialMenu : MonoBehaviour {
 
 			MousePosition = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
 			toVector2M = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
-
+			double IndividualItemDegrees = 0;
 			Vector2 Relativecentre = toVector2M - centercirlce;
 			//Logger.Log (Relativecentre.ToString ()+ " Relativecentre" , Category.UI);
-			float Angle = (Mathf.Atan2 (Relativecentre.y, Relativecentre.x) * Mathf.Rad2Deg);
+			double Angle = (Mathf.Atan2 (Relativecentre.y, Relativecentre.x) * Mathf.Rad2Deg);
 			//off sets the Angle because it starts as -180 to 180
 			Angle += -90;
 			Angle = Angle + SelectionRange[CurrentMenuDepth][1];
@@ -124,8 +124,8 @@ public class RadialMenu : MonoBehaviour {
 			//Logger.Log (Angle.ToString () + " old Angle", Category.UI);
 			//Logger.Log (((int)((Angle) / (SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count))).ToString () + " old MenuItem", Category.UI);
 			//Logger.Log (Angle.ToString ()+ " Angle" , Category.UI);
-
-			Angle = Angle + ((SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count) / 2); //Offsets by half a menu so So the different selection areas aren't in the middle of the menu
+			IndividualItemDegrees = SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count;
+			Angle = Angle + ((IndividualItemDegrees) / 2); //Offsets by half a menu so So the different selection areas aren't in the middle of the menu
 
 
 			//Angle = Angle + SelectionRange[CurrentMenuDepth][1];
@@ -133,11 +133,11 @@ public class RadialMenu : MonoBehaviour {
 				Angle += -360;
 			} 
 
-			//Logger.Log (Angle.ToString ()+ " Angle" , Category.UI);
+			Logger.Log (((Angle) / (IndividualItemDegrees)).ToString ()+ " Angle" , Category.UI);
 
-			MenuItem = (int)((Angle) / (SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count)); 
+			MenuItem = (int)((Angle) / (IndividualItemDegrees)); 
 
-			//Logger.Log ((SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count).ToString () + " Density", Category.UI);
+			//Logger.Log ((IndividualItemDegrees).ToString () + " Density", Category.UI);
 			//Logger.Log (Angle.ToString () + " Angle", Category.UI);
 			//Logger.Log (SelectionRange[CurrentMenuDepth][0].ToString () + " Range", Category.UI);
 			//Logger.Log (SelectionRange[CurrentMenuDepth][1].ToString () + " MinimumAngle", Category.UI);

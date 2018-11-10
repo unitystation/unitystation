@@ -52,57 +52,35 @@ public class RenderSettings
 	public float occlusionBlurInterpolation;
 
 	public float occlusionMaskMultiplier;
+
 	public float occlusionMaskLimit;
 
-	[Tooltip("Scale of Occlusion light texture. Affected by lightTextureWidth. Occlusion light texture are quite small and mostly controlled to produce desired blur effect.")]
-	public float occlusionLightTextureRescale = 0.25f;
+	[Tooltip("Unit Size addition to Occlusion camera. Affects Extended texture size. Used to properly draw out of bounds light sources.")]
+	public Vector2Int occlusionMaskSizeAdd;
 
-	[Tooltip("Orthographic Size addition to Occlusion camera. Affects Extended texture size. Used to properly draw out of bounds light sources.")]
-	public float maskCameraSizeAdd;
+	public float rotationBlurInterpolation;
+	public int rotationBlurIterations;
 
-	[Tooltip("Used for occlusion texture only. 4 is a good balance..")]
-	public int antiAliasing = 4;
+	public int occlusionDetail;
+	public ReSamplePower lightResample;
 
-	[NonSerialized]
-	public Quality quality;
+	[Tooltip("Renders light during two frames, effectively making lighting render in 30fps. Boosts performance, affects quality while moving. Should not be enabled in editor.")]
+	public bool doubleFrameRenderingMode;
 
-	// Note: Round numbers produce less pixel marching (?)
-	private static readonly int[] LightTextureResolutions = {400, 600, 700};
 
-	private static readonly AnimationCurve OcclusionUvAdjustments = new AnimationCurve(
-		new Keyframe(60, 0.048f),
-		new Keyframe(102, 0.024f),
-		new Keyframe(140, 0.012f),
-		new Keyframe(280, 0.007f),
-		new Keyframe(350, 0.006f),
-		new Keyframe(700, 0.004f),
-		new Keyframe(1400, 0.002f));
+	//[NonSerialized]
+	//public Quality quality;
 
-	public int lightTextureWidth
-	{
-		get
-		{
-			bool _requireMoreDetail = quality != Quality.High && PlayerPrefs.GetInt("CamZoomSetting") == 1;
-
-			float _qualityResolution = LightTextureResolutions[(int)quality] + (_requireMoreDetail ? 100 : 0); // / PlayerPrefs.GetInt("CamZoomSetting");
-
-			float _widestSceneResolution = Screen.width > Screen.height ? Screen.width : Screen.height;
-
-			int _clampedResolution = (int)Mathf.Clamp(_qualityResolution, 0, _widestSceneResolution);
-
-			return _clampedResolution;
-		}
-	}
 
 	public enum ViewMode
 	{
 		Final,
-		LightMix,
 		LightLayerBlurred,
 		LightLayer,
 		WallLayer,
 		FovObstacle,
 		FovObstacleExtended,
+		Obstacle,
 		Background,
 	};
 
@@ -111,11 +89,5 @@ public class RenderSettings
 		Low,
 		Mid,
 		High,
-	}
-
-	public static float GetOcclusionUvAdjustment(int iTextureWidth)
-	{
-
-		return OcclusionUvAdjustments.Evaluate(iTextureWidth);
 	}
 }

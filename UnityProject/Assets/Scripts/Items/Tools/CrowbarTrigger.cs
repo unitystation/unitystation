@@ -31,7 +31,7 @@ public class CrowbarTrigger : PickUpTrigger
     }
 
     //Broadcast from EquipmentPool.cs **ServerSide**
-    public void OnRemoveFromPool ()
+    public void OnRemoveFromInventory ()
     {
         canBeUsed = false;
     }

@@ -6,8 +6,8 @@ using UnityEngine.Tilemaps;
 	public class Layer : MonoBehaviour
 	{
 		private SystemManager systemManager;
-		
-		public LayerType LayerType; 
+
+		public LayerType LayerType;
 		protected Tilemap tilemap;
 
 		public BoundsInt Bounds => tilemap.cellBounds;
@@ -32,37 +32,25 @@ using UnityEngine.Tilemaps;
 			else
 			{
 				// TODO Clean up
-				
+
 				if (LayerType == LayerType.Walls)
 				{
 					MatrixManager.Instance.wallsTileMaps.Add(GetComponent<TilemapCollider2D>(), tilemap);
 				}
-				
+
 			}
 		}
 
-		public virtual bool IsPassableAt(Vector3Int from, Vector3Int to)
+		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool inclPlayers = true )
 		{
-			if (from == to)
-			{
-				return true;
-			}
-
 			BasicTile tileTo = tilemap.GetTile<BasicTile>(to);
-
 			return TileUtils.IsPassable(tileTo);
 		}
 
-		public virtual bool IsPassableAt(Vector3Int position)
+		public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to)
 		{
-			BasicTile tile = tilemap.GetTile<BasicTile>(position);
-			return TileUtils.IsPassable(tile);
-		}
-
-		public virtual bool IsAtmosPassableAt(Vector3Int position)
-		{
-			BasicTile tile = tilemap.GetTile<BasicTile>(position);
-			return TileUtils.IsAtmosPassable(tile);
+			BasicTile tileTo = tilemap.GetTile<BasicTile>(to);
+			return TileUtils.IsAtmosPassable(tileTo);
 		}
 
 		public virtual bool IsSpaceAt(Vector3Int position)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -6,6 +7,9 @@ using UnityEngine;
 	public class MetaTileMap : MonoBehaviour
 	{
 		public Dictionary<LayerType, Layer> Layers { get; private set; }
+
+		private Matrix matrix;
+		private Matrix Matrix => matrix ? matrix : ( matrix = GetComponent<Matrix>() );
 
 		private void OnEnable()
 		{
@@ -17,20 +21,25 @@ using UnityEngine;
 			}
 		}
 
-		public bool IsPassableAt(Vector3Int origin, Vector3Int to)
+        public bool IsPassableAt(Vector3Int position)
+        {
+            return IsPassableAt(position, position);
+        }
+
+		public bool IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true )
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
-			
-			return _IsPassableAt(origin, toX) && _IsPassableAt(toX, to) || 
-			        _IsPassableAt(origin, toY) && _IsPassableAt(toY, to);
+
+			return _IsPassableAt(origin, toX, inclPlayers) && _IsPassableAt(toX, to, inclPlayers) ||
+			        _IsPassableAt(origin, toY, inclPlayers) && _IsPassableAt(toY, to, inclPlayers);
 		}
 
-		private bool _IsPassableAt(Vector3Int origin, Vector3Int to)
+		private bool _IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true )
 		{
 			foreach (Layer layer in Layers.Values)
 			{
-				if (!layer.IsPassableAt(origin, to))
+				if (!layer.IsPassableAt(origin, to, inclPlayers))
 				{
 					return false;
 				}
@@ -38,31 +47,31 @@ using UnityEngine;
 
 			return true;
 		}
-		
-		//TODO:  Remove this
-		public bool IsPassableAt(Vector3Int position)
-		{
-			foreach (Layer layer in Layers.Values)
-			{
-				if (!layer.IsPassableAt(position))
-				{
-					return false;
-				}
-			}
-			
-			return true;
-		}
-		
-		//TODO:  Refactor to take origin and destination
+
 		public bool IsAtmosPassableAt(Vector3Int position)
 		{
+			return IsAtmosPassableAt(position, position);
+		}
+
+		public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
+		{
+			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
+			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
+
+			return _IsAtmosPassableAt(origin, toX) && _IsAtmosPassableAt(toX, to) ||
+					_IsAtmosPassableAt(origin, toY) && _IsAtmosPassableAt(toY, to);
+		}
+
+		private bool _IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
+		{
 			foreach (Layer layer in Layers.Values)
 			{
-				if (!layer.IsAtmosPassableAt(position))
+				if (!layer.IsAtmosPassableAt(origin, to))
 				{
 					return false;
 				}
 			}
+
 			return true;
 		}
 
@@ -108,9 +117,47 @@ using UnityEngine;
 		{
 			foreach (LayerType layer in Layers.Keys)
 			{
-				if (layer != LayerType.Objects && HasTile(position, layer))
-				{
+				if (layer != LayerType.Objects && HasTile(position, layer)) {
 					return false;
+				}
+				if ( layer == LayerType.Objects ) {
+					var objects = Matrix.Get<RegisterTile>( position ).ToArray();
+					for ( var i = 0; i < objects.Length; i++ ) {
+						var o = objects[i];
+						if ( !o.IsPassable() ) {
+							return false;
+						}
+					}
+				}
+			}
+			return true;
+		}
+		public bool IsNoGravityAt(Vector3Int position)
+		{
+			foreach (LayerType layer in Layers.Keys)
+			{
+				if (layer != LayerType.Objects && HasTile(position, layer)) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		public bool IsEmptyAt(GameObject context, Vector3Int position)
+		{
+			foreach (LayerType layer in Layers.Keys)
+			{
+				if (layer != LayerType.Objects && HasTile(position, layer)) {
+					return false;
+				}
+				if ( layer == LayerType.Objects ) {
+					var objects = Matrix.Get<RegisterTile>( position ).ToArray();
+					for ( var i = 0; i < objects.Length; i++ ) {
+						var o = objects[i];
+						if ( !o.IsPassable() && o.gameObject != context ) {
+							return false;
+						}
+					}
 				}
 			}
 			return true;
@@ -126,7 +173,7 @@ using UnityEngine;
 			foreach (Layer layer in Layers.Values)
 			{
 				if (layer.LayerType < refLayer &&
-				    !(refLayer == LayerType.Objects && 
+				    !(refLayer == LayerType.Objects &&
 					layer.LayerType == LayerType.Floors) &&
 					refLayer != LayerType.Grills)
 				{
@@ -155,10 +202,10 @@ using UnityEngine;
 				minPosition = Vector3Int.Min(layerBounds.min, minPosition);
 				maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);
 			}
-			
+
 			return new BoundsInt(minPosition, maxPosition-minPosition);
 		}
-		
+
 
 #if UNITY_EDITOR
 		public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)

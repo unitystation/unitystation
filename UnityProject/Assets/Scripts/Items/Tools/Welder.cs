@@ -120,8 +120,8 @@ public class Welder : NetworkBehaviour
 		CheckHeldByPlayer();
 	}
 
-	//A broadcast message from EquipmentPool.cs on the server:
-	public void OnRemoveFromPool()
+	//A broadcast message from InventoryManager.cs on the server:
+	public void OnRemoveFromInventory()
 	{
 		heldByPlayer = null;
 	}
@@ -141,7 +141,7 @@ public class Welder : NetworkBehaviour
 		//the inhand image when the player turns it on and off:
 		if (isServer && heldByPlayer != null)
 		{
-			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts);
+			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, UIManager.Hands.CurrentSlot.eventName);
 		}
 	}
 

@@ -43,37 +43,47 @@ using UnityEngine;
 			base.RemoveTile(position);
 		}
 
-		public override bool IsPassableAt(Vector3Int origin, Vector3Int to)
+		public override bool IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true )
+		{
+			//Targeting windoors here
+			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
+			if ( !objectsOrigin.All(o => o.IsPassableTo( to )) )
+			{ //Can't get outside the tile because windoor doesn't allow us
+				return false;
+			}
+
+			List<RegisterTile> objectsTo = Objects.Get<RegisterTile>(to);
+			bool toPass;
+			if ( inclPlayers ) {
+				toPass = objectsTo.All(o => o.IsPassable(origin));
+			} else {
+				toPass = objectsTo.All(o => o.ObjectType == ObjectType.Player || o.IsPassable(origin));
+			}
+
+			bool rods = base.IsPassableAt(origin, to, inclPlayers);
+
+//			Logger.Log( $"IPA = {toPass} && {rods} @ {MatrixManager.Instance.LocalToWorldInt( origin, MatrixManager.Get(0).Matrix )} -> {MatrixManager.Instance.LocalToWorldInt( to, MatrixManager.Get(0).Matrix )} " +
+//			            $" (in local: {origin} -> {to})", Category.Matrix );
+			return toPass && rods;
+		}
+
+		public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
 		{
 			List<RegisterTile> objectsTo = Objects.Get<RegisterTile>(to);
 
-			if (!objectsTo.All(o => o.IsPassable(origin)))
+            if (!objectsTo.All(o => o.IsAtmosPassable()))
 			{
 				return false;
 			}
 
 			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
 
-			return objectsOrigin.All(o => o.IsPassable(origin)) && base.IsPassableAt(origin, to);
-		}
-
-		public override bool IsPassableAt(Vector3Int position)
-		{
-			List<RegisterTile> objects = Objects.Get<RegisterTile>(position);
-
-			return objects.All(x => x.IsPassable()) && base.IsPassableAt(position);
-		}
-
-		public override bool IsAtmosPassableAt(Vector3Int position)
-		{
-			RegisterTile obj = Objects.GetFirst<RegisterTile>(position);
-
-			return obj ? obj.IsAtmosPassable() : base.IsAtmosPassableAt(position);
+			return objectsOrigin.All(o => o.IsAtmosPassable()) && base.IsAtmosPassableAt(origin, to);
 		}
 
 		public override bool IsSpaceAt(Vector3Int position)
 		{
-			return IsAtmosPassableAt(position) && base.IsSpaceAt(position);
+			return IsAtmosPassableAt(position, position) && base.IsSpaceAt(position);
 		}
 
 		public override void ClearAllTiles()

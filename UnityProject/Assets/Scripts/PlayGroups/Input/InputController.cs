@@ -120,6 +120,7 @@ public class InputController : MonoBehaviour
 			//Check for items on the clicked possition, and display them in the Item List Tab, if they're in reach
 			Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 			position.z = 0f;
+			UIManager.CheckStorageHandlerOnMove(currentSlot.Item);
 			currentSlot.Clear();
 			//				Logger.Log( $"Requesting throw from {currentSlot.eventName} to {position}" );
 			PlayerManager.LocalPlayerScript.playerNetworkActions
@@ -134,7 +135,15 @@ public class InputController : MonoBehaviour
 
 	private void ChangeDirection()
 	{
-		Vector2 dir = (Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition) - transform.position).normalized;
+		Vector3 playerPos;
+
+		if (playerMove.isGhost)
+			playerPos = PlayerManager.PlayerScript.ghost.transform.position;
+		else
+			playerPos = transform.position;
+
+		Vector2 dir = (Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition) - playerPos).normalized;
+
 		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
 		{
 			playerSprites.ChangePlayerDirection(Orientation.From(dir));

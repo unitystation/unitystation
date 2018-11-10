@@ -22,6 +22,10 @@ internal enum MessageTypes : short
 	TileChangesNewClientSync = 1018,
 	PlaySoundMessage = 1019,
 	ProgressBarMessage = 1020,
+	PaperUpdateMessage = 1021,
+	StorageObjectSyncMessage = 1022,
+	SyncPlayerInventoryGuidMessage = 1023,
+	StorageObjectUUIDSyncMessage = 1024,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
