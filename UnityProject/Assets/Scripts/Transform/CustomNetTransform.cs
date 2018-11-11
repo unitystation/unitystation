@@ -287,6 +287,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 	}
 
+	#region Hiding/Unhiding
+
 	[Server]
 	public void DisappearFromWorldServer()
 	{
@@ -364,6 +366,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			renderers[i].enabled = clientState.Active;
 		}
 	}
+
+		#endregion
 
 	///     Currently sending to everybody, but should be sent to nearby players only
 	[Server]

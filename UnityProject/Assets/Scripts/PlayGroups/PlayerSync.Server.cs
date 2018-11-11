@@ -258,9 +258,9 @@ public partial class PlayerSync
 			return;
 		}
 
-		if (consideredFloatingServer || CanNotSpaceMoveServer)
+		if (consideredFloatingServer || CanNotSpaceMoveServer || !serverState.Active)
 		{
-			Logger.LogWarning("Server ignored move while player is floating", Category.Movement);
+			Logger.LogWarning("Server ignored queued move while player isn't supposed to move", Category.Movement);
 			serverPendingActions.Dequeue();
 			return;
 		}
@@ -469,6 +469,10 @@ public partial class PlayerSync
 	[Server]
 	private void CheckMovementServer()
 	{
+		if ( !serverState.Active )
+		{
+			return;
+		}
 		//Space walk checks
 		if ( IsNonStickyServer )
 		{

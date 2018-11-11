@@ -54,6 +54,32 @@ using UnityEngine.Networking;
 			base.OnStartClient();
 		}
 
+		/// Does this closet contain this object? (if it's closed)
+		public bool Contains( GameObject gameObject )
+		{
+			if ( !IsClosed )
+			{
+				return false;
+			}
+
+			foreach ( var player in heldPlayers )
+			{
+				if ( player.gameObject == gameObject )
+				{
+					return true;
+				}
+			}
+			foreach ( var item in heldItems )
+			{
+				if ( item.gameObject == gameObject )
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		private IEnumerator WaitForLoad()
 		{
 			yield return new WaitForSeconds(3f);
@@ -150,33 +176,33 @@ using UnityEngine.Networking;
 		}
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
-			//FIXME this should be rewritten to net messages, see i.e. TableTrigger
-			if (Input.GetKey(KeyCode.LeftControl))
+			//this better be rewritten to net messages: following code is executed on clientside
+			PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
+			if ( localPlayer.canNotInteract() )
 			{
 				return;
 			}
 
-			if (PlayerManager.PlayerInReach(transform))
+			bool isInReach = localPlayer.IsInReach( registerTile.WorldPosition );
+			if ( isInReach || localPlayer.IsHidden )
 			{
 				if (IsClosed)
 				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+					localPlayer.playerNetworkActions.CmdToggleCupboard(gameObject);
 					return;
 				}
 
 				GameObject item = UIManager.Hands.CurrentSlot.Item;
-				if (item != null)
+				if (item != null && isInReach )
 				{
-					Vector3 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-					targetPosition.z = 0f;
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItem(
+					localPlayer.playerNetworkActions.CmdPlaceItem(
 						UIManager.Hands.CurrentSlot.eventName, transform.position, null, false);
 
 					item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 				}
 				else
 				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+					localPlayer.playerNetworkActions.CmdToggleCupboard(gameObject);
 				}
 			}
 		}
@@ -206,7 +232,7 @@ using UnityEngine.Networking;
 				CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
 				if (on)
 				{
-					netTransform.AppearAtPositionServer(transform.position);
+					netTransform.AppearAtPositionServer(registerTile.WorldPosition);
 //					item.transform.position = transform.position;
 				}
 				else
@@ -227,18 +253,22 @@ using UnityEngine.Networking;
 
 			foreach (ObjectBehaviour player in heldPlayers)
 			{
+				var playerScript = player.GetComponent<PlayerScript>();
+				var playerSync = playerScript.PlayerSync;
 				if (on)
 				{
-					player.transform.position = transform.position;
-					player.GetComponent<PlayerSync>().SetPosition(transform.position);
+//					player.transform.position = transform.position;
+//					playerSync.SetPosition(registerTile.WorldPosition);
+					playerSync.AppearAtPositionServer( registerTile.WorldPosition );
 				}
 				player.visibleState = on;
 
 				if (!on)
 				{
+					playerSync.DisappearFromWorldServer();
 					//Make sure a ClosetPlayerHandler is created on the client to monitor 
 					//the players input inside the storage. The handler also controls the camera follow targets:
-					if (!player.GetComponent<PlayerMove>().isGhost) {
+					if (!playerScript.playerMove.isGhost) {
 						ClosetHandlerMessage.Send(player.gameObject, gameObject);
 					}
 				}

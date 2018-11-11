@@ -19,7 +19,11 @@ public class PushPull : VisibleBehaviour {
 				pushable?.OnUpdateRecieved().AddListener( OnUpdateReceived );
 				pushable?.OnTileReached().AddListener( OnServerTileReached );
 				pushable?.OnClientTileReached().AddListener( OnClientTileReached );
-				pushable?.OnPullInterrupt().AddListener( StopFollowing );
+				pushable?.OnPullInterrupt().AddListener( () =>
+				{
+					StopFollowing();
+					ReleaseControl();//maybe it won't be required for all situations
+				} );
 			}
 			return pushable;
 		}
@@ -32,7 +36,7 @@ public class PushPull : VisibleBehaviour {
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
 
 		followAction = (oldPos, newPos) => {
-			if ( oldPos == newPos || oldPos == TransformState.HiddenPos ) {
+			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == registerTile.WorldPosition ) {
 				return;
 			}
 			var masterPos = oldPos.To2Int();
@@ -447,12 +451,14 @@ public class PushPull : VisibleBehaviour {
 			return false;
 		}
 
-		if ( IsBeingPulled ) {
-			StopFollowing();
-		}
 
 		bool success = Pushable.Push( dir );
-		if ( success ) {
+		if ( success ) 
+		{
+			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
+				 !PlayerScript.IsInReach( AttachedTo.registerTile.WorldPosition, target ) ) {
+				StopFollowing();
+			}
 			isPushing = true;
 			pushTarget = target;
 			Logger.LogTraceFormat( "Started push {0}->{1}", Category.PushPull, from, target );

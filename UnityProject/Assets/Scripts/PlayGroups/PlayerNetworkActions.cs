@@ -480,6 +480,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command] //Remember with the parent you can only send networked objects:
 	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
+		var localPlayer = PlayerManager.LocalPlayerScript;
+		if ( localPlayer.canNotInteract() || !localPlayer.IsInReach( pos ) )
+		{
+			return;
+		}
+
 		if (!SlotNotEmpty(slotName))
 		{
 			return;
@@ -523,11 +529,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return Inventory.ContainsKey(eventName) && Inventory[eventName].Item != null;
 	}
 
+	/// Allows interactions if player is in reach or inside closet
 	[Command]
 	public void CmdToggleCupboard(GameObject cupbObj)
 	{
-		ClosetControl closetControl = cupbObj.GetComponent<ClosetControl>();
-		closetControl.ServerToggleCupboard();
+		ClosetControl closet = cupbObj.GetComponent<ClosetControl>();
+		if ( playerScript.canNotInteract() )
+		{
+			return;
+		}
+		if ( PlayerManager.PlayerInReach( cupbObj.transform ) || closet.Contains( this.gameObject ) )
+		{
+			closet.ServerToggleCupboard();
+		}
 	}
 
 	[Command]

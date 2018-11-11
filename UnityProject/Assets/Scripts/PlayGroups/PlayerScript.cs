@@ -212,6 +212,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 			gameObject.name = newName;
 		}
 
+		public bool IsHidden => !playerSync.ClientState.Active;
+
 		public bool IsInReach( GameObject go, float interactDist = interactionDistance ) {
 			return IsInReach( go.WorldPos(), interactDist );
 		}

@@ -72,7 +72,7 @@ public partial class PlayerSync
 			     || (playerMove.isGhost && !blockClientMovement) ) {
 //				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
-				if ( isGrounded )
+				if ( isGrounded && playerState.Active )
 				{
 					//RequestMoveMessage.Send(action);
 					if ( CanMoveThere( predictedState, action ) || playerMove.isGhost ) {

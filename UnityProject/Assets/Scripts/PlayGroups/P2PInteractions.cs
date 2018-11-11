@@ -8,10 +8,6 @@
 	{
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
-			if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)){
-				return;
-			}
-
 			if(UIManager.Hands.CurrentSlot.Item != null){
 				//Is the item edible?
 				if(CheckEdible(UIManager.Hands.CurrentSlot.Item)){

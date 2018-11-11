@@ -274,10 +274,6 @@ using UnityEngine.Networking;
 		public override void Interact(GameObject originator, Vector3 position, string hand)
 		{
 			//todo: validate fire attempts on server
-			if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand))
-			{
-				return;
-			}
 			//shoot gun interation if its in hand
 			if (gameObject == UIManager.Hands.CurrentSlot.Item)
 			{
@@ -292,10 +288,6 @@ using UnityEngine.Networking;
 
 		public void AttemptSuicideShot(){
 			//Hand slot checks are already done before calling this method (i.e. is weapon in current hand)
-			if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)) {
-				return;
-			}
-
 			AttemptToFireWeapon(true);
 		}
 

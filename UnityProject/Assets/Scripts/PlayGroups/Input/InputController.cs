@@ -332,7 +332,7 @@ public class InputController : MonoBehaviour
 			return false;
 		}
 		// Craete a plane so it has the same orientation as the sprite transform
-		Plane plane = new Plane(transform.forward, transform.position);
+		Plane plane = new Plane(transform.forward, (Vector2)transform.position); //????????
 		// Intersect the ray and the plane
 		float rayIntersectDist; // the distance from the ray origin to the intersection point
 		if (!plane.Raycast(ray, out rayIntersectDist)) return false; // no intersection
@@ -369,7 +369,8 @@ public class InputController : MonoBehaviour
 		}
 
 		//attempt to trigger the things in range we clicked on
-		if (PlayerManager.LocalPlayerScript.IsInReach(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+		var localPlayer = PlayerManager.LocalPlayerScript;
+		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(Input.mousePosition)) || localPlayer.IsHidden)
 		{
 			//Check for melee triggers first:
 			MeleeTrigger meleeTrigger = _transform.GetComponentInParent<MeleeTrigger>();
@@ -405,8 +406,8 @@ public class InputController : MonoBehaviour
 					return true;
 				}
 				//Allow interact with cupboards we are inside of!
-				ClosetControl cCtrl = inputTrigger.GetComponent<ClosetControl>();
-				if (cCtrl && cCtrl.transform.position == PlayerManager.LocalPlayerScript.transform.position)
+				ClosetControl closet = inputTrigger.GetComponent<ClosetControl>();
+				if (closet && closet.Contains( localPlayer.gameObject )) //fixme: works only for server obvs
 				{
 					inputTrigger.Trigger(position);
 					return true;

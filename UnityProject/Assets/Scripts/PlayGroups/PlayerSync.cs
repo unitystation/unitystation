@@ -10,17 +10,29 @@ using UnityEngine.Networking;
 	/// Gives client enough information for smooth simulation
 	public struct PlayerState
 	{
+		public bool Active => Position != TransformState.HiddenPos;
+
 		public int MoveNumber;
 		public Vector3 Position;
 
 		public Vector3 WorldPosition {
 			get {
+				if ( !Active )
+				{
+					return TransformState.HiddenPos;
+				}
 				MatrixInfo matrix = MatrixManager.Get( MatrixId );
 				return MatrixManager.LocalToWorld( Position, matrix );
 			}
 			set {
-				MatrixInfo matrix = MatrixManager.Get( MatrixId );
-				Position = MatrixManager.WorldToLocal( value, matrix );
+				if (value == TransformState.HiddenPos) {
+					Position = TransformState.HiddenPos;
+				}
+				else
+				{
+					MatrixInfo matrix = MatrixManager.Get( MatrixId );
+					Position = MatrixManager.WorldToLocal( value, matrix );
+				}
 			}
 		}
 
@@ -37,10 +49,14 @@ using UnityEngine.Networking;
 		[NonSerialized] public bool ImportantFlightUpdate;
 
 		public int MatrixId;
+		
+		/// Means that this player is hidden
+		public static readonly PlayerState HiddenState =
+			new PlayerState{ Position = TransformState.HiddenPos, MatrixId = 0};
 
 		public override string ToString() {
 			return
-				$"[Move #{MoveNumber}, localPos:{(Vector2)Position}, worldPos:{(Vector2)WorldPosition} {nameof( NoLerp )}:{NoLerp}, {nameof( Impulse )}:{Impulse}, " +
+				Equals( HiddenState ) ? "[Hidden]" : $"[Move #{MoveNumber}, localPos:{(Vector2)Position}, worldPos:{(Vector2)WorldPosition} {nameof( NoLerp )}:{NoLerp}, {nameof( Impulse )}:{Impulse}, " +
 				$"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, matrix #{MatrixId}]";
 		}
 	}
@@ -176,6 +192,63 @@ using UnityEngine.Networking;
 
 		#endregion
 
+		#region Hiding/Unhiding
+
+		[Server]
+		public void DisappearFromWorldServer()
+		{
+			OnPullInterrupt().Invoke();
+			serverState = PlayerState.HiddenState;
+			serverLerpState = PlayerState.HiddenState;
+			NotifyPlayers();
+		}
+
+		[Server]
+		public void AppearAtPositionServer(Vector3 worldPos)
+		{
+			SetPosition(worldPos);
+		}
+
+		///     Convenience method to make stuff disappear at position.
+		///     For CLIENT prediction purposes.
+		public void DisappearFromWorld()
+		{
+			playerState = PlayerState.HiddenState;
+			UpdateActiveStatus();
+		}
+
+		///     Convenience method to make stuff appear at position
+		///     For CLIENT prediction purposes.
+		public void AppearAtPosition(Vector3 worldPos)
+		{
+			var pos = (Vector2) worldPos; //Cut z-axis
+			playerState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
+			playerState.WorldPosition = pos;
+			transform.position = pos;
+			UpdateActiveStatus();
+		}
+		
+		/// Registers if unhidden, unregisters if hidden
+		private void UpdateActiveStatus()
+		{
+			if (playerState.Active)
+			{
+				RegisterObjects();
+			}
+			else
+			{
+				registerTile.Unregister();
+			}
+			//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example.
+			Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
+			for (int i = 0; i < renderers.Length; i++)
+			{
+				renderers[i].enabled = playerState.Active;
+			}
+		}
+
+		#endregion
+		
 		private void Start() {
 			//Init pending actions queue for your local player
 			if ( isLocalPlayer ) {
