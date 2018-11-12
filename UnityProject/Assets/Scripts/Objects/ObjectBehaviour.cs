@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /// <summary>
 ///     Object behaviour controls all of the basic features of an object
@@ -26,15 +27,24 @@ public class ObjectBehaviour : PushPull
 					if (closetHandlerCache)
 					{
 						//Set the camera to follow the player again
-						if (!PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost)
-						{
-							Camera2DFollow.followControl.target = transform;
+						if (!PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost) {
+							StartCoroutine(TargetPlayer());
 						}
 						Camera2DFollow.followControl.damping = 0f;
 						Destroy(closetHandlerCache);
 					}
 				}
 			}
+		}
+	}
+	/// Waiting until player becomes active according to PlayerSync
+	/// before tracking player to avoid blinking
+	private IEnumerator TargetPlayer() {
+		yield return YieldHelper.EndOfFrame;
+		if ( !PlayerManager.LocalPlayerScript.PlayerSync.ClientState.Active ) {
+			StartCoroutine( TargetPlayer() );
+		} else {
+			Camera2DFollow.followControl.target = transform;
 		}
 	}
 }
