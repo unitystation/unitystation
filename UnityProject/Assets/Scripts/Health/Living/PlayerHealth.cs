@@ -246,10 +246,10 @@ public class PlayerHealth : HealthBehaviour
 				//string departmentKillText = "";
 				if (LastDamagedBy != null)
 				{
-					JobDepartment killerDepartment =
-						SpawnPoint.GetJobDepartment(LastDamagedBy.GetComponent<PlayerScript>().JobType);
-					JobDepartment victimDepartment =
-						SpawnPoint.GetJobDepartment(gameObject.GetComponent<PlayerScript>().JobType);
+					// JobDepartment killerDepartment =
+					// 	SpawnPoint.GetJobDepartment(LastDamagedBy.GetComponent<PlayerScript>().JobType);
+					// JobDepartment victimDepartment =
+					// 	SpawnPoint.GetJobDepartment(gameObject.GetComponent<PlayerScript>().JobType);
 
 					//departmentKillText = "";
 					//if (killerDepartment == victimDepartment)
