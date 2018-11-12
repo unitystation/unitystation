@@ -407,7 +407,7 @@ public class InputController : MonoBehaviour
 				}
 				//Allow interact with cupboards we are inside of!
 				ClosetControl closet = inputTrigger.GetComponent<ClosetControl>();
-				if (closet && closet.Contains( localPlayer.gameObject )) //fixme: works only for server obvs
+				if (closet && Camera2DFollow.followControl.target == closet.transform)
 				{
 					inputTrigger.Trigger(position);
 					return true;
