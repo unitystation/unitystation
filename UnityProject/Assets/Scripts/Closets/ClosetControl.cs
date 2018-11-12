@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -54,7 +54,7 @@ using UnityEngine.Networking;
 			base.OnStartClient();
 		}
 
-		/// Does this closet contain this object? (if it's closed)
+		/// SERVERSIDE -- Does this closet contain this object? (if it's closed)
 		public bool Contains( GameObject gameObject )
 		{
 			if ( !IsClosed )
@@ -232,8 +232,9 @@ using UnityEngine.Networking;
 				CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
 				if (on)
 				{
+					//avoids blinking of premapped items when opening first time in another place:
+					netTransform.AppearAtPosition(registerTile.WorldPosition);
 					netTransform.AppearAtPositionServer(registerTile.WorldPosition);
-//					item.transform.position = transform.position;
 				}
 				else
 				{
@@ -257,8 +258,6 @@ using UnityEngine.Networking;
 				var playerSync = playerScript.PlayerSync;
 				if (on)
 				{
-//					player.transform.position = transform.position;
-//					playerSync.SetPosition(registerTile.WorldPosition);
 					playerSync.AppearAtPositionServer( registerTile.WorldPosition );
 				}
 				player.visibleState = on;
