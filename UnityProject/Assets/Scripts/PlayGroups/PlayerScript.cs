@@ -36,8 +36,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 		public PlayerSprites playerSprites { get; set; }
 
-		private PlayerSync playerSync; //Example of good on-demand reference init
-		public PlayerSync PlayerSync => playerSync ? playerSync : ( playerSync = GetComponent<PlayerSync>() );
+		private PlayerSync _playerSync; //Example of good on-demand reference init
+		public PlayerSync PlayerSync => _playerSync ? _playerSync : ( _playerSync = GetComponent<PlayerSync>() );
 
 		public RegisterTile registerTile { get; set; }
 
@@ -212,7 +212,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			gameObject.name = newName;
 		}
 
-		public bool IsHidden => !playerSync.ClientState.Active;
+		public bool IsHidden => !PlayerSync.ClientState.Active;
 
 		public bool IsInReach( GameObject go, float interactDist = interactionDistance ) {
 			return IsInReach( go.WorldPos(), interactDist );

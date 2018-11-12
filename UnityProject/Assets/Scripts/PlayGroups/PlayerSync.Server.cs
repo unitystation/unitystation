@@ -275,12 +275,12 @@ public partial class PlayerSync
 		var newPos = nextState.WorldPosition;
 		var oldPos = serverState.WorldPosition;
 		serverLastDirection = Vector2Int.RoundToInt(newPos - oldPos);
-		if ( serverLastDirection != Vector2.zero ) {
-			OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
-		}
 		serverState = nextState;
 		//In case positions already match
 		TryNotifyPlayers();
+		if ( serverLastDirection != Vector2.zero ) {
+			OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
+		}
 //		Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 		}
 

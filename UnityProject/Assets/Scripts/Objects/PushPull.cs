@@ -79,13 +79,26 @@ public class PushPull : VisibleBehaviour {
 
 	/// Client asks to start pulling given object
 	[Command]
-	public void CmdPullObject(GameObject pullable) {
-		var slaveObject = pullable.GetComponent<PushPull>();
-		if ( !slaveObject ) {
+	public void CmdPullObject(GameObject pullableObject) {
+		PushPull pullable = pullableObject.GetComponent<PushPull>();
+		if ( !pullable ) {
 			return;
 		}
-		if ( slaveObject.StartFollowing(this) ) {
-			ControlledObject = slaveObject;
+		if ( IsPullingSomething ) {
+			var alreadyPulling = ControlledObject;
+			ReleaseControl();
+			//Just stopping pulling of object if we ctrl+click it again
+			if ( alreadyPulling == pullable ) {
+				return;
+			}
+		}
+
+		if ( PlayerScript.IsInReach( registerTile.WorldPosition, pullable.registerTile.WorldPosition )
+		     && pullable != this && !IsBeingPulled ) {
+
+			if ( pullable.StartFollowing( this ) ) {
+				ControlledObject = pullable;
+			}
 		}
 	}
 
@@ -161,18 +174,9 @@ public class PushPull : VisibleBehaviour {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
 		if ( PlayerScript.IsInReach( initiator.registerTile.WorldPosition, this.registerTile.WorldPosition )
-		     && initiator != this && !initiator.IsBeingPulled ) {
-			PushPull pullingObject = initiator.ControlledObject;
-			if ( pullingObject ) {
-				//client request: stop pulling
-				initiator.CmdStopPulling();
-				//Just stopping pulling of object if we ctrl+click it again
-				if ( pullingObject == this ) {
-					return;
-				}
-			}
-
-			//client request: start pulling
+		     && initiator != this ) {
+			//todo: client should know his pull status
+			//client request: start/stop pulling
 			initiator.CmdPullObject( gameObject );
 
 			//Predictive pull:
@@ -453,7 +457,7 @@ public class PushPull : VisibleBehaviour {
 
 
 		bool success = Pushable.Push( dir );
-		if ( success ) 
+		if ( success )
 		{
 			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
 				 !PlayerScript.IsInReach( AttachedTo.registerTile.WorldPosition, target ) ) {
