@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114223419874660916}
   - component: {fileID: 114013105849664284}
   - component: {fileID: 114769722923569294}
+  - component: {fileID: 114439255724700438}
   m_Layer: 10
   m_Name: PickAxe
   m_TagString: Untagged
@@ -68,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1789684726173154}
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
-  m_LocalPosition: {x: 16, y: 60, z: 0}
+  m_LocalPosition: {x: 19, y: 69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4341756080805570}
@@ -143,6 +144,17 @@ MonoBehaviour:
   hitDamage: 10
   hitSound: GenericHit
   attackVerb: []
+--- !u!114 &114439255724700438
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1789684726173154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114709039961508458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -168,22 +180,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 7
-    i1: 188
-    i2: 97
-    i3: 3
-    i4: 126
-    i5: 114
-    i6: 83
-    i7: 164
-    i8: 27
-    i9: 206
-    i10: 244
-    i11: 139
-    i12: 47
-    i13: 65
-    i14: 21
-    i15: 14
+    i0: 65
+    i1: 10
+    i2: 190
+    i3: 134
+    i4: 252
+    i5: 72
+    i6: 212
+    i7: 11
+    i8: 185
+    i9: 173
+    i10: 37
+    i11: 173
+    i12: 88
+    i13: 26
+    i14: 82
+    i15: 252
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &114769722923569294

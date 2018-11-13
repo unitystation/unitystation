@@ -26,6 +26,11 @@ public class ControlAction : MonoBehaviour
 
 	private void CheckKeyboardInput()
 	{
+		if(UIManager.IsInputFocus)
+		{
+			//UI input is open, don't interact with Actions
+			return;
+		}
 		if (azerty)
 		{
 			if (Input.GetKeyDown(KeyCode.A))

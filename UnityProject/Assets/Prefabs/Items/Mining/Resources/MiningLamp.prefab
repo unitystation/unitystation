@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 114086199267058162}
   - component: {fileID: 114660078625858576}
   - component: {fileID: 114546715207081156}
+  - component: {fileID: 114381024768035780}
   m_Layer: 10
   m_Name: MiningLamp
   m_TagString: Untagged
@@ -99,7 +100,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1869747887731904}
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
-  m_LocalPosition: {x: 16, y: 60, z: 0}
+  m_LocalPosition: {x: 19, y: 69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4392619360261442}
@@ -229,6 +230,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114381024768035780
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1869747887731904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114467457228221642
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -243,22 +255,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 53
-    i1: 43
-    i2: 50
-    i3: 101
-    i4: 5
-    i5: 68
-    i6: 121
-    i7: 244
-    i8: 8
-    i9: 220
-    i10: 167
-    i11: 9
-    i12: 175
-    i13: 238
-    i14: 175
-    i15: 250
+    i0: 44
+    i1: 153
+    i2: 171
+    i3: 100
+    i4: 130
+    i5: 222
+    i6: 132
+    i7: 164
+    i8: 184
+    i9: 34
+    i10: 95
+    i11: 23
+    i12: 233
+    i13: 125
+    i14: 62
+    i15: 244
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &114546715207081156
@@ -323,8 +335,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
-  m_SortingOrder: 10
-  m_Sprite: {fileID: 21300236, guid: 2f49d98dd1e9041099b7fa044d8ffe53, type: 3}
+  m_SortingOrder: 15
+  m_Sprite: {fileID: 21300276, guid: 3626c615d00ea4e6cb095a21119a2fc7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

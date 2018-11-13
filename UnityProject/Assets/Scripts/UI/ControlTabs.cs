@@ -309,6 +309,10 @@ public class ControlTabs : MonoBehaviour
 		for (var i = 0; i < ActiveTabs.Count; i++)
 		{
 			var tab = ActiveTabs[i];
+			if(tab.isPopOut){
+				//Do not disable pop outs
+				continue;
+			}
 			HeaderForTab(tab)?.Unselect();
 			tab.gameObject.SetActive(false);
 		}
