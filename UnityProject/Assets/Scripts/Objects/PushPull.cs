@@ -45,8 +45,9 @@ public class PushPull : VisibleBehaviour {
 			if ( !TryFollow( registerTile.WorldPosition, followDir, AttachedTo.Pushable.MoveSpeedServer ) ) {
 				StopFollowing();
 			} else {
-				Logger.Log( $"{gameObject.name}: following {AttachedTo.gameObject.name} " +
-							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
+				AttachedTo.NotifyPlayers(); // probably doubles messages for puller, but pulling looks proper even in high ping
+//				Logger.Log( $"{gameObject.name}: following {AttachedTo.gameObject.name} " +
+//							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
 
 			}
 		};
@@ -55,12 +56,10 @@ public class PushPull : VisibleBehaviour {
 	#region Pull Master
 
 	public bool IsPullingSomething => ControlledObject != null;
+	public PushPull ControlledObject { get; private set; }
 
-	private PushPull controlledObject;
-	public PushPull ControlledObject {
-		get { return controlledObject; }
-		private set { controlledObject = value; }
-	}
+	public bool IsPullingSomethingClient => ControlledObjectClient != null;
+	public PushPull ControlledObjectClient { get; set; }
 
 	/// Client requests to stop pulling any objects
 	[Command]
@@ -77,7 +76,7 @@ public class PushPull : VisibleBehaviour {
 		ControlledObject = null;
 	}
 
-	/// Client asks to start pulling given object
+	/// Client asks to toggle pulling of given object
 	[Command]
 	public void CmdPullObject(GameObject pullableObject) {
 		PushPull pullable = pullableObject.GetComponent<PushPull>();
@@ -109,19 +108,35 @@ public class PushPull : VisibleBehaviour {
 	private UnityAction<Vector3Int,Vector3Int> followAction;
 
 	public bool IsBeingPulled => AttachedTo != null;
-
 	private PushPull attachedTo;
 	public PushPull AttachedTo {
 		get { return attachedTo; }
 		private set {
-			if ( value == null ) {
-				if ( attachedTo != null ) {
-					attachedTo.Pushable?.OnStartMove().RemoveListener( followAction );
-				}
-			} else {
+			if ( IsBeingPulled ) { 
+				attachedTo.Pushable?.OnStartMove().RemoveListener( followAction );
+				InformPullMessage.Send( attachedTo.gameObject, this, null ); //inform previous master that it's over </3
+			}
+
+			if ( value != null )
+			{
 				value.Pushable?.OnStartMove().AddListener( followAction );
 			}
+
 			attachedTo = value;
+			InformPullMessage.Send( this.gameObject, this, attachedTo ); //inform slave of new master – or lack thereof
+			
+			if ( IsBeingPulled ) { 
+				InformPullMessage.Send( attachedTo.gameObject, this, attachedTo ); //inform new master
+			}
+		}
+	}
+
+	public bool IsBeingPulledClient => AttachedToClient != null;
+	private PushPull attachedToClient;
+	public PushPull AttachedToClient {
+		get { return attachedToClient; }
+		set { //todo: clientside predictive sticking effect
+			attachedToClient = value;
 		}
 	}
 
@@ -175,16 +190,10 @@ public class PushPull : VisibleBehaviour {
 		//client pre-validation
 		if ( PlayerScript.IsInReach( initiator.registerTile.WorldPosition, this.registerTile.WorldPosition )
 		     && initiator != this ) {
-			//todo: client should know his pull status
 			//client request: start/stop pulling
 			initiator.CmdPullObject( gameObject );
 
-			//Predictive pull:
-//				if (customNetTransform != null)
-//				{
-//					customNetTransform.enabled = false;
-//				}
-//				p.PlayerSync.PullingObject = gameObject;
+			//todo: Predictive pull
 		}
 	}
 	[Server]
@@ -211,193 +220,6 @@ public class PushPull : VisibleBehaviour {
 
 		return success;
 	}
-	#endregion
-
-	#region PlayerSync
-
-	//		private void PullObject() {
-//			Vector3 proposedPos = Vector3.zero;
-//			if (isLocalPlayer) {
-//				proposedPos = transform.localPosition - (Vector3)LastDirection;
-//			} else {
-//				proposedPos = transform.localPosition - (Vector3)serverLastDirection;
-//			}
-//
-//			Vector3Int pos = Vector3Int.RoundToInt( proposedPos );
-//			if ( matrix.IsPassableAt( pos ) || matrix.ContainsAt( pos, gameObject ) ||
-//			     matrix.ContainsAt( pos, PullingObject ) ) {
-//				//if (isLocalPlayer)
-//				//{
-//				pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - offsetTest;
-//				if(pullJourney < 1.2f){
-//					pullJourney = 1f;
-//				}
-//
-//				if(pullJourney > 1.5f){
-//					pullJourney *= 1.2f;
-//				}
-//				//} else
-//				//{
-//				//	pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
-//				//}
-//				pullPos = proposedPos;
-//				pullPos.z = PullingObject.transform.localPosition.z;
-//				PullingObject.BroadcastMessage( "FaceDirection",
-//					playerSprites.currentDirection,
-//					SendMessageOptions.DontRequireReceiver );
-//			}
-//		}
-
-//		public void PullReset( NetworkInstanceId netID ) {
-//			PullObjectID = netID;
-//
-//			transform.hasChanged = false;
-//			if ( netID == NetworkInstanceId.Invalid ) {
-//				if ( PullingObject != null ) {
-//					pullRegister.UpdatePosition();
-//					//Could be another player
-//					PlayerSync otherPlayerSync = PullingObject.GetComponent<PlayerSync>();
-//					if ( otherPlayerSync != null ) {
-//						CmdSetPositionFromReset( gameObject,
-//							otherPlayerSync.gameObject,
-//							PullingObject.transform.position );
-//					}
-//				}
-//				pullRegister = null;
-//				PullingObject = null;
-//			} else {
-//				PullingObject = ClientScene.FindLocalObject( netID );
-//				PushPull oA = PullingObject.GetComponent<PushPull>();
-//				pullPos = PullingObject.transform.localPosition;
-//				if ( oA != null ) {
-//					oA.pulledBy = gameObject;
-//				}
-//				pullRegister = PullingObject.GetComponent<RegisterTile>();
-//			}
-//		}
-//	public void CancelPullBehaviour()
-//	{
-//		if (pulledBy == PlayerManager.LocalPlayer) {
-//			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(gameObject);
-//			return;
-//		}
-//		if (pulledBy != PlayerManager.LocalPlayer) {
-//			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
-//		}
-//		PlayerManager.LocalPlayerScript.PlayerSync.PullReset(gameObject.GetComponent<NetworkIdentity>().netId);
-//	}
-//
-//	[SyncVar] public GameObject pulledBy;
-//
-//	//SyncVar to make sure the state is synced with new players
-//	[SyncVar] public bool custNetActiveState;
-//
-//	public override void OnStartServer(){
-//		custNetActiveState = true;
-//		base.OnStartServer();
-//	}
-
-//	[HideInInspector] public bool isPulling;
-//	public void BreakPull()
-//	{
-//		PlayerScript player = PlayerManager.LocalPlayerScript;
-//		GameObject pullingObject = player.PlayerSync.PullingObject;
-//		if (!pullingObject || !pullingObject.Equals(gameObject)) {
-//			return;
-//		}
-//		player.PlayerSync.PullReset(NetworkInstanceId.Invalid);
-//		player.PlayerSync.PullingObject = null;
-//		player.PlayerSync.PullObjectID = NetworkInstanceId.Invalid;
-//		player.playerNetworkActions.isPulling = false;
-//		pulledBy = null;
-//	}
-//
-//	[Command]
-//	public void CmdPullObject(GameObject obj)
-//	{
-//		if (isPulling)
-//		{
-//			GameObject cObj = gameObject.GetComponent<IPlayerSync>().PullingObject;
-//			cObj.GetComponent<PushPull>().pulledBy = null;
-//			gameObject.GetComponent<IPlayerSync>().PullObjectID = NetworkInstanceId.Invalid;
-//		}
-//
-//		PushPull pulled = obj.GetComponent<PushPull>();
-//		//Stop CNT as the transform of the pulled obj is now handled by PlayerSync
-//		pulled.RpcToggleCnt(false);
-//		//Cache value for new players
-//		pulled.custNetActiveState = false;
-//		//check if the object you want to pull is another player
-//		if (pulled.isPlayer)
-//		{
-//			IPlayerSync playerS = obj.GetComponent<IPlayerSync>();
-//			//Anything that the other player is pulling should be stopped
-//			if (playerS.PullingObject != null)
-//			{
-//				PlayerNetworkActions otherPNA = obj.GetComponent<PlayerNetworkActions>();
-//				otherPNA.CmdStopOtherPulling(playerS.PullingObject);
-//			}
-//		}
-//		//Other player is pulling object, send stop on that player
-//		if (pulled.pulledBy != null)
-//		{
-//			if (pulled.pulledBy != gameObject)
-//			{
-//				pulled.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
-//			}
-//		}
-//
-//		if (pulled != null)
-//		{
-//			IPlayerSync pS = GetComponent<IPlayerSync>();
-//			pS.PullObjectID = pulled.netId;
-//			isPulling = true;
-//		}
-//	}
-//
-//	//if two people try to pull the same object
-//	[Command]
-//	public void CmdStopOtherPulling(GameObject obj)
-//	{
-//		PushPull objA = obj.GetComponent<PushPull>();
-//		objA.custNetActiveState = true;
-//		if (objA.pulledBy != null)
-//		{
-//			objA.pulledBy.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
-//		}
-//		var netTransform = obj.GetComponent<CustomNetTransform>();
-//		if (netTransform != null) {
-//			netTransform.SetPosition(obj.transform.localPosition);
-//		}
-//	}
-//
-//	[Command]
-//	public void CmdStopPulling(GameObject obj)
-//	{
-//		if (!isPulling)
-//		{
-//			return;
-//		}
-//
-//		isPulling = false;
-//		PushPull pulled = obj.GetComponent<PushPull>();
-//		pulled.RpcToggleCnt(true);
-//		//Cache value for new players
-//		pulled.custNetActiveState = true;
-//		if (pulled != null)
-//		{
-//			//			//this triggers currentPos syncvar hook to make sure registertile is been completed on all clients
-//			//			pulled.currentPos = pulled.transform.position;
-//
-//			IPlayerSync pS = gameObject.GetComponent<IPlayerSync>();
-//			pS.PullObjectID = NetworkInstanceId.Invalid;
-//			pulled.pulledBy = null;
-//		}
-//		var netTransform = obj.GetComponent<CustomNetTransform>();
-//		if (netTransform != null) {
-//			netTransform.SetPosition(obj.transform.localPosition);
-//		}
-//	}
 	#endregion
 
 	#region Push fields
@@ -608,13 +430,19 @@ public class PushPull : VisibleBehaviour {
 
 #if UNITY_EDITOR
 	private static Color color1 = Color.red;
+	private static Color color2 = Color.cyan;
+	private static Vector3 offset = new Vector2(0.05f,0.05f);
 
 	private void OnDrawGizmos() {
-		if ( !IsBeingPulled ) {
-			return;
+		if ( IsBeingPulled ) {
+			Gizmos.color = color1;
+			GizmoUtils.DrawArrow( transform.position, AttachedTo.transform.position - transform.position, 0.1f );
 		}
-		Gizmos.color = color1;
-		GizmoUtils.DrawArrow( transform.position, AttachedTo.transform.position - transform.position, 0.1f );
+		if ( IsBeingPulledClient ) {
+			Gizmos.color = color2;
+			Vector3 offPosition = transform.position + offset;
+			GizmoUtils.DrawArrow( offPosition, (AttachedToClient.transform.position + offset) - offPosition, 0.1f );
+		}
 	}
 #endif
 }
