@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -268,9 +268,8 @@ using UnityEngine.Networking;
 
 		private void Update() {
 			if ( isLocalPlayer && playerMove != null ) {
-				// If being pulled by another player and you try to break free
-				//todo: won't work for clients; change to IsBeingPulledClient / devise client+server PullState struct
-				if ( pushPull.IsBeingPulled && !playerMove.isGhost && playerMove.allowInput && IsPressingMoveButtons ) {
+//				 If being pulled by another player and you try to break free
+				if ( pushPull.IsBeingPulledClient && !playerScript.canNotInteract() && IsPressingMoveButtons ) {
 					pushPull.CmdStopFollowing();
 					return;
 				}

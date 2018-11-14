@@ -4,7 +4,11 @@ using UnityEngine.Events;
 
 /// Should be removed when common ancestor for PlayerSync and CustomNetTransform will be created
 public interface IPushable {
-	bool Push( Vector2Int direction, float speed = Single.NaN );
+	/// Push this thing in following direction
+	/// <param name="followMode">flag used when object is following its puller
+	/// (turns on tile snapping and removes player collision check)</param>
+	/// <returns>true if push was successful</returns>
+	bool Push( Vector2Int direction, float speed = Single.NaN, bool followMode = false );
 	bool PredictivePush( Vector2Int direction );
 	/// Rollback predictive push using last good position
 	void NotifyPlayers();

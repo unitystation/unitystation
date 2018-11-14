@@ -113,7 +113,7 @@ public partial class PlayerSync
 	/// Impulse should be consumed after one tile if indoors,
 	/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space
 	[Server]
-	public bool Push(Vector2Int direction, float speed = Single.NaN )
+	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false )
 	{ //player speed change not implemented yet
 		if (direction == Vector2Int.zero)		{
 			return false;
@@ -122,9 +122,12 @@ public partial class PlayerSync
 		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
 		Vector3Int pushGoal = origin + Vector3Int.RoundToInt( (Vector2)direction );
 
-		bool ignorePlayers = !float.IsNaN(speed);//temp hack for TryFollow
-		if ( !MatrixManager.IsPassableAt( origin, pushGoal, !ignorePlayers ) ) {
+		if ( !MatrixManager.IsPassableAt( origin, pushGoal, !followMode ) ) {
 			return false;
+		}
+
+		if ( followMode ) {
+			SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
 		}
 
 		Logger.Log( $"Server push to {pushGoal}", Category.PushPull );

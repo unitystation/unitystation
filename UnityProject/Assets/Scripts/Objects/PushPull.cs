@@ -165,9 +165,13 @@ public class PushPull : VisibleBehaviour {
 	/// Client requests to to break free
 	[Command]
 	public void CmdStopFollowing() {
-		//todo validate:	if ( pushPull.IsBeingPulled && !playerMove.isGhost && playerMove.allowInput )
-
-		StopFollowing();
+		if ( !IsBeingPulled ) {
+			return;
+		}
+		var player = PlayerList.Instance.Get( this.gameObject );
+		if ( player != ConnectedPlayer.Invalid && !player.Script.canNotInteract() ) {
+			StopFollowing();
+		}
 	}
 	[Server]
 	public void StopFollowing() {
@@ -198,7 +202,7 @@ public class PushPull : VisibleBehaviour {
 	}
 	[Server]
 	private bool TryFollow( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
-		if ( isNotPushable || isPushing || Pushable == null )
+		if ( !IsBeingPulled || isNotPushable || isPushing || Pushable == null )
 		{
 			return false;
 		}
@@ -211,8 +215,8 @@ public class PushPull : VisibleBehaviour {
 		{
 			return false;
 		}
-		//todo: tilesnap items so they don't keep their weird offset
-		bool success = Pushable.Push( dir, speed );
+
+		bool success = Pushable.Push( dir, speed, true );
 		if ( success ) {
 			pushTarget = target;
 //			Logger.LogTraceFormat( "Following {0}->{1}", Category.PushPull, from, target );
@@ -282,11 +286,13 @@ public class PushPull : VisibleBehaviour {
 		if ( success )
 		{
 			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
-				 !PlayerScript.IsInReach( AttachedTo.registerTile.WorldPosition, target ) ) {
+				( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(AttachedTo.registerTile.WorldPosition, target) ) )
+			{
 				StopFollowing();
 			}
 			if ( IsPullingSomething && //Break pull only if pushable will end up far enough
-				 !PlayerScript.IsInReach( ControlledObject.registerTile.WorldPosition, registerTile.WorldPosition ) ) {
+			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(ControlledObject.registerTile.WorldPosition, registerTile.WorldPosition) ) )
+			{
 				ReleaseControl();
 			}
 			isPushing = true;

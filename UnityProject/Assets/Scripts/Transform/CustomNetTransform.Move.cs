@@ -65,18 +65,20 @@ public partial class CustomNetTransform {
 	}
 
 	[Server]
-	public bool Push( Vector2Int direction, float speed = Single.NaN ) {
+	public bool Push( Vector2Int direction, float speed = Single.NaN, bool followMode = false ) {
 		Vector2 target = ( Vector2 ) serverState.WorldPosition + direction;
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
 			serverState.Speed = speed;
 		} else {
 			serverState.Speed = DefaultPushSpeed;
 		}
-		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
+
+		var targetTile = target.RoundToInt();
+		if (MatrixManager.IsEmptyAt( targetTile )) {
 			serverState.Impulse = direction;
 		}
 
-		SetPosition( target );
+		SetPosition( followMode ? targetTile.To2Int() : target );
 		return true;
 	}
 
