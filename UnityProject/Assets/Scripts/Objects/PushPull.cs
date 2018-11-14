@@ -358,7 +358,8 @@ public class PushPull : VisibleBehaviour {
 //		Logger.LogTraceFormat( "{0}: {1} is reached ON SERVER", Category.PushPull, gameObject.name, pos );
 		isPushing = false;
 		if ( pushTarget != TransformState.HiddenPos &&
-		     pushTarget != newPos )
+		     pushTarget != newPos &&
+		     !MatrixManager.IsFloatingAt(gameObject, newPos))
 		{
 			//unexpected pos reported by server tile (common in space, space )
 			pushRequestQueue.Clear();

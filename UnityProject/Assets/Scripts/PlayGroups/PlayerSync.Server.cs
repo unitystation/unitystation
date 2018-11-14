@@ -408,9 +408,8 @@ public partial class PlayerSync
 		yield return null;
 	}
 
-	private int CalculateRequiredPushes( Vector3 playerPos, Vector3Int pushablePos, Vector2 impulse )
-	{
-		return 5;
+	private int CalculateRequiredPushes( Vector3 playerPos, Vector3Int pushablePos, Vector2 impulse ) {
+		return 6;
 	}
 
 	/// <param name="worldTile">Tile you're interacting with</param>
@@ -490,9 +489,11 @@ public partial class PlayerSync
 			//Perpetual floating sim
 			if (ServerPositionsMatch)
 			{
-				if ( serverState.ImportantFlightUpdate ) {
+				if ( serverState.ImportantFlightUpdate )
+				{
 					NotifyPlayers();
-				} else
+				}
+				else if ( consideredFloatingServer )
 				{
 					var oldPos = serverState.WorldPosition;
 					//Extending prediction by one tile if player's transform reaches previously set goal
