@@ -31,27 +31,6 @@ public class PushPull : VisibleBehaviour {
 
 	public bool IsSolid => !registerTile.IsPassable();
 
-	protected override void Awake() {
-		base.Awake();
-		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
-
-		followAction = (oldPos, newPos) => {
-			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == registerTile.WorldPosition ) {
-				return;
-			}
-			var masterPos = oldPos.To2Int();
-			var currentSlavePos = registerTile.WorldPosition.To2Int();
-			var followDir =  masterPos - currentSlavePos;
-			if ( !TryFollow( registerTile.WorldPosition, followDir, AttachedTo.Pushable.MoveSpeedServer ) ) {
-				StopFollowing();
-			} else {
-				AttachedTo.NotifyPlayers(); // probably doubles messages for puller, but pulling looks proper even in high ping
-//				Logger.Log( $"{gameObject.name}: following {AttachedTo.gameObject.name} " +
-//							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
-
-			}
-		};
-	}
 
 	#region Pull Master
 
@@ -103,6 +82,27 @@ public class PushPull : VisibleBehaviour {
 
 	#endregion
 
+	protected override void Awake() {
+		base.Awake();
+		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
+
+		followAction = (oldPos, newPos) => {
+			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == registerTile.WorldPosition ) {
+				return;
+			}
+			var masterPos = oldPos.To2Int();
+			var currentSlavePos = registerTile.WorldPosition.To2Int();
+			var followDir =  masterPos - currentSlavePos;
+			if ( !TryFollow( registerTile.WorldPosition, followDir, AttachedTo.Pushable.MoveSpeedServer ) ) {
+				StopFollowing();
+			} else {
+				AttachedTo.NotifyPlayers(); // probably doubles messages for puller, but pulling looks proper even in high ping
+				Logger.Log( $"{gameObject.name}: following {AttachedTo.gameObject.name} " +
+							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
+
+			}
+		};
+	}
 	#region Pull
 
 	private UnityAction<Vector3Int,Vector3Int> followAction;
@@ -112,9 +112,9 @@ public class PushPull : VisibleBehaviour {
 	public PushPull AttachedTo {
 		get { return attachedTo; }
 		private set {
-			if ( IsBeingPulled ) { 
+			if ( IsBeingPulled ) {
 				attachedTo.Pushable?.OnStartMove().RemoveListener( followAction );
-				InformPullMessage.Send( attachedTo.gameObject, this, null ); //inform previous master that it's over </3
+				InformPullMessage.Send( attachedTo, this, null ); //inform previous master that it's over </3
 			}
 
 			if ( value != null )
@@ -123,10 +123,10 @@ public class PushPull : VisibleBehaviour {
 			}
 
 			attachedTo = value;
-			InformPullMessage.Send( this.gameObject, this, attachedTo ); //inform slave of new master – or lack thereof
-			
-			if ( IsBeingPulled ) { 
-				InformPullMessage.Send( attachedTo.gameObject, this, attachedTo ); //inform new master
+			InformPullMessage.Send( this, this, attachedTo ); //inform slave of new master – or lack thereof
+
+			if ( IsBeingPulled ) {
+				InformPullMessage.Send( attachedTo, this, attachedTo ); //inform new master
 			}
 		}
 	}
@@ -284,6 +284,10 @@ public class PushPull : VisibleBehaviour {
 			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
 				 !PlayerScript.IsInReach( AttachedTo.registerTile.WorldPosition, target ) ) {
 				StopFollowing();
+			}
+			if ( IsPullingSomething && //Break pull only if pushable will end up far enough
+				 !PlayerScript.IsInReach( ControlledObject.registerTile.WorldPosition, registerTile.WorldPosition ) ) {
+				ReleaseControl();
 			}
 			isPushing = true;
 			pushTarget = target;

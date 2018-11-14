@@ -26,23 +26,31 @@ public class InformPullMessage : ServerMessage
 			subject.AttachedToClient.ControlledObjectClient = null;
 		}
 		subject.AttachedToClient = pulledBy;
-		var status = pulledBy == null ? "no longer being pulled" : "now pulled by " + pulledBy.gameObject.name;
-		Logger.Log( $"Received: {subject.gameObject.name} is {status}", Category.PushPull );
+		Logger.Log( $"Received: {subject.gameObject.name} is {getStatus( pulledBy )}", Category.PushPull );
 	}
 
-	//
 /// <param name="recipient">Send to whom</param>
 /// <param name="subject">Who is this message about</param>
 /// <param name="pulledBy">Who pulls the subject</param>
-	public static InformPullMessage Send(GameObject recipient, PushPull subject, PushPull pulledBy)
+	public static InformPullMessage Send(PushPull recipient, PushPull subject, PushPull pulledBy)
 	{
+		//not sending message to non-players
+		if ( !recipient || recipient.registerTile.ObjectType != ObjectType.Player ) {
+			return null;
+		}
 		InformPullMessage msg =
 			new InformPullMessage { Subject = subject.gameObject.NetId(),
 									PulledBy = pulledBy == null ? NetworkInstanceId.Invalid : pulledBy.gameObject.NetId(),
 			};
 
-		msg.SendTo(recipient);
+		msg.SendTo(recipient.gameObject);
+		Logger.LogTraceFormat( "Sent to {0}: {1} is {2}", Category.PushPull, recipient, subject, getStatus( pulledBy ) );
 		return msg;
+	}
+
+	private static string getStatus( PushPull pulledBy ) {
+		var status = pulledBy == null ? "no longer being pulled" : "now pulled by " + pulledBy.gameObject.name;
+		return status;
 	}
 
 	public override string ToString()
