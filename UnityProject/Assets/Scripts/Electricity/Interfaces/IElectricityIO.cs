@@ -9,15 +9,31 @@ using System;
 public interface IElectricityIO
 {
 
+	HashSet<IElectricityIO> ResistanceToConnectedDevices {get; set;}
+	HashSet<IElectricityIO> connectedDevices {get; set;}
 	PowerTypeCategory Categorytype {get; set;}
 	HashSet<PowerTypeCategory> CanConnectTo {get; set;}
 	int FirstPresent {get; set;}
 	Dictionary<int,HashSet<IElectricityIO>> Downstream {get; set;}
 	Dictionary<int,HashSet<IElectricityIO>> Upstream {get; set;}
-	Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceTosource {get; set;}
+	Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceComingFrom {get; set;}
+	Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceGoingTo {get; set;}
+	Dictionary<int,float> SourceVoltages {get; set;}
+	Dictionary<int,Dictionary<IElectricityIO,float>> CurrentGoingTo{get; set;}
 	Dictionary<int,Dictionary<IElectricityIO,float>> CurrentComingFrom {get; set;}
-	float ActualCurrentChargeInWire {get; set;}
+	Electricity ActualCurrentChargeInWire {get; set;}
 	List<IElectricityIO> connections {get; set;}
+	bool CanProvideResistance {get; set;}
+	float PassedDownResistance {get; set;}
+
+	float UpstreamCount {get; set;}
+	float DownstreamCount {get; set;}
+	float CurrentInWire  {get; set;}
+	float ActualVoltage {get; set;}
+	float EstimatedResistance {get; set;}
+
+
+	void FindPossibleConnections ();
 	/// <summary>
 	/// The input path to the object/wire
 	/// 
@@ -45,13 +61,27 @@ public interface IElectricityIO
 	/// <summary>
 	///  Sets the upstream 
 	/// </summary>
-	void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom);
+	void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO PassOn  = null);
 	/// <summary>
 	/// Sets the downstream and pokes the next one along 
 	/// </summary>
 	void DirectionOutput(int tick, GameObject SourceInstance);
+	/// <summary>
+	/// Flushs the connection and up. Flushes out everything
+	/// </summary>
+	void FlushConnectionAndUp ();
 
 
+	/// <summary>
+	/// Flushs the resistance and up. Cleans out resistance and current 
+	/// </summary>
+	void FlushResistanceAndUp ( GameObject SourceInstance = null );
+	/// <summary>
+	/// Flushs the supply and up. Cleans out the current 
+	/// </summary>
+	void FlushSupplyAndUp ( GameObject SourceInstance = null );
+
+	void RemoveSupply (GameObject SourceInstance = null);
 	/// <summary>
 	///     Returns a struct with both connection points as members
 	///     the connpoint connection positions are represented using 4 bits to indicate N S E W - 1 2 4 8
@@ -59,6 +89,8 @@ public interface IElectricityIO
 	///     This is the edge of the location where the input connection enters the turf
 	///     Use 0 for Machines or grills that can conduct electricity from being placed ontop of any wire configuration
 	/// </summary>
+	void SetConnPoints(int DirectionEnd, int DirectionStart);
+	 
 	ConnPoint GetConnPoints();
 
 	//Return the GameObject that this interface is on

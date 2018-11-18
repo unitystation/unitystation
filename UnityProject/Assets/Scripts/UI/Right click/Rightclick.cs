@@ -24,7 +24,11 @@ public class Rightclick : MonoBehaviour {
 		["Drag"] = 3, 
 		["Open/close"] = 4, 
 		["Details"] = 5,
-		["Unknown"] = 6, 
+		["Turn on/Turn off"] = 6, 
+		["Toggle Charge"] = 7, 
+		["Toggle Support"] = 8, 
+		["Unknown"] = 9, 
+
 	};
 
 	public Dictionary<string, Sprite> SpriteDictionary = new Dictionary<string, Sprite>()	{	};
@@ -52,6 +56,7 @@ public class Rightclick : MonoBehaviour {
 		SpriteDictionary ["Magnifying_glass"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Magnifying_glass");
 		SpriteDictionary ["question_mark"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "question_mark");
 		SpriteDictionary ["Drag_Hand"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Drag_Hand");
+		SpriteDictionary ["Power_Button"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Power_Button");
 	}
 
 

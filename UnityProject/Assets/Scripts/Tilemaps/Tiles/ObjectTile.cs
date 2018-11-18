@@ -19,6 +19,7 @@ using UnityEditor;
 		[Header("Wire Stuff:")]
 		public bool IsWire;
 		public Vector2Int WireStartEnd;
+		public WiringColor CableType;
 		public Sprite wireSprite;
 
 #if UNITY_EDITOR
@@ -101,8 +102,13 @@ using UnityEditor;
 
 		void SetWireSettings(GameObject spawnedObj)
 		{
-			var wireScript = spawnedObj.GetComponent<StructurePowerWire>();
-			wireScript.SetDirection(WireStartEnd.x, WireStartEnd.y);
+		var wireScript = spawnedObj.GetComponent<IElectricityIO>();
+		//Logger.Log (WireStartEnd.x.ToString() + " <x and y> " + WireStartEnd.x.ToString());
+		wireScript.SetConnPoints(WireStartEnd.y, WireStartEnd.x);
+		var SpriteScript = spawnedObj.GetComponent<StructurePowerWire>();
+		//Logger.Log(SpriteScript.ToString() + "oh yeah?");
+		SpriteScript.damEditor (WireStartEnd.x, WireStartEnd.y,CableType);
+
 		}
 
 		public override Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool anticlockwise = true, int count = 1)

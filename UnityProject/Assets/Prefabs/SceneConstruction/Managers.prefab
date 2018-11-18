@@ -2147,6 +2147,7 @@ GameObject:
   - component: {fileID: 114113997428961118}
   - component: {fileID: 114025630962641706}
   - component: {fileID: 114920310630293518}
+  - component: {fileID: 114576905657456006}
   m_Layer: 0
   m_Name: CraftingManager
   m_TagString: Untagged
@@ -17371,6 +17372,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114576905657456006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1422774297365668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b6a9e712bdf3f408fa4cc0b8b718cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114582320827129514
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -4,175 +4,153 @@ using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.Events;
 
+public class PowerSupply : NetworkBehaviour, IElectricityIO , IProvidePower
+{
+	//A list of all devices connected to the circuit:
+	public IElectricalNeedUpdate RelatedUpdateDevice {get; set;}
 
-public class PowerSupply : NetworkBehaviour, IElectricityIO
-	{
-		//A list of all devices connected to the circuit:
-		public HashSet<PoweredDevice> connectedDevices = new HashSet<PoweredDevice>();
+	[Header("0 = conn to wire on same tile")]
+	public int DirectionStart;
+	public int DirectionEnd;
 
-		//A list of all power generators connect to the circuit:
-		public List<PowerGenerator> powerGenerators = new List<PowerGenerator>();
+	public HashSet<IElectricityIO> ResistanceToConnectedDevices {get; set;} = new HashSet<IElectricityIO>();
+	public HashSet<IElectricityIO> connectedDevices {get; set;} = new HashSet<IElectricityIO>();
+	public List<IElectricityIO> connections {get; set;} = new List<IElectricityIO> ();
+	public Dictionary<int,Dictionary<IElectricityIO,float>> CurrentGoingTo{get; set;} = new Dictionary<int, Dictionary<IElectricityIO, float>> ();
+	public Dictionary<int,Dictionary<IElectricityIO,float>> CurrentComingFrom {get; set;} = new Dictionary<int, Dictionary<IElectricityIO, float>> ();
+	public Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceComingFrom {get; set;} = new Dictionary<int, Dictionary<IElectricityIO, float>> ();
+	public Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceGoingTo {get; set;} = new Dictionary<int, Dictionary<IElectricityIO, float>> ();
+	public Dictionary<int,float> SourceVoltages {get; set;}  = new Dictionary<int, float> ();
+	public Dictionary<int,HashSet<IElectricityIO>> Downstream {get; set;} = new Dictionary<int, HashSet<IElectricityIO>> ();
+	public Dictionary<int,HashSet<IElectricityIO>> Upstream {get; set;} = new Dictionary<int, HashSet<IElectricityIO>> ();
+	public float ActualCurrent {get; set;}
+	public PowerTypeCategory Categorytype { get; set; }
+	public HashSet<PowerTypeCategory> CanConnectTo {get; set;}
+	public int FirstPresent {get; set;} = new int();
+	public int FirstPresentInspector = 0;
+	public Electricity ActualCurrentChargeInWire {get; set;} = new Electricity();
+	//For unity editor
+	public float UpstreamCount {get; set;} = new float();
+	public float DownstreamCount {get; set;} = new float();
+	public float CurrentInWire  {get; set;} = new float();
+	public float ActualVoltage {get; set;} = new float();
+	public float EstimatedResistance {get; set;} = new float();
 
-		//All power suppliers on this circuit:
-		public List<PowerSupply> allSuppliers = new List<PowerSupply>();
+	public List<IElectricityIO> DirectionWorkOnNextList  {get; set;} = new List<IElectricityIO> ();
 
-		[Header("0 = conn to wire on same tile")]
-		public int connPointA = 0;
-		public int connPointB = -1;
+	public bool CanProvideResistance {get; set;} = false;
+	public float PassedDownResistance {get; set;}
 
-		public List<IElectricityIO> connections {get; set;}
-		public PowerSupply supplySource; //Where is the voltage coming from
-		public Dictionary<int,Dictionary<IElectricityIO,float>> CurrentComingFrom {get; set;}
-		public Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceTosource {get; set;}
-		public Dictionary<int,HashSet<IElectricityIO>> Downstream {get; set;}
-		public Dictionary<int,HashSet<IElectricityIO>> Upstream {get; set;}
-		public float ActualCurrent {get; set;}
-		public PowerTypeCategory Categorytype { get; set; }
-		public HashSet<PowerTypeCategory> CanConnectTo {get; set;}
-		public int FirstPresent {get; set;}
-		public int FirstPresentInspector = 0;
-		public float ActualCurrentChargeInWire {get; set;}
-		//For unity editor
-		public int DownstreamCount;
-		public int UpstreamCount;
-		public float VisibleResistance;
+	public RegisterObject registerTile;
+	private Matrix matrix => registerTile.Matrix;
+	public bool connected = false;
+	public bool supplyElectricity; //Provide electricity to the circuit or not
 	public float SupplyingCurrent;
-	public float EditorActualCurrentChargeInWire;
+	//If the circuit changes send an event to all the elements that make up the circuit
 
 
-		//Used to work out the way current and voltage will we work out
 
+	//Objects this wire is connected to
 
-		//The wire that is connected to this supply
-		private IElectricityIO connectedWire;
+	public void FindPossibleConnections(){
+		connections.Clear();
+		connections = ElectricityFunctions.FindPossibleConnections(
+			transform.localPosition,
+			matrix,
+			CanConnectTo,
+			GetConnPoints()
+		);
+		if (connections.Count > 0){
+			connected =  true;
+		}
 
-		public RegisterObject registerTile;
-		private Matrix matrix => registerTile.Matrix;
-		public bool connected = false;
-		public bool supplyElectricity; //Provide electricity to the circuit or not
-		public int currentTick;
-		public float tickRate = 1f; //currently set to update every second
-		private float tickCount = 0f;
+	}
 
-		//If the circuit changes send an event to all the elements that make up the circuit
-		public UnityEvent OnCircuitChange;
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		//Not working for some reason:
+		//registerTile = gameObject.GetComponent<RegisterItem>();
+		StartCoroutine(WaitForLoad());
+	}
 
-		//TEST ELECTRICITY PROPERTIES (TESTING WITH UNLIMITED CHARGE)
-		public float Voltage;
-		public float Current;
+	IEnumerator WaitForLoad()
+	{
+		yield return new WaitForSeconds(2f);
+		FindPossibleConnections();
+	}
 
-		//Objects this wire is connected to
+	public void TurnOnSupply(){
 
-		[ContextMenu("FindConnections")]
-		void FindPossibleConnections(){
-			connections.Clear();
-			connections = ElectricityFunctions.FindPossibleConnections(
-				transform.localPosition,
-				matrix,
-				CanConnectTo,
-				GetConnPoints()
-			);
-			if (connections.Count > 0){
-				connected =  true;
+	}
+
+	public void TurnOffSupply(){
+		RemoveSupply (this.GameObject());
+		//OnCircuitChange.Invoke();
+	}
+
+	public void PowerUpdateStructureChange(){
+		//Logger.Log (connectedDevices.Count.ToString());
+		FlushConnectionAndUp ();
+		//CircuitSearchLoop ();
+
+	}
+	public void PowerUpdateStructureChangeReact(){
+		CircuitSearchLoop ();
+	}
+	public void PowerUpdateResistanceChange(){
+		//CircuitSearchLoop ();
+		FlushResistanceAndUp (this.gameObject);
+		//Logger.Log ("eyyp");
+		if (connectedDevices.Count > 0) {
+			//Logger.Log ("connectedDevices");
+			foreach (IElectricityIO ConnectedDevice in connectedDevices) {
+				//Logger.Log (ConnectedDevice.ToString () + "yea ConnectedDevice");
+				//Logger.Log (this.gameObject.GetInstanceID().ToString() + " < Sending");
+				ConnectedDevice.ResistanceInput (ElectricalSynchronisation.currentTick, 1.11111111f, this.gameObject, null);
+
 			}
+		}
+	}
+	public void PowerUpdateCurrentChange (){
+		//Logger.Log (connections.Count.ToString ());
+		FlushSupplyAndUp (this.gameObject); //Make a step one for removing from network vs  Removing the Pacific once data
+
+		if (connectedDevices.Count > 0) {
+			//Logger.Log ("connectedDevices");
+			//int InstanceID = this.gameObject.GetInstanceID ();
+			//float Resistance = ElectricityFunctions.WorkOutResistance (ResistanceComingFrom [InstanceID]);
+			//Logger.Log (Resistance.ToString () + " Received resistance", Category.Electrical);
+			//float Voltage = SupplyingCurrent * Resistance;
+			if (SupplyingCurrent != 0) {
+				ElectricityOutput (ElectricalSynchronisation.currentTick, SupplyingCurrent, this.gameObject);
+
+			}
+
+		}
+	}
+
+	public void PowerNetworkUpdate (){
+
+	}
+
+
 			
-		}
-		void Awake(){
-			Upstream = new Dictionary<int, HashSet<IElectricityIO>> ();
-			Downstream = new Dictionary<int, HashSet<IElectricityIO>> ();
-			ResistanceTosource = new Dictionary<int, Dictionary<IElectricityIO, float>> ();
-			CurrentComingFrom = new Dictionary<int, Dictionary<IElectricityIO, float>> ();
-			connections = new List<IElectricityIO> ();
-			
-		}
-		[ContextMethod("Details","Magnifying_glass")]
-		public void ShowDetails(){
-			Logger.Log("connections " + (connections.Count.ToString()), Category.Electrical);
-			Logger.Log ("ID " + (this.GetInstanceID ()), Category.Electrical);
-			Logger.Log ("Type " + (Categorytype.ToString()), Category.Electrical);
-			Logger.Log ("Can connect to " + (string.Join(",", CanConnectTo)), Category.Electrical);
-		}
 
-		private void OnEnable()
-		{
-			EventManager.AddHandler(EVENT.PowerNetSelfCheck, FindPossibleConnections);
-			if (OnCircuitChange == null) {
-				OnCircuitChange = new UnityEvent();
+	public void CircuitSearchLoop(){
+		DirectionOutput (ElectricalSynchronisation.currentTick, this.gameObject);
+		while (DirectionWorkOnNextList.Count > 0) {
+			List<IElectricityIO> IterateDirectionWorkOnNextList = new List<IElectricityIO> (DirectionWorkOnNextList);
+			DirectionWorkOnNextList = new List<IElectricityIO> ();
+			for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++) { 
+
+				//Logger.Log (IterateDirectionWorkOnNextList [i].ToString ());
+				IterateDirectionWorkOnNextList [i].DirectionOutput (ElectricalSynchronisation.currentTick, this.gameObject);
 			}
 		}
+	}
 
-		private void OnDisable()
-		{
-			EventManager.RemoveHandler(EVENT.PowerNetSelfCheck, FindPossibleConnections);
-		}
-		public override void OnStartClient()
-		{
-			base.OnStartClient();
-			//Not working for some reason:
-			//registerTile = gameObject.GetComponent<RegisterItem>();
-			StartCoroutine(WaitForLoad());
-			allSuppliers.Add(this);
-		}
-
-		IEnumerator WaitForLoad()
-		{
-			yield return new WaitForSeconds(2f);
-			FindPossibleConnections();
-		}
-		
-		public void TurnOnSupply(float current){
-		SupplyingCurrent = current;
-			//Tell the electrical network to check all of their connections:
-			//EventManager.Broadcast(EVENT.PowerNetSelfCheck);
-			//Test //TODO calculate these values and implement a charge variable
-			//Voltage = voltage;
-			//Current = current;
-
-			supplyElectricity = true;
-		}
-
-		public void TurnOffSupply(){
-			supplyElectricity = false;
-			Electricity supply = new Electricity();
-			supply.voltage = 0f;
-			supply.current = 0f;
-//			supply.suppliers = allSuppliers.ToArray();
-			currentTick++;
-//			ElectricityOutput(currentTick, supply);
-			OnCircuitChange.Invoke();
-		}
-
-		void Update(){
-			if(supplyElectricity && connected){
-				tickCount += Time.deltaTime;
-				if(tickCount > tickRate){
-					tickCount = 0f;
-					currentTick++;
-				DirectionInput (currentTick, this.gameObject, this.GetComponent<IElectricityIO>());
-				if (connectedDevices.Count > 0) {
-					foreach (IElectricityIO ConnectedDevice in connectedDevices) {
-						ConnectedDevice.ResistanceInput (currentTick,1.11111111f, this.gameObject, ConnectedDevice);
-					}
-					int InstanceID = this.gameObject.GetInstanceID ();
-					float Resistance = ElectricityFunctions.WorkOutResistance (ResistanceTosource[InstanceID]);
-					Logger.Log (Resistance.ToString () + " Received resistance", Category.Electrical);
-					float Voltage = SupplyingCurrent * Resistance;
-					ElectricityInput (currentTick, SupplyingCurrent, this.gameObject, this);
-				}
-					//Supply the electricity
-//					Electricity supply = new Electricity();
-//					supply.voltage = Voltage;
-//					supply.current = Current;
-					//TODO Make sure the actual power supply that is sending the struct is at index 0
-					//If there are multiple suppliers on the network then they join together and act as one
-					//with the supplier with the most charge and latest tick rate taking charge
-//					supply.suppliers = allSuppliers.ToArray();
-//					ElectricityOutput(currentTick, supply);
-				}
-			}
-		}
-
-	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom){
+	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO PassOn  = null){
 		ElectricityFunctions.DirectionInput (tick, SourceInstance,ComingFrom, this);
 		FirstPresentInspector = FirstPresent;
 	} 
@@ -181,6 +159,8 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		DownstreamCount = Downstream [SourceInstanceID].Count;
 		UpstreamCount = Upstream [SourceInstanceID].Count;
+
+
 		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Upstream[SourceInstanceID].Count.ToString (), Category.Electrical);
 	}
 
@@ -192,32 +172,66 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO
 	//Output electricity to this next wire/object
 
 	public void ResistancyOutput(int tick, float Resistance, GameObject SourceInstance){
+		//Logger.Log (SourceInstance.GetInstanceID().ToString() + " < Receive | is > " + this.gameObject.GetInstanceID().ToString() );
 		if (!(SourceInstance == this.gameObject)) {
 			ElectricityFunctions.ResistancyOutput (tick, Resistance, SourceInstance, this);
 		}
-		VisibleResistance = Resistance; 
+		//VisibleResistance = Resistance; 
 	}
 	public void ElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){ 
 		ElectricityFunctions.ElectricityInput(tick, Current, SourceInstance,  ComingFrom,this);
 
 	}
+	public void SetConnPoints(int DirectionEndin, int DirectionStartin){
 
+	}
 
 	public void ElectricityOutput(int tick, float Current, GameObject SourceInstance){
-		EditorActualCurrentChargeInWire = ActualCurrentChargeInWire;
 		ElectricityFunctions.ElectricityOutput(tick,Current,SourceInstance,this);
+		ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
+		CurrentInWire = ActualCurrentChargeInWire.Current;
+		ActualVoltage = ActualCurrentChargeInWire.Voltage;
+		EstimatedResistance = ActualCurrentChargeInWire.EstimatedResistant;
+		//EstimatedResistance = ActualCurrentChargeInWire.Voltage;
 	}
-		public GameObject GameObject()
-		{
-			return gameObject;
-		}
+	public GameObject GameObject()
+	{
+		return gameObject;
+	}
 
-		public ConnPoint GetConnPoints()
-		{
-			ConnPoint points = new ConnPoint();
-			points.pointA = connPointA;
-			points.pointB = connPointB;
-			return points;
-		}
+	public ConnPoint GetConnPoints()
+	{
+		ConnPoint points = new ConnPoint();
+		points.pointA = DirectionStart;
+		points.pointB = DirectionEnd;
+		return points;
 	}
+
+	public void FlushConnectionAndUp ( ){
+		ElectricityFunctions.PowerSupplies.FlushConnectionAndUp (this);
+	}
+	public void FlushResistanceAndUp (  GameObject SourceInstance = null  ){
+		ElectricityFunctions.PowerSupplies.FlushResistanceAndUp (this, SourceInstance);
+	}
+	public void FlushSupplyAndUp ( GameObject SourceInstance = null ){
+		ElectricityFunctions.PowerSupplies.FlushSupplyAndUp (this, SourceInstance);
+	}
+	public void RemoveSupply( GameObject SourceInstance = null){
+		ElectricityFunctions.PowerSupplies.RemoveSupply (this, SourceInstance);
+	}
+
+	[ContextMethod("Details","Magnifying_glass")]
+	public void ShowDetails(){
+		Logger.Log("connections " + (connections.Count.ToString()), Category.Electrical);
+		Logger.Log ("ID " + (this.GetInstanceID ()), Category.Electrical);
+		Logger.Log ("Type " + (Categorytype.ToString()), Category.Electrical);
+		Logger.Log ("Can connect to " + (string.Join(",", CanConnectTo)), Category.Electrical);
+		Logger.Log("UpstreamCount " + (UpstreamCount.ToString()), Category.Electrical);
+		Logger.Log("DownstreamCount " + (DownstreamCount.ToString()), Category.Electrical);
+		Logger.Log("CurrentInWire " + (CurrentInWire.ToString()), Category.Electrical);
+		Logger.Log("ActualVoltage " + (ActualVoltage.ToString()), Category.Electrical);
+		Logger.Log("EstimatedResistance " + (EstimatedResistance.ToString()), Category.Electrical);
+	}
+
+}
 
