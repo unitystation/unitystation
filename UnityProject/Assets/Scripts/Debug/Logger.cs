@@ -169,6 +169,5 @@ public enum Category {
 	TileMaps,
 	Construction,
 	DatabaseAPI,
-	PlayerSprites,
-	Electrical
+	PlayerSprites
 }
