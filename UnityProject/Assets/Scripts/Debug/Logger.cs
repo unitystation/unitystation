@@ -90,37 +90,37 @@ public static class Logger
 		string msg = categoryPrefix + message;
 		if ( args.Length > 0 ) {
 			switch ( messageLevel ) {
-				case Level.Off:
-					break;
-				case Level.Error:
-					Debug.LogErrorFormat( msg, args );
-					break;
-				case Level.Warning:
-					Debug.LogWarningFormat( msg, args );
-					break;
-				case Level.Info:
-					Debug.LogFormat( msg, args );
-					break;
-				case Level.Trace:
-					Debug.LogFormat( msg, args );
-					break;
+			case Level.Off:
+				break;
+			case Level.Error:
+				Debug.LogErrorFormat( msg, args );
+				break;
+			case Level.Warning:
+				Debug.LogWarningFormat( msg, args );
+				break;
+			case Level.Info:
+				Debug.LogFormat( msg, args );
+				break;
+			case Level.Trace:
+				Debug.LogFormat( msg, args );
+				break;
 			}
 		} else {
 			switch ( messageLevel ) {
-				case Level.Off:
-					break;
-				case Level.Error:
-					Debug.LogError( msg );
-					break;
-				case Level.Warning:
-					Debug.LogWarning( msg );
-					break;
-				case Level.Info:
-					Debug.Log( msg );
-					break;
-				case Level.Trace:
-					Debug.Log( msg );
-					break;
+			case Level.Off:
+				break;
+			case Level.Error:
+				Debug.LogError( msg );
+				break;
+			case Level.Warning:
+				Debug.LogWarning( msg );
+				break;
+			case Level.Info:
+				Debug.Log( msg );
+				break;
+			case Level.Trace:
+				Debug.Log( msg );
+				break;
 			}
 		}
 
