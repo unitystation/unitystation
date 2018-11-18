@@ -419,14 +419,14 @@ MonoBehaviour:
   characterNameField: {fileID: 1097934861}
   ageField: {fileID: 1818085121}
   genderText: {fileID: 506934251}
-  hairStyleText: {fileID: 1186330122}
-  facialHairText: {fileID: 2026111425}
-  underwearText: {fileID: 172952585}
-  socksText: {fileID: 356346655}
   hairColor: {fileID: 902508924}
   eyeColor: {fileID: 1526962162}
   facialColor: {fileID: 1595538784}
   skinColor: {fileID: 508474985}
+  hairDropdown: {fileID: 0}
+  facialHairDropdown: {fileID: 0}
+  underwearDropdown: {fileID: 0}
+  socksDropdown: {fileID: 0}
   hairSpriteController: {fileID: 1971573767}
   facialHairSpriteController: {fileID: 967628546}
   underwearSpriteController: {fileID: 1110664443}
@@ -4681,9 +4681,35 @@ Prefab:
       propertyPath: hostToggle
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 224599716051025124, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0.000000479562
+      objectReference: {fileID: 0}
+    - target: {fileID: 224599716051025124, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0.41528586
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &559948101 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1422774297365668, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 2}
+  m_PrefabInternal: {fileID: 559948100}
+--- !u!114 &559948102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 559948101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b6a9e712bdf3f408fa4cc0b8b718cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &564628088
 GameObject:
   m_ObjectHideFlags: 0
@@ -10151,7 +10177,7 @@ Prefab:
     - target: {fileID: 224759607104819202, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00006432613
+      value: -0.0000152297835
       objectReference: {fileID: 0}
     - target: {fileID: 224709062734776106, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 2}
