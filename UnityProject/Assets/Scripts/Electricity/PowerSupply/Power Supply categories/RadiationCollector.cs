@@ -32,7 +32,7 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate {
 		powerSupply.PowerUpdateStructureChangeReact ();
 	}
 	public void PowerUpdateResistanceChange(){
-		Logger.Log ("PowerUpdateResistanceChange");
+		//Logger.Log ("PowerUpdateResistanceChange");
 		powerSupply.PowerUpdateResistanceChange ();
 	}
 	public void PowerUpdateCurrentChange (){

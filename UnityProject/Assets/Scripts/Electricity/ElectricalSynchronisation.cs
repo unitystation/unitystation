@@ -118,12 +118,12 @@ public static class ElectricalSynchronisation {
 						ALiveSupplies [ToWork] = new HashSet<IElectricalNeedUpdate> ();
 
 					} 
-//					foreach (IElectricalNeedUpdate TheSupply in ALiveSupplies[ToWork]) {
-//						TheSupply.PowerNetworkUpdate ();
-//					} 
+					foreach (IElectricalNeedUpdate TheSupply in ALiveSupplies[ToWork]) {
+						TheSupply.PowerNetworkUpdate ();
+					} 
 
 				}
-				//Logger.Log (PoweredDevices.Count.ToString () + "  wow longgg!");
+
 				foreach (IElectricalNeedUpdate ToWork in PoweredDevices) {
 					ToWork.PowerNetworkUpdate ();
 				}
