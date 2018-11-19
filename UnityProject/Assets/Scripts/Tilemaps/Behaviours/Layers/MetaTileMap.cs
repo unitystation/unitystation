@@ -26,20 +26,20 @@ using UnityEngine;
             return IsPassableAt(position, position);
         }
 
-		public bool IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true )
+		public bool IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true, GameObject context = null )
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
-			return _IsPassableAt(origin, toX, inclPlayers) && _IsPassableAt(toX, to, inclPlayers) ||
-			        _IsPassableAt(origin, toY, inclPlayers) && _IsPassableAt(toY, to, inclPlayers);
+			return _IsPassableAt(origin, toX, inclPlayers, context) && _IsPassableAt(toX, to, inclPlayers, context) ||
+			        _IsPassableAt(origin, toY, inclPlayers, context) && _IsPassableAt(toY, to, inclPlayers, context);
 		}
 
-		private bool _IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true )
+		private bool _IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true, GameObject context = null )
 		{
 			foreach (Layer layer in Layers.Values)
 			{
-				if (!layer.IsPassableAt(origin, to, inclPlayers))
+				if (!layer.IsPassableAt(origin, to, inclPlayers, context))
 				{
 					return false;
 				}

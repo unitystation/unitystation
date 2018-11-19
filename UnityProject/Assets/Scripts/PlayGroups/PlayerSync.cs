@@ -133,7 +133,7 @@ using UnityEngine.Networking;
 			Vector3Int origin = Vector3Int.RoundToInt( state.WorldPosition );
 			Vector3Int direction = Vector3Int.RoundToInt( ( Vector2 ) action.Direction() );
 
-			return MatrixManager.IsPassableAt( origin, origin + direction );
+			return MatrixManager.IsPassableAt( origin, origin + direction, true, gameObject );
 		}
 
 		#region spess interaction logic
