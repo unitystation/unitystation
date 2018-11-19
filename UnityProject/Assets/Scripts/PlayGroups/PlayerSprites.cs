@@ -77,21 +77,27 @@ public class PlayerSprites : NetworkBehaviour
 		}
 		//Torso
 		characterSprites[0].reference = characterSettings.torsoSpriteIndex;
+		characterSprites[0].UpdateSprite();
 		//Head
 		characterSprites[5].reference = characterSettings.headSpriteIndex;
+		characterSprites[5].UpdateSprite();
 		//Eyes
 		ColorUtility.TryParseHtmlString(characterSettings.eyeColor, out newColor);
 		characterSprites[6].spriteRenderer.color = newColor;
 		//Underwear
 		characterSprites[7].reference = characterSettings.underwearOffset;
+		characterSprites[7].UpdateSprite();
 		//Socks
 		characterSprites[8].reference = characterSettings.socksOffset;
+		characterSprites[8].UpdateSprite();
 		//Beard
 		characterSprites[9].reference = characterSettings.facialHairOffset;
+		characterSprites[9].UpdateSprite();
 		ColorUtility.TryParseHtmlString(characterSettings.facialHairColor, out newColor);
 		characterSprites[9].spriteRenderer.color = newColor;
 		//Hair
 		characterSprites[10].reference = characterSettings.hairStyleOffset;
+		characterSprites[10].UpdateSprite();
 		ColorUtility.TryParseHtmlString(characterSettings.hairColor, out newColor);
 		characterSprites[10].spriteRenderer.color = newColor;
 	}
@@ -102,6 +108,7 @@ public class PlayerSprites : NetworkBehaviour
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			CmdUpdateCharacter(JsonUtility.ToJson(PlayerManager.CurrentCharacterSettings));
+			FaceDirection( currentDirection );
 		}
 		while(string.IsNullOrEmpty(characterData)){
 			yield return YieldHelper.DeciSecond;

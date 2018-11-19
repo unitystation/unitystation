@@ -6,7 +6,7 @@ public class PostProcessingStack
 	private readonly MaterialContainer mMaterialContainer;
 	private RenderTexture mBlurRenderTexture;
 	private RenderTexture mBlurRenderTextureLight;
-	private RenderTexture mBlurRenderTextureWallLight;
+	private RenderTexture mBlurRenderTextureOccLight;
 
 	public PostProcessingStack(MaterialContainer iMaterialContainer)
 	{
@@ -55,24 +55,24 @@ public class PostProcessingStack
 		}
 	}
 
-	private RenderTexture blurRenderTextureWallLight
+	private RenderTexture blurRenderTextureOccLight
 	{
 		get
 		{
-			return mBlurRenderTextureWallLight;
+			return mBlurRenderTextureOccLight;
 		}
 
 		set
 		{
-			if (mBlurRenderTextureWallLight == value)
+			if (mBlurRenderTextureOccLight == value)
 				return;
 
-			if (mBlurRenderTextureWallLight != null)
+			if (mBlurRenderTextureOccLight != null)
 			{
-				mBlurRenderTextureWallLight.Release();
+				mBlurRenderTextureOccLight.Release();
 			}
 
-			mBlurRenderTextureWallLight = value;
+			mBlurRenderTextureOccLight = value;
 		}
 	}
 
@@ -91,14 +91,27 @@ public class PostProcessingStack
 	public void BlurLightMask(
 		RenderTexture iMask,
 		RenderSettings iRenderSettings,
-		float iCameraSize)
+		float iCameraSize,
+		float iMatrixRotationModeBlend)
 	{
-		Blur(iMask, mMaterialContainer.lightBlurMaterial, iRenderSettings.lightBlurInterpolation, iRenderSettings.lightBlurIterations, blurRenderTextureLight, iCameraSize);
-
-		return;
+		// In case of matrix rotation we want to blur more to hide quirks.
+		float _interpolation = Mathf.Lerp(iRenderSettings.lightBlurInterpolation, iRenderSettings.lightBlurInterpolation * 4, iMatrixRotationModeBlend);
+ 
+		Blur(iMask, mMaterialContainer.lightBlurMaterial, _interpolation, iRenderSettings.lightBlurIterations, blurRenderTextureLight, iCameraSize);
 	}
 
-	public void ResetRenderingTextures(MaskParameters iParameters)
+	public void BlurOcclusionMaskRotation(
+		RenderTexture iMask,
+		RenderSettings iRenderSettings,
+		float iCameraSize,
+		float iMatrixRotationModeBlend)
+	{
+		float _interpolation = Mathf.Lerp(0, iRenderSettings.rotationBlurInterpolation, iMatrixRotationModeBlend);
+
+		Blur(iMask, mMaterialContainer.lightBlurMaterial, _interpolation, iRenderSettings.rotationBlurIterations, blurRenderTextureLight, iCameraSize);
+	}
+
+	public void ResetRenderingTextures(OperationParameters iParameters)
 	{
 		// Prepare and assign RenderTexture.
 		int _textureWidth = iParameters.screenSize.x;
@@ -115,7 +128,7 @@ public class PostProcessingStack
 		}
 
 		{
-			var _newRenderTexture = new RenderTexture(iParameters.lightTextureSize.x, iParameters.lightTextureSize.y, 0, RenderTextureFormat.Default);
+			var _newRenderTexture = new RenderTexture(iParameters.lightPPRTParameter.resolution.x, iParameters.lightPPRTParameter.resolution.y, 0, RenderTextureFormat.Default);
 			_newRenderTexture.name = "Blur Render Texture";
 			_newRenderTexture.autoGenerateMips = false;
 			_newRenderTexture.useMipMap = false;
@@ -125,14 +138,49 @@ public class PostProcessingStack
 		}
 
 		{
-			var _newRenderTexture = new RenderTexture(iParameters.lightTextureSize.x, iParameters.lightTextureSize.y, 0, RenderTextureFormat.Default);
+			var _newRenderTexture = new RenderTexture(iParameters.obstacleLightPPRTParameter.resolution.x, iParameters.obstacleLightPPRTParameter.resolution.y, 0, RenderTextureFormat.Default);
 			_newRenderTexture.name = "Blur Render Texture";
 			_newRenderTexture.autoGenerateMips = false;
 			_newRenderTexture.useMipMap = false;
 
 			// Note: Assignment will release previous texture if exist.
-			blurRenderTextureWallLight = _newRenderTexture;
+			blurRenderTextureOccLight = _newRenderTexture;
 		}
+	}
+
+	public void GenerateFovMask(
+		PixelPerfectRT iRawOcclusionMask,
+		PixelPerfectRT iGlobalOcclusionExtendedMask,
+		RenderSettings iRenderSettings,
+		Vector3 iFovCenterInViewSpace,
+		float iFovDistance,
+		OperationParameters iOperationParameters)
+	{
+		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
+		mMaterialContainer.fovMaterial.SetFloat("_OcclusionSpread", iRenderSettings.fovOcclusionSpread);
+
+		// Adjust scale from Extended mask to Screen size mask.
+		float _yUVScale = 1 / ((float)iGlobalOcclusionExtendedMask.renderTexture.width / iGlobalOcclusionExtendedMask.renderTexture.height);
+		Vector3 _adjustedDistance = iFovDistance * iOperationParameters.cameraViewportUnitsInWorldSpace * iRawOcclusionMask.orthographicSize / iGlobalOcclusionExtendedMask.orthographicSize;
+
+		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
+
+		iRawOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
+		PixelPerfectRT.Blit(iRawOcclusionMask, iGlobalOcclusionExtendedMask, mMaterialContainer.fovMaterial);
+	}
+
+	public void CreateWallLightMask(
+		PixelPerfectRT iLightMask,
+		PixelPerfectRT iObstacleLightMask,
+		RenderSettings iRenderSettings,
+		float iCameraSize)
+	{
+		// Down Scale light mask and blur it.
+		PixelPerfectRT.Transform(iLightMask, iObstacleLightMask, mMaterialContainer.PPRTTransformMaterial);
+
+		mMaterialContainer.lightWallBlurMaterial.SetVector("_MultiLimit", new Vector4(iRenderSettings.occlusionMaskMultiplier,iRenderSettings.occlusionMaskLimit,0,0));
+
+		Blur(iObstacleLightMask.renderTexture, mMaterialContainer.lightWallBlurMaterial, iRenderSettings.occlusionBlurInterpolation, iRenderSettings.occlusionBlurIterations, blurRenderTextureOccLight, iCameraSize);
 	}
 
 	private static bool Blur(
@@ -166,6 +214,9 @@ public class PostProcessingStack
 
 			iBlurMaterial.SetFloat("_Radius", _blurRadius);
 
+			iSource.filterMode = FilterMode.Bilinear;
+			iBlurRenderTexture.filterMode = FilterMode.Bilinear;
+
 			Graphics.Blit(iSource, iBlurRenderTexture, iBlurMaterial, 1);
 			iSource.DiscardContents();
 
@@ -182,46 +233,5 @@ public class PostProcessingStack
 		}
 
 		return true;
-	}
-
-	public void GenerateFovMask(
-		RenderTexture iRawOcclusionMask,
-		RenderTexture iGlobalOcclusionExtendedMask,
-		RenderSettings iRenderSettings,
-		Vector3 iFovCenterInViewSpace,
-		float iFovDistance,
-		MaskParameters iMaskParameters)
-	{
-		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
-		mMaterialContainer.fovMaterial.SetFloat("_OcclusionSpread", iRenderSettings.fovOcclusionSpread);
-
-		// Adjust scale from Extended mask to Screen size mask.
-		float _yUVScale = 1 / iMaskParameters.cameraAspect;
-		Vector3 _adjustedDistance = iFovDistance * iMaskParameters.worldUnitInViewportSpace * (float)iMaskParameters.cameraOrthographicSize / iMaskParameters.extendedCameraSize;
-
-		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
-		
-		Graphics.Blit(iRawOcclusionMask, iGlobalOcclusionExtendedMask, mMaterialContainer.fovMaterial);
-	}
-
-	public void FitExtendedOcclusionMask(RenderTexture iSource, RenderTexture iDestination, MaskParameters iMaskParameters)
-	{
-		Vector2 _scale = new Vector2((float)iMaskParameters.cameraOrthographicSize / iMaskParameters.extendedCameraSize, (float)iMaskParameters.cameraOrthographicSize / iMaskParameters.extendedCameraSize);
-
-		Graphics.Blit(iSource, iDestination, _scale, (Vector2.one - _scale) * 0.5f);
-	}
-	
-	public void CreateWallLightMask(
-		RenderTexture iLightMask,
-		RenderTexture iObstacleLightMask,
-		RenderSettings iRenderSettings,
-		float iCameraSize)
-	{
-		// Down Scale light mask and blur it.
-		Graphics.Blit(iLightMask, iObstacleLightMask);
-
-		mMaterialContainer.lightWallBlurMaterial.SetVector("_MultiLimit", new Vector4(iRenderSettings.occlusionMaskMultiplier,iRenderSettings.occlusionMaskLimit,0,0));
-
-		Blur(iObstacleLightMask, mMaterialContainer.lightWallBlurMaterial, iRenderSettings.occlusionBlurInterpolation, iRenderSettings.occlusionBlurIterations, blurRenderTextureWallLight, iCameraSize);
 	}
 }

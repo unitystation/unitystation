@@ -22,7 +22,6 @@ public class VisibleBehaviour : NetworkBehaviour
 	private const string closetHandler = "ClosetPlayerHandler";
 	private const string fov = "FieldOfViewStencil";
 
-	public bool isPlayer;
 
 	private readonly string[] neverDisabled =
 	{
@@ -55,11 +54,6 @@ public class VisibleBehaviour : NetworkBehaviour
 	{
 		StartCoroutine(WaitForLoad());
 		base.OnStartClient();
-		PlayerScript pS = GetComponent<PlayerScript>();
-		if (pS != null)
-		{
-			isPlayer = true;
-		}
 	}
 
 	private IEnumerator WaitForLoad()
@@ -141,6 +135,6 @@ public class VisibleBehaviour : NetworkBehaviour
 			Console.WriteLine(e);
 			throw;
 		}
-		
+
 	}
 }

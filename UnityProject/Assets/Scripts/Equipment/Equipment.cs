@@ -26,13 +26,6 @@ using UnityEngine.Networking;
 		public override void OnStartServer()
 		{
 			InitEquipment();
-
-			EquipmentPool equipPool = FindObjectOfType<EquipmentPool>();
-			if (equipPool == null)
-			{
-				Instantiate(Resources.Load("EquipmentPool") as GameObject, Vector2.zero, Quaternion.identity);
-			}
-
 			base.OnStartServer();
 		}
 
@@ -115,7 +108,7 @@ using UnityEngine.Networking;
 			gear.Add("uniform", standardOutfit.uniform);
 			gear.Add("ears", standardOutfit.ears);
 			gear.Add("belt", standardOutfit.belt);
-			gear.Add("back", standardOutfit.back);
+			gear.Add("back", standardOutfit.backpack);
 			gear.Add("shoes", standardOutfit.shoes);
 			gear.Add("glasses", standardOutfit.glasses);
 			gear.Add("gloves", standardOutfit.gloves);
@@ -146,9 +139,9 @@ using UnityEngine.Networking;
 			{
 				gear["belt"] = jobOutfit.belt;
 			}
-			if (!string.IsNullOrEmpty(jobOutfit.back))
+			if (!string.IsNullOrEmpty(jobOutfit.backpack))
 			{
-				gear["back"] = jobOutfit.back;
+				gear["back"] = jobOutfit.backpack;
 			}
 			if (!string.IsNullOrEmpty(jobOutfit.shoes))
 			{
@@ -195,7 +188,8 @@ using UnityEngine.Networking;
 
 			foreach (KeyValuePair<string, string> gearItem in gear)
 			{
-				if (gearItem.Value.Contains(ClothFactory.ClothingHierIdentifier) || gearItem.Value.Contains(ClothFactory.HeadsetHierIdentifier))
+				if (gearItem.Value.Contains(ClothFactory.ClothingHierIdentifier) || gearItem.Value.Contains(ClothFactory.HeadsetHierIdentifier)||
+				gearItem.Value.Contains(ClothFactory.BackPackHierIdentifier) || gearItem.Value.Contains(ClothFactory.BagHierIdentifier))
 				{
 					GameObject obj = ClothFactory.Instance.CreateCloth(gearItem.Value, TransformState.HiddenPos, transform.parent);
 					//if ClothFactory does not return an object then move on to the next clothing item
@@ -248,20 +242,19 @@ using UnityEngine.Networking;
 			SetItem("id", idObj);
 		}
 
-		//Hand item sprites after picking up an item (server)
-		public void SetHandItem(string slotName, GameObject obj)
-		{
-			ItemAttributes att = obj.GetComponent<ItemAttributes>();
-			EquipmentPool.AddGameObject(gameObject, obj);
-			SetHandItemSprite(att);
-			RpcSendMessage(slotName, obj);
-		}
+		// //Hand item sprites after picking up an item (server)
+		// public void SetHandItem(string slotName, GameObject obj)
+		// {
+		// 	ItemAttributes att = obj.GetComponent<ItemAttributes>();
+		// 	SetHandItemSprite(att);
+		// 	RpcSendMessage(slotName, obj);
+		// }
 
-		[ClientRpc]
-		private void RpcSendMessage(string eventName, GameObject obj)
-		{
-			obj.BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);
-		}
+		// [ClientRpc]
+		// private void RpcSendMessage(string eventName, GameObject obj)
+		// {
+		// 	obj.BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);
+		// }
 
 		public string GetLoadOutEventName(string uniformPosition)
 		{
@@ -306,10 +299,10 @@ using UnityEngine.Networking;
 		}
 
 		//To set the actual sprite on the player obj
-		public void SetHandItemSprite(ItemAttributes att)
+		public void SetHandItemSprite(ItemAttributes att, string hand)
 		{
-			Epos enumA = (Epos) Enum.Parse(typeof(Epos), playerNetworkActions.activeHand);
-			if (playerNetworkActions.activeHand == "leftHand")
+			Epos enumA = (Epos) Enum.Parse(typeof(Epos), hand);
+			if (hand == "leftHand")
 			{
 				syncEquipSprites[(int) enumA] = att.NetworkInHandRefLeft();
 			}
@@ -350,6 +343,6 @@ using UnityEngine.Networking;
 		{
 			//Waiting for hier name resolve
 			yield return new WaitForSeconds(0.2f);
-			playerNetworkActions.AddItem(obj, slotName, true);
+			playerNetworkActions.AddItemToUISlot(obj, slotName, true);
 		}
 	}

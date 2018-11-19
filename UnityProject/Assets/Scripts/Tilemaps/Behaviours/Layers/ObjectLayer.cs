@@ -43,7 +43,7 @@ using UnityEngine;
 			base.RemoveTile(position);
 		}
 
-		public override bool IsPassableAt(Vector3Int origin, Vector3Int to)
+		public override bool IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true )
 		{
 			//Targeting windoors here
 			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
@@ -51,12 +51,17 @@ using UnityEngine;
 			{ //Can't get outside the tile because windoor doesn't allow us
 				return false;
 			}
-			
+
 			List<RegisterTile> objectsTo = Objects.Get<RegisterTile>(to);
-			bool toPass = objectsTo.All(o => o.IsPassable(origin));
-			
-			bool rods = base.IsPassableAt(origin, to);
-			
+			bool toPass;
+			if ( inclPlayers ) {
+				toPass = objectsTo.All(o => o.IsPassable(origin));
+			} else {
+				toPass = objectsTo.All(o => o.ObjectType == ObjectType.Player || o.IsPassable(origin));
+			}
+
+			bool rods = base.IsPassableAt(origin, to, inclPlayers);
+
 //			Logger.Log( $"IPA = {toPass} && {rods} @ {MatrixManager.Instance.LocalToWorldInt( origin, MatrixManager.Get(0).Matrix )} -> {MatrixManager.Instance.LocalToWorldInt( to, MatrixManager.Get(0).Matrix )} " +
 //			            $" (in local: {origin} -> {to})", Category.Matrix );
 			return toPass && rods;
@@ -70,7 +75,7 @@ using UnityEngine;
 			{
 				return false;
 			}
-			
+
 			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
 
 			return objectsOrigin.All(o => o.IsAtmosPassable()) && base.IsAtmosPassableAt(origin, to);

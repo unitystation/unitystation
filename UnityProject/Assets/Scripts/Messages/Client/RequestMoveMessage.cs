@@ -15,7 +15,7 @@ public class RequestMoveMessage : ClientMessage
 
 		yield return WaitFor(SentBy);
 
-		NetworkObject.GetComponent<IPlayerSync>().ProcessAction(Action);
+		NetworkObject.GetComponent<PlayerSync>().ProcessAction(Action);
 	}
 
 	public static RequestMoveMessage Send(PlayerAction action)

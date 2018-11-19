@@ -10,4 +10,8 @@
 		{
 			return !IsBlocking;
 		}
+
+		public override bool IsPassable( Vector3Int from ) {
+			return IsPassable();
+		}
 	}

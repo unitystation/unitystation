@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -42,6 +43,18 @@ public class GameManager : MonoBehaviour
 
 	public bool GameOver = false;
 
+	//Space bodies in the solar system <Only populated ServerSide>:
+	//---------------------------------
+	public List<MatrixMove> SpaceBodies = new List<MatrixMove>();
+	private Queue<MatrixMove> PendingSpaceBodies = new Queue<MatrixMove>();
+	private bool isProcessingSpaceBody = false;
+	public float minDistanceBetweenSpaceBodies = 200f;
+	[Header("Define the default size of all SolarSystems here:")]
+	public float solarSystemRadius = 600f;
+	//---------------------------------
+
+	public CentComm CentComm;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -64,6 +77,62 @@ public class GameManager : MonoBehaviour
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
+	///<summary>
+	/// This is for any space object that needs to be randomly placed in the solar system 
+	/// (See Asteroid.cs for example of use)
+	/// Please make sure matrixMove.State.position != TransformState.HiddenPos when calling this function
+	///</summary>
+	public void ServerSetSpaceBody(MatrixMove mm)
+	{
+		if (mm.State.Position == TransformState.HiddenPos)
+		{
+			Logger.LogError("Matrix Move is not initialized! Wait for it to be" +
+				"ready before calling ServerSetSpaceBody ");
+			return;
+		}
+
+		PendingSpaceBodies.Enqueue(mm);
+	}
+
+	IEnumerator ProcessSpaceBody(MatrixMove mm)
+	{
+		bool validPos = false;
+		while (!validPos)
+		{
+			Vector3 proposedPosition = RandomPositionInSolarSystem();
+			bool failedChecks = false;
+			//Make sure it is away from the middle of space matrix
+			if (Vector3.Distance(proposedPosition,
+					MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
+				minDistanceBetweenSpaceBodies)
+			{
+				failedChecks = true;
+			}
+
+			for (int i = 0; i < SpaceBodies.Count; i++)
+			{
+				if (Vector3.Distance(proposedPosition, SpaceBodies[i].transform.position) < minDistanceBetweenSpaceBodies)
+				{
+					failedChecks = true;
+				}
+			}
+			if (!failedChecks)
+			{
+				validPos = true;
+				mm.SetPosition(proposedPosition);
+				SpaceBodies.Add(mm);
+			}
+			yield return YieldHelper.EndOfFrame;
+		}
+		yield return YieldHelper.EndOfFrame;
+		isProcessingSpaceBody = false;
+	}
+
+	public Vector3 RandomPositionInSolarSystem()
+	{
+		return Random.insideUnitCircle * solarSystemRadius;
+	}
+
 	//	private void OnValidate() 
 	//	{
 	//		if (Occupations.All(o => o.GetComponent<OccupationRoster>().Type != JobType.ASSISTANT)) //wtf is that about
@@ -77,6 +146,8 @@ public class GameManager : MonoBehaviour
 		GetRoundTime = RoundTime;
 		GameOver = false;
 		RespawnAllowed = true;
+		SpaceBodies.Clear();
+		PendingSpaceBodies = new Queue<MatrixMove>();
 		// if (scene.name != "Lobby")
 		// {
 		// 	SetUpGameMode();
@@ -115,6 +186,12 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
+		if (!isProcessingSpaceBody && PendingSpaceBodies.Count > 0)
+		{
+			isProcessingSpaceBody = true;
+			StartCoroutine(ProcessSpaceBody(PendingSpaceBodies.Dequeue()));
+		}
+
 		if (waitForRestart)
 		{
 
@@ -182,7 +259,8 @@ public class GameManager : MonoBehaviour
 		return count;
 	}
 
-	public int GetNanoTrasenCount(){
+	public int GetNanoTrasenCount()
+	{
 		if (PlayerList.Instance == null || PlayerList.Instance.ClientConnectedPlayers.Count == 0)
 		{
 			return 0;

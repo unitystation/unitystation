@@ -10,6 +10,7 @@ TextureImporter:
     21300010: lobbyUI_5
     21300012: lobbyUI_6
     21300014: lobbyUI_7
+    21300016: lobbyUI_8
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -229,13 +230,33 @@ TextureImporter:
         width: 387
         height: 353
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 53, y: 60, z: 56, w: 58}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 5e62907faa31f4bb298c6e9c8411b482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: lobbyUI_8
+      rect:
+        serializedVersion: 2
+        x: 828
+        y: 881
+        width: 125
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 117d0f5b415e6419990843c1a21c3c78
       vertices: []
       indices: 
       edges: []

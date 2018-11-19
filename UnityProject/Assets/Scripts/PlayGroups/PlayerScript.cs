@@ -122,7 +122,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 				if (PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
 				{
-					// I (client) have connected to the server, ask server what is going on, by first asking what the UI should be? 
+					// I (client) have connected to the server, ask server what is going on, by first asking what the UI should be?
 
 					UIManager.Display.DetermineGameMode();
 				}
@@ -209,10 +209,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 			gameObject.name = newName;
 		}
 
-		public float DistanceTo(Vector3 position){
-			return (registerTile.WorldPosition - position).magnitude;
-		}
-
 		public bool IsInReach( GameObject go, float interactDist = interactionDistance ) {
 			return IsInReach( go.WorldPos(), interactDist );
 		}
@@ -220,20 +216,23 @@ public class PlayerScript : ManagedNetworkBehaviour
 		/// <summary>
 		///     Checks if the player is within reach of something
 		/// </summary>
-		/// <param name="position">The position of whatever we are trying to reach</param>
+		/// <param name="otherPosition">The position of whatever we are trying to reach</param>
 		/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
-		public bool IsInReach(Vector3 position, float interactDist = interactionDistance)
-		{
+		public bool IsInReach(Vector3 otherPosition, float interactDist = interactionDistance) {
+			Vector3Int worldPosition = registerTile.WorldPosition;
+			return IsInReach( worldPosition, otherPosition, interactDist );
+		}
+
+		public static bool IsInReach( Vector3 from, Vector3 to, float interactDist = interactionDistance ) {
 			//If click is in diagonal direction, extend reach slightly
-			int distanceX = Mathf.FloorToInt(Mathf.Abs(registerTile.WorldPosition.x - position.x));
-			int distanceY = Mathf.FloorToInt(Mathf.Abs(registerTile.WorldPosition.y - position.y));
-			if (distanceX == 1 && distanceY == 1)
-			{
-				return DistanceTo(position) <= interactDist + 0.4f;
+			int distanceX = Mathf.FloorToInt( Mathf.Abs( from.x - to.x ) );
+			int distanceY = Mathf.FloorToInt( Mathf.Abs( from.y - to.y ) );
+			if ( distanceX == 1 && distanceY == 1 ) {
+				return ( from - to ).magnitude <= interactDist + 0.4f;
 			}
 
 			//if cardinal direction, use regular reach
-			return DistanceTo(position) <= interactDist;
+			return ( from - to ).magnitude <= interactDist;
 		}
 
 		public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
@@ -260,7 +259,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 				PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
 				if ( pna && pna.SlotNotEmpty("ear") )
 				{
-					Headset headset = pna.Inventory["ear"].GetComponent<Headset>();
+					Headset headset = pna.Inventory["ear"].Item.GetComponent<Headset>();
 					if ( headset )
 					{
 						EncryptionKeyType key = headset.EncryptionKey;
@@ -270,7 +269,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			}
 			else
 			{
-				GameObject earSlotItem = UIManager.InventorySlots.EarSlot.Item;
+				GameObject earSlotItem = UIManager.InventorySlots["ear"].Item;
 				if ( earSlotItem )
 				{
 					Headset headset = earSlotItem.GetComponent<Headset>();
@@ -322,5 +321,19 @@ public class PlayerScript : ManagedNetworkBehaviour
 		public void OnMouseExit()
 		{
 			UIManager.SetToolTip = "";
+		}
+
+		//MatrixMove is rotating (broadcast via MatrixMove)
+		public void MatrixMoveStartRotation(){
+			if(PlayerManager.LocalPlayer == gameObject){
+				//We need to handle lighting stuff for matrix rotations for local player:
+				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = true;
+			}
+		}
+		public void MatrixMoveStopRotation(){
+			if(PlayerManager.LocalPlayer == gameObject){
+				//We need to handle lighting stuff for matrix rotations for local player:
+				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
+			}
 		}
 	}

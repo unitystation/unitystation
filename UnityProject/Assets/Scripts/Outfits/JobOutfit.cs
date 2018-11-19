@@ -5,7 +5,6 @@ public class JobOutfit : MonoBehaviour
 {
 	public string accessory;
 	public List<Access> allowedAccess;
-	public string back;
 
 	public string backpack;
 

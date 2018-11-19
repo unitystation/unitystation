@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class FuelTankHealthBehaviour : HealthBehaviour
 {
-	private PushPull pushPull;
+//	private PushPull pushPull;
 
-	private void Awake()
-	{
-		pushPull = GetComponent<PushPull>();
-	}
+//	private void Awake()
+//	{
+//		pushPull = GetComponent<PushPull>();
+//	}
 
 	protected override void OnDeathActions()
 	{
-		pushPull.BreakPull();
+//		pushPull.BreakPull();
 		float delay = 0f;
 		switch (LastDamageType)
 		{

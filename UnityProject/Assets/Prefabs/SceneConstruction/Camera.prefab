@@ -95,22 +95,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1322517745263302
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4401924019199516}
-  - component: {fileID: 20006738728084132}
-  m_Layer: 0
-  m_Name: Lighting Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1365047106309440
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,7 +333,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4568765046733910}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4184977652083416
 Transform:
@@ -375,7 +359,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4568765046733910}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4249331889089346
 Transform:
@@ -388,7 +372,7 @@ Transform:
   m_LocalScale: {x: 50, y: 1, z: 50.00003}
   m_Children: []
   m_Father: {fileID: 4568765046733910}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4345995010067198
 Transform:
@@ -443,19 +427,6 @@ Transform:
   m_Father: {fileID: 4848993904202032}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4401924019199516
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1322517745263302}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4568765046733910}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4404773045096900
 Transform:
   m_ObjectHideFlags: 1
@@ -480,7 +451,7 @@ Transform:
   m_LocalScale: {x: 50, y: 1, z: 50.00003}
   m_Children: []
   m_Father: {fileID: 4568765046733910}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4425170804469754
 Transform:
@@ -502,12 +473,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1365047106309440}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1978, y: 1143, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4369993710743458}
   - {fileID: 4848993904202032}
-  - {fileID: 4401924019199516}
   - {fileID: 4000674500765372}
   - {fileID: 4227821997331168}
   - {fileID: 4249331889089346}
@@ -566,7 +536,7 @@ Transform:
   m_LocalScale: {x: 290, y: 1, z: 200.00012}
   m_Children: []
   m_Father: {fileID: 4568765046733910}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4746595125094486
 Transform:
@@ -603,46 +573,6 @@ Transform:
   m_Father: {fileID: 4568765046733910}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &20006738728084132
-Camera:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1322517745263302}
-  m_Enabled: 0
-  serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
-  m_projectionMatrixMode: 1
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0
-  far clip plane: 1000
-  field of view: 90
-  orthographic: 1
-  orthographic size: 8.6666
-  m_Depth: -2
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 2097152
-  m_RenderingPath: 1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 0
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
 --- !u!20 &20448433246681042
 Camera:
   m_ObjectHideFlags: 1
@@ -986,15 +916,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eba83ad86d60dc1478d96b6283f32732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fovCenterOffset: {x: 0, y: 0.5, z: 0}
+  fovCenterOffset: {x: 0, y: 0.6, z: 0}
   fovDistance: 13
-  quality: 1
   renderSettings:
     viewMode: 0
     ambient: 0.32
-    lightMultiplier: 1.79
-    bloomSensitivity: 0.29
-    bloomAdd: 0.01
+    lightMultiplier: 2
+    bloomSensitivity: 1.75
+    bloomAdd: 0
     backgroundMultiplier: 1.2
     occlusionLayers:
       serializedVersion: 2
@@ -1006,18 +935,21 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 16
     fovBlurIterations: 1
-    fovBlurInterpolation: 2.5
-    fovOcclusionSpread: 0.2
+    fovBlurInterpolation: 8
+    fovOcclusionSpread: 0
     fovHorizonSmooth: 23
-    lightBlurIterations: 2
-    lightBlurInterpolation: 0.3
+    lightBlurIterations: 1
+    lightBlurInterpolation: 0.6
     occlusionBlurIterations: 3
-    occlusionBlurInterpolation: 5
-    occlusionMaskMultiplier: 1.25
+    occlusionBlurInterpolation: 3.75
+    occlusionMaskMultiplier: 1
     occlusionMaskLimit: 0.7
-    occlusionLightTextureRescale: 0.4
-    maskCameraSizeAdd: 3
-    antiAliasing: 4
+    occlusionMaskSizeAdd: {x: 6, y: 9}
+    rotationBlurInterpolation: 0.2
+    rotationBlurIterations: 1
+    occlusionDetail: 14
+    lightResample: 1
+    doubleFrameRenderingMode: 0
   materialContainer:
     fovBlurMaterial: {fileID: 2100000, guid: 42ccff1e88773c2408dd290281b8e2f5, type: 2}
     blitMaterial: {fileID: 2100000, guid: 340512e20a387c044a10a8b2805b7b98, type: 2}
@@ -1026,6 +958,8 @@ MonoBehaviour:
       type: 2}
     fovMaterial: {fileID: 2100000, guid: f29510637789e8a4e9488d4e6b488f1f, type: 2}
     MaskMixerMaterial: {fileID: 2100000, guid: 56ac12cf5d6d78044b3066c9b527a237, type: 2}
+    PPRTTransformMaterial: {fileID: 2100000, guid: 04e3f30747782cc4b921ea259ae78fed,
+      type: 2}
     OcclusionMaskShader: {fileID: 4800000, guid: 79a500d9ed87cbf4e9c9fe71c73b3d12,
       type: 3}
 --- !u!114 &114279227859847976
@@ -1118,6 +1052,7 @@ MonoBehaviour:
   target: {fileID: 0}
   xOffset: 0
   stencilMask: {fileID: 0}
+  lightingSystem: {fileID: 0}
   cam: {fileID: 0}
 --- !u!114 &114598608611931166
 MonoBehaviour:

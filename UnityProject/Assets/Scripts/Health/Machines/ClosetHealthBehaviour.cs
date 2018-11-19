@@ -6,14 +6,14 @@ using UnityEngine.Networking;
 	{
 		private ClosetControl closetControl;
 		private Collider2D[] colliders;
-		private PushPull objectActions;
+//		private PushPull objectActions;
 		private RegisterCloset registerTile;
 
 		private void Awake()
 		{
 			colliders = GetComponents<Collider2D>();
 			registerTile = GetComponent<RegisterCloset>();
-			objectActions = GetComponent<PushPull>();
+//			objectActions = GetComponent<PushPull>();
 			closetControl = GetComponent<ClosetControl>();
 		}
 
@@ -48,10 +48,10 @@ using UnityEngine.Networking;
 				colliders[i].enabled = false;
 			}
 
-			objectActions.BreakPull();
+//			objectActions.BreakPull();
 			registerTile.IsClosed = false;
-			objectActions.allowedToMove = false;
-			objectActions.isPushable = false;
+//			objectActions.allowedToMove = false;
+//			objectActions.isPushable = false;
 		}
 
 		private void playDeathSound()

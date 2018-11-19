@@ -27,16 +27,13 @@ Shader "PostProcess/Blur"
 	{
 		float4 vertex : SV_POSITION;
 		float2 texcoord : TEXCOORD0;
-		float4 blurTexcoord : TEXCOORD1;
+		float4 blurTexcoord[2] : TEXCOORD1;
 	};
-
 
 	uniform sampler2D _MainTex;
 	uniform float4 _MainTex_ST;
-	uniform float2 _MainTex_TexelSize;
-
+	uniform float4 _MainTex_TexelSize;
 	uniform float _Radius;
-
 
 	vertexOutput vert (vertexInput IN)
 	{
@@ -63,7 +60,12 @@ Shader "PostProcess/Blur"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
-		float2 offset = float2(_Radius * 1.33333333, 0.0); 
+		half aspect = _MainTex_TexelSize.w / _MainTex_TexelSize.z;
+		half _horRadius = aspect * _Radius;
+
+
+		float2 offset1 = float2(_horRadius, 0.0); 
+		float2 offset2 = float2(-_horRadius, _Radius);
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
@@ -72,8 +74,10 @@ Shader "PostProcess/Blur"
 	#endif
 
 		OUT.texcoord = uv;
-		OUT.blurTexcoord.xy = uv + offset;
-		OUT.blurTexcoord.zw = uv - offset;
+		OUT.blurTexcoord[0].xy = uv + offset1;
+		OUT.blurTexcoord[0].zw = uv - offset1;
+		OUT.blurTexcoord[1].xy = uv + offset2;
+		OUT.blurTexcoord[1].zw = uv - offset2;
 
 		return OUT;
 	}
@@ -83,8 +87,12 @@ Shader "PostProcess/Blur"
 		output_5tap OUT;
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
+		half aspect = _MainTex_TexelSize.w / _MainTex_TexelSize.z;
+		half _horRadius = aspect * _Radius;
 
-		float2 offset = float2(0.0, _Radius * 1.33333333); 
+
+		float2 offset1 = float2(0.0, _Radius); 
+		float2 offset2 = float2(_horRadius, -_Radius);
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
@@ -93,8 +101,11 @@ Shader "PostProcess/Blur"
 	#endif
 
 		OUT.texcoord = uv;
-		OUT.blurTexcoord.xy = uv + offset;
-		OUT.blurTexcoord.zw = uv - offset;
+		OUT.blurTexcoord[0].xy = uv + offset1;
+		OUT.blurTexcoord[0].zw = uv - offset1;
+		OUT.blurTexcoord[1].xy = uv + offset2;
+		OUT.blurTexcoord[1].zw = uv - offset2;
+
 		 
 		return OUT;
 	}
@@ -103,9 +114,11 @@ Shader "PostProcess/Blur"
 	{
 		fixed3 mainSample = tex2D(_MainTex, IN.texcoord).xyz;
 
-		fixed3 blurredSum = mainSample * 0.29411764; 
-		blurredSum += tex2D(_MainTex, IN.blurTexcoord.xy).xyz * 0.35294117;
-		blurredSum += tex2D(_MainTex, IN.blurTexcoord.zw).xyz * 0.35294117;
+		fixed3 blurredSum = mainSample * 0.2; 
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[0].xy).xyz * 0.2;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[0].zw).xyz * 0.2;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[1].xy).xyz * 0.2;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[1].zw).xyz * 0.2;
 
 		return blurredSum.rgbb;
 	}

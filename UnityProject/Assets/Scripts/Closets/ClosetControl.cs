@@ -230,7 +230,7 @@ using UnityEngine.Networking;
 				if (on)
 				{
 					player.transform.position = transform.position;
-					player.GetComponent<IPlayerSync>().SetPosition(transform.position);
+					player.GetComponent<PlayerSync>().SetPosition(transform.position);
 				}
 				player.visibleState = on;
 

@@ -33,4 +33,5 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// Just add a button to the slot and GetComponent<InputTrigger>().UI_Interact(PlayerManager.LocalPlayer, UIManager.CurrentSlot.eventName)
 	/// </Summary>
 	public virtual void UI_Interact(GameObject originator, string hand) {}
+	public virtual void UI_InteractOtherSlot(GameObject originator, GameObject otherHandItem){}
 }
