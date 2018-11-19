@@ -65,7 +65,12 @@
 					}
 				}
 			}
-
+		if (adjTile == AdjDir.W || adjTile == AdjDir.S || adjTile == AdjDir.N || adjTile == AdjDir.E)
+			//Logger.Log ("got here", Category.Electrical);
+			if (originP.pointB == 9 && adjP.pointB == 9) {
+			//Logger.Log ("yeah It happend", Category.Electrical);
+				return true;
+			}
 			return false;
 		}
 	}
@@ -80,7 +85,8 @@
 		N,
 		SE,
 		E,
-		NE
+		NE,
+		MachineConnect,
 	}
 
 	public struct ConnPoint{
