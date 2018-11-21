@@ -87,17 +87,32 @@ public class PushPull : VisibleBehaviour {
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
 
 		followAction = (oldPos, newPos) => {
-			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == registerTile.WorldPosition ) {
+			Vector3Int currentPos = registerTile.WorldPosition;
+			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos ) {
 				return;
 			}
 			var masterPos = oldPos.To2Int();
-			var currentSlavePos = registerTile.WorldPosition.To2Int();
-			var followDir =  masterPos - currentSlavePos;
-			if ( !TryFollow( registerTile.WorldPosition, followDir, AttachedTo.Pushable.MoveSpeedServer ) ) {
+			var followDir =  masterPos - currentPos.To2Int();
+			if ( !TryFollow( currentPos, followDir, AttachedTo.Pushable.MoveSpeedServer ) ) {
 				StopFollowing();
 			} else {
-				AttachedTo.NotifyPlayers(); // probably doubles messages for puller, but pulling looks proper even in high ping
-				Logger.Log( $"{gameObject.name}: following {AttachedTo.gameObject.name} " +
+				AttachedTo.NotifyPlayers(); // doubles messages for puller, but pulling looks proper even in high ping. might mess something up tho
+//				Logger.Log( $"{gameObject.name}: following {AttachedTo.gameObject.name} " +
+//							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
+			}
+		};
+		predictiveFollowAction = (oldPos, newPos) => {
+			Vector3Int currentPos = registerTile.WorldPosition;
+			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos ) {
+				return;
+			}
+			var masterPos = oldPos.To2Int();
+			var currentSlavePos = currentPos.To2Int();
+			var followDir =  masterPos - currentSlavePos;
+			if ( !TryPredictiveFollow( currentPos, followDir, AttachedToClient.Pushable.MoveSpeedClient ) ) {
+				Logger.Log( $"{gameObject.name}: oops, predictive following {AttachedToClient.gameObject.name} failed", Category.PushPull );
+			} else {
+				Logger.Log( $"{gameObject.name}: predictive following {AttachedToClient.gameObject.name} " +
 							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
 
 			}
@@ -106,6 +121,7 @@ public class PushPull : VisibleBehaviour {
 	#region Pull
 
 	private UnityAction<Vector3Int,Vector3Int> followAction;
+	private UnityAction<Vector3Int,Vector3Int> predictiveFollowAction;
 
 	public bool IsBeingPulled => AttachedTo != null;
 	private PushPull attachedTo;
@@ -135,7 +151,16 @@ public class PushPull : VisibleBehaviour {
 	private PushPull attachedToClient;
 	public PushPull AttachedToClient {
 		get { return attachedToClient; }
-		set { //todo: clientside predictive sticking effect
+		set {
+			if ( IsBeingPulledClient ) {
+				attachedToClient.Pushable?.OnClientStartMove().RemoveListener( predictiveFollowAction );
+			}
+
+			if ( value != null )
+			{
+				value.Pushable?.OnClientStartMove().AddListener( predictiveFollowAction );
+			}
+
 			attachedToClient = value;
 		}
 	}
@@ -196,8 +221,6 @@ public class PushPull : VisibleBehaviour {
 		     && initiator != this ) {
 			//client request: start/stop pulling
 			initiator.CmdPullObject( gameObject );
-
-			//todo: Predictive pull
 		}
 	}
 	[Server]
@@ -224,6 +247,29 @@ public class PushPull : VisibleBehaviour {
 
 		return success;
 	}
+	private bool TryPredictiveFollow( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
+		if ( !IsBeingPulledClient || isNotPushable || Pushable == null /*|| !CanPredictPush*/ )
+		{
+			return false;
+		}
+//		lastReliablePos = registerTile.WorldPosition;
+//		if ( from != lastReliablePos ) {
+//			return false;
+//		}
+		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
+		if ( !MatrixManager.IsPassableAt( from, target, false )
+//		     || MatrixManager.IsNoGravityAt( target )
+		     ) {
+			return false;
+		}
+
+		bool success = Pushable.PredictivePush( dir, speed, true );
+		if ( success ) {
+//			Logger.LogTraceFormat( "Started predictive follow {0}->{1}", Category.PushPull, from, target );
+		}
+
+		return success;
+	}
 	#endregion
 
 	#region Push fields
@@ -234,9 +280,9 @@ public class PushPull : VisibleBehaviour {
 	private Queue<Vector2Int> pushRequestQueue = new Queue<Vector2Int>();
 
 	//Client fields
-	private PushState prediction = PushState.None;
-	private ApprovalState approval = ApprovalState.None;
-	private bool CanPredictPush => prediction == PushState.None && Pushable.CanPredictPush;
+	private PushState pushPrediction = PushState.None;
+	private ApprovalState pushApproval = ApprovalState.None;
+	private bool CanPredictPush => pushPrediction == PushState.None && Pushable.CanPredictPush;
 	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
 	private Vector3Int lastReliablePos = TransformState.HiddenPos;
 
@@ -291,7 +337,7 @@ public class PushPull : VisibleBehaviour {
 				StopFollowing();
 			}
 			if ( IsPullingSomething && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(ControlledObject.registerTile.WorldPosition, registerTile.WorldPosition) ) )
+			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(ControlledObject.registerTile.WorldPosition, target) ) )
 			{
 				ReleaseControl();
 			}
@@ -319,8 +365,8 @@ public class PushPull : VisibleBehaviour {
 
 		bool success = Pushable.PredictivePush( dir );
 		if ( success ) {
-			prediction = PushState.InProgress;
-			approval = ApprovalState.None;
+			pushPrediction = PushState.InProgress;
+			pushApproval = ApprovalState.None;
 			predictivePushTarget = target;
 			Logger.LogTraceFormat( "Started predictive push {0}->{1}", Category.PushPull, from, target );
 		}
@@ -331,8 +377,8 @@ public class PushPull : VisibleBehaviour {
 	private void FinishPrediction()
 	{
 		Logger.LogTraceFormat( "Finishing predictive push", Category.PushPull );
-		prediction = PushState.None;
-		approval = ApprovalState.None;
+		pushPrediction = PushState.None;
+		pushApproval = ApprovalState.None;
 		predictivePushTarget = TransformState.HiddenPos;
 		lastReliablePos = TransformState.HiddenPos;
 	}
@@ -369,28 +415,28 @@ public class PushPull : VisibleBehaviour {
 
 	/// For prediction
 	private void OnUpdateReceived( Vector3Int serverPos ) {
-		if ( prediction == PushState.None ) {
+		if ( pushPrediction == PushState.None ) {
 			return;
 		}
 
-		approval = serverPos == predictivePushTarget ? ApprovalState.Approved : ApprovalState.Unexpected;
-		Logger.LogTraceFormat( "{0} predictive push to {1}", Category.PushPull, approval, serverPos );
+		pushApproval = serverPos == predictivePushTarget ? ApprovalState.Approved : ApprovalState.Unexpected;
+		Logger.LogTraceFormat( "{0} predictive push to {1}", Category.PushPull, pushApproval, serverPos );
 
 		//if predictive lerp is finished
-		if ( approval == ApprovalState.Approved ) {
-			if ( prediction == PushState.Finished ) {
+		if ( pushApproval == ApprovalState.Approved ) {
+			if ( pushPrediction == PushState.Finished ) {
 				FinishPrediction();
-			} else if ( prediction == PushState.InProgress ) {
+			} else if ( pushPrediction == PushState.InProgress ) {
 				Logger.LogTraceFormat( "Approved and waiting till lerp is finished", Category.PushPull );
 			}
-		} else if ( approval == ApprovalState.Unexpected ) {
+		} else if ( pushApproval == ApprovalState.Unexpected ) {
 			var info = "";
 			if ( serverPos == lastReliablePos ) {
 				info += $"lastReliablePos match!({lastReliablePos})";
 			} else {
 				info += "NO reliablePos match";
 			}
-			if ( prediction == PushState.Finished ) {
+			if ( pushPrediction == PushState.Finished ) {
 				info += ". Finishing!";
 				FinishPrediction();
 			} else {
@@ -402,7 +448,7 @@ public class PushPull : VisibleBehaviour {
 
 	/// For prediction
 	private void OnClientTileReached( Vector3Int pos ) {
-		if ( prediction == PushState.None ) {
+		if ( pushPrediction == PushState.None ) {
 			return;
 		}
 
@@ -415,9 +461,9 @@ public class PushPull : VisibleBehaviour {
 			return;
 		}
 
-		Logger.LogTraceFormat( "{0} is reached ON CLIENT, approval={1}", Category.PushPull, pos, approval );
-		prediction = PushState.Finished;
-		switch ( approval ) {
+		Logger.LogTraceFormat( "{0} is reached ON CLIENT, approval={1}", Category.PushPull, pos, pushApproval );
+		pushPrediction = PushState.Finished;
+		switch ( pushApproval ) {
 			case ApprovalState.Approved:
 				//ok, finishing
 				FinishPrediction();

@@ -26,7 +26,10 @@ public class InformPullMessage : ServerMessage
 			subject.AttachedToClient.ControlledObjectClient = null;
 		}
 		subject.AttachedToClient = pulledBy;
-		Logger.Log( $"Received: {subject.gameObject.name} is {getStatus( pulledBy )}", Category.PushPull );
+		if ( pulledBy ) {
+			subject.AttachedToClient.ControlledObjectClient = subject;
+		}
+		Logger.Log( $"Received: {subject.gameObject?.name} is {getStatus( pulledBy )}", Category.PushPull );
 	}
 
 /// <param name="recipient">Send to whom</param>

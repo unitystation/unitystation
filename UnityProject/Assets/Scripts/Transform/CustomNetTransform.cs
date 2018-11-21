@@ -50,6 +50,9 @@ public struct TransformState {
 			}
 		}
 	}
+
+	public bool IsFollowUpdate;
+
 	public float Rotation;
 	public bool IsLocalRotation;
 	/// Spin direction and speed, if it should spin
@@ -78,6 +81,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	/// Isn't invoked in perpetual space flights
 	private DualVector3IntEvent onStartMove = new DualVector3IntEvent();
 	public DualVector3IntEvent OnStartMove() => onStartMove; //todo: invoke for cnt!
+	private DualVector3IntEvent onClientStartMove = new DualVector3IntEvent();
+	public DualVector3IntEvent OnClientStartMove() => onClientStartMove;
 	private Vector3IntEvent onTileReached = new Vector3IntEvent();
 	public Vector3IntEvent OnTileReached() => onTileReached;
 	private Vector3IntEvent onClientTileReached = new Vector3IntEvent();
@@ -323,10 +328,45 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		UpdateActiveStatus();
 	}
 
-	/// Called from TransformStateMessage, applies state received from server to client
-	public void UpdateClientState(TransformState newState)
+
+
+	/// Registers if unhidden, unregisters if hidden
+	private void UpdateActiveStatus()
 	{
-		onUpdateReceived.Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
+		if (clientState.Active)
+		{
+			RegisterObjects();
+		}
+		else
+		{
+			registerTile.Unregister();
+		}
+		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example.
+		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
+		for (int i = 0; i < renderers.Length; i++)
+		{
+			renderers[i].enabled = clientState.Active;
+		}
+	}
+		#endregion
+
+	/// Called from TransformStateMessage, applies state received from server to client
+	public void UpdateClientState( TransformState newState ) {
+		OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
+
+		if ( newState.IsFollowUpdate && !isServer ) {
+			var lps = PlayerManager.LocalPlayerScript;
+			if ( newState.Active
+			     && lps
+			     && lps.pushPull
+			     && lps.pushPull.ControlledObjectClient
+			     && lps.pushPull.ControlledObjectClient.gameObject == this.gameObject
+//			     && !lps.PlayerSync.isFloatingClient
+//			     && !MatrixManager.IsNoGravityAt( newState.WorldPosition.RoundToInt() )
+			     ) {
+				return;
+			}
+		}
 
 		//Don't lerp (instantly change pos) if active state was changed
 		if (clientState.Active != newState.Active /*|| newState.Speed == 0*/)
@@ -347,27 +387,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			transform.rotation = rotation;
 		}
 	}
-
-	/// Registers if unhidden, unregisters if hidden
-	private void UpdateActiveStatus()
-	{
-		if (clientState.Active)
-		{
-			RegisterObjects();
-		}
-		else
-		{
-			registerTile.Unregister();
-		}
-		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example.
-		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
-		for (int i = 0; i < renderers.Length; i++)
-		{
-			renderers[i].enabled = clientState.Active;
-		}
-	}
-
-		#endregion
 
 	///     Currently sending to everybody, but should be sent to nearby players only
 	[Server]

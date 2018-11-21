@@ -496,11 +496,14 @@ public partial class PlayerSync
 				else if ( consideredFloatingServer )
 				{
 					var oldPos = serverState.WorldPosition;
+
 					//Extending prediction by one tile if player's transform reaches previously set goal
 					Vector3Int newGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3)serverState.Impulse);
 					serverState.Position = newGoal;
 					ClearQueueServer();
+
 					var newPos = serverState.WorldPosition;
+
 					OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 				}
 			}
@@ -514,6 +517,7 @@ public partial class PlayerSync
 	}
 
 	public float MoveSpeedServer => playerMove.speed;
+	public float MoveSpeedClient => playerMove.speed; //change this when player speed is introduced
 
 	public void Stop() {
 		if ( consideredFloatingServer ) {

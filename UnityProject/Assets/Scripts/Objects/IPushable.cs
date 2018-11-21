@@ -9,17 +9,19 @@ public interface IPushable {
 	/// (turns on tile snapping and removes player collision check)</param>
 	/// <returns>true if push was successful</returns>
 	bool Push( Vector2Int direction, float speed = Single.NaN, bool followMode = false );
-	bool PredictivePush( Vector2Int direction );
+	bool PredictivePush( Vector2Int direction, float speed = Single.NaN, bool followMode = false );
 	/// Rollback predictive push using last good position
 	void NotifyPlayers();
 	Vector3IntEvent OnUpdateRecieved();
 	DualVector3IntEvent OnStartMove();
+	DualVector3IntEvent OnClientStartMove();
 	Vector3IntEvent OnTileReached();
 	Vector3IntEvent OnClientTileReached();
 	/// When you need to break pulling of this object
 	UnityEvent OnPullInterrupt();
 	bool CanPredictPush { get; }
 	float MoveSpeedServer { get; }
+	float MoveSpeedClient { get; }
 	/// Try stopping object if it's flying
 	void Stop();
 }

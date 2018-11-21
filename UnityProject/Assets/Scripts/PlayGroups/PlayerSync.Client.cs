@@ -8,6 +8,8 @@ using UnityEngine;
 public partial class PlayerSync
 	{
 		//Client-only fields, don't concern server
+		private DualVector3IntEvent onClientStartMove = new DualVector3IntEvent();
+		public DualVector3IntEvent OnClientStartMove() => onClientStartMove;
 		private Vector3IntEvent onClientTileReached = new Vector3IntEvent();
 		public Vector3IntEvent OnClientTileReached() {
 			return onClientTileReached;
@@ -45,7 +47,7 @@ public partial class PlayerSync
 		public bool IsNonStickyClient => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
 
 		///Does server claim this client is floating rn?
-		private bool isFloatingClient => playerState.Impulse != Vector2.zero;
+		public bool isFloatingClient => playerState.Impulse != Vector2.zero;
 
 		/// Does your client think you should be floating rn? (Regardless of what server thinks)
 		private bool isPseudoFloatingClient => predictedState.Impulse != Vector2.zero;
@@ -129,7 +131,7 @@ public partial class PlayerSync
 			}
 		}
 		//Predictively pushing this player
-		public bool PredictivePush(Vector2Int direction)
+		public bool PredictivePush(Vector2Int direction, float speed = Single.NaN, bool followMode = false)
 		{
 //			Logger.Log($"PredictivePush to {direction} is disabled for player", Category.PushPull);
 			if (direction == Vector2Int.zero || matrix == null)
@@ -141,6 +143,10 @@ public partial class PlayerSync
 
 			if ( !matrix.IsPassableAt( Vector3Int.RoundToInt( playerState.Position ), pushGoal ) ) {
 				return false;
+			}
+
+			if ( followMode ) {
+				SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
 			}
 
 			Logger.Log($"Client predictive push to {pushGoal}", Category.PushPull);
@@ -172,11 +178,19 @@ public partial class PlayerSync
 
 //					Logger.LogTraceFormat("Client generated {0}", Category.Movement, tempState);
 				}
+				var newPos = tempState.WorldPosition;
+				var oldPos = state.WorldPosition;
+
+				LastDirection = Vector2Int.RoundToInt(newPos - oldPos);
 
 				if ( playerMove.isGhost ) {
 					ghostPredictedState = tempState;
 				} else {
 					predictedState = tempState;
+				}
+
+				if ( LastDirection != Vector2.zero ) {
+					OnClientStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 				}
 			}
 		}
@@ -225,7 +239,7 @@ public partial class PlayerSync
 			if ( isFloatingClient || isPseudoFloatingClient ) {
 				//rollback prediction if either wrong impulse on given step OR both impulses are non-zero and point in different directions
 				bool spacewalkReset = predictedState.Impulse != playerState.Impulse
-				                 && ( predictedState.MoveNumber == playerState.MoveNumber
+				                 && ( (predictedState.MoveNumber == playerState.MoveNumber && !pushPull.IsPullingSomethingClient)
 				                      || playerState.Impulse != Vector2.zero && predictedState.Impulse != Vector2.zero );
 				bool wrongFloatDir = playerState.MoveNumber < predictedState.MoveNumber &&
 				                playerState.Impulse != Vector2.zero &&
@@ -301,7 +315,7 @@ public partial class PlayerSync
 
 				if ( ClientPositionReady )
 				{
-					onClientTileReached.Invoke( Vector3Int.RoundToInt(worldPos) );
+					OnClientTileReached().Invoke( Vector3Int.RoundToInt(worldPos) );
 				}
 			}
 			if ( playerMove.isGhost ) {
@@ -348,10 +362,17 @@ public partial class PlayerSync
 				}
 
 				//Perpetual floating sim
-				if ( ClientPositionReady ) {
+				if ( ClientPositionReady )
+				{
+					var oldPos = predictedState.WorldPosition;
+
 					//Extending prediction by one tile if player's transform reaches previously set goal
 					Vector3Int newGoal = Vector3Int.RoundToInt( predictedState.Position + (Vector3) predictedState.Impulse );
 					predictedState.Position = newGoal;
+
+					var newPos = predictedState.WorldPosition;
+
+					OnClientStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 				}
 			}
 		}

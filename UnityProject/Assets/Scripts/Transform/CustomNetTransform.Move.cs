@@ -73,29 +73,44 @@ public partial class CustomNetTransform {
 			serverState.Speed = DefaultPushSpeed;
 		}
 
-		var targetTile = target.RoundToInt();
-		if (MatrixManager.IsEmptyAt( targetTile )) {
+		var roundedTarget = target.RoundToInt();
+		if (MatrixManager.IsEmptyAt( roundedTarget )) {
 			serverState.Impulse = direction;
 		}
 
-		SetPosition( followMode ? targetTile.To2Int() : target );
+		if ( followMode ) {
+//			if ( !MatrixManager.IsNonStickyAt( roundedTarget ) ) {
+				serverState.IsFollowUpdate = true;
+//			}
+			SetPosition( roundedTarget );
+			serverState.IsFollowUpdate = false;
+		} else {
+			SetPosition( target );
+		}
 		return true;
 	}
 
-	public bool PredictivePush( Vector2Int direction ) {
+	public bool PredictivePush( Vector2Int direction, float speed = Single.NaN, bool followMode = false ) {
 //		return false;
 		Vector2 target = ( Vector2 ) clientState.WorldPosition + direction;
-		clientState.Speed = DefaultPushSpeed;
-		if (MatrixManager.IsEmptyAt( Vector3Int.RoundToInt(target) )) {
+		if ( !float.IsNaN( speed ) && speed > 0 ) {
+			clientState.Speed = speed;
+		} else {
+			clientState.Speed = DefaultPushSpeed;
+		}
+
+		var targetTile = target.RoundToInt();
+		if (MatrixManager.IsEmptyAt( targetTile )) {
 			clientState.Impulse = direction;
 		}
 
-		clientState.WorldPosition = target;
+		clientState.WorldPosition = followMode ? targetTile.To2Int() : target;
 		return true;
 	}
 
 	public bool CanPredictPush => !IsClientLerping;
 	public float MoveSpeedServer => ServerState.speed;
+	public float MoveSpeedClient => ClientState.speed;
 
 	public void Stop() {
 		StopFloating();
