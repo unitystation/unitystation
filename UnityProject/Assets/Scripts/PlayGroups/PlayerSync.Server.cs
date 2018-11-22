@@ -282,6 +282,7 @@ public partial class PlayerSync
 		//In case positions already match
 		TryNotifyPlayers();
 		if ( serverLastDirection != Vector2.zero ) {
+			CheckMovementServer();
 			OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 		}
 //		Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
