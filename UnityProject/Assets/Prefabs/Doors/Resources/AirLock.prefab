@@ -60,7 +60,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4183345251610980}
   - component: {fileID: 212106163674931676}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: overlay_Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -798,8 +798,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
 --- !u!114 &114897681876509866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -948,10 +946,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1883797623
+  m_SortingLayer: 12
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: 2e0e4fceb7237430a8aa55fb53d0944a, type: 3}
+  m_Sprite: {fileID: 21300026, guid: 2e0e4fceb7237430a8aa55fb53d0944a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
