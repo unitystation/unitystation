@@ -399,6 +399,8 @@ public class PushPull : VisibleBehaviour {
 
 	#region Events
 
+	//todo break pull on external updates if new position is out of pull range
+
 	private void OnServerTileReached( Vector3Int newPos ) {
 //todo: ignore this most of the time
 //		Logger.LogTraceFormat( "{0}: {1} is reached ON SERVER", Category.PushPull, gameObject.name, pos );
@@ -488,7 +490,7 @@ public class PushPull : VisibleBehaviour {
 #if UNITY_EDITOR
 	private static Color color1 = Color.red;
 	private static Color color2 = Color.cyan;
-	private static Vector3 offset = new Vector2(0.05f,0.05f);
+	private static Vector3 offset = new Vector2(0.03f,0.05f);
 
 	private void OnDrawGizmos() {
 		if ( IsBeingPulled ) {

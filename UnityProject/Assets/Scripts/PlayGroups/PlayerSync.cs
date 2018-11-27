@@ -36,6 +36,10 @@ using UnityEngine.Networking;
 			}
 		}
 
+		/// Flag means that this update is a pull follow update,
+		/// So that puller could ignore them
+		public bool IsFollowUpdate;
+
 		public bool NoLerp;
 
 		///Direction of flying
@@ -57,7 +61,7 @@ using UnityEngine.Networking;
 		public override string ToString() {
 			return
 				Equals( HiddenState ) ? "[Hidden]" : $"[Move #{MoveNumber}, localPos:{(Vector2)Position}, worldPos:{(Vector2)WorldPosition} {nameof( NoLerp )}:{NoLerp}, {nameof( Impulse )}:{Impulse}, " +
-				$"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, matrix #{MatrixId}]";
+				$"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, follow: {IsFollowUpdate}, matrix #{MatrixId}]";
 		}
 	}
 

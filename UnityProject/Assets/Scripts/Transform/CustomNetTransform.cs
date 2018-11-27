@@ -51,6 +51,8 @@ public struct TransformState {
 		}
 	}
 
+	/// Flag means that this update is a pull follow update,
+	/// So that puller could ignore them
 	public bool IsFollowUpdate;
 
 	public float Rotation;
@@ -68,7 +70,7 @@ public struct TransformState {
 	{
 		return Equals( HiddenState ) ? "[Hidden]" : $"[{nameof( Position )}: {(Vector2)Position}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
 		       $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( Rotation )}: {Rotation}, {nameof( IsLocalRotation )}: {IsLocalRotation}, " +
-		       $"{nameof( SpinFactor )}: {SpinFactor}, {nameof( MatrixId )}: {MatrixId}]";
+		       $"{nameof( SpinFactor )}: {SpinFactor}, {nameof( IsFollowUpdate )}: {IsFollowUpdate}, {nameof( MatrixId )}: {MatrixId}]";
 	}
 }
 
@@ -78,9 +80,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public Vector3IntEvent OnUpdateRecieved() {
 		return onUpdateReceived;
 	}
-	/// Isn't invoked in perpetual space flights
+	/// Is also invoked in perpetual space flights
 	private DualVector3IntEvent onStartMove = new DualVector3IntEvent();
-	public DualVector3IntEvent OnStartMove() => onStartMove; //todo: invoke for cnt!
+	public DualVector3IntEvent OnStartMove() => onStartMove; //todo: invoke for cnt! (for chaining)
 	private DualVector3IntEvent onClientStartMove = new DualVector3IntEvent();
 	public DualVector3IntEvent OnClientStartMove() => onClientStartMove;
 	private Vector3IntEvent onTileReached = new Vector3IntEvent();
@@ -117,6 +119,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributes>();
 		tileDmgMask = LayerMask.GetMask ("Windows", "Walls");
+		var _pushPull = PushPull; //init
 	}
 
 	public override void OnStartServer()
@@ -354,15 +357,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public void UpdateClientState( TransformState newState ) {
 		OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
 
-		if ( newState.IsFollowUpdate && !isServer ) {
-			var lps = PlayerManager.LocalPlayerScript;
-			if ( newState.Active
-			     && lps
-			     && lps.pushPull
-			     && lps.pushPull.ControlledObjectClient
-			     && lps.pushPull.ControlledObjectClient.gameObject == this.gameObject
-//			     && !lps.PlayerSync.isFloatingClient
-//			     && !MatrixManager.IsNoGravityAt( newState.WorldPosition.RoundToInt() )
+		//Ignore "Follow Updates" if you're pulling it
+		if ( newState.IsFollowUpdate && pushPull && !isServer ) {
+//			var lps = PlayerManager.LocalPlayerScript;
+			if ( pushPull.IsBeingPulledClient
+			     && newState.Active
+			     && pushPull.AttachedToClient == PlayerManager.LocalPlayerScript?.pushPull
+//			     && lps
+//			     && lps.pushPull
+//			     && lps.pushPull.ControlledObjectClient
+//			     && lps.pushPull.ControlledObjectClient.gameObject == this.gameObject
 			     ) {
 				return;
 			}

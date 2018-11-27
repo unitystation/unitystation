@@ -139,9 +139,9 @@ public partial class PlayerSync
 				return false;
 			}
 			Vector3Int pushGoal =
-				Vector3Int.RoundToInt((Vector2)playerState.Position + direction);
+				Vector3Int.RoundToInt((Vector2)predictedState.Position + direction); //? predictedState or regTile?
 
-			if ( !matrix.IsPassableAt( Vector3Int.RoundToInt( playerState.Position ), pushGoal ) ) {
+			if ( !matrix.IsPassableAt( Vector3Int.RoundToInt( predictedState.Position ), pushGoal, !followMode ) ) {
 				return false;
 			}
 
@@ -201,16 +201,27 @@ public partial class PlayerSync
 		}
 
 		/// Called when PlayerMoveMessage is received
-		public void UpdateClientState( PlayerState state ) {
-			OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( state.WorldPosition ) );
+		public void UpdateClientState( PlayerState newState ) {
+			OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
 
-			playerState = state;
-			if ( !isLocalPlayer ) {
-				predictedState = state;
+			playerState = newState;
+
+			//Ignore "Follow Updates" if you're pulling it
+			if ( !isServer )
+			{
+				Logger.Log( $"Got server update {newState}" );
+
+				if ( pushPull.IsBeingPulledClient
+					 && newState.Active
+				     && pushPull.AttachedToClient == PlayerManager.LocalPlayerScript?.pushPull
+				) {
+					return;
+				}
 			}
-//			if ( !isServer ) {
-//				Logger.Log( $"Got server update {playerState}" );
-//			}
+
+			if ( !isLocalPlayer ) {
+				predictedState = newState;
+			}
 
 			if ( playerState.MatrixId != predictedState.MatrixId && isLocalPlayer ) {
 				PlayerState crossMatrixState = predictedState;

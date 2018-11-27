@@ -140,7 +140,8 @@ public partial class PlayerSync
 			MatrixId = newMatrix.Id,
 			WorldPosition = pushGoal,
 			ImportantFlightUpdate = true,
-			ResetClientQueue = true
+			ResetClientQueue = true,
+			IsFollowUpdate = followMode
 		};
 		serverLastDirection = direction;
 		serverState = newState;
@@ -220,12 +221,29 @@ public partial class PlayerSync
 		{
 			return;
 		}
+
+		//hack to make clients accept non-pull-breaking external pushes for stuff they're pulling
+		//because they ignore updates for stuff they pull w/prediction
+		bool isPullNudge = pushPull
+						&& pushPull.IsBeingPulled
+						&& !serverState.IsFollowUpdate
+						&& serverState.Impulse != Vector2.zero;
+		if ( isPullNudge ) {
+			//temporarily "break" pull so that puller would get the update
+			InformPullMessage.Send( pushPull.AttachedTo, this.pushPull, null );
+		}
+
 		serverState.NoLerp = noLerp;
 		var msg = PlayerMoveMessage.SendToAll(gameObject, serverState);
 //		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
 		//Clearing state flags
 		serverState.ImportantFlightUpdate = false;
 		serverState.ResetClientQueue = false;
+
+		if ( isPullNudge ) {
+			//restore pull for client
+			InformPullMessage.Send( pushPull.AttachedTo, this.pushPull, pushPull.AttachedTo );
+		}
 	}
 
 	/// Clears server pending actions queue
