@@ -19,6 +19,7 @@ public static class Logger
 		[Category.RightClick] = Level.Off,
 		[Category.PushPull] = Level.Trace,
 		[Category.PlayerSprites] = Level.Error,
+		[Category.Lerp] = Level.Trace,
 	};
 
 	private enum Level{
@@ -172,5 +173,6 @@ public enum Category {
 	Construction,
 	DatabaseAPI,
 	PlayerSprites,
-	RightClick
+	RightClick,
+	Lerp
 }

@@ -36,6 +36,7 @@ public partial class PlayerSync
 			}
 		}
 		public bool CanPredictPush => ClientPositionReady;
+		public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
 
 		/// Does client's transform pos match state pos? Ignores Z-axis.
 		private bool ClientPositionReady => ( Vector2 ) predictedState.Position == ( Vector2 ) transform.localPosition;
@@ -130,28 +131,28 @@ public partial class PlayerSync
 				}
 			}
 		}
-		//Predictively pushing this player
-		public bool PredictivePush(Vector2Int direction, float speed = Single.NaN, bool followMode = false)
+		//Predictively pushing this player to target pos
+		public bool PredictivePush(Vector2Int target, float speed = Single.NaN, bool followMode = false)
 		{
-//			Logger.Log($"PredictivePush to {direction} is disabled for player", Category.PushPull);
-			if (direction == Vector2Int.zero || matrix == null)
+			if ( matrix == null )
 			{
 				return false;
 			}
-			Vector3Int pushGoal =
-				Vector3Int.RoundToInt((Vector2)predictedState.Position + direction); //? predictedState or regTile?
 
-			if ( !matrix.IsPassableAt( Vector3Int.RoundToInt( predictedState.Position ), pushGoal, !followMode ) ) {
+			var currentPos = predictedState.WorldPosition.RoundToInt();
+
+			if ( !MatrixManager.IsPassableAt( currentPos, target.To3Int(), !followMode ) ) {
 				return false;
 			}
 
 			if ( followMode ) {
-				SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
+				SendMessage( "FaceDirection", Orientation.From( target - currentPos.To2Int() ), SendMessageOptions.DontRequireReceiver );
 			}
 
-			Logger.Log($"Client predictive push to {pushGoal}", Category.PushPull);
-			predictedState.Position = pushGoal;
-			LastDirection = direction;
+			Logger.Log($"Client predictive push to {target}", Category.PushPull);
+			predictedState.WorldPosition = target.To3Int();
+
+//			LastDirection = target;
 			return true;
 		}
 
@@ -206,17 +207,17 @@ public partial class PlayerSync
 
 			playerState = newState;
 
-			//Ignore "Follow Updates" if you're pulling it
-			if ( !isServer )
-			{
-				Logger.Log( $"Got server update {newState}" );
+//			if ( !isServer )
+//			{
+//				Logger.LogTraceFormat( "Got server update {0}", Category.Movement, newState );
+//			}
 
-				if ( pushPull.IsBeingPulledClient
-					 && newState.Active
-				     && pushPull.AttachedToClient == PlayerManager.LocalPlayerScript?.pushPull
-				) {
-					return;
-				}
+			//Ignore "Follow Updates" if you're pulling it
+			if ( pushPull.IsBeingPulledClient
+				 && newState.Active
+			     && pushPull.AttachedToClient == PlayerManager.LocalPlayerScript?.pushPull
+			) {
+				return;
 			}
 
 			if ( !isLocalPlayer ) {

@@ -87,12 +87,14 @@ public class PushPull : VisibleBehaviour {
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
 
 		followAction = (oldPos, newPos) => {
-			Vector3Int currentPos = registerTile.WorldPosition;
+			Vector3Int currentPos = Pushable.ServerPosition;
 			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos ) {
 				return;
 			}
-			var masterPos = oldPos.To2Int();
-			var followDir =  masterPos - currentPos.To2Int();
+			Vector2Int followDir =  oldPos.To2Int() - currentPos.To2Int();
+			if ( followDir == Vector2Int.zero ) {
+				return;
+			}
 			if ( !TryFollow( currentPos, followDir, AttachedTo.Pushable.MoveSpeedServer ) ) {
 				StopFollowing();
 			} else {
@@ -102,15 +104,18 @@ public class PushPull : VisibleBehaviour {
 			}
 		};
 		predictiveFollowAction = (oldPos, newPos) => {
-			Vector3Int currentPos = registerTile.WorldPosition;
+			Vector3Int currentPos = Pushable.ClientPosition;
 			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos ) {
 				return;
 			}
 			var masterPos = oldPos.To2Int();
 			var currentSlavePos = currentPos.To2Int();
 			var followDir =  masterPos - currentSlavePos;
-			if ( !TryPredictiveFollow( currentPos, followDir, AttachedToClient.Pushable.MoveSpeedClient ) ) {
-				Logger.Log( $"{gameObject.name}: oops, predictive following {AttachedToClient.gameObject.name} failed", Category.PushPull );
+			if ( followDir == Vector2Int.zero ) {
+				return;
+			}
+			if ( !TryPredictiveFollow( currentPos, oldPos, AttachedToClient.Pushable.MoveSpeedClient ) ) {
+				Logger.LogError( $"{gameObject.name}: oops, predictive following {AttachedToClient.gameObject.name} failed", Category.PushPull );
 			} else {
 				Logger.Log( $"{gameObject.name}: predictive following {AttachedToClient.gameObject.name} " +
 							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
@@ -152,11 +157,11 @@ public class PushPull : VisibleBehaviour {
 	public PushPull AttachedToClient {
 		get { return attachedToClient; }
 		set {
-			if ( IsBeingPulledClient ) {
+			if ( IsBeingPulledClient /*&& !isServer*/ ) { //toggle prediction here <v
 				attachedToClient.Pushable?.OnClientStartMove().RemoveListener( predictiveFollowAction );
 			}
 
-			if ( value != null )
+			if ( value != null /*&& !isServer*/ )
 			{
 				value.Pushable?.OnClientStartMove().AddListener( predictiveFollowAction );
 			}
@@ -206,6 +211,7 @@ public class PushPull : VisibleBehaviour {
 		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, AttachedTo.gameObject.name );
 		AttachedTo.ControlledObject = null;
 		AttachedTo = null;
+		NotifyPlayers();
 	}
 
 	public virtual void OnCtrlClick()
@@ -229,10 +235,16 @@ public class PushPull : VisibleBehaviour {
 		{
 			return false;
 		}
-		Vector3Int currentPos = registerTile.WorldPosition;
-		if ( from != currentPos ) {
+//		Vector3Int currentPos = registerTile.WorldPosition;
+//		if ( from != currentPos ) {
+//			return false;
+//		}
+
+		if ( Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1 ) {
+			Logger.Log( "oops="+dir, Category.PushPull );
 			return false;
 		}
+
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
 		if ( !MatrixManager.IsPassableAt( from, target, false ) ) //non-solid things can be pushed to player tile
 		{
@@ -247,23 +259,19 @@ public class PushPull : VisibleBehaviour {
 
 		return success;
 	}
-	private bool TryPredictiveFollow( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
-		if ( !IsBeingPulledClient || isNotPushable || Pushable == null /*|| !CanPredictPush*/ )
+	private bool TryPredictiveFollow( Vector3Int from, Vector3Int target, float speed = Single.NaN ) {
+		if ( !IsBeingPulledClient || isNotPushable || Pushable == null )
 		{
 			return false;
 		}
-//		lastReliablePos = registerTile.WorldPosition;
-//		if ( from != lastReliablePos ) {
-//			return false;
-//		}
-		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
+
+//		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
 		if ( !MatrixManager.IsPassableAt( from, target, false )
-//		     || MatrixManager.IsNoGravityAt( target )
 		     ) {
 			return false;
 		}
 
-		bool success = Pushable.PredictivePush( dir, speed, true );
+		bool success = Pushable.PredictivePush( target.To2Int(), speed, true );
 		if ( success ) {
 //			Logger.LogTraceFormat( "Started predictive follow {0}->{1}", Category.PushPull, from, target );
 		}
@@ -321,6 +329,12 @@ public class PushPull : VisibleBehaviour {
 		if ( from != currentPos ) {
 			return false;
 		}
+
+		if ( Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1 ) {
+			Logger.Log( "oops="+dir, Category.PushPull );
+			return false;
+		}
+
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
 		if ( !MatrixManager.IsPassableAt( from, target, IsSolid ) ) //non-solid things can be pushed to player tile
 		{
@@ -363,7 +377,7 @@ public class PushPull : VisibleBehaviour {
 			return false;
 		}
 
-		bool success = Pushable.PredictivePush( dir );
+		bool success = Pushable.PredictivePush( target.To2Int() );
 		if ( success ) {
 			pushPrediction = PushState.InProgress;
 			pushApproval = ApprovalState.None;

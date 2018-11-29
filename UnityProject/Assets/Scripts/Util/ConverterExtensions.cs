@@ -27,4 +27,8 @@
 		public static Vector2Int To2Int( this Vector3Int other ) {
 			return Vector2Int.RoundToInt( (Vector3)other );
 		}
+		/// Convert V2Int to V3Int
+		public static Vector3Int To3Int( this Vector2Int other ) {
+			return Vector3Int.RoundToInt( (Vector2)other );
+		}
 	}

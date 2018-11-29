@@ -18,6 +18,8 @@ public partial class PlayerSync
 	private UnityEvent onPullInterrupt = new UnityEvent();
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
 
+	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
+
 	/// Current server state. Integer positions.
 	private PlayerState serverState;
 

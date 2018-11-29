@@ -79,9 +79,7 @@ public partial class CustomNetTransform {
 		}
 
 		if ( followMode ) {
-//			if ( !MatrixManager.IsNonStickyAt( roundedTarget ) ) {
-				serverState.IsFollowUpdate = true;
-//			}
+			serverState.IsFollowUpdate = true;
 			SetPosition( roundedTarget );
 			serverState.IsFollowUpdate = false;
 		} else {
@@ -90,21 +88,19 @@ public partial class CustomNetTransform {
 		return true;
 	}
 
-	public bool PredictivePush( Vector2Int direction, float speed = Single.NaN, bool followMode = false ) {
+	public bool PredictivePush( Vector2Int target, float speed = Single.NaN, bool followMode = false ) {
 //		return false;
-		Vector2 target = ( Vector2 ) clientState.WorldPosition + direction;
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
 			clientState.Speed = speed;
 		} else {
 			clientState.Speed = DefaultPushSpeed;
 		}
 
-		var targetTile = target.RoundToInt();
-		if (MatrixManager.IsEmptyAt( targetTile )) {
-			clientState.Impulse = direction;
+		if (MatrixManager.IsEmptyAt( target.To3Int() )) {
+			clientState.Impulse = target;
 		}
 
-		clientState.WorldPosition = followMode ? targetTile.To2Int() : target;
+		clientState.WorldPosition = target.To3Int();
 		return true;
 	}
 

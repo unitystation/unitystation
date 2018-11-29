@@ -9,7 +9,7 @@ public interface IPushable {
 	/// (turns on tile snapping and removes player collision check)</param>
 	/// <returns>true if push was successful</returns>
 	bool Push( Vector2Int direction, float speed = Single.NaN, bool followMode = false );
-	bool PredictivePush( Vector2Int direction, float speed = Single.NaN, bool followMode = false );
+	bool PredictivePush( Vector2Int target, float speed = Single.NaN, bool followMode = false );
 	/// Rollback predictive push using last good position
 	void NotifyPlayers();
 	Vector3IntEvent OnUpdateRecieved();
@@ -24,6 +24,10 @@ public interface IPushable {
 	float MoveSpeedClient { get; }
 	/// Try stopping object if it's flying
 	void Stop();
+
+	/// ServerState WorldPosition because registerTile doesn't cut it
+	Vector3Int ServerPosition { get; }
+	Vector3Int ClientPosition { get; }
 }
 
 public class Vector3IntEvent : UnityEvent<Vector3Int> {}

@@ -91,6 +91,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public Vector3IntEvent OnClientTileReached() => onClientTileReached;
 	private UnityEvent onPullInterrupt = new UnityEvent();
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
+	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
+	public Vector3Int ClientPosition => clientState.WorldPosition.RoundToInt();
+
 
 	private RegisterTile registerTile;
 	private ItemAttributes ItemAttributes {
@@ -358,18 +361,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
 
 		//Ignore "Follow Updates" if you're pulling it
-		if ( newState.IsFollowUpdate && pushPull && !isServer ) {
-//			var lps = PlayerManager.LocalPlayerScript;
-			if ( pushPull.IsBeingPulledClient
-			     && newState.Active
-			     && pushPull.AttachedToClient == PlayerManager.LocalPlayerScript?.pushPull
-//			     && lps
-//			     && lps.pushPull
-//			     && lps.pushPull.ControlledObjectClient
-//			     && lps.pushPull.ControlledObjectClient.gameObject == this.gameObject
-			     ) {
-				return;
-			}
+		if ( newState.Active
+			&& newState.IsFollowUpdate
+			&& pushPull?.AttachedToClient == PlayerManager.LocalPlayerScript?.pushPull)
+		{
+			return;
 		}
 
 		//Don't lerp (instantly change pos) if active state was changed
