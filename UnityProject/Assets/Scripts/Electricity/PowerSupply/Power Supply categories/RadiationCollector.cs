@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class RadiationCollector : InputTrigger, IElectricalNeedUpdate {
+public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceControl
+{
+
+	private bool SelfDestruct = false;
+
 	public PowerSupply powerSupply;
 	[SyncVar(hook="UpdateState")]
 	public bool isOn = false;
@@ -14,7 +18,6 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate {
 	public int DirectionStart = 0;
 	public int DirectionEnd = 9;
 
-
 	public float current = 20;
 	public float Previouscurrent = 20;
 
@@ -24,26 +27,29 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate {
 		PowerTypeCategory.HighVoltageCable,
 	};
 
+	public void PotentialDestroyed(){
+		if (SelfDestruct) {
+			//Then you can destroy
+		}
+	}
+
 	public void PowerUpdateStructureChange(){
-		//Logger.Log ("PowerUpdateStructureChange");
 		powerSupply.PowerUpdateStructureChange ();
 	}
 	public void PowerUpdateStructureChangeReact(){
 		powerSupply.PowerUpdateStructureChangeReact ();
 	}
 	public void PowerUpdateResistanceChange(){
-		//Logger.Log ("PowerUpdateResistanceChange");
 		powerSupply.PowerUpdateResistanceChange ();
 	}
 	public void PowerUpdateCurrentChange (){
-		//Logger.Log ("PowerUpdateCurrentChange");
 		powerSupply.PowerUpdateCurrentChange ();
 	}
 
 	public void PowerNetworkUpdate (){
 		powerSupply.PowerNetworkUpdate ();
 		if (current != Previouscurrent) {
-			powerSupply.SupplyingCurrent = current;
+			powerSupply.Data.SupplyingCurrent = current;
 			Previouscurrent = current;
 			ElectricalSynchronisation.CurrentChange = true;
 		}
@@ -57,38 +63,33 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate {
 	}
 	public override void OnStartClient(){
 		base.OnStartClient();
-		powerSupply.CanConnectTo = CanConnectTo;
-		powerSupply.Categorytype = ApplianceType;
+		powerSupply.InData.CanConnectTo = CanConnectTo;
+		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = DirectionStart;
 		powerSupply.DirectionEnd = DirectionEnd;
-		powerSupply.SupplyingCurrent = 20;
-		Logger.Log ("Starting");
+		powerSupply.Data.SupplyingCurrent = 20;
+		powerSupply.InData.ControllingDevice = this;
 		//UpdateState(isOn);
 	}
 
 	void UpdateState(bool _isOn){
 		isOn = _isOn;
-
 		if(isOn){
 			ElectricalSynchronisation.AddSupply (this,ApplianceType);
 			ElectricalSynchronisation.StructureChangeReact = true;
 			ElectricalSynchronisation.ResistanceChange = true;
 			ElectricalSynchronisation.CurrentChange = true;
-			Logger.Log ("on");
 			powerSupply.TurnOnSupply(); 
-
-
+			Logger.Log ("on");
 		} else {
 			Logger.Log ("off");
 			ChangeToOff = true;
 		}
 	}
-	
 
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
-		//Logger.Log ("yo Interact");
-		//Interact stuff with the SMES here
+		//Interact stuff with the Radiation collector here
 		if (!isServer) {
 			InteractMessage.Send(gameObject, hand);
 		} else {
@@ -100,6 +101,8 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate {
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
-		//Then you can destroy
+		ElectricalSynchronisation.RemoveSupply (this, ApplianceType);
+		SelfDestruct = true;
+		//Make Invisible
 	}
 }

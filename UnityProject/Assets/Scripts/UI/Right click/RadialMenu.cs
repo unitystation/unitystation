@@ -133,7 +133,7 @@ public class RadialMenu : MonoBehaviour {
 				Angle += -360;
 			} 
 
-			Logger.Log (((Angle) / (IndividualItemDegrees)).ToString ()+ " Angle" , Category.UI);
+			//Logger.Log (((Angle) / (IndividualItemDegrees)).ToString ()+ " Angle" , Category.UI);
 
 			MenuItem = (int)((Angle) / (IndividualItemDegrees)); 
 
@@ -174,7 +174,7 @@ public class RadialMenu : MonoBehaviour {
 					if ((Time.time - LastSelectedTime) > 0.4f) { //How long it takes to make a menu
 						
 						if ((!(DepthMenus [CurrentMenuDepth] [MenuItem].SubMenus == null)) && DepthMenus [CurrentMenuDepth] [MenuItem].SubMenus.Count > 0) {
-							Logger.Log (MenuItem.ToString () + " Selected", Category.UI);
+							//Logger.Log (MenuItem.ToString () + " Selected", Category.UI);
 							int NewMenuDepth = CurrentMenuDepth;
 							LastSelectedTime = Time.time;
 							NewMenuDepth = NewMenuDepth + 100;
@@ -191,7 +191,7 @@ public class RadialMenu : MonoBehaviour {
 			} else {
 				if ((Time.time - LastInRangeSubMenu) > 0.3f && (CurrentMenuDepth > 100)){ //How long it takes to exit a menu
 
-					Logger.Log ("yo am Destroying", Category.UI);
+					//Logger.Log ("yo am Destroying", Category.UI);
 					if (ResetDepthOnDestroy.ContainsKey (CurrentMenuDepth))  {
 						ResetDepthOnDestroy [CurrentMenuDepth].title.text = "";
 						ResetDepthOnDestroy [CurrentMenuDepth].transform.SetSiblingIndex (ResetDepthOnDestroy [CurrentMenuDepth].DefaultPosition); 

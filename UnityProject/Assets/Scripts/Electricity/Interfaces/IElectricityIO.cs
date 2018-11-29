@@ -8,30 +8,9 @@ using System;
 /// </summary>
 public interface IElectricityIO
 {
-
-	HashSet<IElectricityIO> ResistanceToConnectedDevices {get; set;}
+	ElectronicData Data {get; set;}
+	IntrinsicElectronicData InData  {get; set;}
 	HashSet<IElectricityIO> connectedDevices {get; set;}
-	PowerTypeCategory Categorytype {get; set;}
-	HashSet<PowerTypeCategory> CanConnectTo {get; set;}
-	int FirstPresent {get; set;}
-	Dictionary<int,HashSet<IElectricityIO>> Downstream {get; set;}
-	Dictionary<int,HashSet<IElectricityIO>> Upstream {get; set;}
-	Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceComingFrom {get; set;}
-	Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceGoingTo {get; set;}
-	Dictionary<int,float> SourceVoltages {get; set;}
-	Dictionary<int,Dictionary<IElectricityIO,float>> CurrentGoingTo{get; set;}
-	Dictionary<int,Dictionary<IElectricityIO,float>> CurrentComingFrom {get; set;}
-	Electricity ActualCurrentChargeInWire {get; set;}
-	List<IElectricityIO> connections {get; set;}
-	bool CanProvideResistance {get; set;}
-	float PassedDownResistance {get; set;}
-
-	float UpstreamCount {get; set;}
-	float DownstreamCount {get; set;}
-	float CurrentInWire  {get; set;}
-	float ActualVoltage {get; set;}
-	float EstimatedResistance {get; set;}
-
 
 	void FindPossibleConnections ();
 	/// <summary>
@@ -46,8 +25,6 @@ public interface IElectricityIO
 	/// </summary>
 	void ElectricityOutput(int tick, float Current, GameObject SourceInstance);
 
-
-
 	/// <summary>
 	/// Pass resistance with ID of the supplying machine
 	/// </summary>
@@ -56,7 +33,7 @@ public interface IElectricityIO
 	/// <summary>
 	/// Passes it on to the next cable
 	/// </summary>
-	void ResistancyOutput(int tick, float Resistance, GameObject SourceInstance);
+	void ResistancyOutput(int tick, GameObject SourceInstance);
 
 	/// <summary>
 	///  Sets the upstream 

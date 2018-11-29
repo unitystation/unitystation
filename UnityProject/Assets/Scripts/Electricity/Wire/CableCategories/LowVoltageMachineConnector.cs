@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class LowVoltageMachineConnector : NetworkBehaviour 
+public class LowVoltageMachineConnector : NetworkBehaviour  , IDeviceControl
 {
+	private bool SelfDestruct = false;
 
 	public WireConnect RelatedWire; //!!!!
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.LowMachineConnector;
@@ -14,13 +15,21 @@ public class LowVoltageMachineConnector : NetworkBehaviour
 		PowerTypeCategory.DepartmentBattery,
 		PowerTypeCategory.LowVoltageCable,
 	};
+
+	public void PotentialDestroyed(){
+		if (SelfDestruct) {
+			//Then you can destroy
+		}
+	}
+
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		RelatedWire.CanConnectTo = CanConnectTo;
-		RelatedWire.Categorytype = ApplianceType;
+		RelatedWire.InData.CanConnectTo = CanConnectTo;
+		RelatedWire.InData.Categorytype = ApplianceType;
 		RelatedWire.DirectionEnd = 9;
 		RelatedWire.DirectionStart = 0;
+		RelatedWire.InData.ControllingDevice = this;
 	}
 
 	private void OnDisable()
@@ -30,7 +39,9 @@ public class LowVoltageMachineConnector : NetworkBehaviour
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
-		//Then you can destroy
+		SelfDestruct = true;
+
+		//Make Invisible
 	}
 }
 

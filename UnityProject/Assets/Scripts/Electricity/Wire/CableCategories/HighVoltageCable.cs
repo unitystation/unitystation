@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class HighVoltageCable : NetworkBehaviour, ICable
+public class HighVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 {
+	private bool SelfDestruct = false;
 	public WiringColor CableType {get; set;} = WiringColor.high;
 	public bool IsCable {get; set;} = true;
 	public int DirectionEnd {get{ return RelatedWire.DirectionEnd;}set{ RelatedWire.DirectionEnd = value; }}
@@ -16,13 +17,21 @@ public class HighVoltageCable : NetworkBehaviour, ICable
 		PowerTypeCategory.HighVoltageCable,
 		PowerTypeCategory.Transformer,
 	};
+
+	public void PotentialDestroyed(){
+		if (SelfDestruct) {
+			//Then you can destroy
+		}
+	}
+
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
 		CableType = WiringColor.high;
 		IsCable = true;
-		RelatedWire.CanConnectTo = CanConnectTo;
-		RelatedWire.Categorytype = ApplianceType;
+		RelatedWire.InData.CanConnectTo = CanConnectTo;
+		RelatedWire.InData.Categorytype = ApplianceType;
+		RelatedWire.InData.ControllingDevice = this;
 	}
 
 	private void OnDisable()
@@ -33,6 +42,7 @@ public class HighVoltageCable : NetworkBehaviour, ICable
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
-		//Then you can destroy
+		SelfDestruct = true;
+		//Make Invisible
 	}
 }

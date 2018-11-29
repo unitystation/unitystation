@@ -6,7 +6,8 @@ using System;
 using UnityEngine.Networking;
 
 
-public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer {
+public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer, IDeviceControl {
+	private bool SelfDestruct = false;
 	public float TurnRatio  {get; set;} 
 	public float VoltageLimiting {get; set;} 
 	public float VoltageLimitedTo  {get; set;}
@@ -23,8 +24,15 @@ public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer {
 		VoltageLimiting = 3300;
 		VoltageLimitedTo = 3300;
 		RelatedDevice.RelatedDevice = this;
-		RelatedDevice.CanConnectTo = CanConnectTo;
-		RelatedDevice.Categorytype = ApplianceType;
+		RelatedDevice.InData.CanConnectTo = CanConnectTo;
+		RelatedDevice.InData.Categorytype = ApplianceType;
+		RelatedDevice.InData.ControllingDevice = this;
+	}
+
+	public void PotentialDestroyed(){
+		if (SelfDestruct) {
+			//Then you can destroy
+		}
 	}
 
 	public float ModifyElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){
@@ -32,17 +40,15 @@ public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer {
 	}
 	public float ModifyElectricityOutput(int tick, float Current, GameObject SourceInstance){
 		int InstanceID = SourceInstance.GetInstanceID ();
-
-		float ActualCurrent = RelatedDevice.CurrentInWire;
-
-		float Resistance = ElectricityFunctions.WorkOutResistance(RelatedDevice.ResistanceComingFrom[InstanceID]);
+		float ActualCurrent = RelatedDevice.Data.CurrentInWire;
+		float Resistance = ElectricityFunctions.WorkOutResistance(RelatedDevice.Data.ResistanceComingFrom[InstanceID]);
 		float Voltage = (Current * Resistance);
 		Tuple<float,float> Currentandoffcut = ElectricityFunctions.TransformerCalculations (this,Voltage : Voltage, ResistanceModified : Resistance, ActualCurrent : ActualCurrent);
 		if (Currentandoffcut.Item2 > 0) {
-			if (!(RelatedDevice.CurrentGoingTo.ContainsKey (InstanceID))) {
-				RelatedDevice.CurrentGoingTo [InstanceID] = new Dictionary<IElectricityIO, float> ();
+			if (!(RelatedDevice.Data.CurrentGoingTo.ContainsKey (InstanceID))) {
+				RelatedDevice.Data.CurrentGoingTo [InstanceID] = new Dictionary<IElectricityIO, float> ();
 			}
-			RelatedDevice.CurrentGoingTo[InstanceID] [RelatedDevice.GameObject().GetComponent<IElectricityIO>()] = Currentandoffcut.Item2;
+			RelatedDevice.Data.CurrentGoingTo[InstanceID] [RelatedDevice.GameObject().GetComponent<IElectricityIO>()] = Currentandoffcut.Item2;
 		}
 		return(Currentandoffcut.Item1);
 	}
@@ -59,6 +65,7 @@ public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer {
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
-		//Then you can destroy
+		SelfDestruct = true;
+		//Make Invisible
 	}
 }

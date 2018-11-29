@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-
-public class APC : NetworkBehaviour , IElectricalNeedUpdate
+namespace bob {
+	class bob
+	{
+		dynamic variable;
+	}
+}
+public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 {
 	public PoweredDevice poweredDevice;
 
@@ -18,10 +23,14 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate
 
 	public SpriteRenderer screenDisplay;
 
+	public dynamic dynamicVariable = 1;
+
 	public List<LightSource> ListOfLights = new List<LightSource>();
 
 	private bool batteryInstalled = true;
 	private bool isScreenOn = true;
+
+	private bool SelfDestruct = false;
 
 	private int charge = 10; //charge percent
 	private int displayIndex = 0; //for the animation
@@ -31,6 +40,7 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate
 
 	public float  Resistance = 240;
 	public float  PreviousResistance = 240;
+	public FloatClass ClassResistance = new FloatClass();
 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.APC;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>();
@@ -42,15 +52,19 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		poweredDevice.CanConnectTo = CanConnectTo;
-		poweredDevice.Categorytype = ApplianceType;
-		poweredDevice.PassedDownResistance = Resistance;
-		poweredDevice.CanProvideResistance = true;
-		//Logger.Log ("Resistance as in model" +poweredDevice.PassedDownResistance.ToString (), Category.Electrical);
-		if (!(ElectricalSynchronisation.PoweredDevices.Contains(this))){
-			ElectricalSynchronisation.PoweredDevices.Add (this);
-		}
-
+		poweredDevice.InData.CanConnectTo = CanConnectTo;
+		poweredDevice.InData.Categorytype = ApplianceType;
+		ClassResistance.Float = Resistance;
+		ElectricalSynchronisation.PoweredDevices.Add (this);
+		PowerInputReactions PRLCable = new PowerInputReactions ();
+		PRLCable.DirectionReaction = true;
+		PRLCable.ConnectingDevice = PowerTypeCategory.LowVoltageCable;
+		PRLCable.DirectionReactionA.AddResistanceCall.Bool = true;
+		PRLCable.DirectionReactionA.YouShallNotPass = true;
+		PRLCable.ResistanceReaction = true;
+		PRLCable.ResistanceReactionA.Resistance = ClassResistance;
+		poweredDevice.InData.ConnectionReaction[PowerTypeCategory.LowVoltageCable] = PRLCable;
+		poweredDevice.InData.ControllingDevice = this;
 	}
 
 	private void OnDisable()
@@ -66,6 +80,13 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate
 	void SupplyUpdate(){
 		UpdateDisplay();
 	}
+
+	public void PotentialDestroyed(){
+		if (SelfDestruct) {
+			//Then you can destroy
+		}
+	}
+
 	public void PowerUpdateStructureChange(){
 	}
 	public void PowerUpdateStructureChangeReact(){
@@ -73,20 +94,25 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate
 	public void PowerUpdateResistanceChange(){
 	}
 	public void PowerUpdateCurrentChange (){
+		
 	}
-
 
 	public void PowerNetworkUpdate(){
 		if (Resistance != PreviousResistance) {
-			poweredDevice.PassedDownResistance = Resistance;
 			PreviousResistance = Resistance;
+			ClassResistance.Float = Resistance;
 			ElectricalSynchronisation.ResistanceChange = true;
 			ElectricalSynchronisation.CurrentChange = true;
 		}
-		Voltage = poweredDevice.ActualVoltage;
+		Voltage = poweredDevice.Data.ActualVoltage;
+		UpdateLights ();
 		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
 	}
-
+	public void UpdateLights(){
+		for (int i = 0; i < ListOfLights.Count; i++) {
+			ListOfLights [i].PowerLightIntensityUpdate (Voltage);
+		}
+	}
 	void UpdateDisplay(){
 		//			if (poweredDevice.suppliedElectricity.current == 0 && charge == 0){
 		//				loadedScreenSprites = null; // dead
@@ -122,6 +148,7 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
 		ElectricalSynchronisation.PoweredDevices.Remove(this);
-		//Then you can destroy
+		SelfDestruct = true;
+		//Making Invisible
 	}
 }

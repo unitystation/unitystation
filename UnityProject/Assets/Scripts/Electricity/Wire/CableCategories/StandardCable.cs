@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class StandardCable : NetworkBehaviour, ICable
+public class StandardCable : NetworkBehaviour, ICable, IDeviceControl
 {
+	private bool SelfDestruct = false;
+
 	public WiringColor CableType {get; set;} = WiringColor.red;
 	public bool IsCable {get; set;} = true;
 	public int DirectionEnd {get{ return RelatedWire.DirectionEnd;}set{ RelatedWire.DirectionEnd = value; }}
@@ -18,14 +20,23 @@ public class StandardCable : NetworkBehaviour, ICable
 		PowerTypeCategory.SMES,
 		PowerTypeCategory.Transformer,
 		PowerTypeCategory.DepartmentBattery,
+		PowerTypeCategory.MediumMachineConnector
 	};
+
+	public void PotentialDestroyed(){
+		if (SelfDestruct) {
+			//Then you can destroy
+		}
+	}
+
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
 		CableType = WiringColor.red;
 		IsCable = true;
-		RelatedWire.CanConnectTo = CanConnectTo;
-		RelatedWire.Categorytype = ApplianceType;
+		RelatedWire.InData.CanConnectTo = CanConnectTo;
+		RelatedWire.InData.Categorytype = ApplianceType;
+		RelatedWire.InData.ControllingDevice = this;
 	}
 
 	private void OnDisable()
@@ -36,6 +47,7 @@ public class StandardCable : NetworkBehaviour, ICable
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
-		//Then you can destroy
+		SelfDestruct = true;
+		//Making Invisible
 	}
 }

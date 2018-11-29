@@ -4,22 +4,32 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class MediumMachineConnector : NetworkBehaviour 
+public class MediumMachineConnector : NetworkBehaviour , IDeviceControl
 {
+	private bool SelfDestruct = false;
 
 	public WireConnect RelatedWire; //!!!!
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.MediumMachineConnector;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.StandardCable,
-		PowerTypeCategory.LowVoltageCable,
+		//PowerTypeCategory.LowVoltageCable,
+		PowerTypeCategory.SMES,
 	};
+
+	public void PotentialDestroyed(){
+		if (SelfDestruct) {
+			//Then you can destroy
+		}
+	}
+
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		RelatedWire.CanConnectTo = CanConnectTo;
-		RelatedWire.Categorytype = ApplianceType;
+		RelatedWire.InData.CanConnectTo = CanConnectTo;
+		RelatedWire.InData.Categorytype = ApplianceType;
 		RelatedWire.DirectionEnd = 9;
 		RelatedWire.DirectionStart = 0;
+		RelatedWire.InData.ControllingDevice = this;
 	}
 
 	private void OnDisable()
@@ -29,7 +39,9 @@ public class MediumMachineConnector : NetworkBehaviour
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
-		//Then you can destroy
+		SelfDestruct = true;
+
+		//Make Invisible
 	}
 }
 

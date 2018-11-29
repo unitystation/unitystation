@@ -4,9 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery
+public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceControl
 {
 	public PowerSupply powerSupply;
+
+	private bool SelfDestruct = false;
 
 	//Is the SMES turned on
 	[SyncVar(hook="UpdateState")]
@@ -17,6 +19,8 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery
 	public int currentCharge; // 0 - 100
 	public float current {get; set;} = 20;
 	public float Previouscurrent = 20;
+
+	public FloatClass ClassResistance = new FloatClass();
 	public float PreviousResistance = 0;
 
 	//Sprites:
@@ -25,12 +29,12 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery
 	public Sprite[] chargeIndicatorSprites;
 	public Sprite statusCriticalSprite;
 	public Sprite statusSupplySprite;
-	//
+
 
 	public int DirectionStart = 0;
 	public int DirectionEnd = 9;
-	//
 
+	public float MonitoringResistance = 999999;
 
 	public float MinimumSupportVoltage  {get; set;} = 2700;
 	public float StandardSupplyingVoltage {get; set;} = 3000;
@@ -39,7 +43,6 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery
 	public float CurrentCapacity {get; set;} = 1800000;
 	public float PullLastDeductedTime {get; set;}= 0;
 	public float ChargLastDeductedTime {get; set;} = 0;
-
 
 	public float ExtraChargeCutOff {get; set;} = 3000;
 	public float IncreasedChargeVoltage {get; set;} = 3010;
@@ -57,9 +60,10 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery
 	public bool Cansupport {get; set;} = true;
 	public bool ToggleCanCharge {get; set;} = true;
 	public bool ToggleCansupport {get; set;} = true;
-
+	public BoolClass CanProvideResistance = new BoolClass();
 
 	public float ActualVoltage {get; set;}  = 0;
+
 	//Renderers:
 	public SpriteRenderer statusIndicator;
 	public SpriteRenderer OnOffIndicator;
@@ -73,61 +77,75 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery
 
 	public override void OnStartClient(){
 		base.OnStartClient();
-		powerSupply.CanConnectTo = CanConnectTo;
-		powerSupply.Categorytype = ApplianceType;
+		powerSupply.InData.CanConnectTo = CanConnectTo;
+		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = DirectionStart;
 		powerSupply.DirectionEnd = DirectionEnd;
+		ClassResistance.Float = Resistance;
+		CanProvideResistance.Bool = false;
 
-		//UpdateState(isOn);
+		PowerInputReactions PIRMedium = new PowerInputReactions ();
+		PIRMedium.DirectionReaction = true;
+		PIRMedium.ConnectingDevice = PowerTypeCategory.MediumMachineConnector;
+		PIRMedium.DirectionReactionA.AddResistanceCall.Bool = true;
+		PIRMedium.DirectionReactionA.YouShallNotPass = true;
+		PIRMedium.ResistanceReaction = true;
+		PIRMedium.ResistanceReactionA.Resistance.Float = MonitoringResistance;
 
-		//Test
+		PowerInputReactions PRSDCable = new PowerInputReactions ();
+		PRSDCable.DirectionReaction = true;
+		PRSDCable.ConnectingDevice = PowerTypeCategory.StandardCable;
+		PRSDCable.DirectionReactionA.AddResistanceCall = CanProvideResistance;
+		PRSDCable.ResistanceReaction = true;
+		PRSDCable.ResistanceReactionA.Resistance = ClassResistance;
+		ClassResistance.Float = 10000;
+
+		powerSupply.InData.ConnectionReaction[PowerTypeCategory.MediumMachineConnector] = PIRMedium;
+		powerSupply.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PRSDCable;
+		powerSupply.InData.ControllingDevice = this;
+
 		currentCharge = 100;
 	}
-	public void PowerUpdateStructureChange(){
-		//if (current > 0) {
-		powerSupply.PowerUpdateStructureChange ();
-		//} 
+		
+	public void PotentialDestroyed(){
+		if (SelfDestruct) {
+			//Then you can destroy
+		}
 
 	}
+	public void PowerUpdateStructureChange(){
+		powerSupply.PowerUpdateStructureChange ();
+	}
 	public void PowerUpdateStructureChangeReact(){
-		//if (current > 0) { Potential optimisation
 		powerSupply.PowerUpdateStructureChangeReact ();
-		//}
 	}
 
 	public void PowerUpdateResistanceChange(){
-		//if (current > 0) {
 		powerSupply.PowerUpdateResistanceChange ();
-		//}
 	}
 	public void PowerUpdateCurrentChange (){
 		powerSupply.FlushSupplyAndUp (powerSupply.gameObject); //Room for optimisation
-		CircuitResistance = ElectricityFunctions.WorkOutResistance (powerSupply.ResistanceComingFrom [powerSupply.gameObject.GetInstanceID ()]);// //!!
-		ActualVoltage = powerSupply.ActualVoltage;
+		CircuitResistance = ElectricityFunctions.WorkOutResistance (powerSupply.Data.ResistanceComingFrom [powerSupply.gameObject.GetInstanceID ()]);// //!!
+		ActualVoltage = powerSupply.Data.ActualVoltage;
 
 		BatteryCalculation.PowerUpdateCurrentChange (this);
 
-
 		if (current != Previouscurrent) {
 			if (Previouscurrent == 0 && !(current <= 0)) {
-				//
-
+				
 			} else if (current == 0 && !(Previouscurrent <= 0)) { 
 				powerSupply.FlushSupplyAndUp (powerSupply.gameObject);
-				//powerSupply.TurnOffSupply(); 
 			}
 
-			powerSupply.SupplyingCurrent = current;
+			powerSupply.Data.SupplyingCurrent = current;
 			Previouscurrent = current;
 		}
-		//if (current > 0) {
 		powerSupply.PowerUpdateCurrentChange ();
-		//}
 	}
 
 	public void PowerNetworkUpdate (){
 		powerSupply.PowerNetworkUpdate ();
-		ActualVoltage = powerSupply.ActualVoltage;
+		ActualVoltage = powerSupply.Data.ActualVoltage;
 
 		BatteryCalculation.PowerNetworkUpdate (this);
 
@@ -153,21 +171,21 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery
 				powerSupply.FlushSupplyAndUp (powerSupply.gameObject);
 				//powerSupply.TurnOffSupply(); 
 			}
-			powerSupply.SupplyingCurrent = current;
+			powerSupply.Data.SupplyingCurrent = current;
 			Previouscurrent = current;
 			ElectricalSynchronisation.CurrentChange = true;
 		}
 
 		if (Resistance != PreviousResistance) {
 			if (PreviousResistance == 0 && !(Resistance == 0)) {
-				powerSupply.CanProvideResistance = true;
+				CanProvideResistance.Bool = true;
 
 			} else if (Resistance == 0 && !(PreviousResistance <= 0)) { 
-				powerSupply.CanProvideResistance = false;
+				CanProvideResistance.Bool = false;
 				ElectricityFunctions.CleanConnectedDevices (powerSupply);
 			}
-
-			powerSupply.PassedDownResistance = Resistance;
+			ClassResistance.Float = Resistance;
+			//powerSupply.PassedDownResistance = Resistance;
 			PreviousResistance = Resistance;
 			ElectricalSynchronisation.ResistanceChange = true;
 			ElectricalSynchronisation.CurrentChange = true;
@@ -235,6 +253,20 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery
 	}
 	[ContextMethod("Toggle Support","Power_Button")]
 	public void ToggleSupport(){
+//		PowerInputReactions PRSDCable = new PowerInputReactions ();
+//		ClassResistance.Float = 0;
+//		PRSDCable.ResistanceReactionA.Resistance = ClassResistance;
+//		ClassResistance.Float = 10000;
+//
+//		Logger.Log (PRSDCable.ResistanceReactionA.Resistance.Float.ToString () + " < Inside");
+//		Logger.Log (ClassResistance.Float.ToString () + " < Outside");
+//
+//		current = 0;
+//		PRSDCable.ElectricalReactionA.Current = current;
+//		current = 1000;
+//
+//		Logger.Log (PRSDCable.ElectricalReactionA.Current.ToString () + " < Inside");
+//		Logger.Log (current.ToString () + " < Outside");
 		ToggleCansupport = !ToggleCansupport; 
 	}
 	public void OnDestroy(){
@@ -242,7 +274,11 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
 		ElectricalSynchronisation.RemoveSupply (this, ApplianceType);
-		//Then you can destroy
+
+		SelfDestruct = true;
+
+		//Make Invisible
+	
 	}
 }
 

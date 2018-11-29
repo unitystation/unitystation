@@ -6,9 +6,11 @@ using System;
 using UnityEngine.Networking;
 
 
-public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDevices, Itransformer,  IBattery
+public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDevices, Itransformer,  IBattery, IDeviceControl
 {
 	public InLineDevice RelatedDevice; 
+
+	private bool SelfDestruct = false;
 
 	//Is the SMES turned on
 	[SyncVar(hook="UpdateState")]
@@ -20,17 +22,14 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 	public float current {get; set;} = 0;
 	public float Previouscurrent = 0;
 	public float PreviousResistance = 0;
+	public FloatClass ClassResistance = new FloatClass();
 	//Sprites:
 	public int DirectionStart = 0;
 	public int DirectionEnd = 9;
 
-
 	public float TurnRatio  {get; set;} 
 	public float VoltageLimiting {get; set;} 
 	public float VoltageLimitedTo  {get; set;}
-
-
-//	##        Dictionary['Maximum_Current_support'] = 8  
 
 	public float MaximumCurrentSupport {get; set;} = 8;
 	public float MinimumSupportVoltage  {get; set;} = 216;
@@ -40,7 +39,6 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 	public float CurrentCapacity {get; set;} = 432000;
 	public float PullLastDeductedTime {get; set;}= 0;
 	public float ChargLastDeductedTime {get; set;} = 0;
-
 
 	public float ExtraChargeCutOff {get; set;} = 240;
 	public float IncreasedChargeVoltage {get; set;} = 250;
@@ -59,17 +57,18 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 	public bool ToggleCansupport {get; set;} = true;
 
 	public float ActualVoltage {get; set;}  = 0;
-
+	public float MonitoringResistance = 999999;
+	public BoolClass CanProvideResistance = new BoolClass();
 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.DepartmentBattery;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
-		PowerTypeCategory.MediumMachineConnector
+		PowerTypeCategory.LowMachineConnector
 	};
 
 	public override void OnStartClient(){
 		base.OnStartClient();
-		RelatedDevice.CanConnectTo = CanConnectTo;
-		RelatedDevice.Categorytype = ApplianceType;
+		RelatedDevice.InData.CanConnectTo = CanConnectTo;
+		RelatedDevice.InData.Categorytype = ApplianceType;
 		RelatedDevice.DirectionStart = DirectionStart;
 		RelatedDevice.DirectionEnd = DirectionEnd;
 
@@ -77,12 +76,36 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 		VoltageLimiting = 0;
 		VoltageLimitedTo = 0;
 		RelatedDevice.RelatedDevice = this;
-		//UpdateState(isOn);
+		ClassResistance.Float = Resistance;
+		CanProvideResistance.Bool = false;
+	
+		PowerInputReactions PIRLow = new PowerInputReactions ();
+		PIRLow.DirectionReaction = true;
+		PIRLow.ConnectingDevice = PowerTypeCategory.LowMachineConnector;
+		PIRLow.DirectionReactionA.AddResistanceCall.Bool = true;
+		PIRLow.DirectionReactionA.YouShallNotPass = true;
+		PIRLow.ResistanceReaction = true;
+		PIRLow.ResistanceReactionA.Resistance.Float = MonitoringResistance;
 
-		//Test
+		PowerInputReactions PRSDCable = new PowerInputReactions ();
+		PRSDCable.DirectionReaction = true;
+		PRSDCable.ConnectingDevice = PowerTypeCategory.StandardCable;
+		PRSDCable.DirectionReactionA.AddResistanceCall = CanProvideResistance;
+		PRSDCable.ResistanceReaction = true;
+		PRSDCable.ResistanceReactionA.Resistance = ClassResistance;
+		ClassResistance.Float = 10000;
+		RelatedDevice.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PIRLow;
+		RelatedDevice.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PRSDCable;
+		RelatedDevice.InData.ControllingDevice = this;
 		currentCharge = 100;
-		//UpdateState(isOn);
 	}
+		
+	public void PotentialDestroyed(){
+		if (SelfDestruct) {
+			//Then you can destroy
+		}
+	}
+
 	public void PowerUpdateStructureChange(){
 		RelatedDevice.PowerUpdateStructureChange ();
 	}
@@ -94,72 +117,51 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 	}
 	public void PowerUpdateCurrentChange (){
 		RelatedDevice.FlushSupplyAndUp (RelatedDevice.gameObject); //Room for optimisation
-		CircuitResistance = ElectricityFunctions.WorkOutResistance (RelatedDevice.ResistanceComingFrom [RelatedDevice.gameObject.GetInstanceID ()]);// //!!
-		ActualVoltage = RelatedDevice.ActualVoltage;
+		CircuitResistance = ElectricityFunctions.WorkOutResistance (RelatedDevice.Data.ResistanceComingFrom [RelatedDevice.gameObject.GetInstanceID ()]);// //!!
+		ActualVoltage = RelatedDevice.Data.ActualVoltage;
 
 		BatteryCalculation.PowerUpdateCurrentChange (this);
 
-
 		if (current != Previouscurrent) {
 			if (Previouscurrent == 0 && !(current <= 0)) {
-				//
 
 			} else if (current == 0 && !(Previouscurrent <= 0)) { 
 				RelatedDevice.FlushSupplyAndUp (RelatedDevice.gameObject);
-				//powerSupply.TurnOffSupply(); 
 			}
-
-			RelatedDevice.SupplyingCurrent = current;
+			RelatedDevice.Data.SupplyingCurrent = current;
 			Previouscurrent = current;
 		}
-		//if (current > 0) {
 		RelatedDevice.PowerUpdateCurrentChange ();
-		//}
 	}
 
 	public void PowerNetworkUpdate (){
 		RelatedDevice.PowerNetworkUpdate ();
-		ActualVoltage = RelatedDevice.ActualVoltage;
-
+		ActualVoltage = RelatedDevice.Data.ActualVoltage;
 		BatteryCalculation.PowerNetworkUpdate (this);
-
-
-
 		if (ChangeToOff) {
 			ChangeToOff = false;
-			//PassChangeToOff = true;
-			//ElectricalSynchronisation.ResistanceChange = true;
-			//ElectricalSynchronisation.CurrentChange = true;
-			//powerSupply.TurnOffSupply(); 
 			RelatedDevice.TurnOffSupply();
 			BatteryCalculation.TurnOffEverything (this);
 			ElectricalSynchronisation.RemoveSupply (this, ApplianceType);
 		}
-
 		if (current != Previouscurrent) {
 			if (Previouscurrent == 0 && !(current <= 0)) {
-				//
-
+				
 			} else if (current == 0 && !(Previouscurrent <= 0)) { 
-				Logger.Log ("FlushSupplyAndUp");
 				RelatedDevice.FlushSupplyAndUp (RelatedDevice.gameObject);
-				//powerSupply.TurnOffSupply(); 
 			}
-			RelatedDevice.SupplyingCurrent = current;
+			RelatedDevice.Data.SupplyingCurrent = current;
 			Previouscurrent = current;
 			ElectricalSynchronisation.CurrentChange = true;
 		}
-
 		if (Resistance != PreviousResistance) {
 			if (PreviousResistance == 0 && !(Resistance == 0)) {
-				RelatedDevice.CanProvideResistance = true;
+				CanProvideResistance.Bool = true;
 
 			} else if (Resistance == 0 && !(PreviousResistance <= 0)) { 
-				RelatedDevice.CanProvideResistance = false;
+				CanProvideResistance.Bool = false;
 				ElectricityFunctions.CleanConnectedDevices (RelatedDevice);
 			}
-
-			RelatedDevice.PassedDownResistance = Resistance;
 			PreviousResistance = Resistance;
 			ElectricalSynchronisation.ResistanceChange = true;
 			ElectricalSynchronisation.CurrentChange = true;
@@ -172,39 +174,13 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 		isOnForInterface = _isOn;
 		if (isOn) {
 			ElectricalSynchronisation.AddSupply (this, ApplianceType);
-
-
 			ElectricalSynchronisation.StructureChangeReact = true;
 			ElectricalSynchronisation.ResistanceChange = true; //Potential optimisation
 			ElectricalSynchronisation.CurrentChange = true;
-
-			//				Resistance = (1000/((StandardChargeNumber * ChargingMultiplier)/1000));
-			//				powerSupply.PassedDownResistance = Resistance;
-			//				powerSupply.CanProvideResistance = true;
-
-			//powerSupply.TurnOnSupply (0); //Test supply of 3000volts and 20amps, lol yeah
 			Logger.Log ("on");
-//			OnOffIndicator.sprite = onlineSprite;
-//			chargeIndicator.gameObject.SetActive (true);
-//			statusIndicator.gameObject.SetActive (true);
-//
-//			int chargeIndex = (currentCharge / 100) * 4;
-//			chargeIndicator.sprite = chargeIndicatorSprites [chargeIndex];
-//			if (chargeIndex == 0) {
-//				statusIndicator.sprite = statusCriticalSprite;
-//			} else {
-//				statusIndicator.sprite = statusSupplySprite;
-//			}
-
-
-
 		} else {
 			Logger.Log ("off");
 			ChangeToOff = true;
-//			OnOffIndicator.sprite = offlineSprite;
-//			chargeIndicator.gameObject.SetActive (false);
-//			statusIndicator.gameObject.SetActive (false);
-
 		}
 	}
 	public override void Interact(GameObject originator, Vector3 position, string hand)
@@ -220,28 +196,20 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 		}
 	}
 
-
-
-//	[ContextMethod("Turn on/Turn off","Power_Button")]
-//	public void ToggleSupply(){
-//		UpdateState (isOn);
-//
-//	}
-
 	public float ModifyElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){
 		int InstanceID = SourceInstance.GetInstanceID ();
 
-		float ActualCurrent = RelatedDevice.CurrentInWire;
+		float ActualCurrent = RelatedDevice.Data.CurrentInWire;
 
-		float Resistance = ElectricityFunctions.WorkOutResistance(RelatedDevice.ResistanceComingFrom[InstanceID]);
+		float Resistance = ElectricityFunctions.WorkOutResistance(RelatedDevice.Data.ResistanceComingFrom[InstanceID]);
 		float Voltage = (Current * Resistance);
 		//Logger.Log (Voltage.ToString() + " < Voltage " + Resistance.ToString() + " < Resistance" + ActualCurrent.ToString() + " < ActualCurrent" + Current.ToString() + " < Current");
 		Tuple<float,float> Currentandoffcut = ElectricityFunctions.TransformerCalculations (this,Voltage : Voltage, ResistanceModified : Resistance, ActualCurrent : ActualCurrent);
 		if (Currentandoffcut.Item2 > 0) {
-			if (!(RelatedDevice.CurrentGoingTo.ContainsKey (InstanceID))) {
-				RelatedDevice.CurrentGoingTo [InstanceID] = new Dictionary<IElectricityIO, float> ();
+			if (!(RelatedDevice.Data.CurrentGoingTo.ContainsKey (InstanceID))) {
+				RelatedDevice.Data.CurrentGoingTo [InstanceID] = new Dictionary<IElectricityIO, float> ();
 			}
-			RelatedDevice.CurrentGoingTo[InstanceID] [RelatedDevice.GameObject().GetComponent<IElectricityIO>()] = Currentandoffcut.Item2;
+			RelatedDevice.Data.CurrentGoingTo[InstanceID] [RelatedDevice.GameObject().GetComponent<IElectricityIO>()] = Currentandoffcut.Item2;
 		}
 		return(Currentandoffcut.Item1);
 
@@ -267,11 +235,12 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 	}
 
 	public void OnDestroy(){
-		ElectricalSynchronisation.StructureChangeReact = true;
+		ElectricalSynchronisation.StructureChange = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
 		ElectricalSynchronisation.RemoveSupply (this, ApplianceType);
-		//Then you can destroy
+		SelfDestruct = true;
+		//Make Invisible
 	}
 }
 
