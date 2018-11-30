@@ -227,6 +227,12 @@ public class PushPull : VisibleBehaviour {
 		     && initiator != this ) {
 			//client request: start/stop pulling
 			initiator.CmdPullObject( gameObject );
+
+			if ( AttachedToClient == initiator ) {
+				Logger.LogTraceFormat( "{0}: Breaking pull predictively", Category.PushPull, initiator.gameObject.name );
+				AttachedToClient.ControlledObjectClient = null;
+				AttachedToClient = null;
+			}
 		}
 	}
 	[Server]
