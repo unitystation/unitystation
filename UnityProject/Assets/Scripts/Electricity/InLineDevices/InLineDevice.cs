@@ -6,11 +6,11 @@ using UnityEngine.Events;
 
 public class InLineDevice : NetworkBehaviour, IElectricityIO, IProvidePower 
 {
-
+	//What is the purpose of inline device, It is to modify current, resistance going over the device E.G a Transformer For any other device that can be thought of
 	public int DirectionStart;
 	public int DirectionEnd;
 
-	public ElectronicData Data {get; set;} = new ElectronicData();
+	public ElectronicData Data {get; set;} = new ElectronicData(); 
 	public IntrinsicElectronicData InData  {get; set;} = new IntrinsicElectronicData();
 
 	public HashSet<IElectricityIO> DirectionWorkOnNextList {get; set;} = new HashSet<IElectricityIO> ();
@@ -94,10 +94,10 @@ public class InLineDevice : NetworkBehaviour, IElectricityIO, IProvidePower
 	}
 				
 	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO PassOn  = null){
-		ElectricityFunctions.DirectionInput (tick, SourceInstance,ComingFrom, this);
+		InputOutputFunctions.DirectionInput (tick, SourceInstance,ComingFrom, this);
 	} 
 	public void DirectionOutput(int tick, GameObject SourceInstance) {
-		ElectricityFunctions.DirectionOutput (tick, SourceInstance, this);
+		InputOutputFunctions.DirectionOutput (tick, SourceInstance, this);
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		Data.DownstreamCount = Data.Downstream [SourceInstanceID].Count;
 		Data.UpstreamCount = Data.Upstream [SourceInstanceID].Count;
@@ -106,32 +106,31 @@ public class InLineDevice : NetworkBehaviour, IElectricityIO, IProvidePower
 		
 	public void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){
 		Resistance = RelatedDevice.ModifyResistanceInput (tick, Resistance, SourceInstance, ComingFrom);
-		ElectricityFunctions.ResistanceInput (tick, Resistance, SourceInstance, ComingFrom, this);
+		InputOutputFunctions.ResistanceInput (tick, Resistance, SourceInstance, ComingFrom, this);
 	}
 
 	public void ResistancyOutput(int tick, GameObject SourceInstance){
 		int SourceInstanceID = SourceInstance.GetInstanceID ();
 		float Resistance = ElectricityFunctions.WorkOutResistance (Data.ResistanceComingFrom [SourceInstanceID]);
 		Resistance = RelatedDevice.ModifyResistancyOutput (tick, Resistance, SourceInstance);
-		ElectricityFunctions.ResistancyOutput(tick, Resistance, SourceInstance, this);
+		InputOutputFunctions.ResistancyOutput(tick, Resistance, SourceInstance, this);
 	}
+
 	public void ElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){ 
 		Current = RelatedDevice.ModifyElectricityInput (tick, Current, SourceInstance, ComingFrom);
-		//Logger.Log(Current.ToString() + "yoree");
-		ElectricityFunctions.ElectricityInput (tick, Current, SourceInstance, ComingFrom, this);
+		InputOutputFunctions.ElectricityInput (tick, Current, SourceInstance, ComingFrom, this);
 	}
 		
 	public void ElectricityOutput(int tick, float Current, GameObject SourceInstance){
 		Current = RelatedDevice.ModifyElectricityOutput (tick, Current, SourceInstance);
 		//Logger.Log (CurrentInWire.ToString () + " How much current", Category.Electrical);
 		if (Current != 0) {
-		ElectricityFunctions.ElectricityOutput(tick,Current,SourceInstance,this);
+			InputOutputFunctions.ElectricityOutput(tick,Current,SourceInstance,this);
 		}
 		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
 		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
 		Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;
 		Data.EstimatedResistance = Data.ActualCurrentChargeInWire.EstimatedResistant;
-
 	}
 
 	public void SetConnPoints(int DirectionEndin, int DirectionStartin){
@@ -148,18 +147,19 @@ public class InLineDevice : NetworkBehaviour, IElectricityIO, IProvidePower
 		return points;
 	}
 
+	//Cleans up the values for the specified level 
 	public void FlushConnectionAndUp ( ){
-		ElectricityFunctions.PowerSupplies.FlushConnectionAndUp (this);
+		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp (this);
 		InData.ControllingDevice.PotentialDestroyed ();
 	}
 	public void FlushResistanceAndUp (  GameObject SourceInstance = null  ){
-		ElectricityFunctions.PowerSupplies.FlushResistanceAndUp (this, SourceInstance);
+		ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp (this, SourceInstance);
 	}
 	public void FlushSupplyAndUp ( GameObject SourceInstance = null ){
-		ElectricityFunctions.PowerSupplies.FlushSupplyAndUp (this, SourceInstance);
+		ElectricalDataCleanup.PowerSupplies.FlushSupplyAndUp (this, SourceInstance);
 	}
 	public void RemoveSupply( GameObject SourceInstance = null){
-		ElectricityFunctions.PowerSupplies.RemoveSupply (this, SourceInstance);
+		ElectricalDataCleanup.PowerSupplies.RemoveSupply (this, SourceInstance);
 	}
 		
 	[ContextMethod("Details","Magnifying_glass")]

@@ -85,10 +85,10 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO , IProvidePower
 
 
 	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO PassOn  = null){
-		ElectricityFunctions.DirectionInput (tick, SourceInstance,ComingFrom, this);
+		InputOutputFunctions.DirectionInput (tick, SourceInstance,ComingFrom, this);
 	} 
 	public void DirectionOutput(int tick, GameObject SourceInstance) {
-		ElectricityFunctions.DirectionOutput (tick, SourceInstance, this);
+		InputOutputFunctions.DirectionOutput (tick, SourceInstance, this);
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		Data.DownstreamCount = Data.Downstream [SourceInstanceID].Count;
 		Data.UpstreamCount = Data.Upstream [SourceInstanceID].Count;
@@ -98,7 +98,7 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO , IProvidePower
 
 	public void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){
 		//Logger.Log ("Resistances in pro y poewqe > " + Resistance.ToString () + GameObject().name.ToString());
-		ElectricityFunctions.ResistanceInput (tick, Resistance, SourceInstance, ComingFrom, this);
+		InputOutputFunctions.ResistanceInput (tick, Resistance, SourceInstance, ComingFrom, this);
 	}
 		
 	public void ResistancyOutput(int tick, GameObject SourceInstance){
@@ -106,18 +106,18 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO , IProvidePower
 		if (!(SourceInstance == this.gameObject)) {
 			int SourceInstanceID = SourceInstance.GetInstanceID ();
 			float Resistance = ElectricityFunctions.WorkOutResistance (Data.ResistanceComingFrom [SourceInstanceID]);
-			ElectricityFunctions.ResistancyOutput (tick, Resistance, SourceInstance, this);
+			InputOutputFunctions.ResistancyOutput (tick, Resistance, SourceInstance, this);
 		}
 	}
 	public void ElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){ 
-		ElectricityFunctions.ElectricityInput(tick, Current, SourceInstance,  ComingFrom,this);
+		InputOutputFunctions.ElectricityInput(tick, Current, SourceInstance,  ComingFrom,this);
 
 	}
 	public void SetConnPoints(int DirectionEndin, int DirectionStartin){
 	}
 
 	public void ElectricityOutput(int tick, float Current, GameObject SourceInstance){
-		ElectricityFunctions.ElectricityOutput(tick,Current,SourceInstance,this);
+		InputOutputFunctions.ElectricityOutput(tick,Current,SourceInstance,this);
 		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
 		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
 		Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;
@@ -135,17 +135,17 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO , IProvidePower
 	}
 
 	public void FlushConnectionAndUp ( ){
-		ElectricityFunctions.PowerSupplies.FlushConnectionAndUp (this);
+		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp (this);
 		InData.ControllingDevice.PotentialDestroyed ();
 	}
 	public void FlushResistanceAndUp (  GameObject SourceInstance = null  ){
-		ElectricityFunctions.PowerSupplies.FlushResistanceAndUp (this, SourceInstance);
+		ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp (this, SourceInstance);
 	}
 	public void FlushSupplyAndUp ( GameObject SourceInstance = null ){
-		ElectricityFunctions.PowerSupplies.FlushSupplyAndUp (this, SourceInstance);
+		ElectricalDataCleanup.PowerSupplies.FlushSupplyAndUp (this, SourceInstance);
 	}
 	public void RemoveSupply( GameObject SourceInstance = null){
-		ElectricityFunctions.PowerSupplies.RemoveSupply (this, SourceInstance);
+		ElectricalDataCleanup.PowerSupplies.RemoveSupply (this, SourceInstance);
 	}
 
 	[ContextMethod("Details","Magnifying_glass")]

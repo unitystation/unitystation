@@ -27,9 +27,9 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 	public int DirectionStart = 0;
 	public int DirectionEnd = 9;
 
-	public float TurnRatio  {get; set;} 
-	public float VoltageLimiting {get; set;} 
-	public float VoltageLimitedTo  {get; set;}
+	public float TurnRatio  {get; set;}  = 12.5f; 
+	public float VoltageLimiting {get; set;} = 0;
+	public float VoltageLimitedTo  {get; set;} = 0;
 
 	public float MaximumCurrentSupport {get; set;} = 8;
 	public float MinimumSupportVoltage  {get; set;} = 216;
@@ -72,14 +72,11 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 		RelatedDevice.DirectionStart = DirectionStart;
 		RelatedDevice.DirectionEnd = DirectionEnd;
 
-		TurnRatio = 12.5f;
-		VoltageLimiting = 0;
-		VoltageLimitedTo = 0;
 		RelatedDevice.RelatedDevice = this;
 		ClassResistance.Float = Resistance;
 		CanProvideResistance.Bool = false;
 	
-		PowerInputReactions PIRLow = new PowerInputReactions ();
+		PowerInputReactions PIRLow = new PowerInputReactions (); //You need a resistance on the output just so supplies can communicate properly
 		PIRLow.DirectionReaction = true;
 		PIRLow.ConnectingDevice = PowerTypeCategory.LowMachineConnector;
 		PIRLow.DirectionReactionA.AddResistanceCall.Bool = true;
@@ -87,7 +84,7 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 		PIRLow.ResistanceReaction = true;
 		PIRLow.ResistanceReactionA.Resistance.Float = MonitoringResistance;
 
-		PowerInputReactions PRSDCable = new PowerInputReactions ();
+		PowerInputReactions PRSDCable = new PowerInputReactions (); 
 		PRSDCable.DirectionReaction = true;
 		PRSDCable.ConnectingDevice = PowerTypeCategory.StandardCable;
 		PRSDCable.DirectionReactionA.AddResistanceCall = CanProvideResistance;
@@ -144,6 +141,7 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 			BatteryCalculation.TurnOffEverything (this);
 			ElectricalSynchronisation.RemoveSupply (this, ApplianceType);
 		}
+
 		if (current != Previouscurrent) {
 			if (Previouscurrent == 0 && !(current <= 0)) {
 				
@@ -160,7 +158,7 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 
 			} else if (Resistance == 0 && !(PreviousResistance <= 0)) { 
 				CanProvideResistance.Bool = false;
-				ElectricityFunctions.CleanConnectedDevices (RelatedDevice);
+				ElectricalDataCleanup.CleanConnectedDevices (RelatedDevice);
 			}
 			PreviousResistance = Resistance;
 			ElectricalSynchronisation.ResistanceChange = true;
@@ -204,7 +202,7 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 		float Resistance = ElectricityFunctions.WorkOutResistance(RelatedDevice.Data.ResistanceComingFrom[InstanceID]);
 		float Voltage = (Current * Resistance);
 		//Logger.Log (Voltage.ToString() + " < Voltage " + Resistance.ToString() + " < Resistance" + ActualCurrent.ToString() + " < ActualCurrent" + Current.ToString() + " < Current");
-		Tuple<float,float> Currentandoffcut = ElectricityFunctions.TransformerCalculations (this,Voltage : Voltage, ResistanceModified : Resistance, ActualCurrent : ActualCurrent);
+		Tuple<float,float> Currentandoffcut = TransformerCalculations.TransformerCalculate (this,Voltage : Voltage, ResistanceModified : Resistance, ActualCurrent : ActualCurrent);
 		if (Currentandoffcut.Item2 > 0) {
 			if (!(RelatedDevice.Data.CurrentGoingTo.ContainsKey (InstanceID))) {
 				RelatedDevice.Data.CurrentGoingTo [InstanceID] = new Dictionary<IElectricityIO, float> ();
@@ -221,7 +219,7 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 		return(Resistance);
 	}
 	public float ModifyResistancyOutput(int tick, float Resistance, GameObject SourceInstance){
-		Tuple<float,float> ResistanceM = ElectricityFunctions.TransformerCalculations (this, ResistanceToModify : Resistance);
+		Tuple<float,float> ResistanceM = TransformerCalculations.TransformerCalculate (this, ResistanceToModify : Resistance);
 		return(ResistanceM.Item1);
 	}
 

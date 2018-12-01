@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElectronicData  {
+public class ElectronicData  { //to Store data about the electrical device
 	public Dictionary<IElectricityIO,HashSet<PowerTypeCategory>> ResistanceToConnectedDevices = new Dictionary<IElectricityIO,HashSet<PowerTypeCategory>>();
 	public List<IElectricityIO> connections = new List<IElectricityIO> ();
 	public Dictionary<int,Dictionary<IElectricityIO,float>> CurrentGoingTo = new Dictionary<int, Dictionary<IElectricityIO, float>> ();

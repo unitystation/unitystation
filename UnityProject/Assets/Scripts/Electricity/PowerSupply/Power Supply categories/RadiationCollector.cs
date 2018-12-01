@@ -5,19 +5,16 @@ using UnityEngine.Networking;
 
 public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceControl
 {
-
 	private bool SelfDestruct = false;
 
 	public PowerSupply powerSupply;
 	[SyncVar(hook="UpdateState")]
 	public bool isOn = false;
-
 	public bool FirstStart = true;
-
 	public bool ChangeToOff = false;
 	public int DirectionStart = 0;
 	public int DirectionEnd = 9;
-
+	public float MonitoringResistance = 9999999999;
 	public float current = 20;
 	public float Previouscurrent = 20;
 
@@ -69,7 +66,14 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceCo
 		powerSupply.DirectionEnd = DirectionEnd;
 		powerSupply.Data.SupplyingCurrent = 20;
 		powerSupply.InData.ControllingDevice = this;
-		//UpdateState(isOn);
+
+		PowerInputReactions PIRMedium = new PowerInputReactions (); //You need a resistance on the output just so supplies can communicate properly
+		PIRMedium.DirectionReaction = true;
+		PIRMedium.ConnectingDevice = PowerTypeCategory.MediumMachineConnector;
+		PIRMedium.DirectionReactionA.AddResistanceCall.Bool = true;
+		PIRMedium.DirectionReactionA.YouShallNotPass = true;
+		PIRMedium.ResistanceReaction = true;
+		PIRMedium.ResistanceReactionA.Resistance.Float = MonitoringResistance;
 	}
 
 	void UpdateState(bool _isOn){

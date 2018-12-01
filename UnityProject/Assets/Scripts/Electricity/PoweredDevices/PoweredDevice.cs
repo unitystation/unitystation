@@ -43,7 +43,7 @@ public class PoweredDevice : NetworkBehaviour, IElectricityIO
 		}
 	}
 	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO PassOn  = null){
-		ElectricityFunctions.DirectionInput (tick, SourceInstance,ComingFrom, this);
+		InputOutputFunctions.DirectionInput (tick, SourceInstance,ComingFrom, this);
 	} 
 	public void DirectionOutput(int tick, GameObject SourceInstance) {
 		int SourceInstanceID = SourceInstance.GetInstanceID();
@@ -53,16 +53,16 @@ public class PoweredDevice : NetworkBehaviour, IElectricityIO
 
 
 	public void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){
-		ElectricityFunctions.ResistanceInput (tick, Resistance, SourceInstance, ComingFrom, this);
+		InputOutputFunctions.ResistanceInput (tick, Resistance, SourceInstance, ComingFrom, this);
 	}
 
 	public void ResistancyOutput(int tick, GameObject SourceInstance){
 		int SourceInstanceID = SourceInstance.GetInstanceID ();
 		float Resistance = ElectricityFunctions.WorkOutResistance (Data.ResistanceComingFrom [SourceInstanceID]);
-		ElectricityFunctions.ResistancyOutput(tick, Resistance, SourceInstance, this);
+		InputOutputFunctions.ResistancyOutput(tick, Resistance, SourceInstance, this);
 	}
 	public void ElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){ 
-		ElectricityFunctions.ElectricityInput(tick, Current, SourceInstance,  ComingFrom,this);
+		InputOutputFunctions.ElectricityInput(tick, Current, SourceInstance,  ComingFrom,this);
 	}
 
 	public void ElectricityOutput(int tick, float Current, GameObject SourceInstance){
@@ -85,17 +85,17 @@ public class PoweredDevice : NetworkBehaviour, IElectricityIO
 	}
 
 	public void FlushConnectionAndUp ( ){
-		ElectricityFunctions.PowerSupplies.FlushConnectionAndUp (this);
+		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp (this);
 		InData.ControllingDevice.PotentialDestroyed ();
 	}
 	public void FlushResistanceAndUp (  GameObject SourceInstance = null  ){
-		ElectricityFunctions.PowerSupplies.FlushResistanceAndUp (this, SourceInstance);
+		ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp (this, SourceInstance);
 	}
 	public void FlushSupplyAndUp ( GameObject SourceInstance = null ){
-		ElectricityFunctions.PowerSupplies.FlushSupplyAndUp (this, SourceInstance);
+		ElectricalDataCleanup.PowerSupplies.FlushSupplyAndUp (this, SourceInstance);
 	}
 	public void RemoveSupply( GameObject SourceInstance = null){
-		ElectricityFunctions.PowerSupplies.RemoveSupply (this, SourceInstance);
+		ElectricalDataCleanup.PowerSupplies.RemoveSupply (this, SourceInstance);
 	}
 
 	[ContextMethod("Details","Magnifying_glass")]

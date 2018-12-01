@@ -43,7 +43,7 @@ public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer, IDevi
 		float ActualCurrent = RelatedDevice.Data.CurrentInWire;
 		float Resistance = ElectricityFunctions.WorkOutResistance(RelatedDevice.Data.ResistanceComingFrom[InstanceID]);
 		float Voltage = (Current * Resistance);
-		Tuple<float,float> Currentandoffcut = ElectricityFunctions.TransformerCalculations (this,Voltage : Voltage, ResistanceModified : Resistance, ActualCurrent : ActualCurrent);
+		Tuple<float,float> Currentandoffcut = TransformerCalculations.TransformerCalculate (this,Voltage : Voltage, ResistanceModified : Resistance, ActualCurrent : ActualCurrent);
 		if (Currentandoffcut.Item2 > 0) {
 			if (!(RelatedDevice.Data.CurrentGoingTo.ContainsKey (InstanceID))) {
 				RelatedDevice.Data.CurrentGoingTo [InstanceID] = new Dictionary<IElectricityIO, float> ();
@@ -54,7 +54,7 @@ public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer, IDevi
 	}
 
 	public float ModifyResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){
-		Tuple<float,float> ResistanceM = ElectricityFunctions.TransformerCalculations (this, ResistanceToModify : Resistance);
+		Tuple<float,float> ResistanceM = TransformerCalculations.TransformerCalculate (this, ResistanceToModify : Resistance);
 		return(ResistanceM.Item1);
 	}
 	public float ModifyResistancyOutput(int tick, float Resistance, GameObject SourceInstance){
