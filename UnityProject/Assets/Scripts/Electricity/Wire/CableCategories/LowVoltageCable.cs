@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class LowVoltageCable : NetworkBehaviour, ICable
+public class LowVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 {
+	private bool SelfDestruct = false;
+
 	public WiringColor CableType {get; set;} = WiringColor.low;
 	public bool IsCable {get; set;}
 	public int DirectionEnd {get{ return RelatedWire.DirectionEnd;}set{ RelatedWire.DirectionEnd = value; }}
@@ -16,13 +18,21 @@ public class LowVoltageCable : NetworkBehaviour, ICable
 		PowerTypeCategory.APC,
 		PowerTypeCategory.LowVoltageCable,
 	};
+	public void PotentialDestroyed(){
+		if (SelfDestruct) {
+			//Then you can destroy
+		}
+	}
+
+
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
 		CableType = WiringColor.low;
 		IsCable = true;
-		RelatedWire.CanConnectTo = CanConnectTo;
-		RelatedWire.Categorytype = ApplianceType;
+		RelatedWire.InData.CanConnectTo = CanConnectTo;
+		RelatedWire.InData.Categorytype = ApplianceType;
+		RelatedWire.InData.ControllingDevice = this;
 	}
 
 	private void OnDisable()
@@ -33,6 +43,8 @@ public class LowVoltageCable : NetworkBehaviour, ICable
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
-		//Then you can destroy
+		SelfDestruct = true;
+
+		//Make Invisible
 	}
 }

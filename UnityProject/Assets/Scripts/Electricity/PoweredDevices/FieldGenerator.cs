@@ -4,26 +4,21 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class FieldGenerator : InputTrigger , IElectricalNeedUpdate
+public class FieldGenerator : InputTrigger , IElectricalNeedUpdate, IDeviceControl
 {
 	public PoweredDevice poweredDevice;
-
+	private bool SelfDestruct = false;
 	[SyncVar(hook = "CheckState")]
 	public bool isOn = false;
 	public bool connectedToOther = false;
 	private Coroutine coSpriteAnimator;
-
 	public Sprite offSprite;
 	public Sprite onSprite;
 	public Sprite[] searchingSprites;
 	public Sprite[] connectedSprites;
-
 	public SpriteRenderer spriteRend;
-
 	List<Sprite> animSprites = new List<Sprite>();
-
 	public float Voltage;
-
 	public float  Resistance = 240;
 	public float  PreviousResistance = 240;
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.FieldGenerator;
@@ -31,12 +26,12 @@ public class FieldGenerator : InputTrigger , IElectricalNeedUpdate
 
 	public override void OnStartClient()
 	{
-
 		base.OnStartClient();
-		poweredDevice.CanConnectTo = CanConnectTo;
-		poweredDevice.Categorytype = ApplianceType;
-		poweredDevice.PassedDownResistance = Resistance;
-		poweredDevice.CanProvideResistance = true;
+		poweredDevice.InData.CanConnectTo = CanConnectTo;
+		poweredDevice.InData.Categorytype = ApplianceType;
+		//poweredDevice.PassedDownResistance = Resistance;
+		//poweredDevice.CanProvideResistance = true;
+		poweredDevice.InData.ControllingDevice = this;
 		CheckState(isOn);
 		if (!(ElectricalSynchronisation.PoweredDevices.Contains(this))){
 			ElectricalSynchronisation.PoweredDevices.Add (this);
@@ -52,6 +47,12 @@ public class FieldGenerator : InputTrigger , IElectricalNeedUpdate
 			CheckState(isOn);
 		}
 	}
+		
+	public void PotentialDestroyed(){
+		if (SelfDestruct) {
+			//Then you can destroy
+		}
+	}
 
 	public void PowerUpdateStructureChange(){
 	}
@@ -61,20 +62,19 @@ public class FieldGenerator : InputTrigger , IElectricalNeedUpdate
 	}
 	public void PowerUpdateCurrentChange (){
 	}
-
-	//Power supply updates
+		
 	void SupplyUpdate(){
 		CheckState(isOn);
 	}
 
 	public void PowerNetworkUpdate(){
-		if (Resistance != PreviousResistance) {
-			poweredDevice.PassedDownResistance = Resistance;
-			PreviousResistance = Resistance;
-			ElectricalSynchronisation.ResistanceChange = true;
-			ElectricalSynchronisation.CurrentChange = true;
-		}
-		Voltage = poweredDevice.ActualVoltage;
+//		if (Resistance != PreviousResistance) {
+//			poweredDevice.PassedDownResistance = Resistance;
+//			PreviousResistance = Resistance;
+//			ElectricalSynchronisation.ResistanceChange = true;
+//			ElectricalSynchronisation.CurrentChange = true;
+//		}
+//		Voltage = poweredDevice.ActualVoltage;
 		//Logger.Log (Voltage.ToString ());
 	}
 
@@ -122,13 +122,13 @@ public class FieldGenerator : InputTrigger , IElectricalNeedUpdate
 			yield return new WaitForSeconds(0.3f);
 		}
 	}
-
 	public void OnDestroy(){
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
 		ElectricalSynchronisation.PoweredDevices.Remove(this);
-		//Then you can destroy
+		SelfDestruct = true;
+		//Make Invisible
 	}
 }
 

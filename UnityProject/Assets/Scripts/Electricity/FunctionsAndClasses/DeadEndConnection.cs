@@ -6,27 +6,10 @@ public class DeadEndConnection : IElectricityIO {
 	
 	public PowerTypeCategory Categorytype {get; set;} = PowerTypeCategory.DeadEndConnection;
 
-	public HashSet<IElectricityIO> ResistanceToConnectedDevices {get; set;}
+	public ElectronicData Data {get; set;} = new ElectronicData();
+	public IntrinsicElectronicData InData  {get; set;} = new IntrinsicElectronicData();
 	public HashSet<IElectricityIO> connectedDevices {get; set;} 
-	public HashSet<PowerTypeCategory> CanConnectTo {get; set;}
-	public int FirstPresent {get; set;}
-	public Dictionary<int,HashSet<IElectricityIO>> Downstream {get; set;}
-	public Dictionary<int,HashSet<IElectricityIO>> Upstream {get; set;}
-	public 	Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceComingFrom {get; set;}
-	public Dictionary<int,Dictionary<IElectricityIO,float>> ResistanceGoingTo {get; set;}
-	public 	Dictionary<int,float> SourceVoltages {get; set;}
-	public Dictionary<int,Dictionary<IElectricityIO,float>> CurrentGoingTo{get; set;}
-	public 	Dictionary<int,Dictionary<IElectricityIO,float>> CurrentComingFrom {get; set;}
-	public Electricity ActualCurrentChargeInWire {get; set;}
-	public List<IElectricityIO> connections {get; set;}
-	public 	bool CanProvideResistance {get; set;}
-	public 	float PassedDownResistance {get; set;}
 
-	public 	float UpstreamCount {get; set;}
-	public float DownstreamCount {get; set;}
-	public float CurrentInWire  {get; set;}
-	public 	float ActualVoltage {get; set;}
-	public 	float EstimatedResistance {get; set;}
 
 	public void FindPossibleConnections(){}
 
@@ -37,7 +20,7 @@ public class DeadEndConnection : IElectricityIO {
 
 	public 	void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){}
 
-	public void ResistancyOutput(int tick, float Resistance, GameObject SourceInstance){}
+	public void ResistancyOutput(int tick, GameObject SourceInstance){}
 
 	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO PassOn  = null){}
 

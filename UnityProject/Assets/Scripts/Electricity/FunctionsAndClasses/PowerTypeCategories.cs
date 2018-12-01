@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PowerTypeCategory {
+public enum PowerTypeCategory { //The standard way of identifying what machinery is
 	APC,
 	StandardCable,
 	SMES,
@@ -16,4 +16,4 @@ public enum PowerTypeCategory {
 	HighMachineConnector,
 	HighVoltageCable,
 	DeadEndConnection,
-}//hey Be careful when changing this because it's stored as numbers in prefabs/saved scenes for some stupid reason
+}//hey Be careful when changing this because it's stored as numbers in prefabs/saved scenes for some stupid reason so addon never Change the order 
