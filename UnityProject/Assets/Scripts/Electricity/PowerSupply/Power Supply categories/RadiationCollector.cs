@@ -74,6 +74,8 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceCo
 		PIRMedium.DirectionReactionA.YouShallNotPass = true;
 		PIRMedium.ResistanceReaction = true;
 		PIRMedium.ResistanceReactionA.Resistance.Float = MonitoringResistance;
+
+		isOn = true;
 	}
 
 	void UpdateState(bool _isOn){

@@ -14,6 +14,7 @@ public class LowVoltageMachineConnector : NetworkBehaviour  , IDeviceControl
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.DepartmentBattery,
 		PowerTypeCategory.LowVoltageCable,
+		PowerTypeCategory.APC,
 	};
 
 	public void PotentialDestroyed(){

@@ -15,7 +15,7 @@ public class LowVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.LowVoltageCable;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		
-		PowerTypeCategory.APC,
+		PowerTypeCategory.LowMachineConnector,
 		PowerTypeCategory.LowVoltageCable,
 	};
 	public void PotentialDestroyed(){
