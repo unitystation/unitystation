@@ -27,6 +27,8 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 
 	public List<LightSource> ListOfLights = new List<LightSource>();
 
+	public List<LightSwitchTrigger> ListOfLightSwitchTriggers = new List<LightSwitchTrigger>();
+
 	private bool batteryInstalled = true;
 	private bool isScreenOn = true;
 
@@ -113,6 +115,9 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
 	}
 	public void UpdateLights(){
+		for (int i = 0; i < ListOfLightSwitchTriggers.Count; i++) {
+			ListOfLightSwitchTriggers [i].PowerNetworkUpdate(Voltage);
+		}
 		for (int i = 0; i < ListOfLights.Count; i++) {
 			ListOfLights [i].PowerLightIntensityUpdate (Voltage);
 		}
