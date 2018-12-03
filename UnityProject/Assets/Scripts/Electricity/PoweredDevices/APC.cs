@@ -27,6 +27,8 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 
 	public List<LightSource> ListOfLights = new List<LightSource>();
 
+	public List<LightSwitchTrigger> ListOfLightSwitchTriggers = new List<LightSwitchTrigger>();
+
 	private bool batteryInstalled = true;
 	private bool isScreenOn = true;
 
@@ -43,7 +45,9 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 	public FloatClass ClassResistance = new FloatClass();
 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.APC;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>();
+	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
+		PowerTypeCategory.LowMachineConnector
+	};
 
 	//green - fully charged and sufficient power from wire
 	//blue - charging, sufficient power from wire
@@ -54,6 +58,8 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 		base.OnStartClient();
 		poweredDevice.InData.CanConnectTo = CanConnectTo;
 		poweredDevice.InData.Categorytype = ApplianceType;
+		poweredDevice.DirectionStart = 0;
+		poweredDevice.DirectionEnd = 9;
 		ClassResistance.Float = Resistance;
 		ElectricalSynchronisation.PoweredDevices.Add (this);
 		PowerInputReactions PRLCable = new PowerInputReactions ();
@@ -63,7 +69,7 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 		PRLCable.DirectionReactionA.YouShallNotPass = true;
 		PRLCable.ResistanceReaction = true;
 		PRLCable.ResistanceReactionA.Resistance = ClassResistance;
-		poweredDevice.InData.ConnectionReaction[PowerTypeCategory.LowVoltageCable] = PRLCable;
+		poweredDevice.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
 		poweredDevice.InData.ControllingDevice = this;
 	}
 
@@ -109,6 +115,9 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
 	}
 	public void UpdateLights(){
+		for (int i = 0; i < ListOfLightSwitchTriggers.Count; i++) {
+			ListOfLightSwitchTriggers [i].PowerNetworkUpdate(Voltage);
+		}
 		for (int i = 0; i < ListOfLights.Count; i++) {
 			ListOfLights [i].PowerLightIntensityUpdate (Voltage);
 		}
