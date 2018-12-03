@@ -68,7 +68,9 @@ namespace Lobby
 		}
 
 		private void Update() {
-			if ( Input.GetKeyDown( KeyCode.F6 ) ) {
+			if ( Input.GetKeyDown( KeyCode.F6 ) )
+			{
+				GameData.IsLoggedIn = true;
 				ShowCharacterEditor();
 			}
 		}
