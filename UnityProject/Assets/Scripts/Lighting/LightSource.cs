@@ -85,7 +85,7 @@ public class LightSource : ObjectTrigger
 		}
 	}
 	public void APCConnect(APC ConnectingAPC){
-		Logger.Log ("Connected");
+		//Logger.Log ("Connected");
 		if (RelatedAPC == null) {
 			RelatedAPC = ConnectingAPC; 
 			if (State == LightState.On) {

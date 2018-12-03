@@ -174,7 +174,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 			ElectricalSynchronisation.ResistanceChange = true;
 			ElectricalSynchronisation.CurrentChange = true;
 		}
-		Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
+		//Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
 	}
 	//Update the current State of the SMES (sprites and statistics) 
 	void UpdateState(bool _isOn){

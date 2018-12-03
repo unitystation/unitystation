@@ -164,7 +164,7 @@ public class DepartmentBattery : InputTrigger , IElectricalNeedUpdate, IInLineDe
 			ElectricalSynchronisation.ResistanceChange = true;
 			ElectricalSynchronisation.CurrentChange = true;
 		}
-		Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
+		//Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
 	}
 
 	void UpdateState(bool _isOn){
