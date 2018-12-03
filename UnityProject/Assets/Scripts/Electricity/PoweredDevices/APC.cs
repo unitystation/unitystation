@@ -3,13 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace bob {
-	class bob
-	{
-		dynamic variable;
-	}
-}
-public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
+public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 {
 	public PoweredDevice poweredDevice;
 
@@ -40,12 +34,13 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 	private Coroutine coScreenDisplayRefresh;
 	public float Voltage;
 
-	public float  Resistance = 240;
-	public float  PreviousResistance = 240;
-	public FloatClass ClassResistance = new FloatClass();
+	public float Resistance = 240;
+	public float PreviousResistance = 240;
+	private Resistance resistance = new Resistance();
 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.APC;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
+	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
+	{
 		PowerTypeCategory.LowMachineConnector
 	};
 
@@ -60,15 +55,15 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 		poweredDevice.InData.Categorytype = ApplianceType;
 		poweredDevice.DirectionStart = 0;
 		poweredDevice.DirectionEnd = 9;
-		ClassResistance.Float = Resistance;
-		ElectricalSynchronisation.PoweredDevices.Add (this);
-		PowerInputReactions PRLCable = new PowerInputReactions ();
+		resistance.Ohms = Resistance;
+		ElectricalSynchronisation.PoweredDevices.Add(this);
+		PowerInputReactions PRLCable = new PowerInputReactions();
 		PRLCable.DirectionReaction = true;
 		PRLCable.ConnectingDevice = PowerTypeCategory.LowVoltageCable;
-		PRLCable.DirectionReactionA.AddResistanceCall.Bool = true;
+		PRLCable.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
 		PRLCable.DirectionReactionA.YouShallNotPass = true;
 		PRLCable.ResistanceReaction = true;
-		PRLCable.ResistanceReactionA.Resistance = ClassResistance;
+		PRLCable.ResistanceReactionA.Resistance = resistance;
 		poweredDevice.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
 		poweredDevice.InData.ControllingDevice = this;
 	}
@@ -76,53 +71,64 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 	private void OnDisable()
 	{
 		ElectricalSynchronisation.PoweredDevices.Remove(this);
-		if (coScreenDisplayRefresh != null) {
+		if (coScreenDisplayRefresh != null)
+		{
 			StopCoroutine(coScreenDisplayRefresh);
 			coScreenDisplayRefresh = null;
 		}
 	}
 
 	//Called whenever the PoweredDevice updates
-	void SupplyUpdate(){
+	void SupplyUpdate()
+	{
 		UpdateDisplay();
 	}
 
-	public void PotentialDestroyed(){
-		if (SelfDestruct) {
+	public void PotentialDestroyed()
+	{
+		if (SelfDestruct)
+		{
 			//Then you can destroy
 		}
 	}
 
-	public void PowerUpdateStructureChange(){
-	}
-	public void PowerUpdateStructureChangeReact(){
-	}
-	public void PowerUpdateResistanceChange(){
-	}
-	public void PowerUpdateCurrentChange (){
-		
+	public void PowerUpdateStructureChange()
+	{ }
+	public void PowerUpdateStructureChangeReact()
+	{ }
+	public void PowerUpdateResistanceChange()
+	{ }
+	public void PowerUpdateCurrentChange()
+	{
+
 	}
 
-	public void PowerNetworkUpdate(){
-		if (Resistance != PreviousResistance) {
+	public void PowerNetworkUpdate()
+	{
+		if (Resistance != PreviousResistance)
+		{
 			PreviousResistance = Resistance;
-			ClassResistance.Float = Resistance;
+			resistance.Ohms = Resistance;
 			ElectricalSynchronisation.ResistanceChange = true;
 			ElectricalSynchronisation.CurrentChange = true;
 		}
 		Voltage = poweredDevice.Data.ActualVoltage;
-		UpdateLights ();
+		UpdateLights();
 		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
 	}
-	public void UpdateLights(){
-		for (int i = 0; i < ListOfLightSwitchTriggers.Count; i++) {
-			ListOfLightSwitchTriggers [i].PowerNetworkUpdate(Voltage);
+	public void UpdateLights()
+	{
+		for (int i = 0; i < ListOfLightSwitchTriggers.Count; i++)
+		{
+			ListOfLightSwitchTriggers[i].PowerNetworkUpdate(Voltage);
 		}
-		for (int i = 0; i < ListOfLights.Count; i++) {
-			ListOfLights [i].PowerLightIntensityUpdate (Voltage);
+		for (int i = 0; i < ListOfLights.Count; i++)
+		{
+			ListOfLights[i].PowerLightIntensityUpdate(Voltage);
 		}
 	}
-	void UpdateDisplay(){
+	void UpdateDisplay()
+	{
 		//			if (poweredDevice.suppliedElectricity.current == 0 && charge == 0){
 		//				loadedScreenSprites = null; // dead
 		//			}
@@ -137,13 +143,17 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 		//			}
 	}
 
-	IEnumerator ScreenDisplayRefresh(){
+	IEnumerator ScreenDisplayRefresh()
+	{
 		yield return new WaitForEndOfFrame();
-		while(true) {
+		while (true)
+		{
 			if (loadedScreenSprites == null)
 				screenDisplay.sprite = deadSprite;
-			else {
-				if (++displayIndex >= loadedScreenSprites.Length) {
+			else
+			{
+				if (++displayIndex >= loadedScreenSprites.Length)
+				{
 					displayIndex = 0;
 				}
 				screenDisplay.sprite = loadedScreenSprites[displayIndex];
@@ -152,7 +162,10 @@ public class APC : NetworkBehaviour , IElectricalNeedUpdate, IDeviceControl
 		}
 	}
 
-	public void OnDestroy(){
+	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
+	//FIXME: that also renderers IDevice useless. Please reassess
+	public void OnDestroy()
+	{
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
