@@ -139,20 +139,25 @@ public partial class PlayerSync
 				return false;
 			}
 
-			var currentPos = predictedState.WorldPosition.RoundToInt();
+			Vector3Int currentPos = predictedState.WorldPosition.RoundToInt();
 
-			if ( !MatrixManager.IsPassableAt( currentPos, target.To3Int(), !followMode ) ) {
+			Vector3Int worldTarget = target.To3Int();
+
+			if ( !MatrixManager.IsPassableAt( currentPos, worldTarget, !followMode ) ) {
 				return false;
 			}
 
+			Vector2Int direction = target - currentPos.To2Int();
 			if ( followMode ) {
-				SendMessage( "FaceDirection", Orientation.From( target - currentPos.To2Int() ), SendMessageOptions.DontRequireReceiver );
+				SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
 			}
 
 			Logger.Log($"Client predictive push to {target}", Category.PushPull);
 			predictedState.WorldPosition = target.To3Int();
 
-//			LastDirection = target;
+			CheckMovementClient(); //Lerp!
+
+			LastDirection = direction;
 			return true;
 		}
 
@@ -184,15 +189,16 @@ public partial class PlayerSync
 
 				LastDirection = Vector2Int.RoundToInt(newPos - oldPos);
 
+				if ( LastDirection != Vector2.zero ) {
+					OnClientStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
+				}
+
 				if ( playerMove.isGhost ) {
 					ghostPredictedState = tempState;
 				} else {
 					predictedState = tempState;
 				}
 
-				if ( LastDirection != Vector2.zero ) {
-					OnClientStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
-				}
 			}
 		}
 

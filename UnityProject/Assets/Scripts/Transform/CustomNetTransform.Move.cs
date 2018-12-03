@@ -101,6 +101,9 @@ public partial class CustomNetTransform {
 		}
 
 		clientState.WorldPosition = target.To3Int();
+
+		Lerp(); //!
+
 		return true;
 	}
 

@@ -67,6 +67,12 @@ namespace Lobby
 			ShowLoginScreen();
 		}
 
+		private void Update() {
+			if ( Input.GetKeyDown( KeyCode.F6 ) ) {
+				ShowCharacterEditor();
+			}
+		}
+
 		public void ShowLoginScreen()
 		{
 			HideAllPanels();

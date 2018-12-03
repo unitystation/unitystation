@@ -20,7 +20,7 @@
 			return Vector3Int.RoundToInt( ( Vector2 ) other );
 		}
 		/// Round to int while cutting z-axis
-		public static Vector2Int CutToInt2( this Vector3 other ) {
+		public static Vector2Int To2Int( this Vector3 other ) {
 			return Vector2Int.RoundToInt( other );
 		}
 		/// Convert V3Int to V2Int

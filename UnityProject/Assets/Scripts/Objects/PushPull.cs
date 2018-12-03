@@ -104,7 +104,7 @@ public class PushPull : VisibleBehaviour {
 			}
 		};
 		predictiveFollowAction = (oldPos, newPos) => {
-			Vector3Int currentPos = Pushable.ClientPosition;
+			Vector3Int currentPos = registerTile.WorldPosition;
 			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos ) {
 				return;
 			}
