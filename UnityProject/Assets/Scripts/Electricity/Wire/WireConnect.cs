@@ -43,14 +43,14 @@ public class WireConnect : NetworkBehaviour, IElectricityIO
 		}
 	}
 
-	void OnDrawGizmos()
-	{
-		if (connected)
-		{
-			Gizmos.color = Color.yellow;
-			Gizmos.DrawSphere(transform.position, 0.1f);
-		}
-	}
+	// void OnDrawGizmos()
+	// {
+	// 	if (connected)
+	// 	{
+	// 		Gizmos.color = Color.yellow;
+	// 		Gizmos.DrawSphere(transform.position, 0.1f);
+	// 	}
+	// }
 
 	public ConnPoint GetConnPoints()
 	{
