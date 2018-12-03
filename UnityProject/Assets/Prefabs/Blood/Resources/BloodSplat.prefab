@@ -21,7 +21,9 @@ GameObject:
   - component: {fileID: 4726396450817676}
   - component: {fileID: 114334507638544654}
   - component: {fileID: 114418950606787226}
-  - component: {fileID: 114825302367673074}
+  - component: {fileID: 114081522580257648}
+  - component: {fileID: 114595774069620348}
+  - component: {fileID: 114262681174990446}
   m_Layer: 0
   m_Name: BloodSplat
   m_TagString: Untagged
@@ -72,6 +74,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114081522580257648
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114262681174990446
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoredSpriteRenderers: []
+  registerTile: {fileID: 0}
+  visibleState: 1
+  isNotPushable: 0
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114334507638544654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -117,7 +146,7 @@ MonoBehaviour:
     i15: 73
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114825302367673074
+--- !u!114 &114595774069620348
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,19 +154,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1069497300762596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  ObjectType: 0
 --- !u!212 &212268240904160500
 SpriteRenderer:
   m_ObjectHideFlags: 1
