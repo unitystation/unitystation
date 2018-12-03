@@ -57,7 +57,6 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 	public bool Cansupport { get; set; } = true;
 	public bool ToggleCanCharge { get; set; } = true;
 	public bool ToggleCansupport { get; set; } = true;
-	public BoolClass CanProvideResistance = new BoolClass();
 
 	public float ActualVoltage { get; set; } = 0;
 
@@ -80,12 +79,12 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		powerSupply.DirectionStart = DirectionStart;
 		powerSupply.DirectionEnd = DirectionEnd;
 		resistance.Ohms = Resistance;
-		CanProvideResistance.Bool = false;
+		resistance.ResistanceAvailable = false;
 
 		PowerInputReactions PIRMedium = new PowerInputReactions(); //You need a resistance on the output just so supplies can communicate properly
 		PIRMedium.DirectionReaction = true;
 		PIRMedium.ConnectingDevice = PowerTypeCategory.MediumMachineConnector;
-		PIRMedium.DirectionReactionA.AddResistanceCall.Bool = true;
+		PIRMedium.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
 		PIRMedium.DirectionReactionA.YouShallNotPass = true;
 		PIRMedium.ResistanceReaction = true;
 		PIRMedium.ResistanceReactionA.Resistance.Ohms = MonitoringResistance;
@@ -93,7 +92,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		PowerInputReactions PRSDCable = new PowerInputReactions();
 		PRSDCable.DirectionReaction = true;
 		PRSDCable.ConnectingDevice = PowerTypeCategory.StandardCable;
-		PRSDCable.DirectionReactionA.AddResistanceCall = CanProvideResistance;
+		PRSDCable.DirectionReactionA.AddResistanceCall = resistance;
 		PRSDCable.ResistanceReaction = true;
 		PRSDCable.ResistanceReactionA.Resistance = resistance;
 		resistance.Ohms = 10000;
@@ -111,7 +110,6 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		{
 			//Then you can destroy
 		}
-
 	}
 	public void PowerUpdateStructureChange()
 	{
@@ -182,12 +180,12 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		{
 			if (PreviousResistance == 0 && !(Resistance == 0))
 			{
-				CanProvideResistance.Bool = true;
+				resistance.ResistanceAvailable = true;
 
 			}
 			else if (Resistance == 0 && !(PreviousResistance <= 0))
 			{
-				CanProvideResistance.Bool = false;
+				resistance.ResistanceAvailable = false;
 				ElectricalDataCleanup.CleanConnectedDevices(powerSupply);
 			}
 			resistance.Ohms = Resistance;
@@ -262,6 +260,9 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 	{
 		ToggleCansupport = !ToggleCansupport;
 	}
+
+	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
+	//FIXME: that also renderers IDevice useless. Please reassess
 	public void OnDestroy()
 	{
 		ElectricalSynchronisation.StructureChangeReact = true;

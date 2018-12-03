@@ -70,7 +70,7 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceCo
 		PowerInputReactions PIRMedium = new PowerInputReactions (); //You need a resistance on the output just so supplies can communicate properly
 		PIRMedium.DirectionReaction = true;
 		PIRMedium.ConnectingDevice = PowerTypeCategory.MediumMachineConnector;
-		PIRMedium.DirectionReactionA.AddResistanceCall.Bool = true;
+		PIRMedium.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
 		PIRMedium.DirectionReactionA.YouShallNotPass = true;
 		PIRMedium.ResistanceReaction = true;
 		PIRMedium.ResistanceReactionA.Resistance.Ohms = MonitoringResistance;

@@ -15,7 +15,7 @@ public class PowerInputReactions
 
 	public class DirectionReactionClass
 	{
-		public BoolClass AddResistanceCall = new BoolClass(); //Says the supply I can provide a resistance
+		public Resistance AddResistanceCall = new Resistance(); //For checking if Resistance is available (ResistanceAvailable)
 		public bool YouShallNotPass = false; //can use the device as pass through
 	}
 	public class ResistanceReactionClass

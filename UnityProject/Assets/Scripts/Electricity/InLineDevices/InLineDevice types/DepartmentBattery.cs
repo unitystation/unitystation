@@ -56,7 +56,6 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 
 	public float ActualVoltage { get; set; } = 0;
 	public float MonitoringResistance = 999999;
-	public BoolClass CanProvideResistance = new BoolClass();
 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.DepartmentBattery;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
@@ -73,12 +72,12 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		RelatedDevice.DirectionEnd = DirectionEnd;
 
 		RelatedDevice.RelatedDevice = this;
-		CanProvideResistance.Bool = false;
+		resistance.ResistanceAvailable = false;
 
 		PowerInputReactions PIRLow = new PowerInputReactions(); //You need a resistance on the output just so supplies can communicate properly
 		PIRLow.DirectionReaction = true;
 		PIRLow.ConnectingDevice = PowerTypeCategory.LowMachineConnector;
-		PIRLow.DirectionReactionA.AddResistanceCall.Bool = true;
+		PIRLow.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
 		PIRLow.DirectionReactionA.YouShallNotPass = true;
 		PIRLow.ResistanceReaction = true;
 		PIRLow.ResistanceReactionA.Resistance.Ohms = MonitoringResistance;
@@ -86,7 +85,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		PowerInputReactions PRSDCable = new PowerInputReactions();
 		PRSDCable.DirectionReaction = true;
 		PRSDCable.ConnectingDevice = PowerTypeCategory.StandardCable;
-		PRSDCable.DirectionReactionA.AddResistanceCall = CanProvideResistance;
+		PRSDCable.DirectionReactionA.AddResistanceCall = resistance;
 		PRSDCable.ResistanceReaction = true;
 		PRSDCable.ResistanceReactionA.Resistance = resistance;
 
@@ -172,12 +171,12 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		{
 			if (PreviousResistance == 0 && !(Resistance == 0))
 			{
-				CanProvideResistance.Bool = true;
+				resistance.ResistanceAvailable = true;
 
 			}
 			else if (Resistance == 0 && !(PreviousResistance <= 0))
 			{
-				CanProvideResistance.Bool = false;
+				resistance.ResistanceAvailable = false;
 				ElectricalDataCleanup.CleanConnectedDevices(RelatedDevice);
 			}
 			PreviousResistance = Resistance;

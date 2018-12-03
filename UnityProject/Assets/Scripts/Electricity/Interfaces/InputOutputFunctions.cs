@@ -168,7 +168,7 @@ public static class InputOutputFunctions
 		{
 			if (Thiswire.InData.ConnectionReaction[ComingFrom.InData.Categorytype].DirectionReaction)
 			{
-				if (Thiswire.InData.ConnectionReaction[ComingFrom.InData.Categorytype].DirectionReactionA.AddResistanceCall.Bool)
+				if (Thiswire.InData.ConnectionReaction[ComingFrom.InData.Categorytype].DirectionReactionA.AddResistanceCall.ResistanceAvailable)
 				{
 					IProvidePower SourceInstancPowerSupply = SourceInstance.GetComponent<IProvidePower>();
 					if (SourceInstancPowerSupply != null)

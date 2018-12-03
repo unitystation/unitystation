@@ -60,7 +60,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		PowerInputReactions PRLCable = new PowerInputReactions();
 		PRLCable.DirectionReaction = true;
 		PRLCable.ConnectingDevice = PowerTypeCategory.LowVoltageCable;
-		PRLCable.DirectionReactionA.AddResistanceCall.Bool = true;
+		PRLCable.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
 		PRLCable.DirectionReactionA.YouShallNotPass = true;
 		PRLCable.ResistanceReaction = true;
 		PRLCable.ResistanceReactionA.Resistance = resistance;
