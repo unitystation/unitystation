@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FloatClass {
-	public float Float = 0; 
+public class Resistance {
+	public float Ohms = 0; 
 }
