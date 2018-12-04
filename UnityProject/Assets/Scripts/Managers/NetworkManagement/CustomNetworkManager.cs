@@ -99,7 +99,7 @@ public class CustomNetworkManager : NetworkManager
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 	}
 
 	private void OnDisable()
@@ -108,7 +108,7 @@ public class CustomNetworkManager : NetworkManager
 		{
 			server.Auth.OnAuthChange -= AuthChange;
 		}
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 	}
 
 	public override void OnStartServer()
@@ -367,33 +367,21 @@ public class CustomNetworkManager : NetworkManager
 		PlayerList.Instance.Remove(conn);
 	}
 
-	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
-		if (GameData.IsInGame && PoolManager.Instance == null)
+		if (newScene.name != "Lobby")
 		{
-			ObjectManager.StartPoolManager();
-		}
-
-		if (IsClientConnected() && GameData.IsInGame)
-		{
-			//make sure login window does not show on scene changes if connected
-			//			UIManager.Display.logInWindow.SetActive(false);
-			//			UIManager.Display.infoWindow.SetActive(false);
-			StartCoroutine(DoHeadlessCheck());
-		}
-		else
-		{
-			StartCoroutine(DoHeadlessCheck());
-		}
-
-		if (GameData.IsInGame)
-		{
+			//INGAME:
 			EventManager.Broadcast(EVENT.RoundStarted);
+			if(PoolManager.Instance == null){
+				ObjectManager.StartPoolManager();
+				StartCoroutine(DoHeadlessCheck());
+			}
 		}
 		else
 		{
 			EventManager.Broadcast(EVENT.RoundEnded);
-		}
+		}		
 	}
 
 	private IEnumerator DoHeadlessCheck()
