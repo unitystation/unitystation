@@ -52,7 +52,7 @@ public static class ElectricalSynchronisation
 		ToRemove.Add(QuickAdd);
 	}
 
-	public static void Update()
+	public static void DoUpdate()
 	{ //The beating heart
 		if (!DeadEndSet)
 		{
