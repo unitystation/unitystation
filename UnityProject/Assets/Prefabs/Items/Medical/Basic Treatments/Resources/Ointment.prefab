@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 114760182787218712}
   - component: {fileID: 114012095212642768}
   - component: {fileID: 114424771078077746}
-  - component: {fileID: 114348716184450652}
   m_Layer: 10
   m_Name: Ointment
   m_TagString: Untagged
@@ -58,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 1581002665316100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.006, y: 0.003, z: 0}
-  m_LocalScale: {x: 3.0975218, y: 3.0785878, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4378620523634452}
   m_RootOrder: 0
@@ -144,29 +143,18 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
-  itemDescription: A peel from a banana.
-  itemName: Banana peel
+  itemDescription: Used to cure burn damage.
+  itemName: Ointment
   itemType: 0
   size: 0
   spriteType: 0
-  type: 14
-  throwDamage: 0
+  type: 0
+  throwDamage: 1
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 0
-  hitSound: Slip
+  hitDamage: 1
+  hitSound: GenericHit
   attackVerb: []
---- !u!114 &114348716184450652
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1408536760214900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114424771078077746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -257,7 +245,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: a7768290979f2c14b885cdf74e99a616, type: 3}
+  m_Sprite: {fileID: 21300046, guid: 0bccb8bbbef5f45b798662f9614b955c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
