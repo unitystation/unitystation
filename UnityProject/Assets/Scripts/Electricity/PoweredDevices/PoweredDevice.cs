@@ -25,9 +25,9 @@ public class PoweredDevice : NetworkBehaviour, IElectricityIO
 	public bool connected = false;
 	public bool IsConnector = false;
 
-	public override void OnStartClient()
+	public override void OnStartServer()
 	{
-		base.OnStartClient();
+		base.OnStartServer();
 		//Not working for some reason:
 		//registerTile = gameObject.GetComponent<RegisterItem>();
 		StartCoroutine(WaitForLoad());
