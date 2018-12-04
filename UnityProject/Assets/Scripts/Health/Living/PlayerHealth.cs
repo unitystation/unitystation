@@ -30,9 +30,10 @@ public class PlayerHealth : HealthBehaviour
 
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
-	private Guid DNA;
+	[SyncVar(hook = "DNASync")]
+	private string DNABloodTypeJSON;
 	
-	private String BloodType;
+	private DNAandBloodType DNABloodType;
 	
 	public override void OnStartClient()
 	{
@@ -41,22 +42,36 @@ public class PlayerHealth : HealthBehaviour
 
 		PlayerScript playerScript = GetComponent<PlayerScript>();
 		
-		int BloodTypeGenerator = Random.Range(1,1000);
-
 		if (playerScript.JobType == JobType.NULL)
 		{
 			foreach (Transform t in transform)
 			{
 				t.gameObject.SetActive(false);
 			}
-
 			ConsciousState = ConsciousState.DEAD;
 
 			//Fixme: No more setting allowInputs on client:
 			playerMove.allowInput = false;
 		}
 		
+		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(DNABloodTypeJSON);
+		
 		base.OnStartClient();
+	}
+	
+	public override void OnStartServer()
+	{
+		if (isServer)
+		{
+			DNABloodType = new DNAandBloodType();
+			DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
+		}
+	}
+	
+	private void DNASync(string updatedDNA)
+	{
+		DNABloodTypeJSON = updatedDNA;
+		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
 
 	public override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
@@ -325,16 +340,4 @@ public class PlayerHealth : HealthBehaviour
 		ObjectBehaviour objectBehaviour = gameObject.GetComponent<ObjectBehaviour>();
 		objectBehaviour.visibleState = false;
 	}
-}
-
-[Serialize]
-public class DNAandBloodType
-{
-	public Guid DNA;
-	public String BloodType;
-	enum bloodtypes { oneg, opos, bneg, bpos, aneg, apos, abneg, abpos}
-	
-	DNA = System.Guid.NewGuid();
-		
-	
 }
