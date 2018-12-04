@@ -30,12 +30,18 @@ public class PlayerHealth : HealthBehaviour
 
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
+	private Guid DNA;
+	
+	private String BloodType;
+	
 	public override void OnStartClient()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		playerMove = GetComponent<PlayerMove>();
 
 		PlayerScript playerScript = GetComponent<PlayerScript>();
+		
+		int BloodTypeGenerator = Random.Range(1,1000);
 
 		if (playerScript.JobType == JobType.NULL)
 		{
@@ -49,7 +55,7 @@ public class PlayerHealth : HealthBehaviour
 			//Fixme: No more setting allowInputs on client:
 			playerMove.allowInput = false;
 		}
-
+		
 		base.OnStartClient();
 	}
 
@@ -319,4 +325,16 @@ public class PlayerHealth : HealthBehaviour
 		ObjectBehaviour objectBehaviour = gameObject.GetComponent<ObjectBehaviour>();
 		objectBehaviour.visibleState = false;
 	}
+}
+
+[Serialize]
+public class DNAandBloodType
+{
+	public Guid DNA;
+	public String BloodType;
+	enum bloodtypes { oneg, opos, bneg, bpos, aneg, apos, abneg, abpos}
+	
+	DNA = System.Guid.NewGuid();
+		
+	
 }
