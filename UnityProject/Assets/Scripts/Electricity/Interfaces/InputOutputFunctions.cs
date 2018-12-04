@@ -82,11 +82,15 @@ public static class InputOutputFunctions
 	{
 		if (ComingFrom == null)
 		{
-			foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[SourceInstance.GetComponent<IElectricityIO>()])
+			var IElec = SourceInstance.GetComponent<IElectricityIO>();
+			if (Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(IElec))
 			{
-				Resistance = Thiswire.InData.ConnectionReaction[ConnectionFrom].ResistanceReactionA.Resistance.Ohms;
-				//Logger.Log (Resistance.ToString () + " < to man Resistance |            " + ConnectionFrom.ToString() + " < to man ConnectionFrom |      " + Thiswire.GameObject().name + " < to man IS ");
-				ComingFrom = ElectricalSynchronisation.DeadEnd;
+				foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[SourceInstance.GetComponent<IElectricityIO>()])
+				{
+					Resistance = Thiswire.InData.ConnectionReaction[ConnectionFrom].ResistanceReactionA.Resistance.Ohms;
+					//Logger.Log (Resistance.ToString () + " < to man Resistance |            " + ConnectionFrom.ToString() + " < to man ConnectionFrom |      " + Thiswire.GameObject().name + " < to man IS ");
+					ComingFrom = ElectricalSynchronisation.DeadEnd;
+				}
 			}
 		}
 		int SourceInstanceID = SourceInstance.GetInstanceID();
