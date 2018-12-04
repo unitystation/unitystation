@@ -71,17 +71,19 @@ public static class ElectricalSynchronisation
 			{
 				StructureChange = false;
 				StructureChangeReact = true;
-				foreach (PowerTypeCategory ToWork in OrderList)
-				{ //deals with the connections this will clear them out only
-					if (!(ALiveSupplies.ContainsKey(ToWork)))
+
+				for (int i = 0; i < OrderList.Count; i++)
+				{
+					if (!(ALiveSupplies.ContainsKey(OrderList[i])))
 					{
-						ALiveSupplies[ToWork] = new HashSet<IElectricalNeedUpdate>();
+						ALiveSupplies[OrderList[i]] = new HashSet<IElectricalNeedUpdate>();
 					}
-					foreach (IElectricalNeedUpdate TheSupply in ALiveSupplies[ToWork])
+					foreach (IElectricalNeedUpdate TheSupply in ALiveSupplies[OrderList[i]])
 					{
 						TheSupply.PowerUpdateStructureChange();
 					}
 				}
+
 				foreach (IElectricalNeedUpdate ToWork in PoweredDevices)
 				{
 					ToWork.PowerUpdateStructureChange();
@@ -90,14 +92,15 @@ public static class ElectricalSynchronisation
 			else if (StructureChangeReact && (currentTick == 1) && (!StructureChange))
 			{ //This will generate directions
 				StructureChangeReact = false;
-				foreach (PowerTypeCategory ToWork in OrderList)
+
+				for (int i = 0; i < OrderList.Count; i++)
 				{
-					if (!(ALiveSupplies.ContainsKey(ToWork)))
+					if (!(ALiveSupplies.ContainsKey(OrderList[i])))
 					{
-						ALiveSupplies[ToWork] = new HashSet<IElectricalNeedUpdate>();
+						ALiveSupplies[OrderList[i]] = new HashSet<IElectricalNeedUpdate>();
 
 					}
-					foreach (IElectricalNeedUpdate TheSupply in ALiveSupplies[ToWork])
+					foreach (IElectricalNeedUpdate TheSupply in ALiveSupplies[OrderList[i]])
 					{
 						TheSupply.PowerUpdateStructureChangeReact();
 					}
@@ -117,18 +120,30 @@ public static class ElectricalSynchronisation
 						TheSupply.PowerUpdateResistanceChange();
 					}
 				}
+				for (int i = 0; i < OrderList.Count; i++)
+				{
+					if (!(ALiveSupplies.ContainsKey(OrderList[i])))
+					{
+						ALiveSupplies[OrderList[i]] = new HashSet<IElectricalNeedUpdate>();
+					}
+					foreach (IElectricalNeedUpdate TheSupply in ALiveSupplies[OrderList[i]])
+					{
+						TheSupply.PowerUpdateResistanceChange();
+					}
+				}
 			}
 			else if (CurrentChange && (currentTick == 3) && (!(StructureChange || StructureChangeReact || ResistanceChange)))
 			{ // Clear currents and Calculate the currents And voltage
 				CurrentChange = false;
-				foreach (PowerTypeCategory ToWork in OrderList)
+
+				for (int i = 0; i < OrderList.Count; i++)
 				{
-					if (!(ALiveSupplies.ContainsKey(ToWork)))
+					if (!(ALiveSupplies.ContainsKey(OrderList[i])))
 					{
-						ALiveSupplies[ToWork] = new HashSet<IElectricalNeedUpdate>();
+						ALiveSupplies[OrderList[i]] = new HashSet<IElectricalNeedUpdate>();
 
 					}
-					foreach (IElectricalNeedUpdate TheSupply in ALiveSupplies[ToWork])
+					foreach (IElectricalNeedUpdate TheSupply in ALiveSupplies[OrderList[i]])
 					{
 						TheSupply.PowerUpdateCurrentChange();
 					}
@@ -136,13 +151,14 @@ public static class ElectricalSynchronisation
 			}
 			else if (currentTick == 4)
 			{ //Sends updates to things that might need it
-				foreach (PowerTypeCategory ToWork in OrderList)
+
+				for (int i = 0; i < OrderList.Count; i++)
 				{
-					if (!(ALiveSupplies.ContainsKey(ToWork)))
+					if (!(ALiveSupplies.ContainsKey(OrderList[i])))
 					{
-						ALiveSupplies[ToWork] = new HashSet<IElectricalNeedUpdate>();
+						ALiveSupplies[OrderList[i]] = new HashSet<IElectricalNeedUpdate>();
 					}
-					foreach (IElectricalNeedUpdate TheSupply in ALiveSupplies[ToWork])
+					foreach (IElectricalNeedUpdate TheSupply in ALiveSupplies[OrderList[i]])
 					{
 						TheSupply.PowerNetworkUpdate();
 					}
