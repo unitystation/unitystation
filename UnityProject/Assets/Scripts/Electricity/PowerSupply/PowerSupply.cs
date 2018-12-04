@@ -34,9 +34,9 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO , IProvidePower
 		}
 	}
 
-	public override void OnStartClient()
+	public override void OnStartServer()
 	{
-		base.OnStartClient();
+		base.OnStartServer();
 		//Not working for some reason:
 		//registerTile = gameObject.GetComponent<RegisterItem>();
 		StartCoroutine(WaitForLoad());
@@ -48,6 +48,7 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO , IProvidePower
 		FindPossibleConnections();
 	}
 
+	
 	public void TurnOnSupply(){
 	}
 
