@@ -155,7 +155,12 @@ public partial class PlayerSync
 			Logger.Log($"Client predictive push to {target}", Category.PushPull);
 			predictedState.WorldPosition = target.To3Int();
 
-			CheckMovementClient(); //Lerp!
+			if ( !isServer ) {
+				//Lerp if not server.
+				//for some reason player pulling prediction doesn't have 1 frame delay on server
+				//while everything else does.
+				CheckMovementClient();
+			}
 
 			LastDirection = direction;
 			return true;
