@@ -92,7 +92,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private UnityEvent onPullInterrupt = new UnityEvent();
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
 	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
-	public Vector3Int ClientPosition => clientState.WorldPosition.RoundToInt();
+	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
+
 
 
 	private RegisterTile registerTile;
@@ -109,12 +110,14 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private TransformState serverState = TransformState.HiddenState; //used for syncing with players, matters only for server
 	private TransformState serverLerpState = TransformState.HiddenState; //used for simulating lerp on server
 
-	private TransformState clientState = TransformState.HiddenState; //client's transform, can get dirty/predictive
+	private TransformState clientState = TransformState.HiddenState; //last reliable state from server
+	private TransformState predictedState = TransformState.HiddenState; //client's transform, can get dirty/predictive
 
 	private Matrix matrix => registerTile.Matrix;
 
 	public TransformState ServerState => serverState;
 	public TransformState ServerLerpState => serverLerpState;
+	public TransformState PredictedState => predictedState;
 	public TransformState ClientState => clientState;
 
 	private void Start()
@@ -187,10 +190,14 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	//	Logger.Log($"{name} reInit: {serverTransformState}");
 	}
 
+	public void RollbackPrediction() {
+		predictedState = clientState;
+	}
+
 	/// Essentially the Update loop
 	private void Synchronize()
 	{
-		if (!clientState.Active)
+		if (!predictedState.Active)
 		{
 			return;
 		}
@@ -218,7 +225,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			CheckFloatingClient();
 		}
 
-		if (clientState.Position != transform.localPosition)
+		if (predictedState.Position != transform.localPosition)
 		{
 			Lerp();
 		}
@@ -227,8 +234,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			ServerLerp();
 		}
 
-		if ( clientState.SpinFactor != 0 ) {
-			transform.Rotate( Vector3.forward, Time.deltaTime * clientState.Speed * clientState.SpinFactor );
+		if ( predictedState.SpinFactor != 0 ) {
+			transform.Rotate( Vector3.forward, Time.deltaTime * predictedState.Speed * predictedState.SpinFactor );
 		}
 
 		//Checking if we should change matrix once per tile
@@ -237,10 +244,10 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			RegisterObjects();
 		}
 		//Registering
-		if (!isServer && registerTile.Position != Vector3Int.RoundToInt(clientState.Position) )
+		if (!isServer && registerTile.Position != Vector3Int.RoundToInt(predictedState.Position) )
 			//&& !isPushing && !predictivePushing)
 		{
-			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPosition, Vector3Int.RoundToInt( clientState.WorldPosition ) );
+			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPosition, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
 			RegisterObjects();
 		}
 	}
@@ -319,7 +326,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	///     For CLIENT prediction purposes.
 	public void DisappearFromWorld()
 	{
-		clientState = TransformState.HiddenState;
+		predictedState = TransformState.HiddenState;
 		UpdateActiveStatus();
 	}
 
@@ -328,8 +335,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public void AppearAtPosition(Vector3 worldPos)
 	{
 		var pos = (Vector2) worldPos; //Cut z-axis
-		clientState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
-		clientState.WorldPosition = pos;
+		predictedState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
+		predictedState.WorldPosition = pos;
 		transform.position = pos;
 		UpdateActiveStatus();
 	}
@@ -339,25 +346,29 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	/// Registers if unhidden, unregisters if hidden
 	private void UpdateActiveStatus()
 	{
-		if (clientState.Active)
+		if (predictedState.Active)
 		{
 			RegisterObjects();
 		}
 		else
 		{
-			registerTile.Unregister();
+			if ( registerTile ) {
+				registerTile.Unregister();
+			}
 		}
 		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example.
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < renderers.Length; i++)
 		{
-			renderers[i].enabled = clientState.Active;
+			renderers[i].enabled = predictedState.Active;
 		}
 	}
 		#endregion
 
 	/// Called from TransformStateMessage, applies state received from server to client
 	public void UpdateClientState( TransformState newState ) {
+		clientState = newState;
+
 		OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
 
 		//Ignore "Follow Updates" if you're pulling it
@@ -369,19 +380,19 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 
 		//Don't lerp (instantly change pos) if active state was changed
-		if (clientState.Active != newState.Active /*|| newState.Speed == 0*/)
+		if (predictedState.Active != newState.Active /*|| newState.Speed == 0*/)
 		{
 			transform.position = newState.WorldPosition;
 		}
-		clientState = newState;
+		predictedState = newState;
 		UpdateActiveStatus();
 		//sync rotation if not spinning
-		if ( clientState.SpinFactor != 0 ) {
+		if ( predictedState.SpinFactor != 0 ) {
 			return;
 		}
 
-		var rotation = Quaternion.Euler( 0, 0, clientState.Rotation );
-		if ( clientState.IsLocalRotation ) {
+		var rotation = Quaternion.Euler( 0, 0, predictedState.Rotation );
+		if ( predictedState.IsLocalRotation ) {
 			transform.localRotation = rotation;
 		} else {
 			transform.rotation = rotation;

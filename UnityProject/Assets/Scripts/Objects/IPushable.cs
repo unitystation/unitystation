@@ -10,7 +10,7 @@ public interface IPushable {
 	/// <returns>true if push was successful</returns>
 	bool Push( Vector2Int direction, float speed = Single.NaN, bool followMode = false );
 	bool PredictivePush( Vector2Int target, float speed = Single.NaN, bool followMode = false );
-	/// Rollback predictive push using last good position
+	/// Notify players about up-to-date state
 	void NotifyPlayers();
 	Vector3IntEvent OnUpdateRecieved();
 	DualVector3IntEvent OnStartMove();
@@ -28,6 +28,8 @@ public interface IPushable {
 	/// ServerState WorldPosition because registerTile doesn't cut it
 	Vector3Int ServerPosition { get; }
 	Vector3Int ClientPosition { get; }
+	/// Rollback predictive push on client using last good position
+	void RollbackPrediction();
 }
 
 public class Vector3IntEvent : UnityEvent<Vector3Int> {}

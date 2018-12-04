@@ -387,22 +387,28 @@ using UnityEngine.Networking;
 
 #if UNITY_EDITOR
 		//Visual debug
-		private Vector3 size1 = Vector3.one;
-
-		private Vector3 size2 = new Vector3( 0.9f, 0.9f, 0.9f );
-		private Vector3 size3 = new Vector3( 0.8f, 0.8f, 0.8f );
-		private Vector3 size4 = new Vector3( 0.7f, 0.7f, 0.7f );
-		private Vector3 size5 = new Vector3( 1.1f, 1.1f, 1.1f );
-		private Vector3 size6 = new Vector3( 0.6f, 0.6f, 0.6f );
-		private Color color1 = Color.red;
-		private Color color2 = DebugTools.HexToColor( "fd7c6e" );//pink
-		private Color color3 = DebugTools.HexToColor( "22e600" );//green
-		private Color color4 = DebugTools.HexToColor( "ebfceb" );//white
-		private Color color5 = DebugTools.HexToColor( "5566ff99" );//blue
-		private Color color6 = DebugTools.HexToColor( "666666" );//grey
+		[NonSerialized]
+		private readonly Vector3 size1 = Vector3.one,
+								 size2 = new Vector3( 0.9f, 0.9f, 0.9f ),
+								 size3 = new Vector3( 0.8f, 0.8f, 0.8f ),
+								 size4 = new Vector3( 0.7f, 0.7f, 0.7f ),
+								 size5 = new Vector3( 1.1f, 1.1f, 1.1f ),
+								 size6 = new Vector3( 0.6f, 0.6f, 0.6f );
+		[NonSerialized]
+		private readonly Color  color0 = DebugTools.HexToColor( "5566ff55" ),//blue
+								color1 = Color.red,
+								color2 = DebugTools.HexToColor( "fd7c6e" ),//pink
+								color3 = DebugTools.HexToColor( "22e600" ),//green
+								color4 = DebugTools.HexToColor( "ebfceb" ),//white
+								color6 = DebugTools.HexToColor( "666666" );//grey
 		private static readonly bool drawMoves = true;
 
 		private void OnDrawGizmos() {
+			//registerTile pos
+			Gizmos.color = color0;
+			Vector3 regPos = registerTile.WorldPosition;
+			Gizmos.DrawCube( regPos, size5 );
+
 			//serverState
 			Gizmos.color = color1;
 			Vector3 stsPos = serverState.WorldPosition;
@@ -438,10 +444,6 @@ using UnityEngine.Networking;
 			GizmoUtils.DrawArrow( clientState + Vector3.right / 5, playerState.Impulse );
 			if ( drawMoves ) GizmoUtils.DrawText( playerState.MoveNumber.ToString(), clientState + Vector3.right, 15 );
 
-			//registerTile pos
-			Gizmos.color = color5;
-			Vector3 regPos = registerTile.WorldPosition;
-			Gizmos.DrawCube( regPos, size5 );
 		}
 #endif
 	}

@@ -41,7 +41,7 @@ public partial class CustomNetTransform {
 	public bool IsTileSnap => registerTile.ObjectType == ObjectType.Object;
 
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
-	public bool IsFloatingClient => clientState.Impulse != Vector2.zero && clientState.Speed > 0f;
+	public bool IsFloatingClient => predictedState.Impulse != Vector2.zero && predictedState.Speed > 0f;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
 
 	private LayerMask tileDmgMask;
@@ -91,31 +91,31 @@ public partial class CustomNetTransform {
 	public bool PredictivePush( Vector2Int target, float speed = Single.NaN, bool followMode = false ) {
 //		return false;
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
-			clientState.Speed = speed;
+			predictedState.Speed = speed;
 		} else {
-			clientState.Speed = DefaultPushSpeed;
+			predictedState.Speed = DefaultPushSpeed;
 		}
 
 		if (MatrixManager.IsEmptyAt( target.To3Int() )) {
-			clientState.Impulse = target;
+			predictedState.Impulse = target;
 		}
+		predictedState.MatrixId = MatrixManager.AtPoint( target.To3Int() ).Id;
+		predictedState.WorldPosition = target.To3Int();
 
-		clientState.WorldPosition = target.To3Int();
-
-		Lerp(); //!
+		Lerp(); //Lerp right now to avoid one frame delay
 
 		return true;
 	}
 
 	public bool CanPredictPush => !IsClientLerping;
 	public float MoveSpeedServer => ServerState.speed;
-	public float MoveSpeedClient => ClientState.speed;
+	public float MoveSpeedClient => PredictedState.speed;
 
 	public void Stop() {
 		StopFloating();
 	}
 
-	public bool IsClientLerping => transform.localPosition != MatrixManager.WorldToLocal( clientState.WorldPosition, MatrixManager.Get( matrix ) );
+	public bool IsClientLerping => transform.localPosition != MatrixManager.WorldToLocal( predictedState.WorldPosition, MatrixManager.Get( matrix ) );
 
 	/// Predictive client movement
 	/// Mimics server collision checks for obviously impassable things.
@@ -128,13 +128,13 @@ public partial class CustomNetTransform {
 			return;
 		}
 		bool isRecursive = goal != TransformState.HiddenPos;
-		Vector3Int intOrigin = Vector3Int.RoundToInt( clientState.WorldPosition );
+		Vector3Int intOrigin = Vector3Int.RoundToInt( predictedState.WorldPosition );
 
 		Vector3 moveDelta;
 		if ( !isRecursive ) { //Normal delta if not recursive
-			moveDelta = ( Vector3 ) clientState.Impulse * clientState.Speed * Time.deltaTime;
+			moveDelta = ( Vector3 ) predictedState.Impulse * predictedState.Speed * Time.deltaTime;
 		} else { //Artificial delta if recursive
-			moveDelta = goal - clientState.WorldPosition;
+			moveDelta = goal - predictedState.WorldPosition;
 		}
 
 		float distance = moveDelta.magnitude;
@@ -142,22 +142,22 @@ public partial class CustomNetTransform {
 
 		if ( distance > 1 ) {
 			//limit goal to just one tile away and run this method recursively afterwards
-			newGoal = clientState.WorldPosition + ( Vector3 ) clientState.Impulse;
+			newGoal = predictedState.WorldPosition + ( Vector3 ) predictedState.Impulse;
 		} else {
-			newGoal = clientState.WorldPosition + moveDelta;
+			newGoal = predictedState.WorldPosition + moveDelta;
 		}
 		Vector3Int intGoal = Vector3Int.RoundToInt( newGoal );
 
 		bool isWithinTile = intOrigin == intGoal; //same tile, no need to validate stuff
 		if ( isWithinTile || CanDriftTo( intOrigin, intGoal ) ) {
 			//advance
-			clientState.WorldPosition += moveDelta;
+			predictedState.WorldPosition += moveDelta;
 		} else {
 			//stop
-			Logger.Log( $"{gameObject.name}: predictive stop @ {clientState.WorldPosition} to {intGoal}" );
+			Logger.Log( $"{gameObject.name}: predictive stop @ {predictedState.WorldPosition} to {intGoal}" );
 //			clientState.Speed = 0f;
-			clientState.Impulse = Vector2.zero;
-			clientState.SpinFactor = 0;
+			predictedState.Impulse = Vector2.zero;
+			predictedState.SpinFactor = 0;
 		}
 
 		if ( distance > 1 ) {
@@ -167,18 +167,18 @@ public partial class CustomNetTransform {
 
 	/// Clientside lerping (transform to clientState position)
 	private void Lerp() {
-		Vector3 targetPos = MatrixManager.WorldToLocal( clientState.WorldPosition, MatrixManager.Get( matrix ) );
+		Vector3 targetPos = MatrixManager.WorldToLocal( predictedState.WorldPosition, MatrixManager.Get( matrix ) );
 		//Set position immediately if not moving
-		if ( clientState.Speed.Equals( 0 ) ) {
+		if ( predictedState.Speed.Equals( 0 ) ) {
 			transform.localPosition = targetPos;
-			OnClientTileReached().Invoke( Vector3Int.RoundToInt(clientState.WorldPosition) );
+			OnClientTileReached().Invoke( Vector3Int.RoundToInt(predictedState.WorldPosition) );
 			return;
 		}
 		transform.localPosition =
 			Vector3.MoveTowards( transform.localPosition, targetPos,
-								 clientState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos) );
+								 predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos) );
 		if ( transform.localPosition == targetPos ) {
-			OnClientTileReached().Invoke( Vector3Int.RoundToInt(clientState.WorldPosition) );
+			OnClientTileReached().Invoke( Vector3Int.RoundToInt(predictedState.WorldPosition) );
 		}
 	}
 	/// Serverside lerping
@@ -345,7 +345,7 @@ public partial class CustomNetTransform {
 		List<HealthBehaviour> hitDamageables;
 		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) ) {
 			//if object is solid, check if player is nearby to make it stop
-			return registerTile.IsPassable() ? true : !IsPlayerNearby(serverState);
+			return registerTile && registerTile.IsPassable() || !IsPlayerNearby(serverState);
 		} else {
 			//Can't drift to goal for some reason:
 			//Check Tile damage from throw

@@ -153,6 +153,8 @@ public partial class PlayerSync
 			}
 
 			Logger.Log($"Client predictive push to {target}", Category.PushPull);
+
+			predictedState.MatrixId = MatrixManager.AtPoint( worldTarget ).Id;
 			predictedState.WorldPosition = target.To3Int();
 
 			if ( !isServer ) {
@@ -173,7 +175,7 @@ public partial class PlayerSync
 			}
 			if ( pendingActions.Count == 0 ) {
 				//plain assignment if there's nothing to predict
-				RollbackPrediction();
+				predictedState = playerState;
 			} else {
 				//redraw prediction point from received serverState using pending actions
 				PlayerState tempState = playerState;
@@ -299,6 +301,12 @@ public partial class PlayerSync
 //			Logger.Log( $"Rollback {predictedState}\n" +
 //			           $"To       {playerState}" );
 			predictedState = playerState;
+			if ( gameObject == PlayerManager.LocalPlayer
+			     && pushPull && pushPull.IsPullingSomethingClient ) {
+				//Rollback whatever you're pulling predictively, too
+				pushPull.ControlledObjectClient.Pushable.RollbackPrediction();
+
+			}
 		}
 
 		/// Clears client pending actions queue
