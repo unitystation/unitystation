@@ -12,11 +12,13 @@ public class LightSwitchTrigger : InputTrigger
 
 	[SyncVar(hook = "SyncLightSwitch")] public bool isOn = true;
 
+	public float AtShutOffVoltage = 50;
 
 	public Sprite lightOff;
 	private int lightingMask;
 	public APC RelatedAPC;
 	public Sprite lightOn;
+	public bool PowerCut = false;
 	private int obstacleMask;
 	public float radius = 10f;
 	private bool soundAllowed;
@@ -37,8 +39,20 @@ public class LightSwitchTrigger : InputTrigger
 		lightingMask = LayerMask.GetMask("Lighting");
 		obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
 		DetectLightsAndAction (true);
+		if (RelatedAPC != null) {
+			RelatedAPC.ListOfLightSwitchTriggers.Add (this);
+		}
 	}
+	public void PowerNetworkUpdate(float Voltage){
+		if (Voltage < AtShutOffVoltage && isOn == true) {
+			isOn = false;
+			PowerCut = true;
+		} else if(PowerCut == true && Voltage > AtShutOffVoltage) {
+			isOn = true;
+			PowerCut = false;
+		} 
 
+	}
 	public override void OnStartClient()
 	{
 		StartCoroutine(WaitForLoad());

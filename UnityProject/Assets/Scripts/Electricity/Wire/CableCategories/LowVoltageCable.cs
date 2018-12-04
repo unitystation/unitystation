@@ -7,6 +7,11 @@ public class LowVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 {
 	private bool SelfDestruct = false;
 
+//	public Sprite NorthSprite;
+//	public Sprite SouthSprite;
+//	public Sprite WestSprite;
+//	public Sprite EastSprite;
+
 	public WiringColor CableType {get; set;} = WiringColor.low;
 	public bool IsCable {get; set;}
 	public int DirectionEnd {get{ return RelatedWire.DirectionEnd;}set{ RelatedWire.DirectionEnd = value; }}
@@ -15,7 +20,7 @@ public class LowVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.LowVoltageCable;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		
-		PowerTypeCategory.APC,
+		PowerTypeCategory.LowMachineConnector,
 		PowerTypeCategory.LowVoltageCable,
 	};
 	public void PotentialDestroyed(){

@@ -8,6 +8,13 @@ using UnityEngine.Events;
 public class PoweredDevice : NetworkBehaviour, IElectricityIO
 {
 
+	//Renderers:
+	public SpriteRenderer NorthConnection;
+	public SpriteRenderer SouthConnection;
+	public SpriteRenderer WestConnection;
+	public SpriteRenderer EastConnection;
+
+
 	public int DirectionStart;
 	public int DirectionEnd;
 	public ElectronicData Data {get; set;} = new ElectronicData();
@@ -16,6 +23,7 @@ public class PoweredDevice : NetworkBehaviour, IElectricityIO
 	public RegisterObject registerTile;
 	private Matrix matrix => registerTile.Matrix;
 	public bool connected = false;
+	public bool IsConnector = false;
 
 	public override void OnStartClient()
 	{
@@ -40,6 +48,12 @@ public class PoweredDevice : NetworkBehaviour, IElectricityIO
 		);
 		if (Data.connections.Count > 0){
 			connected =  true;
+//			if (IsConnector) { //For connectors sprites
+//				for (int i = 0; i < Data.connections.Count; i++) {
+//					if (Data.connections [i].InData.Categorytype == 0) {
+//					}
+//				}
+//			}
 		}
 	}
 	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO PassOn  = null){

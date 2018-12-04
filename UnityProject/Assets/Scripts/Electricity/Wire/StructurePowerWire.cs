@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-//[ExecuteInEditMode]
 public class StructurePowerWire : MonoBehaviour, ICable
 {
-
-
 	public ICable RelatedCable;
-	public WiringColor CableType {get; set;}
-	public bool IsCable {get; set;}
+	public WiringColor CableType { get; set; }
+	public bool IsCable { get; set; }
 	/// <summary>
 	///     Color of the wire
 	/// </summary>
@@ -21,15 +17,14 @@ public class StructurePowerWire : MonoBehaviour, ICable
 	///     This is the edge of the location where the wire exits the turf
 	///     Can be null of knot wires
 	/// </summary>
-	public int DirectionEnd  {get; set;}
+	public int DirectionEnd { get; set; }
 
 	/// <summary>
 	///     The starting dir of this wire in a turf, using 4 bits to indicate N S E W - 1 2 4 8
 	///     Corners can also be used i.e.: 5 = NE (1 + 4) = 0101
 	///     This is the edge of the location where the wire enters the turf
 	/// </summary>
-	public int DirectionStart {get; set;}
-
+	public int DirectionStart { get; set; }
 
 	/// <summary>
 	///     If you have some tray goggles on then set this bool to true to get the right sprite.
@@ -57,26 +52,28 @@ public class StructurePowerWire : MonoBehaviour, ICable
 	private void Start()
 	{
 		IsCable = false;
-		var ListOfICable = this.GetComponents<ICable> ();
-		foreach (ICable Cable in ListOfICable) {
-			if (Cable.IsCable) {
+		var ListOfICable = this.GetComponents<ICable>();
+		foreach (ICable Cable in ListOfICable)
+		{
+			if (Cable.IsCable)
+			{
 				//Logger.Log ("Found it", Category.Electrical);
 				RelatedCable = Cable;
 			}
 		}
-		if (!(RelatedCable == null)) {
+		if (!(RelatedCable == null))
+		{
 			Color = RelatedCable.CableType;
 			DirectionEnd = RelatedCable.DirectionEnd;
 			DirectionStart = RelatedCable.DirectionStart;
 			//FIXME this breaks wires that were placed via unity editor:
 			// need to address when we allow users to add wires at runtime
-			SetDirection (DirectionStart, DirectionEnd);
+			SetDirection(DirectionStart, DirectionEnd);
 		}
 	}
 
 	public void SetDirection(int DirectionStart)
 	{
-
 		this.DirectionStart = DirectionStart;
 		DirectionEnd = 0;
 		SetSprite();
@@ -104,7 +101,8 @@ public class StructurePowerWire : MonoBehaviour, ICable
 	{
 		string spritePath = DirectionStart + (DirectionEnd != 0 ? "_" + DirectionEnd : "");
 		Sprite[] Color = SpriteManager.WireSprites[this.Color.ToString()];
-		if(Color == null){
+		if (Color == null)
+		{
 			SpriteManager.Instance.InitWireSprites();
 			Color = SpriteManager.WireSprites[this.Color.ToString()];
 		}
