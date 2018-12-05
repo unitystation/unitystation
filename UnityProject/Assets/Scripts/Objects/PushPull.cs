@@ -86,7 +86,11 @@ public class PushPull : VisibleBehaviour {
 	private IEnumerator SyncPullAfterConfirm() {
 		yield return YieldHelper.Second;
 		Logger.LogTrace( "Synced after confirm", Category.PushPull );
-		Pushable.RollbackPrediction();
+		
+		if ( !PlayerScript.IsInReach( Pushable.ClientPosition, AttachedToClient.Pushable.ClientPosition ) )
+		{
+			Pushable.RollbackPrediction();
+		}
 	}
 
 	protected override void Awake() {
