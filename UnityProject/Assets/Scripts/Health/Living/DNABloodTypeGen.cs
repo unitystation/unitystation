@@ -9,7 +9,7 @@ public class DNAandBloodType
 	
 	private float BloodTypeGenerator;
 	
-	public void BloodTypeandDNA()
+	public DNAandBloodType()
 	{	
 		// Assigns DNA a GUID
 		DNAString = System.Guid.NewGuid().ToString();
@@ -48,12 +48,6 @@ public class DNAandBloodType
 		{
 			BloodType = BloodTypes.abNeg;
 		}
-	}
-	
-	// I don't know how to declare a constructor so I'm just gonna use unity awake.
-	void Awake()
-	{
-		BloodTypeandDNA();
 	}
 }
 
