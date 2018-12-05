@@ -15,6 +15,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 	public bool isOnForInterface { get; set; } = false;
 	public bool ChangeToOff = false;
 	public bool PassChangeToOff { get; set; } = false;
+	[SyncVar]
 	public int currentCharge; // 0 - 100
 	public float current { get; set; } = 20;
 	public float Previouscurrent = 20;
@@ -71,9 +72,9 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		PowerTypeCategory.MediumMachineConnector
 	};
 
-	public override void OnStartClient()
+	public override void OnStartServer()
 	{
-		base.OnStartClient();
+		base.OnStartServer();
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = DirectionStart;
@@ -101,7 +102,13 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PRSDCable;
 		powerSupply.InData.ControllingDevice = this;
 
-		currentCharge = 100;
+		currentCharge = 20;
+	}
+
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		UpdateState(isOn);
 	}
 
 	public void PotentialDestroyed()
@@ -168,7 +175,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 			}
 			else if (current == 0 && !(Previouscurrent <= 0))
 			{
-				Logger.Log("FlushSupplyAndUp");
+				//	Logger.Log("FlushSupplyAndUp");
 				powerSupply.FlushSupplyAndUp(powerSupply.gameObject);
 			}
 			powerSupply.Data.SupplyingCurrent = current;
@@ -195,18 +202,12 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		}
 		//Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
 	}
-	//Update the current State of the SMES (sprites and statistics) 
+	//Update the current State of the SMES (mostly visual for clientside updates) 
 	void UpdateState(bool _isOn)
 	{
 		isOn = _isOn;
-		isOnForInterface = _isOn;
 		if (isOn)
 		{
-			ElectricalSynchronisation.AddSupply(this, ApplianceType);
-			ElectricalSynchronisation.StructureChangeReact = true;
-			ElectricalSynchronisation.ResistanceChange = true; //Potential optimisation
-			ElectricalSynchronisation.CurrentChange = true;
-			Logger.Log("on");
 			OnOffIndicator.sprite = onlineSprite;
 			chargeIndicator.gameObject.SetActive(true);
 			statusIndicator.gameObject.SetActive(true);
@@ -224,11 +225,25 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		}
 		else
 		{
-			Logger.Log("off");
-			ChangeToOff = true;
 			OnOffIndicator.sprite = offlineSprite;
 			chargeIndicator.gameObject.SetActive(false);
 			statusIndicator.gameObject.SetActive(false);
+		}
+	}
+
+	void ServerState(bool _isOn)
+	{
+		isOnForInterface = _isOn;
+		if (isOn)
+		{
+			ElectricalSynchronisation.AddSupply(this, ApplianceType);
+			ElectricalSynchronisation.StructureChangeReact = true;
+			ElectricalSynchronisation.ResistanceChange = true; //Potential optimisation
+			ElectricalSynchronisation.CurrentChange = true;
+		}
+		else
+		{
+			ChangeToOff = true;
 		}
 	}
 
@@ -244,8 +259,8 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 			if (!ChangeToOff)
 			{
 				isOn = !isOn;
+				ServerState(isOn);
 			}
-
 		}
 	}
 

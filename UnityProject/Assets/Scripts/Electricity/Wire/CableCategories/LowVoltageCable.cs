@@ -30,9 +30,9 @@ public class LowVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 	}
 
 
-	public override void OnStartClient()
+	public override void OnStartServer()
 	{
-		base.OnStartClient();
+		base.OnStartServer();
 		CableType = WiringColor.low;
 		IsCable = true;
 		RelatedWire.InData.CanConnectTo = CanConnectTo;
@@ -40,10 +40,7 @@ public class LowVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 		RelatedWire.InData.ControllingDevice = this;
 	}
 
-	private void OnDisable()
-	{
-	}
-
+	//FIXME:
 	public void OnDestroy(){
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;

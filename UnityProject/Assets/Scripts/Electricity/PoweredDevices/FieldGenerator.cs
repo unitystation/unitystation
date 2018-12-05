@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-
-public class FieldGenerator : InputTrigger , IElectricalNeedUpdate, IDeviceControl
+public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceControl
 {
 	public PoweredDevice poweredDevice;
 	private bool SelfDestruct = false;
@@ -19,68 +18,76 @@ public class FieldGenerator : InputTrigger , IElectricalNeedUpdate, IDeviceContr
 	public SpriteRenderer spriteRend;
 	List<Sprite> animSprites = new List<Sprite>();
 	public float Voltage;
-	public float  Resistance = 240;
-	public float  PreviousResistance = 240;
+	public float Resistance = 240;
+	public float PreviousResistance = 240;
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.FieldGenerator;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>();
 
-	public override void OnStartClient()
+	public override void OnStartServer()
 	{
-		base.OnStartClient();
+		base.OnStartServer();
 		poweredDevice.InData.CanConnectTo = CanConnectTo;
 		poweredDevice.InData.Categorytype = ApplianceType;
 		//poweredDevice.PassedDownResistance = Resistance;
 		//poweredDevice.CanProvideResistance = true;
 		poweredDevice.InData.ControllingDevice = this;
-		CheckState(isOn);
-		if (!(ElectricalSynchronisation.PoweredDevices.Contains(this))){
-			ElectricalSynchronisation.PoweredDevices.Add (this);
+
+		if (!(ElectricalSynchronisation.PoweredDevices.Contains(this)))
+		{
+			ElectricalSynchronisation.PoweredDevices.Add(this);
 		}
 	}
-		
+
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		CheckState(isOn);
+	}
+
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
-		if (!isServer) {
+		if (!isServer)
+		{
 			InteractMessage.Send(gameObject, hand);
-		} else {
+		}
+		else
+		{
 			isOn = !isOn;
 			CheckState(isOn);
 		}
 	}
-		
-	public void PotentialDestroyed(){
-		if (SelfDestruct) {
+
+	public void PotentialDestroyed()
+	{
+		if (SelfDestruct)
+		{
 			//Then you can destroy
 		}
 	}
 
-	public void PowerUpdateStructureChange(){
-	}
-	public void PowerUpdateStructureChangeReact(){
-	}
-	public void PowerUpdateResistanceChange(){
-	}
-	public void PowerUpdateCurrentChange (){
-	}
-		
-	void SupplyUpdate(){
-		CheckState(isOn);
-	}
+	public void PowerUpdateStructureChange() { }
+	public void PowerUpdateStructureChangeReact() { }
+	public void PowerUpdateResistanceChange() { }
+	public void PowerUpdateCurrentChange() { }
 
-	public void PowerNetworkUpdate(){
-//		if (Resistance != PreviousResistance) {
-//			poweredDevice.PassedDownResistance = Resistance;
-//			PreviousResistance = Resistance;
-//			ElectricalSynchronisation.ResistanceChange = true;
-//			ElectricalSynchronisation.CurrentChange = true;
-//		}
-//		Voltage = poweredDevice.ActualVoltage;
+	public void PowerNetworkUpdate()
+	{
+		//		if (Resistance != PreviousResistance) {
+		//			poweredDevice.PassedDownResistance = Resistance;
+		//			PreviousResistance = Resistance;
+		//			ElectricalSynchronisation.ResistanceChange = true;
+		//			ElectricalSynchronisation.CurrentChange = true;
+		//		}
+		//		Voltage = poweredDevice.ActualVoltage;
 		//Logger.Log (Voltage.ToString ());
 	}
 
 	//Check the operational state
-	void CheckState(bool _isOn){
-		if(isOn){
+	void CheckState(bool _isOn)
+	{
+		isOn = _isOn;
+		if (isOn)
+		{
 			//				if(poweredDevice.suppliedElectricity.current == 0){
 			//					if (coSpriteAnimator != null) {
 			//						StopCoroutine(coSpriteAnimator);
@@ -101,8 +108,11 @@ public class FieldGenerator : InputTrigger , IElectricalNeedUpdate, IDeviceContr
 			//						}
 			//					}
 			//				}
-		} else {
-			if (coSpriteAnimator != null) {
+		}
+		else
+		{
+			if (coSpriteAnimator != null)
+			{
 				StopCoroutine(coSpriteAnimator);
 				coSpriteAnimator = null;
 			}
@@ -110,11 +120,13 @@ public class FieldGenerator : InputTrigger , IElectricalNeedUpdate, IDeviceContr
 		}
 	}
 
-	IEnumerator SpriteAnimator(){
+	IEnumerator SpriteAnimator()
+	{
 		int index = 0;
-		while(true){
-			Debug.Log("animating shield");
-			if(index >= animSprites.Count){
+		while (true)
+		{
+			if (index >= animSprites.Count)
+			{
 				index = 0;
 			}
 			spriteRend.sprite = animSprites[index];
@@ -122,7 +134,8 @@ public class FieldGenerator : InputTrigger , IElectricalNeedUpdate, IDeviceContr
 			yield return new WaitForSeconds(0.3f);
 		}
 	}
-	public void OnDestroy(){
+	public void OnDestroy()
+	{
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
@@ -131,4 +144,3 @@ public class FieldGenerator : InputTrigger , IElectricalNeedUpdate, IDeviceContr
 		//Make Invisible
 	}
 }
-

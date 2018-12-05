@@ -8,7 +8,7 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceCo
 	private bool SelfDestruct = false;
 
 	public PowerSupply powerSupply;
-	[SyncVar(hook="UpdateState")]
+	[SyncVar(hook = "UpdateState")]
 	public bool isOn = false;
 	public bool FirstStart = true;
 	public bool ChangeToOff = false;
@@ -19,47 +19,59 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceCo
 	public float Previouscurrent = 20;
 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.RadiationCollector;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
+	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
+	{
 		PowerTypeCategory.StandardCable,
-		PowerTypeCategory.HighVoltageCable,
+			PowerTypeCategory.HighVoltageCable,
 	};
 
-	public void PotentialDestroyed(){
-		if (SelfDestruct) {
+	public void PotentialDestroyed()
+	{
+		if (SelfDestruct)
+		{
 			//Then you can destroy
 		}
 	}
 
-	public void PowerUpdateStructureChange(){
-		powerSupply.PowerUpdateStructureChange ();
+	public void PowerUpdateStructureChange()
+	{
+		powerSupply.PowerUpdateStructureChange();
 	}
-	public void PowerUpdateStructureChangeReact(){
-		powerSupply.PowerUpdateStructureChangeReact ();
+	public void PowerUpdateStructureChangeReact()
+	{
+		powerSupply.PowerUpdateStructureChangeReact();
 	}
-	public void PowerUpdateResistanceChange(){
-		powerSupply.PowerUpdateResistanceChange ();
+	public void PowerUpdateResistanceChange()
+	{
+		powerSupply.PowerUpdateResistanceChange();
 	}
-	public void PowerUpdateCurrentChange (){
-		powerSupply.PowerUpdateCurrentChange ();
+	public void PowerUpdateCurrentChange()
+	{
+		powerSupply.PowerUpdateCurrentChange();
 	}
 
-	public void PowerNetworkUpdate (){
-		powerSupply.PowerNetworkUpdate ();
-		if (current != Previouscurrent) {
+	public void PowerNetworkUpdate()
+	{
+		powerSupply.PowerNetworkUpdate();
+		if (current != Previouscurrent)
+		{
 			powerSupply.Data.SupplyingCurrent = current;
 			Previouscurrent = current;
 			ElectricalSynchronisation.CurrentChange = true;
+			Logger.Log("Turning on");
 		}
-		if (ChangeToOff) {
+		if (ChangeToOff)
+		{
 			ChangeToOff = false;
-			Logger.Log ("Turning off");
-			ElectricalSynchronisation.RemoveSupply (this,ApplianceType);
+			Logger.Log("Turning off");
+			ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
 			ElectricalSynchronisation.CurrentChange = true;
-			powerSupply.TurnOffSupply(); 
+			powerSupply.TurnOffSupply();
 		}
 	}
-	public override void OnStartClient(){
-		base.OnStartClient();
+	public override void OnStartServer()
+	{
+		base.OnStartServer();
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = DirectionStart;
@@ -67,7 +79,7 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceCo
 		powerSupply.Data.SupplyingCurrent = 20;
 		powerSupply.InData.ControllingDevice = this;
 
-		PowerInputReactions PIRMedium = new PowerInputReactions (); //You need a resistance on the output just so supplies can communicate properly
+		PowerInputReactions PIRMedium = new PowerInputReactions(); //You need a resistance on the output just so supplies can communicate properly
 		PIRMedium.DirectionReaction = true;
 		PIRMedium.ConnectingDevice = PowerTypeCategory.MediumMachineConnector;
 		PIRMedium.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
@@ -76,19 +88,40 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceCo
 		PIRMedium.ResistanceReactionA.Resistance.Ohms = MonitoringResistance;
 
 		isOn = true;
+		UpdateServerState(isOn);
 	}
 
-	void UpdateState(bool _isOn){
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		UpdateState(isOn);
+	}
+
+	void UpdateState(bool _isOn)
+	{
 		isOn = _isOn;
-		if(isOn){
-			ElectricalSynchronisation.AddSupply (this,ApplianceType);
+		if (isOn)
+		{
+			Debug.Log("TODO: Sprite changes for radiation collector (close door)");
+		}
+		else
+		{
+			Debug.Log("TODO: Sprite changes off for radiation collector (open door)");
+		}
+	}
+
+	void UpdateServerState(bool _isOn)
+	{
+		if (isOn)
+		{
+			ElectricalSynchronisation.AddSupply(this, ApplianceType);
 			ElectricalSynchronisation.StructureChangeReact = true;
 			ElectricalSynchronisation.ResistanceChange = true;
 			ElectricalSynchronisation.CurrentChange = true;
-			powerSupply.TurnOnSupply(); 
-			Logger.Log ("on");
-		} else {
-			Logger.Log ("off");
+			powerSupply.TurnOnSupply();
+		}
+		else
+		{
 			ChangeToOff = true;
 		}
 	}
@@ -96,18 +129,23 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceCo
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
 		//Interact stuff with the Radiation collector here
-		if (!isServer) {
+		if (!isServer)
+		{
 			InteractMessage.Send(gameObject, hand);
-		} else {
+		}
+		else
+		{
 			isOn = !isOn;
+			UpdateServerState(isOn);
 		}
 	}
 
-	public void OnDestroy(){
+	public void OnDestroy()
+	{
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;
 		ElectricalSynchronisation.CurrentChange = true;
-		ElectricalSynchronisation.RemoveSupply (this, ApplianceType);
+		ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
 		SelfDestruct = true;
 		//Make Invisible
 	}

@@ -19,6 +19,12 @@ public class WireConnect : NetworkBehaviour, IElectricityIO
 	{
 		base.OnStartClient();
 		registerTile = gameObject.GetComponent<RegisterItem>();
+
+	}
+
+	public override void OnStartServer()
+	{
+		base.OnStartServer();
 		StartCoroutine(WaitForLoad());
 	}
 
@@ -138,14 +144,16 @@ public class WireConnect : NetworkBehaviour, IElectricityIO
 	[ContextMethod("Details", "Magnifying_glass")]
 	public void ShowDetails()
 	{
-		Logger.Log("connections " + (Data.connections.Count.ToString()), Category.Electrical);
-		Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
-		Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);
-		Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
-		Logger.Log("UpstreamCount " + (Data.UpstreamCount.ToString()), Category.Electrical);
-		Logger.Log("DownstreamCount " + (Data.DownstreamCount.ToString()), Category.Electrical);
-		Logger.Log("CurrentInWire " + (Data.CurrentInWire.ToString()), Category.Electrical);
-		Logger.Log("ActualVoltage " + (Data.ActualVoltage.ToString()), Category.Electrical);
-		Logger.Log("EstimatedResistance " + (Data.EstimatedResistance.ToString()), Category.Electrical);
+		if (isServer)
+		{
+			Logger.Log("connections " + (Data.connections.Count.ToString()), Category.Electrical);
+			Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
+			Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);
+			Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
+			Logger.Log("UpstreamCount " + (Data.UpstreamCount.ToString()), Category.Electrical);
+			Logger.Log("DownstreamCount " + (Data.DownstreamCount.ToString()), Category.Electrical);
+		}
+
+		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
 	}
 }

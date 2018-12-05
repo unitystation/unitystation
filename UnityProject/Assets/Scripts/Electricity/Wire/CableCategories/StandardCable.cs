@@ -36,9 +36,9 @@ public class StandardCable : NetworkBehaviour, ICable, IDeviceControl
 		wireConnect = GetComponent<WireConnect>();
 	}
 
-	public override void OnStartClient()
+	public override void OnStartServer()
 	{
-		base.OnStartClient();
+		base.OnStartServer();
 		CableType = WiringColor.red;
 		IsCable = true;
 		wireConnect.InData.CanConnectTo = CanConnectTo;

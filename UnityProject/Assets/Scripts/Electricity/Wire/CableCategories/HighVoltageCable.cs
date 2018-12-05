@@ -31,9 +31,9 @@ public class HighVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 		wireConnect = GetComponent<WireConnect>();
 	}
 
-	public override void OnStartClient()
+	public override void OnStartServer()
 	{
-		base.OnStartClient();
+		base.OnStartServer();
 		CableType = WiringColor.high;
 		IsCable = true;
 		wireConnect.InData.CanConnectTo = CanConnectTo;
