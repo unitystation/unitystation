@@ -15,6 +15,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 	public bool isOnForInterface { get; set; } = false;
 	public bool ChangeToOff = false;
 	public bool PassChangeToOff { get; set; } = false;
+	[SyncVar]
 	public int currentCharge; // 0 - 100
 	public float current { get; set; } = 20;
 	public float Previouscurrent = 20;
@@ -104,6 +105,12 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		currentCharge = 20;
 	}
 
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		UpdateState(isOn);
+	}
+
 	public void PotentialDestroyed()
 	{
 		if (SelfDestruct)
@@ -168,7 +175,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 			}
 			else if (current == 0 && !(Previouscurrent <= 0))
 			{
-			//	Logger.Log("FlushSupplyAndUp");
+				//	Logger.Log("FlushSupplyAndUp");
 				powerSupply.FlushSupplyAndUp(powerSupply.gameObject);
 			}
 			powerSupply.Data.SupplyingCurrent = current;
