@@ -37,6 +37,7 @@ public partial class PlayerSync
 		}
 		public bool CanPredictPush => ClientPositionReady;
 		public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
+		public Vector3Int TrustedPosition => playerState.WorldPosition.RoundToInt();
 
 		/// Does client's transform pos match state pos? Ignores Z-axis.
 		private bool ClientPositionReady => ( Vector2 ) predictedState.Position == ( Vector2 ) transform.localPosition;

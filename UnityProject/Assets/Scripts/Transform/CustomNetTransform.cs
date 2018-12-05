@@ -93,6 +93,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
 	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
 	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
+	public Vector3Int TrustedPosition => clientState.WorldPosition.RoundToInt();
 
 
 

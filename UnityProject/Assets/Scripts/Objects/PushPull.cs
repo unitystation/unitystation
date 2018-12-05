@@ -87,7 +87,8 @@ public class PushPull : VisibleBehaviour {
 		yield return YieldHelper.Second;
 		Logger.LogTrace( "Synced after confirm", Category.PushPull );
 		
-		if ( !PlayerScript.IsInReach( Pushable.ClientPosition, AttachedToClient.Pushable.ClientPosition ) )
+		if ( IsPullingSomethingClient && 
+		     AttachedToClient.Pushable.ClientPosition != AttachedToClient.Pushable.TrustedPosition )
 		{
 			Pushable.RollbackPrediction();
 		}
