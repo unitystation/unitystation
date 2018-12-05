@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -82,9 +83,17 @@ public class PushPull : VisibleBehaviour {
 
 	#endregion
 
+	private IEnumerator SyncPullAfterConfirm() {
+		yield return YieldHelper.Second;
+		Logger.LogTrace( "Synced after confirm", Category.PushPull );
+		Pushable.RollbackPrediction();
+	}
+
 	protected override void Awake() {
 		base.Awake();
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
+
+		OnConfirmPullThisClient.AddListener( () => { StartCoroutine( SyncPullAfterConfirm() ); } );
 
 		followAction = (oldPos, newPos) => {
 			Vector3Int currentPos = Pushable.ServerPosition;
@@ -152,6 +161,7 @@ public class PushPull : VisibleBehaviour {
 		}
 	}
 
+	private UnityEvent OnConfirmPullThisClient = new UnityEvent();
 	public bool IsBeingPulledClient => AttachedToClient != null;
 	private PushPull attachedToClient;
 	public PushPull AttachedToClient {
@@ -163,6 +173,7 @@ public class PushPull : VisibleBehaviour {
 
 			if ( value != null /*&& !isServer*/ )
 			{
+				OnConfirmPullThisClient.Invoke();
 				value.Pushable?.OnClientStartMove().AddListener( predictiveFollowAction );
 			}
 
