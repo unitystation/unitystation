@@ -7,52 +7,53 @@ public class DNAandBloodType
 	
 	public BloodTypes BloodType;
 	
-	private int BloodTypeGenerator;
+	private float BloodTypeGenerator;
 	
 	public void BloodTypeandDNA()
 	{	
 		// Assigns DNA a GUID
 		DNAString = System.Guid.NewGuid().ToString();
 		// Rolls from 1 to 1000 to determine blood chance.
-		BloodTypeGenerator = Random.Range(1,1000);
+		BloodTypeGenerator = Random.Range(1.0f,1000.0f);
 		// Assigns blood type by roll, note that there isnt an equal chance for each roll.
-		if (BloodTypeGenerator <= 364)
+		if (BloodTypeGenerator <= 364.0f)
 		{
 			BloodType = BloodTypes.oPos;
 		}
-		else if (BloodTypeGenerator > 364 && BloodTypeGenerator <= 407)
+		else if (BloodTypeGenerator > 364.0f && BloodTypeGenerator <= 407.0f)
 		{
 			BloodType = BloodTypes.oNeg;
 		}
-		else if (BloodTypeGenerator > 407 && BloodTypeGenerator <= 690)
+		else if (BloodTypeGenerator > 407.0f && BloodTypeGenerator <= 690.0f)
 		{
 			BloodType = BloodTypes.aPos;
 		}
-		else if (BloodTypeGenerator > 690 && BloodTypeGenerator <= 725)
+		else if (BloodTypeGenerator > 690.0f && BloodTypeGenerator <= 725.0f)
 		{
 			BloodType = BloodTypes.aNeg;
 		}
-		else if (BloodTypeGenerator > 725 && BloodTypeGenerator <= 931)
+		else if (BloodTypeGenerator > 725.0f && BloodTypeGenerator <= 931.0f)
 		{
 			BloodType = BloodTypes.bPos;
 		}
-		else if (BloodTypeGenerator > 931 && BloodTypeGenerator <= 945)
+		else if (BloodTypeGenerator > 931.0f && BloodTypeGenerator <= 945.0f)
 		{
 			BloodType = BloodTypes.bNeg;
 		}
-		else if (BloodTypeGenerator > 945 && BloodTypeGenerator <= 995)
+		else if (BloodTypeGenerator > 945.0f && BloodTypeGenerator <= 995.0f)
 		{
 			BloodType = BloodTypes.abPos;
 		}
-		else if (BloodTypeGenerator > 995 && BloodTypeGenerator <= 1000)
+		else if (BloodTypeGenerator > 995.0f && BloodTypeGenerator <= 1000.0f)
 		{
 			BloodType = BloodTypes.abNeg;
 		}
-		
-		// I don't know how to declare a constructor so I'm just gonna use unity awake.
-		void Awake(){
-				BloodTypeandDNA();
-		}
+	}
+	
+	// I don't know how to declare a constructor so I'm just gonna use unity awake.
+	void Awake()
+	{
+		BloodTypeandDNA();
 	}
 }
 
