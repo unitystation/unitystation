@@ -30,9 +30,11 @@ public class PlayerHealth : HealthBehaviour
 
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
+	// JSON string for blood types and DNA.
 	[SyncVar(hook = "DNASync")]
 	private string DNABloodTypeJSON;
 	
+	// BloodType and DNA Data.
 	private DNAandBloodType DNABloodType;
 	
 	public override void OnStartClient()
@@ -54,6 +56,7 @@ public class PlayerHealth : HealthBehaviour
 			playerMove.allowInput = false;
 		}
 		
+		// Gives DNA and BloodType to client.
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(DNABloodTypeJSON);
 		
 		base.OnStartClient();
