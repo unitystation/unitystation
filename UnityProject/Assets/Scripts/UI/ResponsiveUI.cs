@@ -38,9 +38,6 @@ using UnityEngine.SceneManagement;
 			if (!checkingDisplayOnLoad) {
 				StartCoroutine(WaitForDisplay());
 			}
-#if UNITY_EDITOR
-			StartCoroutine( ForceGameWindowAspect() );
-#endif
 		}
 
 		private void OnEnable()
@@ -71,6 +68,9 @@ using UnityEngine.SceneManagement;
 			if (!Screen.fullScreen) {
 				StartCoroutine(ForceGameWindowAspect());
 			}
+#if UNITY_EDITOR
+			StartCoroutine( ForceGameWindowAspect() );
+#endif
 		}
 
 		private void Update()
