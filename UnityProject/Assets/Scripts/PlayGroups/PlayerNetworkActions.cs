@@ -538,7 +538,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			return;
 		}
-		if ( PlayerManager.PlayerInReach( cupbObj.transform ) || closet.Contains( this.gameObject ) )
+		if ( PlayerManager.PlayerInReach( cupbObj ) || closet.Contains( this.gameObject ) )
 		{
 			closet.ServerToggleCupboard();
 		}

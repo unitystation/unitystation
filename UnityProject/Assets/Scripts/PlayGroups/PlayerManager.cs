@@ -85,11 +85,11 @@ public class PlayerManager : MonoBehaviour
 		HasSpawned = true;
 	}
 
-	public static bool PlayerInReach(Transform transform)
+	public static bool PlayerInReach(GameObject gameObject)
 	{
 		if (PlayerScript != null)
 		{
-			return PlayerScript.IsInReach(transform.position);
+			return PlayerScript.IsInReach(gameObject);
 		}
 		return false;
 	}

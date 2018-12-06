@@ -183,7 +183,7 @@ using UnityEngine.Networking;
 				return;
 			}
 
-			bool isInReach = localPlayer.IsInReach( registerTile.WorldPosition );
+			bool isInReach = localPlayer.IsInReach( registerTile );
 			if ( isInReach || localPlayer.IsHidden )
 			{
 				if (IsClosed)

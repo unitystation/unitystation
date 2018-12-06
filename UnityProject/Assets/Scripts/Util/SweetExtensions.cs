@@ -29,6 +29,10 @@ using UnityEngine.Networking;
 			return go.GetComponent<RegisterTile>()?.WorldPosition ?? go.transform.position;
 //			return go.GetComponent<CustomNetTransform>()?.State.position ?? go.Player()?.Script.playerSync.ServerState.WorldPosition ??  go.transform.position;
 		}
+		/// Creates garbage! Use very sparsely!
+		public static RegisterTile RegisterTile( this GameObject go ) {
+			return go.GetComponent<RegisterTile>();
+		}
 
 		/// Wraps provided index value if it's more that array length
 		public static T Wrap<T>(this T[] array, int index)

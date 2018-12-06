@@ -98,6 +98,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 
 	private RegisterTile registerTile;
+	public RegisterTile RegisterTile => registerTile;
+
 	private ItemAttributes ItemAttributes {
 		get {
 			if ( itemAttributes == null ) {

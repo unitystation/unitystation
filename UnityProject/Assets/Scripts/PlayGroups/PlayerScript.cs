@@ -215,17 +215,31 @@ public class PlayerScript : ManagedNetworkBehaviour
 		public bool IsHidden => !PlayerSync.ClientState.Active;
 
 		public bool IsInReach( GameObject go, float interactDist = interactionDistance ) {
-			return IsInReach( go.WorldPos(), interactDist );
+			var rt = go.RegisterTile();
+			if ( rt ) {
+				return IsInReach( rt, interactDist );
+			} else {
+				return IsInReach( go.transform.position, interactDist );
+			}
 		}
 
-		/// <summary>
+		/// The smart way:
+		///  <inheritdoc cref="IsInReach(Vector3,float)"/>
+		public bool IsInReach(RegisterTile otherObject, float interactDist = interactionDistance) {
+			return IsInReach( registerTile, otherObject, interactDist );
+		}
 		///     Checks if the player is within reach of something
-		/// </summary>
 		/// <param name="otherPosition">The position of whatever we are trying to reach</param>
 		/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
 		public bool IsInReach(Vector3 otherPosition, float interactDist = interactionDistance) {
 			Vector3Int worldPosition = registerTile.WorldPosition;
 			return IsInReach( worldPosition, otherPosition, interactDist );
+		}
+
+		///Smart way to detect reach, supports high speeds in ships. Should use it more!
+		public static bool IsInReach( RegisterTile from, RegisterTile to, float interactDist = interactionDistance ) {
+			return from.Matrix == to.Matrix && IsInReach( from.Position, to.Position, interactDist )
+			       || IsInReach( from.WorldPosition, to.WorldPosition, interactDist );
 		}
 
 		public static bool IsInReach( Vector3 from, Vector3 to, float interactDist = interactionDistance ) {

@@ -375,7 +375,7 @@ public partial class PlayerSync
 	[Command(channel = 0)]
 	private void CmdValidatePush( GameObject pushable ) {
 		var pushPull = pushable.GetComponent<PushPull>();
-		if ( pushPull && !playerScript.IsInReach(pushPull.registerTile.WorldPosition) ) {
+		if ( pushPull && !playerScript.IsInReach(pushPull.registerTile) ) {
 			questionablePushables.Add( pushPull );
 			Logger.LogWarningFormat( "Added questionable {0}", Category.PushPull, pushPull );
 		}

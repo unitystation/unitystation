@@ -72,7 +72,7 @@ public class PushPull : VisibleBehaviour {
 			}
 		}
 
-		if ( PlayerScript.IsInReach( registerTile.WorldPosition, pullable.registerTile.WorldPosition )
+		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile )
 		     && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
@@ -86,8 +86,8 @@ public class PushPull : VisibleBehaviour {
 	private IEnumerator SyncPullAfterConfirm() {
 		yield return YieldHelper.Second;
 		Logger.LogTrace( "Synced after confirm", Category.PushPull );
-		
-		if ( IsPullingSomethingClient && 
+
+		if ( IsPullingSomethingClient &&
 		     AttachedToClient.Pushable.ClientPosition != AttachedToClient.Pushable.TrustedPosition )
 		{
 			Pushable.RollbackPrediction();
@@ -198,7 +198,7 @@ public class PushPull : VisibleBehaviour {
 		}
 		//later: experiment with allowing pulling while being pulled, but add condition against deadlocks
 		//if puller can reach this + not trying to pull himself + not being pulled
-		if ( PlayerScript.IsInReach( attachTo.registerTile.WorldPosition, this.registerTile.WorldPosition )
+		if ( PlayerScript.IsInReach( attachTo.registerTile, this.registerTile )
 		     && attachTo != this && !attachTo.IsBeingPulled )
 		{
 			Logger.LogTraceFormat( "{0} started following {1}", Category.PushPull, this.gameObject.name, attachTo.gameObject.name );
@@ -239,8 +239,7 @@ public class PushPull : VisibleBehaviour {
 	public void TryPullThis() {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
-		if ( PlayerScript.IsInReach( initiator.registerTile.WorldPosition, this.registerTile.WorldPosition )
-		     && initiator != this ) {
+		if ( PlayerScript.IsInReach( this.registerTile, initiator.registerTile ) && initiator != this ) {
 			//client request: start/stop pulling
 			initiator.CmdPullObject( gameObject );
 
