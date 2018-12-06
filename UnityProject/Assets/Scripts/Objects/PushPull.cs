@@ -328,9 +328,10 @@ public class PushPull : VisibleBehaviour {
 
 	private void CheckQueue()
 	{
-		if ( pushRequestQueue.Count > 0 && !isPushing )
-		{
-			TryPush( pushRequestQueue.Dequeue() );
+		if ( pushRequestQueue.Count > 0 && !isPushing ) {
+			if ( !TryPush( pushRequestQueue.Dequeue() ) ) {
+				pushRequestQueue.Clear();
+			}
 		}
 	}
 
@@ -434,10 +435,10 @@ public class PushPull : VisibleBehaviour {
 
 	#region Events
 
-	//todo break pull on external updates if new position is out of pull range
-
 	private void OnServerTileReached( Vector3Int newPos ) {
-//todo: ignore this most of the time
+		if ( !isPushing && pushRequestQueue.Count == 0 ) {
+			return;
+		}
 //		Logger.LogTraceFormat( "{0}: {1} is reached ON SERVER", Category.PushPull, gameObject.name, pos );
 		isPushing = false;
 		if ( pushTarget != TransformState.HiddenPos &&
