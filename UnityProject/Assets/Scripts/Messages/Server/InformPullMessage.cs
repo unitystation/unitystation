@@ -22,17 +22,24 @@ public class InformPullMessage : ServerMessage
 
 		PushPull pulledBy = NetworkObjects[1]?.GetComponent<PushPull>();
 
-		if ( subject.AttachedToClient ) {
-			subject.AttachedToClient.ControlledObjectClient = null;
+		if ( subject.PulledByClient ) {
+			subject.PulledByClient.PulledObjectClient = null;
 		}
-		subject.AttachedToClient = pulledBy;
+		subject.PulledByClient = pulledBy;
 		if ( pulledBy ) {
-			subject.AttachedToClient.ControlledObjectClient = subject;
+			subject.PulledByClient.PulledObjectClient = subject;
 		}
 		Logger.Log( $"Received: {subject.gameObject?.name} is {getStatus( pulledBy )}", Category.PushPull );
 	}
 
-/// <param name="recipient">Send to whom</param>
+//	public static void SendUpwards( PushPull recipient, PushPull subject, PushPull pulledBy ) {
+//		Send( recipient, subject, pulledBy );
+//		if ( recipient.IsBeingPulled ) {
+//			SendUpwards( recipient.PulledBy, subject, pulledBy );
+//		}
+//	}
+
+	/// <param name="recipient">Send to whom</param>
 /// <param name="subject">Who is this message about</param>
 /// <param name="pulledBy">Who pulls the subject</param>
 	public static InformPullMessage Send(PushPull recipient, PushPull subject, PushPull pulledBy)

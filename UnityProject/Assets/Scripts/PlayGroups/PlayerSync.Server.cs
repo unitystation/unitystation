@@ -148,6 +148,7 @@ public partial class PlayerSync
 		serverLastDirection = direction;
 		serverState = newState;
 		SyncMatrix();
+		OnStartMove().Invoke( origin, pushGoal );
 		NotifyPlayers();
 
 		return true;
@@ -232,7 +233,7 @@ public partial class PlayerSync
 						&& serverState.Impulse != Vector2.zero;
 		if ( isPullNudge ) {
 			//temporarily "break" pull so that puller would get the update
-			InformPullMessage.Send( pushPull.AttachedTo, this.pushPull, null );
+			InformPullMessage.Send( pushPull.PulledBy, this.pushPull, null );
 		}
 
 		serverState.NoLerp = noLerp;
@@ -244,7 +245,7 @@ public partial class PlayerSync
 
 		if ( isPullNudge ) {
 			//restore pull for client
-			InformPullMessage.Send( pushPull.AttachedTo, this.pushPull, pushPull.AttachedTo );
+			InformPullMessage.Send( pushPull.PulledBy, this.pushPull, pushPull.PulledBy );
 		}
 	}
 

@@ -158,6 +158,8 @@ public partial class PlayerSync
 			predictedState.MatrixId = MatrixManager.AtPoint( worldTarget ).Id;
 			predictedState.WorldPosition = target.To3Int();
 
+			OnClientStartMove().Invoke( currentPos, worldTarget ); //?
+
 			if ( !isServer ) {
 				//Lerp if not server.
 				//for some reason player pulling prediction doesn't have 1 frame delay on server
@@ -227,9 +229,8 @@ public partial class PlayerSync
 //			}
 
 			//Ignore "Follow Updates" if you're pulling it
-			if ( pushPull.IsBeingPulledClient
-				 && newState.Active
-			     && pushPull.AttachedToClient == PlayerManager.LocalPlayerScript?.pushPull
+			if ( newState.Active
+			     && pushPull.IsPulledByClient( PlayerManager.LocalPlayerScript?.pushPull )
 			) {
 				return;
 			}
@@ -305,7 +306,7 @@ public partial class PlayerSync
 			if ( gameObject == PlayerManager.LocalPlayer
 			     && pushPull && pushPull.IsPullingSomethingClient ) {
 				//Rollback whatever you're pulling predictively, too
-				pushPull.ControlledObjectClient.Pushable.RollbackPrediction();
+				pushPull.PulledObjectClient.Pushable.RollbackPrediction();
 
 			}
 		}

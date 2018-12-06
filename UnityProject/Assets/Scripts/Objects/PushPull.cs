@@ -35,11 +35,11 @@ public class PushPull : VisibleBehaviour {
 
 	#region Pull Master
 
-	public bool IsPullingSomething => ControlledObject != null;
-	public PushPull ControlledObject { get; private set; }
+	public bool IsPullingSomething => PulledObject != null;
+	public PushPull PulledObject { get; private set; }
 
-	public bool IsPullingSomethingClient => ControlledObjectClient != null;
-	public PushPull ControlledObjectClient { get; set; }
+	public bool IsPullingSomethingClient => PulledObjectClient != null;
+	public PushPull PulledObjectClient { get; set; }
 
 	/// Client requests to stop pulling any objects
 	[Command]
@@ -51,9 +51,9 @@ public class PushPull : VisibleBehaviour {
 		if ( !IsPullingSomething ) {
 			return;
 		}
-		Logger.LogTraceFormat( "{0} stopped controlling {1}", Category.PushPull, this.gameObject.name, ControlledObject.gameObject.name );
-		ControlledObject.AttachedTo = null;
-		ControlledObject = null;
+		Logger.LogTraceFormat( "{0} stopped controlling {1}", Category.PushPull, this.gameObject.name, PulledObject.gameObject.name );
+		PulledObject.PulledBy = null;
+		PulledObject = null;
 	}
 
 	/// Client asks to toggle pulling of given object
@@ -64,7 +64,7 @@ public class PushPull : VisibleBehaviour {
 			return;
 		}
 		if ( IsPullingSomething ) {
-			var alreadyPulling = ControlledObject;
+			var alreadyPulling = PulledObject;
 			ReleaseControl();
 			//Just stopping pulling of object if we ctrl+click it again
 			if ( alreadyPulling == pullable ) {
@@ -76,7 +76,7 @@ public class PushPull : VisibleBehaviour {
 		     && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
-				ControlledObject = pullable;
+				PulledObject = pullable;
 			}
 		}
 	}
@@ -87,8 +87,8 @@ public class PushPull : VisibleBehaviour {
 		yield return YieldHelper.Second;
 		Logger.LogTrace( "Synced after confirm", Category.PushPull );
 
-		if ( IsPullingSomethingClient &&
-		     AttachedToClient.Pushable.ClientPosition != AttachedToClient.Pushable.TrustedPosition )
+		if ( IsBeingPulledClient &&
+		     Pushable.ClientPosition != Pushable.TrustedPosition )
 		{
 			Pushable.RollbackPrediction();
 		}
@@ -109,11 +109,11 @@ public class PushPull : VisibleBehaviour {
 			if ( followDir == Vector2Int.zero ) {
 				return;
 			}
-			if ( !TryFollow( currentPos, followDir, AttachedTo.Pushable.MoveSpeedServer ) ) {
+			if ( !TryFollow( currentPos, followDir, PulledBy.Pushable.MoveSpeedServer ) ) {
 				StopFollowing();
 			} else {
-				AttachedTo.NotifyPlayers(); // doubles messages for puller, but pulling looks proper even in high ping. might mess something up tho
-//				Logger.Log( $"{gameObject.name}: following {AttachedTo.gameObject.name} " +
+				PulledBy.NotifyPlayers(); // doubles messages for puller, but pulling looks proper even in high ping. might mess something up tho
+//				Logger.Log( $"{gameObject.name}: following {PulledBy.gameObject.name} " +
 //							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
 			}
 		};
@@ -128,10 +128,10 @@ public class PushPull : VisibleBehaviour {
 			if ( followDir == Vector2Int.zero ) {
 				return;
 			}
-			if ( !TryPredictiveFollow( currentPos, oldPos, AttachedToClient.Pushable.MoveSpeedClient ) ) {
-				Logger.LogError( $"{gameObject.name}: oops, predictive following {AttachedToClient.gameObject.name} failed", Category.PushPull );
+			if ( !TryPredictiveFollow( currentPos, oldPos, PulledByClient.Pushable.MoveSpeedClient ) ) {
+				Logger.LogError( $"{gameObject.name}: oops, predictive following {PulledByClient.gameObject.name} failed", Category.PushPull );
 			} else {
-				Logger.Log( $"{gameObject.name}: predictive following {AttachedToClient.gameObject.name} " +
+				Logger.Log( $"{gameObject.name}: predictive following {PulledByClient.gameObject.name} " +
 							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
 
 			}
@@ -142,14 +142,16 @@ public class PushPull : VisibleBehaviour {
 	private UnityAction<Vector3Int,Vector3Int> followAction;
 	private UnityAction<Vector3Int,Vector3Int> predictiveFollowAction;
 
-	public bool IsBeingPulled => AttachedTo != null;
-	private PushPull attachedTo;
-	public PushPull AttachedTo {
-		get { return attachedTo; }
+	public bool IsBeingPulled => PulledBy != null;
+	private PushPull pulledBy;
+	public PushPull PulledBy {
+		get { return pulledBy; }
 		private set {
 			if ( IsBeingPulled ) {
-				attachedTo.Pushable?.OnStartMove().RemoveListener( followAction );
-				InformPullMessage.Send( attachedTo, this, null ); //inform previous master that it's over </3
+				pulledBy.Pushable?.OnStartMove().RemoveListener( followAction );
+				//inform previous master that it's over </3
+				InformPullMessage.Send( pulledBy, this, null );
+//				InformTrain( pulledBy, this, null );
 			}
 
 			if ( value != null )
@@ -157,23 +159,31 @@ public class PushPull : VisibleBehaviour {
 				value.Pushable?.OnStartMove().AddListener( followAction );
 			}
 
-			attachedTo = value;
-			InformPullMessage.Send( this, this, attachedTo ); //inform slave of new master – or lack thereof
+			pulledBy = value;
+			InformPullMessage.Send( this, this, pulledBy ); //inform slave of new master – or lack thereof
 
 			if ( IsBeingPulled ) {
-				InformPullMessage.Send( attachedTo, this, attachedTo ); //inform new master
+				InformTrain( pulledBy, this, this.pulledBy);
 			}
 		}
 	}
 
+	///inform new master puller about who's pulling who in the train
+	private void InformTrain( PushPull whoToInform, PushPull subject, PushPull pulledBy ) {
+		InformPullMessage.Send( whoToInform, subject, pulledBy );
+		if ( IsPullingSomething ) {
+			PulledObject.InformTrain( whoToInform, PulledObject, PulledObject.pulledBy );
+		}
+	}
+
 	private UnityEvent OnConfirmPullThisClient = new UnityEvent();
-	public bool IsBeingPulledClient => AttachedToClient != null;
-	private PushPull attachedToClient;
-	public PushPull AttachedToClient {
-		get { return attachedToClient; }
+	public bool IsBeingPulledClient => PulledByClient != null;
+	private PushPull pulledByClient;
+	public PushPull PulledByClient {
+		get { return pulledByClient; }
 		set {
 			if ( IsBeingPulledClient /*&& !isServer*/ ) { //toggle prediction here <v
-				attachedToClient.Pushable?.OnClientStartMove().RemoveListener( predictiveFollowAction );
+				pulledByClient.Pushable?.OnClientStartMove().RemoveListener( predictiveFollowAction );
 			}
 
 			if ( value != null /*&& !isServer*/ )
@@ -182,8 +192,17 @@ public class PushPull : VisibleBehaviour {
 				value.Pushable?.OnClientStartMove().AddListener( predictiveFollowAction );
 			}
 
-			attachedToClient = value;
+			pulledByClient = value;
 		}
+	}
+
+	/// (Eventually)
+	public bool IsPulledByClient( PushPull pushPull ) {
+		if ( !IsBeingPulledClient ) {
+			return false;
+		}
+
+		return PulledByClient == pushPull || PulledByClient.IsPulledByClient( pushPull );
 	}
 
 
@@ -196,13 +215,16 @@ public class PushPull : VisibleBehaviour {
 		if ( IsBeingPulled ) {
 			StopFollowing();
 		}
+
+		bool chooChooTrain = attachTo.IsBeingPulled && attachTo.PulledBy != this;
+
 		//later: experiment with allowing pulling while being pulled, but add condition against deadlocks
 		//if puller can reach this + not trying to pull himself + not being pulled
 		if ( PlayerScript.IsInReach( attachTo.registerTile, this.registerTile )
-		     && attachTo != this && !attachTo.IsBeingPulled )
+		     && attachTo != this && (!attachTo.IsBeingPulled || chooChooTrain) )
 		{
 			Logger.LogTraceFormat( "{0} started following {1}", Category.PushPull, this.gameObject.name, attachTo.gameObject.name );
-			AttachedTo = attachTo;
+			PulledBy = attachTo;
 			return true;
 		}
 
@@ -224,9 +246,9 @@ public class PushPull : VisibleBehaviour {
 		if ( !IsBeingPulled ) {
 			return;
 		}
-		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, AttachedTo.gameObject.name );
-		AttachedTo.ControlledObject = null;
-		AttachedTo = null;
+		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, PulledBy.gameObject.name );
+		PulledBy.PulledObject = null;
+		PulledBy = null;
 		NotifyPlayers();
 	}
 
@@ -243,10 +265,10 @@ public class PushPull : VisibleBehaviour {
 			//client request: start/stop pulling
 			initiator.CmdPullObject( gameObject );
 
-			if ( AttachedToClient == initiator ) {
+			if ( PulledByClient == initiator ) {
 				Logger.LogTraceFormat( "{0}: Breaking pull predictively", Category.PushPull, initiator.gameObject.name );
-				AttachedToClient.ControlledObjectClient = null;
-				AttachedToClient = null;
+				PulledByClient.PulledObjectClient = null;
+				PulledByClient = null;
 			}
 		}
 	}
@@ -368,12 +390,12 @@ public class PushPull : VisibleBehaviour {
 		if ( success )
 		{
 			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
-				( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(AttachedTo.registerTile.WorldPosition, target) ) )
+				( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledBy.registerTile.WorldPosition, target) ) )
 			{
 				StopFollowing();
 			}
 			if ( IsPullingSomething && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(ControlledObject.registerTile.WorldPosition, target) ) )
+			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledObject.registerTile.WorldPosition, target) ) )
 			{
 				ReleaseControl();
 			}
@@ -531,12 +553,12 @@ public class PushPull : VisibleBehaviour {
 	private void OnDrawGizmos() {
 		if ( IsBeingPulled ) {
 			Gizmos.color = color1;
-			GizmoUtils.DrawArrow( transform.position, AttachedTo.transform.position - transform.position, 0.1f );
+			GizmoUtils.DrawArrow( transform.position, PulledBy.transform.position - transform.position, 0.1f );
 		}
 		if ( IsBeingPulledClient ) {
 			Gizmos.color = color2;
 			Vector3 offPosition = transform.position + offset;
-			GizmoUtils.DrawArrow( offPosition, (AttachedToClient.transform.position + offset) - offPosition, 0.1f );
+			GizmoUtils.DrawArrow( offPosition, (PulledByClient.transform.position + offset) - offPosition, 0.1f );
 		}
 	}
 #endif
