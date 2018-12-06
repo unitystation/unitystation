@@ -35,7 +35,7 @@ public class PlayerHealth : HealthBehaviour
 	private string DNABloodTypeJSON;
 	
 	// BloodType and DNA Data.
-	public DNAandBloodType DNABloodType;
+	private DNAandBloodType DNABloodType;
 	
 	public override void OnStartClient()
 	{
