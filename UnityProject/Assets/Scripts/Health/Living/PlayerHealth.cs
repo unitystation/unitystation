@@ -62,7 +62,7 @@ public class PlayerHealth : HealthBehaviour
 		base.OnStartClient();
 	}
 	
-	void Update()
+	public override void OnStartServer()
 	{
 		if (isServer)
 		{
