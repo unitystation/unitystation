@@ -69,6 +69,7 @@ public class PlayerHealth : HealthBehaviour
 			DNABloodType = new DNAandBloodType();
 			DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
 		}
+		base.OnStartServer();
 	}
 	
 	private void DNASync(string updatedDNA)
