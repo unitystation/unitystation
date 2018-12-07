@@ -30,6 +30,16 @@ public class PushPull : VisibleBehaviour {
 		}
 	}
 
+	/// Just in case
+	private void OnDestroy() {
+		Pushable?.OnPullInterrupt().RemoveAllListeners();
+		Pushable?.OnStartMove().RemoveAllListeners();
+		Pushable?.OnTileReached().RemoveAllListeners();
+		Pushable?.OnUpdateRecieved().RemoveAllListeners();
+		Pushable?.OnClientStartMove().RemoveAllListeners();
+		Pushable?.OnClientTileReached().RemoveAllListeners();
+	}
+
 	public bool IsSolid => !registerTile.IsPassable();
 
 
@@ -83,6 +93,7 @@ public class PushPull : VisibleBehaviour {
 
 	#endregion
 
+	/// fixme: wonky
 	private IEnumerator SyncPullAfterConfirm() {
 		yield return YieldHelper.Second;
 		Logger.LogTrace( "Synced after confirm", Category.PushPull );
@@ -150,8 +161,7 @@ public class PushPull : VisibleBehaviour {
 			if ( IsBeingPulled ) {
 				pulledBy.Pushable?.OnStartMove().RemoveListener( followAction );
 				//inform previous master that it's over </3
-				InformPullMessage.Send( pulledBy, this, null );
-//				InformTrain( pulledBy, this, null );
+				UninformHead( pulledBy, this );
 			}
 
 			if ( value != null )
@@ -163,16 +173,23 @@ public class PushPull : VisibleBehaviour {
 			InformPullMessage.Send( this, this, pulledBy ); //inform slave of new master – or lack thereof
 
 			if ( IsBeingPulled ) {
-				InformTrain( pulledBy, this, this.pulledBy);
+				InformHead( pulledBy, this);
 			}
 		}
 	}
 
 	///inform new master puller about who's pulling who in the train
-	private void InformTrain( PushPull whoToInform, PushPull subject, PushPull pulledBy ) {
-		InformPullMessage.Send( whoToInform, subject, pulledBy );
+	private void InformHead( PushPull whoToInform, PushPull subject ) {
+		InformPullMessage.Send( whoToInform, subject, subject.PulledBy );
 		if ( IsPullingSomething ) {
-			PulledObject.InformTrain( whoToInform, PulledObject, PulledObject.pulledBy );
+			PulledObject.InformHead( whoToInform, PulledObject );
+		}
+	}
+
+	private void UninformHead( PushPull whoToInform, PushPull subject ) {
+		InformPullMessage.Send( whoToInform, subject, null );
+		if ( IsPullingSomething ) {
+			PulledObject.UninformHead( whoToInform, PulledObject );
 		}
 	}
 
