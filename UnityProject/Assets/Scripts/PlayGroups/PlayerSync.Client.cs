@@ -46,7 +46,13 @@ public partial class PlayerSync
 		/// Does ghosts's transform pos match state pos? Ignores Z-axis.
 		private bool GhostPositionReady => ( Vector2 ) ghostPredictedState.WorldPosition == ( Vector2 ) playerScript.ghost.transform.position;
 
-		private bool IsWeightlessClient => !playerMove.isGhost && MatrixManager.IsFloatingAt( gameObject, Vector3Int.RoundToInt(predictedState.WorldPosition) );
+		private bool IsWeightlessClient {
+			get {
+				GameObject[] context = pushPull.IsPullingSomethingClient ? new[]{gameObject, pushPull.PulledObjectClient.gameObject} : new[]{gameObject};
+				return !playerMove.isGhost && MatrixManager.IsFloatingAt( context, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
+			}
+		}
+
 		public bool IsNonStickyClient => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
 
 		///Does server claim this client is floating rn?

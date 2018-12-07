@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -30,8 +31,24 @@ public class InformPullMessage : ServerMessage
 			subject.PulledByClient.PulledObjectClient = subject;
 		}
 		Logger.Log( $"Received: {subject.gameObject?.name} is {getStatus( pulledBy )}", Category.PushPull );
+
+		if ( PlayerManager.LocalPlayer ) {
+			if ( subject == PlayerManager.LocalPlayer && pulledBy == null ) {
+				Logger.Log( "Removing all frelling blue arrows for ya!", Category.PushPull );
+				foreach ( PushPull trackedObject in trackedObjects ) {
+					if ( !trackedObject || trackedObject.Pushable == null ) {
+						continue;
+					}
+					trackedObject.Pushable.OnClientStartMove().RemoveAllListeners();
+				}
+				trackedObjects.Clear();
+			} else {
+				trackedObjects.Add( subject );
+			}
+		}
 	}
 
+	private static List<PushPull> trackedObjects = new List<PushPull>();
 //	public static void SendUpwards( PushPull recipient, PushPull subject, PushPull pulledBy ) {
 //		Send( recipient, subject, pulledBy );
 //		if ( recipient.IsBeingPulled ) {

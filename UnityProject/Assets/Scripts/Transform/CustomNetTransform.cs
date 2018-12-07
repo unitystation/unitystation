@@ -212,15 +212,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		if (isServer)
 		{
 			CheckFloatingServer();
-//			//Sync the pushing state to all players
-//			//this makes sure that players with high pings cannot get too
-//			//far with prediction
-//			if(isPushing){
-//				if(clientState.Position == transform.localPosition){
-//					isPushing = false;
-//					predictivePushing = false;
-//				}
-//			}
 		}
 
 		if (IsFloatingClient)
@@ -248,7 +239,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 		//Registering
 		if (!isServer && registerTile.Position != Vector3Int.RoundToInt(predictedState.Position) )
-			//&& !isPushing && !predictivePushing)
 		{
 			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPosition, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
 			RegisterObjects();

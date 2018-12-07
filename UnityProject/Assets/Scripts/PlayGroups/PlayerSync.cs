@@ -155,8 +155,8 @@ using UnityEngine.Networking;
 		}
 
 		/// Around player
-		private bool IsAroundPushables( PlayerState state, out PushPull pushable ) {
-			return IsAroundPushables( state.WorldPosition, out pushable );
+		private bool IsAroundPushables( PlayerState state, out PushPull pushable, GameObject except = null ) {
+			return IsAroundPushables( state.WorldPosition, out pushable, except );
 		}
 
 		private bool IsAroundPushables( Vector3 worldPos, out PushPull pushable, GameObject except = null ) {
@@ -184,7 +184,7 @@ using UnityEngine.Networking;
 
 			for ( var i = 0; i < pushables.Length; i++ ) {
 				var pushable = pushables[i];
-				if ( pushable.gameObject == ( except ?? this.gameObject ) ) {
+				if ( pushable.gameObject == this.gameObject || except != null && pushable.gameObject == except ) {
 					continue;
 				}
 				firstPushable = pushable;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -143,7 +144,7 @@ using UnityEngine;
 			return true;
 		}
 
-		public bool IsEmptyAt(GameObject context, Vector3Int position)
+		public bool IsEmptyAt(GameObject[] context, Vector3Int position)
 		{
 			foreach (LayerType layer in Layers.Keys)
 			{
@@ -154,8 +155,18 @@ using UnityEngine;
 					var objects = Matrix.Get<RegisterTile>( position ).ToArray();
 					for ( var i = 0; i < objects.Length; i++ ) {
 						var o = objects[i];
-						if ( !o.IsPassable() && o.gameObject != context ) {
-							return false;
+						if ( !o.IsPassable() ) {
+							bool isExcluded = false;
+							for ( var index = 0; index < context.Length; index++ ) {
+								if ( o.gameObject == context[index] ) {
+									isExcluded = true;
+									break;
+								}
+							}
+
+							if ( !isExcluded ) {
+								return false;
+							}
 						}
 					}
 				}

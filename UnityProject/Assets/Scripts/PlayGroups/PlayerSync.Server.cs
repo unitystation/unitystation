@@ -39,7 +39,13 @@ public partial class PlayerSync
 	private bool isApplyingSpaceDmg;
 
 	///
-	public bool IsWeightlessServer => !playerMove.isGhost && MatrixManager.IsFloatingAt(gameObject, Vector3Int.RoundToInt( serverState.WorldPosition ));
+	public bool IsWeightlessServer {
+		get {
+			GameObject[] context = pushPull.IsPullingSomething ? new[]{gameObject, pushPull.PulledObject.gameObject} : new[]{gameObject};
+			return !playerMove.isGhost && MatrixManager.IsFloatingAt( context, Vector3Int.RoundToInt( serverState.WorldPosition ) );
+		}
+	}
+
 	public bool IsNonStickyServer => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
 

@@ -99,7 +99,7 @@ public class Matrix : MonoBehaviour
 	}
 
 	/// Is this position and surrounding area completely clear of solid objects except for provided one?
-	public bool IsFloatingAt(GameObject context, Vector3Int position)
+	public bool IsFloatingAt(GameObject[] context, Vector3Int position)
 	{
 		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
