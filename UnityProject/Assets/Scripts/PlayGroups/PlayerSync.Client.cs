@@ -36,6 +36,7 @@ public partial class PlayerSync
 			}
 		}
 		public bool CanPredictPush => ClientPositionReady;
+		public bool IsMovingClient => !ClientPositionReady;
 		public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
 		public Vector3Int TrustedPosition => playerState.WorldPosition.RoundToInt();
 

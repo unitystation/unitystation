@@ -108,6 +108,7 @@ public partial class CustomNetTransform {
 	}
 
 	public bool CanPredictPush => !IsClientLerping;
+	public bool IsMovingClient => IsClientLerping;
 	public float MoveSpeedServer => ServerState.speed;
 	public float MoveSpeedClient => PredictedState.speed;
 

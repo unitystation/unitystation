@@ -93,15 +93,16 @@ public class PushPull : VisibleBehaviour {
 
 	#endregion
 
-	/// fixme: wonky
 	private IEnumerator SyncPullAfterConfirm() {
 		yield return YieldHelper.Second;
-		Logger.LogTrace( "Synced after confirm", Category.PushPull );
 
-		if ( IsBeingPulledClient &&
+		if ( IsBeingPulledClient && !Pushable.IsMovingClient &&
 		     Pushable.ClientPosition != Pushable.TrustedPosition )
 		{
+			Logger.LogTraceFormat( "{0}: Synced after confirm", Category.PushPull, gameObject.name );
 			Pushable.RollbackPrediction();
+		} else {
+			Logger.LogTraceFormat( "{0}: No need to sync after confirm", Category.PushPull, gameObject.name );
 		}
 	}
 

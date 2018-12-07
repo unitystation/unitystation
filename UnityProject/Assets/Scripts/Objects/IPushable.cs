@@ -20,6 +20,7 @@ public interface IPushable {
 	/// When you need to break pulling of this object
 	UnityEvent OnPullInterrupt();
 	bool CanPredictPush { get; }
+	bool IsMovingClient { get; }
 	float MoveSpeedServer { get; }
 	float MoveSpeedClient { get; }
 	/// Try stopping object if it's flying
