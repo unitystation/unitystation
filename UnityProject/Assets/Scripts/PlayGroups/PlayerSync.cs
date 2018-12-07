@@ -323,6 +323,9 @@ using UnityEngine.Networking;
 				//Server zone
 				if ( isServer )
 				{
+					if ( Input.GetKeyDown( KeyCode.F7 ) ) {
+						SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
+					}
 					if ( serverState.Position != serverLerpState.Position )
 					{
 						ServerLerp();
