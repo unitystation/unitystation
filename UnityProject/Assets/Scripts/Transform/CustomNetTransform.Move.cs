@@ -76,7 +76,7 @@ public partial class CustomNetTransform {
 			return false;
 		}
 
-		if (MatrixManager.IsEmptyAt( roundedTarget )) {
+		if ( !followMode && MatrixManager.IsEmptyAt( roundedTarget ) ) {
 			serverState.Impulse = direction;
 		}
 
@@ -97,15 +97,16 @@ public partial class CustomNetTransform {
 	}
 
 	public bool PredictivePush( Vector2Int target, float speed = Single.NaN, bool followMode = false ) {
-//		return false;
 		Vector3Int target3int = target.To3Int();
 
-		if ( !MatrixManager.IsPassableAt( target3int, target3int, !followMode ) ) {
+		Vector3Int currentPos = ClientPosition;
+
+		if ( !followMode && !MatrixManager.IsPassableAt( target3int, target3int ) ) {
 			return false;
 		}
 
-		if (MatrixManager.IsEmptyAt( target3int )) {
-			predictedState.Impulse = target;
+		if ( !followMode && MatrixManager.IsEmptyAt( target3int ) ) {
+			predictedState.Impulse = target - currentPos.To2Int();
 		}
 
 		if ( !float.IsNaN( speed ) && speed > 0 ) {

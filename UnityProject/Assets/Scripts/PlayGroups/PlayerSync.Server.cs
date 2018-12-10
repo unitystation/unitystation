@@ -405,12 +405,19 @@ public partial class PlayerSync
 	}
 
 	private IEnumerator InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false, int i = 0 ) {
+		//Return if pushable is solid and you're trying to walk through it
+		Vector3Int pushablePosition = pushable.Pushable.ServerPosition;
+		if ( pushable.IsSolid && pushablePosition == this.ServerPosition + direction.RoundToInt() ) {
+			Logger.LogTraceFormat( "Not doing anything: trying to push solid {0} through yourself", Category.PushPull, pushable.gameObject );
+			yield break;
+		}
+
 		Logger.LogTraceFormat( (isRecursive ? "Recursive " : "") + "Trying to space push {0}", Category.PushPull, pushable.gameObject );
 
 		if ( !isRecursive )
 		{
-			i = CalculateRequiredPushes( serverState.WorldPosition, pushable.registerTile.WorldPosition, direction );
-			Logger.LogFormat( "Calculated {0} required pushes", Category.Movement, i );
+			i = CalculateRequiredPushes( this.ServerPosition, pushablePosition, direction );
+			Logger.LogTraceFormat( "Calculated {0} required pushes", Category.PushPull, i );
 		}
 
 		if ( i <= 0 ) yield break;
@@ -419,13 +426,13 @@ public partial class PlayerSync
 
 		pushable.QueuePush( Vector2Int.RoundToInt( counterDirection ) );
 		i--;
-		Logger.LogFormat( "Queued obstacle push. {0} pushes left", Category.Movement, i );
+		Logger.LogTraceFormat( "Queued obstacle push. {0} pushes left", Category.PushPull, i );
 
 		if ( i <= 0 ) yield break;
 
 		pushPull.QueuePush( Vector2Int.RoundToInt( direction ) );
 		i--;
-		Logger.LogFormat( "Queued player push. {0} pushes left", Category.Movement, i );
+		Logger.LogTraceFormat( "Queued player push. {0} pushes left", Category.PushPull, i );
 
 
 		if ( i > 0 )

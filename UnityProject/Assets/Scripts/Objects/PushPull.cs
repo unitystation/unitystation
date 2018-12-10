@@ -137,7 +137,7 @@ public class PushPull : VisibleBehaviour {
 			}
 		};
 		predictiveFollowAction = (oldPos, newPos) => {
-			Vector3Int currentPos = registerTile.WorldPosition;
+			Vector3Int currentPos = Pushable.ClientPosition;
 			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos ) {
 				return;
 			}
@@ -302,10 +302,6 @@ public class PushPull : VisibleBehaviour {
 		{
 			return false;
 		}
-//		Vector3Int currentPos = registerTile.WorldPosition;
-//		if ( from != currentPos ) {
-//			return false;
-//		}
 
 		if ( Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1 ) {
 			Logger.Log( "oops="+dir, Category.PushPull );

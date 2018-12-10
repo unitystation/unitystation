@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Light2D;
 using UnityEngine;
 
 public partial class PlayerSync
@@ -147,11 +146,11 @@ public partial class PlayerSync
 				return false;
 			}
 
-			Vector3Int currentPos = predictedState.WorldPosition.RoundToInt();
+			Vector3Int currentPos = ClientPosition;
 
 			Vector3Int worldTarget = target.To3Int();
 
-			if ( !MatrixManager.IsPassableAt( currentPos, worldTarget, !followMode ) ) {
+			if ( !followMode && !MatrixManager.IsPassableAt( worldTarget, worldTarget ) ) {
 				return false;
 			}
 
@@ -310,11 +309,15 @@ public partial class PlayerSync
 //			Logger.Log( $"Rollback {predictedState}\n" +
 //			           $"To       {playerState}" );
 			predictedState = playerState;
+			StartCoroutine( RollbackPullables() ); //? verify if robust
+		}
+
+		private IEnumerator RollbackPullables() {
+			yield return YieldHelper.EndOfFrame;
 			if ( gameObject == PlayerManager.LocalPlayer
 			     && pushPull && pushPull.IsPullingSomethingClient ) {
 				//Rollback whatever you're pulling predictively, too
 				pushPull.PulledObjectClient.Pushable.RollbackPrediction();
-
 			}
 		}
 
@@ -402,7 +405,7 @@ public partial class PlayerSync
 				}
 
 				//Perpetual floating sim
-				if ( ClientPositionReady )
+				if ( ClientPositionReady && isPseudoFloatingClient )
 				{
 					var oldPos = predictedState.WorldPosition;
 
