@@ -66,16 +66,22 @@ public partial class CustomNetTransform {
 
 	[Server]
 	public bool Push( Vector2Int direction, float speed = Single.NaN, bool followMode = false ) {
-		Vector2 target = ( Vector2 ) serverState.WorldPosition + direction;
+		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
+		var target = ( Vector2 ) serverState.WorldPosition + direction;
+		var roundedTarget = target.RoundToInt();
+
+		if ( !MatrixManager.IsPassableAt( origin, roundedTarget, !followMode ) ) {
+			return false;
+		}
+
+		if (MatrixManager.IsEmptyAt( roundedTarget )) {
+			serverState.Impulse = direction;
+		}
+
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
 			serverState.Speed = speed;
 		} else {
 			serverState.Speed = DefaultPushSpeed;
-		}
-
-		var roundedTarget = target.RoundToInt();
-		if (MatrixManager.IsEmptyAt( roundedTarget )) {
-			serverState.Impulse = direction;
 		}
 
 		if ( followMode ) {
@@ -90,17 +96,24 @@ public partial class CustomNetTransform {
 
 	public bool PredictivePush( Vector2Int target, float speed = Single.NaN, bool followMode = false ) {
 //		return false;
+		Vector3Int target3int = target.To3Int();
+
+		if ( !MatrixManager.IsPassableAt( target3int, target3int, !followMode ) ) {
+			return false;
+		}
+
+		if (MatrixManager.IsEmptyAt( target3int )) {
+			predictedState.Impulse = target;
+		}
+
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
 			predictedState.Speed = speed;
 		} else {
 			predictedState.Speed = DefaultPushSpeed;
 		}
 
-		if (MatrixManager.IsEmptyAt( target.To3Int() )) {
-			predictedState.Impulse = target;
-		}
-		predictedState.MatrixId = MatrixManager.AtPoint( target.To3Int() ).Id;
-		predictedState.WorldPosition = target.To3Int();
+		predictedState.MatrixId = MatrixManager.AtPoint( target3int ).Id;
+		predictedState.WorldPosition = target3int;
 
 		Lerp(); //Lerp right now to avoid one frame delay
 
