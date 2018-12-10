@@ -51,7 +51,7 @@ public partial class PlayerSync
 
 
 	/// Whether player is considered to be floating on server
-	private bool consideredFloatingServer => serverState.Impulse != Vector2.zero;
+	private bool consideredFloatingServer => serverState.Impulse != Vector2.zero /*&& !IsBeingPulledServer*/;
 
 	/// Do current and target server positions match?
 	private bool ServerPositionsMatch => serverState.WorldPosition == serverLerpState.WorldPosition;
@@ -506,7 +506,7 @@ public partial class PlayerSync
 		//Space walk checks
 		if ( IsNonStickyServer )
 		{
-			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
+			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero /*&& !IsBeingPulledServer*/)
 			{
 				//server initiated space dive.
 				serverState.Impulse = serverLastDirection;

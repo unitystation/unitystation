@@ -40,9 +40,11 @@ public partial class CustomNetTransform {
 	/// Containers and other objects meant to be snapped by tile
 	public bool IsTileSnap => registerTile.ObjectType == ObjectType.Object;
 
-	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f;
-	public bool IsFloatingClient => predictedState.Impulse != Vector2.zero && predictedState.Speed > 0f;
+	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f && !IsBeingPulledServer;
+	public bool IsFloatingClient => predictedState.Impulse != Vector2.zero && predictedState.Speed > 0f && !IsBeingPulledClient;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
+	public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
+	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
 
 	private LayerMask tileDmgMask;
 

@@ -130,6 +130,8 @@ using UnityEngine.Networking;
 
 //		private float pullJourney;
 		private PushPull pushPull;
+		public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
+		public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
 
 		private RegisterTile registerTile;
 

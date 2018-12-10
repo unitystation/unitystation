@@ -56,10 +56,10 @@ public partial class PlayerSync
 		public bool IsNonStickyClient => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
 
 		///Does server claim this client is floating rn?
-		public bool isFloatingClient => playerState.Impulse != Vector2.zero;
+		public bool isFloatingClient => playerState.Impulse != Vector2.zero /*&& !IsBeingPulledClient*/;
 
 		/// Does your client think you should be floating rn? (Regardless of what server thinks)
-		private bool isPseudoFloatingClient => predictedState.Impulse != Vector2.zero;
+		private bool isPseudoFloatingClient => predictedState.Impulse != Vector2.zero /*&& !IsBeingPulledClient*/;
 
 		/// Measure to avoid lerping back and forth in a lagspike
 		/// where player simulated entire spacewalk (start and stop) without getting server's answer yet

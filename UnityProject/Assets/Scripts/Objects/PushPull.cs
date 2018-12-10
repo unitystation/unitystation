@@ -76,6 +76,11 @@ public class PushPull : VisibleBehaviour {
 		if ( IsPullingSomething ) {
 			var alreadyPulling = PulledObject;
 			ReleaseControl();
+
+			//Kill ex-pullable's impulses if we stop pulling it ourselves
+			//todo: make it accept puller's impulse on release if he's flying
+			alreadyPulling.Stop();
+
 			//Just stopping pulling of object if we ctrl+click it again
 			if ( alreadyPulling == pullable ) {
 				return;
@@ -87,6 +92,8 @@ public class PushPull : VisibleBehaviour {
 
 			if ( pullable.StartFollowing( this ) ) {
 				PulledObject = pullable;
+				//Kill its impulses if we grabbed it
+				PulledObject.Stop();
 			}
 		}
 	}
@@ -236,7 +243,6 @@ public class PushPull : VisibleBehaviour {
 
 		bool chooChooTrain = attachTo.IsBeingPulled && attachTo.PulledBy != this;
 
-		//later: experiment with allowing pulling while being pulled, but add condition against deadlocks
 		//if puller can reach this + not trying to pull himself + not being pulled
 		if ( PlayerScript.IsInReach( attachTo.registerTile, this.registerTile )
 		     && attachTo != this && (!attachTo.IsBeingPulled || chooChooTrain) )
