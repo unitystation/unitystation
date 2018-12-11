@@ -99,7 +99,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
 
-		ApplyDamageType(damageType, damage);
+		//ApplyDamageType(damageType, damage);
 
 		return damage;
 	}
