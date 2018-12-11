@@ -150,8 +150,9 @@ public class PushPull : VisibleBehaviour {
 			if ( !TryPredictiveFollow( currentPos, oldPos, PulledByClient.Pushable.MoveSpeedClient ) ) {
 				Logger.LogError( $"{gameObject.name}: oops, predictive following {PulledByClient.gameObject.name} failed", Category.PushPull );
 			} else {
-				Logger.Log( $"{gameObject.name}: predictive following {PulledByClient.gameObject.name} " +
-							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
+				Logger.LogTraceFormat(
+					"{0}: predictive following {1} from {2} to {3} : {4}", Category.PushPull,
+					gameObject.name, PulledByClient.gameObject.name, currentSlavePos, masterPos, followDir );
 
 			}
 		};
@@ -304,7 +305,7 @@ public class PushPull : VisibleBehaviour {
 		}
 
 		if ( Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1 ) {
-			Logger.Log( "oops="+dir, Category.PushPull );
+			Logger.LogTrace( "oops="+dir, Category.PushPull );
 			return false;
 		}
 
@@ -329,10 +330,10 @@ public class PushPull : VisibleBehaviour {
 		}
 
 //		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( !MatrixManager.IsPassableAt( from, target, false )
-		     ) {
-			return false;
-		}
+//		if ( !MatrixManager.IsPassableAt( from, target, false )
+//		     ) {
+//			return false;
+//		}
 
 		bool success = Pushable.PredictivePush( target.To2Int(), speed, true );
 		if ( success ) {
@@ -395,7 +396,7 @@ public class PushPull : VisibleBehaviour {
 		}
 
 		if ( Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1 ) {
-			Logger.Log( "oops="+dir, Category.PushPull );
+			Logger.LogTrace( "oops="+dir, Category.PushPull );
 			return false;
 		}
 

@@ -23,28 +23,35 @@ public class InformPullMessage : ServerMessage
 
 		PushPull pulledBy = NetworkObjects[1]?.GetComponent<PushPull>();
 
-		if ( subject.PulledByClient ) {
-			subject.PulledByClient.PulledObjectClient = null;
-		}
-		subject.PulledByClient = pulledBy;
-		if ( pulledBy ) {
-			subject.PulledByClient.PulledObjectClient = subject;
-		}
 		Logger.Log( $"Received: {subject.gameObject?.name} is {getStatus( pulledBy )}", Category.PushPull );
 
 		if ( PlayerManager.LocalPlayer ) {
-			if ( subject == PlayerManager.LocalPlayer && pulledBy == null ) {
+			if ( subject == PlayerManager.LocalPlayerScript.pushPull.PulledObjectClient && pulledBy == null ) {
 				Logger.Log( "Removing all frelling blue arrows for ya!", Category.PushPull );
-				foreach ( PushPull trackedObject in trackedObjects ) {
+				for ( var i = 0; i < trackedObjects.Count; i++ ) {
+					PushPull trackedObject = trackedObjects[i];
 					if ( !trackedObject || trackedObject.Pushable == null ) {
 						continue;
 					}
+
 					trackedObject.Pushable.OnClientStartMove().RemoveAllListeners();
 				}
+
 				trackedObjects.Clear();
-			} else {
+			}
+			else if (!trackedObjects.Contains( subject ))
+			{
 				trackedObjects.Add( subject );
 			}
+		}
+
+		if ( subject.PulledByClient ) {
+			subject.PulledByClient.PulledObjectClient = null;
+		}
+
+		subject.PulledByClient = pulledBy;
+		if ( pulledBy ) {
+			subject.PulledByClient.PulledObjectClient = subject;
 		}
 	}
 

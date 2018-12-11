@@ -144,13 +144,6 @@ using UnityEngine.Networking;
 
 		#region spess interaction logic
 
-		/// On player's tile
-		private bool IsOnPushables( PlayerState state ) {
-			var stateWorldPosition = state.WorldPosition;
-			PushPull pushable;
-			return HasPushablesAt( stateWorldPosition, out pushable );
-		}
-
 		private bool IsAroundPushables( PlayerState state ) {
 			PushPull pushable;
 			return IsAroundPushables( state, out pushable );
@@ -161,6 +154,7 @@ using UnityEngine.Networking;
 			return IsAroundPushables( state.WorldPosition, out pushable, except );
 		}
 
+		/// Man, these are expensive and generate a lot of garbage. Try to use sparsely
 		private bool IsAroundPushables( Vector3 worldPos, out PushPull pushable, GameObject except = null ) {
 			pushable = null;
 			foreach ( Vector3Int pos in worldPos.CutToInt().BoundsAround().allPositionsWithin ) {
@@ -170,11 +164,6 @@ using UnityEngine.Networking;
 			}
 
 			return false;
-		}
-
-		public static bool HasInReach( Vector3 worldPos, PushPull hasWhat ) {
-			Vector3Int objectPos = hasWhat.registerTile.WorldPosition;
-			return worldPos.CutToInt().BoundsAround().Contains( objectPos );
 		}
 
 		private bool HasPushablesAt( Vector3 stateWorldPosition, out PushPull firstPushable, GameObject except = null ) {

@@ -138,7 +138,7 @@ public partial class PlayerSync
 			SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
 		}
 
-		Logger.Log( $"Server push to {pushGoal}", Category.PushPull );
+		Logger.LogTraceFormat( "Server push to {0}", Category.PushPull, pushGoal );
 		ClearQueueServer();
 		MatrixInfo newMatrix = MatrixManager.AtPoint( pushGoal );
 		//Note the client queue reset
@@ -288,7 +288,7 @@ public partial class PlayerSync
 			return;
 		}
 
-		if (consideredFloatingServer || CanNotSpaceMoveServer || !serverState.Active)
+		if ( consideredFloatingServer || !serverState.Active || CanNotSpaceMoveServer )
 		{
 			Logger.LogWarning("Server ignored queued move while player isn't supposed to move", Category.Movement);
 			serverPendingActions.Dequeue();

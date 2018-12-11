@@ -77,9 +77,9 @@ public partial class PlayerSync
 			//experiment: not enqueueing or processing action if floating.
 			//arguably it shouldn't really be like that in the future
 			bool isGrounded = !IsNonStickyClient;
-			bool isAroundPushables = IsAroundPushables( predictedState );
-			if ( ((isGrounded || isAroundPushables ) && !isPseudoFloatingClient && !isFloatingClient && !blockClientMovement)
-			     || (playerMove.isGhost && !blockClientMovement) ) {
+//			bool isAroundPushables = IsAroundPushables( predictedState ); //? trying to remove this because of garbage
+			/*(isGrounded || isAroundPushables ) &&*/
+			if ( !blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerMove.isGhost) ) {
 //				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
 				if ( isGrounded && playerState.Active )
@@ -159,7 +159,7 @@ public partial class PlayerSync
 				SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
 			}
 
-			Logger.Log($"Client predictive push to {target}", Category.PushPull);
+			Logger.LogTraceFormat( "Client predictive push to {0}", Category.PushPull, target );
 
 			predictedState.MatrixId = MatrixManager.AtPoint( worldTarget ).Id;
 			predictedState.WorldPosition = target.To3Int();
