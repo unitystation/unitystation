@@ -46,8 +46,14 @@ public abstract class HealthBehaviour : NetworkBehaviour
 			Logger.LogWarning($"Initial health ({initialHealth}) set to zero/below zero!", Category.Health);
 			initialHealth = 1;
 		}
-
+		
+		//Reset health value and damage types values.
 		Health = initialHealth;
+
+		bruteDamage = 0;
+		burnDamage = 0;
+		toxinDamage = 0;
+		suffocationDamage = 0;
 	}
 
 	[Server]
