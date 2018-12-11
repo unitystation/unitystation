@@ -15,6 +15,11 @@ public class PlayerMoveMessage : ServerMessage
 	{
 //		Logger.Log("Processed " + ToString());
 		yield return WaitFor(SubjectPlayer);
+
+		if ( NetworkObject == null ) {
+			yield break;
+		}
+
 		var playerSync = NetworkObject.GetComponent<PlayerSync>();
 		playerSync.UpdateClientState(State);
 
