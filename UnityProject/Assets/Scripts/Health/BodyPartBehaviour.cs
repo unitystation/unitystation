@@ -89,6 +89,8 @@ public class BodyPartBehaviour : MonoBehaviour
 
 	private void UpdateSeverity(int damage = 0, DamageType type = DamageType.BRUTE)
 	{
+		damage = CountTotalDamage(); //Gets total damage from all types to determine severity later
+
 		float severity = (float) damage / MaxDamage;
 		if (severity >= 0.2 && severity < 0.4)
 		{
@@ -118,5 +120,10 @@ public class BodyPartBehaviour : MonoBehaviour
 		bruteDamage = 0;
 
 		UpdateSeverity(/*damage, type*/);
+	}
+
+	private int CountTotalDamage()
+	{
+		return bruteDamage + burnDamage + toxinDamage + suffocationDamage;
 	}
 }
