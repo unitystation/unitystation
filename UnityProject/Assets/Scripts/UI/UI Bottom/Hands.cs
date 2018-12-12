@@ -117,19 +117,15 @@ public class Hands : MonoBehaviour
 		//This checks which UI slot the item can be equiped too and swaps it there
 		ItemType type = Slots.GetItemType(CurrentSlot.Item);
 		SpriteType masterType = Slots.GetItemMasterType(CurrentSlot.Item);
+		UI_ItemSlot itemSlot = InventorySlotCache.GetSlotByItemType(CurrentSlot.Item);
 
-		switch (masterType)
+		if (itemSlot != null)
 		{
-			case SpriteType.Clothing:
-				UI_ItemSlot slot = InventorySlotCache.GetSlotByItemType(CurrentSlot.Item);
-				SwapItem(slot);
-				break;
-			case SpriteType.Items:
-				UI_ItemSlot itemSlot = InventorySlotCache.GetSlotByItemType(CurrentSlot.Item);
-				SwapItem(itemSlot);
-				break;
-			case SpriteType.Guns:
-				break;
+			SwapItem(itemSlot);
+		}
+		else
+		{
+			Logger.LogError("No slot type was found for this object for auto equip", Category.UI);
 		}
 	}
 
@@ -155,7 +151,7 @@ public class Hands : MonoBehaviour
 				return;
 			}
 		}
-
+		
 		UIManager.TryUpdateSlot(new UISlotObject(slot1.inventorySlot.UUID, slot2.Item, slot2.inventorySlot.UUID));
 	}
 }

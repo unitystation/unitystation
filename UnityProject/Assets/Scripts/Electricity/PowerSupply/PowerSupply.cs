@@ -1,162 +1,189 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Networking;
 
+public class PowerSupply : NetworkBehaviour, IElectricityIO, IProvidePower
+{
+	public int DirectionStart;
+	public int DirectionEnd;
 
-public class PowerSupply : NetworkBehaviour, IElectricityIO
+	public ElectronicData Data { get; set; } = new ElectronicData();
+	public IntrinsicElectronicData InData { get; set; } = new IntrinsicElectronicData();
+	public HashSet<IElectricityIO> DirectionWorkOnNextList { get; set; } = new HashSet<IElectricityIO>();
+	public HashSet<IElectricityIO> DirectionWorkOnNextListWait { get; set; } = new HashSet<IElectricityIO>();
+	public HashSet<IElectricityIO> ResistanceWorkOnNextList { get; set; } = new HashSet<IElectricityIO>();
+	public HashSet<IElectricityIO> ResistanceWorkOnNextListWait { get; set; } = new HashSet<IElectricityIO>();
+	public HashSet<IElectricityIO> connectedDevices { get; set; } = new HashSet<IElectricityIO>();
+
+	public RegisterObject registerTile;
+	private Matrix matrix => registerTile.Matrix;
+	public bool connected = false;
+
+	public void FindPossibleConnections()
 	{
-		//A list of all devices connected to the circuit:
-		public List<PoweredDevice> connectedDevices = new List<PoweredDevice>();
-
-		//A list of all power generators connect to the circuit:
-		public List<PowerGenerator> powerGenerators = new List<PowerGenerator>();
-
-		//All power suppliers on this circuit:
-		public List<PowerSupply> allSuppliers = new List<PowerSupply>();
-
-		[Header("0 = conn to wire on same tile")]
-		public int connPointA = 0;
-		public int connPointB = -1;
-
-		//The wire that is connected to this supply
-		private IElectricityIO connectedWire;
-
-		public RegisterObject registerTile;
-		private Matrix matrix => registerTile.Matrix;
-		public bool connected = false;
-		public bool supplyElectricity; //Provide electricity to the circuit or not
-		public int currentTick;
-		public float tickRate = 1f; //currently set to update every second
-		private float tickCount = 0f;
-
-		//If the circuit changes send an event to all the elements that make up the circuit
-		public UnityEvent OnCircuitChange;
-
-		//TEST ELECTRICITY PROPERTIES (TESTING WITH UNLIMITED CHARGE)
-		public float Voltage;
-		public float Current;
-
-		private void OnEnable()
+		Data.connections.Clear();
+		Data.connections = ElectricityFunctions.FindPossibleConnections(
+			transform.localPosition,
+			matrix,
+			InData.CanConnectTo,
+			GetConnPoints()
+		);
+		if (Data.connections.Count > 0)
 		{
-			EventManager.AddHandler(EVENT.PowerNetSelfCheck, FindPossibleConnections);
-			if (OnCircuitChange == null) {
-				OnCircuitChange = new UnityEvent();
-			}
-		}
-
-		private void OnDisable()
-		{
-			EventManager.RemoveHandler(EVENT.PowerNetSelfCheck, FindPossibleConnections);
-		}
-		public override void OnStartClient()
-		{
-			base.OnStartClient();
-			//Not working for some reason:
-			//registerTile = gameObject.GetComponent<RegisterItem>();
-			StartCoroutine(WaitForLoad());
-			allSuppliers.Add(this);
-		}
-
-		IEnumerator WaitForLoad()
-		{
-			yield return new WaitForSeconds(2f);
-			FindPossibleConnections();
-		}
-
-		void FindPossibleConnections()
-		{
-			var conns = matrix.GetElectricalConnections(Vector3Int.RoundToInt(transform.localPosition));
-
-			foreach (IElectricityIO io in conns) {
-
-				//Check if InputPosition and OutputPosition connect with this wire
-				if (ConnectionMap.IsConnectedToTile(GetConnPoints(), AdjDir.Overlap, io.GetConnPoints()) &&
-				    io.GameObject() != gameObject) {
-					connectedWire = io;
-					connected = true;
-					break;
-				}
-			}
-		}
-
-		public void TurnOnSupply(float voltage, float current){
-			
-			//Tell the electrical network to check all of their connections:
-			EventManager.Broadcast(EVENT.PowerNetSelfCheck);
-
-			//Test //TODO calculate these values and implement a charge variable
-			Voltage = voltage;
-			Current = current;
-
-			supplyElectricity = true;
-		}
-
-		public void TurnOffSupply(){
-			supplyElectricity = false;
-			Electricity supply = new Electricity();
-			supply.voltage = 0f;
-			supply.current = 0f;
-			supply.suppliers = allSuppliers.ToArray();
-			currentTick++;
-			ElectricityOutput(currentTick, supply);
-			OnCircuitChange.Invoke();
-		}
-
-		void Update(){
-			if(supplyElectricity && connected){
-				tickCount += Time.deltaTime;
-				if(tickCount > tickRate){
-					tickCount = 0f;
-					currentTick++;
-					//Supply the electricity
-					Electricity supply = new Electricity();
-					supply.voltage = Voltage;
-					supply.current = Current;
-					//TODO Make sure the actual power supply that is sending the struct is at index 0
-					//If there are multiple suppliers on the network then they join together and act as one
-					//with the supplier with the most charge and latest tick rate taking charge
-					supply.suppliers = allSuppliers.ToArray();
-					ElectricityOutput(currentTick, supply);
-				}
-			}
-		}
-
-		public void ElectricityInput(int tick, Electricity electricity)
-		{			
-			if(tick > currentTick){
-				currentTick = tick;
-				for (int i = 0; i < electricity.suppliers.Length; i++){
-					//if any of the suppliers is not in the allSuppliers list then add it:
-					if(!allSuppliers.Contains(electricity.suppliers[i])){
-						allSuppliers.Add(electricity.suppliers[i]);
-					}
-				}
-			}
-			//Do not pass on electricty
-			//TODO allow power generators to supply the charge of this Supplier
-		}
-
-		public void ElectricityOutput(int tick, Electricity electricity)
-		{
-			//Feed electrcity supply into the connected wire
-			if (connectedWire != null) {
-				connectedWire.ElectricityInput(tick, electricity);
-			}
-		}
-
-		public GameObject GameObject()
-		{
-			return gameObject;
-		}
-
-		public ConnPoint GetConnPoints()
-		{
-			ConnPoint points = new ConnPoint();
-			points.pointA = connPointA;
-			points.pointB = connPointB;
-			return points;
+			connected = true;
 		}
 	}
 
+	public override void OnStartServer()
+	{
+		base.OnStartServer();
+		//Not working for some reason:
+		//registerTile = gameObject.GetComponent<RegisterItem>();
+		StartCoroutine(WaitForLoad());
+	}
+
+	IEnumerator WaitForLoad()
+	{
+		yield return new WaitForSeconds(2f);
+		FindPossibleConnections();
+	}
+
+	public void TurnOnSupply()
+	{ }
+
+	public void TurnOffSupply()
+	{
+		RemoveSupply(this.GameObject());
+	}
+
+	public void PowerUpdateStructureChange()
+	{
+		FlushConnectionAndUp();
+	}
+	public void PowerUpdateStructureChangeReact()
+	{
+		ElectricityFunctions.CircuitSearchLoop(this, this);
+	}
+	public void PowerUpdateResistanceChange()
+	{
+		FlushResistanceAndUp(this.gameObject);
+		if (connectedDevices.Count > 0)
+		{
+			foreach (IElectricityIO ConnectedDevice in connectedDevices)
+			{
+				ConnectedDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, this.gameObject, null);
+			}
+			ElectricityFunctions.CircuitResistanceLoop(this, this);
+		}
+	}
+	public void PowerUpdateCurrentChange()
+	{
+		FlushSupplyAndUp(this.gameObject);
+		if (connectedDevices.Count > 0)
+		{
+			if (Data.SupplyingCurrent != 0)
+			{
+				ElectricityOutput(ElectricalSynchronisation.currentTick, Data.SupplyingCurrent, this.gameObject);
+			}
+		}
+	}
+
+	public void PowerNetworkUpdate()
+	{
+
+	}
+
+	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO PassOn = null)
+	{
+		InputOutputFunctions.DirectionInput(tick, SourceInstance, ComingFrom, this);
+	}
+	public void DirectionOutput(int tick, GameObject SourceInstance)
+	{
+		InputOutputFunctions.DirectionOutput(tick, SourceInstance, this);
+		int SourceInstanceID = SourceInstance.GetInstanceID();
+		Data.DownstreamCount = Data.Downstream[SourceInstanceID].Count;
+		Data.UpstreamCount = Data.Upstream[SourceInstanceID].Count;
+		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Upstream[SourceInstanceID].Count.ToString (), Category.Electrical);
+	}
+
+	public void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
+	{
+		//Logger.Log ("Resistances in pro y poewqe > " + Resistance.ToString () + GameObject().name.ToString());
+		InputOutputFunctions.ResistanceInput(tick, Resistance, SourceInstance, ComingFrom, this);
+	}
+
+	public void ResistancyOutput(int tick, GameObject SourceInstance)
+	{
+		//Logger.Log (SourceInstance.GetInstanceID().ToString() + " < Receive | is > " + this.gameObject.GetInstanceID().ToString() );
+		if (!(SourceInstance == this.gameObject))
+		{
+			int SourceInstanceID = SourceInstance.GetInstanceID();
+			float Resistance = ElectricityFunctions.WorkOutResistance(Data.ResistanceComingFrom[SourceInstanceID]);
+			InputOutputFunctions.ResistancyOutput(tick, Resistance, SourceInstance, this);
+		}
+	}
+	public void ElectricityInput(int tick, float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
+	{
+		InputOutputFunctions.ElectricityInput(tick, Current, SourceInstance, ComingFrom, this);
+
+	}
+	public void SetConnPoints(int DirectionEndin, int DirectionStartin)
+	{ }
+
+	public void ElectricityOutput(int tick, float Current, GameObject SourceInstance)
+	{
+		InputOutputFunctions.ElectricityOutput(tick, Current, SourceInstance, this);
+		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
+		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
+		Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;
+		Data.EstimatedResistance = Data.ActualCurrentChargeInWire.EstimatedResistant;
+	}
+	public GameObject GameObject()
+	{
+		return gameObject;
+	}
+
+	public ConnPoint GetConnPoints()
+	{
+		ConnPoint points = new ConnPoint();
+		points.pointA = DirectionStart;
+		points.pointB = DirectionEnd;
+		return points;
+	}
+
+	public void FlushConnectionAndUp()
+	{
+		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
+		InData.ControllingDevice.PotentialDestroyed();
+	}
+	public void FlushResistanceAndUp(GameObject SourceInstance = null)
+	{
+		ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp(this, SourceInstance);
+	}
+	public void FlushSupplyAndUp(GameObject SourceInstance = null)
+	{
+		ElectricalDataCleanup.PowerSupplies.FlushSupplyAndUp(this, SourceInstance);
+	}
+	public void RemoveSupply(GameObject SourceInstance = null)
+	{
+		ElectricalDataCleanup.PowerSupplies.RemoveSupply(this, SourceInstance);
+	}
+
+	[ContextMethod("Details", "Magnifying_glass")]
+	public void ShowDetails()
+	{
+		if (isServer)
+		{
+			Logger.Log("connections " + (Data.connections.Count.ToString()), Category.Electrical);
+			Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
+			Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);
+			Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
+			Logger.Log("UpstreamCount " + (Data.UpstreamCount.ToString()), Category.Electrical);
+			Logger.Log("DownstreamCount " + (Data.DownstreamCount.ToString()), Category.Electrical);
+		}
+
+		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
+	}
+}

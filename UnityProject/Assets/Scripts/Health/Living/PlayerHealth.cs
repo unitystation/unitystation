@@ -30,6 +30,13 @@ public class PlayerHealth : HealthBehaviour
 
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
+	// JSON string for blood types and DNA.
+	[SyncVar(hook = "DNASync")]
+	private string DNABloodTypeJSON;
+
+	// BloodType and DNA Data.
+	private DNAandBloodType DNABloodType;
+
 	public override void OnStartClient()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -43,14 +50,32 @@ public class PlayerHealth : HealthBehaviour
 			{
 				t.gameObject.SetActive(false);
 			}
-
 			ConsciousState = ConsciousState.DEAD;
 
 			//Fixme: No more setting allowInputs on client:
 			playerMove.allowInput = false;
 		}
 
+		// Gives DNA and BloodType to client.
+		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(DNABloodTypeJSON);
+
 		base.OnStartClient();
+	}
+
+	public override void OnStartServer()
+	{
+		if (isServer)
+		{
+			DNABloodType = new DNAandBloodType();
+			DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
+		}
+		base.OnStartServer();
+	}
+
+	private void DNASync(string updatedDNA)
+	{
+		DNABloodTypeJSON = updatedDNA;
+		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
 
 	public override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
@@ -247,10 +272,10 @@ public class PlayerHealth : HealthBehaviour
 				//string departmentKillText = "";
 				if (LastDamagedBy != null)
 				{
-					JobDepartment killerDepartment =
-						SpawnPoint.GetJobDepartment(LastDamagedBy.GetComponent<PlayerScript>().JobType);
-					JobDepartment victimDepartment =
-						SpawnPoint.GetJobDepartment(gameObject.GetComponent<PlayerScript>().JobType);
+					// JobDepartment killerDepartment =
+					// 	SpawnPoint.GetJobDepartment(LastDamagedBy.GetComponent<PlayerScript>().JobType);
+					// JobDepartment victimDepartment =
+					// 	SpawnPoint.GetJobDepartment(gameObject.GetComponent<PlayerScript>().JobType);
 
 					//departmentKillText = "";
 					//if (killerDepartment == victimDepartment)

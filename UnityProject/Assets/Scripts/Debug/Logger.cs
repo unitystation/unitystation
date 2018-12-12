@@ -173,6 +173,7 @@ public enum Category {
 	Construction,
 	DatabaseAPI,
 	PlayerSprites,
+	Electrical,
 	RightClick,
-	Lerp
+	Lerp,
 }

@@ -148,7 +148,7 @@ using UnityEngine.Networking;
 		}
 
 		[Server]
-		private void Close() {
+		public void Close() {
 			IsOpened = false;
 			if ( !isPerformingAction ) {
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
@@ -184,7 +184,7 @@ using UnityEngine.Networking;
 		}
 
 		[Server]
-		private void Open() {
+		public void Open() {
 			ResetWaiting();
 			IsOpened = true;
 

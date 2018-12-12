@@ -85,9 +85,9 @@ public class SpriteManager : MonoBehaviour
 	private AccessoryCollection socksCollection;
 
 	public static List<SpriteAccessory> HairCollection => Instance.hairCollection.spriteAccessories;
-	public static List<SpriteAccessory>  FacialHairCollection => Instance.facialHairCollection.spriteAccessories;
-	public static List<SpriteAccessory>  UnderwearCollection => Instance.underwearCollection.spriteAccessories;
-	public static List<SpriteAccessory>  SocksCollection => Instance.socksCollection.spriteAccessories;
+	public static List<SpriteAccessory> FacialHairCollection => Instance.facialHairCollection.spriteAccessories;
+	public static List<SpriteAccessory> UnderwearCollection => Instance.underwearCollection.spriteAccessories;
+	public static List<SpriteAccessory> SocksCollection => Instance.socksCollection.spriteAccessories;
 
 	void Awake()
 	{
@@ -106,7 +106,7 @@ public class SpriteManager : MonoBehaviour
 	{
 		if (Instance.dmi == null)
 		{
-			Instance.dmi = Resources.Load("DmiIconData") as DmiIconData;
+			Instance.dmi = Resources.Load("DmiIconData")as DmiIconData;
 		}
 
 		PlayerSprites["mob"] = dmi.getSprites("mob/mob");
@@ -164,10 +164,14 @@ public class SpriteManager : MonoBehaviour
 		FireSprites["fire"] = Resources.LoadAll<Sprite>("icons/effects/fire");
 
 		ScreenUISprites["gen"] = Resources.LoadAll<Sprite>("screen_gen");
+		InitWireSprites();
+	}
 
+	public void InitWireSprites()
+	{
 		string FileLocation = "obj/power_cond/power_cond_";
 		string FileType = "";
-		string[] Keys = { "red", "blue", "cyan", "green", "orange", "pink", "white", "yellow" };
+		string[] Keys = { "red", "blue", "cyan", "green", "orange", "pink", "white", "yellow", "low", "high" };
 		for (int i = 0; i < Keys.Length; i++)
 		{
 			string Key = Keys[i];
@@ -223,7 +227,9 @@ public enum WiringColor
 	orange,
 	pink,
 	white,
-	yellow
+	yellow,
+	low,
+	high,
 }
 
 [Serializable]
