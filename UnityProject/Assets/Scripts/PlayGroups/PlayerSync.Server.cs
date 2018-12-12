@@ -185,16 +185,18 @@ public partial class PlayerSync
 
 	///	When lerp is finished, inform players of new state
 	[Server]
-	private void TryNotifyPlayers()
+	private bool TryNotifyPlayers()
 	{
-		if (ServerPositionsMatch)
-		{
-//			Logger.LogTrace( $"{gameObject.name}: PSync Notify success!", Category.Movement );
-			serverLerpState = serverState;
-			SyncMatrix();
-			NotifyPlayers();
-			TryUpdateServerTarget();
+		if ( !ServerPositionsMatch ) {
+			return false;
 		}
+
+//			Logger.LogTrace( $"{gameObject.name}: PSync Notify success!", Category.Movement );
+		serverLerpState = serverState;
+		SyncMatrix();
+		NotifyPlayers();
+//			TryUpdateServerTarget();
+		return true;
 	}
 
 	/// Register player to matrix from serverState (ParentNetId is a SyncVar)
@@ -600,7 +602,10 @@ public partial class PlayerSync
 		if ( serverLerpState.WorldPosition == targetPos ) {
 			OnTileReached().Invoke( targetPos.RoundToInt() );
 		}
-		TryNotifyPlayers();
+
+		if ( TryNotifyPlayers() ) {
+			TryUpdateServerTarget();
+		}
 	}
 
 	/// Checking whether player should suffocate

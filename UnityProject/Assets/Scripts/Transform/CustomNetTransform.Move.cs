@@ -78,6 +78,8 @@ public partial class CustomNetTransform {
 
 		if ( !followMode && MatrixManager.IsEmptyAt( roundedTarget ) ) {
 			serverState.Impulse = direction;
+		} else {
+			serverState.Impulse = Vector2.zero;
 		}
 
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
@@ -107,6 +109,8 @@ public partial class CustomNetTransform {
 
 		if ( !followMode && MatrixManager.IsEmptyAt( target3int ) ) {
 			predictedState.Impulse = target - currentPos.To2Int();
+		} else {
+			predictedState.Impulse = Vector2.zero;
 		}
 
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
@@ -118,7 +122,8 @@ public partial class CustomNetTransform {
 		predictedState.MatrixId = MatrixManager.AtPoint( target3int ).Id;
 		predictedState.WorldPosition = target3int;
 
-		Lerp(); //Lerp right now to avoid one frame delay
+//		Lerp to compensate one frame delay
+		Lerp();
 
 		return true;
 	}

@@ -205,13 +205,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			return;
 		}
 
-		if ( isServer && !serverState.Active ) {
+		bool server = isServer;
+		if ( server && !serverState.Active ) {
 			return;
-		}
-
-		if (isServer)
-		{
-			CheckFloatingServer();
 		}
 
 		if (IsFloatingClient)
@@ -219,10 +215,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			CheckFloatingClient();
 		}
 
+		if (server)
+		{
+			CheckFloatingServer();
+		}
+
 		if (predictedState.Position != transform.localPosition)
 		{
 			Lerp();
 		}
+
 		if (serverState.Position != serverLerpState.Position)
 		{
 			ServerLerp();
@@ -233,12 +235,12 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 
 		//Checking if we should change matrix once per tile
-		if (isServer && registerTile.Position != Vector3Int.RoundToInt(serverState.Position) ) {
+		if (server && registerTile.Position != Vector3Int.RoundToInt(serverState.Position) ) {
 			CheckMatrixSwitch();
 			RegisterObjects();
 		}
 		//Registering
-		if (!isServer && registerTile.Position != Vector3Int.RoundToInt(predictedState.Position) )
+		if (!server && registerTile.Position != Vector3Int.RoundToInt(predictedState.Position) )
 		{
 			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPosition, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
 			RegisterObjects();

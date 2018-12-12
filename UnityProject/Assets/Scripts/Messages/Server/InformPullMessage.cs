@@ -33,8 +33,8 @@ public class InformPullMessage : ServerMessage
 					if ( !trackedObject || trackedObject.Pushable == null ) {
 						continue;
 					}
-
 					trackedObject.Pushable.OnClientStartMove().RemoveAllListeners();
+					trackedObject.PulledObjectClient = null;
 				}
 
 				trackedObjects.Clear();

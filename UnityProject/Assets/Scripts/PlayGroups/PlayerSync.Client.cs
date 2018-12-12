@@ -148,9 +148,10 @@ public partial class PlayerSync
 
 			Vector3Int currentPos = ClientPosition;
 
-			Vector3Int worldTarget = target.To3Int();
+			Vector3Int target3int = target.To3Int();
 
-			if ( !followMode && !MatrixManager.IsPassableAt( worldTarget, worldTarget ) ) {
+			if ( !followMode && !MatrixManager.IsPassableAt( target3int, target3int ) ) //might have issues with windoors
+			{
 				return false;
 			}
 
@@ -161,16 +162,16 @@ public partial class PlayerSync
 
 			Logger.LogTraceFormat( "Client predictive push to {0}", Category.PushPull, target );
 
-			predictedState.MatrixId = MatrixManager.AtPoint( worldTarget ).Id;
+			predictedState.MatrixId = MatrixManager.AtPoint( target3int ).Id;
 			predictedState.WorldPosition = target.To3Int();
 
-			OnClientStartMove().Invoke( currentPos, worldTarget ); //?
+			OnClientStartMove().Invoke( currentPos, target3int ); //?
 
 			if ( !isServer ) {
-				//Lerp if not server.
-				//for some reason player pulling prediction doesn't have 1 frame delay on server
-				//while everything else does.
-				CheckMovementClient();
+//				//Lerp if not server.
+//				//for some reason player pulling prediction doesn't have 1 frame delay on server
+//				//while everything else does.
+				Lerp();
 			}
 
 			LastDirection = direction;
@@ -345,22 +346,7 @@ public partial class PlayerSync
 		///Using predictedState for your own player and playerState for others
 		private void CheckMovementClient() {
 
-			if ( !ClientPositionReady ) {
-				//PlayerLerp
-				var worldPos = predictedState.WorldPosition;
-				Vector3 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get( matrix ) );
-				transform.localPosition = Vector3.MoveTowards( transform.localPosition, targetPos,
-																playerMove.speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos) );
-				//failsafe
-				if ( playerState.NoLerp || Vector3.Distance( transform.localPosition, targetPos ) > 30 ) {
-					transform.localPosition = targetPos;
-				}
-
-				if ( ClientPositionReady )
-				{
-					OnClientTileReached().Invoke( Vector3Int.RoundToInt(worldPos) );
-				}
-			}
+//			Lerp();
 			if ( playerMove.isGhost ) {
 				if ( !GhostPositionReady ) {
 					//fixme: ghosts position isn't getting updated on server
@@ -420,4 +406,22 @@ public partial class PlayerSync
 			}
 		}
 
+		private void Lerp() {
+			if ( !ClientPositionReady ) {
+				//PlayerLerp
+				var worldPos = predictedState.WorldPosition;
+				Vector3 targetPos = MatrixManager.WorldToLocal( worldPos, MatrixManager.Get( matrix ) );
+
+				if ( playerState.NoLerp || Vector3.Distance( transform.localPosition, targetPos ) > 30 ) {
+					transform.localPosition = targetPos;
+				} else {
+					transform.localPosition = Vector3.MoveTowards( transform.localPosition, targetPos,
+						playerMove.speed * Time.deltaTime * transform.localPosition.SpeedTo( targetPos ) );
+				}
+
+				if ( ClientPositionReady ) {
+					OnClientTileReached().Invoke( Vector3Int.RoundToInt( worldPos ) );
+				}
+			}
+		}
 	}

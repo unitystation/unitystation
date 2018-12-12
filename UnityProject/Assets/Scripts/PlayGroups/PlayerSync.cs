@@ -309,12 +309,17 @@ using UnityEngine.Networking;
 
 			if ( matrix != null )
 			{
-				//Client zone
 				CheckMovementClient();
-				//Server zone
-				if ( isServer )
+				bool server = isServer;
+				if ( server ) {
+					CheckMovementServer();
+				}
+				if ( !ClientPositionReady ) {
+					Lerp();
+				}
+				if ( server )
 				{
-					if ( Input.GetKeyDown( KeyCode.F7 ) ) {
+					if ( Input.GetKeyDown( KeyCode.F7 ) && gameObject == PlayerManager.LocalPlayer ) {
 						SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
 					}
 					if ( serverState.Position != serverLerpState.Position )
@@ -326,7 +331,6 @@ using UnityEngine.Networking;
 						TryUpdateServerTarget();
 					}
 
-					CheckMovementServer();
 				}
 			}
 
