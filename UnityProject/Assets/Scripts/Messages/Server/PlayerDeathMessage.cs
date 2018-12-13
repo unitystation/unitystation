@@ -12,12 +12,12 @@ public class PlayerDeathMessage : ServerMessage
 		yield return null;
 		OnYourDeath();
 	}
-	
+
 /// What should client do then he receives a message that he's dead
 	private void OnYourDeath()
 	{
 		PlayerScript localPlayerScript = PlayerManager.LocalPlayerScript;
-		localPlayerScript.playerNetworkActions.RpcSpawnGhost();
+//		localPlayerScript.playerNetworkActions.SpawnGhost();
 		localPlayerScript.PlayerSync.OnBecomeGhost();
 		UIManager.SetDeathVisibility( false );
 	}

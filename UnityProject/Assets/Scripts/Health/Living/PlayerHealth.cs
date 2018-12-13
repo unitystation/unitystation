@@ -308,6 +308,8 @@ public class PlayerHealth : HealthBehaviour
 			//syncvars for everyone
 			pm.isGhost = true;
 			pm.allowInput = true;
+			//consider moving into PlayerDeathMessage.Process()
+			pna.RpcSpawnGhost();
 			RpcPassBullets(gameObject);
 
 			//FIXME Remove for next demo
