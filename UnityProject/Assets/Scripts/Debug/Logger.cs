@@ -19,7 +19,7 @@ public static class Logger
 		[Category.RightClick] = Level.Off,
 		[Category.PushPull] = Level.Info,
 		[Category.PlayerSprites] = Level.Error,
-		[Category.Lerp] = Level.Trace,
+		[Category.Lerp] = Level.Off,
 	};
 
 	private enum Level{

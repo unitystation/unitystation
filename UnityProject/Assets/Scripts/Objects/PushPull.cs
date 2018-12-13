@@ -100,24 +100,26 @@ public class PushPull : VisibleBehaviour {
 
 	#endregion
 
-	private IEnumerator SyncPullAfterConfirm() {
+	private Coroutine revertPullHandle;
+
+	private IEnumerator RevertPullTimer() {
+		yield return YieldHelper.Second;
 		yield return YieldHelper.Second;
 
-		if ( IsBeingPulledClient && !Pushable.IsMovingClient &&
-		     Pushable.ClientPosition != Pushable.TrustedPosition )
+		if ( IsBeingPulledClient && !Pushable.IsMovingClient
+			 && Pushable.ClientPosition != Pushable.TrustedPosition
+		   )
 		{
-			Logger.LogTraceFormat( "{0}: Synced after confirm", Category.PushPull, gameObject.name );
+			Logger.LogFormat( "{0}: Reverted pull position", Category.PushPull, gameObject.name );
 			Pushable.RollbackPrediction();
 		} else {
-			Logger.LogTraceFormat( "{0}: No need to sync after confirm", Category.PushPull, gameObject.name );
+			Logger.LogFormat( "{0}: No need to revert pull position", Category.PushPull, gameObject.name );
 		}
 	}
 
 	protected override void Awake() {
 		base.Awake();
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
-
-		OnConfirmPullThisClient.AddListener( () => { StartCoroutine( SyncPullAfterConfirm() ); } );
 
 		followAction = (oldPos, newPos) => {
 			Vector3Int currentPos = Pushable.ServerPosition;
@@ -202,7 +204,6 @@ public class PushPull : VisibleBehaviour {
 		}
 	}
 
-	private UnityEvent OnConfirmPullThisClient = new UnityEvent();
 	public bool IsBeingPulledClient => PulledByClient != null;
 	private PushPull pulledByClient;
 	public PushPull PulledByClient {
@@ -214,7 +215,6 @@ public class PushPull : VisibleBehaviour {
 
 			if ( value != null /*&& !isServer*/ )
 			{
-				OnConfirmPullThisClient.Invoke();
 				value.Pushable?.OnClientStartMove().AddListener( predictiveFollowAction );
 			}
 
@@ -496,6 +496,10 @@ public class PushPull : VisibleBehaviour {
 
 	/// For prediction
 	private void OnUpdateReceived( Vector3Int serverPos ) {
+		if ( IsBeingPulledClient ) {
+			this.RestartCoroutine( RevertPullTimer(), ref revertPullHandle );
+		}
+
 		if ( pushPrediction == PushState.None ) {
 			return;
 		}
