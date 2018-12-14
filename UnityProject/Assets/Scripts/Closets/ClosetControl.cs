@@ -19,7 +19,7 @@ using UnityEngine.Networking;
 		[SyncVar(hook = nameof(LockUnlock))] public bool IsLocked;
 		public GameObject items;
 		public LockLightController lockLight;
-		
+
 		private RegisterCloset registerTile;
 		private Matrix matrix => registerTile.Matrix;
 
@@ -169,31 +169,29 @@ using UnityEngine.Networking;
 		}
 		[ContextMethod("Open/close","hand")]
 		public void GUIInteract(){
-			Interact(
-				PlayerManager.LocalPlayerScript.gameObject,
-				PlayerManager.LocalPlayerScript.WorldPos,
-				UIManager.Instance.hands.CurrentSlot.eventName );
+			//don't put your hand contents on open/close rmb action!
+			InteractInternal( false );
 		}
-		public override void Interact(GameObject originator, Vector3 position, string hand)
-		{
+		public override void Interact(GameObject originator, Vector3 position, string hand) {
+			InteractInternal();
+		}
+
+		private void InteractInternal(bool placeItem = true) {
 			//this better be rewritten to net messages: following code is executed on clientside
 			PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
-			if ( localPlayer.canNotInteract() )
-			{
+			if ( localPlayer.canNotInteract() ) {
 				return;
 			}
 
 			bool isInReach = localPlayer.IsInReach( registerTile );
-			if ( isInReach || localPlayer.IsHidden )
-			{
-				if (IsClosed)
-				{
+			if ( isInReach || localPlayer.IsHidden ) {
+				if ( IsClosed ) {
 					localPlayer.playerNetworkActions.CmdToggleCupboard(gameObject);
 					return;
 				}
 
 				GameObject item = UIManager.Hands.CurrentSlot.Item;
-				if (item != null && isInReach )
+				if ( placeItem && item != null && isInReach )
 				{
 					localPlayer.playerNetworkActions.CmdPlaceItem(
 						UIManager.Hands.CurrentSlot.eventName, transform.position, null, false);
@@ -235,6 +233,7 @@ using UnityEngine.Networking;
 					//avoids blinking of premapped items when opening first time in another place:
 					netTransform.AppearAtPosition(registerTile.WorldPosition);
 					netTransform.AppearAtPositionServer(registerTile.WorldPosition);
+					//todo: if closet is moving, apply impulse to contained items and players
 				}
 				else
 				{
@@ -265,7 +264,7 @@ using UnityEngine.Networking;
 				if (!on)
 				{
 					playerSync.DisappearFromWorldServer();
-					//Make sure a ClosetPlayerHandler is created on the client to monitor 
+					//Make sure a ClosetPlayerHandler is created on the client to monitor
 					//the players input inside the storage. The handler also controls the camera follow targets:
 					if (!playerScript.playerMove.isGhost) {
 						ClosetHandlerMessage.Send(player.gameObject, gameObject);
