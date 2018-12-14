@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114537316452419530}
   - component: {fileID: 114886920314458420}
   - component: {fileID: 114093731737732554}
+  - component: {fileID: 114706078781679488}
   m_Layer: 11
   m_Name: PowerGeneratorPlasma
   m_TagString: Untagged
@@ -190,6 +191,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114706078781679488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoredSpriteRenderers:
+  - {fileID: 212599920820597512}
+  registerTile: {fileID: 114738137265545768}
+  visibleState: 1
+  isNotPushable: 0
 --- !u!114 &114738137265545768
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-public class PowerGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceControl {
+public class PowerGenerator : InputTrigger, IDeviceControl {
 
 	private bool SelfDestruct = false;
 
 	public PowerSupply powerSupply;
 	[SyncVar(hook = "UpdateState")]
 	public bool isOn = false;
-	public bool FirstStart = true;
-	public bool ChangeToOff = false;
 	public int DirectionStart = 0;
 	public int DirectionEnd = 9;
 	public float MonitoringResistance = 9999999999;
@@ -31,43 +29,7 @@ public class PowerGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 			//Then you can destroy
 		}
 	}
-
-	public void PowerUpdateStructureChange()
-	{
-		powerSupply.PowerUpdateStructureChange();
-	}
-	public void PowerUpdateStructureChangeReact()
-	{
-		powerSupply.PowerUpdateStructureChangeReact();
-	}
-	public void PowerUpdateResistanceChange()
-	{
-		powerSupply.PowerUpdateResistanceChange();
-	}
-	public void PowerUpdateCurrentChange()
-	{
-		powerSupply.PowerUpdateCurrentChange();
-	}
-
-	public void PowerNetworkUpdate()
-	{
-		powerSupply.PowerNetworkUpdate();
-		if (current != Previouscurrent)
-		{
-			powerSupply.Data.SupplyingCurrent = current;
-			Previouscurrent = current;
-			ElectricalSynchronisation.CurrentChange = true;
-			Logger.Log("Turning on");
-		}
-		if (ChangeToOff)
-		{
-			ChangeToOff = false;
-			Logger.Log("Turning off");
-			ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
-			ElectricalSynchronisation.CurrentChange = true;
-			powerSupply.TurnOffSupply();
-		}
-	}
+	
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
@@ -101,11 +63,11 @@ public class PowerGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 		isOn = _isOn;
 		if (isOn)
 		{
-			Debug.Log("TODO: Sprite changes for radiation collector (close door)");
+			Debug.Log("TODO: Sprite changes for gen on");
 		}
 		else
 		{
-			Debug.Log("TODO: Sprite changes off for radiation collector (open door)");
+			Debug.Log("TODO: Sprite changes off for gen off");
 		}
 	}
 
@@ -113,15 +75,11 @@ public class PowerGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 	{
 		if (isOn)
 		{
-			ElectricalSynchronisation.AddSupply(this, ApplianceType);
-			ElectricalSynchronisation.StructureChangeReact = true;
-			ElectricalSynchronisation.ResistanceChange = true;
-			ElectricalSynchronisation.CurrentChange = true;
 			powerSupply.TurnOnSupply();
 		}
 		else
 		{
-			ChangeToOff = true;
+			powerSupply.TurnOffSupply();
 		}
 	}
 
