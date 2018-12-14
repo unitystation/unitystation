@@ -27,6 +27,7 @@ public static class ElectricalSynchronisation
 		PowerTypeCategory.RadiationCollector, //make sure unconditional supplies come first
 			PowerTypeCategory.SMES, //Then conditional supplies With the hierarchy you want
 			PowerTypeCategory.DepartmentBattery,
+			PowerTypeCategory.PowerGenerator,
 	};
 
 	public static Dictionary<PowerTypeCategory, HashSet<IElectricalNeedUpdate>> ALiveSupplies = new Dictionary<PowerTypeCategory, HashSet<IElectricalNeedUpdate>>()

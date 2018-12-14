@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceControl
+public class RadiationCollector : InputTrigger, IDeviceControl
 {
 	private bool SelfDestruct = false;
 
 	public PowerSupply powerSupply;
 	[SyncVar(hook = "UpdateState")]
 	public bool isOn = false;
-	public bool FirstStart = true;
-	public bool ChangeToOff = false;
 	public int DirectionStart = 0;
 	public int DirectionEnd = 9;
 	public float MonitoringResistance = 9999999999;
@@ -33,42 +31,6 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceCo
 		}
 	}
 
-	public void PowerUpdateStructureChange()
-	{
-		powerSupply.PowerUpdateStructureChange();
-	}
-	public void PowerUpdateStructureChangeReact()
-	{
-		powerSupply.PowerUpdateStructureChangeReact();
-	}
-	public void PowerUpdateResistanceChange()
-	{
-		powerSupply.PowerUpdateResistanceChange();
-	}
-	public void PowerUpdateCurrentChange()
-	{
-		powerSupply.PowerUpdateCurrentChange();
-	}
-
-	public void PowerNetworkUpdate()
-	{
-		powerSupply.PowerNetworkUpdate();
-		if (current != Previouscurrent)
-		{
-			powerSupply.Data.SupplyingCurrent = current;
-			Previouscurrent = current;
-			ElectricalSynchronisation.CurrentChange = true;
-			Logger.Log("Turning on");
-		}
-		if (ChangeToOff)
-		{
-			ChangeToOff = false;
-			Logger.Log("Turning off");
-			ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
-			ElectricalSynchronisation.CurrentChange = true;
-			powerSupply.TurnOffSupply();
-		}
-	}
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
@@ -114,15 +76,11 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceCo
 	{
 		if (isOn)
 		{
-			ElectricalSynchronisation.AddSupply(this, ApplianceType);
-			ElectricalSynchronisation.StructureChangeReact = true;
-			ElectricalSynchronisation.ResistanceChange = true;
-			ElectricalSynchronisation.CurrentChange = true;
 			powerSupply.TurnOnSupply();
 		}
 		else
 		{
-			ChangeToOff = true;
+			powerSupply.TurnOffSupply();
 		}
 	}
 
@@ -138,15 +96,5 @@ public class RadiationCollector : InputTrigger, IElectricalNeedUpdate, IDeviceCo
 			isOn = !isOn;
 			UpdateServerState(isOn);
 		}
-	}
-
-	public void OnDestroy()
-	{
-		ElectricalSynchronisation.StructureChangeReact = true;
-		ElectricalSynchronisation.ResistanceChange = true;
-		ElectricalSynchronisation.CurrentChange = true;
-		ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
-		SelfDestruct = true;
-		//Make Invisible
 	}
 }
