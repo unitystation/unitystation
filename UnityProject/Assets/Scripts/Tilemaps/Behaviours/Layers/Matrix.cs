@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 public class Matrix : MonoBehaviour
 {
@@ -114,18 +113,17 @@ public class Matrix : MonoBehaviour
 
 	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
 	{
-		Profiler.BeginSample("NEW GET FIRST");
+		//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine
 		var registerTiles = objects.Get(position);
 		for(int i = 0; i < registerTiles.Count; i++)
 		{
 			var c = registerTiles[i].GetComponent<T>();
 			if(c != null){
-				Profiler.EndSample();
 				return c;
 			}
 		}
-		Profiler.EndSample();
 		return null;
+		//Old way that only checked the first RegisterTile on a cell pos:
 		//return objects.GetFirst(position)?.GetComponent<T>();
 	}
 
