@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using UnityEngine.Profiling;
 
 public class Matrix : MonoBehaviour
 {
@@ -111,9 +111,22 @@ public class Matrix : MonoBehaviour
 		return objects.Get(position).Select(x => x.GetComponent<T>()).Where(x => x != null);
 	}
 
+
 	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
 	{
-		return objects.GetFirst(position)?.GetComponent<T>();
+		Profiler.BeginSample("NEW GET FIRST");
+		var registerTiles = objects.Get(position);
+		for(int i = 0; i < registerTiles.Count; i++)
+		{
+			var c = registerTiles[i].GetComponent<T>();
+			if(c != null){
+				Profiler.EndSample();
+				return c;
+			}
+		}
+		Profiler.EndSample();
+		return null;
+		//return objects.GetFirst(position)?.GetComponent<T>();
 	}
 
 	public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
