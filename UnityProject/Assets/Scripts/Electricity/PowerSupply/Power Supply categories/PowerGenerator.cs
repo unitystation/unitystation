@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-public class PowerGenerator : InputTrigger, IDeviceControl {
+public class PowerGenerator : InputTrigger, IDeviceControl
+{
 
 	private bool SelfDestruct = false;
 
 	public PowerSupply powerSupply;
+	public PushPull pushPull;
 	[SyncVar(hook = "UpdateState")]
 	public bool isOn = false;
+	[SyncVar(hook = "UpdateSecured")]
+	public bool isSecured; //To ground
 	public int DirectionStart = 0;
 	public int DirectionEnd = 9;
 	public float MonitoringResistance = 9999999999;
@@ -29,7 +33,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl {
 			//Then you can destroy
 		}
 	}
-	
+
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
@@ -50,6 +54,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl {
 
 		isOn = true;
 		UpdateServerState(isOn);
+		UpdateSecured(true);
 	}
 
 	public override void OnStartClient()
@@ -83,17 +88,45 @@ public class PowerGenerator : InputTrigger, IDeviceControl {
 		}
 	}
 
+	void UpdateSecured(bool _isSecured)
+	{
+		isSecured = _isSecured;
+		if (isServer)
+		{
+			pushPull.isNotPushable = isSecured;
+		}
+		else
+		{
+			Debug.Log("TODO: Wrench SoundFX");
+		}
+	}
+
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
-		//Interact stuff with the Radiation collector here
+
 		if (!isServer)
 		{
 			InteractMessage.Send(gameObject, hand);
 		}
 		else
 		{
-			isOn = !isOn;
-			UpdateServerState(isOn);
+			var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
+			var wrench = slot.Item?.GetComponent<WrenchTrigger>();
+			if (wrench != null)
+			{
+				UpdateSecured(!isSecured);
+				if (!isSecured && isOn)
+				{
+					isOn = !isOn;
+					UpdateServerState(isOn);
+				}
+			}
+			else
+			if (isSecured)
+			{
+				isOn = !isOn;
+				UpdateServerState(isOn);
+			}
 		}
 	}
 }
