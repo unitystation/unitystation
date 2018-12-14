@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class PushPull : VisibleBehaviour {
+	[SyncVar]
 	public bool isNotPushable = false;
 
 	private IPushable pushableTransform;

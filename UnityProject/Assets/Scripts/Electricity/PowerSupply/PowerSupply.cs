@@ -52,7 +52,10 @@ public class PowerSupply : NetworkBehaviour, IElectricalNeedUpdate, IElectricity
 	{
 		if (isServer)
 		{
-			UpdateManager.Instance.Remove(UpdateMe);
+			if (UpdateManager.Instance != null)
+			{
+				UpdateManager.Instance.Remove(UpdateMe);
+			}
 		}
 	}
 
@@ -72,6 +75,7 @@ public class PowerSupply : NetworkBehaviour, IElectricalNeedUpdate, IElectricity
 			{
 				TurnOffSupply();
 			}
+			FindPossibleConnections();
 		}
 	}
 
