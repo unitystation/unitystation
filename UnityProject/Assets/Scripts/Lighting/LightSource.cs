@@ -37,8 +37,10 @@ public class LightSource : ObjectTrigger
 	public float Resistance = 1200;
 	private bool tempStateCache;
 	private float PreviousIntensity = 999;
+	private bool isfire = false;
 	public APC RelatedAPC;
 	public Color customColor; //Leave null if you want default light color.
+	public bool isemergency = false;
 
 	// For network sync reliability.
 	private bool waitToCheckState;
@@ -65,25 +67,62 @@ public class LightSource : ObjectTrigger
 	{
 		// Leo Note: Some sync magic happening here. Decided not to touch it.
 		tempStateCache = iState;
-
-		if (waitToCheckState)
+		if (isemergency == false)
 		{
-			return;
-		}
-
-		if (Renderer == null)
-		{
-			waitToCheckState = true;
-			StartCoroutine(WaitToTryAgain());
-			return;
-		}
-		else
-		{
-			State = iState ? LightState.On : LightState.Off;
-
-
+			if (waitToCheckState)
+			{
+				return;
+			}
+		
+			if (Renderer == null)
+			{
+				waitToCheckState = true;
+				StartCoroutine(WaitToTryAgain());
+				return;
+			}
+			else
+			{
+				State = iState ? LightState.On : LightState.Off;
+			}
 		}
 	}
+	
+	public void FireTrigger(bool iState)
+	{
+		isfire = true;
+	}
+	
+	void Update()
+	{
+		EmergencyLightChecker();
+	}
+	
+	private void EmergencyLightChecker()
+	{
+		if (isfire == false)
+		{
+			if (isemergency == true)
+			{
+				if (RelatedAPC == null)
+				{
+					State = LightState.On;
+				}
+				else if (RelatedAPC.Voltage == 0)
+				{
+					State = LightState.On;
+				}
+				else if (RelatedAPC.Voltage < 0)
+				{
+					State = LightState.Off;
+				}
+			}
+		}
+		if (isfire == true)
+		{
+			State = LightState.On;
+		}
+	}
+	
 	public void APCConnect(APC ConnectingAPC){
 		//Logger.Log ("Connected");
 		if (RelatedAPC == null) {
