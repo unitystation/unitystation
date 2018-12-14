@@ -190,7 +190,10 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	///inform new master puller about who's pulling who in the train
-	private void InformHead( PushPull whoToInform, PushPull subject ) {
+	public void InformHead( PushPull whoToInform, PushPull subject = null ) {
+		if ( subject == null ) {
+			subject = this;
+		}
 		InformPullMessage.Send( whoToInform, subject, subject.PulledBy );
 		if ( IsPullingSomething ) {
 			PulledObject.InformHead( whoToInform, PulledObject );

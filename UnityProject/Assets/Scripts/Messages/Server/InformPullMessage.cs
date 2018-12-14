@@ -56,12 +56,6 @@ public class InformPullMessage : ServerMessage
 	}
 
 	private static List<PushPull> trackedObjects = new List<PushPull>();
-//	public static void SendUpwards( PushPull recipient, PushPull subject, PushPull pulledBy ) {
-//		Send( recipient, subject, pulledBy );
-//		if ( recipient.IsBeingPulled ) {
-//			SendUpwards( recipient.PulledBy, subject, pulledBy );
-//		}
-//	}
 
 	/// <param name="recipient">Send to whom</param>
 /// <param name="subject">Who is this message about</param>

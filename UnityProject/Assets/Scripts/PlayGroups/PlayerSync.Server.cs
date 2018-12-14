@@ -252,8 +252,10 @@ public partial class PlayerSync
 		serverState.ResetClientQueue = false;
 
 		if ( isPullNudge ) {
-			//restore pull for client
-			InformPullMessage.Send( pushPull.PulledBy, this.pushPull, pushPull.PulledBy );
+			//restore pull for client.
+			//previous fake break erases all pull train info from train head, so we make head aware again
+			pushPull.InformHead( pushPull.PulledBy );
+//			InformPullMessage.Send( pushPull.PulledBy, this.pushPull, pushPull.PulledBy );
 		}
 	}
 
