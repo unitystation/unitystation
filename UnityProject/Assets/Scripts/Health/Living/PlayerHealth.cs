@@ -33,17 +33,17 @@ public class PlayerHealth : HealthBehaviour
 	// JSON string for blood types and DNA.
 	[SyncVar(hook = "DNASync")]
 	private string DNABloodTypeJSON;
-	
+
 	// BloodType and DNA Data.
 	private DNAandBloodType DNABloodType;
-	
+
 	public override void OnStartClient()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		playerMove = GetComponent<PlayerMove>();
 
 		PlayerScript playerScript = GetComponent<PlayerScript>();
-		
+
 		if (playerScript.JobType == JobType.NULL)
 		{
 			foreach (Transform t in transform)
@@ -55,13 +55,13 @@ public class PlayerHealth : HealthBehaviour
 			//Fixme: No more setting allowInputs on client:
 			playerMove.allowInput = false;
 		}
-		
+
 		// Gives DNA and BloodType to client.
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(DNABloodTypeJSON);
-		
+
 		base.OnStartClient();
 	}
-	
+
 	public override void OnStartServer()
 	{
 		if (isServer)
@@ -71,7 +71,7 @@ public class PlayerHealth : HealthBehaviour
 		}
 		base.OnStartServer();
 	}
-	
+
 	private void DNASync(string updatedDNA)
 	{
 		DNABloodTypeJSON = updatedDNA;
@@ -253,15 +253,16 @@ public class PlayerHealth : HealthBehaviour
 				killerName = PlayerList.Instance.Get(LastDamagedBy).Name;
 			}
 
-			if (killerName == player.Name)
+			string playerName = player.Name ?? "dummy";
+			if (killerName == playerName)
 			{
-				PostToChatMessage.Send(player.Name + " commited suicide", ChatChannel.System); //Killfeed
+				PostToChatMessage.Send(playerName + " commited suicide", ChatChannel.System); //Killfeed
 			}
-			else if (killerName.EndsWith(player.Name))
+			else if (killerName.EndsWith(playerName))
 			{
 				// chain reactions
 				PostToChatMessage.Send(
-					player.Name + " screwed himself up with some help (" + killerName + ")",
+					playerName + " screwed himself up with some help (" + killerName + ")",
 					ChatChannel.System); //Killfeed
 			}
 			else
@@ -303,11 +304,13 @@ public class PlayerHealth : HealthBehaviour
 				EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.large);
 			}
 
-			pna.RpcSpawnGhost();
+			PlayerDeathMessage.Send(gameObject);
+			//syncvars for everyone
 			pm.isGhost = true;
 			pm.allowInput = true;
+			//consider moving into PlayerDeathMessage.Process()
+			pna.RpcSpawnGhost();
 			RpcPassBullets(gameObject);
-			PlayerDeathMessage.Send(gameObject);
 
 			//FIXME Remove for next demo
 			pna.RespawnPlayer(10);

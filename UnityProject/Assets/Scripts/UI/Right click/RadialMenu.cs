@@ -38,7 +38,7 @@ public class RadialMenu : MonoBehaviour {
 	public bool LastSelectedset = false;
 	public bool Initialised = false;
 
-	public Dictionary<int,List<float>> SelectionRange = new Dictionary<int,List<float>>(); 
+	public Dictionary<int,List<float>> SelectionRange = new Dictionary<int,List<float>>();
 	public int MenuItem;
 
 	public float LastSelectedTime;
@@ -59,7 +59,7 @@ public class RadialMenu : MonoBehaviour {
 			Range = Menus.Count * (360 / Density [Menudepth]); //Try and keep the icons nicely spaced on the outer rings
 			MinimumAngle = (int) (StartingAngle - ((Range/2) - (0.5f * (360 / Density [Menudepth]))));
 			MaximumAngle = StartingAngle + Range;
-		} 
+		}
 		for (int i = 0; i < Menus.Count; i++) {
 			RadialButton newButton = Instantiate (ButtonPrefab) as RadialButton;
 			newButton.transform.SetParent (transform, false);
@@ -68,7 +68,7 @@ public class RadialMenu : MonoBehaviour {
 			theta = (theta + (MinimumAngle * Mathf.Deg2Rad));
 			float xpos = Mathf.Sin (theta);
 			float ypos = Mathf.Cos (theta);
-			newButton.transform.localPosition = new Vector2 (xpos, ypos) * Menudepth; 
+			newButton.transform.localPosition = new Vector2 (xpos, ypos) * Menudepth;
 
 			newButton.Circle.color = Menus[i].colour;
 			newButton.Icon.sprite = Menus[i].sprite;
@@ -92,7 +92,7 @@ public class RadialMenu : MonoBehaviour {
 				DepthMenus [Menudepth] = new List<Rightclick.Menu>();
 				DepthMenus [Menudepth].Add (Menus [i]);
 			}
-				
+
 		}
 		//Pushes the parameters to the selection system
 		List<float> QuickList = new List<float> {
@@ -111,7 +111,7 @@ public class RadialMenu : MonoBehaviour {
 			toVector2M = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
 			double IndividualItemDegrees = 0;
 			Vector2 Relativecentre = toVector2M - centercirlce;
-			//Logger.Log (Relativecentre.ToString ()+ " Relativecentre" , Category.UI);
+			//Logger.Log (Relativecentre.ToString ()+ " Relativecentre" , Category.RightClick);
 			double Angle = (Mathf.Atan2 (Relativecentre.y, Relativecentre.x) * Mathf.Rad2Deg);
 			//off sets the Angle because it starts as -180 to 180
 			Angle += -90;
@@ -121,9 +121,9 @@ public class RadialMenu : MonoBehaviour {
 			}
 			Angle = Angle * -1; //Turns it from negative to positive
 
-			//Logger.Log (Angle.ToString () + " old Angle", Category.UI);
-			//Logger.Log (((int)((Angle) / (SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count))).ToString () + " old MenuItem", Category.UI);
-			//Logger.Log (Angle.ToString ()+ " Angle" , Category.UI);
+			//Logger.Log (Angle.ToString () + " old Angle", Category.RightClick);
+			//Logger.Log (((int)((Angle) / (SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count))).ToString () + " old MenuItem", Category.RightClick);
+			//Logger.Log (Angle.ToString ()+ " Angle" , Category.RightClick);
 			IndividualItemDegrees = SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count;
 			Angle = Angle + ((IndividualItemDegrees) / 2); //Offsets by half a menu so So the different selection areas aren't in the middle of the menu
 
@@ -131,18 +131,18 @@ public class RadialMenu : MonoBehaviour {
 			//Angle = Angle + SelectionRange[CurrentMenuDepth][1];
 			if (Angle > 360) { //Makes sure it's 360
 				Angle += -360;
-			} 
+			}
 
-			//Logger.Log (((Angle) / (IndividualItemDegrees)).ToString ()+ " Angle" , Category.UI);
+			Logger.Log (((Angle) / (IndividualItemDegrees)).ToString ()+ " Angle" , Category.RightClick);
 
-			MenuItem = (int)((Angle) / (IndividualItemDegrees)); 
+			MenuItem = (int)((Angle) / (IndividualItemDegrees));
 
-			//Logger.Log ((IndividualItemDegrees).ToString () + " Density", Category.UI);
-			//Logger.Log (Angle.ToString () + " Angle", Category.UI);
-			//Logger.Log (SelectionRange[CurrentMenuDepth][0].ToString () + " Range", Category.UI);
-			//Logger.Log (SelectionRange[CurrentMenuDepth][1].ToString () + " MinimumAngle", Category.UI);
-			//Logger.Log (MenuItem.ToString () + "MenuItem", Category.UI);
-			//Logger.Log (CurrentOptions.Count.ToString () + "CurrentOptions.Count", Category.UI);
+			//Logger.Log ((IndividualItemDegrees).ToString () + " Density", Category.RightClick);
+			//Logger.Log (Angle.ToString () + " Angle", Category.RightClick);
+			//Logger.Log (SelectionRange[CurrentMenuDepth][0].ToString () + " Range", Category.RightClick);
+			//Logger.Log (SelectionRange[CurrentMenuDepth][1].ToString () + " MinimumAngle", Category.RightClick);
+			//Logger.Log (MenuItem.ToString () + "MenuItem", Category.RightClick);
+			//Logger.Log (CurrentOptions.Count.ToString () + "CurrentOptions.Count", Category.RightClick);
 
 			if (!(MenuItem > (CurrentOptions.Count - 1)) && !(MenuItem < 0)) { //Ensures its in range Of selection
 				LastInRangeSubMenu = Time.time;
@@ -152,7 +152,7 @@ public class RadialMenu : MonoBehaviour {
 						//LastSelected.SetColour (LastSelected.DefaultColour);
 						if (LastSelected.MenuDepth == CurrentMenuDepth) {
 							LastSelected.title.text = "";
-							LastSelected.transform.SetSiblingIndex (LastSelected.DefaultPosition); 
+							LastSelected.transform.SetSiblingIndex (LastSelected.DefaultPosition);
 							LastSelected.SetColour (LastSelected.DefaultColour);
 						} else {
 							ResetDepthOnDestroy [CurrentMenuDepth] = LastSelected;
@@ -168,36 +168,36 @@ public class RadialMenu : MonoBehaviour {
 
 					LastSelectedset = true;
 					LastSelectedTime = Time.time;
-					//Logger.Log (LastSelectedTime.ToString (), Category.UI);
+					//Logger.Log (LastSelectedTime.ToString (), Category.RightClick);
 				}
 				if (LastSelectedset) {
 					if ((Time.time - LastSelectedTime) > 0.4f) { //How long it takes to make a menu
-						
+
 						if ((!(DepthMenus [CurrentMenuDepth] [MenuItem].SubMenus == null)) && DepthMenus [CurrentMenuDepth] [MenuItem].SubMenus.Count > 0) {
-							//Logger.Log (MenuItem.ToString () + " Selected", Category.UI);
+							Logger.Log (MenuItem.ToString () + " Selected", Category.RightClick);
 							int NewMenuDepth = CurrentMenuDepth;
 							LastSelectedTime = Time.time;
 							NewMenuDepth = NewMenuDepth + 100;
 							int InitialAngle = MenuItem * (360 / CurrentOptions.Count);
 
-							//Logger.Log (InitialAngle.ToString () + "WOW", Category.UI);
+							//Logger.Log (InitialAngle.ToString () + "WOW", Category.RightClick);
 							SpawnButtons (DepthMenus [CurrentMenuDepth] [MenuItem].SubMenus, NewMenuDepth, InitialAngle);
 						}
 					}
 
 				}
-			
+
 
 			} else {
 				if ((Time.time - LastInRangeSubMenu) > 0.3f && (CurrentMenuDepth > 100)){ //How long it takes to exit a menu
 
-					//Logger.Log ("yo am Destroying", Category.UI);
+					Logger.Log ("yo am Destroying", Category.RightClick);
 					if (ResetDepthOnDestroy.ContainsKey (CurrentMenuDepth))  {
 						ResetDepthOnDestroy [CurrentMenuDepth].title.text = "";
-						ResetDepthOnDestroy [CurrentMenuDepth].transform.SetSiblingIndex (ResetDepthOnDestroy [CurrentMenuDepth].DefaultPosition); 
+						ResetDepthOnDestroy [CurrentMenuDepth].transform.SetSiblingIndex (ResetDepthOnDestroy [CurrentMenuDepth].DefaultPosition);
 						ResetDepthOnDestroy [CurrentMenuDepth].SetColour (ResetDepthOnDestroy [CurrentMenuDepth].DefaultColour);
 					} else {
-						LastSelected.transform.SetSiblingIndex(LastSelected.DefaultPosition); 
+						LastSelected.transform.SetSiblingIndex(LastSelected.DefaultPosition);
 						LastSelected.SetColour(LastSelected.DefaultColour);
 						LastSelected.title.text = "";
 						LastSelected = null;
@@ -217,17 +217,17 @@ public class RadialMenu : MonoBehaviour {
 
 
 				}
-				
+
 			}
 		}
 		if (Input.GetMouseButtonUp (1))
 		{
 			if (Selected) {
-				if (!(Selected.Mono == null)) { 
+				if (!(Selected.Mono == null)) {
 					//The magic function
 					Selected.Method.Invoke(Selected.Mono, new object[] {  });
 				}
-				//Logger.Log ("yo this "+Selected.title.text , Category.UI);
+				//Logger.Log ("yo this "+Selected.title.text , Category.RightClick);
 			}
 			//CurrentOptions = null;
 			LastSelectedset = false;

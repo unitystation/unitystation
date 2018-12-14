@@ -145,6 +145,16 @@ public class PlayerSprites : NetworkBehaviour
 	//For syncing all other players (not locally owned)
 	private void FaceDirectionSync(Orientation dir)
 	{
+//		//don't sync facing direction for players you're pulling locally, unless you're standing still
+		PushPull localPlayer = PlayerManager.LocalPlayerScript ? PlayerManager.LocalPlayerScript.pushPull : null;
+		if ( localPlayer && localPlayer.Pushable != null && localPlayer.Pushable.IsMovingClient )
+		{
+			if ( playerMove && playerMove.PlayerScript && playerMove.PlayerScript.pushPull
+			     && playerMove.PlayerScript.pushPull.IsPulledByClient( localPlayer ) ) {
+				return;
+			}
+		}
+
 		if (PlayerManager.LocalPlayer != gameObject)
 		{
 			currentDirection = dir;

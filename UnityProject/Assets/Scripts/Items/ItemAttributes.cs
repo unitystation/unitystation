@@ -602,7 +602,7 @@ public class ItemAttributes : NetworkBehaviour
 		return i.ToString();
 	}
 
-	public void OnMouseEnter()
+	public void OnHoverStart()
 	{
 		// Show the parenthesis for an item's description only if the item has a description
 		if (itemDescription.Length > 0)
@@ -615,7 +615,7 @@ public class ItemAttributes : NetworkBehaviour
 		}
 	}
 
-	public void OnMouseExit()
+	public void OnHoverEnd()
 	{
 		UIManager.SetToolTip = "";
 	}
@@ -627,7 +627,7 @@ public class ItemAttributes : NetworkBehaviour
 	}
 
 	// When right clicking on an item, examine the item
-	public void OnMouseOver()
+	public void OnHover()
 	{
 		if (Input.GetMouseButtonDown(1))
 		{

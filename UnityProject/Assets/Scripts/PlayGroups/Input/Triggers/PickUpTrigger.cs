@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Networking;
 
 
@@ -82,12 +82,12 @@ using UnityEngine.Networking;
 			var cnt = GetComponent<CustomNetTransform>();
 			var state = cnt.ServerState;
 
-			if (cnt.IsFloatingServer ? !CanReachFloating(ps, state) : !ps.IsInReach(state.WorldPosition))
+			if (cnt.IsFloatingServer ? !CanReachFloating(ps, state) : !ps.IsInReach(cnt.RegisterTile))
 			{
 				Logger.LogWarning($"Not in reach! server pos:{state.WorldPosition} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer})", Category.Security);
 				return false;
 			}
-			Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Security, 
+			Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Security,
 				state.WorldPosition, originator.transform.position, cnt.IsFloatingServer);
 
 

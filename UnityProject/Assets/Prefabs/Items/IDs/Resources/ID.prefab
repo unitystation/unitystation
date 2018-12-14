@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 114959086465697646}
   - component: {fileID: 114922150393857528}
   - component: {fileID: 114065903958209818}
+  - component: {fileID: 114634705318122656}
   m_Layer: 10
   m_Name: ID
   m_TagString: Untagged
@@ -131,6 +132,7 @@ MonoBehaviour:
   inHandReferenceRight: 0
   itemDescription: A card used to provide ID and determine access across the station.
   itemName: identification card
+  itemType: 0
   size: 0
   spriteType: 0
   type: 12
@@ -140,6 +142,17 @@ MonoBehaviour:
   hitDamage: 1
   hitSound: GenericHit
   attackVerb: []
+--- !u!114 &114634705318122656
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1748120534729806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114664589915332152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,8 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
 --- !u!114 &114696162609604062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -207,17 +218,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  custNetActiveState: 0
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
+  isNotPushable: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114959086465697646
 MonoBehaviour:
@@ -273,7 +277,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300002, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

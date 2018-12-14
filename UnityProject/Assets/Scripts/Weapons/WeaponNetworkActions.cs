@@ -120,7 +120,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 
 		//This check cannot be used with TilemapDamage as the transform position is always far away
-		if (!playerScript.IsInReach(victim.transform.position))
+		if (!playerScript.IsInReach(victim))
 		{
 			return;
 		}
