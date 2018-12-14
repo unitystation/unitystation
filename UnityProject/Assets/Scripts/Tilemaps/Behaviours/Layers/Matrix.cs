@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEngine;
 
-
 public class Matrix : MonoBehaviour
 {
 	private MetaTileMap metaTileMap;
@@ -111,9 +110,21 @@ public class Matrix : MonoBehaviour
 		return objects.Get(position).Select(x => x.GetComponent<T>()).Where(x => x != null);
 	}
 
+
 	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
 	{
-		return objects.GetFirst(position)?.GetComponent<T>();
+		//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine
+		var registerTiles = objects.Get(position);
+		for(int i = 0; i < registerTiles.Count; i++)
+		{
+			var c = registerTiles[i].GetComponent<T>();
+			if(c != null){
+				return c;
+			}
+		}
+		return null;
+		//Old way that only checked the first RegisterTile on a cell pos:
+		//return objects.GetFirst(position)?.GetComponent<T>();
 	}
 
 	public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
