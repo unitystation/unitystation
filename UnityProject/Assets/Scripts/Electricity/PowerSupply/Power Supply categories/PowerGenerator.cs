@@ -68,8 +68,8 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		{
 			plasmaFuel.Add(new SolidPlasma());
 		}
-		isOn = startAsOn;
-		UpdateServerState(isOn);
+
+		UpdateServerState(startAsOn);
 		UpdateSecured(startSecured);
 	}
 
@@ -106,13 +106,22 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 
 	void UpdateServerState(bool _isOn)
 	{
-		if (isOn)
+		if (_isOn)
 		{
-			powerSupply.TurnOnSupply();
+			if (TryBurnFuel())
+			{
+				powerSupply.TurnOnSupply();
+				isOn = true;
+			}
 		}
 		else
 		{
+			isOn = false;
 			powerSupply.TurnOffSupply();
+			if (plasmaFuel.Count > 0)
+			{
+				plasmaFuel[0].StopBurningPlasma();
+			}
 		}
 	}
 
@@ -141,7 +150,35 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 				spriteRend.sprite = generatorOnSprite;
 			}
 		}
+	}
 
+	bool TryBurnFuel()
+	{
+		if (plasmaFuel.Count == 0)
+		{
+			return false;
+		}
+
+		if (plasmaFuel.Count > 0)
+		{
+			plasmaFuel[0].StartBurningPlasma(0.4f, FuelExhaustedEvent);
+			return true;
+		}
+		return false;
+	}
+
+	//Server Only
+	void FuelExhaustedEvent()
+	{
+		var pFuel = plasmaFuel[0];
+		plasmaFuel.Remove(pFuel);
+		if (isOn)
+		{
+			if (!TryBurnFuel())
+			{
+				UpdateServerState(false);
+			}
+		}
 	}
 
 	public override void Interact(GameObject originator, Vector3 position, string hand)
@@ -176,8 +213,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 
 			if (isSecured)
 			{
-				isOn = !isOn;
-				UpdateServerState(isOn);
+				UpdateServerState(!isOn);
 			}
 		}
 	}
