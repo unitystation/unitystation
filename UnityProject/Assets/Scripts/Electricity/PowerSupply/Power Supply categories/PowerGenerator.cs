@@ -13,6 +13,9 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 	public bool isOn = false;
 	[SyncVar(hook = "UpdateSecured")]
 	public bool isSecured; //To ground
+	public bool startSecured;
+	public bool startWithPlasma;
+	public bool startAsOn;
 	public int DirectionStart = 0;
 	public int DirectionEnd = 9;
 	public float MonitoringResistance = 9999999999;
@@ -24,7 +27,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 	public SpriteRenderer spriteRend;
 	public AudioSource generatorRunSfx;
 	public AudioSource generatorEndSfx;
-
+	public ParticleSystem smokeParticles;
 	//Server only
 	public List<SolidPlasma> plasmaFuel = new List<SolidPlasma>();
 
@@ -61,9 +64,13 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		PIRMedium.ResistanceReaction = true;
 		PIRMedium.ResistanceReactionA.Resistance.Ohms = MonitoringResistance;
 
-		isOn = false;
+		if (startWithPlasma)
+		{
+			plasmaFuel.Add(new SolidPlasma());
+		}
+		isOn = startAsOn;
 		UpdateServerState(isOn);
-		UpdateSecured(false);
+		UpdateSecured(startSecured);
 	}
 
 	public override void OnStartClient()
@@ -79,10 +86,12 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		{
 			generatorRunSfx.Play();
 			spriteRend.sprite = generatorOnSprite;
+			smokeParticles.Play();
 		}
 		else
 		{
 			generatorRunSfx.Stop();
+			smokeParticles.Stop();
 			if (isSecured)
 			{
 				generatorEndSfx.Play();
