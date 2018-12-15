@@ -23,6 +23,9 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 	public Sprite generatorUnSecuredSprite;
 	public SpriteRenderer spriteRend;
 
+	//Server only
+	public List<SolidPlasma> plasmaFuel = new List<SolidPlasma>();
+
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.RadiationCollector;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
 	{
@@ -146,8 +149,17 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 					isOn = !isOn;
 					UpdateServerState(isOn);
 				}
+				return;
 			}
-			else
+
+			var solidPlasma = slot.Item?.GetComponent<SolidPlasma>();
+			if (solidPlasma != null)
+			{
+				plasmaFuel.Add(solidPlasma);
+				InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
+				return;
+			}
+
 			if (isSecured)
 			{
 				isOn = !isOn;
