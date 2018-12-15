@@ -18,6 +18,10 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 	public float MonitoringResistance = 9999999999;
 	public float current = 20;
 	public float Previouscurrent = 20;
+	public Sprite generatorSecuredSprite;
+	public Sprite generatorOnSprite;
+	public Sprite generatorUnSecuredSprite;
+	public SpriteRenderer spriteRend;
 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.RadiationCollector;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
@@ -52,9 +56,9 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		PIRMedium.ResistanceReaction = true;
 		PIRMedium.ResistanceReactionA.Resistance.Ohms = MonitoringResistance;
 
-		isOn = true;
+		isOn = false;
 		UpdateServerState(isOn);
-		UpdateSecured(true);
+		UpdateSecured(false);
 	}
 
 	public override void OnStartClient()
@@ -68,11 +72,18 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		isOn = _isOn;
 		if (isOn)
 		{
-			Debug.Log("TODO: Sprite changes for gen on");
+			spriteRend.sprite = generatorOnSprite;
 		}
 		else
 		{
-			Debug.Log("TODO: Sprite changes off for gen off");
+			if (isSecured)
+			{
+				spriteRend.sprite = generatorSecuredSprite;
+			}
+			else
+			{
+				spriteRend.sprite = generatorSecuredSprite;
+			}
 		}
 	}
 
@@ -98,6 +109,21 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		else
 		{
 			Debug.Log("TODO: Wrench SoundFX");
+			if (!isSecured)
+			{
+				spriteRend.sprite = generatorUnSecuredSprite;
+			}
+			else
+			{
+				if (!isOn)
+				{
+					spriteRend.sprite = generatorSecuredSprite;
+				}
+				else
+				{
+					spriteRend.sprite = generatorOnSprite;
+				}
+			}
 		}
 	}
 

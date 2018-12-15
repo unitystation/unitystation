@@ -57,7 +57,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1853426429102140}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 70, y: 67, z: 0}
+  m_LocalPosition: {x: 72, y: 64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4552222611090834}
@@ -179,6 +179,12 @@ MonoBehaviour:
   MonitoringResistance: 1e+10
   current: 20
   Previouscurrent: 20
+  generatorSecuredSprite: {fileID: 21300234, guid: 6c565852bdc446c78d0f44aa66c28bc2,
+    type: 3}
+  generatorOnSprite: {fileID: 21300232, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
+  generatorUnSecuredSprite: {fileID: 21300230, guid: 6c565852bdc446c78d0f44aa66c28bc2,
+    type: 3}
+  spriteRend: {fileID: 212599920820597512}
   ApplianceType: 13
 --- !u!114 &114537316452419530
 MonoBehaviour:
