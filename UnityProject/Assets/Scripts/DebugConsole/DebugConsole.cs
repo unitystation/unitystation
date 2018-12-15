@@ -22,6 +22,7 @@ public class DebugConsole : MonoBehaviour
 	protected static string LastLog { get; private set; }
 
 	public Text displayText;
+	public Text fps;
 	public GameObject consoleObject;
 
 	bool isOpened = false;
@@ -54,6 +55,7 @@ public class DebugConsole : MonoBehaviour
 		{
 			ToggleConsole();
 		}
+		fps.text = "FPS: " + (1f / Time.deltaTime).ToString("N1");
 	}
 
 	void ToggleConsole()
