@@ -22,6 +22,8 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 	public Sprite generatorOnSprite;
 	public Sprite generatorUnSecuredSprite;
 	public SpriteRenderer spriteRend;
+	public AudioSource generatorRunSfx;
+	public AudioSource generatorEndSfx;
 
 	//Server only
 	public List<SolidPlasma> plasmaFuel = new List<SolidPlasma>();
@@ -75,12 +77,15 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		isOn = _isOn;
 		if (isOn)
 		{
+			generatorRunSfx.Play();
 			spriteRend.sprite = generatorOnSprite;
 		}
 		else
 		{
+			generatorRunSfx.Stop();
 			if (isSecured)
 			{
+				generatorEndSfx.Play();
 				spriteRend.sprite = generatorSecuredSprite;
 			}
 			else
