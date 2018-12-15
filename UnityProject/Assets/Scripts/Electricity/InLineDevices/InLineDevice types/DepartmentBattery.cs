@@ -16,6 +16,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 	public bool isOnForInterface { get; set; } = false;
 	public bool ChangeToOff = false;
 	public bool PassChangeToOff { get; set; } = false;
+	[SyncVar]
 	public int currentCharge; // 0 - 100
 	public float current { get; set; } = 0;
 	public float Previouscurrent = 0;
@@ -63,9 +64,9 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		PowerTypeCategory.LowMachineConnector
 	};
 
-	public override void OnStartClient()
+	public override void OnStartServer()
 	{
-		base.OnStartClient();
+		base.OnStartServer();
 		RelatedDevice.InData.CanConnectTo = CanConnectTo;
 		RelatedDevice.InData.Categorytype = ApplianceType;
 		RelatedDevice.DirectionStart = DirectionStart;
@@ -93,7 +94,13 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		RelatedDevice.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PIRLow;
 		RelatedDevice.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PRSDCable;
 		RelatedDevice.InData.ControllingDevice = this;
-		currentCharge = 100;
+		currentCharge = 20;
+	}
+
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		UpdateState(isOn);
 	}
 
 	public void PotentialDestroyed()
@@ -189,6 +196,19 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 	void UpdateState(bool _isOn)
 	{
 		isOn = _isOn;
+		if (isOn)
+		{
+			Debug.Log("TODO: Turn sprites on");
+		}
+		else
+		{
+			Debug.Log("TODO: Turn sprites off");
+		}
+
+	}
+
+	void UpdateServerState(bool _isOn)
+	{
 		isOnForInterface = _isOn;
 		if (isOn)
 		{
@@ -196,13 +216,12 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 			ElectricalSynchronisation.StructureChangeReact = true;
 			ElectricalSynchronisation.ResistanceChange = true; //Potential optimisation
 			ElectricalSynchronisation.CurrentChange = true;
-			Logger.Log("on");
 		}
 		else
 		{
-			Logger.Log("off");
 			ChangeToOff = true;
 		}
+
 	}
 	public override void Interact(GameObject originator, Vector3 position, string hand)
 	{
@@ -216,8 +235,8 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 			if (!ChangeToOff)
 			{
 				isOn = !isOn;
+				UpdateServerState(isOn);
 			}
-
 		}
 	}
 

@@ -15,7 +15,7 @@ public class Sprites
 				//					Logger.Log("Sprite found with key: " + key);
 				return sprites[key];
 			}
-			Logger.Log("SPRITE MANAGER ERROR, KEY " + key + "NOT FOUND IN SPRITES");
+			Logger.Log("SPRITE MANAGER ERROR, KEY " + key + " NOT FOUND IN SPRITES", Category.PlayerSprites);
 			return null;
 		}
 		set { sprites[key] = value; }

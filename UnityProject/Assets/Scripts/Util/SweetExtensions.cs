@@ -29,6 +29,10 @@ using UnityEngine.Networking;
 			return go.GetComponent<RegisterTile>()?.WorldPosition ?? go.transform.position;
 //			return go.GetComponent<CustomNetTransform>()?.State.position ?? go.Player()?.Script.playerSync.ServerState.WorldPosition ??  go.transform.position;
 		}
+		/// Creates garbage! Use very sparsely!
+		public static RegisterTile RegisterTile( this GameObject go ) {
+			return go.GetComponent<RegisterTile>();
+		}
 
 		/// Wraps provided index value if it's more that array length
 		public static T Wrap<T>(this T[] array, int index)
@@ -40,7 +44,7 @@ using UnityEngine.Networking;
 			return new BoundsInt( pos - new Vector3Int( 1, 1, 0 ), new Vector3Int( 3, 3, 1 ) );
 		}
 
-		private const float NO_BOOST_THRESHOLD = 1f;
+		private const float NO_BOOST_THRESHOLD = 1.5f;
 
 		/// Lerp speed modifier
 		public static float SpeedTo( this Vector3 lerpFrom, Vector3 lerpTo ) {
@@ -49,7 +53,11 @@ using UnityEngine.Networking;
 				return 1;
 			}
 
-			return 1 + ( (distance - NO_BOOST_THRESHOLD) * 2 );
+			float boost = (distance - NO_BOOST_THRESHOLD) * 2;
+			if ( boost > 0 ) {
+				Logger.LogTraceFormat( "Lerp speed boost exceeded by {0}", Category.Lerp, boost );
+			}
+			return 1 + boost;
 		}
 
 		/// Serializing Vector2 (rounded to int) into plaintext

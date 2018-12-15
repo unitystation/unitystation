@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public class PushPull : VisibleBehaviour {
+	[SyncVar]
 	public bool isNotPushable = false;
 
 	private IPushable pushableTransform;
@@ -17,12 +21,335 @@ public class PushPull : VisibleBehaviour {
 				pushable?.OnUpdateRecieved().AddListener( OnUpdateReceived );
 				pushable?.OnTileReached().AddListener( OnServerTileReached );
 				pushable?.OnClientTileReached().AddListener( OnClientTileReached );
+				pushable?.OnPullInterrupt().AddListener( () =>
+				{
+					StopFollowing();
+					ReleaseControl();//maybe it won't be required for all situations
+				} );
 			}
 			return pushable;
 		}
 	}
 
+	/// Just in case
+	private void OnDestroy() {
+		Pushable?.OnPullInterrupt().RemoveAllListeners();
+		Pushable?.OnStartMove().RemoveAllListeners();
+		Pushable?.OnTileReached().RemoveAllListeners();
+		Pushable?.OnUpdateRecieved().RemoveAllListeners();
+		Pushable?.OnClientStartMove().RemoveAllListeners();
+		Pushable?.OnClientTileReached().RemoveAllListeners();
+	}
+
 	public bool IsSolid => !registerTile.IsPassable();
+
+
+	#region Pull Master
+
+	public bool IsPullingSomething => PulledObject != null;
+	public PushPull PulledObject { get; private set; }
+
+	public bool IsPullingSomethingClient => PulledObjectClient != null;
+	public PushPull PulledObjectClient { get; set; }
+
+	/// Client requests to stop pulling any objects
+	[Command]
+	public void CmdStopPulling() {
+		ReleaseControl();
+	}
+
+	private void ReleaseControl() {
+		if ( !IsPullingSomething ) {
+			return;
+		}
+		Logger.LogTraceFormat( "{0} stopped controlling {1}", Category.PushPull, this.gameObject.name, PulledObject.gameObject.name );
+		PulledObject.PulledBy = null;
+		PulledObject = null;
+	}
+
+	/// Client asks to toggle pulling of given object
+	[Command]
+	public void CmdPullObject(GameObject pullableObject) {
+		PushPull pullable = pullableObject.GetComponent<PushPull>();
+		if ( !pullable ) {
+			return;
+		}
+		if ( IsPullingSomething ) {
+			var alreadyPulling = PulledObject;
+			ReleaseControl();
+
+			//Kill ex-pullable's impulses if we stop pulling it ourselves
+			//todo: make it accept puller's impulse on release if he's flying
+			alreadyPulling.Stop();
+
+			//Just stopping pulling of object if we ctrl+click it again
+			if ( alreadyPulling == pullable ) {
+				return;
+			}
+		}
+
+		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile )
+		     && pullable != this && !IsBeingPulled ) {
+
+			if ( pullable.StartFollowing( this ) ) {
+				PulledObject = pullable;
+				//Kill its impulses if we grabbed it
+				PulledObject.Stop();
+			}
+		}
+	}
+
+	#endregion
+
+	private Coroutine revertPullHandle;
+
+	private IEnumerator RevertPullTimer() {
+		yield return YieldHelper.Second;
+		yield return YieldHelper.Second;
+
+		if ( IsBeingPulledClient && !Pushable.IsMovingClient
+			 && Pushable.ClientPosition != Pushable.TrustedPosition
+		   )
+		{
+			Logger.LogFormat( "{0}: Reverted pull position", Category.PushPull, gameObject.name );
+			Pushable.RollbackPrediction();
+		} else {
+			Logger.LogFormat( "{0}: No need to revert pull position", Category.PushPull, gameObject.name );
+		}
+	}
+
+	protected override void Awake() {
+		base.Awake();
+		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
+
+		followAction = (oldPos, newPos) => {
+			Vector3Int currentPos = Pushable.ServerPosition;
+			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos ) {
+				return;
+			}
+			Vector2Int followDir =  oldPos.To2Int() - currentPos.To2Int();
+			if ( followDir == Vector2Int.zero ) {
+				return;
+			}
+			if ( !TryFollow( currentPos, followDir, PulledBy.Pushable.MoveSpeedServer ) ) {
+				StopFollowing();
+			} else {
+				PulledBy.NotifyPlayers(); // doubles messages for puller, but pulling looks proper even in high ping. might mess something up tho
+//				Logger.Log( $"{gameObject.name}: following {PulledBy.gameObject.name} " +
+//							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
+			}
+		};
+		predictiveFollowAction = (oldPos, newPos) => {
+			Vector3Int currentPos = Pushable.ClientPosition;
+			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos ) {
+				return;
+			}
+			var masterPos = oldPos.To2Int();
+			var currentSlavePos = currentPos.To2Int();
+			var followDir =  masterPos - currentSlavePos;
+			if ( followDir == Vector2Int.zero ) {
+				return;
+			}
+			if ( !TryPredictiveFollow( currentPos, oldPos, PulledByClient.Pushable.MoveSpeedClient ) ) {
+				Logger.LogError( $"{gameObject.name}: oops, predictive following {PulledByClient.gameObject.name} failed", Category.PushPull );
+			} else {
+				Logger.LogTraceFormat(
+					"{0}: predictive following {1} from {2} to {3} : {4}", Category.PushPull,
+					gameObject.name, PulledByClient.gameObject.name, currentSlavePos, masterPos, followDir );
+
+			}
+		};
+	}
+	#region Pull
+
+	private UnityAction<Vector3Int,Vector3Int> followAction;
+	private UnityAction<Vector3Int,Vector3Int> predictiveFollowAction;
+
+	public bool IsBeingPulled => PulledBy != null;
+	private PushPull pulledBy;
+	public PushPull PulledBy {
+		get { return pulledBy; }
+		private set {
+			if ( IsBeingPulled ) {
+				pulledBy.Pushable?.OnStartMove().RemoveListener( followAction );
+				//inform previous master that it's over </3
+				UninformHead( pulledBy, this );
+			}
+
+			if ( value != null )
+			{
+				value.Pushable?.OnStartMove().AddListener( followAction );
+			}
+
+			pulledBy = value;
+			InformPullMessage.Send( this, this, pulledBy ); //inform slave of new master – or lack thereof
+
+			if ( IsBeingPulled ) {
+				InformHead( pulledBy, this);
+			}
+		}
+	}
+
+	///inform new master puller about who's pulling who in the train
+	public void InformHead( PushPull whoToInform, PushPull subject = null ) {
+		if ( subject == null ) {
+			subject = this;
+		}
+		InformPullMessage.Send( whoToInform, subject, subject.PulledBy );
+		if ( IsPullingSomething ) {
+			PulledObject.InformHead( whoToInform, PulledObject );
+		}
+	}
+
+	private void UninformHead( PushPull whoToInform, PushPull subject ) {
+		InformPullMessage.Send( whoToInform, subject, null );
+		if ( IsPullingSomething ) {
+			PulledObject.UninformHead( whoToInform, PulledObject );
+		}
+	}
+
+	public bool IsBeingPulledClient => PulledByClient != null;
+	private PushPull pulledByClient;
+	public PushPull PulledByClient {
+		get { return pulledByClient; }
+		set {
+			if ( IsBeingPulledClient /*&& !isServer*/ ) { //toggle prediction here <v
+				pulledByClient.Pushable?.OnClientStartMove().RemoveListener( predictiveFollowAction );
+			}
+
+			if ( value != null /*&& !isServer*/ )
+			{
+				value.Pushable?.OnClientStartMove().AddListener( predictiveFollowAction );
+			}
+
+			pulledByClient = value;
+		}
+	}
+
+	/// (Eventually)
+	public bool IsPulledByClient( PushPull pushPull ) {
+		if ( !IsBeingPulledClient ) {
+			return false;
+		}
+
+		return PulledByClient == pushPull || PulledByClient.IsPulledByClient( pushPull );
+	}
+
+
+	[Server]
+	public bool StartFollowing( PushPull attachTo ) {
+		if ( attachTo == this ) {
+			return false;
+		}
+		//if attached to someone else:
+		if ( IsBeingPulled ) {
+			StopFollowing();
+		}
+
+		bool chooChooTrain = attachTo.IsBeingPulled && attachTo.PulledBy != this;
+
+		//if puller can reach this + not trying to pull himself + not being pulled
+		if ( PlayerScript.IsInReach( attachTo.registerTile, this.registerTile )
+		     && attachTo != this && (!attachTo.IsBeingPulled || chooChooTrain) )
+		{
+			Logger.LogTraceFormat( "{0} started following {1}", Category.PushPull, this.gameObject.name, attachTo.gameObject.name );
+			PulledBy = attachTo;
+			return true;
+		}
+
+		return false;
+	}
+	/// Client requests to to break free
+	[Command]
+	public void CmdStopFollowing() {
+		if ( !IsBeingPulled ) {
+			return;
+		}
+		var player = PlayerList.Instance.Get( this.gameObject );
+		if ( player != ConnectedPlayer.Invalid && !player.Script.canNotInteract() ) {
+			StopFollowing();
+		}
+	}
+	[Server]
+	public void StopFollowing() {
+		if ( !IsBeingPulled ) {
+			return;
+		}
+		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, PulledBy.gameObject.name );
+		PulledBy.PulledObject = null;
+		PulledBy = null;
+		NotifyPlayers();
+	}
+
+	public virtual void OnCtrlClick()
+	{
+		TryPullThis();
+	}
+
+	[ContextMethod("Pull","Drag_Hand")]
+	public void TryPullThis() {
+		PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("Rustle0" + UnityEngine.Random.Range(1, 4).ToString());
+		var initiator = PlayerManager.LocalPlayerScript.pushPull;
+		//client pre-validation
+		if ( PlayerScript.IsInReach( this.registerTile, initiator.registerTile ) && initiator != this ) {
+			//client request: start/stop pulling
+			initiator.CmdPullObject( gameObject );
+
+			if ( PulledByClient == initiator ) {
+				Logger.LogTraceFormat( "{0}: Breaking pull predictively", Category.PushPull, initiator.gameObject.name );
+				PulledByClient.PulledObjectClient = null;
+				PulledByClient = null;
+			}
+		}
+	}
+	[Server]
+	private bool TryFollow( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
+		if ( !IsBeingPulled || isNotPushable || isPushing || Pushable == null )
+		{
+			return false;
+		}
+
+		if ( Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1 ) {
+			Logger.LogTrace( "oops="+dir, Category.PushPull );
+			return false;
+		}
+
+		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
+		if ( !MatrixManager.IsPassableAt( from, target, false ) ) //non-solid things can be pushed to player tile
+		{
+			return false;
+		}
+
+		bool success = Pushable.Push( dir, speed, true );
+		if ( success ) {
+			pushTarget = target;
+//			Logger.LogTraceFormat( "Following {0}->{1}", Category.PushPull, from, target );
+		}
+
+		return success;
+	}
+	private bool TryPredictiveFollow( Vector3Int from, Vector3Int target, float speed = Single.NaN ) {
+		if ( !IsBeingPulledClient || isNotPushable || Pushable == null )
+		{
+			return false;
+		}
+
+//		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
+//		if ( !MatrixManager.IsPassableAt( from, target, false )
+//		     ) {
+//			return false;
+//		}
+
+		bool success = Pushable.PredictivePush( target.To2Int(), speed, true );
+		if ( success ) {
+//			Logger.LogTraceFormat( "Started predictive follow {0}->{1}", Category.PushPull, from, target );
+		}
+
+		return success;
+	}
+	#endregion
+
+	#region Push fields
 
 	//Server fields
 	private bool isPushing;
@@ -30,11 +357,15 @@ public class PushPull : VisibleBehaviour {
 	private Queue<Vector2Int> pushRequestQueue = new Queue<Vector2Int>();
 
 	//Client fields
-	private PushState prediction = PushState.None;
-	private ApprovalState approval = ApprovalState.None;
-	private bool CanPredictPush => prediction == PushState.None && Pushable.CanPredictPush;
+	private PushState pushPrediction = PushState.None;
+	private ApprovalState pushApproval = ApprovalState.None;
+	private bool CanPredictPush => pushPrediction == PushState.None && Pushable.CanPredictPush;
 	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
 	private Vector3Int lastReliablePos = TransformState.HiddenPos;
+
+	#endregion
+
+	#region Push
 
 	[Server]
 	public void QueuePush( Vector2Int dir )
@@ -45,9 +376,10 @@ public class PushPull : VisibleBehaviour {
 
 	private void CheckQueue()
 	{
-		if ( pushRequestQueue.Count > 0 && !isPushing )
-		{
-			TryPush( pushRequestQueue.Dequeue() );
+		if ( pushRequestQueue.Count > 0 && !isPushing ) {
+			if ( !TryPush( pushRequestQueue.Dequeue() ) ) {
+				pushRequestQueue.Clear();
+			}
 		}
 	}
 
@@ -67,14 +399,32 @@ public class PushPull : VisibleBehaviour {
 		if ( from != currentPos ) {
 			return false;
 		}
+
+		if ( Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1 ) {
+			Logger.LogTrace( "oops="+dir, Category.PushPull );
+			return false;
+		}
+
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
 		if ( !MatrixManager.IsPassableAt( from, target, IsSolid ) ) //non-solid things can be pushed to player tile
 		{
 			return false;
 		}
 
+
 		bool success = Pushable.Push( dir );
-		if ( success ) {
+		if ( success )
+		{
+			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
+				( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledBy.registerTile.WorldPosition, target) ) )
+			{
+				StopFollowing();
+			}
+			if ( IsPullingSomething && //Break pull only if pushable will end up far enough
+			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledObject.registerTile.WorldPosition, target) ) )
+			{
+				ReleaseControl();
+			}
 			isPushing = true;
 			pushTarget = target;
 			Logger.LogTraceFormat( "Started push {0}->{1}", Category.PushPull, from, target );
@@ -97,10 +447,10 @@ public class PushPull : VisibleBehaviour {
 			return false;
 		}
 
-		bool success = Pushable.PredictivePush( dir );
+		bool success = Pushable.PredictivePush( target.To2Int() );
 		if ( success ) {
-			prediction = PushState.InProgress;
-			approval = ApprovalState.None;
+			pushPrediction = PushState.InProgress;
+			pushApproval = ApprovalState.None;
 			predictivePushTarget = target;
 			Logger.LogTraceFormat( "Started predictive push {0}->{1}", Category.PushPull, from, target );
 		}
@@ -111,8 +461,8 @@ public class PushPull : VisibleBehaviour {
 	private void FinishPrediction()
 	{
 		Logger.LogTraceFormat( "Finishing predictive push", Category.PushPull );
-		prediction = PushState.None;
-		approval = ApprovalState.None;
+		pushPrediction = PushState.None;
+		pushApproval = ApprovalState.None;
 		predictivePushTarget = TransformState.HiddenPos;
 		lastReliablePos = TransformState.HiddenPos;
 	}
@@ -129,44 +479,54 @@ public class PushPull : VisibleBehaviour {
 	enum PushState { None, InProgress, Finished }
 	enum ApprovalState { None, Approved, Unexpected }
 
+	#endregion
+
 	#region Events
 
-	private void OnServerTileReached( Vector3Int pos ) {
+	private void OnServerTileReached( Vector3Int newPos ) {
+		if ( !isPushing && pushRequestQueue.Count == 0 ) {
+			return;
+		}
 //		Logger.LogTraceFormat( "{0}: {1} is reached ON SERVER", Category.PushPull, gameObject.name, pos );
 		isPushing = false;
-		if ( pushTarget != TransformState.HiddenPos && 
-		     pushTarget != pos )
+		if ( pushTarget != TransformState.HiddenPos &&
+		     pushTarget != newPos &&
+		     !MatrixManager.IsFloatingAt(gameObject, newPos))
 		{
 			//unexpected pos reported by server tile (common in space, space )
-			pushRequestQueue.Clear(); 
+			pushRequestQueue.Clear();
 		}
 		CheckQueue();
 	}
 
 	/// For prediction
 	private void OnUpdateReceived( Vector3Int serverPos ) {
-		if ( prediction == PushState.None ) {
+		if ( IsBeingPulledClient ) {
+			this.RestartCoroutine( RevertPullTimer(), ref revertPullHandle );
+		}
+
+		if ( pushPrediction == PushState.None ) {
 			return;
 		}
 
-		approval = serverPos == predictivePushTarget ? ApprovalState.Approved : ApprovalState.Unexpected;
-		Logger.LogTraceFormat( "{0} predictive push to {1}", Category.PushPull, approval, serverPos );
+		pushApproval = serverPos == predictivePushTarget ? ApprovalState.Approved : ApprovalState.Unexpected;
+		Logger.LogTraceFormat( "{0} predictive push to {1}", Category.PushPull, pushApproval, serverPos );
 
 		//if predictive lerp is finished
-		if ( approval == ApprovalState.Approved ) {
-			if ( prediction == PushState.Finished ) {
+		if ( pushApproval == ApprovalState.Approved ) {
+			if ( pushPrediction == PushState.Finished ) {
 				FinishPrediction();
-			} else if ( prediction == PushState.InProgress ) {
+			} else if ( pushPrediction == PushState.InProgress ) {
 				Logger.LogTraceFormat( "Approved and waiting till lerp is finished", Category.PushPull );
 			}
-		} else if ( approval == ApprovalState.Unexpected ) {
+		} else if ( pushApproval == ApprovalState.Unexpected ) {
 			var info = "";
 			if ( serverPos == lastReliablePos ) {
 				info += $"lastReliablePos match!({lastReliablePos})";
 			} else {
 				info += "NO reliablePos match";
 			}
-			if ( prediction == PushState.Finished ) {
+			if ( pushPrediction == PushState.Finished ) {
 				info += ". Finishing!";
 				FinishPrediction();
 			} else {
@@ -178,7 +538,7 @@ public class PushPull : VisibleBehaviour {
 
 	/// For prediction
 	private void OnClientTileReached( Vector3Int pos ) {
-		if ( prediction == PushState.None ) {
+		if ( pushPrediction == PushState.None ) {
 			return;
 		}
 
@@ -191,9 +551,9 @@ public class PushPull : VisibleBehaviour {
 			return;
 		}
 
-		Logger.LogTraceFormat( "{0} is reached ON CLIENT, approval={1}", Category.PushPull, pos, approval );
-		prediction = PushState.Finished;
-		switch ( approval ) {
+		Logger.LogTraceFormat( "{0} is reached ON CLIENT, approval={1}", Category.PushPull, pos, pushApproval );
+		pushPrediction = PushState.Finished;
+		switch ( pushApproval ) {
 			case ApprovalState.Approved:
 				//ok, finishing
 				FinishPrediction();
@@ -210,253 +570,26 @@ public class PushPull : VisibleBehaviour {
 
 	#endregion
 
-	#region old
-
-//
-//	[SyncVar] public GameObject pulledBy;
-//
-//	//SyncVar to make sure the state is synced with new players
-//	[SyncVar] public bool custNetActiveState;
-//
-//	public override void OnStartServer(){
-//		custNetActiveState = true;
-//		base.OnStartServer();
-//	}
-//
-//	public virtual void OnMouseDown()
-//	{
-//		// PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null condition makes sure that the player itself
-//		// isn't being pulled. If he is then he is not allowed to pull anything else as this can cause problems
-//		if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)){
-//			if (PlayerManager.LocalPlayerScript.IsInReach(transform.position) &&
-//				transform != PlayerManager.LocalPlayerScript.transform && PlayerManager.LocalPlayerScript.playerMove.pushPull.pulledBy == null) {
-//				if (PlayerManager.LocalPlayerScript.PlayerSync.PullingObject != null &&
-//				   PlayerManager.LocalPlayerScript.PlayerSync.PullingObject != gameObject) {
-//					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(PlayerManager.LocalPlayerScript.PlayerSync.PullingObject);
-//				}
-//
-//				if (pulledBy == PlayerManager.LocalPlayer) {
-//					CancelPullBehaviour();
-//				} else {
-//					CancelPullBehaviour();
-//					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPullObject(gameObject);
-//					//Predictive pull:
-//					if (customNetTransform != null) {
-//						customNetTransform.enabled = false;
-//					}
-//					PlayerManager.LocalPlayerScript.PlayerSync.PullingObject = gameObject;
-//				}
-//			}
-//		}
-//	}
-//
-//	public void CancelPullBehaviour()
-//	{
-//		if (pulledBy == PlayerManager.LocalPlayer) {
-//			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopPulling(gameObject);
-//			return;
-//		}
-//		if (pulledBy != PlayerManager.LocalPlayer) {
-//			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdStopOtherPulling(gameObject);
-//		}
-//		PlayerManager.LocalPlayerScript.PlayerSync.PullReset(gameObject.GetComponent<NetworkIdentity>().netId);
-//	}
-//
-//	public void TryPush(GameObject pushedBy, Vector2 pushDir)
-//	{
-//		if (pushDir != Vector2.up && pushDir != Vector2.right && pushDir != Vector2.down && pushDir != Vector2.left) {
-//			return;
-//		}
-//		if (pushing || !isPushable || customNetTransform.isPushing
-//			|| customNetTransform.predictivePushing) {
-//			return;
-//		}
-//
-//		if (pulledBy != null) {
-//			if (pulledBy != PlayerManager.LocalPlayer) {
-//				pulledBy.GetComponent<PlayerNetworkActions>().CmdStopOtherPulling(gameObject);
-//			} else {
-//				pulledBy.GetComponent<PlayerNetworkActions>().CmdStopPulling(gameObject);
-//				PlayerManager.LocalPlayerScript.playerNetworkActions.isPulling = false;
-//				PlayerManager.LocalPlayerScript.PlayerSync.PullingObject = null;
-//			}
-//
-//			pulledBy = null;
-//
-//		}
-//
-//		Vector3Int newPos = Vector3Int.RoundToInt(transform.localPosition + (Vector3)pushDir);
-//
-//		if (matrix.IsPassableAt(newPos) || matrix.ContainsAt(newPos, gameObject)) {
-//			//Start the push on the client, then start on the server, the server then tells all other clients to start the push also
-//			pusher = pushedBy;
-//			pushTarget = newPos;
-//			//Start command to push on server
-//			if (pusher == PlayerManager.LocalPlayer) {
-//				//pushing for local player is set to true from CNT, to make sure prediction isn't overwhelmed
-//				customNetTransform.PushToPosition(pushTarget, PlayerManager.LocalPlayerScript.playerMove.speed, this);
-//				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryPush(gameObject, transform.localPosition, pushTarget,
-//				                                                                PlayerManager.LocalPlayerScript.playerMove.speed);
-//			}
-//		}
-//	}
-//
-//
-//	public void BreakPull()
-//	{
-//		PlayerScript player = PlayerManager.LocalPlayerScript;
-//		GameObject pullingObject = player.PlayerSync.PullingObject;
-//		if (!pullingObject || !pullingObject.Equals(gameObject)) {
-//			return;
-//		}
-//		player.PlayerSync.PullReset(NetworkInstanceId.Invalid);
-//		player.PlayerSync.PullingObject = null;
-//		player.PlayerSync.PullObjectID = NetworkInstanceId.Invalid;
-//		player.playerNetworkActions.isPulling = false;
-//		pulledBy = null;
-//	}
-//
-//	//This is to turn off CNT while pulling an object
-//	[ClientRpc]
-//	public void RpcToggleCnt(bool activeState){
-//		if(customNetTransform != null){
-//			customNetTransform.enabled = activeState;
-//		}
-//	}
-//
-//
-//	private void Update()
-//	{
-//		if (pushing) {
-//			if (customNetTransform.predictivePushing) {
-//				//Wait for the server to catch up to the pushtarget if predictivePushing is true
-//				if (Vector3.Distance(currentPos, pushTarget) < 0.1f) {
-//					//if it is then set it to false, this ensures that the player cannot keep pushing if
-//					//he is experiencing high lag by waiting for the server position to match up
-//					customNetTransform.predictivePushing = false;
-//				}
-//				return;
-//			}
-//
-//			if (Vector3.Distance(transform.localPosition, pushTarget) < 0.1f && !customNetTransform.isPushing) {
-//				pushing = false;
-//				customNetTransform.predictivePushing = false;
-//				registerTile.UpdatePosition();
-//			}
-//			if(pushing && customNetTransform.IsFloatingClient && customNetTransform.IsInSpace){
-//				pushing = false;
-//				customNetTransform.predictivePushing = false;
-//			}
-//		}
-//	}
-//
-//	private void LateUpdate()
-//	{
-//		if (CustomNetworkManager.Instance._isServer) {
-//			if (transform.hasChanged) {
-//				transform.hasChanged = false;
-//				currentPos = transform.localPosition;
-//			}
-//		}
-//	}
-
-	#endregion
-
-	#region PNA
-
-//	[HideInInspector] public bool isPulling;
-//
-//	[Command]
-//	public void CmdPullObject(GameObject obj)
-//	{
-//		if (isPulling)
-//		{
-//			GameObject cObj = gameObject.GetComponent<IPlayerSync>().PullingObject;
-//			cObj.GetComponent<PushPull>().pulledBy = null;
-//			gameObject.GetComponent<IPlayerSync>().PullObjectID = NetworkInstanceId.Invalid;
-//		}
-//
-//		PushPull pulled = obj.GetComponent<PushPull>();
-//		//Stop CNT as the transform of the pulled obj is now handled by PlayerSync
-//		pulled.RpcToggleCnt(false);
-//		//Cache value for new players
-//		pulled.custNetActiveState = false;
-//		//check if the object you want to pull is another player
-//		if (pulled.isPlayer)
-//		{
-//			IPlayerSync playerS = obj.GetComponent<IPlayerSync>();
-//			//Anything that the other player is pulling should be stopped
-//			if (playerS.PullingObject != null)
-//			{
-//				PlayerNetworkActions otherPNA = obj.GetComponent<PlayerNetworkActions>();
-//				otherPNA.CmdStopOtherPulling(playerS.PullingObject);
-//			}
-//		}
-//		//Other player is pulling object, send stop on that player
-//		if (pulled.pulledBy != null)
-//		{
-//			if (pulled.pulledBy != gameObject)
-//			{
-//				pulled.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
-//			}
-//		}
-//
-//		if (pulled != null)
-//		{
-//			IPlayerSync pS = GetComponent<IPlayerSync>();
-//			pS.PullObjectID = pulled.netId;
-//			isPulling = true;
-//		}
-//	}
-//
-//	//if two people try to pull the same object
-//	[Command]
-//	public void CmdStopOtherPulling(GameObject obj)
-//	{
-//		PushPull objA = obj.GetComponent<PushPull>();
-//		objA.custNetActiveState = true;
-//		if (objA.pulledBy != null)
-//		{
-//			objA.pulledBy.GetComponent<PlayerNetworkActions>().CmdStopPulling(obj);
-//		}
-//		var netTransform = obj.GetComponent<CustomNetTransform>();
-//		if (netTransform != null) {
-//			netTransform.SetPosition(obj.transform.localPosition);
-//		}
-//	}
-//
-//	[Command]
-//	public void CmdStopPulling(GameObject obj)
-//	{
-//		if (!isPulling)
-//		{
-//			return;
-//		}
-//
-//		isPulling = false;
-//		PushPull pulled = obj.GetComponent<PushPull>();
-//		pulled.RpcToggleCnt(true);
-//		//Cache value for new players
-//		pulled.custNetActiveState = true;
-//		if (pulled != null)
-//		{
-//			//			//this triggers currentPos syncvar hook to make sure registertile is been completed on all clients
-//			//			pulled.currentPos = pulled.transform.position;
-//
-//			IPlayerSync pS = gameObject.GetComponent<IPlayerSync>();
-//			pS.PullObjectID = NetworkInstanceId.Invalid;
-//			pulled.pulledBy = null;
-//		}
-//		var netTransform = obj.GetComponent<CustomNetTransform>();
-//		if (netTransform != null) {
-//			netTransform.SetPosition(obj.transform.localPosition);
-//		}
-//	}
-
-	#endregion
-
 	//Stop object
 	public void Stop() {
 		Pushable.Stop();
 	}
+
+#if UNITY_EDITOR
+	private static Color color1 = Color.red;
+	private static Color color2 = Color.cyan;
+	private static Vector3 offset = new Vector2(0.03f,0.05f);
+
+	private void OnDrawGizmos() {
+		if ( IsBeingPulled ) {
+			Gizmos.color = color1;
+			GizmoUtils.DrawArrow( transform.position, PulledBy.transform.position - transform.position, 0.1f );
+		}
+		if ( IsBeingPulledClient ) {
+			Gizmos.color = color2;
+			Vector3 offPosition = transform.position + offset;
+			GizmoUtils.DrawArrow( offPosition, (PulledByClient.transform.position + offset) - offPosition, 0.1f );
+		}
+	}
+#endif
 }

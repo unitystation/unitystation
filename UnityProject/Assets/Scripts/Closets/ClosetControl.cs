@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -19,7 +19,7 @@ using UnityEngine.Networking;
 		[SyncVar(hook = nameof(LockUnlock))] public bool IsLocked;
 		public GameObject items;
 		public LockLightController lockLight;
-		
+
 		private RegisterCloset registerTile;
 		private Matrix matrix => registerTile.Matrix;
 
@@ -52,6 +52,32 @@ using UnityEngine.Networking;
 		{
 			StartCoroutine(WaitForLoad());
 			base.OnStartClient();
+		}
+
+		/// SERVERSIDE -- Does this closet contain this object? (if it's closed)
+		public bool Contains( GameObject gameObject )
+		{
+			if ( !IsClosed )
+			{
+				return false;
+			}
+
+			foreach ( var player in heldPlayers )
+			{
+				if ( player.gameObject == gameObject )
+				{
+					return true;
+				}
+			}
+			foreach ( var item in heldItems )
+			{
+				if ( item.gameObject == gameObject )
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		private IEnumerator WaitForLoad()
@@ -143,40 +169,38 @@ using UnityEngine.Networking;
 		}
 		[ContextMethod("Open/close","hand")]
 		public void GUIInteract(){
-			Interact(
-				PlayerManager.LocalPlayerScript.gameObject,
-				PlayerManager.LocalPlayerScript.WorldPos,
-				UIManager.Instance.hands.CurrentSlot.eventName );
+			//don't put your hand contents on open/close rmb action!
+			InteractInternal( false );
 		}
-		public override void Interact(GameObject originator, Vector3 position, string hand)
-		{
-			//FIXME this should be rewritten to net messages, see i.e. TableTrigger
-			if (Input.GetKey(KeyCode.LeftControl))
-			{
+		public override void Interact(GameObject originator, Vector3 position, string hand) {
+			InteractInternal();
+		}
+
+		private void InteractInternal(bool placeItem = true) {
+			//this better be rewritten to net messages: following code is executed on clientside
+			PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
+			if ( localPlayer.canNotInteract() ) {
 				return;
 			}
 
-			if (PlayerManager.PlayerInReach(transform))
-			{
-				if (IsClosed)
-				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+			bool isInReach = localPlayer.IsInReach( registerTile );
+			if ( isInReach || localPlayer.IsHidden ) {
+				if ( IsClosed ) {
+					localPlayer.playerNetworkActions.CmdToggleCupboard(gameObject);
 					return;
 				}
 
 				GameObject item = UIManager.Hands.CurrentSlot.Item;
-				if (item != null)
+				if ( placeItem && item != null && isInReach )
 				{
-					Vector3 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-					targetPosition.z = 0f;
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPlaceItem(
+					localPlayer.playerNetworkActions.CmdPlaceItem(
 						UIManager.Hands.CurrentSlot.eventName, transform.position, null, false);
 
 					item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 				}
 				else
 				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleCupboard(gameObject);
+					localPlayer.playerNetworkActions.CmdToggleCupboard(gameObject);
 				}
 			}
 		}
@@ -206,8 +230,10 @@ using UnityEngine.Networking;
 				CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
 				if (on)
 				{
-					netTransform.AppearAtPositionServer(transform.position);
-//					item.transform.position = transform.position;
+					//avoids blinking of premapped items when opening first time in another place:
+					netTransform.AppearAtPosition(registerTile.WorldPosition);
+					netTransform.AppearAtPositionServer(registerTile.WorldPosition);
+					//todo: if closet is moving, apply impulse to contained items and players
 				}
 				else
 				{
@@ -227,18 +253,20 @@ using UnityEngine.Networking;
 
 			foreach (ObjectBehaviour player in heldPlayers)
 			{
+				var playerScript = player.GetComponent<PlayerScript>();
+				var playerSync = playerScript.PlayerSync;
 				if (on)
 				{
-					player.transform.position = transform.position;
-					player.GetComponent<PlayerSync>().SetPosition(transform.position);
+					playerSync.AppearAtPositionServer( registerTile.WorldPosition );
 				}
 				player.visibleState = on;
 
 				if (!on)
 				{
-					//Make sure a ClosetPlayerHandler is created on the client to monitor 
+					playerSync.DisappearFromWorldServer();
+					//Make sure a ClosetPlayerHandler is created on the client to monitor
 					//the players input inside the storage. The handler also controls the camera follow targets:
-					if (!player.GetComponent<PlayerMove>().isGhost) {
+					if (!playerScript.playerMove.isGhost) {
 						ClosetHandlerMessage.Send(player.gameObject, gameObject);
 					}
 				}

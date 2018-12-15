@@ -26,6 +26,8 @@ internal enum MessageTypes : short
 	StorageObjectSyncMessage = 1022,
 	SyncPlayerInventoryGuidMessage = 1023,
 	StorageObjectUUIDSyncMessage = 1024,
+	ElectricalStatsMessage = 1025,
+	InformPull = 1026,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
@@ -41,4 +43,5 @@ internal enum MessageTypes : short
 	TabInteractMessage = 2010,
 	UIInteractMessage = 2011,
 	RequestTileDeconstructMessage = 2012,
+	RequestElectricalStats = 2013
 }

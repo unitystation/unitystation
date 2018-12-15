@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114325905384881024}
   - component: {fileID: 114456479662004144}
   - component: {fileID: 114195129605414080}
+  - component: {fileID: 114202447134840306}
   m_Layer: 11
   m_Name: Closet_Oxygen
   m_TagString: Untagged
@@ -199,6 +200,17 @@ MonoBehaviour:
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
+--- !u!114 &114202447134840306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1146263997293372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114325905384881024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -227,17 +239,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 1
-  pulledBy: {fileID: 0}
-  custNetActiveState: 0
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
+  isNotPushable: 0
 --- !u!114 &114473011698291292
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -281,8 +286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
 --- !u!212 &212309241971002690
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -316,7 +319,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -391668011
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300074, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -362,7 +365,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -391668011
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300076, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

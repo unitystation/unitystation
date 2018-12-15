@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Text.RegularExpressions;
 
 public class StringManager : MonoBehaviour
 {
@@ -26,25 +25,30 @@ public class StringManager : MonoBehaviour
 	{
 		for (int i = 0; i < nameTextFiles.Count; i++)
 		{
-			string[] lines = Regex.Split(nameTextFiles[i].text, "\n|\r|\r\n");
+			string[] lines = nameTextFiles[i].text.Split(
+				new[] { "\r\n", "\r", "\n" },
+				System.StringSplitOptions.None);
 			textObjects.Add(nameTextFiles[i].name, new List<string>(lines));
 		}
 	}
 
 	public static string GetRandomMaleName(){
-		var newName = Instance.textObjects["first_male"]
-		[Random.Range(0,Instance.textObjects["first_male"].Count - 1)];
-		newName += " " + Instance.textObjects["last"]
-		[Random.Range(0,Instance.textObjects["last"].Count - 1)];
-		return newName;
+		return GetRandomName(Gender.Male);
 	}
 
 	public static string GetRandomFemaleName(){
-		var newName = Instance.textObjects["first_female"]
-		[Random.Range(0,Instance.textObjects["first_female"].Count - 1)];
-		newName += " " + Instance.textObjects["last"]
-		[Random.Range(0,Instance.textObjects["last"].Count - 1)];
-		return newName;
+		return GetRandomName(Gender.Female);
 	}
 
+	/// <summary>
+	/// Combines a random first and last name depending on gender, uses both male and female names if gender is Nueter
+	/// </summary>
+	public static string GetRandomName(Gender gender)
+	{
+		if (gender == Gender.Neuter) gender = Random.value > 0.5f ? Gender.Male : Gender.Female; //Uses random gendered name if Nueter
+		var genderKey = gender.ToString().ToLowerInvariant(); //ToLowerInvariant because ToLower has different behaviour based on culture
+		var firstName = Instance.textObjects[$"first_{genderKey}"][Random.Range(0, Instance.textObjects[$"first_{genderKey}"].Count)]; //Random.Range is max exclusive and as such .Count can be used directly
+		var lastName  = Instance.textObjects["last"              ][Random.Range(0, Instance.textObjects["last"              ].Count)];
+		return $"{firstName} {lastName}";
+	}
 }

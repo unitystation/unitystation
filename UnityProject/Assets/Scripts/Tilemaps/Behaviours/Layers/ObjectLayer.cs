@@ -43,7 +43,7 @@ using UnityEngine;
 			base.RemoveTile(position);
 		}
 
-		public override bool IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true )
+		public override bool IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true, GameObject context = null )
 		{
 			//Targeting windoors here
 			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
@@ -55,9 +55,9 @@ using UnityEngine;
 			List<RegisterTile> objectsTo = Objects.Get<RegisterTile>(to);
 			bool toPass;
 			if ( inclPlayers ) {
-				toPass = objectsTo.All(o => o.IsPassable(origin));
+				toPass = objectsTo.All( o => o.IsPassable(origin) || (context && o.gameObject == context) );
 			} else {
-				toPass = objectsTo.All(o => o.ObjectType == ObjectType.Player || o.IsPassable(origin));
+				toPass = objectsTo.All( o => o.ObjectType == ObjectType.Player || o.IsPassable(origin) || (context && o.gameObject == context) );
 			}
 
 			bool rods = base.IsPassableAt(origin, to, inclPlayers);

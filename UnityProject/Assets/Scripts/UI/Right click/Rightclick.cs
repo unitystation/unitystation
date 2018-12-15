@@ -19,16 +19,14 @@ public class Rightclick : MonoBehaviour {
 		public string Title;
 	}
 	public Dictionary<string,int> MenuOrder = new Dictionary<string,int>(){
-		["Examine"] = 1, 
+		["Examine"] = 1,
 		["Pick Up"] = 2,
-		["Drag"] = 3, 
-		["Open/close"] = 4, 
-		["Details"] = 5,
-		["Turn on/Turn off"] = 6, 
-		["Toggle Charge"] = 7, 
-		["Toggle Support"] = 8, 
-		["Unknown"] = 9, 
-
+		["Pull"] = 3,
+		["Open/close"] = 4,
+		["Details"] = 5,["Turn on/Turn off"] = 6,
+		["Toggle Charge"] = 7,
+		["Toggle Support"] = 8,
+		["Unknown"] = 9,
 	};
 
 	public Dictionary<string, Func<bool>> CheckDictionary = new Dictionary<string, Func<bool>>(){
@@ -52,7 +50,7 @@ public class Rightclick : MonoBehaviour {
 		public MethodInfo Method;
 		public MonoBehaviour Mono;
 	}
-		
+
 
 	void Awake(){
 		if(ins == null){
@@ -60,7 +58,7 @@ public class Rightclick : MonoBehaviour {
 		} else {
 			Destroy(this);
 		}
-	
+
 		//Make sure to add your sprite on load
 		SpriteDictionary ["hand"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "hand");
 		SpriteDictionary ["Magnifying_glass"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Magnifying_glass");
@@ -91,7 +89,7 @@ public class Rightclick : MonoBehaviour {
 			}
 
 		}
-		
+
 	}
 	private void Generate(List<GameObject> objects){
 		options = new List<Menu> ();
@@ -150,6 +148,7 @@ public class Rightclick : MonoBehaviour {
 						//Logger.Log (method.ToString (), Category.UI);
 						bool CanPass = true;
 						ContextMethod contextMethodMenu = (ContextMethod)method.GetCustomAttributes (typeof(ContextMethod), true)[0];
+
 						if (contextMethodMenu.ToCheck != null) {
 							if (CheckDictionary.ContainsKey (contextMethodMenu.ToCheck)) {
 								if (!CheckDictionary [contextMethodMenu.ToCheck] ()) {
@@ -170,7 +169,6 @@ public class Rightclick : MonoBehaviour {
 								ColorUtility.TryParseHtmlString (ColourDictionary [contextMethodMenu.InterColour], out NewSubMenu.colour);
 								//NewSubMenu.colour = newCol;
 							}
-
 
 							if (contextMethodMenu.BGSpriteName != null) {
 								//Logger.Log ("Getting set", Category.UI);
