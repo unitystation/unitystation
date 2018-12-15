@@ -288,6 +288,7 @@ public class PushPull : VisibleBehaviour {
 
 	[ContextMethod("Pull","Drag_Hand")]
 	public void TryPullThis() {
+		PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("Rustle0" + UnityEngine.Random.Range(1, 4).ToString());
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
 		if ( PlayerScript.IsInReach( this.registerTile, initiator.registerTile ) && initiator != this ) {

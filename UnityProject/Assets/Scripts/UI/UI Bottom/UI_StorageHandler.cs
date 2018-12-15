@@ -18,6 +18,7 @@ public class UI_StorageHandler : MonoBehaviour
 		storageCache = storageObj;
 		storageCache.clientUpdatedDelegate += StorageUpdatedEvent;
 		PopulateInventorySlots();
+		SoundManager.PlayAtPosition("Rustle0" + UnityEngine.Random.Range(1, 6).ToString(), PlayerManager.LocalPlayer.transform.position);
 	}
 
 	private void PopulateInventorySlots()
@@ -46,6 +47,8 @@ public class UI_StorageHandler : MonoBehaviour
 
 	public void CloseStorageUI()
 	{
+		SoundManager.PlayAtPosition("Rustle0" + UnityEngine.Random.Range(1, 6).ToString(), PlayerManager.LocalPlayer.transform.position);
+
 		storageCache.clientUpdatedDelegate -= StorageUpdatedEvent;
 		storageCache = null;
 

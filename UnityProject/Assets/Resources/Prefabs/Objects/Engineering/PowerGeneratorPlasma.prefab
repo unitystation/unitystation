@@ -179,12 +179,13 @@ MonoBehaviour:
   MonitoringResistance: 1e+10
   current: 20
   Previouscurrent: 20
-  generatorSecuredSprite: {fileID: 21300234, guid: 6c565852bdc446c78d0f44aa66c28bc2,
+  generatorSecuredSprite: {fileID: 21300230, guid: 6c565852bdc446c78d0f44aa66c28bc2,
     type: 3}
-  generatorOnSprite: {fileID: 21300232, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
-  generatorUnSecuredSprite: {fileID: 21300230, guid: 6c565852bdc446c78d0f44aa66c28bc2,
+  generatorOnSprite: {fileID: 21300234, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
+  generatorUnSecuredSprite: {fileID: 21300232, guid: 6c565852bdc446c78d0f44aa66c28bc2,
     type: 3}
   spriteRend: {fileID: 212599920820597512}
+  plasmaFuel: []
   ApplianceType: 13
 --- !u!114 &114537316452419530
 MonoBehaviour:
@@ -277,7 +278,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300230, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
+  m_Sprite: {fileID: 21300232, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

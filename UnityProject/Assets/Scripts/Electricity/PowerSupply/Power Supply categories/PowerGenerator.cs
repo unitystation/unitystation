@@ -85,7 +85,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 			}
 			else
 			{
-				spriteRend.sprite = generatorSecuredSprite;
+				spriteRend.sprite = generatorUnSecuredSprite;
 			}
 		}
 	}
@@ -109,25 +109,25 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		{
 			pushPull.isNotPushable = isSecured;
 		}
+
+		SoundManager.PlayAtPosition("Wrench", transform.position);
+
+		if (!isSecured)
+		{
+			spriteRend.sprite = generatorUnSecuredSprite;
+		}
 		else
 		{
-			Debug.Log("TODO: Wrench SoundFX");
-			if (!isSecured)
+			if (!isOn)
 			{
-				spriteRend.sprite = generatorUnSecuredSprite;
+				spriteRend.sprite = generatorSecuredSprite;
 			}
 			else
 			{
-				if (!isOn)
-				{
-					spriteRend.sprite = generatorSecuredSprite;
-				}
-				else
-				{
-					spriteRend.sprite = generatorOnSprite;
-				}
+				spriteRend.sprite = generatorOnSprite;
 			}
 		}
+
 	}
 
 	public override void Interact(GameObject originator, Vector3 position, string hand)
