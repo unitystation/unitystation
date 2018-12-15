@@ -57,9 +57,17 @@ public class RadialMenu : MonoBehaviour {
 		int MaximumAngle = 360; //Linked to range
 		if (Menudepth > 100) {
 			Range = Menus.Count * (360 / Density [Menudepth]); //Try and keep the icons nicely spaced on the outer rings
-			MinimumAngle = (int) (StartingAngle - ((Range/2) - (0.5f * (360 / Density [Menudepth]))));
+			MinimumAngle = (int)(StartingAngle - ((Range / 2) - (0.5f * (360 / Density [Menudepth]))));
 			MaximumAngle = StartingAngle + Range;
-		} 
+		
+
+			if (Range < (SelectionRange [Menudepth - 100] [0] / SelectionRange [Menudepth - 100] [3])) {
+				Range = (int)(SelectionRange [Menudepth - 100] [0] / SelectionRange [Menudepth - 100] [3]); //Try and keep the icons nicely spaced on the outer rings
+				MinimumAngle = (int)(StartingAngle - ((Range / 2) - (0.5f * (Range / Menus.Count))));
+				MaximumAngle = StartingAngle + Range;
+			}
+		}
+	
 		for (int i = 0; i < Menus.Count; i++) {
 			RadialButton newButton = Instantiate (ButtonPrefab) as RadialButton;
 			newButton.transform.SetParent (transform, false);
@@ -77,6 +85,10 @@ public class RadialMenu : MonoBehaviour {
 			newButton.Mono = Menus[i].Mono;
 			newButton.Method = Menus[i].Method;
 			newButton.Hiddentitle = Menus[i].title;
+			if (Menus [i].BackgroundSprite != null) {
+				newButton.Circle.sprite = Menus[i].BackgroundSprite;
+			}
+
 			newButton.MyMenu = this;
 
 			// Annoying dictionary not containing list when Initialised
@@ -96,7 +108,7 @@ public class RadialMenu : MonoBehaviour {
 		}
 		//Pushes the parameters to the selection system
 		List<float> QuickList = new List<float> {
-			Range,MinimumAngle,MaximumAngle
+			Range,MinimumAngle,MaximumAngle, Menus.Count
 		};
 		SelectionRange [Menudepth] = QuickList;
 		Initialised = true;
@@ -127,13 +139,9 @@ public class RadialMenu : MonoBehaviour {
 			IndividualItemDegrees = SelectionRange[CurrentMenuDepth][0] / CurrentOptions.Count;
 			Angle = Angle + ((IndividualItemDegrees) / 2); //Offsets by half a menu so So the different selection areas aren't in the middle of the menu
 
-
-			//Angle = Angle + SelectionRange[CurrentMenuDepth][1];
 			if (Angle > 360) { //Makes sure it's 360
 				Angle += -360;
 			} 
-
-			//Logger.Log (((Angle) / (IndividualItemDegrees)).ToString ()+ " Angle" , Category.UI);
 
 			MenuItem = (int)((Angle) / (IndividualItemDegrees)); 
 
@@ -149,7 +157,6 @@ public class RadialMenu : MonoBehaviour {
 				Selected = CurrentOptions [MenuItem];
 				if (!(LastSelected == Selected)) {
 					if (LastSelectedset) {
-						//LastSelected.SetColour (LastSelected.DefaultColour);
 						if (LastSelected.MenuDepth == CurrentMenuDepth) {
 							LastSelected.title.text = "";
 							LastSelected.transform.SetSiblingIndex (LastSelected.DefaultPosition); 
@@ -157,15 +164,13 @@ public class RadialMenu : MonoBehaviour {
 						} else {
 							ResetDepthOnDestroy [CurrentMenuDepth] = LastSelected;
 						}
-
 					}
 					CurrentOptions [MenuItem].title.text = CurrentOptions [MenuItem].Hiddentitle;
 					CurrentOptions [MenuItem].DefaultColour = CurrentOptions [MenuItem].ReceiveCurrentColour ();
 					CurrentOptions [MenuItem].DefaultPosition = CurrentOptions[MenuItem].transform.GetSiblingIndex();
-					CurrentOptions [MenuItem].SetColour (Color.white);
+					CurrentOptions [MenuItem].SetColour (CurrentOptions [MenuItem].DefaultColour + (Color.white / 3f));
 					CurrentOptions [MenuItem].transform.SetAsLastSibling();
 					LastSelected = CurrentOptions [MenuItem];
-
 					LastSelectedset = true;
 					LastSelectedTime = Time.time;
 					//Logger.Log (LastSelectedTime.ToString (), Category.UI);
@@ -179,18 +184,13 @@ public class RadialMenu : MonoBehaviour {
 							LastSelectedTime = Time.time;
 							NewMenuDepth = NewMenuDepth + 100;
 							int InitialAngle = MenuItem * (360 / CurrentOptions.Count);
-
-							//Logger.Log (InitialAngle.ToString () + "WOW", Category.UI);
 							SpawnButtons (DepthMenus [CurrentMenuDepth] [MenuItem].SubMenus, NewMenuDepth, InitialAngle);
 						}
 					}
 
 				}
-			
-
 			} else {
 				if ((Time.time - LastInRangeSubMenu) > 0.3f && (CurrentMenuDepth > 100)){ //How long it takes to exit a menu
-
 					//Logger.Log ("yo am Destroying", Category.UI);
 					if (ResetDepthOnDestroy.ContainsKey (CurrentMenuDepth))  {
 						ResetDepthOnDestroy [CurrentMenuDepth].title.text = "";
@@ -214,10 +214,7 @@ public class RadialMenu : MonoBehaviour {
 					ResetDepthOnDestroy.Remove (CurrentMenuDepth);
 					CurrentMenuDepth = CurrentMenuDepth - 100;
 					LastSelectedset = false;
-
-
 				}
-				
 			}
 		}
 		if (Input.GetMouseButtonUp (1))
@@ -229,7 +226,6 @@ public class RadialMenu : MonoBehaviour {
 				}
 				//Logger.Log ("yo this "+Selected.title.text , Category.UI);
 			}
-			//CurrentOptions = null;
 			LastSelectedset = false;
 			Destroy (gameObject);
 		}
