@@ -37,6 +37,7 @@ public partial class PlayerSync
 	private Vector2 serverLastDirection;
 
 	private bool isApplyingSpaceDmg;
+	private bool atSpace;
 
 	///
 	public bool IsWeightlessServer {
@@ -614,8 +615,7 @@ public partial class PlayerSync
 	[Server]
 	private void CheckSpaceDamage()
 	{
-		if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition))
-			&& !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
+		if ( AtSpace() && !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
 		{
 			// Hurting people in space even if they are next to the wall
 			if (!IsEvaCompatible())
@@ -623,6 +623,25 @@ public partial class PlayerSync
 				StartCoroutine(ApplyTempSpaceDamage());
 				isApplyingSpaceDmg = true;
 			}
+		}
+	}
+
+	private bool AtSpace()
+	{
+		if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition)))
+		{
+			if(!IsEvaCompatible())
+			{
+				UIManager.Instance.GetComponentInChildren<UI_OxygenAlert>().gameObject.GetComponent<UnityEngine.UI.Image>().enabled = true;
+			}
+
+			return true;
+		}
+		else
+		{
+			UIManager.Instance.GetComponentInChildren<UI_OxygenAlert>().gameObject.GetComponent<UnityEngine.UI.Image>().enabled = false;
+
+			return false;
 		}
 	}
 
