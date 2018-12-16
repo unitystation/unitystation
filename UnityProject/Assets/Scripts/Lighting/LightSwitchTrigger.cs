@@ -101,6 +101,7 @@ public class LightSwitchTrigger : InputTrigger
 			GameObject localObject = localCollider.gameObject;
 			Vector2 localObjectPos = localObject.transform.position;
 			float distance = Vector3.Distance(startPos, localObjectPos);
+
 			if (IsWithinReach(startPos, localObjectPos, distance))
 			{
 				if (localObject.tag != "EmergencyLight")
