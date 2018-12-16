@@ -55,7 +55,15 @@ public class DebugConsole : MonoBehaviour
 		{
 			ToggleConsole();
 		}
-		if(isOpened)fpsText.text = "FPS: " + (1f / Time.deltaTime).ToString("N1");
+		if (isOpened) {
+			var fps = 1f / Time.deltaTime;
+			fpsText.text = "FPS: " + fps.ToString("N1");
+			fpsText.color =
+				fps < 25 ? Color.red :
+				fps < 55 ? Color.yellow :
+				Color.green;
+			fpsText.color /= 2; //Decrease saturation
+		}
 	}
 
 	void ToggleConsole()
