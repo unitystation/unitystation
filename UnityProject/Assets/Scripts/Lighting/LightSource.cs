@@ -153,6 +153,18 @@ public class LightSource : ObjectTrigger
 	{
 		Renderer = GetComponentInChildren<SpriteRenderer>();
 
+		if (mLightRendererObject == null)
+		{
+			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
+		}
+
+		State = InitialState;
+
+		ExtractLightSprites();
+	}
+
+	void Start()
+	{
 		Color _color;
 
 		if (customColor == new Color(0, 0, 0, 0))
@@ -164,14 +176,7 @@ public class LightSource : ObjectTrigger
 			_color = customColor;
 		}
 
-		if (mLightRendererObject == null)
-		{
-			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, _color, 12);
-		}
-
-		State = InitialState;
-
-		ExtractLightSprites();
+		mLightRendererObject.GetComponent<LightSprite>().Color = _color;
 	}
 
 	private void ExtractLightSprites()

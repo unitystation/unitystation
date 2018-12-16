@@ -75,6 +75,16 @@ public class LightSwitchTrigger : InputTrigger
 			return;
 		}
 
+		if (RelatedAPC == null)
+		{
+			return;
+		}
+
+		if (RelatedAPC.Voltage == 0f)
+		{
+			return;
+		}
+
 		if (switchCoolDown)
 		{
 			return;

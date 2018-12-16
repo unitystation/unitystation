@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4185858802756340}
   - component: {fileID: 114345252666061426}
-  m_Layer: 13
+  m_Layer: 21
   m_Name: Light2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ MonoBehaviour:
   mLightRendererObject: {fileID: 1128005765242482}
   Resistance: 1200
   RelatedAPC: {fileID: 0}
-  customColor: {r: 0.49056602, g: 0.047911465, b: 0.039337847, a: 1}
+  customColor: {r: 1, g: 0.02967839, b: 0, a: 0.92156863}
 --- !u!114 &114130103649152614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,9 +208,10 @@ MonoBehaviour:
   - {fileID: 21300002, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   - {fileID: 21300000, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   - {fileID: 21300004, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
-  animateTime: 0.4
+  animateTime: 0.2
+  rotateSpeed: 70
   isOn: 0
-  lightSource: {fileID: 0}
+  lightColor: {r: 1, g: 0.02967839, b: 0, a: 0.92156863}
 --- !u!114 &114838662630386526
 MonoBehaviour:
   m_ObjectHideFlags: 1
