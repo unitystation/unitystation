@@ -80,10 +80,9 @@ public class LightSource : ObjectTrigger
 		else
 		{
 			State = iState ? LightState.On : LightState.Off;
-
-
 		}
 	}
+
 	public void APCConnect(APC ConnectingAPC){
 		//Logger.Log ("Connected");
 		if (RelatedAPC == null) {
@@ -125,8 +124,6 @@ public class LightSource : ObjectTrigger
 				this.GetComponentInChildren<LightSprite> ().Color.a = intensity;
 			}
 		}
-
-
 	}
 
 	private void Awake()

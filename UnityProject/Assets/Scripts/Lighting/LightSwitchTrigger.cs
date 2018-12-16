@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-
 public class LightSwitchTrigger : InputTrigger
 {
 	private const int MAX_TARGETS = 44;
@@ -38,19 +37,24 @@ public class LightSwitchTrigger : InputTrigger
 		//and the rest of the mask caches:
 		lightingMask = LayerMask.GetMask("Lighting");
 		obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
-		DetectLightsAndAction (true);
-		if (RelatedAPC != null) {
-			RelatedAPC.ListOfLightSwitchTriggers.Add (this);
+		DetectLightsAndAction(true);
+		if (RelatedAPC != null)
+		{
+			RelatedAPC.ListOfLightSwitchTriggers.Add(this);
 		}
 	}
-	public void PowerNetworkUpdate(float Voltage){
-		if (Voltage < AtShutOffVoltage && isOn == true) {
+	public void PowerNetworkUpdate(float Voltage)
+	{
+		if (Voltage < AtShutOffVoltage && isOn == true)
+		{
 			isOn = false;
 			PowerCut = true;
-		} else if(PowerCut == true && Voltage > AtShutOffVoltage) {
+		}
+		else if (PowerCut == true && Voltage > AtShutOffVoltage)
+		{
 			isOn = true;
 			PowerCut = false;
-		} 
+		}
 
 	}
 	public override void OnStartClient()
@@ -99,11 +103,13 @@ public class LightSwitchTrigger : InputTrigger
 			float distance = Vector3.Distance(startPos, localObjectPos);
 			if (IsWithinReach(startPos, localObjectPos, distance))
 			{
-
-
-				localObject.SendMessage("Trigger", state , SendMessageOptions.DontRequireReceiver);
-				if (RelatedAPC != null) {
-					localObject.SendMessage("APCConnect", RelatedAPC , SendMessageOptions.DontRequireReceiver);
+				if (localObject.tag != "EmergencyLight")
+				{
+					localObject.SendMessage("Trigger", state, SendMessageOptions.DontRequireReceiver);
+				}
+				if (RelatedAPC != null)
+				{
+					localObject.SendMessage("APCConnect", RelatedAPC, SendMessageOptions.DontRequireReceiver);
 				}
 			}
 		}
@@ -111,8 +117,7 @@ public class LightSwitchTrigger : InputTrigger
 
 	private bool IsWithinReach(Vector2 pos, Vector2 targetPos, float distance)
 	{
-		return distance <= radius
-			&&
+		return distance <= radius &&
 			Physics2D.Raycast(pos, targetPos - pos, distance, obstacleMask).collider == null;
 	}
 

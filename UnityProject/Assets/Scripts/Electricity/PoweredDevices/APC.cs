@@ -20,6 +20,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	public dynamic dynamicVariable = 1;
 
 	public List<LightSource> ListOfLights = new List<LightSource>();
+	public List<EmergencyLightAnimator> ListOfEmergencyLights = new List<EmergencyLightAnimator>();
 
 	public List<LightSwitchTrigger> ListOfLightSwitchTriggers = new List<LightSwitchTrigger>();
 
