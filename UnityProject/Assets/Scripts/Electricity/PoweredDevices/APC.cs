@@ -20,6 +20,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	public dynamic dynamicVariable = 1;
 
 	public List<LightSource> ListOfLights = new List<LightSource>();
+	public List<EmergencyLightAnimator> ListOfEmergencyLights = new List<EmergencyLightAnimator>();
 
 	public List<LightSwitchTrigger> ListOfLightSwitchTriggers = new List<LightSwitchTrigger>();
 
@@ -27,7 +28,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 
 	private int displayIndex = 0; //for the animation
 
-	[SyncVar(hook="UpdateDisplay")]
+	[SyncVar(hook = "UpdateDisplay")]
 	public float Voltage;
 
 	public float Resistance = 240;
@@ -115,6 +116,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	void UpdateDisplay(float voltage)
 	{
 		Voltage = voltage;
+		ToggleEmergencyLights(voltage);
 		if (Voltage == 0)
 		{
 			loadedScreenSprites = null; // dead
@@ -130,6 +132,19 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		if (Voltage < 40f && Voltage > 0f)
 		{
 			loadedScreenSprites = redSprites;
+		}
+	}
+
+	void ToggleEmergencyLights(float voltage)
+	{
+		if (ListOfEmergencyLights.Count == 0)
+		{
+			return;
+		}
+
+		for (int i = 0; i < ListOfEmergencyLights.Count; i++)
+		{
+			ListOfEmergencyLights[i].Toggle(voltage == 0);
 		}
 	}
 
