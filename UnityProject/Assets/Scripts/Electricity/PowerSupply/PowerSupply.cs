@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
-public class PowerSupply : NetworkBehaviour, IElectricityIO, IProvidePower
+public class PowerSupply : NetworkBehaviour, IElectricalNeedUpdate, IElectricityIO, IProvidePower
 {
 	public int DirectionStart;
 	public int DirectionEnd;
@@ -19,7 +19,9 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO, IProvidePower
 
 	public RegisterObject registerTile;
 	private Matrix matrix => registerTile.Matrix;
+	private Vector3 posCache;
 	public bool connected = false;
+	private bool isSupplying = false;
 
 	public void FindPossibleConnections()
 	{
@@ -42,6 +44,19 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO, IProvidePower
 		//Not working for some reason:
 		//registerTile = gameObject.GetComponent<RegisterItem>();
 		StartCoroutine(WaitForLoad());
+		posCache = transform.localPosition;
+		UpdateManager.Instance.Add(UpdateMe);
+	}
+
+	public void OnDisable()
+	{
+		if (isServer)
+		{
+			if (UpdateManager.Instance != null)
+			{
+				UpdateManager.Instance.Remove(UpdateMe);
+			}
+		}
 	}
 
 	IEnumerator WaitForLoad()
@@ -50,12 +65,34 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO, IProvidePower
 		FindPossibleConnections();
 	}
 
+	//UpdateManager on server only
+	void UpdateMe()
+	{
+		if (posCache != transform.localPosition)
+		{
+			posCache = transform.localPosition;
+			if (isSupplying)
+			{
+				TurnOffSupply();
+			}
+			FindPossibleConnections();
+		}
+	}
+
 	public void TurnOnSupply()
-	{ }
+	{
+		ElectricalSynchronisation.AddSupply(this, InData.Categorytype);
+		ElectricalSynchronisation.StructureChangeReact = true;
+		ElectricalSynchronisation.ResistanceChange = true;
+		ElectricalSynchronisation.CurrentChange = true;
+		isSupplying = true;
+	}
 
 	public void TurnOffSupply()
 	{
 		RemoveSupply(this.GameObject());
+		ElectricalSynchronisation.CurrentChange = true;
+		isSupplying = false;
 	}
 
 	public void PowerUpdateStructureChange()
@@ -129,8 +166,7 @@ public class PowerSupply : NetworkBehaviour, IElectricityIO, IProvidePower
 		InputOutputFunctions.ElectricityInput(tick, Current, SourceInstance, ComingFrom, this);
 
 	}
-	public void SetConnPoints(int DirectionEndin, int DirectionStartin)
-	{ }
+	public void SetConnPoints(int DirectionEndin, int DirectionStartin) { }
 
 	public void ElectricityOutput(int tick, float Current, GameObject SourceInstance)
 	{

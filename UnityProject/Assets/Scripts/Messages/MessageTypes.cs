@@ -27,6 +27,7 @@ internal enum MessageTypes : short
 	SyncPlayerInventoryGuidMessage = 1023,
 	StorageObjectUUIDSyncMessage = 1024,
 	ElectricalStatsMessage = 1025,
+	InformPull = 1026,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,

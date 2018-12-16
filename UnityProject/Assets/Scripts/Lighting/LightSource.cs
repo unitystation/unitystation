@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using System;
 using Light2D;
 using UnityEngine;
 
@@ -80,16 +80,32 @@ public class LightSource : ObjectTrigger
 		else
 		{
 			State = iState ? LightState.On : LightState.Off;
-
-
 		}
 	}
-	public void APCConnect(APC ConnectingAPC){
+
+	public void APCConnect(APC ConnectingAPC)
+	{
 		//Logger.Log ("Connected");
-		if (RelatedAPC == null) {
-			RelatedAPC = ConnectingAPC; 
-			if (State == LightState.On) {
-				RelatedAPC.ListOfLights.Add (this);
+		if (RelatedAPC == null)
+		{
+			RelatedAPC = ConnectingAPC;
+			if (gameObject.tag == "EmergencyLight")
+			{
+				var emergLightAnim = gameObject.GetComponent<EmergencyLightAnimator>();
+				if (emergLightAnim != null)
+				{
+					if (!RelatedAPC.ListOfEmergencyLights.Contains(emergLightAnim))
+					{
+						RelatedAPC.ListOfEmergencyLights.Add(emergLightAnim);
+					}
+				}
+			}
+			else
+			{
+				if (State == LightState.On)
+				{
+					RelatedAPC.ListOfLights.Add(this);
+				}
 			}
 		}
 	}
@@ -111,28 +127,44 @@ public class LightSource : ObjectTrigger
 			mLightRendererObject.SetActive(iValue == LightState.On);
 	}
 
-	public void PowerLightIntensityUpdate (float Voltage){
-		if (State == LightState.Off) {
-			RelatedAPC.ListOfLights.Remove (this);
+	public void PowerLightIntensityUpdate(float Voltage)
+	{
+		if (State == LightState.Off)
+		{
+			RelatedAPC.ListOfLights.Remove(this);
 			RelatedAPC = null;
-		} else {
+		}
+		else
+		{
 			float intensity = Voltage / fullIntensityVoltage;
-			if (intensity > 1) {
+			if (intensity > 1)
+			{
 				intensity = 1;
-			} 
-			if (PreviousIntensity != intensity) {
+			}
+			if (PreviousIntensity != intensity)
+			{
 
-				this.GetComponentInChildren<LightSprite> ().Color.a = intensity;
+				this.GetComponentInChildren<LightSprite>().Color.a = intensity;
 			}
 		}
-
-
 	}
 
 	private void Awake()
 	{
 		Renderer = GetComponentInChildren<SpriteRenderer>();
 
+		if (mLightRendererObject == null)
+		{
+			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
+		}
+
+		State = InitialState;
+
+		ExtractLightSprites();
+	}
+
+	void Start()
+	{
 		Color _color;
 
 		if (customColor == new Color(0, 0, 0, 0))
@@ -144,14 +176,7 @@ public class LightSource : ObjectTrigger
 			_color = customColor;
 		}
 
-		if (mLightRendererObject == null)
-		{
-			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, _color, 12);
-		}
-
-		State = InitialState;
-
-		ExtractLightSprites();
+		mLightRendererObject.GetComponent<LightSprite>().Color = _color;
 	}
 
 	private void ExtractLightSprites()

@@ -15,22 +15,28 @@ public class PlayerMoveMessage : ServerMessage
 	{
 //		Logger.Log("Processed " + ToString());
 		yield return WaitFor(SubjectPlayer);
-		var playerSync = NetworkObject.GetComponent<PlayerSync>();
-		playerSync.UpdateClientState(State);
-		if (State.ResetClientQueue)
-		{
-			playerSync.ClearQueueClient();
-		}
-		if ( State.MoveNumber == 0 ) {
-//			Logger.Log( "Zero step rollback" );
-			playerSync.ClearQueueClient();
-			playerSync.RollbackPrediction();
+
+		if ( NetworkObject == null ) {
+			yield break;
 		}
 
+		var playerSync = NetworkObject.GetComponent<PlayerSync>();
+		playerSync.UpdateClientState(State);
+
 		if ( NetworkObject == PlayerManager.LocalPlayer ) {
+			if (State.ResetClientQueue)
+			{
+				playerSync.ClearQueueClient();
+			}
+			if ( State.MoveNumber == 0 ) {
+	//			Logger.Log( "Zero step rollback" );
+				playerSync.ClearQueueClient();
+				playerSync.RollbackPrediction();
+			}
+
 			ControlTabs.CheckTabClose();
 		}
-		
+
 	}
 
 	public static PlayerMoveMessage Send(GameObject recipient, GameObject subjectPlayer, PlayerState state)
