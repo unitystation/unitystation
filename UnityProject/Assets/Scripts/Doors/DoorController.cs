@@ -38,7 +38,7 @@ using UnityEngine.Networking;
 		public OpeningDirection openingDirection;
 		private RegisterDoor registerTile;
 		private Matrix matrix => registerTile.Matrix;
-		
+
 		private AccessRestrictions accessRestrictions;
 		public AccessRestrictions AccessRestrictions {
 			get {
@@ -146,7 +146,7 @@ using UnityEngine.Networking;
 				ResetWaiting();
 			}
 		}
-		
+
 		[Server]
 		public void Close() {
 			IsOpened = false;
@@ -208,12 +208,12 @@ using UnityEngine.Networking;
 
 		#region UI Mouse Actions
 
-		public void OnMouseEnter()
+		public void OnHoverStart()
 		{
 			UIManager.SetToolTip = doorType + " Door";
 		}
 
-		public void OnMouseExit()
+		public void OnHoverEnd()
 		{
 			UIManager.SetToolTip = "";
 		}

@@ -18,6 +18,7 @@ public class ControlChat : MonoBehaviour
     public Transform content;
     public GameObject chatEntryPrefab;
     public GameObject background;
+    public GameObject uiObj;
 
     // set in inspector (to enable/disable panel)
 
@@ -35,6 +36,7 @@ public class ControlChat : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad (gameObject);
+            uiObj.SetActive(true);
         }
         else
         {

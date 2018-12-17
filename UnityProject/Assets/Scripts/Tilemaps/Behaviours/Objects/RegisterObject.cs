@@ -8,7 +8,7 @@ using UnityEngine;
 		public bool AtmosPassable = true;
 
 		public bool Passable = true;
-	
+
 		public override bool IsPassable( Vector3Int from ) => Passable;
 
 		public override bool IsPassable()
@@ -23,7 +23,7 @@ using UnityEngine;
 
 		#region UI Mouse Actions
 
-		public void OnMouseEnter()
+		public void OnHoverStart()
 		{
 			//thanks stack overflow!
 			Regex r = new Regex(@"
@@ -35,7 +35,7 @@ using UnityEngine;
 			UIManager.SetToolTip = tmp;
 		}
 
-		public void OnMouseExit()
+		public void OnHoverEnd()
 		{
 			UIManager.SetToolTip = "";
 		}

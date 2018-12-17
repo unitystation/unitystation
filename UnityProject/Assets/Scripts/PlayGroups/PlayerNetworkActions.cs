@@ -365,7 +365,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		equipment.syncEquipSprites[(int)enumA] = spriteRef;
 	}
 
-	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction, 
+	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction,
 	/// otherwise client will forcefully receive update slot messages
 	public void RequestDropItem(string handUUID, bool forceClientInform = true)
 	{
@@ -480,6 +480,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command] //Remember with the parent you can only send networked objects:
 	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
+		var localPlayer = PlayerManager.LocalPlayerScript;
+		if ( localPlayer.canNotInteract() || !localPlayer.IsInReach( pos ) )
+		{
+			return;
+		}
+
 		if (!SlotNotEmpty(slotName))
 		{
 			return;
@@ -523,11 +529,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return Inventory.ContainsKey(eventName) && Inventory[eventName].Item != null;
 	}
 
+	/// Allows interactions if player is in reach or inside closet
 	[Command]
 	public void CmdToggleCupboard(GameObject cupbObj)
 	{
-		ClosetControl closetControl = cupbObj.GetComponent<ClosetControl>();
-		closetControl.ServerToggleCupboard();
+		ClosetControl closet = cupbObj.GetComponent<ClosetControl>();
+		if ( playerScript.canNotInteract() )
+		{
+			return;
+		}
+		if ( playerScript.IsInReach( cupbObj ) || closet.Contains( this.gameObject ) )
+		{
+			closet.ServerToggleCupboard();
+		}
 	}
 
 	[Command]
@@ -638,6 +652,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				playerSprites.currentDirection = Orientation.Up;
 			}
 		}
+		playerScript.pushPull.CmdStopPulling();
 	}
 
 	[Command]
@@ -767,7 +782,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
 		//FIXME: remove health and blood changes after TDM
-		//and use this Cmd for healing hunger and applying 
+		//and use this Cmd for healing hunger and applying
 		//food related attributes instead:
 		playerHealth.AddHealth(baseFood.healAmount);
 		playerHealth.BloodLevel += baseFood.healAmount;

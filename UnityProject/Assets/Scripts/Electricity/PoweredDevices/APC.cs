@@ -20,18 +20,15 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	public dynamic dynamicVariable = 1;
 
 	public List<LightSource> ListOfLights = new List<LightSource>();
+	public List<EmergencyLightAnimator> ListOfEmergencyLights = new List<EmergencyLightAnimator>();
 
 	public List<LightSwitchTrigger> ListOfLightSwitchTriggers = new List<LightSwitchTrigger>();
 
-	private bool batteryInstalled = true;
-	private bool isScreenOn = true;
-
 	private bool SelfDestruct = false;
 
-	private int charge = 10; //charge percent
 	private int displayIndex = 0; //for the animation
 
-	private Coroutine coScreenDisplayRefresh;
+	[SyncVar(hook = "UpdateDisplay")]
 	public float Voltage;
 
 	public float Resistance = 240;
@@ -66,22 +63,13 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		PRLCable.ResistanceReactionA.Resistance = resistance;
 		poweredDevice.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
 		poweredDevice.InData.ControllingDevice = this;
+		StartCoroutine(ScreenDisplayRefresh());
+		UpdateDisplay(Voltage);
 	}
 
 	private void OnDisable()
 	{
 		ElectricalSynchronisation.PoweredDevices.Remove(this);
-		if (coScreenDisplayRefresh != null)
-		{
-			StopCoroutine(coScreenDisplayRefresh);
-			coScreenDisplayRefresh = null;
-		}
-	}
-
-	//Called whenever the PoweredDevice updates
-	void SupplyUpdate()
-	{
-		UpdateDisplay();
 	}
 
 	public void PotentialDestroyed()
@@ -92,12 +80,9 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		}
 	}
 
-	public void PowerUpdateStructureChange()
-	{ }
-	public void PowerUpdateStructureChangeReact()
-	{ }
-	public void PowerUpdateResistanceChange()
-	{ }
+	public void PowerUpdateStructureChange() { }
+	public void PowerUpdateStructureChangeReact() { }
+	public void PowerUpdateResistanceChange() { }
 	public void PowerUpdateCurrentChange()
 	{
 
@@ -127,20 +112,40 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 			ListOfLights[i].PowerLightIntensityUpdate(Voltage);
 		}
 	}
-	void UpdateDisplay()
+
+	void UpdateDisplay(float voltage)
 	{
-		//			if (poweredDevice.suppliedElectricity.current == 0 && charge == 0){
-		//				loadedScreenSprites = null; // dead
-		//			}
-		//			if (poweredDevice.suppliedElectricity.current > 10 && charge > 0 && charge < 98) {
-		//				loadedScreenSprites = blueSprites;
-		//			}
-		//			if (poweredDevice.suppliedElectricity.current > 10 && charge >= 98) {
-		//				loadedScreenSprites = greenSprites;
-		//			}
-		//			if (poweredDevice.suppliedElectricity.current < 10 && charge > 0) {
-		//				loadedScreenSprites = redSprites;
-		//			}
+		Voltage = voltage;
+		ToggleEmergencyLights(voltage);
+		if (Voltage == 0)
+		{
+			loadedScreenSprites = null; // dead
+		}
+		if (Voltage >= 40f && Voltage < 219f)
+		{
+			loadedScreenSprites = blueSprites;
+		}
+		if (Voltage > 219f)
+		{
+			loadedScreenSprites = greenSprites;
+		}
+		if (Voltage < 40f && Voltage > 0f)
+		{
+			loadedScreenSprites = redSprites;
+		}
+	}
+
+	void ToggleEmergencyLights(float voltage)
+	{
+		if (ListOfEmergencyLights.Count == 0)
+		{
+			return;
+		}
+
+		for (int i = 0; i < ListOfEmergencyLights.Count; i++)
+		{
+			ListOfEmergencyLights[i].Toggle(voltage == 0);
+		}
 	}
 
 	IEnumerator ScreenDisplayRefresh()

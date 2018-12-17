@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
+[Serializable]
 public class ElectronicData  { //to Store data about the electrical device
 	public Dictionary<IElectricityIO,HashSet<PowerTypeCategory>> ResistanceToConnectedDevices = new Dictionary<IElectricityIO,HashSet<PowerTypeCategory>>();
 	public List<IElectricityIO> connections = new List<IElectricityIO> ();

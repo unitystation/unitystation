@@ -21,6 +21,8 @@ public class BackPackTrigger : PickUpTrigger
 			{
 				UIManager.TryUpdateSlot(new UISlotObject(storageObj.NextSpareSlot().UUID, item,
 					InventorySlotCache.GetSlotByItem(item)?.inventorySlot.UUID));
+					SoundManager.PlayAtPosition("Rustle0" + UnityEngine.Random.Range(1, 6).ToString(), PlayerManager.LocalPlayer.transform.position);
+
 			}
 		}
 		else

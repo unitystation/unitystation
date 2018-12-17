@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -68,6 +68,9 @@ using UnityEngine.SceneManagement;
 			if (!Screen.fullScreen) {
 				StartCoroutine(ForceGameWindowAspect());
 			}
+#if UNITY_EDITOR
+			StartCoroutine( ForceGameWindowAspect() );
+#endif
 		}
 
 		private void Update()

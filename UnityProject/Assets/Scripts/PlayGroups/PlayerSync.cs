@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +10,35 @@ using UnityEngine.Networking;
 	/// Gives client enough information for smooth simulation
 	public struct PlayerState
 	{
+		public bool Active => Position != TransformState.HiddenPos;
+
 		public int MoveNumber;
 		public Vector3 Position;
 
 		public Vector3 WorldPosition {
 			get {
+				if ( !Active )
+				{
+					return TransformState.HiddenPos;
+				}
 				MatrixInfo matrix = MatrixManager.Get( MatrixId );
 				return MatrixManager.LocalToWorld( Position, matrix );
 			}
 			set {
-				MatrixInfo matrix = MatrixManager.Get( MatrixId );
-				Position = MatrixManager.WorldToLocal( value, matrix );
+				if (value == TransformState.HiddenPos) {
+					Position = TransformState.HiddenPos;
+				}
+				else
+				{
+					MatrixInfo matrix = MatrixManager.Get( MatrixId );
+					Position = MatrixManager.WorldToLocal( value, matrix );
+				}
 			}
 		}
+
+		/// Flag means that this update is a pull follow update,
+		/// So that puller could ignore them
+		public bool IsFollowUpdate;
 
 		public bool NoLerp;
 
@@ -37,11 +53,15 @@ using UnityEngine.Networking;
 		[NonSerialized] public bool ImportantFlightUpdate;
 
 		public int MatrixId;
+		
+		/// Means that this player is hidden
+		public static readonly PlayerState HiddenState =
+			new PlayerState{ Position = TransformState.HiddenPos, MatrixId = 0};
 
 		public override string ToString() {
 			return
-				$"[Move #{MoveNumber}, localPos:{(Vector2)Position}, worldPos:{(Vector2)WorldPosition} {nameof( NoLerp )}:{NoLerp}, {nameof( Impulse )}:{Impulse}, " +
-				$"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, matrix #{MatrixId}]";
+				Equals( HiddenState ) ? "[Hidden]" : $"[Move #{MoveNumber}, localPos:{(Vector2)Position}, worldPos:{(Vector2)WorldPosition} {nameof( NoLerp )}:{NoLerp}, {nameof( Impulse )}:{Impulse}, " +
+				$"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, follow: {IsFollowUpdate}, matrix #{MatrixId}]";
 		}
 	}
 
@@ -110,6 +130,8 @@ using UnityEngine.Networking;
 
 //		private float pullJourney;
 		private PushPull pushPull;
+		public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
+		public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
 
 		private RegisterTile registerTile;
 
@@ -117,17 +139,10 @@ using UnityEngine.Networking;
 			Vector3Int origin = Vector3Int.RoundToInt( state.WorldPosition );
 			Vector3Int direction = Vector3Int.RoundToInt( ( Vector2 ) action.Direction() );
 
-			return MatrixManager.IsPassableAt( origin, origin + direction );
+			return MatrixManager.IsPassableAt( origin, origin + direction, true, gameObject );
 		}
 
 		#region spess interaction logic
-
-		/// On player's tile
-		private bool IsOnPushables( PlayerState state ) {
-			var stateWorldPosition = state.WorldPosition;
-			PushPull pushable;
-			return HasPushablesAt( stateWorldPosition, out pushable );
-		}
 
 		private bool IsAroundPushables( PlayerState state ) {
 			PushPull pushable;
@@ -135,10 +150,11 @@ using UnityEngine.Networking;
 		}
 
 		/// Around player
-		private bool IsAroundPushables( PlayerState state, out PushPull pushable ) {
-			return IsAroundPushables( state.WorldPosition, out pushable );
+		private bool IsAroundPushables( PlayerState state, out PushPull pushable, GameObject except = null ) {
+			return IsAroundPushables( state.WorldPosition, out pushable, except );
 		}
 
+		/// Man, these are expensive and generate a lot of garbage. Try to use sparsely
 		private bool IsAroundPushables( Vector3 worldPos, out PushPull pushable, GameObject except = null ) {
 			pushable = null;
 			foreach ( Vector3Int pos in worldPos.CutToInt().BoundsAround().allPositionsWithin ) {
@@ -150,11 +166,6 @@ using UnityEngine.Networking;
 			return false;
 		}
 
-		public static bool HasInReach( Vector3 worldPos, PushPull hasWhat ) {
-			Vector3Int objectPos = hasWhat.registerTile.WorldPosition;
-			return worldPos.CutToInt().BoundsAround().Contains( objectPos );
-		}
-
 		private bool HasPushablesAt( Vector3 stateWorldPosition, out PushPull firstPushable, GameObject except = null ) {
 			firstPushable = null;
 			var pushables = MatrixManager.GetAt<PushPull>( stateWorldPosition.CutToInt() ).ToArray();
@@ -164,7 +175,7 @@ using UnityEngine.Networking;
 
 			for ( var i = 0; i < pushables.Length; i++ ) {
 				var pushable = pushables[i];
-				if ( pushable.gameObject == ( except ?? this.gameObject ) ) {
+				if ( pushable.gameObject == this.gameObject || except != null && pushable.gameObject == except ) {
 					continue;
 				}
 				firstPushable = pushable;
@@ -176,6 +187,63 @@ using UnityEngine.Networking;
 
 		#endregion
 
+		#region Hiding/Unhiding
+
+		[Server]
+		public void DisappearFromWorldServer()
+		{
+			OnPullInterrupt().Invoke();
+			serverState = PlayerState.HiddenState;
+			serverLerpState = PlayerState.HiddenState;
+			NotifyPlayers();
+		}
+
+		[Server]
+		public void AppearAtPositionServer(Vector3 worldPos)
+		{
+			SetPosition(worldPos);
+		}
+
+		///     Convenience method to make stuff disappear at position.
+		///     For CLIENT prediction purposes.
+		public void DisappearFromWorld()
+		{
+			playerState = PlayerState.HiddenState;
+			UpdateActiveStatus();
+		}
+
+		///     Convenience method to make stuff appear at position
+		///     For CLIENT prediction purposes.
+		public void AppearAtPosition(Vector3 worldPos)
+		{
+			var pos = (Vector2) worldPos; //Cut z-axis
+			playerState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
+			playerState.WorldPosition = pos;
+			transform.position = pos;
+			UpdateActiveStatus();
+		}
+		
+		/// Registers if unhidden, unregisters if hidden
+		private void UpdateActiveStatus()
+		{
+			if (playerState.Active)
+			{
+				RegisterObjects();
+			}
+			else
+			{
+				registerTile.Unregister();
+			}
+			//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example.
+			Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
+			for (int i = 0; i < renderers.Length; i++)
+			{
+				renderers[i].enabled = playerState.Active;
+			}
+		}
+
+		#endregion
+		
 		private void Start() {
 			//Init pending actions queue for your local player
 			if ( isLocalPlayer ) {
@@ -195,17 +263,11 @@ using UnityEngine.Networking;
 
 		private void Update() {
 			if ( isLocalPlayer && playerMove != null ) {
-				// If being pulled by another player and you try to break free
-				//TODO Condition to check for handcuffs / straight jacket
-				// (probably better to adjust allowInput or something)
-//				if ( pushPull.pulledBy != null && !playerMove.isGhost ) {
-//					for ( int i = 0; i < playerMove.keyCodes.Length; i++ ) {
-//						if ( Input.GetKey( playerMove.keyCodes[i] ) ) {
-//							playerScript.playerNetworkActions.CmdStopOtherPulling( gameObject );
-//						}
-//					}
-//					return;
-//				}
+//				 If being pulled by another player and you try to break free
+				if ( pushPull.IsBeingPulledClient && !playerScript.canNotInteract() && IsPressingMoveButtons ) {
+					pushPull.CmdStopFollowing();
+					return;
+				}
 				if ( ClientPositionReady && !playerMove.isGhost
 				   || GhostPositionReady && playerMove.isGhost ) {
 					DoAction();
@@ -213,6 +275,22 @@ using UnityEngine.Networking;
 			}
 
 			Synchronize();
+		}
+
+		private bool IsPressingMoveButtons
+		{
+			get
+			{
+				for ( int i = 0; i < playerMove.keyCodes.Length; i++ )
+				{
+					if ( Input.GetKey( playerMove.keyCodes[i] ) )
+					{
+						return true;
+					}
+				}
+
+				return false;
+			}
 		}
 
 		private void RegisterObjects() {
@@ -229,99 +307,51 @@ using UnityEngine.Networking;
 				return;
 			}
 
-			if ( !playerMove.isGhost ) {
-				if ( matrix != null ) {
-					//Client zone
-					CheckMovementClient();
-					//Server zone
-					if ( isServer ) {
-						if (serverState.Position != serverLerpState.Position) {
-							ServerLerp();
-						} else {
-							TryUpdateServerTarget();
-						}
-						CheckMovementServer();
+			if ( matrix != null )
+			{
+				CheckMovementClient();
+				bool server = isServer;
+				if ( server ) {
+					CheckMovementServer();
+				}
+				if ( !ClientPositionReady ) {
+					Lerp();
+				}
+				if ( server )
+				{
+					if ( Input.GetKeyDown( KeyCode.F7 ) && gameObject == PlayerManager.LocalPlayer ) {
+						SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
 					}
-				}
+					if ( serverState.Position != serverLerpState.Position )
+					{
+						ServerLerp();
+					}
+					else
+					{
+						TryUpdateServerTarget();
+					}
 
-				//Registering
-				if ( registerTile.Position != Vector3Int.RoundToInt( predictedState.Position ) ) {
-					RegisterObjects();
-				}
-			} else {
-				if ( !GhostPositionReady ) { //fixme: ghosts position isn't getting updated on server
-					GhostLerp( predictedState );
 				}
 			}
+
+			//Registering
+			if ( registerTile.Position != Vector3Int.RoundToInt( predictedState.Position ) )
+			{
+				RegisterObjects();
+			}
+		}
+
+		public void OnBecomeGhost()
+		{
+			playerScript.ghost.transform.position = playerState.WorldPosition;
+			ghostPredictedState = playerState;
 		}
 
 		private void GhostLerp( PlayerState state ) {
 			playerScript.ghost.transform.position =
-				Vector3.MoveTowards( playerScript.ghost.transform.position,
-					state.WorldPosition,
-					playerMove.speed * Time.deltaTime );
+				Vector3.MoveTowards( playerScript.ghost.transform.position, state.WorldPosition,
+					playerMove.speed * Time.deltaTime * playerScript.ghost.transform.position.SpeedTo(state.WorldPosition) );
 		}
-
-//		private void PullObject() {
-//			Vector3 proposedPos = Vector3.zero;
-//			if (isLocalPlayer) {
-//				proposedPos = transform.localPosition - (Vector3)LastDirection;
-//			} else {
-//				proposedPos = transform.localPosition - (Vector3)serverLastDirection;
-//			}
-//
-//			Vector3Int pos = Vector3Int.RoundToInt( proposedPos );
-//			if ( matrix.IsPassableAt( pos ) || matrix.ContainsAt( pos, gameObject ) ||
-//			     matrix.ContainsAt( pos, PullingObject ) ) {
-//				//if (isLocalPlayer)
-//				//{
-//				pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition) - offsetTest;
-//				if(pullJourney < 1.2f){
-//					pullJourney = 1f;
-//				}
-//
-//				if(pullJourney > 1.5f){
-//					pullJourney *= 1.2f;
-//				}
-//				//} else
-//				//{
-//				//	pullJourney = Vector3.Distance(PullingObject.transform.localPosition, transform.localPosition);
-//				//}
-//				pullPos = proposedPos;
-//				pullPos.z = PullingObject.transform.localPosition.z;
-//				PullingObject.BroadcastMessage( "FaceDirection",
-//					playerSprites.currentDirection,
-//					SendMessageOptions.DontRequireReceiver );
-//			}
-//		}
-
-//		public void PullReset( NetworkInstanceId netID ) {
-//			PullObjectID = netID;
-//
-//			transform.hasChanged = false;
-//			if ( netID == NetworkInstanceId.Invalid ) {
-//				if ( PullingObject != null ) {
-//					pullRegister.UpdatePosition();
-//					//Could be another player
-//					PlayerSync otherPlayerSync = PullingObject.GetComponent<PlayerSync>();
-//					if ( otherPlayerSync != null ) {
-//						CmdSetPositionFromReset( gameObject,
-//							otherPlayerSync.gameObject,
-//							PullingObject.transform.position );
-//					}
-//				}
-//				pullRegister = null;
-//				PullingObject = null;
-//			} else {
-//				PullingObject = ClientScene.FindLocalObject( netID );
-//				PushPull oA = PullingObject.GetComponent<PushPull>();
-//				pullPos = PullingObject.transform.localPosition;
-//				if ( oA != null ) {
-//					oA.pulledBy = gameObject;
-//				}
-//				pullRegister = PullingObject.GetComponent<RegisterTile>();
-//			}
-//		}
 
 		private PlayerState NextState( PlayerState state, PlayerAction action, out bool matrixChanged, bool isReplay = false ) {
 			var newState = state;
@@ -355,51 +385,63 @@ using UnityEngine.Networking;
 
 #if UNITY_EDITOR
 		//Visual debug
-		private Vector3 size1 = Vector3.one;
-
-		private Vector3 size2 = new Vector3( 0.9f, 0.9f, 0.9f );
-		private Vector3 size3 = new Vector3( 0.8f, 0.8f, 0.8f );
-		private Vector3 size4 = new Vector3( 0.7f, 0.7f, 0.7f );
-		private Vector3 size5 = new Vector3( 1.1f, 1.1f, 1.1f );
-		private Color color1 = Color.red;
-		private Color color2 = DebugTools.HexToColor( "fd7c6e" );//pink
-		private Color color3 = DebugTools.HexToColor( "22e600" );//green
-		private Color color4 = DebugTools.HexToColor( "ebfceb" );//white
-		private Color color5 = DebugTools.HexToColor( "5566ff99" );//blue
+		[NonSerialized]
+		private readonly Vector3 size1 = Vector3.one,
+								 size2 = new Vector3( 0.9f, 0.9f, 0.9f ),
+								 size3 = new Vector3( 0.8f, 0.8f, 0.8f ),
+								 size4 = new Vector3( 0.7f, 0.7f, 0.7f ),
+								 size5 = new Vector3( 1.1f, 1.1f, 1.1f ),
+								 size6 = new Vector3( 0.6f, 0.6f, 0.6f );
+		[NonSerialized]
+		private readonly Color  color0 = DebugTools.HexToColor( "5566ff55" ),//blue
+								color1 = Color.red,
+								color2 = DebugTools.HexToColor( "fd7c6e" ),//pink
+								color3 = DebugTools.HexToColor( "22e600" ),//green
+								color4 = DebugTools.HexToColor( "ebfceb" ),//white
+								color6 = DebugTools.HexToColor( "666666" );//grey
+		private static readonly bool drawMoves = true;
 
 		private void OnDrawGizmos() {
+			//registerTile pos
+			Gizmos.color = color0;
+			Vector3 regPos = registerTile.WorldPosition;
+			Gizmos.DrawCube( regPos, size5 );
+
 			//serverState
 			Gizmos.color = color1;
 			Vector3 stsPos = serverState.WorldPosition;
 			Gizmos.DrawWireCube( stsPos, size1 );
             GizmoUtils.DrawArrow( stsPos + Vector3.left/2, serverState.Impulse );
-            GizmoUtils.DrawText( serverState.MoveNumber.ToString(), stsPos + Vector3.left/4, 15 );
+			if ( drawMoves ) GizmoUtils.DrawText( serverState.MoveNumber.ToString(), stsPos + Vector3.left/4, 15 );
 
 			//serverLerpState
 			Gizmos.color = color2;
 			Vector3 ssPos = serverLerpState.WorldPosition;
 			Gizmos.DrawWireCube( ssPos, size2 );
             GizmoUtils.DrawArrow( ssPos + Vector3.right/2, serverLerpState.Impulse );
-            GizmoUtils.DrawText( serverLerpState.MoveNumber.ToString(), ssPos + Vector3.right/4, 15 );
+			if ( drawMoves ) GizmoUtils.DrawText( serverLerpState.MoveNumber.ToString(), ssPos + Vector3.right/4, 15 );
 
 			//client predictedState
 			Gizmos.color = color3;
 			Vector3 clientPrediction = predictedState.WorldPosition;
 			Gizmos.DrawWireCube( clientPrediction, size3 );
 			GizmoUtils.DrawArrow( clientPrediction + Vector3.left / 5, predictedState.Impulse );
-			GizmoUtils.DrawText( predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15 );
+			if ( drawMoves ) GizmoUtils.DrawText( predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15 );
+
+			//client ghostState
+			Gizmos.color = color6;
+			Vector3 ghostPrediction = ghostPredictedState.WorldPosition;
+			Gizmos.DrawWireCube( ghostPrediction, size6 );
+//			GizmoUtils.DrawArrow( ghostPrediction + Vector3.left / 5, predictedState.Impulse );
+			if ( drawMoves ) GizmoUtils.DrawText( ghostPredictedState.MoveNumber.ToString(), ghostPrediction + Vector3.up/2, 15 );
 
 			//client playerState
 			Gizmos.color = color4;
 			Vector3 clientState = playerState.WorldPosition;
 			Gizmos.DrawWireCube( clientState, size4 );
 			GizmoUtils.DrawArrow( clientState + Vector3.right / 5, playerState.Impulse );
-			GizmoUtils.DrawText( playerState.MoveNumber.ToString(), clientState + Vector3.right, 15 );
+			if ( drawMoves ) GizmoUtils.DrawText( playerState.MoveNumber.ToString(), clientState + Vector3.right, 15 );
 
-			//registerTile pos
-			Gizmos.color = color5;
-			Vector3 regPos = registerTile.WorldPosition;
-			Gizmos.DrawCube( regPos, size5 );
 		}
 #endif
 	}

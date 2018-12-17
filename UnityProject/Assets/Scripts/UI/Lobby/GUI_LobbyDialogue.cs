@@ -67,6 +67,14 @@ namespace Lobby
 			ShowLoginScreen();
 		}
 
+		private void Update() {
+			if ( Input.GetKeyDown( KeyCode.F6 ) && !BuildPreferences.isForRelease )
+			{
+				GameData.IsLoggedIn = true;
+				ShowCharacterEditor();
+			}
+		}
+
 		public void ShowLoginScreen()
 		{
 			HideAllPanels();

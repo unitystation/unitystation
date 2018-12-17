@@ -23,9 +23,9 @@ public class LowVoltageMachineConnector : NetworkBehaviour  , IDeviceControl
 		}
 	}
 
-	public override void OnStartClient()
+	public override void OnStartServer()
 	{
-		base.OnStartClient();
+		base.OnStartServer();
 		RelatedWire.InData.CanConnectTo = CanConnectTo;
 		RelatedWire.InData.Categorytype = ApplianceType;
 		RelatedWire.DirectionEnd = 9;
@@ -33,9 +33,7 @@ public class LowVoltageMachineConnector : NetworkBehaviour  , IDeviceControl
 		RelatedWire.InData.ControllingDevice = this;
 	}
 
-	private void OnDisable()
-	{
-	}
+	//Fixme:
 	public void OnDestroy(){
 		ElectricalSynchronisation.StructureChangeReact = true;
 		ElectricalSynchronisation.ResistanceChange = true;

@@ -41,7 +41,7 @@ using UnityEngine.Tilemaps;
 			}
 		}
 
-		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool inclPlayers = true )
+		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool inclPlayers = true, GameObject context = null )
 		{
 			BasicTile tileTo = tilemap.GetTile<BasicTile>(to);
 			return TileUtils.IsPassable(tileTo);
