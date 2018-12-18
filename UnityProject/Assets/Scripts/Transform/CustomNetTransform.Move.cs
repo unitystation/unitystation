@@ -385,28 +385,44 @@ public partial class CustomNetTransform {
 		}
 
 		//Can't drift to goal for some reason:
+
 		//Check Tile damage from throw
 		var hit2D = Physics2D.RaycastAll(origin, info.Trajectory.normalized, 1.5f, tileDmgMask);
-
+		var hitTilemaps = new List<TilemapDamage>();
 		for (int i = 0; i < hit2D.Length; i++) {
 			//Debug.Log("THROW HIT: " + hit2D[i].collider.gameObject.name);
-
 			//TilemapDamage automatically detects if a layer is below another damageable layer and won't affect it
 			var tileDmg = hit2D[i].collider.gameObject.GetComponent<TilemapDamage>();
-			if ( tileDmg != null && ItemAttributes ) {
-				var damage = (int)( ItemAttributes.throwDamage * 2 );
-				tileDmg.DoThrowDamage(intGoal, info, damage);
+			if ( tileDmg != null ) {
+				hitTilemaps.Add( tileDmg );
 			}
 		}
 
-		//Hurting what we can
-		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) && ItemAttributes) {
-			for ( var i = 0; i < hitDamageables.Count; i++ ) {
+		OnHit( intGoal, info, hitDamageables, hitTilemaps );
+
+		return false;
+	}
+
+	protected virtual void OnHit(Vector3Int pos, ThrowInfo info, List<HealthBehaviour> objects, List<TilemapDamage> tiles) {
+		if ( !ItemAttributes ) {
+			Logger.LogWarningFormat( "{0}: Tried to hit stuff at pos {1} but have no ItemAttributes.", Category.Throwing, gameObject.name, pos );
+			return;
+		}
+		//Hurting tiles
+		for ( var i = 0; i < tiles.Count; i++ ) {
+			var tileDmg = tiles[i];
+			var damage = ( int ) ( ItemAttributes.throwDamage * 2 );
+			tileDmg.DoThrowDamage( pos, info, damage );
+		}
+
+		//Hurting objects
+		if ( objects != null && objects.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
+			for ( var i = 0; i < objects.Count; i++ ) {
 				//Remove cast to int when moving health values to float
 				var damage = (int)( ItemAttributes.throwDamage * 2 );
 				var hitZone = info.Aim.Randomize();
-				hitDamageables[i].ApplyDamage( info.ThrownBy, damage, DamageType.BRUTE, hitZone );
-				PostToChatMessage.SendThrowHitMessage( gameObject, hitDamageables[i].gameObject, damage, hitZone );
+				objects[i].ApplyDamage( info.ThrownBy, damage, DamageType.BRUTE, hitZone );
+				PostToChatMessage.SendThrowHitMessage( gameObject, objects[i].gameObject, damage, hitZone );
 			}
 			//hit sound
 			PlaySoundMessage.SendToAll("GenericHit", transform.position, 1f);
@@ -414,8 +430,6 @@ public partial class CustomNetTransform {
 			//todo different sound for no-damage hit?
 			PlaySoundMessage.SendToAll("GenericHit", transform.position, 0.8f);
 		}
-
-		return false;
 	}
 
 	/// Stopping drift, killing impulse
