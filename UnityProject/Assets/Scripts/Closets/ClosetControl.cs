@@ -21,6 +21,7 @@ using UnityEngine.Networking;
 		public LockLightController lockLight;
 
 		private RegisterCloset registerTile;
+		private PushPull pushPull;
 		private Matrix matrix => registerTile.Matrix;
 
 		public SpriteRenderer spriteRenderer;
@@ -33,6 +34,7 @@ using UnityEngine.Networking;
 		private void Start()
 		{
 			registerTile = GetComponent<RegisterCloset>();
+			pushPull = GetComponent<PushPull>();
 		}
 
 		public override void OnStartServer()
@@ -231,9 +233,13 @@ using UnityEngine.Networking;
 				if (on)
 				{
 					//avoids blinking of premapped items when opening first time in another place:
-					netTransform.AppearAtPosition(registerTile.WorldPosition);
-					netTransform.AppearAtPositionServer(registerTile.WorldPosition);
-					//todo: if closet is moving, apply impulse to contained items and players
+					Vector3Int pos = registerTile.WorldPosition;
+					netTransform.AppearAtPosition(pos);
+					if ( pushPull && pushPull.Pushable.IsMovingServer ) {
+						netTransform.InertiaDrop( pos, pushPull.Pushable.MoveSpeedServer, pushPull.InheritedImpulse.To2Int() );
+					} else {
+						netTransform.AppearAtPositionServer(pos);
+					}
 				}
 				else
 				{
@@ -258,6 +264,9 @@ using UnityEngine.Networking;
 				if (on)
 				{
 					playerSync.AppearAtPositionServer( registerTile.WorldPosition );
+					if ( pushPull && pushPull.Pushable.IsMovingServer ) {
+						playerScript.pushPull.TryPush( pushPull.InheritedImpulse.To2Int(), pushPull.Pushable.MoveSpeedServer );
+					}
 				}
 				player.visibleState = on;
 

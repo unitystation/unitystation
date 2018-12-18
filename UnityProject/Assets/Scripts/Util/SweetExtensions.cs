@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.Networking;
+using Random = UnityEngine.Random;
 
-	public static class SweetExtensions {
+public static class SweetExtensions {
 		public static ConnectedPlayer Player( this GameObject go ) {
 			var connectedPlayer = PlayerList.Instance?.Get( go );
 			return connectedPlayer == ConnectedPlayer.Invalid ? null : connectedPlayer;
@@ -58,6 +60,36 @@ using UnityEngine.Networking;
 				Logger.LogTraceFormat( "Lerp speed boost exceeded by {0}", Category.Lerp, boost );
 			}
 			return 1 + boost;
+		}
+
+		/// Randomized hitzone. 0f for totally random, 0.99f for 99% chance of provided one
+		/// <param name="aim"></param>
+		/// <param name="hitProbability">0f to 1f: chance of hitting the requested body part</param>
+		public static BodyPartType Randomize( this BodyPartType aim, float hitProbability = 0.8f )
+		{
+			float normalizedRange = Mathf.Clamp( hitProbability, 0f, 1f );
+			if ( Random.value < (normalizedRange/100f) ) {
+				return aim;
+			}
+			int t = (int) Mathf.Floor(Random.value * 40);
+			//	3/40
+			if (t <= 3)
+				return BodyPartType.HEAD;
+			if (t <= 10)
+			//	7/40
+				return BodyPartType.LEFT_ARM;
+			if (t <= 17)
+			//	7/40
+				return BodyPartType.RIGHT_ARM;
+			if (t <= 24)
+			//	7/40
+				return BodyPartType.LEFT_LEG;
+			if (t <= 31)
+			//	7/40
+				return BodyPartType.RIGHT_LEG;
+			//todo: don't forget to add groin!
+			//	9/40
+			return BodyPartType.CHEST;
 		}
 
 		/// Serializing Vector2 (rounded to int) into plaintext

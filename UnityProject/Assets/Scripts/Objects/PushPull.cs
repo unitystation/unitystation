@@ -103,6 +103,8 @@ public class PushPull : VisibleBehaviour {
 
 	private Coroutine revertPullHandle;
 
+	public Vector2 InheritedImpulse => IsBeingPulled ? PulledBy.InheritedImpulse : Pushable.ServerImpulse;
+
 	private IEnumerator RevertPullTimer() {
 		yield return YieldHelper.Second;
 		yield return YieldHelper.Second;
@@ -114,7 +116,7 @@ public class PushPull : VisibleBehaviour {
 			Logger.LogFormat( "{0}: Reverted pull position", Category.PushPull, gameObject.name );
 			Pushable.RollbackPrediction();
 		} else {
-			Logger.LogFormat( "{0}: No need to revert pull position", Category.PushPull, gameObject.name );
+			Logger.LogTraceFormat( "{0}: No need to revert pull position", Category.PushPull, gameObject.name );
 		}
 	}
 
@@ -385,13 +387,13 @@ public class PushPull : VisibleBehaviour {
 
 
 	[Server]
-	public bool TryPush( Vector2Int dir )
+	public bool TryPush( Vector2Int dir, float speed = Single.NaN )
 	{
-		return TryPush( registerTile.WorldPosition, dir );
+		return TryPush( registerTile.WorldPosition, dir, speed );
 	}
 
 	[Server]
-	public bool TryPush( Vector3Int from, Vector2Int dir ) {
+	public bool TryPush( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
 		if ( isNotPushable || isPushing || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
@@ -412,7 +414,7 @@ public class PushPull : VisibleBehaviour {
 		}
 
 
-		bool success = Pushable.Push( dir );
+		bool success = Pushable.Push( dir, speed );
 		if ( success )
 		{
 			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
@@ -433,7 +435,7 @@ public class PushPull : VisibleBehaviour {
 		return success;
 	}
 
-	public bool TryPredictivePush( Vector3Int from, Vector2Int dir ) {
+	public bool TryPredictivePush( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
 		if ( isNotPushable || !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
@@ -447,7 +449,7 @@ public class PushPull : VisibleBehaviour {
 			return false;
 		}
 
-		bool success = Pushable.PredictivePush( target.To2Int() );
+		bool success = Pushable.PredictivePush( target.To2Int(), speed );
 		if ( success ) {
 			pushPrediction = PushState.InProgress;
 			pushApproval = ApprovalState.None;

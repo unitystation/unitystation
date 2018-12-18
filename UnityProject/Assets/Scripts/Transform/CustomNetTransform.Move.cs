@@ -40,6 +40,14 @@ public partial class CustomNetTransform {
 	/// Containers and other objects meant to be snapped by tile
 	public bool IsTileSnap => registerTile.ObjectType == ObjectType.Object;
 
+	public bool IsClientLerping => transform.localPosition != MatrixManager.WorldToLocal( predictedState.WorldPosition, MatrixManager.Get( matrix ) );
+	public bool IsServerLerping => serverLerpState.WorldPosition != serverState.WorldPosition;
+	public bool CanPredictPush => !IsClientLerping;
+	public bool IsMovingClient => IsClientLerping;
+	public bool IsMovingServer => IsServerLerping;
+	public Vector2 ServerImpulse => serverState.Impulse;
+	public float MoveSpeedServer => ServerState.speed;
+	public float MoveSpeedClient => PredictedState.speed;
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f && !IsBeingPulledServer;
 	public bool IsFloatingClient => predictedState.Impulse != Vector2.zero && predictedState.Speed > 0f && !IsBeingPulledClient;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
@@ -128,16 +136,9 @@ public partial class CustomNetTransform {
 		return true;
 	}
 
-	public bool CanPredictPush => !IsClientLerping;
-	public bool IsMovingClient => IsClientLerping;
-	public float MoveSpeedServer => ServerState.speed;
-	public float MoveSpeedClient => PredictedState.speed;
-
 	public void Stop() {
 		StopFloating();
 	}
-
-	public bool IsClientLerping => transform.localPosition != MatrixManager.WorldToLocal( predictedState.WorldPosition, MatrixManager.Get( matrix ) );
 
 	/// Predictive client movement
 	/// Mimics server collision checks for obviously impassable things.
@@ -227,7 +228,7 @@ public partial class CustomNetTransform {
 	public void InertiaDrop( Vector3 initialPos, float speed, Vector2 impulse ) {
 		SetPosition( initialPos, false );
 		serverState.Impulse = impulse;
-		serverState.Speed = Random.Range( -0.3f, 0f ) + speed;
+		serverState.Speed = Mathf.Clamp(Random.Range( -1.5f, -0.1f ) + speed, 0, float.MaxValue);
 		NotifyPlayers();
 	}
 
@@ -356,6 +357,8 @@ public partial class CustomNetTransform {
 		}
 	}
 
+	public static readonly float SpeedHitThreshold = 5f;
+
 	/// Verifies if we can proceed to the next tile and hurts objects if we can not
 	/// This check works only for 2 adjacent tiles, that's why floating check is recursive
 	[Server]
@@ -365,36 +368,51 @@ public partial class CustomNetTransform {
 		Vector3Int intGoal = Vector3Int.RoundToInt( goal );
 		var info = serverState.ActiveThrow;
 		List<HealthBehaviour> hitDamageables;
-		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) ) {
+		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) )
+		{
 			//if object is solid, check if player is nearby to make it stop
 			return registerTile && registerTile.IsPassable() || !IsPlayerNearby(serverState);
-		} else {
-			//Can't drift to goal for some reason:
-			//Check Tile damage from throw
-			var hit2D = Physics2D.RaycastAll(origin, info.Trajectory.normalized, 1.5f, tileDmgMask);
+		}
 
-			for(int i = 0; i < hit2D.Length; i++){
-				//Debug.Log("THROW HIT: " + hit2D[i].collider.gameObject.name);
+		if ( serverState.Speed > SpeedHitThreshold ) {
+			serverState.ActiveThrow = new ThrowInfo {
+				Aim = BodyPartType.CHEST.Randomize(0),
+				OriginPos = origin,
+				TargetPos = goal,
+				SpinMode = SpinMode.None
+			};
+			info = serverState.ActiveThrow;
+		}
 
-				//TilemapDamage automatically detects if a layer is below another damageable layer and won't affect it
-				var tileDmg = hit2D[i].collider.gameObject.GetComponent<TilemapDamage>();
-				if(tileDmg != null){
-					var damage = ( int ) ( ItemAttributes.throwDamage * 2 );
-					tileDmg.DoThrowDamage(intGoal, info, damage);
-				}
+		//Can't drift to goal for some reason:
+		//Check Tile damage from throw
+		var hit2D = Physics2D.RaycastAll(origin, info.Trajectory.normalized, 1.5f, tileDmgMask);
+
+		for (int i = 0; i < hit2D.Length; i++) {
+			//Debug.Log("THROW HIT: " + hit2D[i].collider.gameObject.name);
+
+			//TilemapDamage automatically detects if a layer is below another damageable layer and won't affect it
+			var tileDmg = hit2D[i].collider.gameObject.GetComponent<TilemapDamage>();
+			if ( tileDmg != null && ItemAttributes ) {
+				var damage = (int)( ItemAttributes.throwDamage * 2 );
+				tileDmg.DoThrowDamage(intGoal, info, damage);
 			}
 		}
 
 		//Hurting what we can
-		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow )) {
+		if ( hitDamageables != null && hitDamageables.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) && ItemAttributes) {
 			for ( var i = 0; i < hitDamageables.Count; i++ ) {
 				//Remove cast to int when moving health values to float
-				var damage = ( int ) ( ItemAttributes.throwDamage * 2 );
-				hitDamageables[i].ApplyDamage( info.ThrownBy, damage, DamageType.BRUTE, info.Aim );
-				PostToChatMessage.SendThrowHitMessage( gameObject, hitDamageables[i].gameObject, damage, info.Aim );
+				var damage = (int)( ItemAttributes.throwDamage * 2 );
+				var hitZone = info.Aim.Randomize();
+				hitDamageables[i].ApplyDamage( info.ThrownBy, damage, DamageType.BRUTE, hitZone );
+				PostToChatMessage.SendThrowHitMessage( gameObject, hitDamageables[i].gameObject, damage, hitZone );
 			}
 			//hit sound
 			PlaySoundMessage.SendToAll("GenericHit", transform.position, 1f);
+		} else {
+			//todo different sound for no-damage hit?
+			PlaySoundMessage.SendToAll("GenericHit", transform.position, 0.8f);
 		}
 
 		return false;
@@ -442,7 +460,7 @@ public partial class CustomNetTransform {
 	/// Use World positions
 	/// </Summary>
 	private bool CanDriftTo( Vector3Int originPos, Vector3Int targetPos ) {
-		return MatrixManager.IsPassableAt( originPos, targetPos );
+		return MatrixManager.IsPassableAt( originPos, targetPos, false );
 	}
 
 	/// Lists objects to be damaged on given tile. Prob should be moved elsewhere
@@ -462,9 +480,18 @@ public partial class CustomNetTransform {
 					continue;
 				}
 				//Skip dead bodies
-				if ( !obj.IsDead ) {
-					damageables.Add( obj );
+				if ( obj.IsDead ) {
+					continue;
 				}
+
+				var commonTransform = obj.GetComponent<IPushable>();
+				if ( commonTransform != null ) {
+					if ( this.ServerImpulse.To2Int() == commonTransform.ServerImpulse.To2Int() && this.MoveSpeedServer <= commonTransform.MoveSpeedServer ) {
+						Logger.LogTraceFormat( "{0} not hitting {1} as they fly in the same direction", Category.Throwing, gameObject.name, obj.gameObject.name );
+						continue;
+					}
+				}
+				damageables.Add( obj );
 			}
 			if ( damageables.Count > 0 ) {
 				victims = damageables;
