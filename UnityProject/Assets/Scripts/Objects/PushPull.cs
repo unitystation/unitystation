@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
+using Random = UnityEngine.Random;
 
 public class PushPull : VisibleBehaviour {
 	[SyncVar]
@@ -92,6 +93,8 @@ public class PushPull : VisibleBehaviour {
 		     && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
+				PlayerManager.LocalPlayerScript.soundNetworkActions.RpcPlayNetworkSound("Rustle0" + Random.Range(1, 4), pullable.transform.position);
+
 				PulledObject = pullable;
 				//Kill its impulses if we grabbed it
 				PulledObject.Stop();
@@ -290,7 +293,6 @@ public class PushPull : VisibleBehaviour {
 
 	[ContextMethod("Pull","Drag_Hand")]
 	public void TryPullThis() {
-		PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("Rustle0" + UnityEngine.Random.Range(1, 4).ToString());
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
 		if ( PlayerScript.IsInReach( this.registerTile, initiator.registerTile ) && initiator != this ) {
