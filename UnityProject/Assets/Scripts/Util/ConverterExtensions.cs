@@ -19,6 +19,10 @@
 		public static Vector3Int CutToInt( this Vector3 other ) {
 			return Vector3Int.RoundToInt( ( Vector2 ) other );
 		}
+		/// Round to int
+		public static Vector2Int To2Int( this Vector2 other ) {
+			return Vector2Int.RoundToInt( other );
+		}
 		/// Round to int while cutting z-axis
 		public static Vector2Int To2Int( this Vector3 other ) {
 			return Vector2Int.RoundToInt( other );
