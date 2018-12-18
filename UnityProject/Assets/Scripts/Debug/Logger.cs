@@ -175,5 +175,6 @@ public enum Category {
 	PlayerSprites,
 	Electrical,
 	RightClick,
-	Lerp,
+	Lerp,	
+	Keybindings
 }
