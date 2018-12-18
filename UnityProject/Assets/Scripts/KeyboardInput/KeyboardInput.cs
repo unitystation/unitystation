@@ -57,40 +57,40 @@ public class KeyboardInput : MonoBehaviour
 	{
 		// TODO: replace all these log messages with the apropriate functions (movement input system will need refactoring)
 		// Movement
-		{ KeyAction.MoveUp,			() => {Logger.Log("Moving up!");}},
-		{ KeyAction.MoveLeft, 		() => {Logger.Log("Moving left!");}},
-		{ KeyAction.MoveDown,		() => {Logger.Log("Moving down!");}},
-		{ KeyAction.MoveRight,		() => {Logger.Log("Moving right!");}},
+		{ KeyAction.MoveUp,			() => {/* Logger.Log("Moving up!", Category.Keybindings); */}},
+		{ KeyAction.MoveLeft, 		() => {/* Logger.Log("Moving left!", Category.Keybindings); */}},
+		{ KeyAction.MoveDown,		() => {/* Logger.Log("Moving down!", Category.Keybindings) */;}},
+		{ KeyAction.MoveRight,		() => {/* Logger.Log("Moving right!", Category.Keybindings); */}},
 
 		// Actions	  
-		{ KeyAction.ActionThrow,	() => {Logger.Log("Throwing!");}},
-		{ KeyAction.ActionDrop,		() => {Logger.Log("Dropping!");}},
-		{ KeyAction.ActionResist,	() => {Logger.Log("Resisting!");}},
+		{ KeyAction.ActionThrow,	() => {/* Logger.Log("Throwing!", Category.Keybindings); */}},
+		{ KeyAction.ActionDrop,		() => {/* Logger.Log("Dropping!", Category.Keybindings); */}},
+		{ KeyAction.ActionResist,	() => {/* Logger.Log("Resisting!", Category.Keybindings); */}},
 
-		{  KeyAction.HandSwap, 		() => {Logger.Log("Swapping hands");}},
-		{  KeyAction.HandActivate,	() => {Logger.Log("Activating hands");}},
-		{  KeyAction.HandEquip, 	() => {Logger.Log("Equipping hands");}},
+		{  KeyAction.HandSwap, 		() => {/* Logger.Log("Swapping hands", Category.Keybindings); */}},
+		{  KeyAction.HandActivate,	() => {/* Logger.Log("Activating hands", Category.Keybindings); */}},
+		{  KeyAction.HandEquip, 	() => {/* Logger.Log("Equipping hands", Category.Keybindings); */}},
 
 		// Intents 
-		{ KeyAction.IntentLeft,		() => {Logger.Log("Intent left");}},
-		{ KeyAction.IntentRight, 	() => {Logger.Log("Intent right");}},
-		{ KeyAction.IntentHelp, 	() => {Logger.Log("Intent help");}},
-		{ KeyAction.IntentDisarm,	() => {Logger.Log("Intent Disarm");}},
-		{ KeyAction.IntentHarm, 	() => {Logger.Log("Intent Harm");}},
-		{ KeyAction.IntentGrab, 	() => {Logger.Log("Intent Grab");}},
+		{ KeyAction.IntentLeft,		() => {/* Logger.Log("Intent left", Category.Keybindings); */}},
+		{ KeyAction.IntentRight, 	() => {/* Logger.Log("Intent right", Category.Keybindings); */}},
+		{ KeyAction.IntentHelp, 	() => {/* Logger.Log("Intent help", Category.Keybindings); */}},
+		{ KeyAction.IntentDisarm,	() => {/* Logger.Log("Intent Disarm", Category.Keybindings); */}},
+		{ KeyAction.IntentHarm, 	() => {/* Logger.Log("Intent Harm", Category.Keybindings); */}},
+		{ KeyAction.IntentGrab, 	() => {/* Logger.Log("Intent Grab", Category.Keybindings); */}},
 
 		// Chat 
-		{ KeyAction.ChatLocal,		() => {Logger.Log("Chat Local");}},
-		{ KeyAction.ChatRadio,		() => {Logger.Log("Chat Radio");}},
-		{ KeyAction.ChatDept,		() => {Logger.Log("Chat Dept");}},
+		{ KeyAction.ChatLocal,		() => {/* Logger.Log("Chat Local", Category.Keybindings); */}},
+		{ KeyAction.ChatRadio,		() => {/* Logger.Log("Chat Radio", Category.Keybindings); */}},
+		{ KeyAction.ChatDept,		() => {/* Logger.Log("Chat Dept", Category.Keybindings); */}},
 
 		// Body part selection
-		{ KeyAction.TargetHead,		() => {Logger.Log("Target Head");}},
-		{ KeyAction.TargetChest,	() => {Logger.Log("Target Chest");}},
-		{ KeyAction.TargetLeftArm,  () => {Logger.Log("Target LeftArm");}},
-		{ KeyAction.TargetRightArm, () => {Logger.Log("Target RightArm");}},
-		{ KeyAction.TargetLeftLeg,  () => {Logger.Log("Target LeftLeg");}},
-		{ KeyAction.TargetRightLeg, () => {Logger.Log("Target RightLeg");}},
-		{ KeyAction.TargetGroin, 	() => {Logger.Log("Target Groin");}}
+		{ KeyAction.TargetHead,		() => {/* Logger.Log("Target Head", Category.Keybindings); */}},
+		{ KeyAction.TargetChest,	() => {/* Logger.Log("Target Chest", Category.Keybindings); */}},
+		{ KeyAction.TargetLeftArm,  () => {/* Logger.Log("Target LeftArm", Category.Keybindings); */}},
+		{ KeyAction.TargetRightArm, () => {/* Logger.Log("Target RightArm", Category.Keybindings); */}},
+		{ KeyAction.TargetLeftLeg,  () => {/* Logger.Log("Target LeftLeg", Category.Keybindings); */}},
+		{ KeyAction.TargetRightLeg, () => {/* Logger.Log("Target RightLeg", Category.Keybindings); */}},
+		{ KeyAction.TargetGroin, 	() => {/* Logger.Log("Target Groin", Category.Keybindings); */}}
 	};
 }
