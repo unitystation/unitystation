@@ -1,8 +1,9 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class BloodSplat : NetworkBehaviour
+public class BloodSplat : CustomNetTransform
 {
 	[SyncVar(hook = "SetSprite")] public int bloodSprite;
 	private Sprite[] bloodSprites;
@@ -30,5 +31,11 @@ public class BloodSplat : NetworkBehaviour
 		}
 		spriteRend.sprite = bloodSprites[spritenum];
 		spriteRend.enabled = true;
+	}
+
+	protected override void OnHit( Vector3Int pos, ThrowInfo info, List<HealthBehaviour> objects, List<TilemapDamage> tiles )
+	{
+//		base.OnHit( pos, info, objects, tiles );
+		//umm todo
 	}
 }
