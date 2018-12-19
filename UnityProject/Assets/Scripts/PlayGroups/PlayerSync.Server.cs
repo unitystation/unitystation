@@ -639,7 +639,10 @@ public partial class PlayerSync
 		}
 		else
 		{
-			UIManager.Instance.GetComponentInChildren<UI_OxygenAlert>().gameObject.GetComponent<UnityEngine.UI.Image>().enabled = false;
+			if (UIManager.Instance.GetComponentInChildren<UI_OxygenAlert>() != null)
+			{
+				UIManager.Instance.GetComponentInChildren<UI_OxygenAlert>().gameObject.GetComponent<UnityEngine.UI.Image>().enabled = false;
+			}
 
 			return false;
 		}

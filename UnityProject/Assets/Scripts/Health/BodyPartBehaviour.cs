@@ -22,6 +22,7 @@ public class BodyPartBehaviour : MonoBehaviour
 
 	public DamageSeverity Severity { get; private set; }
 
+	//Apply damages from here.
 	public virtual void ReceiveDamage(DamageType damageType, int damage)
 	{
 		UpdateDamage(damage, damageType);
@@ -65,6 +66,50 @@ public class BodyPartBehaviour : MonoBehaviour
 				if (damage > MaxDamage)
 				{
 					suffocationDamage = MaxDamage;
+				}
+				break;
+		}
+		UpdateSeverity(damage, type);
+	}
+
+	//Restore/heal damage from here
+	public virtual void HealDamage(int damage, DamageType type)
+	{
+		switch (type)
+		{
+			case DamageType.BRUTE:
+				bruteDamage -= damage;
+
+				if (bruteDamage < 0)
+				{
+					bruteDamage = 0;
+				}
+				break;
+
+			case DamageType.BURN:
+				burnDamage -= damage;
+
+				if (burnDamage < 0)
+				{
+					burnDamage = 0;
+				}
+				break;
+
+			case DamageType.TOX:
+				toxinDamage -= damage;
+
+				if (toxinDamage < 0)
+				{
+					toxinDamage = 0;
+				}
+				break;
+
+			case DamageType.OXY:
+				suffocationDamage -= damage;
+
+				if (suffocationDamage < 0)
+				{
+					suffocationDamage = 0;
 				}
 				break;
 		}
