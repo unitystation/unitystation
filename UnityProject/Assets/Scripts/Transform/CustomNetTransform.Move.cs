@@ -296,28 +296,30 @@ public partial class CustomNetTransform {
 		}
 		bool isRecursive = goal != TransformState.HiddenPos;
 
+		Vector3 worldPosition = ServerPosition;
 		Vector3 moveDelta;
+
 		if ( !isRecursive ) {//Normal delta if not recursive
 			moveDelta = ( Vector3 ) serverState.Impulse * serverState.Speed * Time.deltaTime;
 		} else {//Artificial delta if recursive
-			moveDelta = goal - serverState.WorldPosition;
+			moveDelta = goal - worldPosition;
 		}
 
-		Vector3Int intOrigin = Vector3Int.RoundToInt( serverState.WorldPosition );
+		Vector3Int intOrigin = Vector3Int.RoundToInt( worldPosition );
 		float distance = moveDelta.magnitude;
 		Vector3 newGoal;
 
 		if ( distance > 1 ) {
 			//limit goal to just one tile away and run this method recursively afterwards
-			newGoal = serverState.WorldPosition + ( Vector3 ) serverState.Impulse;
+			newGoal = worldPosition + ( Vector3 ) serverState.Impulse;
 		} else {
-			newGoal = serverState.WorldPosition + moveDelta;
+			newGoal = worldPosition + moveDelta;
 		}
 		Vector3Int intGoal = Vector3Int.RoundToInt( newGoal );
 
 		bool isWithinTile = intOrigin == intGoal; //same tile, no need to validate stuff
-		if ( isWithinTile || ValidateFloating( serverState.WorldPosition, newGoal ) ) {
-			AdvanceMovement( serverState.WorldPosition, newGoal );
+		if ( isWithinTile || ValidateFloating( worldPosition, newGoal ) ) {
+			AdvanceMovement( worldPosition, newGoal );
 		} else {
 			StopFloating();
 		}

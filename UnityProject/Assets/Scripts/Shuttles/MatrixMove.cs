@@ -19,6 +19,24 @@ public struct MatrixState
 
 	public static readonly MatrixState Invalid = new MatrixState{Position = TransformState.HiddenPos};
 
+	public bool Equals( MatrixState other ) {
+		return Position.Equals( other.Position ) && Orientation.Equals( other.Orientation );
+	}
+
+	public override bool Equals( object obj ) {
+		if ( ReferenceEquals( null, obj ) ) {
+			return false;
+		}
+
+		return obj is MatrixState && Equals( ( MatrixState ) obj );
+	}
+
+	public override int GetHashCode() {
+		unchecked {
+			return ( Position.GetHashCode() * 397 ) ^ Orientation.GetHashCode();
+		}
+	}
+
 	public override string ToString() {
 		return $"{nameof( Inform )}: {Inform}, {nameof( IsMoving )}: {IsMoving}, {nameof( Speed )}: {Speed}, " +
 		       $"{nameof( Direction )}: {Direction}, {nameof( Position )}: {Position}, {nameof( Orientation )}: {Orientation}, {nameof( RotationTime )}: {RotationTime}";
@@ -80,7 +98,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 	private Vector3 mPreviousPosition;
 	private Vector2 mPreviousFilteredPosition;
 	private bool monitorOnRot = false;
-		
+
 	private Vector3 clampedPosition
 	{
 		set
@@ -280,7 +298,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 						Time.deltaTime * clientState.RotationTime );
 			} else {
 				// Finishes the job of Lerp and straightens the ship with exact angle value
-				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.Degree );	
+				transform.rotation = Quaternion.Euler( 0, 0, clientState.Orientation.Degree );
 			}
 		} else if ( isMovingClient ) {
 			//Only move target if rotation is finished
@@ -305,7 +323,7 @@ public class MatrixMove : ManagedNetworkBehaviour {
 			}
 
 			//FIXME Remove this once lerping has been properly fixed with Pixel Perfect movement:
-			//If stopped then lerp to target 
+			//If stopped then lerp to target
 			if(!clientState.IsMoving && distance > 0f){
 				transform.position = Vector3.MoveTowards( transform.position, clientState.Position, clientState.Speed * Time.deltaTime * ( shouldWarp ? (distance * 2) : 1 ) );
 				mPreviousPosition = transform.position;
