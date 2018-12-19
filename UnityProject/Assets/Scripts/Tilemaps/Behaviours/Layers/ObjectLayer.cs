@@ -35,9 +35,10 @@ using UnityEngine;
 
 		public override void RemoveTile(Vector3Int position)
 		{
-			foreach (RegisterTile obj in Objects.Get(position).ToArray())
-			{
-				DestroyImmediate(obj.gameObject);
+			List<RegisterTile> objs = Objects.Get(position);
+			for ( var i = 0; i < objs.Count; i++ ) {
+				RegisterTile obj = objs[i];
+				DestroyImmediate( obj.gameObject );
 			}
 
 			base.RemoveTile(position);
@@ -47,17 +48,33 @@ using UnityEngine;
 		{
 			//Targeting windoors here
 			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
-			if ( !objectsOrigin.All(o => o.IsPassableTo( to )) )
-			{ //Can't get outside the tile because windoor doesn't allow us
-				return false;
+			for ( var i = 0; i < objectsOrigin.Count; i++ ) {
+				if ( !objectsOrigin[i].IsPassableTo( to ) ) {
+					//Can't get outside the tile because windoor doesn't allow us
+					return false;
+				}
 			}
 
 			List<RegisterTile> objectsTo = Objects.Get<RegisterTile>(to);
 			bool toPass;
 			if ( inclPlayers ) {
-				toPass = objectsTo.All( o => o.IsPassable(origin) || (context && o.gameObject == context) );
+				toPass = true;
+				for ( var i = 0; i < objectsTo.Count; i++ ) {
+					RegisterTile o = objectsTo[i];
+					if ( !o.IsPassable( origin ) && ( !context || o.gameObject != context ) ) {
+						toPass = false;
+						break;
+					}
+				}
 			} else {
-				toPass = objectsTo.All( o => o.ObjectType == ObjectType.Player || o.IsPassable(origin) || (context && o.gameObject == context) );
+				toPass = true;
+				for ( var i = 0; i < objectsTo.Count; i++ ) {
+					RegisterTile o = objectsTo[i];
+					if ( o.ObjectType != ObjectType.Player && !o.IsPassable( origin ) && ( !context || o.gameObject != context ) ) {
+						toPass = false;
+						break;
+					}
+				}
 			}
 
 			bool rods = base.IsPassableAt(origin, to, inclPlayers);
@@ -86,13 +103,11 @@ using UnityEngine;
 			return IsAtmosPassableAt(position, position) && base.IsSpaceAt(position);
 		}
 
-		public override void ClearAllTiles()
-		{
-			foreach (RegisterTile obj in Objects.AllObjects)
-			{
-				if (obj != null)
-				{
-					DestroyImmediate(obj.gameObject);
+		public override void ClearAllTiles() {
+			for ( var i = 0; i < Objects.AllObjects.Count; i++ ) {
+				RegisterTile obj = Objects.AllObjects[i];
+				if ( obj != null ) {
+					DestroyImmediate( obj.gameObject );
 				}
 			}
 

@@ -306,9 +306,7 @@ public class MatrixManager : MonoBehaviour
 			return worldPos - matrix.Offset;
 		}
 
-		Vector3 rotatedClean = worldPos - matrix.Offset - matrix.MatrixMove.Pivot;
-		Vector3 unrotatedPos = matrix.MatrixMove.ClientState.Orientation.EulerInverted * rotatedClean;
-		return unrotatedPos + matrix.MatrixMove.Pivot;
+		return matrix.MatrixMove.ClientState.Orientation.EulerInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot) + matrix.MatrixMove.Pivot;
 	}
 }
 
@@ -365,6 +363,22 @@ public struct MatrixInfo
 		return Equals(Invalid) ?
 			"[Invalid matrix]" :
 			$"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.State},netId={NetId}]";
+	}
+
+	public bool Equals( MatrixInfo other ) {
+		return Id == other.Id;
+	}
+
+	public override bool Equals( object obj ) {
+		if ( ReferenceEquals( null, obj ) ) {
+			return false;
+		}
+
+		return obj is MatrixInfo && Equals( ( MatrixInfo ) obj );
+	}
+
+	public override int GetHashCode() {
+		return Id;
 	}
 
 	///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices
