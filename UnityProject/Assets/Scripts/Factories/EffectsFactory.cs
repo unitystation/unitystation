@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Creates various visual effects
+/// </summary>
 public class EffectsFactory : NetworkBehaviour
 {
 	public static EffectsFactory Instance;
@@ -71,8 +74,7 @@ public class EffectsFactory : NetworkBehaviour
 	[Server]
 	public void BloodSplat(Vector3 pos, BloodSplatSize splatSize)
 	{
-		GameObject b = PoolManager.Instance.PoolNetworkInstantiate(bloodTile, pos, Quaternion.identity, 
-			MatrixManager.AtPoint( Vector3Int.RoundToInt( pos ) ).GameObject.transform);
+		GameObject b = PoolManager.Instance.PoolNetworkInstantiate(bloodTile, pos, Quaternion.identity);
 		BloodSplat bSplat = b.GetComponent<BloodSplat>();
 		//choose a random blood sprite
 		int spriteNum = 0;
