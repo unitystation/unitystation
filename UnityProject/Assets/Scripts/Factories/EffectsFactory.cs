@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-/// <summary>
-/// Creates various visual effects
-/// </summary>
 public class EffectsFactory : NetworkBehaviour
 {
 	public static EffectsFactory Instance;
 
 	//Parents to make tidy
 	private GameObject shroudParent;
+	private GameObject bloodParent;
 
 	private GameObject fireTile { get; set; }
 	private GameObject scorchMarksTile { get; set; }
@@ -74,7 +72,10 @@ public class EffectsFactory : NetworkBehaviour
 	[Server]
 	public void BloodSplat(Vector3 pos, BloodSplatSize splatSize)
 	{
-		GameObject b = PoolManager.Instance.PoolNetworkInstantiate(bloodTile, pos, Quaternion.identity);
+		//blood splat should be relative to the matrix it appears in, but parented to Objects just like all
+		// the other objects in the matrix
+		GameObject b = PoolManager.Instance.PoolNetworkInstantiate(bloodTile, pos, Quaternion.identity,
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(pos)).Objects);
 		BloodSplat bSplat = b.GetComponent<BloodSplat>();
 		//choose a random blood sprite
 		int spriteNum = 0;
