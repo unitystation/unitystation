@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
+/// <summary>
+/// Checks for and handles melee interactions. Note that other interactions (such as P2PInteraction) are possible and handled in other classes.
+/// </summary>
 public class MeleeTrigger : MonoBehaviour
 {
 	//Cache these on start for checking at runtime
@@ -29,24 +32,24 @@ public class MeleeTrigger : MonoBehaviour
 			var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			var handItem = UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>();
 
-			if(handItem.itemType == ItemType.Food){
+			if (handItem.itemType == ItemType.Food) {
 				//TODO Add medical stuff too
 				return false;
 			}
 
 			if (handItem.itemType != ItemType.ID &&
-				handItem.itemType != ItemType.Back &&
-				handItem.itemType != ItemType.Ear &&
-				handItem.itemType != ItemType.Food &&
-				handItem.itemType != ItemType.Glasses &&
-				handItem.itemType != ItemType.Gloves &&
-				handItem.itemType != ItemType.Hat &&
-				handItem.itemType != ItemType.Mask &&
-				handItem.itemType != ItemType.Neck &&
-				handItem.itemType != ItemType.Shoes &&
-				handItem.itemType != ItemType.Suit &&
-				handItem.itemType != ItemType.Uniform &&
-				PlayerManager.LocalPlayerScript.IsInReach(mousePos))
+					handItem.itemType != ItemType.Back &&
+					handItem.itemType != ItemType.Ear &&
+					handItem.itemType != ItemType.Food &&
+					handItem.itemType != ItemType.Glasses &&
+					handItem.itemType != ItemType.Gloves &&
+					handItem.itemType != ItemType.Hat &&
+					handItem.itemType != ItemType.Mask &&
+					handItem.itemType != ItemType.Neck &&
+					handItem.itemType != ItemType.Shoes &&
+					handItem.itemType != ItemType.Suit &&
+					handItem.itemType != ItemType.Uniform &&
+					PlayerManager.LocalPlayerScript.IsInReach(mousePos))
 			{
 				if (UIManager.CurrentIntent == Intent.Attack ||
 					handItem.itemType != ItemType.Gun ||
@@ -54,6 +57,12 @@ public class MeleeTrigger : MonoBehaviour
 					handItem.itemType != ItemType.Belt)
 				{
 					Vector2 dir = (mousePos - PlayerManager.LocalPlayer.transform.position).normalized;
+
+					//special case - when we have a gun and click ourselves, we should actually shoot ourselves rather than melee, which is handled elsewhere
+					if (handItem.itemType == ItemType.Gun && originator == gameObject)
+					{
+						return false;
+					}
 
 					PlayerScript lps = PlayerManager.LocalPlayerScript;
 
