@@ -38,18 +38,18 @@ public class MeleeTrigger : MonoBehaviour
 			}
 
 			if (handItem.itemType != ItemType.ID &&
-					handItem.itemType != ItemType.Back &&
-					handItem.itemType != ItemType.Ear &&
-					handItem.itemType != ItemType.Food &&
-					handItem.itemType != ItemType.Glasses &&
-					handItem.itemType != ItemType.Gloves &&
-					handItem.itemType != ItemType.Hat &&
-					handItem.itemType != ItemType.Mask &&
-					handItem.itemType != ItemType.Neck &&
-					handItem.itemType != ItemType.Shoes &&
-					handItem.itemType != ItemType.Suit &&
-					handItem.itemType != ItemType.Uniform &&
-					PlayerManager.LocalPlayerScript.IsInReach(mousePos))
+				handItem.itemType != ItemType.Back &&
+				handItem.itemType != ItemType.Ear &&
+				handItem.itemType != ItemType.Food &&
+				handItem.itemType != ItemType.Glasses &&
+				handItem.itemType != ItemType.Gloves &&
+				handItem.itemType != ItemType.Hat &&
+				handItem.itemType != ItemType.Mask &&
+				handItem.itemType != ItemType.Neck &&
+				handItem.itemType != ItemType.Shoes &&
+				handItem.itemType != ItemType.Suit &&
+				handItem.itemType != ItemType.Uniform &&
+				PlayerManager.LocalPlayerScript.IsInReach(mousePos))
 			{
 				if (UIManager.CurrentIntent == Intent.Attack ||
 					handItem.itemType != ItemType.Gun ||
