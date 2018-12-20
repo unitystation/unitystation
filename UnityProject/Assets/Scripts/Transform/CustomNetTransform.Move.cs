@@ -317,7 +317,7 @@ public partial class CustomNetTransform {
 		}
 		bool isRecursive = goal != TransformState.HiddenPos;
 
-		Vector3 worldPosition = ServerPosition;
+		Vector3 worldPosition = serverState.WorldPosition;
 		Vector3 moveDelta;
 
 		if ( !isRecursive ) {//Normal delta if not recursive
