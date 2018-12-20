@@ -89,13 +89,12 @@ public class ShutterController : ObjectTrigger
 	}
 
     [Server]
-    private void DamageOnClose()
-    {
-        IEnumerable<HealthBehaviour> healthBehaviours = matrix.Get<HealthBehaviour>(registerTile.Position);
-        foreach (HealthBehaviour healthBehaviour in healthBehaviours)
-        {
-            healthBehaviour.ApplyDamage(gameObject, 500, DamageType.BRUTE);
-        }
+    private void DamageOnClose() {
+	    var healthBehaviours = matrix.Get<HealthBehaviour>(registerTile.Position);
+	    for ( var i = 0; i < healthBehaviours.Count; i++ ) {
+		    HealthBehaviour healthBehaviour = healthBehaviours[i];
+		    healthBehaviour.ApplyDamage( gameObject, 500, DamageType.BRUTE );
+	    }
     }
 
 	//Handle network spawn sync failure
