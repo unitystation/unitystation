@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
+/// <summary>
+/// Main entry point for handling all input events
+/// </summary>
 public class InputController : MonoBehaviour
 {
 	/// <summary>
@@ -361,8 +364,15 @@ public class InputController : MonoBehaviour
 		return Interact(_transform, _transform.position);
 	}
 
+	/// <summary>
+	/// Checks for the various interactions that can occur and delegates to the appropriate trigger classes.
+	/// Note that only one interaction is allowed to occur in this method - the first time any trigger returns true
+	/// (indicating that interaction logic has occurred), the method returns.
+	/// </summary>
 	public bool Interact(Transform _transform, Vector3 position)
 	{
+		//TODO: Wouldn't it be better to simply delegate all logic to all handlers? Have a standard interface
+		//which takes some data and returns true if an interaction occurred.
 		if (playerMove.isGhost)
 		{
 			return false;
@@ -372,7 +382,7 @@ public class InputController : MonoBehaviour
 		var localPlayer = PlayerManager.LocalPlayerScript;
 		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(Input.mousePosition)) || localPlayer.IsHidden)
 		{
-			//Check for melee triggers first:
+			//Check for melee triggers first. If a melee interaction occurs, stop checking for any further interactions
 			MeleeTrigger meleeTrigger = _transform.GetComponentInParent<MeleeTrigger>();
 			if (meleeTrigger != null)
 			{
