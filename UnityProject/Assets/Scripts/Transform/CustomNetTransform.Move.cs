@@ -30,6 +30,24 @@ public struct ThrowInfo
 			$"[{nameof( OriginPos )}: {OriginPos}, {nameof( TargetPos )}: {TargetPos}, {nameof( ThrownBy )}: {ThrownBy}, " +
 			$"{nameof( Aim )}: {Aim}, {nameof( InitialSpeed )}: {InitialSpeed}, {nameof( SpinMode )}: {SpinMode}]";
 	}
+
+	public bool Equals( ThrowInfo other ) {
+		return OriginPos.Equals( other.OriginPos ) && TargetPos.Equals( other.TargetPos );
+	}
+
+	public override bool Equals( object obj ) {
+		if ( ReferenceEquals( null, obj ) ) {
+			return false;
+		}
+
+		return obj is ThrowInfo && Equals( ( ThrowInfo ) obj );
+	}
+
+	public override int GetHashCode() {
+		unchecked {
+			return ( OriginPos.GetHashCode() * 397 ) ^ TargetPos.GetHashCode();
+		}
+	}
 }
 
 public partial class CustomNetTransform {
