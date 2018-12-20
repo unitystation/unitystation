@@ -157,14 +157,14 @@ public class BodyPartBehaviour : MonoBehaviour
 	}
 
 
-	public virtual void RestoreDamage(/*int damage, DamageType type*/)
+	public virtual void RestoreDamage()
 	{
 		bruteDamage = 0;
 		burnDamage = 0;
 		toxinDamage = 0;
 		bruteDamage = 0;
 
-		UpdateSeverity(/*damage, type*/);
+		UpdateSeverity();
 	}
 
 	private int CountTotalDamage()
