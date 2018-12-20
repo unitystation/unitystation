@@ -42,11 +42,11 @@ public class UITileList : MonoBehaviour
 		{
 			return new List<GameObject>();
 		}
-		
+
 		position = matrix.transform.InverseTransformPoint(position);
 		Vector3Int tilePosition = Vector3Int.FloorToInt(position);
 
-		IEnumerable<RegisterTile> registerTiles = matrix.Get<RegisterTile>(tilePosition);
+		var registerTiles = matrix.Get<RegisterTile>(tilePosition);
 
 		return registerTiles.Select(x => x.gameObject).ToList();
 	}
@@ -58,7 +58,7 @@ public class UITileList : MonoBehaviour
 	public static LayerTile GetTileAtPosition(Vector3 position)
 	{
 		MetaTileMap metaTileMap = PlayerManager.LocalPlayerScript.gameObject.GetComponentInParent<MetaTileMap>();
-		
+
 		position = metaTileMap.transform.InverseTransformPoint(position);
 		Vector3Int tilePosition = Vector3Int.FloorToInt(position);
 
@@ -135,7 +135,7 @@ public class UITileList : MonoBehaviour
 
 		IEnumerable<GameObject> newList = GetItemsAtPosition(position);
 		LayerTile newTile = GetTileAtPosition(position);
-		
+
 		List<GameObject> oldList = new List<GameObject>();
 
 		foreach (GameObject gameObject in Instance.listedObjects)
@@ -163,7 +163,7 @@ public class UITileList : MonoBehaviour
 		{
 			AddTileToItemPanel(tile, position);
 		}
-			
+
 		foreach (GameObject itemObject in objects)
 		{
 			AddObjectToItemPanel(itemObject);

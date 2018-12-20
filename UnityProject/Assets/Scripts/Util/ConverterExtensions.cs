@@ -35,4 +35,22 @@
 		public static Vector3Int To3Int( this Vector2Int other ) {
 			return Vector3Int.RoundToInt( (Vector2)other );
 		}
+
+		public static Vector3 ToLocal( this Vector3 worldPos, Matrix matrix ) {
+			return MatrixManager.WorldToLocal(worldPos, MatrixManager.Get( matrix ));
+		}
+
+		public static Vector3 ToWorld( this Vector3 localPos, Matrix matrix ) {
+			return MatrixManager.LocalToWorld( localPos, MatrixManager.Get( matrix ));
+		}
+
+		public static Vector3Int ToLocalInt( this Vector3 worldPos, Matrix matrix ) {
+			return MatrixManager.WorldToLocalInt(worldPos, MatrixManager.Get( matrix ));
+		}
+
+		public static Vector3Int ToWorldInt( this Vector3 localPos, Matrix matrix ) {
+			return MatrixManager.LocalToWorldInt( localPos, MatrixManager.Get( matrix ));
+		}
+
+
 	}

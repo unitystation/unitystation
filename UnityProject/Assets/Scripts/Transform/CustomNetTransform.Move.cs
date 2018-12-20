@@ -169,13 +169,14 @@ public partial class CustomNetTransform {
 			return;
 		}
 		bool isRecursive = goal != TransformState.HiddenPos;
-		Vector3Int intOrigin = Vector3Int.RoundToInt( predictedState.WorldPosition );
+		Vector3 worldPos = predictedState.WorldPosition;
+		Vector3Int intOrigin = Vector3Int.RoundToInt( worldPos );
 
 		Vector3 moveDelta;
 		if ( !isRecursive ) { //Normal delta if not recursive
 			moveDelta = ( Vector3 ) predictedState.Impulse * predictedState.Speed * Time.deltaTime;
 		} else { //Artificial delta if recursive
-			moveDelta = goal - predictedState.WorldPosition;
+			moveDelta = goal - worldPos;
 		}
 
 		float distance = moveDelta.magnitude;
@@ -183,9 +184,9 @@ public partial class CustomNetTransform {
 
 		if ( distance > 1 ) {
 			//limit goal to just one tile away and run this method recursively afterwards
-			newGoal = predictedState.WorldPosition + ( Vector3 ) predictedState.Impulse;
+			newGoal = worldPos + ( Vector3 ) predictedState.Impulse;
 		} else {
-			newGoal = predictedState.WorldPosition + moveDelta;
+			newGoal = worldPos + moveDelta;
 		}
 		Vector3Int intGoal = Vector3Int.RoundToInt( newGoal );
 
@@ -195,7 +196,7 @@ public partial class CustomNetTransform {
 			predictedState.WorldPosition += moveDelta;
 		} else {
 			//stop
-			Logger.Log( $"{gameObject.name}: predictive stop @ {predictedState.WorldPosition} to {intGoal}" );
+			Logger.Log( $"{gameObject.name}: predictive stop @ {worldPos} to {intGoal}" );
 //			clientState.Speed = 0f;
 			predictedState.Impulse = Vector2.zero;
 			predictedState.SpinFactor = 0;
@@ -208,27 +209,29 @@ public partial class CustomNetTransform {
 
 	/// Clientside lerping (transform to clientState position)
 	private void Lerp() {
-		Vector3 targetPos = MatrixManager.WorldToLocal( predictedState.WorldPosition, MatrixManager.Get( matrix ) );
+		var worldPos = predictedState.WorldPosition;
+		Vector3 targetPos = worldPos.ToLocal( matrix );
 		//Set position immediately if not moving
 		if ( predictedState.Speed.Equals( 0 ) ) {
 			transform.localPosition = targetPos;
-			OnClientTileReached().Invoke( Vector3Int.RoundToInt(predictedState.WorldPosition) );
+			OnClientTileReached().Invoke( worldPos.RoundToInt() );
 			return;
 		}
 		transform.localPosition =
 			Vector3.MoveTowards( transform.localPosition, targetPos,
 								 predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos) );
 		if ( transform.localPosition == targetPos ) {
-			OnClientTileReached().Invoke( Vector3Int.RoundToInt(predictedState.WorldPosition) );
+			OnClientTileReached().Invoke( predictedState.WorldPosition.RoundToInt() );
 		}
 	}
 	/// Serverside lerping
 	private void ServerLerp() {
-		Vector3 targetPos = MatrixManager.WorldToLocal( serverState.WorldPosition, MatrixManager.Get( matrix ) );
+		Vector3 worldPos = serverState.WorldPosition;
+		Vector3 targetPos = worldPos.ToLocal( matrix );
 		//Set position immediately if not moving
 		if ( serverState.Speed.Equals( 0 ) ) {
 			serverLerpState = serverState;
-			OnTileReached().Invoke( serverState.WorldPosition.RoundToInt() );
+			OnTileReached().Invoke( worldPos.RoundToInt() );
 			return;
 		}
 		serverLerpState.Position =
