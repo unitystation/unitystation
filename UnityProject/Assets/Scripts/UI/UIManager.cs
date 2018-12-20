@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
 	public Text toolTip;
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
-	public Toggle ttsToggle;
+	public bool ttsToggle;
 	[HideInInspector]
 	public ProgressBar progressBar;
 
@@ -296,5 +296,10 @@ public class UIManager : MonoBehaviour
 				child.gameObject.SetActive(vis);
 			}
 		}
+	}
+
+	public void ToggleTTS(bool isOn)
+	{
+		ttsToggle = isOn;
 	}
 }
