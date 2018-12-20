@@ -178,6 +178,7 @@ public class MatrixManager : MonoBehaviour
 				Id = i,
 				Matrix = findMatrices[i],
 				GameObject = findMatrices[i].gameObject,
+				Objects = findMatrices[i].gameObject.transform.GetComponentInChildren<ObjectLayer>().transform,
 				MatrixMove = findMatrices[i].gameObject.GetComponentInParent<MatrixMove>(),
 				MetaTileMap = findMatrices[i].gameObject.GetComponent<MetaTileMap>(),
 //				NetId is initialized later
@@ -318,6 +319,9 @@ public struct MatrixInfo
 	public Matrix Matrix;
 	public MetaTileMap MetaTileMap;
 	public GameObject GameObject;
+	/// <summary>
+	/// Transform containing all the physical objects on the map
+	public Transform Objects;
 
 	public Vector3Int InitialOffset;
 
