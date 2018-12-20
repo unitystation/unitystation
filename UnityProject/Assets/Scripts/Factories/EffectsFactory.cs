@@ -5,13 +5,8 @@ public class EffectsFactory : NetworkBehaviour
 {
 	public static EffectsFactory Instance;
 
-	//Parents to make tidy
-	private GameObject shroudParent;
-	private GameObject bloodParent;
-
 	private GameObject fireTile { get; set; }
 	private GameObject scorchMarksTile { get; set; }
-	private GameObject shroudTile { get; set; }
 
 	private GameObject bloodTile { get; set; }
 
@@ -32,13 +27,7 @@ public class EffectsFactory : NetworkBehaviour
 		//Do init stuff
 		fireTile = Resources.Load("FireTile") as GameObject;
 		scorchMarksTile = Resources.Load("ScorchMarks") as GameObject;
-		shroudTile = Resources.Load("ShroudTile") as GameObject;
 		bloodTile = Resources.Load("BloodSplat") as GameObject;
-		//Parents
-		shroudParent = new GameObject();
-		shroudParent.transform.position += new Vector3(0.5f, 0.5f, 0);
-		shroudParent.name = "FieldOfView(Shrouds)";
-		shroudParent.tag = "FogOfWar";
 	}
 
 	//FileTiles are client side effects only, no need for network sync (triggered by same event on all clients/server)
@@ -60,13 +49,6 @@ public class EffectsFactory : NetworkBehaviour
 			PoolManager.Instance.PoolClientInstantiate(scorchMarksTile, parent.position, Quaternion.identity);
 		sM.transform.parent = parent;
 		return sM;
-	}
-
-	public GameObject SpawnShroudTile(Vector3 pos)
-	{
-		GameObject sT = PoolManager.Instance.PoolClientInstantiate(shroudTile, pos, Quaternion.identity);
-		sT.transform.parent = shroudParent.transform;
-		return sT;
 	}
 
 	[Server]
