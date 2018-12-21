@@ -112,7 +112,7 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	private void UpdateClientChat(string message, ChatChannel channels)
 	{
-		if (UIManager.Instance.ttsToggle.isOn) {
+		if (UIManager.Instance.ttsToggle) {
 			//Text to Speech:
 			var ttsString = Regex.Replace(message, @"<[^>]*>", String.Empty);
 			//message only atm

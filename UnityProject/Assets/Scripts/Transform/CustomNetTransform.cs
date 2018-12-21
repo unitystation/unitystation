@@ -36,8 +36,8 @@ public struct TransformState {
 			{
 				return HiddenPos;
 			}
-			MatrixInfo matrix = MatrixManager.Get( MatrixId );
-			return MatrixManager.LocalToWorld( Position, matrix );
+
+			return MatrixManager.LocalToWorld( Position, MatrixManager.Get( MatrixId ) );
 		}
 		set {
 			if (value == HiddenPos) {
@@ -45,8 +45,7 @@ public struct TransformState {
 			}
 			else
 			{
-				MatrixInfo matrix = MatrixManager.Get( MatrixId );
-				Position = MatrixManager.WorldToLocal( value, matrix );
+				Position = MatrixManager.WorldToLocal( value, MatrixManager.Get( MatrixId ) );
 			}
 		}
 	}

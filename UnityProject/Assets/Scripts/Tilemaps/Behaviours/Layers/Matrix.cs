@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -111,9 +112,16 @@ public class Matrix : MonoBehaviour
 		return true;
 	}
 
-	public IEnumerable<T> Get<T>(Vector3Int position) where T : MonoBehaviour
-	{
-		return objects.Get(position).Select(x => x.GetComponent<T>()).Where(x => x != null);
+	public List<T> Get<T>(Vector3Int position) where T : MonoBehaviour {
+		List<RegisterTile> xes = objects.Get( position );
+		var filtered = new List<T>();
+		for ( var i = 0; i < xes.Count; i++ ) {
+			T x = xes[i].GetComponent<T>();
+			if ( x != null ) {
+				filtered.Add( x );
+			}
+		}
+		return filtered;
 	}
 
 
@@ -133,9 +141,17 @@ public class Matrix : MonoBehaviour
 		//return objects.GetFirst(position)?.GetComponent<T>();
 	}
 
-	public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
+	public List<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
 	{
-		return objects.Get(position, type).Select(x => x.GetComponent<T>()).Where(x => x != null);
+		List<RegisterTile> xes = objects.Get( position, type );
+		var filtered = new List<T>();
+		for ( var i = 0; i < xes.Count; i++ ) {
+			T x = xes[i].GetComponent<T>();
+			if ( x != null ) {
+				filtered.Add( x );
+			}
+		}
+		return filtered;
 	}
 
 	public bool ContainsAt(Vector3Int position, GameObject gameObject)

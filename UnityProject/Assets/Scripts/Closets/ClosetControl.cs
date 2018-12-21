@@ -10,9 +10,9 @@ using UnityEngine.Networking;
 		public Sprite doorOpened;
 
 		//Inventory
-		private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
+		private List<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
 
-		private IEnumerable<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
+		private List<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
 
 		[SyncVar(hook = nameof(OpenClose))] public bool IsClosed;
 
@@ -21,6 +21,7 @@ using UnityEngine.Networking;
 		public LockLightController lockLight;
 
 		private RegisterCloset registerTile;
+		private PushPull pushPull;
 		private Matrix matrix => registerTile.Matrix;
 
 		public SpriteRenderer spriteRenderer;
@@ -33,6 +34,7 @@ using UnityEngine.Networking;
 		private void Start()
 		{
 			registerTile = GetComponent<RegisterCloset>();
+			pushPull = GetComponent<PushPull>();
 		}
 
 		public override void OnStartServer()
@@ -219,55 +221,57 @@ using UnityEngine.Networking;
 			}
 		}
 
-		private void SetItemsAliveState(bool on)
-		{
+		private void SetItemsAliveState(bool on) {
 			if (!on)
 			{
 				heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
 			}
-			foreach (ObjectBehaviour item in heldItems)
-			{
+
+			for ( var i = 0; i < heldItems.Count; i++ ) {
+				ObjectBehaviour item = heldItems[i];
 				CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
-				if (on)
-				{
+				if ( @on ) {
 					//avoids blinking of premapped items when opening first time in another place:
-					netTransform.AppearAtPosition(registerTile.WorldPosition);
-					netTransform.AppearAtPositionServer(registerTile.WorldPosition);
-					//todo: if closet is moving, apply impulse to contained items and players
-				}
-				else
-				{
+					Vector3Int pos = registerTile.WorldPosition;
+					netTransform.AppearAtPosition( pos );
+					if ( pushPull && pushPull.Pushable.IsMovingServer ) {
+						netTransform.InertiaDrop( pos, pushPull.Pushable.MoveSpeedServer, pushPull.InheritedImpulse.To2Int() );
+					} else {
+						netTransform.AppearAtPositionServer( pos );
+					}
+				} else {
 					netTransform.DisappearFromWorldServer();
 				}
 
-				item.visibleState = on;
+				item.visibleState = @on;
 			}
 		}
 
-		private void SetPlayersAliveState(bool on)
-		{
+		private void SetPlayersAliveState(bool on) {
 			if (!on)
 			{
 				heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
 			}
 
-			foreach (ObjectBehaviour player in heldPlayers)
-			{
+			for ( var i = 0; i < heldPlayers.Count; i++ ) {
+				ObjectBehaviour player = heldPlayers[i];
 				var playerScript = player.GetComponent<PlayerScript>();
 				var playerSync = playerScript.PlayerSync;
-				if (on)
-				{
+				if ( @on ) {
 					playerSync.AppearAtPositionServer( registerTile.WorldPosition );
+					if ( pushPull && pushPull.Pushable.IsMovingServer ) {
+						playerScript.pushPull.TryPush( pushPull.InheritedImpulse.To2Int(), pushPull.Pushable.MoveSpeedServer );
+					}
 				}
-				player.visibleState = on;
 
-				if (!on)
-				{
+				player.visibleState = @on;
+
+				if ( !@on ) {
 					playerSync.DisappearFromWorldServer();
 					//Make sure a ClosetPlayerHandler is created on the client to monitor
 					//the players input inside the storage. The handler also controls the camera follow targets:
-					if (!playerScript.playerMove.isGhost) {
-						ClosetHandlerMessage.Send(player.gameObject, gameObject);
+					if ( !playerScript.playerMove.isGhost ) {
+						ClosetHandlerMessage.Send( player.gameObject, gameObject );
 					}
 				}
 			}

@@ -51,6 +51,9 @@ public partial class PlayerSync
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
 
 
+	public bool IsMovingServer => consideredFloatingServer || !ServerPositionsMatch;
+	public Vector2 ServerImpulse => serverState.Impulse;
+
 	/// Whether player is considered to be floating on server
 	private bool consideredFloatingServer => serverState.Impulse != Vector2.zero /*&& !IsBeingPulledServer*/;
 

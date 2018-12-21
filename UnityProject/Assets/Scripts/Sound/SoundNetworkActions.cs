@@ -9,6 +9,8 @@ public class SoundNetworkActions : NetworkBehaviour
 		RpcPlayNetworkSound(soundName, pos);
 	}
 
+	// fixme: unsecure af, lets client play arbitrary sounds at will ^v
+
 	[Command]
 	public void CmdPlaySoundAtPlayerPos(string soundName)
 	{

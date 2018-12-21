@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,9 +23,12 @@ public class DebugConsole : MonoBehaviour
 	protected static string LastLog { get; private set; }
 
 	public Text displayText;
+	public Text averageFPSText;
+	public Text minimumFPSText;
 	public GameObject consoleObject;
 
 	bool isOpened = false;
+	private List<float> fps = new List<float>();
 
 	public static void AmendLog(string msg)
 	{
@@ -46,6 +50,7 @@ public class DebugConsole : MonoBehaviour
 	{
 		Instance.consoleObject.SetActive(false);
 		Instance.isOpened = false;
+		StartCoroutine(UpdateFPSDisplay());
 	}
 
 	void Update()
@@ -54,6 +59,8 @@ public class DebugConsole : MonoBehaviour
 		{
 			ToggleConsole();
 		}
+		fps.Add(1f / Time.deltaTime);
+		
 	}
 
 	void ToggleConsole()
@@ -67,4 +74,31 @@ public class DebugConsole : MonoBehaviour
 		Instance.displayText.text = DebugLog;
 	}
 
+	private IEnumerator UpdateFPSDisplay()
+	{
+		while (true)
+		{
+			if (fps.Count <= 0) yield return null;
+
+			float avgFPS = Mathf.Round(fps.Average());
+			float minFPS = Mathf.Round(fps.Min());
+			fps.Clear();
+
+			averageFPSText.text = "Avg: " + Mathf.Round(avgFPS);
+			averageFPSText.color = FPSColor(avgFPS);
+			minimumFPSText.text = "Min: " + Mathf.Round(minFPS);
+			minimumFPSText.color = FPSColor(minFPS);
+
+			yield return new WaitForSeconds(.25f);
+		}
+	}
+
+	private Color FPSColor(float fps)
+	{
+		var col =
+			fps < 25 ? Color.red :
+			fps < 55 ? Color.yellow :
+			Color.green;
+		return col /= 2;
+	}
 }
