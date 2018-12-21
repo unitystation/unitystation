@@ -84,7 +84,7 @@ public class RadiationCollector : InputTrigger, IDeviceControl
 		}
 	}
 
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		//Interact stuff with the Radiation collector here
 		if (!isServer)
@@ -96,5 +96,7 @@ public class RadiationCollector : InputTrigger, IDeviceControl
 			isOn = !isOn;
 			UpdateServerState(isOn);
 		}
+
+		return true;
 	}
 }

@@ -181,9 +181,8 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		}
 	}
 
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-
 		if (!isServer)
 		{
 			InteractMessage.Send(gameObject, hand);
@@ -200,7 +199,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 					isOn = !isOn;
 					UpdateServerState(isOn);
 				}
-				return;
+				return true;
 			}
 
 			var solidPlasma = slot.Item?.GetComponent<SolidPlasma>();
@@ -208,7 +207,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 			{
 				plasmaFuel.Add(solidPlasma);
 				InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
-				return;
+				return true;
 			}
 
 			if (isSecured)
@@ -216,5 +215,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 				UpdateServerState(!isOn);
 			}
 		}
+
+		return true;
 	}
 }

@@ -66,34 +66,41 @@ public class InputController : MonoBehaviour
 					CheckClick();
 				}
 			}
-		} else if (Input.GetMouseButton(0)) {
+		}
+		else if (Input.GetMouseButton(0))
+		{
 			//mouse being held down / dragged
 			CheckDrag();
-		} else {
+		}
+		else
+		{
 			CheckHover();
 		}
 	}
 	private Renderer lastHoveredThing;
 
-	private void CheckHover() {
+	private void CheckHover()
+	{
 		Renderer hitRenderer;
-		if ( RayHit(false, out hitRenderer ) ) {
-			if ( !hitRenderer ) {
+		if (RayHit(false, out hitRenderer))
+		{
+			if (!hitRenderer)
+			{
 				return;
 			}
 
-			if ( lastHoveredThing != hitRenderer )
+			if (lastHoveredThing != hitRenderer)
 			{
-				if ( lastHoveredThing )
+				if (lastHoveredThing)
 				{
-					lastHoveredThing.transform.SendMessageUpwards( "OnHoverEnd", SendMessageOptions.DontRequireReceiver );
+					lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
 				}
-				hitRenderer.transform.SendMessageUpwards( "OnHoverStart", SendMessageOptions.DontRequireReceiver );
+				hitRenderer.transform.SendMessageUpwards("OnHoverStart", SendMessageOptions.DontRequireReceiver);
 
 				lastHoveredThing = hitRenderer;
 			}
 
-			hitRenderer.transform.SendMessageUpwards( "OnHover", SendMessageOptions.DontRequireReceiver );
+			hitRenderer.transform.SendMessageUpwards("OnHover", SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
@@ -102,9 +109,10 @@ public class InputController : MonoBehaviour
 		UIManager.Hands.Swap();
 	}
 
-	private void CheckClick() {
-		bool ctrlClick = Input.GetKey(KeyCode.LeftControl) || Input.GetKey( KeyCode.LeftCommand ) ||
-		                 Input.GetKey(KeyCode.RightControl) || Input.GetKey( KeyCode.RightCommand );
+	private void CheckClick()
+	{
+		bool ctrlClick = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand) ||
+						 Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.RightCommand);
 		if (!ctrlClick)
 		{
 			//change the facingDirection of player on click
@@ -115,13 +123,17 @@ public class InputController : MonoBehaviour
 			{
 				InteractHands(false);
 			}
-		} else {
+		}
+		else
+		{
 			Renderer hitRenderer;
-			if ( RayHit(false, out hitRenderer ) ) {
-				if ( !hitRenderer ) {
+			if (RayHit(false, out hitRenderer))
+			{
+				if (!hitRenderer)
+				{
 					return;
 				}
-				hitRenderer.transform.SendMessageUpwards( "OnCtrlClick", SendMessageOptions.DontRequireReceiver );
+				hitRenderer.transform.SendMessageUpwards("OnCtrlClick", SendMessageOptions.DontRequireReceiver);
 			}
 		}
 	}
@@ -129,9 +141,11 @@ public class InputController : MonoBehaviour
 	/// <summary>
 	/// Handles events that should happen while mouse is being held down (but not when it is initially clicked down)
 	/// </summary>
-	private void CheckDrag() {
+	private void CheckDrag()
+	{
 		//if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
-		if (!RayHitInteract(true) && !EventSystem.current.IsPointerOverGameObject()) {
+		if (!RayHitInteract(true) && !EventSystem.current.IsPointerOverGameObject())
+		{
 			InteractHands(true);
 		}
 	}
@@ -176,7 +190,7 @@ public class InputController : MonoBehaviour
 			currentSlot.Clear();
 			//				Logger.Log( $"Requesting throw from {currentSlot.eventName} to {position}" );
 			PlayerManager.LocalPlayerScript.playerNetworkActions
-				.CmdRequestThrow(currentSlot.eventName, position, (int) UIManager.DamageZone);
+				.CmdRequestThrow(currentSlot.eventName, position, (int)UIManager.DamageZone);
 
 			//Disabling throw button
 			UIManager.Action.Throw();
@@ -208,7 +222,8 @@ public class InputController : MonoBehaviour
 	/// </summary>
 	/// <param name="isDrag">is this during (but not at the very start of) a drag?</param>
 	/// <returns>true iff there was a hit that caused an interaction</returns>
-	private bool RayHitInteract(bool isDrag) {
+	private bool RayHitInteract(bool isDrag)
+	{
 		Renderer hitRenderer;
 		return RayHit(isDrag, out hitRenderer, true);
 	}
@@ -221,7 +236,8 @@ public class InputController : MonoBehaviour
 	/// <param name="hitRenderer>renderer of the gameobject that had an interaction</param>
 	/// <param name="interact">true iff there was an interaction that occurred</param>
 	/// <returns>true iff there was a hit that caused an interaction</returns>
-	private bool RayHit(bool isDrag, out Renderer hitRenderer, bool interact = false) {
+	private bool RayHit(bool isDrag, out Renderer hitRenderer, bool interact = false)
+	{
 		hitRenderer = null;
 
 		Vector3 mousePosition = MousePosition;
@@ -256,11 +272,13 @@ public class InputController : MonoBehaviour
 				{
 					hitRenderer = _renderer;
 
-					if ( !interact ) {
+					if (!interact)
+					{
 						break;
 					}
-					
-					if (Interact(_renderer.transform, mousePosition, isDrag)) {
+
+					if (Interact(_renderer.transform, mousePosition, isDrag))
+					{
 						isInteracting = true;
 						break;
 					}
@@ -337,7 +355,7 @@ public class InputController : MonoBehaviour
 		Vector2 mousePos = Input.mousePosition;
 		Vector2 viewportPos = cam.ScreenToViewportPoint(mousePos);
 		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f) return false; // out of viewport bounds
-		// Cast a ray from viewport point into world
+																														// Cast a ray from viewport point into world
 		Ray ray = cam.ViewportPointToRay(viewportPos);
 
 		// Check for intersection with sprite and get the color
@@ -362,20 +380,20 @@ public class InputController : MonoBehaviour
 		}
 		// Craete a plane so it has the same orientation as the sprite transform
 		Plane plane = new Plane(transform.forward, (Vector2)transform.position); //????????
-		// Intersect the ray and the plane
+																				 // Intersect the ray and the plane
 		float rayIntersectDist; // the distance from the ray origin to the intersection point
 		if (!plane.Raycast(ray, out rayIntersectDist)) return false; // no intersection
-		// Convert world position to sprite position
-		// worldToLocalMatrix.MultiplyPoint3x4 returns a value from based on the texture dimensions (+/- half texDimension / pixelsPerUnit) )
-		// 0, 0 corresponds to the center of the TEXTURE ITSELF, not the center of the trimmed sprite textureRect
+																	 // Convert world position to sprite position
+																	 // worldToLocalMatrix.MultiplyPoint3x4 returns a value from based on the texture dimensions (+/- half texDimension / pixelsPerUnit) )
+																	 // 0, 0 corresponds to the center of the TEXTURE ITSELF, not the center of the trimmed sprite textureRect
 		Vector3 spritePos = spriteRenderer.worldToLocalMatrix.MultiplyPoint3x4(ray.origin + (ray.direction * rayIntersectDist));
 		Rect textureRect = sprite.textureRect;
 		float pixelsPerUnit = sprite.pixelsPerUnit;
 		float halfRealTexWidth = sprite.rect.width * 0.5f;
 		float halfRealTexHeight = sprite.rect.height * 0.5f;
 
-		int texPosX = (int) (sprite.rect.x + (spritePos.x * pixelsPerUnit + halfRealTexWidth));
-		int texPosY = (int) (sprite.rect.y + (spritePos.y * pixelsPerUnit + halfRealTexHeight));
+		int texPosX = (int)(sprite.rect.x + (spritePos.x * pixelsPerUnit + halfRealTexWidth));
+		int texPosY = (int)(sprite.rect.y + (spritePos.y * pixelsPerUnit + halfRealTexHeight));
 
 		// Check if pixel is within texture
 		if (texPosX < 0 || texPosX < textureRect.x || texPosX >= Mathf.FloorToInt(textureRect.xMax)) return false;
@@ -434,10 +452,19 @@ public class InputController : MonoBehaviour
 			{
 				if (objectBehaviour.visibleState)
 				{
-					if (isDrag) {
-						inputTrigger.TriggerDrag(position);
-					} else {
-						inputTrigger.Trigger(position);
+					bool interacted = false;
+					if (isDrag)
+					{
+						interacted = inputTrigger.TriggerDrag(position);
+					}
+					else
+					{
+						interacted = inputTrigger.Trigger(position);
+					}
+
+					if (interacted)
+					{
+						return true;
 					}
 
 					//FIXME currently input controller only uses the first InputTrigger found on an object
@@ -450,22 +477,31 @@ public class InputController : MonoBehaviour
 						P2PInteractions playerInteractions = inputTrigger.gameObject.GetComponent<P2PInteractions>();
 						if (playerInteractions != null)
 						{
-							if (isDrag) {
-								playerInteractions.TriggerDrag(position);
-							} else {
-								playerInteractions.Trigger(position);
+							if (isDrag)
+							{
+								interacted = playerInteractions.TriggerDrag(position);
+							}
+							else
+							{
+								interacted = playerInteractions.Trigger(position);
 							}
 						}
 					}
-					return true;
+					if (interacted)
+					{
+						return true;
+					}
 				}
 				//Allow interact with cupboards we are inside of!
 				ClosetControl closet = inputTrigger.GetComponent<ClosetControl>();
 				//no closet interaction happens when dragging
 				if (closet && Camera2DFollow.followControl.target == closet.transform && !isDrag)
 				{
-					inputTrigger.Trigger(position);
-					return true;
+
+					if (inputTrigger.Trigger(position))
+					{
+						return true;
+					}
 				}
 				return false;
 			}
@@ -482,12 +518,19 @@ public class InputController : MonoBehaviour
 			InputTrigger inputTrigger = UIManager.Hands.CurrentSlot.Item.GetComponent<InputTrigger>();
 			if (inputTrigger != null)
 			{
-				if (isDrag) {
-					inputTrigger.TriggerDrag();
-				} else {
-					inputTrigger.Trigger();
+				bool interacted = false;
+				if (isDrag)
+				{
+					interacted = inputTrigger.TriggerDrag();
 				}
-				return true;
+				else
+				{
+					interacted = inputTrigger.Trigger();
+				}
+				if (interacted)
+				{
+					return true;
+				}
 			}
 		}
 

@@ -2,16 +2,15 @@
 
 public class WirecutterTrigger : PickUpTrigger
 {
-    public override void Interact(GameObject originator, Vector3 position, string hand)
+    public override bool Interact(GameObject originator, Vector3 position, string hand)
     {
         //TODO:  Fill this in.
 
         if (UIManager.Hands.CurrentSlot.Item != gameObject)
         {
-            base.Interact(originator, position, hand);
-            return;
+            return base.Interact(originator, position, hand);
         }
 
-        base.Interact(originator, position, hand);
+        return base.Interact(originator, position, hand);
     }
 }

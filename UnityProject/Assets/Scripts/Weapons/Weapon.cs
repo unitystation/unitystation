@@ -272,53 +272,57 @@ public class Weapon : PickUpTrigger
 	/// <summary>
 	/// Occurs when shooting by clicking on empty space
 	/// </summary>
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		//todo: validate fire attempts on server
 		//shoot gun interation if its in hand
 		if (gameObject == UIManager.Hands.CurrentSlot.Item)
 		{
-			AttemptToFireWeapon(false);
+			return AttemptToFireWeapon(false);
 		}
 		//if the weapon is not in our hands not in hands, pick it up
 		else
 		{
-			base.Interact(originator, position, hand);
+			return base.Interact(originator, position, hand);
 		}
 	}
 
 	/// <summary>
 	/// Occurs when shooting by clicking on empty space
 	/// </summary>
-	public override void DragInteract(GameObject originator, Vector3 position, string hand)
+	public override bool DragInteract(GameObject originator, Vector3 position, string hand)
 	{
 		//continue automatic fire while dragging
 		if (InAutomaticAction && FireCountDown <= 0)
 		{
-			AttemptToFireWeapon(false);
+			return AttemptToFireWeapon(false);
 		}
+
+		return false;
 	}
 
 	/// <summary>
 	/// Shoot the weapon holder.
 	/// </summary>
-	public void AttemptSuicideShot()
+	/// <returns>true iff something happened</returns>
+	public bool AttemptSuicideShot()
 	{
-		AttemptToFireWeapon(true);
+		return AttemptToFireWeapon(true);
 	}
 
 	/// <summary>
 	/// Attempt to fire a single shot of the weapon (this is called once per bullet for a burst of automatic fire)
 	/// </summary>
 	/// <param name="isSuicide">if the shot should be a suicide shot, striking the weapon holder</param>
-	private void AttemptToFireWeapon(bool isSuicide)
+	/// <returns>true iff something happened</returns>
+	private bool AttemptToFireWeapon(bool isSuicide)
 	{
 		//suicide is not allowed in some cases.
 		isSuicide = isSuicide && AllowSuicide;
 		//ignore if we are hovering over UI
 		if (EventSystem.current.IsPointerOverGameObject())
 		{
-			return;
+			return false;
 		}
 
 		//if we have no mag/clip loaded play empty sound
@@ -326,6 +330,7 @@ public class Weapon : PickUpTrigger
 		{
 			StopAutomaticBurst();
 			PlayEmptySFX();
+			return true;
 		}
 		//if we are out of ammo for this weapon eject magazine and play out of ammo sfx
 		else if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0)
@@ -333,6 +338,7 @@ public class Weapon : PickUpTrigger
 			StopAutomaticBurst();
 			ManualUnload(CurrentMagazine);
 			OutOfAmmoSFX();
+			return true;
 		}
 		else
 		{
@@ -368,8 +374,12 @@ public class Weapon : PickUpTrigger
 				{
 					ContinueBurst(isSuicide);
 				}
+
+				return true;
 			}
 		}
+
+		return true;
 	}
 
 	/// <summary>

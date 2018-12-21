@@ -8,8 +8,9 @@ using UnityEngine.Networking;
 /// There are 2 kinds of interactions - an interaction (defined when the mouse is initially clicked) and a drag interaction (defined as when the mouse is
 /// being dragged while held down but not during the initial click)
 ///
-/// Keep in mind that (currently) only at most one interaction will be triggered for a given update, and the interaction will first be attempted on the highest layer
-/// before checking for interactions on lower layers. The first interaction which returns true will cause no further interactions to be checked.
+/// Keep in mind that (currently) every interaction which is checked on a given update has the ability to disable futher interactions by returning true. This is
+/// what most interactions do. If an interaction returns false (meaning interaction checking should continue), the game will proceed checking
+/// the other possible interactions that can happen, going down from the top to the bottom layers.
 /// </summary>
 public abstract class InputTrigger : NetworkBehaviour
 {
@@ -17,9 +18,10 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// Trigger an interaction with the position set to this transform, the originator set to the LocalPlayer
 	/// (if localplayer is not null), and the hand set to the localplayer's current hand.
 	/// </summary>
-	public void Trigger()
+	/// <returns>true if further interactions should be prevented for the current update</returns>
+	public bool Trigger()
 	{
-		Trigger(transform.position);
+		return Trigger(transform.position);
 	}
 
 	/// <summary>
@@ -27,31 +29,36 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// (if localplayer is not null), and the hand set to the localplayer's current hand.
 	/// </summary>
 	/// <param name="position">position of the interaction</param>
-	public void Trigger(Vector3 position)
+	/// <returns>true if further interactions should be prevented for the current update</returns>
+	public bool Trigger(Vector3 position)
 	{
-		Interact(position);
+		return Interact(position);
 	}
 
 	/// <summary>
 	/// Trigger an interaction with the position set to this transform's position, with the specified originator and hand.
 	/// </summary>
 	/// <param name="hand">hand being used by the originator</param>
-	public void Interact(GameObject originator, string hand) {
-		Interact(originator, transform.position, hand);
+	/// <returns>true if further interactions should be prevented for the current update</returns>
+	public bool Interact(GameObject originator, string hand) {
+		return Interact(originator, transform.position, hand);
 	}
 
-	private void Interact(Vector3 position) {
+	private bool Interact(Vector3 position) {
 		if (PlayerManager.LocalPlayer != null) {
-			Interact(PlayerManager.LocalPlayerScript.gameObject, position, UIManager.Hands.CurrentSlot.eventName);
+			return Interact(PlayerManager.LocalPlayerScript.gameObject, position, UIManager.Hands.CurrentSlot.eventName);
 		}
+
+		return false;
 	}
 
 	/// <summary>
 	/// Trigger a drag interaction with the position set to this transform, the originator set to the LocalPlayer
 	/// (if localplayer is not null), and the hand set to the localplayer's current hand.
 	/// </summary>
-	public void TriggerDrag() {
-		TriggerDrag(transform.position);
+	/// <returns>true if further interactions should be prevented for the current update</returns>
+	public bool TriggerDrag() {
+		return TriggerDrag(transform.position);
 	}
 
 	/// <summary>
@@ -59,14 +66,16 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// (if localplayer is not null), and the hand set to the localplayer's current hand.
 	/// </summary>
 	/// <param name="position">position of the interaction</param>
-	public void TriggerDrag(Vector3 position) {
-		DragInteract(position);
+	/// <returns>true if further interactions should be prevented for the current update</returns>
+	public bool TriggerDrag(Vector3 position) {
+		return DragInteract(position);
 	}
 
-	private void DragInteract(Vector3 position) {
+	private bool DragInteract(Vector3 position) {
 		if (PlayerManager.LocalPlayer != null) {
-			DragInteract(PlayerManager.LocalPlayerScript.gameObject, position, UIManager.Hands.CurrentSlot.eventName);
+			return DragInteract(PlayerManager.LocalPlayerScript.gameObject, position, UIManager.Hands.CurrentSlot.eventName);
 		}
+		return false;
 	}
 
 	/// <summary>
@@ -75,7 +84,8 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// <param name="originator>game object that is performing the interaction upon this gameobject</param>
 	/// <param name="hand">hand of the originator which is being used to perform the interaction</param>
 	/// <param name="position">position of the interaction</param>
-	public abstract void Interact(GameObject originator, Vector3 position, string hand);
+	/// <returns>true if further interactions should be prevented for the current update</returns>
+	public abstract bool Interact(GameObject originator, Vector3 position, string hand);
 
 	//TODO: Document what "position" really is - is it always mouse position? Is it sometimes the position of the object being interacted with?
 	/// <summary>
@@ -85,7 +95,8 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// <param name="originator>game object that is performing the interaction upon this gameobject</param>
 	/// <param name="hand">hand of the originator which is being used to perform the interaction</param>
 	/// <param name="position">position of the interaction</param>
-	public virtual void DragInteract(GameObject originator, Vector3 position, string hand) { }
+	/// <returns>true if further interactions should be prevented for the current update</returns>
+	public virtual bool DragInteract(GameObject originator, Vector3 position, string hand) { return false; }
 
 	/// <Summary>
 	/// This is called by the hand button on the hand slots. It can also be expanded for interaction on other slots
