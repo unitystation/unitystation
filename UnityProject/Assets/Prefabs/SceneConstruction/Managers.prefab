@@ -16202,8 +16202,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114986867525342648}
   m_HandleRect: {fileID: 224599716051025124}
   m_Direction: 2
-  m_Value: 0.00000014912081
-  m_Size: 0.00000017438616
+  m_Value: 0
+  m_Size: 0.41528547
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -28082,6 +28082,7 @@ MonoBehaviour:
   toolTip: {fileID: 114819375966709390}
   walkRunControl: {fileID: 114928448129669528}
   storageHandler: {fileID: 114441105741538276}
+  oxygenAlertImg: {fileID: 114554365641785132}
   ttsToggle: 0
   progressBar: {fileID: 0}
   isInputFocus: 0
@@ -32903,7 +32904,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.26000977, y: 0.3125}
+  m_AnchoredPosition: {x: -0.26171875, y: 0.3125}
   m_SizeDelta: {x: 0.5, y: 0.5999756}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224225607543847826
@@ -33271,7 +33272,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.73144454}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.25976562, y: 0.7999878}
+  m_AnchoredPosition: {x: -0.26171875, y: 0.7999878}
   m_SizeDelta: {x: 0.5, y: -1.7000122}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224264904714827184
@@ -33290,7 +33291,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 409.30005}
+  m_AnchoredPosition: {x: 0, y: 409.30008}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224265194266767286
