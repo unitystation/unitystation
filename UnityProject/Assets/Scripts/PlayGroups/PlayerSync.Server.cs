@@ -641,9 +641,9 @@ public partial class PlayerSync
 		}
 		else
 		{
-			if (UIManager.Instance.GetComponentInChildren<UI_OxygenAlert>() != null)
+			if (UIManager.Instance.oxygenAlertImg != null)
 			{
-				UIManager.Instance.GetComponentInChildren<UI_OxygenAlert>().gameObject.GetComponent<UnityEngine.UI.Image>().enabled = false;
+				UIManager.Instance.oxygenAlertImg.enabled = false;
 			}
 
 			return false;
