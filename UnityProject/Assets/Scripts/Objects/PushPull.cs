@@ -90,7 +90,7 @@ public class PushPull : VisibleBehaviour {
 		}
 
 		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile )
-		     && pullable != this && !IsBeingPulled ) {
+		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
 				PlayerManager.LocalPlayerScript.soundNetworkActions.RpcPlayNetworkSound("Rustle0" + Random.Range(1, 4), pullable.transform.position);
