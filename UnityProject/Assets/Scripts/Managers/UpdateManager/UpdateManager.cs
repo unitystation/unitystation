@@ -77,8 +77,16 @@ public class UpdateManager : MonoBehaviour
 	private void Update()
 	{
 		UpdateMe?.Invoke();
-		FixedUpdateMe?.Invoke();
-		LateUpdateMe?.Invoke();
 		UpdateAction?.Invoke();
+	}
+
+	private void FixedUpdate()
+	{
+		FixedUpdateMe?.Invoke();
+	}
+
+	private void LateUpdate()
+	{
+		LateUpdateMe?.Invoke();
 	}
 }
