@@ -66,6 +66,9 @@ public class InputController : MonoBehaviour
 					CheckClick();
 				}
 			}
+		} else if (Input.GetMouseButton(0)) {
+			//mouse being held down / dragged
+			CheckDrag();
 		} else {
 			CheckHover();
 		}
@@ -74,7 +77,7 @@ public class InputController : MonoBehaviour
 
 	private void CheckHover() {
 		Renderer hitRenderer;
-		if ( RayHit( out hitRenderer ) ) {
+		if ( RayHit(false, out hitRenderer ) ) {
 			if ( !hitRenderer ) {
 				return;
 			}
@@ -108,18 +111,28 @@ public class InputController : MonoBehaviour
 			ChangeDirection();
 
 			//if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
-			if (!RayHitInteract() && !EventSystem.current.IsPointerOverGameObject())
+			if (!RayHitInteract(false) && !EventSystem.current.IsPointerOverGameObject())
 			{
-				InteractHands();
+				InteractHands(false);
 			}
 		} else {
 			Renderer hitRenderer;
-			if ( RayHit( out hitRenderer ) ) {
+			if ( RayHit(false, out hitRenderer ) ) {
 				if ( !hitRenderer ) {
 					return;
 				}
 				hitRenderer.transform.SendMessageUpwards( "OnCtrlClick", SendMessageOptions.DontRequireReceiver );
 			}
+		}
+	}
+
+	/// <summary>
+	/// Handles events that should happen while mouse is being held down (but not when it is initially clicked down)
+	/// </summary>
+	private void CheckDrag() {
+		//if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
+		if (!RayHitInteract(true) && !EventSystem.current.IsPointerOverGameObject()) {
+			InteractHands(true);
 		}
 	}
 
@@ -189,12 +202,26 @@ public class InputController : MonoBehaviour
 		}
 	}
 
-	private bool RayHitInteract() {
+	/// <summary>
+	/// Checks the gameobjects the mouse is over and triggers interaction for the highest object that has an interaction
+	/// to perform.
+	/// </summary>
+	/// <param name="isDrag">is this during (but not at the very start of) a drag?</param>
+	/// <returns>true iff there was a hit that caused an interaction</returns>
+	private bool RayHitInteract(bool isDrag) {
 		Renderer hitRenderer;
-		return RayHit( out hitRenderer, true );
+		return RayHit(isDrag, out hitRenderer, true);
 	}
 
-	private bool RayHit(out Renderer hitRenderer, bool interact = false) {
+	/// <summary>
+	/// Checks the gameobjects the mouse is over and triggers interaction for the highest object that has an interaction
+	/// to perform.
+	/// </summary>
+	/// <param name="isDrag">is this during (but not at the very start of) a drag?</param>
+	/// <param name="hitRenderer>renderer of the gameobject that had an interaction</param>
+	/// <param name="interact">true iff there was an interaction that occurred</param>
+	/// <returns>true iff there was a hit that caused an interaction</returns>
+	private bool RayHit(bool isDrag, out Renderer hitRenderer, bool interact = false) {
 		hitRenderer = null;
 
 		Vector3 mousePosition = MousePosition;
@@ -232,9 +259,8 @@ public class InputController : MonoBehaviour
 					if ( !interact ) {
 						break;
 					}
-
-					if (Interact(_renderer.transform, mousePosition))
-					{
+					
+					if (Interact(_renderer.transform, mousePosition, isDrag)) {
 						isInteracting = true;
 						break;
 					}
@@ -359,20 +385,29 @@ public class InputController : MonoBehaviour
 		return true;
 	}
 
-	public bool Interact(Transform _transform)
+	/// <summary>
+	/// Check for and process (if the interaction should occur) an interaction on the gameobject with the given transform.
+	/// </summary>
+	/// <param name="_transform">transform to check the interaction of</param>
+	/// <param name="isDrag">is this during (but not the very start of) a drag?</param>
+	/// <returns>true iff an interaction occurred</returns>
+	public bool Interact(Transform _transform, bool isDrag)
 	{
-		return Interact(_transform, _transform.position);
+		return Interact(_transform, _transform.position, isDrag);
 	}
+
 
 	/// <summary>
 	/// Checks for the various interactions that can occur and delegates to the appropriate trigger classes.
 	/// Note that only one interaction is allowed to occur in this method - the first time any trigger returns true
 	/// (indicating that interaction logic has occurred), the method returns.
 	/// </summary>
-	public bool Interact(Transform _transform, Vector3 position)
+	/// <param name="_transform">transform to check the interaction of</param>
+	/// <param name="position">position the interaction is taking place</param>
+	/// <param name="isDrag">is this during (but not at the very start of) a drag?</param>
+	/// <returns>true iff an interaction occurred</returns>
+	public bool Interact(Transform _transform, Vector3 position, bool isDrag)
 	{
-		//TODO: Wouldn't it be better to simply delegate all logic to all handlers? Have a standard interface
-		//which takes some data and returns true if an interaction occurred.
 		if (playerMove.isGhost)
 		{
 			return false;
@@ -384,7 +419,8 @@ public class InputController : MonoBehaviour
 		{
 			//Check for melee triggers first. If a melee interaction occurs, stop checking for any further interactions
 			MeleeTrigger meleeTrigger = _transform.GetComponentInParent<MeleeTrigger>();
-			if (meleeTrigger != null)
+			//no melee action happens due to a drag
+			if (meleeTrigger != null && !isDrag)
 			{
 				if (meleeTrigger.MeleeInteract(gameObject, UIManager.Hands.CurrentSlot.eventName))
 				{
@@ -398,7 +434,11 @@ public class InputController : MonoBehaviour
 			{
 				if (objectBehaviour.visibleState)
 				{
-					inputTrigger.Trigger(position);
+					if (isDrag) {
+						inputTrigger.TriggerDrag(position);
+					} else {
+						inputTrigger.Trigger(position);
+					}
 
 					//FIXME currently input controller only uses the first InputTrigger found on an object
 					/////// some objects have more then 1 input trigger, like players for example
@@ -410,14 +450,19 @@ public class InputController : MonoBehaviour
 						P2PInteractions playerInteractions = inputTrigger.gameObject.GetComponent<P2PInteractions>();
 						if (playerInteractions != null)
 						{
-							playerInteractions.Trigger(position);
+							if (isDrag) {
+								playerInteractions.TriggerDrag(position);
+							} else {
+								playerInteractions.Trigger(position);
+							}
 						}
 					}
 					return true;
 				}
 				//Allow interact with cupboards we are inside of!
 				ClosetControl closet = inputTrigger.GetComponent<ClosetControl>();
-				if (closet && Camera2DFollow.followControl.target == closet.transform)
+				//no closet interaction happens when dragging
+				if (closet && Camera2DFollow.followControl.target == closet.transform && !isDrag)
 				{
 					inputTrigger.Trigger(position);
 					return true;
@@ -425,18 +470,23 @@ public class InputController : MonoBehaviour
 				return false;
 			}
 		}
+
 		//if we are holding onto an item like a gun attempt to shoot it if we were not in range to trigger anything
-		return InteractHands();
+		return InteractHands(isDrag);
 	}
 
-	private bool InteractHands()
+	private bool InteractHands(bool isDrag)
 	{
 		if (UIManager.Hands.CurrentSlot.Item != null && objectBehaviour.visibleState)
 		{
 			InputTrigger inputTrigger = UIManager.Hands.CurrentSlot.Item.GetComponent<InputTrigger>();
 			if (inputTrigger != null)
 			{
-				inputTrigger.Trigger();
+				if (isDrag) {
+					inputTrigger.TriggerDrag();
+				} else {
+					inputTrigger.Trigger();
+				}
 				return true;
 			}
 		}
