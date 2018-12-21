@@ -46,8 +46,9 @@ using UnityEngine;
 			List<RegisterTile> xes = Get( position );
 			for ( var i = 0; i < xes.Count; i++ ) {
 				RegisterTile x = xes[i];
-				if ( x.ObjectType == type ){}
+				if ( x.ObjectType == type ) {
 					list.Add( x );
+				}
 			}
 
 			return list;
@@ -58,8 +59,9 @@ using UnityEngine;
 			List<RegisterTile> tiles = Get( position );
 			for ( var i = 0; i < tiles.Count; i++ ) {
 				T unknown = tiles[i] as T;
-				if ( unknown != null )
+				if ( unknown != null ) {
 					list.Add( unknown );
+				}
 			}
 
 			return list;
