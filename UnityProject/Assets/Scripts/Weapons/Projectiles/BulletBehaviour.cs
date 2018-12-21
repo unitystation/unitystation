@@ -4,9 +4,9 @@ public abstract class BulletBehaviour : MonoBehaviour
 {
 	private BodyPartType bodyAim;
 	public int damage = 25;
-	public GameObject shooter;
+	private GameObject shooter;
 	public DamageType damageType;
-	public bool isSuicide = false;
+	private bool isSuicide = false;
 
 	public TrailRenderer trail;
 
@@ -15,8 +15,27 @@ public abstract class BulletBehaviour : MonoBehaviour
 
 	public Vector2 Direction { get; private set; }
 
+	/// <summary>
+	/// Shoot the controlledByPlayer
+	/// </summary>
+	/// <param name="controlledByPlayer">player doing the shooting</param>
+	/// <param name="targetZone">body part being targeted</param>
+	public void Suicide(GameObject controlledByPlayer, BodyPartType targetZone = BodyPartType.CHEST) {
+		isSuicide = true;
+		StartShoot(Vector2.zero, 0, controlledByPlayer, targetZone);
+		OnShoot();
+	}
+
+	/// <summary>
+	/// Shoot in a direction
+	/// </summary>
+	/// <param name="dir"></param>
+	/// <param name="angle"></param>
+	/// <param name="controlledByPlayer"></param>
+	/// <param name="targetZone"></param>
 	public void Shoot(Vector2 dir, float angle, GameObject controlledByPlayer, BodyPartType targetZone = BodyPartType.CHEST)
 	{
+		isSuicide = false;
 		StartShoot(dir, angle, controlledByPlayer, targetZone);
 		OnShoot();
 	}
