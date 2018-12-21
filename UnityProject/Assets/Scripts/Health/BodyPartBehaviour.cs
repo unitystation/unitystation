@@ -69,7 +69,7 @@ public class BodyPartBehaviour : MonoBehaviour
 				}
 				break;
 		}
-		UpdateSeverity(damage, type);
+		UpdateSeverity();
 	}
 
 	//Restore/heal damage from here
@@ -113,7 +113,7 @@ public class BodyPartBehaviour : MonoBehaviour
 				}
 				break;
 		}
-		UpdateSeverity(damage, type);
+		UpdateSeverity();
 	}
 
 	private void UpdateIcons()
@@ -132,9 +132,9 @@ public class BodyPartBehaviour : MonoBehaviour
 		return PlayerManager.LocalPlayerScript == gameObject.GetComponentInParent<PlayerScript>();
 	}
 
-	private void UpdateSeverity(int damage = 0, DamageType type = DamageType.BRUTE)
+	private void UpdateSeverity()
 	{
-		damage = CountTotalDamage(); //Gets total damage from all types to determine severity later
+		int damage = CountTotalDamage(); //Gets total damage from all types to determine severity later
 
 		float severity = (float) damage / MaxDamage;
 		if (severity >= 0.2 && severity < 0.4)

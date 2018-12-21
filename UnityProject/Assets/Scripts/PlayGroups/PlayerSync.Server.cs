@@ -37,7 +37,6 @@ public partial class PlayerSync
 	private Vector2 serverLastDirection;
 
 	private bool isApplyingSpaceDmg;
-	private bool atSpace;
 
 	///
 	public bool IsWeightlessServer {
