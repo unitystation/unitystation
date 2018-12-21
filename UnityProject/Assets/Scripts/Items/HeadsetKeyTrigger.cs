@@ -2,13 +2,12 @@
 
 public class HeadsetKeyTrigger : PickUpTrigger
 {
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		//Only peform EncryptionKey actions on other things when holding the encryptionkey
 		if (UIManager.Hands.CurrentSlot.Item != gameObject)
 		{
-			base.Interact(originator, position, hand);
-			return;
+			return base.Interact(originator, position, hand);
 		}
 
 		GameObject otherHandsItem = UIManager.Hands.OtherSlot.Item;
@@ -18,6 +17,6 @@ public class HeadsetKeyTrigger : PickUpTrigger
 			UpdateHeadsetKeyMessage.Send(otherHandsItem, gameObject);
 		}
 
-		base.Interact(originator, position, hand);
+		return base.Interact(originator, position, hand);
 	}
 }

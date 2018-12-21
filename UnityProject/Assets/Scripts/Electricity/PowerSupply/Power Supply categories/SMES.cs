@@ -247,7 +247,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		}
 	}
 
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		//Interact stuff with the SMES here
 		if (!isServer)
@@ -262,6 +262,8 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 				ServerState(isOn);
 			}
 		}
+
+		return true;
 	}
 
 	[ContextMethod("Toggle Charge", "Power_Button")]

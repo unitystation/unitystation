@@ -14,7 +14,7 @@ public class VendorTrigger : InputTrigger
 	public string deniedMessage;
 	public DispenseDirection DispenseDirection = DispenseDirection.None;
 
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (!allowSell && deniedMessage != null && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
 		{
@@ -42,6 +42,7 @@ public class VendorTrigger : InputTrigger
 			StartCoroutine(VendorInputCoolDown());
 		}
 
+		return true;
 	}
 
 	[Server]

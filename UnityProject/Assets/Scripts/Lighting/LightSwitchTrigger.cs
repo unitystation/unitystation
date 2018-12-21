@@ -68,30 +68,32 @@ public class LightSwitchTrigger : InputTrigger
 		SyncLightSwitch(isOn);
 	}
 
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (!PlayerManager.LocalPlayerScript.IsInReach(position))
 		{
-			return;
+			return true;
 		}
 
 		if (RelatedAPC == null)
 		{
-			return;
+			return true;
 		}
 
 		if (RelatedAPC.Voltage == 0f)
 		{
-			return;
+			return true;
 		}
 
 		if (switchCoolDown)
 		{
-			return;
+			return true;
 		}
 
 		StartCoroutine(CoolDown());
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
+
+		return true;
 	}
 
 	private IEnumerator CoolDown()

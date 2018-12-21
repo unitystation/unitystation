@@ -44,7 +44,7 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 		CheckState(isOn);
 	}
 
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (!isServer)
 		{
@@ -55,6 +55,8 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 			isOn = !isOn;
 			CheckState(isOn);
 		}
+
+		return true;
 	}
 
 	public void PotentialDestroyed()
