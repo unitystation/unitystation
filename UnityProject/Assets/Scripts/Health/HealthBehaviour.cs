@@ -16,12 +16,6 @@ public abstract class HealthBehaviour : NetworkBehaviour
 
 	public DamageType LastDamageType { get; private set; }
 
-	////Different types of damages for medical.
-	//public int bruteDamage;
-	//public int burnDamage;
-	//public int toxinDamage;
-	//public int suffocationDamage;
-
 	public GameObject LastDamagedBy { get; private set; }
 
 	public ConsciousState ConsciousState { get; protected set; }
@@ -49,11 +43,6 @@ public abstract class HealthBehaviour : NetworkBehaviour
 		
 		//Reset health value and damage types values.
 		Health = initialHealth;
-
-		//bruteDamage = 0;
-		//burnDamage = 0;
-		//toxinDamage = 0;
-		//suffocationDamage = 0;
 	}
 
 	[Server]
@@ -98,8 +87,6 @@ public abstract class HealthBehaviour : NetworkBehaviour
 	{
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
-
-		//ApplyDamageType(damageType, damage);
 
 		return damage;
 	}
@@ -168,29 +155,6 @@ public abstract class HealthBehaviour : NetworkBehaviour
 	}
 
 	protected abstract void OnDeathActions();
-
-	//Applies specific damage type for medical use.
-	//protected void ApplyDamageType(DamageType type, int amount)
-	//{
-	//	switch(type)
-	//	{
-	//		case DamageType.BRUTE:
-	//			bruteDamage += amount;
-	//			break;
-
-	//		case DamageType.BURN:
-	//			burnDamage += amount;
-	//			break;
-
-	//		case DamageType.TOX:
-	//			toxinDamage += amount;
-	//			break;
-
-	//		case DamageType.OXY:
-	//			suffocationDamage += amount;
-	//			break;
-	//	}
-	//}
 }
 
 public static class HealthThreshold

@@ -15,7 +15,7 @@ public class UI_OxygenAlert : MonoBehaviour {
 	{
 		img = GetComponent<Image>();
 		sprite = img.sprite;
-		InvokeRepeating("CycleImg", 1f, 1f);
+		InvokeRepeating("CycleImg", 1f, 1f); //Cycle images every 1 second
 	}
 	
 	void CycleImg()

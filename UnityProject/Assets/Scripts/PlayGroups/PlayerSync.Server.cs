@@ -626,7 +626,7 @@ public partial class PlayerSync
 		}
 	}
 
-	private bool AtSpace()
+	private bool AtSpace() //Checks if player is at space, and if it is, enables oxygen alert if suit is not present.
 	{
 		if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition)))
 		{
