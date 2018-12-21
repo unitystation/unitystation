@@ -37,6 +37,11 @@ public class PlayerHealth : HealthBehaviour
 	// BloodType and DNA Data.
 	private DNAandBloodType DNABloodType;
 
+	void Start() //Restore body parts on respawn/spawn.
+	{
+		RestoreBodyParts();
+	}
+
 	public override void OnStartClient()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
