@@ -45,6 +45,14 @@ public class PostToChatMessage : ClientMessage
 		} );
 	}
 
+	/// <summary>
+	/// Sends a message to all players about an attack that took place
+	/// </summary>
+	/// <param name="item">gameobject with an itemattributes, representing the item the attack was made with</param>
+	/// <param name="attacker">GameObject of the player that attacked</param>
+	/// <param name="victim">GameObject of the player hat was the victim</param>
+	/// <param name="damage">damage done</param>
+	/// <param name="hitZone">zone that was damaged</param>
 	public static void SendItemAttackMessage( GameObject item, GameObject attacker, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.NONE ) 
 	{
 		var itemAttributes = item.GetComponent<ItemAttributes>();
