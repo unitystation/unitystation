@@ -74,7 +74,6 @@ public abstract class HealthBehaviour : NetworkBehaviour
 			return;
 		}
 		int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
-
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 		calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
 		Health -= calculatedDamage;
@@ -84,6 +83,8 @@ public abstract class HealthBehaviour : NetworkBehaviour
 	public virtual int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
 		BodyPartType bodyPartAim)
 	{
+		var playerNetAction = GetComponent<PlayerScript>().playerNetworkActions;
+		PostToChatMessage.SendItemAttackMessage(playerNetAction.GetActiveHandItem(), damagedBy, gameObject, damage, bodyPartAim);
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
 		return damage;
