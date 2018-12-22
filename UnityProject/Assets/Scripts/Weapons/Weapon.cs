@@ -304,10 +304,21 @@ public class Weapon : PickUpTrigger
 	/// <summary>
 	/// Shoot the weapon holder.
 	/// </summary>
+	/// <param name="isDrag">if this suicide is being attempted during a drag interaction</param>
 	/// <returns>true iff something happened</returns>
-	public bool AttemptSuicideShot()
+	public bool AttemptSuicideShot(bool isDrag)
 	{
-		return AttemptToFireWeapon(true);
+		//Only allow drag shot suicide if we've already started a burst
+		if (isDrag && InAutomaticAction && FireCountDown <= 0)
+		{
+			return AttemptToFireWeapon(true);
+		}
+		else if (!isDrag)
+		{
+			return AttemptToFireWeapon(true);
+		}
+
+		return false;
 	}
 
 	/// <summary>
