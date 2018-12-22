@@ -41,7 +41,7 @@ public class ShootMessage : ServerMessage {
 		Vector2 dir = (EndPos - (Vector2)shotByGO.transform.position).normalized;
 		float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-		b.Shoot(dir, angle, shotByGO, DamageZone);
+		b.Shoot(dir, angle, shotByGO, wep, DamageZone);
 	}
 
 	//public static ShootMessage Send(GameObject weapon, Vector2 endPos, string bulletName,

@@ -480,11 +480,11 @@ public class Weapon : PickUpTrigger
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
 		if (isSuicideShot)
 		{
-			b.Suicide(shooter, damageZone);
+			b.Suicide(shooter, this, damageZone);
 		}
 		else
 		{
-			b.Shoot(direction, angle, shooter, damageZone);
+			b.Shoot(direction, angle, shooter, this, damageZone);
 		}
 
 

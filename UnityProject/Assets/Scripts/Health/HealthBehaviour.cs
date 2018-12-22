@@ -83,8 +83,6 @@ public abstract class HealthBehaviour : NetworkBehaviour
 	public virtual int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
 		BodyPartType bodyPartAim)
 	{
-		var playerNetAction = GetComponent<PlayerScript>().playerNetworkActions;
-		PostToChatMessage.SendItemAttackMessage(playerNetAction.GetActiveHandItem(), damagedBy, gameObject, damage, bodyPartAim);
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
 		return damage;
