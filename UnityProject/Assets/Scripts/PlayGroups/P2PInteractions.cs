@@ -73,7 +73,7 @@ public class P2PInteractions : InputTrigger
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			//suicide
-			return weapon.AttemptSuicideShot();
+			return weapon.AttemptSuicideShot(isDrag);
 		}
 		else
 		{
