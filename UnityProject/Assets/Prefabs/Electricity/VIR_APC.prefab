@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114443595102844496}
   - component: {fileID: 114840369580293110}
   - component: {fileID: 114979438861042922}
+  - component: {fileID: 114809207030236184}
   m_Layer: 19
   m_Name: VIR_APC
   m_TagString: Untagged
@@ -198,10 +199,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abab4a0c666224f6f9c70acdb74436c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NorthConnection: {fileID: 0}
+  SouthConnection: {fileID: 0}
+  WestConnection: {fileID: 0}
+  EastConnection: {fileID: 0}
   DirectionStart: 0
   DirectionEnd: 0
   registerTile: {fileID: 114840369580293110}
   connected: 0
+  IsConnector: 0
 --- !u!114 &114538119136657758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -234,10 +240,23 @@ MonoBehaviour:
   deadSprite: {fileID: 21300304, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   screenDisplay: {fileID: 212786810316391690}
   ListOfLights: []
+  ListOfEmergencyLights: []
+  ListOfLightSwitchTriggers: []
   Voltage: 0
   Resistance: 240
   PreviousResistance: 240
   ApplianceType: 0
+--- !u!114 &114809207030236184
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114840369580293110
 MonoBehaviour:
   m_ObjectHideFlags: 1
