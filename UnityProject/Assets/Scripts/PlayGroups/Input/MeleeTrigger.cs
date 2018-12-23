@@ -51,7 +51,7 @@ public class MeleeTrigger : MonoBehaviour
 				handItem.itemType != ItemType.Uniform &&
 				PlayerManager.LocalPlayerScript.IsInReach(mousePos))
 			{
-				if (UIManager.CurrentIntent == Intent.Attack ||
+				if (UIManager.CurrentIntent == Intent.Harm ||
 					handItem.itemType != ItemType.Gun ||
 					handItem.itemType != ItemType.Knife ||
 					handItem.itemType != ItemType.Belt)
