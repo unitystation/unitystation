@@ -240,10 +240,10 @@ public class KeybindManager : MonoBehaviour {
 		// Body part selection
 		{ KeyAction.TargetHead, 	new KeybindObject("Target Head", 	  new KeyCombo(KeyCode.Keypad8) )},
 		{ KeyAction.TargetChest,	new KeybindObject("Target Chest", 	  new KeyCombo(KeyCode.Keypad5) )},
-		{ KeyAction.TargetLeftArm,  new KeybindObject("Target Left Arm",  new KeyCombo(KeyCode.Keypad4) )},
-		{ KeyAction.TargetRightArm, new KeybindObject("Target Right Arm", new KeyCombo(KeyCode.Keypad6) )},
-		{ KeyAction.TargetLeftLeg,  new KeybindObject("Target Left Leg",  new KeyCombo(KeyCode.Keypad1) )},
-		{ KeyAction.TargetRightLeg, new KeybindObject("Target Right Leg", new KeyCombo(KeyCode.Keypad3) )},
+		{ KeyAction.TargetLeftArm,  new KeybindObject("Target Left Arm",  new KeyCombo(KeyCode.Keypad6) )},
+		{ KeyAction.TargetRightArm, new KeybindObject("Target Right Arm", new KeyCombo(KeyCode.Keypad4) )},
+		{ KeyAction.TargetLeftLeg,  new KeybindObject("Target Left Leg",  new KeyCombo(KeyCode.Keypad3) )},
+		{ KeyAction.TargetRightLeg, new KeybindObject("Target Right Leg", new KeyCombo(KeyCode.Keypad1) )},
 		{ KeyAction.TargetGroin, 	new KeybindObject("Target Groin",	  new KeyCombo(KeyCode.Keypad2) )}
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
@@ -330,6 +330,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			else if (Input.GetKeyDown(key))
 			{
+				// Stop capturing if user presses escape
 				if (key == KeyCode.Escape)
 				{
 					return null;
