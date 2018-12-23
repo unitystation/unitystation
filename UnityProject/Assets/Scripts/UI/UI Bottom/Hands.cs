@@ -50,7 +50,8 @@ public class Hands : MonoBehaviour
 			OtherSlot = Slots["leftHand"];
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("rightHand");
 			PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "rightHand";
-			selector.parent = rightHand;
+			selector.SetParent(rightHand, false);
+
 		}
 		else
 		{
@@ -58,7 +59,7 @@ public class Hands : MonoBehaviour
 			OtherSlot = Slots["rightHand"];
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("leftHand");
 			PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "leftHand";
-			selector.parent = leftHand;
+			selector.SetParent(leftHand, false);
 		}
 
 		IsRight = right;
