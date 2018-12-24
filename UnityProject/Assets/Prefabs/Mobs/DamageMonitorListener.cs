@@ -24,11 +24,6 @@ public class DamageMonitorListener : MonoBehaviour
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
-	public void UpdateDamageSeverity(int severity)
-	{
-
-	}
-
 	//Reset healthHUD
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{

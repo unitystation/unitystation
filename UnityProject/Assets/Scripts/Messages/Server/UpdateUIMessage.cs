@@ -9,12 +9,11 @@ public class UpdateUIMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateUIMessage;
 	public int CurHealth;
-	public NetworkInstanceId Recipient;
 
 	public override IEnumerator Process()
 	{
-		yield return WaitFor(Recipient);
 		UIManager.PlayerHealthUI.UpdateHealthUI(this, CurHealth);
+		yield return null;
 	}
 
 	/// <summary>
@@ -28,7 +27,6 @@ public class UpdateUIMessage : ServerMessage
 	{
 		UpdateUIMessage msg = new UpdateUIMessage
 		{
-			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
 			CurHealth = cHealth
 		};
 		msg.SendTo(recipient);

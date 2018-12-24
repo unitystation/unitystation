@@ -55,18 +55,6 @@ public abstract class HealthBehaviour : NetworkBehaviour
 		}
 	}
 
-	///fixme/todo: to be replaced by net messages, crappy and unsecure placeholder
-	[ClientRpc]
-	public void RpcApplyDamage(GameObject damagedBy, int damage,
-		DamageType damageType, BodyPartType bodyPartAim)
-	{
-		if (isServer || !isNotPlayer || IsDead)
-		{
-			return;
-		}
-		ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
-	}
-
 	public void ApplyDamage(GameObject damagedBy, int damage,
 		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
 	{
