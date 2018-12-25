@@ -117,6 +117,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return true;
 	}
 
+	/// <summary>
+	/// Get the item in the player's active hand
+	/// </summary>
+	/// <returns>the gameobject item in the player's active hand, null if nothing in active hand</returns>
+	public GameObject GetActiveHandItem()
+	{
+		return Inventory[activeHand].Item;
+	}
+
 	private void PlaceInHand(GameObject item)
 	{
 		UIManager.Hands.CurrentSlot.SetItem(item);

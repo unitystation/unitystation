@@ -9,7 +9,7 @@ public class WelderTrigger : PickUpTrigger
     {
         welder = GetComponent<Welder>();
     }
-    public override void Interact(GameObject originator, Vector3 position, string hand)
+    public override bool Interact(GameObject originator, Vector3 position, string hand)
     {
         //make sure that interactmessage doesn't tell the server to pick it up for server player:
         if (originator == PlayerManager.LocalPlayer)
@@ -17,11 +17,10 @@ public class WelderTrigger : PickUpTrigger
             if (UIManager.Hands.CurrentSlot.Item != gameObject)
             {
                 welder.heldByPlayer = originator;
-                base.Interact(originator, position, hand);
-                return;
+                return base.Interact(originator, position, hand);
             }
         }
-        base.Interact(originator, position, hand);
+        return base.Interact(originator, position, hand);
     }
 
     public override void UI_Interact(GameObject originator, string hand)

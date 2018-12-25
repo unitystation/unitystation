@@ -118,7 +118,7 @@ MonoBehaviour:
   inHandReferenceRight: 32
   itemDescription: 
   itemName: LaserGun
-  itemType: 0
+  itemType: 16
   size: 1
   spriteType: 2
   type: 16
@@ -139,17 +139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  custNetActiveState: 0
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
+  isNotPushable: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114449825066554946
 MonoBehaviour:
@@ -230,8 +223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
 --- !u!212 &212710221609474322
 SpriteRenderer:
   m_ObjectHideFlags: 1

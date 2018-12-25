@@ -74,7 +74,6 @@ public abstract class HealthBehaviour : NetworkBehaviour
 			return;
 		}
 		int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
-
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 		calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
 		Health -= calculatedDamage;

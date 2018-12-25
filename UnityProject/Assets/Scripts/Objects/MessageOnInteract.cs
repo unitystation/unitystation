@@ -12,9 +12,10 @@ public class MessageOnInteract : InputTrigger
 	void Update () {
 		
 	}
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		ChatRelay.Instance.AddToChatLogClient(Message, ChatChannel.Examine);
+		return true;
 	}
 
 }

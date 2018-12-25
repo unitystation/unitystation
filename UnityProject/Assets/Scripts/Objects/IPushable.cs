@@ -21,6 +21,8 @@ public interface IPushable {
 	UnityEvent OnPullInterrupt();
 	bool CanPredictPush { get; }
 	bool IsMovingClient { get; }
+	bool IsMovingServer { get; }
+	Vector2 ServerImpulse { get; }
 	float MoveSpeedServer { get; }
 	float MoveSpeedClient { get; }
 	/// Try stopping object if it's flying

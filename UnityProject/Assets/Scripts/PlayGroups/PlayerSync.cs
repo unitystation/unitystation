@@ -21,8 +21,8 @@ using UnityEngine.Networking;
 				{
 					return TransformState.HiddenPos;
 				}
-				MatrixInfo matrix = MatrixManager.Get( MatrixId );
-				return MatrixManager.LocalToWorld( Position, matrix );
+
+				return MatrixManager.LocalToWorld( Position, MatrixManager.Get( MatrixId ) );
 			}
 			set {
 				if (value == TransformState.HiddenPos) {
@@ -30,8 +30,7 @@ using UnityEngine.Networking;
 				}
 				else
 				{
-					MatrixInfo matrix = MatrixManager.Get( MatrixId );
-					Position = MatrixManager.WorldToLocal( value, matrix );
+					Position = MatrixManager.WorldToLocal( value, MatrixManager.Get( MatrixId ) );
 				}
 			}
 		}
@@ -53,7 +52,7 @@ using UnityEngine.Networking;
 		[NonSerialized] public bool ImportantFlightUpdate;
 
 		public int MatrixId;
-		
+
 		/// Means that this player is hidden
 		public static readonly PlayerState HiddenState =
 			new PlayerState{ Position = TransformState.HiddenPos, MatrixId = 0};
@@ -222,7 +221,7 @@ using UnityEngine.Networking;
 			transform.position = pos;
 			UpdateActiveStatus();
 		}
-		
+
 		/// Registers if unhidden, unregisters if hidden
 		private void UpdateActiveStatus()
 		{
@@ -243,7 +242,7 @@ using UnityEngine.Networking;
 		}
 
 		#endregion
-		
+
 		private void Start() {
 			//Init pending actions queue for your local player
 			if ( isLocalPlayer ) {

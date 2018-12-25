@@ -223,7 +223,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		}
 
 	}
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		//Interact stuff with the SMES here
 		if (!isServer)
@@ -238,6 +238,8 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 				UpdateServerState(isOn);
 			}
 		}
+
+		return true;
 	}
 
 	public float ModifyElectricityInput(int tick, float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
