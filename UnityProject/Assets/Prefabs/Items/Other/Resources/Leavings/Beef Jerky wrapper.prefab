@@ -25,10 +25,9 @@ GameObject:
   - component: {fileID: 114608524725813366}
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
-  - component: {fileID: 114298061437451200}
   - component: {fileID: 114208883059431984}
   m_Layer: 10
-  m_Name: 4no raisins
+  m_Name: Beef Jerky wrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,20 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114298061437451200
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c0c3fdf2ebd41beb789f2d99f818ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leavings: {fileID: 1110193000772614, guid: a249802e33c293c479d8008bdcbe480d, type: 2}
-  healAmount: 8
-  healHungerAmount: 8
 --- !u!114 &114608524725813366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,12 +150,12 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
-  itemDescription: Best raisins in the universe. Not sure why.
-  itemName: 4no raisins
-  itemType: 14
+  itemDescription: 
+  itemName: Scaredy's Private Reserve Beef Jerky wrapper
+  itemType: 0
   size: 0
   spriteType: 0
-  type: 14
+  type: 0
   throwDamage: 2
   throwSpeed: 2
   throwRange: 7
@@ -191,22 +176,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 55
-    i1: 82
-    i2: 91
-    i3: 98
-    i4: 78
-    i5: 43
-    i6: 17
-    i7: 52
-    i8: 251
-    i9: 61
-    i10: 46
-    i11: 253
-    i12: 194
-    i13: 47
-    i14: 47
-    i15: 10
+    i0: 144
+    i1: 170
+    i2: 22
+    i3: 69
+    i4: 255
+    i5: 172
+    i6: 114
+    i7: 196
+    i8: 122
+    i9: 5
+    i10: 157
+    i11: 73
+    i12: 174
+    i13: 56
+    i14: 239
+    i15: 194
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &114931546224579044
@@ -260,7 +245,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300068, guid: 7604d4a595ad0420bbb16ef2e5e6675d, type: 3}
+  m_Sprite: {fileID: 21300066, guid: 7604d4a595ad0420bbb16ef2e5e6675d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
