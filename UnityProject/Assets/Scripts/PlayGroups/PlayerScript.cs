@@ -56,6 +56,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 		private static bool verified;
 		private static ulong SteamID;
 
+		public PlayerLightHandler playerLightHandler;
+
 		public override void OnStartClient()
 		{
 			//Local player is set a frame or two after OnStartClient

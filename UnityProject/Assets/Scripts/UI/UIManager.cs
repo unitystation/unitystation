@@ -167,6 +167,8 @@ public class UIManager : MonoBehaviour
 			CheckStorageHandlerOnMove(fromSlot.Item);
 			fromSlot.Clear();
 		}
+
+		PlayerManager.LocalPlayerScript.playerLightHandler.CheckLight();
 	}
 
 	public static void CheckStorageHandlerOnMove(GameObject item)
