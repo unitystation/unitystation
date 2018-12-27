@@ -6,6 +6,7 @@ public interface  IElectricalNeedUpdate {
 
 	void PowerUpdateStructureChange();
 	void PowerUpdateStructureChangeReact();
+	void InitialPowerUpdateResistance();
 	void PowerUpdateResistanceChange();
 	void PowerUpdateCurrentChange ();
 	void PowerNetworkUpdate ();

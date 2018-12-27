@@ -50,11 +50,13 @@ public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer, IDevi
 			}
 			RelatedDevice.Data.CurrentGoingTo[InstanceID] [RelatedDevice.GameObject().GetComponent<IElectricityIO>()] = Currentandoffcut.Item2;
 		}
+		//return(Current);
 		return(Currentandoffcut.Item1);
 	}
 
 	public float ModifyResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){
 		Tuple<float,float> ResistanceM = TransformerCalculations.TransformerCalculate (this, ResistanceToModify : Resistance);
+		//return(Resistance);
 		return(ResistanceM.Item1);
 	}
 	public float ModifyResistancyOutput(int tick, float Resistance, GameObject SourceInstance){
@@ -62,10 +64,12 @@ public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer, IDevi
 	}
 
 	public void OnDestroy(){
-		ElectricalSynchronisation.StructureChangeReact = true;
-		ElectricalSynchronisation.ResistanceChange = true;
-		ElectricalSynchronisation.CurrentChange = true;
+//		ElectricalSynchronisation.StructureChangeReact = true;
+//		ElectricalSynchronisation.ResistanceChange = true;
+//		ElectricalSynchronisation.CurrentChange = true;
 		SelfDestruct = true;
 		//Make Invisible
+	}
+	public void TurnOffCleanup (){
 	}
 }

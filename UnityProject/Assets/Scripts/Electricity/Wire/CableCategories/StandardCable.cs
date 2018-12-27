@@ -20,7 +20,8 @@ public class StandardCable : NetworkBehaviour, ICable, IDeviceControl
 			PowerTypeCategory.SMES,
 			PowerTypeCategory.Transformer,
 			PowerTypeCategory.DepartmentBattery,
-			PowerTypeCategory.MediumMachineConnector
+			PowerTypeCategory.MediumMachineConnector,
+		PowerTypeCategory.PowerGenerator
 	};
 
 	public void PotentialDestroyed()
@@ -50,10 +51,12 @@ public class StandardCable : NetworkBehaviour, ICable, IDeviceControl
 	//FIXME: that also renderers IDevice useless. Please reassess
 	public void OnDestroy()
 	{
-		ElectricalSynchronisation.StructureChangeReact = true;
-		ElectricalSynchronisation.ResistanceChange = true;
-		ElectricalSynchronisation.CurrentChange = true;
+//		ElectricalSynchronisation.StructureChangeReact = true;
+//		ElectricalSynchronisation.ResistanceChange = true;
+//		ElectricalSynchronisation.CurrentChange = true;
 		SelfDestruct = true;
 		//Making Invisible
+	}
+	public void TurnOffCleanup (){
 	}
 }

@@ -44,6 +44,7 @@ public static class ElectricalDataCleanup {
 
 		public static void FlushResistanceAndUp (IElectricityIO Object,  GameObject SourceInstance = null  ){
 			if (SourceInstance == null) {
+				Logger.Log ("yo do not?");
 				if (Object.Data.ResistanceComingFrom.Count > 0) {
 					Object.Data.ResistanceComingFrom.Clear ();
 					foreach (IElectricityIO JumpTo in Object.Data.connections) {

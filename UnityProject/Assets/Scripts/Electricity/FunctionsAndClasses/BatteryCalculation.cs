@@ -81,6 +81,7 @@ public static class BatteryCalculation  {
 
 
 						if (Battery.CurrentCapacity >= Battery.CapacityMax) {
+							Battery.CurrentCapacity = Battery.CapacityMax;
 							Battery.ChargingWatts = 0;
 							Battery.ChargingMultiplier = 0.1f;
 							Battery.Resistance = 0;

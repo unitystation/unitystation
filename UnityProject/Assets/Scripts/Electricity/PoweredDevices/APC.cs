@@ -56,13 +56,14 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		ElectricalSynchronisation.PoweredDevices.Add(this);
 		PowerInputReactions PRLCable = new PowerInputReactions();
 		PRLCable.DirectionReaction = true;
-		PRLCable.ConnectingDevice = PowerTypeCategory.LowVoltageCable;
+		PRLCable.ConnectingDevice = PowerTypeCategory.LowMachineConnector;
 		PRLCable.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
 		PRLCable.DirectionReactionA.YouShallNotPass = true;
 		PRLCable.ResistanceReaction = true;
 		PRLCable.ResistanceReactionA.Resistance = resistance;
 		poweredDevice.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
 		poweredDevice.InData.ControllingDevice = this;
+		poweredDevice.InData.ControllingUpdate = this;
 		StartCoroutine(ScreenDisplayRefresh());
 		UpdateDisplay(Voltage);
 	}
@@ -82,7 +83,19 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 
 	public void PowerUpdateStructureChange() { }
 	public void PowerUpdateStructureChangeReact() { }
-	public void PowerUpdateResistanceChange() { }
+	public void InitialPowerUpdateResistance() {
+		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
+			poweredDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
+		}
+	}
+	public void PowerUpdateResistanceChange() { 
+		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
+			poweredDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
+		}
+		
+	}
 	public void PowerUpdateCurrentChange()
 	{
 
@@ -94,8 +107,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		{
 			PreviousResistance = Resistance;
 			resistance.Ohms = Resistance;
-			ElectricalSynchronisation.ResistanceChange = true;
-			ElectricalSynchronisation.CurrentChange = true;
+			ElectricalSynchronisation.ResistanceChange.Add (this);
 		}
 		Voltage = poweredDevice.Data.ActualVoltage;
 		UpdateLights();
@@ -171,11 +183,13 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	//FIXME: that also renderers IDevice useless. Please reassess
 	public void OnDestroy()
 	{
-		ElectricalSynchronisation.StructureChangeReact = true;
-		ElectricalSynchronisation.ResistanceChange = true;
-		ElectricalSynchronisation.CurrentChange = true;
+//		ElectricalSynchronisation.StructureChangeReact = true;
+//		ElectricalSynchronisation.ResistanceChange = true;
+//		ElectricalSynchronisation.CurrentChange = true;
 		ElectricalSynchronisation.PoweredDevices.Remove(this);
 		SelfDestruct = true;
 		//Making Invisible
+	}
+	public void TurnOffCleanup (){
 	}
 }

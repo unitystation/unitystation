@@ -18,24 +18,34 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 	public SpriteRenderer spriteRend;
 	List<Sprite> animSprites = new List<Sprite>();
 	public float Voltage;
-	public float Resistance = 240;
-	public float PreviousResistance = 240;
+	public float Resistance = 1500;
+	public float PreviousResistance = 1500;
+	private Resistance resistance = new Resistance();
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.FieldGenerator;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>();
+	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
+		PowerTypeCategory.StandardCable
+	};
 
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
 		poweredDevice.InData.CanConnectTo = CanConnectTo;
 		poweredDevice.InData.Categorytype = ApplianceType;
-		//poweredDevice.PassedDownResistance = Resistance;
-		//poweredDevice.CanProvideResistance = true;
+		poweredDevice.DirectionStart = 0;
+		poweredDevice.DirectionEnd = 9;
+		resistance.Ohms = Resistance;
+		ElectricalSynchronisation.PoweredDevices.Add(this);
+		PowerInputReactions PRLCable = new PowerInputReactions();
+		PRLCable.DirectionReaction = true;
+		PRLCable.ConnectingDevice = PowerTypeCategory.StandardCable;
+		PRLCable.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
+		PRLCable.DirectionReactionA.YouShallNotPass = true;
+		PRLCable.ResistanceReaction = true;
+		PRLCable.ResistanceReactionA.Resistance = resistance;
+		poweredDevice.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PRLCable;
 		poweredDevice.InData.ControllingDevice = this;
+		poweredDevice.InData.ControllingUpdate = this;
 
-		if (!(ElectricalSynchronisation.PoweredDevices.Contains(this)))
-		{
-			ElectricalSynchronisation.PoweredDevices.Add(this);
-		}
 	}
 
 	public override void OnStartClient()
@@ -67,47 +77,59 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 
 	public void PowerUpdateStructureChange() { }
 	public void PowerUpdateStructureChangeReact() { }
-	public void PowerUpdateResistanceChange() { }
-	public void PowerUpdateCurrentChange() { }
+	public void InitialPowerUpdateResistance() {
+		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
+			poweredDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
+		}
+	}
+	public void PowerUpdateResistanceChange() { 
+		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
+			poweredDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
+		}
 
+	}
+	public void PowerUpdateCurrentChange()
+	{
+
+	}
 	public void PowerNetworkUpdate()
 	{
-		//		if (Resistance != PreviousResistance) {
-		//			poweredDevice.PassedDownResistance = Resistance;
-		//			PreviousResistance = Resistance;
-		//			ElectricalSynchronisation.ResistanceChange = true;
-		//			ElectricalSynchronisation.CurrentChange = true;
-		//		}
-		//		Voltage = poweredDevice.ActualVoltage;
-		//Logger.Log (Voltage.ToString ());
+		if (Resistance != PreviousResistance)
+		{
+			PreviousResistance = Resistance;
+			resistance.Ohms = Resistance;
+			ElectricalSynchronisation.ResistanceChange.Add (this);
+		}
+		Voltage = poweredDevice.Data.ActualVoltage;
+		UpdateSprites ();
+		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
 	}
 
-	//Check the operational state
-	void CheckState(bool _isOn)
-	{
-		isOn = _isOn;
+	void UpdateSprites(){
 		if (isOn)
 		{
-			//				if(poweredDevice.suppliedElectricity.current == 0){
-			//					if (coSpriteAnimator != null) {
-			//						StopCoroutine(coSpriteAnimator);
-			//						coSpriteAnimator = null;
-			//					}
-			//					spriteRend.sprite = onSprite;
-			//				}
-			//				if(poweredDevice.suppliedElectricity.current > 15){
-			//					if(!connectedToOther){
-			//						animSprites = new List<Sprite>(searchingSprites);
-			//						if (coSpriteAnimator == null) {
-			//							coSpriteAnimator = StartCoroutine(SpriteAnimator());
-			//						}
-			//					} else {
-			//						animSprites = new List<Sprite>(connectedSprites);
-			//						if(coSpriteAnimator == null) {
-			//							coSpriteAnimator = StartCoroutine(SpriteAnimator());
-			//						}
-			//					}
-			//				}
+			if(Voltage < 2700){
+				if (coSpriteAnimator != null) {
+					StopCoroutine(coSpriteAnimator);
+					coSpriteAnimator = null;
+				}
+				spriteRend.sprite = onSprite;
+			}
+			if(Voltage >= 2700){
+				if(!connectedToOther){
+					animSprites = new List<Sprite>(searchingSprites);
+					if (coSpriteAnimator == null) {
+						coSpriteAnimator = StartCoroutine(SpriteAnimator());
+					}
+				} else {
+					animSprites = new List<Sprite>(connectedSprites);
+					if(coSpriteAnimator == null) {
+						coSpriteAnimator = StartCoroutine(SpriteAnimator());
+					}
+				}
+			}
 		}
 		else
 		{
@@ -118,6 +140,11 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 			}
 			spriteRend.sprite = offSprite;
 		}
+	}
+	//Check the operational state
+	void CheckState(bool _isOn)
+	{
+
 	}
 
 	IEnumerator SpriteAnimator()
@@ -136,11 +163,13 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 	}
 	public void OnDestroy()
 	{
-		ElectricalSynchronisation.StructureChangeReact = true;
-		ElectricalSynchronisation.ResistanceChange = true;
-		ElectricalSynchronisation.CurrentChange = true;
+//		ElectricalSynchronisation.StructureChangeReact = true;
+//		ElectricalSynchronisation.ResistanceChange = true;
+//		ElectricalSynchronisation.CurrentChange = true;
 		ElectricalSynchronisation.PoweredDevices.Remove(this);
 		SelfDestruct = true;
 		//Make Invisible
+	}
+	public void TurnOffCleanup (){
 	}
 }

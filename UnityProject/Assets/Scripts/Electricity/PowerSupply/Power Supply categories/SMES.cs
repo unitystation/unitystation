@@ -13,12 +13,13 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 	[SyncVar(hook = "UpdateState")]
 	public bool isOn = false;
 	public bool isOnForInterface { get; set; } = false;
-	public bool ChangeToOff = false;
 	public bool PassChangeToOff { get; set; } = false;
+	public bool ResistanceChange = false;
+
 	[SyncVar]
 	public int currentCharge; // 0 - 100
-	public float current { get; set; } = 20;
-	public float Previouscurrent = 20;
+	public float current { get; set; } = 0;
+	public float Previouscurrent = 0;
 
 	private Resistance resistance = new Resistance();
 	public float PreviousResistance = 0;
@@ -101,7 +102,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.MediumMachineConnector] = PIRMedium;
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PRSDCable;
 		powerSupply.InData.ControllingDevice = this;
-
+		powerSupply.InData.ControllingUpdate = this;
 		currentCharge = 20;
 	}
 
@@ -125,16 +126,30 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 	public void PowerUpdateStructureChangeReact()
 	{
 		powerSupply.PowerUpdateStructureChangeReact();
+
+	}
+	public void InitialPowerUpdateResistance() {
+		powerSupply.InitialPowerUpdateResistance();
+		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices) {
+			powerSupply.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
+		}
 	}
 
 	public void PowerUpdateResistanceChange()
 	{
 		powerSupply.PowerUpdateResistanceChange();
+		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices) {
+			if (Supplie.Value.Contains(PowerTypeCategory.StandardCable)){
+				powerSupply.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+				ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
+			}
+		}
 	}
 	public void PowerUpdateCurrentChange()
 	{
 		powerSupply.FlushSupplyAndUp(powerSupply.gameObject); //Room for optimisation
-		CircuitResistance = ElectricityFunctions.WorkOutResistance(powerSupply.Data.ResistanceComingFrom[powerSupply.gameObject.GetInstanceID()]); // //!!
+		CircuitResistance = ElectricityFunctions.WorkOutResistance(powerSupply.Data.ResistanceComingFrom[powerSupply.gameObject.GetInstanceID()]); 
 		ActualVoltage = powerSupply.Data.ActualVoltage;
 		BatteryCalculation.PowerUpdateCurrentChange(this);
 		if (current != Previouscurrent)
@@ -159,28 +174,13 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		powerSupply.PowerNetworkUpdate();
 		ActualVoltage = powerSupply.Data.ActualVoltage;
 		BatteryCalculation.PowerNetworkUpdate(this);
-		if (ChangeToOff)
-		{
-			ChangeToOff = false;
-			powerSupply.TurnOffSupply();
-			BatteryCalculation.TurnOffEverything(this);
-			ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
-		}
+
 
 		if (current != Previouscurrent)
 		{
-			if (Previouscurrent == 0 && !(current <= 0))
-			{
-
-			}
-			else if (current == 0 && !(Previouscurrent <= 0))
-			{
-				//	Logger.Log("FlushSupplyAndUp");
-				powerSupply.FlushSupplyAndUp(powerSupply.gameObject);
-			}
 			powerSupply.Data.SupplyingCurrent = current;
 			Previouscurrent = current;
-			ElectricalSynchronisation.CurrentChange = true;
+			ElectricalSynchronisation.NUCurrentChange.Add (this);
 		}
 
 		if (Resistance != PreviousResistance)
@@ -188,17 +188,20 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 			if (PreviousResistance == 0 && !(Resistance == 0))
 			{
 				resistance.ResistanceAvailable = true;
-
 			}
 			else if (Resistance == 0 && !(PreviousResistance <= 0))
 			{
 				resistance.ResistanceAvailable = false;
-				ElectricalDataCleanup.CleanConnectedDevices(powerSupply);
+				ElectricalSynchronisation.ResistanceChange.Add (this);
 			}
 			resistance.Ohms = Resistance;
 			PreviousResistance = Resistance;
-			ElectricalSynchronisation.ResistanceChange = true;
-			ElectricalSynchronisation.CurrentChange = true;
+			foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices){
+				if (Supplie.Value.Contains(PowerTypeCategory.StandardCable)){
+					ElectricalSynchronisation.ResistanceChange.Add (this);
+					ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
+				}
+			}
 		}
 		//Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
 	}
@@ -236,14 +239,14 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		isOnForInterface = _isOn;
 		if (isOn)
 		{
-			ElectricalSynchronisation.AddSupply(this, ApplianceType);
-			ElectricalSynchronisation.StructureChangeReact = true;
-			ElectricalSynchronisation.ResistanceChange = true; //Potential optimisation
-			ElectricalSynchronisation.CurrentChange = true;
+			powerSupply.TurnOnSupply ();
+			PreviousResistance = 0;
+			Previouscurrent = 0;
 		}
 		else
 		{
-			ChangeToOff = true;
+			powerSupply.Data.ChangeToOff = true;
+			ElectricalSynchronisation.NUStructureChangeReact.Add (this);
 		}
 	}
 
@@ -256,7 +259,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		}
 		else
 		{
-			if (!ChangeToOff)
+			if (!powerSupply.Data.ChangeToOff)
 			{
 				isOn = !isOn;
 				ServerState(isOn);
@@ -280,11 +283,16 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 	//FIXME: that also renderers IDevice useless. Please reassess
 	public void OnDestroy()
 	{
-		ElectricalSynchronisation.StructureChangeReact = true;
-		ElectricalSynchronisation.ResistanceChange = true;
-		ElectricalSynchronisation.CurrentChange = true;
+//		ElectricalSynchronisation.StructureChangeReact = true;
+//		ElectricalSynchronisation.ResistanceChange = true;
+//		ElectricalSynchronisation.CurrentChange = true;
 		ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
 		SelfDestruct = true;
 		//Make Invisible
+	}
+
+	public void TurnOffCleanup (){
+		BatteryCalculation.TurnOffEverything(this);
+		ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
 	}
 }

@@ -19,7 +19,6 @@ public class RadiationCollector : InputTrigger, IDeviceControl
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.RadiationCollector;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
 	{
-		PowerTypeCategory.StandardCable,
 			PowerTypeCategory.HighVoltageCable,
 	};
 
@@ -40,15 +39,15 @@ public class RadiationCollector : InputTrigger, IDeviceControl
 		powerSupply.DirectionEnd = DirectionEnd;
 		powerSupply.Data.SupplyingCurrent = 20;
 		powerSupply.InData.ControllingDevice = this;
-
-		PowerInputReactions PIRMedium = new PowerInputReactions(); //You need a resistance on the output just so supplies can communicate properly
-		PIRMedium.DirectionReaction = true;
-		PIRMedium.ConnectingDevice = PowerTypeCategory.MediumMachineConnector;
-		PIRMedium.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
-		PIRMedium.DirectionReactionA.YouShallNotPass = true;
-		PIRMedium.ResistanceReaction = true;
-		PIRMedium.ResistanceReactionA.Resistance.Ohms = MonitoringResistance;
-
+		powerSupply.InData.ControllingUpdate = powerSupply;
+		PowerInputReactions PIRHigh = new PowerInputReactions(); //You need a resistance on the output just so supplies can communicate properly
+		PIRHigh.DirectionReaction = true;
+		PIRHigh.ConnectingDevice = PowerTypeCategory.HighVoltageCable;
+		PIRHigh.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
+		PIRHigh.DirectionReactionA.YouShallNotPass = true;
+		PIRHigh.ResistanceReaction = true;
+		PIRHigh.ResistanceReactionA.Resistance.Ohms = MonitoringResistance;
+		powerSupply.InData.ConnectionReaction[PowerTypeCategory.HighVoltageCable] = PIRHigh;
 		isOn = true;
 		UpdateServerState(isOn);
 	}
@@ -76,11 +75,13 @@ public class RadiationCollector : InputTrigger, IDeviceControl
 	{
 		if (isOn)
 		{
+			
 			powerSupply.TurnOnSupply();
 		}
 		else
 		{
-			powerSupply.TurnOffSupply();
+			powerSupply.Data.ChangeToOff = true;
+			ElectricalSynchronisation.NUStructureChangeReact.Add (powerSupply);
 		}
 	}
 
@@ -96,5 +97,7 @@ public class RadiationCollector : InputTrigger, IDeviceControl
 			isOn = !isOn;
 			UpdateServerState(isOn);
 		}
+	}
+	public void TurnOffCleanup (){
 	}
 }
