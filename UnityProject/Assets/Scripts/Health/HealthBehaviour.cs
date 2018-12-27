@@ -62,6 +62,10 @@ public abstract class HealthBehaviour : NetworkBehaviour
 		{
 			return;
 		}
+		if(bodyPartAim == BodyPartType.GROIN)
+		{
+			bodyPartAim = BodyPartType.CHEST; //Temporary fix for groin, when we add surgery this might need some changing.
+		}
 		int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 		calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
