@@ -11,7 +11,7 @@ public class MicrowaveTrigger : InputTrigger
 		microwave = GetComponent<Microwave>();
 	}
 
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (!isServer)
 		{
@@ -28,6 +28,8 @@ public class MicrowaveTrigger : InputTrigger
 		{
 			ValidateMicrowaveInteraction(originator, position, hand);
 		}
+
+		return true;
 	}
 
 	[Server]

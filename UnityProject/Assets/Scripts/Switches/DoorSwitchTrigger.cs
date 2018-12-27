@@ -22,14 +22,14 @@ public class DoorSwitchTrigger : InputTrigger
 		base.OnStartClient();
 	}
 
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (!isServer)
 		{
 			if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform.position, 1.2f) ||
 				PlayerManager.LocalPlayerScript.playerMove.isGhost)
 			{
-				return;
+				return true;
 			}
 
 			//if the button is idle and not animating it can be pressed
@@ -44,7 +44,7 @@ public class DoorSwitchTrigger : InputTrigger
 			if (!ps.IsInReach(spriteRenderer.transform.position, 1.2f) ||
 				ps.playerMove.isGhost)
 			{
-				return;
+				return true;
 			}
 			for (int i = 0; i < doorControllers.Length; i++)
 			{
@@ -55,6 +55,8 @@ public class DoorSwitchTrigger : InputTrigger
 			}
 			RpcPlayButtonAnim();
 		}
+
+		return true;
 	}
 
 	[ClientRpc]
