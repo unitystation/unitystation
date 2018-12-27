@@ -12,7 +12,7 @@
 
 	//    LEFT_HAND,
 	//    RIGHT_HAND,
-	//    GROIN,
+	GROIN = 6,
 	LEFT_LEG = 5,
 
 	RIGHT_LEG = 4
