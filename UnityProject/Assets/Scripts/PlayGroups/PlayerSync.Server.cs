@@ -632,22 +632,16 @@ public partial class PlayerSync
 	{
 		if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition)))
 		{
-			if(!IsEvaCompatible())
+			if (!IsEvaCompatible())
 			{
-				UIManager.Instance.oxygenAlertImg.enabled = true;
+				UpdateUIMessage.SendOxyWarning(this.gameObject, true);
 			}
 
 			return true;
 		}
-		else
-		{
-			if (UIManager.Instance.oxygenAlertImg != null)
-			{
-				UIManager.Instance.oxygenAlertImg.enabled = false;
-			}
+		UpdateUIMessage.SendOxyWarning(this.gameObject, false);
 
-			return false;
-		}
+		return false;
 	}
 
 	// TODO: Remove this when atmos is implemented
