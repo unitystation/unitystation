@@ -11,6 +11,7 @@ namespace Lobby
 	{
 		public InputField characterNameField;
 		public InputField ageField;
+		public Text errorLabel;
 		public Text genderText;
 		public Image hairColor;
 		public Image eyeColor;
@@ -50,6 +51,7 @@ namespace Lobby
 			colorPicker.onValueChanged.AddListener(OnColorChange);
 			var copyStr = JsonUtility.ToJson(currentCharacter);
 			lastSettings = JsonUtility.FromJson<CharacterSettings>(copyStr);
+			DisplayErrorText("");
 		}
 
 		void OnDisable()
@@ -221,7 +223,7 @@ namespace Lobby
 		//PLAYER ACCOUNTS:
 		//------------------
 		private void SaveData()
-		{
+		{ 
 			ServerData.UpdateCharacterProfile(currentCharacter, SaveDataSuccess, SaveDataError);
 			PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(currentCharacter));
 			PlayerPrefs.Save();
@@ -245,6 +247,17 @@ namespace Lobby
 
 		public void OnApplyBtn()
 		{
+			DisplayErrorText("");
+			try
+			{
+				currentCharacter.ValidateSettings();
+			}
+			catch (InvalidOperationException e)
+			{
+				Debug.Log("Invalid character settings. " + e.Message);
+				DisplayErrorText(e.Message);
+				return;
+			}
 			SaveData();
 			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
 			if (GameData.IsLoggedIn)
@@ -274,38 +287,43 @@ namespace Lobby
 			gameObject.SetActive(false);
 		}
 
+		private void DisplayErrorText(string message)
+		{
+			errorLabel.text = message;
+		}
+
 		//------------------
 		//NAME:
 		//------------------
 		private void RefreshName()
 		{
-			characterNameField.text = ValidateName(currentCharacter.Name);
+			characterNameField.text = TruncateName(currentCharacter.Name);
 		}
 
 		public void RandomNameBtn()
 		{
 			if (currentCharacter.Gender == Gender.Male)
 			{
-				currentCharacter.Name = ValidateName(StringManager.GetRandomMaleName());
+				currentCharacter.Name = TruncateName(StringManager.GetRandomMaleName());
 			}
 			else
 			{
-				currentCharacter.Name = ValidateName(StringManager.GetRandomFemaleName());
+				currentCharacter.Name = TruncateName(StringManager.GetRandomFemaleName());
 			}
 			RefreshName();
 		}
 
 		public void OnManualNameChange()
 		{
-			currentCharacter.Name = ValidateName(characterNameField.text);
+			currentCharacter.Name = TruncateName(characterNameField.text);
 			characterNameField.text = currentCharacter.Name;
 		}
 
-		private string ValidateName(string proposedName)
+		private string TruncateName(string proposedName)
 		{
-			if (proposedName.Length >= 28)
+			if (proposedName.Length >= CharacterSettings.MAX_NAME_LENGTH)
 			{
-				return proposedName.Substring(0, 28);
+				return proposedName.Substring(0, CharacterSettings.MAX_NAME_LENGTH);
 			}
 			return proposedName;
 		}
@@ -607,6 +625,7 @@ namespace Lobby
 [Serializable]
 public class CharacterSettings
 {
+	public const int MAX_NAME_LENGTH = 28; //Arbitrary limit, but it seems reasonable
 	public string username;
 	public string Name = "Cuban Pete";
 	public Gender Gender = Gender.Male;
@@ -677,6 +696,35 @@ public class CharacterSettings
 			headSpriteIndex = femaleHeadIndex;
 		}
 	}
+
+	/// <summary>
+	/// Does nothing if all the character's properties are valides
+	/// <exception cref="InvalidOperationException">If the charcter settings are not valid</exception>
+	/// </summary>
+	public void ValidateSettings()
+	{
+
+		ValidateName();
+	}
+
+	/// <summary>
+	/// Checks if the character name follows all rules
+	/// </summary>
+    /// <exception cref="InvalidOperationException">If the name not valid</exception>
+	public void ValidateName()
+	{
+		if (String.IsNullOrWhiteSpace(Name))
+		{
+			throw new InvalidOperationException("Name cannot be blank");
+		}
+		
+		if (Name.Length > MAX_NAME_LENGTH)
+		{
+			throw new InvalidOperationException("Name cannot exceed " + MAX_NAME_LENGTH + " characters");
+		}
+	}
+
+
 }
 
 public enum Gender
