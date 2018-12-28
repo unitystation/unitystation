@@ -31,11 +31,11 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 	//Server only
 	public List<SolidPlasma> plasmaFuel = new List<SolidPlasma>();
 
-	public PowerTypeCategory ApplianceType = PowerTypeCategory.RadiationCollector;
+	public PowerTypeCategory ApplianceType = PowerTypeCategory.PowerGenerator;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
 	{
 		PowerTypeCategory.StandardCable,
-			PowerTypeCategory.HighVoltageCable,
+		PowerTypeCategory.HighVoltageCable,
 	};
 
 	public void PotentialDestroyed()
@@ -55,21 +55,38 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		powerSupply.DirectionEnd = DirectionEnd;
 		powerSupply.Data.SupplyingCurrent = 20;
 		powerSupply.InData.ControllingDevice = this;
+		powerSupply.InData.ControllingUpdate = powerSupply;
 
 		PowerInputReactions PIRMedium = new PowerInputReactions(); //You need a resistance on the output just so supplies can communicate properly
 		PIRMedium.DirectionReaction = true;
-		PIRMedium.ConnectingDevice = PowerTypeCategory.MediumMachineConnector;
+		PIRMedium.ConnectingDevice = PowerTypeCategory.StandardCable;
 		PIRMedium.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
 		PIRMedium.DirectionReactionA.YouShallNotPass = true;
 		PIRMedium.ResistanceReaction = true;
 		PIRMedium.ResistanceReactionA.Resistance.Ohms = MonitoringResistance;
 
+		PowerInputReactions PIRHigh = new PowerInputReactions(); //You need a resistance on the output just so supplies can communicate properly
+		PIRMedium.DirectionReaction = true;
+		PIRMedium.ConnectingDevice = PowerTypeCategory.HighVoltageCable;
+		PIRMedium.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
+		PIRMedium.DirectionReactionA.YouShallNotPass = true;
+		PIRMedium.ResistanceReaction = true;
+		PIRMedium.ResistanceReactionA.Resistance.Ohms = MonitoringResistance;
+
+		powerSupply.InData.ConnectionReaction[PowerTypeCategory.HighVoltageCable] = PIRHigh;
+		powerSupply.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PIRMedium;
+
+	
+
 		if (startWithPlasma)
 		{
 			plasmaFuel.Add(new SolidPlasma());
 		}
+		powerSupply.InData.ControllingUpdate = powerSupply;
+		if (startAsOn) {
+			UpdateServerState(startAsOn);
+		}
 
-		UpdateServerState(startAsOn);
 		UpdateSecured(startSecured);
 	}
 
@@ -117,7 +134,9 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		else
 		{
 			isOn = false;
-			powerSupply.TurnOffSupply();
+			//powerSupply.TurnOffSupply();
+			powerSupply.Data.ChangeToOff = true;
+			ElectricalSynchronisation.NUStructureChangeReact.Add (powerSupply);
 			if (plasmaFuel.Count > 0)
 			{
 				plasmaFuel[0].StopBurningPlasma();
@@ -217,5 +236,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		}
 
 		return true;
+	}
+	public void TurnOffCleanup (){
 	}
 }

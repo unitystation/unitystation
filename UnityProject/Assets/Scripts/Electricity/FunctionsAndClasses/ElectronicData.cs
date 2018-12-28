@@ -22,4 +22,6 @@ public class ElectronicData  { //to Store data about the electrical device
 	public float ActualVoltage;
 	public float EstimatedResistance;
 	public float SupplyingCurrent;
+	public List<IElectricityIO> ConnectedSupplies = new List<IElectricityIO> ();
+	public bool ChangeToOff;
 }

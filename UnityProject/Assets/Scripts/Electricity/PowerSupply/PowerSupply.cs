@@ -71,28 +71,22 @@ public class PowerSupply : NetworkBehaviour, IElectricalNeedUpdate, IElectricity
 		if (posCache != transform.localPosition)
 		{
 			posCache = transform.localPosition;
-			if (isSupplying)
-			{
+			//if (isSupplying)
+			//{
 				TurnOffSupply();
-			}
+			//}
 			FindPossibleConnections();
 		}
 	}
 
 	public void TurnOnSupply()
 	{
-		ElectricalSynchronisation.AddSupply(this, InData.Categorytype);
-		ElectricalSynchronisation.StructureChangeReact = true;
-		ElectricalSynchronisation.ResistanceChange = true;
-		ElectricalSynchronisation.CurrentChange = true;
-		isSupplying = true;
+		PowerSupplyFunction.TurnOnSupply (this);
 	}
 
 	public void TurnOffSupply()
 	{
-		RemoveSupply(this.GameObject());
-		ElectricalSynchronisation.CurrentChange = true;
-		isSupplying = false;
+		PowerSupplyFunction.TurnOffSupply (this);
 	}
 
 	public void PowerUpdateStructureChange()
@@ -101,30 +95,20 @@ public class PowerSupply : NetworkBehaviour, IElectricalNeedUpdate, IElectricity
 	}
 	public void PowerUpdateStructureChangeReact()
 	{
-		ElectricityFunctions.CircuitSearchLoop(this, this);
+		PowerSupplyFunction.PowerUpdateStructureChangeReact (this);
+	
 	}
+	public void InitialPowerUpdateResistance(){
+		
+	}
+
 	public void PowerUpdateResistanceChange()
 	{
-		FlushResistanceAndUp(this.gameObject);
-		if (connectedDevices.Count > 0)
-		{
-			foreach (IElectricityIO ConnectedDevice in connectedDevices)
-			{
-				ConnectedDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, this.gameObject, null);
-			}
-			ElectricityFunctions.CircuitResistanceLoop(this, this);
-		}
+
 	}
 	public void PowerUpdateCurrentChange()
 	{
-		FlushSupplyAndUp(this.gameObject);
-		if (connectedDevices.Count > 0)
-		{
-			if (Data.SupplyingCurrent != 0)
-			{
-				ElectricityOutput(ElectricalSynchronisation.currentTick, Data.SupplyingCurrent, this.gameObject);
-			}
-		}
+		PowerSupplyFunction.PowerUpdateCurrentChange (this);
 	}
 
 	public void PowerNetworkUpdate()
@@ -163,6 +147,7 @@ public class PowerSupply : NetworkBehaviour, IElectricalNeedUpdate, IElectricity
 	}
 	public void ElectricityInput(int tick, float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
 	{
+		
 		InputOutputFunctions.ElectricityInput(tick, Current, SourceInstance, ComingFrom, this);
 
 	}
@@ -170,6 +155,9 @@ public class PowerSupply : NetworkBehaviour, IElectricalNeedUpdate, IElectricity
 
 	public void ElectricityOutput(int tick, float Current, GameObject SourceInstance)
 	{
+		if (!(SourceInstance == this.gameObject)){
+			ElectricalSynchronisation.NUCurrentChange.Add (InData.ControllingUpdate);
+		}
 		InputOutputFunctions.ElectricityOutput(tick, Current, SourceInstance, this);
 		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
 		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;

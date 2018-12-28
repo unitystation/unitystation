@@ -42,11 +42,13 @@ public class LowVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 
 	//FIXME:
 	public void OnDestroy(){
-		ElectricalSynchronisation.StructureChangeReact = true;
-		ElectricalSynchronisation.ResistanceChange = true;
-		ElectricalSynchronisation.CurrentChange = true;
+//		ElectricalSynchronisation.StructureChangeReact = true;
+//		ElectricalSynchronisation.ResistanceChange = true;
+//		ElectricalSynchronisation.CurrentChange = true;
 		SelfDestruct = true;
 
 		//Make Invisible
+	}
+	public void TurnOffCleanup (){
 	}
 }

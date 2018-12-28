@@ -152,6 +152,9 @@ public class WireConnect : NetworkBehaviour, IElectricityIO
 			Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
 			Logger.Log("UpstreamCount " + (Data.UpstreamCount.ToString()), Category.Electrical);
 			Logger.Log("DownstreamCount " + (Data.DownstreamCount.ToString()), Category.Electrical);
+			Logger.Log("ActualVoltage " + (Data.ActualVoltage.ToString()), Category.Electrical);
+			Logger.Log("CurrentInWire " + (Data.CurrentInWire.ToString()), Category.Electrical);
+			Logger.Log("EstimatedResistance " + (Data.EstimatedResistance.ToString()), Category.Electrical);
 		}
 
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
