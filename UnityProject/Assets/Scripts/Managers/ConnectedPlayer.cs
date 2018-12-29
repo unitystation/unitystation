@@ -13,7 +13,10 @@ public class ConnectedPlayer
     /// Flags if player received a bunch of sync messages upon joining
     private bool synced;
 
-    public bool IsAuthenticated => steamId != 0;
+	//Name that is used if the client's character name is empty
+	private const string ANONYMOUS_NAME = "Anonymous Spessman";
+
+	public bool IsAuthenticated => steamId != 0;
 
     public static readonly ConnectedPlayer Invalid = new ConnectedPlayer
     {
@@ -109,7 +112,10 @@ public class ConnectedPlayer
     {
         if ( playerName == null || playerName.Trim().Equals("") || name == playerName )
         {
-            return;
+			//When a ConnectedPlayer object is initialised it has a null value
+			//We want to make sure that it gets set to something if the client requested something bad
+			//Issue #1377 
+			playerName = ANONYMOUS_NAME;
         }
         var playerList = PlayerList.Instance;
         if ( playerList == null )
