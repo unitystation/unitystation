@@ -14,7 +14,7 @@ public class ConnectedPlayer
     private bool synced;
 
 	//Name that is used if the client's character name is empty
-	private const string ANONYMOUS_NAME = "Anonymous Spessman";
+	private const string DEAFAULT_NAME = "Anonymous Spessman";
 
 	public bool IsAuthenticated => steamId != 0;
 
@@ -115,7 +115,7 @@ public class ConnectedPlayer
 			//When a ConnectedPlayer object is initialised it has a null value
 			//We want to make sure that it gets set to something if the client requested something bad
 			//Issue #1377 
-			playerName = ANONYMOUS_NAME;
+			playerName = DEAFAULT_NAME;
         }
         var playerList = PlayerList.Instance;
         if ( playerList == null )
