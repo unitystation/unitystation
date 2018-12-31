@@ -134,6 +134,6 @@ public class PlayerHealthReporting : ManagedNetworkBehaviour
 	[Server]
 	private void UpdateClientUI(int newHealth)
 	{
-		UpdateUIMessage.Send(gameObject, newHealth);
+		UpdateUIMessage.SendHealth(gameObject, newHealth);
 	}
 }
