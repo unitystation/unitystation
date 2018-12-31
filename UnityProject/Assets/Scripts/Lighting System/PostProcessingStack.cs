@@ -148,9 +148,20 @@ public class PostProcessingStack
 		}
 	}
 
+	/// <summary>
+	/// Generates the final FOV occlusion Mask and stores it in iGlobalOcclusionMaskExtended. Note that this does not apply the PPRT Transform.shader.
+	/// </summary>
+	/// <param name="iRawOcclusionMask">Raw occlusion mask where red indicates walls and black indicates floors.</param>
+	/// <param name="iFloorOcclusionMask">will be used to hold the intermediate occlusion mask where only the floor occlusion has been calculated</param>
+	/// <param name="iGlobalOcclusionExtended">will hold the final FOV mask</param>
+	/// <param name="iRenderSettings"></param>
+	/// <param name="iFovCenterInViewSpace"></param>
+	/// <param name="iFovDistance"></param>
+	/// <param name="iOperationParameters"></param>
 	public void GenerateFovMask(
 		PixelPerfectRT iRawOcclusionMask,
-		PixelPerfectRT iGlobalOcclusionExtendedMask,
+		PixelPerfectRT iFloorOcclusionMask,
+		PixelPerfectRT iGlobalOcclusionExtended,
 		RenderSettings iRenderSettings,
 		Vector3 iFovCenterInViewSpace,
 		float iFovDistance,
@@ -160,13 +171,19 @@ public class PostProcessingStack
 		mMaterialContainer.fovMaterial.SetFloat("_OcclusionSpread", iRenderSettings.fovOcclusionSpread);
 
 		// Adjust scale from Extended mask to Screen size mask.
-		float _yUVScale = 1 / ((float)iGlobalOcclusionExtendedMask.renderTexture.width / iGlobalOcclusionExtendedMask.renderTexture.height);
-		Vector3 _adjustedDistance = iFovDistance * iOperationParameters.cameraViewportUnitsInWorldSpace * iRawOcclusionMask.orthographicSize / iGlobalOcclusionExtendedMask.orthographicSize;
+		float _yUVScale = 1 / ((float)iFloorOcclusionMask.renderTexture.width / iFloorOcclusionMask.renderTexture.height);
+		Vector3 _adjustedDistance = iFovDistance * iOperationParameters.cameraViewportUnitsInWorldSpace * iRawOcclusionMask.orthographicSize / iFloorOcclusionMask.orthographicSize;
 
 		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
 
 		iRawOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
-		PixelPerfectRT.Blit(iRawOcclusionMask, iGlobalOcclusionExtendedMask, mMaterialContainer.fovMaterial);
+		PixelPerfectRT.Blit(iRawOcclusionMask, iFloorOcclusionMask, mMaterialContainer.fovMaterial);
+
+		//second pass to handle walls
+		mMaterialContainer.fovWallMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);	
+		iRawOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
+		PixelPerfectRT.Blit(iFloorOcclusionMask, iGlobalOcclusionExtended, mMaterialContainer.fovWallMaterial);
+	
 	}
 
 	public void CreateWallLightMask(

@@ -80,6 +80,7 @@ public class RenderSettings
 		WallLayer,
 		FovObstacle,
 		FovObstacleExtended,
+		FovObstacleExtendedFloorOnly,
 		Obstacle,
 		Background,
 	};
