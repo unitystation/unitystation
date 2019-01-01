@@ -78,9 +78,9 @@ public class RenderSettings
 		LightLayerBlurred,
 		LightLayer,
 		WallLayer,
-		FovObstacle,
-		FovObstacleExtended,
-		FovObstacleExtendedFloorOnly,
+		FovObjectOcclusion,
+		FovWallAndFloorOcclusion,
+		FovFloorOcclusion,
 		Obstacle,
 		Background,
 	};

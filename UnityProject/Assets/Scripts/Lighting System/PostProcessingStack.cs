@@ -152,8 +152,8 @@ public class PostProcessingStack
 	/// Generates the final FOV occlusion Mask and stores it in iGlobalOcclusionMaskExtended. Note that this does not apply the PPRT Transform.shader.
 	/// </summary>
 	/// <param name="iRawOcclusionMask">Raw occlusion mask where red indicates walls and black indicates floors.</param>
-	/// <param name="iFloorOcclusionMask">will be used to hold the intermediate occlusion mask where only the floor occlusion has been calculated</param>
-	/// <param name="iGlobalOcclusionExtended">will hold the final FOV mask</param>
+	/// <param name="iFloorOcclusionMask">will be used to hold the  occlusion mask where only the floor occlusion has been calculated</param>
+	/// <param name="iWallFloorOcclusionMask">will hold the occlusion mask which calcualtes occlusion for walls + floors</param>
 	/// <param name="iRenderSettings"></param>
 	/// <param name="iFovCenterInViewSpace"></param>
 	/// <param name="iFovDistance"></param>
@@ -161,7 +161,7 @@ public class PostProcessingStack
 	public void GenerateFovMask(
 		PixelPerfectRT iRawOcclusionMask,
 		PixelPerfectRT iFloorOcclusionMask,
-		PixelPerfectRT iGlobalOcclusionExtended,
+		PixelPerfectRT iWallFloorOcclusionMask,
 		RenderSettings iRenderSettings,
 		Vector3 iFovCenterInViewSpace,
 		float iFovDistance,
@@ -182,7 +182,7 @@ public class PostProcessingStack
 		//second pass to handle walls
 		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
 		iFloorOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
-		PixelPerfectRT.Blit(iFloorOcclusionMask, iGlobalOcclusionExtended, mMaterialContainer.fovMaterial);
+		PixelPerfectRT.Blit(iFloorOcclusionMask, iWallFloorOcclusionMask, mMaterialContainer.fovMaterial);
 	
 	}
 

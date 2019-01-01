@@ -40,7 +40,6 @@ GameObject:
   - component: {fileID: 61655055042275860}
   - component: {fileID: 114980732835007016}
   - component: {fileID: 114072681450652006}
-  - component: {fileID: 114948615121389646}
   m_Layer: 19
   m_Name: Camera
   m_TagString: Untagged
@@ -149,17 +148,6 @@ MonoBehaviour:
   positions: []
   colliderOffset: {x: 0, y: 0, z: 0}
   rotateIndex: 0
---- !u!114 &114948615121389646
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014018295980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114980732835007016
 MonoBehaviour:
   m_ObjectHideFlags: 1
