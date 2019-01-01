@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -40,7 +41,7 @@ public class LightSwitchTrigger : InputTrigger
 		DetectLightsAndAction(true);
 		if (RelatedAPC != null)
 		{
-			RelatedAPC.ListOfLightSwitchTriggers.Add(this);
+			RelatedAPC.DictionarySwitchesAndLights[this] = new List<LightSource>();
 		}
 	}
 	public void PowerNetworkUpdate(float Voltage)
@@ -118,11 +119,13 @@ public class LightSwitchTrigger : InputTrigger
 			{
 				if (localObject.tag != "EmergencyLight")
 				{
-					localObject.SendMessage("Trigger", state, SendMessageOptions.DontRequireReceiver);
+					LightSwitchData Send = new LightSwitchData ( ){state = state,LightSwitchTrigger = this,  RelatedAPC = RelatedAPC };
+					localObject.SendMessage("Received", Send,  SendMessageOptions.DontRequireReceiver);
 				}
 				if (RelatedAPC != null)
 				{
-					localObject.SendMessage("APCConnect", RelatedAPC, SendMessageOptions.DontRequireReceiver);
+					LightSwitchData Send = new LightSwitchData (){ LightSwitchTrigger = this,  RelatedAPC = RelatedAPC };
+					localObject.SendMessage("EmergencyLight",Send, SendMessageOptions.DontRequireReceiver);
 				}
 			}
 		}
@@ -155,4 +158,10 @@ public class LightSwitchTrigger : InputTrigger
 		}
 		soundAllowed = true;
 	}
+}
+
+public class LightSwitchData {
+	public bool state;
+	public LightSwitchTrigger LightSwitchTrigger;
+	public APC RelatedAPC;
 }

@@ -38,6 +38,7 @@ public class LightSource : ObjectTrigger
 	private bool tempStateCache;
 	private float PreviousIntensity = 999;
 	public APC RelatedAPC;
+	public LightSwitchTrigger RelatedLightSwitchTrigger;
 	public Color customColor; //Leave null if you want default light color.
 
 	// For network sync reliability.
@@ -60,7 +61,6 @@ public class LightSource : ObjectTrigger
 			OnStateChange(value);
 		}
 	}
-
 	public override void Trigger(bool iState)
 	{
 		// Leo Note: Some sync magic happening here. Decided not to touch it.
@@ -83,31 +83,64 @@ public class LightSource : ObjectTrigger
 		}
 	}
 
-	public void APCConnect(APC ConnectingAPC)
+	public void Received(LightSwitchData Received)
 	{
-		//Logger.Log ("Connected");
-		if (RelatedAPC == null)
+		//Logger.Log (Received.LightSwitchTrigger.ToString() + " < LightSwitchTrigger" + Received.RelatedAPC.ToString() + " < APC" + Received.state.ToString() + " < state" );
+		// Leo Note: Some sync magic happening here. Decided not to touch it.
+		tempStateCache = Received.state;
+
+		if (waitToCheckState)
 		{
-			RelatedAPC = ConnectingAPC;
-			if (gameObject.tag == "EmergencyLight")
-			{
-				var emergLightAnim = gameObject.GetComponent<EmergencyLightAnimator>();
-				if (emergLightAnim != null)
+			return;
+		}
+		if (Received.LightSwitchTrigger == RelatedLightSwitchTrigger || RelatedLightSwitchTrigger == null) {
+			if (RelatedLightSwitchTrigger == null){
+				RelatedLightSwitchTrigger = Received.LightSwitchTrigger;  
+			}
+			if (Received.RelatedAPC != null) {
+				RelatedAPC = Received.RelatedAPC;
 				{
-					if (!RelatedAPC.ListOfEmergencyLights.Contains(emergLightAnim))
+					if (State == LightState.On)
 					{
-						RelatedAPC.ListOfEmergencyLights.Add(emergLightAnim);
+						if (!RelatedAPC.DictionarySwitchesAndLights [RelatedLightSwitchTrigger].Contains (this)) {
+							RelatedAPC.DictionarySwitchesAndLights [RelatedLightSwitchTrigger].Add (this);
+						}
+
 					}
 				}
 			}
+
+			if (Renderer == null)
+			{
+				waitToCheckState = true;
+				StartCoroutine(WaitToTryAgain());
+				return;
+			}
 			else
 			{
-				if (State == LightState.On)
+				State = Received.state ? LightState.On : LightState.Off;
+			}
+		}
+
+
+	}
+
+	public void EmergencyLight(LightSwitchData Received)
+	{
+
+
+		if (gameObject.tag == "EmergencyLight")
+		{
+			var emergLightAnim = gameObject.GetComponent<EmergencyLightAnimator>();
+			if (emergLightAnim != null)
+			{
+				if (!Received.RelatedAPC.ListOfEmergencyLights.Contains(emergLightAnim))
 				{
-					RelatedAPC.ListOfLights.Add(this);
+					Received.RelatedAPC.ListOfEmergencyLights.Add(emergLightAnim);
 				}
 			}
 		}
+
 	}
 
 	private void OnStateChange(LightState iValue)
@@ -131,8 +164,8 @@ public class LightSource : ObjectTrigger
 	{
 		if (State == LightState.Off)
 		{
-			RelatedAPC.ListOfLights.Remove(this);
-			RelatedAPC = null;
+			//RelatedAPC.ListOfLights.Remove(this);
+			//RelatedAPC = null;
 		}
 		else
 		{
