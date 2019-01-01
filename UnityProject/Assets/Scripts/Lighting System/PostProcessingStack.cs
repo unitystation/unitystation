@@ -167,22 +167,22 @@ public class PostProcessingStack
 		float iFovDistance,
 		OperationParameters iOperationParameters)
 	{
-		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
-		mMaterialContainer.fovMaterial.SetFloat("_OcclusionSpread", iRenderSettings.fovOcclusionSpread);
+		mMaterialContainer.floorFovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
+		mMaterialContainer.floorFovMaterial.SetFloat("_OcclusionSpread", iRenderSettings.fovOcclusionSpread);
 
 		// Adjust scale from Extended mask to Screen size mask.
 		float _yUVScale = 1 / ((float)iFloorOcclusionMask.renderTexture.width / iFloorOcclusionMask.renderTexture.height);
 		Vector3 _adjustedDistance = iFovDistance * iOperationParameters.cameraViewportUnitsInWorldSpace * iRawOcclusionMask.orthographicSize / iFloorOcclusionMask.orthographicSize;
 
-		mMaterialContainer.fovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
+		mMaterialContainer.floorFovMaterial.SetVector("_Distance", new Vector3(_adjustedDistance.x, _yUVScale,  iRenderSettings.fovHorizonSmooth));
 
 		iRawOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
-		PixelPerfectRT.Blit(iRawOcclusionMask, iFloorOcclusionMask, mMaterialContainer.fovMaterial);
+		PixelPerfectRT.Blit(iRawOcclusionMask, iFloorOcclusionMask, mMaterialContainer.floorFovMaterial);
 
 		//second pass to handle walls
-		mMaterialContainer.fovWallMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);	
-		iRawOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
-		PixelPerfectRT.Blit(iFloorOcclusionMask, iGlobalOcclusionExtended, mMaterialContainer.fovWallMaterial);
+		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
+		iFloorOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
+		PixelPerfectRT.Blit(iFloorOcclusionMask, iGlobalOcclusionExtended, mMaterialContainer.fovMaterial);
 	
 	}
 
