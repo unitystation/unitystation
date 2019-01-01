@@ -8,4 +8,6 @@ public interface  IProvidePower  {
 	HashSet<IElectricityIO> DirectionWorkOnNextListWait {get; set;}
 	HashSet<IElectricityIO> ResistanceWorkOnNextList {get; set;}
 	HashSet<IElectricityIO> ResistanceWorkOnNextListWait {get; set;} 
+	ElectronicData Data {get; set;}
+	IntrinsicElectronicData InData  {get; set;}
 }

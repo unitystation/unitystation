@@ -149,25 +149,25 @@ public static class ElectricityFunctions  {
 		}
 	}
 
-	public static void CircuitResistanceLoop(IElectricityIO Thiswire, IProvidePower ProvidingPower ){
-		bool Break = true;
-		List<IElectricityIO> IterateDirectionWorkOnNextList = new List<IElectricityIO> ();
-		while (Break) {
-			IterateDirectionWorkOnNextList = new List<IElectricityIO> (ProvidingPower.ResistanceWorkOnNextList);
-			ProvidingPower.ResistanceWorkOnNextList.Clear();
-			for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++) { 
-				IterateDirectionWorkOnNextList [i].ResistancyOutput (ElectricalSynchronisation.currentTick, Thiswire.GameObject());
-			}
-			if (ProvidingPower.ResistanceWorkOnNextList.Count <= 0) {
-				IterateDirectionWorkOnNextList = new List<IElectricityIO> (ProvidingPower.ResistanceWorkOnNextListWait);
-				ProvidingPower.ResistanceWorkOnNextListWait.Clear();
-				for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++) { 
-					IterateDirectionWorkOnNextList [i].ResistancyOutput (ElectricalSynchronisation.currentTick, Thiswire.GameObject());
-				}
-			}
-			if (ProvidingPower.ResistanceWorkOnNextList.Count <= 0 && ProvidingPower.ResistanceWorkOnNextListWait.Count <= 0) {
-				Break = false;
-			}
-		}
-	}
+//	public static void CircuitResistanceLoop(IElectricityIO Thiswire, IProvidePower ProvidingPower ){
+//		bool Break = true;
+//		List<IElectricityIO> IterateDirectionWorkOnNextList = new List<IElectricityIO> ();
+//		while (Break) {
+//			IterateDirectionWorkOnNextList = new List<IElectricityIO> (ProvidingPower.ResistanceWorkOnNextList);
+//			ProvidingPower.ResistanceWorkOnNextList.Clear();
+//			for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++) { 
+//				IterateDirectionWorkOnNextList [i].ResistancyOutput (ElectricalSynchronisation.currentTick, Thiswire.GameObject());
+//			}
+//			if (ProvidingPower.ResistanceWorkOnNextList.Count <= 0) {
+//				IterateDirectionWorkOnNextList = new List<IElectricityIO> (ProvidingPower.ResistanceWorkOnNextListWait);
+//				ProvidingPower.ResistanceWorkOnNextListWait.Clear();
+//				for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++) { 
+//					IterateDirectionWorkOnNextList [i].ResistancyOutput (ElectricalSynchronisation.currentTick, Thiswire.GameObject());
+//				}
+//			}
+//			if (ProvidingPower.ResistanceWorkOnNextList.Count <= 0 && ProvidingPower.ResistanceWorkOnNextListWait.Count <= 0) {
+//				Break = false;
+//			}
+//		}
+//	}
 }

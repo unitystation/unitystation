@@ -14,6 +14,8 @@ public class HighVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.HighVoltageCable;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
 	{
+		PowerTypeCategory.PowerGenerator,
+		PowerTypeCategory.RadiationCollector,
 		PowerTypeCategory.HighVoltageCable,
 			PowerTypeCategory.Transformer,
 	};
@@ -45,10 +47,12 @@ public class HighVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 	//FIXME: that also renderers IDevice useless. Please reassess
 	public void OnDestroy()
 	{
-		ElectricalSynchronisation.StructureChangeReact = true;
-		ElectricalSynchronisation.ResistanceChange = true;
-		ElectricalSynchronisation.CurrentChange = true;
+//		ElectricalSynchronisation.StructureChangeReact = true;
+//		ElectricalSynchronisation.ResistanceChange = true;
+//		ElectricalSynchronisation.CurrentChange = true;
 		SelfDestruct = true;
 		//Make Invisible
+	}
+	public void TurnOffCleanup (){
 	}
 }

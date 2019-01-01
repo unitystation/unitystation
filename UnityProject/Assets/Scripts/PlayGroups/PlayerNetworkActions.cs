@@ -771,7 +771,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//FOOD
 	[Command]
-	public void CmdEatFood(GameObject food, string fromSlot, bool isDrink)
+    public void CmdEatFood(GameObject food, string fromSlot, bool isDrink)
 	{
 		if (Inventory[fromSlot].Item == null)
 		{
@@ -797,9 +797,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerHealth.BloodLevel += baseFood.healAmount;
 		playerHealth.StopBleeding();
 
-		InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
-		equipment.ClearItemSprite(fromSlot);
-		PoolManager.Instance.PoolNetworkDestroy(food);
+        InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
+        equipment.ClearItemSprite(fromSlot);
+        PoolManager.Instance.PoolNetworkDestroy(food);
+
+        GameObject leavings = baseFood.leavings;
+        if (leavings != null)
+        {
+            leavings = ItemFactory.SpawnItem(leavings);
+            AddItemToUISlot(leavings, fromSlot);
+        }
 	}
 
 	[Command]

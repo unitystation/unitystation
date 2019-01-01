@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 
@@ -12,9 +11,10 @@ public class UpdateManager : MonoBehaviour
 {
 	private static UpdateManager updateManager;
 
-	//List of all the objects to override UpdateMe method in Update
-	private readonly List<ManagedNetworkBehaviour> regularUpdate = new List<ManagedNetworkBehaviour>();
-	private readonly List<Action> regularUpdateAction = new List<Action>();
+	private event Action UpdateMe;
+	private event Action FixedUpdateMe;
+	private event Action LateUpdateMe;
+	private event Action UpdateAction;
 
 	public static UpdateManager Instance
 	{
@@ -30,33 +30,26 @@ public class UpdateManager : MonoBehaviour
 
 	public void Add(ManagedNetworkBehaviour updatable)
 	{
-		if (!regularUpdate.Contains(updatable))
-		{
-			regularUpdate.Add(updatable);
-		}
+		UpdateMe += updatable.UpdateMe;
+		FixedUpdateMe += updatable.FixedUpdateMe;
+		LateUpdateMe += updatable.LateUpdateMe;
 	}
 
 	public void Add(Action updatable)
 	{
-		if (!regularUpdateAction.Contains(updatable))
-		{
-			regularUpdateAction.Add(updatable);
-		}
+		UpdateAction += updatable;
 	}
 
 	public void Remove(ManagedNetworkBehaviour updatable)
 	{
-		if (regularUpdate.Contains(updatable)) {
-			regularUpdate.Remove(updatable);
-		}
+		UpdateMe -= updatable.UpdateMe;
+		FixedUpdateMe -= updatable.FixedUpdateMe;
+		LateUpdateMe -= updatable.LateUpdateMe;
 	}
 
 	public void Remove(Action updatable)
 	{
-		if (regularUpdateAction.Contains(updatable))
-		{
-			regularUpdateAction.Remove(updatable);
-		}
+		UpdateAction -= updatable;
 	}
 
 	private void OnEnable()
@@ -73,25 +66,27 @@ public class UpdateManager : MonoBehaviour
 	{
 		Reset();
 	}
-
-	// Reset the references when the scene is changed
+	
 	private void Reset()
 	{
-		regularUpdate.Clear();
+		UpdateMe = null;
+		FixedUpdateMe = null;
+		LateUpdateMe = null;
 	}
 
 	private void Update()
 	{
-		for (int i = 0; i < regularUpdate.Count; i++)
-		{
-			regularUpdate[i].UpdateMe();
-			regularUpdate[i].FixedUpdateMe();
-			regularUpdate[i].LateUpdateMe();
-		}
+		UpdateMe?.Invoke();
+		UpdateAction?.Invoke();
+	}
 
-		for(int i = 0; i < regularUpdateAction.Count; i++)
-		{
-			regularUpdateAction[i].Invoke();
-		}
+	private void FixedUpdate()
+	{
+		FixedUpdateMe?.Invoke();
+	}
+
+	private void LateUpdate()
+	{
+		LateUpdateMe?.Invoke();
 	}
 }

@@ -26,9 +26,8 @@ GameObject:
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
   - component: {fileID: 114208883059431984}
-  - component: {fileID: 114880268731048502}
   m_Layer: 10
-  m_Name: Absinthe
+  m_Name: Empty glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,11 +151,11 @@ MonoBehaviour:
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
   itemDescription: 
-  itemName: Absinthe
-  itemType: 14
+  itemName: Empty glass
+  itemType: 0
   size: 0
   spriteType: 0
-  type: 14
+  type: 0
   throwDamage: 2
   throwSpeed: 2
   throwRange: 7
@@ -177,38 +176,24 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 146
-    i1: 57
-    i2: 105
-    i3: 156
-    i4: 248
-    i5: 61
-    i6: 132
-    i7: 244
-    i8: 154
-    i9: 187
-    i10: 237
-    i11: 228
-    i12: 97
-    i13: 233
-    i14: 23
-    i15: 23
+    i0: 80
+    i1: 51
+    i2: 66
+    i3: 57
+    i4: 213
+    i5: 65
+    i6: 231
+    i7: 100
+    i8: 58
+    i9: 43
+    i10: 157
+    i11: 92
+    i12: 140
+    i13: 180
+    i14: 52
+    i15: 48
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114880268731048502
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a522f189bd3d44f9b962f977bec7a0a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leavings: {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 2}
-  healAmount: 5
-  healHungerAmount: 5
 --- !u!114 &114931546224579044
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -260,7 +245,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300464, guid: 3547c548ae071487c84212e8ee25d554, type: 3}
+  m_Sprite: {fileID: 21300030, guid: ed69078d0d254c81b53350e6d1b39239, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

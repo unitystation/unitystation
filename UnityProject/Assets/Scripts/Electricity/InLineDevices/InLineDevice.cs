@@ -55,15 +55,14 @@ public class InLineDevice : NetworkBehaviour, IElectricityIO, IProvidePower
 		FindPossibleConnections();
 	}
 
-	public void TurnOnSupply(float current)
+	public void TurnOnSupply()
 	{
-		Data.SupplyingCurrent = current;
+		PowerSupplyFunction.TurnOnSupply (this);
 	}
 
 	public void TurnOffSupply()
 	{
-		Electricity supply = new Electricity();
-		RemoveSupply(this.GameObject());
+		PowerSupplyFunction.TurnOffSupply (this);
 	}
 
 	public void PowerUpdateStructureChange()
@@ -73,32 +72,16 @@ public class InLineDevice : NetworkBehaviour, IElectricityIO, IProvidePower
 
 	public void PowerUpdateStructureChangeReact()
 	{
-		ElectricityFunctions.CircuitSearchLoop(this, this);
+		PowerSupplyFunction.PowerUpdateStructureChangeReact (this);
 	}
+
+	public void InitialPowerUpdateResistance(){}
 	public void PowerUpdateResistanceChange()
 	{
-		//CircuitSearchLoop ();
-		FlushResistanceAndUp(this.gameObject);
-		if (connectedDevices.Count > 0)
-		{
-			foreach (IElectricityIO ConnectedDevice in connectedDevices)
-			{
-				ConnectedDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, this.gameObject, null);
-			}
-			ElectricityFunctions.CircuitResistanceLoop(this, this);
-		}
 	}
 	public void PowerUpdateCurrentChange()
 	{
-		FlushSupplyAndUp(this.gameObject);
-
-		if (connectedDevices.Count > 0)
-		{
-			int InstanceID = this.gameObject.GetInstanceID();
-			float Resistance = ElectricityFunctions.WorkOutResistance(Data.ResistanceComingFrom[InstanceID]);
-			float Voltage = Data.SupplyingCurrent * Resistance;
-			ElectricityOutput(ElectricalSynchronisation.currentTick, Data.SupplyingCurrent, this.gameObject);
-		}
+		PowerSupplyFunction.PowerUpdateCurrentChange (this);
 	}
 
 	public void PowerNetworkUpdate() { }

@@ -19,10 +19,12 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 
 	public dynamic dynamicVariable = 1;
 
-	public List<LightSource> ListOfLights = new List<LightSource>();
+
 	public List<EmergencyLightAnimator> ListOfEmergencyLights = new List<EmergencyLightAnimator>();
 
-	public List<LightSwitchTrigger> ListOfLightSwitchTriggers = new List<LightSwitchTrigger>();
+	//public List<LightSwitchTrigger> ListOfLightSwitchTriggers = new List<LightSwitchTrigger>();
+	//public List<LightSource> ListOfLights = new List<LightSource>();
+	public Dictionary<LightSwitchTrigger,List<LightSource>> DictionarySwitchesAndLights = new Dictionary<LightSwitchTrigger,List<LightSource>> ();
 
 	private bool SelfDestruct = false;
 
@@ -31,8 +33,8 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	[SyncVar(hook = "UpdateDisplay")]
 	public float Voltage;
 
-	public float Resistance = 240;
-	public float PreviousResistance = 240;
+	public float Resistance = 0;
+	public float PreviousResistance = 0;
 	private Resistance resistance = new Resistance();
 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.APC;
@@ -56,13 +58,14 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		ElectricalSynchronisation.PoweredDevices.Add(this);
 		PowerInputReactions PRLCable = new PowerInputReactions();
 		PRLCable.DirectionReaction = true;
-		PRLCable.ConnectingDevice = PowerTypeCategory.LowVoltageCable;
+		PRLCable.ConnectingDevice = PowerTypeCategory.LowMachineConnector;
 		PRLCable.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
 		PRLCable.DirectionReactionA.YouShallNotPass = true;
 		PRLCable.ResistanceReaction = true;
 		PRLCable.ResistanceReactionA.Resistance = resistance;
 		poweredDevice.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
 		poweredDevice.InData.ControllingDevice = this;
+		poweredDevice.InData.ControllingUpdate = this;
 		StartCoroutine(ScreenDisplayRefresh());
 		UpdateDisplay(Voltage);
 	}
@@ -82,7 +85,19 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 
 	public void PowerUpdateStructureChange() { }
 	public void PowerUpdateStructureChangeReact() { }
-	public void PowerUpdateResistanceChange() { }
+	public void InitialPowerUpdateResistance() {
+		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
+			poweredDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
+		}
+	}
+	public void PowerUpdateResistanceChange() { 
+		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
+			poweredDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
+		}
+		
+	}
 	public void PowerUpdateCurrentChange()
 	{
 
@@ -90,27 +105,33 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 
 	public void PowerNetworkUpdate()
 	{
-		if (Resistance != PreviousResistance)
-		{
-			PreviousResistance = Resistance;
-			resistance.Ohms = Resistance;
-			ElectricalSynchronisation.ResistanceChange = true;
-			ElectricalSynchronisation.CurrentChange = true;
-		}
 		Voltage = poweredDevice.Data.ActualVoltage;
 		UpdateLights();
-		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
+		if (Resistance != PreviousResistance)
+		{
+			if (Resistance == 0 || double.IsInfinity(Resistance)) {
+				Resistance = 9999999999;
+			}
+			PreviousResistance = Resistance;
+			resistance.Ohms = Resistance;
+			ElectricalSynchronisation.ResistanceChange.Add (this);
+		}
 	}
 	public void UpdateLights()
 	{
-		for (int i = 0; i < ListOfLightSwitchTriggers.Count; i++)
-		{
-			ListOfLightSwitchTriggers[i].PowerNetworkUpdate(Voltage);
+		float CalculatingResistance = new float();
+		foreach (KeyValuePair<LightSwitchTrigger,List<LightSource>> SwitchTrigger in  DictionarySwitchesAndLights) {
+			SwitchTrigger.Key.PowerNetworkUpdate (Voltage);
+			if (SwitchTrigger.Key.isOn) {
+				for (int i = 0; i < SwitchTrigger.Value.Count; i++)
+				{
+					SwitchTrigger.Value[i].PowerLightIntensityUpdate(Voltage);
+					CalculatingResistance += (1/SwitchTrigger.Value [i].Resistance);
+				}
+			}
+
 		}
-		for (int i = 0; i < ListOfLights.Count; i++)
-		{
-			ListOfLights[i].PowerLightIntensityUpdate(Voltage);
-		}
+		Resistance = (1 / CalculatingResistance);
 	}
 
 	void UpdateDisplay(float voltage)
@@ -171,11 +192,13 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	//FIXME: that also renderers IDevice useless. Please reassess
 	public void OnDestroy()
 	{
-		ElectricalSynchronisation.StructureChangeReact = true;
-		ElectricalSynchronisation.ResistanceChange = true;
-		ElectricalSynchronisation.CurrentChange = true;
+//		ElectricalSynchronisation.StructureChangeReact = true;
+//		ElectricalSynchronisation.ResistanceChange = true;
+//		ElectricalSynchronisation.CurrentChange = true;
 		ElectricalSynchronisation.PoweredDevices.Remove(this);
 		SelfDestruct = true;
 		//Making Invisible
+	}
+	public void TurnOffCleanup (){
 	}
 }
