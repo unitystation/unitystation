@@ -36,13 +36,16 @@ Shader "PostProcess/Fov Generator"
 				float2 uv : TEXCOORD0;
 				float4 vertex : SV_POSITION;
                 float3 worldpos : TEXCOORD1;
+                float4 screenpos : TEXCOORD2;
 			};
 
 			sampler2D _MainTex;
 			float4 _PositionOffset;
 
             //how detailed to make wall occlusion checks. Too low = wall occlusion looks messier and jaggier. Too high = performance impact.
-            static const int LERP_ITERATIONS = 5;
+            static const int LERP_ITERATIONS = 25;
+            // Get texture texel size. Generally We could just read the Screen, but since mask is rendered with its own size we need to get texel from texture.
+            uniform float4 _MainTex_TexelSize; 
             
 
 			v2f vert (appdata v)
@@ -50,6 +53,7 @@ Shader "PostProcess/Fov Generator"
 				v2f o;
 
 				o.vertex = UnityObjectToClipPos(v.vertex);
+                o.screenpos = ComputeScreenPos(o.vertex);
                 o.worldpos = mul(unity_ObjectToWorld, v.vertex);
 				o.uv = v.uv;
 
@@ -82,20 +86,19 @@ Shader "PostProcess/Fov Generator"
 			{
 				float2 xy = i.uv;
                 half4 mask = tex2D(_MainTex, xy);
-                
 
-                if (mask.g == 1)
+                if (mask.g > 0)
                 {
                     return mask;
                 }                
 
                 //look up to one tile width away from the current pixel in each direction and check if green is touching red.
-                float TILE_WIDTH = .05;
+                float2 TILE_WIDTH = float2(_MainTex_TexelSize.x, _MainTex_TexelSize.y) * 14.5f; // use pixel size as "step" and scale as required.
 
-                float up = checkVisibility(xy, xy + float2(0, TILE_WIDTH));
-                float down = checkVisibility(xy, xy + float2(0, -TILE_WIDTH));
-                float left = checkVisibility(xy, xy +  float2(-TILE_WIDTH,0));
-                float right = checkVisibility(xy, xy +  float2(TILE_WIDTH, 0));
+                float up = checkVisibility(xy, xy + float2(0, TILE_WIDTH.y));
+                float down = checkVisibility(xy, xy + float2(0, -TILE_WIDTH.y));
+                float left = checkVisibility(xy, xy + float2(-TILE_WIDTH.x, 0));
+                float right = checkVisibility(xy, xy + float2(TILE_WIDTH.x, 0));
 
                 //will be 1.0 if any of the up / down / left / right samples were green (unmasked floor)
                 float visibility = up + down + left + right;
