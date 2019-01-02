@@ -69,7 +69,7 @@ public class InventoryManager : MonoBehaviour
 		string toSlotName = "";
 		GameObject fromOwner = null;
 		GameObject toOwner = null;
-		//TODO: DropItem is not called during disconnect
+
 		//find the inventory slot with the given UUID
 		var index = InventorySlotList(isServer).FindIndex(
 			x => x.UUID == UUID);
