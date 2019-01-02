@@ -55,36 +55,53 @@ public class InventoryManager : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Updates the inventory slot list, transferring an item out of / into an inventory slot (or ground).
+	/// </summary>
+	/// <param name="isServer">whether to update this client's inventory slots or the server's inventory slots</param>
+	/// <param name="UUID">UUID of the destination inventory slot, empty string if item is not going into an inventory slot (such as when dropping it)</param>
+	/// <param name="item">gameobject representing the item being transferred</param>
+	/// <param name="FromUUID">UUID of the previous inventory slot that item is coming from, empty string if it's not coming from
+	/// another inventory slot</param>
 	public static void UpdateInvSlot(bool isServer, string UUID, GameObject item, string FromUUID = "")
 	{
 		bool uiSlotChanged = false;
 		string toSlotName = "";
-		GameObject owner = null;
+		GameObject fromOwner = null;
+		GameObject toOwner = null;
+
+		//find the inventory slot with the given UUID
 		var index = InventorySlotList(isServer).FindIndex(
 			x => x.UUID == UUID);
 		if (index != -1)
 		{
 			var invSlot = InventorySlotList(isServer)[index];
+			//put the item in the slot
 			invSlot.Item = item;
 			if (invSlot.IsUISlot)
 			{
+				//if this is a UI slot, mark that it has been changed and keep track of the new owner so we can send the update
+				//message
 				uiSlotChanged = true;
 				toSlotName = invSlot.SlotName;
-				owner = invSlot.Owner.gameObject;
+				toOwner = invSlot.Owner.gameObject;
 			}
 		}
 		if (!string.IsNullOrEmpty(FromUUID))
 		{
+			//if this came from another slot, find it
 			index = InventorySlotList(isServer).FindIndex(
 				x => x.UUID == FromUUID);
 			if (index != -1)
 			{
 				var invSlot = InventorySlotList(isServer)[index];
+				//remove the item from the previous slot
 				invSlot.Item = null;
 				if (invSlot.IsUISlot)
 				{
+					//if the previous slot had an owner, track the owner so we can include it in the update message
 					uiSlotChanged = true;
-					owner = invSlot.Owner.gameObject;
+					fromOwner = invSlot.Owner.gameObject;
 				}
 			}
 		}
@@ -92,7 +109,17 @@ public class InventoryManager : MonoBehaviour
 		//Only ever sync UI slots straight away, storage slots will sync when they are being observed (picked up and inspected)
 		if (isServer && uiSlotChanged)
 		{
-			UpdateSlotMessage.Send(owner, UUID, FromUUID, item);
+			//send the update to the player who the item was taken from and the player it was
+			//given to
+			if (fromOwner != null)
+			{
+				UpdateSlotMessage.Send(fromOwner, UUID, FromUUID, item);
+			}
+			if (toOwner != null)
+			{
+				UpdateSlotMessage.Send(toOwner, UUID, FromUUID, item);
+			}
+
 		}
 
 		if (!isServer && uiSlotChanged)
@@ -153,7 +180,7 @@ public class InventoryManager : MonoBehaviour
 	//Server only:
 	public static InventorySlot GetSlotFromOriginatorHand(GameObject originator, string hand)
 	{
-		InventorySlot slot = null;
+		InventorySlot slot = null;		
 
 		var index = AllServerInventorySlots.FindLastIndex(x => x.Owner?.gameObject == originator && x.SlotName == hand);
 		if(index != -1){
@@ -215,6 +242,21 @@ public class InventoryManager : MonoBehaviour
 
 		DropItem(GetSlotFromItem(item), pos);
 	}
+
+	/// <summary>
+	/// Performs cleanup needed when a player disconnects. Drops their items at their current location and removes all the inventory slots.
+	/// </summary>
+	/// <param name="owner">gameobject of the player that is disconnecting, which should still be present wherever it was prior to disconnecting.</param>
+	public static void HandleDisconnect(GameObject owner)
+	{
+		//drop everything
+		AllServerInventorySlots
+			.FindAll(x => x.Owner?.gameObject == owner && x.Item)
+			.ForEach(x => DropGameItem(owner, x.Item, owner.transform.position));
+
+		//remove their slots
+		AllServerInventorySlots.RemoveAll(x => x.Owner?.gameObject == owner);
+	}
 }
 
 //Helps identify the position in syncEquip list
@@ -233,5 +275,9 @@ public enum Epos
 	back,
 	hands,
 	ear,
-	neck
+	neck,
+	id,
+	storage01,
+	storage02,
+	suitStorage
 }
