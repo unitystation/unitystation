@@ -9,6 +9,9 @@ public enum ObjectType
 	Wire
 }
 
+/// <summary>
+/// Holds various behavior which affects the tile the object is currently on
+/// </summary>
 [ExecuteInEditMode]
 public abstract class RegisterTile : NetworkBehaviour
 {
@@ -116,6 +119,15 @@ public abstract class RegisterTile : NetworkBehaviour
 	{
 		Position = TransformState.HiddenPos;
 		layer?.Objects.Remove(Position, this);
+		AfterUnregister();
+	}
+
+	/// <summary>
+	/// Allows child class to perform some logic after the tile is unregistered
+	/// </summary>
+	public virtual void AfterUnregister()
+	{
+		//do nothing in the default implementation
 	}
 
 	public virtual bool IsPassable()

@@ -23,8 +23,8 @@ public class ExplodeWhenShot : NetworkBehaviour
 	private LightSprite lightSprite;
 	public SpriteRenderer spriteRend;
 
-	private RegisterTile registerTile;
-	private Matrix matrix => registerTile.Matrix;
+	private RegisterObject registerObject;
+	private Matrix matrix => registerObject.Matrix;
 
 	private void Start()
 	{
@@ -32,7 +32,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		damageableMask = LayerMask.GetMask("Players", "Machines", "Default" /*, "Lighting", "Items"*/);
 		obstacleMask = LayerMask.GetMask("Walls", "Door Closed");
 
-		registerTile = GetComponent<RegisterTile>();
+		registerObject = GetComponent<RegisterObject>();
 	}
 
 	public void ExplodeOnDamage(string damagedBy)
@@ -123,15 +123,17 @@ public class ExplodeWhenShot : NetworkBehaviour
 
 	internal virtual void GoBoom()
 	{
+		
 		if (spriteRend.isVisible)
 		{
 			Camera2DFollow.followControl.Shake(0.2f, 0.2f);
 		}
 		// Instantiate a clone of the source so that multiple explosions can play at the same time.
 		spriteRend.enabled = false;
+		
 		try
 		{
-			registerTile.Unregister();
+			registerObject.Unregister();
 		}
 		catch
 		{
