@@ -46,8 +46,10 @@ Shader "Stencil/Unlit background masked" {
 	};
 
 	sampler2D _MainTex;
-	sampler2D _FovMask;
-	float4 _FovMaskTransformation;
+    //holds the Fov mask used for object sprites
+	sampler2D _ObjectFovMask;
+    //holds a vector used to offset the above texture (which is a PPRT) from the renderer. Calculated from objectOcclusionMask.GetTransformation(currentCamera)
+	float4 _ObjectFovMaskTransformation;
 	float4 _MainTex_ST;
 
 	v2f vert(appdata_t v)
@@ -56,7 +58,7 @@ Shader "Stencil/Unlit background masked" {
 		o.vertex = UnityObjectToClipPos(v.vertex);
 		o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
 
-		o.screencoord = (ComputeScreenPos(o.vertex) - 0.5 + _FovMaskTransformation.xy) * _FovMaskTransformation.zw + 0.5; 
+		o.screencoord = (ComputeScreenPos(o.vertex) - 0.5 + _ObjectFovMaskTransformation.xy) * _ObjectFovMaskTransformation.zw + 0.5;
 		o.color = v.color;
 
 		return o;
@@ -65,7 +67,7 @@ Shader "Stencil/Unlit background masked" {
 	fixed4 frag(v2f i) : SV_Target
 	{
 		fixed4 textureSample = tex2D(_MainTex, i.texcoord);
-		fixed4 maskSample = tex2D(_FovMask, i.screencoord);
+		fixed4 maskSample = tex2D(_ObjectFovMask, i.screencoord);
 
 		fixed4 final = textureSample * i.color;
 
