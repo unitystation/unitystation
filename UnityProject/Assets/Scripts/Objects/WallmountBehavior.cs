@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Behavior common to all wall mounts.
 ///
-/// Looks at the way a wallmount is facing by using the gameobject's transform.up. Make sure the gameobject is set up so
+/// Looks at the way a wallmount is facing by using the gameobject's transform.up (NOT the sprite's transform). Make sure the gameobject is set up so
 /// the transform.up properly points in the direction the object is facing (modify the z coordinate of the rotation to adjust facing).
 /// You may need to adjust the sprite rotation as well as the parent game object rotation if the object has unusual facing behavior such as
 /// the Request Console.
