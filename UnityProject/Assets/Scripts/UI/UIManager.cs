@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
 	public Image oxygenAlertImg;
+	public ZoneSelector zoneSelector;
 	public bool ttsToggle;
 	[HideInInspector]
 	public ProgressBar progressBar;
@@ -78,6 +79,7 @@ public class UIManager : MonoBehaviour
 
 	public static DisplayManager DisplayManager => Instance.displayManager;
 	public static UI_StorageHandler StorageHandler => Instance.storageHandler;
+	public static ZoneSelector ZoneSelector => Instance.zoneSelector;
 
 	public static string SetToolTip
 	{
@@ -162,7 +164,7 @@ public class UIManager : MonoBehaviour
 		var fromSlot = InventorySlotCache.GetSlotByUUID(slotInfo.FromSlotUUID);
 		bool fromS = fromSlot != null;
 		bool fromSI = fromSlot?.Item != null;
-		
+
 		if (fromSlot?.Item == slotInfo.SlotContents)
 		{
 			CheckStorageHandlerOnMove(fromSlot.Item);
