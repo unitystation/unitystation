@@ -5,9 +5,9 @@ using UnityEngine;
 public class LightEmissionBehaviour : MonoBehaviour
 {
 	private const int LightSourceLayer = 21;
+	private const string EmissionShaderName = "Stencil/Unlit background masked emission";
 
-	[SerializeField]
-	private Material mEmissionMaterial;
+	private static Material mEmissionMaterial;
 
 	[SerializeField]
 	[Range(0, 1)]
@@ -20,12 +20,29 @@ public class LightEmissionBehaviour : MonoBehaviour
 	private float mAdditionalEmission;
 
 	[SerializeField]
+	[Tooltip("Scaling option to control glow size.")]
 	private float mScale = 1;
 
 	private SpriteRenderer mParentRenderer;
 	private SpriteRenderer mEmissionRenderer;
 	private GameObject mEmissionGO;
 	private Color mEmissionParameters = Color.black;
+
+	private static Material emissionMaterial
+	{
+		get
+		{
+			if (mEmissionMaterial == null)
+			{
+				mEmissionMaterial = new Material(Shader.Find(EmissionShaderName))
+					                    {
+						                    name = "Generated Emission Material"
+					                    };
+			}
+
+			return mEmissionMaterial;
+		}
+	}
 
 	/// <summary>
 	/// Use sprite renderers color channel to pass parameters in to material.
@@ -56,7 +73,7 @@ public class LightEmissionBehaviour : MonoBehaviour
 
 		if (mEmissionGO == null || mEmissionRenderer == null)
 		{
-			InitializeRenderer(gameObject, mEmissionMaterial, out mEmissionGO, out mEmissionRenderer);
+			InitializeRenderer(gameObject, emissionMaterial, out mEmissionGO, out mEmissionRenderer);
 		}
 
 		mEmissionGO?.SetActive(true);
