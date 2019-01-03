@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 61796924336748808}
   - component: {fileID: 114926157898114224}
   - component: {fileID: 114844372735416592}
+  - component: {fileID: 114984355352443168}
   m_Layer: 19
   m_Name: NoSmokingSign
   m_TagString: Untagged
@@ -163,6 +164,17 @@ MonoBehaviour:
     i15: 133
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114984355352443168
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1609320383952464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212445092832532908
 SpriteRenderer:
   m_ObjectHideFlags: 1

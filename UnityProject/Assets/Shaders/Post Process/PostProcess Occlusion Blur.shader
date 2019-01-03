@@ -31,7 +31,6 @@ Shader "PostProcess/Occlusion Blur"
 	};
 
 	uniform sampler2D _MainTex;
-	uniform sampler2D _FovMask;
 	uniform float4 _MainTex_ST;
 	uniform float4 _MainTex_TexelSize;
 
