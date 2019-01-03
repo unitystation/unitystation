@@ -36,7 +36,7 @@ public class KeyboardInputManager : MonoBehaviour
 		if (!UIManager.IsInputFocus && GameData.IsInGame && CustomNetworkManager.Instance.IsClientConnected())
 		{
 			// Perform escape key action
-			// TODO make stack system more general so each target can define its own close function (probs using unity editor)
+			// TODO make stack system more general so each target can define its own close function (probs using unity editor and events?)
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				if(EscapeKeyTarget.TargetStack.Count > 0)
@@ -87,7 +87,7 @@ bool CheckComboEvent(KeyCombo keyCombo, KeyEventType keyEventType = KeyEventType
 
 	public Dictionary<KeyAction, System.Action> keyActionFunctions = new Dictionary<KeyAction, System.Action>
 	{
-		// TODO: replace all these log messages with the apropriate functions (movement input system will need refactoring)
+		// TODO finish adding movement
 		// Movement
 		{ KeyAction.MoveUp,			() => {/* Logger.Log("Moving up!", Category.Keybindings); */}},
 		{ KeyAction.MoveLeft, 		() => {/* Logger.Log("Moving left!", Category.Keybindings); */}},
@@ -108,16 +108,18 @@ bool CheckComboEvent(KeyCombo keyCombo, KeyEventType keyEventType = KeyEventType
 		{ KeyAction.IntentRight, 	() => { UIManager.Intent.CycleIntent(false); }},
 		{ KeyAction.IntentHelp, 	() => { UIManager.Intent.SetIntent(Intent.Help); }},
 		{ KeyAction.IntentDisarm,	() => { UIManager.Intent.SetIntent(Intent.Disarm); }},
-		{ KeyAction.IntentHarm, 	() => { UIManager.Intent.SetIntent(Intent.Harm); }},
 		{ KeyAction.IntentGrab, 	() => { UIManager.Intent.SetIntent(Intent.Grab); }},
+		{ KeyAction.IntentHarm, 	() => { UIManager.Intent.SetIntent(Intent.Harm); }},
 
-		// Chat 
+		// TODO add other bindings once chat has been updated
+		// Chat
 		{ KeyAction.ChatLocal,		() => { ControlChat.Instance.OpenChatWindow(); }},
 		{ KeyAction.ChatRadio,		() => { /* ControlChat.Instance.OpenChatWindow(Radio); */ }},
 		{ KeyAction.ChatDept,		() => { /* ControlChat.Instance.OpenChatWindow(Department); */ }},
 
+		// TODO finish head targeting once health refactor done
 		// Body part selection
-		{ KeyAction.TargetHead,		() => { UIManager.ZoneSelector.SelectAction(BodyPartType.Head); }},
+		{ KeyAction.TargetHead,		() => { /* UIManager.ZoneSelector.CycleHead(); */ UIManager.ZoneSelector.SelectAction(BodyPartType.Head); }},
 		{ KeyAction.TargetChest,	() => { UIManager.ZoneSelector.SelectAction(BodyPartType.Chest); }},
 		{ KeyAction.TargetLeftArm,  () => { UIManager.ZoneSelector.SelectAction(BodyPartType.LeftArm); }},
 		{ KeyAction.TargetRightArm, () => { UIManager.ZoneSelector.SelectAction(BodyPartType.RightArm); }},
