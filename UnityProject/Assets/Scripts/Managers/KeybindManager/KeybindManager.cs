@@ -225,12 +225,12 @@ public class KeybindManager : MonoBehaviour {
 		{  KeyAction.HandEquip, 	new KeybindObject("Equip Item", 	new KeyCombo(KeyCode.E) 	)},
 
 		// Intents 
-		{ KeyAction.IntentLeft,		new KeybindObject("Cycle Left", 	new KeyCombo(KeyCode.F),	 new KeyCombo(KeyCode.Insert))},
-		{ KeyAction.IntentRight, 	new KeybindObject("Cycle Right", 	new KeyCombo(KeyCode.G),	 new KeyCombo(KeyCode.Keypad0))},
-		{ KeyAction.IntentHelp, 	new KeybindObject("Help Intent", 	new KeyCombo(KeyCode.Alpha1) )},
-		{ KeyAction.IntentDisarm,	new KeybindObject("Disarm Intent", 	new KeyCombo(KeyCode.Alpha2) )},
-		{ KeyAction.IntentHarm, 	new KeybindObject("Harm Intent", 	new KeyCombo(KeyCode.Alpha3) )},
-		{ KeyAction.IntentGrab, 	new KeybindObject("Grab Intent", 	new KeyCombo(KeyCode.Alpha4) )},
+		{ KeyAction.IntentLeft,		new KeybindObject("Cycle Intent Left", 	new KeyCombo(KeyCode.F),	 new KeyCombo(KeyCode.Insert))},
+		{ KeyAction.IntentRight, 	new KeybindObject("Cycle Intent Right", new KeyCombo(KeyCode.G),	 new KeyCombo(KeyCode.Keypad0))},
+		{ KeyAction.IntentHelp, 	new KeybindObject("Help Intent", 		new KeyCombo(KeyCode.Alpha1) )},
+		{ KeyAction.IntentDisarm,	new KeybindObject("Disarm Intent", 		new KeyCombo(KeyCode.Alpha2) )},
+		{ KeyAction.IntentGrab, 	new KeybindObject("Grab Intent", 		new KeyCombo(KeyCode.Alpha3) )},
+		{ KeyAction.IntentHarm, 	new KeybindObject("Harm Intent", 		new KeyCombo(KeyCode.Alpha4) )},
 
 		// Chat 
 		{ KeyAction.ChatLocal, new KeybindObject("Local Chat", 		new KeyCombo(KeyCode.T), new KeyCombo(KeyCode.Return))},
