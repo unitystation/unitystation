@@ -24,7 +24,7 @@ public class Hands : MonoBehaviour
 	/// </summary>
 	public void Swap()
 	{
-		if(isValidPlayer())
+		if (isValidPlayer())
 		{
 			SetHand(!IsRight);
 		}
@@ -68,7 +68,7 @@ public class Hands : MonoBehaviour
 	/// </summary>
 	public void SwapItem(UI_ItemSlot itemSlot)
 	{
-		if(isValidPlayer())
+		if (isValidPlayer())
 		{
 			if (CurrentSlot != itemSlot)
 			{
@@ -91,13 +91,19 @@ public class Hands : MonoBehaviour
 	public void Activate()
 	{
 		// Is there an item in the active hand?
-		if(!CurrentSlot.IsFull)
+		if (!CurrentSlot.IsFull)
 		{
 			return;
 		}
 
 		//Is the item edible?
 		if (isEdible())
+		{
+			return;
+		}
+
+		// Is the item a weapon?
+		if (isWeapon())
 		{
 			return;
 		}
@@ -163,6 +169,17 @@ public class Hands : MonoBehaviour
 		if (baseFood != null)
 		{
 			baseFood.TryEat();
+			return true;
+		}
+		return false;
+	}
+
+	private bool isWeapon()
+	{
+		Weapon baseWeapon = CurrentSlot.Item.GetComponent<Weapon>();
+		if (baseWeapon != null)
+		{
+			baseWeapon.TryReload();
 			return true;
 		}
 		return false;
