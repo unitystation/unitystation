@@ -66,17 +66,7 @@ public class ControlChat : MonoBehaviour
         {
             RefreshChannelPanel ();
         }
-        if (!chatInputWindow.activeInHierarchy && !UIManager.IsInputFocus && Input.GetKey (KeyCode.T) && GameData.IsInGame &&
-            CustomNetworkManager.Instance.IsClientConnected ())
-        {
-            EventManager.Broadcast (EVENT.ChatFocused);
-            chatInputWindow.SetActive (true);
-            background.SetActive (true);
-            UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
-            EventSystem.current.SetSelectedGameObject (InputFieldChat.gameObject, null);
-            InputFieldChat.OnPointerClick (new PointerEventData (EventSystem.current));
-            UpdateChannelToggleText ();
-        }
+
         if (UIManager.IsInputFocus)
         {
             if (!string.IsNullOrEmpty (InputFieldChat.text.Trim ()) &&
@@ -96,6 +86,7 @@ public class ControlChat : MonoBehaviour
 
             if (!InputFieldChat.isFocused)
             {
+                // TODO convert this to key actions
                 if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.D) ||
                     Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.A) ||
                     Input.GetKey (KeyCode.Escape))
@@ -157,6 +148,18 @@ public class ControlChat : MonoBehaviour
         CloseChatWindow ();
     }
 
+    public void OpenChatWindow (/* ChatChannel selectedChannel = ChatChannel.None */)
+    {  
+        // TODO add ability to pass a channel to select
+        EventManager.Broadcast (EVENT.ChatFocused);
+        chatInputWindow.SetActive (true);
+        background.SetActive (true);
+        UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
+        EventSystem.current.SetSelectedGameObject (InputFieldChat.gameObject, null);
+        InputFieldChat.OnPointerClick (new PointerEventData (EventSystem.current));
+        // PlayerManager.LocalPlayerScript.SelectedChannels = 
+        UpdateChannelToggleText ();
+    }
     public void CloseChatWindow ()
     {
         UIManager.IsInputFocus = false;
