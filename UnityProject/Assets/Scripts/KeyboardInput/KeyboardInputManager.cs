@@ -61,6 +61,39 @@ public class KeyboardInputManager : MonoBehaviour
 		}
 	}
 
+/// <summary>
+/// Check if either of the key combos for the selected action have been pressed
+/// </summary>
+/// <param name="keyAction">The action to check</param>
+public bool CheckKeyAction(KeyAction keyAction, KeyEventType keyEventType = KeyEventType.Down)
+{
+	KeybindObject action = keybindManager.userKeybinds[keyAction];
+	if (CheckComboEvent(action.PrimaryCombo, keyEventType) || CheckComboEvent(action.SecondaryCombo, keyEventType))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+/// <summary>
+/// Checks if the player has pressed any movement keys
+/// </summary>
+public bool CheckMovement()
+{
+	if (CheckKeyAction(KeyAction.MoveUp)   || CheckKeyAction(KeyAction.MoveDown) ||
+		CheckKeyAction(KeyAction.MoveLeft) || CheckKeyAction(KeyAction.MoveRight))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 bool CheckComboEvent(KeyCombo keyCombo, KeyEventType keyEventType = KeyEventType.Down)
 	{
 		if (keyCombo.ModKey1 != KeyCode.None && !Input.GetKey(keyCombo.ModKey1))

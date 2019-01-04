@@ -86,10 +86,7 @@ public class ControlChat : MonoBehaviour
 
             if (!InputFieldChat.isFocused)
             {
-                // TODO convert this to key actions
-                if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.D) ||
-                    Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.A) ||
-                    Input.GetKey (KeyCode.Escape))
+                if (KeyboardInputManager.Instance.CheckMovement() || Input.GetKey (KeyCode.Escape))
                 {
                     CloseChatWindow ();
                 }

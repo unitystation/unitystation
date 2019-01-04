@@ -64,9 +64,7 @@ public class ClosetPlayerHandler : MonoBehaviour
 
 	private bool CheckForDirectionalKeyPress() //fixme: OW
 	{
-		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A) ||
-			Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.DownArrow) ||
-			Input.GetKeyDown(KeyCode.RightArrow))
+		if (KeyboardInputManager.Instance.CheckMovement())
 		{
 			return true;
 		}

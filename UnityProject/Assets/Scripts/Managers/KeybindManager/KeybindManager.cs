@@ -3,6 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
+	/// <summary>
+	/// Describes all possible actions which can be mapped to a key
+	/// </summary>
+	public enum KeyAction 
+	{
+		// No action
+		None = 0,
+
+		// Movement
+		MoveUp,
+		MoveLeft,
+		MoveDown,
+		MoveRight,
+
+		// Actions
+		ActionThrow,
+		ActionDrop,
+		ActionResist,
+
+		// Hands
+		HandSwap,
+		HandActivate,
+		HandEquip,
+
+		// Intents
+		IntentLeft,
+		IntentRight,
+		IntentHelp,
+		IntentDisarm,
+		IntentHarm,
+		IntentGrab,
+		
+		// Chat
+		ChatLocal,
+		ChatRadio,
+		ChatDept,
+
+		// Body Part Targeting
+		TargetHead,
+		TargetChest,
+		TargetLeftArm,
+		TargetRightArm,
+		TargetLeftLeg,
+		TargetRightLeg,
+		TargetGroin
+	}
+
 public class KeybindManager : MonoBehaviour {
 	public static KeybindManager Instance;
 
@@ -130,52 +177,7 @@ public class KeybindManager : MonoBehaviour {
 			return new KeyCombo(this.MainKey, this.ModKey1, this.ModKey2);
 		}
 	}
-	/// <summary>
-	/// Describes all possible actions which can be mapped to a key
-	/// </summary>
-	public enum KeyAction 
-	{
-		// No action
-		None = 0,
 
-		// Movement
-		MoveUp,
-		MoveLeft,
-		MoveDown,
-		MoveRight,
-
-		// Actions
-		ActionThrow,
-		ActionDrop,
-		ActionResist,
-
-		// Hands
-		HandSwap,
-		HandActivate,
-		HandEquip,
-
-		// Intents
-		IntentLeft,
-		IntentRight,
-		IntentHelp,
-		IntentDisarm,
-		IntentHarm,
-		IntentGrab,
-		
-		// Chat
-		ChatLocal,
-		ChatRadio,
-		ChatDept,
-
-		// Body Part Targeting
-		TargetHead,
-		TargetChest,
-		TargetLeftArm,
-		TargetRightArm,
-		TargetLeftLeg,
-		TargetRightLeg,
-		TargetGroin
-	}
 	/// <summary>
 	/// The type of keybind, for future cyborg/AI only keybinds
 	/// </summary>
