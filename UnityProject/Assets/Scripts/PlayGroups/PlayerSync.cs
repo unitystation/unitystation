@@ -290,7 +290,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		if (isLocalPlayer && playerMove != null)
 		{
 			//				 If being pulled by another player and you try to break free
-			if (pushPull.IsBeingPulledClient && !playerScript.canNotInteract() && IsPressingMoveButtons)
+			if (pushPull.IsBeingPulledClient && !playerScript.canNotInteract() &&
+				KeyboardInputManager.Instance.IsMovementPressed())
 			{
 				pushPull.CmdStopFollowing();
 				return;
@@ -303,22 +304,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 
 		Synchronize();
-	}
-
-	private bool IsPressingMoveButtons
-	{
-		get
-		{
-			for (int i = 0; i < playerMove.keyCodes.Length; i++)
-			{
-				if (Input.GetKey(playerMove.keyCodes[i]))
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
 	}
 
 	private void RegisterObjects()

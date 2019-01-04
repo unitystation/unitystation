@@ -61,40 +61,91 @@ public class KeyboardInputManager : MonoBehaviour
 		}
 	}
 
-/// <summary>
-/// Check if either of the key combos for the selected action have been pressed
-/// </summary>
-/// <param name="keyAction">The action to check</param>
-public bool CheckKeyAction(KeyAction keyAction, KeyEventType keyEventType = KeyEventType.Down)
-{
-	KeybindObject action = keybindManager.userKeybinds[keyAction];
-	if (CheckComboEvent(action.PrimaryCombo, keyEventType) || CheckComboEvent(action.SecondaryCombo, keyEventType))
+	/// <summary>
+	/// Check if either of the key combos for the selected action have been pressed
+	/// </summary>
+	/// <param name="keyAction">The action to check</param>
+	/// <param name="keyEventType">The type of key event to check for</param>
+	private bool CheckKeyAction(KeyAction keyAction, KeyEventType keyEventType = KeyEventType.Down)
 	{
-		return true;
+		KeybindObject action = keybindManager.userKeybinds[keyAction];
+		if (CheckComboEvent(action.PrimaryCombo, keyEventType) || CheckComboEvent(action.SecondaryCombo, keyEventType))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
-	else
-	{
-		return false;
-	}
-}
 
-/// <summary>
-/// Checks if the player has pressed any movement keys
-/// </summary>
-public bool CheckMovement()
-{
-	if (CheckKeyAction(KeyAction.MoveUp)   || CheckKeyAction(KeyAction.MoveDown) ||
-		CheckKeyAction(KeyAction.MoveLeft) || CheckKeyAction(KeyAction.MoveRight))
+	/// <summary>
+	/// Checks if the player has pressed any movement keys
+	/// </summary>
+	/// <param name="keyEventType">The type of key event to check for</param>
+	public bool IsMovementPressed(KeyEventType keyEventType = KeyEventType.Down)
 	{
-		return true;
+		if (CheckKeyAction(KeyAction.MoveUp, keyEventType)   || CheckKeyAction(KeyAction.MoveDown, keyEventType) ||
+			CheckKeyAction(KeyAction.MoveLeft, keyEventType) || CheckKeyAction(KeyAction.MoveRight, keyEventType))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
-	else
-	{
-		return false;
-	}
-}
 
-bool CheckComboEvent(KeyCombo keyCombo, KeyEventType keyEventType = KeyEventType.Down)
+	public bool IsEnterPressed()
+	{
+		if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public bool IsEscapePressed()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public bool IsControlPressed()
+	{
+		if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftControl) ||
+			Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.LeftCommand))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public bool IsAltPressed()
+	{
+		if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	bool CheckComboEvent(KeyCombo keyCombo, KeyEventType keyEventType = KeyEventType.Down)
 	{
 		if (keyCombo.ModKey1 != KeyCode.None && !Input.GetKey(keyCombo.ModKey1))
 		{

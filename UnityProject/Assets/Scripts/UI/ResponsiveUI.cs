@@ -86,7 +86,7 @@ using UnityEngine.SceneManagement;
 				}
 			}
 
-			if(Input.GetKey(KeyCode.Escape)){
+			if(KeyboardInputManager.Instance.IsEscapePressed()){
 				Screen.fullScreen = false;
 			}
 		}

@@ -70,7 +70,7 @@ public class ControlChat : MonoBehaviour
         if (UIManager.IsInputFocus)
         {
             if (!string.IsNullOrEmpty (InputFieldChat.text.Trim ()) &&
-                (Input.GetKey (KeyCode.Return) || Input.GetKey (KeyCode.KeypadEnter)))
+                KeyboardInputManager.Instance.IsEnterPressed())
             {
                 PlayerSendChat ();
                 CloseChatWindow ();
@@ -79,20 +79,20 @@ public class ControlChat : MonoBehaviour
 
         if (chatInputWindow.activeInHierarchy)
         {
-            if (Input.GetKey (KeyCode.Escape))
+            if (KeyboardInputManager.Instance.IsEscapePressed())
             {
                 CloseChatWindow ();
             }
 
             if (!InputFieldChat.isFocused)
             {
-                if (KeyboardInputManager.Instance.CheckMovement() || Input.GetKey (KeyCode.Escape))
+                if (KeyboardInputManager.Instance.IsMovementPressed() || KeyboardInputManager.Instance.IsEscapePressed())
                 {
                     CloseChatWindow ();
                 }
 
                 if (!string.IsNullOrEmpty (InputFieldChat.text.Trim ()) &&
-                    (Input.GetKey (KeyCode.Return) || Input.GetKey (KeyCode.KeypadEnter)))
+                    KeyboardInputManager.Instance.IsEnterPressed())
                 {
                     PlayerSendChat ();
                     CloseChatWindow ();

@@ -46,7 +46,7 @@ public class ClosetPlayerHandler : MonoBehaviour
 		}
 		if (monitor)
 		{
-			if (CheckForDirectionalKeyPress())
+			if (KeyboardInputManager.Instance.IsMovementPressed())
 			{
 				if (!closetControl.IsLocked)
 				{
@@ -60,14 +60,5 @@ public class ClosetPlayerHandler : MonoBehaviour
 				transform.position = closetControl.transform.position;
 			}
 		}
-	}
-
-	private bool CheckForDirectionalKeyPress() //fixme: OW
-	{
-		if (KeyboardInputManager.Instance.CheckMovement())
-		{
-			return true;
-		}
-		return false;
 	}
 }
