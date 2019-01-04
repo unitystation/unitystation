@@ -2,33 +2,26 @@
 using UnityEngine;
 
 /// <summary>
-/// RegisterTile for an object, handles whether the object is passable.
+/// <see cref="RegisterTile"/> for an object, adds additional logic to
+/// make object passable / impassable.
 /// </summary>
 [ExecuteInEditMode]
 public class RegisterObject : RegisterTile
 {
 	public bool AtmosPassable = true;
-
 	public bool Passable = true;
 
-	public override bool IsPassable(Vector3Int from) => Passable;
+	public override bool IsPassable(Vector3Int from) => Passable || Position == TransformState.HiddenPos;
 
 	public override bool IsPassable()
 	{
-		return Passable;
+		return Passable || Position == TransformState.HiddenPos;
 	}
 
 	public override bool IsAtmosPassable()
 	{
-		return AtmosPassable;
-	}
-
-	public override void AfterUnregister()
-	{
-		//no longer interferes with anything
-		Passable = true;
-		AtmosPassable = true;
-	}
+		return AtmosPassable || Position == TransformState.HiddenPos;
+	}	
 
 	#region UI Mouse Actions
 

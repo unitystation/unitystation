@@ -361,8 +361,10 @@ public class CustomNetworkManager : NetworkManager
 		var player = PlayerList.Instance.Get(conn);
 		if (player.GameObject)
 		{
-			player.GameObject.GetComponent<PlayerNetworkActions>().DropAll(true);
+			//Tell the inventorymanager about the disconnect so it can perform whatever cleanup is needed
+			InventoryManager.HandleDisconnect(player.GameObject);
 		}
+		
 		Logger.Log($"Player Disconnected: {player.Name}", Category.Connections);
 		PlayerList.Instance.Remove(conn);
 	}

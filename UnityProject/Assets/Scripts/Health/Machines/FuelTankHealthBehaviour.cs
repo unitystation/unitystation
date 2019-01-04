@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Health behavior specific to fuel tank. Explodes when it dies.
+/// </summary>
 public class FuelTankHealthBehaviour : HealthBehaviour
 {
 //	private PushPull pushPull;

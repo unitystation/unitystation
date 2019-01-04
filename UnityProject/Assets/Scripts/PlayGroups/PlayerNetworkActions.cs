@@ -273,14 +273,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		for (int i = 0; i < slotNames.Length; i++)
 		{
 			Inventory[slotNames[i]].Item = null;
-			if (slotNames[i] == "id" || slotNames[i] == "storage01" || slotNames[i] == "storage02" || slotNames[i] == "suitStorage")
-			{
-				//Not clearing onPlayer sprites for these as they don't have any
-			}
-			else
-			{
-				equipment.ClearItemSprite(slotNames[i]);
-			}
+			equipment.ClearItemSprite(slotNames[i]);			
 			InventoryManager.UpdateInvSlot(true, slotNames[i], null);
 		}
 
@@ -415,40 +408,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 		InventoryManager.DropGameItem(gameObject, Inventory[slot].Item, transform.position);
+
 		equipment.ClearItemSprite(slot);
 	}
 
-	//Drop all items. Use onQuit only if player has left server
+	/// <summary>
+	/// Drops all items.
+	/// </summary>
 	[Server]
-	public void DropAll(bool onQuit = false)
+	public void DropAll()
 	{
-		//Dropping whatever player has got
-		if (!onQuit)
+		//fixme: modified collectionz
+		foreach (var key in Inventory.Keys)
 		{
-			//fixme: modified collectionz
-			foreach (var key in Inventory.Keys)
+			if (Inventory[key].Item)
 			{
-				if (Inventory[key].Item)
-				{
-					DropItem(key);
-				}
-			}
-		}
-		else
-		// Drop all shit from player's inventory when he's leaving, ignoring pools
-		{
-			foreach (var item in Inventory.Values)
-			{
-				if (!item.Item)
-				{
-					continue;
-				}
-
-				var objTransform = item.Item.GetComponent<CustomNetTransform>();
-				if (objTransform)
-				{
-					objTransform.ForceDrop(gameObject.transform.position);
-				}
+				DropItem(key);
 			}
 		}
 	}
