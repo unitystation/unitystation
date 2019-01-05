@@ -10,7 +10,7 @@ Visit us on Steam:<br>
 [<img src="https://user-images.githubusercontent.com/7613738/35184899-b6a0aa8e-fdfb-11e7-91a8-bad8f19937b4.jpg" width="300">](http://store.steampowered.com/app/801140/Unitystation/)
 
 See project updates on Patreon:<br>
-[<img src="https://vignette.wikia.nocookie.net/everyone-else-is-a-returnee/images/6/68/Patreon.png/revision/latest?cb=20161230133220&format=original" width="300">](https://www.patreon.com/unitystation)
+[<img src="https://vignette.wikia.nocookie.net/everyone-else-is-a-returnee/images/6/68/Patreon.png/revision/latest?cb=20161230133220&format=original" width="150">](https://www.patreon.com/unitystation)
 
 ## Talk to us
 Please join us on Discord:<br>
