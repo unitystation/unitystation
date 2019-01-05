@@ -334,7 +334,7 @@ public class Equipment : NetworkBehaviour
 	/// <returns>true iff the specified Epos has an associated player sprite.</returns>
 	private bool hasPlayerSprite(Epos slot)
 	{
-		return slot != Epos.id && slot == Epos.storage01 && slot == Epos.storage02 && slot == Epos.suitStorage;
+		return slot != Epos.id && slot != Epos.storage01 && slot != Epos.storage02 && slot != Epos.suitStorage;
 	}
 
 	private void SetItem(string slotName, GameObject obj)
