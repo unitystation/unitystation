@@ -94,17 +94,6 @@ public class BloodSystem : MonoBehaviour
 		}
 
 		EffectsFactory.Instance.BloodSplat(transform.position, scaleOfTragedy);
-
-		//Moving to Calculate overall health:
-		// if (BloodLevel <= (int)BloodVolume.SURVIVE)
-		// {
-		// 	Crit();
-		// }
-
-		// if (BloodLevel <= 0)
-		// {
-		// 	Death();
-		// }
 	}
 
 	/// <summary>
@@ -134,9 +123,15 @@ public class BloodSystem : MonoBehaviour
 	/// Determine if there is any blood damage (toxin, oxygen loss) or bleeding that needs to occur
 	/// Server only!
 	/// </summary>
-	public void AffectBloodState(BodyPartType bodyPartType, DamageType damageType, int damage)
+	public void AffectBloodState(BodyPartType bodyPartType, DamageType damageType, int amount, bool isHeal = false)
 	{
 		BodyPartBehaviour bodyPart = livingHealthBehaviour.FindBodyPart(bodyPartType);
+		
+		if (isHeal)
+		{
+			CheckHealing(bodyPart, damageType, amount);
+			return;
+		}
 
 		//Check if limb should start bleeding (Bleeding is only for Players, not animals)
 		if (damageType == DamageType.BRUTE && !IsBleeding)
@@ -147,7 +142,7 @@ public class BloodSystem : MonoBehaviour
 				case DamageSeverity.Moderate:
 				case DamageSeverity.Bad:
 				case DamageSeverity.Critical:
-					int bloodLoss = (int)(damage * BleedFactor(damageType));
+					int bloodLoss = (int)(amount * BleedFactor(damageType));
 					LoseBlood(bloodLoss);
 					AddBloodLoss(bloodLoss);
 					break;
@@ -156,7 +151,13 @@ public class BloodSystem : MonoBehaviour
 
 		if (damageType == DamageType.TOX)
 		{
-			ToxinDamage += damage;
+			ToxinDamage += amount;
 		}
+	}
+
+	//Do any healing stuff:
+	private void CheckHealing(BodyPartBehaviour bodyPart, DamageType damageType, int healAmt)
+	{
+		Debug.Log("TODO PRIORITY: Do Blood Healing!!");
 	}
 }

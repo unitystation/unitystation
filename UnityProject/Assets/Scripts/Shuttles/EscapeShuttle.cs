@@ -89,7 +89,7 @@ public class EscapeShuttle : MonoBehaviour {
 
 		foreach (ConnectedPlayer ps in crewMembers)
 		{
-			if (ps.Job != JobType.SYNDICATE && ps.GameObject.GetComponent<PlayerHealth>().Health > 0 && ps.GameObject.GetComponent<PlayerSync>().ServerState.MatrixId == mm.MatrixInfo.Id)
+			if (ps.Job != JobType.SYNDICATE && ps.GameObject.GetComponent<PlayerHealth>().OverallHealth > 0 && ps.GameObject.GetComponent<PlayerSync>().ServerState.MatrixId == mm.MatrixInfo.Id)
 			{
 				crewCount++;
 			}

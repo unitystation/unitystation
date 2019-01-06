@@ -7,5 +7,6 @@ public enum DamageSeverity
 	None,
 	Moderate,
 	Bad,
-	Critical
+	Critical,
+	Max
 }

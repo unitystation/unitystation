@@ -7,7 +7,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 {
 	public int maxHealth = 100;
 
-	public int Health { get; private set; }
+	public int OverallHealth { get; private set; }
 
 	public BloodSystem bloodSystem;
 
@@ -70,7 +70,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			Logger.LogWarning($"Max health ({maxHealth}) set to zero/below zero!", Category.Health);
 			maxHealth = 1;
 		}
-		Health = maxHealth;
+		OverallHealth = maxHealth;
 
 		//Generate BloodType and DNA
 		DNABloodType = new DNAandBloodType();
@@ -113,7 +113,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	{
 		if (isServer)
 		{
-			Health = newValue;
+			OverallHealth = newValue;
 			CheckDeadCritStatus();
 		}
 	}
@@ -191,11 +191,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		//For special effects spawning like blood:
 		DetermineDamageEffects(damageType);
 
-		var prevHealth = Health;
+		var prevHealth = OverallHealth;
 		CalculateOverallHealth();
 
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
-			damage, prevHealth, Health, gameObject.name, damageType, bodyPartAim, damagedBy);
+			damage, prevHealth, OverallHealth, gameObject.name, damageType, bodyPartAim, damagedBy);
 
 		//	int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
 		//	Health -= calculatedDamage;
@@ -223,9 +223,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 		if (BodyParts.Count == 0)
 		{
-			Logger.LogError($"There are no body parts to apply damage too for {gameObject.name}", Category.Health);
+			Logger.LogError($"There are no body parts to affect {gameObject.name}", Category.Health);
 			return;
 		}
+
+		// See if any of the healing applied affects blood state
+		bloodSystem.AffectBloodState(bodyPartAim, damageTypeToHeal, healAmt, true);
 
 		if (damageTypeToHeal == DamageType.BRUTE || damageTypeToHeal == DamageType.BURN)
 		{
@@ -257,16 +260,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 				}
 			}
 		}
-		else
-		{
-			//TODO: Could be Oxygen or Toxin healing
-		}
 
-		var prevHealth = Health;
+		var prevHealth = OverallHealth;
 		CalculateOverallHealth();
 
 		Logger.LogTraceFormat("{3} received {0} {4} healing from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
-			healAmt, prevHealth, Health, gameObject.name, damageTypeToHeal, bodyPartAim, healingItem);
+			healAmt, prevHealth, OverallHealth, gameObject.name, damageTypeToHeal, bodyPartAim, healingItem);
 	}
 
 	/// <Summary>
@@ -285,11 +284,25 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Recalculates the overall player health. Server only
+	/// Recalculates the overall player health and updates OverallHealth property. Server only
 	/// </summary>
 	[Server]
 	protected void CalculateOverallHealth()
 	{
+		var headPart = FindBodyPart(BodyPartType.HEAD);
+		if (headPart != null)
+		{
+			if (headPart.Type != BodyPartType.CHEST)
+			{
+				//Max head trauma causes death:
+				if (headPart.Severity == DamageSeverity.Max)
+				{
+					OverallHealth = 0;
+					CheckDeadCritStatus();
+					return;
+				}
+			}
+		}
 		CheckDeadCritStatus();
 	}
 
@@ -301,7 +314,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			return;
 		}
 		IsDead = true;
-		Health = HealthThreshold.Dead;
+		OverallHealth = HealthThreshold.Dead;
 		OnDeathActions();
 		bloodSystem.StopBleeding();
 	}
@@ -318,7 +331,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	private void CheckDeadCritStatus()
 	{
-		if (Health < HealthThreshold.Crit)
+		if (OverallHealth < HealthThreshold.Crit)
 		{
 			Crit();
 		}
@@ -331,7 +344,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	private bool NotSuitableForDeath()
 	{
-		return Health > HealthThreshold.Dead || IsDead;
+		return OverallHealth > HealthThreshold.Dead || IsDead;
 	}
 
 	//FIXME: This must be converted into a method to alleviate hunger soon
@@ -342,27 +355,29 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		{
 			return;
 		}
-		Health += amount;
+		OverallHealth += amount;
 
-		if (Health > maxHealth)
+		if (OverallHealth > maxHealth)
 		{
-			Health = maxHealth;
+			OverallHealth = maxHealth;
 		}
 	}
 
 	public BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)
 	{
-		for (int i = 0; i < BodyParts.Count; i++)
+		int searchIndex = BodyParts.FindIndex(x => x.Type == bodyPartAim);
+		if (searchIndex != -1)
 		{
-			if (BodyParts[i].Type == bodyPartAim)
-			{
-				return BodyParts[i];
-			}
+			return BodyParts[searchIndex];
 		}
-		//dm code quotes:
-		//"no bodypart, we deal damage with a more general method."
-		//"missing limb? we select the first bodypart (you can never have zero, because of chest)"
-		return BodyParts.PickRandom();
+		//If nothing is found then try to find a chest component:
+		searchIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.CHEST);
+		if (searchIndex != -1)
+		{
+			return BodyParts[searchIndex];
+		}
+		// else nothing:
+		return null;
 	}
 
 	protected virtual void OnCritActions() { }

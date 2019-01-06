@@ -5,8 +5,6 @@ public class BodyPartBehaviour : MonoBehaviour
 	//Different types of damages for medical.
 	private int bruteDamage;
 	private int burnDamage;
-	private int toxinDamage;
-	private int suffocationDamage;
 
 	public Sprite GrayDamageMonitorIcon;
 
@@ -21,6 +19,7 @@ public class BodyPartBehaviour : MonoBehaviour
 	public Sprite YellowDamageMonitorIcon;
 
 	public DamageSeverity Severity { get; private set; }
+	public int OverallDamage { get { return bruteDamage + burnDamage; } }
 
 	//Apply damages from here.
 	public virtual void ReceiveDamage(DamageType damageType, int damage)
@@ -50,24 +49,6 @@ public class BodyPartBehaviour : MonoBehaviour
 					burnDamage = MaxDamage;
 				}
 				break;
-
-			case DamageType.TOX:
-				toxinDamage += damage;
-
-				if (damage > MaxDamage)
-				{
-					toxinDamage = MaxDamage;
-				}
-				break;
-
-			case DamageType.OXY:
-				suffocationDamage += damage;
-
-				if (damage > MaxDamage)
-				{
-					suffocationDamage = MaxDamage;
-				}
-				break;
 		}
 		UpdateSeverity();
 	}
@@ -94,24 +75,6 @@ public class BodyPartBehaviour : MonoBehaviour
 					burnDamage = 0;
 				}
 				break;
-
-			case DamageType.TOX:
-				toxinDamage -= damage;
-
-				if (toxinDamage < 0)
-				{
-					toxinDamage = 0;
-				}
-				break;
-
-			case DamageType.OXY:
-				suffocationDamage -= damage;
-
-				if (suffocationDamage < 0)
-				{
-					suffocationDamage = 0;
-				}
-				break;
 		}
 		UpdateSeverity();
 	}
@@ -134,9 +97,7 @@ public class BodyPartBehaviour : MonoBehaviour
 
 	private void UpdateSeverity()
 	{
-		int damage = CountTotalDamage(); //Gets total damage from all types to determine severity later
-
-		float severity = (float) damage / MaxDamage;
+		float severity = (float)OverallDamage / MaxDamage;
 		if (severity >= 0.2 && severity < 0.4)
 		{
 			Severity = DamageSeverity.Moderate;
@@ -149,6 +110,10 @@ public class BodyPartBehaviour : MonoBehaviour
 		{
 			Severity = DamageSeverity.Critical;
 		}
+		else if (severity == 1f)
+		{
+			Severity = DamageSeverity.Max;
+		}
 		else
 		{
 			Severity = DamageSeverity.None;
@@ -156,19 +121,10 @@ public class BodyPartBehaviour : MonoBehaviour
 		UpdateIcons();
 	}
 
-
 	public virtual void RestoreDamage()
 	{
 		bruteDamage = 0;
 		burnDamage = 0;
-		toxinDamage = 0;
-		bruteDamage = 0;
-
 		UpdateSeverity();
-	}
-
-	private int CountTotalDamage()
-	{
-		return bruteDamage + burnDamage + toxinDamage + suffocationDamage;
 	}
 }

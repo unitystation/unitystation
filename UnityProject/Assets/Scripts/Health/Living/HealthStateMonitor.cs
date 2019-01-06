@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 /// </summary>
 public class HealthStateMonitor : ManagedNetworkBehaviour
 {
+	private LivingHealthBehaviour LivingHealthBehaviour;
 	private int bloodLevelCache;
 	private float BloodPercentage = 100f;
 
@@ -21,8 +22,12 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	//poll this component and request updated values from the server to set
 	//the current state of the UI overlays and hud
 
-	public PlayerHealth playerHealth;
-	private PlayerMove playerMove;
+	private LivingHealthBehaviour healthBehaviour;
+
+	void Awake()
+	{
+		healthBehaviour = GetComponent<LivingHealthBehaviour>();
+	}
 
 	protected override void OnEnable()
 	{
@@ -33,11 +38,14 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	{
 		if (isServer)
 		{
-			healthServerCache = playerHealth.Health;
-			bloodLevelCache = playerHealth.bloodSystem.BloodLevel;
-			playerMove = GetComponent<PlayerMove>();
+			healthServerCache = healthBehaviour.OverallHealth;
+			bloodLevelCache = healthBehaviour.bloodSystem.BloodLevel;
 			UpdateManager.Instance.Add(this);
-			StartCoroutine(WaitForLoad());
+
+			if (!healthBehaviour.isNotPlayer)
+			{
+				StartCoroutine(WaitForLoad());
+			}
 		}
 		base.OnStartServer();
 	}
@@ -71,58 +79,58 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		//suffication, etc
 
 		//If already dead then do not check the status of the body anymore
-		if (playerMove.isGhost)
+		if (healthBehaviour.IsDead)
 		{
 			return;
 		}
 
 		//Blood calcs:
-		if (bloodLevelCache != playerHealth.bloodSystem.BloodLevel)
+		if (bloodLevelCache != healthBehaviour.bloodSystem.BloodLevel)
 		{
-			bloodLevelCache = playerHealth.bloodSystem.BloodLevel;
-			if (playerHealth.bloodSystem.BloodLevel >= 560)
+			bloodLevelCache = healthBehaviour.bloodSystem.BloodLevel;
+			if (healthBehaviour.bloodSystem.BloodLevel >= 560)
 			{
 				//Full blood (or more)
 				BloodPercentage = 100f;
 			}
 			else
 			{
-				BloodPercentage = playerHealth.bloodSystem.BloodLevel / 560f * 100f;
+				BloodPercentage = healthBehaviour.bloodSystem.BloodLevel / 560f * 100f;
 			}
 		}
 
 		//If blood level falls below health level, then set the health level
 		//manually and update the clients UI
-		if (BloodPercentage < playerHealth.Health)
+		if (BloodPercentage < healthBehaviour.OverallHealth)
 		{
-			healthServerCache = (int) BloodPercentage;
-			playerHealth.ServerOnlySetHealth(healthServerCache);
+			healthServerCache = (int)BloodPercentage;
+			healthBehaviour.ServerOnlySetHealth(healthServerCache);
 			UpdateClientUI(healthServerCache);
 		}
 
 		//Player has stopped breathing:
-		if (hasStoppedBreathing && playerHealth.Health > -1f)
+		if (hasStoppedBreathing && healthBehaviour.OverallHealth > -1f)
 		{
 			stoppedBreathingCount += Time.deltaTime;
 			if (stoppedBreathingCount > breathingDamagedRate)
 			{
 				stoppedBreathingCount = 0f;
 
-				playerHealth.ServerOnlySetHealth(healthServerCache -= 3);
+				healthBehaviour.ServerOnlySetHealth(healthServerCache -= 3);
 			}
 		}
 
-		if (playerHealth.Health != healthServerCache)
+		if (healthBehaviour.OverallHealth != healthServerCache)
 		{
-			healthServerCache = playerHealth.Health;
+			healthServerCache = healthBehaviour.OverallHealth;
 			UpdateClientUI(healthServerCache);
 		}
 
-		if (playerHealth.Health < 30 && !hasStoppedBreathing)
+		if (healthBehaviour.OverallHealth < 30 && !hasStoppedBreathing)
 		{
 			hasStoppedBreathing = true;
 		}
-		else if (playerHealth.Health >= 30 && hasStoppedBreathing)
+		else if (healthBehaviour.OverallHealth >= 30 && hasStoppedBreathing)
 		{
 			hasStoppedBreathing = false;
 		}
