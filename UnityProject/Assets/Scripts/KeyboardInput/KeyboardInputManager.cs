@@ -82,11 +82,11 @@ public class KeyboardInputManager : MonoBehaviour
 	/// <summary>
 	/// Checks if the player has pressed any movement keys
 	/// </summary>
-	/// <param name="keyEventType">The type of key event to check for</param>
-	public bool IsMovementPressed(KeyEventType keyEventType = KeyEventType.Down)
+	/// <param name="keyEventType">Key event to check for like down, up or hold</param>
+	public static bool IsMovementPressed(KeyEventType keyEventType = KeyEventType.Down)
 	{
-		if (CheckKeyAction(KeyAction.MoveUp, keyEventType)   || CheckKeyAction(KeyAction.MoveDown, keyEventType) ||
-			CheckKeyAction(KeyAction.MoveLeft, keyEventType) || CheckKeyAction(KeyAction.MoveRight, keyEventType))
+		if (Instance.CheckKeyAction(KeyAction.MoveUp, keyEventType)   || Instance.CheckKeyAction(KeyAction.MoveDown, keyEventType) ||
+			Instance.CheckKeyAction(KeyAction.MoveLeft, keyEventType) || Instance.CheckKeyAction(KeyAction.MoveRight, keyEventType))
 		{
 			return true;
 		}
@@ -96,7 +96,10 @@ public class KeyboardInputManager : MonoBehaviour
 		}
 	}
 
-	public bool IsEnterPressed()
+	/// <summary>
+	/// Check if enter (the return or numpad enter keys) has been pressed
+	/// </summary>
+	public static bool IsEnterPressed()
 	{
 		if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
 		{
@@ -108,7 +111,10 @@ public class KeyboardInputManager : MonoBehaviour
 		}
 	}
 
-	public bool IsEscapePressed()
+	/// <summary>
+	/// Check if escape has been pressed
+	/// </summary>
+	public static bool IsEscapePressed()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
@@ -120,7 +126,10 @@ public class KeyboardInputManager : MonoBehaviour
 		}
 	}
 
-	public bool IsControlPressed()
+	/// <summary>
+	/// Check if the left or right control or command keys have been pressed
+	/// </summary>
+	public static bool IsControlPressed()
 	{
 		if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftControl) ||
 			Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.LeftCommand))
@@ -133,7 +142,10 @@ public class KeyboardInputManager : MonoBehaviour
 		}
 	}
 
-	public bool IsAltPressed()
+	/// <summary>
+	/// Checks if the left or right alt key has been pressed (AltGr sends RightAlt)
+	/// </summary>
+	public static bool IsAltPressed()
 	{
 		if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
 		{
@@ -145,7 +157,7 @@ public class KeyboardInputManager : MonoBehaviour
 		}
 	}
 
-	bool CheckComboEvent(KeyCombo keyCombo, KeyEventType keyEventType = KeyEventType.Down)
+	private bool CheckComboEvent(KeyCombo keyCombo, KeyEventType keyEventType = KeyEventType.Down)
 	{
 		if (keyCombo.ModKey1 != KeyCode.None && !Input.GetKey(keyCombo.ModKey1))
 		{
@@ -169,7 +181,7 @@ public class KeyboardInputManager : MonoBehaviour
 		}
 	}
 
-	public Dictionary<KeyAction, System.Action> keyActionFunctions = new Dictionary<KeyAction, System.Action>
+	private Dictionary<KeyAction, System.Action> keyActionFunctions = new Dictionary<KeyAction, System.Action>
 	{
 		// TODO finish adding movement
 		// Movement
@@ -178,7 +190,7 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.MoveDown,		() => {/* Logger.Log("Moving down!", Category.Keybindings) */;}},
 		{ KeyAction.MoveRight,		() => {/* Logger.Log("Moving right!", Category.Keybindings); */}},
 
-		// Actions	  
+		// Actions
 		{ KeyAction.ActionThrow,	() => { UIManager.Action.Throw(); }},
 		{ KeyAction.ActionDrop,		() => {	UIManager.Action.Drop(); }},
 		{ KeyAction.ActionResist,	() => { UIManager.Action.Resist(); }},
@@ -187,7 +199,7 @@ public class KeyboardInputManager : MonoBehaviour
 		{  KeyAction.HandActivate,	() => { UIManager.Hands.Activate(); }},
 		{  KeyAction.HandEquip, 	() => { UIManager.Hands.Equip(); }},
 
-		// Intents 
+		// Intents
 		{ KeyAction.IntentLeft,		() => { UIManager.Intent.CycleIntent(true); }},
 		{ KeyAction.IntentRight, 	() => { UIManager.Intent.CycleIntent(false); }},
 		{ KeyAction.IntentHelp, 	() => { UIManager.Intent.SetIntent(Intent.Help); }},

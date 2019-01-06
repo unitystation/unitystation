@@ -291,7 +291,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			//				 If being pulled by another player and you try to break free
 			if (pushPull.IsBeingPulledClient && !playerScript.canNotInteract() &&
-				KeyboardInputManager.Instance.IsMovementPressed())
+				KeyboardInputManager.IsMovementPressed())
 			{
 				pushPull.CmdStopFollowing();
 				return;

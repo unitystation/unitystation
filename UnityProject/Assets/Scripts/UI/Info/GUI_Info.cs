@@ -18,7 +18,7 @@ public class GUI_Info : MonoBehaviour
 
 	public void EndEditOnEnter()
 	{
-		if(KeyboardInputManager.Instance.IsEnterPressed())
+		if(KeyboardInputManager.IsEnterPressed())
 		{
 			BtnOk();
 		}

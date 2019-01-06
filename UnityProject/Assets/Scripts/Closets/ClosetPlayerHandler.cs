@@ -28,7 +28,7 @@ public class ClosetPlayerHandler : MonoBehaviour
 
 		if (!closetControl)
 		{
-			//this is not a closet. Could be a coffin or disposals 
+			//this is not a closet. Could be a coffin or disposals
 			Logger.LogWarning("No closet found for ClosetPlayerHandler!" + " maybe it's time to update this component? (see the todo's)", Category.Containers);
 			Destroy(this);
 		}
@@ -46,7 +46,7 @@ public class ClosetPlayerHandler : MonoBehaviour
 		}
 		if (monitor)
 		{
-			if (KeyboardInputManager.Instance.IsMovementPressed())
+			if (KeyboardInputManager.IsMovementPressed())
 			{
 				if (!closetControl.IsLocked)
 				{
