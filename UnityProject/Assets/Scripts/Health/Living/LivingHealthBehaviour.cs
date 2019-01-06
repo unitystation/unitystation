@@ -154,6 +154,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			return;
 		}
 
+		//See if damage affects the state of the blood:
+		bloodSystem.AffectBloodState(bodyPartAim, damageType, damage);
+
 		if (damageType == DamageType.BRUTE || damageType == DamageType.BURN)
 		{
 			//Try to apply damage to the required body part
@@ -183,10 +186,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 					return;
 				}
 			}
-		}
-		else
-		{
-			//TODO: Could be Toxin Damage or lack of oxygen:
 		}
 
 		//For special effects spawning like blood:

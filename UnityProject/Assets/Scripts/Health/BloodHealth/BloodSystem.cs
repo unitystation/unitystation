@@ -94,7 +94,7 @@ public class BloodSystem : MonoBehaviour
 		}
 
 		EffectsFactory.Instance.BloodSplat(transform.position, scaleOfTragedy);
-		
+
 		//Moving to Calculate overall health:
 		// if (BloodLevel <= (int)BloodVolume.SURVIVE)
 		// {
@@ -134,7 +134,8 @@ public class BloodSystem : MonoBehaviour
 	/// Determine if there is any blood damage (toxin, oxygen loss) or bleeding that needs to occur
 	/// Server only!
 	/// </summary>
-	public void AffectBloodState(BodyPartType bodyPartType, DamageType damageType, int damage){
+	public void AffectBloodState(BodyPartType bodyPartType, DamageType damageType, int damage)
+	{
 		BodyPartBehaviour bodyPart = livingHealthBehaviour.FindBodyPart(bodyPartType);
 
 		//Check if limb should start bleeding (Bleeding is only for Players, not animals)
@@ -151,6 +152,11 @@ public class BloodSystem : MonoBehaviour
 					AddBloodLoss(bloodLoss);
 					break;
 			}
+		}
+
+		if (damageType == DamageType.TOX)
+		{
+			ToxinDamage += damage;
 		}
 	}
 }

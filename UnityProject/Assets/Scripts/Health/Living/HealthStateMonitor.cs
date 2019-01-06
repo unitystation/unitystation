@@ -3,12 +3,10 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-///     Player health reporting.
-///     This is the Server -> Client reporting for player health
-///     The server also calculates the overall health values in this component
-///     (To determine maxHealth for huds, ui overlays etc)
+///		Health Monitoring component for all Living entities
+///     Monitors the state of the entities health on the server and acts accordingly
 /// </summary>
-public class PlayerHealthReporting : ManagedNetworkBehaviour
+public class HealthStateMonitor : ManagedNetworkBehaviour
 {
 	private int bloodLevelCache;
 	private float BloodPercentage = 100f;
