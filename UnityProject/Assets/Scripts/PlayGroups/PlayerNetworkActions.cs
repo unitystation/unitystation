@@ -794,8 +794,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//and use this Cmd for healing hunger and applying
 		//food related attributes instead:
 		playerHealth.AddHealth(baseFood.healAmount);
-		playerHealth.BloodLevel += baseFood.healAmount;
-		playerHealth.StopBleeding();
+		playerHealth.bloodSystem.BloodLevel += baseFood.healAmount;
+		playerHealth.bloodSystem.StopBleeding();
 
         InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
         equipment.ClearItemSprite(fromSlot);

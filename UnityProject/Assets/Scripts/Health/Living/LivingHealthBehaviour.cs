@@ -9,7 +9,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	public int Health { get; private set; }
 
-	protected BloodSystem bloodSystem;
+	public BloodSystem bloodSystem;
 
 	/// <summary>
 	/// If there are any body parts for this living thing, then add them to this list
@@ -304,6 +304,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		IsDead = true;
 		Health = HealthThreshold.Dead;
 		OnDeathActions();
+		bloodSystem.StopBleeding();
 	}
 
 	public virtual void Crit()
@@ -350,7 +351,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 	}
 
-	protected BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)
+	public BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)
 	{
 		for (int i = 0; i < BodyParts.Count; i++)
 		{

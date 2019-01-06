@@ -36,7 +36,7 @@ public class PlayerHealthReporting : ManagedNetworkBehaviour
 		if (isServer)
 		{
 			healthServerCache = playerHealth.Health;
-			bloodLevelCache = playerHealth.BloodLevel;
+			bloodLevelCache = playerHealth.bloodSystem.BloodLevel;
 			playerMove = GetComponent<PlayerMove>();
 			UpdateManager.Instance.Add(this);
 			StartCoroutine(WaitForLoad());
@@ -79,17 +79,17 @@ public class PlayerHealthReporting : ManagedNetworkBehaviour
 		}
 
 		//Blood calcs:
-		if (bloodLevelCache != playerHealth.BloodLevel)
+		if (bloodLevelCache != playerHealth.bloodSystem.BloodLevel)
 		{
-			bloodLevelCache = playerHealth.BloodLevel;
-			if (playerHealth.BloodLevel >= 560)
+			bloodLevelCache = playerHealth.bloodSystem.BloodLevel;
+			if (playerHealth.bloodSystem.BloodLevel >= 560)
 			{
 				//Full blood (or more)
 				BloodPercentage = 100f;
 			}
 			else
 			{
-				BloodPercentage = playerHealth.BloodLevel / 560f * 100f;
+				BloodPercentage = playerHealth.bloodSystem.BloodLevel / 560f * 100f;
 			}
 		}
 
