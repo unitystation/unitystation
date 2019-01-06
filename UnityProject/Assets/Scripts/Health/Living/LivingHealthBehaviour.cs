@@ -1,26 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public abstract class LivingHealthBehaviour : NetworkBehaviour
 {
-	//For meat harvest (pete etc)
-	public bool allowKnifeHarvest;
-
-	[Header("For harvestable animals")]
-	public GameObject[] butcherResults;
-
-	public bool isNotPlayer;
-
 	public int maxHealth = 100;
 
 	public int Health { get; private set; }
 
-	protected DamageType LastDamageType;
-
-	protected GameObject LastDamagedBy;
-
-	public ConsciousState ConsciousState { get; protected set; }
+	protected BloodSystem bloodSystem;
 
 	/// <summary>
 	/// If there are any body parts for this living thing, then add them to this list
@@ -28,6 +17,28 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// </summary>
 	[Header("Fill BodyPart fields in via Inspector:")]
 	public List<BodyPartBehaviour> BodyParts = new List<BodyPartBehaviour>();
+
+	//For meat harvest (pete etc)
+	public bool allowKnifeHarvest;
+
+	[Header("For harvestable animals")]
+	public GameObject[] butcherResults;
+
+	[Header("Is this an animal or NPC?")]
+	public bool isNotPlayer = false;
+
+	protected DamageType LastDamageType;
+
+	protected GameObject LastDamagedBy;
+
+	public ConsciousState ConsciousState { get; protected set; }
+
+	// JSON string for blood types and DNA.
+	[SyncVar(hook = "DNASync")] //May remove this in the future and only provide DNA info on request
+	private string DNABloodTypeJSON;
+
+	// BloodType and DNA Data.
+	private DNAandBloodType DNABloodType;
 
 	//be careful with falses, will make player conscious
 	public bool IsCrit
@@ -42,6 +53,15 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		private set { ConsciousState = value ? ConsciousState.DEAD : ConsciousState.CONSCIOUS; }
 	}
 
+	void Awake()
+	{
+		bloodSystem = GetComponent<BloodSystem>();
+		if (bloodSystem == null)
+		{
+			bloodSystem = gameObject.AddComponent<BloodSystem>();
+		}
+	}
+
 	public override void OnStartServer()
 	{
 		ResetBodyParts();
@@ -51,7 +71,29 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			maxHealth = 1;
 		}
 		Health = maxHealth;
+
+		//Generate BloodType and DNA
+		DNABloodType = new DNAandBloodType();
+		DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
+		bloodSystem.SetBloodType(DNABloodType);
 		base.OnStartServer();
+	}
+
+	public override void OnStartClient()
+	{
+		StartCoroutine(WaitForClientLoad());
+		base.OnStartClient();
+	}
+
+	IEnumerator WaitForClientLoad()
+	{
+		//wait for DNA:
+		while (string.IsNullOrEmpty(DNABloodTypeJSON))
+		{
+			yield return YieldHelper.EndOfFrame;
+		}
+		yield return YieldHelper.EndOfFrame;
+		DNASync(DNABloodTypeJSON);
 	}
 
 	/// <summary>
@@ -74,6 +116,13 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			Health = newValue;
 			CheckDeadCritStatus();
 		}
+	}
+
+	// This is the DNA SyncVar hook
+	private void DNASync(string updatedDNA)
+	{
+		DNABloodTypeJSON = updatedDNA;
+		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
 
 	/// <summary>
@@ -105,37 +154,44 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			return;
 		}
 
-		//Try to apply damage to the required body part
-		bool appliedDmg = false;
-		for (int i = 0; i < BodyParts.Count; i++)
+		if (damageType == DamageType.BRUTE || damageType == DamageType.BURN)
 		{
-			if (BodyParts[i].Type == bodyPartAim)
+			//Try to apply damage to the required body part
+			bool appliedDmg = false;
+			for (int i = 0; i < BodyParts.Count; i++)
 			{
-				BodyParts[i].ReceiveDamage(damageType, damage);
-				appliedDmg = true;
-				break;
+				if (BodyParts[i].Type == bodyPartAim)
+				{
+					BodyParts[i].ReceiveDamage(damageType, damage);
+					appliedDmg = true;
+					break;
+				}
+			}
+
+			//If the body part does not exist then try to find the chest instead
+			if (!appliedDmg)
+			{
+				var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.CHEST);
+				if (getChestIndex != -1)
+				{
+					BodyParts[getChestIndex].ReceiveDamage(damageType, damage);
+				}
+				else
+				{
+					//If there is no default chest body part then do nothing
+					Logger.LogError($"No chest body part found for {gameObject.name}", Category.Health);
+					return;
+				}
 			}
 		}
-
-		//If the body part does not exist then try to find the chest instead
-		if (!appliedDmg)
+		else
 		{
-			var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.CHEST);
-			if (getChestIndex != -1)
-			{
-				BodyParts[getChestIndex].ReceiveDamage(damageType, damage);
-			}
-			else
-			{
-				//If there is no default chest body part then do nothing
-				Logger.LogError($"No chest body part found for {gameObject.name}", Category.Health);
-				return;
-			}
+			//TODO: Could be Toxin Damage or lack of oxygen:
 		}
 
 		//For special effects spawning like blood:
 		DetermineDamageEffects(damageType);
-		
+
 		var prevHealth = Health;
 		CalculateOverallHealth();
 
@@ -172,32 +228,39 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			return;
 		}
 
-		//Try to apply healing to the required body part
-		bool appliedHealing = false;
-		for (int i = 0; i < BodyParts.Count; i++)
+		if (damageTypeToHeal == DamageType.BRUTE || damageTypeToHeal == DamageType.BURN)
 		{
-			if (BodyParts[i].Type == bodyPartAim)
+			//Try to apply healing to the required body part
+			bool appliedHealing = false;
+			for (int i = 0; i < BodyParts.Count; i++)
 			{
-				BodyParts[i].HealDamage(healAmt, damageTypeToHeal);
-				appliedHealing = true;
-				break;
+				if (BodyParts[i].Type == bodyPartAim)
+				{
+					BodyParts[i].HealDamage(healAmt, damageTypeToHeal);
+					appliedHealing = true;
+					break;
+				}
+			}
+
+			//If the body part does not exist then try to find the chest instead
+			if (!appliedHealing)
+			{
+				var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.CHEST);
+				if (getChestIndex != -1)
+				{
+					BodyParts[getChestIndex].HealDamage(healAmt, damageTypeToHeal);
+				}
+				else
+				{
+					//If there is no default chest body part then do nothing
+					Logger.LogError($"No chest body part found for {gameObject.name}", Category.Health);
+					return;
+				}
 			}
 		}
-
-		//If the body part does not exist then try to find the chest instead
-		if (!appliedHealing)
+		else
 		{
-			var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.CHEST);
-			if (getChestIndex != -1)
-			{
-				BodyParts[getChestIndex].HealDamage(healAmt, damageTypeToHeal);
-			}
-			else
-			{
-				//If there is no default chest body part then do nothing
-				Logger.LogError($"No chest body part found for {gameObject.name}", Category.Health);
-				return;
-			}
+			//TODO: Could be Oxygen or Toxin healing
 		}
 
 		var prevHealth = Health;
@@ -289,7 +352,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	protected BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)
 	{
-		//Don't like how you should iterate through bodyparts each time, but inspector doesn't seem to like dicts
 		for (int i = 0; i < BodyParts.Count; i++)
 		{
 			if (BodyParts[i].Type == bodyPartAim)

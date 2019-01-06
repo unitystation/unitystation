@@ -23,13 +23,6 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
-	// JSON string for blood types and DNA.
-	[SyncVar(hook = "DNASync")]
-	private string DNABloodTypeJSON;
-
-	// BloodType and DNA Data.
-	private DNAandBloodType DNABloodType;
-
 	public override void OnStartClient()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -51,28 +44,7 @@ public class PlayerHealth : LivingHealthBehaviour
 			playerMove.allowInput = false;
 		}
 
-		// Gives DNA and BloodType to client.
-		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(DNABloodTypeJSON);
-
 		base.OnStartClient();
-	}
-
-	public override void OnStartServer()
-	{
-		//Generate a random blood type and DNA string
-		if (isServer)
-		{
-			DNABloodType = new DNAandBloodType();
-			DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
-		}
-		base.OnStartServer();
-	}
-
-	// This is the DNA SyncVar hook
-	private void DNASync(string updatedDNA)
-	{
-		DNABloodTypeJSON = updatedDNA;
-		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
 
 	/// <summary>
@@ -103,10 +75,6 @@ public class PlayerHealth : LivingHealthBehaviour
 					LoseBlood(bloodLoss);
 					AddBloodLoss(bloodLoss);
 					break;
-			}
-			if (HeadCritical(bodyPart))
-			{
-				Crit();
 			}
 		}
 	}
