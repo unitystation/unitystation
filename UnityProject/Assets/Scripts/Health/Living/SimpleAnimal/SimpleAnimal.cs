@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class SimpleAnimal : LivingHealthBehaviour
 {
 	public Sprite aliveSprite;
-	[Header("For harvestable animals")] public GameObject[] butcherResults;
+	
 	public Sprite deadSprite;
 
 	//Syncvar hook so that new players can sync state on start
@@ -42,18 +42,6 @@ public class SimpleAnimal : LivingHealthBehaviour
 			EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
 		}
 		return damage;
-	}
-
-	[Server]
-	public virtual void Harvest()
-	{
-		foreach (GameObject harvestPrefab in butcherResults)
-		{
-			ItemFactory.SpawnItem(harvestPrefab, transform.position, transform.parent);
-		}
-		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
-		//Remove the NPC after all has been harvested
-		NetworkServer.Destroy(gameObject);
 	}
 
 	[Server]

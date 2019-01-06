@@ -7,6 +7,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	//For meat harvest (pete etc)
 	public bool allowKnifeHarvest;
 
+	[Header("For harvestable animals")]
+	public GameObject[] butcherResults;
+
 	public int initialHealth = 100;
 
 	public bool isNotPlayer;
@@ -40,6 +43,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		private set { ConsciousState = value ? ConsciousState.DEAD : ConsciousState.CONSCIOUS; }
 	}
 
+	public override void OnStartServer()
+	{
+		ResetBodyParts();
+		base.OnStartServer();
+	}
+
 	private void OnEnable()
 	{
 		if (initialHealth <= 0)
@@ -50,6 +59,18 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 		//Reset health value and damage types values.
 		Health = initialHealth;
+	}
+
+	/// <summary>
+	/// Reset all body part damage.
+	/// </summary>
+	[Server]
+	private void ResetBodyParts()
+	{
+		foreach (BodyPartBehaviour bodyPart in BodyParts)
+		{
+			bodyPart.RestoreDamage();
+		}
 	}
 
 	[Server]
@@ -198,6 +219,23 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	protected virtual void OnCritActions() { }
 
 	protected abstract void OnDeathActions();
+
+	///<summary>
+	/// If Harvesting is allowed (for pete the goat for example)
+	/// then spawn the butchered results
+	/// </summary>
+	[Server]
+	public void Harvest()
+	{
+		foreach (GameObject harvestPrefab in butcherResults)
+		{
+			ItemFactory.SpawnItem(harvestPrefab, transform.position, transform.parent);
+		}
+		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
+		//Remove the NPC after all has been harvested
+		ObjectBehaviour objectBehaviour = gameObject.GetComponent<ObjectBehaviour>();
+		objectBehaviour.visibleState = false;
+	}
 }
 
 public static class HealthThreshold

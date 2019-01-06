@@ -15,8 +15,6 @@ public class PlayerHealth : LivingHealthBehaviour
 	//For now a simplified blood system will be here. To be refactored into a separate thing in the future.
 	public int BloodLevel = (int) BloodVolume.NORMAL;
 
-	[Header("For harvestable animals")] public GameObject[] butcherResults;
-
 	private PlayerMove playerMove;
 
 	private PlayerNetworkActions playerNetworkActions;
@@ -32,10 +30,6 @@ public class PlayerHealth : LivingHealthBehaviour
 	// BloodType and DNA Data.
 	private DNAandBloodType DNABloodType;
 
-	void Start() //Restore body parts on respawn/spawn.
-	{
-		RestoreBodyParts();
-	}
 
 	public override void OnStartClient()
 	{
@@ -231,17 +225,6 @@ public class PlayerHealth : LivingHealthBehaviour
 	}
 
 	/// <summary>
-	/// Reset all body part damage.
-	/// </summary>
-	private void RestoreBodyParts()
-	{
-		foreach (BodyPartBehaviour bodyPart in BodyParts)
-		{
-			bodyPart.RestoreDamage();
-		}
-	}
-
-	/// <summary>
 	/// Restore blood level
 	/// </summary>
 	private void RestoreBlood()
@@ -360,18 +343,5 @@ public class PlayerHealth : LivingHealthBehaviour
 	protected override void OnCritActions()
 	{
 		playerNetworkActions.SetConsciousState(false);
-	}
-
-	[Server]
-	public virtual void Harvest()
-	{
-		foreach (GameObject harvestPrefab in butcherResults)
-		{
-			ItemFactory.SpawnItem(harvestPrefab, transform.position, transform.parent);
-		}
-		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
-		//Remove the NPC after all has been harvested
-		ObjectBehaviour objectBehaviour = gameObject.GetComponent<ObjectBehaviour>();
-		objectBehaviour.visibleState = false;
 	}
 }
