@@ -117,7 +117,7 @@ using UnityEngine.Networking;
 		/// For client code
 		public PlayerState ClientState => playerState;
 
-		private HealthBehaviour healthBehaviorScript;
+		private LivingHealthBehaviour healthBehaviorScript;
 
 		public PlayerMove playerMove;
 		private PlayerScript playerScript;
@@ -255,7 +255,7 @@ using UnityEngine.Networking;
 			}
 			playerScript = GetComponent<PlayerScript>();
 			playerSprites = GetComponent<PlayerSprites>();
-			healthBehaviorScript = GetComponent<HealthBehaviour>();
+			healthBehaviorScript = GetComponent<LivingHealthBehaviour>();
 			registerTile = GetComponent<RegisterTile>();
 			pushPull = GetComponent<PushPull>();
 		}

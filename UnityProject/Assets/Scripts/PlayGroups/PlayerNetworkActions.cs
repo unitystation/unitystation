@@ -697,7 +697,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdCommitSuicide()
 	{
-		GetComponent<HealthBehaviour>().ApplyDamage(gameObject, 1000, DamageType.BRUTE, BodyPartType.CHEST);
+		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, DamageType.BRUTE, BodyPartType.CHEST);
 	}
 
 	[ClientRpc]

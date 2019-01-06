@@ -1,4 +1,4 @@
-﻿public class LightHealthBehaviour : HealthBehaviour
+﻿public class LightHealthBehaviour : LivingHealthBehaviour
 {
 	protected override void OnDeathActions()
 	{

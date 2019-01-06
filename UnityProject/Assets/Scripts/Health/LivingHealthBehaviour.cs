@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
-public abstract class HealthBehaviour : NetworkBehaviour
+public abstract class LivingHealthBehaviour : NetworkBehaviour
 {
 	//For meat harvest (pete etc)
 	public bool allowKnifeHarvest;
@@ -19,6 +20,12 @@ public abstract class HealthBehaviour : NetworkBehaviour
 	protected GameObject LastDamagedBy;
 
 	public ConsciousState ConsciousState { get; protected set; }
+
+	/// <summary>
+	/// If there are any body parts for this living thing, then add them to this list
+	/// via the inspector
+	/// </summary>
+	public List<BodyPartBehaviour> BodyParts = new List<BodyPartBehaviour>();
 
 	//be careful with falses, will make player conscious
 	public bool IsCrit
@@ -56,14 +63,14 @@ public abstract class HealthBehaviour : NetworkBehaviour
 	}
 
 	/// <summary>
-	///  Apply Damage to the Living thing
+	///  Apply Damage to the Living thing. Server only
 	/// </summary>
 	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
 	/// <param name="damage">Damage Amount</param>
 	/// <param name="damageType">The Type of Damage</param>
 	/// <param name="bodyPartAim">Body Part that is affected</param>
 	[Server]
-	public void ApplyDamage(GameObject damagedBy, int damage,
+	public virtual void ApplyDamage(GameObject damagedBy, int damage,
 		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
 	{
 		if (damage <= 0 || IsDead)
@@ -74,11 +81,26 @@ public abstract class HealthBehaviour : NetworkBehaviour
 		{
 			bodyPartAim = BodyPartType.CHEST; //Temporary fix for groin, when we add surgery this might need some changing.
 		}
-		int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
+
+		LastDamageType = damageType;
+		LastDamagedBy = damagedBy;
+
+		for (int i = 0; i < BodyParts.Count; i++)
+		{
+			if (BodyParts[i].Type == bodyPartAim)
+			{
+				BodyParts[i].ReceiveDamage(damageType, damage);
+			}
+		}
+
+		var prevHealth = Health;
+		CalculateOverallHealth();
+
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
-			calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
-		Health -= calculatedDamage;
-		CheckDeadCritStatus();
+			damage, prevHealth, Health, gameObject.name, damageType, bodyPartAim, damagedBy);
+
+		//	int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
+		//	Health -= calculatedDamage;
 	}
 
 	/// <summary>
@@ -92,7 +114,17 @@ public abstract class HealthBehaviour : NetworkBehaviour
 	public void HealDamage(GameObject healingItem, int healAmt,
 		DamageType damageTypeToHeal, BodyPartType bodyPartToHeal)
 	{
-		
+
+	}
+
+	/// <summary>
+	/// Recalculates the overall player health. Server only
+	/// </summary>
+	[Server]
+	protected void CalculateOverallHealth()
+	{
+
+		CheckDeadCritStatus();
 	}
 
 	protected virtual int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
@@ -163,8 +195,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
 		Health = initialHealth;
 	}
 
-	protected virtual void OnCritActions()
-	{ }
+	protected virtual void OnCritActions() { }
 
 	protected abstract void OnDeathActions();
 }

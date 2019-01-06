@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class FuelTankHealthBehaviour : HealthBehaviour
+public class FuelTankHealthBehaviour : LivingHealthBehaviour
 {
 //	private PushPull pushPull;
 

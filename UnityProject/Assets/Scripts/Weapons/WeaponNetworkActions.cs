@@ -126,7 +126,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 
 		//Meaty bodies:
-		HealthBehaviour victimHealth = victim.GetComponent<HealthBehaviour>();
+		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 
 		if (victimHealth.IsDead && weaponAttr.type == ItemType.Knife)
 		{

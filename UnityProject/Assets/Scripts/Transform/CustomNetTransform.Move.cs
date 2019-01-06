@@ -390,7 +390,7 @@ public partial class CustomNetTransform {
 		Vector3Int intOrigin = Vector3Int.RoundToInt( origin );
 		Vector3Int intGoal = Vector3Int.RoundToInt( goal );
 		var info = serverState.ActiveThrow;
-		List<HealthBehaviour> hitDamageables;
+		List<LivingHealthBehaviour> hitDamageables;
 		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) )
 		{
 			//if object is solid, check if player is nearby to make it stop
@@ -426,7 +426,7 @@ public partial class CustomNetTransform {
 		return false;
 	}
 
-	protected virtual void OnHit(Vector3Int pos, ThrowInfo info, List<HealthBehaviour> objects, List<TilemapDamage> tiles) {
+	protected virtual void OnHit(Vector3Int pos, ThrowInfo info, List<LivingHealthBehaviour> objects, List<TilemapDamage> tiles) {
 		if ( !ItemAttributes ) {
 			Logger.LogWarningFormat( "{0}: Tried to hit stuff at pos {1} but have no ItemAttributes.", Category.Throwing, gameObject.name, pos );
 			return;
@@ -501,16 +501,16 @@ public partial class CustomNetTransform {
 	}
 
 	/// Lists objects to be damaged on given tile. Prob should be moved elsewhere
-	private bool HittingSomething( Vector3Int atPos, GameObject thrownBy, out List<HealthBehaviour> victims ) {
+	private bool HittingSomething( Vector3Int atPos, GameObject thrownBy, out List<LivingHealthBehaviour> victims ) {
 		//Not damaging anything at launch tile
 		if ( Vector3Int.RoundToInt( serverState.ActiveThrow.OriginPos ) == atPos ) {
 			victims = null;
 			return false;
 		}
-		var objectsOnTile = MatrixManager.GetAt<HealthBehaviour>( atPos );
+		var objectsOnTile = MatrixManager.GetAt<LivingHealthBehaviour>( atPos );
 		if ( objectsOnTile != null ) {
-			var damageables = new List<HealthBehaviour>();
-			foreach ( HealthBehaviour obj in objectsOnTile ) {
+			var damageables = new List<LivingHealthBehaviour>();
+			foreach ( LivingHealthBehaviour obj in objectsOnTile ) {
 				//Skip thrower for now
 				if ( obj.gameObject == thrownBy ) {
 					Logger.Log( $"{thrownBy.name} not hurting himself", Category.Throwing );

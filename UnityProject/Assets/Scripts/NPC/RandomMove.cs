@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 	public class RandomMove : NetworkBehaviour
 	{
-		private HealthBehaviour _healthBehaviour;
+		private LivingHealthBehaviour _healthBehaviour;
 		private Matrix _matrix;
 		private Vector3Int currentPosition, targetPosition, currentDirection;
 		private bool isRight;
@@ -14,7 +14,7 @@ using UnityEngine.Networking;
 
 		private void Start()
 		{
-			_healthBehaviour = GetComponent<HealthBehaviour>();
+			_healthBehaviour = GetComponent<LivingHealthBehaviour>();
 			targetPosition = Vector3Int.RoundToInt(transform.position);
 			currentPosition = targetPosition;
 		}

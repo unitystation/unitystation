@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SimpleAnimal : HealthBehaviour
+public class SimpleAnimal : LivingHealthBehaviour
 {
 	public Sprite aliveSprite;
 	[Header("For harvestable animals")] public GameObject[] butcherResults;

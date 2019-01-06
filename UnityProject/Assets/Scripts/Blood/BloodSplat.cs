@@ -33,7 +33,7 @@ public class BloodSplat : CustomNetTransform
 		spriteRend.enabled = true;
 	}
 
-	protected override void OnHit( Vector3Int pos, ThrowInfo info, List<HealthBehaviour> objects, List<TilemapDamage> tiles )
+	protected override void OnHit( Vector3Int pos, ThrowInfo info, List<LivingHealthBehaviour> objects, List<TilemapDamage> tiles )
 	{
 //		base.OnHit( pos, info, objects, tiles );
 		//umm todo

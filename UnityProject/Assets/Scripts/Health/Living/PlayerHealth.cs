@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 /// <summary>
 /// Provides central access to the Players Health and Blood system
 /// </summary>
-public class PlayerHealth : HealthBehaviour
+public class PlayerHealth : LivingHealthBehaviour
 {
 	private readonly float bleedRate = 2f;
 
@@ -14,14 +14,6 @@ public class PlayerHealth : HealthBehaviour
 
 	//For now a simplified blood system will be here. To be refactored into a separate thing in the future.
 	public int BloodLevel = (int) BloodVolume.NORMAL;
-	//Health reporting is being performed on PlayerHealthReporting component. You should use the reporting component
-	//to request health data of a particular player from the server. The reporting component also performs UI updates
-	//for local players
-
-	//Fill this in editor:
-	//1 HumanHead, 1 HumanTorso & 4 HumanLimbs for a standard human
-	//public Dictionary<BodyPartType, BodyPartBehaviour> BodyParts = new Dictionary<BodyPartType, BodyPartBehaviour>();
-	public List<BodyPartBehaviour> BodyParts = new List<BodyPartBehaviour>();
 
 	[Header("For harvestable animals")] public GameObject[] butcherResults;
 
@@ -91,19 +83,22 @@ public class PlayerHealth : HealthBehaviour
 	}
 
 	/// <summary>
-	///  Damage Calculation override.
-	///  Note!!! If you are trying to apply damage to the player, use HealthBehaviour.ApplyDamage method instead
+	///  Apply Damage to the Player. Server only
 	/// </summary>
-	protected override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
+	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
+	/// <param name="damage">Damage Amount</param>
+	/// <param name="damageType">The Type of Damage</param>
+	/// <param name="bodyPartAim">Body Part that is affected</param>
+	public override void ApplyDamage(GameObject damagedBy, int damage, DamageType damageType,
 		BodyPartType bodyPartAim)
 	{
-		LastDamageType = damageType;
-		LastDamagedBy = damagedBy;
+		//Apply the damage to health behaviour first:
+		base.ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
 
 		BodyPartBehaviour bodyPart = FindBodyPart(bodyPartAim); //randomise a bit here?
 		bodyPart.ReceiveDamage(damageType, damage);
 
-		if (isServer)
+		if (isServer && !IsDead)
 		{
 			int bloodLoss = (int) (damage * BleedFactor(damageType));
 			LoseBlood(bloodLoss);
@@ -122,7 +117,6 @@ public class PlayerHealth : HealthBehaviour
 				Crit();
 			}
 		}
-		return damage;
 	}
 
 	private static bool HeadCritical(BodyPartBehaviour bodyPart)
