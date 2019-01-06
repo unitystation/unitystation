@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Provides central access to the Players Health and Blood system
+/// </summary>
 public class PlayerHealth : HealthBehaviour
 {
 	private readonly float bleedRate = 2f;
@@ -57,7 +60,9 @@ public class PlayerHealth : HealthBehaviour
 			}
 			ConsciousState = ConsciousState.DEAD;
 
-			//Fixme: No more setting allowInputs on client:
+			// Fixme: No more setting allowInputs on client:
+			// When job selection screen is removed from round start 
+			// (and moved to preference system in lobby) then we can remove this
 			playerMove.allowInput = false;
 		}
 
@@ -69,6 +74,7 @@ public class PlayerHealth : HealthBehaviour
 
 	public override void OnStartServer()
 	{
+		//Generate a random blood type and DNA string
 		if (isServer)
 		{
 			DNABloodType = new DNAandBloodType();
@@ -77,6 +83,7 @@ public class PlayerHealth : HealthBehaviour
 		base.OnStartServer();
 	}
 
+	// This is the DNA SyncVar hook
 	private void DNASync(string updatedDNA)
 	{
 		DNABloodTypeJSON = updatedDNA;
@@ -85,7 +92,7 @@ public class PlayerHealth : HealthBehaviour
 
 	/// <summary>
 	///  Damage Calculation override.
-	///  Note!!! If you are trying to apply damage to the player, use HealthBehaviour.ApplyDamage method
+	///  Note!!! If you are trying to apply damage to the player, use HealthBehaviour.ApplyDamage method instead
 	/// </summary>
 	public override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
 		BodyPartType bodyPartAim)
@@ -139,6 +146,10 @@ public class PlayerHealth : HealthBehaviour
 		return BodyParts.PickRandom();
 	}
 
+	/// <summary>
+	/// Subtract an amount of blood from the player. Server Only
+	/// </summary>
+	[Server]
 	public void AddBloodLoss(int amount)
 	{
 		if (amount <= 0)
