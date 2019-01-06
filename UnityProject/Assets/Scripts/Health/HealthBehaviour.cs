@@ -40,7 +40,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
 			Logger.LogWarning($"Initial health ({initialHealth}) set to zero/below zero!", Category.Health);
 			initialHealth = 1;
 		}
-		
+
 		//Reset health value and damage types values.
 		Health = initialHealth;
 	}
@@ -70,18 +70,32 @@ public abstract class HealthBehaviour : NetworkBehaviour
 		{
 			return;
 		}
-		if(bodyPartAim == BodyPartType.GROIN)
+		if (bodyPartAim == BodyPartType.GROIN)
 		{
 			bodyPartAim = BodyPartType.CHEST; //Temporary fix for groin, when we add surgery this might need some changing.
 		}
 		int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
-		calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
+			calculatedDamage, Health, Health - calculatedDamage, gameObject.name, damageType, bodyPartAim, damagedBy);
 		Health -= calculatedDamage;
 		CheckDeadCritStatus();
 	}
 
-	public virtual int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
+	/// <summary>
+	///  Apply healing to a living thing. Server Only
+	/// </summary>
+	/// <param name="healingItem">the item used for healing (bruise pack etc). Null if there is none</param>
+	/// <param name="healAmt">Amount of healing to add</param>
+	/// <param name="damageType">The Type of Damage To Heal</param>
+	/// <param name="bodyPartToHeal">Body Part to heal</param>
+	[Server]
+	public void HealDamage(GameObject healingItem, int healAmt,
+		DamageType damageTypeToHeal, BodyPartType bodyPartToHeal)
+	{
+		
+	}
+
+	protected virtual int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
 		BodyPartType bodyPartAim)
 	{
 		LastDamageType = damageType;
@@ -150,8 +164,7 @@ public abstract class HealthBehaviour : NetworkBehaviour
 	}
 
 	protected virtual void OnCritActions()
-	{
-	}
+	{ }
 
 	protected abstract void OnDeathActions();
 }

@@ -94,7 +94,7 @@ public class PlayerHealth : HealthBehaviour
 	///  Damage Calculation override.
 	///  Note!!! If you are trying to apply damage to the player, use HealthBehaviour.ApplyDamage method instead
 	/// </summary>
-	public override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
+	protected override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
 		BodyPartType bodyPartAim)
 	{
 		LastDamageType = damageType;

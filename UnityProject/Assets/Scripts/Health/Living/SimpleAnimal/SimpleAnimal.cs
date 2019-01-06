@@ -31,10 +31,12 @@ public class SimpleAnimal : HealthBehaviour
 		SetAliveState(deadState);
 	}
 
-	public override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
+	protected override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
 		BodyPartType bodyPartAim)
 	{
-		base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
+		LastDamageType = damageType;
+		LastDamagedBy = damagedBy;
+		
 		if (isServer)
 		{
 			EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
