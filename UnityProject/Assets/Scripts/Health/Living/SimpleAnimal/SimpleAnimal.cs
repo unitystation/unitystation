@@ -31,19 +31,6 @@ public class SimpleAnimal : LivingHealthBehaviour
 		SetAliveState(deadState);
 	}
 
-	protected override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
-		BodyPartType bodyPartAim)
-	{
-		LastDamageType = damageType;
-		LastDamagedBy = damagedBy;
-		
-		if (isServer)
-		{
-			EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
-		}
-		return damage;
-	}
-
 	[Server]
 	protected override void OnDeathActions()
 	{

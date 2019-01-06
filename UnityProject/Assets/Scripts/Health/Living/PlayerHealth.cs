@@ -13,7 +13,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	private int bleedVolume;
 
 	//For now a simplified blood system will be here. To be refactored into a separate thing in the future.
-	public int BloodLevel = (int) BloodVolume.NORMAL;
+	public int BloodLevel = (int)BloodVolume.NORMAL;
 
 	private PlayerMove playerMove;
 
@@ -29,7 +29,6 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	// BloodType and DNA Data.
 	private DNAandBloodType DNABloodType;
-
 
 	public override void OnStartClient()
 	{
@@ -89,20 +88,19 @@ public class PlayerHealth : LivingHealthBehaviour
 		//Apply the damage to health behaviour first:
 		base.ApplyDamage(damagedBy, damage, damageType, bodyPartAim);
 
-		BodyPartBehaviour bodyPart = FindBodyPart(bodyPartAim); //randomise a bit here?
-		bodyPart.ReceiveDamage(damageType, damage);
+		BodyPartBehaviour bodyPart = FindBodyPart(bodyPartAim);
 
-		if (isServer && !IsDead)
+		//Check if limb should start bleeding (Bleeding is only for Players, not animals)
+		if (!IsDead && damageType == DamageType.BRUTE)
 		{
-			int bloodLoss = (int) (damage * BleedFactor(damageType));
-			LoseBlood(bloodLoss);
-
 			// don't start bleeding if limb is in ok condition after it received damage
 			switch (bodyPart.Severity)
 			{
 				case DamageSeverity.Moderate:
 				case DamageSeverity.Bad:
 				case DamageSeverity.Critical:
+					int bloodLoss = (int)(damage * BleedFactor(damageType));
+					LoseBlood(bloodLoss);
 					AddBloodLoss(bloodLoss);
 					break;
 			}
@@ -116,22 +114,6 @@ public class PlayerHealth : LivingHealthBehaviour
 	private static bool HeadCritical(BodyPartBehaviour bodyPart)
 	{
 		return bodyPart.Type.Equals(BodyPartType.HEAD) && bodyPart.Severity == DamageSeverity.Critical;
-	}
-
-	private BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)
-	{
-		//Don't like how you should iterate through bodyparts each time, but inspector doesn't seem to like dicts
-		for (int i = 0; i < BodyParts.Count; i++)
-		{
-			if (BodyParts[i].Type == bodyPartAim)
-			{
-				return BodyParts[i];
-			}
-		}
-		//dm code quotes:
-		//"no bodypart, we deal damage with a more general method."
-		//"missing limb? we select the first bodypart (you can never have zero, because of chest)"
-		return BodyParts.PickRandom();
 	}
 
 	/// <summary>
@@ -178,6 +160,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		IsBleeding = false;
 	}
 
+	//Only players can LoseBlood
 	private void LoseBlood(int amount)
 	{
 		if (amount <= 0)
@@ -204,7 +187,7 @@ public class PlayerHealth : LivingHealthBehaviour
 			EffectsFactory.Instance.BloodSplat(transform.position, scaleOfTragedy);
 		}
 
-		if (BloodLevel <= (int) BloodVolume.SURVIVE)
+		if (BloodLevel <= (int)BloodVolume.SURVIVE)
 		{
 			Crit();
 		}
@@ -216,7 +199,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	}
 
 	/// <summary>
-	/// Called by HealthBehaviour on Death
+	/// Called by LivingHealthBehaviour on Death
 	/// </summary>
 	public override void Death()
 	{
@@ -229,9 +212,8 @@ public class PlayerHealth : LivingHealthBehaviour
 	/// </summary>
 	private void RestoreBlood()
 	{
-		BloodLevel = (int) BloodVolume.NORMAL;
+		BloodLevel = (int)BloodVolume.NORMAL;
 	}
-
 
 	private static float BleedFactor(DamageType damageType)
 	{

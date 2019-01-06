@@ -10,8 +10,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	[Header("For harvestable animals")]
 	public GameObject[] butcherResults;
 
-	public int initialHealth = 100;
-
 	public bool isNotPlayer;
 
 	public int maxHealth = 100;
@@ -26,8 +24,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	/// <summary>
 	/// If there are any body parts for this living thing, then add them to this list
-	/// via the inspector
+	/// via the inspector. There needs to be at least 1 chest bodypart for a living animal
 	/// </summary>
+	[Header("Fill BodyPart fields in via Inspector:")]
 	public List<BodyPartBehaviour> BodyParts = new List<BodyPartBehaviour>();
 
 	//be careful with falses, will make player conscious
@@ -46,19 +45,13 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public override void OnStartServer()
 	{
 		ResetBodyParts();
-		base.OnStartServer();
-	}
-
-	private void OnEnable()
-	{
-		if (initialHealth <= 0)
+		if (maxHealth <= 0)
 		{
-			Logger.LogWarning($"Initial health ({initialHealth}) set to zero/below zero!", Category.Health);
-			initialHealth = 1;
+			Logger.LogWarning($"Max health ({maxHealth}) set to zero/below zero!", Category.Health);
+			maxHealth = 1;
 		}
-
-		//Reset health value and damage types values.
-		Health = initialHealth;
+		Health = maxHealth;
+		base.OnStartServer();
 	}
 
 	/// <summary>
@@ -106,14 +99,43 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
 
+		if (BodyParts.Count == 0)
+		{
+			Logger.LogError($"There are no body parts to apply damage too for {gameObject.name}", Category.Health);
+			return;
+		}
+
+		//Try to apply damage to the required body part
+		bool appliedDmg = false;
 		for (int i = 0; i < BodyParts.Count; i++)
 		{
 			if (BodyParts[i].Type == bodyPartAim)
 			{
 				BodyParts[i].ReceiveDamage(damageType, damage);
+				appliedDmg = true;
+				break;
 			}
 		}
 
+		//If the body part does not exist then try to find the chest instead
+		if (!appliedDmg)
+		{
+			var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.CHEST);
+			if (getChestIndex != -1)
+			{
+				BodyParts[getChestIndex].ReceiveDamage(damageType, damage);
+			}
+			else
+			{
+				//If there is no default chest body part then do nothing
+				Logger.LogError($"No chest body part found for {gameObject.name}", Category.Health);
+				return;
+			}
+		}
+
+		//For special effects spawning like blood:
+		DetermineDamageEffects(damageType);
+		
 		var prevHealth = Health;
 		CalculateOverallHealth();
 
@@ -130,12 +152,74 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <param name="healingItem">the item used for healing (bruise pack etc). Null if there is none</param>
 	/// <param name="healAmt">Amount of healing to add</param>
 	/// <param name="damageType">The Type of Damage To Heal</param>
-	/// <param name="bodyPartToHeal">Body Part to heal</param>
+	/// <param name="bodyPartAim">Body Part to heal</param>
 	[Server]
-	public void HealDamage(GameObject healingItem, int healAmt,
-		DamageType damageTypeToHeal, BodyPartType bodyPartToHeal)
+	public virtual void HealDamage(GameObject healingItem, int healAmt,
+		DamageType damageTypeToHeal, BodyPartType bodyPartAim)
 	{
+		if (healAmt <= 0 || IsDead)
+		{
+			return;
+		}
+		if (bodyPartAim == BodyPartType.GROIN)
+		{
+			bodyPartAim = BodyPartType.CHEST; //Temporary fix for groin, when we add surgery this might need some changing.
+		}
 
+		if (BodyParts.Count == 0)
+		{
+			Logger.LogError($"There are no body parts to apply damage too for {gameObject.name}", Category.Health);
+			return;
+		}
+
+		//Try to apply healing to the required body part
+		bool appliedHealing = false;
+		for (int i = 0; i < BodyParts.Count; i++)
+		{
+			if (BodyParts[i].Type == bodyPartAim)
+			{
+				BodyParts[i].HealDamage(healAmt, damageTypeToHeal);
+				appliedHealing = true;
+				break;
+			}
+		}
+
+		//If the body part does not exist then try to find the chest instead
+		if (!appliedHealing)
+		{
+			var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.CHEST);
+			if (getChestIndex != -1)
+			{
+				BodyParts[getChestIndex].HealDamage(healAmt, damageTypeToHeal);
+			}
+			else
+			{
+				//If there is no default chest body part then do nothing
+				Logger.LogError($"No chest body part found for {gameObject.name}", Category.Health);
+				return;
+			}
+		}
+
+		var prevHealth = Health;
+		CalculateOverallHealth();
+
+		Logger.LogTraceFormat("{3} received {0} {4} healing from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
+			healAmt, prevHealth, Health, gameObject.name, damageTypeToHeal, bodyPartAim, healingItem);
+	}
+
+	/// <Summary>
+	/// Used to determine any special effects spawning cased by a damage type
+	/// Server only
+	/// </Summary>
+	[Server]
+	protected virtual void DetermineDamageEffects(DamageType damageType)
+	{
+		//Brute attacks
+		if (damageType == DamageType.BRUTE)
+		{
+			//spawn blood
+			EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
+		}
 	}
 
 	/// <summary>
@@ -144,17 +228,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	[Server]
 	protected void CalculateOverallHealth()
 	{
-
 		CheckDeadCritStatus();
-	}
-
-	protected virtual int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
-		BodyPartType bodyPartAim)
-	{
-		LastDamageType = damageType;
-		LastDamagedBy = damagedBy;
-
-		return damage;
 	}
 
 	///Death from other causes
@@ -197,8 +271,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		return Health > HealthThreshold.Dead || IsDead;
 	}
 
+	//FIXME: This must be converted into a method to alleviate hunger soon
 	public void AddHealth(int amount)
 	{
+		Debug.Log("TODO PRIORITY: Food should no longer heal, instead it should cure hunger");
 		if (amount <= 0)
 		{
 			return;
@@ -211,9 +287,20 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 	}
 
-	public void RestoreHealth()
+	protected BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)
 	{
-		Health = initialHealth;
+		//Don't like how you should iterate through bodyparts each time, but inspector doesn't seem to like dicts
+		for (int i = 0; i < BodyParts.Count; i++)
+		{
+			if (BodyParts[i].Type == bodyPartAim)
+			{
+				return BodyParts[i];
+			}
+		}
+		//dm code quotes:
+		//"no bodypart, we deal damage with a more general method."
+		//"missing limb? we select the first bodypart (you can never have zero, because of chest)"
+		return BodyParts.PickRandom();
 	}
 
 	protected virtual void OnCritActions() { }
