@@ -38,8 +38,8 @@ public enum KeyAction
 	IntentRight,
 	IntentHelp,
 	IntentDisarm,
-	IntentHarm,
 	IntentGrab,
+	IntentHarm,
 
 	// Chat
 	ChatLocal,
