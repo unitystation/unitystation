@@ -83,12 +83,17 @@ public class PlayerHealth : HealthBehaviour
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
 
+	/// <summary>
+	///  Damage Calculation override.
+	///  Note!!! If you are trying to apply damage to the player, use HealthBehaviour.ApplyDamage method
+	/// </summary>
 	public override int ReceiveAndCalculateDamage(GameObject damagedBy, int damage, DamageType damageType,
 		BodyPartType bodyPartAim)
 	{
-		base.ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
+		LastDamageType = damageType;
+		LastDamagedBy = damagedBy;
 
-		BodyPartBehaviour bodyPart = findBodyPart(bodyPartAim); //randomise a bit here?
+		BodyPartBehaviour bodyPart = FindBodyPart(bodyPartAim); //randomise a bit here?
 		bodyPart.ReceiveDamage(damageType, damage);
 
 		if (isServer)
@@ -105,7 +110,7 @@ public class PlayerHealth : HealthBehaviour
 					AddBloodLoss(bloodLoss);
 					break;
 			}
-			if (headCritical(bodyPart))
+			if (HeadCritical(bodyPart))
 			{
 				Crit();
 			}
@@ -113,12 +118,12 @@ public class PlayerHealth : HealthBehaviour
 		return damage;
 	}
 
-	private static bool headCritical(BodyPartBehaviour bodyPart)
+	private static bool HeadCritical(BodyPartBehaviour bodyPart)
 	{
 		return bodyPart.Type.Equals(BodyPartType.HEAD) && bodyPart.Severity == DamageSeverity.Critical;
 	}
 
-	private BodyPartBehaviour findBodyPart(BodyPartType bodyPartAim)
+	private BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)
 	{
 		//Don't like how you should iterate through bodyparts each time, but inspector doesn't seem to like dicts
 		for (int i = 0; i < BodyParts.Count; i++)
@@ -164,7 +169,9 @@ public class PlayerHealth : HealthBehaviour
 		}
 	}
 
-	//ReduceBloodLoss for bandages and stuff in the future?
+	/// <summary>
+	/// Stems any bleeding. Server Only.
+	/// </summary>
 	[Server]
 	public void StopBleeding()
 	{
@@ -209,13 +216,19 @@ public class PlayerHealth : HealthBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Called by HealthBehaviour on Death
+	/// </summary>
 	public override void Death()
 	{
 		StopBleeding();
 		base.Death();
 	}
 
-	public void RestoreBodyParts()
+	/// <summary>
+	/// Reset all body part damage.
+	/// </summary>
+	private void RestoreBodyParts()
 	{
 		foreach (BodyPartBehaviour bodyPart in BodyParts)
 		{
@@ -223,12 +236,16 @@ public class PlayerHealth : HealthBehaviour
 		}
 	}
 
-	public void RestoreBlood()
+	/// <summary>
+	/// Restore blood level
+	/// </summary>
+	private void RestoreBlood()
 	{
 		BloodLevel = (int) BloodVolume.NORMAL;
 	}
 
-	public static float BleedFactor(DamageType damageType)
+
+	private static float BleedFactor(DamageType damageType)
 	{
 		float random = Random.Range(-0.2f, 0.2f);
 		switch (damageType)

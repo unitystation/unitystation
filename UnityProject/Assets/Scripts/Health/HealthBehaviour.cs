@@ -14,9 +14,9 @@ public abstract class HealthBehaviour : NetworkBehaviour
 
 	public int Health { get; private set; }
 
-	public DamageType LastDamageType { get; private set; }
+	protected DamageType LastDamageType;
 
-	public GameObject LastDamagedBy { get; private set; }
+	protected GameObject LastDamagedBy;
 
 	public ConsciousState ConsciousState { get; protected set; }
 
@@ -55,6 +55,14 @@ public abstract class HealthBehaviour : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	///  Apply Damage to the Living thing
+	/// </summary>
+	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
+	/// <param name="damage">Damage Amount</param>
+	/// <param name="damageType">The Type of Damage</param>
+	/// <param name="bodyPartAim">Body Part that is affected</param>
+	[Server]
 	public void ApplyDamage(GameObject damagedBy, int damage,
 		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
 	{
