@@ -1,21 +1,21 @@
 ﻿public enum BodyPartType
 {
 	//these weird ints are for the UI
-	NONE = -1,
-	HEAD = 0,
+	None = -1,
+	Head = 0,
 
 	//    EYES,
 	//    MOUTH,
-	CHEST = 1,
-	LEFT_ARM = 3,
-	RIGHT_ARM = 2,
+	Chest = 1,
+	Left_Arm = 3,
+	Right_Arm = 2,
 
 	//    LEFT_HAND,
 	//    RIGHT_HAND,
-	GROIN = 6,
-	LEFT_LEG = 5,
+	Groin = 6,
+	Left_Leg = 5,
 
-	RIGHT_LEG = 4
+	Right_Leg = 4
 	//    LEFT_FOOT,
 	//    RIGHT_FOOT
 }

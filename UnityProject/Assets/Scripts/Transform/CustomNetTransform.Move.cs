@@ -399,7 +399,7 @@ public partial class CustomNetTransform {
 
 		if ( serverState.Speed > SpeedHitThreshold ) {
 			serverState.ActiveThrow = new ThrowInfo {
-				Aim = BodyPartType.CHEST.Randomize(0),
+				Aim = BodyPartType.Chest.Randomize(0),
 				OriginPos = origin,
 				TargetPos = goal,
 				SpinMode = SpinMode.None
@@ -444,7 +444,7 @@ public partial class CustomNetTransform {
 				//Remove cast to int when moving health values to float
 				var damage = (int)( ItemAttributes.throwDamage * 2 );
 				var hitZone = info.Aim.Randomize();
-				objects[i].ApplyDamage( info.ThrownBy, damage, DamageType.BRUTE, hitZone );
+				objects[i].ApplyDamage( info.ThrownBy, damage, DamageType.Brute, hitZone );
 				PostToChatMessage.SendThrowHitMessage( gameObject, objects[i].gameObject, damage, hitZone );
 			}
 			//hit sound

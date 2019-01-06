@@ -93,7 +93,7 @@ public class ShutterController : ObjectTrigger
 	    var healthBehaviours = matrix.Get<LivingHealthBehaviour>(registerTile.Position);
 	    for ( var i = 0; i < healthBehaviours.Count; i++ ) {
 		    LivingHealthBehaviour healthBehaviour = healthBehaviours[i];
-		    healthBehaviour.ApplyDamage( gameObject, 500, DamageType.BRUTE );
+		    healthBehaviour.ApplyDamage( gameObject, 500, DamageType.Brute );
 	    }
     }
 

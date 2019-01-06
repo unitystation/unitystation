@@ -32,7 +32,7 @@ public class BodyPartBehaviour : MonoBehaviour
 	{
 		switch (type)
 		{
-			case DamageType.BRUTE:
+			case DamageType.Brute:
 				bruteDamage += damage;
 
 				if (damage > MaxDamage)
@@ -41,7 +41,7 @@ public class BodyPartBehaviour : MonoBehaviour
 				}
 				break;
 
-			case DamageType.BURN:
+			case DamageType.Burn:
 				burnDamage += damage;
 
 				if (damage > MaxDamage)
@@ -58,7 +58,7 @@ public class BodyPartBehaviour : MonoBehaviour
 	{
 		switch (type)
 		{
-			case DamageType.BRUTE:
+			case DamageType.Brute:
 				bruteDamage -= damage;
 
 				if (bruteDamage < 0)
@@ -67,7 +67,7 @@ public class BodyPartBehaviour : MonoBehaviour
 				}
 				break;
 
-			case DamageType.BURN:
+			case DamageType.Burn:
 				burnDamage -= damage;
 
 				if (burnDamage < 0)

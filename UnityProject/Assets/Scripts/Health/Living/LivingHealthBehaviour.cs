@@ -134,15 +134,15 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <param name="bodyPartAim">Body Part that is affected</param>
 	[Server]
 	public virtual void ApplyDamage(GameObject damagedBy, int damage,
-		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.CHEST)
+		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
 	{
 		if (damage <= 0 || IsDead)
 		{
 			return;
 		}
-		if (bodyPartAim == BodyPartType.GROIN)
+		if (bodyPartAim == BodyPartType.Groin)
 		{
-			bodyPartAim = BodyPartType.CHEST; //Temporary fix for groin, when we add surgery this might need some changing.
+			bodyPartAim = BodyPartType.Chest; //Temporary fix for groin, when we add surgery this might need some changing.
 		}
 
 		LastDamageType = damageType;
@@ -157,7 +157,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		//See if damage affects the state of the blood:
 		bloodSystem.AffectBloodState(bodyPartAim, damageType, damage);
 
-		if (damageType == DamageType.BRUTE || damageType == DamageType.BURN)
+		if (damageType == DamageType.Brute || damageType == DamageType.Burn)
 		{
 			//Try to apply damage to the required body part
 			bool appliedDmg = false;
@@ -174,7 +174,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			//If the body part does not exist then try to find the chest instead
 			if (!appliedDmg)
 			{
-				var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.CHEST);
+				var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.Chest);
 				if (getChestIndex != -1)
 				{
 					BodyParts[getChestIndex].ReceiveDamage(damageType, damage);
@@ -216,9 +216,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		{
 			return;
 		}
-		if (bodyPartAim == BodyPartType.GROIN)
+		if (bodyPartAim == BodyPartType.Groin)
 		{
-			bodyPartAim = BodyPartType.CHEST; //Temporary fix for groin, when we add surgery this might need some changing.
+			bodyPartAim = BodyPartType.Chest; //Temporary fix for groin, when we add surgery this might need some changing.
 		}
 
 		if (BodyParts.Count == 0)
@@ -230,7 +230,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		// See if any of the healing applied affects blood state
 		bloodSystem.AffectBloodState(bodyPartAim, damageTypeToHeal, healAmt, true);
 
-		if (damageTypeToHeal == DamageType.BRUTE || damageTypeToHeal == DamageType.BURN)
+		if (damageTypeToHeal == DamageType.Brute || damageTypeToHeal == DamageType.Burn)
 		{
 			//Try to apply healing to the required body part
 			bool appliedHealing = false;
@@ -247,7 +247,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			//If the body part does not exist then try to find the chest instead
 			if (!appliedHealing)
 			{
-				var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.CHEST);
+				var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.Chest);
 				if (getChestIndex != -1)
 				{
 					BodyParts[getChestIndex].HealDamage(healAmt, damageTypeToHeal);
@@ -276,7 +276,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	protected virtual void DetermineDamageEffects(DamageType damageType)
 	{
 		//Brute attacks
-		if (damageType == DamageType.BRUTE)
+		if (damageType == DamageType.Brute)
 		{
 			//spawn blood
 			EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
@@ -289,20 +289,66 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	[Server]
 	protected void CalculateOverallHealth()
 	{
-		var headPart = FindBodyPart(BodyPartType.HEAD);
-		if (headPart != null)
+		//Overall Health Calculation:
+		for (int i = 0; i < BodyParts.Count; i++)
 		{
-			if (headPart.Type != BodyPartType.CHEST)
+			//HEAD:
+			if (BodyParts[i].Type == BodyPartType.Head)
 			{
+				//if head part is at crit then overall health will start with 30 hp
+				if (BodyParts[i].Severity == DamageSeverity.Critical)
+				{
+					OverallHealth = 30;
+				}
 				//Max head trauma causes death:
-				if (headPart.Severity == DamageSeverity.Max)
+				if (BodyParts[i].Severity == DamageSeverity.Max)
 				{
 					OverallHealth = 0;
-					CheckDeadCritStatus();
-					return;
+				}
+
+			}
+			//CHEST:
+			if (BodyParts[i].Type == BodyPartType.Chest)
+			{
+				//if head part is at crit then overall health will start with 30 hp
+				if (BodyParts[i].Severity == DamageSeverity.Critical)
+				{
+					if (OverallHealth > 30)
+					{
+						OverallHealth = 30;
+					}
+					else
+					{
+						//Too much damage, kill the entity
+						OverallHealth = 0;
+					}
+				}
+				//Max chest trauma causes death:
+				if (BodyParts[i].Severity == DamageSeverity.Max)
+				{
+					OverallHealth = 0;
 				}
 			}
+
+			//Toxin Crit:
+			if (bloodSystem.ToxinDamage > 70 && bloodSystem.ToxinDamage >= 100)
+			{
+				OverallHealth = 30;
+			}
+
+			//Toxin OverDose:
+			if (bloodSystem.ToxinDamage >= 100)
+			{
+				OverallHealth = 0;
+			}
+
+			//Too much damage, stop calculating:
+			if (OverallHealth <= 0)
+			{	
+				break;
+			}
 		}
+
 		CheckDeadCritStatus();
 	}
 
@@ -371,7 +417,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			return BodyParts[searchIndex];
 		}
 		//If nothing is found then try to find a chest component:
-		searchIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.CHEST);
+		searchIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.Chest);
 		if (searchIndex != -1)
 		{
 			return BodyParts[searchIndex];

@@ -155,7 +155,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			playerMove.allowInput = false;
 		}
 
-		victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, DamageType.BRUTE, damageZone);
+		victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, DamageType.Brute, damageZone);
 		if (weaponAttr.hitDamage > 0)
 		{
 			PostToChatMessage.SendItemAttackMessage(weapon, gameObject, victim, (int) weaponAttr.hitDamage, damageZone);

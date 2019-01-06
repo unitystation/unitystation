@@ -51,7 +51,7 @@ public class GUI_Spawner : NetTab
 		var spawnedItem = ItemFactory.SpawnItem( prefab, originPos );
 		spawnedItem.GetComponent<CustomNetTransform>()?.Throw( new ThrowInfo {
 			ThrownBy = Provider,
-			Aim = BodyPartType.CHEST,
+			Aim = BodyPartType.Chest,
 			OriginPos = originPos,
 			TargetPos = nearestPlayerPos, //haha
 			SpinMode = SpinMode.CounterClockwise

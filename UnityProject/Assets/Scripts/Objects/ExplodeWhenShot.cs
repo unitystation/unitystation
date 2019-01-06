@@ -78,7 +78,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		foreach (KeyValuePair<GameObject, int> pair in toBeDamaged)
 		{
 			pair.Key.GetComponent<LivingHealthBehaviour>()
-				.ApplyDamage(pair.Key, pair.Value, DamageType.BURN);
+				.ApplyDamage(pair.Key, pair.Value, DamageType.Burn);
 		}
 		RpcClientExplode();
 		gameObject.GetComponent<ObjectBehaviour>().visibleState = false;

@@ -649,7 +649,7 @@ public partial class PlayerSync
 	private IEnumerator ApplyTempSpaceDamage()
 	{
 		yield return new WaitForSeconds(1f);
-		healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+		healthBehaviorScript.ApplyDamage(null, 5, DamageType.Oxy, BodyPartType.Head);
 		isApplyingSpaceDmg = false;
 	}
 

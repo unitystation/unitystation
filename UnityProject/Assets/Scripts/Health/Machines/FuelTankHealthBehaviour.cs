@@ -16,10 +16,10 @@ public class FuelTankHealthBehaviour : LivingHealthBehaviour
 		float delay = 0f;
 		switch (LastDamageType)
 		{
-			case DamageType.BRUTE:
+			case DamageType.Brute:
 				delay = 0.1f;
 				break;
-			case DamageType.BURN:
+			case DamageType.Burn:
 				delay = Random.Range(0.2f, 2f);
 				break; //surprise
 		}

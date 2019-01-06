@@ -109,11 +109,11 @@ public class BloodSystem : MonoBehaviour
 		float random = Random.Range(-0.2f, 0.2f);
 		switch (damageType)
 		{
-			case DamageType.BRUTE:
+			case DamageType.Brute:
 				return 0.6f + random;
-			case DamageType.BURN:
+			case DamageType.Burn:
 				return 0.4f + random;
-			case DamageType.TOX:
+			case DamageType.Tox:
 				return 0.2f + random;
 		}
 		return 0;
@@ -126,7 +126,7 @@ public class BloodSystem : MonoBehaviour
 	public void AffectBloodState(BodyPartType bodyPartType, DamageType damageType, int amount, bool isHeal = false)
 	{
 		BodyPartBehaviour bodyPart = livingHealthBehaviour.FindBodyPart(bodyPartType);
-		
+
 		if (isHeal)
 		{
 			CheckHealing(bodyPart, damageType, amount);
@@ -134,7 +134,7 @@ public class BloodSystem : MonoBehaviour
 		}
 
 		//Check if limb should start bleeding (Bleeding is only for Players, not animals)
-		if (damageType == DamageType.BRUTE && !IsBleeding)
+		if (damageType == DamageType.Brute && !IsBleeding)
 		{
 			// don't start bleeding if limb is in ok condition after it received damage
 			switch (bodyPart.Severity)
@@ -149,7 +149,7 @@ public class BloodSystem : MonoBehaviour
 			}
 		}
 
-		if (damageType == DamageType.TOX)
+		if (damageType == DamageType.Tox)
 		{
 			ToxinDamage += amount;
 		}

@@ -74,22 +74,22 @@ public static class SweetExtensions {
 			int t = (int) Mathf.Floor(Random.value * 40);
 			//	3/40
 			if (t <= 3)
-				return BodyPartType.HEAD;
+				return BodyPartType.Head;
 			if (t <= 10)
 			//	7/40
-				return BodyPartType.LEFT_ARM;
+				return BodyPartType.Left_Arm;
 			if (t <= 17)
 			//	7/40
-				return BodyPartType.RIGHT_ARM;
+				return BodyPartType.Right_Arm;
 			if (t <= 24)
 			//	7/40
-				return BodyPartType.LEFT_LEG;
+				return BodyPartType.Left_Leg;
 			if (t <= 31)
 			//	7/40
-				return BodyPartType.RIGHT_LEG;
+				return BodyPartType.Right_Leg;
 			//todo: don't forget to add groin!
 			//	9/40
-			return BodyPartType.CHEST;
+			return BodyPartType.Chest;
 		}
 
 		/// Serializing Vector2 (rounded to int) into plaintext
