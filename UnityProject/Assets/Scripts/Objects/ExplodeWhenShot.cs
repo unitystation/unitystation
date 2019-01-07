@@ -4,35 +4,45 @@ using Light2D;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Behavior for an object which explodes when it is damaged
+/// </summary>
 public class ExplodeWhenShot : NetworkBehaviour
 {
+	//explosion damage
 	public int damage = 150;
+	//explosion radius in tiles
 	public float radius = 3f;
-
-	private const int MAX_TARGETS = 44;
-
-	private readonly string[] explosions = {"Explosion1", "Explosion2"};
-	private readonly Collider2D[] colliders = new Collider2D[MAX_TARGETS];
-
-	private int playerMask;
-	private int damageableMask;
-	private int obstacleMask;
-	private bool hasExploded;
-
-	private GameObject lightFxInstance;
-	private LightSprite lightSprite;
+	//sprite renderer to use for the explosion
 	public SpriteRenderer spriteRend;
 
-	private RegisterTile registerTile;
-	private Matrix matrix => registerTile.Matrix;
+	//max number of things an explosion can hit
+	private const int MAX_TARGETS = 44;
+	private readonly string[] EXPLOSION_SOUNDS = { "Explosion1", "Explosion2" };
+	//LayerMask for things that can be damaged
+	private int DAMAGEABLE_MASK;
+	//LayerMask for obstructions which can block the explosion
+	private int OBSTACLE_MASK;
+	//collider array to re-use when checking for collisions with the explosion
+	private readonly Collider2D[] colliders = new Collider2D[MAX_TARGETS];
+
+	//whether this object has exploded
+	private bool hasExploded;	
+	//this object's registerObject
+	private RegisterObject registerObject;
+	//Temporary game object created during the explosion
+	private GameObject lightFxInstance;
+	//this object's custom net transform
+	private CustomNetTransform customNetTransform;
+
 
 	private void Start()
 	{
-		playerMask = LayerMask.GetMask("Players");
-		damageableMask = LayerMask.GetMask("Players", "Machines", "Default" /*, "Lighting", "Items"*/);
-		obstacleMask = LayerMask.GetMask("Walls", "Door Closed");
+		DAMAGEABLE_MASK = LayerMask.GetMask("Players", "Machines", "Default" /*, "Lighting", "Items"*/);
+		OBSTACLE_MASK = LayerMask.GetMask("Walls", "Door Closed");
 
-		registerTile = GetComponent<RegisterTile>();
+		registerObject = GetComponent<RegisterObject>();
+		customNetTransform = GetComponent<CustomNetTransform>();
 	}
 
 	public void ExplodeOnDamage(string damagedBy)
@@ -44,18 +54,25 @@ public class ExplodeWhenShot : NetworkBehaviour
 		//        Logger.Log("Exploding on damage!");
 		if (isServer)
 		{
-			Explode(damagedBy); //fixme
+			CalcAndApplyExplosionDamage(damagedBy); //fixme
+			RpcClientExplode();
+			StartCoroutine(WaitToDestroy());
 		}
 		hasExploded = true;
-		GoBoom();
+		DisplayExplosion();
 	}
 
-
+	/// <summary>
+	/// Calculate and apply the damage that should be caused by the explosion, updating the server's state for the damaged
+	/// objects.
+	/// </summary>
+	/// <param name="thanksTo">string of the entity that caused the explosion</param>
 	[Server]
-	public void Explode(string thanksTo)
+	public void CalcAndApplyExplosionDamage(string thanksTo)
 	{
+		//NOTE: There is no need for this method to be public except for unit testing.
 		Vector2 explosionPos = transform.position;
-		int length = Physics2D.OverlapCircleNonAlloc(explosionPos, radius, colliders, damageableMask);
+		int length = Physics2D.OverlapCircleNonAlloc(explosionPos, radius, colliders, DAMAGEABLE_MASK);
 		Dictionary<GameObject, int> toBeDamaged = new Dictionary<GameObject, int>();
 		for (int i = 0; i < length; i++)
 		{
@@ -65,10 +82,10 @@ public class ExplodeWhenShot : NetworkBehaviour
 			Vector2 localObjectPos = localObject.transform.position;
 			float distance = Vector3.Distance(explosionPos, localObjectPos);
 			float effect = 1 - distance * distance / (radius * radius);
-			int actualDamage = (int) (damage * effect);
+			int actualDamage = (int)(damage * effect);
 
 			if (NotSameObject(localCollider) && HasHealthComponent(localCollider) && IsWithinReach(explosionPos, localObjectPos, distance) &&
-			    HasEffectiveDamage(actualDamage) //todo check why it's reaching negative values anyway
+				HasEffectiveDamage(actualDamage) //todo check why it's reaching negative values anyway
 			)
 			{
 				toBeDamaged[localObject] = actualDamage;
@@ -85,16 +102,24 @@ public class ExplodeWhenShot : NetworkBehaviour
 		StartCoroutine(WaitToDestroy());
 	}
 
+	/// <summary>
+	/// Updates each client, telling them to display the explosion effect on their own version
+	/// of the object and make the object vanish due to the explosion.
+	/// </summary>
 	[ClientRpc]
 	private void RpcClientExplode()
 	{
 		if (!hasExploded)
 		{
 			hasExploded = true;
-			GoBoom();
+			DisplayExplosion();
 		}
 	}
 
+	/// <summary>
+	/// Destroy the exploded game object (removing it completely from the game) after a few seconds.
+	/// </summary>
+	/// <returns></returns>
 	private IEnumerator WaitToDestroy()
 	{
 		yield return new WaitForSeconds(5f);
@@ -108,7 +133,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 
 	private bool IsWithinReach(Vector2 pos, Vector2 damageablePos, float distance)
 	{
-		return distance <= radius && Physics2D.Raycast(pos, damageablePos - pos, distance, obstacleMask).collider == null;
+		return distance <= radius && Physics2D.Raycast(pos, damageablePos - pos, distance, OBSTACLE_MASK).collider == null;
 	}
 
 	private static bool HasHealthComponent(Collider2D localCollider)
@@ -121,29 +146,27 @@ public class ExplodeWhenShot : NetworkBehaviour
 		return !localCollider.gameObject.Equals(gameObject);
 	}
 
-	internal virtual void GoBoom()
+	/// <summary>
+	/// Handles the visual effect of the explosion / disappearing of the object
+	/// </summary>
+	internal virtual void DisplayExplosion()
 	{
-		if (spriteRend.isVisible)
+		//NOTE: This runs on both the client and the server.
+		//When something goes boom on a client, the client makes its own version go boom,
+		// the server makes its own version of the object go boom and
+		//sends an RPC to all the clients to tell them to make their version of the object go boom as well. So this
+		//method ends up being invoked on clients and server.
+
+		
+		//Shake if the player is on the same matrix (check for null in case this is a headless server)
+		if (PlayerManager.LocalPlayer != null &&
+			PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterPlayer>() == registerObject.Matrix)
 		{
 			Camera2DFollow.followControl.Shake(0.2f, 0.2f);
 		}
+
 		// Instantiate a clone of the source so that multiple explosions can play at the same time.
-		spriteRend.enabled = false;
-		try
-		{
-			registerTile.Unregister();
-		}
-		catch
-		{
-			Logger.LogWarning("Object may of already been removed", Category.Health);
-		}
-
-		foreach (Collider2D collider2d in gameObject.GetComponents<Collider2D>())
-		{
-			collider2d.enabled = false;
-		}
-
-		string name = explosions[Random.Range(0, explosions.Length)];
+		string name = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
 		AudioSource source = SoundManager.Instance[name];
 		if (source != null)
 		{
@@ -155,9 +178,32 @@ public class ExplodeWhenShot : NetworkBehaviour
 
 		GameObject lightFx = Resources.Load<GameObject>("lighting/BoomLight");
 		lightFxInstance = Instantiate(lightFx, transform.position, Quaternion.identity);
-		lightSprite = lightFxInstance.GetComponentInChildren<LightSprite>();
+		//LightSprite lightSprite = lightFxInstance.GetComponentInChildren<LightSprite>();
 		//lightSprite.fadeFX(1f); // TODO Removed animation (Should be in a separate component)
 		SetFire();
+
+		//make the actual tank disappear
+		DisappearObject();
+	}
+
+	/// <summary>
+	/// disappear this object (while still keeping the explosion around)
+	/// </summary>
+	private void DisappearObject()
+	{
+		//NOTE: This runs on both the client and the server. When it runs on the server,
+		//we need to make sure the server knows it should be disappeared. When it runs on the
+		//client we need to make the clients local version of the object disappear
+		if (isServer)
+		{
+			//make it vanish in the server's state of the world
+			customNetTransform.DisappearFromWorldServer();
+		}
+		else
+		{
+			//make it vanish in the client's local world
+			customNetTransform.DisappearFromWorld();
+		}		
 	}
 
 	private void SetFire()
@@ -180,7 +226,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 				}
 
 				Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y - j, 0);
-				if (matrix.IsPassableAt(checkPos)) // || MatrixOld.Matrix.At(checkPos).IsPlayer())
+				if (registerObject.Matrix.IsPassableAt(checkPos)) // || MatrixOld.Matrix.At(checkPos).IsPlayer())
 				{
 					EffectsFactory.Instance.SpawnFileTileLocal(Random.Range(0.4f, 1f), checkPos, transform.parent);
 					maxNumOfFire--;

@@ -3,6 +3,10 @@ using System.Linq;
 using UnityEngine;
 
 
+	/// <summary>
+	/// ObjectLayer holds all the objects on all the tiles in the game world - specifically the RegisterTile components of those objects.
+	/// It provides functionality for checking what should occur on given tiles, such as if a tile at a specific location should be passable.
+	/// </summary>
 	[ExecuteInEditMode]
 	public class ObjectLayer : Layer
 	{

@@ -9,6 +9,12 @@ public enum ObjectType
 	Wire
 }
 
+/// <summary>
+/// Holds various behavior which affects the tile the object is currently on.
+/// A given tile in the ObjectLayer (which represents an individual square in the game world)
+/// can have multiple gameobjects with RegisterTile behavior. This lets each gameobject on the tile
+/// influence how the tile works (such as making it impassible)
+/// </summary>
 [ExecuteInEditMode]
 public abstract class RegisterTile : NetworkBehaviour
 {
@@ -18,6 +24,9 @@ public abstract class RegisterTile : NetworkBehaviour
 
 	public ObjectType ObjectType;
 
+	/// <summary>
+	/// Matrix this object lives in
+	/// </summary>
 	public Matrix Matrix { get; private set; }
 
 	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
@@ -28,6 +37,13 @@ public abstract class RegisterTile : NetworkBehaviour
 		set { parentNetId = value; }
 	}
 
+	/// <summary>
+	/// Invoked when parentNetId is changed on the server, updating the client's parentNetId. This
+	/// applies the change by moving this object to live in the same objectlayer and matrix as that
+	/// of the new parentid.
+	/// provided netId
+	/// </summary>
+	/// <param name="netId">NetworkInstanceId of the new parent</param>
 	private void SetParent(NetworkInstanceId netId)
 	{
 		GameObject parent = ClientScene.FindLocalObject(netId);
@@ -36,16 +52,24 @@ public abstract class RegisterTile : NetworkBehaviour
 			//nothing found
 			return;
 		}
-
-		Unregister();
+		//remove from current parent layer
+		layer?.Objects.Remove(Position, this);
 		layer = parent.GetComponentInChildren<ObjectLayer>();
 		Matrix = parent.GetComponentInChildren<Matrix>();
 		transform.parent = layer.transform;
-		UpdatePosition();
+		//if we are hidden, remain hidden, otherwise update because we have a new parent
+		if (Position != TransformState.HiddenPos)
+		{
+			UpdatePosition();
+		}		
 	}
 
 	public Vector3Int WorldPosition => MatrixManager.Instance.LocalToWorldInt(position, Matrix);
 
+	/// <summary>
+	/// the "registered" local position of this object (which might differ from transform.localPosition).
+	/// It will be set to TransformState.HiddenPos when hiding the object.
+	/// </summary> 
 	public Vector3Int Position
 	{
 		get { return position; }
@@ -92,7 +116,7 @@ public abstract class RegisterTile : NetworkBehaviour
 
 		// In case of recompilation and Start doesn't get called
 		layer?.Objects.Add(Position, this);
-	}
+	}	
 
 	private void OnDisable()
 	{
@@ -104,6 +128,10 @@ public abstract class RegisterTile : NetworkBehaviour
 		layer?.Objects.Remove(Position, this);
 	}
 
+	/// <summary>
+	/// Update the position of this using the local position of this gameobject's transform.
+	/// Note that this will make the object visible if it is currently hidden (when Position == TransformState.HiddenPos).
+	/// </summary>
 	public void UpdatePosition()
 	{
 		Position = Vector3Int.RoundToInt(transform.localPosition);
@@ -112,6 +140,9 @@ public abstract class RegisterTile : NetworkBehaviour
 
 	public virtual void AfterUpdate() {}
 
+	/// <summary>
+	/// Remove this from the object layer it lives in and update its position to make it hidden
+	/// </summary>
 	public void Unregister()
 	{
 		Position = TransformState.HiddenPos;

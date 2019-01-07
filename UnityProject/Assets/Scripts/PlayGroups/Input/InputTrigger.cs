@@ -38,6 +38,7 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// <summary>
 	/// Trigger an interaction with the position set to this transform's position, with the specified originator and hand.
 	/// </summary>
+	/// <param name="originator">GameObject of the player initiating the interaction</param>
 	/// <param name="hand">hand being used by the originator</param>
 	/// <returns>true if further interactions should be prevented for the current update</returns>
 	public bool Interact(GameObject originator, string hand) {

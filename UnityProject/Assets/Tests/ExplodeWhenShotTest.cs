@@ -51,7 +51,7 @@ public class ExplodeWhenShotTest
 	[UnityTest]
 	public IEnumerator Should_Destroy_Object()
 	{
-		subject.Explode(null);
+		subject.CalcAndApplyExplosionDamage(null);
 
 		yield return 0;
 
@@ -72,7 +72,7 @@ public class ExplodeWhenShotTest
 
 		try
 		{
-			subject.Explode(null);
+			subject.CalcAndApplyExplosionDamage(null);
 
 			Assert.That(living == damaged);
 		}
@@ -99,7 +99,7 @@ public class ExplodeWhenShotTest
 		LivingHealthBehaviour damaged = null;
 		subject.callback = t => damaged = t;
 
-		subject.Explode(null);
+		subject.CalcAndApplyExplosionDamage(null);
 
 		Assert.That(damaged == null);
 	}
@@ -118,7 +118,7 @@ public class ExplodeWhenShotTest
 		//			}
 		//		}
 
-		internal override void GoBoom()
+		internal override void DisplayExplosion()
 		{
 			wentBoom = true;
 		}
