@@ -129,7 +129,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// For client code
 	public PlayerState ClientState => playerState;
 
-	private HealthBehaviour healthBehaviorScript;
+		private LivingHealthBehaviour healthBehaviorScript;
 
 	public PlayerMove playerMove;
 	private PlayerScript playerScript;
@@ -280,7 +280,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 		playerScript = GetComponent<PlayerScript>();
 		playerSprites = GetComponent<PlayerSprites>();
-		healthBehaviorScript = GetComponent<HealthBehaviour>();
+		healthBehaviorScript = GetComponent<LivingHealthBehaviour>();
 		registerTile = GetComponent<RegisterTile>();
 		pushPull = GetComponent<PushPull>();
 	}

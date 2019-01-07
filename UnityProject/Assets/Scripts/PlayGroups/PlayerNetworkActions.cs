@@ -672,7 +672,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdCommitSuicide()
 	{
-		GetComponent<HealthBehaviour>().ApplyDamage(gameObject, 1000, DamageType.BRUTE, BodyPartType.CHEST);
+		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, DamageType.Brute, BodyPartType.Chest);
 	}
 
 	[ClientRpc]
@@ -769,8 +769,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//and use this Cmd for healing hunger and applying
 		//food related attributes instead:
 		playerHealth.AddHealth(baseFood.healAmount);
-		playerHealth.BloodLevel += baseFood.healAmount;
-		playerHealth.StopBleeding();
+		playerHealth.bloodSystem.BloodLevel += baseFood.healAmount;
+		playerHealth.bloodSystem.StopBleeding();
 
         InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
         equipment.ClearItemSprite(fromSlot);

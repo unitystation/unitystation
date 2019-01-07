@@ -75,7 +75,7 @@ public class VendorTrigger : InputTrigger
 			}
 			spawnedItem.GetComponent<CustomNetTransform>()?.Throw( new ThrowInfo {
 				ThrownBy = gameObject,
-				Aim = BodyPartType.CHEST,
+				Aim = BodyPartType.Chest,
 				OriginPos = transform.position,
 				TargetPos = transform.position + offset,
 				SpinMode = DispenseDirection == DispenseDirection.Random ? SpinMode.Clockwise : SpinMode.None

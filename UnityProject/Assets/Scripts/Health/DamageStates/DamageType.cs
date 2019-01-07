@@ -2,20 +2,20 @@
 {
 	// These were found in combat.dm under damage defines
 	/*public const string*/
-	BRUTE, /*= "brute";*/
+	Brute, /*= "brute";*/
 
 	/*public const string*/
-	BURN, /*= "fire";*/
+	Burn, /*= "fire";*/
 
 	/*public const string*/
-	TOX, /*= "tox";*/
+	Tox, /*= "tox";*/
 
 	/*public const string*/
-	OXY, /*= "oxy";*/
+	Oxy, /*= "oxy";*/
 
 	/*public const string*/
-	CLONE, /*= "clone";*/
+	Clone, /*= "clone";*/
 
 	/*public const string*/
-	STAMINA /*= "stamina";*/
+	Stamina /*= "stamina";*/
 }

@@ -1,11 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class MopTrigger : PickUpTrigger
 {
-	[SyncVar]
-	private bool canBeUsed = false;
-
     public override bool Interact (GameObject originator, Vector3 position, string hand)
     {
         //TODO:  Fill this in.
@@ -15,23 +13,36 @@ public class MopTrigger : PickUpTrigger
             return base.Interact (originator, position, hand);
         }
         var targetWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (canBeUsed && PlayerManager.PlayerScript.IsInReach(targetWorldPos))
+		if (PlayerManager.PlayerScript.IsInReach(targetWorldPos))
         {
-            //TODO INSERT CLEANING FUNCTION
+			if(!isServer)
+			{
+				InteractMessage.Send(gameObject, hand);
+			} else
+			{
+				var progressFinishAction = new FinishProgressAction(
+					FinishProgressAction.Action.CleanTile,
+					targetWorldPos,
+					this
+				);
+
+				//Start the progress bar:
+				UIManager.ProgressBar.StartProgress(Vector3Int.RoundToInt(targetWorldPos),
+					5f, progressFinishAction, originator);
+			}
+			
         }
 
         return base.Interact (originator, position, hand);
     }
 
-    //Broadcast from EquipmentPool.cs **ServerSide**
-    public void OnAddToPool ()
-    {
-        canBeUsed = true;
-    }
-
-    //Broadcast from EquipmentPool.cs **ServerSide**
-    public void OnRemoveFromInventory ()
-    {
-        canBeUsed = false;
-    }
+	public void CleanTile (Vector3 spatsPos)
+	{
+		Vector3Int targetWorldIntPos = spatsPos.CutToInt();
+		IEnumerable bloodSpats = MatrixManager.GetAt<BloodSplat>(targetWorldIntPos);
+		foreach (BloodSplat bloodSpat in bloodSpats)
+		{
+			bloodSpat.DisappearFromWorldServer();
+		}
+	}
 }

@@ -22,7 +22,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 	/// <param name="controlledByPlayer">player doing the shooting</param>
 	/// <param name="targetZone">body part being targeted</param>
 	/// <param name="fromWeapon">Weapon the shot is being fired from</param>
-	public void Suicide(GameObject controlledByPlayer, Weapon fromWeapon, BodyPartType targetZone = BodyPartType.CHEST) {
+	public void Suicide(GameObject controlledByPlayer, Weapon fromWeapon, BodyPartType targetZone = BodyPartType.Chest) {
 		isSuicide = true;
 		StartShoot(Vector2.zero, 0, controlledByPlayer, fromWeapon, targetZone);
 		OnShoot();
@@ -36,7 +36,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 	/// <param name="controlledByPlayer"></param>
 	/// <param name="targetZone"></param>
 	/// <param name="fromWeapon">Weapon the shot is being fired from</param>
-	public void Shoot(Vector2 dir, float angle, GameObject controlledByPlayer, Weapon fromWeapon, BodyPartType targetZone = BodyPartType.CHEST)
+	public void Shoot(Vector2 dir, float angle, GameObject controlledByPlayer, Weapon fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
 	{
 		isSuicide = false;
 		StartShoot(dir, angle, controlledByPlayer, fromWeapon, targetZone);
@@ -70,7 +70,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D coll)
 	{
-		HealthBehaviour damageable = coll.GetComponent<HealthBehaviour>();
+		LivingHealthBehaviour damageable = coll.GetComponent<LivingHealthBehaviour>();
 
 		if (coll.gameObject == shooter && !isSuicide)
 		{

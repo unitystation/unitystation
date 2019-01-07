@@ -7,7 +7,7 @@ public class GibMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-		foreach (HealthBehaviour living in Object.FindObjectsOfType<HealthBehaviour>())
+		foreach (LivingHealthBehaviour living in Object.FindObjectsOfType<LivingHealthBehaviour>())
 		{
 			living.Death();
 		}

@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// Health behavior specific to fuel tank. Explodes when it dies.
-/// </summary>
-public class FuelTankHealthBehaviour : HealthBehaviour
+public class FuelTankHealthBehaviour : LivingHealthBehaviour
 {
 //	private PushPull pushPull;
 
@@ -19,10 +16,10 @@ public class FuelTankHealthBehaviour : HealthBehaviour
 		float delay = 0f;
 		switch (LastDamageType)
 		{
-			case DamageType.BRUTE:
+			case DamageType.Brute:
 				delay = 0.1f;
 				break;
-			case DamageType.BURN:
+			case DamageType.Burn:
 				delay = Random.Range(0.2f, 2f);
 				break; //surprise
 		}

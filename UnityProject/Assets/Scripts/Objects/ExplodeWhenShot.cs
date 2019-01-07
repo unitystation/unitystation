@@ -94,9 +94,12 @@ public class ExplodeWhenShot : NetworkBehaviour
 
 		foreach (KeyValuePair<GameObject, int> pair in toBeDamaged)
 		{
-			pair.Key.GetComponent<HealthBehaviour>()
-				.ApplyDamage(pair.Key, pair.Value, DamageType.BURN);
-		}		
+			pair.Key.GetComponent<LivingHealthBehaviour>()
+				.ApplyDamage(pair.Key, pair.Value, DamageType.Burn);
+		}
+		RpcClientExplode();
+		gameObject.GetComponent<ObjectBehaviour>().visibleState = false;
+		StartCoroutine(WaitToDestroy());
 	}
 
 	/// <summary>
@@ -135,7 +138,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 
 	private static bool HasHealthComponent(Collider2D localCollider)
 	{
-		return localCollider.gameObject.GetComponent<HealthBehaviour>() != null;
+		return localCollider.gameObject.GetComponent<LivingHealthBehaviour>() != null;
 	}
 
 	private bool NotSameObject(Collider2D localCollider)

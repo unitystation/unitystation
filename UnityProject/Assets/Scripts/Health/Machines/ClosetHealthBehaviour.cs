@@ -2,7 +2,7 @@
 using UnityEngine.Networking;
 
 
-	public class ClosetHealthBehaviour : HealthBehaviour
+	public class ClosetHealthBehaviour : LivingHealthBehaviour
 	{
 		private ClosetControl closetControl;
 		private Collider2D[] colliders;

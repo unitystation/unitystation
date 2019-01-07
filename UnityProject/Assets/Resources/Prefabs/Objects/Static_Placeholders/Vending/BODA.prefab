@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114739519536560000}
   - component: {fileID: 114405417986018830}
   m_Layer: 11
-  m_Name: vending_107
+  m_Name: BODA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,6 +180,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
+  # Examine Description
+  # desc = "Old sweet water vending machine."
   m_EditorClassIdentifier: 
   ObjectType: 1
   AtmosPassable: 1
