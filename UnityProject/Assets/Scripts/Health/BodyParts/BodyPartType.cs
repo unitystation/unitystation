@@ -7,15 +7,15 @@
 	//    EYES,
 	//    MOUTH,
 	Chest = 1,
-	Left_Arm = 3,
-	Right_Arm = 2,
+	LeftArm = 3,
+	RightArm = 2,
 
 	//    LEFT_HAND,
 	//    RIGHT_HAND,
 	Groin = 6,
-	Left_Leg = 5,
+	LeftLeg = 5,
 
-	Right_Leg = 4
+	RightLeg = 4
 	//    LEFT_FOOT,
 	//    RIGHT_FOOT
 }

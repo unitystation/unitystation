@@ -77,16 +77,16 @@ public static class SweetExtensions {
 				return BodyPartType.Head;
 			if (t <= 10)
 			//	7/40
-				return BodyPartType.Left_Arm;
+				return BodyPartType.LeftArm;
 			if (t <= 17)
 			//	7/40
-				return BodyPartType.Right_Arm;
+				return BodyPartType.RightArm;
 			if (t <= 24)
 			//	7/40
-				return BodyPartType.Left_Leg;
+				return BodyPartType.LeftLeg;
 			if (t <= 31)
 			//	7/40
-				return BodyPartType.Right_Leg;
+				return BodyPartType.RightLeg;
 			//todo: don't forget to add groin!
 			//	9/40
 			return BodyPartType.Chest;
