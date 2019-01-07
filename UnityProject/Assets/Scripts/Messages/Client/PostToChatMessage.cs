@@ -28,11 +28,11 @@ public class PostToChatMessage : ClientMessage
 		}
 	}
 
-	public static void SendThrowHitMessage( GameObject item, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.NONE ) 
+	public static void SendThrowHitMessage( GameObject item, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.None ) 
 	{
 		var player = victim.Player();
 		if ( player == null ) {
-			hitZone = BodyPartType.NONE;
+			hitZone = BodyPartType.None;
 		}
 
 		var message = $"{victim.ExpensiveName()} has been hit by {item.Item()?.itemName ?? item.name}{InTheZone( hitZone )}";
@@ -53,13 +53,13 @@ public class PostToChatMessage : ClientMessage
 	/// <param name="victim">GameObject of the player hat was the victim</param>
 	/// <param name="damage">damage done</param>
 	/// <param name="hitZone">zone that was damaged</param>
-	public static void SendItemAttackMessage( GameObject item, GameObject attacker, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.NONE ) 
+	public static void SendItemAttackMessage( GameObject item, GameObject attacker, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.None ) 
 	{
 		var itemAttributes = item.GetComponent<ItemAttributes>();
 
 		var player = victim.Player();
 		if ( player == null ) {
-			hitZone = BodyPartType.NONE;
+			hitZone = BodyPartType.None;
 		}
 		
 		string victimName;
@@ -83,7 +83,7 @@ public class PostToChatMessage : ClientMessage
 	}
 
 	private static string InTheZone( BodyPartType hitZone ) {
-		return hitZone == BodyPartType.NONE ? "" : $" in the {hitZone.ToString().ToLower().Replace( "_", " " )}";
+		return hitZone == BodyPartType.None ? "" : $" in the {hitZone.ToString().ToLower().Replace( "_", " " )}";
 	}
 
 	//We want ChatEvent to be created on the server, so we're only passing the individual variables

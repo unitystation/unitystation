@@ -3,13 +3,12 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-///     Player health reporting.
-///     This is the Server -> Client reporting for player health
-///     The server also calculates the overall health values in this component
-///     (To determine maxHealth for huds, ui overlays etc)
+///		Health Monitoring component for all Living entities
+///     Monitors the state of the entities health on the server and acts accordingly
 /// </summary>
-public class PlayerHealthReporting : ManagedNetworkBehaviour
+public class HealthStateMonitor : ManagedNetworkBehaviour
 {
+	private LivingHealthBehaviour LivingHealthBehaviour;
 	private int bloodLevelCache;
 	private float BloodPercentage = 100f;
 
@@ -23,8 +22,12 @@ public class PlayerHealthReporting : ManagedNetworkBehaviour
 	//poll this component and request updated values from the server to set
 	//the current state of the UI overlays and hud
 
-	public PlayerHealth playerHealth;
-	private PlayerMove playerMove;
+	private LivingHealthBehaviour healthBehaviour;
+
+	void Awake()
+	{
+		healthBehaviour = GetComponent<LivingHealthBehaviour>();
+	}
 
 	protected override void OnEnable()
 	{
@@ -35,11 +38,14 @@ public class PlayerHealthReporting : ManagedNetworkBehaviour
 	{
 		if (isServer)
 		{
-			healthServerCache = playerHealth.Health;
-			bloodLevelCache = playerHealth.BloodLevel;
-			playerMove = GetComponent<PlayerMove>();
+			healthServerCache = healthBehaviour.OverallHealth;
+			bloodLevelCache = healthBehaviour.bloodSystem.BloodLevel;
 			UpdateManager.Instance.Add(this);
-			StartCoroutine(WaitForLoad());
+
+			if (!healthBehaviour.isNotPlayer)
+			{
+				StartCoroutine(WaitForLoad());
+			}
 		}
 		base.OnStartServer();
 	}
@@ -73,58 +79,58 @@ public class PlayerHealthReporting : ManagedNetworkBehaviour
 		//suffication, etc
 
 		//If already dead then do not check the status of the body anymore
-		if (playerMove.isGhost)
+		if (healthBehaviour.IsDead)
 		{
 			return;
 		}
 
 		//Blood calcs:
-		if (bloodLevelCache != playerHealth.BloodLevel)
+		if (bloodLevelCache != healthBehaviour.bloodSystem.BloodLevel)
 		{
-			bloodLevelCache = playerHealth.BloodLevel;
-			if (playerHealth.BloodLevel >= 560)
+			bloodLevelCache = healthBehaviour.bloodSystem.BloodLevel;
+			if (healthBehaviour.bloodSystem.BloodLevel >= 560)
 			{
 				//Full blood (or more)
 				BloodPercentage = 100f;
 			}
 			else
 			{
-				BloodPercentage = playerHealth.BloodLevel / 560f * 100f;
+				BloodPercentage = healthBehaviour.bloodSystem.BloodLevel / 560f * 100f;
 			}
 		}
 
 		//If blood level falls below health level, then set the health level
 		//manually and update the clients UI
-		if (BloodPercentage < playerHealth.Health)
+		if (BloodPercentage < healthBehaviour.OverallHealth)
 		{
-			healthServerCache = (int) BloodPercentage;
-			playerHealth.ServerOnlySetHealth(healthServerCache);
+			healthServerCache = (int)BloodPercentage;
+			healthBehaviour.ServerOnlySetHealth(healthServerCache);
 			UpdateClientUI(healthServerCache);
 		}
 
 		//Player has stopped breathing:
-		if (hasStoppedBreathing && playerHealth.Health > -1f)
+		if (hasStoppedBreathing && healthBehaviour.OverallHealth > -1f)
 		{
 			stoppedBreathingCount += Time.deltaTime;
 			if (stoppedBreathingCount > breathingDamagedRate)
 			{
 				stoppedBreathingCount = 0f;
 
-				playerHealth.ServerOnlySetHealth(healthServerCache -= 3);
+				healthBehaviour.ServerOnlySetHealth(healthServerCache -= 3);
 			}
 		}
 
-		if (playerHealth.Health != healthServerCache)
+		if (healthBehaviour.OverallHealth != healthServerCache)
 		{
-			healthServerCache = playerHealth.Health;
+			healthServerCache = healthBehaviour.OverallHealth;
 			UpdateClientUI(healthServerCache);
 		}
 
-		if (playerHealth.Health < 30 && !hasStoppedBreathing)
+		if (healthBehaviour.OverallHealth < 30 && !hasStoppedBreathing)
 		{
 			hasStoppedBreathing = true;
 		}
-		else if (playerHealth.Health >= 30 && hasStoppedBreathing)
+		else if (healthBehaviour.OverallHealth >= 30 && hasStoppedBreathing)
 		{
 			hasStoppedBreathing = false;
 		}
@@ -134,6 +140,6 @@ public class PlayerHealthReporting : ManagedNetworkBehaviour
 	[Server]
 	private void UpdateClientUI(int newHealth)
 	{
-		UpdateUIMessage.Send(gameObject, newHealth);
+		UpdateUIMessage.SendHealth(gameObject, newHealth);
 	}
 }

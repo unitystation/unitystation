@@ -617,8 +617,7 @@ public partial class PlayerSync
 	[Server]
 	private void CheckSpaceDamage()
 	{
-		if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition))
-			&& !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
+		if ( AtSpace() && !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
 		{
 			// Hurting people in space even if they are next to the wall
 			if (!IsEvaCompatible())
@@ -629,12 +628,28 @@ public partial class PlayerSync
 		}
 	}
 
+	private bool AtSpace() //Checks if player is at space, and if it is, enables oxygen alert if suit is not present.
+	{
+		if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition)))
+		{
+			if (!IsEvaCompatible())
+			{
+				UpdateUIMessage.SendOxyWarning(this.gameObject, true);
+			}
+
+			return true;
+		}
+		UpdateUIMessage.SendOxyWarning(this.gameObject, false);
+
+		return false;
+	}
+
 	// TODO: Remove this when atmos is implemented
 	// This prevents players drifting into space indefinitely
 	private IEnumerator ApplyTempSpaceDamage()
 	{
 		yield return new WaitForSeconds(1f);
-		healthBehaviorScript.ApplyDamage(null, 5, DamageType.OXY, BodyPartType.HEAD);
+		healthBehaviorScript.ApplyDamage(null, 5, DamageType.Oxy, BodyPartType.Head);
 		isApplyingSpaceDmg = false;
 	}
 
