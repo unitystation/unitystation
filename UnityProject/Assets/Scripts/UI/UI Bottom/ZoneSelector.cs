@@ -1,18 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-
-	//    public enum DamageZoneSelector {
-	//        torso,
-	//        head,
-	//        eyes,
-	//        mouth,
-	//        r_arm,
-	//        l_arm,
-	//        r_leg,
-	//        l_leg
-	//    }
-
 	public class ZoneSelector : MonoBehaviour
 	{
 		public Sprite[] selectorSprites;
@@ -47,19 +35,19 @@ using UnityEngine.UI;
 		/// <summary>
 		/// Cycles through head -> eyes -> mouth -> head for hotkey targeting
 		/// </summary>
-		// public void CycleHead()
-		// {
-		// 	switch (UIManager.DamageZone)
-		// 	{
-		// 		case BodyPartType.Head:
-		// 			SelectAction(BodyPartType.Eyes);
-		// 			break;
-		// 		case BodyPartType.Eyes:
-		// 			SelectAction(BodyPartType.Mouth);
-		// 			break;
-		// 		default:
-		// 			SelectAction(BodyPartType.Head);
-		// 			break;
-		// 	}
-		// }
+		public void CycleHead()
+		{
+			switch (UIManager.DamageZone)
+			{
+				case BodyPartType.Head:
+					SelectAction(BodyPartType.Eyes);
+					break;
+				case BodyPartType.Eyes:
+					SelectAction(BodyPartType.Mouth);
+					break;
+				default:
+					SelectAction(BodyPartType.Head);
+					break;
+			}
+		}
 	}

@@ -183,13 +183,6 @@ public class KeyboardInputManager : MonoBehaviour
 
 	private Dictionary<KeyAction, System.Action> keyActionFunctions = new Dictionary<KeyAction, System.Action>
 	{
-		// TODO finish adding movement
-		// Movement
-		{ KeyAction.MoveUp,			() => {/* Logger.Log("Moving up!", Category.Keybindings); */}},
-		{ KeyAction.MoveLeft, 		() => {/* Logger.Log("Moving left!", Category.Keybindings); */}},
-		{ KeyAction.MoveDown,		() => {/* Logger.Log("Moving down!", Category.Keybindings) */;}},
-		{ KeyAction.MoveRight,		() => {/* Logger.Log("Moving right!", Category.Keybindings); */}},
-
 		// Actions
 		{ KeyAction.ActionThrow,	() => { UIManager.Action.Throw(); }},
 		{ KeyAction.ActionDrop,		() => {	UIManager.Action.Drop(); }},
@@ -213,14 +206,13 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.ChatRadio,		() => { /* ControlChat.Instance.OpenChatWindow(Radio); */ }},
 		{ KeyAction.ChatDept,		() => { /* ControlChat.Instance.OpenChatWindow(Department); */ }},
 
-		// TODO finish head targeting once health refactor done
 		// Body part selection
-		{ KeyAction.TargetHead,		() => { /* UIManager.ZoneSelector.CycleHead(); */ UIManager.ZoneSelector.SelectAction(BodyPartType.Head); }},
+		{ KeyAction.TargetHead,		() => { UIManager.ZoneSelector.CycleHead(); }},
 		{ KeyAction.TargetChest,	() => { UIManager.ZoneSelector.SelectAction(BodyPartType.Chest); }},
 		{ KeyAction.TargetLeftArm,  () => { UIManager.ZoneSelector.SelectAction(BodyPartType.LeftArm); }},
 		{ KeyAction.TargetRightArm, () => { UIManager.ZoneSelector.SelectAction(BodyPartType.RightArm); }},
 		{ KeyAction.TargetLeftLeg,  () => { UIManager.ZoneSelector.SelectAction(BodyPartType.LeftLeg); }},
 		{ KeyAction.TargetRightLeg, () => { UIManager.ZoneSelector.SelectAction(BodyPartType.RightLeg); }},
-		{ KeyAction.TargetGroin, 	() => { /* UIManager.ZoneSelector.SelectAction(BodyPartType.Groin); */ }}
+		{ KeyAction.TargetGroin, 	() => { UIManager.ZoneSelector.SelectAction(BodyPartType.Groin); }}
 	};
 }

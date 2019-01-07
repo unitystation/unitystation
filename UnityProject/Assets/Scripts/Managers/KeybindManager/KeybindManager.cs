@@ -56,6 +56,14 @@ public enum KeyAction
 	TargetGroin
 }
 
+public enum MoveAction
+{
+	MoveUp = KeyAction.MoveUp,
+	MoveLeft = KeyAction.MoveLeft,
+	MoveDown = KeyAction.MoveDown,
+	MoveRight = KeyAction.MoveRight
+}
+
 public class KeybindManager : MonoBehaviour {
 	public static KeybindManager Instance;
 
@@ -259,7 +267,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ChatDept,  new KeybindObject("Department Chat", new KeyCombo(KeyCode.U), null, ActionType.Chat)},
 
 		// Body part selection
-		{ KeyAction.TargetHead, 	new KeybindObject("Target Head", 	  new KeyCombo(KeyCode.Keypad8), null, ActionType.Targeting)},
+		{ KeyAction.TargetHead, 	new KeybindObject("Target Head, Eyes and Mouth", 	  new KeyCombo(KeyCode.Keypad8), null, ActionType.Targeting)},
 		{ KeyAction.TargetChest,	new KeybindObject("Target Chest", 	  new KeyCombo(KeyCode.Keypad5), null, ActionType.Targeting)},
 		{ KeyAction.TargetLeftArm,  new KeybindObject("Target Left Arm",  new KeyCombo(KeyCode.Keypad6), null, ActionType.Targeting)},
 		{ KeyAction.TargetRightArm, new KeybindObject("Target Right Arm", new KeyCombo(KeyCode.Keypad4), null, ActionType.Targeting)},
