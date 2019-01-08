@@ -9,7 +9,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	public int OverallHealth { get; private set; }
 
+	// Systems can also be added via inspector 
 	public BloodSystem bloodSystem;
+	public BrainSystem brainSystem;
+	public RespiratorySystem respiratorySystem;
 
 	/// <summary>
 	/// If there are any body parts for this living thing, then add them to this list
@@ -55,10 +58,34 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	void Awake()
 	{
+		InitSystems();
+	}
+
+	/// Add any missing systems:
+	private void InitSystems()
+	{
+		//Always include blood for living entities:
 		bloodSystem = GetComponent<BloodSystem>();
 		if (bloodSystem == null)
 		{
 			bloodSystem = gameObject.AddComponent<BloodSystem>();
+		}
+
+		//Always include respiratory for living entities:
+		respiratorySystem = GetComponent<RespiratorySystem>();
+		if (respiratorySystem == null)
+		{
+			respiratorySystem = gameObject.AddComponent<RespiratorySystem>();
+		}
+
+		var tryGetHead = FindBodyPart(BodyPartType.Head);
+		if (tryGetHead != null && brainSystem == null)
+		{
+			if (tryGetHead.Type != BodyPartType.Chest)
+			{
+				//Head exists, install a brain system
+				brainSystem = gameObject.AddComponent<BrainSystem>();
+			}
 		}
 	}
 
@@ -344,7 +371,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 			//Too much damage, stop calculating:
 			if (OverallHealth <= 0)
-			{	
+			{
 				break;
 			}
 		}
