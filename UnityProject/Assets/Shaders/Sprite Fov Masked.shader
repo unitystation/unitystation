@@ -72,7 +72,7 @@ Shader "Stencil/Unlit background masked" {
 		fixed4 final = textureSample * i.color;
 
 		float maskChennel = maskSample.g + maskSample.r;
-		final.a = textureSample.a * clamp(maskChennel * 3 - 0.33333f, 0, 10);
+        final.a = textureSample.a * clamp(maskChennel * 3 - 0.33333f, 0, 10) * i.color.a;
 
 		return final;
 	}
