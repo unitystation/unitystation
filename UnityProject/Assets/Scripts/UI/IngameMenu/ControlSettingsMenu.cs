@@ -55,9 +55,9 @@ public class ControlSettingsMenu : MonoBehaviour
 			"Are you sure?",
 			() =>
 			{
-				keybindManager.SaveKeybinds(tempKeybinds);
+				keybindManager.SaveKeybinds(tempKeybinds, true);
 			},
-			"Save"
+			"Save And Close"
 		);
 	}
 	public void ResetToDefaultButton()
