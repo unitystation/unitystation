@@ -67,7 +67,7 @@ public partial class PlayerSync
 		private bool MoveCooldown = false; //cooldown is here just for client performance
 		private void DoAction() {
 			PlayerAction action = playerMove.SendAction();
-			if ( action.keyCodes.Length != 0  && !MoveCooldown ) {
+			if ( action.moveActions.Length != 0  && !MoveCooldown ) {
 				StartCoroutine( DoProcess( action ) );
 			}
 		}

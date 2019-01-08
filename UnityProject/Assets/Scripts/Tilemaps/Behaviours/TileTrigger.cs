@@ -112,7 +112,7 @@ public class TileTrigger : InputTrigger
 		}
 		else if (tile?.TileType == TileType.Window)
 		{
-			//TODO: This might be better done in InputController
+			//TODO: This might be better done in MouseInputController
 			//Check Melee:
 			MeleeTrigger melee = windowTileMap.gameObject.GetComponent<MeleeTrigger>();
 			if (melee != null && melee.MeleeInteract(originator, hand))
@@ -122,7 +122,7 @@ public class TileTrigger : InputTrigger
 		}
 		else if (tile?.TileType == TileType.Grill)
 		{
-			//TODO: This might be better done in InputController
+			//TODO: This might be better done in MouseInputController
 			//Check Melee:
 			MeleeTrigger melee = grillTileMap.gameObject.GetComponent<MeleeTrigger>();
 			if (melee != null && melee.MeleeInteract(originator, hand))

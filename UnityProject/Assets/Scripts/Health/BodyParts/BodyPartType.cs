@@ -4,8 +4,8 @@
 	None = -1,
 	Head = 0,
 
-	//    EYES,
-	//    MOUTH,
+	Eyes = 7,
+	Mouth = 8,
 	Chest = 1,
 	LeftArm = 3,
 	RightArm = 2,

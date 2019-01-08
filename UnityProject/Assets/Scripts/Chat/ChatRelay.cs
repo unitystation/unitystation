@@ -143,7 +143,7 @@ public class ChatRelay : NetworkBehaviour
             GameObject chatEntry = Instantiate(ControlChat.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
             Text text = chatEntry.GetComponent<Text>();
             text.text = colorMessage;
-            chatEntry.transform.parent = ControlChat.Instance.content;
+			chatEntry.transform.SetParent(ControlChat.Instance.content, false);
             chatEntry.transform.localScale = Vector3.one;
         }
     }

@@ -273,7 +273,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		for (int i = 0; i < slotNames.Length; i++)
 		{
 			Inventory[slotNames[i]].Item = null;
-			equipment.ClearItemSprite(slotNames[i]);			
+			equipment.ClearItemSprite(slotNames[i]);
 			InventoryManager.UpdateInvSlot(true, slotNames[i], null);
 		}
 
@@ -741,7 +741,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 		Camera2DFollow.followControl.cam.cullingMask = mask;
 
-		gameObject.GetComponent<InputController>().enabled = false;
+		gameObject.GetComponent<MouseInputController>().enabled = false;
 	}
 
 	//FOOD

@@ -1,42 +1,53 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-
-	//    public enum DamageZoneSelector {
-	//        torso,
-	//        head,
-	//        eyes,
-	//        mouth,
-	//        r_arm,
-	//        l_arm,
-	//        r_leg,
-	//        l_leg
-	//    }
-
 	public class ZoneSelector : MonoBehaviour
 	{
 		public Sprite[] selectorSprites;
 		public Image selImg;
-
 		private void Start()
 		{
-			//init chest selection
-			SelectAction(1, false);
+			// Select the chest initially
+			SelectAction(BodyPartType.Chest, false);
 		}
 
-		//unity...
+		/// <summary>
+		/// Overload of SelectAction function to allow it to be used in unity editor (eg with OnClick)
+		/// </summary>
 		public void SelectAction(int curSelect)
 		{
-			SelectAction(curSelect, true);
+			SelectAction((BodyPartType) curSelect);
 		}
 
-		public void SelectAction(int curSelect, bool click)
+		/// <summary>
+		/// Used for targeting specific body parts
+		/// </summary>
+		public void SelectAction(BodyPartType curSelect, bool clickSound = true)
 		{
-			if (click)
+			if (clickSound)
 			{
 				SoundManager.Play("Click01");
 			}
-			selImg.sprite = selectorSprites[curSelect];
-			UIManager.DamageZone = (BodyPartType) curSelect;
+			selImg.sprite = selectorSprites[(int)curSelect];
+			UIManager.DamageZone = curSelect;
+		}
+
+		/// <summary>
+		/// Cycles through head -> eyes -> mouth -> head for hotkey targeting
+		/// </summary>
+		public void CycleHead()
+		{
+			switch (UIManager.DamageZone)
+			{
+				case BodyPartType.Head:
+					SelectAction(BodyPartType.Eyes);
+					break;
+				case BodyPartType.Eyes:
+					SelectAction(BodyPartType.Mouth);
+					break;
+				default:
+					SelectAction(BodyPartType.Head);
+					break;
+			}
 		}
 	}

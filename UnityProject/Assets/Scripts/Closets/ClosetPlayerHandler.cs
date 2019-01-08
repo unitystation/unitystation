@@ -28,7 +28,7 @@ public class ClosetPlayerHandler : MonoBehaviour
 
 		if (!closetControl)
 		{
-			//this is not a closet. Could be a coffin or disposals 
+			//this is not a closet. Could be a coffin or disposals
 			Logger.LogWarning("No closet found for ClosetPlayerHandler!" + " maybe it's time to update this component? (see the todo's)", Category.Containers);
 			Destroy(this);
 		}
@@ -46,7 +46,7 @@ public class ClosetPlayerHandler : MonoBehaviour
 		}
 		if (monitor)
 		{
-			if (CheckForDirectionalKeyPress())
+			if (KeyboardInputManager.IsMovementPressed())
 			{
 				if (!closetControl.IsLocked)
 				{
@@ -60,16 +60,5 @@ public class ClosetPlayerHandler : MonoBehaviour
 				transform.position = closetControl.transform.position;
 			}
 		}
-	}
-
-	private bool CheckForDirectionalKeyPress() //fixme: OW
-	{
-		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.A) ||
-			Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.DownArrow) ||
-			Input.GetKeyDown(KeyCode.RightArrow))
-		{
-			return true;
-		}
-		return false;
 	}
 }

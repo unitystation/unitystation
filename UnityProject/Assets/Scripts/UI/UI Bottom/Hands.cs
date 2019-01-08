@@ -19,102 +19,114 @@ public class Hands : MonoBehaviour
 		IsRight = true;
 	}
 
+	/// <summary>
+	/// Action to swap hands
+	/// </summary>
 	public void Swap()
 	{
-		if (PlayerManager.LocalPlayerScript != null)
+		if (isValidPlayer())
 		{
-			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-				PlayerManager.LocalPlayerScript.playerMove.isGhost)
-			{
-				return;
-			}
+			SetHand(!IsRight);
 		}
-
-		SetHand(!IsRight);
 	}
 
+	/// <summary>
+	/// Sets the current active hand (true for right, false for left)
+	/// </summary>
 	public void SetHand(bool right)
 	{
-		if (PlayerManager.LocalPlayerScript != null)
+		if (isValidPlayer())
 		{
-			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-				PlayerManager.LocalPlayerScript.playerMove.isGhost)
+			if (right)
 			{
-				return;
-			}
-		}
+				CurrentSlot = Slots["rightHand"];
+				OtherSlot = Slots["leftHand"];
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("rightHand");
+				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "rightHand";
+				selector.SetParent(rightHand, false);
 
-		if (right)
-		{
-			CurrentSlot = Slots["rightHand"];
-			OtherSlot = Slots["leftHand"];
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("rightHand");
-			PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "rightHand";
-			selector.parent = rightHand;
-		}
-		else
-		{
-			CurrentSlot = Slots["leftHand"];
-			OtherSlot = Slots["rightHand"];
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("leftHand");
-			PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "leftHand";
-			selector.parent = leftHand;
-		}
-
-		IsRight = right;
-		var pos = selectorRect.anchoredPosition;
-		pos.x = 0f;
-		selectorRect.anchoredPosition = pos;
-		selector.SetAsFirstSibling();
-	}
-
-	public void SwapItem(UI_ItemSlot itemSlot)
-	{
-		if (PlayerManager.LocalPlayerScript != null)
-		{
-			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-				PlayerManager.LocalPlayerScript.playerMove.isGhost)
-			{
-				return;
-			}
-		}
-
-		if (CurrentSlot != itemSlot)
-		{
-			if (!CurrentSlot.IsFull)
-			{
-				Swap(CurrentSlot, itemSlot);
 			}
 			else
 			{
-				Swap(itemSlot, CurrentSlot);
+				CurrentSlot = Slots["leftHand"];
+				OtherSlot = Slots["rightHand"];
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("leftHand");
+				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "leftHand";
+				selector.SetParent(leftHand, false);
+			}
+
+			IsRight = right;
+			var pos = selectorRect.anchoredPosition;
+			pos.x = 0f;
+			selectorRect.anchoredPosition = pos;
+			selector.SetAsFirstSibling();
+		}
+	}
+
+	/// <summary>
+	/// Swap the item in the current slot to itemSlot
+	/// </summary>
+	public void SwapItem(UI_ItemSlot itemSlot)
+	{
+		if (isValidPlayer())
+		{
+			if (CurrentSlot != itemSlot)
+			{
+				if (!CurrentSlot.IsFull)
+				{
+					Swap(CurrentSlot, itemSlot);
+				}
+				else
+				{
+					Swap(itemSlot, CurrentSlot);
+				}
 			}
 		}
 	}
 
-	public void Use()
+	/// <summary>
+	/// General function to activate the item depending on the object.
+	/// E.g. eat food, clean floor with mop etc
+	/// </summary>
+	public void Activate()
 	{
-		if (PlayerManager.LocalPlayerScript != null)
-		{
-			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-				PlayerManager.LocalPlayerScript.playerMove.isGhost)
-			{
-				return;
-			}
-		}
-
+		// Is there an item in the active hand?
 		if (!CurrentSlot.IsFull)
 		{
 			return;
 		}
 
 		//Is the item edible?
-		if (CheckEdible())
+		if (isEdible())
 		{
 			return;
 		}
 
-		//This checks which UI slot the item can be equiped too and swaps it there
+		// Is the item a weapon?
+		if (isWeapon())
+		{
+			return;
+		}
+	}
+
+	/// <summary>
+	/// General function to try to equip the item in the active hand
+	/// </summary>
+	public void Equip()
+	{
+		// Is the player allowed to interact? (not a ghost)
+		if(!isValidPlayer())
+		{
+			return;
+		}
+
+		// Is there an item to equip?
+		if(!CurrentSlot.IsFull)
+		{
+			return;
+		}
+
+		//This checks which UI slot the item can be equiped to and swaps it there
 		ItemType type = Slots.GetItemType(CurrentSlot.Item);
 		SpriteType masterType = Slots.GetItemMasterType(CurrentSlot.Item);
 		UI_ItemSlot itemSlot = InventorySlotCache.GetSlotByItemType(CurrentSlot.Item);
@@ -129,8 +141,29 @@ public class Hands : MonoBehaviour
 		}
 	}
 
-	//Check if the item is edible and eat it
-	private bool CheckEdible()
+	/// <summary>
+	/// Check if the player is allowed to interact with objects
+	/// </summary>
+	/// <returns>True if they can, false if they cannot</returns>
+	private bool isValidPlayer()
+	{
+		if (PlayerManager.LocalPlayerScript != null)
+		{
+			// TODO tidy up this if statement once it's working correctly
+			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+				PlayerManager.LocalPlayerScript.playerMove.isGhost)
+			{
+				Logger.Log("Invalid player, cannot perform action!");
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/// <summary>
+	/// Check if the item is edible and eat it (true if it is)
+	/// </summary>
+	private bool isEdible()
 	{
 		FoodBehaviour baseFood = CurrentSlot.Item.GetComponent<FoodBehaviour>();
 		if (baseFood != null)
@@ -141,17 +174,25 @@ public class Hands : MonoBehaviour
 		return false;
 	}
 
+	private bool isWeapon()
+	{
+		Weapon baseWeapon = CurrentSlot.Item.GetComponent<Weapon>();
+		if (baseWeapon != null)
+		{
+			baseWeapon.TryReload();
+			return true;
+		}
+		return false;
+	}
+
+	/// <summary>
+	/// Swaps the two slots
+	/// </summary>
 	private void Swap(UI_ItemSlot slot1, UI_ItemSlot slot2)
 	{
-		if (PlayerManager.LocalPlayerScript != null)
+		if(isValidPlayer())
 		{
-			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-				PlayerManager.LocalPlayerScript.playerMove.isGhost)
-			{
-				return;
-			}
+			UIManager.TryUpdateSlot(new UISlotObject(slot1.inventorySlot.UUID, slot2.Item, slot2.inventorySlot.UUID));
 		}
-		
-		UIManager.TryUpdateSlot(new UISlotObject(slot1.inventorySlot.UUID, slot2.Item, slot2.inventorySlot.UUID));
 	}
 }

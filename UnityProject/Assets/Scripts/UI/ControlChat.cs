@@ -66,21 +66,11 @@ public class ControlChat : MonoBehaviour
         {
             RefreshChannelPanel ();
         }
-        if (!chatInputWindow.activeInHierarchy && !UIManager.IsInputFocus && Input.GetKey (KeyCode.T) && GameData.IsInGame &&
-            CustomNetworkManager.Instance.IsClientConnected ())
-        {
-            EventManager.Broadcast (EVENT.ChatFocused);
-            chatInputWindow.SetActive (true);
-            background.SetActive (true);
-            UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
-            EventSystem.current.SetSelectedGameObject (InputFieldChat.gameObject, null);
-            InputFieldChat.OnPointerClick (new PointerEventData (EventSystem.current));
-            UpdateChannelToggleText ();
-        }
+
         if (UIManager.IsInputFocus)
         {
             if (!string.IsNullOrEmpty (InputFieldChat.text.Trim ()) &&
-                (Input.GetKey (KeyCode.Return) || Input.GetKey (KeyCode.KeypadEnter)))
+                KeyboardInputManager.IsEnterPressed())
             {
                 PlayerSendChat ();
                 CloseChatWindow ();
@@ -89,22 +79,20 @@ public class ControlChat : MonoBehaviour
 
         if (chatInputWindow.activeInHierarchy)
         {
-            if (Input.GetKey (KeyCode.Escape))
+            if (KeyboardInputManager.IsEscapePressed())
             {
                 CloseChatWindow ();
             }
 
             if (!InputFieldChat.isFocused)
             {
-                if (Input.GetKey (KeyCode.W) || Input.GetKey (KeyCode.D) ||
-                    Input.GetKey (KeyCode.S) || Input.GetKey (KeyCode.A) ||
-                    Input.GetKey (KeyCode.Escape))
+                if (KeyboardInputManager.IsMovementPressed() || KeyboardInputManager.IsEscapePressed())
                 {
                     CloseChatWindow ();
                 }
 
                 if (!string.IsNullOrEmpty (InputFieldChat.text.Trim ()) &&
-                    (Input.GetKey (KeyCode.Return) || Input.GetKey (KeyCode.KeypadEnter)))
+                    KeyboardInputManager.IsEnterPressed())
                 {
                     PlayerSendChat ();
                     CloseChatWindow ();
@@ -157,6 +145,18 @@ public class ControlChat : MonoBehaviour
         CloseChatWindow ();
     }
 
+    public void OpenChatWindow (/* ChatChannel selectedChannel = ChatChannel.None */)
+    {
+        // TODO add ability to pass a channel to select
+        EventManager.Broadcast (EVENT.ChatFocused);
+        chatInputWindow.SetActive (true);
+        background.SetActive (true);
+        UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
+        EventSystem.current.SetSelectedGameObject (InputFieldChat.gameObject, null);
+        InputFieldChat.OnPointerClick (new PointerEventData (EventSystem.current));
+        // PlayerManager.LocalPlayerScript.SelectedChannels =
+        UpdateChannelToggleText ();
+    }
     public void CloseChatWindow ()
     {
         UIManager.IsInputFocus = false;
@@ -194,7 +194,7 @@ public class ControlChat : MonoBehaviour
 
     private void TrySelectDefaultChannel ()
     {
-        //Try Local, then ghost, then OOC, 
+        //Try Local, then ghost, then OOC,
         var availChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask ();
         var selectedChannels = PlayerManager.LocalPlayerScript.SelectedChannels;
     }
@@ -212,7 +212,7 @@ public class ControlChat : MonoBehaviour
         return listChannels == "" ? "None" : listChannels;
     }
 
-    ///Channel-Toggle map for UI things 
+    ///Channel-Toggle map for UI things
     public Dictionary<ChatChannel, Toggle> ChannelToggles = new Dictionary<ChatChannel, Toggle> ();
 
     public void PopulateChannelPanel (ChatChannel channelsAvailable, ChatChannel channelsSelected)

@@ -29,30 +29,6 @@ public class GUI_IngameMenu : NetworkBehaviour
 		}
 	}
 
-	void Update()
-	{
-		CheckKeyboardInput();
-	}
-	// Temp control stuff
-	void CheckKeyboardInput()
-	{
-		// TODO: move this to the centralised input system later
-		if (!UIManager.IsInputFocus)
-		{
-			if (Input.GetKeyDown(KeyCode.Escape))
-			{
-				if(EscapeKeyTarget.TargetStack.Count > 0)
-				{
-					CloseMenuPanel(EscapeKeyTarget.TargetStack.Peek());
-				}
-				else
-				{
-					OpenMenuPanel(mainIngameMenu);
-				}
-			}
-		}
-	}
-
 	// Main Ingame Menu Functions
 	// ==================================================
 	public void OpenMenuPanel(GameObject nextMenuPanel)

@@ -61,7 +61,7 @@ using Facepunch.Steamworks;
 
 		public void EndEditOnEnter()
 		{
-			if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
+			if (KeyboardInputManager.IsEnterPressed())
 			{
 				BtnOk();
 			}

@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 /// <summary>
 /// Main entry point for handling all input events
 /// </summary>
-public class InputController : MonoBehaviour
+public class MouseInputController : MonoBehaviour
 {
 	/// <summary>
 	///     The cooldown before another action can be performed
@@ -53,10 +53,11 @@ public class InputController : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetMouseButtonDown(2))
-		{
-			CheckHandSwitch();
-		}
+		CheckMouseInput();
+	}
+
+	private void CheckMouseInput()
+	{
 		if (Input.GetMouseButtonDown(0))
 		{
 			if (!CheckAltClick())
@@ -77,6 +78,7 @@ public class InputController : MonoBehaviour
 			CheckHover();
 		}
 	}
+
 	private Renderer lastHoveredThing;
 
 	private void CheckHover()
@@ -104,15 +106,9 @@ public class InputController : MonoBehaviour
 		}
 	}
 
-	private void CheckHandSwitch()
-	{
-		UIManager.Hands.Swap();
-	}
-
 	private void CheckClick()
 	{
-		bool ctrlClick = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand) ||
-						 Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.RightCommand);
+		bool ctrlClick = KeyboardInputManager.IsControlPressed();
 		if (!ctrlClick)
 		{
 			//change the facingDirection of player on click
@@ -152,7 +148,7 @@ public class InputController : MonoBehaviour
 
 	private bool CheckAltClick()
 	{
-		if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
+		if (KeyboardInputManager.IsAltPressed())
 		{
 			//Check for items on the clicked position, and display them in the Item List Tab, if they're in reach
 			Vector3 position = MousePosition;
@@ -233,7 +229,7 @@ public class InputController : MonoBehaviour
 	/// to perform.
 	/// </summary>
 	/// <param name="isDrag">is this during (but not at the very start of) a drag?</param>
-	/// <param name="hitRenderer>renderer of the gameobject that had an interaction</param>
+	/// <param name="hitRenderer">renderer of the gameobject that had an interaction</param>
 	/// <param name="interact">true iff there was an interaction that occurred</param>
 	/// <returns>true iff there was a hit that caused an interaction</returns>
 	private bool RayHit(bool isDrag, out Renderer hitRenderer, bool interact = false)

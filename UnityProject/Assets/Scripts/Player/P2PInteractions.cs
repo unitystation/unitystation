@@ -43,7 +43,7 @@ public class P2PInteractions : InputTrigger
 	private bool CheckEdible(GameObject itemInHand)
 	{
 		FoodBehaviour baseFood = itemInHand.GetComponent<FoodBehaviour>();
-		if (baseFood == null || UIManager.CurrentIntent == Intent.Attack)
+		if (baseFood == null || UIManager.CurrentIntent == Intent.Harm)
 		{
 			return false;
 		}
