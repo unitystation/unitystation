@@ -15,17 +15,15 @@ using UnityEngine.Networking;
 		public PlayerScript PlayerScript => playerScript ? playerScript : ( playerScript = GetComponent<PlayerScript>() );
 
 		public bool diagonalMovement;
-		public bool azerty;
 
 		[SyncVar] public bool allowInput = true;
 		[SyncVar] public bool isGhost;
 
-		private readonly List<KeyCode> pressedKeys = new List<KeyCode>();
+		private readonly List<MoveAction> moveActionList = new List<MoveAction>();
 
-		public KeyCode[] keyCodes =
+		public MoveAction[] moveList =
 		{
-			KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow,
-			KeyCode.RightArrow
+			MoveAction.MoveUp, MoveAction.MoveLeft, MoveAction.MoveDown, MoveAction.MoveRight
 		};
 
 		private PlayerSprites playerSprites;
@@ -50,20 +48,24 @@ using UnityEngine.Networking;
 		{
 			List<int> actionKeys = new List<int>();
 
-			for (int i = 0; i < keyCodes.Length; i++)
+			for (int i = 0; i < moveList.Length; i++)
 			{
 				if (PlayerManager.LocalPlayer == gameObject && UIManager.IsInputFocus)
 				{
-					return new PlayerAction { keyCodes = actionKeys.ToArray() };
+					return new PlayerAction { moveActions = actionKeys.ToArray() };
 				}
 
-				if (Input.GetKey(keyCodes[i]) && allowInput)
+				// if (Input.GetKey(moveList[i]) && allowInput)
+				// {
+				// 	actionKeys.Add((int)moveList[i]);
+				// }
+				if (KeyboardInputManager.CheckMoveAction(moveList[i]) && allowInput)
 				{
-					actionKeys.Add((int)keyCodes[i]);
+					actionKeys.Add((int)moveList[i]);
 				}
 			}
 
-			return new PlayerAction { keyCodes = actionKeys.ToArray() };
+			return new PlayerAction { moveActions = actionKeys.ToArray() };
 		}
 
 		public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay, Matrix curMatrix = null)
@@ -78,29 +80,6 @@ using UnityEngine.Networking;
 			return currentPosition + direction;
 		}
 
-		public string ChangeKeyboardInput(bool setAzerty)
-		{
-			ControlAction controlAction = UIManager.Action;
-
-			if (setAzerty)
-			{
-				keyCodes = new KeyCode[] { KeyCode.Z, KeyCode.Q, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
-				azerty = true;
-				controlAction.azerty = true;
-				PlayerPrefs.SetInt("AZERTY", 1);
-				PlayerPrefs.Save();
-
-				return "AZERTY";
-			}
-
-			keyCodes = new KeyCode[] { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow };
-			azerty = false;
-			controlAction.azerty = false;
-			PlayerPrefs.SetInt("AZERTY", 0);
-
-			return "QWERTY";
-		}
-
 		private Vector3Int GetDirection(PlayerAction action, MatrixInfo matrixInfo, bool isReplay)
 		{
 			ProcessAction(action);
@@ -109,9 +88,9 @@ using UnityEngine.Networking;
 			{
 				return GetMoveDirection(matrixInfo, isReplay);
 			}
-			if (pressedKeys.Count > 0)
+			if (moveActionList.Count > 0)
 			{
-				return GetMoveDirection(pressedKeys[pressedKeys.Count - 1]);
+				return GetMoveDirection(moveActionList[moveActionList.Count - 1]);
 			}
 
 			return Vector3Int.zero;
@@ -119,17 +98,17 @@ using UnityEngine.Networking;
 
 		private void ProcessAction(PlayerAction action)
 		{
-			List<int> actionKeys = new List<int>(action.keyCodes);
+			List<int> actionKeys = new List<int>(action.moveActions);
 
-			for (int i = 0; i < keyCodes.Length; i++)
+			for (int i = 0; i < moveList.Length; i++)
 			{
-				if (actionKeys.Contains((int)keyCodes[i]) && !pressedKeys.Contains(keyCodes[i]))
+				if (actionKeys.Contains((int)moveList[i]) && !moveActionList.Contains(moveList[i]))
 				{
-					pressedKeys.Add(keyCodes[i]);
+					moveActionList.Add(moveList[i]);
 				}
-				else if (!actionKeys.Contains((int)keyCodes[i]) && pressedKeys.Contains(keyCodes[i]))
+				else if (!actionKeys.Contains((int)moveList[i]) && moveActionList.Contains(moveList[i]))
 				{
-					pressedKeys.Remove(keyCodes[i]);
+					moveActionList.Remove(moveList[i]);
 				}
 			}
 		}
@@ -138,9 +117,9 @@ using UnityEngine.Networking;
 		{
 			Vector3Int direction = Vector3Int.zero;
 
-			for (int i = 0; i < pressedKeys.Count; i++)
+			for (int i = 0; i < moveActionList.Count; i++)
 			{
-				direction += GetMoveDirection(pressedKeys[i]);
+				direction += GetMoveDirection(moveActionList[i]);
 			}
 
 			direction.x = Mathf.Clamp(direction.x, -1, 1);
@@ -161,49 +140,23 @@ using UnityEngine.Networking;
 			return direction;
 		}
 
-		private Vector3Int GetMoveDirection(KeyCode action)
+		private Vector3Int GetMoveDirection(MoveAction action)
 		{
 			if (PlayerManager.LocalPlayer == gameObject && UIManager.IsInputFocus)
 			{
 				return Vector3Int.zero;
 			}
 
-			// @TODO This needs a refactor, but this way AZERTY will work without weird conflicts.
-			if (azerty)
+			switch (action)
 			{
-				switch (action)
-				{
-					case KeyCode.Z:
-					case KeyCode.UpArrow:
-						return Vector3Int.up;
-					case KeyCode.Q:
-					case KeyCode.LeftArrow:
-						return Vector3Int.left;
-					case KeyCode.S:
-					case KeyCode.DownArrow:
-						return Vector3Int.down;
-					case KeyCode.D:
-					case KeyCode.RightArrow:
-						return Vector3Int.right;
-				}
-			}
-			else
-			{
-				switch (action)
-				{
-					case KeyCode.W:
-					case KeyCode.UpArrow:
-						return Vector3Int.up;
-					case KeyCode.A:
-					case KeyCode.LeftArrow:
-						return Vector3Int.left;
-					case KeyCode.S:
-					case KeyCode.DownArrow:
-						return Vector3Int.down;
-					case KeyCode.D:
-					case KeyCode.RightArrow:
-						return Vector3Int.right;
-				}
+				case MoveAction.MoveUp:
+					return Vector3Int.up;
+				case MoveAction.MoveLeft:
+					return Vector3Int.left;
+				case MoveAction.MoveDown:
+					return Vector3Int.down;
+				case MoveAction.MoveRight:
+					return Vector3Int.right;
 			}
 
 			return Vector3Int.zero;

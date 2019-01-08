@@ -5,17 +5,16 @@ public class ControlAction : MonoBehaviour
 {
 	public Image throwImage;
 	public Sprite[] throwSprites;
-	public bool azerty; //Hacky fix due to AZERTY keyboard users using Q to go left.
 
 	private void Start()
 	{
 		UIManager.IsThrow = false;
 	}
 
-	/* 
+	/*
 	 * Button OnClick methods
 	 */
-	
+
 	/// <summary>
 	/// Perform the resist action
 	/// </summary>
@@ -77,7 +76,7 @@ public class ControlAction : MonoBehaviour
 	// }
 
 	/// <summary>
-	/// Throw mode toggle. Actual throw is in <see cref="InputController.CheckThrow()"/>
+	/// Throw mode toggle. Actual throw is in <see cref="MouseInputController.CheckThrow()"/>
 	/// </summary>
 	public void Throw(bool forceDisable = false)
 	{
@@ -89,7 +88,7 @@ public class ControlAction : MonoBehaviour
 			return;
 		}
 
-		// See if requesting to enable or disable throw (for keyDown or keyUp)
+		// See if requesting to enable or disable throw
 		if (throwImage.sprite == throwSprites[0] && UIManager.IsThrow == false)
 		{
 			PlayerScript lps = PlayerManager.LocalPlayerScript;

@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 /// <summary>
 /// Main entry point for handling all input events
 /// </summary>
-public class InputController : MonoBehaviour
+public class MouseInputController : MonoBehaviour
 {
 	/// <summary>
 	///     The cooldown before another action can be performed

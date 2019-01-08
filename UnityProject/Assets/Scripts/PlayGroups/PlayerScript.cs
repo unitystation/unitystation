@@ -41,7 +41,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 		public RegisterTile registerTile { get; set; }
 
-		public InputController inputController { get; set; }
+		public MouseInputController mouseInputController { get; set; }
 
 		public HitIcon hitIcon { get; set; }
 
@@ -98,7 +98,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			pushPull = GetComponent<PushPull>();
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 			soundNetworkActions = GetComponent<SoundNetworkActions>();
-			inputController = GetComponent<InputController>();
+			mouseInputController = GetComponent<MouseInputController>();
 			hitIcon = GetComponentInChildren<HitIcon>();
 		}
 
@@ -112,7 +112,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 				SoundManager.PlayVarAmbient(rA);
 				playerMove = GetComponent<PlayerMove>();
 				playerSprites = GetComponent<PlayerSprites>();
-				GetComponent<InputController>().enabled = true;
+				GetComponent<MouseInputController>().enabled = true;
 
 				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
 				{

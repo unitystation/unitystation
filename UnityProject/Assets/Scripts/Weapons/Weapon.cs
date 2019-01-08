@@ -232,7 +232,7 @@ public class Weapon : PickUpTrigger
 		return false;
 	}
 
-	public void TryReload()	
+	public void TryReload()
 	{
 		//PlaceHolder for click UI
 		GameObject currentHandItem = UIManager.Hands.CurrentSlot.Item;
@@ -372,7 +372,7 @@ public class Weapon : PickUpTrigger
 
 					if (WeaponType == WeaponType.FullyAutomatic)
 					{
-						PlayerManager.LocalPlayerScript.inputController.OnMouseDownDir(dir);
+						PlayerManager.LocalPlayerScript.mouseInputController.OnMouseDownDir(dir);
 					}
 				}
 

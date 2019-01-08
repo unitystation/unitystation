@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 /// <summary>
-///     Handles Interact messages from InputController.cs
+///     Handles Interact messages from MouseInputController.cs
 ///     It also checks for access restrictions on the players ID card
 /// </summary>
 public class DoorTrigger : InputTrigger

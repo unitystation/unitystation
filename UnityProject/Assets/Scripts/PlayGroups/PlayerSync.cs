@@ -74,7 +74,7 @@ public struct PlayerState
 
 public struct PlayerAction
 {
-	public int[] keyCodes;
+	public int[] moveActions;
 	/// Set to true when client believes this action doesn't make player move
 	public bool isBump;
 
@@ -86,9 +86,9 @@ public struct PlayerAction
 	public Vector2Int Direction()
 	{
 		Vector2Int direction = Vector2Int.zero;
-		for (var i = 0; i < keyCodes.Length; i++)
+		for (var i = 0; i < moveActions.Length; i++)
 		{
-			direction += GetMoveDirection((KeyCode)keyCodes[i]);
+			direction += GetMoveDirection((MoveAction)moveActions[i]);
 		}
 		direction.x = Mathf.Clamp(direction.x, -1, 1);
 		direction.y = Mathf.Clamp(direction.y, -1, 1);
@@ -96,23 +96,17 @@ public struct PlayerAction
 		return direction;
 	}
 
-	private static Vector2Int GetMoveDirection(KeyCode action)
+	private static Vector2Int GetMoveDirection(MoveAction action)
 	{
 		switch (action)
 		{
-			case KeyCode.Z:
-			case KeyCode.W:
-			case KeyCode.UpArrow:
+			case MoveAction.MoveUp:
 				return Vector2Int.up;
-			case KeyCode.A:
-			case KeyCode.Q:
-			case KeyCode.LeftArrow:
+			case MoveAction.MoveLeft:
 				return Vector2Int.left;
-			case KeyCode.S:
-			case KeyCode.DownArrow:
+			case MoveAction.MoveDown:
 				return Vector2Int.down;
-			case KeyCode.D:
-			case KeyCode.RightArrow:
+			case MoveAction.MoveRight:
 				return Vector2Int.right;
 		}
 		return Vector2Int.zero;

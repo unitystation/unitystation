@@ -223,22 +223,6 @@ public class GameData : MonoBehaviour
 			SoundManager.Instance.ambientTracks[SoundManager.Instance.ambientPlaying].volume =
 				PlayerPrefs.GetFloat("AmbientVol");
 		}
-
-		if (PlayerPrefs.HasKey("AZERTY"))
-		{
-			if (PlayerManager.LocalPlayerScript)
-			{
-				PlayerMove plm = PlayerManager.LocalPlayerScript.playerMove;
-				if (PlayerPrefs.GetInt("AZERTY") == 1)
-				{
-					plm.ChangeKeyboardInput(true);
-				}
-				else
-				{
-					plm.ChangeKeyboardInput(false);
-				}
-			}
-		}
 	}
 }
 

@@ -56,6 +56,9 @@ public enum KeyAction
 	TargetGroin
 }
 
+/// <summary>
+/// A subset of KeyAction which only describes move actions
+/// </summary>
 public enum MoveAction
 {
 	MoveUp = KeyAction.MoveUp,

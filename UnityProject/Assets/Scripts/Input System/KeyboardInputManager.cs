@@ -49,16 +49,29 @@ public class KeyboardInputManager : MonoBehaviour
 				}
 			}
 
-			// Perform the checks for all rebindable key actions
+			// Perform the checks for all key actions which have functions defined here
 			foreach (KeyValuePair<KeyAction, KeybindObject> entry in keybindManager.userKeybinds)
 			{
-				if (CheckComboEvent(entry.Value.PrimaryCombo) || CheckComboEvent(entry.Value.SecondaryCombo))
+				if (keyActionFunctions.ContainsKey(entry.Key))
 				{
-					// Call the function associated with the KeyAction enum
-					keyActionFunctions[entry.Key]();
+					if (CheckComboEvent(entry.Value.PrimaryCombo) || CheckComboEvent(entry.Value.SecondaryCombo))
+					{
+						// Call the function associated with the KeyAction enum
+						keyActionFunctions[entry.Key]();
+					}
 				}
 			}
 		}
+	}
+
+	/// <summary>
+	/// Check if either of the key combos for the selected action have been pressed
+	/// </summary>
+	/// <param name="moveAction">The action to check</param>
+	/// <param name="keyEventType">The type of key event to check for</param>
+	public static bool CheckMoveAction(MoveAction moveAction)
+	{
+		return Instance.CheckKeyAction((KeyAction) moveAction, KeyEventType.Hold);
 	}
 
 	/// <summary>
@@ -203,8 +216,8 @@ public class KeyboardInputManager : MonoBehaviour
 		// TODO add other bindings once chat has been updated
 		// Chat
 		{ KeyAction.ChatLocal,		() => { ControlChat.Instance.OpenChatWindow(); }},
-		{ KeyAction.ChatRadio,		() => { /* ControlChat.Instance.OpenChatWindow(Radio); */ }},
-		{ KeyAction.ChatDept,		() => { /* ControlChat.Instance.OpenChatWindow(Department); */ }},
+		// { KeyAction.ChatRadio,		() => { /* ControlChat.Instance.OpenChatWindow(Radio); */ }},
+		// { KeyAction.ChatDept,		() => { /* ControlChat.Instance.OpenChatWindow(Department); */ }},
 
 		// Body part selection
 		{ KeyAction.TargetHead,		() => { UIManager.ZoneSelector.CycleHead(); }},
