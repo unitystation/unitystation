@@ -11,6 +11,7 @@ public enum NetTabType {
 	Spawner = 3,
 	Paper = 4,
 	ChemistryDispenser = 5,
+	Apc = 6,
 	//add your tabs here
 }
 /// Descriptor for unique Net UI Tab
@@ -21,18 +22,18 @@ public class NetTab : Tab {
 	public NetTabDescriptor NetTabDescriptor => new NetTabDescriptor( Provider, Type );
 	/// Is current tab a server tab?
 	public bool IsServer => transform.parent.name == nameof(NetworkTabManager);
-	
+
 //	public static readonly NetTab Invalid = new NetworkTabInfo(null);
 	private List<NetUIElement> Elements => GetComponentsInChildren<NetUIElement>(false).ToList();
 
 	public Dictionary<string, NetUIElement> CachedElements => cachedElements;
 	private Dictionary<string, NetUIElement> cachedElements = new Dictionary<string, NetUIElement>();
-	
+
 	//for server
 	public HashSet<ConnectedPlayer> Peepers => peepers;
 	private HashSet<ConnectedPlayer> peepers = new HashSet<ConnectedPlayer>();
 	public bool IsUnobserved => Peepers.Count == 0;
-	
+
 	public ElementValue[] ElementValues => CachedElements.Values.Select( element => element.ElementValue ).ToArray(); //likely expensive
 
 	public virtual void OnEnable() {
@@ -40,11 +41,11 @@ public class NetTab : Tab {
 	}
 
 	public NetUIElement this[ string elementId ] => CachedElements.ContainsKey(elementId) ? CachedElements[elementId] : null;
-	
+
 	//for server
 	public void AddPlayer( GameObject player ) {
 		Peepers.Add( PlayerList.Instance.Get( player ) );
-	}	
+	}
 	public void RemovePlayer( GameObject player ) {
 		Peepers.Remove( PlayerList.Instance.Get( player ) );
 	}
@@ -71,7 +72,7 @@ public class NetTab : Tab {
 				toRemove.Add( pair.Key );
 			}
 		}
-		//Remove obsolete elements from cache 
+		//Remove obsolete elements from cache
 		for ( var i = 0; i < toRemove.Count; i++ ) {
 			CachedElements.Remove( toRemove[i] );
 		}
@@ -82,7 +83,7 @@ public class NetTab : Tab {
 	public NetUIElement ImportValues( ElementValue[] values ) {
 		var nonLists = new List<ElementValue>();
 		bool shouldRescan = false;
-		
+
 		//set DynamicList values first (so that corresponding subelements would get created)
 		for ( var i = 0; i < values.Length; i++ ) {
 			var elementId = values[i].Id;
@@ -92,8 +93,8 @@ public class NetTab : Tab {
 					this[elementId].Value = values[i].Value;
 					shouldRescan = true;
 				}
-			} 
-			else 
+			}
+			else
 			{
 				nonLists.Add( values[i] );
 			}
@@ -105,15 +106,15 @@ public class NetTab : Tab {
 		}
 
 		NetUIElement firstTouchedElement = null;
-		
-		//set the rest of the values 
+
+		//set the rest of the values
 		for ( var i = 0; i < nonLists.Count; i++ ) {
 			var elementId = nonLists[i].Id;
-			if ( CachedElements.ContainsKey( elementId ) ) 
+			if ( CachedElements.ContainsKey( elementId ) )
 			{
 				var element = this[elementId];
 				element.Value = nonLists[i].Value;
-				
+
 				if ( firstTouchedElement == null ) {
 					firstTouchedElement = element;
 
