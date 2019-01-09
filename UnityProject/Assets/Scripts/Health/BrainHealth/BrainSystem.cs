@@ -9,5 +9,22 @@ using UnityEngine;
 /// </summary>
 public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
 {
- // TODO: Brain stuff. Brain Health, Brain Container, Brain Damage
+    //The brain! Only used on the server
+    private Brain brain;
+
+    void Awake()
+    {
+        InitSystem();
+    }
+
+    void InitSystem()
+    {
+        //Server only
+        if (CustomNetworkManager.Instance._isServer)
+        {
+            //Spawn a brain and connect the brain to this living entity
+            brain = new Brain();
+            brain.ConnectBrainToBody(gameObject);
+        }
+    }
 }
