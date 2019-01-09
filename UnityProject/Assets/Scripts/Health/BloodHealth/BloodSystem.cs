@@ -9,8 +9,26 @@ using UnityEngine;
 /// </summary>
 public class BloodSystem : MonoBehaviour
 {
-	public int ToxinDamage { get; set; } = 0;
-	public int OxygenLevel { get; set; } = 100; //100% is full healthy levels of oxygen
+	/// <summary>
+	/// How much toxin is found in the blood. 0% to 100%
+	/// </summary>
+	public int ToxinLevel
+	{
+		get { return Mathf.Clamp(toxinLevel, 0, 101); }
+		set { toxinLevel = Mathf.Clamp(value, 0, 101); }
+	}
+
+	/// <summary>
+	/// Oxygen levels found in the blood. 0% to 100%
+	/// </summary>
+	public int OxygenLevel
+	{
+		get { return Mathf.Clamp(oxygenLevel, 0, 101); }
+		set { oxygenLevel = Mathf.Clamp(value, 0, 101); }
+	}
+
+	private int oxygenLevel = 100;
+	private int toxinLevel = 0;
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private DNAandBloodType bloodType;
 	private readonly float bleedRate = 2f;
@@ -151,7 +169,7 @@ public class BloodSystem : MonoBehaviour
 
 		if (damageType == DamageType.Tox)
 		{
-			ToxinDamage += amount;
+			ToxinLevel += amount;
 		}
 	}
 
