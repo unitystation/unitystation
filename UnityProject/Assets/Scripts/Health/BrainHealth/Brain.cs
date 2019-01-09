@@ -18,6 +18,11 @@ public class Brain
 	public string GUID { get; private set; }
 	public bool IsInBody { get; set; }
 	public bool IsDead { get; set; }
+	/// <summary>
+	/// Amount of brain damage caused to this brain
+	/// </summary>
+	/// <value>0% to 100%</value>
+	public int BrainDamage { get; set; } = 0;
 	public GameObject Body { get; set; } = null;
 
 	/// <summary>
@@ -57,6 +62,7 @@ public class Brain
 
 	private void ResetValues()
 	{
+		BrainDamage = 0;
 		IsInBody = false;
 		IsDead = false;
 		brainInfections.Clear();
