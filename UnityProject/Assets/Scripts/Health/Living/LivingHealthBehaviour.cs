@@ -42,6 +42,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	// BloodType and DNA Data.
 	private DNAandBloodType DNABloodType;
+	private float tickRate = 1f;
+	private float tick = 0;
 
 	//be careful with falses, will make player conscious
 	public bool IsCrit
@@ -56,9 +58,40 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		private set { ConsciousState = value ? ConsciousState.DEAD : ConsciousState.CONSCIOUS; }
 	}
 
+	/// <summary>
+	/// Has the heart stopped.
+	/// May not be updated on the client
+	/// Request state from the server
+	/// </summary>
+	public bool IsCadiacArrest
+	{
+		get { return bloodSystem.HeartStopped; }
+	}
+
+	/// <summary>
+	/// Has breathing stopped
+	/// May not be updated on the client
+	/// Request state from the server
+	/// </summary>
+	public bool IsRespiratoryArrest
+	{
+		get { return respiratorySystem.IsBreathing; }
+	}
+
 	void Awake()
 	{
 		InitSystems();
+	}
+
+	void OnEnable()
+	{
+		UpdateManager.Instance.Add(UpdateMe);
+	}
+
+	void OnDisable()
+	{
+		if(UpdateManager.Instance != null)
+		UpdateManager.Instance.Remove(UpdateMe);
 	}
 
 	/// Add any missing systems:
@@ -219,7 +252,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		DetermineDamageEffects(damageType);
 
 		var prevHealth = OverallHealth;
-		CalculateOverallHealth();
 
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 			damage, prevHealth, OverallHealth, gameObject.name, damageType, bodyPartAim, damagedBy);
@@ -289,7 +321,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 
 		var prevHealth = OverallHealth;
-		CalculateOverallHealth();
 
 		Logger.LogTraceFormat("{3} received {0} {4} healing from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 			healAmt, prevHealth, OverallHealth, gameObject.name, damageTypeToHeal, bodyPartAim, healingItem);
@@ -310,12 +341,69 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 	}
 
+	//Handled via UpdateManager
+	void UpdateMe()
+	{
+		//Server Only:
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			tick += Time.deltaTime;
+			if(tick > tickRate){
+				tick = 0f;
+				CalculateOverallHealth();
+			}
+		}
+	}
+
 	/// <summary>
 	/// Recalculates the overall player health and updates OverallHealth property. Server only
 	/// </summary>
 	[Server]
 	protected void CalculateOverallHealth()
 	{
+		//--------------------------------------------------
+		// TODO I'll clean all this up into seperate methods 
+		// once I figure out the calculations
+		//-----------------------------------
+
+		int newHealth = 100;
+
+		//Start by checking systems first:
+
+		//Toxin Crit:
+		if (bloodSystem.ToxinLevel > 70 && bloodSystem.ToxinLevel <= 100)
+		{
+			newHealth = 30;
+		}
+
+		//Toxin OverDose:
+		if (bloodSystem.ToxinLevel >= 100)
+		{
+			newHealth = 0;
+		}
+
+		if (IsCadiacArrest)
+		{
+			newHealth = 0;
+		}
+
+		if (IsRespiratoryArrest)
+		{
+			newHealth = 0;
+		}
+
+		if (bloodSystem.BloodLevel < (int)BloodVolume.SURVIVE)
+		{
+			newHealth = 0;
+		}
+
+		//Go no further, should be in cardiac arrest 
+		if (newHealth <= 0)
+		{
+			OverallHealth = newHealth;
+			CheckDeadCritStatus();
+			return;
+		}
 		//Overall Health Calculation:
 		for (int i = 0; i < BodyParts.Count; i++)
 		{
@@ -325,12 +413,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 				//if head part is at crit then overall health will start with 30 hp
 				if (BodyParts[i].Severity == DamageSeverity.Critical)
 				{
-					OverallHealth = 30;
+					newHealth = 30;
 				}
 				//Max head trauma causes death:
 				if (BodyParts[i].Severity == DamageSeverity.Max)
 				{
-					OverallHealth = 0;
+					newHealth = 0;
 				}
 
 			}
@@ -342,31 +430,19 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 				{
 					if (OverallHealth > 30)
 					{
-						OverallHealth = 30;
+						newHealth = 30;
 					}
 					else
 					{
 						//Too much damage, kill the entity
-						OverallHealth = 0;
+						newHealth = 0;
 					}
 				}
 				//Max chest trauma causes death:
 				if (BodyParts[i].Severity == DamageSeverity.Max)
 				{
-					OverallHealth = 0;
+					newHealth = 0;
 				}
-			}
-
-			//Toxin Crit:
-			if (bloodSystem.ToxinLevel > 70 && bloodSystem.ToxinLevel >= 100)
-			{
-				OverallHealth = 30;
-			}
-
-			//Toxin OverDose:
-			if (bloodSystem.ToxinLevel >= 100)
-			{
-				OverallHealth = 0;
 			}
 
 			//Too much damage, stop calculating:
