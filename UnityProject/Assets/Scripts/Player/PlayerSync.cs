@@ -72,49 +72,6 @@ public struct PlayerState
 	}
 }
 
-public struct PlayerAction
-{
-	public int[] moveActions;
-	/// Set to true when client believes this action doesn't make player move
-	public bool isBump;
-
-	/// Set to true when client suggests some action that isn't covered by prediction
-	public bool isNonPredictive;
-
-	//clone of PlayerMove GetMoveDirection stuff
-	//but there should be a way to see the direction of these keycodes ffs
-	public Vector2Int Direction()
-	{
-		Vector2Int direction = Vector2Int.zero;
-		for (var i = 0; i < moveActions.Length; i++)
-		{
-			direction += GetMoveDirection((MoveAction)moveActions[i]);
-		}
-		direction.x = Mathf.Clamp(direction.x, -1, 1);
-		direction.y = Mathf.Clamp(direction.y, -1, 1);
-
-		return direction;
-	}
-
-	private static Vector2Int GetMoveDirection(MoveAction action)
-	{
-		switch (action)
-		{
-			case MoveAction.MoveUp:
-				return Vector2Int.up;
-			case MoveAction.MoveLeft:
-				return Vector2Int.left;
-			case MoveAction.MoveDown:
-				return Vector2Int.down;
-			case MoveAction.MoveRight:
-				return Vector2Int.right;
-		}
-		return Vector2Int.zero;
-	}
-
-	public static PlayerAction None = new PlayerAction();
-}
-
 public partial class PlayerSync : NetworkBehaviour, IPushable
 {
 	///For server code. Contains position
@@ -129,7 +86,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	private PlayerScript playerScript;
 	private PlayerSprites playerSprites;
 
-	private Matrix matrix => registerTile.Matrix;
+	private Matrix Matrix => registerTile.Matrix;
 
 	private RaycastHit2D[] rayHit;
 
@@ -140,12 +97,97 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 	private RegisterTile registerTile;
 
-	private bool CanMoveThere(PlayerState state, PlayerAction action)
+	/// <summary>
+	/// Checks both directions of a diagonal movement
+	/// to see if movement or a bump resulting in an interaction is possible. Modifies
+	/// the move action to switch to that direction, otherwise leaves it unmodified.
+	/// Prioritizes the following when there are multiple options:
+	/// 1. Move into empty space if either direction has it
+	/// 2. Push an object if either direction has it
+	/// 3. Open a door if either direction has it
+	///
+	/// When both directions have the same condition (both doors or pushable objects), x will be preferred to y
+	/// </summary>
+	/// <param name="state">current state to try to slide from</param>
+	/// <param name="action">current player action (which should have a diagonal movement). Will be modified if a slide is performed</param>
+	/// <returns>bumptype of the final direction of movement if action is modified. Null otherwise</returns>
+	private BumpType? TrySlide(PlayerState state, ref PlayerAction action)
 	{
-		Vector3Int origin = Vector3Int.RoundToInt(state.WorldPosition);
-		Vector3Int direction = Vector3Int.RoundToInt((Vector2)action.Direction());
+		Vector2Int direction = action.Direction();
+		if (Math.Abs(direction.x) + Math.Abs(direction.y) < 2)
+		{
+			//not diagonal, do nothing
+			return null;
+		}
 
-		return MatrixManager.IsPassableAt(origin, origin + direction, true, gameObject);
+		Vector2Int xDirection = new Vector2Int(direction.x, 0);
+		Vector2Int yDirection = new Vector2Int(0, direction.y);
+		BumpType xBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), xDirection, gameObject);
+		BumpType yBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), yDirection, gameObject);
+
+		MoveAction? newAction = null;
+		BumpType? newBump = null;
+
+		if (xBump == BumpType.None)
+		{
+			newAction = PlayerAction.GetMoveAction(xDirection);
+			newBump = xBump;
+		}
+		else if (yBump == BumpType.None)
+		{
+			newAction = PlayerAction.GetMoveAction(yDirection);
+			newBump = yBump;
+		}
+		else if (xBump == BumpType.Push)
+		{
+			newAction = PlayerAction.GetMoveAction(xDirection);
+			newBump = xBump;
+		}
+		else if (yBump == BumpType.Push)
+		{
+			newAction = PlayerAction.GetMoveAction(yDirection);
+			newBump = yBump;
+		}
+		else if (xBump == BumpType.ClosedDoor)
+		{
+			newAction = PlayerAction.GetMoveAction(xDirection);
+			newBump = xBump;
+		}
+		else if (yBump == BumpType.ClosedDoor)
+		{
+			newAction = PlayerAction.GetMoveAction(yDirection);
+			newBump = yBump;
+		}
+
+		if (newAction.HasValue)
+		{
+			action.moveActions = new int[] { (int)newAction };
+			return newBump;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/// <summary>
+	/// Checks if any bump would occur with the movement in the specified action.
+	/// If a BumpType.Blocked occurs, attempts to slide (if movement is diagonal). Updates
+	/// playerAction's movement if slide occurs.
+	/// </summary>
+	/// <param name="playerState">state moving from</param>
+	/// <param name="playerAction">action indicating the movement, will be modified if slide occurs</param>
+	/// <returns>the type of bump that occurs at the final destination (after sliding has been attempted)</returns>
+	private BumpType CheckSlideAndBump(PlayerState playerState, ref PlayerAction playerAction)
+	{
+		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, gameObject);
+		// if movement is blocked, try to slide
+		if (bump == BumpType.Blocked)
+		{
+			return TrySlide(playerState, ref playerAction) ?? bump;
+		}
+
+		return bump;
 	}
 
 	#region spess interaction logic
@@ -317,7 +359,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			return;
 		}
 
-		if (matrix != null)
+		if (Matrix != null)
 		{
 			CheckMovementClient();
 			bool server = isServer;

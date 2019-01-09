@@ -29,12 +29,22 @@ public abstract class RegisterTile : NetworkBehaviour
 	/// </summary>
 	public Matrix Matrix { get; private set; }
 
+	// Note that syncvar only runs on the client, so server must ensure SetParent
+	// is invoked
 	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
 
 	public NetworkInstanceId ParentNetId
 	{
 		get { return parentNetId; }
-		set { parentNetId = value; }
+		set
+		{
+			// update parent if it changed
+			if (value != parentNetId)
+			{
+				parentNetId = value;
+				SetParent(parentNetId);
+			}			
+		}
 	}
 
 	/// <summary>
