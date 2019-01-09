@@ -9,15 +9,6 @@ using UnityEngine;
 /// </summary>
 public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 {
-	//TODO: Remove GasTypes when atmos is merged and use the
-	//enums defined for atmos instead
-	public enum GasTypes
-	{
-		None, // = vacumm
-		Air, // = 80% nitrogen + 20% oxygen
-		//only need these values for time being until atmos is merged then
-		//we can remove this and use real atmos element percentages 
-	}
 	private BloodSystem bloodSystem;
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private PlayerScript playerScript;
@@ -54,7 +45,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			tick += Time.deltaTime;
 			if (tick >= tickRate)
 			{
-				MonitorSystem();
+				tick = 0f;
+				MonitorSystem();	
 			}
 		}
 	}
@@ -77,6 +69,9 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		// into each individual condition for ease of reading
 		if (IsBreathing)
 		{
+			MonitorAirInput();
+
+			//Conditions that would stop breathing:
 			if (livingHealthBehaviour.OverallHealth <= 0)
 			{
 				IsBreathing = false;
@@ -102,6 +97,20 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			{
 				IsBreathing = true;
 			}
+		}
+	}
+
+	void MonitorAirInput()
+	{
+		//TODO Finish when atmos is implemented. Basically deliver any elements to the
+		//the blood stream every breath
+		//Check atmos values for the tile you are on
+
+		//FIXME remove when above TODO is done:
+		if (!IsInSpace() || IsInSpace() && IsEvaCompatible())
+		{
+			//Delivers oxygen to the blood from a single breath
+			bloodSystem.OxygenLevel += 30;
 		}
 	}
 

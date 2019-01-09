@@ -26,6 +26,9 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
     /// -1 means there is no brain present</returns>
     public int BrainDamageAmt { get { if (brain == null) { return -1; } return Mathf.Clamp(brain.BrainDamage, 0, 101); } }
 
+    private float tickRate = 1f;
+    private float tick = 0f;
+
     void Awake()
     {
         InitSystem();
@@ -65,11 +68,16 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
     // Controlled via UpdateManager
     void UpdateMe()
     {
-        //Only preform brain monitoring/updating on the server
-        if (CustomNetworkManager.Instance._isServer)
-        {
-            MonitorBrain();
-        }
+        //Server Only:
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			tick += Time.deltaTime;
+			if (tick >= tickRate)
+			{
+				tick = 0f;
+				MonitorBrain();	
+			}
+		}
     }
 
     void MonitorBrain()
@@ -82,5 +90,10 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
 
         //TODO Do brain damage calculations using the infections list
         // Later on add cell damage to the calculation
+
+        //TODO alcohol level in blood, make it affect speech and movement
+
+        //TODO monitor elements in the blood stream. If oxygen is too low then begin an oxygen deprivation count
+        //use this value for brain damage calculations
     }
 }

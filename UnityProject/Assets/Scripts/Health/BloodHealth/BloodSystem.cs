@@ -26,6 +26,18 @@ public class BloodSystem : MonoBehaviour
 		get { return Mathf.Clamp(oxygenLevel, 0, 101); }
 		set { oxygenLevel = Mathf.Clamp(value, 0, 101); }
 	}
+	/// <summary>
+	/// The heart rate affects the rate at which blood is pumped around the body
+	/// Each pump consumes 5% of oxygen 
+	/// This is only relevant on the Server.
+	/// HeartRate value can be requested by a client via a NetMsg
+	/// </summary>
+	/// <value>Measured in BPM</value>
+	public int HeartRate { get; set; } = 55; //Resting is 55. 0 = dead
+	/// <summary>
+	/// Is the Heart Stopped. Performing CPR might start it again
+	/// </summary>
+	public bool HeartStopped => HeartRate == 0;
 
 	private int oxygenLevel = 100;
 	private int toxinLevel = 0;
@@ -35,6 +47,8 @@ public class BloodSystem : MonoBehaviour
 	private int bleedVolume;
 	public int BloodLevel = (int)BloodVolume.NORMAL;
 	public bool IsBleeding { get; private set; }
+	private float tickRate = 1f;
+	private float tick = 0f;
 
 	void Awake()
 	{
@@ -48,8 +62,8 @@ public class BloodSystem : MonoBehaviour
 
 	void OnDisable()
 	{
-		if(UpdateManager.Instance != null)
-		UpdateManager.Instance.Remove(UpdateMe);
+		if (UpdateManager.Instance != null)
+			UpdateManager.Instance.Remove(UpdateMe);
 	}
 
 	//Initial setting for blood type. Server only
@@ -61,8 +75,48 @@ public class BloodSystem : MonoBehaviour
 	//Handle by UpdateManager
 	void UpdateMe()
 	{
+		//Server Only:
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			if (livingHealthBehaviour.IsDead)
+			{
+				HeartRate = 0;
+				return;
+			}
 
+			tick += Time.deltaTime;
+			if (HeartRate == 0)
+			{
+				// TODO Add ability to start heart again via CPR
+				// Player needs to be in respiratory arrest and not
+				// have any injuries that are incompatible with life
+				tick = 0;
+				return;
+			}
+
+			if (tick >= 60f / (float)HeartRate) //Heart rate determines loop time
+			{
+				tick = 0f;
+				PumpBlood();
+			}
+		}
 	}
+
+	/// <summary>
+	/// Where the blood pumping action happens
+	/// </summary>
+	void PumpBlood()
+	{
+		OxygenLevel -= 5; //Remove 5% oxygen from system
+
+		if (IsBleeding)
+		{
+			LoseBlood(bleedVolume);
+		}
+
+		//TODO things that could affect heart rate, like low blood, crit status etc		
+	}
+
 
 	/// <summary>
 	/// Subtract an amount of blood from the player. Server Only
@@ -83,17 +137,6 @@ public class BloodSystem : MonoBehaviour
 		if (!IsBleeding)
 		{
 			IsBleeding = true;
-			StartCoroutine(StartBleeding());
-		}
-	}
-
-	private IEnumerator StartBleeding()
-	{
-		while (IsBleeding)
-		{
-			LoseBlood(bleedVolume);
-
-			yield return new WaitForSeconds(bleedRate);
 		}
 	}
 
