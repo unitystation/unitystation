@@ -83,6 +83,95 @@ public class MatrixManager : MonoBehaviour
 		return isAtInternal( mat => mat.Matrix.IsPassableAt( WorldToLocalInt( worldOrigin, mat ),
 															 WorldToLocalInt( worldTarget, mat ), includingPlayers, context ) );
 	}
+
+	/// <summary>
+	/// Checks what type of bump occurs at the specified destination.
+	/// </summary>
+	/// <param name="worldOrigin">current position in world coordinates</param>
+	/// <param name="dir">direction of movement</param>
+	/// <param name="bumper">GameObject trying to bump / move, used so we don't bump against ourselves</param>
+	/// <returns>the bump type which occurs at the specified point (BumpInteraction.None if it's open space)</returns>
+	public static BumpType GetBumpTypeAt(Vector3Int worldOrigin, Vector2Int dir, GameObject bumper)
+	{
+		Vector3Int targetPos = worldOrigin + dir.To3Int();
+		if (GetPushableAt(worldOrigin, dir, bumper).Count > 0)
+		{
+			return BumpType.Push;
+		}
+		else if (GetClosedDoorAt(targetPos) != null)
+		{
+			return BumpType.ClosedDoor;
+		}
+		else if (!IsPassableAt(worldOrigin, targetPos, true, bumper))
+		{
+			return BumpType.Blocked;
+		}
+
+		return BumpType.None;
+	}
+
+	/// <summary>
+	/// Checks what type of bump occurs at the specified destination.
+	/// </summary>
+	/// <param name="playerState">player state, used to get current world position</param>
+	/// <param name="playerAction">action indicating the direction player is trying to move</param>
+	/// <param name="bumper">GameObject trying to bump / move, used so we don't bump against ourselves</param>
+	/// <returns>the bump type which occurs at the specified point (BumpInteraction.None if it's open space)</returns>
+	public static BumpType GetBumpTypeAt(PlayerState playerState, PlayerAction playerAction, GameObject bumper)
+	{
+		return GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), playerAction.Direction(), bumper);
+	}
+
+	/// <summary>
+	/// Gets a closed door (if there is one) at the specified position
+	/// </summary>
+	/// <param name="targetPos">target world position to check</param>
+	/// <returns>the DoorTrigger of the closed door object at that position, null if no such object
+	/// exists at that location</returns>
+	public static DoorTrigger GetClosedDoorAt(Vector3Int targetPos)
+	{
+		DoorTrigger door = MatrixManager.Instance.GetFirst<DoorTrigger>(targetPos);
+		if (door)
+		{
+			RegisterDoor registerDoor = door.GetComponent<RegisterDoor>();
+			Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(targetPos, AtPoint(targetPos).Matrix);
+
+			if (registerDoor.IsPassable(localPos))
+			{
+				door = null;
+			}
+		}
+
+		return door;
+	}
+
+	/// <summary>
+	/// Checks if there are any pushables at the specified target which can be pushed from the current position.
+	/// </summary>
+	/// <param name="worldOrigin">position pushing from</param>
+	/// <param name="dir">direction to push</param>
+	/// <param name="pusher">gameobject of the thing attempting the push, only used to prevent itself from being able to push itself</param>
+	/// <returns>each pushable other than pusher at worldTarget for which it is possible to actually move it
+	/// when pushing from worldOrigin (i.e. if it's against a wall and you try to push against the wall, that pushable would be excluded).
+	/// Empty list if no pushables.</returns>
+	public static List<PushPull> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher)
+	{
+		Vector3Int worldTarget = worldOrigin + dir.To3Int();
+		PushPull[] pushPulls = MatrixManager.GetAt<PushPull>(worldTarget).ToArray();
+		List<PushPull> result = new List<PushPull>();
+		foreach (PushPull pushPull in pushPulls)
+		{
+			if (pushPull && pushPull.gameObject != pusher && pushPull.IsSolid)
+			{
+				if (pushPull.CanPush(worldTarget, Vector2Int.RoundToInt(dir)))
+				{
+					result.Add(pushPull);
+				}
+			}
+		}
+
+		return result;
+	}
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
 	public static bool IsPassableAt(Vector3Int worldTarget) {
@@ -409,4 +498,19 @@ public struct MatrixInfo
 
 		return netId;
 	}
+}
+
+/// <summary>
+/// Types of bumps which can occur when bumping into something
+/// </summary>
+public enum BumpType
+{
+	/// Not bumping into anything - movement not prevented
+	None,
+	/// A closed door
+	ClosedDoor,
+	/// something which can be pushed from the current direction of movement
+	Push,
+	/// Bump which blocks movement and causes nothing else to happen
+	Blocked
 }

@@ -294,7 +294,6 @@ public partial class PlayerSync
 		{
 			return;
 		}
-
 		if ( consideredFloatingServer || !serverState.Active || CanNotSpaceMoveServer )
 		{
 			Logger.LogWarning("Server ignored queued move while player isn't supposed to move", Category.Movement);
@@ -326,14 +325,19 @@ public partial class PlayerSync
 	[Server]
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{
-		bool isServerBump = !CanMoveThere( state, action );
+		//Check if there is a bump interaction according to the server
+		BumpType serverBump = CheckSlideAndBump(state, ref action);
+
+		//Client only needs to check whether movement was prevented, specific type of bump doesn't matter
 		bool isClientBump = action.isBump;
-		if ( !isClientBump && isServerBump ) {
-			Logger.LogWarningFormat( "isBump mismatch, resetting: C={0} S={1}", Category.Movement, isClientBump, isServerBump );
+		if (isClientBump && serverBump == BumpType.None) {
+			Logger.LogWarningFormat( "isBump mismatch, resetting: C={0} S={1}", Category.Movement, isClientBump, serverBump != BumpType.None );
 			RollbackPosition();
 		}
-		if ( isClientBump || isServerBump ) {
-			//gotta try pushing things
+		if ( isClientBump || serverBump != BumpType.None) {
+			Logger.Log("BumpInteract client " + isClientBump + " server " + (serverBump != BumpType.None));
+			// we bumped something, an interaction might occur
+			// try pushing things / opening doors
 			BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
 
 			playerSprites.FaceDirection( Orientation.From( action.Direction() ) );
@@ -373,7 +377,7 @@ public partial class PlayerSync
 		}
 
 		//Unsubbing from old matrix rotations
-		MatrixMove oldMatrixMove = MatrixManager.Get(matrix).MatrixMove;
+		MatrixMove oldMatrixMove = MatrixManager.Get(Matrix).MatrixMove;
 		if (oldMatrixMove)
 		{
 			//				Logger.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
@@ -395,10 +399,21 @@ public partial class PlayerSync
 		}
 	}
 
+	/// <summary>
+	/// Attempts to push things or open doors
+	/// </summary>
+	/// <param name="currentPosition">current world position</param>
+	/// <param name="direction">direction of movement</param>
 	private void BumpInteract(Vector3 currentPosition, Vector3 direction) {
 			StartCoroutine( TryInteract( currentPosition, direction ) );
 	}
 
+	/// <summary>
+	/// Tries to interact in a direciton, trying to open a closed door and push something.
+	/// </summary>
+	/// <param name="currentPosition">current world position</param>
+	/// <param name="direction">direction of movement</param>
+	/// <returns></returns>
 	private IEnumerator TryInteract( Vector3 currentPosition, Vector3 direction ) {
 		var worldPos = Vector3Int.RoundToInt(currentPosition);
 		var worldTarget = Vector3Int.RoundToInt(currentPosition + direction);
@@ -406,7 +421,7 @@ public partial class PlayerSync
 		InteractDoor(worldPos, worldTarget);
 
 //		Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.Movement, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
-		InteractPushable( worldTarget, direction );
+		InteractPushable(worldPos, direction );
 
 		yield return YieldHelper.DeciSecond;
 	}
@@ -453,46 +468,30 @@ public partial class PlayerSync
 	private int CalculateRequiredPushes( Vector3 playerPos, Vector3Int pushablePos, Vector2 impulse ) {
 		return 6;
 	}
-
-	/// <param name="worldTile">Tile you're interacting with</param>
+	/// <summary>tries to push a pushable</summary>
+	/// <param name="worldOrigin">Tile you're interacting from</param>
 	/// <param name="direction">Direction you're pushing</param>
-	private void InteractPushable( Vector3Int worldTile, Vector3 direction ) {
+	private void InteractPushable( Vector3Int worldOrigin, Vector3 direction ) {
 		if ( IsNonStickyServer ) {
 			return;
 		}
-		// Is the object pushable (iterate through all of the objects at the position):
-		PushPull[] pushPulls = MatrixManager.GetAt<PushPull>( worldTile ).ToArray();
-		for ( int i = 0; i < pushPulls.Length; i++ ) {
-			var pushPull = pushPulls[i];
-			if ( pushPull && pushPull.gameObject != gameObject && pushPull.IsSolid ) {
-	//					Logger.LogTraceFormat( "Trying to push {0} when walking {1}->{2}", Category.PushPull, pushPulls[i].gameObject, worldPos, worldTarget );
-				pushPull.TryPush( worldTile, Vector2Int.RoundToInt( direction ) );
-				break;
-			}
+		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, direction.To2Int(), gameObject);
+		if (pushables.Count > 0)
+		{
+			pushables[0].TryPush(direction.To2Int());
 		}
 	}
 
+	/// <summary>
+	/// Interact with a door at the specified position if there is a closed door there.
+	/// </summary>
+	/// <param name="currentPos">current world position </param>
+	/// <param name="targetPos">position to interact with</param>
 	private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 	{
-		// Make sure there is a door controller
-		DoorTrigger door = MatrixManager.Instance.GetFirst<DoorTrigger>(targetPos);
-
-		if (!door)
-		{
-			door = MatrixManager.Instance.GetFirst<DoorTrigger>(Vector3Int.RoundToInt(currentPos));
-
-			if (door)
-			{
-				RegisterDoor registerDoor = door.GetComponent<RegisterDoor>();
-				Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(targetPos, matrix);
-
-				if (registerDoor.IsPassable(localPos))
-				{
-					door = null;
-				}
-			}
-		}
-
+		// Make sure there is a door which can be interacted with
+		DoorTrigger door = MatrixManager.GetClosedDoorAt(targetPos);
+		
 		// Attempt to open door
 		if (door != null)
 		{
@@ -607,7 +606,6 @@ public partial class PlayerSync
 		if ( serverLerpState.WorldPosition == targetPos ) {
 			OnTileReached().Invoke( targetPos.RoundToInt() );
 		}
-
 		if ( TryNotifyPlayers() ) {
 			TryUpdateServerTarget();
 		}

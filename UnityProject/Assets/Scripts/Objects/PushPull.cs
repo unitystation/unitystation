@@ -394,29 +394,52 @@ public class PushPull : VisibleBehaviour {
 		return TryPush( registerTile.WorldPosition, dir, speed );
 	}
 
-	[Server]
-	public bool TryPush( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
-		if ( isNotPushable || isPushing || Pushable == null || !isAllowedDir( dir ) ) {
+	/// <summary>
+	/// Return true if a push from the specified position in the specified direction would
+	/// cause this object to move. Does not actually move the object.
+	/// </summary>
+	/// <param name="from">position from which push is performed</param>
+	/// <param name="dir">direction of the push</param>
+	/// <param name="speed">speed of the push</param>
+	/// <returns>true iff a push from the specified position in the specified direction would
+	/// cause the object to move.</returns>
+	public bool CanPush(Vector3Int from, Vector2Int dir, float speed = Single.NaN)
+	{
+		if (isNotPushable || isPushing || Pushable == null || !isAllowedDir(dir))
+		{
 			return false;
 		}
 		Vector3Int currentPos = registerTile.WorldPosition;
-		if ( from != currentPos ) {
+		if (from != currentPos)
+		{
 			return false;
 		}
 
-		if ( Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1 ) {
-			Logger.LogTrace( "oops="+dir, Category.PushPull );
+		if (Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1)
+		{
+			Logger.LogTrace("oops=" + dir, Category.PushPull);
 			return false;
 		}
 
-		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( !MatrixManager.IsPassableAt( from, target, IsSolid ) ) //non-solid things can be pushed to player tile
+		Vector3Int target = from + Vector3Int.RoundToInt((Vector2)dir);
+		if (!MatrixManager.IsPassableAt(from, target, IsSolid)) //non-solid things can be pushed to player tile
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	[Server]
+	public bool TryPush( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
+		if (!CanPush(from, dir, speed))
 		{
 			return false;
 		}
 
 
 		bool success = Pushable.Push( dir, speed );
+		Vector3Int target = from + dir.To3Int();
 		if ( success )
 		{
 			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
@@ -438,6 +461,7 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	public bool TryPredictivePush( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
+		//how does this differ from CanPush
 		if ( isNotPushable || !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
