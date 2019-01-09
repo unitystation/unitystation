@@ -358,13 +358,13 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			}
 
 			//Toxin Crit:
-			if (bloodSystem.ToxinDamage > 70 && bloodSystem.ToxinDamage >= 100)
+			if (bloodSystem.ToxinLevel > 70 && bloodSystem.ToxinLevel >= 100)
 			{
 				OverallHealth = 30;
 			}
 
 			//Toxin OverDose:
-			if (bloodSystem.ToxinDamage >= 100)
+			if (bloodSystem.ToxinLevel >= 100)
 			{
 				OverallHealth = 0;
 			}

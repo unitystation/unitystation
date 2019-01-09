@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// Controls the blood system for a Living Entity
-/// Only updated and monitored on the Server!
+/// Only really updated on the Server!
 /// Do not derive this class from NetworkBehaviour
 /// </summary>
 public class BloodSystem : MonoBehaviour
@@ -41,10 +41,27 @@ public class BloodSystem : MonoBehaviour
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
 	}
 
+	void OnEnable()
+	{
+		UpdateManager.Instance.Add(UpdateMe);
+	}
+
+	void OnDisable()
+	{
+		if(UpdateManager.Instance != null)
+		UpdateManager.Instance.Remove(UpdateMe);
+	}
+
 	//Initial setting for blood type. Server only
 	public void SetBloodType(DNAandBloodType dnaBloodType)
 	{
 		bloodType = dnaBloodType;
+	}
+
+	//Handle by UpdateManager
+	void UpdateMe()
+	{
+
 	}
 
 	/// <summary>
