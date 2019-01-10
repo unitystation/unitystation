@@ -28,6 +28,9 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
 
     private float tickRate = 1f;
     private float tick = 0f;
+    //The amount of time the brain has been starved of oxygen
+    private float noOxygenTime = 0f;
+    private bool countOxygenLoss = false;
 
     void Awake()
     {
@@ -69,15 +72,15 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
     void UpdateMe()
     {
         //Server Only:
-		if (CustomNetworkManager.Instance._isServer)
-		{
-			tick += Time.deltaTime;
-			if (tick >= tickRate)
-			{
-				tick = 0f;
-				MonitorBrain();	
-			}
-		}
+        if (CustomNetworkManager.Instance._isServer)
+        {
+            tick += Time.deltaTime;
+            if (tick >= tickRate)
+            {
+                tick = 0f;
+                MonitorBrain();
+            }
+        }
     }
 
     void MonitorBrain()
@@ -88,6 +91,27 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
             return;
         }
 
+        if (!countOxygenLoss)
+        {
+            //No oxygen is getting to the brain
+            if (respiratorySystem.IsSuffocating || bloodSystem.OxygenLevel < 5)
+            {
+                noOxygenTime = 0f;
+                countOxygenLoss = true;
+            }
+        }
+        else
+        {
+            //Calculate how long oxygen has been starved for 
+            noOxygenTime += Time.deltaTime;
+            
+            //If player starts breathing again stop calculating oxygen loss:
+            if (!respiratorySystem.IsSuffocating && bloodSystem.OxygenLevel >= 5)
+            {
+                countOxygenLoss = false;
+            }
+        }
+
         //TODO Do brain damage calculations using the infections list
         // Later on add cell damage to the calculation
 
@@ -95,5 +119,39 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
 
         //TODO monitor elements in the blood stream. If oxygen is too low then begin an oxygen deprivation count
         //use this value for brain damage calculations
+    }
+
+    /// <summary>
+    /// Determine Brain Damage from Oxygen Loss
+    /// (25% brain damage for each minute of starvation after the 2 minute mark)
+    /// </summary>
+    void CheckOxygenLossDamage()
+    {
+        if (noOxygenTime > 120f && noOxygenTime <= 180f && BrainDamageAmt < 25)
+        {
+            if (brain != null)brain.BrainDamage = 25;
+        }
+        if (noOxygenTime > 180f && noOxygenTime <= 240f && BrainDamageAmt < 50)
+        {
+            if (brain != null)brain.BrainDamage = 50;
+        }
+        if (noOxygenTime > 240f && noOxygenTime <= 300f && BrainDamageAmt < 75)
+        {
+            if (brain != null)brain.BrainDamage = 75;
+        }
+        if (noOxygenTime > 300f && noOxygenTime <= 360f && BrainDamageAmt < 100)
+        {
+            if (brain != null)
+            {
+                brain.BrainDamage = 100;
+                //Player cannot survive full brain damage amounts
+                if (!livingHealthBehaviour.IsDead)
+                {
+                    livingHealthBehaviour.Death();
+                    countOxygenLoss = false;
+                }
+            }
+
+        }
     }
 }
