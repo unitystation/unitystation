@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class GUI_APC : NetTab
 {
-
-	// Use this for initialization
-	void Start () {
-
-	}
-
-	// Update is called once per frame
-	void Update () {
-
+	private APCInteract apcInteract;
+	private APCInteract APCInteract
+	{
+		get
+		{
+			if ( !apcInteract)
+			{
+				apcInteract = Provider.GetComponent<APCInteract>();
+			}
+			return apcInteract;
+		}
 	}
 }
