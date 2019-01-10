@@ -14,9 +14,9 @@ public class GUI_Nuke : NetTab
 		}
 	}
 	private bool cooldown;
-	
+
 	//define elements you want to visually update here
-	
+
 	//Example: with caching (uglier, but cheaper)
 	private NetUIElement infoDisplay;
 	private NetUIElement InfoDisplay {
@@ -25,11 +25,11 @@ public class GUI_Nuke : NetTab
 				infoDisplay = this["InfoDisplay"];
 			}
 			return infoDisplay;
-		} 
+		}
 	}
 	//Example: without caching (prettier, more expensive)
 	private NetUIElement CodeDisplay => this["CodeDisplay"];
-	
+
 	private string InitialInfoText;
 
 	private void Start() {
@@ -76,7 +76,7 @@ public class GUI_Nuke : NetTab
 //		if ( tgtMode ) {
 //			StartCoroutine( ToggleStory(++word) );
 //		}
-//		
+//
 //	}
 
 	private IEnumerator HideCode() {
@@ -95,7 +95,7 @@ public class GUI_Nuke : NetTab
 		if ( cooldown ) {
 			return;
 		}
-		
+
 		if (NukeInteract.Validate()) {
 			InfoDisplay.SetValue = "PREPARE TO DIE";
 		} else {
@@ -107,14 +107,17 @@ public class GUI_Nuke : NetTab
 	public IEnumerator ErrorCooldown() {
 		cooldown = true;
 		InfoDisplay.SetValue = "Incorrect code!";
-		yield return new WaitForSeconds( 1 );
+		yield return new WaitForSeconds( 0.5F );
 		InfoDisplay.SetValue = "";
-		yield return new WaitForSeconds( 1 );
+		yield return new WaitForSeconds( 0.5F );
 		InfoDisplay.SetValue = "Incorrect code!";
-		yield return new WaitForSeconds( 1 );
+		yield return new WaitForSeconds( 0.5F );
 		InfoDisplay.SetValue = "";
-		yield return new WaitForSeconds( 1 );
-		
+		yield return new WaitForSeconds( 0.5F );
+		InfoDisplay.SetValue = "Incorrect code!";
+		yield return new WaitForSeconds( 0.5F );
+		InfoDisplay.SetValue = "";
+		yield return new WaitForSeconds( 0.5F );
 		cooldown = false;
 		Clear();
 		InfoDisplay.SetValue = InitialInfoText;
