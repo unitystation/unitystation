@@ -335,7 +335,6 @@ public partial class PlayerSync
 			RollbackPosition();
 		}
 		if ( isClientBump || serverBump != BumpType.None) {
-			Logger.Log("BumpInteract client " + isClientBump + " server " + (serverBump != BumpType.None));
 			// we bumped something, an interaction might occur
 			// try pushing things / opening doors
 			BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
