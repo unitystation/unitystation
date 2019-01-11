@@ -16,4 +16,12 @@ public class GUI_APC : NetTab
 			return apcInteract;
 		}
 	}
+
+	public Color greenBackground;
+	public Color blueBackground;
+	public Color redBackground;
+
+	public Color greenForeground;
+	public Color blueForeground;
+	public Color redForeground;
 }
