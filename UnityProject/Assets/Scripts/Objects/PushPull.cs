@@ -461,7 +461,6 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	public bool TryPredictivePush( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
-		//how does this differ from CanPush
 		if ( isNotPushable || !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}

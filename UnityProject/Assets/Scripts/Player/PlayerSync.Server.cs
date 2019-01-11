@@ -330,7 +330,9 @@ public partial class PlayerSync
 
 		//Client only needs to check whether movement was prevented, specific type of bump doesn't matter
 		bool isClientBump = action.isBump;
-		if (isClientBump && serverBump == BumpType.None) {
+		//we only lerp back if the client thinks it's passable  but server does not...if client
+		//thinks it's not passable and server thinks it's passable, then it's okay to let the client continue
+		if (!isClientBump && serverBump != BumpType.None) {
 			Logger.LogWarningFormat( "isBump mismatch, resetting: C={0} S={1}", Category.Movement, isClientBump, serverBump != BumpType.None );
 			RollbackPosition();
 		}
@@ -490,7 +492,7 @@ public partial class PlayerSync
 	{
 		// Make sure there is a door which can be interacted with
 		DoorTrigger door = MatrixManager.GetClosedDoorAt(targetPos);
-		
+
 		// Attempt to open door
 		if (door != null)
 		{
