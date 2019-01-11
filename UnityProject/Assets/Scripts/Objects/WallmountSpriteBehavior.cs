@@ -38,7 +38,8 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 		Vector3 headingToPlayer = PlayerManager.LocalPlayer.transform.position - transform.parent.position;
 		Vector3 facing = transform.parent.up;
 		float difference = Vector3.Angle(facing, headingToPlayer);
-		bool visible = difference > 90 || difference < -90;
+		//91 rather than 90 helps prevent flickering due to rounding
+		bool visible = difference >= 91 || difference <= -91;
 		spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, visible ? 1 : 0);
 	}
 }
