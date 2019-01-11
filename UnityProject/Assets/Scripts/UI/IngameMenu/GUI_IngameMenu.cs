@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class GUI_IngameMenu : NetworkBehaviour 
+public class GUI_IngameMenu : MonoBehaviour
 {
 	public GameObject mainIngameMenu;
 	public GameObject generalSettingsMenu;
@@ -80,9 +80,8 @@ public class GUI_IngameMenu : NetworkBehaviour
 	// ==================================================
 	private void StopNetworking()
 	{
-		// TODO fix isServer check
 		// Check if a host or regular client is shutting down
-		if (isServer)
+		if (networkManager._isServer)
 		{
 			networkManager.StopHost();
 			Logger.Log("Stopping host", Category.Connections);

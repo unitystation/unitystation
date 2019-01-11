@@ -421,7 +421,7 @@ public class KeybindManager : MonoBehaviour {
 		}
 	}
 
-	public void SaveKeybinds(KeybindDict newKeybinds)
+	public void SaveKeybinds(KeybindDict newKeybinds, bool closeKeyBindWindow = false)
 	{
 		Logger.Log("Saving user keybinds", Category.Keybindings);
 		// Make userKeybinds reference the new keybinds (since KeybinbdDict is reference type)
@@ -431,6 +431,10 @@ public class KeybindManager : MonoBehaviour {
 		// Save the user's keybinds to PlayerPrefs as a JSON string
 		PlayerPrefs.SetString("userKeybinds", jsonKeybinds);
 		// PlayerPrefs.Save();
+		if(closeKeyBindWindow)
+		{
+			GUI_IngameMenu.Instance.CloseMenuPanel(FindObjectOfType<ControlSettingsMenu>().gameObject);
+		}
 	}
 
 	public void ResetKeybinds()
