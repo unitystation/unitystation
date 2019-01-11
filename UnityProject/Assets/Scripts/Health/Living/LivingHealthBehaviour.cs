@@ -7,7 +7,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 {
 	public int maxHealth = 100;
 
-	public int OverallHealth { get; private set; }
+	public int OverallHealth { get; private set; } = 100;
 
 	// Systems can also be added via inspector 
 	public BloodSystem bloodSystem;
@@ -75,7 +75,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// </summary>
 	public bool IsRespiratoryArrest
 	{
-		get { return respiratorySystem.IsBreathing; }
+		get { return !respiratorySystem.IsBreathing; }
 	}
 
 	void Awake()
@@ -345,7 +345,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	void UpdateMe()
 	{
 		//Server Only:
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance._isServer && !IsDead)
 		{
 			tick += Time.deltaTime;
 			if(tick > tickRate){
