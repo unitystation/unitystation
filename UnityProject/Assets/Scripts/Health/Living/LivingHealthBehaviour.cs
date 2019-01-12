@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// The Required component for all living creatures
+/// Monitors and calculates health
+/// </summary>
 public abstract class LivingHealthBehaviour : NetworkBehaviour
 {
 	public int maxHealth = 100;
@@ -77,6 +81,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	{
 		get { return !respiratorySystem.IsBreathing; }
 	}
+
+	/// ---------------------------
+	/// INIT METHODS
+	/// ---------------------------
 
 	void Awake()
 	{
@@ -156,34 +164,17 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		DNASync(DNABloodTypeJSON);
 	}
 
-	/// <summary>
-	/// Reset all body part damage.
-	/// </summary>
-	[Server]
-	private void ResetBodyParts()
-	{
-		foreach (BodyPartBehaviour bodyPart in BodyParts)
-		{
-			bodyPart.RestoreDamage();
-		}
-	}
-
-	[Server]
-	public void ServerOnlySetHealth(int newValue)
-	{
-		if (isServer)
-		{
-			OverallHealth = newValue;
-			CheckDeadCritStatus();
-		}
-	}
-
 	// This is the DNA SyncVar hook
 	private void DNASync(string updatedDNA)
 	{
 		DNABloodTypeJSON = updatedDNA;
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
+
+	
+	/// ---------------------------
+	/// PUBLIC FUNCTIONS: HEAL AND DAMAGE:
+	/// ---------------------------
 
 	/// <summary>
 	///  Apply Damage to the Living thing. Server only
@@ -260,9 +251,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 			damage, prevHealth, OverallHealth, gameObject.name, damageType, bodyPartAim, damagedBy);
-
-		//	int calculatedDamage = ReceiveAndCalculateDamage(damagedBy, damage, damageType, bodyPartAim);
-		//	Health -= calculatedDamage;
 	}
 
 	/// <summary>
@@ -331,20 +319,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			healAmt, prevHealth, OverallHealth, gameObject.name, damageTypeToHeal, bodyPartAim, healingItem);
 	}
 
-	/// <Summary>
-	/// Used to determine any special effects spawning cased by a damage type
-	/// Server only
-	/// </Summary>
-	[Server]
-	protected virtual void DetermineDamageEffects(DamageType damageType)
-	{
-		//Brute attacks
-		if (damageType == DamageType.Brute)
-		{
-			//spawn blood
-			EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
-		}
-	}
+	/// ---------------------------
+	/// UPDATE LOOP
+	/// ---------------------------
 
 	//Handled via UpdateManager
 	void UpdateMe()
@@ -361,6 +338,26 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 	}
 
+	/// ---------------------------
+	/// VISUAL EFFECTS
+	/// ---------------------------
+
+	/// <Summary>
+	/// Used to determine any special effects spawning cased by a damage type
+	/// Server only
+	/// </Summary>
+	[Server]
+	protected virtual void DetermineDamageEffects(DamageType damageType)
+	{
+		//Brute attacks
+		if (damageType == DamageType.Brute)
+		{
+			//spawn blood
+			EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
+		}
+	}
+
+	/// ---------------------------
 	/// HEALTH CALCULATIONS
 	/// ---------------------------
 
@@ -390,10 +387,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 
 		OverallHealth = newHealth;
-		// if (GetComponent<PlayerScript>())
-		// {
-		// 	Debug.Log("Total Overall health " + OverallHealth);
-		// }
 		CheckDeadCritStatus();
 	}
 
@@ -441,6 +434,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		return Mathf.RoundToInt(Mathf.Clamp(bloodDmg, 0f, 101f));
 	}
 
+	/// ---------------------------
+	/// CRIT + DEATH METHODS
+	/// ---------------------------
+
 	///Death from other causes
 	public virtual void Death()
 	{
@@ -482,20 +479,29 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		return OverallHealth > HealthThreshold.Dead || IsDead;
 	}
 
-	//FIXME: This must be converted into a method to alleviate hunger soon
-	public void AddHealth(int amount)
-	{
-		Debug.Log("TODO PRIORITY: Food should no longer heal, instead it should cure hunger");
-		if (amount <= 0)
-		{
-			return;
-		}
-		OverallHealth += amount;
+	protected virtual void OnCritActions() { }
 
-		if (OverallHealth > maxHealth)
+	protected abstract void OnDeathActions();
+
+	/// ---------------------------
+	/// MISC Functions:
+	/// ---------------------------
+
+	///<summary>
+	/// If Harvesting is allowed (for pete the goat for example)
+	/// then spawn the butchered results
+	/// </summary>
+	[Server]
+	public void Harvest()
+	{
+		foreach (GameObject harvestPrefab in butcherResults)
 		{
-			OverallHealth = maxHealth;
+			ItemFactory.SpawnItem(harvestPrefab, transform.position, transform.parent);
 		}
+		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
+		//Remove the NPC after all has been harvested
+		ObjectBehaviour objectBehaviour = gameObject.GetComponent<ObjectBehaviour>();
+		objectBehaviour.visibleState = false;
 	}
 
 	public BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)
@@ -515,25 +521,43 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		return null;
 	}
 
-	protected virtual void OnCritActions() { }
-
-	protected abstract void OnDeathActions();
-
-	///<summary>
-	/// If Harvesting is allowed (for pete the goat for example)
-	/// then spawn the butchered results
+		/// <summary>
+	/// Reset all body part damage.
 	/// </summary>
 	[Server]
-	public void Harvest()
+	private void ResetBodyParts()
 	{
-		foreach (GameObject harvestPrefab in butcherResults)
+		foreach (BodyPartBehaviour bodyPart in BodyParts)
 		{
-			ItemFactory.SpawnItem(harvestPrefab, transform.position, transform.parent);
+			bodyPart.RestoreDamage();
 		}
-		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
-		//Remove the NPC after all has been harvested
-		ObjectBehaviour objectBehaviour = gameObject.GetComponent<ObjectBehaviour>();
-		objectBehaviour.visibleState = false;
+	}
+
+	[Server]
+	public void ServerOnlySetHealth(int newValue)
+	{
+		if (isServer)
+		{
+			OverallHealth = newValue;
+			CheckDeadCritStatus();
+		}
+	}
+
+	//FIXME: This must be converted into a method to alleviate hunger soon
+	[System.Obsolete]
+	public void AddHealth(int amount)
+	{
+		Debug.Log("TODO PRIORITY: Food should no longer heal, instead it should cure hunger");
+		if (amount <= 0)
+		{
+			return;
+		}
+		OverallHealth += amount;
+
+		if (OverallHealth > maxHealth)
+		{
+			OverallHealth = maxHealth;
+		}
 	}
 }
 
