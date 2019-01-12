@@ -378,6 +378,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		// }
 
 		newHealth -= CalculateOverallBodyPartDamage();
+		newHealth -= CalculateOverallBloodDamage();
 		OverallHealth = newHealth;
 		CheckDeadCritStatus();
 	}
@@ -411,7 +412,19 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// Blood Loss and Toxin damages:
 	int CalculateOverallBloodDamage()
 	{
-		return 0;
+		float bloodDmg = 0f;
+		if (bloodSystem.BloodLevel < (int)BloodVolume.SAFE)
+		{
+			bloodDmg = (1f - ((float)bloodSystem.BloodLevel / (float)BloodVolume.NORMAL)) * 100f;
+		}
+
+		if (bloodSystem.ToxinLevel > 1f)
+		{
+			//TODO determine a way to handle toxin damage when toxins are implemented
+			//There will need to be some kind of blood / toxin ratio and severity limits determined
+		}
+
+		return Mathf.RoundToInt(Mathf.Clamp(bloodDmg, 0f, 101f));
 	}
 
 	///Death from other causes
