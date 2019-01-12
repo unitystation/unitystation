@@ -1,9 +1,4 @@
-using System.Linq;
-using Atmospherics;
-using Objects;
-using Tilemaps.Behaviours.Meta.Utils;
 using UnityEditor;
-using UnityEngine;
 
 [CustomEditor(typeof(AtmosSystem))]
 public class AtmosSystemEditor : Editor

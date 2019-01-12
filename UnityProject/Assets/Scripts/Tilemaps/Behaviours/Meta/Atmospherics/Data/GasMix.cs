@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Tilemaps.Behaviours.Meta.Utils;
-using UnityEngine;
+﻿using System.Linq;
 
 namespace Atmospherics
 {
@@ -9,11 +6,30 @@ namespace Atmospherics
 	{
 		public readonly float[] Gases;
 
-		public readonly float Pressure; // in kPA
-		public readonly float Volume; // in m3
+		public float Pressure { get; private set; } // in kPA
+		public float Volume { get; private set; } // in m3
 
-		public float Moles =>  Gases.Sum();
-		public float Temperature => AtmosUtils.CalcTemperature(Pressure, Volume, Gases.Sum());
+		public float Moles => Gases.Sum();
+
+		public float Temperature
+		{
+			get { return AtmosUtils.CalcTemperature(Pressure, Volume, Moles); }
+			set { Pressure = AtmosUtils.CalcPressure(Volume, Moles, value); }
+		}
+
+		public float HeatCapacity
+		{
+			get
+			{
+				float capacity = 0f;
+				foreach (Gas gas in Gas.All)
+				{
+					capacity += gas.SpecificHeat * Gases[gas];
+				}
+
+				return capacity;
+			}
+		}
 
 		private GasMix(float[] gases, float pressure, float volume = AtmosUtils.TileVolume)
 		{
@@ -102,9 +118,42 @@ namespace Atmospherics
 			return Gases[gas];
 		}
 
+		public GasMix RemoveVolume(float volume)
+		{
+			return RemoveRatio(volume / Volume);
+		}
+
+		public GasMix RemoveRatio(float ratio)
+		{
+			GasMix removed = this * ratio;
+
+			this -= removed;
+
+			return removed;
+		}
+
+		public void AddGas(Gas gas, float moles)
+		{
+			Gases[gas] += moles;
+
+			Recalculate();
+		}
+
+		public void RemoveGas(Gas gas, float moles)
+		{
+			Gases[gas] -= moles;
+
+			Recalculate();
+		}
+
 		public override string ToString()
 		{
-			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume / 1000} L";
+			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume * 1000} L";
+		}
+
+		private void Recalculate()
+		{
+			Pressure = AtmosUtils.CalcPressure(Volume, Moles, Temperature);
 		}
 	}
 }

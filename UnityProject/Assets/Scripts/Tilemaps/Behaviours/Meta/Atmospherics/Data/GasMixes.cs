@@ -8,10 +8,10 @@ namespace Atmospherics
 		static GasMixes()
 		{
 			float[] gases = new float[Gas.Count];
-			gases[Gas.Oxygen] = 16.628484400890768491815384755837f;
-			gases[Gas.Nitrogen] = 66.513937603563073967261539023347f;
+			gases[Gas.Oxygen] = 16.628484400890768491815384755837f / 2 * 2.5f;
+			gases[Gas.Nitrogen] = 66.513937603563073967261539023347f / 2 * 2.5f;
 
-			Air = GasMix.FromTemperature(gases, 293.15f);
+			Air = GasMix.FromTemperature(gases, Reactions.T0C + 20);
 		}
 	}
 }

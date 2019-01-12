@@ -89,18 +89,18 @@ public static class GizmoUtils
 		}
 	}
 
-	public static void DrawCube(Vector3 position, Color color, bool local=true, float alpha = 0.5f)
+	public static void DrawCube(Vector3 position, Color color, bool local=true, float alpha = 0.5f, float size = 1)
 	{
 		color.a = alpha;
 		Gizmos.color =color;
-		Gizmos.DrawCube(position + (local ? HalfOne: Vector3.zero), Vector3.one);
+		Gizmos.DrawCube(position + (local ? HalfOne: Vector3.zero), Vector3.one * size);
 	}
 
-	public static void DrawWireCube(Vector3 position, Color color, bool local=true, float alpha = 0.5f)
+	public static void DrawWireCube(Vector3 position, Color color, bool local=true, float alpha = 0.5f, float size = 1)
 	{
 		color.a = alpha;
 		Gizmos.color =color;
-		Gizmos.DrawWireCube(position + (local ? HalfOne: Vector3.zero), Vector3.one);
+		Gizmos.DrawWireCube(position + (local ? HalfOne: Vector3.zero), Vector3.one * size);
 	}
 
 	public static void DrawText(string text, Vector3 position, bool local=true, int fontSize = 0, float yOffset = 0)

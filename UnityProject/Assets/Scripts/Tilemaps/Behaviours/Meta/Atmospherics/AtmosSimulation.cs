@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Tilemaps.Behaviours.Meta;
-using Tilemaps.Behaviours.Meta.Utils;
+﻿using Tilemaps.Behaviours.Meta;
 using UnityEngine;
-using UnityEngine.VR;
-using Debug = UnityEngine.Debug;
 
 namespace Atmospherics
 {
@@ -58,7 +53,9 @@ namespace Atmospherics
 				nodes[1 + i] = neighbors[i];
 			}
 
-			if (node.IsOccupied || node.IsSpace || AtmosUtils.IsPressureChanged(node))
+			bool pressureChanged = AtmosUtils.IsPressureChanged(node);
+
+			if (node.IsOccupied || node.IsSpace || pressureChanged)
 			{
 				Equalize(1 + neighbors.Length);
 

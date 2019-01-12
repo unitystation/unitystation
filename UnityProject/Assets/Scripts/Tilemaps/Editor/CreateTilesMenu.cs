@@ -5,7 +5,7 @@ using UnityEngine;
 	public class CreateTilesMenu : MonoBehaviour
 	{
 		[MenuItem("Assets/Create/Tiles/General/Simple Tile", false, 0)]
-		public static void CreateSimpleObject()
+		public static void CreateSimpleTile()
 		{
 			TileBuilder.CreateTile<SimpleTile>(LayerType.None, "SimpleTile");
 		}
@@ -14,6 +14,12 @@ using UnityEngine;
 		public static void CreateConnectedTile()
 		{
 			TileBuilder.CreateTile<ConnectedTile>(LayerType.None, "ConnectedTile");
+		}
+
+		[MenuItem("Assets/Create/Tiles/General/Animated Tile", false, 0)]
+		public static void CreateAnimatedTile()
+		{
+			TileBuilder.CreateTile<AnimatedTile>(LayerType.None, "AnimatedTile");
 		}
 
 		[MenuItem("Assets/Create/Tiles/General/Meta Tile", false, 0)]

@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Atmospherics;
-using Tilemaps.Behaviours.Meta;
-using Tilemaps.Behaviours.Meta.Utils;
 using UnityEngine;
-using UnityEngine.Serialization;
-
 
 public enum NodeType
 {
@@ -27,6 +23,8 @@ public class MetaDataNode
 	public NodeType Type;
 
 	public GasMix Atmos;
+
+	public Hotspot Hotspot;
 
 	public int Damage;
 
@@ -62,6 +60,8 @@ public class MetaDataNode
 
 		Neighbors = neighbors.ToArray();
 	}
+
+	public bool HasHotspot => Hotspot != null;
 
 	public void RemoveNeighbor(MetaDataNode neighbor)
 	{

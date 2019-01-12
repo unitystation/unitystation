@@ -1,6 +1,4 @@
 using Atmospherics;
-using Tilemaps.Behaviours.Meta.Utils;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Tilemaps.Behaviours.Objects

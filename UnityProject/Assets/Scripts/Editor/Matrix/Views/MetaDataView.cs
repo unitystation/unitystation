@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Atmospherics;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,6 +18,10 @@ public class MetaDataView : BasicView
 		localChecks.Add(new WallCheck());
 		localChecks.Add(new NeighborCheck());
 		localChecks.Add(new SpaceConnectCheck());
+		localChecks.Add(new HotspotCheck());
+		localChecks.Add(new PlasmaCheck());
+		localChecks.Add(new OxygenCheck());
+		localChecks.Add(new CarbonDioxideCheck());
 	}
 
 	public override void DrawContent()
@@ -174,6 +179,69 @@ public class MetaDataView : BasicView
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
 				GizmoUtils.DrawText($"{node.Atmos.Moles:0.###}", p, false);
+			}
+		}
+	}
+
+	private class HotspotCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Hotspots";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.HasHotspot)
+			{
+				GizmoUtils.DrawWireCube(position, Color.red, size:0.85f);
+			}
+		}
+	}
+
+	private class PlasmaCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Plasma";
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				GizmoUtils.DrawText($"{node.Atmos.GetMoles(Gas.Plasma):0.###}", p, false);
+			}
+		}
+	}
+
+	private class OxygenCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Oxygen";
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				GizmoUtils.DrawText($"{node.Atmos.GetMoles(Gas.Oxygen):0.###}", p, false);
+			}
+		}
+	}
+
+	private class CarbonDioxideCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "CarbonDioxide";
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				GizmoUtils.DrawText($"{node.Atmos.GetMoles(Gas.CarbonDioxide):0.###}", p, false);
 			}
 		}
 	}

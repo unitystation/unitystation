@@ -18,34 +18,45 @@ public class TileChangeManager : NetworkBehaviour
 	[Server]
 	public void UpdateTile(Vector3Int position, TileType tileType, string tileName)
 	{
-		RpcUpdateTile(position, tileType, tileName);
+		if (IsDifferent(position, tileType, tileName))
+		{
+			RpcUpdateTile(position, tileType, tileName);
+		}
 	}
 
 	[Server]
 	public void RemoveTile(Vector3Int position, LayerType layerType)
 	{
-		RpcRemoveTile(position, layerType, false);
+		if(metaTileMap.HasTile(position, layerType))
+		{
+			RpcRemoveTile(position, layerType, false);
+		}
 	}
 
 	[Server]
 	public void RemoveEffect(Vector3Int position, LayerType layerType)
 	{
-		RpcRemoveTile(position, layerType, true);
+		position.z = -1;
+
+		if (metaTileMap.HasTile(position, layerType))
+		{
+			RpcRemoveTile(position, layerType, true);
+		}
 	}
 
 	[ClientRpc]
-	private void RpcRemoveTile(Vector3Int position, LayerType layerType, bool onlyRemoveEffect)
+	private void RpcRemoveTile(Vector3 position, LayerType layerType, bool onlyRemoveEffect)
 	{
 		if (onlyRemoveEffect)
 		{
 			position.z = -1;
 		}
 
-		metaTileMap.RemoveTile(position, layerType, !onlyRemoveEffect);
+		metaTileMap.RemoveTile(position.RoundToInt(), layerType, !onlyRemoveEffect);
 	}
 
 	[ClientRpc]
-	private void RpcUpdateTile(Vector3Int position, TileType tileType, string tileName)
+	private void RpcUpdateTile(Vector3 position, TileType tileType, string tileName)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
 
@@ -54,6 +65,13 @@ public class TileChangeManager : NetworkBehaviour
 			position.z -= 1;
 		}
 
-		metaTileMap.SetTile(position, layerTile);
+		metaTileMap.SetTile(position.RoundToInt(), layerTile);
+	}
+
+	private bool IsDifferent(Vector3Int position, TileType tileType, string tileName)
+	{
+		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
+
+		return metaTileMap.GetTile(position, layerTile.LayerType) != layerTile;
 	}
 }

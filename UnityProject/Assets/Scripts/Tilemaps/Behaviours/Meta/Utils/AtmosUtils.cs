@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tilemaps.Behaviours.Meta.Utils;
 using UnityEngine;
 
 namespace Atmospherics
@@ -8,7 +7,7 @@ namespace Atmospherics
 	public static class AtmosUtils
 	{
 		public const float MinimumPressure = 0.00001f;
-		public const float TileVolume = 2;
+		public const float TileVolume = 2.5f;
 
 		public static bool IsPressureChanged(MetaDataNode node)
 		{

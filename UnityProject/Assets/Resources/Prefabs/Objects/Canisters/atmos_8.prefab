@@ -26,7 +26,8 @@ GameObject:
   - component: {fileID: 114453079032352828}
   - component: {fileID: 114189271295198400}
   - component: {fileID: 114058900041489712}
-  m_Layer: 0
+  - component: {fileID: 114142157728896620}
+  m_Layer: 10
   m_Name: atmos_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4591902469713992}
   - component: {fileID: 212711793070938874}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Volume: 1
-  Temperature: 20
+  Temperature: NaN
   Opened: 0
   ReleasePressure: 101.325
   Gases:
@@ -146,6 +147,17 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+--- !u!114 &114142157728896620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1183072721669670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114143863426514380
 MonoBehaviour:
   m_ObjectHideFlags: 1
