@@ -108,7 +108,7 @@ public class BloodSystem : MonoBehaviour
 	void PumpBlood()
 	{
 		OxygenLevel -= 7; //Remove 7% oxygen from system
-		
+
 		if (IsBleeding)
 		{
 			LoseBlood(bleedVolume);
@@ -116,7 +116,6 @@ public class BloodSystem : MonoBehaviour
 
 		//TODO things that could affect heart rate, like low blood, crit status etc		
 	}
-
 
 	/// <summary>
 	/// Subtract an amount of blood from the player. Server Only
@@ -212,17 +211,25 @@ public class BloodSystem : MonoBehaviour
 		}
 
 		//Check if limb should start bleeding (Bleeding is only for Players, not animals)
-		if (damageType == DamageType.Brute && !IsBleeding)
+		if (damageType == DamageType.Brute)
 		{
+			int bloodLoss = (int)(Mathf.Clamp(amount, 0f, 10f) * BleedFactor(damageType));
 			// don't start bleeding if limb is in ok condition after it received damage
 			switch (bodyPart.Severity)
 			{
 				case DamageSeverity.Moderate:
 				case DamageSeverity.Bad:
 				case DamageSeverity.Critical:
-					int bloodLoss = (int)(amount * BleedFactor(damageType));
 					LoseBlood(bloodLoss);
 					AddBloodLoss(bloodLoss);
+					break;
+				default:
+				//For particularly powerful hits when a body part is fine
+					if (amount > 40)
+					{
+						LoseBlood(bloodLoss);
+						AddBloodLoss(bloodLoss);
+					}
 					break;
 			}
 		}

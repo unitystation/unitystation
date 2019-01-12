@@ -371,15 +371,29 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	protected void CalculateOverallHealth()
 	{
 		int newHealth = 100;
+		newHealth -= CalculateOverallBodyPartDamage();
+		newHealth -= CalculateOverallBloodLossDamage();
 
+		//We are in critical state. Add suffocation damage:
+		if (newHealth <= 0 || bloodSystem.OxygenLevel < 5)
+		{
+			//Force into crit state if everything else is fine but there is no oxygen
+			if (newHealth > 0)
+			{
+				newHealth = 0;
+			}
+
+			if (respiratorySystem.IsSuffocating)
+			{
+				newHealth -= respiratorySystem.SuffocationDamage;
+			}
+		}
+
+		OverallHealth = newHealth;
 		// if (GetComponent<PlayerScript>())
 		// {
-		// 	Debug.Log("Total BodyPart damage " + CalculateOverallBodyPartDamage());
+		// 	Debug.Log("Total Overall health " + OverallHealth);
 		// }
-
-		newHealth -= CalculateOverallBodyPartDamage();
-		newHealth -= CalculateOverallBloodDamage();
-		OverallHealth = newHealth;
 		CheckDeadCritStatus();
 	}
 
@@ -406,11 +420,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 			bodyPartDmg += calc;
 		}
-		return Mathf.RoundToInt(Mathf.Clamp(bodyPartDmg, 0f, 100f));
+		return Mathf.RoundToInt(Mathf.Clamp(bodyPartDmg, -100f, 100f));
 	}
 
-	/// Blood Loss and Toxin damages:
-	int CalculateOverallBloodDamage()
+	/// Blood Loss and Toxin damage:
+	int CalculateOverallBloodLossDamage()
 	{
 		float bloodDmg = 0f;
 		if (bloodSystem.BloodLevel < (int)BloodVolume.SAFE)

@@ -14,9 +14,14 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private PlayerScript playerScript;
 	public bool IsBreathing { get; private set; } = true;
 	public bool IsSuffocating { get; private set; } = false;
+
+	/// <summary>
+	/// 4 minutes of suffocation = 100% damage
+	/// </summary>
+	public int SuffocationDamage { get { return Mathf.RoundToInt((suffocationTime / 240f) * 100f); } }
 	private float tickRate = 1f;
 	private float tick = 0f;
-	private float suffocationTime = 0f;
+	public float suffocationTime = 0f;
 
 	void Awake()
 	{
@@ -46,7 +51,11 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			if (tick >= tickRate)
 			{
 				tick = 0f;
-				MonitorSystem();	
+				MonitorSystem();
+			}
+			if (IsSuffocating)
+			{
+				CheckSuffocation();
 			}
 		}
 	}
@@ -59,7 +68,6 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		}
 
 		CheckBreathing();
-		CheckSuffocation();
 	}
 
 	/// Check breathing state
@@ -88,14 +96,17 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 		if (!IsBreathing)
 		{
-			if (IsInSpace() && IsEvaCompatible())
+			if (livingHealthBehaviour.OverallHealth > 0)
 			{
-				IsBreathing = true;
-			}
+				if (IsInSpace() && IsEvaCompatible())
+				{
+					IsBreathing = true;
+				}
 
-			if (!IsInSpace())
-			{
-				IsBreathing = true;
+				if (!IsInSpace())
+				{
+					IsBreathing = true;
+				}
 			}
 		}
 	}
@@ -117,22 +128,14 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	/// Preform any suffocation monitoring here:
 	void CheckSuffocation()
 	{
-		if (IsSuffocating)
+		if (IsBreathing)
 		{
-			if (IsBreathing)
-			{
-				IsSuffocating = false;
-				suffocationTime = 0f;
-			}
-			else
-			{
-				suffocationTime += Time.deltaTime;
-				if (suffocationTime > 240f) //4 minutes without oxygen
-				{
-					//4 minutes of no breath = death
-					livingHealthBehaviour.Death();
-				}
-			}
+			IsSuffocating = false;
+			suffocationTime = 0f;
+		}
+		else
+		{
+			suffocationTime += Time.deltaTime;
 		}
 	}
 

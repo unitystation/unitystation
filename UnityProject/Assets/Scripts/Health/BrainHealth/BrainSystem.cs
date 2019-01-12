@@ -80,6 +80,11 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
                 tick = 0f;
                 MonitorBrain();
             }
+            if (countOxygenLoss)
+            {
+                //Calculate how long oxygen has been starved for 
+                CheckOxygenLossDamage();
+            }
         }
     }
 
@@ -91,25 +96,11 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
             return;
         }
 
-        if (!countOxygenLoss)
+        //No oxygen is getting to the brain
+        if (respiratorySystem.IsSuffocating || bloodSystem.OxygenLevel < 5)
         {
-            //No oxygen is getting to the brain
-            if (respiratorySystem.IsSuffocating || bloodSystem.OxygenLevel < 5)
-            {
-                noOxygenTime = 0f;
-                countOxygenLoss = true;
-            }
-        }
-        else
-        {
-            //Calculate how long oxygen has been starved for 
-            noOxygenTime += Time.deltaTime;
-            
-            //If player starts breathing again stop calculating oxygen loss:
-            if (!respiratorySystem.IsSuffocating && bloodSystem.OxygenLevel >= 5)
-            {
-                countOxygenLoss = false;
-            }
+            noOxygenTime = 0f;
+            countOxygenLoss = true;
         }
 
         //TODO Do brain damage calculations using the infections list
@@ -127,6 +118,15 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
     /// </summary>
     void CheckOxygenLossDamage()
     {
+        noOxygenTime += Time.deltaTime;
+
+        //If player starts breathing again stop calculating oxygen loss:
+        if (!respiratorySystem.IsSuffocating && bloodSystem.OxygenLevel >= 5)
+        {
+            countOxygenLoss = false;
+            return;
+        }
+
         if (noOxygenTime > 120f && noOxygenTime <= 180f && BrainDamageAmt < 25)
         {
             if (brain != null)brain.BrainDamage = 25;
