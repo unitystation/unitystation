@@ -49,6 +49,7 @@ using UnityEngine.UI;
 						sprite = bodyPart.OrangeDamageMonitorIcon;
 						break;
 					case DamageSeverity.Critical:
+					case DamageSeverity.Max:
 						sprite = bodyPart.RedDamageMonitorIcon;
 						break;
 					default:

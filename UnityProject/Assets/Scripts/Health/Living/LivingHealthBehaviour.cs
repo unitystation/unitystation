@@ -370,105 +370,15 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	[Server]
 	protected void CalculateOverallHealth()
 	{
-		//--------------------------------------------------
-		// TODO I'll clean all this up into seperate methods 
-		// once I figure out the calculations
-		//-----------------------------------
-
 		int newHealth = 100;
 
-		if (GetComponent<PlayerScript>())
-		{
-			Debug.Log("Total BodyPart damage " + CalculateOverallBodyPartDamage());
-		}
+		// if (GetComponent<PlayerScript>())
+		// {
+		// 	Debug.Log("Total BodyPart damage " + CalculateOverallBodyPartDamage());
+		// }
 
-		return;
-
-		//Start by checking systems first:
-
-		//Toxin Crit:
-		if (bloodSystem.ToxinLevel > 70 && bloodSystem.ToxinLevel <= 100)
-		{
-			newHealth = 30;
-		}
-
-		//Toxin OverDose:
-		if (bloodSystem.ToxinLevel >= 100)
-		{
-			newHealth = 0;
-		}
-
-		if (IsCadiacArrest)
-		{
-			newHealth = 0;
-		}
-
-		//No oxygen left in blood system, brain has 2 minutes before damage occurs
-		if (bloodSystem.OxygenLevel <= 0)
-		{
-			newHealth = 0;
-		}
-
-		if (bloodSystem.BloodLevel < (int)BloodVolume.SURVIVE)
-		{
-			newHealth = 0;
-		}
-
-		//Go no further, should be in cardiac arrest 
-		if (newHealth <= 0)
-		{
-			OverallHealth = newHealth;
-			CheckDeadCritStatus();
-			return;
-		}
-		//Overall Health Calculation:
-		for (int i = 0; i < BodyParts.Count; i++)
-		{
-			//HEAD:
-			if (BodyParts[i].Type == BodyPartType.Head)
-			{
-				//if head part is at crit then overall health will start with 30 hp
-				if (BodyParts[i].Severity == DamageSeverity.Critical)
-				{
-					newHealth = 30;
-				}
-				//Max head trauma causes death:
-				if (BodyParts[i].Severity == DamageSeverity.Max)
-				{
-					newHealth = 0;
-				}
-
-			}
-			//CHEST:
-			if (BodyParts[i].Type == BodyPartType.Chest)
-			{
-				//if head part is at crit then overall health will start with 30 hp
-				if (BodyParts[i].Severity == DamageSeverity.Critical)
-				{
-					if (OverallHealth > 30)
-					{
-						newHealth = 30;
-					}
-					else
-					{
-						//Too much damage, kill the entity
-						newHealth = 0;
-					}
-				}
-				//Max chest trauma causes death:
-				if (BodyParts[i].Severity == DamageSeverity.Max)
-				{
-					newHealth = 0;
-				}
-			}
-
-			//Too much damage, stop calculating:
-			if (OverallHealth <= 0)
-			{
-				break;
-			}
-		}
-
+		newHealth -= CalculateOverallBodyPartDamage();
+		OverallHealth = newHealth;
 		CheckDeadCritStatus();
 	}
 
@@ -483,9 +393,25 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			}
 
 			var calc = (float)BodyParts[i].Severity / BodyParts.Count;
+
+			//Head and chest are vital areas, if either one reaches max damage thats automatic crit:
+			if (BodyParts[i].Type == BodyPartType.Chest || BodyParts[i].Type == BodyPartType.Head)
+			{
+				if (BodyParts[i].Severity == DamageSeverity.Max)
+				{
+					calc = 100;
+				}
+			}
+
 			bodyPartDmg += calc;
 		}
-		return Mathf.RoundToInt(bodyPartDmg);
+		return Mathf.RoundToInt(Mathf.Clamp(bodyPartDmg, 0f, 100f));
+	}
+
+	/// Blood Loss and Toxin damages:
+	int CalculateOverallBloodDamage()
+	{
+		return 0;
 	}
 
 	///Death from other causes
