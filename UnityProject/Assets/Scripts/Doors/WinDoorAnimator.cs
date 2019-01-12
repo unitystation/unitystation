@@ -81,7 +81,7 @@ using UnityEngine;
 				yield return new WaitForSeconds(0.1f);
 			}
 			doorbase.sprite = sprites[closeFrame + (int) direction];
-			doorController.isPerformingAction = false;
+			doorController.OnAnimationFinished();
 		}
 
 		private IEnumerator PlayOpenAnim()
@@ -98,7 +98,7 @@ using UnityEngine;
 			}
 
 			doorbase.sprite = sprites[openFrame + (int) direction];
-			doorController.isPerformingAction = false;
+			doorController.OnAnimationFinished();
 		}
 
 
@@ -119,6 +119,6 @@ using UnityEngine;
 				yield return new WaitForSeconds(0.05f);
 			}
 			doorbase.sprite = sprites[closeFrame + (int) direction];
-			doorController.isPerformingAction = false;
+			doorController.OnAnimationFinished();
 		}
 	}
