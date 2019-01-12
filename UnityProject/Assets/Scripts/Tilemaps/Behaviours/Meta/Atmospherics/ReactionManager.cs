@@ -8,7 +8,6 @@ public class ReactionManager : MonoBehaviour
 {
 	private TileChangeManager tileChangeManager;
 	private MetaDataLayer metaDataLayer;
-	private Matrix matrix;
 
 	private Dictionary<Vector3Int, MetaDataNode> hotspots;
 
@@ -26,7 +25,7 @@ public class ReactionManager : MonoBehaviour
 	{
 		timePassed += Time.deltaTime;
 
-		if (timePassed < 0)
+		if (timePassed < 1)
 		{
 			return;
 		}
@@ -48,14 +47,6 @@ public class ReactionManager : MonoBehaviour
 					}
 
 					tileChangeManager.UpdateTile(node.Position, TileType.Effects, "Fire");
-
-					GasContainer gasContainer = matrix.GetFirst<GasContainer>(node.Position);
-
-					if (gasContainer != null)
-					{
-						Debug.Log(gasContainer);
-					}
-
 				}
 				else
 				{
