@@ -77,7 +77,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	{
 		//Add other damage methods here like burning, 
 		//suffication, etc
-
+		return;
 		//If already dead then do not check the status of the body anymore
 		if (healthBehaviour.IsDead)
 		{

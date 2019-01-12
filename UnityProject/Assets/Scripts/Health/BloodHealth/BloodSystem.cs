@@ -28,7 +28,7 @@ public class BloodSystem : MonoBehaviour
 	}
 	/// <summary>
 	/// The heart rate affects the rate at which blood is pumped around the body
-	/// Each pump consumes 5% of oxygen 
+	/// Each pump consumes 7% of oxygen 
 	/// This is only relevant on the Server.
 	/// HeartRate value can be requested by a client via a NetMsg
 	/// </summary>
@@ -107,8 +107,8 @@ public class BloodSystem : MonoBehaviour
 	/// </summary>
 	void PumpBlood()
 	{
-		OxygenLevel -= 5; //Remove 5% oxygen from system
-
+		OxygenLevel -= 7; //Remove 7% oxygen from system
+		
 		if (IsBleeding)
 		{
 			LoseBlood(bleedVolume);

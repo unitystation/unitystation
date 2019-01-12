@@ -90,8 +90,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	void OnDisable()
 	{
-		if(UpdateManager.Instance != null)
-		UpdateManager.Instance.Remove(UpdateMe);
+		if (UpdateManager.Instance != null)
+			UpdateManager.Instance.Remove(UpdateMe);
 	}
 
 	/// Add any missing systems:
@@ -203,6 +203,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		if (bodyPartAim == BodyPartType.Groin)
 		{
 			bodyPartAim = BodyPartType.Chest; //Temporary fix for groin, when we add surgery this might need some changing.
+		}
+
+		if (bodyPartAim == BodyPartType.Eyes || bodyPartAim == BodyPartType.Mouth)
+		{
+			bodyPartAim = BodyPartType.Head;
 		}
 
 		LastDamageType = damageType;
@@ -348,12 +353,16 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		if (CustomNetworkManager.Instance._isServer && !IsDead)
 		{
 			tick += Time.deltaTime;
-			if(tick > tickRate){
+			if (tick > tickRate)
+			{
 				tick = 0f;
 				CalculateOverallHealth();
 			}
 		}
 	}
+
+	/// HEALTH CALCULATIONS
+	/// ---------------------------
 
 	/// <summary>
 	/// Recalculates the overall player health and updates OverallHealth property. Server only
@@ -367,6 +376,13 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		//-----------------------------------
 
 		int newHealth = 100;
+
+		if (GetComponent<PlayerScript>())
+		{
+			Debug.Log("Total BodyPart damage " + CalculateOverallBodyPartDamage());
+		}
+
+		return;
 
 		//Start by checking systems first:
 
@@ -387,7 +403,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			newHealth = 0;
 		}
 
-		if (IsRespiratoryArrest)
+		//No oxygen left in blood system, brain has 2 minutes before damage occurs
+		if (bloodSystem.OxygenLevel <= 0)
 		{
 			newHealth = 0;
 		}
@@ -455,6 +472,22 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		CheckDeadCritStatus();
 	}
 
+	int CalculateOverallBodyPartDamage()
+	{
+		float bodyPartDmg = 0;
+		for (int i = 0; i < BodyParts.Count; i++)
+		{
+			if (BodyParts[i].Severity == DamageSeverity.None)
+			{
+				continue;
+			}
+
+			var calc = (float)BodyParts[i].Severity / BodyParts.Count;
+			bodyPartDmg += calc;
+		}
+		return Mathf.RoundToInt(bodyPartDmg);
+	}
+
 	///Death from other causes
 	public virtual void Death()
 	{
@@ -480,7 +513,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	private void CheckDeadCritStatus()
 	{
-		if (OverallHealth < HealthThreshold.Crit)
+		if (OverallHealth <= HealthThreshold.Crit)
 		{
 			Crit();
 		}
@@ -553,6 +586,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 public static class HealthThreshold
 {
-	public const int Crit = 30;
-	public const int Dead = 0;
+	public const int Crit = 0;
+	public const int Dead = -100;
 }
