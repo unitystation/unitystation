@@ -12,6 +12,8 @@ public class ItemFactory : MonoBehaviour
 
 	private GameObject idCard { get; set; }
 
+	public GameObject paper { get; set; }
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -30,6 +32,7 @@ public class ItemFactory : MonoBehaviour
 		Instance.someItem = Resources.Load("SomeItem") as GameObject;
 		*/
 		idCard = Resources.Load("ID") as GameObject;
+		paper = Resources.Load("Paper") as GameObject;
 		LoadFoodResources();
 	}
 

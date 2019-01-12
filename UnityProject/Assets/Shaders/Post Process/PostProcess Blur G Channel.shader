@@ -33,7 +33,7 @@ Shader "PostProcess/BlurGChannel"
 
 	uniform sampler2D _MainTex;
 	uniform float4 _MainTex_ST;
-	uniform float2 _MainTex_TexelSize;
+	uniform float4 _MainTex_TexelSize;
 
 	uniform float _Radius;
 
@@ -63,7 +63,8 @@ Shader "PostProcess/BlurGChannel"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
-		float2 offset = float2(_Radius * 1.33333333, 0.0); 
+		half aspect = _MainTex_TexelSize.w / _MainTex_TexelSize.z;
+		float2 offset = float2(_Radius * aspect, 0.0); 
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
@@ -84,7 +85,7 @@ Shader "PostProcess/BlurGChannel"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
-		float2 offset = float2(0.0, _Radius * 1.33333333); 
+		float2 offset = float2(0.0, _Radius); 
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);

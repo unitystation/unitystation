@@ -8,28 +8,9 @@ public class OcclusionMaskRenderer : MonoBehaviour
 	private const string MaskCameraName = "Obstacle Mask Camera";
 
 	private Camera mMaskCamera;
-	private RenderTexture mMask;
-
-	private RenderTexture mask
-	{
-		get
-		{
-			return mMask;
-		}
-
-		set
-		{
-			// Release old texture.
-			if (mMask != null)
-			{
-				mMask.Release();
-			}
-
-			// Assign new one. May be null.
-			mMask = value;
-			mMaskCamera.targetTexture = mMask;
-		}
-	}
+	private PixelPerfectRT mPPRenderTexture;
+	private Vector3 mPreviousCameraPosition;
+	private Vector2 mPreviousFilteredPosition;
 
 	public static OcclusionMaskRenderer InitializeMaskRenderer(
 		GameObject iRoot,
@@ -53,36 +34,45 @@ public class OcclusionMaskRenderer : MonoBehaviour
 		return _maskProcessor;
 	} 
 
-	public void ResetRenderingTextures(MaskParameters iParameters)
+	public PixelPerfectRT Render(
+		Camera iCameraToMatch,
+		PixelPerfectRTParameter iPPRTParameter,
+		bool iMatrixRotationMode)
 	{
-		int _textureWidth = iParameters.extendedTextureSize.x;
-		int _textureHeight = iParameters.extendedTextureSize.y;
+		// Arrange.
+		Vector2 _renderPosition;
 
-		var _newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
-		_newRenderTexture.name = "Raw Scaled Occlusion Mask";
-		_newRenderTexture.autoGenerateMips = false;
-		_newRenderTexture.useMipMap = false;
+		if (iMatrixRotationMode == false)
+		{
+			_renderPosition = iPPRTParameter.GetFilteredRendererPosition(iCameraToMatch.transform.position, mPreviousCameraPosition, mPreviousFilteredPosition);
+		}
+		else
+		{
+			// Note: Do not apply PixelPerfect position when matrix is rotating.
+			_renderPosition = iCameraToMatch.transform.position;
+		}
 
+		mPreviousCameraPosition = iCameraToMatch.transform.position;
+		mPreviousFilteredPosition = _renderPosition;
 
-		// Important to filter out matching pixels!
-		_newRenderTexture.antiAliasing = iParameters.antiAliasing;
-		_newRenderTexture.filterMode = FilterMode.Bilinear;
-
-		// Note: Assignment will release previous texture if exist.
-		mask = _newRenderTexture;
-
-		mMaskCamera.orthographicSize = iParameters.extendedCameraSize;
-	}
-
-	public RenderTexture Render()
-	{
 		mMaskCamera.enabled = false;
-
 		mMaskCamera.backgroundColor = new Color(0, 0, 0, 0);
+		mMaskCamera.transform.position = _renderPosition;
+		mMaskCamera.orthographicSize = iPPRTParameter.orthographicSize;
 
-		mMaskCamera.Render();
+		if (mPPRenderTexture == null)
+		{
+			mPPRenderTexture = new PixelPerfectRT(iPPRTParameter);
+		}
+		else
+		{
+			mPPRenderTexture.Update(iPPRTParameter);
+		}
 
-		return mask;
+		// Execute.
+		mPPRenderTexture.Render(mMaskCamera);
+
+		return mPPRenderTexture;
 	}
 
 	private static OcclusionMaskRenderer SetUpCameraObject(
@@ -101,11 +91,10 @@ public class OcclusionMaskRenderer : MonoBehaviour
 		iSetupCamera.backgroundColor = Color.black;
 		iSetupCamera.depth = 9;
 		iSetupCamera.allowHDR = false;
-		iSetupCamera.allowMSAA = true; //?
-		
+
+		iSetupCamera.nearClipPlane = -3f;
 		iSetupCamera.farClipPlane = 3f;
 		iSetupCamera.SetReplacementShader(iReplacementShader, string.Empty);
-		
 
 		// Get or add processor component.
 		var _processor = iSetupCamera.gameObject.GetComponent<OcclusionMaskRenderer>();

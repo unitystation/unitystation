@@ -49,7 +49,6 @@ public class TilemapDamage : MonoBehaviour
 		var bulletBehaviour = objectColliding.GetComponent<BulletBehaviour>();
 		if (bulletBehaviour != null)
 		{
-			Debug.Log("Bullet behaviour found: " + bulletBehaviour.damage);
 			DoBulletDamage(bulletBehaviour, forceDirection);
 			return;
 		}
@@ -89,6 +88,10 @@ public class TilemapDamage : MonoBehaviour
 		}
 	}
 
+	public void DoThrowDamage(Vector3Int worldTargetPos, ThrowInfo throwInfo, int dmgAmt)
+	{
+		DoMeleeDamage(new Vector2(worldTargetPos.x,worldTargetPos.y), throwInfo.ThrownBy, dmgAmt );
+	}
 	//Only works serverside:
 	public void DoMeleeDamage(Vector2 dmgPosition, GameObject originator, int dmgAmt)
 	{

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Managers : MonoBehaviour
@@ -32,12 +33,20 @@ public class Managers : MonoBehaviour
 		}
 	}
 
-	public void SetScreenForGame()
+	public async void SetScreenForGame()
 	{
 		//Called by GameData
-
 		UIParent.SetActive(true);
 		UIManager.Display.SetScreenForGame();
+
+		await Task.Delay(3000); //Wait a decent amount of time for startup of the scene (3s)
+
+		Instantiate (Resources.Load ("UI/GUI/Right click canvas"));
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			//Spawn the ProgressBar handler:
+			var p = PoolManager.Instance.PoolNetworkInstantiate(Resources.Load("ProgressBar") as GameObject, Vector3.zero, Quaternion.identity);
+		}
 	}
 
 	public void SetScreenForLobby()

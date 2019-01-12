@@ -56,16 +56,17 @@ public class TileTrigger : InputTrigger
 		}
 	}
 
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 
-		DetermineTileAction(originator, position, hand);
+		return DetermineTileAction(originator, position, hand);
 	}
 
-	private void DetermineTileAction(GameObject originator, Vector3 position, string hand)
+	private bool DetermineTileAction(GameObject originator, Vector3 position, string hand)
 	{
 		metaTileMap = originator.GetComponentInParent<MetaTileMap>();
 		objectLayer = originator.GetComponentInParent<ObjectLayer>();
+		var pna = originator.GetComponent<PlayerNetworkActions>();
 
 		Vector3Int pos = objectLayer.transform.InverseTransformPoint(position).RoundToInt();
 		pos.z = 0;
@@ -78,49 +79,73 @@ public class TileTrigger : InputTrigger
 		// Nothing in hand, do nothing
 		if (handObj == null)
 		{
-			return;
+			return false;
 		}
+
+		//determine what to do based on the type of tile being interacted with
 
 		if (tile?.TileType == TileType.Table)
 		{
-			TableInteraction interaction = new TableInteraction(gameObject, originator, position, hand);
-
-			interaction.Interact(isServer);
+			Vector3 targetPosition = position;
+			targetPosition.z = -0.2f;
+			pna.CmdPlaceItem(hand, targetPosition, transform.root.gameObject, true);
+			return true;
 		}
-
-		
-
-		if (tile?.TileType == TileType.Floor)
+		else if (tile?.TileType == TileType.Floor)
 		{
 			//Crowbar
 			if (handObj.GetComponent<CrowbarTrigger>())
 			{
-				var pna = originator.GetComponent<PlayerNetworkActions>();
 				pna.CmdCrowBarRemoveFloorTile(transform.root.gameObject, TileChangeLayer.Floor,
 					new Vector2(cellPos.x, cellPos.y), position);
+				return true;
 			}
 		}
-
-		if (tile?.TileType == TileType.Base)
+		else if (tile?.TileType == TileType.Base)
 		{
 			if (handObj.GetComponent<UniFloorTile>())
 			{
-				var pna = originator.GetComponent<PlayerNetworkActions>();
 				pna.CmdPlaceFloorTile(transform.root.gameObject,
 					new Vector2(cellPos.x, cellPos.y), handObj);
+				return true;
+			}
+		}
+		else if (tile?.TileType == TileType.Window)
+		{
+			//TODO: This might be better done in MouseInputController
+			//Check Melee:
+			MeleeTrigger melee = windowTileMap.gameObject.GetComponent<MeleeTrigger>();
+			if (melee != null && melee.MeleeInteract(originator, hand))
+			{
+				return true;
+			}
+		}
+		else if (tile?.TileType == TileType.Grill)
+		{
+			//TODO: This might be better done in MouseInputController
+			//Check Melee:
+			MeleeTrigger melee = grillTileMap.gameObject.GetComponent<MeleeTrigger>();
+			if (melee != null && melee.MeleeInteract(originator, hand))
+			{
+				return true;
+			}
+		}
+		else if (tile?.TileType == TileType.Wall)
+		{
+			var welder = handObj.GetComponent<Welder>();
+			if (welder)
+			{
+				if (welder.isOn)
+				{
+					//Request to deconstruct from the server:
+					RequestTileDeconstructMessage.Send(originator, gameObject, TileType.Wall,
+						cellPos, position);
+
+					return true;
+				}
 			}
 		}
 
-		if(tile?.TileType == TileType.Window){
-			//Check Melee:
-			MeleeTrigger melee = windowTileMap.gameObject.GetComponent<MeleeTrigger>();
-			melee?.MeleeInteract(originator, hand);
-		}
-
-		if(tile?.TileType == TileType.Grill){
-			//Check Melee:
-			MeleeTrigger melee = grillTileMap.gameObject.GetComponent<MeleeTrigger>();
-			melee?.MeleeInteract(originator, hand);
-		}
+		return false;
 	}
 }

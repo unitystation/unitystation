@@ -34,7 +34,7 @@ public class EscapeShuttle : MonoBehaviour {
 
 	void Update ()
 	{
-		if(GameManager.Instance.GetRoundTime <= 180f && spawnedIn == false && setCourse == false) // Warp close to station 3 mins before round ends
+		if(GameManager.Instance.GetRoundTime <= 150f && spawnedIn == false && setCourse == false) // Warp close to station 2.5 mins before round ends
 		{
 			SpawnNearStation();
 			setCourse = true;
@@ -54,7 +54,7 @@ public class EscapeShuttle : MonoBehaviour {
 			StartCoroutine(ReverseIntoStation(mm));
 		}
 
-		if (GameManager.Instance.GetRoundTime <= 60f && arrivedAtStation == true) // Depart the shuttle
+		if (GameManager.Instance.GetRoundTime <= 30f && arrivedAtStation == true) // Depart the shuttle
 		{
 			mm.ChangeDir(Vector2.right);
 			mm.StartMovement();
@@ -89,7 +89,7 @@ public class EscapeShuttle : MonoBehaviour {
 
 		foreach (ConnectedPlayer ps in crewMembers)
 		{
-			if (ps.Job != JobType.SYNDICATE && ps.GameObject.GetComponent<PlayerHealth>().Health > 0 && ps.GameObject.GetComponent<PlayerSync>().ServerState.MatrixId == mm.MatrixInfo.Id)
+			if (ps.Job != JobType.SYNDICATE && ps.GameObject.GetComponent<PlayerHealth>().OverallHealth > 0 && ps.GameObject.GetComponent<PlayerSync>().ServerState.MatrixId == mm.MatrixInfo.Id)
 			{
 				crewCount++;
 			}

@@ -4,7 +4,7 @@
  * Seamless support for Microsoft Visual Studio Code in Unity
  *
  * Version:
- *   2.8
+ *   2.9
  *
  * Authors:
  *   Matthew Davey <matthew.davey@dotbunny.com>
@@ -23,7 +23,7 @@ namespace dotBunny.Unity
         /// <summary>
         /// Current Version Number
         /// </summary>
-        public const float Version = 2.8f;
+        public const float Version = 2.9f;
 
         /// <summary>
         /// Current Version Code
@@ -39,6 +39,9 @@ namespace dotBunny.Unity
         /// Download URL for Unity Debbuger
         /// </summary>
         public const string UnityDebuggerURL = "https://unity.gallery.vsassets.io/_apis/public/gallery/publisher/unity/extension/unity-debug/latest/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+
+        // Used to keep Unity from crashing when the editor is quit
+        static bool alreadyFixedPreferences;
 
         #region Properties
 
@@ -70,15 +73,18 @@ namespace dotBunny.Unity
         /// </summary>
         /// <returns>The platforms "Program Files" path.</returns>
         static string ProgramFilesx86()
-		{
-			if( 8 == IntPtr.Size 
-				|| (!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432"))))
-			{
-				return Environment.GetEnvironmentVariable("ProgramFiles(x86)");
-			}
+        {
+            return Environment.GetEnvironmentVariable("ProgramFiles(x86)");
+        }
 
-			return Environment.GetEnvironmentVariable("ProgramFiles");
-		}
+        /// <summary>
+        /// Get Program Files Path
+        /// </summary>
+        /// <returns>The platforms "Program Files" path.</returns>
+        static string ProgramFiles()
+        {
+            return Environment.GetEnvironmentVariable("ProgramFiles");
+        }
 		
         
         /// <summary>
@@ -410,6 +416,10 @@ namespace dotBunny.Unity
             };
 #elif UNITY_EDITOR_WIN
             {
+                ProgramFiles() + Path.DirectorySeparatorChar + "Microsoft VS Code"
+                + Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar + "code.cmd",
+                ProgramFiles() + Path.DirectorySeparatorChar + "Microsoft VS Code Insiders"
+                + Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar + "code-insiders.cmd",
                 ProgramFilesx86() + Path.DirectorySeparatorChar + "Microsoft VS Code"
                 + Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar + "code.cmd",
                 ProgramFilesx86() + Path.DirectorySeparatorChar + "Microsoft VS Code Insiders"
@@ -904,6 +914,7 @@ namespace dotBunny.Unity
                 }
             }
 
+            EditorGUILayout.EndVertical();
         }
 
         /// <summary>
@@ -1233,10 +1244,13 @@ namespace dotBunny.Unity
                 // Always leave editor attaching on, I know, it solves the problem of needing to restart for this
                 // to actually work
                 EditorPrefs.SetBool("AllowAttachedDebuggingOfEditor", true);
-                
             }
 
-            FixUnityPreferences();
+            if (!alreadyFixedPreferences)
+            {
+                alreadyFixedPreferences = true;
+                FixUnityPreferences();
+            }
         }
 
         /// <summary>

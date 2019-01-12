@@ -17,12 +17,11 @@ public class VisibleBehaviour : NetworkBehaviour
 	private const string customNetTransform = "CustomNetTransform";
 	private const string objectBehaviour = "ObjectBehaviour";
 	private const string regTile = "RegisterTile";
-	private const string inputController = "InputController";
+	private const string mouseInputController = "MouseInputController";
 	private const string playerSync = "PlayerSync";
 	private const string closetHandler = "ClosetPlayerHandler";
 	private const string fov = "FieldOfViewStencil";
 
-	public bool isPlayer;
 
 	private readonly string[] neverDisabled =
 	{
@@ -31,7 +30,7 @@ public class VisibleBehaviour : NetworkBehaviour
 		customNetTransform,
 		objectBehaviour,
 		regTile,
-		inputController,
+		mouseInputController,
 		playerSync,
 		closetHandler,
 		fov
@@ -55,11 +54,6 @@ public class VisibleBehaviour : NetworkBehaviour
 	{
 		StartCoroutine(WaitForLoad());
 		base.OnStartClient();
-		PlayerScript pS = GetComponent<PlayerScript>();
-		if (pS != null)
-		{
-			isPlayer = true;
-		}
 	}
 
 	private IEnumerator WaitForLoad()
@@ -141,6 +135,6 @@ public class VisibleBehaviour : NetworkBehaviour
 			Console.WriteLine(e);
 			throw;
 		}
-		
+
 	}
 }

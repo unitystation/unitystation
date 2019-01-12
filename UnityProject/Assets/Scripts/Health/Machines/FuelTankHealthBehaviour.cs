@@ -1,25 +1,25 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class FuelTankHealthBehaviour : HealthBehaviour
+public class FuelTankHealthBehaviour : LivingHealthBehaviour
 {
-	private PushPull pushPull;
+//	private PushPull pushPull;
 
-	private void Awake()
-	{
-		pushPull = GetComponent<PushPull>();
-	}
+//	private void Awake()
+//	{
+//		pushPull = GetComponent<PushPull>();
+//	}
 
 	protected override void OnDeathActions()
 	{
-		pushPull.BreakPull();
+//		pushPull.BreakPull();
 		float delay = 0f;
 		switch (LastDamageType)
 		{
-			case DamageType.BRUTE:
+			case DamageType.Brute:
 				delay = 0.1f;
 				break;
-			case DamageType.BURN:
+			case DamageType.Burn:
 				delay = Random.Range(0.2f, 2f);
 				break; //surprise
 		}

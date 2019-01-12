@@ -2,12 +2,12 @@ using UnityEngine;
 
 public abstract class NetworkTabTrigger : InputTrigger {
     public NetTabType NetTabType;
-    public override void Interact(GameObject originator, Vector3 position, string hand)
+    public override bool Interact(GameObject originator, Vector3 position, string hand)
     {
         var playerScript = originator.GetComponent<PlayerScript>();
         if (playerScript.canNotInteract() || !playerScript.IsInReach( gameObject ))
         { //check for both client and server
-            return;
+            return true;
         }
         if (!isServer)
         { 
@@ -20,5 +20,7 @@ public abstract class NetworkTabTrigger : InputTrigger {
             TabUpdateMessage.Send( originator, gameObject, NetTabType, TabAction.Open );
             
         }
+
+		return true;
     }
 }

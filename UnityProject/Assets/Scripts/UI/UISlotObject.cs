@@ -2,13 +2,15 @@
 
 public class UISlotObject
 {
-	public readonly string Slot;
+	public readonly string SlotUUID;
 	public readonly GameObject SlotContents;
+	public readonly string FromSlotUUID;
 
-	public UISlotObject(string slot, GameObject slotContents = null)
+	public UISlotObject(string slotUUID, GameObject slotContents = null, string fromSlotUUID = "")
 	{
-		Slot = slot;
+		SlotUUID = slotUUID;
 		SlotContents = slotContents;
+		FromSlotUUID = fromSlotUUID;
 	}
 
 	public bool IsEmpty()
@@ -18,6 +20,6 @@ public class UISlotObject
 
 	public override string ToString()
 	{
-		return string.Format("UISlotObject {0}: {1}", Slot, SlotContents);
+		return string.Format("UISlotObject {0}: {1}: {2}", SlotUUID, SlotContents.name, FromSlotUUID);
 	}
 }

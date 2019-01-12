@@ -51,7 +51,7 @@ public class ExplodeWhenShotTest
 	[UnityTest]
 	public IEnumerator Should_Destroy_Object()
 	{
-		subject.Explode(null);
+		subject.CalcAndApplyExplosionDamage(null);
 
 		yield return 0;
 
@@ -64,15 +64,15 @@ public class ExplodeWhenShotTest
 		GameObject player = new GameObject();
 
 		player.AddComponent<BoxCollider2D>();
-		HealthBehaviour living = player.AddComponent<HealthBehaviour>();
+		LivingHealthBehaviour living = player.AddComponent<LivingHealthBehaviour>();
 		player.layer = LayerMask.NameToLayer("Players");
 
-		HealthBehaviour damaged = null;
+		LivingHealthBehaviour damaged = null;
 		subject.callback = t => damaged = t;
 
 		try
 		{
-			subject.Explode(null);
+			subject.CalcAndApplyExplosionDamage(null);
 
 			Assert.That(living == damaged);
 		}
@@ -87,7 +87,7 @@ public class ExplodeWhenShotTest
 	{
 		GameObject player = new GameObject();
 		player.AddComponent<BoxCollider2D>();
-		player.AddComponent<HealthBehaviour>();
+		player.AddComponent<LivingHealthBehaviour>();
 		player.layer = LayerMask.NameToLayer("Players");
 		player.transform.position = new Vector3(2, 0);
 
@@ -96,10 +96,10 @@ public class ExplodeWhenShotTest
 		wall.layer = LayerMask.NameToLayer("Walls");
 		wall.transform.position = new Vector3(1, 0);
 
-		HealthBehaviour damaged = null;
+		LivingHealthBehaviour damaged = null;
 		subject.callback = t => damaged = t;
 
-		subject.Explode(null);
+		subject.CalcAndApplyExplosionDamage(null);
 
 		Assert.That(damaged == null);
 	}
@@ -108,7 +108,7 @@ public class ExplodeWhenShotTest
 	// doesn't appear to be ongoing, no activity in 3+ years, so let's just do a manual mock instead.
 	private class MockExplodeWhenShot : ExplodeWhenShot
 	{
-		public Action<HealthBehaviour> callback;
+		public Action<LivingHealthBehaviour> callback;
 		public bool wentBoom;
 
 		//		internal override void HurtPeople(Living living, string damagedBy, int damage)
@@ -118,7 +118,7 @@ public class ExplodeWhenShotTest
 		//			}
 		//		}
 
-		internal override void GoBoom()
+		internal override void DisplayExplosion()
 		{
 			wentBoom = true;
 		}
