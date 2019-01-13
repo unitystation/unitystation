@@ -3,8 +3,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(MetaDataSystem))]
-[RequireComponent(typeof(AtmosSystem))]
 public class SubsystemManager : NetworkBehaviour
 {
 	private List<SubsystemBehaviour> systems = new List<SubsystemBehaviour>();
