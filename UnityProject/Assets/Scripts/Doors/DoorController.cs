@@ -16,8 +16,9 @@ using UnityEngine.Networking;
 		private int closedSortingLayer;
 		public AudioSource closeSFX;
 		private IEnumerator coWaitOpened;
-		[Tooltip("how many sprites in the main door animation")] public int doorAnimationSize;
+		[Tooltip("how many sprites in the main door animation")] public int doorAnimationSize = 6;
 		public DoorAnimator doorAnimator;
+		[Tooltip("first frame of the light animation")] public int DoorDeniedSpriteOffset = 12;
 		[Tooltip("first frame of the door Cover/window animation")] public int DoorCoverSpriteOffset;
 		private int doorDirection;
 		[Tooltip("first frame of the light animation")] public int DoorLightSpriteOffset;
@@ -27,6 +28,8 @@ using UnityEngine.Networking;
 		public bool IsOpened;
 		[HideInInspector] public bool isPerformingAction;
 		[Tooltip("Does it have a glass window you can see trough?")] public bool isWindowedDoor;
+		[Tooltip("Does the door light animation only need 1 frame?")] public bool useSimpleLightAnimation = false;
+		[Tooltip("Does the denied light animation only toggle 1 frame on and?")] public bool useSimpleDeniedAnimation = false;
 		public float maxTimeOpen = 5;
 		private int openLayer;
 		public AudioSource openSFX;
@@ -35,7 +38,7 @@ using UnityEngine.Networking;
 		public OpeningDirection openingDirection;
 		private RegisterDoor registerTile;
 		private Matrix matrix => registerTile.Matrix;
-		
+
 		private AccessRestrictions accessRestrictions;
 		public AccessRestrictions AccessRestrictions {
 			get {
@@ -143,9 +146,9 @@ using UnityEngine.Networking;
 				ResetWaiting();
 			}
 		}
-		
+
 		[Server]
-		private void Close() {
+		public void Close() {
 			IsOpened = false;
 			if ( !isPerformingAction ) {
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
@@ -181,7 +184,7 @@ using UnityEngine.Networking;
 		}
 
 		[Server]
-		private void Open() {
+		public void Open() {
 			ResetWaiting();
 			IsOpened = true;
 
@@ -205,12 +208,12 @@ using UnityEngine.Networking;
 
 		#region UI Mouse Actions
 
-		public void OnMouseEnter()
+		public void OnHoverStart()
 		{
 			UIManager.SetToolTip = doorType + " Door";
 		}
 
-		public void OnMouseExit()
+		public void OnHoverEnd()
 		{
 			UIManager.SetToolTip = "";
 		}

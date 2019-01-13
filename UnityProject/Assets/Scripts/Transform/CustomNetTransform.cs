@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
@@ -9,12 +10,12 @@ public struct TransformState {
 	public bool Active => Position != HiddenPos;
 	///Don't set directly, use Speed instead.
 	///public in order to be serialized :\
-	public float speed; 
+	public float speed;
 	public float Speed {
 		get { return speed; }
 		set { speed = value < 0 ? 0 : value; }
 	}
-	
+
 	///Direction of throw
 	public Vector2 Impulse;
 
@@ -35,43 +36,69 @@ public struct TransformState {
 			{
 				return HiddenPos;
 			}
-			MatrixInfo matrix = MatrixManager.Get( MatrixId );
-			return MatrixManager.LocalToWorld( Position, matrix );
+
+			return MatrixManager.LocalToWorld( Position, MatrixManager.Get( MatrixId ) );
 		}
-		set
-		{
+		set {
 			if (value == HiddenPos) {
 				Position = HiddenPos;
 			}
 			else
 			{
-				MatrixInfo matrix = MatrixManager.Get( MatrixId );
-				Position = MatrixManager.WorldToLocal( value, matrix );
+				Position = MatrixManager.WorldToLocal( value, MatrixManager.Get( MatrixId ) );
 			}
 		}
 	}
+
+	/// Flag means that this update is a pull follow update,
+	/// So that puller could ignore them
+	public bool IsFollowUpdate;
+
 	public float Rotation;
 	public bool IsLocalRotation;
 	/// Spin direction and speed, if it should spin
-	public sbyte SpinFactor; 
-	
+	public sbyte SpinFactor;
+
 	/// Means that this object is hidden
 	public static readonly Vector3Int HiddenPos = new Vector3Int(0, 0, -100);
 	/// Means that this object is hidden
-	public static readonly TransformState HiddenState = 
+	public static readonly TransformState HiddenState =
 		new TransformState{ Position = HiddenPos, ActiveThrow = ThrowInfo.NoThrow, MatrixId = 0};
 
 	public override string ToString()
 	{
 		return Equals( HiddenState ) ? "[Hidden]" : $"[{nameof( Position )}: {(Vector2)Position}, {nameof( WorldPosition )}: {(Vector2)WorldPosition}, " +
 		       $"{nameof( Speed )}: {Speed}, {nameof( Impulse )}: {Impulse}, {nameof( Rotation )}: {Rotation}, {nameof( IsLocalRotation )}: {IsLocalRotation}, " +
-		       $"{nameof( SpinFactor )}: {SpinFactor}, {nameof( MatrixId )}: {MatrixId}]";
+		       $"{nameof( SpinFactor )}: {SpinFactor}, {nameof( IsFollowUpdate )}: {IsFollowUpdate}, {nameof( MatrixId )}: {MatrixId}]";
 	}
 }
 
-public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateManager
+public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //see UpdateManager
 {
+	private Vector3IntEvent onUpdateReceived = new Vector3IntEvent();
+	public Vector3IntEvent OnUpdateRecieved() {
+		return onUpdateReceived;
+	}
+	/// Is also invoked in perpetual space flights
+	private DualVector3IntEvent onStartMove = new DualVector3IntEvent();
+	public DualVector3IntEvent OnStartMove() => onStartMove; //todo: invoke for cnt! (for chaining)
+	private DualVector3IntEvent onClientStartMove = new DualVector3IntEvent();
+	public DualVector3IntEvent OnClientStartMove() => onClientStartMove;
+	private Vector3IntEvent onTileReached = new Vector3IntEvent();
+	public Vector3IntEvent OnTileReached() => onTileReached;
+	private Vector3IntEvent onClientTileReached = new Vector3IntEvent();
+	public Vector3IntEvent OnClientTileReached() => onClientTileReached;
+	private UnityEvent onPullInterrupt = new UnityEvent();
+	public UnityEvent OnPullInterrupt() => onPullInterrupt;
+	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
+	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
+	public Vector3Int TrustedPosition => clientState.WorldPosition.RoundToInt();
+
+
+
 	private RegisterTile registerTile;
+	public RegisterTile RegisterTile => registerTile;
+
 	private ItemAttributes ItemAttributes {
 		get {
 			if ( itemAttributes == null ) {
@@ -83,12 +110,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	private ItemAttributes itemAttributes;
 
 	private TransformState serverState = TransformState.HiddenState; //used for syncing with players, matters only for server
+	private TransformState serverLerpState = TransformState.HiddenState; //used for simulating lerp on server
 
-	private TransformState clientState = TransformState.HiddenState; //client's transform, can get dirty/predictive
+	private TransformState clientState = TransformState.HiddenState; //last reliable state from server
+	private TransformState predictedState = TransformState.HiddenState; //client's transform, can get dirty/predictive
 
 	private Matrix matrix => registerTile.Matrix;
-	
+
 	public TransformState ServerState => serverState;
+	public TransformState ServerLerpState => serverLerpState;
+	public TransformState PredictedState => predictedState;
 	public TransformState ClientState => clientState;
 
 	private void Start()
@@ -96,6 +127,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributes>();
 		tileDmgMask = LayerMask.GetMask ("Windows", "Walls");
+		var _pushPull = PushPull; //init
 	}
 
 	public override void OnStartServer()
@@ -106,9 +138,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 
 	[Server]
 	private void InitServerState()
-	{ 
-//		isPushing = false;
-//		predictivePushing = false;
+	{
+
 		if ( IsHiddenOnInit ) {
 			return;
 		}
@@ -119,7 +150,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		serverState.Rotation = transform.rotation.eulerAngles.z;
 		serverState.SpinFactor = 0;
 		registerTile = GetComponent<RegisterTile>();
-		
+
 		//Matrix id init
 		if ( registerTile && registerTile.Matrix ) {
 			//pre-placed
@@ -138,6 +169,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 			serverState.WorldPosition = Vector3Int.RoundToInt((Vector2)transform.position);
 		}
 
+		serverLerpState = serverState;
 	}
 
 	/// Is it supposed to be hidden? (For init purposes)
@@ -160,74 +192,63 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	//	Logger.Log($"{name} reInit: {serverTransformState}");
 	}
 
+	public void RollbackPrediction() {
+		predictedState = clientState;
+	}
+
 	/// Essentially the Update loop
 	private void Synchronize()
 	{
-		if (!clientState.Active)
+		if (!predictedState.Active)
 		{
 			return;
 		}
 
-		if ( isServer && !serverState.Active ) {
+		bool server = isServer;
+		if ( server && !serverState.Active ) {
 			return;
 		}
-
-		if (isServer)
-		{
-			CheckFloatingServer();
-//			//Sync the pushing state to all players
-//			//this makes sure that players with high pings cannot get too
-//			//far with prediction
-//			if(isPushing){
-//				if(clientState.Position == transform.localPosition){
-//					isPushing = false;
-//					predictivePushing = false;
-//				}
-//			}
-		} 
 
 		if (IsFloatingClient)
 		{
 			CheckFloatingClient();
 		}
 
-		if (clientState.Position != transform.localPosition)
+		if (server)
+		{
+			CheckFloatingServer();
+		}
+
+		if (predictedState.Position != transform.localPosition)
 		{
 			Lerp();
 		}
 
-		if ( clientState.SpinFactor != 0 ) {
-			transform.Rotate( Vector3.forward, Time.deltaTime * clientState.Speed * clientState.SpinFactor );
+		if (serverState.Position != serverLerpState.Position)
+		{
+			ServerLerp();
+		}
+
+		if ( predictedState.SpinFactor != 0 ) {
+			transform.Rotate( Vector3.forward, Time.deltaTime * predictedState.Speed * predictedState.SpinFactor );
 		}
 
 		//Checking if we should change matrix once per tile
-		if (isServer && registerTile.Position != Vector3Int.RoundToInt(serverState.Position) ) {
+		if (server && registerTile.Position != Vector3Int.RoundToInt(serverState.Position) ) {
 			CheckMatrixSwitch();
 			RegisterObjects();
 		}
 		//Registering
-		if (!isServer && registerTile.Position != Vector3Int.RoundToInt(clientState.Position) )
-			//&& !isPushing && !predictivePushing)
+		if (!server && registerTile.Position != Vector3Int.RoundToInt(predictedState.Position) )
 		{
-			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPosition, Vector3Int.RoundToInt( clientState.WorldPosition ) );
+			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPosition, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
 			RegisterObjects();
 		}
 	}
 
 	/// Manually set an item to a specific position. Use WorldPosition!
 	[Server]
-	public void SetPosition(Vector3 worldPos, bool notify = true, bool keepRotation = false/*, float speed = 4f, bool _isPushing = false*/) {
-//		Only allow one movement at a time if it is currently being pushed
-//		if(isPushing || predictivePushing){
-//			if(predictivePushing && _isPushing){
-//				This is if the server player is pushing because the predictive flag
-				//will be set early we still need to notify the players so call it here:
-//				UpdateServerTransformState(pos, notify, speed);
-				//And then set the isPushing flag:
-//				isPushing = true;
-//			}
-//			return;
-//		}
+	public void SetPosition(Vector3 worldPos, bool notify = true, bool keepRotation = false) {
 		Vector2 pos = worldPos; //Cut z-axis
 		serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
 //		serverState.Speed = speed;
@@ -238,11 +259,15 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 		if (notify) {
 			NotifyPlayers();
 		}
-		//Set it to being pushed if it is a push net action
-//		if(_isPushing){
-			//This is synced via syncvar with all players
-//			isPushing = true;
-//		}
+
+		//Don't lerp (instantly change pos) if active state was changed
+		if ( serverState.Speed > 0 ) {
+			var preservedLerpPos = serverLerpState.WorldPosition;
+			serverLerpState.MatrixId = serverState.MatrixId;
+			serverLerpState.WorldPosition = preservedLerpPos;
+		} else {
+			serverLerpState = serverState;
+		}
 	}
 
 	[Server]
@@ -261,19 +286,27 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, serverState.MatrixId, newMatrixId );
 
 			//It's very important to save World Pos before matrix switch and restore it back afterwards
-			var worldPosToPreserve = serverState.WorldPosition;
+			var preservedPos = serverState.WorldPosition;
 			serverState.MatrixId = newMatrixId;
-			serverState.WorldPosition = worldPosToPreserve;
+			serverState.WorldPosition = preservedPos;
+
+			var preservedLerpPos = serverLerpState.WorldPosition;
+			serverLerpState.MatrixId = serverState.MatrixId;
+			serverLerpState.WorldPosition = preservedLerpPos;
 			if ( notify ) {
 				NotifyPlayers();
 			}
 		}
 	}
 
+	#region Hiding/Unhiding
+
 	[Server]
 	public void DisappearFromWorldServer()
 	{
+		OnPullInterrupt().Invoke();
 		serverState = TransformState.HiddenState;
+		serverLerpState = TransformState.HiddenState;
 		NotifyPlayers();
 	}
 
@@ -287,7 +320,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	///     For CLIENT prediction purposes.
 	public void DisappearFromWorld()
 	{
-		clientState = TransformState.HiddenState;
+		predictedState = TransformState.HiddenState;
 		UpdateActiveStatus();
 	}
 
@@ -296,51 +329,67 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	public void AppearAtPosition(Vector3 worldPos)
 	{
 		var pos = (Vector2) worldPos; //Cut z-axis
-		clientState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
-		clientState.WorldPosition = pos;
+		predictedState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
+		predictedState.WorldPosition = pos;
 		transform.position = pos;
 		UpdateActiveStatus();
 	}
 
-	/// Called from TransformStateMessage, applies state received from server to client
-	public void UpdateClientState(TransformState newState)
-	{
-		//Don't lerp (instantly change pos) if active state was changed
-		if (clientState.Active != newState.Active /*|| newState.Speed == 0*/)
-		{
-			transform.position = newState.WorldPosition;
-		}
-		clientState = newState;
-		UpdateActiveStatus();
-		//sync rotation if not spinning
-		if ( clientState.SpinFactor != 0 ) {
-			return;
-		}
 
-		var rotation = Quaternion.Euler( 0, 0, clientState.Rotation );
-		if ( clientState.IsLocalRotation ) {
-			transform.localRotation = rotation;
-		} else {
-			transform.rotation = rotation;
-		}
-	}
 
 	/// Registers if unhidden, unregisters if hidden
 	private void UpdateActiveStatus()
 	{
-		if (clientState.Active)
+		if (predictedState.Active)
 		{
 			RegisterObjects();
 		}
 		else
 		{
-			registerTile.Unregister();
+			if ( registerTile ) {
+				registerTile.Unregister();
+			}
 		}
-		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example. 
+		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example.
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < renderers.Length; i++)
 		{
-			renderers[i].enabled = clientState.Active;
+			renderers[i].enabled = predictedState.Active;
+		}
+	}
+		#endregion
+
+	/// Called from TransformStateMessage, applies state received from server to client
+	public void UpdateClientState( TransformState newState ) {
+		clientState = newState;
+
+		OnUpdateRecieved().Invoke( Vector3Int.RoundToInt( newState.WorldPosition ) );
+
+		//Ignore "Follow Updates" if you're pulling it
+		if ( newState.Active
+			&& newState.IsFollowUpdate
+			&& pushPull && pushPull.IsPulledByClient( PlayerManager.LocalPlayerScript?.pushPull) )
+		{
+			return;
+		}
+
+		//Don't lerp (instantly change pos) if active state was changed
+		if (predictedState.Active != newState.Active /*|| newState.Speed == 0*/)
+		{
+			transform.position = newState.WorldPosition;
+		}
+		predictedState = newState;
+		UpdateActiveStatus();
+		//sync rotation if not spinning
+		if ( predictedState.SpinFactor != 0 ) {
+			return;
+		}
+
+		var rotation = Quaternion.Euler( 0, 0, predictedState.Rotation );
+		if ( predictedState.IsLocalRotation ) {
+			transform.localRotation = rotation;
+		} else {
+			transform.rotation = rotation;
 		}
 	}
 
@@ -348,7 +397,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	[Server]
 	public void NotifyPlayers()
 	{
-		Logger.LogTraceFormat( "{0} Notified", Category.Transform, gameObject.name );
+	//	Logger.LogFormat( "{0} Notified: {1}", Category.Transform, gameObject.name, serverState.WorldPosition );
 		SyncMatrix();
 		serverState.IsLocalRotation = false;
 		TransformStateMessage.SendToAll(gameObject, serverState);
@@ -377,10 +426,4 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour //see UpdateMa
 	private void RegisterObjects() {
 		registerTile.UpdatePosition();
 	}
-
-//	//For space drift, the server will confirm an update is required and inform the clients
-//	[ClientRpc]
-//	private void RpcForceRegisterUpdate(){
-//		registerTile.UpdatePosition();
-//	}
 }

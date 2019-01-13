@@ -40,6 +40,8 @@ public class Managers : MonoBehaviour
 		UIManager.Display.SetScreenForGame();
 
 		await Task.Delay(3000); //Wait a decent amount of time for startup of the scene (3s)
+
+		Instantiate (Resources.Load ("UI/GUI/Right click canvas"));
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			//Spawn the ProgressBar handler:

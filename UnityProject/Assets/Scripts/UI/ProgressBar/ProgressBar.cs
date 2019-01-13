@@ -164,6 +164,7 @@ public class FinishProgressAction
 	{
 		TileConstruction,
 		TileDeconstruction,
+		CleanTile,
 		//Add whatever else you need here
 	}
 
@@ -174,6 +175,7 @@ public class FinishProgressAction
 	private TileType tileType;
 	private Vector3 cellPos;
 	private Vector3 worldPos; //worldPos of the action or tile
+	private MopTrigger theMop;
 
 	private GameObject originator;
 
@@ -188,7 +190,12 @@ public class FinishProgressAction
 		worldPos = _worldPos;
 		originator = _originator;
 	}
-
+	public FinishProgressAction(FinishProgressAction.Action cleanTile, Vector3 splatsPos, MopTrigger mop)
+	{
+		actionType = cleanTile;
+		worldPos = splatsPos;
+		theMop = mop;
+	}
 	public void DoAction()
 	{
 		switch (actionType)
@@ -198,6 +205,9 @@ public class FinishProgressAction
 				break;
 			case Action.TileDeconstruction:
 				DoTileDeconstruction();
+				break;
+			case Action.CleanTile:
+				DoCleanTile();
 				break;
 		}
 	}
@@ -211,5 +221,10 @@ public class FinishProgressAction
 	{
 		CraftingManager.Deconstruction.TryTileDeconstruct(
 			tileChangeManager, tileType, cellPos, worldPos);
+	}
+
+	private void DoCleanTile()
+	{
+		theMop.CleanTile(worldPos);
 	}
 }

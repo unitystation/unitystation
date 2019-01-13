@@ -27,15 +27,12 @@ Shader "PostProcess/Occlusion Blur"
 	{
 		float4 vertex : SV_POSITION;
 		float2 texcoord : TEXCOORD0;
-		float2 shifttexcoord : TEXCOORD1;
-		float4 blurTexcoord : TEXCOORD2;
+		float4 blurTexcoord[2] : TEXCOORD2;
 	};
 
-
 	uniform sampler2D _MainTex;
-	uniform sampler2D _FovMask;
 	uniform float4 _MainTex_ST;
-	uniform float2 _MainTex_TexelSize;
+	uniform float4 _MainTex_TexelSize;
 
 	uniform float _Radius;
 	float2 _MultiLimit;
@@ -52,8 +49,8 @@ Shader "PostProcess/Occlusion Blur"
 
 	fixed4 frag (vertexOutput IN) : SV_Target
 	{
-		fixed3 color = tex2D(_MainTex, IN.texcoord);
-		return fixed4(color, 1.0);
+		//fixed3 color = tex2D(_MainTex, IN.texcoord);
+		return 1;//fixed4(color, 1.0);
 	}
 
 	//
@@ -65,7 +62,11 @@ Shader "PostProcess/Occlusion Blur"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
-		float2 offset = float2(_Radius * 0.5f, 0.0); 
+		half aspect = _MainTex_TexelSize.w / _MainTex_TexelSize.z;
+		half _horRadius = aspect * _Radius;
+ 
+		float2 offset1 = float2(_horRadius, 0.0); 
+		float2 offset2 = float2(_horRadius, _Radius);
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
@@ -74,8 +75,10 @@ Shader "PostProcess/Occlusion Blur"
 	#endif
 
 		OUT.texcoord = uv;
-		OUT.blurTexcoord.xy = uv + offset;
-		OUT.blurTexcoord.zw = uv - offset;
+		OUT.blurTexcoord[0].xy = uv + offset1;
+		OUT.blurTexcoord[0].zw = uv - offset1;
+		OUT.blurTexcoord[1].xy = uv + offset2;
+		OUT.blurTexcoord[1].zw = uv - offset2;
 
 		return OUT;
 	}
@@ -86,7 +89,11 @@ Shader "PostProcess/Occlusion Blur"
 
 		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 
-		float2 offset = float2(0.0, _Radius * 1.33333333); 
+		half aspect = _MainTex_TexelSize.w / _MainTex_TexelSize.z;
+		half _horRadius = aspect * _Radius;
+
+		float2 offset1 = float2(0.0, _Radius); 
+		float2 offset2 = float2(-_horRadius, _Radius);
 
 	#if UNITY_VERSION >= 540
 		float2 uv = UnityStereoScreenSpaceUVAdjust(IN.uv, _MainTex_ST);
@@ -95,22 +102,28 @@ Shader "PostProcess/Occlusion Blur"
 	#endif
 
 		OUT.texcoord = uv;
-		OUT.blurTexcoord.xy = uv + offset;
-		OUT.blurTexcoord.zw = uv - offset;
+		OUT.blurTexcoord[0].xy = uv + offset1;
+		OUT.blurTexcoord[0].zw = uv - offset1;
+		OUT.blurTexcoord[1].xy = uv + offset2;
+		OUT.blurTexcoord[1].zw = uv - offset2;
 
 		return OUT;
 	}
 
 	fixed4 frag5Blur (output_5tap IN) : SV_Target
 	{
-		fixed3 mainSample = tex2D(_MainTex, IN.texcoord).xyz;
+		float _samplePower = 0.3;
+		
+		fixed3 mainSample = tex2D(_MainTex, IN.texcoord); //_MainTex.Sample(sampler_linear_clamp, IN.texcoord).xyz;
 
-		fixed3 blurredSum = mainSample * 0.29411764; 
-		blurredSum += tex2D(_MainTex, IN.blurTexcoord.xy).xyz * 0.35294117;
-		blurredSum += tex2D(_MainTex, IN.blurTexcoord.zw).xyz * 0.35294117;
+		fixed3 blurredSum = mainSample * _samplePower; 
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[0].xy).xyz * _samplePower;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[0].zw).xyz * _samplePower;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[1].xy).xyz * _samplePower;
+		blurredSum += tex2D(_MainTex, IN.blurTexcoord[1].zw).xyz * _samplePower;
 
 		float power = _MultiLimit.x;
-		float limit = _MultiLimit.y;
+		float limit = _MultiLimit.y; 
 
 		return clamp(blurredSum.rgb * power, float3(0,0,0), float3(limit, limit, limit)).rgbb;
 	}

@@ -7,6 +7,9 @@ using UnityEngine.Networking;
 /// </summary>
 public class FoodBehaviour : NetworkBehaviour
 {
+    public GameObject leavings;
+    protected bool isDrink = false;
+
 	//TODO remove after deathmatches
 	[Header("Being used for TDM")] public int healAmount;
 
@@ -42,6 +45,6 @@ public class FoodBehaviour : NetworkBehaviour
 	{
 		//FIXME: PNA Cmd is being used to heal the player instead of heal hunger for the TDM
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdEatFood(gameObject,
-			UIManager.Hands.CurrentSlot.eventName, false);
+            UIManager.Hands.CurrentSlot.eventName, isDrink);
 	}
 }

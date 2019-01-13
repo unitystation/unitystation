@@ -3,6 +3,10 @@ using System.Linq;
 using UnityEngine;
 
 
+	/// <summary>
+	/// ObjectLayer holds all the objects on all the tiles in the game world - specifically the RegisterTile components of those objects.
+	/// It provides functionality for checking what should occur on given tiles, such as if a tile at a specific location should be passable.
+	/// </summary>
 	[ExecuteInEditMode]
 	public class ObjectLayer : Layer
 	{
@@ -35,54 +39,79 @@ using UnityEngine;
 
 		public override void RemoveTile(Vector3Int position, bool removeAll=false)
 		{
-			foreach (RegisterTile obj in Objects.Get(position).ToArray())
-			{
-				DestroyImmediate(obj.gameObject);
+			List<RegisterTile> objs = Objects.Get(position);
+			for ( var i = 0; i < objs.Count; i++ ) {
+				RegisterTile obj = objs[i];
+				DestroyImmediate( obj.gameObject );
 			}
 
 			base.RemoveTile(position, removeAll);
 		}
 
-		public override bool IsPassableAt(Vector3Int origin, Vector3Int to)
+		public override bool IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true, GameObject context = null )
+		{
+			//Targeting windoors here
+			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
+			for ( var i = 0; i < objectsOrigin.Count; i++ ) {
+				if ( !objectsOrigin[i].IsPassableTo( to ) ) {
+					//Can't get outside the tile because windoor doesn't allow us
+					return false;
+				}
+			}
+
+			List<RegisterTile> objectsTo = Objects.Get<RegisterTile>(to);
+			bool toPass;
+			if ( inclPlayers ) {
+				toPass = true;
+				for ( var i = 0; i < objectsTo.Count; i++ ) {
+					RegisterTile o = objectsTo[i];
+					if ( !o.IsPassable( origin ) && ( !context || o.gameObject != context ) ) {
+						toPass = false;
+						break;
+					}
+				}
+			} else {
+				toPass = true;
+				for ( var i = 0; i < objectsTo.Count; i++ ) {
+					RegisterTile o = objectsTo[i];
+					if ( o.ObjectType != ObjectType.Player && !o.IsPassable( origin ) && ( !context || o.gameObject != context ) ) {
+						toPass = false;
+						break;
+					}
+				}
+			}
+
+			bool rods = base.IsPassableAt(origin, to, inclPlayers);
+
+//			Logger.Log( $"IPA = {toPass} && {rods} @ {MatrixManager.Instance.LocalToWorldInt( origin, MatrixManager.Get(0).Matrix )} -> {MatrixManager.Instance.LocalToWorldInt( to, MatrixManager.Get(0).Matrix )} " +
+//			            $" (in local: {origin} -> {to})", Category.Matrix );
+			return toPass && rods;
+		}
+
+		public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
 		{
 			List<RegisterTile> objectsTo = Objects.Get<RegisterTile>(to);
 
-			if (!objectsTo.All(o => o.IsPassable(origin)))
+            if (!objectsTo.All(o => o.IsAtmosPassable()))
 			{
 				return false;
 			}
 
 			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
 
-			return objectsOrigin.All(o => o.IsPassable(origin)) && base.IsPassableAt(origin, to);
-		}
-
-		public override bool IsPassableAt(Vector3Int position)
-		{
-			List<RegisterTile> objects = Objects.Get<RegisterTile>(position);
-
-			return objects.All(x => x.IsPassable()) && base.IsPassableAt(position);
-		}
-
-		public override bool IsAtmosPassableAt(Vector3Int position)
-		{
-			RegisterTile obj = Objects.GetFirst<RegisterTile>(position);
-
-			return obj ? obj.IsAtmosPassable() : base.IsAtmosPassableAt(position);
+			return objectsOrigin.All(o => o.IsAtmosPassable()) && base.IsAtmosPassableAt(origin, to);
 		}
 
 		public override bool IsSpaceAt(Vector3Int position)
 		{
-			return IsAtmosPassableAt(position) && base.IsSpaceAt(position);
+			return IsAtmosPassableAt(position, position) && base.IsSpaceAt(position);
 		}
 
-		public override void ClearAllTiles()
-		{
-			foreach (RegisterTile obj in Objects.AllObjects)
-			{
-				if (obj != null)
-				{
-					DestroyImmediate(obj.gameObject);
+		public override void ClearAllTiles() {
+			for ( var i = 0; i < Objects.AllObjects.Count; i++ ) {
+				RegisterTile obj = Objects.AllObjects[i];
+				if ( obj != null ) {
+					DestroyImmediate( obj.gameObject );
 				}
 			}
 

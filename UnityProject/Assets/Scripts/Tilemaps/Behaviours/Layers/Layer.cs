@@ -43,34 +43,19 @@ using UnityEngine.Tilemaps;
 			}
 		}
 
-		public virtual bool IsPassableAt(Vector3Int from, Vector3Int to)
+		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool inclPlayers = true, GameObject context = null )
 		{
-			if (from == to)
-			{
-				return true;
-			}
-
-			BasicTile tileTo = tilemap.GetTile<BasicTile>(to);
-
-			return TileUtils.IsPassable(tileTo);
+			return TileUtils.IsPassable(tilemap.GetTile<BasicTile>(to));
 		}
 
-		public virtual bool IsPassableAt(Vector3Int position)
+		public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to)
 		{
-			BasicTile tile = tilemap.GetTile<BasicTile>(position);
-			return TileUtils.IsPassable(tile);
-		}
-
-		public virtual bool IsAtmosPassableAt(Vector3Int position)
-		{
-			BasicTile tile = tilemap.GetTile<BasicTile>(position);
-			return TileUtils.IsAtmosPassable(tile);
+			return TileUtils.IsAtmosPassable(tilemap.GetTile<BasicTile>(to));
 		}
 
 		public virtual bool IsSpaceAt(Vector3Int position)
 		{
-			BasicTile tile = tilemap.GetTile<BasicTile>(position);
-			return TileUtils.IsSpace(tile);
+			return TileUtils.IsSpace(tilemap.GetTile<BasicTile>(position));
 		}
 
 		public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)

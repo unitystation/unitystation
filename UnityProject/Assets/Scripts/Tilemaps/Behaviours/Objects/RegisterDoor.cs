@@ -13,6 +13,11 @@
 			_subsystemManager = GetComponentInParent<SubsystemManager>();
 		}
 
+		public override void AfterUpdate()
+		{
+			systemManager?.UpdateAt(Position);
+		}
+
 		[SerializeField]
 		private bool isClosed = true;
 
@@ -29,7 +34,7 @@
 			}
 		}
 
-		public override bool IsPassable(Vector3Int to)
+		public override bool IsPassableTo( Vector3Int to )
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
@@ -41,6 +46,11 @@
 			return !isClosed;
 		}
 
+		public override bool IsPassable( Vector3Int from )
+		{
+			return IsPassableTo( from );
+		}
+		
 		public override bool IsPassable()
 		{
 			return !isClosed;

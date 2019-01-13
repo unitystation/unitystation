@@ -40,6 +40,8 @@ public class Welder : NetworkBehaviour
 
 	[SyncVar(hook = nameof(UpdateState))] public bool isOn;
 
+	private Coroutine coBurnFuel;
+
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
@@ -101,7 +103,9 @@ public class Welder : NetworkBehaviour
 			itemAtts.inHandReferenceRight = rightHandFlame;
 			isBurning = true;
 			flameRenderer.sprite = flameSprites[0];
-			StartCoroutine(BurnFuel());
+			if (coBurnFuel == null)
+				coBurnFuel = StartCoroutine(BurnFuel());
+
 		}
 
 		if (!isOn || clientFuelAmt <= 0f)
@@ -109,15 +113,18 @@ public class Welder : NetworkBehaviour
 			itemAtts.inHandReferenceLeft = leftHandOriginal;
 			itemAtts.inHandReferenceRight = rightHandOriginal;
 			isBurning = false;
-			StopCoroutine(BurnFuel());
+			if (coBurnFuel != null) {
+				StopCoroutine(coBurnFuel);
+				coBurnFuel = null;
+			}
 			flameRenderer.sprite = null;
 		}
 
 		CheckHeldByPlayer();
 	}
 
-	//A broadcast message from EquipmentPool.cs on the server:
-	public void OnRemoveFromPool()
+	//A broadcast message from InventoryManager.cs on the server:
+	public void OnRemoveFromInventory()
 	{
 		heldByPlayer = null;
 	}
@@ -137,7 +144,7 @@ public class Welder : NetworkBehaviour
 		//the inhand image when the player turns it on and off:
 		if (isServer && heldByPlayer != null)
 		{
-			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts);
+			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, UIManager.Hands.CurrentSlot.eventName);
 		}
 	}
 

@@ -7,29 +7,45 @@ using UnityEngine.Networking;
 /// </summary>
 public class UpdateUIMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.UpdateUIMessage;
-	public float CurHealth;
-	public NetworkInstanceId Recipient;
+	public static short MessageType = (short)MessageTypes.UpdateUIMessage;
+	public int CurHealth;
+	public bool ShowOxyWarning;
 
 	public override IEnumerator Process()
 	{
-		yield return WaitFor(Recipient);
-		UIManager.PlayerHealthUI.UpdateHealthUI(this, CurHealth);
+		if (CurHealth == -1)
+		{
+			UIManager.Instance.oxygenAlertImg.enabled = ShowOxyWarning;
+		}
+		else
+		{
+			UIManager.PlayerHealthUI.UpdateHealthUI(this, CurHealth);
+		}
+		yield return null;
 	}
 
-	/// <summary>
-	///     At the moment it is used to pass the current health of the player
-	///     to the players UI from the server. This should be expanded for other
-	///     UI related things later
-	/// </summary>
+	/// Update health meter for given player
 	/// <param name="recipient">Recipient.</param>
 	/// <param name="cHealth">Current server health.</param>
-	public static UpdateUIMessage Send(GameObject recipient, float cHealth)
+	public static UpdateUIMessage SendHealth(GameObject recipient, int cHealth)
 	{
 		UpdateUIMessage msg = new UpdateUIMessage
 		{
-			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
 			CurHealth = cHealth
+		};
+		msg.SendTo(recipient);
+		return msg;
+	}
+
+	/// Show/hide oxygen warning for given player
+	/// <param name="recipient">Player to send to</param>
+	/// <param name="showOxy">Show oxygen warning</param>
+	public static UpdateUIMessage SendOxyWarning(GameObject recipient, bool showOxy)
+	{
+		UpdateUIMessage msg = new UpdateUIMessage
+		{
+			CurHealth = -1,
+			ShowOxyWarning = showOxy
 		};
 		msg.SendTo(recipient);
 		return msg;

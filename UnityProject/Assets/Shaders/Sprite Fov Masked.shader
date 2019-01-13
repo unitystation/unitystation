@@ -31,20 +31,25 @@ Shader "Stencil/Unlit background masked" {
 
 #include "UnityCG.cginc"
 
-		struct appdata_t {
+	struct appdata_t 
+	{
 		float4 vertex : POSITION;
 		float2 texcoord : TEXCOORD0;
+		float4 color : COLOR;
 	};
 
 	struct v2f {
 		float4 vertex : SV_POSITION;
 		half2 texcoord : TEXCOORD0;
 		half2 screencoord : TEXCOORD1;
-		UNITY_FOG_COORDS(1)
+		float4 color : COLOR;
 	};
 
 	sampler2D _MainTex;
-	sampler2D _FovMask;
+    //holds the Fov mask used for object sprites
+	sampler2D _ObjectFovMask;
+    //holds a vector used to offset the above texture (which is a PPRT) from the renderer. Calculated from objectOcclusionMask.GetTransformation(currentCamera)
+	float4 _ObjectFovMaskTransformation;
 	float4 _MainTex_ST;
 
 	v2f vert(appdata_t v)
@@ -52,23 +57,24 @@ Shader "Stencil/Unlit background masked" {
 		v2f o;
 		o.vertex = UnityObjectToClipPos(v.vertex);
 		o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
-		o.screencoord = ComputeScreenPos(o.vertex);
-		UNITY_TRANSFER_FOG(o,o.vertex);
+
+		o.screencoord = (ComputeScreenPos(o.vertex) - 0.5 + _ObjectFovMaskTransformation.xy) * _ObjectFovMaskTransformation.zw + 0.5;
+		o.color = v.color;
+
 		return o;
 	}
 
 	fixed4 frag(v2f i) : SV_Target
 	{
+		fixed4 textureSample = tex2D(_MainTex, i.texcoord);
+		fixed4 maskSample = tex2D(_ObjectFovMask, i.screencoord);
 
-		fixed4 col = tex2D(_MainTex, i.texcoord);
-		fixed4 mask = tex2D(_FovMask, i.screencoord);
+		fixed4 final = textureSample * i.color;
 
-		UNITY_APPLY_FOG(i.fogCoord, col);
+		float maskChennel = maskSample.g + maskSample.r;
+        final.a = textureSample.a * clamp(maskChennel * 3 - 0.33333f, 0, 10) * i.color.a;
 
-		float maskChennel = mask.g + mask.r;
-		col.a = col.a * clamp(maskChennel * 3,0,10);
-
-		return col;
+		return final;
 	}
 		ENDCG
 	}

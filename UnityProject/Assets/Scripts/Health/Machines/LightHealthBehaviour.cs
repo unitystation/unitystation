@@ -1,8 +1,7 @@
-﻿public class LightHealthBehaviour : HealthBehaviour
+﻿using UnityEngine;
+
+public class LightHealthBehaviour : MonoBehaviour
 {
-	protected override void OnDeathActions()
-	{
-		//        Logger.Log("Light ded!");
-		GetComponentInParent<LightSource>().Trigger(false); //insert better solution here
-	}
+	//TODO: I've removed LivingHealthBehaviour from being a base class as
+	//it no longer should be used for damage on staton objects / machines
 }

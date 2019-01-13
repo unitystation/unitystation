@@ -52,6 +52,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdUnloadWeapon(GameObject weapon)
 	{
 		Weapon w = weapon.GetComponent<Weapon>();
+
+		var cnt = w.CurrentMagazine?.GetComponent<CustomNetTransform>();
+		if(cnt != null)
+		{
+			cnt.InertiaDrop(transform.position, playerMove.speed, playerScript.PlayerSync.ServerState.Impulse);
+		} else {
+			Logger.Log("Magazine not found for unload weapon", Category.Firearms);
+		}
+
 		NetworkInstanceId networkID = NetworkInstanceId.Invalid;
 		w.MagNetID = networkID;
 	}
@@ -74,7 +83,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		GameObject weapon = playerScript.playerNetworkActions.Inventory[slot];
+		var weapon = playerScript.playerNetworkActions.Inventory[slot].Item;
 		ItemAttributes weaponAttr = weapon.GetComponent<ItemAttributes>();
 
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
@@ -112,13 +121,13 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 
 		//This check cannot be used with TilemapDamage as the transform position is always far away
-		if (!playerScript.IsInReach(victim.transform.position))
+		if (!playerScript.IsInReach(victim))
 		{
 			return;
 		}
 
 		//Meaty bodies:
-		HealthBehaviour victimHealth = victim.GetComponent<HealthBehaviour>();
+		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 
 		if (victimHealth.IsDead && weaponAttr.type == ItemType.Knife)
 		{
@@ -147,7 +156,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			playerMove.allowInput = false;
 		}
 
-		victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, DamageType.BRUTE, damageZone);
+		victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, DamageType.Brute, damageZone);
 		if (weaponAttr.hitDamage > 0)
 		{
 			PostToChatMessage.SendItemAttackMessage(weapon, gameObject, victim, (int) weaponAttr.hitDamage, damageZone);
