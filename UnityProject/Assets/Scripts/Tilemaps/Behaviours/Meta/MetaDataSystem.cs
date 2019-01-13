@@ -6,9 +6,7 @@ using UnityEngine;
 
 public class MetaDataSystem : SubsystemBehaviour
 {
-	private Matrix matrix;
 	private SubsystemManager subsystemManager;
-	private Dictionary<Matrix, HashSet<MetaDataNode>> externalNodes2;
 	private HashSet<MetaDataNode> externalNodes;
 
 	// Set higher priority to ensure that it is executed before other systems
@@ -18,10 +16,8 @@ public class MetaDataSystem : SubsystemBehaviour
 	{
 		base.Awake();
 
-		matrix = GetComponentInParent<Matrix>();
 		subsystemManager = GetComponentInParent<SubsystemManager>();
 
-//		externalNodes = new Dictionary<Matrix, HashSet<MetaDataNode>> {{matrix, new HashSet<MetaDataNode>()}};
 		externalNodes = new HashSet<MetaDataNode>();
 	}
 

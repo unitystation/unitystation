@@ -20,7 +20,7 @@ namespace PlayGroups
 
 	public class AtmosCheck : NetworkBehaviour
 	{
-		private HealthBehaviour health;
+		private LivingHealthBehaviour health;
 
 		public int pressureDamage = 5;
 
@@ -28,7 +28,7 @@ namespace PlayGroups
 
 		private void Awake()
 		{
-			health = GetComponent<HealthBehaviour>();
+			health = GetComponent<LivingHealthBehaviour>();
 		}
 
 		public override void OnStartServer()
@@ -53,7 +53,7 @@ namespace PlayGroups
 
 			if (atmos.Pressure < AtmosConstants.HAZARD_LOW_PRESSURE || atmos.Pressure > AtmosConstants.HAZARD_HIGH_PRESSURE)
 			{
-				health.ApplyDamage(null, pressureDamage * Time.deltaTime, DamageType.BRUTE);
+				health.ApplyDamage(null, pressureDamage * Time.deltaTime, DamageType.Brute);
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace PlayGroups
 				{
 					float ratio = 1 - partialPressure / AtmosConstants.MINIMUM_OXYGEN_PRESSURE;
 
-					health.ApplyDamage(null, Mathf.Min(5 * ratio, 3), DamageType.OXY);
+					health.ApplyDamage(null, Mathf.Min(5 * ratio, 3), DamageType.Oxy);
 				}
 				else
 				{

@@ -9,9 +9,9 @@
 
 		}
 
-		public static Vector2Int RoundToInt(this Vector2 other)
+		public static Vector3Int RoundToInt(this Vector2 other)
 		{
-			return Vector2Int.RoundToInt(other);
+			return Vector3Int.RoundToInt(other);
 		}
 
 		/// Round to int while cutting z-axis

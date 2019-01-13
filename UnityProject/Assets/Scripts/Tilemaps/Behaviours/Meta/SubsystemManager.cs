@@ -3,12 +3,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-
+[RequireComponent(typeof(MetaDataSystem))]
+[RequireComponent(typeof(AtmosSystem))]
 public class SubsystemManager : NetworkBehaviour
 {
 	private List<SubsystemBehaviour> systems = new List<SubsystemBehaviour>();
+	private bool initialized;
 
-	public void Start()
+	public override void OnStartServer()
 	{
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
 		Initialize();
@@ -20,15 +22,21 @@ public class SubsystemManager : NetworkBehaviour
 		{
 			systems[i].Initialize();
 		}
+
+		initialized = true;
 	}
 
-	public void Register(SubsystemBehaviour subsystem)
+	public void Register(SubsystemBehaviour system)
 	{
-		systems.Add(subsystem);
+		systems.Add(system);
 	}
 
 	public void UpdateAt(Vector3Int position)
 	{
+		if ( !initialized )
+		{
+			return;
+		}
 		for (int i = 0; i < systems.Count; i++)
 		{
 			systems[i].UpdateAt(position);

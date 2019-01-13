@@ -7,7 +7,6 @@ public class Matrix : MonoBehaviour
 {
 	private MetaTileMap metaTileMap;
 	private TileList objects;
-	private TileList players;
 	private Vector3Int initialOffset;
 	public Vector3Int InitialOffset => initialOffset;
 
@@ -29,10 +28,10 @@ public class Matrix : MonoBehaviour
 		}
 	}
 
-    public bool IsPassableAt(Vector3Int position)
-    {
-        return IsPassableAt(position, position);
-    }
+	public bool IsPassableAt(Vector3Int position)
+	{
+		return IsPassableAt(position, position);
+	}
 
 	/// Can one pass from `origin` to adjacent `position`?
 	/// <param name="origin">Position object is at now</param>
@@ -40,7 +39,7 @@ public class Matrix : MonoBehaviour
 	/// <param name="includingPlayers">Set this to false to ignore players from check</param>
 	/// <param name="context">Is excluded from passable check</param>
 	/// <returns></returns>
-	public bool IsPassableAt( Vector3Int origin, Vector3Int position, bool includingPlayers = true, GameObject context = null )
+	public bool IsPassableAt(Vector3Int origin, Vector3Int position, bool includingPlayers = true, GameObject context = null)
 	{
 		return metaTileMap.IsPassableAt(origin, position, includingPlayers, context);
 	}
@@ -48,6 +47,11 @@ public class Matrix : MonoBehaviour
 	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position)
 	{
 		return metaTileMap.IsAtmosPassableAt(origin, position);
+	}
+
+	public bool IsSpaceAt(Vector3Int position)
+	{
+		return metaTileMap.IsSpaceAt(position);
 	}
 
 	public bool IsEmptyAt(Vector3Int position)
@@ -70,8 +74,9 @@ public class Matrix : MonoBehaviour
 	}
 
 	/// Is current position NOT a station tile? (Objects not taken into consideration)
-	public bool IsNoGravityAt( Vector3Int position ) {
-		return metaTileMap.IsNoGravityAt( position );
+	public bool IsNoGravityAt(Vector3Int position)
+	{
+		return metaTileMap.IsNoGravityAt(position);
 	}
 
 	/// Should player NOT stick to the station at this position?
@@ -102,30 +107,35 @@ public class Matrix : MonoBehaviour
 		return true;
 	}
 
-	public List<T> Get<T>(Vector3Int position) where T : MonoBehaviour {
-		List<RegisterTile> xes = objects.Get( position );
+	public List<T> Get<T>(Vector3Int position) where T : MonoBehaviour
+	{
+		List<RegisterTile> xes = objects.Get(position);
 		var filtered = new List<T>();
-		for ( var i = 0; i < xes.Count; i++ ) {
+		for (var i = 0; i < xes.Count; i++)
+		{
 			T x = xes[i].GetComponent<T>();
-			if ( x != null ) {
-				filtered.Add( x );
+			if (x != null)
+			{
+				filtered.Add(x);
 			}
 		}
+
 		return filtered;
 	}
-
 
 	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
 	{
 		//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine
 		var registerTiles = objects.Get(position);
-		for(int i = 0; i < registerTiles.Count; i++)
+		for (int i = 0; i < registerTiles.Count; i++)
 		{
-			var c = registerTiles[i].GetComponent<T>();
-			if(c != null){
+			T c = registerTiles[i].GetComponent<T>();
+			if (c != null)
+			{
 				return c;
 			}
 		}
+
 		return null;
 		//Old way that only checked the first RegisterTile on a cell pos:
 		//return objects.GetFirst(position)?.GetComponent<T>();
@@ -133,14 +143,17 @@ public class Matrix : MonoBehaviour
 
 	public List<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
 	{
-		List<RegisterTile> xes = objects.Get( position, type );
+		List<RegisterTile> xes = objects.Get(position, type);
 		var filtered = new List<T>();
-		for ( var i = 0; i < xes.Count; i++ ) {
+		for (var i = 0; i < xes.Count; i++)
+		{
 			T x = xes[i].GetComponent<T>();
-			if ( x != null ) {
-				filtered.Add( x );
+			if (x != null)
+			{
+				filtered.Add(x);
 			}
 		}
+
 		return filtered;
 	}
 

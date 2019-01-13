@@ -10,12 +10,14 @@ public class TankInteract : InputTrigger
 		container = GetComponent<GasContainer>();
 	}
 
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		container.Opened = !container.Opened;
 
 		string msg = container.Opened ? "The valve is open." : "The valve is closed.";
 
 		ChatRelay.Instance.AddToChatLogClient(msg, ChatChannel.Local);
+
+		return true;
 	}
 }

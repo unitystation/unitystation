@@ -3,8 +3,8 @@
 public class BodyPartBehaviour : MonoBehaviour
 {
 	//Different types of damages for medical.
-	private int bruteDamage;
-	private int burnDamage;
+	private float bruteDamage;
+	private float burnDamage;
 
 	public Sprite GrayDamageMonitorIcon;
 
@@ -19,16 +19,16 @@ public class BodyPartBehaviour : MonoBehaviour
 	public Sprite YellowDamageMonitorIcon;
 
 	public DamageSeverity Severity { get; private set; }
-	public int OverallDamage { get { return bruteDamage + burnDamage; } }
+	public float OverallDamage { get { return bruteDamage + burnDamage; } }
 
 	//Apply damages from here.
-	public virtual void ReceiveDamage(DamageType damageType, int damage)
+	public virtual void ReceiveDamage(DamageType damageType, float damage)
 	{
 		UpdateDamage(damage, damageType);
 		Logger.LogTraceFormat("{0} received {1} {2} damage. Total {3}/{4}, limb condition is {5}", Category.Health, Type, damage, damageType, damage, MaxDamage, Severity);
 	}
 
-	private void UpdateDamage(int damage, DamageType type)
+	private void UpdateDamage(float damage, DamageType type)
 	{
 		switch (type)
 		{

@@ -2,13 +2,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class TileHealthBehaviour : HealthBehaviour
+public class TileHealthBehaviour : LivingHealthBehaviour
 {
-	private void Awake()
-	{
-	}
-
-	public void ApplyDamage(Vector3 position)
+	protected override void OnDeathActions()
 	{
 
 	}

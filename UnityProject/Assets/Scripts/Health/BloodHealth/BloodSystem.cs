@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class BloodSystem : MonoBehaviour
 {
-	public int ToxinDamage { get; set; } = 0;
+	public float ToxinDamage { get; set; } = 0;
 	public int OxygenLevel { get; set; } = 100; //100% is full healthy levels of oxygen
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private DNAandBloodType bloodType;
@@ -123,7 +123,7 @@ public class BloodSystem : MonoBehaviour
 	/// Determine if there is any blood damage (toxin, oxygen loss) or bleeding that needs to occur
 	/// Server only!
 	/// </summary>
-	public void AffectBloodState(BodyPartType bodyPartType, DamageType damageType, int amount, bool isHeal = false)
+	public void AffectBloodState(BodyPartType bodyPartType, DamageType damageType, float amount, bool isHeal = false)
 	{
 		BodyPartBehaviour bodyPart = livingHealthBehaviour.FindBodyPart(bodyPartType);
 
@@ -156,7 +156,7 @@ public class BloodSystem : MonoBehaviour
 	}
 
 	//Do any healing stuff:
-	private void CheckHealing(BodyPartBehaviour bodyPart, DamageType damageType, int healAmt)
+	private void CheckHealing(BodyPartBehaviour bodyPart, DamageType damageType, float healAmt)
 	{
 		Debug.Log("TODO PRIORITY: Do Blood Healing!!");
 	}

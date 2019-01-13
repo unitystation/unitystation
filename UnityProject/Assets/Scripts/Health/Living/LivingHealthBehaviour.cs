@@ -5,9 +5,9 @@ using UnityEngine.Networking;
 
 public abstract class LivingHealthBehaviour : NetworkBehaviour
 {
-	public int maxHealth = 100;
+	public float maxHealth = 100;
 
-	public int OverallHealth { get; private set; }
+	public float OverallHealth { get; private set; }
 
 	public BloodSystem bloodSystem;
 
@@ -109,7 +109,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerOnlySetHealth(int newValue)
+	public void ServerOnlySetHealth(float newValue)
 	{
 		if (isServer)
 		{
@@ -133,7 +133,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <param name="damageType">The Type of Damage</param>
 	/// <param name="bodyPartAim">Body Part that is affected</param>
 	[Server]
-	public virtual void ApplyDamage(GameObject damagedBy, int damage,
+	public virtual void ApplyDamage(GameObject damagedBy, float damage,
 		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
 	{
 		if (damage <= 0 || IsDead)
@@ -344,7 +344,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 			//Too much damage, stop calculating:
 			if (OverallHealth <= 0)
-			{	
+			{
 				break;
 			}
 		}
