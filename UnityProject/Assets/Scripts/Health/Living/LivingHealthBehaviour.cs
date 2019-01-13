@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 /// The Required component for all living creatures
 /// Monitors and calculates health
 /// </summary>
+[RequireComponent(typeof(HealthStateMonitor))]
 public abstract class LivingHealthBehaviour : NetworkBehaviour
 {
 	public int maxHealth = 100;
@@ -171,7 +172,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
 
-	
 	/// ---------------------------
 	/// PUBLIC FUNCTIONS: HEAL AND DAMAGE:
 	/// ---------------------------
@@ -483,6 +483,49 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	protected abstract void OnDeathActions();
 
+	// --------------------
+	// UPDATES FROM SERVER
+	// -------------------- 
+
+	// Stats are separated so that the server only updates the area of concern when needed
+
+	/// <summary>
+	/// Updates the main health stats from the server via NetMsg
+	/// </summary>
+	public void UpdateClientHealthStats(int overallHealth, ConsciousState consciousState,
+		bool heartStopped, int bloodVolume)
+	{
+		OverallHealth = overallHealth;
+		ConsciousState = consciousState;
+	}
+
+	/// <summary>
+	/// Updates the respiratory health stats from the server via NetMsg
+	/// </summary>
+	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
+	{
+		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating);
+	}
+
+	/// <summary>
+	/// Updates the blood health stats from the server via NetMsg
+	/// </summary>
+	public void UpdateClientBloodStats(int heartRate, int bloodVolume, int oxygenLevel, int toxinLevel)
+	{
+		bloodSystem.UpdateClientBloodStats(heartRate, bloodVolume, oxygenLevel, toxinLevel);
+	}
+
+	/// <summary>
+	/// Updates the brain health stats from the server via NetMsg
+	/// </summary>
+	public void UpdateClientBrainStats(bool isHusk, int brainDamage)
+	{
+		if (brainSystem != null)
+		{
+			brainSystem.UpdateClientBrainStats(isHusk, brainDamage);
+		}
+	}
+
 	/// ---------------------------
 	/// MISC Functions:
 	/// ---------------------------
@@ -521,7 +564,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		return null;
 	}
 
-		/// <summary>
+	/// <summary>
 	/// Reset all body part damage.
 	/// </summary>
 	[Server]

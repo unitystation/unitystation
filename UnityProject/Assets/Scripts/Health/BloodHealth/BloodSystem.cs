@@ -224,7 +224,7 @@ public class BloodSystem : MonoBehaviour
 					AddBloodLoss(bloodLoss);
 					break;
 				default:
-				//For particularly powerful hits when a body part is fine
+					//For particularly powerful hits when a body part is fine
 					if (amount > 40)
 					{
 						LoseBlood(bloodLoss);
@@ -244,5 +244,17 @@ public class BloodSystem : MonoBehaviour
 	private void CheckHealing(BodyPartBehaviour bodyPart, DamageType damageType, int healAmt)
 	{
 		Debug.Log("TODO PRIORITY: Do Blood Healing!!");
+	}
+
+	// --------------------
+	// UPDATES FROM SERVER
+	// -------------------- 
+
+	public void UpdateClientBloodStats(int heartRate, int bloodVolume, int _oxygenLevel, int _toxinLevel)
+	{
+		HeartRate = heartRate;
+		BloodLevel = bloodVolume;
+		oxygenLevel = _oxygenLevel;
+		toxinLevel = _toxinLevel;
 	}
 }

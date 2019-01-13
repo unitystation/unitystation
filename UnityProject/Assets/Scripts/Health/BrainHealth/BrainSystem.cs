@@ -18,14 +18,15 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
     /// <summary>
     /// Is this body just a husk (missing brain)
     /// </summary>
-    public bool IsHusk => brain == null;
+    public bool IsHuskServer => brain == null;
+    public bool IsHuskClient { get; private set; }
     /// <summary>
     /// How damaged is the brain
     /// </summary>
     /// <returns>Percentage between 0% and 100%. 
     /// -1 means there is no brain present</returns>
     public int BrainDamageAmt { get { if (brain == null) { return -1; } return Mathf.Clamp(brain.BrainDamage, 0, 101); } }
-
+    public int BrainDamageAmtClient { get; private set; }
     private float tickRate = 1f;
     private float tick = 0f;
     //The amount of time the brain has been starved of oxygen
@@ -153,5 +154,18 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
             }
 
         }
+    }
+
+    // --------------------
+    // UPDATES FROM SERVER
+    // -------------------- 
+
+    /// <summary>
+    /// Updated via server NetMsg
+    /// </summary>
+    public void UpdateClientBrainStats(bool isHusk, int brainDmgAmt)
+    {
+        IsHuskClient = isHusk;
+        BrainDamageAmtClient = brainDmgAmt;
     }
 }

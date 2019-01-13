@@ -179,4 +179,17 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 		return headItemAtt.evaCapable && suitItemAtt.evaCapable;
 	}
+
+	// --------------------
+	// UPDATES FROM SERVER
+	// -------------------- 
+
+	/// <summary>
+	/// Updated from server via NetMsg
+	/// </summary>
+	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
+	{
+		IsBreathing = isBreathing;
+		IsSuffocating = isSuffocating;
+	}
 }
