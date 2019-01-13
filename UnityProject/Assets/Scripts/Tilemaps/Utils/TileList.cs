@@ -5,37 +5,66 @@ using UnityEngine;
 
 	public class TileList
 	{
-		private readonly Dictionary<Vector3Int, List<RegisterTile>> _objects =
+		private readonly Dictionary<Vector3Int, List<RegisterTile>> objects =
 			new Dictionary<Vector3Int, List<RegisterTile>>();
 
-		public List<RegisterTile> AllObjects => _objects.Values.SelectMany(x => x).ToList();
+		private static readonly List<RegisterTile> emptyList = new List<RegisterTile>();
+
+		public List<RegisterTile> AllObjects {
+			get {
+				List<RegisterTile> list = new List<RegisterTile>();
+				foreach ( List<RegisterTile> x in objects.Values ) {
+					for ( var i = 0; i < x.Count; i++ ) {
+						list.Add( x[i] );
+					}
+				}
+
+				return list;
+			}
+		}
 
 		public void Add(Vector3Int position, RegisterTile obj)
 		{
-			if (!_objects.ContainsKey(position))
+			if (!objects.ContainsKey(position))
 			{
-				_objects[position] = new List<RegisterTile>();
+				objects[position] = new List<RegisterTile>();
 			}
 
-			if (!_objects[position].Contains(obj))
+			if (!objects[position].Contains(obj))
 			{
-				_objects[position].Add(obj);
+				objects[position].Add(obj);
 			}
 		}
 
 		public List<RegisterTile> Get(Vector3Int position)
 		{
-			return _objects.ContainsKey(position) ? _objects[position] : new List<RegisterTile>();
+			return objects.ContainsKey(position) ? objects[position] : emptyList;
 		}
 
-		public List<RegisterTile> Get(Vector3Int position, ObjectType type)
-		{
-			return Get(position).Where(x => x.ObjectType == type).ToList();
+		public List<RegisterTile> Get(Vector3Int position, ObjectType type) {
+			List<RegisterTile> list = new List<RegisterTile>();
+			List<RegisterTile> xes = Get( position );
+			for ( var i = 0; i < xes.Count; i++ ) {
+				RegisterTile x = xes[i];
+				if ( x.ObjectType == type ) {
+					list.Add( x );
+				}
+			}
+
+			return list;
 		}
 
-		public List<T> Get<T>(Vector3Int position) where T : RegisterTile
-		{
-			return Get(position).OfType<T>().ToList();
+		public List<T> Get<T>(Vector3Int position) where T : RegisterTile {
+			List<T> list = new List<T>();
+			List<RegisterTile> tiles = Get( position );
+			for ( var i = 0; i < tiles.Count; i++ ) {
+				T unknown = tiles[i] as T;
+				if ( unknown != null ) {
+					list.Add( unknown );
+				}
+			}
+
+			return list;
 		}
 
 		public RegisterTile GetFirst(Vector3Int position)
@@ -50,15 +79,15 @@ using UnityEngine;
 
 		public void Remove(Vector3Int position, RegisterTile obj = null)
 		{
-			if (_objects.ContainsKey(position))
+			if (objects.ContainsKey(position))
 			{
 				if (obj == null)
 				{
-					_objects[position].Clear();
+					objects[position].Clear();
 				}
 				else
 				{
-					_objects[position].Remove(obj);
+					objects[position].Remove(obj);
 				}
 			}
 		}

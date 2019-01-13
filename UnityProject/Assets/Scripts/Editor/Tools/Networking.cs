@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Networking : Editor
 {
@@ -22,7 +23,7 @@ public class Networking : Editor
 		for (int i = 0; i < players.Length; i++)
 		{
 			GameObject gameObject = items[Random.Range(1, items.Length)].gameObject;
-			players[i].AddItem(gameObject, "leftHand", true);
+			players[i].AddItemToUISlot(gameObject, "leftHand", true);
 		}
 	}
 	[MenuItem("Networking/Push everyone up")]
@@ -60,6 +61,11 @@ public class Networking : Editor
 			Logger.Log( $"{player.Name} ({player.Job}) is located at {player.Script.WorldPos}" );
 		}
 
+	}
+
+	[MenuItem("Networking/Spawn dummy player")]
+	private static void SpawnDummyPlayer() {
+		SpawnHandler.SpawnDummyPlayer( JobType.ASSISTANT );
 	}
 
 	[MenuItem("Networking/Transform Waltz (Server)")]

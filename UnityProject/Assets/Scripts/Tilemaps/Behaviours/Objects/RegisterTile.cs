@@ -9,6 +9,12 @@ public enum ObjectType
 	Wire
 }
 
+/// <summary>
+/// Holds various behavior which affects the tile the object is currently on.
+/// A given tile in the ObjectLayer (which represents an individual square in the game world)
+/// can have multiple gameobjects with RegisterTile behavior. This lets each gameobject on the tile
+/// influence how the tile works (such as making it impassible)
+/// </summary>
 [ExecuteInEditMode]
 public abstract class RegisterTile : NetworkBehaviour
 {
@@ -18,16 +24,36 @@ public abstract class RegisterTile : NetworkBehaviour
 
 	public ObjectType ObjectType;
 
+	/// <summary>
+	/// Matrix this object lives in
+	/// </summary>
 	public Matrix Matrix { get; private set; }
 
+	// Note that syncvar only runs on the client, so server must ensure SetParent
+	// is invoked
 	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
 
 	public NetworkInstanceId ParentNetId
 	{
 		get { return parentNetId; }
-		set { parentNetId = value; }
+		set
+		{
+			// update parent if it changed
+			if (value != parentNetId)
+			{
+				parentNetId = value;
+				SetParent(parentNetId);
+			}
+		}
 	}
 
+	/// <summary>
+	/// Invoked when parentNetId is changed on the server, updating the client's parentNetId. This
+	/// applies the change by moving this object to live in the same objectlayer and matrix as that
+	/// of the new parentid.
+	/// provided netId
+	/// </summary>
+	/// <param name="netId">NetworkInstanceId of the new parent</param>
 	private void SetParent(NetworkInstanceId netId)
 	{
 		GameObject parent = ClientScene.FindLocalObject(netId);
@@ -37,15 +63,24 @@ public abstract class RegisterTile : NetworkBehaviour
 			return;
 		}
 
-		Unregister();
+		//remove from current parent layer
+		layer?.Objects.Remove(Position, this);
 		layer = parent.GetComponentInChildren<ObjectLayer>();
 		Matrix = parent.GetComponentInChildren<Matrix>();
 		transform.parent = layer.transform;
-		UpdatePosition();
+		//if we are hidden, remain hidden, otherwise update because we have a new parent
+		if (Position != TransformState.HiddenPos)
+		{
+			UpdatePosition();
+		}
 	}
 
 	public Vector3Int WorldPosition => MatrixManager.Instance.LocalToWorldInt(position, Matrix);
 
+	/// <summary>
+	/// the "registered" local position of this object (which might differ from transform.localPosition).
+	/// It will be set to TransformState.HiddenPos when hiding the object.
+	/// </summary>
 	public Vector3Int Position
 	{
 		get { return position; }
@@ -104,14 +139,14 @@ public abstract class RegisterTile : NetworkBehaviour
 	}
 
 	public void Unregister()
-		{
-			Position = TransformState.HiddenPos;
+	{
+		Position = TransformState.HiddenPos;
 
-			if (layer)
-			{
-				layer.Objects.Remove(Position, this);
-			}
+		if (layer)
+		{
+			layer.Objects.Remove(Position, this);
 		}
+	}
 
 	private void OnDisable()
 	{
@@ -121,6 +156,11 @@ public abstract class RegisterTile : NetworkBehaviour
 	public void UpdatePosition()
 	{
 		Position = Vector3Int.RoundToInt(transform.localPosition);
+		AfterUpdate();
+	}
+
+	public virtual void AfterUpdate()
+	{
 	}
 
 	public virtual bool IsPassable()
@@ -128,7 +168,14 @@ public abstract class RegisterTile : NetworkBehaviour
 		return true;
 	}
 
+	/// Is it passable when approaching from outside?
 	public virtual bool IsPassable(Vector3Int from)
+	{
+		return true;
+	}
+
+	/// Is it passable when trying to leave it?
+	public virtual bool IsPassableTo(Vector3Int to)
 	{
 		return true;
 	}

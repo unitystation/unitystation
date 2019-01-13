@@ -14,8 +14,16 @@ public static class SpawnHandler
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 		if (connectedPlayer.Script.PlayerSync != null) {
 			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
-		} else {
-			Debug.LogWarning("why is playerSync missing here?");
+		}
+	}
+	public static void SpawnDummyPlayer(JobType jobType = JobType.NULL)
+	{
+		var conn = new NetworkConnection();
+		GameObject player = CreatePlayer(jobType);
+		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
+		NetworkServer.AddPlayerForConnection(conn, player, 0);
+		if (connectedPlayer.Script.PlayerSync != null) {
+			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
 		}
 	}
 
@@ -26,8 +34,6 @@ public static class SpawnHandler
 		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
 		if (connectedPlayer.Script.PlayerSync != null) {
 			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
-		} else {
-			Debug.LogWarning("why is playerSync missing here?");
 		}
 	}
 

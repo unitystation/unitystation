@@ -2,6 +2,6 @@
 {
 	public override void OnShoot()
 	{
-		damageType = DamageType.BURN;
+		damageType = DamageType.Burn;
 	}
 }

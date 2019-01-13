@@ -6,23 +6,26 @@ public class PlayerDeathMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.PlayerDeathMessage;
 
-	public NetworkInstanceId Recipient;
 
 	public override IEnumerator Process()
 	{
-		yield return WaitFor(Recipient);
-		UIManager.SetDeathVisibility(false);
+		yield return null;
+		OnYourDeath();
 	}
 
-	/// <summary>
+/// What should client do then he receives a message that he's dead
+	private void OnYourDeath()
+	{
+		PlayerScript localPlayerScript = PlayerManager.LocalPlayerScript;
+//		localPlayerScript.playerNetworkActions.SpawnGhost();
+		localPlayerScript.PlayerSync.OnBecomeGhost();
+		UIManager.SetDeathVisibility( false );
+	}
+
 	///     Sends the death message
-	/// </summary>
 	public static PlayerDeathMessage Send(GameObject recipient)
 	{
-		PlayerDeathMessage msg = new PlayerDeathMessage
-		{
-			Recipient = recipient.GetComponent<NetworkIdentity>().netId
-		};
+		PlayerDeathMessage msg = new PlayerDeathMessage();
 		msg.SendTo(recipient);
 		return msg;
 	}

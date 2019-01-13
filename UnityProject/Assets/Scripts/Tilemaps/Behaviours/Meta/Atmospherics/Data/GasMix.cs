@@ -1,10 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using Facepunch.Steamworks;
-using Tilemaps.Behaviours.Meta.Utils;
-using UnityEngine.Experimental.AI;
+﻿using System.Linq;
 
 namespace Atmospherics
 {
@@ -12,29 +6,50 @@ namespace Atmospherics
 	{
 		public readonly float[] Gases;
 
-		public readonly float Pressure; // in kPA
-		public readonly float Temperature; // in K
-		public readonly float Moles;
-		public readonly float Volume; // in m3
+		public float Pressure { get; private set; } // in kPA
+		public float Volume { get; private set; } // in m3
 
-		public GasMix(float[] gases, float temperature, float volume = 2)
+		public float Moles => Gases.Sum();
+
+		public float Temperature
 		{
-			this.Gases = gases;
-			Moles = gases.Sum();
-
-			Temperature = temperature;
-			Volume = volume;
-
-			Pressure = GasMixUtils.CalcPressure(volume, Moles, temperature);
+			get { return AtmosUtils.CalcTemperature(Pressure, Volume, Moles); }
+			set { Pressure = AtmosUtils.CalcPressure(Volume, Moles, value); }
 		}
 
-		private GasMix(float[] gases, float moles, float temperature, float pressure, float volume = 2)
+		public float HeatCapacity
 		{
-			this.Gases = gases;
-			Moles = moles;
+			get
+			{
+				float capacity = 0f;
+				foreach (Gas gas in Gas.All)
+				{
+					capacity += gas.SpecificHeat * Gases[gas];
+				}
+
+				return capacity;
+			}
+		}
+
+		private GasMix(float[] gases, float pressure, float volume = AtmosUtils.TileVolume)
+		{
+			Gases = gases;
 			Pressure = pressure;
-			Temperature = temperature;
 			Volume = volume;
+		}
+
+		public static GasMix FromTemperature(float[] gases, float temperature, float volume = AtmosUtils.TileVolume)
+		{
+			float moles = gases.Sum();
+
+			float pressure = AtmosUtils.CalcPressure(volume, moles, temperature);
+
+			return new GasMix(gases, pressure, volume);
+		}
+
+		public static GasMix FromPressure(float[] gases, float pressure, float volume = AtmosUtils.TileVolume)
+		{
+			return new GasMix(gases, pressure, volume);
 		}
 
 		public static GasMix operator +(GasMix a, GasMix b)
@@ -46,11 +61,23 @@ namespace Atmospherics
 				gases[i] = a.Gases[i] + b.Gases[i];
 			}
 
-			float moles = a.Moles + b.Moles;
 			float pressure = a.Pressure + b.Pressure * b.Volume / a.Volume;
-			float temperature = GasMixUtils.CalcTemperature(pressure, a.Volume, moles);
 
-			return new GasMix(gases, moles, temperature, pressure, a.Volume);
+			return new GasMix(gases, pressure, a.Volume);
+		}
+
+		public static GasMix operator -(GasMix a, GasMix b)
+		{
+			float[] gases = new float[Gas.Count];
+
+			for (int i = 0; i < Gas.Count; i++)
+			{
+				gases[i] = a.Gases[i] - b.Gases[i];
+			}
+
+			float pressure = a.Pressure - b.Pressure * b.Volume / a.Volume;
+
+			return new GasMix(gases, pressure, a.Volume);
 		}
 
 		public static GasMix operator *(GasMix a, float factor)
@@ -62,10 +89,9 @@ namespace Atmospherics
 				gases[i] = a.Gases[i] * factor;
 			}
 
-			float moles = a.Moles * factor;
 			float pressure = a.Pressure * factor;
 
-			return new GasMix(gases, moles, a.Temperature, pressure, a.Volume);
+			return new GasMix(gases, pressure, a.Volume);
 		}
 
 		public static GasMix operator /(GasMix a, float factor)
@@ -77,10 +103,9 @@ namespace Atmospherics
 				gases[i] = a.Gases[i] / factor;
 			}
 
-			float moles = a.Moles / factor;
 			float pressure = a.Pressure / factor;
 
-			return new GasMix(gases, moles, a.Temperature, pressure, a.Volume);
+			return new GasMix(gases, pressure, a.Volume);
 		}
 
 		public float GetPressure(Gas gas)
@@ -93,19 +118,42 @@ namespace Atmospherics
 			return Gases[gas];
 		}
 
-		public void SetVolume(float volume)
+		public GasMix RemoveVolume(float volume)
 		{
-			this = new GasMix(Gases, Temperature, volume);
+			return RemoveRatio(volume / Volume);
 		}
 
-		public void SetTemperature(float temperature)
+		public GasMix RemoveRatio(float ratio)
 		{
-			this = new GasMix(Gases, temperature, Volume);
+			GasMix removed = this * ratio;
+
+			this -= removed;
+
+			return removed;
+		}
+
+		public void AddGas(Gas gas, float moles)
+		{
+			Gases[gas] += moles;
+
+			Recalculate();
+		}
+
+		public void RemoveGas(Gas gas, float moles)
+		{
+			Gases[gas] -= moles;
+
+			Recalculate();
 		}
 
 		public override string ToString()
 		{
-			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume/1000} L";
+			return $"{Pressure} kPA, {Temperature} K, {Moles} mol, {Volume * 1000} L";
+		}
+
+		private void Recalculate()
+		{
+			Pressure = AtmosUtils.CalcPressure(Volume, Moles, Temperature);
 		}
 	}
 }

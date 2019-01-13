@@ -13,28 +13,48 @@ public class LightingSystem : MonoBehaviour
 	/// Assumption that it may be changed during game. Otherwise it should be moved in to rendering settings.
 	/// </summary>
 	public Vector3 fovCenterOffset;
-
 	public float fovDistance;
-
-	public RenderSettings.Quality quality;
-
 	public RenderSettings renderSettings;
 	public MaterialContainer materialContainer;
 
+	private static Func<Vector3, Vector3, Vector2, Vector2> HandlePPPositionRequest;
+
 	private Camera mMainCamera;
-	private OcclusionMaskRenderer mOcclusionMaskRenderer;
+	private OcclusionMaskRenderer mOcclusionRenderer;
 	private LightMaskRenderer mLightMaskRenderer;
 	private BackgroundRenderer mBackgroundRenderer;
 	private PostProcessingStack mPostProcessingStack;
-	private RenderTexture mGlobalOcclusionMask;
-	private RenderTexture mOcclusionMaskExtended;
-	private RenderTexture mMixedLightMask;
-	private RenderTexture mObstacleLightMask;
+	private PixelPerfectRT mGlobalOcclusionMask;
+	private PixelPerfectRT mFloorOcclusionMask;
+	private PixelPerfectRT mWallFloorOcclusionMask;
+	private PixelPerfectRT mObstacleLightMask;
+	private PixelPerfectRT mOcclusionPPRT;
+	private PixelPerfectRT mlightPPRT;
+	private bool mDoubleFrameRendererSwitch;	
+	private bool mMatrixRotationMode;
+	private float mMatrixRotationModeBlend;
 
-	private MaskParameters mCurrentMaskParameters;
+	public bool matrixRotationMode
+	{
+		get
+		{
+			return mMatrixRotationMode;
+		}
 
-	// Note: globalOcclusionMask and occlusionMaskExtended are shader seters.
-	private RenderTexture globalOcclusionMask
+		set
+		{
+			if (mMatrixRotationMode == value)
+				return;
+
+			mMatrixRotationMode = value;
+		}
+	}
+
+	/// <summary>
+	/// Holds the occlusion mask used by object sprites (such as wallmount and objects on the floor) to make them invisible when they are out of view. Not used for any other purpose.
+	/// Generated from wallFloorOcclusionMask
+	/// </summary>
+	private PixelPerfectRT objectOcclusionMask
 	{
 		get
 		{
@@ -53,55 +73,62 @@ public class LightingSystem : MonoBehaviour
 
 			mGlobalOcclusionMask = value;
 
-			Shader.SetGlobalTexture("_FovMask", value);
+			Shader.SetGlobalTexture("_ObjectFovMask", value.renderTexture);
 		}
 	}
 
-	private RenderTexture occlusionMaskExtended
+	/// <summary>
+	/// Holds the occlusion mask which only masks out the floor based on the position of walls / the player. This ignores occluded walls and is used
+	/// for the various lighting shaders (which look best when we use this rather than wallFloorOcclusionMask because that's what the lighting system
+	/// was designed to use).
+	/// </summary>
+	private PixelPerfectRT floorOcclusionMask
 	{
 		get
 		{
-			return mOcclusionMaskExtended;
+			return mFloorOcclusionMask;
 		}
 
 		set
 		{
-			if (mOcclusionMaskExtended == value)
+			if (mFloorOcclusionMask == value)
 				return;
 
-			if (mOcclusionMaskExtended != null)
+			if (mFloorOcclusionMask != null)
 			{
-				mOcclusionMaskExtended.Release();
+				mFloorOcclusionMask.Release();
 			}
 
-			mOcclusionMaskExtended = value;
-
-			Shader.SetGlobalTexture("_FovExtendedMask", value);
+			mFloorOcclusionMask = value;
 		}
 	}
 
-	private RenderTexture mixedLightMask
+	/// <summary>
+	/// Holds the occlusion mask which occludes walls and floors, only used to generate objectOcclusionMask so that wallmounts
+	/// are occluded along with objects on the floor which are out of view.
+	/// </summary>
+	private PixelPerfectRT wallFloorOcclusionMask
 	{
 		get
 		{
-			return mMixedLightMask;
+			return mWallFloorOcclusionMask;
 		}
 
 		set
 		{
-			if (mMixedLightMask == value)
+			if (mWallFloorOcclusionMask == value)
 				return;
 
-			if (mMixedLightMask != null)
+			if (mWallFloorOcclusionMask != null)
 			{
-				mMixedLightMask.Release();
+				mWallFloorOcclusionMask.Release();
 			}
 
-			mMixedLightMask = value;
+			mWallFloorOcclusionMask = value;
 		}
 	}
-	
-	private RenderTexture obstacleLightMask
+
+	private PixelPerfectRT obstacleLightMask
 	{
 		get
 		{
@@ -120,6 +147,18 @@ public class LightingSystem : MonoBehaviour
 
 			mObstacleLightMask = value;
 		}
+	}
+
+	private OperationParameters operationParameters { get; set; }
+
+	public static Vector2 GetPixelPerfectPosition(Vector3 iPosition, Vector3 iPreviousPosition, Vector2 iPreviousFilteredPosition)
+	{
+		if (HandlePPPositionRequest == null)
+		{
+			return iPosition;
+		}
+
+		return HandlePPPositionRequest(iPosition, iPreviousPosition, iPreviousFilteredPosition);
 	}
 
 	private static void ValidateMainCamera(Camera iMainCamera, RenderSettings iRenderSettings)
@@ -144,6 +183,8 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnEnable()
 	{
+		HandlePPPositionRequest += ProviderPPPosition;
+
 		// Initialize members.
 		mMainCamera = gameObject.GetComponent<Camera>();
 
@@ -152,9 +193,9 @@ public class LightingSystem : MonoBehaviour
 
 		ValidateMainCamera(mMainCamera, renderSettings);
 
-		if (mOcclusionMaskRenderer == null)
+		if (mOcclusionRenderer == null)
 		{
-			mOcclusionMaskRenderer = OcclusionMaskRenderer.InitializeMaskRenderer(gameObject, renderSettings.occlusionLayers, materialContainer.OcclusionMaskShader);
+			mOcclusionRenderer = OcclusionMaskRenderer.InitializeMaskRenderer(gameObject, renderSettings.occlusionLayers, materialContainer.OcclusionMaskShader);
 		}
 
 		if (mLightMaskRenderer == null)
@@ -162,105 +203,133 @@ public class LightingSystem : MonoBehaviour
 			mLightMaskRenderer = LightMaskRenderer.InitializeMaskRenderer(gameObject);
 		}
 
-		if (mPostProcessingStack == null)
-		{
-			mPostProcessingStack = new PostProcessingStack(materialContainer);
-		}
-
 		if (mBackgroundRenderer == null)
 		{
 			mBackgroundRenderer = BackgroundRenderer.InitializeMaskRenderer(gameObject);
 		}
+
+		if (mPostProcessingStack == null)
+		{
+			mPostProcessingStack = new PostProcessingStack(materialContainer);
+		}
+	}
+
+	private Vector2 ProviderPPPosition(Vector3 iPosition, Vector3 iPreviousPosition, Vector2 iPreviousFilteredPosition)
+	{
+		return operationParameters.occlusionPPRTParameter.GetFilteredRendererPosition(iPosition, iPreviousPosition, iPreviousFilteredPosition);
 	}
 
 	private void OnDisable()
 	{
-		// Set global occlusion white, so occlusion dependent shaders will show appropriately while system is off.
-		Shader.SetGlobalTexture("_FovMask", Texture2D.whiteTexture);
+		// Set object occlusion white, so occlusion dependent shaders will show appropriately while system is off.
+		Shader.SetGlobalTexture("_ObjectFovMask", Texture2D.whiteTexture);
 
 		// Default parameters to force parameters update on enable.
-		mCurrentMaskParameters = default(MaskParameters);
+		operationParameters = default(OperationParameters);
+
+		HandlePPPositionRequest -= ProviderPPPosition;
 	}
 
 	private void Update()
 	{
-		// Drive render quality from light system inspector.
-		renderSettings.quality = quality;
-
 		// Monitor state to detect when we should trigger reinitialization of rendering textures.
-		var _newParameters = new MaskParameters(mMainCamera, renderSettings);
+		var _newParameters = new OperationParameters(mMainCamera, renderSettings, matrixRotationMode);
 
-		bool _shouldReinitializeTextures = _newParameters != mCurrentMaskParameters;
+		bool _shouldReinitializeTextures = _newParameters != operationParameters;
 
 		if (_shouldReinitializeTextures)
 		{
-			mCurrentMaskParameters = _newParameters;
+			operationParameters = _newParameters;
 
-			ResetRenderingTextures(mCurrentMaskParameters);
+			ResolveRenderingTextures(operationParameters);
+		}
+
+		// Blend switch for matrix rotation effects.
+		// Used to smooth effects in and out.
+		if (mMatrixRotationMode == true)
+		{
+			mMatrixRotationModeBlend = Mathf.MoveTowards(mMatrixRotationModeBlend, 1, Time.unscaledDeltaTime * 5);
+		}
+		else
+		{
+			mMatrixRotationModeBlend = 0;
 		}
 	}	
 
-	private void ResetRenderingTextures(MaskParameters iParameters)
+	private void ResolveRenderingTextures(OperationParameters iParameters)
 	{
 		// Prepare render textures.
-		globalOcclusionMask = new RenderTexture(Screen.width, Screen.height, 0)
-			                      {
-				                      name = "Processed Occlusion Mask"
-			                      };
+		floorOcclusionMask = new PixelPerfectRT(operationParameters.fovPPRTParameter);
+		wallFloorOcclusionMask = new PixelPerfectRT(operationParameters.fovPPRTParameter);
 
-		occlusionMaskExtended = new RenderTexture(iParameters.extendedTextureSize.x, iParameters.extendedTextureSize.y, 0)
-			                        {
-				                        name = "Processed Extended Occlusion Mask"
-			                        };
+		objectOcclusionMask = new PixelPerfectRT(operationParameters.lightPPRTParameter);
 
-		mixedLightMask = new RenderTexture(Screen.width, Screen.height, 0)
-			                {
-								name = "Mixed Light Mask"
-			                };
-
-		obstacleLightMask = new RenderTexture((int)(iParameters.lightTextureSize.x * iParameters.wallTextureRescale), (int)(iParameters.lightTextureSize.y * iParameters.wallTextureRescale), 0)
-			                    {
-									name = "Light Mask"
-			                    };
+		obstacleLightMask = new PixelPerfectRT(operationParameters.obstacleLightPPRTParameter);
 
 		// Let members handle their own textures.
 		// Possibly move to container?
-		mOcclusionMaskRenderer.ResetRenderingTextures(iParameters);
-		mLightMaskRenderer.ResetRenderingTextures(iParameters);
 		mPostProcessingStack.ResetRenderingTextures(iParameters);
 		mBackgroundRenderer.ResetRenderingTextures(iParameters);
 	}
 
 	private void OnPreRender()
 	{
-		RenderTexture _rawOcclusionMask;
+		if (renderSettings.doubleFrameRenderingMode && mDoubleFrameRendererSwitch == false)
+		{
+			Shader.SetGlobalVector("_ObjectFovMaskTransformation", objectOcclusionMask.GetTransformation(mMainCamera));
+			return;
+		}
 
 		using (new DisposableProfiler("1. Occlusion Mask Render (No Gfx Time)"))
 		{
-			_rawOcclusionMask = mOcclusionMaskRenderer.Render();
+			mOcclusionPPRT = mOcclusionRenderer.Render(mMainCamera, operationParameters.occlusionPPRTParameter, matrixRotationMode);
+
+			if (mMatrixRotationModeBlend > 0.001f)
+			{
+				mPostProcessingStack.BlurOcclusionMaskRotation(mOcclusionPPRT.renderTexture, renderSettings, operationParameters.cameraOrthographicSize, mMatrixRotationModeBlend);
+			}
+			
 		}
 
 		using (new DisposableProfiler("2. Generate FoV"))
 		{
-			// Note: Next steps will result in Two masks: Generated "Extended Occlusion Mask" will be stored for later use in Light Mixing,
-			// and second "Fit Occlusion Mask" will be created next and used during scene rendering.
+			if (wallFloorOcclusionMask == null)
+			{
+				floorOcclusionMask = new PixelPerfectRT(operationParameters.fovPPRTParameter);
+				wallFloorOcclusionMask = new PixelPerfectRT(operationParameters.fovPPRTParameter);
+			}
+			else
+			{
+				floorOcclusionMask.Update(operationParameters.fovPPRTParameter);
+				wallFloorOcclusionMask.Update(operationParameters.fovPPRTParameter);
+			}
+
+			// This step will result in two masks: floorOcclusionMask used later in light mixing, and floorWallOcclusionMask which is only used for calculating
+			// objects / wallmounts sprite visibility.
 			Vector3 _fovCenterInWorldSpace = transform.TransformPoint(fovCenterOffset);
 			Vector3 _fovCenterOffsetInViewSpace = mMainCamera.WorldToViewportPoint(_fovCenterInWorldSpace) - new Vector3(0.5f, 0.5f, 0);
-			Vector3 _fovCenterOffsetInExtendedViewSpace = _fovCenterOffsetInViewSpace * (float)mCurrentMaskParameters.cameraOrthographicSize / mCurrentMaskParameters.extendedCameraSize;
-
-			mPostProcessingStack.GenerateFovMask(_rawOcclusionMask, occlusionMaskExtended, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, mCurrentMaskParameters);
+			Vector3 _fovCenterOffsetInExtendedViewSpace = _fovCenterOffsetInViewSpace * (float)operationParameters.cameraOrthographicSize / mOcclusionPPRT.orthographicSize;
+			
+			mPostProcessingStack.GenerateFovMask(mOcclusionPPRT, floorOcclusionMask, wallFloorOcclusionMask, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, operationParameters);
 		}
 
-		using (new DisposableProfiler("3. Fit Occlusion Mask"))
+		using (new DisposableProfiler("3. Object Occlusion Mask"))
 		{
-			// Note: Fit Occlusion Mask is cut from "Extended Occlusion Mask" to be used in Occlusion affected shaders during scene render.
-			mPostProcessingStack.FitExtendedOcclusionMask(occlusionMaskExtended, globalOcclusionMask, mCurrentMaskParameters);
+			// These step calculates the objectOcclusionMask using the wallFloorOcclusionMask, so that objects / wallmounts will be hidden
+			// if they are not in view
+			objectOcclusionMask.Update(operationParameters.lightPPRTParameter);
+			PixelPerfectRT.Transform(wallFloorOcclusionMask, objectOcclusionMask, materialContainer.PPRTTransformMaterial);
+
+			// Update shader global transformation for occlusionMaskExtended so sprites can transform mask correctly.
+			Shader.SetGlobalVector("_ObjectFovMaskTransformation", objectOcclusionMask.GetTransformation(mMainCamera));
 		}
 
-		using (new DisposableProfiler("4. Blur Fit Occlusion Mask"))
+		using (new DisposableProfiler("4. Blur Object Occlusion Mask"))
 		{
 			// Note: This blur is used only with shaders during scene render, so 1 pass should be enough.
-			mPostProcessingStack.BlurOcclusionMask(globalOcclusionMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
+			mPostProcessingStack.BlurOcclusionMask(objectOcclusionMask.renderTexture, renderSettings, operationParameters.cameraOrthographicSize);
+
+			objectOcclusionMask.renderTexture.filterMode = FilterMode.Point;
 		}
 
 		// Note: After execution of this method, MainCamera.Render will be executed and scene will be drawn.
@@ -268,101 +337,131 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnRenderImage(RenderTexture iSource, RenderTexture iDestination)
 	{
+		if (renderSettings.doubleFrameRenderingMode)
+		{
+			if (mDoubleFrameRendererSwitch)
+			{
+				var _blitMaterial = materialContainer.blitMaterial;
+				_blitMaterial.SetVector("_LightTransform", mlightPPRT.GetTransformation(mMainCamera));
+				_blitMaterial.SetVector("_OcclusionTransform", floorOcclusionMask.GetTransformation(mMainCamera));
+
+				Graphics.Blit(iSource, iDestination, _blitMaterial);
+
+				mDoubleFrameRendererSwitch = false;
+				return;
+			}
+
+			mDoubleFrameRendererSwitch = true;
+		}
+
 		if (materialContainer.blitMaterial == null)
 		{
 			Debug.Log($"FovSystemManager: Unable to blit Fov mask. {nameof(materialContainer.blitMaterial)} not provided.");
 			return;
 		}
 
-		if (globalOcclusionMask == null)
+		if (objectOcclusionMask == null)
 		{
 			Graphics.Blit(iSource, iDestination);
 			return;
 		}
 
-		RenderTexture _lightMask = null;
-
 		using (new DisposableProfiler("5. Light Mask Render (No Gfx Time)"))
 		{
-			_lightMask = mLightMaskRenderer.Render(renderSettings);
+			mlightPPRT = mLightMaskRenderer.Render(
+				mMainCamera,
+				operationParameters.lightPPRTParameter,
+				floorOcclusionMask,
+				renderSettings,
+				matrixRotationMode);
 		}
 
 		using (new DisposableProfiler("6. Generate Obstacle Light Mask"))
 		{
-			mPostProcessingStack.CreateWallLightMask(_lightMask, obstacleLightMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
+			mPostProcessingStack.CreateWallLightMask(
+				mlightPPRT,
+				obstacleLightMask,
+				renderSettings,
+				operationParameters.cameraOrthographicSize);
 		}
 		
 		// Debug View Selection.
 		if (renderSettings.viewMode == RenderSettings.ViewMode.LightLayer)
 		{
-			Graphics.Blit(_lightMask, iDestination);
+			PixelPerfectRT.Transform(mlightPPRT, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+
 			return;
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.WallLayer)
 		{
-			Graphics.Blit(obstacleLightMask, iDestination);
+			PixelPerfectRT.Transform(obstacleLightMask, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+
 			return;
 		}
-		else if (renderSettings.viewMode == RenderSettings.ViewMode.FovObstacle)
+		else if (renderSettings.viewMode == RenderSettings.ViewMode.FovObjectOcclusion)
 		{
-			Graphics.Blit(globalOcclusionMask, iDestination);
+			PixelPerfectRT.Transform(objectOcclusionMask, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+
 			return;
 		}
-		else if (renderSettings.viewMode == RenderSettings.ViewMode.FovObstacleExtended)
+		else if (renderSettings.viewMode == RenderSettings.ViewMode.FovFloorOcclusion)
 		{
-			Graphics.Blit(occlusionMaskExtended, iDestination);
+			PixelPerfectRT.Transform(floorOcclusionMask, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+
+			return;
+		}
+		else if (renderSettings.viewMode == RenderSettings.ViewMode.FovWallAndFloorOcclusion)
+		{
+			PixelPerfectRT.Transform(wallFloorOcclusionMask, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+
+			return;
+		}
+		else if (renderSettings.viewMode == RenderSettings.ViewMode.Obstacle)
+		{
+			PixelPerfectRT.Transform(mOcclusionPPRT, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+
 			return;
 		}
 
 		using (new DisposableProfiler("7. Light Mask Blur"))
 		{
-			mPostProcessingStack.BlurLightMask(_lightMask, renderSettings, mCurrentMaskParameters.cameraOrthographicSize);
-		}
-
-		using (new DisposableProfiler("8. Mix Light Masks"))
-		{
-			// Mix Fov and Light masks.
-			var _fovLightMixMaterial = materialContainer.MaskMixerMaterial;
-			_fovLightMixMaterial.SetTexture("_LightMask", _lightMask);
-			_fovLightMixMaterial.SetTexture("_OcclusionMask", globalOcclusionMask);
-			_fovLightMixMaterial.SetTexture("_ObstacleLightMask", obstacleLightMask);
-
-			if (globalOcclusionMask != null)
-			{
-				_fovLightMixMaterial.SetFloat("_OcclusionUVAdjustment", RenderSettings.GetOcclusionUvAdjustment(_lightMask.width));
-			}
-
-			Graphics.Blit(null, mixedLightMask, _fovLightMixMaterial);
+			mPostProcessingStack.BlurLightMask(mlightPPRT.renderTexture, renderSettings, operationParameters.cameraOrthographicSize, mMatrixRotationModeBlend);
 		}
 
 		RenderTexture _backgroundMask = null;
 
-		using (new DisposableProfiler("9. Render Background"))
+		using (new DisposableProfiler("8. Render Background"))
 		{
 			_backgroundMask = mBackgroundRenderer.Render(renderSettings);
 		}
 
 		// Debug Views Selection.
-		if (renderSettings.viewMode == RenderSettings.ViewMode.LightMix)
+		if (renderSettings.viewMode == RenderSettings.ViewMode.LightLayerBlurred)
 		{
-			Graphics.Blit(mixedLightMask, iDestination);
-			return;
-		}
-		else if (renderSettings.viewMode == RenderSettings.ViewMode.LightLayerBlurred)
-		{
-			Graphics.Blit(_lightMask, iDestination);
+			PixelPerfectRT.Transform(mlightPPRT, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+
 			return;
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.Background)
 		{
 			Graphics.Blit(_backgroundMask, iDestination);
+
 			return;
 		}
 
-		using (new DisposableProfiler("10. Blit Scene with Mixed Lights"))
+		using (new DisposableProfiler("9. Blit Scene with Mixed Lights"))
 		{
+			mlightPPRT.renderTexture.filterMode = FilterMode.Bilinear;
+			obstacleLightMask.renderTexture.filterMode = FilterMode.Bilinear;
+			floorOcclusionMask.renderTexture.filterMode = matrixRotationMode ? FilterMode.Bilinear : FilterMode.Point;
+
 			var _blitMaterial = materialContainer.blitMaterial;
-			_blitMaterial.SetTexture("_LightTex", mixedLightMask);
+			_blitMaterial.SetTexture("_LightMask", mlightPPRT.renderTexture);
+			_blitMaterial.SetTexture("_OcclusionMask", floorOcclusionMask.renderTexture);
+			_blitMaterial.SetTexture("_ObstacleLightMask", obstacleLightMask.renderTexture);
+			_blitMaterial.SetVector("_LightTransform", mlightPPRT.GetTransformation(mMainCamera));
+			_blitMaterial.SetVector("_OcclusionTransform", floorOcclusionMask.GetTransformation(mMainCamera));
+
 			_blitMaterial.SetTexture("_BackgroundTex", _backgroundMask);
 			_blitMaterial.SetVector("_AmbLightBloomSA", new Vector4(renderSettings.ambient, renderSettings.lightMultiplier, renderSettings.bloomSensitivity, renderSettings.bloomAdd));
 			_blitMaterial.SetFloat("_BackgroundMultiplier", renderSettings.backgroundMultiplier);

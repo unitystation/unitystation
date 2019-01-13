@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -56,7 +56,7 @@ using UnityEngine.SceneManagement;
 				StartCoroutine(WaitForDisplay());
 			}
 		}
-	
+
 		private IEnumerator WaitForDisplay()
 		{
 			checkingDisplayOnLoad = true;
@@ -68,6 +68,9 @@ using UnityEngine.SceneManagement;
 			if (!Screen.fullScreen) {
 				StartCoroutine(ForceGameWindowAspect());
 			}
+#if UNITY_EDITOR
+			StartCoroutine( ForceGameWindowAspect() );
+#endif
 		}
 
 		private void Update()
@@ -83,7 +86,7 @@ using UnityEngine.SceneManagement;
 				}
 			}
 
-			if(Input.GetKey(KeyCode.Escape)){
+			if(KeyboardInputManager.IsEscapePressed()){
 				Screen.fullScreen = false;
 			}
 		}
@@ -106,13 +109,13 @@ using UnityEngine.SceneManagement;
 //			Logger.Log( $"Odd height {height}->{height-1}" );
 				height--;
 			}
-			
+
 //			Logger.Log("Screen height before resizing: " + Camera.main.pixelHeight + " Aspect Y: " + height/(float)Screen.height);
 //			Logger.Log("Screen height before resizing: " + Camera.main.pixelWidth + " Aspect X: " + width/(float)Screen.width);
 
 			// Enforce aspect by resizing the camera rectangle to nearest (lower) even number.
 			Camera.main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
-			
+
 //		Logger.Log("Screen height after resizing: " + Camera.main.pixelHeight);
 
 			if (camResizer != null) {
@@ -120,7 +123,7 @@ using UnityEngine.SceneManagement;
 			}
 			screenWidthCache = Screen.width;
 			screenHeightCache = Screen.height;
-			
+
 			//Refresh UI (helps avoid event system problems)
 			parentCanvas.enabled = false;
 			canvasScaler.enabled = false;

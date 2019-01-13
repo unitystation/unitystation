@@ -125,8 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
 --- !u!114 &114608524725813366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a522f189bd3d44f9b962f977bec7a0a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leavings: {fileID: 0}
   healAmount: 5
   healHungerAmount: 5
 --- !u!114 &114931546224579044
@@ -221,17 +220,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 1
-  pulledBy: {fileID: 0}
-  custNetActiveState: 0
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
+  isNotPushable: 0
   closetHandlerCache: {fileID: 0}
 --- !u!212 &212850123619449406
 SpriteRenderer:

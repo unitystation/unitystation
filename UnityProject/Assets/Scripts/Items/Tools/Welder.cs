@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Atmospherics;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class Welder : NetworkBehaviour
 {
-
 	//TODO: Update the sprites from the array below based on how much fuel is left
 	//TODO: gas readout in stats
 
@@ -27,8 +27,7 @@ public class Welder : NetworkBehaviour
 	//Fuel
 	private float serverFuelAmt = 100; //About 4mins of burn time
 
-	[SyncVar]
-	public float clientFuelAmt;
+	[SyncVar] public float clientFuelAmt;
 	private bool isBurning = false;
 	private float burnRate = 0.2f;
 
@@ -36,33 +35,38 @@ public class Welder : NetworkBehaviour
 	private string currentHand;
 
 	private ItemAttributes itemAtts;
+	private MetaDataLayer metaDataLayer;
+	private ReactionManager reactionManager;
 
-	[SyncVar(hook = "UpdateState")]
-	public bool isOn;
+	[SyncVar(hook = nameof(UpdateState))] public bool isOn;
+
+	private Coroutine coBurnFuel;
 
 	public override void OnStartServer()
 	{
-		Init();
 		base.OnStartServer();
 		clientFuelAmt = serverFuelAmt;
 	}
 
 	public override void OnStartClient()
 	{
-		Init();
 		base.OnStartClient();
 		UpdateState(isOn);
 	}
 
 	[Server]
-	public void Refuel(){
+	public void Refuel()
+	{
 		serverFuelAmt = 100f;
 		clientFuelAmt = 100f;
 	}
 
-	void Init()
+	void Awake()
 	{
 		itemAtts = GetComponent<ItemAttributes>();
+		metaDataLayer = GetComponentInParent<MetaDataLayer>();
+		reactionManager = GetComponentInParent<ReactionManager>();
+
 		leftHandOriginal = itemAtts.inHandReferenceLeft;
 		rightHandOriginal = itemAtts.inHandReferenceRight;
 
@@ -86,6 +90,7 @@ public class Welder : NetworkBehaviour
 				isOn = false;
 			}
 		}
+
 		isOn = _isOn;
 		ToggleWelder();
 	}
@@ -98,7 +103,8 @@ public class Welder : NetworkBehaviour
 			itemAtts.inHandReferenceRight = rightHandFlame;
 			isBurning = true;
 			flameRenderer.sprite = flameSprites[0];
-			StartCoroutine(BurnFuel());
+			if (coBurnFuel == null)
+				coBurnFuel = StartCoroutine(BurnFuel());
 
 		}
 
@@ -107,15 +113,18 @@ public class Welder : NetworkBehaviour
 			itemAtts.inHandReferenceLeft = leftHandOriginal;
 			itemAtts.inHandReferenceRight = rightHandOriginal;
 			isBurning = false;
-			StopCoroutine(BurnFuel());
+			if (coBurnFuel != null) {
+				StopCoroutine(coBurnFuel);
+				coBurnFuel = null;
+			}
 			flameRenderer.sprite = null;
 		}
 
 		CheckHeldByPlayer();
 	}
 
-	//A broadcast message from EquipmentPool.cs on the server:
-	public void OnRemoveFromPool()
+	//A broadcast message from InventoryManager.cs on the server:
+	public void OnRemoveFromInventory()
 	{
 		heldByPlayer = null;
 	}
@@ -135,14 +144,14 @@ public class Welder : NetworkBehaviour
 		//the inhand image when the player turns it on and off:
 		if (isServer && heldByPlayer != null)
 		{
-			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts);
+			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, UIManager.Hands.CurrentSlot.eventName);
 		}
 	}
 
 	IEnumerator BurnFuel()
 	{
 		int spriteIndex = 0;
-		int serverFuelCheck = (int)serverFuelAmt;
+		int serverFuelCheck = (int) serverFuelAmt;
 		while (isBurning)
 		{
 			//Flame animation:
@@ -159,8 +168,9 @@ public class Welder : NetworkBehaviour
 				serverFuelAmt -= 0.041f;
 
 				//This is so that the syncvar isn't being updated every DeciSecond:
-				if((int)serverFuelAmt != serverFuelCheck){
-					serverFuelCheck = (int)serverFuelAmt;
+				if ((int) serverFuelAmt != serverFuelCheck)
+				{
+					serverFuelCheck = (int) serverFuelAmt;
 					clientFuelAmt = serverFuelAmt;
 				}
 
@@ -171,7 +181,12 @@ public class Welder : NetworkBehaviour
 					clientFuelAmt = 0f;
 					UpdateState(false);
 				}
+
+				Vector3Int position = heldByPlayer.transform.localPosition.RoundToInt();
+
+				reactionManager.ExposeHotspot(position, 700, 0.005f);
 			}
+
 			yield return YieldHelper.DeciSecond;
 		}
 	}

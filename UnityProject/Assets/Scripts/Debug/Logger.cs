@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 /// Logger with categories support.
@@ -12,9 +13,13 @@ public static class Logger
 	/// Log level overrides for categories. Default log level will be ignored for these:
 	private static readonly Dictionary<Category, Level> LogOverrides = new Dictionary<Category, Level>{
 		[Category.Unknown]  = Level.Info,
-		[Category.Movement] = Level.Error,
+		[Category.Movement] = Level.Warning,
 		[Category.DmMetadata] = Level.Off,
 		[Category.Light2D] = Level.Off,
+		[Category.RightClick] = Level.Off,
+		[Category.PushPull] = Level.Info,
+		[Category.PlayerSprites] = Level.Error,
+		[Category.Lerp] = Level.Off,
 	};
 
 	private enum Level{
@@ -27,25 +32,28 @@ public static class Logger
 
 	/// <inheritdoc cref="LogTrace"/>
 	/// <inheritdoc cref="LogFormat"/>
+	[StringFormatMethod("msg")]
 	public static void LogTraceFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Trace, category, args );
 	}
 
-//	/// <inheritdoc cref="Log"/>
 	/// LogFormats won't format string if it's not getting printed, therefore perform better.
 	/// This is most useful for Trace level that is rarely enabled.
+	[StringFormatMethod("msg")]
 	public static void LogFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Info, category, args );
 	}
 
 	/// <inheritdoc cref="LogWarning"/>
 	/// <inheritdoc cref="LogFormat"/>
+	[StringFormatMethod("msg")]
 	public static void LogWarningFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Warning, category, args );
 	}
 
 	/// <inheritdoc cref="LogWarning"/>
 	/// <inheritdoc cref="LogFormat"/>
+	[StringFormatMethod("msg")]
 	public static void LogErrorFormat( string msg, Category category = Category.Unknown, params object[] args ) {
 		TryLog( msg, Level.Error, category, args );
 	}
@@ -162,5 +170,11 @@ public enum Category {
 	Audio,
 	Research,
 	TileMaps,
-	Construction
+	Construction,
+	DatabaseAPI,
+	PlayerSprites,
+	Electrical,
+	RightClick,
+	Lerp,	
+	Keybindings
 }

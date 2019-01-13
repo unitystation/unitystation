@@ -33,7 +33,6 @@ Shader "PostProcess/WallBleed ZoomBlur"
 
 
 	uniform sampler2D _MainTex;
-	uniform sampler2D _FovMask;
 	uniform float4 _MainTex_ST;
 	uniform float2 _MainTex_TexelSize;
 

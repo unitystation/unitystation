@@ -9,13 +9,16 @@ _Unitystation has been active since late 2016_
 Visit us on Steam:<br>
 [<img src="https://user-images.githubusercontent.com/7613738/35184899-b6a0aa8e-fdfb-11e7-91a8-bad8f19937b4.jpg" width="300">](http://store.steampowered.com/app/801140/Unitystation/)
 
+See project updates on Patreon:<br>
+[<img src="https://vignette.wikia.nocookie.net/everyone-else-is-a-returnee/images/6/68/Patreon.png/revision/latest?cb=20161230133220&format=original" width="150">](https://www.patreon.com/unitystation)
+
 ## Talk to us
 Please join us on Discord:<br>
 [<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/fhhQcV9)
 
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://github.com/unitystation/unitystation/wiki/Starting-contribution)
-1. [Get Unity 2018.2 and above](https://store.unity.com/download?ref=personal)
+1. [Get Unity 2018.2](https://unity3d.com/get-unity/download/archive)
 2. Fork the repo
 3. Add your changes
 4. Read the contribution guidelines

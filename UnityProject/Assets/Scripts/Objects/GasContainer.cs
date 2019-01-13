@@ -21,7 +21,7 @@ namespace Objects
 
 		public override void OnStartServer()
 		{
-			GasMix = new GasMix(Gases, Temperature, Volume);
+			GasMix = GasMix.FromTemperature(Gases, Temperature, Volume);
 		}
 
 		private void Update()

@@ -1,13 +1,15 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ControlTabs : MonoBehaviour
 {
 	private static GameObject FingerPrefab;
 	private static GameObject TabHeaderPrefab;
 	public Transform TabStorage;
+	public Transform TabStoragePopOut; //For popout windows
 	public Transform HeaderStorage;
 	public Transform rolloutIcon;
 	public Canvas canvas;
@@ -15,33 +17,43 @@ public class ControlTabs : MonoBehaviour
 	public bool rolledOut { get; private set; }
 	private bool preventRoll = false;
 
-	public static ControlTabs Instance;
-
-	void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
+	private static ControlTabs controlTabs;
+	public static ControlTabs Instance{
+		get{
+			if(controlTabs == null){
+				controlTabs = FindObjectOfType<ControlTabs>();
+			}
+			return controlTabs;
 		}
-		else
-		{
-			Destroy(gameObject);
-			//Killing net tabs on round restart
-//				Logger.LogError( "ControlTabs cleanup!" );
-			foreach (var tab in Instance.HiddenNetTabs)
+	}
+	private void OnEnable()
+	{
+		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+	}
+
+	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	{
+		Instance.ResetControlTabs();
+	}
+
+	private void ResetControlTabs()
+	{
+		foreach (var tab in Instance.HiddenNetTabs)
 			{
 				Destroy(Instance.HeaderForTab(tab.Value)?.gameObject);
 				Destroy(tab.Value.gameObject);
 			}
-
 			foreach (var tab in Instance.OpenedNetTabs)
 			{
 				Destroy(Instance.HeaderForTab(tab.Value)?.gameObject);
 				Destroy(tab.Value.gameObject);
 			}
-
 			Instance.SelectTab(ClientTabType.Stats, false);
-		}
 	}
 
 	private bool itemListTabExists => ClientTabs.ContainsKey(ClientTabType.ItemList) && !ClientTabs[ClientTabType.ItemList].Hidden;
@@ -62,11 +74,18 @@ public class ControlTabs : MonoBehaviour
 					list.Add(tab);
 				}
 			}
-
+			tabs = TabStoragePopOut.GetComponentsInChildren<Tab>(true);
+			for (var i = 0; i < tabs?.Length; i++)
+			{
+				Tab tab = tabs[i];
+				if (!tab.Hidden)
+				{
+					list.Add(tab);
+				}
+			}
 			return list;
 		}
 	} //^^^vvv can be generified to something with a Func, but I'm feeling lazy
-
 	private List<Tab> HiddenTabs
 	{
 		get
@@ -81,7 +100,15 @@ public class ControlTabs : MonoBehaviour
 					list.Add(tab);
 				}
 			}
-
+			tabs = TabStoragePopOut.GetComponentsInChildren<Tab>(true);
+			for (var i = 0; i < tabs?.Length; i++)
+			{
+				Tab tab = tabs[i];
+				if (tab.Hidden)
+				{
+					list.Add(tab);
+				}
+			}
 			return list;
 		}
 	}
@@ -97,7 +124,11 @@ public class ControlTabs : MonoBehaviour
 			{
 				toReturn.Add(foundTabs[i].Type, foundTabs[i]);
 			}
-
+			foundTabs = TabStoragePopOut.GetComponentsInChildren<ClientTab>(true);
+			for (int i = 0; i < foundTabs?.Length; i++)
+			{
+				toReturn.Add(foundTabs[i].Type, foundTabs[i]);
+			}
 			return toReturn;
 		}
 	}
@@ -116,7 +147,6 @@ public class ControlTabs : MonoBehaviour
 					netTabs.Add(tab.NetTabDescriptor, tab);
 				}
 			}
-
 			return netTabs;
 		}
 	}
@@ -135,7 +165,6 @@ public class ControlTabs : MonoBehaviour
 					netTabs.Add(tab.NetTabDescriptor, tab);
 				}
 			}
-
 			return netTabs;
 		}
 	}
@@ -160,6 +189,11 @@ public class ControlTabs : MonoBehaviour
 		for (var i = 0; i < activeTabs.Count; i++)
 		{
 			Tab tab = activeTabs[i];
+
+			if(tab.transform.parent != TabStorage){
+				//Skip pop outs etc
+				continue;
+			}
 
 			var headerButton = HeaderForTab(tab);
 			if (!headerButton)
@@ -195,7 +229,7 @@ public class ControlTabs : MonoBehaviour
 	{
 		if (tab.Hidden)
 		{
-//				Logger.LogWarning( $"Tab {tab} is hidden, no header will be provided" );
+			//				Logger.LogWarning( $"Tab {tab} is hidden, no header will be provided" );
 			return null;
 		}
 
@@ -208,8 +242,7 @@ public class ControlTabs : MonoBehaviour
 				return header;
 			}
 		}
-
-//			Logger.LogError( $"No headers found for {tab}, wtf?" );
+		//			Logger.LogError( $"No headers found for {tab}, wtf?" );
 		return null;
 	}
 
@@ -232,7 +265,6 @@ public class ControlTabs : MonoBehaviour
 			var header = HeaderForTab(activeTabs[i]);
 			width += (int) ((RectTransform) header.gameObject.transform).rect.width;
 		}
-
 		return width;
 	}
 
@@ -257,12 +289,12 @@ public class ControlTabs : MonoBehaviour
 		//			Logger.Log( $"Selecting tab #{index}" );
 		UnselectAll();
 		Tab tab = TabStorage.GetChild(index)?.GetComponent<Tab>();
+
 		if (!tab)
 		{
 			Logger.LogWarning($"No tab found with index {index}!", Category.NetUI);
 			return;
 		}
-
 		tab.gameObject.SetActive(true);
 		HeaderForTab(tab)?.Select();
 
@@ -277,6 +309,10 @@ public class ControlTabs : MonoBehaviour
 		for (var i = 0; i < ActiveTabs.Count; i++)
 		{
 			var tab = ActiveTabs[i];
+			if(tab.isPopOut){
+				//Do not disable pop outs
+				continue;
+			}
 			HeaderForTab(tab)?.Unselect();
 			tab.gameObject.SetActive(false);
 		}
@@ -285,8 +321,15 @@ public class ControlTabs : MonoBehaviour
 	private void UnhideTab(Tab tab)
 	{
 		tab.Hidden = false;
-		RefreshTabHeaders();
-		SelectTab(tab.gameObject);
+		if(!tab.isPopOut){
+			RefreshTabHeaders();
+			SelectTab(tab.gameObject);
+		} else {
+			tab.gameObject.SetActive(true);
+			var localPos = Vector3.zero;
+			localPos.y += 20f;
+			tab.transform.localPosition = localPos;
+		}
 	}
 
 	private void UnhideTab(ClientTabType type)
@@ -325,7 +368,7 @@ public class ControlTabs : MonoBehaviour
 
 		if (!UITileList.Instance)
 		{
-			UITileList.Instance = tab.GetComponentsInChildren<UITileList>(true)[0];
+			UITileList.Instance = tab.GetComponentsInChildren<UITileList>(true) [0];
 		}
 
 		if (!Instance.itemListTabExists)
@@ -349,13 +392,11 @@ public class ControlTabs : MonoBehaviour
 		{
 			return;
 		}
-
 		if (!PlayerManager.LocalPlayerScript || !PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation()))
 		{
 			Instance.HideTab(ClientTabType.ItemList);
 			return;
 		}
-
 		UITileList.UpdateItemPanelList();
 	}
 
@@ -366,7 +407,15 @@ public class ControlTabs : MonoBehaviour
 			return;
 		}
 
-		if (!Instance.rolledOut)
+		bool isPopOut = false;
+
+		//Add the popout types here:
+		if (type == NetTabType.Paper)
+		{
+			isPopOut = true;
+		}
+
+		if (!Instance.rolledOut && !isPopOut)
 		{
 			Instance.StartCoroutine(Instance.AnimTabRoll());
 		}
@@ -375,28 +424,41 @@ public class ControlTabs : MonoBehaviour
 		//try to dig out a hidden tab with matching parameters and enable it:
 		if (Instance.HiddenNetTabs.ContainsKey(openedTab))
 		{
-//				Logger.Log( $"Yay, found an old hidden {openedTab} tab. Unhiding it" );
+			//				Logger.Log( $"Yay, found an old hidden {openedTab} tab. Unhiding it" );
 			Instance.UnhideTab(Instance.HiddenNetTabs[openedTab]);
 		}
-
 		if (!Instance.OpenedNetTabs.ContainsKey(openedTab))
 		{
-			var rightPanelParent = Instance.TabStorage;
-			NetTab tabInfo = openedTab.Spawn(rightPanelParent);
+			Transform newParent = !isPopOut ? Instance.TabStorage : Instance.TabStoragePopOut;
+			NetTab tabInfo = openedTab.Spawn(newParent);
 			GameObject tabObject = tabInfo.gameObject;
 
 			//putting into the right place
 			tabObject.transform.localScale = Vector3.one;
 			var rect = tabObject.GetComponent<RectTransform>();
-			rect.offsetMin = new Vector2(15, 15);
-			rect.offsetMax = -new Vector2(15, 50);
 
+			if (!isPopOut)
+			{
+				rect.offsetMin = new Vector2(15, 15);
+				rect.offsetMax = -new Vector2(15, 50);
+			}
+			else
+			{
+				//Center it:
+				var localPos = Vector3.zero;
+				localPos.y += 20f;
+				rect.transform.localPosition = localPos;
+				tabInfo.isPopOut = true;
+			}
+			
 			Instance.RefreshTabHeaders();
 		}
 
 		NetTab tab = Instance.OpenedNetTabs[openedTab];
 		tab.ImportValues(elementValues);
-		Instance.SelectTab(tab.gameObject, false);
+		if(!isPopOut){
+			Instance.SelectTab(tab.gameObject, false);
+		}
 	}
 
 	public static void CloseTab(NetTabType type, GameObject tabProvider)
@@ -425,6 +487,15 @@ public class ControlTabs : MonoBehaviour
 		}
 	}
 
+	public static void RefreshTabs()
+	{
+		var activeTabs = Instance.ActiveTabs;
+		for(int i = 0; i < activeTabs.Count; i++)
+		{
+			activeTabs[i].RefreshTab();
+		}
+	}
+
 	///for client.
 	///Close tabs if you're out of interaction radius
 	public static void CheckTabClose()
@@ -434,12 +505,16 @@ public class ControlTabs : MonoBehaviour
 
 		foreach (NetTab tab in Instance.OpenedNetTabs.Values)
 		{
-			if (playerScript.canNotInteract() || !playerScript.IsInReach(tab.Provider))
+			if (playerScript.canNotInteract() || 
+			!playerScript.IsInReach(tab.Provider))
 			{
-				toClose.Add(tab);
+				//Make sure the item is not in the players hands first:
+				if(UIManager.Hands.CurrentSlot.Item != tab.Provider.gameObject &&
+				UIManager.Hands.OtherSlot.Item != tab.Provider.gameObject){
+					toClose.Add(tab);
+				}
 			}
 		}
-
 		foreach (NetTab tab in toClose)
 		{
 			Instance.HideTab(tab);
@@ -488,7 +563,6 @@ public class ControlTabs : MonoBehaviour
 		{
 			yield break;
 		}
-
 		Vector3 currentPos = transform.position;
 		Vector3 targetPos = currentPos;
 		if (rolledOut)
@@ -501,7 +575,6 @@ public class ControlTabs : MonoBehaviour
 			//go down
 			targetPos.y -= (382f * canvas.scaleFactor);
 		}
-
 		float lerpTime = 0f;
 		while (lerpTime < 0.96f)
 		{
@@ -509,7 +582,6 @@ public class ControlTabs : MonoBehaviour
 			transform.position = Vector3.Lerp(currentPos, targetPos, lerpTime);
 			yield return new WaitForEndOfFrame();
 		}
-
 		yield return new WaitForEndOfFrame();
 		Vector3 newScale = rolloutIcon.localScale;
 		newScale.y = -newScale.y;
@@ -517,4 +589,5 @@ public class ControlTabs : MonoBehaviour
 		rolledOut = !rolledOut;
 		preventRoll = false;
 	}
+
 }

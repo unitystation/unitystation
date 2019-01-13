@@ -9,7 +9,7 @@ using UnityEditor;
 	[Serializable]
 	public class ObjectTile : LayerTile
 	{
-		private GameObject _objectCurrent;
+		private GameObject objectCurrent;
 		public bool IsItem;
 		public bool KeepOrientation;
 		public GameObject Object;
@@ -19,6 +19,7 @@ using UnityEditor;
 		[Header("Wire Stuff:")]
 		public bool IsWire;
 		public Vector2Int WireStartEnd;
+		public WiringColor CableType;
 		public Sprite wireSprite;
 
 #if UNITY_EDITOR
@@ -26,7 +27,7 @@ using UnityEditor;
 		{
 			if (Object != null)
 			{
-				if (_objectCurrent == null)
+				if (objectCurrent == null)
 				{
 					// if sprite already exists (e.g. at startup), then load it, otherwise create a new one
 					EditorApplication.delayCall += () =>
@@ -34,30 +35,30 @@ using UnityEditor;
 						if(IsWire && wireSprite != null)
 						{
 							PreviewSprite = wireSprite;
-						} 
-						else 
+						}
+						else
 						{
 						PreviewSprite = PreviewSpriteBuilder.LoadSprite(Object) ??
 						                PreviewSpriteBuilder.Create(Object);
 						}
 					};
 				}
-				else if (Object != _objectCurrent)
+				else if (Object != objectCurrent)
 				{
 					// from one object -> other (overwrite current sprite)
 					EditorApplication.delayCall += () => { PreviewSprite = PreviewSpriteBuilder.Create(Object); };
 				}
 			}
-			else if (_objectCurrent != null)
+			else if (objectCurrent != null)
 			{
 				// setting to None object (delete current sprite)
-				GameObject obj = _objectCurrent;
+				GameObject obj = objectCurrent;
 				EditorApplication.delayCall += () => { PreviewSpriteBuilder.DeleteSprite(obj); };
 			}
 
-			_objectCurrent = Object;
+			objectCurrent = Object;
 
-			if (_objectCurrent != null && _objectCurrent.GetComponentInChildren<RegisterItem>() != null)
+			if (objectCurrent != null && objectCurrent.GetComponentInChildren<RegisterItem>() != null)
 			{
 				IsItem = true;
 			}
@@ -101,8 +102,13 @@ using UnityEditor;
 
 		void SetWireSettings(GameObject spawnedObj)
 		{
-			var wireScript = spawnedObj.GetComponent<StructurePowerWire>();
-			wireScript.SetDirection(WireStartEnd.x, WireStartEnd.y);
+		var wireScript = spawnedObj.GetComponent<IElectricityIO>();
+		//Logger.Log (WireStartEnd.x.ToString() + " <x and y> " + WireStartEnd.x.ToString());
+		wireScript.SetConnPoints(WireStartEnd.y, WireStartEnd.x);
+		var SpriteScript = spawnedObj.GetComponent<StructurePowerWire>();
+		//Logger.Log(SpriteScript.ToString() + "oh yeah?");
+		SpriteScript.damEditor (WireStartEnd.x, WireStartEnd.y,CableType);
+
 		}
 
 		public override Matrix4x4 Rotate(Matrix4x4 transformMatrix, bool anticlockwise = true, int count = 1)

@@ -1,19 +1,18 @@
 using Atmospherics;
-using Tilemaps.Behaviours.Meta.Utils;
 using UnityEngine;
 
 namespace Tilemaps.Behaviours.Objects
 {
 	public class Scrubber : MonoBehaviour
 	{
-		private const float MaximumPressure = 101525f;
+		public float MaximumPressure = 101.025f;
 
-		private SystemManager systemManager;
+		private SubsystemManager _subsystemManager;
 		private MetaDataNode metaNode;
 
 		private void Awake()
 		{
-			systemManager = GetComponentInParent<SystemManager>();
+			_subsystemManager = GetComponentInParent<SubsystemManager>();
 		}
 
 		private void Start()
@@ -24,13 +23,10 @@ namespace Tilemaps.Behaviours.Objects
 
 		private void Update()
 		{
-			lock (metaNode)
+			if (metaNode.Atmos.Pressure > MaximumPressure)
 			{
-				if (metaNode.Atmos.Pressure > MaximumPressure)
-				{
-					metaNode.Atmos = GasMixUtils.Space;
-					systemManager.UpdateAt(metaNode.Position);
-				}
+				metaNode.Atmos = GasMixes.Space;
+				_subsystemManager.UpdateAt(metaNode.Position);
 			}
 		}
 	}

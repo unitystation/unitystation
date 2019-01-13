@@ -2,7 +2,7 @@
 
 public class WeldingFuel : InputTrigger
 {
-	public override void Interact(GameObject originator, Vector3 position, string hand)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (originator == PlayerManager.LocalPlayer)
 		{
@@ -15,5 +15,7 @@ public class WeldingFuel : InputTrigger
 				}
 			}
 		}
+
+		return true;
 	}
 }

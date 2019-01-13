@@ -61,7 +61,7 @@ using Facepunch.Steamworks;
 
 		public void EndEditOnEnter()
 		{
-			if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
+			if (KeyboardInputManager.IsEnterPressed())
 			{
 				BtnOk();
 			}
@@ -78,8 +78,6 @@ using Facepunch.Steamworks;
 			//Connecting as client
 			if (screen_ConnectTo.activeInHierarchy || BuildPreferences.isForRelease)
 			{
-				PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
-				PlayerManager.PlayerNameCache = playerNameInput.text;
 				ConnectToServer();
 				gameObject.SetActive(false);
 		//		UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
@@ -88,8 +86,6 @@ using Facepunch.Steamworks;
 
 			if (screen_PlayerName.activeInHierarchy && !hostServer.isOn)
 			{
-				PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
-				PlayerManager.PlayerNameCache = playerNameInput.text;
 				screen_PlayerName.SetActive(false);
 				screen_ConnectTo.SetActive(true);
 				title.text = "Connection";
@@ -98,8 +94,6 @@ using Facepunch.Steamworks;
 			//Connecting as server from a map scene
 			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && GameData.IsInGame)
 			{
-				PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
-				PlayerManager.PlayerNameCache = playerNameInput.text;
 				networkManager.StartHost();
 				gameObject.SetActive(false);
 			}
@@ -107,8 +101,6 @@ using Facepunch.Steamworks;
 			//Connecting as server from the lobby
 			if (screen_PlayerName.activeInHierarchy && hostServer.isOn && !GameData.IsInGame)
 			{
-				PlayerPrefs.SetString(UserNamePlayerPref, playerNameInput.text);
-				PlayerManager.PlayerNameCache = playerNameInput.text;
 				networkManager.StartHost();
 				gameObject.SetActive(false);
 			}

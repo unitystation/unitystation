@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 public class MetaDataLayer : MonoBehaviour
 {
 	private MetaDataDictionary nodes = new MetaDataDictionary();
 
-	private SystemManager systemManager;
+	private SubsystemManager subsystemManager;
 
 	private void Awake()
 	{
-		systemManager = GetComponentInParent<SystemManager>();
+		subsystemManager = GetComponentInParent<SubsystemManager>();
 	}
 
 	public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
@@ -56,6 +57,6 @@ public class MetaDataLayer : MonoBehaviour
 
 	public void UpdateSystemsAt(Vector3Int position)
 	{
-		systemManager.UpdateAt(position);
+		subsystemManager.UpdateAt(position);
 	}
 }
