@@ -507,7 +507,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	{
 		OverallHealth = overallHealth;
 		ConsciousState = consciousState;
-	//	Logger.Log($"Update stats for {gameObject.name} OverallHealth: {overallHealth} ConsciousState: {consciousState.ToString()}", Category.Health);
+		//	Logger.Log($"Update stats for {gameObject.name} OverallHealth: {overallHealth} ConsciousState: {consciousState.ToString()}", Category.Health);
 		CheckDeadCritStatus();
 	}
 
@@ -517,7 +517,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
 	{
 		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating);
-	//	Logger.Log($"Update stats for {gameObject.name} isBreathing: {isBreathing} isSuffocating {isSuffocating}", Category.Health);
+		//	Logger.Log($"Update stats for {gameObject.name} isBreathing: {isBreathing} isSuffocating {isSuffocating}", Category.Health);
 
 		CheckDeadCritStatus();
 	}
@@ -551,7 +551,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		var bodyPart = FindBodyPart(bodyPartType);
 		if (bodyPart != null)
 		{
-		//	Logger.Log($"Update stats for {gameObject.name} body part {bodyPartType.ToString()} BruteDmg: {bruteDamage} BurnDamage: {burnDamage}", Category.Health);
+			//	Logger.Log($"Update stats for {gameObject.name} body part {bodyPartType.ToString()} BruteDmg: {bruteDamage} BurnDamage: {burnDamage}", Category.Health);
 
 			bodyPart.UpdateClientBodyPartStat(bruteDamage, burnDamage);
 		}
@@ -574,8 +574,20 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
 		//Remove the NPC after all has been harvested
-		ObjectBehaviour objectBehaviour = gameObject.GetComponent<ObjectBehaviour>();
-		objectBehaviour.visibleState = false;
+		var cnt = GetComponent<CustomNetTransform>();
+		if (cnt != null)
+		{
+			cnt.DisappearFromWorldServer();
+		}
+		else
+		{
+			//Just incase player ever needs to be harvested for some reason
+			var playerSync = GetComponent<PlayerSync>();
+			if (playerSync != null)
+			{
+				playerSync.DisappearFromWorldServer();
+			}
+		}
 	}
 
 	public BodyPartBehaviour FindBodyPart(BodyPartType bodyPartAim)
