@@ -1,8 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
-using NUnit.Framework.Constraints;
-using UnityEngine.Networking;
-using UnityEngine.XR.WSA.Persistence;
 
 namespace Atmospherics
 {

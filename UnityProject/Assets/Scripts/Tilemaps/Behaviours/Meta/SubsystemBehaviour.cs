@@ -5,6 +5,7 @@ public abstract class SubsystemBehaviour : MonoBehaviour
 	{
 		protected MetaDataLayer metaDataLayer;
 		protected MetaTileMap metaTileMap;
+		protected SubsystemManager subsystemManager;
 
 		public virtual int Priority => 0;
 
@@ -12,8 +13,8 @@ public abstract class SubsystemBehaviour : MonoBehaviour
 		{
 			metaDataLayer = GetComponentInChildren<MetaDataLayer>();
 			metaTileMap = GetComponentInChildren<MetaTileMap>();
-
-			GetComponent<SubsystemManager>().Register(this);
+			subsystemManager = GetComponent<SubsystemManager>();
+			subsystemManager.Register(this);
 		}
 
 		public abstract void Initialize();

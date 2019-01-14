@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class MetaDataSystem : SubsystemBehaviour
 {
-	private SubsystemManager subsystemManager;
 	private HashSet<MetaDataNode> externalNodes;
 
 	// Set higher priority to ensure that it is executed before other systems
@@ -15,8 +14,6 @@ public class MetaDataSystem : SubsystemBehaviour
 	public override void Awake()
 	{
 		base.Awake();
-
-		subsystemManager = GetComponentInParent<SubsystemManager>();
 
 		externalNodes = new HashSet<MetaDataNode>();
 	}
@@ -69,19 +66,16 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void FindRoomAt(Vector3Int position)
 	{
-		if (Check(position) && !metaDataLayer.IsRoomAt(position))
+		if (!metaTileMap.IsAtmosPassableAt(position))
+		{
+			MetaDataNode node = metaDataLayer.Get(position);
+			node.Type = NodeType.Occupied;
+
+			SetupNeighbors(node);
+		}
+		else if (!metaTileMap.IsSpaceAt(position) && !metaDataLayer.IsRoomAt(position))
 		{
 			CreateRoom(position);
-		}
-		else
-		{
-			if (!metaTileMap.IsAtmosPassableAt(position))
-			{
-				MetaDataNode node = metaDataLayer.Get(position);
-				node.Type = NodeType.Occupied;
-
-				SetupNeighbors(node);
-			}
 		}
 	}
 
@@ -103,19 +97,19 @@ public class MetaDataSystem : SubsystemBehaviour
 
 				foreach (Vector3Int neighbor in MetaUtils.GetNeighbors(position))
 				{
-					if (Check(neighbor))
-					{
-						if (!roomPositions.Contains(neighbor) && !freePositions.Contains(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
-						{
-							freePositions.Enqueue(neighbor);
-						}
-					}
-					else if (metaTileMap.IsSpaceAt(neighbor))
+					if (metaTileMap.IsSpaceAt(neighbor))
 					{
 						Vector3 worldPosition = transform.TransformPoint(neighbor);
 						if (MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
 						{
 							isSpace = true;
+						}
+					}
+					else if (metaTileMap.IsAtmosPassableAt(position))
+					{
+						if (!roomPositions.Contains(neighbor) && !freePositions.Contains(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
+						{
+							freePositions.Enqueue(neighbor);
 						}
 					}
 				}
@@ -138,11 +132,6 @@ public class MetaDataSystem : SubsystemBehaviour
 
 			node.Type = NodeType.Room;
 		}
-	}
-
-	private bool Check(Vector3Int position)
-	{
-		return metaTileMap.IsAtmosPassableAt(position) && !metaTileMap.IsSpaceAt(position);
 	}
 
 	private void SetupNeighbors(IEnumerable<Vector3Int> positions)
