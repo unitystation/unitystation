@@ -126,12 +126,6 @@ public static class Logger
 					break;
 			}
 		}
-
-		if(RconManager.Instance != null){
-			RconManager.AddLog(msg);
-		}
-
-		DebugConsole.AmendLog(msg);
 	}
 }
 

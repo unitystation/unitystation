@@ -107,7 +107,7 @@ public class BloodSystem : MonoBehaviour
 	/// </summary>
 	void PumpBlood()
 	{
-		OxygenLevel -= 7; //Remove 7% oxygen from system
+		OxygenLevel -= 10; //Remove 10% oxygen from system
 
 		if (IsBleeding)
 		{

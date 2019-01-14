@@ -16,9 +16,9 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	public bool IsSuffocating { get; private set; } = false;
 
 	/// <summary>
-	/// 4 minutes of suffocation = 100% damage
+	/// 2 minutes of suffocation = 100% damage
 	/// </summary>
-	public int SuffocationDamage { get { return Mathf.RoundToInt((suffocationTime / 240f) * 100f); } }
+	public int SuffocationDamage { get { return Mathf.RoundToInt((suffocationTime / 120f) * 100f); } }
 	private float tickRate = 1f;
 	private float tick = 0f;
 	public float suffocationTime = 0f;
@@ -101,11 +101,13 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 				if (IsInSpace() && IsEvaCompatible())
 				{
 					IsBreathing = true;
+					GetComponent<PlayerNetworkActions>().SetConsciousState(true);
 				}
 
 				if (!IsInSpace())
 				{
 					IsBreathing = true;
+					GetComponent<PlayerNetworkActions>().SetConsciousState(true);
 				}
 			}
 		}
