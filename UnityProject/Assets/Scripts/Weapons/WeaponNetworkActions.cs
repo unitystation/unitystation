@@ -69,13 +69,9 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdRequestMeleeAttack(GameObject victim, string slot, Vector2 stabDirection,
 		BodyPartType damageZone, LayerType layerType)
 	{
-		if (!playerMove.allowInput ||
-			playerMove.isGhost ||
-			!victim ||
+		if (!victim ||
 			!playerScript.playerNetworkActions.SlotNotEmpty(slot) ||
-			playerScript.playerHealth.IsCrit ||
-			playerScript.playerHealth.IsDead
-		)
+			playerScript.canNotInteract())
 		{
 			return;
 		}
