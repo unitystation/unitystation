@@ -17,15 +17,3 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		UpdateUIMessage.SendHealth(gameObject, newHealth);
 	}
 }
-
-
-//TODO things to update:
-// OverallHealth
-// Conscious State, which handles IsDead and IsCrit
-// IsBreathing
-// IsSuffocating
-// bloodSystem.HeartStopped
-
-//Events:
-// Crit()
-// Death()

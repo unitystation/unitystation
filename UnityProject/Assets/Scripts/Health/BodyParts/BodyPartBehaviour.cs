@@ -110,4 +110,22 @@ public class BodyPartBehaviour : MonoBehaviour
 		burnDamage = 0;
 		UpdateSeverity();
 	}
+
+	// --------------------
+	// UPDATES FROM SERVER
+	// -------------------- 
+	public void UpdateClientBodyPartStat(int _bruteDamage, int _burnDamage)
+	{
+		bruteDamage = _bruteDamage;
+		burnDamage = _burnDamage;
+		UpdateSeverity();
+	}
+
+	// --------------------
+	// UPDATES TO CLIENT
+	// --------------------
+	private void UpdateClient()
+	{
+		
+	}
 }

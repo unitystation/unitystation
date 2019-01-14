@@ -28,6 +28,11 @@ internal enum MessageTypes : short
 	StorageObjectUUIDSyncMessage = 1024,
 	ElectricalStatsMessage = 1025,
 	InformPull = 1026,
+	HealthOverallStats = 1027,
+	HealthRespiratoryStats = 1028,
+	HealthBloodStats = 1029,
+	HealthBrainStats = 1030,
+	HealthBodyPartStats = 1031,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,

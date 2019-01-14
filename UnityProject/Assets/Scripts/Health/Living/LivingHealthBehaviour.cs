@@ -492,11 +492,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <summary>
 	/// Updates the main health stats from the server via NetMsg
 	/// </summary>
-	public void UpdateClientHealthStats(int overallHealth, ConsciousState consciousState,
-		bool heartStopped, int bloodVolume)
+	public void UpdateClientHealthStats(int overallHealth, ConsciousState consciousState)
 	{
 		OverallHealth = overallHealth;
 		ConsciousState = consciousState;
+		CheckDeadCritStatus();
 	}
 
 	/// <summary>
@@ -505,6 +505,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
 	{
 		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating);
+		CheckDeadCritStatus();
 	}
 
 	/// <summary>
@@ -513,6 +514,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public void UpdateClientBloodStats(int heartRate, int bloodVolume, int oxygenLevel, int toxinLevel)
 	{
 		bloodSystem.UpdateClientBloodStats(heartRate, bloodVolume, oxygenLevel, toxinLevel);
+		CheckDeadCritStatus();
 	}
 
 	/// <summary>
@@ -523,6 +525,19 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		if (brainSystem != null)
 		{
 			brainSystem.UpdateClientBrainStats(isHusk, brainDamage);
+			CheckDeadCritStatus();
+		}
+	}
+
+	/// <summary>
+	/// Updates the bodypart health stats from the server via NetMsg
+	/// </summary>
+	public void UpdateClientBodyPartStats(BodyPartType bodyPartType, int bruteDamage, int burnDamage)
+	{
+		var bodyPart = FindBodyPart(bodyPartType);
+		if (bodyPart != null)
+		{
+			bodyPart.UpdateClientBodyPartStat(bruteDamage, burnDamage);
 		}
 	}
 
