@@ -189,6 +189,11 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	/// </summary>
 	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
 	{
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			return;
+		}
+
 		IsBreathing = isBreathing;
 		IsSuffocating = isSuffocating;
 	}

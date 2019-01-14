@@ -22,6 +22,11 @@ public class BodyPartBehaviour : MonoBehaviour
 	public DamageSeverity Severity; //{ get; private set; }
 	public int OverallDamage { get { return BruteDamage + BurnDamage; } }
 
+	void Start()
+	{
+		UpdateIcons();
+	}
+
 	//Apply damages from here.
 	public virtual void ReceiveDamage(DamageType damageType, int damage)
 	{

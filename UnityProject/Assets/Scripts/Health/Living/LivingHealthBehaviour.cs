@@ -49,6 +49,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	private DNAandBloodType DNABloodType;
 	private float tickRate = 1f;
 	private float tick = 0;
+	private RegisterTile registerTile;
 
 	//be careful with falses, will make player conscious
 	public bool IsCrit
@@ -65,8 +66,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	/// <summary>
 	/// Has the heart stopped.
-	/// May not be updated on the client
-	/// Request state from the server
 	/// </summary>
 	public bool IsCadiacArrest
 	{
@@ -75,8 +74,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	/// <summary>
 	/// Has breathing stopped
-	/// May not be updated on the client
-	/// Request state from the server
 	/// </summary>
 	public bool IsRespiratoryArrest
 	{
@@ -106,6 +103,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// Add any missing systems:
 	private void InitSystems()
 	{
+		registerTile = GetComponent<RegisterTile>();
 		//Always include blood for living entities:
 		bloodSystem = GetComponent<BloodSystem>();
 		if (bloodSystem == null)
@@ -366,7 +364,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		if (damageType == DamageType.Brute)
 		{
 			//spawn blood
-			EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
+			EffectsFactory.Instance.BloodSplat(registerTile.WorldPosition, BloodSplatSize.medium);
 		}
 	}
 

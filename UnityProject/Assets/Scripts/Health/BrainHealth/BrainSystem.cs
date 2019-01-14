@@ -165,6 +165,10 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
     /// </summary>
     public void UpdateClientBrainStats(bool isHusk, int brainDmgAmt)
     {
+        if (CustomNetworkManager.Instance._isServer)
+		{
+			return;
+		}
         IsHuskClient = isHusk;
         BrainDamageAmtClient = brainDmgAmt;
     }
