@@ -67,7 +67,8 @@ public class Weapon : PickUpTrigger
 	/// </summary>
 	private bool AllowSuicide;
 
-	[SyncVar(hook = nameof(LoadUnloadAmmo))] public NetworkInstanceId MagNetID;
+	[SyncVar(hook = nameof(LoadUnloadAmmo))]
+	public NetworkInstanceId MagNetID;
 
 	//TODO connect these with the actual shooting of a projectile
 	/// <summary>
@@ -110,6 +111,7 @@ public class Weapon : PickUpTrigger
 		{
 			AmmoType = "12mm";
 		}
+
 		if (Projectile == null)
 		{
 			Projectile = Resources.Load("Bullet_12mm") as GameObject;
@@ -165,6 +167,7 @@ public class Weapon : PickUpTrigger
 		{
 			yield return YieldHelper.EndOfFrame;
 		}
+
 		yield return YieldHelper.EndOfFrame;
 		LoadUnloadAmmo(MagNetID);
 	}
@@ -252,12 +255,12 @@ public class Weapon : PickUpTrigger
 					{
 						hand = UIManager.Hands.CurrentSlot.eventName;
 						Reload(currentHandItem, hand, true);
-
 					}
 
 					if (AmmoType != ammoType)
 					{
-						ChatRelay.Instance.AddToChatLogClient("You try to load the wrong ammo into your weapon", ChatChannel.Examine);
+						ChatRelay.Instance.AddToChatLogClient("You try to load the wrong ammo into your weapon",
+							ChatChannel.Examine);
 					}
 				}
 
@@ -270,13 +273,13 @@ public class Weapon : PickUpTrigger
 						hand = UIManager.Hands.OtherSlot.eventName;
 						Reload(otherHandItem, hand, false);
 					}
+
 					if (AmmoType != ammoType)
 					{
-						ChatRelay.Instance.AddToChatLogClient("You try to load the wrong ammo into your weapon", ChatChannel.Examine);
+						ChatRelay.Instance.AddToChatLogClient("You try to load the wrong ammo into your weapon",
+							ChatChannel.Examine);
 					}
 				}
-
-
 			}
 			else
 			{
@@ -288,13 +291,15 @@ public class Weapon : PickUpTrigger
 				}
 				else if (currentHandItem.GetComponent<Weapon>() && otherHandItem.GetComponent<MagazineBehaviour>())
 				{
-					ChatRelay.Instance.AddToChatLogClient("You weapon is already loaded, you can't fit more Magazines in it, silly!", ChatChannel.Examine);
-
+					ChatRelay.Instance.AddToChatLogClient(
+						"You weapon is already loaded, you can't fit more Magazines in it, silly!",
+						ChatChannel.Examine);
 				}
 				else if (otherHandItem.GetComponent<Weapon>() && currentHandItem.GetComponent<MagazineBehaviour>())
 				{
-					ChatRelay.Instance.AddToChatLogClient("You weapon is already loaded, you can't fit more Magazines in it, silly!", ChatChannel.Examine);
-
+					ChatRelay.Instance.AddToChatLogClient(
+						"You weapon is already loaded, you can't fit more Magazines in it, silly!",
+						ChatChannel.Examine);
 				}
 			}
 		}
@@ -360,10 +365,11 @@ public class Weapon : PickUpTrigger
 				//fire a single round if its a semi or automatic weapon
 				if (WeaponType == WeaponType.SemiAutomatic || WeaponType == WeaponType.FullyAutomatic)
 				{
-
-					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - PlayerManager.LocalPlayer.transform.position).normalized;
-
-					RequestShootMessage.Send(gameObject, dir, Projectile.name, UIManager.DamageZone, isSuicide, PlayerManager.LocalPlayer);
+					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) -
+					               PlayerManager.LocalPlayer.transform.position).normalized;
+					Logger.Log("Shoot message sent " + CurrentMagazine?.ammoRemains);
+					RequestShootMessage.Send(gameObject, dir, Projectile.name, UIManager.DamageZone, isSuicide,
+						PlayerManager.LocalPlayer);
 					if (!isServer)
 					{
 						//Prediction (client bullets don't do any damage)
@@ -427,14 +433,19 @@ public class Weapon : PickUpTrigger
 	}
 
 	[Server]
-	public void ServerShoot(GameObject shotBy, Vector2 direction, string bulletName,
-							BodyPartType damageZone, bool isSuicideShot)
+	public void ServerShoot(GameObject shotBy, Vector2 direction,
+		BodyPartType damageZone, bool isSuicideShot)
 	{
+		//TODO: Left off here, validate the shooting, calculate accuracy but allow client prediction somehow
+
+		Logger.Log("Server shoot " + CurrentMagazine?.ammoRemains);
 		PlayerMove shooter = shotBy.GetComponent<PlayerMove>();
 		if (!shooter.allowInput || shooter.isGhost)
 		{
 			return;
 		}
+
+		if (!CanServerShoot()) return;
 
 		Shoot(shotBy, direction, bulletName, damageZone, isSuicideShot);
 
@@ -456,13 +467,36 @@ public class Weapon : PickUpTrigger
 			{
 				casingPrefab = Resources.Load("BulletCasing") as GameObject;
 			}
+
 			ItemFactory.SpawnItem(casingPrefab, shotBy.transform.position, shotBy.transform.parent);
 		}
 	}
 
+	/// <summary>
+	/// Validates that the shoot requested by the client is allowed.
+	/// </summary>
+	/// <returns>true iff the shot can be performed</returns>
+	private bool CanServerShoot()
+	{
+		if (CurrentMagazine == null || CurrentMagazine.ammoRemains <= 0)
+		{
+			Logger.LogWarning("A shot was attempted when there is no ammo.");
+			return false;
+		}
+		if (FireCountDown > 0)
+		{
+			Logger.LogWarning("Shot was attempted when firing countdown is not at 0. FireCountDown: " + FireCountDown);
+			return false;
+		}
+		//TODO: Validate accuracy / deviation / everything in the shoot message
+		//TODO: Validate damage zone
+
+
+	}
+
 	//This is only for the shooters client and the server. Rest is done via msg
 	private void Shoot(GameObject shooter, Vector2 direction, string bulletName,
-							BodyPartType damageZone, bool isSuicideShot)
+		BodyPartType damageZone, bool isSuicideShot)
 	{
 		CurrentMagazine.ammoRemains--;
 		//get the bullet prefab being shot
@@ -509,7 +543,6 @@ public class Weapon : PickUpTrigger
 		{
 			UIManager.Hands.OtherSlot.Clear();
 		}
-
 	}
 
 	//atm unload with shortcut 'e'
@@ -552,6 +585,7 @@ public class Weapon : PickUpTrigger
 				{
 					cnt.DisappearFromWorld();
 				}
+
 				Logger.LogTraceFormat("MagazineBehaviour found ok: {0}", Category.Firearms, magazineID);
 			}
 		}
