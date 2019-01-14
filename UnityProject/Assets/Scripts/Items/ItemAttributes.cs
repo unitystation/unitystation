@@ -78,13 +78,13 @@ public class ItemAttributes : NetworkBehaviour
 	public ItemType type;
 
 	/// throw-related fields
-	[TooltipAttribute("How painful it is when someone throws it at you")]
+	[TooltipAttribute("How painful it is when someone throws it at you")] [Range(0,100)]
 	public float throwDamage = 2;
 	[TooltipAttribute("How many tiles to move per 0.1s when being thrown")]
 	public float throwSpeed = 2;
 	[TooltipAttribute("Max throw distance")]
 	public float throwRange = 7;
-	[TooltipAttribute("Damage when we click someone with harm intent")]
+	[TooltipAttribute("Damage when we click someone with harm intent")] [Range(0, 100)]
 	public float hitDamage = 2;
 	[TooltipAttribute("Sound to be played when we click someone with harm intent")]
 	public string hitSound = "GenericHit";

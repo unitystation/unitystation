@@ -112,8 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
 --- !u!114 &114155970044334132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,7 +141,6 @@ MonoBehaviour:
   FireCountDown: 0
   FireingSound: ShootTazer
   FireRate: 5
-  InAutomaticAction: 0
   MaxRecoilVariance: 0
   Projectile: {fileID: 1560634355228308, guid: 3a5f33fb4348d74429ba2cf1a1d4821d, type: 2}
   ProjectileDamage: 15
@@ -171,10 +168,10 @@ MonoBehaviour:
   size: 0
   spriteType: 2
   type: 16
-  throwDamage: 2
+  throwDamage: 26
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 10
+  hitDamage: 45
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114758040345321802
@@ -188,17 +185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  custNetActiveState: 0
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
+  isNotPushable: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114958751264410972
 MonoBehaviour:

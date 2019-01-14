@@ -1,38 +1,41 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class FuelTankHealthBehaviour : LivingHealthBehaviour
+public class FuelTankHealthBehaviour : MonoBehaviour
 {
-//	private PushPull pushPull;
+	//	private PushPull pushPull;
 
-//	private void Awake()
-//	{
-//		pushPull = GetComponent<PushPull>();
-//	}
+	//	private void Awake()
+	//	{
+	//		pushPull = GetComponent<PushPull>();
+	//	}
 
-	protected override void OnDeathActions()
-	{
-//		pushPull.BreakPull();
-		float delay = 0f;
-		switch (LastDamageType)
-		{
-			case DamageType.Brute:
-				delay = 0.1f;
-				break;
-			case DamageType.Burn:
-				delay = Random.Range(0.2f, 2f);
-				break; //surprise
-		}
+	//FIXME: this class no longer derives from LivingHealthBehaviour as it is not
+	// a living thing. A new damage system is required for non living objects
 
-		string killer = "God";
-		if (LastDamagedBy != null)
-		{
-			killer = LastDamagedBy.name;
-		}
-		StartCoroutine(explodeWithDelay(delay, killer));
+	// 	protected override void OnDeathActions()
+	// 	{
+	// //		pushPull.BreakPull();
+	// 		float delay = 0f;
+	// 		switch (LastDamageType)
+	// 		{
+	// 			case DamageType.Brute:
+	// 				delay = 0.1f;
+	// 				break;
+	// 			case DamageType.Burn:
+	// 				delay = Random.Range(0.2f, 2f);
+	// 				break; //surprise
+	// 		}
 
-		//            Logger.Log("FuelTank ded!");
-	}
+	// 		string killer = "God";
+	// 		if (LastDamagedBy != null)
+	// 		{
+	// 			killer = LastDamagedBy.name;
+	// 		}
+	// 		StartCoroutine(explodeWithDelay(delay, killer));
+
+	// 		//            Logger.Log("FuelTank ded!");
+	// 	}
 
 	private IEnumerator explodeWithDelay(float delay, string damagedBy)
 	{

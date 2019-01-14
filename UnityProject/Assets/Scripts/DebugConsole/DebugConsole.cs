@@ -32,11 +32,16 @@ public class DebugConsole : MonoBehaviour
 
 	public static void AmendLog(string msg)
 	{
+		if (RconManager.Instance != null)
+		{
+			RconManager.AddLog(msg);
+		}
+
 		DebugLog += msg + "\n";
 		LastLog = msg;
-		if (DebugLog.Length > 3000)
+		if (DebugLog.Length > 10000)
 		{
-			DebugLog = DebugLog.Substring(1500);
+			DebugLog = DebugLog.Substring(9000);
 		}
 
 		//if it is null it means the object is still disabled and is about be enabled
@@ -53,6 +58,34 @@ public class DebugConsole : MonoBehaviour
 		StartCoroutine(UpdateFPSDisplay());
 	}
 
+	void OnEnable()
+	{
+		Application.logMessageReceived += LogCallback;
+	}
+
+	//Called when there is an exception
+	void LogCallback(string condition, string stackTrace, LogType type)
+	{
+		if (type == LogType.Warning)
+		{
+			return;
+		}
+
+		if (type == LogType.Exception)
+		{
+			AmendLog(condition + " " + stackTrace);
+		}
+		else
+		{
+			AmendLog(condition + " " + type);
+		}
+	}
+
+	void OnDisable()
+	{
+		Application.logMessageReceived -= LogCallback;
+	}
+
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.F5))
@@ -60,7 +93,7 @@ public class DebugConsole : MonoBehaviour
 			ToggleConsole();
 		}
 		fps.Add(1f / Time.deltaTime);
-		
+
 	}
 
 	void ToggleConsole()
@@ -78,7 +111,7 @@ public class DebugConsole : MonoBehaviour
 	{
 		while (true)
 		{
-			if (fps.Count <= 0) yield return null;
+			if (fps.Count <= 0)yield return null;
 
 			float avgFPS = Mathf.Round(fps.Average());
 			float minFPS = Mathf.Round(fps.Min());

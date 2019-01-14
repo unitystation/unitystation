@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class ForceRotation : MonoBehaviour {
+public class ForceRotation : NetworkBehaviour
+{
+	[SyncVar] [HideInInspector]
+	public Vector3 Rotation;
 
-	[HideInInspector]
-	public Quaternion Rotation = Quaternion.Euler(Vector3.zero);
-
-	// Use this for initialization
 	private void OnEnable()
 	{
 		UpdateManager.Instance.Add(CheckRotation);
@@ -21,12 +21,40 @@ public class ForceRotation : MonoBehaviour {
 		}
 	}
 
-
 	public void CheckRotation()
 	{
-		if (transform.rotation != Rotation)
+		//This also ensures object is facing the right way on matrix rot
+		if (transform.eulerAngles != Rotation)
 		{
-			transform.rotation = Rotation;
+			transform.eulerAngles = Rotation;
+			CheckPlayerBlockingState();
+		}
+	}
+
+	void CheckPlayerBlockingState()
+	{
+		var registerPlayer = GetComponent<RegisterPlayer>();
+
+		if (registerPlayer != null)
+		{
+			if (transform.eulerAngles.z != 0)
+			{
+				registerPlayer.IsBlocking = false;
+				SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
+				foreach (SpriteRenderer sR in spriteRends)
+				{
+					sR.sortingLayerName = "Blood";
+				}
+			}
+			else
+			{
+				registerPlayer.IsBlocking = true;
+				SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
+				foreach (SpriteRenderer sR in spriteRends)
+				{
+					sR.sortingLayerName = "Players";
+				}
+			}
 		}
 	}
 }

@@ -125,8 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
 --- !u!114 &114195744768688632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,10 +168,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eac5b97f2a9c42ac9f2e98c0316ba2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storageProps:
-    slotCount: 0
-    inventoryInstances: []
-  inventorySlots: 7
+  storageSlots:
+    inventorySlots: []
+  maxSlots: 7
+  maxItemSize: 3
 --- !u!114 &114336348675555448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,17 +194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  custNetActiveState: 0
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
+  isNotPushable: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114768507001769714
 MonoBehaviour:
@@ -229,10 +220,10 @@ MonoBehaviour:
   size: 1
   spriteType: 1
   type: 0
-  throwDamage: 2
+  throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 2
+  hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
 --- !u!212 &212971218565283798

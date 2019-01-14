@@ -136,9 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a522f189bd3d44f9b962f977bec7a0a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leavings: {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 2}
   healAmount: 5
   healHungerAmount: 5
-  leavings: {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 2}
 --- !u!114 &114608524725813366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -171,10 +171,10 @@ MonoBehaviour:
   size: 0
   spriteType: 0
   type: 14
-  throwDamage: 2
+  throwDamage: 5
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 2
+  hitDamage: 5
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114842434566603030

@@ -11,6 +11,53 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1722833055556988}
   m_IsPrefabAsset: 1
+--- !u!1 &1053569476590708
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4046525160069288}
+  - component: {fileID: 114804766488326296}
+  m_Layer: 8
+  m_Name: IanChest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1088824078489892
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4751586958383970}
+  - component: {fileID: 114232649470732454}
+  m_Layer: 8
+  m_Name: IanHead
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1178824245349430
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4694411012898730}
+  m_Layer: 8
+  m_Name: BodyParts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1639672318491930
 GameObject:
   m_ObjectHideFlags: 0
@@ -45,6 +92,7 @@ GameObject:
   - component: {fileID: 114123688984495052}
   - component: {fileID: 114653357792706156}
   - component: {fileID: 114536369792164230}
+  - component: {fileID: 114721267536428640}
   m_Layer: 8
   m_Name: NPC_Ian
   m_TagString: Untagged
@@ -52,6 +100,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4046525160069288
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1053569476590708}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4694411012898730}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4075354139123318
 Transform:
   m_ObjectHideFlags: 1
@@ -76,7 +137,36 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4075354139123318}
+  - {fileID: 4694411012898730}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4694411012898730
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1178824245349430}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4751586958383970}
+  - {fileID: 4046525160069288}
+  m_Father: {fileID: 4398708211663736}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4751586958383970
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1088824078489892}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4694411012898730}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61711516699828072
@@ -116,6 +206,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
+--- !u!114 &114232649470732454
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1088824078489892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrayDamageMonitorIcon: {fileID: 0}
+  GreenDamageMonitorIcon: {fileID: 0}
+  OrangeDamageMonitorIcon: {fileID: 0}
+  RedDamageMonitorIcon: {fileID: 0}
+  Type: 0
+  YellowDamageMonitorIcon: {fileID: 0}
+  Severity: 0
 --- !u!114 &114379432356965050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -127,14 +235,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c86f0d5246b4abe8fd9bb34e7cee0d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowKnifeHarvest: 1
-  initialHealth: 45
-  isNotPlayer: 0
   maxHealth: 100
-  aliveSprite: {fileID: 21300130, guid: 9222585df95e4391bbd7cd83ddfd0474, type: 3}
+  bloodSystem: {fileID: 0}
+  brainSystem: {fileID: 0}
+  respiratorySystem: {fileID: 0}
+  BodyParts:
+  - {fileID: 114232649470732454}
+  - {fileID: 114804766488326296}
+  allowKnifeHarvest: 1
   butcherResults:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
+  isNotPlayer: 0
+  aliveSprite: {fileID: 21300130, guid: 9222585df95e4391bbd7cd83ddfd0474, type: 3}
   deadSprite: {fileID: 21300132, guid: 9222585df95e4391bbd7cd83ddfd0474, type: 3}
   deadState: 0
   spriteRend: {fileID: 212528056298463238}
@@ -149,7 +262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PushSpeed: 6
 --- !u!114 &114405087929252270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,6 +298,7 @@ MonoBehaviour:
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
+  isNotPushable: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114653357792706156
 MonoBehaviour:
@@ -220,6 +333,35 @@ MonoBehaviour:
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
+--- !u!114 &114721267536428640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c2cd445a75442e6842dd3e2fe81f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114804766488326296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1053569476590708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrayDamageMonitorIcon: {fileID: 0}
+  GreenDamageMonitorIcon: {fileID: 0}
+  OrangeDamageMonitorIcon: {fileID: 0}
+  RedDamageMonitorIcon: {fileID: 0}
+  Type: 1
+  YellowDamageMonitorIcon: {fileID: 0}
+  Severity: 0
 --- !u!114 &114805348083048156
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -11,6 +11,53 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1722833055556988}
   m_IsPrefabAsset: 1
+--- !u!1 &1388083120434040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4890308748182950}
+  m_Layer: 8
+  m_Name: BodyParts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1483104298540662
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4684122081434652}
+  - component: {fileID: 114274186841950984}
+  m_Layer: 8
+  m_Name: PunPunHead
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1513016919933246
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4518200446445010}
+  - component: {fileID: 114590801595228480}
+  m_Layer: 8
+  m_Name: PunPunChest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1722833055556988
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,8 +90,50 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 30, y: 44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4890308748182950}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4518200446445010
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1513016919933246}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4890308748182950}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4684122081434652
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483104298540662}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4890308748182950}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4890308748182950
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1388083120434040}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4684122081434652}
+  - {fileID: 4518200446445010}
+  m_Father: {fileID: 4398708211663736}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61711516699828072
@@ -83,6 +172,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114274186841950984
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483104298540662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrayDamageMonitorIcon: {fileID: 0}
+  GreenDamageMonitorIcon: {fileID: 0}
+  OrangeDamageMonitorIcon: {fileID: 0}
+  RedDamageMonitorIcon: {fileID: 0}
+  Type: 0
+  YellowDamageMonitorIcon: {fileID: 0}
+  Severity: 0
 --- !u!114 &114379432356965050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,14 +201,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c86f0d5246b4abe8fd9bb34e7cee0d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowKnifeHarvest: 1
-  initialHealth: 45
-  isNotPlayer: 0
   maxHealth: 100
-  aliveSprite: {fileID: 21300006, guid: 6b5e9bef671444aa82bc2e31fc4280b1, type: 3}
+  bloodSystem: {fileID: 0}
+  brainSystem: {fileID: 0}
+  respiratorySystem: {fileID: 0}
+  BodyParts:
+  - {fileID: 114274186841950984}
+  - {fileID: 114590801595228480}
+  allowKnifeHarvest: 1
   butcherResults:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 2}
+  isNotPlayer: 0
+  aliveSprite: {fileID: 21300006, guid: 6b5e9bef671444aa82bc2e31fc4280b1, type: 3}
   deadSprite: {fileID: 21300016, guid: 6b5e9bef671444aa82bc2e31fc4280b1, type: 3}
   deadState: 0
   spriteRend: {fileID: 212099414062323906}
@@ -116,8 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
 --- !u!114 &114555785714625820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -129,18 +239,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  custNetActiveState: 0
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
+  isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+--- !u!114 &114590801595228480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1513016919933246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GrayDamageMonitorIcon: {fileID: 0}
+  GreenDamageMonitorIcon: {fileID: 0}
+  OrangeDamageMonitorIcon: {fileID: 0}
+  RedDamageMonitorIcon: {fileID: 0}
+  Type: 1
+  YellowDamageMonitorIcon: {fileID: 0}
+  Severity: 0
 --- !u!114 &114713267190622314
 MonoBehaviour:
   m_ObjectHideFlags: 1

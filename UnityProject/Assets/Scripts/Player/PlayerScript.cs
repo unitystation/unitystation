@@ -164,7 +164,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 		public bool canNotInteract()
 		{
-			return playerMove == null || !playerMove.allowInput || playerMove.isGhost;
+			return playerMove == null || !playerMove.allowInput || playerMove.isGhost
+				|| playerHealth.IsDead || playerHealth.IsCrit;
 		}
 
 		public override void UpdateMe()

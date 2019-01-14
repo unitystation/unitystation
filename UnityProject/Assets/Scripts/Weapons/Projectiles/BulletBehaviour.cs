@@ -3,6 +3,7 @@
 public abstract class BulletBehaviour : MonoBehaviour
 {
 	private BodyPartType bodyAim;
+	[Range(0, 100)]
 	public int damage = 25;
 	private GameObject shooter;
 	private Weapon weapon;
