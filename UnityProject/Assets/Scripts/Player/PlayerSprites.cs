@@ -178,26 +178,7 @@ public class PlayerSprites : NetworkBehaviour
 
 		currentDirection = direction;
 	}
-	///For falling over and getting back up again over network
-	[ClientRpc]
-	public void RpcSetPlayerRot(float rot)
-	{
-		//		Logger.LogWarning("Setting TileType to none for player and adjusting sortlayers in RpcSetPlayerRot");
-		SpriteRenderer[] spriteRends = GetComponentsInChildren<SpriteRenderer>();
-		foreach (SpriteRenderer sR in spriteRends)
-		{
-			sR.sortingLayerName = "Blood";
-		}
-		gameObject.GetComponent<RegisterPlayer>().IsBlocking = false;
-		gameObject.GetComponent<ForceRotation>().Rotation.eulerAngles = new Vector3(0, 0, rot);
-
-		//Might be no longer needed as all spriteRenderers are set to Blood layer
-		// if ( Math.Abs( rot ) > 0 ) {
-		// 	//So other players can walk over the Unconscious
-		// 	AdjustSpriteOrders(-30);
-		// }
-	}
-
+	
 	/// Changes direction by degrees; positive = CW, negative = CCW
 	public void ChangePlayerDirection(int degrees)
 	{

@@ -223,6 +223,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 				{
 					BodyParts[i].ReceiveDamage(damageType, damage);
 					appliedDmg = true;
+					HealthBodyPartMessage.SendToAll(gameObject, bodyPartAim,
+						BodyParts[i].BruteDamage, BodyParts[i].BurnDamage);
 					break;
 				}
 			}
@@ -234,6 +236,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 				if (getChestIndex != -1)
 				{
 					BodyParts[getChestIndex].ReceiveDamage(damageType, damage);
+					HealthBodyPartMessage.SendToAll(gameObject, bodyPartAim,
+						BodyParts[getChestIndex].BruteDamage, BodyParts[getChestIndex].BurnDamage);
 				}
 				else
 				{
@@ -270,7 +274,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 		if (bodyPartAim == BodyPartType.Groin)
 		{
-			bodyPartAim = BodyPartType.Chest; //Temporary fix for groin, when we add surgery this might need some changing.
+			bodyPartAim = BodyPartType.Chest;
+		}
+
+		if (bodyPartAim == BodyPartType.Eyes || bodyPartAim == BodyPartType.Mouth)
+		{
+			bodyPartAim = BodyPartType.Head;
 		}
 
 		if (BodyParts.Count == 0)
@@ -292,6 +301,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 				{
 					BodyParts[i].HealDamage(healAmt, damageTypeToHeal);
 					appliedHealing = true;
+					HealthBodyPartMessage.SendToAll(gameObject, bodyPartAim,
+						BodyParts[i].BruteDamage, BodyParts[i].BurnDamage);
 					break;
 				}
 			}
@@ -303,6 +314,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 				if (getChestIndex != -1)
 				{
 					BodyParts[getChestIndex].HealDamage(healAmt, damageTypeToHeal);
+					HealthBodyPartMessage.SendToAll(gameObject, bodyPartAim,
+						BodyParts[getChestIndex].BruteDamage, BodyParts[getChestIndex].BurnDamage);
 				}
 				else
 				{
@@ -496,6 +509,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	{
 		OverallHealth = overallHealth;
 		ConsciousState = consciousState;
+	//	Logger.Log($"Update stats for {gameObject.name} OverallHealth: {overallHealth} ConsciousState: {consciousState.ToString()}", Category.Health);
 		CheckDeadCritStatus();
 	}
 
@@ -505,6 +519,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
 	{
 		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating);
+	//	Logger.Log($"Update stats for {gameObject.name} isBreathing: {isBreathing} isSuffocating {isSuffocating}", Category.Health);
+
 		CheckDeadCritStatus();
 	}
 
@@ -537,6 +553,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		var bodyPart = FindBodyPart(bodyPartType);
 		if (bodyPart != null)
 		{
+		//	Logger.Log($"Update stats for {gameObject.name} body part {bodyPartType.ToString()} BruteDmg: {bruteDamage} BurnDamage: {burnDamage}", Category.Health);
+
 			bodyPart.UpdateClientBodyPartStat(bruteDamage, burnDamage);
 		}
 	}

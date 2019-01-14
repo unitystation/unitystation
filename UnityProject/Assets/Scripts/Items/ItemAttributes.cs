@@ -78,7 +78,7 @@ public class ItemAttributes : NetworkBehaviour
 	public ItemType type;
 
 	/// throw-related fields
-	[TooltipAttribute("How painful it is when someone throws it at you")]
+	[TooltipAttribute("How painful it is when someone throws it at you")] [Range(0,100)]
 	public float throwDamage = 2;
 	[TooltipAttribute("How many tiles to move per 0.1s when being thrown")]
 	public float throwSpeed = 2;

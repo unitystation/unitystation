@@ -120,12 +120,4 @@ public class BodyPartBehaviour : MonoBehaviour
 		burnDamage = _burnDamage;
 		UpdateSeverity();
 	}
-
-	// --------------------
-	// UPDATES TO CLIENT
-	// --------------------
-	private void UpdateClient()
-	{
-		
-	}
 }

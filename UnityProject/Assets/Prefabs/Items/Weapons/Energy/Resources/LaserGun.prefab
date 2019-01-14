@@ -122,10 +122,10 @@ MonoBehaviour:
   size: 1
   spriteType: 2
   type: 16
-  throwDamage: 2
+  throwDamage: 18
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 10
+  hitDamage: 37
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114209077955755610
@@ -161,7 +161,6 @@ MonoBehaviour:
   FireCountDown: 0
   FireingSound: ShootLaser
   FireRate: 5
-  InAutomaticAction: 0
   MaxRecoilVariance: 0
   Projectile: {fileID: 1553142956179786, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 2}
   ProjectileDamage: 23

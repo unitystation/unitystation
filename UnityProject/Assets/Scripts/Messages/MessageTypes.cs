@@ -48,5 +48,6 @@ internal enum MessageTypes : short
 	TabInteractMessage = 2010,
 	UIInteractMessage = 2011,
 	RequestTileDeconstructMessage = 2012,
-	RequestElectricalStats = 2013
+	RequestElectricalStats = 2013,
+	RequestHealthStats = 2014
 }

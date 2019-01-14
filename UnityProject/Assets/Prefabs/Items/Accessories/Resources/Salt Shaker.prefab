@@ -112,17 +112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  custNetActiveState: 0
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
+  isNotPushable: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114217803941579194
 MonoBehaviour:
@@ -141,13 +134,14 @@ MonoBehaviour:
   inHandReferenceRight: -1
   itemDescription: Shakes salt, or become salty and hit someone.
   itemName: Salt Shaker
+  itemType: 0
   size: 0
   spriteType: 0
   type: 0
-  throwDamage: 2
+  throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 2
+  hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114468507207016222
@@ -216,8 +210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
 --- !u!212 &212084795858203154
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -251,7 +243,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300104, guid: c03626bdc4d64c639b0641916a01692b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

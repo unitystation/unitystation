@@ -73,7 +73,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			playerMove.isGhost ||
 			!victim ||
 			!playerScript.playerNetworkActions.SlotNotEmpty(slot) ||
-			!playerScript.playerHealth.serverPlayerConscious
+			playerScript.playerHealth.IsCrit ||
+			playerScript.playerHealth.IsDead
 		)
 		{
 			return;
