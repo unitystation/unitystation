@@ -36,6 +36,7 @@ public class RequestShootMessage : ClientMessage {
 		}
 
 
+		//TODO: Shouldn't need SentBy
 		yield return WaitFor(SentBy, ShotBy);
 		//get the currently equipped weapon in the player's active hand
 		PlayerNetworkActions pna = NetworkObjects[1].GetComponent<PlayerNetworkActions>();

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Light2D;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
@@ -326,7 +327,8 @@ public class Weapon : PickUpTrigger
 	}
 
 	/// <summary>
-	/// Attempt to fire a single shot of the weapon (this is called once per bullet for a burst of automatic fire)
+	/// Attempt to fire a single shot of the weapon (this is called once per bullet for a burst of automatic fire). This
+	/// should be invoked by the client when they want to perform a shot.
 	/// </summary>
 	/// <param name="isSuicide">if the shot should be a suicide shot, striking the weapon holder</param>
 	/// <returns>true iff something happened</returns>
@@ -367,13 +369,16 @@ public class Weapon : PickUpTrigger
 				{
 					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) -
 					               PlayerManager.LocalPlayer.transform.position).normalized;
-					Logger.Log("Shoot message sent " + CurrentMagazine?.ammoRemains);
 					RequestShootMessage.Send(gameObject, dir, Projectile.name, UIManager.DamageZone, isSuicide,
 						PlayerManager.LocalPlayer);
 					if (!isServer)
 					{
 						//Prediction (client bullets don't do any damage)
-						Shoot(PlayerManager.LocalPlayer, dir, Projectile.name, UIManager.DamageZone, isSuicide);
+						//if we have recoil variance add it, and get the new attack
+						//TODO: Ensure client bullets still don't do any damage
+						//TODO: Handle prediction of recoil
+						dir = ApplyRecoil(dir);
+						Shoot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide);
 					}
 
 					if (WeaponType == WeaponType.FullyAutomatic)
@@ -432,13 +437,19 @@ public class Weapon : PickUpTrigger
 		}
 	}
 
+	/// <summary>
+	/// Perform an actual shot on the server and inform all clients of the shot
+	/// </summary>
+	/// <param name="shotBy">gameobject of the player performing the shot</param>
+	/// <param name="target">targeted spot (actual trajectory will differ due to accuracy)</param>
+	/// <param name="damageZone">targeted body part</param>
+	/// <param name="isSuicideShot">if this is a suicide shot</param>
 	[Server]
-	public void ServerShoot(GameObject shotBy, Vector2 direction,
+	public void ServerShoot(GameObject shotBy, Vector2 target,
 		BodyPartType damageZone, bool isSuicideShot)
 	{
 		//TODO: Left off here, validate the shooting, calculate accuracy but allow client prediction somehow
 
-		Logger.Log("Server shoot " + CurrentMagazine?.ammoRemains);
 		PlayerMove shooter = shotBy.GetComponent<PlayerMove>();
 		if (!shooter.allowInput || shooter.isGhost)
 		{
@@ -447,18 +458,20 @@ public class Weapon : PickUpTrigger
 
 		if (!CanServerShoot()) return;
 
-		Shoot(shotBy, direction, bulletName, damageZone, isSuicideShot);
+		var finalDirection = ApplyRecoil(target);
+		Shoot(shotBy, finalDirection, damageZone, isSuicideShot);
 
 		//This is used to determine where bullet shot should head towards on client
+		//TODO: Also make sure this message cannot be spoofed
 		if (isSuicideShot)
 		{
 			//no need for the bullet to travel if it's a suicide, just have it stay right where it is
-			ShootMessage.SendToAll(gameObject, shotBy.transform.position, bulletName, damageZone, shotBy);
+			ShootMessage.SendToAll(shotBy.transform.position, damageZone, shotBy, isSuicideShot);
 		}
 		else
 		{
-			Ray2D ray = new Ray2D(shotBy.transform.position, direction);
-			ShootMessage.SendToAll(gameObject, ray.GetPoint(30f), bulletName, damageZone, shotBy);
+			Ray2D ray = new Ray2D(shotBy.transform.position, target);
+			ShootMessage.SendToAll(ray.GetPoint(30f), damageZone, shotBy, isSuicideShot);
 		}
 
 		if (SpawnsCaseing)
@@ -473,12 +486,12 @@ public class Weapon : PickUpTrigger
 	}
 
 	/// <summary>
-	/// Validates that the shoot requested by the client is allowed.
+	/// Validates that the shot requested by the client is allowed.
 	/// </summary>
 	/// <returns>true iff the shot can be performed</returns>
 	private bool CanServerShoot()
 	{
-		if (CurrentMagazine == null || CurrentMagazine.ammoRemains <= 0)
+		if (CurrentMagazine == null || CurrentMagazine.ammoRemains <= 0 || Projectile == null)
 		{
 			Logger.LogWarning("A shot was attempted when there is no ammo.");
 			return false;
@@ -491,24 +504,26 @@ public class Weapon : PickUpTrigger
 		//TODO: Validate accuracy / deviation / everything in the shoot message
 		//TODO: Validate damage zone
 
-
+		return true;
 	}
 
-	//This is only for the shooters client and the server. Rest is done via msg
-	private void Shoot(GameObject shooter, Vector2 direction, string bulletName,
+	/// <summary>
+	/// Perform and display the shot locally (i.e. only on this instance of the game). Does not
+	/// communicate anything to other players. Does not do any validation. This should only be invoked
+	/// when displaying the results of a shot (i.e. after receiving a ShootMessage or after this client performs a shot)
+	/// </summary>
+	/// <param name="shooter">gameobject of the shooter</param>
+	/// <param name="finalDirection">direction the shot should travel (accuracy deviation should already be factored into this)</param>
+	/// <param name="damageZone">targeted damage zone</param>
+	/// <param name="isSuicideShot">if this is a suicide shot (aimed at shooter)</param>
+	public void Shoot(GameObject shooter, Vector2 finalDirection,
 		BodyPartType damageZone, bool isSuicideShot)
 	{
 		CurrentMagazine.ammoRemains--;
 		//get the bullet prefab being shot
-		GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(bulletName) as GameObject,
+		GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(Projectile.name) as GameObject,
 			shooter.transform.position, Quaternion.identity);
-		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-		//if we have recoil variance add it, and get the new attack angle
-		if (CurrentRecoilVariance > 0)
-		{
-			direction = GetRecoilOffset(angle);
-		}
+		float angle = Mathf.Atan2(finalDirection.y, finalDirection.x) * Mathf.Rad2Deg;
 
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
 		if (isSuicideShot)
@@ -517,7 +532,7 @@ public class Weapon : PickUpTrigger
 		}
 		else
 		{
-			b.Shoot(direction, angle, shooter, this, damageZone);
+			b.Shoot(finalDirection, angle, shooter, this, damageZone);
 		}
 
 
@@ -624,8 +639,14 @@ public class Weapon : PickUpTrigger
 
 	#region Weapon Network Supporting Methods
 
-	private Vector2 GetRecoilOffset(float angle)
+	/// <summary>
+	/// Applies recoil to calcuate the final direction of the shot
+	/// </summary>
+	/// <param name="target">targeted position</param>
+	/// <returns>final position after applying recoil</returns>
+	private Vector2 ApplyRecoil(Vector2 target)
 	{
+		float angle = Mathf.Atan2(target.y, target.x) * Mathf.Rad2Deg;
 		float angleVariance = Random.Range(-CurrentRecoilVariance, CurrentRecoilVariance);
 		float newAngle = angle * Mathf.Deg2Rad + angleVariance;
 		Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;

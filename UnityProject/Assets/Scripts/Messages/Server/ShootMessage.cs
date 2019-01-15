@@ -2,38 +2,54 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Informs all clients that a shot has been performed so they can display it.
+/// </summary>
 public class ShootMessage : ServerMessage {
 
 	public static short MessageType = (short)MessageTypes.ShootMessage;
 
-	public NetworkInstanceId Weapon;
-	public NetworkInstanceId ShotBy;
+	/// <summary>
+	/// GameObject of the player performing the shot
+	/// </summary>
+	public NetworkInstanceId Shooter;
+	/// <summary>
+	/// Where the shot ends (always originates from ShotBy)
+	/// </summary>
 	public Vector2 EndPos;
-	public string BulletName;
+	/// <summary>
+	/// targeted body part
+	/// </summary>
 	public BodyPartType DamageZone;
+	/// <summary>
+	/// If the shot is aimed at the shooter
+	/// </summary>
+	public bool IsSuicideShot;
 
 	///To be run on client
 	public override IEnumerator Process()
 	{
 		//		Logger.Log("Processed " + ToString());
-		if (ShotBy.Equals(NetworkInstanceId.Invalid) || Weapon.Equals(NetworkInstanceId.Invalid)) {
+		if (Shooter.Equals(NetworkInstanceId.Invalid)) {
 			//Failfast
 			Logger.LogWarning($"Shoot request invalid, processing stopped: {ToString()}", Category.Firearms);
 			yield break;
 		}
 
-		yield return WaitFor(ShotBy, Weapon);
-		Shoot(NetworkObjects[1], NetworkObjects[0]);
+		yield return WaitFor(Shooter);
+		PlayerNetworkActions pna = NetworkObjects[0].GetComponent<PlayerNetworkActions>();
+		Weapon wep = pna.GetActiveHandItem().GetComponent<Weapon>();
+		wep.Shoot(NetworkObjects[0], EndPos, DamageZone, IsSuicideShot);
 	}
 
-	private void Shoot(GameObject weaponGO, GameObject shotByGO){
+	/*
+	private void Shoot(Weapon weapon, GameObject shotByGO){
 		if(shotByGO == PlayerManager.LocalPlayer || CustomNetworkManager.Instance._isServer){
 			return;
 		}
 
-		Weapon wep = weaponGO.GetComponent<Weapon>();
-		if (wep != null) {
-			SoundManager.PlayAtPosition(wep.FireingSound, shotByGO.transform.position);
+		if (weapon != null) {
+			SoundManager.PlayAtPosition(weapon.FireingSound, shotByGO.transform.position);
 		}
 
 		GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(BulletName) as GameObject,
@@ -41,34 +57,24 @@ public class ShootMessage : ServerMessage {
 		Vector2 dir = (EndPos - (Vector2)shotByGO.transform.position).normalized;
 		float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
-		b.Shoot(dir, angle, shotByGO, wep, DamageZone);
-	}
+		b.Shoot(dir, angle, shotByGO, DamageZone);
+	}*/
 
-	//public static ShootMessage Send(GameObject weapon, Vector2 endPos, string bulletName,
-	//									BodyPartType damageZone, GameObject shotBy)
-	//{
-	//	var msg = new ShootMessage {
-
-	//	};
-	//	msg.SendTo(recipient);
-	//	return msg;
-	//}
-
-	/// <param name="transformedObject">object to hide</param>
-	/// <param name="state"></param>
-	/// <param name="forced">
-	///     Used for client simulation, use false if already updated by prediction
-	///     (to avoid updating it twice)
-	/// </param>
-	public static ShootMessage SendToAll(GameObject weapon, Vector2 endPos, string bulletName,
-										   BodyPartType damageZone, GameObject shotBy)
+	/// <summary>
+	/// Tell all clients + server to perform a shot with the specified parameters.
+	/// </summary>
+	/// <param name="endPos">position shot should end (start position will be the shooter)</param>
+	/// <param name="damageZone">body part being targeted</param>
+	/// <param name="shooter">gameobject of player making the shot</param>
+	/// <param name="isSuicide">if the shooter is shooting themselves</param>
+	/// <returns></returns>
+	public static ShootMessage SendToAll(Vector2 endPos, BodyPartType damageZone, GameObject shooter, bool isSuicide)
 	{
 		var msg = new ShootMessage {
-			Weapon = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
 			EndPos = endPos,
-			BulletName = bulletName,
 			DamageZone = damageZone,
-			ShotBy = shotBy ? shotBy.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid
+			Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			IsSuicideShot = isSuicide
 		};
 		msg.SendToAll();
 		return msg;
@@ -82,20 +88,16 @@ public class ShootMessage : ServerMessage {
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Weapon = reader.ReadNetworkId();
 		EndPos = reader.ReadVector2();
-		BulletName = reader.ReadString();
 		DamageZone = (BodyPartType)reader.ReadUInt32();
-		ShotBy = reader.ReadNetworkId();
+		Shooter = reader.ReadNetworkId();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(Weapon);
 		writer.Write(EndPos);
-		writer.Write(BulletName);
 		writer.Write((int)DamageZone);
-		writer.Write(ShotBy);
+		writer.Write(Shooter);
 	}
 }
