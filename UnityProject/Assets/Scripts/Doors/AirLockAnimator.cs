@@ -39,7 +39,7 @@ using UnityEditor;
 				{
 					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + 2, 1));
 				}
-				else 
+				else
 				{
 					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorDeniedSpriteOffset, animSize, true, false, true));
 				}
@@ -57,8 +57,8 @@ using UnityEditor;
 			{
 				StartCoroutine(PlaySimpleLightAnim());
 			}
-			else 
-			{			
+			else
+			{
 				if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
 				{
 					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1));
@@ -69,7 +69,7 @@ using UnityEditor;
 				}
 			}
 			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset));
-			//mabe the boxColliderStuff should be on the DoorController. 
+			//mabe the boxColliderStuff should be on the DoorController.
 			StartCoroutine(MakePassable());
 		}
 
@@ -83,13 +83,13 @@ using UnityEditor;
 			doorController.isPerformingAction = true;
 			doorController.PlayCloseSound();
 			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset + animSize, animSize, false, true, true));
-			
+
 			// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
 			if (doorController.useSimpleLightAnimation)
 			{
 				StartCoroutine(PlaySimpleLightAnim());
 			}
-			else 
+			else
 			{
 				if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
 				{
@@ -103,7 +103,7 @@ using UnityEditor;
 			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6));
 			StartCoroutine(MakeSolid());
 		}
-		
+
 		private IEnumerator MakeSolid() {
 			yield return new WaitForSeconds( 0.15f );
 			doorController.BoxCollToggleOn();
@@ -143,7 +143,7 @@ using UnityEditor;
 				}
 				if (updateAction)
 				{
-					doorController.isPerformingAction = false;
+					doorController.OnAnimationFinished();
 				}
 			}
 			else
@@ -180,7 +180,7 @@ using UnityEditor;
 				else
 				{
 					overlay_Lights.sprite = null;
-					
+
 				}
 				light = !light;
 				yield return new WaitForSeconds(0.05f);

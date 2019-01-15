@@ -617,19 +617,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	[Server]
 	public void SetConsciousState(bool conscious)
-	{
-		//Store the server conscious state for this player:
-		playerScript.playerHealth.serverPlayerConscious = conscious;
-
+	{	
 		if (conscious)
 		{
 			playerMove.allowInput = true;
-			playerSprites.RpcSetPlayerRot(0f);
+			gameObject.GetComponent<ForceRotation>().Rotation = new Vector3(0, 0, 0);
 		}
 		else
 		{
 			playerMove.allowInput = false;
-			playerSprites.RpcSetPlayerRot(-90f);
+			gameObject.GetComponent<ForceRotation>().Rotation = new Vector3(0, 0, -90);
 			soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
 			if (Random.value > 0.5f)
 			{

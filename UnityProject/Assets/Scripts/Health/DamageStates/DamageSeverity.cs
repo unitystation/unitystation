@@ -4,9 +4,9 @@
 /// </summary>
 public enum DamageSeverity
 {
-	None,
-	Moderate,
-	Bad,
-	Critical,
-	Max
+	None = 0,
+	Moderate = 25,
+	Bad = 50,
+	Critical = 75,
+	Max = 100
 }
