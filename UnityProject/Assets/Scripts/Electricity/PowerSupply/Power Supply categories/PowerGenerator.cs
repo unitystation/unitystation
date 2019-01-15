@@ -80,7 +80,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 
 		if (startWithPlasma)
 		{
-			plasmaFuel.Add(new SolidPlasma());
+			//plasmaFuel.Add(new SolidPlasma());
 		}
 		powerSupply.InData.ControllingUpdate = powerSupply;
 		if (startAsOn) {
