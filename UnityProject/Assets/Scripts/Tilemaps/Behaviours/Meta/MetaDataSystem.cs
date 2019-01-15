@@ -18,6 +18,19 @@ public class MetaDataSystem : SubsystemBehaviour
 		externalNodes = new HashSet<MetaDataNode>();
 	}
 
+	void OnEnable()
+	{
+		UpdateManager.Instance.Add(UpdateMe);
+	}
+
+	void OnDisable()
+	{
+		if (UpdateManager.Instance != null)
+		{
+			UpdateManager.Instance.Remove(UpdateMe);
+		}
+	}
+
 	public override void Initialize()
 	{
 		Stopwatch sw = new Stopwatch();
@@ -177,7 +190,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		}
 	}
 
-	private void Update()
+	void UpdateMe()
 	{
 		foreach (MetaDataNode node in externalNodes)
 		{

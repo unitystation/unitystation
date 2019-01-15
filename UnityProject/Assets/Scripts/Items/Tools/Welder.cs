@@ -113,7 +113,8 @@ public class Welder : NetworkBehaviour
 			itemAtts.inHandReferenceLeft = leftHandOriginal;
 			itemAtts.inHandReferenceRight = rightHandOriginal;
 			isBurning = false;
-			if (coBurnFuel != null) {
+			if (coBurnFuel != null)
+			{
 				StopCoroutine(coBurnFuel);
 				coBurnFuel = null;
 			}
@@ -151,7 +152,7 @@ public class Welder : NetworkBehaviour
 	IEnumerator BurnFuel()
 	{
 		int spriteIndex = 0;
-		int serverFuelCheck = (int) serverFuelAmt;
+		int serverFuelCheck = (int)serverFuelAmt;
 		while (isBurning)
 		{
 			//Flame animation:
@@ -168,9 +169,9 @@ public class Welder : NetworkBehaviour
 				serverFuelAmt -= 0.041f;
 
 				//This is so that the syncvar isn't being updated every DeciSecond:
-				if ((int) serverFuelAmt != serverFuelCheck)
+				if ((int)serverFuelAmt != serverFuelCheck)
 				{
-					serverFuelCheck = (int) serverFuelAmt;
+					serverFuelCheck = (int)serverFuelAmt;
 					clientFuelAmt = serverFuelAmt;
 				}
 
@@ -182,7 +183,11 @@ public class Welder : NetworkBehaviour
 					UpdateState(false);
 				}
 
-				Vector3Int position = heldByPlayer.transform.localPosition.RoundToInt();
+				Vector3Int position = transform.localPosition.RoundToInt();
+				if (heldByPlayer != null)
+				{
+					heldByPlayer.transform.localPosition.RoundToInt();
+				}
 
 				reactionManager.ExposeHotspot(position, 700, 0.005f);
 			}

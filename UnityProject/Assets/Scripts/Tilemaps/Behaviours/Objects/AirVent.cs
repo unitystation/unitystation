@@ -15,13 +15,26 @@ namespace Tilemaps.Behaviours.Objects
 			subsystemManager = GetComponentInParent<SubsystemManager>();
 		}
 
+		void OnEnable()
+		{
+			UpdateManager.Instance.Add(UpdateMe);
+		}
+
+		void OnDisable()
+		{
+			if (UpdateManager.Instance != null)
+			{
+				UpdateManager.Instance.Remove(UpdateMe);
+			}
+		}
+
 		private void Start()
 		{
 			MetaDataLayer metaDataLayer = GetComponentInParent<MetaDataLayer>();
 			metaNode = metaDataLayer.Get(transform.localPosition.RoundToInt());
 		}
 
-		private void Update()
+		void UpdateMe()
 		{
 			if (isServer)
 			{

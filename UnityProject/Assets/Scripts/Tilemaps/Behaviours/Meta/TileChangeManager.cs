@@ -12,7 +12,7 @@ public class TileChangeManager : NetworkBehaviour
 
 	private void Awake()
 	{
-		metaTileMap = GetComponent<MetaTileMap>();
+		metaTileMap = GetComponentInChildren<MetaTileMap>();
 	}
 
 	[Server]

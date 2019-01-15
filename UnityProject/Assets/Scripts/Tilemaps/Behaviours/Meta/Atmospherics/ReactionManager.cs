@@ -15,7 +15,7 @@ public class ReactionManager : MonoBehaviour
 
 	private void Awake()
 	{
-		tileChangeManager = GetComponent<TileChangeManager>();
+		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		metaDataLayer = GetComponent<MetaDataLayer>();
 
 		hotspots = new Dictionary<Vector3Int, MetaDataNode>();
