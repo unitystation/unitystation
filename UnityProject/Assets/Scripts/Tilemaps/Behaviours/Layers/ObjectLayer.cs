@@ -37,7 +37,7 @@ using UnityEngine;
 			return Objects.Get(position).Count > 0 || base.HasTile(position);
 		}
 
-		public override void RemoveTile(Vector3Int position)
+		public override void RemoveTile(Vector3Int position, bool removeAll=false)
 		{
 			List<RegisterTile> objs = Objects.Get(position);
 			for ( var i = 0; i < objs.Count; i++ ) {
@@ -45,7 +45,7 @@ using UnityEngine;
 				DestroyImmediate( obj.gameObject );
 			}
 
-			base.RemoveTile(position);
+			base.RemoveTile(position, removeAll);
 		}
 
 		public override bool IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true, GameObject context = null )
@@ -53,7 +53,7 @@ using UnityEngine;
 			//Targeting windoors here
 			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
 			for ( var i = 0; i < objectsOrigin.Count; i++ ) {
-				if ( !objectsOrigin[i].IsPassableTo( to ) && ( !context || objectsOrigin[i].gameObject != context ) ) {
+				if ( !objectsOrigin[i].IsPassableTo( to ) ) {
 					//Can't get outside the tile because windoor doesn't allow us
 					return false;
 				}
