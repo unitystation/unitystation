@@ -76,11 +76,11 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.HighVoltageCable] = PIRHigh;
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PIRMedium;
 
-	
+
 
 		if (startWithPlasma)
 		{
-			//plasmaFuel.Add(new SolidPlasma());
+			plasmaFuel.Add(new SolidPlasma());
 		}
 		powerSupply.InData.ControllingUpdate = powerSupply;
 		if (startAsOn) {

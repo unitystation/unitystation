@@ -53,7 +53,7 @@ using UnityEngine;
 			//Targeting windoors here
 			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
 			for ( var i = 0; i < objectsOrigin.Count; i++ ) {
-				if ( !objectsOrigin[i].IsPassableTo( to ) ) {
+				if ( !objectsOrigin[i].IsPassableTo( to ) && ( !context || objectsOrigin[i].gameObject != context ) ) {
 					//Can't get outside the tile because windoor doesn't allow us
 					return false;
 				}
