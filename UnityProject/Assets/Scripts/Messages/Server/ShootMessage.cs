@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Informs all clients that a shot has been performed so they can display it.
+/// Informs all clients that a shot has been performed so they can display it (but they needn't
+/// perform any damage calculation, this is just displaying the shot that the server has already validated).
 /// </summary>
 public class ShootMessage : ServerMessage {
 
@@ -13,6 +14,10 @@ public class ShootMessage : ServerMessage {
 	/// GameObject of the player performing the shot
 	/// </summary>
 	public NetworkInstanceId Shooter;
+	/// <summary>
+	/// Weapon being used to perform the shot
+	/// </summary>
+	public NetworkInstanceId Weapon;
 	/// <summary>
 	/// Where the shot ends (always originates from ShotBy)
 	/// </summary>
@@ -36,10 +41,13 @@ public class ShootMessage : ServerMessage {
 			yield break;
 		}
 
-		yield return WaitFor(Shooter);
-		PlayerNetworkActions pna = NetworkObjects[0].GetComponent<PlayerNetworkActions>();
-		Weapon wep = pna.GetActiveHandItem().GetComponent<Weapon>();
-		wep.Shoot(NetworkObjects[0], EndPos, DamageZone, IsSuicideShot);
+		yield return WaitFor(Shooter, Weapon);
+		Weapon wep = NetworkObjects[1].GetComponent<Weapon>();
+		//only needs to run on the clients other than the shooter
+		if (!wep.isServer && PlayerManager.LocalPlayer.gameObject !=  NetworkObjects[0])
+		{
+			wep.DisplayShot(NetworkObjects[0], EndPos, DamageZone, IsSuicideShot);
+		}
 	}
 
 	/*
@@ -68,9 +76,10 @@ public class ShootMessage : ServerMessage {
 	/// <param name="shooter">gameobject of player making the shot</param>
 	/// <param name="isSuicide">if the shooter is shooting themselves</param>
 	/// <returns></returns>
-	public static ShootMessage SendToAll(Vector2 endPos, BodyPartType damageZone, GameObject shooter, bool isSuicide)
+	public static ShootMessage SendToAll(Vector2 endPos, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide)
 	{
 		var msg = new ShootMessage {
+			Weapon = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
 			EndPos = endPos,
 			DamageZone = damageZone,
 			Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
@@ -88,6 +97,7 @@ public class ShootMessage : ServerMessage {
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
+		Weapon = reader.ReadNetworkId();
 		EndPos = reader.ReadVector2();
 		DamageZone = (BodyPartType)reader.ReadUInt32();
 		Shooter = reader.ReadNetworkId();
@@ -96,6 +106,7 @@ public class ShootMessage : ServerMessage {
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
+		writer.Write(Weapon);
 		writer.Write(EndPos);
 		writer.Write((int)DamageZone);
 		writer.Write(Shooter);
