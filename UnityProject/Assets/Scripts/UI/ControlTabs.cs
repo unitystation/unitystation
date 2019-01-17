@@ -410,7 +410,7 @@ public class ControlTabs : MonoBehaviour
 		bool isPopOut = false;
 
 		//Add the popout types here:
-		if (type == NetTabType.Paper)
+		if ((type == NetTabType.Paper) || (type == NetTabType.ChemistryDispenser))
 		{
 			isPopOut = true;
 		}

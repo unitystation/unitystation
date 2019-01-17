@@ -26,7 +26,10 @@ public class Rightclick : MonoBehaviour {
 		["Details"] = 5,["Turn on/Turn off"] = 6,
 		["Toggle Charge"] = 7,
 		["Toggle Support"] = 8,
-		["Unknown"] = 9,
+		["Add to"] = 9,
+		["Pour out"] = 10,
+		["Contents"] = 11,
+		["Unknown"] = 12,
 	};
 
 	public Dictionary<string, Func<bool>> CheckDictionary = new Dictionary<string, Func<bool>>(){
@@ -67,6 +70,11 @@ public class Rightclick : MonoBehaviour {
 		SpriteDictionary ["Power_Button"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Power_Button");
 		SpriteDictionary ["TestBG"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "TestBG");
 		SpriteDictionary ["Circle"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Circle");
+
+		SpriteDictionary ["Science_flask"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Science_flask");
+		SpriteDictionary ["Pour_into"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Pour_into");
+		SpriteDictionary ["Pour_away"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Pour_away");
+		SpriteDictionary ["Spill"] = Resources.Load<Sprite> ("UI/RightClickButtonIcon/" + "Spill");
 
 		ColourDictionary [InterColour.Default] = "#BEBEBE";
 		ColourDictionary [InterColour.Test] = "#4cffeb";
