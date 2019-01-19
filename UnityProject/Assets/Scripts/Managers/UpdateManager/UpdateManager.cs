@@ -30,9 +30,20 @@ public class UpdateManager : MonoBehaviour
 
 	public void Add(ManagedNetworkBehaviour updatable)
 	{
-		UpdateMe += updatable.UpdateMe;
-		FixedUpdateMe += updatable.FixedUpdateMe;
-		LateUpdateMe += updatable.LateUpdateMe;
+		if (updatable.GetType().GetMethod(nameof(ManagedNetworkBehaviour.UpdateMe))?.DeclaringType == updatable.GetType())
+		{
+			UpdateMe += updatable.UpdateMe;
+		}
+
+		if (updatable.GetType().GetMethod(nameof(ManagedNetworkBehaviour.FixedUpdateMe))?.DeclaringType == updatable.GetType())
+		{
+			FixedUpdateMe += updatable.FixedUpdateMe;
+		}
+
+		if (updatable.GetType().GetMethod(nameof(ManagedNetworkBehaviour.LateUpdateMe))?.DeclaringType == updatable.GetType())
+		{
+			LateUpdateMe += updatable.LateUpdateMe;
+		}
 	}
 
 	public void Add(Action updatable)
@@ -66,7 +77,7 @@ public class UpdateManager : MonoBehaviour
 	{
 		Reset();
 	}
-	
+
 	private void Reset()
 	{
 		UpdateMe = null;
