@@ -86,7 +86,7 @@ public class MetaDataSystem : SubsystemBehaviour
 
 			SetupNeighbors(node);
 		}
-		else if (!metaTileMap.IsSpaceAt(position) && !metaDataLayer.IsRoomAt(position))
+		else if (!metaTileMap.IsSpaceAt(position) && !metaDataLayer.IsRoomAt(position) && !metaDataLayer.IsSpaceAt(position))
 		{
 			CreateRoom(position);
 		}
@@ -118,7 +118,11 @@ public class MetaDataSystem : SubsystemBehaviour
 							isSpace = true;
 						}
 					}
-					else if (metaTileMap.IsAtmosPassableAt(position))
+					else if (metaDataLayer.IsSpaceAt(neighbor))
+					{
+						isSpace = true;
+					}
+					else if (metaTileMap.IsAtmosPassableAt(neighbor))
 					{
 						if (!roomPositions.Contains(neighbor) && !freePositions.Contains(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
 						{
@@ -129,21 +133,18 @@ public class MetaDataSystem : SubsystemBehaviour
 			}
 		}
 
-		if (!isSpace)
-		{
-			AssignRoom(roomPositions);
-		}
+		AssignType(roomPositions, isSpace ? NodeType.Space : NodeType.Room);
 
 		SetupNeighbors(roomPositions);
 	}
 
-	private void AssignRoom(IEnumerable<Vector3Int> positions)
+	private void AssignType(IEnumerable<Vector3Int> positions, NodeType nodeType)
 	{
 		foreach (Vector3Int position in positions)
 		{
 			MetaDataNode node = metaDataLayer.Get(position);
 
-			node.Type = NodeType.Room;
+			node.Type = nodeType;
 		}
 	}
 
@@ -157,6 +158,8 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void SetupNeighbors(MetaDataNode node)
 	{
+		node.tempCount++;
+
 		foreach (Vector3Int neighbor in MetaUtils.GetNeighbors(node.Position))
 		{
 			if (metaTileMap.IsSpaceAt(neighbor))

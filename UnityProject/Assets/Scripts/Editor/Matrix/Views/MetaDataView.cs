@@ -15,7 +15,8 @@ public class MetaDataView : BasicView
 		localChecks.Add(new TemperatureCheck());
 		localChecks.Add(new MolesCheck());
 		localChecks.Add(new ExistCheck());
-		localChecks.Add(new WallCheck());
+		localChecks.Add(new OccupiedCheck());
+		localChecks.Add(new SpaceCheck());
 		localChecks.Add(new NeighborCheck());
 		localChecks.Add(new SpaceConnectCheck());
 		localChecks.Add(new HotspotCheck());
@@ -51,6 +52,19 @@ public class MetaDataView : BasicView
 		}
 	}
 
+	private class SpaceCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Space";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			if (source.IsSpaceAt(position))
+			{
+				GizmoUtils.DrawCube(position, Color.red);
+			}
+		}
+	}
+
 	private class ExistCheck : Check<MetaDataLayer>
 	{
 		public override string Label { get; } = "Exists";
@@ -64,9 +78,9 @@ public class MetaDataView : BasicView
 		}
 	}
 
-	private class WallCheck : Check<MetaDataLayer>
+	private class OccupiedCheck : Check<MetaDataLayer>
 	{
-		public override string Label { get; } = "Wall";
+		public override string Label { get; } = "Occupied";
 
 		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
 		{

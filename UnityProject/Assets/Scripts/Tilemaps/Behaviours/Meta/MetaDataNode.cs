@@ -6,6 +6,7 @@ using UnityEngine;
 
 public enum NodeType
 {
+	None,
 	Space,
 	Room,
 	Occupied
@@ -27,6 +28,8 @@ public class MetaDataNode
 	public Hotspot Hotspot;
 
 	public int Damage;
+
+	public int tempCount; // Debugging
 
 	public MetaDataNode(Vector3Int position)
 	{
