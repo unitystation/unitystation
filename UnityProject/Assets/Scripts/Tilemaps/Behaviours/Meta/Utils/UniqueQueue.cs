@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Tilemaps.Behaviours.Meta
 {
@@ -14,11 +15,16 @@ namespace Tilemaps.Behaviours.Meta
 			queue = new ConcurrentQueue<T>();
 		}
 
-		public int Count => hashSet.Count;
+		public int Count => queue.Count;
+
+		public bool IsEmpty => queue.IsEmpty;
 
 		public bool Contains(T item)
 		{
-			return hashSet.Contains(item);
+			lock (hashSet)
+			{
+				return hashSet.Contains(item);
+			}
 		}
 
 		public void Enqueue(T item)
@@ -32,11 +38,11 @@ namespace Tilemaps.Behaviours.Meta
 			}
 		}
 
-		public void EnqueueAll(IEnumerable<T> elements)
+		public void EnqueueAll(List<T> elements)
 		{
-			foreach (T e in elements)
+			for (int i = 0; i < elements.Count; i++)
 			{
-				Enqueue(e);
+				Enqueue(elements[i]);
 			}
 		}
 
@@ -71,7 +77,5 @@ namespace Tilemaps.Behaviours.Meta
 		{
 			return queue.GetEnumerator();
 		}
-
-		public bool IsEmpty => queue.IsEmpty;
 	}
 }
