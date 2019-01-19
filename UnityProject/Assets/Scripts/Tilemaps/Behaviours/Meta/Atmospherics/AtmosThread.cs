@@ -4,22 +4,23 @@ using Atmospherics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
-public class AtmosThread
+public static class AtmosThread
 {
-	private bool running = true;
+	private static bool running = true;
 
-	private Object lockGetWork = new Object();
+	private static Object lockGetWork = new Object();
 
-	private AtmosSimulation simulation;
+	private static AtmosSimulation simulation;
 
-	public AtmosThread(MetaDataLayer metaDataLayer)
+	static AtmosThread()
 	{
-		simulation = new AtmosSimulation(metaDataLayer);
+		simulation = new AtmosSimulation();
+		new Thread(Run).Start();
 	}
 
-	public void Enqueue(Vector3Int position)
+	public static void Enqueue(MetaDataNode node)
 	{
-		simulation.AddToUpdateList(position);
+		simulation.AddToUpdateList(node);
 
 		lock (lockGetWork)
 		{
@@ -27,7 +28,7 @@ public class AtmosThread
 		}
 	}
 
-	public void Run()
+	public static void Run()
 	{
 		while (running)
 		{
@@ -45,7 +46,7 @@ public class AtmosThread
 		}
 	}
 
-	public void Stop()
+	public static void Stop()
 	{
 		running = false;
 
@@ -55,12 +56,12 @@ public class AtmosThread
 		}
 	}
 
-	public void SetSpeed(float speed)
+	public static void SetSpeed(float speed)
 	{
 		simulation.Speed = speed;
 	}
 
-	public int GetUpdateListCount()
+	public static int GetUpdateListCount()
 	{
 		return simulation.UpdateListCount;
 	}

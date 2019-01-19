@@ -7,23 +7,17 @@ namespace Atmospherics
 	{
 		public float Speed = 0.1f;
 
-		public bool IsIdle => updateList.IsEmpty;
-		public int UpdateListCount => updateList.Count;
-
-		private readonly MetaDataLayer metaDataLayer;
-
 		private float factor;
 		private MetaDataNode[] nodes = new MetaDataNode[5];
 		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
 
-		public AtmosSimulation(MetaDataLayer metaDataLayer)
-		{
-			this.metaDataLayer = metaDataLayer;
-		}
+		public bool IsIdle => updateList.IsEmpty;
 
-		public void AddToUpdateList(Vector3Int position)
+		public int UpdateListCount => updateList.Count;
+
+		public void AddToUpdateList(MetaDataNode node)
 		{
-			updateList.Enqueue(metaDataLayer.Get(position));
+			updateList.Enqueue(node);
 		}
 
 		public void Run()
@@ -53,9 +47,7 @@ namespace Atmospherics
 				nodes[1 + i] = neighbors[i];
 			}
 
-			bool pressureChanged = AtmosUtils.IsPressureChanged(node);
-
-			if (node.IsOccupied || node.IsSpace || pressureChanged)
+			if (node.IsOccupied || node.IsSpace || AtmosUtils.IsPressureChanged(node))
 			{
 				Equalize(1 + neighbors.Length);
 

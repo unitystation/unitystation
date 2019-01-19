@@ -9,7 +9,7 @@ public class AtmosSystemEditor : Editor
 
 		atmosSystem.Speed = EditorGUILayout.Slider("Speed", atmosSystem.Speed, 0.01f, 1f);
 
-		EditorGUILayout.LabelField("Update List Count", atmosSystem.GetUpdateListCount().ToString());
+		EditorGUILayout.LabelField("Update List Count", AtmosThread.GetUpdateListCount().ToString());
 
 		EditorUtility.SetDirty(atmosSystem);
 	}
