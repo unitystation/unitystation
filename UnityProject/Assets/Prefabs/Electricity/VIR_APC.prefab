@@ -74,7 +74,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1638130848907210}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9, y: -30, z: 0}
+  m_LocalPosition: {x: 61, y: 51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4481455739432992}
@@ -89,7 +89,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1795295551953532}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4205639279356858}
@@ -102,7 +102,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1670300920953744}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4205639279356858}
@@ -220,13 +220,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poweredDevice: {fileID: 114443595102844496}
-  redSprites:
+  ApplianceType: 0
+  criticalSprites:
   - {fileID: 21300276, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300278, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300280, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300282, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300284, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
-  blueSprites:
+  chargingSprites:
   - {fileID: 21300286, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300288, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300290, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
@@ -234,16 +235,11 @@ MonoBehaviour:
   - {fileID: 21300294, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300296, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300298, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
-  greenSprites:
+  fullSprites:
   - {fileID: 21300300, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300302, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
-  deadSprite: {fileID: 21300304, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   screenDisplay: {fileID: 212786810316391690}
   ListOfEmergencyLights: []
-  Voltage: 0
-  Resistance: 240
-  PreviousResistance: 240
-  ApplianceType: 0
 --- !u!114 &114795609584507792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -339,7 +335,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300276, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  m_Sprite: {fileID: 21300300, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

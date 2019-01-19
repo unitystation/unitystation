@@ -4,13 +4,5 @@ using UnityEngine;
 
 public class APCInteract : NetworkTabTrigger
 {
-	private APC apc;
-	void Start ()
-	{
-		apc = gameObject.GetComponent<APC>();
-		if (apc == null)
-		{
-			Logger.LogError("Unable to find APC component!", Category.Electrical);
-		}
-	}
+	// Only need this because NetworkTabTrigger is an abstract class
 }
