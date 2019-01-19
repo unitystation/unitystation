@@ -562,16 +562,7 @@ public class Weapon : PickUpTrigger
 			DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide);
 
 			//tell all the clients to display the shot
-			if (nextShot.isSuicide)
-			{
-				//no need for the bullet to travel if it's a suicide, just have it stay right where it is
-				ShootMessage.SendToAll(nextShot.shooter.transform.position, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide);
-			}
-			else
-			{
-				Ray2D ray = new Ray2D(nextShot.shooter.transform.position, nextShot.finalDirection);
-				ShootMessage.SendToAll(ray.GetPoint(30f), nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide);
-			}
+			ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide);
 
 			if (SpawnsCaseing)
 			{
@@ -616,6 +607,7 @@ public class Weapon : PickUpTrigger
 		{
 			b.Shoot(finalDirection, angle, shooter, this, damageZone);
 		}
+
 
 		//add additional recoil after shooting for the next round
 		AppendRecoil(angle);
