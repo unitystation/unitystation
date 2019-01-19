@@ -401,6 +401,11 @@ public class Weapon : PickUpTrigger
 	/// <returns>true iff something happened</returns>
 	private bool AttemptToFireWeapon(bool isSuicide)
 	{
+		PlayerMove shooter = ClientScene.FindLocalObject(ControlledByPlayer).GetComponent<PlayerMove>();
+		if (!shooter.allowInput || shooter.isGhost)
+		{
+			return false;
+		}
 		//suicide is not allowed in some cases.
 		isSuicide = isSuicide && AllowSuicide;
 		//ignore if we are hovering over UI
@@ -519,8 +524,14 @@ public class Weapon : PickUpTrigger
 		BodyPartType damageZone, bool isSuicideShot)
 	{
 		var finalDirection = ApplyRecoil(target);
+		//don't enqueue the shot if the player is no longer able to shoot
+		PlayerMove shooter = shotBy.GetComponent<PlayerMove>();
+		if (!shooter.allowInput || shooter.isGhost)
+		{
+			return;
+		}
 		//simply enqueue the shot
-		//only enqueue the shot if we have not yet queued up all the shots in the magazine
+		//but only enqueue the shot if we have not yet queued up all the shots in the magazine
 		if (CurrentMagazine != null && queuedShots.Count < CurrentMagazine.ammoRemains)
 		{
 			queuedShots.Enqueue(new QueuedShot(shotBy, finalDirection, damageZone, isSuicideShot));
@@ -539,13 +550,15 @@ public class Weapon : PickUpTrigger
 		{
 			QueuedShot nextShot = queuedShots.Dequeue();
 
+			// check if we can still shoot
 			PlayerMove shooter = nextShot.shooter.GetComponent<PlayerMove>();
 			if (!shooter.allowInput || shooter.isGhost)
 			{
+				Logger.LogWarning("A shot was attempted when shooter is a ghost or is not allowed to shoot.");
 				return;
 			}
 
-			// check if we can shoot
+
 			if (CurrentMagazine == null || CurrentMagazine.ammoRemains <= 0 || Projectile == null)
 			{
 				Logger.LogWarning("A shot was attempted when there is no ammo.");
