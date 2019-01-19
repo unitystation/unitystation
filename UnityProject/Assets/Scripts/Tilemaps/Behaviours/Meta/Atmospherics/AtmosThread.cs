@@ -28,24 +28,6 @@ public static class AtmosThread
 		}
 	}
 
-	public static void Run()
-	{
-		while (running)
-		{
-			if (!simulation.IsIdle)
-			{
-				simulation.Run();
-			}
-			else
-			{
-				lock (lockGetWork)
-				{
-					Monitor.Wait(lockGetWork);
-				}
-			}
-		}
-	}
-
 	public static void Stop()
 	{
 		running = false;
@@ -64,5 +46,23 @@ public static class AtmosThread
 	public static int GetUpdateListCount()
 	{
 		return simulation.UpdateListCount;
+	}
+
+	private static void Run()
+	{
+		while (running)
+		{
+			if (!simulation.IsIdle)
+			{
+				simulation.Run();
+			}
+			else
+			{
+				lock (lockGetWork)
+				{
+					Monitor.Wait(lockGetWork);
+				}
+			}
+		}
 	}
 }
