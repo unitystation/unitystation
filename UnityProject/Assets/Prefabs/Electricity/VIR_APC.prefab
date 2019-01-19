@@ -239,7 +239,7 @@ MonoBehaviour:
   - {fileID: 21300300, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300302, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   screenDisplay: {fileID: 212786810316391690}
-  ListOfEmergencyLights: []
+  ConnectedEmergencyLights: []
 --- !u!114 &114795609584507792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0338d4c39249f1747a704b2c5081376d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 5
+  NetTabType: 6
 --- !u!114 &114809207030236184
 MonoBehaviour:
   m_ObjectHideFlags: 1
