@@ -44,7 +44,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	{
 		Weapon w = weapon.GetComponent<Weapon>();
 		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
-		w.MagNetID = networkID;
+		w.ServerHandleReloadRequest(networkID);
 		GetComponent<PlayerNetworkActions>().ClearInventorySlot(hand);
 	}
 
@@ -61,8 +61,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			Logger.Log("Magazine not found for unload weapon", Category.Firearms);
 		}
 
-		NetworkInstanceId networkID = NetworkInstanceId.Invalid;
-		w.MagNetID = networkID;
+		w.ServerHandleUnloadRequest();
 	}
 
 	[Command]
