@@ -132,8 +132,14 @@ public class RadarList : NetUIDynamicList {
 		
 		return true;
 	}
-	//todo RemoveTrackedObject(s)
-	
+
+	public override void Clear()
+	{
+		OutOfRangeEntries.Clear();
+		ToRestore.Clear();
+		base.Clear();
+	}
+
 	/// Send updates about just one tracked object (intended for waypoint pin)
 	/// <param name="trackedObject"></param>
 	public void UpdateExclusive(GameObject trackedObject) {
