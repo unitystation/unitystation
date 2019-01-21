@@ -12,18 +12,31 @@ public class MetaTileMap : MonoBehaviour
 	//Lists for speed
 	private List<LayerType> LayersKeys { get; set; }
 	private List<Layer> LayersValues { get; set; }
+	/// <summary>
+	/// List of layers that can definitely contain solid stuff
+	/// </summary>
+	private List<Layer> SolidLayersValues { get; set; }
 
 	private void OnEnable()
 	{
 		Layers = new Dictionary<LayerType, Layer>();
 		LayersKeys = new List<LayerType>();
 		LayersValues = new List<Layer>();
+		SolidLayersValues = new List<Layer>();
 
 		foreach (Layer layer in GetComponentsInChildren<Layer>(true))
 		{
-			Layers[layer.LayerType] = layer;
-			LayersKeys.Add(layer.LayerType);
+			var type = layer.LayerType;
+			Layers[type] = layer;
+			LayersKeys.Add(type);
 			LayersValues.Add(layer);
+			if ( type != LayerType.Effects
+			  && type != LayerType.Base
+			  && type != LayerType.Floors
+			  && type != LayerType.None)
+			{
+				SolidLayersValues.Add(layer);
+			}
 		}
 	}
 
@@ -43,9 +56,9 @@ public class MetaTileMap : MonoBehaviour
 
 	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool inclPlayers = true, GameObject context = null)
 	{
-		for (var i = 0; i < LayersValues.Count; i++)
+		for (var i = 0; i < SolidLayersValues.Count; i++)
 		{
-			if (!LayersValues[i].IsPassableAt(origin, to, inclPlayers, context))
+			if (!SolidLayersValues[i].IsPassableAt(origin, to, inclPlayers, context))
 			{
 				return false;
 			}

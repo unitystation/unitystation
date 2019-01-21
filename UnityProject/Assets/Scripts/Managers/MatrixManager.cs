@@ -313,7 +313,8 @@ public class MatrixManager : MonoBehaviour
 	/// Get MatrixInfo by matrix id
 	public static MatrixInfo Get(int id)
 	{
-		return getInternal(mat => mat.Id == id);
+		return Instance.activeMatrices[id];
+		//return getInternal(mat => mat.Id == id);
 	}
 
 	/// Get MatrixInfo by gameObject containing Matrix component
