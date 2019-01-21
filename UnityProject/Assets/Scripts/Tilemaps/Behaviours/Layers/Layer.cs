@@ -45,17 +45,17 @@ using UnityEngine.Tilemaps;
 
 		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool inclPlayers = true, GameObject context = null )
 		{
-			return tilemap.GetTile<BasicTile>(to).IsPassable();
+			return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsPassable();
 		}
 
 		public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to)
 		{
-			return tilemap.GetTile<BasicTile>(to).IsAtmosPassable();
+			return TileUtils.IsAtmosPassable(tilemap.GetTile<BasicTile>(to));
 		}
 
 		public virtual bool IsSpaceAt(Vector3Int position)
 		{
-			return tilemap.GetTile<BasicTile>(position).IsSpace();
+			return TileUtils.IsSpace(tilemap.GetTile<BasicTile>(position));
 		}
 
 		public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)

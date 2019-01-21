@@ -125,6 +125,7 @@ public partial class CustomNetTransform {
 	}
 
 	public bool PredictivePush( Vector2Int target, float speed = Single.NaN, bool followMode = false ) {
+		Poke();
 		Vector3Int target3int = target.To3Int();
 
 		Vector3Int currentPos = ClientPosition;
@@ -158,17 +159,23 @@ public partial class CustomNetTransform {
 		StopFloating();
 	}
 
+	/// <summary>
 	/// Predictive client movement
 	/// Mimics server collision checks for obviously impassable things.
 	/// That prevents objects going through walls if server doesn't respond in time
-	private void CheckFloatingClient() {
-		CheckFloatingClient(TransformState.HiddenPos);
+	/// </summary>
+	/// <returns>true if transform has changed</returns>
+	private bool CheckFloatingClient() {
+		return CheckFloatingClient(TransformState.HiddenPos);
 	}
-	private void CheckFloatingClient(Vector3 goal) {
-		if ( !IsFloatingClient ) {
-			return;
-		}
+	/// <summary>
+	/// internal method, called recursively if more than one tile has passed within one frame
+	/// </summary>
+	private bool CheckFloatingClient(Vector3 goal) {
 		bool isRecursive = goal != TransformState.HiddenPos;
+		if ( !IsFloatingClient ) {
+			return isRecursive;
+		}
 		Vector3 worldPos = predictedState.WorldPosition;
 		Vector3Int intOrigin = Vector3Int.RoundToInt( worldPos );
 
@@ -205,6 +212,8 @@ public partial class CustomNetTransform {
 		if ( distance > 1 ) {
 			CheckFloatingClient(isRecursive ? goal : newGoal);
 		}
+
+		return true;
 	}
 
 	/// Clientside lerping (transform to clientState position)
@@ -305,17 +314,23 @@ public partial class CustomNetTransform {
 		NotifyPlayers();
 	}
 
+	/// <summary>
 	/// Server movement checks
+	/// </summary>
+	/// <returns>true if transform has changed</returns>
 	[Server]
-	private void CheckFloatingServer() {
-		CheckFloatingServer(TransformState.HiddenPos);
+	private bool CheckFloatingServer() {
+		return CheckFloatingServer(TransformState.HiddenPos);
 	}
+	/// <summary>
+	/// internal method, called recursively if more than one tile has passed within one frame
+	/// </summary>
 	[Server]
-	private void CheckFloatingServer(Vector3 goal) {
-		if ( !IsFloatingServer || matrix == null ) {
-			return;
-		}
+	private bool CheckFloatingServer(Vector3 goal) {
 		bool isRecursive = goal != TransformState.HiddenPos;
+		if ( !IsFloatingServer || matrix == null ) {
+			return isRecursive;
+		}
 
 		Vector3 worldPosition = serverState.WorldPosition;
 		Vector3 moveDelta;
@@ -348,6 +363,8 @@ public partial class CustomNetTransform {
 		if ( distance > 1 ) {
 			CheckFloatingServer(isRecursive ? goal : newGoal);
 		}
+
+		return true;
 	}
 
 	[Server]
@@ -371,7 +388,7 @@ public partial class CustomNetTransform {
 				StopFloating();
 				return;
 			}
-			serverState.Speed = serverState.Speed - ( serverState.Speed * 0.10f ) - 0.5f;
+			serverState.Speed = serverState.Speed - (serverState.Speed * (Time.deltaTime*10));
 			if ( serverState.Speed <= 0.05f ) {
 				StopFloating();
 			} else {
