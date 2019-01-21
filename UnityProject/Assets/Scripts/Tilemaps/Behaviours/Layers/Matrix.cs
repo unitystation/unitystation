@@ -180,7 +180,7 @@ public class Matrix : MonoBehaviour
 		}
 
 		// Otherwise check for blocking objects
-		return objects.Get<RegisterTile>(position).Contains(registerTile);
+		return objects.Get(position).Contains(registerTile);
 	}
 
 	public IEnumerable<IElectricityIO> GetElectricalConnections(Vector3Int position)

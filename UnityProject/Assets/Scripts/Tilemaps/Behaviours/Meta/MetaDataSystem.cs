@@ -154,16 +154,18 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void SetupNeighbors(MetaDataNode node)
 	{
-		foreach (Vector3Int neighbor in MetaUtils.GetNeighbors(node.Position))
+		Vector3Int[] neighbors = MetaUtils.GetNeighbors(node.Position);
+
+		for(int i = 0; i < neighbors.Length; i++)
 		{
-			if (metaTileMap.IsSpaceAt(neighbor))
+			if (metaTileMap.IsSpaceAt(neighbors[i]))
 			{
 				if (node.IsRoom)
 				{
 					externalNodes.Add(node);
 				}
 
-				Vector3 worldPosition = transform.TransformPoint(neighbor);
+				Vector3 worldPosition = transform.TransformPoint(neighbors[i]);
 				worldPosition.z = 0;
 				if (!MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
 				{
@@ -183,11 +185,11 @@ public class MetaDataSystem : SubsystemBehaviour
 				}
 			}
 
-			if (metaTileMap.IsAtmosPassableAt(neighbor))
+			if (metaTileMap.IsAtmosPassableAt(neighbors[i]))
 			{
-				MetaDataNode neighborNode = metaDataLayer.Get(neighbor);
+				MetaDataNode neighborNode = metaDataLayer.Get(neighbors[i]);
 
-				if (metaTileMap.IsSpaceAt(neighbor))
+				if (metaTileMap.IsSpaceAt(neighbors[i]))
 				{
 					neighborNode.Type = NodeType.Space;
 				}

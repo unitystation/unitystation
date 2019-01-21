@@ -137,7 +137,7 @@ public class MetaTileMap : MonoBehaviour
 
 			if (layer == LayerType.Objects)
 			{
-				var objects = ((ObjectLayer) LayersValues[index]).Objects.Get<RegisterTile>(position);
+				var objects = ((ObjectLayer) LayersValues[index]).Objects.Get(position);
 				for (var i = 0; i < objects.Count; i++)
 				{
 					RegisterTile o = objects[i];
@@ -178,7 +178,7 @@ public class MetaTileMap : MonoBehaviour
 
 			if (layer == LayerType.Objects)
 			{
-				var objects = ((ObjectLayer) LayersValues[i1]).Objects.Get<RegisterTile>(position);
+				var objects = ((ObjectLayer) LayersValues[i1]).Objects.Get(position);
 				for (var i = 0; i < objects.Count; i++)
 				{
 					RegisterTile o = objects[i];

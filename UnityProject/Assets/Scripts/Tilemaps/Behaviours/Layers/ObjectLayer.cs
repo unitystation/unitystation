@@ -51,7 +51,7 @@ using UnityEngine;
 		public override bool IsPassableAt( Vector3Int origin, Vector3Int to, bool inclPlayers = true, GameObject context = null )
 		{
 			//Targeting windoors here
-			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
+			List<RegisterTile> objectsOrigin = Objects.Get(origin);
 			for ( var i = 0; i < objectsOrigin.Count; i++ ) {
 				if ( !objectsOrigin[i].IsPassableTo( to ) && ( !context || objectsOrigin[i].gameObject != context ) ) {
 					//Can't get outside the tile because windoor doesn't allow us
@@ -59,7 +59,7 @@ using UnityEngine;
 				}
 			}
 
-			List<RegisterTile> objectsTo = Objects.Get<RegisterTile>(to);
+			List<RegisterTile> objectsTo = Objects.Get(to);
 			bool toPass;
 			if ( inclPlayers ) {
 				toPass = true;
@@ -90,16 +90,27 @@ using UnityEngine;
 
 		public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
 		{
-			List<RegisterTile> objectsTo = Objects.Get<RegisterTile>(to);
+			List<RegisterTile> objectsTo = Objects.Get(to);
 
-            if (!objectsTo.All(o => o.IsAtmosPassable()))
+			for (int i = 0; i < objectsTo.Count; i++)
 			{
-				return false;
+				if (!objectsTo[i].IsAtmosPassable())
+				{
+					return false;
+				}
 			}
 
-			List<RegisterTile> objectsOrigin = Objects.Get<RegisterTile>(origin);
+			List<RegisterTile> objectsOrigin = Objects.Get(origin);
 
-			return objectsOrigin.All(o => o.IsAtmosPassable()) && base.IsAtmosPassableAt(origin, to);
+			for (int i = 0; i < objectsOrigin.Count; i++)
+			{
+				if (!objectsOrigin[i].IsAtmosPassable())
+				{
+					return false;
+				}
+			}
+			
+			return base.IsAtmosPassableAt(origin, to);
 		}
 
 		public override bool IsSpaceAt(Vector3Int position)

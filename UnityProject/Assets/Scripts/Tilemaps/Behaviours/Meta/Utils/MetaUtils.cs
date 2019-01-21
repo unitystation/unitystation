@@ -8,7 +8,7 @@ namespace Tilemaps.Behaviours.Meta
 		private static Vector3Int[] directions = {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right};
 
 
-		public static IEnumerable<Vector3Int> GetNeighbors(Vector3Int center)
+		public static Vector3Int[] GetNeighbors(Vector3Int center)
 		{
 			var neighbors = new Vector3Int[directions.Length];
 

@@ -55,11 +55,13 @@ using UnityEngine;
 		}
 
 		public List<T> Get<T>(Vector3Int position) where T : RegisterTile {
-			List<T> list = new List<T>();
+
 			List<RegisterTile> tiles = Get( position );
+
+			List<T> list = new List<T>();
 			for ( var i = 0; i < tiles.Count; i++ ) {
 				T unknown = tiles[i] as T;
-				if ( unknown != null ) {
+				if ( tiles[i] != null ) {
 					list.Add( unknown );
 				}
 			}
