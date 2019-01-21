@@ -50,9 +50,10 @@ public class MetaDataSystem : SubsystemBehaviour
 	{
 		MetaDataNode node = metaDataLayer.Get(position);
 
+		MetaUtils.RemoveFromNeighbors(node);
+
 		if (metaTileMap.IsAtmosPassableAt(position))
 		{
-			MetaUtils.RemoveFromNeighbors(node);
 			node.ClearNeighbors();
 
 			SetupNeighbors(node);
@@ -63,7 +64,6 @@ public class MetaDataSystem : SubsystemBehaviour
 		else
 		{
 			node.Type = NodeType.Occupied;
-			MetaUtils.RemoveFromNeighbors(node);
 		}
 	}
 
@@ -118,13 +118,9 @@ public class MetaDataSystem : SubsystemBehaviour
 							isSpace = true;
 						}
 					}
-					else if (metaDataLayer.IsSpaceAt(neighbor))
-					{
-						isSpace = true;
-					}
 					else if (metaTileMap.IsAtmosPassableAt(neighbor))
 					{
-						if (!roomPositions.Contains(neighbor) && !freePositions.Contains(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
+						if (!roomPositions.Contains(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
 						{
 							freePositions.Enqueue(neighbor);
 						}
@@ -158,8 +154,6 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void SetupNeighbors(MetaDataNode node)
 	{
-		node.tempCount++;
-
 		foreach (Vector3Int neighbor in MetaUtils.GetNeighbors(node.Position))
 		{
 			if (metaTileMap.IsSpaceAt(neighbor))
@@ -169,26 +163,36 @@ public class MetaDataSystem : SubsystemBehaviour
 					externalNodes.Add(node);
 				}
 
-				Vector3 worldPosition = transform.TransformPoint(neighbor) + Vector3.one * 0.5f;
+				Vector3 worldPosition = transform.TransformPoint(neighbor);
 				worldPosition.z = 0;
 				if (!MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
 				{
 					MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPosition.RoundToInt());
 
-					Vector3Int localPosition = MatrixManager.WorldToLocalInt(worldPosition, matrixInfo);
-
-					if (matrixInfo.MetaTileMap.IsAtmosPassableAt(localPosition))
+					if (matrixInfo.MetaTileMap != metaTileMap)
 					{
-						node.AddNeighbor(matrixInfo.MetaDataLayer.Get(localPosition));
-					}
+						Vector3Int localPosition = MatrixManager.WorldToLocalInt(worldPosition, matrixInfo);
 
-					continue;
+						if (matrixInfo.MetaTileMap.IsAtmosPassableAt(localPosition))
+						{
+							node.AddNeighbor(matrixInfo.MetaDataLayer.Get(localPosition));
+						}
+
+						continue;
+					}
 				}
 			}
 
 			if (metaTileMap.IsAtmosPassableAt(neighbor))
 			{
-				node.AddNeighbor(metaDataLayer.Get(neighbor));
+				MetaDataNode neighborNode = metaDataLayer.Get(neighbor);
+
+				if (metaTileMap.IsSpaceAt(neighbor))
+				{
+					neighborNode.Type = NodeType.Space;
+				}
+
+				node.AddNeighbor(neighborNode);
 			}
 		}
 	}

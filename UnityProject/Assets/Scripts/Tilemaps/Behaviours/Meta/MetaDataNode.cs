@@ -29,8 +29,6 @@ public class MetaDataNode
 
 	public int Damage;
 
-	public int tempCount; // Debugging
-
 	public MetaDataNode(Vector3Int position)
 	{
 		Position = position;
@@ -59,9 +57,12 @@ public class MetaDataNode
 
 	public void AddNeighbor(MetaDataNode neighbor)
 	{
-		neighbors.Add(neighbor);
+		if (neighbor != this)
+		{
+			neighbors.Add(neighbor);
 
-		Neighbors = neighbors.ToArray();
+			Neighbors = neighbors.ToArray();
+		}
 	}
 
 	public bool HasHotspot => Hotspot != null;

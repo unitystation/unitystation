@@ -186,7 +186,7 @@ public class Welder : NetworkBehaviour
 				Vector3Int position = transform.localPosition.RoundToInt();
 				if (heldByPlayer != null)
 				{
-					heldByPlayer.transform.localPosition.RoundToInt();
+					position = heldByPlayer.transform.localPosition.RoundToInt();
 				}
 
 				reactionManager.ExposeHotspot(position, 700, 0.005f);

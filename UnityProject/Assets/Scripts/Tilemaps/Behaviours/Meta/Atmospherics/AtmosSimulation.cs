@@ -7,13 +7,13 @@ namespace Atmospherics
 	{
 		public float Speed = 0.1f;
 
-		private float factor;
-		private MetaDataNode[] nodes = new MetaDataNode[5];
-		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
-
 		public bool IsIdle => updateList.IsEmpty;
 
 		public int UpdateListCount => updateList.Count;
+
+		private float factor;
+		private MetaDataNode[] nodes = new MetaDataNode[5];
+		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
 
 		public void AddToUpdateList(MetaDataNode node)
 		{

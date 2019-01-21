@@ -58,7 +58,7 @@ public class MetaDataView : BasicView
 
 		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
 		{
-			if (source.IsSpaceAt(position))
+			if (source.ExistsAt(position) && source.IsSpaceAt(position))
 			{
 				GizmoUtils.DrawCube(position, Color.red);
 			}
@@ -113,18 +113,6 @@ public class MetaDataView : BasicView
 	{
 		public override string Label { get; } = "Neighbors";
 
-		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
-		{
-			MetaDataNode node = source.Get(position, false);
-
-			int neighborCount = node.GetNeighbors().Length;
-
-			if (neighborCount > 0)
-			{
-				GizmoUtils.DrawCube(position,  Color.blue, alpha:0.25f * neighborCount);
-			}
-		}
-
 		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
 		{
 			MetaDataNode node = source.Get(position, false);
@@ -142,16 +130,6 @@ public class MetaDataView : BasicView
 	private class PressureCheck : Check<MetaDataLayer>
 	{
 		public override string Label { get; } = "Pressure";
-
-		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
-		{
-			MetaDataNode node = source.Get(position, false);
-
-			if (node.Exists)
-			{
-				GizmoUtils.DrawCube(position, Color.blue, alpha:node.Atmos.Pressure / 200);
-			}
-		}
 
 		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
 		{
