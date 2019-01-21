@@ -497,6 +497,6 @@ public class LightingSystem : MonoBehaviour
 
 		Color color = wallFloorOcclusionMaskTexture2D.GetPixelBilinear(fovCoordinate.x, fovCoordinate.y);
 
-		return color == Color.black;
+		return color != Color.red && color != Color.green;
 	}
 }
