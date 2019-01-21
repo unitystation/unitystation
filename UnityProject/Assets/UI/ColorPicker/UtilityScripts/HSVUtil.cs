@@ -131,8 +131,19 @@ public static class HSVUtil
         return new Color((float)r, (float)g, (float)b, alpha);
 
     }
+	public static Color ChangeColorHue( Color colour, int amount )
+	{
+		HsvColor hsv1 = ConvertRgbToHsv( colour );
+		hsv1.H += amount;
+		return ConvertHsvToRgb( hsv1.H, hsv1.S, hsv1.V, 1 );
+	}
+	public static Color ChangeColorSaturation( Color colour, int amount )
+	{
+		HsvColor hsv1 = ConvertRgbToHsv( colour );
+		hsv1.S += amount;
+		return ConvertHsvToRgb( hsv1.H, hsv1.S, hsv1.V, 1 );
+	}
 }
-
 
 #endregion ColorUtilities
 

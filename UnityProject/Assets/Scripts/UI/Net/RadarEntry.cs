@@ -61,5 +61,7 @@ public enum MapIconType {
 [Description("MapIcons16x16_5")] Unknown=5,
 [Description("MapIcons16x16_9")] Airlock=9,
 [Description("MapIcons16x16_10")] Singularity=10,
-[Description("emoji_27")] Clown=16,
+[Description("icons/emoji_27")] Clown=16,
+[Description("icons/emoji_25")] Human=17,
+[Description("icons/emoji_9")] Ian=18,
 }
