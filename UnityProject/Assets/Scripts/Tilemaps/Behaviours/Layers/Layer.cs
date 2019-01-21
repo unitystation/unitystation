@@ -50,12 +50,12 @@ using UnityEngine.Tilemaps;
 
 		public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to)
 		{
-			return TileUtils.IsAtmosPassable(tilemap.GetTile<BasicTile>(to));
+			return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsAtmosPassable();
 		}
 
 		public virtual bool IsSpaceAt(Vector3Int position)
 		{
-			return TileUtils.IsSpace(tilemap.GetTile<BasicTile>(position));
+			return !tilemap.HasTile(position) || tilemap.GetTile<BasicTile>(position).IsSpace();
 		}
 
 		public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
