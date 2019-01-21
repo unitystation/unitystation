@@ -388,7 +388,7 @@ public partial class CustomNetTransform {
 				StopFloating();
 				return;
 			}
-			serverState.Speed = serverState.Speed - ( serverState.Speed * 0.10f ) - 0.5f;
+			serverState.Speed = serverState.Speed - (serverState.Speed * (Time.deltaTime*10));
 			if ( serverState.Speed <= 0.05f ) {
 				StopFloating();
 			} else {
