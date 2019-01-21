@@ -45,7 +45,7 @@ using UnityEngine.Tilemaps;
 
 		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool inclPlayers = true, GameObject context = null )
 		{
-			return TileUtils.IsPassable(tilemap.GetTile<BasicTile>(to));
+			return !tilemap.HasTile(to) || TileUtils.IsPassable(tilemap.GetTile<BasicTile>(to));
 		}
 
 		public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to)
