@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Chair : MonoBehaviour
 {
@@ -16,11 +18,32 @@ public class Chair : MonoBehaviour
 
 	public void Start()
 	{
+		InitDirection();
 		matrixMove = transform.root.GetComponent<MatrixMove>();
 		if (matrixMove != null)
 		{
 			SetUpRotationListener();
 			StartCoroutine(WaitForInit());
+		}
+	}
+
+	private void InitDirection()
+	{
+		if (spriteRenderer.sprite == s_right)
+		{
+			currentDirection = Orientation.Right;
+		}
+		else if (spriteRenderer.sprite == s_up)
+		{
+			currentDirection = Orientation.Up;
+		}
+		else if (spriteRenderer.sprite == s_left)
+		{
+			currentDirection = Orientation.Left;
+		}
+		else
+		{
+			currentDirection = Orientation.Down;
 		}
 	}
 
@@ -30,7 +53,6 @@ public class Chair : MonoBehaviour
 		{
 			yield return YieldHelper.EndOfFrame;
 		}
-		ChangeSprite(matrixMove.ClientState.Orientation.Vector);
 	}
 
 	void SetUpRotationListener()
@@ -48,29 +70,38 @@ public class Chair : MonoBehaviour
 
 	public void OnRotation(Orientation before, Orientation next)
 	{
-		ChangeSprite(next.Vector);
+		ChangeSprite(Orientation.DegreeBetween(before, next));
 	}
 
-	void ChangeSprite(Vector2 dir)
+	void ChangeSprite(float degrees)
 	{
-		if (dir == Vector2.up)
+		for (int i = 0; i < Math.Abs(degrees / 90); i++)
+		{
+			if (degrees < 0)
+			{
+				currentDirection = currentDirection.Previous();
+			}
+			else
+			{
+				currentDirection = currentDirection.Next();
+			}
+		}
+
+		if (currentDirection == Orientation.Up)
 		{
 			spriteRenderer.sprite = s_up;
 		}
-
-		if (dir == Vector2.right)
+		else if (currentDirection == Orientation.Right)
 		{
 			spriteRenderer.sprite = s_right;
 		}
-
-		if (dir == Vector2.down)
-		{
-			spriteRenderer.sprite = s_down;
-		}
-
-		if (dir == Vector2.left)
+		else if (currentDirection == Orientation.Left)
 		{
 			spriteRenderer.sprite = s_left;
+		}
+		else
+		{
+			spriteRenderer.sprite = s_down;
 		}
 	}
 }
