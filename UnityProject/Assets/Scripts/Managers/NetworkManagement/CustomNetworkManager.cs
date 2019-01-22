@@ -328,13 +328,6 @@ public class CustomNetworkManager : NetworkManager
 			players[i].Script.PlayerSync.NotifyPlayer(playerGameObject, true);
 		}
 
-		//TileChange Data
-		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
-		for (var i = 0; i < tcManagers.Length; i++)
-		{
-			tcManagers[i].NotifyPlayer(playerGameObject);
-		}
-
 		//StorageObject UUIDs
 		StorageObject[] storageObjs = FindObjectsOfType<StorageObject>();
 		for (var i = 0; i < storageObjs.Length; i++)
@@ -364,7 +357,7 @@ public class CustomNetworkManager : NetworkManager
 			//Tell the inventorymanager about the disconnect so it can perform whatever cleanup is needed
 			InventoryManager.HandleDisconnect(player.GameObject);
 		}
-		
+
 		Logger.Log($"Player Disconnected: {player.Name}", Category.Connections);
 		PlayerList.Instance.Remove(conn);
 	}
@@ -383,7 +376,7 @@ public class CustomNetworkManager : NetworkManager
 		else
 		{
 			EventManager.Broadcast(EVENT.RoundEnded);
-		}		
+		}
 	}
 
 	private IEnumerator DoHeadlessCheck()
