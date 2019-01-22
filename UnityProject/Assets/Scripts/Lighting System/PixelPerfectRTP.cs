@@ -1,5 +1,10 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// A pixel perfect render texture, designed so that we can have post processing effects which don't require
+/// huge textures and have a size independent of the screen size / resolution and which avoid artifacts that could occur
+/// while things are rotating / in motion.
+/// </summary>
 public class PixelPerfectRT
 {
 	private PixelPerfectRTParameter mPPRTParameter;
@@ -32,8 +37,16 @@ public class PixelPerfectRT
 	}
 
 	/// <summary>
-	/// Returns transformation that can be used to offset current PPRT from renderer.
+	/// Gets the vector which can transform a vector in this PPRT's normalized space (bottom left (0,0), top right (1,1))
+	/// to the camera's normalized viewport space (bottom left (0,0), top right (1,1)), using
+	/// the camera's transform position as the position.
+	///
+	/// Transform can be applied by the following formula:
+	/// dest = (src.xy - 0.5 + transform.xy) * transform.zw + 0.5
 	/// </summary>
+	/// <param name="iCamera">target camera</param>
+	/// <returns>vector for performing the transformation, x and y hold the position offset, z and w hold the
+	/// x and y scale difference, respectively</returns>
 	public Vector4 GetTransformation(Camera iCamera)
 	{
 		Vector2 _cameraUnits = iCamera.ViewportToWorldPoint(Vector3.one) - iCamera.ViewportToWorldPoint(Vector3.zero);
@@ -42,6 +55,17 @@ public class PixelPerfectRT
 		return GetTransformation(_cameraUnits, _cameraPosition);
 	}
 
+	/// <summary>
+	/// Gets the vector which can transform a vector in this PPRT's normalized space (bottom left (0,0), top right (1,1))
+	/// to the pprt's normalized space (bottom left (0,0), top right (1,1)), using
+	/// the target's renderPosition as the position.
+	///
+	/// Transform can be applied by the following formula:
+	/// dest = (src.xy - 0.5 + transform.xy) * transform.zw + 0.5
+	/// </summary>
+	/// <param name="iTargetPerfectRT">target PPRT</param>
+	/// <returns>vector for performing the transformation, x and y hold the position offset, z and w hold the
+	/// x and y scale difference, respectively</returns>
 	public Vector4 GetTransformation(PixelPerfectRT iTargetPerfectRT)
 	{
 		Vector2 _pprtUnits = iTargetPerfectRT.mPPRTParameter.units;
@@ -50,6 +74,18 @@ public class PixelPerfectRT
 		return GetTransformation(_pprtUnits, _pprtPosition);
 	}
 
+	/// <summary>
+	/// Gets the vector which can transform a vector in this PPRT's normalized space (bottom left (0,0), top right (1,1))
+	/// to the pprt's normalized space (bottom left (0,0), top right (1,1)), using
+	/// the specified position.
+	///
+	/// Transform can be applied by the following formula:
+	/// dest = (src.xy - 0.5 + transform.xy) * transform.zw + 0.5
+	/// </summary>
+	/// <param name="iTargetPerfectRT">target PPRT</param>
+	/// <param name="iOverridePosition">position to use for calculating the transformation</param>
+	/// <returns>vector for performing the transformation, x and y hold the position offset, z and w hold the
+	/// x and y scale difference, respectively</returns>
 	public Vector4 GetTransformation(PixelPerfectRT iTargetPerfectRT, Vector2 iOverridePosition)
 	{
 		Vector2 _pprtUnits = iTargetPerfectRT.mPPRTParameter.units;
@@ -57,8 +93,33 @@ public class PixelPerfectRT
 
 		return GetTransformation(_pprtUnits, _pprtPosition);
 	}
-	
-	public Vector4 GetTransformation(Vector2 iTargetUnits, Vector2 iTargetPosition)
+
+	/// <summary>
+	/// Transforms the specified screen point to a point in this PPRT's normalized coordinate space
+	/// (bottom left (0,0), top right (1,1))
+	/// </summary>
+	/// <param name="camera">camera whose screen coordinates are being used</param>
+	/// <param name="screenPoint">point to transform</param>
+	/// <returns>coordinates in this PPRT's normalized coordinate space</returns>
+	public Vector2 ScreenToNormalTextureCoordinates(Camera camera, Vector2 screenPoint)
+	{
+		Vector4 transform = GetTransformation(camera);
+
+		Vector2 final = camera.ScreenToViewportPoint(screenPoint);
+		final.x -= 0.5f;
+		final.y -= 0.5f;
+		final.x += transform.x;
+		final.y += transform.y;
+		final.x *= transform.z;
+		final.y *= transform.w;
+		final.x += 0.5f;
+		final.y += 0.5f;
+
+		return final;
+	}
+
+
+	private Vector4 GetTransformation(Vector2 iTargetUnits, Vector2 iTargetPosition)
 	{
 		Vector2Int _units = mPPRTParameter.units;
 
@@ -134,41 +195,42 @@ public class PixelPerfectRT
 		iDestination.renderPosition = iSource.renderPosition;
 	}
 
+	/// <summary>
+	/// Transforms the pixel perfect RT to fit the destination and blits to the destination.
+	/// </summary>
+	/// <param name="source">source PPRT</param>
+	/// <param name="destination">destination PPRT</param>
+	/// <param name="materialContainer">container to get the PPRT transform material from to perform the transformation</param>
 	public static void Transform(
-		PixelPerfectRT iSource,
-		PixelPerfectRT iDestination,
-		Material iTransformationMaterial)
+		PixelPerfectRT source,
+		PixelPerfectRT destination,
+		MaterialContainer materialContainer)
 	{
-		iDestination.renderPosition = iSource.renderPosition;
+		destination.renderPosition = source.renderPosition;
 
-		iTransformationMaterial.SetVector("_Transform", iSource.GetTransformation(iDestination));
-		iTransformationMaterial.SetTexture("_SourceTex", iSource.renderTexture);
+		materialContainer.PPRTTransformMaterial.SetVector("_Transform", source.GetTransformation(destination));
+		materialContainer.PPRTTransformMaterial.SetTexture("_SourceTex", source.renderTexture);
 
-		Graphics.Blit(iSource.renderTexture, iDestination.renderTexture, iTransformationMaterial);
+		Graphics.Blit(source.renderTexture, destination.renderTexture, materialContainer.PPRTTransformMaterial);
 	}
 
+	/// <summary>
+	/// Transforms the pixel perfect RT to fit the destination camera render texture and blits to the destination.
+	/// Uses the camera to figure out the needed parameters to perform the transformation
+	/// </summary>
+	/// <param name="source">source PPRT</param>
+	/// <param name="destination">destination camera render texture</param>
+	/// <param name="destinationCamera">camera to use to determine the transformation properties</param>
+	/// <param name="materialContainer">container to get the PPRT transform material from to perform the transformation</param>
 	public static void Transform(
-		PixelPerfectRT iSource,
-		RenderTexture iDestination,
-		Camera iDestinationCamera,
-		Material iTransformationMaterial)
+		PixelPerfectRT source,
+		RenderTexture destination,
+		Camera destinationCamera,
+		MaterialContainer materialContainer)
 	{
-		iTransformationMaterial.SetVector("_Transform", iSource.GetTransformation(iDestinationCamera));
-		iTransformationMaterial.SetTexture("_SourceTex", iSource.renderTexture);
+		materialContainer.PPRTTransformMaterial.SetVector("_Transform", source.GetTransformation(destinationCamera));
+		materialContainer.PPRTTransformMaterial.SetTexture("_SourceTex", source.renderTexture);
 
-		Graphics.Blit(iSource.renderTexture, iDestination, iTransformationMaterial);
-	}
-
-	public static void Transform(
-		RenderTexture iSource,
-		RenderTexture iDestination,
-		PixelPerfectRT iTransformDriver,
-		Camera iDestinationCamera,
-		Material iTransformationMaterial)
-	{
-		iTransformationMaterial.SetVector("_Transform", iTransformDriver.GetTransformation(iDestinationCamera));
-		iTransformationMaterial.SetTexture("_SourceTex", iSource);
-
-		Graphics.Blit(iSource, iDestination, iTransformationMaterial);
+		Graphics.Blit(source.renderTexture, destination, materialContainer.PPRTTransformMaterial);
 	}
 }
