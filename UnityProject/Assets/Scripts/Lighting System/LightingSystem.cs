@@ -317,6 +317,11 @@ public class LightingSystem : MonoBehaviour
 			Vector3 _fovCenterOffsetInExtendedViewSpace = _fovCenterOffsetInViewSpace * (float)operationParameters.cameraOrthographicSize / mOcclusionPPRT.orthographicSize;
 
 			mPostProcessingStack.GenerateFovMask(mOcclusionPPRT, floorOcclusionMask, wallFloorOcclusionMask, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, operationParameters);
+
+
+			RenderTexture.active = wallFloorOcclusionMask.renderTexture;
+			wallFloorOcclusionMaskTexture2D.ReadPixels(new Rect(0, 0, wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height), 0, 0);
+			wallFloorOcclusionMaskTexture2D.Apply();
 		}
 
 		using (new DisposableProfiler("3. Object Occlusion Mask"))
@@ -390,10 +395,6 @@ public class LightingSystem : MonoBehaviour
 				renderSettings,
 				operationParameters.cameraOrthographicSize);
 		}
-
-		RenderTexture.active = wallFloorOcclusionMask.renderTexture;
-		wallFloorOcclusionMaskTexture2D.ReadPixels(new Rect(0, 0, wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height), 0, 0);
-		wallFloorOcclusionMaskTexture2D.Apply();
 
 		// Debug View Selection.
 		if (renderSettings.viewMode == RenderSettings.ViewMode.LightLayer)
