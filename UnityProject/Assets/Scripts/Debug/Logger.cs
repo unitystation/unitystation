@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -20,6 +20,7 @@ public static class Logger
 		[Category.PushPull] = Level.Info,
 		[Category.PlayerSprites] = Level.Error,
 		[Category.Lerp] = Level.Off,
+//		[Category.NetUI] = Level.Trace,
 	};
 
 	private enum Level{
@@ -126,12 +127,6 @@ public static class Logger
 					break;
 			}
 		}
-
-		if(RconManager.Instance != null){
-			RconManager.AddLog(msg);
-		}
-
-		DebugConsole.AmendLog(msg);
 	}
 }
 

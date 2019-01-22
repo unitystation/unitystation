@@ -2,7 +2,7 @@
 using UnityEngine.Networking;
 
 
-	public class ClosetHealthBehaviour : LivingHealthBehaviour
+	public class ClosetHealthBehaviour : NetworkBehaviour
 	{
 		private ClosetControl closetControl;
 		private Collider2D[] colliders;
@@ -17,29 +17,32 @@ using UnityEngine.Networking;
 			closetControl = GetComponent<ClosetControl>();
 		}
 
-		protected override void OnDeathActions()
-		{
-			if (isServer)
-			{
-				ServerDeathActions();
-			}
-		}
+		//FIXME: this class no longer derives from LivingHealthBehaviour as it is not
+		// a living thing. A new damage system is required for non living objects
 
-		[Server]
-		private void ServerDeathActions()
-		{
-			//            disableInteraction();
-			openCloset();
-			RpcClientDeathActions();
-		}
+		// protected override void OnDeathActions()
+		// {
+		// 	if (isServer)
+		// 	{
+		// 		ServerDeathActions();
+		// 	}
+		// }
 
-		[ClientRpc]
-		private void RpcClientDeathActions()
-		{
-			disableInteraction(); //todo: refactor to use interaction bool w/ server validations
-			playDeathSound();
-			rotateSprites();
-		}
+		// [Server]
+		// private void ServerDeathActions()
+		// {
+		// 	//            disableInteraction();
+		// 	openCloset();
+		// 	RpcClientDeathActions();
+		// }
+
+		// [ClientRpc]
+		// private void RpcClientDeathActions()
+		// {
+		// 	disableInteraction(); //todo: refactor to use interaction bool w/ server validations
+		// 	playDeathSound();
+		// 	rotateSprites();
+		// }
 
 		private void disableInteraction()
 		{

@@ -5,21 +5,27 @@ public class BodyPartBehaviour : MonoBehaviour
 	//Different types of damages for medical.
 	private int bruteDamage;
 	private int burnDamage;
+	public int BruteDamage { get { return bruteDamage; } set { bruteDamage = Mathf.Clamp(value, 0, 101); } }
+	public int BurnDamage { get { return burnDamage; } set { burnDamage = Mathf.Clamp(value, 0, 101); } }
 
 	public Sprite GrayDamageMonitorIcon;
 
 	public Sprite GreenDamageMonitorIcon;
 
-	//50 for limbs, 200 for the head and torso(?)
-	public int MaxDamage = 50;
+	private int MaxDamage = 100;
 
 	public Sprite OrangeDamageMonitorIcon;
 	public Sprite RedDamageMonitorIcon;
 	public BodyPartType Type;
 	public Sprite YellowDamageMonitorIcon;
 
-	public DamageSeverity Severity { get; private set; }
-	public int OverallDamage { get { return bruteDamage + burnDamage; } }
+	public DamageSeverity Severity; //{ get; private set; }
+	public int OverallDamage { get { return BruteDamage + BurnDamage; } }
+
+	void Start()
+	{
+		UpdateIcons();
+	}
 
 	//Apply damages from here.
 	public virtual void ReceiveDamage(DamageType damageType, int damage)
@@ -33,21 +39,11 @@ public class BodyPartBehaviour : MonoBehaviour
 		switch (type)
 		{
 			case DamageType.Brute:
-				bruteDamage += damage;
-
-				if (damage > MaxDamage)
-				{
-					bruteDamage = MaxDamage;
-				}
+				BruteDamage += damage;
 				break;
 
 			case DamageType.Burn:
-				burnDamage += damage;
-
-				if (damage > MaxDamage)
-				{
-					burnDamage = MaxDamage;
-				}
+				BurnDamage += damage;
 				break;
 		}
 		UpdateSeverity();
@@ -59,21 +55,11 @@ public class BodyPartBehaviour : MonoBehaviour
 		switch (type)
 		{
 			case DamageType.Brute:
-				bruteDamage -= damage;
-
-				if (bruteDamage < 0)
-				{
-					bruteDamage = 0;
-				}
+				BruteDamage -= damage;
 				break;
 
 			case DamageType.Burn:
-				burnDamage -= damage;
-
-				if (burnDamage < 0)
-				{
-					burnDamage = 0;
-				}
+				BurnDamage -= damage;
 				break;
 		}
 		UpdateSeverity();
@@ -98,6 +84,11 @@ public class BodyPartBehaviour : MonoBehaviour
 	private void UpdateSeverity()
 	{
 		float severity = (float)OverallDamage / MaxDamage;
+		if (severity < 0.2)
+		{
+			Severity = DamageSeverity.None;
+		}
+		else
 		if (severity >= 0.2 && severity < 0.4)
 		{
 			Severity = DamageSeverity.Moderate;
@@ -106,18 +97,15 @@ public class BodyPartBehaviour : MonoBehaviour
 		{
 			Severity = DamageSeverity.Bad;
 		}
-		else if (severity >= 0.7)
+		else if (severity >= 0.7 && severity < 1f)
 		{
 			Severity = DamageSeverity.Critical;
 		}
-		else if (severity == 1f)
+		else if (severity >= 1f)
 		{
 			Severity = DamageSeverity.Max;
 		}
-		else
-		{
-			Severity = DamageSeverity.None;
-		}
+
 		UpdateIcons();
 	}
 
@@ -125,6 +113,16 @@ public class BodyPartBehaviour : MonoBehaviour
 	{
 		bruteDamage = 0;
 		burnDamage = 0;
+		UpdateSeverity();
+	}
+
+	// --------------------
+	// UPDATES FROM SERVER
+	// -------------------- 
+	public void UpdateClientBodyPartStat(int _bruteDamage, int _burnDamage)
+	{
+		bruteDamage = _bruteDamage;
+		burnDamage = _burnDamage;
 		UpdateSeverity();
 	}
 }

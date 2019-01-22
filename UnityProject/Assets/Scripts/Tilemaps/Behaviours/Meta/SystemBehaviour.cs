@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 
 
-public abstract class SystemBehaviour : MonoBehaviour
+public abstract class SubsystemBehaviour : MonoBehaviour
 	{
 		protected MetaDataLayer metaDataLayer;
 		protected MetaTileMap metaTileMap;
+		protected SubsystemManager subsystemManager;
 
-		public void Awake()
+		public virtual int Priority => 0;
+
+		public virtual void Awake()
 		{
 			metaDataLayer = GetComponentInChildren<MetaDataLayer>();
 			metaTileMap = GetComponentInChildren<MetaTileMap>();
-			
-			GetComponent<SystemManager>().Register(this);
+			subsystemManager = GetComponent<SubsystemManager>();
+			subsystemManager.Register(this);
 		}
 
 		public abstract void Initialize();

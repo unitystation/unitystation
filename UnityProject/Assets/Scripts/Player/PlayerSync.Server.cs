@@ -36,8 +36,6 @@ public partial class PlayerSync
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
 	private Vector2 serverLastDirection;
 
-	private bool isApplyingSpaceDmg;
-
 	///
 	public bool IsWeightlessServer {
 		get {
@@ -554,8 +552,6 @@ public partial class PlayerSync
 		if ( consideredFloatingServer && !IsWeightlessServer ) {
 			Stop();
 		}
-
-		CheckSpaceDamage();
 	}
 
 	public float MoveSpeedServer => playerMove.speed;
@@ -610,78 +606,5 @@ public partial class PlayerSync
 		if ( TryNotifyPlayers() ) {
 			TryUpdateServerTarget();
 		}
-	}
-
-	/// Checking whether player should suffocate
-	[Server]
-	private void CheckSpaceDamage()
-	{
-		if ( AtSpace() && !healthBehaviorScript.IsDead && !isApplyingSpaceDmg)
-		{
-			// Hurting people in space even if they are next to the wall
-			if (!IsEvaCompatible())
-			{
-				StartCoroutine(ApplyTempSpaceDamage());
-				isApplyingSpaceDmg = true;
-			}
-		}
-	}
-
-	private bool AtSpace() //Checks if player is at space, and if it is, enables oxygen alert if suit is not present.
-	{
-		if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(serverState.WorldPosition)))
-		{
-			if (!IsEvaCompatible())
-			{
-				UpdateUIMessage.SendOxyWarning(this.gameObject, true);
-			}
-
-			return true;
-		}
-		UpdateUIMessage.SendOxyWarning(this.gameObject, false);
-
-		return false;
-	}
-
-	// TODO: Remove this when atmos is implemented
-	// This prevents players drifting into space indefinitely
-	private IEnumerator ApplyTempSpaceDamage()
-	{
-		yield return new WaitForSeconds(1f);
-		healthBehaviorScript.ApplyDamage(null, 5, DamageType.Oxy, BodyPartType.Head);
-		isApplyingSpaceDmg = false;
-	}
-
-	//FIXME: The new PlayerInventory(wip) component will handle all this a lot better
-	//FIXME: adding temp caches for the time being:
-	private GameObject headObjCache;
-	private GameObject suitObjCache;
-	private ItemAttributes headItemAtt;
-	private ItemAttributes suitItemAtt;
-
-	//Temp solution (move to playerinventory when its completed):
-	private bool IsEvaCompatible()
-	{
-		var headItem = playerScript.playerNetworkActions.Inventory["head"].Item;
-		var suitItem = playerScript.playerNetworkActions.Inventory["suit"].Item;
-		if ( headItem == null || suitItem == null )
-		{
-			return false;
-		}
-
-		if (headObjCache != headItem)
-		{
-			headObjCache = headItem;
-			if (headObjCache != null)
-				headItemAtt = headObjCache.GetComponent<ItemAttributes>();
-		}
-		if (suitObjCache != suitItem)
-		{
-			suitObjCache = suitItem;
-			if (suitObjCache != null)
-				suitItemAtt = suitObjCache.GetComponent<ItemAttributes>();
-		}
-
-		return headItemAtt.evaCapable && suitItemAtt.evaCapable;
 	}
 }

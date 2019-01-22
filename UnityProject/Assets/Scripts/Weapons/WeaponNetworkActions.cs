@@ -44,7 +44,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	{
 		Weapon w = weapon.GetComponent<Weapon>();
 		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
-		w.MagNetID = networkID;
+		w.ServerHandleReloadRequest(networkID);
 		GetComponent<PlayerNetworkActions>().ClearInventorySlot(hand);
 	}
 
@@ -61,8 +61,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			Logger.Log("Magazine not found for unload weapon", Category.Firearms);
 		}
 
-		NetworkInstanceId networkID = NetworkInstanceId.Invalid;
-		w.MagNetID = networkID;
+		w.ServerHandleUnloadRequest();
 	}
 
 	[Command]
@@ -89,14 +88,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
 		if (layerType != LayerType.None)
 		{
-			var tileChangeManager = victim.GetComponent<TileChangeManager>();
+			TileChangeManager tileChangeManager = victim.GetComponent<TileChangeManager>();
+			MetaTileMap metaTileMap = victim.GetComponent<MetaTileMap>();
 			if (tileChangeManager == null)
 			{
 				return;
 			}
 
 			//Tilemap stuff:
-			var tileMapDamage = tileChangeManager.GetTilemap(layerType).gameObject.GetComponent<TilemapDamage>();
+			var tileMapDamage = metaTileMap.Layers[layerType].GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
 				//Wire cutters should snip the grills instead:

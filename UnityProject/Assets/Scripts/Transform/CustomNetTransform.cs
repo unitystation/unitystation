@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -81,7 +82,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	}
 	/// Is also invoked in perpetual space flights
 	private DualVector3IntEvent onStartMove = new DualVector3IntEvent();
-	public DualVector3IntEvent OnStartMove() => onStartMove; //todo: invoke for cnt! (for chaining)
+	public DualVector3IntEvent OnStartMove() => onStartMove;
 	private DualVector3IntEvent onClientStartMove = new DualVector3IntEvent();
 	public DualVector3IntEvent OnClientStartMove() => onClientStartMove;
 	private Vector3IntEvent onTileReached = new Vector3IntEvent();
@@ -94,7 +95,50 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
 	public Vector3Int TrustedPosition => clientState.WorldPosition.RoundToInt();
 
+	/// <summary>
+	/// Used to determine if this transform is worth updating every frame
+	/// </summary>
+	private enum MotionStateEnum { Moving, Still }
 
+	private Coroutine limboHandle;
+	private MotionStateEnum motionState = MotionStateEnum.Moving;
+	/// <summary>
+	/// Used to determine if this transform is worth updating every frame
+	/// </summary>
+	private MotionStateEnum MotionState
+	{
+		get { return motionState; }
+		set
+		{
+			if ( motionState == value || UpdateManager.Instance == null )
+			{
+				return;
+			}
+
+			if ( value == MotionStateEnum.Moving )
+			{
+				base.OnEnable();
+			}
+			else
+			{
+				this.RestartCoroutine( FreezeWithTimeout(), ref limboHandle );
+			}
+
+			motionState = value;
+		}
+	}
+
+	/// <summary>
+	/// Waits 5 seconds and unsubscribes this CNT from Update() cycle
+	/// </summary>
+	private IEnumerator FreezeWithTimeout()
+	{
+		yield return YieldHelper.FiveSecs;
+		if ( MotionState == MotionStateEnum.Still )
+		{
+			base.OnDisable();
+		}
+	}
 
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
@@ -128,6 +172,22 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		itemAttributes = GetComponent<ItemAttributes>();
 		tileDmgMask = LayerMask.GetMask ("Windows", "Walls");
 		var _pushPull = PushPull; //init
+		OnUpdateRecieved().AddListener( Poke );
+	}
+	/// <summary>
+	/// Subscribes this CNT to Update() cycle
+	/// </summary>
+	private void Poke()
+	{
+		Poke(TransformState.HiddenPos);
+	}
+	/// <summary>
+	/// Subscribes this CNT to Update() cycle
+	/// </summary>
+	/// <param name="v">unused and ignored</param>
+	private void Poke( Vector3Int v )
+	{
+		MotionState = MotionStateEnum.Moving;
 	}
 
 	public override void OnStartServer()
@@ -196,59 +256,82 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		predictedState = clientState;
 	}
 
+	//managed by UpdateManager
+	public override void UpdateMe()
+	{
+		if ( !Synchronize() )
+		{
+			MotionState = MotionStateEnum.Still;
+		}
+	}
+
+	/// <summary>
 	/// Essentially the Update loop
-	private void Synchronize()
+	/// </summary>
+	/// <returns>true if transform changed</returns>
+	private bool Synchronize()
 	{
 		if (!predictedState.Active)
 		{
-			return;
+			return false;
 		}
 
 		bool server = isServer;
 		if ( server && !serverState.Active ) {
-			return;
+			return false;
 		}
+
+		bool changed = false;
 
 		if (IsFloatingClient)
 		{
-			CheckFloatingClient();
+			changed &= CheckFloatingClient();
 		}
 
 		if (server)
 		{
-			CheckFloatingServer();
+			changed &= CheckFloatingServer();
 		}
 
 		if (predictedState.Position != transform.localPosition)
 		{
 			Lerp();
+			changed = true;
 		}
 
 		if (serverState.Position != serverLerpState.Position)
 		{
 			ServerLerp();
+			changed = true;
 		}
 
 		if ( predictedState.SpinFactor != 0 ) {
 			transform.Rotate( Vector3.forward, Time.deltaTime * predictedState.Speed * predictedState.SpinFactor );
+			changed = true;
 		}
 
 		//Checking if we should change matrix once per tile
 		if (server && registerTile.Position != Vector3Int.RoundToInt(serverState.Position) ) {
 			CheckMatrixSwitch();
 			RegisterObjects();
+			changed = true;
 		}
 		//Registering
 		if (!server && registerTile.Position != Vector3Int.RoundToInt(predictedState.Position) )
 		{
 			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPosition, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
 			RegisterObjects();
+			changed = true;
 		}
+
+		return changed;
 	}
 
 	/// Manually set an item to a specific position. Use WorldPosition!
 	[Server]
-	public void SetPosition(Vector3 worldPos, bool notify = true, bool keepRotation = false) {
+	public void SetPosition(Vector3 worldPos, bool notify = true, bool keepRotation = false)
+	{
+		Poke();
 		Vector2 pos = worldPos; //Cut z-axis
 		serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
 //		serverState.Speed = speed;
@@ -410,16 +493,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public void NotifyPlayer(GameObject playerGameObject, bool isLocalRotation = false) {
 		serverState.IsLocalRotation = isLocalRotation;
 		TransformStateMessage.Send(playerGameObject, gameObject, serverState);
-	}
-
-	//managed by UpdateManager
-	public override void UpdateMe()
-	{
-		if (!registerTile)
-		{
-			registerTile = GetComponent<RegisterTile>();
-		}
-		Synchronize();
 	}
 
 	/// Register item pos in matrix

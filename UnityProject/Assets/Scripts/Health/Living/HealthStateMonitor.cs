@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -8,138 +9,275 @@ using UnityEngine.Networking;
 /// </summary>
 public class HealthStateMonitor : ManagedNetworkBehaviour
 {
-	private LivingHealthBehaviour LivingHealthBehaviour;
-	private int bloodLevelCache;
-	private float BloodPercentage = 100f;
+	//Cached members
+	int overallHealthCache;
+	ConsciousState consciousStateCache;
+	bool isBreathingCache;
+	bool isSuffocatingCache;
+	int heartRateCache;
+	int bloodLevelCache;
+	int oxygenLevelCache;
+	int toxinLevelCache;
+	bool isHuskCache;
+	int brainDamageCache;
 
-	private bool hasStoppedBreathing = false;
-	private float breathingDamagedRate = 2f; //dmg every 2 seconds
-	private float stoppedBreathingCount = 0f;
+	private LivingHealthBehaviour livingHealthBehaviour;
+	float tickRate = 1f;
+	float tick = 0f;
+	bool init = false;
 
-	//server only caches
-	private int healthServerCache;
-	//TODO if client disconnects and reconnects then the clients UI needs to 
-	//poll this component and request updated values from the server to set
-	//the current state of the UI overlays and hud
-
-	private LivingHealthBehaviour healthBehaviour;
-
+	/// ---------------------------
+	/// INIT FUNCTIONS
+	/// ---------------------------
 	void Awake()
 	{
-		healthBehaviour = GetComponent<LivingHealthBehaviour>();
-	}
-
-	protected override void OnEnable()
-	{
-		//Do not call base method for this OnEnable.
+		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
 	}
 
 	public override void OnStartServer()
 	{
-		if (isServer)
-		{
-			healthServerCache = healthBehaviour.OverallHealth;
-			bloodLevelCache = healthBehaviour.bloodSystem.BloodLevel;
-			UpdateManager.Instance.Add(this);
-
-			if (!healthBehaviour.isNotPlayer)
-			{
-				StartCoroutine(WaitForLoad());
-			}
-		}
+		InitServerCache();
 		base.OnStartServer();
 	}
 
-	private IEnumerator WaitForLoad()
+	public override void OnStartClient()
 	{
-		yield return new WaitForSeconds(1f); //1000ms wait for lag
-
-		UpdateClientUI(100); //Set the UI for this player to 100 percent
-	}
-
-	private void OnDestroy()
-	{
-		if (isServer)
+		if (!isServer)
 		{
-			UpdateManager.Instance.Remove(this);
+			StartCoroutine(ClientWaitForLocal());
 		}
+		base.OnStartClient();
 	}
 
-	//This only runs on the server, server will do the calculations and send
-	//messages to the client when needed (or requested)
+	IEnumerator ClientWaitForLocal()
+	{
+		while (PlayerManager.LocalPlayer == null)
+		{
+			yield return YieldHelper.EndOfFrame;
+		}
+		yield return YieldHelper.EndOfFrame;
+		RequestHealthMessage.Send(gameObject);
+	//	Logger.Log("SEND REQUEST TO UPDATE: " + gameObject.name, Category.Health);
+	}
+
+	void InitServerCache()
+	{
+		overallHealthCache = livingHealthBehaviour.OverallHealth;
+		consciousStateCache = livingHealthBehaviour.ConsciousState;
+		isBreathingCache = livingHealthBehaviour.respiratorySystem.IsBreathing;
+		isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
+		UpdateBloodCaches();
+		if (livingHealthBehaviour.brainSystem != null)
+		{
+			isHuskCache = livingHealthBehaviour.brainSystem.IsHuskServer;
+			brainDamageCache = livingHealthBehaviour.brainSystem.BrainDamageAmt;
+		}
+		init = true;
+	}
+
+	void UpdateBloodCaches()
+	{
+		heartRateCache = livingHealthBehaviour.bloodSystem.HeartRate;
+		bloodLevelCache = livingHealthBehaviour.bloodSystem.BloodLevel;
+		oxygenLevelCache = livingHealthBehaviour.bloodSystem.OxygenLevel;
+		toxinLevelCache = livingHealthBehaviour.bloodSystem.ToxinLevel;
+	}
+
+	/// ---------------------------
+	/// SYSTEM MONITOR
+	/// ---------------------------
 	public override void UpdateMe()
 	{
-		ServerMonitorHealth();
-		base.UpdateMe();
-	}
-
-	private void ServerMonitorHealth()
-	{
-		//Add other damage methods here like burning, 
-		//suffication, etc
-
-		//If already dead then do not check the status of the body anymore
-		if (healthBehaviour.IsDead)
+		if (isServer && init)
 		{
-			return;
-		}
-
-		//Blood calcs:
-		if (bloodLevelCache != healthBehaviour.bloodSystem.BloodLevel)
-		{
-			bloodLevelCache = healthBehaviour.bloodSystem.BloodLevel;
-			if (healthBehaviour.bloodSystem.BloodLevel >= 560)
+			MonitorCrucialStats();
+			tick += Time.deltaTime;
+			if (tick > tickRate)
 			{
-				//Full blood (or more)
-				BloodPercentage = 100f;
+				tick = 0f;
+				MonitorNonCrucialStats();
 			}
-			else
-			{
-				BloodPercentage = healthBehaviour.bloodSystem.BloodLevel / 560f * 100f;
-			}
-		}
-
-		//If blood level falls below health level, then set the health level
-		//manually and update the clients UI
-		if (BloodPercentage < healthBehaviour.OverallHealth)
-		{
-			healthServerCache = (int)BloodPercentage;
-			healthBehaviour.ServerOnlySetHealth(healthServerCache);
-			UpdateClientUI(healthServerCache);
-		}
-
-		//Player has stopped breathing:
-		if (hasStoppedBreathing && healthBehaviour.OverallHealth > -1f)
-		{
-			stoppedBreathingCount += Time.deltaTime;
-			if (stoppedBreathingCount > breathingDamagedRate)
-			{
-				stoppedBreathingCount = 0f;
-
-				healthBehaviour.ServerOnlySetHealth(healthServerCache -= 3);
-			}
-		}
-
-		if (healthBehaviour.OverallHealth != healthServerCache)
-		{
-			healthServerCache = healthBehaviour.OverallHealth;
-			UpdateClientUI(healthServerCache);
-		}
-
-		if (healthBehaviour.OverallHealth < 30 && !hasStoppedBreathing)
-		{
-			hasStoppedBreathing = true;
-		}
-		else if (healthBehaviour.OverallHealth >= 30 && hasStoppedBreathing)
-		{
-			hasStoppedBreathing = false;
 		}
 	}
 
-	//Sends msg to the owner of this player to update their UI
+	// Monitoring stats that need to be updated straight away on client if there is any change
 	[Server]
-	private void UpdateClientUI(int newHealth)
+	void MonitorCrucialStats()
 	{
-		UpdateUIMessage.SendHealth(gameObject, newHealth);
+		CheckOverallHealth();
+		CheckRespiratoryHealth();
+		CheckCruicialBloodHealth();
+	}
+
+	// Monitoring stats that don't need to be updated straight away on clients 
+	// (changes are updated at 1 second intervals)
+	[Server]
+	void MonitorNonCrucialStats()
+	{
+		CheckNonCrucialBloodHealth();
+		if (livingHealthBehaviour.brainSystem != null)
+		{
+			CheckNonCrucialBrainHealth();
+		}
+	}
+
+	void CheckOverallHealth()
+	{
+		if (overallHealthCache != livingHealthBehaviour.OverallHealth ||
+			consciousStateCache != livingHealthBehaviour.ConsciousState)
+		{
+			overallHealthCache = livingHealthBehaviour.OverallHealth;
+			consciousStateCache = livingHealthBehaviour.ConsciousState;
+			SendOverallUpdate();
+		}
+	}
+
+	void CheckRespiratoryHealth()
+	{
+		if (isBreathingCache != livingHealthBehaviour.respiratorySystem.IsBreathing ||
+			isSuffocatingCache != livingHealthBehaviour.respiratorySystem.IsSuffocating)
+		{
+			isBreathingCache = livingHealthBehaviour.respiratorySystem.IsBreathing;
+			isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
+			SendRespiratoryUpdate();
+		}
+	}
+
+	void CheckCruicialBloodHealth()
+	{
+		if (toxinLevelCache != livingHealthBehaviour.bloodSystem.ToxinLevel ||
+			heartRateCache != livingHealthBehaviour.bloodSystem.HeartRate)
+		{
+			UpdateBloodCaches();
+			SendBloodUpdate();
+		}
+	}
+
+	void CheckNonCrucialBloodHealth()
+	{
+		if (bloodLevelCache != livingHealthBehaviour.bloodSystem.BloodLevel ||
+			oxygenLevelCache != livingHealthBehaviour.bloodSystem.OxygenLevel)
+		{
+			UpdateBloodCaches();
+			SendBloodUpdate();
+		}
+	}
+
+	void CheckNonCrucialBrainHealth()
+	{
+		if (isHuskCache != livingHealthBehaviour.brainSystem.IsHuskServer ||
+			brainDamageCache != livingHealthBehaviour.brainSystem.BrainDamageAmt)
+		{
+			isHuskCache = livingHealthBehaviour.brainSystem.IsHuskServer;
+			brainDamageCache = livingHealthBehaviour.brainSystem.BrainDamageAmt;
+			SendBrainUpdate();
+		}
+	}
+
+	/// ---------------------------
+	/// SEND TO ALL SERVER --> CLIENT
+	/// ---------------------------
+
+	void SendOverallUpdate()
+	{
+		HealthOverallMessage.SendToAll(gameObject, livingHealthBehaviour.OverallHealth,
+			livingHealthBehaviour.ConsciousState);
+	}
+
+	void SendBloodUpdate()
+	{
+		HealthBloodMessage.SendToAll(gameObject, heartRateCache, bloodLevelCache,
+			oxygenLevelCache, toxinLevelCache);
+	}
+
+	void SendRespiratoryUpdate()
+	{
+		HealthRespiratoryMessage.SendToAll(gameObject, livingHealthBehaviour.respiratorySystem.IsBreathing,
+			livingHealthBehaviour.respiratorySystem.IsSuffocating);
+	}
+
+	void SendBrainUpdate()
+	{
+		if (livingHealthBehaviour.brainSystem != null)
+		{
+			HealthBrainMessage.SendToAll(gameObject, livingHealthBehaviour.brainSystem.IsHuskServer,
+				livingHealthBehaviour.brainSystem.BrainDamageAmt);
+		}
+	}
+
+	/// ---------------------------
+	/// SEND TO INDIVIDUAL CLIENT
+	/// ---------------------------
+
+	void SendOverallUpdate(GameObject requestor)
+	{
+		HealthOverallMessage.Send(requestor, gameObject, livingHealthBehaviour.OverallHealth,
+			livingHealthBehaviour.ConsciousState);
+	}
+
+	void SendBloodUpdate(GameObject requestor)
+	{
+		HealthBloodMessage.Send(requestor, gameObject, heartRateCache, bloodLevelCache,
+			oxygenLevelCache, toxinLevelCache);
+	}
+
+	void SendRespiratoryUpdate(GameObject requestor)
+	{
+		HealthRespiratoryMessage.Send(requestor, gameObject, livingHealthBehaviour.respiratorySystem.IsBreathing,
+			livingHealthBehaviour.respiratorySystem.IsSuffocating);
+	}
+
+	void SendBrainUpdate(GameObject requestor)
+	{
+		if (livingHealthBehaviour.brainSystem != null)
+		{
+			HealthBrainMessage.Send(requestor, gameObject, livingHealthBehaviour.brainSystem.IsHuskServer,
+				livingHealthBehaviour.brainSystem.BrainDamageAmt);
+		}
+	}
+
+	/// ---------------------------
+	/// CLIENT REQUESTS
+	/// ---------------------------
+
+	public void ProcessClientUpdateRequest(GameObject requestor)
+	{
+		StartCoroutine(ControlledClientUpdate(requestor));
+	//	Logger.Log("Server received a request for health update from: " + requestor.name + " for: " + gameObject.name);
+	}
+
+	/// <summary>
+	/// This is mainly used to update new Clients on connect.
+	/// So we do not spam too many net messages at once for a direct
+	/// client update, control the rate of update slowly:
+	/// </summary>
+	IEnumerator ControlledClientUpdate(GameObject requestor)
+	{
+		SendOverallUpdate(requestor);
+
+		yield return YieldHelper.DeciSecond;
+
+		SendBloodUpdate(requestor);
+
+		yield return YieldHelper.DeciSecond;
+
+		SendRespiratoryUpdate(requestor);
+
+		yield return YieldHelper.DeciSecond;
+
+		if (livingHealthBehaviour.brainSystem != null)
+		{
+			SendBrainUpdate(requestor);
+			yield return YieldHelper.DeciSecond;
+		}
+
+		for (int i = 0; i < livingHealthBehaviour.BodyParts.Count; i++)
+		{
+			HealthBodyPartMessage.Send(requestor, gameObject,
+				livingHealthBehaviour.BodyParts[i].Type,
+				livingHealthBehaviour.BodyParts[i].BruteDamage,
+				livingHealthBehaviour.BodyParts[i].BurnDamage);
+			yield return YieldHelper.DeciSecond;
+		}
 	}
 }

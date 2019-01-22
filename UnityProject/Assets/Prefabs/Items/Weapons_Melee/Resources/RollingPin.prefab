@@ -8,15 +8,15 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1000012939332086}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1000010549114768
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4000013350538200}
   - component: {fileID: 212000012923149378}
@@ -30,9 +30,9 @@ GameObject:
 --- !u!1 &1000012939332086
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4000013738803548}
   - component: {fileID: 61702131476188450}
@@ -52,7 +52,7 @@ GameObject:
 --- !u!4 &4000013350538200
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010549114768}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -65,7 +65,7 @@ Transform:
 --- !u!4 &4000013738803548
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012939332086}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
@@ -79,7 +79,7 @@ Transform:
 --- !u!61 &61702131476188450
 BoxCollider2D:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012939332086}
   m_Enabled: 1
@@ -104,7 +104,7 @@ BoxCollider2D:
 --- !u!114 &114000011671410446
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012939332086}
   m_Enabled: 1
@@ -118,18 +118,20 @@ MonoBehaviour:
   inHandReferenceRight: 548
   itemDescription: A RollingPin to roll dough
   itemName: Rolling_Pin
+  itemType: 0
   size: 2
   spriteType: 0
   type: 0
-  throwDamage: 5
+  throwDamage: 20
   throwSpeed: 3
   throwRange: 7
-  hitDamage: 8
+  hitDamage: 40
   hitSound: GenericHit
+  attackVerb: []
 --- !u!114 &114065043758903462
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012939332086}
   m_Enabled: 1
@@ -141,7 +143,7 @@ MonoBehaviour:
 --- !u!114 &114130006931618576
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012939332086}
   m_Enabled: 1
@@ -149,22 +151,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  custNetActiveState: 0
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
+  isNotPushable: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114716961639846354
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012939332086}
   m_Enabled: 1
@@ -172,12 +167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
 --- !u!114 &114935930822245516
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012939332086}
   m_Enabled: 1
@@ -188,7 +181,7 @@ MonoBehaviour:
 --- !u!114 &114945810224971394
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012939332086}
   m_Enabled: 1
@@ -220,7 +213,7 @@ MonoBehaviour:
 --- !u!212 &212000012923149378
 SpriteRenderer:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010549114768}
   m_Enabled: 1
@@ -230,6 +223,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
@@ -249,7 +243,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300006, guid: 3f95a9fe53a3442ca95ab4434d2478e7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -261,3 +255,4 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+  m_SpriteSortPoint: 0

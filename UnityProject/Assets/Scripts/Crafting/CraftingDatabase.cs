@@ -14,7 +14,7 @@ using UnityEngine;
 			{
 				if (recipe.Check(ingredients))
 				{
-					return recipe.output;
+					return recipe.Output;
 				}
 			}
 			return null;
@@ -24,9 +24,9 @@ using UnityEngine;
 		{
 			foreach (Recipe recipe in recipeList)
 			{
-				if (recipe.output.name == mealName)
+				if (recipe.Output.name == mealName)
 				{
-					return recipe.output;
+					return recipe.Output;
 				}
 			}
 			return null;

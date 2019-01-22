@@ -43,7 +43,7 @@ public class NetUIDynamicList : NetUIElement {
 		return Value;
 	}
 
-	public void Clear() {
+	public virtual void Clear() {
 		var entryArray = Entries;
 		for ( var i = 0; i < entryArray.Length; i++ ) {
 			var entry = entryArray[i];

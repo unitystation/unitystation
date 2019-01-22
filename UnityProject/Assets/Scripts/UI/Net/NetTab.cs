@@ -10,6 +10,7 @@ public enum NetTabType {
 	Nuke = 2,
 	Spawner = 3,
 	Paper = 4,
+	ChemistryDispenser = 5,
 	//add your tabs here
 }
 /// Descriptor for unique Net UI Tab

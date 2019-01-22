@@ -20,7 +20,6 @@ public class UIManager : MonoBehaviour
 	public Text toolTip;
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
-	public Image oxygenAlertImg;
 	public ZoneSelector zoneSelector;
 	public bool ttsToggle;
 	[HideInInspector]

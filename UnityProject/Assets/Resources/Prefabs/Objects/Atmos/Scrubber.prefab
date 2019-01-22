@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 61000011546092986}
   - component: {fileID: 114725016678724052}
   - component: {fileID: 114092131181364264}
+  - component: {fileID: 114604783434980062}
   m_Layer: 0
   m_Name: Scrubber
   m_TagString: Untagged
@@ -111,6 +112,18 @@ MonoBehaviour:
   ObjectType: 1
   AtmosPassable: 1
   Passable: 1
+--- !u!114 &114604783434980062
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011763452766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 284c55ecf95c48fe9eb8073c0d662d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaximumPressure: 101.525
 --- !u!114 &114725016678724052
 MonoBehaviour:
   m_ObjectHideFlags: 1

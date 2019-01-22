@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114263324129587844}
   - component: {fileID: 114733452049384340}
   - component: {fileID: 114495021001438090}
+  - component: {fileID: 114149925567654774}
   m_Layer: 11
   m_Name: ChemDispenser
   m_TagString: Untagged
@@ -124,6 +125,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114149925567654774
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1880613391911220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ac94ea034f589c46b4568ffe0d4d992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 5
 --- !u!114 &114263324129587844
 MonoBehaviour:
   m_ObjectHideFlags: 1

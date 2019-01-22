@@ -43,7 +43,7 @@ public abstract class RegisterTile : NetworkBehaviour
 			{
 				parentNetId = value;
 				SetParent(parentNetId);
-			}			
+			}
 		}
 	}
 
@@ -62,6 +62,7 @@ public abstract class RegisterTile : NetworkBehaviour
 			//nothing found
 			return;
 		}
+
 		//remove from current parent layer
 		layer?.Objects.Remove(Position, this);
 		layer = parent.GetComponentInChildren<ObjectLayer>();
@@ -71,7 +72,7 @@ public abstract class RegisterTile : NetworkBehaviour
 		if (Position != TransformState.HiddenPos)
 		{
 			UpdatePosition();
-		}		
+		}
 	}
 
 	public Vector3Int WorldPosition => MatrixManager.Instance.LocalToWorldInt(position, Matrix);
@@ -79,14 +80,18 @@ public abstract class RegisterTile : NetworkBehaviour
 	/// <summary>
 	/// the "registered" local position of this object (which might differ from transform.localPosition).
 	/// It will be set to TransformState.HiddenPos when hiding the object.
-	/// </summary> 
+	/// </summary>
 	public Vector3Int Position
 	{
 		get { return position; }
 		private set
 		{
-			layer?.Objects.Remove(position, this);
-			layer?.Objects.Add(value, this);
+			if (layer)
+			{
+				layer.Objects.Remove(position, this);
+				layer.Objects.Add(value, this);
+			}
+
 			position = value;
 		}
 	}
@@ -109,6 +114,14 @@ public abstract class RegisterTile : NetworkBehaviour
 		base.OnStartServer();
 	}
 
+	public void OnDestroy()
+	{
+		if (layer)
+		{
+			layer.Objects.Remove(Position, this);
+		}
+	}
+
 	private void OnEnable()
 	{
 		ForceRegister();
@@ -123,58 +136,49 @@ public abstract class RegisterTile : NetworkBehaviour
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 			UpdatePosition();
 		}
+	}
 
-		// In case of recompilation and Start doesn't get called
-		layer?.Objects.Add(Position, this);
-	}	
+	public void Unregister()
+	{
+		Position = TransformState.HiddenPos;
+
+		if (layer)
+		{
+			layer.Objects.Remove(Position, this);
+		}
+	}
 
 	private void OnDisable()
 	{
 		Unregister();
 	}
 
-	public void OnDestroy()
-	{
-		layer?.Objects.Remove(Position, this);
-	}
-
-	/// <summary>
-	/// Update the position of this using the local position of this gameobject's transform.
-	/// Note that this will make the object visible if it is currently hidden (when Position == TransformState.HiddenPos).
-	/// </summary>
 	public void UpdatePosition()
 	{
 		Position = Vector3Int.RoundToInt(transform.localPosition);
 		AfterUpdate();
 	}
 
-	public virtual void AfterUpdate() {}
-
-	/// <summary>
-	/// Remove this from the object layer it lives in and update its position to make it hidden
-	/// </summary>
-	public void Unregister()
+	public virtual void AfterUpdate()
 	{
-		Position = TransformState.HiddenPos;
-		layer?.Objects.Remove(Position, this);
 	}
 
 	public virtual bool IsPassable()
 	{
 		return true;
 	}
-    
+
 	/// Is it passable when approaching from outside?
-	public virtual bool IsPassable( Vector3Int from )
+	public virtual bool IsPassable(Vector3Int from)
 	{
 		return true;
 	}
 
 	/// Is it passable when trying to leave it?
-    public virtual bool IsPassableTo( Vector3Int to )
-    {
-        return true;
-    }
+	public virtual bool IsPassableTo(Vector3Int to)
+	{
+		return true;
+	}
 
 	public virtual bool IsAtmosPassable()
 	{

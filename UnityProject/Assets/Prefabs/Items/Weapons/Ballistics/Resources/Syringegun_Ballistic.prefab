@@ -8,15 +8,15 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1858738269464528}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1780006816757688
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4507131070642596}
   - component: {fileID: 212979627500486828}
@@ -30,9 +30,9 @@ GameObject:
 --- !u!1 &1858738269464528
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4398252719161996}
   - component: {fileID: 61480942362878350}
@@ -52,7 +52,7 @@ GameObject:
 --- !u!4 &4398252719161996
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858738269464528}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -66,7 +66,7 @@ Transform:
 --- !u!4 &4507131070642596
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780006816757688}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
@@ -79,7 +79,7 @@ Transform:
 --- !u!61 &61480942362878350
 BoxCollider2D:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858738269464528}
   m_Enabled: 1
@@ -104,7 +104,7 @@ BoxCollider2D:
 --- !u!114 &114036849006306738
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858738269464528}
   m_Enabled: 1
@@ -113,11 +113,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AmmoType: Syringe
+  SpawnsCaseing: 1
   CurrentRecoilVariance: 0
   FireCountDown: 0
   FireingSound: ShootSMG
   FireRate: 2
-  InAutomaticAction: 0
   MaxRecoilVariance: 0
   Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 2}
   ProjectileDamage: 10
@@ -127,7 +127,7 @@ MonoBehaviour:
 --- !u!114 &114422418503778170
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858738269464528}
   m_Enabled: 1
@@ -135,20 +135,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cloth: 0
   clothingReference: -1
   hierarchy: 
   inHandReferenceLeft: 296
   inHandReferenceRight: 108
   itemDescription: 
   itemName: Syringegun
+  itemType: 0
   size: 1
   spriteType: 2
   type: 16
+  throwDamage: 17
+  throwSpeed: 2
+  throwRange: 7
+  hitDamage: 22
+  hitSound: GenericHit
+  attackVerb: []
 --- !u!114 &114431891858334274
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858738269464528}
   m_Enabled: 1
@@ -160,7 +166,7 @@ MonoBehaviour:
 --- !u!114 &114839937565921078
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858738269464528}
   m_Enabled: 1
@@ -192,7 +198,7 @@ MonoBehaviour:
 --- !u!114 &114897772918556958
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858738269464528}
   m_Enabled: 1
@@ -200,11 +206,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedMultiplier: 1
 --- !u!114 &114968577397713170
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858738269464528}
   m_Enabled: 1
@@ -212,23 +217,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
+  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  moveSpeed: 7
-  pulledBy: {fileID: 0}
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
-  serverLittleLag: 0
-  timeInPush: 0
+  isNotPushable: 0
   closetHandlerCache: {fileID: 0}
 --- !u!212 &212979627500486828
 SpriteRenderer:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780006816757688}
   m_Enabled: 1
@@ -238,6 +235,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
   m_StaticBatchInfo:
@@ -257,7 +255,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300204, guid: e60fa16c12a54a28b5e8c06def0303f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -269,3 +267,4 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+  m_SpriteSortPoint: 0

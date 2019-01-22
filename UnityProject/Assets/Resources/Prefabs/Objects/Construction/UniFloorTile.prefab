@@ -113,8 +113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPushing: 0
-  predictivePushing: 0
 --- !u!114 &114208499505719652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,17 +124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayer: 0
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
-  allowedToMove: 1
-  currentPos: {x: 0, y: 0, z: 0}
-  isPushable: 0
-  pulledBy: {fileID: 0}
-  custNetActiveState: 0
-  pushing: 0
-  pushTarget: {x: 0, y: 0, z: 0}
+  isNotPushable: 0
   closetHandlerCache: {fileID: 0}
 --- !u!114 &114455019697819228
 MonoBehaviour:
@@ -159,10 +150,10 @@ MonoBehaviour:
   size: 0
   spriteType: 0
   type: 0
-  throwDamage: 1
+  throwDamage: 15
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 1
+  hitDamage: 23
   hitSound: GenericHit
   attackVerb:
   - 
@@ -200,6 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aeeb3afb58744a528b5a88d40de80c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FloorTileType: Floor
 --- !u!114 &114629713780635426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -265,7 +257,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 3746bf8a432c844979f88db7e1b135bf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

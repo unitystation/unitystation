@@ -3,6 +3,7 @@
 public abstract class BulletBehaviour : MonoBehaviour
 {
 	private BodyPartType bodyAim;
+	[Range(0, 100)]
 	public int damage = 25;
 	private GameObject shooter;
 	private Weapon weapon;
@@ -53,7 +54,14 @@ public abstract class BulletBehaviour : MonoBehaviour
 		Vector3 startPos = new Vector3(dir.x, dir.y, transform.position.z);
 		transform.position += startPos;
 		thisRigi = GetComponent<Rigidbody2D>();
-		thisRigi.AddForce(dir.normalized * 24f, ForceMode2D.Impulse);
+		if (!isSuicide)
+		{
+			thisRigi.AddForce(dir.normalized * 24f, ForceMode2D.Impulse);
+		}
+		else
+		{
+			thisRigi.velocity = Vector2.zero;
+		}
 	}
 
 	//TODO  - change so that on call the bullets damage is set properly
@@ -72,7 +80,14 @@ public abstract class BulletBehaviour : MonoBehaviour
 	{
 		LivingHealthBehaviour damageable = coll.GetComponent<LivingHealthBehaviour>();
 
+		//only harm others if it's not a suicide
 		if (coll.gameObject == shooter && !isSuicide)
+		{
+			return;
+		}
+
+		//only harm the shooter if it's a suicide
+		if (coll.gameObject != shooter && isSuicide)
 		{
 			return;
 		}

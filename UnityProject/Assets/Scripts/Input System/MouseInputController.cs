@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Experimental.UIElements;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 /// <summary>
@@ -25,6 +28,8 @@ public class MouseInputController : MonoBehaviour
 	private ObjectBehaviour objectBehaviour;
 	private PlayerMove playerMove;
 	private PlayerSprites playerSprites;
+	/// reference to the global lighting system, used to check occlusion
+	private LightingSystem lightingSystem;
 
 	public static readonly Vector3 sz = new Vector3(0.02f, 0.02f, 0.02f);
 
@@ -45,6 +50,8 @@ public class MouseInputController : MonoBehaviour
 		playerSprites = gameObject.GetComponent<PlayerSprites>();
 		playerMove = GetComponent<PlayerMove>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+
+		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 
 		//Do not include the Default layer! Assign your object to one of the layers below:
 		layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
@@ -238,6 +245,13 @@ public class MouseInputController : MonoBehaviour
 
 		Vector3 mousePosition = MousePosition;
 
+		//sample the FOV mask under current mouse position
+		if (lightingSystem.IsFovOccluded(Input.mousePosition))
+		{
+			return false;
+		}
+
+
 		//for debug purpose, mark the most recently touched tile location
 		//	LastTouchedTile = new Vector2(Mathf.Round(mousePosition.x), Mathf.Round(mousePosition.y));
 
@@ -319,7 +333,7 @@ public class MouseInputController : MonoBehaviour
 			SpriteRenderer spriteRenderer = bySortingOrder[i];
 			Sprite sprite = spriteRenderer.sprite;
 
-			if (spriteRenderer.enabled && sprite)
+			if (spriteRenderer.enabled && sprite && spriteRenderer.color.a > 0)
 			{
 				Color pixelColor = new Color();
 				GetSpritePixelColorUnderMousePointer(spriteRenderer, out pixelColor);
