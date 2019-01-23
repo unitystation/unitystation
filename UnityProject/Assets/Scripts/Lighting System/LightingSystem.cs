@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// Lighting System manager.
@@ -33,10 +35,7 @@ public class LightingSystem : MonoBehaviour
 	private bool mDoubleFrameRendererSwitch;
 	private bool mMatrixRotationMode;
 	private float mMatrixRotationModeBlend;
-	/// <summary>
-	/// Used so we can read the pixels of the wallFloorOcclusionMask
-	/// </summary>
-	private Texture2D wallFloorOcclusionMaskTexture2D;
+	private TextureDataRequest mTextureDataRequest;
 
 	public bool matrixRotationMode
 	{
@@ -155,15 +154,61 @@ public class LightingSystem : MonoBehaviour
 
 	private OperationParameters operationParameters { get; set; }
 
-	//TODO: What coordinate system are these positions? Screen? Local? World? (I think world)
-	public static Vector2 GetPixelPerfectPosition(Vector3 iPosition, Vector3 iPreviousPosition, Vector2 iPreviousFilteredPosition)
+	/// <summary>
+	/// Transforms provided movement data to match pixel perfect space of lighting system.
+	/// Used to clamp position of objects according to pixel perfect texture space, which is less detailed then world-space.
+	/// Also filters out jitters that may occur when noisy position is clamped down to lower precision, which requires for client to store additional position data.
+	/// </summary>
+	/// <param name="iWorldSpacePosition">World space position to transform.</param>
+	/// <param name="iPreviousWorldSpacePosition">Previous, untransformed world space position.</param>
+	/// <param name="iPreviousPixelPerfectPosition">Previous, transformed world space position.</param>
+	/// <returns>Transformed position that matches Pixel Perfect texture space.</returns>
+	public static Vector2 GetPixelPerfectPosition(Vector3 iWorldSpacePosition, Vector3 iPreviousWorldSpacePosition, Vector2 iPreviousPixelPerfectPosition)
 	{
 		if (HandlePPPositionRequest == null)
-		{
-			return iPosition;
+		{	
+			return iWorldSpacePosition;
 		}
 
-		return HandlePPPositionRequest(iPosition, iPreviousPosition, iPreviousFilteredPosition);
+		return HandlePPPositionRequest(iWorldSpacePosition, iPreviousWorldSpacePosition, iPreviousPixelPerfectPosition);
+	}
+
+	/// <summary>
+	/// Checks if the specified screen position is occluded due to FOV.
+	/// </summary>
+	/// <param name="iScreenPoint">Screen-space position to test.</param>
+	/// <returns>true iff the pixel at the specified screen position is hidden by FOV occlusion. Note that a wallmount
+	/// on the opposite side of the wall from a player is not occluded by FOV even though it is turned transparent. You can
+	/// check the wallmount's sprite alpha transparency to see if it is visible.</returns>
+	public bool GetScreenPointVisible(Vector2 iScreenPoint)
+	{
+		var _camera = mMainCamera;
+
+		Vector2 _viewportPos = _camera.ScreenToViewportPoint(iScreenPoint);
+
+		// Check for out of bounds;
+		if (_viewportPos.x < 0.0f ||
+		    _viewportPos.x > 1.0f ||
+		    _viewportPos.y < 0.0f ||
+		    _viewportPos.y > 1.0f)
+			return false; 
+
+		// Use PPRT occlusion mask to get normalized texture coordinate.
+		// There is an assumption that wallFloorOcclusionMask and requested AsyncGPUReadback texture is the same.
+		Vector2 _normalizedMaskPoint = wallFloorOcclusionMask.ScreenToNormalTextureCoordinates(mMainCamera, iScreenPoint);
+
+		Color32 _sampledColor;
+
+		if (mTextureDataRequest.TryGetPixelNormalized(_normalizedMaskPoint.x, _normalizedMaskPoint.y, out _sampledColor))
+		{
+			bool _sampledVisibleWall = _sampledColor.r > 0;
+			bool _sampledVisibleFloor = _sampledColor.g > 0;
+
+			// Consider visible wal or visible floor as visible point.
+			return _sampledVisibleWall || _sampledVisibleFloor;
+		}
+
+		return false;
 	}
 
 	private static void ValidateMainCamera(Camera iMainCamera, RenderSettings iRenderSettings)
@@ -270,7 +315,6 @@ public class LightingSystem : MonoBehaviour
 		objectOcclusionMask = new PixelPerfectRT(operationParameters.lightPPRTParameter);
 
 		obstacleLightMask = new PixelPerfectRT(operationParameters.obstacleLightPPRTParameter);
-		wallFloorOcclusionMaskTexture2D = new Texture2D(wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height, TextureFormat.RGB24, false);
 
 		// Let members handle their own textures.
 		// Possibly move to container?
@@ -294,7 +338,6 @@ public class LightingSystem : MonoBehaviour
 			{
 				mPostProcessingStack.BlurOcclusionMaskRotation(mOcclusionPPRT.renderTexture, renderSettings, operationParameters.cameraOrthographicSize, mMatrixRotationModeBlend);
 			}
-
 		}
 
 		using (new DisposableProfiler("2. Generate FoV"))
@@ -318,10 +361,9 @@ public class LightingSystem : MonoBehaviour
 
 			mPostProcessingStack.GenerateFovMask(mOcclusionPPRT, floorOcclusionMask, wallFloorOcclusionMask, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, operationParameters);
 
-
-			RenderTexture.active = wallFloorOcclusionMask.renderTexture;
-			wallFloorOcclusionMaskTexture2D.ReadPixels(new Rect(0, 0, wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height), 0, 0);
-			wallFloorOcclusionMaskTexture2D.Apply();
+			// Request asynchronous callback for access to texture data.
+			// Used for sampling point visibility from mask.
+			AsyncGPUReadback.Request(wallFloorOcclusionMask.renderTexture, 0, AsyncReadCallback);
 		}
 
 		using (new DisposableProfiler("3. Object Occlusion Mask"))
@@ -344,6 +386,21 @@ public class LightingSystem : MonoBehaviour
 		}
 
 		// Note: After execution of this method, MainCamera.Render will be executed and scene will be drawn.
+	}
+
+	/// <summary>
+	/// Handle data access callback from gpu.
+	/// Wraps data request in to struct that handles protection and sampling.
+	/// </summary>
+	/// <param name="iRequest">requested callback to wrap.</param>
+	private void AsyncReadCallback(AsyncGPUReadbackRequest iRequest)
+	{
+		if (iRequest.hasError || iRequest.done == false)
+		{
+			return;
+		}
+
+		mTextureDataRequest = new TextureDataRequest(iRequest);
 	}
 
 	private void OnRenderImage(RenderTexture iSource, RenderTexture iDestination)
@@ -479,25 +536,5 @@ public class LightingSystem : MonoBehaviour
 
 			Graphics.Blit(iSource, iDestination, _blitMaterial);
 		}
-	}
-
-	/// <summary>
-	/// Checks if the specified screen position is occluded due to FOV.
-	/// </summary>
-	/// <returns>true iff the pixel at the specified screen position is hidden by FOV occlusion. Note that a wallmount
-	/// on the opposite side of the wall from a player is not occluded by FOV even though it is turned transparent. You can
-	/// check the wallmount's sprite alpha transparency to see if it is visible.</returns>
-	public bool IsFovOccluded(Vector2 screenPosition)
-	{
-		Camera cam = Camera.main;
-		Vector2 viewportPos = cam.ScreenToViewportPoint(screenPosition);
-		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f) return false; // out of viewport bounds
-
-		//sample the FOV texture to see if it's black
-		Vector2 fovCoordinate = wallFloorOcclusionMask.ScreenToNormalTextureCoordinates(cam, screenPosition);
-
-		Color color = wallFloorOcclusionMaskTexture2D.GetPixelBilinear(fovCoordinate.x, fovCoordinate.y);
-
-		return color != Color.red && color != Color.green;
 	}
 }
