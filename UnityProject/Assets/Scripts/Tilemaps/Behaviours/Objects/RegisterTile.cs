@@ -156,11 +156,6 @@ public abstract class RegisterTile : NetworkBehaviour
 	public void UpdatePosition()
 	{
 		Position = Vector3Int.RoundToInt(transform.localPosition);
-		AfterUpdate();
-	}
-
-	public virtual void AfterUpdate()
-	{
 	}
 
 	public virtual bool IsPassable()
