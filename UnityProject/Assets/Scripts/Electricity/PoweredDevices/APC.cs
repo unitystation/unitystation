@@ -34,6 +34,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 			}
 		}
 	}
+	public float Current;
 	private void OnVoltageChange()
 	{
 		// Determine the state of the APC using the voltage
@@ -98,8 +99,8 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	/// Class to hold resistance so ElectricalSync can have a reference to it
 	/// </summary>
 	private Resistance ResistanceClass = new Resistance();
-	public PowerTypeCategory ApplianceType = PowerTypeCategory.APC;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
+	private PowerTypeCategory ApplianceType = PowerTypeCategory.APC;
+	private HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
 	{
 		PowerTypeCategory.LowMachineConnector
 	};
@@ -162,6 +163,8 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	public void PowerNetworkUpdate()
 	{
 		Voltage = poweredDevice.Data.ActualVoltage;
+		Current = poweredDevice.Data.CurrentInWire;
+
 		UpdateLights();
 		if (dirtyResistance)
 		{
@@ -316,7 +319,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	}
 
 	// -----------------------------------------------------
-	//					CONNECTED LIGHT THINGS
+	//					CONNECTED LIGHTS AND BATTERY THINGS
 	// -----------------------------------------------------
 	/// <summary>
 	/// The list of emergency lights connected to this APC
@@ -327,6 +330,11 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	/// Dictionary of all the light switches and their lights connected to this APC
 	/// </summary>
 	public Dictionary<LightSwitchTrigger,List<LightSource>> ConnectedSwitchesAndLights = new Dictionary<LightSwitchTrigger,List<LightSource>> ();
+
+	/// <summary>
+	/// List of the department batteries connected to this APC
+	/// </summary>
+	public List<DepartmentBattery> ConnectedDepartmentBatteries = new List<DepartmentBattery> ();
 
 	/// <summary>
 	/// Change brightness of lights connected to this APC proportionally to voltage

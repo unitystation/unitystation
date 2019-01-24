@@ -10,16 +10,17 @@ public class GUI_APC : NetTab
 	/// </summary>
 	private APC LocalAPC;
 
+	private float MaxCapacity = 0;
+
 	/// <summary>
 	/// All of the colours which will be used for foregrounds and backgrounds
 	/// </summary>
-	[SerializeField]
-	private Color 	greenBackground,
-					blueBackground,
-					redBackground,
-					greenForeground,
-					blueForeground,
-					redForeground;
+	private Color 	greenBackground = new Color(0.509804f, 1f, 0.2980392f),
+					blueBackground = new Color(0.6588235f, 0.6901961f, 0.9725491f),
+					redBackground = new Color(0.9725491f, 0.3764706f, 0.3764706f),
+					greenForeground = new Color(0f, 0.8000001f, 0f),
+					blueForeground = new Color(0.3764706f, 0.4392157f, 0.9725491f),
+					redForeground = new Color(0.9411765f, 0.9725491f, 0.6588235f);
 
 	[SerializeField]
 	private GameObject ActiveDisplay;
@@ -103,22 +104,6 @@ public class GUI_APC : NetTab
 		}
 	}
 
-	private NetLabel _electricalSymbols;
-	/// <summary>
-	/// The voltage, current and resistance symbols
-	/// </summary>
-	private NetLabel ElectricalSymbols
-	{
-		get
-		{
-			if ( !_electricalSymbols )
-			{
-				_electricalSymbols = this["ElectricalSymbols"] as NetLabel;
-			}
-			return _electricalSymbols;
-		}
-	}
-
 	private NetLabel _electricalLabels;
 	/// <summary>
 	/// The voltage, current and resistance labels
@@ -157,27 +142,35 @@ public class GUI_APC : NetTab
 		{
 			// Get the apc from the provider since it only works in start
 			LocalAPC = Provider.GetComponent<APC>();
+			CalculateMaxCapacity();
 			StartRefresh();
 		}
 	}
 
-	// public override void OnEnable()
-	// {
-	// 	if(IsServer)
-	// 	{
-	// 		base.OnEnable();
-	// 		// Check the display isn't already refreshing
-	// 		if (!RefreshDisplay)
-	// 		{
-	// 			StartRefresh();
-	// 		}
-	// 	}
-	// }
+	private void CalculateMaxCapacity()
+	{
+		float newCapacity = 0;
+		for (int i = 0; i < LocalAPC.ConnectedDepartmentBatteries.Count; i++)
+		{
+			newCapacity += LocalAPC.ConnectedDepartmentBatteries[i].CapacityMax;
+		}
+		MaxCapacity = newCapacity;
+	}
 
-	// private void OnDisable()
-	// {
-	// 	StopRefresh();
-	// }
+	private string CalculateChargePercentage()
+	{
+		float newCapacity = 0;
+		for (int i = 0; i < LocalAPC.ConnectedDepartmentBatteries.Count; i++)
+		{
+			newCapacity += LocalAPC.ConnectedDepartmentBatteries[i].CurrentCapacity;
+		}
+
+		if (MaxCapacity == 0)
+		{
+			return "0%";
+		}
+		return (newCapacity / MaxCapacity).ToString("P0");
+	}
 
 	// Functions for refreshing the display
 	private bool RefreshDisplay = false;
@@ -196,8 +189,7 @@ public class GUI_APC : NetTab
 	private IEnumerator Refresh()
 	{
 		UpdateScreenDisplay();
-		yield return new WaitForSeconds(0.1F);
-		Logger.Log($"Peepers: {Peepers.Count.ToString()}");
+		yield return new WaitForSeconds(0.5F);
 		if (RefreshDisplay)
 		{
 			StartCoroutine( Refresh() );
@@ -211,20 +203,23 @@ public class GUI_APC : NetTab
 			ActiveDisplay.SetActive(true);
 			Logger.Log("Updating APC display", Category.NetUI);
 			// Update the electrical values
-			float V = LocalAPC.Voltage;
-			float R = LocalAPC.Resistance;
-			float I = V / R;
-			ElectricalValues.Value = $"{V:G6}\n{I:G6}\n{R:G6}";
-			StatusText.Value = LocalAPC.State.ToString();
+			float voltage = LocalAPC.Voltage;
+			float current = LocalAPC.Current;
+			float resistance = LocalAPC.Resistance;
+			float power = voltage * current;
+			ElectricalValues.SetValue = $"{voltage:G6} V\n{current:G6} A\n{power:G6} W";
+			StatusText.SetValue = LocalAPC.State.ToString();
+			ChargePercentage.SetValue = CalculateChargePercentage();
 
+			int chargeVal = int.Parse(ChargeBar.Value) + 10;
 			// Update the charge bar animation
-			if (int.Parse(ChargeBar.Value) >= 100)
+			if (chargeVal > 100)
 			{
-				ChargeBar.Value = "0";
+				ChargeBar.SetValue = "0";
 			}
 			else
 			{
-				ChargeBar.Value = (int.Parse(ChargeBar.Value) + 1).ToString();
+				ChargeBar.SetValue = chargeVal.ToString();
 			}
 			UpdateDisplayColours();
 		}
@@ -242,7 +237,6 @@ public class GUI_APC : NetTab
 				Background.Element.color = greenBackground;
 				ElectricalLabels.Element.color = greenForeground;
 				ElectricalValues.Element.color = greenForeground;
-				ElectricalSymbols.Element.color = greenForeground;
 				StatusText.Element.color = greenForeground;
 				ChargePercentage.Element.color = greenForeground;
 				ChargeFill.Element.color = greenForeground;
@@ -251,7 +245,6 @@ public class GUI_APC : NetTab
 				Background.Element.color = blueBackground;
 				ElectricalLabels.Element.color = blueForeground;
 				ElectricalValues.Element.color = blueForeground;
-				ElectricalSymbols.Element.color = blueForeground;
 				StatusText.Element.color = blueForeground;
 				ChargePercentage.Element.color = blueForeground;
 				ChargeFill.Element.color = blueForeground;
@@ -260,7 +253,6 @@ public class GUI_APC : NetTab
 				Background.Element.color = redBackground;
 				ElectricalLabels.Element.color = redForeground;
 				ElectricalValues.Element.color = redForeground;
-				ElectricalSymbols.Element.color = redForeground;
 				StatusText.Element.color = redForeground;
 				ChargePercentage.Element.color = redForeground;
 				ChargeFill.Element.color = redForeground;
