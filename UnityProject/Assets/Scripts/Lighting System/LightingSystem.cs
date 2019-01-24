@@ -216,7 +216,7 @@ public class LightingSystem : MonoBehaviour
 		else
 		{
 			Color color = mTex2DWallFloorOcclusionMask.GetPixelBilinear(_normalizedMaskPoint.x, _normalizedMaskPoint.y);
-			return color != Color.red && color != Color.green;
+			return color == Color.red || color == Color.green;
 		}
 
 		return false;
