@@ -30,7 +30,7 @@ public class MopTrigger : PickUpTrigger
 				UIManager.ProgressBar.StartProgress(Vector3Int.RoundToInt(targetWorldPos),
 					5f, progressFinishAction, originator);
 			}
-			
+
         }
 
         return base.Interact (originator, position, hand);
@@ -39,10 +39,10 @@ public class MopTrigger : PickUpTrigger
 	public void CleanTile (Vector3 spatsPos)
 	{
 		Vector3Int targetWorldIntPos = spatsPos.CutToInt();
-		IEnumerable bloodSpats = MatrixManager.GetAt<BloodSplat>(targetWorldIntPos);
-		foreach (BloodSplat bloodSpat in bloodSpats)
+		var bloodSpats = MatrixManager.GetAt<BloodSplat>(targetWorldIntPos);
+		for ( var i = 0; i < bloodSpats.Count; i++ )
 		{
-			bloodSpat.DisappearFromWorldServer();
+			bloodSpats[i].DisappearFromWorldServer();
 		}
 	}
 }

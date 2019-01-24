@@ -9,6 +9,7 @@ public class Matrix : MonoBehaviour
 	private TileList objects;
 	private Vector3Int initialOffset;
 	public Vector3Int InitialOffset => initialOffset;
+	public int Id { get; set; }
 
 	private void Awake()
 	{
@@ -181,6 +182,11 @@ public class Matrix : MonoBehaviour
 
 		// Otherwise check for blocking objects
 		return objects.Get(position).Contains(registerTile);
+	}
+
+	public bool HasTile( Vector3Int position )
+	{
+		return metaTileMap.HasTile( position );
 	}
 
 	public IEnumerable<IElectricityIO> GetElectricalConnections(Vector3Int position)

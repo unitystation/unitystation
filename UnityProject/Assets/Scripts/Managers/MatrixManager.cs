@@ -34,7 +34,7 @@ public class MatrixManager : MonoBehaviour
 	/// Finds first matrix that is not empty at given world pos
 	public static MatrixInfo AtPoint(Vector3Int worldPos)
 	{
-		MatrixInfo matrixInfo = getInternal(mat => !mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat)));
+		MatrixInfo matrixInfo = getInternal(mat => mat.Matrix.HasTile( WorldToLocalInt(worldPos, mat) ));
 		return Equals(matrixInfo, MatrixInfo.Invalid) ? Instance.activeMatrices[0] : matrixInfo;
 	}
 
@@ -169,15 +169,16 @@ public class MatrixManager : MonoBehaviour
 	public static List<PushPull> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher)
 	{
 		Vector3Int worldTarget = worldOrigin + dir.To3Int();
-		PushPull[] pushPulls = MatrixManager.GetAt<PushPull>(worldTarget).ToArray();
+		var pushPulls = MatrixManager.GetAt<PushPull>(worldTarget);
 		List<PushPull> result = new List<PushPull>();
-		foreach (PushPull pushPull in pushPulls)
+		for ( var i = 0; i < pushPulls.Count; i++ )
 		{
-			if (pushPull && pushPull.gameObject != pusher && pushPull.IsSolid)
+			PushPull pushPull = pushPulls[i];
+			if ( pushPull && pushPull.gameObject != pusher && pushPull.IsSolid )
 			{
-				if (pushPull.CanPush(worldTarget, Vector2Int.RoundToInt(dir)))
+				if ( pushPull.CanPush( worldTarget, Vector2Int.RoundToInt( dir ) ) )
 				{
-					result.Add(pushPull);
+					result.Add( pushPull );
 				}
 			}
 		}
@@ -193,21 +194,32 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>
-	public static IEnumerable<T> GetAt<T>(Vector3Int worldPos) where T : MonoBehaviour
+	public static List<T> GetAt<T>(Vector3Int worldPos) where T : MonoBehaviour
 	{
-		return getAtInternal(mat => mat.Matrix.Get<T>(WorldToLocalInt(worldPos, mat)));
-	}
-
-	private static IEnumerable<T> getAtInternal<T>(Func<MatrixInfo, IEnumerable<T>> condition) where T : MonoBehaviour
-	{
-		IEnumerable<T> t = new List<T>();
+		List<T> t = new List<T>();
 		for (var i = 0; i < Instance.activeMatrices.Count; i++)
 		{
-			t = t.Concat(condition(Instance.activeMatrices[i]));
+			t.AddRange( Get(i).Matrix.Get<T>( WorldToLocalInt(worldPos,i) ) );
 		}
 
 		return t;
 	}
+//	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>
+//	public static IEnumerable<T> GetAt<T>(Vector3Int worldPos) where T : MonoBehaviour
+//	{
+//		return getAtInternal(mat => mat.Matrix.Get<T>(WorldToLocalInt(worldPos, mat)));
+//	}
+//
+//	private static IEnumerable<T> getAtInternal<T>(Func<MatrixInfo, IEnumerable<T>> condition) where T : MonoBehaviour
+//	{
+//		IEnumerable<T> t = new List<T>();
+//		for (var i = 0; i < Instance.activeMatrices.Count; i++)
+//		{
+//			t = t.Concat(condition(Instance.activeMatrices[i]));
+//		}
+//
+//		return t;
+//	}
 
 	private static bool isAtInternal(Func<MatrixInfo, bool> condition)
 	{
@@ -280,23 +292,25 @@ public class MatrixManager : MonoBehaviour
 
 		for (int i = 0; i < findMatrices.Count; i++)
 		{
-			GameObject gameObj = findMatrices[i].gameObject;
+			Matrix matrix = findMatrices[i];
+			GameObject gameObj = matrix.gameObject;
 			MatrixInfo matrixInfo = new MatrixInfo
 			{
 				Id = i,
-				Matrix = findMatrices[i],
+				Matrix = matrix,
 				GameObject = gameObj,
 				Objects = gameObj.transform.GetComponentInChildren<ObjectLayer>().transform,
 				MatrixMove = gameObj.GetComponentInParent<MatrixMove>(),
 				MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
 				MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
 //				NetId is initialized later
-				InitialOffset = findMatrices[i].InitialOffset
+				InitialOffset = matrix.InitialOffset
 			};
 			if (!activeMatrices.Contains(matrixInfo))
 			{
 				activeMatrices.Add(matrixInfo);
 			}
+			matrix.Id = i;
 		}
 
 		IsInitialized = true;
@@ -313,8 +327,11 @@ public class MatrixManager : MonoBehaviour
 	/// Get MatrixInfo by matrix id
 	public static MatrixInfo Get(int id)
 	{
+		if ( !IsInitialized )
+		{
+			Instance.InitMatrices();
+		}
 		return Instance.activeMatrices[id];
-		//return getInternal(mat => mat.Id == id);
 	}
 
 	/// Get MatrixInfo by gameObject containing Matrix component
@@ -326,12 +343,12 @@ public class MatrixManager : MonoBehaviour
 	/// Get MatrixInfo by Matrix component
 	public static MatrixInfo Get(Matrix matrix)
 	{
-		return getInternal(mat => mat.Matrix == matrix);
+		return Get( matrix.Id );
 	}
 
 	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
 	{
-		if (Instance.activeMatrices.Count == 0)
+		if (!IsInitialized)
 		{
 			//			Logger.Log( "MatrixManager list not ready yet, trying to init" );
 			Instance.InitMatrices();
@@ -392,6 +409,11 @@ public class MatrixManager : MonoBehaviour
 		return rotatedPivoted;
 	}
 
+	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	public static Vector3Int WorldToLocalInt(Vector3 worldPos, int id)
+	{
+		return WorldToLocalInt(worldPos, Get(id));
+	}
 	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public Vector3Int WorldToLocalInt(Vector3 worldPos, Matrix matrix)
 	{

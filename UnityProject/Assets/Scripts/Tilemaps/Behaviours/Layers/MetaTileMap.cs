@@ -219,6 +219,22 @@ public class MetaTileMap : MonoBehaviour
 		return true;
 	}
 
+	/// <summary>
+	/// Cheap method to check if there's a tile
+	/// </summary>
+	/// <param name="position"></param>
+	/// <returns></returns>
+	public bool HasTile(Vector3Int position)
+	{
+		for (var i = 0; i < LayersValues.Count; i++)
+		{
+			if (LayersValues[i].HasTile(position))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	public bool HasTile(Vector3Int position, LayerType layerType)
 	{
 		return Layers[layerType].HasTile(position);
