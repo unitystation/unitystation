@@ -12,7 +12,7 @@ namespace Tilemaps.Behaviours.Meta
 		{
 			var neighbors = new Vector3Int[directions.Length];
 
-			for (var i = 0; i < directions.Length; i++)
+			for (int i = 0; i < directions.Length; i++)
 			{
 				neighbors[i] = center + directions[i];
 			}
@@ -22,17 +22,17 @@ namespace Tilemaps.Behaviours.Meta
 
 		public static void AddToNeighbors(MetaDataNode node)
 		{
-			foreach (MetaDataNode neighbor in node.GetNeighbors())
+			for (var i = 0; i < node.Neighbors.Count; i++)
 			{
-				neighbor.AddNeighbor(node);
+				node.Neighbors[i].AddNeighbor(node);
 			}
 		}
 
 		public static void RemoveFromNeighbors(MetaDataNode node)
 		{
-			foreach (MetaDataNode neighbor in node.GetNeighbors())
+			for (var i = 0; i < node.Neighbors.Count; i++)
 			{
-				neighbor.RemoveNeighbor(node);
+				node.Neighbors[i].RemoveNeighbor(node);
 			}
 		}
 	}

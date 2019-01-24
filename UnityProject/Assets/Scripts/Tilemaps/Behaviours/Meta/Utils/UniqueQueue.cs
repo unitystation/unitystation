@@ -38,9 +38,9 @@ namespace Tilemaps.Behaviours.Meta
 			}
 		}
 
-		public void EnqueueAll(T[] elements)
+		public void EnqueueAll(List<T> elements)
 		{
-			for (int i = 0; i < elements.Length; i++)
+			for (int i = 0; i < elements.Count; i++)
 			{
 				Enqueue(elements[i]);
 			}

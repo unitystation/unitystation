@@ -18,8 +18,7 @@ public class MetaDataNode
 
 	public readonly Vector3Int Position;
 
-	private HashSet<MetaDataNode> neighbors;
-	private MetaDataNode[] Neighbors;
+	public List<MetaDataNode> Neighbors { get; }
 
 	public NodeType Type;
 
@@ -32,8 +31,7 @@ public class MetaDataNode
 	public MetaDataNode(Vector3Int position)
 	{
 		Position = position;
-		neighbors = new HashSet<MetaDataNode>();
-		Neighbors = new MetaDataNode[0];
+		Neighbors = new List<MetaDataNode>();
 		Atmos = GasMixes.Space;
 	}
 
@@ -43,25 +41,16 @@ public class MetaDataNode
 
 	public bool Exists => this != None;
 
-	public MetaDataNode[] GetNeighbors()
-	{
-		return Neighbors;
-	}
-
 	public void ClearNeighbors()
 	{
-		neighbors.Clear();
-
-		Neighbors = neighbors.ToArray();
+		Neighbors.Clear();
 	}
 
 	public void AddNeighbor(MetaDataNode neighbor)
 	{
 		if (neighbor != this)
 		{
-			neighbors.Add(neighbor);
-
-			Neighbors = neighbors.ToArray();
+			Neighbors.Add(neighbor);
 		}
 	}
 
@@ -69,9 +58,7 @@ public class MetaDataNode
 
 	public void RemoveNeighbor(MetaDataNode neighbor)
 	{
-		neighbors.Remove(neighbor);
-
-		Neighbors = neighbors.ToArray();
+		Neighbors.Remove(neighbor);
 	}
 	public string WindowDmgType { get; set; } = "";
 

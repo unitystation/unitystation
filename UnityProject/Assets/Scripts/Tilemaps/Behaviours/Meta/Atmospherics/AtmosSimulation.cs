@@ -1,4 +1,5 @@
-﻿using Tilemaps.Behaviours.Meta;
+﻿using System.Collections.Generic;
+using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
 namespace Atmospherics
@@ -40,16 +41,16 @@ namespace Atmospherics
 		{
 			nodes[0] = node;
 
-			MetaDataNode[] neighbors = node.GetNeighbors();
+			List<MetaDataNode> neighbors = node.Neighbors;
 
-			for (int i = 0; i < neighbors.Length; i++)
+			for (int i = 0; i < neighbors.Count; i++)
 			{
 				nodes[1 + i] = neighbors[i];
 			}
 
 			if (node.IsOccupied || node.IsSpace || AtmosUtils.IsPressureChanged(node))
 			{
-				Equalize(1 + neighbors.Length);
+				Equalize(1 + neighbors.Count);
 
 				updateList.EnqueueAll(neighbors);
 			}
