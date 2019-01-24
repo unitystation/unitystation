@@ -245,8 +245,8 @@ public class MouseInputController : MonoBehaviour
 
 		Vector3 mousePosition = MousePosition;
 
-		//sample the FOV mask under current mouse position
-		if (lightingSystem.IsFovOccluded(Input.mousePosition))
+		// Sample the FOV mask under current mouse position.
+		if (lightingSystem.GetScreenPointVisible(Input.mousePosition) == false)
 		{
 			return false;
 		}
