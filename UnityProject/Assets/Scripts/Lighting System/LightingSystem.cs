@@ -390,10 +390,10 @@ public class LightingSystem : MonoBehaviour
 				renderSettings,
 				operationParameters.cameraOrthographicSize);
 		}
-
-		RenderTexture.active = wallFloorOcclusionMask.renderTexture;
-		wallFloorOcclusionMaskTexture2D.ReadPixels(new Rect(0, 0, wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height), 0, 0);
-		wallFloorOcclusionMaskTexture2D.Apply();
+		
+		// RenderTexture.active = wallFloorOcclusionMask.renderTexture;
+		// wallFloorOcclusionMaskTexture2D.ReadPixels(new Rect(0, 0, wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height), 0, 0);
+		// wallFloorOcclusionMaskTexture2D.Apply();
 
 		// Debug View Selection.
 		if (renderSettings.viewMode == RenderSettings.ViewMode.LightLayer)
@@ -488,6 +488,7 @@ public class LightingSystem : MonoBehaviour
 	/// check the wallmount's sprite alpha transparency to see if it is visible.</returns>
 	public bool IsFovOccluded(Vector2 screenPosition)
 	{
+		return false;
 		Camera cam = Camera.main;
 		Vector2 viewportPos = cam.ScreenToViewportPoint(screenPosition);
 		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f) return false; // out of viewport bounds
