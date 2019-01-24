@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 95590063989012254}
   - component: {fileID: 114671962178843966}
   - component: {fileID: 114539998459752066}
+  - component: {fileID: 114662322942126588}
   m_Layer: 0
   m_Name: AirVent
   m_TagString: Untagged
@@ -130,6 +131,18 @@ MonoBehaviour:
   ObjectType: 1
   AtmosPassable: 1
   Passable: 1
+--- !u!114 &114662322942126588
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010733523080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a3b980b33b4f6c945ab7c474875ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinimumPressure: 101.325
 --- !u!114 &114671962178843966
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -15,7 +15,7 @@ public class Deconstruction : MonoBehaviour
 		{
 			case TileType.Wall:
 				DoWallDeconstruction(cellPosInt, tileChangeManager, worldPos);
-				tileChangeManager.gameObject.GetComponent<SystemManager>().UpdateAt(cellPosInt);
+				tileChangeManager.gameObject.GetComponent<SubsystemManager>().UpdateAt(cellPosInt);
 				break;
 		}
 	}
@@ -52,7 +52,7 @@ public class Deconstruction : MonoBehaviour
 
 	private void DoWallDeconstruction(Vector3Int cellPos, TileChangeManager tcm, Vector3 worldPos)
 	{
-		tcm.RemoveTile(cellPos, TileChangeLayer.Wall);
+		tcm.RemoveTile(cellPos, LayerType.Walls);
 		PlaySoundMessage.SendToAll("Deconstruct", worldPos, 1f);
 
 		//Spawn 4 metal sheets:

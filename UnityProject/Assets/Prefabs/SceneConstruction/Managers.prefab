@@ -2605,6 +2605,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1430720943768860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4286186307607580}
+  - component: {fileID: 114586712240816216}
+  m_Layer: 0
+  m_Name: AtmosManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1431150214317012
 GameObject:
   m_ObjectHideFlags: 1
@@ -6462,6 +6478,7 @@ Transform:
   - {fileID: 4742497414384692}
   - {fileID: 4421105379308220}
   - {fileID: 4654617057091670}
+  - {fileID: 4286186307607580}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6585,6 +6602,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4831593447424314}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4286186307607580
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1430720943768860}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4244501537706558}
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4288992158601228
 Transform:
@@ -14333,6 +14363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 4
+  image: {fileID: 0}
 --- !u!114 &114036698900262940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14738,6 +14769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 1
+  image: {fileID: 0}
 --- !u!114 &114087389822120136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15029,6 +15061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 3
+  image: {fileID: 0}
 --- !u!114 &114101474365813880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15332,11 +15365,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meals:
     recipeList:
-    - ingredients:
+    - Name: Meat Steak
+      Ingredients:
       - amount: 1
         ingredientName: Meat
-      name: Meat Steak
-      output: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 2}
+      Output: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 2}
   techweb: {fileID: 114132697322968044}
   designs: {fileID: 114249993451222874}
   construction: {fileID: 114025630962641706}
@@ -17515,6 +17548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 0
+  image: {fileID: 0}
 --- !u!114 &114282827586815298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -21714,6 +21748,19 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114586712240816216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1430720943768860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82a7b771adf143e9b7a36d9cfde3508d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 0.1
+  NumberThreads: 1
 --- !u!114 &114587488265159582
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -24268,6 +24315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 5
+  image: {fileID: 0}
 --- !u!114 &114779247109612158
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -24436,6 +24484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPartType: 2
+  image: {fileID: 0}
 --- !u!114 &114798723645736978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -25905,7 +25954,6 @@ MonoBehaviour:
   toolTip: {fileID: 114819375966709390}
   walkRunControl: {fileID: 114928448129669528}
   storageHandler: {fileID: 114441105741538276}
-  oxygenAlertImg: {fileID: 114554365641785132}
   zoneSelector: {fileID: 114377087679206670}
   ttsToggle: 0
   progressBar: {fileID: 0}
@@ -26498,7 +26546,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1100039377420734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8079a567854c41a28799b3762ed3cb0, type: 3}
+  m_Script: {fileID: 11500000, guid: 95a8907fe9ec443cbaf3a6d8a6c098fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114951559530978778
@@ -32228,7 +32276,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.41528565}
+  m_AnchorMax: {x: 1, y: 0.41528535}
   m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

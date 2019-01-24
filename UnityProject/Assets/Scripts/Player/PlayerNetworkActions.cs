@@ -482,8 +482,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (isTileMap)
 			{
-				var tileChangeManager = newParent.GetComponent<TileChangeManager>();
-				item.transform.parent = tileChangeManager.ObjectParent.transform;
+				TileChangeManager tileChangeManager = newParent.GetComponentInParent<TileChangeManager>();
+//				item.transform.parent = tileChangeManager.ObjectParent.transform; TODO
 			}
 			else
 			{
@@ -496,7 +496,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//	private void ReorderGameobjectsOnTile(Vector2 position)
 	//	{
-	//		List<RegisterItem> items = registerTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
+	//		List<RegisterItem> items = regCallCmdCrowBarRemoveFloorTileisterTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
 	//
 	//		for (int i = 0; i < items.Count; i++)
 	//		{
@@ -670,7 +670,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 		playerScript.pushPull.CmdStopPulling();
-	}
+}
 
 	[Command]
 	public void CmdToggleChatIcon(bool turnOn)

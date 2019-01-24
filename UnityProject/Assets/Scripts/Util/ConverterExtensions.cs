@@ -12,7 +12,6 @@
 		public static Vector3Int RoundToInt(this Vector2 other)
 		{
 			return Vector3Int.RoundToInt(other);
-
 		}
 
 		/// Round to int while cutting z-axis

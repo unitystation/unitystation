@@ -15,7 +15,7 @@ public class TabUpdateMessage : ServerMessage {
 	public bool Touched;
 	
 	public override IEnumerator Process() {
-//		Logger.Log("Processed " + ToString());
+		Logger.LogTraceFormat("Processed {0}", Category.NetUI, ToString());
 		yield return WaitFor( Provider );
 		switch ( Action ) {
 			case TabAction.Open:

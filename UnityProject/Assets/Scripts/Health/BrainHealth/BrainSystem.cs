@@ -32,8 +32,9 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
     //The amount of time the brain has been starved of oxygen
     private float noOxygenTime = 0f;
     private bool countOxygenLoss = false;
+    private bool init = false;
 
-    void Awake()
+    void Start()
     {
         InitSystem();
     }
@@ -55,6 +56,7 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
             {
                 //TODO: See https://github.com/unitystation/unitystation/issues/1429
             }
+            init = true;
         }
     }
 
@@ -72,6 +74,10 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
     // Controlled via UpdateManager
     void UpdateMe()
     {
+        if (!init)
+        {
+            return;
+        }
         //Server Only:
         if (CustomNetworkManager.Instance._isServer)
         {
@@ -166,9 +172,9 @@ public class BrainSystem : MonoBehaviour //Do not turn into NetBehaviour
     public void UpdateClientBrainStats(bool isHusk, int brainDmgAmt)
     {
         if (CustomNetworkManager.Instance._isServer)
-		{
-			return;
-		}
+        {
+            return;
+        }
         IsHuskClient = isHusk;
         BrainDamageAmtClient = brainDmgAmt;
     }

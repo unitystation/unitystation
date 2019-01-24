@@ -5,17 +5,19 @@ using UnityEngine.Tilemaps;
 	[ExecuteInEditMode]
 	public class Layer : MonoBehaviour
 	{
-		private SystemManager systemManager;
+		private SubsystemManager subsystemManager;
 
 		public LayerType LayerType;
 		protected Tilemap tilemap;
 
 		public BoundsInt Bounds => tilemap.cellBounds;
 
+		public Vector3Int WorldToCell(Vector3 pos) => tilemap.WorldToCell(pos);
+
 		public void Awake()
 		{
 			tilemap = GetComponent<Tilemap>();
-			systemManager = GetComponentInParent<SystemManager>();
+			subsystemManager = GetComponentInParent<SubsystemManager>();
 		}
 
 		public void Start()
@@ -43,24 +45,24 @@ using UnityEngine.Tilemaps;
 
 		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool inclPlayers = true, GameObject context = null )
 		{
-			return TileUtils.IsPassable(tilemap.GetTile<BasicTile>(to));
+			return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsPassable();
 		}
 
 		public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to)
 		{
-			return TileUtils.IsAtmosPassable(tilemap.GetTile<BasicTile>(to));
+			return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsAtmosPassable();
 		}
 
 		public virtual bool IsSpaceAt(Vector3Int position)
 		{
-			return TileUtils.IsSpace(tilemap.GetTile<BasicTile>(position));
+			return !tilemap.HasTile(position) || tilemap.GetTile<BasicTile>(position).IsSpace();
 		}
 
 		public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
 		{
 			tilemap.SetTile(position, tile);
 			tilemap.SetTransformMatrix(position, transformMatrix);
-			systemManager.UpdateAt(position);
+			subsystemManager.UpdateAt(position);
 		}
 
 		public virtual LayerTile GetTile(Vector3Int position)
@@ -73,10 +75,26 @@ using UnityEngine.Tilemaps;
 			return GetTile(position);
 		}
 
-		public virtual void RemoveTile(Vector3Int position)
+		public virtual void RemoveTile(Vector3Int position, bool removeAll=false)
 		{
-			tilemap.SetTile(position, null);
-			systemManager.UpdateAt(position);
+			if (removeAll)
+			{
+				position.z = 0;
+
+				while (tilemap.HasTile(position))
+				{
+					tilemap.SetTile(position, null);
+
+					position.z--;
+				}
+			}
+			else
+			{
+				tilemap.SetTile(position, null);
+			}
+
+			position.z = 0;
+			subsystemManager.UpdateAt(position);
 		}
 
 		public virtual void ClearAllTiles()

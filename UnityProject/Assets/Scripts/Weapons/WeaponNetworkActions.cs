@@ -68,9 +68,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdRequestMeleeAttack(GameObject victim, string slot, Vector2 stabDirection,
 		BodyPartType damageZone, LayerType layerType)
 	{
-		if (!victim ||
+		if (!playerMove.allowInput ||
+			playerMove.isGhost ||
+			!victim ||
 			!playerScript.playerNetworkActions.SlotNotEmpty(slot) ||
-			playerScript.canNotInteract())
+			!playerScript.playerHealth.serverPlayerConscious
+		)
 		{
 			return;
 		}
@@ -85,14 +88,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
 		if (layerType != LayerType.None)
 		{
-			var tileChangeManager = victim.GetComponent<TileChangeManager>();
+			TileChangeManager tileChangeManager = victim.GetComponent<TileChangeManager>();
+			MetaTileMap metaTileMap = victim.GetComponent<MetaTileMap>();
 			if (tileChangeManager == null)
 			{
 				return;
 			}
 
 			//Tilemap stuff:
-			var tileMapDamage = tileChangeManager.GetTilemap(layerType).gameObject.GetComponent<TilemapDamage>();
+			var tileMapDamage = metaTileMap.Layers[layerType].GetComponent<TilemapDamage>();
 			if (tileMapDamage != null)
 			{
 				//Wire cutters should snip the grills instead:
