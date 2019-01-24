@@ -99,7 +99,7 @@ public class Rightclick : MonoBehaviour
 	void Update()
 	{
 		// Get right mouse click and check if mouse point occluded by FoV system.
-		if (Input.GetMouseButtonDown(1) && lightingSystem.GetScreenPointVisible(Input.mousePosition))
+		if (Input.GetMouseButtonDown(1) && lightingSystem.IsScreenPointVisible(Input.mousePosition))
 		{
 			//gets Items on the position of the mouse that are able to be right clicked
 			List<GameObject> objects = GetRightClickableObjects();
@@ -127,23 +127,14 @@ public class Rightclick : MonoBehaviour
 
 	private bool IsHiddenWallmount(GameObject obj)
 	{
-		if (obj.GetComponent<WallmountBehavior>() == null)
+		WallmountBehavior wallmountBehavior = obj.GetComponent<WallmountBehavior>();
+		if (wallmountBehavior == null)
 		{
 			//not a wallmount
 			return false;
 		}
-		SpriteRenderer[] spriteRenderers = obj.GetComponentsInChildren<SpriteRenderer>(false);
-		foreach (SpriteRenderer renderer in spriteRenderers)
-		{
-			if (renderer.color.a > 0)
-			{
-				//there's at least one non-transparent renderer, so it's not hidden
-				return false;
-			}
-		}
 
-		//there were no renderers or all of them were transparent, it's hidden
-		return true;
+		return wallmountBehavior.IsHiddenFromLocalPlayer();
 	}
 
 	private void Generate(List<GameObject> objects)

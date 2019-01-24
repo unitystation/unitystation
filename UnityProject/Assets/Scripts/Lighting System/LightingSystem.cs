@@ -35,7 +35,10 @@ public class LightingSystem : MonoBehaviour
 	private bool mDoubleFrameRendererSwitch;
 	private bool mMatrixRotationMode;
 	private float mMatrixRotationModeBlend;
+	//used for FOV checking if async readback is supported
 	private TextureDataRequest mTextureDataRequest;
+	//used for FOV checking is async readback is NOT supported
+	private Texture2D mTex2DWallFloorOcclusionMask;
 
 	public bool matrixRotationMode
 	{
@@ -166,7 +169,7 @@ public class LightingSystem : MonoBehaviour
 	public static Vector2 GetPixelPerfectPosition(Vector3 iWorldSpacePosition, Vector3 iPreviousWorldSpacePosition, Vector2 iPreviousPixelPerfectPosition)
 	{
 		if (HandlePPPositionRequest == null)
-		{	
+		{
 			return iWorldSpacePosition;
 		}
 
@@ -177,21 +180,19 @@ public class LightingSystem : MonoBehaviour
 	/// Checks if the specified screen position is occluded due to FOV.
 	/// </summary>
 	/// <param name="iScreenPoint">Screen-space position to test.</param>
-	/// <returns>true iff the pixel at the specified screen position is hidden by FOV occlusion. Note that a wallmount
+	/// <returns>true iff the pixel at the specified screen position is not hidden by FOV occlusion. Note that a wallmount
 	/// on the opposite side of the wall from a player is not occluded by FOV even though it is turned transparent. You can
-	/// check the wallmount's sprite alpha transparency to see if it is visible.</returns>
-	public bool GetScreenPointVisible(Vector2 iScreenPoint)
+	/// check the wallmount's sprite color alpha transparency to see if it is visible.</returns>
+	public bool IsScreenPointVisible(Vector2 iScreenPoint)
 	{
-		var _camera = mMainCamera;
-
-		Vector2 _viewportPos = _camera.ScreenToViewportPoint(iScreenPoint);
+		Vector2 _viewportPos = mMainCamera.ScreenToViewportPoint(iScreenPoint);
 
 		// Check for out of bounds;
 		if (_viewportPos.x < 0.0f ||
 		    _viewportPos.x > 1.0f ||
 		    _viewportPos.y < 0.0f ||
 		    _viewportPos.y > 1.0f)
-			return false; 
+			return false;
 
 		// Use PPRT occlusion mask to get normalized texture coordinate.
 		// There is an assumption that wallFloorOcclusionMask and requested AsyncGPUReadback texture is the same.
@@ -199,13 +200,23 @@ public class LightingSystem : MonoBehaviour
 
 		Color32 _sampledColor;
 
-		if (mTextureDataRequest.TryGetPixelNormalized(_normalizedMaskPoint.x, _normalizedMaskPoint.y, out _sampledColor))
+		if (!renderSettings.disableAsyncGPUReadback && SystemInfo.supportsAsyncGPUReadback)
 		{
-			bool _sampledVisibleWall = _sampledColor.r > 0;
-			bool _sampledVisibleFloor = _sampledColor.g > 0;
 
-			// Consider visible wal or visible floor as visible point.
-			return _sampledVisibleWall || _sampledVisibleFloor;
+			if (mTextureDataRequest.TryGetPixelNormalized(_normalizedMaskPoint.x, _normalizedMaskPoint.y,
+				out _sampledColor))
+			{
+				bool _sampledVisibleWall = _sampledColor.r > 0;
+				bool _sampledVisibleFloor = _sampledColor.g > 0;
+
+				// Consider visible wal or visible floor as visible point.
+				return _sampledVisibleWall || _sampledVisibleFloor;
+			}
+		}
+		else
+		{
+			Color color = mTex2DWallFloorOcclusionMask.GetPixelBilinear(_normalizedMaskPoint.x, _normalizedMaskPoint.y);
+			return color != Color.red && color != Color.green;
 		}
 
 		return false;
@@ -233,6 +244,11 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnEnable()
 	{
+		if (!SystemInfo.supportsAsyncGPUReadback)
+		{
+			UnityEngine.Debug.LogWarning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
+			                             " be used instead.");
+		}
 		HandlePPPositionRequest += ProviderPPPosition;
 
 		// Initialize members.
@@ -311,6 +327,7 @@ public class LightingSystem : MonoBehaviour
 		// Prepare render textures.
 		floorOcclusionMask = new PixelPerfectRT(operationParameters.fovPPRTParameter);
 		wallFloorOcclusionMask = new PixelPerfectRT(operationParameters.fovPPRTParameter);
+		mTex2DWallFloorOcclusionMask = new Texture2D(wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height, TextureFormat.RGB24, false);
 
 		objectOcclusionMask = new PixelPerfectRT(operationParameters.lightPPRTParameter);
 
@@ -361,9 +378,19 @@ public class LightingSystem : MonoBehaviour
 
 			mPostProcessingStack.GenerateFovMask(mOcclusionPPRT, floorOcclusionMask, wallFloorOcclusionMask, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, operationParameters);
 
-			// Request asynchronous callback for access to texture data.
-			// Used for sampling point visibility from mask.
-			AsyncGPUReadback.Request(wallFloorOcclusionMask.renderTexture, 0, AsyncReadCallback);
+			if (!renderSettings.disableAsyncGPUReadback && SystemInfo.supportsAsyncGPUReadback)
+			{
+				// Request asynchronous callback for access to texture data.
+				// Used for sampling point visibility from mask.
+				AsyncGPUReadback.Request(wallFloorOcclusionMask.renderTexture, 0, AsyncReadCallback);
+			}
+			else
+			{
+				//async readback not supported, instead use synchronous readback
+				RenderTexture.active = wallFloorOcclusionMask.renderTexture;
+				mTex2DWallFloorOcclusionMask.ReadPixels(new Rect(0, 0, wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height), 0, 0);
+				mTex2DWallFloorOcclusionMask.Apply();
+			}
 		}
 
 		using (new DisposableProfiler("3. Object Occlusion Mask"))
