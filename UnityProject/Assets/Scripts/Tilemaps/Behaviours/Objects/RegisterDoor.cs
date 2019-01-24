@@ -13,14 +13,6 @@
 			subsystemManager = GetComponentInParent<SubsystemManager>();
 		}
 
-		public override void AfterUpdate()
-		{
-			if (subsystemManager != null)
-			{
-				subsystemManager.UpdateAt(Position);
-			}
-		}
-
 		[SerializeField]
 		private bool isClosed = true;
 
