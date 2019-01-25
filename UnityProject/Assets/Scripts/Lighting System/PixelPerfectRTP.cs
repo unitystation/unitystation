@@ -118,7 +118,6 @@ public class PixelPerfectRT
 		return final;
 	}
 
-
 	private Vector4 GetTransformation(Vector2 iTargetUnits, Vector2 iTargetPosition)
 	{
 		Vector2Int _units = mPPRTParameter.units;
