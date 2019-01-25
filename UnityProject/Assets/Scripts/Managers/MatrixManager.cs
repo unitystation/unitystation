@@ -412,6 +412,24 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
+	public static Vector3 WorldToLocal( Vector3 worldPos, MatrixInfo matrix )
+	{
+		//Invalid matrix info provided
+		if (matrix.Equals(MatrixInfo.Invalid))
+		{
+			return TransformState.HiddenPos;
+		}
+
+		if (!matrix.MatrixMove)
+		{
+			return worldPos - matrix.Offset;
+		}
+
+		return (matrix.MatrixMove.ClientState.Orientation.EulerInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
+		       matrix.MatrixMove.Pivot;
+	}
+
+	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	public static Vector3Int WorldToLocalInt(Vector3 worldPos, int id)
 	{
 		return WorldToLocalInt(worldPos, Get(id));
@@ -434,23 +452,6 @@ public class MatrixManager : MonoBehaviour
 		return WorldToLocal(worldPos, Get(matrix));
 	}
 
-	/// Convert world position to local matrix coordinates. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public static Vector3 WorldToLocal(Vector3 worldPos, MatrixInfo matrix)
-	{
-		//Invalid matrix info provided
-		if (matrix.Equals(MatrixInfo.Invalid))
-		{
-			return TransformState.HiddenPos;
-		}
-
-		if (!matrix.MatrixMove)
-		{
-			return worldPos - matrix.Offset;
-		}
-
-		return matrix.MatrixMove.ClientState.Orientation.EulerInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot) +
-		       matrix.MatrixMove.Pivot;
-	}
 }
 
 /// Struct that helps identify matrices
@@ -461,20 +462,32 @@ public struct MatrixInfo
 	public MetaTileMap MetaTileMap;
 	public MetaDataLayer MetaDataLayer;
 	public GameObject GameObject;
+	public Vector3Int CachedOffset;
 
 	/// <summary>
 	/// Transform containing all the physical objects on the map
 	public Transform Objects;
 
-	public Vector3Int InitialOffset;
+	private Vector3Int initialOffset;
+	private Vector3Int initialOffset2;
+
+	public Vector3Int InitialOffset
+	{
+		get { return initialOffset; }
+		set
+		{
+			initialOffset = value;
+			CachedOffset = value;
+		}
+	}
 
 	public Vector3Int Offset => GetOffset();
 
 	public Vector3Int GetOffset(MatrixState state = default(MatrixState))
 	{
-		if (!MatrixMove)
+		if (!MatrixMove || !MatrixMove.IsMoving)
 		{
-			return InitialOffset;
+			return CachedOffset;
 		}
 
 		if (state.Equals(default(MatrixState)))
@@ -482,7 +495,8 @@ public struct MatrixInfo
 			state = MatrixMove.ClientState;
 		}
 
-		return InitialOffset + (Vector3Int.RoundToInt(state.Position) - MatrixMove.InitialPos);
+		CachedOffset = initialOffset + (state.Position.RoundToInt() - MatrixMove.InitialPos);
+		return CachedOffset;
 	}
 
 	public MatrixMove MatrixMove;
