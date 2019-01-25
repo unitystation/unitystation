@@ -13,12 +13,9 @@ public class MatrixManager : MonoBehaviour
 {
 	//Declare in awake as MatrixManager needs to be destroyed on each scene change
 	public static MatrixManager Instance;
-	private List<MatrixInfo> activeMatrices = new List<MatrixInfo>();
+	private MatrixInfo[] ActiveMatrices = new MatrixInfo[0];
 
 	public static bool IsInitialized;
-
-	/// List of active matrices
-	public List<MatrixInfo> Matrices => activeMatrices;
 
 	/// <summary>
 	/// Find a wall tilemap via its Tilemap collider
@@ -35,7 +32,7 @@ public class MatrixManager : MonoBehaviour
 	public static MatrixInfo AtPoint(Vector3Int worldPos)
 	{
 		MatrixInfo matrixInfo = getInternal(mat => mat.Matrix.HasTile( WorldToLocalInt(worldPos, mat) ));
-		return Equals(matrixInfo, MatrixInfo.Invalid) ? Instance.activeMatrices[0] : matrixInfo;
+		return Equals(matrixInfo, MatrixInfo.Invalid) ? Instance.ActiveMatrices[0] : matrixInfo;
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
@@ -197,13 +194,14 @@ public class MatrixManager : MonoBehaviour
 	public static List<T> GetAt<T>(Vector3Int worldPos) where T : MonoBehaviour
 	{
 		List<T> t = new List<T>();
-		for (var i = 0; i < Instance.activeMatrices.Count; i++)
+		for (var i = 0; i < Instance.ActiveMatrices.Length; i++)
 		{
 			t.AddRange( Get(i).Matrix.Get<T>( WorldToLocalInt(worldPos,i) ) );
 		}
 
 		return t;
 	}
+
 //	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>
 //	public static IEnumerable<T> GetAt<T>(Vector3Int worldPos) where T : MonoBehaviour
 //	{
@@ -223,9 +221,9 @@ public class MatrixManager : MonoBehaviour
 
 	private static bool isAtInternal(Func<MatrixInfo, bool> condition)
 	{
-		for (var i = 0; i < Instance.activeMatrices.Count; i++)
+		for (var i = 0; i < Instance.ActiveMatrices.Length; i++)
 		{
-			if (!condition(Instance.activeMatrices[i]))
+			if (!condition(Instance.ActiveMatrices[i]))
 			{
 				return false;
 			}
@@ -240,9 +238,9 @@ public class MatrixManager : MonoBehaviour
 	/// </Summary>
 	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
 	{
-		for (var i = 0; i < activeMatrices.Count; i++)
+		for (var i = 0; i < ActiveMatrices.Length; i++)
 		{
-			T first = activeMatrices[i].Matrix.GetFirst<T>(WorldToLocalInt(position, activeMatrices[i]));
+			T first = ActiveMatrices[i].Matrix.GetFirst<T>(WorldToLocalInt(position, ActiveMatrices[i]));
 			if (first)
 			{
 				return first;
@@ -290,6 +288,8 @@ public class MatrixManager : MonoBehaviour
 			return;
 		}
 
+		var activeMatrices = new List<MatrixInfo>(/*ActiveMatrices*/);
+
 		for (int i = 0; i < findMatrices.Count; i++)
 		{
 			Matrix matrix = findMatrices[i];
@@ -313,15 +313,17 @@ public class MatrixManager : MonoBehaviour
 			matrix.Id = i;
 		}
 
+		ActiveMatrices = activeMatrices.ToArray();
+
 		IsInitialized = true;
 
 		//These aren't fully initialized at that moment; init is truly finished when server is up and NetIDs are resolved
-//		Logger.Log($"Semi-init {this}");
+		Logger.Log($"Semi-init {this}");
 	}
 
 	public override string ToString()
 	{
-		return $"MatrixManager: {string.Join(",\n", activeMatrices)}";
+		return $"MatrixManager: {string.Join(",\n", ActiveMatrices)}";
 	}
 
 	/// Get MatrixInfo by matrix id
@@ -331,7 +333,7 @@ public class MatrixManager : MonoBehaviour
 		{
 			Instance.InitMatrices();
 		}
-		return Instance.activeMatrices[id];
+		return Instance.ActiveMatrices[id];
 	}
 
 	/// Get MatrixInfo by gameObject containing Matrix component
@@ -354,11 +356,11 @@ public class MatrixManager : MonoBehaviour
 			Instance.InitMatrices();
 		}
 
-		for (var i = 0; i < Instance.activeMatrices.Count; i++)
+		for (var i = 0; i < Instance.ActiveMatrices.Length; i++)
 		{
-			if (condition(Instance.activeMatrices[i]))
+			if (condition(Instance.ActiveMatrices[i]))
 			{
-				return Instance.activeMatrices[i];
+				return Instance.ActiveMatrices[i];
 			}
 		}
 
