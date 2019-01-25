@@ -22,17 +22,21 @@ namespace Tilemaps.Behaviours.Meta
 
 		public static void AddToNeighbors(MetaDataNode node)
 		{
-			for (var i = 0; i < node.Neighbors.Count; i++)
+			MetaDataNode[] neighbors = node.Neighbors;
+
+			for (var i = 0; i < neighbors.Length; i++)
 			{
-				node.Neighbors[i].AddNeighbor(node);
+				neighbors[i].AddNeighbor(node);
 			}
 		}
 
 		public static void RemoveFromNeighbors(MetaDataNode node)
 		{
-			for (var i = 0; i < node.Neighbors.Count; i++)
+			MetaDataNode[] neighbors = node.Neighbors;
+
+			for (var i = 0; i < neighbors.Length; i++)
 			{
-				node.Neighbors[i].RemoveNeighbor(node);
+				neighbors[i].RemoveNeighbor(node);
 			}
 		}
 	}

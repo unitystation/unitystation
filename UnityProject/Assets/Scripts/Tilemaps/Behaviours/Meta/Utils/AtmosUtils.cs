@@ -11,9 +11,11 @@ namespace Atmospherics
 
 		public static bool IsPressureChanged(MetaDataNode node)
 		{
-			for (var i = 0; i < node.Neighbors.Count; i++)
+			MetaDataNode[] neighbors = node.Neighbors;
+
+			for (var i = 0; i < neighbors.Length; i++)
 			{
-				MetaDataNode neighbor = node.Neighbors[i];
+				MetaDataNode neighbor = neighbors[i];
 				if (Mathf.Abs(node.Atmos.Pressure - neighbor.Atmos.Pressure) > MinimumPressure)
 				{
 					return true;

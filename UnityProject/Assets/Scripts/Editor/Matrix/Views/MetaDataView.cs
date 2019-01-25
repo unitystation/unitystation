@@ -117,7 +117,7 @@ public class MetaDataView : BasicView
 		{
 			MetaDataNode node = source.Get(position, false);
 
-			int neighborCount = node.Neighbors.Count;
+			int neighborCount = node.NeighborCount;
 
 			if (neighborCount > 0)
 			{

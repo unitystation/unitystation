@@ -13,7 +13,7 @@ namespace Atmospherics
 		public int UpdateListCount => updateList.Count;
 
 		private float factor;
-		private MetaDataNode[] nodes = new MetaDataNode[5];
+		private List<MetaDataNode> nodes = new List<MetaDataNode>(5);
 		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
 
 		public void AddToUpdateList(MetaDataNode node)
@@ -39,28 +39,27 @@ namespace Atmospherics
 
 		private void Update(MetaDataNode node)
 		{
-			nodes[0] = node;
+			nodes.Clear();
+			nodes.Add(node);
 
-			List<MetaDataNode> neighbors = node.Neighbors;
-
-			for (int i = 0; i < neighbors.Count; i++)
-			{
-				nodes[1 + i] = neighbors[i];
-			}
+			node.AddNeighborsToList(ref nodes);
 
 			if (node.IsOccupied || node.IsSpace || AtmosUtils.IsPressureChanged(node))
 			{
-				Equalize(1 + neighbors.Count);
+				Equalize();
 
-				updateList.EnqueueAll(neighbors);
+				for (int i = 1; i < nodes.Count; i++)
+				{
+					updateList.Enqueue(nodes[i]);
+				}
 			}
 		}
 
-		private void Equalize(int nodesCount)
+		private void Equalize()
 		{
-			GasMix gasMix = CalcMeanGasMix(nodesCount);
+			GasMix gasMix = CalcMeanGasMix();
 
-			for (var i = 0; i < nodesCount; i++)
+			for (var i = 0; i < nodes.Count; i++)
 			{
 				MetaDataNode node = nodes[i];
 
@@ -71,14 +70,14 @@ namespace Atmospherics
 			}
 		}
 
-		private GasMix CalcMeanGasMix(int nodesCount)
+		private GasMix CalcMeanGasMix()
 		{
 			int targetCount = 0;
 
 			float[] gases = new float[Gas.Count];
 			float pressure = 0f;
 
-			for (var i = 0; i < nodesCount; i++)
+			for (var i = 0; i < nodes.Count; i++)
 			{
 				MetaDataNode node = nodes[i];
 
