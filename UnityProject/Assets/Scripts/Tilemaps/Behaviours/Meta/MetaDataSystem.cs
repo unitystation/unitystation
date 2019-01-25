@@ -108,8 +108,10 @@ public class MetaDataSystem : SubsystemBehaviour
 			{
 				roomPositions.Add(position);
 
-				foreach (Vector3Int neighbor in MetaUtils.GetNeighbors(position))
+				Vector3Int[] neighbors = MetaUtils.GetNeighbors(position);
+				for (var i = 0; i < neighbors.Length; i++)
 				{
+					Vector3Int neighbor = neighbors[i];
 					if (metaTileMap.IsSpaceAt(neighbor))
 					{
 						Vector3 worldPosition = transform.TransformPoint(neighbor);
