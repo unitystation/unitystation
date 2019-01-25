@@ -359,7 +359,7 @@ public class MatrixManager : MonoBehaviour
 		}
 
 		Vector3 unpivotedPos = localPos - matrix.MatrixMove.Pivot; //localPos - localPivot
-		Vector3 rotatedPos = state.Orientation.Euler * unpivotedPos; //unpivotedPos rotated by N degrees
+		Vector3 rotatedPos = state.RotationOffset.Quaternion * unpivotedPos; //unpivotedPos rotated by N degrees
 		Vector3 rotatedPivoted = rotatedPos + matrix.MatrixMove.Pivot + matrix.GetOffset( state ); //adding back localPivot and applying localToWorldOffset
 		return rotatedPivoted;
 	}
@@ -395,7 +395,7 @@ public class MatrixManager : MonoBehaviour
 			return worldPos - matrix.Offset;
 		}
 
-		return matrix.MatrixMove.ClientState.Orientation.EulerInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot) + matrix.MatrixMove.Pivot;
+		return matrix.MatrixMove.ClientState.RotationOffset.EulerInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot) + matrix.MatrixMove.Pivot;
 	}
 }
 

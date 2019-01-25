@@ -208,7 +208,7 @@ public class MouseInputController : MonoBehaviour
 
 		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
 		{
-			playerSprites.ChangePlayerDirection(Orientation.From(dir));
+			playerSprites.ChangePlayerDirection(RotationOffset.From(dir));
 		}
 	}
 
@@ -535,6 +535,6 @@ public class MouseInputController : MonoBehaviour
 
 	public void OnMouseDownDir(Vector2 dir)
 	{
-		playerSprites.ChangePlayerDirection(Orientation.From(dir));
+		playerSprites.ChangePlayerDirection(RotationOffset.From(dir));
 	}
 }

@@ -617,7 +617,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	[Server]
 	public void SetConsciousState(bool conscious)
-	{	
+	{
 		if (conscious)
 		{
 			playerMove.allowInput = true;

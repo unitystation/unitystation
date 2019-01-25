@@ -3,9 +3,12 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Note that chair determines its initial orientation based on the sprite it is set to
+/// </summary>
 public class Chair : MonoBehaviour
 {
-	public Orientation currentDirection;
+	private Orientation orientation;
 
 	public Sprite s_right;
 	public Sprite s_down;
@@ -27,23 +30,26 @@ public class Chair : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Figure out initial direction based on which sprite was selected.
+	/// </summary>
 	private void InitDirection()
 	{
 		if (spriteRenderer.sprite == s_right)
 		{
-			currentDirection = Orientation.Right;
+			orientation = Orientation.Right;
 		}
-		else if (spriteRenderer.sprite == s_up)
+		else if (spriteRenderer.sprite == s_down)
 		{
-			currentDirection = Orientation.Up;
+			orientation = Orientation.Down;
 		}
 		else if (spriteRenderer.sprite == s_left)
 		{
-			currentDirection = Orientation.Left;
+			orientation = Orientation.Left;
 		}
 		else
 		{
-			currentDirection = Orientation.Down;
+			orientation = Orientation.Up;
 		}
 	}
 
@@ -68,40 +74,24 @@ public class Chair : MonoBehaviour
 		}
 	}
 
-	public void OnRotation(Orientation before, Orientation next)
+	public void OnRotation(RotationOffset fromCurrent)
 	{
-		ChangeSprite(Orientation.DegreeBetween(before, next));
-	}
-
-	void ChangeSprite(float degrees)
-	{
-		for (int i = 0; i < Math.Abs(degrees / 90); i++)
-		{
-			if (degrees < 0)
-			{
-				currentDirection = currentDirection.Previous();
-			}
-			else
-			{
-				currentDirection = currentDirection.Next();
-			}
-		}
-
-		if (currentDirection == Orientation.Up)
+		orientation = orientation.Rotate(fromCurrent);
+		if (orientation == Orientation.Up)
 		{
 			spriteRenderer.sprite = s_up;
 		}
-		else if (currentDirection == Orientation.Right)
+		else if (orientation == Orientation.Down)
 		{
-			spriteRenderer.sprite = s_right;
+			spriteRenderer.sprite = s_down;
 		}
-		else if (currentDirection == Orientation.Left)
+		else if (orientation == Orientation.Left)
 		{
 			spriteRenderer.sprite = s_left;
 		}
 		else
 		{
-			spriteRenderer.sprite = s_down;
+			spriteRenderer.sprite = s_right;
 		}
 	}
 }

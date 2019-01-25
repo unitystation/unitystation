@@ -130,6 +130,10 @@ public class PlayerSprites : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Change current facing direction to match direction
+	/// </summary>
+	/// <param name="direction">new direction</param>
 	[Command]
 	public void CmdChangeDirection(Orientation direction)
 	{
@@ -178,27 +182,24 @@ public class PlayerSprites : NetworkBehaviour
 
 		currentDirection = direction;
 	}
-	
-	/// Changes direction by degrees; positive = CW, negative = CCW
-	public void ChangePlayerDirection(int degrees)
+
+	/// <summary>
+	/// Cause player to face in the specified absolute orientation
+	/// </summary>
+	/// <param name="newOrientation">new absolute orientation</param>
+	public void ChangePlayerDirection(Orientation newOrientation)
 	{
-		for (int i = 0; i < Math.Abs(degrees / 90); i++)
-		{
-			if (degrees < 0)
-			{
-				ChangePlayerDirection(currentDirection.Previous());
-			}
-			else
-			{
-				ChangePlayerDirection(currentDirection.Next());
-			}
-		}
+		CmdChangeDirection(newOrientation);
+		//Prediction
+		FaceDirection(newOrientation);
 	}
 
-	public void ChangePlayerDirection(Orientation orientation)
+	/// <summary>
+	/// Cause player to rotate from their current direction according to fromCurrnet
+	/// </summary>
+	/// <param name="fromCurrent">offset to rotate from current facing</param>
+	public void ChangePlayerDirection(RotationOffset fromCurrent)
 	{
-		CmdChangeDirection(orientation);
-		//Prediction
-		FaceDirection(orientation);
+		ChangePlayerDirection(currentDirection.Rotate(fromCurrent));
 	}
 }
