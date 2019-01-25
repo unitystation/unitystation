@@ -158,13 +158,21 @@ public class MouseInputController : MonoBehaviour
 		if (KeyboardInputManager.IsAltPressed())
 		{
 			//Check for items on the clicked position, and display them in the Item List Tab, if they're in reach
+			//and not FOV occluded
 			Vector3 position = MousePosition;
 			position.z = 0f;
-			if (PlayerManager.LocalPlayerScript.IsInReach(position))
+			if (lightingSystem.IsScreenPointVisible(Input.mousePosition))
 			{
-				List<GameObject> objects = UITileList.GetItemsAtPosition(position);
-				LayerTile tile = UITileList.GetTileAtPosition(position);
-				ControlTabs.ShowItemListTab(objects, tile, position);
+				if (PlayerManager.LocalPlayerScript.IsInReach(position))
+				{
+					List<GameObject> objects = UITileList.GetItemsAtPosition(position);
+					//remove hidden wallmounts
+					objects.RemoveAll(obj =>
+						obj.GetComponent<WallmountBehavior>() != null &&
+						obj.GetComponent<WallmountBehavior>().IsHiddenFromLocalPlayer());
+					LayerTile tile = UITileList.GetTileAtPosition(position);
+					ControlTabs.ShowItemListTab(objects, tile, position);
+				}
 			}
 
 			UIManager.SetToolTip = $"clicked position: {Vector3Int.RoundToInt(position)}";
@@ -245,8 +253,8 @@ public class MouseInputController : MonoBehaviour
 
 		Vector3 mousePosition = MousePosition;
 
-		//sample the FOV mask under current mouse position
-		if (lightingSystem.IsFovOccluded(Input.mousePosition))
+		// Sample the FOV mask under current mouse position.
+		if (lightingSystem.IsScreenPointVisible(Input.mousePosition) == false)
 		{
 			return false;
 		}
