@@ -66,6 +66,8 @@ public class RenderSettings
 
 	[Tooltip("Renders light during two frames, effectively making lighting render in 30fps. Boosts performance, affects quality while moving. Should not be enabled in editor.")]
 	public bool doubleFrameRenderingMode;
+	[Tooltip("Disable asynchronous GPU Readback for FOV checking to simulate systems that do not support it.")]
+	public bool disableAsyncGPUReadback;
 
 
 	//[NonSerialized]
