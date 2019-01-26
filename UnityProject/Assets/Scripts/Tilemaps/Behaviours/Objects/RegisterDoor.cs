@@ -43,6 +43,7 @@
 
 		public override bool IsPassable( Vector3Int from )
 		{
+			// Entering and leaving is the same check
 			return IsPassableTo( from );
 		}
 
