@@ -30,12 +30,11 @@ public class ShutterController : ObjectTrigger
 		closedSortingLayer = SortingLayer.NameToID("Doors Open");
 		openLayer = LayerMask.NameToLayer("Door Open");
 		openSortingLayer = SortingLayer.NameToID("Doors Closed");
-		SetLayer(openLayer, openSortingLayer);
 	}
 
 	public void Start()
 	{
-		gameObject.SendMessage("TurnOffDoorFov", null, SendMessageOptions.DontRequireReceiver);
+		Trigger(registerTile.IsClosed);
 	}
 
 	public override void Trigger(bool iState)
