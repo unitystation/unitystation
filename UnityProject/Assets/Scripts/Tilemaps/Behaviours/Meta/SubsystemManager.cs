@@ -11,6 +11,7 @@ public class SubsystemManager : NetworkBehaviour
 	public override void OnStartServer()
 	{
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
+
 		Initialize();
 	}
 
@@ -31,10 +32,11 @@ public class SubsystemManager : NetworkBehaviour
 
 	public void UpdateAt(Vector3Int position)
 	{
-		if ( !initialized )
+		if (!initialized)
 		{
 			return;
 		}
+
 		for (int i = 0; i < systems.Count; i++)
 		{
 			systems[i].UpdateAt(position);
