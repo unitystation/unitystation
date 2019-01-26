@@ -530,18 +530,27 @@ public class MatrixMove : ManagedNetworkBehaviour
 		clientState = newState;
 		clientTargetState = newState;
 
-		if (!StateInit)
-		{
-			StateInit = true;
-		}
-
 		if (!Equals(oldState.orientation, newState.orientation))
 		{
-			OnRotate.Invoke(oldState.orientation.OffsetTo(newState.orientation));
+			if (!StateInit)
+			{
+				//this is the first state, so set rotation based on offset from initial position
+				OnRotate.Invoke(newState.RotationOffset);
+			}
+			else
+			{
+				//update based on offset from old state
+				OnRotate.Invoke(oldState.orientation.OffsetTo(newState.orientation));
+			}
 
 			//This is ok for occasional state changes like beginning of rot:
 			gameObject.BroadcastMessage("MatrixMoveStartRotation", null, SendMessageOptions.DontRequireReceiver);
 			monitorOnRot = true;
+		}
+
+		if (!StateInit)
+		{
+			StateInit = true;
 		}
 
 		if (!oldState.IsMoving && newState.IsMoving)
