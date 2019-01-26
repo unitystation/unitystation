@@ -4,18 +4,13 @@
 	[ExecuteInEditMode]
 	public class RegisterDoor : RegisterTile
 	{
-		private SystemManager systemManager;
-		
+		private SubsystemManager subsystemManager;
+
 		public bool OneDirectionRestricted;
 
 		private void Awake()
 		{
-			systemManager = GetComponentInParent<SystemManager>();
-		}
-
-		public override void AfterUpdate()
-		{
-			systemManager?.UpdateAt(Position);
+			subsystemManager = GetComponentInParent<SubsystemManager>();
 		}
 
 		[SerializeField]
@@ -29,7 +24,7 @@
 				if (isClosed != value)
 				{
 					isClosed = value;
-					systemManager.UpdateAt(Position);
+					subsystemManager.UpdateAt(Position);
 				}
 			}
 		}
@@ -48,9 +43,10 @@
 
 		public override bool IsPassable( Vector3Int from )
 		{
+			// Entering and leaving is the same check
 			return IsPassableTo( from );
 		}
-		
+
 		public override bool IsPassable()
 		{
 			return !isClosed;

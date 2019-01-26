@@ -76,7 +76,7 @@ public class PostProcessingStack
 		}
 	}
 
-	/// <summary>	
+	/// <summary>
 	/// Processes provided Mask thru post processing stack.
 	/// </summary>
 	/// <param name="iMask">Raw Occlusion mask with R and G channels.</param>
@@ -96,7 +96,7 @@ public class PostProcessingStack
 	{
 		// In case of matrix rotation we want to blur more to hide quirks.
 		float _interpolation = Mathf.Lerp(iRenderSettings.lightBlurInterpolation, iRenderSettings.lightBlurInterpolation * 4, iMatrixRotationModeBlend);
- 
+
 		Blur(iMask, mMaterialContainer.lightBlurMaterial, _interpolation, iRenderSettings.lightBlurIterations, blurRenderTextureLight, iCameraSize);
 	}
 
@@ -183,7 +183,7 @@ public class PostProcessingStack
 		mMaterialContainer.fovMaterial.SetVector("_PositionOffset", iFovCenterInViewSpace);
 		iFloorOcclusionMask.renderTexture.filterMode = FilterMode.Bilinear;
 		PixelPerfectRT.Blit(iFloorOcclusionMask, iWallFloorOcclusionMask, mMaterialContainer.fovMaterial);
-	
+
 	}
 
 	public void CreateWallLightMask(
@@ -193,7 +193,7 @@ public class PostProcessingStack
 		float iCameraSize)
 	{
 		// Down Scale light mask and blur it.
-		PixelPerfectRT.Transform(iLightMask, iObstacleLightMask, mMaterialContainer.PPRTTransformMaterial);
+		PixelPerfectRT.Transform(iLightMask, iObstacleLightMask, mMaterialContainer);
 
 		mMaterialContainer.lightWallBlurMaterial.SetVector("_MultiLimit", new Vector4(iRenderSettings.occlusionMaskMultiplier,iRenderSettings.occlusionMaskLimit,0,0));
 

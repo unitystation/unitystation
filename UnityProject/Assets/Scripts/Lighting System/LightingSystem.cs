@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
-/// Lighting System manager. 
+/// Lighting System manager.
 /// Orchestrates Mask Renderers and Post Processor to apply lighting to the game scene.
 /// </summary>
 [RequireComponent(typeof(Camera))]
@@ -30,9 +32,13 @@ public class LightingSystem : MonoBehaviour
 	private PixelPerfectRT mObstacleLightMask;
 	private PixelPerfectRT mOcclusionPPRT;
 	private PixelPerfectRT mlightPPRT;
-	private bool mDoubleFrameRendererSwitch;	
+	private bool mDoubleFrameRendererSwitch;
 	private bool mMatrixRotationMode;
 	private float mMatrixRotationModeBlend;
+	//used for FOV checking if async readback is supported
+	private TextureDataRequest mTextureDataRequest;
+	//used for FOV checking is async readback is NOT supported
+	private Texture2D mTex2DWallFloorOcclusionMask;
 
 	public bool matrixRotationMode
 	{
@@ -151,14 +157,69 @@ public class LightingSystem : MonoBehaviour
 
 	private OperationParameters operationParameters { get; set; }
 
-	public static Vector2 GetPixelPerfectPosition(Vector3 iPosition, Vector3 iPreviousPosition, Vector2 iPreviousFilteredPosition)
+	/// <summary>
+	/// Transforms provided movement data to match pixel perfect space of lighting system.
+	/// Used to clamp position of objects according to pixel perfect texture space, which is less detailed then world-space.
+	/// Also filters out jitters that may occur when noisy position is clamped down to lower precision, which requires for client to store additional position data.
+	/// </summary>
+	/// <param name="iWorldSpacePosition">World space position to transform.</param>
+	/// <param name="iPreviousWorldSpacePosition">Previous, untransformed world space position.</param>
+	/// <param name="iPreviousPixelPerfectPosition">Previous, transformed world space position.</param>
+	/// <returns>Transformed position that matches Pixel Perfect texture space.</returns>
+	public static Vector2 GetPixelPerfectPosition(Vector3 iWorldSpacePosition, Vector3 iPreviousWorldSpacePosition, Vector2 iPreviousPixelPerfectPosition)
 	{
 		if (HandlePPPositionRequest == null)
 		{
-			return iPosition;
+			return iWorldSpacePosition;
 		}
 
-		return HandlePPPositionRequest(iPosition, iPreviousPosition, iPreviousFilteredPosition);
+		return HandlePPPositionRequest(iWorldSpacePosition, iPreviousWorldSpacePosition, iPreviousPixelPerfectPosition);
+	}
+
+	/// <summary>
+	/// Checks if the specified screen position is occluded due to FOV.
+	/// </summary>
+	/// <param name="iScreenPoint">Screen-space position to test.</param>
+	/// <returns>true iff the pixel at the specified screen position is not hidden by FOV occlusion. Note that a wallmount
+	/// on the opposite side of the wall from a player is not occluded by FOV even though it is turned transparent. You can
+	/// check the wallmount's sprite color alpha transparency to see if it is visible.</returns>
+	public bool IsScreenPointVisible(Vector2 iScreenPoint)
+	{
+		Vector2 _viewportPos = mMainCamera.ScreenToViewportPoint(iScreenPoint);
+
+		// Check for out of bounds;
+		if (_viewportPos.x < 0.0f ||
+		    _viewportPos.x > 1.0f ||
+		    _viewportPos.y < 0.0f ||
+		    _viewportPos.y > 1.0f)
+			return false;
+
+		// Use PPRT occlusion mask to get normalized texture coordinate.
+		// There is an assumption that wallFloorOcclusionMask and requested AsyncGPUReadback texture is the same.
+		Vector2 _normalizedMaskPoint = wallFloorOcclusionMask.ScreenToNormalTextureCoordinates(mMainCamera, iScreenPoint);
+
+		Color32 _sampledColor;
+
+		if (!renderSettings.disableAsyncGPUReadback && SystemInfo.supportsAsyncGPUReadback)
+		{
+
+			if (mTextureDataRequest.TryGetPixelNormalized(_normalizedMaskPoint.x, _normalizedMaskPoint.y,
+				out _sampledColor))
+			{
+				bool _sampledVisibleWall = _sampledColor.r > 0;
+				bool _sampledVisibleFloor = _sampledColor.g > 0;
+
+				// Consider visible wal or visible floor as visible point.
+				return _sampledVisibleWall || _sampledVisibleFloor;
+			}
+		}
+		else
+		{
+			Color color = mTex2DWallFloorOcclusionMask.GetPixelBilinear(_normalizedMaskPoint.x, _normalizedMaskPoint.y);
+			return color == Color.red || color == Color.green;
+		}
+
+		return false;
 	}
 
 	private static void ValidateMainCamera(Camera iMainCamera, RenderSettings iRenderSettings)
@@ -183,6 +244,11 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnEnable()
 	{
+		if (!SystemInfo.supportsAsyncGPUReadback)
+		{
+			UnityEngine.Debug.LogWarning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
+			                             " be used instead.");
+		}
 		HandlePPPositionRequest += ProviderPPPosition;
 
 		// Initialize members.
@@ -254,13 +320,14 @@ public class LightingSystem : MonoBehaviour
 		{
 			mMatrixRotationModeBlend = 0;
 		}
-	}	
+	}
 
 	private void ResolveRenderingTextures(OperationParameters iParameters)
 	{
 		// Prepare render textures.
 		floorOcclusionMask = new PixelPerfectRT(operationParameters.fovPPRTParameter);
 		wallFloorOcclusionMask = new PixelPerfectRT(operationParameters.fovPPRTParameter);
+		mTex2DWallFloorOcclusionMask = new Texture2D(wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height, TextureFormat.RGB24, false);
 
 		objectOcclusionMask = new PixelPerfectRT(operationParameters.lightPPRTParameter);
 
@@ -288,7 +355,6 @@ public class LightingSystem : MonoBehaviour
 			{
 				mPostProcessingStack.BlurOcclusionMaskRotation(mOcclusionPPRT.renderTexture, renderSettings, operationParameters.cameraOrthographicSize, mMatrixRotationModeBlend);
 			}
-			
 		}
 
 		using (new DisposableProfiler("2. Generate FoV"))
@@ -309,8 +375,22 @@ public class LightingSystem : MonoBehaviour
 			Vector3 _fovCenterInWorldSpace = transform.TransformPoint(fovCenterOffset);
 			Vector3 _fovCenterOffsetInViewSpace = mMainCamera.WorldToViewportPoint(_fovCenterInWorldSpace) - new Vector3(0.5f, 0.5f, 0);
 			Vector3 _fovCenterOffsetInExtendedViewSpace = _fovCenterOffsetInViewSpace * (float)operationParameters.cameraOrthographicSize / mOcclusionPPRT.orthographicSize;
-			
+
 			mPostProcessingStack.GenerateFovMask(mOcclusionPPRT, floorOcclusionMask, wallFloorOcclusionMask, renderSettings, _fovCenterOffsetInExtendedViewSpace, fovDistance, operationParameters);
+
+			if (!renderSettings.disableAsyncGPUReadback && SystemInfo.supportsAsyncGPUReadback)
+			{
+				// Request asynchronous callback for access to texture data.
+				// Used for sampling point visibility from mask.
+				AsyncGPUReadback.Request(wallFloorOcclusionMask.renderTexture, 0, AsyncReadCallback);
+			}
+			else
+			{
+				//async readback not supported, instead use synchronous readback
+				RenderTexture.active = wallFloorOcclusionMask.renderTexture;
+				mTex2DWallFloorOcclusionMask.ReadPixels(new Rect(0, 0, wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height), 0, 0);
+				mTex2DWallFloorOcclusionMask.Apply();
+			}
 		}
 
 		using (new DisposableProfiler("3. Object Occlusion Mask"))
@@ -318,7 +398,7 @@ public class LightingSystem : MonoBehaviour
 			// These step calculates the objectOcclusionMask using the wallFloorOcclusionMask, so that objects / wallmounts will be hidden
 			// if they are not in view
 			objectOcclusionMask.Update(operationParameters.lightPPRTParameter);
-			PixelPerfectRT.Transform(wallFloorOcclusionMask, objectOcclusionMask, materialContainer.PPRTTransformMaterial);
+			PixelPerfectRT.Transform(wallFloorOcclusionMask, objectOcclusionMask, materialContainer);
 
 			// Update shader global transformation for occlusionMaskExtended so sprites can transform mask correctly.
 			Shader.SetGlobalVector("_ObjectFovMaskTransformation", objectOcclusionMask.GetTransformation(mMainCamera));
@@ -333,6 +413,21 @@ public class LightingSystem : MonoBehaviour
 		}
 
 		// Note: After execution of this method, MainCamera.Render will be executed and scene will be drawn.
+	}
+
+	/// <summary>
+	/// Handle data access callback from gpu.
+	/// Wraps data request in to struct that handles protection and sampling.
+	/// </summary>
+	/// <param name="iRequest">requested callback to wrap.</param>
+	private void AsyncReadCallback(AsyncGPUReadbackRequest iRequest)
+	{
+		if (iRequest.hasError || iRequest.done == false)
+		{
+			return;
+		}
+
+		mTextureDataRequest = new TextureDataRequest(iRequest);
 	}
 
 	private void OnRenderImage(RenderTexture iSource, RenderTexture iDestination)
@@ -384,41 +479,41 @@ public class LightingSystem : MonoBehaviour
 				renderSettings,
 				operationParameters.cameraOrthographicSize);
 		}
-		
+
 		// Debug View Selection.
 		if (renderSettings.viewMode == RenderSettings.ViewMode.LightLayer)
 		{
-			PixelPerfectRT.Transform(mlightPPRT, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+			PixelPerfectRT.Transform(mlightPPRT, iDestination, mMainCamera, materialContainer);
 
 			return;
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.WallLayer)
 		{
-			PixelPerfectRT.Transform(obstacleLightMask, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+			PixelPerfectRT.Transform(obstacleLightMask, iDestination, mMainCamera, materialContainer);
 
 			return;
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.FovObjectOcclusion)
 		{
-			PixelPerfectRT.Transform(objectOcclusionMask, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+			PixelPerfectRT.Transform(objectOcclusionMask, iDestination, mMainCamera, materialContainer);
 
 			return;
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.FovFloorOcclusion)
 		{
-			PixelPerfectRT.Transform(floorOcclusionMask, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+			PixelPerfectRT.Transform(floorOcclusionMask, iDestination, mMainCamera, materialContainer);
 
 			return;
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.FovWallAndFloorOcclusion)
 		{
-			PixelPerfectRT.Transform(wallFloorOcclusionMask, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+			PixelPerfectRT.Transform(wallFloorOcclusionMask, iDestination, mMainCamera, materialContainer);
 
 			return;
 		}
 		else if (renderSettings.viewMode == RenderSettings.ViewMode.Obstacle)
 		{
-			PixelPerfectRT.Transform(mOcclusionPPRT, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+			PixelPerfectRT.Transform(mOcclusionPPRT, iDestination, mMainCamera, materialContainer);
 
 			return;
 		}
@@ -438,7 +533,7 @@ public class LightingSystem : MonoBehaviour
 		// Debug Views Selection.
 		if (renderSettings.viewMode == RenderSettings.ViewMode.LightLayerBlurred)
 		{
-			PixelPerfectRT.Transform(mlightPPRT, iDestination, mMainCamera, materialContainer.PPRTTransformMaterial);
+			PixelPerfectRT.Transform(mlightPPRT, iDestination, mMainCamera, materialContainer);
 
 			return;
 		}

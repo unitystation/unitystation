@@ -482,8 +482,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (isTileMap)
 			{
-				var tileChangeManager = newParent.GetComponent<TileChangeManager>();
-				item.transform.parent = tileChangeManager.ObjectParent.transform;
+				TileChangeManager tileChangeManager = newParent.GetComponentInParent<TileChangeManager>();
+//				item.transform.parent = tileChangeManager.ObjectParent.transform; TODO
 			}
 			else
 			{
@@ -496,7 +496,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//	private void ReorderGameobjectsOnTile(Vector2 position)
 	//	{
-	//		List<RegisterItem> items = registerTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
+	//		List<RegisterItem> items = regCallCmdCrowBarRemoveFloorTileisterTile.Matrix.Get<RegisterItem>(position.RoundToInt()).ToList();
 	//
 	//		for (int i = 0; i < items.Count; i++)
 	//		{
@@ -554,58 +554,82 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdToggleShutters(GameObject switchObj)
 	{
-		ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
-		if (s.IsClosed)
+		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
-			s.IsClosed = false;
+			ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
+			if (s.IsClosed)
+			{
+				s.IsClosed = false;
+			}
+			else
+			{
+				s.IsClosed = true;
+			}
 		}
 		else
 		{
-			s.IsClosed = true;
+			Logger.LogWarning("player attempted to interact with shutter switch through wall," +
+			                  " this could indicate a hacked client.");
 		}
 	}
 
 	[Command]
 	public void CmdToggleLightSwitch(GameObject switchObj)
 	{
-		LightSwitchTrigger s = switchObj.GetComponent<LightSwitchTrigger>();
-		s.isOn = !s.isOn;
+		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
+		{
+			LightSwitchTrigger s = switchObj.GetComponent<LightSwitchTrigger>();
+			s.isOn = !s.isOn;
+		}
+		else
+		{
+			Logger.LogWarning("player attempted to interact with light switch through wall," +
+			                  " this could indicate a hacked client.");
+		}
 	}
 
 	[Command]
 	public void CmdToggleFireCabinet(GameObject cabObj, bool forItemInteract, string currentSlotName)
 	{
-		FireCabinetTrigger c = cabObj.GetComponent<FireCabinetTrigger>();
+		if (CanInteractWallmount(cabObj.GetComponent<WallmountBehavior>()))
+		{
+			FireCabinetTrigger c = cabObj.GetComponent<FireCabinetTrigger>();
 
-		if (!forItemInteract)
-		{
-			if (c.IsClosed)
+			if (!forItemInteract)
 			{
-				c.IsClosed = false;
-			}
-			else
-			{
-				c.IsClosed = true;
-			}
-		}
-		else
-		{
-			if (c.isFull)
-			{
-				c.isFull = false;
-				if (AddItemToUISlot(c.storedObject.gameObject, currentSlotName))
+				if (c.IsClosed)
 				{
-					c.storedObject.visibleState = true;
-					c.storedObject = null;
+					c.IsClosed = false;
+				}
+				else
+				{
+					c.IsClosed = true;
 				}
 			}
 			else
 			{
-				c.storedObject = Inventory[currentSlotName].Item.GetComponent<ObjectBehaviour>();
-				ClearInventorySlot(currentSlotName);
-				c.storedObject.visibleState = false;
-				c.isFull = true;
+				if (c.isFull)
+				{
+					c.isFull = false;
+					if (AddItemToUISlot(c.storedObject.gameObject, currentSlotName))
+					{
+						c.storedObject.visibleState = true;
+						c.storedObject = null;
+					}
+				}
+				else
+				{
+					c.storedObject = Inventory[currentSlotName].Item.GetComponent<ObjectBehaviour>();
+					ClearInventorySlot(currentSlotName);
+					c.storedObject.visibleState = false;
+					c.isFull = true;
+				}
 			}
+		}
+		else
+		{
+			Logger.LogWarning("player attempted to interact with fire cabinet through wall," +
+			                  " this could indicate a hacked client.");
 		}
 	}
 
@@ -613,6 +637,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdMoveItem(GameObject item, Vector3 newPos)
 	{
 		item.transform.position = newPos;
+	}
+
+	/// <summary>
+	/// Validates that the player can interact with the specified wallmount
+	/// </summary>
+	/// <param name="wallmount">wallmount to check</param>
+	/// <returns>true iff interaction is allowed</returns>
+	[Server]
+	private bool CanInteractWallmount(WallmountBehavior wallmount)
+	{
+		//can only interact if the player is facing the wallmount
+		return wallmount.IsFacingPosition(transform.position);
 	}
 
 	[Server]
@@ -634,7 +670,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 		playerScript.pushPull.CmdStopPulling();
-	}
+}
 
 	[Command]
 	public void CmdToggleChatIcon(bool turnOn)

@@ -19,10 +19,13 @@ using UnityEngine;
 public class WallmountSpriteBehavior : MonoBehaviour {
 	// This sprite's renderer
 	private SpriteRenderer spriteRenderer;
+	//parent wallmount behavior
+	private WallmountBehavior wallmountBehavior;
 
 	private void Start()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
+		wallmountBehavior = GetComponentInParent<WallmountBehavior>();
 	}
 
 	// Handles rendering logic, only runs when this sprite is on camera
@@ -35,11 +38,7 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 		}
 
 		//recalculate if it is facing the player
-		Vector3 headingToPlayer = PlayerManager.LocalPlayer.transform.position - transform.parent.position;
-		Vector3 facing = transform.parent.up;
-		float difference = Vector3.Angle(facing, headingToPlayer);
-		//91 rather than 90 helps prevent flickering due to rounding
-		bool visible = difference >= 91 || difference <= -91;
+		bool visible = wallmountBehavior.IsFacingPosition(PlayerManager.LocalPlayer.transform.position);
 		spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, visible ? 1 : 0);
 	}
 }

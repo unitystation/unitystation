@@ -1,39 +1,62 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
-	public class MetaDataLayer : MonoBehaviour
+public class MetaDataLayer : MonoBehaviour
+{
+	private MetaDataDictionary nodes = new MetaDataDictionary();
+
+	private SubsystemManager subsystemManager;
+
+	private void Awake()
 	{
-		private MetaDataDictionary nodes = new MetaDataDictionary();
-
-		private void Awake()
-		{
-			foreach (MetaDataNode metaDataNode in nodes.Values)
-			{
-				metaDataNode.Reset();
-			}
-		}
-
-		public MetaDataNode Get(Vector3Int position, bool createIfNotExists=true)
-		{
-			if (!nodes.ContainsKey(position))
-			{
-				if (createIfNotExists)
-				{
-					nodes[position] = new MetaDataNode();
-				}
-				else
-				{
-					return null;
-				}
-			}
-
-			return nodes[position];
-		}
-
-		public bool IsSpaceAt(Vector3Int position)
-		{
-			var node = Get(position, false);
-
-			return node == null || node.IsSpace();
-		}
+		subsystemManager = GetComponentInParent<SubsystemManager>();
 	}
+
+	public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
+	{
+		if (!nodes.ContainsKey(position))
+		{
+			if (createIfNotExists)
+			{
+				nodes[position] = new MetaDataNode(position);
+			}
+			else
+			{
+				return MetaDataNode.None;
+			}
+		}
+
+		return nodes[position];
+	}
+
+	public bool IsSpaceAt(Vector3Int position)
+	{
+		return Get(position, false).IsSpace;
+	}
+
+	public bool IsRoomAt(Vector3Int position)
+	{
+		return Get(position, false).IsRoom;
+	}
+
+	public bool IsEmptyAt(Vector3Int position)
+	{
+		return !Get(position, false).Exists;
+	}
+
+	public bool IsOccupiedAt(Vector3Int position)
+	{
+		return Get(position, false).IsOccupied;
+	}
+
+	public bool ExistsAt(Vector3Int position)
+	{
+		return Get(position, false).Exists;
+	}
+
+	public void UpdateSystemsAt(Vector3Int position)
+	{
+		subsystemManager.UpdateAt(position);
+	}
+}

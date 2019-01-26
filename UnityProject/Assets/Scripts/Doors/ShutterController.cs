@@ -30,10 +30,11 @@ public class ShutterController : ObjectTrigger
 		closedSortingLayer = SortingLayer.NameToID("Doors Open");
 		openLayer = LayerMask.NameToLayer("Door Open");
 		openSortingLayer = SortingLayer.NameToID("Doors Closed");
-		SetLayer(openLayer,openSortingLayer);
+		SetLayer(openLayer, openSortingLayer);
 	}
 
-	public void Start(){
+	public void Start()
+	{
 		gameObject.SendMessage("TurnOffDoorFov", null, SendMessageOptions.DontRequireReceiver);
 	}
 
@@ -62,7 +63,7 @@ public class ShutterController : ObjectTrigger
 		{
 			gameObject.SendMessage("TurnOnDoorFov", null, SendMessageOptions.DontRequireReceiver);
 			SetLayer(closedLayer, closedSortingLayer);
-		//	gameObject.SendMessage("TurnOnDoorFov");
+			//	gameObject.SendMessage("TurnOnDoorFov");
 			if (isServer)
 			{
 				DamageOnClose();
@@ -88,14 +89,16 @@ public class ShutterController : ObjectTrigger
 		}
 	}
 
-    [Server]
-    private void DamageOnClose() {
-	    var healthBehaviours = matrix.Get<LivingHealthBehaviour>(registerTile.Position);
-	    for ( var i = 0; i < healthBehaviours.Count; i++ ) {
-		    LivingHealthBehaviour healthBehaviour = healthBehaviours[i];
-		    healthBehaviour.ApplyDamage( gameObject, 500, DamageType.Brute );
-	    }
-    }
+	[Server]
+	private void DamageOnClose()
+	{
+		var healthBehaviours = matrix.Get<LivingHealthBehaviour>(registerTile.Position);
+		for (var i = 0; i < healthBehaviours.Count; i++)
+		{
+			LivingHealthBehaviour healthBehaviour = healthBehaviours[i];
+			healthBehaviour.ApplyDamage(gameObject, 500, DamageType.Brute);
+		}
+	}
 
 	//Handle network spawn sync failure
 	private IEnumerator WaitToTryAgain()
@@ -117,6 +120,7 @@ public class ShutterController : ObjectTrigger
 		{
 			SetState(tempStateCache);
 		}
+
 		waitToCheckState = false;
 	}
 }

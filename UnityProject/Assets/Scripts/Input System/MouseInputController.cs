@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Experimental.UIElements;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 /// <summary>
@@ -25,6 +28,8 @@ public class MouseInputController : MonoBehaviour
 	private ObjectBehaviour objectBehaviour;
 	private PlayerMove playerMove;
 	private PlayerSprites playerSprites;
+	/// reference to the global lighting system, used to check occlusion
+	private LightingSystem lightingSystem;
 
 	public static readonly Vector3 sz = new Vector3(0.02f, 0.02f, 0.02f);
 
@@ -45,6 +50,8 @@ public class MouseInputController : MonoBehaviour
 		playerSprites = gameObject.GetComponent<PlayerSprites>();
 		playerMove = GetComponent<PlayerMove>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+
+		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 
 		//Do not include the Default layer! Assign your object to one of the layers below:
 		layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
@@ -151,13 +158,21 @@ public class MouseInputController : MonoBehaviour
 		if (KeyboardInputManager.IsAltPressed())
 		{
 			//Check for items on the clicked position, and display them in the Item List Tab, if they're in reach
+			//and not FOV occluded
 			Vector3 position = MousePosition;
 			position.z = 0f;
-			if (PlayerManager.LocalPlayerScript.IsInReach(position))
+			if (lightingSystem.IsScreenPointVisible(Input.mousePosition))
 			{
-				List<GameObject> objects = UITileList.GetItemsAtPosition(position);
-				LayerTile tile = UITileList.GetTileAtPosition(position);
-				ControlTabs.ShowItemListTab(objects, tile, position);
+				if (PlayerManager.LocalPlayerScript.IsInReach(position))
+				{
+					List<GameObject> objects = UITileList.GetItemsAtPosition(position);
+					//remove hidden wallmounts
+					objects.RemoveAll(obj =>
+						obj.GetComponent<WallmountBehavior>() != null &&
+						obj.GetComponent<WallmountBehavior>().IsHiddenFromLocalPlayer());
+					LayerTile tile = UITileList.GetTileAtPosition(position);
+					ControlTabs.ShowItemListTab(objects, tile, position);
+				}
 			}
 
 			UIManager.SetToolTip = $"clicked position: {Vector3Int.RoundToInt(position)}";
@@ -237,6 +252,13 @@ public class MouseInputController : MonoBehaviour
 		hitRenderer = null;
 
 		Vector3 mousePosition = MousePosition;
+
+		// Sample the FOV mask under current mouse position.
+		if (lightingSystem.IsScreenPointVisible(Input.mousePosition) == false)
+		{
+			return false;
+		}
+
 
 		//for debug purpose, mark the most recently touched tile location
 		//	LastTouchedTile = new Vector2(Mathf.Round(mousePosition.x), Mathf.Round(mousePosition.y));
@@ -319,7 +341,7 @@ public class MouseInputController : MonoBehaviour
 			SpriteRenderer spriteRenderer = bySortingOrder[i];
 			Sprite sprite = spriteRenderer.sprite;
 
-			if (spriteRenderer.enabled && sprite)
+			if (spriteRenderer.enabled && sprite && spriteRenderer.color.a > 0)
 			{
 				Color pixelColor = new Color();
 				GetSpritePixelColorUnderMousePointer(spriteRenderer, out pixelColor);
