@@ -331,6 +331,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	/// </summary>
 	public Dictionary<LightSwitchTrigger,List<LightSource>> ConnectedSwitchesAndLights = new Dictionary<LightSwitchTrigger,List<LightSource>> ();
 
+	// TODO make apcs detect connected department batteries
 	/// <summary>
 	/// List of the department batteries connected to this APC
 	/// </summary>

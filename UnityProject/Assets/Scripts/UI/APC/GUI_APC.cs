@@ -13,14 +13,20 @@ public class GUI_APC : NetTab
 	private float MaxCapacity = 0;
 
 	/// <summary>
-	/// All of the colours which will be used for foregrounds and backgrounds
+	/// Colours which will be used for foregrounds and backgrounds (in hex format)
 	/// </summary>
-	private Color 	greenBackground = new Color(0.509804f, 1f, 0.2980392f), // 82FF4C
-					blueBackground = new Color(0.6588235f, 0.6901961f, 0.9725491f), // A8B0F8
-					redBackground = new Color(0.9725491f, 0.3764706f, 0.3764706f), // F86060
-					greenForeground = new Color(0f, 0.8000001f, 0f), // 00CC00
-					blueForeground = new Color(0.3764706f, 0.4392157f, 0.9725491f), // 6070F8
-					redForeground = new Color(0.9411765f, 0.9725491f, 0.6588235f); // F0F8A8
+	// private Color 	greenBackground = new Color(0.509804f, 1f, 0.2980392f), // 82FF4C
+	// 				blueBackground = new Color(0.6588235f, 0.6901961f, 0.9725491f), // A8B0F8
+	// 				redBackground = new Color(0.9725491f, 0.3764706f, 0.3764706f), // F86060
+	// 				greenForeground = new Color(0f, 0.8000001f, 0f), // 00CC00
+	// 				blueForeground = new Color(0.3764706f, 0.4392157f, 0.9725491f), // 6070F8
+	// 				redForeground = new Color(0.9411765f, 0.9725491f, 0.6588235f); // F0F8A8
+	private string 	fullBackground = "82FF4C",
+					chargingBackground = "A8B0F8",
+					criticalBackground = "F86060",
+					fullForeground = "00CC00",
+					chargingForeground = "6070F8",
+					criticalForeground = "F0F8A8";
 
 	// Elements that we want to visually update:
 	private NetColorChanger _backgroundColor;
@@ -221,15 +227,15 @@ public class GUI_APC : NetTab
 
 	private string CalculateChargePercentage()
 	{
+		if (MaxCapacity == 0)
+		{
+			return "???%";
+		}
+
 		float newCapacity = 0;
 		for (int i = 0; i < LocalAPC.ConnectedDepartmentBatteries.Count; i++)
 		{
 			newCapacity += LocalAPC.ConnectedDepartmentBatteries[i].CurrentCapacity;
-		}
-
-		if (MaxCapacity == 0)
-		{
-			return "0%";
 		}
 		return (newCapacity / MaxCapacity).ToString("P0");
 	}
@@ -269,56 +275,57 @@ public class GUI_APC : NetTab
 			float current = LocalAPC.Current;
 			float resistance = LocalAPC.Resistance;
 			float power = voltage * current;
-			ElectricalValues.SetValue = $"{voltage:G6} V\n{current:G6} A\n{power:G6} W";
+			ElectricalValues.SetValue = $"{voltage:G4} V\n{current:G4} A\n{power:G4} W";
 			StatusText.SetValue = LocalAPC.State.ToString();
 			ChargePercentage.SetValue = CalculateChargePercentage();
 
-			int chargeVal = int.Parse(ChargeBar.Value) + 10;
-			// Update the charge bar animation
-			if (chargeVal > 100)
+			// State specific updates
+			switch (LocalAPC.State)
 			{
-				ChargeBar.SetValue = "0";
+				case APC.APCState.Full:
+					BackgroundColor.SetValue = fullBackground;
+					UpdateForegroundColours(fullForeground);
+					ChargeBar.SetValue = "100";
+					break;
+				case APC.APCState.Charging:
+					BackgroundColor.SetValue = chargingBackground;
+					UpdateForegroundColours(chargingForeground);
+					AnimateChargeBar();
+					break;
+				case APC.APCState.Critical:
+					BackgroundColor.SetValue = criticalBackground;
+					UpdateForegroundColours(criticalForeground);
+					ChargeBar.SetValue = "0";
+					break;
 			}
-			else
-			{
-				ChargeBar.SetValue = chargeVal.ToString();
-			}
-			UpdateDisplayColours();
 		}
 		else
 		{
+			BackgroundColor.SetValue = DebugTools.ColorToHex(Color.clear); // Also changing the background since it bleeds through on the edges
 			OffOverlayColor.SetValue = DebugTools.ColorToHex(Color.black);
 		}
 	}
 
-	private void UpdateDisplayColours()
+	private void UpdateForegroundColours(string hexColor)
 	{
-		switch (LocalAPC.State)
+		ElectricalLabelsColor.SetValue = hexColor;
+		ChargeFillColor.SetValue = hexColor;
+		// TODO These colors can't be updated until a solution for updating colors and text is figured out
+		// ElectricalValuesColor.SetValue = hexColor;
+		// StatusTextColor.SetValue = hexColor;
+		// ChargePercentageColor.SetValue = hexColor;
+	}
+	private void AnimateChargeBar()
+	{
+		int chargeVal = int.Parse(ChargeBar.Value) + 10;
+		// Update the charge bar animation
+		if (chargeVal > 100)
 		{
-			case APC.APCState.Full:
-				BackgroundColor.SetValue = DebugTools.ColorToHex(greenBackground);
-				ElectricalLabelsColor.SetValue = DebugTools.ColorToHex(greenForeground);
-				// ElectricalValuesColor.SetValue = DebugTools.ColorToHex(greenForeground);
-				// StatusTextColor.SetValue = DebugTools.ColorToHex(greenForeground);
-				// ChargePercentageColor.SetValue = DebugTools.ColorToHex(greenForeground);
-				ChargeFillColor.SetValue = DebugTools.ColorToHex(greenForeground);
-				break;
-			case APC.APCState.Charging:
-				BackgroundColor.SetValue = DebugTools.ColorToHex(blueBackground);
-				ElectricalLabelsColor.SetValue = DebugTools.ColorToHex(blueForeground);
-				// ElectricalValuesColor.SetValue = DebugTools.ColorToHex(blueForeground);
-				// StatusTextColor.SetValue = DebugTools.ColorToHex(blueForeground);
-				// ChargePercentageColor.SetValue = DebugTools.ColorToHex(blueForeground);
-				ChargeFillColor.SetValue = DebugTools.ColorToHex(blueForeground);
-				break;
-			case APC.APCState.Critical:
-				BackgroundColor.SetValue = DebugTools.ColorToHex(redBackground);
-				ElectricalLabelsColor.SetValue = DebugTools.ColorToHex(redForeground);
-				// ElectricalValuesColor.SetValue = DebugTools.ColorToHex(redForeground);
-				// StatusTextColor.SetValue = DebugTools.ColorToHex(redForeground);
-				// ChargePercentageColor.SetValue = DebugTools.ColorToHex(redForeground);
-				ChargeFillColor.SetValue = DebugTools.ColorToHex(redForeground);
-				break;
+			ChargeBar.SetValue = "0";
+		}
+		else
+		{
+			ChargeBar.SetValue = chargeVal.ToString();
 		}
 	}
 }
