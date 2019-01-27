@@ -128,13 +128,13 @@ using UnityEngine.Networking;
 
 			if ((PlayerManager.LocalPlayer == gameObject || isServer) && !isReplay)
 			{
-				playerSprites.FaceDirection(Orientation.From(direction));
+				playerSprites.FaceDirection(Orientation.From(direction.To2Int()));
 			}
 
 			if (matrixInfo.MatrixMove)
 			{
 				// Converting world direction to local direction
-				direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.Orientation.EulerInverted * direction);
+				direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.RotationOffset.EulerInverted * direction);
 			}
 
 			return direction;
