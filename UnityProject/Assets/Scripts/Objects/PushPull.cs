@@ -63,9 +63,12 @@ public class PushPull : VisibleBehaviour {
 		if ( !IsPullingSomething ) {
 			return;
 		}
+
 		Logger.LogTraceFormat( "{0} stopped controlling {1}", Category.PushPull, this.gameObject.name, PulledObject.gameObject.name );
 		PulledObject.PulledBy = null;
 		PulledObject = null;
+
+		UpdatePullingUI(this);
 	}
 
 	/// Client asks to toggle pulling of given object
@@ -96,10 +99,29 @@ public class PushPull : VisibleBehaviour {
 				PlayerManager.LocalPlayerScript.soundNetworkActions.RpcPlayNetworkSound("Rustle0" + Random.Range(1, 4), pullable.transform.position);
 
 				PulledObject = pullable;
+
 				//Kill its impulses if we grabbed it
 				PulledObject.Stop();
+
+				// Update the UI
+				UpdatePullingUI(this);
 			}
 		}
+	}
+
+	[Server]
+	private void UpdatePullingUI(PushPull pull)
+	{
+		ConnectedPlayer player = PlayerList.Instance.Get(pull.gameObject);
+
+		if (player != ConnectedPlayer.Invalid)
+			TargetUpdatePullingUI(player.Connection, pull.IsPullingSomething);
+	}
+
+	[TargetRpc]
+	private void TargetUpdatePullingUI(NetworkConnection target, bool pulling)
+	{
+		UIManager.Action.UpdatePullingUI(pulling);
 	}
 
 	#endregion
@@ -281,8 +303,13 @@ public class PushPull : VisibleBehaviour {
 			return;
 		}
 		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, PulledBy.gameObject.name );
+
 		PulledBy.PulledObject = null;
+
+		UpdatePullingUI(PulledBy);
+
 		PulledBy = null;
+
 		NotifyPlayers();
 	}
 
