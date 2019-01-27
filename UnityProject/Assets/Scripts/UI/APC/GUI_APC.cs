@@ -15,45 +15,60 @@ public class GUI_APC : NetTab
 	/// <summary>
 	/// All of the colours which will be used for foregrounds and backgrounds
 	/// </summary>
-	private Color 	greenBackground = new Color(0.509804f, 1f, 0.2980392f),
-					blueBackground = new Color(0.6588235f, 0.6901961f, 0.9725491f),
-					redBackground = new Color(0.9725491f, 0.3764706f, 0.3764706f),
-					greenForeground = new Color(0f, 0.8000001f, 0f),
-					blueForeground = new Color(0.3764706f, 0.4392157f, 0.9725491f),
-					redForeground = new Color(0.9411765f, 0.9725491f, 0.6588235f);
-
-	[SerializeField]
-	private GameObject ActiveDisplay;
+	private Color 	greenBackground = new Color(0.509804f, 1f, 0.2980392f), // 82FF4C
+					blueBackground = new Color(0.6588235f, 0.6901961f, 0.9725491f), // A8B0F8
+					redBackground = new Color(0.9725491f, 0.3764706f, 0.3764706f), // F86060
+					greenForeground = new Color(0f, 0.8000001f, 0f), // 00CC00
+					blueForeground = new Color(0.3764706f, 0.4392157f, 0.9725491f), // 6070F8
+					redForeground = new Color(0.9411765f, 0.9725491f, 0.6588235f); // F0F8A8
 
 	// Elements that we want to visually update:
-	private NetSpriteImage _background;
+	private NetColorChanger _backgroundColor;
 	/// <summary>
 	/// The text which is displaying the current state
 	/// </summary>
-	private NetSpriteImage Background
+	private NetColorChanger BackgroundColor
 	{
 		get
 		{
-			if ( !_background )
+			if ( !_backgroundColor )
 			{
-				_background = this["DisplayBG"] as NetSpriteImage;
+				_backgroundColor = this["DisplayBG"] as NetColorChanger;
 			}
-			return _background;
+			return _backgroundColor;
 		}
 	}
-	private NetSpriteImage _chargeFill;
+
+	private NetColorChanger _foregroundColors;
+
+	private NetColorChanger _offOverlayColor;
 	/// <summary>
 	/// The text which is displaying the current state
 	/// </summary>
-	private NetSpriteImage ChargeFill
+	private NetColorChanger OffOverlayColor
 	{
 		get
 		{
-			if ( !_chargeFill )
+			if ( !_offOverlayColor )
 			{
-				_chargeFill = this["Fill"] as NetSpriteImage;
+				_offOverlayColor = this["OffOverlay"] as NetColorChanger;
 			}
-			return _chargeFill;
+			return _offOverlayColor;
+		}
+	}
+	private NetColorChanger _chargeFillColor;
+	/// <summary>
+	/// The text which is displaying the current state
+	/// </summary>
+	private NetColorChanger ChargeFillColor
+	{
+		get
+		{
+			if ( !_chargeFillColor )
+			{
+				_chargeFillColor = this["Fill"] as NetColorChanger;
+			}
+			return _chargeFillColor;
 		}
 	}
 	private NetLabel _statusText;
@@ -71,6 +86,21 @@ public class GUI_APC : NetTab
 			return _statusText;
 		}
 	}
+	// private NetColorChanger _statusTextColor;
+	// /// <summary>
+	// /// Color of the status text
+	// /// </summary>
+	// private NetColorChanger StatusTextColor
+	// {
+	// 	get
+	// 	{
+	// 		if ( !_statusTextColor )
+	// 		{
+	// 			_statusTextColor = this["StatusText"] as NetColorChanger;
+	// 		}
+	// 		return _statusTextColor;
+	// 	}
+	// }
 
 	private NetLabel _chargePercentage;
 	/// <summary>
@@ -88,6 +118,22 @@ public class GUI_APC : NetTab
 		}
 	}
 
+	// private NetColorChanger _chargePercentageColor;
+	// /// <summary>
+	// /// The color of the charge percentage
+	// /// </summary>
+	// private NetColorChanger ChargePercentageColor
+	// {
+	// 	get
+	// 	{
+	// 		if ( !_chargePercentageColor )
+	// 		{
+	// 			_chargePercentageColor = this["ChargePercentage"] as NetColorChanger;
+	// 		}
+	// 		return _chargePercentageColor;
+	// 	}
+	// }
+
 	private NetLabel _electricalValues;
 	/// <summary>
 	/// The voltage, current and resistance measured by the APC
@@ -104,19 +150,35 @@ public class GUI_APC : NetTab
 		}
 	}
 
-	private NetLabel _electricalLabels;
+	// private NetColorChanger _electricalValuesColor;
+	// /// <summary>
+	// /// The color of the values
+	// /// </summary>
+	// private NetColorChanger ElectricalValuesColor
+	// {
+	// 	get
+	// 	{
+	// 		if ( !_electricalValuesColor )
+	// 		{
+	// 			_electricalValuesColor = this["ElectricalValues"] as NetColorChanger;
+	// 		}
+	// 		return _electricalValuesColor;
+	// 	}
+	// }
+
+	private NetColorChanger _electricalLabelsColor;
 	/// <summary>
-	/// The voltage, current and resistance labels
+	/// The color of the voltage, current and resistance labels
 	/// </summary>
-	private NetLabel ElectricalLabels
+	private NetColorChanger ElectricalLabelsColor
 	{
 		get
 		{
-			if ( !_electricalLabels )
+			if ( !_electricalLabelsColor )
 			{
-				_electricalLabels = this["ElectricalLabels"] as NetLabel;
+				_electricalLabelsColor = this["ElectricalLabels"] as NetColorChanger;
 			}
-			return _electricalLabels;
+			return _electricalLabelsColor;
 		}
 	}
 
@@ -200,7 +262,7 @@ public class GUI_APC : NetTab
 	{
 		if (LocalAPC.State != APC.APCState.Dead)
 		{
-			ActiveDisplay.SetActive(true);
+			OffOverlayColor.SetValue = DebugTools.ColorToHex(Color.clear);
 			Logger.Log("Updating APC display", Category.NetUI);
 			// Update the electrical values
 			float voltage = LocalAPC.Voltage;
@@ -225,7 +287,7 @@ public class GUI_APC : NetTab
 		}
 		else
 		{
-			ActiveDisplay.SetActive(false);
+			OffOverlayColor.SetValue = DebugTools.ColorToHex(Color.black);
 		}
 	}
 
@@ -234,28 +296,28 @@ public class GUI_APC : NetTab
 		switch (LocalAPC.State)
 		{
 			case APC.APCState.Full:
-				Background.Element.color = greenBackground;
-				ElectricalLabels.Element.color = greenForeground;
-				ElectricalValues.Element.color = greenForeground;
-				StatusText.Element.color = greenForeground;
-				ChargePercentage.Element.color = greenForeground;
-				ChargeFill.Element.color = greenForeground;
+				BackgroundColor.SetValue = DebugTools.ColorToHex(greenBackground);
+				ElectricalLabelsColor.SetValue = DebugTools.ColorToHex(greenForeground);
+				// ElectricalValuesColor.SetValue = DebugTools.ColorToHex(greenForeground);
+				// StatusTextColor.SetValue = DebugTools.ColorToHex(greenForeground);
+				// ChargePercentageColor.SetValue = DebugTools.ColorToHex(greenForeground);
+				ChargeFillColor.SetValue = DebugTools.ColorToHex(greenForeground);
 				break;
 			case APC.APCState.Charging:
-				Background.Element.color = blueBackground;
-				ElectricalLabels.Element.color = blueForeground;
-				ElectricalValues.Element.color = blueForeground;
-				StatusText.Element.color = blueForeground;
-				ChargePercentage.Element.color = blueForeground;
-				ChargeFill.Element.color = blueForeground;
+				BackgroundColor.SetValue = DebugTools.ColorToHex(blueBackground);
+				ElectricalLabelsColor.SetValue = DebugTools.ColorToHex(blueForeground);
+				// ElectricalValuesColor.SetValue = DebugTools.ColorToHex(blueForeground);
+				// StatusTextColor.SetValue = DebugTools.ColorToHex(blueForeground);
+				// ChargePercentageColor.SetValue = DebugTools.ColorToHex(blueForeground);
+				ChargeFillColor.SetValue = DebugTools.ColorToHex(blueForeground);
 				break;
 			case APC.APCState.Critical:
-				Background.Element.color = redBackground;
-				ElectricalLabels.Element.color = redForeground;
-				ElectricalValues.Element.color = redForeground;
-				StatusText.Element.color = redForeground;
-				ChargePercentage.Element.color = redForeground;
-				ChargeFill.Element.color = redForeground;
+				BackgroundColor.SetValue = DebugTools.ColorToHex(redBackground);
+				ElectricalLabelsColor.SetValue = DebugTools.ColorToHex(redForeground);
+				// ElectricalValuesColor.SetValue = DebugTools.ColorToHex(redForeground);
+				// StatusTextColor.SetValue = DebugTools.ColorToHex(redForeground);
+				// ChargePercentageColor.SetValue = DebugTools.ColorToHex(redForeground);
+				ChargeFillColor.SetValue = DebugTools.ColorToHex(redForeground);
 				break;
 		}
 	}
