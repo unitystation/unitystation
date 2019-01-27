@@ -109,6 +109,12 @@ public class Matrix : MonoBehaviour
 
 	public List<T> Get<T>(Vector3Int position) where T : MonoBehaviour
 	{
+		if(objects == null)
+		{
+			//Return an empty list if objects is not initialized yet 
+			return new List<T>();
+		}
+
 		List<RegisterTile> xes = objects.Get(position);
 		var filtered = new List<T>();
 		for (var i = 0; i < xes.Count; i++)
