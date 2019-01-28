@@ -46,12 +46,6 @@ namespace IngameDebugConsole
 		[SerializeField]
 		private bool clearCommandAfterExecution = true;
 
-		[SerializeField]
-		private bool receiveLogcatLogsInAndroid = false;
-
-		[SerializeField]
-		private string logcatArguments;
-
 		[Header( "Visuals" )]
 		[SerializeField]
 		private DebugLogItem logItemPrefab;
@@ -154,10 +148,6 @@ namespace IngameDebugConsole
 		// Required in ValidateScrollPosition() function
 		private PointerEventData nullPointerEventData;
 
-#if !UNITY_EDITOR && UNITY_ANDROID
-		private DebugLogLogcatListener logcatListener;
-#endif
-
 		private void OnEnable()
 		{
 			// Only one instance of debug console is allowed
@@ -207,16 +197,6 @@ namespace IngameDebugConsole
 			Application.logMessageReceived -= ReceivedLog;
 			Application.logMessageReceived += ReceivedLog;
 
-			if( receiveLogcatLogsInAndroid )
-			{
-#if !UNITY_EDITOR && UNITY_ANDROID
-				if( logcatListener == null )
-					logcatListener = new DebugLogLogcatListener();
-
-				logcatListener.Start( logcatArguments );
-#endif
-			}
-
 			// Listen for entered commands
 			commandInputField.onValidateInput -= OnValidateCommand;
 			commandInputField.onValidateInput += OnValidateCommand;
@@ -235,11 +215,6 @@ namespace IngameDebugConsole
 		{
 			// Stop receiving debug entries
 			Application.logMessageReceived -= ReceivedLog;
-
-#if !UNITY_EDITOR && UNITY_ANDROID
-			if( logcatListener != null )
-				logcatListener.Stop();
-#endif
 
 			// Stop receiving commands
 			commandInputField.onValidateInput -= OnValidateCommand;
@@ -287,15 +262,6 @@ namespace IngameDebugConsole
 				if( snapToBottomButton.activeSelf != ( scrollPos > 1E-6f && scrollPos < 0.9999f ) )
 					snapToBottomButton.SetActive( !snapToBottomButton.activeSelf );
 			}
-
-#if !UNITY_EDITOR && UNITY_ANDROID
-			if( logcatListener != null )
-			{
-				string log;
-				while( ( log = logcatListener.GetLog() ) != null )
-					ReceivedLog( "LOGCAT: " + log, string.Empty, LogType.Log );
-			}
-#endif
 		}
 
 		// Command field input is changed, check if command is submitted
