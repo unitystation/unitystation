@@ -62,6 +62,11 @@ public class MetaDataNode: IGasMixContainer
 		None = new MetaDataNode(Vector3Int.one * -1000000);
 	}
 
+	static MetaDataNode()
+	{
+		None = new MetaDataNode(Vector3Int.one * -1000000);
+	}
+
 	public bool IsSpace => Type == NodeType.Space;
 	public bool IsRoom => Type == NodeType.Room;
 	public bool IsOccupied => Type == NodeType.Occupied;

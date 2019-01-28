@@ -1,17 +1,12 @@
-﻿using System.Collections.Generic;
-using Atmospherics;
-using Facepunch.Steamworks;
-using Objects;
+﻿using Atmospherics;
 using UnityEngine;
 
-/// <inheritdoc />
 /// <summary>
 /// Controls the RepiratorySystem for this living thing
 /// Mostly managed server side and states sent to the clients
 /// </summary>
 public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 {
-	private const float OXYGEN_SAFE_MIN = 16;
 	public bool IsBreathing { get; private set; } = true;
 	public bool IsSuffocating { get; private set; }
 
@@ -24,16 +19,15 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 	private BloodSystem bloodSystem;
 	private LivingHealthBehaviour livingHealthBehaviour;
+	private PlayerScript playerScript;
 
 	private float tickRate = 1f;
 	private float tick = 0f;
-	private PlayerScript playerScript;
 
 	void Awake()
 	{
 		bloodSystem = GetComponent<BloodSystem>();
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
-
 		playerScript = GetComponent<PlayerScript>();
 	}
 
@@ -54,7 +48,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	void UpdateMe()
 	{
 		//Server Only:
-		if (CustomNetworkManager.IsServer)
+		if (CustomNetworkManager.Instance._isServer)
 		{
 			tick += Time.deltaTime;
 			if (tick >= tickRate)
@@ -62,83 +56,109 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 				tick = 0f;
 				MonitorSystem();
 			}
+
+			if (IsSuffocating)
+			{
+				CheckSuffocation();
+			}
 		}
 	}
 
 	private void MonitorSystem()
 	{
-		if (!livingHealthBehaviour.IsDead)
+		if (livingHealthBehaviour.IsDead)
 		{
-			MetaDataNode node = MatrixManager.GetMetaDataAt(transform.position.RoundToInt());
+			return;
+		}
 
-			if (!IsEVACompatible())
+		CheckBreathing();
+	}
+
+	/// Check breathing state
+	private void CheckBreathing()
+	{
+		// Try not to make super long conditions here, break them up
+		// into each individual condition for ease of reading
+		if (IsBreathing)
+		{
+			MonitorAirInput();
+
+			//Conditions that would stop breathing:
+			if (livingHealthBehaviour.OverallHealth <= 0)
 			{
-				CheckPressureDamage(node.GasMix.Pressure);
+				IsBreathing = false;
+				IsSuffocating = true;
 			}
 
-			Breathe(node);
-		}
-	}
+//			if (IsInSpace() && !IsEvaCompatible())
+//			{
+//				IsBreathing = false;
+//				IsSuffocating = true;
+//			}
 
-	private void Breathe(IGasMixContainer node)
-	{
-		// if no internal breathing is possible, get the from the surroundings
-		IGasMixContainer container = GetInternalGasMix() ?? node;
-
-		GasMix gasMix = container.GasMix;
-		GasMix breathGasMix = gasMix.RemoveVolume(AtmosConstants.BREATH_VOLUME, true);
-
-		float oxygenUsed = HandleBreathing(breathGasMix);
-
-		if (oxygenUsed > 0)
-		{
-			breathGasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
-			breathGasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
+			//TODO: other conditions that would prevent breathing
 		}
 
-		gasMix += breathGasMix;
-		container.GasMix = gasMix;
-	}
-
-	private GasContainer GetInternalGasMix()
-	{
-		if (playerScript != null)
+		if (!IsBreathing)
 		{
-			Dictionary<string, InventorySlot> inventory = playerScript.playerNetworkActions.Inventory;
-
-			// Check if internals exist
-			ItemAttributes mask = inventory.ContainsKey("mask") ? inventory["mask"]?.ItemAttributes : null;
-			ItemAttributes suit = inventory.ContainsKey("suitStorage") ? inventory["suitStorage"]?.ItemAttributes : null;
-
-			if (mask != null && suit != null)
+			if (livingHealthBehaviour.OverallHealth > 0)
 			{
-				return suit.GetComponent<GasContainer>();
+//				if (IsInSpace() && IsEvaCompatible())
+//				{
+//					IsBreathing = true;
+//					GetComponent<PlayerNetworkActions>().SetConsciousState(true);
+//				}
+//
+//				if (!IsInSpace())
+//				{
+//					IsBreathing = true;
+//					GetComponent<PlayerNetworkActions>().SetConsciousState(true);
+//				}
 			}
 		}
-
-		return null;
 	}
 
-	private float HandleBreathing(GasMix breathGasMix)
+	private void MonitorAirInput()
 	{
-		float oxygenPressure = breathGasMix.GetPressure(Gas.Oxygen);
+		MetaDataNode node = MatrixManager.GetMetaDataAt(transform.position.RoundToInt());
+
+		CheckPressureDamage(node.Atmos.Pressure);
+
+		CheckBreath(node);
+
+
+//		if(node)
+		//TODO Finish when atmos is implemented. Basically deliver any elements to the
+		//the blood stream every breath
+		//Check atmos values for the tile you are on
+
+		//FIXME remove when above TODO is done:
+//		if (!IsInSpace() || IsInSpace() && IsEvaCompatible())
+//		{
+//			//Delivers oxygen to the blood from a single breath
+//			bloodSystem.OxygenLevel += 30;
+//		}
+	}
+
+	private void CheckBreath(MetaDataNode node)
+	{
+		GasMix breathGasMix = node.Atmos.RemoveVolume(AtmosConstants.BREATH_VOLUME);
+
+		float oxygenPressure = node.Atmos.GetPressure(Gas.Oxygen);
 
 		float oxygenUsed = 0;
 
-		if (oxygenPressure < OXYGEN_SAFE_MIN)
+		float oxygenSafeMin = 16;
+
+		if (oxygenPressure < oxygenSafeMin)
 		{
-			if (Random.value < 0.2)
-			{
-				PostToChatMessage.Send("gasp", ChatChannel.Local);
-			}
+			// TODO gasp with 20 % prob
 
 			if (oxygenPressure > 0)
 			{
-				float ratio = 1 - oxygenPressure / OXYGEN_SAFE_MIN;
+				float ratio = 1 - oxygenPressure / oxygenSafeMin;
 
 				ApplyDamage(Mathf.Min(5 * ratio, 3), DamageType.Oxy);
-				bloodSystem.OxygenLevel += 30 * ratio;
-
 				oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen) * ratio;
 			}
 			else
@@ -149,10 +169,17 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		else
 		{
 			oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen);
+
 			bloodSystem.OxygenLevel += 30;
 		}
 
-		return oxygenUsed;
+		if (oxygenUsed > 0)
+		{
+			breathGasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
+			breathGasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
+		}
+
+		node.Atmos += breathGasMix;
 	}
 
 	private void CheckPressureDamage(float pressure)
@@ -170,29 +197,53 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		}
 	}
 
-	private bool IsEVACompatible()
+	private void ApplyDamage(float amount, DamageType damageType)
+	{
+		livingHealthBehaviour.ApplyDamage(null, amount,damageType);
+	}
+
+	/// Preform any suffocation monitoring here:
+	private void CheckSuffocation()
+	{
+		if (IsBreathing)
+		{
+			IsSuffocating = false;
+			suffocationTime = 0f;
+		}
+		else
+		{
+			suffocationTime += Time.deltaTime;
+		}
+	}
+
+	private bool IsEvaCompatible()
 	{
 		if (playerScript == null)
+		{
+			Logger.Log("This is not a human player. Develop a way to detect EVA equipment on animals",
+				Category.Health);
+			return false;
+		}
+
+		GameObject headItem = playerScript.playerNetworkActions.Inventory["head"].Item;
+		GameObject suitItem = playerScript.playerNetworkActions.Inventory["suit"].Item;
+		if (headItem == null || suitItem == null)
 		{
 			return false;
 		}
 
-		Dictionary<string, InventorySlot> inventory = playerScript.playerNetworkActions.Inventory;
+		ItemAttributes headItemAtt = headItem.GetComponent<ItemAttributes>();
+		ItemAttributes suitItemAtt = suitItem.GetComponent<ItemAttributes>();
 
-		ItemAttributes headItem = inventory.ContainsKey("head") ? inventory["head"]?.ItemAttributes : null;
-		ItemAttributes suitItem = inventory.ContainsKey("suit") ? inventory["suit"]?.ItemAttributes : null;
+		// TODO when atmos is merged and oxy tanks are in, then check oxygen flow
+		// through mask here
 
-		if (headItem != null && suitItem != null)
+		if (headItemAtt == null || suitItemAtt == null)
 		{
-			return headItem.IsEVACapable && suitItem.IsEVACapable;
+			return false;
 		}
 
-		return false;
-	}
-
-	private void ApplyDamage(float amount, DamageType damageType)
-	{
-		livingHealthBehaviour.ApplyDamage(null, amount, damageType);
+		return headItemAtt.evaCapable && suitItemAtt.evaCapable;
 	}
 
 	// --------------------
@@ -204,7 +255,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	/// </summary>
 	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
 	{
-		if (CustomNetworkManager.IsServer)
+		if (CustomNetworkManager.Instance._isServer)
 		{
 			return;
 		}
