@@ -8,10 +8,14 @@ using UnityEngine.UI;
 [Serializable]
 public class NetSlider : NetUIElement
 {
-	
-	public override string Value {
-		get { return (( int ) ( Element.value * 100 )).ToString(); }
-		set {
+	public override string Value
+	{
+		get
+		{
+			return (( int ) ( Element.value * 100 )).ToString();
+		}
+		set
+		{
 			externalChange = true;
 			Element.value = int.Parse(value) / 100f;
 			externalChange = false;
@@ -20,17 +24,21 @@ public class NetSlider : NetUIElement
 
 	public FloatEvent ServerMethod;
 
-	private Slider element; 
-	public Slider Element {
-		get {
-			if ( !element ) {
+	private Slider element;
+	public Slider Element
+	{
+		get
+		{
+			if ( !element )
+			{
 				element = GetComponent<Slider>();
 			}
 			return element;
 		}
 	}
 
-	public override void ExecuteServer() {
+	public override void ExecuteServer()
+	{
 		ServerMethod.Invoke(Element.value);
 	}
 }
