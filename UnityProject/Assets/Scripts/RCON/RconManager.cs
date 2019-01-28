@@ -223,17 +223,27 @@ public class RconManager : RconConsole
 
 	public static string GetFullLog()
 	{
-		return ServerLog;
+		var log = ServerLog;
+		if (log.Length > 5000)
+		{
+			log = log.Substring(4000);
+		}
+		return log;
 	}
 
 	public static string GetFullChatLog()
 	{
-		if (string.IsNullOrEmpty(ChatLog))
+		var log = ChatLog;
+		if (string.IsNullOrEmpty(log))
 		{
 			return "No one has said anything yet..";
 		}
 
-		return ChatLog;
+		if (log.Length > 10000)
+		{
+			log = log.Substring(9000);
+		}
+		return log;
 	}
 }
 
