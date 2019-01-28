@@ -464,8 +464,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command] //Remember with the parent you can only send networked objects:
 	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
-		var localPlayer = PlayerManager.LocalPlayerScript;
-		if ( localPlayer.canNotInteract() || !localPlayer.IsInReach( pos ) )
+		if ( playerScript.canNotInteract() || !playerScript.IsInReach( pos ) )
 		{
 			return;
 		}
