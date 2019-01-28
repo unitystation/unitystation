@@ -11,8 +11,8 @@ public class HealthBodyPartMessage : ServerMessage
 
 	public NetworkInstanceId EntityToUpdate;
 	public BodyPartType BodyPart;
-	public int BruteDamage;
-	public int BurnDamage;
+	public float BruteDamage;
+	public float BurnDamage;
 
 	public override IEnumerator Process()
 	{
@@ -21,7 +21,7 @@ public class HealthBodyPartMessage : ServerMessage
 	}
 
 	public static HealthBodyPartMessage Send(GameObject recipient, GameObject entityToUpdate, BodyPartType bodyPartType,
-		int bruteDamage, int burnDamage)
+		float bruteDamage, float burnDamage)
 	{
 		HealthBodyPartMessage msg = new HealthBodyPartMessage
 		{
@@ -36,7 +36,7 @@ public class HealthBodyPartMessage : ServerMessage
 	}
 
 	public static HealthBodyPartMessage SendToAll(GameObject entityToUpdate, BodyPartType bodyPartType,
-		int bruteDamage, int burnDamage)
+		float bruteDamage, float burnDamage)
 	{
 		HealthBodyPartMessage msg = new HealthBodyPartMessage
 		{

@@ -14,7 +14,7 @@ public enum NodeType
 
 public class MetaDataNode
 {
-	public static readonly MetaDataNode None = new MetaDataNode(Vector3Int.one * -1000000);
+	public static readonly MetaDataNode None;
 
 	public readonly Vector3Int Position;
 
@@ -55,6 +55,11 @@ public class MetaDataNode
 		Position = position;
 		neighbors = new List<MetaDataNode>();
 		Atmos = GasMixes.Space;
+	}
+
+	static MetaDataNode()
+	{
+		None = new MetaDataNode(Vector3Int.one * -1000000);
 	}
 
 	public bool IsSpace => Type == NodeType.Space;

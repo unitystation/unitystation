@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Atmospherics
 {
@@ -110,7 +111,7 @@ namespace Atmospherics
 
 		public float GetPressure(Gas gas)
 		{
-			return Pressure * Gases[gas] / Moles;
+			return Math.Abs(Moles) < 0.00000000001 ? 0 : Pressure * Gases[gas] / Moles;
 		}
 
 		public float GetMoles(Gas gas)

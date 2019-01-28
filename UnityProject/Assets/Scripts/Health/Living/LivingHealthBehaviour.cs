@@ -14,7 +14,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	public int OverallHealth { get; private set; } = 100;
 
-	// Systems can also be added via inspector 
+	// Systems can also be added via inspector
 	public BloodSystem bloodSystem;
 	public BrainSystem brainSystem;
 	public RespiratorySystem respiratorySystem;
@@ -182,7 +182,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <param name="damageType">The Type of Damage</param>
 	/// <param name="bodyPartAim">Body Part that is affected</param>
 	[Server]
-	public virtual void ApplyDamage(GameObject damagedBy, int damage,
+	public virtual void ApplyDamage(GameObject damagedBy, float damage,
 		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
 	{
 		if (damage <= 0 || IsDead)
@@ -496,7 +496,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	// --------------------
 	// UPDATES FROM SERVER
-	// -------------------- 
+	// --------------------
 
 	// Stats are separated so that the server only updates the area of concern when needed
 
@@ -525,7 +525,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <summary>
 	/// Updates the blood health stats from the server via NetMsg
 	/// </summary>
-	public void UpdateClientBloodStats(int heartRate, int bloodVolume, int oxygenLevel, int toxinLevel)
+	public void UpdateClientBloodStats(int heartRate, int bloodVolume, float oxygenLevel, float toxinLevel)
 	{
 		bloodSystem.UpdateClientBloodStats(heartRate, bloodVolume, oxygenLevel, toxinLevel);
 		CheckDeadCritStatus();
@@ -546,7 +546,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <summary>
 	/// Updates the bodypart health stats from the server via NetMsg
 	/// </summary>
-	public void UpdateClientBodyPartStats(BodyPartType bodyPartType, int bruteDamage, int burnDamage)
+	public void UpdateClientBodyPartStats(BodyPartType bodyPartType, float bruteDamage, float burnDamage)
 	{
 		var bodyPart = FindBodyPart(bodyPartType);
 		if (bodyPart != null)

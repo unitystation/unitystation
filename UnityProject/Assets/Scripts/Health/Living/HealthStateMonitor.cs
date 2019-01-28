@@ -16,8 +16,8 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	bool isSuffocatingCache;
 	int heartRateCache;
 	int bloodLevelCache;
-	int oxygenLevelCache;
-	int toxinLevelCache;
+	float oxygenLevelCache;
+	float toxinLevelCache;
 	bool isHuskCache;
 	int brainDamageCache;
 
@@ -109,7 +109,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		CheckCruicialBloodHealth();
 	}
 
-	// Monitoring stats that don't need to be updated straight away on clients 
+	// Monitoring stats that don't need to be updated straight away on clients
 	// (changes are updated at 1 second intervals)
 	[Server]
 	void MonitorNonCrucialStats()

@@ -12,8 +12,8 @@ public class HealthBloodMessage : ServerMessage
 	public NetworkInstanceId EntityToUpdate;
 	public int HeartRate;
 	public int BloodLevel;
-	public int OxygenLevel;
-	public int ToxinLevel;
+	public float OxygenLevel;
+	public float ToxinLevel;
 
 	public override IEnumerator Process()
 	{
@@ -22,7 +22,7 @@ public class HealthBloodMessage : ServerMessage
 	}
 
 	public static HealthBloodMessage Send(GameObject recipient, GameObject entityToUpdate, int heartRate, int bloodLevel,
-		int oxygenLevel, int toxinLevel)
+		float oxygenLevel, float toxinLevel)
 	{
 		HealthBloodMessage msg = new HealthBloodMessage
 		{
@@ -37,7 +37,7 @@ public class HealthBloodMessage : ServerMessage
 	}
 
 	public static HealthBloodMessage SendToAll(GameObject entityToUpdate, int heartRate, int bloodLevel,
-		int oxygenLevel, int toxinLevel)
+		float oxygenLevel, float toxinLevel)
 	{
 		HealthBloodMessage msg = new HealthBloodMessage
 		{
