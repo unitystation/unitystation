@@ -262,6 +262,21 @@ namespace IngameDebugConsole
 				if( snapToBottomButton.activeSelf != ( scrollPos > 1E-6f && scrollPos < 0.9999f ) )
 					snapToBottomButton.SetActive( !snapToBottomButton.activeSelf );
 			}
+
+			// Hide/Show the log window when user presses F5
+			if(Input.GetKeyDown(KeyCode.F5))
+			{
+				if (isLogWindowVisible)
+				{
+					HideButtonPressed();
+				}
+				else
+				{
+					Show();
+					popupManager.Hide();
+				}
+				
+			}
 		}
 
 		// Command field input is changed, check if command is submitted
