@@ -269,7 +269,7 @@ public class GUI_APC : NetTab
 		if (LocalAPC.State != APC.APCState.Dead)
 		{
 			OffOverlayColor.SetValue = DebugTools.ColorToHex(Color.clear);
-			Logger.Log("Updating APC display", Category.NetUI);
+			Logger.LogTrace("Updating APC display", Category.NetUI);
 			// Update the electrical values
 			float voltage = LocalAPC.Voltage;
 			float current = LocalAPC.Current;
