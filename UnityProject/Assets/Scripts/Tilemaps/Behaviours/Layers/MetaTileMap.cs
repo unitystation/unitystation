@@ -1,43 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
 
 [ExecuteInEditMode]
 public class MetaTileMap : MonoBehaviour
 {
+	/// <summary>
+	/// Use this dictionary only if performance isn't critical, otherwise try using arrays below
+	/// </summary>
 	public Dictionary<LayerType, Layer> Layers { get; private set; }
 
-	//Lists for speed
-	private List<LayerType> LayersKeys { get; set; }
-	private List<Layer> LayersValues { get; set; }
+	//Using arrays for iteration speed
+	private LayerType[] LayersKeys { get; set; }
+	private Layer[] LayersValues { get; set; }
 	/// <summary>
-	/// List of layers that can definitely contain solid stuff
+	/// Array of only layers that can ever contain solid stuff
 	/// </summary>
-	private List<Layer> SolidLayersValues { get; set; }
+	private Layer[] SolidLayersValues { get; set; }
 
 	private void OnEnable()
 	{
 		Layers = new Dictionary<LayerType, Layer>();
-		LayersKeys = new List<LayerType>();
-		LayersValues = new List<Layer>();
-		SolidLayersValues = new List<Layer>();
+		var layersKeys = new List<LayerType>();
+		var layersValues = new List<Layer>();
+		var solidLayersValues = new List<Layer>();
 
 		foreach (Layer layer in GetComponentsInChildren<Layer>(true))
 		{
 			var type = layer.LayerType;
 			Layers[type] = layer;
-			LayersKeys.Add(type);
-			LayersValues.Add(layer);
+			layersKeys.Add(type);
+			layersValues.Add(layer);
 			if ( type != LayerType.Effects
 			  && type != LayerType.Base
 			  && type != LayerType.Floors
 			  && type != LayerType.None)
 			{
-				SolidLayersValues.Add(layer);
+				solidLayersValues.Add(layer);
 			}
 		}
+
+		LayersKeys = layersKeys.ToArray();
+		LayersValues = layersValues.ToArray();
+		SolidLayersValues = solidLayersValues.ToArray();
 	}
 
 	public bool IsPassableAt(Vector3Int position)
@@ -56,7 +61,7 @@ public class MetaTileMap : MonoBehaviour
 
 	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool inclPlayers = true, GameObject context = null)
 	{
-		for (var i = 0; i < SolidLayersValues.Count; i++)
+		for (var i = 0; i < SolidLayersValues.Length; i++)
 		{
 			if (!SolidLayersValues[i].IsPassableAt(origin, to, inclPlayers, context))
 			{
@@ -83,7 +88,7 @@ public class MetaTileMap : MonoBehaviour
 
 	private bool _IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
 	{
-		for (var i = 0; i < LayersValues.Count; i++)
+		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			if (!LayersValues[i].IsAtmosPassableAt(origin, to))
 			{
@@ -96,7 +101,7 @@ public class MetaTileMap : MonoBehaviour
 
 	public bool IsSpaceAt(Vector3Int position)
 	{
-		for (var i = 0; i < LayersValues.Count; i++)
+		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			if (!LayersValues[i].IsSpaceAt(position))
 			{
@@ -126,7 +131,7 @@ public class MetaTileMap : MonoBehaviour
 
 	public LayerTile GetTile(Vector3Int position)
 	{
-		for (var i = 0; i < LayersValues.Count; i++)
+		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			LayerTile tile = LayersValues[i].GetTile(position);
 			if (tile != null)
@@ -140,7 +145,7 @@ public class MetaTileMap : MonoBehaviour
 
 	public bool IsEmptyAt(Vector3Int position)
 	{
-		for (var index = 0; index < LayersKeys.Count; index++)
+		for (var index = 0; index < LayersKeys.Length; index++)
 		{
 			LayerType layer = LayersKeys[index];
 			if (layer != LayerType.Objects && HasTile(position, layer))
@@ -167,7 +172,7 @@ public class MetaTileMap : MonoBehaviour
 
 	public bool IsNoGravityAt(Vector3Int position)
 	{
-		for (var i = 0; i < LayersKeys.Count; i++)
+		for (var i = 0; i < LayersKeys.Length; i++)
 		{
 			LayerType layer = LayersKeys[i];
 			if (layer != LayerType.Objects && HasTile(position, layer))
@@ -181,7 +186,7 @@ public class MetaTileMap : MonoBehaviour
 
 	public bool IsEmptyAt(GameObject[] context, Vector3Int position)
 	{
-		for (var i1 = 0; i1 < LayersKeys.Count; i1++)
+		for (var i1 = 0; i1 < LayersKeys.Length; i1++)
 		{
 			LayerType layer = LayersKeys[i1];
 			if (layer != LayerType.Objects && HasTile(position, layer))
@@ -219,6 +224,22 @@ public class MetaTileMap : MonoBehaviour
 		return true;
 	}
 
+	/// <summary>
+	/// Cheap method to check if there's a tile
+	/// </summary>
+	/// <param name="position"></param>
+	/// <returns></returns>
+	public bool HasTile(Vector3Int position)
+	{
+		for (var i = 0; i < LayersValues.Length; i++)
+		{
+			if (LayersValues[i].HasTile(position))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	public bool HasTile(Vector3Int position, LayerType layerType)
 	{
 		return Layers[layerType].HasTile(position);
@@ -226,7 +247,7 @@ public class MetaTileMap : MonoBehaviour
 
 	public void RemoveTile(Vector3Int position, LayerType refLayer)
 	{
-		for (var i = 0; i < LayersValues.Count; i++)
+		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			Layer layer = LayersValues[i];
 			if (layer.LayerType < refLayer &&
@@ -246,7 +267,7 @@ public class MetaTileMap : MonoBehaviour
 
 	public void ClearAllTiles()
 	{
-		for (var i = 0; i < LayersValues.Count; i++)
+		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			LayersValues[i].ClearAllTiles();
 		}
@@ -257,7 +278,7 @@ public class MetaTileMap : MonoBehaviour
 		Vector3Int minPosition = Vector3Int.one * int.MaxValue;
 		Vector3Int maxPosition = Vector3Int.one * int.MinValue;
 
-		for (var i = 0; i < LayersValues.Count; i++)
+		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			BoundsInt layerBounds = LayersValues[i].Bounds;
 
@@ -277,7 +298,7 @@ public class MetaTileMap : MonoBehaviour
 #if UNITY_EDITOR
 	public void SetPreviewTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
 	{
-		for (var i = 0; i < LayersValues.Count; i++)
+		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			Layer layer = LayersValues[i];
 			if (layer.LayerType < tile.LayerType)
@@ -297,7 +318,7 @@ public class MetaTileMap : MonoBehaviour
 
 	public void ClearPreview()
 	{
-		for (var i = 0; i < LayersValues.Count; i++)
+		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			LayersValues[i].ClearPreview();
 		}

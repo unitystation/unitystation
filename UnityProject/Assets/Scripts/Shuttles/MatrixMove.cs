@@ -68,7 +68,7 @@ public struct MatrixState
 /// </summary>
 public class MatrixMove : ManagedNetworkBehaviour
 {
-	public bool IsMoving => isMovingServer;
+	public bool IsMoving => isMovingClient; //?
 
 	//server-only values
 	public MatrixState State => serverState;
@@ -124,14 +124,23 @@ public class MatrixMove : ManagedNetworkBehaviour
 	public KeyCode rightKey = KeyCode.Keypad6;
 
 	///initial pos for offset calculation
-	public Vector3Int InitialPos => Vector3Int.RoundToInt(initialPosition);
-
-	[SyncVar] private Vector3 initialPosition;
+	[HideInInspector]
+	public Vector3Int InitialPos;
+	[SyncVar(hook = nameof(UpdateInitialPos))] private Vector3 initialPosition;
+	private void UpdateInitialPos(Vector3 sync)
+	{
+		InitialPos = sync.RoundToInt();
+	}
 
 	/// local pivot point
-	public Vector3Int Pivot => Vector3Int.RoundToInt(pivot);
+	[HideInInspector]
+	public Vector3Int Pivot;
+	[SyncVar(hook = nameof(UpdatePivot))] private Vector3 pivot;
+	private void UpdatePivot(Vector3 sync)
+	{
+		Pivot = sync.RoundToInt();
+	}
 
-	[SyncVar] private Vector3 pivot;
 	private Vector3Int[] SensorPositions;
 
 	public MatrixInfo MatrixInfo;
@@ -175,13 +184,15 @@ public class MatrixMove : ManagedNetworkBehaviour
 		Vector3Int initialPositionInt =
 			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
 		initialPosition = initialPositionInt;
+		InitialPos = initialPosition.RoundToInt();
+		//initialOrientation = Orientation.From( serverState.Direction );
 		serverState.initialOrientation = serverState.Direction;
 
-		var child = transform.GetChild(0);
-		MatrixInfo = MatrixManager.Get(child.gameObject);
-		var childPosition =
-			Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
-		pivot = initialPosition - childPosition;
+		var child = transform.GetChild( 0 );
+		MatrixInfo = MatrixManager.Get( child.gameObject );
+		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
+		pivot =  initialPosition - childPosition;
+		Pivot = pivot.RoundToInt();
 
 		Logger.LogTraceFormat("{0}: pivot={1} initialPos={2}, initialOrientation={3}", Category.Matrix, gameObject.name,
 			pivot, initialPositionInt, serverState.initialOrientation);
@@ -796,6 +807,4 @@ public class OrientationEvent : UnityEvent<RotationOffset>
 }
 
 [Serializable]
-public class DualFloatEvent : UnityEvent<float, float>
-{
-}
+public class DualFloatEvent : UnityEvent<float,float> {}

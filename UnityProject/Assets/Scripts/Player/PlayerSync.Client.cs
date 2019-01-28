@@ -141,8 +141,8 @@ public partial class PlayerSync
 	private void PredictiveBumpInteract(Vector3Int worldTile, Vector2Int direction)
 	{
 		// Is the object pushable (iterate through all of the objects at the position):
-		PushPull[] pushPulls = MatrixManager.GetAt<PushPull>(worldTile).ToArray();
-		for (int i = 0; i < pushPulls.Length; i++)
+		var pushPulls = MatrixManager.GetAt<PushPull>(worldTile);
+		for (int i = 0; i < pushPulls.Count; i++)
 		{
 			var pushPull = pushPulls[i];
 			if (pushPull && pushPull.gameObject != gameObject && pushPull.IsSolid)

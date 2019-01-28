@@ -72,7 +72,8 @@ using UnityEngine.Tilemaps;
 
 		public virtual bool HasTile(Vector3Int position)
 		{
-			return GetTile(position);
+			return tilemap.HasTile( position );
+//			return GetTile(position);
 		}
 
 		public virtual void RemoveTile(Vector3Int position, bool removeAll=false)

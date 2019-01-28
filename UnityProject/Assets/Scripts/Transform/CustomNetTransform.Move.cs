@@ -527,26 +527,37 @@ public partial class CustomNetTransform {
 		var objectsOnTile = MatrixManager.GetAt<LivingHealthBehaviour>( atPos );
 		if ( objectsOnTile != null ) {
 			var damageables = new List<LivingHealthBehaviour>();
-			foreach ( LivingHealthBehaviour obj in objectsOnTile ) {
-				//Skip thrower for now
-				if ( obj.gameObject == thrownBy ) {
+			for ( var i = 0; i < objectsOnTile.Count; i++ )
+			{
+				LivingHealthBehaviour obj = objectsOnTile[i];
+//Skip thrower for now
+				if ( obj.gameObject == thrownBy )
+				{
 					Logger.Log( $"{thrownBy.name} not hurting himself", Category.Throwing );
 					continue;
 				}
+
 				//Skip dead bodies
-				if ( obj.IsDead ) {
+				if ( obj.IsDead )
+				{
 					continue;
 				}
 
 				var commonTransform = obj.GetComponent<IPushable>();
-				if ( commonTransform != null ) {
-					if ( this.ServerImpulse.To2Int() == commonTransform.ServerImpulse.To2Int() && this.MoveSpeedServer <= commonTransform.MoveSpeedServer ) {
-						Logger.LogTraceFormat( "{0} not hitting {1} as they fly in the same direction", Category.Throwing, gameObject.name, obj.gameObject.name );
+				if ( commonTransform != null )
+				{
+					if ( this.ServerImpulse.To2Int() == commonTransform.ServerImpulse.To2Int() &&
+					     this.MoveSpeedServer <= commonTransform.MoveSpeedServer )
+					{
+						Logger.LogTraceFormat( "{0} not hitting {1} as they fly in the same direction", Category.Throwing, gameObject.name,
+							obj.gameObject.name );
 						continue;
 					}
 				}
+
 				damageables.Add( obj );
 			}
+
 			if ( damageables.Count > 0 ) {
 				victims = damageables;
 				return true;
@@ -584,12 +595,12 @@ public partial class CustomNetTransform {
 	private bool HasPlayersAt( Vector3 stateWorldPosition, out PlayerScript firstPlayer ) {
 		firstPlayer = null;
 		var intPos = Vector3Int.RoundToInt( (Vector2)stateWorldPosition );
-		var players = MatrixManager.GetAt<PlayerScript>( intPos ).ToArray();
-		if ( players.Length == 0 ) {
+		var players = MatrixManager.GetAt<PlayerScript>( intPos );
+		if ( players.Count == 0 ) {
 			return false;
 		}
 
-		for ( var i = 0; i < players.Length; i++ ) {
+		for ( var i = 0; i < players.Count; i++ ) {
 			var player = players[i];
 			if ( player.registerTile.IsPassable() ||
 			     intPos != Vector3Int.RoundToInt( player.PlayerSync.ServerState.WorldPosition )
