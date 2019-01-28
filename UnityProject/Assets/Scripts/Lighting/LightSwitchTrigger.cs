@@ -41,7 +41,7 @@ public class LightSwitchTrigger : InputTrigger
 		DetectLightsAndAction(true);
 		if (RelatedAPC != null)
 		{
-			RelatedAPC.DictionarySwitchesAndLights[this] = new List<LightSource>();
+			RelatedAPC.ConnectedSwitchesAndLights[this] = new List<LightSource>();
 		}
 	}
 	public void PowerNetworkUpdate(float Voltage)

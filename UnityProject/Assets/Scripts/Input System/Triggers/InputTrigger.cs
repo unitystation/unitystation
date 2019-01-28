@@ -82,7 +82,7 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// <summary>
 	/// Trigger an interaction, defined as when the mouse is initially clicked (but not while it is being held down and dragged)
 	/// </summary>
-	/// <param name="originator>game object that is performing the interaction upon this gameobject</param>
+	/// <param name="originator">game object that is performing the interaction upon this gameobject</param>
 	/// <param name="hand">hand of the originator which is being used to perform the interaction</param>
 	/// <param name="position">position of the interaction</param>
 	/// <returns>true if further interactions should be prevented for the current update</returns>
@@ -93,7 +93,7 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// Trigger a drag interaction, defined as when the mouse is currently being held (but not initially clicked) and is dragged over. The default implementation is
 	/// that nothing happens.
 	/// </summary>
-	/// <param name="originator>game object that is performing the interaction upon this gameobject</param>
+	/// <param name="originator">game object that is performing the interaction upon this gameobject</param>
 	/// <param name="hand">hand of the originator which is being used to perform the interaction</param>
 	/// <param name="position">position of the interaction</param>
 	/// <returns>true if further interactions should be prevented for the current update</returns>
@@ -106,5 +106,5 @@ public abstract class InputTrigger : NetworkBehaviour
 	public virtual void UI_Interact(GameObject originator, string hand) {}
 	public virtual void UI_InteractOtherSlot(GameObject originator, GameObject otherHandItem){}
 
-	
+
 }

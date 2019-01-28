@@ -6,9 +6,13 @@ public class ControlAction : MonoBehaviour
 	public Image throwImage;
 	public Sprite[] throwSprites;
 
+	public Image pullImage;
+
 	private void Start()
 	{
 		UIManager.IsThrow = false;
+
+		pullImage.enabled = false;
 	}
 
 	/*
@@ -113,5 +117,27 @@ public class ControlAction : MonoBehaviour
 			UIManager.IsThrow = false;
 			throwImage.sprite = throwSprites[0];
 		}
+	}
+
+	/// <summary>
+	/// Stops pulling whatever we're pulling
+	/// </summary>
+	public void StopPulling()
+	{
+		if (pullImage && pullImage.enabled)
+		{
+			PlayerScript ps = PlayerManager.LocalPlayerScript;
+
+			ps.pushPull.CmdStopPulling();
+		}
+	}
+
+	/// <summary>
+	/// Updates whether or not the "Stop Pulling" button is shown
+	/// </summary>
+	/// <param name="show">Whether or not to show the button</param>
+	public void UpdatePullingUI(bool show)
+	{
+		pullImage.enabled = show;
 	}
 }

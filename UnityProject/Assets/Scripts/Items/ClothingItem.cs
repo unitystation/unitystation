@@ -10,6 +10,9 @@ public enum SpriteHandType
 [RequireComponent(typeof(SpriteRenderer))]
 public class ClothingItem : MonoBehaviour
 {
+	/// <summary>
+	/// Absolute orientation
+	/// </summary>
 	private Orientation currentDirection = Orientation.Down;
 	public int reference = -1;
 	private int referenceOffset;
@@ -34,6 +37,9 @@ public class ClothingItem : MonoBehaviour
 		get { return reference; }
 	}
 
+	/// <summary>
+	/// Direction clothing is facing (absolute)
+	/// </summary>
 	public Orientation Direction
 	{
 		set

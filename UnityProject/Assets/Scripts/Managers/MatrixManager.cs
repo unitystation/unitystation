@@ -107,7 +107,7 @@ public class MatrixManager : MonoBehaviour
 		{
 			return BumpType.Push;
 		}
-		else if (GetClosedDoorAt(targetPos) != null)
+		else if (GetClosedDoorAt(worldOrigin, targetPos) != null)
 		{
 			return BumpType.ClosedDoor;
 		}
@@ -132,26 +132,29 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Gets a closed door (if there is one) at the specified position
+	/// Gets the closest door to worldOrigin on the path from worldOrigin to targetPos (if there is one)
+	/// Assumes that
 	/// </summary>
+	/// <param name="worldOrigin">Origin World position to check from. This is required because e.g. Windoors may not appear closed from certain positions.</param>
 	/// <param name="targetPos">target world position to check</param>
-	/// <returns>the DoorTrigger of the closed door object at that position, null if no such object
+	/// <returns>The DoorTrigger of the closed door object specified in the summary, null if no such object
 	/// exists at that location</returns>
-	public static DoorTrigger GetClosedDoorAt(Vector3Int targetPos)
+	public static DoorTrigger GetClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos)
 	{
-		DoorTrigger door = Instance.GetFirst<DoorTrigger>(targetPos);
-		if (door)
-		{
-			RegisterDoor registerDoor = door.GetComponent<RegisterDoor>();
-			Vector3Int localPos = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos).Matrix);
+		// Check door on the local tile first
+		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos).Matrix);
+		DoorTrigger originDoor = Instance.GetFirst<DoorTrigger>(worldOrigin);
+		if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget))
+			return originDoor;
 
-			if (registerDoor.IsPassable(localPos))
-			{
-				door = null;
-			}
-		}
+		// No closed door on local tile, check target tile
+		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin).Matrix);
+		DoorTrigger targetDoor = Instance.GetFirst<DoorTrigger>(targetPos);
+		if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin))
+			return targetDoor;
 
-		return door;
+		// No closed doors on either tile
+		return null;
 	}
 
 	/// <summary>
@@ -345,7 +348,7 @@ public class MatrixManager : MonoBehaviour
 	/// Get MatrixInfo by Matrix component
 	public static MatrixInfo Get(Matrix matrix)
 	{
-		return Get( matrix.Id );
+		return Get( matrix == null ? 0 : matrix.Id );
 	}
 
 	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
@@ -405,9 +408,8 @@ public class MatrixManager : MonoBehaviour
 		}
 
 		Vector3 unpivotedPos = localPos - matrix.MatrixMove.Pivot; //localPos - localPivot
-		Vector3 rotatedPos = state.Orientation.Euler * unpivotedPos; //unpivotedPos rotated by N degrees
-		Vector3 rotatedPivoted =
-			rotatedPos + matrix.MatrixMove.Pivot + matrix.GetOffset(state); //adding back localPivot and applying localToWorldOffset
+		Vector3 rotatedPos = state.RotationOffset.Quaternion * unpivotedPos; //unpivotedPos rotated by N degrees
+		Vector3 rotatedPivoted = rotatedPos + matrix.MatrixMove.Pivot + matrix.GetOffset( state ); //adding back localPivot and applying localToWorldOffset
 		return rotatedPivoted;
 	}
 
@@ -425,7 +427,7 @@ public class MatrixManager : MonoBehaviour
 			return worldPos - matrix.Offset;
 		}
 
-		return (matrix.MatrixMove.ClientState.Orientation.EulerInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
+		return (matrix.MatrixMove.ClientState.RotationOffset.EulerInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
 		       matrix.MatrixMove.Pivot;
 	}
 

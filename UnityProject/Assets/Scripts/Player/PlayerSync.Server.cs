@@ -136,7 +136,7 @@ public partial class PlayerSync
 		}
 
 		if ( followMode ) {
-			SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
+			SendMessage( "FaceDirection", RotationOffset.From( direction ), SendMessageOptions.DontRequireReceiver );
 		}
 
 		Logger.LogTraceFormat( "Server push to {0}", Category.PushPull, pushGoal );
@@ -489,7 +489,7 @@ public partial class PlayerSync
 	private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 	{
 		// Make sure there is a door which can be interacted with
-		DoorTrigger door = MatrixManager.GetClosedDoorAt(targetPos);
+		DoorTrigger door = MatrixManager.GetClosedDoorAt(currentPos, targetPos);
 
 		// Attempt to open door
 		if (door != null)
@@ -501,10 +501,10 @@ public partial class PlayerSync
 		#endregion
 
 	[Server]
-	private void OnRotation(Orientation from, Orientation to)
+	private void OnRotation(RotationOffset fromCurrent)
 	{
 		//fixme: doesn't seem to change orientation for clients from their point of view
-		playerSprites.ChangePlayerDirection(Orientation.DegreeBetween(from, to));
+		playerSprites.ChangePlayerDirection(fromCurrent);
 	}
 
 	/// Lerping and ensuring server authority for space walk
