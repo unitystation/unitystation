@@ -14,7 +14,7 @@ public struct Orientation
 	public static readonly Orientation Left = new Orientation(180);
 	public static readonly Orientation Down = new Orientation(270);
 
-	private static readonly List<Orientation> clockwiseOrientation = new List<Orientation> {Right, Down, Left, Up};
+	private static readonly Orientation[] clockwiseOrientation = {Right, Down, Left, Up};
 
 	/// <summary>
 	/// Euler angle (rotation about the z axis, right is 0 and up is 90).
@@ -24,6 +24,27 @@ public struct Orientation
 	private Orientation(int degree)
 	{
 		Degrees = degree;
+	}
+
+	/// <summary>
+	/// Index of this rotation in the clockwiseOrientation array
+	/// </summary>
+	private int OrientationIndex
+	{
+		get
+		{
+			switch (Degrees)
+			{
+				case 0:
+					return 0;
+				case 90:
+					return 3;
+				case 180:
+					return 2;
+				default:
+					return 1;
+			}
+		}
 	}
 
 	/// <summary>
@@ -38,8 +59,7 @@ public struct Orientation
 	/// <returns>the orientation that would be reached by rotating 90 degrees the given number of turns</returns>
 	public Orientation Rotate(int turns)
 	{
-		int index = clockwiseOrientation.IndexOf( this );
-		int newIndex = ((index + turns) % clockwiseOrientation.Count + clockwiseOrientation.Count) % clockwiseOrientation.Count;
+		var newIndex = ((OrientationIndex + turns) % clockwiseOrientation.Length + clockwiseOrientation.Length) % clockwiseOrientation.Length;
 		return clockwiseOrientation[newIndex];
 	}
 
@@ -52,7 +72,7 @@ public struct Orientation
 	/// <returns>the rotation that would be reached by rotating according to the specified offset.</returns>
 	public Orientation Rotate(RotationOffset offset)
 	{
-		return Rotate(-offset.Degree / 90);
+		return Rotate(offset.Degree / 90);
 	}
 
 
@@ -89,11 +109,11 @@ public struct Orientation
 		{
 			return RotationOffset.Same;
 		}
-		if (this == toOrientation.Rotate(1))
+		if (Rotate(1) == toOrientation)
 		{
 			return RotationOffset.Right;
 		}
-		else if (this == toOrientation.Rotate(2))
+		else if (Rotate(2) == toOrientation)
 		{
 			return RotationOffset.Backwards;
 		}
