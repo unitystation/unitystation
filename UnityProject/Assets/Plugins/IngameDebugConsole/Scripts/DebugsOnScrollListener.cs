@@ -2,9 +2,6 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-
-// 
-// 
 namespace IngameDebugConsole
 {
 	/// <summary>
