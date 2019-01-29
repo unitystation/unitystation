@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 
-// Container for a simple debug entry
 namespace IngameDebugConsole
 {
+	/// <summary>
+	/// Container for a simple debug entry
+	/// </summary>
 	public class DebugLogEntry : System.IEquatable<DebugLogEntry>
 	{
 		private const int HASH_NOT_CALCULATED = -623218;
@@ -12,10 +14,14 @@ namespace IngameDebugConsole
 
 		private string completeLog = null;
 
-		// Sprite to show with this entry
+		/// <summary>
+		/// Sprite to show with this entry
+		/// </summary>
 		public Sprite logTypeSpriteRepresentation;
 
-		// Collapsed count
+		/// <summary>
+		/// Collapsed count
+		/// </summary>
 		public int count;
 
 		private int hashValue = HASH_NOT_CALCULATED;
@@ -30,13 +36,20 @@ namespace IngameDebugConsole
 			count = 1;
 		}
 
-		// Check if two entries have the same origin
+		/// <summary>
+		/// Check if two entries have the same origin
+		/// </summary>
+		/// <param name="other">Other DebugLogEntry object to compare values to</param>
+		/// <returns></returns>
 		public bool Equals( DebugLogEntry other )
 		{
 			return this.logString == other.logString && this.stackTrace == other.stackTrace;
 		}
 
-		// Return a string containing complete information about this debug entry
+		/// <summary>
+		/// Return a string containing complete information about this debug entry
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			if( completeLog == null )

@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.Text;
 using System;
 
-// Manages the console commands, parses console input and handles execution of commands
-// Supported method parameter types: int, float, bool, string, Vector2, Vector3, Vector4
-
-// Helper class to store important information about a command
 namespace IngameDebugConsole
 {
+	/// <summary>
+	/// Helper class to store important information about a command
+	/// </summary>
+	/// <remarks>
+	/// Manages the console commands, parses console input and handles execution of commands
+	/// Supported method parameter types: int, float, bool, string, Vector2, Vector3, Vector4
+	/// </remarks>
 	public class ConsoleMethodInfo
 	{
 		public readonly MethodInfo method;
@@ -35,23 +38,36 @@ namespace IngameDebugConsole
 		}
 	}
 
+	/// <summary>
+	/// Manages the console commands, parses console input and handles execution of commands
+	/// </summary>
 	public static class DebugLogConsole
 	{
 		public delegate bool ParseFunction( string input, out object output );
 
-		// All the commands
+		/// <summary>
+		/// All the commands
+		/// </summary>
 		private static Dictionary<string, ConsoleMethodInfo> methods = new Dictionary<string, ConsoleMethodInfo>();
 
-		// All the parse functions
+		/// <summary>
+		/// All the parse functions
+		/// </summary>
 		private static Dictionary<Type, ParseFunction> parseFunctions;
 
-		// All the readable names of accepted types
+		/// <summary>
+		/// All the readable names of accepted types
+		/// </summary>
 		private static Dictionary<Type, string> typeReadableNames;
 
-		// Split arguments of an entered command
+		/// <summary>
+		/// Split arguments of an entered command
+		/// </summary>
 		private static List<string> commandArguments = new List<string>( 8 );
 
-		// Command parameter delimeter groups
+		/// <summary>
+		/// Command parameter delimeter groups
+		/// </summary>
 		private static readonly string[] inputDelimiters = new string[] { "\"\"", "{}", "()", "[]" };
 
 		static DebugLogConsole()
@@ -125,7 +141,9 @@ namespace IngameDebugConsole
 #endif
 		}
 
-		// Logs the list of available commands
+		/// <summary>
+		///	Console method that logs the list of available commands
+		/// </summary>
 		[ConsoleMethod( "help", "Prints all commands" )]
 		public static void LogAllCommands()
 		{
@@ -148,7 +166,9 @@ namespace IngameDebugConsole
 			Debug.Log( stringBuilder.Append( "\n" ).ToString() );
 		}
 
-		// Logs system information
+		/// <summary>
+		///	Console method that logs system information
+		/// </summary>
 		[ConsoleMethod( "sysinfo", "Prints system information" )]
 		public static void LogSystemInfo()
 		{
@@ -183,6 +203,10 @@ namespace IngameDebugConsole
 			Debug.Log( stringBuilder.Append( "\n" ).ToString() );
 		}
 
+		/// <summary>
+		/// Used for appending string-based system info to the stringBuilder
+		/// </summary>
+		/// <returns>StringBuilder object with appended string system info</returns>
 		private static StringBuilder AppendSysInfoIfPresent( this StringBuilder sb, string info, string postfix = null )
 		{
 			if( info != SystemInfo.unsupportedIdentifier )
@@ -198,6 +222,10 @@ namespace IngameDebugConsole
 			return sb;
 		}
 
+		/// <summary>
+		/// Used for appending integer-based system info to the stringBuilder
+		/// </summary>
+		/// <returns>StringBuilder object with appended integer system info</returns>
 		private static StringBuilder AppendSysInfoIfPresent( this StringBuilder sb, int info, string postfix = null )
 		{
 			if( info > 0 )
@@ -213,7 +241,13 @@ namespace IngameDebugConsole
 			return sb;
 		}
 
-		// Add a command related with an instance method (i.e. non static method)
+		/// <summary>
+		/// Add a command related with an instance method (i.e. non static method)
+		/// </summary>
+		/// <param name="command">Name of command</param>
+		/// <param name="description">Description of command</param>
+		/// <param name="methodName">Name of the instance function to add</param>
+		/// <param name="instance">Object instance to verify existence and create related ConsoleMethodInfo object</param>
 		public static void AddCommandInstance( string command, string description, string methodName, object instance )
 		{
 			if( instance == null )
@@ -225,20 +259,36 @@ namespace IngameDebugConsole
 			AddCommand( command, description, methodName, instance.GetType(), instance );
 		}
 
-		// Add a command related with a static method (i.e. no instance is required to call the method)
+		/// <summary>
+		/// Add a command related with a static method (i.e. no instance is required to call the method)
+		/// </summary>
+		/// <param name="command">Name of command</param>
+		/// <param name="description">Description of command</param>
+		/// <param name="methodName">Name of the instance function to add</param>
+		/// <param name="ownerType">Name of object type from which method derives</param>
 		public static void AddCommandStatic( string command, string description, string methodName, Type ownerType )
 		{
 			AddCommand( command, description, methodName, ownerType );
 		}
 
-		// Remove a command from the console
+		/// <summary>
+		/// Remove a command from the console
+		/// </summary>
+		/// <param name="command">Name of command to remove</param>
 		public static void RemoveCommand( string command )
 		{
 			if( !string.IsNullOrEmpty( command ) )
 				methods.Remove( command );
 		}
 
-		// Create a new command and set its properties
+		/// <summary>
+		/// Create a new command and set its properties
+		/// </summary>
+		/// <param name="command">Name of command to create</param>
+		/// <param name="description">Description of the command</param>
+		/// <param name="methodName">Name of the instance/static function to add</param>
+		/// <param name="ownerType"></param>
+		/// <param name="instance"></param>
 		private static void AddCommand( string command, string description, string methodName, Type ownerType, object instance = null )
 		{
 			if( string.IsNullOrEmpty( command ) )
@@ -265,6 +315,13 @@ namespace IngameDebugConsole
 			AddCommand( command, description, method, instance );
 		}
 
+		/// <summary>
+		/// Create the ConsoleMethodInfo object
+		/// </summary>
+		/// <param name="command">Name of command to create</param>
+		/// <param name="description">Description of the command</param>
+		/// <param name="method">MethodInfo object derived from method's name</param>
+		/// <param name="instance">Object instance for instance functions</param>
 		private static void AddCommand( string command, string description, MethodInfo method, object instance = null )
 		{
 			// Fetch the parameters of the class
@@ -327,7 +384,10 @@ namespace IngameDebugConsole
 			}
 		}
 
-		// Parse the command and try to execute it
+		/// <summary>
+		/// Parse the command and try to execute it
+		/// </summary>
+		/// <param name="command">Name of command to execute</param>
 		public static void ExecuteCommand( string command )
 		{
 			if( command == null )
@@ -418,7 +478,11 @@ namespace IngameDebugConsole
 			}
 		}
 
-		// Find the index of the delimiter group that 'c' belongs to
+		/// <summary>
+		/// Find the index of the delimiter group that 'c' belongs to
+		/// </summary>
+		/// <param name="c">The value of the current iteration of ExecuteCommand.command[i]</param>
+		/// <returns>The value of the delimiter after checking</returns>
 		private static int IndexOfDelimiter( char c )
 		{
 			for( int i = 0; i < inputDelimiters.Length; i++ )
@@ -430,7 +494,13 @@ namespace IngameDebugConsole
 			return -1;
 		}
 
-		// Find the index of char in the string, or return the length of string instead of -1
+		/// <summary>
+		/// Find the index of char in the string, or return the length of string instead of -1
+		/// </summary>
+		/// <param name="command">Name of command</param>
+		/// <param name="c">Current index</param>
+		/// <param name="startIndex">Index to start String.indexOf() search</param>
+		/// <returns></returns>
 		private static int IndexOfChar( string command, char c, int startIndex )
 		{
 			int result = command.IndexOf( c, startIndex );
@@ -605,7 +675,9 @@ namespace IngameDebugConsole
 			return true;
 		}
 
-		// Create a vector of specified type (fill the blank slots with 0 or ignore unnecessary slots)
+		/// <summary>
+		/// Create a vector of specified type (fill the blank slots with 0 or ignore unnecessary slots)
+		/// </summary>
 		private static bool CreateVectorFromInput( string input, Type vectorType, out object output )
 		{
 			List<string> tokens = new List<string>( input.Replace( ',', ' ' ).Trim().Split( ' ' ) );

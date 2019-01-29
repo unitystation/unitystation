@@ -3,20 +3,28 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 
-// Manager class for the debug popup
 namespace IngameDebugConsole
 {
+	/// <summary>
+	/// Manager class for the debug popup
+	/// </summary>
 	public class DebugLogPopup : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 	{
 		private RectTransform popupTransform;
 
-		// Dimensions of the popup divided by 2
+		/// <summary>
+		/// Dimensions of the popup divided by 2
+		/// </summary>
 		private Vector2 halfSize;
 
-		// Background image that will change color to indicate an alert
+		/// <summary>
+		/// Background image that will change color to indicate an alert
+		/// </summary>
 		private Image backgroundImage;
 
-		// Canvas group to modify visibility of the popup
+		/// <summary>
+		/// Canvas group to modify visibility of the popup
+		/// </summary>
 		private CanvasGroup canvasGroup;
 
 		[SerializeField]
@@ -29,7 +37,9 @@ namespace IngameDebugConsole
 		[SerializeField]
 		private Text newErrorCountText;
 
-		// Number of new debug entries since the log window has been closed
+		/// <summary>
+		/// Number of new debug entries since the log window has been closed
+		/// </summary>
 		private int newInfoCount = 0, newWarningCount = 0, newErrorCount = 0;
 		
 		private Color normalColor;
@@ -41,9 +51,12 @@ namespace IngameDebugConsole
 		[SerializeField]
 		private Color alertColorError;
 
+		public bool isLogPopupVisible = true;
 		private bool isPopupBeingDragged = false;
 
-		// Coroutines for simple code-based animations
+		/// <summary>
+		/// Coroutines for simple code-based animations
+		/// </summary>
 		private IEnumerator moveToPosCoroutine = null;
 
 		void Awake()
@@ -104,8 +117,11 @@ namespace IngameDebugConsole
 
 			backgroundImage.color = normalColor;
 		}
-		
-		// A simple smooth movement animation
+
+		/// <summary>
+		/// A simple smooth movement animation
+		/// </summary>
+		/// <param name="targetPos">3D location to move animation to</param>
 		private IEnumerator MoveToPosAnimation( Vector3 targetPos )
 		{
 			float modifier = 0f;
@@ -120,7 +136,9 @@ namespace IngameDebugConsole
 			}
 		}
 
-		// Popup is clicked
+		/// <summary>
+		/// Popup is clicked
+		/// </summary>
 		public void OnPointerClick( PointerEventData data )
 		{
 			// Hide the popup and show the log window
@@ -130,13 +148,17 @@ namespace IngameDebugConsole
 				Hide();
 			}
 		}
-		
-		// Hides the log window and shows the popup
+
+		/// <summary>
+		/// Show the popup
+		/// </summary>
 		public void Show()
 		{
 			canvasGroup.interactable = true;
 			canvasGroup.blocksRaycasts = true;
 			canvasGroup.alpha = 1f;
+
+			isLogPopupVisible = true;
 
 			// Reset the counters
 			Reset();
@@ -145,12 +167,34 @@ namespace IngameDebugConsole
 			OnViewportDimensionsChanged();
 		}
 
-		// Hide the popup
+		/// <summary>
+		/// Show the popup without resetting the counter
+		/// </summary>
+		/// <remarks>
+		///	This is needed to prevent the counter from being reset after hitting F5 to hide the popup
+		/// </remarks>
+		public void ShowWithoutReset()
+		{
+			canvasGroup.interactable = true;
+			canvasGroup.blocksRaycasts = true;
+			canvasGroup.alpha = 1f;
+
+			isLogPopupVisible = true;
+
+			// Update position in case resolution changed while hidden
+			OnViewportDimensionsChanged();
+		}
+
+		/// <summary>
+		/// Hide the popup
+		/// </summary>
 		public void Hide()
 		{
 			canvasGroup.interactable = false;
 			canvasGroup.blocksRaycasts = false;
 			canvasGroup.alpha = 0f;
+
+			isLogPopupVisible = false;
 		}
 
 		public void OnBeginDrag( PointerEventData data )
@@ -165,13 +209,18 @@ namespace IngameDebugConsole
 			}
 		}
 
-		// Reposition the popup
+		/// <summary>
+		/// Reposition the popup
+		/// </summary>
+		/// <param name="data"></param>
 		public void OnDrag( PointerEventData data )
 		{
 			popupTransform.position = data.position;
 		}
 
-		// Smoothly translate the popup to the nearest edge
+		/// <summary>
+		/// Smoothly translate the popup to the nearest edge
+		/// </summary>
 		public void OnEndDrag( PointerEventData data )
 		{
 			int screenWidth = Screen.width;

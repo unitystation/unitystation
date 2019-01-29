@@ -6,20 +6,30 @@ using UnityEditor;
 using System.Text.RegularExpressions;
 #endif
 
-// A UI element to show information about a debug entry
 namespace IngameDebugConsole
 {
+	/// <summary>
+	/// A UI element to show information about a debug entry
+	/// </summary>
 	public class DebugLogItem : MonoBehaviour, IPointerClickHandler
 	{
-		// Cached components
+		/// <summary>
+		/// Cached transform components
+		/// </summary>
 		[SerializeField]
 		private RectTransform transformComponent;
 		public RectTransform Transform { get { return transformComponent; } }
 
+		/// <summary>
+		/// Cached image components
+		/// </summary>
 		[SerializeField]
 		private Image imageComponent;
 		public Image Image { get { return imageComponent; } }
 
+		/// <summary>
+		/// Cached logText components
+		/// </summary>
 		[SerializeField]
 		private Text logText;
 		[SerializeField]
@@ -31,10 +41,14 @@ namespace IngameDebugConsole
 		[SerializeField]
 		private Text logCountText;
 
-		// Debug entry to show with this log item
+		/// <summary>
+		/// Debug entry to show with this log item
+		/// </summary>
 		private DebugLogEntry logEntry;
 
-		// Index of the entry in the list of entries
+		/// <summary>
+		/// Index of the entry in the list of entries
+		/// </summary>
 		private int entryIndex;
 		public int Index { get { return entryIndex; } }
 
@@ -67,20 +81,27 @@ namespace IngameDebugConsole
 			logTypeImage.sprite = logEntry.logTypeSpriteRepresentation;
 		}
 
-		// Show the collapsed count of the debug entry
+		/// <summary>
+		/// Show the collapsed count of the debug entry
+		/// </summary>
 		public void ShowCount()
 		{
 			logCountText.text = logEntry.count.ToString();
 			logCountParent.SetActive( true );
 		}
 
-		// Hide the collapsed count of the debug entry
+		/// <summary>
+		/// Hide the collapsed count of the debug entry
+		/// </summary>
 		public void HideCount()
 		{
 			logCountParent.SetActive( false );
 		}
 
-		// This log item is clicked, show the debug entry's stack trace
+		/// <summary>
+		/// This log item is clicked, show the debug entry's stack trace
+		/// </summary>
+		/// <param name="eventData">Event payload associated with pointer (mouse / touch) events.</param>
 		public void OnPointerClick( PointerEventData eventData )
 		{
 #if UNITY_EDITOR
@@ -119,7 +140,10 @@ namespace IngameDebugConsole
 			return Mathf.Max( manager.ItemHeight, result );
 		}
 
-		// Return a string containing complete information about the debug entry
+		/// <summary>
+		/// Return a string containing complete information about the debug entry
+		/// </summary>
+		/// <returns>Log entry information</returns>
 		public override string ToString()
 		{
 			return logEntry.ToString();

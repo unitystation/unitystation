@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-// Handles the log items in an optimized way such that existing log items are
-// recycled within the list instead of creating a new log item at each chance
+
 namespace IngameDebugConsole
 {
+	/// <summary>
+	/// Handles the log items in an optimized way such that existing log items are
+	/// recycled within the list instead of creating a new log item at each chance
+	/// </summary>
 	public class DebugLogRecycledListView : MonoBehaviour
 	{
 		// Cached components
@@ -28,10 +31,14 @@ namespace IngameDebugConsole
 		private float logItemHeight, _1OverLogItemHeight;
 		private float viewportHeight;
 
-		// Unique debug entries
+		/// <summary>
+		/// Unique debug entries
+		/// </summary>
 		private List<DebugLogEntry> collapsedLogEntries = null;
 
-		// Indices of debug entries to show in collapsedLogEntries
+		/// <summary>
+		/// Indices of debug entries to show in collapsedLogEntries
+		/// </summary>
 		private DebugLogIndexList indicesOfEntriesToShow = null;
 
 		private int indexOfSelectedLogEntry = int.MaxValue;
@@ -39,12 +46,16 @@ namespace IngameDebugConsole
 		private float heightOfSelectedLogEntry;
 		private float deltaHeightOfSelectedLogEntry;
 
-		// Log items used to visualize the debug entries at specified indices
+		/// <summary>
+		/// Log items used to visualize the debug entries at specified indices
+		/// </summary>
 		private Dictionary<int, DebugLogItem> logItemsAtIndices = new Dictionary<int, DebugLogItem>();
 
 		private bool isCollapseOn = false;
 
-		// Current indices of debug entries shown on screen
+		/// <summary>
+		/// Current indices of debug entries shown on screen
+		/// </summary>
 		private int currentTopIndex = -1, currentBottomIndex = -1;
 
 		public float ItemHeight { get { return logItemHeight; } }
@@ -70,7 +81,9 @@ namespace IngameDebugConsole
 			isCollapseOn = collapse;
 		}
 
-		// A log item is clicked, highlight it
+		/// <summary>
+		/// A log item is clicked, highlight it
+		/// </summary>
 		public void OnLogItemClicked( DebugLogItem item )
 		{
 			if( indexOfSelectedLogEntry != item.Index )
@@ -98,7 +111,9 @@ namespace IngameDebugConsole
 			manager.ValidateScrollPosition();
 		}
 
-		// Deselect the currently selected log item
+		/// <summary>
+		/// Deselect the currently selected log item
+		/// </summary>
 		public void DeselectSelectedLogItem()
 		{
 			int indexOfPreviouslySelectedLogEntry = indexOfSelectedLogEntry;
@@ -111,7 +126,9 @@ namespace IngameDebugConsole
 				ColorLogItem( logItemsAtIndices[indexOfPreviouslySelectedLogEntry], indexOfPreviouslySelectedLogEntry );
 		}
 
-		// Number of debug entries may be changed, update the list
+		/// <summary>
+		/// Number of debug entries may be changed, update the list
+		/// </summary>
 		public void OnLogEntriesUpdated( bool updateAllVisibleItemContents )
 		{
 			CalculateContentHeight();
@@ -123,7 +140,9 @@ namespace IngameDebugConsole
 			UpdateItemsInTheList( updateAllVisibleItemContents );
 		}
 
-		// A single collapsed log entry at specified index is updated, refresh its item if visible
+		/// <summary>
+		/// A single collapsed log entry at specified index is updated, refresh its item if visible
+		/// </summary>
 		public void OnCollapsedLogEntryAtIndexUpdated( int index )
 		{
 			DebugLogItem logItem;
@@ -131,7 +150,9 @@ namespace IngameDebugConsole
 				logItem.ShowCount();
 		}
 
-		// Log window is resized, update the list
+		/// <summary>
+		/// Log window is resized, update the list
+		/// </summary>
 		public void OnViewportDimensionsChanged()
 		{
 			viewportHeight = viewportTransform.rect.height;
@@ -153,8 +174,10 @@ namespace IngameDebugConsole
 			transformComponent.sizeDelta = new Vector2( 0f, newHeight );
 		}
 
-		// Calculate the indices of log entries to show
-		// and handle log items accordingly
+		/// <summary>
+		/// Calculate the indices of log entries to show
+		/// and handle log items accordingly
+		/// </summary>
 		public void UpdateItemsInTheList( bool updateAllVisibleItemContents )
 		{
 			// If there is at least one log entry to show
@@ -272,7 +295,10 @@ namespace IngameDebugConsole
 				CreateLogItemAtIndex( i );
 		}
 
-		// Create (or unpool) a log item
+		/// <summary>
+		/// Create (or unpool) a log item
+		/// </summary>
+		/// <param name="index"></param>
 		private void CreateLogItemAtIndex( int index )
 		{
 			DebugLogItem logItem = debugManager.PopLogItem();
@@ -312,7 +338,9 @@ namespace IngameDebugConsole
 			}
 		}
 
-		// Color a log item using its index
+		/// <summary>
+		/// Color a log item using its index
+		/// </summary>
 		private void ColorLogItem( DebugLogItem logItem, int index )
 		{
 			if( index == indexOfSelectedLogEntry )
