@@ -185,6 +185,11 @@ public class LightingSystem : MonoBehaviour
 	/// check the wallmount's sprite color alpha transparency to see if it is visible.</returns>
 	public bool IsScreenPointVisible(Vector2 iScreenPoint)
 	{
+		//don't run lighting system on headless
+		if (GameData.IsHeadlessServer)
+		{
+			return true;
+		}
 		Vector2 _viewportPos = mMainCamera.ScreenToViewportPoint(iScreenPoint);
 
 		// Check for out of bounds;
@@ -244,6 +249,12 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnEnable()
 	{
+		//don't run lighting system on headless
+		if (GameData.IsHeadlessServer)
+		{
+			return;
+		}
+
 		if (!SystemInfo.supportsAsyncGPUReadback)
 		{
 			UnityEngine.Debug.LogWarning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
@@ -287,6 +298,11 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnDisable()
 	{
+		//don't run lighting system on headless
+		if (GameData.IsHeadlessServer)
+		{
+			return;
+		}
 		// Set object occlusion white, so occlusion dependent shaders will show appropriately while system is off.
 		Shader.SetGlobalTexture("_ObjectFovMask", Texture2D.whiteTexture);
 
@@ -298,6 +314,11 @@ public class LightingSystem : MonoBehaviour
 
 	private void Update()
 	{
+		//don't run lighting system on headless
+		if (GameData.IsHeadlessServer)
+		{
+			return;
+		}
 		// Monitor state to detect when we should trigger reinitialization of rendering textures.
 		var _newParameters = new OperationParameters(mMainCamera, renderSettings, matrixRotationMode);
 
@@ -341,6 +362,11 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnPreRender()
 	{
+		//don't run lighting system on headless
+		if (GameData.IsHeadlessServer)
+		{
+			return;
+		}
 		if (renderSettings.doubleFrameRenderingMode && mDoubleFrameRendererSwitch == false)
 		{
 			Shader.SetGlobalVector("_ObjectFovMaskTransformation", objectOcclusionMask.GetTransformation(mMainCamera));
@@ -432,6 +458,11 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnRenderImage(RenderTexture iSource, RenderTexture iDestination)
 	{
+		//don't run lighting system on headless
+		if (GameData.IsHeadlessServer)
+		{
+			return;
+		}
 		if (renderSettings.doubleFrameRenderingMode)
 		{
 			if (mDoubleFrameRendererSwitch)
