@@ -321,7 +321,7 @@ public class MatrixManager : MonoBehaviour
 		IsInitialized = true;
 
 		//These aren't fully initialized at that moment; init is truly finished when server is up and NetIDs are resolved
-		Logger.Log($"Semi-init {this}");
+//		Logger.Log($"Semi-init {this}");
 	}
 
 	public override string ToString()
@@ -348,7 +348,7 @@ public class MatrixManager : MonoBehaviour
 	/// Get MatrixInfo by Matrix component
 	public static MatrixInfo Get(Matrix matrix)
 	{
-		return Get( matrix == null ? 0 : matrix.Id );
+		return matrix == null ? MatrixInfo.Invalid : Get( matrix.Id );
 	}
 
 	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
