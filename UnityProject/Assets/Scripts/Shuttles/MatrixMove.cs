@@ -541,7 +541,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		clientState = newState;
 		clientTargetState = newState;
 
-		if (!Equals(oldState.orientation, newState.orientation))
+		if (!Equals(oldState.orientation, newState.orientation) || !StateInit)
 		{
 			if (!StateInit)
 			{
