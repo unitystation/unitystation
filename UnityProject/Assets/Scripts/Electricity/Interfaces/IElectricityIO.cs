@@ -38,7 +38,7 @@ public interface IElectricityIO
 	/// <summary>
 	///  Sets the upstream 
 	/// </summary>
-	void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO PassOn  = null);
+	void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null);
 	/// <summary>
 	/// Sets the downstream and pokes the next one along 
 	/// </summary>

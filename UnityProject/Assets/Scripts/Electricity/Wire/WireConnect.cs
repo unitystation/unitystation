@@ -4,159 +4,128 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
-public class WireConnect : NetworkBehaviour, IElectricityIO
+public class WireConnect : ElectricalOIinheritance
 {
-	public int DirectionStart;
-	public int DirectionEnd;
-	public ElectronicData Data { get; set; } = new ElectronicData();
-	public IntrinsicElectronicData InData { get; set; } = new IntrinsicElectronicData();
-	public HashSet<IElectricityIO> connectedDevices { get; set; } = new HashSet<IElectricityIO>();
-	public RegisterItem registerTile;
-	private Matrix matrix => registerTile.Matrix;
-	public bool connected = false;
+	public CableLine RelatedLine;
 
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
-		registerTile = gameObject.GetComponent<RegisterItem>();
-
-	}
-
-	public override void OnStartServer()
-	{
-		base.OnStartServer();
-		StartCoroutine(WaitForLoad());
-	}
-
-	IEnumerator WaitForLoad()
-	{
-		yield return new WaitForSeconds(1f);
-		FindPossibleConnections();
-	}
-
-	public void FindPossibleConnections()
-	{
-		Data.connections.Clear();
-		Data.connections = ElectricityFunctions.FindPossibleConnections(
-			transform.localPosition,
-			matrix,
-			InData.CanConnectTo,
-			GetConnPoints()
-		);
-		if (Data.connections.Count > 0)
-		{
-			connected = true;
+	public override void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null){
+		InputOutputFunctions.DirectionInput (tick, SourceInstance, ComingFrom, this);
+		if (PassOn == null) {
+			if (RelatedLine != null) {
+				if (RelatedLine.TheEnd == this.GetComponent<IElectricityIO> ()) {
+					Logger.Log ("looc");
+				} else if (RelatedLine.TheStart == this.GetComponent<IElectricityIO> ()) {
+					Logger.Log ("cool");
+				} else {
+					Logger.Log ("hELP{!!!");
+				}
+			} else {
+				if (!(Data.connections.Count > 2)) {
+					RelatedLine = new CableLine ();
+					if (RelatedLine == null) {
+						Logger.Log ("HE:LP:::::::::::::::::::niniinininininin");
+					}
+					RelatedLine.InitialGenerator = SourceInstance;
+					RelatedLine.TheStart = this;
+					lineExplore (RelatedLine, SourceInstance);
+					if (RelatedLine.TheEnd == null) {
+						RelatedLine = null;
+					}
+				}
+			}
 		}
+
+
+
 	}
 
-	// void OnDrawGizmos()
-	// {
-	// 	if (connected)
-	// 	{
-	// 		Gizmos.color = Color.yellow;
-	// 		Gizmos.DrawSphere(transform.position, 0.1f);
-	// 	}
-	// }
-
-	public ConnPoint GetConnPoints()
-	{
-		ConnPoint conns = new ConnPoint();
-		conns.pointA = DirectionStart;
-		conns.pointB = DirectionEnd;
-		return conns;
-	}
-
-	public int InputPosition()
-	{
-		return DirectionStart;
-	}
-
-	public int OutputPosition()
-	{
-		return DirectionEnd;
-	}
-
-	public GameObject GameObject()
-	{
-		return gameObject;
-	}
-
-	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO PassOn = null)
-	{
-		InputOutputFunctions.DirectionInput(tick, SourceInstance, ComingFrom, this);
-	}
-	public void DirectionOutput(int tick, GameObject SourceInstance)
-	{
+	public override void DirectionOutput(int tick, GameObject SourceInstance){
+		
 		int SourceInstanceID = SourceInstance.GetInstanceID();
-		InputOutputFunctions.DirectionOutput(tick, SourceInstance, this);
+		Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString () + this.name + " <  name! ", Category.Electrical);
+		if (RelatedLine == null) {
+			InputOutputFunctions.DirectionOutput (tick, SourceInstance, this);
+		} else {
+			
+			IElectricityIO GoingTo; 
+			if (RelatedLine.TheEnd == this.GetComponent<IElectricityIO> ()) {
+				GoingTo = RelatedLine.TheStart;
+			} else if (RelatedLine.TheStart == this.GetComponent<IElectricityIO> ()) {
+				GoingTo = RelatedLine.TheEnd;
+			} else {
+				GoingTo = null;
+				return; 
+			}
+
+			if (!(Data.Upstream.ContainsKey(SourceInstanceID)))
+			{
+				Data.Upstream[SourceInstanceID] = new HashSet<IElectricityIO>();
+			}
+			if (!(Data.Downstream.ContainsKey(SourceInstanceID)))
+			{
+				Data.Downstream[SourceInstanceID] = new HashSet<IElectricityIO>();
+			}
+
+			if (GoingTo != null) {
+				Logger.Log ("to" + GoingTo.GameObject ().name);///wow
+			}
+
+
+			foreach (IElectricityIO bob in Data.Upstream [SourceInstanceID]){
+				Logger.Log("Upstream" + bob.GameObject ().name );
+			}
+			if (!(Data.Downstream [SourceInstanceID].Contains (GoingTo) || Data.Upstream [SourceInstanceID].Contains (GoingTo)) )  {
+				Data.Downstream [SourceInstanceID].Add (GoingTo);
+
+				RelatedLine.DirectionInput (tick, SourceInstance, this);
+			} else {
+				InputOutputFunctions.DirectionOutput (tick, SourceInstance, this,RelatedLine);
+			}
+		}
+
 		Data.DownstreamCount = Data.Downstream[SourceInstanceID].Count;
 		Data.UpstreamCount = Data.Upstream[SourceInstanceID].Count;
-		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Upstream[SourceInstanceID].Count.ToString (), Category.Electrical);
 	}
-
-	public void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
-	{
-		InputOutputFunctions.ResistanceInput(tick, Resistance, SourceInstance, ComingFrom, this);
-	}
-
-	public void ResistancyOutput(int tick, GameObject SourceInstance)
-	{
-		int SourceInstanceID = SourceInstance.GetInstanceID();
-		float Resistance = ElectricityFunctions.WorkOutResistance(Data.ResistanceComingFrom[SourceInstanceID]);
-		InputOutputFunctions.ResistancyOutput(tick, Resistance, SourceInstance, this);
-	}
-	public void ElectricityInput(int tick, float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
-	{
-		InputOutputFunctions.ElectricityInput(tick, Current, SourceInstance, ComingFrom, this);
-	}
-
-	public void ElectricityOutput(int tick, float Current, GameObject SourceInstance)
-	{
-		InputOutputFunctions.ElectricityOutput(tick, Current, SourceInstance, this);
-		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
-		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
-		Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;
-		Data.EstimatedResistance = Data.ActualCurrentChargeInWire.EstimatedResistant;
-	}
-	public void SetConnPoints(int DirectionEndin, int DirectionStartin)
-	{
-		DirectionEnd = DirectionEndin;
-		DirectionStart = DirectionStartin;
-	}
-	public void FlushConnectionAndUp()
-	{
-		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
-		InData.ControllingDevice.PotentialDestroyed();
-	}
-	public void FlushResistanceAndUp(GameObject SourceInstance = null)
-	{
-		ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp(this, SourceInstance);
-	}
-	public void FlushSupplyAndUp(GameObject SourceInstance = null)
-	{
-		ElectricalDataCleanup.PowerSupplies.FlushSupplyAndUp(this, SourceInstance);
-	}
-	public void RemoveSupply(GameObject SourceInstance = null)
-	{
-		ElectricalDataCleanup.PowerSupplies.RemoveSupply(this, SourceInstance);
-	}
-
-	[ContextMethod("Details", "Magnifying_glass")]
-	public void ShowDetails()
-	{
-		if (isServer)
+	public void lineExplore(CableLine PassOn, GameObject SourceInstance = null){
+		RelatedLine = PassOn;
+		if (!(this == PassOn.TheStart)) 
 		{
-			Logger.Log("connections " + (Data.connections.Count.ToString()), Category.Electrical);
-			Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
-			Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);
-			Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
-			Logger.Log("UpstreamCount " + (Data.UpstreamCount.ToString()), Category.Electrical);
-			Logger.Log("DownstreamCount " + (Data.DownstreamCount.ToString()), Category.Electrical);
-			Logger.Log("ActualVoltage " + (Data.ActualVoltage.ToString()), Category.Electrical);
-			Logger.Log("CurrentInWire " + (Data.CurrentInWire.ToString()), Category.Electrical);
-			Logger.Log("EstimatedResistance " + (Data.EstimatedResistance.ToString()), Category.Electrical);
+			if (PassOn.TheEnd != null) 
+			{
+				PassOn.Covering.Add (PassOn.TheEnd);
+				PassOn.TheEnd = this;
+			} 
+			else 
+			{
+				PassOn.TheEnd = this;
+			}
+		}
+		if (Data.connections.Count <= 0)
+		{
+			FindPossibleConnections();
 		}
 
-		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
+		if (!(Data.connections.Count > 2)) 
+		{
+			for (int i = 0; i < Data.connections.Count; i++)
+			{
+				if (!(RelatedLine.Covering.Contains(Data.connections[i]) || RelatedLine.TheStart == Data.connections[i]))
+				{
+					bool canpass = true;
+					if (SourceInstance != null) {
+						int SourceInstanceID = SourceInstance.GetInstanceID();
+						if (Data.Upstream[SourceInstanceID].Contains(Data.connections[i])){
+							canpass = false;
+						}
+					}
+					if (canpass) {
+						if (Data.connections [i].GameObject ().GetComponent<WireConnect> () != null) {
+							Data.connections [i].GameObject ().GetComponent<WireConnect> ().lineExplore (RelatedLine);
+						}
+					}
+
+				}
+			}
+		}
 	}
 }

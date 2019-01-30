@@ -22,7 +22,7 @@ public class DeadEndConnection : IElectricityIO {
 
 	public void ResistancyOutput(int tick, GameObject SourceInstance){}
 
-	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO PassOn  = null){}
+	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null){}
 
 	public 	void DirectionOutput(int tick, GameObject SourceInstance){}
 

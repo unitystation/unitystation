@@ -140,7 +140,7 @@ public static class InputOutputFunctions
 		}
 	}
 
-	public static void DirectionOutput(int tick, GameObject SourceInstance, IElectricityIO Thiswire)
+	public static void DirectionOutput(int tick, GameObject SourceInstance, IElectricityIO Thiswire,CableLine RelatedLine = null)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		if (!(Thiswire.Data.Upstream.ContainsKey(SourceInstanceID)))
@@ -159,12 +159,15 @@ public static class InputOutputFunctions
 		{
 			if (!(Thiswire.Data.Upstream[SourceInstanceID].Contains(Thiswire.Data.connections[i])) && (!(Thiswire == Thiswire.Data.connections[i])))
 			{
-
-				if (!(Thiswire.Data.Downstream.ContainsKey(SourceInstanceID)))
-				{
-					Thiswire.Data.Downstream[SourceInstanceID] = new HashSet<IElectricityIO>();
+				bool pass = true;
+				if (RelatedLine != null) {
+					Logger.Log ("wowowowwo ");
+					if (RelatedLine.Covering.Contains (Thiswire.Data.connections [i])) {
+						pass = false;
+						Logger.Log ("Failed" + Thiswire.Data.connections [i].GameObject ().name);
+					}
 				}
-				if (!(Thiswire.Data.Downstream[SourceInstanceID].Contains(Thiswire.Data.connections[i])))
+				if (!(Thiswire.Data.Downstream[SourceInstanceID].Contains(Thiswire.Data.connections[i])) && pass)
 				{
 					Thiswire.Data.Downstream[SourceInstanceID].Add(Thiswire.Data.connections[i]);
 

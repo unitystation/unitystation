@@ -47,9 +47,9 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	//blue - charging, sufficient power from wire
 	//red - running off internal battery, not enough power from wire
 
-	public override void OnStartClient()
+	public override void OnStartServer()
 	{
-		base.OnStartClient();
+		base.OnStartServer();
 		poweredDevice.InData.CanConnectTo = CanConnectTo;
 		poweredDevice.InData.Categorytype = ApplianceType;
 		poweredDevice.DirectionStart = 0;
