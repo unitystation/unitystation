@@ -17,13 +17,13 @@ public class TabInteractMessage : ClientMessage
 	public override IEnumerator Process()
 	{
 //		Logger.Log("Processed " + ToString());
-		yield return WaitFor(SentBy, TabProvider);
-		ProcessFurther(NetworkObjects[0], NetworkObjects[1]);
+		yield return WaitFor(TabProvider);
+		ProcessFurther(SentByPlayer, NetworkObject);
 	}
 
-	private void ProcessFurther(GameObject player, GameObject tabProvider)
+	private void ProcessFurther(ConnectedPlayer player, GameObject tabProvider)
 	{
-		var playerScript = player.Player().Script; 
+		var playerScript = player.Script;
 		bool validate = !playerScript.canNotInteract() && playerScript.IsInReach( tabProvider );
 		if ( !validate ) {
 			FailValidation( player, tabProvider, "Can't interact/reach" );
@@ -55,23 +55,23 @@ public class TabInteractMessage : ClientMessage
 			//Don't rememeber value provided by client and restore to the initial one
 			updatedElement.Value = valueBeforeUpdate;
 		}
-		
+
 		//Notify all peeping players of the change
 		List<ConnectedPlayer> list = NetworkTabManager.Instance.GetPeepers( tabProvider, NetTabType );
 		for ( var i = 0; i < list.Count; i++ ) {
 			var connectedPlayer = list[i];
 //Not sending that update to the same player
-			if ( connectedPlayer.GameObject != player ) {
-				TabUpdateMessage.Send( connectedPlayer.GameObject, tabProvider, NetTabType, TabAction.Update, player,
+			if ( connectedPlayer.GameObject != player.GameObject ) {
+				TabUpdateMessage.Send( connectedPlayer.GameObject, tabProvider, NetTabType, TabAction.Update, player.GameObject,
 					new[] {new ElementValue {Id = ElementId, Value = updatedElement.Value}} );
 			}
 		}
 	}
 
-	private TabUpdateMessage FailValidation( GameObject player, GameObject tabProvider, string reason="" ) {
-		
-		Logger.LogWarning( $"{player}: Tab interaction w/{tabProvider} denied: {reason}",Category.NetUI );
-		return TabUpdateMessage.Send( player, tabProvider, NetTabType, TabAction.Close );
+	private TabUpdateMessage FailValidation( ConnectedPlayer player, GameObject tabProvider, string reason="" ) {
+
+		Logger.LogWarning( $"{player.Name}: Tab interaction w/{tabProvider} denied: {reason}",Category.NetUI );
+		return TabUpdateMessage.Send( player.GameObject, tabProvider, NetTabType, TabAction.Close );
 	}
 
 	public static TabInteractMessage Send( GameObject tabProvider, NetTabType netTabType, string elementId, string elementValue = "-1" )
@@ -89,7 +89,7 @@ public class TabInteractMessage : ClientMessage
 	public override string ToString() {
 		return $"[TabInteractMessage {nameof( TabProvider )}: {TabProvider}, {nameof( NetTabType )}: {NetTabType}, " +
 									$"{nameof( ElementId )}: {ElementId}, {nameof( ElementValue )}: {ElementValue}, " +
-									$"MsgType={MessageType} SentBy={SentBy}]";
+									$"MsgType={MessageType} SentBy={SentByPlayer}]";
 	}
 
 	public override void Deserialize(NetworkReader reader)

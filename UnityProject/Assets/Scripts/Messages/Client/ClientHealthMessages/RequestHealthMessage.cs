@@ -12,9 +12,9 @@ public class RequestHealthMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-		yield return WaitFor(LivingEntity, SentBy);
+		yield return WaitFor(LivingEntity);
 
-		NetworkObjects[0].GetComponent<HealthStateMonitor>().ProcessClientUpdateRequest(NetworkObjects[1]);
+		NetworkObject.GetComponent<HealthStateMonitor>().ProcessClientUpdateRequest(SentByPlayer.GameObject);
 	}
 
 	public static RequestHealthMessage Send(GameObject entity)

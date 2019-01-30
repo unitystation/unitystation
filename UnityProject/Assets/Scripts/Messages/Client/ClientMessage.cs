@@ -1,41 +1,33 @@
-﻿using UnityEngine.Networking;
+﻿using System.Collections;
+using UnityEngine.Networking;
 
 public abstract class ClientMessage : GameMessageBase
 {
-	public NetworkInstanceId SentBy;
+/// <summary>
+/// Player that sent this ClientMessage.
+/// Returns ConnectedPlayer.Invalid if there are issues finding one from PlayerList (like, player already left)
+/// </summary>
+	public ConnectedPlayer SentByPlayer;
+	public override IEnumerator Process( NetworkConnection sentBy )
+	{
+		SentByPlayer = PlayerList.Instance.Get( sentBy );
+		return base.Process( sentBy );
+	}
 
 	public void Send()
 	{
-		if (PlayerManager.LocalPlayer)
-		{
-			SentBy = LocalPlayerId();
-		}
-
 		CustomNetworkManager.Instance.client.connection.Send(GetMessageType(), this);
 //		Logger.Log($"Sent {this}");
 	}
 
 	public void SendUnreliable()
 	{
-		SentBy = LocalPlayerId();
 		CustomNetworkManager.Instance.client.connection.SendUnreliable(GetMessageType(), this);
 	}
 
 	private static NetworkInstanceId LocalPlayerId()
 	{
-		
+
 		return PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>().netId;
-	}
-
-	public override void Deserialize(NetworkReader reader)
-	{
-		base.Deserialize(reader);
-		SentBy = reader.ReadNetworkId();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.Write(SentBy);
 	}
 }

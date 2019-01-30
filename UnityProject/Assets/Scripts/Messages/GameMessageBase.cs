@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -10,11 +11,16 @@ public abstract class GameMessageBase : MessageBase
 
 	public abstract IEnumerator Process();
 
+	public virtual IEnumerator Process( NetworkConnection sentBy )
+	{
+		yield return Process();
+	}
+
 	protected IEnumerator WaitFor(NetworkInstanceId id)
 	{
 		if (id.IsEmpty())
 		{
-			Logger.LogWarning($"{this} tried to wait on an empty (0) id", Category.NetMessage);
+			Logger.LogWarningFormat( "{0} tried to wait on an empty (0) id", Category.NetMessage, this.GetType().Name );
 			yield break;
 		}
 
@@ -23,7 +29,7 @@ public abstract class GameMessageBase : MessageBase
 		{
 			if (tries++ > 10)
 			{
-				Logger.LogWarning($"{this} could not find object with id {id}", Category.NetMessage);
+				Logger.LogWarningFormat( "{0} could not find object with id {1}", Category.NetMessage, this.GetType().Name, id );
 				yield break;
 			}
 

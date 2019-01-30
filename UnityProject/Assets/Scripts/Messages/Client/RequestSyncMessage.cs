@@ -12,21 +12,18 @@ public class RequestSyncMessage : ClientMessage
 	public override IEnumerator Process()
 	{
 //		Logger.Log("Processed " + ToString());
-
-		yield return WaitFor(SentBy);
-
-		ConnectedPlayer connectedPlayer = PlayerList.Instance.Get( NetworkObject );
-		Logger.Log($"{connectedPlayer} requested sync", Category.Connections);
+		Logger.Log($"{SentByPlayer} requested sync", Category.Connections);
 
 		//not sending out sync data for players not ingame
-		if ( connectedPlayer.Job != JobType.NULL && !connectedPlayer.Synced ) {
-			CustomNetworkManager.Instance.SyncPlayerData(NetworkObject);
+		if ( SentByPlayer.Job != JobType.NULL && !SentByPlayer.Synced ) {
+			CustomNetworkManager.Instance.SyncPlayerData(SentByPlayer.GameObject);
 
 			//marking player as synced to avoid sending that data pile again
-			connectedPlayer.Synced = true;
+			SentByPlayer.Synced = true;
 
-			AnnounceNewPlayer( connectedPlayer );
+			AnnounceNewPlayer( SentByPlayer );
 		}
+		yield return null;
 	}
 
 	private static void AnnounceNewPlayer( ConnectedPlayer newPlayer ) {
@@ -41,7 +38,7 @@ public class RequestSyncMessage : ClientMessage
 
 	public override string ToString()
 	{
-		return $"[RequestSyncMessage Type={MessageType} SentBy={SentBy}]";
+		return $"[RequestSyncMessage Type={MessageType} SentBy={SentByPlayer}]";
 	}
 
 	public override void Deserialize(NetworkReader reader)

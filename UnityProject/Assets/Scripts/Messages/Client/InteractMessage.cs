@@ -17,14 +17,14 @@ public class InteractMessage : ClientMessage
 	{
 		//		Logger.Log("Processed " + ToString());
 
-		yield return WaitFor(Subject, SentBy);
+		yield return WaitFor(Subject);
 		if (!UITrigger)
 		{
-			NetworkObjects[0].GetComponent<InputTrigger>().Interact(NetworkObjects[1], Position, decodeHand(Hand));
+			NetworkObject.GetComponent<InputTrigger>().Interact(SentByPlayer.GameObject, Position, decodeHand(Hand));
 		}
 		else
 		{
-			NetworkObjects[0].GetComponent<InputTrigger>().UI_Interact(NetworkObjects[1], decodeHand(Hand));
+			NetworkObject.GetComponent<InputTrigger>().UI_Interact(SentByPlayer.GameObject, decodeHand(Hand));
 		}
 	}
 
@@ -92,7 +92,7 @@ public class InteractMessage : ClientMessage
 
 	public override string ToString()
 	{
-		return $"[InteractMessage Subject={Subject} Hand={decodeHand( Hand )} Type={MessageType} SentBy={SentBy}]";
+		return $"[InteractMessage Subject={Subject} Hand={decodeHand( Hand )} Type={MessageType} SentBy={SentByPlayer}]";
 	}
 
 	public override void Deserialize(NetworkReader reader)
