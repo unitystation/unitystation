@@ -51,7 +51,7 @@ namespace IngameDebugConsole
 		[SerializeField]
 		private Color alertColorError;
 
-		public bool isLogPopupVisible = true;
+		public bool isLogPopupVisible = false;
 		private bool isPopupBeingDragged = false;
 
 		/// <summary>

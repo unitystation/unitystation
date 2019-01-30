@@ -133,7 +133,7 @@ namespace IngameDebugConsole
 		[SerializeField]
 		private CanvasGroup logWindowCanvasGroup;
 
-		private bool isLogWindowVisible = true;
+		private bool isLogWindowVisible = false;
 		private bool screenDimensionsChanged = false;
 
 		[SerializeField]
@@ -255,6 +255,11 @@ namespace IngameDebugConsole
 			//Debug.Log( "log" );
 		}
 
+		void Start()
+		{
+			popupManager.Hide();
+		}
+
 		private void OnDisable()
 		{
 			// Stop receiving debug entries
@@ -262,17 +267,6 @@ namespace IngameDebugConsole
 
 			// Stop receiving commands
 			commandInputField.onValidateInput -= OnValidateCommand;
-		}
-
-		/// <summary>
-		/// Launch in popup mode
-		/// </summary>
-		private void Start()
-		{
-			if( startInPopupMode )
-				HideButtonPressed();
-			else
-				popupManager.OnPointerClick( null );
 		}
 
 		/// <summary>
