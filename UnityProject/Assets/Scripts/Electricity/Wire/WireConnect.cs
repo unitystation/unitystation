@@ -13,11 +13,11 @@ public class WireConnect : ElectricalOIinheritance
 		if (PassOn == null) {
 			if (RelatedLine != null) {
 				if (RelatedLine.TheEnd == this.GetComponent<IElectricityIO> ()) {
-					Logger.Log ("looc");
+					//Logger.Log ("looc");
 				} else if (RelatedLine.TheStart == this.GetComponent<IElectricityIO> ()) {
-					Logger.Log ("cool");
+					//Logger.Log ("cool");
 				} else {
-					Logger.Log ("hELP{!!!");
+					//Logger.Log ("hELP{!!!");
 				}
 			} else {
 				if (!(Data.connections.Count > 2)) {
@@ -42,7 +42,7 @@ public class WireConnect : ElectricalOIinheritance
 	public override void DirectionOutput(int tick, GameObject SourceInstance){
 		
 		int SourceInstanceID = SourceInstance.GetInstanceID();
-		Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString () + this.name + " <  name! ", Category.Electrical);
+		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString () + this.name + " <  name! ", Category.Electrical);
 		if (RelatedLine == null) {
 			InputOutputFunctions.DirectionOutput (tick, SourceInstance, this);
 		} else {
@@ -67,12 +67,12 @@ public class WireConnect : ElectricalOIinheritance
 			}
 
 			if (GoingTo != null) {
-				Logger.Log ("to" + GoingTo.GameObject ().name);///wow
+				//Logger.Log ("to" + GoingTo.GameObject ().name);///wow
 			}
 
 
 			foreach (IElectricityIO bob in Data.Upstream [SourceInstanceID]){
-				Logger.Log("Upstream" + bob.GameObject ().name );
+				//Logger.Log("Upstream" + bob.GameObject ().name );
 			}
 			if (!(Data.Downstream [SourceInstanceID].Contains (GoingTo) || Data.Upstream [SourceInstanceID].Contains (GoingTo)) )  {
 				Data.Downstream [SourceInstanceID].Add (GoingTo);
@@ -128,4 +128,59 @@ public class WireConnect : ElectricalOIinheritance
 			}
 		}
 	}
+	public override void FlushConnectionAndUp()
+	{
+		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
+		RelatedLine = null;
+		InData.ControllingDevice.PotentialDestroyed();
+	}
+	public override void FlushResistanceAndUp(GameObject SourceInstance = null)
+	{
+		Logger.LogError ("yes? not ues haha lol no");
+		//yeham, Might need to work on in future but not used Currently
+		ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp(this, SourceInstance);
+	}
+	public override void FlushSupplyAndUp(GameObject SourceInstance = null)
+	{
+		bool SendToline = false;
+		if (RelatedLine != null) {
+			if (SourceInstance == null) {
+				if (Data.CurrentComingFrom.Count > 0) {
+					SendToline = true;
+				}
+			} else {
+				int InstanceID = SourceInstance.GetInstanceID ();
+				if (Data.CurrentComingFrom.ContainsKey (InstanceID)) {
+					SendToline = true;
+				} else if (Data.CurrentGoingTo.ContainsKey (InstanceID)) {
+					SendToline = true;
+				}
+			}
+		}
+		ElectricalDataCleanup.PowerSupplies.FlushSupplyAndUp(this, SourceInstance);
+		if (SendToline){
+			RelatedLine.PassOnFlushSupplyAndUp (this, SourceInstance);
+		}
+	}
+	public override void RemoveSupply(GameObject SourceInstance = null)
+	{
+		bool SendToline = false;
+		if (RelatedLine != null) {
+			if (SourceInstance == null) {
+				if (Data.Downstream.Count > 0 || Data.Upstream.Count > 0) {
+					SendToline = true;
+				}
+			} else {
+				int InstanceID = SourceInstance.GetInstanceID ();
+				if (Data.Downstream.ContainsKey (InstanceID)) {
+					SendToline = true;
+				}
+			}
+		}
+		ElectricalDataCleanup.PowerSupplies.RemoveSupply(this, SourceInstance);
+		if (SendToline){
+			RelatedLine.PassOnRemoveSupply (this, SourceInstance);
+		}
+	}
+
 }

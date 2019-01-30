@@ -162,6 +162,17 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 
 	public void PowerNetworkUpdate()
 	{
+		ConnectedDepartmentBatteries.Clear ();
+		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Device in poweredDevice.Data.ResistanceToConnectedDevices) {
+			if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery) {
+				if (!(ConnectedDepartmentBatteries.Contains (Device.Key.GameObject().GetComponent<DepartmentBattery>()))) {
+					ConnectedDepartmentBatteries.Add (Device.Key.GameObject ().GetComponent<DepartmentBattery> ());
+				}
+			}
+		}
+
+
+
 		Voltage = poweredDevice.Data.ActualVoltage;
 		Current = poweredDevice.Data.CurrentInWire;
 

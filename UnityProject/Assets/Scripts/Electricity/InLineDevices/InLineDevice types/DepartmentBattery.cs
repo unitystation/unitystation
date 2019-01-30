@@ -41,9 +41,10 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 
 	public float ExtraChargeCutOff { get; set; } = 240;
 	public float IncreasedChargeVoltage { get; set; } = 250;
-	public float StandardChargeNumber { get; set; } = 10;
+	public float StandardChargeNumber { get; set; } = 80;
 	public float ChargeSteps { get; set; } = 0.1f;
-	public float MaxChargingMultiplier { get; set; } = 1.2f;
+	//public float MaxChargingMultiplier { get; set; } = 1.2f;
+	public float MaxChargingMultiplier { get; set; } = 999999f;
 	public float ChargingMultiplier { get; set; } = 0.1f;
 
 	public float ChargingWatts { get; set; } = 0;
@@ -202,7 +203,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 				}
 			}
 		}
-		//Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
+		Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
 	}
 
 	void UpdateState(bool _isOn)

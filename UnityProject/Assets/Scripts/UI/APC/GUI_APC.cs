@@ -227,6 +227,7 @@ public class GUI_APC : NetTab
 
 	private string CalculateChargePercentage()
 	{
+		CalculateMaxCapacity ();
 		if (MaxCapacity == 0)
 		{
 			return "???%";
@@ -237,6 +238,8 @@ public class GUI_APC : NetTab
 		{
 			newCapacity += LocalAPC.ConnectedDepartmentBatteries[i].CurrentCapacity;
 		}
+
+		//ChargeBar.SetValue = ((newCapacity / MaxCapacity)*100).ToString();
 		return (newCapacity / MaxCapacity).ToString("P0");
 	}
 
@@ -278,7 +281,6 @@ public class GUI_APC : NetTab
 			ElectricalValues.SetValue = $"{voltage:G4} V\n{current:G4} A\n{power:G4} W";
 			StatusText.SetValue = LocalAPC.State.ToString();
 			ChargePercentage.SetValue = CalculateChargePercentage();
-
 			// State specific updates
 			switch (LocalAPC.State)
 			{

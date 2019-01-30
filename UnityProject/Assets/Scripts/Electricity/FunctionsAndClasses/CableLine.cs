@@ -82,33 +82,24 @@ public class CableLine : IElectricityIO {
 
 	public virtual void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
 	{
-		InputOutputFunctions.ResistanceInput(tick, Resistance, SourceInstance, ComingFrom, this);
 	}
 
 	public virtual void ResistancyOutput(int tick, GameObject SourceInstance)
 	{
-
-		float Resistance = ElectricityFunctions.WorkOutResistance(Data.ResistanceComingFrom[ SourceInstance.GetInstanceID()]);
-		InputOutputFunctions.ResistancyOutput(tick, Resistance, SourceInstance, this);
 	}
 	public virtual void ElectricityInput(int tick, float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
 	{
-		InputOutputFunctions.ElectricityInput(tick, Current, SourceInstance, ComingFrom, this);
 	}
 
 	public virtual void ElectricityOutput(int tick, float Current, GameObject SourceInstance)
 	{
-		InputOutputFunctions.ElectricityOutput(tick, Current, SourceInstance, this);
-		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
-		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
-		Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;
-		Data.EstimatedResistance = Data.ActualCurrentChargeInWire.EstimatedResistant;
 	}
 	public virtual void SetConnPoints(int DirectionEndin, int DirectionStartin)
 	{
 		DirectionEnd = DirectionEndin;
 		DirectionStart = DirectionStartin;
 	}
+		
 	public virtual void FlushConnectionAndUp()
 	{
 		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
@@ -126,4 +117,26 @@ public class CableLine : IElectricityIO {
 	{
 		ElectricalDataCleanup.PowerSupplies.RemoveSupply(this, SourceInstance);
 	}
+
+
+	public void PassOnFlushSupplyAndUp(IElectricityIO ComingFrom,GameObject SourceInstance = null)
+	{
+		if (ComingFrom == TheStart) {
+
+			TheEnd.FlushSupplyAndUp(SourceInstance);
+		} else if (ComingFrom == TheEnd) {
+			TheStart.FlushSupplyAndUp(SourceInstance);
+		}
+	}
+
+	public virtual void PassOnRemoveSupply(IElectricityIO ComingFrom,GameObject SourceInstance = null)
+	{
+		if (ComingFrom == TheStart) {
+
+			TheEnd.RemoveSupply(SourceInstance);
+		} else if (ComingFrom == TheEnd) {
+			TheStart.RemoveSupply(SourceInstance);
+		}
+	}
+
 }

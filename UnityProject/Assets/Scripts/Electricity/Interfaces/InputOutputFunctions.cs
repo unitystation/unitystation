@@ -161,10 +161,10 @@ public static class InputOutputFunctions
 			{
 				bool pass = true;
 				if (RelatedLine != null) {
-					Logger.Log ("wowowowwo ");
+					//Logger.Log ("wowowowwo ");
 					if (RelatedLine.Covering.Contains (Thiswire.Data.connections [i])) {
 						pass = false;
-						Logger.Log ("Failed" + Thiswire.Data.connections [i].GameObject ().name);
+						//Logger.Log ("Failed" + Thiswire.Data.connections [i].GameObject ().name);
 					}
 				}
 				if (!(Thiswire.Data.Downstream[SourceInstanceID].Contains(Thiswire.Data.connections[i])) && pass)

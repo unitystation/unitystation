@@ -85,7 +85,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO {
 		InputOutputFunctions.DirectionOutput(tick, SourceInstance, this);
 		Data.DownstreamCount = Data.Downstream[SourceInstanceID].Count;
 		Data.UpstreamCount = Data.Upstream[SourceInstanceID].Count;
-		Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString (), Category.Electrical);
+		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString (), Category.Electrical);
 	}
 
 	public virtual void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
