@@ -6,7 +6,7 @@ using Light2D;
 using UnityEngine;
 
 // Note: Judging the "lighting" sprite sheet it seems that light source can have many disabled states.
-// At this point i just want to do a basic setup for an obvious extension, so only On / Off states are actually implemented 
+// At this point i just want to do a basic setup for an obvious extension, so only On / Off states are actually implemented
 // and for other states is just a state and sprite assignment.
 internal enum LightState
 {
@@ -33,10 +33,30 @@ public class LightSource : ObjectTrigger
 	public GameObject mLightRendererObject;
 	private LightState mState;
 	private SpriteRenderer Renderer;
-	private float fullIntensityVoltage = 300;
+	private float fullIntensityVoltage = 240;
 	public float Resistance = 1200;
 	private bool tempStateCache;
-	private float PreviousIntensity = 999;
+	private float _intensity;
+	/// <summary>
+	/// Current intensity of the lights, automatically clamps and updates sprites when set
+	/// </summary>
+	private float Intensity
+	{
+		get
+		{
+			return _intensity;
+		}
+		set
+		{
+			value = Mathf.Clamp(value, 0, 1);
+			if ( _intensity != value)
+			{
+				_intensity = value;
+				OnIntensityChange();
+			}
+		}
+	}
+
 	public APC RelatedAPC;
 	public LightSwitchTrigger RelatedLightSwitchTrigger;
 	public Color customColor; //Leave null if you want default light color.
@@ -95,15 +115,15 @@ public class LightSource : ObjectTrigger
 		}
 		if (Received.LightSwitchTrigger == RelatedLightSwitchTrigger || RelatedLightSwitchTrigger == null) {
 			if (RelatedLightSwitchTrigger == null){
-				RelatedLightSwitchTrigger = Received.LightSwitchTrigger;  
+				RelatedLightSwitchTrigger = Received.LightSwitchTrigger;
 			}
 			if (Received.RelatedAPC != null) {
 				RelatedAPC = Received.RelatedAPC;
 				{
 					if (State == LightState.On)
 					{
-						if (!RelatedAPC.DictionarySwitchesAndLights [RelatedLightSwitchTrigger].Contains (this)) {
-							RelatedAPC.DictionarySwitchesAndLights [RelatedLightSwitchTrigger].Add (this);
+						if (!RelatedAPC.ConnectedSwitchesAndLights [RelatedLightSwitchTrigger].Contains (this)) {
+							RelatedAPC.ConnectedSwitchesAndLights [RelatedLightSwitchTrigger].Add (this);
 						}
 
 					}
@@ -127,22 +147,23 @@ public class LightSource : ObjectTrigger
 
 	public void EmergencyLight(LightSwitchData Received)
 	{
-
-
 		if (gameObject.tag == "EmergencyLight")
 		{
 			var emergLightAnim = gameObject.GetComponent<EmergencyLightAnimator>();
 			if (emergLightAnim != null)
 			{
-				if (!Received.RelatedAPC.ListOfEmergencyLights.Contains(emergLightAnim))
+				if (!Received.RelatedAPC.ConnectedEmergencyLights.Contains(emergLightAnim))
 				{
-					Received.RelatedAPC.ListOfEmergencyLights.Add(emergLightAnim);
+					Received.RelatedAPC.ConnectedEmergencyLights.Add(emergLightAnim);
 				}
 			}
 		}
 
 	}
-
+	private void OnIntensityChange()
+	{
+		this.GetComponentInChildren<LightSprite>().Color.a = Intensity;
+	}
 	private void OnStateChange(LightState iValue)
 	{
 		// Assign state appropriate sprite to the LightSourceObject.
@@ -169,16 +190,8 @@ public class LightSource : ObjectTrigger
 		}
 		else
 		{
-			float intensity = Voltage / fullIntensityVoltage;
-			if (intensity > 1)
-			{
-				intensity = 1;
-			}
-			if (PreviousIntensity != intensity)
-			{
-
-				this.GetComponentInChildren<LightSprite>().Color.a = intensity;
-			}
+			// Intensity clamped between 0 and 1, and sprite updated automatically with custom get set
+			Intensity = Voltage / fullIntensityVoltage;
 		}
 	}
 

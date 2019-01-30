@@ -49,14 +49,14 @@ public class EscapeShuttle : MonoBehaviour {
 			mm.SetPosition(destination);
 
 			mm.StopMovement();
-			mm.RotateTo(Orientation.Up); //Rotate shuttle correctly so doors are facing correctly
-			mm.ChangeDir(Vector2.left); //Reverse into station evac doors.
+			mm.RotateTo(Orientation.Right); //Rotate shuttle correctly so doors are facing correctly
+			mm.ChangeDir(Orientation.Left); //Reverse into station evac doors.
 			StartCoroutine(ReverseIntoStation(mm));
 		}
 
 		if (GameManager.Instance.GetRoundTime <= 30f && arrivedAtStation == true) // Depart the shuttle
 		{
-			mm.ChangeDir(Vector2.right);
+			mm.ChangeDir(Orientation.Right);
 			mm.StartMovement();
 		}
 	}

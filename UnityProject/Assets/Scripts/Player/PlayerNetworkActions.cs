@@ -274,7 +274,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			Inventory[slotNames[i]].Item = null;
 			equipment.ClearItemSprite(slotNames[i]);
-			InventoryManager.UpdateInvSlot(true, slotNames[i], null);
+			InventoryManager.UpdateInvSlot(true, null, null, Inventory[slotNames[i]].UUID);
 		}
 
 		Logger.LogTraceFormat("Cleared {0}", Category.Inventory, slotNames);
@@ -464,8 +464,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command] //Remember with the parent you can only send networked objects:
 	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
-		var localPlayer = PlayerManager.LocalPlayerScript;
-		if ( localPlayer.canNotInteract() || !localPlayer.IsInReach( pos ) )
+		if ( playerScript.canNotInteract() || !playerScript.IsInReach( pos ) )
 		{
 			return;
 		}

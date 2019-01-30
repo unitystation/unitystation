@@ -3,49 +3,108 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(APCInteract))]
 public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 {
+	// -----------------------------------------------------
+	//					ELECTRICAL THINGS
+	// -----------------------------------------------------
+	/// <summary>
+	/// Holds information about wire connections to this APC
+	/// </summary>
 	public PoweredDevice poweredDevice;
 
-	Sprite[] loadedScreenSprites;
+	[SyncVar (hook="SetVoltage")]
+	private float _voltage = 0;
+	/// <summary>
+	/// The current voltage of this APC. Calls OnVoltageChange when changed.
+	/// </summary>
+	public float Voltage
+	{
+		get
+		{
+			return _voltage;
+		}
+		private set
+		{
+			if(value != _voltage)
+			{
+				_voltage = value;
+				OnVoltageChange();
+			}
+		}
+	}
+	public float Current;
+	private void OnVoltageChange()
+	{
+		// Determine the state of the APC using the voltage
+		// Changing State will trigger OnStateChange to handle it
+		if (Voltage > 219f)
+		{
+			State = APCState.Full;
+		}
+		else if (Voltage > 40f)
+		{
+			State = APCState.Charging;
+		}
+		else if (Voltage > 0f)
+		{
+			State = APCState.Critical;
+		}
+		else
+		{
+			State = APCState.Dead;
+		}
+	}
 
-	public Sprite[] redSprites;
-	public Sprite[] blueSprites;
-	public Sprite[] greenSprites;
+	/// <summary>
+	/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
+	/// </summary>
+	private void SetVoltage(float newVoltage)
+	{
+		Voltage = newVoltage;
+	}
 
-	public Sprite deadSprite;
-
-	public SpriteRenderer screenDisplay;
-
-	public dynamic dynamicVariable = 1;
-
-
-	public List<EmergencyLightAnimator> ListOfEmergencyLights = new List<EmergencyLightAnimator>();
-
-	//public List<LightSwitchTrigger> ListOfLightSwitchTriggers = new List<LightSwitchTrigger>();
-	//public List<LightSource> ListOfLights = new List<LightSource>();
-	public Dictionary<LightSwitchTrigger,List<LightSource>> DictionarySwitchesAndLights = new Dictionary<LightSwitchTrigger,List<LightSource>> ();
-
-	private bool SelfDestruct = false;
-
-	private int displayIndex = 0; //for the animation
-
-	[SyncVar(hook = "UpdateDisplay")]
-	public float Voltage;
-
-	public float Resistance = 0;
-	public float PreviousResistance = 0;
-	private Resistance resistance = new Resistance();
-
-	public PowerTypeCategory ApplianceType = PowerTypeCategory.APC;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
+	private float _resistance = 0;
+	/// <summary>
+	/// The current resistance of devices connected to this APC.
+	/// </summary>
+	public float Resistance
+	{
+		get
+		{
+			return _resistance;
+		}
+		set
+		{
+			if(value != _resistance)
+			{
+				if (value == 0 || double.IsInfinity(value))
+				{
+					_resistance = 9999999999;
+				}
+				else
+				{
+					_resistance = value;
+				}
+				dirtyResistance = true;
+			}
+		}
+	}
+	/// <summary>
+	/// Flag to determine if ElectricalSynchronisation has processed the resistance change yet
+	/// </summary>
+	private bool dirtyResistance = false;
+	/// <summary>
+	/// Class to hold resistance so ElectricalSync can have a reference to it
+	/// </summary>
+	private Resistance ResistanceClass = new Resistance();
+	private PowerTypeCategory ApplianceType = PowerTypeCategory.APC;
+	private HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
 	{
 		PowerTypeCategory.LowMachineConnector
 	};
-
-	//green - fully charged and sufficient power from wire
-	//blue - charging, sufficient power from wire
-	//red - running off internal battery, not enough power from wire
+	private bool SelfDestruct = false;
 
 	public override void OnStartServer()
 	{
@@ -54,7 +113,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		poweredDevice.InData.Categorytype = ApplianceType;
 		poweredDevice.DirectionStart = 0;
 		poweredDevice.DirectionEnd = 9;
-		resistance.Ohms = Resistance;
+		ResistanceClass.Ohms = Resistance;
 		ElectricalSynchronisation.PoweredDevices.Add(this);
 		PowerInputReactions PRLCable = new PowerInputReactions();
 		PRLCable.DirectionReaction = true;
@@ -62,12 +121,10 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		PRLCable.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
 		PRLCable.DirectionReactionA.YouShallNotPass = true;
 		PRLCable.ResistanceReaction = true;
-		PRLCable.ResistanceReactionA.Resistance = resistance;
+		PRLCable.ResistanceReactionA.Resistance = ResistanceClass;
 		poweredDevice.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
 		poweredDevice.InData.ControllingDevice = this;
 		poweredDevice.InData.ControllingUpdate = this;
-		StartCoroutine(ScreenDisplayRefresh());
-		UpdateDisplay(Voltage);
 	}
 
 	private void OnDisable()
@@ -91,12 +148,12 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 		}
 	}
-	public void PowerUpdateResistanceChange() { 
+	public void PowerUpdateResistanceChange() {
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
 			poweredDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 		}
-		
+
 	}
 	public void PowerUpdateCurrentChange()
 	{
@@ -106,85 +163,14 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	public void PowerNetworkUpdate()
 	{
 		Voltage = poweredDevice.Data.ActualVoltage;
+		Current = poweredDevice.Data.CurrentInWire;
+
 		UpdateLights();
-		if (Resistance != PreviousResistance)
+		if (dirtyResistance)
 		{
-			if (Resistance == 0 || double.IsInfinity(Resistance)) {
-				Resistance = 9999999999;
-			}
-			PreviousResistance = Resistance;
-			resistance.Ohms = Resistance;
+			ResistanceClass.Ohms = Resistance;
 			ElectricalSynchronisation.ResistanceChange.Add (this);
-		}
-	}
-	public void UpdateLights()
-	{
-		float CalculatingResistance = new float();
-		foreach (KeyValuePair<LightSwitchTrigger,List<LightSource>> SwitchTrigger in  DictionarySwitchesAndLights) {
-			SwitchTrigger.Key.PowerNetworkUpdate (Voltage);
-			if (SwitchTrigger.Key.isOn) {
-				for (int i = 0; i < SwitchTrigger.Value.Count; i++)
-				{
-					SwitchTrigger.Value[i].PowerLightIntensityUpdate(Voltage);
-					CalculatingResistance += (1/SwitchTrigger.Value [i].Resistance);
-				}
-			}
-
-		}
-		Resistance = (1 / CalculatingResistance);
-	}
-
-	void UpdateDisplay(float voltage)
-	{
-		Voltage = voltage;
-		ToggleEmergencyLights(voltage);
-		if (Voltage == 0)
-		{
-			loadedScreenSprites = null; // dead
-		}
-		if (Voltage >= 40f && Voltage < 219f)
-		{
-			loadedScreenSprites = blueSprites;
-		}
-		if (Voltage > 219f)
-		{
-			loadedScreenSprites = greenSprites;
-		}
-		if (Voltage < 40f && Voltage > 0f)
-		{
-			loadedScreenSprites = redSprites;
-		}
-	}
-
-	void ToggleEmergencyLights(float voltage)
-	{
-		if (ListOfEmergencyLights.Count == 0)
-		{
-			return;
-		}
-
-		for (int i = 0; i < ListOfEmergencyLights.Count; i++)
-		{
-			ListOfEmergencyLights[i].Toggle(voltage == 0);
-		}
-	}
-
-	IEnumerator ScreenDisplayRefresh()
-	{
-		yield return new WaitForEndOfFrame();
-		while (true)
-		{
-			if (loadedScreenSprites == null)
-				screenDisplay.sprite = deadSprite;
-			else
-			{
-				if (++displayIndex >= loadedScreenSprites.Length)
-				{
-					displayIndex = 0;
-				}
-				screenDisplay.sprite = loadedScreenSprites[displayIndex];
-			}
-			yield return new WaitForSeconds(3f);
+			dirtyResistance = false;
 		}
 	}
 
@@ -199,6 +185,211 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		SelfDestruct = true;
 		//Making Invisible
 	}
-	public void TurnOffCleanup (){
+	public void TurnOffCleanup ()
+	{
+
+	}
+
+	// -----------------------------------------------------
+	//					APC STATE THINGS
+	// -----------------------------------------------------
+	/// <summary>
+	/// The current state of the APC, possible values:
+	/// <para>
+	/// Full, Charging, Critical, Dead
+	/// </para>
+	/// </summary>
+	public enum APCState
+	{
+		Full, 		// Internal battery full, sufficient power from wire
+		Charging,	// Not fully charged, sufficient power from wire to charge.
+		Critical,	// Running off of internal battery, not enough power from wire.
+		Dead		// Internal battery is empty, no power from wire.
+	}
+	private APCState _state = APCState.Full;
+	/// <summary>
+	/// The current state of this APC. Can only be set internally and calls OnStateChange when changed.
+	/// </summary>
+	public APCState State
+	{
+		get
+		{
+			return _state;
+		}
+		private set
+		{
+			if (_state != value)
+			{
+				_state = value;
+				OnStateChange();
+			}
+		}
+	}
+	private void OnStateChange()
+	{
+		switch (State)
+		{
+			case APCState.Full:
+				loadedScreenSprites = fullSprites;
+				EmergencyState = false;
+				if (!RefreshDisplay) StartRefresh();
+				break;
+			case APCState.Charging:
+				loadedScreenSprites = chargingSprites;
+				EmergencyState = false;
+				if (!RefreshDisplay) StartRefresh();
+				break;
+			case APCState.Critical:
+				loadedScreenSprites = criticalSprites;
+				EmergencyState = false;
+				if (!RefreshDisplay) StartRefresh();
+				break;
+			case APCState.Dead:
+				screenDisplay.sprite = null;
+				EmergencyState = true;
+				StopRefresh();
+				break;
+		}
+	}
+	// -----------------------------------------------------
+	//					DISPLAY THINGS
+	// -----------------------------------------------------
+	/// <summary>
+	/// The screen sprites which are currently being displayed
+	/// </summary>
+	Sprite[] loadedScreenSprites;
+	/// <summary>
+	/// The animation sprites for when the APC is in a critical state
+	/// </summary>
+	public Sprite[] criticalSprites;
+	/// <summary>
+	/// The animation sprites for when the APC is charging
+	/// </summary>
+	public Sprite[] chargingSprites;
+	/// <summary>
+	/// The animation sprites for when the APC is fully charged
+	/// </summary>
+	public Sprite[] fullSprites;
+	/// <summary>
+	/// The sprite renderer for the APC display
+	/// </summary>
+	public SpriteRenderer screenDisplay;
+	/// <summary>
+	/// The sprite index for the display animation
+	/// </summary>
+	private int displayIndex = 0;
+	/// <summary>
+	/// Determines if the screen should refresh or not
+	/// </summary>
+	private bool RefreshDisplay = false;
+
+	private void StartRefresh()
+	{
+		RefreshDisplay = true;
+		StartCoroutine( Refresh() );
+	}
+	public void RefreshOnce()
+	{
+		RefreshDisplay = false;
+		StartCoroutine( Refresh() );
+	}
+	private void StopRefresh()
+	{
+		RefreshDisplay = false;
+	}
+	private IEnumerator Refresh()
+	{
+		RefreshDisplayScreen();
+		yield return new WaitForSeconds( 2f );
+		if ( RefreshDisplay ) {
+			StartCoroutine( Refresh() );
+		}
+	}
+
+	/// <summary>
+	/// Animates the APC screen sprites
+	/// </summary>
+	private void RefreshDisplayScreen()
+	{
+		if (++displayIndex >= loadedScreenSprites.Length)
+		{
+			displayIndex = 0;
+		}
+		screenDisplay.sprite = loadedScreenSprites[displayIndex];
+	}
+
+	// -----------------------------------------------------
+	//					CONNECTED LIGHTS AND BATTERY THINGS
+	// -----------------------------------------------------
+	/// <summary>
+	/// The list of emergency lights connected to this APC
+	/// </summary>
+	public List<EmergencyLightAnimator> ConnectedEmergencyLights = new List<EmergencyLightAnimator>();
+
+	/// <summary>
+	/// Dictionary of all the light switches and their lights connected to this APC
+	/// </summary>
+	public Dictionary<LightSwitchTrigger,List<LightSource>> ConnectedSwitchesAndLights = new Dictionary<LightSwitchTrigger,List<LightSource>> ();
+
+	// TODO make apcs detect connected department batteries
+	/// <summary>
+	/// List of the department batteries connected to this APC
+	/// </summary>
+	public List<DepartmentBattery> ConnectedDepartmentBatteries = new List<DepartmentBattery> ();
+
+	/// <summary>
+	/// Change brightness of lights connected to this APC proportionally to voltage
+	/// </summary>
+	public void UpdateLights()
+	{
+		float CalculatingResistance = new float();
+		foreach (KeyValuePair<LightSwitchTrigger,List<LightSource>> SwitchTrigger in  ConnectedSwitchesAndLights)
+		{
+			SwitchTrigger.Key.PowerNetworkUpdate (Voltage);
+			if (SwitchTrigger.Key.isOn)
+			{
+				for (int i = 0; i < SwitchTrigger.Value.Count; i++)
+				{
+					SwitchTrigger.Value[i].PowerLightIntensityUpdate(Voltage);
+					CalculatingResistance += (1/SwitchTrigger.Value [i].Resistance);
+				}
+			}
+
+		}
+		Resistance = (1 / CalculatingResistance);
+	}
+
+	private bool _emergencyState = false;
+	/// <summary>
+	/// The state of the emergency lights. Calls SetEmergencyLights when changes.
+	/// </summary>
+	private bool EmergencyState
+	{
+		get
+		{
+			return _emergencyState;
+		}
+		set
+		{
+			if (_emergencyState != value)
+			{
+				_emergencyState = value;
+				SetEmergencyLights(value);
+			}
+		}
+	}
+	/// <summary>
+	/// Set the state of the emergency lights associated with this APC
+	/// </summary>
+	void SetEmergencyLights(bool isOn)
+	{
+		if (ConnectedEmergencyLights.Count == 0)
+		{
+			return;
+		}
+		for (int i = 0; i < ConnectedEmergencyLights.Count; i++)
+		{
+			ConnectedEmergencyLights[i].Toggle(isOn);
+		}
 	}
 }

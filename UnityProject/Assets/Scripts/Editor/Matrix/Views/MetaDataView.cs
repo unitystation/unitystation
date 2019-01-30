@@ -101,7 +101,7 @@ public class MetaDataView : BasicView
 
 			if (node.Exists)
 			{
-				if (node.IsSpace || node.GetNeighbors().Any(n => n.IsSpace))
+				if (node.IsSpace || node.Neighbors.Any(n => n.IsSpace))
 				{
 					GizmoUtils.DrawCube(position,  Color.red);
 				}
@@ -117,7 +117,7 @@ public class MetaDataView : BasicView
 		{
 			MetaDataNode node = source.Get(position, false);
 
-			int neighborCount = node.GetNeighbors().Length;
+			int neighborCount = node.NeighborCount;
 
 			if (neighborCount > 0)
 			{

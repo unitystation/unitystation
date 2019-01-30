@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
@@ -108,11 +107,14 @@ public class MetaDataSystem : SubsystemBehaviour
 			{
 				roomPositions.Add(position);
 
-				foreach (Vector3Int neighbor in MetaUtils.GetNeighbors(position))
+				Vector3Int[] neighbors = MetaUtils.GetNeighbors(position);
+				for (var i = 0; i < neighbors.Length; i++)
 				{
+					Vector3Int neighbor = neighbors[i];
 					if (metaTileMap.IsSpaceAt(neighbor))
 					{
-						Vector3 worldPosition = transform.TransformPoint(neighbor);
+						Vector3 worldPosition = transform.TransformPoint(neighbor + Vector3Int.one);
+						worldPosition.z = 0;
 						if (MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
 						{
 							isSpace = true;
@@ -156,7 +158,7 @@ public class MetaDataSystem : SubsystemBehaviour
 	{
 		Vector3Int[] neighbors = MetaUtils.GetNeighbors(node.Position);
 
-		for(int i = 0; i < neighbors.Length; i++)
+		for (int i = 0; i < neighbors.Length; i++)
 		{
 			if (metaTileMap.IsSpaceAt(neighbors[i]))
 			{
@@ -165,8 +167,9 @@ public class MetaDataSystem : SubsystemBehaviour
 					externalNodes.Add(node);
 				}
 
-				Vector3 worldPosition = transform.TransformPoint(neighbors[i]);
+				Vector3 worldPosition = transform.TransformPoint(neighbors[i] + Vector3Int.one);
 				worldPosition.z = 0;
+
 				if (!MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
 				{
 					MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPosition.RoundToInt());

@@ -222,13 +222,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	private bool HasPushablesAt(Vector3 stateWorldPosition, out PushPull firstPushable, GameObject except = null)
 	{
 		firstPushable = null;
-		var pushables = MatrixManager.GetAt<PushPull>(stateWorldPosition.CutToInt()).ToArray();
-		if (pushables.Length == 0)
+		var pushables = MatrixManager.GetAt<PushPull>(stateWorldPosition.CutToInt());
+		if (pushables.Count == 0)
 		{
 			return false;
 		}
 
-		for (var i = 0; i < pushables.Length; i++)
+		for (var i = 0; i < pushables.Count; i++)
 		{
 			var pushable = pushables[i];
 			if (pushable.gameObject == this.gameObject || except != null && pushable.gameObject == except)

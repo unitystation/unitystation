@@ -362,9 +362,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 	[Server]
 	private void CheckMatrixSwitch( bool notify = true ) {
-		var pos = Vector3Int.RoundToInt( serverState.WorldPosition );
-		Logger.LogTraceFormat( "{0} doing matrix switch check for {1}", Category.Transform, gameObject.name, pos );
-		int newMatrixId = MatrixManager.AtPoint( pos ).Id;
+//		Logger.LogTraceFormat( "{0} doing matrix switch check for {1}", Category.Transform, gameObject.name, pos );
+		int newMatrixId = MatrixManager.AtPoint( serverState.WorldPosition.RoundToInt() ).Id;
 		if ( serverState.MatrixId != newMatrixId ) {
 			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, serverState.MatrixId, newMatrixId );
 

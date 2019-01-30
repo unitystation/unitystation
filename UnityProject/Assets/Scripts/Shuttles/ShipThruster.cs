@@ -70,11 +70,11 @@ public class ShipThruster : MonoBehaviour
 	}
 
 	//Rotates FX as ship rotates
-	public void RotateFX(Orientation oldOrientation, Orientation newOrientation)
+	public void RotateFX(RotationOffset newRotationOffset)
 	{
 		var mainFX = particleFX.main;
 
-		mainFX.startRotation = newOrientation.Degree * Mathf.Deg2Rad;
+		mainFX.startRotation = newRotationOffset.Degree * Mathf.Deg2Rad;
 	}
 
 	public void SpeedChange(float oldSpeed, float newSpeed, float _particleSpeedMultiplier)

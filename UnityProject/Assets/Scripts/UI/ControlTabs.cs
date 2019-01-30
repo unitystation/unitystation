@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ControlTabs : MonoBehaviour
 {
@@ -18,9 +18,12 @@ public class ControlTabs : MonoBehaviour
 	private bool preventRoll = false;
 
 	private static ControlTabs controlTabs;
-	public static ControlTabs Instance{
-		get{
-			if(controlTabs == null){
+	public static ControlTabs Instance
+	{
+		get
+		{
+			if (controlTabs == null)
+			{
 				controlTabs = FindObjectOfType<ControlTabs>();
 			}
 			return controlTabs;
@@ -44,16 +47,16 @@ public class ControlTabs : MonoBehaviour
 	private void ResetControlTabs()
 	{
 		foreach (var tab in Instance.HiddenNetTabs)
-			{
-				Destroy(Instance.HeaderForTab(tab.Value)?.gameObject);
-				Destroy(tab.Value.gameObject);
-			}
-			foreach (var tab in Instance.OpenedNetTabs)
-			{
-				Destroy(Instance.HeaderForTab(tab.Value)?.gameObject);
-				Destroy(tab.Value.gameObject);
-			}
-			Instance.SelectTab(ClientTabType.Stats, false);
+		{
+			Destroy(Instance.HeaderForTab(tab.Value)?.gameObject);
+			Destroy(tab.Value.gameObject);
+		}
+		foreach (var tab in Instance.OpenedNetTabs)
+		{
+			Destroy(Instance.HeaderForTab(tab.Value)?.gameObject);
+			Destroy(tab.Value.gameObject);
+		}
+		Instance.SelectTab(ClientTabType.Stats, false);
 	}
 
 	private bool itemListTabExists => ClientTabs.ContainsKey(ClientTabType.ItemList) && !ClientTabs[ClientTabType.ItemList].Hidden;
@@ -169,10 +172,15 @@ public class ControlTabs : MonoBehaviour
 		}
 	}
 
-	private void Start()
+	void Awake()
 	{
 		FingerPrefab = Resources.Load<GameObject>("PokeFinger");
 		TabHeaderPrefab = Resources.Load<GameObject>("HeaderTab");
+	}
+
+	private void Start()
+	{
+
 		RefreshTabHeaders();
 		Instance.HideTab(ClientTabType.ItemList);
 
@@ -190,7 +198,8 @@ public class ControlTabs : MonoBehaviour
 		{
 			Tab tab = activeTabs[i];
 
-			if(tab.transform.parent != TabStorage){
+			if (tab.transform.parent != TabStorage)
+			{
 				//Skip pop outs etc
 				continue;
 			}
@@ -206,7 +215,7 @@ public class ControlTabs : MonoBehaviour
 			headerButton.gameObject.name = tabName;
 			headerButton.GetComponentInChildren<Text>().text = tabName;
 
-			((RectTransform) headerButton.transform).anchoredPosition = Vector2.right * (i * 40);
+			((RectTransform)headerButton.transform).anchoredPosition = Vector2.right * (i * 40);
 			//need to wait till the next frame to set proper position
 			StartCoroutine(SetHeaderPosition(headerButton.gameObject, i));
 
@@ -252,7 +261,7 @@ public class ControlTabs : MonoBehaviour
 
 		if (header != null)
 		{
-			((RectTransform) header.transform).anchoredPosition = Vector3.right * GetHeaderOffset(index);
+			((RectTransform)header.transform).anchoredPosition = Vector3.right * GetHeaderOffset(index);
 		}
 	}
 
@@ -263,7 +272,7 @@ public class ControlTabs : MonoBehaviour
 		for (var i = 0; i < tabIndex; i++)
 		{
 			var header = HeaderForTab(activeTabs[i]);
-			width += (int) ((RectTransform) header.gameObject.transform).rect.width;
+			width += (int)((RectTransform)header.gameObject.transform).rect.width;
 		}
 		return width;
 	}
@@ -309,7 +318,8 @@ public class ControlTabs : MonoBehaviour
 		for (var i = 0; i < ActiveTabs.Count; i++)
 		{
 			var tab = ActiveTabs[i];
-			if(tab.isPopOut){
+			if (tab.isPopOut)
+			{
 				//Do not disable pop outs
 				continue;
 			}
@@ -321,10 +331,13 @@ public class ControlTabs : MonoBehaviour
 	private void UnhideTab(Tab tab)
 	{
 		tab.Hidden = false;
-		if(!tab.isPopOut){
+		if (!tab.isPopOut)
+		{
 			RefreshTabHeaders();
 			SelectTab(tab.gameObject);
-		} else {
+		}
+		else
+		{
 			tab.gameObject.SetActive(true);
 			var localPos = Vector3.zero;
 			localPos.y += 20f;
@@ -368,7 +381,7 @@ public class ControlTabs : MonoBehaviour
 
 		if (!UITileList.Instance)
 		{
-			UITileList.Instance = tab.GetComponentsInChildren<UITileList>(true) [0];
+			UITileList.Instance = tab.GetComponentsInChildren<UITileList>(true)[0];
 		}
 
 		if (!Instance.itemListTabExists)
@@ -450,13 +463,14 @@ public class ControlTabs : MonoBehaviour
 				rect.transform.localPosition = localPos;
 				tabInfo.isPopOut = true;
 			}
-			
+
 			Instance.RefreshTabHeaders();
 		}
 
 		NetTab tab = Instance.OpenedNetTabs[openedTab];
 		tab.ImportValues(elementValues);
-		if(!isPopOut){
+		if (!isPopOut)
+		{
 			Instance.SelectTab(tab.gameObject, false);
 		}
 	}
@@ -490,7 +504,7 @@ public class ControlTabs : MonoBehaviour
 	public static void RefreshTabs()
 	{
 		var activeTabs = Instance.ActiveTabs;
-		for(int i = 0; i < activeTabs.Count; i++)
+		for (int i = 0; i < activeTabs.Count; i++)
 		{
 			activeTabs[i].RefreshTab();
 		}
@@ -505,12 +519,13 @@ public class ControlTabs : MonoBehaviour
 
 		foreach (NetTab tab in Instance.OpenedNetTabs.Values)
 		{
-			if (playerScript.canNotInteract() || 
-			!playerScript.IsInReach(tab.Provider))
+			if (playerScript.canNotInteract() ||
+				!playerScript.IsInReach(tab.Provider))
 			{
 				//Make sure the item is not in the players hands first:
-				if(UIManager.Hands.CurrentSlot.Item != tab.Provider.gameObject &&
-				UIManager.Hands.OtherSlot.Item != tab.Provider.gameObject){
+				if (UIManager.Hands.CurrentSlot.Item != tab.Provider.gameObject &&
+					UIManager.Hands.OtherSlot.Item != tab.Provider.gameObject)
+				{
 					toClose.Add(tab);
 				}
 			}

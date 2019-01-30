@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Note that chair determines its initial orientation based on the sprite it is set to
+/// </summary>
 public class Chair : MonoBehaviour
 {
-	public Orientation currentDirection;
+	private Orientation orientation;
 
 	public Sprite s_right;
 	public Sprite s_down;
@@ -16,11 +21,35 @@ public class Chair : MonoBehaviour
 
 	public void Start()
 	{
+		InitDirection();
 		matrixMove = transform.root.GetComponent<MatrixMove>();
 		if (matrixMove != null)
 		{
 			SetUpRotationListener();
 			StartCoroutine(WaitForInit());
+		}
+	}
+
+	/// <summary>
+	/// Figure out initial direction based on which sprite was selected.
+	/// </summary>
+	private void InitDirection()
+	{
+		if (spriteRenderer.sprite == s_right)
+		{
+			orientation = Orientation.Right;
+		}
+		else if (spriteRenderer.sprite == s_down)
+		{
+			orientation = Orientation.Down;
+		}
+		else if (spriteRenderer.sprite == s_left)
+		{
+			orientation = Orientation.Left;
+		}
+		else
+		{
+			orientation = Orientation.Up;
 		}
 	}
 
@@ -30,7 +59,6 @@ public class Chair : MonoBehaviour
 		{
 			yield return YieldHelper.EndOfFrame;
 		}
-		ChangeSprite(matrixMove.ClientState.Orientation.Vector);
 	}
 
 	void SetUpRotationListener()
@@ -46,31 +74,24 @@ public class Chair : MonoBehaviour
 		}
 	}
 
-	public void OnRotation(Orientation before, Orientation next)
+	public void OnRotation(RotationOffset fromCurrent)
 	{
-		ChangeSprite(next.Vector);
-	}
-
-	void ChangeSprite(Vector2 dir)
-	{
-		if (dir == Vector2.up)
+		orientation = orientation.Rotate(fromCurrent);
+		if (orientation == Orientation.Up)
 		{
 			spriteRenderer.sprite = s_up;
 		}
-
-		if (dir == Vector2.right)
-		{
-			spriteRenderer.sprite = s_right;
-		}
-
-		if (dir == Vector2.down)
+		else if (orientation == Orientation.Down)
 		{
 			spriteRenderer.sprite = s_down;
 		}
-
-		if (dir == Vector2.left)
+		else if (orientation == Orientation.Left)
 		{
 			spriteRenderer.sprite = s_left;
+		}
+		else
+		{
+			spriteRenderer.sprite = s_right;
 		}
 	}
 }

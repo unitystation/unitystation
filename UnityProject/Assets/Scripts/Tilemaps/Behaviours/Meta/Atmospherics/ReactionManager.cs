@@ -40,7 +40,7 @@ public class ReactionManager : MonoBehaviour
 				{
 					if (node.Hotspot.Volume > 0.95 * node.Atmos.Volume && node.Hotspot.Temperature > Reactions.FIRE_MINIMUM_TEMPERATURE_TO_SPREAD)
 					{
-						foreach (MetaDataNode neighbor in node.GetNeighbors())
+						foreach (MetaDataNode neighbor in node.Neighbors)
 						{
 							ExposeHotspot(neighbor.Position, node.Atmos.Temperature * 0.85f, node.Atmos.Volume / 4);
 						}
