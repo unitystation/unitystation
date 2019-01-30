@@ -20,20 +20,18 @@ public class InventoryInteractMessage : ClientMessage
 		if (Subject.Equals(NetworkInstanceId.Invalid))
 		{
 			//Drop item message
-			yield return WaitFor(SentBy);
-			ProcessFurther(NetworkObject);
+			ProcessFurther(SentByPlayer);
 		}
 		else
 		{
-			yield return WaitFor(SentBy, Subject);
-			ProcessFurther(NetworkObjects[0], NetworkObjects[1]);
+			yield return WaitFor(Subject);
+			ProcessFurther(SentByPlayer, NetworkObject);
 		}
 	}
 
-	private void ProcessFurther(GameObject player, GameObject item = null)
+	private void ProcessFurther(ConnectedPlayer player, GameObject item = null)
 	{
-		GameObject clientPlayer = player;
-		PlayerNetworkActions pna = clientPlayer.GetComponent<PlayerNetworkActions>();
+		PlayerNetworkActions pna = player.Script.playerNetworkActions;
 		if (string.IsNullOrEmpty(SlotUUID))
 		{
 			//To drop

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-///     Requests a Headset Encryption Key update 
+///     Requests a Headset Encryption Key update
 /// </summary>
 public class UpdateHeadsetKeyMessage : ClientMessage
 {
@@ -24,9 +24,9 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		if ( EncryptionKey.Equals(NetworkInstanceId.Invalid) )
 		{
 			//No key passed in message -> Removes EncryptionKey from a headset
-			yield return WaitFor(SentBy, HeadsetItem);
-			var player = NetworkObjects[0];
-			var headsetGO = NetworkObjects[1];
+			yield return WaitFor(HeadsetItem);
+			var player = SentByPlayer;
+			var headsetGO = NetworkObject;
 			if ( ValidRemoval(headsetGO) )
 			{
 				detachKey(headsetGO, player);
@@ -35,10 +35,10 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		else
 		{
 			//Key was passed -> Puts it into headset
-			yield return WaitFor(SentBy, HeadsetItem, EncryptionKey);
-			var player = NetworkObjects[0];
-			var headsetGO = NetworkObjects[1];
-			var keyGO = NetworkObjects[2];
+			yield return WaitFor(HeadsetItem, EncryptionKey);
+			var player = SentByPlayer;
+			var headsetGO = NetworkObjects[0];
+			var keyGO = NetworkObjects[1];
 			if ( ValidUpdate(headsetGO, keyGO) )
 			{
 				setKey(player, headsetGO, keyGO);
@@ -46,9 +46,9 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		}
 	}
 
-	private static void setKey(GameObject player, GameObject headsetGO, GameObject keyGO)
+	private static void setKey(ConnectedPlayer player, GameObject headsetGO, GameObject keyGO)
 	{
-		var pna = player.GetComponent<PlayerNetworkActions>();
+		var pna = player.Script.playerNetworkActions;
 		if ( pna.HasItem(keyGO) )
 		{
 			Headset headset = headsetGO.GetComponent<Headset>();
@@ -58,27 +58,27 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		}
 	}
 
-	private static void detachKey(GameObject headsetGO, GameObject player)
+	private static void detachKey(GameObject headsetGO, ConnectedPlayer player)
 	{
 		Headset headset = headsetGO.GetComponent<Headset>();
 		GameObject encryptionKey =
-		Object.Instantiate(Resources.Load("EncryptionKey", typeof( GameObject )), 
-			headsetGO.transform.position, 
-			headsetGO.transform.rotation, 
+		Object.Instantiate(Resources.Load("EncryptionKey", typeof( GameObject )),
+			headsetGO.transform.position,
+			headsetGO.transform.rotation,
 			headsetGO.transform.parent) as GameObject;
 		if ( encryptionKey == null )
 		{
-			Logger.LogError($"Headset key instantiation for {PlayerList.Instance.Get(player).Name} failed, spawn aborted",Category.Telecoms);
+			Logger.LogError($"Headset key instantiation for {player.Name} failed, spawn aborted",Category.Telecoms);
 			return;
 		}
 
 		encryptionKey.GetComponent<EncryptionKey>().Type = headset.EncryptionKey;
 //		Logger.Log($"Spawning headset key {encryptionKey} with type {headset.EncryptionKey}");
-		
+
 		//TODO when added interact with dropped headset, add encryption key to empty hand
 		headset.EncryptionKey = EncryptionKeyType.None;
-		
-		ItemFactory.SpawnItem(encryptionKey, player.transform.position, player.transform.parent);
+
+		ItemFactory.SpawnItem(encryptionKey, player.Script.WorldPos, player.GameObject.transform.parent);
 	}
 
 	public static UpdateHeadsetKeyMessage Send(GameObject headsetItem, GameObject encryptionkey = null)
@@ -121,7 +121,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 
 	public override string ToString()
 	{
-		return $"[UpdateHeadsetKeyMessage SentBy={SentBy} HeadsetItem={HeadsetItem} EncryptionKey={EncryptionKey}]";
+		return $"[UpdateHeadsetKeyMessage SentBy={SentByPlayer} HeadsetItem={HeadsetItem} EncryptionKey={EncryptionKey}]";
 	}
 
 	public override void Deserialize(NetworkReader reader)
