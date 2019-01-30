@@ -15,9 +15,9 @@ public class UIInteractMessage : ClientMessage
 	{
 //		Logger.Log("Processed " + ToString());
 
-		yield return WaitFor(Subject, SentBy);
+		yield return WaitFor(Subject);
 
-		NetworkObjects[0].GetComponent<InputTrigger>().UI_Interact(NetworkObjects[1], decodeHand(Hand));
+		NetworkObject.GetComponent<InputTrigger>().UI_Interact(SentByPlayer.GameObject, decodeHand(Hand));
 	}
 
 	public static UIInteractMessage Send(GameObject subject, string hand)
@@ -61,7 +61,7 @@ public class UIInteractMessage : ClientMessage
 
 	public override string ToString()
 	{
-		return $"[InteractMessage Subject={Subject} Hand={decodeHand( Hand )} Type={MessageType} SentBy={SentBy}]";
+		return $"[InteractMessage Subject={Subject} Hand={decodeHand( Hand )} Type={MessageType} SentBy={SentByPlayer}]";
 	}
 
 	public override void Deserialize(NetworkReader reader)

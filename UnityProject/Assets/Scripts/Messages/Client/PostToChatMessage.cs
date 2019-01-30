@@ -13,10 +13,9 @@ public class PostToChatMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-		yield return WaitFor(SentBy);
-		if (NetworkObject)
+		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
-			if (ValidRequest(NetworkObject)) {
+			if (ValidRequest(SentByPlayer)) {
 				ChatEvent chatEvent = new ChatEvent(ChatMessageText, NetworkObject, Channels);
 				ChatRelay.Instance.AddToChatLogServer(chatEvent);
 			}
@@ -26,9 +25,10 @@ public class PostToChatMessage : ClientMessage
 			ChatEvent chatEvent = new ChatEvent(ChatMessageText, Channels);
 			ChatRelay.Instance.AddToChatLogServer(chatEvent);
 		}
+		yield return null;
 	}
 
-	public static void SendThrowHitMessage( GameObject item, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.None ) 
+	public static void SendThrowHitMessage( GameObject item, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.None )
 	{
 		var player = victim.Player();
 		if ( player == null ) {
@@ -53,7 +53,7 @@ public class PostToChatMessage : ClientMessage
 	/// <param name="victim">GameObject of the player hat was the victim</param>
 	/// <param name="damage">damage done</param>
 	/// <param name="hitZone">zone that was damaged</param>
-	public static void SendItemAttackMessage( GameObject item, GameObject attacker, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.None ) 
+	public static void SendItemAttackMessage( GameObject item, GameObject attacker, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.None )
 	{
 		var itemAttributes = item.GetComponent<ItemAttributes>();
 
@@ -61,14 +61,14 @@ public class PostToChatMessage : ClientMessage
 		if ( player == null ) {
 			hitZone = BodyPartType.None;
 		}
-		
+
 		string victimName;
 		if ( attacker == victim ) {
 			victimName = "self";
 		} else {
 			victimName = victim.ExpensiveName();
 		}
-		
+
 		var attackVerb = itemAttributes.attackVerb.GetRandom() ?? "attacked";
 
 		var message = $"{attacker.Player()?.Name} has {attackVerb} {victimName}{InTheZone( hitZone )} with {itemAttributes.itemName}!";
@@ -99,9 +99,9 @@ public class PostToChatMessage : ClientMessage
 		return msg;
 	}
 
-	public bool ValidRequest(GameObject player)
+	public bool ValidRequest(ConnectedPlayer player)
 	{
-		PlayerScript playerScript = player.GetComponent<PlayerScript>();
+		PlayerScript playerScript = player.Script;
 		//Need to add system channel here so player can transmit system level events but not select it in the UI
 		ChatChannel availableChannels = playerScript.GetAvailableChannelsMask() | ChatChannel.System;
 		if ((availableChannels & Channels) == Channels)

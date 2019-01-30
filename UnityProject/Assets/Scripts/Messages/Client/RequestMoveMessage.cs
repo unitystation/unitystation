@@ -12,10 +12,8 @@ public class RequestMoveMessage : ClientMessage
 	public override IEnumerator Process()
 	{
 //		Logger.Log("Processed " + ToString());
-
-		yield return WaitFor(SentBy);
-
-		NetworkObject.GetComponent<PlayerSync>().ProcessAction(Action);
+		SentByPlayer.Script.PlayerSync.ProcessAction(Action);
+		yield return null;
 	}
 
 	public static RequestMoveMessage Send(PlayerAction action)
@@ -30,7 +28,7 @@ public class RequestMoveMessage : ClientMessage
 
 	public override string ToString()
 	{
-		return $"[RequestMoveMessage Action={Action} SentBy={SentBy}]";
+		return $"[RequestMoveMessage Action={Action} SentBy={SentByPlayer}]";
 	}
 
 	public override void Deserialize(NetworkReader reader)
