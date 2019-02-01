@@ -80,17 +80,21 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		}
 		set
 		{
-			if(value != _resistance)
+			if (value != _resistance)
 			{
 				if (value == 0 || double.IsInfinity(value))
 				{
-					_resistance = 9999999999;
+					if (_resistance != 9999999999)
+					{
+						dirtyResistance = true;
+						_resistance = 9999999999;
+					}
 				}
 				else
 				{
+					dirtyResistance = true;
 					_resistance = value;
 				}
-				dirtyResistance = true;
 			}
 		}
 	}
