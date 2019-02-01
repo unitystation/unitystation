@@ -48,7 +48,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	void UpdateMe()
 	{
 		//Server Only:
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			tick += Time.deltaTime;
 			if (tick >= tickRate)
@@ -125,19 +125,6 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		CheckPressureDamage(node.Atmos.Pressure);
 
 		CheckBreath(node);
-
-
-//		if(node)
-		//TODO Finish when atmos is implemented. Basically deliver any elements to the
-		//the blood stream every breath
-		//Check atmos values for the tile you are on
-
-		//FIXME remove when above TODO is done:
-//		if (!IsInSpace() || IsInSpace() && IsEvaCompatible())
-//		{
-//			//Delivers oxygen to the blood from a single breath
-//			bloodSystem.OxygenLevel += 30;
-//		}
 	}
 
 	private void CheckBreath(MetaDataNode node)
@@ -152,7 +139,10 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 		if (oxygenPressure < oxygenSafeMin)
 		{
-			// TODO gasp with 20 % prob
+			if (Random.value < 0.2)
+			{
+				PostToChatMessage.Send("gasp", ChatChannel.Local);
+			}
 
 			if (oxygenPressure > 0)
 			{
@@ -160,6 +150,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 				ApplyDamage(Mathf.Min(5 * ratio, 3), DamageType.Oxy);
 				oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen) * ratio;
+				bloodSystem.OxygenLevel += 30 * ratio;
 			}
 			else
 			{
@@ -169,7 +160,6 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		else
 		{
 			oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen);
-
 			bloodSystem.OxygenLevel += 30;
 		}
 

@@ -105,8 +105,9 @@ public class MetaTileMapView : BasicView
 //			if (!source.IsEmptyAt(position))
 			if (Selection.activeGameObject.GetComponent<MetaTileMap>() == source)
 			{
-				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
-				GizmoUtils.DrawText($"{position.x}, {position.y}", p, false);
+//				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				Vector3 p2 = source.CellToWorld(position);
+				GizmoUtils.DrawText($"{position.x}, {position.y}", p2, false);
 			}
 		}
 	}
