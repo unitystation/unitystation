@@ -164,7 +164,7 @@ public class MatrixManager : MonoBehaviour
 	/// <returns>MetaDataNode at the position. If no Node that isn't space is found, MetaDataNode.Node will be returned.</returns>
 	public static MetaDataNode GetMetaDataAt(Vector3Int worldPosition)
 	{
-		foreach (MatrixInfo mat in Instance.activeMatrices)
+		foreach (MatrixInfo mat in Instance.ActiveMatrices)
 		{
 			Vector3Int position = WorldToLocalInt(worldPosition, mat);
 			MetaDataNode node = mat.MetaDataLayer.Get(position, false);
@@ -184,7 +184,7 @@ public class MatrixManager : MonoBehaviour
 	/// <param name="worldPosition">Position where the update is triggered.</param>
 	public static void TriggerSubsystemUpdateAt(Vector3Int worldPosition)
 	{
-		foreach (MatrixInfo mat in Instance.activeMatrices)
+		foreach (MatrixInfo mat in Instance.ActiveMatrices)
 		{
 			Vector3Int position = WorldToLocalInt(worldPosition, mat);
 
