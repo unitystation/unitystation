@@ -203,7 +203,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 				}
 			}
 		}
-		Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
+		//Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
 	}
 
 	void UpdateState(bool _isOn)

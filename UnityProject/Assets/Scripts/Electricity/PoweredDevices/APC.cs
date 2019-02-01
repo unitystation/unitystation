@@ -19,6 +19,9 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	/// <summary>
 	/// The current voltage of this APC. Calls OnVoltageChange when changed.
 	/// </summary>
+	/// 
+	public int CashOfConnectedDevices = 0;
+	/// 
 	public float Voltage
 	{
 		get
@@ -162,16 +165,17 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 
 	public void PowerNetworkUpdate()
 	{
-		ConnectedDepartmentBatteries.Clear ();
-		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Device in poweredDevice.Data.ResistanceToConnectedDevices) {
-			if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery) {
-				if (!(ConnectedDepartmentBatteries.Contains (Device.Key.GameObject().GetComponent<DepartmentBattery>()))) {
-					ConnectedDepartmentBatteries.Add (Device.Key.GameObject ().GetComponent<DepartmentBattery> ());
+		if (!(CashOfConnectedDevices == poweredDevice.Data.ResistanceToConnectedDevices.Count)) {
+			CashOfConnectedDevices = poweredDevice.Data.ResistanceToConnectedDevices.Count;
+			ConnectedDepartmentBatteries.Clear ();
+			foreach (KeyValuePair<IElectricityIO, HashSet<PowerTypeCategory>> Device in poweredDevice.Data.ResistanceToConnectedDevices) {
+				if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery) {
+					if (!(ConnectedDepartmentBatteries.Contains (Device.Key.GameObject().GetComponent<DepartmentBattery>()))) {
+						ConnectedDepartmentBatteries.Add (Device.Key.GameObject ().GetComponent<DepartmentBattery> ());
+					}
 				}
 			}
 		}
-
-
 
 		Voltage = poweredDevice.Data.ActualVoltage;
 		Current = poweredDevice.Data.CurrentInWire;

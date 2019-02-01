@@ -33,7 +33,7 @@ public static class BatteryCalculation  {
 						Battery.PullingWatts = 0;
 						Battery.current = 0; 
 						Battery.PullLastDeductedTime = 0;
-						Logger.Log ("Turning off");
+						Logger.Log ("Turning off", Category.Electrical);
 					}
 				}
 			} else {
@@ -41,7 +41,7 @@ public static class BatteryCalculation  {
 					Battery.PullingWatts = 0;
 					Battery.current = 0;
 					Battery.PullLastDeductedTime = 0;
-					Logger.Log ("Turning off");
+					Logger.Log ("Turning off", Category.Electrical);
 				}
 			} 
 		} 
@@ -86,12 +86,12 @@ public static class BatteryCalculation  {
 							Battery.ChargingMultiplier = 0.1f;
 							Battery.Resistance = 0;
 							Battery.ChargLastDeductedTime = 0;
-							Logger.Log (" turn off!!");
+							Logger.Log (" turn off!!", Category.Electrical);
 						}
 					} else if ((Battery.ActualVoltage > Battery.IncreasedChargeVoltage) && (!(Battery.CurrentCapacity >= Battery.CapacityMax))) {
 						Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) / 1000));
 						Battery.ChargLastDeductedTime = Time.time;
-						Logger.Log ("Turn back on");
+						Logger.Log ("Turn back on", Category.Electrical);
 					}
 	
 				} else {
@@ -100,7 +100,7 @@ public static class BatteryCalculation  {
 						Battery.ChargingMultiplier = 0.1f;
 						Battery.Resistance = 0;
 						Battery.ChargLastDeductedTime = 0;
-						Logger.Log (" turn off!!");
+						Logger.Log (" turn off!!", Category.Electrical);
 					}
 				}
 			}
@@ -120,7 +120,7 @@ public static class BatteryCalculation  {
 							Battery.current = 0;
 							Battery.PullLastDeductedTime = 0;
 							//Battery.PassChangeToOff = false;
-							Logger.Log (" turn off!!");
+							Logger.Log (" turn off!!", Category.Electrical);
 						}
 					} else {
 						if (Battery.ActualVoltage < Battery.MinimumSupportVoltage) {
