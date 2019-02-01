@@ -124,7 +124,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 	public void InitialPowerUpdateResistance(){
 		RelatedDevice.InitialPowerUpdateResistance();
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in RelatedDevice.Data.ResistanceToConnectedDevices) {
-			RelatedDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			RelatedDevice.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 		}
 	}
@@ -134,7 +134,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		RelatedDevice.PowerUpdateResistanceChange();
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in RelatedDevice.Data.ResistanceToConnectedDevices) {
 			if (Supplie.Value.Contains(PowerTypeCategory.StandardCable)){
-				RelatedDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+				RelatedDevice.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
 				ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 			}
 		}
@@ -255,7 +255,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		return true;
 	}
 
-	public float ModifyElectricityInput(int tick, float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
+	public float ModifyElectricityInput( float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
 	{
 		int InstanceID = SourceInstance.GetInstanceID();
 
@@ -277,15 +277,15 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		return (Currentandoffcut.Item1);
 
 	}
-	public float ModifyElectricityOutput(int tick, float Current, GameObject SourceInstance)
+	public float ModifyElectricityOutput( float Current, GameObject SourceInstance)
 	{
 		return (Current);
 	}
-	public float ModifyResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
+	public float ModifyResistanceInput( float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
 	{
 		return (Resistance);
 	}
-	public float ModifyResistancyOutput(int tick, float Resistance, GameObject SourceInstance)
+	public float ModifyResistancyOutput( float Resistance, GameObject SourceInstance)
 	{
 		Tuple<float, float> ResistanceM = TransformerCalculations.TransformerCalculate(this, ResistanceToModify : Resistance);
 		//return (Resistance);

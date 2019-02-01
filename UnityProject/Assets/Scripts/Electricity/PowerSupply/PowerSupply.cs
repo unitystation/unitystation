@@ -109,25 +109,25 @@ public class PowerSupply : ElectricalOIinheritance, IElectricalNeedUpdate, IElec
 
 	}
 
-	public override void ResistancyOutput(int tick, GameObject SourceInstance)
+	public override void ResistancyOutput( GameObject SourceInstance)
 	{
 		//Logger.Log (SourceInstance.GetInstanceID().ToString() + " < Receive | is > " + this.gameObject.GetInstanceID().ToString() );
 		if (!(SourceInstance == this.gameObject))
 		{
 			int SourceInstanceID = SourceInstance.GetInstanceID();
 			float Resistance = ElectricityFunctions.WorkOutResistance(Data.ResistanceComingFrom[SourceInstanceID]);
-			InputOutputFunctions.ResistancyOutput(tick, Resistance, SourceInstance, this);
+			InputOutputFunctions.ResistancyOutput( Resistance, SourceInstance, this);
 		}
 	}
 
 	public override void SetConnPoints(int DirectionEndin, int DirectionStartin) { }
 
-	public override void ElectricityOutput(int tick, float Current, GameObject SourceInstance)
+	public override void ElectricityOutput( float Current, GameObject SourceInstance)
 	{
 		if (!(SourceInstance == this.gameObject)){
 			ElectricalSynchronisation.NUCurrentChange.Add (InData.ControllingUpdate);
 		}
-		InputOutputFunctions.ElectricityOutput(tick, Current, SourceInstance, this);
+		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
 		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
 		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
 		Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;

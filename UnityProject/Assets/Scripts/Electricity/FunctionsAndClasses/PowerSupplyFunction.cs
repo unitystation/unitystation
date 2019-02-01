@@ -34,7 +34,7 @@ public static class PowerSupplyFunction  {
 		{
 			if (Supply.Data.SupplyingCurrent != 0)
 			{
-				Supply.ElectricityOutput(ElectricalSynchronisation.currentTick, Supply.Data.SupplyingCurrent, Supply.GameObject());
+				Supply.ElectricityOutput(Supply.Data.SupplyingCurrent, Supply.GameObject());
 			}
 		}
 	}

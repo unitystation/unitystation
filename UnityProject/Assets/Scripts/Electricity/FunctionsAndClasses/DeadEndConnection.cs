@@ -13,18 +13,18 @@ public class DeadEndConnection : IElectricityIO {
 
 	public void FindPossibleConnections(){}
 
-	public void ElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){}
+	public void ElectricityInput(float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){}
 
-	public 	void ElectricityOutput(int tick, float Current, GameObject SourceInstance){}
+	public 	void ElectricityOutput(float Current, GameObject SourceInstance){}
 
 
-	public 	void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){}
+	public 	void ResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){}
 
-	public void ResistancyOutput(int tick, GameObject SourceInstance){}
+	public void ResistancyOutput(GameObject SourceInstance){}
 
-	public void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null){}
+	public void DirectionInput(GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null){}
 
-	public 	void DirectionOutput(int tick, GameObject SourceInstance){}
+	public 	void DirectionOutput(GameObject SourceInstance){}
 
 	public 	void FlushConnectionAndUp (){}
 

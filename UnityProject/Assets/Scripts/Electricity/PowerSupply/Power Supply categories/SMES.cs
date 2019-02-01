@@ -131,7 +131,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 	public void InitialPowerUpdateResistance() {
 		powerSupply.InitialPowerUpdateResistance();
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices) {
-			powerSupply.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			powerSupply.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 		}
 	}
@@ -141,7 +141,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		powerSupply.PowerUpdateResistanceChange();
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices) {
 			if (Supplie.Value.Contains(PowerTypeCategory.StandardCable)){
-				powerSupply.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+				powerSupply.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
 				ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 			}
 		}

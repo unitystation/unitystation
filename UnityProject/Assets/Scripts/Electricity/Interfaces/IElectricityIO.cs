@@ -18,31 +18,31 @@ public interface IElectricityIO
 	/// 
 	/// currentTick = the current tick rate count
 	/// </summary>
-	void ElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom);
+	void ElectricityInput(float Current, GameObject SourceInstance,  IElectricityIO ComingFrom);
 
 	/// <summary>
 	/// The output path of the object/wire that is passing electricity through it
 	/// </summary>
-	void ElectricityOutput(int tick, float Current, GameObject SourceInstance);
+	void ElectricityOutput(float Current, GameObject SourceInstance);
 
 	/// <summary>
 	/// Pass resistance with ID of the supplying machine
 	/// </summary>
-	void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  );
+	void ResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  );
 
 	/// <summary>
 	/// Passes it on to the next cable
 	/// </summary>
-	void ResistancyOutput(int tick, GameObject SourceInstance);
+	void ResistancyOutput(GameObject SourceInstance);
 
 	/// <summary>
 	///  Sets the upstream 
 	/// </summary>
-	void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null);
+	void DirectionInput(GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null);
 	/// <summary>
 	/// Sets the downstream and pokes the next one along 
 	/// </summary>
-	void DirectionOutput(int tick, GameObject SourceInstance);
+	void DirectionOutput(GameObject SourceInstance);
 	/// <summary>
 	/// Flushs the connection and up. Flushes out everything
 	/// </summary>
@@ -59,6 +59,7 @@ public interface IElectricityIO
 	void FlushSupplyAndUp ( GameObject SourceInstance = null );
 
 	void RemoveSupply (GameObject SourceInstance = null);
+
 	/// <summary>
 	///     Returns a struct with both connection points as members
 	///     the connpoint connection positions are represented using 4 bits to indicate N S E W - 1 2 4 8

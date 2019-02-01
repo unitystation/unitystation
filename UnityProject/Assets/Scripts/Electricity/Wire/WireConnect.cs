@@ -8,8 +8,8 @@ public class WireConnect : ElectricalOIinheritance
 {
 	public CableLine RelatedLine;
 
-	public override void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null){
-		InputOutputFunctions.DirectionInput (tick, SourceInstance, ComingFrom, this);
+	public override void DirectionInput( GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null){
+		InputOutputFunctions.DirectionInput ( SourceInstance, ComingFrom, this);
 		if (PassOn == null) {
 			if (RelatedLine != null) {
 				if (RelatedLine.TheEnd == this.GetComponent<IElectricityIO> ()) {
@@ -39,12 +39,12 @@ public class WireConnect : ElectricalOIinheritance
 
 	}
 
-	public override void DirectionOutput(int tick, GameObject SourceInstance){
+	public override void DirectionOutput( GameObject SourceInstance){
 		
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString () + this.name + " <  name! ", Category.Electrical);
 		if (RelatedLine == null) {
-			InputOutputFunctions.DirectionOutput (tick, SourceInstance, this);
+			InputOutputFunctions.DirectionOutput (SourceInstance, this);
 		} else {
 			
 			IElectricityIO GoingTo; 
@@ -77,15 +77,30 @@ public class WireConnect : ElectricalOIinheritance
 			if (!(Data.Downstream [SourceInstanceID].Contains (GoingTo) || Data.Upstream [SourceInstanceID].Contains (GoingTo)) )  {
 				Data.Downstream [SourceInstanceID].Add (GoingTo);
 
-				RelatedLine.DirectionInput (tick, SourceInstance, this);
+				RelatedLine.DirectionInput (SourceInstance, this);
 			} else {
-				InputOutputFunctions.DirectionOutput (tick, SourceInstance, this,RelatedLine);
+				InputOutputFunctions.DirectionOutput (SourceInstance, this,RelatedLine);
 			}
 		}
 
 		Data.DownstreamCount = Data.Downstream[SourceInstanceID].Count;
 		Data.UpstreamCount = Data.Upstream[SourceInstanceID].Count;
 	}
+
+	public override void ElectricityOutput(float Current, GameObject SourceInstance)
+	{
+	//Logger.Log (CurrentInWire.ToString () + " How much current", Category.Electrical);
+	InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
+	Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
+	Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
+	Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;
+	Data.EstimatedResistance = Data.ActualCurrentChargeInWire.EstimatedResistant;
+	if (RelatedLine != null) { 
+		RelatedLine.UpdateCoveringCable(this);
+	}
+		}
+
+
 	public void lineExplore(CableLine PassOn, GameObject SourceInstance = null){
 		RelatedLine = PassOn;
 		if (!(this == PassOn.TheStart)) 
@@ -128,6 +143,8 @@ public class WireConnect : ElectricalOIinheritance
 			}
 		}
 	}
+
+
 	public override void FlushConnectionAndUp()
 	{
 		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);

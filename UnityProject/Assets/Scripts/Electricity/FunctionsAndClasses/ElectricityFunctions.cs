@@ -126,20 +126,20 @@ public static class ElectricityFunctions  {
 	} 
 				
 	public static void CircuitSearchLoop(IElectricityIO Thiswire, IProvidePower ProvidingPower){
-		InputOutputFunctions.DirectionOutput (ElectricalSynchronisation.currentTick, Thiswire.GameObject(), Thiswire);
+		InputOutputFunctions.DirectionOutput (Thiswire.GameObject(), Thiswire);
 		bool Break = true;
 		List<IElectricityIO> IterateDirectionWorkOnNextList = new List<IElectricityIO> ();
 		while (Break) {
 			IterateDirectionWorkOnNextList = new List<IElectricityIO> (ProvidingPower.DirectionWorkOnNextList);
 			ProvidingPower.DirectionWorkOnNextList.Clear();
 			for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++) { 
-				IterateDirectionWorkOnNextList [i].DirectionOutput (ElectricalSynchronisation.currentTick, Thiswire.GameObject());
+				IterateDirectionWorkOnNextList [i].DirectionOutput (Thiswire.GameObject());
 			}
 			if (ProvidingPower.DirectionWorkOnNextList.Count <= 0) {
 				IterateDirectionWorkOnNextList = new List<IElectricityIO> (ProvidingPower.DirectionWorkOnNextListWait);
 				ProvidingPower.DirectionWorkOnNextListWait.Clear();
 				for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++) { 
-					IterateDirectionWorkOnNextList [i].DirectionOutput (ElectricalSynchronisation.currentTick, Thiswire.GameObject());
+					IterateDirectionWorkOnNextList [i].DirectionOutput (Thiswire.GameObject());
 				}
 			}
 			if (ProvidingPower.DirectionWorkOnNextList.Count <= 0 && ProvidingPower.DirectionWorkOnNextListWait.Count <= 0) {

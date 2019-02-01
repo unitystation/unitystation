@@ -84,33 +84,33 @@ public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePow
 	public void PowerNetworkUpdate() { }
 
 
-	public override void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
+	public override void ResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
 	{
-		Resistance = RelatedDevice.ModifyResistanceInput(tick, Resistance, SourceInstance, ComingFrom);
-		InputOutputFunctions.ResistanceInput(tick, Resistance, SourceInstance, ComingFrom, this);
+		Resistance = RelatedDevice.ModifyResistanceInput(Resistance, SourceInstance, ComingFrom);
+		InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, this);
 	}
 
-	public override void ResistancyOutput(int tick, GameObject SourceInstance)
+	public override void ResistancyOutput(GameObject SourceInstance)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		float Resistance = ElectricityFunctions.WorkOutResistance(Data.ResistanceComingFrom[SourceInstanceID]);
-		Resistance = RelatedDevice.ModifyResistancyOutput(tick, Resistance, SourceInstance);
-		InputOutputFunctions.ResistancyOutput(tick, Resistance, SourceInstance, this);
+		Resistance = RelatedDevice.ModifyResistancyOutput( Resistance, SourceInstance);
+		InputOutputFunctions.ResistancyOutput( Resistance, SourceInstance, this);
 	}
 
-	public override void ElectricityInput(int tick, float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
+	public override void ElectricityInput(float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
 	{
-		Current = RelatedDevice.ModifyElectricityInput(tick, Current, SourceInstance, ComingFrom);
-		InputOutputFunctions.ElectricityInput(tick, Current, SourceInstance, ComingFrom, this);
+		Current = RelatedDevice.ModifyElectricityInput( Current, SourceInstance, ComingFrom);
+		InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, this);
 	}
 
-	public override void ElectricityOutput(int tick, float Current, GameObject SourceInstance)
+	public override void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
-		Current = RelatedDevice.ModifyElectricityOutput(tick, Current, SourceInstance);
+		Current = RelatedDevice.ModifyElectricityOutput(Current, SourceInstance);
 		//Logger.Log (CurrentInWire.ToString () + " How much current", Category.Electrical);
 		if (Current != 0)
 		{
-			InputOutputFunctions.ElectricityOutput(tick, Current, SourceInstance, this);
+			InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
 		}
 		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
 		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;

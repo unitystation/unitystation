@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class InputOutputFunctions
 {
-	public static void ElectricityOutput(int tick, float Current, GameObject SourceInstance, IElectricityIO Thiswire)
+	public static void ElectricityOutput(float Current, GameObject SourceInstance, IElectricityIO Thiswire)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		float SimplyTimesBy = 0;
@@ -35,11 +35,11 @@ public static class InputOutputFunctions
 				Thiswire.Data.CurrentGoingTo[SourceInstanceID] = new Dictionary<IElectricityIO, float>();
 			}
 			Thiswire.Data.CurrentGoingTo[SourceInstanceID][JumpTo.Key] = SupplyingCurrent;
-			JumpTo.Key.ElectricityInput(tick, SupplyingCurrent, SourceInstance, Thiswire);
+			JumpTo.Key.ElectricityInput(SupplyingCurrent, SourceInstance, Thiswire);
 		}
 	}
 
-	public static void ElectricityInput(int tick, float Current, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO Thiswire)
+	public static void ElectricityInput( float Current, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO Thiswire)
 	{
 		//Logger.Log (tick.ToString () + " <tick " + Current.ToString () + " <Current " + SourceInstance.ToString () + " <SourceInstance " + ComingFrom.ToString () + " <ComingFrom " + Thiswire.ToString () + " <Thiswire ", Category.Electrical);
 		int SourceInstanceID = SourceInstance.GetInstanceID();
@@ -53,11 +53,11 @@ public static class InputOutputFunctions
 		}
 		Thiswire.Data.CurrentComingFrom[SourceInstanceID][ComingFrom] = Current;
 		Thiswire.Data.SourceVoltages[SourceInstanceID] = Current * (ElectricityFunctions.WorkOutResistance(Thiswire.Data.ResistanceComingFrom[SourceInstanceID]));
-		Thiswire.ElectricityOutput(tick, ElectricityFunctions.WorkOutCurrent(Thiswire.Data.CurrentComingFrom[SourceInstanceID]), SourceInstance);
+		Thiswire.ElectricityOutput( ElectricityFunctions.WorkOutCurrent(Thiswire.Data.CurrentComingFrom[SourceInstanceID]), SourceInstance);
 
 	}
 
-	public static void ResistancyOutput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO Thiswire)
+	public static void ResistancyOutput(float Resistance, GameObject SourceInstance, IElectricityIO Thiswire)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		float ResistanceSplit = 0;
@@ -83,11 +83,11 @@ public static class InputOutputFunctions
 			} else {
 				Thiswire.Data.ResistanceGoingTo[SourceInstanceID][JumpTo] = ResistanceSplit;
 			}
-			JumpTo.ResistanceInput(tick, ResistanceSplit, SourceInstance, Thiswire);
+			JumpTo.ResistanceInput(ResistanceSplit, SourceInstance, Thiswire);
 		}
 	}
 
-	public static void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO Thiswire)
+	public static void ResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO Thiswire)
 	{
 		if (ComingFrom == null)
 		{
@@ -140,7 +140,7 @@ public static class InputOutputFunctions
 		}
 	}
 
-	public static void DirectionOutput(int tick, GameObject SourceInstance, IElectricityIO Thiswire,CableLine RelatedLine = null)
+	public static void DirectionOutput(GameObject SourceInstance, IElectricityIO Thiswire,CableLine RelatedLine = null)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		if (!(Thiswire.Data.Upstream.ContainsKey(SourceInstanceID)))
@@ -171,13 +171,13 @@ public static class InputOutputFunctions
 				{
 					Thiswire.Data.Downstream[SourceInstanceID].Add(Thiswire.Data.connections[i]);
 
-					Thiswire.Data.connections[i].DirectionInput(tick, SourceInstance, Thiswire);
+					Thiswire.Data.connections[i].DirectionInput(SourceInstance, Thiswire);
 				}
 			}
 		}
 	}
 
-	public static void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO Thiswire)
+	public static void DirectionInput(GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO Thiswire)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		if (Thiswire.Data.FirstPresent == 0)

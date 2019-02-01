@@ -60,7 +60,7 @@ public class PoweredDevice : ElectricalOIinheritance, IElectricityIO
 	}
 		
 
-	public override void DirectionOutput(int tick, GameObject SourceInstance)
+	public override void DirectionOutput (GameObject SourceInstance)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		Data.DownstreamCount = Data.Downstream[SourceInstanceID].Count;
@@ -68,7 +68,7 @@ public class PoweredDevice : ElectricalOIinheritance, IElectricityIO
 	}
 
 
-	public override void ElectricityOutput(int tick, float Current, GameObject SourceInstance)
+	public override void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
 		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
 		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;

@@ -19,9 +19,9 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	/// <summary>
 	/// The current voltage of this APC. Calls OnVoltageChange when changed.
 	/// </summary>
-	/// 
+
 	public int CashOfConnectedDevices = 0;
-	/// 
+
 	public float Voltage
 	{
 		get
@@ -147,13 +147,13 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	public void PowerUpdateStructureChangeReact() { }
 	public void InitialPowerUpdateResistance() {
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
-			poweredDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			poweredDevice.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 		}
 	}
 	public void PowerUpdateResistanceChange() {
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
-			poweredDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			poweredDevice.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 		}
 

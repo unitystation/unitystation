@@ -75,38 +75,38 @@ public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO {
 		return gameObject;
 	}
 
-	public virtual void DirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom,  CableLine PassOn  = null)
+	public virtual void DirectionInput(GameObject SourceInstance, IElectricityIO ComingFrom,  CableLine PassOn  = null)
 	{
-		InputOutputFunctions.DirectionInput(tick, SourceInstance, ComingFrom, this);
+		InputOutputFunctions.DirectionInput(SourceInstance, ComingFrom, this);
 	}
-	public virtual void DirectionOutput(int tick, GameObject SourceInstance)
+	public virtual void DirectionOutput(GameObject SourceInstance)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
-		InputOutputFunctions.DirectionOutput(tick, SourceInstance, this);
+		InputOutputFunctions.DirectionOutput(SourceInstance, this);
 		Data.DownstreamCount = Data.Downstream[SourceInstanceID].Count;
 		Data.UpstreamCount = Data.Upstream[SourceInstanceID].Count;
 		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString (), Category.Electrical);
 	}
 
-	public virtual void ResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
+	public virtual void ResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
 	{
-		InputOutputFunctions.ResistanceInput(tick, Resistance, SourceInstance, ComingFrom, this);
+		InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, this);
 	}
 
-	public virtual void ResistancyOutput(int tick, GameObject SourceInstance)
+	public virtual void ResistancyOutput(GameObject SourceInstance)
 	{
 
 		float Resistance = ElectricityFunctions.WorkOutResistance(Data.ResistanceComingFrom[ SourceInstance.GetInstanceID()]);
-		InputOutputFunctions.ResistancyOutput(tick, Resistance, SourceInstance, this);
+		InputOutputFunctions.ResistancyOutput(Resistance, SourceInstance, this);
 	}
-	public virtual void ElectricityInput(int tick, float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
+	public virtual void ElectricityInput( float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
 	{
-		InputOutputFunctions.ElectricityInput(tick, Current, SourceInstance, ComingFrom, this);
+		InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, this);
 	}
 
-	public virtual void ElectricityOutput(int tick, float Current, GameObject SourceInstance)
+	public virtual void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
-		InputOutputFunctions.ElectricityOutput(tick, Current, SourceInstance, this);
+		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
 		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
 		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
 		Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;

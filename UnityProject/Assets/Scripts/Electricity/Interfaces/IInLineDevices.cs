@@ -4,11 +4,11 @@ using UnityEngine;
 
 public interface IInLineDevices {
 
-	float ModifyElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom);
-	float ModifyElectricityOutput(int tick, float Current, GameObject SourceInstance);
+	float ModifyElectricityInput(float Current, GameObject SourceInstance,  IElectricityIO ComingFrom);
+	float ModifyElectricityOutput(float Current, GameObject SourceInstance);
 
-	float ModifyResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  );
-	float ModifyResistancyOutput(int tick, float Resistance, GameObject SourceInstance);
+	float ModifyResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  );
+	float ModifyResistancyOutput(float Resistance, GameObject SourceInstance);
 
 	//void ModifyDirectionInput(int tick, GameObject SourceInstance, IElectricityIO ComingFrom);
 	//void ModifyDirectionOutput (int tick, GameObject SourceInstanc);
