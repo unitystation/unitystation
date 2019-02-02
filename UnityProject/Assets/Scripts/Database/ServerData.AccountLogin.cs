@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Text.RegularExpressions;
 
 namespace DatabaseAPI
 {
@@ -25,7 +26,7 @@ namespace DatabaseAPI
 			Action<string> successCallBack, Action<string> errorCallBack, bool autoLoginSetting)
 		{
 			var requestData = JsonUtility.ToJson(request);
-			UnityWebRequest r = UnityWebRequest.Get(URL_TryLogin + WWW.EscapeURL(requestData));
+			UnityWebRequest r = UnityWebRequest.Get(URL_TryLogin + UnityWebRequest.EscapeURL(requestData));
 			yield return r.SendWebRequest();
 			if (r.error != null)
 			{
