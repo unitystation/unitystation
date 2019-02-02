@@ -16,7 +16,7 @@ namespace DatabaseAPI
 
 		IEnumerator TryUpdateChar(string request, Action<string> callBack, Action<string> errorCallBack)
 		{
-			UnityWebRequest r = UnityWebRequest.Get(URL_UpdateChar + WWW.EscapeURL(request));
+			UnityWebRequest r = UnityWebRequest.Get(URL_UpdateChar + UnityWebRequest.EscapeURL(request));
 			r.SetRequestHeader("Cookie", sessionCookie);
 
 			yield return r.SendWebRequest();

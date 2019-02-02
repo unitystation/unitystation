@@ -30,7 +30,7 @@ namespace DatabaseAPI
 
 		IEnumerator AttemptCreation(string request, Action<string> callBack, Action<string> errorCallBack)
 		{
-			UnityWebRequest r = UnityWebRequest.Get(URL_TryCreate + WWW.EscapeURL(request));
+			UnityWebRequest r = UnityWebRequest.Get(URL_TryCreate + UnityWebRequest.EscapeURL(request));
 			yield return r.SendWebRequest();
 			if (r.error != null)
 			{

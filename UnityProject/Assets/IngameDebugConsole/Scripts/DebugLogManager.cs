@@ -373,12 +373,9 @@ namespace IngameDebugConsole
 				// add it to the list of unique debug entries
 				logEntry.logTypeSpriteRepresentation = logSpriteRepresentations[logType];
 
-				if (CustomNetworkManager.Instance._isServer)
+				if (RconManager.Instance != null)
 				{
-					if (RconManager.Instance != null)
-					{
-						RconManager.AddLog(logString);
-					}
+					RconManager.AddLog(logString);
 				}
 
 				logEntryIndex = collapsedLogEntries.Count;
