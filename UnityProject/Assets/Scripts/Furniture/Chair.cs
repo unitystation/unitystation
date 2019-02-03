@@ -8,6 +8,12 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class Chair : MonoBehaviour
 {
+	/// <summary>
+	/// When true, chairs will rotate to their new orientation at the end of matrix rotation. When false
+	/// they will rotate to the new orientation at the start of matrix rotation.
+	/// </summary>
+	private const bool ROTATE_AT_END = true;
+
 	private Orientation orientation;
 
 	public Sprite s_right;
@@ -18,14 +24,25 @@ public class Chair : MonoBehaviour
 	public SpriteRenderer spriteRenderer;
 
 	private MatrixMove matrixMove;
+	// cached registertile on this chair
+	private RegisterTile registerTile;
 
 	public void Start()
 	{
 		InitDirection();
 		matrixMove = transform.root.GetComponent<MatrixMove>();
+		var registerTile = GetComponent<RegisterTile>();
+		if (ROTATE_AT_END)
+		{
+			registerTile.OnRotateEnd.AddListener(OnRotate);
+		}
+		else
+		{
+			registerTile.OnRotateStart.AddListener(OnRotate);
+		}
 		if (matrixMove != null)
 		{
-			SetUpRotationListener();
+			//TODO: Is this still needed?
 			StartCoroutine(WaitForInit());
 		}
 	}
@@ -61,20 +78,19 @@ public class Chair : MonoBehaviour
 		}
 	}
 
-	void SetUpRotationListener()
-	{
-		matrixMove.OnRotate.AddListener(OnRotation);
-	}
-
 	private void OnDisable()
 	{
-		if (matrixMove != null)
+		if (ROTATE_AT_END)
 		{
-			matrixMove.OnRotate.RemoveListener(OnRotation);
+			registerTile.OnRotateEnd.RemoveListener(OnRotate);
+		}
+		else
+		{
+			registerTile.OnRotateStart.RemoveListener(OnRotate);
 		}
 	}
 
-	public void OnRotation(RotationOffset fromCurrent)
+	public void OnRotate(RotationOffset fromCurrent)
 	{
 		orientation = orientation.Rotate(fromCurrent);
 		if (orientation == Orientation.Up)

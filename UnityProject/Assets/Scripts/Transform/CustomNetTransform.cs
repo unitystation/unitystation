@@ -392,6 +392,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		NotifyPlayers();
 	}
 
+	/// <summary>
+	/// Make this object appear at the specified world position, with rotation matching the
+	/// rotation of the matrix it appears in.
+	/// </summary>
+	/// <param name="worldPos">position to appear</param>
 	[Server]
 	public void AppearAtPositionServer(Vector3 worldPos)
 	{

@@ -5,12 +5,29 @@ using UnityEngine.Tilemaps;
 	[ExecuteInEditMode]
 	public class Layer : MonoBehaviour
 	{
+		/// <summary>
+		/// When true, tiles will rotate to their new orientation at the end of matrix rotation. When false
+		/// they will rotate to the new orientation at the start of matrix rotation.
+		/// </summary>
+		private const bool ROTATE_AT_END = true;
+
 		private SubsystemManager subsystemManager;
 
 		public LayerType LayerType;
 		protected Tilemap tilemap;
 
 		public BoundsInt Bounds => tilemap.cellBounds;
+		/// <summary>
+		/// Current offset from our initial orientation. This is used by tiles within the tilemap
+		/// to determine what sprite to display. We could store it on each individual tile but it would
+		/// be entirely the same across a tilemap so no point in duplicating it.
+		/// </summary>
+		public RotationOffset RotationOffset { get; private set; }
+
+		/// <summary>
+		/// Cached matrixmove that we exist in, null if we don't have one
+		/// </summary>
+		private MatrixMove matrixMove;
 
 		public Vector3Int WorldToCell(Vector3 pos) => tilemap.WorldToCell(pos);
 
@@ -41,6 +58,28 @@ using UnityEngine.Tilemaps;
 				}
 
 			}
+
+			RotationOffset = RotationOffset.Same;
+			matrixMove = transform.root.GetComponent<MatrixMove>();
+			if (matrixMove != null)
+			{
+				if (ROTATE_AT_END)
+				{
+					matrixMove.OnRotateEnd.AddListener(OnRotate);
+				}
+				else
+				{
+					matrixMove.OnRotateStart.AddListener(OnRotate);
+				}
+			}
+
+
+		}
+
+		private void OnRotate(RotationOffset fromCurrent)
+		{
+			RotationOffset = RotationOffset.Rotate(fromCurrent);
+			tilemap.RefreshAllTiles();
 		}
 
 		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool inclPlayers = true, GameObject context = null )

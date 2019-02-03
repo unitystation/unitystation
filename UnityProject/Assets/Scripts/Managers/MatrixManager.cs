@@ -427,7 +427,7 @@ public class MatrixManager : MonoBehaviour
 			return worldPos - matrix.Offset;
 		}
 
-		return (matrix.MatrixMove.ClientState.RotationOffset.EulerInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
+		return (matrix.MatrixMove.ClientState.RotationOffset.QuaternionInverted * (worldPos - matrix.Offset - matrix.MatrixMove.Pivot)) +
 		       matrix.MatrixMove.Pivot;
 	}
 
@@ -465,13 +465,14 @@ public struct MatrixInfo
 	public MetaDataLayer MetaDataLayer;
 	public GameObject GameObject;
 	public Vector3Int CachedOffset;
+	// position we were at when offset was last cached, to check if it is invalid
+	private Vector3 cachedPosition;
 
 	/// <summary>
 	/// Transform containing all the physical objects on the map
 	public Transform Objects;
 
 	private Vector3Int initialOffset;
-	private Vector3Int initialOffset2;
 
 	public Vector3Int InitialOffset
 	{
@@ -479,7 +480,6 @@ public struct MatrixInfo
 		set
 		{
 			initialOffset = value;
-			CachedOffset = value;
 		}
 	}
 
@@ -487,9 +487,9 @@ public struct MatrixInfo
 
 	public Vector3Int GetOffset(MatrixState state = default(MatrixState))
 	{
-		if (!MatrixMove || !MatrixMove.IsMoving)
+		if (!MatrixMove)
 		{
-			return CachedOffset;
+			return InitialOffset;
 		}
 
 		if (state.Equals(default(MatrixState)))
@@ -497,7 +497,13 @@ public struct MatrixInfo
 			state = MatrixMove.ClientState;
 		}
 
-		CachedOffset = initialOffset + (state.Position.RoundToInt() - MatrixMove.InitialPos);
+		if (cachedPosition != state.Position)
+		{
+			//if we moved, update cached offset
+			cachedPosition = state.Position;
+			CachedOffset = initialOffset + (state.Position.RoundToInt() - MatrixMove.InitialPos);
+		}
+
 		return CachedOffset;
 	}
 

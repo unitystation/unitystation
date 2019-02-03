@@ -1,18 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// Behavior common to all wall mounts.
+/// Behavior common to all wall mounts. Note that a wallmount's facing is determined by the gameobject's rotation,
+/// but the wallmount sprites are always re-oriented to be upright when in game.
 ///
 /// Adds a WallmountSpriteBehavior to all child objects that have SpriteRenderers. Facing / visibility checking is handled in
 /// there. See <see cref="WallmountSpriteBehavior"/>
 /// </summary>
-public class WallmountBehavior : MonoBehaviour {
+public class WallmountBehavior : MonoBehaviour
+{
+	//cached spriteRenderers of this gameobject
+	private SpriteRenderer[] spriteRenderers;
+
 	private void Start()
 	{
-		//add the behavior to all child spriterenderers
-		foreach (SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
+		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+		foreach (SpriteRenderer renderer in spriteRenderers)
 		{
 			renderer.gameObject.AddComponent<WallmountSpriteBehavior>();
 		}
@@ -39,7 +46,6 @@ public class WallmountBehavior : MonoBehaviour {
 	/// <returns>true iff this wallmount has been already hidden due to not facing the local player</returns>
 	public bool IsHiddenFromLocalPlayer()
 	{
-		SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>(false);
 		foreach (SpriteRenderer renderer in spriteRenderers)
 		{
 			if (renderer.color.a > 0)

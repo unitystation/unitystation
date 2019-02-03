@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public enum ObjectType
@@ -14,24 +14,88 @@ public enum ObjectType
 /// A given tile in the ObjectLayer (which represents an individual square in the game world)
 /// can have multiple gameobjects with RegisterTile behavior. This lets each gameobject on the tile
 /// influence how the tile works (such as making it impassible)
+///
+/// Also tracks the Matrix the object is in. Any object that needs to subscribe to rotation events should
+/// do so via RegisterTile.OnRotateEnd / OnRotateStart rather than manually tracking / subscribing to the current matrix itself,
+/// as RegisterTile takes care of tracking the current matrix.
 /// </summary>
 [ExecuteInEditMode]
 public abstract class RegisterTile : NetworkBehaviour
 {
-	private Vector3Int position;
+	/// <summary>
+	/// When true, registertiles will rotate to their new orientation at the end of matrix rotation. When false
+	/// they will rotate to the new orientation at the start of matrix rotation.
+	/// </summary>
+	private const bool ROTATE_AT_END = true;
+
+	/// <summary>
+	/// Invoked when rotation ends. Passes through the OrientationEvent from this registertile's
+	/// current MatrixMove. Allows objects which have a RegisterTile component to subscribe to rotation events
+	/// for the correct matrix rather than having to determine which matrix to subscribe to and having to
+	/// constantly check if the matrix has changed. In general, it's better to use this event rather than
+	/// MatrixMove.OnRotateEnd because RegisterTile takes care of always subscribing to the correct matrix
+	/// even when the matrix changes.
+	/// </summary>
+	public OrientationEvent OnRotateEnd = new OrientationEvent();
+	/// <summary>
+	/// See <see cref="OnRotateEnd"/>. Invoked when rotation begins.
+	/// </summary>
+	public OrientationEvent OnRotateStart = new OrientationEvent();
 
 	private ObjectLayer layer;
 
 	public ObjectType ObjectType;
 
+	[Tooltip("If true, this object's sprites will rotate along with the matrix. If false, this wallmount's sprites" +
+	         " will always remain upright (top pointing to the top of the screen")]
+	public bool rotateWithMatrix;
+
 	/// <summary>
 	/// Matrix this object lives in
 	/// </summary>
-	public Matrix Matrix { get; private set; }
+	public Matrix Matrix
+	{
+		get => matrix;
+		private set
+		{
+			matrix = value;
+			//update matrix move as well
+			//if it exists
+			MatrixMove = matrix.transform.root.GetComponent<MatrixMove>();
+		}
+	}
+	private Matrix matrix;
 
-	// Note that syncvar only runs on the client, so server must ensure SetParent
-	// is invoked
-	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
+	/// <summary>
+	/// MatrixMove this registerTile exists in, if the tile's current matrix can actually move.
+	/// Null if there is no MatrixMove for this matrix (i.e. for an non-movable matrix).
+	/// Cached so we don't have to re-locate it every time it's needed
+	/// </summary>
+	public MatrixMove MatrixMove
+	{
+		get => matrixMove;
+		private set
+		{
+			//unsubscribe from old event
+			if (matrixMove != null)
+			{
+				matrixMove.OnRotateStart.RemoveListener(OnRotationStart);
+				matrixMove.OnRotateEnd.RemoveListener(OnRotationEnd);
+			}
+
+			matrixMove = value;
+			//set up rotation listener
+			if (matrixMove != null)
+			{
+				matrixMove.OnRotateStart.AddListener(OnRotationStart);
+				matrixMove.OnRotateEnd.AddListener(OnRotationEnd);
+			}
+		}
+	}
+	private MatrixMove matrixMove;
+
+	//cached spriteRenderers of this gameobject
+	private SpriteRenderer[] spriteRenderers;
 
 	public NetworkInstanceId ParentNetId
 	{
@@ -46,6 +110,32 @@ public abstract class RegisterTile : NetworkBehaviour
 			}
 		}
 	}
+	// Note that syncvar only runs on the client, so server must ensure SetParent
+	// is invoked.
+	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
+
+	public Vector3Int WorldPosition => MatrixManager.Instance.LocalToWorldInt(position, Matrix);
+
+	/// <summary>
+	/// the "registered" local position of this object (which might differ from transform.localPosition).
+	/// It will be set to TransformState.HiddenPos when hiding the object.
+	/// </summary>
+	public Vector3Int Position
+	{
+		get { return position; }
+		private set
+		{
+			if (layer)
+			{
+				layer.Objects.Remove(position, this);
+				layer.Objects.Add(value, this);
+			}
+
+			position = value;
+
+		}
+	}
+	private Vector3Int position;
 
 	/// <summary>
 	/// Invoked when parentNetId is changed on the server, updating the client's parentNetId. This
@@ -75,24 +165,17 @@ public abstract class RegisterTile : NetworkBehaviour
 		}
 	}
 
-	public Vector3Int WorldPosition => MatrixManager.Instance.LocalToWorldInt(position, Matrix);
-
-	/// <summary>
-	/// the "registered" local position of this object (which might differ from transform.localPosition).
-	/// It will be set to TransformState.HiddenPos when hiding the object.
-	/// </summary>
-	public Vector3Int Position
+	private void Start()
 	{
-		get { return position; }
-		private set
+		//cache the sprite renderers
+		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+		//orient upright
+		if (!rotateWithMatrix)
 		{
-			if (layer)
+			foreach (SpriteRenderer renderer in spriteRenderers)
 			{
-				layer.Objects.Remove(position, this);
-				layer.Objects.Add(value, this);
+				renderer.transform.rotation = Quaternion.identity;
 			}
-
-			position = value;
 		}
 	}
 
@@ -155,8 +238,62 @@ public abstract class RegisterTile : NetworkBehaviour
 
 	public void UpdatePosition()
 	{
+		bool wasHidden = Position == TransformState.HiddenPos;
 		Position = Vector3Int.RoundToInt(transform.localPosition);
+		if (wasHidden && Position != TransformState.HiddenPos && !rotateWithMatrix && spriteRenderers != null)
+		{
+			//if we just appeared, reorient ourselves
+			foreach (SpriteRenderer renderer in spriteRenderers)
+			{
+				renderer.transform.rotation = Quaternion.identity;
+			}
+		}
 	}
+
+
+	/// <summary>
+	/// Invoked when receiving rotation event from our current matrix's matrixmove
+	/// </summary>
+	/// <param name="fromCurrent">offset our matrix has rotated by from its previous orientation</param>
+	private void OnRotationStart(RotationOffset fromCurrent)
+	{
+		if (!ROTATE_AT_END)
+		{
+			// reorient to stay upright if we are configured to do so
+			if (!rotateWithMatrix)
+			{
+				foreach (SpriteRenderer renderer in spriteRenderers)
+				{
+					renderer.transform.rotation = Quaternion.identity;
+				}
+			}
+		}
+
+		OnRotateStart.Invoke(fromCurrent);
+	}
+
+	/// <summary>
+	/// Invoked when receiving rotation event from our current matrix's matrixmove
+	/// </summary>
+	/// <param name="fromCurrent">offset our matrix has rotated by from its previous orientation</param>
+	private void OnRotationEnd(RotationOffset fromCurrent)
+	{
+		if (ROTATE_AT_END)
+		{
+			// reorient to stay upright if we are configured to do so
+			if (!rotateWithMatrix)
+			{
+				foreach (SpriteRenderer renderer in spriteRenderers)
+				{
+					renderer.transform.rotation = Quaternion.identity;
+				}
+			}
+		}
+
+		OnRotateEnd.Invoke(fromCurrent);
+	}
+
+
 
 	public virtual bool IsPassable()
 	{

@@ -79,12 +79,6 @@ public partial class PlayerSync
 				PlayerList.Instance.Get( gameObject ).Name, worldPos, matrixAtPoint, state );
 			serverLerpState = state;
 			serverState = state;
-
-		//Subbing to new matrix rotations
-		if (matrixAtPoint.MatrixMove != null)
-		{
-			matrixAtPoint.MatrixMove.OnRotate.AddListener(OnRotation);
-		}
 	}
 
 	private PlayerAction lastAddedAction = PlayerAction.None;
@@ -365,24 +359,6 @@ public partial class PlayerSync
 			return nextState;
 		}
 
-		//todo: subscribe to current matrix rotations on spawn
-		var newMatrix = MatrixManager.Get(nextState.MatrixId);
-		Logger.Log($"Matrix will change to {newMatrix}", Category.Movement);
-		if (newMatrix.MatrixMove)
-		{
-			//Subbing to new matrix rotations
-			newMatrix.MatrixMove.OnRotate.AddListener(OnRotation);
-			//				Logger.Log( $"Registered rotation listener to {newMatrix.MatrixMove}" );
-		}
-
-		//Unsubbing from old matrix rotations
-		MatrixMove oldMatrixMove = MatrixManager.Get(Matrix).MatrixMove;
-		if (oldMatrixMove)
-		{
-			//				Logger.Log( $"Unregistered rotation listener from {oldMatrixMove}" );
-			oldMatrixMove.OnRotate.RemoveListener(OnRotation);
-		}
-
 		return nextState;
 	}
 
@@ -499,13 +475,6 @@ public partial class PlayerSync
 	}
 
 		#endregion
-
-	[Server]
-	private void OnRotation(RotationOffset fromCurrent)
-	{
-		//fixme: doesn't seem to change orientation for clients from their point of view
-		playerSprites.ChangePlayerDirection(fromCurrent);
-	}
 
 	/// Lerping and ensuring server authority for space walk
 	[Server]
