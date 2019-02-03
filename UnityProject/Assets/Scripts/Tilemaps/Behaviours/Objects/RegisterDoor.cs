@@ -33,9 +33,11 @@
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
+				// OneDirectionRestricted is hardcoded to only be from the negative y position
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
-				return !(to - Position).Equals(v);
+				// Returns false if player is bumping door from the restricted direction 
+				return !(to - Position).y.Equals(v.y);
 			}
 
 			return !isClosed;
