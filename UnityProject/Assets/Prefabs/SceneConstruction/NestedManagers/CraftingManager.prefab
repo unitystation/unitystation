@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7996566660215339404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7994915962571585996}
+  - component: {fileID: 8028225034354838132}
+  - component: {fileID: 8028218387555133124}
+  - component: {fileID: 8028062986537714290}
+  - component: {fileID: 8028201868967402102}
+  - component: {fileID: 8028111324407635458}
+  - component: {fileID: 8026762992845739302}
+  m_Layer: 0
+  m_Name: CraftingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7994915962571585996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996566660215339404}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8028225034354838132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996566660215339404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec053d728d3e13c4c8de9c9184a79b7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meals:
+    recipeList:
+    - Name: Meat Steak
+      Ingredients:
+      - amount: 1
+        ingredientName: Meat
+      Output: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 3}
+  techweb: {fileID: 8028218387555133124}
+  designs: {fileID: 8028062986537714290}
+  construction: {fileID: 8028111324407635458}
+  deconstruction: {fileID: 8026762992845739302}
+--- !u!114 &8028218387555133124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996566660215339404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e594b0284d84e408da2c6a641c97db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8028062986537714290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996566660215339404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0964b6137d3df4b4785958481d0e5db4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8028201868967402102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996566660215339404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a319b263d0b91940ba50c0c230ea7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8028111324407635458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996566660215339404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1adfa82c125b4e27b0a897d3c7d38b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniFloorTilePrefab: {fileID: 1417416714511440, guid: b3625f0204fd1fa458e7742be5302f18,
+    type: 3}
+--- !u!114 &8026762992845739302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7996566660215339404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88089395c4b1d4419b37a8390bf9b277, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wallGirderPrefab: {fileID: 0}
+  metalPrefab: {fileID: 1645856876941636, guid: 78d9125d50217497cbcd4a18ffe2e3e4,
+    type: 3}
