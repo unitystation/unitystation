@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
-public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO {
+public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO { //is the Bass class but every  node inherits from 
 	public int DirectionStart;
 	public int DirectionEnd;
 	public ElectronicData Data { get; set; } = new ElectronicData();
@@ -12,7 +12,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO {
 	public HashSet<IElectricityIO> connectedDevices { get; set; } = new HashSet<IElectricityIO>();
 
 	public RegisterItem registerTile;
-	public Matrix matrix => registerTile.Matrix;
+	public Matrix matrix => registerTile.Matrix; //This is a bit janky with inheritance 
 	public bool connected = false;
 
 	public override void OnStartClient()

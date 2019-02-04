@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeadEndConnection : IElectricityIO {
+public class DeadEndConnection : IElectricityIO { //Used for formatting in the electrical system
 	
 	public PowerTypeCategory Categorytype {get; set;} = PowerTypeCategory.DeadEndConnection;
 

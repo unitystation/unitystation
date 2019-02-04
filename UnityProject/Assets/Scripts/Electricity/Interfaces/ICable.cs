@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICable
+public interface ICable //The work around for the sprite script 
 {
 	WiringColor CableType { get; set; }
 	int DirectionEnd { get; set; }

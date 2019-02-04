@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class InputOutputFunctions
+public static class InputOutputFunctions //for all the date of formatting of   Output / Input
 {
 	public static void ElectricityOutput(float Current, GameObject SourceInstance, IElectricityIO Thiswire)
 	{
