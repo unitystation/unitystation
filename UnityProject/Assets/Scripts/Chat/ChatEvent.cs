@@ -52,9 +52,9 @@ public class ChatEvent
 		timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
 	}
 
-	public ChatEvent(string message, GameObject speaker, ChatChannel channels)
+	public ChatEvent(string message, ConnectedPlayer speaker, ChatChannel channels)
 	{
-		var player = speaker.GetComponent<PlayerScript>();
+		var player = speaker.Script;
 		this.channels = channels;
 		this.modifiers = player.GetCurrentChatModifiers();
 		this.speaker = player.name;

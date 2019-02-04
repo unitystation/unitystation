@@ -16,7 +16,7 @@ public class PostToChatMessage : ClientMessage
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
 			if (ValidRequest(SentByPlayer)) {
-				ChatEvent chatEvent = new ChatEvent(ChatMessageText, SentByPlayer.GameObject, Channels);
+				ChatEvent chatEvent = new ChatEvent(ChatMessageText, SentByPlayer, Channels);
 				ChatRelay.Instance.AddToChatLogServer(chatEvent);
 			}
 		}
