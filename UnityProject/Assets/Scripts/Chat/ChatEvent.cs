@@ -52,13 +52,13 @@ public class ChatEvent
 		timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
 	}
 
-	public ChatEvent(string message, GameObject speaker, ChatChannel channels)
+	public ChatEvent(string message, ConnectedPlayer speaker, ChatChannel channels)
 	{
-		var player = speaker.Player();
+		var player = speaker.Script;
 		this.channels = channels;
-		this.modifiers = player.Script.GetCurrentChatModifiers();
-		this.speaker = player?.Name;
-		this.position = ( Vector2 ) player?.GameObject.transform.position;
+		this.modifiers = player.GetCurrentChatModifiers();
+		this.speaker = player.name;
+		this.position = ( Vector2 ) player.gameObject.transform.position;
 		this.message = ProcessMessage(message, this.speaker, this.channels, modifiers);
 	}
 

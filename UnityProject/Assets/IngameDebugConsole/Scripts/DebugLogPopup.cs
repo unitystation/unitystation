@@ -20,7 +20,7 @@ namespace IngameDebugConsole
 		/// <summary>
 		/// Background image that will change color to indicate an alert
 		/// </summary>
-		private Image backgroundImage;
+		public Image backgroundImage;
 
 		/// <summary>
 		/// Canvas group to modify visibility of the popup
@@ -62,7 +62,6 @@ namespace IngameDebugConsole
 		void Awake()
 		{
 			popupTransform = (RectTransform) transform;
-			backgroundImage = GetComponent<Image>();
 			canvasGroup = GetComponent<CanvasGroup>();
 
 			normalColor = backgroundImage.color;
