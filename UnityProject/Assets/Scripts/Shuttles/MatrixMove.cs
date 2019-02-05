@@ -587,7 +587,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		if (!Equals(oldState.orientation, newState.orientation) || !StateInit)
 		{
-			//TODO: Fire a callback on start and end of rotation
 			if (!StateInit)
 			{
 				//this is the first state, so set initial rotation based on offset from initial position
