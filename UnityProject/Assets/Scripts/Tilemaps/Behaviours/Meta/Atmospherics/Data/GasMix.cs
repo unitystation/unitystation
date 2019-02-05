@@ -119,9 +119,17 @@ namespace Atmospherics
 			return Gases[gas];
 		}
 
-		public GasMix RemoveVolume(float volume)
+		public GasMix RemoveVolume(float volume, bool setVolume = false)
 		{
-			return RemoveRatio(volume / Volume);
+			GasMix removed = RemoveRatio(volume / Volume);
+
+			if (setVolume)
+			{
+				removed.Volume = volume;
+				removed = FromTemperature(removed.Gases, Temperature, volume);
+			}
+
+			return removed;
 		}
 
 		public GasMix RemoveRatio(float ratio)

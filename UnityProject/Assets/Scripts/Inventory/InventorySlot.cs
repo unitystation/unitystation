@@ -16,6 +16,9 @@ public class InventorySlot
 
 	public PlayerScript Owner { get; set; } //null = no owner (only UI slots have owners)
 	private GameObject item;
+
+	public ItemAttributes ItemAttributes { get; private set; }
+
 	public GameObject Item
 	{
 		get
@@ -23,25 +26,30 @@ public class InventorySlot
 			if (item == null && ItemInstanceId != NetworkInstanceId.Invalid)
 			{
 				item = ClientScene.FindLocalObject(ItemInstanceId);
+				ItemAttributes = item.GetComponent<ItemAttributes>();
 			}
 			else if (item != null && ItemInstanceId == NetworkInstanceId.Invalid)
 			{
 				item = null;
+				ItemAttributes = null;
 			}
+
 			return item;
 		}
 		set
 		{
 			if (value != null)
 			{
-				var netID = value.GetComponent<NetworkIdentity>().netId;
+				NetworkInstanceId netID = value.GetComponent<NetworkIdentity>().netId;
 				ItemInstanceId = netID;
 				netInstanceIdentifier = netID.Value;
+				ItemAttributes = value.GetComponent<ItemAttributes>();
 			}
 			else
 			{
 				ItemInstanceId = NetworkInstanceId.Invalid;
 				netInstanceIdentifier = 0;
+				ItemAttributes = null;
 			}
 		}
 	}

@@ -12,7 +12,7 @@ public enum NodeType
 	Occupied
 }
 
-public class MetaDataNode
+public class MetaDataNode: IGasMixContainer
 {
 	public static readonly MetaDataNode None;
 
@@ -20,7 +20,7 @@ public class MetaDataNode
 
 	public NodeType Type;
 
-	public GasMix Atmos;
+	public GasMix GasMix { get; set; }
 
 	public Hotspot Hotspot;
 
@@ -54,7 +54,7 @@ public class MetaDataNode
 	{
 		Position = position;
 		neighbors = new List<MetaDataNode>();
-		Atmos = GasMixes.Space;
+		GasMix = GasMixes.Space;
 	}
 
 	static MetaDataNode()

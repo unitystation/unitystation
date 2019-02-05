@@ -20,7 +20,7 @@ public class GasContainerEditor : Editor
 	{
 		container = (GasContainer) target;
 
-		UpdateGasMix();
+		container.UpdateGasMix();
 
 		InitRatios();
 	}
@@ -42,8 +42,8 @@ public class GasContainerEditor : Editor
 
 		EditorGUILayout.Space();
 
-		container.Volume = EditorGUILayout.FloatField("Volume", container.GasMix.Volume);
-		container.Temperature = EditorGUILayout.FloatField("Temperature", container.GasMix.Temperature);
+		container.Volume = EditorGUILayout.FloatField("Volume", container.Volume);
+		container.Temperature = EditorGUILayout.FloatField("Temperature", container.Temperature);
 
 		EditorGUILayout.Space();
 
@@ -58,14 +58,9 @@ public class GasContainerEditor : Editor
 			RatioSelection();
 		}
 
-		UpdateGasMix();
+		container.UpdateGasMix();
 
 		EditorUtility.SetDirty(container);
-	}
-
-	private void UpdateGasMix()
-	{
-		container.GasMix = GasMix.FromTemperature(container.Gases, container.Temperature, container.Volume);
 	}
 
 	private void AbsolutSelection()
@@ -82,7 +77,7 @@ public class GasContainerEditor : Editor
 	{
 		pressure = EditorGUILayout.FloatField("Pressure", container.GasMix.Pressure);
 
-		float moles = AtmosUtils.CalcMoles(pressure, container.GasMix.Volume, container.GasMix.Temperature);
+		float moles = AtmosUtils.CalcMoles(pressure, container.Volume, container.Temperature);
 
 		ratios = ShowGasValues(ratios, "Ratios");
 
@@ -94,7 +89,7 @@ public class GasContainerEditor : Editor
 		}
 	}
 
-	private float[] ShowGasValues(float[] values, string label=null)
+	private float[] ShowGasValues(float[] values, string label = null)
 	{
 		float[] result = new float[Gas.Count];
 

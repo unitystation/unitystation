@@ -38,11 +38,11 @@ public class ReactionManager : MonoBehaviour
 			{
 				if (node.Hotspot.Process())
 				{
-					if (node.Hotspot.Volume > 0.95 * node.Atmos.Volume && node.Hotspot.Temperature > Reactions.FIRE_MINIMUM_TEMPERATURE_TO_SPREAD)
+					if (node.Hotspot.Volume > 0.95 * node.GasMix.Volume && node.Hotspot.Temperature > Reactions.FIRE_MINIMUM_TEMPERATURE_TO_SPREAD)
 					{
 						foreach (MetaDataNode neighbor in node.Neighbors)
 						{
-							ExposeHotspot(neighbor.Position, node.Atmos.Temperature * 0.85f, node.Atmos.Volume / 4);
+							ExposeHotspot(neighbor.Position, node.GasMix.Temperature * 0.85f, node.GasMix.Volume / 4);
 						}
 					}
 
@@ -68,7 +68,7 @@ public class ReactionManager : MonoBehaviour
 		else
 		{
 			MetaDataNode node = metaDataLayer.Get(position);
-			GasMix gasMix = node.Atmos;
+			GasMix gasMix = node.GasMix;
 
 			if (gasMix.GetMoles(Gas.Plasma) > 0.5 && gasMix.GetMoles(Gas.Oxygen) > 0.5 && temperature > Reactions.PLASMA_MINIMUM_BURN_TEMPERATURE)
 			{

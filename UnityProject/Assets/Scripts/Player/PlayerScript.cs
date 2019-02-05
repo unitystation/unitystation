@@ -90,7 +90,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			base.OnStartServer();
 		}
 
-		private void Start()
+		private void Awake()
 		{
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
 			registerTile = GetComponent<RegisterTile>();
@@ -99,7 +99,9 @@ public class PlayerScript : ManagedNetworkBehaviour
 			weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 			soundNetworkActions = GetComponent<SoundNetworkActions>();
 			mouseInputController = GetComponent<MouseInputController>();
-			hitIcon = GetComponentInChildren<HitIcon>();
+			hitIcon = GetComponentInChildren<HitIcon>(true);
+			playerMove = GetComponent<PlayerMove>();
+			playerSprites = GetComponent<PlayerSprites>();
 		}
 
 		private void Init()
@@ -110,8 +112,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 				UIManager.DisplayManager.SetCameraFollowPos();
 				int rA = Random.Range(0, 3);
 				SoundManager.PlayVarAmbient(rA);
-				playerMove = GetComponent<PlayerMove>();
-				playerSprites = GetComponent<PlayerSprites>();
 				GetComponent<MouseInputController>().enabled = true;
 
 				if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)

@@ -12,7 +12,7 @@ public class AtmosSystem : SubsystemBehaviour
 		{
 			MetaDataNode node = metaDataLayer.Get(position, false);
 
-			node.Atmos = node.IsRoom ? GasMixes.Air : GasMixes.Space;
+			node.GasMix = node.IsRoom ? GasMixes.Air : GasMixes.Space;
 		}
 	}
 

@@ -16,7 +16,7 @@ namespace Atmospherics
 			for (var i = 0; i < neighbors.Length; i++)
 			{
 				MetaDataNode neighbor = neighbors[i];
-				if (Mathf.Abs(node.Atmos.Pressure - neighbor.Atmos.Pressure) > MinimumPressure)
+				if (Mathf.Abs(node.GasMix.Pressure - neighbor.GasMix.Pressure) > MinimumPressure)
 				{
 					return true;
 				}
