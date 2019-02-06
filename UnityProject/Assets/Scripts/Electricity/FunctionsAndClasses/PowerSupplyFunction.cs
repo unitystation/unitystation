@@ -36,6 +36,10 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 			{
 				Supply.ElectricityOutput(Supply.Data.SupplyingCurrent, Supply.GameObject());
 			}
+			else if (Supply.Data.SupplyingVoltage != 0) {
+				int SourceInstanceID = Supply.GameObject().GetInstanceID();
+				Supply.ElectricityOutput((Supply.Data.SupplyingVoltage)/(Supply.Data.InternalResistance + ElectricityFunctions.WorkOutResistance(Supply.Data.ResistanceComingFrom[SourceInstanceID])), Supply.GameObject());
+			}
 		}
 	}
 }

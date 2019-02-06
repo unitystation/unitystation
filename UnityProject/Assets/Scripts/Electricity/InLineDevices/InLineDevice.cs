@@ -106,6 +106,10 @@ public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePow
 
 	public override void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
+		if (!(SourceInstance == this.gameObject)){
+			ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingUpdate);
+		}
+
 		Current = RelatedDevice.ModifyElectricityOutput(Current, SourceInstance);
 		//Logger.Log (CurrentInWire.ToString () + " How much current", Category.Electrical);
 		if (Current != 0)

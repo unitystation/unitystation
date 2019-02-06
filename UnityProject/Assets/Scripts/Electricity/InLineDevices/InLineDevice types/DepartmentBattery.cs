@@ -41,7 +41,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 
 	public float ExtraChargeCutOff { get; set; } = 240;
 	public float IncreasedChargeVoltage { get; set; } = 250;
-	public float StandardChargeNumber { get; set; } = 80;
+	public float StandardChargeNumber { get; set; } = 6;
 	public float ChargeSteps { get; set; } = 0.1f;
 	//public float MaxChargingMultiplier { get; set; } = 1.2f;
 	public float MaxChargingMultiplier { get; set; } = 999999f;
@@ -70,6 +70,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		base.OnStartServer();
 		RelatedDevice.InData.CanConnectTo = CanConnectTo;
 		RelatedDevice.InData.Categorytype = ApplianceType;
+		RelatedDevice.InData.ControllingUpdate = this;
 		RelatedDevice.DirectionStart = DirectionStart;
 		RelatedDevice.DirectionEnd = DirectionEnd;
 

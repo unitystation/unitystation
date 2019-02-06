@@ -95,26 +95,14 @@ public class WireConnect : ElectricalOIinheritance
 	Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
 	Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;
 	Data.EstimatedResistance = Data.ActualCurrentChargeInWire.EstimatedResistant;
-	if (RelatedLine != null) { 
-		RelatedLine.UpdateCoveringCable(this);
-	}
+	//if (RelatedLine != null) { 
+	//	RelatedLine.UpdateCoveringCable(this);
+	//}
 		}
 
 
 	public void lineExplore(CableLine PassOn, GameObject SourceInstance = null){
-		RelatedLine = PassOn;
-		if (!(this == PassOn.TheStart)) 
-		{
-			if (PassOn.TheEnd != null) 
-			{
-				PassOn.Covering.Add (PassOn.TheEnd);
-				PassOn.TheEnd = this;
-			} 
-			else 
-			{
-				PassOn.TheEnd = this;
-			}
-		}
+
 		if (Data.connections.Count <= 0)
 		{
 			FindPossibleConnections();
@@ -122,6 +110,19 @@ public class WireConnect : ElectricalOIinheritance
 
 		if (!(Data.connections.Count > 2)) 
 		{
+			RelatedLine = PassOn;
+			if (!(this == PassOn.TheStart)) 
+			{
+			if (PassOn.TheEnd != null)
+			{
+				PassOn.Covering.Add(PassOn.TheEnd);
+				PassOn.TheEnd = this;
+			}
+			else
+			{
+				PassOn.TheEnd = this;
+			}
+			}
 			for (int i = 0; i < Data.connections.Count; i++)
 			{
 				if (!(RelatedLine.Covering.Contains(Data.connections[i]) || RelatedLine.TheStart == Data.connections[i]))
@@ -199,5 +200,24 @@ public class WireConnect : ElectricalOIinheritance
 			RelatedLine.PassOnRemoveSupply (this, SourceInstance);
 		}
 	}
+	[ContextMethod("Details", "Magnifying_glass")]
+	public override void ShowDetails()
+	{
+	if (isServer)
+	{
+		Logger.Log("connections " + (Data.connections.Count.ToString()), Category.Electrical);
+		Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
+		Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);
+		Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
+		Logger.Log("UpstreamCount " + (Data.UpstreamCount.ToString()), Category.Electrical);
+		Logger.Log("DownstreamCount " + (Data.DownstreamCount.ToString()), Category.Electrical);
+		Logger.Log("ActualVoltage " + (Data.ActualVoltage.ToString()), Category.Electrical);
+		Logger.Log("CurrentInWire " + (Data.CurrentInWire.ToString()), Category.Electrical);
+		Logger.Log("EstimatedResistance " + (Data.EstimatedResistance.ToString()), Category.Electrical);
+		if (RelatedLine != null) {
+			Logger.Log("line heree!!!");
+		}
+	}
 
+	RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);	}
 }

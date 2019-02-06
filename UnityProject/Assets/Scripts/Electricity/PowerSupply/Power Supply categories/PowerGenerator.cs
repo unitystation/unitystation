@@ -48,12 +48,14 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 
 	public override void OnStartServer()
 	{
+		// Voltage_source_voltage / Internal_resistance_of_voltage_source = 10 is good Rule of thumb
 		base.OnStartServer();
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = DirectionStart;
 		powerSupply.DirectionEnd = DirectionEnd;
-		powerSupply.Data.SupplyingCurrent = 20;
+		powerSupply.Data.SupplyingVoltage = 760000;
+		powerSupply.Data.InternalResistance = 76000;
 		powerSupply.InData.ControllingDevice = this;
 		powerSupply.InData.ControllingUpdate = powerSupply;
 

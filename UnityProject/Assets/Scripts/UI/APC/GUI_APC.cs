@@ -238,8 +238,8 @@ public class GUI_APC : NetTab
 		{
 			newCapacity += LocalAPC.ConnectedDepartmentBatteries[i].CurrentCapacity;
 		}
-
-		ChargeBar.SetValue = ((newCapacity / MaxCapacity)*100).ToString();
+		//Logger.Log(((int)((newCapacity / MaxCapacity) * 100)).ToString());
+		//ChargeBar.SetValue = ((newCapacity / MaxCapacity) * 100).ToString()); yeah Doesn't work for some reason
 		return (newCapacity / MaxCapacity).ToString("P0");
 	}
 
@@ -330,4 +330,6 @@ public class GUI_APC : NetTab
 			ChargeBar.SetValue = chargeVal.ToString();
 		}
 	}
+
+
 }

@@ -64,13 +64,13 @@ public static class BatteryCalculation  {
 							if (!(Battery.ChargingMultiplier >= Battery.MaxChargingMultiplier)) {
 
 								Battery.ChargingMultiplier = Battery.ChargingMultiplier + Battery.ChargeSteps;
-								Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) / 1000)); 
+								Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) )); 
 							}
 
 						} else if (Battery.ActualVoltage < Battery.ExtraChargeCutOff) {
 							if (!(0.1 >= Battery.ChargingMultiplier)) {  
 								Battery.ChargingMultiplier = Battery.ChargingMultiplier - Battery.ChargeSteps;
-								Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) / 1000));
+								Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) ));
 							} else { //Turning off charge if it pulls too much
 								Battery.ChargingWatts = 0;
 								Battery.ChargingMultiplier = 0.1f;
@@ -89,7 +89,7 @@ public static class BatteryCalculation  {
 							Logger.Log ("Turn off charging battery full", Category.Electrical);
 						}
 					} else if ((Battery.ActualVoltage > Battery.IncreasedChargeVoltage) && (!(Battery.CurrentCapacity >= Battery.CapacityMax))) {
-						Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) / 1000));
+						Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) ));
 						Battery.ChargLastDeductedTime = Time.time;
 						Logger.Log ("Charging turning back on from line voltage checks\n", Category.Electrical);
 					}
