@@ -80,13 +80,16 @@ public class Chair : MonoBehaviour
 
 	private void OnDisable()
 	{
-		if (ROTATE_AT_END)
+		if (registerTile != null)
 		{
-			registerTile.OnRotateEnd.RemoveListener(OnRotate);
-		}
-		else
-		{
-			registerTile.OnRotateStart.RemoveListener(OnRotate);
+			if (ROTATE_AT_END)
+			{
+				registerTile.OnRotateEnd.RemoveListener(OnRotate);
+			}
+			else
+			{
+				registerTile.OnRotateStart.RemoveListener(OnRotate);
+			}
 		}
 	}
 
