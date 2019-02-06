@@ -95,9 +95,9 @@ public class WireConnect : ElectricalOIinheritance
 	Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
 	Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;
 	Data.EstimatedResistance = Data.ActualCurrentChargeInWire.EstimatedResistant;
-	//if (RelatedLine != null) { 
-	//	RelatedLine.UpdateCoveringCable(this);
-	//}
+	if (RelatedLine != null) { 
+		RelatedLine.UpdateCoveringCable(this);
+	}
 		}
 
 
