@@ -77,6 +77,8 @@ public class ItemAttributes : NetworkBehaviour
 	public SpriteType spriteType;
 	public ItemType type;
 
+	public bool ConnectedToTank;
+
 	/// throw-related fields
 	[TooltipAttribute("How painful it is when someone throws it at you")] [Range(0,100)]
 	public float throwDamage = 2;

@@ -108,11 +108,11 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 			// Check if internals exist
 			ItemAttributes mask = inventory.ContainsKey("mask") ? inventory["mask"]?.ItemAttributes : null;
-			ItemAttributes suit = inventory.ContainsKey("suitStorage") ? inventory["suitStorage"]?.ItemAttributes : null;
+			ItemAttributes suitStorage = inventory.ContainsKey("suitStorage") ? inventory["suitStorage"]?.ItemAttributes : null;
 
-			if (mask != null && suit != null)
+			if (mask != null && suitStorage != null && mask.ConnectedToTank)
 			{
-				return suit.GetComponent<GasContainer>();
+				return suitStorage.GetComponent<GasContainer>();
 			}
 		}
 
