@@ -37,7 +37,8 @@ public class RadiationCollector : InputTrigger, IDeviceControl
 		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = DirectionStart;
 		powerSupply.DirectionEnd = DirectionEnd;
-		powerSupply.Data.SupplyingCurrent = 20;
+		powerSupply.Data.SupplyingVoltage = 760000;
+		powerSupply.Data.InternalResistance = 76000;
 		powerSupply.InData.ControllingDevice = this;
 		powerSupply.InData.ControllingUpdate = powerSupply;
 		PowerInputReactions PIRHigh = new PowerInputReactions(); //You need a resistance on the output just so supplies can communicate properly

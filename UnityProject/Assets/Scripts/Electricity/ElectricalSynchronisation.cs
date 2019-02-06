@@ -236,13 +236,13 @@ public static class ElectricalSynchronisation
 			ResistanceWorkOnNextList.Clear();
 			//Logger.Log (IterateDirectionWorkOnNextList.Count.ToString () + "IterateDirectionWorkOnNextList.Count");
 			for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++) { 
-				IterateDirectionWorkOnNextList [i].Value.ResistancyOutput (ElectricalSynchronisation.currentTick, IterateDirectionWorkOnNextList [i].Key.GameObject());
+				IterateDirectionWorkOnNextList [i].Value.ResistancyOutput ( IterateDirectionWorkOnNextList [i].Key.GameObject());
 			}
 			if (ResistanceWorkOnNextList.Count <= 0) {
 				IterateDirectionWorkOnNextList = new List<KeyValuePair<IElectricityIO,IElectricityIO>> (ResistanceWorkOnNextListWait);
 				ResistanceWorkOnNextListWait.Clear();
 				for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++) { 
-					IterateDirectionWorkOnNextList [i].Value.ResistancyOutput (ElectricalSynchronisation.currentTick, IterateDirectionWorkOnNextList [i].Key.GameObject());
+					IterateDirectionWorkOnNextList [i].Value.ResistancyOutput (IterateDirectionWorkOnNextList [i].Key.GameObject());
 				}
 			}
 			if (ResistanceWorkOnNextList.Count <= 0 && ResistanceWorkOnNextListWait.Count <= 0) {

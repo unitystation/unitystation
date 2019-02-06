@@ -19,6 +19,9 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	/// <summary>
 	/// The current voltage of this APC. Calls OnVoltageChange when changed.
 	/// </summary>
+
+	public int CashOfConnectedDevices = 0;
+
 	public float Voltage
 	{
 		get
@@ -77,17 +80,21 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		}
 		set
 		{
-			if(value != _resistance)
+			if (value != _resistance)
 			{
 				if (value == 0 || double.IsInfinity(value))
 				{
-					_resistance = 9999999999;
+					if (_resistance != 9999999999)
+					{
+						dirtyResistance = true;
+						_resistance = 9999999999;
+					}
 				}
 				else
 				{
+					dirtyResistance = true;
 					_resistance = value;
 				}
-				dirtyResistance = true;
 			}
 		}
 	}
@@ -106,9 +113,9 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	};
 	private bool SelfDestruct = false;
 
-	public override void OnStartClient()
+	public override void OnStartServer()
 	{
-		base.OnStartClient();
+		base.OnStartServer();
 		poweredDevice.InData.CanConnectTo = CanConnectTo;
 		poweredDevice.InData.Categorytype = ApplianceType;
 		poweredDevice.DirectionStart = 0;
@@ -144,13 +151,13 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	public void PowerUpdateStructureChangeReact() { }
 	public void InitialPowerUpdateResistance() {
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
-			poweredDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			poweredDevice.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 		}
 	}
 	public void PowerUpdateResistanceChange() {
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
-			poweredDevice.ResistanceInput(ElectricalSynchronisation.currentTick, 1.11111111f, Supplie.Key.GameObject(), null);
+			poweredDevice.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 		}
 
@@ -162,6 +169,18 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 
 	public void PowerNetworkUpdate()
 	{
+		if (!(CashOfConnectedDevices == poweredDevice.Data.ResistanceToConnectedDevices.Count)) {
+			CashOfConnectedDevices = poweredDevice.Data.ResistanceToConnectedDevices.Count;
+			ConnectedDepartmentBatteries.Clear ();
+			foreach (KeyValuePair<IElectricityIO, HashSet<PowerTypeCategory>> Device in poweredDevice.Data.ResistanceToConnectedDevices) {
+				if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery) {
+					if (!(ConnectedDepartmentBatteries.Contains (Device.Key.GameObject().GetComponent<DepartmentBattery>()))) {
+						ConnectedDepartmentBatteries.Add (Device.Key.GameObject ().GetComponent<DepartmentBattery> ());
+					}
+				}
+			}
+		}
+
 		Voltage = poweredDevice.Data.ActualVoltage;
 		Current = poweredDevice.Data.CurrentInWire;
 

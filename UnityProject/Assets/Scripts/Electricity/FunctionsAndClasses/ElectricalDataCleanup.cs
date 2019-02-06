@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ElectricalDataCleanup {
+public static class ElectricalDataCleanup { //To clean out data on cables and machines
 	public static void CleanConnectedDevices(IElectricityIO Thiswire){
 		Logger.Log ("Cleaning it out");
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> IsConnectedTo in Thiswire.Data.ResistanceToConnectedDevices) {

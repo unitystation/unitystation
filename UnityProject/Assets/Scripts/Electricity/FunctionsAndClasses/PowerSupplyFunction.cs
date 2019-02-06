@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class PowerSupplyFunction  {
+public static class PowerSupplyFunction  { //Responsible for keeping the update and day to clean up off the supply in check
 	public static void TurnOffSupply(IElectricityIO Supply)
 	{
 		Supply.RemoveSupply(Supply.GameObject());
@@ -34,7 +34,11 @@ public static class PowerSupplyFunction  {
 		{
 			if (Supply.Data.SupplyingCurrent != 0)
 			{
-				Supply.ElectricityOutput(ElectricalSynchronisation.currentTick, Supply.Data.SupplyingCurrent, Supply.GameObject());
+				Supply.ElectricityOutput(Supply.Data.SupplyingCurrent, Supply.GameObject());
+			}
+			else if (Supply.Data.SupplyingVoltage != 0) {
+				int SourceInstanceID = Supply.GameObject().GetInstanceID();
+				Supply.ElectricityOutput((Supply.Data.SupplyingVoltage)/(Supply.Data.InternalResistance + ElectricityFunctions.WorkOutResistance(Supply.Data.ResistanceComingFrom[SourceInstanceID])), Supply.GameObject());
 			}
 		}
 	}

@@ -35,10 +35,10 @@ public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer, IDevi
 		}
 	}
 
-	public float ModifyElectricityInput(int tick, float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){
+	public float ModifyElectricityInput(float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){
 		return(Current);
 	}
-	public float ModifyElectricityOutput(int tick, float Current, GameObject SourceInstance){
+	public float ModifyElectricityOutput( float Current, GameObject SourceInstance){
 		int InstanceID = SourceInstance.GetInstanceID ();
 		float ActualCurrent = RelatedDevice.Data.CurrentInWire;
 		float Resistance = ElectricityFunctions.WorkOutResistance(RelatedDevice.Data.ResistanceComingFrom[InstanceID]);
@@ -54,12 +54,12 @@ public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer, IDevi
 		return(Currentandoffcut.Item1);
 	}
 
-	public float ModifyResistanceInput(int tick, float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){
+	public float ModifyResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){
 		Tuple<float,float> ResistanceM = TransformerCalculations.TransformerCalculate (this, ResistanceToModify : Resistance);
 		//return(Resistance);
 		return(ResistanceM.Item1);
 	}
-	public float ModifyResistancyOutput(int tick, float Resistance, GameObject SourceInstance){
+	public float ModifyResistancyOutput( float Resistance, GameObject SourceInstance){
 		return(Resistance);
 	}
 
