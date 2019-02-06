@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Encapsulates the state of a matrix's motion / facing
@@ -64,7 +65,8 @@ public struct MatrixState
 }
 
 /// <summary>
-/// Behavior which allows an entire matrix to move and rotate (and be synced over the network)
+/// Behavior which allows an entire matrix to move and rotate (and be synced over the network).
+/// This behavior must go on a gameobject that is the parent of the gameobject that has the actual Matrix component.
 /// </summary>
 public class MatrixMove : ManagedNetworkBehaviour
 {
@@ -109,7 +111,31 @@ public class MatrixMove : ManagedNetworkBehaviour
 	//editor (global) values
 	public UnityEvent OnStart = new UnityEvent();
 	public UnityEvent OnStop = new UnityEvent();
-	public OrientationEvent OnRotate = new OrientationEvent();
+
+	/// <summary>
+	/// Offset of the most recent rotation that occurred, used so we can
+	/// save this info for firing the OnRotateEnd event,
+	/// </summary>
+	private RotationOffset previousRotation;
+	/// <summary>
+	/// True iff the previous call to UpdateMe involved rotation. Used to check when rotation has ended.
+	/// </summary>
+	private bool rotatedOnPreviousUpdate;
+	/// <summary>
+	/// Invoked when rotation starts. Objects that need to subscribe to rotation events should
+	/// subscribe to RegisterTile.OnRotateEnd / OnRotateStart rather than this, if possible. Otherwise, they
+	/// would need to track when their parent matrix changes and handle unsub / resubbing. RegisterTile
+	/// takes care of this.
+	/// </summary>
+	[FormerlySerializedAs("OnRotate")]
+	public OrientationEvent OnRotateStart = new OrientationEvent();
+	/// <summary>
+	/// Invoked when rotation ends. Objects that need to subscribe to rotation events should
+	/// subscribe to RegisterTile.OnRotateEnd / OnRotateStart rather than this, if possible. Otherwise, they
+	/// would need to track when their parent matrix changes and handle unsub / resubbing. RegisterTile
+	/// takes care of this.
+	/// </summary>
+	public OrientationEvent OnRotateEnd = new OrientationEvent();
 	public DualFloatEvent OnSpeedChange = new DualFloatEvent();
 
 	/// Initial flying direction from editor
@@ -123,7 +149,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	public KeyCode leftKey = KeyCode.Keypad4;
 	public KeyCode rightKey = KeyCode.Keypad6;
 
-	///initial pos for offset calculation
+	///initial pos for offset calculation, set on start and never changed afterwards
 	[HideInInspector]
 	public Vector3Int InitialPos;
 	[SyncVar(hook = nameof(UpdateInitialPos))] private Vector3 initialPosition;
@@ -132,7 +158,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		InitialPos = sync.RoundToInt();
 	}
 
-	/// local pivot point
+	/// local pivot point, set on start and never changed afterwards
 	[HideInInspector]
 	public Vector3Int Pivot;
 	[SyncVar(hook = nameof(UpdatePivot))] private Vector3 pivot;
@@ -166,6 +192,13 @@ public class MatrixMove : ManagedNetworkBehaviour
 		InitServerState();
 		base.OnStartServer();
 		NotifyPlayers();
+	}
+
+	public override void OnStartClient()
+	{
+		//call the syncvar hooks because they are not called for us
+		UpdatePivot(pivot);
+		UpdateInitialPos(initialPosition);
 	}
 
 	[Server]
@@ -242,7 +275,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			CheckMovementServer();
 		}
 
-		CheckMovement();
+		AnimateMovement();
 	}
 
 	[Server]
@@ -381,8 +414,10 @@ public class MatrixMove : ManagedNetworkBehaviour
 		}
 	}
 
-	/// Clientside movement routine
-	private void CheckMovement()
+	/// <summary>
+	/// Performs the rotation / movement animation on all clients and server. Called every UpdateMe()
+	/// </summary>
+	private void AnimateMovement()
 	{
 		if (Equals(clientState, MatrixState.Invalid))
 		{
@@ -391,6 +426,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		if (IsRotatingClient)
 		{
+			rotatedOnPreviousUpdate = true;
 			RotationOffset targetOffset = clientState.RotationOffset;
 			bool needsRotation = clientState.RotationTime != 0 &&
 			                     !Mathf.Approximately(Quaternion.Angle(transform.rotation, targetOffset.Quaternion), 0);
@@ -412,6 +448,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 			//Only move target if rotation is finished
 			SimulateStateMovement();
 		}
+
+		//fire the rotation end event if rotation just ended
+		if (!IsRotatingClient && rotatedOnPreviousUpdate)
+		{
+			OnRotateEnd.Invoke(previousRotation);
+			rotatedOnPreviousUpdate = false;
+		}
+
 
 		if (!IsRotatingClient && monitorOnRot)
 		{
@@ -545,14 +589,15 @@ public class MatrixMove : ManagedNetworkBehaviour
 		{
 			if (!StateInit)
 			{
-				//this is the first state, so set rotation based on offset from initial position
-				OnRotate.Invoke(newState.RotationOffset);
+				//this is the first state, so set initial rotation based on offset from initial position
+				previousRotation = newState.RotationOffset;
 			}
 			else
 			{
 				//update based on offset from old state
-				OnRotate.Invoke(oldState.orientation.OffsetTo(newState.orientation));
+				previousRotation = oldState.orientation.OffsetTo(newState.orientation);
 			}
+			OnRotateStart.Invoke(previousRotation);
 
 			//This is ok for occasional state changes like beginning of rot:
 			gameObject.BroadcastMessage("MatrixMoveStartRotation", null, SendMessageOptions.DontRequireReceiver);

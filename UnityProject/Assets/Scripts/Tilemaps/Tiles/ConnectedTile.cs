@@ -33,6 +33,10 @@ public enum ConnectCategory
 		public ConnectType connectType = ConnectType.ToAll;
 		public Texture2D spriteSheet;
 		public string texturePath;
+		/// <summary>
+		/// Cached layer we live in, so we can determine our rotation
+		/// </summary>
+		private Layer layer;
 
 		public override Sprite PreviewSprite => sprites[0];
 
@@ -51,28 +55,24 @@ public enum ConnectCategory
 		public override bool StartUp(Vector3Int location, ITilemap tilemap, GameObject go)
 		{
 			if (Application.isPlaying) {
-				Layer layer = tilemap.GetComponent<Layer>();
-
-				// TODO Clean up
-				/// Walls Only:
-				/*
-				if (layer.LayerType == LayerType.Walls) {
-					
-					/// Add the black fov above all wall tiles
-					Tilemap topLayer = layer.topLayerFX;
-					if (topLayer != null) {
-						Tile newTile = CreateInstance<Tile>();
-						newTile.sprite = SpriteManager.Instance.shroudSprite;
-						topLayer.SetTile(location, newTile);
-					}
-				}
-				*/
+				layer = tilemap.GetComponent<Layer>();
 			}
 				return true;
 		}
 
 		public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
 		{
+			//find our offset by checking our parent layer
+			Quaternion rotation;
+			if (layer != null)
+			{
+				rotation = layer.RotationOffset.QuaternionInverted;
+			}
+			else
+			{
+				rotation = Quaternion.identity;
+			}
+
 			if (tilemap.GetComponent<Tilemap>().name == "Layer1")
 			{
 				// don't connect while in palette
@@ -80,24 +80,24 @@ public enum ConnectCategory
 				return;
 			}
 
-			int mask = (HasSameTile(position + Vector3Int.up, tilemap) ? 1 : 0) + (HasSameTile(position + Vector3Int.right, tilemap) ? 2 : 0) +
-			           (HasSameTile(position + Vector3Int.down, tilemap) ? 4 : 0) + (HasSameTile(position + Vector3Int.left, tilemap) ? 8 : 0);
+			int mask = (HasSameTile(position, Vector3Int.up, rotation, tilemap) ? 1 : 0) + (HasSameTile(position, Vector3Int.right, rotation, tilemap) ? 2 : 0) +
+			           (HasSameTile(position, Vector3Int.down, rotation, tilemap) ? 4 : 0) + (HasSameTile(position, Vector3Int.left, rotation, tilemap) ? 8 : 0);
 
 			if ((mask & 3) == 3)
 			{
-				mask += HasSameTile(position + Vector3Int.right + Vector3Int.up, tilemap) ? 16 : 0;
+				mask += HasSameTile(position, Vector3Int.right + Vector3Int.up, rotation, tilemap) ? 16 : 0;
 			}
 			if ((mask & 6) == 6)
 			{
-				mask += HasSameTile(position + Vector3Int.right + Vector3Int.down, tilemap) ? 32 : 0;
+				mask += HasSameTile(position, Vector3Int.right + Vector3Int.down, rotation, tilemap) ? 32 : 0;
 			}
 			if ((mask & 12) == 12)
 			{
-				mask += HasSameTile(position + Vector3Int.left + Vector3Int.down, tilemap) ? 64 : 0;
+				mask += HasSameTile(position, Vector3Int.left + Vector3Int.down, rotation, tilemap) ? 64 : 0;
 			}
 			if ((mask & 9) == 9)
 			{
-				mask += HasSameTile(position + Vector3Int.left + Vector3Int.up, tilemap) ? 128 : 0;
+				mask += HasSameTile(position, Vector3Int.left + Vector3Int.up, rotation, tilemap) ? 128 : 0;
 			}
 
 			int i = Array.IndexOf(map, mask);
@@ -108,12 +108,14 @@ public enum ConnectCategory
 				tileData.flags = TileFlags.None;
 				// create collider for tiles, None, Sprite or Grid
 				tileData.colliderType = Tile.ColliderType.Grid;
+				tileData.transform = Matrix4x4.Rotate(rotation);
+				tileData.flags = TileFlags.LockTransform;
 			}
 		}
 
-		private bool HasSameTile(Vector3Int position, ITilemap tilemap)
+		private bool HasSameTile(Vector3Int position, Vector3Int direction, Quaternion rotation, ITilemap tilemap)
 		{
-			TileBase tile = tilemap.GetTile(position);
+			TileBase tile = tilemap.GetTile(position + (rotation * direction).RoundToInt());
 
 			if (tile == null)
 			{

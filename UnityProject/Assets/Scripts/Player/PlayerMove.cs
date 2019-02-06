@@ -134,7 +134,7 @@ using UnityEngine.Networking;
 			if (matrixInfo.MatrixMove)
 			{
 				// Converting world direction to local direction
-				direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.RotationOffset.EulerInverted * direction);
+				direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.RotationOffset.QuaternionInverted * direction);
 			}
 
 			return direction;

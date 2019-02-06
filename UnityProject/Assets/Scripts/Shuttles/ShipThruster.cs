@@ -30,7 +30,7 @@ public class ShipThruster : MonoBehaviour
 		}
 		shipMatrixMove.OnStart.RemoveListener(UpdateEngineState);
 		shipMatrixMove.OnStop.RemoveListener(UpdateEngineState);
-		shipMatrixMove.OnRotate.RemoveListener(RotateFX);
+		shipMatrixMove.OnRotateStart.RemoveListener(RotateFX);
 		shipMatrixMove.OnSpeedChange.RemoveListener(SpeedChange);
 	}
 
@@ -51,7 +51,7 @@ public class ShipThruster : MonoBehaviour
 		yield return new WaitForEndOfFrame();
 		shipMatrixMove.OnStart.AddListener(UpdateEngineState);
 		shipMatrixMove.OnStop.AddListener(UpdateEngineState);
-		shipMatrixMove.OnRotate.AddListener(RotateFX);
+		shipMatrixMove.OnRotateStart.AddListener(RotateFX);
 		shipMatrixMove.OnSpeedChange.AddListener(SpeedChange);
 	}
 

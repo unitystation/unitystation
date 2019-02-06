@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Behavior which indicates a matrix - a contiguous grid of tiles.
+///
+/// If a matrix can move / rotate, the parent gameobject will have a MatrixMove component. Not this gameobject.
+/// </summary>
 public class Matrix : MonoBehaviour
 {
 	private MetaTileMap metaTileMap;

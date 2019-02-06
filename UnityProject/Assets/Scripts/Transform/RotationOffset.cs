@@ -43,7 +43,7 @@ public struct RotationOffset
 	/// <summary>
 	/// Quaternion whose amount of rotation matches the current rotation (counterclockwise around the z axis)
 	/// </summary>
-	public Quaternion EulerInverted => Quaternion.Euler(0, 0, -DegreeBetween(this, Same));
+	public Quaternion QuaternionInverted => Quaternion.Euler(0, 0, -DegreeBetween(this, Same));
 
 	/// <summary>
 	/// Returns the degree of rotation between 2 rotation offsets. Order matters.
@@ -221,5 +221,20 @@ public struct RotationOffset
 		{
 			return "Same";
 		}
+	}
+
+	/// <summary>
+	/// Add additional rotation to this offset
+	/// </summary>
+	/// <param name="fromCurrent">rotation to add</param>
+	/// <returns>a new offset based on the combination of this offset and rotationToAdd.
+	/// For example, if we are rotationoffset.left and rotationToAdd is right, will return
+	/// rotationoffset.same</returns>
+	public RotationOffset Rotate(RotationOffset rotationToAdd)
+	{
+		//rotate away from up by this offset, then apply rotationToAdd, then measure how far we
+		//are now from up
+		return Orientation.Up.OffsetTo(Orientation.Up.Rotate(this)
+			.Rotate(rotationToAdd));
 	}
 }

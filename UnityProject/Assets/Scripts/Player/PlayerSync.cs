@@ -74,6 +74,12 @@ public struct PlayerState
 
 public partial class PlayerSync : NetworkBehaviour, IPushable
 {
+	/// <summary>
+	/// When true, players will rotate to their new orientation at the end of matrix rotation. When false
+	/// they will rotate to the new orientation at the start of matrix rotation.
+	/// </summary>
+	private const bool ROTATE_AT_END = true;
+
 	///For server code. Contains position
 	public PlayerState ServerState => serverState;
 
@@ -261,44 +267,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		SetPosition(worldPos);
 	}
 
-	///     Convenience method to make stuff disappear at position.
-	///     For CLIENT prediction purposes.
-	public void DisappearFromWorld()
-	{
-		playerState = PlayerState.HiddenState;
-		UpdateActiveStatus();
-	}
-
-	///     Convenience method to make stuff appear at position
-	///     For CLIENT prediction purposes.
-	public void AppearAtPosition(Vector3 worldPos)
-	{
-		var pos = (Vector2)worldPos; //Cut z-axis
-		playerState.MatrixId = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos)).Id;
-		playerState.WorldPosition = pos;
-		transform.position = pos;
-		UpdateActiveStatus();
-	}
-
-	/// Registers if unhidden, unregisters if hidden
-	private void UpdateActiveStatus()
-	{
-		if (playerState.Active)
-		{
-			RegisterObjects();
-		}
-		else
-		{
-			registerTile.Unregister();
-		}
-		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example.
-		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
-		for (int i = 0; i < renderers.Length; i++)
-		{
-			renderers[i].enabled = playerState.Active;
-		}
-	}
-
 	#endregion
 
 	private void Start()
@@ -319,6 +287,18 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		healthBehaviorScript = GetComponent<LivingHealthBehaviour>();
 		registerTile = GetComponent<RegisterTile>();
 		pushPull = GetComponent<PushPull>();
+
+		//Sub to matrix rotation events via the registerTile because it always has the
+		//correct matrix
+		if (ROTATE_AT_END)
+		{
+			registerTile.OnRotateEnd.AddListener(OnRotation);
+		}
+		else
+		{
+			registerTile.OnRotateStart.AddListener(OnRotation);
+		}
+
 	}
 
 	private void Update()
@@ -416,6 +396,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		newState.Position = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.Position), action, isReplay, MatrixManager.Get(newState.MatrixId).Matrix);
 
 		var proposedWorldPos = newState.WorldPosition;
+
 		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(Vector3Int.RoundToInt(proposedWorldPos));
 		bool matrixChangeDetected = !Equals(matrixAtPoint, MatrixInfo.Invalid) && matrixAtPoint.Id != state.MatrixId;
 
@@ -433,7 +414,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 
 		matrixChanged = true;
+
 		return newState;
+	}
+
+	private void OnRotation(RotationOffset fromCurrent)
+	{
+		playerSprites.ChangePlayerDirection(fromCurrent);
 	}
 
 
