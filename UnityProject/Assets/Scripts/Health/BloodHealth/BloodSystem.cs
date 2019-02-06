@@ -12,7 +12,7 @@ public class BloodSystem : MonoBehaviour
 	/// <summary>
 	/// How much toxin is found in the blood. 0% to 100%
 	/// </summary>
-	public int ToxinLevel
+	public float ToxinLevel
 	{
 		get { return Mathf.Clamp(toxinLevel, 0, 101); }
 		set { toxinLevel = Mathf.Clamp(value, 0, 101); }
@@ -21,14 +21,14 @@ public class BloodSystem : MonoBehaviour
 	/// <summary>
 	/// Oxygen levels found in the blood. 0% to 100%
 	/// </summary>
-	public int OxygenLevel
+	public float OxygenLevel
 	{
 		get { return Mathf.Clamp(oxygenLevel, 0, 101); }
 		set { oxygenLevel = Mathf.Clamp(value, 0, 101); }
 	}
 	/// <summary>
 	/// The heart rate affects the rate at which blood is pumped around the body
-	/// Each pump consumes 7% of oxygen 
+	/// Each pump consumes 7% of oxygen
 	/// This is only relevant on the Server.
 	/// HeartRate value can be requested by a client via a NetMsg
 	/// </summary>
@@ -39,8 +39,8 @@ public class BloodSystem : MonoBehaviour
 	/// </summary>
 	public bool HeartStopped => HeartRate == 0;
 
-	private int oxygenLevel = 100;
-	private int toxinLevel = 0;
+	private float oxygenLevel = 100;
+	private float toxinLevel = 0;
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private DNAandBloodType bloodType;
 	private readonly float bleedRate = 2f;
@@ -114,7 +114,7 @@ public class BloodSystem : MonoBehaviour
 			LoseBlood(bleedVolume);
 		}
 
-		//TODO things that could affect heart rate, like low blood, crit status etc		
+		//TODO things that could affect heart rate, like low blood, crit status etc
 	}
 
 	/// <summary>
@@ -200,7 +200,7 @@ public class BloodSystem : MonoBehaviour
 	/// Determine if there is any blood damage (toxin, oxygen loss) or bleeding that needs to occur
 	/// Server only!
 	/// </summary>
-	public void AffectBloodState(BodyPartType bodyPartType, DamageType damageType, int amount, bool isHeal = false)
+	public void AffectBloodState(BodyPartType bodyPartType, DamageType damageType, float amount, bool isHeal = false)
 	{
 		BodyPartBehaviour bodyPart = livingHealthBehaviour.FindBodyPart(bodyPartType);
 
@@ -241,16 +241,16 @@ public class BloodSystem : MonoBehaviour
 	}
 
 	//Do any healing stuff:
-	private void CheckHealing(BodyPartBehaviour bodyPart, DamageType damageType, int healAmt)
+	private void CheckHealing(BodyPartBehaviour bodyPart, DamageType damageType, float healAmt)
 	{
 		Debug.Log("TODO PRIORITY: Do Blood Healing!!");
 	}
 
 	// --------------------
 	// UPDATES FROM SERVER
-	// -------------------- 
+	// --------------------
 
-	public void UpdateClientBloodStats(int heartRate, int bloodVolume, int _oxygenLevel, int _toxinLevel)
+	public void UpdateClientBloodStats(int heartRate, int bloodVolume, float _oxygenLevel, float _toxinLevel)
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{

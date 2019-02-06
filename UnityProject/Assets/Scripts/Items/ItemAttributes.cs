@@ -77,6 +77,8 @@ public class ItemAttributes : NetworkBehaviour
 	public SpriteType spriteType;
 	public ItemType type;
 
+	public bool ConnectedToTank;
+
 	/// throw-related fields
 	[TooltipAttribute("How painful it is when someone throws it at you")] [Range(0,100)]
 	public float throwDamage = 2;
@@ -92,7 +94,7 @@ public class ItemAttributes : NetworkBehaviour
 	///<Summary>
 	/// Can this item protect humans against spess?
 	///</Summary>
-	public bool evaCapable { get; private set; }
+	public bool IsEVACapable { get; private set; }
 
 	public List<string> attackVerb = new List<string>();
 	private static readonly char[] ListSplitters = new [] { ',', ' ' };
@@ -221,11 +223,11 @@ public class ItemAttributes : NetworkBehaviour
 		if (hier.Contains("/obj/item/clothing/head/helmet/space/hardsuit/") ||
 			hier.Contains("/obj/item/clothing/suit/space/hardsuit/"))
 		{
-			evaCapable = true;
+			IsEVACapable = true;
 		}
 		else
 		{
-			evaCapable = false;
+			IsEVACapable = false;
 		}
 	}
 
@@ -255,7 +257,7 @@ public class ItemAttributes : NetworkBehaviour
 		//	Debug.Log(getItemDebugInfo());
 		Debug.Log("hier: " + hier);
 		Debug.Log("is server: " + isServer);
-		Debug.Log("is eva capable: " + evaCapable);
+		Debug.Log("is eva capable: " + IsEVACapable);
 	}
 	private string getItemDebugInfo()
 	{

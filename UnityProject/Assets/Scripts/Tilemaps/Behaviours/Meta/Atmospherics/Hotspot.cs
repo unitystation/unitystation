@@ -44,29 +44,31 @@ namespace Atmospherics
 
 		private void Expose()
 		{
-			if ((Volume / node.Atmos.Volume) > 0.95f)
+			if ((Volume / node.GasMix.Volume) > 0.95f)
 			{
-				float consumed = Reactions.React(ref node.Atmos);
+				GasMix gasMix = node.GasMix;
+				float consumed = Reactions.React(ref gasMix);
+				node.GasMix = gasMix;
 				Volume = consumed * 40;
-				Temperature = node.Atmos.Temperature;
+				Temperature = node.GasMix.Temperature;
 			}
 			else
 			{
-				GasMix removed = node.Atmos.RemoveVolume(Volume);
+				GasMix removed = node.GasMix.RemoveVolume(Volume);
 				removed.Temperature = Temperature;
 
 				float consumed = Reactions.React(ref removed);
 				Volume = consumed * 40;
 
 				Temperature = removed.Temperature;
-				node.Atmos += removed;
+				node.GasMix += removed;
 			}
 		}
 
 		private bool Check()
 		{
-			return Temperature > Reactions.PLASMA_MINIMUM_BURN_TEMPERATURE && Volume > 0.0001 && node.Atmos.GetMoles(Gas.Plasma) > 0 &&
-			       node.Atmos.GetMoles(Gas.Oxygen) > 0;
+			return Temperature > Reactions.PLASMA_MINIMUM_BURN_TEMPERATURE && Volume > 0.0001 && node.GasMix.GetMoles(Gas.Plasma) > 0 &&
+			       node.GasMix.GetMoles(Gas.Oxygen) > 0;
 		}
 	}
 }

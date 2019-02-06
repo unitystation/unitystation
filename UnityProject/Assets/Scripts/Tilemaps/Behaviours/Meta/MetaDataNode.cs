@@ -12,15 +12,15 @@ public enum NodeType
 	Occupied
 }
 
-public class MetaDataNode
+public class MetaDataNode: IGasMixContainer
 {
-	public static readonly MetaDataNode None = new MetaDataNode(Vector3Int.one * -1000000);
+	public static readonly MetaDataNode None;
 
 	public readonly Vector3Int Position;
 
 	public NodeType Type;
 
-	public GasMix Atmos;
+	public GasMix GasMix { get; set; }
 
 	public Hotspot Hotspot;
 
@@ -54,7 +54,12 @@ public class MetaDataNode
 	{
 		Position = position;
 		neighbors = new List<MetaDataNode>();
-		Atmos = GasMixes.Space;
+		GasMix = GasMixes.Space;
+	}
+
+	static MetaDataNode()
+	{
+		None = new MetaDataNode(Vector3Int.one * -1000000);
 	}
 
 	public bool IsSpace => Type == NodeType.Space;

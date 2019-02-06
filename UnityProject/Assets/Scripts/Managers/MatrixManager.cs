@@ -158,6 +158,44 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Gets the MetaDataNode from the Matrix at the given position.
+	/// </summary>
+	/// <param name="worldPosition">Position at which the node is looked for.</param>
+	/// <returns>MetaDataNode at the position. If no Node that isn't space is found, MetaDataNode.Node will be returned.</returns>
+	public static MetaDataNode GetMetaDataAt(Vector3Int worldPosition)
+	{
+		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		{
+			Vector3Int position = WorldToLocalInt(worldPosition, mat);
+			MetaDataNode node = mat.MetaDataLayer.Get(position, false);
+
+			if (node.Exists && !node.IsSpace)
+			{
+				return node;
+			}
+		}
+
+		return MetaDataNode.None;
+	}
+
+	/// <summary>
+	/// Triggers an Subsystem Update at the given position. Only triggers, when a MetaDataNode already exists.
+	/// </summary>
+	/// <param name="worldPosition">Position where the update is triggered.</param>
+	public static void TriggerSubsystemUpdateAt(Vector3Int worldPosition)
+	{
+		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		{
+			Vector3Int position = WorldToLocalInt(worldPosition, mat);
+
+			if (mat.MetaDataLayer.ExistsAt(position))
+			{
+				mat.SubsystemManager.UpdateAt(position);
+			}
+		}
+	}
+
+	/// <summary>
 	/// Checks if there are any pushables at the specified target which can be pushed from the current position.
 	/// </summary>
 	/// <param name="worldOrigin">position pushing from</param>
@@ -311,6 +349,7 @@ public class MatrixManager : MonoBehaviour
 				MatrixMove = gameObj.GetComponentInParent<MatrixMove>(),
 				MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
 				MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
+				SubsystemManager = gameObj.GetComponentInParent<SubsystemManager>(),
 //				NetId is initialized later
 				InitialOffset = matrix.InitialOffset
 			};
@@ -468,6 +507,7 @@ public struct MatrixInfo
 	public Matrix Matrix;
 	public MetaTileMap MetaTileMap;
 	public MetaDataLayer MetaDataLayer;
+	public SubsystemManager SubsystemManager;
 	public GameObject GameObject;
 	public Vector3Int CachedOffset;
 	// position we were at when offset was last cached, to check if it is invalid

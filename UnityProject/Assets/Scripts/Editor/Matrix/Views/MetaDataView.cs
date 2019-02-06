@@ -138,7 +138,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
-				GizmoUtils.DrawText($"{node.Atmos.Pressure:0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.Pressure:0.###}", p, false);
 			}
 		}
 	}
@@ -154,7 +154,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
-				GizmoUtils.DrawText($"{node.Atmos.Temperature:0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.Temperature:0.###}", p, false);
 			}
 		}
 	}
@@ -170,7 +170,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
-				GizmoUtils.DrawText($"{node.Atmos.Moles:0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.Moles:0.###}", p, false);
 			}
 		}
 	}
@@ -201,7 +201,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
-				GizmoUtils.DrawText($"{node.Atmos.GetMoles(Gas.Plasma):0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.Plasma):0.###}", p, false);
 			}
 		}
 	}
@@ -217,7 +217,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
-				GizmoUtils.DrawText($"{node.Atmos.GetMoles(Gas.Oxygen):0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.Oxygen):0.###}", p, false);
 			}
 		}
 	}
@@ -233,7 +233,7 @@ public class MetaDataView : BasicView
 			if (node.Exists)
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
-				GizmoUtils.DrawText($"{node.Atmos.GetMoles(Gas.CarbonDioxide):0.###}", p, false);
+				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.CarbonDioxide):0.###}", p, false);
 			}
 		}
 	}

@@ -65,7 +65,7 @@ namespace Atmospherics
 
 				if (!node.IsOccupied)
 				{
-					node.Atmos = CalcAtmos(node.Atmos, gasMix);
+					node.GasMix = CalcAtmos(node.GasMix, gasMix);
 				}
 			}
 		}
@@ -83,15 +83,15 @@ namespace Atmospherics
 
 				if (node.IsSpace)
 				{
-					node.Atmos *= 1 - factor;
+					node.GasMix *= 1 - factor;
 				}
 
 				for (int j = 0; j < Gas.Count; j++)
 				{
-					gases[j] += node.Atmos.Gases[j];
+					gases[j] += node.GasMix.Gases[j];
 				}
 
-				pressure += node.Atmos.Pressure;
+				pressure += node.GasMix.Pressure;
 
 				if (!node.IsOccupied)
 				{
@@ -99,9 +99,9 @@ namespace Atmospherics
 				}
 				else
 				{
-					node.Atmos *= 1 - factor;
+					node.GasMix *= 1 - factor;
 
-					if (node.Atmos.Pressure > AtmosUtils.MinimumPressure)
+					if (node.GasMix.Pressure > AtmosUtils.MinimumPressure)
 					{
 						updateList.Enqueue(node);
 					}

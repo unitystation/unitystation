@@ -1,32 +1,39 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Atmospherics;
+using Facepunch.Steamworks;
+using Objects;
 using UnityEngine;
 
+/// <inheritdoc />
 /// <summary>
 /// Controls the RepiratorySystem for this living thing
 /// Mostly managed server side and states sent to the clients
 /// </summary>
 public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 {
-	private BloodSystem bloodSystem;
-	private LivingHealthBehaviour livingHealthBehaviour;
-	private PlayerScript playerScript;
+	private const float OXYGEN_SAFE_MIN = 16;
 	public bool IsBreathing { get; private set; } = true;
-	public bool IsSuffocating { get; private set; } = false;
+	public bool IsSuffocating { get; private set; }
 
 	/// <summary>
 	/// 2 minutes of suffocation = 100% damage
 	/// </summary>
-	public int SuffocationDamage { get { return Mathf.RoundToInt((suffocationTime / 120f) * 100f); } }
+	public int SuffocationDamage => Mathf.RoundToInt((suffocationTime / 120f) * 100f);
+
+	public float suffocationTime = 0f;
+
+	private BloodSystem bloodSystem;
+	private LivingHealthBehaviour livingHealthBehaviour;
+
 	private float tickRate = 1f;
 	private float tick = 0f;
-	public float suffocationTime = 0f;
+	private PlayerScript playerScript;
 
 	void Awake()
 	{
 		bloodSystem = GetComponent<BloodSystem>();
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
+
 		playerScript = GetComponent<PlayerScript>();
 	}
 
@@ -38,14 +45,16 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	void OnDisable()
 	{
 		if (UpdateManager.Instance != null)
+		{
 			UpdateManager.Instance.Remove(UpdateMe);
+		}
 	}
 
 	//Handle by UpdateManager
 	void UpdateMe()
 	{
 		//Server Only:
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			tick += Time.deltaTime;
 			if (tick >= tickRate)
@@ -53,145 +62,149 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 				tick = 0f;
 				MonitorSystem();
 			}
-			if (IsSuffocating)
-			{
-				CheckSuffocation();
-			}
 		}
 	}
 
-	void MonitorSystem()
+	private void MonitorSystem()
 	{
-		if (livingHealthBehaviour.IsDead)
+		if (!livingHealthBehaviour.IsDead)
 		{
-			return;
-		}
+			MetaDataNode node = MatrixManager.GetMetaDataAt(transform.position.RoundToInt());
 
-		CheckBreathing();
-	}
-
-	/// Check breathing state
-	void CheckBreathing()
-	{
-		// Try not to make super long conditions here, break them up
-		// into each individual condition for ease of reading
-		if (IsBreathing)
-		{
-			MonitorAirInput();
-
-			//Conditions that would stop breathing:
-			if (livingHealthBehaviour.OverallHealth <= 0)
+			if (!IsEVACompatible())
 			{
-				IsBreathing = false;
-				IsSuffocating = true;
+				CheckPressureDamage(node.GasMix.Pressure);
 			}
 
-			if (IsInSpace() && !IsEvaCompatible())
-			{
-				IsBreathing = false;
-				IsSuffocating = true;
-			}
-			//TODO: other conditions that would prevent breathing
-		}
-
-		if (!IsBreathing)
-		{
-			if (livingHealthBehaviour.OverallHealth > 0)
-			{
-				if (IsInSpace() && IsEvaCompatible())
-				{
-					IsBreathing = true;
-					GetComponent<PlayerNetworkActions>().SetConsciousState(true);
-				}
-
-				if (!IsInSpace())
-				{
-					IsBreathing = true;
-					GetComponent<PlayerNetworkActions>().SetConsciousState(true);
-				}
-			}
+			Breathe(node);
 		}
 	}
 
-	void MonitorAirInput()
+	private void Breathe(IGasMixContainer node)
 	{
-		//TODO Finish when atmos is implemented. Basically deliver any elements to the
-		//the blood stream every breath
-		//Check atmos values for the tile you are on
+		// if no internal breathing is possible, get the from the surroundings
+		IGasMixContainer container = GetInternalGasMix() ?? node;
 
-		//FIXME remove when above TODO is done:
-		if (!IsInSpace() || IsInSpace() && IsEvaCompatible())
+		GasMix gasMix = container.GasMix;
+		GasMix breathGasMix = gasMix.RemoveVolume(AtmosConstants.BREATH_VOLUME, true);
+
+		float oxygenUsed = HandleBreathing(breathGasMix);
+
+		if (oxygenUsed > 0)
 		{
-			//Delivers oxygen to the blood from a single breath
-			bloodSystem.OxygenLevel += 30;
+			breathGasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
+			breathGasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
 		}
+
+		gasMix += breathGasMix;
+		container.GasMix = gasMix;
 	}
 
-	/// Preform any suffocation monitoring here:
-	void CheckSuffocation()
+	private GasContainer GetInternalGasMix()
 	{
-		if (IsBreathing)
+		if (playerScript != null)
 		{
-			IsSuffocating = false;
-			suffocationTime = 0f;
+			Dictionary<string, InventorySlot> inventory = playerScript.playerNetworkActions.Inventory;
+
+			// Check if internals exist
+			ItemAttributes mask = inventory.ContainsKey("mask") ? inventory["mask"]?.ItemAttributes : null;
+			ItemAttributes suitStorage = inventory.ContainsKey("suitStorage") ? inventory["suitStorage"]?.ItemAttributes : null;
+
+			if (mask != null && suitStorage != null && mask.ConnectedToTank)
+			{
+				return suitStorage.GetComponent<GasContainer>();
+			}
+		}
+
+		return null;
+	}
+
+	private float HandleBreathing(GasMix breathGasMix)
+	{
+		float oxygenPressure = breathGasMix.GetPressure(Gas.Oxygen);
+
+		float oxygenUsed = 0;
+
+		if (oxygenPressure < OXYGEN_SAFE_MIN)
+		{
+			if (Random.value < 0.2)
+			{
+				PostToChatMessage.Send("gasp", ChatChannel.Local);
+			}
+
+			if (oxygenPressure > 0)
+			{
+				float ratio = 1 - oxygenPressure / OXYGEN_SAFE_MIN;
+
+				ApplyDamage(Mathf.Min(5 * ratio, 3), DamageType.Oxy);
+				bloodSystem.OxygenLevel += 30 * ratio;
+
+				oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen) * ratio;
+			}
+			else
+			{
+				ApplyDamage(3, DamageType.Oxy);
+			}
 		}
 		else
 		{
-			suffocationTime += Time.deltaTime;
+			oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen);
+			bloodSystem.OxygenLevel += 30;
 		}
+
+		return oxygenUsed;
 	}
 
-	/// TODO: Replace this when atmos pressure is implemented
-	/// we are just doing a space check for the time being
-	private bool IsInSpace()
+	private void CheckPressureDamage(float pressure)
 	{
-		if (MatrixManager.IsSpaceAt(Vector3Int.RoundToInt(transform.position)))
+		if (pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
 		{
-			return true;
+			ApplyDamage(AtmosConstants.LOW_PRESSURE_DAMAGE, DamageType.Brute);
 		}
-		return false;
+		else if (pressure > AtmosConstants.HAZARD_HIGH_PRESSURE)
+		{
+			float damage = Mathf.Min(((pressure / AtmosConstants.HAZARD_HIGH_PRESSURE) - 1) * AtmosConstants.PRESSURE_DAMAGE_COEFFICIENT,
+				AtmosConstants.MAX_HIGH_PRESSURE_DAMAGE);
+
+			ApplyDamage(damage, DamageType.Brute);
+		}
 	}
 
-	private bool IsEvaCompatible()
+	private bool IsEVACompatible()
 	{
 		if (playerScript == null)
 		{
-			Logger.Log("This is not a human player. Develop a way to detect EVA equipment on animals",
-				Category.Health);
 			return false;
 		}
 
-		var headItem = playerScript.playerNetworkActions.Inventory["head"].Item;
-		var suitItem = playerScript.playerNetworkActions.Inventory["suit"].Item;
-		if (headItem == null || suitItem == null)
+		Dictionary<string, InventorySlot> inventory = playerScript.playerNetworkActions.Inventory;
+
+		ItemAttributes headItem = inventory.ContainsKey("head") ? inventory["head"]?.ItemAttributes : null;
+		ItemAttributes suitItem = inventory.ContainsKey("suit") ? inventory["suit"]?.ItemAttributes : null;
+
+		if (headItem != null && suitItem != null)
 		{
-			return false;
+			return headItem.IsEVACapable && suitItem.IsEVACapable;
 		}
 
-		var headItemAtt = headItem?.GetComponent<ItemAttributes>();
-		var suitItemAtt = suitItem?.GetComponent<ItemAttributes>();
+		return false;
+	}
 
-		// TODO when atmos is merged and oxy tanks are in, then check oxygen flow 
-		// through mask here
-
-		if (headItemAtt == null || suitItemAtt == null)
-		{
-			return false;
-		}
-
-		return headItemAtt.evaCapable && suitItemAtt.evaCapable;
+	private void ApplyDamage(float amount, DamageType damageType)
+	{
+		livingHealthBehaviour.ApplyDamage(null, amount, damageType);
 	}
 
 	// --------------------
 	// UPDATES FROM SERVER
-	// -------------------- 
+	// --------------------
 
 	/// <summary>
 	/// Updated from server via NetMsg
 	/// </summary>
 	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			return;
 		}

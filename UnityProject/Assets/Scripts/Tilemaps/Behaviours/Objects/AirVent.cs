@@ -45,9 +45,9 @@ namespace Tilemaps.Behaviours.Objects
 		[Server]
 		private void CheckAtmos()
 		{
-			if (metaNode.Atmos.Pressure < MinimumPressure)
+			if (metaNode.GasMix.Pressure < MinimumPressure)
 			{
-				metaNode.Atmos = GasMixes.Air;
+				metaNode.GasMix = GasMixes.Air;
 				subsystemManager.UpdateAt(metaNode.Position);
 			}
 		}

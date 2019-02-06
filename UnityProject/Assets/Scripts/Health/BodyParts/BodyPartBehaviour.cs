@@ -3,10 +3,10 @@
 public class BodyPartBehaviour : MonoBehaviour
 {
 	//Different types of damages for medical.
-	private int bruteDamage;
-	private int burnDamage;
-	public int BruteDamage { get { return bruteDamage; } set { bruteDamage = Mathf.Clamp(value, 0, 101); } }
-	public int BurnDamage { get { return burnDamage; } set { burnDamage = Mathf.Clamp(value, 0, 101); } }
+	private float bruteDamage;
+	private float burnDamage;
+	public float BruteDamage { get { return bruteDamage; } set { bruteDamage = Mathf.Clamp(value, 0, 101); } }
+	public float BurnDamage { get { return burnDamage; } set { burnDamage = Mathf.Clamp(value, 0, 101); } }
 
 	public Sprite GrayDamageMonitorIcon;
 
@@ -20,7 +20,7 @@ public class BodyPartBehaviour : MonoBehaviour
 	public Sprite YellowDamageMonitorIcon;
 
 	public DamageSeverity Severity; //{ get; private set; }
-	public int OverallDamage { get { return BruteDamage + BurnDamage; } }
+	public float OverallDamage => BruteDamage + BurnDamage;
 
 	void Start()
 	{
@@ -28,13 +28,13 @@ public class BodyPartBehaviour : MonoBehaviour
 	}
 
 	//Apply damages from here.
-	public virtual void ReceiveDamage(DamageType damageType, int damage)
+	public virtual void ReceiveDamage(DamageType damageType, float damage)
 	{
 		UpdateDamage(damage, damageType);
 		Logger.LogTraceFormat("{0} received {1} {2} damage. Total {3}/{4}, limb condition is {5}", Category.Health, Type, damage, damageType, damage, MaxDamage, Severity);
 	}
 
-	private void UpdateDamage(int damage, DamageType type)
+	private void UpdateDamage(float damage, DamageType type)
 	{
 		switch (type)
 		{
@@ -118,8 +118,8 @@ public class BodyPartBehaviour : MonoBehaviour
 
 	// --------------------
 	// UPDATES FROM SERVER
-	// -------------------- 
-	public void UpdateClientBodyPartStat(int _bruteDamage, int _burnDamage)
+	// --------------------
+	public void UpdateClientBodyPartStat(float _bruteDamage, float _burnDamage)
 	{
 		bruteDamage = _bruteDamage;
 		burnDamage = _burnDamage;

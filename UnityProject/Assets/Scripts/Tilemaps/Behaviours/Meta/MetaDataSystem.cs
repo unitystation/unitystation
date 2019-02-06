@@ -6,6 +6,7 @@ using UnityEngine;
 public class MetaDataSystem : SubsystemBehaviour
 {
 	private HashSet<MetaDataNode> externalNodes;
+	private Matrix matrix;
 
 	// Set higher priority to ensure that it is executed before other systems
 	public override int Priority => 100;
@@ -14,6 +15,7 @@ public class MetaDataSystem : SubsystemBehaviour
 	{
 		base.Awake();
 
+		matrix = GetComponentInChildren<Matrix>(true);
 		externalNodes = new HashSet<MetaDataNode>();
 	}
 
@@ -113,9 +115,9 @@ public class MetaDataSystem : SubsystemBehaviour
 					Vector3Int neighbor = neighbors[i];
 					if (metaTileMap.IsSpaceAt(neighbor))
 					{
-						Vector3 worldPosition = transform.TransformPoint(neighbor + Vector3Int.one);
-						worldPosition.z = 0;
-						if (MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
+						Vector3Int worldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
+
+						if (MatrixManager.IsSpaceAt(worldPosition))
 						{
 							isSpace = true;
 						}
@@ -167,8 +169,7 @@ public class MetaDataSystem : SubsystemBehaviour
 					externalNodes.Add(node);
 				}
 
-				Vector3 worldPosition = transform.TransformPoint(neighbors[i] + Vector3Int.one);
-				worldPosition.z = 0;
+				Vector3 worldPosition = MatrixManager.LocalToWorldInt(neighbors[i], MatrixManager.Get(matrix.Id));
 
 				if (!MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
 				{

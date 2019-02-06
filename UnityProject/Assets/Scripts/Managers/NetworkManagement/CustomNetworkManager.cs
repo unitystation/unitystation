@@ -11,7 +11,10 @@ using UnityEngine.SceneManagement;
 
 public class CustomNetworkManager : NetworkManager
 {
+	public static bool IsServer => Instance._isServer;
+
 	public static CustomNetworkManager Instance;
+
 	[HideInInspector] public bool _isServer;
 	[HideInInspector] public bool spawnableListReady;
 	private Server server;
@@ -42,9 +45,10 @@ public class CustomNetworkManager : NetworkManager
 		channels.Add(QosType.ReliableSequenced);
 		channels.Add(QosType.UnreliableFragmented);
 
-		connectionConfig.AcksType = ConnectionAcksType.Acks64;
-		connectionConfig.FragmentSize = 512;
-		connectionConfig.PacketSize = 1440;
+		ConnectionConfig config = connectionConfig;
+		config.AcksType = ConnectionAcksType.Acks64;
+		config.FragmentSize = 512;
+		config.PacketSize = 1440;
 
 		if (GameData.IsInGame && PoolManager.Instance == null)
 		{
