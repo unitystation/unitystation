@@ -253,6 +253,11 @@ public class MatrixManager : MonoBehaviour
 		return null;
 	}
 
+	private void OnEnable()
+	{
+		IsInitialized = false;
+	}
+
 	void Awake()
 	{
 		if (Instance == null)
