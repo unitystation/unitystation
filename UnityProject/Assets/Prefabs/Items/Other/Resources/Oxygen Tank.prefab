@@ -189,6 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
@@ -201,6 +202,9 @@ MonoBehaviour:
       PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
+=======
+  ObjectType: 0
+>>>>>>> adding missing prefabs
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114342755618585978
@@ -254,11 +258,18 @@ MonoBehaviour:
   size: 2
   spriteType: 0
   type: 0
+<<<<<<< HEAD
   ConnectedToTank: 0
   throwDamage: 32
   throwSpeed: 1
   throwRange: 1
   hitDamage: 63
+=======
+  throwDamage: 0
+  throwSpeed: 1
+  throwRange: 1
+  hitDamage: 0
+>>>>>>> adding missing prefabs
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114330809230976920
