@@ -7,25 +7,56 @@ using UnityEngine;
 public enum NodeType
 {
 	None,
+	/// <summary>
+	/// Node out in space
+	/// </summary>
 	Space,
+	/// <summary>
+	/// Node in a room on a tile that is not occupied.
+	/// </summary>
 	Room,
+	/// <summary>
+	/// Node occupied by something such that it is not passable.
+	/// </summary>
 	Occupied
 }
 
+/// <summary>
+/// Holds all of the metadata associated with an individual tile, such as for atmospherics simulation, damage.
+/// </summary>
 public class MetaDataNode: IGasMixContainer
 {
 	public static readonly MetaDataNode None;
 
+	/// <summary>
+	/// Local position of this tile in its parent matrix.
+	/// </summary>
 	public readonly Vector3Int Position;
 
+	/// <summary>
+	/// Type of this node.
+	/// </summary>
 	public NodeType Type;
 
+	/// <summary>
+	/// The mixture of gases currently on this node.
+	/// </summary>
 	public GasMix GasMix { get; set; }
 
+	/// <summary>
+	/// The hotspot state of this node - indicates a potential to ignite gases, and
+	/// ignites them if conditions are met. Null if no potential exists on this tile.
+	/// </summary>
 	public Hotspot Hotspot;
 
+	/// <summary>
+	/// Current damage inflicted on this tile.
+	/// </summary>
 	public int Damage;
 
+	/// <summary>
+	/// Number of neighboring MetaDataNodes
+	/// </summary>
 	public int NeighborCount
 	{
 		get
@@ -37,6 +68,9 @@ public class MetaDataNode: IGasMixContainer
 		}
 	}
 
+	/// <summary>
+	/// The current neighbor nodes.
+	/// </summary>
 	public MetaDataNode[] Neighbors
 	{
 		get
@@ -50,6 +84,10 @@ public class MetaDataNode: IGasMixContainer
 
 	private List<MetaDataNode> neighbors;
 
+	/// <summary>
+	/// Create a new MetaDataNode on the specified local position (within the parent matrix)
+	/// </summary>
+	/// <param name="position">local position (within the matrix) the node exists on</param>
 	public MetaDataNode(Vector3Int position)
 	{
 		Position = position;
@@ -62,8 +100,17 @@ public class MetaDataNode: IGasMixContainer
 		None = new MetaDataNode(Vector3Int.one * -1000000);
 	}
 
+	/// <summary>
+	/// Is this tile in space
+	/// </summary>
 	public bool IsSpace => Type == NodeType.Space;
+	/// <summary>
+	/// Is this tile in a room
+	/// </summary>
 	public bool IsRoom => Type == NodeType.Room;
+	/// <summary>
+	/// Is this tile occupied by something impassable
+	/// </summary>
 	public bool IsOccupied => Type == NodeType.Occupied;
 
 	public bool Exists => this != None;

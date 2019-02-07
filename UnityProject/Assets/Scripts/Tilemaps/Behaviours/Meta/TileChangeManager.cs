@@ -60,7 +60,7 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
 
-		if (tileType == TileType.Damaged)
+		if (tileType == TileType.WindowDamaged)
 		{
 			position.z -= 1;
 		}

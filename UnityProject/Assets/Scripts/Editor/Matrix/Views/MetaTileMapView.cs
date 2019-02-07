@@ -17,6 +17,7 @@ public class MetaTileMapView : BasicView
 		globalChecks.Add(new SpaceCheck());
 		globalChecks.Add(new ShowGlobalPositionsCheck());
 		globalChecks.Add(new ShowPositionsCheck());
+		globalChecks.Add(new AtPointCheck());
 	}
 
 	public override void DrawContent()
@@ -137,6 +138,21 @@ public class MetaTileMapView : BasicView
 			else
 			{
 				GizmoUtils.DrawText($"{position.x}, {position.y}", position, Color.gray, false);
+			}
+		}
+	}
+
+	private class AtPointCheck : Check<MatrixManager>
+	{
+		public override string Label { get; } = "Matrix ID At Point";
+
+		public override void DrawLabel(MatrixManager source, Vector3Int position)
+		{
+			if (!MatrixManager.IsSpaceAt(position))
+			{
+				MatrixInfo matrix = MatrixManager.AtPoint(position);
+
+				GizmoUtils.DrawText($"{matrix.Id}", position, false);
 			}
 		}
 	}

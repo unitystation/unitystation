@@ -84,7 +84,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	public bool SafetyProtocolsOn { get; set; } = true;
 	private bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
-	private bool isRotatingServer => IsRotatingClient; //todo: calculate rotation time on server instead
+	private bool isRotatingServer => ClientNeedsRotation; //todo: calculate rotation time on server instead
 	private bool isAutopilotEngaged => Target != TransformState.HiddenPos;
 
 	//client-only values
@@ -101,9 +101,10 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private bool isMovingClient => clientState.IsMoving && clientState.Speed > 0f;
 
 	/// <summary>
-	/// Does current transform rotation not yet match the target client offset?
+	/// Does current transform rotation not yet match the target client offset, and thus this matrix's transform needs to
+	/// be rotated to match the target?
 	/// </summary>
-	public bool IsRotatingClient =>
+	public bool ClientNeedsRotation =>
 		Quaternion.Angle(transform.rotation, clientState.RotationOffset.Quaternion) != 0;
 
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
@@ -257,25 +258,22 @@ public class MatrixMove : ManagedNetworkBehaviour
 	{
 		if (isServer)
 		{
-//			if ( Input.GetKeyDown( startKey ) ) {
-//				ToggleMovement();
-//			}
-//			if ( Input.GetKeyDown( KeyCode.KeypadPlus ) ) {
-//				AdjustSpeed( 1 );
-//			}
-//			if ( Input.GetKeyDown( KeyCode.KeypadMinus ) ) {
-//				AdjustSpeed( -1 );
-//			}
-//			if ( Input.GetKeyDown( leftKey ) ) {
-//				TryRotate( false );
-//			}
-//			if ( Input.GetKeyDown( rightKey ) ) {
-//				TryRotate( true );
-//			}
 			CheckMovementServer();
 		}
 
 		AnimateMovement();
+	}
+
+	///managed by UpdateManager
+	public override void LateUpdateMe()
+	{
+		//finish rotation now that the transform should finally be rotated (based on what we set it to in UpdateMe).
+		if (!ClientNeedsRotation && rotatedOnPreviousUpdate)
+		{
+
+			OnRotateEnd.Invoke(previousRotation);
+			rotatedOnPreviousUpdate = false;
+		}
 	}
 
 	[Server]
@@ -424,23 +422,21 @@ public class MatrixMove : ManagedNetworkBehaviour
 			return;
 		}
 
-		if (IsRotatingClient)
+		if (ClientNeedsRotation)
 		{
 			rotatedOnPreviousUpdate = true;
-			RotationOffset targetOffset = clientState.RotationOffset;
-			bool needsRotation = clientState.RotationTime != 0 &&
-			                     !Mathf.Approximately(Quaternion.Angle(transform.rotation, targetOffset.Quaternion), 0);
-			if (needsRotation)
+			if (clientState.RotationTime != 0)
 			{
+				//animate rotation
 				transform.rotation =
 					Quaternion.RotateTowards(transform.rotation,
-						targetOffset.Quaternion,
+						clientState.RotationOffset.Quaternion,
 						Time.deltaTime * clientState.RotationTime);
 			}
 			else
 			{
-				// Finishes the job of Lerp and straightens the ship with exact angle value
-				transform.rotation = targetOffset.Quaternion;
+				//rotate instantly
+				transform.rotation = clientState.RotationOffset.Quaternion;
 			}
 		}
 		else if (isMovingClient)
@@ -449,15 +445,15 @@ public class MatrixMove : ManagedNetworkBehaviour
 			SimulateStateMovement();
 		}
 
-		//fire the rotation end event if rotation just ended
-		if (!IsRotatingClient && rotatedOnPreviousUpdate)
+		//finish rotation (rotation event will be fired in lateupdate
+		if (!ClientNeedsRotation && rotatedOnPreviousUpdate)
 		{
-			OnRotateEnd.Invoke(previousRotation);
-			rotatedOnPreviousUpdate = false;
+			// Finishes the job of Lerp and straightens the ship with exact angle value
+			transform.rotation = clientState.RotationOffset.Quaternion;
 		}
 
 
-		if (!IsRotatingClient && monitorOnRot)
+		if (!ClientNeedsRotation && monitorOnRot)
 		{
 			monitorOnRot = false;
 			//This is ok for occasional state changes like end of rot:
@@ -468,7 +464,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		if (clientState.Position != transform.position)
 		{
 			float distance = Vector3.Distance(clientState.Position, transform.position);
-			bool shouldWarp = distance > 2 || IsRotatingClient;
+			bool shouldWarp = distance > 2 || ClientNeedsRotation;
 
 			//Teleport (Greater then 30 unity meters away from server target):
 			if (distance > 30f)
@@ -637,7 +633,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 					clientState.Speed * Time.deltaTime);
 		}
 
-		if (isMovingClient && !IsRotatingClient)
+		if (isMovingClient && !ClientNeedsRotation)
 		{
 			Vector3Int goal = Vector3Int.RoundToInt(clientState.Position + clientTargetState.Direction.Vector);
 			//keep moving

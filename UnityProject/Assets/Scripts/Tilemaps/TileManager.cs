@@ -14,7 +14,7 @@ public static class TilePaths
 		{TileType.Wall, "Tiles/Walls"},
 		{TileType.Grill, "Tiles/Objects"}, // TODO remove
 		{TileType.Object, "Tiles/Objects"},
-		{TileType.Damaged, "Tiles/Damaged"},
+		{TileType.WindowDamaged, "Tiles/WindowDamage"},
 		{TileType.Effects, "Tiles/Effects"}
 	};
 

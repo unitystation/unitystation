@@ -323,7 +323,7 @@ public class CustomNetworkManager : NetworkManager
 		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
 		for (var i = 0; i < scripts.Length; i++)
 		{
-			scripts[i].NotifyPlayer(playerGameObject, true);
+			scripts[i].NotifyPlayer(playerGameObject);
 		}
 		//All players
 		List<ConnectedPlayer> players = PlayerList.Instance.InGamePlayers;

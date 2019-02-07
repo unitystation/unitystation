@@ -3,9 +3,18 @@ using System.Diagnostics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
+/// <summary>
+/// Subsystem behavior which manages updating the MetaDataNodes and simulation that affects them for a given matrix.
+/// </summary>
 public class MetaDataSystem : SubsystemBehaviour
 {
+	/// <summary>
+	/// Nodes which exist in space next to room tiles of the matrix.
+	/// </summary>
 	private HashSet<MetaDataNode> externalNodes;
+	/// <summary>
+	/// Matrix this system is managing the MetaDataNodes for.
+	/// </summary>
 	private Matrix matrix;
 
 	// Set higher priority to ensure that it is executed before other systems
