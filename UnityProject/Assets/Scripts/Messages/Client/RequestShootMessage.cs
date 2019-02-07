@@ -35,7 +35,7 @@ public class RequestShootMessage : ClientMessage {
 		//get the currently equipped weapon in the player's active hand
 		PlayerNetworkActions pna = SentByPlayer.Script.playerNetworkActions;
 		Weapon wep = pna.GetActiveHandItem().GetComponent<Weapon>();
-		wep.ServerShoot(NetworkObject,Target, DamageZone, IsSuicideShot);
+		wep.ServerShoot(pna.gameObject,Target, DamageZone, IsSuicideShot);
 		yield return null;
 	}
 
