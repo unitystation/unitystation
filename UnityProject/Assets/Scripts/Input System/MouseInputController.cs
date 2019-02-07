@@ -58,7 +58,7 @@ public class MouseInputController : MonoBehaviour
 			"HiddenWalls", "Objects", "Matrix");
 	}
 
-	void Update()
+	void LateUpdate()
 	{
 		CheckMouseInput();
 	}

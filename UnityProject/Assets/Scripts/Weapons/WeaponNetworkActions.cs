@@ -89,7 +89,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (layerType != LayerType.None)
 		{
 			TileChangeManager tileChangeManager = victim.GetComponent<TileChangeManager>();
-			MetaTileMap metaTileMap = victim.GetComponent<MetaTileMap>();
+			MetaTileMap metaTileMap = victim.GetComponentInChildren<MetaTileMap>();
 			if (tileChangeManager == null)
 			{
 				return;

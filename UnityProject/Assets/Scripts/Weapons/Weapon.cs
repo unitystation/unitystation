@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using Light2D;
 using UnityEngine;
@@ -618,7 +618,7 @@ public class Weapon : PickUpTrigger
 		}
 		else
 		{
-			b.Shoot(finalDirection, angle, shooter, this, damageZone);
+			b.Shoot(finalDirection, shooter, this, damageZone);
 		}
 
 
