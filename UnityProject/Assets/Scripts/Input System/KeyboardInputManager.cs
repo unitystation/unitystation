@@ -213,11 +213,10 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.IntentGrab, 	() => { UIManager.Intent.SetIntent(Intent.Grab); }},
 		{ KeyAction.IntentHarm, 	() => { UIManager.Intent.SetIntent(Intent.Harm); }},
 
-		// TODO add other bindings once chat has been updated
 		// Chat
 		{ KeyAction.ChatLocal,		() => { ControlChat.Instance.OpenChatWindow(); }},
-		// { KeyAction.ChatRadio,		() => { /* ControlChat.Instance.OpenChatWindow(Radio); */ }},
-		// { KeyAction.ChatDept,		() => { /* ControlChat.Instance.OpenChatWindow(Department); */ }},
+		{ KeyAction.ChatRadio,		() => { ControlChat.Instance.OpenChatWindow(ChatChannel.Common); }},
+		{ KeyAction.ChatOOC,		() => { ControlChat.Instance.OpenChatWindow(ChatChannel.OOC); }},
 
 		// Body part selection
 		{ KeyAction.TargetHead,		() => { UIManager.ZoneSelector.CycleHead(); }},
