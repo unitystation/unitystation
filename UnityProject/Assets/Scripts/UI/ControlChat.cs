@@ -299,7 +299,7 @@ public class ControlChat : MonoBehaviour
 
         if (isOn)
         {
-            //Deselect all other channels in UI if OOC or local was selected
+            //Deselect all other channels in UI if OOC was selected
             if (curChannel == ChatChannel.OOC)
             {
                 DisableAllExceptChannel (curChannel);
