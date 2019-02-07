@@ -8,6 +8,8 @@ public class ClosetControl : InputTrigger
 {
 	private Sprite doorClosed;
 	public Sprite doorOpened;
+	[Header("Contents that will spawn inside every locker of type")]
+	public List<GameObject> DefaultContents;
 
 	//Inventory
 	private List<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
@@ -41,6 +43,11 @@ public class ClosetControl : InputTrigger
 	{
 		StartCoroutine(WaitForServerReg());
 		base.OnStartServer();
+
+		foreach ( GameObject itemPrefab in DefaultContents )
+		{
+			ItemFactory.SpawnItem( itemPrefab, transform.position, transform.parent );
+		}
 	}
 
 	private IEnumerator WaitForServerReg()
