@@ -127,6 +127,7 @@ public class ControlChat : MonoBehaviour
             }
             else
             {
+				// Selected channels already masks all unavailable channels in it's get method
                 PostToChatMessage.Send (InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
             }
         }
@@ -145,16 +146,19 @@ public class ControlChat : MonoBehaviour
         CloseChatWindow ();
     }
 
-    public void OpenChatWindow (/* ChatChannel selectedChannel = ChatChannel.None */)
+    public void OpenChatWindow (ChatChannel selectedChannel = ChatChannel.None)
     {
-        // TODO add ability to pass a channel to select
+		// Change the selected channel if one is passed to the function
+		if (selectedChannel != ChatChannel.None)
+		{
+			PlayerManager.LocalPlayerScript.SelectedChannels = selectedChannel;
+		}
         EventManager.Broadcast (EVENT.ChatFocused);
         chatInputWindow.SetActive (true);
         background.SetActive (true);
         UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
         EventSystem.current.SetSelectedGameObject (InputFieldChat.gameObject, null);
         InputFieldChat.OnPointerClick (new PointerEventData (EventSystem.current));
-        // PlayerManager.LocalPlayerScript.SelectedChannels =
         UpdateChannelToggleText ();
     }
     public void CloseChatWindow ()
@@ -275,10 +279,10 @@ public class ControlChat : MonoBehaviour
 
         if (isOn)
         {
-            //Deselect all other channels in UI if OOC was selected
+            //Deselect all other channels in UI if OOC or local was selected
             if (curChannel == ChatChannel.OOC)
             {
-                DisableAllButOOC (curChannel);
+                DisableAllExceptChannel (curChannel);
                 PlayerManager.LocalPlayerScript.SelectedChannels = curChannel;
             }
             else
@@ -289,7 +293,17 @@ public class ControlChat : MonoBehaviour
         }
         else
         {
-            PlayerManager.LocalPlayerScript.SelectedChannels &= ~curChannel;
+			// Stop the local channel from being disabled
+			if (curChannel == ChatChannel.Local)
+			{
+				DisableAllExceptChannel (ChatChannel.Local);
+				ChannelToggles[ChatChannel.Local].isOn = true;
+				PlayerManager.LocalPlayerScript.SelectedChannels = ChatChannel.Local;
+			}
+			else
+			{
+				PlayerManager.LocalPlayerScript.SelectedChannels &= ~curChannel;
+			}
         }
 
         UpdateChannelToggleText ();
@@ -305,9 +319,11 @@ public class ControlChat : MonoBehaviour
                 chanToggle.Value.isOn = false;
             }
         }
+		PlayerManager.LocalPlayerScript.SelectedChannels |= ChatChannel.Local;
+		ChannelToggles[ChatChannel.Local].isOn = true;
     }
 
-    private void DisableAllButOOC (ChatChannel channel)
+    private void DisableAllExceptChannel (ChatChannel channel)
     {
         foreach (KeyValuePair<ChatChannel, Toggle> chanToggle in ChannelToggles)
         {
