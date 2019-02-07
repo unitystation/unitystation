@@ -121,7 +121,7 @@ public class MetaDataView : BasicView
 
 			if (neighborCount > 0)
 			{
-				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{neighborCount}", p, false);
 			}
 		}
@@ -137,7 +137,7 @@ public class MetaDataView : BasicView
 
 			if (node.Exists)
 			{
-				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{node.GasMix.Pressure:0.###}", p, false);
 			}
 		}
@@ -153,7 +153,7 @@ public class MetaDataView : BasicView
 
 			if (node.Exists)
 			{
-				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{node.GasMix.Temperature:0.###}", p, false);
 			}
 		}
@@ -169,7 +169,7 @@ public class MetaDataView : BasicView
 
 			if (node.Exists)
 			{
-				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{node.GasMix.Moles:0.###}", p, false);
 			}
 		}
@@ -200,7 +200,7 @@ public class MetaDataView : BasicView
 
 			if (node.Exists)
 			{
-				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.Plasma):0.###}", p, false);
 			}
 		}
@@ -216,7 +216,7 @@ public class MetaDataView : BasicView
 
 			if (node.Exists)
 			{
-				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.Oxygen):0.###}", p, false);
 			}
 		}
@@ -232,9 +232,14 @@ public class MetaDataView : BasicView
 
 			if (node.Exists)
 			{
-				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
+				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.CarbonDioxide):0.###}", p, false);
 			}
 		}
+	}
+
+	private static Vector3 LocalToWorld(Component source, Vector3Int position)
+	{
+		return MatrixManager.LocalToWorld(position, MatrixManager.Get(source.GetComponent<Matrix>()));
 	}
 }
