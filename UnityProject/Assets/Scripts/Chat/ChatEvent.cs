@@ -142,6 +142,7 @@ public class ChatEvent
 		message = ApplyModifiers(message, modifiers);
 		if (message.Length < 1)
 		{
+			// if message + modifiers leads to no text, do not display
 			this.channels = ChatChannel.None;
 		}
 		message = "<b>" + speaker + "</b> says: \"" + message + "\"";
@@ -212,6 +213,8 @@ public class ChatEvent
 		}
 		if ((modifiers & ChatModifier.Crit) == ChatModifier.Crit)
 		{
+			//If user is in critical state remove text
+			//This can be changed later to other status effects
 			output = "";
 		}
 
