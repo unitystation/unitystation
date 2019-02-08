@@ -318,6 +318,9 @@ public class PlayerScript : ManagedNetworkBehaviour
 			{
 				return ChatModifier.None;
 			}
+			if (playerHealth.IsCrit) {
+				return ChatModifier.Crit;
+			}
 
 			//TODO add missing modifiers
 			//TODO add if for being drunk
