@@ -120,6 +120,11 @@ public class ControlChat : MonoBehaviour
         }
         else
         {
+            if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit)
+            {
+                //Player in crit, message not sent
+                return;
+            }
             if (PlayerManager.LocalPlayerScript.playerMove.isGhost)
             {
                 //dead chat only
