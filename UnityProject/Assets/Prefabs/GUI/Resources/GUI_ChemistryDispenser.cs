@@ -79,6 +79,8 @@ public class GUI_ChemistryDispenser : NetTab {
 		{
 			//Makes sure it connects with the dispenser properly
 			ChemistryDispenser = Provider.GetComponentInChildren<ChemistryDispenser> ();
+			//Subscribe to change event from ChemistryDispenser.cs
+			ChemistryDispenser.changeEvent += Updateall;
 			Updateall ();
 		}
 
