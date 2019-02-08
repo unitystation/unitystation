@@ -85,7 +85,7 @@ public class GUI_ChemistryDispenser : NetTab {
 		}
 
 	}
-
+	
 	//set how much it should dispense
 	public void SetAddAmount(int Number)
 	{
@@ -200,5 +200,10 @@ public class GUI_ChemistryDispenser : NetTab {
 			TotalAndTemperature.SetValue = "No container inserted"; 
 		}
 		ListOfReagents.SetValue = newListOfReagents;
+	}
+	public void OnDestroy()
+	{
+		//Unsubscribe container update event
+		ChemistryDispenser.changeEvent -= Updateall;
 	}
 }
