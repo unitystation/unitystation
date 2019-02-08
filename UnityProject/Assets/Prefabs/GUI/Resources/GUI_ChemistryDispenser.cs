@@ -85,6 +85,7 @@ public class GUI_ChemistryDispenser : NetTab {
 		}
 
 	}
+
 	//set how much it should dispense
 	public void SetAddAmount(int Number)
 	{
