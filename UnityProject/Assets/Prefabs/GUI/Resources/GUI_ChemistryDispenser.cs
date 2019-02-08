@@ -79,6 +79,8 @@ public class GUI_ChemistryDispenser : NetTab {
 		{
 			//Makes sure it connects with the dispenser properly
 			ChemistryDispenser = Provider.GetComponentInChildren<ChemistryDispenser> ();
+			//Subscribe to change event from ChemistryDispenser.cs
+			ChemistryDispenser.changeEvent += Updateall;
 			Updateall ();
 		}
 
@@ -198,5 +200,10 @@ public class GUI_ChemistryDispenser : NetTab {
 			TotalAndTemperature.SetValue = "No container inserted"; 
 		}
 		ListOfReagents.SetValue = newListOfReagents;
+	}
+	public void OnDestroy()
+	{
+		//Unsubscribe container update event
+		ChemistryDispenser.changeEvent -= Updateall;
 	}
 }

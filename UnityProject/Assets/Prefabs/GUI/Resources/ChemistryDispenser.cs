@@ -7,6 +7,8 @@ public class ChemistryDispenser : NetworkTabTrigger {
 	public ReagentContainer Container;
 	public ObjectBehaviour objectse;
 	public GameObject ofthis; //this 
+	public delegate void ChangeEvent (); 
+	public static event ChangeEvent changeEvent;  
 
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
@@ -41,6 +43,7 @@ public class ChemistryDispenser : NetworkTabTrigger {
 					GameObject item = ps.playerNetworkActions.Inventory[hand].Item;
 					objectse = item.GetComponentInChildren<ObjectBehaviour> ();
 					InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
+					UpdateGUI();
 					return true;
 				}
 				TabUpdateMessage.Send( originator, gameObject, NetTabType, TabAction.Open );
@@ -53,6 +56,14 @@ public class ChemistryDispenser : NetworkTabTrigger {
 		return true;
 	}
 
+	public void  UpdateGUI()
+	{
+		// Change event runs updateAll in ChemistryGUI
+   		if(changeEvent!=null) 
+		{
+        	changeEvent();
+		}
+ 	}
 
 
 }
