@@ -33,6 +33,7 @@ public enum ChatModifier
 	None = 0,
 	Drunk = 1,
 	Stutter = 2,
+	Crit = 3,
 	Hiss = 4,
 	Clown = 8
 }
@@ -139,6 +140,10 @@ public class ChatEvent
 		}
 
 		message = ApplyModifiers(message, modifiers);
+		if (message.Length < 1)
+		{
+			this.channels = ChatChannel.None;
+		}
 		message = "<b>" + speaker + "</b> says: \"" + message + "\"";
 
 		return message;
@@ -204,6 +209,10 @@ public class ChatEvent
 			{
 				output = output + " ...hic!...";
 			}
+		}
+		if ((modifiers & ChatModifier.Crit) == ChatModifier.Crit)
+		{
+			output = "";
 		}
 
 		return output;
