@@ -73,7 +73,7 @@ public class LocalTrailRenderer : MonoBehaviour
 
 	private void Reset() {
         // Wipe out any old positions in the LineRenderer
-        lineRenderer.numPositions = 0;
+        lineRenderer.positionCount = 0;
         secondsSinceLastSegment = 0;
         // Then set the first position to our object's current local position
         AddPoint(objToFollow.localPosition);
@@ -83,12 +83,12 @@ public class LocalTrailRenderer : MonoBehaviour
     private void AddPoint(Vector3 newPoint) {
 	    secondsSinceLastSegment = 0;
         // Increase the number of positions to render by 1
-        lineRenderer.numPositions += 1;
+        lineRenderer.positionCount += 1;
         // Set the new, last item in the Vector3 list to our new point
-        lineRenderer.SetPosition(lineRenderer.numPositions - 1, newPoint);
+        lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPoint);
 
         // Check to see if the list is too long
-        if (limitTrailLength && lineRenderer.numPositions > maxPositions) {
+        if (limitTrailLength && lineRenderer.positionCount > maxPositions) {
             // ...and discard old positions if necessary
             TruncatePositions(maxPositions);
         }
@@ -103,7 +103,7 @@ public class LocalTrailRenderer : MonoBehaviour
         // Create a temporary list of the desired length
         Vector3[] tempList = new Vector3[newLength];
         // Calculate how many extra items will need to be cut out from the original list
-        int nExtraItems = lineRenderer.numPositions - newLength;
+        int nExtraItems = lineRenderer.positionCount - newLength;
         // Loop through original list and add newest X items to temp list
         for (int i=0; i<newLength; i++) {
             // shift index by nExtraItems... e.g., if 2 extras, start at index 2 instead of index 0
@@ -111,7 +111,7 @@ public class LocalTrailRenderer : MonoBehaviour
         }
 
         // Set the LineRenderer's position list length to the appropriate amount
-        lineRenderer.numPositions = newLength;
+        lineRenderer.positionCount = newLength;
         // ...and use our tempList to fill it's positions appropriately
         lineRenderer.SetPositions(tempList);
     }
