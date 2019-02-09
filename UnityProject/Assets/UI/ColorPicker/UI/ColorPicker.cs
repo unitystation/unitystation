@@ -17,7 +17,7 @@ public class ColorPicker : MonoBehaviour
 
     public ColorChangedEvent onValueChanged = new ColorChangedEvent();
     public HSVChangedEvent onHSVChanged = new HSVChangedEvent();
-
+    public Color LastColor;
     public Color CurrentColor
     {
         get
@@ -44,6 +44,11 @@ public class ColorPicker : MonoBehaviour
     {
         RGBChanged();
         SendChangedEvent();
+    }
+    private void OnEnable() {
+        RGBChanged();
+        HSVChanged();
+        LastColor = CurrentColor;
     }
 
     public float H
@@ -253,6 +258,16 @@ public class ColorPicker : MonoBehaviour
                 throw new System.NotImplementedException("");
         }
     }
+    public void OnApplyBtn()
+	{
+		gameObject.SetActive(false);
+	}
+
+	public void OnCancelBtn()
+	{
+        CurrentColor = LastColor;
+		gameObject.SetActive(false);
+	}
 }
 
 public enum ColorValues
