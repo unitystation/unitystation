@@ -595,29 +595,15 @@ namespace Lobby
 			var anchoredPos = rectT.anchoredPosition;
 			anchoredPos.y = yPos;
 			rectT.anchoredPosition = anchoredPos;
-			colorPicker.gameObject.SetActive(true);
 			colorChangedEvent = _colorChangeEvent;
-			beforeEditingColor = currentColor;
 			colorPicker.CurrentColor = currentColor;
+			colorPicker.gameObject.SetActive(true);
 		}
 
 		private Action<Color> colorChangedEvent;
-		private Color beforeEditingColor;
 		private void OnColorChange(Color newColor)
 		{
 			colorChangedEvent.Invoke(newColor);
-		}
-
-		public void CancelColorPicker()
-		{
-			colorChangedEvent.Invoke(beforeEditingColor);
-			CloseColorPicker();
-		}
-
-		public void CloseColorPicker()
-		{
-			colorChangedEvent = null;
-			colorPicker.gameObject.SetActive(false);
 		}
 	}
 }
