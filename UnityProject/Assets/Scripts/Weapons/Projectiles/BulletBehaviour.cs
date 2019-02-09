@@ -80,7 +80,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 		shooter = controlledByPlayer;
 
 		transform.parent = controlledByPlayer.transform.parent;
-		Vector3 startPos = new Vector3(dir.x, dir.y, transform.position.z);
+		Vector3 startPos = new Vector3(dir.x, dir.y, transform.position.z) / 2;
 		transform.position += startPos;
 		rigidBody.transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg, Vector3.forward);
 		rigidBody.transform.localPosition = Vector3.zero;
