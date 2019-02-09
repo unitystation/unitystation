@@ -33,6 +33,7 @@ public enum ChatModifier
 	None = 0,
 	Drunk = 1,
 	Stutter = 2,
+	Crit = 3,
 	Hiss = 4,
 	Clown = 8
 }
@@ -139,6 +140,11 @@ public class ChatEvent
 		}
 
 		message = ApplyModifiers(message, modifiers);
+		if (message.Length < 1)
+		{
+			// if message + modifiers leads to no text, do not display
+			this.channels = ChatChannel.None;
+		}
 		message = "<b>" + speaker + "</b> says: \"" + message + "\"";
 
 		return message;
@@ -204,6 +210,12 @@ public class ChatEvent
 			{
 				output = output + " ...hic!...";
 			}
+		}
+		if ((modifiers & ChatModifier.Crit) == ChatModifier.Crit)
+		{
+			//If user is in critical state remove text
+			//This can be changed later to other status effects
+			output = "";
 		}
 
 		return output;

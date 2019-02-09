@@ -131,11 +131,26 @@ public class ControlChat : MonoBehaviour
             }
         }
 
-        if (InputFieldChat.text != "")
+        if (PlayerChatShown())
         {
             PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon (true);
         }
         InputFieldChat.text = "";
+    }
+    //Check cases where player should not have chat icon
+    public bool PlayerChatShown ()
+    {
+        // case where player is in crit
+        if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit)
+        {
+            return false;
+        }
+        // case where text is empty
+        if (InputFieldChat.text == "")
+        {
+            return false;
+        }
+        return true;
     }
 
     public void OnChatCancel ()
