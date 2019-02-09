@@ -46,8 +46,7 @@ public class ColorPicker : MonoBehaviour
         SendChangedEvent();
     }
     private void OnEnable() {
-        RGBChanged();
-        HSVChanged();
+        // save color before edit
         LastColor = CurrentColor;
     }
 
@@ -260,11 +259,13 @@ public class ColorPicker : MonoBehaviour
     }
     public void OnApplyBtn()
 	{
+        // close with currentcolor
 		gameObject.SetActive(false);
 	}
 
 	public void OnCancelBtn()
 	{
+        // return to previous color and close
         CurrentColor = LastColor;
 		gameObject.SetActive(false);
 	}
