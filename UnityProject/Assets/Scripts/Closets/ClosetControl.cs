@@ -8,6 +8,7 @@ public class ClosetControl : InputTrigger
 {
 	private Sprite doorClosed;
 	public Sprite doorOpened;
+
 	[Header("Contents that will spawn inside every locker of type")]
 	public List<GameObject> DefaultContents;
 
@@ -44,9 +45,9 @@ public class ClosetControl : InputTrigger
 		StartCoroutine(WaitForServerReg());
 		base.OnStartServer();
 
-		foreach ( GameObject itemPrefab in DefaultContents )
+		foreach (GameObject itemPrefab in DefaultContents)
 		{
-			ItemFactory.SpawnItem( itemPrefab, transform.position, transform.parent );
+			ItemFactory.SpawnItem(itemPrefab, transform.position, transform.parent);
 		}
 	}
 
@@ -78,6 +79,7 @@ public class ClosetControl : InputTrigger
 				return true;
 			}
 		}
+
 		foreach (var item in heldItems)
 		{
 			if (item.gameObject == gameObject)
@@ -110,6 +112,7 @@ public class ClosetControl : InputTrigger
 					IsLocked = false;
 					return;
 				}
+
 				IsClosed = false;
 				SetItems(true);
 			}
@@ -146,6 +149,7 @@ public class ClosetControl : InputTrigger
 		{
 			return;
 		}
+
 		if (lockIt)
 		{
 		}
@@ -176,12 +180,14 @@ public class ClosetControl : InputTrigger
 			lockLight.Hide();
 		}
 	}
+
 	[ContextMethod("Open/close", "hand")]
 	public void GUIInteract()
 	{
 		//don't put your hand contents on open/close rmb action!
 		InteractInternal(false);
 	}
+
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		return InteractInternal();
@@ -217,8 +223,10 @@ public class ClosetControl : InputTrigger
 			{
 				localPlayer.playerNetworkActions.CmdToggleCupboard(gameObject);
 			}
+
 			return true;
 		}
+
 		return true;
 	}
 
@@ -254,7 +262,8 @@ public class ClosetControl : InputTrigger
 				netTransform.AppearAtPosition(pos);
 				if (pushPull && pushPull.Pushable.IsMovingServer)
 				{
-					netTransform.InertiaDrop(pos, pushPull.Pushable.MoveSpeedServer, pushPull.InheritedImpulse.To2Int());
+					netTransform.InertiaDrop(pos, pushPull.Pushable.MoveSpeedServer,
+						pushPull.InheritedImpulse.To2Int());
 				}
 				else
 				{
@@ -287,7 +296,8 @@ public class ClosetControl : InputTrigger
 				playerSync.AppearAtPositionServer(registerTile.WorldPosition);
 				if (pushPull && pushPull.Pushable.IsMovingServer)
 				{
-					playerScript.pushPull.TryPush(pushPull.InheritedImpulse.To2Int(), pushPull.Pushable.MoveSpeedServer);
+					playerScript.pushPull.TryPush(pushPull.InheritedImpulse.To2Int(),
+						pushPull.Pushable.MoveSpeedServer);
 				}
 			}
 
@@ -303,6 +313,25 @@ public class ClosetControl : InputTrigger
 					ClosetHandlerMessage.Send(player.gameObject, gameObject);
 				}
 			}
+		}
+	}
+
+
+	/// <summary>
+	/// Invoked when the parent net ID of this closet's RegisterCloset changes. Updates the parent net ID of the player / items
+	/// in the closet, passing the update on to their RegisterTile behaviors.
+	/// </summary>
+	/// <param name="parentNetId">new parent net ID</param>
+	public void OnParentChangeComplete(NetworkInstanceId parentNetId)
+	{
+		foreach (ObjectBehaviour objectBehaviour in heldItems)
+		{
+			objectBehaviour.registerTile.ParentNetId = parentNetId;
+		}
+
+		foreach (ObjectBehaviour objectBehaviour in heldPlayers)
+		{
+			objectBehaviour.registerTile.ParentNetId = parentNetId;
 		}
 	}
 }

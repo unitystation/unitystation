@@ -125,19 +125,19 @@ public class TilemapDamage : MonoBehaviour
 		data.Damage += damage;
 		if (data.Damage >= 20 && data.Damage < 50 && data.WindowDmgType != "crack01")
 		{
-			tileChangeManager.UpdateTile(cellPos, TileType.Damaged, "crack01");
+			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack01");
 			data.WindowDmgType = "crack01";
 		}
 
 		if (data.Damage >= 50 && data.Damage < 75 && data.WindowDmgType != "crack02")
 		{
-			tileChangeManager.UpdateTile(cellPos, TileType.Damaged, "crack02");
+			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack02");
 			data.WindowDmgType = "crack02";
 		}
 
 		if (data.Damage >= 75 && data.Damage < 100 && data.WindowDmgType != "crack03")
 		{
-			tileChangeManager.UpdateTile(cellPos, TileType.Damaged, "crack03");
+			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack03");
 			data.WindowDmgType = "crack03";
 		}
 
@@ -164,7 +164,7 @@ public class TilemapDamage : MonoBehaviour
 		if (data.Damage >= 60)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Grills);
-			tileChangeManager.UpdateTile(cellPos, TileType.Damaged, "GrillDestroyed");
+			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "GrillDestroyed");
 
 			PlaySoundMessage.SendToAll("GrillHit", bulletHitTarget, 1f);
 

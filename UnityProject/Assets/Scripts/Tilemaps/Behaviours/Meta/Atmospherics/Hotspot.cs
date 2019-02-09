@@ -3,12 +3,25 @@ using UnityEngine;
 
 namespace Atmospherics
 {
+	/// <summary>
+	/// Represents the potential for a MetaDataNode to ignite the gases on it, and provides logic related to igniting the actual
+	/// gases.
+	/// </summary>
 	public class Hotspot
 	{
+		/// <summary>
+		/// Current temperature on the tile
+		/// </summary>
 		public float Temperature { get; private set; }
 
+		/// <summary>
+		/// Current volume of the tile
+		/// </summary>
 		public float Volume { get; private set; }
 
+		/// <summary>
+		/// Node this hotspot lives on.
+		/// </summary>
 		private MetaDataNode node;
 
 		public Hotspot(MetaDataNode node, float temperature, float volume)
@@ -42,6 +55,9 @@ namespace Atmospherics
 			return true;
 		}
 
+		/// <summary>
+		/// Exposes the hotspot, igniting gases on the tile
+		/// </summary>
 		private void Expose()
 		{
 			if ((Volume / node.GasMix.Volume) > 0.95f)

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-
+/// <summary>
+/// Holds and provides functionality for all the MetaDataTiles for a given matrix.
+/// </summary>
 public class MetaDataLayer : MonoBehaviour
 {
 	private MetaDataDictionary nodes = new MetaDataDictionary();

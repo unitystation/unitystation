@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Atmospherics
 {
+	/// <summary>
+	/// Represents a mix of gases
+	/// </summary>
 	public struct GasMix
 	{
 		public readonly float[] Gases;

@@ -10,7 +10,7 @@ public class Camera2DFollow : MonoBehaviour
 	private readonly float lookAheadMoveThreshold = 0.1f;
 	private readonly float lookAheadReturnSpeed = 0.5f;
 
-	private readonly float yOffSet = -0.5f; 
+	private readonly float yOffSet = -0.5f;
 
 	private Vector3 cachePos;
 	private Vector3 currentVelocity;
@@ -82,7 +82,7 @@ public class Camera2DFollow : MonoBehaviour
 		if(!PlayerManager.LocalPlayerScript.weaponNetworkActions){
 			return;
 		}
-		if (target != null && !isShaking && !PlayerManager.LocalPlayerScript.weaponNetworkActions.lerping)
+		if (target != null && !isShaking)
 		{
 			// only update lookahead pos if accelerating or changed direction
 			float xMoveDelta = (target.position - lastTargetPosition).x;
@@ -106,7 +106,7 @@ public class Camera2DFollow : MonoBehaviour
 			//aheadTargetPos.x += xOffset;
 
 			Vector3 newPos = Vector3.SmoothDamp(transform.position, aheadTargetPos, ref currentVelocity, damping);
-	
+
 			if (adjustPixel)
 			{
 				newPos.x = Mathf.RoundToInt(newPos.x * pixelAdjustment) / pixelAdjustment;

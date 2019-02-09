@@ -193,7 +193,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		{
 			playerScript.hitIcon.ShowHitIcon(stabDir, lerpSprite);
 		}
-		lerpFrom = transform.position;
+		lerpFrom = Vector3.zero;
 		Vector3 newDir = stabDir * 0.5f;
 		newDir.z = lerpFrom.z;
 		lerpTo = lerpFrom + newDir;
@@ -221,8 +221,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (lerping)
 		{
 			lerpProgress += Time.deltaTime;
-			spritesObj.transform.position = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress * speed);
-			if (spritesObj.transform.position == lerpTo || lerpProgress > 2f)
+			spritesObj.transform.localPosition = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress * speed);
+			if (spritesObj.transform.localPosition == lerpTo || lerpProgress > 2f)
 			{
 				if (!isForLerpBack)
 				{
@@ -241,7 +241,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 					//To lerp back from knife attack
 					ResetLerp();
 					lerpTo = lerpFrom;
-					lerpFrom = spritesObj.transform.position;
+					lerpFrom = spritesObj.transform.localPosition;
 					lerping = true;
 				}
 			}

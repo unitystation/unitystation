@@ -4,16 +4,45 @@ using UnityEngine;
 
 namespace Atmospherics
 {
+	/// <summary>
+	/// Main class which runs the atmospheric simulation for a given atmos thread. Since there is currently only
+	/// one thread (At the time of writing), this means AtmosSimulation runs the simulation for the entire map.
+	///
+	/// AtmosSimulation operates on MetaDataNodes. There is one MetaDataNode per tile. The metadatanode describes
+	/// the current state of the tile and is updated when AtmosSimulation updates it.
+	///
+	/// AtmosSimulation works by updating only what MetaDataNodes it is told to update, via AddToUpdateList. Once
+	/// it updates, it doesn't do anything else to that MetaDataNode until it is told to again.
+	/// </summary>
 	public class AtmosSimulation
 	{
+		/// <summary>
+		/// Interval (seconds) between updates of the simulation.
+		/// </summary>
 		public float Speed = 0.1f;
 
+		/// <summary>
+		/// True iff atmossimulation has updates to perform
+		/// </summary>
 		public bool IsIdle => updateList.IsEmpty;
 
+		/// <summary>
+		/// Number of updates remaining for atmossimulation to process
+		/// </summary>
 		public int UpdateListCount => updateList.Count;
 
+		/// <summary>
+		/// determines how much things change during an update, calculated based on the Speed and number of
+		/// updates that currently need processing.
+		/// </summary>
 		private float factor;
+		/// <summary>
+		/// Holds the nodes which are being processed during the current Update
+		/// </summary>
 		private List<MetaDataNode> nodes = new List<MetaDataNode>(5);
+		/// <summary>
+		/// MetaDataNodes that we are requested to update but haven't yet
+		/// </summary>
 		private UniqueQueue<MetaDataNode> updateList = new UniqueQueue<MetaDataNode>();
 
 		public void AddToUpdateList(MetaDataNode node)

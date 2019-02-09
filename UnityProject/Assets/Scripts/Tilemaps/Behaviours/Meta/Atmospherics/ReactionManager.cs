@@ -4,6 +4,9 @@ using Atmospherics;
 using Objects;
 using UnityEngine;
 
+/// <summary>
+/// Handles performing the various reactions that can occur in atmospherics simulation.
+/// </summary>
 public class ReactionManager : MonoBehaviour
 {
 	private TileChangeManager tileChangeManager;

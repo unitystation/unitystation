@@ -163,18 +163,34 @@ public abstract class RegisterTile : NetworkBehaviour
 		{
 			UpdatePosition();
 		}
+		OnParentChangeComplete();
 	}
 
 	private void Start()
 	{
+		Init();
+	}
+
+	private void Awake()
+	{
+		//some things (such as items in closets) do not start with sprite renderers so we need to init
+		//when they are awoken not just on Start
+		Init();
+	}
+
+	private void Init()
+	{
 		//cache the sprite renderers
-		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-		//orient upright
-		if (!rotateWithMatrix)
+		if (spriteRenderers == null)
 		{
-			foreach (SpriteRenderer renderer in spriteRenderers)
+			spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+			//orient upright
+			if (!rotateWithMatrix && spriteRenderers != null)
 			{
-				renderer.transform.rotation = Quaternion.identity;
+				foreach (SpriteRenderer renderer in spriteRenderers)
+				{
+					renderer.transform.rotation = Quaternion.identity;
+				}
 			}
 		}
 	}
@@ -257,7 +273,7 @@ public abstract class RegisterTile : NetworkBehaviour
 	/// <param name="fromCurrent">offset our matrix has rotated by from its previous orientation</param>
 	private void OnRotationStart(RotationOffset fromCurrent)
 	{
-		if (!ROTATE_AT_END)
+		if (!ROTATE_AT_END && spriteRenderers != null)
 		{
 			// reorient to stay upright if we are configured to do so
 			if (!rotateWithMatrix)
@@ -278,7 +294,7 @@ public abstract class RegisterTile : NetworkBehaviour
 	/// <param name="fromCurrent">offset our matrix has rotated by from its previous orientation</param>
 	private void OnRotationEnd(RotationOffset fromCurrent)
 	{
-		if (ROTATE_AT_END)
+		if (ROTATE_AT_END && spriteRenderers != null)
 		{
 			// reorient to stay upright if we are configured to do so
 			if (!rotateWithMatrix)
@@ -293,7 +309,16 @@ public abstract class RegisterTile : NetworkBehaviour
 		OnRotateEnd.Invoke(fromCurrent);
 	}
 
-
+	/// <summary>
+	/// Invoked when the parent net ID of this RegisterTile has changed, after reparenting
+	/// has been performed in RegisterTile (which updates the parent net ID, parent transform, parent
+	/// matrix, position, object layer, and parent matrix move if one is present in the matrix).
+	/// Allows subclasses to respond to this event and do additional processing
+	/// based on the new parent net ID.
+	/// </summary>
+	protected virtual void OnParentChangeComplete()
+	{
+	}
 
 	public virtual bool IsPassable()
 	{

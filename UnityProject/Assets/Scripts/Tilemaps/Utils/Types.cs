@@ -10,7 +10,7 @@ public enum TileType
 	Object,
 	Grill,
 	Base,
-	Damaged,
+	WindowDamaged,
 	Effects
 }
 

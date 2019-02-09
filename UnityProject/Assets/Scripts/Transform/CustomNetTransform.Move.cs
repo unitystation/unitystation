@@ -483,7 +483,7 @@ public partial class CustomNetTransform {
 			serverState.Speed = 0;
 		}
 		serverState.Impulse = Vector2.zero;
-		serverState.Rotation = transform.rotation.eulerAngles.z;
+		serverState.SpinRotation = transform.localRotation.eulerAngles.z;
 		serverState.SpinFactor = 0;
 		serverState.ActiveThrow = ThrowInfo.NoThrow;
 		NotifyPlayers();
