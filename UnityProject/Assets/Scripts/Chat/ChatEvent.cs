@@ -33,9 +33,9 @@ public enum ChatModifier
 	None = 0,
 	Drunk = 1,
 	Stutter = 2,
-	Crit = 3,
-	Hiss = 4,
-	Clown = 8
+	Crit = 4,
+	Hiss = 8,
+	Clown = 16
 }
 
 public class ChatEvent
