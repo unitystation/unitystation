@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReagentContainer : MonoBehaviour {
-	public float Temperature = 20;
-	public int MaxCapacity = 100;
+public class ReagentContainer : Container {
 	public float CurrentCapacity;
-	public Dictionary<string, float> Contents = new Dictionary<string, float>();
+	public List<string> Chemicals;
+	public List<float> Amounts;
+
 	// Use this for initialization
 	void Start () {
+		for (int i = 0; i< Chemicals.Count; i++)
+		{
+			Contents[Chemicals[i]] = Amounts[i];
+		}
 	}
 	public void AddReagents (Dictionary<string, float> Reagents,float TemperatureContainer){//Automatic overflow If you Don't want  to lose check before adding
 		float HowMany = AmountOfReagents (Reagents);
