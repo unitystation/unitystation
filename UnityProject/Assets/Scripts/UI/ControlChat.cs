@@ -313,15 +313,24 @@ public class ControlChat : MonoBehaviour
         }
         else
         {
-			// Stop the local channel from being disabled
+			// Make some exceptions for Local and OOC buttons
 			if (curChannel == ChatChannel.Local)
 			{
+				// Disable all of the other channels
 				DisableAllExceptChannel (ChatChannel.Local);
+
+				// Make sure Local is still selected so player can't select ChatChannel.None
 				ChannelToggles[ChatChannel.Local].isOn = true;
 				PlayerManager.LocalPlayerScript.SelectedChannels = ChatChannel.Local;
 			}
+			else if (curChannel == ChatChannel.OOC)
+			{
+				// Leave OOC on, don't let players disable it by pressing it again
+				ChannelToggles[ChatChannel.OOC].isOn = true;
+			}
 			else
 			{
+				// Disable the current channel
 				PlayerManager.LocalPlayerScript.SelectedChannels &= ~curChannel;
 			}
         }
