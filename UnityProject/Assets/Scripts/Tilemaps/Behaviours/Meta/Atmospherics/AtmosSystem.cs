@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AtmosSystem : SubsystemBehaviour
 {
+	public bool RunInThread;
+
 	public override void Initialize()
 	{
 		BoundsInt bounds = metaTileMap.GetBounds();
@@ -19,10 +21,5 @@ public class AtmosSystem : SubsystemBehaviour
 	public override void UpdateAt(Vector3Int position)
 	{
 		AtmosThread.Enqueue(metaDataLayer.Get(position));
-	}
-
-	private void OnDestroy()
-	{
-		AtmosThread.Stop();
 	}
 }

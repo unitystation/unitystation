@@ -1,13 +1,14 @@
 using UnityEngine;
 
-
 public class AtmosManager : MonoBehaviour
 {
-	[Tooltip("frequency of atmos simulation updates (seconds between each update)")]
 	public float Speed = 0.1f;
 
-	[Tooltip("not currently implemented, thread count is always locked at one regardless of this setting")]
 	public int NumberThreads = 1;
+
+	public AtmosMode Mode = AtmosMode.Threaded;
+
+	public bool Running { get; private set; }
 
 	private void OnValidate()
 	{
@@ -16,4 +17,48 @@ public class AtmosManager : MonoBehaviour
 		// TODO set number of threads
 	}
 
+	private void Start()
+	{
+		if (Mode != AtmosMode.Manual)
+		{
+			StartSimulation();
+		}
+	}
+
+	private void Update()
+	{
+		if (Mode == AtmosMode.GameLoop && Running)
+		{
+			AtmosThread.RunStep();
+		}
+	}
+
+	private void OnDestroy()
+	{
+		AtmosThread.Stop();
+	}
+
+	public void StartSimulation()
+	{
+		Running = true;
+
+		if (Mode == AtmosMode.Threaded)
+		{
+			AtmosThread.Start();
+		}
+	}
+
+	public void StopSimulation()
+	{
+		Running = false;
+
+		AtmosThread.Stop();
+	}
+}
+
+public enum AtmosMode
+{
+	Threaded,
+	GameLoop,
+	Manual
 }
