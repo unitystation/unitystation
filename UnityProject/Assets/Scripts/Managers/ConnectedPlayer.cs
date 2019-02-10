@@ -105,7 +105,7 @@ public class ConnectedPlayer
 
     public bool HasNoName()
     {
-        return name == null || name.Trim().Equals("");
+        return name == null || name.Trim().Equals("") || name == DEAFAULT_NAME;
     }
 
 	/// <summary>
