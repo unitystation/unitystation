@@ -20,4 +20,9 @@ public class AtmosSystem : SubsystemBehaviour
 	{
 		AtmosThread.Enqueue(metaDataLayer.Get(position));
 	}
+
+	private void OnDestroy()
+	{
+		AtmosThread.Stop();
+	}
 }

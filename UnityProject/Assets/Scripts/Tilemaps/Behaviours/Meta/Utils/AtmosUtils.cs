@@ -15,10 +15,12 @@ namespace Atmospherics
 
 			for (var i = 0; i < neighbors.Length; i++)
 			{
-				MetaDataNode neighbor = neighbors[i];
-				if (Mathf.Abs(node.GasMix.Pressure - neighbor.GasMix.Pressure) > MinimumPressure)
+				if (neighbors[i] != null)
 				{
-					return true;
+					if (Mathf.Abs(node.GasMix.Pressure - neighbors[i].GasMix.Pressure) > MinimumPressure)
+					{
+						return true;
+					}
 				}
 			}
 
