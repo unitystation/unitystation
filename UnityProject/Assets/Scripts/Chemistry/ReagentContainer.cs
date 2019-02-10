@@ -71,17 +71,17 @@ public class ReagentContainer : Container {
 		double DivideAmount = Using / CurrentCapacity;
 
 		Dictionary<string, float> Transfering = new Dictionary<string, float> ();
-		Dictionary<string, float> BrokenCS = new Dictionary<string, float> (Contents);  //Because apparently am changing the order just by modifying the values That are tied with keys
-		foreach (KeyValuePair<string,float> Chemical in  BrokenCS) {
-			if ((Chemical.Value * DivideAmount) > Contents [Chemical.Key]) {
-				Transfering [Chemical.Key] = Contents [Chemical.Key];
-				Contents [Chemical.Key] = 0;
+		List<string> keys = new List<string>(Contents.Keys);
+		for(int i = 0; i < keys.Count; i++)
+		{
+			if ((Contents[keys[i]]* DivideAmount) > Contents[keys[i]]) {
+				Transfering[keys[i]] = Contents[keys[i]];
+				Contents[keys[i]] = 0;
 			} else {
-				Transfering [Chemical.Key] = (float) (Chemical.Value * DivideAmount);
-				Contents [Chemical.Key] = Contents [Chemical.Key] - Transfering [Chemical.Key];
+				Transfering[keys[i]] = (float) (Contents[keys[i]]* DivideAmount);
+				Contents[keys[i]] = Contents[keys[i]] - Transfering[keys[i]];
 			}
-
-		} 
+		}
 		if (To != null) {
 			To.AddReagents (Transfering, Temperature);
 		}
