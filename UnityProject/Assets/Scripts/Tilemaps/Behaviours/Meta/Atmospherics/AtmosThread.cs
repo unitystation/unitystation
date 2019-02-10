@@ -6,7 +6,9 @@ using UnityEngine;
 
 public static class AtmosThread
 {
-	private static bool running = true;
+	public static bool Running => running;
+
+	private static bool running;
 
 	private static Object lockGetWork = new Object();
 
@@ -15,7 +17,6 @@ public static class AtmosThread
 	static AtmosThread()
 	{
 		simulation = new AtmosSimulation();
-		new Thread(Run).Start();
 	}
 
 	public static void Enqueue(MetaDataNode node)
@@ -25,6 +26,16 @@ public static class AtmosThread
 		lock (lockGetWork)
 		{
 			Monitor.PulseAll(lockGetWork);
+		}
+	}
+
+	public static void Start()
+	{
+		if (!running)
+		{
+			new Thread(Run).Start();
+
+			running = true;
 		}
 	}
 
@@ -48,13 +59,18 @@ public static class AtmosThread
 		return simulation.UpdateListCount;
 	}
 
+	public static void RunStep()
+	{
+		simulation.Run();
+	}
+
 	private static void Run()
 	{
 		while (running)
 		{
 			if (!simulation.IsIdle)
 			{
-				simulation.Run();
+				RunStep();
 			}
 			else
 			{

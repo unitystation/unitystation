@@ -58,8 +58,7 @@ namespace Atmospherics
 
 			for (int i = 0; i < count; i++)
 			{
-				MetaDataNode node;
-				if (updateList.TryDequeue(out node))
+				if (updateList.TryDequeue(out MetaDataNode node))
 				{
 					Update(node);
 				}
