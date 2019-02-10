@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class ReagentContainer : Container {
 	public float CurrentCapacity;
-	public List<string> Chemicals;
-	public List<float> Amounts;
+	public List<string> Chemicals; //Specify chemical
+	public List<float> Amounts;  //And how much
 
-	// Use this for initialization
-	void Start () {
+	void Start() {//Initialise the contents if there is any
 		for (int i = 0; i< Chemicals.Count; i++)
 		{
 			Contents[Chemicals[i]] = Amounts[i];
@@ -72,7 +71,7 @@ public class ReagentContainer : Container {
 		double DivideAmount = Using / CurrentCapacity;
 
 		Dictionary<string, float> Transfering = new Dictionary<string, float> ();
-		Dictionary<string, float> BrokenCS = new Dictionary<string, float> (Contents); 
+		Dictionary<string, float> BrokenCS = new Dictionary<string, float> (Contents);  //Because apparently am changing the order just by modifying the values That are tied with keys
 		foreach (KeyValuePair<string,float> Chemical in  BrokenCS) {
 			if ((Chemical.Value * DivideAmount) > Contents [Chemical.Key]) {
 				Transfering [Chemical.Key] = Contents [Chemical.Key];
