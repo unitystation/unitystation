@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReagentContainer : MonoBehaviour {
-	public float Temperature = 20;
-	public int MaxCapacity = 100;
+public class ReagentContainer : Container {
 	public float CurrentCapacity;
-	public Dictionary<string, float> Contents = new Dictionary<string, float>();
-	// Use this for initialization
-	void Start () {
+	public List<string> Chemicals; //Specify chemical
+	public List<float> Amounts;  //And how much
+
+	void Start() {//Initialise the contents if there is any
+		for (int i = 0; i< Chemicals.Count; i++)
+		{
+			Contents[Chemicals[i]] = Amounts[i];
+		}
 	}
 	public void AddReagents (Dictionary<string, float> Reagents,float TemperatureContainer){//Automatic overflow If you Don't want  to lose check before adding
 		float HowMany = AmountOfReagents (Reagents);
@@ -68,17 +71,17 @@ public class ReagentContainer : MonoBehaviour {
 		double DivideAmount = Using / CurrentCapacity;
 
 		Dictionary<string, float> Transfering = new Dictionary<string, float> ();
-		Dictionary<string, float> BrokenCS = new Dictionary<string, float> (Contents); 
-		foreach (KeyValuePair<string,float> Chemical in  BrokenCS) {
-			if ((Chemical.Value * DivideAmount) > Contents [Chemical.Key]) {
-				Transfering [Chemical.Key] = Contents [Chemical.Key];
-				Contents [Chemical.Key] = 0;
+		List<string> keys = new List<string>(Contents.Keys);
+		for(int i = 0; i < keys.Count; i++)
+		{
+			if ((Contents[keys[i]]* DivideAmount) > Contents[keys[i]]) {
+				Transfering[keys[i]] = Contents[keys[i]];
+				Contents[keys[i]] = 0;
 			} else {
-				Transfering [Chemical.Key] = (float) (Chemical.Value * DivideAmount);
-				Contents [Chemical.Key] = Contents [Chemical.Key] - Transfering [Chemical.Key];
+				Transfering[keys[i]] = (float) (Contents[keys[i]]* DivideAmount);
+				Contents[keys[i]] = Contents[keys[i]] - Transfering[keys[i]];
 			}
-
-		} 
+		}
 		if (To != null) {
 			To.AddReagents (Transfering, Temperature);
 		}
