@@ -17,8 +17,8 @@ namespace Atmospherics
 
 		public float Temperature
 		{
-			get { return AtmosUtils.CalcTemperature(Pressure, Volume, Moles); }
-			set { Pressure = AtmosUtils.CalcPressure(Volume, Moles, value); }
+			get => AtmosUtils.CalcTemperature(Pressure, Volume, Moles);
+			set => Pressure = AtmosUtils.CalcPressure(Volume, Moles, value);
 		}
 
 		public float HeatCapacity

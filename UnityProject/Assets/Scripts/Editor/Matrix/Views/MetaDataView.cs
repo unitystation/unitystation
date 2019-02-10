@@ -3,6 +3,7 @@ using System.Linq;
 using Atmospherics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class MetaDataView : BasicView
 {
@@ -101,7 +102,7 @@ public class MetaDataView : BasicView
 
 			if (node.Exists)
 			{
-				if (node.IsSpace || node.Neighbors.Any(n => n.IsSpace))
+				if (node.IsSpace || node.Neighbors.Any(n => n != null && n.IsSpace))
 				{
 					GizmoUtils.DrawCube(position,  Color.red);
 				}
