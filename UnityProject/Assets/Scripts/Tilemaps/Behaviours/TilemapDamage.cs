@@ -143,6 +143,7 @@ public class TilemapDamage : MonoBehaviour
 
 		if (data.Damage >= 100 && data.WindowDmgType != "broken")
 		{
+			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "none");
 			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
 
 			//Spawn 3 glass shards with different sprites:
