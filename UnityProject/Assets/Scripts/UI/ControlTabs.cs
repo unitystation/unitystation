@@ -420,17 +420,23 @@ public class ControlTabs : MonoBehaviour
 			return;
 		}
 
-		NetTab thisTab = NetworkTabManager.Instance.Get(tabProvider, type);
+		// Need to spawn a local instance of the NetTab to obtain its isPopOut property.
+		// thisTab is entirely ephemeral. The real instance is used or created later on.
+		var openedTab = new NetTabDescriptor(tabProvider, type);
+		NetTab thisTab = openedTab.Spawn(tabProvider.transform);
 
 		//Make use of NetTab's fancy isPopOut bool instead of depending on the NetTabType.
 		bool isPopOut = thisTab.isPopOut;
+
+		// We don't need the temporarily spawned NetTab any more, get rid of it.
+		Destroy(thisTab);
+
 
 		if (!Instance.rolledOut && !isPopOut)
 		{
 			Instance.StartCoroutine(Instance.AnimTabRoll());
 		}
 
-		var openedTab = new NetTabDescriptor(tabProvider, type);
 		//try to dig out a hidden tab with matching parameters and enable it:
 		if (Instance.HiddenNetTabs.ContainsKey(openedTab))
 		{
