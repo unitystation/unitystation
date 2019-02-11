@@ -420,13 +420,10 @@ public class ControlTabs : MonoBehaviour
 			return;
 		}
 
-		bool isPopOut = false;
+		NetTab thisTab = NetworkTabManager.Instance.Get(tabProvider, type);
 
-		//Add the popout types here:
-		if ((type == NetTabType.Paper) || (type == NetTabType.ChemistryDispenser))
-		{
-			isPopOut = true;
-		}
+		//Make use of NetTab's fancy isPopOut bool instead of depending on the NetTabType.
+		bool isPopOut = thisTab.isPopOut;
 
 		if (!Instance.rolledOut && !isPopOut)
 		{
