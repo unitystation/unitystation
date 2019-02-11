@@ -35,7 +35,9 @@ public class SVBoxSlider : MonoBehaviour
         {
             slider.onValueChanged.AddListener(SliderChanged);
             picker.onHSVChanged.AddListener(HSVChanged);
-            RegenerateSVTexture();
+            //change picker location on start
+            HSVChanged(picker.H, picker.S, picker.V);
+
         }
     }
 
