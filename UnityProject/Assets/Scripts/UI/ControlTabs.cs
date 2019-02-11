@@ -420,16 +420,12 @@ public class ControlTabs : MonoBehaviour
 			return;
 		}
 
-		// Need to spawn a local instance of the NetTab to obtain its isPopOut property.
-		// thisTab is entirely ephemeral. The real instance is used or created later on.
+		// Need to spawn a local instance of the NetTab to obtain its isPopOut property first. Parent is changed later.
 		var openedTab = new NetTabDescriptor(tabProvider, type);
-		NetTab thisTab = openedTab.Spawn(tabProvider.transform);
+		NetTab tabInfo = openedTab.Spawn(tabProvider.transform);
 
 		//Make use of NetTab's fancy isPopOut bool instead of depending on the NetTabType.
-		bool isPopOut = thisTab.isPopOut;
-
-		// We don't need the temporarily spawned NetTab any more, get rid of it.
-		Destroy(thisTab);
+		bool isPopOut = tabInfo.isPopOut;
 
 
 		if (!Instance.rolledOut && !isPopOut)
@@ -446,7 +442,7 @@ public class ControlTabs : MonoBehaviour
 		if (!Instance.OpenedNetTabs.ContainsKey(openedTab))
 		{
 			Transform newParent = !isPopOut ? Instance.TabStorage : Instance.TabStoragePopOut;
-			NetTab tabInfo = openedTab.Spawn(newParent);
+			tabInfo.transform.SetParent(newParent, false);
 			GameObject tabObject = tabInfo.gameObject;
 
 			//putting into the right place
