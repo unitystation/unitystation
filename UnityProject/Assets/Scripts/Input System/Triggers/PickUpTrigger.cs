@@ -89,7 +89,8 @@ public class PickUpTrigger : InputTrigger
 
 		if (targetSlot.Item != null)
 		{
-			Logger.Log("Slot is full!", Category.Inventory);
+			// Check to see if the current slot can hold an item
+			// Logger.Log("Slot is full!", Category.Inventory);
 			return false;
 		}
 
