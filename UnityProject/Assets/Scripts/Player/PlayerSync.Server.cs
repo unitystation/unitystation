@@ -36,6 +36,20 @@ public partial class PlayerSync
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
 	private Vector2 serverLastDirection;
 
+	public float SpeedServer
+	{	//Current move speed
+		get => ServerState.speed;
+		set
+		{ // Future move speed (applied on the next step)
+			Logger.LogTraceFormat( "{0}: setting SERVER speed {1}->{2}", Category.Movement, gameObject.name, serverState.Speed, value );
+			masterSpeedServer = value < 0 ? 0 : value;
+		}
+	}
+	/// <summary>
+	/// Player's serverside move speed, applied on tile change
+	/// </summary>
+	private float masterSpeedServer;
+
 	///
 	public bool IsWeightlessServer {
 		get {
@@ -69,11 +83,13 @@ public partial class PlayerSync
 		{
 			Vector3Int worldPos = Vector3Int.RoundToInt((Vector2) transform.position); //cutting off Z-axis & rounding
 			MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos);
+			masterSpeedServer = playerMove.RunSpeed;
 			PlayerState state = new PlayerState
 			{
 				MoveNumber = 0,
 				MatrixId = matrixAtPoint.Id,
 				WorldPosition = worldPos,
+				Speed = masterSpeedServer
 			};
 			Logger.LogTraceFormat( "{0}: InitServerState for {1} found matrix {2} resulting in\n{3}", Category.Movement,
 				PlayerList.Instance.Get( gameObject ).Name, worldPos, matrixAtPoint, state );
@@ -82,6 +98,7 @@ public partial class PlayerSync
 	}
 
 	private PlayerAction lastAddedAction = PlayerAction.None;
+
 	[Command(channel = 0)]
 	private void CmdProcessAction(PlayerAction action)
 	{
@@ -170,7 +187,8 @@ public partial class PlayerSync
 			MoveNumber = 0,
 			MatrixId = newMatrix.Id,
 			WorldPosition = roundedPos,
-			ResetClientQueue = true
+			ResetClientQueue = true,
+			Speed = serverState.Speed
 		};
 		serverLerpState = newState;
 		serverState = newState;
@@ -322,6 +340,12 @@ public partial class PlayerSync
 
 		//Client only needs to check whether movement was prevented, specific type of bump doesn't matter
 		bool isClientBump = action.isBump;
+
+		if ( !playerScript.playerHealth.IsSoftCrit )
+		{
+			SpeedServer = action.isRun ? playerMove.RunSpeed : playerMove.WalkSpeed;
+		}
+
 		//we only lerp back if the client thinks it's passable  but server does not...if client
 		//thinks it's not passable and server thinks it's passable, then it's okay to let the client continue
 		if (!isClientBump && serverBump != BumpType.None) {
@@ -351,13 +375,9 @@ public partial class PlayerSync
 			return state;
 		}
 
-		bool matrixChangeDetected;
-		PlayerState nextState = NextState(state, action, out matrixChangeDetected);
+		PlayerState nextState = NextState(state, action, out bool matrixChanged);
 
-		if (!matrixChangeDetected)
-		{
-			return nextState;
-		}
+		nextState.Speed = masterSpeedServer; //fixme: vague
 
 		return nextState;
 	}
@@ -523,9 +543,6 @@ public partial class PlayerSync
 		}
 	}
 
-	public float MoveSpeedServer => playerMove.speed;
-	public float MoveSpeedClient => playerMove.speed; //change this when player speed is introduced
-
 	public void Stop() {
 		if ( consideredFloatingServer ) {
 			PushPull spaceObjToGrab;
@@ -561,7 +578,7 @@ public partial class PlayerSync
 		Vector3 targetPos = serverState.WorldPosition;
 		serverLerpState.WorldPosition =
 			Vector3.MoveTowards( serverLerpState.WorldPosition, targetPos,
-								 playerMove.speed * Time.deltaTime * serverLerpState.WorldPosition.SpeedTo(targetPos) );
+								 serverState.Speed * Time.deltaTime * serverLerpState.WorldPosition.SpeedTo(targetPos) );
 		//failsafe
 		var distance = Vector3.Distance( serverLerpState.WorldPosition, targetPos );
 		if ( distance > 1.5 ) {

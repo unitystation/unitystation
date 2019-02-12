@@ -165,7 +165,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		public bool canNotInteract()
 		{
 			return playerMove == null || !playerMove.allowInput || playerMove.isGhost
-				|| playerHealth.IsDead || playerHealth.IsCrit;
+			    || playerHealth.ConsciousState != ConsciousState.CONSCIOUS;
 		}
 
 		public override void UpdateMe()
@@ -319,7 +319,10 @@ public class PlayerScript : ManagedNetworkBehaviour
 				return ChatModifier.None;
 			}
 			if (playerHealth.IsCrit) {
-				return ChatModifier.Crit;
+				return ChatModifier.Mute;
+			}
+			if (playerHealth.IsSoftCrit) {
+				modifiers |= ChatModifier.Whisper;
 			}
 
 			//TODO add missing modifiers

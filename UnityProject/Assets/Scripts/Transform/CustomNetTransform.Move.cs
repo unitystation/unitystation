@@ -64,8 +64,8 @@ public partial class CustomNetTransform {
 	public bool IsMovingClient => IsClientLerping;
 	public bool IsMovingServer => IsServerLerping;
 	public Vector2 ServerImpulse => serverState.Impulse;
-	public float MoveSpeedServer => ServerState.speed;
-	public float MoveSpeedClient => PredictedState.speed;
+	public float SpeedServer => ServerState.speed;
+	public float SpeedClient => PredictedState.speed;
 	public bool IsFloatingServer => serverState.Impulse != Vector2.zero && serverState.Speed > 0f && !IsBeingPulledServer;
 	public bool IsFloatingClient => predictedState.Impulse != Vector2.zero && predictedState.Speed > 0f && !IsBeingPulledClient;
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
@@ -547,7 +547,7 @@ public partial class CustomNetTransform {
 				if ( commonTransform != null )
 				{
 					if ( this.ServerImpulse.To2Int() == commonTransform.ServerImpulse.To2Int() &&
-					     this.MoveSpeedServer <= commonTransform.MoveSpeedServer )
+					     this.SpeedServer <= commonTransform.SpeedServer )
 					{
 						Logger.LogTraceFormat( "{0} not hitting {1} as they fly in the same direction", Category.Throwing, gameObject.name,
 							obj.gameObject.name );

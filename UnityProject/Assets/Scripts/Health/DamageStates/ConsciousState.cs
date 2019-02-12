@@ -1,6 +1,7 @@
 ﻿public enum ConsciousState
 {
-	CONSCIOUS = 0, // #define CONSCIOUS	0
-	UNCONSCIOUS = 1, // #define UNCONSCIOUS	1
-	DEAD = 2 // #define DEAD		2
+	CONSCIOUS = 0, 			// alive and well
+	BARELY_CONSCIOUS = 3, 	// in crit, can crawl
+	UNCONSCIOUS = 1, 		// unconscious, can't crawl
+	DEAD = 2 				// really dead
 }

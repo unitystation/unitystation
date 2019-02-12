@@ -57,6 +57,21 @@ public partial class PlayerSync
 		}
 	}
 
+	public float SpeedClient
+	{	//Current move speed
+		get => ClientState.speed;
+		set
+		{ // Predicted move speed (applied on the next step)
+			Logger.LogTraceFormat( "{0}: setting PREDICTED speed {1}->{2}", Category.Movement, gameObject.name, serverState.Speed, value );
+			predictedSpeedClient = value < 0 ? 0 : value;
+		}
+	}
+
+	/// <summary>
+	/// Player's clientside predicted move speed, applied for predicted moves
+	/// </summary>
+	private float predictedSpeedClient;
+
 	public bool IsNonStickyClient => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
 
 	///Does server claim this client is floating rn?
@@ -94,8 +109,10 @@ public partial class PlayerSync
 			if (isGrounded && playerState.Active)
 			{
 				//RequestMoveMessage.Send(action);
-				// Fix for #900
 				BumpType clientBump = CheckSlideAndBump(predictedState, ref action);
+
+				action.isRun = UIManager.WalkRun.running;
+
 				if (clientBump == BumpType.None || playerMove.isGhost)
 				{
 					//move freely
@@ -254,8 +271,23 @@ public partial class PlayerSync
 
 	private PlayerState NextStateClient(PlayerState state, PlayerAction action, bool isReplay)
 	{
-		bool matrixChanged;
-		return NextState(state, action, out matrixChanged, isReplay);
+		if ( !playerMove.isGhost )
+		{
+			if ( !playerScript.playerHealth.IsSoftCrit )
+			{
+				SpeedClient = action.isRun ? playerMove.RunSpeed : playerMove.WalkSpeed;
+			}
+			else
+			{
+				SpeedClient = playerMove.CrawlSpeed; //?
+			}
+		}
+
+		var nextState = NextState(state, action, out bool matrixChanged, isReplay);
+
+		nextState.Speed = predictedSpeedClient; //fixme: vague
+
+		return nextState;
 	}
 
 	/// Called when PlayerMoveMessage is received
@@ -487,7 +519,7 @@ public partial class PlayerSync
 			else
 			{
 				transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos,
-					playerMove.speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
+					predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
 			}
 
 			if (ClientPositionReady)

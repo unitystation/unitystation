@@ -14,6 +14,13 @@ using UnityEngine.Networking;
 public struct PlayerState
 {
 	public bool Active => Position != TransformState.HiddenPos;
+	///Don't set directly, use Speed instead.
+	///public in order to be serialized :\
+	public float speed;
+	public float Speed {
+		get => speed;
+		set => speed = value < 0 ? 0 : value;
+	}
 
 	public int MoveNumber;
 	public Vector3 Position;
@@ -276,6 +283,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			pendingActions = new Queue<PlayerAction>();
 			UpdatePredictedState();
+			predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
 		}
 		//Init pending actions queue for server
 		if (isServer)
@@ -386,7 +394,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	{
 		playerScript.ghost.transform.position =
 			Vector3.MoveTowards(playerScript.ghost.transform.position, state.WorldPosition,
-				playerMove.speed * Time.deltaTime * playerScript.ghost.transform.position.SpeedTo(state.WorldPosition));
+				playerMove.RunSpeed * Time.deltaTime * playerScript.ghost.transform.position.SpeedTo(state.WorldPosition));
 	}
 
 	private PlayerState NextState(PlayerState state, PlayerAction action, out bool matrixChanged, bool isReplay = false)

@@ -52,33 +52,20 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	private RegisterTile registerTile;
 
 	//be careful with falses, will make player conscious
-	public bool IsCrit
-	{
-		get { return ConsciousState == ConsciousState.UNCONSCIOUS; }
-		private set { ConsciousState = value ? ConsciousState.UNCONSCIOUS : ConsciousState.CONSCIOUS; }
-	}
+	public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
+	public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
 
-	public bool IsDead
-	{
-		get { return ConsciousState == ConsciousState.DEAD; }
-		private set { ConsciousState = value ? ConsciousState.DEAD : ConsciousState.CONSCIOUS; }
-	}
+	public bool IsDead => ConsciousState == ConsciousState.DEAD;
 
 	/// <summary>
 	/// Has the heart stopped.
 	/// </summary>
-	public bool IsCadiacArrest
-	{
-		get { return bloodSystem.HeartStopped; }
-	}
+	public bool IsCardiacArrest => bloodSystem.HeartStopped;
 
 	/// <summary>
 	/// Has breathing stopped
 	/// </summary>
-	public bool IsRespiratoryArrest
-	{
-		get { return !respiratorySystem.IsBreathing; }
-	}
+	public bool IsRespiratoryArrest => !respiratorySystem.IsBreathing;
 
 	/// ---------------------------
 	/// INIT METHODS
@@ -456,27 +443,34 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		{
 			return;
 		}
-		IsDead = true;
+		ConsciousState = ConsciousState.DEAD;
 		OverallHealth = HealthThreshold.Dead;
 		OnDeathActions();
 		bloodSystem.StopBleeding();
 	}
 
-	public virtual void Crit()
+	public virtual void Crit(bool allowCrawl = false)
 	{
-		if (ConsciousState != ConsciousState.CONSCIOUS)
+		var proposedState = allowCrawl ? ConsciousState.BARELY_CONSCIOUS : ConsciousState.UNCONSCIOUS;
+
+		if (ConsciousState == proposedState || IsDead)
 		{
 			return;
 		}
-		IsCrit = true;
-		OnCritActions();
+
+		ConsciousState = proposedState;
+		OnCritActions(allowCrawl);
 	}
 
 	private void CheckDeadCritStatus()
 	{
+		if (OverallHealth <= HealthThreshold.SoftCrit)
+		{
+			Crit(true);
+		}
 		if (OverallHealth <= HealthThreshold.Crit)
 		{
-			Crit();
+			Crit(false);
 		}
 		if (NotSuitableForDeath())
 		{
@@ -490,7 +484,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		return OverallHealth > HealthThreshold.Dead || IsDead;
 	}
 
-	protected virtual void OnCritActions() { }
+	protected virtual void OnCritActions(bool allowCrawl = false) { }
 
 	protected abstract void OnDeathActions();
 
@@ -649,6 +643,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 public static class HealthThreshold
 {
-	public const int Crit = 0;
+	public const int SoftCrit = 0;
+	public const int Crit = -30;
 	public const int Dead = -100;
 }

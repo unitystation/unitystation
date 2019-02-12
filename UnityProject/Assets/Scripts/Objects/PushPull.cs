@@ -158,7 +158,7 @@ public class PushPull : VisibleBehaviour {
 			if ( followDir == Vector2Int.zero ) {
 				return;
 			}
-			if ( !TryFollow( currentPos, followDir, PulledBy.Pushable.MoveSpeedServer ) ) {
+			if ( !TryFollow( currentPos, followDir, PulledBy.Pushable.SpeedServer ) ) {
 				StopFollowing();
 			} else {
 				PulledBy.NotifyPlayers(); // doubles messages for puller, but pulling looks proper even in high ping. might mess something up tho
@@ -177,7 +177,7 @@ public class PushPull : VisibleBehaviour {
 			if ( followDir == Vector2Int.zero ) {
 				return;
 			}
-			if ( !TryPredictiveFollow( currentPos, oldPos, PulledByClient.Pushable.MoveSpeedClient ) ) {
+			if ( !TryPredictiveFollow( currentPos, oldPos, PulledByClient.Pushable.SpeedClient ) ) {
 				Logger.LogError( $"{gameObject.name}: oops, predictive following {PulledByClient.gameObject.name} failed", Category.PushPull );
 			} else {
 				Logger.LogTraceFormat(
