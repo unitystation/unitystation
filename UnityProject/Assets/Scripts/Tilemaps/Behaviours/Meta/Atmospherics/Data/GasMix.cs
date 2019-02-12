@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Atmospherics
@@ -10,7 +11,7 @@ namespace Atmospherics
 	{
 		public readonly float[] Gases;
 
-		public float Pressure { get; private set; } // in kPA
+		public float Pressure { get; internal set; } // in kPA
 		public float Volume { get; private set; } // in m3
 
 		public float Moles => Gases.Sum();
@@ -35,25 +36,28 @@ namespace Atmospherics
 			}
 		}
 
-		private GasMix(float[] gases, float pressure, float volume = AtmosUtils.TileVolume)
+		private GasMix(float[] gases, float pressure, float volume = AtmosConstants.TileVolume)
 		{
 			Gases = gases;
 			Pressure = pressure;
 			Volume = volume;
 		}
 
-		public static GasMix FromTemperature(float[] gases, float temperature, float volume = AtmosUtils.TileVolume)
+		public GasMix(GasMix other)
 		{
-			float moles = gases.Sum();
-
-			float pressure = AtmosUtils.CalcPressure(volume, moles, temperature);
-
-			return new GasMix(gases, pressure, volume);
+			this = FromPressure((float[])other.Gases.Clone(), other.Pressure, other.Volume);
 		}
 
-		public static GasMix FromPressure(float[] gases, float pressure, float volume = AtmosUtils.TileVolume)
+		public static GasMix FromTemperature(float[] gases, float temperature, float volume = AtmosConstants.TileVolume)
 		{
-			return new GasMix(gases, pressure, volume);
+			float pressure = AtmosUtils.CalcPressure(volume, gases.Sum(), temperature);
+
+			return FromPressure(gases, pressure, volume);
+		}
+
+		public static GasMix FromPressure(IEnumerable<float> gases, float pressure, float volume = AtmosConstants.TileVolume)
+		{
+			return new GasMix(gases.ToArray(), pressure, volume);
 		}
 
 		public static GasMix operator +(GasMix a, GasMix b)
@@ -156,6 +160,17 @@ namespace Atmospherics
 			Gases[gas] -= moles;
 
 			Recalculate();
+		}
+
+		public void Copy(GasMix other)
+		{
+			for (int i = 0; i < Gas.Count; i++)
+			{
+				Gases[i] = other.Gases[i];
+			}
+
+			Pressure = other.Pressure;
+			Volume = other.Volume;
 		}
 
 		public override string ToString()

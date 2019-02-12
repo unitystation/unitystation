@@ -36,10 +36,12 @@ namespace Atmospherics
 		/// updates that currently need processing.
 		/// </summary>
 		private float factor;
+
 		/// <summary>
 		/// Holds the nodes which are being processed during the current Update
 		/// </summary>
 		private List<MetaDataNode> nodes = new List<MetaDataNode>(5);
+
 		/// <summary>
 		/// MetaDataNodes that we are requested to update but haven't yet
 		/// </summary>
@@ -98,12 +100,13 @@ namespace Atmospherics
 			}
 		}
 
+		private GasMix meanGasMix = new GasMix(GasMixes.Space);
+
 		private GasMix CalcMeanGasMix()
 		{
-			int targetCount = 0;
+			meanGasMix.Copy(GasMixes.Space);
 
-			float[] gases = new float[Gas.Count];
-			float pressure = 0f;
+			int targetCount = 0;
 
 			for (var i = 0; i < nodes.Count; i++)
 			{
@@ -116,10 +119,10 @@ namespace Atmospherics
 
 				for (int j = 0; j < Gas.Count; j++)
 				{
-					gases[j] += node.GasMix.Gases[j];
+					meanGasMix.Gases[j] += node.GasMix.Gases[j];
 				}
 
-				pressure += node.GasMix.Pressure;
+				meanGasMix.Pressure += node.GasMix.Pressure;
 
 				if (!node.IsOccupied)
 				{
@@ -129,7 +132,7 @@ namespace Atmospherics
 				{
 					node.GasMix *= 1 - factor;
 
-					if (node.GasMix.Pressure > AtmosUtils.MinimumPressure)
+					if (node.GasMix.Pressure > AtmosConstants.MinPressureDifference)
 					{
 						updateList.Enqueue(node);
 					}
@@ -138,25 +141,25 @@ namespace Atmospherics
 
 			for (int j = 0; j < Gas.Count; j++)
 			{
-				gases[j] /= targetCount;
+				meanGasMix.Gases[j] /= targetCount;
 			}
 
-			GasMix gasMix = GasMix.FromPressure(gases, pressure / targetCount);
-			return gasMix;
+			meanGasMix.Pressure /= targetCount;
+
+			return meanGasMix;
 		}
+
 
 		private GasMix CalcAtmos(GasMix atmos, GasMix gasMix)
 		{
-			float[] gases = new float[Gas.Count];
-
 			for (int i = 0; i < Gas.Count; i++)
 			{
-				gases[i] = atmos.Gases[i] + (gasMix.Gases[i] - atmos.Gases[i]) * factor;
+				atmos.Gases[i] += (gasMix.Gases[i] - atmos.Gases[i]) * factor;
 			}
 
-			float pressure = atmos.Pressure + (gasMix.Pressure - atmos.Pressure) * factor;
+			atmos.Pressure += (gasMix.Pressure - atmos.Pressure) * factor;
 
-			return GasMix.FromPressure(gases, pressure, atmos.Volume);
+			return atmos;
 		}
 	}
 }

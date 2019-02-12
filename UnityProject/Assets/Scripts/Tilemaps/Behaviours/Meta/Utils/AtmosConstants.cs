@@ -1,5 +1,8 @@
 public static class AtmosConstants
 {
+	public const float MinPressureDifference = 0.0001f;
+	public const float TileVolume = 2.5f;
+
 	public const float HAZARD_HIGH_PRESSURE = 550;
 	public const float WARNING_HIGH_PRESSURE = 325;
 	public const float WARNING_LOW_PRESSURE = 50;
