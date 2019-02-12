@@ -6,8 +6,6 @@ using UnityEngine;
 
 public static class AtmosThread
 {
-	public static bool Running => running;
-
 	private static bool running;
 
 	private static Object lockGetWork = new Object();

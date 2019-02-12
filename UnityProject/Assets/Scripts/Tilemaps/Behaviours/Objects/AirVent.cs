@@ -47,7 +47,7 @@ namespace Tilemaps.Behaviours.Objects
 		{
 			if (metaNode.GasMix.Pressure < MinimumPressure)
 			{
-				metaNode.GasMix = GasMixes.Air;
+				metaNode.GasMix = new GasMix(GasMixes.Air);
 				subsystemManager.UpdateAt(metaNode.Position);
 			}
 		}

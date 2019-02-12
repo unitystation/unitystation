@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class AtmosSystem : SubsystemBehaviour
 {
-	public bool RunInThread;
-
 	public override void Initialize()
 	{
 		BoundsInt bounds = metaTileMap.GetBounds();
@@ -14,7 +12,7 @@ public class AtmosSystem : SubsystemBehaviour
 		{
 			MetaDataNode node = metaDataLayer.Get(position, false);
 
-			node.GasMix = node.IsRoom ? GasMixes.Air : GasMixes.Space;
+			node.GasMix = new GasMix(node.IsRoom ? GasMixes.Air : GasMixes.Space);
 		}
 	}
 

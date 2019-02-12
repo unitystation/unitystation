@@ -3,7 +3,7 @@ namespace Atmospherics
 	public static class GasMixes
 	{
 		public static readonly GasMix Space;
-		public static GasMix Air;
+		public static readonly GasMix Air;
 
 		static GasMixes()
 		{
