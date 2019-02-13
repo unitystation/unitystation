@@ -18,6 +18,7 @@ public class CustomNetworkManager : NetworkManager
 	[HideInInspector] public bool _isServer;
 	[HideInInspector] public bool spawnableListReady;
 	private Server server;
+	public GameObject humanPlayerPrefab;
 
 	private void Awake()
 	{
@@ -69,10 +70,7 @@ public class CustomNetworkManager : NetworkManager
 		NetworkIdentity[] networkObjects = Resources.LoadAll<NetworkIdentity>("");
 		foreach (NetworkIdentity netObj in networkObjects)
 		{
-			if (!netObj.gameObject.name.Contains("Player"))
-			{
-				spawnPrefabs.Add(netObj.gameObject);
-			}
+			spawnPrefabs.Add(netObj.gameObject);
 		}
 
 		string[] dirs = Directory.GetDirectories(Application.dataPath, "Resources", SearchOption.AllDirectories);
@@ -94,7 +92,7 @@ public class CustomNetworkManager : NetworkManager
 		folderpath = folderpath.Substring(folderpath.IndexOf("Resources", StringComparison.Ordinal) + "Resources".Length);
 		foreach (NetworkIdentity netObj in Resources.LoadAll<NetworkIdentity>(folderpath))
 		{
-			if (!netObj.name.Contains("Player") && !spawnPrefabs.Contains(netObj.gameObject))
+			if (!spawnPrefabs.Contains(netObj.gameObject))
 			{
 				spawnPrefabs.Add(netObj.gameObject);
 			}
@@ -284,12 +282,13 @@ public class CustomNetworkManager : NetworkManager
 		}
 		else
 		{
-			SpawnHandler.SpawnPlayer(conn, playerControllerId);
+			SpawnHandler.SpawnViewer(conn, playerControllerId);
 		}
 	}
 
 	public override void OnClientConnect(NetworkConnection conn)
 	{
+		this.RegisterClientHandlers(conn);
 		//		if (_isServer)
 		//		{
 		//			//do special server wizardry here
@@ -306,7 +305,6 @@ public class CustomNetworkManager : NetworkManager
 
 		//This client connecting to server, wait for the spawnable prefabs to register
 		StartCoroutine(WaitForSpawnListSetUp(conn));
-		this.RegisterClientHandlers(conn);
 	}
 
 	///Sync some position data explicitly, if it is required
@@ -372,7 +370,8 @@ public class CustomNetworkManager : NetworkManager
 		{
 			//INGAME:
 			EventManager.Broadcast(EVENT.RoundStarted);
-			if(PoolManager.Instance == null){
+			if (PoolManager.Instance == null)
+			{
 				ObjectManager.StartPoolManager();
 				StartCoroutine(DoHeadlessCheck());
 			}

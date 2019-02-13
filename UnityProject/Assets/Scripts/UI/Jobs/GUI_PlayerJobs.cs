@@ -24,7 +24,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 	public void BtnOk(JobType preference)
 	{
 		SoundManager.Play("Click01");
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestJob(preference);
+		PlayerManager.LocalViewerScript.CmdRequestJob(preference);
 		UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(false);
 		hasPickedAJob = true;
 	}

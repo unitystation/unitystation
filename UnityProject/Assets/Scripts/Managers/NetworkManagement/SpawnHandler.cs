@@ -7,24 +7,16 @@ public static class SpawnHandler
 {
 	private static readonly CustomNetworkManager networkManager = CustomNetworkManager.Instance;
 
-	public static void SpawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType = JobType.NULL)
+	public static void SpawnViewer(NetworkConnection conn, short playerControllerId, JobType jobType = JobType.NULL)
 	{
-		GameObject player = CreatePlayer(jobType);
-		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
-		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-		if (connectedPlayer.Script.PlayerSync != null) {
-			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
-		}
+		GameObject joinedViewer = Object.Instantiate(networkManager.playerPrefab);
+		NetworkServer.AddPlayerForConnection(conn, joinedViewer, 0);
 	}
 	public static void SpawnDummyPlayer(JobType jobType = JobType.NULL)
 	{
 		var conn = new NetworkConnection();
-		GameObject player = CreatePlayer(jobType);
-		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
-		NetworkServer.AddPlayerForConnection(conn, player, 0);
-		if (connectedPlayer.Script.PlayerSync != null) {
-			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
-		}
+		GameObject joinedViewer = Object.Instantiate(networkManager.playerPrefab);
+		NetworkServer.AddPlayerForConnection(conn, joinedViewer, 0);
 	}
 
 	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
@@ -39,7 +31,7 @@ public static class SpawnHandler
 
 	private static GameObject CreatePlayer(JobType jobType)
 	{
-		GameObject playerPrefab = networkManager.playerPrefab;
+		GameObject playerPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
 
 		Transform spawnPosition = GetSpawnForJob(jobType);
 

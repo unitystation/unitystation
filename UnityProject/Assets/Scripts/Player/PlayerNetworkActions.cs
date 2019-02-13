@@ -537,20 +537,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRequestJob(JobType jobType)
-	{
-		// Already have a job buddy!
-		if (playerScript.JobType != JobType.NULL)
-		{
-			return;
-		}
-
-		playerScript.JobType = GameManager.Instance.GetRandomFreeOccupation(jobType);
-		RespawnPlayer();
-		ForceJobListUpdateMessage.Send();
-	}
-
-	[Command]
 	public void CmdToggleShutters(GameObject switchObj)
 	{
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))

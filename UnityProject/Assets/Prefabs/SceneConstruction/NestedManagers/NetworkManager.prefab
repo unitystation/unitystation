@@ -52,7 +52,7 @@ MonoBehaviour:
   m_ScriptCRCCheck: 0
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 1133514949248654, guid: 44a8a3be9127f4465a50b7811d059bb3,
+  m_PlayerPrefab: {fileID: 2821122072132512938, guid: 70fd2614e91344280b501ff52714aaa4,
     type: 3}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
@@ -450,3 +450,5 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   _isServer: 0
   spawnableListReady: 1
+  humanPlayerPrefab: {fileID: 1133514949248654, guid: 44a8a3be9127f4465a50b7811d059bb3,
+    type: 3}
