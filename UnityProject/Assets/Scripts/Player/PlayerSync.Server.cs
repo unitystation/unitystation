@@ -41,7 +41,7 @@ public partial class PlayerSync
 		get => ServerState.speed;
 		set
 		{ // Future move speed (applied on the next step)
-			Logger.LogTraceFormat( "{0}: setting SERVER speed {1}->{2}", Category.Movement, gameObject.name, serverState.Speed, value );
+			Logger.LogTraceFormat( "{0}: setting SERVER speed {1}->{2}", Category.Movement, gameObject.name, SpeedServer, value );
 			masterSpeedServer = value < 0 ? 0 : value;
 		}
 	}
@@ -147,7 +147,7 @@ public partial class PlayerSync
 		}
 
 		if ( followMode ) {
-			SendMessage( "FaceDirection", RotationOffset.From( direction ), SendMessageOptions.DontRequireReceiver );
+			SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
 		}
 
 		Logger.LogTraceFormat( "Server push to {0}", Category.PushPull, pushGoal );
@@ -161,7 +161,8 @@ public partial class PlayerSync
 			WorldPosition = pushGoal,
 			ImportantFlightUpdate = true,
 			ResetClientQueue = true,
-			IsFollowUpdate = followMode
+			IsFollowUpdate = followMode,
+			Speed = !float.IsNaN( speed ) && speed > 0 ? speed : PushPull.DEFAULT_PUSH_SPEED
 		};
 		serverLastDirection = direction;
 		serverState = newState;

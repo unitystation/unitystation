@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
 public class PushPull : VisibleBehaviour {
+	public const float DEFAULT_PUSH_SPEED = 6;
 	[SyncVar]
 	public bool isNotPushable = false;
 

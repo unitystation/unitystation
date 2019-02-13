@@ -52,7 +52,6 @@ public struct ThrowInfo
 
 public partial class CustomNetTransform {
 	private PushPull pushPull;
-	private float DefaultPushSpeed = 6;
 	public PushPull PushPull => pushPull ? pushPull : ( pushPull = GetComponent<PushPull>() );
 
 	/// Containers and other objects meant to be snapped by tile
@@ -111,7 +110,7 @@ public partial class CustomNetTransform {
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
 			serverState.Speed = speed;
 		} else {
-			serverState.Speed = DefaultPushSpeed;
+			serverState.Speed = PushPull.DEFAULT_PUSH_SPEED;
 		}
 
 		if ( followMode ) {
@@ -143,7 +142,7 @@ public partial class CustomNetTransform {
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
 			predictedState.Speed = speed;
 		} else {
-			predictedState.Speed = DefaultPushSpeed;
+			predictedState.Speed = PushPull.DEFAULT_PUSH_SPEED;
 		}
 
 		predictedState.MatrixId = MatrixManager.AtPoint( target3int ).Id;

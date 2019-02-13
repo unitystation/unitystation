@@ -62,7 +62,7 @@ public partial class PlayerSync
 		get => ClientState.speed;
 		set
 		{ // Predicted move speed (applied on the next step)
-			Logger.LogTraceFormat( "{0}: setting PREDICTED speed {1}->{2}", Category.Movement, gameObject.name, serverState.Speed, value );
+			Logger.LogTraceFormat( "{0}: setting PREDICTED speed {1}->{2}", Category.Movement, gameObject.name, SpeedClient, value );
 			predictedSpeedClient = value < 0 ? 0 : value;
 		}
 	}
@@ -519,7 +519,7 @@ public partial class PlayerSync
 			else
 			{
 				transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos,
-					predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
+					playerState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
 			}
 
 			if (ClientPositionReady)
