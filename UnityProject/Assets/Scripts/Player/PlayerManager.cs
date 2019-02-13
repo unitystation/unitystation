@@ -1,7 +1,7 @@
-﻿using Lobby;
+﻿using System.Text.RegularExpressions;
+using Lobby;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Text.RegularExpressions;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class PlayerManager : MonoBehaviour
 	public static Equipment Equipment { get; private set; }
 
 	public static PlayerScript LocalPlayerScript { get; private set; }
+	public static JoinedViewer LocalViewerScript { get; private set; }
 
 	//For access via other parts of the game
 	public static PlayerScript PlayerScript { get; private set; }
@@ -71,6 +72,11 @@ public class PlayerManager : MonoBehaviour
 	public static void Reset()
 	{
 		HasSpawned = false;
+	}
+
+	public static void SetViewerForControl(JoinedViewer viewer)
+	{
+		LocalViewerScript = viewer;
 	}
 
 	public static void SetPlayerForControl(GameObject playerObjToControl)

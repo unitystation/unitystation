@@ -13,8 +13,8 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 	public bool isOn = false;
 	[SyncVar(hook = "UpdateSecured")]
 	public bool isSecured; //To ground
+	private RegisterTile registerTile;
 	public bool startSecured;
-	public bool startWithPlasma;
 	public bool startAsOn;
 	public int DirectionStart = 0;
 	public int DirectionEnd = 9;
@@ -35,7 +35,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
 	{
 		PowerTypeCategory.StandardCable,
-		PowerTypeCategory.HighVoltageCable,
+			PowerTypeCategory.HighVoltageCable,
 	};
 
 	public void PotentialDestroyed()
@@ -44,6 +44,11 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		{
 			//Then you can destroy
 		}
+	}
+
+	void Awake()
+	{
+		registerTile = GetComponent<RegisterTile>();
 	}
 
 	public override void OnStartServer()
@@ -78,18 +83,30 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.HighVoltageCable] = PIRHigh;
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PIRMedium;
 
-
-
-		if (startWithPlasma)
-		{
-			plasmaFuel.Add(new SolidPlasma());
-		}
 		powerSupply.InData.ControllingUpdate = powerSupply;
-		if (startAsOn) {
-			UpdateServerState(startAsOn);
-		}
 
 		UpdateSecured(startSecured);
+		StartCoroutine(CheckStartingPlasma());
+	}
+
+	/// <summary>
+	/// Map solid plasma so that it is sitting on the same tile as the generator for it to be added
+	/// to the starting plasma amounts.false Server Only.
+	/// </summary>
+	IEnumerator CheckStartingPlasma()
+	{
+		yield return YieldHelper.DeciSecond;
+		var plasmaObjs = registerTile.Matrix.Get<SolidPlasma>(registerTile.Position);
+		foreach (SolidPlasma plasma in plasmaObjs)
+		{
+			plasmaFuel.Add(plasma);
+			plasma.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		}
+
+		if (startAsOn)
+		{
+			UpdateServerState(startAsOn);
+		}
 	}
 
 	public override void OnStartClient()
@@ -138,7 +155,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 			isOn = false;
 			//powerSupply.TurnOffSupply();
 			powerSupply.Data.ChangeToOff = true;
-			ElectricalSynchronisation.NUStructureChangeReact.Add (powerSupply);
+			ElectricalSynchronisation.NUStructureChangeReact.Add(powerSupply);
 			if (plasmaFuel.Count > 0)
 			{
 				plasmaFuel[0].StopBurningPlasma();
@@ -239,6 +256,5 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 
 		return true;
 	}
-	public void TurnOffCleanup (){
-	}
+	public void TurnOffCleanup() { }
 }
