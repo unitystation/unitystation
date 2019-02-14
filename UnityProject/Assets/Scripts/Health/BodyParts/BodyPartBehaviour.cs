@@ -93,11 +93,11 @@ public class BodyPartBehaviour : MonoBehaviour
 		}
 		else if (severity <= 0.4)
 		{
-			Severity = DamageSeverity.LightModerate;
+			Severity = DamageSeverity.Moderate;
 		}
 		else if (severity <= 0.6)
 		{
-			Severity = DamageSeverity.Moderate;
+			Severity = DamageSeverity.Bad;
 		}
 		else if (severity <= 0.8)
 		{
