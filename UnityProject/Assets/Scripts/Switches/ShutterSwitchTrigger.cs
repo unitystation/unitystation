@@ -55,8 +55,12 @@ public class ShutterSwitchTrigger : InputTrigger
 	{
 		foreach (ObjectTrigger s in TriggeringObjects)
 		{
-			if (s != null) { //Apparently unity can't handle the null reference Properly for this case
-				s.Trigger(isClosed); 
+			if (s != null)
+			{ //Apparently unity can't handle the null reference Properly for this case
+				s.Trigger(isClosed);
+			}
+			else {
+				Logger.LogError("you Have a null reference You have a missing reference for a shutter");
 			}
 		}
 	}
