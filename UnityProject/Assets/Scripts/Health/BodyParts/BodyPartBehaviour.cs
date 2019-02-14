@@ -7,17 +7,15 @@ public class BodyPartBehaviour : MonoBehaviour
 	private float burnDamage;
 	public float BruteDamage { get { return bruteDamage; } set { bruteDamage = Mathf.Clamp(value, 0, 101); } }
 	public float BurnDamage { get { return burnDamage; } set { burnDamage = Mathf.Clamp(value, 0, 101); } }
-
-	public Sprite GrayDamageMonitorIcon;
-
+	public Sprite BlueDamageMonitorIcon;
 	public Sprite GreenDamageMonitorIcon;
-
-	private int MaxDamage = 100;
-
-	public Sprite OrangeDamageMonitorIcon;
-	public Sprite RedDamageMonitorIcon;
-	public BodyPartType Type;
 	public Sprite YellowDamageMonitorIcon;
+	public Sprite OrangeDamageMonitorIcon;
+	public Sprite DarkOrangeDamageMonitorIcon;
+	public Sprite RedDamageMonitorIcon;
+	public Sprite GrayDamageMonitorIcon;
+	private int MaxDamage = 100;
+	public BodyPartType Type;
 
 	public DamageSeverity Severity; //{ get; private set; }
 	public float OverallDamage => BruteDamage + BurnDamage;
@@ -83,25 +81,29 @@ public class BodyPartBehaviour : MonoBehaviour
 
 	private void UpdateSeverity()
 	{
+		// update UI limbs depending on their severity of damage
 		float severity = (float)OverallDamage / MaxDamage;
-		if (severity < 0.2)
+		if (severity <= 0)
 		{
 			Severity = DamageSeverity.None;
 		}
-		else
-		if (severity >= 0.2 && severity < 0.4)
+		else if (severity <= 0.2) 
+		{
+			Severity = DamageSeverity.Light;
+		}
+		else if (severity <= 0.4)
+		{
+			Severity = DamageSeverity.LightModerate;
+		}
+		else if (severity <= 0.6)
 		{
 			Severity = DamageSeverity.Moderate;
 		}
-		else if (severity >= 0.4 && severity < 0.7)
-		{
-			Severity = DamageSeverity.Bad;
-		}
-		else if (severity >= 0.7 && severity < 1f)
+		else if (severity <= 0.8)
 		{
 			Severity = DamageSeverity.Critical;
 		}
-		else if (severity >= 1f)
+		else if (severity <= 1f)
 		{
 			Severity = DamageSeverity.Max;
 		}
