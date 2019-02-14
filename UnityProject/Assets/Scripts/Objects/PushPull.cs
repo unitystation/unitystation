@@ -92,6 +92,11 @@ public class PushPull : VisibleBehaviour {
 				return;
 			}
 		}
+		ConnectedPlayer clientWhoAsked = PlayerList.Instance.Get( gameObject );
+		if ( clientWhoAsked.Script.canNotInteract() )
+		{
+			return;
+		}
 
 		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile )
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
