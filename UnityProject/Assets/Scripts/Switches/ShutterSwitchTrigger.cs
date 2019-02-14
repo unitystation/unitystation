@@ -55,7 +55,9 @@ public class ShutterSwitchTrigger : InputTrigger
 	{
 		foreach (ObjectTrigger s in TriggeringObjects)
 		{
-			s.Trigger(isClosed);
+			if (s != null) { 
+				s.Trigger(isClosed);
+			}
 		}
 	}
 }
