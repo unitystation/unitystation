@@ -37,8 +37,8 @@ public partial class PlayerSync
 	private Vector2 serverLastDirection;
 
 	public float SpeedServer
-	{	//Current move speed
-		get => ServerState.speed;
+	{
+		get => masterSpeedServer;
 		set
 		{ // Future move speed (applied on the next step)
 			Logger.LogTraceFormat( "{0}: setting SERVER speed {1}->{2}", Category.Movement, gameObject.name, SpeedServer, value );

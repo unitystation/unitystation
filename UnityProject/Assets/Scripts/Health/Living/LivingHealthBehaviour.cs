@@ -51,7 +51,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	private float tick = 0;
 	private RegisterTile registerTile;
 
-	//be careful with falses, will make player conscious
 	public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
 	public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
 

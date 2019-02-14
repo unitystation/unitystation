@@ -58,17 +58,17 @@ public partial class PlayerSync
 	}
 
 	public float SpeedClient
-	{	//Current move speed
-		get => ClientState.speed;
+	{
+		get => predictedSpeedClient;
 		set
-		{ // Predicted move speed (applied on the next step)
+		{
 			Logger.LogTraceFormat( "{0}: setting PREDICTED speed {1}->{2}", Category.Movement, gameObject.name, SpeedClient, value );
 			predictedSpeedClient = value < 0 ? 0 : value;
 		}
 	}
 
 	/// <summary>
-	/// Player's clientside predicted move speed, applied for predicted moves
+	/// Player's clientside predicted move speed, applied to predicted moves
 	/// </summary>
 	private float predictedSpeedClient;
 
@@ -203,6 +203,11 @@ public partial class PlayerSync
 
 		predictedState.MatrixId = MatrixManager.AtPoint(target3int).Id;
 		predictedState.WorldPosition = target.To3Int();
+		if ( !float.IsNaN( speed ) && speed > 0 ) {
+			predictedState.Speed = speed;
+		} else {
+			predictedState.Speed = PushPull.DEFAULT_PUSH_SPEED;
+		}
 
 		OnClientStartMove().Invoke(currentPos, target3int); //?
 
@@ -519,7 +524,7 @@ public partial class PlayerSync
 			else
 			{
 				transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos,
-					playerState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
+				predictedState.speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
 			}
 
 			if (ClientPositionReady)
