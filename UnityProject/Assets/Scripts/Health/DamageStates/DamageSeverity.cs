@@ -6,8 +6,9 @@ public enum DamageSeverity
 {
 	None = 0,
 	Light = 25,
-	Moderate = 50,
-	Bad = 75,
-	Critical = 100,
-	Max = 125
+	LightModerate = 50,
+	Moderate = 75,
+	Bad = 100,
+	Critical = 125,
+	Max = 150
 }
