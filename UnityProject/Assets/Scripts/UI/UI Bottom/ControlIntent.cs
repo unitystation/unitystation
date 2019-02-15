@@ -21,6 +21,7 @@ using UnityEngine.UI;
 		}
 
 		//OnClick method
+		//The selected intent can be passed from a button in the UI
 		public void IntentButton(int selectedIntent)
 		{
 			Logger.Log("Intent Button", Category.UI);
