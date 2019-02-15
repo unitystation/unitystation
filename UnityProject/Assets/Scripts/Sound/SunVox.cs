@@ -47,6 +47,8 @@ public class SunVox {
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
   private const string LIBRARY_NAME = "sunvox";
+#elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+  private const string LIBRARY_NAME = "sunvox";
 #elif UNITY_EDITOR_WINDOWS || UNITY_STANDALONE_WINDOWS || UNITY_STANDALONE_WIN
   private const string LIBRARY_NAME = "sunvox";
 #elif UNITY_STANDALONE_LINUX
@@ -75,7 +77,13 @@ public class SunVox {
       flags - mix of the SV_INIT_FLAG_xxx flags.
   */
   [DllImport (LIBRARY_NAME)] public static extern int sv_init( string config, int freq, int channels, int flags );
+  
+  
+  #if UNITY_EDITOR
+  public static int sv_deinit() {return 0;}
+  #else
   [DllImport (LIBRARY_NAME)] public static extern int sv_deinit();
+  #endif
 
   /*
     sv_update_input() - 
