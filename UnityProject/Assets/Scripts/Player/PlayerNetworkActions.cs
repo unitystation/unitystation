@@ -857,4 +857,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
+
+	/// <summary>
+	/// Disables or enables the player's internals
+	/// </summary>
+	/// <param name="internalsEnabled"></param>
+	[Command]
+	public void CmdSetInternalsEnabled(bool internalsEnabled)
+	{
+		equipment.IsInternalsEnabled = internalsEnabled;
+	}
+
+	/// <summary>
+	/// Gets whether the player's internals are running
+	/// </summary>
+	/// <returns></returns>
+	[Server]
+	public bool IsInternalsEnabled()
+	{
+		return equipment.IsInternalsEnabled;
+	}
 }

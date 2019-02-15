@@ -21,11 +21,13 @@ using UnityEngine.UI;
 			{
 				UIManager.IsOxygen = true;
 				image.sprite = stateSprites[1];
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetInternalsEnabled(true);
 			}
 			else
 			{
 				UIManager.IsOxygen = false;
 				image.sprite = stateSprites[0];
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetInternalsEnabled(false);
 			}
 		}
 	}

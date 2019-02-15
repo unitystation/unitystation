@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 public class Equipment : NetworkBehaviour
 {
 	public ClothingItem[] clothingSlots;
+	public bool IsInternalsEnabled;
 
 	private bool isInit;
 	private PlayerNetworkActions playerNetworkActions;
@@ -42,6 +43,7 @@ public class Equipment : NetworkBehaviour
 			return;
 		}
 
+		IsInternalsEnabled = false;
 		syncEquipSprites.Callback = SyncSprites;
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
