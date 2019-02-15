@@ -51,8 +51,6 @@ public class SunVox {
   private const string LIBRARY_NAME = "sunvox";
 #elif UNITY_EDITOR_WINDOWS || UNITY_STANDALONE_WINDOWS || UNITY_STANDALONE_WIN
   private const string LIBRARY_NAME = "sunvox";
-#elif UNITY_STANDALONE_LINUX
-  private const string LIBRARY_NAME = "sunvox";
 #elif UNITY_IOS && !UNITY_EDITOR
   private const string LIBRARY_NAME = "__Internal";
 #elif UNITY_ANDROID && !UNITY_EDITOR
