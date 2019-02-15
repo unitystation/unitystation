@@ -27,7 +27,12 @@ namespace Atmospherics
 
 		public static float CalcPressure(float volume, float moles, float temperature)
 		{
-			return moles * Gas.R * temperature / volume / 1000;
+			if (temperature >= 0)
+			{
+				return moles * Gas.R * temperature / volume / 1000;
+			}
+
+			return 0;
 		}
 
 		public static float CalcVolume(float pressure, float moles, float temperature)
