@@ -78,7 +78,7 @@ public class SunVox {
   */
   [DllImport (LIBRARY_NAME)] public static extern int sv_init( string config, int freq, int channels, int flags );
   
-  
+  // Prevents sv_deinit from crashing the editor, but leaves the call alone on regular builds.
   #if UNITY_EDITOR
   public static int sv_deinit() {return 0;}
   #else
