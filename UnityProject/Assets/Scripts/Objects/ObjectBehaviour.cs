@@ -16,22 +16,26 @@ public class ObjectBehaviour : PushPull
 	{
 		if (registerTile.ObjectType == ObjectType.Player)
 		{
-			if (PlayerManager.LocalPlayerScript.gameObject == this.gameObject)
+			if (PlayerManager.LocalPlayerScript != null)
 			{
-				//Local player, might be in a cupboard so add a cupboard handler. The handler will remove
-				//itself if not needed
-				//TODO turn the ClosetPlayerHandler into a more generic component to handle disposals bin,
-				//coffins etc
-				if (state)
+				if (PlayerManager.LocalPlayerScript.gameObject == this.gameObject)
 				{
-					if (closetHandlerCache)
+					//Local player, might be in a cupboard so add a cupboard handler. The handler will remove
+					//itself if not needed
+					//TODO turn the ClosetPlayerHandler into a more generic component to handle disposals bin,
+					//coffins etc
+					if (state)
 					{
-						//Set the camera to follow the player again
-						if (!PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost) {
-							StartCoroutine(TargetPlayer());
+						if (closetHandlerCache)
+						{
+							//Set the camera to follow the player again
+							if (!PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost)
+							{
+								StartCoroutine(TargetPlayer());
+							}
+							Camera2DFollow.followControl.damping = 0f;
+							Destroy(closetHandlerCache);
 						}
-						Camera2DFollow.followControl.damping = 0f;
-						Destroy(closetHandlerCache);
 					}
 				}
 			}
@@ -39,11 +43,15 @@ public class ObjectBehaviour : PushPull
 	}
 	/// Waiting until player becomes active according to PlayerSync
 	/// before tracking player to avoid blinking
-	private IEnumerator TargetPlayer() {
+	private IEnumerator TargetPlayer()
+	{
 		yield return YieldHelper.EndOfFrame;
-		if ( !PlayerManager.LocalPlayerScript.PlayerSync.ClientState.Active ) {
-			StartCoroutine( TargetPlayer() );
-		} else {
+		if (!PlayerManager.LocalPlayerScript.PlayerSync.ClientState.Active)
+		{
+			StartCoroutine(TargetPlayer());
+		}
+		else
+		{
 			Camera2DFollow.followControl.target = transform;
 		}
 	}

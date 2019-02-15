@@ -113,8 +113,7 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		while (!freePositions.IsEmpty)
 		{
-			Vector3Int position;
-			if (freePositions.TryDequeue(out position))
+			if (freePositions.TryDequeue(out Vector3Int position))
 			{
 				roomPositions.Add(position);
 
@@ -131,7 +130,7 @@ public class MetaDataSystem : SubsystemBehaviour
 							isSpace = true;
 						}
 					}
-					else if (metaTileMap.IsAtmosPassableAt(neighbor))
+					else if (metaTileMap.IsAtmosPassableAt(position, neighbor))
 					{
 						if (!roomPositions.Contains(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
 						{
@@ -167,30 +166,35 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void SetupNeighbors(MetaDataNode node)
 	{
-		Vector3Int[] neighbors = MetaUtils.GetNeighbors(node.Position);
+//		Vector3Int[] neighbors = MetaUtils.GetNeighbors(node.Position);
 
-		for (int i = 0; i < neighbors.Length; i++)
+		Vector3 nodeWorldPosition = MatrixManager.LocalToWorldInt(node.Position, MatrixManager.Get(matrix.Id));
+
+		foreach (Vector3Int dir in MetaUtils.Directions)
 		{
-			if (metaTileMap.IsSpaceAt(neighbors[i]))
+			Vector3Int neighbor = dir + node.Position;
+
+			if (metaTileMap.IsSpaceAt(neighbor))
 			{
 				if (node.IsRoom)
 				{
 					externalNodes.Add(node);
 				}
 
-				Vector3 worldPosition = MatrixManager.LocalToWorldInt(neighbors[i], MatrixManager.Get(matrix.Id));
+				Vector3 neighborWorldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
 
-				if (!MatrixManager.IsSpaceAt(worldPosition.RoundToInt()))
+				if (!MatrixManager.IsSpaceAt(neighborWorldPosition.RoundToInt()))
 				{
-					MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPosition.RoundToInt());
+					MatrixInfo matrixInfo = MatrixManager.AtPoint(neighborWorldPosition.RoundToInt());
 
 					if (matrixInfo.MetaTileMap != metaTileMap)
 					{
-						Vector3Int localPosition = MatrixManager.WorldToLocalInt(worldPosition, matrixInfo);
+						Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);
+						Vector3Int nodeLocalPosition = MatrixManager.WorldToLocalInt(nodeWorldPosition, matrixInfo);
 
-						if (matrixInfo.MetaTileMap.IsAtmosPassableAt(localPosition))
+						if (matrixInfo.MetaTileMap.IsAtmosPassableAt(nodeLocalPosition, neighborlocalPosition))
 						{
-							node.AddNeighbor(matrixInfo.MetaDataLayer.Get(localPosition));
+							node.AddNeighbor(matrixInfo.MetaDataLayer.Get(neighborlocalPosition));
 						}
 
 						continue;
@@ -198,11 +202,11 @@ public class MetaDataSystem : SubsystemBehaviour
 				}
 			}
 
-			if (metaTileMap.IsAtmosPassableAt(neighbors[i]))
+			if (metaTileMap.IsAtmosPassableAt(node.Position, neighbor))
 			{
-				MetaDataNode neighborNode = metaDataLayer.Get(neighbors[i]);
+				MetaDataNode neighborNode = metaDataLayer.Get(neighbor);
 
-				if (metaTileMap.IsSpaceAt(neighbors[i]))
+				if (metaTileMap.IsSpaceAt(neighbor))
 				{
 					neighborNode.Type = NodeType.Space;
 				}

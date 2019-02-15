@@ -69,20 +69,12 @@ public class MetaDataNode: IGasMixContainer
 	}
 
 	/// <summary>
-	/// The current neighbor nodes.
+	/// The current neighbor nodes. Nodes can be Null!
 	/// </summary>
-	public MetaDataNode[] Neighbors
-	{
-		get
-		{
-			lock (neighbors)
-			{
-				return neighbors.ToArray();
-			}
-		}
-	}
+	public readonly MetaDataNode[] Neighbors = new MetaDataNode[4];
 
 	private List<MetaDataNode> neighbors;
+
 
 	/// <summary>
 	/// Create a new MetaDataNode on the specified local position (within the parent matrix)
@@ -141,6 +133,8 @@ public class MetaDataNode: IGasMixContainer
 			lock (neighbors)
 			{
 				neighbors.Add(neighbor);
+
+				SyncNeighbors();
 			}
 		}
 	}
@@ -152,6 +146,8 @@ public class MetaDataNode: IGasMixContainer
 		lock (neighbors)
 		{
 			neighbors.Remove(neighbor);
+
+			SyncNeighbors();
 		}
 	}
 
@@ -165,5 +161,13 @@ public class MetaDataNode: IGasMixContainer
 	public override string ToString()
 	{
 		return Position.ToString();
+	}
+
+	private void SyncNeighbors()
+	{
+		for (int i = 0; i < Neighbors.Length; i++)
+		{
+			Neighbors[i] = i < neighbors.Count ? neighbors[i] : null;
+		}
 	}
 }

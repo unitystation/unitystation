@@ -18,7 +18,7 @@
 
 		public bool IsClosed
 		{
-			get { return isClosed; }
+			get => isClosed;
 			set
 			{
 				if (isClosed != value)
@@ -36,7 +36,7 @@
 				// OneDirectionRestricted is hardcoded to only be from the negative y position
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
-				// Returns false if player is bumping door from the restricted direction 
+				// Returns false if player is bumping door from the restricted direction
 				return !(to - Position).y.Equals(v.y);
 			}
 
@@ -56,6 +56,6 @@
 
 		public override bool IsAtmosPassable()
 		{
-			return !isClosed;
+			return !isClosed || OneDirectionRestricted;
 		}
 	}

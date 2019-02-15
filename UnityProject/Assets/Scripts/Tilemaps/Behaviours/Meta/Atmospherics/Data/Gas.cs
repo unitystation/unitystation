@@ -44,6 +44,5 @@ namespace Atmospherics
 		{
 			return gas.Index;
 		}
-
 	}
 }

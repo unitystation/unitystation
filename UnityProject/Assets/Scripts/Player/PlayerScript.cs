@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using Facepunch.Steamworks;
 
 
 public class PlayerScript : ManagedNetworkBehaviour
@@ -122,27 +121,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 				CmdTrySetInitialName(PlayerManager.PlayerNameCache);
 
 				PlayerManager.SetPlayerForControl(gameObject);
-
-				if (PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
-				{
-					// I (client) have connected to the server, ask server what is going on, by first asking what the UI should be?
-
-					UIManager.Display.DetermineGameMode();
-				}
-				UIManager.SetDeathVisibility(true);
-				if ( BuildPreferences.isSteamServer ) {
-					// Send request to be authenticated by the server
-					if ( Client.Instance != null ) {
-						Logger.Log( "Client Requesting Auth", Category.Steam );
-						// Generate authentication Ticket
-						var ticket = Client.Instance.Auth.GetAuthSessionTicket();
-						var ticketBinary = ticket.Data;
-						// Send Clientmessage to authenticate
-						RequestAuthMessage.Send( Client.Instance.SteamId, ticketBinary );
-					} else {
-						Logger.Log( "Client NOT requesting auth", Category.Steam );
-					}
-				}
+				
 //				Request sync to get all the latest transform data
 				new RequestSyncMessage().Send();
 				SelectedChannels = ChatChannel.Local;
