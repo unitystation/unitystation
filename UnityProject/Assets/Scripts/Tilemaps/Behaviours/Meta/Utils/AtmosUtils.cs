@@ -6,8 +6,6 @@ namespace Atmospherics
 {
 	public static class AtmosUtils
 	{
-		public const float MinimumPressure = 0.00001f;
-		public const float TileVolume = 2.5f;
 
 		public static bool IsPressureChanged(MetaDataNode node)
 		{
@@ -15,10 +13,12 @@ namespace Atmospherics
 
 			for (var i = 0; i < neighbors.Length; i++)
 			{
-				MetaDataNode neighbor = neighbors[i];
-				if (Mathf.Abs(node.GasMix.Pressure - neighbor.GasMix.Pressure) > MinimumPressure)
+				if (neighbors[i] != null)
 				{
-					return true;
+					if (Mathf.Abs(node.GasMix.Pressure - neighbors[i].GasMix.Pressure) > AtmosConstants.MinPressureDifference)
+					{
+						return true;
+					}
 				}
 			}
 

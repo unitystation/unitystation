@@ -5,16 +5,16 @@ namespace Tilemaps.Behaviours.Meta
 {
 	public static class MetaUtils
 	{
-		private static Vector3Int[] directions = {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right};
+		public static readonly Vector3Int[] Directions = {Vector3Int.up, Vector3Int.left, Vector3Int.down, Vector3Int.right};
 
 
 		public static Vector3Int[] GetNeighbors(Vector3Int center)
 		{
-			var neighbors = new Vector3Int[directions.Length];
+			var neighbors = new Vector3Int[Directions.Length];
 
-			for (int i = 0; i < directions.Length; i++)
+			for (int i = 0; i < Directions.Length; i++)
 			{
-				neighbors[i] = center + directions[i];
+				neighbors[i] = center + Directions[i];
 			}
 
 			return neighbors;
@@ -22,21 +22,17 @@ namespace Tilemaps.Behaviours.Meta
 
 		public static void AddToNeighbors(MetaDataNode node)
 		{
-			MetaDataNode[] neighbors = node.Neighbors;
-
-			for (var i = 0; i < neighbors.Length; i++)
+			for (var i = 0; i < node.Neighbors.Length; i++)
 			{
-				neighbors[i].AddNeighbor(node);
+				node.Neighbors[i]?.AddNeighbor(node);
 			}
 		}
 
 		public static void RemoveFromNeighbors(MetaDataNode node)
 		{
-			MetaDataNode[] neighbors = node.Neighbors;
-
-			for (var i = 0; i < neighbors.Length; i++)
+			for (var i = 0; i < node.Neighbors.Length; i++)
 			{
-				neighbors[i].RemoveNeighbor(node);
+				node.Neighbors[i]?.RemoveNeighbor(node);
 			}
 		}
 	}

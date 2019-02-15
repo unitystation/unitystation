@@ -31,8 +31,15 @@ public class MatrixManager : MonoBehaviour
 	/// Finds first matrix that is not empty at given world pos
 	public static MatrixInfo AtPoint(Vector3Int worldPos)
 	{
-		MatrixInfo matrixInfo = getInternal(mat => mat.Matrix.HasTile( WorldToLocalInt(worldPos, mat) ));
-		return Equals(matrixInfo, MatrixInfo.Invalid) ? Instance.ActiveMatrices[0] : matrixInfo;
+		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		{
+			if (mat.Matrix.HasTile(WorldToLocalInt(worldPos, mat)))
+			{
+				return mat;
+			}
+		}
+
+		return Instance.ActiveMatrices[0];
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int)"/>
@@ -74,14 +81,30 @@ public class MatrixManager : MonoBehaviour
 	///<inheritdoc cref="Matrix.IsSpaceAt"/>
 	public static bool IsSpaceAt(Vector3Int worldPos)
 	{
-		return isAtInternal(mat => mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat)));
+		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		{
+			if (!mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat)))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsEmptyAt"/>
 	///<inheritdoc cref="Matrix.IsEmptyAt"/>
 	public static bool IsEmptyAt(Vector3Int worldPos)
 	{
-		return isAtInternal(mat => mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat)));
+		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		{
+			if (!mat.Matrix.IsEmptyAt(WorldToLocalInt(worldPos, mat)))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
@@ -242,23 +265,6 @@ public class MatrixManager : MonoBehaviour
 
 		return t;
 	}
-
-//	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>
-//	public static IEnumerable<T> GetAt<T>(Vector3Int worldPos) where T : MonoBehaviour
-//	{
-//		return getAtInternal(mat => mat.Matrix.Get<T>(WorldToLocalInt(worldPos, mat)));
-//	}
-//
-//	private static IEnumerable<T> getAtInternal<T>(Func<MatrixInfo, IEnumerable<T>> condition) where T : MonoBehaviour
-//	{
-//		IEnumerable<T> t = new List<T>();
-//		for (var i = 0; i < Instance.activeMatrices.Count; i++)
-//		{
-//			t = t.Concat(condition(Instance.activeMatrices[i]));
-//		}
-//
-//		return t;
-//	}
 
 	private static bool isAtInternal(Func<MatrixInfo, bool> condition)
 	{
