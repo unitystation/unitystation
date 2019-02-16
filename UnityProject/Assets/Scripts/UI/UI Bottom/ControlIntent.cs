@@ -21,18 +21,16 @@ using UnityEngine.UI;
 		}
 
 		//OnClick method
-		public void IntentButton()
+		//The selected intent can be passed from a button in the UI
+		public void IntentButton(int selectedIntent)
 		{
 			Logger.Log("Intent Button", Category.UI);
 
 			SoundManager.Play("Click01");
 
-			int intent = (int) UIManager.CurrentIntent;
-			intent = (intent + 1) % 4;
+			UIManager.CurrentIntent = (Intent) selectedIntent;
 
-			UIManager.CurrentIntent = (Intent) intent;
-
-			thisImg.sprite = sprites[intent];
+			thisImg.sprite = sprites[selectedIntent];
 		}
 
 		public void CycleIntent(bool cycleLeft = true)
