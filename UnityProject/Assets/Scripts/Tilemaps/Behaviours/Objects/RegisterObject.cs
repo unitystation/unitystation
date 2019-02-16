@@ -18,10 +18,10 @@ public class RegisterObject : RegisterTile
 		return Passable || Position == TransformState.HiddenPos;
 	}
 
-	public override bool IsAtmosPassable()
+	public override bool IsAtmosPassable(Vector3Int from)
 	{
 		return AtmosPassable || Position == TransformState.HiddenPos;
-	}	
+	}
 
 	#region UI Mouse Actions
 
