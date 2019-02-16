@@ -45,18 +45,12 @@ public class SunVox {
   public const int SV_STYPE_FLOAT32 = 2;
   public const int SV_STYPE_FLOAT64 = 3;
 
-#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-  private const string LIBRARY_NAME = "sunvox";
-#elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-  private const string LIBRARY_NAME = "sunvox";
-#elif UNITY_EDITOR_WINDOWS || UNITY_STANDALONE_WINDOWS || UNITY_STANDALONE_WIN
+#if UNITY_EDITOR || UNITY_STANDALONE 
   private const string LIBRARY_NAME = "sunvox";
 #elif UNITY_IOS && !UNITY_EDITOR
   private const string LIBRARY_NAME = "__Internal";
 #elif UNITY_ANDROID && !UNITY_EDITOR
   private const string LIBRARY_NAME = "libsunvox";
-#elif UNITY_EDITOR
-  private const string LIBRARY_NAME = "sunvox";
 #endif
 
   /*
