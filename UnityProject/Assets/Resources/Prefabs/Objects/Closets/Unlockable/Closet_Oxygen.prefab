@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 114473011698291292}
   - component: {fileID: 114836981699317108}
   - component: {fileID: 114325905384881024}
-  - component: {fileID: 114456479662004144}
+  - component: {fileID: 3578799147172016980}
   - component: {fileID: 114195129605414080}
   - component: {fileID: 114202447134840306}
   m_Layer: 11
@@ -158,7 +158,7 @@ MonoBehaviour:
   items: {fileID: 1632989689975038}
   lockLight: {fileID: 0}
   spriteRenderer: {fileID: 212309241971002690}
---- !u!114 &114456479662004144
+--- !u!114 &3578799147172016980
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,13 +167,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1146263997293372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
   visibleState: 1
   isNotPushable: 0
+  closetHandlerCache: {fileID: 0}
 --- !u!114 &114195129605414080
 MonoBehaviour:
   m_ObjectHideFlags: 0
