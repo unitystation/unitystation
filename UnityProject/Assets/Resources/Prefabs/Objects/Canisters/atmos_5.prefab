@@ -94,8 +94,8 @@ GameObject:
   - component: {fileID: 114930344040478920}
   - component: {fileID: 114278101468313644}
   - component: {fileID: 114149446815694932}
-  - component: {fileID: 114415491443398522}
   - component: {fileID: 114672592214754418}
+  - component: {fileID: 114415491443398522}
   - component: {fileID: 114922646120329610}
   - component: {fileID: 114467945241161908}
   m_Layer: 10
@@ -127,7 +127,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1498044554059982}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -258,6 +258,18 @@ MonoBehaviour:
   rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 0
+--- !u!114 &114672592214754418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498044554059982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114415491443398522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,18 +287,6 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
---- !u!114 &114672592214754418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1498044554059982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114922646120329610
 MonoBehaviour:
   m_ObjectHideFlags: 0
