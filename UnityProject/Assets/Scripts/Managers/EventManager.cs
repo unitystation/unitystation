@@ -11,7 +11,7 @@ using UnityEngine.Events;
 	//For simple broadcasts:
 	public enum EVENT
 	{
-		UpdateFov, PowerNetSelfCheck, ChatFocused, ChatUnfocused, LoggedOut, RoundStarted, RoundEnded
+		UpdateFov, PowerNetSelfCheck, ChatFocused, ChatUnfocused, LoggedOut, RoundStarted, RoundEnded, DisableInternals, EnableInternals
 	} // + other events. Add them as you need them
 
 	[ExecuteInEditMode]

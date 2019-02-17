@@ -24,6 +24,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 	private BloodSystem bloodSystem;
 	private LivingHealthBehaviour livingHealthBehaviour;
+	private Equipment equipment;
 
 	private float tickRate = 1f;
 	private float tick = 0f;
@@ -33,8 +34,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		bloodSystem = GetComponent<BloodSystem>();
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
-
 		playerScript = GetComponent<PlayerScript>();
+		equipment = GetComponent<Equipment>();
 	}
 
 	void OnEnable()
@@ -110,7 +111,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			ItemAttributes mask = inventory.ContainsKey("mask") ? inventory["mask"]?.ItemAttributes : null;
 			ItemAttributes suitStorage = inventory.ContainsKey("suitStorage") ? inventory["suitStorage"]?.ItemAttributes : null;
 
-			bool internalsEnabled = playerScript.playerNetworkActions.IsInternalsEnabled();
+			bool internalsEnabled = equipment.IsInternalsEnabled;
 
 			if (mask != null && suitStorage != null && mask.ConnectedToTank && internalsEnabled)
 			{
