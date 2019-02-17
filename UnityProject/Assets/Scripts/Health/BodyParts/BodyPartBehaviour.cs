@@ -83,31 +83,38 @@ public class BodyPartBehaviour : MonoBehaviour
 	{
 		// update UI limbs depending on their severity of damage
 		float severity = (float)OverallDamage / MaxDamage;
+		// If the limb is uninjured
 		if (severity <= 0)
 		{
 			Severity = DamageSeverity.None;
 		}
-		else if (severity <= 0.2) 
+		// If the limb is under 20% damage
+		else if (severity < 0.2) 
 		{
 			Severity = DamageSeverity.Light;
 		}
-		else if (severity <= 0.4)
+		// If the limb is under 40% damage
+		else if (severity < 0.4)
 		{
 			Severity = DamageSeverity.LightModerate;
 		}
-		else if (severity <= 0.5)
+		// If the limb is under 60% damage
+		else if (severity < 0.6)
 		{
 			Severity = DamageSeverity.Moderate;
 		}
-		else if (severity <= 0.7)
+		// If the limb is under 80% damage
+		else if (severity < 0.8)
 		{
 			Severity = DamageSeverity.Bad;
 		}
-		else if (severity <= .9)
+		// If the limb is under 100% damage
+		else if (severity < 1f)
 		{
 			Severity = DamageSeverity.Critical;
 		}
-		else if (severity <= 1f)
+		// If the limb is 100% damage or over
+		else if (severity >= 1f)
 		{
 			Severity = DamageSeverity.Max;
 		}
