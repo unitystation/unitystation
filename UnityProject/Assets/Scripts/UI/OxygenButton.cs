@@ -14,20 +14,32 @@ using UnityEngine.UI;
 			UIManager.IsOxygen = false;
 		}
 
+		/// <summary>
+		/// toggle the button state and play any sounds
+		/// </summary>
 		public void OxygenSelect()
 		{
 			SoundManager.Play("Click01");
-			if (!UIManager.IsOxygen)
+			//toggle state
+			EnableOxygen(!UIManager.IsOxygen);
+		}
+
+		/// <summary>
+		/// Sets the state of the OxygenButton.
+		/// </summary>
+		/// <param name="enableOxygen"></param>
+		public void EnableOxygen(bool enableOxygen)
+		{
+			UIManager.IsOxygen = enableOxygen;
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetInternalsEnabled(enableOxygen);
+			if (enableOxygen)
 			{
-				UIManager.IsOxygen = true;
 				image.sprite = stateSprites[1];
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetInternalsEnabled(true);
 			}
 			else
 			{
-				UIManager.IsOxygen = false;
 				image.sprite = stateSprites[0];
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetInternalsEnabled(false);
 			}
+
 		}
 	}
