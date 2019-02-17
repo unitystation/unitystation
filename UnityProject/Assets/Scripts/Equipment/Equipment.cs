@@ -36,6 +36,13 @@ public class Equipment : NetworkBehaviour
 		base.OnStartClient();
 	}
 
+	private void OnDestroy()
+	{
+		UnregisisterInternals();
+	}
+
+
+
 	private void InitEquipment()
 	{
 		if (isInit)
@@ -43,7 +50,7 @@ public class Equipment : NetworkBehaviour
 			return;
 		}
 
-		IsInternalsEnabled = false;
+		InitInternals();
 		syncEquipSprites.Callback = SyncSprites;
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
@@ -364,5 +371,43 @@ public class Equipment : NetworkBehaviour
 		//Waiting for hier name resolve
 		yield return new WaitForSeconds(0.2f);
 		playerNetworkActions.AddItemToUISlot(obj, slotName, true);
+	}
+
+
+	private void InitInternals()
+	{
+		IsInternalsEnabled = false;
+		EventManager.AddHandler(EVENT.EnableInternals, OnInternalsEnabled);
+		EventManager.AddHandler(EVENT.DisableInternals, OnInternalsDisabled);
+	}
+
+	/// <summary>
+	/// Removes any handlers from the event system
+	/// </summary>
+	private void UnregisisterInternals()
+	{
+		EventManager.RemoveHandler(EVENT.EnableInternals, OnInternalsEnabled);
+		EventManager.RemoveHandler(EVENT.DisableInternals, OnInternalsDisabled);
+	}
+
+	public void OnInternalsEnabled()
+	{
+		CmdSetInternalsEnabled(true);
+	}
+
+	public void OnInternalsDisabled()
+	{
+		CmdSetInternalsEnabled(false);
+	}
+
+
+	/// <summary>
+	/// Disables or enables the player's internals on the server
+	/// </summary>
+	/// <param name="internalsEnabled"></param>
+	[Command]
+	public void CmdSetInternalsEnabled(bool internalsEnabled)
+	{
+		IsInternalsEnabled = internalsEnabled;
 	}
 }

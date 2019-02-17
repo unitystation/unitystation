@@ -31,14 +31,16 @@ public class OxygenButton : MonoBehaviour
 	public void EnableOxygen(bool enableOxygen)
 	{
 		UIManager.IsOxygen = enableOxygen;
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetInternalsEnabled(enableOxygen);
+		//PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetInternalsEnabled(enableOxygen);
 		if (enableOxygen)
 		{
 			image.sprite = stateSprites[1];
+			EventManager.Broadcast(EVENT.EnableInternals);
 		}
 		else
 		{
 			image.sprite = stateSprites[0];
+			EventManager.Broadcast(EVENT.DisableInternals);
 		}
 
 	}
