@@ -11,7 +11,17 @@ using UnityEngine.Events;
 	//For simple broadcasts:
 	public enum EVENT
 	{
-		UpdateFov, PowerNetSelfCheck, ChatFocused, ChatUnfocused, LoggedOut, RoundStarted, RoundEnded, DisableInternals, EnableInternals
+		UpdateFov,
+		PowerNetSelfCheck,
+		ChatFocused,
+		ChatUnfocused,
+		LoggedOut,
+		RoundStarted,
+		RoundEnded,
+		DisableInternals,
+		EnableInternals,
+		PlayerSpawned,
+		PlayerDied
 	} // + other events. Add them as you need them
 
 	[ExecuteInEditMode]
@@ -74,9 +84,11 @@ using UnityEngine.Events;
 		// Fires the event
 		public static void Broadcast(EVENT evnt)
 		{
+			Logger.Log("Raising a " + evnt + " event");
 			if (eventTable.ContainsKey(evnt) && eventTable[evnt] != null)
 			{
 				eventTable[evnt]();
+				
 			}
 		}
 	}

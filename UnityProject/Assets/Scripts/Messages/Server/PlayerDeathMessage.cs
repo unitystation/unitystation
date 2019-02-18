@@ -20,6 +20,7 @@ public class PlayerDeathMessage : ServerMessage
 //		localPlayerScript.playerNetworkActions.SpawnGhost();
 		localPlayerScript.PlayerSync.OnBecomeGhost();
 		UIManager.SetDeathVisibility( false );
+		EventManager.Broadcast(EVENT.PlayerDied);
 	}
 
 	///     Sends the death message

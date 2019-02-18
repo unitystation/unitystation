@@ -55,11 +55,13 @@ public class PlayerManager : MonoBehaviour
 	private void OnEnable()
 	{
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		EventManager.AddHandler(EVENT.PlayerDied, OnPlayerDeath);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		EventManager.RemoveHandler(EVENT.PlayerDied, OnPlayerDeath);
 		PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(new CharacterSettings()));
 		PlayerPrefs.Save();
 	}
@@ -67,6 +69,7 @@ public class PlayerManager : MonoBehaviour
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
 		Reset();
+
 	}
 
 	public static void Reset()
@@ -90,5 +93,10 @@ public class PlayerManager : MonoBehaviour
 		Camera2DFollow.followControl.target = LocalPlayer.transform;
 
 		HasSpawned = true;
+	}
+
+	private void OnPlayerDeath()
+	{
+		EventManager.Broadcast(EVENT.DisableInternals);
 	}
 }
