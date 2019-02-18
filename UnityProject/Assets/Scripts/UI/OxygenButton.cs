@@ -29,27 +29,26 @@ public class OxygenButton : MonoBehaviour
 	public void OxygenSelect()
 	{
 		SoundManager.Play("Click01");
-
-		//toggle state
-		IsInternalsEnabled = !IsInternalsEnabled;
 		
 		if (IsInternalsEnabled)
 		{
-			EventManager.Broadcast(EVENT.EnableInternals);
+			EventManager.Broadcast(EVENT.DisableInternals);
 		}
 		else
 		{
-			EventManager.Broadcast(EVENT.DisableInternals);
+			EventManager.Broadcast(EVENT.EnableInternals);
 		}
 	}
 
 	public void OnEnableInternals()
 	{
 		image.sprite = stateSprites[1];
+		IsInternalsEnabled = true;
 	}
 
 	public void OnDisableInternals()
 	{
 		image.sprite = stateSprites[0];
+		IsInternalsEnabled = false;
 	}
 }
