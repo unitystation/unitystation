@@ -6,12 +6,21 @@ public class OxygenButton : MonoBehaviour
 {
 	private Image image;
 	public Sprite[] stateSprites;
+	public bool IsInternalsEnabled;
 
 	// Use this for initialization
 	private void Start()
 	{
 		image = GetComponent<Image>();
-		UIManager.IsOxygen = false;
+		IsInternalsEnabled = false;
+		EventManager.AddHandler(EVENT.EnableInternals, OnEnableInternals);
+		EventManager.AddHandler(EVENT.DisableInternals, OnDisableInternals);
+	}
+
+	private void OnDestroy()
+	{
+		EventManager.RemoveHandler(EVENT.EnableInternals, OnEnableInternals);
+		EventManager.RemoveHandler(EVENT.DisableInternals, OnDisableInternals);
 	}
 
 	/// <summary>
@@ -20,28 +29,27 @@ public class OxygenButton : MonoBehaviour
 	public void OxygenSelect()
 	{
 		SoundManager.Play("Click01");
-		//toggle state
-		EnableOxygen(!UIManager.IsOxygen);
-	}
 
-	/// <summary>
-	/// Sets the state of the OxygenButton.
-	/// </summary>
-	/// <param name="enableOxygen"></param>
-	public void EnableOxygen(bool enableOxygen)
-	{
-		UIManager.IsOxygen = enableOxygen;
-		//PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetInternalsEnabled(enableOxygen);
-		if (enableOxygen)
+		//toggle state
+		IsInternalsEnabled = !IsInternalsEnabled;
+		
+		if (IsInternalsEnabled)
 		{
-			image.sprite = stateSprites[1];
 			EventManager.Broadcast(EVENT.EnableInternals);
 		}
 		else
 		{
-			image.sprite = stateSprites[0];
 			EventManager.Broadcast(EVENT.DisableInternals);
 		}
+	}
 
+	public void OnEnableInternals()
+	{
+		image.sprite = stateSprites[1];
+	}
+
+	public void OnDisableInternals()
+	{
+		image.sprite = stateSprites[0];
 	}
 }
