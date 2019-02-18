@@ -524,7 +524,7 @@ public partial class PlayerSync
 			else
 			{
 				transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos,
-				predictedState.speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
+				predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
 			}
 
 			if (ClientPositionReady)
