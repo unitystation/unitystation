@@ -72,6 +72,7 @@ public class PlayerManager : MonoBehaviour
 	public static void Reset()
 	{
 		HasSpawned = false;
+		EventManager.Broadcast(EVENT.DisableInternals);
 	}
 
 	public static void SetViewerForControl(JoinedViewer viewer)
