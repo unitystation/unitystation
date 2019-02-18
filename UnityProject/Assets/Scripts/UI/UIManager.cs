@@ -102,11 +102,6 @@ public class UIManager : MonoBehaviour
 	/// </summary>
 	public static bool IsThrow { get; set; }
 
-	/// <summary>
-	///     Is Oxygen On?
-	/// </summary>
-	public static bool IsOxygen { get; set; }
-
 	public static void ResetAllUI()
 	{
 		UI_ItemSlot[] slots = Instance.GetComponentsInChildren<UI_ItemSlot>(true);
