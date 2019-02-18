@@ -24,6 +24,8 @@ public class UIManager : MonoBehaviour
 	public bool ttsToggle;
 	[HideInInspector]
 	public ProgressBar progressBar;
+	[SerializeField]
+	private GeneralSettingsMenu generalSettingsMenu;
 
 	///Global flag for focused input field. Movement keystrokes are ignored if true.
 	/// <see cref="InputFieldFocus"/> handles this flag automatically
@@ -106,6 +108,11 @@ public class UIManager : MonoBehaviour
 	///     Is Oxygen On?
 	/// </summary>
 	public static bool IsOxygen { get; set; }
+
+	private void Start()
+	{
+		generalSettingsMenu.Init();
+	}
 
 	public static void ResetAllUI()
 	{
@@ -298,10 +305,5 @@ public class UIManager : MonoBehaviour
 				child.gameObject.SetActive(vis);
 			}
 		}
-	}
-
-	public void ToggleTTS(bool isOn)
-	{
-		ttsToggle = isOn;
 	}
 }
