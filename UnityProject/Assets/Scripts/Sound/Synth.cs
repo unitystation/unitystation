@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static SunVox;
 
 public enum Slot {
 	Music = 0,

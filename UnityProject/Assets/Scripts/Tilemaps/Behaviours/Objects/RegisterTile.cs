@@ -337,7 +337,7 @@ public abstract class RegisterTile : NetworkBehaviour
 		return true;
 	}
 
-	public virtual bool IsAtmosPassable()
+	public virtual bool IsAtmosPassable(Vector3Int from)
 	{
 		return true;
 	}

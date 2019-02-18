@@ -33,9 +33,9 @@ public class AtmosManager : MonoBehaviour
 		}
 	}
 
-	private void OnDestroy()
+	private void OnApplicationQuit()
 	{
-		AtmosThread.Stop();
+		StopSimulation();
 	}
 
 	public void StartSimulation()
@@ -53,6 +53,11 @@ public class AtmosManager : MonoBehaviour
 		Running = false;
 
 		AtmosThread.Stop();
+	}
+
+	public static void Update(MetaDataNode node)
+	{
+		AtmosThread.Enqueue(node);
 	}
 }
 

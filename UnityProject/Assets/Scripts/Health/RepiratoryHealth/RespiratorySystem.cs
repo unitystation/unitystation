@@ -69,18 +69,22 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		if (!livingHealthBehaviour.IsDead)
 		{
-			MetaDataNode node = MatrixManager.GetMetaDataAt(transform.position.RoundToInt());
+			Vector3Int position = transform.position.RoundToInt();
+			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 			if (!IsEVACompatible())
 			{
 				CheckPressureDamage(node.GasMix.Pressure);
 			}
 
-			Breathe(node);
+			if (Breathe(node))
+			{
+				AtmosManager.Update(node);
+			}
 		}
 	}
 
-	private void Breathe(IGasMixContainer node)
+	private bool Breathe(IGasMixContainer node)
 	{
 		// if no internal breathing is possible, get the from the surroundings
 		IGasMixContainer container = GetInternalGasMix() ?? node;
@@ -98,6 +102,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 		gasMix += breathGasMix;
 		container.GasMix = gasMix;
+
+		return oxygenUsed > 0;
 	}
 
 	private GasContainer GetInternalGasMix()

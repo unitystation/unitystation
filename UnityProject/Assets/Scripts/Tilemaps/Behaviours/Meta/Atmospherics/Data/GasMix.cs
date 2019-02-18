@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Atmospherics
 {
@@ -50,7 +51,12 @@ namespace Atmospherics
 
 		public static GasMix FromTemperature(float[] gases, float temperature, float volume = AtmosConstants.TileVolume)
 		{
-			float pressure = AtmosUtils.CalcPressure(volume, gases.Sum(), temperature);
+			float pressure = 0;
+
+			if (temperature >= 0)
+			{
+				pressure = AtmosUtils.CalcPressure(volume, gases.Sum(), temperature);
+			}
 
 			return FromPressure(gases, pressure, volume);
 		}
@@ -118,7 +124,7 @@ namespace Atmospherics
 
 		public float GetPressure(Gas gas)
 		{
-			return Math.Abs(Moles) < 0.00000000001 ? 0 : Pressure * Gases[gas] / Moles;
+			return Moles > 0 ? Pressure * Gases[gas] / Moles: 0;
 		}
 
 		public float GetMoles(Gas gas)

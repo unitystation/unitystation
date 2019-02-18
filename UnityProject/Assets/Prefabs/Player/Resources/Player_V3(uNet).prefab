@@ -43,17 +43,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GrayDamageMonitorIcon: {fileID: 21300832, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  BlueDamageMonitorIcon: {fileID: 21300912, guid: edb6a9bb8c0d64b80953e48ba732f4e9,
     type: 3}
   GreenDamageMonitorIcon: {fileID: 21300756, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  YellowDamageMonitorIcon: {fileID: 21300768, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
   OrangeDamageMonitorIcon: {fileID: 21300780, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  DarkOrangeDamageMonitorIcon: {fileID: 21300792, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
   RedDamageMonitorIcon: {fileID: 21300810, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  Type: 3
-  YellowDamageMonitorIcon: {fileID: 21300768, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  GrayDamageMonitorIcon: {fileID: 21300832, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  Type: 3
   Severity: 0
 --- !u!1 &1028579746739352
 GameObject:
@@ -474,17 +478,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GrayDamageMonitorIcon: {fileID: 21300844, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  BlueDamageMonitorIcon: {fileID: 21300912, guid: edb6a9bb8c0d64b80953e48ba732f4e9,
     type: 3}
   GreenDamageMonitorIcon: {fileID: 21300762, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300786, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300798, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  Type: 4
   YellowDamageMonitorIcon: {fileID: 21300774, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300786, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  DarkOrangeDamageMonitorIcon: {fileID: 21300798, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300822, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300844, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  Type: 4
   Severity: 0
 --- !u!1 &1075270923249368
 GameObject:
@@ -972,6 +980,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c7b6bc021c23c54d8e5410a430ca7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnRotateEnd:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnRotateStart:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   ObjectType: 2
   rotateWithMatrix: 1
 --- !u!114 &114803877374308862
@@ -1591,17 +1609,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b6bad0196f4cca947cdfe73fcf7ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GrayDamageMonitorIcon: {fileID: 21300830, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  BlueDamageMonitorIcon: {fileID: 21300912, guid: edb6a9bb8c0d64b80953e48ba732f4e9,
     type: 3}
   GreenDamageMonitorIcon: {fileID: 21300754, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300778, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300790, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  Type: 1
   YellowDamageMonitorIcon: {fileID: 21300766, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300778, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  DarkOrangeDamageMonitorIcon: {fileID: 21300790, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300806, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300830, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  Type: 1
   Severity: 0
 --- !u!1 &1332325770335918
 GameObject:
@@ -2284,17 +2306,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GrayDamageMonitorIcon: {fileID: 21300836, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  BlueDamageMonitorIcon: {fileID: 21300912, guid: edb6a9bb8c0d64b80953e48ba732f4e9,
     type: 3}
   GreenDamageMonitorIcon: {fileID: 21300758, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300782, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300794, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  Type: 2
   YellowDamageMonitorIcon: {fileID: 21300770, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300782, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  DarkOrangeDamageMonitorIcon: {fileID: 21300794, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300814, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300836, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  Type: 2
   Severity: 0
 --- !u!1 &1492008254133120
 GameObject:
@@ -3069,17 +3095,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286e2ff4e04b48b0b91e6ebfc4b212f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GrayDamageMonitorIcon: {fileID: 21300824, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  BlueDamageMonitorIcon: {fileID: 21300912, guid: edb6a9bb8c0d64b80953e48ba732f4e9,
     type: 3}
   GreenDamageMonitorIcon: {fileID: 21300752, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300776, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300788, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  Type: 0
   YellowDamageMonitorIcon: {fileID: 21300764, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300776, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  DarkOrangeDamageMonitorIcon: {fileID: 21300788, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300802, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300824, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  Type: 0
   Severity: 0
 --- !u!1 &1708637642242452
 GameObject:
@@ -3124,17 +3154,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GrayDamageMonitorIcon: {fileID: 21300840, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+  BlueDamageMonitorIcon: {fileID: 21300912, guid: edb6a9bb8c0d64b80953e48ba732f4e9,
     type: 3}
   GreenDamageMonitorIcon: {fileID: 21300760, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300784, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300816, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
-    type: 3}
-  Type: 5
   YellowDamageMonitorIcon: {fileID: 21300772, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  OrangeDamageMonitorIcon: {fileID: 21300784, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  DarkOrangeDamageMonitorIcon: {fileID: 21300796, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  RedDamageMonitorIcon: {fileID: 21300818, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  GrayDamageMonitorIcon: {fileID: 21300840, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
+    type: 3}
+  Type: 5
   Severity: 0
 --- !u!1 &1795409780741894
 GameObject:
