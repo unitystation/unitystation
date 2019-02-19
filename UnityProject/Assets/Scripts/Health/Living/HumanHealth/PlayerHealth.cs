@@ -104,11 +104,11 @@ public class PlayerHealth : LivingHealthBehaviour
 	}
 
 	///     make player unconscious upon crit
-	protected override void OnCritActions(bool allowCrawl = false)
+	protected override void OnConsciousStateChange( ConsciousState state )
 	{
 		if ( isServer )
 		{
-			playerNetworkActions.SetConsciousState(allowCrawl ? ConsciousState.BARELY_CONSCIOUS : ConsciousState.UNCONSCIOUS);
+			playerNetworkActions.SetConsciousState(state);
 		}
 	}
 }
