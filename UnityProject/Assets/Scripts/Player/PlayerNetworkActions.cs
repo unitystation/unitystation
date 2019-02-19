@@ -646,6 +646,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
+			//Drop items when unconcious
 			DropItem("rightHand");
 			DropItem("leftHand");
 			playerMove.allowInput = false;
