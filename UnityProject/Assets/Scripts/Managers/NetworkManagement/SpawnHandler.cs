@@ -15,8 +15,12 @@ public static class SpawnHandler
 	public static void SpawnDummyPlayer(JobType jobType = JobType.NULL)
 	{
 		var conn = new NetworkConnection();
-		GameObject joinedViewer = Object.Instantiate(networkManager.playerPrefab);
-		NetworkServer.AddPlayerForConnection(conn, joinedViewer, 0);
+		GameObject dummyPlayer = CreatePlayer(jobType);
+		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, dummyPlayer);
+		NetworkServer.AddPlayerForConnection(conn, dummyPlayer, 0);
+		if (connectedPlayer.Script.PlayerSync != null) {
+			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
+		}
 	}
 
 	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
