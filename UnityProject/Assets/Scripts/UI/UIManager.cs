@@ -126,6 +126,7 @@ public class UIManager : MonoBehaviour
 			listener.Reset();
 		}
 		Camera2DFollow.followControl.ZeroStars();
+    IsOxygen = false;
 	}
 
 	/// <summary>
