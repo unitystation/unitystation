@@ -284,13 +284,13 @@ public partial class PlayerSync
 			}
 			else
 			{
-				SpeedClient = playerMove.CrawlSpeed; //?
+				SpeedClient = playerMove.CrawlSpeed;
 			}
 		}
 
 		var nextState = NextState(state, action, out bool matrixChanged, isReplay);
 
-		nextState.Speed = predictedSpeedClient; //fixme: vague
+		nextState.Speed = SpeedClient;
 
 		return nextState;
 	}

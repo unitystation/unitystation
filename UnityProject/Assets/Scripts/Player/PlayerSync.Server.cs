@@ -378,7 +378,7 @@ public partial class PlayerSync
 
 		PlayerState nextState = NextState(state, action, out bool matrixChanged);
 
-		nextState.Speed = masterSpeedServer; //fixme: vague
+		nextState.Speed = SpeedServer;
 
 		return nextState;
 	}
