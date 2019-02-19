@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-
 public class OxygenButton : MonoBehaviour
 {
 	private Image image;
@@ -28,8 +27,18 @@ public class OxygenButton : MonoBehaviour
 	/// </summary>
 	public void OxygenSelect()
 	{
-		SoundManager.Play("Click01");
+		if (PlayerManager.LocalPlayer == null)
+		{
+			return;
+		}
+
+		if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit)
+		{
+			return;
+		}
 		
+		SoundManager.Play("Click01");
+
 		if (IsInternalsEnabled)
 		{
 			EventManager.Broadcast(EVENT.DisableInternals);
