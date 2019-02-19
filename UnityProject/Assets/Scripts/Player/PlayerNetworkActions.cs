@@ -646,6 +646,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
+			DropItem("rightHand");
+			DropItem("leftHand");
 			playerMove.allowInput = false;
 			gameObject.GetComponent<ForceRotation>().Rotation = new Vector3(0, 0, -90);
 			soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
