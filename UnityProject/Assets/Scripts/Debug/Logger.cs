@@ -20,7 +20,10 @@ public static class Logger
 		[Category.PushPull] = Level.Info,
 		[Category.PlayerSprites] = Level.Error,
 		[Category.Lerp] = Level.Off,
-//		[Category.NetUI] = Level.Trace,
+		[Category.Equipment] = Level.Trace,
+		[Category.Round] = Level.Info,
+		[Category.UI] = Level.Warning,
+		//		[Category.NetUI] = Level.Trace,
 	};
 
 	private enum Level{
@@ -171,5 +174,6 @@ public enum Category {
 	Electrical,
 	RightClick,
 	Lerp,	
-	Keybindings
+	Keybindings,
+	Round
 }

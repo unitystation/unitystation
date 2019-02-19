@@ -24,6 +24,7 @@ public static class SpawnHandler
 		GameObject player = CreatePlayer(jobType);
 		var connectedPlayer = PlayerList.Instance.UpdatePlayer(conn, player);
 		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
+		TriggerEventMessage.Send(player, EVENT.PlayerSpawned);
 		if (connectedPlayer.Script.PlayerSync != null) {
 			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
 		}
