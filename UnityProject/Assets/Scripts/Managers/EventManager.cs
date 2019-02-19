@@ -4,91 +4,91 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-	public class UIEvent : UnityEvent<GameObject>
+public class UIEvent : UnityEvent<GameObject>
+{
+}
+
+//For simple broadcasts:
+public enum EVENT
+{
+	UpdateFov,
+	PowerNetSelfCheck,
+	ChatFocused,
+	ChatUnfocused,
+	LoggedOut,
+	RoundStarted,
+	RoundEnded,
+	DisableInternals,
+	EnableInternals,
+	PlayerSpawned,
+	PlayerDied
+} // + other events. Add them as you need them
+
+[ExecuteInEditMode]
+public class EventManager : MonoBehaviour
+{
+	// Stores the delegates that get called when an event is fired (Simple Events)
+	private static readonly Dictionary<EVENT, Action> eventTable
+		= new Dictionary<EVENT, Action>();
+
+	private static EventManager eventManager;
+	private readonly EventController<string, GameObject> ui = new EventController<string, GameObject>();
+
+	public static EventController<string, GameObject> UI => Instance.ui;
+
+	public static EventManager Instance
+	{
+		get
+		{
+			if (!eventManager)
+			{
+				eventManager = FindObjectOfType<EventManager>();
+			}
+			return eventManager;
+		}
+	}
+
+	public static void UpdateLights()
 	{
 	}
 
-	//For simple broadcasts:
-	public enum EVENT
+	/*
+		* Below is for the simple event handlers and broast methods:
+		*/
+
+	// Adds a delegate to get called for a specific event
+	public static void AddHandler(EVENT evnt, Action action)
 	{
-		UpdateFov,
-		PowerNetSelfCheck,
-		ChatFocused,
-		ChatUnfocused,
-		LoggedOut,
-		RoundStarted,
-		RoundEnded,
-		DisableInternals,
-		EnableInternals,
-		PlayerSpawned,
-		PlayerDied
-	} // + other events. Add them as you need them
+		if (!eventTable.ContainsKey(evnt))
+		{
+			eventTable[evnt] = action;
+		}
+		else
+		{
+			eventTable[evnt] += action;
+		}
+	}
 
-	[ExecuteInEditMode]
-	public class EventManager : MonoBehaviour
+	public static void RemoveHandler(EVENT evnt, Action action)
 	{
-		// Stores the delegates that get called when an event is fired (Simple Events)
-		private static readonly Dictionary<EVENT, Action> eventTable
-			= new Dictionary<EVENT, Action>();
-
-		private static EventManager eventManager;
-		private readonly EventController<string, GameObject> ui = new EventController<string, GameObject>();
-
-		public static EventController<string, GameObject> UI => Instance.ui;
-
-		public static EventManager Instance
+		if (eventTable[evnt] != null)
 		{
-			get
-			{
-				if (!eventManager)
-				{
-					eventManager = FindObjectOfType<EventManager>();
-				}
-				return eventManager;
-			}
+			eventTable[evnt] -= action;
 		}
-
-		public static void UpdateLights()
+		if (eventTable[evnt] == null)
 		{
+			eventTable.Remove(evnt);
 		}
+	}
 
-		/*
-		   * Below is for the simple event handlers and broast methods:
-		   */
-
-		// Adds a delegate to get called for a specific event
-		public static void AddHandler(EVENT evnt, Action action)
+	// Fires the event
+	public static void Broadcast(EVENT evnt)
+	{
+		Logger.Log("Raising a " + evnt + " event");
+		if (eventTable.ContainsKey(evnt) && eventTable[evnt] != null)
 		{
-			if (!eventTable.ContainsKey(evnt))
-			{
-				eventTable[evnt] = action;
-			}
-			else
-			{
-				eventTable[evnt] += action;
-			}
-		}
-
-		public static void RemoveHandler(EVENT evnt, Action action)
-		{
-			if (eventTable[evnt] != null)
-			{
-				eventTable[evnt] -= action;
-			}
-			if (eventTable[evnt] == null)
-			{
-				eventTable.Remove(evnt);
-			}
-		}
-
-		// Fires the event
-		public static void Broadcast(EVENT evnt)
-		{
-			Logger.Log("Raising a " + evnt + " event");
-			if (eventTable.ContainsKey(evnt) && eventTable[evnt] != null)
-			{
-				eventTable[evnt]();
+			eventTable[evnt]();
 				
-			}
 		}
 	}
+}
