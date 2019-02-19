@@ -84,11 +84,57 @@ public class EventManager : MonoBehaviour
 	// Fires the event
 	public static void Broadcast(EVENT evnt)
 	{
-		Logger.Log("Raising a " + evnt + " event");
+		LogEventBroadcast(evnt);
 		if (eventTable.ContainsKey(evnt) && eventTable[evnt] != null)
 		{
 			eventTable[evnt]();
 				
 		}
+	}
+
+	/// <summary>
+	/// Calls the appropriate logging category for the event
+	/// </summary>
+	/// <param name="evnt"></param>
+	private static void LogEventBroadcast(EVENT evnt)
+	{
+		string msg = "Broadcasting a " + evnt + " event";
+		Category category;
+
+		switch (evnt)
+		{
+			case EVENT.ChatFocused:
+			case EVENT.ChatUnfocused:
+				category = Category.UI;
+				break;
+			case EVENT.DisableInternals:
+			case EVENT.EnableInternals:
+				category = Category.Equipment;
+				break;
+			case EVENT.LoggedOut:
+				category = Category.Connections;
+				break;
+			case EVENT.PlayerDied:
+				category = Category.Health;
+				break;
+			case EVENT.PowerNetSelfCheck:
+				category = Category.Electrical;
+				break;
+			case EVENT.UpdateFov:
+				category = Category.UI;
+				break;
+			case EVENT.RoundStarted:
+			case EVENT.RoundEnded:
+				category = Category.Round;
+				break;
+			default:
+				category = Category.Unknown;
+				break;
+		}
+
+
+		Logger.LogTrace(msg, category);
+
+
 	}
 }
