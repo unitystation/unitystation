@@ -448,6 +448,17 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		bloodSystem.StopBleeding();
 	}
 
+	public virtual void UnCrit()
+	{
+		var proposedState = ConsciousState.CONSCIOUS;
+		if (ConsciousState == proposedState || IsDead)
+		{
+			return;
+		}
+		ConsciousState = proposedState;
+		OnConsciousStateChange( proposedState );
+	}
+
 	public virtual void Crit(bool allowCrawl = false)
 	{
 		var proposedState = allowCrawl ? ConsciousState.BARELY_CONSCIOUS : ConsciousState.UNCONSCIOUS;
@@ -458,11 +469,18 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 
 		ConsciousState = proposedState;
-		OnCritActions(allowCrawl);
+		OnConsciousStateChange( proposedState );
 	}
 
 	private void CheckDeadCritStatus()
 	{
+		if (ConsciousState != ConsciousState.CONSCIOUS
+		    && OverallHealth > HealthThreshold.SoftCrit)
+		{
+			Logger.LogFormat( "{0}, back on your feet!", Category.Health, gameObject.name );
+			UnCrit();
+			return;
+		}
 		if (OverallHealth <= HealthThreshold.SoftCrit)
 		{
 			Crit(true);
@@ -483,7 +501,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		return OverallHealth > HealthThreshold.Dead || IsDead;
 	}
 
-	protected virtual void OnCritActions(bool allowCrawl = false) { }
+	protected virtual void OnConsciousStateChange( ConsciousState state ) { }
 
 	protected abstract void OnDeathActions();
 

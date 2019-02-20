@@ -164,7 +164,7 @@ public class PushPull : VisibleBehaviour {
 			if ( followDir == Vector2Int.zero ) {
 				return;
 			}
-			if ( !TryFollow( currentPos, followDir, PulledBy.Pushable.SpeedServer ) ) {
+			if ( !TryFollow( currentPos, followDir, GetHeadSpeedServer() ) ) {
 				StopFollowing();
 			} else {
 				PulledBy.NotifyPlayers(); // doubles messages for puller, but pulling looks proper even in high ping. might mess something up tho
@@ -183,7 +183,7 @@ public class PushPull : VisibleBehaviour {
 			if ( followDir == Vector2Int.zero ) {
 				return;
 			}
-			if ( !TryPredictiveFollow( currentPos, oldPos, PulledByClient.Pushable.SpeedClient ) ) {
+			if ( !TryPredictiveFollow( currentPos, oldPos, GetHeadSpeedClient() ) ) {
 				Logger.LogError( $"{gameObject.name}: oops, predictive following {PulledByClient.gameObject.name} failed", Category.PushPull );
 			} else {
 				Logger.LogTraceFormat(
@@ -193,6 +193,30 @@ public class PushPull : VisibleBehaviour {
 			}
 		};
 	}
+
+	/// <summary>
+	/// Recursive method to get client speed of the train head
+	/// </summary>
+	public float GetHeadSpeedClient()
+	{
+		if ( IsBeingPulledClient )
+		{
+			return PulledByClient.GetHeadSpeedClient();
+		}
+		return Pushable.SpeedClient;
+	}
+	/// <summary>
+	/// Recursive method to get server speed of the train head
+	/// </summary>
+	public float GetHeadSpeedServer()
+	{
+		if ( IsBeingPulled )
+		{
+			return PulledBy.GetHeadSpeedServer();
+		}
+		return Pushable.SpeedServer;
+	}
+
 	#region Pull
 
 	private UnityAction<Vector3Int,Vector3Int> followAction;
