@@ -652,10 +652,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			case ConsciousState.BARELY_CONSCIOUS:
 				playerMove.allowInput = true;
 				playerScript.PlayerSync.SpeedServer =  playerMove.CrawlSpeed;
+				DropItem("rightHand");
+				DropItem("leftHand");
 				Fall();
 				break;
 			case ConsciousState.UNCONSCIOUS:
 				playerMove.allowInput = false;
+				DropItem("rightHand");
+				DropItem("leftHand");
 				Fall();
 				break;
 		}

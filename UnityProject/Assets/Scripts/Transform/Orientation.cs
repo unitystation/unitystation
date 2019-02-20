@@ -145,16 +145,16 @@ public struct Orientation
 	{
 		float degree = AngleFromUp(direction);
 		var orientation = Down;
-		if ( degree >= 315f && degree <= 360f || degree >= 0f && degree <= 45f ) {
+		if ( degree > 315f && degree <= 360f || degree >= 0f && degree < 45f ) {
 			orientation = Up;
 		}
-		if ( degree > 45f && degree <= 135f ) {
+		if ( degree >= 45f && degree <= 135f ) {
 			orientation = Right;
 		}
-		if ( degree > 135f && degree <= 225f ) {
+		if ( degree > 135f && degree < 225f ) {
 			orientation = Down;
 		}
-		if ( degree > 225f && degree < 315f ) {
+		if ( degree >= 225f && degree <= 315f ) {
 			orientation = Left;
 		}
 		return orientation;

@@ -9362,9 +9362,9 @@ RectTransform:
   m_Father: {fileID: 8477644958842365633}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 113.549995, y: -135}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 204.2, y: 270}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8587277864790051093
@@ -12989,9 +12989,9 @@ RectTransform:
   m_Father: {fileID: 8477973144140724513}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 22.5, y: -230}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8587476554701230387
@@ -13037,9 +13037,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8584949922202743415}
+      - m_Target: {fileID: 8587802166374674737}
         m_MethodName: ToggleTTS
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -15291,6 +15291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d79405a7a1eecaa4e85dd118ff331221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ttsToggle: {fileID: 8587476554701230387}
 --- !u!114 &8587322073452068469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22748,6 +22749,7 @@ MonoBehaviour:
   zoneSelector: {fileID: 8587720124485941055}
   ttsToggle: 0
   progressBar: {fileID: 0}
+  generalSettingsMenu: {fileID: 8587802166374674737}
   isInputFocus: 0
 --- !u!114 &8587641789623873495
 MonoBehaviour:
