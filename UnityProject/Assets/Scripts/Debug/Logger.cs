@@ -13,7 +13,7 @@ public static class Logger
 	/// Log level overrides for categories. Default log level will be ignored for these:
 	private static readonly Dictionary<Category, Level> LogOverrides = new Dictionary<Category, Level>{
 		[Category.Unknown]  = Level.Info,
-		[Category.Movement] = Level.Trace,
+//		[Category.Movement] = Level.Trace,
 		[Category.Health] = Level.Trace,
 		[Category.DmMetadata] = Level.Off,
 		[Category.Light2D] = Level.Off,

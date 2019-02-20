@@ -526,7 +526,7 @@ public class Weapon : PickUpTrigger
 		var finalDirection = ApplyRecoil(target);
 		//don't enqueue the shot if the player is no longer able to shoot
 		PlayerMove shooter = shotBy.GetComponent<PlayerMove>();
-		if (!shooter.allowInput || shooter.isGhost)
+		if (!shooter.PlayerScript.canNotInteract())
 		{
 			return;
 		}
