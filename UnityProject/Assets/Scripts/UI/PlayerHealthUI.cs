@@ -91,18 +91,24 @@ public class PlayerHealthUI : MonoBehaviour
 			switch (bodyPart.Severity)
 			{
 				case DamageSeverity.None:
+					sprite = bodyPart.BlueDamageMonitorIcon;
+					break;
+				case DamageSeverity.Light:
 					sprite = bodyPart.GreenDamageMonitorIcon;
 					break;
-				case DamageSeverity.Moderate:
+				case DamageSeverity.LightModerate:
 					sprite = bodyPart.YellowDamageMonitorIcon;
 					break;
-				case DamageSeverity.Bad:
+				case DamageSeverity.Moderate:
 					sprite = bodyPart.OrangeDamageMonitorIcon;
 					break;
+				case DamageSeverity.Bad:
+					sprite = bodyPart.DarkOrangeDamageMonitorIcon;
+					break;
 				case DamageSeverity.Critical:
-				case DamageSeverity.Max:
 					sprite = bodyPart.RedDamageMonitorIcon;
 					break;
+				case DamageSeverity.Max:
 				default:
 					sprite = bodyPart.GrayDamageMonitorIcon;
 					break;

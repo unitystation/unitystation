@@ -108,6 +108,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			if (isLocalPlayer)
 			{
 				UIManager.ResetAllUI();
+				UIManager.SetDeathVisibility(true);
 				UIManager.DisplayManager.SetCameraFollowPos();
 				int rA = Random.Range(0, 3);
 				SoundManager.PlayVarAmbient(rA);

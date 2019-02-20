@@ -8,7 +8,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 	private bool SelfDestruct = false;
 
 	public PowerSupply powerSupply;
-	public PushPull pushPull;
+	public ObjectBehaviour objectBehaviour;
 	[SyncVar(hook = "UpdateState")]
 	public bool isOn = false;
 	[SyncVar(hook = "UpdateSecured")]
@@ -168,7 +168,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		isSecured = _isSecured;
 		if (isServer)
 		{
-			pushPull.isNotPushable = isSecured;
+			objectBehaviour.isNotPushable = isSecured;
 		}
 
 		SoundManager.PlayAtPosition("Wrench", transform.position);

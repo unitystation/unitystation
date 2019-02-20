@@ -650,11 +650,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				gameObject.GetComponent<ForceRotation>().Rotation = STRAIGHT;
 				break;
 			case ConsciousState.BARELY_CONSCIOUS:
+				//Drop items when unconscious
+				DropItem("rightHand");
+				DropItem("leftHand");
 				playerMove.allowInput = true;
 				playerScript.PlayerSync.SpeedServer =  playerMove.CrawlSpeed;
 				Fall();
 				break;
 			case ConsciousState.UNCONSCIOUS:
+				//Drop items when unconscious
+				DropItem("rightHand");
+				DropItem("leftHand");
 				playerMove.allowInput = false;
 				Fall();
 				break;

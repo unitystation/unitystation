@@ -145,7 +145,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	public GameObject Clear()
 	{
 		PlayerScript lps = PlayerManager.LocalPlayerScript;
-		if (!lps || lps.canNotInteract())
+		if (!lps)
 		{
 			return null;
 		}

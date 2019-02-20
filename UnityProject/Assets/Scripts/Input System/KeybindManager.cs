@@ -44,7 +44,7 @@ public enum KeyAction
 	// Chat
 	ChatLocal,
 	ChatRadio,
-	ChatDept,
+	ChatOOC,
 
 	// Body Part Targeting
 	TargetHead,
@@ -265,9 +265,9 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.IntentHarm, 	new KeybindObject("Harm Intent", 		new KeyCombo(KeyCode.Alpha4), null, ActionType.Intent)},
 
 		// Chat
-		{ KeyAction.ChatLocal, new KeybindObject("Local Chat", 		new KeyCombo(KeyCode.T), new KeyCombo(KeyCode.Return), ActionType.Chat)},
-		{ KeyAction.ChatRadio, new KeybindObject("Radio Chat", 	 	new KeyCombo(KeyCode.Y), null, ActionType.Chat)},
-		{ KeyAction.ChatDept,  new KeybindObject("Department Chat", new KeyCombo(KeyCode.U), null, ActionType.Chat)},
+		{ KeyAction.ChatLocal, new KeybindObject("Chat", 		new KeyCombo(KeyCode.T), new KeyCombo(KeyCode.Return), ActionType.Chat)},
+		{ KeyAction.ChatRadio, new KeybindObject("Radio Chat",	new KeyCombo(KeyCode.Y), null, ActionType.Chat)},
+		{ KeyAction.ChatOOC,   new KeybindObject("OOC Chat", 	new KeyCombo(KeyCode.U), null, ActionType.Chat)},
 
 		// Body part selection
 		{ KeyAction.TargetHead, 	new KeybindObject("Target Head, Eyes and Mouth", 	  new KeyCombo(KeyCode.Keypad8), null, ActionType.Targeting)},

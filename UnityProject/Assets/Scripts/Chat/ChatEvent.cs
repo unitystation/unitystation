@@ -7,36 +7,36 @@ using Random = UnityEngine.Random;
 [Flags]
 public enum ChatChannel
 {
-	[Description("")] 	None = 0,
-	[Description("")] 	Examine = 1,
-	[Description("")] 	Local = 2,
-	[Description("")] 	OOC = 4,
-	[Description("")] 	Common = 8,
-	[Description(":b")] Binary = 16,
-	[Description(":u")] Supply = 32,
-	[Description(":y")] CentComm = 64,
-	[Description(":c")] Command = 128,
-	[Description(":e")] Engineering = 256,
-	[Description(":m")] Medical = 512,
-	[Description(":n")] Science = 1024,
-	[Description(":s")] Security = 2048,
-	[Description(":v")] Service = 4096,
-	[Description(":t")] Syndicate = 8192,
-	[Description("")] 	System = 16384,
-	[Description(":g")] Ghost = 32768,
-	[Description("")] 	Combat = 65536
+	[Description("")] 	None 		= 0,
+	[Description("")] 	Examine 	= 1 << 0,
+	[Description("")] 	Local 		= 1 << 1,
+	[Description("")] 	OOC 		= 1 << 2,
+	[Description("")] 	Common 		= 1 << 3,
+	[Description(":b")] Binary 		= 1 << 4,
+	[Description(":u")] Supply 		= 1 << 5,
+	[Description(":y")] CentComm 	= 1 << 6,
+	[Description(":c")] Command 	= 1 << 7,
+	[Description(":e")] Engineering = 1 << 8,
+	[Description(":m")] Medical 	= 1 << 9,
+	[Description(":n")] Science 	= 1 << 10,
+	[Description(":s")] Security 	= 1 << 11,
+	[Description(":v")] Service 	= 1 << 12,
+	[Description(":t")] Syndicate 	= 1 << 13,
+	[Description("")] 	System 		= 1 << 14,
+	[Description(":g")] Ghost 		= 1 << 15,
+	[Description("")] 	Combat 		= 1 << 16
 }
 
 [Flags]
 public enum ChatModifier
 {
-	None = 		0,
-	Drunk =     1 << 0,
-	Stutter =   2 << 0,
-	Mute =  	3 << 0,
-	Hiss =  	4 << 0,
-	Clown =     5 << 0,
-	Whisper =   6 << 0,
+	None 	= 0,
+	Drunk 	= 1 << 0,
+	Stutter = 1 << 1,
+	Mute 	= 1 << 2,
+	Hiss 	= 1 << 3,
+	Clown 	= 1 << 4,
+	Whisper = 1 << 5,
 }
 
 public class ChatEvent

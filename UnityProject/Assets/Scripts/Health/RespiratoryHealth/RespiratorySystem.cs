@@ -24,6 +24,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 	private BloodSystem bloodSystem;
 	private LivingHealthBehaviour livingHealthBehaviour;
+	private Equipment equipment;
 
 	private float tickRate = 1f;
 	private float tick = 0f;
@@ -33,8 +34,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		bloodSystem = GetComponent<BloodSystem>();
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
-
 		playerScript = GetComponent<PlayerScript>();
+		equipment = GetComponent<Equipment>();
 	}
 
 	void OnEnable()
@@ -69,18 +70,22 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		if (!livingHealthBehaviour.IsDead)
 		{
-			MetaDataNode node = MatrixManager.GetMetaDataAt(transform.position.RoundToInt());
+			Vector3Int position = transform.position.RoundToInt();
+			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 			if (!IsEVACompatible())
 			{
 				CheckPressureDamage(node.GasMix.Pressure);
 			}
 
-			Breathe(node);
+			if (Breathe(node))
+			{
+				AtmosManager.Update(node);
+			}
 		}
 	}
 
-	private void Breathe(IGasMixContainer node)
+	private bool Breathe(IGasMixContainer node)
 	{
 		// if no internal breathing is possible, get the from the surroundings
 		IGasMixContainer container = GetInternalGasMix() ?? node;
@@ -98,6 +103,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 		gasMix += breathGasMix;
 		container.GasMix = gasMix;
+
+		return oxygenUsed > 0;
 	}
 
 	private GasContainer GetInternalGasMix()
@@ -110,7 +117,9 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			ItemAttributes mask = inventory.ContainsKey("mask") ? inventory["mask"]?.ItemAttributes : null;
 			ItemAttributes suitStorage = inventory.ContainsKey("suitStorage") ? inventory["suitStorage"]?.ItemAttributes : null;
 
-			if (mask != null && suitStorage != null && mask.ConnectedToTank)
+			bool internalsEnabled = equipment.IsInternalsEnabled;
+
+			if (mask != null && suitStorage != null && mask.ConnectedToTank && internalsEnabled)
 			{
 				return suitStorage.GetComponent<GasContainer>();
 			}

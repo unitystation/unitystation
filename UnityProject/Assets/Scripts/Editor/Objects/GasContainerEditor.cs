@@ -45,6 +45,12 @@ public class GasContainerEditor : Editor
 		container.Volume = EditorGUILayout.FloatField("Volume", container.Volume);
 		container.Temperature = EditorGUILayout.FloatField("Temperature", container.Temperature);
 
+		if (container.Temperature.Equals(float.NaN))
+		{
+			container.Temperature = 0;
+		}
+
+
 		EditorGUILayout.Space();
 
 		selected = GUILayout.Toolbar(selected, new[] {"Absolute", "Ratios"});

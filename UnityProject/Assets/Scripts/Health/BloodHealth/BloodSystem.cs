@@ -217,6 +217,8 @@ public class BloodSystem : MonoBehaviour
 			// don't start bleeding if limb is in ok condition after it received damage
 			switch (bodyPart.Severity)
 			{
+				case DamageSeverity.Light:
+				case DamageSeverity.LightModerate:
 				case DamageSeverity.Moderate:
 				case DamageSeverity.Bad:
 				case DamageSeverity.Critical:
