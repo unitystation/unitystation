@@ -289,10 +289,11 @@ public class UIManager : MonoBehaviour
 
 	public static void SetDeathVisibility(bool vis)
 	{
-		//			Logger.Log("I was activated!");
+		// On death, set UI elements to inactive
+		// On revive, set UI elements back to active
 		foreach (Transform child in Display.hudRight.GetComponentsInChildren<Transform>(true))
 		{
-			if (child.gameObject.name != "OxygenSelector" && child.gameObject.name != "PlayerHealth_UI_Hud")
+			if (child.gameObject.name != "PlayerHealth_UI_Hud")
 			{
 				child.gameObject.SetActive(vis);
 			}
@@ -300,8 +301,13 @@ public class UIManager : MonoBehaviour
 
 		foreach (Transform child in Display.hudBottom.GetComponentsInChildren<Transform>(true))
 		{
-			Transform eh = Display.hudBottom.transform.Find("Equip-Hands");
-			if (child.gameObject.name != "Panel_Hud_Bottom" && !child.transform.IsChildOf(eh) && child.gameObject.name != "Equip-Hands")
+			if (
+				// If game object is named one of these, ignore hide/showing
+				child.gameObject.name != "Panel_Hud_Bottom" &&
+				child.gameObject.name != "Equip-Hands" &&
+				child.gameObject.name != "Equip" &&
+				child.gameObject.name != "Swap"
+				)
 			{
 				child.gameObject.SetActive(vis);
 			}
