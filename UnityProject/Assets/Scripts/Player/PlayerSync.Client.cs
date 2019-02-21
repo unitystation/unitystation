@@ -157,6 +157,10 @@ public partial class PlayerSync
 	/// <param name="direction">Direction you're pushing</param>
 	private void PredictiveBumpInteract(Vector3Int worldTile, Vector2Int direction)
 	{
+		if ( playerScript.canNotInteract() )
+		{
+			return;
+		}
 		// Is the object pushable (iterate through all of the objects at the position):
 		var pushPulls = MatrixManager.GetAt<PushPull>(worldTile);
 		for (int i = 0; i < pushPulls.Count; i++)

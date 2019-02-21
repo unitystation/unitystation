@@ -356,7 +356,10 @@ public partial class PlayerSync
 		if ( isClientBump || serverBump != BumpType.None) {
 			// we bumped something, an interaction might occur
 			// try pushing things / opening doors
-			BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
+			if ( !playerScript.canNotInteract() )
+			{
+				BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
+			}
 
 			playerSprites.FaceDirection( Orientation.From( action.Direction() ) );
 			return state;
@@ -389,7 +392,7 @@ public partial class PlayerSync
 	[Command(channel = 0)]
 	private void CmdValidatePush( GameObject pushable ) {
 		var pushPull = pushable.GetComponent<PushPull>();
-		if ( pushPull && !playerScript.IsInReach(pushPull.registerTile) ) {
+		if ( playerScript.canNotInteract() || pushPull && !playerScript.IsInReach(pushPull.registerTile) ) {
 			questionablePushables.Add( pushPull );
 			Logger.LogWarningFormat( "Added questionable {0}", Category.PushPull, pushPull );
 		}

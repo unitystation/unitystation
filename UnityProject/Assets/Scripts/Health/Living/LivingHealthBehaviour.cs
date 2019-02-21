@@ -39,7 +39,15 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	protected GameObject LastDamagedBy;
 
-	public ConsciousState ConsciousState { get; protected set; }
+	public ConsciousState ConsciousState
+	{
+		get => consciousState;
+		protected set
+		{
+			consciousState = value;
+			OnConsciousStateChange( value );
+		}
+	}
 
 	// JSON string for blood types and DNA.
 	[SyncVar(hook = "DNASync")] //May remove this in the future and only provide DNA info on request
@@ -50,6 +58,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	private float tickRate = 1f;
 	private float tick = 0;
 	private RegisterTile registerTile;
+	private ConsciousState consciousState;
 
 	public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
 	public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
@@ -456,7 +465,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			return;
 		}
 		ConsciousState = proposedState;
-		OnConsciousStateChange( proposedState );
 	}
 
 	public virtual void Crit(bool allowCrawl = false)
@@ -469,7 +477,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 
 		ConsciousState = proposedState;
-		OnConsciousStateChange( proposedState );
 	}
 
 	private void CheckDeadCritStatus()
