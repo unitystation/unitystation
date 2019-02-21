@@ -655,8 +655,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				DropItem("leftHand");
 				playerMove.allowInput = true;
 				playerScript.PlayerSync.SpeedServer =  playerMove.CrawlSpeed;
-				DropItem("rightHand");
-				DropItem("leftHand");
 				Fall();
 				break;
 			case ConsciousState.UNCONSCIOUS:
@@ -664,8 +662,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				DropItem("rightHand");
 				DropItem("leftHand");
 				playerMove.allowInput = false;
-				DropItem("rightHand");
-				DropItem("leftHand");
 				Fall();
 				break;
 		}
