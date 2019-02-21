@@ -314,14 +314,14 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		if (isLocalPlayer && playerMove != null)
 		{
 			//				 If being pulled by another player and you try to break free
-			if (pushPull.IsBeingPulledClient && !playerScript.canNotInteract() &&
-				KeyboardInputManager.IsMovementPressed())
+			if (pushPull.IsBeingPulledClient)
 			{
-				pushPull.CmdStopFollowing();
-				return;
+				if ( !playerScript.canNotInteract() && KeyboardInputManager.IsMovementPressed() )
+				{
+					pushPull.CmdStopFollowing();
+				}
 			}
-			if (ClientPositionReady && !playerMove.isGhost
-			   || GhostPositionReady && playerMove.isGhost)
+			else if (ClientPositionReady && !playerMove.isGhost || GhostPositionReady && playerMove.isGhost)
 			{
 				DoAction();
 			}
