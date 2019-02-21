@@ -4,23 +4,6 @@ using System.Linq;
 using Atmospherics;
 using UnityEngine;
 
-public enum NodeType
-{
-	None,
-	/// <summary>
-	/// Node out in space
-	/// </summary>
-	Space,
-	/// <summary>
-	/// Node in a room on a tile that is not occupied.
-	/// </summary>
-	Room,
-	/// <summary>
-	/// Node occupied by something such that it is not passable.
-	/// </summary>
-	Occupied
-}
-
 /// <summary>
 /// Holds all of the metadata associated with an individual tile, such as for atmospherics simulation, damage.
 /// </summary>
@@ -32,6 +15,11 @@ public class MetaDataNode: IGasMixContainer
 	/// Local position of this tile in its parent matrix.
 	/// </summary>
 	public readonly Vector3Int Position;
+
+	/// <summary>
+	/// If this node is in a closed room, it's assigned to it by the room's number
+	/// </summary>
+	public int RoomNumber;
 
 	/// <summary>
 	/// Type of this node.
@@ -96,10 +84,12 @@ public class MetaDataNode: IGasMixContainer
 	/// Is this tile in space
 	/// </summary>
 	public bool IsSpace => Type == NodeType.Space;
+
 	/// <summary>
 	/// Is this tile in a room
 	/// </summary>
 	public bool IsRoom => Type == NodeType.Room;
+
 	/// <summary>
 	/// Is this tile occupied by something impassable
 	/// </summary>
