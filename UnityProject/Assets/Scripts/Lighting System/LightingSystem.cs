@@ -458,11 +458,12 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnRenderImage(RenderTexture iSource, RenderTexture iDestination)
 	{
-		//don't run lighting system on headless
+		// Don't run lighting system on headless.
 		if (GameData.IsHeadlessServer)
 		{
 			return;
 		}
+
 		if (renderSettings.doubleFrameRenderingMode)
 		{
 			if (mDoubleFrameRendererSwitch)
