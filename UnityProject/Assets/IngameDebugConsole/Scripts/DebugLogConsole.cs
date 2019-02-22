@@ -439,7 +439,7 @@ namespace IngameDebugConsole
 					return;
 				}
 
-				Debug.Log( "Executing command: " + commandArguments[0] );
+				Logger.LogTrace( "Executing command: " + commandArguments[0], Category.DebugConsole );
 
 				// Parse the parameters into objects
 				object[] parameters = new object[methodInfo.parameterTypes.Length];
@@ -747,6 +747,17 @@ namespace IngameDebugConsole
 			}
 
 			return true;
+		}
+
+
+		//*********************************************************************
+		// Add additional debug commands here
+		//********************************************************************
+
+		[ConsoleMethod("suicide", "kill yo' self")]
+		public static void RunSuicide()
+		{
+			SuicideMessage.Send(null);
 		}
 	}
 }

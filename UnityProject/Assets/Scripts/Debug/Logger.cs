@@ -11,8 +11,8 @@ public static class Logger
 	private static readonly Level LogLevel = Level.Info;
 
 	/// Log level overrides for categories. Default log level will be ignored for these:
-	private static readonly Dictionary<Category, Level> LogOverrides = new Dictionary<Category, Level>{
-		[Category.Unknown]  = Level.Info,
+	private static readonly Dictionary<Category, Level> LogOverrides = new Dictionary<Category, Level> {
+		[Category.Unknown] = Level.Info,
 		[Category.Movement] = Level.Warning,
 		[Category.DmMetadata] = Level.Off,
 		[Category.Light2D] = Level.Off,
@@ -23,6 +23,7 @@ public static class Logger
 		[Category.Equipment] = Level.Trace,
 		[Category.Round] = Level.Info,
 		[Category.UI] = Level.Warning,
+		[Category.DebugConsole] = Level.Trace,
 		//		[Category.NetUI] = Level.Trace,
 	};
 
@@ -175,5 +176,6 @@ public enum Category {
 	RightClick,
 	Lerp,	
 	Keybindings,
-	Round
+	Round,
+	DebugConsole,
 }
