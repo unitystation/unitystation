@@ -118,6 +118,16 @@ public class TileTrigger : InputTrigger
 					break;
 				}
 				case TileType.Window:
+				{
+					//Check Melee:
+					MeleeTrigger melee = windowTileMap.gameObject.GetComponent<MeleeTrigger>();
+					if (melee != null && melee.MeleeInteract(originator, hand))
+					{
+						return true;
+					}
+
+					break;
+				}
 				case TileType.Grill:
 				{
 					//Check Melee:
