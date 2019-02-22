@@ -95,7 +95,10 @@ public class LightEmissionBehaviour : MonoBehaviour
 
 	private void SynchronizeRenderers()
 	{
-		mEmissionRenderer.enabled = mParentRenderer.enabled;
+		// WallmountSpriteBehavior hides wallmounts by setting alpha to 0. We need to track that and update emission in case it does.
+		bool _parentIsDimmed = mParentRenderer.color.a < 0.1f;
+
+		mEmissionRenderer.enabled = mParentRenderer.enabled && _parentIsDimmed == false;
 
 		if (mEmissionRenderer.enabled == false)
 		{
