@@ -10,15 +10,10 @@ public struct PlayerAction
 	public int[] moveActions;
 	/// Set to true when client believes this action doesn't make player move
 	public bool isBump;
+	/// Set to true when client demands to run for given move (instead of walking)
+	public bool isRun;
 	/// Set to true when client suggests some action that isn't covered by prediction
 	public bool isNonPredictive;
-
-	private PlayerAction(int[] moveActions)
-	{
-		this.moveActions = moveActions;
-		isBump = false;
-		isNonPredictive = false;
-	}
 
 	//clone of PlayerMove GetMoveDirection stuff
 	//but there should be a way to see the direction of these keycodes ffs
@@ -48,7 +43,7 @@ public struct PlayerAction
 			Logger.LogError("MoveAction.GetMoveAction invoked on an invalid, non-cardinal direction " + direction +
 				". This will cause undefined behavior. Please fix the code to only pass a valid cardinal direction.");
 		}
-		
+
 		if (direction == Vector2Int.up)
 		{
 			return MoveAction.MoveUp;

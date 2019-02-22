@@ -33,9 +33,10 @@ public enum ChatModifier
 	None 	= 0,
 	Drunk 	= 1 << 0,
 	Stutter = 1 << 1,
-	Crit 	= 1 << 2,
+	Mute 	= 1 << 2,
 	Hiss 	= 1 << 3,
-	Clown 	= 1 << 4
+	Clown 	= 1 << 4,
+	Whisper = 1 << 5,
 }
 
 public class ChatEvent
@@ -211,9 +212,16 @@ public class ChatEvent
 				output = output + " ...hic!...";
 			}
 		}
-		if ((modifiers & ChatModifier.Crit) == ChatModifier.Crit)
+		if ((modifiers & ChatModifier.Whisper) == ChatModifier.Whisper)
 		{
-			//If user is in critical state remove text
+			//If user is in barely conscious state, make text italic
+			//todo: decrease range and modify text somehow
+			//This can be changed later to other status effects
+			output = "<i>"+output+"</i>";
+		}
+		if ((modifiers & ChatModifier.Mute) == ChatModifier.Mute)
+		{
+			//If user is in unconscious state remove text
 			//This can be changed later to other status effects
 			output = "";
 		}
@@ -221,7 +229,7 @@ public class ChatEvent
 		return output;
 	}
 
-	#region Match Evaluators - contains the methods for string replacement magic  
+	#region Match Evaluators - contains the methods for string replacement magic
 
 	private static string Slur(Match m)
 	{

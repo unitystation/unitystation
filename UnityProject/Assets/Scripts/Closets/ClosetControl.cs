@@ -262,7 +262,7 @@ public class ClosetControl : InputTrigger
 				netTransform.AppearAtPosition(pos);
 				if (pushPull && pushPull.Pushable.IsMovingServer)
 				{
-					netTransform.InertiaDrop(pos, pushPull.Pushable.MoveSpeedServer,
+					netTransform.InertiaDrop(pos, pushPull.Pushable.SpeedServer,
 						pushPull.InheritedImpulse.To2Int());
 				}
 				else
@@ -297,7 +297,7 @@ public class ClosetControl : InputTrigger
 				if (pushPull && pushPull.Pushable.IsMovingServer)
 				{
 					playerScript.pushPull.TryPush(pushPull.InheritedImpulse.To2Int(),
-						pushPull.Pushable.MoveSpeedServer);
+						pushPull.Pushable.SpeedServer);
 				}
 			}
 
