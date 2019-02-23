@@ -11,6 +11,7 @@ public class ReactionManager : MonoBehaviour
 {
 	private TileChangeManager tileChangeManager;
 	private MetaDataLayer metaDataLayer;
+	private Matrix matrix;
 
 	private Dictionary<Vector3Int, MetaDataNode> hotspots;
 
@@ -20,6 +21,7 @@ public class ReactionManager : MonoBehaviour
 	{
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		metaDataLayer = GetComponent<MetaDataLayer>();
+		matrix = GetComponent<Matrix>();
 
 		hotspots = new Dictionary<Vector3Int, MetaDataNode>();
 	}
@@ -28,7 +30,7 @@ public class ReactionManager : MonoBehaviour
 	{
 		timePassed += Time.deltaTime;
 
-		if (timePassed < 1)
+		if (timePassed < 0.5)
 		{
 			return;
 		}
@@ -45,7 +47,9 @@ public class ReactionManager : MonoBehaviour
 					{
 						for (var i = 0; i < node.Neighbors.Length; i++)
 						{
-							if (node.Neighbors[i] != null)
+							MetaDataNode neighbor = node.Neighbors[i];
+
+							if (neighbor != null)
 							{
 								ExposeHotspot(node.Neighbors[i].Position, node.GasMix.Temperature * 0.85f, node.GasMix.Volume / 4);
 							}
@@ -69,7 +73,7 @@ public class ReactionManager : MonoBehaviour
 		if (hotspots.ContainsKey(position) && hotspots[position].Hotspot != null)
 		{
 			// TODO soh?
-			hotspots[position].Hotspot.UpdateValues(volume*25, temperature);
+			hotspots[position].Hotspot.UpdateValues(volume * 25, temperature);
 		}
 		else
 		{
@@ -79,9 +83,19 @@ public class ReactionManager : MonoBehaviour
 			if (gasMix.GetMoles(Gas.Plasma) > 0.5 && gasMix.GetMoles(Gas.Oxygen) > 0.5 && temperature > Reactions.PLASMA_MINIMUM_BURN_TEMPERATURE)
 			{
 				// igniting
-				Hotspot hotspot = new Hotspot(node, temperature, volume*25);
+				Hotspot hotspot = new Hotspot(node, temperature, volume * 25);
 				node.Hotspot = hotspot;
 				hotspots[position] = node;
+			}
+		}
+
+		if (hotspots.ContainsKey(position) && hotspots[position].Hotspot != null)
+		{
+			List<LivingHealthBehaviour> healths = matrix.Get<LivingHealthBehaviour>(position);
+
+			foreach (LivingHealthBehaviour health in healths)
+			{
+				health.ApplyDamage(null, 1, DamageType.Burn);
 			}
 		}
 	}
