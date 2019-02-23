@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 4c9e77da59ab34b479bfac9602712101
-timeCreated: 1496505434
-licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
     21300000: particle_accelerator_0
@@ -366,7 +364,7 @@ TextureImporter:
     21300718: particle_accelerator_359
     21300720: particle_accelerator_360
   externalObjects: {}
-  serializedVersion: 4
+  serializedVersion: 7
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -384,6 +382,8 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 1
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -394,7 +394,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 0
     aniso: -1
-    mipBias: -1
+    mipBias: -100
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -414,21 +414,13 @@ TextureImporter:
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
+  singleChannelComponent: 0
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-  - buildTarget: Standalone
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
@@ -436,7 +428,29 @@ TextureImporter:
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 1
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
@@ -455,6 +469,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 54f8271f175e24bfd8201b44ce1c3a4a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_1
       rect:
@@ -469,6 +489,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7dac0ef94aaf64c34a875c43c35690ac
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_2
       rect:
@@ -483,6 +509,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c9415fea6c4ef46098b37fc3712249b2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_3
       rect:
@@ -497,6 +529,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ed229761a53da4a039ae6f9fa0987782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_4
       rect:
@@ -511,6 +549,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f1fabcbc228fa4261ac6118dc83d605b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_5
       rect:
@@ -525,6 +569,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: df4dd635927714081bec355db31c6e09
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_6
       rect:
@@ -539,6 +589,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f1d60e35fe68f4ded948bef0e206d04d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_7
       rect:
@@ -553,6 +609,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 2203f71b24fd24641a094ca1b71c4f80
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_8
       rect:
@@ -567,6 +629,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7ebec06fef0f2484180708800baa3a2f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_9
       rect:
@@ -581,6 +649,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 97cd544483d83423e8c19222998f1282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_10
       rect:
@@ -595,6 +669,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 243ba6f150288486cbf0f5a4aa89e267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_11
       rect:
@@ -609,6 +689,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 67d195b6d74ec4ffa83fdbccdaffc856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_12
       rect:
@@ -623,6 +709,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7f953572b7a744bf5a4de687cfd40597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_13
       rect:
@@ -637,6 +729,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e3da0080d1f69427ba150654266bf732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_14
       rect:
@@ -651,6 +749,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c61c9664cb5ee4f44ab299113c5471be
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_15
       rect:
@@ -665,6 +769,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7e8a2fe5b2d9d420b8a6901c7c40f557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_16
       rect:
@@ -679,6 +789,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: d9cff87c7462847b69e0fdff6aa2b627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_17
       rect:
@@ -693,6 +809,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 192b1344885e2422388e3a1ea26bc735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_18
       rect:
@@ -707,6 +829,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b27e696291f0349d9bbe43c5cd226a97
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_19
       rect:
@@ -721,6 +849,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1ac4c619d3df4490ca43e7efd5ad0d64
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_20
       rect:
@@ -735,6 +869,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1a8e297bb8654403ca46c6a7316cca4f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_21
       rect:
@@ -749,6 +889,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f979cae671cdb4bc7abfc34d5e24e8ca
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_22
       rect:
@@ -763,6 +909,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 86e6f1103830048ef8dc912f803ef12b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_23
       rect:
@@ -777,6 +929,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3c8e5a43a41124849bbe6cfae6dd435b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_24
       rect:
@@ -791,6 +949,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 57f8af0fb4366477794ee9d366235a0c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_25
       rect:
@@ -805,6 +969,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b3e8d3b2192c84e22a48bc265a3ec6ac
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_26
       rect:
@@ -819,6 +989,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 5be2f2784203e4b02865ab2455ca48f9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_27
       rect:
@@ -833,6 +1009,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e28a67d5ccaa64301aa4efa02c24a8c7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_28
       rect:
@@ -847,6 +1029,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 6283bf4d4da5f42a39a6a9d3afc3c687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_29
       rect:
@@ -861,6 +1049,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: a4d5874def92245b288f9fbcf13feb28
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_30
       rect:
@@ -875,6 +1069,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7fd206a6cd7714049839e3786f04ae31
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_31
       rect:
@@ -889,6 +1089,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 04646fec143154ca68c398d93fb645d0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_32
       rect:
@@ -903,6 +1109,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1c7af3d2d5d7a4e7dae79957b1868965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_33
       rect:
@@ -917,6 +1129,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ed6058868113a496cbfc0889ecdbc1b5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_34
       rect:
@@ -931,6 +1149,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 6d37156df02324023a89c84a0adf41c3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_35
       rect:
@@ -945,6 +1169,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e80aac1f6891a4c969032c1a73c85c74
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_36
       rect:
@@ -959,6 +1189,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7c8347b69150f48d69612dddba2c76c5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_37
       rect:
@@ -973,6 +1209,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 4afcb38b557ec475eb83c81b14cf389f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_38
       rect:
@@ -987,6 +1229,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 15014c11fb3e9482ab6c196adfcf2a61
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_39
       rect:
@@ -1001,6 +1249,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: adf9b8fd7a3724bb59840cbce1f2b543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_40
       rect:
@@ -1015,6 +1269,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: dab75cc9a41a44631938a71925597f4d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_41
       rect:
@@ -1029,6 +1289,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: a4d159ac6924f4b3ba2d27087203f9e6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_42
       rect:
@@ -1043,6 +1309,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c129714e3b32f41e8a0e4bbcb543d609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_43
       rect:
@@ -1057,6 +1329,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 466c46b7d1ec34a76a3f94a20ffa578d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_44
       rect:
@@ -1071,6 +1349,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 538a0235b2e104967bba106013b65eda
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_45
       rect:
@@ -1085,6 +1369,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: bab8c65c28f6c48e9bbdd74f3c2fadeb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_46
       rect:
@@ -1099,6 +1389,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8614789c242a14ae6a66959fe61a9a52
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_47
       rect:
@@ -1113,6 +1409,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7d6939f5273404790b7959c0d2cc94dc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_48
       rect:
@@ -1127,6 +1429,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 0cabfcf6f60f84e96a3fe229b4eb9494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_49
       rect:
@@ -1141,6 +1449,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 6c4ede1e5e99b4f16b4185591f86b76f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_50
       rect:
@@ -1155,6 +1469,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: fbd9af44d7b28471abc302420ed8bdfd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_51
       rect:
@@ -1169,6 +1489,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7179e99e2256943fa8de9deb6edd5697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_52
       rect:
@@ -1183,6 +1509,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: eb50b888f40384f5d90e5050e4e0da66
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_53
       rect:
@@ -1197,6 +1529,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7dc4a561db2e848c2be87ab0cbf7d44f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_54
       rect:
@@ -1211,6 +1549,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 35842dc360cf44809b2c1dfcdc5b772a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_55
       rect:
@@ -1225,6 +1569,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 398aa7b14934d4b3286af8b775d546ac
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_56
       rect:
@@ -1239,6 +1589,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 57b0dc56c0e704842883fb2719ed19a9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_57
       rect:
@@ -1253,6 +1609,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 30a9f8a5625774c10a882000100b35cc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_58
       rect:
@@ -1267,6 +1629,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 881d986aa8b314e75ad80169d65fab35
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_59
       rect:
@@ -1281,6 +1649,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8bb890d44f36442f9b0aa7dfe6ecfe36
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_60
       rect:
@@ -1295,6 +1669,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b4a24a0e675c44c39a91abece0ed0fbc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_61
       rect:
@@ -1309,6 +1689,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: aabb2fe94b84843c99c41370998f2ffb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_62
       rect:
@@ -1323,6 +1709,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 973f19f99f8034bf28dbad42f4f9b9b7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_63
       rect:
@@ -1337,6 +1729,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: de28085f718f542c7ba56fb7e4419561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_64
       rect:
@@ -1351,6 +1749,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 97b1f652908b4481db9e8c5bcf6ff8bf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_65
       rect:
@@ -1365,6 +1769,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 871a3cd4c30b84d6f9d236b7ffc243f5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_66
       rect:
@@ -1379,6 +1789,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 4a083f9b65b1d416091904a3b8ed8ac4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_67
       rect:
@@ -1393,6 +1809,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f7ee2a7ec77134e25bfbe46ccdea0ae8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_68
       rect:
@@ -1407,6 +1829,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: fd1633cbf026e4f07b8fa0f16761c2b5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_69
       rect:
@@ -1421,6 +1849,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 972bbb3e8b01c42dfb0ac897525c2195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_70
       rect:
@@ -1435,6 +1869,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 073edb13cc1fe410abee225ffcb9482f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_71
       rect:
@@ -1449,6 +1889,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: d5853a14b3b37482a9690cf5dc78390f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_72
       rect:
@@ -1463,6 +1909,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 08aa68ad88d6844b6b752aeba427d087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_73
       rect:
@@ -1477,6 +1929,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ae3fa426b73914836820c5a77977dc65
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_74
       rect:
@@ -1491,6 +1949,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8bf8de1a0c606477ca35a34f610d4bd2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_75
       rect:
@@ -1505,6 +1969,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c4bc70bcb201a4f0bb4d8396f4fdf21c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_76
       rect:
@@ -1519,6 +1989,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 09e4938e406874f52bf88744d1eb0f52
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_77
       rect:
@@ -1533,6 +2009,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c1b0e7b1029b34f0ebd7890df3dc373d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_78
       rect:
@@ -1547,6 +2029,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3551298d78fdf447ea6edf0b3af1d7d2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_79
       rect:
@@ -1561,6 +2049,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 6cc0b5281224e4254b77510663e746b9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_80
       rect:
@@ -1575,6 +2069,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e1887270d997e424a967ced85031b872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_81
       rect:
@@ -1589,6 +2089,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 0313cc1c7f53443a8a934d7c232945a5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_82
       rect:
@@ -1603,6 +2109,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 6396017d7968142888e2ab9a89866d9d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_83
       rect:
@@ -1617,6 +2129,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b45e7b30f7fa54d9ebe339b5f49792c4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_84
       rect:
@@ -1631,6 +2149,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 51fa313eec4384c02bd50acce6c63ae2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_85
       rect:
@@ -1645,6 +2169,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e45eea4194a274cc9a37ae8701e1a308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_86
       rect:
@@ -1659,6 +2189,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3c8067464355c455c92e3839fd99bbb3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_87
       rect:
@@ -1673,6 +2209,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e99a3339a84cf451c9853ec5a9a34ee5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_88
       rect:
@@ -1687,6 +2229,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: dafd187d3e3e64173872713947666e38
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_89
       rect:
@@ -1701,6 +2249,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 319c643802174405eb9907782f1af9c1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_90
       rect:
@@ -1715,6 +2269,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 69464e955075045449df5f08ec8ed513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_91
       rect:
@@ -1729,6 +2289,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f017e197167214e63bb5b4e5215ccf0c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_92
       rect:
@@ -1743,6 +2309,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f8f71a2b5a90c4212b68ccb63e4452a7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_93
       rect:
@@ -1757,6 +2329,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 43810d84749ab4d95bdb58bd6ba67d99
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_94
       rect:
@@ -1771,6 +2349,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f5c79b293a34f46cea0009f0bb5f930e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_95
       rect:
@@ -1785,6 +2369,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3bee7c82b655d4840a2d1051f3d93010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_96
       rect:
@@ -1799,6 +2389,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 4e72c93dd81cb47b8acf3d0add7daf6a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_97
       rect:
@@ -1813,6 +2409,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: dbb5cd7ee79fd466085f45bee3b197a2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_98
       rect:
@@ -1827,6 +2429,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: aeef11d9e7c6743648a09fa193c5ec06
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_99
       rect:
@@ -1841,6 +2449,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3a0ce35b79633472387435cd97f79b05
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_100
       rect:
@@ -1855,6 +2469,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: d0b8c91feaf6f4af5b867a2d983dffc8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_101
       rect:
@@ -1869,6 +2489,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 4fd005aa485d64cfa958a0f1e386f1b4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_102
       rect:
@@ -1883,6 +2509,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 256f8ce13243549f781b2f09fa2c2f8d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_103
       rect:
@@ -1897,6 +2529,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 6440038ce20aa4589a251609a816a586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_104
       rect:
@@ -1911,6 +2549,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 69691c5fe4f8749feaa50db72a6da47e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_105
       rect:
@@ -1925,6 +2569,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 5ee2aeb41bc14444aacee45beba0c195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_106
       rect:
@@ -1939,6 +2589,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 67a35d25c78474ec7a3fe56bbae6c0d9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_107
       rect:
@@ -1953,6 +2609,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 28aaa7ee314bb41eba64bca39c8f6f78
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_108
       rect:
@@ -1967,6 +2629,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 76dd071dee5314e59a77b4a00ac742c3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_109
       rect:
@@ -1981,6 +2649,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: cfe220a1fb6c046f2847742408c60883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_110
       rect:
@@ -1995,6 +2669,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: d4b2717bd1bfc450fb5162eeab0ebfe5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_111
       rect:
@@ -2009,6 +2689,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1ab773ba7f2b14a148247436f01d2b00
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_112
       rect:
@@ -2023,6 +2709,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e2c57371c06c148b89140b306c641114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_113
       rect:
@@ -2037,6 +2729,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 5e18cfa37180f4dd2902ce8e191b5428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_114
       rect:
@@ -2051,6 +2749,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ddd6ff860b29d4328be2c82e50ea6658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_115
       rect:
@@ -2065,6 +2769,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ec7ecae3e18ee46cfaaf7ef85792d8a7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_116
       rect:
@@ -2079,6 +2789,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 00875409678994ea880209be6b29ea6d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_117
       rect:
@@ -2093,6 +2809,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7cfb011df35fe494d98534fab10b4b6f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_118
       rect:
@@ -2107,6 +2829,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 53f3d3e38dae9482e8b8967ddacf1116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_119
       rect:
@@ -2121,6 +2849,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: d1845f93252324b9a866751eaffd82d7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_120
       rect:
@@ -2135,6 +2869,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: dc91f2af7c6494a2e8dc6a3394b55dd9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_121
       rect:
@@ -2149,6 +2889,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: a98bccdd1f71a4469923f7511688e312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_122
       rect:
@@ -2163,6 +2909,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8fa5a857f64d94d408294795bbe2413f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_123
       rect:
@@ -2177,6 +2929,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b4a2e78d643d449649159ff9b2d161f9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_124
       rect:
@@ -2191,6 +2949,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c6ea2d5be3a914c9b97ef43161207626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_125
       rect:
@@ -2205,6 +2969,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 90aa22eb850d64c85a8c4a48902cb1e7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_126
       rect:
@@ -2219,6 +2989,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8c66c60f496c14ef68eebb672141d3d7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_127
       rect:
@@ -2233,6 +3009,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 0359e74d533594a3bbbadcfff304a4f6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_128
       rect:
@@ -2247,6 +3029,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3aaeca0d131ba482db7c1c399e9409a8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_129
       rect:
@@ -2261,6 +3049,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: fd7af032b310446148b1ca2b25376caf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_130
       rect:
@@ -2275,6 +3069,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3559d366ebe8c417e91e6e0ee7dcaef1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_131
       rect:
@@ -2289,6 +3089,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8d03eb200040f4594aa4dbe82e240613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_132
       rect:
@@ -2303,6 +3109,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 9863b8a3894d04dc5acf2bfb3c161e1e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_133
       rect:
@@ -2317,6 +3129,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 231732a7596934bf5b3524ea3dac279c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_134
       rect:
@@ -2331,6 +3149,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7172981e3467a485d889d14245ac0f17
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_135
       rect:
@@ -2345,6 +3169,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 4872e0c51908a4f5494a6ee31b197c83
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_136
       rect:
@@ -2359,6 +3189,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f26c72b6e2aa4417d83c048584e9e1b8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_137
       rect:
@@ -2373,6 +3209,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ee6386e30d9ed4762afc66957e2d7ce0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_138
       rect:
@@ -2387,6 +3229,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: a474545ef01554b5baafae776368bff2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_139
       rect:
@@ -2401,6 +3249,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 148f0bf85652b44f39e2dc12973476d3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_140
       rect:
@@ -2415,6 +3269,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8dde958aa556f402fadca0ec9031ebbf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_141
       rect:
@@ -2429,6 +3289,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 15a658ee4b0c84476a7c95fbae5855f1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_142
       rect:
@@ -2443,6 +3309,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 00b3398e32512405ba940fcd75efcb92
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_143
       rect:
@@ -2457,6 +3329,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: af489c766b41c4b72b23a6429ca0d140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_144
       rect:
@@ -2471,6 +3349,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ab0478468d44449a39fc4645e5bfba05
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_145
       rect:
@@ -2485,6 +3369,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3a8ca36589b484eb5a57772f0d4e2ffc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_146
       rect:
@@ -2499,6 +3389,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 48904bb2b61aa486b83886b120062495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_147
       rect:
@@ -2513,6 +3409,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 95a8c33f4bd0244bb93c2b85b70d4110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_148
       rect:
@@ -2527,6 +3429,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ad68f98dcc4c24c219c65de838290cb7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_149
       rect:
@@ -2541,6 +3449,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3fca36876429a49268af00e0c67e9c99
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_150
       rect:
@@ -2555,6 +3469,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: dfe8c4978e997477da7c805b5be5ba22
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_151
       rect:
@@ -2569,6 +3489,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 5726894853ad54cce93f20b1a9b6bb8f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_152
       rect:
@@ -2583,6 +3509,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: fec86ebcddc4e49a6a198fce3e817efc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_153
       rect:
@@ -2597,6 +3529,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b47db68e2a7c540b6bf8f93cb5592d5c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_154
       rect:
@@ -2611,6 +3549,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: d5c7cfb26fbb847fcbe948e1c75e319e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_155
       rect:
@@ -2625,6 +3569,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f505a2666e4bb438ca893bcf6b3c68dd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_156
       rect:
@@ -2639,6 +3589,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b4d1e210356864097a08bd126089593c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_157
       rect:
@@ -2653,6 +3609,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c34905d8ea9094eec8336754caf5b05f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_158
       rect:
@@ -2667,6 +3629,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 080f05e7afc2d4a0c9b3e0919e7a4f42
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_159
       rect:
@@ -2681,6 +3649,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 116c7523cd10f45649e06406dd871535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_160
       rect:
@@ -2695,6 +3669,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 42faf4d201fd446e086b8f271098a1af
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_161
       rect:
@@ -2709,6 +3689,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: a2c73e09346a244f0a09275335716e5f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_162
       rect:
@@ -2723,6 +3709,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b5b75d4f8c10443c69f6facf5ba4b12f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_163
       rect:
@@ -2737,6 +3729,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ba7dabf9adac64bde854f38c2f770998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_164
       rect:
@@ -2751,6 +3749,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 225a47efc613e4742a17b2155a186391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_165
       rect:
@@ -2765,6 +3769,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c0cd40768f85d46ab863ebd8967fb3e0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_166
       rect:
@@ -2779,6 +3789,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 82c527aa808db40f191c34065d69010d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_167
       rect:
@@ -2793,6 +3809,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 42d0f1a3954df47efbf73f2f5dddd29d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_168
       rect:
@@ -2807,6 +3829,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: fbe0dd1b413d746f8ac953ae556091f2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_169
       rect:
@@ -2821,6 +3849,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 319f20d59290b41e798b20ed377e8cb1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_170
       rect:
@@ -2835,6 +3869,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1e09157ec27c445678f86217ab852a0d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_171
       rect:
@@ -2849,6 +3889,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 2b99532ea08ee4a058226b8314ca5724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_172
       rect:
@@ -2863,6 +3909,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 6f4c96379bd954d6580cca5436a0c55d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_173
       rect:
@@ -2877,6 +3929,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 66420d5523b1c46b6bd8a055197c8b0b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_174
       rect:
@@ -2891,6 +3949,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 22d7d139f6be34805ab3d9a6263c9347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_175
       rect:
@@ -2905,6 +3969,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 04793e7ff4391484c82a8c2649fba4bd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_176
       rect:
@@ -2919,6 +3989,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 26207d4bd263d45fb9ca431666c03ce0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_177
       rect:
@@ -2933,6 +4009,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: d86b62a39802041a2b9b8d2703c6a951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_178
       rect:
@@ -2947,6 +4029,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c0d4f2613973545fbb473215e682a9bb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_179
       rect:
@@ -2961,6 +4049,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8bc18f20ca1994dac9c5d9a2fcd4ece8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_180
       rect:
@@ -2975,6 +4069,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f40c3db18449a401ebb4826ca1b6669d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_181
       rect:
@@ -2989,6 +4089,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 6031f6dba2396407abf94f10c7ef91ff
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_182
       rect:
@@ -3003,6 +4109,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 49ccd4d23916841ff991b997af0dc26f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_183
       rect:
@@ -3017,6 +4129,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 448f2f000d8fb4e68951f7e256c0a4da
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_184
       rect:
@@ -3031,6 +4149,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: cea114c4f27b844839eb2ef529742307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_185
       rect:
@@ -3045,6 +4169,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 2849ce1f35d7d426297f3f1e4124e1b8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_186
       rect:
@@ -3059,6 +4189,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: cb6980b3fe23a468e91d689bed1d8abe
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_187
       rect:
@@ -3073,6 +4209,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ac173d21c2c864970b0a40d2f5f2f18d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_188
       rect:
@@ -3087,6 +4229,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 368ae596696c74930893324bea3dbfd0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_189
       rect:
@@ -3101,6 +4249,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 479869c79f0b345e68daf1a5d8a793f9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_190
       rect:
@@ -3115,6 +4269,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8a233b6b1bccd49a589493bf40fe7e34
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_191
       rect:
@@ -3129,6 +4289,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c192122db7a5e40bc9247a4d69213434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_192
       rect:
@@ -3143,6 +4309,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e9c24f820403243968306fba8494c869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_193
       rect:
@@ -3157,6 +4329,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b02e9201d069b4e1aa7c3e22852cff18
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_194
       rect:
@@ -3171,6 +4349,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 126d10f5ec07b47fdb9df0add9d2108e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_195
       rect:
@@ -3185,6 +4369,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b225b76aa7e7f4c3aab802023797b3c6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_196
       rect:
@@ -3199,6 +4389,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7130591c5898c4d499c23c1738ce61ac
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_197
       rect:
@@ -3213,6 +4409,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: a4e89ef87707745448c3e1d18945e359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_198
       rect:
@@ -3227,6 +4429,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 2fa2947a557a94c06894cac9cf398642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_199
       rect:
@@ -3241,6 +4449,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1d04057d5e7e44f3f89db18a0906e96b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_200
       rect:
@@ -3255,6 +4469,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 0145b50aa092246febf40a3937fe5d44
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_201
       rect:
@@ -3269,6 +4489,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 0527368fbb17644859e0362a68642013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_202
       rect:
@@ -3283,6 +4509,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c3e85dc0ada914f478e02a0ffc666a18
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_203
       rect:
@@ -3297,6 +4529,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 126527fcd79784ccd9b4a3664af7a473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_204
       rect:
@@ -3311,6 +4549,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 782aea1dda7d0470aa297f199217fd2a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_205
       rect:
@@ -3325,6 +4569,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ec1997e931f1a428fb5546bb343978a9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_206
       rect:
@@ -3339,6 +4589,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f26c74069d41647b0a84bdab3e76d59a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_207
       rect:
@@ -3353,6 +4609,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e6f9d0425ae7842d8a9cc8ce23f0108f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_208
       rect:
@@ -3367,6 +4629,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 65f1139a04b1342b48f8d2a3b597f778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_209
       rect:
@@ -3381,6 +4649,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 0de0fe9d6701745548345e5b92570d1d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_210
       rect:
@@ -3395,6 +4669,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b1903ef0199a1487b9551c1de367f232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_211
       rect:
@@ -3409,6 +4689,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b39a2bd5057d64be9aa8d4dc42d4b871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_212
       rect:
@@ -3423,6 +4709,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 4198c79f071014dbd9457395376cec65
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_213
       rect:
@@ -3437,6 +4729,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 271676a4bb6b64ff0b7a8b040b87cecf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_214
       rect:
@@ -3451,6 +4749,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 03421b3e94ba94bd2930fe4fa134bdc9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_215
       rect:
@@ -3465,6 +4769,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 385400f85a61e40feaf79de9c20b2e5d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_216
       rect:
@@ -3479,6 +4789,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 46bc5bb1781ca42a28a34fffb4ba9c29
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_217
       rect:
@@ -3493,6 +4809,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 05a6daffbaf2b4960b374952f7b9974d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_218
       rect:
@@ -3507,6 +4829,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8d3e4876d64054c329e1b79a3d63787a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_219
       rect:
@@ -3521,6 +4849,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: d4e89e4099dc046cf93216798414c172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_220
       rect:
@@ -3535,6 +4869,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 88ff14ea259d14cd4a16b2d8a961f030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_221
       rect:
@@ -3549,6 +4889,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f8a4d98f88cf1446f8171e46d40952b8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_222
       rect:
@@ -3563,6 +4909,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 262835b823d1a479a881764f4211c3af
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_223
       rect:
@@ -3577,6 +4929,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3b38ebf669f4449dd904ab96158ce5ae
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_224
       rect:
@@ -3591,6 +4949,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 351a2dbbf4888401e8845d6f22dd83cc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_225
       rect:
@@ -3605,6 +4969,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7dd1ab008fd204c8cbf7cd0f9ca9c4d2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_226
       rect:
@@ -3619,6 +4989,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 9074bf3387f5d47589ce5aaef79365a0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_227
       rect:
@@ -3633,6 +5009,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 35a50a75ab9c54dc694d23bf944231ed
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_228
       rect:
@@ -3647,6 +5029,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ee162d212dac4432586204f54c0cb474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_229
       rect:
@@ -3661,6 +5049,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e9f9dbf62e9f34ff28a980717ff9afac
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_230
       rect:
@@ -3675,6 +5069,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 14503d84e4d2d4746bcfbfd30d35f432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_231
       rect:
@@ -3689,6 +5089,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f40198d2e801f45418455c2ee7bddd28
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_232
       rect:
@@ -3703,6 +5109,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ca06564ae90c94def88afa3f24a17366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_233
       rect:
@@ -3717,6 +5129,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b0cfaab04151549fcbc8fee408159786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_234
       rect:
@@ -3731,6 +5149,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c6d7001b0d0b94d34b5438d3517ee3ba
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_235
       rect:
@@ -3745,6 +5169,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: beae1348c49854c308bbb39154f2bd41
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_236
       rect:
@@ -3759,6 +5189,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 553c64b34d24d4135a53a3df15307628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_237
       rect:
@@ -3773,6 +5209,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 92c6c9e3a5eac4457adb4d4b35778616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_238
       rect:
@@ -3787,6 +5229,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 155dfd2f0af084ec6b4276e897f3db1a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_239
       rect:
@@ -3801,6 +5249,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 500327de0036f4361a62ded56ef828ac
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_240
       rect:
@@ -3815,6 +5269,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 2036c407645f74bc18b4ab45faf7e233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_241
       rect:
@@ -3829,6 +5289,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1ad14a5f77def4489b9b62a49305246f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_242
       rect:
@@ -3843,6 +5309,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8aa579b688167407bb0bb220f43c8113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_243
       rect:
@@ -3857,6 +5329,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 27210365c079c48b7a814964f91cca1a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_244
       rect:
@@ -3871,6 +5349,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: d4cdd3b8c227b4155a013e978f859ffd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_245
       rect:
@@ -3885,6 +5369,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 2665965e2ec924f96924af15428f200e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_246
       rect:
@@ -3899,6 +5389,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: bcbd501dc7d1b4f37900f6cefe579186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_247
       rect:
@@ -3913,6 +5409,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 41297213827b049d58a68e4d53bdb2d1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_248
       rect:
@@ -3927,6 +5429,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 75ece3709fc66477988721c46c9c8b22
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_249
       rect:
@@ -3941,6 +5449,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 6da04a1ce3a95447093549045a8b26ba
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_250
       rect:
@@ -3955,6 +5469,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 04557098b197d49758ec69415ce44524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_251
       rect:
@@ -3969,6 +5489,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 36c05131c41ca4d4e8dd0e90a654dda8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_252
       rect:
@@ -3983,6 +5509,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8d0dea256d0234f579e08dfa54662a38
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_253
       rect:
@@ -3997,6 +5529,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 5c554bfd9e7324434bbbb242e16ffacb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_254
       rect:
@@ -4011,6 +5549,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 2bd8804c788054282823520ace3bf780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_255
       rect:
@@ -4025,6 +5569,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1a031614cdff948a9b856cb90d7d6365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_256
       rect:
@@ -4039,6 +5589,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f31a9348bc09646108fb38c31b83b8d8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_257
       rect:
@@ -4053,6 +5609,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: fef0506f0690244debe86e9f22a47c83
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_258
       rect:
@@ -4067,6 +5629,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 024c9371e553d47528191a1e45fef849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_259
       rect:
@@ -4081,6 +5649,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f67aba881be2943e79b38b8b3196b907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_260
       rect:
@@ -4095,6 +5669,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 4b078366c129b4bfcac59cc086451586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_261
       rect:
@@ -4109,6 +5689,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 83dacb5a4cf0846818a36a2799632568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_262
       rect:
@@ -4123,6 +5709,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: a8764179a3526481daac5a91dc1c2a9f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_263
       rect:
@@ -4137,6 +5729,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: cfc6be0665cfa4fada7647eb4721d533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_264
       rect:
@@ -4151,6 +5749,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 89c4b369e3a7f4bccb2f0eb6a781aa40
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_265
       rect:
@@ -4165,6 +5769,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1fc48d5ed74544b7094de3c4f5f05487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_266
       rect:
@@ -4179,6 +5789,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e7d72e9f04013425db57c9c1a9d1ed8f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_267
       rect:
@@ -4193,6 +5809,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 6df84f4c2e00a4f8cb4af19129c995f9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_268
       rect:
@@ -4207,6 +5829,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: d7aed1a7f068447128d122365619b46a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_269
       rect:
@@ -4221,6 +5849,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f6200e71f4db44b9093efe6e95a646bb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_270
       rect:
@@ -4235,6 +5869,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f5759489707c9419991ab9edf715ffd1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_271
       rect:
@@ -4249,6 +5889,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e7838304df9014a359a7b9c30efe43ed
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_272
       rect:
@@ -4263,6 +5909,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3ee1c65cffbc649299aba0054e989317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_273
       rect:
@@ -4277,6 +5929,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b32611248646b4b7088f020470a580d5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_274
       rect:
@@ -4291,6 +5949,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 2864b378719a64ad6a07d4c8fba530fa
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_275
       rect:
@@ -4305,6 +5969,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: cb2740cd959684022b392acdfc97ed05
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_276
       rect:
@@ -4319,6 +5989,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 829c25f2c8915446d86f614c28d6c6d9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_277
       rect:
@@ -4333,6 +6009,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1288c75efbfdf44b6b99f9ef50ee3257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_278
       rect:
@@ -4347,6 +6029,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 37906e3479b0b4891873c7c43082fc0b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_279
       rect:
@@ -4361,6 +6049,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c8c869d8e52f8496bb6f6e60d12036b5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_280
       rect:
@@ -4375,6 +6069,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 2fce86cfd84234c46807ec0a04febc41
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_281
       rect:
@@ -4389,6 +6089,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c7afcfab83dc941c28ac7a7056e54e05
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_282
       rect:
@@ -4403,6 +6109,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 7668c7da28a9a40ed881d73c16613f40
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_283
       rect:
@@ -4417,6 +6129,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: de90ae389a341403c83a59915a320b32
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_284
       rect:
@@ -4431,6 +6149,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 81505f7e5e71f4072aec94cd5b70d311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_285
       rect:
@@ -4445,6 +6169,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 32e22323d29084db8ae983e7fb1e9278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_286
       rect:
@@ -4459,6 +6189,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 17eb956797d1346ce8ffef9671440031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_287
       rect:
@@ -4473,6 +6209,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 75db2b567223a4f5084420d65e46aee5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_288
       rect:
@@ -4487,6 +6229,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 53afb2061ebec469fa7d80512e51e216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_289
       rect:
@@ -4501,6 +6249,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: a69f64583610946ab81f99af4341e1cd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_290
       rect:
@@ -4515,6 +6269,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c8352ba3e36cd42adba366e9b7122062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_291
       rect:
@@ -4529,6 +6289,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b15dc64dd336446119a5c8c2fce7d1a9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_292
       rect:
@@ -4543,6 +6309,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 055206cf13756432e9aa313ca6e7d2af
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_293
       rect:
@@ -4557,6 +6329,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 74dc4571f3feb47f99d97f4d948e9f99
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_294
       rect:
@@ -4571,6 +6349,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 6d04636489bc041f38dca7c3c4d30572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_295
       rect:
@@ -4585,6 +6369,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 373bb2375ed1c430bb7868e1c4f02193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_296
       rect:
@@ -4599,6 +6389,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e9d3de9a69e3b488b8d315fe60b9140b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_297
       rect:
@@ -4613,6 +6409,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ee950e487071d4636b081a08e7362916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_298
       rect:
@@ -4627,6 +6429,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c33d1cd460807480fa1331de898f8532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_299
       rect:
@@ -4641,6 +6449,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 26b0a0a029b3e450fa46d18199da5387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_300
       rect:
@@ -4655,6 +6469,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3e62fc1b2a5da46da8c51741cf8ce51e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_301
       rect:
@@ -4669,6 +6489,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c51cf094091b444a6a24b898cbd9e236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_302
       rect:
@@ -4683,6 +6509,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 2f6b43c671962432f91322008c116463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_303
       rect:
@@ -4697,6 +6529,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 417f7d73fff094456880800366734d4d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_304
       rect:
@@ -4711,6 +6549,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 5a22778f42a8e4b579ad232074f5fc7c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_305
       rect:
@@ -4725,6 +6569,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: beb3a44a05c034bb292452b96ca4b2bd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_306
       rect:
@@ -4739,6 +6589,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 9d14fdeba0ca64da4bc12c9191f8d8c4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_307
       rect:
@@ -4753,6 +6609,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 654483dfe60d94a4d9a553e36e489cbc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_308
       rect:
@@ -4767,6 +6629,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 638b4ca2354ff4571a2e0dc2addc6f06
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_309
       rect:
@@ -4781,6 +6649,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: fd2f9c20b4a594968b114f7d77ed063c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_310
       rect:
@@ -4795,6 +6669,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 12c272d5ef0814064bf251938819529e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_311
       rect:
@@ -4809,6 +6689,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b77ccce51987741b6be6f0b289b21547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_312
       rect:
@@ -4823,6 +6709,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ae31927d4fb4e423aba6b6af39895c14
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_313
       rect:
@@ -4837,6 +6729,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3b1358437c2e14e528a8b9b2badbfcbf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_314
       rect:
@@ -4851,6 +6749,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: bdf6ead267d634cd9b44fb8c98d56732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_315
       rect:
@@ -4865,6 +6769,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 64495525da99747caa301a60ff566554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_316
       rect:
@@ -4879,6 +6789,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e056f903fb5a04a72850bb9fbcb45f8d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_317
       rect:
@@ -4893,6 +6809,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 542adf780460a40188806bba7b2c74cf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_318
       rect:
@@ -4907,6 +6829,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: a80a325d736b64ed9bc792131cbbe3b4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_319
       rect:
@@ -4921,6 +6849,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e1475067da51e4bf1938b05fb0704520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_320
       rect:
@@ -4935,6 +6869,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 8cf94cd1235654f00b8a7fa5830b3a86
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_321
       rect:
@@ -4949,6 +6889,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 0601774490f4f437b97ae1c73cf8fd28
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_322
       rect:
@@ -4963,6 +6909,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 9705b885a37f4478f8929fb7d1513a12
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_323
       rect:
@@ -4977,6 +6929,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 53620f22fbd6e4803abf74367e94a5c8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_324
       rect:
@@ -4991,6 +6949,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 81843d0041eda45bb9f76fdbf12f0008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_325
       rect:
@@ -5005,6 +6969,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 25db3ccef2a134841ac4cdf5daa210a5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_326
       rect:
@@ -5019,6 +6989,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 5865604dd005b47038f890e17227eaaf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_327
       rect:
@@ -5033,6 +7009,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: bb581fd138eb24a81998296d4f497edc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_328
       rect:
@@ -5047,6 +7029,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e7b3357f1f7ff40acadd9ede5e9173c1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_329
       rect:
@@ -5061,6 +7049,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e5c2cee95035346f1b3979c976025f67
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_330
       rect:
@@ -5075,6 +7069,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1c51bf4c07b8c4e82a014cb21874cd5f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_331
       rect:
@@ -5089,6 +7089,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 5f9b71818cdd74adaad8049e11ddd351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_332
       rect:
@@ -5103,6 +7109,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 4d239b1004bff42ee9b9c5890d22aac8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_333
       rect:
@@ -5117,6 +7129,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3e6a73118244b497187e33bd431dde83
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_334
       rect:
@@ -5131,6 +7149,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: eb3372aaee22d484c8fc95d118018a4f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_335
       rect:
@@ -5145,6 +7169,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 5ed63500db0cb4917b2c2d18ce23f2de
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_336
       rect:
@@ -5159,6 +7189,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f25d0335658bf404f8063d52dd6c4936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_337
       rect:
@@ -5173,6 +7209,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 69ebcbd0642ff4f32abc3e9e733d74f4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_338
       rect:
@@ -5187,6 +7229,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 0b314269eb2c94dac9b06baa6065bc9f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_339
       rect:
@@ -5201,6 +7249,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: d37914d0070004029979d4206effa382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_340
       rect:
@@ -5215,6 +7269,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: bd25a10713a324e8c984ec98863e22d8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_341
       rect:
@@ -5229,6 +7289,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b7b230f6215f94af6afe06346014d2c0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_342
       rect:
@@ -5243,6 +7309,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: e701f131535f14a849171cdf7b3319c1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_343
       rect:
@@ -5257,6 +7329,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ccc362dabe80b4ca19ca979a55ee00b5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_344
       rect:
@@ -5271,6 +7349,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 5f6e6b3db1dd04564ba5ba781775a5c3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_345
       rect:
@@ -5285,6 +7369,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 52fc5b3480d4e4b048e90fd206a3c841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_346
       rect:
@@ -5299,6 +7389,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b55aee8ea774f40fcb5c55733925fdcf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_347
       rect:
@@ -5313,6 +7409,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f786643b58ed34e56bcc50e454e0e17e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_348
       rect:
@@ -5327,6 +7429,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 757bc1399e8294a5984c99a30f9d3182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_349
       rect:
@@ -5341,6 +7449,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: ee5fe850c6dcd49969019ee20372f0a5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_350
       rect:
@@ -5355,6 +7469,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 70b7b6638c47343668a4f6f6db5f9938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_351
       rect:
@@ -5369,6 +7489,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3285839784eea42d88c84ccd28dd41f1
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_352
       rect:
@@ -5383,6 +7509,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c1445753f0a2d4c85b6f887ce04db4f5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_353
       rect:
@@ -5397,6 +7529,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: f36533ca2b55046e986ffc7a93cd4985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_354
       rect:
@@ -5411,6 +7549,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 3e5bb6c71c13b423687e3d5a9e9407f8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_355
       rect:
@@ -5425,6 +7569,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 9fb8d1659629c4732b9db942c2552269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_356
       rect:
@@ -5439,6 +7589,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: c3594938df25845269c0a467c9fed8fe
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_357
       rect:
@@ -5453,6 +7609,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b07e7c401aad54c48bb8baa002c3c4da
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_358
       rect:
@@ -5467,6 +7629,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: b761219a7db3541a98323725c48db16d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_359
       rect:
@@ -5481,6 +7649,12 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 1ab9b35d9965a425eb4b2551987a5e2c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
       name: particle_accelerator_360
       rect:
@@ -5495,9 +7669,23 @@ TextureImporter:
       outline: []
       physicsShape: []
       tessellationDetail: -1
+      bones: []
+      spriteID: 62fd94840b1c842eda173a25c99c7fd4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
+    bones: []
+    spriteID: 
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
