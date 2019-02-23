@@ -748,16 +748,5 @@ namespace IngameDebugConsole
 
 			return true;
 		}
-
-
-		//*********************************************************************
-		// Add additional debug commands here
-		//********************************************************************
-
-		[ConsoleMethod("suicide", "kill yo' self")]
-		public static void RunSuicide()
-		{
-			SuicideMessage.Send(null);
-		}
 	}
 }
