@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
 public class PushPull : VisibleBehaviour {
+	public const float DEFAULT_PUSH_SPEED = 6;
 	[SyncVar]
 	public bool isNotPushable = false;
 
@@ -91,6 +92,11 @@ public class PushPull : VisibleBehaviour {
 				return;
 			}
 		}
+		ConnectedPlayer clientWhoAsked = PlayerList.Instance.Get( gameObject );
+		if ( clientWhoAsked.Script.canNotInteract() )
+		{
+			return;
+		}
 
 		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile )
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
@@ -158,7 +164,7 @@ public class PushPull : VisibleBehaviour {
 			if ( followDir == Vector2Int.zero ) {
 				return;
 			}
-			if ( !TryFollow( currentPos, followDir, PulledBy.Pushable.MoveSpeedServer ) ) {
+			if ( !TryFollow( currentPos, followDir, GetHeadSpeedServer() ) ) {
 				StopFollowing();
 			} else {
 				PulledBy.NotifyPlayers(); // doubles messages for puller, but pulling looks proper even in high ping. might mess something up tho
@@ -177,7 +183,7 @@ public class PushPull : VisibleBehaviour {
 			if ( followDir == Vector2Int.zero ) {
 				return;
 			}
-			if ( !TryPredictiveFollow( currentPos, oldPos, PulledByClient.Pushable.MoveSpeedClient ) ) {
+			if ( !TryPredictiveFollow( currentPos, oldPos, GetHeadSpeedClient() ) ) {
 				Logger.LogError( $"{gameObject.name}: oops, predictive following {PulledByClient.gameObject.name} failed", Category.PushPull );
 			} else {
 				Logger.LogTraceFormat(
@@ -187,6 +193,30 @@ public class PushPull : VisibleBehaviour {
 			}
 		};
 	}
+
+	/// <summary>
+	/// Recursive method to get client speed of the train head
+	/// </summary>
+	public float GetHeadSpeedClient()
+	{
+		if ( IsBeingPulledClient )
+		{
+			return PulledByClient.GetHeadSpeedClient();
+		}
+		return Pushable.SpeedClient;
+	}
+	/// <summary>
+	/// Recursive method to get server speed of the train head
+	/// </summary>
+	public float GetHeadSpeedServer()
+	{
+		if ( IsBeingPulled )
+		{
+			return PulledBy.GetHeadSpeedServer();
+		}
+		return Pushable.SpeedServer;
+	}
+
 	#region Pull
 
 	private UnityAction<Vector3Int,Vector3Int> followAction;

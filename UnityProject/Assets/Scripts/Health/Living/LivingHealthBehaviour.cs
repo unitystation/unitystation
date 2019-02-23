@@ -39,7 +39,15 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	protected GameObject LastDamagedBy;
 
-	public ConsciousState ConsciousState { get; protected set; }
+	public ConsciousState ConsciousState
+	{
+		get => consciousState;
+		protected set
+		{
+			consciousState = value;
+			OnConsciousStateChange( value );
+		}
+	}
 
 	// JSON string for blood types and DNA.
 	[SyncVar(hook = "DNASync")] //May remove this in the future and only provide DNA info on request
@@ -50,35 +58,22 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	private float tickRate = 1f;
 	private float tick = 0;
 	private RegisterTile registerTile;
+	private ConsciousState consciousState;
 
-	//be careful with falses, will make player conscious
-	public bool IsCrit
-	{
-		get { return ConsciousState == ConsciousState.UNCONSCIOUS; }
-		private set { ConsciousState = value ? ConsciousState.UNCONSCIOUS : ConsciousState.CONSCIOUS; }
-	}
+	public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
+	public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
 
-	public bool IsDead
-	{
-		get { return ConsciousState == ConsciousState.DEAD; }
-		private set { ConsciousState = value ? ConsciousState.DEAD : ConsciousState.CONSCIOUS; }
-	}
+	public bool IsDead => ConsciousState == ConsciousState.DEAD;
 
 	/// <summary>
 	/// Has the heart stopped.
 	/// </summary>
-	public bool IsCadiacArrest
-	{
-		get { return bloodSystem.HeartStopped; }
-	}
+	public bool IsCardiacArrest => bloodSystem.HeartStopped;
 
 	/// <summary>
 	/// Has breathing stopped
 	/// </summary>
-	public bool IsRespiratoryArrest
-	{
-		get { return !respiratorySystem.IsBreathing; }
-	}
+	public bool IsRespiratoryArrest => !respiratorySystem.IsBreathing;
 
 	/// ---------------------------
 	/// INIT METHODS
@@ -456,27 +451,50 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		{
 			return;
 		}
-		IsDead = true;
+		ConsciousState = ConsciousState.DEAD;
 		OverallHealth = HealthThreshold.Dead;
 		OnDeathActions();
 		bloodSystem.StopBleeding();
 	}
 
-	public virtual void Crit()
+	public virtual void UnCrit()
 	{
-		if (ConsciousState != ConsciousState.CONSCIOUS)
+		var proposedState = ConsciousState.CONSCIOUS;
+		if (ConsciousState == proposedState || IsDead)
 		{
 			return;
 		}
-		IsCrit = true;
-		OnCritActions();
+		ConsciousState = proposedState;
+	}
+
+	public virtual void Crit(bool allowCrawl = false)
+	{
+		var proposedState = allowCrawl ? ConsciousState.BARELY_CONSCIOUS : ConsciousState.UNCONSCIOUS;
+
+		if (ConsciousState == proposedState || IsDead)
+		{
+			return;
+		}
+
+		ConsciousState = proposedState;
 	}
 
 	private void CheckDeadCritStatus()
 	{
+		if (ConsciousState != ConsciousState.CONSCIOUS
+		    && OverallHealth > HealthThreshold.SoftCrit)
+		{
+			Logger.LogFormat( "{0}, back on your feet!", Category.Health, gameObject.name );
+			UnCrit();
+			return;
+		}
+		if (OverallHealth <= HealthThreshold.SoftCrit)
+		{
+			Crit(true);
+		}
 		if (OverallHealth <= HealthThreshold.Crit)
 		{
-			Crit();
+			Crit(false);
 		}
 		if (NotSuitableForDeath())
 		{
@@ -490,7 +508,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		return OverallHealth > HealthThreshold.Dead || IsDead;
 	}
 
-	protected virtual void OnCritActions() { }
+	protected virtual void OnConsciousStateChange( ConsciousState state ) { }
 
 	protected abstract void OnDeathActions();
 
@@ -649,6 +667,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 public static class HealthThreshold
 {
-	public const int Crit = 0;
+	public const int SoftCrit = 0;
+	public const int Crit = -30;
 	public const int Dead = -100;
 }

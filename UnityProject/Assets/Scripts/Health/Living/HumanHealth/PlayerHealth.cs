@@ -12,6 +12,7 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	private PlayerNetworkActions playerNetworkActions;
 
+	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
 	public override void OnStartClient()
@@ -20,7 +21,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		playerMove = GetComponent<PlayerMove>();
 
 		PlayerScript playerScript = GetComponent<PlayerScript>();
-
+		//fixme: these are all workarounds to hide your spess dummy player. get rid of him
 		if (playerScript.JobType == JobType.NULL)
 		{
 			foreach (Transform t in transform)
@@ -30,7 +31,7 @@ public class PlayerHealth : LivingHealthBehaviour
 			ConsciousState = ConsciousState.DEAD;
 
 			// Fixme: No more setting allowInputs on client:
-			// When job selection screen is removed from round start 
+			// When job selection screen is removed from round start
 			// (and moved to preference system in lobby) then we can remove this
 			playerMove.allowInput = false;
 		}
@@ -103,8 +104,11 @@ public class PlayerHealth : LivingHealthBehaviour
 	}
 
 	///     make player unconscious upon crit
-	protected override void OnCritActions()
+	protected override void OnConsciousStateChange( ConsciousState state )
 	{
-		playerNetworkActions.SetConsciousState(false);
+		if ( isServer )
+		{
+			playerNetworkActions.SetConsciousState(state);
+		}
 	}
 }

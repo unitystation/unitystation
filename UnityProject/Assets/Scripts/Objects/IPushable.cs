@@ -23,8 +23,8 @@ public interface IPushable {
 	bool IsMovingClient { get; }
 	bool IsMovingServer { get; }
 	Vector2 ServerImpulse { get; }
-	float MoveSpeedServer { get; }
-	float MoveSpeedClient { get; }
+	float SpeedServer { get; }
+	float SpeedClient { get; }
 	/// Try stopping object if it's flying
 	void Stop();
 

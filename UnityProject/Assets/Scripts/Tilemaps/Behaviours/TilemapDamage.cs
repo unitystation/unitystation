@@ -38,26 +38,25 @@ public class TilemapDamage : MonoBehaviour
 		{
 			return;
 		}
-
 		ContactPoint2D firstContact = coll.GetContact(0);
 		Vector2 dirOfForce = (firstContact.point - (Vector2) coll.transform.position).normalized;
-		DetermineAction(coll.gameObject, dirOfForce);
+		DetermineAction(coll.gameObject, dirOfForce, firstContact.point);
 	}
 
-	private void DetermineAction(GameObject objectColliding, Vector2 forceDirection)
+	private void DetermineAction(GameObject objectColliding, Vector2 forceDirection, Vector3 hitPos)
 	{
-		BulletBehaviour bulletBehaviour = objectColliding.GetComponent<BulletBehaviour>();
+		BulletBehaviour bulletBehaviour = objectColliding.transform.parent.GetComponent<BulletBehaviour>();
 		if (bulletBehaviour != null)
 		{
-			DoBulletDamage(bulletBehaviour, forceDirection);
+			DoBulletDamage(bulletBehaviour, forceDirection, hitPos);
 		}
 	}
 
-	private void DoBulletDamage(BulletBehaviour bullet, Vector3 forceDir)
+	private void DoBulletDamage(BulletBehaviour bullet, Vector3 forceDir, Vector3 hitPos)
 	{
 		forceDir.z = 0;
-		Vector3 bulletHitTarget = bullet.transform.position + (forceDir * 0.2f);
-		Vector3Int cellPos = Vector3Int.RoundToInt(transform.InverseTransformPoint(bulletHitTarget));
+		Vector3 bulletHitTarget = hitPos + (forceDir * 0.2f);
+		Vector3Int cellPos = metaTileMap.WorldToCell(Vector3Int.RoundToInt(bulletHitTarget));
 		MetaDataNode data = metaDataLayer.Get(cellPos);
 
 		if (Layer.LayerType == LayerType.Windows)

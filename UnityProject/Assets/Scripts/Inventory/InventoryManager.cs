@@ -214,7 +214,7 @@ public class InventoryManager : MonoBehaviour
 			if (slot.Owner != null)
 			{
 				//Inertia drop works only if player has external impulse (space floating etc.)
-				objTransform.InertiaDrop(dropPos, slot.Owner.PlayerSync.MoveSpeedServer, slot.Owner.PlayerSync.ServerImpulse);
+				objTransform.InertiaDrop(dropPos, slot.Owner.PlayerSync.SpeedServer, slot.Owner.PlayerSync.ServerImpulse);
 			}
 			else
 			{

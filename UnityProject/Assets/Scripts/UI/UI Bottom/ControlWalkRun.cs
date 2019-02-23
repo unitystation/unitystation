@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -7,7 +7,7 @@ using UnityEngine.UI;
 		private Image image;
 		public Sprite[] runWalkSprites;
 
-		public bool running { get; set; }
+		public bool running { get; private set; } = true;
 
 		private void Start()
 		{
