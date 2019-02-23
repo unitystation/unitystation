@@ -25,17 +25,26 @@ namespace IngameDebugConsole
 		public static void RunDamageSelf(string bodyPartString, int burnDamage, int bruteDamage)
 		{
 			
-			Logger.Log("passed in bodyPart[" + bodyPartString + "]");
+			
 			bool success = BodyPartType.TryParse(bodyPartString, true, out BodyPartType bodyPart);
 
 			if (success)
 			{
-				Logger.Log("Debugger inflicting " +burnDamage+" burn damage and "+bruteDamage +" brute damage on " + bodyPart + " of " + PlayerManager.LocalPlayer.name, Category.DebugConsole);
-				HealthBodyPartMessage.Send(PlayerManager.LocalPlayer, PlayerManager.LocalPlayer, bodyPart, burnDamage, bruteDamage);
+				bool playerSpawned = (PlayerManager.LocalPlayer != null);
+				if (!playerSpawned)
+				{
+					Logger.LogError("Cannot damage player. Player has not spawned.", Category.DebugConsole);
+
+				}
+				else
+				{
+					Logger.Log("Debugger inflicting " + burnDamage + " burn damage and " + bruteDamage + " brute damage on " + bodyPart + " of " + PlayerManager.LocalPlayer.name, Category.DebugConsole);
+					HealthBodyPartMessage.Send(PlayerManager.LocalPlayer, PlayerManager.LocalPlayer, bodyPart, burnDamage, bruteDamage);
+				}
 			}
 			else
 			{
-				Logger.LogError("Usage:\ndamage-self <bodyPart> <brute amount> <burn amount>\nExample: damage-self LeftArm 40 20",Category.DebugConsole);
+				Logger.LogError("Invalid body part '"+ bodyPartString+ "'", Category.DebugConsole);
 			}
 		}
 
