@@ -14,7 +14,7 @@ public class ConnectedPlayer
     private bool synced;
 
 	//Name that is used if the client's character name is empty
-	private const string DEAFAULT_NAME = "Anonymous Spessman";
+	private const string DEFAULT_NAME = "Anonymous Spessman";
 
 	public bool IsAuthenticated => steamId != 0;
 
@@ -79,7 +79,7 @@ public class ConnectedPlayer
         get { return steamId; }
         set
         {
-			
+
             if ( value != 0 )
             {
                 steamId = value;
@@ -105,7 +105,7 @@ public class ConnectedPlayer
 
     public bool HasNoName()
     {
-        return name == null || name.Trim().Equals("") || name == DEAFAULT_NAME;
+        return name == null || name.Trim().Equals("") || name == DEFAULT_NAME;
     }
 
 	/// <summary>
@@ -130,8 +130,8 @@ public class ConnectedPlayer
 		//Issue #1377
 		if (isValidName(playerName) == false)
 		{
-			Logger.LogWarning("Attempting to assign invalid name to ConnectedPlayer. Assigning default name " + DEAFAULT_NAME + " instead");
-			playerName = DEAFAULT_NAME;
+			Logger.LogWarning("Attempting to assign invalid name to ConnectedPlayer. Assigning default name " + DEFAULT_NAME + " instead");
+			playerName = DEFAULT_NAME;
 		}
 
 		//Player name is unchanged, return early.
@@ -150,7 +150,7 @@ public class ConnectedPlayer
 
         string uniqueName = GetUniqueName(playerName);
         name = uniqueName;
-		
+
 //        if ( !playerList.playerScores.ContainsKey(uniqueName) )
 //        {
 //            playerList.playerScores.Add(uniqueName, 0);
