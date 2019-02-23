@@ -163,7 +163,7 @@ namespace IngameDebugConsole
 					stringBuilder.Append( "\n- " ).Append( entry.Value.signature );
 			}
 
-			Debug.Log( stringBuilder.Append( "\n" ).ToString() );
+			Logger.Log( stringBuilder.Append( "\n" ).ToString(), Category.DebugConsole );
 		}
 
 		/// <summary>
@@ -200,7 +200,7 @@ namespace IngameDebugConsole
 			stringBuilder.Append( "2D Array Textures: " ).Append( SystemInfo.supports2DArrayTextures ? "supported\n" : "not supported\n" );
 			stringBuilder.Append( "Cubemap Array Textures: " ).Append( SystemInfo.supportsCubemapArrayTextures ? "supported" : "not supported" );
 
-			Debug.Log( stringBuilder.Append( "\n" ).ToString() );
+			Logger.Log( stringBuilder.Append( "\n" ).ToString(), Category.DebugConsole);
 		}
 
 		/// <summary>
@@ -252,7 +252,7 @@ namespace IngameDebugConsole
 		{
 			if( instance == null )
 			{
-				Debug.LogError( "Instance can't be null!" );
+				Logger.LogError( "Instance can't be null!", Category.DebugConsole);
 				return;
 			}
 
@@ -293,14 +293,14 @@ namespace IngameDebugConsole
 		{
 			if( string.IsNullOrEmpty( command ) )
 			{
-				Debug.LogError( "Command name can't be empty!" );
+				Logger.LogError( "Command name can't be empty!", Category.DebugConsole);
 				return;
 			}
 
 			command = command.Trim();
 			if( command.IndexOf( ' ' ) >= 0 )
 			{
-				Debug.LogError( "Command name can't contain whitespace: " + command );
+				Logger.LogError( "Command name can't contain whitespace: " + command, Category.DebugConsole);
 				return;
 			}
 
@@ -308,7 +308,7 @@ namespace IngameDebugConsole
 			MethodInfo method = ownerType.GetMethod( methodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static );
 			if( method == null )
 			{
-				Debug.LogError( methodName + " does not exist in " + ownerType );
+				Logger.LogError( methodName + " does not exist in " + ownerType, Category.DebugConsole);
 				return;
 			}
 
@@ -427,19 +427,19 @@ namespace IngameDebugConsole
 			// Check if command exists
 			ConsoleMethodInfo methodInfo;
 			if( !methods.TryGetValue( commandArguments[0], out methodInfo ) )
-				Debug.LogWarning( "Can't find command: " + commandArguments[0] );
+				Logger.LogWarning( "Can't find command: " + commandArguments[0], Category.DebugConsole);
 			else if( !methodInfo.IsValid() )
-				Debug.LogWarning( "Method no longer valid (instance dead): " + commandArguments[0] );
+				Logger.LogWarning( "Method no longer valid (instance dead): " + commandArguments[0], Category.DebugConsole);
 			else
 			{
 				// Check if number of parameter match
 				if( methodInfo.parameterTypes.Length != commandArguments.Count - 1 )
 				{
-					Debug.LogWarning( "Parameter count mismatch: " + methodInfo.parameterTypes.Length + " parameters are needed" );
+					Logger.LogWarning( "Parameter count mismatch: " + methodInfo.parameterTypes.Length + " parameters are needed", Category.DebugConsole);
 					return;
 				}
 
-				Debug.Log( "Executing command: " + commandArguments[0] );
+				Logger.LogTrace( "Executing command: " + commandArguments[0], Category.DebugConsole );
 
 				// Parse the parameters into objects
 				object[] parameters = new object[methodInfo.parameterTypes.Length];
@@ -451,14 +451,14 @@ namespace IngameDebugConsole
 					ParseFunction parseFunction;
 					if( !parseFunctions.TryGetValue( parameterType, out parseFunction ) )
 					{
-						Debug.LogError( "Unsupported parameter type: " + parameterType.Name );
+						Logger.LogError( "Unsupported parameter type: " + parameterType.Name, Category.DebugConsole);
 						return;
 					}
 
 					object val;
 					if( !parseFunction( argument, out val ) )
 					{
-						Debug.LogError( "Couldn't parse " + argument + " to " + parameterType.Name );
+						Logger.LogError( "Couldn't parse " + argument + " to " + parameterType.Name, Category.DebugConsole);
 						return;
 					}
 
@@ -471,9 +471,9 @@ namespace IngameDebugConsole
 				{
 					// Print the returned value to the console
 					if( result == null || result.Equals( null ) )
-						Debug.Log( "Value returned: null" );
+						Logger.Log( "Value returned: null", Category.DebugConsole);
 					else
-						Debug.Log( "Value returned: " + result.ToString() );
+						Logger.Log( "Value returned: " + result.ToString(), Category.DebugConsole);
 				}
 			}
 		}
