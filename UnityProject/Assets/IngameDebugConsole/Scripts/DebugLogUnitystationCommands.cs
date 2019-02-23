@@ -15,6 +15,7 @@ namespace IngameDebugConsole
 		[ConsoleMethod("damage-self", "Usage:\ndamage-self <bodyPart> <brute amount> <burn amount>\nExample: damage-self LeftArm 40 20")]
 		public static void RunDamageSelf(string bodyPartString, int burnDamage, int bruteDamage)
 		{
+			
 			Logger.Log("passed in bodyPart[" + bodyPartString + "]");
 			bool success = BodyPartType.TryParse(bodyPartString, true, out BodyPartType bodyPart);
 
@@ -32,9 +33,8 @@ namespace IngameDebugConsole
 		[ConsoleMethod("restart-round", "restarts the round")]
 		public static void RunRestartRound()
 		{
-			Logger.Log("Round restart triggered by DebugConsole.", Category.DebugConsole);
-			GameManager manager = GameObject.FindObjectOfType<GameManager>();
-			manager.RestartRound();
+				Logger.Log("Round restart triggered by DebugConsole.", Category.DebugConsole);
+				GameManager.Instance.RestartRound();
 		}
 
 	}
