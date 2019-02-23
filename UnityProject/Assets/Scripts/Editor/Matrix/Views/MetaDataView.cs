@@ -29,8 +29,9 @@ public class MetaDataView : BasicView
 
 	public override void DrawContent()
 	{
-		foreach (Check<MetaDataLayer> check in localChecks)
+		for (var i = 0; i < localChecks.Count; i++)
 		{
+			Check<MetaDataLayer> check = localChecks[i];
 			check.Active = GUILayout.Toggle(check.Active, check.Label);
 		}
 	}
