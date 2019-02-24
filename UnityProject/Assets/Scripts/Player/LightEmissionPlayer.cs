@@ -18,7 +18,7 @@ public class LightEmissionPlayer : NetworkBehaviour
 
 	public PlayerLightData DefaultSettings;
 	private HashSet<PlayerLightData> PresentLights = new HashSet<PlayerLightData>();
-	private PlayerLightData CurrentLight = new PlayerLightData(); 
+	private PlayerLightData CurrentLight = new PlayerLightData();
 
 	public GameObject mLightRendererObject;
 
@@ -28,10 +28,11 @@ public class LightEmissionPlayer : NetworkBehaviour
 
 	public void UpdateHook(string _stringPlayerLightData)
 	{
-		if (!isServer) { 
+		if (!isServer)
+		{
 			stringPlayerLightData = _stringPlayerLightData;
 			CurrentLight = JsonUtility.FromJson<PlayerLightData>(stringPlayerLightData);
-	        UpdatelightSource();
+			UpdatelightSource();
 		}
 
 	}
@@ -71,12 +72,14 @@ public class LightEmissionPlayer : NetworkBehaviour
 			UpdatelightSource();
 		}
 	}
-	public void UpdatelightSource() {
+	public void UpdatelightSource()
+	{
 		this.GetComponentInChildren<LightSprite>().Color = CurrentLight.Colour;
 		this.GetComponentInChildren<LightSprite>().Sprite = DictionarySprites[CurrentLight.EnumSprite];
 		this.GetComponentInChildren<LightSprite>().Color.a = CurrentLight.Intensity;
 		mLightRendererObject.transform.localScale = new Vector3(CurrentLight.Size, CurrentLight.Size, CurrentLight.Size);
-		if (isServer) {
+		if (isServer)
+		{
 			//Sends off to client the current Light
 			stringPlayerLightData = JsonUtility.ToJson(CurrentLight);
 		}
@@ -84,7 +87,7 @@ public class LightEmissionPlayer : NetworkBehaviour
 
 	private void Awake()
 	{
-		for (int i = 0; i<Sprites.Count; i++)
+		for (int i = 0; i < Sprites.Count; i++)
 		{
 			DictionarySprites[NameSprite[i]] = Sprites[i];
 		}
@@ -101,6 +104,6 @@ public class LightEmissionPlayer : NetworkBehaviour
 		{
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
 		}
-        UpdatelightSource();
+		UpdatelightSource();
 	}
 }

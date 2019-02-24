@@ -5,7 +5,8 @@ using System;
 using Newtonsoft.Json;
 
 [Serializable]
-public class PlayerLightData  {
+public class PlayerLightData
+{
 	public float Intensity = 0.0f;
 	public Color Colour;
 	//todo Make it so badmins can Mess around with the sprite so It can be set to anything they desire
@@ -14,17 +15,18 @@ public class PlayerLightData  {
 	public float Size = 12;
 }
 
-public enum EnumSpriteLightData { 
-	Default, 
+public enum EnumSpriteLightData
+{
+	Default,
 	Square,
-	Clown, 
+	Clown,
 }
 
 public class PlayerLightControl : PickUpTrigger
 {
 	public LightEmissionPlayer LightEmission;
 
-	public HashSet<string> CompatibleSlots = new HashSet<string>() { 
+	public HashSet<string> CompatibleSlots = new HashSet<string>() {
 		"leftHand",
 		"rightHand",
 		"suitStorage",
@@ -34,6 +36,7 @@ public class PlayerLightControl : PickUpTrigger
 		"storage02",
 		"suitStorage",
 	};
+
 	public float Intensity;
 	public Color Colour;
 	//public Sprite Sprite;
@@ -51,17 +54,19 @@ public class PlayerLightControl : PickUpTrigger
 
 		}
 		bool Store = base.Interact(originator, position, hand);
-		if (OnPickUp){
+		if (OnPickUp)
+		{
 			OnPickup();
 		}
-	return (Store);
+		return (Store);
 	}
 	public override void OnDropItemServer()
 	{
 		OnDrop();
 		base.OnDropItemServer();
 	}
-	public void OnPickup() {
+	public void OnPickup()
+	{
 		InventorySlot Slot = InventoryManager.GetSlotFromItem(this.gameObject);
 		if (Slot != null)
 		{
@@ -77,31 +82,34 @@ public class PlayerLightControl : PickUpTrigger
 			LightEmission = null;
 		}
 	}
-    void Start()
-    {
+	void Start()
+	{
 		PlayerLightData = new PlayerLightData()
 		{
 			Intensity = Intensity,
 			Colour = Colour,
 			EnumSprite = EnumSprite,
 			Size = Size,
-			};
-    }
-	public void OnAddToInventorySlot(InventorySlot slot) {
+		};
+	}
+	public void OnAddToInventorySlot(InventorySlot slot)
+	{
 		if (slot.IsUISlot)
 		{
 			if (!(CompatibleSlots.Contains(slot.SlotName)))
 			{
 				LightEmission.RemoveLight(PlayerLightData);
 			}
-			else {
-				if (LightEmission != null) { 
+			else
+			{
+				if (LightEmission != null)
+				{
 					LightEmission.AddLight(PlayerLightData);
 				}
-
 			}
 		}
-		else { 
+		else
+		{
 			LightEmission.RemoveLight(PlayerLightData);
 		}
 	}
