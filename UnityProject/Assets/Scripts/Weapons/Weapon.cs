@@ -401,8 +401,8 @@ public class Weapon : PickUpTrigger
 	/// <returns>true iff something happened</returns>
 	private bool AttemptToFireWeapon(bool isSuicide)
 	{
-		PlayerMove shooter = ClientScene.FindLocalObject(ControlledByPlayer).GetComponent<PlayerMove>();
-		if (!shooter.allowInput || shooter.isGhost)
+		PlayerScript shooter = ClientScene.FindLocalObject(ControlledByPlayer).GetComponent<PlayerScript>();
+		if ( shooter.canNotInteract() )
 		{
 			return false;
 		}
@@ -525,8 +525,8 @@ public class Weapon : PickUpTrigger
 	{
 		var finalDirection = ApplyRecoil(target);
 		//don't enqueue the shot if the player is no longer able to shoot
-		PlayerMove shooter = shotBy.GetComponent<PlayerMove>();
-		if (!shooter.allowInput || shooter.isGhost)
+		PlayerScript shooter = shotBy.GetComponent<PlayerScript>();
+		if ( shooter.canNotInteract() )
 		{
 			return;
 		}

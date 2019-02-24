@@ -6,7 +6,6 @@
 	}
 	SubShader
 	{
-		// No culling or depth
 		Cull Off ZWrite Off ZTest Always
 
 		Pass
@@ -56,14 +55,14 @@
 
 			fixed4 frag (v2f i) : SV_Target
 			{
-				// Mix Lights 
-				fixed4 occlusionSample = tex2D(_OcclusionMask, i.occlusionUv); //_OcclusionMask.Sample(sampler_point_clamp, i.occlusionUv);
-				fixed4 lightSample = tex2D(_LightMask, i.lightUv); //_LightMask.Sample(sampler_linear_clamp, i.lightUv);
-				fixed4 occLightSample = tex2D(_ObstacleLightMask, i.lightUv); //_ObstacleLightMask.Sample(sampler_linear_clamp, i.lightUv);
+				// Mix Lights.
+				fixed4 occlusionSample = tex2D(_OcclusionMask, i.occlusionUv);
+				fixed4 lightSample = tex2D(_LightMask, i.lightUv);
+				fixed4 occLightSample = tex2D(_ObstacleLightMask, i.lightUv);
 
-				float _obstacleMask = occlusionSample.r;//clamp(occlusionSample.r - 0.5f, 0, 1) * 2;
+				float _obstacleMask = occlusionSample.r;
 				fixed4 mixedLight = lightSample * (1-_obstacleMask) + occLightSample * _obstacleMask;
-				fixed4 screen = tex2D(_MainTex, i.uv); //_MainTex.Sample(sampler_linear_clamp, i.uv);
+				fixed4 screen = tex2D(_MainTex, i.uv);
 
 				float ambient = _AmbLightBloomSA.r;
 				float lightMultyplier = _AmbLightBloomSA.g;
@@ -77,8 +76,8 @@
 				fixed4 screenLit = screenUnlit + fixed4(screenUnlit.rgb * mixedLight.rgb * lightMultyplier + bloom, screenUnlit.a) * 1;
 
 				// Mix Background.
-				fixed4 background = tex2D(_BackgroundTex, i.uv); //_BackgroundTex.Sample(sampler_linear_clamp, i.uv) * _BackgroundMultiplier;
-				float backgroundMask = clamp(1 - (screen.a * 2),0,1);
+				fixed4 background = tex2D(_BackgroundTex, i.uv);
+				float backgroundMask = clamp(1 - (screen.a * 2), 0, 1);
 				fixed4 screenLitBackground = background * backgroundMask + screenLit;
 
 				return screenLitBackground;

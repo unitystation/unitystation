@@ -1,12 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// Input field that would properly focus
 /// and ignore movement and whatnot while it's focused
+[Serializable]
 public class InputFieldFocus : InputField
 {
+	/// <summary>
+	/// Button that will cause the field to lose focus
+	/// </summary>
+	public KeyCode ExitButton = KeyCode.Escape;
+
 	protected override void OnEnable() {
 		base.OnEnable();
 		StartCoroutine( SelectDelayed() );
@@ -43,7 +50,7 @@ public class InputFieldFocus : InputField
 	}
 
 	private void OnGUI() {
-		if ( Event.current.keyCode == KeyCode.Escape ) {
+		if ( Event.current.keyCode == ExitButton ) {
 			OnDeselect(new BaseEventData( EventSystem.current ));
 		}
 	}

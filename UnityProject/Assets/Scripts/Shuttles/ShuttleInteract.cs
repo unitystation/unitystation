@@ -24,6 +24,23 @@ public class ShuttleInteract : NetworkTabTrigger
 	    }
     }
 
+    private void OnEnable()
+    {
+	    if ( ShuttleMatrixMove == null )
+	    {
+		    ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
+
+		    if ( ShuttleMatrixMove == null )
+		    {
+			    Logger.LogError( $"{this} has no reference to MatrixMove, didn't find any in parents either", Category.Matrix );
+		    }
+		    else
+		    {
+			    Logger.Log( $"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically", Category.Matrix );
+		    }
+	    }
+    }
+
     public override bool Interact(GameObject originator, Vector3 position, string hand)
     {
 	    var playerScript = originator.GetComponent<PlayerScript>();

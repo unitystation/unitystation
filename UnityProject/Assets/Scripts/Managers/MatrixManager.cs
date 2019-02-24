@@ -313,6 +313,7 @@ public class MatrixManager : MonoBehaviour
 			Destroy(gameObject);
 		}
 
+		IsInitialized = false;
 		StartCoroutine(WaitForLoad());
 	}
 

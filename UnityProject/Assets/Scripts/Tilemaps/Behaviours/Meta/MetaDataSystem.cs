@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class MetaDataSystem : SubsystemBehaviour
 {
+	public override int Priority => 100;
+
 	/// <summary>
 	/// Nodes which exist in space next to room tiles of the matrix.
 	/// </summary>
@@ -17,8 +19,9 @@ public class MetaDataSystem : SubsystemBehaviour
 	/// </summary>
 	private Matrix matrix;
 
+	private int roomCounter = 0;
+
 	// Set higher priority to ensure that it is executed before other systems
-	public override int Priority => 100;
 
 	public override void Awake()
 	{
@@ -153,6 +156,13 @@ public class MetaDataSystem : SubsystemBehaviour
 			MetaDataNode node = metaDataLayer.Get(position);
 
 			node.Type = nodeType;
+
+			node.RoomNumber = nodeType == NodeType.Room ? roomCounter : -1;
+		}
+
+		if (nodeType == NodeType.Room)
+		{
+			roomCounter++;
 		}
 	}
 

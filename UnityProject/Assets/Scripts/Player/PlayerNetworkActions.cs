@@ -46,6 +46,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	public bool isGhost;
 
+	private static readonly Vector3 FALLEN = new Vector3( 0, 0, -90 );
+	private static readonly Vector3 STRAIGHT = Vector3.zero;
+
 	private void Start()
 	{
 		equipment = GetComponent<Equipment>();
@@ -637,25 +640,52 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void SetConsciousState(bool conscious)
+	public void SetConsciousState(ConsciousState state)
 	{
-		if (conscious)
+		switch ( state )
 		{
-			playerMove.allowInput = true;
-			gameObject.GetComponent<ForceRotation>().Rotation = new Vector3(0, 0, 0);
-		}
-		else
-		{
-			playerMove.allowInput = false;
-			gameObject.GetComponent<ForceRotation>().Rotation = new Vector3(0, 0, -90);
-			soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
-			if (Random.value > 0.5f)
-			{
-				playerSprites.currentDirection = Orientation.Up;
-			}
+			case ConsciousState.CONSCIOUS:
+				playerMove.allowInput = true;
+				playerScript.PlayerSync.SpeedServer = playerMove.RunSpeed;
+				gameObject.GetComponent<ForceRotation>().Rotation = STRAIGHT;
+				break;
+			case ConsciousState.BARELY_CONSCIOUS:
+				//Drop items when unconscious
+				DropItem("rightHand");
+				DropItem("leftHand");
+				playerMove.allowInput = true;
+				playerScript.PlayerSync.SpeedServer =  playerMove.CrawlSpeed;
+				Fall();
+				break;
+			case ConsciousState.UNCONSCIOUS:
+				//Drop items when unconscious
+				DropItem("rightHand");
+				DropItem("leftHand");
+				playerMove.allowInput = false;
+				Fall();
+				break;
 		}
 		playerScript.pushPull.CmdStopPulling();
 }
+
+	/// <summary>
+	/// Rotate player and play body fall sound
+	/// </summary>
+	private void Fall()
+	{
+		ForceRotation rotation = gameObject.GetComponent<ForceRotation>();
+		if ( rotation.Rotation == FALLEN )
+		{
+//			Logger.LogTrace( "Not dropping fallen player again", Category.Health );
+			return;
+		}
+		rotation.Rotation = FALLEN;
+		soundNetworkActions.RpcPlayNetworkSound( "Bodyfall", transform.position );
+		if ( Random.value > 0.5f )
+		{
+			playerSprites.currentDirection = Orientation.Up;
+		}
+	}
 
 	[Command]
 	public void CmdToggleChatIcon(bool turnOn)

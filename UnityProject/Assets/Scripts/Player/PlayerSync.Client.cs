@@ -57,6 +57,21 @@ public partial class PlayerSync
 		}
 	}
 
+	public float SpeedClient
+	{
+		get => predictedSpeedClient;
+		set
+		{
+			Logger.LogTraceFormat( "{0}: setting PREDICTED speed {1}->{2}", Category.Movement, gameObject.name, SpeedClient, value );
+			predictedSpeedClient = value < 0 ? 0 : value;
+		}
+	}
+
+	/// <summary>
+	/// Player's clientside predicted move speed, applied to predicted moves
+	/// </summary>
+	private float predictedSpeedClient;
+
 	public bool IsNonStickyClient => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
 
 	///Does server claim this client is floating rn?
@@ -94,8 +109,10 @@ public partial class PlayerSync
 			if (isGrounded && playerState.Active)
 			{
 				//RequestMoveMessage.Send(action);
-				// Fix for #900
 				BumpType clientBump = CheckSlideAndBump(predictedState, ref action);
+
+				action.isRun = UIManager.WalkRun.running;
+
 				if (clientBump == BumpType.None || playerMove.isGhost)
 				{
 					//move freely
@@ -140,6 +157,10 @@ public partial class PlayerSync
 	/// <param name="direction">Direction you're pushing</param>
 	private void PredictiveBumpInteract(Vector3Int worldTile, Vector2Int direction)
 	{
+		if ( playerScript.canNotInteract() )
+		{
+			return;
+		}
 		// Is the object pushable (iterate through all of the objects at the position):
 		var pushPulls = MatrixManager.GetAt<PushPull>(worldTile);
 		for (int i = 0; i < pushPulls.Count; i++)
@@ -186,6 +207,11 @@ public partial class PlayerSync
 
 		predictedState.MatrixId = MatrixManager.AtPoint(target3int).Id;
 		predictedState.WorldPosition = target.To3Int();
+		if ( !float.IsNaN( speed ) && speed > 0 ) {
+			predictedState.Speed = speed;
+		} else {
+			predictedState.Speed = PushPull.DEFAULT_PUSH_SPEED;
+		}
 
 		OnClientStartMove().Invoke(currentPos, target3int); //?
 
@@ -254,8 +280,23 @@ public partial class PlayerSync
 
 	private PlayerState NextStateClient(PlayerState state, PlayerAction action, bool isReplay)
 	{
-		bool matrixChanged;
-		return NextState(state, action, out matrixChanged, isReplay);
+		if ( !playerMove.isGhost )
+		{
+			if ( !playerScript.playerHealth.IsSoftCrit )
+			{
+				SpeedClient = action.isRun ? playerMove.RunSpeed : playerMove.WalkSpeed;
+			}
+			else
+			{
+				SpeedClient = playerMove.CrawlSpeed;
+			}
+		}
+
+		var nextState = NextState(state, action, out bool matrixChanged, isReplay);
+
+		nextState.Speed = SpeedClient;
+
+		return nextState;
 	}
 
 	/// Called when PlayerMoveMessage is received
@@ -487,7 +528,7 @@ public partial class PlayerSync
 			else
 			{
 				transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos,
-					playerMove.speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
+				predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
 			}
 
 			if (ClientPositionReady)
