@@ -44,6 +44,7 @@ public class InventorySlot
 				ItemInstanceId = netID;
 				netInstanceIdentifier = netID.Value;
 				ItemAttributes = value.GetComponent<ItemAttributes>();
+				value.BroadcastMessage("OnAddToInventorySlot", this, SendMessageOptions.DontRequireReceiver);
 			}
 			else
 			{
