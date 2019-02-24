@@ -1,19 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using Newtonsoft.Json;
 
+[Serializable]
 public class PlayerLightData  {
 	public float Intensity = 0.0f;
-	public Color Colour = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f);
-	public Sprite Sprite;
+	public Color Colour;
+	//todo Make it so badmins can Mess around with the sprite so It can be set to anything they desire
+	//public Sprite Sprite;
+	public EnumSpriteLightData EnumSprite;
 	public float Size = 12;
-	public GameObject Item;
 }
 
+public enum EnumSpriteLightData { 
+	Default, 
+	Square,
+	Clown, 
+}
 
 public class PlayerLightControl : PickUpTrigger
 {
-
 	public LightEmissionPlayer LightEmission;
 
 	public HashSet<string> CompatibleSlots = new HashSet<string>() { 
@@ -28,7 +36,8 @@ public class PlayerLightControl : PickUpTrigger
 	};
 	public float Intensity;
 	public Color Colour;
-	public Sprite Sprite;
+	//public Sprite Sprite;
+	public EnumSpriteLightData EnumSprite;
 	public float Size;
 
 	public PlayerLightData PlayerLightData;
@@ -54,13 +63,19 @@ public class PlayerLightControl : PickUpTrigger
 	}
 	public void OnPickup() {
 		InventorySlot Slot = InventoryManager.GetSlotFromItem(this.gameObject);
-		LightEmission =  Slot.Owner.gameObject.GetComponent<LightEmissionPlayer>();
-		LightEmission.AddLight(PlayerLightData);
+		if (Slot != null)
+		{
+			LightEmission = Slot.Owner.gameObject.GetComponent<LightEmissionPlayer>();
+			LightEmission.AddLight(PlayerLightData);
+		}
 	}
 	public void OnDrop()
 	{
-		LightEmission.RemoveLight(PlayerLightData);
-		LightEmission = null;
+		if (LightEmission != null)
+		{
+			LightEmission.RemoveLight(PlayerLightData);
+			LightEmission = null;
+		}
 	}
     void Start()
     {
@@ -68,7 +83,7 @@ public class PlayerLightControl : PickUpTrigger
 		{
 			Intensity = Intensity,
 			Colour = Colour,
-			Sprite = Sprite,
+			EnumSprite = EnumSprite,
 			Size = Size,
 			};
     }
@@ -90,9 +105,4 @@ public class PlayerLightControl : PickUpTrigger
 			LightEmission.RemoveLight(PlayerLightData);
 		}
 	}
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
