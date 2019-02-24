@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1049698121534996}
   m_LocalRotation: {x: 0.00000031610082, y: 0.00000021073387, z: -0.70710665, w: 0.707107}
   m_LocalPosition: {x: -0.101, y: -0.132, z: -0}
-  m_LocalScale: {x: 2, y: 2, z: 12}
+  m_LocalScale: {x: 8, y: 8, z: 8}
   m_Children: []
   m_Father: {fileID: 4423461996505646}
   m_RootOrder: 0
@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0.8}
-  Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
+  Color: {r: 1, g: 0.93725497, b: 0.6745098, a: 0.69803923}
+  Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
@@ -368,7 +368,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LightEmission: {fileID: 0}
-  Intensity: 1
+  Intensity: 0.7
   Colour: {r: 1, g: 0.93727976, b: 0.6745283, a: 1}
   EnumSprite: 0
-  Size: 10
+  Size: 8
+  PlayerLightData:
+    Intensity: 0
+    Colour: {r: 0, g: 0, b: 0, a: 0}
+    EnumSprite: 0
+    Size: 12
