@@ -68,7 +68,7 @@ using UnityEngine.SceneManagement;
 			if (!Screen.fullScreen) {
 				StartCoroutine(ForceGameWindowAspect());
 			}
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID
 			StartCoroutine( ForceGameWindowAspect() );
 #endif
 		}
