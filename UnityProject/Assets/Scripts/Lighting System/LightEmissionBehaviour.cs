@@ -12,7 +12,7 @@ public class LightEmissionBehaviour : MonoBehaviour
 	[SerializeField]
 	[Range(0, 1)]
 	[Tooltip("Controls how much of sprite color bleeds in to light mask.")]
-	private float mIntensity = 0.5f;
+	private float mIntensity = 0.25f;
 
 	[SerializeField]
 	[Range(0, 1)]
