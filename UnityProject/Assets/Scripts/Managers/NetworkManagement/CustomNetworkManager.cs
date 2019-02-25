@@ -176,21 +176,14 @@ public class CustomNetworkManager : NetworkManager
 			return;
 		}
 
-		//god please work, should be the leave message and associated logging.
+		// Disconnect logging
 		if (status == ServerAuth.Status.VACCheckTimedOut)
 		{
 
-			Logger.LogWarning($"The SteamID '{SteamID}' left the server. ({status})");
+			Logger.LogWarning($"The SteamID '{SteamID}' left the server. ({status})", Category.Steam);
 			return;
 	}
-
-		if (status == ServerAuth.Status.VACCheckTimedOut)
-		{
-			return;
-		}
-
-		Kick(player, $"{player} has departed from the station.");
-	}
+}
 
 	public static void Kick(ConnectedPlayer player, string raisins = "4 no raisins")
 	{
