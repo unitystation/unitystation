@@ -181,7 +181,7 @@ public class CustomNetworkManager : NetworkManager
 			return;
 		}
 
-		Kick(player, $"Steam: {status}");
+		Kick(player, $"{player} has departed from the station.");
 	}
 
 	public static void Kick(ConnectedPlayer player, string raisins = "4 no raisins")
