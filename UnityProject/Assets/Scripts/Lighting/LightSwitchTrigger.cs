@@ -24,9 +24,11 @@ public class LightSwitchTrigger : InputTrigger
 	private bool soundAllowed;
 	private SpriteRenderer spriteRenderer;
 	private bool switchCoolDown;
+	private RegisterTile registerTile;
 
 	private void Awake()
 	{
+		registerTile = GetComponent<RegisterTile>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		clickSFX = GetComponent<AudioSource>();
 	}
@@ -38,6 +40,7 @@ public class LightSwitchTrigger : InputTrigger
 		//and the rest of the mask caches:
 		lightingMask = LayerMask.GetMask("Lighting");
 		obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
+		DetectAPC();
 		DetectLightsAndAction(true);
 		if (RelatedAPC != null)
 		{
@@ -104,6 +107,39 @@ public class LightSwitchTrigger : InputTrigger
 		switchCoolDown = false;
 	}
 
+	//Find the APC in the same room as the light switch and assign it to RelatedAPC
+	private void DetectAPC()
+	{
+		if (RelatedAPC != null)
+		{
+			return;
+		}
+
+		int layerMask = LayerMask.GetMask("WallMounts");
+		var possibleApcs = Physics2D.OverlapCircleAll(GetCastPos(), radius, layerMask);
+
+		int thisRoomNum = MatrixManager.GetMetaDataAt(Vector3Int.RoundToInt(transform.position)).RoomNumber;
+
+		foreach (Collider2D col in possibleApcs)
+		{
+			if (col.tag == "APC")
+			{
+				//Light switch has no room number, assign it to the first APC it finds so it still functions
+				if (thisRoomNum == -1)
+				{
+					RelatedAPC = col.gameObject.GetComponent<APC>();
+					break;
+				}
+
+				if (MatrixManager.GetMetaDataAt(Vector3Int.RoundToInt(col.transform.position)).RoomNumber == thisRoomNum)
+				{
+					RelatedAPC = col.gameObject.GetComponent<APC>();
+					break;
+				}
+			}
+		}
+	}
+
 	private void DetectLightsAndAction(bool state)
 	{
 		Vector2 startPos = GetCastPos();
@@ -119,13 +155,13 @@ public class LightSwitchTrigger : InputTrigger
 			{
 				if (localObject.tag != "EmergencyLight")
 				{
-					LightSwitchData Send = new LightSwitchData ( ){state = state,LightSwitchTrigger = this,  RelatedAPC = RelatedAPC };
-					localObject.SendMessage("Received", Send,  SendMessageOptions.DontRequireReceiver);
+					LightSwitchData Send = new LightSwitchData() { state = state, LightSwitchTrigger = this, RelatedAPC = RelatedAPC };
+					localObject.SendMessage("Received", Send, SendMessageOptions.DontRequireReceiver);
 				}
 				if (RelatedAPC != null)
 				{
-					LightSwitchData Send = new LightSwitchData (){ LightSwitchTrigger = this,  RelatedAPC = RelatedAPC };
-					localObject.SendMessage("EmergencyLight",Send, SendMessageOptions.DontRequireReceiver);
+					LightSwitchData Send = new LightSwitchData() { LightSwitchTrigger = this, RelatedAPC = RelatedAPC };
+					localObject.SendMessage("EmergencyLight", Send, SendMessageOptions.DontRequireReceiver);
 				}
 			}
 		}
@@ -160,7 +196,8 @@ public class LightSwitchTrigger : InputTrigger
 	}
 }
 
-public class LightSwitchData {
+public class LightSwitchData
+{
 	public bool state;
 	public LightSwitchTrigger LightSwitchTrigger;
 	public APC RelatedAPC;
