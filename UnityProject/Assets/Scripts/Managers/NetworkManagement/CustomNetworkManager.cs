@@ -176,6 +176,7 @@ public class CustomNetworkManager : NetworkManager
 			return;
 		}
 
+		//god please work, should be the leave message and associated logging.
 		if (status == ServerAuth.Status.VACCheckTimedOut)
 		{
 
