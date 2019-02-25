@@ -176,13 +176,14 @@ public class CustomNetworkManager : NetworkManager
 			return;
 		}
 
+		// Disconnect logging
 		if (status == ServerAuth.Status.VACCheckTimedOut)
 		{
-			return;
-		}
 
-		Kick(player, $"Steam: {status}");
+			Logger.LogWarning($"The SteamID '{SteamID}' left the server. ({status})", Category.Steam);
+			return;
 	}
+}
 
 	public static void Kick(ConnectedPlayer player, string raisins = "4 no raisins")
 	{
