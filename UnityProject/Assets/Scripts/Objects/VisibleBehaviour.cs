@@ -74,10 +74,7 @@ public class VisibleBehaviour : NetworkBehaviour
 
 		MonoBehaviour[] scripts = GetComponentsInChildren<MonoBehaviour>(true);
 		Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
-		Renderer[] getRenderers = GetComponentsInChildren<Renderer>(true);
-		MeshRenderer[] meshRend = GetComponentsInChildren<MeshRenderer>(true);
-		//Ignore all MeshRenderers
-		Renderer[] renderers = getRenderers.Except(meshRend).ToArray();
+		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 
 		for (int i = 0; i < scripts.Length; i++)
 		{

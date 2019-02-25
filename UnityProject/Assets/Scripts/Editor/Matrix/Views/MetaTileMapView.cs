@@ -22,13 +22,15 @@ public class MetaTileMapView : BasicView
 
 	public override void DrawContent()
 	{
-		foreach (Check<MetaTileMap> check in localChecks)
+		for (int i = 0; i < localChecks.Count; i++)
 		{
+			Check<MetaTileMap> check = localChecks[i];
 			check.Active = GUILayout.Toggle(check.Active, check.Label);
 		}
 
-		foreach (Check<MatrixManager> check in globalChecks)
+		for (int i = 0; i < globalChecks.Count; i++)
 		{
+			Check<MatrixManager> check = globalChecks[i];
 			check.Active = GUILayout.Toggle(check.Active, check.Label);
 		}
 	}
@@ -103,8 +105,7 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawLabel(MetaTileMap source, Vector3Int position)
 		{
-//			if (!source.IsEmptyAt(position))
-			if (Selection.activeGameObject.GetComponent<MetaTileMap>() == source)
+			if (!source.IsEmptyAt(position))
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
 				GizmoUtils.DrawText($"{position.x}, {position.y}", p, false);

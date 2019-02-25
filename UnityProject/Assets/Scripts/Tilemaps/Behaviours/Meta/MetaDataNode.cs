@@ -19,7 +19,7 @@ public class MetaDataNode: IGasMixContainer
 	/// <summary>
 	/// If this node is in a closed room, it's assigned to it by the room's number
 	/// </summary>
-	public int RoomNumber;
+	public int RoomNumber = -1;
 
 	/// <summary>
 	/// Type of this node.

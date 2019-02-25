@@ -34,6 +34,7 @@ internal enum MessageTypes : short
 	HealthBrainStats = 1030,
 	HealthBodyPartStats = 1031,
 	TriggerEvent = 1032,
+	Suicide = 1033,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
