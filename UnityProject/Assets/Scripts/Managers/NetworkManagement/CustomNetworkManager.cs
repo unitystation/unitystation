@@ -180,7 +180,7 @@ public class CustomNetworkManager : NetworkManager
 		if (status == ServerAuth.Status.VACCheckTimedOut)
 		{
 
-			Logger.LogWarning($"The SteamID '{SteamID}' left the server. ({status})", Category.Steam);
+			Logger.LogWarning($"The SteamID '{steamid}' left the server. ({status})", Category.Steam);
 			return;
 	}
 }
