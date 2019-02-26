@@ -31,7 +31,7 @@ public class RequestAuthMessage : ClientMessage
 			yield break;
 		}
 
-//		Logger.Log("Server Starting Auth for User:" + SteamID);
+		Logger.Log("Server Starting Auth for User: " + SteamID, Category.Steam);
 		if (Server.Instance != null && SteamID != 0 && TicketBinary != null)
 		{
 
@@ -41,12 +41,13 @@ public class RequestAuthMessage : ClientMessage
 				// This can trigger for a lot of reasons
 				// More info: http://projectzomboid.com/modding//net/puppygames/steam/BeginAuthSessionResult.html
 				// if triggered does prevent the authchange callback.
-//				Logger.Log("Start Session returned false, kicking");
+				Logger.Log("Start Session returned false, kicking", Category.Steam);
 				CustomNetworkManager.Kick( SentByPlayer, "Steam auth failed" );
 			}
 			else
 			{
 				SentByPlayer.SteamId = SteamID;
+				Logger.Log("Callback in CustomNetworkManager for: " + SteamID, Category.Steam);
 			}
 		}
 
