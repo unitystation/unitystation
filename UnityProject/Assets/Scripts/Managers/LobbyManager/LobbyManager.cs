@@ -1,5 +1,6 @@
 ﻿using DatabaseAPI;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Lobby
 {
@@ -8,6 +9,7 @@ namespace Lobby
 		public static LobbyManager Instance;
 		public AccountLogin accountLogin;
 		public CharacterCustomization characterCustomization;
+		public Toggle hostToggle;
 
 		public GUI_LobbyDialogue lobbyDialogue;
 
@@ -20,6 +22,14 @@ namespace Lobby
 			else
 			{
 				Destroy(this);
+			}
+		}
+
+		void Start()
+		{
+			if (BuildPreferences.isForRelease)
+			{
+				hostToggle.gameObject.SetActive(false);
 			}
 		}
 
@@ -40,12 +50,16 @@ namespace Lobby
 			lobbyDialogue.ShowLoginScreen();
 		}
 
-		public void CheckIfFirstTime(){
-			if(PlayerManager.CurrentCharacterSettings.username == null){
+		public void CheckIfFirstTime()
+		{
+			if (PlayerManager.CurrentCharacterSettings.username == null)
+			{
 				//is First time, show the character settings screen
 				lobbyDialogue.gameObject.SetActive(false);
 				characterCustomization.gameObject.SetActive(true);
-			} else {
+			}
+			else
+			{
 				//Show logged in things:
 				lobbyDialogue.ShowConnectionPanel();
 			}

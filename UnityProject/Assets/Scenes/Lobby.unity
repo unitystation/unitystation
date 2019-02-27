@@ -4086,6 +4086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accountLogin: {fileID: 394047187}
   characterCustomization: {fileID: 61182275}
+  hostToggle: {fileID: 1397549615}
   lobbyDialogue: {fileID: 1498495214}
 --- !u!4 &394047186
 Transform:
@@ -5284,7 +5285,7 @@ PrefabInstance:
     - target: {fileID: 224264904714827184, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 409.3002
+      value: 409.3001
       objectReference: {fileID: 0}
     - target: {fileID: 224816160242944980, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
@@ -16677,7 +16678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: 0.000019073486
       objectReference: {fileID: 0}
     - target: {fileID: 22414360, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -16864,6 +16865,16 @@ PrefabInstance:
     - target: {fileID: 114000013324539428, guid: 67117722a812a2e46ab8cb8eafbf5f5e,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5440655185527678101, guid: 67117722a812a2e46ab8cb8eafbf5f5e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -32
+      objectReference: {fileID: 0}
+    - target: {fileID: 5440655185527678101, guid: 67117722a812a2e46ab8cb8eafbf5f5e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -19142,6 +19153,11 @@ PrefabInstance:
     - target: {fileID: 4351849121973474, guid: 38ecd680d57974ffe87b4bdd8cd52589, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224576715969102918, guid: 38ecd680d57974ffe87b4bdd8cd52589,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000037417358
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38ecd680d57974ffe87b4bdd8cd52589, type: 3}
