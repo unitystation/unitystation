@@ -11,6 +11,17 @@ using UnityEngine.Networking;
 /// </summary>
 public class JoinedViewer : NetworkBehaviour
 {
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        //Add player to player list
+        PlayerList.Instance.Add(new ConnectedPlayer
+        {
+            Connection = connectionToClient,
+                GameObject = gameObject,
+                Job = JobType.NULL
+        });
+    }
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
@@ -18,22 +29,30 @@ public class JoinedViewer : NetworkBehaviour
         UIManager.ResetAllUI();
         UIManager.Display.DetermineGameMode();
         UIManager.SetDeathVisibility(true);
+
         if (BuildPreferences.isSteamServer)
         {
-            // Send request to be authenticated by the server
-            if (Client.Instance != null)
-            {
-                Logger.Log("Client Requesting Auth", Category.Steam);
-                // Generate authentication Ticket
-                var ticket = Client.Instance.Auth.GetAuthSessionTicket();
-                var ticketBinary = ticket.Data;
-                // Send Clientmessage to authenticate
-                RequestAuthMessage.Send(Client.Instance.SteamId, ticketBinary);
-            }
-            else
-            {
-                Logger.Log("Client NOT requesting auth", Category.Steam);
-            }
+            //Send request to be authenticated by the server
+            StartCoroutine(WaitUntilServerInit());
+        }
+    }
+
+    //Just ensures connected player record is set on the server first before Auth req is sent
+    IEnumerator WaitUntilServerInit()
+    {
+        yield return YieldHelper.EndOfFrame;
+        if (Client.Instance != null)
+        {
+            Logger.Log("Client Requesting Auth", Category.Steam);
+            // Generate authentication Ticket
+            var ticket = Client.Instance.Auth.GetAuthSessionTicket();
+            var ticketBinary = ticket.Data;
+            // Send Clientmessage to authenticate
+            RequestAuthMessage.Send(Client.Instance.SteamId, ticketBinary);
+        }
+        else
+        {
+            Logger.Log("Client NOT requesting auth", Category.Steam);
         }
     }
 

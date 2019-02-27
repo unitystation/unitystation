@@ -6201,7 +6201,7 @@ GameObject:
   - component: {fileID: 8479656214144799429}
   - component: {fileID: 8587884962883784981}
   m_Layer: 5
-  m_Name: TimeRemain
+  m_Name: StationTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6267,7 +6267,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Time Remaining:'
+  m_Text: 'Station Time:'
 --- !u!1 &8556033770930806301
 GameObject:
   m_ObjectHideFlags: 0
@@ -17310,7 +17310,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 409.30038}
+  m_AnchoredPosition: {x: 0, y: 409.30005}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &8556515118206096667
@@ -19116,7 +19116,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 8477495159653326549}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.4152853
+  m_Size: 0.41528565
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

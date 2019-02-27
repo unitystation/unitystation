@@ -219,7 +219,7 @@ public class CustomNetworkManager : NetworkManager
 		if (_isServer)
 		{
 			//Tell them what the current round time is
-			UpdateRoundTimeMessage.Send(GameManager.Instance.GetRoundTime);
+			UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString());
 		}
 	}
 	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId)

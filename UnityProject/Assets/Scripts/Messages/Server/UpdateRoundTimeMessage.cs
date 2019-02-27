@@ -6,7 +6,7 @@
 public class UpdateRoundTimeMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateRoundTimeMessage;
-	public float Time;
+	public string Time;
 
 	public override IEnumerator Process()
 	{
@@ -14,7 +14,7 @@ public class UpdateRoundTimeMessage : ServerMessage
 		yield return null;
 	}
 
-	public static UpdateRoundTimeMessage Send(float time)
+	public static UpdateRoundTimeMessage Send(string time)
 	{
 		UpdateRoundTimeMessage msg = new UpdateRoundTimeMessage
 		{
