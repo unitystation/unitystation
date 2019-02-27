@@ -136,7 +136,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 			{
 				Connection = connectionToClient,
 					GameObject = gameObject,
-					Job = JobType
+					Job = JobType,
+					Name = playerName
 			});
 		}
 	}
@@ -175,6 +176,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			}
 			playerName = player.Name;
 			PlayerList.Instance.TryAddScores(player.Name);
+			UpdateConnectedPlayersMessage.Send();
 		}
 	}
 

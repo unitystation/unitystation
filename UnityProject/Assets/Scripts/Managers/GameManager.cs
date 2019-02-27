@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,22 +13,20 @@ public class GameManager : MonoBehaviour
 
 	//TODO: How to network this and change before connecting:
 	public GameMode gameMode = GameMode.nukeops; //for demo
-	public float RoundTime = 660f; //10 minutes nuke ops time + 1 minute shuttle escape, might have to adjust this in future with other modes.
 	public bool counting;
 	public List<GameObject> Occupations = new List<GameObject>();
 	public float restartTime = 10f;
 	/// <summary>
 	/// Set on server if Respawn is Allowed
 	/// </summary>
-	public bool RespawnAllowed = true;
+	public bool RespawnAllowed = false;
 
 	public Text roundTimer;
 
 	public GameObject StandardOutfit;
 	public bool waitForRestart;
 
-	public float GetRoundTime { get; private set; } = 660f;
-
+	public DateTime stationTime;
 	public int RoundsPerMap = 10;
 
 	public string[] Maps = { "Assets/scenes/OutpostStation.unity" };
@@ -38,7 +37,6 @@ public class GameManager : MonoBehaviour
 
 	private bool shuttleArrivalBroadcasted = false;
 
-	//Nuke ops:
 	public bool shuttleArrived = false;
 
 	public bool GameOver = false;
@@ -130,7 +128,7 @@ public class GameManager : MonoBehaviour
 
 	public Vector3 RandomPositionInSolarSystem()
 	{
-		return Random.insideUnitCircle * solarSystemRadius;
+		return UnityEngine.Random.insideUnitCircle * solarSystemRadius;
 	}
 
 	//	private void OnValidate() 
@@ -143,11 +141,14 @@ public class GameManager : MonoBehaviour
 
 	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
-		GetRoundTime = RoundTime;
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			stationTime = DateTime.Today.AddHours(12);
+			SpaceBodies.Clear();
+			PendingSpaceBodies = new Queue<MatrixMove>();
+			counting = true;
+		}
 		GameOver = false;
-		RespawnAllowed = true;
-		SpaceBodies.Clear();
-		PendingSpaceBodies = new Queue<MatrixMove>();
 		// if (scene.name != "Lobby")
 		// {
 		// 	SetUpGameMode();
@@ -163,25 +164,22 @@ public class GameManager : MonoBehaviour
 	// 	}
 	// }
 
-	public void SyncTime(float currentTime)
+	public void SyncTime(string currentTime)
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			GetRoundTime = currentTime;
-			if (currentTime > 0f)
-			{
-				counting = true;
-			}
+			stationTime = DateTime.Parse(currentTime);
+			counting = true;
 		}
 	}
 
 	public void ResetRoundTime()
 	{
-		GetRoundTime = RoundTime;
+		stationTime = DateTime.Today.AddHours(12);
 		waitForRestart = false;
 		counting = true;
 		restartTime = 10f;
-		UpdateRoundTimeMessage.Send(GetRoundTime);
+		UpdateRoundTimeMessage.Send(stationTime.ToString());
 	}
 
 	private void Update()
@@ -202,35 +200,36 @@ public class GameManager : MonoBehaviour
 				RestartRound();
 			}
 		}
-
 		else if (counting)
 		{
-			GetRoundTime -= Time.deltaTime;
-			roundTimer.text = Mathf.Floor(GetRoundTime / 60).ToString("00") + ":" +
-				(GetRoundTime % 60).ToString("00");
-			if (GetRoundTime <= 0f)
-			{
-				counting = false;
-				roundTimer.text = "GameOver";
+			stationTime = stationTime.AddSeconds(Time.deltaTime);
+			roundTimer.text = stationTime.ToString("HH:mm");
 
-				// Prevents annoying sound duplicate when testing
-				if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
-				{
-					SoundManager.Play("ApcDestroyed", 0.3f, 1f, 0f);
-				}
-
-				if (CustomNetworkManager.Instance._isServer)
-				{
-					waitForRestart = true;
-					PlayerList.Instance.ReportScores();
-				}
-			}
-			//Nuke ops shuttle arrival
 			if (shuttleArrived == true && shuttleArrivalBroadcasted == false)
 			{
 				PostToChatMessage.Send("Escape shuttle has arrived! Crew has 1 minute to get on it.", ChatChannel.System);
 				shuttleArrivalBroadcasted = true;
 			}
+		}
+	}
+
+	/// <summary>
+	/// Calls the end of the round.true Server only
+	/// </summary>
+	public void RoundEnd()
+	{
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			counting = false;
+
+			// Prevents annoying sound duplicate when testing
+			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
+			{
+				PlaySoundMessage.SendToAll("ApcDestroyed", Vector3.zero, 1f);
+			}
+
+			waitForRestart = true;
+			PlayerList.Instance.ReportScores();
 		}
 	}
 

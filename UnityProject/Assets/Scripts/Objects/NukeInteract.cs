@@ -82,6 +82,7 @@ public class NukeInteract : NetworkTabTrigger
 		UIManager.Display.backGround.SetActive(false);
 		ControlChat.Instance.CloseChatWindow();
 		GameManager.Instance.GameOver = true;
+		GameManager.Instance.RoundEnd();
 		//		UIManager.Display.logInWindow.SetActive(false);
 		//		UIManager.Display.infoWindow.SetActive(false);
 
