@@ -170,10 +170,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 		if (PlayerList.Instance != null)
 		{
 			var player = PlayerList.Instance.Get(connectionToClient);
-			if (player.HasNoName())
-			{
-				player.Name = name;
-			}
+			player.Name = name;
+
 			playerName = player.Name;
 			PlayerList.Instance.TryAddScores(player.Name);
 			UpdateConnectedPlayersMessage.Send();
