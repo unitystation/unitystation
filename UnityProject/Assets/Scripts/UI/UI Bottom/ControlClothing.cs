@@ -4,12 +4,18 @@ using UnityEngine.UI;
 
 	public class ControlClothing : MonoBehaviour
 	{
-		public Image[] equipImgs;
+		public GameObject retractableGroup;
+		private Image[] equipImgs = new Image[0];
+		public GamePad gamePad;
 		private bool isOpen;
 
 		private void Start()
 		{
 			isOpen = false;
+			if ( retractableGroup )
+			{
+				equipImgs = retractableGroup.GetComponentsInChildren<Image>();
+			}
 			ToggleEquipMenu(false);
 		}
 
@@ -52,5 +58,6 @@ using UnityEngine.UI;
 					equipImgs[i].raycastTarget = false;
 				}
 			}
+			gamePad?.gameObject.SetActive( !isOn && UIManager.UseGamePad );
 		}
 	}
