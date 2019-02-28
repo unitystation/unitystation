@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EscapeShuttle : MonoBehaviour {
+public class EscapeShuttle : MonoBehaviour
+{
 	//Escape shuttle script for nuke ops
 
 	public static EscapeShuttle Instance;
@@ -14,6 +15,10 @@ public class EscapeShuttle : MonoBehaviour {
 	public bool spawnedIn = false; //spawned in for first time
 	public bool setCourse = false; //Is shuttle heading for station?
 	public bool arrivedAtStation = false;
+	private float waitAtStationTime = 0f;
+	private bool departed = false;
+	private float departingFlightTime = 0f;
+	private bool roundEnded = false;
 
 	private MatrixMove mm;
 
@@ -32,15 +37,22 @@ public class EscapeShuttle : MonoBehaviour {
 		mm.SetAccuracy(0);
 	}
 
-	void Update ()
+	/// <summary>
+	/// Call the escape shuttle. Server only
+	/// Use this method with command consoles
+	/// </summary>
+	public void CallEscapeShuttle()
 	{
-		if(GameManager.Instance.GetRoundTime <= 150f && spawnedIn == false && setCourse == false) // Warp close to station 2.5 mins before round ends
+		if (!spawnedIn && !setCourse && CustomNetworkManager.Instance._isServer)
 		{
 			SpawnNearStation();
 			setCourse = true;
 		}
+	}
 
-		if(spawnedIn && setCourse && Vector2.Distance(transform.position, destination) < 2) //If shuttle arrived
+	void Update()
+	{
+		if (spawnedIn && setCourse && Vector2.Distance(transform.position, destination) < 2) //If shuttle arrived
 		{
 			arrivedAtStation = true;
 			GameManager.Instance.shuttleArrived = true;
@@ -54,11 +66,31 @@ public class EscapeShuttle : MonoBehaviour {
 			StartCoroutine(ReverseIntoStation(mm));
 		}
 
-		if (GameManager.Instance.GetRoundTime <= 30f && arrivedAtStation == true) // Depart the shuttle
+		if (arrivedAtStation && !departed)
 		{
-			mm.ChangeDir(Orientation.Right);
-			mm.StartMovement();
+			waitAtStationTime += Time.deltaTime;
+			if (waitAtStationTime > 60f)
+			{
+				DepartStation();
+			}
 		}
+
+		if (departed && !roundEnded)
+		{
+			departingFlightTime += Time.deltaTime;
+			if(departingFlightTime > 60f){
+				roundEnded = true;
+				GameManager.Instance.RoundEnd();
+			}
+		}
+	}
+
+	private void DepartStation()
+	{
+		departed = true;
+		mm.ChangeDir(Orientation.Right);
+		mm.StartMovement();
+		PostToChatMessage.Send("Escape shuttle has departed. If you have been left behind, kindly turn off all the lights and dispose of yourself via the nearest airlock.", ChatChannel.System);
 	}
 
 	IEnumerator ReverseIntoStation(MatrixMove mm)
@@ -83,7 +115,7 @@ public class EscapeShuttle : MonoBehaviour {
 	}
 
 	public int GetCrewCountOnboard() //Returns how many crew members (excluding syndicate) are on the shuttle
-	{									// (Used to calculate if crew managed to escape at end of round)
+	{ // (Used to calculate if crew managed to escape at end of round)
 		int crewCount = 0;
 		List<ConnectedPlayer> crewMembers = PlayerList.Instance.InGamePlayers;
 

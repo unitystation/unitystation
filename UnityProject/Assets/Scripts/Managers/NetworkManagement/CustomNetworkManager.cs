@@ -176,13 +176,14 @@ public class CustomNetworkManager : NetworkManager
 			return;
 		}
 
+		// Disconnect logging
 		if (status == ServerAuth.Status.VACCheckTimedOut)
 		{
-			return;
-		}
 
-		Kick(player, $"Steam: {status}");
+			Logger.LogWarning($"The SteamID '{steamid}' left the server. ({status})", Category.Steam);
+			return;
 	}
+}
 
 	public static void Kick(ConnectedPlayer player, string raisins = "4 no raisins")
 	{
@@ -218,7 +219,7 @@ public class CustomNetworkManager : NetworkManager
 		if (_isServer)
 		{
 			//Tell them what the current round time is
-			UpdateRoundTimeMessage.Send(GameManager.Instance.GetRoundTime);
+			UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString());
 		}
 	}
 	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId)

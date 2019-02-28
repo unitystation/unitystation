@@ -246,7 +246,7 @@ public class PlayerList : NetworkBehaviour
 //			Logger.Log( "Ignoring kick timer for invalid connection" );
 			yield break;
 		}
-		int tries = 5;
+		int tries = 10; // 10 second wait, just incase of slow loading on lower end machines
         while (!player.IsAuthenticated)
         {
             if (tries-- < 0)
