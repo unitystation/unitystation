@@ -60,6 +60,12 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
+	#if UNITY_ANDROID || UNITY_IOS //|| UNITY_EDITOR
+	public static bool UseGamePad = true;
+	#else
+	public static bool UseGamePad = false;
+	#endif
+
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 	public static ProgressBar ProgressBar => Instance.progressBar;
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
