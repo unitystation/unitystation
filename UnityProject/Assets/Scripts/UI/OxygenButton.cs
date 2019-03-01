@@ -7,16 +7,19 @@ public class OxygenButton : MonoBehaviour
 	public Sprite[] stateSprites;
 	public bool IsInternalsEnabled;
 
-	// Use this for initialization
-	private void Start()
+	void Awake()
 	{
 		image = GetComponent<Image>();
 		IsInternalsEnabled = false;
+	}
+	
+	void OnEnable()
+	{
 		EventManager.AddHandler(EVENT.EnableInternals, OnEnableInternals);
 		EventManager.AddHandler(EVENT.DisableInternals, OnDisableInternals);
 	}
 
-	private void OnDestroy()
+	void OnDisable()
 	{
 		EventManager.RemoveHandler(EVENT.EnableInternals, OnEnableInternals);
 		EventManager.RemoveHandler(EVENT.DisableInternals, OnDisableInternals);
@@ -36,7 +39,7 @@ public class OxygenButton : MonoBehaviour
 		{
 			return;
 		}
-		
+
 		SoundManager.Play("Click01");
 
 		if (IsInternalsEnabled)
