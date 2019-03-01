@@ -22,6 +22,8 @@ public class UIManager : MonoBehaviour
 	public UI_StorageHandler storageHandler;
 	public ZoneSelector zoneSelector;
 	public bool ttsToggle;
+	public static GamePad GamePad => Instance.gamePad;
+	public GamePad gamePad;
 	[HideInInspector]
 	public ProgressBar progressBar;
 	[SerializeField]

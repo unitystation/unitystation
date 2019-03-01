@@ -361,7 +361,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			}
 			if (server)
 			{
-				if (Input.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
+				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
 				{
 					SpawnHandler.SpawnDummyPlayer(JobType.ASSISTANT);
 				}
