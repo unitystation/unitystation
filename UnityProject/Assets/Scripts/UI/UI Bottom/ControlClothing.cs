@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -6,7 +6,7 @@ using UnityEngine.UI;
 	{
 		public GameObject retractableGroup;
 		private Image[] equipImgs = new Image[0];
-		public GamePad gamePad;
+		public GameObject hideOnRetract;
 		private bool isOpen;
 
 		private void Start()

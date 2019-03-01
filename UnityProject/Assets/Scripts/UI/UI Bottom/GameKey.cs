@@ -18,11 +18,11 @@ public class GameKey : MonoBehaviour,
 	private Color srcColor;
 	private Color pressColor;
 
-	private void OnEnable()
+	protected virtual void OnEnable()
 	{
 		if ( Image == null )
 		{
-			Image = GetComponent<Image>();
+			Image = GetComponentInChildren<Image>();
 		}
 
 		srcColor = Image.color;
