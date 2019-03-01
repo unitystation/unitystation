@@ -308,7 +308,7 @@ namespace IngameDebugConsole
 			}
 
 			// Hide/Show the debugger windows when user presses F5
-			if (Input.GetKeyDown(KeyCode.F5))
+			if (CommonInput.GetKeyDown(KeyCode.F5))
 			{
 				if (popupManager.isLogPopupVisible || isLogWindowVisible)
 				{

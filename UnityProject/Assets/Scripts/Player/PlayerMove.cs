@@ -60,7 +60,7 @@ public class PlayerMove : NetworkBehaviour
 				return new PlayerAction { moveActions = actionKeys.ToArray() };
 			}
 
-			// if (Input.GetKey(moveList[i]) && allowInput)
+			// if (CommonInput.GetKey(moveList[i]) && allowInput)
 			// {
 			// 	actionKeys.Add((int)moveList[i]);
 			// }

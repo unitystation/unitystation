@@ -360,7 +360,7 @@ public class KeybindManager : MonoBehaviour {
 				// If it's a modifier/ignored key we can skip it for now
 				continue;
 			}
-			else if (Input.GetKeyDown(key))
+			else if (CommonInput.GetKeyDown(key))
 			{
 				// Stop capturing if user presses escape
 				if (key == KeyCode.Escape)
@@ -374,7 +374,7 @@ public class KeybindManager : MonoBehaviour {
 				// Check if any modifiers are pressed too
 				foreach (KeyCode modKey in ModKeys)
 				{
-					if (Input.GetKey(modKey))
+					if (CommonInput.GetKey(modKey))
 					{
 						// A modifier key is pressed, assign it to the first available modkey
 						if (newModKey1 == KeyCode.None)

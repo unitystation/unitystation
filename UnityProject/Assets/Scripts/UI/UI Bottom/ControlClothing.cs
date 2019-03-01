@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -58,6 +58,9 @@ using UnityEngine.UI;
 					equipImgs[i].raycastTarget = false;
 				}
 			}
-			gamePad?.gameObject.SetActive( !isOn && UIManager.UseGamePad );
+			if ( hideOnRetract != null )
+			{
+				hideOnRetract.SetActive( !isOn && UIManager.UseGamePad );
+			}
 		}
 	}

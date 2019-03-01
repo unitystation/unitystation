@@ -68,7 +68,7 @@ namespace Lobby
 		}
 
 		private void Update() {
-			if ( Input.GetKeyDown( KeyCode.F6 ) && !BuildPreferences.isForRelease )
+			if ( CommonInput.GetKeyDown( KeyCode.F6 ) && !BuildPreferences.isForRelease )
 			{
 				GameData.IsLoggedIn = true;
 				ShowCharacterEditor();
