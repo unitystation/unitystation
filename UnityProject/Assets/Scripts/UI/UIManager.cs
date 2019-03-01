@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -132,7 +132,8 @@ public class UIManager : MonoBehaviour
 			listener.Reset();
 		}
 		Camera2DFollow.followControl.ZeroStars();
-    IsOxygen = false;
+		IsOxygen = false;
+		GamePad.gameObject.SetActive( UseGamePad );
 	}
 
 	/// <summary>
