@@ -244,9 +244,9 @@ public class ClosetControl : InputTrigger
 		}
 	}
 
-	private void SetItemsAliveState(bool on)
+	private void SetItemsAliveState(bool isOpen)
 	{
-		if (!on)
+		if (!isOpen)
 		{
 			heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
 		}
@@ -255,7 +255,7 @@ public class ClosetControl : InputTrigger
 		{
 			ObjectBehaviour item = heldItems[i];
 			CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
-			if (@on)
+			if (isOpen)
 			{
 				//avoids blinking of premapped items when opening first time in another place:
 				Vector3Int pos = registerTile.WorldPosition;
@@ -275,13 +275,13 @@ public class ClosetControl : InputTrigger
 				netTransform.DisappearFromWorldServer();
 			}
 
-			item.visibleState = @on;
+			item.visibleState = isOpen;
 		}
 	}
 
-	private void SetPlayersAliveState(bool on)
+	private void SetPlayersAliveState(bool isOpen)
 	{
-		if (!on)
+		if (!isOpen)
 		{
 			heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
 		}
@@ -291,7 +291,7 @@ public class ClosetControl : InputTrigger
 			ObjectBehaviour player = heldPlayers[i];
 			var playerScript = player.GetComponent<PlayerScript>();
 			var playerSync = playerScript.PlayerSync;
-			if (@on)
+			if (isOpen)
 			{
 				playerSync.AppearAtPositionServer(registerTile.WorldPosition);
 				if (pushPull && pushPull.Pushable.IsMovingServer)
@@ -301,9 +301,9 @@ public class ClosetControl : InputTrigger
 				}
 			}
 
-			player.visibleState = @on;
+			player.visibleState = isOpen;
 
-			if (!@on)
+			if (!isOpen)
 			{
 				playerSync.DisappearFromWorldServer();
 				//Make sure a ClosetPlayerHandler is created on the client to monitor
