@@ -323,11 +323,11 @@ public class CustomNetworkManager : NetworkManager
 		{
 			scripts[i].NotifyPlayer(playerGameObject);
 		}
-		//All players
-		List<ConnectedPlayer> players = PlayerList.Instance.InGamePlayers;
-		for (var i = 0; i < players.Count; i++)
+		//All player bodies
+		PlayerSync[] playerBodies = FindObjectsOfType<PlayerSync>();
+		for (var i = 0; i < playerBodies.Length; i++)
 		{
-			players[i].Script.PlayerSync.NotifyPlayer(playerGameObject, true);
+			playerBodies[i].NotifyPlayer(playerGameObject, true);
 		}
 
 		//StorageObject UUIDs
@@ -337,7 +337,7 @@ public class CustomNetworkManager : NetworkManager
 			storageObjs[i].SyncUUIDsWithPlayer(playerGameObject);
 		}
 
-		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {players.Count} players) to {playerGameObject.name}", Category.Connections);
+		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
 	}
 
 	private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)

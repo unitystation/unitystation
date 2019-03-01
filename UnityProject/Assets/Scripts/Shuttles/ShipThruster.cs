@@ -70,7 +70,7 @@ public class ShipThruster : MonoBehaviour
 	}
 
 	//Rotates FX as ship rotates
-	public void RotateFX(RotationOffset newRotationOffset)
+	public void RotateFX(RotationOffset newRotationOffset, bool isInitialRotation)
 	{
 		var mainFX = particleFX.main;
 

@@ -36,10 +36,12 @@ public abstract class RegisterTile : NetworkBehaviour
 	/// MatrixMove.OnRotateEnd because RegisterTile takes care of always subscribing to the correct matrix
 	/// even when the matrix changes.
 	/// </summary>
+	[HideInInspector]
 	public OrientationEvent OnRotateEnd = new OrientationEvent();
 	/// <summary>
 	/// See <see cref="OnRotateEnd"/>. Invoked when rotation begins.
 	/// </summary>
+	[HideInInspector]
 	public OrientationEvent OnRotateStart = new OrientationEvent();
 
 	private ObjectLayer layer;
@@ -95,7 +97,7 @@ public abstract class RegisterTile : NetworkBehaviour
 	private MatrixMove matrixMove;
 
 	//cached spriteRenderers of this gameobject
-	private SpriteRenderer[] spriteRenderers;
+	protected SpriteRenderer[] spriteRenderers;
 
 	public NetworkInstanceId ParentNetId
 	{
@@ -271,7 +273,7 @@ public abstract class RegisterTile : NetworkBehaviour
 	/// Invoked when receiving rotation event from our current matrix's matrixmove
 	/// </summary>
 	/// <param name="fromCurrent">offset our matrix has rotated by from its previous orientation</param>
-	private void OnRotationStart(RotationOffset fromCurrent)
+	protected virtual void OnRotationStart(RotationOffset fromCurrent, bool isInitialRotation)
 	{
 		if (!ROTATE_AT_END && spriteRenderers != null)
 		{
@@ -285,14 +287,14 @@ public abstract class RegisterTile : NetworkBehaviour
 			}
 		}
 
-		OnRotateStart.Invoke(fromCurrent);
+		OnRotateStart.Invoke(fromCurrent, isInitialRotation);
 	}
 
 	/// <summary>
 	/// Invoked when receiving rotation event from our current matrix's matrixmove
 	/// </summary>
 	/// <param name="fromCurrent">offset our matrix has rotated by from its previous orientation</param>
-	private void OnRotationEnd(RotationOffset fromCurrent)
+	protected virtual void OnRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
 	{
 		if (ROTATE_AT_END && spriteRenderers != null)
 		{
@@ -306,7 +308,7 @@ public abstract class RegisterTile : NetworkBehaviour
 			}
 		}
 
-		OnRotateEnd.Invoke(fromCurrent);
+		OnRotateEnd.Invoke(fromCurrent, isInitialRotation);
 	}
 
 	/// <summary>

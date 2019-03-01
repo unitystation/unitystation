@@ -72,7 +72,7 @@ public class Chair : MonoBehaviour
 
 	IEnumerator WaitForInit()
 	{
-		while (!matrixMove.StateInit)
+		while (!matrixMove.ReceivedInitialRotation)
 		{
 			yield return YieldHelper.EndOfFrame;
 		}
@@ -93,7 +93,7 @@ public class Chair : MonoBehaviour
 		}
 	}
 
-	public void OnRotate(RotationOffset fromCurrent)
+	public void OnRotate(RotationOffset fromCurrent, bool isInitialRotation)
 	{
 		orientation = orientation.Rotate(fromCurrent);
 		if (orientation == Orientation.Up)
