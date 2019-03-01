@@ -26,6 +26,7 @@ public class ClosetControl : InputTrigger
 	private RegisterCloset registerTile;
 	private PushPull pushPull;
 	private Matrix matrix => registerTile.Matrix;
+	private ObjectBehaviour objectBehaviour;
 
 	public SpriteRenderer spriteRenderer;
 
@@ -38,6 +39,7 @@ public class ClosetControl : InputTrigger
 	{
 		registerTile = GetComponent<RegisterCloset>();
 		pushPull = GetComponent<PushPull>();
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
 	public override void OnStartServer()
@@ -260,6 +262,7 @@ public class ClosetControl : InputTrigger
 				//avoids blinking of premapped items when opening first time in another place:
 				Vector3Int pos = registerTile.WorldPosition;
 				netTransform.AppearAtPosition(pos);
+				item.parentContainer = null;
 				if (pushPull && pushPull.Pushable.IsMovingServer)
 				{
 					netTransform.InertiaDrop(pos, pushPull.Pushable.SpeedServer,
@@ -272,6 +275,7 @@ public class ClosetControl : InputTrigger
 			}
 			else
 			{
+				item.parentContainer = objectBehaviour;
 				netTransform.DisappearFromWorldServer();
 			}
 
@@ -294,6 +298,7 @@ public class ClosetControl : InputTrigger
 			if (isOpen)
 			{
 				playerSync.AppearAtPositionServer(registerTile.WorldPosition);
+				player.parentContainer = null;
 				if (pushPull && pushPull.Pushable.IsMovingServer)
 				{
 					playerScript.pushPull.TryPush(pushPull.InheritedImpulse.To2Int(),
@@ -305,6 +310,7 @@ public class ClosetControl : InputTrigger
 
 			if (!isOpen)
 			{
+				player.parentContainer = objectBehaviour;
 				playerSync.DisappearFromWorldServer();
 				//Make sure a ClosetPlayerHandler is created on the client to monitor
 				//the players input inside the storage. The handler also controls the camera follow targets:
