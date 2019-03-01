@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Globalization;
 
 public class GameManager : MonoBehaviour
 {
@@ -168,7 +169,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			stationTime = DateTime.Parse(currentTime);
+			stationTime = DateTime.ParseExact(currentTime,"O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
 			counting = true;
 		}
 	}
@@ -179,7 +180,7 @@ public class GameManager : MonoBehaviour
 		waitForRestart = false;
 		counting = true;
 		restartTime = 10f;
-		UpdateRoundTimeMessage.Send(stationTime.ToString());
+		UpdateRoundTimeMessage.Send(stationTime.ToString("O"));
 	}
 
 	private void Update()
