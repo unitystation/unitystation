@@ -16,7 +16,7 @@ public class GUI_TabNext : GUI_Component
 	}
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Tab))
+		if (CommonInput.GetKeyDown(KeyCode.Tab))
 		{
 			if (thisField.isFocused)
 			{

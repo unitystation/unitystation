@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,6 +22,8 @@ public class UIManager : MonoBehaviour
 	public UI_StorageHandler storageHandler;
 	public ZoneSelector zoneSelector;
 	public bool ttsToggle;
+	public static GamePad GamePad => Instance.gamePad;
+	public GamePad gamePad;
 	[HideInInspector]
 	public ProgressBar progressBar;
 	[SerializeField]
@@ -132,7 +134,8 @@ public class UIManager : MonoBehaviour
 			listener.Reset();
 		}
 		Camera2DFollow.followControl.ZeroStars();
-    IsOxygen = false;
+		IsOxygen = false;
+		GamePad.gameObject.SetActive( UseGamePad );
 	}
 
 	/// <summary>

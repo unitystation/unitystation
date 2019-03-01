@@ -37,7 +37,7 @@ public class KeyboardInputManager : MonoBehaviour
 		{
 			// Perform escape key action
 			// TODO make stack system more general so each target can define its own close function (probs using unity editor and events?)
-			if (Input.GetKeyDown(KeyCode.Escape))
+			if (CommonInput.GetKeyDown(KeyCode.Escape))
 			{
 				if(EscapeKeyTarget.TargetStack.Count > 0)
 				{
@@ -114,7 +114,7 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	public static bool IsEnterPressed()
 	{
-		if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+		if (CommonInput.GetKeyDown(KeyCode.Return) || CommonInput.GetKeyDown(KeyCode.KeypadEnter))
 		{
 			return true;
 		}
@@ -129,7 +129,7 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	public static bool IsEscapePressed()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (CommonInput.GetKeyDown(KeyCode.Escape))
 		{
 			return true;
 		}
@@ -144,8 +144,8 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	public static bool IsControlPressed()
 	{
-		if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftControl) ||
-			Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.LeftCommand))
+		if (CommonInput.GetKey(KeyCode.LeftControl) || CommonInput.GetKey(KeyCode.LeftControl) ||
+			CommonInput.GetKey(KeyCode.LeftCommand) || CommonInput.GetKey(KeyCode.LeftCommand))
 		{
 			return true;
 		}
@@ -160,7 +160,7 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	public static bool IsAltPressed()
 	{
-		if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
+		if (CommonInput.GetKey(KeyCode.LeftAlt) || CommonInput.GetKey(KeyCode.RightAlt))
 		{
 			return true;
 		}
@@ -172,11 +172,11 @@ public class KeyboardInputManager : MonoBehaviour
 
 	private bool CheckComboEvent(KeyCombo keyCombo, KeyEventType keyEventType = KeyEventType.Down)
 	{
-		if (keyCombo.ModKey1 != KeyCode.None && !Input.GetKey(keyCombo.ModKey1))
+		if (keyCombo.ModKey1 != KeyCode.None && !CommonInput.GetKey(keyCombo.ModKey1))
 		{
 			return false;
 		}
-		if (keyCombo.ModKey2 != KeyCode.None && !Input.GetKey(keyCombo.ModKey2))
+		if (keyCombo.ModKey2 != KeyCode.None && !CommonInput.GetKey(keyCombo.ModKey2))
 		{
 			return false;
 		}
@@ -184,13 +184,13 @@ public class KeyboardInputManager : MonoBehaviour
 		switch (keyEventType)
 		{
 			case KeyEventType.Down:
-				return Input.GetKeyDown(keyCombo.MainKey);
+				return CommonInput.GetKeyDown(keyCombo.MainKey);
 			case KeyEventType.Up:
-				return Input.GetKeyUp(keyCombo.MainKey);
+				return CommonInput.GetKeyUp(keyCombo.MainKey);
 			case KeyEventType.Hold:
-				return Input.GetKey(keyCombo.MainKey);
+				return CommonInput.GetKey(keyCombo.MainKey);
 			default:
-				return Input.GetKeyDown(keyCombo.MainKey);
+				return CommonInput.GetKeyDown(keyCombo.MainKey);
 		}
 	}
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 	{
 		public GameObject retractableGroup;
 		private Image[] equipImgs = new Image[0];
-		public GamePad gamePad;
+		public GameObject hideOnRetract;
 		private bool isOpen;
 
 		private void Start()
@@ -58,6 +58,9 @@ using UnityEngine.UI;
 					equipImgs[i].raycastTarget = false;
 				}
 			}
-			gamePad?.gameObject.SetActive( !isOn && UIManager.UseGamePad );
+			if ( hideOnRetract != null )
+			{
+				hideOnRetract.SetActive( !isOn && UIManager.UseGamePad );
+			}
 		}
 	}
