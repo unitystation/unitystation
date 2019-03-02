@@ -4,12 +4,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+public enum BatteryStateSprite
+{
+	Full,
+	Half,
+	Empty,
+}
+
 public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDevices, Itransformer, IBattery, IDeviceControl
 {
-	public InLineDevice RelatedDevice;
+	public DepartmentBatterySprite CurrentSprite  = DepartmentBatterySprite.Default;
+	public SpriteRenderer Renderer;
+
+	public Sprite BatteryOpenPresent;
+	public Sprite BatteryOpenMissing;
+	public Sprite BatteryClosedMissing;
+
+	public Sprite BatteryCharged;
+	public Sprite PartialCharge;
+	[SyncVar(hook = "UpdateBattery")]
+	public BatteryStateSprite CurrentState;
+
+	public Sprite LightOn;
+	public Sprite LightOff;
+	public Sprite LightRed;
+
+	public SpriteRenderer BatteryCompartmentSprite;
+	public SpriteRenderer BatteryIndicatorSprite;
+	public SpriteRenderer PowerIndicator;
+
+	public List<DepartmentBatterySprite> enums;
+	public List<Sprite> Sprite;
+	public Dictionary<DepartmentBatterySprite,Sprite> Sprites = new Dictionary<DepartmentBatterySprite, Sprite>();
 
 	private bool SelfDestruct = false;
 
+
+	public InLineDevice RelatedDevice;
 	//Is the SMES turned on
 	[SyncVar(hook = "UpdateState")]
 	public bool isOn = false;
@@ -65,6 +96,19 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		PowerTypeCategory.LowMachineConnector
 	};
 
+
+
+	void Start() {//Initialise Sprites
+		for (int i = 0; i< enums.Count; i++)
+		{
+			Sprites[enums[i]] = Sprite[i];
+		}
+
+		if (enums.Count > 0)
+		{
+			Renderer.sprite = Sprites[CurrentSprite];
+		}
+	}
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
@@ -182,8 +226,9 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		{
 			RelatedDevice.Data.SupplyingCurrent = current;
 			Previouscurrent = current;
-			ElectricalSynchronisation.NUCurrentChange.Add (this);
+			ElectricalSynchronisation.NUCurrentChange.Add(this);
 		}
+
 		if (Resistance != PreviousResistance)
 		{
 			if (PreviousResistance == 0 && !(Resistance == 0))
@@ -196,15 +241,72 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 				resistance.ResistanceAvailable = false;
 				ElectricalDataCleanup.CleanConnectedDevices(RelatedDevice);
 			}
+
 			PreviousResistance = Resistance;
-			foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in RelatedDevice.Data.ResistanceToConnectedDevices){
-				if (Supplie.Value.Contains(PowerTypeCategory.StandardCable)){
-					ElectricalSynchronisation.ResistanceChange.Add (this);
-					ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
+			foreach (KeyValuePair<IElectricityIO, HashSet<PowerTypeCategory>> Supplie in RelatedDevice.Data
+				.ResistanceToConnectedDevices)
+			{
+				if (Supplie.Value.Contains(PowerTypeCategory.StandardCable))
+				{
+					ElectricalSynchronisation.ResistanceChange.Add(this);
+					ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingUpdate);
 				}
 			}
 		}
+
 		//Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
+		if (CurrentCapacity > 0)
+		{
+			if (CurrentCapacity > (CapacityMax / 2))
+			{
+				if (CurrentState != BatteryStateSprite.Full)
+				{
+					UpdateBattery(BatteryStateSprite.Full);
+				}
+
+			}
+			else
+			{
+				if (CurrentState != BatteryStateSprite.Half)
+				{
+					UpdateBattery(BatteryStateSprite.Half);
+				}
+			}
+		}
+		else
+		{
+			if (CurrentState != BatteryStateSprite.Empty)
+			{
+				UpdateBattery(BatteryStateSprite.Empty);
+			}
+		}
+	}
+
+	void UpdateBattery(BatteryStateSprite State)
+	{
+		CurrentState = State;
+
+		switch (CurrentState)
+		{
+			case BatteryStateSprite.Full:
+				if (BatteryIndicatorSprite.enabled == false)
+				{
+					BatteryIndicatorSprite.enabled = true;
+				}
+				BatteryIndicatorSprite.sprite = BatteryCharged;
+				break;
+			case BatteryStateSprite.Half:
+				if (BatteryIndicatorSprite.enabled == false)
+				{
+					BatteryIndicatorSprite.enabled = true;
+				}
+				BatteryIndicatorSprite.sprite = PartialCharge;
+				break;
+			case BatteryStateSprite.Empty:
+				BatteryIndicatorSprite.enabled = false;
+				break;
+		}
+
 	}
 
 	void UpdateState(bool _isOn)
@@ -212,11 +314,12 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		isOn = _isOn;
 		if (isOn)
 		{
-			Debug.Log("TODO: Turn sprites on");
+			PowerIndicator.sprite = LightOn;
+
 		}
 		else
 		{
-			Debug.Log("TODO: Turn sprites off");
+			PowerIndicator.sprite = LightOff;
 		}
 
 	}
