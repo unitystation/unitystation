@@ -13,6 +13,7 @@ public class PlayerSprites : NetworkBehaviour
 	private string characterData;
 
 	public PlayerMove playerMove;
+	private PlayerSync playerSync;
 
 	public ClothingItem[] characterSprites; //For character customization
 	private CharacterSettings characterSettings;
@@ -22,6 +23,7 @@ public class PlayerSprites : NetworkBehaviour
 
 	private void Awake()
 	{
+		playerSync = GetComponent<PlayerSync>();
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes[c.name] = c;
@@ -143,6 +145,11 @@ public class PlayerSprites : NetworkBehaviour
 	//turning character input and sprite update for local only! (prediction)
 	public void FaceDirection(Orientation direction)
 	{
+		if(playerSync.isBumping)
+		{
+			//Don't face while bumping is occuring on this frame
+			return;
+		}
 		SetDir(direction);
 	}
 

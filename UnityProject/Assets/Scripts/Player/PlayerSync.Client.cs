@@ -48,6 +48,8 @@ public partial class PlayerSync
 	/// Does ghosts's transform pos match state pos? Ignores Z-axis.
 	private bool GhostPositionReady => (Vector2)ghostPredictedState.WorldPosition == (Vector2)playerScript.ghost.transform.position;
 
+	// Is true on the frame that the player is bumping into something
+	public bool isBumping;
 	private bool IsWeightlessClient
 	{
 		get
@@ -93,7 +95,7 @@ public partial class PlayerSync
 			StartCoroutine(DoProcess(action));
 		}
 	}
-
+    
 	private IEnumerator DoProcess(PlayerAction action)
 	{
 		MoveCooldown = true;
@@ -134,6 +136,7 @@ public partial class PlayerSync
 						playerSprites.CmdChangeDirection(Orientation.From(action.Direction()));
 						// Prediction:
 						playerSprites.FaceDirection(Orientation.From(action.Direction()));
+						isBumping = true;
 					}
 					//cooldown is longer when humping walls or pushables
 					//					yield return YieldHelper.DeciSecond;
@@ -150,6 +153,7 @@ public partial class PlayerSync
 
 		yield return YieldHelper.DeciSecond;
 		MoveCooldown = false;
+		isBumping = false;
 	}
 
 	/// Predictive interaction with object you can't move through
