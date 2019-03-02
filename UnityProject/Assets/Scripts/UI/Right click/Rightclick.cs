@@ -122,6 +122,9 @@ public class Rightclick : MonoBehaviour
 		//special case, remove wallmounts that are transparent
 		objects.RemoveAll(IsHiddenWallmount);
 
+		//Objects that are under a floor tile should not be available
+		objects.RemoveAll(IsUnderFloorTile);
+
 		return objects;
 	}
 
@@ -135,6 +138,17 @@ public class Rightclick : MonoBehaviour
 		}
 
 		return wallmountBehavior.IsHiddenFromLocalPlayer();
+	}
+
+	private bool IsUnderFloorTile(GameObject obj)
+	{
+		LayerTile tile = UITileList.GetTileAtPosition(obj.WorldPos());
+
+		if (tile.LayerType != LayerType.Base && obj.layer < 1)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	private void Generate(List<GameObject> objects)
