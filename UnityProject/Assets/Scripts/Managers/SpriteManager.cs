@@ -180,7 +180,20 @@ public class SpriteManager : MonoBehaviour
 		}
 	}
 }
-
+public enum DepartmentBatterySprite
+{
+	Default,
+	Engineering,
+	Atmospherics,
+	Science,
+	Medical,
+	Security,
+	Genetics,
+	Command,
+	Cargo,
+	Maintenance,
+	Service,
+}
 public enum DoorType
 {
 	atmos,
