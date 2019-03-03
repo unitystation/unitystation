@@ -25,7 +25,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private BloodSystem bloodSystem;
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private Equipment equipment;
-
+	private ObjectBehaviour objectBehaviour;
+	
 	private float tickRate = 1f;
 	private float tick = 0f;
 	private PlayerScript playerScript;
@@ -36,6 +37,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
 		playerScript = GetComponent<PlayerScript>();
 		equipment = GetComponent<Equipment>();
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
 	void OnEnable()
@@ -70,7 +72,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		if (!livingHealthBehaviour.IsDead)
 		{
-			Vector3Int position = transform.position.RoundToInt();
+			Vector3Int position = objectBehaviour.AssumedLocation().RoundToInt();
 			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 			if (!IsEVACompatible())
