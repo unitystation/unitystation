@@ -85,8 +85,8 @@ public class Hands : MonoBehaviour
 	}
 
 	/// <summary>
-	/// General function to activate the item depending on the object.
-	/// E.g. eat food, clean floor with mop etc
+	/// General function to activate the item's UIInteract
+	/// This is the same as clicking the item with the same item's hand
 	/// </summary>
 	public void Activate()
 	{
@@ -95,18 +95,7 @@ public class Hands : MonoBehaviour
 		{
 			return;
 		}
-
-		//Is the item edible?
-		if (isEdible())
-		{
-			return;
-		}
-
-		// Is the item a weapon?
-		if (isWeapon())
-		{
-			return;
-		}
+		CurrentSlot.TryItemInteract();
 	}
 
 	/// <summary>
@@ -158,31 +147,6 @@ public class Hands : MonoBehaviour
 			}
 		}
 		return true;
-	}
-
-	/// <summary>
-	/// Check if the item is edible and eat it (true if it is)
-	/// </summary>
-	private bool isEdible()
-	{
-		FoodBehaviour baseFood = CurrentSlot.Item.GetComponent<FoodBehaviour>();
-		if (baseFood != null)
-		{
-			baseFood.TryEat();
-			return true;
-		}
-		return false;
-	}
-
-	private bool isWeapon()
-	{
-		Weapon baseWeapon = CurrentSlot.Item.GetComponent<Weapon>();
-		if (baseWeapon != null)
-		{
-			baseWeapon.TryReload();
-			return true;
-		}
-		return false;
 	}
 
 	/// <summary>

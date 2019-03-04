@@ -303,43 +303,46 @@ public class Weapon : PickUpTrigger
 		return false;
 	}
 
-	public void TryReload()
+	/// <summary>
+	/// Occurs when a user uses another slot to interact with the weapon
+	/// </summary>
+	public override void UI_InteractOtherSlot(GameObject originator, GameObject item)
 	{
-		//PlaceHolder for click UI
-		GameObject currentHandItem = UIManager.Hands.CurrentSlot.Item;
-		GameObject otherHandItem = UIManager.Hands.OtherSlot.Item;
-		string hand;
+		TryReload(item);
+	}
 
-		if ((currentHandItem != null) && (otherHandItem != null))
+	/// <summary>
+	/// Occurs when a user interacts with the slot using the same hand
+	/// </summary>
+	public override void UI_Interact(GameObject originator, string hand)
+	{
+		if(CurrentMagazine != null)
 		{
+			StopAutomaticBurst();
+			RequestUnload(CurrentMagazine);
+		}
+	}
+	
+	/// <summary>
+	/// attempt to reload the weapon with the item given
+	/// </summary>
+	public void TryReload(GameObject item)
+	{
+		string hand;
+		if (item != null)
+		{
+			MagazineBehaviour magazine = item.GetComponent<MagazineBehaviour>();
 			if (CurrentMagazine == null)
 			{
 				//RELOAD
-				if (currentHandItem.GetComponent<MagazineBehaviour>() && otherHandItem.GetComponent<Weapon>())
+				// If the item used on the gun is a magazine, check type and reload
+				if (magazine)
 				{
-					string ammoType = currentHandItem.GetComponent<MagazineBehaviour>().ammoType;
-
+					string ammoType = magazine.ammoType;		
 					if (AmmoType == ammoType)
 					{
 						hand = UIManager.Hands.CurrentSlot.eventName;
-						RequestReload(currentHandItem, hand, true);
-					}
-
-					if (AmmoType != ammoType)
-					{
-						ChatRelay.Instance.AddToChatLogClient("You try to load the wrong ammo into your weapon",
-							ChatChannel.Examine);
-					}
-				}
-
-				if (otherHandItem.GetComponent<MagazineBehaviour>() && currentHandItem.GetComponent<Weapon>())
-				{
-					string ammoType = otherHandItem.GetComponent<MagazineBehaviour>().ammoType;
-
-					if (AmmoType == ammoType)
-					{
-						hand = UIManager.Hands.OtherSlot.eventName;
-						RequestReload(otherHandItem, hand, false);
+						RequestReload(item, hand, true);
 					}
 
 					if (AmmoType != ammoType)
@@ -349,26 +352,11 @@ public class Weapon : PickUpTrigger
 					}
 				}
 			}
-			else
+			else  if (AmmoType == magazine.ammoType)
 			{
-				//UNLOAD
-
-				if (currentHandItem.GetComponent<Weapon>() && otherHandItem == null)
-				{
-					RequestUnload(CurrentMagazine);
-				}
-				else if (currentHandItem.GetComponent<Weapon>() && otherHandItem.GetComponent<MagazineBehaviour>())
-				{
-					ChatRelay.Instance.AddToChatLogClient(
-						"You weapon is already loaded, you can't fit more Magazines in it, silly!",
-						ChatChannel.Examine);
-				}
-				else if (otherHandItem.GetComponent<Weapon>() && currentHandItem.GetComponent<MagazineBehaviour>())
-				{
-					ChatRelay.Instance.AddToChatLogClient(
-						"You weapon is already loaded, you can't fit more Magazines in it, silly!",
-						ChatChannel.Examine);
-				}
+				ChatRelay.Instance.AddToChatLogClient(
+					"You weapon is already loaded, you can't fit more Magazines in it, silly!",
+					ChatChannel.Examine);
 			}
 		}
 	}
