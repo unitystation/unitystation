@@ -85,8 +85,8 @@ public class Hands : MonoBehaviour
 	}
 
 	/// <summary>
-	/// General function to activate the item depending on the object.
-	/// E.g. eat food, clean floor with mop etc
+	/// General function to activate the item's UIInteract
+	/// This is the same as clicking the item with the same item's hand
 	/// </summary>
 	public void Activate()
 	{
