@@ -430,10 +430,6 @@ public class Weapon : PickUpTrigger
 			}
 			return true;
 		}
-		else if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0)
-		{
-
-		}
 		else
 		{
 			//if we have a projectile to shoot, we have ammo and we are not waiting to be allowed to shoot again, Fire!
