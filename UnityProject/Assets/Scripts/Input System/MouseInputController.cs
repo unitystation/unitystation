@@ -33,7 +33,7 @@ public class MouseInputController : MonoBehaviour
 
 	public static readonly Vector3 sz = new Vector3(0.02f, 0.02f, 0.02f);
 
-	private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(Input.mousePosition);
+	private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 
 	private void OnDrawGizmos()
 	{
@@ -161,7 +161,7 @@ public class MouseInputController : MonoBehaviour
 			//and not FOV occluded
 			Vector3 position = MousePosition;
 			position.z = 0f;
-			if (lightingSystem.IsScreenPointVisible(Input.mousePosition))
+			if (lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
 			{
 				if (PlayerManager.LocalPlayerScript.IsInReach(position))
 				{
@@ -254,7 +254,7 @@ public class MouseInputController : MonoBehaviour
 		Vector3 mousePosition = MousePosition;
 
 		// Sample the FOV mask under current mouse position.
-		if (lightingSystem.IsScreenPointVisible(Input.mousePosition) == false)
+		if (lightingSystem.IsScreenPointVisible(CommonInput.mousePosition) == false)
 		{
 			return false;
 		}
@@ -350,7 +350,7 @@ public class MouseInputController : MonoBehaviour
 					//debug the pixel get from mouse position:
 					//if (_transform.gameObject.name.Contains("xtingu"))
 					//{
-					//	var mousePos = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+					//	var mousePos = Camera.main.ScreenToWorldPoint(UnityEngine.CommonInput.mousePosition);
 					//	if (!LastTouchedTile.ContainsKey(mousePos))
 					//	{
 					//		LastTouchedTile.Add(mousePos, pixelColor);
@@ -370,7 +370,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		color = new Color();
 		Camera cam = Camera.main;
-		Vector2 mousePos = Input.mousePosition;
+		Vector2 mousePos = CommonInput.mousePosition;
 		Vector2 viewportPos = cam.ScreenToViewportPoint(mousePos);
 		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f) return false; // out of viewport bounds
 																														// Cast a ray from viewport point into world
@@ -451,7 +451,7 @@ public class MouseInputController : MonoBehaviour
 
 		//attempt to trigger the things in range we clicked on
 		var localPlayer = PlayerManager.LocalPlayerScript;
-		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(Input.mousePosition)) || localPlayer.IsHidden)
+		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition)) || localPlayer.IsHidden)
 		{
 			//Check for melee triggers first. If a melee interaction occurs, stop checking for any further interactions
 			MeleeTrigger meleeTrigger = _transform.GetComponentInParent<MeleeTrigger>();

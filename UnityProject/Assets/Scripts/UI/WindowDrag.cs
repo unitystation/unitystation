@@ -7,7 +7,7 @@
 		private float offsetX;
 		private float offsetY;
 		private Vector3 startPositon;
-		
+
 		void Start () {
 			// Save initial window start positon
 			startPositon = gameObject.transform.position;
@@ -21,12 +21,12 @@
 		}
 		public void BeginDrag()
 		{
-			offsetX = transform.position.x - Input.mousePosition.x;
-			offsetY = transform.position.y - Input.mousePosition.y;
+			offsetX = transform.position.x - CommonInput.mousePosition.x;
+			offsetY = transform.position.y - CommonInput.mousePosition.y;
 		}
 
 		public void OnDrag()
 		{
-			transform.position = new Vector3(offsetX + Input.mousePosition.x, offsetY + Input.mousePosition.y);
+			transform.position = new Vector3(offsetX + CommonInput.mousePosition.x, offsetY + CommonInput.mousePosition.y);
 		}
 	}

@@ -120,6 +120,7 @@ public class UIManager : MonoBehaviour
 	private void Start()
 	{
 		generalSettingsMenu.Init();
+		Logger.Log( "Touchscreen support = " + CommonInput.IsTouchscreen, Category.UI );
 	}
 
 	public static void ResetAllUI()

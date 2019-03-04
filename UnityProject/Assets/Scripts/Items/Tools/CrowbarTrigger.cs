@@ -11,7 +11,7 @@ public class CrowbarTrigger : PickUpTrigger
         {
             return base.Interact (originator, position, hand);
         }
-        var targetWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var targetWorldPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 
         return base.Interact (originator, position, hand);
     }

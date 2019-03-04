@@ -327,7 +327,7 @@ public class Weapon : PickUpTrigger
 			RequestUnload(CurrentMagazine);
 		}
 	}
-	
+
 	/// <summary>
 	/// attempt to reload the weapon with the item given
 	/// </summary>
@@ -343,7 +343,7 @@ public class Weapon : PickUpTrigger
 				// If the item used on the gun is a magazine, check type and reload
 				if (magazine)
 				{
-					string ammoType = magazine.ammoType;		
+					string ammoType = magazine.ammoType;
 					if (AmmoType == ammoType)
 					{
 						hand = UIManager.Hands.CurrentSlot.eventName;
@@ -424,7 +424,7 @@ public class Weapon : PickUpTrigger
 				RequestUnload(CurrentMagazine);
 				OutOfAmmoSFX();
 			}
-			else 
+			else
 			{
 				PlayEmptySFX();
 			}
@@ -439,7 +439,7 @@ public class Weapon : PickUpTrigger
 				if (WeaponType == WeaponType.SemiAutomatic || WeaponType == WeaponType.FullyAutomatic)
 				{
 					//shot direction
-					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) -
+					Vector2 dir = (Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
 	                                   PlayerManager.LocalPlayer.transform.position).normalized;
 					if (!isServer)
 					{

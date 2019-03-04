@@ -17,4 +17,9 @@ public class CommonInput
 	{
 		return Input.GetKeyUp(key) || (UIManager.GamePad && UIManager.GamePad.GetKeyUp(key));
 	}
+
+	public static bool IsTouchscreen = Input.touchSupported && Input.multiTouchEnabled;
+
+	public static Vector3 mousePosition => IsTouchscreen ? (Vector3)Input.GetTouch( Input.touchCount ).position : Input.mousePosition;
+
 }
