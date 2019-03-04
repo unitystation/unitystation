@@ -669,7 +669,6 @@ GameObject:
   - component: {fileID: 114449635359748350}
   - component: {fileID: 50851566022184656}
   - component: {fileID: 114908376472113748}
-  - component: {fileID: 114458435295420412}
   - component: {fileID: 6017414943583453005}
   m_Layer: 8
   m_Name: Player_V3(uNet)
@@ -861,6 +860,7 @@ MonoBehaviour:
   - {fileID: 114686590975304092}
   - {fileID: 114280887415014694}
   - {fileID: 114998611308440448}
+  IsInternalsEnabled: 0
 --- !u!114 &114390575568471296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,7 +891,9 @@ MonoBehaviour:
   isGhost: 0
   moveList: 05000000060000000700000008000000
   pna: {fileID: 0}
-  speed: 6
+  RunSpeed: 6
+  WalkSpeed: 3
+  CrawlSpeed: 0.8
 --- !u!114 &114617980452984522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -993,7 +995,7 @@ MonoBehaviour:
     m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   ObjectType: 2
-  rotateWithMatrix: 1
+  rotateWithMatrix: 0
 --- !u!114 &114803877374308862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1058,19 +1060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114458435295420412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 275a750a762e9054da6ae10a47b445e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Rotation: {x: 0, y: 0, z: 0}
 --- !u!114 &6017414943583453005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1085,13 +1074,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultIntensity: 0.2
   DefaultColour: {r: 1, g: 1, b: 1, a: 0}
-  DefaultSprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
+  DefaultEnumSprite: 0
   DefaultSize: 1.5
   Sprites:
   - {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   - {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
   - {fileID: 21300000, guid: b4d72dee411a3410db2df144025d628c, type: 3}
   NameSprite: 000000000100000002000000
+  DefaultSettings:
+    Intensity: 0
+    Colour: {r: 0, g: 0, b: 0, a: 0}
+    EnumSprite: 0
+    Size: 12
   mLightRendererObject: {fileID: 4299649681570296155}
   stringPlayerLightData: 
 --- !u!1 &1147423205297840

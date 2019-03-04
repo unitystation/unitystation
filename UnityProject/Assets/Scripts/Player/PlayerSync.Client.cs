@@ -95,7 +95,7 @@ public partial class PlayerSync
 			StartCoroutine(DoProcess(action));
 		}
 	}
-    
+
 	private IEnumerator DoProcess(PlayerAction action)
 	{
 		MoveCooldown = true;
@@ -133,9 +133,7 @@ public partial class PlayerSync
 					}
 					if (PlayerManager.LocalPlayer == gameObject)
 					{
-						playerSprites.CmdChangeDirection(Orientation.From(action.Direction()));
-						// Prediction:
-						playerSprites.FaceDirection(Orientation.From(action.Direction()));
+						playerSprites.ChangeAndSyncPlayerDirection(Orientation.From(action.Direction()));
 						isBumping = true;
 					}
 					//cooldown is longer when humping walls or pushables

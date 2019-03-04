@@ -131,10 +131,10 @@ public class PlayerMove : NetworkBehaviour
 		direction.y = Mathf.Clamp(direction.y, -1, 1);
 //			Logger.LogTrace(direction.ToString(), Category.Movement);
 
-		if ((PlayerManager.LocalPlayer == gameObject || isServer) && !isReplay)
-		{
-			playerSprites.FaceDirection(Orientation.From(direction.To2Int()));
-		}
+			if ((PlayerManager.LocalPlayer == gameObject || isServer) && !isReplay)
+			{
+				playerSprites.LocalFaceDirection(Orientation.From(direction.To2Int()));
+			}
 
 		if (matrixInfo.MatrixMove)
 		{

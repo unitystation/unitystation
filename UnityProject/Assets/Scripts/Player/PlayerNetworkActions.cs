@@ -38,7 +38,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private PlayerSprites playerSprites;
-	private RegisterTile registerTile;
 
 	private SoundNetworkActions soundNetworkActions;
 
@@ -57,7 +56,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript = GetComponent<PlayerScript>();
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
-		registerTile = GetComponentInParent<RegisterTile>();
 	}
 
 	public override void OnStartServer()
@@ -639,15 +637,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return wallmount.IsFacingPosition(transform.position);
 	}
 
+	/// <summary>
+	/// Process the effects of a conscious state being changed (invoked from PlayerHealth on server when
+	/// conscious state changes)
+	/// </summary>
+	/// <param name="oldState"></param>
+	/// <param name="newState"></param>
 	[Server]
-	public void SetConsciousState(ConsciousState state)
+	public void OnConsciousStateChanged(ConsciousState oldState, ConsciousState newState)
 	{
-		switch ( state )
+		switch ( newState )
 		{
 			case ConsciousState.CONSCIOUS:
 				playerMove.allowInput = true;
 				playerScript.PlayerSync.SpeedServer = playerMove.RunSpeed;
-				gameObject.GetComponent<ForceRotation>().Rotation = STRAIGHT;
 				break;
 			case ConsciousState.BARELY_CONSCIOUS:
 				//Drop items when unconscious
@@ -655,36 +658,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				DropItem("leftHand");
 				playerMove.allowInput = true;
 				playerScript.PlayerSync.SpeedServer =  playerMove.CrawlSpeed;
-				Fall();
+				if (oldState == ConsciousState.CONSCIOUS)
+				{
+					//only play the sound if we are falling
+					soundNetworkActions.RpcPlayNetworkSound( "Bodyfall", transform.position );
+				}
 				break;
 			case ConsciousState.UNCONSCIOUS:
 				//Drop items when unconscious
 				DropItem("rightHand");
 				DropItem("leftHand");
 				playerMove.allowInput = false;
-				Fall();
+				if (oldState == ConsciousState.CONSCIOUS)
+				{
+					//only play the sound if we are falling
+					soundNetworkActions.RpcPlayNetworkSound( "Bodyfall", transform.position );
+				}
 				break;
 		}
 		playerScript.pushPull.CmdStopPulling();
-}
-
-	/// <summary>
-	/// Rotate player and play body fall sound
-	/// </summary>
-	private void Fall()
-	{
-		ForceRotation rotation = gameObject.GetComponent<ForceRotation>();
-		if ( rotation.Rotation == FALLEN )
-		{
-//			Logger.LogTrace( "Not dropping fallen player again", Category.Health );
-			return;
-		}
-		rotation.Rotation = FALLEN;
-		soundNetworkActions.RpcPlayNetworkSound( "Bodyfall", transform.position );
-		if ( Random.value > 0.5f )
-		{
-			playerSprites.currentDirection = Orientation.Up;
-		}
 	}
 
 	[Command]
