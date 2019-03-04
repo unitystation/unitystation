@@ -76,7 +76,7 @@ using UnityEngine.Tilemaps;
 
 		}
 
-		private void OnRotate(RotationOffset fromCurrent)
+		private void OnRotate(RotationOffset fromCurrent, bool isInitialRotation)
 		{
 			RotationOffset = RotationOffset.Rotate(fromCurrent);
 			tilemap.RefreshAllTiles();

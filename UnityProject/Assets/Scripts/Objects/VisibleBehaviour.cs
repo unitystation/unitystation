@@ -21,6 +21,11 @@ public class VisibleBehaviour : NetworkBehaviour
 	private const string playerSync = "PlayerSync";
 	private const string closetHandler = "ClosetPlayerHandler";
 	private const string fov = "FieldOfViewStencil";
+	private const string health = "PlayerHealth";
+	private const string healthMonitor = "HealthStateMonitor";
+	private const string blood = "BloodSystem";
+	private const string respiratory = "RespiratorySystem";
+	private const string brain = "BrainSystem";
 
 
 	private readonly string[] neverDisabled =
@@ -33,7 +38,12 @@ public class VisibleBehaviour : NetworkBehaviour
 		mouseInputController,
 		playerSync,
 		closetHandler,
-		fov
+		fov,
+		health,
+		healthMonitor,
+		blood,
+		respiratory,
+		brain
 	};
 
 	public SpriteRenderer[] ignoredSpriteRenderers;

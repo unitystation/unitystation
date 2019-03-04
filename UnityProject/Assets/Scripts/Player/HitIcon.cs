@@ -16,6 +16,11 @@ public class HitIcon : MonoBehaviour
 		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 
+	/// <summary>
+	/// Show the hit icon animation
+	/// </summary>
+	/// <param name="dir">direction of the animation in world space</param>
+	/// <param name="sprite">sprite to show</param>
 	public void ShowHitIcon(Vector2 dir, Sprite sprite)
 	{
 		if (isFading)
@@ -23,9 +28,13 @@ public class HitIcon : MonoBehaviour
 			return;
 		}
 
-		Vector3 newDir = new Vector3(dir.x, dir.y, 0f);
-		lerpFrom = newDir * 0.75f;
-		lerpTo = newDir;
+		Vector3 lerpFromWorld = transform.position + (Vector3)(dir * 0.75f);
+		Vector3 lerpToWorld = transform.position + (Vector3)(dir);
+		Vector3 lerpFromLocal = transform.parent.InverseTransformPoint(lerpFromWorld);
+		Vector3 lerpToLocal = transform.parent.InverseTransformPoint(lerpToWorld);
+
+		lerpFrom = lerpFromLocal;
+		lerpTo = lerpToLocal;
 		isFading = true;
 		spriteRenderer.sprite = sprite;
 
@@ -62,5 +71,6 @@ public class HitIcon : MonoBehaviour
 		}
 		spriteRenderer.sprite = null;
 		isFading = false;
+		transform.localPosition = Vector3.zero;
 	}
 }

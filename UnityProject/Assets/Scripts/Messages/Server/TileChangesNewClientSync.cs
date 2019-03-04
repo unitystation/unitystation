@@ -13,8 +13,8 @@ public class TileChangesNewClientSync : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(ManagerSubject);
-//		TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
-//		tm.InitServerSync(data);
+		TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
+		tm.InitServerSync(data);
 	}
 
 	public static TileChangesNewClientSync Send(GameObject managerSubject, GameObject recipient, string jsondata)

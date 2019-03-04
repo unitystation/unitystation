@@ -23,6 +23,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public GameObject muzzleFlash;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
+	private RegisterPlayer registerPlayer;
 	private SoundNetworkActions soundNetworkActions;
 	private GameObject spritesObj;
 
@@ -32,6 +33,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	{
 		spritesObj = transform.Find("Sprites").gameObject;
 		playerMove = GetComponent<PlayerMove>();
+		registerPlayer = GetComponent<RegisterPlayer>();
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		playerScript = GetComponent<PlayerScript>();
 		lerpSprite = null;
@@ -193,10 +195,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		{
 			playerScript.hitIcon.ShowHitIcon(stabDir, lerpSprite);
 		}
-		lerpFrom = Vector3.zero;
-		Vector3 newDir = stabDir * 0.5f;
-		newDir.z = lerpFrom.z;
-		lerpTo = lerpFrom + newDir;
+
+		Vector3 lerpFromWorld = spritesObj.transform.position;
+		Vector3 lerpToWorld = lerpFromWorld + (Vector3)(stabDir * 0.5f);
+		Vector3 lerpFromLocal = spritesObj.transform.parent.InverseTransformPoint(lerpFromWorld);
+		Vector3 lerpToLocal = spritesObj.transform.parent.InverseTransformPoint(lerpToWorld);
+		Vector3 localStabDir = lerpToLocal - lerpFromLocal;
+
+		lerpFrom = lerpFromLocal;
+		lerpTo = lerpToLocal;
 		lerpProgress = 0f;
 		isForLerpBack = true;
 		lerping = true;

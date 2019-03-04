@@ -44,8 +44,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		get => consciousState;
 		protected set
 		{
-			consciousState = value;
-			OnConsciousStateChange( value );
+			ConsciousState oldState = consciousState;
+			if (value != oldState)
+			{
+				consciousState = value;
+				OnConsciousStateChange(oldState, value);
+			}
 		}
 	}
 
@@ -393,7 +397,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 
 		OverallHealth = newHealth;
-		CheckDeadCritStatus();
+		CheckHealthAndUpdateConsciousState();
 	}
 
 	int CalculateOverallBodyPartDamage()
@@ -457,17 +461,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		bloodSystem.StopBleeding();
 	}
 
-	public virtual void UnCrit()
-	{
-		var proposedState = ConsciousState.CONSCIOUS;
-		if (ConsciousState == proposedState || IsDead)
-		{
-			return;
-		}
-		ConsciousState = proposedState;
-	}
-
-	public virtual void Crit(bool allowCrawl = false)
+	private void Crit(bool allowCrawl = false)
 	{
 		var proposedState = allowCrawl ? ConsciousState.BARELY_CONSCIOUS : ConsciousState.UNCONSCIOUS;
 
@@ -479,22 +473,37 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		ConsciousState = proposedState;
 	}
 
-	private void CheckDeadCritStatus()
+	private void Uncrit()
+	{
+		var proposedState = ConsciousState.CONSCIOUS;
+		if (ConsciousState == proposedState || IsDead)
+		{
+			return;
+		}
+		ConsciousState = proposedState;
+	}
+
+	/// <summary>
+	/// Checks if the player's health has changed such that consciousstate needs to be changed,
+	/// and changes consciousstate and invokes whatever needs to be invoked when the state changes
+	/// </summary>
+	private void CheckHealthAndUpdateConsciousState()
 	{
 		if (ConsciousState != ConsciousState.CONSCIOUS
 		    && OverallHealth > HealthThreshold.SoftCrit)
 		{
 			Logger.LogFormat( "{0}, back on your feet!", Category.Health, gameObject.name );
-			UnCrit();
+			Uncrit();
 			return;
-		}
-		if (OverallHealth <= HealthThreshold.SoftCrit)
-		{
-			Crit(true);
 		}
 		if (OverallHealth <= HealthThreshold.Crit)
 		{
 			Crit(false);
+		}
+		else if (OverallHealth <= HealthThreshold.SoftCrit)
+		{
+			//health isn't low enough for crit, but might be low enough for soft crit
+			Crit(true);
 		}
 		if (NotSuitableForDeath())
 		{
@@ -508,7 +517,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		return OverallHealth > HealthThreshold.Dead || IsDead;
 	}
 
-	protected virtual void OnConsciousStateChange( ConsciousState state ) { }
+	/// <summary>
+	/// Invoked when conscious state changes
+	/// </summary>
+	/// <param name="oldState">old state</param>
+	/// <param name="newState">new state</param>
+	protected virtual void OnConsciousStateChange(ConsciousState oldState, ConsciousState newState ) { }
 
 	protected abstract void OnDeathActions();
 
@@ -524,9 +538,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public void UpdateClientHealthStats(int overallHealth, ConsciousState consciousState)
 	{
 		OverallHealth = overallHealth;
-		ConsciousState = consciousState;
 		//	Logger.Log($"Update stats for {gameObject.name} OverallHealth: {overallHealth} ConsciousState: {consciousState.ToString()}", Category.Health);
-		CheckDeadCritStatus();
+		CheckHealthAndUpdateConsciousState();
 	}
 
 	/// <summary>
@@ -537,7 +550,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating);
 		//	Logger.Log($"Update stats for {gameObject.name} isBreathing: {isBreathing} isSuffocating {isSuffocating}", Category.Health);
 
-		CheckDeadCritStatus();
+		CheckHealthAndUpdateConsciousState();
 	}
 
 	/// <summary>
@@ -546,7 +559,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public void UpdateClientBloodStats(int heartRate, int bloodVolume, float oxygenLevel, float toxinLevel)
 	{
 		bloodSystem.UpdateClientBloodStats(heartRate, bloodVolume, oxygenLevel, toxinLevel);
-		CheckDeadCritStatus();
+		CheckHealthAndUpdateConsciousState();
 	}
 
 	/// <summary>
@@ -557,7 +570,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		if (brainSystem != null)
 		{
 			brainSystem.UpdateClientBrainStats(isHusk, brainDamage);
-			CheckDeadCritStatus();
+			CheckHealthAndUpdateConsciousState();
 		}
 	}
 
@@ -643,7 +656,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		if (isServer)
 		{
 			OverallHealth = newValue;
-			CheckDeadCritStatus();
+			CheckHealthAndUpdateConsciousState();
 		}
 	}
 

@@ -81,12 +81,6 @@ public struct PlayerState
 
 public partial class PlayerSync : NetworkBehaviour, IPushable
 {
-	/// <summary>
-	/// When true, players will rotate to their new orientation at the end of matrix rotation. When false
-	/// they will rotate to the new orientation at the start of matrix rotation.
-	/// </summary>
-	private const bool ROTATE_AT_END = true;
-
 	///For server code. Contains position
 	public PlayerState ServerState => serverState;
 
@@ -295,18 +289,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		healthBehaviorScript = GetComponent<LivingHealthBehaviour>();
 		registerTile = GetComponent<RegisterTile>();
 		pushPull = GetComponent<PushPull>();
-
-		//Sub to matrix rotation events via the registerTile because it always has the
-		//correct matrix
-		if (ROTATE_AT_END)
-		{
-			registerTile.OnRotateEnd.AddListener(OnRotation);
-		}
-		else
-		{
-			registerTile.OnRotateStart.AddListener(OnRotation);
-		}
-
 	}
 
 	private void Update()
@@ -425,12 +407,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		return newState;
 	}
-
-	private void OnRotation(RotationOffset fromCurrent)
-	{
-		playerSprites.ChangePlayerDirection(fromCurrent);
-	}
-
 
 	public void ProcessAction(PlayerAction action)
 	{
