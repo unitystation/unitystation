@@ -40,6 +40,11 @@ public class Weapon : PickUpTrigger
 	public bool SpawnsCaseing = true;
 
 	/// <summary>
+	///     If the gun should eject it's magazine automatically
+	/// </summary>
+	public bool SmartGun = false;
+
+	/// <summary>
 	///     The the current recoil variance this weapon has reached
 	/// </summary>
 	[HideInInspector] public float CurrentRecoilVariance;
@@ -409,13 +414,25 @@ public class Weapon : PickUpTrigger
 			PlayEmptySFX();
 			return true;
 		}
-		//if we are out of ammo for this weapon eject magazine and play out of ammo sfx
+		//if we are out of ammo for this weapon eject magazine and play out of ammo sfx if smartgun
+		// otherwise play empty
 		else if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0)
 		{
 			StopAutomaticBurst();
-			RequestUnload(CurrentMagazine);
-			OutOfAmmoSFX();
+			if (SmartGun)
+			{
+				RequestUnload(CurrentMagazine);
+				OutOfAmmoSFX();
+			}
+			else 
+			{
+				PlayEmptySFX();
+			}
 			return true;
+		}
+		else if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0)
+		{
+
 		}
 		else
 		{
