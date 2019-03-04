@@ -100,23 +100,28 @@ using UnityEngine.SceneManagement;
 			int width = Screen.width;
 			if (width % 2 != 0)
 			{
-//			Logger.Log( $"Odd width {width}->{width-1}" );
+				Logger.Log( $"Odd width {width}->{width-1}", Category.Camera );
 				width--;
 			}
 			int height = Screen.height;
 			if (height % 2 != 0)
 			{
-//			Logger.Log( $"Odd height {height}->{height-1}" );
+				Logger.Log( $"Odd height {height}->{height-1}", Category.Camera );
 				height--;
 			}
 
-//			Logger.Log("Screen height before resizing: " + Camera.main.pixelHeight + " Aspect Y: " + height/(float)Screen.height);
-//			Logger.Log("Screen height before resizing: " + Camera.main.pixelWidth + " Aspect X: " + width/(float)Screen.width);
+			Camera main = Camera.main;
+			if ( !main )
+			{
+				yield break;
+			}
+			Logger.Log("Screen height before resizing: " + main.pixelHeight + " Aspect Y: " + height/(float)Screen.height, Category.Camera);
+			Logger.Log("Screen height before resizing: " + main.pixelWidth + " Aspect X: " + width/(float)Screen.width, Category.Camera);
 
 			// Enforce aspect by resizing the camera rectangle to nearest (lower) even number.
-			Camera.main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
+			main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
 
-//		Logger.Log("Screen height after resizing: " + Camera.main.pixelHeight);
+			Logger.Log("Screen height after resizing: " + main.pixelHeight, Category.Camera);
 
 			if (camResizer != null) {
 				camResizer.AdjustCam();

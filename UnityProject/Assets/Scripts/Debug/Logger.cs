@@ -23,7 +23,8 @@ public static class Logger
 		[Category.Lerp] = Level.Off,
 		[Category.Equipment] = Level.Trace,
 		[Category.Round] = Level.Info,
-		[Category.UI] = Level.Warning,
+		[Category.UI] = Level.Trace,
+		[Category.Camera] = Level.Trace,
 		[Category.DebugConsole] = Level.Trace,
 		//		[Category.NetUI] = Level.Trace,
 	};
@@ -179,4 +180,5 @@ public enum Category {
 	Keybindings,
 	Round,
 	DebugConsole,
+	Camera,
 }
