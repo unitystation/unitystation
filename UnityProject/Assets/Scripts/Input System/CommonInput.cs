@@ -22,4 +22,18 @@ public class CommonInput
 
 	public static Vector3 mousePosition => IsTouchscreen ? (Vector3)Input.GetTouch( Input.touchCount ).position : Input.mousePosition;
 
+	public static bool GetMouseButtonDown( int buttonNumber ) //todo special case for rightclick: emulate it if touch is held for 700ms
+	{
+		return Input.GetMouseButtonDown( buttonNumber );
+	}
+
+	public static bool GetMouseButtonUp( int buttonNumber )
+	{
+		return Input.GetMouseButtonUp( buttonNumber );
+	}
+
+	public static bool GetMouseButton( int buttonNumber )
+	{
+		return Input.GetMouseButton( buttonNumber );
+	}
 }

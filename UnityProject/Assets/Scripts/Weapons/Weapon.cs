@@ -216,7 +216,7 @@ public class Weapon : PickUpTrigger
 		}
 
 		//check if burst should stop if the weapon is held by the local player
-		if (Input.GetMouseButtonUp(0))
+		if (CommonInput.GetMouseButtonUp(0))
 		{
 			StopAutomaticBurst();
 		}

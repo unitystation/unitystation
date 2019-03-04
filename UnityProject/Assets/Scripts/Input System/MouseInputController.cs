@@ -65,7 +65,7 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckMouseInput()
 	{
-		if (Input.GetMouseButtonDown(0))
+		if (CommonInput.GetMouseButtonDown(0))
 		{
 			if (!CheckAltClick())
 			{
@@ -75,7 +75,7 @@ public class MouseInputController : MonoBehaviour
 				}
 			}
 		}
-		else if (Input.GetMouseButton(0))
+		else if (CommonInput.GetMouseButton(0))
 		{
 			//mouse being held down / dragged
 			CheckDrag();

@@ -218,7 +218,7 @@ public class RadialMenu : MonoBehaviour {
 				}
 			}
 		}
-		if (Input.GetMouseButtonUp (1))
+		if (CommonInput.GetMouseButtonUp(1))
 		{
 			if (Selected) {
 				if (!(Selected.Mono == null)) {
