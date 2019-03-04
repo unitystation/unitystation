@@ -11,6 +11,10 @@ public class PlayerHealth : LivingHealthBehaviour
 	private PlayerMove playerMove;
 
 	private PlayerNetworkActions playerNetworkActions;
+	/// <summary>
+	/// Cached register player
+	/// </summary>
+	private RegisterPlayer registerPlayer;
 
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
@@ -19,6 +23,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		playerMove = GetComponent<PlayerMove>();
+		registerPlayer = GetComponent<RegisterPlayer>();
 
 		PlayerScript playerScript = GetComponent<PlayerScript>();
 		//fixme: these are all workarounds to hide your spess dummy player. get rid of him
@@ -104,11 +109,21 @@ public class PlayerHealth : LivingHealthBehaviour
 	}
 
 	///     make player unconscious upon crit
-	protected override void OnConsciousStateChange( ConsciousState state )
+	protected override void OnConsciousStateChange( ConsciousState oldState, ConsciousState newState )
 	{
 		if ( isServer )
 		{
-			playerNetworkActions.SetConsciousState(state);
+			playerNetworkActions.OnConsciousStateChanged(oldState, newState);
 		}
+
+		if (newState != ConsciousState.CONSCIOUS)
+		{
+			registerPlayer.LayDown();
+		}
+		else
+		{
+			registerPlayer.GetUp();
+		}
+
 	}
 }

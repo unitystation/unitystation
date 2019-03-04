@@ -93,7 +93,15 @@ public class MatrixMove : ManagedNetworkBehaviour
 	///client's transform, can get dirty/predictive
 	private MatrixState clientState = MatrixState.Invalid;
 
-	public bool StateInit { get; private set; } = false;
+	/// <summary>
+	/// Tracks whether we've received our initial rotation offset for this matrix.
+	/// </summary>
+	public bool ReceivedInitialRotation { get; private set; } = false;
+	/// <summary>
+	/// Tracks whether we are performing our initial rotation offset based on the initial rotation
+	/// we received.
+	/// </summary>
+	private bool performingInitialRotation = false;
 
 	/// Is only present to match server's flight routines
 	private MatrixState clientTargetState = MatrixState.Invalid;
@@ -127,6 +135,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// subscribe to RegisterTile.OnRotateEnd / OnRotateStart rather than this, if possible. Otherwise, they
 	/// would need to track when their parent matrix changes and handle unsub / resubbing. RegisterTile
 	/// takes care of this.
+	///
+	/// This is sent once when client joins to set initial rotation.
 	/// </summary>
 	[FormerlySerializedAs("OnRotate")]
 	public OrientationEvent OnRotateStart = new OrientationEvent();
@@ -135,6 +145,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// subscribe to RegisterTile.OnRotateEnd / OnRotateStart rather than this, if possible. Otherwise, they
 	/// would need to track when their parent matrix changes and handle unsub / resubbing. RegisterTile
 	/// takes care of this.
+	///
+	/// This is sent once when client joins to set initial rotation.
 	/// </summary>
 	public OrientationEvent OnRotateEnd = new OrientationEvent();
 	public DualFloatEvent OnSpeedChange = new DualFloatEvent();
@@ -271,7 +283,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 		if (!ClientNeedsRotation && rotatedOnPreviousUpdate)
 		{
 
-			OnRotateEnd.Invoke(previousRotation);
+			OnRotateEnd.Invoke(previousRotation, performingInitialRotation);
+			performingInitialRotation = false;
 			rotatedOnPreviousUpdate = false;
 		}
 	}
@@ -581,28 +594,29 @@ public class MatrixMove : ManagedNetworkBehaviour
 		clientState = newState;
 		clientTargetState = newState;
 
-		if (!Equals(oldState.orientation, newState.orientation) || !StateInit)
+		if (!Equals(oldState.orientation, newState.orientation) || !ReceivedInitialRotation)
 		{
-			if (!StateInit)
+			if (!ReceivedInitialRotation)
 			{
 				//this is the first state, so set initial rotation based on offset from initial position
 				previousRotation = newState.RotationOffset;
+				performingInitialRotation = true;
 			}
 			else
 			{
 				//update based on offset from old state
 				previousRotation = oldState.orientation.OffsetTo(newState.orientation);
 			}
-			OnRotateStart.Invoke(previousRotation);
+			OnRotateStart.Invoke(previousRotation, !ReceivedInitialRotation);
 
 			//This is ok for occasional state changes like beginning of rot:
 			gameObject.BroadcastMessage("MatrixMoveStartRotation", null, SendMessageOptions.DontRequireReceiver);
 			monitorOnRot = true;
 		}
 
-		if (!StateInit)
+		if (!ReceivedInitialRotation)
 		{
-			StateInit = true;
+			ReceivedInitialRotation = true;
 		}
 
 		if (!oldState.IsMoving && newState.IsMoving)
@@ -841,9 +855,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 /// Event sent when rotation offset of the receiver should change. RotationOffset indicates how much
 /// the object should rotate from their CURRENT direction. I.E. if object recieves RotationOffset.Left and
 /// is currently facing Right, they should now face Up (since Up is a left turn from Right).
+///
+/// The bool is set to true if this is the initial rotation event sent when the matrix is first being loaded such as
+/// when the client joins
 /// </summary>
 [Serializable]
-public class OrientationEvent : UnityEvent<RotationOffset>
+public class OrientationEvent : UnityEvent<RotationOffset,bool>
 {
 }
 
