@@ -30,7 +30,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public PlayerMove playerMove { get; set; }
 
-	public PushPull pushPull { get; set; }
+	public ObjectBehaviour pushPull { get; set; }
 
 	public PlayerSprites playerSprites { get; set; }
 
@@ -93,7 +93,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		registerTile = GetComponent<RegisterTile>();
 		playerHealth = GetComponent<PlayerHealth>();
-		pushPull = GetComponent<PushPull>();
+		pushPull = GetComponent<ObjectBehaviour>();
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		mouseInputController = GetComponent<MouseInputController>();

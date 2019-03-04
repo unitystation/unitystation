@@ -37,7 +37,7 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 			return;
 		}
 		//Allows getting parent's assumed position if inside object
-		objectBehaviour = PlayerManager.LocalPlayer.GetComponent<ObjectBehaviour>();
+		ObjectBehaviour objectBehaviour = PlayerManager.LocalPlayerScript.pushPull;
 
 		//recalculate if it is facing the player
 		bool visible = wallmountBehavior.IsFacingPosition(objectBehaviour.AssumedLocation());
