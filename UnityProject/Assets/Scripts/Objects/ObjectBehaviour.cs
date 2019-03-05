@@ -14,15 +14,21 @@ public class ObjectBehaviour : PushPull
 
 	//The object that this object is contained inside
 	public ObjectBehaviour parentContainer = null;
+	private Vector3 lastNonHiddenPosition = new Vector3();
 	//returns position of highest object this object is contained in
     public Vector3 AssumedLocation()
     {
 		//If this object is contained in another, run until highest layer layer is reached
         if (parentContainer != null)
         {
-            return parentContainer.AssumedLocation();
+            lastNonHiddenPosition = parentContainer.AssumedLocation();
         }
-        return transform.position;
+		else if (transform.position != TransformState.HiddenPos)
+		{
+			lastNonHiddenPosition = transform.position;
+		}
+
+        return lastNonHiddenPosition;
     }
 
 	public override void OnVisibilityChange(bool state)
