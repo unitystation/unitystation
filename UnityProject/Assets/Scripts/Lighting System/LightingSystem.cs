@@ -185,6 +185,7 @@ public class LightingSystem : MonoBehaviour
 	/// check the wallmount's sprite color alpha transparency to see if it is visible.</returns>
 	public bool IsScreenPointVisible(Vector2 iScreenPoint)
 	{
+		return true; //fixme: this method is broken for ios!
 		//don't run lighting system on headless
 		if (GameData.IsHeadlessServer)
 		{
