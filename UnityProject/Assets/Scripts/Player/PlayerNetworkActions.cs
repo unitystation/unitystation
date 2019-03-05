@@ -38,6 +38,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private PlayerSprites playerSprites;
+	private ObjectBehaviour objectBehaviour;
 
 	private SoundNetworkActions soundNetworkActions;
 
@@ -56,6 +57,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript = GetComponent<PlayerScript>();
 		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
 	public override void OnStartServer()
@@ -108,9 +110,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return false;
 		}
 
+		ObjectBehaviour itemObj = itemObject.GetComponent<ObjectBehaviour>();
 		var cnt = itemObject.GetComponent<CustomNetTransform>();
 		if (cnt != null)
 		{
+			if (itemObj != null)
+			{
+				itemObj.parentContainer = objectBehaviour;
+			}
 			cnt.DisappearFromWorldServer();
 		}
 
@@ -408,8 +415,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				}
 			}
 		}
-		InventoryManager.DropGameItem(gameObject, Inventory[slot].Item, transform.position);
-
+		InventoryManager.DropGameItem(gameObject, Inventory[slot].Item, transform.position);		
+		
 		equipment.ClearItemSprite(slot);
 	}
 
