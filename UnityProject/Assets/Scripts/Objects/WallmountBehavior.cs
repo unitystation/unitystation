@@ -40,7 +40,6 @@ public class WallmountBehavior : MonoBehaviour
 		return difference >= 91 || difference <= -91;
 	}
 
-	//[DrawGizmo(GizmoType.Selected | GizmoType.NonSelected)]
 	void OnDrawGizmos ()
 	{
 		Gizmos.color = Color.green;
