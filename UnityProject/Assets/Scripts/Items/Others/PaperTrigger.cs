@@ -23,7 +23,7 @@ public class PaperTrigger : PickUpTrigger
 		}
 	}
 
-	public override void UI_InteractOtherSlot(GameObject originator, GameObject otherHandItem)
+	public override bool UI_InteractOtherSlot(GameObject originator, GameObject otherHandItem)
 	{
 		if (otherHandItem != null)
 		{
@@ -33,5 +33,6 @@ public class PaperTrigger : PickUpTrigger
 				UI_Interact(originator, UIManager.Hands.OtherSlot.eventName);
 			}
 		}
+		return false;
 	}
 }
