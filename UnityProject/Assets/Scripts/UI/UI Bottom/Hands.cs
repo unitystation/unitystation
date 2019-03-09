@@ -100,6 +100,8 @@ public class Hands : MonoBehaviour
 
 	/// <summary>
 	/// General function to try to equip the item in the active hand
+	/// NOTE: This method isn't being used right now and should should possibly
+	/// be changed/called by clothing's UI_Interact
 	/// </summary>
 	public void Equip()
 	{
