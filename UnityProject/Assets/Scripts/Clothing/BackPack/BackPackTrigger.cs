@@ -11,7 +11,7 @@ public class BackPackTrigger : PickUpTrigger
 	{
 		storageObj = GetComponent<StorageObject>();
 	}
-	public override void UI_InteractOtherSlot(GameObject originator, GameObject item)
+	public override bool UI_InteractOtherSlot(GameObject originator, GameObject item)
 	{
 		if (item != null)
 		{
@@ -36,6 +36,7 @@ public class BackPackTrigger : PickUpTrigger
 				UIManager.StorageHandler.CloseStorageUI();
 			}
 		}
+		return false;
 	}
 
 	public override void UI_Interact(GameObject originator, string hand)
