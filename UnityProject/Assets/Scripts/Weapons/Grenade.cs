@@ -42,8 +42,6 @@ public class Grenade : PickUpTrigger
 	public float maxEffectDuration = .25f;
 	[TooltipAttribute("Minimum duration grenade effects are visible depending on distance from center")]
 	public float minEffectDuration = .05f;
-	[TooltipAttribute("sprite renderer to use for the explosion")]
-	public SpriteRenderer spriteRend;
 	
 	private readonly string[] EXPLOSION_SOUNDS = { "Explosion1", "Explosion2" };
 	//LayerMask for things that can be damaged
@@ -58,8 +56,6 @@ public class Grenade : PickUpTrigger
 	//this object's registerObject
     private bool timerRunning = false;
 	private RegisterObject registerObject;
-	//Temporary game object created during the explosion
-	private GameObject lightFxInstance;
 	//this object's custom net transform
 	private CustomNetTransform customNetTransform;
 
@@ -170,11 +166,6 @@ public class Grenade : PickUpTrigger
 		}
 	}
 
-	/// <summary>
-	/// Destroy the exploded game object (removing it completely from the game) after a few seconds.
-	/// </summary>
-	/// <returns></returns>
-
 	private bool HasEffectiveDamage(int actualDamage)
 	{
 		return actualDamage > 0;
@@ -229,22 +220,17 @@ public class Grenade : PickUpTrigger
 	/// </summary>
 	private void DisappearObject()
 	{
-		//NOTE: This runs on both the client and the server. When it runs on the server,
-		//we need to make sure the server knows it should be disappeared. When it runs on the
-		//client we need to make the clients local version of the object disappear
 		if (isServer)
 		{
 			//make it vanish in the server's state of the world
 			//this currently removes it from the world and any player inventory
 			//backpack slots need a way of being cleared
 			customNetTransform.DisappearFromWorldServer();
-            // gameObject.GetComponent<ObjectBehaviour>().visibleState = false;
             InventorySlot invSlot = InventoryManager.GetSlotFromItem(gameObject);
 			if (invSlot != null)
 			{
             	InventoryManager.UpdateInvSlot(true, "", gameObject, invSlot.UUID);
 			}
-            // InventoryManager.DisposeItemServer(gameObject);
 		}
 		else
 		{
@@ -267,10 +253,6 @@ public class Grenade : PickUpTrigger
 			{
 				for (int j = -radiusInteger; j <= radiusInteger; j++)
 				{
-					// These methods are to check if the explosion is past a wall
-					// they are currently commented out because the positioning that it's checking seems to be off
-					// and I believe it shuold be fixed first.
-					// if (MatrixManager.IsPassableAt(checkPos))
 					Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y + j, 0);
 					if (IsPastWall(pos.To2Int(), checkPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
 					{
@@ -294,7 +276,6 @@ public class Grenade : PickUpTrigger
 				{
 					if (j <= 0 && j >= (-f) || j >= 0 && j <= (0 + f))
 					{
-						// if (MatrixManager.IsPassableAt(diamondPos)) 
 						Vector3Int diamondPos = new Vector3Int(pos.x + i, pos.y + j, 0);
 						if (IsPastWall(pos.To2Int(), diamondPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
 						{
@@ -311,7 +292,6 @@ public class Grenade : PickUpTrigger
 		{
 			for (int i = -radiusInteger; i <= radiusInteger; i++)
 			{
-				// if (MatrixManager.IsPassableAt(xPos)) 
 				Vector3Int xPos = new Vector3Int(pos.x + i, pos.y, 0);
 				if (IsPastWall(pos.To2Int(), xPos.To2Int(), Mathf.Abs(i)))
 				{
@@ -323,7 +303,6 @@ public class Grenade : PickUpTrigger
 			}
 			for (int j = -radiusInteger; j <= radiusInteger; j++)
 			{
-				// if (MatrixManager.IsPassableAt(yPos))
 				Vector3Int yPos = new Vector3Int(pos.x, pos.y + j, 0);
 				if (IsPastWall(pos.To2Int(), yPos.To2Int(), Mathf.Abs(j)))
 				{
@@ -346,7 +325,6 @@ public class Grenade : PickUpTrigger
 				{
 					if (j <= 0 && j >= (-f) || j >= 0 && j <= (0 + f))
 					{
-						// if (MatrixManager.IsPassableAt(circlePos)) 
 						Vector3Int circlePos = new Vector3Int(pos.x + i, pos.y + j, 0);
 						if (IsPastWall(pos.To2Int(), circlePos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
 						{
