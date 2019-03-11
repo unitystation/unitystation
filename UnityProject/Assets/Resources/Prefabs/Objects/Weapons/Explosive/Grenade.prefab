@@ -277,6 +277,7 @@ MonoBehaviour:
   radius: 2
   explosionType: 3
   fuseLength: 3
-  shakeDistance: 4
+  shakeDistance: 12
   minDamage: 2
-  spriteRend: {fileID: 0}
+  maxEffectDuration: 0.25
+  minEffectDuration: 0.05

@@ -11,7 +11,7 @@ public class SoundNetworkActions : NetworkBehaviour
 
 	// fixme: unsecure af, lets client play arbitrary sounds at will ^v
 
-	[Command]
+	[Command] [System.Obsolete("Use PlaySoundMessage instead")]
 	public void CmdPlaySoundAtPlayerPos(string soundName)
 	{
 		RpcPlayNetworkSound(soundName, transform.position);
@@ -20,6 +20,6 @@ public class SoundNetworkActions : NetworkBehaviour
 	[ClientRpc]
 	public void RpcPlayNetworkSound(string soundName, Vector3 pos)
 	{
-		SoundManager.PlayAtPosition(soundName, pos);
+		SoundManager.PlayAtPosition(soundName, pos, 1f);
 	}
 }
