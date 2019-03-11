@@ -286,6 +286,11 @@ public class InventoryManager : MonoBehaviour
 				objTransform.AppearAtPositionServer(dropPos);
 			}
 		}
+		ObjectBehaviour itemObj = slot.Item.GetComponent<ObjectBehaviour>();
+		if (itemObj)
+		{
+			itemObj.parentContainer = null;
+		}
 		slot.Item.GetComponent<RegisterTile>().UpdatePosition();
 		UpdateInvSlot(true, "", slot.Item, slot.UUID);
 	}
