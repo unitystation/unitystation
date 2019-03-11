@@ -118,13 +118,12 @@ public class Grenade : PickUpTrigger
 			return;
 		}
 		hasExploded = true;
-		// DisplayExplosion();
 		if (isServer)
 		{
-			DisplayExplosion();
+			playExplodeSound();
+			createShape();
 			CalcAndApplyExplosionDamage(damagedBy);
-			// RpcClientExplode();
-            // NetworkServer.Destroy(gameObject);
+			DisappearObject();
 		}
 	}
 
@@ -137,7 +136,6 @@ public class Grenade : PickUpTrigger
 	public void CalcAndApplyExplosionDamage(string thanksTo)
 	{
 		Vector2 explosionPos = objectBehaviour.AssumedLocation().To2Int();
-		// int length = Physics2D.OverlapCircleNonAlloc(explosionPos, (radius * shakeDistance), colliders, DAMAGEABLE_MASK);
 		int length = colliders.Count;
 		Dictionary<GameObject, int> toBeDamaged = new Dictionary<GameObject, int>();
 		for (int i = 0; i < length; i++)
@@ -173,20 +171,6 @@ public class Grenade : PickUpTrigger
 	}
 
 	/// <summary>
-	/// Updates each client, telling them to display the explosion effect on their own version
-	/// of the object and make the object vanish due to the explosion.
-	/// </summary>
-	[ClientRpc]
-	private void RpcClientExplode()
-	{
-		if (!hasExploded)
-		{
-			hasExploded = true;
-			DisplayExplosion();
-		}
-	}
-
-	/// <summary>
 	/// Destroy the exploded game object (removing it completely from the game) after a few seconds.
 	/// </summary>
 	/// <returns></returns>
@@ -201,7 +185,7 @@ public class Grenade : PickUpTrigger
 		return Physics2D.Raycast(pos, damageablePos - pos, distance, OBSTACLE_MASK).collider == null;
 	}
 
-		private bool IsPastWall(Vector2 pos, Vector2 damageablePos, float distance)
+	private bool IsPastWall(Vector2 pos, Vector2 damageablePos, float distance)
 	{
 		return Physics2D.Raycast(pos, damageablePos - pos, distance, OBSTACLE_MASK).collider == null;
 	}
@@ -226,13 +210,8 @@ public class Grenade : PickUpTrigger
 	/// <summary>
 	/// Handles the visual effect of the explosion / disappearing of the object
 	/// </summary>
-	internal virtual void DisplayExplosion()
+	private void playExplodeSound()
 	{
-		//NOTE: This runs on both the client and the server.
-		//When something goes boom on a client, the client makes its own version go boom,
-		// the server makes its own version of the object go boom and
-		//sends an RPC to all the clients to tell them to make their version of the object go boom as well. So this
-		//method ends up being invoked on clients and server.
 
 		// Instantiate a clone of the source so that multiple explosions can play at the same time.
 		string name = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
@@ -243,10 +222,6 @@ public class Grenade : PickUpTrigger
 			Instantiate(source, explodePosition, Quaternion.identity).Play();
 		}
 
-		createShape();
-
-		//make the actual tank disappear
-		DisappearObject();
 	}
 
 	/// <summary>
@@ -414,7 +389,7 @@ public class Grenade : PickUpTrigger
 		return distance;
 	}
 
-		private void PlayPinSFX()
+	private void PlayPinSFX()
 	{
 		PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
 	}
