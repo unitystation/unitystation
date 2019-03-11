@@ -11,7 +11,7 @@ using UnityEngine.Networking;
 public enum ExplosionType
 {
 	Square, // radius is equal in all directions from center []
-	
+
 	Diamond, // classic SS13 diagonals are reduced and angled <>
 	Bomberman, // plus +
 	Circle, // Diamond without tip
@@ -42,7 +42,7 @@ public class Grenade : PickUpTrigger
 	public float maxEffectDuration = .25f;
 	[TooltipAttribute("Minimum duration grenade effects are visible depending on distance from center")]
 	public float minEffectDuration = .05f;
-	
+
 	private readonly string[] EXPLOSION_SOUNDS = { "Explosion1", "Explosion2" };
 	//LayerMask for things that can be damaged
 	private int DAMAGEABLE_MASK;
@@ -52,7 +52,7 @@ public class Grenade : PickUpTrigger
 	private readonly List<Collider2D> colliders = new List<Collider2D>();
 
 	//whether this object has exploded
-	private bool hasExploded;	
+	private bool hasExploded;
 	//this object's registerObject
     private bool timerRunning = false;
 	private RegisterObject registerObject;
@@ -76,7 +76,7 @@ public class Grenade : PickUpTrigger
 	public override void UI_Interact(GameObject originator, string hand)
 	{
 		if (!isServer)
-        { 
+        {
             InteractMessage.Send(gameObject, hand, true);
         }
 		else
@@ -105,7 +105,7 @@ public class Grenade : PickUpTrigger
             Explode("explosion");
         }
     }
-	
+
 	public void Explode(string damagedBy)
 	{
 		if (hasExploded)
@@ -235,7 +235,7 @@ public class Grenade : PickUpTrigger
 		{
 			//make it vanish in the client's local world
 			customNetTransform.DisappearFromWorld();
-		}		
+		}
 	}
 
 	/// <summary>
@@ -368,7 +368,7 @@ public class Grenade : PickUpTrigger
 
 	private void PlayPinSFX(Vector3 position)
 	{
-		PlaySoundMessage.SendToAll("EmptyGunClick", position, 2.2f);
+		SoundManager.PlayNetworkedAtPos("EmptyGunClick", position, 2.2f);
 	}
 
 }

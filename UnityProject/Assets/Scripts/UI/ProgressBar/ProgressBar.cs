@@ -153,7 +153,7 @@ public class PlayerProgressEntry
 	{
 		if (!string.IsNullOrEmpty(additionalSfx))
 		{
-			PlaySoundMessage.SendToAll(additionalSfx, position, additionalSfxPitch);
+			SoundManager.PlayNetworkedAtPos(additionalSfx, position, additionalSfxPitch);
 		}
 	}
 }

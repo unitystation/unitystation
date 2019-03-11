@@ -99,7 +99,7 @@ public class TilemapDamage : MonoBehaviour
 		{
 			if (metaTileMap.HasTile(cellPos, LayerType.Windows))
 			{
-				PlaySoundMessage.SendToAll("GlassHit", dmgPosition, Random.Range(0.9f, 1.1f));
+				SoundManager.PlayNetworkedAtPos("GlassHit", dmgPosition, Random.Range(0.9f, 1.1f));
 				AddWindowDamage(dmgAmt, data, cellPos, dmgPosition);
 				return;
 			}
@@ -112,7 +112,7 @@ public class TilemapDamage : MonoBehaviour
 			{
 				if (metaTileMap.HasTile(cellPos, LayerType.Grills))
 				{
-					PlaySoundMessage.SendToAll("GrillHit", dmgPosition, Random.Range(0.9f, 1.1f));
+					SoundManager.PlayNetworkedAtPos("GrillHit", dmgPosition, Random.Range(0.9f, 1.1f));
 					AddGrillDamage(dmgAmt, data, cellPos, dmgPosition);
 				}
 			}
@@ -149,7 +149,7 @@ public class TilemapDamage : MonoBehaviour
 			SpawnGlassShards(bulletHitTarget);
 
 			//Play the breaking window sfx:
-			PlaySoundMessage.SendToAll("GlassBreak0" + Random.Range(1, 4).ToString(), bulletHitTarget, 1f);
+			SoundManager.PlayNetworkedAtPos("GlassBreak0" + Random.Range(1, 4).ToString(), bulletHitTarget, 1f);
 
 			data.WindowDmgType = "broken";
 			data.ResetDamage();
@@ -166,7 +166,7 @@ public class TilemapDamage : MonoBehaviour
 			tileChangeManager.RemoveTile(cellPos, LayerType.Grills);
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "GrillDestroyed");
 
-			PlaySoundMessage.SendToAll("GrillHit", bulletHitTarget, 1f);
+			SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
 
 			//Spawn rods:
 			SpawnRods(bulletHitTarget);
@@ -190,7 +190,7 @@ public class TilemapDamage : MonoBehaviour
 				{
 					tileChangeManager.RemoveTile(cellPos, LayerType.Grills);
 
-					PlaySoundMessage.SendToAll("WireCutter", snipPosition, 1f);
+					SoundManager.PlayNetworkedAtPos("WireCutter", snipPosition, 1f);
 					SpawnRods(snipPosition);
 				}
 			}
@@ -221,6 +221,6 @@ public class TilemapDamage : MonoBehaviour
 			Quaternion.identity).GetComponent<GlassShard>().SetSpriteAndScatter(2);
 
 		//Play the breaking window sfx:
-		PlaySoundMessage.SendToAll("GlassBreak0" + Random.Range(1, 4), pos, 1f);
+		SoundManager.PlayNetworkedAtPos("GlassBreak0" + Random.Range(1, 4), pos, 1f);
 	}
 }

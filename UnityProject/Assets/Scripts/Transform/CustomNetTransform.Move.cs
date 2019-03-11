@@ -464,10 +464,10 @@ public partial class CustomNetTransform {
 				PostToChatMessage.SendThrowHitMessage( gameObject, objects[i].gameObject, damage, hitZone );
 			}
 			//hit sound
-			PlaySoundMessage.SendToAll("GenericHit", transform.position, 1f);
+			SoundManager.PlayNetworkedAtPos("GenericHit", transform.position, 1f);
 		} else {
 			//todo different sound for no-damage hit?
-			PlaySoundMessage.SendToAll("GenericHit", transform.position, 0.8f);
+			SoundManager.PlayNetworkedAtPos("GenericHit", transform.position, 0.8f);
 		}
 	}
 
