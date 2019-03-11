@@ -14,12 +14,18 @@ public class SoundNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdPlaySoundAtPlayerPos(string soundName)
 	{
-		RpcPlayNetworkSound(soundName, transform.position, 1f);
+		RpcPlayNetworkSoundWithPitch(soundName, transform.position, 1f);
 	}
 
 	[ClientRpc]
-	public void RpcPlayNetworkSound(string soundName, Vector3 pos, float pitch = 1f)
+	public void RpcPlayNetworkSoundWithPitch(string soundName, Vector3 pos, float pitch)
 	{
 		SoundManager.PlayAtPosition(soundName, pos, pitch);
+	}
+
+	[ClientRpc]
+	public void RpcPlayNetworkSound(string soundName, Vector3 pos)
+	{
+		SoundManager.PlayAtPosition(soundName, pos, 1f);
 	}
 }
