@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
 public class SoundManager : MonoBehaviour
@@ -71,6 +72,91 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Serverside: Play sound for all clients
+	/// </summary>
+	public static void PlayNetworked( string sndName, float pitch = -1,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
+	{
+		PlaySoundMessage.SendToAll( sndName, TransformState.HiddenPos, pitch, shakeGround, shakeIntensity, shakeRange );
+	}
+
+	/// <summary>
+	/// Serverside: Play sound at given position for all clients
+	/// </summary>
+	public static void PlayNetworkedAtPos( string sndName, Vector3 pos, float pitch = -1,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
+	{
+		PlaySoundMessage.SendToAll( sndName, pos, pitch, shakeGround, shakeIntensity, shakeRange );
+	}
+
+	/// <summary>
+	/// Serverside: Play sound for particular player
+	/// ("Doctor, there are voices in my head!")
+	/// </summary>
+	public static void PlayNetworkedForPlayer( GameObject recipient, string sndName, float pitch = -1,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
+	{
+		PlaySoundMessage.Send( recipient, sndName, TransformState.HiddenPos, pitch, shakeGround, shakeIntensity, shakeRange );
+	}
+
+	/// <summary>
+	/// Serverside: Play sound at given position for particular player
+	/// ("Doctor, there are voices in my head!")
+	/// </summary>
+	public static void PlayNetworkedForPlayerAtPos( GameObject recipient, Vector3 pos, string sndName, float pitch = -1,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
+	{
+		PlaySoundMessage.Send( recipient, sndName, pos, pitch, shakeGround, shakeIntensity, shakeRange );
+	}
+
+	/// <summary>
+	/// Play sound locally
+	/// </summary>
+	public static void Play(string name, float volume, float pitch = -1, float time = 0)
+	{
+		if (pitch > 0)
+		{
+			Instance.sounds[name].pitch = pitch;
+		}
+		Instance.sounds[name].time = time;
+		Instance.sounds[name].volume = volume;
+		Instance.sounds[name].Play();
+	}
+
+	/// <summary>
+	/// Play sound locally
+	/// </summary>
+	public static void Play(string name)
+	{
+		Instance.sounds[name].Play();
+	}
+
+	/// <summary>
+	/// Play sound locally at given world position
+	/// </summary>
+	public static void PlayAtPosition(string name, Vector3 pos, float pitch = -1)
+	{
+		if (Instance.sounds.ContainsKey(name))
+		{
+			if (pitch > 0)
+			{
+				Instance.sounds[name].pitch = pitch;
+			}
+			Instance.sounds[name].transform.position = pos;
+			Instance.sounds[name].Play();
+			//Set to cache incase it was changed
+		}
+	}
+
+	public static void Stop(string name)
+	{
+		if (Instance.sounds.ContainsKey(name))
+		{
+			Instance.sounds[name].Stop();
+		}
+	}
+
 	public static void StopMusic()
 	{
 		foreach (AudioSource track in Instance.musicTracks)
@@ -85,45 +171,6 @@ public class SoundManager : MonoBehaviour
 		foreach (AudioSource source in Instance.ambientTracks)
 		{
 			source.Stop();
-		}
-	}
-
-	public static void Play(string name, float volume, float pitch = -1, float time = 0)
-	{
-		if (pitch > 0)
-		{
-			Instance.sounds[name].pitch = pitch;
-		}
-		Instance.sounds[name].time = time;
-		Instance.sounds[name].volume = volume;
-		Instance.sounds[name].Play();
-		//Set to cache incase it was changed
-	}
-
-	public static void Play(string name)
-	{
-		Instance.sounds[name].Play();
-	}
-
-	public static void Stop(string name)
-	{
-		if (Instance.sounds.ContainsKey(name))
-		{
-			Instance.sounds[name].Stop();
-		}
-	}
-
-	public static void PlayAtPosition(string name, Vector3 pos, float pitch = -1)
-	{
-		if (Instance.sounds.ContainsKey(name))
-		{
-			if (pitch > 0)
-			{
-				Instance.sounds[name].pitch = pitch;
-			}
-			Instance.sounds[name].transform.position = pos;
-			Instance.sounds[name].Play();
-			//Set to cache incase it was changed
 		}
 	}
 

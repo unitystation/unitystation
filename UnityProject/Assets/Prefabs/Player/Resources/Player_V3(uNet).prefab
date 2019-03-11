@@ -663,7 +663,6 @@ GameObject:
   - component: {fileID: 114173340621344012}
   - component: {fileID: 114418639699052366}
   - component: {fileID: 114644792539986700}
-  - component: {fileID: 114600992077934460}
   - component: {fileID: 114285504268110804}
   - component: {fileID: 114803877374308862}
   - component: {fileID: 114449635359748350}
@@ -961,18 +960,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muzzleFlash: {fileID: 1894933337466704}
---- !u!114 &114600992077934460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fac93dc50dde44dddad92297c25a7c3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114285504268110804
 MonoBehaviour:
   m_ObjectHideFlags: 0
