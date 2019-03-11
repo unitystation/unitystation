@@ -86,8 +86,8 @@ public class CentComm : MonoBehaviour
 		};
 		ChatRelay.Instance.AddToChatLogServer(announcement);
 
-		PlaySoundMessage.SendToAll("Notice1", Vector3.zero, 1f);
-		PlaySoundMessage.SendToAll("InterceptMessage", Vector3.zero, 1f);
+		SoundManager.PlayNetworked("Notice1", 1f);
+		SoundManager.PlayNetworked("InterceptMessage", 1f);
 	}
 
 	private string CreateStartGameReport()

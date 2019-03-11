@@ -37,7 +37,7 @@ public class GlassShard : NetworkBehaviour
 		spriteIndex = index;
 		spriteRenderer.sprite = glassSprites[spriteIndex];
 
-		
+
 
 		//Scatter them around (just for visual candy, no need to network sync as they are on the same grid co-ord anyway):
 		// spriteRenderer.transform.localPosition = new Vector3(
@@ -46,7 +46,7 @@ public class GlassShard : NetworkBehaviour
 		//Also add a bit of rotation variance to the sprite obj:
 		var axis = new Vector3(0,0,1);
 		spriteRenderer.transform.localRotation = Quaternion.AngleAxis(Random.Range(-180f, 180f), axis);
-		
+
 
 	}
 
@@ -61,7 +61,7 @@ public class GlassShard : NetworkBehaviour
 		//8 = Players layer
 		if (coll.gameObject.layer == 8)
 		{
-			PlaySoundMessage.SendToAll("GlassStep", coll.transform.position, Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos("GlassStep", coll.transform.position, Random.Range(0.8f, 1.2f));
 		}
 	}
 }

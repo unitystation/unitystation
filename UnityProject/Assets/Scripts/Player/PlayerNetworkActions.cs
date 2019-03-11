@@ -40,8 +40,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private PlayerSprites playerSprites;
 	private ObjectBehaviour objectBehaviour;
 
-	private SoundNetworkActions soundNetworkActions;
-
 	public Dictionary<string, InventorySlot> Inventory { get; } = new Dictionary<string, InventorySlot>();
 
 	public bool isGhost;
@@ -55,7 +53,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
 		playerScript = GetComponent<PlayerScript>();
-		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
@@ -668,7 +665,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
+					SoundManager.PlayNetworkedAtPos( "Bodyfall", transform.position );
 				}
 				break;
 			case ConsciousState.UNCONSCIOUS:
@@ -679,7 +676,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					soundNetworkActions.RpcPlayNetworkSound("Bodyfall", transform.position);
+					SoundManager.PlayNetworkedAtPos( "Bodyfall", transform.position );
 				}
 				break;
 		}
@@ -804,11 +801,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
 		if (isDrink)
 		{
-			soundNetworkActions.CmdPlaySoundAtPlayerPos("Slurp");
+			SoundManager.PlayNetworkedAtPos( "Slurp", transform.position );
 		}
 		else
 		{
-			soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
+			SoundManager.PlayNetworkedAtPos( "EatFood", transform.position );
 		}
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
@@ -887,9 +884,4 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	[ClientRpc]
-	public void RpcForceCameraShake(float amt, float length)
-	{
-		Camera2DFollow.followControl.Shake(amt, length);
-	}
 }

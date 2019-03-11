@@ -327,7 +327,7 @@ public class Weapon : PickUpTrigger
 			RequestUnload(CurrentMagazine);
 		}
 	}
-	
+
 	/// <summary>
 	/// attempt to reload the weapon with the item given
 	/// </summary>
@@ -343,7 +343,7 @@ public class Weapon : PickUpTrigger
 				{
 					//RELOAD
 					// If the item used on the gun is a magazine, check type and reload
-					string ammoType = magazine.ammoType;		
+					string ammoType = magazine.ammoType;
 					if (AmmoType == ammoType)
 					{
 						hand = UIManager.Hands.CurrentSlot.eventName;
@@ -428,7 +428,7 @@ public class Weapon : PickUpTrigger
 				RequestUnload(CurrentMagazine);
 				OutOfAmmoSFX();
 			}
-			else 
+			else
 			{
 				PlayEmptySFX();
 			}
@@ -781,12 +781,12 @@ public class Weapon : PickUpTrigger
 
 	private void OutOfAmmoSFX()
 	{
-		PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("OutOfAmmoAlarm");
+		SoundManager.PlayNetworkedAtPos( "OutOfAmmoAlarm", transform.position );
 	}
 
 	private void PlayEmptySFX()
 	{
-		PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
+		SoundManager.PlayNetworkedAtPos( "EmptyGunClick", transform.position );
 	}
 
 	#endregion

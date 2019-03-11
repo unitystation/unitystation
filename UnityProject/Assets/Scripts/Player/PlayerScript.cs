@@ -24,8 +24,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
 
-	public SoundNetworkActions soundNetworkActions { get; set; }
-
 	public PlayerHealth playerHealth { get; set; }
 
 	public PlayerMove playerMove { get; set; }
@@ -95,7 +93,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 		playerHealth = GetComponent<PlayerHealth>();
 		pushPull = GetComponent<ObjectBehaviour>();
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
-		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		mouseInputController = GetComponent<MouseInputController>();
 		hitIcon = GetComponentInChildren<HitIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
