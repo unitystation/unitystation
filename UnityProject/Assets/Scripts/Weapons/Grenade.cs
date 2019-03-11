@@ -75,7 +75,6 @@ public class Grenade : PickUpTrigger
 
 	public override void UI_Interact(GameObject originator, string hand)
 	{
-		ObjectBehaviour hello = originator.GetComponent<ObjectBehaviour>();
 		if (!isServer)
         { 
             InteractMessage.Send(gameObject, hand, true);
