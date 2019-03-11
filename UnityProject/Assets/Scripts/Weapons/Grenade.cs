@@ -228,7 +228,7 @@ public class Grenade : PickUpTrigger
             InventorySlot invSlot = InventoryManager.GetSlotFromItem(gameObject);
 			if (invSlot != null)
 			{
-            	InventoryManager.UpdateInvSlot(true, "", gameObject, invSlot.UUID);
+				InventoryManager.DestroyItemInSlot(invSlot);
 			}
 		}
 		else
