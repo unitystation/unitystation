@@ -38,12 +38,13 @@ public class Grenade : PickUpTrigger
 	public float shakeDistance = 4;
 	[TooltipAttribute("generally neccesary for smaller explosions = 1 - ((distance + distance) / ((radius + radius) + minDamage))")]
 	public int minDamage = 2;
+	[TooltipAttribute("Maximum duration grenade effects are visible depending on distance from center")]
+	public float maxEffectDuration = .25f;
+	[TooltipAttribute("Minimum duration grenade effects are visible depending on distance from center")]
+	public float minEffectDuration = .05f;
 	[TooltipAttribute("sprite renderer to use for the explosion")]
 	public SpriteRenderer spriteRend;
 	
-
-	//max number of things an explosion can hit (unused currently)
-	private const int MAX_TARGETS = 44;
 	private readonly string[] EXPLOSION_SOUNDS = { "Explosion1", "Explosion2" };
 	//LayerMask for things that can be damaged
 	private int DAMAGEABLE_MASK;
@@ -110,8 +111,6 @@ public class Grenade : PickUpTrigger
         }
     }
 	
-	
-
 	public void Explode(string damagedBy)
 	{
 		if (hasExploded)
@@ -119,13 +118,13 @@ public class Grenade : PickUpTrigger
 			return;
 		}
 		hasExploded = true;
-		DisplayExplosion();
+		// DisplayExplosion();
 		if (isServer)
 		{
+			DisplayExplosion();
 			CalcAndApplyExplosionDamage(damagedBy);
-			RpcClientExplode();
+			// RpcClientExplode();
             // NetworkServer.Destroy(gameObject);
-			// StartCoroutine(WaitToDestroy());
 		}
 	}
 
@@ -191,11 +190,6 @@ public class Grenade : PickUpTrigger
 	/// Destroy the exploded game object (removing it completely from the game) after a few seconds.
 	/// </summary>
 	/// <returns></returns>
-	private IEnumerator WaitToDestroy()
-	{
-		yield return new WaitForSeconds(5f);
-		NetworkServer.Destroy(gameObject);
-	}
 
 	private bool HasEffectiveDamage(int actualDamage)
 	{
@@ -276,8 +270,6 @@ public class Grenade : PickUpTrigger
             	InventoryManager.UpdateInvSlot(true, "", gameObject, invSlot.UUID);
 			}
             // InventoryManager.DisposeItemServer(gameObject);
-
-			// StartCoroutine(WaitToDestroy());
 		}
 		else
 		{
@@ -304,14 +296,14 @@ public class Grenade : PickUpTrigger
 					// they are currently commented out because the positioning that it's checking seems to be off
 					// and I believe it shuold be fixed first.
 					// if (MatrixManager.IsPassableAt(checkPos))
-					// if (IsPastWall(pos.To2Int(), checkPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
 					Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y + j, 0);
-					// {
-					checkColliders(checkPos.To2Int());
-					checkPos.x -= 1;
-					checkPos.y -= 1;
-					EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, j, .50f, .75f), checkPos, transform.parent);
-					// }
+					if (IsPastWall(pos.To2Int(), checkPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
+					{
+						checkColliders(checkPos.To2Int());
+						checkPos.x -= 1;
+						checkPos.y -= 1;
+						StartCoroutine(TimedEffect(checkPos, TileType.Effects, "Fire", distanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
+					}
 				}
 			}
 		}
@@ -328,14 +320,14 @@ public class Grenade : PickUpTrigger
 					if (j <= 0 && j >= (-f) || j >= 0 && j <= (0 + f))
 					{
 						// if (MatrixManager.IsPassableAt(diamondPos)) 
-						// if (IsPastWall(pos.To2Int(), diamondPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
-						// {
-					Vector3Int diamondPos = new Vector3Int(pos.x + i, pos.y + j, 0);
-						checkColliders(diamondPos.To2Int());
-						diamondPos.x -= 1;
-						diamondPos.y -= 1;
-						EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, j), diamondPos, transform.parent);
-						// }
+						Vector3Int diamondPos = new Vector3Int(pos.x + i, pos.y + j, 0);
+						if (IsPastWall(pos.To2Int(), diamondPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
+						{
+							checkColliders(diamondPos.To2Int());
+							diamondPos.x -= 1;
+							diamondPos.y -= 1;
+							StartCoroutine(TimedEffect(diamondPos, TileType.Effects, "Fire", distanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
+						}
 					}
 				}
 			}
@@ -345,26 +337,26 @@ public class Grenade : PickUpTrigger
 			for (int i = -radiusInteger; i <= radiusInteger; i++)
 			{
 				// if (MatrixManager.IsPassableAt(xPos)) 
-				// if (IsPastWall(pos.To2Int(), xPos.To2Int(), Mathf.Abs(i)))
-				// {
 				Vector3Int xPos = new Vector3Int(pos.x + i, pos.y, 0);
-				checkColliders(xPos.To2Int());
-				xPos.x -= 1;
-				xPos.y -= 1;
-				EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, 0), xPos, transform.parent);
-				// }
+				if (IsPastWall(pos.To2Int(), xPos.To2Int(), Mathf.Abs(i)))
+				{
+					checkColliders(xPos.To2Int());
+					xPos.x -= 1;
+					xPos.y -= 1;
+					StartCoroutine(TimedEffect(xPos, TileType.Effects, "Fire", distanceFromCenter(i,0, minEffectDuration, maxEffectDuration)));
+				}
 			}
 			for (int j = -radiusInteger; j <= radiusInteger; j++)
 			{
 				// if (MatrixManager.IsPassableAt(yPos))
-				// if (IsPastWall(pos.To2Int(), yPos.To2Int(), Mathf.Abs(j)))
-				// {
 				Vector3Int yPos = new Vector3Int(pos.x, pos.y + j, 0);
-				checkColliders(yPos.To2Int());
-				yPos.x -= 1;
-				yPos.y -= 1;
-				EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(0, j), yPos, transform.parent);
-				// }
+				if (IsPastWall(pos.To2Int(), yPos.To2Int(), Mathf.Abs(j)))
+				{
+					checkColliders(yPos.To2Int());
+					yPos.x -= 1;
+					yPos.y -= 1;
+					StartCoroutine(TimedEffect(yPos, TileType.Effects, "Fire", distanceFromCenter(0,j, minEffectDuration, maxEffectDuration)));
+				}
 			}
 		}
 		if (explosionType == ExplosionType.Circle)
@@ -380,14 +372,14 @@ public class Grenade : PickUpTrigger
 					if (j <= 0 && j >= (-f) || j >= 0 && j <= (0 + f))
 					{
 						// if (MatrixManager.IsPassableAt(circlePos)) 
-						// if (IsPastWall(pos.To2Int(), circlePos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
-						// {
 						Vector3Int circlePos = new Vector3Int(pos.x + i, pos.y + j, 0);
-						checkColliders(circlePos.To2Int());
-						circlePos.x -= 1;
-						circlePos.y -= 1;
-						EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, j), circlePos, transform.parent);
-						// }
+						if (IsPastWall(pos.To2Int(), circlePos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
+						{
+							checkColliders(circlePos.To2Int());
+							circlePos.x -= 1;
+							circlePos.y -= 1;
+							StartCoroutine(TimedEffect(circlePos, TileType.Effects, "Fire", distanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
+						}
 					}
 				}
 			}
@@ -403,9 +395,11 @@ public class Grenade : PickUpTrigger
 		}
 	}
 
-	private void displayVisuals(Vector2 position)
+	public IEnumerator TimedEffect(Vector3Int position, TileType tileType, string tileName, float time)
 	{
-		// EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, j, .50f, .75f), position, transform.parent);		
+		tileChangeManager.UpdateTile(position, TileType.Effects, "Fire");
+        yield return new WaitForSeconds(time);
+		tileChangeManager.RemoveTile(position, LayerType.Effects);
 	}
 
 	/// <summary>
