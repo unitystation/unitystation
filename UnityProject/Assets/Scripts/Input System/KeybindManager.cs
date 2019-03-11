@@ -514,12 +514,13 @@ public class KeybindManager : MonoBehaviour {
 			{
 				Logger.LogWarning("Couldn't deserialize userKeybind JSON: " + e, Category.Keybindings);
 				ResetKeybinds();
+				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
 		}
 		else
 		{
 			// Make a new copy of defaultKeybinds and make userKeybinds reference it
-			Logger.Log("Unable to load user keybinds", Category.Keybindings);
+			Logger.Log("No saved keybinds found. Using default.", Category.Keybindings);
 			ResetKeybinds();
 		}
 	}
