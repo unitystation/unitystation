@@ -368,7 +368,7 @@ public class Grenade : PickUpTrigger
 
 	private void PlayPinSFX(Vector3 position)
 	{
-		PlaySoundMessage.SendToAll("EmptyGunClick", position, 1.2f);
+		PlaySoundMessage.SendToAll("EmptyGunClick", position, 2.2f);
 	}
 
 }
