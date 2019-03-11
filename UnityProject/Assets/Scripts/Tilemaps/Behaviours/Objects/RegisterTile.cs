@@ -60,10 +60,13 @@ public abstract class RegisterTile : NetworkBehaviour
 		get => matrix;
 		private set
 		{
-			matrix = value;
-			//update matrix move as well
-			//if it exists
-			MatrixMove = matrix.transform.root.GetComponent<MatrixMove>();
+			if (value)
+			{
+				matrix = value;
+				//update matrix move as well
+				//if it exists
+				MatrixMove = matrix.transform.root.GetComponent<MatrixMove>();
+			}
 		}
 	}
 	private Matrix matrix;
