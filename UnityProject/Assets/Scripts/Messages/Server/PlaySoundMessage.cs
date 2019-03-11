@@ -24,6 +24,18 @@ public class PlaySoundMessage : ServerMessage
 		{
 			SoundManager.PlayAtPosition(SoundName, Position, Pitch);
 		}
+
+		if ( ShakeGround )
+		{
+			if ( PlayerManager.LocalPlayerScript
+			 && !PlayerManager.LocalPlayerScript.IsInReach( Position, ShakeRange ) )
+			{
+				//Don't shake if local player is out of range
+				yield break;
+			}
+			float intensity = Mathf.Clamp(ShakeIntensity/(float)byte.MaxValue, 0.01f, 10f);
+			Camera2DFollow.followControl.Shake(intensity, intensity);
+		}
 	}
 
 	public static PlaySoundMessage SendToAll( string sndName, Vector3 pos, float pitch,

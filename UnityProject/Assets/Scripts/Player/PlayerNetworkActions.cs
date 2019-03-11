@@ -884,9 +884,4 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	[ClientRpc]
-	public void RpcForceCameraShake(float amt, float length)
-	{
-		Camera2DFollow.followControl.Shake(amt, length);
-	}
 }

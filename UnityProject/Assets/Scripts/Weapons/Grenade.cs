@@ -115,8 +115,8 @@ public class Grenade : PickUpTrigger
 		hasExploded = true;
 		if (isServer)
 		{
-			playExplodeSound();
-			createShape();
+			PlaySoundAndShake();
+			CreateShape();
 			CalcAndApplyExplosionDamage(damagedBy);
 			DisappearObject();
 		}
@@ -150,13 +150,6 @@ public class Grenade : PickUpTrigger
 				{
 					toBeDamaged[localObject] = actualDamage;
 				}
-
-				PlayerNetworkActions pna = localCollider.gameObject.GetComponent<PlayerNetworkActions>();
-				// Shake if the player is in reach of the explosion
-				if (IsWIthinShakeReach(distance) && pna != null)
-				{
-					pna.RpcForceCameraShake(distanceFromCenter(0, (int)distance, .05f, .3f), 0.2f);
-				}
 			}
 		}
 
@@ -182,13 +175,6 @@ public class Grenade : PickUpTrigger
 		return Physics2D.Raycast(pos, damageablePos - pos, distance, OBSTACLE_MASK).collider == null;
 	}
 
-
-	private bool IsWIthinShakeReach(float distance)
-	{
-		return distance <= (radius * shakeDistance);
-	}
-
-
 	private static bool HasHealthComponent(Collider2D localCollider)
 	{
 		return localCollider.gameObject.GetComponent<LivingHealthBehaviour>() != null;
@@ -200,20 +186,14 @@ public class Grenade : PickUpTrigger
 	}
 
 	/// <summary>
-	/// Handles the visual effect of the explosion / disappearing of the object
+	/// Plays explosion sound and shakes ground
 	/// </summary>
-	private void playExplodeSound()
+	private void PlaySoundAndShake()
 	{
-
-		// Instantiate a clone of the source so that multiple explosions can play at the same time.
-		string name = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
-		AudioSource source = SoundManager.Instance[name];
         Vector3Int explodePosition = objectBehaviour.AssumedLocation().RoundToInt();
-		if (source != null)
-		{
-			Instantiate(source, explodePosition, Quaternion.identity).Play();
-		}
-
+        string sndName = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
+        byte shakeIntensity = (byte)Mathf.Clamp( damage/5, byte.MinValue, byte.MaxValue);
+        SoundManager.PlayNetworkedAtPos( sndName, explodePosition, -1f, true, shakeIntensity, (int)shakeDistance);
 	}
 
 	/// <summary>
@@ -242,7 +222,7 @@ public class Grenade : PickUpTrigger
 	/// Set the tiles to show fire effect in the pattern that was chosen
 	/// This could be used in the future to set it as chemical reactions in a location instead.
 	/// </summary>
-	private void createShape()
+	private void CreateShape()
 	{
 		int radiusInteger = (int)radius;
 		Vector3Int pos = Vector3Int.RoundToInt(objectBehaviour.AssumedLocation());
@@ -255,10 +235,10 @@ public class Grenade : PickUpTrigger
 					Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y + j, 0);
 					if (IsPastWall(pos.To2Int(), checkPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
 					{
-						checkColliders(checkPos.To2Int());
+						CheckColliders(checkPos.To2Int());
 						checkPos.x -= 1;
 						checkPos.y -= 1;
-						StartCoroutine(TimedEffect(checkPos, TileType.Effects, "Fire", distanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
+						StartCoroutine(TimedEffect(checkPos, TileType.Effects, "Fire", DistanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
 					}
 				}
 			}
@@ -278,10 +258,10 @@ public class Grenade : PickUpTrigger
 						Vector3Int diamondPos = new Vector3Int(pos.x + i, pos.y + j, 0);
 						if (IsPastWall(pos.To2Int(), diamondPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
 						{
-							checkColliders(diamondPos.To2Int());
+							CheckColliders(diamondPos.To2Int());
 							diamondPos.x -= 1;
 							diamondPos.y -= 1;
-							StartCoroutine(TimedEffect(diamondPos, TileType.Effects, "Fire", distanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
+							StartCoroutine(TimedEffect(diamondPos, TileType.Effects, "Fire", DistanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
 						}
 					}
 				}
@@ -294,10 +274,10 @@ public class Grenade : PickUpTrigger
 				Vector3Int xPos = new Vector3Int(pos.x + i, pos.y, 0);
 				if (IsPastWall(pos.To2Int(), xPos.To2Int(), Mathf.Abs(i)))
 				{
-					checkColliders(xPos.To2Int());
+					CheckColliders(xPos.To2Int());
 					xPos.x -= 1;
 					xPos.y -= 1;
-					StartCoroutine(TimedEffect(xPos, TileType.Effects, "Fire", distanceFromCenter(i,0, minEffectDuration, maxEffectDuration)));
+					StartCoroutine(TimedEffect(xPos, TileType.Effects, "Fire", DistanceFromCenter(i,0, minEffectDuration, maxEffectDuration)));
 				}
 			}
 			for (int j = -radiusInteger; j <= radiusInteger; j++)
@@ -305,10 +285,10 @@ public class Grenade : PickUpTrigger
 				Vector3Int yPos = new Vector3Int(pos.x, pos.y + j, 0);
 				if (IsPastWall(pos.To2Int(), yPos.To2Int(), Mathf.Abs(j)))
 				{
-					checkColliders(yPos.To2Int());
+					CheckColliders(yPos.To2Int());
 					yPos.x -= 1;
 					yPos.y -= 1;
-					StartCoroutine(TimedEffect(yPos, TileType.Effects, "Fire", distanceFromCenter(0,j, minEffectDuration, maxEffectDuration)));
+					StartCoroutine(TimedEffect(yPos, TileType.Effects, "Fire", DistanceFromCenter(0,j, minEffectDuration, maxEffectDuration)));
 				}
 			}
 		}
@@ -327,10 +307,10 @@ public class Grenade : PickUpTrigger
 						Vector3Int circlePos = new Vector3Int(pos.x + i, pos.y + j, 0);
 						if (IsPastWall(pos.To2Int(), circlePos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
 						{
-							checkColliders(circlePos.To2Int());
+							CheckColliders(circlePos.To2Int());
 							circlePos.x -= 1;
 							circlePos.y -= 1;
-							StartCoroutine(TimedEffect(circlePos, TileType.Effects, "Fire", distanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
+							StartCoroutine(TimedEffect(circlePos, TileType.Effects, "Fire", DistanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
 						}
 					}
 				}
@@ -338,7 +318,7 @@ public class Grenade : PickUpTrigger
 		}
 	}
 
-	private void checkColliders(Vector2 position)
+	private void CheckColliders(Vector2 position)
 	{
 		Collider2D victim = Physics2D.OverlapPoint(position);
 		if (victim)
@@ -358,11 +338,11 @@ public class Grenade : PickUpTrigger
 	/// calculates the distance from the the center using the looping x and y vars
 	/// returns a float between the limits
 	/// </summary>
-	private float distanceFromCenter(int x, int y, float lowLimit = 0.05f, float Highlimit = 0.25f)
+	private float DistanceFromCenter(int x, int y, float lowLimit = 0.05f, float highLimit = 0.25f)
 	{
 		float percentage = (Mathf.Abs(x) + Mathf.Abs(y)) / (radius + radius);
 		float reversedPercentage = (1 - percentage) * 100;
-		float distance = ((reversedPercentage * (Highlimit - lowLimit) / 100) + lowLimit);
+		float distance = ((reversedPercentage * (highLimit - lowLimit) / 100) + lowLimit);
 		return distance;
 	}
 
