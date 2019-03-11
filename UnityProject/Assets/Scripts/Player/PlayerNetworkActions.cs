@@ -141,7 +141,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (item == slot.Value.Item)
 			{
-				InventoryManager.DisposeItemServer(item);
+				InventoryManager.DestroyItemInSlot(item);
 				ClearInventorySlot(slot.Key);
 				break;
 			}
@@ -442,7 +442,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
 
-		InventoryManager.DisposeItemServer(throwable);
+		InventoryManager.DestroyItemInSlot(throwable);
 		ClearInventorySlot(slot);
 		var throwInfo = new ThrowInfo
 		{
