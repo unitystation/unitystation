@@ -30,7 +30,9 @@ public class DoorTrigger : InputTrigger
 			return true;
 		}
 		var playerScript = originator.GetComponent<PlayerScript>();
-		if (playerScript.canNotInteract() || !playerScript.IsInReach(gameObject))
+		//Allowing players in soft crit to interact with doors
+		if ( (playerScript.canNotInteract() && !playerScript.playerHealth.IsSoftCrit)
+		    || !playerScript.IsInReach(gameObject))
 		{ //check for both client and server
 			return true;
 		}
