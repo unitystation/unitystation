@@ -81,16 +81,16 @@ public class Grenade : PickUpTrigger
         }
 		else
 		{
-        	StartCoroutine(TimeExplode());
+        	StartCoroutine(TimeExplode(originator));
 		}
 	}
 
-    private IEnumerator TimeExplode()
+    private IEnumerator TimeExplode(GameObject originator)
     {
         if (!timerRunning)
         {
             timerRunning = true;
-			PlayPinSFX();
+			PlayPinSFX(originator.transform.position);
 			if (unstableFuse)
 			{
 				float fuseVariation = fuseLength / 4;
@@ -366,9 +366,9 @@ public class Grenade : PickUpTrigger
 		return distance;
 	}
 
-	private void PlayPinSFX()
+	private void PlayPinSFX(Vector3 position)
 	{
-		PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
+		PlaySoundMessage.SendToAll("EmptyGunClick", position, 1.2f);
 	}
 
 }
