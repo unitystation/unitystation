@@ -160,7 +160,12 @@ public class InventoryManager : MonoBehaviour
 		{
 			return;
 		}
-		DropItem(GetSlotFromItem(item), TransformState.HiddenPos);
+
+		var invSlot = GetSlotFromItem(item);
+		if (invSlot != null)
+		{
+			DropItem(invSlot, TransformState.HiddenPos);
+		}
 		//TODO When ItemFactory has been refactored in 0.4 then return items here to the pool
 		//If they came from the poolmanager
 	}

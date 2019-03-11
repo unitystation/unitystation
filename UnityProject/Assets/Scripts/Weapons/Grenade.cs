@@ -35,7 +35,7 @@ public class Grenade : PickUpTrigger
 	[TooltipAttribute("fuse timer in seconds")]
 	public float fuseLength = 3;
 	[TooltipAttribute("Distance multiplied from explosion that will still shake = shakeDistance * radius")]
-	public float shakeDistance = 4;
+	public float shakeDistance = 8;
 	[TooltipAttribute("generally neccesary for smaller explosions = 1 - ((distance + distance) / ((radius + radius) + minDamage))")]
 	public int minDamage = 2;
 	[TooltipAttribute("Maximum duration grenade effects are visible depending on distance from center")]
@@ -150,10 +150,12 @@ public class Grenade : PickUpTrigger
 				{
 					toBeDamaged[localObject] = actualDamage;
 				}
+
+				PlayerNetworkActions pna = localCollider.gameObject.GetComponent<PlayerNetworkActions>();
 				// Shake if the player is in reach of the explosion
-				if (IsWIthinShakeReach(distance))
+				if (IsWIthinShakeReach(distance) && pna != null)
 				{
-					Camera2DFollow.followControl.Shake(distanceFromCenter(0, (int)distance, .05f, .3f), 0.2f);
+					pna.RpcForceCameraShake(distanceFromCenter(0, (int)distance, .05f, .3f), 0.2f);
 				}
 			}
 		}
@@ -223,13 +225,11 @@ public class Grenade : PickUpTrigger
 		{
 			//make it vanish in the server's state of the world
 			//this currently removes it from the world and any player inventory
-			//backpack slots need a way of being cleared
+
+			//If it is in an inventory slot it will be removed:
+			InventoryManager.DestroyItemInSlot(gameObject);
+
 			customNetTransform.DisappearFromWorldServer();
-            InventorySlot invSlot = InventoryManager.GetSlotFromItem(gameObject);
-			if (invSlot != null)
-			{
-				InventoryManager.DestroyItemInSlot(invSlot);
-			}
 		}
 		else
 		{
