@@ -13,7 +13,8 @@ public enum ExplosionType
 	Square, // radius is equal in all directions from center []
 	
 	Diamond, // classic SS13 diagonals are reduced and angled <>
-	Bomberman // plus +
+	Bomberman, // plus +
+	Circle, // Diamond without tip
 }
 
 /// <summary>
@@ -35,11 +36,13 @@ public class Grenade : PickUpTrigger
 	public float fuseLength = 3;
 	[TooltipAttribute("Distance multiplied from explosion that will still shake = shakeDistance * radius")]
 	public float shakeDistance = 4;
+	[TooltipAttribute("generally neccesary for smaller explosions = 1 - ((distance + distance) / ((radius + radius) + minDamage))")]
+	public int minDamage = 2;
 	[TooltipAttribute("sprite renderer to use for the explosion")]
 	public SpriteRenderer spriteRend;
 	
 
-	//max number of things an explosion can hit
+	//max number of things an explosion can hit (unused currently)
 	private const int MAX_TARGETS = 44;
 	private readonly string[] EXPLOSION_SOUNDS = { "Explosion1", "Explosion2" };
 	//LayerMask for things that can be damaged
@@ -47,7 +50,7 @@ public class Grenade : PickUpTrigger
 	//LayerMask for obstructions which can block the explosion
 	private int OBSTACLE_MASK;
 	//collider array to re-use when checking for collisions with the explosion
-	private readonly Collider2D[] colliders = new Collider2D[MAX_TARGETS];
+	private readonly List<Collider2D> colliders = new List<Collider2D>();
 
 	//whether this object has exploded
 	private bool hasExploded;	
@@ -115,6 +118,8 @@ public class Grenade : PickUpTrigger
 		{
 			return;
 		}
+		hasExploded = true;
+		DisplayExplosion();
 		if (isServer)
 		{
 			CalcAndApplyExplosionDamage(damagedBy);
@@ -122,8 +127,6 @@ public class Grenade : PickUpTrigger
             // NetworkServer.Destroy(gameObject);
 			// StartCoroutine(WaitToDestroy());
 		}
-		hasExploded = true;
-		DisplayExplosion();
 	}
 
 	/// <summary>
@@ -134,9 +137,9 @@ public class Grenade : PickUpTrigger
 	[Server]
 	public void CalcAndApplyExplosionDamage(string thanksTo)
 	{
-		//NOTE: There is no need for this method to be public except for unit testing.
 		Vector2 explosionPos = objectBehaviour.AssumedLocation().To2Int();
-		int length = Physics2D.OverlapCircleNonAlloc(explosionPos, (radius * shakeDistance), colliders, DAMAGEABLE_MASK);
+		// int length = Physics2D.OverlapCircleNonAlloc(explosionPos, (radius * shakeDistance), colliders, DAMAGEABLE_MASK);
+		int length = colliders.Count;
 		Dictionary<GameObject, int> toBeDamaged = new Dictionary<GameObject, int>();
 		for (int i = 0; i < length; i++)
 		{
@@ -145,7 +148,7 @@ public class Grenade : PickUpTrigger
 
 			Vector2 localObjectPos = localObject.transform.position;
 			float distance = Vector3.Distance(explosionPos, localObjectPos);
-			float effect = 1 - distance * distance / (radius * radius);
+			float effect = 1 - ((distance + distance) / ((radius + radius) + minDamage));
 			int actualDamage = (int)(damage * effect);
 
 			if (NotSameObject(localCollider) && HasHealthComponent(localCollider))
@@ -201,7 +204,7 @@ public class Grenade : PickUpTrigger
 
 	private bool IsWithinReach(Vector2 pos, Vector2 damageablePos, float distance)
 	{
-		return distance <= radius && Physics2D.Raycast(pos, damageablePos - pos, distance, OBSTACLE_MASK).collider == null;
+		return Physics2D.Raycast(pos, damageablePos - pos, distance, OBSTACLE_MASK).collider == null;
 	}
 
 		private bool IsPastWall(Vector2 pos, Vector2 damageablePos, float distance)
@@ -246,14 +249,7 @@ public class Grenade : PickUpTrigger
 			Instantiate(source, explodePosition, Quaternion.identity).Play();
 		}
 
-		GameObject fireRing = Resources.Load<GameObject>("effects/FireRing");
-		Instantiate(fireRing, explodePosition, Quaternion.identity);
-
-		GameObject lightFx = Resources.Load<GameObject>("lighting/BoomLight");
-		lightFxInstance = Instantiate(lightFx, explodePosition, Quaternion.identity);
-		//LightSprite lightSprite = lightFxInstance.GetComponentInChildren<LightSprite>();
-		//lightSprite.fadeFX(1f); // TODO Removed animation (Should be in a separate component)
-		SetFire();
+		createShape();
 
 		//make the actual tank disappear
 		DisappearObject();
@@ -294,24 +290,27 @@ public class Grenade : PickUpTrigger
 	/// Set the tiles to show fire effect in the pattern that was chosen
 	/// This could be used in the future to set it as chemical reactions in a location instead.
 	/// </summary>
-	private void SetFire()
+	private void createShape()
 	{
 		int radiusInteger = (int)radius;
 		Vector3Int pos = Vector3Int.RoundToInt(objectBehaviour.AssumedLocation());
 		if (explosionType == ExplosionType.Square)
 		{
-			for (int i = 0 - radiusInteger; i <= radiusInteger; i++)
+			for (int i = -radiusInteger; i <= radiusInteger; i++)
 			{
-				for (int j = 0 - radiusInteger; j <= radiusInteger; j++)
+				for (int j = -radiusInteger; j <= radiusInteger; j++)
 				{
-					Vector3Int checkPos = new Vector3Int(pos.x + i - 1, pos.y + j - 1, 0);
 					// These methods are to check if the explosion is past a wall
 					// they are currently commented out because the positioning that it's checking seems to be off
 					// and I believe it shuold be fixed first.
 					// if (MatrixManager.IsPassableAt(checkPos))
 					// if (IsPastWall(pos.To2Int(), checkPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
+					Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y + j, 0);
 					// {
-					EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, j), checkPos, transform.parent);
+					checkColliders(checkPos.To2Int());
+					checkPos.x -= 1;
+					checkPos.y -= 1;
+					EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, j, .50f, .75f), checkPos, transform.parent);
 					// }
 				}
 			}
@@ -321,17 +320,20 @@ public class Grenade : PickUpTrigger
 			// F is distance from zero, calculated by radius - x
 			// if pos.x/pos.y is within that range it will apply affect that position
 			int f;
-			for (int i = 0 - radiusInteger; i <= radiusInteger; i++)
+			for (int i = -radiusInteger; i <= radiusInteger; i++)
 			{
 				f = radiusInteger - Mathf.Abs(i);
-				for (int j = 0 - radiusInteger; j <= radiusInteger; j++)
+				for (int j = -radiusInteger; j <= radiusInteger; j++)
 				{
-					Vector3Int diamondPos = new Vector3Int(pos.x + i - 1, pos.y + j - 1, 0);
-					if (j <= 0 && j >= (0 - f) || j >= 0 && j <= (0 + f))
+					if (j <= 0 && j >= (-f) || j >= 0 && j <= (0 + f))
 					{
 						// if (MatrixManager.IsPassableAt(diamondPos)) 
 						// if (IsPastWall(pos.To2Int(), diamondPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
 						// {
+					Vector3Int diamondPos = new Vector3Int(pos.x + i, pos.y + j, 0);
+						checkColliders(diamondPos.To2Int());
+						diamondPos.x -= 1;
+						diamondPos.y -= 1;
 						EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, j), diamondPos, transform.parent);
 						// }
 					}
@@ -340,25 +342,70 @@ public class Grenade : PickUpTrigger
 		}
 		if (explosionType == ExplosionType.Bomberman)
 		{
-			for (int i = 0 - radiusInteger; i <= radiusInteger; i++)
+			for (int i = -radiusInteger; i <= radiusInteger; i++)
 			{
-				Vector3Int xPos = new Vector3Int(pos.x + i - 1, pos.y - 1, 0);
 				// if (MatrixManager.IsPassableAt(xPos)) 
 				// if (IsPastWall(pos.To2Int(), xPos.To2Int(), Mathf.Abs(i)))
 				// {
-					EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, 0), xPos, transform.parent);
+				Vector3Int xPos = new Vector3Int(pos.x + i, pos.y, 0);
+				checkColliders(xPos.To2Int());
+				xPos.x -= 1;
+				xPos.y -= 1;
+				EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, 0), xPos, transform.parent);
 				// }
 			}
-			for (int j = 0 - radiusInteger; j <= radiusInteger; j++)
+			for (int j = -radiusInteger; j <= radiusInteger; j++)
 			{
-				Vector3Int yPos = new Vector3Int(pos.x - 1, pos.y + j - 1, 0);
 				// if (MatrixManager.IsPassableAt(yPos))
 				// if (IsPastWall(pos.To2Int(), yPos.To2Int(), Mathf.Abs(j)))
 				// {
+				Vector3Int yPos = new Vector3Int(pos.x, pos.y + j, 0);
+				checkColliders(yPos.To2Int());
+				yPos.x -= 1;
+				yPos.y -= 1;
 				EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(0, j), yPos, transform.parent);
 				// }
 			}
 		}
+		if (explosionType == ExplosionType.Circle)
+		{
+			// F is distance from zero, calculated by radius - x
+			// if pos.x/pos.y is within that range it will apply affect that position
+			int f;
+			for (int i = -radiusInteger; i <= radiusInteger; i++)
+			{
+				f = radiusInteger - Mathf.Abs(i) + 1;
+				for (int j = -radiusInteger; j <= radiusInteger; j++)
+				{
+					if (j <= 0 && j >= (-f) || j >= 0 && j <= (0 + f))
+					{
+						// if (MatrixManager.IsPassableAt(circlePos)) 
+						// if (IsPastWall(pos.To2Int(), circlePos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
+						// {
+						Vector3Int circlePos = new Vector3Int(pos.x + i, pos.y + j, 0);
+						checkColliders(circlePos.To2Int());
+						circlePos.x -= 1;
+						circlePos.y -= 1;
+						EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, j), circlePos, transform.parent);
+						// }
+					}
+				}
+			}
+		}
+	}
+
+	private void checkColliders(Vector2 position)
+	{
+		Collider2D victim = Physics2D.OverlapPoint(position);
+		if (victim)
+		{
+			colliders.Add(victim);
+		}
+	}
+
+	private void displayVisuals(Vector2 position)
+	{
+		// EffectsFactory.Instance.SpawnFileTileLocal(distanceFromCenter(i, j, .50f, .75f), position, transform.parent);		
 	}
 
 	/// <summary>
