@@ -231,13 +231,14 @@ public class PlayerScript : ManagedNetworkBehaviour
 		//If click is in diagonal direction, extend reach slightly
 		int distanceX = Mathf.FloorToInt(Mathf.Abs(from.x - to.x));
 		int distanceY = Mathf.FloorToInt(Mathf.Abs(from.y - to.y));
+		var distanceVector = from - to;
 		if (distanceX == 1 && distanceY == 1)
 		{
-			return (from - to).magnitude <= interactDist + 0.4f;
+			return distanceVector.magnitude <= interactDist + 0.4f;
 		}
 
 		//if cardinal direction, use regular reach
-		return (from - to).magnitude <= interactDist;
+		return Mathf.Max(distanceVector.x, distanceVector.y) <= interactDist;
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
