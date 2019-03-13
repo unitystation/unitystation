@@ -4,11 +4,8 @@ using UnityEngine.Networking;
 
 public class PlayerScript : ManagedNetworkBehaviour
 {
-	// the maximum distance the player needs to be to an object to interact with it
-	//1.75 is the optimal distance to now have any direction click too far
-	//NOTE FOR ANYONE EDITING THIS IN THE FUTURE: Character's head is slightly below the top of the tile
-	//hence top reach is slightly lower than bottom reach, where the legs go exactly to the bottom of the tile.
-	public const float interactionDistance = 1.75f;
+	/// maximum distance the player needs to be to an object to interact with it
+	public const float interactionDistance = 1.5f;
 
 	public GameObject ghost;
 
@@ -228,17 +225,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public static bool IsInReach(Vector3 from, Vector3 to, float interactDist = interactionDistance)
 	{
-		//If click is in diagonal direction, extend reach slightly
-		int distanceX = Mathf.FloorToInt(Mathf.Abs(from.x - to.x));
-		int distanceY = Mathf.FloorToInt(Mathf.Abs(from.y - to.y));
 		var distanceVector = from - to;
-		if (distanceX == 1 && distanceY == 1)
-		{
-			return distanceVector.magnitude <= interactDist + 0.4f;
-		}
-
-		//if cardinal direction, use regular reach
-		return Mathf.Max(distanceVector.x, distanceVector.y) <= interactDist;
+		return Mathf.Max( Mathf.Abs(distanceVector.x), Mathf.Abs(distanceVector.y) ) < interactDist;
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
