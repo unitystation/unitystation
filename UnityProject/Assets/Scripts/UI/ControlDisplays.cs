@@ -6,6 +6,7 @@ public class ControlDisplays : MonoBehaviour
 	public RectTransform hudBottom;
 	public RectTransform hudRight;
 	public GameObject jobSelectWindow;
+	public GameObject teamSelectionWindow;
 	public RectTransform panelRight;
 	public UIManager parentScript;
 
@@ -34,6 +35,8 @@ public class ControlDisplays : MonoBehaviour
 		hudBottom.gameObject.SetActive(false);
 		backGround.SetActive(true);
 		panelRight.gameObject.SetActive(false);
+		jobSelectWindow.SetActive(false);
+		teamSelectionWindow.SetActive(false);
 	}
 
 	public void SetScreenForGame()
@@ -53,7 +56,7 @@ public class ControlDisplays : MonoBehaviour
 	}
 
 	public void DetermineGameMode()
-	{ 
+	{
 		//if(GameManager.Instance.gameMode == GameMode.nukeops){
 			nukeOpsGameMode.SetActive(true);
 		//}
