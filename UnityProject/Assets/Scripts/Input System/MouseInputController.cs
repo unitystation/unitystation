@@ -302,7 +302,8 @@ public class MouseInputController : MonoBehaviour
 		//check which of the sprite renderers we hit and pixel checked is the highest
 		if (renderers.Count > 0)
 		{
-			foreach ( Renderer _renderer in renderers.OrderByDescending(r => r.GetType() == TilemapType ? 0 : 1).ThenByDescending(r => r.sortingOrder) )
+			foreach ( Renderer _renderer in renderers.OrderByDescending(r => r.GetType() == TilemapType ? 0 : 1)
+													 .ThenByDescending(r => SortingLayer.GetLayerValueFromID(r.sortingLayerID)) )
 			{
 				// If the ray hits a FOVTile, we can continue down (don't count it as an interaction)
 				// Matrix is the base Tilemap layer. It is used for matrix detection but gets in the way
