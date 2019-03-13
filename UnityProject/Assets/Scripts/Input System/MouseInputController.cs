@@ -466,6 +466,9 @@ public class MouseInputController : MonoBehaviour
 			return false;
 		}
 
+		//check the actual transform for an input trigger and if there is none, check the parent
+		InputTrigger inputTrigger = _transform.GetComponentInParent<InputTrigger>();
+
 		//attempt to trigger the things in range we clicked on
 		var localPlayer = PlayerManager.LocalPlayerScript;
 		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(Input.mousePosition)) || localPlayer.IsHidden)
@@ -481,22 +484,11 @@ public class MouseInputController : MonoBehaviour
 				}
 			}
 
-			//check the actual transform for an input trigger and if there is non, check the parent
-			InputTrigger inputTrigger = _transform.GetComponentInParent<InputTrigger>();
 			if (inputTrigger)
 			{
 				if (objectBehaviour.visibleState)
 				{
-					bool interacted = false;
-					if (isDrag)
-					{
-						interacted = inputTrigger.TriggerDrag(position);
-					}
-					else
-					{
-						interacted = inputTrigger.Trigger(position);
-					}
-
+					bool interacted = TryInputTrigger( position, isDrag, inputTrigger );
 					if (interacted)
 					{
 						return true;
@@ -541,9 +533,23 @@ public class MouseInputController : MonoBehaviour
 				return false;
 			}
 		}
+		//Still try triggering inputTrigger even if it's outside mouse reach
+		//(for things registered on tile within range but having parts outside of it)
+		else if ( inputTrigger && objectBehaviour.visibleState && TryInputTrigger( position, isDrag, inputTrigger ) )
+		{
+			return true;
+		}
 
 		//if we are holding onto an item like a gun attempt to shoot it if we were not in range to trigger anything
 		return InteractHands(isDrag);
+	}
+
+	/// <summary>
+	/// Tries to trigger InputTrigger
+	/// </summary>
+	private static bool TryInputTrigger( Vector3 position, bool isDrag, InputTrigger inputTrigger )
+	{
+		return isDrag ? inputTrigger.TriggerDrag( position ) : inputTrigger.Trigger( position );
 	}
 
 	private bool InteractHands(bool isDrag)
