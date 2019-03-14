@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.Networking;
-using Random = UnityEngine.Random;
 
 
 public class PickUpTrigger : InputTrigger
@@ -20,8 +18,7 @@ public class PickUpTrigger : InputTrigger
 	}
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		var player = originator.GetComponent<PlayerScript>();
-		if (player.canNotInteract())
+		if (originator.GetComponent<PlayerScript>().canNotInteract())
 		{
 			return true;
 		}
@@ -33,11 +30,9 @@ public class PickUpTrigger : InputTrigger
 			//PreCheck
 			if (UIManager.CanPutItemToSlot(uiSlotObject))
 			{
-				if ( player.IsInReach( this.gameObject ) )
-				{
-					//Predictive disappear only if item is within normal range
-					gameObject.GetComponent<CustomNetTransform>().DisappearFromWorld();
-				}
+				//Simulation
+				gameObject.GetComponent<CustomNetTransform>().DisappearFromWorld();
+				//                    UIManager.UpdateSlot(uiSlotObject);
 
 				//Client informs server of interaction attempt
 				InteractMessage.Send(gameObject, hand);
@@ -105,26 +100,7 @@ public class PickUpTrigger : InputTrigger
 
 		if (cnt.IsFloatingServer ? !CanReachFloating(ps, state) : !ps.IsInReach(cnt.RegisterTile))
 		{
-			//Long arms perk
-			if ( !cnt.IsFloatingServer && CanReachFloating(ps, state) )
-			{
-				var worldPosition = cnt.RegisterTile.WorldPosition;
-				cnt.Nudge( new NudgeInfo
-				{
-					OriginPos = worldPosition - ((Vector3)ps.WorldPos-worldPosition)/ Random.Range( 10, 31 ),
-					TargetPos = worldPosition,
-					SpinMode = SpinMode.Clockwise,
-					SpinMultiplier = 15,
-					InitialSpeed = 2
-				} );
-				Logger.LogTraceFormat( "Nudging! server pos:{0} player pos:{1}", Category.Security,
-					state.WorldPosition, originator.transform.position);
-			}
-			else
-			{
-				Logger.LogTraceFormat( "Not in reach! server pos:{0} player pos:{1} (floating={2})", Category.Security,
-					state.WorldPosition, originator.transform.position, cnt.IsFloatingServer);
-			}
+			Logger.LogWarning($"Not in reach! server pos:{state.WorldPosition} player pos:{originator.transform.position} (floating={cnt.IsFloatingServer})", Category.Security);
 			return false;
 		}
 		Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Security,
@@ -140,7 +116,7 @@ public class PickUpTrigger : InputTrigger
 	/// </summary>
 	private static bool CanReachFloating(PlayerScript ps, TransformState state)
 	{
-		return ps.IsInReach(state.WorldPosition) || ps.IsInReach(state.WorldPosition - (Vector3)state.Impulse, 1.75f);
+		return ps.IsInReach(state.WorldPosition) || ps.IsInReach(state.WorldPosition - (Vector3)state.Impulse, 2f);
 	}
 
 	/// <summary>

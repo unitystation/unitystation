@@ -259,8 +259,18 @@ public abstract class RegisterTile : NetworkBehaviour
 
 	public void UpdatePosition()
 	{
+		bool wasHidden = Position == TransformState.HiddenPos;
 		Position = Vector3Int.RoundToInt(transform.localPosition);
+		if (wasHidden && Position != TransformState.HiddenPos && !rotateWithMatrix && spriteRenderers != null)
+		{
+			//if we just appeared, reorient ourselves
+			foreach (SpriteRenderer renderer in spriteRenderers)
+			{
+				renderer.transform.rotation = Quaternion.identity;
+			}
+		}
 	}
+
 
 	/// <summary>
 	/// Invoked when receiving rotation event from our current matrix's matrixmove
