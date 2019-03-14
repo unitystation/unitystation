@@ -278,7 +278,7 @@ public partial class CustomNetTransform {
 			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( info.InitialSpeed * info.SpinMultiplier, sbyte.MinValue, sbyte.MaxValue )
 			                                     * ( info.SpinMode == SpinMode.Clockwise ? 1 : -1 ) );
 		}
-		Logger.LogWarning( $"Nudge:{info} {serverState}", Category.Transform );
+		Logger.LogTraceFormat( "Nudge:{0} {1}", Category.Transform, info, serverState);
 		NotifyPlayers();
 	}
 

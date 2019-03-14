@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Describes info required for a throw
+/// </summary>
 public struct ThrowInfo
 {
 	/// Null object, means that there's no throw in progress

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Describes info required for a nudge
+/// </summary>
 public struct NudgeInfo
 {
 	/// Null object, means that there's no nudge in progress
