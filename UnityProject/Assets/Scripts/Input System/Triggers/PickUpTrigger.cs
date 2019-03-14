@@ -20,7 +20,8 @@ public class PickUpTrigger : InputTrigger
 	}
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		if (originator.GetComponent<PlayerScript>().canNotInteract())
+		var player = originator.GetComponent<PlayerScript>();
+		if (player.canNotInteract())
 		{
 			return true;
 		}
@@ -32,9 +33,11 @@ public class PickUpTrigger : InputTrigger
 			//PreCheck
 			if (UIManager.CanPutItemToSlot(uiSlotObject))
 			{
-				//Simulation
-				gameObject.GetComponent<CustomNetTransform>().DisappearFromWorld();
-				//                    UIManager.UpdateSlot(uiSlotObject);
+				if ( player.IsInReach( this.gameObject ) )
+				{
+					//Predictive disappear only if item is within normal range
+					gameObject.GetComponent<CustomNetTransform>().DisappearFromWorld();
+				}
 
 				//Client informs server of interaction attempt
 				InteractMessage.Send(gameObject, hand);
