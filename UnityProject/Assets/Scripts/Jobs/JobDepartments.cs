@@ -9,5 +9,10 @@
 	Syndicate,
 	Captain,
 	HoP,
-	Cargo
+	Cargo,
+	Janitor,
+	Mining,
+	Entertainers,
+	CMO,
+	Chemist,
 }
