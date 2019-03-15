@@ -153,6 +153,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!114 &114931949852656388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,7 +255,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

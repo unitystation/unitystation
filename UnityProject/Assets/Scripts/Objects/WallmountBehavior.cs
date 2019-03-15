@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 /// <summary>
 /// Behavior common to all wall mounts.
@@ -37,6 +38,12 @@ public class WallmountBehavior : MonoBehaviour
 		float difference = Vector3.Angle(facing, headingToPosition);
 		//91 rather than 90 helps prevent flickering due to rounding
 		return difference >= 91 || difference <= -91;
+	}
+
+	void OnDrawGizmos ()
+	{
+		Gizmos.color = Color.green;
+		GizmoUtils.DrawArrow(transform.position, - transform.up);
 	}
 
 	/// <summary>

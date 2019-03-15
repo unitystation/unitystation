@@ -46,7 +46,7 @@ public class StorageObject : NetworkBehaviour
 				invSlot = new InventorySlot(System.Guid.Empty, "inventory" + i);
 				storageSlots.inventorySlots.Add(invSlot);
 			}
-			
+
 			InventoryManager.AddSlot(invSlot, _isServer);
 
 		}
@@ -73,7 +73,7 @@ public class StorageObject : NetworkBehaviour
 		{
 			syncData.UUIDs.Add(storageSlots.inventorySlots[i].UUID);
 		}
-		
+
 		return JsonUtility.ToJson(syncData);
 	}
 
@@ -89,7 +89,14 @@ public class StorageObject : NetworkBehaviour
 	[Server]
 	public void NotifyPlayer(GameObject recipient)
 	{
-		StorageObjectSyncMessage.Send(recipient, gameObject, JsonUtility.ToJson(storageSlots));
+		//Validate data and make sure it is being pulled from Server List (Fixes Host problems)
+		StorageSlots slotsData = new StorageSlots();
+		foreach (InventorySlot slot in storageSlots.inventorySlots)
+		{
+			slotsData.inventorySlots.Add(InventoryManager.GetSlotFromUUID(slot.UUID, true));
+		}
+
+		StorageObjectSyncMessage.Send(recipient, gameObject, JsonUtility.ToJson(slotsData));
 	}
 
 	public void RefreshStorageItems(string data)

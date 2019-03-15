@@ -663,7 +663,6 @@ GameObject:
   - component: {fileID: 114173340621344012}
   - component: {fileID: 114418639699052366}
   - component: {fileID: 114644792539986700}
-  - component: {fileID: 114600992077934460}
   - component: {fileID: 114285504268110804}
   - component: {fileID: 114803877374308862}
   - component: {fileID: 114449635359748350}
@@ -906,6 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a28f9f9a41257418b09671ebb5c96e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBumping: 0
   playerMove: {fileID: 114792299177679754}
 --- !u!114 &114173340621344012
 MonoBehaviour:
@@ -960,18 +960,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muzzleFlash: {fileID: 1894933337466704}
---- !u!114 &114600992077934460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fac93dc50dde44dddad92297c25a7c3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114285504268110804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1015,6 +1003,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!114 &114449635359748350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1072,7 +1061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc835be17c750e246bed37c4406e0113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultIntensity: 0.2
+  DefaultIntensity: 0
   DefaultColour: {r: 1, g: 1, b: 1, a: 0}
   DefaultEnumSprite: 0
   DefaultSize: 1.5
@@ -3818,6 +3807,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!1 &1969254411952092
 GameObject:
   m_ObjectHideFlags: 0

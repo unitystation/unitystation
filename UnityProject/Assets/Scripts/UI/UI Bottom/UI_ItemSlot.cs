@@ -226,19 +226,35 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		return allowed;
 	}
 
+
+	/// <summary>
+	/// Check if item has an interaction with a an item in a slot
+	/// If not or if bool returned is true, swap items
+	/// </summary>
 	public void TryItemInteract()
 	{
+		// Clicked on another slot other than hands
 		if (eventName != "leftHand" && eventName != "rightHand")
 		{
-			//Clicked on item in another slot other then hands
+			// If full, attempt to interact the two, otherwise swap
 			if (Item != null)
 			{
+				// If there is an an interaction, run and check if it wants to swap
 				var inputTrigger = Item.GetComponent<InputTrigger>();
-				inputTrigger.UI_InteractOtherSlot(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item);
+				bool response = inputTrigger.UI_InteractOtherSlot(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item);
+				if (response)
+				{
+					UIManager.Hands.SwapItem(this);
+				}
+				return;
+			}
+			else
+			{
+				UIManager.Hands.SwapItem(this);
 				return;
 			}
 		}
-
+		// If there is an item and the hand is interacting in the same slot
 		if (Item != null && UIManager.Hands.CurrentSlot.eventName == eventName)
 		{
 			var inputTrigger = Item.GetComponent<InputTrigger>();
@@ -254,8 +270,14 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 					var trig = UIManager.Hands.OtherSlot.Item.GetComponent<InputTrigger>();
 					if (trig != null)
 					{
-						trig.UI_InteractOtherSlot(PlayerManager.LocalPlayer,
+						// If there is an an interaction, run and check if it wants to swap
+						bool response = trig.UI_InteractOtherSlot(PlayerManager.LocalPlayer,
 							UIManager.Hands.CurrentSlot.Item);
+						if (response)
+						{
+							UIManager.Hands.SwapItem(this);
+						}
+						return;
 					}
 				}
 			}

@@ -179,6 +179,22 @@ public class MetaTileMap : MonoBehaviour
 			{
 				return false;
 			}
+			if (layer == LayerType.Objects)
+			{
+				var objects = ((ObjectLayer) LayersValues[i]).Objects.Get(position);
+				for (var j = 0; j < objects.Count; j++)
+				{
+					RegisterTile o = objects[j];
+					if ( o is RegisterObject )
+					{
+						PushPull pushPull = o.GetComponent<PushPull>();
+						if ( !pushPull || pushPull.isNotPushable )
+						{
+							return false;
+						}
+					}
+				}
+			}
 		}
 
 		return true;

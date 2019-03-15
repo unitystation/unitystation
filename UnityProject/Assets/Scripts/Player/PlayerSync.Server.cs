@@ -356,7 +356,7 @@ public partial class PlayerSync
 		if ( isClientBump || serverBump != BumpType.None) {
 			// we bumped something, an interaction might occur
 			// try pushing things / opening doors
-			if ( !playerScript.canNotInteract() )
+			if ( !playerScript.canNotInteract() || serverBump == BumpType.ClosedDoor )
 			{
 				BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
 			}

@@ -49,7 +49,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63ad07f389034e49893bdd6e79303e4d, type: 2}
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 114737298292197450}
   - component: {fileID: 61926733661208534}
   - component: {fileID: 114418060968581254}
+  - component: {fileID: 8473214172519441615}
   m_Layer: 11
   m_Name: DinnerWareVendor
   m_TagString: Untagged
@@ -281,3 +282,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8473214172519441615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013211423706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vendorcontent:
+  - {fileID: 1000011622113908, guid: fc5783dcb3f74ab1b2187da95b6c932d, type: 3}
+  - {fileID: 1000012939332086, guid: 04684ac0ef7f4d938957d3420c0d938f, type: 3}
+  - {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 3}
+  - {fileID: 1036141445992816, guid: dd31a44e0061599419dba34dd9e7fff7, type: 3}
+  - {fileID: 1651733465195328, guid: 5d017514ecdb1cb4b91d054838c247b3, type: 3}
+  allowSell: 1
+  cooldownTimer: 1
+  stock: 15
+  interactionMessage: bzzzz...
+  deniedMessage: Vendor is refreshing stocking, please wait...
+  DispenseDirection: 0

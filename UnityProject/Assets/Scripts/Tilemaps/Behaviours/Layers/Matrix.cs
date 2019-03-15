@@ -39,6 +39,15 @@ public class Matrix : MonoBehaviour
 		return IsPassableAt(position, position);
 	}
 
+	/// <summary>
+	/// Checks if door can be closed at this tile
+	/// – isn't occupied by solid objects and has no living beings
+	/// </summary>
+	public bool CanCloseDoorAt(Vector3Int position)
+	{
+		return IsPassableAt(position, position) && GetFirst<LivingHealthBehaviour>( position ) == null;
+	}
+
 	/// Can one pass from `origin` to adjacent `position`?
 	/// <param name="origin">Position object is at now</param>
 	/// <param name="position">Adjacent position object wants to move to</param>

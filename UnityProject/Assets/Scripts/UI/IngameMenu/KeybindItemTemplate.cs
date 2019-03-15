@@ -14,11 +14,11 @@ public class KeybindItemTemplate : MonoBehaviour {
 	[SerializeField]
 	private ControlSettingsMenu controlSettingsMenu;
 	private KeyAction ItemAction;
-	
-	public void SetupKeybindItem(KeyAction action, KeybindObject keybind)
+
+	public void SetupKeybindItem(KeyAction action, DualKeyCombo keybind, KeybindMetadata metadata)
 	{
 		// Setup the action text and store it
-		ActionText.text = keybind.Name;
+		ActionText.text = metadata.Name;
 		ItemAction = action;
 
 		// Only activate the remove button if a KeyCombo is present
@@ -26,7 +26,7 @@ public class KeybindItemTemplate : MonoBehaviour {
 		PrimaryButton.GetComponentInChildren<Text>().text = keybind.PrimaryCombo.ToString();
 		PrimaryButton.onClick.AddListener(primary_onClick);
 		PrimaryRemoveButton.onClick.AddListener(primaryRemove_onClick);
-		
+
 		// Setup the secondary buttons too
 		SecondaryRemoveButton.gameObject.SetActive(keybind.SecondaryCombo != KeyCombo.None);
 		SecondaryButton.GetComponentInChildren<Text>().text = keybind.SecondaryCombo.ToString();

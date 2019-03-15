@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using Light2D;
 using UnityEngine;
 using UnityEngine.Networking;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Behavior for an object which explodes when it is damaged
 /// </summary>
+[Obsolete] //TODO: Use explosion code from Grenade instead
 public class ExplodeWhenShot : NetworkBehaviour
 {
 	//explosion damage
@@ -27,7 +29,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 	private readonly Collider2D[] colliders = new Collider2D[MAX_TARGETS];
 
 	//whether this object has exploded
-	private bool hasExploded;	
+	private bool hasExploded;
 	//this object's registerObject
 	private RegisterObject registerObject;
 	//Temporary game object created during the explosion
@@ -54,7 +56,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		//        Logger.Log("Exploding on damage!");
 		if (isServer)
 		{
-			CalcAndApplyExplosionDamage(damagedBy); //fixme
+			CalcAndApplyExplosionDamage(damagedBy);
 			RpcClientExplode();
 			StartCoroutine(WaitToDestroy());
 		}
@@ -85,7 +87,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 			int actualDamage = (int)(damage * effect);
 
 			if (NotSameObject(localCollider) && HasHealthComponent(localCollider) && IsWithinReach(explosionPos, localObjectPos, distance) &&
-				HasEffectiveDamage(actualDamage) //todo check why it's reaching negative values anyway
+				HasEffectiveDamage(actualDamage)
 			)
 			{
 				toBeDamaged[localObject] = actualDamage;
@@ -157,7 +159,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		//sends an RPC to all the clients to tell them to make their version of the object go boom as well. So this
 		//method ends up being invoked on clients and server.
 
-		
+
 		//Shake if the player is on the same matrix (check for null in case this is a headless server)
 		if (PlayerManager.LocalPlayer != null &&
 			PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterPlayer>() == registerObject.Matrix)
@@ -179,7 +181,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		GameObject lightFx = Resources.Load<GameObject>("lighting/BoomLight");
 		lightFxInstance = Instantiate(lightFx, transform.position, Quaternion.identity);
 		//LightSprite lightSprite = lightFxInstance.GetComponentInChildren<LightSprite>();
-		//lightSprite.fadeFX(1f); // TODO Removed animation (Should be in a separate component)
+		//lightSprite.fadeFX(1f);
 		SetFire();
 
 		//make the actual tank disappear
@@ -203,7 +205,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		{
 			//make it vanish in the client's local world
 			customNetTransform.DisappearFromWorld();
-		}		
+		}
 	}
 
 	private void SetFire()

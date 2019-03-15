@@ -38,14 +38,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private PlayerSprites playerSprites;
-
-	private SoundNetworkActions soundNetworkActions;
+	private ObjectBehaviour objectBehaviour;
 
 	public Dictionary<string, InventorySlot> Inventory { get; } = new Dictionary<string, InventorySlot>();
 
 	public bool isGhost;
 
-	private static readonly Vector3 FALLEN = new Vector3( 0, 0, -90 );
+	private static readonly Vector3 FALLEN = new Vector3(0, 0, -90);
 	private static readonly Vector3 STRAIGHT = Vector3.zero;
 
 	private void Start()
@@ -54,8 +53,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
 		playerScript = GetComponent<PlayerScript>();
-		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
 	public override void OnStartServer()
@@ -108,9 +107,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return false;
 		}
 
+		ObjectBehaviour itemObj = itemObject.GetComponent<ObjectBehaviour>();
 		var cnt = itemObject.GetComponent<CustomNetTransform>();
 		if (cnt != null)
 		{
+			if (itemObj != null)
+			{
+				itemObj.parentContainer = objectBehaviour;
+			}
 			cnt.DisappearFromWorldServer();
 		}
 
@@ -141,7 +145,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (item == slot.Value.Item)
 			{
-				InventoryManager.DisposeItemServer(item);
+				InventoryManager.DestroyItemInSlot(item);
 				ClearInventorySlot(slot.Key);
 				break;
 			}
@@ -442,7 +446,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
 
-		InventoryManager.DisposeItemServer(throwable);
+		InventoryManager.DestroyItemInSlot(throwable);
 		ClearInventorySlot(slot);
 		var throwInfo = new ThrowInfo
 		{
@@ -465,7 +469,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command] //Remember with the parent you can only send networked objects:
 	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
-		if ( playerScript.canNotInteract() || !playerScript.IsInReach( pos ) )
+		if (playerScript.canNotInteract() || !playerScript.IsInReach(pos))
 		{
 			return;
 		}
@@ -483,7 +487,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if (isTileMap)
 			{
 				TileChangeManager tileChangeManager = newParent.GetComponentInParent<TileChangeManager>();
-//				item.transform.parent = tileChangeManager.ObjectParent.transform; TODO
+				//				item.transform.parent = tileChangeManager.ObjectParent.transform; TODO
 			}
 			else
 			{
@@ -518,11 +522,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleCupboard(GameObject cupbObj)
 	{
 		ClosetControl closet = cupbObj.GetComponent<ClosetControl>();
-		if ( playerScript.canNotInteract() )
+		if (playerScript.canNotInteract())
 		{
 			return;
 		}
-		if ( playerScript.IsInReach( cupbObj ) || closet.Contains( this.gameObject ) )
+		if (playerScript.IsInReach(cupbObj) || closet.Contains(this.gameObject))
 		{
 			closet.ServerToggleCupboard();
 		}
@@ -555,7 +559,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarning("player attempted to interact with shutter switch through wall," +
-			                  " this could indicate a hacked client.");
+				" this could indicate a hacked client.");
 		}
 	}
 
@@ -570,7 +574,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarning("player attempted to interact with light switch through wall," +
-			                  " this could indicate a hacked client.");
+				" this could indicate a hacked client.");
 		}
 	}
 
@@ -615,7 +619,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarning("player attempted to interact with fire cabinet through wall," +
-			                  " this could indicate a hacked client.");
+				" this could indicate a hacked client.");
 		}
 	}
 
@@ -646,7 +650,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void OnConsciousStateChanged(ConsciousState oldState, ConsciousState newState)
 	{
-		switch ( newState )
+		switch (newState)
 		{
 			case ConsciousState.CONSCIOUS:
 				playerMove.allowInput = true;
@@ -657,11 +661,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				DropItem("rightHand");
 				DropItem("leftHand");
 				playerMove.allowInput = true;
-				playerScript.PlayerSync.SpeedServer =  playerMove.CrawlSpeed;
+				playerScript.PlayerSync.SpeedServer = playerMove.CrawlSpeed;
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					soundNetworkActions.RpcPlayNetworkSound( "Bodyfall", transform.position );
+					SoundManager.PlayNetworkedAtPos( "Bodyfall", transform.position );
 				}
 				break;
 			case ConsciousState.UNCONSCIOUS:
@@ -672,7 +676,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					soundNetworkActions.RpcPlayNetworkSound( "Bodyfall", transform.position );
+					SoundManager.PlayNetworkedAtPos( "Bodyfall", transform.position );
 				}
 				break;
 		}
@@ -786,7 +790,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//FOOD
 	[Command]
-    public void CmdEatFood(GameObject food, string fromSlot, bool isDrink)
+	public void CmdEatFood(GameObject food, string fromSlot, bool isDrink)
 	{
 		if (Inventory[fromSlot].Item == null)
 		{
@@ -797,11 +801,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
 		if (isDrink)
 		{
-			soundNetworkActions.CmdPlaySoundAtPlayerPos("Slurp");
+			SoundManager.PlayNetworkedAtPos( "Slurp", transform.position );
 		}
 		else
 		{
-			soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
+			SoundManager.PlayNetworkedAtPos( "EatFood", transform.position );
 		}
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
@@ -812,16 +816,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerHealth.bloodSystem.BloodLevel += baseFood.healAmount;
 		playerHealth.bloodSystem.StopBleeding();
 
-        InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
-        equipment.ClearItemSprite(fromSlot);
-        PoolManager.Instance.PoolNetworkDestroy(food);
+		InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
+		equipment.ClearItemSprite(fromSlot);
+		PoolManager.Instance.PoolNetworkDestroy(food);
 
-        GameObject leavings = baseFood.leavings;
-        if (leavings != null)
-        {
-            leavings = ItemFactory.SpawnItem(leavings);
-            AddItemToUISlot(leavings, fromSlot);
-        }
+		GameObject leavings = baseFood.leavings;
+		if (leavings != null)
+		{
+			leavings = ItemFactory.SpawnItem(leavings);
+			AddItemToUISlot(leavings, fromSlot);
+		}
 	}
 
 	[Command]
@@ -879,4 +883,5 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
+
 }

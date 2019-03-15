@@ -36,9 +36,11 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 		{
 			return;
 		}
+		//Allows getting parent's assumed position if inside object
+		ObjectBehaviour objectBehaviour = PlayerManager.LocalPlayerScript.pushPull;
 
 		//recalculate if it is facing the player
-		bool visible = wallmountBehavior.IsFacingPosition(PlayerManager.LocalPlayer.transform.position);
+		bool visible = wallmountBehavior.IsFacingPosition(objectBehaviour.AssumedLocation());
 		spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, visible ? 1 : 0);
 	}
 }

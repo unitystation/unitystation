@@ -25,6 +25,7 @@ public class LightSwitchTrigger : InputTrigger
 	private SpriteRenderer spriteRenderer;
 	private bool switchCoolDown;
 	private RegisterTile registerTile;
+	public bool SelfPowered = false;
 
 	private void Awake()
 	{
@@ -78,17 +79,16 @@ public class LightSwitchTrigger : InputTrigger
 		{
 			return true;
 		}
-
-		if (RelatedAPC == null)
-		{
-			return true;
+		if (!SelfPowered) { 
+			if (RelatedAPC == null)
+			{
+				return true;
+			}
+			if (RelatedAPC.Voltage == 0f)
+			{
+				return true;
+			}
 		}
-
-		if (RelatedAPC.Voltage == 0f)
-		{
-			return true;
-		}
-
 		if (switchCoolDown)
 		{
 			return true;
@@ -118,7 +118,7 @@ public class LightSwitchTrigger : InputTrigger
 		int layerMask = LayerMask.GetMask("WallMounts");
 		var possibleApcs = Physics2D.OverlapCircleAll(GetCastPos(), radius, layerMask);
 
-		int thisRoomNum = MatrixManager.GetMetaDataAt(Vector3Int.RoundToInt(transform.position)).RoomNumber;
+		int thisRoomNum = MatrixManager.GetMetaDataAt(Vector3Int.RoundToInt(transform.position-transform.up)).RoomNumber;
 
 		foreach (Collider2D col in possibleApcs)
 		{
@@ -131,12 +131,15 @@ public class LightSwitchTrigger : InputTrigger
 					break;
 				}
 
-				if (MatrixManager.GetMetaDataAt(Vector3Int.RoundToInt(col.transform.position)).RoomNumber == thisRoomNum)
+				if (MatrixManager.GetMetaDataAt(Vector3Int.RoundToInt(col.transform.position-col.transform.up )).RoomNumber == thisRoomNum)
 				{
 					RelatedAPC = col.gameObject.GetComponent<APC>();
 					break;
 				}
 			}
+		}
+		if (RelatedAPC == null && !SelfPowered) {
+			isOn = false;
 		}
 	}
 
@@ -158,9 +161,9 @@ public class LightSwitchTrigger : InputTrigger
 					LightSwitchData Send = new LightSwitchData() { state = state, LightSwitchTrigger = this, RelatedAPC = RelatedAPC };
 					localObject.SendMessage("Received", Send, SendMessageOptions.DontRequireReceiver);
 				}
-				if (RelatedAPC != null)
+				if (RelatedAPC != null ) //|| SelfPowered
 				{
-					LightSwitchData Send = new LightSwitchData() { LightSwitchTrigger = this, RelatedAPC = RelatedAPC };
+					LightSwitchData Send = new LightSwitchData() { LightSwitchTrigger = this, RelatedAPC = RelatedAPC, SelfPowered = SelfPowered };
 					localObject.SendMessage("EmergencyLight", Send, SendMessageOptions.DontRequireReceiver);
 				}
 			}
@@ -201,4 +204,5 @@ public class LightSwitchData
 	public bool state;
 	public LightSwitchTrigger LightSwitchTrigger;
 	public APC RelatedAPC;
+	public bool SelfPowered;
 }
