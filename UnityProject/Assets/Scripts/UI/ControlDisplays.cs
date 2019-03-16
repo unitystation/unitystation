@@ -41,6 +41,7 @@ public class ControlDisplays : MonoBehaviour
 
 	public void SetScreenForGame()
 	{
+		jobSelectWindow.SetActive(false);
 		hudRight.gameObject.SetActive(true);
 		hudBottom.gameObject.SetActive(true);
 		backGround.SetActive(false);

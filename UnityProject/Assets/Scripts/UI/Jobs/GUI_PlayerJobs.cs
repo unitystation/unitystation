@@ -19,6 +19,12 @@ public class GUI_PlayerJobs : MonoBehaviour
 		{
 			UpdateJobsList();
 		}
+
+		//If the player has spawned and they already have a job. Don't display this window.
+		if (PlayerManager.LocalPlayer != null && PlayerManager.LocalPlayerScript.JobType != JobType.NULL)
+		{
+			this.gameObject.SetActive(false);
+		}
 	}
 
 	public void BtnOk(JobType preference)
