@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -214,73 +215,128 @@ public class KeybindManager : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Class to hold all information about a keybinding, such as the name, if it can be rebound, the type and the primary and secondary key combos
+	/// Class to hold all information about a keybinding, such as the name, if it can be rebound and the type
 	/// </summary>
-	public class KeybindObject
+	public class KeybindMetadata
 	{
 		public string Name;
 		public bool Rebindable;
 		public ActionType Type;
-		public KeyCombo PrimaryCombo;
-		public KeyCombo SecondaryCombo;
-		public static readonly KeybindObject None = new KeybindObject();
-		public KeybindObject(string name = "None", KeyCombo primaryCombo = null, KeyCombo secondaryCombo = null, ActionType type = ActionType.Default, bool rebindable = true)
+
+		public static readonly KeybindMetadata None = new KeybindMetadata();
+		public KeybindMetadata(string name = "None", ActionType type = ActionType.Default, bool rebindable = true)
 		{
 			Name = name;
 			Rebindable = rebindable;
-			// If primary or secondary combos are null, assign KeyCombo.None as their value
-			PrimaryCombo = primaryCombo ?? KeyCombo.None;
-			SecondaryCombo = secondaryCombo ?? KeyCombo.None;
 			Type = type;
 		}
-		public KeybindObject Clone()
+		public KeybindMetadata Clone()
 		{
-			return new KeybindObject(this.Name, this.PrimaryCombo.Clone(), this.SecondaryCombo.Clone(), this.Type, this.Rebindable);
+			return new KeybindMetadata(this.Name, this.Type, this.Rebindable);
 		}
 	}
+
+	/// <summary>
+	/// Class to hold a primary and secondary KeyCombo, defaults both to KeyCombo.None
+	/// </summary>
+	public class DualKeyCombo
+	{
+		public KeyCombo PrimaryCombo;
+		public KeyCombo SecondaryCombo;
+
+		public DualKeyCombo(KeyCombo primaryCombo = null, KeyCombo secondaryCombo = null)
+		{
+			PrimaryCombo   = primaryCombo ?? KeyCombo.None;
+			SecondaryCombo = secondaryCombo ?? KeyCombo.None;
+		}
+		public DualKeyCombo Clone()
+		{
+			return new DualKeyCombo(this.PrimaryCombo, this.SecondaryCombo);
+		}
+	}
+
+	public readonly Dictionary<KeyAction, KeybindMetadata> keyActionMetadata = new Dictionary<KeyAction, KeybindMetadata>
+	{
+		// Movement
+		{ KeyAction.MoveUp, 	new KeybindMetadata("Move Up", ActionType.Movement)},
+		{ KeyAction.MoveLeft, 	new KeybindMetadata("Move Left", ActionType.Movement)},
+		{ KeyAction.MoveDown, 	new KeybindMetadata("Move Down", ActionType.Movement)},
+		{ KeyAction.MoveRight, 	new KeybindMetadata("Move Right", ActionType.Movement)},
+
+		// Actions
+		{ KeyAction.ActionThrow,	new KeybindMetadata("Throw", ActionType.Action)},
+		{ KeyAction.ActionDrop,		new KeybindMetadata("Drop", ActionType.Action)},
+		{ KeyAction.ActionResist,	new KeybindMetadata("Resist", ActionType.Action)},
+
+		{  KeyAction.HandSwap, 		new KeybindMetadata("Swap Hands", ActionType.Hand)},
+		{  KeyAction.HandActivate,	new KeybindMetadata("Activate Item", ActionType.Hand)},
+		{  KeyAction.HandEquip, 	new KeybindMetadata("Equip Item", ActionType.Hand)},
+
+		// Intents
+		{ KeyAction.IntentLeft,		new KeybindMetadata("Cycle Intent Left", ActionType.Intent)},
+		{ KeyAction.IntentRight, 	new KeybindMetadata("Cycle Intent Right", ActionType.Intent)},
+		{ KeyAction.IntentHelp, 	new KeybindMetadata("Help Intent", ActionType.Intent)},
+		{ KeyAction.IntentDisarm,	new KeybindMetadata("Disarm Intent", ActionType.Intent)},
+		{ KeyAction.IntentGrab, 	new KeybindMetadata("Grab Intent", ActionType.Intent)},
+		{ KeyAction.IntentHarm, 	new KeybindMetadata("Harm Intent", ActionType.Intent)},
+
+		// Chat
+		{ KeyAction.ChatLocal, new KeybindMetadata("Chat", ActionType.Chat)},
+		{ KeyAction.ChatRadio, new KeybindMetadata("Radio Chat", ActionType.Chat)},
+		{ KeyAction.ChatOOC,   new KeybindMetadata("OOC Chat", ActionType.Chat)},
+
+		// Body part selection
+		{ KeyAction.TargetHead, 	new KeybindMetadata("Target Head, Eyes and Mouth", ActionType.Targeting)},
+		{ KeyAction.TargetChest,	new KeybindMetadata("Target Chest", ActionType.Targeting)},
+		{ KeyAction.TargetLeftArm,  new KeybindMetadata("Target Left Arm", ActionType.Targeting)},
+		{ KeyAction.TargetRightArm, new KeybindMetadata("Target Right Arm", ActionType.Targeting)},
+		{ KeyAction.TargetLeftLeg,  new KeybindMetadata("Target Left Leg", ActionType.Targeting)},
+		{ KeyAction.TargetRightLeg, new KeybindMetadata("Target Right Leg", ActionType.Targeting)},
+		{ KeyAction.TargetGroin, 	new KeybindMetadata("Target Groin", ActionType.Targeting)}
+	};
 
 	private readonly KeybindDict defaultKeybinds = new KeybindDict
 	{
 		// Movement
-		{ KeyAction.MoveUp, 	new KeybindObject("Move Up",	new KeyCombo(KeyCode.W), new KeyCombo(KeyCode.UpArrow), ActionType.Movement)},
-		{ KeyAction.MoveLeft, 	new KeybindObject("Move Left", 	new KeyCombo(KeyCode.A), new KeyCombo(KeyCode.LeftArrow), ActionType.Movement)},
-		{ KeyAction.MoveDown, 	new KeybindObject("Move Down", 	new KeyCombo(KeyCode.S), new KeyCombo(KeyCode.DownArrow), ActionType.Movement)},
-		{ KeyAction.MoveRight, 	new KeybindObject("Move Right", new KeyCombo(KeyCode.D), new KeyCombo(KeyCode.RightArrow), ActionType.Movement)},
+		{ KeyAction.MoveUp, 		new DualKeyCombo(new KeyCombo(KeyCode.W), new KeyCombo(KeyCode.UpArrow))},
+		{ KeyAction.MoveLeft, 		new DualKeyCombo(new KeyCombo(KeyCode.A), new KeyCombo(KeyCode.LeftArrow))},
+		{ KeyAction.MoveDown, 		new DualKeyCombo(new KeyCombo(KeyCode.S), new KeyCombo(KeyCode.DownArrow))},
+		{ KeyAction.MoveRight, 		new DualKeyCombo(new KeyCombo(KeyCode.D), new KeyCombo(KeyCode.RightArrow))},
 
 		// Actions
-		{ KeyAction.ActionThrow,	new KeybindObject("Throw", 	new KeyCombo(KeyCode.R),	new KeyCombo(KeyCode.End), ActionType.Action)},
-		{ KeyAction.ActionDrop,		new KeybindObject("Drop", 	new KeyCombo(KeyCode.Q), 	new KeyCombo(KeyCode.Home), ActionType.Action)},
-		{ KeyAction.ActionResist,	new KeybindObject("Resist",	new KeyCombo(KeyCode.V), 	null, ActionType.Action)},
+		{ KeyAction.ActionThrow,	new DualKeyCombo(new KeyCombo(KeyCode.R),	new KeyCombo(KeyCode.End))},
+		{ KeyAction.ActionDrop,		new DualKeyCombo(new KeyCombo(KeyCode.Q), 	new KeyCombo(KeyCode.Home))},
+		{ KeyAction.ActionResist,	new DualKeyCombo(new KeyCombo(KeyCode.V), 	null)},
 
-		{  KeyAction.HandSwap, 		new KeybindObject("Swap Hands", 	new KeyCombo(KeyCode.X),	new KeyCombo(KeyCode.Mouse2), ActionType.Hand)},
-		{  KeyAction.HandActivate,	new KeybindObject("Activate Item",  new KeyCombo(KeyCode.Z),	new KeyCombo(KeyCode.PageDown), ActionType.Hand)},
-		{  KeyAction.HandEquip, 	new KeybindObject("Equip Item", 	new KeyCombo(KeyCode.E),	null, ActionType.Hand)},
+		{  KeyAction.HandSwap, 		new DualKeyCombo(new KeyCombo(KeyCode.X),	new KeyCombo(KeyCode.Mouse2))},
+		{  KeyAction.HandActivate,	new DualKeyCombo(new KeyCombo(KeyCode.Z),	new KeyCombo(KeyCode.PageDown))},
+		{  KeyAction.HandEquip, 	new DualKeyCombo(new KeyCombo(KeyCode.E),	null)},
 
 		// Intents
-		{ KeyAction.IntentLeft,		new KeybindObject("Cycle Intent Left", 	new KeyCombo(KeyCode.F),	  new KeyCombo(KeyCode.Insert), ActionType.Intent)},
-		{ KeyAction.IntentRight, 	new KeybindObject("Cycle Intent Right", new KeyCombo(KeyCode.G),	  new KeyCombo(KeyCode.Keypad0), ActionType.Intent)},
-		{ KeyAction.IntentHelp, 	new KeybindObject("Help Intent", 		new KeyCombo(KeyCode.Alpha1), null, ActionType.Intent)},
-		{ KeyAction.IntentDisarm,	new KeybindObject("Disarm Intent", 		new KeyCombo(KeyCode.Alpha2), null, ActionType.Intent)},
-		{ KeyAction.IntentGrab, 	new KeybindObject("Grab Intent", 		new KeyCombo(KeyCode.Alpha3), null, ActionType.Intent)},
-		{ KeyAction.IntentHarm, 	new KeybindObject("Harm Intent", 		new KeyCombo(KeyCode.Alpha4), null, ActionType.Intent)},
+		{ KeyAction.IntentLeft,		new DualKeyCombo(new KeyCombo(KeyCode.F),		new KeyCombo(KeyCode.Insert))},
+		{ KeyAction.IntentRight, 	new DualKeyCombo(new KeyCombo(KeyCode.G),		new KeyCombo(KeyCode.Keypad0))},
+		{ KeyAction.IntentHelp, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha1), null)},
+		{ KeyAction.IntentDisarm,	new DualKeyCombo(new KeyCombo(KeyCode.Alpha2), null)},
+		{ KeyAction.IntentGrab, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3), null)},
+		{ KeyAction.IntentHarm, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha4), null)},
 
 		// Chat
-		{ KeyAction.ChatLocal, new KeybindObject("Chat", 		new KeyCombo(KeyCode.T), new KeyCombo(KeyCode.Return), ActionType.Chat)},
-		{ KeyAction.ChatRadio, new KeybindObject("Radio Chat",	new KeyCombo(KeyCode.Y), null, ActionType.Chat)},
-		{ KeyAction.ChatOOC,   new KeybindObject("OOC Chat", 	new KeyCombo(KeyCode.U), null, ActionType.Chat)},
+		{ KeyAction.ChatLocal, 		new DualKeyCombo(new KeyCombo(KeyCode.T), new KeyCombo(KeyCode.Return))},
+		{ KeyAction.ChatRadio,		new DualKeyCombo(new KeyCombo(KeyCode.Y), null)},
+		{ KeyAction.ChatOOC,   		new DualKeyCombo(new KeyCombo(KeyCode.U), null)},
 
 		// Body part selection
-		{ KeyAction.TargetHead, 	new KeybindObject("Target Head, Eyes and Mouth", 	  new KeyCombo(KeyCode.Keypad8), null, ActionType.Targeting)},
-		{ KeyAction.TargetChest,	new KeybindObject("Target Chest", 	  new KeyCombo(KeyCode.Keypad5), null, ActionType.Targeting)},
-		{ KeyAction.TargetLeftArm,  new KeybindObject("Target Left Arm",  new KeyCombo(KeyCode.Keypad6), null, ActionType.Targeting)},
-		{ KeyAction.TargetRightArm, new KeybindObject("Target Right Arm", new KeyCombo(KeyCode.Keypad4), null, ActionType.Targeting)},
-		{ KeyAction.TargetLeftLeg,  new KeybindObject("Target Left Leg",  new KeyCombo(KeyCode.Keypad3), null, ActionType.Targeting)},
-		{ KeyAction.TargetRightLeg, new KeybindObject("Target Right Leg", new KeyCombo(KeyCode.Keypad1), null, ActionType.Targeting)},
-		{ KeyAction.TargetGroin, 	new KeybindObject("Target Groin",	  new KeyCombo(KeyCode.Keypad2), null, ActionType.Targeting)}
+		{ KeyAction.TargetHead, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad8), null)},
+		{ KeyAction.TargetChest,	new DualKeyCombo(new KeyCombo(KeyCode.Keypad5), null)},
+		{ KeyAction.TargetLeftArm,  new DualKeyCombo(new KeyCombo(KeyCode.Keypad6), null)},
+		{ KeyAction.TargetRightArm, new DualKeyCombo(new KeyCombo(KeyCode.Keypad4), null)},
+		{ KeyAction.TargetLeftLeg,  new DualKeyCombo(new KeyCombo(KeyCode.Keypad3), null)},
+		{ KeyAction.TargetRightLeg, new DualKeyCombo(new KeyCombo(KeyCode.Keypad1), null)},
+		{ KeyAction.TargetGroin, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad2), null)}
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
 
-	public class KeybindDict : Dictionary<KeyAction, KeybindObject>
+	public class KeybindDict : Dictionary<KeyAction, DualKeyCombo>
 	{
 		public KeybindDict()
 		{
@@ -294,7 +350,7 @@ public class KeybindManager : MonoBehaviour {
 		public KeybindDict Clone()
 		{
 			KeybindDict newCopy = new KeybindDict();
-			foreach (KeyValuePair<KeyAction, KeybindObject> entry in this)
+			foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in this)
 			{
 				newCopy.Add(entry.Key, entry.Value.Clone());
 			}
@@ -315,7 +371,7 @@ public class KeybindManager : MonoBehaviour {
 		}
 		public void Remove(KeyAction keyAction, bool isPrimary)
 		{
-			Logger.Log("Removing " + (isPrimary ? "primary" : "secondary") + "keybind from " + keyAction, Category.Keybindings);
+			Logger.Log("Removing " + (isPrimary ? "primary" : "secondary") + " keybind from " + keyAction, Category.Keybindings);
 			if (isPrimary)
 			{
 				this[keyAction].PrimaryCombo = KeyCombo.None;
@@ -325,25 +381,25 @@ public class KeybindManager : MonoBehaviour {
 				this[keyAction].SecondaryCombo = KeyCombo.None;
 			}
 		}
-		public KeyValuePair<KeyAction, KeybindObject> CheckConflict(KeyCombo keyCombo, ref bool isPrimary)
+		public KeyValuePair<KeyAction, DualKeyCombo> CheckConflict(KeyCombo keyCombo, ref bool isPrimary)
 		{
-			foreach (KeyValuePair<KeyAction, KeybindObject> entry in this)
+			foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in this)
 			{
 				if (keyCombo == entry.Value.PrimaryCombo)
 				{
 					isPrimary = true;
-					Logger.Log("Conflict found with primary key for " + entry.Value.Name, Category.Keybindings);
+					Logger.Log("Conflict found with primary key for " + entry.Key, Category.Keybindings);
 					return entry;
 				}
 				else if (keyCombo == entry.Value.SecondaryCombo)
 				{
 					isPrimary = false;
-					Logger.Log("Conflict found with secondary key for " + entry.Value.Name, Category.Keybindings);
+					Logger.Log("Conflict found with secondary key for " + entry.Key, Category.Keybindings);
 					return entry;
 				}
 			}
 			// No match found, return none
-			return new KeyValuePair<KeyAction, KeybindObject>(KeyAction.None, KeybindObject.None);
+			return new KeyValuePair<KeyAction, DualKeyCombo>(KeyAction.None, null);
 		}
 	}
 	public KeyCombo CaptureKeyCombo()
@@ -374,27 +430,25 @@ public class KeybindManager : MonoBehaviour {
 				// Check if any modifiers are pressed too
 				foreach (KeyCode modKey in ModKeys)
 				{
-					if (CommonInput.GetKey(modKey))
+					if (!CommonInput.GetKey(modKey)) continue;
+					// A modifier key is pressed, assign it to the first available modkey
+					if (newModKey1 == KeyCode.None)
 					{
-						// A modifier key is pressed, assign it to the first available modkey
-						if (newModKey1 == KeyCode.None)
+						// ModKey1 hasn't been assigned yet
+						newModKey1 = validateModKey(modKey);
+						if (newModKey1 == KeyCode.AltGr)
 						{
-							// ModKey1 hasn't been assigned yet
-							newModKey1 = validateModKey(modKey);
-							if (newModKey1 == KeyCode.AltGr)
-							{
-								// Since AltGr is a strange key which sends AltGr, LeftControl and RightAlt at the same time
-								// we will only allow it to be a modifier key on its own, so we can stop checking now
-								break;
-							}
-						}
-						else if (newModKey2 == KeyCode.None)
-						{
-							// ModKey2 hasn't been assigned yet
-							// Assign it then stop checking since all modkeys assigned
-							newModKey2 = validateModKey(modKey);
+							// Since AltGr is a strange key which sends AltGr, LeftControl and RightAlt at the same time
+							// we will only allow it to be a modifier key on its own, so we can stop checking now
 							break;
 						}
+					}
+					else if (newModKey2 == KeyCode.None)
+					{
+						// ModKey2 hasn't been assigned yet
+						// Assign it then stop checking since all modkeys assigned
+						newModKey2 = validateModKey(modKey);
+						break;
 					}
 				}
 			}
@@ -424,7 +478,7 @@ public class KeybindManager : MonoBehaviour {
 	public void SaveKeybinds(KeybindDict newKeybinds, bool closeKeyBindWindow = false)
 	{
 		Logger.Log("Saving user keybinds", Category.Keybindings);
-		// Make userKeybinds reference the new keybinds (since KeybinbdDict is reference type)
+		// Make userKeybinds reference the new keybinds (since KeybindDict is reference type)
 		userKeybinds = newKeybinds;
 		// Turn the user's keybinds into JSON
 		string jsonKeybinds = JsonConvert.SerializeObject(userKeybinds);
@@ -450,13 +504,24 @@ public class KeybindManager : MonoBehaviour {
 		string jsonKeybinds = PlayerPrefs.GetString("userKeybinds");
 		if (jsonKeybinds != "")
 		{
-			// Check if user has any saved keybinds and deserialise it from JSON
-			userKeybinds = JsonConvert.DeserializeObject<KeybindDict>(jsonKeybinds);
+			// Check if user has any saved keybinds and deserialize it from JSON
+			// If there are any problems then just reset controls to default
+			try
+			{
+				userKeybinds = JsonConvert.DeserializeObject<KeybindDict>(jsonKeybinds);
+			}
+			catch (Exception e)
+			{
+				Logger.LogWarning("Couldn't deserialize userKeybind JSON: " + e, Category.Keybindings);
+				ResetKeybinds();
+				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
+			}
 		}
 		else
 		{
 			// Make a new copy of defaultKeybinds and make userKeybinds reference it
-			userKeybinds = defaultKeybinds.Clone();
+			Logger.Log("No saved keybinds found. Using default.", Category.Keybindings);
+			ResetKeybinds();
 		}
 	}
 }

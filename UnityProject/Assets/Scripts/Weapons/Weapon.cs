@@ -311,9 +311,9 @@ public class Weapon : PickUpTrigger
 	/// <summary>
 	/// Occurs when a user uses another slot to interact with the weapon
 	/// </summary>
-	public override void UI_InteractOtherSlot(GameObject originator, GameObject item)
+	public override bool UI_InteractOtherSlot(GameObject originator, GameObject item)
 	{
-		TryReload(item);
+		return TryReload(item);
 	}
 
 	/// <summary>
@@ -327,42 +327,46 @@ public class Weapon : PickUpTrigger
 			RequestUnload(CurrentMagazine);
 		}
 	}
-	
+
 	/// <summary>
 	/// attempt to reload the weapon with the item given
 	/// </summary>
-	public void TryReload(GameObject item)
+	public bool TryReload(GameObject item)
 	{
 		string hand;
 		if (item != null)
 		{
 			MagazineBehaviour magazine = item.GetComponent<MagazineBehaviour>();
-			if (CurrentMagazine == null)
+			if (magazine)
 			{
-				//RELOAD
-				// If the item used on the gun is a magazine, check type and reload
-				if (magazine)
+				if (CurrentMagazine == null)
 				{
-					string ammoType = magazine.ammoType;		
+					//RELOAD
+					// If the item used on the gun is a magazine, check type and reload
+					string ammoType = magazine.ammoType;
 					if (AmmoType == ammoType)
 					{
 						hand = UIManager.Hands.CurrentSlot.eventName;
 						RequestReload(item, hand, true);
 					}
-
 					if (AmmoType != ammoType)
 					{
 						ChatRelay.Instance.AddToChatLogClient("You try to load the wrong ammo into your weapon",
 							ChatChannel.Examine);
 					}
 				}
+				else  if (AmmoType == magazine.ammoType)
+				{
+					ChatRelay.Instance.AddToChatLogClient(
+						"You weapon is already loaded, you can't fit more Magazines in it, silly!",
+						ChatChannel.Examine);
+				}
 			}
-			else  if (AmmoType == magazine.ammoType)
-			{
-				ChatRelay.Instance.AddToChatLogClient(
-					"You weapon is already loaded, you can't fit more Magazines in it, silly!",
-					ChatChannel.Examine);
-			}
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
 
@@ -424,7 +428,7 @@ public class Weapon : PickUpTrigger
 				RequestUnload(CurrentMagazine);
 				OutOfAmmoSFX();
 			}
-			else 
+			else
 			{
 				PlayEmptySFX();
 			}
@@ -777,12 +781,12 @@ public class Weapon : PickUpTrigger
 
 	private void OutOfAmmoSFX()
 	{
-		PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("OutOfAmmoAlarm");
+		SoundManager.PlayNetworkedAtPos( "OutOfAmmoAlarm", transform.position );
 	}
 
 	private void PlayEmptySFX()
 	{
-		PlayerManager.LocalPlayerScript.soundNetworkActions.CmdPlaySoundAtPlayerPos("EmptyGunClick");
+		SoundManager.PlayNetworkedAtPos( "EmptyGunClick", transform.position );
 	}
 
 	#endregion

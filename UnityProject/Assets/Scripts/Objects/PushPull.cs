@@ -102,7 +102,7 @@ public class PushPull : VisibleBehaviour {
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
-				PlayerManager.LocalPlayerScript.soundNetworkActions.RpcPlayNetworkSound("Rustle0" + Random.Range(1, 4), pullable.transform.position);
+				SoundManager.PlayNetworkedAtPos( "Rustle0" + Random.Range(1, 4), pullable.transform.position );
 
 				PulledObject = pullable;
 

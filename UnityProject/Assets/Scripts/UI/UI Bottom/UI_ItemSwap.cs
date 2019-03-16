@@ -14,7 +14,7 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 		if (eventData.button == PointerEventData.InputButton.Left)
 		{
 			SoundManager.Play("Click01");
-			UIManager.Hands.SwapItem(itemSlot);
+			itemSlot.TryItemInteract();
 		}
 	}
 

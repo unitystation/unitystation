@@ -24,7 +24,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private RegisterPlayer registerPlayer;
-	private SoundNetworkActions soundNetworkActions;
 	private GameObject spritesObj;
 
 	private GameObject casingPrefab;
@@ -34,7 +33,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		spritesObj = transform.Find("Sprites").gameObject;
 		playerMove = GetComponent<PlayerMove>();
 		registerPlayer = GetComponent<RegisterPlayer>();
-		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		playerScript = GetComponent<PlayerScript>();
 		lerpSprite = null;
 
@@ -138,7 +136,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				RpcMeleeAttackLerp(stabDirection, weapon);
 				playerMove.allowInput = false;
 				attackTarget.Harvest();
-				soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
+				SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
 			}
 			else
 			{
@@ -146,7 +144,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				RpcMeleeAttackLerp(stabDirection, weapon);
 				playerMove.allowInput = false;
 				attackTarget.Harvest();
-				soundNetworkActions.RpcPlayNetworkSound("BladeSlice", transform.position);
+				SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
 			}
 			return;
 		}
@@ -163,7 +161,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			PostToChatMessage.SendItemAttackMessage(weapon, gameObject, victim, (int) weaponAttr.hitDamage, damageZone);
 		}
 
-		soundNetworkActions.RpcPlayNetworkSound(weaponAttr.hitSound, transform.position);
+		SoundManager.PlayNetworkedAtPos( weaponAttr.hitSound, transform.position );
 		StartCoroutine(AttackCoolDown());
 
 	}

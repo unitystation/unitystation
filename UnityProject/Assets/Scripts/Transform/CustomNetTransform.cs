@@ -410,11 +410,15 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	#region Hiding/Unhiding
 
 	[Server]
-	public void DisappearFromWorldServer()
+	public void DisappearFromWorldServer(bool stopInertia = true)
 	{
 		OnPullInterrupt().Invoke();
 		serverState.Position = TransformState.HiddenPos;
 		serverLerpState.Position = TransformState.HiddenPos;
+		if (CheckFloatingServer() && stopInertia )
+		{
+			Stop();
+		}
 		NotifyPlayers();
 	}
 

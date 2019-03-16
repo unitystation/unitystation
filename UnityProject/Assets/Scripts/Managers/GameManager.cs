@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
 	}
 
 	///<summary>
-	/// This is for any space object that needs to be randomly placed in the solar system 
+	/// This is for any space object that needs to be randomly placed in the solar system
 	/// (See Asteroid.cs for example of use)
 	/// Please make sure matrixMove.State.position != TransformState.HiddenPos when calling this function
 	///</summary>
@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
 		return UnityEngine.Random.insideUnitCircle * solarSystemRadius;
 	}
 
-	//	private void OnValidate() 
+	//	private void OnValidate()
 	//	{
 	//		if (Occupations.All(o => o.GetComponent<OccupationRoster>().Type != JobType.ASSISTANT)) //wtf is that about
 	//		{
@@ -226,7 +226,7 @@ public class GameManager : MonoBehaviour
 			// Prevents annoying sound duplicate when testing
 			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
 			{
-				PlaySoundMessage.SendToAll("ApcDestroyed", Vector3.zero, 1f);
+				SoundManager.PlayNetworked("ApcDestroyed", 1f);
 			}
 
 			waitForRestart = true;

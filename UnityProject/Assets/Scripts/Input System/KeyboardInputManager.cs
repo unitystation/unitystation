@@ -50,15 +50,13 @@ public class KeyboardInputManager : MonoBehaviour
 			}
 
 			// Perform the checks for all key actions which have functions defined here
-			foreach (KeyValuePair<KeyAction, KeybindObject> entry in keybindManager.userKeybinds)
+			foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in keybindManager.userKeybinds)
 			{
-				if (keyActionFunctions.ContainsKey(entry.Key))
+				if (!keyActionFunctions.ContainsKey(entry.Key)) continue;
+				if (CheckComboEvent(entry.Value.PrimaryCombo) || CheckComboEvent(entry.Value.SecondaryCombo))
 				{
-					if (CheckComboEvent(entry.Value.PrimaryCombo) || CheckComboEvent(entry.Value.SecondaryCombo))
-					{
-						// Call the function associated with the KeyAction enum
-						keyActionFunctions[entry.Key]();
-					}
+					// Call the function associated with the KeyAction enum
+					keyActionFunctions[entry.Key]();
 				}
 			}
 		}
@@ -81,15 +79,8 @@ public class KeyboardInputManager : MonoBehaviour
 	/// <param name="keyEventType">The type of key event to check for</param>
 	private bool CheckKeyAction(KeyAction keyAction, KeyEventType keyEventType = KeyEventType.Down)
 	{
-		KeybindObject action = keybindManager.userKeybinds[keyAction];
-		if (CheckComboEvent(action.PrimaryCombo, keyEventType) || CheckComboEvent(action.SecondaryCombo, keyEventType))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		DualKeyCombo action = keybindManager.userKeybinds[keyAction];
+		return CheckComboEvent(action.PrimaryCombo, keyEventType) || CheckComboEvent(action.SecondaryCombo, keyEventType);
 	}
 
 	/// <summary>
@@ -98,15 +89,8 @@ public class KeyboardInputManager : MonoBehaviour
 	/// <param name="keyEventType">Key event to check for like down, up or hold</param>
 	public static bool IsMovementPressed(KeyEventType keyEventType = KeyEventType.Down)
 	{
-		if (Instance.CheckKeyAction(KeyAction.MoveUp, keyEventType)   || Instance.CheckKeyAction(KeyAction.MoveDown, keyEventType) ||
-			Instance.CheckKeyAction(KeyAction.MoveLeft, keyEventType) || Instance.CheckKeyAction(KeyAction.MoveRight, keyEventType))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return Instance.CheckKeyAction(KeyAction.MoveUp,   keyEventType) || Instance.CheckKeyAction(KeyAction.MoveDown,  keyEventType) ||
+		       Instance.CheckKeyAction(KeyAction.MoveLeft, keyEventType) || Instance.CheckKeyAction(KeyAction.MoveRight, keyEventType);
 	}
 
 	/// <summary>
@@ -114,14 +98,7 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	public static bool IsEnterPressed()
 	{
-		if (CommonInput.GetKeyDown(KeyCode.Return) || CommonInput.GetKeyDown(KeyCode.KeypadEnter))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return CommonInput.GetKeyDown(KeyCode.Return) || CommonInput.GetKeyDown(KeyCode.KeypadEnter);
 	}
 
 	/// <summary>
@@ -129,14 +106,7 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	public static bool IsEscapePressed()
 	{
-		if (CommonInput.GetKeyDown(KeyCode.Escape))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return CommonInput.GetKeyDown(KeyCode.Escape);
 	}
 
 	/// <summary>
@@ -144,15 +114,8 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	public static bool IsControlPressed()
 	{
-		if (CommonInput.GetKey(KeyCode.LeftControl) || CommonInput.GetKey(KeyCode.LeftControl) ||
-			CommonInput.GetKey(KeyCode.LeftCommand) || CommonInput.GetKey(KeyCode.LeftCommand))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return CommonInput.GetKey(KeyCode.LeftControl) || CommonInput.GetKey(KeyCode.LeftControl) ||
+		       CommonInput.GetKey(KeyCode.LeftCommand) || CommonInput.GetKey(KeyCode.LeftCommand);
 	}
 
 	/// <summary>
@@ -160,14 +123,7 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	public static bool IsAltPressed()
 	{
-		if (CommonInput.GetKey(KeyCode.LeftAlt) || CommonInput.GetKey(KeyCode.RightAlt))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return CommonInput.GetKey(KeyCode.LeftAlt) || CommonInput.GetKey(KeyCode.RightAlt);
 	}
 
 	private bool CheckComboEvent(KeyCombo keyCombo, KeyEventType keyEventType = KeyEventType.Down)
@@ -194,7 +150,7 @@ public class KeyboardInputManager : MonoBehaviour
 		}
 	}
 
-	private Dictionary<KeyAction, System.Action> keyActionFunctions = new Dictionary<KeyAction, System.Action>
+	private readonly Dictionary<KeyAction, System.Action> keyActionFunctions = new Dictionary<KeyAction, System.Action>
 	{
 		// Actions
 		{ KeyAction.ActionThrow,	() => { UIManager.Action.Throw(); }},
@@ -203,7 +159,7 @@ public class KeyboardInputManager : MonoBehaviour
 
 		{  KeyAction.HandSwap, 		() => { UIManager.Hands.Swap(); }},
 		{  KeyAction.HandActivate,	() => { UIManager.Hands.Activate(); }},
-		{  KeyAction.HandEquip, 	() => { UIManager.Hands.Equip(); }},
+		// {  KeyAction.HandEquip, 	() => { UIManager.Hands.Equip(); }},
 
 		// Intents
 		{ KeyAction.IntentLeft,		() => { UIManager.Intent.CycleIntent(true); }},

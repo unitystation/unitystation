@@ -149,8 +149,8 @@ public class Camera2DFollow : MonoBehaviour
 		isShaking = true;
 		cachePos = transform.position;
 		shakeAmount = amt;
-		InvokeRepeating("DoShake", 0, 0.01f);
-		Invoke("StopShake", length);
+		InvokeRepeating(nameof( DoShake ), 0, 0.01f);
+		Invoke(nameof( StopShake ), length);
 	}
 
 	private void DoShake()
@@ -169,7 +169,7 @@ public class Camera2DFollow : MonoBehaviour
 	private void StopShake()
 	{
 		isShaking = false;
-		CancelInvoke("DoShake");
+		CancelInvoke(nameof( DoShake ));
 		transform.position = cachePos;
 	}
 }

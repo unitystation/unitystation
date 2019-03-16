@@ -60,10 +60,13 @@ public abstract class RegisterTile : NetworkBehaviour
 		get => matrix;
 		private set
 		{
-			matrix = value;
-			//update matrix move as well
-			//if it exists
-			MatrixMove = matrix.transform.root.GetComponent<MatrixMove>();
+			if (value)
+			{
+				matrix = value;
+				//update matrix move as well
+				//if it exists
+				MatrixMove = matrix.transform.root.GetComponent<MatrixMove>();
+			}
 		}
 	}
 	private Matrix matrix;
@@ -256,18 +259,8 @@ public abstract class RegisterTile : NetworkBehaviour
 
 	public void UpdatePosition()
 	{
-		bool wasHidden = Position == TransformState.HiddenPos;
 		Position = Vector3Int.RoundToInt(transform.localPosition);
-		if (wasHidden && Position != TransformState.HiddenPos && !rotateWithMatrix && spriteRenderers != null)
-		{
-			//if we just appeared, reorient ourselves
-			foreach (SpriteRenderer renderer in spriteRenderers)
-			{
-				renderer.transform.rotation = Quaternion.identity;
-			}
-		}
 	}
-
 
 	/// <summary>
 	/// Invoked when receiving rotation event from our current matrix's matrixmove
