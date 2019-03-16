@@ -37,12 +37,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private Equipment equipment;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private PlayerSprites playerSprites;
+	private UserControlledSprites playerSprites;
 	private ObjectBehaviour objectBehaviour;
 
 	public Dictionary<string, InventorySlot> Inventory { get; } = new Dictionary<string, InventorySlot>();
-
-	public bool isGhost;
 
 	private static readonly Vector3 FALLEN = new Vector3(0, 0, -90);
 	private static readonly Vector3 STRAIGHT = Vector3.zero;
@@ -51,7 +49,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
-		playerSprites = GetComponent<PlayerSprites>();
+		playerSprites = GetComponent<UserControlledSprites>();
 		playerScript = GetComponent<PlayerScript>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
@@ -75,6 +73,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			SyncPlayerInventoryGuidMessage.Send(gameObject, initSync);
+
+			//if this is the ghost, respawn after 10 seconds
+			if (playerScript.IsGhost)
+			{
+				RespawnPlayer(10);
+			}
 		}
 
 		base.OnStartServer();
@@ -719,33 +723,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, DamageType.Brute, BodyPartType.Chest);
 	}
 
-	[ClientRpc]
-	public void RpcSpawnGhost()
-	{
-		isGhost = true;
-		playerScript.ghost.SetActive(true);
-		playerScript.ghost.transform.parent = null;
-		chatIcon.gameObject.transform.parent = playerScript.ghost.transform;
-		playerScript.ghost.transform.rotation = Quaternion.identity;
-		if (PlayerManager.LocalPlayer == gameObject)
-		{
-			SoundManager.Stop("Critstate");
-			UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
-			Camera2DFollow.followControl.target = playerScript.ghost.transform;
-			Camera2DFollow.followControl.damping = 0.0f;
-			FieldOfView fovScript = GetComponent<FieldOfView>();
-			if (fovScript != null)
-			{
-				fovScript.enabled = false;
-			}
-
-			//Show ghosts and hide FieldOfView
-			var mask = Camera2DFollow.followControl.cam.cullingMask;
-			mask |= 1 << LayerMask.NameToLayer("Ghosts");
-			Camera2DFollow.followControl.cam.cullingMask = mask;
-		}
-	}
-
 	//Respawn action for Deathmatch v 0.1.3
 
 	[Server]
@@ -757,35 +734,60 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Spawn the ghost for this player and tell the client to switch input / camera to it
+	/// </summary>
+	[Server]
+	public void SpawnPlayerGhost()
+	{
+		RpcBeforeGhost();
+		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId);
+
+	}
+
+
 	[Server]
 	private IEnumerator InitiateRespawn(int timeout)
 	{
 		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
 		yield return new WaitForSeconds(timeout);
-		RpcAdjustForRespawn();
-
 		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType);
+		RpcAfterRespawn();
 	}
 
+	/// <summary>
+	/// Invoked before the ghost is going to be created and input will be shifted to ghost. Allows this body object
+	/// to perform needed cleanup. Note this will be invoked on all clients.
+	/// </summary>
+	/// <param name="bodyObject">object which was turned into a ghost</param>
 	[ClientRpc]
-	private void RpcAdjustForRespawn()
+	private void RpcBeforeGhost()
 	{
+		//only need to clean up client side if we are controlling the body who is becoming a ghost
+		//no more closet handler, they are dead
 		ClosetPlayerHandler cph = GetComponent<ClosetPlayerHandler>();
 		if (cph != null)
 		{
 			Destroy(cph);
 		}
 
-		Camera2DFollow.followControl.damping = 0.0f;
-		playerScript.ghost.SetActive(false);
-		isGhost = false;
-		//Hide ghosts and show FieldOfView
+		//no more input can be sent to the body.
+		MouseInputController mouseInput = GetComponent<MouseInputController>();
+		if (mouseInput != null)
+		{
+			Destroy(mouseInput);
+		}
+	}
 
-		var mask = Camera2DFollow.followControl.cam.cullingMask;
-		mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-		Camera2DFollow.followControl.cam.cullingMask = mask;
-
-		gameObject.GetComponent<MouseInputController>().enabled = false;
+	/// <summary>
+	/// Invoked after our respawn is going to be performed by the server. Destroys the ghost.
+	/// Note this will be invoked on all clients.
+	/// </summary>
+	[ClientRpc]
+	private void RpcAfterRespawn()
+	{
+		//this ghost is not needed anymore
+		Destroy(gameObject);
 	}
 
 	//FOOD

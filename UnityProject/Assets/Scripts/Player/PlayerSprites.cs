@@ -1,84 +1,37 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Handle displaying the sprites related to player, which includes clothing, the body,
-/// and the ghost when the player is a ghost.
+/// Handle displaying the sprites related to player, which includes clothing and the body.
+/// Ghosts are handled in GhostSprites.
 /// </summary>
-public class PlayerSprites : NetworkBehaviour
+public class PlayerSprites : UserControlledSprites
 {
-	private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
-	[SyncVar(hook = nameof(FaceBodyDirectionSync))]
-	public Orientation currentBodyDirection;
-	[SyncVar(hook = nameof(FaceGhostDirectionSync))]
-	public Orientation currentGhostDirection;
 	[SyncVar(hook = nameof(UpdateCharacterSprites))]
 	private string characterData;
 
-	public PlayerMove playerMove;
 	private PlayerSync playerSync;
 
-	public ClothingItem[] characterSprites; //For character customization
+	private ClothingItem[] characterSprites; //For character customization
 	private CharacterSettings characterSettings;
-	private RegisterPlayer registerPlayer;
 	private PlayerHealth playerHealth;
+	//clothes for each clothing slot
+	private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
-	/// <summary>
-	/// true iff we are in the middle of a matrix rotation (between OnRotationStart and OnRotationEnd)
-	/// </summary>
-	private bool isMatrixRotating;
-	/// <summary>
-	/// Destination orientation we will rotate to when OnRotationEnd happens
-	/// </summary>
-	private Orientation destinationOrientation;
-
-	private SpriteRenderer ghostRenderer; //For ghost sprites
-	private readonly Dictionary<Orientation, Sprite> ghostSprites = new Dictionary<Orientation, Sprite>();
-
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		playerSync = GetComponent<PlayerSync>();
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes[c.name] = c;
 		}
 
-		ghostSprites.Add(Orientation.Down, SpriteManager.PlayerSprites["mob"][268]);
-		ghostSprites.Add(Orientation.Up, SpriteManager.PlayerSprites["mob"][269]);
-		ghostSprites.Add(Orientation.Right, SpriteManager.PlayerSprites["mob"][270]);
-		ghostSprites.Add(Orientation.Left, SpriteManager.PlayerSprites["mob"][271]);
-
-		ghostRenderer = transform.Find("Ghost").GetComponent<SpriteRenderer>();
-
-		registerPlayer = GetComponent<RegisterPlayer>();
 		playerHealth = GetComponent<PlayerHealth>();
-
-		//Sub to matrix rotation events via the registerTile because it always has the
-		//correct matrix
-		registerPlayer.OnRotateStart.AddListener(OnRotationStart);
-		registerPlayer.OnRotateEnd.AddListener(OnRotationEnd);
-
-	}
-
-	private void OnDisable()
-	{
-		registerPlayer.OnRotateStart.RemoveListener(OnRotationStart);
-		registerPlayer.OnRotateEnd.RemoveListener(OnRotationEnd);
-	}
-
-	public override void OnStartServer()
-	{
-		LocalFaceDirection(Orientation.Down);
-		base.OnStartServer();
-	}
-
-	public override void OnStartClient()
-	{
-		StartCoroutine(WaitForLoad());
-		base.OnStartClient();
 	}
 
 	[Command]
@@ -136,56 +89,22 @@ public class PlayerSprites : NetworkBehaviour
 		characterSprites[10].spriteRenderer.color = newColor;
 	}
 
-	private IEnumerator WaitForLoad()
+	protected override IEnumerator WaitForLoad()
 	{
 		yield return YieldHelper.EndOfFrame;
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			CmdUpdateCharacter(JsonUtility.ToJson(PlayerManager.CurrentCharacterSettings));
-			LocalFaceDirection( currentBodyDirection );
+			LocalFaceDirection( currentDirection );
 		}
 		while(string.IsNullOrEmpty(characterData)){
 			yield return YieldHelper.DeciSecond;
 		}
-		FaceBodyDirectionSync(currentBodyDirection);
-		FaceGhostDirectionSync(currentGhostDirection);
+		FaceDirectionSync(currentDirection);
 		if (PlayerManager.LocalPlayer != gameObject)
 		{
 			UpdateCharacterSprites(characterData);
 		}
-	}
-
-	private void OnRotationStart(RotationOffset fromCurrent, bool isInitialRotation)
-	{
-		//ignore the initial rotation message because we determine initial rotation from the
-		//currentBodyDirection syncvar in playerSprites
-		if (!isInitialRotation)
-		{
-			//determine our destination rotation
-			if (playerMove.isGhost)
-			{
-				destinationOrientation = currentGhostDirection.Rotate(fromCurrent);
-			}
-			else
-			{
-				destinationOrientation = currentBodyDirection.Rotate(fromCurrent);
-			}
-
-			isMatrixRotating = true;
-		}
-	}
-
-	private void OnRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
-	{
-
-		//ignore the initial rotation message because we determine initial rotation from the
-		//currentBodyDirection syncvar in playerSprites
-		if (!isInitialRotation)
-		{
-			LocalFaceDirection(destinationOrientation);
-			isMatrixRotating = false;
-		}
-
 	}
 
 	/// <summary>
@@ -204,30 +123,19 @@ public class PlayerSprites : NetworkBehaviour
 	/// If this is a client, only changes the direction locally and doesn't inform other players / server.
 	/// If this is on the server, the direction change will be sent to all clients due to the syncvar.
 	///
-	/// Changes ghost direction if they are a ghost, otherwise changes body direction.
-	///
 	/// Does nothing if player is down
 	/// </summary>
 	/// <param name="direction"></param>
-	public void LocalFaceDirection(Orientation direction)
+	public override void LocalFaceDirection(Orientation direction)
 	{
-
-		if (playerMove.isGhost)
-		{
-			SetGhostDir(direction);
-		}
-
 		if (registerPlayer.IsDown || playerSync.isBumping)
 		{
 			//Don't face while bumping is occuring on this frame
 			//or when player is down
 			return;
 		}
-		
-		if (!playerMove.isGhost)
-		{
-			SetBodyDir(direction);
-		}
+
+		SetDir(direction);
 	}
 
 	/// <summary>
@@ -245,13 +153,13 @@ public class PlayerSprites : NetworkBehaviour
 	/// <summary>
 	/// Does nothing if this is the local player (unless player is in crit).
 	///
-	/// Invoked when currentBodyDirection syncvar changes. Update the direction of this player to face the specified
+	/// Invoked when currentDirection syncvar changes. Update the direction of this player to face the specified
 	/// direction. However, if this is the local player's body that is not in crit or a player being pulled by the local player,
 	/// nothing is done and we stick with whatever direction we had already set for them locally (this is to avoid
 	/// glitchy changes in facing direction caused by latency in the syncvar).
 	/// </summary>
 	/// <param name="dir"></param>
-	private void FaceBodyDirectionSync(Orientation dir)
+	protected override void FaceDirectionSync(Orientation dir)
 	{
 		//ignore this while we are rotating in a matrix
 		if (isMatrixRotating)
@@ -271,32 +179,8 @@ public class PlayerSprites : NetworkBehaviour
 		//check if we are crit, or else our direction might be out of sync with the server
 		if (PlayerManager.LocalPlayer != gameObject || playerHealth.IsCrit || playerHealth.IsSoftCrit)
 		{
-			currentBodyDirection = dir;
-			SetBodyDir(dir);
-		}
-	}
-
-	/// <summary>
-	/// Does nothing if this is the local player.
-	///
-	/// Invoked when currentBodyDirection syncvar changes. Update the direction of this player ghost to face the specified
-	/// direction. However, if this is the local player's ghost nothing is done and we stick with whatever direction we
-	/// had already set for them locally (this is to avoid
-	/// glitchy changes in facing direction caused by latency in the syncvar).
-	/// </summary>
-	/// <param name="dir"></param>
-	private void FaceGhostDirectionSync(Orientation dir)
-	{
-		//ignore this while we are rotating in a matrix
-		if (isMatrixRotating)
-		{
-			return;
-		}
-
-		if (PlayerManager.LocalPlayer != gameObject)
-		{
-			currentGhostDirection = dir;
-			SetGhostDir(dir);
+			currentDirection = dir;
+			SetDir(dir);
 		}
 	}
 
@@ -304,28 +188,14 @@ public class PlayerSprites : NetworkBehaviour
 	/// Updates the direction of the body / clothing sprites.
 	/// </summary>
 	/// <param name="direction"></param>
-	private void SetBodyDir(Orientation direction)
+	private void SetDir(Orientation direction)
 	{
 		foreach (ClothingItem c in clothes.Values)
 		{
 			c.Direction = direction;
 		}
 
-		currentBodyDirection = direction;
-	}
-
-	/// <summary>
-	/// Updates the direction of the ghost if player is a ghost
-	/// </summary>
-	/// <param name="direction"></param>
-	private void SetGhostDir(Orientation direction)
-	{
-		if (playerMove.isGhost)
-		{
-			ghostRenderer.sprite = ghostSprites[direction];
-			currentGhostDirection = direction;
-		}
-
+		currentDirection = direction;
 	}
 
 	/// <summary>
@@ -333,8 +203,8 @@ public class PlayerSprites : NetworkBehaviour
 	/// the server.
 	/// </summary>
 	/// <exception cref="NotImplementedException"></exception>
-	public void SyncWithServer()
+	public override void SyncWithServer()
 	{
-		SetBodyDir(currentBodyDirection);
+		SetDir(currentDirection);
 	}
 }
