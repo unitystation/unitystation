@@ -11,6 +11,8 @@ using UnityEngine.Networking;
 /// </summary>
 public class JoinedViewer : NetworkBehaviour
 {
+	private bool hasJob = false;
+
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -21,7 +23,8 @@ public class JoinedViewer : NetworkBehaviour
                 GameObject = gameObject,
                 Job = JobType.NULL
         });
-    }
+		hasJob = false;
+	}
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
@@ -62,7 +65,11 @@ public class JoinedViewer : NetworkBehaviour
     [Command]
     public void CmdRequestJob(JobType jobType)
     {
-        SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
-            GameManager.Instance.GetRandomFreeOccupation(jobType));
+		if (hasJob == false)
+		{
+			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
+				GameManager.Instance.GetRandomFreeOccupation(jobType));
+			hasJob = true;
+		}
     }
 }
