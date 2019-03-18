@@ -14,9 +14,10 @@ public class PlayerSprites : UserControlledSprites
 	[SyncVar(hook = nameof(UpdateCharacterSprites))]
 	private string characterData;
 
-	private PlayerSync playerSync;
+	//For character customization
+	public ClothingItem[] characterSprites;
 
-	private ClothingItem[] characterSprites; //For character customization
+	private PlayerSync playerSync;
 	private CharacterSettings characterSettings;
 	private PlayerHealth playerHealth;
 	//clothes for each clothing slot
