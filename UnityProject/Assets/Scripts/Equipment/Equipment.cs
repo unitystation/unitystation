@@ -14,6 +14,9 @@ public class Equipment : NetworkBehaviour
 	private PlayerNetworkActions playerNetworkActions;
 	private PlayerScript playerScript;
 	public SyncListInt syncEquipSprites = new SyncListInt();
+	private List<InventorySlot> playerInventory;
+	private InventorySlot suitStorageSlot;
+	private InventorySlot maskSlot;
 
 	public NetworkIdentity networkIdentity { get; set; }
 
@@ -22,6 +25,9 @@ public class Equipment : NetworkBehaviour
 		networkIdentity = GetComponent<NetworkIdentity>();
 		playerNetworkActions = gameObject.GetComponent<PlayerNetworkActions>();
 		playerScript = gameObject.GetComponent<PlayerScript>();
+		playerInventory = InventoryManager.AllClientInventorySlots;
+		suitStorageSlot = playerInventory.Find(s => s.SlotName == "suitStorage");
+		maskSlot = playerInventory.Find(s => s.SlotName == "mask");
 	}
 
 	public override void OnStartServer()
@@ -400,6 +406,24 @@ public class Equipment : NetworkBehaviour
 		CmdSetInternalsEnabled(false);
 	}
 
+	/// <summary>
+	/// Checks if player has proper internals equipment (Oxygen Tank and Mask)
+	/// equipped in the correct inventory slots (suitStorage and mask)
+	/// </summary>
+	public bool HasInternalsEquipped()
+	{
+		// List<InventorySlot> playerInventory = InventoryManager.AllClientInventorySlots;
+		// InventorySlot suitStorageSlot = playerInventory.Find(s => s.SlotName == "suitStorage");
+		// InventorySlot maskSlot = playerInventory.Find(s => s.SlotName == "mask");
+
+		if (suitStorageSlot?.ItemAttributes?.itemName == "Oxygen Tank" &&
+		    maskSlot?.ItemAttributes?.itemType == ItemType.Mask)
+		{
+			return true;
+		}
+
+		return false;
+	}
 
 	/// <summary>
 	/// Disables or enables the player's internals on the server
