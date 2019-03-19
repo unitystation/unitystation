@@ -258,7 +258,7 @@ public partial class PlayerSync
 		}
 
 		serverState.NoLerp = noLerp;
-		var msg = PlayerMoveMessage.SendToAll(gameObject, serverState);
+		PlayerMoveMessage.SendToAll(gameObject, serverState);
 //		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
 		//Clearing state flags
 		serverState.ImportantFlightUpdate = false;

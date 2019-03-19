@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
+	// time that player will spend as a ghost until they respawn
+	private const int RESPAWN_TIME_SECONDS = 10;
 	private readonly string[] slotNames = {
 		"suit",
 		"belt",
@@ -77,12 +79,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			//if this is the ghost, respawn after 10 seconds
 			if (playerScript.IsGhost)
 			{
-				RespawnPlayer(10);
+				RespawnPlayer(RESPAWN_TIME_SECONDS);
 			}
 		}
 
 		base.OnStartServer();
 	}
+
+
 
 	public bool InventoryContainsItem(GameObject item, out InventorySlot slot)
 	{

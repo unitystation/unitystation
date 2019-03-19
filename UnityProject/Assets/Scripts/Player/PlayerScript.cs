@@ -211,10 +211,11 @@ public class PlayerScript : ManagedNetworkBehaviour
 	}
 
 	public bool IsHidden => !PlayerSync.ClientState.Active;
+
 	/// <summary>
 	/// True if this player is a ghost, meaning they exist in the ghost layer
 	/// </summary>
-	public bool IsGhost => gameObject.layer == 31;
+	public bool IsGhost => PlayerUtils.IsGhost(gameObject);
 
 	public bool IsInReach(GameObject go, float interactDist = interactionDistance)
 	{
