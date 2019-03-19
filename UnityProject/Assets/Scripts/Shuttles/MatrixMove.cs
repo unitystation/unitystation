@@ -70,8 +70,6 @@ public struct MatrixState
 /// </summary>
 public class MatrixMove : ManagedNetworkBehaviour
 {
-	public bool IsMoving => isMovingClient; //?
-
 	//server-only values
 	public MatrixState State => serverState;
 
@@ -188,12 +186,27 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private Vector2 mPreviousFilteredPosition;
 	private bool monitorOnRot = false;
 
+	/// <summary>
+	/// sets the transform position, using PPRT to filter it to prevent artifacts
+	/// </summary>
 	private Vector3 clampedPosition
 	{
 		set
 		{
-			transform.position =
-				LightingSystem.GetPixelPerfectPosition(value, mPreviousPosition, mPreviousFilteredPosition);
+			Vector2 filteredPos = LightingSystem.GetPixelPerfectPosition(value, mPreviousPosition, mPreviousFilteredPosition);
+
+			//pixel perfect position can induce lateral movement at the beginning of motion, so we must prevent that
+			if (clientState.Direction == Orientation.Right || clientState.Direction == Orientation.Left)
+			{
+				filteredPos.y = (float) Math.Round(filteredPos.y);
+			}
+			else
+			{
+				filteredPos.x = (float) Math.Round(filteredPos.x);
+			}
+
+			transform.position = filteredPos;
+
 
 			mPreviousPosition = value;
 			mPreviousFilteredPosition = transform.position;
@@ -323,6 +336,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	{
 //		Logger.Log("Stopped movement");
 		serverTargetState.IsMoving = false;
+
 		//To stop autopilot
 		DisableAutopilotTarget();
 	}
@@ -486,8 +500,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 				return;
 			}
 
-			//FIXME Remove this once lerping has been properly fixed with Pixel Perfect movement:
-			//If stopped then lerp to target
+			//If stopped then lerp to target (snap to grid)
 			if (!clientState.IsMoving && distance > 0f)
 			{
 				transform.position = Vector3.MoveTowards(transform.position, clientState.Position,
