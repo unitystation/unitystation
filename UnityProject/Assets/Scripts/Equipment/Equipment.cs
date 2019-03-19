@@ -412,10 +412,6 @@ public class Equipment : NetworkBehaviour
 	/// </summary>
 	public bool HasInternalsEquipped()
 	{
-		// List<InventorySlot> playerInventory = InventoryManager.AllClientInventorySlots;
-		// InventorySlot suitStorageSlot = playerInventory.Find(s => s.SlotName == "suitStorage");
-		// InventorySlot maskSlot = playerInventory.Find(s => s.SlotName == "mask");
-
 		if (suitStorageSlot?.ItemAttributes?.itemName == "Oxygen Tank" &&
 		    maskSlot?.ItemAttributes?.itemType == ItemType.Mask)
 		{
