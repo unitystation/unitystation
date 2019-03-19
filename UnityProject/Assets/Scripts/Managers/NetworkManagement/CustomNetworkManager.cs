@@ -19,6 +19,7 @@ public class CustomNetworkManager : NetworkManager
 	[HideInInspector] public bool spawnableListReady;
 	private Server server;
 	public GameObject humanPlayerPrefab;
+	public GameObject ghostPrefab;
 
 	private void Awake()
 	{
@@ -336,7 +337,7 @@ public class CustomNetworkManager : NetworkManager
 		{
 			storageObjs[i].SyncUUIDsWithPlayer(playerGameObject);
 		}
-    
+
 		//TileChange Data
 		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
 		for (var i = 0; i < tcManagers.Length; i++)

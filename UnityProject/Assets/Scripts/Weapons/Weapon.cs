@@ -557,7 +557,8 @@ public class Weapon : PickUpTrigger
 
 			// check if we can still shoot
 			PlayerMove shooter = nextShot.shooter.GetComponent<PlayerMove>();
-			if (!shooter.allowInput || shooter.isGhost)
+			PlayerScript shooterScript = nextShot.shooter.GetComponent<PlayerScript>();
+			if (!shooter.allowInput || shooterScript.IsGhost)
 			{
 				Logger.LogWarning("A shot was attempted when shooter is a ghost or is not allowed to shoot.");
 				return;

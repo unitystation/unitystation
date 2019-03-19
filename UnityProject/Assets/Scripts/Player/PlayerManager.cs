@@ -91,6 +91,8 @@ public class PlayerManager : MonoBehaviour
 		PlayerScript =
 			LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
 		Camera2DFollow.followControl.target = LocalPlayer.transform;
+		//TODO: is this needed?
+		Camera2DFollow.followControl.damping = 0.0f;
 
 		HasSpawned = true;
 	}

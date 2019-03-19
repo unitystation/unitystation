@@ -42,7 +42,7 @@ public class PlayerHealthUI : MonoBehaviour
 	{
 		if (monitorBreathing && PlayerManager.LocalPlayer != null)
 		{
-			if (PlayerManager.LocalPlayerScript.playerHealth.IsDead)
+			if (PlayerManager.LocalPlayerScript.IsGhost || PlayerManager.LocalPlayerScript.playerHealth.IsDead)
 			{
 				if (oxygenAlert.gameObject.activeInHierarchy)
 				{

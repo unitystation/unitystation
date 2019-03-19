@@ -9,7 +9,6 @@ public class DisplayManager : MonoBehaviour
 
 	private CanvasScaler canvasScaler;
 
-	public FieldOfViewStencil fieldOfView;
 	private int height;
 	public Camera mainCamera;
 
@@ -45,24 +44,6 @@ public class DisplayManager : MonoBehaviour
 	private void Start()
 	{
 		SetCameraFollowPos();
-	}
-
-	private void OnEnable()
-	{
-		SceneManager.sceneLoaded += SetUpScene;
-	}
-
-	private void OnDisable()
-	{
-		SceneManager.sceneLoaded -= SetUpScene;
-	}
-
-	private void SetUpScene(Scene scene, LoadSceneMode mode)
-	{
-		if (GameData.IsInGame)
-		{
-			fieldOfView = FindObjectOfType<FieldOfViewStencil>();
-		}
 	}
 
 	public void SetCameraFollowPos()

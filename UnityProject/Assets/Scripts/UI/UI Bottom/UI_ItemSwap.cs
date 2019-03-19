@@ -33,7 +33,7 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 				if (PlayerManager.LocalPlayerScript != null)
 				{
 					if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-						PlayerManager.LocalPlayerScript.playerMove.isGhost)
+						PlayerManager.LocalPlayerScript.IsGhost)
 					{
 						return;
 					}
