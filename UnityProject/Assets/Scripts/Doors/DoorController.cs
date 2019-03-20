@@ -254,4 +254,16 @@ using UnityEngine.Networking;
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Used when player is joining, tells player to open the door if it is opened.
+		/// </summary>
+		/// <param name="playerGameObject">game object of the player to inform</param>
+		public void NotifyPlayer(GameObject playerGameObject)
+		{
+			if (IsOpened)
+			{
+				DoorUpdateMessage.Send(playerGameObject, gameObject, DoorUpdateType.Open, true);
+			}
+		}
 	}
