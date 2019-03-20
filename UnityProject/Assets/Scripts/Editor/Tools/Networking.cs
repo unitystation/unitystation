@@ -89,4 +89,22 @@ public class Networking : Editor
 	{
 		GameManager.Instance.ResetRoundTime();
 	}
+
+	[MenuItem("Networking/Kill local player (Server only)")]
+	private static void KillLocalPlayer()
+	{
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			PlayerManager.LocalPlayerScript.playerHealth.Death();
+		}
+	}
+
+	[MenuItem("Networking/Respawn local player (Server only)")]
+	private static void RespawnLocalPlayer()
+	{
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			PlayerManager.LocalPlayerScript.playerNetworkActions.RespawnPlayer();
+		}
+	}
 }

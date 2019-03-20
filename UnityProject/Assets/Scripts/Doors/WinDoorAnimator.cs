@@ -40,23 +40,33 @@ using UnityEngine;
 			doorbase.sprite = sprites[closeFrame + (int) direction];
 		}
 
-		public override void OpenDoor()
+		public override void OpenDoor(bool skipAnimation)
 		{
-			doorController.isPerformingAction = true;
-			doorController.PlayOpenSound();
-			doorController.isPerformingAction = false;
-			StartCoroutine(PlayOpenAnim());
+			if (!skipAnimation)
+			{
+				doorController.isPerformingAction = true;
+				doorController.PlayOpenSound();
+				doorController.isPerformingAction = false;
+			}
+			StartCoroutine(PlayOpenAnim(skipAnimation));
 		}
 
-		public override void CloseDoor()
+		public override void CloseDoor(bool skipAnimation)
 		{
-			doorController.isPerformingAction = true;
-			doorController.PlayCloseSound();
-			StartCoroutine(PlayCloseAnim());
+			if (!skipAnimation)
+			{
+				doorController.isPerformingAction = true;
+				doorController.PlayCloseSound();
+			}
+			StartCoroutine(PlayCloseAnim(skipAnimation));
 		}
 
-		public override void AccessDenied()
+		public override void AccessDenied(bool skipAnimation)
 		{
+			if (skipAnimation)
+			{
+				return;
+			}
 			doorController.isPerformingAction = true;
 			SoundManager.PlayAtPosition("AccessDenied", transform.position);
 			StartCoroutine(PlayDeniedAnim());
@@ -68,33 +78,49 @@ using UnityEngine;
 			doorController.isPerformingAction = false;
 		}
 
-		private IEnumerator PlayCloseAnim()
+		private IEnumerator PlayCloseAnim(bool skipAnimation)
 		{
-			for (int i = animFrames.Length - 1; i >= 0; i--)
+			if (skipAnimation)
 			{
-				doorbase.sprite = sprites[animFrames[i] + (int) direction];
-				//Stop movement half way through door opening to sync up with sortingOrder layer change
-				if (i == 3)
-				{
-					doorController.BoxCollToggleOn();
-				}
-				yield return new WaitForSeconds(0.1f);
+				doorController.BoxCollToggleOn();
 			}
+			else
+			{
+				for (int i = animFrames.Length - 1; i >= 0; i--)
+				{
+					doorbase.sprite = sprites[animFrames[i] + (int) direction];
+					//Stop movement half way through door opening to sync up with sortingOrder layer change
+					if (i == 3)
+					{
+						doorController.BoxCollToggleOn();
+					}
+					yield return new WaitForSeconds(0.1f);
+				}
+			}
+
 			doorbase.sprite = sprites[closeFrame + (int) direction];
 			doorController.OnAnimationFinished();
 		}
 
-		private IEnumerator PlayOpenAnim()
+		private IEnumerator PlayOpenAnim(bool skipAnimation)
 		{
-			for (int j = 0; j < animFrames.Length; j++)
+			if (skipAnimation)
 			{
-				doorbase.sprite = sprites[animFrames[j] + (int) direction];
-				//Allow movement half way through door opening to sync up with sortingOrder layer change
-				if (j == 3)
+				doorbase.sprite = sprites[animFrames[animFrames.Length-1] + (int) direction];
+				doorController.BoxCollToggleOff();
+			}
+			else
+			{
+				for (int j = 0; j < animFrames.Length; j++)
 				{
-					doorController.BoxCollToggleOff();
+					doorbase.sprite = sprites[animFrames[j] + (int) direction];
+					//Allow movement half way through door opening to sync up with sortingOrder layer change
+					if (j == 3)
+					{
+						doorController.BoxCollToggleOff();
+					}
+					yield return new WaitForSeconds(0.1f);
 				}
-				yield return new WaitForSeconds(0.1f);
 			}
 
 			doorbase.sprite = sprites[openFrame + (int) direction];
