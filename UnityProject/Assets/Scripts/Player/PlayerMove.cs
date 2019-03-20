@@ -18,7 +18,6 @@ public class PlayerMove : NetworkBehaviour
 	public bool diagonalMovement;
 
 	[SyncVar] public bool allowInput = true;
-	[SyncVar] public bool isGhost;
 
 	private readonly List<MoveAction> moveActionList = new List<MoveAction>();
 
@@ -27,7 +26,7 @@ public class PlayerMove : NetworkBehaviour
 		MoveAction.MoveUp, MoveAction.MoveLeft, MoveAction.MoveDown, MoveAction.MoveRight
 	};
 
-	private PlayerSprites playerSprites;
+	private UserControlledSprites playerSprites;
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
@@ -44,7 +43,8 @@ public class PlayerMove : NetworkBehaviour
 
 	private void Start()
 	{
-		playerSprites = gameObject.GetComponent<PlayerSprites>();
+		playerSprites = gameObject.GetComponent<UserControlledSprites>();
+
 		registerTile = GetComponent<RegisterTile>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
 	}

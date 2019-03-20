@@ -53,12 +53,16 @@ public partial class PlayerSync
 	///
 	public bool IsWeightlessServer {
 		get {
+			if (playerScript.IsGhost)
+			{
+				return false;
+			}
 			GameObject[] context = pushPull.IsPullingSomething ? new[]{gameObject, pushPull.PulledObject.gameObject} : new[]{gameObject};
-			return !playerMove.isGhost && MatrixManager.IsFloatingAt( context, Vector3Int.RoundToInt( serverState.WorldPosition ) );
+			return MatrixManager.IsFloatingAt( context, Vector3Int.RoundToInt( serverState.WorldPosition ) );
 		}
 	}
 
-	public bool IsNonStickyServer => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
+	public bool IsNonStickyServer => !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
 
 
@@ -106,11 +110,6 @@ public partial class PlayerSync
 		     && lastAddedAction.isNonPredictive && action.isNonPredictive )
 		{
 			Logger.Log( $"Ignored {action}: two non-predictive actions in a row!", Category.Movement );
-			return;
-		}
-
-		if (playerMove.isGhost)
-		{
 			return;
 		}
 
@@ -259,7 +258,7 @@ public partial class PlayerSync
 		}
 
 		serverState.NoLerp = noLerp;
-		var msg = PlayerMoveMessage.SendToAll(gameObject, serverState);
+		PlayerMoveMessage.SendToAll(gameObject, serverState);
 //		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
 		//Clearing state flags
 		serverState.ImportantFlightUpdate = false;
@@ -301,11 +300,11 @@ public partial class PlayerSync
 	[Server]
 	private void TryUpdateServerTarget()
 	{
-		if (serverPendingActions.Count == 0 || playerMove.isGhost) //ignoring serverside ghost movement for now
+		if (serverPendingActions.Count == 0)
 		{
 			return;
 		}
-		if ( consideredFloatingServer || !serverState.Active || CanNotSpaceMoveServer || pushPull.IsBeingPulled )
+		if ( consideredFloatingServer || !serverState.Active || CanNotSpaceMoveServer || (pushPull && pushPull.IsBeingPulled) )
 		{
 			Logger.LogWarning("Server ignored queued move while player isn't supposed to move", Category.Movement);
 			serverPendingActions.Dequeue();
@@ -342,7 +341,7 @@ public partial class PlayerSync
 		//Client only needs to check whether movement was prevented, specific type of bump doesn't matter
 		bool isClientBump = action.isBump;
 
-		if ( !playerScript.playerHealth.IsSoftCrit )
+		if ( !playerScript.playerHealth || !playerScript.playerHealth.IsSoftCrit )
 		{
 			SpeedServer = action.isRun ? playerMove.RunSpeed : playerMove.WalkSpeed;
 		}

@@ -129,7 +129,7 @@ public class InventoryManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// To clear an Item from an inventory slot and place at HiddenPos 
+	/// To clear an Item from an inventory slot and place at HiddenPos
 	/// (for cases where items are consumed while in a slot)
 	/// Can only be called on the server
 	/// </summary>
@@ -149,7 +149,7 @@ public class InventoryManager : MonoBehaviour
 
 	//Server only
 	/// <summary>
-	/// To clear an Item from an inventory slot and place at HiddenPos 
+	/// To clear an Item from an inventory slot and place at HiddenPos
 	/// (for cases where items are consumed while in a slot)
 	/// Can only be called on the server
 	/// </summary>
@@ -171,7 +171,7 @@ public class InventoryManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Get the slot ID from an Item. 
+	/// Get the slot ID from an Item.
 	/// Returns null if item is not in a slot
 	/// </summary>
 	/// <param name="item"></param>
@@ -257,7 +257,7 @@ public class InventoryManager : MonoBehaviour
 	{
 		InventorySlot slot = null;
 
-		var index = AllServerInventorySlots.FindLastIndex(x => x.Owner?.gameObject == originator && x.SlotName == hand);
+		var index = AllServerInventorySlots.FindLastIndex(x => x.Owner != null && x.Owner.gameObject == originator && x.SlotName == hand);
 		if (index != -1)
 		{
 			slot = AllServerInventorySlots[index];

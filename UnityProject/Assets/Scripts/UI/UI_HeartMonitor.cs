@@ -78,7 +78,7 @@ public class UI_HeartMonitor : MonoBehaviour
 	//Managed by UpdateManager
 	void UpdateMe()
 	{
-		if (startMonitoring && PlayerManager.LocalPlayer != null)
+		if (startMonitoring && PlayerManager.LocalPlayer != null && !PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			CheckHealth();
 			timeWait += Time.deltaTime;

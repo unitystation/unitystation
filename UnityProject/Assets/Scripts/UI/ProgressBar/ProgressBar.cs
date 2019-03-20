@@ -43,7 +43,7 @@ public class ProgressBar : NetworkBehaviour
 				position = pos,
 				playerSprites = _playerSprites,
 				playerPositionCache = _player.transform.position,
-				facingDirectionCache = _playerSprites.currentBodyDirection,
+				facingDirectionCache = _playerSprites.CurrentDirection,
 				additionalSfx = _additionalSfx,
 				additionalSfxPitch = _additionalSfxPitch
 		});
@@ -141,7 +141,7 @@ public class PlayerProgressEntry
 	//has the player moved away while the progress bar is in progress?
 	public bool HasMovedAway()
 	{
-		if (playerSprites.currentBodyDirection != facingDirectionCache ||
+		if (playerSprites.CurrentDirection != facingDirectionCache ||
 			player.transform.position != playerPositionCache)
 		{
 			return true;

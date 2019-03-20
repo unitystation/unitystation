@@ -48,7 +48,7 @@ public class ObjectBehaviour : PushPull
 						if (closetHandlerCache)
 						{
 							//Set the camera to follow the player again
-							if (!PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost)
+							if (!PlayerManager.LocalPlayerScript.IsGhost)
 							{
 								StartCoroutine(TargetPlayer());
 							}

@@ -27,7 +27,7 @@ public class MouseInputController : MonoBehaviour
 	private LayerMask layerMask;
 	private ObjectBehaviour objectBehaviour;
 	private PlayerMove playerMove;
-	private PlayerSprites playerSprites;
+	private UserControlledSprites playerSprites;
 	/// reference to the global lighting system, used to check occlusion
 	private LightingSystem lightingSystem;
 
@@ -71,7 +71,7 @@ public class MouseInputController : MonoBehaviour
 	private void Start()
 	{
 		//for changing direction on click
-		playerSprites = gameObject.GetComponent<PlayerSprites>();
+		playerSprites = gameObject.GetComponent<UserControlledSprites>();
 		playerMove = GetComponent<PlayerMove>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 
@@ -140,6 +140,13 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckClick()
 	{
+		//currently there is nothing for ghosts to interact with, they only can change facing
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			ChangeDirection();
+			return;
+		}
+
 		bool ctrlClick = KeyboardInputManager.IsControlPressed();
 		if (!ctrlClick)
 		{
@@ -239,10 +246,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		Vector3 playerPos;
 
-		if (playerMove.isGhost)
-			playerPos = PlayerManager.PlayerScript.ghost.transform.position;
-		else
-			playerPos = transform.position;
+		playerPos = transform.position;
 
 		Vector2 dir = (MousePosition - playerPos).normalized;
 
@@ -462,7 +466,7 @@ public class MouseInputController : MonoBehaviour
 	/// <returns>true iff an interaction occurred</returns>
 	public bool Interact(Transform _transform, Vector3 position, bool isDrag)
 	{
-		if (playerMove.isGhost)
+		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return false;
 		}
