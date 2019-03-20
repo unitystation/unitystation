@@ -87,6 +87,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		LocalPlayer = playerObjToControl;
 		LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
+		Equipment = playerObjToControl.GetComponent<Equipment>();
 
 		PlayerScript =
 			LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
