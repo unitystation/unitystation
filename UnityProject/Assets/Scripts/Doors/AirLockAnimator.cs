@@ -22,8 +22,13 @@ using UnityEditor;
 		public Sprite[] overlaySprites;
 
 		//animations
-		public override void AccessDenied()
+		public override void AccessDenied(bool skipAnimation)
 		{
+			if (skipAnimation)
+			{
+				//do nothing
+				return;
+			}
 			doorController.isPerformingAction = true;
 			SoundManager.PlayAtPosition("AccessDenied", transform.position);
 
@@ -46,66 +51,94 @@ using UnityEditor;
 			}
 		}
 
-		public override void OpenDoor()
+		public override void OpenDoor(bool skipAnimation)
 		{
 			doorController.isPerformingAction = true;
-			doorController.PlayOpenSound();
-			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, animSize, false, true, true));
+			if (!skipAnimation)
+			{
+				doorController.PlayOpenSound();
+			}
+			//open animation
+			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, animSize, false, true, true, skipAnimation));
 
+			//light animation
 			// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
 			if (doorController.useSimpleLightAnimation)
 			{
-				StartCoroutine(PlaySimpleLightAnim());
+				if (!skipAnimation)
+				{
+					StartCoroutine(PlaySimpleLightAnim());
+				}
 			}
 			else
 			{
 				if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
 				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1));
+					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, skipToEnd: skipAnimation));
 				}
 				else
 				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, animSize, true));
+					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, animSize, true, skipToEnd: skipAnimation));
 				}
 			}
-			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset));
+			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset, skipToEnd: skipAnimation));
 			//mabe the boxColliderStuff should be on the DoorController.
-			StartCoroutine(MakePassable());
+			StartCoroutine(MakePassable(skipAnimation));
 		}
 
-		private IEnumerator MakePassable() {
-			yield return new WaitForSeconds( 0.15f );
+		private IEnumerator MakePassable(bool instant) {
+			if (instant)
+			{
+				yield return new WaitForEndOfFrame();
+			}
+			else
+			{
+				yield return new WaitForSeconds(0.15f);
+			}
 			doorController.BoxCollToggleOff();
 		}
 
-		public override void CloseDoor()
+		public override void CloseDoor(bool skipAnimation)
 		{
 			doorController.isPerformingAction = true;
-			doorController.PlayCloseSound();
-			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset + animSize, animSize, false, true, true));
+			if (!skipAnimation)
+			{
+				doorController.PlayCloseSound();
+			}
+			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset + animSize, animSize, false, true, true, skipAnimation));
 
 			// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
 			if (doorController.useSimpleLightAnimation)
 			{
-				StartCoroutine(PlaySimpleLightAnim());
+				if (!skipAnimation)
+				{
+					StartCoroutine(PlaySimpleLightAnim());
+				}
 			}
 			else
 			{
 				if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
 				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true));
+					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true, skipToEnd: skipAnimation));
 				}
 				else
 				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true));
+					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true, skipToEnd: skipAnimation));
 				}
 			}
-			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6));
-			StartCoroutine(MakeSolid());
+			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6, skipToEnd: skipAnimation));
+			StartCoroutine(MakeSolid(skipAnimation));
 		}
 
-		private IEnumerator MakeSolid() {
-			yield return new WaitForSeconds( 0.15f );
+		private IEnumerator MakeSolid(bool instant) {
+			if (instant)
+			{
+				yield return new WaitForEndOfFrame();
+			}
+			else
+			{
+				yield return new WaitForSeconds( 0.15f );
+			}
 			doorController.BoxCollToggleOn();
 		}
 
@@ -119,15 +152,22 @@ using UnityEditor;
 		///     updateAction is a flag that is now coupled with the doorcontroller.
 		/// </summary>
 		private IEnumerator PlayAnim(SpriteRenderer renderer, Sprite[] list, int offset = 0, int numberOfSpritesToPlay = 6, bool nullfySprite = false,
-			bool updateFOV = false, bool updateAction = false)
+			bool updateFOV = false, bool updateAction = false, bool skipToEnd = false)
 		{
 			if (offset > -1 && numberOfSpritesToPlay > 0)
 			{
 				int limit = offset + numberOfSpritesToPlay;
-				for (int i = offset; i < limit; i++)
+				if (skipToEnd)
 				{
-					renderer.sprite = list[i];
-					yield return new WaitForSeconds(0.1f);
+					renderer.sprite = list[limit - 1];
+				}
+				else
+				{
+					for (int i = offset; i < limit; i++)
+					{
+						renderer.sprite = list[i];
+						yield return new WaitForSeconds(0.1f);
+					}
 				}
 				yield return new WaitForSeconds(0.1f);
 				if (nullfySprite)

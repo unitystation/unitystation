@@ -91,13 +91,16 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 	public PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private PlayerSprites playerSprites;
+	private UserControlledSprites playerSprites;
 
 	private Matrix Matrix => registerTile.Matrix;
 
 	private RaycastHit2D[] rayHit;
 
 	//		private float pullJourney;
+	/// <summary>
+	/// Note - can be null if this is a ghost player
+	/// </summary>
 	private PushPull pushPull;
 	public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
 	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
@@ -187,6 +190,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// <returns>the type of bump that occurs at the final destination (after sliding has been attempted)</returns>
 	private BumpType CheckSlideAndBump(PlayerState playerState, ref PlayerAction playerAction)
 	{
+		//bump never happens if we are a ghost
+		if (playerScript.IsGhost)
+		{
+			return BumpType.None;
+		}
 		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, gameObject);
 		// if movement is blocked, try to slide
 		if (bump == BumpType.Blocked)
@@ -285,7 +293,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			serverPendingActions = new Queue<PlayerAction>();
 		}
 		playerScript = GetComponent<PlayerScript>();
-		playerSprites = GetComponent<PlayerSprites>();
+		playerSprites = GetComponent<UserControlledSprites>();
 		healthBehaviorScript = GetComponent<LivingHealthBehaviour>();
 		registerTile = GetComponent<RegisterTile>();
 		pushPull = GetComponent<PushPull>();
@@ -296,14 +304,14 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		if (isLocalPlayer && playerMove != null)
 		{
 			//				 If being pulled by another player and you try to break free
-			if (pushPull.IsBeingPulledClient)
+			if (pushPull != null && pushPull.IsBeingPulledClient)
 			{
 				if ( !playerScript.canNotInteract() && KeyboardInputManager.IsMovementPressed() )
 				{
 					pushPull.CmdStopFollowing();
 				}
 			}
-			else if (ClientPositionReady && !playerMove.isGhost || GhostPositionReady && playerMove.isGhost)
+			else if (ClientPositionReady)
 			{
 				DoAction();
 			}
@@ -364,19 +372,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			RegisterObjects();
 		}
-	}
-
-	public void OnBecomeGhost()
-	{
-		playerScript.ghost.transform.position = playerState.WorldPosition;
-		ghostPredictedState = playerState;
-	}
-
-	private void GhostLerp(PlayerState state)
-	{
-		playerScript.ghost.transform.position =
-			Vector3.MoveTowards(playerScript.ghost.transform.position, state.WorldPosition,
-				playerMove.RunSpeed * Time.deltaTime * playerScript.ghost.transform.position.SpeedTo(state.WorldPosition));
 	}
 
 	private PlayerState NextState(PlayerState state, PlayerAction action, out bool matrixChanged, bool isReplay = false)
@@ -458,13 +453,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		Gizmos.DrawWireCube(clientPrediction, size3);
 		GizmoUtils.DrawArrow(clientPrediction + Vector3.left / 5, predictedState.Impulse);
 		if (drawMoves) GizmoUtils.DrawText(predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15);
-
-		//client ghostState
-		Gizmos.color = color6;
-		Vector3 ghostPrediction = ghostPredictedState.WorldPosition;
-		Gizmos.DrawWireCube(ghostPrediction, size6);
-		//			GizmoUtils.DrawArrow( ghostPrediction + Vector3.left / 5, predictedState.Impulse );
-		if (drawMoves) GizmoUtils.DrawText(ghostPredictedState.MoveNumber.ToString(), ghostPrediction + Vector3.up / 2, 15);
 
 		//client playerState
 		Gizmos.color = color4;

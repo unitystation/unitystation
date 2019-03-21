@@ -19,7 +19,7 @@ public class ClosetPlayerHandler : MonoBehaviour
 	{
 		closetControl = closetCtrl;
 
-		if (!PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost)
+		if (!PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			// TODO: Change this stuff to the proper settings once re-entering corpse becomes a feature.
 			Camera2DFollow.followControl.target = closetControl.transform;
@@ -40,7 +40,7 @@ public class ClosetPlayerHandler : MonoBehaviour
 
 	private void Update()
 	{
-		if (PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost || UIManager.IsInputFocus)
+		if (PlayerManager.LocalPlayerScript.IsGhost || UIManager.IsInputFocus)
 		{
 			return;
 		}

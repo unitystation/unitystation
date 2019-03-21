@@ -7,13 +7,15 @@ public class DoorUpdateMessage : ServerMessage {
 
 	public DoorUpdateType Type;
 	public NetworkInstanceId Door;
+	// whether the update should occur instantaneously
+	public bool SkipAnimation;
 
 	public override IEnumerator Process() {
 //		Logger.Log("Processed " + ToString());
 		yield return WaitFor( Door );
-		
+
 		if ( NetworkObject != null ) {
-			NetworkObject.GetComponent<DoorAnimator>()?.PlayAnimation( Type );
+			NetworkObject.GetComponent<DoorAnimator>()?.PlayAnimation( Type, SkipAnimation );
 		}
 	}
 
@@ -21,10 +23,20 @@ public class DoorUpdateMessage : ServerMessage {
 		return $"[DoorUpdateMessage {nameof( Door )}: {Door}, {nameof( Type )}: {Type}]";
 	}
 
-	public static DoorUpdateMessage Send( GameObject recipient, GameObject door, DoorUpdateType type ) {
+	/// <summary>
+	/// Send update to one player
+	/// </summary>
+	/// <param name="recipient">gameobject of the player recieving it</param>
+	/// <param name="door">door being updated</param>
+	/// <param name="type">animation to play</param>
+	/// <param name="skipAnimation">if true, all sound and animations will be skipped, leaving it in its end position.
+	/// 	Currently only used for when players are joining and there are open doors.</param>
+	/// <returns></returns>
+	public static DoorUpdateMessage Send( GameObject recipient, GameObject door, DoorUpdateType type, bool skipAnimation = false ) {
 		var msg = new DoorUpdateMessage {
 			Door = door.NetId(),
 			Type = type,
+			SkipAnimation = skipAnimation
 		};
 		msg.SendTo( recipient );
 		return msg;
@@ -34,6 +46,7 @@ public class DoorUpdateMessage : ServerMessage {
 		var msg = new DoorUpdateMessage {
 			Door = door.NetId(),
 			Type = type,
+			SkipAnimation = false
 		};
 		msg.SendToAll();
 		return msg;

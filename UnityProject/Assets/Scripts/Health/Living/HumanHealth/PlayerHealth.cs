@@ -84,15 +84,10 @@ public class PlayerHealth : LivingHealthBehaviour
 			}
 
 			PlayerDeathMessage.Send(gameObject);
-			//syncvars for everyone
-			pm.isGhost = true;
-			pm.allowInput = true;
-			//consider moving into PlayerDeathMessage.Process()
-			pna.RpcSpawnGhost();
-			RpcPassBullets(gameObject);
 
-			//FIXME Remove for next demo
-			pna.RespawnPlayer(10);
+
+			//spawn ghost
+			pna.SpawnPlayerGhost();
 		}
 	}
 

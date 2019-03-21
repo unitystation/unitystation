@@ -126,7 +126,7 @@ public class PlayerList : NetworkBehaviour
 				PostToChatMessage.Send(EscapeShuttle.Instance.GetCrewCountOnboard() + " Crew member(s) have managed to escape the station. <b>Syndicate lost.</b>", ChatChannel.System);
 				ReportKills();
 			}
-			
+
 			PostToChatMessage.Send("Game Restarting in 30 seconds...", ChatChannel.System);
 			reportDone = true;
 		}
@@ -183,13 +183,17 @@ public class PlayerList : NetworkBehaviour
 		values.Clear();
 	}
 
+	/// <summary>
+	/// Set this user's controlled game object to newGameObject (which may be a ghost or a body)
+	/// </summary>
+	/// <param name="conn">connection whose object should be updated</param>
+	/// <param name="newGameObject">new game object they are controlling (should be a ghost or a body)</param>
 	[Server]
-	public ConnectedPlayer UpdatePlayer(NetworkConnection conn, GameObject newGameObject)
+	public void UpdatePlayer(NetworkConnection conn, GameObject newGameObject)
 	{
 		ConnectedPlayer connectedPlayer = Get(conn);
 		connectedPlayer.GameObject = newGameObject;
 		CheckRcon();
-		return connectedPlayer;
 	}
 
 	/// Add previous ConnectedPlayer state to the old values list

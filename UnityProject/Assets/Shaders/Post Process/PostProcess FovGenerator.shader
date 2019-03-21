@@ -41,6 +41,7 @@ Shader "PostProcess/Fov Generator"
 
 			sampler2D _MainTex;
 			float4 _PositionOffset;
+			float _LightingTilePixelsPerUnit;
 
             //how detailed to make wall occlusion checks. Too low = wall occlusion looks messier and jaggier. Too high = performance impact.
             static const int LERP_ITERATIONS = 25;
@@ -93,7 +94,7 @@ Shader "PostProcess/Fov Generator"
                 }                
 
                 //look up to one tile width away from the current pixel in each direction and check if green is touching red.
-                float2 TILE_WIDTH = float2(_MainTex_TexelSize.x, _MainTex_TexelSize.y) * 14.5f; // use pixel size as "step" and scale as required.
+                float2 TILE_WIDTH = float2(_MainTex_TexelSize.x, _MainTex_TexelSize.y) * (_LightingTilePixelsPerUnit + 0.5f); // use pixel size as "step" and scale as required.
 
                 float up = checkVisibility(xy, xy + float2(0, TILE_WIDTH.y));
                 float down = checkVisibility(xy, xy + float2(0, -TILE_WIDTH.y));

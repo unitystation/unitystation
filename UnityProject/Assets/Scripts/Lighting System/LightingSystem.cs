@@ -39,6 +39,7 @@ public class LightingSystem : MonoBehaviour
 	private TextureDataRequest mTextureDataRequest;
 	//used for FOV checking is async readback is NOT supported
 	private Texture2D mTex2DWallFloorOcclusionMask;
+	private OperationParameters mOperationParameters;
 
 	public bool matrixRotationMode
 	{
@@ -155,7 +156,19 @@ public class LightingSystem : MonoBehaviour
 		}
 	}
 
-	private OperationParameters operationParameters { get; set; }
+	private OperationParameters operationParameters
+	{
+		get
+		{
+			return mOperationParameters;
+		}
+		set
+		{
+			mOperationParameters = value;
+
+			Shader.SetGlobalFloat("_LightingTilePixelsPerUnit", value.pixelsPerUnit);
+		}
+	}
 
 	/// <summary>
 	/// Transforms provided movement data to match pixel perfect space of lighting system.
@@ -315,11 +328,12 @@ public class LightingSystem : MonoBehaviour
 
 	private void Update()
 	{
-		//don't run lighting system on headless
+		// Don't run lighting system on headless.
 		if (GameData.IsHeadlessServer)
 		{
 			return;
 		}
+
 		// Monitor state to detect when we should trigger reinitialization of rendering textures.
 		var _newParameters = new OperationParameters(mMainCamera, renderSettings, matrixRotationMode);
 

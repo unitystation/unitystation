@@ -79,7 +79,7 @@ public class Camera2DFollow : MonoBehaviour
 			return;
 		}
 		//Really should sort out the load order and then we can remove this check:
-		if(!PlayerManager.LocalPlayerScript.weaponNetworkActions){
+		if(!PlayerManager.LocalPlayerScript.IsGhost && !PlayerManager.LocalPlayerScript.weaponNetworkActions){
 			return;
 		}
 		if (target != null && !isShaking)
