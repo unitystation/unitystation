@@ -26,30 +26,9 @@ public abstract class UserControlledSprites : NetworkBehaviour
 		get => currentDirection;
 	}
 
-
-	/// <summary>
-	/// true iff we are in the middle of a matrix rotation (between OnRotationStart and OnRotationEnd)
-	/// </summary>
-	protected bool isMatrixRotating;
-	/// <summary>
-	/// Destination orientation we will rotate to when OnRotationEnd happens
-	/// </summary>
-	private Orientation destinationOrientation;
-
     protected virtual void Awake()
     {
 	    registerPlayer = GetComponent<RegisterPlayer>();
-
-	    //Sub to matrix rotation events via the registerTile because it always has the
-	    //correct matrix
-	    registerPlayer.OnRotateStart.AddListener(OnRotationStart);
-	    registerPlayer.OnRotateEnd.AddListener(OnRotationEnd);
-    }
-
-    protected virtual void OnDisable()
-    {
-	    registerPlayer.OnRotateStart.RemoveListener(OnRotationStart);
-	    registerPlayer.OnRotateEnd.RemoveListener(OnRotationEnd);
     }
 
     public override void OnStartServer()
@@ -75,30 +54,6 @@ public abstract class UserControlledSprites : NetworkBehaviour
 		    LocalFaceDirection( currentDirection );
 	    }
 	    FaceDirectionSync(currentDirection);
-    }
-
-    private void OnRotationStart(RotationOffset fromCurrent, bool isInitialRotation)
-    {
-	    //ignore the initial rotation message because we determine initial rotation from the
-	    //currentBodyDirection syncvar in playerSprites
-	    if (!isInitialRotation)
-	    {
-
-		    destinationOrientation = currentDirection.Rotate(fromCurrent);
-		    isMatrixRotating = true;
-	    }
-    }
-
-    private void OnRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
-    {
-
-	    //ignore the initial rotation message because we determine initial rotation from the
-	    //currentBodyDirection syncvar in playerSprites
-	    if (!isInitialRotation)
-	    {
-		    LocalFaceDirection(destinationOrientation);
-		    isMatrixRotating = false;
-	    }
     }
 
     /// <summary>
