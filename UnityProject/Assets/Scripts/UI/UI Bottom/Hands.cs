@@ -9,6 +9,7 @@ public class Hands : MonoBehaviour
 	public UI_ItemSlot CurrentSlot { get; private set; }
 	public UI_ItemSlot OtherSlot { get; private set; }
 	public bool IsRight { get; private set; }
+	public bool hasSwitchedHands;
 
 	private InventorySlotCache Slots => UIManager.InventorySlots;
 
@@ -17,6 +18,7 @@ public class Hands : MonoBehaviour
 		CurrentSlot = Slots["rightHand"];
 		OtherSlot = Slots["leftHand"];
 		IsRight = true;
+		hasSwitchedHands = false;
 	}
 
 	/// <summary>
@@ -39,15 +41,22 @@ public class Hands : MonoBehaviour
 		{
 			if (right)
 			{
+				if (CurrentSlot != Slots["rightHand"])
+				{
+					hasSwitchedHands = true;
+				}
 				CurrentSlot = Slots["rightHand"];
 				OtherSlot = Slots["leftHand"];
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("rightHand");
 				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "rightHand";
 				selector.SetParent(rightHand, false);
-
 			}
 			else
 			{
+				if (CurrentSlot != Slots["leftHand"])
+				{
+					hasSwitchedHands = true;
+				}
 				CurrentSlot = Slots["leftHand"];
 				OtherSlot = Slots["rightHand"];
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("leftHand");

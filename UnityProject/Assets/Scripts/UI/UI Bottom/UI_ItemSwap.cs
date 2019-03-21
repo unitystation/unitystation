@@ -14,7 +14,15 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 		if (eventData.button == PointerEventData.InputButton.Left)
 		{
 			SoundManager.Play("Click01");
-			itemSlot.TryItemInteract();
+			// Only try interacting if we're not actually switching hands
+			if (UIManager.Hands.hasSwitchedHands) 
+			{
+				UIManager.Hands.hasSwitchedHands = false;
+			}
+			else 
+			{
+				itemSlot.TryItemInteract();
+			}
 		}
 	}
 
