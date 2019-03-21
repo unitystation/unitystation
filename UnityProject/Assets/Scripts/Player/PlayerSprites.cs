@@ -140,18 +140,6 @@ public class PlayerSprites : UserControlledSprites
 	}
 
 	/// <summary>
-	/// Cause player to face in the specified absolute orientation and syncs this change to the server / other
-	/// hosts.
-	/// </summary>
-	/// <param name="newOrientation">new absolute orientation</param>
-	public void ChangeAndSyncPlayerDirection(Orientation newOrientation)
-	{
-		CmdChangeDirection(newOrientation);
-		//Prediction
-		LocalFaceDirection(newOrientation);
-	}
-
-	/// <summary>
 	/// Does nothing if this is the local player (unless player is in crit).
 	///
 	/// Invoked when currentDirection syncvar changes. Update the direction of this player to face the specified
@@ -162,11 +150,6 @@ public class PlayerSprites : UserControlledSprites
 	/// <param name="dir"></param>
 	protected override void FaceDirectionSync(Orientation dir)
 	{
-		//ignore this while we are rotating in a matrix
-		if (isMatrixRotating)
-		{
-			return;
-		}
 //		//don't sync facing direction for players you're pulling locally, unless you're standing still
 		PushPull localPlayer = PlayerManager.LocalPlayerScript ? PlayerManager.LocalPlayerScript.pushPull : null;
 		if ( localPlayer && localPlayer.Pushable != null && localPlayer.Pushable.IsMovingClient )

@@ -55,11 +55,6 @@ public class GhostSprites : UserControlledSprites
 	/// <param name="dir"></param>
 	protected override void FaceDirectionSync(Orientation dir)
 	{
-		//ignore this while we are rotating in a matrix
-		if (isMatrixRotating)
-		{
-			return;
-		}
 
 		if (PlayerManager.LocalPlayer != gameObject)
 		{
