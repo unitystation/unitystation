@@ -83,7 +83,7 @@ public abstract class UserControlledSprites : NetworkBehaviour
     /// Invoked when currentDirection syncvar changes.
     /// </summary>
     /// <param name="dir"></param>
-    protected abstract void FaceDirectionSync(Orientation dir);
+    protected virtual void FaceDirectionSync( Orientation dir ){}
 
     /// <summary>
     /// Locally changes the direction of this player to face the specified direction but doesn't tell the server.
