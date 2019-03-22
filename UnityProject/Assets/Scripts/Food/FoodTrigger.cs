@@ -11,15 +11,6 @@ public class FoodTrigger : PickUpTrigger
 
 	public override void UI_Interact(GameObject originator, string hand)
 	{
-		base.UI_Interact(originator, hand);
-
-		if (!isServer)
-		{
-			UIInteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
-		}
-		else
-		{
-			food.TryEat();
-		}
+		food.TryEat();
 	}
 }
