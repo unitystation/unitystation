@@ -53,8 +53,8 @@ public class WindowDrag : MonoBehaviour
 		{
 			var windowTransformPosition = transform.position;
 
-			offsetX = windowTransformPosition.x - Input.mousePosition.x;
-			offsetY = windowTransformPosition.y - Input.mousePosition.y;
+			offsetX = windowTransformPosition.x - CommonInput.mousePosition.x;
+			offsetY = windowTransformPosition.y - CommonInput.mousePosition.y;
 		}
 
 		/// <summary>
@@ -62,7 +62,7 @@ public class WindowDrag : MonoBehaviour
 		/// </summary>
 		public void OnDrag()
 		{
-			ClampWindowPosition(offsetX + Input.mousePosition.x, offsetY + Input.mousePosition.y);
+			ClampWindowPosition(offsetX + CommonInput.mousePosition.x, offsetY + CommonInput.mousePosition.y);
 		}
 
 		/// <summary>

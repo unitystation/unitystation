@@ -120,7 +120,7 @@ namespace Light2D
 
         public static Vector2 GetMousePosInUnits()
         {
-            var mouse = Input.mousePosition;
+            var mouse = CommonInput.mousePosition;
             var camera = Camera.main;
             var mouseWorld = camera.ScreenToWorldPoint(
                 new Vector3(mouse.x, mouse.y, -camera.transform.position.z));
