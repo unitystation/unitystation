@@ -23,7 +23,10 @@ public partial class PlayerSync
 	/// Current server state. Integer positions.
 	private PlayerState serverState;
 
-	/// Serverside lerping state that simulates where players should be on clients at the moment
+	/// Serverside lerping state that simulates where players should be on clients at the moment.
+	/// Tracks in-between integer positions unlike serverState. Basically when position changes, it starts with
+	/// setting serverState to the new position, then serverLerpState lerps from the current position to
+	/// serverState until it reaches it.
 	private PlayerState serverLerpState;
 
 	private Queue<PlayerAction> serverPendingActions;
@@ -348,11 +351,11 @@ public partial class PlayerSync
 
 		//we only lerp back if the client thinks it's passable  but server does not...if client
 		//thinks it's not passable and server thinks it's passable, then it's okay to let the client continue
-		if (!isClientBump && serverBump != BumpType.None) {
+		if (!isClientBump && serverBump != BumpType.None && serverBump != BumpType.HelpIntent) {
 			Logger.LogWarningFormat( "isBump mismatch, resetting: C={0} S={1}", Category.Movement, isClientBump, serverBump != BumpType.None );
 			RollbackPosition();
 		}
-		if ( isClientBump || serverBump != BumpType.None) {
+		if ( isClientBump || (serverBump != BumpType.None && serverBump != BumpType.HelpIntent)) {
 			// we bumped something, an interaction might occur
 			// try pushing things / opening doors
 			if ( !playerScript.canNotInteract() || serverBump == BumpType.ClosedDoor )
@@ -379,6 +382,21 @@ public partial class PlayerSync
 		}
 
 		PlayerState nextState = NextState(state, action, out bool matrixChanged);
+
+		//check if a swap should occur
+		if (serverBump == BumpType.HelpIntent)
+		{
+			PlayerMove other = MatrixManager.GetHelpIntentAt(nextState.WorldPosition.RoundToInt(), gameObject);
+			if (other != null)
+			{
+				if (!other.PlayerScript.PlayerSync.IsMovingServer)
+				{
+					//they've stopped there, so let's swap them
+					InitiateSwap(other, action.Direction() * -1);
+				}
+			}
+
+		}
 
 		nextState.Speed = SpeedServer;
 

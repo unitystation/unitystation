@@ -122,10 +122,19 @@ public class MatrixManager : MonoBehaviour
 	/// <param name="worldOrigin">current position in world coordinates</param>
 	/// <param name="dir">direction of movement</param>
 	/// <param name="bumper">GameObject trying to bump / move, used so we don't bump against ourselves</param>
+	/// <param name="isHelpIntent">if the bumper is a player with help intent, hence help intent bump is possible</param>
 	/// <returns>the bump type which occurs at the specified point (BumpInteraction.None if it's open space)</returns>
-	public static BumpType GetBumpTypeAt(Vector3Int worldOrigin, Vector2Int dir, GameObject bumper)
+	public static BumpType GetBumpTypeAt(Vector3Int worldOrigin, Vector2Int dir, GameObject bumper, bool isHelpIntent)
 	{
 		Vector3Int targetPos = worldOrigin + dir.To3Int();
+		if (isHelpIntent)
+		{
+			//check for other players with help intent
+			if (GetHelpIntentAt(targetPos, bumper) != null)
+			{
+				return BumpType.HelpIntent;
+			}
+		}
 		if (GetPushableAt(worldOrigin, dir, bumper).Count > 0)
 		{
 			return BumpType.Push;
@@ -148,10 +157,11 @@ public class MatrixManager : MonoBehaviour
 	/// <param name="playerState">player state, used to get current world position</param>
 	/// <param name="playerAction">action indicating the direction player is trying to move</param>
 	/// <param name="bumper">GameObject trying to bump / move, used so we don't bump against ourselves</param>
+	/// <param name="isHelpIntent">if the bumper is a player with help intent, hence help intent bump is possible</param>
 	/// <returns>the bump type which occurs at the specified point (BumpInteraction.None if it's open space)</returns>
-	public static BumpType GetBumpTypeAt(PlayerState playerState, PlayerAction playerAction, GameObject bumper)
+	public static BumpType GetBumpTypeAt(PlayerState playerState, PlayerAction playerAction, GameObject bumper, bool isHelpIntent)
 	{
-		return GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), playerAction.Direction(), bumper);
+		return GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), playerAction.Direction(), bumper, isHelpIntent);
 	}
 
 	/// <summary>
@@ -245,6 +255,26 @@ public class MatrixManager : MonoBehaviour
 		}
 
 		return result;
+	}
+
+	/// <summary>
+	/// Return the playermove if there is a non-passable player with help intent at the specified position
+	/// </summary>
+	/// <param name="targetWorldPos">Position to check</param>
+	/// <param name="mover">gameobject of the thing attempting the move, only used to prevent itself from being checked</param>
+	/// <returns>the player move if they have help intent and are not passable, otherwise null</returns>
+	public static PlayerMove GetHelpIntentAt(Vector3Int targetWorldPos, GameObject mover)
+	{
+		var playerMoves = MatrixManager.GetAt<PlayerMove>(targetWorldPos);
+		foreach (PlayerMove playerMove in playerMoves)
+		{
+			if (playerMove.IsHelpIntent && !playerMove.PlayerScript.registerTile.IsPassable() && playerMove.gameObject != mover)
+			{
+				return playerMove;
+			}
+		}
+
+		return null;
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
@@ -652,5 +682,8 @@ public enum BumpType
 	Push,
 
 	/// Bump which blocks movement and causes nothing else to happen
-	Blocked
+	Blocked,
+
+	// A help intent player
+	HelpIntent
 }
