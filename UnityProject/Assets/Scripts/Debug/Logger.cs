@@ -23,7 +23,7 @@ public static class Logger
 		[Category.Lerp] = Level.Off,
 		[Category.Equipment] = Level.Trace,
 		[Category.Round] = Level.Info,
-		[Category.UI] = Level.Trace,
+		[Category.UI] = Level.Info,
 		[Category.Camera] = Level.Trace,
 		[Category.DebugConsole] = Level.Trace,
 		//		[Category.NetUI] = Level.Trace,
