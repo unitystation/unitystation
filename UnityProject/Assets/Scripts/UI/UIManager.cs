@@ -100,7 +100,18 @@ public class UIManager : MonoBehaviour
 	/// <summary>
 	///     Current Intent status
 	/// </summary>
-	public static Intent CurrentIntent { get; set; }
+	public static Intent CurrentIntent
+	{
+		get => currentIntent;
+		set
+		{
+			currentIntent = value;
+			//update the intent of the player so it can be synced
+			PlayerManager.LocalPlayerScript.playerMove.IsHelpIntent = value == global::Intent.Help;
+		}
+	}
+
+	private static Intent currentIntent;
 
 	/// <summary>
 	///     What is DamageZoneSeclector currently set at

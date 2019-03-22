@@ -113,8 +113,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// the move action to switch to that direction, otherwise leaves it unmodified.
 	/// Prioritizes the following when there are multiple options:
 	/// 1. Move into empty space if either direction has it
-	/// 2. Push an object if either direction has it
-	/// 3. Open a door if either direction has it
+	/// 2. Swap with a player if we and they have help intent
+	/// 3. Push an object if either direction has it
+	/// 4. Open a door if either direction has it
 	///
 	/// When both directions have the same condition (both doors or pushable objects), x will be preferred to y
 	/// </summary>
@@ -132,18 +133,18 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		Vector2Int xDirection = new Vector2Int(direction.x, 0);
 		Vector2Int yDirection = new Vector2Int(0, direction.y);
-		BumpType xBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), xDirection, gameObject);
-		BumpType yBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), yDirection, gameObject);
+		BumpType xBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), xDirection, gameObject, playerMove.IsHelpIntent);
+		BumpType yBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), yDirection, gameObject, playerMove.IsHelpIntent);
 
 		MoveAction? newAction = null;
 		BumpType? newBump = null;
 
-		if (xBump == BumpType.None)
+		if (xBump == BumpType.None || xBump == BumpType.HelpIntent)
 		{
 			newAction = PlayerAction.GetMoveAction(xDirection);
 			newBump = xBump;
 		}
-		else if (yBump == BumpType.None)
+		else if (yBump == BumpType.None || yBump == BumpType.HelpIntent)
 		{
 			newAction = PlayerAction.GetMoveAction(yDirection);
 			newBump = yBump;
@@ -195,7 +196,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			return BumpType.None;
 		}
-		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, gameObject);
+		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, gameObject, playerMove.IsHelpIntent);
 		// if movement is blocked, try to slide
 		if (bump == BumpType.Blocked)
 		{
@@ -274,6 +275,43 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	public void AppearAtPositionServer(Vector3 worldPos)
 	{
 		SetPosition(worldPos);
+	}
+
+	#endregion
+
+	#region swapping positions
+
+	/// <summary>
+	/// Invoked when someone is swapping positions with us due to arriving on our space when we have help intent.
+	///
+	/// Invoked on client for client prediction, server for server-authoritative logic.
+	///
+	/// This player is the swapee, the person displacing us is the swapper.
+	/// </summary>
+	/// <param name="direction">direction to move (should be one of the cardinal directions, unit length)</param>
+	private void BeSwapped(Vector2 direction)
+	{
+		if (isServer)
+		{
+			serverState.WorldPosition += (Vector3)direction;
+		}
+		//must set this on both client and server so server shows the lerp instantly as well as the client
+		predictedState.WorldPosition += (Vector3)direction;
+	}
+
+	/// <summary>
+	/// Called on clientside for prediction and server side for server-authoritative logic.
+	///
+	/// Swap positions with the other player, sending them in direction (which should be opposite our direction of motion)
+	///
+	/// This player is the swapper, the one they are displacing is the swapee
+	/// </summary>
+	/// <param name="swapee">player we will swap</param>
+	/// <param name="inDirection">direction in which they should be swapped, should be opposite our direction of
+	/// motion</param>
+	private void InitiateSwap(PlayerMove swapee, Vector2 inDirection)
+	{
+		swapee.PlayerScript.PlayerSync.BeSwapped(inDirection);
 	}
 
 	#endregion
@@ -461,6 +499,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		GizmoUtils.DrawArrow(clientState + Vector3.right / 5, playerState.Impulse);
 		if (drawMoves) GizmoUtils.DrawText(playerState.MoveNumber.ToString(), clientState + Vector3.right, 15);
 
+		//help intent
+		Gizmos.color = isLocalPlayer ?  color4 : color1;
+		if (playerMove.IsHelpIntent)
+		{
+			GizmoUtils.DrawText("Help", clientState + Vector3.up/2, 15);
+		}
 	}
 #endif
 }

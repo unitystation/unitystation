@@ -123,6 +123,27 @@ public partial class PlayerSync
 					LastDirection = action.Direction();
 					UpdatePredictedState();
 				}
+				else if (clientBump == BumpType.HelpIntent)
+				{
+					if (!isServer)
+					{
+						//check if a swap should happen - client prediction only (hence !isServer, otherwise it would swap twice on the server)
+						PlayerMove other = MatrixManager.GetHelpIntentAt(((Vector2)predictedState.WorldPosition + action.Direction()).RoundToInt(), gameObject);
+						if (other != null)
+						{
+							if (!other.PlayerScript.PlayerSync.IsMovingClient)
+							{
+								//they've stopped there, so let's swap them
+								InitiateSwap(other, action.Direction() * -1);
+							}
+						}
+					}
+
+					//move freely
+					pendingActions.Enqueue(action);
+					LastDirection = action.Direction();
+					UpdatePredictedState();
+				}
 				else
 				{
 					//cannot move -> tell server we're just bumping in that direction
