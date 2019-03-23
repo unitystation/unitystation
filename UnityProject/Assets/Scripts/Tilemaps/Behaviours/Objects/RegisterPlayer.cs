@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 
 [ExecuteInEditMode]
 public class RegisterPlayer : RegisterTile
 {
+	private float stunTime;
+	private bool isStunned;
 
 	/// <summary>
 	/// Whether the player should currently be depicted laying on the ground
@@ -19,6 +22,7 @@ public class RegisterPlayer : RegisterTile
 	/// True when the player is laying down
 	/// </summary>
 	public bool IsDown => isDown;
+
 	private void Awake()
 	{
 		playerSprites = GetComponent<UserControlledSprites>();
@@ -37,36 +41,11 @@ public class RegisterPlayer : RegisterTile
 		return IsPassable();
 	}
 
-	protected override void OnRotationStart(RotationOffset fromCurrent, bool isInitialRotation)
-	{
-		base.OnRotationStart(fromCurrent, isInitialRotation);
-		if (!isInitialRotation)
-		{
-			UpdateManager.Instance.Add(RemainUpright);
-		}
-	}
-
-	void RemainUpright()
-	{
-		//stay upright until rotation stops (RegisterTile only updates our rotation at the end of rotation),
-		//but players need to stay upright constantly unless they are downed
-		foreach (SpriteRenderer renderer in spriteRenderers)
-		{
-			renderer.transform.rotation = isDown ? Quaternion.Euler(0, 0, -90) : Quaternion.identity;
-		}
-	}
-
 	protected override void OnRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
 	{
 		base.OnRotationEnd(fromCurrent, isInitialRotation);
 
-		if (!isInitialRotation)
-		{
-			//stop reorienting to face upright
-			UpdateManager.Instance.Remove(RemainUpright);
-		}
-
-		//add extra rotation to ensure we are sideways
+		//add additional rotation to remain sideways if we are down
 		if (isDown)
 		{
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
@@ -94,9 +73,7 @@ public class RegisterPlayer : RegisterTile
 				spriteRenderer.transform.Rotate(0, 0, -90);
 				spriteRenderer.sortingLayerName = "Blood";
 			}
-
 		}
-
 	}
 
 	/// <summary>
@@ -116,6 +93,34 @@ public class RegisterPlayer : RegisterTile
 				spriteRenderer.transform.rotation = Quaternion.identity;
 				spriteRenderer.sortingLayerName = "Players";
 			}
+		}
+	}
+
+	public void Stun(float stunDuration)
+	{
+		isStunned = true;
+		LayDown();
+		playerScript.playerNetworkActions.DropItem("leftHand");
+		playerScript.playerNetworkActions.DropItem("rightHand");
+		playerScript.playerMove.allowInput = false;
+		playerScript.playerHealth.TryChangeStunDuration(stunDuration);
+	}
+
+	public void RemoveStun()
+	{
+		isStunned = false;
+		UpdateCanMove();
+	}
+
+	public void UpdateCanMove()
+	{
+		if (!playerScript.playerHealth.IsCrit
+		    && !playerScript.playerHealth.IsSoftCrit
+		    && !playerScript.playerHealth.IsDead
+		    && !isStunned)
+		{
+			GetUp();
+			playerScript.playerMove.allowInput = true;
 		}
 	}
 }

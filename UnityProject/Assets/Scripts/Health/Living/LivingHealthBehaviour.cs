@@ -39,6 +39,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	protected GameObject LastDamagedBy;
 
+	private RegisterPlayer registerPlayer;
+	public float StunDuration { get; private set; } = 0;
+
 	public ConsciousState ConsciousState
 	{
 		get => consciousState;
@@ -143,6 +146,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
 		bloodSystem.SetBloodType(DNABloodType);
 		base.OnStartServer();
+		registerPlayer = GetComponent<RegisterPlayer>();
 	}
 
 	public override void OnStartClient()
@@ -344,6 +348,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			{
 				tick = 0f;
 				CalculateOverallHealth();
+				CalculateStun();
 			}
 		}
 	}
@@ -400,6 +405,26 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		CheckHealthAndUpdateConsciousState();
 	}
 
+	[Server]
+	protected void CalculateStun(){
+		if(StunDuration > 0)
+		{
+			StunDuration -= 1;
+			if(StunDuration <= 0)
+			{
+				registerPlayer.RemoveStun();
+			}
+		}
+	}
+
+	public void TryChangeStunDuration(float stunDuration)
+	{
+		if (stunDuration > StunDuration)
+		{
+			StunDuration = stunDuration;
+		}
+	}
+
 	int CalculateOverallBodyPartDamage()
 	{
 		float bodyPartDmg = 0;
@@ -429,11 +454,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// Blood Loss and Toxin damage:
 	public int CalculateOverallBloodLossDamage()
 	{
-		float maxBloodDmg = Mathf.Abs(HealthThreshold.Dead) + maxHealth;
 		float bloodDmg = 0f;
 		if (bloodSystem.BloodLevel < (int)BloodVolume.SAFE)
 		{
-			bloodDmg = Mathf.Lerp(0f, maxBloodDmg, 1f - (bloodSystem.BloodLevel / (float)BloodVolume.NORMAL));
+			bloodDmg = (1f - ((float)bloodSystem.BloodLevel / (float)BloodVolume.NORMAL)) * 100f;
 		}
 
 		if (bloodSystem.ToxinLevel > 1f)
@@ -442,7 +466,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			//There will need to be some kind of blood / toxin ratio and severity limits determined
 		}
 
-		return Mathf.RoundToInt(Mathf.Clamp(bloodDmg, 0f, maxBloodDmg));
+		return Mathf.RoundToInt(Mathf.Clamp(bloodDmg, 0f, 101f));
 	}
 
 	/// ---------------------------
@@ -677,6 +701,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			OverallHealth = maxHealth;
 		}
 	}
+
+	/// <summary>
+	/// Recalculates the stun duration and updates its state. Server only
+	/// </summary>
+
+
 }
 
 public static class HealthThreshold
