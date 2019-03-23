@@ -75,7 +75,7 @@ public class Hands : MonoBehaviour
 	/// <summary>
 	/// Swap the item in the current slot to itemSlot
 	/// </summary>
-	public void SwapItem(UI_ItemSlot itemSlot)
+	public bool SwapItem(UI_ItemSlot itemSlot)
 	{
 		if (isValidPlayer())
 		{
@@ -83,14 +83,15 @@ public class Hands : MonoBehaviour
 			{
 				if (!CurrentSlot.IsFull)
 				{
-					Swap(CurrentSlot, itemSlot);
+					return Swap(CurrentSlot, itemSlot);
 				}
 				else
 				{
-					Swap(itemSlot, CurrentSlot);
+					return Swap(itemSlot, CurrentSlot);
 				}
 			}
 		}
+		return false;
 	}
 
 	/// <summary>
@@ -109,8 +110,6 @@ public class Hands : MonoBehaviour
 
 	/// <summary>
 	/// General function to try to equip the item in the active hand
-	/// NOTE: This method isn't being used right now and should should possibly
-	/// be changed/called by clothing's UI_Interact
 	/// </summary>
 	public void Equip()
 	{
@@ -127,13 +126,15 @@ public class Hands : MonoBehaviour
 		}
 
 		//This checks which UI slot the item can be equiped to and swaps it there
-		ItemType type = Slots.GetItemType(CurrentSlot.Item);
-		SpriteType masterType = Slots.GetItemMasterType(CurrentSlot.Item);
 		UI_ItemSlot itemSlot = InventorySlotCache.GetSlotByItemType(CurrentSlot.Item);
 
 		if (itemSlot != null)
 		{
-			SwapItem(itemSlot);
+			// If we couldn't equip item into pocket, let's try the other pocket!
+			if (!SwapItem(itemSlot) && itemSlot.eventName == "storage02")
+			{
+				SwapItem(InventorySlotCache.GetSlotByEvent("storage01"));
+			}
 		}
 		else
 		{
@@ -163,11 +164,12 @@ public class Hands : MonoBehaviour
 	/// <summary>
 	/// Swaps the two slots
 	/// </summary>
-	private void Swap(UI_ItemSlot slot1, UI_ItemSlot slot2)
+	private bool Swap(UI_ItemSlot slot1, UI_ItemSlot slot2)
 	{
 		if(isValidPlayer())
 		{
-			UIManager.TryUpdateSlot(new UISlotObject(slot1.inventorySlot.UUID, slot2.Item, slot2.inventorySlot.UUID));
+			return UIManager.TryUpdateSlot(new UISlotObject(slot1.inventorySlot.UUID, slot2.Item, slot2.inventorySlot.UUID));
 		}
+		return false;
 	}
 }
