@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4726396450817676}
-  - component: {fileID: 114334507638544654}
+  - component: {fileID: 5908745450454926434}
   - component: {fileID: 114418950606787226}
   - component: {fileID: 114595774069620348}
   - component: {fileID: 114262681174990446}
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114334507638544654
+--- !u!114 &5908745450454926434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,11 +44,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1069497300762596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cca1f6d3039cb408785a5d25be02f880, type: 3}
+  m_Script: {fileID: 11500000, guid: f53093f0932e29442a2946746c454a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloodSprite: 0
-  spriteRend: {fileID: 212268240904160500}
+  sprite: 0
+  spriteRend: {fileID: 0}
 --- !u!114 &114418950606787226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +106,7 @@ MonoBehaviour:
       PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 1
+  CrossedRegisterPlayer: {fileID: 0}
 --- !u!114 &114262681174990446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +124,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 1
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0

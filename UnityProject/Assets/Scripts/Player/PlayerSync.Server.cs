@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -328,8 +329,8 @@ public partial class PlayerSync
 			CheckMovementServer();
 			OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 		}
-//		Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
-		}
+		//Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
+	}
 
 	/// NextState that also subscribes player to matrix rotations
 	[Server]
@@ -594,6 +595,31 @@ public partial class PlayerSync
 		}
 		if ( TryNotifyPlayers() ) {
 			TryUpdateServerTarget();
+		}
+	}
+
+	private void OnEnable()
+	{
+		onTileReached.AddListener(Cross);
+	}
+	private void OnDisable()
+	{
+		onTileReached.RemoveListener(Cross);
+	}
+
+	private void Cross(Vector3Int position)
+	{
+		if (PlayerUtils.IsGhost(gameObject))
+		{
+			return;
+		}
+		List<GameObject> objects = UITileList.GetItemsAtPosition(position);
+		// Removes player from object list
+		objects.Remove(gameObject);
+		RegisterPlayer registerPlayer = GetComponent<RegisterPlayer>();
+		for (int i = 0; i < objects.Count; i++)
+		{
+			objects[i].GetComponent<RegisterItem>()?.Cross(ref registerPlayer);
 		}
 	}
 }
