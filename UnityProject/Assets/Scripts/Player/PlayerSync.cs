@@ -282,21 +282,46 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	#region swapping positions
 
 	/// <summary>
+	/// Checks if a swap would occur due to moving to a position with a player with help intent.
+	/// If so, performs the swap.
+	/// </summary>
+	/// <param name="targetWorldPos">target position being moved to to check for a swap at</param>
+	/// <param name="inDirection">direction to which the swapee should be moved if swap occurs (should
+	/// be opposite the direction of this player's movement)</param>
+	private void CheckAndDoSwap(Vector3Int targetWorldPos, Vector2 inDirection)
+	{
+		PlayerMove other = MatrixManager.GetHelpIntentAt(targetWorldPos, gameObject);
+		if (other != null)
+		{
+			// on server, must verify that position matches
+			if ((isServer && !other.PlayerScript.PlayerSync.IsMovingServer)
+			    || (!isServer && !other.PlayerScript.PlayerSync.IsMovingClient))
+			{
+				//they've stopped there, so let's swap them
+				InitiateSwap(other, targetWorldPos + inDirection.RoundToInt());
+			}
+		}
+	}
+
+
+	/// <summary>
 	/// Invoked when someone is swapping positions with us due to arriving on our space when we have help intent.
 	///
 	/// Invoked on client for client prediction, server for server-authoritative logic.
 	///
 	/// This player is the swapee, the person displacing us is the swapper.
 	/// </summary>
-	/// <param name="direction">direction to move (should be one of the cardinal directions, unit length)</param>
-	private void BeSwapped(Vector2 direction)
+	/// <param name="toWorldPosition">destination to move to</param>
+	private void BeSwapped(Vector3Int toWorldPosition)
 	{
 		if (isServer)
 		{
-			serverState.WorldPosition += (Vector3)direction;
+			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Unknown, name, (Vector2)serverState.WorldPosition, toWorldPosition.To2Int());
+			serverState.WorldPosition = toWorldPosition;
+
 		}
 		//must set this on both client and server so server shows the lerp instantly as well as the client
-		predictedState.WorldPosition += (Vector3)direction;
+		predictedState.WorldPosition = toWorldPosition;
 	}
 
 	/// <summary>
@@ -307,11 +332,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// This player is the swapper, the one they are displacing is the swapee
 	/// </summary>
 	/// <param name="swapee">player we will swap</param>
-	/// <param name="inDirection">direction in which they should be swapped, should be opposite our direction of
-	/// motion</param>
-	private void InitiateSwap(PlayerMove swapee, Vector2 inDirection)
+	/// <param name="toWorldPosition">destination to swap to</param>
+	private void InitiateSwap(PlayerMove swapee, Vector3Int toWorldPosition)
 	{
-		swapee.PlayerScript.PlayerSync.BeSwapped(inDirection);
+		swapee.PlayerScript.PlayerSync.BeSwapped(toWorldPosition);
 	}
 
 	#endregion

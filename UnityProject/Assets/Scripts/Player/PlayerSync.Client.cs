@@ -127,16 +127,8 @@ public partial class PlayerSync
 				{
 					if (!isServer)
 					{
-						//check if a swap should happen - client prediction only (hence !isServer, otherwise it would swap twice on the server)
-						PlayerMove other = MatrixManager.GetHelpIntentAt(((Vector2)predictedState.WorldPosition + action.Direction()).RoundToInt(), gameObject);
-						if (other != null)
-						{
-							if (!other.PlayerScript.PlayerSync.IsMovingClient)
-							{
-								//they've stopped there, so let's swap them
-								InitiateSwap(other, action.Direction() * -1);
-							}
-						}
+						//only client performs this check, otherwise it would be performed twice by server
+						CheckAndDoSwap(((Vector2)predictedState.WorldPosition + action.Direction()).RoundToInt(), action.Direction() * -1);
 					}
 
 					//move freely
@@ -174,6 +166,7 @@ public partial class PlayerSync
 		MoveCooldown = false;
 		isBumping = false;
 	}
+
 
 	/// Predictive interaction with object you can't move through
 	/// <param name="worldTile">Tile you're interacting with</param>
@@ -540,6 +533,13 @@ public partial class PlayerSync
 			if (ClientPositionReady)
 			{
 				OnClientTileReached().Invoke(Vector3Int.RoundToInt(worldPos));
+				// Check for swap once movement is done, to prevent us and another player moving into the same tile
+				if (!isServer)
+				{
+					//only check on client otherwise server would check this twice
+					CheckAndDoSwap(worldPos.RoundToInt(), lastDirection*-1);
+				}
+
 			}
 		}
 	}

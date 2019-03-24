@@ -386,16 +386,7 @@ public partial class PlayerSync
 		//check if a swap should occur
 		if (serverBump == BumpType.HelpIntent)
 		{
-			PlayerMove other = MatrixManager.GetHelpIntentAt(nextState.WorldPosition.RoundToInt(), gameObject);
-			if (other != null)
-			{
-				if (!other.PlayerScript.PlayerSync.IsMovingServer)
-				{
-					//they've stopped there, so let's swap them
-					InitiateSwap(other, action.Direction() * -1);
-				}
-			}
-
+			CheckAndDoSwap(nextState.WorldPosition.RoundToInt(), action.Direction() * -1);
 		}
 
 		nextState.Speed = SpeedServer;
@@ -609,6 +600,8 @@ public partial class PlayerSync
 		}
 		if ( serverLerpState.WorldPosition == targetPos ) {
 			OnTileReached().Invoke( targetPos.RoundToInt() );
+			// Check for swap once movement is done, to prevent us and another player moving into the same tile
+			CheckAndDoSwap(targetPos.RoundToInt(), serverLastDirection*-1);
 		}
 		if ( TryNotifyPlayers() ) {
 			TryUpdateServerTarget();
