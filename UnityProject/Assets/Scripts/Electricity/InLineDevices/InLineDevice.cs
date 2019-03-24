@@ -9,10 +9,6 @@ public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePow
 	//What is the purpose of inline device, It is to modify current, resistance going over the device E.G a Transformer For any other device that can be thought of
 	public IInLineDevices RelatedDevice;
 
-	public HashSet<IElectricityIO> DirectionWorkOnNextList { get; set; } = new HashSet<IElectricityIO>();
-	public HashSet<IElectricityIO> DirectionWorkOnNextListWait { get; set; } = new HashSet<IElectricityIO>();
-	public HashSet<IElectricityIO> ResistanceWorkOnNextList { get; set; } = new HashSet<IElectricityIO>();
-	public HashSet<IElectricityIO> ResistanceWorkOnNextListWait { get; set; } = new HashSet<IElectricityIO>();
 	public HashSet<IElectricityIO> connectedDevices { get; set; } = new HashSet<IElectricityIO>();
 
 	public RegisterObject registerTile3;
@@ -38,6 +34,7 @@ public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePow
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
+		InData.ElectricityOverride = true;
 		//Not working for some reason:
 		registerTile3 = gameObject.GetComponent<RegisterObject>();
 		StartCoroutine(WaitForLoad());
@@ -73,8 +70,7 @@ public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePow
 	}
 
 	public void InitialPowerUpdateResistance(){}
-	public void PowerUpdateResistanceChange()
-	{
+	public void PowerUpdateResistanceChange(){
 	}
 	public void PowerUpdateCurrentChange()
 	{
@@ -107,7 +103,10 @@ public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePow
 	public override void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
 		if (!(SourceInstance == this.gameObject)){
-			ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingUpdate);
+			if (!ElectricalSynchronisation.NUCurrentChange.Contains(InData.ControllingUpdate)) { 
+				ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingUpdate);
+			}
+
 		}
 
 		Current = RelatedDevice.ModifyElectricityOutput(Current, SourceInstance);

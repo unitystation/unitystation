@@ -53,7 +53,9 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		}
 		Thiswire.Data.CurrentComingFrom[SourceInstanceID][ComingFrom] = Current;
 		Thiswire.Data.SourceVoltages[SourceInstanceID] = Current * (ElectricityFunctions.WorkOutResistance(Thiswire.Data.ResistanceComingFrom[SourceInstanceID]));
-		Thiswire.ElectricityOutput( ElectricityFunctions.WorkOutCurrent(Thiswire.Data.CurrentComingFrom[SourceInstanceID]), SourceInstance);
+		ELCurrent.CurrentWorkOnNextList.Add(Thiswire);
+		Thiswire.Data.CurrentStoreValue = ElectricityFunctions.WorkOutCurrent(Thiswire.Data.CurrentComingFrom[SourceInstanceID]);
+		//Thiswire.ElectricityOutput( ElectricityFunctions.WorkOutCurrent(Thiswire.Data.CurrentComingFrom[SourceInstanceID]), SourceInstance);
 
 	}
 
@@ -89,15 +91,16 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 
 	public static void ResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO Thiswire)
 	{
+		IElectricityIO IElec = SourceInstance.GetComponent<IElectricityIO>();
 		if (ComingFrom == null)
 		{
-			var IElec = SourceInstance.GetComponent<IElectricityIO>();
+			
 			if (Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(IElec))
 			{
-				if (Thiswire.Data.ResistanceToConnectedDevices [SourceInstance.GetComponent<IElectricityIO> ()].Count > 1) {
+				if (Thiswire.Data.ResistanceToConnectedDevices [IElec].Count > 1) {
 					Logger.Log ("oh no!, problem!!!!");
 				}
-				foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[SourceInstance.GetComponent<IElectricityIO>()])
+				foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[IElec])
 				{
 
 					Resistance = Thiswire.InData.ConnectionReaction[ConnectionFrom].ResistanceReactionA.Resistance.Ohms;
@@ -127,13 +130,13 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 				
 			if (Thiswire.Data.connections.Count > 2)
 			{
-				KeyValuePair<IElectricityIO,IElectricityIO> edd = new KeyValuePair<IElectricityIO,IElectricityIO> (SourceInstance.GetComponent<IElectricityIO> (),Thiswire);
+				KeyValuePair<IElectricityIO,IElectricityIO> edd = new KeyValuePair<IElectricityIO,IElectricityIO> (IElec,Thiswire);
 				ElectricalSynchronisation.ResistanceWorkOnNextListWait.Add (edd);
 				//Logger.Log("Bdded");
 			}
 			else
 			{
-				KeyValuePair<IElectricityIO,IElectricityIO> edd = new KeyValuePair<IElectricityIO,IElectricityIO> (SourceInstance.GetComponent<IElectricityIO> (),Thiswire);
+				KeyValuePair<IElectricityIO,IElectricityIO> edd = new KeyValuePair<IElectricityIO,IElectricityIO> (IElec,Thiswire);
 				ElectricalSynchronisation.ResistanceWorkOnNextList.Add (edd);
 				//Logger.Log("added");
 			}
@@ -225,11 +228,11 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		{
 			if (Thiswire.Data.connections.Count > 2)
 			{
-				SourceInstance.GetComponent<IProvidePower>().DirectionWorkOnNextListWait.Add(Thiswire);
+				ElectricalSynchronisation.DirectionWorkOnNextListWait.Add(Thiswire);
 			}
 			else
 			{
-				SourceInstance.GetComponent<IProvidePower>().DirectionWorkOnNextList.Add(Thiswire);
+				ElectricalSynchronisation.DirectionWorkOnNextList.Add(Thiswire);
 			}
 		}
 	}

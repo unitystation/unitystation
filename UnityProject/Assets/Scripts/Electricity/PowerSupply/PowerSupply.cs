@@ -6,15 +6,12 @@ using UnityEngine.Networking;
 
 public class PowerSupply : ElectricalOIinheritance, IElectricalNeedUpdate, IElectricityIO, IProvidePower
 {
-	public HashSet<IElectricityIO> DirectionWorkOnNextList { get; set; } = new HashSet<IElectricityIO>();
-	public HashSet<IElectricityIO> DirectionWorkOnNextListWait { get; set; } = new HashSet<IElectricityIO>();
-	public HashSet<IElectricityIO> ResistanceWorkOnNextList { get; set; } = new HashSet<IElectricityIO>();
-	public HashSet<IElectricityIO> ResistanceWorkOnNextListWait { get; set; } = new HashSet<IElectricityIO>();
-
 	public RegisterObject registerTile3;
 	private Matrix matrix => registerTile3.Matrix;
 	private Vector3 posCache;
 	private bool isSupplying = false;
+
+	public IElectricityIO _IElectricityIO { get; set; }
 
 	public void FindPossibleConnections()
 	{
@@ -34,6 +31,8 @@ public class PowerSupply : ElectricalOIinheritance, IElectricalNeedUpdate, IElec
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
+		InData.ElectricityOverride = true;
+		_IElectricityIO = this.gameObject.GetComponent<IElectricityIO>();
 		//Not working for some reason:
 		registerTile3 = gameObject.GetComponent<RegisterObject>();
 		StartCoroutine(WaitForLoad());
@@ -124,8 +123,13 @@ public class PowerSupply : ElectricalOIinheritance, IElectricalNeedUpdate, IElec
 
 	public override void ElectricityOutput( float Current, GameObject SourceInstance)
 	{
-		if (!(SourceInstance == this.gameObject)){
-			ElectricalSynchronisation.NUCurrentChange.Add (InData.ControllingUpdate);
+		if (!(SourceInstance == this.gameObject))
+		{
+			if (!ElectricalSynchronisation.NUCurrentChange.Contains(InData.ControllingUpdate))
+			{
+				ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingUpdate);
+			}
+
 		}
 		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
 		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
@@ -133,5 +137,4 @@ public class PowerSupply : ElectricalOIinheritance, IElectricalNeedUpdate, IElec
 		Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;
 		Data.EstimatedResistance = Data.ActualCurrentChargeInWire.EstimatedResistant;
 	}
-
 }

@@ -73,9 +73,12 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		PowerTypeCategory.MediumMachineConnector
 	};
 
+	public IElectricityIO _IElectricityIO { get; set; }
+
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
+		_IElectricityIO = this.gameObject.GetComponent<IElectricityIO>();
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = DirectionStart;
@@ -297,4 +300,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		BatteryCalculation.TurnOffEverything(this);
 		ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
 	}
+	public GameObject GameObject()
+	{
+		return gameObject;	}
 }

@@ -26,9 +26,12 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 		PowerTypeCategory.StandardCable
 	};
 
+	public IElectricityIO _IElectricityIO { get; set; }
+
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
+		_IElectricityIO = this.gameObject.GetComponent<IElectricityIO>();
 		poweredDevice.InData.CanConnectTo = CanConnectTo;
 		poweredDevice.InData.Categorytype = ApplianceType;
 		poweredDevice.DirectionStart = 0;
@@ -173,5 +176,9 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 		//Make Invisible
 	}
 	public void TurnOffCleanup (){
+	}
+	public GameObject GameObject()
+	{
+		return gameObject;
 	}
 }

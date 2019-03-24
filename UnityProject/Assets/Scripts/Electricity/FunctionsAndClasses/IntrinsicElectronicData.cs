@@ -7,5 +7,8 @@ public class IntrinsicElectronicData  {
 	public HashSet<PowerTypeCategory> CanConnectTo {get; set;}
 	public Dictionary<PowerTypeCategory,PowerInputReactions> ConnectionReaction {get; set;} = new Dictionary<PowerTypeCategory,PowerInputReactions>();
 	public IDeviceControl ControllingDevice; 
-	public IElectricalNeedUpdate ControllingUpdate; 
+	public IElectricalNeedUpdate ControllingUpdate;
+	public bool DirectionOverride = false;
+	public bool ResistanceOverride = false;
+	public bool ElectricityOverride = false;
 }

@@ -18,7 +18,8 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 
 	public static void PowerUpdateStructureChangeReact(IElectricityIO Supply)
 	{
-		ElectricityFunctions.CircuitSearchLoop(Supply, Supply.GameObject().GetComponent<IProvidePower>());
+		//Logger.Log("ElectricalSynchronisation.CircuitSearchLoop(Supply);");
+		ElectricalSynchronisation.CircuitSearchLoop(Supply);
 		if (Supply.Data.ChangeToOff)
 		{
 			Supply.Data.ChangeToOff = false;
@@ -40,6 +41,7 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 				int SourceInstanceID = Supply.GameObject().GetInstanceID();
 				Supply.ElectricityOutput((Supply.Data.SupplyingVoltage)/(Supply.Data.InternalResistance + ElectricityFunctions.WorkOutResistance(Supply.Data.ResistanceComingFrom[SourceInstanceID])), Supply.GameObject());
 			}
+			ELCurrent.Currentloop(Supply.GameObject());
 		}
 	}
 }

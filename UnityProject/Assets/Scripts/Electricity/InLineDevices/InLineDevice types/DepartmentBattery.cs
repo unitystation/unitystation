@@ -96,7 +96,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		PowerTypeCategory.LowMachineConnector
 	};
 
-
+	public IElectricityIO _IElectricityIO { get; set; }
 
 	void Start() {//Initialise Sprites
 		for (int i = 0; i< enums.Count; i++)
@@ -112,6 +112,7 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
+		_IElectricityIO = this.gameObject.GetComponent<IElectricityIO>();
 		RelatedDevice.InData.CanConnectTo = CanConnectTo;
 		RelatedDevice.InData.Categorytype = ApplianceType;
 		RelatedDevice.InData.ControllingUpdate = this;
@@ -175,7 +176,6 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 	}
 	public void PowerUpdateResistanceChange()
 	{
-		RelatedDevice.PowerUpdateResistanceChange();
 		RelatedDevice.PowerUpdateResistanceChange();
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in RelatedDevice.Data.ResistanceToConnectedDevices) {
 			if (Supplie.Value.Contains(PowerTypeCategory.StandardCable)){
@@ -420,5 +420,9 @@ public class DepartmentBattery : InputTrigger, IElectricalNeedUpdate, IInLineDev
 		//Make Invisible
 	}
 	public void TurnOffCleanup (){
+	}
+	public GameObject GameObject()
+	{
+		return gameObject;
 	}
 }

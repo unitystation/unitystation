@@ -25,4 +25,6 @@ public class ElectronicData  { //to Store data about the electrical device
 	public float InternalResistance;
 	public float SupplyingVoltage;
 	public bool ChangeToOff;
+
+	public float CurrentStoreValue; //I'm lazy and it's cheaper than making a key value And putting it into a hash set
 }

@@ -13,7 +13,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	/// Holds information about wire connections to this APC
 	/// </summary>
 	public PoweredDevice poweredDevice;
-
+	public IElectricityIO _IElectricityIO { get; set; }
 	[SyncVar (hook="SetVoltage")]
 	private float _voltage = 0;
 	/// <summary>
@@ -116,6 +116,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
+		_IElectricityIO = this.gameObject.GetComponent<IElectricityIO>();
 		poweredDevice.InData.CanConnectTo = CanConnectTo;
 		poweredDevice.InData.Categorytype = ApplianceType;
 		poweredDevice.DirectionStart = 0;
@@ -411,4 +412,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 			ConnectedEmergencyLights[i].Toggle(isOn);
 		}
 	}
+	public GameObject GameObject()
+	{
+		return gameObject;	}
 }

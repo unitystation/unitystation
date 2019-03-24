@@ -47,6 +47,7 @@ public class PoweredDevice : ElectricalOIinheritance, IElectricityIO
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
+		InData.ElectricityOverride = true;
 		//Not working for some reason:
 		registerTile3 = gameObject.GetComponent<RegisterObject>();
 		StartCoroutine(WaitForLoad());
