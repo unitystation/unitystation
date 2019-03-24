@@ -133,8 +133,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		Vector2Int xDirection = new Vector2Int(direction.x, 0);
 		Vector2Int yDirection = new Vector2Int(0, direction.y);
-		BumpType xBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), xDirection, gameObject, playerMove.IsHelpIntent);
-		BumpType yBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), yDirection, gameObject, playerMove.IsHelpIntent);
+		BumpType xBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), xDirection, playerMove);
+		BumpType yBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), yDirection, playerMove);
 
 		MoveAction? newAction = null;
 		BumpType? newBump = null;
@@ -196,7 +196,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			return BumpType.None;
 		}
-		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, gameObject, playerMove.IsHelpIntent);
+		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, playerMove);
 		// if movement is blocked, try to slide
 		if (bump == BumpType.Blocked)
 		{
@@ -282,7 +282,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	#region swapping positions
 
 	/// <summary>
-	/// Checks if a swap would occur due to moving to a position with a player with help intent.
+	/// Checks if a swap would occur due to moving to a position with a player with help intent while
+	/// we have help intent and are not dragging something.
 	/// If so, performs the swap.
 	/// </summary>
 	/// <param name="targetWorldPos">target position being moved to to check for a swap at</param>
@@ -312,13 +313,18 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// This player is the swapee, the person displacing us is the swapper.
 	/// </summary>
 	/// <param name="toWorldPosition">destination to move to</param>
-	private void BeSwapped(Vector3Int toWorldPosition)
+	/// <param name="swapper">pushpull of the person initiating the swap, to check if we should break our
+	/// current pull</param>
+	private void BeSwapped(Vector3Int toWorldPosition, PushPull swapper)
 	{
 		if (isServer)
 		{
-			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Unknown, name, (Vector2)serverState.WorldPosition, toWorldPosition.To2Int());
+			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Lerp, name, (Vector2)serverState.WorldPosition, toWorldPosition.To2Int());
 			serverState.WorldPosition = toWorldPosition;
-
+			if (pushPull != null && pushPull.IsBeingPulled && !pushPull.PulledBy == swapper)
+			{
+				pushPull.StopFollowing();
+			}
 		}
 		//must set this on both client and server so server shows the lerp instantly as well as the client
 		predictedState.WorldPosition = toWorldPosition;
@@ -335,7 +341,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// <param name="toWorldPosition">destination to swap to</param>
 	private void InitiateSwap(PlayerMove swapee, Vector3Int toWorldPosition)
 	{
-		swapee.PlayerScript.PlayerSync.BeSwapped(toWorldPosition);
+		swapee.PlayerScript.PlayerSync.BeSwapped(toWorldPosition, pushPull);
 	}
 
 	#endregion

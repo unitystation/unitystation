@@ -60,7 +60,7 @@ public partial class PlayerSync
 			{
 				return false;
 			}
-			GameObject[] context = pushPull.IsPullingSomething ? new[]{gameObject, pushPull.PulledObject.gameObject} : new[]{gameObject};
+			GameObject[] context = pushPull.IsPullingSomethingServer ? new[]{gameObject, pushPull.PulledObjectServer.gameObject} : new[]{gameObject};
 			return MatrixManager.IsFloatingAt( context, Vector3Int.RoundToInt( serverState.WorldPosition ) );
 		}
 	}

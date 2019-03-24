@@ -48,8 +48,20 @@ public class PushPull : VisibleBehaviour {
 
 	#region Pull Master
 
-	public bool IsPullingSomething => PulledObject != null;
-	public PushPull PulledObject { get; private set; }
+
+	/// <summary>
+	/// If this is server, returns IsPullingSomethingServer, otherwise returns IsPullingSomethingClient. Avoids having
+	/// to check each separately depending on whether we are server or client.
+	/// </summary>
+	public bool IsPullingSomething => isServer ? IsPullingSomethingServer : IsPullingSomethingClient;
+	/// <summary>
+	/// If this is server, returns PulledObjectServer, otherwise returns PulledObjectClient. Avoids having
+	/// to check each separately depending on whether we are server or client.
+	/// </summary>
+	public PushPull PulledObject => isServer ? PulledObjectServer : PulledObjectClient;
+
+	public bool IsPullingSomethingServer => PulledObjectServer != null;
+	public PushPull PulledObjectServer { get; private set; }
 
 	public bool IsPullingSomethingClient => PulledObjectClient != null;
 	public PushPull PulledObjectClient { get; set; }
@@ -61,13 +73,13 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	private void ReleaseControl() {
-		if ( !IsPullingSomething ) {
+		if ( !IsPullingSomethingServer ) {
 			return;
 		}
 
-		Logger.LogTraceFormat( "{0} stopped controlling {1}", Category.PushPull, this.gameObject.name, PulledObject.gameObject.name );
-		PulledObject.PulledBy = null;
-		PulledObject = null;
+		Logger.LogTraceFormat( "{0} stopped controlling {1}", Category.PushPull, this.gameObject.name, PulledObjectServer.gameObject.name );
+		PulledObjectServer.PulledBy = null;
+		PulledObjectServer = null;
 
 		UpdatePullingUI(this);
 	}
@@ -79,8 +91,8 @@ public class PushPull : VisibleBehaviour {
 		if ( !pullable ) {
 			return;
 		}
-		if ( IsPullingSomething ) {
-			var alreadyPulling = PulledObject;
+		if ( IsPullingSomethingServer ) {
+			var alreadyPulling = PulledObjectServer;
 			ReleaseControl();
 
 			//Kill ex-pullable's impulses if we stop pulling it ourselves
@@ -104,10 +116,10 @@ public class PushPull : VisibleBehaviour {
 			if ( pullable.StartFollowing( this ) ) {
 				SoundManager.PlayNetworkedAtPos( "Rustle0" + Random.Range(1, 4), pullable.transform.position );
 
-				PulledObject = pullable;
+				PulledObjectServer = pullable;
 
 				//Kill its impulses if we grabbed it
-				PulledObject.Stop();
+				PulledObjectServer.Stop();
 
 				// Update the UI
 				UpdatePullingUI(this);
@@ -121,7 +133,7 @@ public class PushPull : VisibleBehaviour {
 		ConnectedPlayer player = PlayerList.Instance.Get(pull.gameObject);
 
 		if (player != ConnectedPlayer.Invalid)
-			TargetUpdatePullingUI(player.Connection, pull.IsPullingSomething);
+			TargetUpdatePullingUI(player.Connection, pull.IsPullingSomethingServer);
 	}
 
 	[TargetRpc]
@@ -253,15 +265,15 @@ public class PushPull : VisibleBehaviour {
 			subject = this;
 		}
 		InformPullMessage.Send( whoToInform, subject, subject.PulledBy );
-		if ( IsPullingSomething ) {
-			PulledObject.InformHead( whoToInform, PulledObject );
+		if ( IsPullingSomethingServer ) {
+			PulledObjectServer.InformHead( whoToInform, PulledObjectServer );
 		}
 	}
 
 	private void UninformHead( PushPull whoToInform, PushPull subject ) {
 		InformPullMessage.Send( whoToInform, subject, null );
-		if ( IsPullingSomething ) {
-			PulledObject.UninformHead( whoToInform, PulledObject );
+		if ( IsPullingSomethingServer ) {
+			PulledObjectServer.UninformHead( whoToInform, PulledObjectServer );
 		}
 	}
 
@@ -334,7 +346,7 @@ public class PushPull : VisibleBehaviour {
 		}
 		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, PulledBy.gameObject.name );
 
-		PulledBy.PulledObject = null;
+		PulledBy.PulledObjectServer = null;
 
 		UpdatePullingUI(PulledBy);
 
@@ -504,8 +516,8 @@ public class PushPull : VisibleBehaviour {
 			{
 				StopFollowing();
 			}
-			if ( IsPullingSomething && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledObject.registerTile.WorldPosition, target) ) )
+			if ( IsPullingSomethingServer && //Break pull only if pushable will end up far enough
+			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledObjectServer.registerTile.WorldPosition, target) ) )
 			{
 				ReleaseControl();
 			}

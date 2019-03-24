@@ -121,21 +121,29 @@ public class MatrixManager : MonoBehaviour
 	/// </summary>
 	/// <param name="worldOrigin">current position in world coordinates</param>
 	/// <param name="dir">direction of movement</param>
-	/// <param name="bumper">GameObject trying to bump / move, used so we don't bump against ourselves</param>
-	/// <param name="isHelpIntent">if the bumper is a player with help intent, hence help intent bump is possible</param>
+	/// <param name="bumper">PlayerMove trying to bump / move, used to check if we can swap with another player with help intent.</param>
 	/// <returns>the bump type which occurs at the specified point (BumpInteraction.None if it's open space)</returns>
-	public static BumpType GetBumpTypeAt(Vector3Int worldOrigin, Vector2Int dir, GameObject bumper, bool isHelpIntent)
+	public static BumpType GetBumpTypeAt(Vector3Int worldOrigin, Vector2Int dir, PlayerMove bumper)
 	{
 		Vector3Int targetPos = worldOrigin + dir.To3Int();
-		if (isHelpIntent)
+		if (bumper.IsHelpIntent)
 		{
 			//check for other players with help intent
-			if (GetHelpIntentAt(targetPos, bumper) != null)
+			PlayerMove other = GetHelpIntentAt(targetPos, bumper.gameObject);
+			if (other != null)
 			{
-				return BumpType.HelpIntent;
+				//if we are pulling something, we can only swap with that thing
+				if (bumper.PlayerScript.pushPull.IsPullingSomething && bumper.PlayerScript.pushPull.PulledObject == other.PlayerScript.pushPull)
+				{
+					return BumpType.HelpIntent;
+				}
+				else if (!bumper.PlayerScript.pushPull.IsPullingSomething)
+				{
+					return BumpType.HelpIntent;
+				}
 			}
 		}
-		if (GetPushableAt(worldOrigin, dir, bumper).Count > 0)
+		if (GetPushableAt(worldOrigin, dir, bumper.gameObject).Count > 0)
 		{
 			return BumpType.Push;
 		}
@@ -143,7 +151,7 @@ public class MatrixManager : MonoBehaviour
 		{
 			return BumpType.ClosedDoor;
 		}
-		else if (!IsPassableAt(worldOrigin, targetPos, true, bumper))
+		else if (!IsPassableAt(worldOrigin, targetPos, true, bumper.gameObject))
 		{
 			return BumpType.Blocked;
 		}
@@ -151,17 +159,18 @@ public class MatrixManager : MonoBehaviour
 		return BumpType.None;
 	}
 
+
+
 	/// <summary>
 	/// Checks what type of bump occurs at the specified destination.
 	/// </summary>
 	/// <param name="playerState">player state, used to get current world position</param>
 	/// <param name="playerAction">action indicating the direction player is trying to move</param>
-	/// <param name="bumper">GameObject trying to bump / move, used so we don't bump against ourselves</param>
-	/// <param name="isHelpIntent">if the bumper is a player with help intent, hence help intent bump is possible</param>
+	/// <param name="bumper">PlayerMove trying to bump / move, used to check if we can swap with another player with help intent.</param>
 	/// <returns>the bump type which occurs at the specified point (BumpInteraction.None if it's open space)</returns>
-	public static BumpType GetBumpTypeAt(PlayerState playerState, PlayerAction playerAction, GameObject bumper, bool isHelpIntent)
+	public static BumpType GetBumpTypeAt(PlayerState playerState, PlayerAction playerAction, PlayerMove bumper)
 	{
-		return GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), playerAction.Direction(), bumper, isHelpIntent);
+		return GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), playerAction.Direction(), bumper);
 	}
 
 	/// <summary>
@@ -258,7 +267,8 @@ public class MatrixManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Return the playermove if there is a non-passable player with help intent at the specified position
+	/// Return the playermove if there is a non-passable player with help intent at the specified position who is
+	/// not pulling something (it is not possible to swap with someone who is pulling something)
 	/// </summary>
 	/// <param name="targetWorldPos">Position to check</param>
 	/// <param name="mover">gameobject of the thing attempting the move, only used to prevent itself from being checked</param>
@@ -268,7 +278,8 @@ public class MatrixManager : MonoBehaviour
 		var playerMoves = MatrixManager.GetAt<PlayerMove>(targetWorldPos);
 		foreach (PlayerMove playerMove in playerMoves)
 		{
-			if (playerMove.IsHelpIntent && !playerMove.PlayerScript.registerTile.IsPassable() && playerMove.gameObject != mover)
+			if (playerMove.IsHelpIntent && !playerMove.PlayerScript.registerTile.IsPassable() && playerMove.gameObject != mover
+			    && !playerMove.PlayerScript.pushPull.IsPullingSomething)
 			{
 				return playerMove;
 			}
