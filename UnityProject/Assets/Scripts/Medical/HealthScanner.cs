@@ -4,17 +4,6 @@ using UnityEngine;
 
 public class HealthScanner : PickUpTrigger
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 	public void PlayerFound(GameObject Player) {
 		PlayerHealth Playerhealth = Player.GetComponent<PlayerHealth>();
 		string ToShow = (Player.name + " is " + Playerhealth.ConsciousState.ToString() + "\n" 
@@ -27,17 +16,11 @@ public class HealthScanner : PickUpTrigger
 			ToShow += BodyPart.BurnDamage.ToString();
 			ToShow += "\n";
 		}
-
 		PostToChatMessage.Send(ToShow,ChatChannel.System); 
-		Logger.Log(ToShow);
+		//Logger.Log(ToShow);
 	}
-
-	/// <summary>
-	/// Occurs when shooting by clicking on empty space
-	/// </summary>
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		//shoot gun interation if its in hand
 		if (gameObject == UIManager.Hands.CurrentSlot.Item)
 		{
 			Vector3 tposition = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
@@ -49,8 +32,6 @@ public class HealthScanner : PickUpTrigger
                     PlayerFound(theObject);
 				}
 			}
-			Logger.Log("yo");
-            //
 			return base.Interact(originator, position, hand);;
 		}
 		else
