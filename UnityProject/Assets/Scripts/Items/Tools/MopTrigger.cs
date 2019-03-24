@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -36,18 +37,18 @@ public class MopTrigger : PickUpTrigger
         return base.Interact (originator, position, hand);
     }
 
-	public void CleanTile (Vector3 spatsPos)
-	{
-		Vector3Int targetWorldIntPos = spatsPos.CutToInt();
-		var bloodSpats = MatrixManager.GetAt<BloodSplat>(targetWorldIntPos);
-		for ( var i = 0; i < bloodSpats.Count; i++ )
-		{
-			bloodSpats[i].DisappearFromWorldServer();
-		}
+    public void CleanTile (Vector3 spatsPos)
+    {
+	    Vector3Int targetWorldIntPos = spatsPos.CutToInt();
+	    var floorDecals = MatrixManager.GetAt<FloorDecal>(targetWorldIntPos);
+	    for ( var i = 0; i < floorDecals.Count; i++ )
+	    {
+		    floorDecals[i].DisappearFromWorldServer();
+	    }
 
-		if (!MatrixManager.IsSpaceAt(targetWorldIntPos) )
-		{
-			EffectsFactory.Instance.WaterSplat(targetWorldIntPos);
-		}
-	}
+	    if (!MatrixManager.IsSpaceAt(targetWorldIntPos) )
+	    {
+		    EffectsFactory.Instance.WaterSplat(targetWorldIntPos);
+	    }
+    }
 }
