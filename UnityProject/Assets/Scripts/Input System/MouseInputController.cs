@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Experimental.UIElements;
-using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 /// <summary>
@@ -12,6 +10,8 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public class MouseInputController : MonoBehaviour
 {
+	private const float MAX_AGE = 2f;
+
 	/// <summary>
 	///     The cooldown before another action can be performed
 	/// </summary>
@@ -22,32 +22,56 @@ public class MouseInputController : MonoBehaviour
 	/// </summary>
 	private float InputCooldownTimer = 0.01f;
 
-	private Dictionary<Vector2, Color> LastTouchedTile = new Dictionary<Vector2, Color>();
-	//private Vector2 LastTouchedTile;
+	private readonly Dictionary<Vector2, Tuple<Color, float>> RecentTouches = new Dictionary<Vector2, Tuple<Color, float>>();
+	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
 	private LayerMask layerMask;
 	private ObjectBehaviour objectBehaviour;
 	private PlayerMove playerMove;
-	private PlayerSprites playerSprites;
+	private UserControlledSprites playerSprites;
 	/// reference to the global lighting system, used to check occlusion
 	private LightingSystem lightingSystem;
 
-	public static readonly Vector3 sz = new Vector3(0.02f, 0.02f, 0.02f);
+	public static readonly Vector3 sz = new Vector3(0.05f, 0.05f, 0.05f);
 
-	private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(Input.mousePosition);
+	private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 
 	private void OnDrawGizmos()
 	{
-		foreach (var info in LastTouchedTile)
+
+		if ( touchesToDitch.Count > 0 )
 		{
-			Gizmos.color = info.Value;
-			Gizmos.DrawCube(info.Key, sz);
+			foreach ( var touch in touchesToDitch )
+			{
+				RecentTouches.Remove( touch );
+			}
+			touchesToDitch.Clear();
 		}
+
+		if ( RecentTouches.Count == 0 )
+		{
+			return;
+		}
+
+		float time = Time.time;
+		foreach (var info in RecentTouches)
+		{
+			float age = time - info.Value.Item2;
+			Color tempColor = info.Value.Item1;
+			tempColor.a = Mathf.Clamp(MAX_AGE - age, 0f, 1f);
+			Gizmos.color = tempColor;
+			Gizmos.DrawCube(info.Key, sz);
+			if ( age >= MAX_AGE )
+			{
+				touchesToDitch.Add( info.Key );
+			}
+		}
+
 	}
 
 	private void Start()
 	{
 		//for changing direction on click
-		playerSprites = gameObject.GetComponent<PlayerSprites>();
+		playerSprites = gameObject.GetComponent<UserControlledSprites>();
 		playerMove = GetComponent<PlayerMove>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 
@@ -65,7 +89,7 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckMouseInput()
 	{
-		if (Input.GetMouseButtonDown(0))
+		if (CommonInput.GetMouseButtonDown(0))
 		{
 			if (!CheckAltClick())
 			{
@@ -75,7 +99,7 @@ public class MouseInputController : MonoBehaviour
 				}
 			}
 		}
-		else if (Input.GetMouseButton(0))
+		else if (CommonInput.GetMouseButton(0))
 		{
 			//mouse being held down / dragged
 			CheckDrag();
@@ -87,6 +111,7 @@ public class MouseInputController : MonoBehaviour
 	}
 
 	private Renderer lastHoveredThing;
+	private static readonly Type TilemapType = typeof( TilemapRenderer );
 
 	private void CheckHover()
 	{
@@ -115,6 +140,13 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckClick()
 	{
+		//currently there is nothing for ghosts to interact with, they only can change facing
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			ChangeDirection();
+			return;
+		}
+
 		bool ctrlClick = KeyboardInputManager.IsControlPressed();
 		if (!ctrlClick)
 		{
@@ -161,7 +193,7 @@ public class MouseInputController : MonoBehaviour
 			//and not FOV occluded
 			Vector3 position = MousePosition;
 			position.z = 0f;
-			if (lightingSystem.IsScreenPointVisible(Input.mousePosition))
+			if (lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
 			{
 				if (PlayerManager.LocalPlayerScript.IsInReach(position))
 				{
@@ -214,10 +246,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		Vector3 playerPos;
 
-		if (playerMove.isGhost)
-			playerPos = PlayerManager.PlayerScript.ghost.transform.position;
-		else
-			playerPos = transform.position;
+		playerPos = transform.position;
 
 		Vector2 dir = (MousePosition - playerPos).normalized;
 
@@ -254,14 +283,10 @@ public class MouseInputController : MonoBehaviour
 		Vector3 mousePosition = MousePosition;
 
 		// Sample the FOV mask under current mouse position.
-		if (lightingSystem.IsScreenPointVisible(Input.mousePosition) == false)
+		if (lightingSystem.IsScreenPointVisible(CommonInput.mousePosition) == false)
 		{
 			return false;
 		}
-
-
-		//for debug purpose, mark the most recently touched tile location
-		//	LastTouchedTile = new Vector2(Mathf.Round(mousePosition.x), Mathf.Round(mousePosition.y));
 
 		RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero, 10f, layerMask);
 
@@ -281,7 +306,8 @@ public class MouseInputController : MonoBehaviour
 		//check which of the sprite renderers we hit and pixel checked is the highest
 		if (renderers.Count > 0)
 		{
-			foreach (Renderer _renderer in renderers.OrderByDescending(sr => sr.sortingOrder))
+			foreach ( Renderer _renderer in renderers.OrderByDescending(r => r.GetType() == TilemapType ? 0 : 1)
+													 .ThenByDescending(r => SortingLayer.GetLayerValueFromID(r.sortingLayerID)) )
 			{
 				// If the ray hits a FOVTile, we can continue down (don't count it as an interaction)
 				// Matrix is the base Tilemap layer. It is used for matrix detection but gets in the way
@@ -343,20 +369,16 @@ public class MouseInputController : MonoBehaviour
 
 			if (spriteRenderer.enabled && sprite && spriteRenderer.color.a > 0)
 			{
-				Color pixelColor = new Color();
-				GetSpritePixelColorUnderMousePointer(spriteRenderer, out pixelColor);
+				GetSpritePixelColorUnderMousePointer(spriteRenderer, out Color pixelColor);
 				if (pixelColor.a > 0)
 				{
-					//debug the pixel get from mouse position:
-					//if (_transform.gameObject.name.Contains("xtingu"))
-					//{
-					//	var mousePos = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-					//	if (!LastTouchedTile.ContainsKey(mousePos))
-					//	{
-					//		LastTouchedTile.Add(mousePos, pixelColor);
-					//	}
-					//	return null;
-					//}
+					var mousePos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+					if (RecentTouches.ContainsKey(mousePos))
+					{
+						RecentTouches.Remove( mousePos );
+					}
+					RecentTouches.Add(mousePos, new Tuple<Color, float>(pixelColor, Time.time));
+
 					return spriteRenderer;
 				}
 			}
@@ -370,7 +392,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		color = new Color();
 		Camera cam = Camera.main;
-		Vector2 mousePos = Input.mousePosition;
+		Vector2 mousePos = CommonInput.mousePosition;
 		Vector2 viewportPos = cam.ScreenToViewportPoint(mousePos);
 		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f) return false; // out of viewport bounds
 																														// Cast a ray from viewport point into world
@@ -444,14 +466,17 @@ public class MouseInputController : MonoBehaviour
 	/// <returns>true iff an interaction occurred</returns>
 	public bool Interact(Transform _transform, Vector3 position, bool isDrag)
 	{
-		if (playerMove.isGhost)
+		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return false;
 		}
 
+		//check the actual transform for an input trigger and if there is none, check the parent
+		InputTrigger inputTrigger = _transform.GetComponentInParent<InputTrigger>();
+
 		//attempt to trigger the things in range we clicked on
 		var localPlayer = PlayerManager.LocalPlayerScript;
-		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(Input.mousePosition)) || localPlayer.IsHidden)
+		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition)) || localPlayer.IsHidden)
 		{
 			//Check for melee triggers first. If a melee interaction occurs, stop checking for any further interactions
 			MeleeTrigger meleeTrigger = _transform.GetComponentInParent<MeleeTrigger>();
@@ -464,22 +489,11 @@ public class MouseInputController : MonoBehaviour
 				}
 			}
 
-			//check the actual transform for an input trigger and if there is non, check the parent
-			InputTrigger inputTrigger = _transform.GetComponentInParent<InputTrigger>();
 			if (inputTrigger)
 			{
 				if (objectBehaviour.visibleState)
 				{
-					bool interacted = false;
-					if (isDrag)
-					{
-						interacted = inputTrigger.TriggerDrag(position);
-					}
-					else
-					{
-						interacted = inputTrigger.Trigger(position);
-					}
-
+					bool interacted = TryInputTrigger( position, isDrag, inputTrigger );
 					if (interacted)
 					{
 						return true;
@@ -524,9 +538,23 @@ public class MouseInputController : MonoBehaviour
 				return false;
 			}
 		}
+		//Still try triggering inputTrigger even if it's outside mouse reach
+		//(for things registered on tile within range but having parts outside of it)
+		else if ( inputTrigger && objectBehaviour.visibleState && TryInputTrigger( position, isDrag, inputTrigger ) )
+		{
+			return true;
+		}
 
 		//if we are holding onto an item like a gun attempt to shoot it if we were not in range to trigger anything
 		return InteractHands(isDrag);
+	}
+
+	/// <summary>
+	/// Tries to trigger InputTrigger
+	/// </summary>
+	private static bool TryInputTrigger( Vector3 position, bool isDrag, InputTrigger inputTrigger )
+	{
+		return isDrag ? inputTrigger.TriggerDrag( position ) : inputTrigger.Trigger( position );
 	}
 
 	private bool InteractHands(bool isDrag)

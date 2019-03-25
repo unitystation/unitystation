@@ -19,6 +19,7 @@ public class CustomNetworkManager : NetworkManager
 	[HideInInspector] public bool spawnableListReady;
 	private Server server;
 	public GameObject humanPlayerPrefab;
+	public GameObject ghostPrefab;
 
 	private void Awake()
 	{
@@ -336,13 +337,22 @@ public class CustomNetworkManager : NetworkManager
 		{
 			storageObjs[i].SyncUUIDsWithPlayer(playerGameObject);
 		}
-    
+
 		//TileChange Data
 		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
 		for (var i = 0; i < tcManagers.Length; i++)
 		{
 			tcManagers[i].NotifyPlayer(playerGameObject);
 		}
+
+		//Doors
+		DoorController[] doors = FindObjectsOfType<DoorController>();
+		for (var i = 0; i < doors.Length; i++)
+		{
+			doors[i].NotifyPlayer(playerGameObject);
+		}
+
+
 
 		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
 	}

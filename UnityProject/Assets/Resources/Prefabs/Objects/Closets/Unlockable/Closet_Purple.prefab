@@ -338,7 +338,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
-  DefaultContents: []
+  DefaultContents:
+  - {fileID: 1801347380884054, guid: 882710f093d1c5f4c9f1dbd99b8dd790, type: 3}
+  - {fileID: 1801347380884054, guid: 882710f093d1c5f4c9f1dbd99b8dd790, type: 3}
   IsClosed: 0
   IsLocked: 0
   items: {fileID: 1826381799243550}
@@ -361,6 +363,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!114 &114092939811341892
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,9 +23,9 @@ public class ObjectBehaviour : PushPull
         {
             lastNonHiddenPosition = parentContainer.AssumedLocation();
         }
-		else if (transform.position != TransformState.HiddenPos)
+		else if (registerTile.WorldPosition != TransformState.HiddenPos)
 		{
-			lastNonHiddenPosition = transform.position;
+			lastNonHiddenPosition = registerTile.WorldPosition;
 		}
 
         return lastNonHiddenPosition;
@@ -48,7 +48,7 @@ public class ObjectBehaviour : PushPull
 						if (closetHandlerCache)
 						{
 							//Set the camera to follow the player again
-							if (!PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost)
+							if (!PlayerManager.LocalPlayerScript.IsGhost)
 							{
 								StartCoroutine(TargetPlayer());
 							}

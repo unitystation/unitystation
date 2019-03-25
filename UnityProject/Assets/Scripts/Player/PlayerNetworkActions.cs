@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
+	// time that player will spend as a ghost until they respawn
+	private const int RESPAWN_TIME_SECONDS = 10;
 	private readonly string[] slotNames = {
 		"suit",
 		"belt",
@@ -37,25 +39,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private Equipment equipment;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private PlayerSprites playerSprites;
-
-	private SoundNetworkActions soundNetworkActions;
+	private UserControlledSprites playerSprites;
+	private ObjectBehaviour objectBehaviour;
 
 	public Dictionary<string, InventorySlot> Inventory { get; } = new Dictionary<string, InventorySlot>();
 
-	public bool isGhost;
-
-	private static readonly Vector3 FALLEN = new Vector3( 0, 0, -90 );
+	private static readonly Vector3 FALLEN = new Vector3(0, 0, -90);
 	private static readonly Vector3 STRAIGHT = Vector3.zero;
 
 	private void Start()
 	{
 		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
-		playerSprites = GetComponent<PlayerSprites>();
+		playerSprites = GetComponent<UserControlledSprites>();
 		playerScript = GetComponent<PlayerScript>();
-		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
 	public override void OnStartServer()
@@ -76,10 +75,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			SyncPlayerInventoryGuidMessage.Send(gameObject, initSync);
+
+			//if this is the ghost, respawn after 10 seconds
+			if (playerScript.IsGhost)
+			{
+				RespawnPlayer(RESPAWN_TIME_SECONDS);
+			}
 		}
 
 		base.OnStartServer();
 	}
+
+
 
 	public bool InventoryContainsItem(GameObject item, out InventorySlot slot)
 	{
@@ -108,9 +115,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return false;
 		}
 
+		ObjectBehaviour itemObj = itemObject.GetComponent<ObjectBehaviour>();
 		var cnt = itemObject.GetComponent<CustomNetTransform>();
 		if (cnt != null)
 		{
+			if (itemObj != null)
+			{
+				itemObj.parentContainer = objectBehaviour;
+			}
 			cnt.DisappearFromWorldServer();
 		}
 
@@ -141,7 +153,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (item == slot.Value.Item)
 			{
-				InventoryManager.DisposeItemServer(item);
+				InventoryManager.DestroyItemInSlot(item);
 				ClearInventorySlot(slot.Key);
 				break;
 			}
@@ -442,7 +454,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
 
-		InventoryManager.DisposeItemServer(throwable);
+		InventoryManager.DestroyItemInSlot(throwable);
 		ClearInventorySlot(slot);
 		var throwInfo = new ThrowInfo
 		{
@@ -465,7 +477,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command] //Remember with the parent you can only send networked objects:
 	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
-		if ( playerScript.canNotInteract() || !playerScript.IsInReach( pos ) )
+		if (playerScript.canNotInteract() || !playerScript.IsInReach(pos))
 		{
 			return;
 		}
@@ -483,7 +495,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if (isTileMap)
 			{
 				TileChangeManager tileChangeManager = newParent.GetComponentInParent<TileChangeManager>();
-//				item.transform.parent = tileChangeManager.ObjectParent.transform; TODO
+				//				item.transform.parent = tileChangeManager.ObjectParent.transform; TODO
 			}
 			else
 			{
@@ -518,11 +530,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleCupboard(GameObject cupbObj)
 	{
 		ClosetControl closet = cupbObj.GetComponent<ClosetControl>();
-		if ( playerScript.canNotInteract() )
+		if (playerScript.canNotInteract())
 		{
 			return;
 		}
-		if ( playerScript.IsInReach( cupbObj ) || closet.Contains( this.gameObject ) )
+		if (playerScript.IsInReach(cupbObj) || closet.Contains(this.gameObject))
 		{
 			closet.ServerToggleCupboard();
 		}
@@ -555,7 +567,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarning("player attempted to interact with shutter switch through wall," +
-			                  " this could indicate a hacked client.");
+				" this could indicate a hacked client.");
 		}
 	}
 
@@ -570,7 +582,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarning("player attempted to interact with light switch through wall," +
-			                  " this could indicate a hacked client.");
+				" this could indicate a hacked client.");
 		}
 	}
 
@@ -615,7 +627,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarning("player attempted to interact with fire cabinet through wall," +
-			                  " this could indicate a hacked client.");
+				" this could indicate a hacked client.");
 		}
 	}
 
@@ -646,7 +658,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void OnConsciousStateChanged(ConsciousState oldState, ConsciousState newState)
 	{
-		switch ( newState )
+		switch (newState)
 		{
 			case ConsciousState.CONSCIOUS:
 				playerMove.allowInput = true;
@@ -657,11 +669,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				DropItem("rightHand");
 				DropItem("leftHand");
 				playerMove.allowInput = true;
-				playerScript.PlayerSync.SpeedServer =  playerMove.CrawlSpeed;
+				playerScript.PlayerSync.SpeedServer = playerMove.CrawlSpeed;
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					soundNetworkActions.RpcPlayNetworkSound( "Bodyfall", transform.position );
+					SoundManager.PlayNetworkedAtPos( "Bodyfall", transform.position );
 				}
 				break;
 			case ConsciousState.UNCONSCIOUS:
@@ -672,7 +684,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					soundNetworkActions.RpcPlayNetworkSound( "Bodyfall", transform.position );
+					SoundManager.PlayNetworkedAtPos( "Bodyfall", transform.position );
 				}
 				break;
 		}
@@ -715,33 +727,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, DamageType.Brute, BodyPartType.Chest);
 	}
 
-	[ClientRpc]
-	public void RpcSpawnGhost()
-	{
-		isGhost = true;
-		playerScript.ghost.SetActive(true);
-		playerScript.ghost.transform.parent = null;
-		chatIcon.gameObject.transform.parent = playerScript.ghost.transform;
-		playerScript.ghost.transform.rotation = Quaternion.identity;
-		if (PlayerManager.LocalPlayer == gameObject)
-		{
-			SoundManager.Stop("Critstate");
-			UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
-			Camera2DFollow.followControl.target = playerScript.ghost.transform;
-			Camera2DFollow.followControl.damping = 0.0f;
-			FieldOfView fovScript = GetComponent<FieldOfView>();
-			if (fovScript != null)
-			{
-				fovScript.enabled = false;
-			}
-
-			//Show ghosts and hide FieldOfView
-			var mask = Camera2DFollow.followControl.cam.cullingMask;
-			mask |= 1 << LayerMask.NameToLayer("Ghosts");
-			Camera2DFollow.followControl.cam.cullingMask = mask;
-		}
-	}
-
 	//Respawn action for Deathmatch v 0.1.3
 
 	[Server]
@@ -753,40 +738,65 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Spawn the ghost for this player and tell the client to switch input / camera to it
+	/// </summary>
+	[Server]
+	public void SpawnPlayerGhost()
+	{
+		RpcBeforeGhost();
+		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId);
+
+	}
+
+
 	[Server]
 	private IEnumerator InitiateRespawn(int timeout)
 	{
 		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
 		yield return new WaitForSeconds(timeout);
-		RpcAdjustForRespawn();
-
 		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType);
+		RpcAfterRespawn();
 	}
 
+	/// <summary>
+	/// Invoked before the ghost is going to be created and input will be shifted to ghost. Allows this body object
+	/// to perform needed cleanup. Note this will be invoked on all clients.
+	/// </summary>
+	/// <param name="bodyObject">object which was turned into a ghost</param>
 	[ClientRpc]
-	private void RpcAdjustForRespawn()
+	private void RpcBeforeGhost()
 	{
+		//only need to clean up client side if we are controlling the body who is becoming a ghost
+		//no more closet handler, they are dead
 		ClosetPlayerHandler cph = GetComponent<ClosetPlayerHandler>();
 		if (cph != null)
 		{
 			Destroy(cph);
 		}
 
-		Camera2DFollow.followControl.damping = 0.0f;
-		playerScript.ghost.SetActive(false);
-		isGhost = false;
-		//Hide ghosts and show FieldOfView
+		//no more input can be sent to the body.
+		MouseInputController mouseInput = GetComponent<MouseInputController>();
+		if (mouseInput != null)
+		{
+			Destroy(mouseInput);
+		}
+	}
 
-		var mask = Camera2DFollow.followControl.cam.cullingMask;
-		mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-		Camera2DFollow.followControl.cam.cullingMask = mask;
-
-		gameObject.GetComponent<MouseInputController>().enabled = false;
+	/// <summary>
+	/// Invoked after our respawn is going to be performed by the server. Destroys the ghost.
+	/// Note this will be invoked on all clients.
+	/// </summary>
+	[ClientRpc]
+	private void RpcAfterRespawn()
+	{
+		//this ghost is not needed anymore
+		Destroy(gameObject);
 	}
 
 	//FOOD
 	[Command]
-    public void CmdEatFood(GameObject food, string fromSlot, bool isDrink)
+	public void CmdEatFood(GameObject food, string fromSlot, bool isDrink)
 	{
 		if (Inventory[fromSlot].Item == null)
 		{
@@ -797,11 +807,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
 		if (isDrink)
 		{
-			soundNetworkActions.CmdPlaySoundAtPlayerPos("Slurp");
+			SoundManager.PlayNetworkedAtPos( "Slurp", transform.position );
 		}
 		else
 		{
-			soundNetworkActions.CmdPlaySoundAtPlayerPos("EatFood");
+			SoundManager.PlayNetworkedAtPos( "EatFood", transform.position );
 		}
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
@@ -812,16 +822,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerHealth.bloodSystem.BloodLevel += baseFood.healAmount;
 		playerHealth.bloodSystem.StopBleeding();
 
-        InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
-        equipment.ClearItemSprite(fromSlot);
-        PoolManager.Instance.PoolNetworkDestroy(food);
+		InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
+		equipment.ClearItemSprite(fromSlot);
+		PoolManager.Instance.PoolNetworkDestroy(food);
 
-        GameObject leavings = baseFood.leavings;
-        if (leavings != null)
-        {
-            leavings = ItemFactory.SpawnItem(leavings);
-            AddItemToUISlot(leavings, fromSlot);
-        }
+		GameObject leavings = baseFood.leavings;
+		if (leavings != null)
+		{
+			leavings = ItemFactory.SpawnItem(leavings);
+			AddItemToUISlot(leavings, fromSlot);
+		}
 	}
 
 	[Command]
@@ -879,4 +889,5 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
+
 }

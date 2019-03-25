@@ -70,7 +70,7 @@ public class DragAndDrop : MonoBehaviour
 	{
 		if (isDragging)
 		{
-			dragDummy.transform.position = Input.mousePosition;
+			dragDummy.transform.position = CommonInput.mousePosition;
 		}
 	}
 }

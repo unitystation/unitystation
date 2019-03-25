@@ -173,7 +173,7 @@ using UnityEngine.Networking;
 		public void TryClose()
 		{
 			// Sliding door is not passable according to matrix
-            if( IsOpened && !isPerformingAction && ( matrix.IsPassableAt( registerTile.Position ) || doorType == DoorType.sliding ) ) {
+            if( IsOpened && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.Position ) || doorType == DoorType.sliding ) ) {
 	            Close();
             }
 			else
@@ -254,4 +254,16 @@ using UnityEngine.Networking;
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Used when player is joining, tells player to open the door if it is opened.
+		/// </summary>
+		/// <param name="playerGameObject">game object of the player to inform</param>
+		public void NotifyPlayer(GameObject playerGameObject)
+		{
+			if (IsOpened)
+			{
+				DoorUpdateMessage.Send(playerGameObject, gameObject, DoorUpdateType.Open, true);
+			}
+		}
 	}

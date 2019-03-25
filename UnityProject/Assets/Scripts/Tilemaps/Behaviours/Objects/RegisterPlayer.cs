@@ -5,23 +5,24 @@
 public class RegisterPlayer : RegisterTile
 {
 
-
-
 	/// <summary>
 	/// Whether the player should currently be depicted laying on the ground
 	/// </summary>
 	private bool isDown;
 
-	private PlayerSprites playerSprites;
+	private UserControlledSprites playerSprites;
+	private PlayerScript playerScript;
 
-	public bool IsBlocking { get; set; } = true;
+	public bool IsBlocking => !playerScript.IsGhost && !isDown;
+
 	/// <summary>
 	/// True when the player is laying down
 	/// </summary>
 	public bool IsDown => isDown;
 	private void Awake()
 	{
-		playerSprites = GetComponent<PlayerSprites>();
+		playerSprites = GetComponent<UserControlledSprites>();
+		playerScript = GetComponent<PlayerScript>();
 		//initially we are upright and don't rotate with the matrix
 		rotateWithMatrix = false;
 	}
@@ -36,11 +37,36 @@ public class RegisterPlayer : RegisterTile
 		return IsPassable();
 	}
 
+	protected override void OnRotationStart(RotationOffset fromCurrent, bool isInitialRotation)
+	{
+		base.OnRotationStart(fromCurrent, isInitialRotation);
+		if (!isInitialRotation)
+		{
+			UpdateManager.Instance.Add(RemainUpright);
+		}
+	}
+
+	void RemainUpright()
+	{
+		//stay upright until rotation stops (RegisterTile only updates our rotation at the end of rotation),
+		//but players need to stay upright constantly unless they are downed
+		foreach (SpriteRenderer renderer in spriteRenderers)
+		{
+			renderer.transform.rotation = isDown ? Quaternion.Euler(0, 0, -90) : Quaternion.identity;
+		}
+	}
+
 	protected override void OnRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
 	{
 		base.OnRotationEnd(fromCurrent, isInitialRotation);
 
-		//add additional rotation to remain sideways if we are down
+		if (!isInitialRotation)
+		{
+			//stop reorienting to face upright
+			UpdateManager.Instance.Remove(RemainUpright);
+		}
+
+		//add extra rotation to ensure we are sideways
 		if (isDown)
 		{
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
@@ -59,7 +85,6 @@ public class RegisterPlayer : RegisterTile
 		if (!isDown)
 		{
 			isDown = true;
-			IsBlocking = false;
 			//make sure sprite is in sync with server regardless of local prediction
 			playerSprites.SyncWithServer();
 			//rotate the sprites and change their layer
@@ -83,7 +108,6 @@ public class RegisterPlayer : RegisterTile
 		if (isDown)
 		{
 			isDown = false;
-			IsBlocking = true;
 			//make sure sprite is in sync with server regardless of local prediction
 			playerSprites.SyncWithServer();
 			//change sprites to be upright

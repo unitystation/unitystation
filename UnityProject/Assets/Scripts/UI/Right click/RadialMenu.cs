@@ -45,7 +45,7 @@ public class RadialMenu : MonoBehaviour {
 
 	public void SetupMenu (List<Rightclick.Menu> ListRightclick) {
 		//Captures the centre circle
-		centercirlce = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
+		centercirlce = new Vector2 (CommonInput.mousePosition.x, CommonInput.mousePosition.y);
 		SpawnButtons (ListRightclick,100,0);
 
 	}
@@ -66,7 +66,7 @@ public class RadialMenu : MonoBehaviour {
 				MaximumAngle = StartingAngle + Range;
 			}
 		}
-	
+
 		for (int i = 0; i < Menus.Count; i++) {
 			RadialButton newButton = Instantiate (ButtonPrefab) as RadialButton;
 			newButton.transform.SetParent (transform, false);
@@ -118,8 +118,8 @@ public class RadialMenu : MonoBehaviour {
 		if (Initialised) {
 			List<RadialButton> CurrentOptions = CurrentOptionsDepth [CurrentMenuDepth];
 
-			MousePosition = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
-			toVector2M = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
+			MousePosition = new Vector2 (CommonInput.mousePosition.x, CommonInput.mousePosition.y);
+			toVector2M = new Vector2 (CommonInput.mousePosition.x, CommonInput.mousePosition.y);
 			double IndividualItemDegrees = 0;
 			Vector2 Relativecentre = toVector2M - centercirlce;
 			//Logger.Log (Relativecentre.ToString ()+ " Relativecentre" , Category.RightClick);
@@ -142,7 +142,7 @@ public class RadialMenu : MonoBehaviour {
 				Angle += -360;
 			}
 
-			MenuItem = (int)((Angle) / (IndividualItemDegrees)); 
+			MenuItem = (int)((Angle) / (IndividualItemDegrees));
 
 			//Logger.Log ((IndividualItemDegrees).ToString () + " Density", Category.RightClick);
 			//Logger.Log (Angle.ToString () + " Angle", Category.RightClick);
@@ -218,7 +218,7 @@ public class RadialMenu : MonoBehaviour {
 				}
 			}
 		}
-		if (Input.GetMouseButtonUp (1))
+		if (CommonInput.GetMouseButtonUp(1))
 		{
 			if (Selected) {
 				if (!(Selected.Mono == null)) {

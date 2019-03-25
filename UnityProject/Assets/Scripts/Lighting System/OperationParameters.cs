@@ -38,7 +38,11 @@ public struct OperationParameters : IEquatable<OperationParameters>
 		fovPPRTParameter = new PixelPerfectRTParameter(occlusionPPRTParameter.units, _initialSampleDetail);
 		lightPPRTParameter = new PixelPerfectRTParameter(cameraViewportUnitsCeiled, _initialSampleDetail * (int)iRenderSettings.lightResample);
 		obstacleLightPPRTParameter = new PixelPerfectRTParameter(lightPPRTParameter.units, Mathf.Clamp(_initialSampleDetail, 2, int.MaxValue));
+
+		pixelsPerUnit = _occlusionDetail;
 	}
+
+	public int pixelsPerUnit { get; }
 
 	public static bool operator ==(OperationParameters iLeftHand, OperationParameters iRightHand)
 	{

@@ -6,12 +6,14 @@ using UnityEngine.Networking;
 public class BackPackTrigger : PickUpTrigger
 {
 	private StorageObject storageObj;
+	private ObjectBehaviour objectBehaviour;
 
 	void Awake()
 	{
 		storageObj = GetComponent<StorageObject>();
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
-	public override void UI_InteractOtherSlot(GameObject originator, GameObject item)
+	public override bool UI_InteractOtherSlot(GameObject originator, GameObject item)
 	{
 		if (item != null)
 		{
@@ -20,9 +22,10 @@ public class BackPackTrigger : PickUpTrigger
 			if (storageObj.NextSpareSlot() != null)
 			{
 				UIManager.TryUpdateSlot(new UISlotObject(storageObj.NextSpareSlot().UUID, item,
-					InventorySlotCache.GetSlotByItem(item)?.inventorySlot.UUID));
-					SoundManager.PlayAtPosition("Rustle0" + UnityEngine.Random.Range(1, 6).ToString(), PlayerManager.LocalPlayer.transform.position);
-
+				InventorySlotCache.GetSlotByItem(item)?.inventorySlot.UUID));
+				SoundManager.PlayAtPosition("Rustle0" + UnityEngine.Random.Range(1, 6).ToString(), PlayerManager.LocalPlayer.transform.position);
+				ObjectBehaviour itemObj = item.GetComponent<ObjectBehaviour>();
+				itemObj.parentContainer = objectBehaviour;
 			}
 		}
 		else
@@ -36,6 +39,7 @@ public class BackPackTrigger : PickUpTrigger
 				UIManager.StorageHandler.CloseStorageUI();
 			}
 		}
+		return false;
 	}
 
 	public override void UI_Interact(GameObject originator, string hand)

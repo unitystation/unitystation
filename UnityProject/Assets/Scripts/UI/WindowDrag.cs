@@ -1,32 +1,111 @@
 ﻿using UnityEngine;
 
-
-	public class WindowDrag : MonoBehaviour
+public class WindowDrag : MonoBehaviour
 	{
 		public bool resetPositionOnDisable = false;
 		private float offsetX;
 		private float offsetY;
 		private Vector3 startPositon;
-		
-		void Start () {
-			// Save initial window start positon
-			startPositon = gameObject.transform.position;
-		}
-		void OnDisable () {
-			// Reset window to start position
-			if (resetPositionOnDisable)
-			{
-				gameObject.transform.position = startPositon;
-			}
-		}
-		public void BeginDrag()
-		{
-			offsetX = transform.position.x - Input.mousePosition.x;
-			offsetY = transform.position.y - Input.mousePosition.y;
+		private RectTransform rectTransform;
+		private bool isReady = false;
+
+		/// <summary>
+		/// Calculates and sets the initial window start position relative to the screen size.
+		/// Tells the OnRectTransformDimensionsChange() that this window object is set up and "isReady" to be clamped
+		/// within it's bounds.
+		/// </summary>
+		private void Start () {
+			rectTransform = GetComponent<RectTransform>();
+
+			var cameraHeight = Camera.main.orthographicSize * 2.0f;
+			var cameraWidth = cameraHeight * Camera.main.aspect;
+			var worldPointResolution = new Vector3(cameraWidth, cameraHeight);
+			startPositon = new Vector3(	rectTransform.position.x / worldPointResolution.x,
+										rectTransform.position.y / worldPointResolution.y);;
+
+			isReady = true;
 		}
 
+		/// <summary>
+		/// Resets the window to its start position relative to the screen size.
+		/// </summary>
+		private void OnDisable () {
+			if (Camera.main == null)
+			{
+				return;
+			}
+			var cameraHeight = Camera.main.orthographicSize * 2.0f;
+			var cameraWidth = cameraHeight * Camera.main.aspect;
+			var worldPointResolution = new Vector3(cameraWidth, cameraHeight);
+			if (resetPositionOnDisable)
+			{
+				rectTransform.position = new Vector3(	startPositon.x * worldPointResolution.x,
+														startPositon.y * worldPointResolution.y);
+			}
+		}
+
+		/// <summary>
+		/// Sets the windowDrag fields offsetX and offsetY from the window position and the mouse position.
+        /// The fields offsetX and offsetY are the mouse position's offset from the window's top-left corner.
+		/// In onDrag(), these offsets are used to "hook" the window to the cursor as it is dragged.
+		/// </summary>
+		public void BeginDrag()
+		{
+			var windowTransformPosition = transform.position;
+
+			offsetX = windowTransformPosition.x - CommonInput.mousePosition.x;
+			offsetY = windowTransformPosition.y - CommonInput.mousePosition.y;
+		}
+
+		/// <summary>
+		/// Moves the window with the cursor within the screen bounds when called.
+		/// </summary>
 		public void OnDrag()
 		{
-			transform.position = new Vector3(offsetX + Input.mousePosition.x, offsetY + Input.mousePosition.y);
+			ClampWindowPosition(offsetX + CommonInput.mousePosition.x, offsetY + CommonInput.mousePosition.y);
 		}
+
+		/// <summary>
+		/// Moves and Clamps the window.
+		/// </summary>
+		/// <param name="x">The window's X coordinate world position to be clamped.</param>
+		/// <param name="y">The window's Y coordinate world position to be clamped.</param>
+		private void ClampWindowPosition(float x, float y)
+		{
+			var windowSize = rectTransform.sizeDelta;
+			var windowScale = rectTransform.lossyScale;
+
+			var windowWidth = windowSize.x;
+			var windowHeight = windowSize.y;
+
+			var widthScale = windowScale.x;
+			var heightScale = windowScale.y;
+
+			transform.position = new Vector3(
+				Mathf.Clamp(x,
+					windowWidth * widthScale * -0.4f,
+					Screen.width - windowWidth * widthScale * -0.4f),
+				Mathf.Clamp(y,
+					windowHeight * heightScale * -0.4f,
+					Screen.height - windowHeight * heightScale * -0.4f));
+		}
+
+		/// <summary>
+		/// Gets called when the resolution's width is thinned, as the window's RectTransform is thinned also.
+		/// This does not get called when the resolution's height is shortened, as the window's RectTransform does not
+		/// get shortened.
+		/// As there is no event function for a resolution change, this is used as a workaround.
+		/// </summary>
+		private void OnRectTransformDimensionsChange()
+		{
+			if (!isReady)
+			{
+				return;
+			}
+
+			var windowPosition = transform.position;
+			// Moves the window to it's current position, clamping the window within it's bounds in the process.
+			ClampWindowPosition(windowPosition.x, windowPosition.y);
+		}
+
 	}

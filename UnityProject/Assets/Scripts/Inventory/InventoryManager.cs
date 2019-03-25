@@ -128,6 +128,55 @@ public class InventoryManager : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// To clear an Item from an inventory slot and place at HiddenPos
+	/// (for cases where items are consumed while in a slot)
+	/// Can only be called on the server
+	/// </summary>
+	/// <param name="slotToClear"></param>
+	public static void DestroyItemInSlot(InventorySlot slotToClear)
+	{
+		if (slotToClear.Item == null)
+		{
+			//Slot is already empty
+			return;
+		}
+
+		DropItem(slotToClear, TransformState.HiddenPos);
+		//TODO When ItemFactory has been refactored in 0.4 then return items here to the pool
+		//If they came from the poolmanager
+	}
+
+	//Server only
+	/// <summary>
+	/// To clear an Item from an inventory slot and place at HiddenPos
+	/// (for cases where items are consumed while in a slot)
+	/// Can only be called on the server
+	/// </summary>
+	/// <param name="item"></param>
+	public static void DestroyItemInSlot(GameObject item)
+	{
+		if (item == null)
+		{
+			return;
+		}
+
+		var invSlot = GetSlotFromItem(item);
+		if (invSlot != null)
+		{
+			DropItem(invSlot, TransformState.HiddenPos);
+		}
+		//TODO When ItemFactory has been refactored in 0.4 then return items here to the pool
+		//If they came from the poolmanager
+	}
+
+	/// <summary>
+	/// Get the slot ID from an Item.
+	/// Returns null if item is not in a slot
+	/// </summary>
+	/// <param name="item"></param>
+	/// <param name="isServer"></param>
+	/// <returns></returns>
 	public static string GetSlotIDFromItem(GameObject item, bool isServer = true)
 	{
 		string UUID = "";
@@ -140,6 +189,13 @@ public class InventoryManager : MonoBehaviour
 		return UUID;
 	}
 
+	/// <summary>
+	/// Get an Inventory slot from an Item
+	/// Returns null if the item is not in a slot
+	/// </summary>
+	/// <param name="item"></param>
+	/// <param name="isServer"></param>
+	/// <returns></returns>
 	public static InventorySlot GetSlotFromItem(GameObject item, bool isServer = true)
 	{
 		InventorySlot slot = null;
@@ -155,6 +211,13 @@ public class InventoryManager : MonoBehaviour
 		return slot;
 	}
 
+	/// <summary>
+	/// Get an Inventoryslot from a slot Unique ID
+	/// Returns null if UUID is invalid or not found
+	/// </summary>
+	/// <param name="UUID"></param>
+	/// <param name="isServer"></param>
+	/// <returns></returns>
 	public static InventorySlot GetSlotFromUUID(string UUID, bool isServer)
 	{
 		InventorySlot slot = null;
@@ -166,6 +229,11 @@ public class InventoryManager : MonoBehaviour
 		return slot;
 	}
 
+	/// <summary>
+	/// Get Unique ID of a slot from a clients UI slot name (i.e. belt)
+	/// </summary>
+	/// <param name="slotName"></param>
+	/// <returns></returns>
 	public static string GetClientUUIDFromSlotName(string slotName)
 	{
 		string uuid = "";
@@ -178,12 +246,20 @@ public class InventoryManager : MonoBehaviour
 	}
 
 	//Server only:
+	/// <summary>
+	/// Get an Inventory slot from originators hand id (i.e leftHand)
+	/// Can only be used ont he server
+	/// </summary>
+	/// <param name="originator"></param>
+	/// <param name="hand"></param>
+	/// <returns></returns>
 	public static InventorySlot GetSlotFromOriginatorHand(GameObject originator, string hand)
 	{
-		InventorySlot slot = null;		
+		InventorySlot slot = null;
 
-		var index = AllServerInventorySlots.FindLastIndex(x => x.Owner?.gameObject == originator && x.SlotName == hand);
-		if(index != -1){
+		var index = AllServerInventorySlots.FindLastIndex(x => x.Owner != null && x.Owner.gameObject == originator && x.SlotName == hand);
+		if (index != -1)
+		{
 			slot = AllServerInventorySlots[index];
 		}
 
@@ -197,12 +273,6 @@ public class InventoryManager : MonoBehaviour
 			return AllServerInventorySlots;
 		}
 		return AllClientInventorySlots;
-	}
-
-	//Server only
-	public static void DisposeItemServer(GameObject item)
-	{
-		DropItem(GetSlotFromItem(item), TransformState.HiddenPos);
 	}
 
 	private static void DropItem(InventorySlot slot, Vector3 dropPos)
@@ -221,11 +291,23 @@ public class InventoryManager : MonoBehaviour
 				objTransform.AppearAtPositionServer(dropPos);
 			}
 		}
+		ObjectBehaviour itemObj = slot.Item.GetComponent<ObjectBehaviour>();
+		if (itemObj)
+		{
+			itemObj.parentContainer = null;
+		}
 		slot.Item.GetComponent<RegisterTile>().UpdatePosition();
 		UpdateInvSlot(true, "", slot.Item, slot.UUID);
 	}
 
 	//Server only
+	/// <summary>
+	/// Drop an item from a slot at a given position
+	/// Use only on the server. Results are synced with clients
+	/// </summary>
+	/// <param name="player"></param>
+	/// <param name="item"></param>
+	/// <param name="pos"></param>
 	public static void DropGameItem(GameObject player, GameObject item, Vector3 pos)
 	{
 		if (!item)
@@ -251,11 +333,11 @@ public class InventoryManager : MonoBehaviour
 	{
 		//drop everything
 		AllServerInventorySlots
-			.FindAll(x => x.Owner?.gameObject == owner && x.Item)
+			.FindAll(x => x.Owner && x.Owner.gameObject == owner && x.Item)
 			.ForEach(x => DropGameItem(owner, x.Item, owner.transform.position));
 
 		//remove their slots
-		AllServerInventorySlots.RemoveAll(x => x.Owner?.gameObject == owner);
+		AllServerInventorySlots.RemoveAll(x => x.Owner && x.Owner.gameObject == owner);
 	}
 }
 

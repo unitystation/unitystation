@@ -120,6 +120,7 @@ public class UIManager : MonoBehaviour
 	private void Start()
 	{
 		generalSettingsMenu.Init();
+		Logger.Log( "Touchscreen support = " + CommonInput.IsTouchscreen, Category.UI );
 	}
 
 	public static void ResetAllUI()
@@ -148,7 +149,6 @@ public class UIManager : MonoBehaviour
 			return false;
 		}
 		InventoryInteractMessage.Send(slotInfo.SlotUUID, slotInfo.FromSlotUUID, slotInfo.SlotContents, true);
-		UpdateSlot(slotInfo);
 		return true;
 	}
 
@@ -180,8 +180,7 @@ public class UIManager : MonoBehaviour
 		var fromSlot = InventorySlotCache.GetSlotByUUID(slotInfo.FromSlotUUID);
 		bool fromS = fromSlot != null;
 		bool fromSI = fromSlot?.Item != null;
-
-		if (fromSlot?.Item == slotInfo.SlotContents)
+		if (fromSlot && (fromSlot.image.enabled || fromSlot?.Item == slotInfo.SlotContents))
 		{
 			CheckStorageHandlerOnMove(fromSlot.Item);
 			fromSlot.Clear();

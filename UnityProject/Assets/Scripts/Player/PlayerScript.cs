@@ -4,13 +4,8 @@ using UnityEngine.Networking;
 
 public class PlayerScript : ManagedNetworkBehaviour
 {
-	// the maximum distance the player needs to be to an object to interact with it
-	//1.75 is the optimal distance to now have any direction click too far
-	//NOTE FOR ANYONE EDITING THIS IN THE FUTURE: Character's head is slightly below the top of the tile
-	//hence top reach is slightly lower than bottom reach, where the legs go exactly to the bottom of the tile.
-	public const float interactionDistance = 1.75f;
-
-	public GameObject ghost;
+	/// maximum distance the player needs to be to an object to interact with it
+	public const float interactionDistance = 1.5f;
 
 	[SyncVar] public JobType JobType = JobType.NULL;
 
@@ -24,15 +19,19 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
 
-	public SoundNetworkActions soundNetworkActions { get; set; }
-
+	/// <summary>
+	/// Will be null if player is a ghost.
+	/// </summary>
 	public PlayerHealth playerHealth { get; set; }
 
 	public PlayerMove playerMove { get; set; }
 
+	/// <summary>
+	/// Will be null if player is a ghost.
+	/// </summary>
 	public ObjectBehaviour pushPull { get; set; }
 
-	public PlayerSprites playerSprites { get; set; }
+	public UserControlledSprites playerSprites { get; set; }
 
 	private PlayerSync _playerSync; //Example of good on-demand reference init
 	public PlayerSync PlayerSync => _playerSync ? _playerSync : (_playerSync = GetComponent<PlayerSync>());
@@ -95,11 +94,10 @@ public class PlayerScript : ManagedNetworkBehaviour
 		playerHealth = GetComponent<PlayerHealth>();
 		pushPull = GetComponent<ObjectBehaviour>();
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
-		soundNetworkActions = GetComponent<SoundNetworkActions>();
 		mouseInputController = GetComponent<MouseInputController>();
 		hitIcon = GetComponentInChildren<HitIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
-		playerSprites = GetComponent<PlayerSprites>();
+		playerSprites = GetComponent<UserControlledSprites>();
 	}
 
 	private void Init()
@@ -110,7 +108,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 			UIManager.SetDeathVisibility(true);
 			UIManager.DisplayManager.SetCameraFollowPos();
 			int rA = Random.Range(0, 3);
-			SoundManager.PlayVarAmbient(rA);
 			GetComponent<MouseInputController>().enabled = true;
 
 			if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
@@ -121,6 +118,27 @@ public class PlayerScript : ManagedNetworkBehaviour
 			CmdTrySetInitialName(PlayerManager.PlayerNameCache);
 
 			PlayerManager.SetPlayerForControl(gameObject);
+
+			if (IsGhost)
+			{
+				//stop the crit notification and change overlay to ghost mode
+				SoundManager.Stop("Critstate");
+				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
+				//show ghosts
+				var mask = Camera2DFollow.followControl.cam.cullingMask;
+				mask |= 1 << LayerMask.NameToLayer("Ghosts");
+				Camera2DFollow.followControl.cam.cullingMask = mask;
+
+			}
+			else
+			{
+				//play the spawn sound
+				SoundManager.PlayVarAmbient(rA);
+				//Hide ghosts
+				var mask = Camera2DFollow.followControl.cam.cullingMask;
+				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+				Camera2DFollow.followControl.cam.cullingMask = mask;
+			}
 
 			//				Request sync to get all the latest transform data
 			new RequestSyncMessage().Send();
@@ -144,7 +162,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public bool canNotInteract()
 	{
-		return playerMove == null || !playerMove.allowInput || playerMove.isGhost ||
+		return playerMove == null || !playerMove.allowInput || IsGhost ||
 			playerHealth.ConsciousState != ConsciousState.CONSCIOUS;
 	}
 
@@ -194,6 +212,11 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public bool IsHidden => !PlayerSync.ClientState.Active;
 
+	/// <summary>
+	/// True if this player is a ghost, meaning they exist in the ghost layer
+	/// </summary>
+	public bool IsGhost => PlayerUtils.IsGhost(gameObject);
+
 	public bool IsInReach(GameObject go, float interactDist = interactionDistance)
 	{
 		var rt = go.RegisterTile();
@@ -231,16 +254,8 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public static bool IsInReach(Vector3 from, Vector3 to, float interactDist = interactionDistance)
 	{
-		//If click is in diagonal direction, extend reach slightly
-		int distanceX = Mathf.FloorToInt(Mathf.Abs(from.x - to.x));
-		int distanceY = Mathf.FloorToInt(Mathf.Abs(from.y - to.y));
-		if (distanceX == 1 && distanceY == 1)
-		{
-			return (from - to).magnitude <= interactDist + 0.4f;
-		}
-
-		//if cardinal direction, use regular reach
-		return (from - to).magnitude <= interactDist;
+		var distanceVector = from - to;
+		return Mathf.Max( Mathf.Abs(distanceVector.x), Mathf.Abs(distanceVector.y) ) < interactDist;
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
@@ -250,7 +265,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			return ChatChannel.OOC;
 		}
 		PlayerMove pm = gameObject.GetComponent<PlayerMove>();
-		if (pm.isGhost)
+		if (IsGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
 			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
@@ -302,7 +317,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	public ChatModifier GetCurrentChatModifiers()
 	{
 		ChatModifier modifiers = ChatModifier.None;
-		if (playerMove.isGhost)
+		if (IsGhost)
 		{
 			return ChatModifier.None;
 		}

@@ -9,6 +9,7 @@ public class PlayerHealthUI : MonoBehaviour
 	public OverlayCrits overlayCrits;
 	private UI_OxygenAlert oxygenAlert;
 	private bool monitorBreathing = false;
+	private Button oxygenButton;
 
 	List<DamageMonitorListener> bodyPartListeners = new List<DamageMonitorListener>();
 
@@ -17,6 +18,7 @@ public class PlayerHealthUI : MonoBehaviour
 		bodyPartListeners = new List<DamageMonitorListener>(UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>(true));
 		oxygenAlert = GetComponentInChildren<UI_OxygenAlert>(true);
 		oxygenAlert.gameObject.SetActive(false);
+		oxygenButton = GetComponentInChildren<OxygenButton>(true).gameObject.GetComponent<Button>();
 	}
 
 	private void OnEnable()
@@ -42,7 +44,7 @@ public class PlayerHealthUI : MonoBehaviour
 	{
 		if (monitorBreathing && PlayerManager.LocalPlayer != null)
 		{
-			if (PlayerManager.LocalPlayerScript.playerHealth.IsDead)
+			if (PlayerManager.LocalPlayerScript.IsGhost || PlayerManager.LocalPlayerScript.playerHealth.IsDead)
 			{
 				if (oxygenAlert.gameObject.activeInHierarchy)
 				{
@@ -59,6 +61,20 @@ public class PlayerHealthUI : MonoBehaviour
 			if (!PlayerManager.LocalPlayerScript.playerHealth.IsRespiratoryArrest && oxygenAlert.gameObject.activeInHierarchy)
 			{
 				oxygenAlert.gameObject.SetActive(false);
+			}
+		}
+
+		if (PlayerManager.LocalPlayer != null)
+		{
+			if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
+			{
+				oxygenButton.interactable = true;
+			}
+
+			if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
+			{
+				EventManager.Broadcast(EVENT.DisableInternals);
+				oxygenButton.interactable = false;
 			}
 		}
 	}
