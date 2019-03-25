@@ -6,16 +6,23 @@ public class HealthScanner : PickUpTrigger
 {
 	public void PlayerFound(GameObject Player) {
 		PlayerHealth Playerhealth = Player.GetComponent<PlayerHealth>();
-		string ToShow = (Player.name + " is " + Playerhealth.ConsciousState.ToString() + "\n" 
-			+"OverallHealth = " + Playerhealth.OverallHealth.ToString() + " Blood level = " + Playerhealth.bloodSystem.BloodLevel.ToString() +  "\n" 
-		                 + "Blood oxygen level = " + Playerhealth.bloodSystem.OxygenLevel.ToString() + "\n"
-		                 + "Body Part, Brut, Burn \n");
-		foreach (BodyPartBehaviour BodyPart in Playerhealth.BodyParts) {
-			ToShow += BodyPart.Type.ToString() + "\t";
-			ToShow += BodyPart.BruteDamage.ToString() + "\t";
-			ToShow += BodyPart.BurnDamage.ToString();
-			ToShow += "\n";
+		string ToShow = (Player.name + " is " + Playerhealth.ConsciousState.ToString() + "\n"
+			+ "OverallHealth = " + Playerhealth.OverallHealth.ToString() + " Blood level = " + Playerhealth.bloodSystem.BloodLevel.ToString() + "\n"
+						 + "Blood oxygen level = " + Playerhealth.bloodSystem.OxygenLevel.ToString() + "\n");
+		string StringBuffer = "";
+		float TotalBruteDamage = 0;
+		float TotalBurnDamage = 0;
+		float TotalOxygendamage = Playerhealth.CalculateOverallBloodLossDamage();
+		foreach (BodyPartBehaviour BodyPart in Playerhealth.BodyParts)
+		{
+			StringBuffer += BodyPart.Type.ToString() + "\t";
+			StringBuffer += BodyPart.BruteDamage.ToString() + "\t";
+			TotalBruteDamage += BodyPart.BruteDamage;
+			StringBuffer += BodyPart.BurnDamage.ToString();
+			TotalBurnDamage += BodyPart.BurnDamage;
+			StringBuffer += "\n";
 		}
+		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " OxyLoss " + TotalOxygendamage.ToString() + "\n" + "Body Part, Brute, Burn \n" + StringBuffer;
 		PostToChatMessage.Send(ToShow,ChatChannel.System); 
 		//Logger.Log(ToShow);
 	}
