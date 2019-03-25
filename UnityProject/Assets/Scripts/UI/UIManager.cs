@@ -107,7 +107,10 @@ public class UIManager : MonoBehaviour
 		{
 			currentIntent = value;
 			//update the intent of the player so it can be synced
-			PlayerManager.LocalPlayerScript.playerMove.IsHelpIntent = value == global::Intent.Help;
+			if (PlayerManager.LocalPlayerScript != null)
+			{
+				PlayerManager.LocalPlayerScript.playerMove.IsHelpIntent = value == global::Intent.Help;
+			}
 		}
 	}
 
