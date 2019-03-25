@@ -191,7 +191,7 @@ public partial class PlayerSync
 			MatrixId = newMatrix.Id,
 			WorldPosition = roundedPos,
 			ResetClientQueue = true,
-			Speed = serverState.Speed
+			Speed = SpeedServer
 		};
 		serverLerpState = newState;
 		serverState = newState;
