@@ -13,7 +13,7 @@ public class MopTrigger : PickUpTrigger
         {
             return base.Interact (originator, position, hand);
         }
-        var targetWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var targetWorldPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 		if (PlayerManager.PlayerScript.IsInReach(targetWorldPos))
         {
 			if(!isServer)

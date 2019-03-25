@@ -454,10 +454,11 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// Blood Loss and Toxin damage:
 	int CalculateOverallBloodLossDamage()
 	{
+		float maxBloodDmg = Mathf.Abs(HealthThreshold.Dead) + maxHealth;
 		float bloodDmg = 0f;
 		if (bloodSystem.BloodLevel < (int)BloodVolume.SAFE)
 		{
-			bloodDmg = (1f - ((float)bloodSystem.BloodLevel / (float)BloodVolume.NORMAL)) * 100f;
+			bloodDmg = Mathf.Lerp(0f, maxBloodDmg, 1f - (bloodSystem.BloodLevel / (float)BloodVolume.NORMAL));
 		}
 
 		if (bloodSystem.ToxinLevel > 1f)
@@ -466,7 +467,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			//There will need to be some kind of blood / toxin ratio and severity limits determined
 		}
 
-		return Mathf.RoundToInt(Mathf.Clamp(bloodDmg, 0f, 101f));
+		return Mathf.RoundToInt(Mathf.Clamp(bloodDmg, 0f, maxBloodDmg));
 	}
 
 	/// ---------------------------
