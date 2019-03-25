@@ -333,11 +333,11 @@ public class InventoryManager : MonoBehaviour
 	{
 		//drop everything
 		AllServerInventorySlots
-			.FindAll(x => x.Owner?.gameObject == owner && x.Item)
+			.FindAll(x => x.Owner && x.Owner.gameObject == owner && x.Item)
 			.ForEach(x => DropGameItem(owner, x.Item, owner.transform.position));
 
 		//remove their slots
-		AllServerInventorySlots.RemoveAll(x => x.Owner?.gameObject == owner);
+		AllServerInventorySlots.RemoveAll(x => x.Owner && x.Owner.gameObject == owner);
 	}
 }
 
