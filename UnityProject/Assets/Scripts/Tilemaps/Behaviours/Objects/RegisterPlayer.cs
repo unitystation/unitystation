@@ -41,11 +41,36 @@ public class RegisterPlayer : RegisterTile
 		return IsPassable();
 	}
 
+	protected override void OnRotationStart(RotationOffset fromCurrent, bool isInitialRotation)
+	{
+		base.OnRotationStart(fromCurrent, isInitialRotation);
+		if (!isInitialRotation)
+		{
+			UpdateManager.Instance.Add(RemainUpright);
+		}
+	}
+
+	void RemainUpright()
+	{
+		//stay upright until rotation stops (RegisterTile only updates our rotation at the end of rotation),
+		//but players need to stay upright constantly unless they are downed
+		foreach (SpriteRenderer renderer in spriteRenderers)
+		{
+			renderer.transform.rotation = isDown ? Quaternion.Euler(0, 0, -90) : Quaternion.identity;
+		}
+	}
+
 	protected override void OnRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
 	{
 		base.OnRotationEnd(fromCurrent, isInitialRotation);
 
-		//add additional rotation to remain sideways if we are down
+		if (!isInitialRotation)
+		{
+			//stop reorienting to face upright
+			UpdateManager.Instance.Remove(RemainUpright);
+		}
+
+		//add extra rotation to ensure we are sideways
 		if (isDown)
 		{
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
