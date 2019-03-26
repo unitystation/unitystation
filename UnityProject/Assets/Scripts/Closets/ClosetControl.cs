@@ -312,9 +312,9 @@ public class ClosetControl : InputTrigger
 			{
 				player.parentContainer = objectBehaviour;
 				playerSync.DisappearFromWorldServer();
-				//Make sure a ClosetPlayerHandler is created on the client to monitor
-				//the players input inside the storage. The handler also controls the camera follow targets:
-				if (!PlayerManager.LocalPlayerScript.IsGhost)
+                //Make sure a ClosetPlayerHandler is created on the client to monitor
+                //the players input inside the storage. The handler also controls the camera follow targets:
+				if (!playerScript.IsGhost)
 				{
 					ClosetHandlerMessage.Send(player.gameObject, gameObject);
 				}
