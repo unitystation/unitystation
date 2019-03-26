@@ -7,6 +7,9 @@ public class RegisterPlayer : RegisterTile
 {
 	private float stunTime;
 	private bool isStunned;
+	public float StunDuration { get; private set; } = 0;
+	private float tickRate = 1f;
+	private float tick = 0;
 
 	/// <summary>
 	/// Whether the player should currently be depicted laying on the ground
@@ -15,6 +18,7 @@ public class RegisterPlayer : RegisterTile
 
 	private UserControlledSprites playerSprites;
 	private PlayerScript playerScript;
+	private MetaDataLayer metaDataLayer;
 
 	public bool IsBlocking => !playerScript.IsGhost && !isDown;
 
@@ -29,6 +33,18 @@ public class RegisterPlayer : RegisterTile
 		playerScript = GetComponent<PlayerScript>();
 		//initially we are upright and don't rotate with the matrix
 		rotateWithMatrix = false;
+		metaDataLayer = transform.GetComponentInParent<MetaDataLayer>();
+	}
+
+	void OnEnable()
+	{
+		UpdateManager.Instance.Add(UpdateMe);
+	}
+
+	void OnDisable()
+	{
+		if (UpdateManager.Instance != null)
+			UpdateManager.Instance.Remove(UpdateMe);
 	}
 
 	public override bool IsPassable()
@@ -121,14 +137,41 @@ public class RegisterPlayer : RegisterTile
 		}
 	}
 
-	public void Stun(float stunDuration)
+	//Handled via UpdateManager
+	void UpdateMe()
+	{
+		//Server Only:
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			tick += Time.deltaTime;
+			if (tick > tickRate)
+			{
+				tick = 0f;
+				CalculateStun();
+			}
+		}
+	}
+
+	public void CheckTileSlip()
+	{
+		if (metaDataLayer.IsSlipperyAt(transform.position.CutToInt()))
+		{
+			Stun();
+		}
+	}
+
+	public void Stun(float stunDuration = 4f, bool dropItem = true)
 	{
 		isStunned = true;
 		LayDown();
-		playerScript.playerNetworkActions.DropItem("leftHand");
-		playerScript.playerNetworkActions.DropItem("rightHand");
+		if (dropItem)
+		{
+			playerScript.playerNetworkActions.DropItem("leftHand");
+			playerScript.playerNetworkActions.DropItem("rightHand");
+		}
+
 		playerScript.playerMove.allowInput = false;
-		playerScript.playerHealth.TryChangeStunDuration(stunDuration);
+		TryChangeStunDuration(stunDuration);
 	}
 
 	public void RemoveStun()
@@ -137,15 +180,35 @@ public class RegisterPlayer : RegisterTile
 		UpdateCanMove();
 	}
 
-	public void UpdateCanMove()
+	private void CalculateStun()
 	{
-		if (!playerScript.playerHealth.IsCrit
-		    && !playerScript.playerHealth.IsSoftCrit
-		    && !playerScript.playerHealth.IsDead
-		    && !isStunned)
+		if (StunDuration > 0)
 		{
-			GetUp();
-			playerScript.playerMove.allowInput = true;
+			StunDuration -= 1;
+			if (StunDuration <= 0)
+			{
+				RemoveStun();
+			}
 		}
+	}
+
+	public void TryChangeStunDuration(float stunDuration)
+	{
+		if (stunDuration > StunDuration)
+		{
+			StunDuration = stunDuration;
+		}
+	}
+
+	private void UpdateCanMove()
+	{
+		if (playerScript.playerHealth.IsCrit || playerScript.playerHealth.IsSoftCrit ||
+		    playerScript.playerHealth.IsDead || isStunned)
+		{
+			return;
+		}
+
+		GetUp();
+		playerScript.playerMove.allowInput = true;
 	}
 }

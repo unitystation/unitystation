@@ -39,8 +39,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	protected GameObject LastDamagedBy;
 
-	private RegisterPlayer registerPlayer;
-	public float StunDuration { get; private set; } = 0;
 
 	public ConsciousState ConsciousState
 	{
@@ -146,7 +144,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
 		bloodSystem.SetBloodType(DNABloodType);
 		base.OnStartServer();
-		registerPlayer = GetComponent<RegisterPlayer>();
 	}
 
 	public override void OnStartClient()
@@ -348,10 +345,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			{
 				tick = 0f;
 				CalculateOverallHealth();
-				CalculateStun();
 			}
 		}
 	}
+
 
 	/// ---------------------------
 	/// VISUAL EFFECTS
@@ -403,26 +400,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 		OverallHealth = newHealth;
 		CheckHealthAndUpdateConsciousState();
-	}
-
-	[Server]
-	protected void CalculateStun(){
-		if(StunDuration > 0)
-		{
-			StunDuration -= 1;
-			if(StunDuration <= 0)
-			{
-				registerPlayer.RemoveStun();
-			}
-		}
-	}
-
-	public void TryChangeStunDuration(float stunDuration)
-	{
-		if (stunDuration > StunDuration)
-		{
-			StunDuration = stunDuration;
-		}
 	}
 
 	int CalculateOverallBodyPartDamage()
