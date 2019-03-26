@@ -5,7 +5,14 @@ using UnityEngine.Networking;
 
 public class MopTrigger : PickUpTrigger
 {
-    public override bool Interact (GameObject originator, Vector3 position, string hand)
+	private MetaDataLayer metaDataLayer;
+
+	private void Awake()
+	{
+		metaDataLayer = transform.GetComponentInParent<MetaDataLayer>();
+	}
+
+	public override bool Interact (GameObject originator, Vector3 position, string hand)
     {
         //TODO:  Fill this in.
 
@@ -48,7 +55,11 @@ public class MopTrigger : PickUpTrigger
 
 	    if (!MatrixManager.IsSpaceAt(targetWorldIntPos) )
 	    {
-		    EffectsFactory.Instance.WaterSplat(targetWorldIntPos);
+		    // Create a WaterSplat Decal (visible slippery tile)
+		    // EffectsFactory.Instance.WaterSplat(targetWorldIntPos);
+
+		    // Sets a tile to slippery
+		    metaDataLayer.MakeSlipperyAt(targetWorldIntPos);
 	    }
     }
 }

@@ -7,13 +7,12 @@ using UnityEngine.Serialization;
 [ExecuteInEditMode]
 	public class RegisterItem : RegisterTile
 	{
-		public delegate void Crossed();
-		public event Crossed OnCrossed;
+		public UnityEvent OnCrossed;
 
 		[HideInInspector]
 		public RegisterPlayer CrossedRegisterPlayer;
 
-		public void Cross(ref RegisterPlayer registerPlayer)
+		public void Cross(RegisterPlayer registerPlayer)
 		{
 			CrossedRegisterPlayer = registerPlayer;
 			OnCrossed?.Invoke();
