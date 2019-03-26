@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -56,6 +57,30 @@ public class MetaDataLayer : MonoBehaviour
 	{
 		return Get(position, false).Exists;
 	}
+
+	public bool IsSlipperyAt(Vector3Int position)
+	{
+		return Get(position, false).IsSlippery;
+	}
+
+	public void MakeSlipperyAt(Vector3Int position)
+	{
+		var tile = Get(position);
+		tile.IsSlippery = true;
+		if (tile.CurrentDrying != null)
+		{
+			StopCoroutine(tile.CurrentDrying);
+		}
+		tile.CurrentDrying = DryUp(tile);
+		StartCoroutine(tile.CurrentDrying);
+	}
+
+	private IEnumerator DryUp(MetaDataNode tile)
+	{
+		yield return new WaitForSeconds(15f);
+		tile.IsSlippery = false;
+	}
+
 
 	public void UpdateSystemsAt(Vector3Int position)
 	{

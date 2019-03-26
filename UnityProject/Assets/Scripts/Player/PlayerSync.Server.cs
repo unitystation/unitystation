@@ -40,6 +40,8 @@ public partial class PlayerSync
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
 	private Vector2 serverLastDirection;
 
+	private RegisterPlayer registerPlayer;
+
 	public float SpeedServer
 	{
 		get => masterSpeedServer;
@@ -86,6 +88,7 @@ public partial class PlayerSync
 		{
 			base.OnStartServer();
 			InitServerState();
+			registerPlayer = GetComponent<RegisterPlayer>();
 		}
 
 	///
@@ -624,6 +627,8 @@ public partial class PlayerSync
 
 	private void Cross(Vector3Int position)
 	{
+		registerPlayer.CheckTileSlip();
+
 		if (PlayerUtils.IsGhost(gameObject))
 		{
 			return;
@@ -631,10 +636,9 @@ public partial class PlayerSync
 		List<GameObject> objects = UITileList.GetItemsAtPosition(position);
 		// Removes player from object list
 		objects.Remove(gameObject);
-		RegisterPlayer registerPlayer = GetComponent<RegisterPlayer>();
 		for (int i = 0; i < objects.Count; i++)
 		{
-			objects[i].GetComponent<RegisterItem>()?.Cross(ref registerPlayer);
+			objects[i].GetComponent<RegisterItem>()?.Cross(registerPlayer);
 		}
 	}
 }
