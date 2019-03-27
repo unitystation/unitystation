@@ -58,6 +58,10 @@ public class TileTrigger : InputTrigger
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
+        if (!canUse(originator, hand, position, false))
+        {
+            return false;
+        }
 		return DetermineTileAction(originator, position, hand);
 	}
 
@@ -73,7 +77,7 @@ public class TileTrigger : InputTrigger
 
 		LayerTile tile = metaTileMap.GetTile(pos);
 
-		GameObject handObj = UIManager.Hands.CurrentSlot.Item;
+        GameObject handObj = pna.Inventory[hand].Item;
 
 		// Nothing in hand, do nothing
 		if (handObj == null)
