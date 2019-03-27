@@ -65,6 +65,9 @@ public partial class PlayerSync
 		}
 	}
 
+	/// <summary>
+	/// If the position of this player is "non-sticky", i.e. meaning they would slide / float in a given direction
+	/// </summary>
 	public bool IsNonStickyServer => !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
 
@@ -367,9 +370,16 @@ public partial class PlayerSync
 			return state;
 		}
 
-		if ( IsNonStickyServer ) {
+		//check for a swap
+		bool swapped = false;
+		if (serverBump == BumpType.HelpIntent)
+		{
+			swapped = CheckAndDoSwap(state.WorldPosition.RoundToInt() + action.Direction().To3Int(), action.Direction() * -1);
+		}
+
+		if ( IsNonStickyServer && !swapped ) {
 			PushPull pushable;
-			if ( IsAroundPushables( serverState, out pushable ) ) {
+			if (!swapped && IsAroundPushables( serverState, out pushable ) ) {
 				StartCoroutine( InteractSpacePushable( pushable, action.Direction() ) );
 			}
 			return state;
@@ -381,13 +391,7 @@ public partial class PlayerSync
 			return state;
 		}
 
-		PlayerState nextState = NextState(state, action, out bool matrixChanged);
-
-		//check if a swap should occur
-		if (serverBump == BumpType.HelpIntent)
-		{
-			CheckAndDoSwap(nextState.WorldPosition.RoundToInt(), action.Direction() * -1);
-		}
+		PlayerState nextState = NextState(state, action);
 
 		nextState.Speed = SpeedServer;
 

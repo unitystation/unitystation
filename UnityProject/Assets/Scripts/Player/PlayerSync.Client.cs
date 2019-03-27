@@ -74,8 +74,6 @@ public partial class PlayerSync
 	/// </summary>
 	private float predictedSpeedClient;
 
-	public bool IsNonStickyClient => !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
-
 	///Does server claim this client is floating rn?
 	public bool isFloatingClient => playerState.Impulse != Vector2.zero /*&& !IsBeingPulledClient*/;
 
@@ -101,14 +99,14 @@ public partial class PlayerSync
 		MoveCooldown = true;
 		//experiment: not enqueueing or processing action if floating.
 		//arguably it shouldn't really be like that in the future
-		bool isGrounded = !IsNonStickyClient;
-		//			bool isAroundPushables = IsAroundPushables( predictedState ); //? trying to remove this because of garbage
-		/*(isGrounded || isAroundPushables ) &&*/
 		if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost))
 		{
 			//				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
-			if (isGrounded && playerState.Active)
+			//experiment: not enqueueing or processing action if floating, unless we are stopped.
+			//arguably it shouldn't really be like that in the future
+			bool isGrounded = !MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
+			if ((isGrounded || playerScript.IsGhost || !IsMovingClient) && playerState.Active)
 			{
 				//RequestMoveMessage.Send(action);
 				BumpType clientBump = CheckSlideAndBump(predictedState, ref action);
@@ -302,7 +300,7 @@ public partial class PlayerSync
 			}
 		}
 
-		var nextState = NextState(state, action, out bool matrixChanged, isReplay);
+		var nextState = NextState(state, action, isReplay);
 
 		nextState.Speed = SpeedClient;
 
