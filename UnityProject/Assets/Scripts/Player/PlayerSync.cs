@@ -284,12 +284,14 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// <summary>
 	/// Checks if a swap would occur due to moving to a position with a player with help intent while
 	/// we have help intent and are not dragging something.
-	/// If so, performs the swap.
+	/// If so, performs the swap by shifting the other player - this method doesn't affect our own movement/position,
+	/// only the swapee is affected.
 	/// </summary>
 	/// <param name="targetWorldPos">target position being moved to to check for a swap at</param>
 	/// <param name="inDirection">direction to which the swapee should be moved if swap occurs (should
 	/// be opposite the direction of this player's movement)</param>
-	private void CheckAndDoSwap(Vector3Int targetWorldPos, Vector2 inDirection)
+	/// <returns>true iff swap was performed</returns>
+	private bool CheckAndDoSwap(Vector3Int targetWorldPos, Vector2 inDirection)
 	{
 		PlayerMove other = MatrixManager.GetHelpIntentAt(targetWorldPos, gameObject);
 		if (other != null)
@@ -300,8 +302,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			{
 				//they've stopped there, so let's swap them
 				InitiateSwap(other, targetWorldPos + inDirection.RoundToInt());
+				return true;
 			}
 		}
+
+		return false;
 	}
 
 
@@ -320,20 +325,24 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		if (isServer)
 		{
 			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Lerp, name, (Vector2)serverState.WorldPosition, toWorldPosition.To2Int());
-			serverState.WorldPosition = toWorldPosition;
+			PlayerState nextStateServer = NextStateSwap(serverState, toWorldPosition);
+			serverState = nextStateServer;
 			if (pushPull != null && pushPull.IsBeingPulled && !pushPull.PulledBy == swapper)
 			{
 				pushPull.StopFollowing();
 			}
 		}
+		PlayerState nextPredictedState = NextStateSwap(predictedState, toWorldPosition);
 		//must set this on both client and server so server shows the lerp instantly as well as the client
-		predictedState.WorldPosition = toWorldPosition;
+		predictedState = nextPredictedState;
 	}
 
 	/// <summary>
 	/// Called on clientside for prediction and server side for server-authoritative logic.
 	///
-	/// Swap positions with the other player, sending them in direction (which should be opposite our direction of motion)
+	/// Swap the other player, sending them in direction (which should be opposite our direction of motion).
+	///
+	/// Doesn't affect this player's movement/position, only the swapee is affected.
 	///
 	/// This player is the swapper, the one they are displacing is the swapee
 	/// </summary>
@@ -442,7 +451,28 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 	}
 
-	private PlayerState NextState(PlayerState state, PlayerAction action, out bool matrixChanged, bool isReplay = false)
+	/// <summary>
+	/// Transition to next state for a swap, modifying parent matrix if matrix change occurs but not
+	/// incrementing the movenumber.
+	/// </summary>
+	/// <param name="state">current state</param>
+	/// <param name="toWorldPosition">world position new state should be in</param>
+	/// <returns>state with worldposition as its worldposition, changing the parent matrix if a matrix change occurs</returns>
+	private PlayerState NextStateSwap(PlayerState state, Vector3Int toWorldPosition)
+	{
+		var newState = state;
+		newState.WorldPosition = toWorldPosition;
+
+		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(toWorldPosition);
+
+		//Switching matrix while keeping world pos
+		newState.MatrixId = matrixAtPoint.Id;
+		newState.WorldPosition = toWorldPosition;
+
+		return newState;
+	}
+
+	private PlayerState NextState(PlayerState state, PlayerAction action, bool isReplay = false)
 	{
 		var newState = state;
 		newState.MoveNumber++;
@@ -451,22 +481,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		var proposedWorldPos = newState.WorldPosition;
 
 		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(Vector3Int.RoundToInt(proposedWorldPos));
-		bool matrixChangeDetected = !Equals(matrixAtPoint, MatrixInfo.Invalid) && matrixAtPoint.Id != state.MatrixId;
 
 		//Switching matrix while keeping world pos
 		newState.MatrixId = matrixAtPoint.Id;
 		newState.WorldPosition = proposedWorldPos;
-
-		//			Logger.Log( $"NextState: src={state} proposedPos={newState.WorldPosition}\n" +
-		//			           $"mAtPoint={matrixAtPoint.Id} change={matrixChangeDetected} newState={newState}" );
-
-		if (!matrixChangeDetected)
-		{
-			matrixChanged = false;
-			return newState;
-		}
-
-		matrixChanged = true;
 
 		return newState;
 	}
