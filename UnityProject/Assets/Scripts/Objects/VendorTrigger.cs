@@ -16,26 +16,26 @@ public class VendorTrigger : InputTrigger
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		if(!canUse(originator, hand, position, false)){
+		if(!CanUse(originator, hand, position, false)){
 			return false;
 		}
 		
 		if (!allowSell && deniedMessage != null && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
 		{
-            UpdateChatMessage.Send(originator, ChatChannel.Examine, deniedMessage);
+			UpdateChatMessage.Send(originator, ChatChannel.Examine, deniedMessage);
 		}
 		else if(allowSell)
 		{
 			allowSell = false;
 			if (!GameData.Instance.testServer && !GameData.IsHeadlessServer)
 			{
-                UpdateChatMessage.Send(originator, ChatChannel.Examine, interactionMessage);
+				UpdateChatMessage.Send(originator, ChatChannel.Examine, interactionMessage);
 			}
 			ServerVendorInteraction(position);
 			StartCoroutine(VendorInputCoolDown());
 		}
 	
-        return true;
+		return true;
 	}
 
 	[Server]
