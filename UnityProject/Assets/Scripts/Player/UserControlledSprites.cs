@@ -12,7 +12,7 @@ using UnityEngine.Networking;
 /// </summary>
 public abstract class UserControlledSprites : NetworkBehaviour
 {
-	[SyncVar(hook = nameof(FaceDirectionSync))]
+	[SyncVar(hook = nameof(FaceDirectionSyncVarTrigger))]
 	protected Orientation currentDirection;
 	//cached other behaviors
 	protected PlayerMove playerMove;
@@ -79,11 +79,18 @@ public abstract class UserControlledSprites : NetworkBehaviour
 	    LocalFaceDirection(direction);
     }
 
+    // workaround to prevent IL2CPP issue while still ensuring the subclass implementation of FaceDirectionSync method
+    // is invoked
+    private void FaceDirectionSyncVarTrigger(Orientation dir)
+    {
+		FaceDirectionSync(dir);
+    }
+
     /// <summary>
     /// Invoked when currentDirection syncvar changes.
     /// </summary>
     /// <param name="dir"></param>
-    protected virtual void FaceDirectionSync( Orientation dir ){}
+    protected abstract void FaceDirectionSync(Orientation dir);
 
     /// <summary>
     /// Locally changes the direction of this player to face the specified direction but doesn't tell the server.
