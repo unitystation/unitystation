@@ -112,30 +112,30 @@ public static class ElectricityFunctions
 		return (Current);
 	}
 
-	public static Electricity WorkOutActualNumbers(IElectricityIO ElectricItem)
+	public static (float, float, float) WorkOutActualNumbers(IElectricityIO ElectricItem)
 	{  //Sometimes gives wrong readings at junctions, Needs to be looked into
 		float Current = 0; //Calculates the actual voltage and current flowing through the Node
 		float Voltage = 0;
-		float UsingNumber = 0;
-		Dictionary<IElectricityIO, float> AnInterestingDictionary = new Dictionary<IElectricityIO, float>();
 		foreach (KeyValuePair<int, float> CurrentIDItem in ElectricItem.Data.SourceVoltages) { //Voltages easy to work out just add up all the voltages from different sources
 			Voltage += CurrentIDItem.Value;
 		}
 		foreach (KeyValuePair<int, Dictionary<IElectricityIO, float>> CurrentIDItem in ElectricItem.Data.CurrentComingFrom)
 		{
-			UsingNumber = 0;
 			foreach (KeyValuePair<IElectricityIO, float> CurrentItem in CurrentIDItem.Value) //Tricky for current since it can flow one way or the other
 			{ 
-				UsingNumber += CurrentItem.Value;
+				Current += CurrentItem.Value;
 			}
-			Current += UsingNumber;
 		}
 		//Logger.Log (Voltage.ToString () + " < yeah Those voltage " + Current.ToString() + " < yeah Those Current " + (Voltage/Current).ToString() + " < yeah Those Resistance" + ElectricItem.GameObject().name.ToString() + " < at", Category.Electrical);
-		Electricity Cabledata = new Electricity();
-		Cabledata.Current = Current;
-		Cabledata.Voltage = Voltage;
-		Cabledata.EstimatedResistant = Voltage / Current;
-		return (Cabledata);
+
+		//Electricity Cabledata = new Electricity();
+		//Cabledata.Current = Current;
+		//Cabledata.Voltage = Voltage;
+		//Cabledata.EstimatedResistant = Voltage / Current;
+		ElectricItem.Data.CurrentInWire = Current;
+		ElectricItem.Data.ActualVoltage = Voltage;
+		ElectricItem.Data.EstimatedResistance = (Voltage / Current);
+		return (Current, Voltage, (Voltage / Current));
 	}
 
 	//public static void CircuitSearchLoop(IElectricityIO Thiswire, IProvidePower ProvidingPower)

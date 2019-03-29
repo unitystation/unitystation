@@ -33,7 +33,7 @@ public static class BatteryCalculation  {
 						Battery.PullingWatts = 0;
 						Battery.current = 0; 
 						Battery.PullLastDeductedTime = 0;
-						Logger.Log ("Turning off support due to voltage levels being suitable", Category.Electrical);
+						//Logger.Log ("Turning off support due to voltage levels being suitable", Category.Electrical);
 					}
 				}
 			} else {
@@ -41,7 +41,7 @@ public static class BatteryCalculation  {
 					Battery.PullingWatts = 0;
 					Battery.current = 0;
 					Battery.PullLastDeductedTime = 0;
-					Logger.Log ("Supply was turned off due to termination a support", Category.Electrical);
+					//Logger.Log ("Supply was turned off due to termination a support", Category.Electrical);
 				}
 			} 
 		} 
@@ -86,12 +86,12 @@ public static class BatteryCalculation  {
 							Battery.ChargingMultiplier = 0.1f;
 							Battery.Resistance = 0;
 							Battery.ChargLastDeductedTime = 0;
-							Logger.Log ("Turn off charging battery full", Category.Electrical);
+							//Logger.Log ("Turn off charging battery full", Category.Electrical);
 						}
 					} else if ((Battery.ActualVoltage > Battery.IncreasedChargeVoltage) && (!(Battery.CurrentCapacity >= Battery.CapacityMax))) {
 						Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) ));
 						Battery.ChargLastDeductedTime = Time.time;
-						Logger.Log ("Charging turning back on from line voltage checks\n", Category.Electrical);
+						//Logger.Log ("Charging turning back on from line voltage checks\n", Category.Electrical);
 					}
 	
 				} else {
@@ -100,7 +100,7 @@ public static class BatteryCalculation  {
 						Battery.ChargingMultiplier = 0.1f;
 						Battery.Resistance = 0;
 						Battery.ChargLastDeductedTime = 0;
-						Logger.Log (" Turning off Charging because support was terminated for charging", Category.Electrical);
+						//Logger.Log (" Turning off Charging because support was terminated for charging", Category.Electrical);
 					}
 				}
 			}
@@ -120,7 +120,7 @@ public static class BatteryCalculation  {
 							Battery.current = 0;
 							Battery.PullLastDeductedTime = 0;
 							//Battery.PassChangeToOff = false;
-							Logger.Log ("Turning off supply from loss of capacity", Category.Electrical);
+							//Logger.Log ("Turning off supply from loss of capacity", Category.Electrical);
 						}
 					} else {
 						if (Battery.ActualVoltage < Battery.MinimumSupportVoltage) {

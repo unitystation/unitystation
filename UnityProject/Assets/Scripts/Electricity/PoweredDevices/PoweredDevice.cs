@@ -71,10 +71,7 @@ public class PoweredDevice : ElectricalOIinheritance, IElectricityIO
 
 	public override void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
-		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
-		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
-		Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;
-		Data.EstimatedResistance = Data.ActualCurrentChargeInWire.EstimatedResistant;
+		ElectricityFunctions.WorkOutActualNumbers(this);
 	}
 	public void SetConnPoints(int DirectionEndin, int DirectionStartin)
 	{ }

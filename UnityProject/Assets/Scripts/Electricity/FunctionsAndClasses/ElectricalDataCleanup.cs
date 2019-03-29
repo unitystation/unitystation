@@ -106,10 +106,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 				}
 				Object.Data.CurrentGoingTo.Remove (InstanceID);
 				Object.Data.SourceVoltages.Remove (InstanceID);
-				Object.Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers (Object);
-				Object.Data.CurrentInWire = Object.Data.ActualCurrentChargeInWire.Current;
-				Object.Data.ActualVoltage = Object.Data.ActualCurrentChargeInWire.Voltage;
-				Object.Data.EstimatedResistance = Object.Data.ActualCurrentChargeInWire.EstimatedResistant;
+				ElectricityFunctions.WorkOutActualNumbers (Object);
 			}
 		}
 
@@ -158,10 +155,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 					Object.Data.CurrentGoingTo.Remove (InstanceID);
 					Object.Data.CurrentComingFrom.Remove (InstanceID);
 					Object.Data.SourceVoltages.Remove (InstanceID);
-					Object.Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(Object);;
-					Object.Data.CurrentInWire = Object.Data.ActualCurrentChargeInWire.Current;
-					Object.Data.ActualVoltage = Object.Data.ActualCurrentChargeInWire.Voltage;
-					Object.Data.EstimatedResistance = Object.Data.ActualCurrentChargeInWire.EstimatedResistant;
+					ElectricityFunctions.WorkOutActualNumbers(Object);;
 					Object.Data.UpstreamCount = new int ();
 					Object.Data.DownstreamCount = new int ();
 				}

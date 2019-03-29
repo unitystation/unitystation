@@ -97,14 +97,14 @@ public class WireConnect : ElectricalOIinheritance
 	//	}
 	//}
 
-	public void UpdateRelatedLine()
-	{
-		if (RelatedLine != null)
-		{
-			RelatedLine.UpdateCoveringCable(this);
+	//public void UpdateRelatedLine()
+	//{
+	//	if (RelatedLine != null)
+	//	{
+	//		RelatedLine.UpdateCoveringCable();
 
-		}
-	}
+	//	}
+	//}
 
 	public void lineExplore(CableLine PassOn, GameObject SourceInstance = null)
 	{
@@ -236,13 +236,21 @@ public class WireConnect : ElectricalOIinheritance
 			Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
 			Logger.Log("UpstreamCount " + (Data.UpstreamCount.ToString()), Category.Electrical);
 			Logger.Log("DownstreamCount " + (Data.DownstreamCount.ToString()), Category.Electrical);
-			Logger.Log("ActualVoltage " + (Data.ActualVoltage.ToString()), Category.Electrical);
-			Logger.Log("CurrentInWire " + (Data.CurrentInWire.ToString()), Category.Electrical);
-			Logger.Log("EstimatedResistance " + (Data.EstimatedResistance.ToString()), Category.Electrical);
 			if (RelatedLine != null)
 			{
 				Logger.Log("line heree!!!");
+				//RelatedLine.UpdateCoveringCable();
+				Data.ActualVoltage = RelatedLine.TheStart.Data.ActualVoltage;
+				Data.CurrentInWire = RelatedLine.TheStart.Data.CurrentInWire;
+				Data.EstimatedResistance = RelatedLine.TheStart.Data.EstimatedResistance;
 			}
+
+			Logger.Log("ActualVoltage " + (Data.ActualVoltage.ToString()), Category.Electrical);
+			Logger.Log("CurrentInWire " + (Data.CurrentInWire.ToString()), Category.Electrical);
+			Logger.Log("EstimatedResistance " + (Data.EstimatedResistance.ToString()), Category.Electrical);
+			
+
+
 		}
 
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);

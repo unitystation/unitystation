@@ -47,13 +47,13 @@ public class CableLine { //Meant to be an intermediary for long stretches of cab
 		}
 	}
 
-	public void UpdateCoveringCable(IElectricityIO ComingFrom)
+	public void UpdateCoveringCable()
 	{
 		for (int i = 0; i< Covering.Count; i++)
 		{
-			Covering[i].Data.ActualVoltage = ComingFrom.Data.ActualVoltage;
-			Covering[i].Data.CurrentInWire = ComingFrom.Data.CurrentInWire;
-			Covering[i].Data.EstimatedResistance = ComingFrom.Data.EstimatedResistance;
+			Covering[i].Data.ActualVoltage = TheStart.Data.ActualVoltage;
+			Covering[i].Data.CurrentInWire = TheStart.Data.CurrentInWire;
+			Covering[i].Data.EstimatedResistance = TheStart.Data.EstimatedResistance;
 		}	}
 
 }

@@ -115,10 +115,7 @@ public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePow
 		{
 			InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
 		}
-		Data.ActualCurrentChargeInWire = ElectricityFunctions.WorkOutActualNumbers(this);
-		Data.CurrentInWire = Data.ActualCurrentChargeInWire.Current;
-		Data.ActualVoltage = Data.ActualCurrentChargeInWire.Voltage;
-		Data.EstimatedResistance = Data.ActualCurrentChargeInWire.EstimatedResistant;
+		ElectricityFunctions.WorkOutActualNumbers(this);
 	}
 
 	public void SetConnPoints(int DirectionEndin, int DirectionStartin) { }
