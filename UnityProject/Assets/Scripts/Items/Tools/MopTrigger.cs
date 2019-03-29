@@ -43,7 +43,7 @@ public class MopTrigger : PickUpTrigger
     {
 	    var worldPosInt = worldPos.CutToInt();
 	    var matrix = MatrixManager.AtPoint( worldPosInt );
-	    var localPosInt = MatrixManager.WorldToLocalInt( worldPos, matrix );
+	    var localPosInt = MatrixManager.WorldToLocalInt( worldPosInt, matrix );
 	    var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt);
 
 	    for ( var i = 0; i < floorDecals.Count; i++ )
@@ -58,10 +58,6 @@ public class MopTrigger : PickUpTrigger
 
 		    // Sets a tile to slippery
 		    matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);
-		    Debug.Log($"Hamish: MopTrigger.CleanTile() at" +
-		              $"matrix.MetaDataLayer at local: X:{localPosInt.x} Y:{localPosInt.y} " +
-		              $"Matrix at world: X:{worldPosInt.x} Y:{worldPosInt.y} ID: {matrix.Id}. " +
-		              $"IsSlippery = {matrix.MetaDataLayer.IsSlipperyAt(localPosInt)}");
 	    }
 
     }
