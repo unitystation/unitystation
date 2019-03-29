@@ -99,6 +99,7 @@ public class GameData : MonoBehaviour
 
 	private void OnEnable()
 	{
+		Logger.RefreshPreferences();
 		if (IsTestMode)
 		{
 			return;
