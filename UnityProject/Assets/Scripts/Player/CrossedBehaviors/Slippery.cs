@@ -13,21 +13,21 @@ public class Slippery : MonoBehaviour
 
 	private void OnEnable()
 	{
-		registerItem.OnCrossed.AddListener(Slip);
+		registerItem.crossed.AddListener(Slip);
 	}
 
 	private void OnDisable()
 	{
-		registerItem.OnCrossed.RemoveListener(Slip);
+		registerItem.crossed.RemoveListener(Slip);
 	}
 
-	private void Slip()
+	private void Slip(RegisterPlayer registerPlayer)
 	{
-		if (MatrixManager.IsSpaceAt(transform.position.CutToInt()))
+		if (MatrixManager.IsSpaceAt(registerItem.WorldPosition))
 		{
 			return;
 		}
-		registerItem.CrossedRegisterPlayer.Stun();
-		SoundManager.PlayNetworkedAtPos("Slip", transform.position);
+		registerPlayer.Stun();
+		SoundManager.PlayNetworkedAtPos("Slip", registerItem.Position);
 	}
 }

@@ -494,6 +494,24 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		CmdProcessAction(action);
 	}
 
+	public void CheckTileSlip()
+	{
+		var WorldPosition = serverState.WorldPosition.CutToInt();
+		var Position = serverState.Position.CutToInt();
+
+		var matrix = MatrixManager.Get(serverState.MatrixId);
+		Debug.Log($"Hamish: RegisterPlayer.CheckTileSlip() at matrix.MetaDataLayer at local:" +
+		          $"X:{Position.x} Y:{Position.y} Matrix at world: X:{WorldPosition.x} Y:{WorldPosition.y} ID: {matrix.Id}." +
+		          $" IsSlippery = {matrix.MetaDataLayer.IsSlipperyAt(Position)}");
+
+		if (matrix.MetaDataLayer.IsSlipperyAt(Position))
+		{
+			Debug.Log("Hamish: RegisterPlayer tile IsSlippery!!!");
+			registerPlayer.Stun();
+		}
+	}
+
+
 #if UNITY_EDITOR
 	//Visual debug
 	[NonSerialized]

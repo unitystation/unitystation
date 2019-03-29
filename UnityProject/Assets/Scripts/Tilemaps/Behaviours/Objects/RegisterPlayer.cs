@@ -152,14 +152,6 @@ public class RegisterPlayer : RegisterTile
 		}
 	}
 
-	public void CheckTileSlip()
-	{
-		if (metaDataLayer.IsSlipperyAt(transform.position.CutToInt()))
-		{
-			Stun();
-		}
-	}
-
 	public void Stun(float stunDuration = 4f, bool dropItem = true)
 	{
 		isStunned = true;
