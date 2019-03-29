@@ -641,4 +641,16 @@ public partial class PlayerSync
 			objects[i].Cross(registerPlayer);
 		}
 	}
+
+	public void CheckTileSlip()
+	{
+		var worldPosition = serverState.WorldPosition.CutToInt();
+		var position = serverState.Position.CutToInt();
+		var matrix = MatrixManager.Get(serverState.MatrixId);
+
+		if (matrix.MetaDataLayer.IsSlipperyAt(position))
+		{
+			registerPlayer.Stun();
+		}
+	}
 }
