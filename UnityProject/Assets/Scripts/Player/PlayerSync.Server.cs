@@ -612,18 +612,30 @@ public partial class PlayerSync
 
 	private void Cross(Vector3Int position)
 	{
-		registerPlayer.CheckTileSlip();
+		CheckTileSlip();
 
 		if (PlayerUtils.IsGhost(gameObject))
 		{
 			return;
 		}
-		List<GameObject> objects = UITileList.GetItemsAtPosition(position);
+		List<RegisterItem> objects = MatrixManager.GetAt<RegisterItem>(position);
 		// Removes player from object list
-		objects.Remove(gameObject);
+		objects.Remove(gameObject.GetComponent<RegisterItem>());
 		for (int i = 0; i < objects.Count; i++)
 		{
-			objects[i].GetComponent<RegisterItem>()?.Cross(registerPlayer);
+			objects[i].Cross(registerPlayer);
+		}
+	}
+
+	public void CheckTileSlip()
+	{
+		var worldPosition = serverState.WorldPosition.CutToInt();
+		var position = serverState.Position.CutToInt();
+		var matrix = MatrixManager.Get(serverState.MatrixId);
+
+		if (matrix.MetaDataLayer.IsSlipperyAt(position))
+		{
+			registerPlayer.Stun();
 		}
 	}
 }

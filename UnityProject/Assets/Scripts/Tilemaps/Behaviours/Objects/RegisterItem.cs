@@ -3,19 +3,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
+[System.Serializable]
+public class OnCrossed : UnityEvent<RegisterPlayer>{};
 
 [ExecuteInEditMode]
 	public class RegisterItem : RegisterTile
 	{
-		public UnityEvent OnCrossed;
-
-		[HideInInspector]
-		public RegisterPlayer CrossedRegisterPlayer;
+		public OnCrossed crossed;
 
 		public void Cross(RegisterPlayer registerPlayer)
 		{
-			CrossedRegisterPlayer = registerPlayer;
-			OnCrossed?.Invoke();
+			crossed.Invoke(registerPlayer);
 		}
 
 	}
