@@ -7,11 +7,6 @@ public class MopTrigger : PickUpTrigger
 {
 	private MetaDataLayer metaDataLayer;
 
-	private void Awake()
-	{
-		metaDataLayer = transform.GetComponentInParent<MetaDataLayer>();
-	}
-
 	public override bool Interact (GameObject originator, Vector3 position, string hand)
     {
         //TODO:  Fill this in.
@@ -44,22 +39,30 @@ public class MopTrigger : PickUpTrigger
         return base.Interact (originator, position, hand);
     }
 
-    public void CleanTile (Vector3 spatsPos)
+    public void CleanTile (Vector3 worldPos)
     {
-	    Vector3Int targetWorldIntPos = spatsPos.CutToInt();
-	    var floorDecals = MatrixManager.GetAt<FloorDecal>(targetWorldIntPos);
+	    var worldPosInt = worldPos.CutToInt();
+	    var matrix = MatrixManager.AtPoint( worldPosInt );
+	    var localPosInt = MatrixManager.WorldToLocalInt( worldPos, matrix );
+	    var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt);
+
 	    for ( var i = 0; i < floorDecals.Count; i++ )
 	    {
 		    floorDecals[i].DisappearFromWorldServer();
 	    }
 
-	    if (!MatrixManager.IsSpaceAt(targetWorldIntPos) )
+	    if (!MatrixManager.IsSpaceAt(worldPosInt))
 	    {
 		    // Create a WaterSplat Decal (visible slippery tile)
 		    // EffectsFactory.Instance.WaterSplat(targetWorldIntPos);
 
 		    // Sets a tile to slippery
-		    metaDataLayer.MakeSlipperyAt(targetWorldIntPos);
+		    matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);
+		    Debug.Log($"Hamish: MopTrigger.CleanTile() at" +
+		              $"matrix.MetaDataLayer at local: X:{localPosInt.x} Y:{localPosInt.y} " +
+		              $"Matrix at world: X:{worldPosInt.x} Y:{worldPosInt.y} ID: {matrix.Id}. " +
+		              $"IsSlippery = {matrix.MetaDataLayer.IsSlipperyAt(localPosInt)}");
 	    }
+
     }
 }
