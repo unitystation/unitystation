@@ -29,7 +29,7 @@ public static class ELCurrent
 					}
 					else
 					{
-						Logger.LogError("now It doesn't" + SourceInstanceID.ToString() + " with this " + Node.GameObject().name.ToString(), Category.Electrical);
+						Logger.LogError("now It doesn't" + SourceInstanceID + " with this " + Node.GameObject().name, Category.Electrical);
 
 					}
 					float Voltage = Node.Data.CurrentStoreValue * (ElectricityFunctions.WorkOutResistance(ThiswireResistance));

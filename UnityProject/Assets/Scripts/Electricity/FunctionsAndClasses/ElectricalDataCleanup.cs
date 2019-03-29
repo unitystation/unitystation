@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class ElectricalDataCleanup { //To clean out data on cables and machines
 	public static void CleanConnectedDevices(IElectricityIO Thiswire){
-		Logger.Log ("Cleaning it out");
+		//Logger.Log ("Cleaning it out");
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> IsConnectedTo in Thiswire.Data.ResistanceToConnectedDevices) {
 			IsConnectedTo.Key.connectedDevices.Remove (Thiswire);
 		}
@@ -12,7 +12,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 	}
 
 	public static void CleanConnectedDevicesFromPower(IElectricityIO Thiswire){
-		Logger.Log ("Cleaning it out");
+		//Logger.Log ("Cleaning it out");
 		foreach (IElectricityIO IsConnectedTo in Thiswire.connectedDevices) {
 			IsConnectedTo.Data.ResistanceToConnectedDevices.Remove (Thiswire);
 		}
