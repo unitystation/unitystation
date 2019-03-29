@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -8,28 +9,30 @@ using UnityEngine;
 /// [Category.Transform] = Level.Trace
 public static class Logger
 {
+	private static LoggerPreferences loggerPrefs;
 	/// Default Log level
 	private static readonly LogLevel LogLevel = LogLevel.Info;
+	private static Dictionary<Category, LogLevel> LogOverrides = new Dictionary<Category, LogLevel>();
 
-	/// Log level overrides for categories. Default log level will be ignored for these:
-	private static readonly Dictionary<Category, LogLevel> LogOverrides = new Dictionary<Category, LogLevel>
+	public static void RefreshPreferences()
 	{
-		[Category.Unknown] = LogLevel.Info,
-		//		[Category.Movement] = Level.Trace,
-		[Category.Health] = LogLevel.Trace,
-		[Category.DmMetadata] = LogLevel.Off,
-		[Category.Light2D] = LogLevel.Off,
-		[Category.RightClick] = LogLevel.Off,
-		[Category.PushPull] = LogLevel.Info,
-		[Category.PlayerSprites] = LogLevel.Error,
-		[Category.Lerp] = LogLevel.Off,
-		[Category.Equipment] = LogLevel.Trace,
-		[Category.Round] = LogLevel.Info,
-		[Category.UI] = LogLevel.Info,
-		[Category.Camera] = LogLevel.Trace,
-		[Category.DebugConsole] = LogLevel.Trace,
-		//		[Category.NetUI] = Level.Trace,
-	};
+		if (!PlayerPrefs.HasKey("logprefs"))
+		{
+			var data = File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
+				"LogLevelDefaults/default.json"));
+			PlayerPrefs.SetString("logprefs", data);
+			PlayerPrefs.Save();
+		}
+
+		loggerPrefs = JsonUtility.FromJson<LoggerPreferences>(PlayerPrefs.GetString("logprefs"));
+
+		LogOverrides.Clear();
+
+		foreach (LogOverridePref pref in loggerPrefs.logOverrides)
+		{
+			LogOverrides.Add(pref.category, pref.logLevel);
+		}
+	}
 
 	/// <inheritdoc cref="LogTrace"/>
 	/// <inheritdoc cref="LogFormat"/>

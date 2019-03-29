@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -21,9 +22,9 @@ public class LogLevels : EditorWindow
     private void CheckCategories()
     {
         LoggerPreferences savedPrefs = null;
-        if (PlayerPrefs.HasKey("playerprefs"))
+        if (PlayerPrefs.HasKey("logprefs"))
         {
-            savedPrefs = JsonUtility.FromJson<LoggerPreferences>(PlayerPrefs.GetString("playerprefs"));
+            savedPrefs = JsonUtility.FromJson<LoggerPreferences>(PlayerPrefs.GetString("logprefs"));
         }
 
         LoggerPreferences generatedPrefs = new LoggerPreferences();
@@ -49,8 +50,12 @@ public class LogLevels : EditorWindow
 
     private void SavePrefs()
     {
-        PlayerPrefs.SetString("playerprefs", JsonUtility.ToJson(loggerPrefs));
+        PlayerPrefs.SetString("logprefs", JsonUtility.ToJson(loggerPrefs));
         PlayerPrefs.Save();
+        if (Application.isPlaying)
+        {
+            Logger.RefreshPreferences();
+        }
     }
 
     void OnGUI()
