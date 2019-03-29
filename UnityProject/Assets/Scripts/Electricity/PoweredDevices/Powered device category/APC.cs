@@ -244,6 +244,21 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 			}
 		}
 	}
+
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		StartCoroutine(WaitForLoad());
+	}
+
+	private IEnumerator WaitForLoad()
+	{
+		yield return new WaitForSeconds(3f);
+		OnVoltageChange();
+		OnStateChange();
+	}
+
+
 	private void OnStateChange()
 	{
 		switch (State)
