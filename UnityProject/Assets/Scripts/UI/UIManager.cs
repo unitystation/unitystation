@@ -46,8 +46,28 @@ public class UIManager : MonoBehaviour
 			Instance.isInputFocus = value;
 		}
 	}
-
 	public bool isInputFocus;
+
+	///Global flag for when we are using the mouse to do something that shouldn't cause interaction with the game.
+	public static bool IsMouseInteractionDisabled
+	{
+		get
+		{
+			return Instance && Instance.isMouseInteractionDisabled;
+		}
+		set
+		{
+			if (!Instance)
+			{
+				return;
+			}
+			Instance.isMouseInteractionDisabled = value;
+		}
+	}
+
+	private bool isMouseInteractionDisabled;
+
+
 
 	public static UIManager Instance
 	{

@@ -17,7 +17,7 @@ public class FoodBehaviour : NetworkBehaviour
 
 	public override void OnStartServer()
 	{
-		//If this wasn't spawned via ItemFactory (i.e via map editing) then add it to 
+		//If this wasn't spawned via ItemFactory (i.e via map editing) then add it to
 		//poolmanager so it can be safely destroyed
 		PoolPrefabTracker pT = GetComponent<PoolPrefabTracker>();
 		if (pT == null)
@@ -38,7 +38,7 @@ public class FoodBehaviour : NetworkBehaviour
 		}
 		yield return new WaitForEndOfFrame();
 
-		PoolManager.Instance.PoolCacheObject(gameObject);
+		PoolManager.PoolCacheObject(gameObject);
 	}
 
 	public virtual void TryEat()

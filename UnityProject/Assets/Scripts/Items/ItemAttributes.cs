@@ -181,24 +181,24 @@ public class ItemAttributes : NetworkBehaviour
 		hitDamage = TryParseFloat("force") ?? hitDamage;
 		attackVerb = TryParseList("attack_verb") ?? attackVerb;
 
-		masterType = getMasterType(hier); // aka SpriteType
-		itemType = getItemType(hier, getInvIconPrefix(masterType));
-		invSheetPaths = getItemClothSheetHier(itemType);
+		masterType = UniItemUtils.GetMasterType(hier); // aka SpriteType
+		itemType = UniItemUtils.GetItemType(hier);
+		invSheetPaths = UniItemUtils.GetItemClothSheetHier(itemType);
 		//			size = getItemSize(tryGetAttr("w_class"));
 		int[] inHandOffsets = tryGetInHand();
 		inHandLeft = inHandOffsets[0];
 		inHandRight = inHandOffsets[1];
-		inventoryIcon = tryGetInventoryIcon();
+		inventoryIcon = UniItemUtils.GetInventoryIcon(hier, invSheetPaths, icon, icon_state);
 		clothingOffset = tryGetClothingOffset(states);
 
 		//determine item type via sheet name if hier name failed
 		if (itemType == ItemType.None)
 		{
-			itemType = getItemType(inventoryIcon.getName());
+			itemType = UniItemUtils.GetItemType(inventoryIcon.getName());
 		}
 
 		//inventory item sprite
-		Sprite stateSprite = tryGetStateSprite(inventoryIcon, icon_state);
+		Sprite stateSprite = UniItemUtils.TryGetStateSprite(inventoryIcon, icon_state);
 
 		//finally setting things
 		inHandReferenceLeft = inHandLeft;
@@ -231,25 +231,6 @@ public class ItemAttributes : NetworkBehaviour
 		}
 	}
 
-	private static Sprite tryGetStateSprite(DmiIcon dmiIcon, string icon_state)
-	{
-		if (dmiIcon == null || dmiIcon.getName().Equals(""))
-		{
-
-			Logger.Log($"DmiIcon '{dmiIcon}' is null, unable to get state '{icon_state}'", Category.DmMetadata);
-			return null;
-		}
-
-		DmiState iState = dmiIcon.getState(icon_state);
-		if (!iState.state.Equals(""))
-		{
-			return dmiIcon.spriteSheet[iState.offset];
-		}
-
-		Logger.Log($"Failed to find inventory sprite '{icon_state}' in icon '{dmiIcon.icon}'", Category.DmMetadata);
-		return null;
-	}
-
 	[ContextMenu("GetItemInfo")]
 	private void DebugInfo()
 	{
@@ -265,16 +246,6 @@ public class ItemAttributes : NetworkBehaviour
 			$"name={name}, type={itemType}, spriteType={spriteType} ({desc}) : {icon_state} / {item_state} / " +
 			$"C: {clothingReference}, L: {inHandLeft}, R: {inHandRight}, I: {inventoryIcon.icon}{'\n'}" +
 			$"{dmDic.Keys.Aggregate("", (current, key) => current + key + ": " + dmDic[key] + "\n")}");
-	}
-
-	private static SpriteType getMasterType(string hs)
-	{
-		if (hs.StartsWith(ObjItemClothing))
-		{
-			return SpriteType.Clothing;
-		}
-
-		return SpriteType.Items;
 	}
 
 	private static string getMasterTypeHandsString(SpriteType masterType)
@@ -307,37 +278,6 @@ public class ItemAttributes : NetworkBehaviour
 	{
 		return dm != null && dmi != null;
 	}
-
-	private /*static*/ DmiIcon tryGetInventoryIcon( /*DmiIconData dmi, string[] invSheetPaths, string icon = ""*/ )
-	{
-		//determining invIcon
-		for (int i = 0; i < invSheetPaths.Length; i++)
-		{
-			string iconPath = DmiIconData.getIconPath(invSheetPaths[i]); //add extension junk
-			if (!iconPath.Equals("") && DmiIconData.Data.ContainsKey(iconPath) && icon.Equals(""))
-			{
-				//					Logger.Log(name + ": iSheet = dmi.DataHier[" + iconPath +"] = " + dmi.Data[iconPath]);
-				return DmiIconData.Data[iconPath];
-			}
-		}
-
-		if (!icon.Equals(""))
-		{
-			//				Logger.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
-			return DmiIconData.Data[icon];
-		}
-		//pretty bad choice, should use this only as last resort as it's usually pretty inaccurate
-		DmiIcon invIcon = dmi.getIconByState(icon_state);
-		if (invIcon != null)
-		{
-
-			Logger.Log($"{name} is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}", Category.DmMetadata);
-			return invIcon;
-		}
-		//			Logger.LogError();
-		return new DmiIcon();
-	}
-
 	//getting stuff from whatever states provided (expected order is item_state, item_color, icon_state)
 	private /*static*/ int tryGetClothingOffset(string[] states)
 	{
@@ -372,47 +312,6 @@ public class ItemAttributes : NetworkBehaviour
 		DmiState stateRH = dmi.searchStateInIconShallow(item_state, "mob/inhands/" + searchString + "_righthand");
 
 		return new [] { stateLH == null ? -1 : stateLH.offset, stateRH == null ? -1 : stateRH.offset };
-	}
-
-	private static string getInvIconPrefix(SpriteType st)
-	{
-		switch (st)
-		{
-			case SpriteType.Clothing:
-				return ObjItemClothing;
-			default:
-				return "";
-		}
-	}
-
-	private static string[] getItemClothSheetHier(ItemType type)
-	{
-		string p = "obj/clothing/";
-		switch (type)
-		{
-			case ItemType.Belt:
-				return new [] { p + "belts" };
-			case ItemType.Back:
-				return new [] { "obj/storage" };
-			case ItemType.Glasses:
-				return new [] { p + "glasses" };
-			case ItemType.Gloves:
-				return new [] { p + "gloves" };
-			case ItemType.Hat:
-				return new [] { p + "hats" };
-			case ItemType.Mask:
-				return new [] { p + "masks" };
-			case ItemType.Shoes:
-				return new [] { p + "shoes" };
-			case ItemType.Suit:
-				return new [] { p + "suits" };
-			case ItemType.Neck:
-				return new [] { p + "ties", p + "neck" };
-			case ItemType.Uniform:
-				return new [] { p + "uniforms" };
-			default:
-				return new [] { "" };
-		}
 	}
 
 	private static string[] getOnPlayerClothSheetHier(ItemType type)
@@ -463,75 +362,6 @@ public class ItemAttributes : NetworkBehaviour
 		if (hierarchy.Length == 0 && spriteType == SpriteType.Clothing)
 		{
 			hierarchy = hierList[new Random().Next(hierList.Length)];
-		}
-	}
-
-	private static ItemType getItemType(string s, string cutOff = "")
-	{
-		//	Logger.Log("getItemType for " + s);
-		string sCut;
-		if (!cutOff.Equals("") && s.StartsWith(cutOff))
-		{
-			sCut = s.Substring(cutOff.Length + 1).Split('/')[0];
-			//				Logger.Log("sCut = "+ sCut);
-		}
-		else
-		{
-			if (s.Contains("storage"))
-			{
-				sCut = "back";
-			}
-			else
-			{
-				//All other unknowns:
-				sCut = s;
-			}
-		}
-
-		switch (sCut)
-		{
-			case "uniform":
-			case "uniforms":
-			case "under":
-			case "underwear":
-				return ItemType.Uniform;
-			case "back":
-			case "cloaks":
-				return ItemType.Back;
-			case "belt_mirror":
-			case "belt":
-			case "belts":
-				return ItemType.Belt;
-			case "eyes":
-			case "glasses":
-				return ItemType.Glasses;
-			case "radio":
-			case "ears":
-				return ItemType.Ear;
-			case "gloves":
-			case "hands":
-				return ItemType.Gloves;
-			case "shoes":
-			case "feet":
-				return ItemType.Shoes;
-			case "head":
-			case "hats":
-				return ItemType.Hat;
-			case "mask":
-			case "masks":
-				return ItemType.Mask;
-			case "tie":
-			case "ties":
-			case "neck":
-				return ItemType.Neck;
-			case "suit":
-			case "flightsuit":
-			case "suits":
-				return ItemType.Suit;
-			default:
-				//GetItemType will be called several times on failure, with different string parameters
-				//				Logger.Log("Could not find item type for " + sCut + ". Will attempt fallbacks if any exist.");
-				return ItemType.None;
 		}
 	}
 

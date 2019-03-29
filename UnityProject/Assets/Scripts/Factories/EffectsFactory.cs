@@ -36,7 +36,7 @@ public class EffectsFactory : NetworkBehaviour
 	public void SpawnFileTileLocal(float fuelAmt, Vector3 localPosition, Transform parent)
 	{
 		//ClientSide pool spawn
-		GameObject fireObj = PoolManager.Instance.PoolClientInstantiate(fireTile, Vector3.zero, Quaternion.identity);
+		GameObject fireObj = PoolManager.PoolClientInstantiate(fireTile, Vector3.zero);
 		//Spawn tiles need to be placed in a local matrix:
 		fireObj.transform.parent = parent;
 		fireObj.transform.localPosition = localPosition;
@@ -48,7 +48,7 @@ public class EffectsFactory : NetworkBehaviour
 	{
 		//ClientSide spawn
 		GameObject sM =
-			PoolManager.Instance.PoolClientInstantiate(scorchMarksTile, parent.position, Quaternion.identity);
+			PoolManager.PoolClientInstantiate(scorchMarksTile, parent.position);
 		sM.transform.parent = parent;
 		return sM;
 	}
@@ -58,7 +58,7 @@ public class EffectsFactory : NetworkBehaviour
 	{
 		//blood splat should be relative to the matrix it appears in, but parented to Objects just like all
 		// the other objects in the matrix
-		GameObject b = PoolManager.Instance.PoolNetworkInstantiate(bloodTile, pos, Quaternion.identity,
+		GameObject b = PoolManager.PoolNetworkInstantiate(bloodTile, pos,
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(pos)).Objects);
 		BloodSplat bSplat = b.GetComponent<BloodSplat>();
 		//choose a random blood sprite

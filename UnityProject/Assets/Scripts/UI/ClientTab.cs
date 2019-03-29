@@ -6,6 +6,7 @@ public enum ClientTabType {
 	Stats = 0,
 	More,
 	ItemList,
-	ControlInformation
+	ControlInformation,
+	Dev
 	//add your tabs here
 }

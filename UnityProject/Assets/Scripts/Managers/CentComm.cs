@@ -14,6 +14,12 @@ public class CentComm : MonoBehaviour
 	//Server only:
 	private List<Vector2> AsteroidLocations = new List<Vector2>();
 	private int PlasmaOrderRequestAmt;
+	private GameObject paperPrefab;
+
+	void Start()
+	{
+		paperPrefab = Resources.Load<GameObject>("Paper");
+	}
 
 	private void OnEnable()
 	{
@@ -75,7 +81,7 @@ public class CentComm : MonoBehaviour
 		var commConsoles = FindObjectsOfType<CommConsole>();
 		foreach (CommConsole console in commConsoles)
 		{
-			var p = ItemFactory.SpawnItem(ItemFactory.Instance.paper, console.transform.position, console.transform.parent);
+			var p = PoolManager.PoolNetworkInstantiate(paperPrefab, console.transform.position, console.transform.parent);
 			var paper = p.GetComponent<Paper>();
 			paper.SetServerString(CreateStartGameReport());
 		}

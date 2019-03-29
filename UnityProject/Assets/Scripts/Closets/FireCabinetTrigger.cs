@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -35,8 +35,8 @@ public class FireCabinetTrigger : InputTrigger
 		IsClosed = true;
 		isFull = true;
 
-		GameObject item = ItemFactory.SpawnItem(itemPrefab, transform.parent);
-		
+		GameObject item = PoolManager.PoolNetworkInstantiate(itemPrefab, parent: transform.parent);
+
 		storedObject = item.GetComponent<ObjectBehaviour>();
 		storedObject.visibleState = false;
 		base.OnStartServer();

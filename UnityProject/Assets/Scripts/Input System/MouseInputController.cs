@@ -89,6 +89,10 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckMouseInput()
 	{
+		if (UIManager.IsMouseInteractionDisabled)
+		{
+			return;
+		}
 		if (CommonInput.GetMouseButtonDown(0))
 		{
 			if (!CheckAltClick())

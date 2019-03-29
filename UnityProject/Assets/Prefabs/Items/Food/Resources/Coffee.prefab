@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 61202592083071704}
   - component: {fileID: 114842434566603030}
   - component: {fileID: 114828422824226692}
-  - component: {fileID: 871084823515909746}
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
   - component: {fileID: 114208883059431984}
   - component: {fileID: 114880268731048502}
   - component: {fileID: 6861194358892837349}
+  - component: {fileID: 146561550947347302}
   m_Layer: 10
   m_Name: Coffee
   m_TagString: Untagged
@@ -128,18 +128,6 @@ MonoBehaviour:
   hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &871084823515909746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6226df5fc2d4f374fa1cd7ba52d5af40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114931546224579044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +216,18 @@ MonoBehaviour:
   - coffee
   Amounts:
   - 50
+--- !u!114 &146561550947347302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6226df5fc2d4f374fa1cd7ba52d5af40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,12 +296,12 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300252, guid: ed69078d0d254c81b53350e6d1b39239, type: 3}
+  m_Sprite: {fileID: 21300190, guid: 3547c548ae071487c84212e8ee25d554, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

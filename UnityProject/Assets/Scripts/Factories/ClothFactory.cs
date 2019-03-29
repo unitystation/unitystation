@@ -1,14 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Handles logic related to unicloths, which require special logic for instantiation because
+/// they all share the same base prefabs and only get their unique appearance by passing a hier string
+/// to the ItemAttributes behavior.
+/// </summary>
 public class ClothFactory : NetworkBehaviour
 {
-	public static ClothFactory Instance;
+	private static ClothFactory Instance;
 
-	public static string ClothingHierIdentifier = "cloth";
-	public static string HeadsetHierIdentifier = "headset";
-	public static string BackPackHierIdentifier = "storage/backpack";
-	public static string BagHierIdentifier = "storage/bag";
 
 	private GameObject uniCloth { get; set; }
 	private GameObject uniHeadSet { get; set; }
@@ -34,29 +36,60 @@ public class ClothFactory : NetworkBehaviour
 		uniBackPack = Resources.Load("UniBackPack") as GameObject;
 	}
 
-	public void PreLoadCloth(int preLoads)
+	private static bool IsInstanceInit()
 	{
+		if (Instance == null)
+		{
+			//TODO: What's the proper way to prevent this?
+			Logger.LogError("ClothFactory was attempted to be used before it has initialized. Please delay using" +
+			                " ClothFactory (such as by using a coroutine to wait) until it is initialized. Nothing will" +
+			                " be initialized and null will be returned.");
+			return false;
+		}
+
+		return true;
+	}
+
+	public static void PreLoadCloth(int preLoads)
+	{
+		if (!IsInstanceInit())
+		{
+			return;
+		}
 		for (int i = 0; i < preLoads; i++)
 		{
-			PoolManager.Instance.PoolNetworkPreLoad(Instance.uniCloth);
-			PoolManager.Instance.PoolNetworkPreLoad(Instance.uniHeadSet);
+			PoolManager.PoolNetworkPreLoad(Instance.uniCloth);
+			PoolManager.PoolNetworkPreLoad(Instance.uniHeadSet);
 		}
 	}
 
+	/// <summary>
+	/// Spawn the unicloth and ensures it is synced over the network
+	/// </summary>
+	/// <param name="hierString">hier string of the unicloth to spawn</param>
+	/// <param name="worldPos">world position to appear at.</param>
+	/// <param name="parent">Parent to spawn under, defaults to no parent. THIS SHOULD RARELY BE NULL! Most things
+	/// should always be spawned under the Objects transform in their matrix. However, many objects (due to RegisterTile)
+	/// usually take care of properly parenting themselves when spawned.</param>
+	/// <returns>the newly created GameObject</returns>
 	//TODO is it going to be spawned on a player in equipment etc?
-	public GameObject CreateCloth(string hierString, Vector3 spawnPos, Transform parent)
+	public static GameObject CreateCloth(string hierString, Vector3 worldPos, Transform parent=null)
 	{
+		if (!IsInstanceInit())
+		{
+			return null;
+		}
 		if (!CustomNetworkManager.Instance._isServer)
 		{
 			return null;
 		}
 
 		//PoolManager handles networkspawn
-		GameObject uniItem = pickClothObject(hierString);
-		GameObject clothObj = ItemFactory.SpawnItem(uniItem, spawnPos, parent);
+		GameObject uniItem = GetClothPrefabForHier(hierString);
+		GameObject clothObj = PoolManager.PoolNetworkInstantiate(uniItem, worldPos, parent: parent);
 		ItemAttributes i = clothObj.GetComponent<ItemAttributes>();
 		i.hierarchy = hierString;
-		if (uniItem == uniHeadSet)
+		if (uniItem == Instance.uniHeadSet)
 		{
 			Headset headset = clothObj.GetComponent<Headset>();
 			headset.init();
@@ -64,21 +97,26 @@ public class ClothFactory : NetworkBehaviour
 		return clothObj;
 	}
 
-	private GameObject pickClothObject(string hierarchy)
+	/// <summary>
+	/// Returns the cloth prefab that should be used for spawning the object with the specified hier
+	/// </summary>
+	/// <param name="hierarchy"></param>
+	/// <returns></returns>
+	public static GameObject GetClothPrefabForHier(string hierarchy)
 	{
-		if (hierarchy.Contains(ClothingHierIdentifier))
+		if (hierarchy.Contains(UniItemUtils.ClothingHierIdentifier))
 		{
-			return uniCloth;
+			return Instance.uniCloth;
 		}
-		if (hierarchy.Contains(HeadsetHierIdentifier))
+		if (hierarchy.Contains(UniItemUtils.HeadsetHierIdentifier))
 		{
-			return uniHeadSet;
+			return Instance.uniHeadSet;
 		}
-		if (hierarchy.Contains(BackPackHierIdentifier) || hierarchy.Contains(BagHierIdentifier))
+		if (hierarchy.Contains(UniItemUtils.BackPackHierIdentifier) || hierarchy.Contains(UniItemUtils.BagHierIdentifier))
 		{
-			return uniBackPack;
+			return Instance.uniBackPack;
 		}
 		Logger.LogError("Cloth factory could not pick uni item. Falling back to uniCloth", Category.DmMetadata);
-		return uniCloth;
+		return Instance.uniCloth;
 	}
 }

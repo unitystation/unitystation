@@ -151,6 +151,6 @@ public abstract class BulletBehaviour : MonoBehaviour
 		{
 			trailRenderer.ShotDone();
 		}
-		PoolManager.Instance.PoolClientDestroy(gameObject);
+		PoolManager.PoolClientDestroy(gameObject);
 	}
 }

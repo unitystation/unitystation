@@ -15,7 +15,6 @@ public class ExplodeWhenShotTest
 	{
 		GameObject obj = new GameObject();
 		obj.AddComponent<SoundManager>();
-		obj.AddComponent<ItemFactory>();
 		obj.AddComponent<PoolManager>();
 		obj.AddComponent<SpriteManager>();
 		spriteRenderer = obj.AddComponent<SpriteRenderer>();
@@ -27,7 +26,7 @@ public class ExplodeWhenShotTest
 	public IEnumerator Should_Destroy_Bullet()
 	{
 		GameObject bullet = new GameObject();
-		PoolManager.Instance.PoolClientInstantiate(bullet, Vector2.zero, Quaternion.identity);
+		PoolManager.PoolClientInstantiate(bullet, Vector2.zero);
 		BoxCollider2D collider = bullet.AddComponent<BoxCollider2D>();
 		PoolPrefabTracker tracker = bullet.AddComponent<PoolPrefabTracker>();
 		tracker.myPrefab = bullet;

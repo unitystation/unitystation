@@ -78,7 +78,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 		//TODO when added interact with dropped headset, add encryption key to empty hand
 		headset.EncryptionKey = EncryptionKeyType.None;
 
-		ItemFactory.SpawnItem(encryptionKey, player.Script.WorldPos, player.GameObject.transform.parent);
+		PoolManager.PoolNetworkInstantiate(encryptionKey, player.Script.WorldPos, player.GameObject.transform.parent);
 	}
 
 	public static UpdateHeadsetKeyMessage Send(GameObject headsetItem, GameObject encryptionkey = null)

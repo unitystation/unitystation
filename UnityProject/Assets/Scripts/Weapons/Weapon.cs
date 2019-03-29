@@ -246,7 +246,7 @@ public class Weapon : PickUpTrigger
 	{
 		GameObject ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType) as GameObject;
 
-		GameObject m = ItemFactory.SpawnItem(ammoPrefab, transform.parent);
+		GameObject m = PoolManager.PoolNetworkInstantiate(ammoPrefab, parent: transform.parent);
 		var cnt = m.GetComponent<CustomNetTransform>();
 		cnt.DisappearFromWorldServer();
 
@@ -590,7 +590,7 @@ public class Weapon : PickUpTrigger
 					casingPrefab = Resources.Load("BulletCasing") as GameObject;
 				}
 
-				ItemFactory.SpawnItem(casingPrefab, nextShot.shooter.transform.position, nextShot.shooter.transform.parent);
+				PoolManager.PoolNetworkInstantiate(casingPrefab, nextShot.shooter.transform.position, nextShot.shooter.transform.parent);
 			}
 		}
 	}
@@ -613,8 +613,8 @@ public class Weapon : PickUpTrigger
 		FireCountDown += 1.0 / FireRate;
 		CurrentMagazine.ammoRemains--;
 		//get the bullet prefab being shot
-		GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(Projectile.name) as GameObject,
-			shooter.transform.position, Quaternion.identity);
+		GameObject bullet = PoolManager.PoolClientInstantiate(Resources.Load(Projectile.name) as GameObject,
+			shooter.transform.position);
 		float angle = Mathf.Atan2(finalDirection.y, finalDirection.x) * Mathf.Rad2Deg;
 
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();

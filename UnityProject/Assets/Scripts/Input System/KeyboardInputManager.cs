@@ -36,12 +36,16 @@ public class KeyboardInputManager : MonoBehaviour
 		if (!UIManager.IsInputFocus && GameData.IsInGame && CustomNetworkManager.Instance.IsClientConnected())
 		{
 			// Perform escape key action
-			// TODO make stack system more general so each target can define its own close function (probs using unity editor and events?)
 			if (CommonInput.GetKeyDown(KeyCode.Escape))
 			{
 				if(EscapeKeyTarget.TargetStack.Count > 0)
 				{
-					GUI_IngameMenu.Instance.CloseMenuPanel(EscapeKeyTarget.TargetStack.Peek());
+					EscapeKeyTarget escapeKeyTarget = EscapeKeyTarget.TargetStack.Peek().GetComponent<EscapeKeyTarget>();
+					escapeKeyTarget.OnEscapeKey.Invoke();
+					if (escapeKeyTarget.DisableOnEscape)
+					{
+						GUI_IngameMenu.Instance.CloseMenuPanel(EscapeKeyTarget.TargetStack.Peek());
+					}
 				}
 				else
 				{

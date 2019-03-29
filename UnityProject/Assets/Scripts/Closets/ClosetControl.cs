@@ -49,7 +49,7 @@ public class ClosetControl : InputTrigger
 
 		foreach (GameObject itemPrefab in DefaultContents)
 		{
-			ItemFactory.SpawnItem(itemPrefab, transform.position, transform.parent);
+			PoolManager.PoolNetworkInstantiate(itemPrefab, transform.position, parent: transform.parent);
 		}
 	}
 

@@ -34,7 +34,7 @@ public class ObjectManager : MonoBehaviour
 		clothFactory = pM.GetComponent<ClothFactory>();
 
 		//Preload to save on Instantiation during gameplay
-		ClothFactory.Instance.PreLoadCloth(Instance.preLoadClothAmount);
+		ClothFactory.PreLoadCloth(Instance.preLoadClothAmount);
 	}
 }
 
@@ -49,8 +49,8 @@ public enum ItemSize
 }
 
 //	public enum W_CLASS { //w_class
-//		WEIGHT_CLASS_TINY, WEIGHT_CLASS_SMALL, 
-//		WEIGHT_CLASS_NORMAL, WEIGHT_CLASS_BULKY, 
+//		WEIGHT_CLASS_TINY, WEIGHT_CLASS_SMALL,
+//		WEIGHT_CLASS_NORMAL, WEIGHT_CLASS_BULKY,
 //		WEIGHT_CLASS_HUGE
 //	}
 
@@ -116,8 +116,8 @@ public enum FLAGS_COVER
 
 public enum FLAGS
 {
-//flags 
-	//visor_flags 
+//flags
+	//visor_flags
 	CONDUCT,
 	ABSTRACT,
 	NODROP,
