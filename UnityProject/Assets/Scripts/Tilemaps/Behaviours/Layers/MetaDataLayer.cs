@@ -79,7 +79,6 @@ public class MetaDataLayer : MonoBehaviour
 	{
 		yield return new WaitForSeconds(15f);
 		tile.IsSlippery = false;
-		Debug.Log($"Hamish: wet floor dried up at X:{tile.Position.x} Y:{tile.Position.y}");
 	}
 
 
