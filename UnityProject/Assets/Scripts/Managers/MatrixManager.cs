@@ -110,10 +110,12 @@ public class MatrixManager : MonoBehaviour
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	/// FIXME: not truly cross-matrix. can walk diagonally between matrices
-	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, bool includingPlayers = true, GameObject context = null)
+	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, bool includingPlayers = true, GameObject context = null, int[] excludeList = null)
 	{
+		// Gets the list of Matrixes to actually check
+		MatrixInfo[] includeList = excludeList != null ? MatrixManager.ExcludeFromAllMatrixes(MatrixManager.GetList(excludeList)) : Instance.ActiveMatrices;
 		return isAtInternal(mat => mat.Matrix.IsPassableAt(WorldToLocalInt(worldOrigin, mat),
-			WorldToLocalInt(worldTarget, mat), includingPlayers, context));
+			WorldToLocalInt(worldTarget, mat), includingPlayers, context), includeList);
 	}
 
 	/// <summary>
@@ -307,17 +309,23 @@ public class MatrixManager : MonoBehaviour
 		return t;
 	}
 
-	private static bool isAtInternal(Func<MatrixInfo, bool> condition)
+	private static bool isAtInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
 	{
-		for (var i = 0; i < Instance.ActiveMatrices.Length; i++)
+		for (var i = 0; i < matrixInfos.Length; i++)
 		{
-			if (!condition(Instance.ActiveMatrices[i]))
+			if (!condition(matrixInfos[i]))
 			{
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	// By default will just check every Matrix
+	private static bool isAtInternal(Func<MatrixInfo, bool> condition)
+	{
+		return isAtInternal(condition, Instance.ActiveMatrices);
 	}
 
 	/// <Summary>
@@ -460,6 +468,85 @@ public class MatrixManager : MonoBehaviour
 		}
 
 		return MatrixInfo.Invalid;
+	}
+
+	/// <summary>
+	/// Gets the MatrixInfo for multiple matrix ids
+	/// </summary>
+	/// <param name="idList"></param>
+	/// <returns>List of MatrixInfos</returns>
+	public static MatrixInfo[] GetList(int[] idList)
+	{
+		if (idList == null)
+		{
+			return null;
+		}
+
+		MatrixInfo[] matrixInfoList = new MatrixInfo[idList.Length];
+		for (int i = 0; i < idList.Length; i++)
+		{
+			matrixInfoList[i] = Get(idList[i]);
+		}
+
+		return matrixInfoList;
+	}
+
+	/// <summary>
+	/// Gets the MatrixInfo for multiple matrixs
+	/// </summary>
+	/// <param name="matrixList"></param>
+	/// <returns>List of MatrixInfos</returns>
+	public static MatrixInfo[] GetList(Matrix[] matrixList)
+	{
+		if (matrixList == null)
+		{
+			return null;
+		}
+
+		int[] intList = new int[matrixList.Length];
+		for (int i = 0; i < matrixList.Length; i++)
+		{
+			intList[i] = matrixList[i].Id;
+		}
+
+		return GetList(intList);
+	}
+
+	public static MatrixInfo[] ExcludeFromAllMatrixes(MatrixInfo[] excludeList)
+	{
+		MatrixInfo[] matrixList = new MatrixInfo[Instance.ActiveMatrices.Length];
+
+		if (excludeList == null)
+		{
+			Array.Copy(Instance.ActiveMatrices, matrixList, matrixList.Length);
+			return matrixList;
+		}
+
+		int currentIndex = 0;
+		bool toAdd = true;
+		for (int i = 0; i < Instance.ActiveMatrices.Length; i++)
+		{
+			toAdd = true;
+			for (int j = 0; j < excludeList.Length; j++)
+			{
+				if (Instance.ActiveMatrices[i].Id == excludeList[j].Id)
+				{
+					toAdd = false;
+					break;
+				}
+			}
+
+			if (toAdd)
+			{
+				matrixList[currentIndex++] = Instance.ActiveMatrices[i];
+			}
+		}
+
+		// Only return the number of matrix's actually included
+		MatrixInfo[] returnList = new MatrixInfo[currentIndex];
+		Array.Copy(matrixList, returnList, currentIndex);
+
+		return returnList;
 	}
 
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
