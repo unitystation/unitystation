@@ -19,13 +19,28 @@ public class LogLevels : EditorWindow
         window.CheckCategories();
     }
 
+    void OnEnable()
+    {
+        EventManager.AddHandler(EVENT.LogLevelAdjusted, CheckCategories);
+    }
+
+    void OnDisable()
+    {
+        EventManager.RemoveHandler(EVENT.LogLevelAdjusted, CheckCategories);
+    }
+
     private void CheckCategories()
     {
-        LoggerPreferences savedPrefs = null;
-        if (PlayerPrefs.HasKey("logprefs"))
+        var path = Path.Combine(Application.streamingAssetsPath,
+            "LogLevelDefaults/");
+
+        if (!File.Exists(Path.Combine(path, "custom.json")))
         {
-            savedPrefs = JsonUtility.FromJson<LoggerPreferences>(PlayerPrefs.GetString("logprefs"));
+            var data = File.ReadAllText(Path.Combine(path, "default.json"));
+            File.WriteAllText(Path.Combine(path, "custom.json"), data);
         }
+
+        LoggerPreferences savedPrefs = JsonUtility.FromJson<LoggerPreferences>(File.ReadAllText(Path.Combine(path, "custom.json")));
 
         LoggerPreferences generatedPrefs = new LoggerPreferences();
         foreach (Category cat in Enum.GetValues(typeof(Category)))
@@ -46,12 +61,15 @@ public class LogLevels : EditorWindow
         }
 
         loggerPrefs = generatedPrefs;
+        Repaint();
     }
 
     private void SavePrefs()
     {
-        PlayerPrefs.SetString("logprefs", JsonUtility.ToJson(loggerPrefs));
-        PlayerPrefs.Save();
+        var path = Path.Combine(Application.streamingAssetsPath,
+            "LogLevelDefaults/");
+        File.WriteAllText(Path.Combine(path, "custom.json"), JsonUtility.ToJson(loggerPrefs));
+
         if (Application.isPlaying)
         {
             Logger.RefreshPreferences();
