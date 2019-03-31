@@ -14,6 +14,7 @@ public class MetaDataSystem : SubsystemBehaviour
 	/// Nodes which exist in space next to room tiles of the matrix.
 	/// </summary>
 	private HashSet<MetaDataNode> externalNodes;
+
 	/// <summary>
 	/// Matrix this system is managing the MetaDataNodes for.
 	/// </summary>
@@ -69,10 +70,9 @@ public class MetaDataSystem : SubsystemBehaviour
 		{
 			node.ClearNeighbors();
 
+			node.Type = metaTileMap.IsSpaceAt(position) ? NodeType.Space : NodeType.Room;
 			SetupNeighbors(node);
 			MetaUtils.AddToNeighbors(node);
-
-			node.Type = metaTileMap.IsSpaceAt(position) ? NodeType.Space : NodeType.Room;
 		}
 		else
 		{
@@ -176,8 +176,6 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void SetupNeighbors(MetaDataNode node)
 	{
-//		Vector3Int[] neighbors = MetaUtils.GetNeighbors(node.Position);
-
 		Vector3 nodeWorldPosition = MatrixManager.LocalToWorldInt(node.Position, MatrixManager.Get(matrix.Id));
 
 		foreach (Vector3Int dir in MetaUtils.Directions)
