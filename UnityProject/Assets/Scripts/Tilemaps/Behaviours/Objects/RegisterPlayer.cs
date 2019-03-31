@@ -5,11 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class RegisterPlayer : RegisterTile
 {
-	private float stunTime;
 	private bool isStunned;
-	public float StunDuration { get; private set; } = 0;
-	private float tickRate = 1f;
-	private float tick = 0;
 
 	/// <summary>
 	/// Whether the player should currently be depicted laying on the ground
@@ -34,17 +30,6 @@ public class RegisterPlayer : RegisterTile
 		//initially we are upright and don't rotate with the matrix
 		rotateWithMatrix = false;
 		metaDataLayer = transform.GetComponentInParent<MetaDataLayer>();
-	}
-
-	void OnEnable()
-	{
-		UpdateManager.Instance.Add(UpdateMe);
-	}
-
-	void OnDisable()
-	{
-		if (UpdateManager.Instance != null)
-			UpdateManager.Instance.Remove(UpdateMe);
 	}
 
 	public override bool IsPassable()
@@ -137,19 +122,14 @@ public class RegisterPlayer : RegisterTile
 		}
 	}
 
-	//Handled via UpdateManager
-	void UpdateMe()
+	public void Slip()
 	{
-		//Server Only:
-		if (CustomNetworkManager.Instance._isServer)
+		// Don't slip while walking
+		if (!UIManager.WalkRun.running)
 		{
-			tick += Time.deltaTime;
-			if (tick > tickRate)
-			{
-				tick = 0f;
-				CalculateStun();
-			}
+			return;
 		}
+		Stun();
 	}
 
 	public void Stun(float stunDuration = 4f, bool dropItem = true)
@@ -161,35 +141,21 @@ public class RegisterPlayer : RegisterTile
 			playerScript.playerNetworkActions.DropItem("leftHand");
 			playerScript.playerNetworkActions.DropItem("rightHand");
 		}
-
 		playerScript.playerMove.allowInput = false;
-		TryChangeStunDuration(stunDuration);
+
+		StartCoroutine(StunTimer(stunDuration));
+
+		IEnumerator StunTimer(float stunTime)
+		{
+			yield return new WaitForSeconds(stunTime);
+			RemoveStun();
+		}
 	}
 
 	public void RemoveStun()
 	{
 		isStunned = false;
 		UpdateCanMove();
-	}
-
-	private void CalculateStun()
-	{
-		if (StunDuration > 0)
-		{
-			StunDuration -= 1;
-			if (StunDuration <= 0)
-			{
-				RemoveStun();
-			}
-		}
-	}
-
-	public void TryChangeStunDuration(float stunDuration)
-	{
-		if (stunDuration > StunDuration)
-		{
-			StunDuration = stunDuration;
-		}
 	}
 
 	private void UpdateCanMove()
