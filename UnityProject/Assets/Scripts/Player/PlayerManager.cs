@@ -62,7 +62,6 @@ public class PlayerManager : MonoBehaviour
 	{
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 		EventManager.RemoveHandler(EVENT.PlayerDied, OnPlayerDeath);
-		PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(new CharacterSettings()));
 		PlayerPrefs.Save();
 	}
 
