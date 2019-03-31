@@ -5,10 +5,12 @@ using UnityEngine;
 public class Slippery : MonoBehaviour
 {
 	private RegisterItem registerItem;
+	private CustomNetTransform customNetTransform;
 
 	private void Awake()
 	{
 		registerItem = GetComponent<RegisterItem>();
+		customNetTransform = GetComponent<CustomNetTransform>();
 	}
 
 	private void OnEnable()
@@ -23,11 +25,11 @@ public class Slippery : MonoBehaviour
 
 	private void Slip(RegisterPlayer registerPlayer)
 	{
-		if (MatrixManager.IsSpaceAt(registerItem.WorldPosition))
+		if (MatrixManager.IsSpaceAt(registerItem.WorldPosition) || customNetTransform.IsBeingThrown)
 		{
 			return;
 		}
-		registerPlayer.Stun();
-		SoundManager.PlayNetworkedAtPos("Slip", registerItem.Position);
+		registerPlayer.Slip();
+		SoundManager.PlayNetworkedAtPos("Slip", registerItem.WorldPosition);
 	}
 }

@@ -679,12 +679,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			OverallHealth = maxHealth;
 		}
 	}
-
-	/// <summary>
-	/// Recalculates the stun duration and updates its state. Server only
-	/// </summary>
-
-
 }
 
 public static class HealthThreshold

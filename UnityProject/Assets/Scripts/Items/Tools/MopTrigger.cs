@@ -5,8 +5,6 @@ using UnityEngine.Networking;
 
 public class MopTrigger : PickUpTrigger
 {
-	private MetaDataLayer metaDataLayer;
-
 	public override bool Interact (GameObject originator, Vector3 position, string hand)
     {
         //TODO:  Fill this in.
