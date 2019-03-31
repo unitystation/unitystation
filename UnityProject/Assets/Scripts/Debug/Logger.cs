@@ -16,15 +16,16 @@ public static class Logger
 
 	public static void RefreshPreferences()
 	{
-		if (!PlayerPrefs.HasKey("logprefs"))
+		var path = Path.Combine(Application.streamingAssetsPath,
+			"LogLevelDefaults/");
+
+		if (!File.Exists(Path.Combine(path, "custom.json")))
 		{
-			var data = File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
-				"LogLevelDefaults/default.json"));
-			PlayerPrefs.SetString("logprefs", data);
-			PlayerPrefs.Save();
+			var data = File.ReadAllText(Path.Combine(path, "default.json"));
+			File.WriteAllText(Path.Combine(path, "custom.json"), data);
 		}
 
-		loggerPrefs = JsonUtility.FromJson<LoggerPreferences>(PlayerPrefs.GetString("logprefs"));
+		loggerPrefs = JsonUtility.FromJson<LoggerPreferences>(File.ReadAllText(Path.Combine(path, "custom.json")));
 
 		LogOverrides.Clear();
 
@@ -32,6 +33,32 @@ public static class Logger
 		{
 			LogOverrides.Add(pref.category, pref.logLevel);
 		}
+	}
+
+	public static void SetLogLevel(Category _category, LogLevel level)
+	{
+		Log($"Log category {_category.ToString()} is now set to {level.ToString()}", Category.DebugConsole);
+
+		var index = loggerPrefs.logOverrides.FindIndex(x => x.category == _category);
+		if (index != -1)
+		{
+			loggerPrefs.logOverrides[index].logLevel = level;
+		}
+		else
+		{
+			loggerPrefs.logOverrides.Add(new LogOverridePref() { category = _category, logLevel = level });
+		}
+
+		SaveLogOverrides();
+		RefreshPreferences();
+		EventManager.Broadcast(EVENT.LogLevelAdjusted);
+	}
+
+	public static void SaveLogOverrides()
+	{
+		var path = Path.Combine(Application.streamingAssetsPath,
+			"LogLevelDefaults/");
+		File.WriteAllText(Path.Combine(path, "custom.json"), JsonUtility.ToJson(loggerPrefs));
 	}
 
 	/// <inheritdoc cref="LogTrace"/>
