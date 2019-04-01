@@ -21,11 +21,11 @@ public static class ElectricalSynchronisation
 	public static DeadEndConnection DeadEnd = new DeadEndConnection(); //so resistance sources coming from itself  like an apc Don't cause loops this is used as coming from and so therefore it is ignored
 
 
-	public static HashSet<IElectricityIO> DirectionWorkOnNextList = new HashSet<IElectricityIO> ();
-	public static HashSet<IElectricityIO> DirectionWorkOnNextListWait = new HashSet<IElectricityIO> ();
+	public static List<IElectricityIO> DirectionWorkOnNextList = new List<IElectricityIO> ();
+	public static List<IElectricityIO> DirectionWorkOnNextListWait = new List<IElectricityIO> ();
 
-	public static HashSet<KeyValuePair<IElectricityIO,IElectricityIO>> ResistanceWorkOnNextList = new HashSet<KeyValuePair<IElectricityIO,IElectricityIO>> ();
-	public static HashSet<KeyValuePair<IElectricityIO,IElectricityIO>> ResistanceWorkOnNextListWait = new HashSet<KeyValuePair<IElectricityIO,IElectricityIO>> ();
+	public static List<KeyValuePair<IElectricityIO,IElectricityIO>> ResistanceWorkOnNextList = new List<KeyValuePair<IElectricityIO,IElectricityIO>> ();
+	public static List<KeyValuePair<IElectricityIO,IElectricityIO>> ResistanceWorkOnNextListWait = new List<KeyValuePair<IElectricityIO,IElectricityIO>> ();
 
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
@@ -251,30 +251,36 @@ public static class ElectricalSynchronisation
 			//Logger.Log("NUCurrentChange.Count > 0");
 			foreach (IElectricalNeedUpdate TheSupply in NUCurrentChange)
 			{
-
-				if (TotalSupplies.Contains(TheSupply))
+				if (!DoneSupplies.Contains(TheSupply))
 				{
-					if (ReactiveSuppliesSet.Contains(TheSupply._IElectricityIO.InData.Categorytype))
+					if (TotalSupplies.Contains(TheSupply))
 					{
-						if (NUCurrentChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)) && !(NUResistanceChange.Contains(TheSupply)))
+						if (ReactiveSuppliesSet.Contains(TheSupply._IElectricityIO.InData.Categorytype))
 						{
+							if (NUCurrentChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)) && !(NUResistanceChange.Contains(TheSupply)))
+							{
 
-							if (LowestReactive == null)
-							{
-								LowestReactive = TheSupply;
-								LowestReactiveint = NumberOfReactiveSupplies(TheSupply._IElectricityIO);
+								if (LowestReactive == null)
+								{
+									LowestReactive = TheSupply;
+									LowestReactiveint = NumberOfReactiveSupplies(TheSupply._IElectricityIO);
+								}
+								else if (LowestReactiveint > NumberOfReactiveSupplies(TheSupply._IElectricityIO))
+								{
+									LowestReactive = TheSupply;
+									LowestReactiveint = NumberOfReactiveSupplies(TheSupply._IElectricityIO);
+								}
+								//TheSupply.GameObject().GetComponent<IElectricityIO>().Data.ResistanceToConnectedDevices
 							}
-							else if (LowestReactiveint > NumberOfReactiveSupplies(TheSupply._IElectricityIO))
+							else
 							{
-								LowestReactive = TheSupply;
-								LowestReactiveint = NumberOfReactiveSupplies(TheSupply._IElectricityIO);
+								QToRemove.Add(TheSupply);
 							}
-							//TheSupply.GameObject().GetComponent<IElectricityIO>().Data.ResistanceToConnectedDevices
 						}
-						else
-						{
-							QToRemove.Add(TheSupply);
-						}
+					}
+					else
+					{
+						QToRemove.Add(TheSupply);
 					}
 				}
 				else

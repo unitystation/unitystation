@@ -83,7 +83,6 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 						JumpTo.FlushSupplyAndUp();
 					}
 					Object.Data.CurrentGoingTo.Clear();
-
 					Object.Data.SourceVoltages.Clear();
 					Object.Data.CurrentInWire = new float ();
 					Object.Data.ActualVoltage = new float ();
@@ -91,6 +90,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 
 			} else {
 				int InstanceID = SourceInstance.GetInstanceID ();
+				//Logger.Log(Object.GameObject().name);
 				if (Object.Data.CurrentComingFrom.ContainsKey (InstanceID)) {
 					Object.Data.CurrentGoingTo.Remove (InstanceID);
 					Object.Data.CurrentComingFrom.Remove (InstanceID);

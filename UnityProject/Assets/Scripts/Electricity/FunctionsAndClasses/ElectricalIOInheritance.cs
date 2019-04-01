@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
-
+[System.Serializable]
 public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO { //is the Bass class but every  node inherits from 
 	public int DirectionStart;
 	public int DirectionEnd;
+
+	[SerializeField]
 	public ElectronicData Data { get; set; } = new ElectronicData();
+	[SerializeField]
 	public IntrinsicElectronicData InData { get; set; } = new IntrinsicElectronicData();
 	public HashSet<IElectricityIO> connectedDevices { get; set; } = new HashSet<IElectricityIO>();
 

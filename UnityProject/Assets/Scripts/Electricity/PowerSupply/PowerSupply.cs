@@ -125,8 +125,10 @@ public class PowerSupply : ElectricalOIinheritance, IElectricalNeedUpdate, IElec
 	{
 		if (!(SourceInstance == this.gameObject))
 		{
+			//Logger.Log("added" + SourceInstance.name + "< " + gameObject.name);
 			if (!ElectricalSynchronisation.NUCurrentChange.Contains(InData.ControllingUpdate))
 			{
+				//Logger.Log("9");
 				ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingUpdate);
 			}
 

@@ -7,19 +7,9 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 	public static void ElectricityOutput(float Current, GameObject SourceInstance, IElectricityIO Thiswire)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
-		float SimplyTimesBy = 0;
 		float SupplyingCurrent = 0;
-		Dictionary<IElectricityIO, float> ThiswireResistance = new Dictionary<IElectricityIO, float>();
-		if (Thiswire.Data.ResistanceComingFrom.ContainsKey(SourceInstanceID))
-		{
-			ThiswireResistance = Thiswire.Data.ResistanceComingFrom[SourceInstanceID];
-		}
-		else
-		{
-			Logger.LogError("now It doesn't" + SourceInstanceID.ToString() + " with this " + Thiswire.GameObject().name.ToString(), Category.Electrical);
-
-		}
-		float Voltage = Current * (ElectricityFunctions.WorkOutResistance(ThiswireResistance));
+		//float Voltage = Current * (ElectricityFunctions.WorkOutResistance(ThiswireResistance));
+		float Voltage = Current * (ElectricityFunctions.WorkOutResistance(Thiswire.Data.ResistanceComingFrom[SourceInstanceID]));
 		foreach (KeyValuePair<IElectricityIO, float> JumpTo in Thiswire.Data.ResistanceComingFrom[SourceInstanceID])
 		{
 			if (Voltage > 0)
@@ -68,16 +58,13 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		} else {
 			if (Thiswire.Data.Upstream[SourceInstanceID].Count > 1)
 			{
-				float CalculatedCurrent = 1000 / Resistance;
-				float CurrentSplit = CalculatedCurrent / (Thiswire.Data.Upstream[SourceInstanceID].Count);
-				ResistanceSplit = 1000 / CurrentSplit;
+				ResistanceSplit = 1000 / (1000 / Resistance) / (Thiswire.Data.Upstream[SourceInstanceID].Count);
 			}
 			else
 			{
 				ResistanceSplit = Resistance;
 			}
 		}
-
 		foreach (IElectricityIO JumpTo in Thiswire.Data.Upstream[SourceInstanceID])
 		{
 			if (ResistanceSplit == 0) {
@@ -94,19 +81,16 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		IElectricityIO IElec = SourceInstance.GetComponent<IElectricityIO>();
 		if (ComingFrom == null)
 		{
-			
 			if (Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(IElec))
 			{
 				if (Thiswire.Data.ResistanceToConnectedDevices [IElec].Count > 1) {
-					Logger.Log ("oh no!, problem!!!!");
+					Logger.LogError ("oh no!, problem!!!!");
 				}
 				foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[IElec])
 				{
-
 					Resistance = Thiswire.InData.ConnectionReaction[ConnectionFrom].ResistanceReactionA.Resistance.Ohms;
 					//Logger.Log (Resistance.ToString () + " < to man Resistance |            " + ConnectionFrom.ToString() + " < to man ConnectionFrom |      " + Thiswire.GameObject().name + " < to man IS ");
 					ComingFrom = ElectricalSynchronisation.DeadEnd;
-
 				}
 			}
 		}
@@ -127,7 +111,6 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			} else {
 				Thiswire.Data.ResistanceComingFrom[SourceInstanceID][ComingFrom] = Resistance;
 			}
-				
 			if (Thiswire.Data.connections.Count > 2)
 			{
 				KeyValuePair<IElectricityIO,IElectricityIO> edd = new KeyValuePair<IElectricityIO,IElectricityIO> (IElec,Thiswire);
@@ -217,7 +200,6 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 					SourceInstancPowerSupply.connectedDevices.Add(Thiswire);
 					ElectricalSynchronisation.InitialiseResistanceChange.Add (Thiswire.InData.ControllingUpdate);
 				}
-
 				if (Thiswire.InData.ConnectionReaction[ComingFrom.InData.Categorytype].DirectionReactionA.YouShallNotPass)
 				{
 					CanPass = false;

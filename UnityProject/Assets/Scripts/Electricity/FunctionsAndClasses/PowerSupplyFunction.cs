@@ -6,6 +6,7 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 	public static void TurnOffSupply(IElectricityIO Supply)
 	{
 		Supply.RemoveSupply(Supply.GameObject());
+		//Logger.Log("13");
 		ElectricalSynchronisation.NUCurrentChange.Add (Supply.InData.ControllingUpdate);
 	}
 	public static void TurnOnSupply(IElectricityIO Supply)

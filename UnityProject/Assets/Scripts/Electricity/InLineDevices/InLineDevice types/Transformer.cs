@@ -2,43 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System; 
-
 using UnityEngine.Networking;
 
 
-public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer, IDeviceControl {
-	private bool SelfDestruct = false;
-	public float TurnRatio  {get; set;} 
-	public float VoltageLimiting {get; set;} 
-	public float VoltageLimitedTo  {get; set;}
+public class Transformer : PowerSupplyControlInheritance 
+{
 	public InLineDevice RelatedDevice; 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.Transformer;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.StandardCable,
 		PowerTypeCategory.HighVoltageCable,
 	};
-	public override void OnStartClient()
+	public override void OnStartServerInitialise()
 	{
-		base.OnStartClient();
 		TurnRatio = 250;
 		VoltageLimiting = 3300;
 		VoltageLimitedTo = 3300;
 		RelatedDevice.RelatedDevice = this;
 		RelatedDevice.InData.CanConnectTo = CanConnectTo;
 		RelatedDevice.InData.Categorytype = ApplianceType;
-		RelatedDevice.InData.ControllingDevice = this;
 	}
 
-	public void PotentialDestroyed(){
-		if (SelfDestruct) {
-			//Then you can destroy
-		}
-	}
-
-	public float ModifyElectricityInput(float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){
-		return(Current);
-	}
-	public float ModifyElectricityOutput( float Current, GameObject SourceInstance){
+	public override float ModifyElectricityOutput( float Current, GameObject SourceInstance){
 		int InstanceID = SourceInstance.GetInstanceID ();
 		float ActualCurrent = RelatedDevice.Data.CurrentInWire;
 		float Resistance = ElectricityFunctions.WorkOutResistance(RelatedDevice.Data.ResistanceComingFrom[InstanceID]);
@@ -54,22 +39,9 @@ public class Transformer : NetworkBehaviour, IInLineDevices, Itransformer, IDevi
 		return(Currentandoffcut.Item1);
 	}
 
-	public float ModifyResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){
+	public override float ModifyResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){
 		Tuple<float,float> ResistanceM = TransformerCalculations.TransformerCalculate (this, ResistanceToModify : Resistance);
 		//return(Resistance);
 		return(ResistanceM.Item1);
-	}
-	public float ModifyResistancyOutput( float Resistance, GameObject SourceInstance){
-		return(Resistance);
-	}
-
-	public void OnDestroy(){
-//		ElectricalSynchronisation.StructureChangeReact = true;
-//		ElectricalSynchronisation.ResistanceChange = true;
-//		ElectricalSynchronisation.CurrentChange = true;
-		SelfDestruct = true;
-		//Make Invisible
-	}
-	public void TurnOffCleanup (){
 	}
 }

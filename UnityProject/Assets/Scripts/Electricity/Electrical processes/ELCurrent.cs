@@ -82,6 +82,7 @@ public static class ELCurrent
 					else {
 						JumpTo.Key.ElectricityInput(SupplyingCurrent, SourceInstance, Node);
 					}
+					ElectricityFunctions.WorkOutActualNumbers(Node);
 				}
 			}
 			else {

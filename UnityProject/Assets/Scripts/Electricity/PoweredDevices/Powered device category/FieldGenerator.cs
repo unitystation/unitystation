@@ -85,12 +85,14 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 	public void InitialPowerUpdateResistance() {
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
 			poweredDevice.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
+			//Logger.Log("7");
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 		}
 	}
 	public void PowerUpdateResistanceChange() { 
 		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
 			poweredDevice.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
+			//Logger.Log("8");
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 		}
 

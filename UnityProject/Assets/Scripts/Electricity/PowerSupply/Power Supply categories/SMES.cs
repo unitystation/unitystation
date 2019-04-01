@@ -3,26 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceControl
+public class SMES : PowerSupplyControlInheritance
 {
-	public PowerSupply powerSupply;
-
-	private bool SelfDestruct = false;
-
-	//Is the SMES turned on
-	[SyncVar(hook = "UpdateState")]
-	public bool isOn = false;
-	public bool isOnForInterface { get; set; } = false;
-	public bool PassChangeToOff { get; set; } = false;
+	//public override bool isOnForInterface { get; set; } = false;
+	//public override bool PassChangeToOff { get; set; } = false;
 	public bool ResistanceChange = false;
 
 	[SyncVar]
 	public int currentCharge; // 0 - 100
-	public float current { get; set; } = 0;
-	public float Previouscurrent = 0;
-
-	private Resistance resistance = new Resistance();
-	public float PreviousResistance = 0;
 
 	//Sprites:
 	public Sprite offlineSprite;
@@ -30,37 +18,33 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 	public Sprite[] chargeIndicatorSprites;
 	public Sprite statusCriticalSprite;
 	public Sprite statusSupplySprite;
-	public int DirectionStart = 0;
-	public int DirectionEnd = 9;
 
-	public float MonitoringResistance = 999999;
+	//public override float MinimumSupportVoltage { get; set; } = 2700;
+	//public override float StandardSupplyingVoltage { get; set; } = 3000;
+	//public override float PullingWatts { get; set; } = 0;
+	//public override float CapacityMax { get; set; } = 1800000;
+	//public override float CurrentCapacity { get; set; } = 1800000;
+	//public override float PullLastDeductedTime { get; set; } = 0;
+	//public override float ChargLastDeductedTime { get; set; } = 0;
 
-	public float MinimumSupportVoltage { get; set; } = 2700;
-	public float StandardSupplyingVoltage { get; set; } = 3000;
-	public float PullingWatts { get; set; } = 0;
-	public float CapacityMax { get; set; } = 1800000;
-	public float CurrentCapacity { get; set; } = 1800000;
-	public float PullLastDeductedTime { get; set; } = 0;
-	public float ChargLastDeductedTime { get; set; } = 0;
+	//public override float ExtraChargeCutOff { get; set; } = 3000;
+	//public override float IncreasedChargeVoltage { get; set; } = 3010;
+	//public override float StandardChargeNumber { get; set; } = 12;
+	//public override float ChargeSteps { get; set; } = 0.1f;
+	//public override float MaxChargingMultiplier { get; set; } = 1.5f;
+	//public override float ChargingMultiplier { get; set; } = 0.1f;
+	//public override float MaximumCurrentSupport { get; set; } = 3;
 
-	public float ExtraChargeCutOff { get; set; } = 3000;
-	public float IncreasedChargeVoltage { get; set; } = 3010;
-	public float StandardChargeNumber { get; set; } = 12;
-	public float ChargeSteps { get; set; } = 0.1f;
-	public float MaxChargingMultiplier { get; set; } = 1.5f;
-	public float ChargingMultiplier { get; set; } = 0.1f;
-	public float MaximumCurrentSupport { get; set; } = 3;
+	//public override float ChargingWatts { get; set; } = 0;
+	//public override float Resistance { get; set; } = 0;
+	//public override float CircuitResistance { get; set; } = 0;
 
-	public float ChargingWatts { get; set; } = 0;
-	public float Resistance { get; set; } = 0;
-	public float CircuitResistance { get; set; } = 0;
+	//public override bool CanCharge { get; set; } = true;
+	//public override bool Cansupport { get; set; } = true;
+	//public override bool ToggleCanCharge { get; set; } = true;
+	//public override bool ToggleCansupport { get; set; } = true;
 
-	public bool CanCharge { get; set; } = true;
-	public bool Cansupport { get; set; } = true;
-	public bool ToggleCanCharge { get; set; } = true;
-	public bool ToggleCansupport { get; set; } = true;
-
-	public float ActualVoltage { get; set; } = 0;
+	//public override float ActualVoltage { get; set; } = 0;
 
 	//Renderers:
 	public SpriteRenderer statusIndicator;
@@ -68,21 +52,19 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 	public SpriteRenderer chargeIndicator;
 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.SMES;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
+	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>
 	{
 		PowerTypeCategory.MediumMachineConnector
 	};
 
-	public IElectricityIO _IElectricityIO { get; set; }
-
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
-		_IElectricityIO = this.gameObject.GetComponent<IElectricityIO>();
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = DirectionStart;
 		powerSupply.DirectionEnd = DirectionEnd;
+
 		resistance.Ohms = Resistance;
 		resistance.ResistanceAvailable = false;
 
@@ -104,9 +86,7 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.MediumMachineConnector] = PIRMedium;
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PRSDCable;
-		powerSupply.InData.ControllingDevice = this;
-		powerSupply.InData.ControllingUpdate = this;
-		currentCharge = 20;
+		currentCharge = 0;
 	}
 
 	public override void OnStartClient()
@@ -115,103 +95,9 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		UpdateState(isOn);
 	}
 
-	public void PotentialDestroyed()
-	{
-		if (SelfDestruct)
-		{
-			//Then you can destroy
-		}
-	}
-	public void PowerUpdateStructureChange()
-	{
-		powerSupply.PowerUpdateStructureChange();
-	}
-	public void PowerUpdateStructureChangeReact()
-	{
-		powerSupply.PowerUpdateStructureChangeReact();
-
-	}
-	public void InitialPowerUpdateResistance() {
-		powerSupply.InitialPowerUpdateResistance();
-		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices) {
-			powerSupply.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
-			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
-		}
-	}
-
-	public void PowerUpdateResistanceChange()
-	{
-		powerSupply.PowerUpdateResistanceChange();
-		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices) {
-			if (Supplie.Value.Contains(PowerTypeCategory.StandardCable)){
-				powerSupply.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
-				ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
-			}
-		}
-	}
-	public void PowerUpdateCurrentChange()
-	{
-		powerSupply.FlushSupplyAndUp(powerSupply.gameObject); //Room for optimisation
-		CircuitResistance = ElectricityFunctions.WorkOutResistance(powerSupply.Data.ResistanceComingFrom[powerSupply.gameObject.GetInstanceID()]); 
-		ActualVoltage = powerSupply.Data.ActualVoltage;
-		BatteryCalculation.PowerUpdateCurrentChange(this);
-		if (current != Previouscurrent)
-		{
-			if (Previouscurrent == 0 && !(current <= 0))
-			{
-
-			}
-			else if (current == 0 && !(Previouscurrent <= 0))
-			{
-				powerSupply.FlushSupplyAndUp(powerSupply.gameObject);
-			}
-
-			powerSupply.Data.SupplyingCurrent = current;
-			Previouscurrent = current;
-		}
-		powerSupply.PowerUpdateCurrentChange();
-	}
-
-	public void PowerNetworkUpdate()
-	{
-		powerSupply.PowerNetworkUpdate();
-		ActualVoltage = powerSupply.Data.ActualVoltage;
-		BatteryCalculation.PowerNetworkUpdate(this);
-
-
-		if (current != Previouscurrent)
-		{
-			powerSupply.Data.SupplyingCurrent = current;
-			Previouscurrent = current;
-			ElectricalSynchronisation.NUCurrentChange.Add (this);
-		}
-
-		if (Resistance != PreviousResistance)
-		{
-			if (PreviousResistance == 0 && !(Resistance == 0))
-			{
-				resistance.ResistanceAvailable = true;
-			}
-			else if (Resistance == 0 && !(PreviousResistance <= 0))
-			{
-				resistance.ResistanceAvailable = false;
-				ElectricalSynchronisation.ResistanceChange.Add (this);
-			}
-			resistance.Ohms = Resistance;
-			PreviousResistance = Resistance;
-			foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices){
-				if (Supplie.Value.Contains(PowerTypeCategory.StandardCable)){
-					ElectricalSynchronisation.ResistanceChange.Add (this);
-					ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
-				}
-			}
-		}
-		//Logger.Log (CurrentCapacity.ToString() + " < CurrentCapacity", Category.Electrical);
-	}
 	//Update the current State of the SMES (mostly visual for clientside updates) 
-	void UpdateState(bool _isOn)
+	public override void StateChange(bool isOn)
 	{
-		isOn = _isOn;
 		if (isOn)
 		{
 			OnOffIndicator.sprite = onlineSprite;
@@ -268,7 +154,6 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 				ServerState(isOn);
 			}
 		}
-
 		return true;
 	}
 
@@ -296,11 +181,8 @@ public class SMES : InputTrigger, IElectricalNeedUpdate, IBattery, IDeviceContro
 		//Make Invisible
 	}
 
-	public void TurnOffCleanup (){
+	public override void TurnOffCleanup (){
 		BatteryCalculation.TurnOffEverything(this);
 		ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
 	}
-	public GameObject GameObject()
-	{
-		return gameObject;	}
 }

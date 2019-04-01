@@ -240,9 +240,9 @@ public class WireConnect : ElectricalOIinheritance
 			{
 				Logger.Log("line heree!!!");
 				//RelatedLine.UpdateCoveringCable();
-				Data.ActualVoltage = RelatedLine.TheStart.Data.ActualVoltage;
-				Data.CurrentInWire = RelatedLine.TheStart.Data.CurrentInWire;
-				Data.EstimatedResistance = RelatedLine.TheStart.Data.EstimatedResistance;
+				Data.ActualVoltage = RelatedLine.TheEnd.Data.ActualVoltage;
+				Data.CurrentInWire = RelatedLine.TheEnd.Data.CurrentInWire;
+				Data.EstimatedResistance = RelatedLine.TheEnd.Data.EstimatedResistance;
 			}
 
 			Logger.Log("ActualVoltage " + (Data.ActualVoltage.ToString()), Category.Electrical);

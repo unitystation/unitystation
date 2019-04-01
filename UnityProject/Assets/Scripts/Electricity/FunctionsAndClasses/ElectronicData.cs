@@ -5,8 +5,17 @@ using System;
 
 [Serializable]
 public class ElectronicData  { //to Store data about the electrical device
-	public Dictionary<IElectricityIO,HashSet<PowerTypeCategory>> ResistanceToConnectedDevices = new Dictionary<IElectricityIO,HashSet<PowerTypeCategory>>();
+	
+	/// <summary>
+	/// Stores for each supply how is the supply connected to that Device.
+	/// </summary>
+	public Dictionary<IElectricityIO,HashSet<PowerTypeCategory>> ResistanceToConnectedDevices = new Dictionary<IElectricityIO,HashSet<PowerTypeCategory>>(); 
+
+	/// <summary>
+	/// The things connected in the vicinity of this
+	/// </summary>
 	public List<IElectricityIO> connections = new List<IElectricityIO> ();
+
 	public Dictionary<int,Dictionary<IElectricityIO,float>> CurrentGoingTo = new Dictionary<int, Dictionary<IElectricityIO, float>> ();
 	public Dictionary<int,Dictionary<IElectricityIO,float>> CurrentComingFrom  = new Dictionary<int, Dictionary<IElectricityIO, float>> ();
 	public Dictionary<int, Dictionary<IElectricityIO, float>> ResistanceGoingTo = new Dictionary<int, Dictionary<IElectricityIO, float>>();

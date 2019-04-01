@@ -4,7 +4,7 @@ using UnityEngine;
 using System; 
 
 public static class BatteryCalculation  {
-	public static void TurnOffEverything(IBattery Battery){ //For turn off
+	public static void TurnOffEverything(PowerSupplyControlInheritance Battery){ //For turn off
 		Battery.ChargingWatts = 0;
 		Battery.ChargingMultiplier = 0.1f;
 		Battery.Resistance = 0;
@@ -16,7 +16,7 @@ public static class BatteryCalculation  {
 		//Battery.PassChangeToOff = false;
 	}
 
-	public static void PowerUpdateCurrentChange (IBattery Battery){
+	public static void PowerUpdateCurrentChange (PowerSupplyControlInheritance Battery){
 		if (Battery.Cansupport) { //Denotes capacity to Provide current
 			if (Battery.ToggleCansupport) { //Denotes Whether at the current time it is allowed to provide current
 				if (Battery.ActualVoltage < Battery.MinimumSupportVoltage) {
@@ -46,7 +46,7 @@ public static class BatteryCalculation  {
 			} 
 		} 
 	}
-	public static void PowerNetworkUpdate(IBattery Battery){
+	public static void PowerNetworkUpdate(PowerSupplyControlInheritance Battery){
 		if (Battery.isOnForInterface) { //Checks if the battery is actually on This is not needed in PowerUpdateCurrentChange Since having those updates Would mean it would be on
 			if (Battery.CanCharge) { //Ability to charge 
 				if (Battery.ToggleCanCharge) { //Is available for charging

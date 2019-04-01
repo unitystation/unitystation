@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
-
+[System.Serializable]
 public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePower
 {
 	//What is the purpose of inline device, It is to modify current, resistance going over the device E.G a Transformer For any other device that can be thought of
@@ -102,7 +102,9 @@ public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePow
 
 	public override void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
-		if (!(SourceInstance == this.gameObject)){
+		if (!(SourceInstance == gameObject)){
+			//Logger.Log("added" + SourceInstance.name + "< " + gameObject.name);
+
 			if (!ElectricalSynchronisation.NUCurrentChange.Contains(InData.ControllingUpdate)) { 
 				ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingUpdate);
 			}

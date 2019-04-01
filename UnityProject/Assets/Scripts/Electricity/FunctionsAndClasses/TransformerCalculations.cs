@@ -6,7 +6,7 @@ using System;
 public static class TransformerCalculations  {
 	//This should be the split up into different functions depending on what stage you want
 	//This will give you back if you give it the right data, how it modifies resistance, and then How it modifies current  
-	public static Tuple<float,float> TransformerCalculate( Itransformer TransformInformation, float ResistanceToModify = 0, float Voltage = 0, float ResistanceModified = 0, float ActualCurrent = 0 ){
+	public static Tuple<float,float> TransformerCalculate( PowerSupplyControlInheritance TransformInformation, float ResistanceToModify = 0, float Voltage = 0, float ResistanceModified = 0, float ActualCurrent = 0 ){
 		if (!(ResistanceToModify == 0)) {
 			float R2 = ResistanceToModify;
 			float I2 = 1/ResistanceToModify;
