@@ -29,7 +29,7 @@ public class Slippery : MonoBehaviour
 		{
 			return;
 		}
-		registerPlayer.Slip();
+		registerPlayer.Slip(true);
 		SoundManager.PlayNetworkedAtPos("Slip", registerItem.WorldPosition);
 	}
 }
