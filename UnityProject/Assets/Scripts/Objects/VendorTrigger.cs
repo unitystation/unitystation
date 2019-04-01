@@ -19,6 +19,9 @@ public class VendorTrigger : InputTrigger
 		if(!CanUse(originator, hand, position, false)){
 			return false;
 		}
+		if(!isServer){
+			return true;
+		}
 		
 		if (!allowSell && deniedMessage != null && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
 		{

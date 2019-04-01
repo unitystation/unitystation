@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 public class FireCabinetTrigger : InputTrigger
 {
-	private bool hasJustPlaced;
+	public bool hasJustPlaced;
 
 	[SyncVar(hook = nameof(SyncCabinet))] public bool IsClosed;
 
@@ -57,42 +57,53 @@ public class FireCabinetTrigger : InputTrigger
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
+		if (!CanUse(originator, hand, position, false))
+		{
+			return false;
+		}
+		if (!isServer)
+		{
+			return true;
+		}
+
+		PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
+
 		if (IsClosed)
 		{
-			HandleInteraction(false, hand);
+			HandleInteraction(false, hand, pna);
 		}
 		else
 		{
+			GameObject handObj = pna.Inventory[hand].Item;
 			if (isFull && !hasJustPlaced)
 			{
-				if (!UIManager.Hands.CurrentSlot.IsFull)
+				if (handObj == null)
 				{
-					HandleInteraction(true, hand);
+					HandleInteraction(true, hand, pna);
 				}
 				else
 				{
-					HandleInteraction(false, hand);
+					HandleInteraction(false, hand, pna);
 				}
 			}
 			else
 			{
-				GameObject handItem = UIManager.Hands.CurrentSlot.Item;
-				if (handItem != null)
+				if (handObj != null)
 				{
-					if (handItem.GetComponent<ItemAttributes>().itemName == "Extinguisher")
+					if (handObj.GetComponent<ItemAttributes>().itemName == "Extinguisher")
 					{
-						HandleInteraction(true, hand);
+						HandleInteraction(true, hand, pna);
 						hasJustPlaced = true;
 					}
 					else
 					{
-						HandleInteraction(false, hand);
+						HandleInteraction(false, hand, pna);
 						hasJustPlaced = false;
 					}
 				}
 				else
 				{
-					HandleInteraction(false, hand);
+					HandleInteraction(false, hand, pna);
 					hasJustPlaced = false;
 				}
 			}
@@ -101,10 +112,9 @@ public class FireCabinetTrigger : InputTrigger
 		return true;
 	}
 
-	private void HandleInteraction(bool forItemInteract, string currentHand)
+	private void HandleInteraction(bool forItemInteract, string currentHand, PlayerNetworkActions pna)
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleFireCabinet(
-			gameObject, forItemInteract, currentHand);
+		pna.CmdToggleFireCabinet(gameObject, forItemInteract, currentHand);
 	}
 
 	public void SyncItemSprite(bool _isFull)
