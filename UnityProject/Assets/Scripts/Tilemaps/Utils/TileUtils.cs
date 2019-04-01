@@ -5,7 +5,7 @@
 		for (var i = 0; i < tile.Length; i++)
 		{
 			BasicTile t = tile[i];
-			if (t && !t.IsPassable())
+			if (t && !t.IsPassable(CollisionType.Player))
 				return false;
 		}
 

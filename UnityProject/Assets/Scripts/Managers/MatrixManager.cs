@@ -6,6 +6,16 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
 
+/// <summary>
+/// Defines collision type we expect
+/// </summary>
+public enum CollisionType
+{
+	None = -1,
+	Player = 0,
+	Shuttle = 1
+};
+
 /// Matrix manager keeps a list of matrices that you can access from both client and server.
 /// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.
 /// Also very common use scenario is Get()'ting matrix info using matrixId from PlayerState
@@ -110,12 +120,12 @@ public class MatrixManager : MonoBehaviour
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	/// FIXME: not truly cross-matrix. can walk diagonally between matrices
-	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, bool includingPlayers = true, GameObject context = null, int[] excludeList = null)
+	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null, int[] excludeList = null)
 	{
 		// Gets the list of Matrixes to actually check
 		MatrixInfo[] includeList = excludeList != null ? MatrixManager.ExcludeFromAllMatrixes(MatrixManager.GetList(excludeList)) : Instance.ActiveMatrices;
 		return isAtInternal(mat => mat.Matrix.IsPassableAt(WorldToLocalInt(worldOrigin, mat),
-			WorldToLocalInt(worldTarget, mat), includingPlayers, context), includeList);
+			WorldToLocalInt(worldTarget, mat), collisionType: collisionType, includingPlayers: includingPlayers, context: context), includeList);
 	}
 
 	/// <summary>
@@ -153,7 +163,7 @@ public class MatrixManager : MonoBehaviour
 		{
 			return BumpType.ClosedDoor;
 		}
-		else if (!IsPassableAt(worldOrigin, targetPos, true, bumper.gameObject))
+		else if (!IsPassableAt(worldOrigin, targetPos, includingPlayers: true, context: bumper.gameObject))
 		{
 			return BumpType.Blocked;
 		}

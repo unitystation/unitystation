@@ -14,7 +14,9 @@ MonoBehaviour:
   LayerType: 3
   TileType: 3
   RequiredTiles: []
-  Passable: 1
+  Passable:
+    m_keys: 0000000001000000
+    m_values: 0100
   AtmosPassable: 1
   IsSealed: 1
   sprite: {fileID: 21300122, guid: 2f49d98dd1e9041099b7fa044d8ffe53, type: 3}

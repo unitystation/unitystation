@@ -33,7 +33,6 @@ public class MetaTileMap : MonoBehaviour
 			layersValues.Add(layer);
 			if ( type != LayerType.Effects
 			  && type != LayerType.Base
-			  && type != LayerType.Floors
 			  && type != LayerType.None)
 			{
 				solidLayersValues.Add(layer);
@@ -50,20 +49,25 @@ public class MetaTileMap : MonoBehaviour
 		return IsPassableAt(position, position);
 	}
 
-	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool inclPlayers = true, GameObject context = null)
+	public bool IsPassableAt(Vector3Int origin, Vector3Int to, CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 		Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
-		return _IsPassableAt(origin, toX, inclPlayers, context) && _IsPassableAt(toX, to, inclPlayers, context) ||
-		       _IsPassableAt(origin, toY, inclPlayers, context) && _IsPassableAt(toY, to, inclPlayers, context);
+		return _IsPassableAt(origin, toX, collisionType, inclPlayers, context) && _IsPassableAt(toX, to, collisionType, inclPlayers, context) ||
+		       _IsPassableAt(origin, toY, collisionType, inclPlayers, context) && _IsPassableAt(toY, to, collisionType, inclPlayers, context);
 	}
 
-	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool inclPlayers = true, GameObject context = null)
+	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		for (var i = 0; i < SolidLayersValues.Length; i++)
 		{
-			if (!SolidLayersValues[i].IsPassableAt(origin, to, inclPlayers, context))
+			// Skip floor collisions if this is a player
+			if (SolidLayersValues[i].LayerType == LayerType.Floors && collisionType == CollisionType.Player)
+			{
+				continue;
+			}
+			if (!SolidLayersValues[i].IsPassableAt(origin, to, collisionType: collisionType, inclPlayers: inclPlayers, context: context))
 			{
 				return false;
 			}

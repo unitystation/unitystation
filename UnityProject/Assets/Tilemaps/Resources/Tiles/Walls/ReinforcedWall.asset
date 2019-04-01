@@ -17,7 +17,9 @@ MonoBehaviour:
   TileType: 8
   AtmosPassable: 0
   IsSealed: 0
-  Passable: 0
+  Passable:
+    m_keys: 0000000001000000
+    m_values: 0000
   connectCategory: 0
   connectType: 1
   spriteSheet: {fileID: 2800000, guid: 311271c83c0b5f846884d0b57f9c22bf, type: 3}

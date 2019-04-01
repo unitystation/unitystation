@@ -14,7 +14,9 @@ MonoBehaviour:
   LayerType: 2
   TileType: 4
   RequiredTiles: []
-  Passable: 0
+  Passable:
+    m_keys: 0000000001000000
+    m_values: 0000
   AtmosPassable: 1
   IsSealed: 0
   spriteSheet: {fileID: 2800000, guid: 74b59c4a7e5407245a23b4af42f4d1ac, type: 3}

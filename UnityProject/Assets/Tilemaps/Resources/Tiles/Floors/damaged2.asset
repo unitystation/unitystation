@@ -15,7 +15,9 @@ MonoBehaviour:
   TileType: 3
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
-  Passable: 1
+  Passable:
+    m_keys: 0000000001000000
+    m_values: 0100
   AtmosPassable: 1
   IsSealed: 1
   sprite: {fileID: 21300560, guid: 2e616eb771f994ec8be36be7a2c5f4a6, type: 3}

@@ -149,6 +149,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 	public OrientationEvent OnRotateEnd = new OrientationEvent();
 	public DualFloatEvent OnSpeedChange = new DualFloatEvent();
 
+	/// <summary>
+	/// Set this to make sure collisions are correct for the MatrixMove
+	/// For example, shuttles collide with floors but players don't
+	/// </summary>
+	public CollisionType matrixColliderType = CollisionType.Shuttle;
+
 	/// Initial flying direction from editor
 	public Vector2 flyingDirection = Vector2.up;
 
@@ -595,7 +601,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			// Exclude the moving matrix, we shouldn't be able to collide with ourselves
 			int[] excludeList = { MatrixInfo.Id };
-			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt(), false, null, excludeList))
+			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt(), collisionType: matrixColliderType, excludeList: excludeList))
 			{
 				Logger.LogTrace(
 					$"Can't pass {serverTargetState.Position}->{serverTargetState.Position + dir} (because {sensorPos}->{sensorPos + dir})!",
@@ -626,7 +632,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			// Exclude the rotating matrix, we shouldn't be able to collide with ourselves
 			int[] excludeList = { MatrixInfo.Id };
-			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos, true, null, excludeList))
+			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos, collisionType: matrixColliderType, includingPlayers: true, excludeList: excludeList))
 			{
 				Logger.LogTrace(
 					$"Can't rotate at {serverTargetState.Position}->{serverTargetState.Position } (because {sensorPos} is occupied)!",

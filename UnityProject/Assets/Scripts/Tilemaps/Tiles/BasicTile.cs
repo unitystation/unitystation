@@ -13,7 +13,7 @@ public abstract class BasicTile : LayerTile
 {
 	public bool AtmosPassable;
 	public bool IsSealed;
-	public bool Passable;
+	public PassableDictionary Passable;
 
 	public float MaxHealth;
 	public TileState[] HealthStates;
@@ -31,9 +31,9 @@ public abstract class BasicTile : LayerTile
 		}
 	}
 
-	public bool IsPassable()
+	public bool IsPassable(CollisionType colliderType)
 	{
-		return Passable;
+		return Passable[colliderType];
 	}
 
 	public bool IsAtmosPassable()

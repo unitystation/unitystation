@@ -54,9 +54,9 @@ public class Matrix : MonoBehaviour
 	/// <param name="includingPlayers">Set this to false to ignore players from check</param>
 	/// <param name="context">Is excluded from passable check</param>
 	/// <returns></returns>
-	public bool IsPassableAt(Vector3Int origin, Vector3Int position, bool includingPlayers = true, GameObject context = null)
+	public bool IsPassableAt(Vector3Int origin, Vector3Int position, CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null)
 	{
-		return metaTileMap.IsPassableAt(origin, position, includingPlayers, context);
+		return metaTileMap.IsPassableAt(origin, position, collisionType: collisionType, inclPlayers: includingPlayers, context: context);
 	}
 
 	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position)
