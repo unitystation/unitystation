@@ -121,17 +121,26 @@ public class RegisterPlayer : RegisterTile
 			}
 		}
 	}
-
-	public void Slip()
+	/// <summary>
+	/// Slips and stuns the player.
+	/// </summary>
+	/// <param name="slipWhileWalking">Enables slipping while walking.</param>
+	public void Slip(bool slipWhileWalking = false)
 	{
-		// Don't slip while walking
-		if (!UIManager.WalkRun.running)
+		// Don't slip while walking unless its enabled with "slipWhileWalking"
+		if (!slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed)
 		{
 			return;
 		}
 		Stun();
 	}
 
+	/// <summary>
+	/// Stops the player from moving and interacting for a period of time.
+	/// Also drops held items by default.
+	/// </summary>
+	/// <param name="stunDuration">Time before the stun is removed.</param>
+	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	public void Stun(float stunDuration = 4f, bool dropItem = true)
 	{
 		isStunned = true;
