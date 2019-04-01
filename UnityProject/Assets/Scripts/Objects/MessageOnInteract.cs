@@ -7,7 +7,16 @@ public class MessageOnInteract : InputTrigger
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		ChatRelay.Instance.AddToChatLogClient(Message, ChatChannel.Examine);
+		if (!CanUse(originator, hand, position, false))
+		{
+			return false;
+		}
+		if (!isServer)
+		{
+			return true;
+		}
+
+		UpdateChatMessage.Send(originator, ChatChannel.Examine, Message);
 		return true;
 	}
 

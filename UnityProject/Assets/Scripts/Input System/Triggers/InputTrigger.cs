@@ -129,7 +129,6 @@ public abstract class InputTrigger : NetworkBehaviour
 		if (!isServer)
 		{
 			InteractMessage.Send(gameObject, position, hand);
-			return false;
 		}
 
 		return true;

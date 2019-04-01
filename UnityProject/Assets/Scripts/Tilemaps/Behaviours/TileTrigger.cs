@@ -62,6 +62,10 @@ public class TileTrigger : InputTrigger
 		{
 			return false;
 		}
+		if (!isServer)
+		{
+			return true;
+		}
 		return DetermineTileAction(originator, position, hand);
 	}
 
