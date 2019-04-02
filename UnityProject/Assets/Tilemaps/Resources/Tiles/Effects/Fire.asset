@@ -17,9 +17,10 @@ MonoBehaviour:
   RequiredTiles: []
   AtmosPassable: 1
   IsSealed: 0
-  Passable:
-    m_keys: 0000000001000000
-    m_values: 0101
+  Passable: 1
+  PassableException:
+    m_keys: 
+    m_values: 
   MaxHealth: 0
   HealthStates: []
   ItemSpawn: {fileID: 0}

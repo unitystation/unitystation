@@ -32,7 +32,6 @@ public class MetaTileMap : MonoBehaviour
 			layersKeys.Add(type);
 			layersValues.Add(layer);
 			if ( type != LayerType.Effects
-			  && type != LayerType.Base
 			  && type != LayerType.None)
 			{
 				solidLayersValues.Add(layer);
@@ -62,8 +61,9 @@ public class MetaTileMap : MonoBehaviour
 	{
 		for (var i = 0; i < SolidLayersValues.Length; i++)
 		{
-			// Skip floor collisions if this is a player
-			if (SolidLayersValues[i].LayerType == LayerType.Floors && collisionType == CollisionType.Player)
+			// Skip floor & base collisions if this is not a shuttle
+			if (collisionType != CollisionType.Shuttle &&
+				(SolidLayersValues[i].LayerType == LayerType.Floors || SolidLayersValues[i].LayerType == LayerType.Base ))
 			{
 				continue;
 			}
