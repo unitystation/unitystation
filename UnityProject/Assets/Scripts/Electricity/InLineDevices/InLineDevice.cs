@@ -1,22 +1,20 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 [System.Serializable]
-public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePower
+public class InLineDevice : ElectricalOIinheritance
 {
 	//What is the purpose of inline device, It is to modify current, resistance going over the device E.G a Transformer For any other device that can be thought of
 	public IInLineDevices RelatedDevice;
-
-	public HashSet<IElectricityIO> connectedDevices { get; set; } = new HashSet<IElectricityIO>();
 
 	public RegisterObject registerTile3;
 	private Matrix matrix => registerTile3.Matrix;
 	private Vector3 posCache;
 	private bool isSupplying = false;
 
-	public void FindPossibleConnections()
+	public override void FindPossibleConnections()
 	{
 		Data.connections.Clear();
 		Data.connections = ElectricityFunctions.FindPossibleConnections(
@@ -80,7 +78,7 @@ public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePow
 	public void PowerNetworkUpdate() { }
 
 
-	public override void ResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
+	public override void ResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		Resistance = RelatedDevice.ModifyResistanceInput(Resistance, SourceInstance, ComingFrom);
 		InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, this);
@@ -94,7 +92,7 @@ public class InLineDevice : ElectricalOIinheritance, IElectricityIO, IProvidePow
 		InputOutputFunctions.ResistancyOutput( Resistance, SourceInstance, this);
 	}
 
-	public override void ElectricityInput(float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
+	public override void ElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		Current = RelatedDevice.ModifyElectricityInput( Current, SourceInstance, ComingFrom);
 		InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, this);

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,13 +8,13 @@ public class WireConnect : ElectricalOIinheritance
 {
 	public CableLine RelatedLine;
 
-	public override void DirectionInput( GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null){
+	public override void DirectionInput( GameObject SourceInstance, ElectricalOIinheritance ComingFrom, CableLine PassOn  = null){
 		InputOutputFunctions.DirectionInput ( SourceInstance, ComingFrom, this);
 		if (PassOn == null) {
 			if (RelatedLine != null) {
-				if (RelatedLine.TheEnd == this.GetComponent<IElectricityIO> ()) {
+				if (RelatedLine.TheEnd == this.GetComponent<ElectricalOIinheritance> ()) {
 					//Logger.Log ("looc");
-				} else if (RelatedLine.TheStart == this.GetComponent<IElectricityIO> ()) {
+				} else if (RelatedLine.TheStart == this.GetComponent<ElectricalOIinheritance> ()) {
 					//Logger.Log ("cool");
 				} else {
 					//Logger.Log ("hELP{!!!");
@@ -44,10 +44,10 @@ public class WireConnect : ElectricalOIinheritance
 			InputOutputFunctions.DirectionOutput (SourceInstance, this);
 		} else {
 			
-			IElectricityIO GoingTo; 
-			if (RelatedLine.TheEnd == this.GetComponent<IElectricityIO> ()) {
+			ElectricalOIinheritance GoingTo; 
+			if (RelatedLine.TheEnd == this.GetComponent<ElectricalOIinheritance> ()) {
 				GoingTo = RelatedLine.TheStart;
-			} else if (RelatedLine.TheStart == this.GetComponent<IElectricityIO> ()) {
+			} else if (RelatedLine.TheStart == this.GetComponent<ElectricalOIinheritance> ()) {
 				GoingTo = RelatedLine.TheEnd;
 			} else {
 				GoingTo = null;
@@ -56,19 +56,18 @@ public class WireConnect : ElectricalOIinheritance
 
 			if (!(Data.Upstream.ContainsKey(SourceInstanceID)))
 			{
-				Data.Upstream[SourceInstanceID] = new HashSet<IElectricityIO>();
+				Data.Upstream[SourceInstanceID] = new HashSet<ElectricalOIinheritance>();
 			}
 			if (!(Data.Downstream.ContainsKey(SourceInstanceID)))
 			{
-				Data.Downstream[SourceInstanceID] = new HashSet<IElectricityIO>();
+				Data.Downstream[SourceInstanceID] = new HashSet<ElectricalOIinheritance>();
 			}
 
 			if (GoingTo != null) {
 				//Logger.Log ("to" + GoingTo.GameObject ().name);///wow
 			}
 
-
-			foreach (IElectricityIO bob in Data.Upstream [SourceInstanceID]){
+			foreach (ElectricalOIinheritance bob in Data.Upstream[SourceInstanceID]){
 				//Logger.Log("Upstream" + bob.GameObject ().name );
 			}
 			if (!(Data.Downstream [SourceInstanceID].Contains (GoingTo) || Data.Upstream [SourceInstanceID].Contains (GoingTo)) )  {

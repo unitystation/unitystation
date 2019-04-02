@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 #if UNITY_EDITOR
@@ -102,7 +102,7 @@ using UnityEditor;
 
 		void SetWireSettings(GameObject spawnedObj)
 		{
-		var wireScript = spawnedObj.GetComponent<IElectricityIO>();
+		var wireScript = spawnedObj.GetComponent<ElectricalOIinheritance>();
 		//Logger.Log (WireStartEnd.x.ToString() + " <x and y> " + WireStartEnd.x.ToString());
 		wireScript.SetConnPoints(WireStartEnd.y, WireStartEnd.x);
 		var SpriteScript = spawnedObj.GetComponent<StructurePowerWire>();

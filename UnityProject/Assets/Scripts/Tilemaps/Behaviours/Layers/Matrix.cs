@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -209,8 +209,8 @@ public class Matrix : MonoBehaviour
 		return metaTileMap.HasTile( position );
 	}
 
-	public IEnumerable<IElectricityIO> GetElectricalConnections(Vector3Int position)
+	public IEnumerable<ElectricalOIinheritance> GetElectricalConnections(Vector3Int position)
 	{
-		return objects.Get(position).Select(x => x.GetComponent<IElectricityIO>()).Where(x => x != null);
+		return objects.Get(position).Select(x => x.GetComponent<ElectricalOIinheritance>()).Where(x => x != null);
 	}
 }

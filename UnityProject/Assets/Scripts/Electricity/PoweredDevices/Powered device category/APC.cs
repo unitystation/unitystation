@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -138,7 +138,7 @@ public class APC : PowerSupplyControlInheritance
 		if (!(CashOfConnectedDevices == powerSupply.Data.ResistanceToConnectedDevices.Count)) {
 			CashOfConnectedDevices = powerSupply.Data.ResistanceToConnectedDevices.Count;
 			ConnectedDepartmentBatteries.Clear ();
-			foreach (KeyValuePair<IElectricityIO, HashSet<PowerTypeCategory>> Device in powerSupply.Data.ResistanceToConnectedDevices) {
+			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Device in powerSupply.Data.ResistanceToConnectedDevices) {
 				if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery) {
 					if (!(ConnectedDepartmentBatteries.Contains (Device.Key.GameObject().GetComponent<DepartmentBattery>()))) {
 						ConnectedDepartmentBatteries.Add (Device.Key.GameObject ().GetComponent<DepartmentBattery> ());

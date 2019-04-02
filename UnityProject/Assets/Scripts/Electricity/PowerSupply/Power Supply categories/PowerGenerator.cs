@@ -121,7 +121,6 @@ public class PowerGenerator : PowerSupplyControlInheritance
 
 	public override void UpdateServerState(bool _isOn)
 	{
-		Logger.Log("WOWWOWO");
 		if (_isOn)
 		{
 			if (TryBurnFuel())
@@ -201,7 +200,6 @@ public class PowerGenerator : PowerSupplyControlInheritance
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		Logger.Log("or this?");
 		if (!isServer)
 		{
 			InteractMessage.Send(gameObject, hand);

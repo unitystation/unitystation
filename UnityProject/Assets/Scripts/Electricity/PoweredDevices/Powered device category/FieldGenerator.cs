@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -26,12 +26,12 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 		PowerTypeCategory.StandardCable
 	};
 
-	public IElectricityIO _IElectricityIO { get; set; }
+	public ElectricalOIinheritance _IElectricityIO { get; set; }
 
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
-		_IElectricityIO = this.gameObject.GetComponent<IElectricityIO>();
+		_IElectricityIO = this.gameObject.GetComponent<ElectricalOIinheritance>();
 		poweredDevice.InData.CanConnectTo = CanConnectTo;
 		poweredDevice.InData.Categorytype = ApplianceType;
 		poweredDevice.DirectionStart = 0;
@@ -83,14 +83,14 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 	public void PowerUpdateStructureChange() { }
 	public void PowerUpdateStructureChangeReact() { }
 	public void InitialPowerUpdateResistance() {
-		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
+		foreach (KeyValuePair<ElectricalOIinheritance,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
 			poweredDevice.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
 			//Logger.Log("7");
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
 		}
 	}
 	public void PowerUpdateResistanceChange() { 
-		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
+		foreach (KeyValuePair<ElectricalOIinheritance,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
 			poweredDevice.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
 			//Logger.Log("8");
 			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);

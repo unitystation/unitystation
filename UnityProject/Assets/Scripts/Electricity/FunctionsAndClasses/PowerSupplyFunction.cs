@@ -1,23 +1,24 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class PowerSupplyFunction  { //Responsible for keeping the update and day to clean up off the supply in check
-	public static void TurnOffSupply(IElectricityIO Supply)
+	public static void TurnOffSupply(ElectricalOIinheritance Supply)
 	{
 		Supply.RemoveSupply(Supply.GameObject());
 		//Logger.Log("13");
 		ElectricalSynchronisation.NUCurrentChange.Add (Supply.InData.ControllingUpdate);
 	}
-	public static void TurnOnSupply(IElectricityIO Supply)
+	public static void TurnOnSupply(ElectricalOIinheritance Supply)
 	{
+		//Logger.Log("yyyyyyyyyyyyyyyyyyyyy");
 		ElectricalSynchronisation.AddSupply(Supply.InData.ControllingUpdate, Supply.InData.Categorytype);
 		ElectricalSynchronisation.NUStructureChangeReact.Add (Supply.InData.ControllingUpdate);
 		ElectricalSynchronisation.NUResistanceChange.Add (Supply.InData.ControllingUpdate);
 		ElectricalSynchronisation.NUCurrentChange.Add (Supply.InData.ControllingUpdate);
 	}
 
-	public static void PowerUpdateStructureChangeReact(IElectricityIO Supply)
+	public static void PowerUpdateStructureChangeReact(ElectricalOIinheritance Supply)
 	{
 		//Logger.Log("ElectricalSynchronisation.CircuitSearchLoop(Supply);");
 		ElectricalSynchronisation.CircuitSearchLoop(Supply);
@@ -29,8 +30,9 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 			ElectricalSynchronisation.RemoveSupply(Supply.InData.ControllingUpdate, Supply.InData.Categorytype);
 		}
 	}
-	public static void PowerUpdateCurrentChange(IElectricityIO Supply)
+	public static void PowerUpdateCurrentChange(ElectricalOIinheritance Supply)
 	{
+		//Logger.Log("PowerUpdateCurrentChange(ElectricalOIinheritance Supply)");
 		Supply.FlushSupplyAndUp(Supply.GameObject());
 		if (Supply.connectedDevices.Count > 0)
 		{

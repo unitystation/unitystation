@@ -1,23 +1,23 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class ELStructure
 {
-	public static void CircuitSearchLoop(IElectricityIO Thiswire, IProvidePower ProvidingPower)
+	public static void CircuitSearchLoop(ElectricalOIinheritance Thiswire, ElectricalOIinheritance ProvidingPower)
 	{
 
 	}
-	public static void DirectionOutput(GameObject SourceInstance, IElectricityIO Thiswire,CableLine RelatedLine = null)
+	public static void DirectionOutput(GameObject SourceInstance, ElectricalOIinheritance Thiswire,CableLine RelatedLine = null)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		if (!(Thiswire.Data.Upstream.ContainsKey(SourceInstanceID)))
 		{
-			Thiswire.Data.Upstream[SourceInstanceID] = new HashSet<IElectricityIO>();
+			Thiswire.Data.Upstream[SourceInstanceID] = new HashSet<ElectricalOIinheritance>();
 		}
 		if (!(Thiswire.Data.Downstream.ContainsKey(SourceInstanceID)))
 		{
-			Thiswire.Data.Downstream[SourceInstanceID] = new HashSet<IElectricityIO>();
+			Thiswire.Data.Downstream[SourceInstanceID] = new HashSet<ElectricalOIinheritance>();
 		}
 		if (Thiswire.Data.connections.Count <= 0)
 		{

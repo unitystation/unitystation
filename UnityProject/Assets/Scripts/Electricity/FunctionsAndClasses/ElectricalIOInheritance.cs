@@ -1,18 +1,18 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 [System.Serializable]
-public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO { //is the Bass class but every  node inherits from 
+public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every  node inherits from 
 	public int DirectionStart;
 	public int DirectionEnd;
 
 	[SerializeField]
-	public ElectronicData Data { get; set; } = new ElectronicData();
+	public ElectronicData Data = new ElectronicData();
 	[SerializeField]
-	public IntrinsicElectronicData InData { get; set; } = new IntrinsicElectronicData();
-	public HashSet<IElectricityIO> connectedDevices { get; set; } = new HashSet<IElectricityIO>();
+	public IntrinsicElectronicData InData = new IntrinsicElectronicData();
+	public HashSet<ElectricalOIinheritance> connectedDevices  = new HashSet<ElectricalOIinheritance>();
 
 	public RegisterItem registerTile;
 	public Matrix matrix => registerTile.Matrix; //This is a bit janky with inheritance 
@@ -39,6 +39,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO { //is t
 
 	public virtual void FindPossibleConnections()
 	{
+		//Logger.Log(InData.CanConnectTo.Count.ToString() + "owoeeeeeee");
 		Data.connections.Clear();
 		if (registerTile != null) {
 			Data.connections = ElectricityFunctions.FindPossibleConnections(
@@ -55,7 +56,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO { //is t
 		}
 	}
 		
-	public ConnPoint GetConnPoints()
+	public virtual ConnPoint GetConnPoints()
 	{
 		ConnPoint conns = new ConnPoint();
 		conns.pointA = DirectionStart;
@@ -73,12 +74,12 @@ public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO { //is t
 		return DirectionEnd;
 	}
 
-	public GameObject GameObject()
+	public virtual GameObject GameObject()
 	{
 		return gameObject;
 	}
 
-	public virtual void DirectionInput(GameObject SourceInstance, IElectricityIO ComingFrom,  CableLine PassOn  = null)
+	public virtual void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom,  CableLine PassOn  = null)
 	{
 		InputOutputFunctions.DirectionInput(SourceInstance, ComingFrom, this);
 	}
@@ -91,7 +92,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO { //is t
 		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString (), Category.Electrical);
 	}
 
-	public virtual void ResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom)
+	public virtual void ResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, this);
 	}
@@ -102,7 +103,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IElectricityIO { //is t
 		float Resistance = ElectricityFunctions.WorkOutResistance(Data.ResistanceComingFrom[ SourceInstance.GetInstanceID()]);
 		InputOutputFunctions.ResistancyOutput(Resistance, SourceInstance, this);
 	}
-	public virtual void ElectricityInput( float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
+	public virtual void ElectricityInput( float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, this);
 	}

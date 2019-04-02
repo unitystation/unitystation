@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +9,6 @@ public interface  IElectricalNeedUpdate {
 	void PowerUpdateResistanceChange();
 	void PowerUpdateCurrentChange ();
 	void PowerNetworkUpdate ();
-	IElectricityIO _IElectricityIO { get; set; }
+	ElectricalOIinheritance _IElectricityIO { get; set; }
 	GameObject GameObject();
 }

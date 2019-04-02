@@ -1,41 +1,34 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeadEndConnection : IElectricityIO { //Used for formatting in the electrical system
+public class DeadEndConnection : ElectricalOIinheritance { //Used for formatting in the electrical system
 	
-	public PowerTypeCategory Categorytype {get; set;} = PowerTypeCategory.DeadEndConnection;
+	public override void FindPossibleConnections(){}
 
-	public ElectronicData Data {get; set;} = new ElectronicData();
-	public IntrinsicElectronicData InData  {get; set;} = new IntrinsicElectronicData();
-	public HashSet<IElectricityIO> connectedDevices {get; set;} 
+	public override void ElectricityInput(float Current, GameObject SourceInstance,  ElectricalOIinheritance ComingFrom){}
 
-
-	public void FindPossibleConnections(){}
-
-	public void ElectricityInput(float Current, GameObject SourceInstance,  IElectricityIO ComingFrom){}
-
-	public 	void ElectricityOutput(float Current, GameObject SourceInstance){}
+	public override	void ElectricityOutput(float Current, GameObject SourceInstance){}
 
 
-	public 	void ResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){}
+	public override	void ResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom  ){}
 
-	public void ResistancyOutput(GameObject SourceInstance){}
+	public override void ResistancyOutput(GameObject SourceInstance){}
 
-	public void DirectionInput(GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null){}
+	public override void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, CableLine PassOn  = null){}
 
-	public 	void DirectionOutput(GameObject SourceInstance){}
+	public override	void DirectionOutput(GameObject SourceInstance){}
 
-	public 	void FlushConnectionAndUp (){}
+	public override	void FlushConnectionAndUp (){}
 
 
-	public 	void FlushResistanceAndUp ( GameObject SourceInstance = null ){}
-	public 	void FlushSupplyAndUp ( GameObject SourceInstance = null ){}
+	public override	void FlushResistanceAndUp ( GameObject SourceInstance = null ){}
+	public override	void FlushSupplyAndUp ( GameObject SourceInstance = null ){}
 
-	public 	void RemoveSupply (GameObject SourceInstance = null){}
-	public 	void SetConnPoints(int DirectionEnd, int DirectionStart){}
+	public override	void RemoveSupply (GameObject SourceInstance = null){}
+	public override	void SetConnPoints(int DirectionEnd, int DirectionStart){}
 
-	public 	ConnPoint GetConnPoints(){return(new ConnPoint());}
+	public override	ConnPoint GetConnPoints(){return(new ConnPoint());}
 
-	public 	GameObject GameObject(){return(null);}
+	public override	GameObject GameObject(){return(null);}
 }

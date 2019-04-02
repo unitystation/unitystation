@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -26,7 +26,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 	public float VoltageLimiting;
 	public float VoltageLimitedTo;
 
-	public IElectricityIO _IElectricityIO { get; set; }
+	public ElectricalOIinheritance _IElectricityIO { get; set; }
 	public PowerTypeCategory ApplianceType { get; set; }
 	public HashSet<PowerTypeCategory> CanConnectTo { get; set; }
 
@@ -148,10 +148,9 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 	{
 	}
 	public virtual void InitialPowerUpdateResistance() {
-		//Logger.Log("InitialPowerUpdateResistance");
 		powerSupply.InitialPowerUpdateResistance();
 		//this ok 
-		foreach (KeyValuePair<IElectricityIO, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices)
+		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices)
 		{
 			powerSupply.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
 			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingUpdate);
@@ -162,9 +161,8 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 	{
 	}
 	public virtual void PowerUpdateResistanceChange() { 
-		//Logger.Log("PowerUpdateResistanceChange");
 		powerSupply.PowerUpdateResistanceChange();
-		foreach (KeyValuePair<IElectricityIO, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices)
+		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices)
 		{
 			//Logger.Log("4");
 			powerSupply.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
@@ -177,7 +175,6 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 	}
 	public virtual void PowerUpdateCurrentChange()
 	{
-		//Logger.Log("PowerUpdateCurrentChange");
 		if (current > 0)
 		{
 			powerSupply.FlushSupplyAndUp(powerSupply.gameObject); //Room for optimisation
@@ -207,8 +204,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 	public virtual void _PowerUpdateCurrentChange()
 	{
 	}
-	public virtual void PowerNetworkUpdate() { 
-		//Logger.Log("PowerNetworkUpdate");
+	public virtual void PowerNetworkUpdate() {
 		powerSupply.PowerNetworkUpdate();
 		ActualVoltage = powerSupply.Data.ActualVoltage;
 		BatteryCalculation.PowerNetworkUpdate(this);
@@ -241,7 +237,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 			}
 
 			PreviousResistance = Resistance;
-			foreach (KeyValuePair<IElectricityIO, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data
+			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data
 				.ResistanceToConnectedDevices)
 			{
 				if (Supplie.Value.Contains(PowerTypeCategory.StandardCable))
@@ -263,14 +259,14 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 		return (gameObject);
 	}
 
-	public virtual float ModifyElectricityInput(float Current, GameObject SourceInstance, IElectricityIO ComingFrom) { 
+	public virtual float ModifyElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom) { 
 		return (Current);
 	}
 	public virtual float ModifyElectricityOutput(float Current, GameObject SourceInstance) { 
 		return (Current);
 	}
 
-	public virtual float ModifyResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom) { 
+	public virtual float ModifyResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom) { 
 		return (Resistance);
 	}
 	public virtual float ModifyResistancyOutput(float Resistance, GameObject SourceInstance) {

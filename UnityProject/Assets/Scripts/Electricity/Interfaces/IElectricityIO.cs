@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System;
 
@@ -6,11 +6,11 @@ using System;
 /// For any object that can conduct electricity
 /// Handles the input/output path
 /// </summary>
-public interface IElectricityIO
+public interface IElectricalOIinheritance
 {
 	ElectronicData Data {get; set;}
 	IntrinsicElectronicData InData  {get; set;}
-	HashSet<IElectricityIO> connectedDevices {get; set;}
+	HashSet<ElectricalOIinheritance> connectedDevices {get; set;}
 
 	void FindPossibleConnections ();
 	/// <summary>
@@ -18,7 +18,7 @@ public interface IElectricityIO
 	/// 
 	/// currentTick = the current tick rate count
 	/// </summary>
-	void ElectricityInput(float Current, GameObject SourceInstance,  IElectricityIO ComingFrom);
+	void ElectricityInput(float Current, GameObject SourceInstance,  ElectricalOIinheritance ComingFrom);
 
 	/// <summary>
 	/// The output path of the object/wire that is passing electricity through it
@@ -28,7 +28,7 @@ public interface IElectricityIO
 	/// <summary>
 	/// Pass resistance with ID of the supplying machine
 	/// </summary>
-	void ResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  );
+	void ResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom  );
 
 	/// <summary>
 	/// Passes it on to the next cable
@@ -38,7 +38,7 @@ public interface IElectricityIO
 	/// <summary>
 	///  Sets the upstream 
 	/// </summary>
-	void DirectionInput(GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null);
+	void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, CableLine PassOn  = null);
 	/// <summary>
 	/// Sets the downstream and pokes the next one along 
 	/// </summary>

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System; 
@@ -31,15 +31,15 @@ public class Transformer : PowerSupplyControlInheritance
 		Tuple<float,float> Currentandoffcut = TransformerCalculations.TransformerCalculate (this,Voltage : Voltage, ResistanceModified : Resistance, ActualCurrent : ActualCurrent);
 		if (Currentandoffcut.Item2 > 0) {
 			if (!(RelatedDevice.Data.CurrentGoingTo.ContainsKey (InstanceID))) {
-				RelatedDevice.Data.CurrentGoingTo [InstanceID] = new Dictionary<IElectricityIO, float> ();
+				RelatedDevice.Data.CurrentGoingTo [InstanceID] = new Dictionary<ElectricalOIinheritance, float> ();
 			}
-			RelatedDevice.Data.CurrentGoingTo[InstanceID] [RelatedDevice.GameObject().GetComponent<IElectricityIO>()] = Currentandoffcut.Item2;
+			RelatedDevice.Data.CurrentGoingTo[InstanceID] [RelatedDevice.GameObject().GetComponent<ElectricalOIinheritance>()] = Currentandoffcut.Item2;
 		}
 		//return(Current);
 		return(Currentandoffcut.Item1);
 	}
 
-	public override float ModifyResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom  ){
+	public override float ModifyResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom  ){
 		Tuple<float,float> ResistanceM = TransformerCalculations.TransformerCalculate (this, ResistanceToModify : Resistance);
 		//return(Resistance);
 		return(ResistanceM.Item1);

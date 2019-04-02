@@ -1,10 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
-public class PoweredDevice : ElectricalOIinheritance, IElectricityIO
+public class PoweredDevice : ElectricalOIinheritance
 {
 
 	//Renderers:

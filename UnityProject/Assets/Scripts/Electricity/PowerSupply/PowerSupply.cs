@@ -1,17 +1,17 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
-public class PowerSupply : ElectricalOIinheritance, IElectricalNeedUpdate, IElectricityIO, IProvidePower
+public class PowerSupply : ElectricalOIinheritance, IElectricalNeedUpdate
 {
 	public RegisterObject registerTile3;
 	private Matrix matrix => registerTile3.Matrix;
 	private Vector3 posCache;
 	private bool isSupplying = false;
 
-	public IElectricityIO _IElectricityIO { get; set; }
+	public ElectricalOIinheritance _IElectricityIO { get; set; }
 
 	public void FindPossibleConnections()
 	{
@@ -32,7 +32,7 @@ public class PowerSupply : ElectricalOIinheritance, IElectricalNeedUpdate, IElec
 	{
 		base.OnStartServer();
 		InData.ElectricityOverride = true;
-		_IElectricityIO = this.gameObject.GetComponent<IElectricityIO>();
+		_IElectricityIO = this.gameObject.GetComponent<ElectricalOIinheritance>();
 		//Not working for some reason:
 		registerTile3 = gameObject.GetComponent<RegisterObject>();
 		StartCoroutine(WaitForLoad());

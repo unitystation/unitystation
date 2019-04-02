@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -233,7 +233,7 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 		return true;
 	}
 
-	public override float ModifyElectricityInput( float Current, GameObject SourceInstance, IElectricityIO ComingFrom)
+	public override float ModifyElectricityInput( float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		int InstanceID = SourceInstance.GetInstanceID();
 
@@ -247,9 +247,9 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 		{
 			if (!(powerSupply.Data.CurrentGoingTo.ContainsKey(InstanceID)))
 			{
-				powerSupply.Data.CurrentGoingTo[InstanceID] = new Dictionary<IElectricityIO, float>();
+				powerSupply.Data.CurrentGoingTo[InstanceID] = new Dictionary<ElectricalOIinheritance, float>();
 			}
-			powerSupply.Data.CurrentGoingTo[InstanceID][powerSupply.GameObject().GetComponent<IElectricityIO>()] = Currentandoffcut.Item2;
+			powerSupply.Data.CurrentGoingTo[InstanceID][powerSupply.GameObject().GetComponent<ElectricalOIinheritance>()] = Currentandoffcut.Item2;
 		}
 		//return (Current);
 		return (Currentandoffcut.Item1);

@@ -1,14 +1,14 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class ELCurrent
 {
-	public static HashSet<IElectricityIO> CurrentWorkOnNextList = new HashSet<IElectricityIO>();
-	public static HashSet<IElectricityIO> WorkingList = new HashSet<IElectricityIO>();
+	public static HashSet<ElectricalOIinheritance> CurrentWorkOnNextList = new HashSet<ElectricalOIinheritance>();
+	public static HashSet<ElectricalOIinheritance> WorkingList = new HashSet<ElectricalOIinheritance>();
 	public static bool doWorkingList = false;
 	public static int SourceInstanceID = 0;
-	public static void CurrentWorkOnNextListADD(IElectricityIO toADD) {
+	public static void CurrentWorkOnNextListADD(ElectricalOIinheritance toADD) {
 		if (doWorkingList)
 		{
 			CurrentWorkOnNextList.Add(toADD);
@@ -39,15 +39,15 @@ public static class ELCurrent
 			}
 		}	
 	}
-	public static void DoCurrentloop(HashSet<IElectricityIO> WorkingOn, GameObject SourceInstance) { 
-		foreach (IElectricityIO Node in WorkingOn)
+	public static void DoCurrentloop(HashSet<ElectricalOIinheritance> WorkingOn, GameObject SourceInstance) { 
+		foreach (ElectricalOIinheritance Node in WorkingOn)
 		{
 			//Logger.Log("yow");
 			if (!Node.InData.ElectricityOverride)
 			{
 				float SupplyingCurrent = 0;
 				float Voltage = Node.Data.CurrentStoreValue * (ElectricityFunctions.WorkOutResistance(Node.Data.ResistanceComingFrom[SourceInstanceID]));
-				foreach (KeyValuePair<IElectricityIO, float> JumpTo in Node.Data.ResistanceComingFrom[SourceInstanceID])
+				foreach (KeyValuePair<ElectricalOIinheritance, float> JumpTo in Node.Data.ResistanceComingFrom[SourceInstanceID])
 				{
 					if (Voltage > 0)
 					{
@@ -59,7 +59,7 @@ public static class ELCurrent
 					}
 					if (!(Node.Data.CurrentGoingTo.ContainsKey(SourceInstanceID)))
 					{
-						Node.Data.CurrentGoingTo[SourceInstanceID] = new Dictionary<IElectricityIO, float>();
+						Node.Data.CurrentGoingTo[SourceInstanceID] = new Dictionary<ElectricalOIinheritance, float>();
 					}
 					Node.Data.CurrentGoingTo[SourceInstanceID][JumpTo.Key] = SupplyingCurrent;
 					if (!JumpTo.Key.InData.ElectricityOverride)
@@ -71,7 +71,7 @@ public static class ELCurrent
 						}
 						if (!(JumpTo.Key.Data.CurrentComingFrom.ContainsKey(SourceInstanceID)))
 						{
-							JumpTo.Key.Data.CurrentComingFrom[SourceInstanceID] = new Dictionary<IElectricityIO, float>();
+							JumpTo.Key.Data.CurrentComingFrom[SourceInstanceID] = new Dictionary<ElectricalOIinheritance, float>();
 						}
 						JumpTo.Key.Data.CurrentComingFrom[SourceInstanceID][Node] = SupplyingCurrent;
 						JumpTo.Key.Data.SourceVoltages[SourceInstanceID] = SupplyingCurrent * (ElectricityFunctions.WorkOutResistance(JumpTo.Key.Data.ResistanceComingFrom[SourceInstanceID]));
