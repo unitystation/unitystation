@@ -10,7 +10,6 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 	public InLineDevice powerSupply;
 	[SyncVar(hook = "UpdateState")]
 	public bool isOn = false;
-	public bool ChangeToOff = false;
 	public int DirectionStart = 0;
 	public int DirectionEnd = 9;
 	public float MonitoringResistance = 0;
@@ -22,9 +21,9 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 	public float InternalResistance = 0;
 	public float PreviousInternalResistance = 0;
 	[Header("Transformer Settings")]
-	public float TurnRatio;
-	public float VoltageLimiting;
-	public float VoltageLimitedTo;
+	public float TurnRatio; //the Turn ratio of the transformer so if it 2, 1v in 2v out 
+	public float VoltageLimiting; //If it requires VoltageLimiting and  At what point the VoltageLimiting will kick in
+	public float VoltageLimitedTo;  //what it will be limited to
 
 	public ElectricalOIinheritance _IElectricityIO { get; set; }
 	public PowerTypeCategory ApplianceType { get; set; }
@@ -33,17 +32,17 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 
 	public  Resistance resistance { get; set; } = new Resistance();
 	[Header("Battery Settings")]
-	public  float MaximumCurrentSupport = 0;
-	public  float MinimumSupportVoltage = 0;
+	public  float MaximumCurrentSupport = 0; //The maximum number of amps can be pulled From the battery 
+	public  float MinimumSupportVoltage = 0; //At which point the battery kicks in
 	public  float StandardSupplyingVoltage = 0;
 	public  float CapacityMax = 0;
 	public  float CurrentCapacity = 0;
-	public  float ExtraChargeCutOff  = 0;
-	public  float IncreasedChargeVoltage = 0;
-	public  float StandardChargeNumber  = 0;
-	public  float ChargeSteps = 0;
-	public  float MaxChargingMultiplier = 0;
-	public  float ChargingMultiplier = 0;
+	public  float ExtraChargeCutOff  = 0; //if  The voltages less than this it will decrease the charge steps until A it is not or B it reaches zero then stops charging
+	public  float IncreasedChargeVoltage = 0; // At what voltage the charge multiplier will increase
+	public  float StandardChargeNumber  = 0; //Basically part of the multiplier of how much it should charge
+	public  float ChargeSteps = 0; //The steps it will go up by when adjusting the charge current
+	public  float MaxChargingMultiplier = 0; 
+	public  float ChargingMultiplier = 0; 
 	public  bool CanCharge = false;
 	public  bool Cansupport = false;
 	public  bool ToggleCanCharge = false;
@@ -106,8 +105,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 		}
 		else
 		{
-			powerSupply.Data.ChangeToOff = true;
-			ElectricalSynchronisation.NUStructureChangeReact.Add(this);
+			powerSupply.TurnOffSupply();
 		}
 	}
 
@@ -175,7 +173,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 	}
 	public virtual void PowerUpdateCurrentChange()
 	{
-		if (current > 0)
+		if (powerSupply.Data.ResistanceComingFrom.Count > 0)
 		{
 			powerSupply.FlushSupplyAndUp(powerSupply.gameObject); //Room for optimisation
 			CircuitResistance = ElectricityFunctions.WorkOutResistance(powerSupply.Data.ResistanceComingFrom[powerSupply.gameObject.GetInstanceID()]); // //!!
@@ -197,6 +195,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 				Previouscurrent = current;
 			}
 		}
+	
 
 		powerSupply.PowerUpdateCurrentChange();
 		_PowerUpdateCurrentChange();

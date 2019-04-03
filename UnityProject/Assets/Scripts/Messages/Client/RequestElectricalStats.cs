@@ -19,34 +19,10 @@ public class RequestElectricalStats : ClientMessage
 		if (playerScript.IsInReach(NetworkObjects[1]))
 		{
 			//Try powered device first:
-			var poweredDevice = NetworkObjects[1].GetComponent<PoweredDevice>();
+			var poweredDevice = NetworkObjects[1].GetComponent<ElectricalOIinheritance>();
 			if (poweredDevice != null)
 			{
 				SendDataToClient(poweredDevice.Data, NetworkObjects[0]);
-				yield break;
-			}
-
-			//Try power supplies:
-			var powerSupply = NetworkObjects[1].GetComponent<PowerSupply>();
-			if (powerSupply != null)
-			{
-				SendDataToClient(powerSupply.Data, NetworkObjects[0]);
-				yield break;
-			}
-
-			//Try Inline device next:
-			var inlineDevice = NetworkObjects[1].GetComponent<InLineDevice>();
-			if (inlineDevice != null)
-			{
-				SendDataToClient(inlineDevice.Data, NetworkObjects[0]);
-				yield break;
-			}
-
-			//Last of all check if it is just a wire
-			var wireConnect = NetworkObjects[1].GetComponent<InLineDevice>();
-			if (wireConnect != null)
-			{
-				SendDataToClient(wireConnect.Data, NetworkObjects[0]);
 				yield break;
 			}
 		}

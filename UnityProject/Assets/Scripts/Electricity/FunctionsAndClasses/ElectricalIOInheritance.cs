@@ -110,6 +110,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 
 	public virtual void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
+		Logger.Log("oh man?");
 		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
 		ElectricityFunctions.WorkOutActualNumbers(this);
 	}

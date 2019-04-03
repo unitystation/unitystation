@@ -8,7 +8,7 @@ public class ElectricalSynchronisationStorage
 	public IElectricalNeedUpdate device;
 }
 public static class ElectricalSynchronisation
-{ 
+{
 	//What keeps electrical Ticking
 	//so this is correlated to what has changed on the network, Needs to be optimised so (when one resistant source changes only that one updates its values currently the entire network updates their values)
 	public static bool StructureChange = true; //deals with the connections this will clear them out only
@@ -21,11 +21,21 @@ public static class ElectricalSynchronisation
 	public static DeadEndConnection DeadEnd = new DeadEndConnection(); //so resistance sources coming from itself  like an apc Don't cause loops this is used as coming from and so therefore it is ignored
 
 
-	public static List<ElectricalOIinheritance> DirectionWorkOnNextList = new List<ElectricalOIinheritance> ();
-	public static List<ElectricalOIinheritance> DirectionWorkOnNextListWait = new List<ElectricalOIinheritance> ();
+	public static List<ElectricalOIinheritance> DirectionWorkOnNextList = new List<ElectricalOIinheritance>();
+	public static List<ElectricalOIinheritance> DirectionWorkOnNextListWait = new List<ElectricalOIinheritance>();
 
-	public static List<KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance>> ResistanceWorkOnNextList = new List<KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance>> ();
-	public static List<KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance>> ResistanceWorkOnNextListWait = new List<KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance>> ();
+	public static List<ElectricalOIinheritance> _DirectionWorkOnNextList = new List<ElectricalOIinheritance>();
+	public static List<ElectricalOIinheritance> _DirectionWorkOnNextListWait = new List<ElectricalOIinheritance>();
+
+	public static bool UesAlternativeDirectionWorkOnNextList;
+
+	public static List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> ResistanceWorkOnNextList = new List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+	public static List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> ResistanceWorkOnNextListWait = new List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+
+	public static List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextList = new List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+	public static List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextListWait = new List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+
+	public static bool UesAlternativeResistanceWorkOnNextList;
 
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
@@ -43,16 +53,16 @@ public static class ElectricalSynchronisation
 	};
 	public static List<PowerTypeCategory> WireConnectRelated = new List<PowerTypeCategory>()
 	{
-		PowerTypeCategory.LowVoltageCable, 
+		PowerTypeCategory.LowVoltageCable,
 		PowerTypeCategory.LowMachineConnector,
-		PowerTypeCategory.StandardCable, 
+		PowerTypeCategory.StandardCable,
 		PowerTypeCategory.MediumMachineConnector,
-		PowerTypeCategory.HighVoltageCable, 
+		PowerTypeCategory.HighVoltageCable,
 		PowerTypeCategory.HighVoltageCable,
 
 	};
 	public static List<PowerTypeCategory> UnconditionalSupplies = new List<PowerTypeCategory>()
-	{ 
+	{
 		PowerTypeCategory.RadiationCollector, //make sure unconditional supplies come first
 		PowerTypeCategory.PowerGenerator,
 
@@ -103,7 +113,7 @@ public static class ElectricalSynchronisation
 				if (!AliveSupplies.ContainsKey(category))
 				{
 					AliveSupplies[category] = new HashSet<IElectricalNeedUpdate>();
-				} 
+				}
 			}
 			DeadEnd.InData.Categorytype = PowerTypeCategory.DeadEndConnection; //yeah Class stuff
 			Initialise = true;
@@ -230,7 +240,6 @@ public static class ElectricalSynchronisation
 	/// </summary>
 	private static void PowerUpdateCurrentChange()
 	{
-		//Logger.Log("PowerUpdateCurrentChange");
 		for (int i = 0; i < UnconditionalSupplies.Count; i++)
 		{
 			foreach (IElectricalNeedUpdate TheSupply in AliveSupplies[OrderList[i]])
@@ -326,7 +335,7 @@ public static class ElectricalSynchronisation
 
 	public static int NumberOfReactiveSupplies_f()
 	{
-	int Counting = 0;
+		int Counting = 0;
 		foreach (IElectricalNeedUpdate Device in NUCurrentChange)
 		{
 			if (Device != null)
@@ -337,10 +346,11 @@ public static class ElectricalSynchronisation
 				}
 			}
 		}
-	return (Counting);
+		return (Counting);
 	}
 
-	public static int NumberOfReactiveSupplies(ElectricalOIinheritance Devices) {
+	public static int NumberOfReactiveSupplies(ElectricalOIinheritance Devices)
+	{
 		int Counting = 0;
 		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Device in Devices.Data.ResistanceToConnectedDevices)
 		{
@@ -352,62 +362,123 @@ public static class ElectricalSynchronisation
 		return (Counting);
 	}
 
+
+
+
 	public static void CircuitSearchLoop(ElectricalOIinheritance Thiswire)
 	{
-		InputOutputFunctions.DirectionOutput(Thiswire.GameObject(), Thiswire);
+		GameObject GameObject = Thiswire.GameObject();
+		InputOutputFunctions.DirectionOutput(GameObject, Thiswire);
 		bool Break = true;
-		List<ElectricalOIinheritance> IterateDirectionWorkOnNextList = new List<ElectricalOIinheritance>();
 		while (Break)
 		{
-			//Logger.Log("tot");
-			IterateDirectionWorkOnNextList = new List<ElectricalOIinheritance>(DirectionWorkOnNextList);
-			DirectionWorkOnNextList.Clear();
-			for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++)
-			{
-				IterateDirectionWorkOnNextList[i].DirectionOutput(Thiswire.GameObject());
-			}
-			if (DirectionWorkOnNextList.Count <= 0)
-			{
-				IterateDirectionWorkOnNextList = new List<ElectricalOIinheritance>(DirectionWorkOnNextListWait);
-				DirectionWorkOnNextListWait.Clear();
-				for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++)
-				{
-					IterateDirectionWorkOnNextList[i].DirectionOutput(Thiswire.GameObject());
-				}
-			}
-			if (DirectionWorkOnNextList.Count <= 0 && DirectionWorkOnNextListWait.Count <= 0)
+			UesAlternativeDirectionWorkOnNextList = false;
+			DOCircuitSearchLoop(GameObject, _DirectionWorkOnNextList, _DirectionWorkOnNextListWait);
+
+			UesAlternativeDirectionWorkOnNextList = true;
+			DOCircuitSearchLoop(GameObject, DirectionWorkOnNextList, DirectionWorkOnNextListWait);
+
+			if (DirectionWorkOnNextList.Count <= 0 & DirectionWorkOnNextListWait.Count <= 0 & _DirectionWorkOnNextList.Count <= 0 & _DirectionWorkOnNextListWait.Count <= 0)
 			{
 				//Logger.Log ("stop!");
 				Break = false;
 			}
 		}
 	}
-		
+
+	public static void DirectionWorkOnNextListADD(ElectricalOIinheritance Thiswire)
+	{
+		if (UesAlternativeDirectionWorkOnNextList)
+		{
+			_DirectionWorkOnNextList.Add(Thiswire);
+		}
+		else
+		{
+			DirectionWorkOnNextList.Add(Thiswire);
+		}
+	}
+	public static void DirectionWorkOnNextListWaitADD(ElectricalOIinheritance Thiswire)
+	{
+		if (UesAlternativeDirectionWorkOnNextList)
+		{
+			_DirectionWorkOnNextListWait.Add(Thiswire);
+		}
+		else
+		{
+			DirectionWorkOnNextListWait.Add(Thiswire);
+		}
+	}
+
+	public static void DOCircuitSearchLoop(GameObject GameObject, List<ElectricalOIinheritance> IterateDirectionWorkOnNextList, List<ElectricalOIinheritance> DirectionWorkOnNextListWait)
+	{
+		for (int i = 0; i < IterateDirectionWorkOnNextList.Count; i++)
+		{
+			IterateDirectionWorkOnNextList[i].DirectionOutput(GameObject);
+		}
+		IterateDirectionWorkOnNextList.Clear();
+		if (DirectionWorkOnNextList.Count <= 0 & _DirectionWorkOnNextList.Count <= 0)
+		{
+			for (int i = 0; i < DirectionWorkOnNextListWait.Count; i++)
+			{
+				DirectionWorkOnNextListWait[i].DirectionOutput(GameObject);
+			}
+			DirectionWorkOnNextListWait.Clear();
+		}
+	}
+
+	public static void ResistanceWorkOnNextListADD(KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance> Thiswire)
+	{
+		if (UesAlternativeResistanceWorkOnNextList)
+		{
+			_ResistanceWorkOnNextList.Add(Thiswire);
+		}
+		else
+		{
+			ResistanceWorkOnNextList.Add(Thiswire);
+		}
+	}
+	public static void ResistanceWorkOnNextListWaitADD(KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance> Thiswire)
+	{
+		if (UesAlternativeResistanceWorkOnNextList)
+		{
+			_ResistanceWorkOnNextListWait.Add(Thiswire);
+		}
+		else
+		{
+			ResistanceWorkOnNextListWait.Add(Thiswire);
+		}
+	}
+
 	public static void CircuitResistanceLoop()
 	{
-		//Logger.Log ("CircuitResistanceLoop! ");
-		List<KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance>> IterateDirectionWorkOnNextList = new List<KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance>> ();
 		do
 		{
+			UesAlternativeResistanceWorkOnNextList = false;
+			DOCircuitResistanceLoop(_ResistanceWorkOnNextList, _ResistanceWorkOnNextListWait);
 
-			IterateDirectionWorkOnNextList = new List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>(ResistanceWorkOnNextList);
-			ResistanceWorkOnNextList.Clear();
-			//Logger.Log (IterateDirectionWorkOnNextList.Count.ToString () + "IterateDirectionWorkOnNextList.Count");
-			foreach (var direction in IterateDirectionWorkOnNextList)
+			UesAlternativeResistanceWorkOnNextList = true;
+			DOCircuitResistanceLoop(ResistanceWorkOnNextList, ResistanceWorkOnNextListWait);
+			 
+		} while (ResistanceWorkOnNextList.Count > 0 | ResistanceWorkOnNextListWait.Count > 0 | _ResistanceWorkOnNextList.Count > 0 | _ResistanceWorkOnNextListWait.Count > 0);
+	}
+
+	public static void DOCircuitResistanceLoop(List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> IterateDirectionWorkOnNextList,
+											   List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> IterateDirectionWorkOnNextListWait)
+	{
+		foreach (var direction in IterateDirectionWorkOnNextList)
+		{
+			direction.Value.ResistancyOutput(direction.Key.GameObject());
+		}
+		IterateDirectionWorkOnNextList.Clear();
+		if (ResistanceWorkOnNextList.Count <= 0 & _ResistanceWorkOnNextList.Count <= 0)
+		{
+			foreach (var direction in IterateDirectionWorkOnNextListWait)
 			{
 				direction.Value.ResistancyOutput(direction.Key.GameObject());
 			}
-			//Logger.Log (ResistanceWorkOnNextList.Count.ToString () + "ResistanceWorkOnNextList.Count");
-			if (ResistanceWorkOnNextList.Count <= 0)
-			{
-				IterateDirectionWorkOnNextList = new List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>(ResistanceWorkOnNextListWait);
-				ResistanceWorkOnNextListWait.Clear();
-				foreach (var direction in IterateDirectionWorkOnNextList)
-				{
-					direction.Value.ResistancyOutput(direction.Key.GameObject());
-				}
-			}
+			IterateDirectionWorkOnNextListWait.Clear();
+		}
 
-		} while (ResistanceWorkOnNextList.Count > 0 || ResistanceWorkOnNextListWait.Count > 0);
 	}
+
 }

@@ -134,8 +134,7 @@ public class SMES : PowerSupplyControlInheritance
 		}
 		else
 		{
-			powerSupply.Data.ChangeToOff = true;
-			ElectricalSynchronisation.NUStructureChangeReact.Add (this);
+			powerSupply.TurnOffSupply();
 		}
 	}
 

@@ -96,6 +96,7 @@ public class APC : PowerSupplyControlInheritance
 			}
 		}
 	}
+
 	/// <summary>
 	/// Flag to determine if ElectricalSynchronisation has processed the resistance change yet
 	/// </summary>

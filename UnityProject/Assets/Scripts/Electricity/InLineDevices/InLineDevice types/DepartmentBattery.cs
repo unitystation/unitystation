@@ -209,8 +209,7 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 		}
 		else
 		{
-			powerSupply.Data.ChangeToOff = true;
-			ElectricalSynchronisation.NUStructureChangeReact.Add (this);
+			powerSupply.TurnOffSupply();
 		}
 
 	}

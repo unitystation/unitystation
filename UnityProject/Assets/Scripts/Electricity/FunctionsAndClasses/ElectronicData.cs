@@ -19,8 +19,6 @@ public class ElectronicData  { //to Store data about the electrical device
 	public Dictionary<int,Dictionary<ElectricalOIinheritance,float>> CurrentComingFrom  = new Dictionary<int, Dictionary<ElectricalOIinheritance, float>> ();
 	public Dictionary<int, Dictionary<ElectricalOIinheritance, float>> ResistanceGoingTo = new Dictionary<int, Dictionary<ElectricalOIinheritance, float>>();
 	public Dictionary<int,Dictionary<ElectricalOIinheritance,float>> ResistanceComingFrom = new Dictionary<int, Dictionary<ElectricalOIinheritance, float>> ();
-	[Serializable]
-	public class _SourceVoltages : SerializableDictionary<string, string> { }
 	public Dictionary<int,float> SourceVoltages = new Dictionary<int, float> ();
 	public Dictionary<int,HashSet<ElectricalOIinheritance>> Downstream = new Dictionary<int, HashSet<ElectricalOIinheritance>> ();
 	public Dictionary<int,HashSet<ElectricalOIinheritance>> Upstream = new Dictionary<int, HashSet<ElectricalOIinheritance>> ();

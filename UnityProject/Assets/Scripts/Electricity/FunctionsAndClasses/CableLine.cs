@@ -54,6 +54,7 @@ public class CableLine { //Meant to be an intermediary for long stretches of cab
 			Covering[i].Data.ActualVoltage = TheStart.Data.ActualVoltage;
 			Covering[i].Data.CurrentInWire = TheStart.Data.CurrentInWire;
 			Covering[i].Data.EstimatedResistance = TheStart.Data.EstimatedResistance;
-		}	}
+		}
+	}
 
 }

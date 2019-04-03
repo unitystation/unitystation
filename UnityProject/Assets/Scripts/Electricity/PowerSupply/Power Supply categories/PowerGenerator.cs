@@ -132,9 +132,7 @@ public class PowerGenerator : PowerSupplyControlInheritance
 		else
 		{
 			isOn = false;
-			//powerSupply.TurnOffSupply();
-			powerSupply.Data.ChangeToOff = true;
-			ElectricalSynchronisation.NUStructureChangeReact.Add(this);
+			powerSupply.TurnOffSupply();
 			if (plasmaFuel.Count > 0)
 			{
 				plasmaFuel[0].StopBurningPlasma();
@@ -235,5 +233,4 @@ public class PowerGenerator : PowerSupplyControlInheritance
 
 		return true;
 	}
-	public void TurnOffCleanup() { }
 }

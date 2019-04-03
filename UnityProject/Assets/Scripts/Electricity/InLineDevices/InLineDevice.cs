@@ -102,7 +102,6 @@ public class InLineDevice : ElectricalOIinheritance
 	{
 		if (!(SourceInstance == gameObject)){
 			//Logger.Log("added" + SourceInstance.name + "< " + gameObject.name);
-
 			if (!ElectricalSynchronisation.NUCurrentChange.Contains(InData.ControllingUpdate)) { 
 				ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingUpdate);
 			}
@@ -111,10 +110,10 @@ public class InLineDevice : ElectricalOIinheritance
 
 		Current = RelatedDevice.ModifyElectricityOutput(Current, SourceInstance);
 		//Logger.Log (CurrentInWire.ToString () + " How much current", Category.Electrical);
-		if (Current != 0)
-		{
+		//if (Current != 0)
+		//{
 			InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
-		}
+		//}
 		ElectricityFunctions.WorkOutActualNumbers(this);
 	}
 
