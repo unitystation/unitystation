@@ -94,8 +94,8 @@ using UnityEngine.Networking;
 			//only do this check when door is closing, and only for doors that block all directions (like airlocks)
 			if (isServer && !IsOpened && !registerTile.OneDirectionRestricted)
 			{
-				if (!MatrixManager.IsPassableAt(registerTile.WorldPosition, registerTile.WorldPosition, true,
-					this.gameObject))
+				if (!MatrixManager.IsPassableAt(registerTile.WorldPosition, registerTile.WorldPosition, includingPlayers: true,
+					context: this.gameObject))
 				{
 					//something is in the way, open back up
 					//set this field to false so open command will actually work

@@ -147,7 +147,7 @@ public partial class PlayerSync
 		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
 		Vector3Int pushGoal = origin + Vector3Int.RoundToInt( (Vector2)direction );
 
-		if ( !MatrixManager.IsPassableAt( origin, pushGoal, !followMode ) ) {
+		if ( !MatrixManager.IsPassableAt( origin, pushGoal, includingPlayers: !followMode ) ) {
 			return false;
 		}
 

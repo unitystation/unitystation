@@ -50,7 +50,7 @@ public class ObjectLayer : Layer
 		base.RemoveTile(position, removeAll);
 	}
 
-	public override bool IsPassableAt(Vector3Int origin, Vector3Int to, bool inclPlayers = true, GameObject context = null)
+	public override bool IsPassableAt(Vector3Int origin, Vector3Int to, CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		//Targeting windoors here
 		List<RegisterTile> objectsOrigin = Objects.Get(origin);
@@ -74,7 +74,7 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		return base.IsPassableAt(origin, to, inclPlayers);
+		return base.IsPassableAt(origin, to, collisionType: collisionType, inclPlayers: inclPlayers, context: context);
 	}
 
 	public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to)

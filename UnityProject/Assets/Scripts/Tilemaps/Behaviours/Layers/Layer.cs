@@ -82,9 +82,9 @@ using UnityEngine.Tilemaps;
 			tilemap.RefreshAllTiles();
 		}
 
-		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool inclPlayers = true, GameObject context = null )
+		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null )
 		{
-			return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsPassable();
+			return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsPassable(collisionType);
 		}
 
 		public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to)

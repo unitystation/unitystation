@@ -59,7 +59,7 @@ public partial class CustomNetTransform {
 		var target = ( Vector2 ) serverState.WorldPosition + direction;
 		var roundedTarget = target.RoundToInt();
 
-		if ( !MatrixManager.IsPassableAt( origin, roundedTarget, !followMode ) ) {
+		if ( !MatrixManager.IsPassableAt( origin, roundedTarget, includingPlayers: !followMode ) ) {
 			return false;
 		}
 
@@ -498,7 +498,7 @@ public partial class CustomNetTransform {
 	/// Use World positions
 	/// </Summary>
 	private bool CanDriftTo( Vector3Int originPos, Vector3Int targetPos ) {
-		return MatrixManager.IsPassableAt( originPos, targetPos, false );
+		return MatrixManager.IsPassableAt( originPos, targetPos, includingPlayers: false);
 	}
 
 	/// Lists objects to be damaged on given tile. Prob should be moved elsewhere

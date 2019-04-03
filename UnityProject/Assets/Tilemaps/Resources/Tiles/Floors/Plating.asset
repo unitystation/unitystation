@@ -16,5 +16,8 @@ MonoBehaviour:
   TileType: 7
   AtmosPassable: 1
   IsSealed: 1
+  PassableException:
+    m_keys: 01000000
+    m_values: 00
   Passable: 1
   sprite: {fileID: 21300008, guid: 6e84d48210ec87447876c3905e93f509, type: 3}

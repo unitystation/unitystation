@@ -15,6 +15,9 @@ MonoBehaviour:
   TileType: 3
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  PassableException:
+    m_keys: 01000000
+    m_values: 00
   Passable: 1
   AtmosPassable: 1
   IsSealed: 1

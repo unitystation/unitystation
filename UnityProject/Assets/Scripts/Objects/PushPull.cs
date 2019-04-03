@@ -388,7 +388,7 @@ public class PushPull : VisibleBehaviour {
 		}
 
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( !MatrixManager.IsPassableAt( from, target, false ) ) //non-solid things can be pushed to player tile
+		if ( !MatrixManager.IsPassableAt( from, target, includingPlayers: false) ) //non-solid things can be pushed to player tile
 		{
 			return false;
 		}
@@ -491,7 +491,7 @@ public class PushPull : VisibleBehaviour {
 		}
 
 		Vector3Int target = from + Vector3Int.RoundToInt((Vector2)dir);
-		if (!MatrixManager.IsPassableAt(from, target, IsSolid)) //non-solid things can be pushed to player tile
+		if (!MatrixManager.IsPassableAt(from, target, includingPlayers: IsSolid)) //non-solid things can be pushed to player tile
 		{
 			return false;
 		}
