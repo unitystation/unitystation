@@ -19,6 +19,48 @@ public class PlayerMove : NetworkBehaviour
 
 	[SyncVar] public bool allowInput = true;
 
+	/// <summary>
+	/// Tracks the server's idea of whether we have help intent
+	/// </summary>
+	[SyncVar] private bool serverIsHelpIntent = true;
+	/// <summary>
+	/// Tracks our idea of whether we have help intent so we can use it for client prediction
+	/// </summary>
+	private bool localIsHelpIntent = true;
+
+	/// <summary>
+	/// True iff this player is set to help intent, thus should swap places with players
+	/// that they collide with if the other player also has help intent
+	/// </summary>
+	public bool IsHelpIntent
+	{
+		get
+		{
+			if (isLocalPlayer)
+			{
+				return localIsHelpIntent;
+			}
+			else
+			{
+				return serverIsHelpIntent;
+			}
+		}
+		set
+		{
+			if (isLocalPlayer)
+			{
+				localIsHelpIntent = value;
+				//tell the server we want this to be our setting
+				CmdChangeHelpIntent(value);
+			}
+			else
+			{
+				//accept what the server is telling us about someone other than our local player
+				serverIsHelpIntent = value;
+			}
+		}
+	}
+
 	private readonly List<MoveAction> moveActionList = new List<MoveAction>();
 
 	public MoveAction[] moveList =
@@ -47,6 +89,12 @@ public class PlayerMove : NetworkBehaviour
 
 		registerTile = GetComponent<RegisterTile>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
+	}
+
+	[Command]
+	private void CmdChangeHelpIntent(bool isHelpIntent)
+	{
+		serverIsHelpIntent = isHelpIntent;
 	}
 
 	public PlayerAction SendAction()

@@ -429,7 +429,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	}
 
 	/// Blood Loss and Toxin damage:
-	int CalculateOverallBloodLossDamage()
+	public int CalculateOverallBloodLossDamage()
 	{
 		float maxBloodDmg = Mathf.Abs(HealthThreshold.Dead) + maxHealth;
 		float bloodDmg = 0f;

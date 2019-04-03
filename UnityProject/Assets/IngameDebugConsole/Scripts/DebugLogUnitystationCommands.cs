@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -83,6 +84,40 @@ namespace IngameDebugConsole
 			{
 				Logger.Log("Escape shuttle already called.", Category.DebugConsole);
 			}
+		}
+
+		[ConsoleMethod("log", "Adjust individual log levels\nUsage:\nloglevel <category> <level> \nExample: loglevel Health 0\n-1 = Off \n0 = Error \n1 = Warning \n2 = Info \n 3 = Trace")]
+		public static void SetLogLevel(string logCategory, int level)
+		{
+			bool catFound = false;
+			Category category = Category.Unknown;
+			foreach (Category c in Enum.GetValues(typeof(Category)))
+			{
+				if (c.ToString().ToLower() == logCategory.ToLower())
+				{
+					catFound = true;
+					category = c;
+				}
+			}
+
+			if (!catFound)
+			{
+				Logger.Log("Category not found", Category.DebugConsole);
+				return;
+			}
+
+			LogLevel logLevel = LogLevel.Info;
+
+			if (level > (int)LogLevel.Trace)
+			{
+				logLevel = LogLevel.Trace;
+			}
+			else
+			{
+				logLevel = (LogLevel)level;
+			}
+
+			Logger.SetLogLevel(category, logLevel);
 		}
 	}
 }
