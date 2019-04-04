@@ -10,10 +10,12 @@ public class MetaDataLayer : MonoBehaviour
 	private MetaDataDictionary nodes = new MetaDataDictionary();
 
 	private SubsystemManager subsystemManager;
+	private ReactionManager reactionManager;
 
 	private void Awake()
 	{
 		subsystemManager = GetComponentInParent<SubsystemManager>();
+		reactionManager = GetComponentInParent<ReactionManager>();
 	}
 
 	public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
@@ -22,7 +24,7 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			if (createIfNotExists)
 			{
-				nodes[position] = new MetaDataNode(position);
+				nodes[position] = new MetaDataNode(position, reactionManager);
 			}
 			else
 			{
