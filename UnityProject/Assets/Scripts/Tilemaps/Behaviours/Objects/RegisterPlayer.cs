@@ -127,12 +127,20 @@ public class RegisterPlayer : RegisterTile
 	/// <param name="slipWhileWalking">Enables slipping while walking.</param>
 	public void Slip(bool slipWhileWalking = false)
 	{
-		// Don't slip while walking unless its enabled with "slipWhileWalking"
-		if (!slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed)
+		// Don't slip while walking unless its enabled with "slipWhileWalking".
+		// Don't slip while player's consious state is crit, soft crit, or dead.
+		if (!slipWhileWalking
+		    && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
+		    || playerScript.playerHealth.IsCrit
+		    || playerScript.playerHealth.IsSoftCrit
+		    || playerScript.playerHealth.IsDead)
 		{
 			return;
 		}
 		Stun();
+		SoundManager.PlayNetworkedAtPos("Slip", WorldPosition);
+		// Let go of pulled items.
+		playerScript.pushPull.CmdStopPulling();
 	}
 
 	/// <summary>
@@ -144,7 +152,7 @@ public class RegisterPlayer : RegisterTile
 	public void Stun(float stunDuration = 4f, bool dropItem = true)
 	{
 		isStunned = true;
-		LayDown();
+		PlayerUprightMessage.SendToAll(gameObject, false);
 		if (dropItem)
 		{
 			playerScript.playerNetworkActions.DropItem("leftHand");
@@ -175,7 +183,7 @@ public class RegisterPlayer : RegisterTile
 			return;
 		}
 
-		GetUp();
+		PlayerUprightMessage.SendToAll(gameObject, true);
 		playerScript.playerMove.allowInput = true;
 	}
 }
