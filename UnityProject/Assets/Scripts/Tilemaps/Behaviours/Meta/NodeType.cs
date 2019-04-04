@@ -10,7 +10,7 @@ public enum NodeType
 	/// </summary>
 	Room,
 	/// <summary>
-	/// Node occupied by something such that it is not passable.
+	/// Node occupied by something such that it is not passable or atmos passable
 	/// </summary>
 	Occupied
 }

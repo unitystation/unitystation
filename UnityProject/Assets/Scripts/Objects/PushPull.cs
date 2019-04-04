@@ -427,7 +427,7 @@ public class PushPull : VisibleBehaviour {
 	//Server fields
 	private bool isPushing;
 	private Vector3Int pushTarget = TransformState.HiddenPos;
-	private Queue<Vector2Int> pushRequestQueue = new Queue<Vector2Int>();
+	private Queue<Tuple<Vector2Int, float>> pushRequestQueue = new Queue<Tuple<Vector2Int, float>>();
 
 	//Client fields
 	private PushState pushPrediction = PushState.None;
@@ -441,16 +441,19 @@ public class PushPull : VisibleBehaviour {
 	#region Push
 
 	[Server]
-	public void QueuePush( Vector2Int dir )
+	public void QueuePush( Vector2Int dir, float speed = Single.NaN, bool allowDiagonals = false )
 	{
-		pushRequestQueue.Enqueue( dir );
+		Logger.LogTraceFormat( "{0}: queued push {1} {2}", Category.PushPull, gameObject.name, dir, speed );
+		pushRequestQueue.Enqueue( new Tuple<Vector2Int, float>(dir, speed) );
 		CheckQueue();
 	}
 
 	private void CheckQueue()
 	{
-		if ( pushRequestQueue.Count > 0 && !isPushing ) {
-			if ( !TryPush( pushRequestQueue.Dequeue() ) ) {
+		if ( pushRequestQueue.Count > 0 && !isPushing )
+		{
+			var tuple = pushRequestQueue.Dequeue();
+			if ( !TryPush(tuple.Item1, tuple.Item2 ) ) {
 				pushRequestQueue.Clear();
 			}
 		}
@@ -569,7 +572,8 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	private bool isAllowedDir( Vector2Int dir ) {
-		return dir == Vector2Int.up || dir == Vector2Int.down || dir == Vector2Int.left || dir == Vector2Int.right;
+		return dir == Vector2Int.up || dir == Vector2Int.down || dir == Vector2Int.left || dir == Vector2Int.right
+			|| dir == MINUS_ONE || dir == BOTTOM_RIGHT || dir == TOP_LEFT || dir == Vector2Int.one; //temp diagonal
 	}
 
 	enum PushState { None, InProgress, Finished }
@@ -671,6 +675,9 @@ public class PushPull : VisibleBehaviour {
 		Pushable.Stop();
 	}
 
+	public static readonly Vector2Int MINUS_ONE = new Vector2Int(-1,-1);
+	public static readonly Vector2Int TOP_LEFT = new Vector2Int(-1,1);
+	public static readonly Vector2Int BOTTOM_RIGHT = new Vector2Int(1,-1);
 #if UNITY_EDITOR
 	private static Color color1 = Color.red;
 	private static Color color2 = Color.cyan;

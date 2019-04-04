@@ -74,8 +74,13 @@ namespace Atmospherics
 
 			node.AddNeighborsToList(ref nodes);
 
-			if (node.IsOccupied || node.IsSpace || AtmosUtils.IsPressureChanged(node))
+			bool isPressureChanged = AtmosUtils.IsPressureChanged(node, out var windDirection, out var windForce);
+			if (node.IsOccupied || node.IsSpace || isPressureChanged)
 			{
+				if ( isPressureChanged )
+				{
+					node.ReactionManager.AddWindEvent( node, windDirection, windForce ); //fixme: ass backwards
+				}
 				Equalize();
 
 				for (int i = 1; i < nodes.Count; i++)
