@@ -30,6 +30,5 @@ public class Slippery : MonoBehaviour
 			return;
 		}
 		registerPlayer.Slip(true);
-		SoundManager.PlayNetworkedAtPos("Slip", registerItem.WorldPosition);
 	}
 }
