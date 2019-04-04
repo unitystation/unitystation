@@ -10,7 +10,7 @@ _Don't forget to use "Fixes #issuenumber" to select issues and auto close them o
 - [ ]  This PR does not include any unnecessary .meta, .prefab or .unity (scene) changes
 - [ ]  This PR does not bring up any new compile errors
 - [ ]  This PR has been tested in editor
-- [ ]  This PR has been tested in multiplayer
+- [ ]  This PR has been tested in multiplayer (with 2 clients, if applicable)
 
 ### Notes:
 _Please enter any other relevant information here_

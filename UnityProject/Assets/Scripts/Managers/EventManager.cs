@@ -22,7 +22,8 @@ public enum EVENT
 	EnableInternals,
 	PlayerSpawned,
 	PlayerDied,
-	GhostSpawned
+	GhostSpawned,
+	LogLevelAdjusted,
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
