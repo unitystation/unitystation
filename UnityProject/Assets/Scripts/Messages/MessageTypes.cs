@@ -35,6 +35,7 @@ internal enum MessageTypes : short
 	HealthBodyPartStats = 1031,
 	TriggerEvent = 1032,
 	Suicide = 1033,
+	PlayerUprightMessage = 1034,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
