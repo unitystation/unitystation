@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElectricalNeedUpdate, IInLineDevices
+public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 {
 	public bool SelfDestruct = false;
 	[SerializeField]
@@ -133,7 +133,10 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 
 	public virtual void TurnOffCleanup()
 	{
-		
+		powerSupply.connectedDevices.Clear();
+		_TurnOffCleanup();	}
+	public virtual void _TurnOffCleanup()
+	{
 	}
 
 	public virtual void PowerUpdateStructureChange() {

@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 public class InLineDevice : ElectricalOIinheritance
 {
 	//What is the purpose of inline device, It is to modify current, resistance going over the device E.G a Transformer For any other device that can be thought of
-	public IInLineDevices RelatedDevice;
+	public PowerSupplyControlInheritance RelatedDevice;
 
 	public RegisterObject registerTile3;
 	private Matrix matrix => registerTile3.Matrix;
@@ -101,23 +101,15 @@ public class InLineDevice : ElectricalOIinheritance
 	public override void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
 		if (!(SourceInstance == gameObject)){
-			//Logger.Log("added" + SourceInstance.name + "< " + gameObject.name);
 			if (!ElectricalSynchronisation.NUCurrentChange.Contains(InData.ControllingUpdate)) { 
 				ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingUpdate);
 			}
-
 		}
 
 		Current = RelatedDevice.ModifyElectricityOutput(Current, SourceInstance);
-		//Logger.Log (CurrentInWire.ToString () + " How much current", Category.Electrical);
-		//if (Current != 0)
-		//{
-			InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
-		//}
+
+		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
+
 		ElectricityFunctions.WorkOutActualNumbers(this);
-	}
-
-	public void SetConnPoints(int DirectionEndin, int DirectionStartin) { }
-
-		
+	}		
 }

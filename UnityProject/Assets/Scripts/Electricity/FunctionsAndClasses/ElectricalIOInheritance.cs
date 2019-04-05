@@ -79,10 +79,17 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		return gameObject;
 	}
 
+	/// <summary>
+	///  Sets the upstream 
+	/// </summary>
 	public virtual void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom,  CableLine PassOn  = null)
 	{
 		InputOutputFunctions.DirectionInput(SourceInstance, ComingFrom, this);
 	}
+
+	/// <summary>
+	/// Sets the downstream and pokes the next one along 
+	/// </summary>
 	public virtual void DirectionOutput(GameObject SourceInstance)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
@@ -92,42 +99,75 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString (), Category.Electrical);
 	}
 
+	/// <summary>
+	/// Pass resistance with GameObject of the Machine it is heading toward
+	/// </summary>
 	public virtual void ResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, this);
 	}
 
+	/// <summary>
+	/// Passes it on to the next cable
+	/// </summary>
 	public virtual void ResistancyOutput(GameObject SourceInstance)
 	{
 
 		float Resistance = ElectricityFunctions.WorkOutResistance(Data.ResistanceComingFrom[ SourceInstance.GetInstanceID()]);
 		InputOutputFunctions.ResistancyOutput(Resistance, SourceInstance, this);
 	}
+
+	/// <summary>
+	/// Inputs a current from a device, with the supply
+	/// </summary>
 	public virtual void ElectricityInput( float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, this);
 	}
 
+	/// <summary>
+	///The function for out putting current into other nodes (Basically doing ElectricityInput On another one)
+	/// </summary>
 	public virtual void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
 		Logger.Log("oh man?");
 		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
 		ElectricityFunctions.WorkOutActualNumbers(this);
 	}
+
+	/// <summary>
+	///     Returns a struct with both connection points as members
+	///     the connpoint connection positions are represented using 4 bits to indicate N S E W - 1 2 4 8
+	///     Corners can also be used i.e.: 5 = NE (1 + 4) = 0101
+	///     This is the edge of the location where the input connection enters the turf
+	///     Use 0 for Machines or grills that can conduct electricity from being placed ontop of any wire configuration
+	/// </summary>
 	public virtual void SetConnPoints(int DirectionEndin, int DirectionStartin)
 	{
 		DirectionEnd = DirectionEndin;
 		DirectionStart = DirectionStartin;
 	}
+
+	/// <summary>
+	/// Flushs the connection and up. Flushes out everything
+	/// </summary>
 	public virtual void FlushConnectionAndUp()
 	{
 		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
 		InData.ControllingDevice.PotentialDestroyed();
 	}
+
+	/// <summary>
+	/// Flushs the resistance and up. Cleans out resistance and current 
+	/// </summary>
 	public virtual void FlushResistanceAndUp(GameObject SourceInstance = null)
 	{
 		ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp(this, SourceInstance);
 	}
+
+	/// <summary>
+	/// Flushs the supply and up. Cleans out the current 
+	/// </summary>
 	public virtual void FlushSupplyAndUp(GameObject SourceInstance = null)
 	{
 		ElectricalDataCleanup.PowerSupplies.FlushSupplyAndUp(this, SourceInstance);

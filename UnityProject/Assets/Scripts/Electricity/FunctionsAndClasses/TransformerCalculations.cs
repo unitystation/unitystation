@@ -25,21 +25,13 @@ public static class TransformerCalculations  {
 		}
 		if (!(Voltage == 0)) {
 			float offcut = 0;
-			float V1 = Voltage;
-			float R1 = ResistanceModified;
-			float I1 = V1/R1;
-			float Turn_ratio = TransformInformation.TurnRatio;
-			float V2 = V1/Turn_ratio;
-			float IntervalI2 = (V1 / V2) * I1;
-			float R2 = V2 / IntervalI2;
+
+			float V2 = Voltage/TransformInformation.TurnRatio;
+			float R2 = V2 / ((Voltage / V2) * (Voltage / ResistanceModified));
 			if (!(TransformInformation.VoltageLimiting == 0)){ //if Total Voltage greater than that then  Push some of it to ground  to == VoltageLimitedTo And then everything after it to ground/
-				float ActualVoltage = ActualCurrent * ResistanceModified;
 
-				float SUBV1 = ActualVoltage;
-				float SUBR1 = ResistanceModified;
-				float SUBI1 = ActualCurrent;
+				float SUBV2 = (ActualCurrent * ResistanceModified)/TransformInformation.TurnRatio;
 
-				float SUBV2 = SUBV1/Turn_ratio;
 				if ((V2 + SUBV2) > TransformInformation.VoltageLimiting) { 
 					offcut = ((V2 + SUBV2) - TransformInformation.VoltageLimitedTo)/ R2;
 					V2 = TransformInformation.VoltageLimitedTo - SUBV2;

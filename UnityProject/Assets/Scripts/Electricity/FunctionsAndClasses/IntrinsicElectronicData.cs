@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
@@ -10,7 +10,7 @@ public class IntrinsicElectronicData  {
 	/// </summary>
 	public Dictionary<PowerTypeCategory,PowerInputReactions> ConnectionReaction = new Dictionary<PowerTypeCategory,PowerInputReactions>();
 	public PowerSupplyControlInheritance ControllingDevice; 
-	public IElectricalNeedUpdate ControllingUpdate;
+	public PowerSupplyControlInheritance ControllingUpdate;
 	public bool DirectionOverride = false;
 	public bool ResistanceOverride = false;
 	public bool ElectricityOverride = false;

@@ -8,7 +8,6 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		float SupplyingCurrent = 0;
-		//Logger.Log(Current.ToString());
 		float Voltage = Current * (ElectricityFunctions.WorkOutResistance(Thiswire.Data.ResistanceComingFrom[SourceInstanceID]));
 		foreach (KeyValuePair<ElectricalOIinheritance, float> JumpTo in Thiswire.Data.ResistanceComingFrom[SourceInstanceID])
 		{
@@ -31,7 +30,6 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 
 	public static void ElectricityInput( float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalOIinheritance Thiswire)
 	{
-		//Logger.Log(Current.ToString() + "tt");
 		//Logger.Log (tick.ToString () + " <tick " + Current.ToString () + " <Current " + SourceInstance.ToString () + " <SourceInstance " + ComingFrom.ToString () + " <ComingFrom " + Thiswire.ToString () + " <Thiswire ", Category.Electrical);
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		if (!(Thiswire.Data.SourceVoltages.ContainsKey(SourceInstanceID)))
@@ -46,8 +44,6 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		Thiswire.Data.SourceVoltages[SourceInstanceID] = Current * (ElectricityFunctions.WorkOutResistance(Thiswire.Data.ResistanceComingFrom[SourceInstanceID]));
 		ELCurrent.CurrentWorkOnNextListADD(Thiswire);
 		Thiswire.Data.CurrentStoreValue = ElectricityFunctions.WorkOutCurrent(Thiswire.Data.CurrentComingFrom[SourceInstanceID]);
-		//Thiswire.ElectricityOutput( ElectricityFunctions.WorkOutCurrent(Thiswire.Data.CurrentComingFrom[SourceInstanceID]), SourceInstance);
-
 	}
 
 	public static void ResistancyOutput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance Thiswire)
@@ -115,13 +111,11 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			{
 				KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance> edd = new KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance> (IElec,Thiswire);
 				ElectricalSynchronisation.ResistanceWorkOnNextListWaitADD(edd);
-				//Logger.Log("Bdded");
 			}
 			else
 			{
 				KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance> edd = new KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance> (IElec,Thiswire);
 				ElectricalSynchronisation.ResistanceWorkOnNextListADD(edd);
-				//Logger.Log("added");
 			}
 		}
 	}

@@ -5,7 +5,6 @@ using UnityEngine;
 public static class PowerSupplyFunction  { //Responsible for keeping the update and day to clean up off the supply in check
 	public static void TurnOffSupply(ElectricalOIinheritance Supply)
 	{
-		//Supply.RemoveSupply(Supply.GameObject());
 		Supply.Data.ChangeToOff = true;
 		Supply.InData.ControllingDevice.isOnForInterface = false;
 		ElectricalSynchronisation.NUCurrentChange.Add (Supply.InData.ControllingUpdate);
@@ -43,7 +42,9 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 
 			}
 			else {
-				Supply.ElectricityOutput(0, Supply.GameObject());
+				foreach (ElectricalOIinheritance connectedDevice in Supply.connectedDevices) {
+					ElectricalSynchronisation.NUCurrentChange.Add(connectedDevice.InData.ControllingDevice);
+				}
 			}
 			ELCurrent.Currentloop(Supply.GameObject());
 		}
@@ -51,7 +52,6 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 		if (Supply.Data.ChangeToOff)
 		{
 			Supply.Data.ChangeToOff = false;
-			//TurnOffSupply(Supply);
 			Supply.InData.ControllingDevice.TurnOffCleanup();
 			ElectricalSynchronisation.RemoveSupply(Supply.InData.ControllingUpdate, Supply.InData.Categorytype);
 		}
