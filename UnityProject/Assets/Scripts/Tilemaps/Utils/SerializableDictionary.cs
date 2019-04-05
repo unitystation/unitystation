@@ -307,3 +307,8 @@ public class MetaDataDictionary : SerializableDictionary<Vector3Int, MetaDataNod
 public class PassableDictionary : SerializableDictionary<CollisionType, bool>
 {
 }
+
+[Serializable]
+public class UISwapDictionary : SerializableDictionary<UIType, string>
+{
+}
