@@ -532,4 +532,38 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	private void RegisterObjects() {
 		registerTile.UpdatePosition();
 	}
+
+	/// <summary>
+	/// Invokes the OnSpawnedServer (on the server) and OnSpawnedClient (on each client) hooks so each component can
+	/// initialize itself as / if needed
+	/// </summary>
+	[Server]
+	public void FireSpawnHooks()
+	{
+		BroadcastMessage("OnSpawnedServer", SendMessageOptions.DontRequireReceiver);
+		RpcFireSpawnHook();
+	}
+
+	[ClientRpc]
+	private void RpcFireSpawnHook()
+	{
+		BroadcastMessage("OnSpawnedClient", SendMessageOptions.DontRequireReceiver);
+	}
+
+	/// <summary>
+	/// Invokes the OnClonedServer (on the server) and OnClonedClient (on each client) hooks so each component can
+	/// clone the specified object
+	/// </summary>
+	[Server]
+	public void FireCloneHooks(GameObject clonedFrom)
+	{
+		BroadcastMessage("OnClonedServer", clonedFrom, SendMessageOptions.DontRequireReceiver);
+		RpcFireCloneHook(clonedFrom);
+	}
+
+	[ClientRpc]
+	private void RpcFireCloneHook(GameObject clonedFrom)
+	{
+		BroadcastMessage("OnClonedClient", clonedFrom, SendMessageOptions.DontRequireReceiver);
+	}
 }

@@ -40,10 +40,9 @@ public class ClothFactory : NetworkBehaviour
 	{
 		if (Instance == null)
 		{
-			//TODO: What's the proper way to prevent this?
 			Logger.LogError("ClothFactory was attempted to be used before it has initialized. Please delay using" +
 			                " ClothFactory (such as by using a coroutine to wait) until it is initialized. Nothing will" +
-			                " be initialized and null will be returned.");
+			                " be done and null will be returned.");
 			return false;
 		}
 
@@ -68,9 +67,9 @@ public class ClothFactory : NetworkBehaviour
 	/// </summary>
 	/// <param name="hierString">hier string of the unicloth to spawn</param>
 	/// <param name="worldPos">world position to appear at.</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. THIS SHOULD RARELY BE NULL! Most things
-	/// should always be spawned under the Objects transform in their matrix. However, many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned.</param>
+	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
+	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
+	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
 	/// <returns>the newly created GameObject</returns>
 	//TODO is it going to be spawned on a player in equipment etc?
 	public static GameObject CreateCloth(string hierString, Vector3 worldPos, Transform parent=null)

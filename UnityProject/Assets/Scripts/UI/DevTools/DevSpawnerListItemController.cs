@@ -32,9 +32,12 @@ public class DevSpawnerListItemController : MonoBehaviour
 	// so we can escape while drawing - enabled while drawing, disabled when done
 	private EscapeKeyTarget escapeKeyTarget;
 
+	private LightingSystem lightingSystem;
+
 	private void Start()
 	{
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
+		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
 
@@ -74,8 +77,8 @@ public class DevSpawnerListItemController : MonoBehaviour
 	{
 		if (selectedItem == this)
 		{
-			cursorObject.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			if (Input.GetMouseButtonDown(0))
+			cursorObject.transform.position = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			if (CommonInput.GetMouseButtonDown(0))
 			{
 				//Ignore spawn if pointer is hovering over GUI
 				if (EventSystem.current.IsPointerOverGameObject())
@@ -102,6 +105,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 			escapeKeyTarget.enabled = false;
 			selectedItem = null;
 			drawingMessage.SetActive(false);
+			lightingSystem.enabled = true;
 		}
 	}
 
@@ -123,6 +127,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 			escapeKeyTarget.enabled = true;
 			selectedItem = this;
 			drawingMessage.SetActive(true);
+			lightingSystem.enabled = false;
 		}
 	}
 
@@ -137,14 +142,13 @@ public class DevSpawnerListItemController : MonoBehaviour
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				Transform parent = PlayerManager.LocalPlayer.transform.parent;
 				if (hier != null)
 				{
-					ClothFactory.CreateCloth(hier, position, parent);
+					ClothFactory.CreateCloth(hier, position);
 				}
 				else
 				{
-					PoolManager.PoolNetworkInstantiate(prefab, position, parent);
+					PoolManager.PoolNetworkInstantiate(prefab, position);
 				}
 
 			}

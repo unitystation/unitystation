@@ -112,6 +112,12 @@ public class ItemAttributes : NetworkBehaviour
 		yield return null;
 	}
 
+	//invoked when cloned, copy the item attribute hier
+	private void OnClonedServer(GameObject fromObject)
+	{
+		hierarchy = fromObject.GetComponent<ItemAttributes>().hierarchy;
+	}
+
 	//    Enum test:
 	//
 	//    private void OnEnable()

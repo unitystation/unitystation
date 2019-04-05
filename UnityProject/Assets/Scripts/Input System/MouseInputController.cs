@@ -91,6 +91,8 @@ public class MouseInputController : MonoBehaviour
 	{
 		if (UIManager.IsMouseInteractionDisabled)
 		{
+			//still allow tooltips
+			CheckHover();
 			return;
 		}
 		if (CommonInput.GetMouseButtonDown(0))
@@ -197,7 +199,7 @@ public class MouseInputController : MonoBehaviour
 			//and not FOV occluded
 			Vector3 position = MousePosition;
 			position.z = 0f;
-			if (lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
+			if (!lightingSystem.enabled || lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
 			{
 				if (PlayerManager.LocalPlayerScript.IsInReach(position))
 				{
@@ -287,7 +289,7 @@ public class MouseInputController : MonoBehaviour
 		Vector3 mousePosition = MousePosition;
 
 		// Sample the FOV mask under current mouse position.
-		if (lightingSystem.IsScreenPointVisible(CommonInput.mousePosition) == false)
+		if (lightingSystem.enabled && lightingSystem.IsScreenPointVisible(CommonInput.mousePosition) == false)
 		{
 			return false;
 		}
@@ -355,96 +357,7 @@ public class MouseInputController : MonoBehaviour
 			return tilemapRenderer;
 		}
 
-		return IsPixelHit(_transform);
-	}
-
-	private SpriteRenderer IsPixelHit(Transform _transform)
-	{
-		SpriteRenderer[] spriteRenderers = _transform.GetComponentsInChildren<SpriteRenderer>(false);
-
-		//check order in layer for what should be triggered first
-		//each item ontop of a table should have a higher order in layer
-		SpriteRenderer[] bySortingOrder = spriteRenderers.OrderByDescending(sRenderer => sRenderer.sortingOrder).ToArray();
-
-		for (var i = 0; i < bySortingOrder.Length; i++)
-		{
-			SpriteRenderer spriteRenderer = bySortingOrder[i];
-			Sprite sprite = spriteRenderer.sprite;
-
-			if (spriteRenderer.enabled && sprite && spriteRenderer.color.a > 0)
-			{
-				GetSpritePixelColorUnderMousePointer(spriteRenderer, out Color pixelColor);
-				if (pixelColor.a > 0)
-				{
-					var mousePos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
-					if (RecentTouches.ContainsKey(mousePos))
-					{
-						RecentTouches.Remove( mousePos );
-					}
-					RecentTouches.Add(mousePos, new Tuple<Color, float>(pixelColor, Time.time));
-
-					return spriteRenderer;
-				}
-			}
-		}
-
-		return null;
-	}
-
-	//Thank you StackOverflow :-)
-	public bool GetSpritePixelColorUnderMousePointer(SpriteRenderer spriteRenderer, out Color color)
-	{
-		color = new Color();
-		Camera cam = Camera.main;
-		Vector2 mousePos = CommonInput.mousePosition;
-		Vector2 viewportPos = cam.ScreenToViewportPoint(mousePos);
-		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f) return false; // out of viewport bounds
-																														// Cast a ray from viewport point into world
-		Ray ray = cam.ViewportPointToRay(viewportPos);
-
-		// Check for intersection with sprite and get the color
-		return IntersectsSprite(spriteRenderer, ray, out color);
-	}
-
-	private bool IntersectsSprite(SpriteRenderer spriteRenderer, Ray ray, out Color color)
-	{
-		color = new Color();
-		if (spriteRenderer == null) return false;
-		Sprite sprite = spriteRenderer.sprite;
-		if (sprite == null) return false;
-		Texture2D texture = sprite.texture;
-		if (texture == null) return false;
-		// Check atlas packing mode
-		if (sprite.packed && sprite.packingMode == SpritePackingMode.Tight)
-		{
-			// Cannot use textureRect on tightly packed sprites
-			Debug.LogError("SpritePackingMode.Tight atlas packing is not supported!");
-			// TODO: support tightly packed sprites
-			return false;
-		}
-		// Craete a plane so it has the same orientation as the sprite transform
-		Plane plane = new Plane(transform.forward, (Vector2)transform.position); //????????
-																				 // Intersect the ray and the plane
-		float rayIntersectDist; // the distance from the ray origin to the intersection point
-		if (!plane.Raycast(ray, out rayIntersectDist)) return false; // no intersection
-																	 // Convert world position to sprite position
-																	 // worldToLocalMatrix.MultiplyPoint3x4 returns a value from based on the texture dimensions (+/- half texDimension / pixelsPerUnit) )
-																	 // 0, 0 corresponds to the center of the TEXTURE ITSELF, not the center of the trimmed sprite textureRect
-		Vector3 spritePos = spriteRenderer.worldToLocalMatrix.MultiplyPoint3x4(ray.origin + (ray.direction * rayIntersectDist));
-		Rect textureRect = sprite.textureRect;
-		float pixelsPerUnit = sprite.pixelsPerUnit;
-		float halfRealTexWidth = sprite.rect.width * 0.5f;
-		float halfRealTexHeight = sprite.rect.height * 0.5f;
-
-		int texPosX = (int)(sprite.rect.x + (spritePos.x * pixelsPerUnit + halfRealTexWidth));
-		int texPosY = (int)(sprite.rect.y + (spritePos.y * pixelsPerUnit + halfRealTexHeight));
-
-		// Check if pixel is within texture
-		if (texPosX < 0 || texPosX < textureRect.x || texPosX >= Mathf.FloorToInt(textureRect.xMax)) return false;
-		if (texPosY < 0 || texPosY < textureRect.y || texPosY >= Mathf.FloorToInt(textureRect.yMax)) return false;
-		// Get pixel color
-		color = texture.GetPixel(texPosX, texPosY);
-		return true;
+		return MouseUtils.IsPixelHit(_transform);
 	}
 
 	/// <summary>

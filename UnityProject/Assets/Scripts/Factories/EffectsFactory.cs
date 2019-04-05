@@ -82,8 +82,8 @@ public class EffectsFactory : NetworkBehaviour
 	[Server]
 	public void WaterSplat(Vector3 pos)
 	{
-		GameObject w = PoolManager.Instance.PoolNetworkInstantiate(waterTile, pos, Quaternion.identity,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(pos)).Objects);
+		GameObject w = PoolManager.PoolNetworkInstantiate(waterTile, pos,
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(pos)).Objects, Quaternion.identity);
 		WaterSplat wSplat = w.GetComponent<WaterSplat>();
 		wSplat.sprite = 9;
 	}

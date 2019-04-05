@@ -255,7 +255,7 @@ public class Weapon : PickUpTrigger
 		base.OnStartServer();
 	}
 
-	//Gives it a chance for weaponNetworkActions to init
+	//Gives it a chance for weaponNetworkActions and initial ammo to init
 	private IEnumerator SetMagazineOnStart(GameObject magazine)
 	{
 		yield return new WaitForSeconds(2f);
@@ -265,6 +265,28 @@ public class Weapon : PickUpTrigger
 		//			} else {
 		//				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
 		//			}
+	}
+
+	//gives it a chance for magazine to init
+	private IEnumerator SetAmmoOnClone(int ammoCount)
+	{
+		yield return new WaitForSeconds(2f);
+		CurrentMagazine.ammoRemains = ammoCount;
+	}
+
+	// invoked when being cloned, syncs up ammo (creates an empty mag if there isn't a mag in the cloned weapon)
+	private void OnClonedServer(GameObject otherGun)
+	{
+		var otherMag = otherGun.GetComponent<Weapon>().CurrentMagazine;
+		if (otherMag == null)
+		{
+			StartCoroutine(SetAmmoOnClone(0));
+		}
+		else
+		{
+			//sync up ammo
+			StartCoroutine(SetAmmoOnClone(otherMag.ammoRemains));
+		}
 	}
 
 	#endregion
