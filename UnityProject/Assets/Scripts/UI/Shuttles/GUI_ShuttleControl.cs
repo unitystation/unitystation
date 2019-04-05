@@ -15,7 +15,8 @@ public class GUI_ShuttleControl : NetTab {
 		} 
 	}
 	private MatrixMove matrixMove;
-	private MatrixMove MatrixMove {
+	[HideInInspector]
+	public MatrixMove MatrixMove {
 		get {
 			if ( !matrixMove ) {
 				matrixMove = Provider.GetComponent<ShuttleInteract>().ShuttleMatrixMove;

@@ -64,6 +64,13 @@ public struct MatrixState
 	}
 }
 
+public enum UIType
+{
+	Default = 0,
+	Nanotransen = 1,
+	Syndicate = 2
+};
+
 /// <summary>
 /// Behavior which allows an entire matrix to move and rotate (and be synced over the network).
 /// This behavior must go on a gameobject that is the parent of the gameobject that has the actual Matrix component.
@@ -155,6 +162,11 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// </summary>
 	public CollisionType matrixColliderType = CollisionType.Shuttle;
 
+	/// <summary>
+	/// If anything has a specific UI that needs to be set, it can change based off this var
+	/// </summary>
+	public UIType uiType = UIType.Nanotransen;
+
 	/// Initial flying direction from editor
 	public Vector2 flyingDirection = Vector2.up;
 
@@ -183,6 +195,9 @@ public class MatrixMove : ManagedNetworkBehaviour
 	{
 		Pivot = sync.RoundToInt();
 	}
+
+	[HideInInspector]
+	public GUI_CoordReadout coordReadoutScript;
 
 	private Vector3Int[] SensorPositions;
 	private GameObject[] RotationSensors;
@@ -325,6 +340,11 @@ public class MatrixMove : ManagedNetworkBehaviour
 			performingInitialRotation = false;
 			rotatedOnPreviousUpdate = false;
 		}
+
+		if (isClient && coordReadoutScript != null)
+		{
+			coordReadoutScript.SetCoords(clientState.Position);
+		} 
 	}
 
 	[Server]
