@@ -59,7 +59,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		} else {
 			if (Thiswire.Data.Upstream[SourceInstanceID].Count > 1)
 			{
-				ResistanceSplit = 1000 / (1000 / Resistance) / (Thiswire.Data.Upstream[SourceInstanceID].Count);
+				ResistanceSplit = 1000 / ((1000 / Resistance) / (Thiswire.Data.Upstream[SourceInstanceID].Count));
 			}
 			else
 			{

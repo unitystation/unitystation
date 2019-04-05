@@ -7,10 +7,13 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 	{
 		//Supply.RemoveSupply(Supply.GameObject());
 		Supply.Data.ChangeToOff = true;
+		Supply.InData.ControllingDevice.isOnForInterface = false;
 		ElectricalSynchronisation.NUCurrentChange.Add (Supply.InData.ControllingUpdate);
 	}
 	public static void TurnOnSupply(ElectricalOIinheritance Supply)
 	{
+		Supply.Data.ChangeToOff = false;
+		Supply.InData.ControllingDevice.isOnForInterface = true;
 		ElectricalSynchronisation.AddSupply(Supply.InData.ControllingUpdate, Supply.InData.Categorytype);
 		ElectricalSynchronisation.NUStructureChangeReact.Add (Supply.InData.ControllingUpdate);
 		ElectricalSynchronisation.NUResistanceChange.Add (Supply.InData.ControllingUpdate);

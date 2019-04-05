@@ -113,7 +113,6 @@ MonoBehaviour:
   SelfDestruct: 0
   powerSupply: {fileID: 5337989651947616586}
   isOn: 0
-  ChangeToOff: 0
   DirectionStart: 0
   DirectionEnd: 9
   MonitoringResistance: 0
@@ -152,6 +151,7 @@ MonoBehaviour:
   isOnForInterface: 0
   CashOfConnectedDevices: 0
   Current: 0
+  NetTabType: 6
   criticalSprites:
   - {fileID: 21300276, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300278, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
@@ -237,6 +237,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DirectionStart: 0
   DirectionEnd: 0
+  Data:
+    connections: []
+    FirstPresent: 0
+    ActualCurrentChargeInWire:
+      Voltage: 0
+      Current: 0
+      EstimatedResistant: 0
+    UpstreamCount: 0
+    DownstreamCount: 0
+    CurrentInWire: 0
+    ActualVoltage: 0
+    EstimatedResistance: 0
+    SupplyingCurrent: 0
+    InternalResistance: 0
+    SupplyingVoltage: 0
+    ChangeToOff: 0
+    CurrentStoreValue: 0
+  InData:
+    Categorytype: 0
+    ControllingDevice: {fileID: 0}
+    DirectionOverride: 0
+    ResistanceOverride: 0
+    ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
   registerTile3: {fileID: 114840369580293110}

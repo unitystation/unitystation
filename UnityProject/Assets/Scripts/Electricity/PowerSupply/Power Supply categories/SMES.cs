@@ -19,33 +19,6 @@ public class SMES : PowerSupplyControlInheritance
 	public Sprite statusCriticalSprite;
 	public Sprite statusSupplySprite;
 
-	//public override float MinimumSupportVoltage { get; set; } = 2700;
-	//public override float StandardSupplyingVoltage { get; set; } = 3000;
-	//public override float PullingWatts { get; set; } = 0;
-	//public override float CapacityMax { get; set; } = 1800000;
-	//public override float CurrentCapacity { get; set; } = 1800000;
-	//public override float PullLastDeductedTime { get; set; } = 0;
-	//public override float ChargLastDeductedTime { get; set; } = 0;
-
-	//public override float ExtraChargeCutOff { get; set; } = 3000;
-	//public override float IncreasedChargeVoltage { get; set; } = 3010;
-	//public override float StandardChargeNumber { get; set; } = 12;
-	//public override float ChargeSteps { get; set; } = 0.1f;
-	//public override float MaxChargingMultiplier { get; set; } = 1.5f;
-	//public override float ChargingMultiplier { get; set; } = 0.1f;
-	//public override float MaximumCurrentSupport { get; set; } = 3;
-
-	//public override float ChargingWatts { get; set; } = 0;
-	//public override float Resistance { get; set; } = 0;
-	//public override float CircuitResistance { get; set; } = 0;
-
-	//public override bool CanCharge { get; set; } = true;
-	//public override bool Cansupport { get; set; } = true;
-	//public override bool ToggleCanCharge { get; set; } = true;
-	//public override bool ToggleCansupport { get; set; } = true;
-
-	//public override float ActualVoltage { get; set; } = 0;
-
 	//Renderers:
 	public SpriteRenderer statusIndicator;
 	public SpriteRenderer OnOffIndicator;
@@ -121,39 +94,6 @@ public class SMES : PowerSupplyControlInheritance
 			chargeIndicator.gameObject.SetActive(false);
 			statusIndicator.gameObject.SetActive(false);
 		}
-	}
-
-	void ServerState(bool _isOn)
-	{
-		isOnForInterface = _isOn;
-		if (isOn)
-		{
-			powerSupply.TurnOnSupply ();
-			PreviousResistance = 0;
-			Previouscurrent = 0;
-		}
-		else
-		{
-			powerSupply.TurnOffSupply();
-		}
-	}
-
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		//Interact stuff with the SMES here
-		if (!isServer)
-		{
-			InteractMessage.Send(gameObject, hand);
-		}
-		else
-		{
-			if (!powerSupply.Data.ChangeToOff)
-			{
-				isOn = !isOn;
-				ServerState(isOn);
-			}
-		}
-		return true;
 	}
 
 	[ContextMethod("Toggle Charge", "Power_Button")]

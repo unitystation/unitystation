@@ -41,40 +41,6 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 	//public override bool PassChangeToOff { get; set; } = false;
 	[SyncVar]
 	public int currentCharge; // 0 - 100
-	//public override float PreviousResistance  {get; set; } = 0;
-	//public override Resistance resistance { get; set; } = new Resistance();
-
-	//public override float TurnRatio { get; set; } = 12.5f;
-	//public override float VoltageLimiting { get; set; } = 0;
-	//public override float VoltageLimitedTo { get; set; } = 0;
-
-	//public override float MaximumCurrentSupport { get; set; } = 8;
-	//public override float MinimumSupportVoltage { get; set; } = 216;
-	//public override float StandardSupplyingVoltage { get; set; } = 240;
-	//public override float PullingWatts { get; set; } = 0;
-	//public override float CapacityMax { get; set; } = 432000;
-	//public override float CurrentCapacity { get; set; } = 432000;
-	//public override float PullLastDeductedTime { get; set; } = 0;
-	//public override float ChargLastDeductedTime { get; set; } = 0;
-
-	//public override float ExtraChargeCutOff { get; set; } = 240;
-	//public override float IncreasedChargeVoltage { get; set; } = 250;
-	//public override float StandardChargeNumber { get; set; } = 6;
-	//public override float ChargeSteps { get; set; } = 0.1f;
-	////public float MaxChargingMultiplier { get; set; } = 1.2f;
-	//public override float MaxChargingMultiplier { get; set; } = 999999f;
-	//public override float ChargingMultiplier { get; set; } = 0.1f;
-
-	//public override float ChargingWatts { get; set; } = 0;
-	//public override float Resistance { get; set; } = 0;
-	//public override float CircuitResistance { get; set; } = 0;
-
-	//public override bool CanCharge { get; set; } = true;
-	//public override bool Cansupport { get; set; } = true;
-	//public override bool ToggleCanCharge { get; set; } = true;
-	//public override bool ToggleCansupport { get; set; } = true;
-
-	//public override float ActualVoltage { get; set; } = 0;
 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.DepartmentBattery;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
@@ -198,21 +164,6 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 
 	}
 
-	public override void UpdateServerState(bool _isOn)
-	{
-		isOnForInterface = _isOn;
-		if (isOn)
-		{
-			powerSupply.TurnOnSupply();
-			PreviousResistance = 0;
-			Previouscurrent = 0;
-		}
-		else
-		{
-			powerSupply.TurnOffSupply();
-		}
-
-	}
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		//Interact stuff with the SMES here

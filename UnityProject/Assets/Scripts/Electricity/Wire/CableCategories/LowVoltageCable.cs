@@ -37,7 +37,7 @@ public class LowVoltageCable : NetworkBehaviour, ICable, IDeviceControl
 		IsCable = true;
 		RelatedWire.InData.CanConnectTo = CanConnectTo;
 		RelatedWire.InData.Categorytype = ApplianceType;
-		RelatedWire.InData.ControllingDevice = this;
+		//RelatedWire.InData.ControllingDevice = this;
 	}
 
 	//FIXME:

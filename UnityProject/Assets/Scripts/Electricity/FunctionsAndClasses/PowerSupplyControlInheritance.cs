@@ -102,6 +102,8 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 		if (isOn)
 		{
 			powerSupply.TurnOnSupply();
+			PreviousResistance = 0;
+			Previouscurrent = 0;
 		}
 		else
 		{
@@ -122,7 +124,11 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl, IElec
 			isOn = !isOn;
 			UpdateServerState(isOn);
 		}
+		_Interact(originator, position, hand);
 		return true;
+	}
+	public virtual void _Interact(GameObject originator, Vector3 position, string hand)
+	{
 	}
 
 	public virtual void TurnOffCleanup()

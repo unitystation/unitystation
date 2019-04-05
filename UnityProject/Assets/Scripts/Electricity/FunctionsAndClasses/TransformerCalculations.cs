@@ -8,17 +8,17 @@ public static class TransformerCalculations  {
 	//This will give you back if you give it the right data, how it modifies resistance, and then How it modifies current  
 	public static Tuple<float,float> TransformerCalculate( PowerSupplyControlInheritance TransformInformation, float ResistanceToModify = 0, float Voltage = 0, float ResistanceModified = 0, float ActualCurrent = 0 ){
 		if (!(ResistanceToModify == 0)) {
-			float R2 = ResistanceToModify;
-			float I2 = 1/ResistanceToModify;
-			float V2 = 1;
+			//float R2 = ResistanceToModify;
+			//float I2 = 1/ResistanceToModify;
+			//float V2 = 1;
 
-			float Turn_ratio = TransformInformation.TurnRatio;
+			//float Turn_ratio = TransformInformation.TurnRatio;
 
-			float V1 = (V2*Turn_ratio);
-			float I1 = (V2/V1)*I2;
-			float R1 = V1/I1;
+			//float V1 = (V2*Turn_ratio);
+			//float I1 = (V2/V1)*I2;
+			//float R1 = V1/I1;
 			Tuple<float,float> returns = new Tuple<float, float>(
-				R1, 
+				(float)Math.Pow(TransformInformation.TurnRatio, 2.0) * (ResistanceToModify),
 				0
 			);
 			return(returns);
@@ -40,8 +40,6 @@ public static class TransformerCalculations  {
 				float SUBI1 = ActualCurrent;
 
 				float SUBV2 = SUBV1/Turn_ratio;
-				float SUBI2 = (SUBV1 / SUBV2) * SUBI1;
-				float SUBR2 = SUBV2 / SUBI2;
 				if ((V2 + SUBV2) > TransformInformation.VoltageLimiting) { 
 					offcut = ((V2 + SUBV2) - TransformInformation.VoltageLimitedTo)/ R2;
 					V2 = TransformInformation.VoltageLimitedTo - SUBV2;

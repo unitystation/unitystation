@@ -179,7 +179,6 @@ MonoBehaviour:
   SelfDestruct: 0
   powerSupply: {fileID: 114421102744754910}
   isOn: 0
-  ChangeToOff: 0
   DirectionStart: 0
   DirectionEnd: 9
   MonitoringResistance: 999999
@@ -197,7 +196,7 @@ MonoBehaviour:
   CapacityMax: 432000
   CurrentCapacity: 432000
   ExtraChargeCutOff: 240
-  IncreasedChargeVoltage: 250
+  IncreasedChargeVoltage: 241
   StandardChargeNumber: 6
   ChargeSteps: 0.1
   MaxChargingMultiplier: 1.2
@@ -245,6 +244,7 @@ MonoBehaviour:
   - {fileID: 21300016, guid: b9d3891b95a39a84598734922347a87f, type: 3}
   - {fileID: 21300020, guid: b9d3891b95a39a84598734922347a87f, type: 3}
   currentCharge: 0
+  ApplianceType: 7
 --- !u!114 &114421102744754910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +259,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DirectionStart: 0
   DirectionEnd: 0
+  Data:
+    connections: []
+    FirstPresent: 0
+    ActualCurrentChargeInWire:
+      Voltage: 0
+      Current: 0
+      EstimatedResistant: 0
+    UpstreamCount: 0
+    DownstreamCount: 0
+    CurrentInWire: 0
+    ActualVoltage: 0
+    EstimatedResistance: 0
+    SupplyingCurrent: 0
+    InternalResistance: 0
+    SupplyingVoltage: 0
+    ChangeToOff: 0
+    CurrentStoreValue: 0
+  InData:
+    Categorytype: 0
+    ControllingDevice: {fileID: 0}
+    DirectionOverride: 0
+    ResistanceOverride: 0
+    ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
   registerTile3: {fileID: 114038174743996046}
