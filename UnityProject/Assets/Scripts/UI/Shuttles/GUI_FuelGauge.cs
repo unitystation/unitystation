@@ -18,7 +18,7 @@ public class GUI_FuelGauge : MonoBehaviour
     {
 		if (fuelGaugeTransform == null || colourBarTransform == null || pointerTransform == null)
 		{
-			Logger.LogError("No Fuel Gauge Set on Shuttle!");
+			Logger.LogError("No Fuel Gauge Set on Shuttle!", Category.UI);
 			this.enabled = false;
 			return;
 		}

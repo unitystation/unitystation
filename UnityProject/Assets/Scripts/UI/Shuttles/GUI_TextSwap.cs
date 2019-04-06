@@ -19,7 +19,7 @@ public class GUI_TextSwap : MonoBehaviour
     {
 		if (shuttleControlScript == null || textToSet == null)
 		{
-			Logger.LogError("TextSwap script reference failure!");
+			Logger.LogError("TextSwap script reference failure!", Category.UI);
 			this.enabled = false;
 			return;
 		}

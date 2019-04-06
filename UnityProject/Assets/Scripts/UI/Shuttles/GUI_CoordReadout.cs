@@ -20,7 +20,7 @@ public class GUI_CoordReadout : MonoBehaviour
     {
         if (xText == null || yText == null || shuttleControlScript == null)
 		{
-			Logger.LogError("Coord Readout not setup correctly!");
+			Logger.LogError("Coord Readout not setup correctly!", Category.UI);
 			this.enabled = false;
 			return;
 		}
