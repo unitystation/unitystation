@@ -106,5 +106,31 @@ public abstract class InputTrigger : NetworkBehaviour
 	public virtual void UI_Interact(GameObject originator, string hand) {}
 	public virtual bool UI_InteractOtherSlot(GameObject originator, GameObject otherHandItem){ return true; }
 
+	/// <Summary>
+	/// This is called by the Interact() of objects twice, one by the client and then by the server if the first call returns true
+	/// </Summary>
+	/// <param name="originator">game object that is performing the interaction upon this gameobject</param>
+	/// <param name="hand">hand of the originator which is being used to perform the interaction</param>
+	/// <param name="position">position of the interaction</param>
+	/// <param name="allowSoftCrit">if true it allows mobs in soft crit perform the action</param>
+	/// <returns>true if the server confirms the interaction is valid. The Interact() following this will be carried on serverside</returns>
+	public bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false){
+		var playerScript = originator.GetComponent<PlayerScript>();
 
+		if (playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
+		{
+			return false;
+		}
+
+		if(!playerScript.IsInReach(position)){
+			return false;
+		}
+
+		if (!isServer)
+		{
+			InteractMessage.Send(gameObject, position, hand);
+		}
+
+		return true;
+	}
 }

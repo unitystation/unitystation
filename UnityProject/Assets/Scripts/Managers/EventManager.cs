@@ -21,7 +21,9 @@ public enum EVENT
 	DisableInternals,
 	EnableInternals,
 	PlayerSpawned,
-	PlayerDied
+	PlayerDied,
+	GhostSpawned,
+	LogLevelAdjusted,
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
@@ -88,7 +90,7 @@ public class EventManager : MonoBehaviour
 		if (eventTable.ContainsKey(evnt) && eventTable[evnt] != null)
 		{
 			eventTable[evnt]();
-				
+
 		}
 	}
 

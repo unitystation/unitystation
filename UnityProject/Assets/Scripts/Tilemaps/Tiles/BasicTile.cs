@@ -14,6 +14,7 @@ public abstract class BasicTile : LayerTile
 	public bool AtmosPassable;
 	public bool IsSealed;
 	public bool Passable;
+	public PassableDictionary PassableException;
 
 	public float MaxHealth;
 	public TileState[] HealthStates;
@@ -31,9 +32,21 @@ public abstract class BasicTile : LayerTile
 		}
 	}
 
-	public bool IsPassable()
+	/// <summary>
+	/// Checks if the tile is Passable by the ColliderType
+	/// It will return the default Passable bool unless an exception is avalaible in PassableException
+	/// </summary>
+	/// <param name="colliderType"></param>
+	/// <returns>IsPassable</returns>
+	public bool IsPassable(CollisionType colliderType)
 	{
-		return Passable;
+		if (PassableException.ContainsKey(colliderType))
+		{
+			return PassableException[colliderType];
+		} else
+		{
+			return Passable;
+		}
 	}
 
 	public bool IsAtmosPassable()

@@ -99,7 +99,7 @@ public class Rightclick : MonoBehaviour
 	void Update()
 	{
 		// Get right mouse click and check if mouse point occluded by FoV system.
-		if (Input.GetMouseButtonDown(1) && lightingSystem.IsScreenPointVisible(Input.mousePosition))
+		if (CommonInput.GetMouseButtonDown(1) && lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
 		{
 			//gets Items on the position of the mouse that are able to be right clicked
 			List<GameObject> objects = GetRightClickableObjects();
@@ -115,7 +115,7 @@ public class Rightclick : MonoBehaviour
 
 	private List<GameObject> GetRightClickableObjects()
 	{
-		Vector3 position = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+		Vector3 position = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 		position.z = 0f;
 		List<GameObject> objects = UITileList.GetItemsAtPosition(position);
 

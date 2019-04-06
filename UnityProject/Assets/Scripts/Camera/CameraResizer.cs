@@ -17,5 +17,6 @@ public class CameraResizer : MonoBehaviour
 		Vector3 v3T = Camera.main.transform.position;
 		v3T.z = -fT;
 		transform.position = v3T;
+		Logger.LogTrace( "Camera adjusted!", Category.Camera );
 	}
 }

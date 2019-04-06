@@ -15,6 +15,7 @@ public class ObjectBehaviour : PushPull
 	//The object that this object is contained inside
 	public ObjectBehaviour parentContainer = null;
 	private Vector3 lastNonHiddenPosition = new Vector3();
+
 	//returns position of highest object this object is contained in
     public Vector3 AssumedLocation()
     {
@@ -48,7 +49,7 @@ public class ObjectBehaviour : PushPull
 						if (closetHandlerCache)
 						{
 							//Set the camera to follow the player again
-							if (!PlayerManager.LocalPlayerScript.playerNetworkActions.isGhost)
+							if (!PlayerManager.LocalPlayerScript.IsGhost)
 							{
 								StartCoroutine(TargetPlayer());
 							}

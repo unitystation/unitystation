@@ -6,6 +6,16 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
 
+/// <summary>
+/// Defines collision type we expect
+/// </summary>
+public enum CollisionType
+{
+	None = -1,
+	Player = 0,
+	Shuttle = 1
+};
+
 /// Matrix manager keeps a list of matrices that you can access from both client and server.
 /// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.
 /// Also very common use scenario is Get()'ting matrix info using matrixId from PlayerState
@@ -110,10 +120,12 @@ public class MatrixManager : MonoBehaviour
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	/// FIXME: not truly cross-matrix. can walk diagonally between matrices
-	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, bool includingPlayers = true, GameObject context = null)
+	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null, int[] excludeList = null)
 	{
+		// Gets the list of Matrixes to actually check
+		MatrixInfo[] includeList = excludeList != null ? MatrixManager.ExcludeFromAllMatrixes(MatrixManager.GetList(excludeList)) : Instance.ActiveMatrices;
 		return isAtInternal(mat => mat.Matrix.IsPassableAt(WorldToLocalInt(worldOrigin, mat),
-			WorldToLocalInt(worldTarget, mat), includingPlayers, context));
+			WorldToLocalInt(worldTarget, mat), collisionType: collisionType, includingPlayers: includingPlayers, context: context), includeList);
 	}
 
 	/// <summary>
@@ -121,12 +133,29 @@ public class MatrixManager : MonoBehaviour
 	/// </summary>
 	/// <param name="worldOrigin">current position in world coordinates</param>
 	/// <param name="dir">direction of movement</param>
-	/// <param name="bumper">GameObject trying to bump / move, used so we don't bump against ourselves</param>
+	/// <param name="bumper">PlayerMove trying to bump / move, used to check if we can swap with another player with help intent.</param>
 	/// <returns>the bump type which occurs at the specified point (BumpInteraction.None if it's open space)</returns>
-	public static BumpType GetBumpTypeAt(Vector3Int worldOrigin, Vector2Int dir, GameObject bumper)
+	public static BumpType GetBumpTypeAt(Vector3Int worldOrigin, Vector2Int dir, PlayerMove bumper)
 	{
 		Vector3Int targetPos = worldOrigin + dir.To3Int();
-		if (GetPushableAt(worldOrigin, dir, bumper).Count > 0)
+		if (bumper.IsHelpIntent)
+		{
+			//check for other players with help intent
+			PlayerMove other = GetHelpIntentAt(targetPos, bumper.gameObject);
+			if (other != null)
+			{
+				//if we are pulling something, we can only swap with that thing
+				if (bumper.PlayerScript.pushPull.IsPullingSomething && bumper.PlayerScript.pushPull.PulledObject == other.PlayerScript.pushPull)
+				{
+					return BumpType.HelpIntent;
+				}
+				else if (!bumper.PlayerScript.pushPull.IsPullingSomething)
+				{
+					return BumpType.HelpIntent;
+				}
+			}
+		}
+		if (GetPushableAt(worldOrigin, dir, bumper.gameObject).Count > 0)
 		{
 			return BumpType.Push;
 		}
@@ -134,7 +163,7 @@ public class MatrixManager : MonoBehaviour
 		{
 			return BumpType.ClosedDoor;
 		}
-		else if (!IsPassableAt(worldOrigin, targetPos, true, bumper))
+		else if (!IsPassableAt(worldOrigin, targetPos, includingPlayers: true, context: bumper.gameObject))
 		{
 			return BumpType.Blocked;
 		}
@@ -142,14 +171,16 @@ public class MatrixManager : MonoBehaviour
 		return BumpType.None;
 	}
 
+
+
 	/// <summary>
 	/// Checks what type of bump occurs at the specified destination.
 	/// </summary>
 	/// <param name="playerState">player state, used to get current world position</param>
 	/// <param name="playerAction">action indicating the direction player is trying to move</param>
-	/// <param name="bumper">GameObject trying to bump / move, used so we don't bump against ourselves</param>
+	/// <param name="bumper">PlayerMove trying to bump / move, used to check if we can swap with another player with help intent.</param>
 	/// <returns>the bump type which occurs at the specified point (BumpInteraction.None if it's open space)</returns>
-	public static BumpType GetBumpTypeAt(PlayerState playerState, PlayerAction playerAction, GameObject bumper)
+	public static BumpType GetBumpTypeAt(PlayerState playerState, PlayerAction playerAction, PlayerMove bumper)
 	{
 		return GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), playerAction.Direction(), bumper);
 	}
@@ -247,6 +278,28 @@ public class MatrixManager : MonoBehaviour
 		return result;
 	}
 
+	/// <summary>
+	/// Return the playermove if there is a non-passable player with help intent at the specified position who is
+	/// not pulling something (it is not possible to swap with someone who is pulling something)
+	/// </summary>
+	/// <param name="targetWorldPos">Position to check</param>
+	/// <param name="mover">gameobject of the thing attempting the move, only used to prevent itself from being checked</param>
+	/// <returns>the player move if they have help intent and are not passable, otherwise null</returns>
+	public static PlayerMove GetHelpIntentAt(Vector3Int targetWorldPos, GameObject mover)
+	{
+		var playerMoves = MatrixManager.GetAt<PlayerMove>(targetWorldPos);
+		foreach (PlayerMove playerMove in playerMoves)
+		{
+			if (playerMove.IsHelpIntent && !playerMove.PlayerScript.registerTile.IsPassable() && playerMove.gameObject != mover
+			    && !playerMove.PlayerScript.pushPull.IsPullingSomething)
+			{
+				return playerMove;
+			}
+		}
+
+		return null;
+	}
+
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
 	public static bool IsPassableAt(Vector3Int worldTarget)
@@ -266,17 +319,23 @@ public class MatrixManager : MonoBehaviour
 		return t;
 	}
 
-	private static bool isAtInternal(Func<MatrixInfo, bool> condition)
+	private static bool isAtInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
 	{
-		for (var i = 0; i < Instance.ActiveMatrices.Length; i++)
+		for (var i = 0; i < matrixInfos.Length; i++)
 		{
-			if (!condition(Instance.ActiveMatrices[i]))
+			if (!condition(matrixInfos[i]))
 			{
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	// By default will just check every Matrix
+	private static bool isAtInternal(Func<MatrixInfo, bool> condition)
+	{
+		return isAtInternal(condition, Instance.ActiveMatrices);
 	}
 
 	/// <Summary>
@@ -419,6 +478,85 @@ public class MatrixManager : MonoBehaviour
 		}
 
 		return MatrixInfo.Invalid;
+	}
+
+	/// <summary>
+	/// Gets the MatrixInfo for multiple matrix ids
+	/// </summary>
+	/// <param name="idList"></param>
+	/// <returns>List of MatrixInfos</returns>
+	public static MatrixInfo[] GetList(int[] idList)
+	{
+		if (idList == null)
+		{
+			return null;
+		}
+
+		MatrixInfo[] matrixInfoList = new MatrixInfo[idList.Length];
+		for (int i = 0; i < idList.Length; i++)
+		{
+			matrixInfoList[i] = Get(idList[i]);
+		}
+
+		return matrixInfoList;
+	}
+
+	/// <summary>
+	/// Gets the MatrixInfo for multiple matrixs
+	/// </summary>
+	/// <param name="matrixList"></param>
+	/// <returns>List of MatrixInfos</returns>
+	public static MatrixInfo[] GetList(Matrix[] matrixList)
+	{
+		if (matrixList == null)
+		{
+			return null;
+		}
+
+		int[] intList = new int[matrixList.Length];
+		for (int i = 0; i < matrixList.Length; i++)
+		{
+			intList[i] = matrixList[i].Id;
+		}
+
+		return GetList(intList);
+	}
+
+	public static MatrixInfo[] ExcludeFromAllMatrixes(MatrixInfo[] excludeList)
+	{
+		MatrixInfo[] matrixList = new MatrixInfo[Instance.ActiveMatrices.Length];
+
+		if (excludeList == null)
+		{
+			Array.Copy(Instance.ActiveMatrices, matrixList, matrixList.Length);
+			return matrixList;
+		}
+
+		int currentIndex = 0;
+		bool toAdd = true;
+		for (int i = 0; i < Instance.ActiveMatrices.Length; i++)
+		{
+			toAdd = true;
+			for (int j = 0; j < excludeList.Length; j++)
+			{
+				if (Instance.ActiveMatrices[i].Id == excludeList[j].Id)
+				{
+					toAdd = false;
+					break;
+				}
+			}
+
+			if (toAdd)
+			{
+				matrixList[currentIndex++] = Instance.ActiveMatrices[i];
+			}
+		}
+
+		// Only return the number of matrix's actually included
+		MatrixInfo[] returnList = new MatrixInfo[currentIndex];
+		Array.Copy(matrixList, returnList, currentIndex);
+
+		return returnList;
 	}
 
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
@@ -652,5 +790,8 @@ public enum BumpType
 	Push,
 
 	/// Bump which blocks movement and causes nothing else to happen
-	Blocked
+	Blocked,
+
+	// A help intent player
+	HelpIntent
 }

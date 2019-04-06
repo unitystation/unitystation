@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Atmospherics;
@@ -57,6 +58,11 @@ public class MetaDataNode: IGasMixContainer
 	}
 
 	/// <summary>
+	/// Current drying coroutine.
+	/// </summary>
+	public IEnumerator CurrentDrying;
+
+	/// <summary>
 	/// The current neighbor nodes. Nodes can be Null!
 	/// </summary>
 	public readonly MetaDataNode[] Neighbors = new MetaDataNode[4];
@@ -94,6 +100,8 @@ public class MetaDataNode: IGasMixContainer
 	/// Is this tile occupied by something impassable
 	/// </summary>
 	public bool IsOccupied => Type == NodeType.Occupied;
+
+	public bool IsSlippery = false;
 
 	public bool Exists => this != None;
 

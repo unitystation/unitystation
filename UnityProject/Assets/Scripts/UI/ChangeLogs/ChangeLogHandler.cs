@@ -13,7 +13,7 @@ public class ChangeLogHandler : MonoBehaviour
     private List<ChangeLogEntry> allEntries = new List<ChangeLogEntry>();
     public GameObject entryPrefab;
 
-    void Awake()
+    void Start()
     {
         window.SetActive(false);
         string filePath = Path.Combine(Application.streamingAssetsPath, "changelog.json");

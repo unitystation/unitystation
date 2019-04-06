@@ -216,7 +216,7 @@ public class Weapon : PickUpTrigger
 		}
 
 		//check if burst should stop if the weapon is held by the local player
-		if (Input.GetMouseButtonUp(0))
+		if (CommonInput.GetMouseButtonUp(0))
 		{
 			StopAutomaticBurst();
 		}
@@ -443,7 +443,7 @@ public class Weapon : PickUpTrigger
 				if (WeaponType == WeaponType.SemiAutomatic || WeaponType == WeaponType.FullyAutomatic)
 				{
 					//shot direction
-					Vector2 dir = (Camera.main.ScreenToWorldPoint(Input.mousePosition) -
+					Vector2 dir = (Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
 	                                   PlayerManager.LocalPlayer.transform.position).normalized;
 					if (!isServer)
 					{
@@ -557,7 +557,8 @@ public class Weapon : PickUpTrigger
 
 			// check if we can still shoot
 			PlayerMove shooter = nextShot.shooter.GetComponent<PlayerMove>();
-			if (!shooter.allowInput || shooter.isGhost)
+			PlayerScript shooterScript = nextShot.shooter.GetComponent<PlayerScript>();
+			if (!shooter.allowInput || shooterScript.IsGhost)
 			{
 				Logger.LogWarning("A shot was attempted when shooter is a ghost or is not allowed to shoot.");
 				return;

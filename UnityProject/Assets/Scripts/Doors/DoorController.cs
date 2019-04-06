@@ -94,8 +94,8 @@ using UnityEngine.Networking;
 			//only do this check when door is closing, and only for doors that block all directions (like airlocks)
 			if (isServer && !IsOpened && !registerTile.OneDirectionRestricted)
 			{
-				if (!MatrixManager.IsPassableAt(registerTile.WorldPosition, registerTile.WorldPosition, true,
-					this.gameObject))
+				if (!MatrixManager.IsPassableAt(registerTile.WorldPosition, registerTile.WorldPosition, includingPlayers: true,
+					context: this.gameObject))
 				{
 					//something is in the way, open back up
 					//set this field to false so open command will actually work
@@ -254,4 +254,16 @@ using UnityEngine.Networking;
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Used when player is joining, tells player to open the door if it is opened.
+		/// </summary>
+		/// <param name="playerGameObject">game object of the player to inform</param>
+		public void NotifyPlayer(GameObject playerGameObject)
+		{
+			if (IsOpened)
+			{
+				DoorUpdateMessage.Send(playerGameObject, gameObject, DoorUpdateType.Open, true);
+			}
+		}
 	}

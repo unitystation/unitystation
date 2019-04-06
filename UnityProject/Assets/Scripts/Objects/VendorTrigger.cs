@@ -16,41 +16,36 @@ public class VendorTrigger : InputTrigger
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
+		if(!CanUse(originator, hand, position, false)){
+			return false;
+		}
+		if(!isServer){
+			return true;
+		}
+		
 		if (!allowSell && deniedMessage != null && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
 		{
-			ChatRelay.Instance.AddToChatLogClient(deniedMessage, ChatChannel.Examine);
-		}
-		// Client pre-approval
-		else if (!isServer && allowSell)
-		{
-			allowSell = false;
-			UI_ItemSlot slot = UIManager.Hands.CurrentSlot;
-			ChatRelay.Instance.AddToChatLogClient(interactionMessage, ChatChannel.Examine);
-			//Client informs server of interaction attempt
-			InteractMessage.Send(gameObject, position, slot.eventName);
-			StartCoroutine(VendorInputCoolDown());
+			UpdateChatMessage.Send(originator, ChatChannel.Examine, deniedMessage);
 		}
 		else if(allowSell)
 		{
 			allowSell = false;
 			if (!GameData.Instance.testServer && !GameData.IsHeadlessServer)
 			{
-				ChatRelay.Instance.AddToChatLogClient(interactionMessage, ChatChannel.Examine);
+				UpdateChatMessage.Send(originator, ChatChannel.Examine, interactionMessage);
 			}
-
-			ServerVendorInteraction(originator, position, hand);
+			ServerVendorInteraction(position);
 			StartCoroutine(VendorInputCoolDown());
 		}
-
+	
 		return true;
 	}
 
 	[Server]
-	private bool ServerVendorInteraction(GameObject originator, Vector3 position, string hand)
+	private bool ServerVendorInteraction(Vector3 position)
 	{
 //		Debug.Log("status" + allowSell);
-		PlayerScript ps = originator.GetComponent<PlayerScript>();
-		if (ps.canNotInteract() || !ps.IsInReach(position) || vendorcontent.Length == 0)
+		if (vendorcontent.Length == 0)
 		{
 			return false;
 		}

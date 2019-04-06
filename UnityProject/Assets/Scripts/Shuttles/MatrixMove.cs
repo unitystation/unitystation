@@ -70,8 +70,6 @@ public struct MatrixState
 /// </summary>
 public class MatrixMove : ManagedNetworkBehaviour
 {
-	public bool IsMoving => isMovingClient; //?
-
 	//server-only values
 	public MatrixState State => serverState;
 
@@ -151,6 +149,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 	public OrientationEvent OnRotateEnd = new OrientationEvent();
 	public DualFloatEvent OnSpeedChange = new DualFloatEvent();
 
+	/// <summary>
+	/// Set this to make sure collisions are correct for the MatrixMove
+	/// For example, shuttles collide with floors but players don't
+	/// </summary>
+	public CollisionType matrixColliderType = CollisionType.Shuttle;
+
 	/// Initial flying direction from editor
 	public Vector2 flyingDirection = Vector2.up;
 
@@ -181,6 +185,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	}
 
 	private Vector3Int[] SensorPositions;
+	private GameObject[] RotationSensors;
+	private GameObject rotationSensorContainerObject;
 
 	public MatrixInfo MatrixInfo;
 
@@ -188,12 +194,27 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private Vector2 mPreviousFilteredPosition;
 	private bool monitorOnRot = false;
 
+	/// <summary>
+	/// sets the transform position, using PPRT to filter it to prevent artifacts
+	/// </summary>
 	private Vector3 clampedPosition
 	{
 		set
 		{
-			transform.position =
-				LightingSystem.GetPixelPerfectPosition(value, mPreviousPosition, mPreviousFilteredPosition);
+			Vector2 filteredPos = LightingSystem.GetPixelPerfectPosition(value, mPreviousPosition, mPreviousFilteredPosition);
+
+			//pixel perfect position can induce lateral movement at the beginning of motion, so we must prevent that
+			if (clientState.Direction == Orientation.Right || clientState.Direction == Orientation.Left)
+			{
+				filteredPos.y = (float) Math.Round(filteredPos.y);
+			}
+			else
+			{
+				filteredPos.x = (float) Math.Round(filteredPos.x);
+			}
+
+			transform.position = filteredPos;
+
 
 			mPreviousPosition = value;
 			mPreviousFilteredPosition = transform.position;
@@ -263,6 +284,23 @@ public class MatrixMove : ManagedNetworkBehaviour
 			Logger.Log($"Initialized sensors at {string.Join(",", SensorPositions)}," +
 			           $" direction is {State.Direction}", Category.Matrix);
 		}
+
+		if (RotationSensors == null)
+		{
+			RotationCollisionSensor[] sensors = GetComponentsInChildren<RotationCollisionSensor>();
+			if (sensors.Length == 0)
+			{
+				RotationSensors = new GameObject[0];
+				return;
+			}
+
+			if (rotationSensorContainerObject == null)
+			{
+				rotationSensorContainerObject = sensors[0].transform.parent.gameObject;
+			}
+
+			RotationSensors = sensors.Select(sensor => sensor.gameObject).ToArray();
+		}
 	}
 
 	///managed by UpdateManager
@@ -323,6 +361,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	{
 //		Logger.Log("Stopped movement");
 		serverTargetState.IsMoving = false;
+
 		//To stop autopilot
 		DisableAutopilotTarget();
 	}
@@ -486,8 +525,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 				return;
 			}
 
-			//FIXME Remove this once lerping has been properly fixed with Pixel Perfect movement:
-			//If stopped then lerp to target
+			//If stopped then lerp to target (snap to grid)
 			if (!clientState.IsMoving && distance > 0f)
 			{
 				transform.position = Vector3.MoveTowards(transform.position, clientState.Position,
@@ -560,7 +598,10 @@ public class MatrixMove : ManagedNetworkBehaviour
 		{
 			var sensor = SensorPositions[i];
 			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(sensor, MatrixInfo, serverTargetState);
-			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt()))
+
+			// Exclude the moving matrix, we shouldn't be able to collide with ourselves
+			int[] excludeList = { MatrixInfo.Id };
+			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt(), collisionType: matrixColliderType, excludeList: excludeList))
 			{
 				Logger.LogTrace(
 					$"Can't pass {serverTargetState.Position}->{serverTargetState.Position + dir} (because {sensorPos}->{sensorPos + dir})!",
@@ -570,6 +611,36 @@ public class MatrixMove : ManagedNetworkBehaviour
 		}
 
 //		Logger.LogTrace( $"Passing {serverTargetState.Position}->{serverTargetState.Position+dir} ", Category.Matrix );
+		return true;
+	}
+
+	private bool CanRotateTo(Orientation newOrientation)
+	{
+		if (rotationSensorContainerObject == null) { return true; }
+
+		// Feign a rotation using GameObjects for reference
+		Transform rotationSensorContainerTransform = rotationSensorContainerObject.transform;
+		rotationSensorContainerTransform.rotation = new Quaternion();
+		rotationSensorContainerTransform.Rotate(0f, 0f, 90f * State.orientation.RotationsTo(newOrientation));
+
+		for (var i = 0; i < RotationSensors.Length; i++)
+		{
+			var sensor = RotationSensors[i];
+			// Need to pass an aggriate local vector in reference to the Matrix GO to get the correct WorldPos
+			Vector3 localSensorAggrigateVector = (rotationSensorContainerTransform.localRotation * sensor.transform.localPosition) + rotationSensorContainerTransform.localPosition;
+			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(localSensorAggrigateVector, MatrixInfo, serverTargetState);
+
+			// Exclude the rotating matrix, we shouldn't be able to collide with ourselves
+			int[] excludeList = { MatrixInfo.Id };
+			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos, collisionType: matrixColliderType, includingPlayers: true, excludeList: excludeList))
+			{
+				Logger.LogTrace(
+					$"Can't rotate at {serverTargetState.Position}->{serverTargetState.Position } (because {sensorPos} is occupied)!",
+					Category.Matrix);
+				return false;
+			}
+		}
+
 		return true;
 	}
 
@@ -727,11 +798,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	public void RotateTo(Orientation desiredOrientation)
 	{
-		serverTargetState.orientation = desiredOrientation;
-		Logger.LogTraceFormat("Orientation is now {0}, Corrected direction from {1} to {2}", Category.Matrix,
-			serverTargetState.orientation, serverTargetState.Direction, desiredOrientation);
-		serverTargetState.Direction = desiredOrientation;
-		RequestNotify();
+		if (CanRotateTo(desiredOrientation))
+		{
+			serverTargetState.orientation = desiredOrientation;
+			Logger.LogTraceFormat("Orientation is now {0}, Corrected direction from {1} to {2}", Category.Matrix,
+				serverTargetState.orientation, serverTargetState.Direction, desiredOrientation);
+			serverTargetState.Direction = desiredOrientation;
+			RequestNotify();
+		}
 	}
 
 	private Vector3 Target = TransformState.HiddenPos;

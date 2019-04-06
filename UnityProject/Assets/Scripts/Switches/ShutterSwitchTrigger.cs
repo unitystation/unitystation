@@ -32,7 +32,7 @@ public class ShutterSwitchTrigger : InputTrigger
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (!PlayerManager.LocalPlayerScript.IsInReach(transform.position, 1.5f) ||
-		    PlayerManager.LocalPlayerScript.playerMove.isGhost)
+		    PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return true;
 		}
@@ -45,7 +45,7 @@ public class ShutterSwitchTrigger : InputTrigger
 		}
 		else
 		{
-			Logger.Log("DOOR NOT FINISHED CLOSING YET!", Category.Shutters); 
+			Logger.Log("DOOR NOT FINISHED CLOSING YET!", Category.Shutters);
 		}
 
 		return true;

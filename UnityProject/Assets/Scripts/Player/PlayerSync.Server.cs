@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -23,7 +24,10 @@ public partial class PlayerSync
 	/// Current server state. Integer positions.
 	private PlayerState serverState;
 
-	/// Serverside lerping state that simulates where players should be on clients at the moment
+	/// Serverside lerping state that simulates where players should be on clients at the moment.
+	/// Tracks in-between integer positions unlike serverState. Basically when position changes, it starts with
+	/// setting serverState to the new position, then serverLerpState lerps from the current position to
+	/// serverState until it reaches it.
 	private PlayerState serverLerpState;
 
 	private Queue<PlayerAction> serverPendingActions;
@@ -35,6 +39,8 @@ public partial class PlayerSync
 
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
 	private Vector2 serverLastDirection;
+
+	private RegisterPlayer registerPlayer;
 
 	public float SpeedServer
 	{
@@ -53,12 +59,19 @@ public partial class PlayerSync
 	///
 	public bool IsWeightlessServer {
 		get {
-			GameObject[] context = pushPull.IsPullingSomething ? new[]{gameObject, pushPull.PulledObject.gameObject} : new[]{gameObject};
-			return !playerMove.isGhost && MatrixManager.IsFloatingAt( context, Vector3Int.RoundToInt( serverState.WorldPosition ) );
+			if (playerScript.IsGhost)
+			{
+				return false;
+			}
+			GameObject[] context = pushPull.IsPullingSomethingServer ? new[]{gameObject, pushPull.PulledObjectServer.gameObject} : new[]{gameObject};
+			return MatrixManager.IsFloatingAt( context, Vector3Int.RoundToInt( serverState.WorldPosition ) );
 		}
 	}
 
-	public bool IsNonStickyServer => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
+	/// <summary>
+	/// If the position of this player is "non-sticky", i.e. meaning they would slide / float in a given direction
+	/// </summary>
+	public bool IsNonStickyServer => !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
 
 
@@ -75,6 +88,7 @@ public partial class PlayerSync
 		{
 			base.OnStartServer();
 			InitServerState();
+			registerPlayer = GetComponent<RegisterPlayer>();
 		}
 
 	///
@@ -109,11 +123,6 @@ public partial class PlayerSync
 			return;
 		}
 
-		if (playerMove.isGhost)
-		{
-			return;
-		}
-
 		//add action to server simulation queue
 		serverPendingActions.Enqueue(action);
 
@@ -142,7 +151,7 @@ public partial class PlayerSync
 		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
 		Vector3Int pushGoal = origin + Vector3Int.RoundToInt( (Vector2)direction );
 
-		if ( !MatrixManager.IsPassableAt( origin, pushGoal, !followMode ) ) {
+		if ( !MatrixManager.IsPassableAt( origin, pushGoal, includingPlayers: !followMode ) ) {
 			return false;
 		}
 
@@ -189,7 +198,7 @@ public partial class PlayerSync
 			MatrixId = newMatrix.Id,
 			WorldPosition = roundedPos,
 			ResetClientQueue = true,
-			Speed = serverState.Speed
+			Speed = SpeedServer
 		};
 		serverLerpState = newState;
 		serverState = newState;
@@ -259,7 +268,7 @@ public partial class PlayerSync
 		}
 
 		serverState.NoLerp = noLerp;
-		var msg = PlayerMoveMessage.SendToAll(gameObject, serverState);
+		PlayerMoveMessage.SendToAll(gameObject, serverState);
 //		Logger.LogTraceFormat("SentToAll {0}", Category.Movement, msg);
 		//Clearing state flags
 		serverState.ImportantFlightUpdate = false;
@@ -301,11 +310,11 @@ public partial class PlayerSync
 	[Server]
 	private void TryUpdateServerTarget()
 	{
-		if (serverPendingActions.Count == 0 || playerMove.isGhost) //ignoring serverside ghost movement for now
+		if (serverPendingActions.Count == 0)
 		{
 			return;
 		}
-		if ( consideredFloatingServer || !serverState.Active || CanNotSpaceMoveServer || pushPull.IsBeingPulled )
+		if ( consideredFloatingServer || !serverState.Active || CanNotSpaceMoveServer || (pushPull && pushPull.IsBeingPulled) )
 		{
 			Logger.LogWarning("Server ignored queued move while player isn't supposed to move", Category.Movement);
 			serverPendingActions.Dequeue();
@@ -329,8 +338,8 @@ public partial class PlayerSync
 			CheckMovementServer();
 			OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 		}
-//		Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
-		}
+		//Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
+	}
 
 	/// NextState that also subscribes player to matrix rotations
 	[Server]
@@ -342,18 +351,18 @@ public partial class PlayerSync
 		//Client only needs to check whether movement was prevented, specific type of bump doesn't matter
 		bool isClientBump = action.isBump;
 
-		if ( !playerScript.playerHealth.IsSoftCrit )
+		if ( !playerScript.playerHealth || !playerScript.playerHealth.IsSoftCrit )
 		{
 			SpeedServer = action.isRun ? playerMove.RunSpeed : playerMove.WalkSpeed;
 		}
 
 		//we only lerp back if the client thinks it's passable  but server does not...if client
 		//thinks it's not passable and server thinks it's passable, then it's okay to let the client continue
-		if (!isClientBump && serverBump != BumpType.None) {
+		if (!isClientBump && serverBump != BumpType.None && serverBump != BumpType.HelpIntent) {
 			Logger.LogWarningFormat( "isBump mismatch, resetting: C={0} S={1}", Category.Movement, isClientBump, serverBump != BumpType.None );
 			RollbackPosition();
 		}
-		if ( isClientBump || serverBump != BumpType.None) {
+		if ( isClientBump || (serverBump != BumpType.None && serverBump != BumpType.HelpIntent)) {
 			// we bumped something, an interaction might occur
 			// try pushing things / opening doors
 			if ( !playerScript.canNotInteract() || serverBump == BumpType.ClosedDoor )
@@ -365,9 +374,16 @@ public partial class PlayerSync
 			return state;
 		}
 
-		if ( IsNonStickyServer ) {
+		//check for a swap
+		bool swapped = false;
+		if (serverBump == BumpType.HelpIntent)
+		{
+			swapped = CheckAndDoSwap(state.WorldPosition.RoundToInt() + action.Direction().To3Int(), action.Direction() * -1);
+		}
+
+		if ( IsNonStickyServer && !swapped ) {
 			PushPull pushable;
-			if ( IsAroundPushables( serverState, out pushable ) ) {
+			if (!swapped && IsAroundPushables( serverState, out pushable ) ) {
 				StartCoroutine( InteractSpacePushable( pushable, action.Direction() ) );
 			}
 			return state;
@@ -379,7 +395,7 @@ public partial class PlayerSync
 			return state;
 		}
 
-		PlayerState nextState = NextState(state, action, out bool matrixChanged);
+		PlayerState nextState = NextState(state, action);
 
 		nextState.Speed = SpeedServer;
 
@@ -592,9 +608,48 @@ public partial class PlayerSync
 		}
 		if ( serverLerpState.WorldPosition == targetPos ) {
 			OnTileReached().Invoke( targetPos.RoundToInt() );
+			// Check for swap once movement is done, to prevent us and another player moving into the same tile
+			CheckAndDoSwap(targetPos.RoundToInt(), serverLastDirection*-1);
 		}
 		if ( TryNotifyPlayers() ) {
 			TryUpdateServerTarget();
+		}
+	}
+
+	private void OnEnable()
+	{
+		onTileReached.AddListener(Cross);
+	}
+	private void OnDisable()
+	{
+		onTileReached.RemoveListener(Cross);
+	}
+
+	private void Cross(Vector3Int position)
+	{
+		CheckTileSlip();
+
+		if (PlayerUtils.IsGhost(gameObject))
+		{
+			return;
+		}
+		List<RegisterItem> objects = MatrixManager.GetAt<RegisterItem>(position);
+		// Removes player from object list
+		objects.Remove(gameObject.GetComponent<RegisterItem>());
+		for (int i = 0; i < objects.Count; i++)
+		{
+			objects[i].Cross(registerPlayer);
+		}
+	}
+
+	public void CheckTileSlip()
+	{
+		var position = serverState.Position.CutToInt();
+		var matrix = MatrixManager.Get(serverState.MatrixId);
+
+		if (matrix.MetaDataLayer.IsSlipperyAt(position))
+		{
+			registerPlayer.Slip();
 		}
 	}
 }

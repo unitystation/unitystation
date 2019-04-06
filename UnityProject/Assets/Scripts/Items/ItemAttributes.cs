@@ -631,7 +631,7 @@ public class ItemAttributes : NetworkBehaviour
 	// When right clicking on an item, examine the item
 	public void OnHover()
 	{
-		if (Input.GetMouseButtonDown(1))
+		if (CommonInput.GetMouseButtonDown(1))
 		{
 			SendExamine();
 		}

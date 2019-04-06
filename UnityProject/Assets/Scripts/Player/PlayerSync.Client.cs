@@ -20,7 +20,6 @@ public partial class PlayerSync
 
 	/// Client predicted state
 	private PlayerState predictedState;
-	private PlayerState ghostPredictedState;
 
 	private Queue<PlayerAction> pendingActions;
 	private Vector2 lastDirection;
@@ -45,17 +44,18 @@ public partial class PlayerSync
 	/// Does client's transform pos match state pos? Ignores Z-axis.
 	private bool ClientPositionReady => (Vector2)predictedState.Position == (Vector2)transform.localPosition;
 
-	/// Does ghosts's transform pos match state pos? Ignores Z-axis.
-	private bool GhostPositionReady => (Vector2)ghostPredictedState.WorldPosition == (Vector2)playerScript.ghost.transform.position;
-
 	// Is true on the frame that the player is bumping into something
 	public bool isBumping;
 	private bool IsWeightlessClient
 	{
 		get
 		{
+			if (playerScript.IsGhost)
+			{
+				return false;
+			}
 			GameObject[] context = pushPull.IsPullingSomethingClient ? new[] { gameObject, pushPull.PulledObjectClient.gameObject } : new[] { gameObject };
-			return !playerMove.isGhost && MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(predictedState.WorldPosition));
+			return MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(predictedState.WorldPosition));
 		}
 	}
 
@@ -73,8 +73,6 @@ public partial class PlayerSync
 	/// Player's clientside predicted move speed, applied to predicted moves
 	/// </summary>
 	private float predictedSpeedClient;
-
-	public bool IsNonStickyClient => !playerMove.isGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
 
 	///Does server claim this client is floating rn?
 	public bool isFloatingClient => playerState.Impulse != Vector2.zero /*&& !IsBeingPulledClient*/;
@@ -101,25 +99,38 @@ public partial class PlayerSync
 		MoveCooldown = true;
 		//experiment: not enqueueing or processing action if floating.
 		//arguably it shouldn't really be like that in the future
-		bool isGrounded = !IsNonStickyClient;
-		//			bool isAroundPushables = IsAroundPushables( predictedState ); //? trying to remove this because of garbage
-		/*(isGrounded || isAroundPushables ) &&*/
-		if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerMove.isGhost))
+		if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost))
 		{
 			//				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
 
-			if (isGrounded && playerState.Active)
+			//experiment: not enqueueing or processing action if floating, unless we are stopped.
+			//arguably it shouldn't really be like that in the future
+			bool isGrounded = !MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
+			if ((isGrounded || playerScript.IsGhost || !IsMovingClient) && playerState.Active)
 			{
 				//RequestMoveMessage.Send(action);
 				BumpType clientBump = CheckSlideAndBump(predictedState, ref action);
 
 				action.isRun = UIManager.WalkRun.running;
 
-				if (clientBump == BumpType.None || playerMove.isGhost)
+				if (clientBump == BumpType.None || playerScript.IsGhost)
 				{
 					//move freely
 					pendingActions.Enqueue(action);
 
+					LastDirection = action.Direction();
+					UpdatePredictedState();
+				}
+				else if (clientBump == BumpType.HelpIntent)
+				{
+					if (!isServer)
+					{
+						//only client performs this check, otherwise it would be performed twice by server
+						CheckAndDoSwap(((Vector2)predictedState.WorldPosition + action.Direction()).RoundToInt(), action.Direction() * -1);
+					}
+
+					//move freely
+					pendingActions.Enqueue(action);
 					LastDirection = action.Direction();
 					UpdatePredictedState();
 				}
@@ -153,6 +164,7 @@ public partial class PlayerSync
 		MoveCooldown = false;
 		isBumping = false;
 	}
+
 
 	/// Predictive interaction with object you can't move through
 	/// <param name="worldTile">Tile you're interacting with</param>
@@ -245,7 +257,7 @@ public partial class PlayerSync
 		{
 			//redraw prediction point from received serverState using pending actions
 			PlayerState tempState = playerState;
-			var state = playerMove.isGhost ? ghostPredictedState : predictedState;
+			var state = predictedState;
 			int curPredictedMove = state.MoveNumber;
 
 			foreach (PlayerAction action in pendingActions)
@@ -268,21 +280,15 @@ public partial class PlayerSync
 				OnClientStartMove().Invoke(oldPos.RoundToInt(), newPos.RoundToInt());
 			}
 
-			if (playerMove.isGhost)
-			{
-				ghostPredictedState = tempState;
-			}
-			else
-			{
-				predictedState = tempState;
-			}
+
+			predictedState = tempState;
 
 		}
 	}
 
 	private PlayerState NextStateClient(PlayerState state, PlayerAction action, bool isReplay)
 	{
-		if ( !playerMove.isGhost )
+		if ( !playerScript.IsGhost )
 		{
 			if ( !playerScript.playerHealth.IsSoftCrit )
 			{
@@ -294,7 +300,7 @@ public partial class PlayerSync
 			}
 		}
 
-		var nextState = NextState(state, action, out bool matrixChanged, isReplay);
+		var nextState = NextState(state, action, isReplay);
 
 		nextState.Speed = SpeedClient;
 
@@ -315,7 +321,7 @@ public partial class PlayerSync
 
 		//Ignore "Follow Updates" if you're pulling it
 		if (newState.Active
-			 && pushPull.IsPulledByClient(PlayerManager.LocalPlayerScript?.pushPull)
+			 && pushPull != null && pushPull.IsPulledByClient(PlayerManager.LocalPlayerScript?.pushPull)
 		)
 		{
 			return;
@@ -446,17 +452,6 @@ public partial class PlayerSync
 	///Using predictedState for your own player and playerState for others
 	private void CheckMovementClient()
 	{
-
-		//			Lerp();
-		if (playerMove.isGhost)
-		{
-			if (!GhostPositionReady)
-			{
-				//fixme: ghosts position isn't getting updated on server
-				GhostLerp(ghostPredictedState);
-			}
-		}
-
 		playerState.NoLerp = false;
 
 		bool isWeightless = IsWeightlessClient;
@@ -536,6 +531,13 @@ public partial class PlayerSync
 			if (ClientPositionReady)
 			{
 				OnClientTileReached().Invoke(Vector3Int.RoundToInt(worldPos));
+				// Check for swap once movement is done, to prevent us and another player moving into the same tile
+				if (!isServer)
+				{
+					//only check on client otherwise server would check this twice
+					CheckAndDoSwap(worldPos.RoundToInt(), lastDirection*-1);
+				}
+
 			}
 		}
 	}

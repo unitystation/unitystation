@@ -9,6 +9,7 @@ public class EffectsFactory : NetworkBehaviour
 	private GameObject scorchMarksTile { get; set; }
 
 	private GameObject bloodTile { get; set; }
+	private GameObject waterTile { get; set; }
 
 	private void Awake()
 	{
@@ -28,6 +29,7 @@ public class EffectsFactory : NetworkBehaviour
 		fireTile = Resources.Load("FireTile") as GameObject;
 		scorchMarksTile = Resources.Load("ScorchMarks") as GameObject;
 		bloodTile = Resources.Load("BloodSplat") as GameObject;
+		waterTile = Resources.Load("WaterSplat") as GameObject;
 	}
 
 	//FileTiles are client side effects only, no need for network sync (triggered by same event on all clients/server)
@@ -74,6 +76,15 @@ public class EffectsFactory : NetworkBehaviour
 				break;
 		}
 
-		bSplat.bloodSprite = spriteNum;
+		bSplat.sprite = spriteNum;
+	}
+
+	[Server]
+	public void WaterSplat(Vector3 pos)
+	{
+		GameObject w = PoolManager.Instance.PoolNetworkInstantiate(waterTile, pos, Quaternion.identity,
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(pos)).Objects);
+		WaterSplat wSplat = w.GetComponent<WaterSplat>();
+		wSplat.sprite = 9;
 	}
 }

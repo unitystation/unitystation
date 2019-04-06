@@ -14,6 +14,9 @@ MonoBehaviour:
   LayerType: 3
   TileType: 3
   RequiredTiles: []
+  PassableException:
+    m_keys: 01000000
+    m_values: 00
   Passable: 1
   AtmosPassable: 1
   IsSealed: 1

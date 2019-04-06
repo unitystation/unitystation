@@ -29,7 +29,7 @@ public class MeleeTrigger : MonoBehaviour
 	{
 		if (UIManager.Hands.CurrentSlot.Item != null)
 		{
-			var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			var mousePos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 			var handItem = UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>();
 
 			if (handItem.itemType == ItemType.Food) {

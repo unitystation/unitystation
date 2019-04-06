@@ -91,13 +91,16 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 	public PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private PlayerSprites playerSprites;
+	private UserControlledSprites playerSprites;
 
 	private Matrix Matrix => registerTile.Matrix;
 
 	private RaycastHit2D[] rayHit;
 
 	//		private float pullJourney;
+	/// <summary>
+	/// Note - can be null if this is a ghost player
+	/// </summary>
 	private PushPull pushPull;
 	public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
 	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
@@ -110,8 +113,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// the move action to switch to that direction, otherwise leaves it unmodified.
 	/// Prioritizes the following when there are multiple options:
 	/// 1. Move into empty space if either direction has it
-	/// 2. Push an object if either direction has it
-	/// 3. Open a door if either direction has it
+	/// 2. Swap with a player if we and they have help intent
+	/// 3. Push an object if either direction has it
+	/// 4. Open a door if either direction has it
 	///
 	/// When both directions have the same condition (both doors or pushable objects), x will be preferred to y
 	/// </summary>
@@ -129,18 +133,18 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		Vector2Int xDirection = new Vector2Int(direction.x, 0);
 		Vector2Int yDirection = new Vector2Int(0, direction.y);
-		BumpType xBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), xDirection, gameObject);
-		BumpType yBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), yDirection, gameObject);
+		BumpType xBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), xDirection, playerMove);
+		BumpType yBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), yDirection, playerMove);
 
 		MoveAction? newAction = null;
 		BumpType? newBump = null;
 
-		if (xBump == BumpType.None)
+		if (xBump == BumpType.None || xBump == BumpType.HelpIntent)
 		{
 			newAction = PlayerAction.GetMoveAction(xDirection);
 			newBump = xBump;
 		}
-		else if (yBump == BumpType.None)
+		else if (yBump == BumpType.None || yBump == BumpType.HelpIntent)
 		{
 			newAction = PlayerAction.GetMoveAction(yDirection);
 			newBump = yBump;
@@ -187,7 +191,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// <returns>the type of bump that occurs at the final destination (after sliding has been attempted)</returns>
 	private BumpType CheckSlideAndBump(PlayerState playerState, ref PlayerAction playerAction)
 	{
-		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, gameObject);
+		//bump never happens if we are a ghost
+		if (playerScript.IsGhost)
+		{
+			return BumpType.None;
+		}
+		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, playerMove);
 		// if movement is blocked, try to slide
 		if (bump == BumpType.Blocked)
 		{
@@ -270,6 +279,82 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 	#endregion
 
+	#region swapping positions
+
+	/// <summary>
+	/// Checks if a swap would occur due to moving to a position with a player with help intent while
+	/// we have help intent and are not dragging something.
+	/// If so, performs the swap by shifting the other player - this method doesn't affect our own movement/position,
+	/// only the swapee is affected.
+	/// </summary>
+	/// <param name="targetWorldPos">target position being moved to to check for a swap at</param>
+	/// <param name="inDirection">direction to which the swapee should be moved if swap occurs (should
+	/// be opposite the direction of this player's movement)</param>
+	/// <returns>true iff swap was performed</returns>
+	private bool CheckAndDoSwap(Vector3Int targetWorldPos, Vector2 inDirection)
+	{
+		PlayerMove other = MatrixManager.GetHelpIntentAt(targetWorldPos, gameObject);
+		if (other != null)
+		{
+			// on server, must verify that position matches
+			if ((isServer && !other.PlayerScript.PlayerSync.IsMovingServer)
+			    || (!isServer && !other.PlayerScript.PlayerSync.IsMovingClient))
+			{
+				//they've stopped there, so let's swap them
+				InitiateSwap(other, targetWorldPos + inDirection.RoundToInt());
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	/// <summary>
+	/// Invoked when someone is swapping positions with us due to arriving on our space when we have help intent.
+	///
+	/// Invoked on client for client prediction, server for server-authoritative logic.
+	///
+	/// This player is the swapee, the person displacing us is the swapper.
+	/// </summary>
+	/// <param name="toWorldPosition">destination to move to</param>
+	/// <param name="swapper">pushpull of the person initiating the swap, to check if we should break our
+	/// current pull</param>
+	private void BeSwapped(Vector3Int toWorldPosition, PushPull swapper)
+	{
+		if (isServer)
+		{
+			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Lerp, name, (Vector2)serverState.WorldPosition, toWorldPosition.To2Int());
+			PlayerState nextStateServer = NextStateSwap(serverState, toWorldPosition);
+			serverState = nextStateServer;
+			if (pushPull != null && pushPull.IsBeingPulled && !pushPull.PulledBy == swapper)
+			{
+				pushPull.StopFollowing();
+			}
+		}
+		PlayerState nextPredictedState = NextStateSwap(predictedState, toWorldPosition);
+		//must set this on both client and server so server shows the lerp instantly as well as the client
+		predictedState = nextPredictedState;
+	}
+
+	/// <summary>
+	/// Called on clientside for prediction and server side for server-authoritative logic.
+	///
+	/// Swap the other player, sending them in direction (which should be opposite our direction of motion).
+	///
+	/// Doesn't affect this player's movement/position, only the swapee is affected.
+	///
+	/// This player is the swapper, the one they are displacing is the swapee
+	/// </summary>
+	/// <param name="swapee">player we will swap</param>
+	/// <param name="toWorldPosition">destination to swap to</param>
+	private void InitiateSwap(PlayerMove swapee, Vector3Int toWorldPosition)
+	{
+		swapee.PlayerScript.PlayerSync.BeSwapped(toWorldPosition, pushPull);
+	}
+
+	#endregion
+
 	private void Start()
 	{
 		//Init pending actions queue for your local player
@@ -285,7 +370,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			serverPendingActions = new Queue<PlayerAction>();
 		}
 		playerScript = GetComponent<PlayerScript>();
-		playerSprites = GetComponent<PlayerSprites>();
+		playerSprites = GetComponent<UserControlledSprites>();
 		healthBehaviorScript = GetComponent<LivingHealthBehaviour>();
 		registerTile = GetComponent<RegisterTile>();
 		pushPull = GetComponent<PushPull>();
@@ -296,14 +381,14 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		if (isLocalPlayer && playerMove != null)
 		{
 			//				 If being pulled by another player and you try to break free
-			if (pushPull.IsBeingPulledClient)
+			if (pushPull != null && pushPull.IsBeingPulledClient)
 			{
 				if ( !playerScript.canNotInteract() && KeyboardInputManager.IsMovementPressed() )
 				{
 					pushPull.CmdStopFollowing();
 				}
 			}
-			else if (ClientPositionReady && !playerMove.isGhost || GhostPositionReady && playerMove.isGhost)
+			else if (ClientPositionReady)
 			{
 				DoAction();
 			}
@@ -366,20 +451,28 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 	}
 
-	public void OnBecomeGhost()
+	/// <summary>
+	/// Transition to next state for a swap, modifying parent matrix if matrix change occurs but not
+	/// incrementing the movenumber.
+	/// </summary>
+	/// <param name="state">current state</param>
+	/// <param name="toWorldPosition">world position new state should be in</param>
+	/// <returns>state with worldposition as its worldposition, changing the parent matrix if a matrix change occurs</returns>
+	private PlayerState NextStateSwap(PlayerState state, Vector3Int toWorldPosition)
 	{
-		playerScript.ghost.transform.position = playerState.WorldPosition;
-		ghostPredictedState = playerState;
+		var newState = state;
+		newState.WorldPosition = toWorldPosition;
+
+		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(toWorldPosition);
+
+		//Switching matrix while keeping world pos
+		newState.MatrixId = matrixAtPoint.Id;
+		newState.WorldPosition = toWorldPosition;
+
+		return newState;
 	}
 
-	private void GhostLerp(PlayerState state)
-	{
-		playerScript.ghost.transform.position =
-			Vector3.MoveTowards(playerScript.ghost.transform.position, state.WorldPosition,
-				playerMove.RunSpeed * Time.deltaTime * playerScript.ghost.transform.position.SpeedTo(state.WorldPosition));
-	}
-
-	private PlayerState NextState(PlayerState state, PlayerAction action, out bool matrixChanged, bool isReplay = false)
+	private PlayerState NextState(PlayerState state, PlayerAction action, bool isReplay = false)
 	{
 		var newState = state;
 		newState.MoveNumber++;
@@ -388,22 +481,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		var proposedWorldPos = newState.WorldPosition;
 
 		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(Vector3Int.RoundToInt(proposedWorldPos));
-		bool matrixChangeDetected = !Equals(matrixAtPoint, MatrixInfo.Invalid) && matrixAtPoint.Id != state.MatrixId;
 
 		//Switching matrix while keeping world pos
 		newState.MatrixId = matrixAtPoint.Id;
 		newState.WorldPosition = proposedWorldPos;
-
-		//			Logger.Log( $"NextState: src={state} proposedPos={newState.WorldPosition}\n" +
-		//			           $"mAtPoint={matrixAtPoint.Id} change={matrixChangeDetected} newState={newState}" );
-
-		if (!matrixChangeDetected)
-		{
-			matrixChanged = false;
-			return newState;
-		}
-
-		matrixChanged = true;
 
 		return newState;
 	}
@@ -459,13 +540,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		GizmoUtils.DrawArrow(clientPrediction + Vector3.left / 5, predictedState.Impulse);
 		if (drawMoves) GizmoUtils.DrawText(predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15);
 
-		//client ghostState
-		Gizmos.color = color6;
-		Vector3 ghostPrediction = ghostPredictedState.WorldPosition;
-		Gizmos.DrawWireCube(ghostPrediction, size6);
-		//			GizmoUtils.DrawArrow( ghostPrediction + Vector3.left / 5, predictedState.Impulse );
-		if (drawMoves) GizmoUtils.DrawText(ghostPredictedState.MoveNumber.ToString(), ghostPrediction + Vector3.up / 2, 15);
-
 		//client playerState
 		Gizmos.color = color4;
 		Vector3 clientState = playerState.WorldPosition;
@@ -473,6 +547,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		GizmoUtils.DrawArrow(clientState + Vector3.right / 5, playerState.Impulse);
 		if (drawMoves) GizmoUtils.DrawText(playerState.MoveNumber.ToString(), clientState + Vector3.right, 15);
 
+		//help intent
+		Gizmos.color = isLocalPlayer ?  color4 : color1;
+		if (playerMove.IsHelpIntent)
+		{
+			GizmoUtils.DrawText("Help", clientState + Vector3.up/2, 15);
+		}
 	}
 #endif
 }

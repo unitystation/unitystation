@@ -27,13 +27,13 @@ public class MouseInputController : MonoBehaviour
 	private LayerMask layerMask;
 	private ObjectBehaviour objectBehaviour;
 	private PlayerMove playerMove;
-	private PlayerSprites playerSprites;
+	private UserControlledSprites playerSprites;
 	/// reference to the global lighting system, used to check occlusion
 	private LightingSystem lightingSystem;
 
 	public static readonly Vector3 sz = new Vector3(0.05f, 0.05f, 0.05f);
 
-	private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(Input.mousePosition);
+	private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 
 	private void OnDrawGizmos()
 	{
@@ -71,7 +71,7 @@ public class MouseInputController : MonoBehaviour
 	private void Start()
 	{
 		//for changing direction on click
-		playerSprites = gameObject.GetComponent<PlayerSprites>();
+		playerSprites = gameObject.GetComponent<UserControlledSprites>();
 		playerMove = GetComponent<PlayerMove>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 
@@ -89,7 +89,7 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckMouseInput()
 	{
-		if (Input.GetMouseButtonDown(0))
+		if (CommonInput.GetMouseButtonDown(0))
 		{
 			if (!CheckAltClick())
 			{
@@ -99,7 +99,7 @@ public class MouseInputController : MonoBehaviour
 				}
 			}
 		}
-		else if (Input.GetMouseButton(0))
+		else if (CommonInput.GetMouseButton(0))
 		{
 			//mouse being held down / dragged
 			CheckDrag();
@@ -140,6 +140,13 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckClick()
 	{
+		//currently there is nothing for ghosts to interact with, they only can change facing
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			ChangeDirection();
+			return;
+		}
+
 		bool ctrlClick = KeyboardInputManager.IsControlPressed();
 		if (!ctrlClick)
 		{
@@ -186,7 +193,7 @@ public class MouseInputController : MonoBehaviour
 			//and not FOV occluded
 			Vector3 position = MousePosition;
 			position.z = 0f;
-			if (lightingSystem.IsScreenPointVisible(Input.mousePosition))
+			if (lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
 			{
 				if (PlayerManager.LocalPlayerScript.IsInReach(position))
 				{
@@ -239,10 +246,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		Vector3 playerPos;
 
-		if (playerMove.isGhost)
-			playerPos = PlayerManager.PlayerScript.ghost.transform.position;
-		else
-			playerPos = transform.position;
+		playerPos = transform.position;
 
 		Vector2 dir = (MousePosition - playerPos).normalized;
 
@@ -279,7 +283,7 @@ public class MouseInputController : MonoBehaviour
 		Vector3 mousePosition = MousePosition;
 
 		// Sample the FOV mask under current mouse position.
-		if (lightingSystem.IsScreenPointVisible(Input.mousePosition) == false)
+		if (lightingSystem.IsScreenPointVisible(CommonInput.mousePosition) == false)
 		{
 			return false;
 		}
@@ -368,7 +372,7 @@ public class MouseInputController : MonoBehaviour
 				GetSpritePixelColorUnderMousePointer(spriteRenderer, out Color pixelColor);
 				if (pixelColor.a > 0)
 				{
-					var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+					var mousePos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 					if (RecentTouches.ContainsKey(mousePos))
 					{
 						RecentTouches.Remove( mousePos );
@@ -388,7 +392,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		color = new Color();
 		Camera cam = Camera.main;
-		Vector2 mousePos = Input.mousePosition;
+		Vector2 mousePos = CommonInput.mousePosition;
 		Vector2 viewportPos = cam.ScreenToViewportPoint(mousePos);
 		if (viewportPos.x < 0.0f || viewportPos.x > 1.0f || viewportPos.y < 0.0f || viewportPos.y > 1.0f) return false; // out of viewport bounds
 																														// Cast a ray from viewport point into world
@@ -462,7 +466,7 @@ public class MouseInputController : MonoBehaviour
 	/// <returns>true iff an interaction occurred</returns>
 	public bool Interact(Transform _transform, Vector3 position, bool isDrag)
 	{
-		if (playerMove.isGhost)
+		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return false;
 		}
@@ -472,7 +476,7 @@ public class MouseInputController : MonoBehaviour
 
 		//attempt to trigger the things in range we clicked on
 		var localPlayer = PlayerManager.LocalPlayerScript;
-		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(Input.mousePosition)) || localPlayer.IsHidden)
+		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition)) || localPlayer.IsHidden)
 		{
 			//Check for melee triggers first. If a melee interaction occurs, stop checking for any further interactions
 			MeleeTrigger meleeTrigger = _transform.GetComponentInParent<MeleeTrigger>();
