@@ -67,7 +67,7 @@ public struct MatrixState
 public enum UIType
 {
 	Default = 0,
-	Nanotransen = 1,
+	Nanotrasen = 1,
 	Syndicate = 2
 };
 
@@ -165,7 +165,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// <summary>
 	/// If anything has a specific UI that needs to be set, it can change based off this var
 	/// </summary>
-	public UIType uiType = UIType.Nanotransen;
+	public UIType uiType = UIType.Nanotrasen;
 
 	/// Initial flying direction from editor
 	public Vector2 flyingDirection = Vector2.up;
