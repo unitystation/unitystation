@@ -133,7 +133,6 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 
 	public virtual void TurnOffCleanup()
 	{
-		powerSupply.connectedDevices.Clear();
 		_TurnOffCleanup();	}
 	public virtual void _TurnOffCleanup()
 	{
