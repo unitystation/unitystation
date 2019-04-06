@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 61247865679427770}
   - component: {fileID: 114329968317097578}
   - component: {fileID: 114538119136657758}
-  - component: {fileID: 114443595102844496}
   - component: {fileID: 114840369580293110}
   - component: {fileID: 114809207030236184}
   - component: {fileID: 114795609584507792}
+  - component: {fileID: 5337989651947616586}
   m_Layer: 19
   m_Name: VIR_APC
   m_TagString: APC
@@ -110,9 +110,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b795fd3e621e742b0aafdb501b9d36cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poweredDevice: {fileID: 114443595102844496}
+  SelfDestruct: 0
+  powerSupply: {fileID: 5337989651947616586}
+  isOn: 0
+  DirectionStart: 0
+  DirectionEnd: 9
+  MonitoringResistance: 0
+  Previouscurrent: 0
+  SupplyingVoltage: 0
+  PreviousSupplyingVoltage: 0
+  InternalResistance: 0
+  PreviousInternalResistance: 0
+  TurnRatio: 0
+  VoltageLimiting: 0
+  VoltageLimitedTo: 0
+  MaximumCurrentSupport: 0
+  MinimumSupportVoltage: 0
+  StandardSupplyingVoltage: 0
+  CapacityMax: 0
+  CurrentCapacity: 0
+  ExtraChargeCutOff: 0
+  IncreasedChargeVoltage: 0
+  StandardChargeNumber: 0
+  ChargeSteps: 0
+  MaxChargingMultiplier: 0
+  ChargingMultiplier: 0
+  CanCharge: 0
+  Cansupport: 0
+  ToggleCanCharge: 0
+  ToggleCansupport: 0
+  PullingWatts: 0
+  ChargingWatts: 0
+  Resistance: 0
+  PreviousResistance: 0
+  CircuitResistance: 0
+  ActualVoltage: 0
+  PullLastDeductedTime: 0
+  ChargLastDeductedTime: 0
+  PassChangeToOff: 0
+  isOnForInterface: 0
   CashOfConnectedDevices: 0
   Current: 0
+  NetTabType: 6
   criticalSprites:
   - {fileID: 21300276, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300278, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
@@ -133,28 +172,6 @@ MonoBehaviour:
   screenDisplay: {fileID: 212786810316391690}
   ConnectedEmergencyLights: []
   ConnectedDepartmentBatteries: []
---- !u!114 &114443595102844496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1638130848907210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abab4a0c666224f6f9c70acdb74436c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DirectionStart: 0
-  DirectionEnd: 0
-  registerTile: {fileID: 0}
-  connected: 0
-  NorthConnection: {fileID: 0}
-  SouthConnection: {fileID: 0}
-  WestConnection: {fileID: 0}
-  EastConnection: {fileID: 0}
-  registerTile3: {fileID: 0}
-  IsConnector: 0
 --- !u!114 &114840369580293110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +223,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 6
+--- !u!114 &5337989651947616586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DirectionStart: 0
+  DirectionEnd: 0
+  Data:
+    connections: []
+    FirstPresent: 0
+    ActualCurrentChargeInWire:
+      Voltage: 0
+      Current: 0
+      EstimatedResistant: 0
+    UpstreamCount: 0
+    DownstreamCount: 0
+    CurrentInWire: 0
+    ActualVoltage: 0
+    EstimatedResistance: 0
+    SupplyingCurrent: 0
+    InternalResistance: 0
+    SupplyingVoltage: 0
+    ChangeToOff: 0
+    CurrentStoreValue: 0
+  InData:
+    Categorytype: 0
+    ControllingDevice: {fileID: 0}
+    DirectionOverride: 0
+    ResistanceOverride: 0
+    ElectricityOverride: 0
+  registerTile: {fileID: 0}
+  connected: 0
+  registerTile3: {fileID: 114840369580293110}
 --- !u!1 &1670300920953744
 GameObject:
   m_ObjectHideFlags: 0

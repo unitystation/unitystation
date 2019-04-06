@@ -1,19 +1,19 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CableLine { //Meant to be an intermediary for long stretches of cable so as to Reduce processing time on Long cables 
 	public GameObject InitialGenerator;
-	public IElectricityIO TheStart;
-	public IElectricityIO TheEnd;
-	public List<IElectricityIO> Covering = new List<IElectricityIO>();
+	public ElectricalOIinheritance TheStart;
+	public ElectricalOIinheritance TheEnd;
+	public List<ElectricalOIinheritance> Covering = new List<ElectricalOIinheritance>();
 
 
-	public void DirectionInput(GameObject SourceInstance, IElectricityIO ComingFrom, CableLine PassOn  = null){
+	public void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, CableLine PassOn  = null){
 		JumpToOtherEnd (SourceInstance, ComingFrom);
 	}
 
-	public void JumpToOtherEnd(GameObject SourceInstance,IElectricityIO ComingFrom){
+	public void JumpToOtherEnd(GameObject SourceInstance,ElectricalOIinheritance ComingFrom){
 		if (ComingFrom == TheStart) {
 
 			TheEnd.DirectionInput(SourceInstance, ComingFrom);
@@ -21,7 +21,7 @@ public class CableLine { //Meant to be an intermediary for long stretches of cab
 			TheStart.DirectionInput(SourceInstance, ComingFrom);
 		}
 	}
-	public void PassOnFlushSupplyAndUp(IElectricityIO ComingFrom,GameObject SourceInstance = null)
+	public void PassOnFlushSupplyAndUp(ElectricalOIinheritance ComingFrom,GameObject SourceInstance = null)
 	{
 		if (ComingFrom == TheStart) {
 
@@ -31,7 +31,7 @@ public class CableLine { //Meant to be an intermediary for long stretches of cab
 		}
 	}
 
-	public void PassOnRemoveSupply(IElectricityIO ComingFrom,GameObject SourceInstance = null)
+	public void PassOnRemoveSupply(ElectricalOIinheritance ComingFrom,GameObject SourceInstance = null)
 	{
 		if (ComingFrom == TheStart) {
 
@@ -47,13 +47,14 @@ public class CableLine { //Meant to be an intermediary for long stretches of cab
 		}
 	}
 
-	public void UpdateCoveringCable(IElectricityIO ComingFrom)
+	public void UpdateCoveringCable()
 	{
 		for (int i = 0; i< Covering.Count; i++)
 		{
-			Covering[i].Data.ActualVoltage = ComingFrom.Data.ActualVoltage;
-			Covering[i].Data.CurrentInWire = ComingFrom.Data.CurrentInWire;
-			Covering[i].Data.EstimatedResistance = ComingFrom.Data.EstimatedResistance;
-		}	}
+			Covering[i].Data.ActualVoltage = TheStart.Data.ActualVoltage;
+			Covering[i].Data.CurrentInWire = TheStart.Data.CurrentInWire;
+			Covering[i].Data.EstimatedResistance = TheStart.Data.EstimatedResistance;
+		}
+	}
 
 }

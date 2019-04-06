@@ -2,25 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-public class PowerGenerator : InputTrigger, IDeviceControl
+public class PowerGenerator : PowerSupplyControlInheritance
 {
-
-	private bool SelfDestruct = false;
-
-	public PowerSupply powerSupply;
 	public ObjectBehaviour objectBehaviour;
-	[SyncVar(hook = "UpdateState")]
-	public bool isOn = false;
 	[SyncVar(hook = "UpdateSecured")]
 	public bool isSecured; //To ground
 	private RegisterTile registerTile;
 	public bool startSecured;
 	public bool startAsOn;
-	public int DirectionStart = 0;
-	public int DirectionEnd = 9;
-	public float MonitoringResistance = 9999999999;
-	public float current = 20;
-	public float Previouscurrent = 20;
 	public Sprite generatorSecuredSprite;
 	public Sprite generatorOnSprite;
 	public Sprite generatorUnSecuredSprite;
@@ -31,38 +20,32 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 	//Server only
 	public List<SolidPlasma> plasmaFuel = new List<SolidPlasma>();
 
-	public PowerTypeCategory ApplianceType = PowerTypeCategory.PowerGenerator;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
+	public PowerTypeCategory ApplianceType =  PowerTypeCategory.PowerGenerator;
+	public HashSet<PowerTypeCategory> CanConnectTo  = new HashSet<PowerTypeCategory>()
 	{
 		PowerTypeCategory.StandardCable,
 			PowerTypeCategory.HighVoltageCable,
 	};
-
-	public void PotentialDestroyed()
-	{
-		if (SelfDestruct)
-		{
-			//Then you can destroy
-		}
-	}
 
 	void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
 	}
 
-	public override void OnStartServer()
+	public override void OnStartServerInitialise()
 	{
 		// Voltage_source_voltage / Internal_resistance_of_voltage_source = 10 is good Rule of thumb
-		base.OnStartServer();
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = DirectionStart;
 		powerSupply.DirectionEnd = DirectionEnd;
-		powerSupply.Data.SupplyingVoltage = 760000;
-		powerSupply.Data.InternalResistance = 76000;
-		powerSupply.InData.ControllingDevice = this;
-		powerSupply.InData.ControllingUpdate = powerSupply;
+
+		SupplyingVoltage = 760000;
+		InternalResistance = 76000;
+		//current = 20;
+
+		//powerSupply.InData.ControllingDevice = this;
+		//powerSupply.InData.ControllingUpdate = this;
 
 		PowerInputReactions PIRMedium = new PowerInputReactions(); //You need a resistance on the output just so supplies can communicate properly
 		PIRMedium.DirectionReaction = true;
@@ -82,9 +65,6 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.HighVoltageCable] = PIRHigh;
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PIRMedium;
-
-		powerSupply.InData.ControllingUpdate = powerSupply;
-
 		UpdateSecured(startSecured);
 		StartCoroutine(CheckStartingPlasma());
 	}
@@ -115,9 +95,8 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		UpdateState(isOn);
 	}
 
-	void UpdateState(bool _isOn)
+	public override void StateChange(bool isOn)
 	{
-		isOn = _isOn;
 		if (isOn)
 		{
 			generatorRunSfx.Play();
@@ -140,7 +119,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		}
 	}
 
-	void UpdateServerState(bool _isOn)
+	public override void UpdateServerState(bool _isOn)
 	{
 		if (_isOn)
 		{
@@ -153,9 +132,7 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 		else
 		{
 			isOn = false;
-			//powerSupply.TurnOffSupply();
-			powerSupply.Data.ChangeToOff = true;
-			ElectricalSynchronisation.NUStructureChangeReact.Add(powerSupply);
+			powerSupply.TurnOffSupply();
 			if (plasmaFuel.Count > 0)
 			{
 				plasmaFuel[0].StopBurningPlasma();
@@ -256,5 +233,4 @@ public class PowerGenerator : InputTrigger, IDeviceControl
 
 		return true;
 	}
-	public void TurnOffCleanup() { }
 }

@@ -4,23 +4,12 @@ using UnityEngine;
 
 public static class InputOutputFunctions //for all the date of formatting of   Output / Input
 {
-	public static void ElectricityOutput(float Current, GameObject SourceInstance, IElectricityIO Thiswire)
+	public static void ElectricityOutput(float Current, GameObject SourceInstance, ElectricalOIinheritance Thiswire)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
-		float SimplyTimesBy = 0;
 		float SupplyingCurrent = 0;
-		Dictionary<IElectricityIO, float> ThiswireResistance = new Dictionary<IElectricityIO, float>();
-		if (Thiswire.Data.ResistanceComingFrom.ContainsKey(SourceInstanceID))
-		{
-			ThiswireResistance = Thiswire.Data.ResistanceComingFrom[SourceInstanceID];
-		}
-		else
-		{
-			Logger.LogError("now It doesn't" + SourceInstanceID.ToString() + " with this " + Thiswire.GameObject().name.ToString(), Category.Electrical);
-
-		}
-		float Voltage = Current * (ElectricityFunctions.WorkOutResistance(ThiswireResistance));
-		foreach (KeyValuePair<IElectricityIO, float> JumpTo in Thiswire.Data.ResistanceComingFrom[SourceInstanceID])
+		float Voltage = Current * (ElectricityFunctions.WorkOutResistance(Thiswire.Data.ResistanceComingFrom[SourceInstanceID]));
+		foreach (KeyValuePair<ElectricalOIinheritance, float> JumpTo in Thiswire.Data.ResistanceComingFrom[SourceInstanceID])
 		{
 			if (Voltage > 0)
 			{
@@ -32,14 +21,14 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			}
 			if (!(Thiswire.Data.CurrentGoingTo.ContainsKey(SourceInstanceID)))
 			{
-				Thiswire.Data.CurrentGoingTo[SourceInstanceID] = new Dictionary<IElectricityIO, float>();
+				Thiswire.Data.CurrentGoingTo[SourceInstanceID] = new Dictionary<ElectricalOIinheritance, float>();
 			}
 			Thiswire.Data.CurrentGoingTo[SourceInstanceID][JumpTo.Key] = SupplyingCurrent;
 			JumpTo.Key.ElectricityInput(SupplyingCurrent, SourceInstance, Thiswire);
 		}
 	}
 
-	public static void ElectricityInput( float Current, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO Thiswire)
+	public static void ElectricityInput( float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalOIinheritance Thiswire)
 	{
 		//Logger.Log (tick.ToString () + " <tick " + Current.ToString () + " <Current " + SourceInstance.ToString () + " <SourceInstance " + ComingFrom.ToString () + " <ComingFrom " + Thiswire.ToString () + " <Thiswire ", Category.Electrical);
 		int SourceInstanceID = SourceInstance.GetInstanceID();
@@ -49,15 +38,15 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		}
 		if (!(Thiswire.Data.CurrentComingFrom.ContainsKey(SourceInstanceID)))
 		{
-			Thiswire.Data.CurrentComingFrom[SourceInstanceID] = new Dictionary<IElectricityIO, float>();
+			Thiswire.Data.CurrentComingFrom[SourceInstanceID] = new Dictionary<ElectricalOIinheritance, float>();
 		}
 		Thiswire.Data.CurrentComingFrom[SourceInstanceID][ComingFrom] = Current;
 		Thiswire.Data.SourceVoltages[SourceInstanceID] = Current * (ElectricityFunctions.WorkOutResistance(Thiswire.Data.ResistanceComingFrom[SourceInstanceID]));
-		Thiswire.ElectricityOutput( ElectricityFunctions.WorkOutCurrent(Thiswire.Data.CurrentComingFrom[SourceInstanceID]), SourceInstance);
-
+		ELCurrent.CurrentWorkOnNextListADD(Thiswire);
+		Thiswire.Data.CurrentStoreValue = ElectricityFunctions.WorkOutCurrent(Thiswire.Data.CurrentComingFrom[SourceInstanceID]);
 	}
 
-	public static void ResistancyOutput(float Resistance, GameObject SourceInstance, IElectricityIO Thiswire)
+	public static void ResistancyOutput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance Thiswire)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		float ResistanceSplit = 0;
@@ -66,17 +55,14 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		} else {
 			if (Thiswire.Data.Upstream[SourceInstanceID].Count > 1)
 			{
-				float CalculatedCurrent = 1000 / Resistance;
-				float CurrentSplit = CalculatedCurrent / (Thiswire.Data.Upstream[SourceInstanceID].Count);
-				ResistanceSplit = 1000 / CurrentSplit;
+				ResistanceSplit = 1000 / ((1000 / Resistance) / (Thiswire.Data.Upstream[SourceInstanceID].Count));
 			}
 			else
 			{
 				ResistanceSplit = Resistance;
 			}
 		}
-
-		foreach (IElectricityIO JumpTo in Thiswire.Data.Upstream[SourceInstanceID])
+		foreach (ElectricalOIinheritance JumpTo in Thiswire.Data.Upstream[SourceInstanceID])
 		{
 			if (ResistanceSplit == 0) {
 				Thiswire.Data.ResistanceGoingTo[SourceInstanceID].Remove (JumpTo);
@@ -87,36 +73,33 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		}
 	}
 
-	public static void ResistanceInput(float Resistance, GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO Thiswire)
+	public static void ResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalOIinheritance Thiswire)
 	{
+		ElectricalOIinheritance IElec = SourceInstance.GetComponent<ElectricalOIinheritance>();
 		if (ComingFrom == null)
 		{
-			var IElec = SourceInstance.GetComponent<IElectricityIO>();
 			if (Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(IElec))
 			{
-				if (Thiswire.Data.ResistanceToConnectedDevices [SourceInstance.GetComponent<IElectricityIO> ()].Count > 1) {
-					Logger.Log ("oh no!, problem!!!!");
+				if (Thiswire.Data.ResistanceToConnectedDevices [IElec].Count > 1) {
+					Logger.LogError ("oh no!, problem!!!!");
 				}
-				foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[SourceInstance.GetComponent<IElectricityIO>()])
+				foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[IElec])
 				{
-
 					Resistance = Thiswire.InData.ConnectionReaction[ConnectionFrom].ResistanceReactionA.Resistance.Ohms;
 					//Logger.Log (Resistance.ToString () + " < to man Resistance |            " + ConnectionFrom.ToString() + " < to man ConnectionFrom |      " + Thiswire.GameObject().name + " < to man IS ");
 					ComingFrom = ElectricalSynchronisation.DeadEnd;
-
 				}
 			}
 		}
-		if (ComingFrom != null) {
-
+		if (ComingFrom != null | ElectricalSynchronisation.DeadEnd == ComingFrom) {
 			int SourceInstanceID = SourceInstance.GetInstanceID();
 			if (!(Thiswire.Data.ResistanceComingFrom.ContainsKey (SourceInstanceID))) {
-				Thiswire.Data.ResistanceComingFrom [SourceInstanceID] = new Dictionary<IElectricityIO, float> ();
+				Thiswire.Data.ResistanceComingFrom [SourceInstanceID] = new Dictionary<ElectricalOIinheritance, float> ();
 			} 
 				
 			if (!(Thiswire.Data.ResistanceGoingTo.ContainsKey(SourceInstanceID)))
 			{
-				Thiswire.Data.ResistanceGoingTo[SourceInstanceID] = new Dictionary<IElectricityIO, float>();
+				Thiswire.Data.ResistanceGoingTo[SourceInstanceID] = new Dictionary<ElectricalOIinheritance, float>();
 			}
 				
 			if (Resistance == 0) {
@@ -124,32 +107,29 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			} else {
 				Thiswire.Data.ResistanceComingFrom[SourceInstanceID][ComingFrom] = Resistance;
 			}
-				
 			if (Thiswire.Data.connections.Count > 2)
 			{
-				KeyValuePair<IElectricityIO,IElectricityIO> edd = new KeyValuePair<IElectricityIO,IElectricityIO> (SourceInstance.GetComponent<IElectricityIO> (),Thiswire);
-				ElectricalSynchronisation.ResistanceWorkOnNextListWait.Add (edd);
-				//Logger.Log("Bdded");
+				KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance> edd = new KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance> (IElec,Thiswire);
+				ElectricalSynchronisation.ResistanceWorkOnNextListWaitADD(edd);
 			}
 			else
 			{
-				KeyValuePair<IElectricityIO,IElectricityIO> edd = new KeyValuePair<IElectricityIO,IElectricityIO> (SourceInstance.GetComponent<IElectricityIO> (),Thiswire);
-				ElectricalSynchronisation.ResistanceWorkOnNextList.Add (edd);
-				//Logger.Log("added");
+				KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance> edd = new KeyValuePair<ElectricalOIinheritance,ElectricalOIinheritance> (IElec,Thiswire);
+				ElectricalSynchronisation.ResistanceWorkOnNextListADD(edd);
 			}
 		}
 	}
 
-	public static void DirectionOutput(GameObject SourceInstance, IElectricityIO Thiswire,CableLine RelatedLine = null)
+	public static void DirectionOutput(GameObject SourceInstance, ElectricalOIinheritance Thiswire,CableLine RelatedLine = null)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		if (!(Thiswire.Data.Upstream.ContainsKey(SourceInstanceID)))
 		{
-			Thiswire.Data.Upstream[SourceInstanceID] = new HashSet<IElectricityIO>();
+			Thiswire.Data.Upstream[SourceInstanceID] = new HashSet<ElectricalOIinheritance>();
 		}
 		if (!(Thiswire.Data.Downstream.ContainsKey(SourceInstanceID)))
 		{
-			Thiswire.Data.Downstream[SourceInstanceID] = new HashSet<IElectricityIO>();
+			Thiswire.Data.Downstream[SourceInstanceID] = new HashSet<ElectricalOIinheritance>();
 		}
 		if (Thiswire.Data.connections.Count <= 0)
 		{
@@ -161,23 +141,20 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			{
 				bool pass = true;
 				if (RelatedLine != null) {
-					//Logger.Log ("wowowowwo ");
 					if (RelatedLine.Covering.Contains (Thiswire.Data.connections [i])) {
 						pass = false;
-						//Logger.Log ("Failed" + Thiswire.Data.connections [i].GameObject ().name);
 					}
 				}
 				if (!(Thiswire.Data.Downstream[SourceInstanceID].Contains(Thiswire.Data.connections[i])) && pass)
 				{
 					Thiswire.Data.Downstream[SourceInstanceID].Add(Thiswire.Data.connections[i]);
-
 					Thiswire.Data.connections[i].DirectionInput(SourceInstance, Thiswire);
 				}
 			}
 		}
 	}
 
-	public static void DirectionInput(GameObject SourceInstance, IElectricityIO ComingFrom, IElectricityIO Thiswire)
+	public static void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalOIinheritance Thiswire)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		if (Thiswire.Data.FirstPresent == 0)
@@ -186,11 +163,11 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		}
 		if (!(Thiswire.Data.Upstream.ContainsKey(SourceInstanceID)))
 		{
-			Thiswire.Data.Upstream[SourceInstanceID] = new HashSet<IElectricityIO>();
+			Thiswire.Data.Upstream[SourceInstanceID] = new HashSet<ElectricalOIinheritance>();
 		}
 		if (!(Thiswire.Data.Downstream.ContainsKey(SourceInstanceID)))
 		{
-			Thiswire.Data.Downstream[SourceInstanceID] = new HashSet<IElectricityIO>();
+			Thiswire.Data.Downstream[SourceInstanceID] = new HashSet<ElectricalOIinheritance>();
 		}
 		if (ComingFrom != null)
 		{
@@ -202,19 +179,17 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		{
 			if (Thiswire.InData.ConnectionReaction[ComingFrom.InData.Categorytype].DirectionReaction)
 			{
-				IProvidePower SourceInstancPowerSupply = SourceInstance.GetComponent<IProvidePower>();
+				ElectricalOIinheritance SourceInstancPowerSupply = SourceInstance.GetComponent<ElectricalOIinheritance>();
 				if (SourceInstancPowerSupply != null)
 				{
-					IElectricityIO IElectricityIOPowerSupply = SourceInstance.GetComponent<IElectricityIO>();
-					if (!Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(IElectricityIOPowerSupply))
+					if (!Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(SourceInstancPowerSupply))
 					{
-						Thiswire.Data.ResistanceToConnectedDevices[IElectricityIOPowerSupply] = new HashSet<PowerTypeCategory>();
+						Thiswire.Data.ResistanceToConnectedDevices[SourceInstancPowerSupply] = new HashSet<PowerTypeCategory>();
 					}
-					Thiswire.Data.ResistanceToConnectedDevices[IElectricityIOPowerSupply].Add(ComingFrom.InData.Categorytype);
+					Thiswire.Data.ResistanceToConnectedDevices[SourceInstancPowerSupply].Add(ComingFrom.InData.Categorytype);
 					SourceInstancPowerSupply.connectedDevices.Add(Thiswire);
 					ElectricalSynchronisation.InitialiseResistanceChange.Add (Thiswire.InData.ControllingUpdate);
 				}
-
 				if (Thiswire.InData.ConnectionReaction[ComingFrom.InData.Categorytype].DirectionReactionA.YouShallNotPass)
 				{
 					CanPass = false;
@@ -225,11 +200,11 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		{
 			if (Thiswire.Data.connections.Count > 2)
 			{
-				SourceInstance.GetComponent<IProvidePower>().DirectionWorkOnNextListWait.Add(Thiswire);
+				ElectricalSynchronisation.DirectionWorkOnNextListWaitADD(Thiswire);
 			}
 			else
 			{
-				SourceInstance.GetComponent<IProvidePower>().DirectionWorkOnNextList.Add(Thiswire);
+				ElectricalSynchronisation.DirectionWorkOnNextListADD(Thiswire);
 			}
 		}
 	}

@@ -1,10 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(APCInteract))]
-public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
+public class APC : PowerSupplyControlInheritance
 {
 	// -----------------------------------------------------
 	//					ELECTRICAL THINGS
@@ -12,8 +12,6 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	/// <summary>
 	/// Holds information about wire connections to this APC
 	/// </summary>
-	public PoweredDevice poweredDevice;
-
 	[SyncVar (hook="SetVoltage")]
 	private float _voltage = 0;
 	/// <summary>
@@ -98,6 +96,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 			}
 		}
 	}
+
 	/// <summary>
 	/// Flag to determine if ElectricalSynchronisation has processed the resistance change yet
 	/// </summary>
@@ -111,15 +110,13 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 	{
 		PowerTypeCategory.LowMachineConnector
 	};
-	private bool SelfDestruct = false;
 
-	public override void OnStartServer()
+	public override void OnStartServerInitialise()
 	{
-		base.OnStartServer();
-		poweredDevice.InData.CanConnectTo = CanConnectTo;
-		poweredDevice.InData.Categorytype = ApplianceType;
-		poweredDevice.DirectionStart = 0;
-		poweredDevice.DirectionEnd = 9;
+		powerSupply.InData.CanConnectTo = CanConnectTo;
+		powerSupply.InData.Categorytype = ApplianceType;
+		powerSupply.DirectionStart = 0;
+		powerSupply.DirectionEnd = 9;
 		ResistanceClass.Ohms = Resistance;
 		ElectricalSynchronisation.PoweredDevices.Add(this);
 		PowerInputReactions PRLCable = new PowerInputReactions();
@@ -129,9 +126,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		PRLCable.DirectionReactionA.YouShallNotPass = true;
 		PRLCable.ResistanceReaction = true;
 		PRLCable.ResistanceReactionA.Resistance = ResistanceClass;
-		poweredDevice.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
-		poweredDevice.InData.ControllingDevice = this;
-		poweredDevice.InData.ControllingUpdate = this;
+		powerSupply.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
 	}
 
 	private void OnDisable()
@@ -139,40 +134,12 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		ElectricalSynchronisation.PoweredDevices.Remove(this);
 	}
 
-	public void PotentialDestroyed()
+	public override void _PowerNetworkUpdate()
 	{
-		if (SelfDestruct)
-		{
-			//Then you can destroy
-		}
-	}
-
-	public void PowerUpdateStructureChange() { }
-	public void PowerUpdateStructureChangeReact() { }
-	public void InitialPowerUpdateResistance() {
-		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
-			poweredDevice.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
-			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
-		}
-	}
-	public void PowerUpdateResistanceChange() {
-		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
-			poweredDevice.ResistanceInput( 1.11111111f, Supplie.Key.GameObject(), null);
-			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
-		}
-
-	}
-	public void PowerUpdateCurrentChange()
-	{
-
-	}
-
-	public void PowerNetworkUpdate()
-	{
-		if (!(CashOfConnectedDevices == poweredDevice.Data.ResistanceToConnectedDevices.Count)) {
-			CashOfConnectedDevices = poweredDevice.Data.ResistanceToConnectedDevices.Count;
+		if (!(CashOfConnectedDevices == powerSupply.Data.ResistanceToConnectedDevices.Count)) {
+			CashOfConnectedDevices = powerSupply.Data.ResistanceToConnectedDevices.Count;
 			ConnectedDepartmentBatteries.Clear ();
-			foreach (KeyValuePair<IElectricityIO, HashSet<PowerTypeCategory>> Device in poweredDevice.Data.ResistanceToConnectedDevices) {
+			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Device in powerSupply.Data.ResistanceToConnectedDevices) {
 				if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery) {
 					if (!(ConnectedDepartmentBatteries.Contains (Device.Key.GameObject().GetComponent<DepartmentBattery>()))) {
 						ConnectedDepartmentBatteries.Add (Device.Key.GameObject ().GetComponent<DepartmentBattery> ());
@@ -181,9 +148,8 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 			}
 		}
 
-		Voltage = poweredDevice.Data.ActualVoltage;
-		Current = poweredDevice.Data.CurrentInWire;
-
+		Voltage = powerSupply.Data.ActualVoltage;
+		Current = powerSupply.Data.CurrentInWire;
 		UpdateLights();
 		if (dirtyResistance)
 		{
@@ -192,7 +158,26 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 			dirtyResistance = false;
 		}
 	}
+	public NetTabType NetTabType;
+	public override void _Interact(GameObject originator, Vector3 position, string hand)
+	{
+		var playerScript = originator.GetComponent<PlayerScript>();
+		if (playerScript.canNotInteract() || !playerScript.IsInReach(gameObject))
+		{ //check for both client and server
+			return;
+		}
+		if (!isServer)
+		{
+			//Client wants this code to be run on server
+			InteractMessage.Send(gameObject, hand);
+		}
+		else
+		{
+			//Server actions
+			TabUpdateMessage.Send(originator, gameObject, NetTabType, TabAction.Open);
 
+		}
+	}
 	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
 	//FIXME: that also renderers IDevice useless. Please reassess
 	public void OnDestroy()
@@ -204,10 +189,7 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		SelfDestruct = true;
 		//Making Invisible
 	}
-	public void TurnOffCleanup ()
-	{
 
-	}
 
 	// -----------------------------------------------------
 	//					APC STATE THINGS
@@ -244,21 +226,6 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 			}
 		}
 	}
-
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
-		StartCoroutine(WaitForLoad());
-	}
-
-	private IEnumerator WaitForLoad()
-	{
-		yield return new WaitForSeconds(3f);
-		OnVoltageChange();
-		OnStateChange();
-	}
-
-
 	private void OnStateChange()
 	{
 		switch (State)
@@ -425,5 +392,9 @@ public class APC : NetworkBehaviour, IElectricalNeedUpdate, IDeviceControl
 		{
 			ConnectedEmergencyLights[i].Toggle(isOn);
 		}
+	}
+	public GameObject GameObject()
+	{
+		return gameObject;
 	}
 }

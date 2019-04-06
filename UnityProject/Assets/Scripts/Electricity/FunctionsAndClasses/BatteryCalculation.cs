@@ -4,7 +4,7 @@ using UnityEngine;
 using System; 
 
 public static class BatteryCalculation  {
-	public static void TurnOffEverything(IBattery Battery){ //For turn off
+	public static void TurnOffEverything(PowerSupplyControlInheritance Battery){ //For turn off
 		Battery.ChargingWatts = 0;
 		Battery.ChargingMultiplier = 0.1f;
 		Battery.Resistance = 0;
@@ -16,7 +16,7 @@ public static class BatteryCalculation  {
 		//Battery.PassChangeToOff = false;
 	}
 
-	public static void PowerUpdateCurrentChange (IBattery Battery){
+	public static void PowerUpdateCurrentChange (PowerSupplyControlInheritance Battery){
 		if (Battery.Cansupport) { //Denotes capacity to Provide current
 			if (Battery.ToggleCansupport) { //Denotes Whether at the current time it is allowed to provide current
 				if (Battery.ActualVoltage < Battery.MinimumSupportVoltage) {
@@ -33,7 +33,7 @@ public static class BatteryCalculation  {
 						Battery.PullingWatts = 0;
 						Battery.current = 0; 
 						Battery.PullLastDeductedTime = 0;
-						Logger.Log ("Turning off support due to voltage levels being suitable", Category.Electrical);
+						//Logger.Log ("Turning off support due to voltage levels being suitable", Category.Electrical);
 					}
 				}
 			} else {
@@ -41,12 +41,12 @@ public static class BatteryCalculation  {
 					Battery.PullingWatts = 0;
 					Battery.current = 0;
 					Battery.PullLastDeductedTime = 0;
-					Logger.Log ("Supply was turned off due to termination a support", Category.Electrical);
+					//Logger.Log ("Supply was turned off due to termination a support", Category.Electrical);
 				}
 			} 
 		} 
 	}
-	public static void PowerNetworkUpdate(IBattery Battery){
+	public static void PowerNetworkUpdate(PowerSupplyControlInheritance Battery){
 		if (Battery.isOnForInterface) { //Checks if the battery is actually on This is not needed in PowerUpdateCurrentChange Since having those updates Would mean it would be on
 			if (Battery.CanCharge) { //Ability to charge 
 				if (Battery.ToggleCanCharge) { //Is available for charging
@@ -86,12 +86,12 @@ public static class BatteryCalculation  {
 							Battery.ChargingMultiplier = 0.1f;
 							Battery.Resistance = 0;
 							Battery.ChargLastDeductedTime = 0;
-							Logger.Log ("Turn off charging battery full", Category.Electrical);
+							//Logger.Log ("Turn off charging battery full", Category.Electrical);
 						}
 					} else if ((Battery.ActualVoltage > Battery.IncreasedChargeVoltage) && (!(Battery.CurrentCapacity >= Battery.CapacityMax))) {
 						Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) ));
 						Battery.ChargLastDeductedTime = Time.time;
-						Logger.Log ("Charging turning back on from line voltage checks\n", Category.Electrical);
+						//Logger.Log ("Charging turning back on from line voltage checks\n", Category.Electrical);
 					}
 	
 				} else {
@@ -100,7 +100,7 @@ public static class BatteryCalculation  {
 						Battery.ChargingMultiplier = 0.1f;
 						Battery.Resistance = 0;
 						Battery.ChargLastDeductedTime = 0;
-						Logger.Log (" Turning off Charging because support was terminated for charging", Category.Electrical);
+						//Logger.Log (" Turning off Charging because support was terminated for charging", Category.Electrical);
 					}
 				}
 			}
@@ -120,7 +120,7 @@ public static class BatteryCalculation  {
 							Battery.current = 0;
 							Battery.PullLastDeductedTime = 0;
 							//Battery.PassChangeToOff = false;
-							Logger.Log ("Turning off supply from loss of capacity", Category.Electrical);
+							//Logger.Log ("Turning off supply from loss of capacity", Category.Electrical);
 						}
 					} else {
 						if (Battery.ActualVoltage < Battery.MinimumSupportVoltage) {
