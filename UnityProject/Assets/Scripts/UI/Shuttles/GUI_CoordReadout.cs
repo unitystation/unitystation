@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Updates X and Y text refrences from the MatrixMove in the ShuttleControlScript
+/// </summary>
 public class GUI_CoordReadout : MonoBehaviour
 {
 	[Header("References")]

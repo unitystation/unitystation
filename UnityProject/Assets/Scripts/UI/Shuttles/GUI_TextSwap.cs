@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// A generic TextSwap script for different UITypes
+/// </summary>
 public class GUI_TextSwap : MonoBehaviour
 {
 	[Header("References")]
