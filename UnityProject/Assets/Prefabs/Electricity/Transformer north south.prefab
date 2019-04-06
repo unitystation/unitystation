@@ -173,6 +173,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9df24501aecf7974ca26e7ef18d58a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelfDestruct: 0
+  powerSupply: {fileID: 114266721718608546}
+  isOn: 0
+  ChangeToOff: 0
+  DirectionStart: 0
+  DirectionEnd: 9
+  MonitoringResistance: 0
+  Previouscurrent: 0
+  SupplyingVoltage: 0
+  PreviousSupplyingVoltage: 0
+  InternalResistance: 0
+  PreviousInternalResistance: 0
+  TurnRatio: 0
+  VoltageLimiting: 0
+  VoltageLimitedTo: 0
+  MaximumCurrentSupport: 0
+  MinimumSupportVoltage: 0
+  StandardSupplyingVoltage: 0
+  CapacityMax: 0
+  CurrentCapacity: 0
+  ExtraChargeCutOff: 0
+  IncreasedChargeVoltage: 0
+  StandardChargeNumber: 0
+  ChargeSteps: 0
+  MaxChargingMultiplier: 0
+  ChargingMultiplier: 0
+  CanCharge: 0
+  Cansupport: 0
+  ToggleCanCharge: 0
+  ToggleCansupport: 0
+  PullingWatts: 0
+  ChargingWatts: 0
+  Resistance: 0
+  PreviousResistance: 0
+  CircuitResistance: 0
+  ActualVoltage: 0
+  PullLastDeductedTime: 0
+  ChargLastDeductedTime: 0
+  PassChangeToOff: 0
+  isOnForInterface: 0
   RelatedDevice: {fileID: 114266721718608546}
   ApplianceType: 6
 --- !u!114 &114266721718608546
@@ -191,7 +231,7 @@ MonoBehaviour:
   DirectionEnd: 2
   registerTile: {fileID: 0}
   connected: 0
-  registerTile3: {fileID: 0}
+  registerTile3: {fileID: 114038174743996046}
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

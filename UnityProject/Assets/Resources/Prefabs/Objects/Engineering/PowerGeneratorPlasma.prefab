@@ -5101,9 +5101,9 @@ GameObject:
   - component: {fileID: 114055404044358512}
   - component: {fileID: 114738137265545768}
   - component: {fileID: 114537316452419530}
-  - component: {fileID: 114886920314458420}
   - component: {fileID: 114093731737732554}
   - component: {fileID: 820786687953803850}
+  - component: {fileID: 7281671087508858390}
   m_Layer: 11
   m_Name: PowerGeneratorPlasma
   m_TagString: Untagged
@@ -5252,23 +5252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114886920314458420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853426429102140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb40989ecd870421286c2e1fb00915b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DirectionStart: 0
-  DirectionEnd: 0
-  registerTile: {fileID: 0}
-  connected: 0
-  registerTile3: {fileID: 0}
 --- !u!114 &114093731737732554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5281,17 +5264,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da4a35ac83c48864898817a319fae506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerSupply: {fileID: 114886920314458420}
-  objectBehaviour: {fileID: 820786687953803850}
+  SelfDestruct: 0
+  powerSupply: {fileID: 7281671087508858390}
   isOn: 0
-  isSecured: 0
-  startSecured: 0
-  startAsOn: 0
   DirectionStart: 0
   DirectionEnd: 0
   MonitoringResistance: 1e+10
-  current: 20
-  Previouscurrent: 20
+  current: 0
+  Previouscurrent: 0
+  SupplyingVoltage: 0
+  PreviousSupplyingVoltage: 0
+  InternalResistance: 0
+  PreviousInternalResistance: 0
+  objectBehaviour: {fileID: 820786687953803850}
+  isSecured: 0
+  startSecured: 0
+  startAsOn: 0
   generatorSecuredSprite: {fileID: 21300230, guid: 6c565852bdc446c78d0f44aa66c28bc2,
     type: 3}
   generatorOnSprite: {fileID: 21300234, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
@@ -5302,7 +5290,6 @@ MonoBehaviour:
   generatorEndSfx: {fileID: 82174488758175454}
   smokeParticles: {fileID: 198581407923697672}
   plasmaFuel: []
-  ApplianceType: 13
 --- !u!114 &820786687953803850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5321,3 +5308,21 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
+--- !u!114 &7281671087508858390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DirectionStart: 0
+  DirectionEnd: 0
+  registerTile: {fileID: 0}
+  connected: 0
+  registerTile3: {fileID: 114738137265545768}

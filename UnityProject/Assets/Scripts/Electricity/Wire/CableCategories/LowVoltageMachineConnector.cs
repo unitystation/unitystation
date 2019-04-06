@@ -30,7 +30,7 @@ public class LowVoltageMachineConnector : NetworkBehaviour  , IDeviceControl
 		RelatedWire.InData.Categorytype = ApplianceType;
 		RelatedWire.DirectionEnd = 9;
 		RelatedWire.DirectionStart = 0;
-		RelatedWire.InData.ControllingDevice = this;
+		//RelatedWire.InData.ControllingDevice = this;
 	}
 
 	//Fixme:

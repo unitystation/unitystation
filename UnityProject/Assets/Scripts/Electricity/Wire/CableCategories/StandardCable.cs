@@ -44,7 +44,7 @@ public class StandardCable : NetworkBehaviour, ICable, IDeviceControl
 		IsCable = true;
 		wireConnect.InData.CanConnectTo = CanConnectTo;
 		wireConnect.InData.Categorytype = ApplianceType;
-		wireConnect.InData.ControllingDevice = this;
+		//wireConnect.InData.ControllingDevice = this;
 	}
 
 	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool

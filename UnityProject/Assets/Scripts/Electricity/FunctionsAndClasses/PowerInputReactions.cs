@@ -24,7 +24,7 @@ public class PowerInputReactions
 		public bool YouShallNotPass = false;
 	}
 	public class ElectricalReactionClass
-	{ //Doesn't do anything current
+	{ //Doesn't do anything currently
 		public float Current; //I don't really know 
 		public bool YouShallNotPass = false;
 	}

@@ -6,42 +6,32 @@ using System;
 public static class TransformerCalculations  {
 	//This should be the split up into different functions depending on what stage you want
 	//This will give you back if you give it the right data, how it modifies resistance, and then How it modifies current  
-	public static Tuple<float,float> TransformerCalculate( Itransformer TransformInformation, float ResistanceToModify = 0, float Voltage = 0, float ResistanceModified = 0, float ActualCurrent = 0 ){
+	public static Tuple<float,float> TransformerCalculate( PowerSupplyControlInheritance TransformInformation, float ResistanceToModify = 0, float Voltage = 0, float ResistanceModified = 0, float ActualCurrent = 0 ){
 		if (!(ResistanceToModify == 0)) {
-			float R2 = ResistanceToModify;
-			float I2 = 1/ResistanceToModify;
-			float V2 = 1;
+			//float R2 = ResistanceToModify;
+			//float I2 = 1/ResistanceToModify;
+			//float V2 = 1;
 
-			float Turn_ratio = TransformInformation.TurnRatio;
+			//float Turn_ratio = TransformInformation.TurnRatio;
 
-			float V1 = (V2*Turn_ratio);
-			float I1 = (V2/V1)*I2;
-			float R1 = V1/I1;
+			//float V1 = (V2*Turn_ratio);
+			//float I1 = (V2/V1)*I2;
+			//float R1 = V1/I1;
 			Tuple<float,float> returns = new Tuple<float, float>(
-				R1, 
+				(float)Math.Pow(TransformInformation.TurnRatio, 2.0) * (ResistanceToModify),
 				0
 			);
 			return(returns);
 		}
 		if (!(Voltage == 0)) {
 			float offcut = 0;
-			float V1 = Voltage;
-			float R1 = ResistanceModified;
-			float I1 = V1/R1;
-			float Turn_ratio = TransformInformation.TurnRatio;
-			float V2 = V1/Turn_ratio;
-			float IntervalI2 = (V1 / V2) * I1;
-			float R2 = V2 / IntervalI2;
+
+			float V2 = Voltage/TransformInformation.TurnRatio;
+			float R2 = V2 / ((Voltage / V2) * (Voltage / ResistanceModified));
 			if (!(TransformInformation.VoltageLimiting == 0)){ //if Total Voltage greater than that then  Push some of it to ground  to == VoltageLimitedTo And then everything after it to ground/
-				float ActualVoltage = ActualCurrent * ResistanceModified;
 
-				float SUBV1 = ActualVoltage;
-				float SUBR1 = ResistanceModified;
-				float SUBI1 = ActualCurrent;
+				float SUBV2 = (ActualCurrent * ResistanceModified)/TransformInformation.TurnRatio;
 
-				float SUBV2 = SUBV1/Turn_ratio;
-				float SUBI2 = (SUBV1 / SUBV2) * SUBI1;
-				float SUBR2 = SUBV2 / SUBI2;
 				if ((V2 + SUBV2) > TransformInformation.VoltageLimiting) { 
 					offcut = ((V2 + SUBV2) - TransformInformation.VoltageLimitedTo)/ R2;
 					V2 = TransformInformation.VoltageLimitedTo - SUBV2;

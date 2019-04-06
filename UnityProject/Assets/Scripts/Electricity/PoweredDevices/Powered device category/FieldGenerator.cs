@@ -1,14 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceControl
+public class FieldGenerator : PowerSupplyControlInheritance
 {
-	public PoweredDevice poweredDevice;
-	private bool SelfDestruct = false;
-	[SyncVar(hook = "CheckState")]
-	public bool isOn = false;
 	public bool connectedToOther = false;
 	private Coroutine coSpriteAnimator;
 	public Sprite offSprite;
@@ -18,9 +14,7 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 	public SpriteRenderer spriteRend;
 	List<Sprite> animSprites = new List<Sprite>();
 	public float Voltage;
-	public float Resistance = 1500;
-	public float PreviousResistance = 1500;
-	private Resistance resistance = new Resistance();
+
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.FieldGenerator;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.StandardCable
@@ -29,10 +23,11 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
-		poweredDevice.InData.CanConnectTo = CanConnectTo;
-		poweredDevice.InData.Categorytype = ApplianceType;
-		poweredDevice.DirectionStart = 0;
-		poweredDevice.DirectionEnd = 9;
+		Resistance = 1500;
+		powerSupply.InData.CanConnectTo = CanConnectTo;
+		powerSupply.InData.Categorytype = ApplianceType;
+		powerSupply.DirectionStart = 0;
+		powerSupply.DirectionEnd = 9;
 		resistance.Ohms = Resistance;
 		ElectricalSynchronisation.PoweredDevices.Add(this);
 		PowerInputReactions PRLCable = new PowerInputReactions();
@@ -42,10 +37,7 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 		PRLCable.DirectionReactionA.YouShallNotPass = true;
 		PRLCable.ResistanceReaction = true;
 		PRLCable.ResistanceReactionA.Resistance = resistance;
-		poweredDevice.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PRLCable;
-		poweredDevice.InData.ControllingDevice = this;
-		poweredDevice.InData.ControllingUpdate = this;
-
+		powerSupply.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PRLCable;
 	}
 
 	public override void OnStartClient()
@@ -69,43 +61,11 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 		return true;
 	}
 
-	public void PotentialDestroyed()
-	{
-		if (SelfDestruct)
-		{
-			//Then you can destroy
-		}
-	}
 
-	public void PowerUpdateStructureChange() { }
-	public void PowerUpdateStructureChangeReact() { }
-	public void InitialPowerUpdateResistance() {
-		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
-			poweredDevice.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
-			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
-		}
-	}
-	public void PowerUpdateResistanceChange() { 
-		foreach (KeyValuePair<IElectricityIO,HashSet<PowerTypeCategory>> Supplie in poweredDevice.Data.ResistanceToConnectedDevices) {
-			poweredDevice.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
-			ElectricalSynchronisation.NUCurrentChange.Add (Supplie.Key.InData.ControllingUpdate);
-		}
-
-	}
-	public void PowerUpdateCurrentChange()
+	public override void _PowerNetworkUpdate()
 	{
-
-	}
-	public void PowerNetworkUpdate()
-	{
-		if (Resistance != PreviousResistance)
-		{
-			PreviousResistance = Resistance;
-			resistance.Ohms = Resistance;
-			ElectricalSynchronisation.ResistanceChange.Add (this);
-		}
-		Voltage = poweredDevice.Data.ActualVoltage;
-		UpdateSprites ();
+		Voltage = powerSupply.Data.ActualVoltage;
+		UpdateSprites();
 		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
 	}
 
@@ -171,7 +131,5 @@ public class FieldGenerator : InputTrigger, IElectricalNeedUpdate, IDeviceContro
 		ElectricalSynchronisation.PoweredDevices.Remove(this);
 		SelfDestruct = true;
 		//Make Invisible
-	}
-	public void TurnOffCleanup (){
 	}
 }
