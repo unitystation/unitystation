@@ -67,7 +67,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
-  m_SortingOrder: 50
+  m_SortingOrder: 540
   m_Sprite: {fileID: 21300000, guid: fc6d56fd154b4103a3e8a2bc2b86dfa6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -232,6 +232,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!114 &114267664904661214
 MonoBehaviour:
   m_ObjectHideFlags: 0

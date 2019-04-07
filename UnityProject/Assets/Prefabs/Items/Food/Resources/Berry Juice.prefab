@@ -182,6 +182,10 @@ MonoBehaviour:
       PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
+  crossed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +299,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
-  m_SortingOrder: 10
+  m_SortingOrder: 150
   m_Sprite: {fileID: 21300348, guid: 3547c548ae071487c84212e8ee25d554, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
