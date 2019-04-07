@@ -209,6 +209,8 @@ public class ItemAttributes : NetworkBehaviour
 		itemDescription = desc;
 		spriteType = masterType;
 		GetComponentInChildren<SpriteRenderer>().sprite = stateSprite;
+		//assign an order in layer so we don't have arbitrary ordering
+		GetComponentInChildren<SpriteRenderer>().sortingOrder = clothingOffset;
 
 		//			Logger.Log(name + " size=" + size + " type=" + type + " spriteType="
 		//			          + spriteType + " (" + desc + ") : "

@@ -307,7 +307,8 @@ public class MouseInputController : MonoBehaviour
 		if (renderers.Count > 0)
 		{
 			foreach ( Renderer _renderer in renderers.OrderByDescending(r => r.GetType() == TilemapType ? 0 : 1)
-													 .ThenByDescending(r => SortingLayer.GetLayerValueFromID(r.sortingLayerID)) )
+													 .ThenByDescending(r => SortingLayer.GetLayerValueFromID(r.sortingLayerID))
+													 .ThenByDescending(r => r.sortingOrder))
 			{
 				// If the ray hits a FOVTile, we can continue down (don't count it as an interaction)
 				// Matrix is the base Tilemap layer. It is used for matrix detection but gets in the way
