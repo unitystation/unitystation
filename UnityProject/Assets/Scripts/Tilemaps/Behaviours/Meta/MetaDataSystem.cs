@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
@@ -13,7 +15,7 @@ public class MetaDataSystem : SubsystemBehaviour
 	/// <summary>
 	/// Nodes which exist in space next to room tiles of the matrix.
 	/// </summary>
-	private HashSet<MetaDataNode> externalNodes;
+	private ConcurrentDictionary<MetaDataNode, MetaDataNode> externalNodes;
 
 	/// <summary>
 	/// Matrix this system is managing the MetaDataNodes for.
@@ -29,7 +31,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		base.Awake();
 
 		matrix = GetComponentInChildren<Matrix>(true);
-		externalNodes = new HashSet<MetaDataNode>();
+		externalNodes = new ConcurrentDictionary<MetaDataNode, MetaDataNode>();
 	}
 
 	void OnEnable()
@@ -65,6 +67,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		MetaDataNode node = metaDataLayer.Get(position);
 
 		MetaUtils.RemoveFromNeighbors(node);
+		externalNodes.TryRemove(node, out MetaDataNode nothing);
 
 		if (metaTileMap.IsAtmosPassableAt(position))
 		{
@@ -184,9 +187,9 @@ public class MetaDataSystem : SubsystemBehaviour
 
 			if (metaTileMap.IsSpaceAt(neighbor))
 			{
-				if (node.IsRoom)
+				if (node.IsRoom && !externalNodes.ContainsKey(node))
 				{
-					externalNodes.Add(node);
+					externalNodes[node] = node;
 				}
 
 				Vector3 neighborWorldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
@@ -226,7 +229,7 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	void UpdateMe()
 	{
-		foreach (MetaDataNode node in externalNodes)
+		foreach (MetaDataNode node in externalNodes.Keys)
 		{
 			subsystemManager.UpdateAt(node.Position);
 		}
