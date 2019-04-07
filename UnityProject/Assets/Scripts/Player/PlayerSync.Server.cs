@@ -606,10 +606,13 @@ public partial class PlayerSync
 			                   $"Target    :{serverState}", Category.Movement );
 			serverLerpState.WorldPosition = targetPos;
 		}
-		if ( serverLerpState.WorldPosition == targetPos ) {
+		if ( serverLerpState.WorldPosition == targetPos) {
 			OnTileReached().Invoke( targetPos.RoundToInt() );
 			// Check for swap once movement is done, to prevent us and another player moving into the same tile
-			CheckAndDoSwap(targetPos.RoundToInt(), serverLastDirection*-1);
+			if (!playerScript.IsGhost)
+			{
+				CheckAndDoSwap(targetPos.RoundToInt(), serverLastDirection * -1);
+			}
 		}
 		if ( TryNotifyPlayers() ) {
 			TryUpdateServerTarget();

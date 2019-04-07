@@ -532,7 +532,7 @@ public partial class PlayerSync
 			{
 				OnClientTileReached().Invoke(Vector3Int.RoundToInt(worldPos));
 				// Check for swap once movement is done, to prevent us and another player moving into the same tile
-				if (!isServer)
+				if (!isServer && !playerScript.IsGhost)
 				{
 					//only check on client otherwise server would check this twice
 					CheckAndDoSwap(worldPos.RoundToInt(), lastDirection*-1);

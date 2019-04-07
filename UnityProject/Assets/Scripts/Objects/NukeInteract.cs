@@ -58,7 +58,7 @@ public class NukeInteract : NetworkTabTrigger
 			//Kill Everyone in the universe
 			//FIXME kill only people on the station matrix that the nuke was detonated on
 			StartCoroutine(WaitForDeath());
-			GameManager.Instance.RespawnAllowed = false;
+			GameManager.Instance.RespawnCurrentlyAllowed = false;
 			return true;
 		} else {
 			//if no, tell the GUI that it was an incorrect code
