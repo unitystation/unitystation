@@ -732,7 +732,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void RespawnPlayer(int timeout = 0)
 	{
-		if (GameManager.Instance.RespawnAllowed)
+		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
 			StartCoroutine(InitiateRespawn(timeout));
 		}

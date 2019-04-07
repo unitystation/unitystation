@@ -7,6 +7,7 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Globalization;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,9 +19,16 @@ public class GameManager : MonoBehaviour
 	public List<GameObject> Occupations = new List<GameObject>();
 	public float restartTime = 10f;
 	/// <summary>
-	/// Set on server if Respawn is Allowed
+	/// Is respawning currently allowed? Can be set during a game to disable, such as when a nuke goes off.
+	/// Reset to the server setting of RespawnAllowed when the level loads.
 	/// </summary>
-	public bool RespawnAllowed = false;
+	[NonSerialized]
+	public bool RespawnCurrentlyAllowed;
+
+	/// <summary>
+	/// Server setting - set in editor. Should not be changed in code.
+	/// </summary>
+	public bool RespawnAllowed;
 
 	public Text roundTimer;
 
@@ -148,6 +156,7 @@ public class GameManager : MonoBehaviour
 			SpaceBodies.Clear();
 			PendingSpaceBodies = new Queue<MatrixMove>();
 			counting = true;
+			RespawnCurrentlyAllowed = RespawnAllowed;
 		}
 		GameOver = false;
 		// if (scene.name != "Lobby")
