@@ -331,6 +331,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!114 &114017635886564424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,6 +358,7 @@ MonoBehaviour:
   rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 0
+  closetType: 1
 --- !u!1 &1938915013109780
 GameObject:
   m_ObjectHideFlags: 0
