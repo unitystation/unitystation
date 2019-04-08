@@ -56,8 +56,7 @@ public partial class CustomNetTransform {
 	[Server]
 	public bool Push( Vector2Int direction, float speed = Single.NaN, bool followMode = false ) {
 		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
-		var target = ( Vector2 ) serverState.WorldPosition + direction;
-		var roundedTarget = target.RoundToInt();
+		var roundedTarget = (( Vector2 ) serverState.WorldPosition + direction).RoundToInt();
 
 		if ( !MatrixManager.IsPassableAt( origin, roundedTarget, includingPlayers: !followMode ) ) {
 			return false;
@@ -80,7 +79,7 @@ public partial class CustomNetTransform {
 			SetPosition( roundedTarget );
 			serverState.IsFollowUpdate = false;
 		} else {
-			SetPosition( target );
+			SetPosition( roundedTarget );
 		}
 		return true;
 	}

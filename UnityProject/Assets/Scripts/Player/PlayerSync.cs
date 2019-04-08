@@ -81,6 +81,11 @@ public struct PlayerState
 
 public partial class PlayerSync : NetworkBehaviour, IPushable
 {
+	/// <summary>
+	/// Player is huge, okay?
+	/// </summary>
+	public ItemSize Size => ItemSize.Huge;
+
 	///For server code. Contains position
 	public PlayerState ServerState => serverState;
 
@@ -106,6 +111,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
 
 	private RegisterTile registerTile;
+
+	public void Nudge( NudgeInfo info ){}
 
 	/// <summary>
 	/// Checks both directions of a diagonal movement

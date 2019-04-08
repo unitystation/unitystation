@@ -71,10 +71,10 @@ public class ReactionManager : MonoBehaviour
 			}
 		}
 
-		if (timePassed < 1)
-		{
-			return;
-		}
+//		if (timePassed < 1)
+//		{
+//			return;
+//		}
 
 		int count = winds.Count;
 		if ( count > 0 )
@@ -83,10 +83,25 @@ public class ReactionManager : MonoBehaviour
 			{
 				if ( winds.TryDequeue( out var windyNode ) )
 				{
-					//todo: make it depend on weight class
 					//fixme: restrict pushing multiple solid objects on the same tile
 					matrix.Get<PushPull>( windyNode.Position ).ForEach( pushable =>
-						pushable.QueuePush( windyNode.WindDirection, Random.Range( (float) ( windyNode.WindForce * 0.8 ), windyNode.WindForce ) ) );
+					{
+						float correctedForce = windyNode.WindForce / (int)pushable.Pushable.Size;
+						if ( correctedForce >= AtmosConstants.MinPushForce )
+						{
+							pushable.QueuePush( windyNode.WindDirection, Random.Range( ( float ) ( correctedForce * 0.8 ), correctedForce ) );
+							//idk:
+//							var nudgeInfo = new NudgeInfo
+//							{
+//								OriginPos = pushable.Pushable.ServerPosition,
+//								TargetPos = (Vector2)pushable.Pushable.ServerPosition.To2Int()+windyNode.WindDirection,
+//								SpinMode = SpinMode.None,
+//								SpinMultiplier = 1,
+//								InitialSpeed = correctedForce,
+//							};
+//							pushable.Pushable.Nudge( nudgeInfo );
+						}
+					} );
 
 					windyNode.WindForce = 0;
 					windyNode.WindDirection = Vector2Int.zero;
@@ -134,11 +149,10 @@ public class ReactionManager : MonoBehaviour
 		if ( node != MetaDataNode.None && pressureDifference > AtmosConstants.MinWindForce
 		                               && windDirection != Vector2Int.zero )
 		{
-			float windForce = pressureDifference / 4;
-			node.WindForce = windForce;
+			node.WindForce = pressureDifference;
 			node.WindDirection = windDirection;
 			winds.Enqueue( node );
-			Logger.LogFormat( LogAddingWindyNode, Category.Atmos, node.Position.To2Int(), windDirection, pressureDifference );
+			Logger.LogTraceFormat( LogAddingWindyNode, Category.Atmos, node.Position.To2Int(), windDirection, pressureDifference );
 		}
 	}
 }

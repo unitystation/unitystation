@@ -117,6 +117,27 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public Vector3IntEvent OnClientTileReached() => onClientTileReached;
 	private UnityEvent onPullInterrupt = new UnityEvent();
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
+
+	/// <summary>
+	/// If it has ItemAttributes, get size from it (default to tiny).
+	/// Otherwise it's probably something like a locker, so consider it huge.
+	/// </summary>
+	public ItemSize Size
+	{
+		get
+		{
+			if ( ItemAttributes == null )
+			{
+				return ItemSize.Huge;
+			}
+			if ( ItemAttributes.size == 0 )
+			{
+				return ItemSize.Tiny;
+			}
+			return ItemAttributes.size;
+		}
+	}
+
 	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
 	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
 	public Vector3Int TrustedPosition => clientState.WorldPosition.RoundToInt();

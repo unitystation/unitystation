@@ -25,6 +25,10 @@ public interface IPushable {
 	Vector2 ServerImpulse { get; }
 	float SpeedServer { get; }
 	float SpeedClient { get; }
+
+	void Nudge( NudgeInfo info );
+	ItemSize Size { get; }
+
 	/// Try stopping object if it's flying
 	void Stop();
 
