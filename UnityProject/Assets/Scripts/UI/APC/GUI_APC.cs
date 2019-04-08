@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GUI_APC : NetTab
 {
@@ -15,18 +13,12 @@ public class GUI_APC : NetTab
 	/// <summary>
 	/// Colours which will be used for foregrounds and backgrounds (in hex format)
 	/// </summary>
-	// private Color 	greenBackground = new Color(0.509804f, 1f, 0.2980392f), // 82FF4C
-	// 				blueBackground = new Color(0.6588235f, 0.6901961f, 0.9725491f), // A8B0F8
-	// 				redBackground = new Color(0.9725491f, 0.3764706f, 0.3764706f), // F86060
-	// 				greenForeground = new Color(0f, 0.8000001f, 0f), // 00CC00
-	// 				blueForeground = new Color(0.3764706f, 0.4392157f, 0.9725491f), // 6070F8
-	// 				redForeground = new Color(0.9411765f, 0.9725491f, 0.6588235f); // F0F8A8
-	private string 	fullBackground = "82FF4C",
-					chargingBackground = "A8B0F8",
-					criticalBackground = "F86060",
-					fullForeground = "00CC00",
-					chargingForeground = "6070F8",
-					criticalForeground = "F0F8A8";
+	private const string fullBackground 	= "82FF4C",
+						 chargingBackground = "A8B0F8",
+						 criticalBackground = "F86060",
+						 fullForeground 	= "00CC00",
+						 chargingForeground = "6070F8",
+						 criticalForeground = "F0F8A8";
 
 	// Elements that we want to visually update:
 	private NetColorChanger _backgroundColor;
@@ -218,9 +210,9 @@ public class GUI_APC : NetTab
 	private void CalculateMaxCapacity()
 	{
 		float newCapacity = 0;
-		for (int i = 0; i < LocalAPC.ConnectedDepartmentBatteries.Count; i++)
+		foreach (DepartmentBattery battery in LocalAPC.ConnectedDepartmentBatteries)
 		{
-			newCapacity += LocalAPC.ConnectedDepartmentBatteries[i].CapacityMax;
+			newCapacity += battery.CapacityMax;
 		}
 		MaxCapacity = newCapacity;
 	}
@@ -230,16 +222,15 @@ public class GUI_APC : NetTab
 		CalculateMaxCapacity ();
 		if (MaxCapacity == 0)
 		{
-			return "???%";
+			return "N/A";
 		}
 
 		float newCapacity = 0;
-		for (int i = 0; i < LocalAPC.ConnectedDepartmentBatteries.Count; i++)
+		foreach (DepartmentBattery battery in LocalAPC.ConnectedDepartmentBatteries)
 		{
-			newCapacity += LocalAPC.ConnectedDepartmentBatteries[i].CurrentCapacity;
+			newCapacity += battery.CurrentCapacity;
 		}
-		//Logger.Log(((int)((newCapacity / MaxCapacity) * 100)).ToString());
-		//ChargeBar.SetValue = ((newCapacity / MaxCapacity) * 100).ToString()); yeah Doesn't work for some reason
+
 		return (newCapacity / MaxCapacity).ToString("P0");
 	}
 
@@ -266,19 +257,17 @@ public class GUI_APC : NetTab
 			StartCoroutine( Refresh() );
 		}
 	}
-
 	private void UpdateScreenDisplay()
 	{
 		if (LocalAPC.State != APC.APCState.Dead)
 		{
 			OffOverlayColor.SetValue = DebugTools.ColorToHex(Color.clear);
 			Logger.LogTrace("Updating APC display", Category.NetUI);
-			// Update the electrical values
-			float voltage = LocalAPC.Voltage;
-			float current = LocalAPC.Current;
-			float resistance = LocalAPC.Resistance;
-			float power = voltage * current;
-			ElectricalValues.SetValue = $"{voltage:G4} V\n{current:G4} A\n{power:G4} W";
+			// Display the electrical values using engineering notation
+			string voltage = LocalAPC.Voltage.ToEngineering("V");
+			string current = LocalAPC.Current.ToEngineering("A");
+			string power = (LocalAPC.Voltage * LocalAPC.Current).ToEngineering("W");
+			ElectricalValues.SetValue = $"{voltage}\n{current}\n{power}";
 			StatusText.SetValue = LocalAPC.State.ToString();
 			ChargePercentage.SetValue = CalculateChargePercentage();
 			// State specific updates
@@ -321,15 +310,6 @@ public class GUI_APC : NetTab
 	{
 		int chargeVal = int.Parse(ChargeBar.Value) + 10;
 		// Update the charge bar animation
-		if (chargeVal > 100)
-		{
-			ChargeBar.SetValue = "0";
-		}
-		else
-		{
-			ChargeBar.SetValue = chargeVal.ToString();
-		}
+		ChargeBar.SetValue = chargeVal > 100 ? "0" : chargeVal.ToString();
 	}
-
-
 }
