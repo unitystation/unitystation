@@ -361,6 +361,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!114 &114713051113849806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,3 +388,4 @@ MonoBehaviour:
   rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 0
+  closetType: 1

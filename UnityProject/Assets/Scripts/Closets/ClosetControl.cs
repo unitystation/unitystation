@@ -32,7 +32,7 @@ public class ClosetControl : InputTrigger
 
 	private void Awake()
 	{
-		doorClosed = spriteRenderer.sprite;
+		doorClosed = spriteRenderer != null ? spriteRenderer.sprite : null;
 	}
 
 	private void Start()
