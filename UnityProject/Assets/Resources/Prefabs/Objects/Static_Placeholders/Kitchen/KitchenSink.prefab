@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000010398824326}
   - component: {fileID: 212000011035671136}
-  - component: {fileID: 114375274460805498}
   m_Layer: 19
   m_Name: Sprite
   m_TagString: Untagged
@@ -77,31 +76,9 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114375274460805498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012866604890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 242bb3a4a5c48da439a3cb00abaf4c6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300090, guid: e7659f9ada6649c69114661addb850eb, type: 3}
-  - {fileID: 21300094, guid: e7659f9ada6649c69114661addb850eb, type: 3}
-  - {fileID: 21300092, guid: e7659f9ada6649c69114661addb850eb, type: 3}
-  positions:
-  - {x: 0, y: 0.89}
-  - {x: 0.405, y: 0}
-  - {x: -0.341, y: 0}
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0
 --- !u!1 &1000012867342320
 GameObject:
   m_ObjectHideFlags: 0
