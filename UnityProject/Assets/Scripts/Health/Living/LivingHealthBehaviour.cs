@@ -604,7 +604,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	{
 		foreach (GameObject harvestPrefab in butcherResults)
 		{
-			ItemFactory.SpawnItem(harvestPrefab, transform.position, transform.parent);
+			PoolManager.PoolNetworkInstantiate(harvestPrefab, transform.position, parent: transform.parent);
 		}
 		EffectsFactory.Instance.BloodSplat(transform.position, BloodSplatSize.medium);
 		//Remove the NPC after all has been harvested

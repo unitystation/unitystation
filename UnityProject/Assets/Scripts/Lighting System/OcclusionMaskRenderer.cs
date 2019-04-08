@@ -32,7 +32,7 @@ public class OcclusionMaskRenderer : MonoBehaviour
 		var _maskProcessor = SetUpCameraObject(_maskCamera, iOcclusionLayers, iReplacementShader);
 
 		return _maskProcessor;
-	} 
+	}
 
 	public PixelPerfectRT Render(
 		Camera iCameraToMatch,
@@ -86,7 +86,7 @@ public class OcclusionMaskRenderer : MonoBehaviour
 		iSetupCamera.transform.localEulerAngles = Vector3.zero;
 
 		iSetupCamera.orthographic = true;
-		iSetupCamera.cullingMask = iOcclusionLayers; 
+		iSetupCamera.cullingMask = iOcclusionLayers;
 		iSetupCamera.clearFlags = CameraClearFlags.Color;
 		iSetupCamera.backgroundColor = Color.black;
 		iSetupCamera.depth = 9;

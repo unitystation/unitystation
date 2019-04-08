@@ -52,5 +52,8 @@ internal enum MessageTypes : short
 	UIInteractMessage = 2011,
 	RequestTileDeconstructMessage = 2012,
 	RequestElectricalStats = 2013,
-	RequestHealthStats = 2014
+	RequestHealthStats = 2014,
+	DevSpawnMessage = 2015,
+	DevCloneMessage = 2016,
+	DevDestroyMessage = 2017
 }

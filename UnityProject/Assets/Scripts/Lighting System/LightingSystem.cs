@@ -262,6 +262,7 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnEnable()
 	{
+		Logger.Log("Lighting system enabled.", Category.Lighting);
 		//don't run lighting system on headless
 		if (GameData.IsHeadlessServer)
 		{
@@ -302,6 +303,10 @@ public class LightingSystem : MonoBehaviour
 		{
 			mPostProcessingStack = new PostProcessingStack(materialContainer);
 		}
+
+		operationParameters = new OperationParameters(mMainCamera, renderSettings, matrixRotationMode);;
+
+		ResolveRenderingTextures(operationParameters);
 	}
 
 	private Vector2 ProviderPPPosition(Vector3 iPosition, Vector3 iPreviousPosition, Vector2 iPreviousFilteredPosition)
@@ -311,6 +316,7 @@ public class LightingSystem : MonoBehaviour
 
 	private void OnDisable()
 	{
+		Logger.Log("Lighting system disabled.", Category.Lighting);
 		//don't run lighting system on headless
 		if (GameData.IsHeadlessServer)
 		{

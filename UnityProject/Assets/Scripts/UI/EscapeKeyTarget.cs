@@ -1,13 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 // using UnityEngine.Events;
 
+/// <summary>
+/// This component allows the object to be disabled with the escape key automatically
+/// It pushes the object to the escape key target stack when it's enabled, and pops it when it's disabled.
+///
+/// This logic takes place in KeyboardInputManager.
+/// </summary>
 public class EscapeKeyTarget : MonoBehaviour {
 	// This component allows the object to be disabled with the escape key automatically
-	// It pushes the object to the escape key target stack when it's enabled, and pops it when it's disabled
 
-	// public UnityEvent OnEscapeKey = new UnityEvent();
+	[Tooltip("What to invoke when this component receives the escape command, other than disabling if DisableOnEscape is true.")]
+	public UnityEvent OnEscapeKey = new UnityEvent();
+
+	[Tooltip("If true, disables the game object when escape is recieved after calling OnEscapeKey")]
+	public bool DisableOnEscape = true;
 
 	/// <summary>
 	/// This is the stack which keeps track of all the game objects so they can be closed later
@@ -15,11 +26,11 @@ public class EscapeKeyTarget : MonoBehaviour {
 	[HideInInspector]
 	public static Stack<GameObject> TargetStack = new Stack<GameObject>();
 
-	// void Awake() 
+	// void Awake()
 	// {
 	// 	if (OnEscapeKey == null)
 	// 	{
-	// 		// If no function is provided in the editor, 
+	// 		// If no function is provided in the editor,
 	// 		// perform the default click and disable the object
 	// 		OnEscapeKey.AddListener(DisableObject);
 	// 	}

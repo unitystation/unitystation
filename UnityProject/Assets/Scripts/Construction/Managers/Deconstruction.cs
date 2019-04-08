@@ -60,7 +60,7 @@ public class Deconstruction : MonoBehaviour
 		while (spawnMetalsAmt < 4)
 		{
 			spawnMetalsAmt++;
-			PoolManager.Instance.PoolNetworkInstantiate(metalPrefab, worldPos, Quaternion.identity, tcm.transform);
+			PoolManager.PoolNetworkInstantiate(metalPrefab, worldPos, tcm.transform);
 		}
 
 		//TODO spawn wall girder!

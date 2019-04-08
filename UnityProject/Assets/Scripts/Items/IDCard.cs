@@ -53,6 +53,22 @@ public class IDCard : NetworkBehaviour
 		base.OnStartClient();
 	}
 
+	/// <summary>
+	/// Configures the ID card with the specified settings
+	/// </summary>
+	/// <param name="idCardType">type of card</param>
+	/// <param name="jobType">job on the card</param>
+	/// <param name="allowedAccess">what the card can access</param>
+	/// <param name="name">name listed on card</param>
+	public void Initialize(IDCardType idCardType, JobType jobType, List<Access> allowedAccess, string name)
+	{
+		//Set all the synced properties for the card
+		RegisteredName = name;
+		jobTypeInt = (int) jobType;
+		idCardTypeInt = (int) idCardType;
+		AddAccessList(allowedAccess);
+	}
+
 	private void InitCard()
 	{
 		if (isInit)

@@ -824,12 +824,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
 		equipment.ClearItemSprite(fromSlot);
-		PoolManager.Instance.PoolNetworkDestroy(food);
+		PoolManager.PoolNetworkDestroy(food);
 
 		GameObject leavings = baseFood.leavings;
 		if (leavings != null)
 		{
-			leavings = ItemFactory.SpawnItem(leavings);
+			leavings = PoolManager.PoolNetworkInstantiate(leavings);
 			AddItemToUISlot(leavings, fromSlot);
 		}
 	}

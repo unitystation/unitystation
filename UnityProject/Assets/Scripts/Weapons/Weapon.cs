@@ -246,7 +246,7 @@ public class Weapon : PickUpTrigger
 	{
 		GameObject ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType) as GameObject;
 
-		GameObject m = ItemFactory.SpawnItem(ammoPrefab, transform.parent);
+		GameObject m = PoolManager.PoolNetworkInstantiate(ammoPrefab, parent: transform.parent);
 		var cnt = m.GetComponent<CustomNetTransform>();
 		cnt.DisappearFromWorldServer();
 
@@ -255,7 +255,7 @@ public class Weapon : PickUpTrigger
 		base.OnStartServer();
 	}
 
-	//Gives it a chance for weaponNetworkActions to init
+	//Gives it a chance for weaponNetworkActions and initial ammo to init
 	private IEnumerator SetMagazineOnStart(GameObject magazine)
 	{
 		yield return new WaitForSeconds(2f);
@@ -265,6 +265,28 @@ public class Weapon : PickUpTrigger
 		//			} else {
 		//				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
 		//			}
+	}
+
+	//gives it a chance for magazine to init
+	private IEnumerator SetAmmoOnClone(int ammoCount)
+	{
+		yield return new WaitForSeconds(2f);
+		CurrentMagazine.ammoRemains = ammoCount;
+	}
+
+	// invoked when being cloned, syncs up ammo (creates an empty mag if there isn't a mag in the cloned weapon)
+	private void OnClonedServer(GameObject otherGun)
+	{
+		var otherMag = otherGun.GetComponent<Weapon>().CurrentMagazine;
+		if (otherMag == null)
+		{
+			StartCoroutine(SetAmmoOnClone(0));
+		}
+		else
+		{
+			//sync up ammo
+			StartCoroutine(SetAmmoOnClone(otherMag.ammoRemains));
+		}
 	}
 
 	#endregion
@@ -590,7 +612,7 @@ public class Weapon : PickUpTrigger
 					casingPrefab = Resources.Load("BulletCasing") as GameObject;
 				}
 
-				ItemFactory.SpawnItem(casingPrefab, nextShot.shooter.transform.position, nextShot.shooter.transform.parent);
+				PoolManager.PoolNetworkInstantiate(casingPrefab, nextShot.shooter.transform.position, nextShot.shooter.transform.parent);
 			}
 		}
 	}
@@ -613,8 +635,8 @@ public class Weapon : PickUpTrigger
 		FireCountDown += 1.0 / FireRate;
 		CurrentMagazine.ammoRemains--;
 		//get the bullet prefab being shot
-		GameObject bullet = PoolManager.Instance.PoolClientInstantiate(Resources.Load(Projectile.name) as GameObject,
-			shooter.transform.position, Quaternion.identity);
+		GameObject bullet = PoolManager.PoolClientInstantiate(Resources.Load(Projectile.name) as GameObject,
+			shooter.transform.position);
 		float angle = Mathf.Atan2(finalDirection.y, finalDirection.x) * Mathf.Rad2Deg;
 
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();

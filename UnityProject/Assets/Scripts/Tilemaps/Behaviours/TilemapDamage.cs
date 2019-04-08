@@ -201,8 +201,7 @@ public class TilemapDamage : MonoBehaviour
 
 	private void SpawnRods(Vector3 pos)
 	{
-		GameObject rods = PoolManager.Instance.PoolNetworkInstantiate(rodsPrefab, Vector3Int.RoundToInt(pos),
-			Quaternion.identity);
+		GameObject rods = PoolManager.PoolNetworkInstantiate(rodsPrefab, Vector3Int.RoundToInt(pos));
 
 		CustomNetTransform netTransform = rods.GetComponent<CustomNetTransform>();
 		netTransform?.SetPosition(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f)));
@@ -211,14 +210,11 @@ public class TilemapDamage : MonoBehaviour
 	private void SpawnGlassShards(Vector3 pos)
 	{
 		//Spawn 3 glass shards with different sprites:
-		PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos),
-			Quaternion.identity).GetComponent<GlassShard>().SetSpriteAndScatter(0);
+		PoolManager.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos)).GetComponent<GlassShard>().SetSpriteAndScatter(0);
 
-		PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos),
-			Quaternion.identity).GetComponent<GlassShard>().SetSpriteAndScatter(1);
+		PoolManager.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos)).GetComponent<GlassShard>().SetSpriteAndScatter(1);
 
-		PoolManager.Instance.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos),
-			Quaternion.identity).GetComponent<GlassShard>().SetSpriteAndScatter(2);
+		PoolManager.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos)).GetComponent<GlassShard>().SetSpriteAndScatter(2);
 
 		//Play the breaking window sfx:
 		SoundManager.PlayNetworkedAtPos("GlassBreak0" + Random.Range(1, 4), pos, 1f);
