@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Atmospherics;
 using Objects;
+using Tilemaps.Behaviours.Meta;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Handles performing the various reactions that can occur in atmospherics simulation.
@@ -14,8 +17,10 @@ public class ReactionManager : MonoBehaviour
 	private Matrix matrix;
 
 	private Dictionary<Vector3Int, MetaDataNode> hotspots;
+	private UniqueQueue<MetaDataNode> winds;
 
 	private float timePassed;
+	private static readonly string LogAddingWindyNode = "Adding windy node {0}, dir={1}, force={2}";
 
 	private void Awake()
 	{
@@ -24,6 +29,7 @@ public class ReactionManager : MonoBehaviour
 		matrix = GetComponent<Matrix>();
 
 		hotspots = new Dictionary<Vector3Int, MetaDataNode>();
+		winds = new UniqueQueue<MetaDataNode>();
 	}
 
 	private void Update()
@@ -34,8 +40,6 @@ public class ReactionManager : MonoBehaviour
 		{
 			return;
 		}
-
-		timePassed = 0;
 
 		foreach (MetaDataNode node in hotspots.Values.ToArray())
 		{
@@ -66,6 +70,31 @@ public class ReactionManager : MonoBehaviour
 				}
 			}
 		}
+
+		if (timePassed < 1)
+		{
+			return;
+		}
+
+		int count = winds.Count;
+		if ( count > 0 )
+		{
+			for ( int i = 0; i < count; i++ )
+			{
+				if ( winds.TryDequeue( out var windyNode ) )
+				{
+					//todo: make it depend on weight class
+					//fixme: restrict pushing multiple solid objects on the same tile
+					matrix.Get<PushPull>( windyNode.Position ).ForEach( pushable =>
+						pushable.QueuePush( windyNode.WindDirection, Random.Range( (float) ( windyNode.WindForce * 0.8 ), windyNode.WindForce ) ) );
+
+					windyNode.WindForce = 0;
+					windyNode.WindDirection = Vector2Int.zero;
+				}
+			}
+		}
+
+		timePassed = 0;
 	}
 
 	public void ExposeHotspot(Vector3Int position, float temperature, float volume)
@@ -97,6 +126,19 @@ public class ReactionManager : MonoBehaviour
 			{
 				health.ApplyDamage(null, 1, DamageType.Burn);
 			}
+		}
+	}
+
+	public void AddWindEvent( MetaDataNode node, Vector2Int windDirection, float pressureDifference )
+	{
+		if ( node != MetaDataNode.None && pressureDifference > AtmosConstants.MinWindForce
+		                               && windDirection != Vector2Int.zero )
+		{
+			float windForce = pressureDifference / 4;
+			node.WindForce = windForce;
+			node.WindDirection = windDirection;
+			winds.Enqueue( node );
+			Logger.LogFormat( LogAddingWindyNode, Category.Atmos, node.Position.To2Int(), windDirection, pressureDifference );
 		}
 	}
 }
