@@ -257,11 +257,13 @@ MonoBehaviour:
   InData:
     Categorytype: 0
     ControllingDevice: {fileID: 0}
+    ControllingUpdate: {fileID: 0}
     DirectionOverride: 0
     ResistanceOverride: 0
     ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
+  RelatedDevice: {fileID: 0}
   registerTile3: {fileID: 114840369580293110}
 --- !u!1 &1670300920953744
 GameObject:
@@ -273,7 +275,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4481455739432992}
   - component: {fileID: 212786810316391690}
-  - component: {fileID: 114998549730957066}
   - component: {fileID: 6522315222776547451}
   m_Layer: 19
   m_Name: ScreenSprite
@@ -344,30 +345,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114998549730957066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1670300920953744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 242bb3a4a5c48da439a3cb00abaf4c6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300210, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300216, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300212, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300214, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  positions:
-  - {x: 0, y: 0.75}
-  - {x: 0.75, y: 0}
-  - {x: 0, y: -0.6875}
-  - {x: -0.6875, y: 0}
-  colliderOffset: {x: 0, y: 0.1575, z: 0}
-  rotateIndex: 1
 --- !u!114 &6522315222776547451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,7 +370,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4471081482742104}
   - component: {fileID: 212984471486038178}
-  - component: {fileID: 114124745148132638}
   m_Layer: 19
   m_Name: Sprite
   m_TagString: Untagged
@@ -463,27 +439,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114124745148132638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1795295551953532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 242bb3a4a5c48da439a3cb00abaf4c6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300210, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300216, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300212, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300214, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  positions:
-  - {x: 0, y: 0.75}
-  - {x: 0.75, y: 0}
-  - {x: 0, y: -0.6875}
-  - {x: -0.6875, y: 0}
-  colliderOffset: {x: 0, y: 0.1575, z: 0}
-  rotateIndex: 1

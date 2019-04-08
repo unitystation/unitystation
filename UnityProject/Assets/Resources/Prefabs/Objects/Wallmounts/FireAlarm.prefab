@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012060440392}
   - component: {fileID: 212000010818434246}
-  - component: {fileID: 114686814472216246}
   - component: {fileID: 8809046554292003858}
   m_Layer: 19
   m_Name: Sprite
@@ -81,30 +80,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114686814472216246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011100889412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 242bb3a4a5c48da439a3cb00abaf4c6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300732, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300736, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300734, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300738, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  positions:
-  - {x: 0, y: 0.75}
-  - {x: 0.75, y: 0}
-  - {x: 0, y: -0.75}
-  - {x: -0.75, y: 0}
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0
 --- !u!114 &8809046554292003858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,7 +253,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013626496842}
   - component: {fileID: 212000013751545988}
-  - component: {fileID: 114786588448808422}
   m_Layer: 19
   m_Name: Monitor_LightsBottom
   m_TagString: Untagged
@@ -348,30 +322,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114786588448808422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000013647327112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 242bb3a4a5c48da439a3cb00abaf4c6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300740, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300744, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300742, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300746, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  positions:
-  - {x: 0, y: 0.75}
-  - {x: 0.75, y: 0}
-  - {x: 0, y: -0.75}
-  - {x: -0.75, y: 0}
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0
 --- !u!1 &1000014173103480
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,7 +332,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011015354084}
   - component: {fileID: 212000010569588554}
-  - component: {fileID: 114872558026789698}
   m_Layer: 19
   m_Name: Monitor_LightsTop
   m_TagString: Untagged
@@ -452,27 +401,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114872558026789698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000014173103480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 242bb3a4a5c48da439a3cb00abaf4c6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300804, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300808, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300806, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  - {fileID: 21300810, guid: d06d7ce621e644368cae00d62437f985, type: 3}
-  positions:
-  - {x: 0, y: 0.75}
-  - {x: 0.75, y: 0}
-  - {x: 0, y: -0.75}
-  - {x: -0.75, y: 0}
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0

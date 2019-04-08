@@ -136,6 +136,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnRotateEnd:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnRotateStart:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 1
   AtmosPassable: 1
@@ -150,7 +160,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4215336372400204}
   - component: {fileID: 212082969356704250}
-  - component: {fileID: 114651610379588122}
   m_Layer: 13
   m_Name: Sprite
   m_TagString: Untagged
@@ -207,7 +216,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 16
+  m_SortingLayer: 17
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300042, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -220,23 +229,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114651610379588122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1865224276101266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 242bb3a4a5c48da439a3cb00abaf4c6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300042, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
-  - {fileID: 21300044, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
-  - {fileID: 21300040, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
-  - {fileID: 21300046, guid: 1fbc56191a6b48cfab4d62a8065b7efc, type: 3}
-  positions: []
-  colliderOffset: {x: 0, y: 0, z: 0}
-  rotateIndex: 0
