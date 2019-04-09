@@ -62,10 +62,7 @@ public class TileTrigger : InputTrigger
 		{
 			return false;
 		}
-		if (!isServer)
-		{
-			return true;
-		}
+
 		return DetermineTileAction(originator, position, hand);
 	}
 
@@ -81,7 +78,28 @@ public class TileTrigger : InputTrigger
 
 		LayerTile tile = metaTileMap.GetTile(pos);
 
-		GameObject handObj = pna.Inventory[hand].Item;
+		GameObject handObj;
+		//if we are client, our pna.Inventory is always empty so we should get the hand item a different way
+		if (!isServer)
+		{
+			if (originator != PlayerManager.LocalPlayer)
+			{
+				Logger.LogError("Client is attempting to determine the tile actions of a player other than" +
+				                " themselves. This should not happen and should be fixed. Client should only determine their own" +
+				                " actions.");
+				return false;
+			}
+			else
+			{
+				handObj = UIManager.InventorySlots[hand].Item;
+			}
+		}
+		else
+		{
+			handObj = pna.Inventory[hand].Item;
+		}
+
+
 
 		// Nothing in hand, do nothing
 		if (handObj == null)

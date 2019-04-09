@@ -82,7 +82,7 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// <summary>
 	/// Trigger an interaction, defined as when the mouse is initially clicked (but not while it is being held down and dragged)
 	/// </summary>
-	/// <param name="originator">game object that is performing the interaction upon this gameobject</param>
+	/// <param name="originator">game object of the player that is performing the interaction upon this gameobject</param>
 	/// <param name="hand">hand of the originator which is being used to perform the interaction</param>
 	/// <param name="position">position of the interaction</param>
 	/// <returns>true if further interactions should be prevented for the current update</returns>
@@ -93,7 +93,7 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// Trigger a drag interaction, defined as when the mouse is currently being held (but not initially clicked) and is dragged over. The default implementation is
 	/// that nothing happens.
 	/// </summary>
-	/// <param name="originator">game object that is performing the interaction upon this gameobject</param>
+	/// <param name="originator">game object of the player that is performing the interaction upon this gameobject</param>
 	/// <param name="hand">hand of the originator which is being used to perform the interaction</param>
 	/// <param name="position">position of the interaction</param>
 	/// <returns>true if further interactions should be prevented for the current update</returns>
@@ -107,9 +107,9 @@ public abstract class InputTrigger : NetworkBehaviour
 	public virtual bool UI_InteractOtherSlot(GameObject originator, GameObject otherHandItem){ return true; }
 
 	/// <Summary>
-	/// This is called by the Interact() of objects twice, one by the client and then by the server if the first call returns true
+	/// Checks if originator is able to actually use the item in their hand
 	/// </Summary>
-	/// <param name="originator">game object that is performing the interaction upon this gameobject</param>
+	/// <param name="originator">game object of the player that is performing the interaction upon this gameobject</param>
 	/// <param name="hand">hand of the originator which is being used to perform the interaction</param>
 	/// <param name="position">position of the interaction</param>
 	/// <param name="allowSoftCrit">if true it allows mobs in soft crit perform the action</param>
@@ -124,11 +124,6 @@ public abstract class InputTrigger : NetworkBehaviour
 
 		if(!playerScript.IsInReach(position)){
 			return false;
-		}
-
-		if (!isServer)
-		{
-			InteractMessage.Send(gameObject, position, hand);
 		}
 
 		return true;

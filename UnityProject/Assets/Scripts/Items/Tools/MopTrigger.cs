@@ -5,39 +5,86 @@ using UnityEngine.Networking;
 
 public class MopTrigger : PickUpTrigger
 {
+	//server-side only, tracks if mop is currently cleaning.
+	private bool isCleaning;
+
 	public override bool Interact (GameObject originator, Vector3 position, string hand)
     {
-        //TODO:  Fill this in.
+		var playerScript = originator.GetComponent<PlayerScript>();
+		//do nothing if player is not in reach of the specified position
+		if (!playerScript.IsInReach(position))
+		{
+			return false;
+		}
 
-        if (UIManager.Hands.CurrentSlot.Item != gameObject)
-        {
-            return base.Interact (originator, position, hand);
-        }
-        var targetWorldPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
-		if (PlayerManager.PlayerScript.IsInReach(targetWorldPos))
-        {
-			if(!isServer)
-			{
-				InteractMessage.Send(gameObject, hand);
-			} else
-			{
-				var progressFinishAction = new FinishProgressAction(
-					FinishProgressAction.Action.CleanTile,
-					targetWorldPos,
-					this
-				);
+		if (PlayerManager.PlayerScript == playerScript)
+		{
+			//we are initiating the interaction locally
 
-				//Start the progress bar:
-				UIManager.ProgressBar.StartProgress(Vector3Int.RoundToInt(targetWorldPos),
-					5f, progressFinishAction, originator);
+			//if the mop is not in our hand, pick it up
+			if (UIManager.Hands.CurrentSlot.Item != gameObject)
+			{
+				return base.Interact (originator, position, hand);
 			}
 
-        }
+			//ask the server to let us mop if it's in reach
+			if (PlayerManager.PlayerScript.IsInReach(position))
+			{
+				if (!isServer)
+				{
+					//ask to mop
+					InteractMessage.Send(gameObject, position.RoundToInt(), hand);
+				}
+				else
+				{
+					//we're the server so we can just go ahead and mop
+					ServerMop(originator, position);
+				}
 
-        return base.Interact (originator, position, hand);
+				return true;
+			}
+		}
+		else if (isServer)
+		{
+			//server is being asked to mop on behalf of some other player.
+			//if mop is not in their hand, pick it up by delegating to Pickuptrigger
+			var targetSlot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
+			if (targetSlot.Item == null)
+			{
+				return base.Interact (originator, position, hand);
+			}
+
+			//mop is in their hand, let them mop
+			ServerMop(originator, position);
+		}
+
+		return false;
     }
 
-    public void CleanTile (Vector3 worldPos)
+	[Server]
+	private void ServerMop(GameObject originator, Vector3 position)
+	{
+		if (!isCleaning)
+		{
+			//server is performing server-side logic for the interaction
+			//do the mopping
+			//TODO: Refactor to use a callback / interface for the completion actions
+			var progressFinishAction = new FinishProgressAction(
+				FinishProgressAction.Action.CleanTile,
+				position.RoundToInt(),
+				this
+			);
+			isCleaning = true;
+
+			//Start the progress bar:
+			UIManager.ProgressBar.StartProgress(position.RoundToInt(),
+				5f, progressFinishAction, originator);
+		}
+	}
+
+
+	[Server]
+	public void CleanTile (Vector3 worldPos)
     {
 	    var worldPosInt = worldPos.CutToInt();
 	    var matrix = MatrixManager.AtPoint( worldPosInt );
@@ -58,5 +105,13 @@ public class MopTrigger : PickUpTrigger
 		    matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);
 	    }
 
+	    isCleaning = false;
     }
+
+	[Server]
+	public void CancelCleanTile()
+	{
+		//stop the in progress cleaning
+		isCleaning = false;
+	}
 }

@@ -99,6 +99,7 @@ public class ProgressBar : NetworkBehaviour
 			//Cancel the progress bar if the player moves away or faces another direction:
 			if (playerProgress[i].HasMovedAway())
 			{
+				playerProgress[i].completedAction.InterruptAction();
 				CloseProgressBar(playerProgress[i]);
 				continue;
 			}
@@ -158,6 +159,9 @@ public class PlayerProgressEntry
 	}
 }
 
+/// <summary>
+/// Defines what to do when finishing or quitting the action early - pretty sure this runs only on the server.
+/// </summary>
 public class FinishProgressAction
 {
 	public enum Action
@@ -207,7 +211,18 @@ public class FinishProgressAction
 				DoTileDeconstruction();
 				break;
 			case Action.CleanTile:
-				DoCleanTile();
+				DoCleanTile(false);
+				break;
+		}
+	}
+
+	//invoked when action is interrupted before completing
+	public void InterruptAction()
+	{
+		switch (actionType)
+		{
+			case Action.CleanTile:
+				DoCleanTile(true);
 				break;
 		}
 	}
@@ -223,8 +238,16 @@ public class FinishProgressAction
 			tileChangeManager, tileType, cellPos, worldPos);
 	}
 
-	private void DoCleanTile()
+	private void DoCleanTile(bool cancel)
 	{
-		theMop.CleanTile(worldPos);
+		if (!cancel)
+		{
+			theMop.CleanTile(worldPos);
+		}
+		else
+		{
+			theMop.CancelCleanTile();
+		}
+
 	}
 }
