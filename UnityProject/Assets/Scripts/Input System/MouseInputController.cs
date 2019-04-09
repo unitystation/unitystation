@@ -480,16 +480,18 @@ public class MouseInputController : MonoBehaviour
 		if (UIManager.Hands.CurrentSlot.Item != null && objectBehaviour.visibleState)
 		{
 			InputTrigger inputTrigger = UIManager.Hands.CurrentSlot.Item.GetComponent<InputTrigger>();
+
 			if (inputTrigger != null)
 			{
 				bool interacted = false;
+				var interactPosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 				if (isDrag)
 				{
-					interacted = inputTrigger.TriggerDrag();
+					interacted = inputTrigger.TriggerDrag(interactPosition);
 				}
 				else
 				{
-					interacted = inputTrigger.Trigger();
+					interacted = inputTrigger.Trigger(interactPosition);
 				}
 				if (interacted)
 				{
