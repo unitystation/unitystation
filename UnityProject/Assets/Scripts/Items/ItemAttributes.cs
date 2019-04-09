@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Serialization;
 using Random = System.Random;
 
 [RequireComponent(typeof(ObjectBehaviour))]
@@ -77,7 +78,11 @@ public class ItemAttributes : NetworkBehaviour
 	public SpriteType spriteType;
 	public ItemType type;
 
-	public bool ConnectedToTank;
+	/// <summary>
+	/// true if this is a mask that can connect to a tank
+	/// </summary>
+	[FormerlySerializedAs("ConnectedToTank")]
+	public bool CanConnectToTank;
 
 	/// throw-related fields
 	[TooltipAttribute("How painful it is when someone throws it at you")] [Range(0,100)]
@@ -203,6 +208,9 @@ public class ItemAttributes : NetworkBehaviour
 			itemType = UniItemUtils.GetItemType(inventoryIcon.getName());
 		}
 
+		//determine if this is a mask that can connect to a tank
+		CanConnectToTank = tryGetConnectedToTank();
+
 		//inventory item sprite
 		Sprite stateSprite = UniItemUtils.TryGetStateSprite(inventoryIcon, icon_state);
 
@@ -224,6 +232,21 @@ public class ItemAttributes : NetworkBehaviour
 		//			          + ", L: " + inHandReferenceLeft + ", R: " + inHandReferenceRight + ", I: " + inventoryIcon.icon + '\n'
 		//			          +	dmDic.Keys.Aggregate("", (current, key) => current + (key + ": ") + dmDic[key] + "\n"));
 		CheckEvaCapatibility();
+	}
+
+	//connected to tank if mask internals flag is present
+	private bool tryGetConnectedToTank()
+	{
+		if (dmDic.ContainsKey("flags"))
+		{
+			string[] flags = dmDic["flags"].Split(',');
+			if (flags.Any(flag => flag.Trim().Equals("MASKINTERNALS")))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private void CheckEvaCapatibility()
