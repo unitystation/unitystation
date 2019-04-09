@@ -109,10 +109,11 @@ public class PickUpTrigger : InputTrigger
 			if ( !cnt.IsFloatingServer && CanReachFloating(ps, state) )
 			{
 				var worldPosition = cnt.RegisterTile.WorldPosition;
+				var trajectory = ((Vector3)ps.WorldPos-worldPosition)/ Random.Range( 10, 31 );
 				cnt.Nudge( new NudgeInfo
 				{
-					OriginPos = worldPosition - ((Vector3)ps.WorldPos-worldPosition)/ Random.Range( 10, 31 ),
-					TargetPos = worldPosition,
+					OriginPos = worldPosition - trajectory,
+					Trajectory = trajectory,
 					SpinMode = SpinMode.Clockwise,
 					SpinMultiplier = 15,
 					InitialSpeed = 2

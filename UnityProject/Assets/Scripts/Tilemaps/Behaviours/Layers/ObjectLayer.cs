@@ -35,15 +35,13 @@ public class ObjectLayer : Layer
 
 	public override bool HasTile(Vector3Int position)
 	{
-		return Objects.Get(position).Count > 0 || base.HasTile(position);
+		return Objects.HasObjects(position) || base.HasTile(position);
 	}
 
 	public override void RemoveTile(Vector3Int position, bool removeAll = false)
 	{
-		List<RegisterTile> objs = Objects.Get(position);
-		for (var i = 0; i < objs.Count; i++)
+		foreach ( RegisterTile obj in Objects.Get(position) )
 		{
-			RegisterTile obj = objs[i];
 			DestroyImmediate(obj.gameObject);
 		}
 
@@ -53,21 +51,17 @@ public class ObjectLayer : Layer
 	public override bool IsPassableAt(Vector3Int origin, Vector3Int to, CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		//Targeting windoors here
-		List<RegisterTile> objectsOrigin = Objects.Get(origin);
-		for (var i = 0; i < objectsOrigin.Count; i++)
+		foreach ( RegisterTile t in Objects.Get(origin) )
 		{
-			if (!objectsOrigin[i].IsPassableTo(to) && (!context || objectsOrigin[i].gameObject != context))
+			if (!t.IsPassableTo(to) && (!context || t.gameObject != context))
 			{
 				//Can't get outside the tile because windoor doesn't allow us
 				return false;
 			}
 		}
 
-		List<RegisterTile> objectsTo = Objects.Get(to);
-
-		for (var i = 0; i < objectsTo.Count; i++)
+		foreach ( RegisterTile o in Objects.Get(to) )
 		{
-			RegisterTile o = objectsTo[i];
 			if ((inclPlayers || o.ObjectType != ObjectType.Player) && !o.IsPassable(origin) && (!context || o.gameObject != context))
 			{
 				return false;
@@ -79,21 +73,17 @@ public class ObjectLayer : Layer
 
 	public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
 	{
-		List<RegisterTile> objectsTo = Objects.Get(to);
-
-		for (int i = 0; i < objectsTo.Count; i++)
+		foreach ( RegisterTile t in Objects.Get(to) )
 		{
-			if (!objectsTo[i].IsAtmosPassable(origin))
+			if (!t.IsAtmosPassable(origin))
 			{
 				return false;
 			}
 		}
 
-		List<RegisterTile> objectsOrigin = Objects.Get(origin);
-
-		for (int i = 0; i < objectsOrigin.Count; i++)
+		foreach ( RegisterTile t in Objects.Get(origin) )
 		{
-			if (!objectsOrigin[i].IsAtmosPassable(to))
+			if (!t.IsAtmosPassable(to))
 			{
 				return false;
 			}

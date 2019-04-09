@@ -23,7 +23,7 @@ public class HealthScanner : PickUpTrigger
 		}
 		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " OxyLoss " + TotalOxygendamage.ToString() + "\n" + "Body Part, Brute, Burn \n" + StringBuffer;
 		ChatRelay.Instance.AddToChatLogClient(ToShow, ChatChannel.Examine);
-		//PostToChatMessage.Send(ToShow,ChatChannel.System); 
+		//PostToChatMessage.Send(ToShow,ChatChannel.System);
 		//Logger.Log(ToShow);
 	}
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
@@ -32,8 +32,7 @@ public class HealthScanner : PickUpTrigger
 		{
 			Vector3 tposition = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 			tposition.z = 0f;
-			List<PlayerHealth> objects = MatrixManager.GetAt<PlayerHealth>(tposition.RoundToInt());
-			foreach (PlayerHealth theObject in objects) {
+			foreach (PlayerHealth theObject in MatrixManager.GetAt<PlayerHealth>(tposition.RoundToInt())) {
 				PlayerFound(theObject);
 			}
 			return base.Interact(originator, position, hand);;

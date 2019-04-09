@@ -13,6 +13,9 @@ public enum SpinMode {
 }
 
 public partial class CustomNetTransform {
+	private const string STOPPED_FLOATING = "{0} stopped floating";
+	private const string PREDICTIVE_STOP_TO = "{0}: predictive stop @ {1} to {2}";
+	private const string NUDGE = "Nudge:{0} {1}";
 	private PushPull pushPull;
 	public PushPull PushPull => pushPull ? pushPull : ( pushPull = GetComponent<PushPull>() );
 
@@ -163,7 +166,7 @@ public partial class CustomNetTransform {
 			predictedState.WorldPosition += moveDelta;
 		} else {
 			//stop
-			Logger.Log( $"{gameObject.name}: predictive stop @ {worldPos} to {intGoal}" );
+			Logger.LogTraceFormat( PREDICTIVE_STOP_TO, Category.Transform, gameObject.name, worldPos, intGoal );
 //			clientState.Speed = 0f;
 			predictedState.Impulse = Vector2.zero;
 			predictedState.SpinFactor = 0;
@@ -277,7 +280,7 @@ public partial class CustomNetTransform {
 			serverState.SpinFactor = ( sbyte ) ( Mathf.Clamp( info.InitialSpeed * info.SpinMultiplier, sbyte.MinValue, sbyte.MaxValue )
 			                                     * ( info.SpinMode == SpinMode.Clockwise ? 1 : -1 ) );
 		}
-		Logger.LogTraceFormat( "Nudge:{0} {1}", Category.Transform, info, serverState);
+		Logger.LogTraceFormat( NUDGE, Category.Transform, info, serverState);
 		NotifyPlayers();
 	}
 
@@ -458,7 +461,7 @@ public partial class CustomNetTransform {
 	/// Stopping drift, killing impulse
 	[Server]
 	private void StopFloating() {
-		Logger.Log( $"{gameObject.name} stopped floating", Category.Transform );
+		Logger.LogTraceFormat(  STOPPED_FLOATING, Category.Transform, gameObject.name );
 		if ( IsTileSnap ) {
 			serverState.Position = Vector3Int.RoundToInt( serverState.Position );
 		}

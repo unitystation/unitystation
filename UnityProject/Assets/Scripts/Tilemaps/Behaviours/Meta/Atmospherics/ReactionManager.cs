@@ -20,6 +20,7 @@ public class ReactionManager : MonoBehaviour
 	private UniqueQueue<MetaDataNode> winds;
 
 	private float timePassed;
+	private float timePassed2;
 	private static readonly string LogAddingWindyNode = "Adding windy node {0}, dir={1}, force={2}";
 
 	private void Awake()
@@ -35,6 +36,48 @@ public class ReactionManager : MonoBehaviour
 	private void Update()
 	{
 		timePassed += Time.deltaTime;
+		timePassed2 += Time.deltaTime;
+
+		if ( timePassed2 >= 0.1 )
+		{
+			int count = winds.Count;
+			if ( count > 0 )
+			{
+				for ( int i = 0; i < count; i++ )
+				{
+					if ( winds.TryDequeue( out var windyNode ) )
+					{
+						//fixme: restrict pushing multiple solid objects on the same tile
+						foreach ( var pushable in matrix.Get<PushPull>( windyNode.Position ) )
+						{
+							float correctedForce = windyNode.WindForce / ( int ) pushable.Pushable.Size;
+							if ( correctedForce >= AtmosConstants.MinPushForce )
+							{
+								if ( pushable.Pushable.IsTileSnap )
+								{
+									pushable.QueuePush( windyNode.WindDirection, Random.Range( ( float ) ( correctedForce * 0.8 ), correctedForce ) );
+								} else
+								{
+									pushable.Pushable.Nudge( new NudgeInfo
+									{
+										OriginPos = pushable.Pushable.ServerPosition,
+										Trajectory = (Vector2)windyNode.WindDirection,
+										SpinMode = SpinMode.None,
+										SpinMultiplier = 1,
+										InitialSpeed = correctedForce,
+									} );
+								}
+							}
+						}
+
+						windyNode.WindForce = 0;
+						windyNode.WindDirection = Vector2Int.zero;
+					}
+				}
+			}
+
+			timePassed2 = 0;
+		}
 
 		if (timePassed < 0.5)
 		{
@@ -71,44 +114,6 @@ public class ReactionManager : MonoBehaviour
 			}
 		}
 
-//		if (timePassed < 1)
-//		{
-//			return;
-//		}
-
-		int count = winds.Count;
-		if ( count > 0 )
-		{
-			for ( int i = 0; i < count; i++ )
-			{
-				if ( winds.TryDequeue( out var windyNode ) )
-				{
-					//fixme: restrict pushing multiple solid objects on the same tile
-					matrix.Get<PushPull>( windyNode.Position ).ForEach( pushable =>
-					{
-						float correctedForce = windyNode.WindForce / (int)pushable.Pushable.Size;
-						if ( correctedForce >= AtmosConstants.MinPushForce )
-						{
-							pushable.QueuePush( windyNode.WindDirection, Random.Range( ( float ) ( correctedForce * 0.8 ), correctedForce ) );
-							//idk:
-//							var nudgeInfo = new NudgeInfo
-//							{
-//								OriginPos = pushable.Pushable.ServerPosition,
-//								TargetPos = (Vector2)pushable.Pushable.ServerPosition.To2Int()+windyNode.WindDirection,
-//								SpinMode = SpinMode.None,
-//								SpinMultiplier = 1,
-//								InitialSpeed = correctedForce,
-//							};
-//							pushable.Pushable.Nudge( nudgeInfo );
-						}
-					} );
-
-					windyNode.WindForce = 0;
-					windyNode.WindDirection = Vector2Int.zero;
-				}
-			}
-		}
-
 		timePassed = 0;
 	}
 
@@ -135,8 +140,7 @@ public class ReactionManager : MonoBehaviour
 
 		if (hotspots.ContainsKey(position) && hotspots[position].Hotspot != null)
 		{
-			List<LivingHealthBehaviour> healths = matrix.Get<LivingHealthBehaviour>(position);
-
+			var healths = matrix.Get<LivingHealthBehaviour>(position);
 			foreach (LivingHealthBehaviour health in healths)
 			{
 				health.ApplyDamage(null, 1, DamageType.Burn);

@@ -122,19 +122,17 @@ public class Matrix : MonoBehaviour
 		return true;
 	}
 
-	public List<T> Get<T>(Vector3Int position) where T : MonoBehaviour
+	public IEnumerable<T> Get<T>(Vector3Int position) where T : MonoBehaviour
 	{
-		if(objects == null)
+		if ( objects == null || !objects.HasObjects( position ) )
 		{
-			//Return an empty list if objects is not initialized yet
-			return new List<T>();
+			return Enumerable.Empty<T>(); //?
 		}
 
-		List<RegisterTile> xes = objects.Get(position);
 		var filtered = new List<T>();
-		for (var i = 0; i < xes.Count; i++)
+		foreach ( RegisterTile t in objects.Get(position) )
 		{
-			T x = xes[i].GetComponent<T>();
+			T x = t.GetComponent<T>();
 			if (x != null)
 			{
 				filtered.Add(x);
@@ -147,10 +145,9 @@ public class Matrix : MonoBehaviour
 	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
 	{
 		//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine
-		var registerTiles = objects.Get(position);
-		for (int i = 0; i < registerTiles.Count; i++)
+		foreach ( RegisterTile t in objects.Get(position) )
 		{
-			T c = registerTiles[i].GetComponent<T>();
+			T c = t.GetComponent<T>();
 			if (c != null)
 			{
 				return c;
@@ -162,13 +159,17 @@ public class Matrix : MonoBehaviour
 		//return objects.GetFirst(position)?.GetComponent<T>();
 	}
 
-	public List<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
+	public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
 	{
-		List<RegisterTile> xes = objects.Get(position, type);
-		var filtered = new List<T>();
-		for (var i = 0; i < xes.Count; i++)
+		if ( !objects.HasObjects( position ) )
 		{
-			T x = xes[i].GetComponent<T>();
+			return Enumerable.Empty<T>();
+		}
+
+		var filtered = new List<T>();
+		foreach ( RegisterTile t in objects.Get(position, type) )
+		{
+			T x = t.GetComponent<T>();
 			if (x != null)
 			{
 				filtered.Add(x);
@@ -176,32 +177,6 @@ public class Matrix : MonoBehaviour
 		}
 
 		return filtered;
-	}
-
-	public bool ContainsAt(Vector3Int position, GameObject gameObject)
-	{
-		RegisterTile registerTile = gameObject.GetComponent<RegisterTile>();
-		if (!registerTile)
-		{
-			return false;
-		}
-
-		// Check if tile contains a player
-		if (registerTile.ObjectType == ObjectType.Player)
-		{
-			var playersAtPosition = objects.Get<RegisterPlayer>(position);
-
-			if (playersAtPosition.Count == 0 || playersAtPosition.Contains(registerTile))
-			{
-				return false;
-			}
-
-			// Check if the player is passable (corpse)
-			return playersAtPosition.First().IsBlocking;
-		}
-
-		// Otherwise check for blocking objects
-		return objects.Get(position).Contains(registerTile);
 	}
 
 	public bool HasTile( Vector3Int position )

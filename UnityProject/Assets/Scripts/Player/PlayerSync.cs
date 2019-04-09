@@ -86,6 +86,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// </summary>
 	public ItemSize Size => ItemSize.Huge;
 
+	public bool IsTileSnap { get; } = true;
+
 	///For server code. Contains position
 	public PlayerState ServerState => serverState;
 

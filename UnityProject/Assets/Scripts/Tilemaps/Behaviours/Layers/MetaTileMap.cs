@@ -160,9 +160,8 @@ public class MetaTileMap : MonoBehaviour
 			if (layer == LayerType.Objects)
 			{
 				var objects = ((ObjectLayer) LayersValues[index]).Objects.Get(position);
-				for (var i = 0; i < objects.Count; i++)
+				foreach ( RegisterTile o in objects )
 				{
-					RegisterTile o = objects[i];
 					if (!o.IsPassable())
 					{
 						return false;
@@ -186,9 +185,8 @@ public class MetaTileMap : MonoBehaviour
 			if (layer == LayerType.Objects)
 			{
 				var objects = ((ObjectLayer) LayersValues[i]).Objects.Get(position);
-				for (var j = 0; j < objects.Count; j++)
+				foreach ( RegisterTile o in objects )
 				{
-					RegisterTile o = objects[j];
 					if ( o is RegisterObject )
 					{
 						PushPull pushPull = o.GetComponent<PushPull>();
@@ -217,9 +215,8 @@ public class MetaTileMap : MonoBehaviour
 			if (layer == LayerType.Objects)
 			{
 				var objects = ((ObjectLayer) LayersValues[i1]).Objects.Get(position);
-				for (var i = 0; i < objects.Count; i++)
+				foreach ( RegisterTile o in objects )
 				{
-					RegisterTile o = objects[i];
 					if (!o.IsPassable())
 					{
 						bool isExcluded = false;

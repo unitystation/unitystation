@@ -26,6 +26,8 @@ public interface IPushable {
 	float SpeedServer { get; }
 	float SpeedClient { get; }
 
+	bool IsTileSnap { get; }
+
 	void Nudge( NudgeInfo info );
 	ItemSize Size { get; }
 

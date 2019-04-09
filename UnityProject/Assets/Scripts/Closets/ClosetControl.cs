@@ -13,9 +13,9 @@ public class ClosetControl : InputTrigger
 	public List<GameObject> DefaultContents;
 
 	//Inventory
-	private List<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
+	private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
 
-	private List<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
+	private IEnumerable<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
 
 	[SyncVar(hook = nameof(OpenClose))] public bool IsClosed;
 
@@ -253,9 +253,8 @@ public class ClosetControl : InputTrigger
 			heldItems = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Item);
 		}
 
-		for (var i = 0; i < heldItems.Count; i++)
+		foreach ( ObjectBehaviour item in heldItems )
 		{
-			ObjectBehaviour item = heldItems[i];
 			CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
 			if (isOpen)
 			{
@@ -290,9 +289,8 @@ public class ClosetControl : InputTrigger
 			heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.Position, ObjectType.Player);
 		}
 
-		for (var i = 0; i < heldPlayers.Count; i++)
+		foreach ( ObjectBehaviour player in heldPlayers )
 		{
-			ObjectBehaviour player = heldPlayers[i];
 			var playerScript = player.GetComponent<PlayerScript>();
 			var playerSync = playerScript.PlayerSync;
 			if (isOpen)
@@ -312,8 +310,8 @@ public class ClosetControl : InputTrigger
 			{
 				player.parentContainer = objectBehaviour;
 				playerSync.DisappearFromWorldServer();
-                //Make sure a ClosetPlayerHandler is created on the client to monitor
-                //the players input inside the storage. The handler also controls the camera follow targets:
+				//Make sure a ClosetPlayerHandler is created on the client to monitor
+				//the players input inside the storage. The handler also controls the camera follow targets:
 				if (!playerScript.IsGhost)
 				{
 					ClosetHandlerMessage.Send(player.gameObject, gameObject);

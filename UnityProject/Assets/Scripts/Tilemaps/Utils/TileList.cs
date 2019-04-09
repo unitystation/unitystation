@@ -8,7 +8,7 @@ using UnityEngine;
 		private readonly Dictionary<Vector3Int, List<RegisterTile>> _objects =
 			new Dictionary<Vector3Int, List<RegisterTile>>();
 
-		private static readonly List<RegisterTile> emptyList = new List<RegisterTile>();
+		private static readonly IEnumerable<RegisterTile> emptyList = new List<RegisterTile>();
 
 		public List<RegisterTile> AllObjects {
 			get {
@@ -36,16 +36,35 @@ using UnityEngine;
 			}
 		}
 
-		public List<RegisterTile> Get(Vector3Int position)
+		public bool TryGet(Vector3Int position, out IEnumerable<RegisterTile> list)
+		{
+			if ( _objects.ContainsKey(position) )
+			{
+				list = _objects[position];
+				return true;
+			}
+
+			list = emptyList;
+			return false;
+		}
+		public bool HasObjects(Vector3Int position)
+		{
+			return _objects.ContainsKey(position);
+		}
+		public IEnumerable<RegisterTile> Get(Vector3Int position)
 		{
 			return _objects.ContainsKey(position) ? _objects[position] : emptyList;
 		}
 
-		public List<RegisterTile> Get(Vector3Int position, ObjectType type) {
-			List<RegisterTile> list = new List<RegisterTile>();
-			List<RegisterTile> xes = Get( position );
-			for ( var i = 0; i < xes.Count; i++ ) {
-				RegisterTile x = xes[i];
+		public IEnumerable<RegisterTile> Get(Vector3Int position, ObjectType type) {
+			if ( !TryGet(position, out IEnumerable<RegisterTile> xes) )
+			{
+				return xes;
+			}
+
+			var list = new List<RegisterTile>();
+			foreach ( RegisterTile x in xes )
+			{
 				if ( x.ObjectType == type ) {
 					list.Add( x );
 				}
@@ -54,14 +73,12 @@ using UnityEngine;
 			return list;
 		}
 
-		public List<T> Get<T>(Vector3Int position) where T : RegisterTile {
-
-			List<RegisterTile> tiles = Get( position );
-
+		public IEnumerable<T> Get<T>(Vector3Int position) where T : RegisterTile {
 			List<T> list = new List<T>();
-			for ( var i = 0; i < tiles.Count; i++ ) {
-				T unknown = tiles[i] as T;
-				if ( tiles[i] != null ) {
+			foreach ( RegisterTile t in Get( position ) )
+			{
+				T unknown = t as T;
+				if ( t != null ) {
 					list.Add( unknown );
 				}
 			}

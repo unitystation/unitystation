@@ -443,7 +443,7 @@ public class PushPull : VisibleBehaviour {
 	[Server]
 	public void QueuePush( Vector2Int dir, float speed = Single.NaN, bool allowDiagonals = false )
 	{
-		Logger.LogTraceFormat( "{0}: queued push {1} {2}", Category.PushPull, gameObject.name, dir, speed );
+//		Logger.LogTraceFormat( "{0}: queued push {1} {2}", Category.PushPull, gameObject.name, dir, speed );
 		pushRequestQueue.Enqueue( new Tuple<Vector2Int, float>(dir, speed) );
 		CheckQueue();
 	}

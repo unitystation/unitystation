@@ -202,13 +202,11 @@ public class MetaDataView : BasicView
 			MetaDataNode node = source.Get(position, false);
 			if (node.HasWind)
 			{
-				Vector3 p = LocalToWorld(source, position);
-
 				var alpha = Mathf.Clamp(node.WindForce / 20, 0.1f, 0.8f);
 				GizmoUtils.DrawCube( position, Color.blue, true, alpha );
 
 				Gizmos.color = Color.white;
-				GizmoUtils.DrawText($"{node.WindForce:0.#}", p + (Vector3)Vector2.down/4, false);
+				GizmoUtils.DrawText($"{node.WindForce:0.#}", LocalToWorld(source, position) + (Vector3)Vector2.down/4, false);
 
 				GizmoUtils.DrawArrow( position, (Vector2)node.WindDirection/2 );
 			}
