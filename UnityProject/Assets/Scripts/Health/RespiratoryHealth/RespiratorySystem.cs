@@ -26,7 +26,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private Equipment equipment;
 	private ObjectBehaviour objectBehaviour;
-	
+
 	private float tickRate = 1f;
 	private float tick = 0f;
 	private PlayerScript playerScript;
@@ -121,7 +121,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 			bool internalsEnabled = equipment.IsInternalsEnabled;
 
-			if (mask != null && suitStorage != null && mask.ConnectedToTank && internalsEnabled)
+			if (mask != null && suitStorage != null && mask.CanConnectToTank && internalsEnabled)
 			{
 				return suitStorage.GetComponent<GasContainer>();
 			}

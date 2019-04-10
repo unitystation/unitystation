@@ -14,8 +14,6 @@ public class RegisterCloset : RegisterObject
 	/// </summary>
 	private ClosetControl closetControl;
 	private bool isClosed = true;
-	// cached colliders so they can be disabled
-	private Collider2D[] colliders;
 
 	public bool IsClosed
 	{
@@ -24,12 +22,18 @@ public class RegisterCloset : RegisterObject
 			isClosed = value;
 			if (closetType == ClosetType.LOCKER)
 			{
-				//disable colliders and make passable when open, for lockers only
+				//become passable to bullets and people when open
 				Passable = !isClosed;
-				foreach (var collider in colliders)
+				//switching to item layer if open so bullets pass through it
+				if (Passable)
 				{
-					collider.enabled = !Passable;
+					gameObject.layer = LayerMask.NameToLayer("Items");
 				}
+				else
+				{
+					gameObject.layer = LayerMask.NameToLayer("Machines");
+				}
+
 			}
 		}
 		get => isClosed;
@@ -37,7 +41,6 @@ public class RegisterCloset : RegisterObject
 
 	private void Awake()
 	{
-		colliders = GetComponents<Collider2D>();
 		closetControl = GetComponent<ClosetControl>();
 	}
 
