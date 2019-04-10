@@ -27,7 +27,7 @@ public class ControlChat : MonoBehaviour
     //		public bool isChatFocus;
     public Scrollbar scrollBar;
 
-    public bool ShowState = true;
+    private bool showChannels = false;
     public InputField usernameInput;
 
     private void Awake()
@@ -77,27 +77,23 @@ public class ControlChat : MonoBehaviour
             }
         }
 
-        if (chatInputWindow.activeInHierarchy)
+        if (!chatInputWindow.activeInHierarchy) return;
+        if (KeyboardInputManager.IsEscapePressed())
         {
-            if (KeyboardInputManager.IsEscapePressed())
-            {
-                CloseChatWindow();
-            }
+	        CloseChatWindow();
+        }
 
-            if (!InputFieldChat.isFocused)
-            {
-                if (KeyboardInputManager.IsMovementPressed() || KeyboardInputManager.IsEscapePressed())
-                {
-                    CloseChatWindow();
-                }
+        if (InputFieldChat.isFocused) return;
+        if (KeyboardInputManager.IsMovementPressed() || KeyboardInputManager.IsEscapePressed())
+        {
+	        CloseChatWindow();
+        }
 
-                if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
-                    KeyboardInputManager.IsEnterPressed())
-                {
-                    PlayerSendChat();
-                    CloseChatWindow();
-                }
-            }
+        if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
+            KeyboardInputManager.IsEnterPressed())
+        {
+	        PlayerSendChat();
+	        CloseChatWindow();
         }
     }
 
@@ -195,11 +191,11 @@ public class ControlChat : MonoBehaviour
         channelPanel.gameObject.SetActive(true);
     }
 
-    public void Toggle_ChannelPannel()
+    public void Toggle_ChannelPanel()
     {
-        bool isOn = channelListToggle.isOn;
+        showChannels = !showChannels;
         //			SoundManager.Play("Click01");
-        if (isOn)
+        if (showChannels)
         {
             channelPanel.gameObject.SetActive(true);
             PruneUnavailableChannels();
