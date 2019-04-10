@@ -1,5 +1,4 @@
 using System;
-using WebSocketSharp;
 
 // Many thanks to StackOverflow for a lot of this code. Used the best parts of various answers
 
@@ -37,22 +36,25 @@ public static class NumberFormatExtension
 		    double.IsPositiveInfinity(value))
 		{
 			// This should return the infinity symbol with the optional unit
-			return unit.IsNullOrEmpty() ? "\u221E" : $"\u221E {unit}";
+			return string.IsNullOrEmpty(unit) ? "\u221E" : $"\u221E {unit}";
 		}
 
 		// Calculate the exponent
-		int exp = (int)(Math.Floor( Math.Log10(value) / 3.0 ) * 3.0);
-		double newValue = value * Math.Pow(10.0, -exp);
-		if (newValue >= 1000.0) {
+		int exponent = (int)(Math.Floor( Math.Log10(value) / 3.0 ) * 3.0);
+
+		// Calculate the new value after accounting for the exponent
+		double newValue = value * Math.Pow(10.0, -exponent);
+		if (newValue >= 1000.0)
+		{
 			newValue = newValue / 1000.0;
-			exp      = exp + 3;
+			exponent      = exponent + 3;
 		}
 
 		// Determine the appropriate SI unit prefix
 		string prefix = " ";
-		if (exp >= 0)
+		if (exponent >= 0)
 		{
-			switch (exp)
+			switch (exponent)
 			{
 				case 0: case 1: case 2:
 					break;
@@ -82,9 +84,9 @@ public static class NumberFormatExtension
 					break;
 			}
 		}
-		else if (exp < 0)
+		else if (exponent < 0)
 		{
-			switch (exp)
+			switch (exponent)
 			{
 				case -1: case -2: case -3:
 					prefix = "m";
