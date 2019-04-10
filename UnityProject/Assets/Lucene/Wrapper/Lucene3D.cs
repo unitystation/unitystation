@@ -166,7 +166,7 @@ namespace Lucene.Unity {
             }
         }
 
-        public IEnumerable<Document> Search(string expression, int maxResults = 100) {
+        public IEnumerable<Document> Search(string expression, bool allowLeadingWildcard = false, int maxResults = 100) {
             if(expression == null) {
                 throw new ArgumentNullException(nameof(expression));
             }
@@ -176,6 +176,7 @@ namespace Lucene.Unity {
                 using(var indexSearcher = new IndexSearcher(indexReader)) {
                     using(var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30)) {
                         var parser = new MultiFieldQueryParser(Lucene.Net.Util.Version.LUCENE_30, defaultFields.ToArray(), analyzer);
+                        parser.AllowLeadingWildcard = allowLeadingWildcard;
                         //var parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, "headline", analyzer);
                         var query = parser.Parse(expression);
                         var hits = indexSearcher.Search(query, null, maxResults).ScoreDocs;
