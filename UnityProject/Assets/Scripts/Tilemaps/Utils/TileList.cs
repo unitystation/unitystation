@@ -8,7 +8,7 @@ using UnityEngine;
 		private readonly Dictionary<Vector3Int, List<RegisterTile>> _objects =
 			new Dictionary<Vector3Int, List<RegisterTile>>();
 
-		private static readonly IEnumerable<RegisterTile> emptyList = new List<RegisterTile>();
+		private static readonly IEnumerable<RegisterTile> emptyList = Enumerable.Empty<RegisterTile>();
 
 		public List<RegisterTile> AllObjects {
 			get {
@@ -35,21 +35,9 @@ using UnityEngine;
 				_objects[position].Add(obj);
 			}
 		}
-
-		public bool TryGet(Vector3Int position, out IEnumerable<RegisterTile> list)
-		{
-			if ( _objects.ContainsKey(position) )
-			{
-				list = _objects[position];
-				return true;
-			}
-
-			list = emptyList;
-			return false;
-		}
 		public bool HasObjects(Vector3Int position)
 		{
-			return _objects.ContainsKey(position);
+			return _objects.ContainsKey(position) && _objects[position].Count > 0;
 		}
 		public IEnumerable<RegisterTile> Get(Vector3Int position)
 		{
@@ -57,13 +45,12 @@ using UnityEngine;
 		}
 
 		public IEnumerable<RegisterTile> Get(Vector3Int position, ObjectType type) {
-			if ( !TryGet(position, out IEnumerable<RegisterTile> xes) )
+			if ( !HasObjects( position ) )
 			{
-				return xes;
+				return emptyList;
 			}
-
 			var list = new List<RegisterTile>();
-			foreach ( RegisterTile x in xes )
+			foreach ( RegisterTile x in Get( position ) )
 			{
 				if ( x.ObjectType == type ) {
 					list.Add( x );
@@ -74,7 +61,11 @@ using UnityEngine;
 		}
 
 		public IEnumerable<T> Get<T>(Vector3Int position) where T : RegisterTile {
-			List<T> list = new List<T>();
+			if ( !HasObjects( position ) )
+			{
+				return Enumerable.Empty<T>();
+			}
+			var list = new List<T>();
 			foreach ( RegisterTile t in Get( position ) )
 			{
 				T unknown = t as T;

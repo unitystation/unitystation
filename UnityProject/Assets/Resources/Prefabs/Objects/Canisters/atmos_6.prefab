@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 114525404201958034}
   - component: {fileID: 114498606224789662}
   - component: {fileID: 114130298767192192}
+  - component: {fileID: 4246808979208680524}
   m_Layer: 10
   m_Name: atmos_6
   m_TagString: Untagged
@@ -220,6 +221,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!114 &114523911933682142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,5 +291,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4246808979208680524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934211423403590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
