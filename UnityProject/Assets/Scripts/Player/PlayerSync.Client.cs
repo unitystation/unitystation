@@ -310,7 +310,8 @@ public partial class PlayerSync
 	/// Called when PlayerMoveMessage is received
 	public void UpdateClientState(PlayerState newState)
 	{
-		OnUpdateRecieved().Invoke(Vector3Int.RoundToInt(newState.WorldPosition));
+		var newWorldPos = Vector3Int.RoundToInt(newState.WorldPosition);
+		OnUpdateRecieved().Invoke(newWorldPos);
 
 		playerState = newState;
 
@@ -376,6 +377,8 @@ public partial class PlayerSync
 				Logger.LogWarning($"{nameof(spacewalkReset)}={spacewalkReset}, {nameof(wrongFloatDir)}={wrongFloatDir}", Category.Movement);
 				ClearQueueClient();
 				RollbackPrediction();
+
+				OnClientStartMove().Invoke( newWorldPos-LastDirection.RoundToInt(), newWorldPos );
 			}
 			return;
 		}

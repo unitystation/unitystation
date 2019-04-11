@@ -159,7 +159,7 @@ public partial class PlayerSync
 			SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
 		}
 
-		Logger.LogTraceFormat( "Server push to {0}", Category.PushPull, pushGoal );
+		Logger.LogTraceFormat( "{1}: Server push to {0}", Category.PushPull, pushGoal, gameObject.name );
 		ClearQueueServer();
 		MatrixInfo newMatrix = MatrixManager.AtPoint( pushGoal );
 		//Note the client queue reset
