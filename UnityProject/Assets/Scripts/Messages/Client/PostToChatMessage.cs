@@ -85,7 +85,7 @@ public class PostToChatMessage : ClientMessage
 	/// Sends a gasp message to nearby players
 	public static void SendGasp(GameObject victim)
 	{
-		var message = $"{victim.Player()?.Name} gasps";
+		var message = $"{victim.ExpensiveName()} gasps";
 		ChatRelay.Instance.AddToChatLogServer( new ChatEvent {
 			channels = ChatChannel.Local,
 			message = message,
