@@ -33,10 +33,10 @@ public class ReactionManager : MonoBehaviour
 		winds = new UniqueQueue<MetaDataNode>();
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
-		timePassed += Time.deltaTime;
-		timePassed2 += Time.deltaTime;
+		timePassed += Time.fixedDeltaTime;
+		timePassed2 += Time.fixedDeltaTime;
 
 		if ( timePassed2 >= 0.1 )
 		{
@@ -55,7 +55,11 @@ public class ReactionManager : MonoBehaviour
 							{
 								if ( pushable.Pushable.IsTileSnap )
 								{
-									pushable.QueuePush( windyNode.WindDirection, Random.Range( ( float ) ( correctedForce * 0.8 ), correctedForce ) );
+									//fixme multipush: avoid getting stuck on one tile (CheckQueue more often)
+//									for ( int j = 0; j < Mathf.Clamp(correctedForce / 10, 1, 5); j++ )
+//									{
+										pushable.QueuePush( windyNode.WindDirection, Random.Range( ( float ) ( correctedForce * 0.8 ), correctedForce ) );
+//									}
 								} else
 								{
 									pushable.Pushable.Nudge( new NudgeInfo

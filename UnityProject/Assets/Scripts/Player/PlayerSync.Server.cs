@@ -158,6 +158,10 @@ public partial class PlayerSync
 		if ( followMode ) {
 			SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
 		}
+		else if ( !float.IsNaN( speed ) && speed >= playerMove.PushFallSpeed )
+		{
+			registerPlayer.Slip(true);
+		}
 
 		Logger.LogTraceFormat( "{1}: Server push to {0}", Category.PushPull, pushGoal, gameObject.name );
 		ClearQueueServer();

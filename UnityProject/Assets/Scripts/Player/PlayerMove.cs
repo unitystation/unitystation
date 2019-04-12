@@ -76,6 +76,10 @@ public class PlayerMove : NetworkBehaviour
 	public float RunSpeed = 6;
 	public float WalkSpeed = 3;
 	public float CrawlSpeed = 0.8f;
+	/// <summary>
+	/// Player will fall when pushed with such speed
+	/// </summary>
+	public float PushFallSpeed = 10;
 
 	private RegisterTile registerTile;
 	private Matrix matrix => registerTile.Matrix;

@@ -138,7 +138,7 @@ public class RegisterPlayer : RegisterTile
 			return;
 		}
 		Stun();
-		SoundManager.PlayNetworkedAtPos("Slip", WorldPosition);
+		SoundManager.PlayNetworkedAtPos("Slip", WorldPosition, Random.Range(0.9f, 1.1f));
 		// Let go of pulled items.
 		playerScript.pushPull.CmdStopPulling();
 	}
