@@ -81,6 +81,19 @@ public class PostToChatMessage : ClientMessage
 			sizeMod = Mathf.Clamp( damage/15, 1, 3 )
 		} );
 	}
+	/// <summary>
+	/// Sends a gasp message to nearby players
+	public static void SendGasp(GameObject victim)
+	{
+		var message = $"{victim.Player()?.Name} gasps";
+		ChatRelay.Instance.AddToChatLogServer( new ChatEvent {
+			channels = ChatChannel.Local,
+			message = message,
+			position = victim.transform.position,
+			radius = 9f,
+		} );
+
+	}
 
 	private static string InTheZone( BodyPartType hitZone ) {
 		return hitZone == BodyPartType.None ? "" : $" in the {hitZone.ToString().ToLower().Replace( "_", " " )}";
