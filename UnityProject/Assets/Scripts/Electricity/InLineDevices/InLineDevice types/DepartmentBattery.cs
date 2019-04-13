@@ -42,12 +42,6 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 	[SyncVar]
 	public int currentCharge; // 0 - 100
 
-	public PowerTypeCategory ApplianceType = PowerTypeCategory.DepartmentBattery;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
-	{
-		PowerTypeCategory.LowMachineConnector
-	};
-
 	void Start() {//Initialise Sprites
 		for (int i = 0; i< enums.Count; i++)
 		{
@@ -61,6 +55,11 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 	}
 	public override void OnStartServerInitialise()
 	{
+		ApplianceType = PowerTypeCategory.DepartmentBattery;
+		CanConnectTo = new HashSet<PowerTypeCategory>
+		{
+			PowerTypeCategory.LowMachineConnector
+		};
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = DirectionStart;

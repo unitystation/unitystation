@@ -21,23 +21,45 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 
 	public static class PowerSupplies{
 		public static void FlushConnectionAndUp (ElectricalOIinheritance Object){
+			Object.Data.Upstream.Clear();
+			Object.Data.Downstream.Clear();
+			Object.Data.ResistanceComingFrom.Clear();
+			Object.Data.ResistanceGoingTo.Clear();
+			Object.Data.CurrentGoingTo.Clear();
+			Object.Data.CurrentComingFrom.Clear();
+			Object.Data.FirstPresent = 0;
+			Object.Data.SourceVoltages.Clear();
+			Object.Data.CurrentInWire = new float();
+			Object.Data.ActualVoltage = new float();
+			Object.Data.ResistanceToConnectedDevices.Clear();
+			Object.connectedDevices.Clear();
 			if (Object.Data.connections.Count > 0) {
-				List<ElectricalOIinheritance> Backupconnections = Object.Data.connections;
+				List<ElectricalOIinheritance> Backupconnections = new List<ElectricalOIinheritance>(Object.Data.connections);
 				Object.Data.connections.Clear();
+
 				foreach (ElectricalOIinheritance JumpTo in Backupconnections) {
 					JumpTo.FlushConnectionAndUp ();
+	
 				}
-				Object.Data.Upstream.Clear();
-				Object.Data.Downstream.Clear();
-				Object.Data.ResistanceComingFrom.Clear();
-				Object.Data.ResistanceGoingTo.Clear();
-				Object.Data.CurrentGoingTo.Clear();
-				Object.Data.CurrentComingFrom.Clear();
-				Object.Data.SourceVoltages = new Dictionary<int, float> ();
-				Object.Data.CurrentInWire = new float ();
-				Object.Data.ActualVoltage = new float ();
-				Object.Data.ResistanceToConnectedDevices.Clear();
-				Object.connectedDevices.Clear();
+
+				//foreach (KeyValuePair<int, HashSet<ElectricalOIinheritance>> Supply in Object.Data.Downstream) {
+				//	foreach (ElectricalOIinheritance Device in Supply.Value) {
+				//		Device.FlushConnectionAndUp();
+				//		if (log)
+				//		{
+				//			Logger.Log("Device1" + Device);
+				//		}
+				//	}
+				//	foreach (ElectricalOIinheritance Device in Object.Data.Upstream[Supply.Key])
+				//	{
+				//		Device.FlushConnectionAndUp();
+				//		if (log)
+				//		{
+				//			Logger.Log("Device2" + Device);
+				//		}
+				//	}
+				//}
+
 			}
 
 		}

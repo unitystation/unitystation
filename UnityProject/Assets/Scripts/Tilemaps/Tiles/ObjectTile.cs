@@ -105,7 +105,7 @@ using UnityEditor;
 		var wireScript = spawnedObj.GetComponent<ElectricalOIinheritance>();
 		//Logger.Log (WireStartEnd.x.ToString() + " <x and y> " + WireStartEnd.x.ToString());
 		wireScript.SetConnPoints(WireStartEnd.y, WireStartEnd.x);
-		var SpriteScript = spawnedObj.GetComponent<StructurePowerWire>();
+		var SpriteScript = spawnedObj.GetComponent<CableInheritance>();
 		//Logger.Log(SpriteScript.ToString() + "oh yeah?");
 		SpriteScript.damEditor (WireStartEnd.x, WireStartEnd.y,CableType);
 

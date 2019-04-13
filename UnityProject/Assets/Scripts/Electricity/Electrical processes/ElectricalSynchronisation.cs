@@ -12,6 +12,7 @@ public static class ElectricalSynchronisation
 	//What keeps electrical Ticking
 	//so this is correlated to what has changed on the network, Needs to be optimised so (when one resistant source changes only that one updates its values currently the entire network updates their values)
 	public static bool StructureChange = true; //deals with the connections this will clear them out only
+	public static HashSet<CableInheritance> NUCableStructureChange = new HashSet<CableInheritance>();
 	public static HashSet<PowerSupplyControlInheritance> NUStructureChangeReact = new HashSet<PowerSupplyControlInheritance>();
 	public static HashSet<PowerSupplyControlInheritance> NUResistanceChange = new HashSet<PowerSupplyControlInheritance>();
 	public static HashSet<PowerSupplyControlInheritance> ResistanceChange = new HashSet<PowerSupplyControlInheritance>();
@@ -170,6 +171,9 @@ public static class ElectricalSynchronisation
 		if (!StructureChange) return;
 		//Logger.Log("PowerUpdateStructureChange");
 		StructureChange = false;
+		foreach (CableInheritance cabel in NUCableStructureChange) {
+			cabel.PowerUpdateStructureChange();
+		}
 		foreach (var category in OrderList)
 		{
 			foreach (PowerSupplyControlInheritance TheSupply in AliveSupplies[category])

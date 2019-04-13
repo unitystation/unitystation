@@ -7,33 +7,32 @@ using UnityEngine.Networking;
 
 public class Transformer : PowerSupplyControlInheritance 
 {
-	public InLineDevice RelatedDevice; 
-	public PowerTypeCategory ApplianceType = PowerTypeCategory.Transformer;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
-		PowerTypeCategory.StandardCable,
-		PowerTypeCategory.HighVoltageCable,
-	};
 	public override void OnStartServerInitialise()
 	{
 		TurnRatio = 250;
 		VoltageLimiting = 3300;
 		VoltageLimitedTo = 3300;
-		RelatedDevice.RelatedDevice = this;
-		RelatedDevice.InData.CanConnectTo = CanConnectTo;
-		RelatedDevice.InData.Categorytype = ApplianceType;
+		powerSupply.RelatedDevice = this;
+		CanConnectTo = new HashSet<PowerTypeCategory>{
+		PowerTypeCategory.StandardCable,
+		PowerTypeCategory.HighVoltageCable,
+		};
+		ApplianceType = PowerTypeCategory.Transformer;
+		powerSupply.InData.CanConnectTo = CanConnectTo;
+		powerSupply.InData.Categorytype = ApplianceType;
 	}
 
 	public override float ModifyElectricityOutput( float Current, GameObject SourceInstance){
 		int InstanceID = SourceInstance.GetInstanceID ();
-		float ActualCurrent = RelatedDevice.Data.CurrentInWire;
-		float Resistance = ElectricityFunctions.WorkOutResistance(RelatedDevice.Data.ResistanceComingFrom[InstanceID]);
+		float ActualCurrent = powerSupply.Data.CurrentInWire;
+		float Resistance = ElectricityFunctions.WorkOutResistance(powerSupply.Data.ResistanceComingFrom[InstanceID]);
 		float Voltage = (Current * Resistance);
 		Tuple<float,float> Currentandoffcut = TransformerCalculations.TransformerCalculate (this,Voltage : Voltage, ResistanceModified : Resistance, ActualCurrent : ActualCurrent);
 		if (Currentandoffcut.Item2 > 0) {
-			if (!(RelatedDevice.Data.CurrentGoingTo.ContainsKey (InstanceID))) {
-				RelatedDevice.Data.CurrentGoingTo [InstanceID] = new Dictionary<ElectricalOIinheritance, float> ();
+			if (!(powerSupply.Data.CurrentGoingTo.ContainsKey (InstanceID))) {
+				powerSupply.Data.CurrentGoingTo [InstanceID] = new Dictionary<ElectricalOIinheritance, float> ();
 			}
-			RelatedDevice.Data.CurrentGoingTo[InstanceID] [RelatedDevice.GameObject().GetComponent<ElectricalOIinheritance>()] = Currentandoffcut.Item2;
+			powerSupply.Data.CurrentGoingTo[InstanceID] [powerSupply.GameObject().GetComponent<ElectricalOIinheritance>()] = Currentandoffcut.Item2;
 		}
 		//return(Current);
 		return(Currentandoffcut.Item1);

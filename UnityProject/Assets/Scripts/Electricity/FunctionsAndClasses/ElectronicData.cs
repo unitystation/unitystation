@@ -14,7 +14,7 @@ public class ElectronicData  { //to Store data about the electrical device
 	/// <summary>
 	/// The things connected in the vicinity of this
 	/// </summary>
-	public List<ElectricalOIinheritance> connections = new List<ElectricalOIinheritance> ();
+	public HashSet<ElectricalOIinheritance> connections = new HashSet<ElectricalOIinheritance> ();
 	public Dictionary<int,Dictionary<ElectricalOIinheritance,float>> CurrentGoingTo = new Dictionary<int, Dictionary<ElectricalOIinheritance, float>> ();
 	public Dictionary<int,Dictionary<ElectricalOIinheritance,float>> CurrentComingFrom  = new Dictionary<int, Dictionary<ElectricalOIinheritance, float>> ();
 	public Dictionary<int, Dictionary<ElectricalOIinheritance, float>> ResistanceGoingTo = new Dictionary<int, Dictionary<ElectricalOIinheritance, float>>();
