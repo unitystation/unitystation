@@ -25,9 +25,9 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	public float VoltageLimiting; //If it requires VoltageLimiting and  At what point the VoltageLimiting will kick in
 	public float VoltageLimitedTo;  //what it will be limited to
 
-	public ElectricalOIinheritance _IElectricityIO { get; set; }
-	public PowerTypeCategory ApplianceType { get; set; }
-	public HashSet<PowerTypeCategory> CanConnectTo { get; set; }
+	public ElectricalOIinheritance _IElectricityIO;
+	public PowerTypeCategory ApplianceType;
+	public HashSet<PowerTypeCategory> CanConnectTo; 
 
 
 	public  Resistance resistance { get; set; } = new Resistance();
@@ -64,7 +64,8 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	{
 		if (SelfDestruct)
 		{
-			//Then you can destroy
+			ElectricalSynchronisation.RemoveSupply(this, powerSupply.InData.Categorytype);
+			PoolManager.PoolNetworkDestroy(gameObject);
 
 		}
 	}
@@ -72,6 +73,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
+		ElectricalSynchronisation.StructureChange = true;
 		_IElectricityIO = powerSupply;
 		powerSupply.RelatedDevice = this;
 		powerSupply.InData.ControllingDevice = this;
@@ -139,6 +141,10 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	}
 
 	public virtual void PowerUpdateStructureChange() {
+		//Logger.Log("PowerUpdateStructureChange" + this);
+		ElectricalSynchronisation.NUStructureChangeReact.Add(powerSupply.InData.ControllingUpdate);
+		ElectricalSynchronisation.NUResistanceChange.Add(powerSupply.InData.ControllingUpdate);
+		ElectricalSynchronisation.NUCurrentChange.Add(powerSupply.InData.ControllingUpdate);
 		powerSupply.PowerUpdateStructureChange();
 		_PowerUpdateStructureChange();
 	}
@@ -146,7 +152,8 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	{
 	}
 
-	public virtual void PowerUpdateStructureChangeReact() { 
+	public virtual void PowerUpdateStructureChangeReact() {
+		//Logger.Log("PowerUpdateStructureChangeReact"+ this);
 		powerSupply.PowerUpdateStructureChangeReact();
 		_PowerUpdateStructureChangeReact();
 	}
@@ -167,10 +174,11 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	{
 	}
 	public virtual void PowerUpdateResistanceChange() { 
+		//Logger.Log("PowerUpdateResistanceChange()"+ this);
 		powerSupply.PowerUpdateResistanceChange();
 		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices)
 		{
-			//Logger.Log("4");
+			//Logger.Log("4 "+ Supplie.Key);
 			powerSupply.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
 			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingUpdate);
 		}
@@ -181,6 +189,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	}
 	public virtual void PowerUpdateCurrentChange()
 	{
+		Logger.Log("PowerUpdateCurrentChange()"+ this);
 		if (powerSupply.Data.ResistanceComingFrom.Count > 0)
 		{
 			powerSupply.FlushSupplyAndUp(powerSupply.gameObject); //Room for optimisation
@@ -278,5 +287,12 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	}
 	public virtual float ModifyResistancyOutput(float Resistance, GameObject SourceInstance) {
 		return (Resistance);
+	}
+
+	[ContextMethod("Destroy cable", "x")]
+	public void Destroy()
+	{
+		ElectricalSynchronisation.StructureChange = true;
+		SelfDestruct = true;
 	}
 }

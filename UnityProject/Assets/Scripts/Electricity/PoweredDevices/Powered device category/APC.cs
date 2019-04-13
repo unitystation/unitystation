@@ -105,14 +105,15 @@ public class APC : PowerSupplyControlInheritance
 	/// Class to hold resistance so ElectricalSync can have a reference to it
 	/// </summary>
 	private Resistance ResistanceClass = new Resistance();
-	private PowerTypeCategory ApplianceType = PowerTypeCategory.APC;
-	private HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
-	{
-		PowerTypeCategory.LowMachineConnector
-	};
 
 	public override void OnStartServerInitialise()
 	{
+		ApplianceType = PowerTypeCategory.APC;
+		CanConnectTo = new HashSet<PowerTypeCategory>()
+		{
+			PowerTypeCategory.LowMachineConnector
+		};
+
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = 0;
@@ -128,6 +129,24 @@ public class APC : PowerSupplyControlInheritance
 		PRLCable.ResistanceReactionA.Resistance = ResistanceClass;
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
 	}
+	//public override void PowerUpdateStructureChange() {
+	//	//Logger.Log("PowerUpdateStructureChange" + this);
+	//	powerSupply.Data.connections.Clear();
+	//	powerSupply.Data.Upstream.Clear();
+	//	powerSupply.Data.Downstream.Clear();
+	//	powerSupply.Data.ResistanceComingFrom.Clear();
+	//	powerSupply.Data.ResistanceGoingTo.Clear();
+	//	powerSupply.Data.CurrentGoingTo.Clear();
+	//	powerSupply.Data.CurrentComingFrom.Clear();
+	//	powerSupply.Data.FirstPresent = 0;
+	//	powerSupply.Data.SourceVoltages.Clear();
+	//	powerSupply.Data.CurrentInWire = new float();
+	//	powerSupply.Data.ActualVoltage = new float();
+	//	powerSupply.Data.ResistanceToConnectedDevices.Clear();
+	//	powerSupply.connectedDevices.Clear();
+	//	powerSupply.PowerUpdateStructureChange();
+	//	_PowerUpdateStructureChange();
+	//}
 
 	private void OnDisable()
 	{

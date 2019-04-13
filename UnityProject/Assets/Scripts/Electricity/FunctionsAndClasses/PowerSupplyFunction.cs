@@ -23,6 +23,7 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 	{
 		ElectricalSynchronisation.CircuitSearchLoop(Supply);
 	}
+
 	public static void PowerUpdateCurrentChange(ElectricalOIinheritance Supply)
 	{
 		Supply.FlushSupplyAndUp(Supply.GameObject());

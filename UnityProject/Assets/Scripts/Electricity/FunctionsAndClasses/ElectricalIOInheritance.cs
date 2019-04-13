@@ -153,6 +153,9 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	/// </summary>
 	public virtual void FlushConnectionAndUp()
 	{
+		if (InData.Categorytype == PowerTypeCategory.SMES) {
+			Logger.Log("yoyoyrrrrrrrrrrrr" + this);
+		}
 		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
 		InData.ControllingDevice.PotentialDestroyed();
 	}

@@ -12,7 +12,6 @@ public class MediumMachineConnector : NetworkBehaviour , IDeviceControl
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.MediumMachineConnector;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.StandardCable,
-		//PowerTypeCategory.LowVoltageCable,
 		PowerTypeCategory.SMES,
 	};
 

@@ -6,10 +6,10 @@ using System;
 public static class ElectricityFunctions
 {
 
-	public static List<ElectricalOIinheritance> FindPossibleConnections(Vector2 searchVec, Matrix matrix, HashSet<PowerTypeCategory> CanConnectTo, ConnPoint ConnPoints)
+	public static HashSet<ElectricalOIinheritance> FindPossibleConnections(Vector2 searchVec, Matrix matrix, HashSet<PowerTypeCategory> CanConnectTo, ConnPoint ConnPoints)
 	{
 		List<ElectricalOIinheritance> possibleConns = new List<ElectricalOIinheritance>();
-		List<ElectricalOIinheritance> connections = new List<ElectricalOIinheritance>();
+		HashSet<ElectricalOIinheritance> connections = new HashSet<ElectricalOIinheritance>();
 		int progress = 0;
 		searchVec.x -= 1;
 		searchVec.y -= 1;

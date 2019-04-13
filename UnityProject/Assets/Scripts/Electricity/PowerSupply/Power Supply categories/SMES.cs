@@ -24,15 +24,13 @@ public class SMES : PowerSupplyControlInheritance
 	public SpriteRenderer OnOffIndicator;
 	public SpriteRenderer chargeIndicator;
 
-	public PowerTypeCategory ApplianceType = PowerTypeCategory.SMES;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>
+	public override void OnStartServerInitialise()
 	{
-		PowerTypeCategory.MediumMachineConnector
-	};
-
-	public override void OnStartServer()
-	{
-		base.OnStartServer();
+		ApplianceType = PowerTypeCategory.SMES;
+		CanConnectTo = new HashSet<PowerTypeCategory>
+		{
+			PowerTypeCategory.MediumMachineConnector
+		};
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
 		powerSupply.DirectionStart = DirectionStart;

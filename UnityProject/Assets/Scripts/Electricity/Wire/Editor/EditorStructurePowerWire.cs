@@ -6,7 +6,7 @@ using UnityEngine;
 	///     This StructurePowerWire editor script helps set the correct
 	///     wires when building maps
 	/// </summary>
-	[CustomEditor(typeof(StructurePowerWire))]
+	[CustomEditor(typeof(CableInheritance))]
 	public class EditorStructurePowerWire : Editor
 	{
 		private int endCache;
@@ -16,7 +16,7 @@ using UnityEngine;
 
 		public override void OnInspectorGUI()
 		{
-			StructurePowerWire sTarget = (StructurePowerWire) target;
+			CableInheritance sTarget = (CableInheritance) target;
 			startCache = sTarget.DirectionStart;
 			endCache = sTarget.DirectionEnd;
 
@@ -33,7 +33,7 @@ using UnityEngine;
 
 			sTarget.DirectionEnd = EditorGUILayout.IntField("DirectionEnd: ", sTarget.DirectionEnd);
 
-			sTarget.Color = (WiringColor) EditorGUILayout.EnumPopup("Wiring Color: ", sTarget.Color);
+			sTarget.CableType = (WiringColor) EditorGUILayout.EnumPopup("Wiring Color: ", sTarget.CableType);
 
 			if (EditorGUI.EndChangeCheck())
 			{
