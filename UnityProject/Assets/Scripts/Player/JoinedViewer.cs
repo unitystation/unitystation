@@ -62,7 +62,27 @@ public class JoinedViewer : NetworkBehaviour
     [Command]
     public void CmdRequestJob(JobType jobType)
     {
-        SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
+        var player = PlayerList.Instance.Get(connectionToClient);
+        /// Verifies that the player has no job
+        if (player.Job == JobType.NULL)
+        {
+            SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
             GameManager.Instance.GetRandomFreeOccupation(jobType));
+
+        }
+        /// Spawns in player if they have a job but aren't spawned
+        else if (player.GameObject == null)
+        {
+            SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
+            GameManager.Instance.GetRandomFreeOccupation(player.Job));
+
+        }
+        else
+        {
+            Logger.LogWarning("[Jobs] Request Job Failed: Already Has Job");
+
+
+        }
+        
     }
 }
