@@ -29,6 +29,11 @@ public class GUI_IngameMenu : MonoBehaviour
 		}
 	}
 
+
+	#if UNITY_EDITOR
+		public bool isTest = false;
+	#endif
+
 	// Main Ingame Menu Functions
 	// ==================================================
 	public void OpenMenuPanel(GameObject nextMenuPanel)
@@ -70,6 +75,7 @@ public class GUI_IngameMenu : MonoBehaviour
 		StopNetworking();
 		// Either shutdown the application or stop the editor
 		#if UNITY_EDITOR
+			if (isTest) return;
 			UnityEditor.EditorApplication.isPlaying = false;
 		#else
 			Application.Quit();
