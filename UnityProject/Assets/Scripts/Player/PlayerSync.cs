@@ -523,35 +523,35 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		Gizmos.color = color1;
 		Vector3 stsPos = serverState.WorldPosition;
 		Gizmos.DrawWireCube(stsPos, size1);
-		GizmoUtils.DrawArrow(stsPos + Vector3.left / 2, serverState.Impulse);
-		if (drawMoves) GizmoUtils.DrawText(serverState.MoveNumber.ToString(), stsPos + Vector3.left / 4, 15);
+		DebugGizmoUtils.DrawArrow(stsPos + Vector3.left / 2, serverState.Impulse);
+		if (drawMoves) DebugGizmoUtils.DrawText(serverState.MoveNumber.ToString(), stsPos + Vector3.left / 4, 15);
 
 		//serverLerpState
 		Gizmos.color = color2;
 		Vector3 ssPos = serverLerpState.WorldPosition;
 		Gizmos.DrawWireCube(ssPos, size2);
-		GizmoUtils.DrawArrow(ssPos + Vector3.right / 2, serverLerpState.Impulse);
-		if (drawMoves) GizmoUtils.DrawText(serverLerpState.MoveNumber.ToString(), ssPos + Vector3.right / 4, 15);
+		DebugGizmoUtils.DrawArrow(ssPos + Vector3.right / 2, serverLerpState.Impulse);
+		if (drawMoves) DebugGizmoUtils.DrawText(serverLerpState.MoveNumber.ToString(), ssPos + Vector3.right / 4, 15);
 
 		//client predictedState
 		Gizmos.color = color3;
 		Vector3 clientPrediction = predictedState.WorldPosition;
 		Gizmos.DrawWireCube(clientPrediction, size3);
-		GizmoUtils.DrawArrow(clientPrediction + Vector3.left / 5, predictedState.Impulse);
-		if (drawMoves) GizmoUtils.DrawText(predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15);
+		DebugGizmoUtils.DrawArrow(clientPrediction + Vector3.left / 5, predictedState.Impulse);
+		if (drawMoves) DebugGizmoUtils.DrawText(predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15);
 
 		//client playerState
 		Gizmos.color = color4;
 		Vector3 clientState = playerState.WorldPosition;
 		Gizmos.DrawWireCube(clientState, size4);
-		GizmoUtils.DrawArrow(clientState + Vector3.right / 5, playerState.Impulse);
-		if (drawMoves) GizmoUtils.DrawText(playerState.MoveNumber.ToString(), clientState + Vector3.right, 15);
+		DebugGizmoUtils.DrawArrow(clientState + Vector3.right / 5, playerState.Impulse);
+		if (drawMoves) DebugGizmoUtils.DrawText(playerState.MoveNumber.ToString(), clientState + Vector3.right, 15);
 
 		//help intent
 		Gizmos.color = isLocalPlayer ?  color4 : color1;
 		if (playerMove.IsHelpIntent)
 		{
-			GizmoUtils.DrawText("Help", clientState + Vector3.up/2, 15);
+			DebugGizmoUtils.DrawText("Help", clientState + Vector3.up/2, 15);
 		}
 	}
 #endif
