@@ -49,7 +49,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 			int active = GameManager.Instance.GetOccupationsCount(jobType);
 			int available = GameManager.Instance.GetOccupationMaxCount(jobType);
 
-
+			occupation.name = jobType.ToString();
 			occupation.GetComponentInChildren<Text>().text = jobType + " (" + active + " of " + available + ")";
 			occupation.transform.SetParent(screen_Jobs.transform);
 			occupation.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
