@@ -29,7 +29,7 @@ namespace Tests
 		{
 			yield return LoadSceneAndSetActive();
 			yield return ClickButton("LoginButton");
-			yield return ClickButtonWaitSceneLoad("StartGameButton");
+			yield return DoActionWaitSceneLoad(ClickButton("StartGameButton"));
 			yield return ClickButton("Nanotrasen");
 			yield return ClickButton(JobType.CHIEF_ENGINEER);
 
@@ -46,7 +46,7 @@ namespace Tests
 			GUI_IngameMenu.Instance.isTest = true;
 			GUI_IngameMenu.Instance.OpenMenuPanel(GUI_IngameMenu.Instance.mainIngameMenu);
 			yield return ClickButton("ExitButton");
-			yield return ClickButtonWaitSceneUnload("Button1");
+			yield return DoActionWaitSceneUnload(ClickButton("Button1"));
 		}
 
 		protected override IEnumerator CustomUpdateBenchmark(int sampleCount)

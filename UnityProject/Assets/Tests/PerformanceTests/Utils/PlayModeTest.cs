@@ -34,12 +34,12 @@ namespace Tests
 		#endregion
 
 		#region Button Methods
-		protected IEnumerator ClickButtonWaitSceneLoad(string buttonName)
+		protected IEnumerator DoActionWaitSceneLoad(Action action)
 		{
 			bool wait = true;
 			SceneManager.sceneLoaded += StopWaiting;
 
-			yield return ClickButton(buttonName);
+			action();
 			Debug.Log("Waiting for scene load");
 
 			yield return new WaitWhile(() => wait);
@@ -48,12 +48,40 @@ namespace Tests
 			void StopWaiting(Scene scene, LoadSceneMode mode) => wait = false;
 		}
 
-		protected IEnumerator ClickButtonWaitSceneUnload(string buttonName)
+		protected IEnumerator DoActionWaitSceneLoad(IEnumerator action)
+		{
+			bool wait = true;
+			SceneManager.sceneLoaded += StopWaiting;
+
+			yield return action;
+			Debug.Log("Waiting for scene load");
+
+			yield return new WaitWhile(() => wait);
+			SceneManager.sceneLoaded -= StopWaiting;
+
+			void StopWaiting(Scene scene, LoadSceneMode mode) => wait = false;
+		}
+
+		protected IEnumerator DoActionWaitSceneUnload(Action action)
 		{
 			bool wait = true;
 			SceneManager.sceneUnloaded += StopWaiting;
 
-			yield return ClickButton(buttonName);
+			action();
+			Debug.Log("Waiting for scene unload");
+
+			yield return new WaitWhile(() => wait);
+			SceneManager.sceneUnloaded -= StopWaiting;
+
+			void StopWaiting(Scene scene) => wait = false;
+		}
+
+		protected IEnumerator DoActionWaitSceneUnload(IEnumerator action)
+		{
+			bool wait = true;
+			SceneManager.sceneUnloaded += StopWaiting;
+
+			yield return action;
 			Debug.Log("Waiting for scene unload");
 
 			yield return new WaitWhile(() => wait);
