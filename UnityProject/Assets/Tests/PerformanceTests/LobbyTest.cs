@@ -40,7 +40,7 @@ namespace Tests
 			LoadTime();
 
 			yield return ClickButton("LoginButton");
-			yield return ClickButtonWaitSceneLoad("StartGameButton");
+			yield return DoActionWaitSceneLoad(ClickButton("StartGameButton"));
 			yield return ClickButton("Nanotrasen");
 			yield return ClickButton(JobType.ASSISTANT);
 			OutpostTime();
@@ -52,7 +52,7 @@ namespace Tests
 			GUI_IngameMenu.Instance.isTest = true;
 			GUI_IngameMenu.Instance.OpenMenuPanel(GUI_IngameMenu.Instance.mainIngameMenu);
 			yield return ClickButton("ExitButton");
-			yield return ClickButtonWaitSceneUnload("Button1");
+			yield return DoActionWaitSceneUnload(ClickButton("Button1"));
 
 			EndBenchmark();
 		}
@@ -64,7 +64,7 @@ namespace Tests
 			yield return LoadSceneAndSetActive();
 			LoadTime();
 			yield return ClickButton("LoginButton");
-			yield return ClickButtonWaitSceneLoad("StartGameButton");
+			yield return DoActionWaitSceneLoad(ClickButton("StartGameButton"));
 			yield return ClickButton("NukeOps");
 			OutpostTime();
 
@@ -75,7 +75,7 @@ namespace Tests
 			GUI_IngameMenu.Instance.isTest = true;
 			GUI_IngameMenu.Instance.OpenMenuPanel(GUI_IngameMenu.Instance.mainIngameMenu);
 			yield return ClickButton("ExitButton");
-			yield return ClickButtonWaitSceneUnload("Button1");
+			yield return DoActionWaitSceneUnload(ClickButton("Button1"));
 
 			EndBenchmark();
 		}
