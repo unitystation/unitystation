@@ -34,6 +34,7 @@ public class PerformanceBenchmarkReport : MonoBehaviour
 	[MenuItem("Tools/Performance Test Results/Add Performance Result To Comparison")]
 	static void AddPerformanceResult()
 	{
+		if (!Directory.Exists(PerformanceResultsFolderLocation)) Directory.CreateDirectory(PerformanceResultsFolderLocation);
 		var file = new FileInfo(PerformanceResultLocation);
 
 		var OutputFile = Path.Combine(PerformanceResultsFolderLocation,
