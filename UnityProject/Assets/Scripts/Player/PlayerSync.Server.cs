@@ -71,7 +71,7 @@ public partial class PlayerSync
 	/// <summary>
 	/// If the position of this player is "non-sticky", i.e. meaning they would slide / float in a given direction
 	/// </summary>
-	public bool IsNonStickyServer => !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
+	public bool IsNonStickyServer => registerPlayer.IsStunned || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
 
 

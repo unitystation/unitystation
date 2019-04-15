@@ -25,7 +25,7 @@ public class AtmosManager : MonoBehaviour
 		}
 	}
 
-	private void FixedUpdate()
+	private void Update()
 	{
 		if (Mode == AtmosMode.GameLoop && Running)
 		{

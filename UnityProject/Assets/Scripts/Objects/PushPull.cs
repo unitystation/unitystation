@@ -513,11 +513,12 @@ public class PushPull : VisibleBehaviour {
 		{
 			return false;
 		}
-		Vector3Int currentPos = registerTile.WorldPosition;
-		if (from != currentPos)
-		{
-			return false;
-		}
+//todo: check against Pushable.ServerPos if server, Pushable.ClientPos if client
+//		Vector3Int currentPos = registerTile.WorldPosition;
+//		if (from != currentPos)
+//		{
+//			return false;
+//		}
 
 		if (Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1)
 		{

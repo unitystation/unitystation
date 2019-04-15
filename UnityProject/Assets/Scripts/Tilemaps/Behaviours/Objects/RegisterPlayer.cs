@@ -22,6 +22,7 @@ public class RegisterPlayer : RegisterTile
 	/// True when the player is laying down
 	/// </summary>
 	public bool IsDown => isDown;
+	public bool IsStunned => isStunned;
 
 	private void Awake()
 	{
@@ -129,8 +130,8 @@ public class RegisterPlayer : RegisterTile
 	{
 		// Don't slip while walking unless its enabled with "slipWhileWalking".
 		// Don't slip while player's consious state is crit, soft crit, or dead.
-		if (!slipWhileWalking
-		    && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
+		if ( isStunned
+			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
 		    || playerScript.playerHealth.IsCrit
 		    || playerScript.playerHealth.IsSoftCrit
 		    || playerScript.playerHealth.IsDead)
