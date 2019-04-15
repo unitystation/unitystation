@@ -8,16 +8,27 @@ public class PlayerHealthUI : MonoBehaviour
 	public UI_HeartMonitor heartMonitor;
 	public OverlayCrits overlayCrits;
 	private UI_OxygenAlert oxygenAlert;
+	public int pressureToggle = 1;
+	public bool tempToggle = false;
+	private UI_TempAlert tempAlert;
+	private UI_PressureAlert pressureAlert;
 	private bool monitorBreathing = false;
-	private Button oxygenButton;
+	private bool monitorTemp = false;
+	private bool monitorPressure = false;
+	private bool hasOxygen = false;
 
+	private Button oxygenButton;
 	List<DamageMonitorListener> bodyPartListeners = new List<DamageMonitorListener>();
 
 	void Awake()
 	{
 		bodyPartListeners = new List<DamageMonitorListener>(UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>(true));
 		oxygenAlert = GetComponentInChildren<UI_OxygenAlert>(true);
+		tempAlert = GetComponentInChildren<UI_TempAlert>(true);
+		pressureAlert = GetComponentInChildren<UI_PressureAlert>(true);
 		oxygenAlert.gameObject.SetActive(false);
+		tempAlert.gameObject.SetActive(false);
+		pressureAlert.gameObject.SetActive(false);
 		oxygenButton = GetComponentInChildren<OxygenButton>(true).gameObject.GetComponent<Button>();
 	}
 
@@ -28,6 +39,8 @@ public class PlayerHealthUI : MonoBehaviour
 		if (SceneManager.GetActiveScene().name != "Lobby")
 		{
 			monitorBreathing = true;
+			monitorTemp = true;
+			monitorPressure = true;
 		}
 	}
 
@@ -43,7 +56,8 @@ public class PlayerHealthUI : MonoBehaviour
 	void UpdateMe()
 	{
 		if (monitorBreathing && PlayerManager.LocalPlayer != null)
-		{
+		{ 
+			
 			if (PlayerManager.LocalPlayerScript.IsGhost || PlayerManager.LocalPlayerScript.playerHealth.IsDead)
 			{
 				if (oxygenAlert.gameObject.activeInHierarchy)
@@ -52,27 +66,74 @@ public class PlayerHealthUI : MonoBehaviour
 				}
 				return;
 			}
-
-			if (PlayerManager.LocalPlayerScript.playerHealth.IsRespiratoryArrest && !oxygenAlert.gameObject.activeInHierarchy)
+			hasOxygen = !PlayerManager.LocalPlayerScript.playerHealth.IsRespiratoryArrest && !PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.IsSuffocating;
+			if (!hasOxygen && !oxygenAlert.gameObject.activeInHierarchy)
 			{
 				oxygenAlert.gameObject.SetActive(true);
 			}
 
-			if (!PlayerManager.LocalPlayerScript.playerHealth.IsRespiratoryArrest && oxygenAlert.gameObject.activeInHierarchy)
+			if (hasOxygen && oxygenAlert.gameObject.activeInHierarchy)
 			{
 				oxygenAlert.gameObject.SetActive(false);
 			}
+		}
+
+		if (monitorTemp && PlayerManager.LocalPlayer != null)
+		{
+			if (PlayerManager.LocalPlayerScript.IsGhost || PlayerManager.LocalPlayerScript.playerHealth.IsDead)
+			{
+				if (tempAlert.gameObject.activeInHierarchy)
+				{
+					tempAlert.gameObject.SetActive(false);
+				}
+				return;
+			}
+			tempToggle = PlayerManager.LocalPlayerScript.playerHealth.isBurned;
+			if (tempToggle && !tempAlert.gameObject.activeInHierarchy)
+			{
+				tempAlert.gameObject.SetActive(true);
+			}
+			if (!tempToggle && tempAlert.gameObject.activeInHierarchy)
+			{
+				tempAlert.gameObject.SetActive(false);
+			}
+
+		}
+
+		if (monitorPressure && PlayerManager.LocalPlayer != null)
+		{
+			if (PlayerManager.LocalPlayerScript.IsGhost || PlayerManager.LocalPlayerScript.playerHealth.IsDead)
+			{
+				if (pressureAlert.gameObject.activeInHierarchy)
+				{
+					pressureAlert.gameObject.SetActive(false);
+				}
+				return;
+			}
+			pressureToggle = PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.pressureStatus;
+			if (pressureToggle != 0 && !pressureAlert.gameObject.activeInHierarchy)
+			{
+				pressureAlert.gameObject.SetActive(true);
+			}
+			if (pressureToggle == 0 && pressureAlert.gameObject.activeInHierarchy)
+			{
+				pressureAlert.gameObject.SetActive(false);
+			}
+			
+
 		}
 
 		if (PlayerManager.LocalPlayer != null)
 		{
 			if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
 			{
+				Logger.Log("Has Gear Equipped");
 				oxygenButton.interactable = true;
 			}
 
 			if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
 			{
+				Logger.Log("Has No Gear Equipped");
 				EventManager.Broadcast(EVENT.DisableInternals);
 				oxygenButton.interactable = false;
 			}
@@ -84,10 +145,14 @@ public class PlayerHealthUI : MonoBehaviour
 		if (next.name != "Lobby")
 		{
 			monitorBreathing = true;
+			monitorTemp = true;
+			monitorPressure = true;
 		}
 		else
 		{
 			monitorBreathing = false;
+			monitorTemp = false;
+			monitorPressure = false;
 		}
 	}
 

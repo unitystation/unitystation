@@ -14,6 +14,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	ConsciousState consciousStateCache;
 	bool isBreathingCache;
 	bool isSuffocatingCache;
+	int pressureStatusCache;
 	int heartRateCache;
 	int bloodLevelCache;
 	float oxygenLevelCache;
@@ -66,6 +67,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		consciousStateCache = livingHealthBehaviour.ConsciousState;
 		isBreathingCache = livingHealthBehaviour.respiratorySystem.IsBreathing;
 		isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
+		pressureStatusCache = livingHealthBehaviour.respiratorySystem.pressureStatus;
 		UpdateBloodCaches();
 		if (livingHealthBehaviour.brainSystem != null)
 		{
@@ -135,10 +137,12 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void CheckRespiratoryHealth()
 	{
 		if (isBreathingCache != livingHealthBehaviour.respiratorySystem.IsBreathing ||
-			isSuffocatingCache != livingHealthBehaviour.respiratorySystem.IsSuffocating)
+			isSuffocatingCache != livingHealthBehaviour.respiratorySystem.IsSuffocating || 
+			pressureStatusCache != livingHealthBehaviour.respiratorySystem.pressureStatus)
 		{
 			isBreathingCache = livingHealthBehaviour.respiratorySystem.IsBreathing;
 			isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
+			pressureStatusCache = livingHealthBehaviour.respiratorySystem.pressureStatus;
 			SendRespiratoryUpdate();
 		}
 	}
@@ -193,7 +197,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void SendRespiratoryUpdate()
 	{
 		HealthRespiratoryMessage.SendToAll(gameObject, livingHealthBehaviour.respiratorySystem.IsBreathing,
-			livingHealthBehaviour.respiratorySystem.IsSuffocating);
+			livingHealthBehaviour.respiratorySystem.IsSuffocating, livingHealthBehaviour.respiratorySystem.pressureStatus);
 	}
 
 	void SendBrainUpdate()
@@ -224,7 +228,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void SendRespiratoryUpdate(GameObject requestor)
 	{
 		HealthRespiratoryMessage.Send(requestor, gameObject, livingHealthBehaviour.respiratorySystem.IsBreathing,
-			livingHealthBehaviour.respiratorySystem.IsSuffocating);
+			livingHealthBehaviour.respiratorySystem.IsSuffocating, livingHealthBehaviour.respiratorySystem.pressureStatus);
 	}
 
 	void SendBrainUpdate(GameObject requestor)

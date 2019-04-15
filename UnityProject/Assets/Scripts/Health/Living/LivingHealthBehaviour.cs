@@ -35,6 +35,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	[Header("Is this an animal or NPC?")]
 	public bool isNotPlayer = false;
 
+	public bool isBurned = false;
 	protected DamageType LastDamageType;
 
 	protected GameObject LastDamagedBy;
@@ -548,9 +549,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <summary>
 	/// Updates the respiratory health stats from the server via NetMsg
 	/// </summary>
-	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
+	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating, int pressureStatus)
 	{
-		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating);
+		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating, pressureStatus);
 		//	Logger.Log($"Update stats for {gameObject.name} isBreathing: {isBreathing} isSuffocating {isSuffocating}", Category.Health);
 
 		CheckHealthAndUpdateConsciousState();
@@ -583,6 +584,16 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public void UpdateClientBodyPartStats(BodyPartType bodyPartType, float bruteDamage, float burnDamage)
 	{
 		var bodyPart = FindBodyPart(bodyPartType);
+		if (burnDamage > 0)
+		{
+			isBurned = true;
+
+		}
+		else 
+		{
+			isBurned = false;
+		}
+
 		if (bodyPart != null)
 		{
 			//	Logger.Log($"Update stats for {gameObject.name} body part {bodyPartType.ToString()} BruteDmg: {bruteDamage} BurnDamage: {burnDamage}", Category.Health);

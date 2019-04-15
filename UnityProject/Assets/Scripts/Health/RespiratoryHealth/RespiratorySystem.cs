@@ -13,7 +13,9 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 {
 	private const float OXYGEN_SAFE_MIN = 16;
 	public bool IsBreathing { get; private set; } = true;
-	public bool IsSuffocating { get; private set; }
+	public bool IsSuffocating { get; private set; } = false;
+
+	public int pressureStatus { get; private set; } = 0;
 
 	/// <summary>
 	/// 2 minutes of suffocation = 100% damage
@@ -138,6 +140,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 		if (oxygenPressure < OXYGEN_SAFE_MIN)
 		{
+			IsSuffocating = true;
 			if (Random.value < 0.2)
 			{
 				PostToChatMessage.SendGasp(base.gameObject);
@@ -159,6 +162,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		}
 		else
 		{
+			IsSuffocating = false;
 			oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen);
 			bloodSystem.OxygenLevel += 30;
 		}
@@ -169,15 +173,23 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private void CheckPressureDamage(float pressure)
 	{
 		if (pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
-		{
+		{	
+			//1 pressure status indicates Low Pressure
+			pressureStatus = 1;
 			ApplyDamage(AtmosConstants.LOW_PRESSURE_DAMAGE, DamageType.Brute);
 		}
 		else if (pressure > AtmosConstants.HAZARD_HIGH_PRESSURE)
 		{
 			float damage = Mathf.Min(((pressure / AtmosConstants.HAZARD_HIGH_PRESSURE) - 1) * AtmosConstants.PRESSURE_DAMAGE_COEFFICIENT,
 				AtmosConstants.MAX_HIGH_PRESSURE_DAMAGE);
-
+			//2 pressure status indicates High Pressure
+			pressureStatus = 2;
 			ApplyDamage(damage, DamageType.Brute);
+		}
+		else
+		{
+			//Null pressure status indicates No pressure warning
+			pressureStatus = 0;
 		}
 	}
 
@@ -213,7 +225,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	/// <summary>
 	/// Updated from server via NetMsg
 	/// </summary>
-	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
+	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating, int pressureStatus)
 	{
 		if (CustomNetworkManager.IsServer)
 		{
