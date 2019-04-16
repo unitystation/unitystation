@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using Unity.Profiling;
+using System.Linq;
+#endif
 
 public class ElectricalSynchronisationStorage
 {
@@ -87,6 +91,21 @@ public static class ElectricalSynchronisation
 	public static HashSet<PowerSupplyControlInheritance> PoweredDevices = new HashSet<PowerSupplyControlInheritance>(); // things that may need electrical updates to react to voltage changes 
 	public static Queue<ElectricalSynchronisationStorage> ToRemove = new Queue<ElectricalSynchronisationStorage>();
 
+
+#if UNITY_EDITOR
+	public const string updateName = nameof(ElectricalSynchronisation) + "." + nameof(DoUpdate);
+	private static ProfilerMarker update = new ProfilerMarker(updateName);
+
+	public static readonly string[] markerNames = new[] {
+		nameof(IfStructureChange),
+		nameof(PowerUpdateStructureChangeReact),
+		nameof(PowerUpdateResistanceChange),
+		nameof(PowerUpdateCurrentChange),
+		nameof(PowerNetworkUpdate),
+	}.Select(mn => $"{nameof(ElectricalSynchronisation)}.{mn}").ToArray();
+	private static readonly ProfilerMarker[] markers = markerNames.Select(mn => new ProfilerMarker(mn)).ToArray();
+#endif
+
 	public static void AddSupply(PowerSupplyControlInheritance Supply, PowerTypeCategory category)
 	{
 		if (!(AliveSupplies.ContainsKey(category)))
@@ -106,6 +125,9 @@ public static class ElectricalSynchronisation
 
 	public static void DoUpdate()
 	{ //The beating heart
+#if UNITY_EDITOR
+		update.Begin();
+#endif
 		if (!Initialise)
 		{
 			foreach (var category in OrderList)
@@ -132,10 +154,16 @@ public static class ElectricalSynchronisation
 			tickCount = 0f;
 			currentTick = ++currentTick % Steps;
 		}
+#if UNITY_EDITOR
+		update.End();
+#endif
 	}
 
 	private static void DoTick()
 	{
+		#if UNITY_EDITOR
+		using (markers[currentTick].Auto())
+		#endif
 		switch (currentTick)
 		{
 			case 0: IfStructureChange(); break;

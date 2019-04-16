@@ -1,8 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-#if UNITY_EDITOR
-using Unity.Profiling;
-#endif
 using UnityEngine;
 
 public class ElectricalManager : MonoBehaviour
@@ -21,17 +18,11 @@ public class ElectricalManager : MonoBehaviour
 	}
 
 	private bool roundStartedServer = false;
-	#if UNITY_EDITOR
-	private ProfilerMarker profiler = new ProfilerMarker("ElectricalManager.Update");
-	#endif
 
 	void Update()
 	{
 		if (roundStartedServer && CustomNetworkManager.Instance._isServer)
 		{
-			#if UNITY_EDITOR
-			using(profiler.Auto())
-			#endif
 			ElectricalSynchronisation.DoUpdate();
 		}
 	}
