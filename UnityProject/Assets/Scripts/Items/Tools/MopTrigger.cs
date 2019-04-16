@@ -68,11 +68,18 @@ public class MopTrigger : PickUpTrigger
 		{
 			//server is performing server-side logic for the interaction
 			//do the mopping
-			//TODO: Refactor to use a callback / interface for the completion actions
 			var progressFinishAction = new FinishProgressAction(
-				FinishProgressAction.Action.CleanTile,
-				position.RoundToInt(),
-				this
+				reason =>
+				{
+					if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
+					{
+						CancelCleanTile();
+					}
+					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
+					{
+						CleanTile(position);
+					}
+				}
 			);
 			isCleaning = true;
 
@@ -84,7 +91,7 @@ public class MopTrigger : PickUpTrigger
 
 
 	[Server]
-	public void CleanTile (Vector3 worldPos)
+	private void CleanTile (Vector3 worldPos)
     {
 	    var worldPosInt = worldPos.CutToInt();
 	    var matrix = MatrixManager.AtPoint( worldPosInt );
@@ -109,7 +116,7 @@ public class MopTrigger : PickUpTrigger
     }
 
 	[Server]
-	public void CancelCleanTile()
+	private void CancelCleanTile()
 	{
 		//stop the in progress cleaning
 		isCleaning = false;

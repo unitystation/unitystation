@@ -99,7 +99,7 @@ public class ProgressBar : NetworkBehaviour
 			//Cancel the progress bar if the player moves away or faces another direction:
 			if (playerProgress[i].HasMovedAway())
 			{
-				playerProgress[i].completedAction.InterruptAction();
+				playerProgress[i].completedAction.Finish(FinishProgressAction.FinishReason.INTERRUPTED);
 				CloseProgressBar(playerProgress[i]);
 				continue;
 			}
@@ -107,7 +107,7 @@ public class ProgressBar : NetworkBehaviour
 			//Finished! Invoke the action and close the progress bar for the player
 			if (playerProgress[i].progress >= playerProgress[i].timeToFinish)
 			{
-				playerProgress[i].completedAction.DoAction();
+				playerProgress[i].completedAction.Finish(FinishProgressAction.FinishReason.COMPLETED);
 				CloseProgressBar(playerProgress[i]);
 			}
 		}
@@ -160,94 +160,43 @@ public class PlayerProgressEntry
 }
 
 /// <summary>
-/// Defines what to do when finishing or quitting the action early - pretty sure this runs only on the server.
+/// Defines what to do when finishing progress bar, which could be due to the progress completing
+/// or being interrupted. Pretty sure this runs only on the server.
 /// </summary>
 public class FinishProgressAction
 {
-	public enum Action
+	/// <summary>
+	/// Denotes why the action in progress is now done
+	/// </summary>
+	public enum FinishReason
 	{
-		TileConstruction,
-		TileDeconstruction,
-		CleanTile,
+		//completed successfully
+		COMPLETED,
+		//interrupted before completion
+		INTERRUPTED
 		//Add whatever else you need here
 	}
 
-	private Action actionType;
+	//callback invoked when action completes
+	private Action<FinishReason> onFinished;
 
-	//Tile change stuff:
-	private TileChangeManager tileChangeManager;
-	private TileType tileType;
-	private Vector3 cellPos;
-	private Vector3 worldPos; //worldPos of the action or tile
-	private MopTrigger theMop;
-
-	private GameObject originator;
-
-	//Create a constructor for each new use type of FinishProgressAction (i.e you might add an Action type called HandCuff)
-	public FinishProgressAction(Action action, TileChangeManager _tileChangeManager,
-		TileType _tileType, Vector3 _cellPos, Vector3 _worldPos, GameObject _originator)
+	/// <summary>
+	/// Finish progress action with a specified callback when finished
+	/// </summary>
+	/// <param name="onFinished">function to invoke when progress is finished, including an indicator
+	/// of why the progress finished (such as if it was interrupted). The function should
+	/// take care of whatever needs to be done based on FinishStatus status.</param>
+	public FinishProgressAction(Action<FinishReason> onFinished)
 	{
-		actionType = action;
-		tileChangeManager = _tileChangeManager;
-		tileType = _tileType;
-		cellPos = _cellPos;
-		worldPos = _worldPos;
-		originator = _originator;
-	}
-	public FinishProgressAction(FinishProgressAction.Action cleanTile, Vector3 splatsPos, MopTrigger mop)
-	{
-		actionType = cleanTile;
-		worldPos = splatsPos;
-		theMop = mop;
-	}
-	public void DoAction()
-	{
-		switch (actionType)
-		{
-			case Action.TileConstruction:
-				DoTileConstruction();
-				break;
-			case Action.TileDeconstruction:
-				DoTileDeconstruction();
-				break;
-			case Action.CleanTile:
-				DoCleanTile(false);
-				break;
-		}
+		this.onFinished = onFinished;
 	}
 
-	//invoked when action is interrupted before completing
-	public void InterruptAction()
+	/// <summary>
+	/// Finish the action with the specified reason, invoke the callback.
+	/// </summary>
+	/// <param name="completed">reason for completion</param>
+	public void Finish(FinishReason reason)
 	{
-		switch (actionType)
-		{
-			case Action.CleanTile:
-				DoCleanTile(true);
-				break;
-		}
-	}
-
-	private void DoTileConstruction()
-	{
-		//TODO
-	}
-
-	private void DoTileDeconstruction()
-	{
-		CraftingManager.Deconstruction.TryTileDeconstruct(
-			tileChangeManager, tileType, cellPos, worldPos);
-	}
-
-	private void DoCleanTile(bool cancel)
-	{
-		if (!cancel)
-		{
-			theMop.CleanTile(worldPos);
-		}
-		else
-		{
-			theMop.CancelCleanTile();
-		}
-
+		this.onFinished.Invoke(reason);
 	}
 }
