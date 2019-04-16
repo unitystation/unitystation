@@ -13,7 +13,7 @@ public class HealthRespiratoryMessage : ServerMessage
 	public bool IsBreathing;
 	public bool IsSuffocating;
 
-	public int PressureStatus;
+	public RespiratorySystem.PressureChecker PressureStatus;
 
 	public override IEnumerator Process()
 	{
@@ -21,7 +21,7 @@ public class HealthRespiratoryMessage : ServerMessage
 		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientRespiratoryStats(IsBreathing, IsSuffocating, PressureStatus);
 	}
 
-	public static HealthRespiratoryMessage Send(GameObject recipient, GameObject entityToUpdate, bool isBreathing, bool IsSuffocating, int pressureStatus)
+	public static HealthRespiratoryMessage Send(GameObject recipient, GameObject entityToUpdate, bool isBreathing, bool IsSuffocating, RespiratorySystem.PressureChecker pressureStatus)
 	{
 		HealthRespiratoryMessage msg = new HealthRespiratoryMessage
 		{
@@ -34,7 +34,7 @@ public class HealthRespiratoryMessage : ServerMessage
 		return msg;
 	}
 
-	public static HealthRespiratoryMessage SendToAll(GameObject entityToUpdate,  bool isBreathing, bool IsSuffocating, int pressureStatus)
+	public static HealthRespiratoryMessage SendToAll(GameObject entityToUpdate,  bool isBreathing, bool IsSuffocating, RespiratorySystem.PressureChecker pressureStatus)
 	{
 		HealthRespiratoryMessage msg = new HealthRespiratoryMessage
 		{

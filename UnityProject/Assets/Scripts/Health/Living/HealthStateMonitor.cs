@@ -14,7 +14,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	ConsciousState consciousStateCache;
 	bool isBreathingCache;
 	bool isSuffocatingCache;
-	int pressureStatusCache;
+	RespiratorySystem.PressureChecker pressureStatusCache;
 	int heartRateCache;
 	int bloodLevelCache;
 	float oxygenLevelCache;

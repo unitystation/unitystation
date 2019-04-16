@@ -15,7 +15,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	public bool IsBreathing { get; private set; } = true;
 	public bool IsSuffocating { get; private set; } = false;
 
-	public int pressureStatus { get; private set; } = 0;
+	public PressureChecker pressureStatus;
 
 	/// <summary>
 	/// 2 minutes of suffocation = 100% damage
@@ -170,12 +170,19 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		return oxygenUsed;
 	}
 
+	public enum PressureChecker {
+		noAlert = 1,
+		tooHigh = 2,
+		tooLow = 4
+	}
+
 	private void CheckPressureDamage(float pressure)
 	{
 		if (pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
 		{	
 			//1 pressure status indicates Low Pressure
-			pressureStatus = 1;
+			pressureStatus |= PressureChecker.tooLow;
+			pressureStatus &= ~(PressureChecker.noAlert);
 			ApplyDamage(AtmosConstants.LOW_PRESSURE_DAMAGE, DamageType.Brute);
 		}
 		else if (pressure > AtmosConstants.HAZARD_HIGH_PRESSURE)
@@ -183,13 +190,14 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			float damage = Mathf.Min(((pressure / AtmosConstants.HAZARD_HIGH_PRESSURE) - 1) * AtmosConstants.PRESSURE_DAMAGE_COEFFICIENT,
 				AtmosConstants.MAX_HIGH_PRESSURE_DAMAGE);
 			//2 pressure status indicates High Pressure
-			pressureStatus = 2;
+			pressureStatus |= PressureChecker.tooHigh;
+			pressureStatus &= ~(PressureChecker.noAlert);
 			ApplyDamage(damage, DamageType.Brute);
 		}
 		else
 		{
-			//Null pressure status indicates No pressure warning
-			pressureStatus = 0;
+			pressureStatus |= PressureChecker.noAlert;
+			pressureStatus &= ~(PressureChecker.tooHigh | PressureChecker.tooLow);
 		}
 	}
 
@@ -225,7 +233,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	/// <summary>
 	/// Updated from server via NetMsg
 	/// </summary>
-	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating, int pressureStatus)
+	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating, PressureChecker pressureStatus)
 	{
 		if (CustomNetworkManager.IsServer)
 		{

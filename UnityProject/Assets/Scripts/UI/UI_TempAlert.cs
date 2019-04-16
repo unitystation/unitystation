@@ -18,13 +18,27 @@ public class UI_TempAlert : MonoBehaviour
 	{
 		img = GetComponent<Image>();
 		sprite = img.sprite;
-		InvokeRepeating("CycleImg", 1f, 1f); //Cycle images every 1 second
+		indexLower = 0;
+	}
+
+	void OnEnable()
+	{
+		StartCoroutine (CycleImg()); // Cycle images every one second
+
 	}
 	
-	void CycleImg()
+	void OnDisable()
+	{
+		StopCoroutine (CycleImg()); // Ends image cycling
+
+	}
+	
+	IEnumerator CycleImg()
 	{	
-		if (gameObject.activeInHierarchy)
+		while (true)
 		{
+
+			
 			if (activeImageIndex >= 2)
 			{
 				activeImageIndex = indexLower;
@@ -32,7 +46,10 @@ public class UI_TempAlert : MonoBehaviour
 			sprite = statusImages[activeImageIndex];
 			activeImageIndex++;
 			img.sprite = sprite;
+			
+			yield return new WaitForSeconds(1f);
 		}
+
 		
 	}
 }

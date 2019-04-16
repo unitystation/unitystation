@@ -20,14 +20,27 @@ public class UI_PressureAlert : MonoBehaviour {
 
 		img = GetComponent<Image>();
 		sprite = img.sprite;
-		InvokeRepeating("CycleImg", 1f, 1f); //Cycle images every 1 second
+		
+	}
+
+	void OnEnable()
+	{
+		StartCoroutine (CycleImg()); // Cycle images every one second
+
 	}
 	
-	void CycleImg()
+	void OnDisable()
+	{
+		StopCoroutine (CycleImg()); // Ends image cycling
+
+	}
+
+	IEnumerator CycleImg()
 	{	
-		if (gameObject.activeInHierarchy)
-		{
-			if ( UIManager.PlayerHealthUI.pressureToggle == 1)
+		while(true)
+		{	
+
+			if ( (UIManager.PlayerHealthUI.pressureToggle & RespiratorySystem.PressureChecker.tooLow) != 0)
 			{
 				indexLower = 0;
 			}
@@ -35,14 +48,18 @@ public class UI_PressureAlert : MonoBehaviour {
 			{
 				indexLower = 2;
 			}
-			//Restart "animation"
-			if (activeImageIndex >= indexLower+2 || activeImageIndex < indexLower)
+			if (activeImageIndex >= indexLower+2 || activeImageIndex < indexLower) //Restart "animation"
 			{
 				activeImageIndex = indexLower;
 			}
 			sprite = statusImages[activeImageIndex];
 			activeImageIndex++;
 			img.sprite = sprite;
+			
+
+			yield return new WaitForSeconds(1f);
 		}
+			
+		
 	}
 }

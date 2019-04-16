@@ -8,7 +8,7 @@ public class PlayerHealthUI : MonoBehaviour
 	public UI_HeartMonitor heartMonitor;
 	public OverlayCrits overlayCrits;
 	private UI_OxygenAlert oxygenAlert;
-	public int pressureToggle = 1;
+	public RespiratorySystem.PressureChecker pressureToggle;
 	public bool tempToggle = false;
 	private UI_TempAlert tempAlert;
 	private UI_PressureAlert pressureAlert;
@@ -54,18 +54,32 @@ public class PlayerHealthUI : MonoBehaviour
 	}
 
 	void UpdateMe()
-	{
-		if (monitorBreathing && PlayerManager.LocalPlayer != null)
-		{ 
-			
-			if (PlayerManager.LocalPlayerScript.IsGhost || PlayerManager.LocalPlayerScript.playerHealth.IsDead)
+	{	//Doesn't update if player doesn't exist
+		if (PlayerManager.LocalPlayer == null)
+		{
+			return;
+		}
+		if (PlayerManager.LocalPlayerScript.IsGhost || PlayerManager.LocalPlayerScript.playerHealth.IsDead)
 			{
 				if (oxygenAlert.gameObject.activeInHierarchy)
 				{
 					oxygenAlert.gameObject.SetActive(false);
 				}
+				if (tempAlert.gameObject.activeInHierarchy)
+				{
+					tempAlert.gameObject.SetActive(false);
+				}
+				if (pressureAlert.gameObject.activeInHierarchy)
+				{
+					pressureAlert.gameObject.SetActive(false);
+				}
 				return;
 			}
+
+		if (monitorBreathing)
+		{ 
+			
+			
 			hasOxygen = !PlayerManager.LocalPlayerScript.playerHealth.IsRespiratoryArrest && !PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.IsSuffocating;
 			if (!hasOxygen && !oxygenAlert.gameObject.activeInHierarchy)
 			{
@@ -77,17 +91,9 @@ public class PlayerHealthUI : MonoBehaviour
 				oxygenAlert.gameObject.SetActive(false);
 			}
 		}
-
-		if (monitorTemp && PlayerManager.LocalPlayer != null)
+		// Handles temperature alert UI element
+		if (monitorTemp)
 		{
-			if (PlayerManager.LocalPlayerScript.IsGhost || PlayerManager.LocalPlayerScript.playerHealth.IsDead)
-			{
-				if (tempAlert.gameObject.activeInHierarchy)
-				{
-					tempAlert.gameObject.SetActive(false);
-				}
-				return;
-			}
 			tempToggle = PlayerManager.LocalPlayerScript.playerHealth.isBurned;
 			if (tempToggle && !tempAlert.gameObject.activeInHierarchy)
 			{
@@ -99,23 +105,15 @@ public class PlayerHealthUI : MonoBehaviour
 			}
 
 		}
-
-		if (monitorPressure && PlayerManager.LocalPlayer != null)
+		// Handles pressure alert UI element
+		if (monitorPressure)
 		{
-			if (PlayerManager.LocalPlayerScript.IsGhost || PlayerManager.LocalPlayerScript.playerHealth.IsDead)
-			{
-				if (pressureAlert.gameObject.activeInHierarchy)
-				{
-					pressureAlert.gameObject.SetActive(false);
-				}
-				return;
-			}
 			pressureToggle = PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.pressureStatus;
-			if (pressureToggle != 0 && !pressureAlert.gameObject.activeInHierarchy)
+			if ((pressureToggle & (RespiratorySystem.PressureChecker.tooHigh | RespiratorySystem.PressureChecker.tooLow)) != 0 && !pressureAlert.gameObject.activeInHierarchy)
 			{
 				pressureAlert.gameObject.SetActive(true);
 			}
-			if (pressureToggle == 0 && pressureAlert.gameObject.activeInHierarchy)
+			if ((pressureToggle & RespiratorySystem.PressureChecker.noAlert) != 0 && pressureAlert.gameObject.activeInHierarchy)
 			{
 				pressureAlert.gameObject.SetActive(false);
 			}
@@ -123,20 +121,15 @@ public class PlayerHealthUI : MonoBehaviour
 
 		}
 
-		if (PlayerManager.LocalPlayer != null)
+		if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
 		{
-			if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
-			{
-				Logger.Log("Has Gear Equipped");
-				oxygenButton.interactable = true;
-			}
+			oxygenButton.interactable = true;
+		}
 
-			if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
-			{
-				Logger.Log("Has No Gear Equipped");
-				EventManager.Broadcast(EVENT.DisableInternals);
-				oxygenButton.interactable = false;
-			}
+		if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
+		{
+			EventManager.Broadcast(EVENT.DisableInternals);
+			oxygenButton.interactable = false;
 		}
 	}
 

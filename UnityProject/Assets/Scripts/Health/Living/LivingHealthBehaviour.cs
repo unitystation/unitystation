@@ -549,7 +549,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <summary>
 	/// Updates the respiratory health stats from the server via NetMsg
 	/// </summary>
-	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating, int pressureStatus)
+	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating, RespiratorySystem.PressureChecker pressureStatus)
 	{
 		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating, pressureStatus);
 		//	Logger.Log($"Update stats for {gameObject.name} isBreathing: {isBreathing} isSuffocating {isSuffocating}", Category.Health);

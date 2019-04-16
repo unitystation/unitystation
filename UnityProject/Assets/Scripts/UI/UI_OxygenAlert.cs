@@ -15,20 +15,36 @@ public class UI_OxygenAlert : MonoBehaviour {
 	{
 		img = GetComponent<Image>();
 		sprite = img.sprite;
-		InvokeRepeating("CycleImg", 1f, 1f); //Cycle images every 1 second
+	}
+
+	void OnEnable()
+	{
+		StartCoroutine (CycleImg()); // Cycle images every one second
+
 	}
 	
-	void CycleImg()
+	void OnDisable()
 	{
-		sprite = statusImages[activeImageIndex];
-		activeImageIndex++;
+		StopCoroutine (CycleImg()); // Ends image cycling
 
-		//Restart "animation"
-		if (activeImageIndex >= statusImages.Length)
+	}
+	
+	IEnumerator CycleImg()
+	{
+		while (true)
 		{
-			activeImageIndex = 0;
-		}
+			sprite = statusImages[activeImageIndex];
+			activeImageIndex++;
 
-		img.sprite = sprite;
+			//Restart "animation"
+			if (activeImageIndex >= statusImages.Length)
+			{
+				activeImageIndex = 0;
+			}
+
+			img.sprite = sprite;
+
+			yield return new WaitForSeconds(1f);
+		}
 	}
 }
