@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -7,8 +7,8 @@ public class CableInheritance : InputTrigger, IDeviceControl
 {
 	public bool SelfDestruct = false;
 	public WiringColor CableType;
-	public int DirectionEnd { get { return wireConnect.DirectionEnd; } set { wireConnect.DirectionEnd = value; } }
-	public int DirectionStart { get { return wireConnect.DirectionStart; } set { wireConnect.DirectionStart = value; } }
+	public Connection WireEndA { get { return wireConnect.WireEndA; } set { wireConnect.WireEndA = value; } }
+	public Connection WireEndB { get { return wireConnect.WireEndB; } set { wireConnect.WireEndB = value; } }
 	public WireConnect wireConnect;
 	public PowerTypeCategory ApplianceType;
 	public HashSet<PowerTypeCategory> CanConnectTo;
@@ -94,21 +94,9 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	/// </summary>
 	public bool TRay;
 
-	public void damEditor(int DirectionStart, int DirectionEnd, WiringColor ct)
+	public void damEditor()
 	{
-		CableType = ct;
-		//This ensures that End is just null when they are the same
-		if (DirectionStart == DirectionEnd || DirectionEnd == 0)
-		{
-			SetDirection(DirectionStart);
-			return;
-		}
-		//This ensures that the DirectionStart is always the lower one after constructing it.
-		//It solves some complexity issues with the sprite's path
-		//Casting here is to solve nullable somehow not noticing my nullcheck earlier
-		this.DirectionStart = Math.Min(DirectionStart, DirectionEnd);
-		this.DirectionEnd = Math.Max(DirectionStart, DirectionEnd);
-		//Logger.Log(DirectionStart.ToString() + " <DirectionStart and DirectionEnd> " + DirectionEnd.ToString(), Category.Electrical);
+
 		SetSprite();
 	}
 	// Use this for initialization
@@ -116,30 +104,28 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	{
 		//FIXME this breaks wires that were placed via unity editor:
 		// need to address when we allow users to add wires at runtime
-		SetDirection(DirectionStart, DirectionEnd);
+		SetDirection(WireEndB, WireEndA, CableType);
 	}
 
-	public void SetDirection(int DirectionStart)
+	public void SetDirection(int WireEndB)
 	{
-		this.DirectionStart = DirectionStart;
-		DirectionEnd = 0;
-		SetSprite();
+		//this.WireEndB = WireEndB;
+		//WireEndA = 0;
+		//SetSprite();
 	}
 
-	public void SetDirection(int DirectionStart, int DirectionEnd)
+	public void SetDirection(Connection REWireEndA, Connection REWireEndB, WiringColor RECableType = WiringColor.unknown)
 	{
-		//This ensures that End is just null when they are the same
-		if (DirectionStart == DirectionEnd || DirectionEnd == 0)
-		{
-			SetDirection(DirectionStart);
-			return;
+		if (!(RECableType == WiringColor.unknown)) {
+			CableType = RECableType;
 		}
-		//This ensures that the DirectionStart is always the lower one after constructing it.
-		//It solves some complexity issues with the sprite's path
-		//Casting here is to solve nullable somehow not noticing my nullcheck earlier
-		DirectionStart = Math.Min(DirectionStart, DirectionEnd);
-		DirectionEnd = Math.Max(DirectionStart, DirectionEnd);
-		//Logger.Log(DirectionStart.ToString() + " <DirectionStart and DirectionEnd> " + DirectionEnd.ToString(), Category.Electrical);
+		if (WireEndA == WireEndB) {
+			Logger.LogError("whY!!!! Don't make it end and start in the same place!", Category.Electrical);
+		}
+		WireEndA = REWireEndA;
+		WireEndB = REWireEndB;
+
+		//Logger.Log(WireEndB.ToString() + " <WireEndB and WireEndA> " + WireEndA.ToString(), Category.Electrical);
 		SetSprite();
 	}
 
@@ -147,7 +133,9 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	[ContextMenu("FindConnections")]
 	private void SetSprite()
 	{
-		string spritePath = DirectionStart + (DirectionEnd != 0 ? "_" + DirectionEnd : "");
+		//WireEndA;
+		//WireEndB;
+
 		Sprite[] Color = SpriteManager.WireSprites[CableType.ToString()];
 		if (Color == null)
 		{
@@ -156,16 +144,17 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		}
 		SpriteRenderer SR = gameObject.GetComponentInChildren<SpriteRenderer>();
 		//the red sprite is spliced differently than the rest for some reason :^(
-		int spriteIndex = WireDirections.GetSpriteIndex(spritePath);
-		if (CableType == WiringColor.red)
+		string Compound;
+		if (WireEndA < WireEndB)
 		{
-			spriteIndex *= 2;
-			if (TRay)
-			{
-				spriteIndex++;
-			}
+			Compound = WireEndA + "_" + WireEndB;
 		}
-		else if (TRay)
+		else { 
+			Compound = WireEndB + "_" + WireEndA;
+		}
+		//Logger.Log(Compound + "?");
+		int spriteIndex = WireDirections.GetSpriteIndex(Compound);
+		if (TRay)
 		{
 			spriteIndex += 36;
 		}
@@ -173,8 +162,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		SR.sprite = Color[spriteIndex];
 		if (SR.sprite == null)
 		{
-			CableType = WiringColor.red;
-			SetDirection(1);
+			Logger.LogError("aww man, it didn't return anything SetSprite Is acting up", Category.Electrical);
 		}
 	}
 }

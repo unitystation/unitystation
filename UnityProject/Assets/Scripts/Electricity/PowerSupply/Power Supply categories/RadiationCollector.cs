@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -24,8 +24,8 @@ public class RadiationCollector : PowerSupplyControlInheritance
 		
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.DirectionStart = DirectionStart;
-		powerSupply.DirectionEnd = DirectionEnd;
+		powerSupply.WireEndB = WireEndB;
+		powerSupply.WireEndA = WireEndA;
 		SupplyingVoltage = 760000;
 		InternalResistance = 76000;
 		//current = 20; 

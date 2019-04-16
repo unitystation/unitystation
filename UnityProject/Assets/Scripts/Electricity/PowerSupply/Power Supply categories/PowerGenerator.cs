@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -27,7 +27,7 @@ public class PowerGenerator : PowerSupplyControlInheritance
 
 	public override void OnStartServerInitialise()
 	{
-		CanConnectTo = new HashSet<PowerTypeCategory>()
+		CanConnectTo = new HashSet<PowerTypeCategory>
 		{
 			PowerTypeCategory.StandardCable,
 			PowerTypeCategory.HighVoltageCable,
@@ -36,8 +36,8 @@ public class PowerGenerator : PowerSupplyControlInheritance
 		// Voltage_source_voltage / Internal_resistance_of_voltage_source = 10 is good Rule of thumb
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.DirectionStart = DirectionStart;
-		powerSupply.DirectionEnd = DirectionEnd;
+		powerSupply.WireEndB = WireEndB;
+		powerSupply.WireEndA = WireEndA;
 
 		SupplyingVoltage = 760000;
 		InternalResistance = 76000;

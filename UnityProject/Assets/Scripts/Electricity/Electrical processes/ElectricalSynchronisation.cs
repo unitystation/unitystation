@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Profiling;
 using UnityEngine;
 
 public class ElectricalSynchronisationStorage
@@ -168,6 +169,7 @@ public static class ElectricalSynchronisation
 
 	private static void IfStructureChange()
 	{
+		Profiler.BeginSample("IfStructureChange");
 		if (!StructureChange) return;
 		//Logger.Log("PowerUpdateStructureChange");
 		StructureChange = false;
@@ -186,6 +188,7 @@ public static class ElectricalSynchronisation
 		{
 			ToWork.PowerUpdateStructureChange();
 		}
+		Profiler.EndSample();
 	}
 
 	/// <summary>
@@ -193,6 +196,7 @@ public static class ElectricalSynchronisation
 	/// </summary>
 	private static void PowerUpdateStructureChangeReact()
 	{
+		Profiler.BeginSample("PowerUpdateStructureChangeReact");
 		//Logger.Log("PowerUpdateStructureChangeReact");
 		for (int i = 0; i < OrderList.Count; i++)
 		{
@@ -205,6 +209,7 @@ public static class ElectricalSynchronisation
 				}
 			}
 		}
+		Profiler.EndSample();
 	}
 
 	/// <summary>
@@ -212,6 +217,7 @@ public static class ElectricalSynchronisation
 	/// </summary>
 	private static void PowerUpdateResistanceChange()
 	{
+		Profiler.BeginSample("PowerUpdateResistanceChange");
 		//Logger.Log("PowerUpdateResistanceChange/InitialPowerUpdateResistance");
 		foreach (PowerSupplyControlInheritance PoweredDevice in InitialiseResistanceChange)
 		{
@@ -237,6 +243,7 @@ public static class ElectricalSynchronisation
 		}
 		//Logger.Log("CircuitResistanceLoop");
 		CircuitResistanceLoop();
+		Profiler.EndSample();
 	}
 
 	/// <summary>
@@ -244,6 +251,7 @@ public static class ElectricalSynchronisation
 	/// </summary>
 	private static void PowerUpdateCurrentChange()
 	{
+		Profiler.BeginSample("PowerUpdateCurrentChange");
 		for (int i = 0; i < UnconditionalSupplies.Count; i++)
 		{
 			foreach (PowerSupplyControlInheritance TheSupply in AliveSupplies[OrderList[i]])
@@ -317,6 +325,7 @@ public static class ElectricalSynchronisation
 			}
 			QToRemove = new List<PowerSupplyControlInheritance>();
 		}
+		Profiler.EndSample();
 	}
 
 	/// <summary>
@@ -324,6 +333,7 @@ public static class ElectricalSynchronisation
 	/// </summary>
 	private static void PowerNetworkUpdate()
 	{
+		Profiler.BeginSample("PowerNetworkUpdate");
 		for (int i = 0; i < OrderList.Count; i++)
 		{
 			foreach (PowerSupplyControlInheritance TheSupply in AliveSupplies[OrderList[i]])
@@ -335,6 +345,7 @@ public static class ElectricalSynchronisation
 		{
 			ToWork.PowerNetworkUpdate();
 		}
+		Profiler.EndSample();
 	}
 
 	public static int NumberOfReactiveSupplies_f()
@@ -371,6 +382,7 @@ public static class ElectricalSynchronisation
 
 	public static void CircuitSearchLoop(ElectricalOIinheritance Thiswire)
 	{
+		//Logger.Log("EE");
 		GameObject GameObject = Thiswire.GameObject();
 		InputOutputFunctions.DirectionOutput(GameObject, Thiswire);
 		bool Break = true;
@@ -474,7 +486,7 @@ public static class ElectricalSynchronisation
 			direction.Value.ResistancyOutput(direction.Key.GameObject());
 		}
 		IterateDirectionWorkOnNextList.Clear();
-		if (ResistanceWorkOnNextList.Count <= 0 & _ResistanceWorkOnNextList.Count <= 0)
+		if (ResistanceWorkOnNextList.Count == 0 & _ResistanceWorkOnNextList.Count == 0)
 		{
 			foreach (var direction in IterateDirectionWorkOnNextListWait)
 			{

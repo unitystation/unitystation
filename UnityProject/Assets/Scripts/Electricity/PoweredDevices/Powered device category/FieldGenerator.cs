@@ -25,8 +25,8 @@ public class FieldGenerator : PowerSupplyControlInheritance
 		Resistance = 1500;
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.DirectionStart = 0;
-		powerSupply.DirectionEnd = 9;
+		powerSupply.WireEndB = Connection.Overlap;
+		powerSupply.WireEndA = Connection.MachineConnect;
 		resistance.Ohms = Resistance;
 		ElectricalSynchronisation.PoweredDevices.Add(this);
 		PowerInputReactions PRLCable = new PowerInputReactions();

@@ -10,8 +10,8 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	public InLineDevice powerSupply;
 	[SyncVar(hook = "UpdateState")]
 	public bool isOn = false;
-	public int DirectionStart = 0;
-	public int DirectionEnd = 9;
+	public Connection WireEndB = Connection.Overlap;
+	public Connection WireEndA = Connection.MachineConnect;
 	public float MonitoringResistance = 0;
 	//[SerializeField]
 	public float current { get; set; } = 0;
@@ -165,6 +165,8 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 		//this ok 
 		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices)
 		{
+			//Modified to not do already done supplies
+			//Logger.Log("3 " + Supplie.Key + this);
 			powerSupply.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
 			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingUpdate);
 		}
@@ -178,7 +180,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 		powerSupply.PowerUpdateResistanceChange();
 		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices)
 		{
-			//Logger.Log("4 "+ Supplie.Key);
+			//Logger.Log("4 "+ Supplie.Key + this);
 			powerSupply.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
 			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingUpdate);
 		}
@@ -189,7 +191,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	}
 	public virtual void PowerUpdateCurrentChange()
 	{
-		Logger.Log("PowerUpdateCurrentChange()"+ this);
+		//Logger.Log("PowerUpdateCurrentChange()"+ this);
 		if (powerSupply.Data.ResistanceComingFrom.Count > 0)
 		{
 			powerSupply.FlushSupplyAndUp(powerSupply.gameObject); //Room for optimisation
@@ -258,6 +260,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 			{
 				if (Supplie.Value.Contains(PowerTypeCategory.StandardCable))
 				{
+					Logger.Log("yyuuuus");
 					ElectricalSynchronisation.ResistanceChange.Add(this);
 					ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingUpdate);
 				}
