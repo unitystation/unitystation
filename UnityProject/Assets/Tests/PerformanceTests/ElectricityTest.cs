@@ -11,16 +11,14 @@ namespace Tests
 {
     class ElectricityTest : PlayModePerformanceTest
 	{
-		const string ElectricalUpdateName = "ElectricalManager.Update";
-
 		protected override string Scene => "Lobby";
 
 		protected override SampleGroupDefinition[] SampleGroupDefinitions => sampleGroupDefinitions;
 
 		readonly SampleGroupDefinition[] sampleGroupDefinitions =
-		{
-			new SampleGroupDefinition(ElectricalUpdateName),
-		};
+			new[] {
+				new SampleGroupDefinition(ElectricalSynchronisation.updateName) }.Concat(
+			ElectricalSynchronisation.markerNames.Select(mn => new SampleGroupDefinition(mn))).ToArray();
 
 		PlayerSync player;
 
