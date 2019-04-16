@@ -112,7 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SelfDestruct: 0
   CableType: 0
-  wireConnect: {fileID: 0}
+  wireConnect: {fileID: 114267477996268474}
   ApplianceType: 8
   TRay: 0
 --- !u!114 &114267477996268474
@@ -127,8 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c50f14e3b584c1996d019edd96fc01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DirectionStart: 0
-  DirectionEnd: 0
+  WireEndB: 0
+  WireEndA: 0
   Data:
     FirstPresent: 0
     ActualCurrentChargeInWire:
@@ -146,7 +146,7 @@ MonoBehaviour:
     ChangeToOff: 0
     CurrentStoreValue: 0
   InData:
-    Categorytype: 0
+    Categorytype: 8
     ControllingDevice: {fileID: 0}
     ControllingUpdate: {fileID: 0}
     DirectionOverride: 0

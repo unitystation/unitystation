@@ -62,8 +62,8 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 		};
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.DirectionStart = DirectionStart;
-		powerSupply.DirectionEnd = DirectionEnd;
+		powerSupply.WireEndB = WireEndB;
+		powerSupply.WireEndA = WireEndA;
 
 		resistance.ResistanceAvailable = false;
 

@@ -5,15 +5,15 @@ using UnityEngine.Networking;
 
 public class HighVoltageCable : CableInheritance
 {
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
+	public override void _OnStartServer()
 	{
-		PowerTypeCategory.PowerGenerator,
-		PowerTypeCategory.RadiationCollector,
-		PowerTypeCategory.HighVoltageCable,
+		CanConnectTo = new HashSet<PowerTypeCategory>()
+		{
+			PowerTypeCategory.PowerGenerator,
+			PowerTypeCategory.RadiationCollector,
+			PowerTypeCategory.HighVoltageCable,
 			PowerTypeCategory.Transformer,
-	};
-		public override void _OnStartServer()
-	{
+		};
 		ApplianceType = PowerTypeCategory.HighVoltageCable;
 		CableType = WiringColor.high;
 		wireConnect.InData.CanConnectTo = CanConnectTo;

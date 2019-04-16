@@ -188,7 +188,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 					}
 					Thiswire.Data.ResistanceToConnectedDevices[SourceInstancPowerSupply].Add(ComingFrom.InData.Categorytype);
 					SourceInstancPowerSupply.connectedDevices.Add(Thiswire);
-					Logger.Log(" add " + SourceInstance + "  " + Thiswire);
+					//Logger.Log(" add " + SourceInstance + "  " + Thiswire);
 					ElectricalSynchronisation.InitialiseResistanceChange.Add (Thiswire.InData.ControllingUpdate);
 				}
 				if (Thiswire.InData.ConnectionReaction[ComingFrom.InData.Categorytype].DirectionReactionA.YouShallNotPass)

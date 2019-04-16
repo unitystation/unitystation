@@ -116,8 +116,8 @@ public class APC : PowerSupplyControlInheritance
 
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.DirectionStart = 0;
-		powerSupply.DirectionEnd = 9;
+		powerSupply.WireEndB = Connection.Overlap;
+		powerSupply.WireEndA = Connection.MachineConnect;
 		ResistanceClass.Ohms = Resistance;
 		ElectricalSynchronisation.PoweredDevices.Add(this);
 		PowerInputReactions PRLCable = new PowerInputReactions();
@@ -172,7 +172,9 @@ public class APC : PowerSupplyControlInheritance
 		UpdateLights();
 		if (dirtyResistance)
 		{
+			//Logger.Log(ResistanceClass.Ohms + " vs " + Resistance + " < new");
 			ResistanceClass.Ohms = Resistance;
+			//Logger.Log("or this??");
 			ElectricalSynchronisation.ResistanceChange.Add (this);
 			dirtyResistance = false;
 		}
@@ -363,7 +365,7 @@ public class APC : PowerSupplyControlInheritance
 	public void UpdateLights()
 	{
 		float CalculatingResistance = new float();
-		foreach (KeyValuePair<LightSwitchTrigger,List<LightSource>> SwitchTrigger in  ConnectedSwitchesAndLights)
+		foreach (KeyValuePair<LightSwitchTrigger,List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
 		{
 			SwitchTrigger.Key.PowerNetworkUpdate (Voltage);
 			if (SwitchTrigger.Key.isOn)

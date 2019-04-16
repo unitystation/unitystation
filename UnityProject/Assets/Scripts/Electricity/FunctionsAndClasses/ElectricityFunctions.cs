@@ -6,39 +6,151 @@ using System;
 public static class ElectricityFunctions
 {
 
-	public static HashSet<ElectricalOIinheritance> FindPossibleConnections(Vector2 searchVec, Matrix matrix, HashSet<PowerTypeCategory> CanConnectTo, ConnPoint ConnPoints)
+	public static HashSet<ElectricalOIinheritance> FindPossibleConnections(Vector2 searchVec, Matrix matrix, HashSet<PowerTypeCategory> CanConnectTo, ConnPoint ConnPoints, ElectricalOIinheritance OIinheritance )
 	{
-		List<ElectricalOIinheritance> possibleConns = new List<ElectricalOIinheritance>();
+		
 		HashSet<ElectricalOIinheritance> connections = new HashSet<ElectricalOIinheritance>();
-		int progress = 0;
-		searchVec.x -= 1;
-		searchVec.y -= 1;
-		//Logger.Log("MMMMMMM");
-		for (int x = 0; x < 3; x++)
+		connections = SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointA, OIinheritance);
+		connections.UnionWith(SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointB, OIinheritance));
+		return (connections);
+	}
+	public static HashSet<ElectricalOIinheritance> SwitchCaseConnections(Vector2 searchVec, Matrix matrix, HashSet<PowerTypeCategory> CanConnectTo, Connection ConnPoints, ElectricalOIinheritance OIinheritance) {
+		HashSet<ElectricalOIinheritance> connections = new HashSet<ElectricalOIinheritance>();
+		Connection Direction = Connection.Overlap;
+		Vector3Int Position = new Vector3Int();
+		bool MachineConnect = false;
+		switch (ConnPoints)
 		{
-			for (int y = 0; y < 3; y++)
-			{
-				Vector3Int pos = new Vector3Int((int)searchVec.x + x,
-					(int)searchVec.y + y, 0);
-				var conns = matrix.GetElectricalConnections(pos);
-				//Logger.Log("AAAAAAAAA");
-				foreach (ElectricalOIinheritance io in conns)
+			case Connection.North:
 				{
-					possibleConns.Add(io);
-					//Logger.Log("BBBBBBBBBBBB");
-					if (CanConnectTo.Contains
-						(io.InData.Categorytype))
+					Direction = Connection.North;
+					Position = new Vector3Int((int)searchVec.x + 0, (int)searchVec.y + 1, 0);
+				}
+				break;
+			case Connection.NorthEast:
+				{
+					Direction = Connection.NorthEast;
+					Position = new Vector3Int((int)searchVec.x + 1, (int)searchVec.y + 1, 0);
+				}
+				break;
+			case Connection.East:
+				{
+					Direction = Connection.East;
+					Position = new Vector3Int((int)searchVec.x + 1, (int)searchVec.y + 0, 0);
+				}
+				break;
+			case Connection.SouthEast:
+				{
+					Direction = Connection.SouthEast;
+					Position = new Vector3Int((int)searchVec.x + 1, (int)searchVec.y - 1, 0);
+				}
+				break;
+			case Connection.South:
+				{
+					Direction = Connection.South;
+					Position = new Vector3Int((int)searchVec.x + 0, (int)searchVec.y - 1, 0);
+				}
+				break;
+			case Connection.SouthWest:
+				{
+					Direction = Connection.SouthWest;
+					Position = new Vector3Int((int)searchVec.x + -1, (int)searchVec.y - 1, 0);
+				}
+				break;
+			case Connection.West:
+				{
+					Direction = Connection.West;
+					Position = new Vector3Int((int)searchVec.x + -1, (int)searchVec.y + 0, 0);
+				}
+				break;
+			case Connection.NorthWest:
+				{
+					Direction = Connection.NorthWest;
+					Position = new Vector3Int((int)searchVec.x + -1, (int)searchVec.y + 1, 0);
+				}
+				break;
+			case Connection.Overlap:
+				{
+					Direction = Connection.Overlap;
+					Position = new Vector3Int((int)searchVec.x + 0, (int)searchVec.y + 0, 0);
+				}
+				break;
+			case Connection.MachineConnect:
+				{
+					Direction = Connection.MachineConnect;
+					MachineConnect = true;
+				}
+				break;
+		}
+		Vector3Int PositionE = new Vector3Int((int)searchVec.x, (int)searchVec.y, 0);
+		var Econns = matrix.GetElectricalConnections(PositionE);
+		foreach (var con in Econns)
+		{
+			if (OIinheritance != con)
+			{
+				if (OIinheritance.WireEndA == con.WireEndA && OIinheritance.WireEndB == con.WireEndB) { 
+					Logger.LogError(PositionE + " < duplicate Please remove " + OIinheritance.InData.Categorytype);
+					//OIinheritance.ElectricityOutput(0, null);
+				} else if (OIinheritance.WireEndA == con.WireEndB && OIinheritance.WireEndB == con.WireEndA){
+					Logger.LogError(PositionE + " < duplicate Please remove " + OIinheritance.InData.Categorytype);
+				}
+
+			}
+		}
+		if (!MachineConnect)
+		{
+			var conns = matrix.GetElectricalConnections(Position);
+			foreach (var con in conns)
+			{
+				if (CanConnectTo.Contains(con.InData.Categorytype))
+				{
+					if (ConnectionMap.IsConnectedToTile(Direction, con.GetConnPoints()))
 					{
-						//Check if InputPosition and OutputPosition connect with this wire
-						//Logger.Log("EEEEEEEEEEEE");
-						if (ConnectionMap.IsConnectedToTile(ConnPoints, (AdjDir)progress, io.GetConnPoints()))
+
+						connections.Add(con);
+					}
+				}
+			}
+			if (connections.Count == 0)
+			{
+				Position = new Vector3Int((int)searchVec.x, (int)searchVec.y, 0);
+				conns = matrix.GetElectricalConnections(Position);
+				foreach (var con in conns)
+				{
+					if (OIinheritance != con)
+					{
+						if (CanConnectTo.Contains(con.InData.Categorytype))
 						{
-							//Logger.Log("DDDDDDDDDDD");
-							connections.Add(io);
+							if (ConnectionMap.IsConnectedToTileOverlap(Direction, con.GetConnPoints()))
+							{
+								connections.Add(con);
+							}
 						}
 					}
 				}
-				progress++;
+			}
+		}
+		else {
+			for (int x = 0; x < 3; x++)
+			{
+				for (int y = 0; y < 3; y++)
+				{
+					Vector3Int pos = new Vector3Int((int)searchVec.x + (x - 1), (int)searchVec.y + (y - 1), 0);
+					var conns = matrix.GetElectricalConnections(pos);
+					foreach (var con in conns)
+					{
+						if (OIinheritance != con)
+						{
+							if (CanConnectTo.Contains(con.InData.Categorytype))
+							{
+								if (ConnectionMap.IsConnectedToTile(Direction, con.GetConnPoints()))
+								{
+									connections.Add(con);
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		return (connections);

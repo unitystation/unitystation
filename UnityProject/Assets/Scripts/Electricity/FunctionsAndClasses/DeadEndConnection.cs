@@ -26,7 +26,7 @@ public class DeadEndConnection : ElectricalOIinheritance { //Used for formatting
 	public override	void FlushSupplyAndUp ( GameObject SourceInstance = null ){}
 
 	public override	void RemoveSupply (GameObject SourceInstance = null){}
-	public override	void SetConnPoints(int DirectionEnd, int DirectionStart){}
+	public override	void SetConnPoints(Connection WireEndA, Connection WireEndB){}
 
 	public override	ConnPoint GetConnPoints(){return(new ConnPoint());}
 

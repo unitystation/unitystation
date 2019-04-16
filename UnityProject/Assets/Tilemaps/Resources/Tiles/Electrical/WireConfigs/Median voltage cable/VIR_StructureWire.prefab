@@ -112,10 +112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SelfDestruct: 0
   CableType: 0
-  wireConnect: {fileID: 0}
+  wireConnect: {fileID: 114267477996268474}
   ApplianceType: 1
   TRay: 0
-  ApplianceType: 1
 --- !u!114 &114267477996268474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,8 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c50f14e3b584c1996d019edd96fc01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DirectionStart: 1
-  DirectionEnd: 0
+  WireEndB: 0
+  WireEndA: 0
   Data:
     FirstPresent: 0
     ActualCurrentChargeInWire:

@@ -18,7 +18,8 @@ using UnityEditor;
 
 		[Header("Wire Stuff:")]
 		public bool IsWire;
-		public Vector2Int WireStartEnd;
+		public Connection WireEndA;
+		public Connection WireEndB;
 		public WiringColor CableType;
 		public Sprite wireSprite;
 
@@ -104,10 +105,10 @@ using UnityEditor;
 		{
 		var wireScript = spawnedObj.GetComponent<ElectricalOIinheritance>();
 		//Logger.Log (WireStartEnd.x.ToString() + " <x and y> " + WireStartEnd.x.ToString());
-		wireScript.SetConnPoints(WireStartEnd.y, WireStartEnd.x);
+		wireScript.SetConnPoints(WireEndA, WireEndB);
 		var SpriteScript = spawnedObj.GetComponent<CableInheritance>();
 		//Logger.Log(SpriteScript.ToString() + "oh yeah?");
-		SpriteScript.damEditor (WireStartEnd.x, WireStartEnd.y,CableType);
+		SpriteScript.SetDirection (WireEndA, WireEndB,CableType);
 
 		}
 
