@@ -24,7 +24,7 @@
 				if (isClosed != value)
 				{
 					isClosed = value;
-					subsystemManager.UpdateAt(Position);
+					subsystemManager.UpdateAt(PositionS);
 				}
 			}
 		}
@@ -37,7 +37,7 @@
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				return !(to - Position).y.Equals(v.y);
+				return !(to - PositionS).y.Equals(v.y);
 			}
 
 			return !isClosed;
@@ -62,9 +62,38 @@
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				return !(from - Position).y.Equals(v.y);
+				return !(from - PositionS).y.Equals(v.y);
 			}
 
 			return !isClosed;
+		}
+
+		private CustomNetTransform cnt;
+		protected override void InitDerived()
+		{
+			cnt = GetComponent<CustomNetTransform>();
+		}
+
+		public override void UpdatePositionServer()
+        {
+        	if ( !cnt )
+        	{
+        		base.UpdatePositionServer();
+        	}
+        	else
+        	{
+        		PositionS = cnt.ServerLocalPosition;
+        	}
+        }
+		public override void UpdatePositionClient()
+		{
+			if ( !cnt )
+			{
+				base.UpdatePositionClient();
+			}
+			else
+			{
+				PositionC = cnt.ClientLocalPosition;
+			}
 		}
 	}

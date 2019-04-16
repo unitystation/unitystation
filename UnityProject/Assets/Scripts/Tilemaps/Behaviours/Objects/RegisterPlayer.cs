@@ -139,7 +139,7 @@ public class RegisterPlayer : RegisterTile
 			return;
 		}
 		Stun();
-		SoundManager.PlayNetworkedAtPos("Slip", WorldPosition, Random.Range(0.9f, 1.1f));
+		SoundManager.PlayNetworkedAtPos("Slip", WorldPositionS, Random.Range(0.9f, 1.1f));
 		// Let go of pulled items.
 		playerScript.pushPull.CmdStopPulling();
 	}
@@ -186,5 +186,35 @@ public class RegisterPlayer : RegisterTile
 
 		PlayerUprightMessage.SendToAll(gameObject, true);
 		playerScript.playerMove.allowInput = true;
+	}
+
+
+	private PlayerSync pushable;
+	protected override void InitDerived()
+	{
+		pushable = GetComponent<PlayerSync>();
+	}
+
+	public override void UpdatePositionServer()
+	{
+		if ( !pushable )
+		{
+			base.UpdatePositionServer();
+		}
+		else
+		{
+			PositionS = pushable.ServerLocalPosition;
+		}
+	}
+	public override void UpdatePositionClient()
+	{
+		if ( !pushable )
+		{
+			base.UpdatePositionClient();
+		}
+		else
+		{
+			PositionC = pushable.ClientLocalPosition;
+		}
 	}
 }

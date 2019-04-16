@@ -139,8 +139,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	}
 
 	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
+	public Vector3Int ServerLocalPosition => serverState.Position.RoundToInt();
 	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
+	public Vector3Int ClientLocalPosition => predictedState.Position.RoundToInt();
 	public Vector3Int TrustedPosition => clientState.WorldPosition.RoundToInt();
+	public Vector3Int TrustedLocalPosition => clientState.Position.RoundToInt();
 
 	/// <summary>
 	/// Used to determine if this transform is worth updating every frame
@@ -358,16 +361,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 
 		//Checking if we should change matrix once per tile
-		if (server && registerTile.Position != Vector3Int.RoundToInt(serverState.Position) ) {
+		if (server && registerTile.PositionS != Vector3Int.RoundToInt(serverState.Position) ) {
 			CheckMatrixSwitch();
-			RegisterObjects();
+			registerTile.UpdatePositionServer();
 			changed = true;
 		}
 		//Registering
-		if (!server && registerTile.Position != Vector3Int.RoundToInt(predictedState.Position) )
+		if (registerTile.PositionC != Vector3Int.RoundToInt(predictedState.Position) )
 		{
-			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPosition, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
-			RegisterObjects();
+//			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPositionC, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
+			registerTile.UpdatePositionClient();
 			changed = true;
 		}
 
@@ -441,6 +444,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			Stop();
 		}
 		NotifyPlayers();
+		UpdateActiveStatusServer();
 	}
 
 	/// <summary>
@@ -452,6 +456,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public void AppearAtPositionServer(Vector3 worldPos)
 	{
 		SetPosition(worldPos);
+		UpdateActiveStatusServer();
 	}
 
 	///     Convenience method to make stuff disappear at position.
@@ -459,7 +464,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public void DisappearFromWorld()
 	{
 		predictedState.Position = TransformState.HiddenPos;
-		UpdateActiveStatus();
+		UpdateActiveStatusClient();
 	}
 
 	///     Convenience method to make stuff appear at position
@@ -470,22 +475,22 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		predictedState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
 		predictedState.WorldPosition = pos;
 		transform.position = pos;
-		UpdateActiveStatus();
+		UpdateActiveStatusClient();
 	}
 
 
-
+	/// Clientside
 	/// Registers if unhidden, unregisters if hidden
-	private void UpdateActiveStatus()
+	private void UpdateActiveStatusClient()
 	{
 		if (predictedState.Active)
 		{
-			RegisterObjects();
+			registerTile.UpdatePositionClient();
 		}
 		else
 		{
 			if ( registerTile ) {
-				registerTile.Unregister();
+				registerTile.UnregisterClient();
 			}
 		}
 		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example.
@@ -493,6 +498,21 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		for (int i = 0; i < renderers.Length; i++)
 		{
 			renderers[i].enabled = predictedState.Active;
+		}
+	}
+	/// Serverside
+	/// Registers if unhidden, unregisters if hidden
+	private void UpdateActiveStatusServer()
+	{
+		if (predictedState.Active)
+		{
+			registerTile.UpdatePositionServer();
+		}
+		else
+		{
+			if ( registerTile ) {
+				registerTile.UnregisterServer();
+			}
 		}
 	}
 		#endregion
@@ -517,7 +537,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			transform.position = newState.WorldPosition;
 		}
 		predictedState = newState;
-		UpdateActiveStatus();
+		UpdateActiveStatusClient();
 		//sync rotation if not spinning
 		if ( predictedState.SpinFactor != 0 ) {
 			return;
@@ -547,11 +567,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	[Server]
 	public void NotifyPlayer(GameObject playerGameObject) {
 		TransformStateMessage.Send(playerGameObject, gameObject, serverState);
-	}
-
-	/// Register item pos in matrix
-	private void RegisterObjects() {
-		registerTile.UpdatePosition();
 	}
 
 	/// <summary>

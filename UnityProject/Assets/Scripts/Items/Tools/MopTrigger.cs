@@ -42,7 +42,7 @@ public class MopTrigger : PickUpTrigger
 	    var worldPosInt = worldPos.CutToInt();
 	    var matrix = MatrixManager.AtPoint( worldPosInt );
 	    var localPosInt = MatrixManager.WorldToLocalInt( worldPosInt, matrix );
-	    var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt);
+	    var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
 
 	    for ( var i = 0; i < floorDecals.Count; i++ )
 	    {

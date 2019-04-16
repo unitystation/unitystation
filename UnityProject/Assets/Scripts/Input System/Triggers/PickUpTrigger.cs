@@ -108,7 +108,7 @@ public class PickUpTrigger : InputTrigger
 			//Long arms perk
 			if ( !cnt.IsFloatingServer && CanReachFloating(ps, state) )
 			{
-				var worldPosition = cnt.RegisterTile.WorldPosition;
+				var worldPosition = cnt.RegisterTile.WorldPositionS;
 				var trajectory = ((Vector3)ps.WorldPos-worldPosition)/ Random.Range( 10, 31 );
 				cnt.Nudge( new NudgeInfo
 				{

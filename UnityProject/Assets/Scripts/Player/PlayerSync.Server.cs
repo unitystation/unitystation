@@ -20,6 +20,7 @@ public partial class PlayerSync
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
 
 	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
+	public Vector3Int ServerLocalPosition => serverState.Position.RoundToInt();
 
 	/// Current server state. Integer positions.
 	private PlayerState serverState;
@@ -64,15 +65,16 @@ public partial class PlayerSync
 				return false;
 			}
 			GameObject[] context = pushPull.IsPullingSomethingServer ? new[]{gameObject, pushPull.PulledObjectServer.gameObject} : new[]{gameObject};
-			return MatrixManager.IsFloatingAt( context, Vector3Int.RoundToInt( serverState.WorldPosition ) );
+			return MatrixManager.IsFloatingAt( context, Vector3Int.RoundToInt( serverState.WorldPosition ), isServer: true );
 		}
 	}
 
 	/// <summary>
 	/// If the position of this player is "non-sticky", i.e. meaning they would slide / float in a given direction
 	/// </summary>
-	public bool IsNonStickyServer => registerPlayer.IsStunned || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
-	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
+	public bool IsNonStickyServer => registerPlayer.IsStunned
+	            || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ), true);
+	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState, true );
 
 
 	public bool IsMovingServer => consideredFloatingServer || !ServerPositionsMatch;
@@ -151,7 +153,7 @@ public partial class PlayerSync
 		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
 		Vector3Int pushGoal = origin + Vector3Int.RoundToInt( (Vector2)direction );
 
-		if ( !MatrixManager.IsPassableAt( origin, pushGoal, includingPlayers: !followMode ) ) {
+		if ( !MatrixManager.IsPassableAt( origin, pushGoal, isServer: true, includingPlayers: !followMode ) ) {
 			return false;
 		}
 
@@ -350,7 +352,7 @@ public partial class PlayerSync
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{
 		//Check if there is a bump interaction according to the server
-		BumpType serverBump = CheckSlideAndBump(state, ref action);
+		BumpType serverBump = CheckSlideAndBump(state, isServer: true, ref action);
 
 		//Client only needs to check whether movement was prevented, specific type of bump doesn't matter
 		bool isClientBump = action.isBump;
@@ -382,12 +384,13 @@ public partial class PlayerSync
 		bool swapped = false;
 		if (serverBump == BumpType.HelpIntent)
 		{
-			swapped = CheckAndDoSwap(state.WorldPosition.RoundToInt() + action.Direction().To3Int(), action.Direction() * -1);
+			swapped = CheckAndDoSwap(state.WorldPosition.RoundToInt() + action.Direction().To3Int(), action.Direction() * -1
+				, isServer: true);
 		}
 
 		if ( IsNonStickyServer && !swapped ) {
 			PushPull pushable;
-			if (!swapped && IsAroundPushables( serverState, out pushable ) ) {
+			if (!swapped && IsAroundPushables( serverState, isServer: true, out pushable ) ) {
 				StartCoroutine( InteractSpacePushable( pushable, action.Direction() ) );
 			}
 			return state;
@@ -494,7 +497,7 @@ public partial class PlayerSync
 		if ( IsNonStickyServer ) {
 			return;
 		}
-		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, direction.To2Int(), gameObject);
+		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, direction.To2Int(), gameObject, serverSide: true);
 		if (pushables.Count > 0)
 		{
 			pushables[0].TryPush(direction.To2Int());
@@ -509,7 +512,7 @@ public partial class PlayerSync
 	private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 	{
 		// Make sure there is a door which can be interacted with
-		DoorTrigger door = MatrixManager.GetClosedDoorAt(currentPos, targetPos);
+		DoorTrigger door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);
 
 		// Attempt to open door
 		if (door != null)
@@ -570,14 +573,14 @@ public partial class PlayerSync
 	public void Stop() {
 		if ( consideredFloatingServer ) {
 			PushPull spaceObjToGrab;
-			if ( IsAroundPushables( serverState, out spaceObjToGrab ) && spaceObjToGrab.IsSolid ) {
+			if ( IsAroundPushables( serverState, isServer: true, out spaceObjToGrab ) && spaceObjToGrab.IsSolid ) {
 				//some hacks to avoid space closets stopping out of player's reach
 				var cnt = spaceObjToGrab.GetComponent<CustomNetTransform>();
 				if ( cnt && cnt.IsFloatingServer && Vector2Int.RoundToInt(cnt.ServerState.Impulse) == Vector2Int.RoundToInt(serverState.Impulse) )
 				{
 					Logger.LogTraceFormat( "Caught {0} at {1} (registered at {2})", Category.Movement, spaceObjToGrab.gameObject.name,
-							( Vector2 ) cnt.ServerState.WorldPosition, ( Vector2 ) ( Vector3 ) spaceObjToGrab.registerTile.WorldPosition );
-					cnt.SetPosition( spaceObjToGrab.registerTile.WorldPosition );
+							( Vector2 ) cnt.ServerState.WorldPosition, ( Vector2 ) ( Vector3 ) spaceObjToGrab.registerTile.WorldPositionS );
+					cnt.SetPosition( spaceObjToGrab.registerTile.WorldPositionS );
 					spaceObjToGrab.Stop();
 				}
 			}
@@ -615,7 +618,7 @@ public partial class PlayerSync
 			// Check for swap once movement is done, to prevent us and another player moving into the same tile
 			if (!playerScript.IsGhost)
 			{
-				CheckAndDoSwap(targetPos.RoundToInt(), serverLastDirection * -1);
+				CheckAndDoSwap(targetPos.RoundToInt(), serverLastDirection * -1, isServer: true);
 			}
 		}
 		if ( TryNotifyPlayers() ) {
@@ -640,7 +643,7 @@ public partial class PlayerSync
 		{
 			return;
 		}
-		List<RegisterItem> objects = MatrixManager.GetAt<RegisterItem>(position);
+		List<RegisterItem> objects = MatrixManager.GetAt<RegisterItem>(position, true);
 		// Removes player from object list
 		objects.Remove(gameObject.GetComponent<RegisterItem>());
 		for (int i = 0; i < objects.Count; i++)

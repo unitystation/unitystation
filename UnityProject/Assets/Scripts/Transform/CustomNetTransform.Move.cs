@@ -61,11 +61,11 @@ public partial class CustomNetTransform {
 		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
 		var roundedTarget = (( Vector2 ) serverState.WorldPosition + direction).RoundToInt();
 
-		if ( !MatrixManager.IsPassableAt( origin, roundedTarget, includingPlayers: !followMode ) ) {
+		if ( !MatrixManager.IsPassableAt( origin, roundedTarget, true, includingPlayers: !followMode ) ) {
 			return false;
 		}
 
-		if ( !followMode && MatrixManager.IsEmptyAt( roundedTarget ) ) {
+		if ( !followMode && MatrixManager.IsEmptyAt( roundedTarget, true ) ) {
 			serverState.Impulse = direction;
 		} else {
 			serverState.Impulse = Vector2.zero;
@@ -93,11 +93,11 @@ public partial class CustomNetTransform {
 
 		Vector3Int currentPos = ClientPosition;
 
-		if ( !followMode && !MatrixManager.IsPassableAt( target3int, target3int ) ) {
+		if ( !followMode && !MatrixManager.IsPassableAt( target3int, target3int, isServer: false ) ) {
 			return false;
 		}
 
-		if ( !followMode && MatrixManager.IsEmptyAt( target3int ) ) {
+		if ( !followMode && MatrixManager.IsEmptyAt( target3int, false ) ) {
 			predictedState.Impulse = target - currentPos.To2Int();
 		} else {
 			predictedState.Impulse = Vector2.zero;
@@ -161,7 +161,7 @@ public partial class CustomNetTransform {
 		Vector3Int intGoal = Vector3Int.RoundToInt( newGoal );
 
 		bool isWithinTile = intOrigin == intGoal; //same tile, no need to validate stuff
-		if ( isWithinTile || CanDriftTo( intOrigin, intGoal ) ) {
+		if ( isWithinTile || CanDriftTo( intOrigin, intGoal, isServer: false ) ) {
 			//advance
 			predictedState.WorldPosition += moveDelta;
 		} else {
@@ -292,7 +292,7 @@ public partial class CustomNetTransform {
 		Vector2 impulse = Random.insideUnitCircle.normalized;
 		//don't apply impulses if item isn't going to float in that direction
 		Vector3Int newGoal = CeilWithContext( serverState.WorldPosition, impulse );
-		if ( MatrixManager.IsNoGravityAt( newGoal ) ) {
+		if ( MatrixManager.IsNoGravityAt( newGoal, isServer: true ) ) {
 			serverState.Impulse = impulse;
 			serverState.Speed = Random.Range( 0.2f, 2f );
 		}
@@ -366,7 +366,7 @@ public partial class CustomNetTransform {
 
 		serverState.WorldPosition = tempGoal;
 		//Spess drifting is perpetual, but speed decreases each tile if object has landed (no throw) on the floor
-		if ( !IsBeingThrown && !MatrixManager.IsNoGravityAt( Vector3Int.RoundToInt( tempOrigin ) ) ) {
+		if ( !IsBeingThrown && !MatrixManager.IsNoGravityAt( Vector3Int.RoundToInt( tempOrigin ), isServer: true ) ) {
 			//on-ground resistance
 
 			//no slide inertia for tile snapped objects like closets
@@ -394,7 +394,7 @@ public partial class CustomNetTransform {
 		Vector3Int intGoal = Vector3Int.RoundToInt( goal );
 		var info = serverState.ActiveThrow;
 		List<LivingHealthBehaviour> hitDamageables;
-		if ( CanDriftTo( intOrigin, intGoal ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) )
+		if ( CanDriftTo( intOrigin, intGoal, isServer: true ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) )
 		{
 			//if object is solid, check if player is nearby to make it stop
 			return registerTile && registerTile.IsPassable() || !IsPlayerNearby(serverState);
@@ -473,7 +473,7 @@ public partial class CustomNetTransform {
 		serverState.SpinFactor = 0;
 		serverState.ActiveThrow = ThrowInfo.NoThrow;
 		NotifyPlayers();
-		RegisterObjects();
+		registerTile.UpdatePositionServer();
 	}
 
 
@@ -492,15 +492,15 @@ public partial class CustomNetTransform {
 	/// Can it drift to given pos?
 	/// Use World positions
 	/// </Summary>
-	private bool CanDriftTo( Vector3Int targetPos ) {
-		return CanDriftTo( Vector3Int.RoundToInt( serverState.WorldPosition ), targetPos );
+	private bool CanDriftTo( Vector3Int targetPos, bool isServer ) {
+		return CanDriftTo( Vector3Int.RoundToInt( serverState.WorldPosition ), targetPos, isServer );
 	}
 
 	/// <Summary>
 	/// Use World positions
 	/// </Summary>
-	private bool CanDriftTo( Vector3Int originPos, Vector3Int targetPos ) {
-		return MatrixManager.IsPassableAt( originPos, targetPos, includingPlayers: false);
+	private bool CanDriftTo( Vector3Int originPos, Vector3Int targetPos, bool isServer ) {
+		return MatrixManager.IsPassableAt( originPos, targetPos, isServer, includingPlayers: false);
 	}
 
 	/// Lists objects to be damaged on given tile. Prob should be moved elsewhere
@@ -510,7 +510,7 @@ public partial class CustomNetTransform {
 			victims = null;
 			return false;
 		}
-		var objectsOnTile = MatrixManager.GetAt<LivingHealthBehaviour>( atPos );
+		var objectsOnTile = MatrixManager.GetAt<LivingHealthBehaviour>( atPos, isServer: true );
 		if ( objectsOnTile != null ) {
 			var damageables = new List<LivingHealthBehaviour>();
 			for ( var i = 0; i < objectsOnTile.Count; i++ )
@@ -581,7 +581,7 @@ public partial class CustomNetTransform {
 	private bool HasPlayersAt( Vector3 stateWorldPosition, out PlayerScript firstPlayer ) {
 		firstPlayer = null;
 		var intPos = Vector3Int.RoundToInt( (Vector2)stateWorldPosition );
-		var players = MatrixManager.GetAt<PlayerScript>( intPos );
+		var players = MatrixManager.GetAt<PlayerScript>( intPos, isServer: true );
 		if ( players.Count == 0 ) {
 			return false;
 		}

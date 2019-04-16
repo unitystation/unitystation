@@ -11,7 +11,8 @@ using UnityEngine;
 public class Matrix : MonoBehaviour
 {
 	private MetaTileMap metaTileMap;
-	private TileList objects;
+	private TileList serverObjects;
+	private TileList clientObjects;
 	private Vector3Int initialOffset;
 	public Vector3Int InitialOffset => initialOffset;
 	public int Id { get; set; } = 0;
@@ -26,7 +27,8 @@ public class Matrix : MonoBehaviour
 	{
 		try
 		{
-			objects = ((ObjectLayer) metaTileMap.Layers[LayerType.Objects]).Objects;
+			serverObjects = ((ObjectLayer) metaTileMap.Layers[LayerType.Objects]).ServerObjects;
+			clientObjects = ((ObjectLayer) metaTileMap.Layers[LayerType.Objects]).ClientObjects;
 		}
 		catch
 		{
@@ -43,9 +45,9 @@ public class Matrix : MonoBehaviour
 	/// Checks if door can be closed at this tile
 	/// – isn't occupied by solid objects and has no living beings
 	/// </summary>
-	public bool CanCloseDoorAt(Vector3Int position)
+	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
 	{
-		return IsPassableAt(position, position) && GetFirst<LivingHealthBehaviour>( position ) == null;
+		return IsPassableAt(position, position) && GetFirst<LivingHealthBehaviour>( position, isServer ) == null;
 	}
 
 	/// Can one pass from `origin` to adjacent `position`?
@@ -69,17 +71,17 @@ public class Matrix : MonoBehaviour
 		return metaTileMap.IsSpaceAt(position);
 	}
 
-	public bool IsEmptyAt(Vector3Int position)
+	public bool IsEmptyAt(Vector3Int position, bool isServer)
 	{
-		return metaTileMap.IsEmptyAt(position);
+		return metaTileMap.IsEmptyAt(position, isServer);
 	}
 
 	/// Is this position and surrounding area completely clear of solid objects?
-	public bool IsFloatingAt(Vector3Int position)
+	public bool IsFloatingAt(Vector3Int position, bool isServer)
 	{
 		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
-			if (!metaTileMap.IsEmptyAt(pos))
+			if (!metaTileMap.IsEmptyAt(pos, isServer))
 			{
 				return false;
 			}
@@ -89,17 +91,17 @@ public class Matrix : MonoBehaviour
 	}
 
 	/// Is current position NOT a station tile? (Objects not taken into consideration)
-	public bool IsNoGravityAt(Vector3Int position)
+	public bool IsNoGravityAt( Vector3Int position, bool isServer )
 	{
-		return metaTileMap.IsNoGravityAt(position);
+		return metaTileMap.IsNoGravityAt(position, isServer);
 	}
 
 	/// Should player NOT stick to the station at this position?
-	public bool IsNonStickyAt(Vector3Int position)
+	public bool IsNonStickyAt( Vector3Int position, bool isServer )
 	{
 		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
-			if (!metaTileMap.IsNoGravityAt(pos))
+			if (!metaTileMap.IsNoGravityAt(pos, isServer))
 			{
 				return false;
 			}
@@ -109,11 +111,11 @@ public class Matrix : MonoBehaviour
 	}
 
 	/// Is this position and surrounding area completely clear of solid objects except for provided one?
-	public bool IsFloatingAt(GameObject[] context, Vector3Int position)
+	public bool IsFloatingAt(GameObject[] context, Vector3Int position, bool isServer)
 	{
 		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
-			if (!metaTileMap.IsEmptyAt(context, pos))
+			if (!metaTileMap.IsEmptyAt(context, pos, isServer))
 			{
 				return false;
 			}
@@ -122,15 +124,16 @@ public class Matrix : MonoBehaviour
 		return true;
 	}
 
-	public IEnumerable<T> Get<T>(Vector3Int position) where T : MonoBehaviour
+	public IEnumerable<T> Get<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
-		if ( objects == null || !objects.HasObjects( position ) )
+		var objectList = isServer ? serverObjects : clientObjects;
+		if ( objectList == null || !objectList.HasObjects( position ) )
 		{
 			return Enumerable.Empty<T>(); //?
 		}
 
 		var filtered = new List<T>();
-		foreach ( RegisterTile t in objects.Get(position) )
+		foreach ( RegisterTile t in objectList.Get(position) )
 		{
 			T x = t.GetComponent<T>();
 			if (x != null)
@@ -142,10 +145,11 @@ public class Matrix : MonoBehaviour
 		return filtered;
 	}
 
-	public T GetFirst<T>(Vector3Int position) where T : MonoBehaviour
+	public T GetFirst<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
+		var objectList = isServer ? serverObjects : clientObjects;
 		//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine
-		foreach ( RegisterTile t in objects.Get(position) )
+		foreach ( RegisterTile t in objectList.Get(position) )
 		{
 			T c = t.GetComponent<T>();
 			if (c != null)
@@ -159,15 +163,16 @@ public class Matrix : MonoBehaviour
 		//return objects.GetFirst(position)?.GetComponent<T>();
 	}
 
-	public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type) where T : MonoBehaviour
+	public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type, bool isServer) where T : MonoBehaviour
 	{
-		if ( !objects.HasObjects( position ) )
+		var objectList = isServer ? serverObjects : clientObjects;
+		if ( !objectList.HasObjects( position ) )
 		{
 			return Enumerable.Empty<T>();
 		}
 
 		var filtered = new List<T>();
-		foreach ( RegisterTile t in objects.Get(position, type) )
+		foreach ( RegisterTile t in objectList.Get(position, type) )
 		{
 			T x = t.GetComponent<T>();
 			if (x != null)
@@ -186,6 +191,6 @@ public class Matrix : MonoBehaviour
 
 	public IEnumerable<ElectricalOIinheritance> GetElectricalConnections(Vector3Int position)
 	{
-		return objects.Get(position).Select(x => x.GetComponent<ElectricalOIinheritance>()).Where(x => x != null);
+		return serverObjects.Get(position).Select(x => x.GetComponent<ElectricalOIinheritance>()).Where(x => x != null);
 	}
 }

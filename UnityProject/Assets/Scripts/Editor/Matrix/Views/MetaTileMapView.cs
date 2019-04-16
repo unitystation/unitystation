@@ -53,7 +53,7 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawGizmo(MetaTileMap source, Vector3Int position)
 		{
-			if (!source.IsEmptyAt(position))
+			if (!source.IsEmptyAt(position, false))
 			{
 				GizmoUtils.DrawCube(position, Color.green);
 			}
@@ -105,7 +105,7 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawLabel(MetaTileMap source, Vector3Int position)
 		{
-			if (!source.IsEmptyAt(position))
+			if (!source.IsEmptyAt(position, false))
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
 				GizmoUtils.DrawText($"{position.x}, {position.y}", p, false);

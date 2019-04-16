@@ -48,7 +48,7 @@ public class ReactionManager : MonoBehaviour
 					if ( winds.TryDequeue( out var windyNode ) )
 					{
 						//fixme: restrict pushing multiple solid objects on the same tile
-						foreach ( var pushable in matrix.Get<PushPull>( windyNode.Position ) )
+						foreach ( var pushable in matrix.Get<PushPull>( windyNode.Position, true ) )
 						{
 							float correctedForce = windyNode.WindForce / ( int ) pushable.Pushable.Size;
 							if ( correctedForce >= AtmosConstants.MinPushForce )
@@ -144,7 +144,7 @@ public class ReactionManager : MonoBehaviour
 
 		if (hotspots.ContainsKey(position) && hotspots[position].Hotspot != null)
 		{
-			var healths = matrix.Get<LivingHealthBehaviour>(position);
+			var healths = matrix.Get<LivingHealthBehaviour>(position, true);
 			foreach (LivingHealthBehaviour health in healths)
 			{
 				health.ApplyDamage(null, 1, DamageType.Burn);

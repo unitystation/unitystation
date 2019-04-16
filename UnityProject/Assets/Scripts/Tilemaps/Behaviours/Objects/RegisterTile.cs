@@ -119,28 +119,45 @@ public abstract class RegisterTile : NetworkBehaviour
 	// is invoked.
 	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
 
-	public Vector3Int WorldPosition => MatrixManager.Instance.LocalToWorldInt(position, Matrix);
+	public Vector3Int WorldPositionS => MatrixManager.Instance.LocalToWorldInt(serverPosition, Matrix);
+	public Vector3Int WorldPositionC => MatrixManager.Instance.LocalToWorldInt(clientPosition, Matrix);
 
 	/// <summary>
 	/// the "registered" local position of this object (which might differ from transform.localPosition).
 	/// It will be set to TransformState.HiddenPos when hiding the object.
 	/// </summary>
-	public Vector3Int Position
+	public Vector3Int PositionS
 	{
-		get { return position; }
-		private set
+		get => serverPosition;
+		protected set
 		{
 			if (layer)
 			{
-				layer.Objects.Remove(position, this);
-				layer.Objects.Add(value, this);
+				layer.ServerObjects.Remove(serverPosition, this);
+				layer.ServerObjects.Add(value, this);
 			}
 
-			position = value;
+			serverPosition = value;
 
 		}
 	}
-	private Vector3Int position;
+	private Vector3Int serverPosition;
+	public Vector3Int PositionC
+	{
+		get => clientPosition;
+		protected set
+		{
+			if (layer)
+			{
+				layer.ClientObjects.Remove(clientPosition, this);
+				layer.ClientObjects.Add(value, this);
+			}
+
+			clientPosition = value;
+
+		}
+	}
+	private Vector3Int clientPosition;
 
 	/// <summary>
 	/// Invoked when parentNetId is changed on the server, updating the client's parentNetId. This
@@ -159,14 +176,14 @@ public abstract class RegisterTile : NetworkBehaviour
 		}
 
 		//remove from current parent layer
-		layer?.Objects.Remove(Position, this);
+		layer?.ClientObjects.Remove(PositionC, this);
 		layer = parent.GetComponentInChildren<ObjectLayer>();
 		Matrix = parent.GetComponentInChildren<Matrix>();
 		transform.parent = layer.transform;
 		//if we are hidden, remain hidden, otherwise update because we have a new parent
-		if (Position != TransformState.HiddenPos)
+		if (PositionC != TransformState.HiddenPos)
 		{
-			UpdatePosition();
+			UpdatePositionClient();
 		}
 		OnParentChangeComplete();
 	}
@@ -198,7 +215,10 @@ public abstract class RegisterTile : NetworkBehaviour
 				}
 			}
 		}
+		InitDerived();
 	}
+
+	protected virtual void InitDerived() { }
 
 	public override void OnStartClient()
 	{
@@ -222,7 +242,8 @@ public abstract class RegisterTile : NetworkBehaviour
 	{
 		if (layer)
 		{
-			layer.Objects.Remove(Position, this);
+			layer.ServerObjects.Remove(PositionS, this);
+			layer.ClientObjects.Remove(PositionC, this);
 		}
 	}
 
@@ -238,28 +259,47 @@ public abstract class RegisterTile : NetworkBehaviour
 		{
 			layer = transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
-			UpdatePosition();
+
+			PositionS = Vector3Int.RoundToInt(transform.localPosition);
+//			UpdatePositionServer();
+			PositionC = Vector3Int.RoundToInt(transform.localPosition);
+//			UpdatePositionClient();
 		}
 	}
 
-	public void Unregister()
+	public void UnregisterClient()
 	{
-		Position = TransformState.HiddenPos;
+		PositionC = TransformState.HiddenPos;
 
 		if (layer)
 		{
-			layer.Objects.Remove(Position, this);
+			layer.ClientObjects.Remove(PositionC, this);
+		}
+	}
+	public void UnregisterServer()
+	{
+		PositionS = TransformState.HiddenPos;
+
+		if (layer)
+		{
+			layer.ServerObjects.Remove(PositionS, this);
 		}
 	}
 
 	private void OnDisable()
 	{
-		Unregister();
+		UnregisterClient();
+		UnregisterServer();
 	}
 
-	public void UpdatePosition()
+	public virtual void UpdatePositionServer()
+	{ //To be overridden, use as fallback only
+		PositionS = Vector3Int.RoundToInt(transform.localPosition);
+	}
+
+	public virtual void UpdatePositionClient()
 	{
-		Position = Vector3Int.RoundToInt(transform.localPosition);
+		PositionC = Vector3Int.RoundToInt(transform.localPosition);
 	}
 
 	/// <summary>

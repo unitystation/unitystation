@@ -36,8 +36,11 @@ public interface IPushable {
 
 	/// ServerState WorldPosition because registerTile doesn't cut it
 	Vector3Int ServerPosition { get; }
+	Vector3Int ServerLocalPosition { get; }
 	Vector3Int ClientPosition { get; }
+	Vector3Int ClientLocalPosition { get; }
 	Vector3Int TrustedPosition { get; }
+	Vector3Int TrustedLocalPosition { get; }
 
 	/// Rollback predictive push on client using last good position
 	void RollbackPrediction();

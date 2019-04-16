@@ -147,7 +147,7 @@ public class MetaTileMap : MonoBehaviour
 		return null;
 	}
 
-	public bool IsEmptyAt(Vector3Int position)
+	public bool IsEmptyAt(Vector3Int position, bool isServer)
 	{
 		for (var index = 0; index < LayersKeys.Length; index++)
 		{
@@ -159,7 +159,9 @@ public class MetaTileMap : MonoBehaviour
 
 			if (layer == LayerType.Objects)
 			{
-				var objects = ((ObjectLayer) LayersValues[index]).Objects.Get(position);
+				var objects = isServer ?
+					  ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
+					: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position);
 				foreach ( RegisterTile o in objects )
 				{
 					if (!o.IsPassable())
@@ -173,7 +175,7 @@ public class MetaTileMap : MonoBehaviour
 		return true;
 	}
 
-	public bool IsNoGravityAt(Vector3Int position)
+	public bool IsNoGravityAt(Vector3Int position, bool isServer)
 	{
 		for (var i = 0; i < LayersKeys.Length; i++)
 		{
@@ -184,7 +186,9 @@ public class MetaTileMap : MonoBehaviour
 			}
 			if (layer == LayerType.Objects)
 			{
-				var objects = ((ObjectLayer) LayersValues[i]).Objects.Get(position);
+				var objects = isServer ?
+					  ((ObjectLayer) LayersValues[i]).ServerObjects.Get(position)
+					: ((ObjectLayer) LayersValues[i]).ClientObjects.Get(position);
 				foreach ( RegisterTile o in objects )
 				{
 					if ( o is RegisterObject )
@@ -202,7 +206,7 @@ public class MetaTileMap : MonoBehaviour
 		return true;
 	}
 
-	public bool IsEmptyAt(GameObject[] context, Vector3Int position)
+	public bool IsEmptyAt(GameObject[] context, Vector3Int position, bool isServer)
 	{
 		for (var i1 = 0; i1 < LayersKeys.Length; i1++)
 		{
@@ -214,7 +218,9 @@ public class MetaTileMap : MonoBehaviour
 
 			if (layer == LayerType.Objects)
 			{
-				var objects = ((ObjectLayer) LayersValues[i1]).Objects.Get(position);
+				var objects = isServer ?
+					  ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
+					: ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position);
 				foreach ( RegisterTile o in objects )
 				{
 					if (!o.IsPassable())

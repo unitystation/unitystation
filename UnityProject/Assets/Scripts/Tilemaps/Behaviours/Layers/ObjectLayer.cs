@@ -10,9 +10,11 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class ObjectLayer : Layer
 {
-	private TileList _objects;
+	private TileList serverObjects;
+	private TileList clientObjects;
 
-	public TileList Objects => _objects ?? (_objects = new TileList());
+	public TileList ServerObjects => serverObjects ?? (serverObjects = new TileList());
+	public TileList ClientObjects => clientObjects ?? (clientObjects = new TileList());
 
 	public override void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
 	{
@@ -35,12 +37,16 @@ public class ObjectLayer : Layer
 
 	public override bool HasTile(Vector3Int position)
 	{
-		return Objects.HasObjects(position) || base.HasTile(position);
+		return ServerObjects.HasObjects(position) || base.HasTile(position);
 	}
 
 	public override void RemoveTile(Vector3Int position, bool removeAll = false)
 	{
-		foreach ( RegisterTile obj in Objects.Get(position) )
+		foreach ( RegisterTile obj in ClientObjects.Get(position) )
+		{
+			DestroyImmediate(obj.gameObject);
+		}
+		foreach ( RegisterTile obj in ServerObjects.Get(position) )
 		{
 			DestroyImmediate(obj.gameObject);
 		}
@@ -51,7 +57,7 @@ public class ObjectLayer : Layer
 	public override bool IsPassableAt(Vector3Int origin, Vector3Int to, CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		//Targeting windoors here
-		foreach ( RegisterTile t in Objects.Get(origin) )
+		foreach ( RegisterTile t in ServerObjects.Get(origin) )
 		{
 			if (!t.IsPassableTo(to) && (!context || t.gameObject != context))
 			{
@@ -60,7 +66,7 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		foreach ( RegisterTile o in Objects.Get(to) )
+		foreach ( RegisterTile o in ServerObjects.Get(to) )
 		{
 			if ((inclPlayers || o.ObjectType != ObjectType.Player) && !o.IsPassable(origin) && (!context || o.gameObject != context))
 			{
@@ -73,7 +79,7 @@ public class ObjectLayer : Layer
 
 	public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
 	{
-		foreach ( RegisterTile t in Objects.Get(to) )
+		foreach ( RegisterTile t in ServerObjects.Get(to) )
 		{
 			if (!t.IsAtmosPassable(origin))
 			{
@@ -81,7 +87,7 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		foreach ( RegisterTile t in Objects.Get(origin) )
+		foreach ( RegisterTile t in ServerObjects.Get(origin) )
 		{
 			if (!t.IsAtmosPassable(to))
 			{
@@ -99,9 +105,17 @@ public class ObjectLayer : Layer
 
 	public override void ClearAllTiles()
 	{
-		for (var i = 0; i < Objects.AllObjects.Count; i++)
+		for (var i = 0; i < ClientObjects.AllObjects.Count; i++)
 		{
-			RegisterTile obj = Objects.AllObjects[i];
+			RegisterTile obj = ClientObjects.AllObjects[i];
+			if (obj != null)
+			{
+				DestroyImmediate(obj.gameObject);
+			}
+		}
+		for (var i = 0; i < ServerObjects.AllObjects.Count; i++)
+		{
+			RegisterTile obj = ServerObjects.AllObjects[i];
 			if (obj != null)
 			{
 				DestroyImmediate(obj.gameObject);

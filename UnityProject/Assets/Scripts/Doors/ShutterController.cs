@@ -107,7 +107,7 @@ public class ShutterController : ObjectTrigger
 	[Server]
 	private void DamageOnClose()
 	{
-		foreach ( LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.Position) )
+		foreach ( LivingHealthBehaviour healthBehaviour in matrix.Get<LivingHealthBehaviour>(registerTile.PositionS, true) )
 		{
 			healthBehaviour.ApplyDamage(gameObject, 500, DamageType.Brute);
 		}

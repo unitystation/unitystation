@@ -39,7 +39,9 @@ public partial class PlayerSync
 	public bool CanPredictPush => ClientPositionReady;
 	public bool IsMovingClient => !ClientPositionReady;
 	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
+	public Vector3Int ClientLocalPosition => predictedState.Position.RoundToInt();
 	public Vector3Int TrustedPosition => playerState.WorldPosition.RoundToInt();
+	public Vector3Int TrustedLocalPosition => playerState.Position.RoundToInt();
 
 	/// Does client's transform pos match state pos? Ignores Z-axis.
 	private bool ClientPositionReady => (Vector2)predictedState.Position == (Vector2)transform.localPosition;
@@ -55,7 +57,7 @@ public partial class PlayerSync
 				return false;
 			}
 			GameObject[] context = pushPull.IsPullingSomethingClient ? new[] { gameObject, pushPull.PulledObjectClient.gameObject } : new[] { gameObject };
-			return MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(predictedState.WorldPosition));
+			return MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(predictedState.WorldPosition), isServer: false);
 		}
 	}
 
@@ -105,11 +107,11 @@ public partial class PlayerSync
 
 			//experiment: not enqueueing or processing action if floating, unless we are stopped.
 			//arguably it shouldn't really be like that in the future
-			bool isGrounded = !MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
+			bool isGrounded = !MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition), isServer: false);
 			if ((isGrounded || playerScript.IsGhost || !IsMovingClient) && playerState.Active)
 			{
 				//RequestMoveMessage.Send(action);
-				BumpType clientBump = CheckSlideAndBump(predictedState, ref action);
+				BumpType clientBump = CheckSlideAndBump(predictedState, false, ref action);
 
 				action.isRun = UIManager.WalkRun.running;
 
@@ -126,7 +128,9 @@ public partial class PlayerSync
 					if (!isServer)
 					{
 						//only client performs this check, otherwise it would be performed twice by server
-						CheckAndDoSwap(((Vector2)predictedState.WorldPosition + action.Direction()).RoundToInt(), action.Direction() * -1);
+						CheckAndDoSwap(((Vector2)predictedState.WorldPosition + action.Direction()).RoundToInt(),
+							inDirection: action.Direction() * -1,
+							isServer: false);
 					}
 
 					//move freely
@@ -176,7 +180,7 @@ public partial class PlayerSync
 			return;
 		}
 		// Is the object pushable (iterate through all of the objects at the position):
-		var pushPulls = MatrixManager.GetAt<PushPull>(worldTile);
+		var pushPulls = MatrixManager.GetAt<PushPull>(worldTile, false);
 		for (int i = 0; i < pushPulls.Count; i++)
 		{
 			var pushPull = pushPulls[i];
@@ -206,7 +210,7 @@ public partial class PlayerSync
 
 		Vector3Int target3int = target.To3Int();
 
-		if (!followMode && !MatrixManager.IsPassableAt(target3int, target3int)) //might have issues with windoors
+		if (!followMode && !MatrixManager.IsPassableAt(target3int, target3int, false)) //might have issues with windoors
 		{
 			return false;
 		}
@@ -538,7 +542,7 @@ public partial class PlayerSync
 				if (!isServer && !playerScript.IsGhost)
 				{
 					//only check on client otherwise server would check this twice
-					CheckAndDoSwap(worldPos.RoundToInt(), lastDirection*-1);
+					CheckAndDoSwap(worldPos.RoundToInt(), lastDirection*-1, isServer: false);
 				}
 
 			}

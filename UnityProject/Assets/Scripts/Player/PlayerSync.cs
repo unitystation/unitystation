@@ -131,7 +131,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// <param name="state">current state to try to slide from</param>
 	/// <param name="action">current player action (which should have a diagonal movement). Will be modified if a slide is performed</param>
 	/// <returns>bumptype of the final direction of movement if action is modified. Null otherwise</returns>
-	private BumpType? TrySlide(PlayerState state, ref PlayerAction action)
+	private BumpType? TrySlide(PlayerState state, bool isServer, ref PlayerAction action)
 	{
 		Vector2Int direction = action.Direction();
 		if (Math.Abs(direction.x) + Math.Abs(direction.y) < 2)
@@ -142,8 +142,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		Vector2Int xDirection = new Vector2Int(direction.x, 0);
 		Vector2Int yDirection = new Vector2Int(0, direction.y);
-		BumpType xBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), xDirection, playerMove);
-		BumpType yBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), yDirection, playerMove);
+		BumpType xBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), xDirection, playerMove, isServer);
+		BumpType yBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), yDirection, playerMove, isServer);
 
 		MoveAction? newAction = null;
 		BumpType? newBump = null;
@@ -198,18 +198,18 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// <param name="playerState">state moving from</param>
 	/// <param name="playerAction">action indicating the movement, will be modified if slide occurs</param>
 	/// <returns>the type of bump that occurs at the final destination (after sliding has been attempted)</returns>
-	private BumpType CheckSlideAndBump(PlayerState playerState, ref PlayerAction playerAction)
+	private BumpType CheckSlideAndBump(PlayerState playerState, bool isServer, ref PlayerAction playerAction)
 	{
 		//bump never happens if we are a ghost
 		if (playerScript.IsGhost)
 		{
 			return BumpType.None;
 		}
-		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, playerMove);
+		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, playerMove, isServer);
 		// if movement is blocked, try to slide
 		if (bump == BumpType.Blocked)
 		{
-			return TrySlide(playerState, ref playerAction) ?? bump;
+			return TrySlide(playerState, isServer, ref playerAction) ?? bump;
 		}
 
 		return bump;
@@ -217,20 +217,20 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 	#region spess interaction logic
 
-	private bool IsAroundPushables(PlayerState state)
+	private bool IsAroundPushables(PlayerState state, bool isServer)
 	{
 		PushPull pushable;
-		return IsAroundPushables(state, out pushable);
+		return IsAroundPushables(state, isServer, out pushable);
 	}
 
 	/// Around player
-	private bool IsAroundPushables(PlayerState state, out PushPull pushable, GameObject except = null)
+	private bool IsAroundPushables(PlayerState state, bool isServer, out PushPull pushable, GameObject except = null)
 	{
-		return IsAroundPushables(state.WorldPosition, out pushable, except);
+		return IsAroundPushables(state.WorldPosition, isServer, out pushable, except);
 	}
 
 	/// Man, these are expensive and generate a lot of garbage. Try to use sparsely
-	private bool IsAroundPushables(Vector3 worldPos, out PushPull pushable, GameObject except = null)
+	private bool IsAroundPushables(Vector3 worldPos, bool isServer, out PushPull pushable, GameObject except = null)
 	{
 		pushable = null;
 		if ( registerPlayer.IsStunned )
@@ -239,7 +239,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 		foreach (Vector3Int pos in worldPos.CutToInt().BoundsAround().allPositionsWithin)
 		{
-			if (HasPushablesAt(pos, out pushable, except))
+			if (HasPushablesAt(pos, isServer, out pushable, except))
 			{
 				return true;
 			}
@@ -248,10 +248,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		return false;
 	}
 
-	private bool HasPushablesAt(Vector3 stateWorldPosition, out PushPull firstPushable, GameObject except = null)
+	private bool HasPushablesAt(Vector3 stateWorldPosition, bool isServer, out PushPull firstPushable, GameObject except = null)
 	{
 		firstPushable = null;
-		var pushables = MatrixManager.GetAt<PushPull>(stateWorldPosition.CutToInt());
+		var pushables = MatrixManager.GetAt<PushPull>(stateWorldPosition.CutToInt(), isServer);
 		if (pushables.Count == 0)
 		{
 			return false;
@@ -304,9 +304,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// <param name="inDirection">direction to which the swapee should be moved if swap occurs (should
 	/// be opposite the direction of this player's movement)</param>
 	/// <returns>true iff swap was performed</returns>
-	private bool CheckAndDoSwap(Vector3Int targetWorldPos, Vector2 inDirection)
+	private bool CheckAndDoSwap(Vector3Int targetWorldPos, Vector2 inDirection, bool isServer)
 	{
-		PlayerMove other = MatrixManager.GetHelpIntentAt(targetWorldPos, gameObject);
+		PlayerMove other = MatrixManager.GetHelpIntentAt(targetWorldPos, gameObject, isServer);
 		if (other != null)
 		{
 			// on server, must verify that position matches
@@ -413,11 +413,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	private void RegisterObjects()
 	{
 		//Register playerpos in matrix
-		registerTile.UpdatePosition();
-		//Registering objects being pulled in matrix
-		//			if ( pullRegister != null ) {
-		//				pullRegister.UpdatePosition();
-		//			}
+
 	}
 
 	private void Synchronize()
@@ -458,9 +454,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 
 		//Registering
-		if (registerTile.Position != Vector3Int.RoundToInt(predictedState.Position))
+		if (registerTile.PositionC != Vector3Int.RoundToInt(predictedState.Position))
 		{
-			RegisterObjects();
+			registerTile.UpdatePositionClient();
+		}
+		if (registerTile.PositionS != Vector3Int.RoundToInt(serverState.Position))
+		{
+			registerTile.UpdatePositionServer();
 		}
 	}
 
@@ -516,21 +516,27 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 							 size4 = new Vector3(0.7f, 0.7f, 0.7f),
 							 size5 = new Vector3(1.1f, 1.1f, 1.1f),
 							 size6 = new Vector3(0.6f, 0.6f, 0.6f);
-	[NonSerialized]
-	private readonly Color color0 = DebugTools.HexToColor("5566ff55"),//blue
-							color1 = Color.red,
-							color2 = DebugTools.HexToColor("fd7c6e"),//pink
-							color3 = DebugTools.HexToColor("22e600"),//green
-							color4 = DebugTools.HexToColor("ebfceb"),//white
-							color6 = DebugTools.HexToColor("666666");//grey
+
+	[NonSerialized] private readonly Color color0 = DebugTools.HexToColor( "5566ff55" ), //blue
+		color1 = Color.red,
+		color2 = DebugTools.HexToColor( "fd7c6e" ), //pink
+		color3 = DebugTools.HexToColor( "22e600" ), //green
+		color4 = DebugTools.HexToColor( "ebfceb" ), //white
+		color6 = DebugTools.HexToColor( "666666" ), //grey
+		color7 = DebugTools.HexToColor( "ff666655" );//reddish
 	private static readonly bool drawMoves = true;
 
 	private void OnDrawGizmos()
 	{
-		//registerTile pos
+		//registerTile S pos
+		Gizmos.color = color7;
+		Vector3 regPosS = registerTile.WorldPositionS;
+		Gizmos.DrawCube(regPosS, size5);
+
+		//registerTile C pos
 		Gizmos.color = color0;
-		Vector3 regPos = registerTile.WorldPosition;
-		Gizmos.DrawCube(regPos, size5);
+		Vector3 regPosC = registerTile.WorldPositionC;
+		Gizmos.DrawCube(regPosC, size2);
 
 		//serverState
 		Gizmos.color = color1;

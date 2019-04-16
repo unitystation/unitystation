@@ -117,11 +117,13 @@ public class VisibleBehaviour : NetworkBehaviour
 		{
 			if (_aliveState)
 			{
-				registerTile.UpdatePosition();
+				registerTile.UpdatePositionClient();
+				registerTile.UpdatePositionServer();
 			}
 			else
 			{
-				registerTile.Unregister();
+				registerTile.UnregisterClient();
+				registerTile.UnregisterServer();
 			}
 		}
 	}
