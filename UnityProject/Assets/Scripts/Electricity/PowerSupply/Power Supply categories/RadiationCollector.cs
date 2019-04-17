@@ -5,12 +5,6 @@ using UnityEngine.Networking;
 
 public class RadiationCollector : PowerSupplyControlInheritance
 {
-	public PowerTypeCategory ApplianceType = PowerTypeCategory.RadiationCollector;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>
-	{
-			PowerTypeCategory.HighVoltageCable,
-	};
-
 	//public void PotentialDestroyed()
 	//{
 	//	if (SelfDestruct)
@@ -21,6 +15,11 @@ public class RadiationCollector : PowerSupplyControlInheritance
 
 	public override void OnStartServerInitialise()
 	{
+		ApplianceType = PowerTypeCategory.RadiationCollector;
+		CanConnectTo = new HashSet<PowerTypeCategory>
+		{
+				PowerTypeCategory.HighVoltageCable,
+		};
 		
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;

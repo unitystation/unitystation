@@ -368,7 +368,7 @@ public class APC : PowerSupplyControlInheritance
 		foreach (KeyValuePair<LightSwitchTrigger,List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
 		{
 			SwitchTrigger.Key.PowerNetworkUpdate (Voltage);
-			if (SwitchTrigger.Key.isOn)
+			if (SwitchTrigger.Key.isOn == LightSwitchTrigger.States.On)
 			{
 				for (int i = 0; i < SwitchTrigger.Value.Count; i++)
 				{

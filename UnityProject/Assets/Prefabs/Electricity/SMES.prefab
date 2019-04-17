@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 14
-  m_Sprite: {fileID: 21300264, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
+  m_Sprite: {fileID: 21300262, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -258,9 +258,8 @@ MonoBehaviour:
   SelfDestruct: 0
   powerSupply: {fileID: 1302529419740996430}
   isOn: 0
-  ChangeToOff: 0
-  DirectionStart: 0
-  DirectionEnd: 9
+  WireEndB: 8
+  WireEndA: 9
   MonitoringResistance: 999999
   Previouscurrent: 0
   SupplyingVoltage: 0
@@ -270,6 +269,8 @@ MonoBehaviour:
   TurnRatio: 0
   VoltageLimiting: 0
   VoltageLimitedTo: 0
+  _IElectricityIO: {fileID: 0}
+  ApplianceType: 2
   MaximumCurrentSupport: 8
   MinimumSupportVoltage: 2700
   StandardSupplyingVoltage: 3000
@@ -297,21 +298,20 @@ MonoBehaviour:
   isOnForInterface: 0
   ResistanceChange: 0
   currentCharge: 0
-  offlineSprite: {fileID: 21300260, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
-  onlineSprite: {fileID: 21300262, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
+  offlineSprite: {fileID: 21300264, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  onlineSprite: {fileID: 21300266, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   chargeIndicatorSprites:
   - {fileID: 21300250, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
   - {fileID: 21300252, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
   - {fileID: 21300254, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
   - {fileID: 21300256, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
   - {fileID: 21300258, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
-  statusCriticalSprite: {fileID: 21300264, guid: 6c565852bdc446c78d0f44aa66c28bc2,
+  statusCriticalSprite: {fileID: 21300272, guid: 0fc938f537a804eeeac7529d8c81d9d8,
     type: 3}
-  statusSupplySprite: {fileID: 21300266, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
+  statusSupplySprite: {fileID: 21300270, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   statusIndicator: {fileID: 212307946053701930}
   OnOffIndicator: {fileID: 212962152979335194}
   chargeIndicator: {fileID: 212327025118819594}
-  ApplianceType: 2
 --- !u!114 &1302529419740996430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,10 +324,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DirectionStart: 0
-  DirectionEnd: 0
+  WireEndB: 0
+  WireEndA: 0
+  Data:
+    FirstPresent: 0
+    ActualCurrentChargeInWire:
+      Voltage: 0
+      Current: 0
+      EstimatedResistant: 0
+    UpstreamCount: 0
+    DownstreamCount: 0
+    CurrentInWire: 0
+    ActualVoltage: 0
+    EstimatedResistance: 0
+    SupplyingCurrent: 0
+    InternalResistance: 0
+    SupplyingVoltage: 0
+    ChangeToOff: 0
+    CurrentStoreValue: 0
+  InData:
+    Categorytype: 0
+    ControllingDevice: {fileID: 0}
+    ControllingUpdate: {fileID: 0}
+    DirectionOverride: 0
+    ResistanceOverride: 0
+    ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
+  RelatedDevice: {fileID: 0}
   registerTile3: {fileID: 114038174743996046}
 --- !u!1 &1610444276709522
 GameObject:
@@ -397,7 +421,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 12
-  m_Sprite: {fileID: 21300258, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
+  m_Sprite: {fileID: 21300272, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -476,7 +500,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300248, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
+  m_Sprite: {fileID: 21300252, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -555,7 +579,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 13
-  m_Sprite: {fileID: 21300260, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
+  m_Sprite: {fileID: 21300264, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
