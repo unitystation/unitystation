@@ -177,6 +177,7 @@ public abstract class RegisterTile : NetworkBehaviour
 
 		//remove from current parent layer
 		layer?.ClientObjects.Remove(PositionC, this);
+		layer?.ServerObjects.Remove(PositionS, this);
 		layer = parent.GetComponentInChildren<ObjectLayer>();
 		Matrix = parent.GetComponentInChildren<Matrix>();
 		transform.parent = layer.transform;
@@ -184,6 +185,10 @@ public abstract class RegisterTile : NetworkBehaviour
 		if (PositionC != TransformState.HiddenPos)
 		{
 			UpdatePositionClient();
+		}
+		if (PositionS != TransformState.HiddenPos)
+		{
+			UpdatePositionServer();
 		}
 		OnParentChangeComplete();
 	}

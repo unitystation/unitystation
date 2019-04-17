@@ -62,7 +62,7 @@ public class TileChangeManager : NetworkBehaviour
 	[Server]
 	public void RemoveTile(Vector3Int position, LayerType layerType)
 	{
-		if(metaTileMap.HasTile(position, layerType))
+		if(metaTileMap.HasTile(position, layerType, true))
 		{
 			RpcRemoveTile(position, layerType, false);
 
@@ -75,7 +75,7 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		position.z = -1;
 
-		if (metaTileMap.HasTile(position, layerType))
+		if (metaTileMap.HasTile(position, layerType, true))
 		{
 			RpcRemoveTile(position, layerType, true);
 

@@ -37,7 +37,7 @@ namespace Objects
 		{
 			if (Opened)
 			{
-				MetaDataLayer metaDataLayer = MatrixManager.AtPoint(Vector3Int.RoundToInt(transform.position)).MetaDataLayer;
+				MetaDataLayer metaDataLayer = MatrixManager.AtPoint(Vector3Int.RoundToInt(transform.position), true).MetaDataLayer;
 
 				Vector3Int position = transform.localPosition.RoundToInt();
 				MetaDataNode node = metaDataLayer.Get(position, false);

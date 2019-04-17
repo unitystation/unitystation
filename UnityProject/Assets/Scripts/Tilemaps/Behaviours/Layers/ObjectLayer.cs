@@ -35,9 +35,9 @@ public class ObjectLayer : Layer
 		}
 	}
 
-	public override bool HasTile(Vector3Int position)
+	public override bool HasTile(Vector3Int position, bool isServer)
 	{
-		return ServerObjects.HasObjects(position) || base.HasTile(position);
+		return (isServer ? ServerObjects.HasObjects(position) : ClientObjects.HasObjects(position)) || base.HasTile(position, isServer);
 	}
 
 	public override void RemoveTile(Vector3Int position, bool removeAll = false)
@@ -54,10 +54,11 @@ public class ObjectLayer : Layer
 		base.RemoveTile(position, removeAll);
 	}
 
-	public override bool IsPassableAt(Vector3Int origin, Vector3Int to, CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
+	public override bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
+									  CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		//Targeting windoors here
-		foreach ( RegisterTile t in ServerObjects.Get(origin) )
+		foreach ( RegisterTile t in isServer ? ServerObjects.Get(origin) : ClientObjects.Get(origin) )
 		{
 			if (!t.IsPassableTo(to) && (!context || t.gameObject != context))
 			{
@@ -66,7 +67,7 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		foreach ( RegisterTile o in ServerObjects.Get(to) )
+		foreach ( RegisterTile o in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
 		{
 			if ((inclPlayers || o.ObjectType != ObjectType.Player) && !o.IsPassable(origin) && (!context || o.gameObject != context))
 			{
@@ -74,12 +75,12 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		return base.IsPassableAt(origin, to, collisionType: collisionType, inclPlayers: inclPlayers, context: context);
+		return base.IsPassableAt(origin, to, isServer, collisionType: collisionType, inclPlayers: inclPlayers, context: context);
 	}
 
-	public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
+	public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)
 	{
-		foreach ( RegisterTile t in ServerObjects.Get(to) )
+		foreach ( RegisterTile t in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
 		{
 			if (!t.IsAtmosPassable(origin))
 			{
@@ -87,7 +88,7 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		foreach ( RegisterTile t in ServerObjects.Get(origin) )
+		foreach ( RegisterTile t in isServer ? ServerObjects.Get(origin) : ClientObjects.Get(origin) )
 		{
 			if (!t.IsAtmosPassable(to))
 			{
@@ -95,12 +96,12 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		return base.IsAtmosPassableAt(origin, to);
+		return base.IsAtmosPassableAt(origin, to, isServer);
 	}
 
-	public override bool IsSpaceAt(Vector3Int position)
+	public override bool IsSpaceAt(Vector3Int position, bool isServer)
 	{
-		return IsAtmosPassableAt(position, position) && base.IsSpaceAt(position);
+		return IsAtmosPassableAt(position, position, isServer) && base.IsSpaceAt(position, isServer);
 	}
 
 	public override void ClearAllTiles()

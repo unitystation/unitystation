@@ -338,14 +338,14 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		if (isServer)
 		{
 			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Lerp, name, (Vector2)serverState.WorldPosition, toWorldPosition.To2Int());
-			PlayerState nextStateServer = NextStateSwap(serverState, toWorldPosition);
+			PlayerState nextStateServer = NextStateSwap(serverState, toWorldPosition, true);
 			serverState = nextStateServer;
 			if (pushPull != null && pushPull.IsBeingPulled && !pushPull.PulledBy == swapper)
 			{
 				pushPull.StopFollowing();
 			}
 		}
-		PlayerState nextPredictedState = NextStateSwap(predictedState, toWorldPosition);
+		PlayerState nextPredictedState = NextStateSwap(predictedState, toWorldPosition, false);
 		//must set this on both client and server so server shows the lerp instantly as well as the client
 		predictedState = nextPredictedState;
 	}
@@ -471,12 +471,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// <param name="state">current state</param>
 	/// <param name="toWorldPosition">world position new state should be in</param>
 	/// <returns>state with worldposition as its worldposition, changing the parent matrix if a matrix change occurs</returns>
-	private PlayerState NextStateSwap(PlayerState state, Vector3Int toWorldPosition)
+	private PlayerState NextStateSwap(PlayerState state, Vector3Int toWorldPosition, bool isServer)
 	{
 		var newState = state;
 		newState.WorldPosition = toWorldPosition;
 
-		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(toWorldPosition);
+		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(toWorldPosition, isServer);
 
 		//Switching matrix while keeping world pos
 		newState.MatrixId = matrixAtPoint.Id;
@@ -485,7 +485,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		return newState;
 	}
 
-	private PlayerState NextState(PlayerState state, PlayerAction action, bool isReplay = false)
+	private PlayerState NextState(PlayerState state, PlayerAction action, bool isServer, bool isReplay = false)
 	{
 		var newState = state;
 		newState.MoveNumber++;
@@ -493,7 +493,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		var proposedWorldPos = newState.WorldPosition;
 
-		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(Vector3Int.RoundToInt(proposedWorldPos));
+		MatrixInfo matrixAtPoint = MatrixManager.AtPoint(Vector3Int.RoundToInt(proposedWorldPos), isServer);
 
 		//Switching matrix while keeping world pos
 		newState.MatrixId = matrixAtPoint.Id;

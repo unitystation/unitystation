@@ -138,7 +138,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	{
 		Vector3Int position = cursorObject.transform.position.RoundToInt();
 		position.z = 0;
-		if (MatrixManager.IsPassableAt(position))
+		if (MatrixManager.IsPassableAt(position, true))
 		{
 			if (CustomNetworkManager.IsServer)
 			{

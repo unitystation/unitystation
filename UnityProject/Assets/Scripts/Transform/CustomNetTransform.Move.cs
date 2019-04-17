@@ -109,7 +109,7 @@ public partial class CustomNetTransform {
 			predictedState.Speed = PushPull.DEFAULT_PUSH_SPEED;
 		}
 
-		predictedState.MatrixId = MatrixManager.AtPoint( target3int ).Id;
+		predictedState.MatrixId = MatrixManager.AtPoint( target3int, false ).Id;
 		predictedState.WorldPosition = target3int;
 
 //		Lerp to compensate one frame delay

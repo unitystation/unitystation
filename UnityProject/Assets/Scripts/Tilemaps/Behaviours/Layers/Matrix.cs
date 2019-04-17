@@ -36,9 +36,9 @@ public class Matrix : MonoBehaviour
 		}
 	}
 
-	public bool IsPassableAt(Vector3Int position)
+	public bool IsPassableAt(Vector3Int position, bool isServer)
 	{
-		return IsPassableAt(position, position);
+		return IsPassableAt(position, position, isServer);
 	}
 
 	/// <summary>
@@ -47,7 +47,7 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
 	{
-		return IsPassableAt(position, position) && GetFirst<LivingHealthBehaviour>( position, isServer ) == null;
+		return IsPassableAt(position, position, isServer) && GetFirst<LivingHealthBehaviour>( position, isServer ) == null;
 	}
 
 	/// Can one pass from `origin` to adjacent `position`?
@@ -56,19 +56,19 @@ public class Matrix : MonoBehaviour
 	/// <param name="includingPlayers">Set this to false to ignore players from check</param>
 	/// <param name="context">Is excluded from passable check</param>
 	/// <returns></returns>
-	public bool IsPassableAt(Vector3Int origin, Vector3Int position, CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null)
+	public bool IsPassableAt(Vector3Int origin, Vector3Int position, bool isServer, CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null)
 	{
-		return metaTileMap.IsPassableAt(origin, position, collisionType: collisionType, inclPlayers: includingPlayers, context: context);
+		return metaTileMap.IsPassableAt(origin, position, isServer, collisionType: collisionType, inclPlayers: includingPlayers, context: context);
 	}
 
-	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position)
+	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position, bool isServer)
 	{
-		return metaTileMap.IsAtmosPassableAt(origin, position);
+		return metaTileMap.IsAtmosPassableAt(origin, position, isServer);
 	}
 
-	public bool IsSpaceAt(Vector3Int position)
+	public bool IsSpaceAt(Vector3Int position, bool isServer)
 	{
-		return metaTileMap.IsSpaceAt(position);
+		return metaTileMap.IsSpaceAt(position, isServer);
 	}
 
 	public bool IsEmptyAt(Vector3Int position, bool isServer)
@@ -184,9 +184,9 @@ public class Matrix : MonoBehaviour
 		return filtered;
 	}
 
-	public bool HasTile( Vector3Int position )
+	public bool HasTile( Vector3Int position, bool isServer )
 	{
-		return metaTileMap.HasTile( position );
+		return metaTileMap.HasTile( position, isServer );
 	}
 
 	public IEnumerable<ElectricalOIinheritance> GetElectricalConnections(Vector3Int position)

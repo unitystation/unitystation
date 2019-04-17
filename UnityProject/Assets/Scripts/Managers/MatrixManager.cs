@@ -39,11 +39,11 @@ public class MatrixManager : MonoBehaviour
 	public Matrix spaceMatrix;
 
 	/// Finds first matrix that is not empty at given world pos
-	public static MatrixInfo AtPoint(Vector3Int worldPos)
+	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
 	{
 		foreach (MatrixInfo mat in Instance.ActiveMatrices)
 		{
-			if (mat.Matrix.HasTile(WorldToLocalInt(worldPos, mat)))
+			if (mat.Matrix.HasTile(WorldToLocalInt(worldPos, mat), isServer))
 			{
 				return mat;
 			}
@@ -89,11 +89,11 @@ public class MatrixManager : MonoBehaviour
 
 	///Cross-matrix edition of <see cref="Matrix.IsSpaceAt"/>
 	///<inheritdoc cref="Matrix.IsSpaceAt"/>
-	public static bool IsSpaceAt(Vector3Int worldPos)
+	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer)
 	{
 		foreach (MatrixInfo mat in Instance.ActiveMatrices)
 		{
-			if (!mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat)))
+			if (!mat.Matrix.IsSpaceAt(WorldToLocalInt(worldPos, mat), isServer))
 			{
 				return false;
 			}
@@ -124,8 +124,9 @@ public class MatrixManager : MonoBehaviour
 	{
 		// Gets the list of Matrixes to actually check
 		MatrixInfo[] includeList = excludeList != null ? ExcludeFromAllMatrixes(GetList(excludeList)) : Instance.ActiveMatrices;
-		return isAtInternal(mat => mat.Matrix.IsPassableAt(WorldToLocalInt(worldOrigin, mat),
-			WorldToLocalInt(worldTarget, mat), collisionType: collisionType, includingPlayers: includingPlayers, context: context), includeList);
+		return isAtInternal(mat =>
+			mat.Matrix.IsPassableAt(WorldToLocalInt(worldOrigin, mat),WorldToLocalInt(worldTarget, mat), isServer,
+				collisionType: collisionType, includingPlayers: includingPlayers, context: context), includeList);
 	}
 
 	/// <summary>
@@ -198,13 +199,13 @@ public class MatrixManager : MonoBehaviour
 	public static DoorTrigger GetClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
 	{
 		// Check door on the local tile first
-		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos).Matrix);
+		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
 		DoorTrigger originDoor = Instance.GetFirst<DoorTrigger>(worldOrigin, isServer);
 		if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget))
 			return originDoor;
 
 		// No closed door on local tile, check target tile
-		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin).Matrix);
+		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
 		DoorTrigger targetDoor = Instance.GetFirst<DoorTrigger>(targetPos, isServer);
 		if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin))
 			return targetDoor;
@@ -305,9 +306,9 @@ public class MatrixManager : MonoBehaviour
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int)"/>
-	public static bool IsPassableAt(Vector3Int worldTarget)
+	public static bool IsPassableAt(Vector3Int worldTarget, bool isServer)
 	{
-		return isAtInternal(mat => mat.Matrix.IsPassableAt(WorldToLocalInt(worldTarget, mat)));
+		return isAtInternal(mat => mat.Matrix.IsPassableAt(WorldToLocalInt(worldTarget, mat), isServer));
 	}
 
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int)"/>

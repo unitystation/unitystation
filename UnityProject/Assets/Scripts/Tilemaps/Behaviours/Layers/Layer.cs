@@ -82,17 +82,18 @@ using UnityEngine.Tilemaps;
 			tilemap.RefreshAllTiles();
 		}
 
-		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null )
+		public virtual bool IsPassableAt( Vector3Int from, Vector3Int to, bool isServer,
+			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null )
 		{
 			return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsPassable(collisionType);
 		}
 
-		public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to)
+		public virtual bool IsAtmosPassableAt(Vector3Int from, Vector3Int to, bool isServer)
 		{
 			return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsAtmosPassable();
 		}
 
-		public virtual bool IsSpaceAt(Vector3Int position)
+		public virtual bool IsSpaceAt(Vector3Int position, bool isServer)
 		{
 			return !tilemap.HasTile(position) || tilemap.GetTile<BasicTile>(position).IsSpace();
 		}
@@ -109,7 +110,7 @@ using UnityEngine.Tilemaps;
 			return tilemap.GetTile<LayerTile>(position);
 		}
 
-		public virtual bool HasTile(Vector3Int position)
+		public virtual bool HasTile(Vector3Int position, bool isServer)
 		{
 			return tilemap.HasTile( position );
 		}

@@ -184,7 +184,7 @@ namespace PathFinding
 			Vector3Int checkPos = new Vector3Int(node.position.x,
 				node.position.y, 0);
 
-			if (matrix.IsPassableAt(checkPos))
+			if (matrix.IsPassableAt(checkPos, true))
 			{
 				node.nodeType = NodeType.Open;
 				return;

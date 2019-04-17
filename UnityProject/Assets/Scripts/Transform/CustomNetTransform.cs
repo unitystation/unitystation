@@ -274,7 +274,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 				serverState.MatrixId = 0;
 				Logger.LogWarning( $"{gameObject.name}: unable to detect MatrixId!", Category.Transform );
 			} else {
-				serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt(transform.position) ).Id;
+				serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt(transform.position), true ).Id;
 			}
 			serverState.WorldPosition = Vector3Int.RoundToInt((Vector2)transform.position);
 		}
@@ -383,7 +383,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	{
 		Poke();
 		Vector2 pos = worldPos; //Cut z-axis
-		serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
+		serverState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ), true ).Id;
 //		serverState.Speed = speed;
 		serverState.WorldPosition = pos;
 		if ( !keepRotation ) {
@@ -413,7 +413,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	[Server]
 	private void CheckMatrixSwitch( bool notify = true ) {
 //		Logger.LogTraceFormat( "{0} doing matrix switch check for {1}", Category.Transform, gameObject.name, pos );
-		int newMatrixId = MatrixManager.AtPoint( serverState.WorldPosition.RoundToInt() ).Id;
+		int newMatrixId = MatrixManager.AtPoint( serverState.WorldPosition.RoundToInt(), true ).Id;
 		if ( serverState.MatrixId != newMatrixId ) {
 			Logger.LogTraceFormat( "{0} matrix {1}->{2}", Category.Transform, gameObject, serverState.MatrixId, newMatrixId );
 
@@ -472,7 +472,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public void AppearAtPosition(Vector3 worldPos)
 	{
 		var pos = (Vector2) worldPos; //Cut z-axis
-		predictedState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ) ).Id;
+		predictedState.MatrixId = MatrixManager.AtPoint( Vector3Int.RoundToInt( worldPos ), false ).Id;
 		predictedState.WorldPosition = pos;
 		transform.position = pos;
 		UpdateActiveStatusClient();

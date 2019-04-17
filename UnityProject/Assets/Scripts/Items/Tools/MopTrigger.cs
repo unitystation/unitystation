@@ -40,7 +40,7 @@ public class MopTrigger : PickUpTrigger
     public void CleanTile (Vector3 worldPos)
     {
 	    var worldPosInt = worldPos.CutToInt();
-	    var matrix = MatrixManager.AtPoint( worldPosInt );
+	    var matrix = MatrixManager.AtPoint( worldPosInt, true );
 	    var localPosInt = MatrixManager.WorldToLocalInt( worldPosInt, matrix );
 	    var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
 
@@ -49,7 +49,7 @@ public class MopTrigger : PickUpTrigger
 		    floorDecals[i].DisappearFromWorldServer();
 	    }
 
-	    if (!MatrixManager.IsSpaceAt(worldPosInt))
+	    if (!MatrixManager.IsSpaceAt(worldPosInt, true))
 	    {
 		    // Create a WaterSplat Decal (visible slippery tile)
 		    // EffectsFactory.Instance.WaterSplat(targetWorldIntPos);

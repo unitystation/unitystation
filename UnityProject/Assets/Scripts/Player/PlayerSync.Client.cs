@@ -223,7 +223,7 @@ public partial class PlayerSync
 
 		Logger.LogTraceFormat("Client predictive push to {0}", Category.PushPull, target);
 
-		predictedState.MatrixId = MatrixManager.AtPoint(target3int).Id;
+		predictedState.MatrixId = MatrixManager.AtPoint(target3int, false).Id;
 		predictedState.WorldPosition = target.To3Int();
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
 			predictedState.Speed = speed;

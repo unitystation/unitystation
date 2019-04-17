@@ -98,7 +98,7 @@ public partial class PlayerSync
 		private void InitServerState()
 		{
 			Vector3Int worldPos = Vector3Int.RoundToInt((Vector2) transform.position); //cutting off Z-axis & rounding
-			MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos);
+			MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos, true);
 			masterSpeedServer = playerMove.RunSpeed;
 			PlayerState state = new PlayerState
 			{
@@ -167,7 +167,7 @@ public partial class PlayerSync
 
 		Logger.LogTraceFormat( "{1}: Server push to {0}", Category.PushPull, pushGoal, gameObject.name );
 		ClearQueueServer();
-		MatrixInfo newMatrix = MatrixManager.AtPoint( pushGoal );
+		MatrixInfo newMatrix = MatrixManager.AtPoint( pushGoal, true );
 		//Note the client queue reset
 		var newState = new PlayerState {
 			MoveNumber = 0,
@@ -196,7 +196,7 @@ public partial class PlayerSync
 	{
 		ClearQueueServer();
 		Vector3Int roundedPos = Vector3Int.RoundToInt((Vector2)worldPos); //cutting off z-axis
-		MatrixInfo newMatrix = MatrixManager.AtPoint(roundedPos);
+		MatrixInfo newMatrix = MatrixManager.AtPoint(roundedPos, true);
 		//Note the client queue reset
 		var newState = new PlayerState
 		{
@@ -402,7 +402,7 @@ public partial class PlayerSync
 			return state;
 		}
 
-		PlayerState nextState = NextState(state, action);
+		PlayerState nextState = NextState(state, action, true);
 
 		nextState.Speed = SpeedServer;
 
