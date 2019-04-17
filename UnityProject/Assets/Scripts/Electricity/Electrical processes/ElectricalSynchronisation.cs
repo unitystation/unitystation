@@ -35,11 +35,13 @@ public static class ElectricalSynchronisation
 
 	public static bool UesAlternativeDirectionWorkOnNextList;
 
-	public static List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> ResistanceWorkOnNextList = new List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
-	public static List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> ResistanceWorkOnNextListWait = new List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> ResistanceWorkOnNextList = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> ResistanceWorkOnNextListWait = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
 
-	public static List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextList = new List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
-	public static List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextListWait = new List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextList = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextListWait = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+
+	public static KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance> OneJump;
 
 	public static bool UesAlternativeResistanceWorkOnNextList;
 
@@ -506,8 +508,8 @@ public static class ElectricalSynchronisation
 		} while (ResistanceWorkOnNextList.Count > 0 | ResistanceWorkOnNextListWait.Count > 0 | _ResistanceWorkOnNextList.Count > 0 | _ResistanceWorkOnNextListWait.Count > 0);
 	}
 
-	public static void DOCircuitResistanceLoop(List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> IterateDirectionWorkOnNextList,
-											   List<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> IterateDirectionWorkOnNextListWait)
+	public static void DOCircuitResistanceLoop(HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> IterateDirectionWorkOnNextList,
+											   HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> IterateDirectionWorkOnNextListWait)
 	{
 		foreach (var direction in IterateDirectionWorkOnNextList)
 		{
@@ -516,7 +518,7 @@ public static class ElectricalSynchronisation
 		IterateDirectionWorkOnNextList.Clear();
 		if (ResistanceWorkOnNextList.Count == 0 & _ResistanceWorkOnNextList.Count == 0)
 		{
-			foreach (var direction in IterateDirectionWorkOnNextListWait)
+			foreach (KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance> direction in IterateDirectionWorkOnNextListWait)
 			{
 				direction.Value.ResistancyOutput(direction.Key.GameObject());
 			}

@@ -29,8 +29,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			var Wirecutter = slot.Item?.GetComponentInChildren<WirecutterTrigger>();
 			if (Wirecutter != null)
 			{
-				//ElectricalSynchronisation.StructureChange = true;
-				wireConnect.registerTile.Unregister();
+				toDestroy();
 			}
 		}
 		return true;
@@ -42,8 +41,8 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			//Then you can destroy
 		}
 	}
-	[ContextMethod("Destroy cable", "x")]
-	public void Destroy()
+	//[ContextMethod("Destroy cable", "x")]
+	public void toDestroy()
 	{
 		Logger.Log("1");
 		gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
@@ -70,10 +69,10 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		Logger.Log("2");
 		wireConnect.FlushConnectionAndUp();
 		wireConnect.registerTile.Unregister();
-		if (gameObject != null) { 
-			PoolManager.PoolNetworkDestroy(gameObject);
-		}
-
+		//if (gameObject != null) { 
+		//	PoolManager.PoolNetworkDestroy(gameObject);
+		//}
+		Destroy(this);
 	}
 	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
 	//FIXME: that also renderers IDevice useless. Please reassess

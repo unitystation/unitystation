@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System;
 
 public class LightSwitchTrigger : InputTrigger
 {
+
+	public enum States { 
+		Off,
+		On,
+		PowerCut,
+	}
 	private const int MAX_TARGETS = 44;
 
 	private readonly Collider2D[] lightSpriteColliders = new Collider2D[MAX_TARGETS];
 	private AudioSource clickSFX;
 
-	[SyncVar(hook = "SyncLightSwitch")] public bool isOn = true;
+	[SyncVar(hook = "SyncLightSwitch")] public States isOn = States.On;
 
 	public float AtShutOffVoltage = 50;
 
@@ -18,6 +25,7 @@ public class LightSwitchTrigger : InputTrigger
 	private int lightingMask;
 	public APC RelatedAPC;
 	public Sprite lightOn;
+	public Sprite lightPowerCut;
 	public bool PowerCut = false;
 	private int obstacleMask;
 	public float radius = 10f;
@@ -26,6 +34,7 @@ public class LightSwitchTrigger : InputTrigger
 	private bool switchCoolDown;
 	private RegisterTile registerTile;
 	public bool SelfPowered = false;
+	public List<LightSource> SelfPowerLights = new List<LightSource>();
 
 	private void Awake()
 	{
@@ -41,23 +50,35 @@ public class LightSwitchTrigger : InputTrigger
 		//and the rest of the mask caches:
 		lightingMask = LayerMask.GetMask("Lighting");
 		obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
+		WaitForLoad();
 		DetectAPC();
 		DetectLightsAndAction(true);
 		if (RelatedAPC != null)
 		{
 			RelatedAPC.ConnectedSwitchesAndLights[this] = new List<LightSource>();
 		}
+		if (SelfPowered) {
+			for (int i = 0; i < SelfPowerLights.Count; i++)
+			{
+				SelfPowerLights[i].PowerLightIntensityUpdate(240);
+			}
+		}
 	}
 	public void PowerNetworkUpdate(float Voltage)
 	{
-		if (Voltage < AtShutOffVoltage && isOn == true)
+		if (Voltage < AtShutOffVoltage && isOn ==  States.On)
 		{
-			isOn = false;
+			isOn =  States.PowerCut;
 			PowerCut = true;
+			if (PowerCut)
+			{
+
+				spriteRenderer.sprite = lightPowerCut;
+			}
 		}
 		else if (PowerCut == true && Voltage > AtShutOffVoltage)
 		{
-			isOn = true;
+			isOn = States.On;
 			PowerCut = false;
 		}
 
@@ -139,7 +160,7 @@ public class LightSwitchTrigger : InputTrigger
 			}
 		}
 		if (RelatedAPC == null && !SelfPowered) {
-			isOn = false;
+			isOn =  States.PowerCut;
 		}
 	}
 
@@ -153,7 +174,6 @@ public class LightSwitchTrigger : InputTrigger
 			GameObject localObject = localCollider.gameObject;
 			Vector2 localObjectPos = localObject.transform.position;
 			float distance = Vector3.Distance(startPos, localObjectPos);
-
 			if (IsWithinReach(startPos, localObjectPos, distance))
 			{
 				if (localObject.tag != "EmergencyLight")
@@ -173,8 +193,15 @@ public class LightSwitchTrigger : InputTrigger
 	private bool IsWithinReach(Vector2 pos, Vector2 targetPos, float distance)
 	{
 		return distance <= radius &&
-			Physics2D.Raycast(pos, targetPos - pos, distance, obstacleMask).collider == null;
+			Physics2D.Raycast(Abs(pos), Abs(targetPos) - Abs(pos), distance, obstacleMask).collider == null;
+	
+
 	}
+
+	public Vector2 Abs (Vector2 v2) {
+		return (new Vector2(Mathf.Abs(v2.x), Mathf.Abs(v2.y)));
+    }
+
 
 	private Vector2 GetCastPos()
 	{
@@ -182,9 +209,16 @@ public class LightSwitchTrigger : InputTrigger
 		return newPos;
 	}
 
-	private void SyncLightSwitch(bool state)
+	private void SyncLightSwitch(States state)
 	{
-		DetectLightsAndAction(state);
+		if (state == States.On)
+		{
+			DetectLightsAndAction(true);
+		}
+		else if (state == States.Off || state == States.PowerCut){ 
+			DetectLightsAndAction(false);
+		}
+
 
 		if (clickSFX != null && soundAllowed)
 		{
@@ -193,7 +227,18 @@ public class LightSwitchTrigger : InputTrigger
 
 		if (spriteRenderer != null)
 		{
-			spriteRenderer.sprite = state ? lightOn : lightOff;
+			switch (state)
+			{
+				case States.Off:
+					spriteRenderer.sprite = lightOff;
+					break;
+				case States.On:
+					spriteRenderer.sprite = lightOn;
+					break;
+				case States.PowerCut:
+					spriteRenderer.sprite = lightPowerCut;
+					break;
+			}
 		}
 		soundAllowed = true;
 	}

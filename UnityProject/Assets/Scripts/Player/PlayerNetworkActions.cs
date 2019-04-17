@@ -612,7 +612,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
 			LightSwitchTrigger s = switchObj.GetComponent<LightSwitchTrigger>();
-			s.isOn = !s.isOn;
+			if (s.isOn == LightSwitchTrigger.States.On)
+			{
+				s.isOn = LightSwitchTrigger.States.Off;
+			}
+			else if (s.isOn == LightSwitchTrigger.States.Off) {
+				s.isOn = LightSwitchTrigger.States.On;
+			}
+ 
 		}
 		else
 		{
