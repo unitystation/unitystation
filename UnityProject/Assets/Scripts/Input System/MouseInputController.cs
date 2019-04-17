@@ -453,8 +453,19 @@ public class MouseInputController : MonoBehaviour
 						return true;
 					}
 				}
-				return false;
 			}
+			//there was an input trigger but no interaction occurred. Now check for drag and drop via MouseDraggable
+			if (isDrag)
+			{
+				var draggable = _transform.GetComponentInParent<MouseDraggable>();
+				if (draggable != null)
+				{
+					draggable.BeginDrag();
+					return true;
+				}
+			}
+
+			return false;
 		}
 		//Still try triggering inputTrigger even if it's outside mouse reach
 		//(for things registered on tile within range but having parts outside of it)

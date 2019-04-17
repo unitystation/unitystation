@@ -57,5 +57,7 @@ internal enum MessageTypes : short
 	RequestHealthStats = 2014,
 	DevSpawnMessage = 2015,
 	DevCloneMessage = 2016,
-	DevDestroyMessage = 2017
+	DevDestroyMessage = 2017,
+	RequestMouseDropMessage = 2018,
+	RequestInteractMessage = 2019
 }

@@ -4,9 +4,12 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Note that chair determines its initial orientation based on the sprite it is set to
+///Behavior for an object which has a different sprite for each direction it is facing. Sprite is changed
+/// when matrix rotates.
+///
+/// Initial orientation is based on the sprite the SpriteRenderer is initially set to.
 /// </summary>
-public class Chair : MonoBehaviour
+public class DirectionalSprite : MonoBehaviour
 {
 	/// <summary>
 	/// When true, chairs will rotate to their new orientation at the end of matrix rotation. When false

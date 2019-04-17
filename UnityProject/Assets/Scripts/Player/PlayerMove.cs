@@ -18,6 +18,7 @@ public class PlayerMove : NetworkBehaviour
 	public bool diagonalMovement;
 
 	[SyncVar] public bool allowInput = true;
+	[SyncVar(hook=nameof(OnRestrainedChanged))] private bool restrained = false;
 
 	/// <summary>
 	/// Tracks the server's idea of whether we have help intent
@@ -83,6 +84,11 @@ public class PlayerMove : NetworkBehaviour
 	/// temp solution for use with the UI network prediction
 	public bool isMoving { get; } = false;
 
+	/// <summary>
+	/// Whether character is restrained, such as by being buckled to a chair
+	/// </summary>
+	public bool IsRestrained => restrained;
+
 	private void Start()
 	{
 		playerSprites = gameObject.GetComponent<UserControlledSprites>();
@@ -112,7 +118,7 @@ public class PlayerMove : NetworkBehaviour
 			// {
 			// 	actionKeys.Add((int)moveList[i]);
 			// }
-			if (KeyboardInputManager.CheckMoveAction(moveList[i]) && allowInput)
+			if (KeyboardInputManager.CheckMoveAction(moveList[i]) && allowInput && !restrained)
 			{
 				actionKeys.Add((int)moveList[i]);
 			}
@@ -213,5 +219,40 @@ public class PlayerMove : NetworkBehaviour
 		}
 
 		return Vector3Int.zero;
+	}
+
+	/// <summary>
+	/// Restrain the player to their current position.
+	/// </summary>
+	[Server]
+	public void Restrain()
+	{
+		restrained = true;
+		//can't push/pull when buckled in, break if we are pulled / pulling
+		playerScript.pushPull.CmdStopFollowing();
+		playerScript.pushPull.CmdStopPulling();
+		playerScript.pushPull.isNotPushable = true;
+	}
+
+	/// <summary>
+	/// Unrestrain the player when they are currently restrained.
+	/// </summary>
+	[Command]
+	public void CmdUnrestrain()
+	{
+		restrained = false;
+		//we can be pushed / pulled again
+		playerScript.pushPull.isNotPushable = false;
+	}
+
+	//invoked client side when the restrained syncvar changes
+	private void OnRestrainedChanged(bool isRestrained)
+	{
+		if (PlayerManager.LocalPlayer == gameObject)
+		{
+			UIManager.AlertUI.ToggleAlertRestrained(isRestrained, () => this.CmdUnrestrain());
+		}
+
+		restrained = isRestrained;
 	}
 }
