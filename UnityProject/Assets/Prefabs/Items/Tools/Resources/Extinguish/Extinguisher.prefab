@@ -92,10 +92,11 @@ GameObject:
   - component: {fileID: 114022233371835864}
   - component: {fileID: 114875290499615288}
   - component: {fileID: 114567485071167784}
-  - component: {fileID: 114229897149472310}
+  - component: {fileID: 460986322009509470}
   - component: {fileID: 114335573703485954}
   - component: {fileID: 114690376875817604}
-  - component: {fileID: 114503468551468690}
+  - component: {fileID: 4968214479272888757}
+  - component: {fileID: 5579374733479214247}
   m_Layer: 10
   m_Name: Extinguisher
   m_TagString: Untagged
@@ -211,14 +212,14 @@ MonoBehaviour:
   size: 2
   spriteType: 0
   type: 0
-  ConnectedToTank: 0
+  CanConnectToTank: 0
   throwDamage: 32
   throwSpeed: 2
   throwRange: 7
   hitDamage: 63
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &114229897149472310
+--- !u!114 &460986322009509470
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,9 +228,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1907679543779350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Script: {fileID: 11500000, guid: d4828f21e2a2e2045831a742c2787ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  extinguish: {fileID: 5658345466205884766, guid: c1adb29612c7b1d4783aaa4254561b63,
+    type: 3}
 --- !u!114 &114335573703485954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +279,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
---- !u!114 &114503468551468690
+--- !u!114 &4968214479272888757
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -285,6 +288,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1907679543779350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Temperature: 5
+  MaxCapacity: 150
+  Chemicals:
+  - water
+  Amounts:
+  - 150
+--- !u!114 &5579374733479214247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907679543779350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8518281c764f9094d82fdd89bfd5191c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprClosed: {fileID: 21300182, guid: fa8cb4bb662a44e3ae784801d8bad0a4, type: 3}
+  sprOpen: {fileID: 21300184, guid: fa8cb4bb662a44e3ae784801d8bad0a4, type: 3}
