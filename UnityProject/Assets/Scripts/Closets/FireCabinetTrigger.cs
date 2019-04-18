@@ -63,6 +63,8 @@ public class FireCabinetTrigger : InputTrigger
 		}
 		if (!isServer)
 		{
+			//ask server to perform the interaction
+			InteractMessage.Send(gameObject, position, hand);
 			return true;
 		}
 
