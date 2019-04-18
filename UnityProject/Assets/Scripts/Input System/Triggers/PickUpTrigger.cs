@@ -159,4 +159,14 @@ public class PickUpTrigger : InputTrigger
 			}
 		}
 	}
+
+    /// <summary>
+    //Removes the object from the player inventory before vanishing it
+    /// </summary>
+	[Server]
+    public override void DisappearObject()
+    {
+        InventoryManager.DestroyItemInSlot(gameObject);
+		base.DisappearObject();
+    }
 }
