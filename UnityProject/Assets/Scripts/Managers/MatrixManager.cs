@@ -156,7 +156,7 @@ public class MatrixManager : MonoBehaviour
 				}
 			}
 		}
-		if (GetPushableAt(worldOrigin, dir, bumper.gameObject).Count > 0)
+		if (GetPushableAt(worldOrigin, dir, bumper.gameObject, isServer).Count > 0)
 		{
 			return BumpType.Push;
 		}
@@ -201,13 +201,13 @@ public class MatrixManager : MonoBehaviour
 		// Check door on the local tile first
 		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
 		DoorTrigger originDoor = Instance.GetFirst<DoorTrigger>(worldOrigin, isServer);
-		if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget))
+		if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
 			return originDoor;
 
 		// No closed door on local tile, check target tile
 		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
 		DoorTrigger targetDoor = Instance.GetFirst<DoorTrigger>(targetPos, isServer);
-		if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin))
+		if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
 			return targetDoor;
 
 		// No closed doors on either tile
@@ -261,15 +261,15 @@ public class MatrixManager : MonoBehaviour
 	/// <returns>each pushable other than pusher at worldTarget for which it is possible to actually move it
 	/// when pushing from worldOrigin (i.e. if it's against a wall and you try to push against the wall, that pushable would be excluded).
 	/// Empty list if no pushables.</returns>
-	public static List<PushPull> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher, bool serverSide = false)
+	public static List<PushPull> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher, bool isServer)
 	{
 		Vector3Int worldTarget = worldOrigin + dir.To3Int();
 		List<PushPull> result = new List<PushPull>();
-		foreach ( PushPull pushPull in GetAt<PushPull>(worldTarget, serverSide) )
+		foreach ( PushPull pushPull in GetAt<PushPull>(worldTarget, isServer) )
 		{
-			if ( pushPull && pushPull.gameObject != pusher && pushPull.IsSolid )
+			if ( pushPull && pushPull.gameObject != pusher && (isServer ? pushPull.IsSolidServer : pushPull.IsSolidClient) )
 			{
-				if ( serverSide ?
+				if ( isServer ?
 					pushPull.CanPushServer( worldTarget, Vector2Int.RoundToInt( dir ) )
 					: pushPull.CanPushClient( worldTarget, Vector2Int.RoundToInt( dir ) )
 				)
@@ -294,7 +294,7 @@ public class MatrixManager : MonoBehaviour
 		var playerMoves = GetAt<PlayerMove>(targetWorldPos, isServer);
 		foreach (PlayerMove playerMove in playerMoves)
 		{
-			if (playerMove.IsHelpIntent && !playerMove.PlayerScript.registerTile.IsPassable() && playerMove.gameObject != mover
+			if (playerMove.IsHelpIntent && !playerMove.PlayerScript.registerTile.IsPassable(isServer) && playerMove.gameObject != mover
 			    && !playerMove.PlayerScript.pushPull.IsPullingSomething)
 			{
 				return playerMove;

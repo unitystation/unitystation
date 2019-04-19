@@ -33,14 +33,14 @@ public class RegisterPlayer : RegisterTile
 		metaDataLayer = transform.GetComponentInParent<MetaDataLayer>();
 	}
 
-	public override bool IsPassable()
+	public override bool IsPassable(bool isServer)
 	{
 		return !IsBlocking;
 	}
 
-	public override bool IsPassable(Vector3Int from)
+	public override bool IsPassable(Vector3Int from, bool isServer)
 	{
-		return IsPassable();
+		return IsPassable(isServer);
 	}
 
 	protected override void OnRotationStart(RotationOffset fromCurrent, bool isInitialRotation)

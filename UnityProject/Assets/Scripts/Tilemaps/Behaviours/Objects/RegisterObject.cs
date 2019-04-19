@@ -11,16 +11,19 @@ public class RegisterObject : RegisterTile
 	public bool AtmosPassable = true;
 	public bool Passable = true;
 
-	public override bool IsPassable(Vector3Int from) => Passable || PositionS == TransformState.HiddenPos;
-
-	public override bool IsPassable()
+	public override bool IsPassable(Vector3Int from, bool isServer)
 	{
-		return Passable || PositionS == TransformState.HiddenPos;
+		return Passable || (isServer ? PositionS == TransformState.HiddenPos : PositionC == TransformState.HiddenPos );
 	}
 
-	public override bool IsAtmosPassable(Vector3Int from)
+	public override bool IsPassable(bool isServer)
 	{
-		return AtmosPassable || PositionS == TransformState.HiddenPos;
+		return Passable || (isServer ? PositionS == TransformState.HiddenPos : PositionC == TransformState.HiddenPos );
+	}
+
+	public override bool IsAtmosPassable(Vector3Int from, bool isServer)
+	{
+		return AtmosPassable || (isServer ? PositionS == TransformState.HiddenPos : PositionC == TransformState.HiddenPos );
 	}
 
 	private CustomNetTransform pushable;

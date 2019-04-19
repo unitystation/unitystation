@@ -16,7 +16,7 @@ public class RequestElectricalStats : ClientMessage
 	{
 		yield return WaitFor(Player, ElectricalItem);
 		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
-		if (playerScript.IsInReach(NetworkObjects[1]))
+		if (playerScript.IsInReach(NetworkObjects[1], true))
 		{
 			//Try powered device first:
 			var poweredDevice = NetworkObjects[1].GetComponent<ElectricalOIinheritance>();

@@ -60,7 +60,7 @@ public class ObjectLayer : Layer
 		//Targeting windoors here
 		foreach ( RegisterTile t in isServer ? ServerObjects.Get(origin) : ClientObjects.Get(origin) )
 		{
-			if (!t.IsPassableTo(to) && (!context || t.gameObject != context))
+			if (!t.IsPassableTo(to, isServer) && (!context || t.gameObject != context))
 			{
 				//Can't get outside the tile because windoor doesn't allow us
 				return false;
@@ -69,7 +69,7 @@ public class ObjectLayer : Layer
 
 		foreach ( RegisterTile o in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
 		{
-			if ((inclPlayers || o.ObjectType != ObjectType.Player) && !o.IsPassable(origin) && (!context || o.gameObject != context))
+			if ((inclPlayers || o.ObjectType != ObjectType.Player) && !o.IsPassable(origin, isServer) && (!context || o.gameObject != context))
 			{
 				return false;
 			}
@@ -82,7 +82,7 @@ public class ObjectLayer : Layer
 	{
 		foreach ( RegisterTile t in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
 		{
-			if (!t.IsAtmosPassable(origin))
+			if (!t.IsAtmosPassable(origin, isServer))
 			{
 				return false;
 			}
@@ -90,7 +90,7 @@ public class ObjectLayer : Layer
 
 		foreach ( RegisterTile t in isServer ? ServerObjects.Get(origin) : ClientObjects.Get(origin) )
 		{
-			if (!t.IsAtmosPassable(to))
+			if (!t.IsAtmosPassable(to, isServer))
 			{
 				return false;
 			}

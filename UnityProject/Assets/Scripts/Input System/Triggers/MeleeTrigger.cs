@@ -49,7 +49,7 @@ public class MeleeTrigger : MonoBehaviour
 				handItem.itemType != ItemType.Shoes &&
 				handItem.itemType != ItemType.Suit &&
 				handItem.itemType != ItemType.Uniform &&
-				PlayerManager.LocalPlayerScript.IsInReach(mousePos))
+				PlayerManager.LocalPlayerScript.IsInReach(mousePos, false))
 			{
 				if (UIManager.CurrentIntent == Intent.Harm ||
 					handItem.itemType != ItemType.Gun ||

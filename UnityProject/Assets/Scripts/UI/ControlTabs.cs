@@ -405,7 +405,7 @@ public class ControlTabs : MonoBehaviour
 		{
 			return;
 		}
-		if (!PlayerManager.LocalPlayerScript || !PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation()))
+		if (!PlayerManager.LocalPlayerScript || !PlayerManager.LocalPlayerScript.IsInReach(UITileList.GetListedItemsLocation(), false))
 		{
 			Instance.HideTab(ClientTabType.ItemList);
 			return;
@@ -519,7 +519,7 @@ public class ControlTabs : MonoBehaviour
 		foreach (NetTab tab in Instance.OpenedNetTabs.Values)
 		{
 			if (playerScript.canNotInteract() ||
-				!playerScript.IsInReach(tab.Provider))
+				!playerScript.IsInReach(tab.Provider, false))
 			{
 				//Make sure the item is not in the players hands first:
 				if (UIManager.Hands.CurrentSlot.Item != tab.Provider.gameObject &&

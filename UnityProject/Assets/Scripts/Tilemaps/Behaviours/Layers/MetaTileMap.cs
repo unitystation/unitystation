@@ -165,7 +165,7 @@ public class MetaTileMap : MonoBehaviour
 					((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
 					: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position) )
 				{
-					if (!o.IsPassable())
+					if (!o.IsPassable(isServer))
 					{
 						return false;
 					}
@@ -222,7 +222,7 @@ public class MetaTileMap : MonoBehaviour
 					((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
 					: ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position) )
 				{
-					if (!o.IsPassable())
+					if (!o.IsPassable(isServer))
 					{
 						bool isExcluded = false;
 						for (var index = 0; index < context.Length; index++)

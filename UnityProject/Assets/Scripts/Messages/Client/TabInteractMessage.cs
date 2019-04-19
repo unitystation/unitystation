@@ -24,7 +24,7 @@ public class TabInteractMessage : ClientMessage
 	private void ProcessFurther(ConnectedPlayer player, GameObject tabProvider)
 	{
 		var playerScript = player.Script;
-		bool validate = !playerScript.canNotInteract() && playerScript.IsInReach( tabProvider );
+		bool validate = !playerScript.canNotInteract() && playerScript.IsInReach( tabProvider, true );
 		if ( !validate ) {
 			FailValidation( player, tabProvider, "Can't interact/reach" );
 			return;

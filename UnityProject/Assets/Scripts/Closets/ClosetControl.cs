@@ -204,7 +204,7 @@ public class ClosetControl : InputTrigger
 			return true;
 		}
 
-		bool isInReach = localPlayer.IsInReach(registerTile);
+		bool isInReach = localPlayer.IsInReach(registerTile, false);
 		if (isInReach || localPlayer.IsHidden)
 		{
 			if (IsClosed)

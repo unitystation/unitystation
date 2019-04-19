@@ -217,39 +217,46 @@ public class PlayerScript : ManagedNetworkBehaviour
 	/// </summary>
 	public bool IsGhost => PlayerUtils.IsGhost(gameObject);
 
-	public bool IsInReach(GameObject go, float interactDist = interactionDistance)
+	public bool IsInReach(GameObject go, bool isServer, float interactDist = interactionDistance)
 	{
 		var rt = go.RegisterTile();
 		if (rt)
 		{
-			return IsInReach(rt, interactDist);
+			return IsInReach(rt, isServer, interactDist);
 		}
 		else
 		{
-			return IsInReach(go.transform.position, interactDist);
+			return IsInReach(go.transform.position, isServer, interactDist);
 		}
 	}
 
 	/// The smart way:
 	///  <inheritdoc cref="IsInReach(Vector3,float)"/>
-	public bool IsInReach(RegisterTile otherObject, float interactDist = interactionDistance)
+	public bool IsInReach(RegisterTile otherObject, bool isServer, float interactDist = interactionDistance)
 	{
-		return IsInReach(registerTile, otherObject, interactDist);
+		return IsInReach(registerTile, otherObject, isServer, interactDist);
 	}
 	///     Checks if the player is within reach of something
 	/// <param name="otherPosition">The position of whatever we are trying to reach</param>
 	/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
-	public bool IsInReach(Vector3 otherPosition, float interactDist = interactionDistance)
+	public bool IsInReach(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance)
 	{
-		Vector3Int worldPosition = registerTile.WorldPositionS;
-		return IsInReach(worldPosition, otherPosition, interactDist);
+		return IsInReach(isServer ? registerTile.WorldPositionS : registerTile.WorldPositionC, otherPosition, interactDist);
 	}
 
 	///Smart way to detect reach, supports high speeds in ships. Should use it more!
-	public static bool IsInReach(RegisterTile from, RegisterTile to, float interactDist = interactionDistance)
+	public static bool IsInReach(RegisterTile from, RegisterTile to, bool isServer, float interactDist = interactionDistance)
 	{
-		return from.Matrix == to.Matrix && IsInReach(from.PositionS, to.PositionS, interactDist) ||
+		if ( isServer )
+		{
+			return from.Matrix == to.Matrix && IsInReach(from.PositionS, to.PositionS, interactDist) ||
 			IsInReach(from.WorldPositionS, to.WorldPositionS, interactDist);
+		}
+		else
+		{
+			return from.Matrix == to.Matrix && IsInReach(from.PositionC, to.PositionC, interactDist) ||
+		       IsInReach(from.WorldPositionC, to.WorldPositionC, interactDist);
+		}
 	}
 
 	public static bool IsInReach(Vector3 from, Vector3 to, float interactDist = interactionDistance)

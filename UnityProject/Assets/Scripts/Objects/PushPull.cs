@@ -43,7 +43,8 @@ public class PushPull : VisibleBehaviour {
 		Pushable?.OnClientTileReached().RemoveAllListeners();
 	}
 
-	public bool IsSolid => !registerTile.IsPassable();
+	public bool IsSolidServer => !registerTile.IsPassable(true);
+	public bool IsSolidClient => !registerTile.IsPassable(false);
 
 
 	#region Pull Master
@@ -110,7 +111,7 @@ public class PushPull : VisibleBehaviour {
 			return;
 		}
 
-		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile )
+		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile, true )
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
@@ -331,7 +332,7 @@ public class PushPull : VisibleBehaviour {
 		bool chooChooTrain = attachTo.IsBeingPulled && attachTo.PulledBy != this;
 
 		//if puller can reach this + not trying to pull himself + not being pulled
-		if ( PlayerScript.IsInReach( attachTo.registerTile, this.registerTile )
+		if ( PlayerScript.IsInReach( attachTo.registerTile, this.registerTile, true )
 		     && attachTo != this && (!attachTo.IsBeingPulled || chooChooTrain) )
 		{
 			Logger.LogTraceFormat( "{0} started following {1}", Category.PushPull, this.gameObject.name, attachTo.gameObject.name );
@@ -377,7 +378,7 @@ public class PushPull : VisibleBehaviour {
 	public void TryPullThis() {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
-		if ( PlayerScript.IsInReach( this.registerTile, initiator.registerTile ) && initiator != this ) {
+		if ( PlayerScript.IsInReach( this.registerTile, initiator.registerTile, false ) && initiator != this ) {
 			//client request: start/stop pulling
 			initiator.CmdPullObject( gameObject );
 
@@ -541,7 +542,7 @@ public class PushPull : VisibleBehaviour {
 		}
 
 		Vector3Int target = from + Vector3Int.RoundToInt((Vector2)dir);
-		if (!MatrixManager.IsPassableAt(from, target, isServer: false, includingPlayers: IsSolid)) //non-solid things can be pushed to player tile
+		if (!MatrixManager.IsPassableAt(from, target, isServer: false, includingPlayers: IsSolidClient)) //non-solid things can be pushed to player tile
 		{
 			return false;
 		}

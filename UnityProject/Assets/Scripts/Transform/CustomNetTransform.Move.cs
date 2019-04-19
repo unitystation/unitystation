@@ -397,7 +397,7 @@ public partial class CustomNetTransform {
 		if ( CanDriftTo( intOrigin, intGoal, isServer: true ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) )
 		{
 			//if object is solid, check if player is nearby to make it stop
-			return registerTile && registerTile.IsPassable() || !IsPlayerNearby(serverState);
+			return registerTile && registerTile.IsPassable(true) || !IsPlayerNearby(serverState);
 		}
 
 		if ( serverState.Speed > SpeedHitThreshold ) {
@@ -588,7 +588,7 @@ public partial class CustomNetTransform {
 
 		for ( var i = 0; i < players.Count; i++ ) {
 			var player = players[i];
-			if ( player.registerTile.IsPassable() ||
+			if ( player.registerTile.IsPassable(true) ||
 			     intPos != Vector3Int.RoundToInt( player.PlayerSync.ServerState.WorldPosition )
 			)
 			{

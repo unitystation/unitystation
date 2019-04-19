@@ -415,7 +415,7 @@ public partial class PlayerSync
 	[Command(channel = 0)]
 	private void CmdValidatePush( GameObject pushable ) {
 		var pushPull = pushable.GetComponent<PushPull>();
-		if ( playerScript.canNotInteract() || pushPull && !playerScript.IsInReach(pushPull.registerTile) ) {
+		if ( playerScript.canNotInteract() || pushPull && !playerScript.IsInReach(pushPull.registerTile, true) ) {
 			questionablePushables.Add( pushPull );
 			Logger.LogWarningFormat( "Added questionable {0}", Category.PushPull, pushPull );
 		}
@@ -451,7 +451,7 @@ public partial class PlayerSync
 	private IEnumerator InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false, int i = 0 ) {
 		//Return if pushable is solid and you're trying to walk through it
 		Vector3Int pushablePosition = pushable.Pushable.ServerPosition;
-		if ( pushable.IsSolid && pushablePosition == this.ServerPosition + direction.RoundToInt() ) {
+		if ( pushable.IsSolidServer && pushablePosition == this.ServerPosition + direction.RoundToInt() ) {
 			Logger.LogTraceFormat( "Not doing anything: trying to push solid {0} through yourself", Category.PushPull, pushable.gameObject );
 			yield break;
 		}
@@ -497,7 +497,7 @@ public partial class PlayerSync
 		if ( IsNonStickyServer ) {
 			return;
 		}
-		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, direction.To2Int(), gameObject, serverSide: true);
+		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, direction.To2Int(), gameObject, isServer: true);
 		if (pushables.Count > 0)
 		{
 			pushables[0].TryPush(direction.To2Int());
@@ -573,7 +573,7 @@ public partial class PlayerSync
 	public void Stop() {
 		if ( consideredFloatingServer ) {
 			PushPull spaceObjToGrab;
-			if ( IsAroundPushables( serverState, isServer: true, out spaceObjToGrab ) && spaceObjToGrab.IsSolid ) {
+			if ( IsAroundPushables( serverState, isServer: true, out spaceObjToGrab ) && spaceObjToGrab.IsSolidServer ) {
 				//some hacks to avoid space closets stopping out of player's reach
 				var cnt = spaceObjToGrab.GetComponent<CustomNetTransform>();
 				if ( cnt && cnt.IsFloatingServer && Vector2Int.RoundToInt(cnt.ServerState.Impulse) == Vector2Int.RoundToInt(serverState.Impulse) )

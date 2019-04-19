@@ -360,24 +360,24 @@ public abstract class RegisterTile : NetworkBehaviour
 	{
 	}
 
-	public virtual bool IsPassable()
+	public virtual bool IsPassable(bool isServer)
 	{
 		return true;
 	}
 
 	/// Is it passable when approaching from outside?
-	public virtual bool IsPassable(Vector3Int from)
+	public virtual bool IsPassable(Vector3Int from, bool isServer)
 	{
 		return true;
 	}
 
 	/// Is it passable when trying to leave it?
-	public virtual bool IsPassableTo(Vector3Int to)
+	public virtual bool IsPassableTo(Vector3Int to, bool isServer)
 	{
 		return true;
 	}
 
-	public virtual bool IsAtmosPassable(Vector3Int from)
+	public virtual bool IsAtmosPassable(Vector3Int from, bool isServer)
 	{
 		return true;
 	}

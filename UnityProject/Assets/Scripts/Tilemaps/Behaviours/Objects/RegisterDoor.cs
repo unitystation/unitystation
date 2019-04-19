@@ -29,7 +29,7 @@
 			}
 		}
 
-		public override bool IsPassableTo( Vector3Int to )
+		public override bool IsPassableTo( Vector3Int to, bool isServer )
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
@@ -37,24 +37,24 @@
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				return !(to - PositionS).y.Equals(v.y);
+				return !(to - (isServer ? PositionS : PositionC)).y.Equals(v.y);
 			}
 
 			return !isClosed;
 		}
 
-		public override bool IsPassable( Vector3Int from )
+		public override bool IsPassable( Vector3Int from, bool isServer )
 		{
 			// Entering and leaving is the same check
-			return IsPassableTo( from );
+			return IsPassableTo( from, isServer );
 		}
 
-		public override bool IsPassable()
+		public override bool IsPassable(bool isServer)
 		{
 			return !isClosed;
 		}
 
-		public override bool IsAtmosPassable(Vector3Int from)
+		public override bool IsAtmosPassable(Vector3Int from, bool isServer)
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
@@ -62,7 +62,7 @@
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				return !(from - PositionS).y.Equals(v.y);
+				return !(from - (isServer ? PositionS : PositionC)).y.Equals(v.y);
 			}
 
 			return !isClosed;
