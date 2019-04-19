@@ -21,7 +21,7 @@ public partial class PlayerSync
 	/// Client predicted state
 	private PlayerState predictedState;
 
-	private Queue<PlayerAction> pendingActions;
+	public Queue<PlayerAction> pendingActions;
 	private Vector2 lastDirection;
 
 	/// Last move direction, used for space walking simulation

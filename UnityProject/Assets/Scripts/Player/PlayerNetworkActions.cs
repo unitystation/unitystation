@@ -47,6 +47,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private static readonly Vector3 FALLEN = new Vector3(0, 0, -90);
 	private static readonly Vector3 STRAIGHT = Vector3.zero;
 
+	private List<InventorySlot> initSync;
+
 	private void Start()
 	{
 		equipment = GetComponent<Equipment>();
@@ -65,7 +67,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				playerScript = GetComponent<PlayerScript>();
 			}
-			List<InventorySlot> initSync = new List<InventorySlot>();
+			initSync = new List<InventorySlot>();
 			foreach (string slotName in slotNames)
 			{
 				var invSlot = new InventorySlot(Guid.NewGuid(), slotName, true, playerScript);
@@ -74,7 +76,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				initSync.Add(invSlot);
 			}
 
-			SyncPlayerInventoryGuidMessage.Send(gameObject, initSync);
+			SendSyncMessage(gameObject);
 
 			//if this is the ghost, respawn after 10 seconds
 			if (playerScript.IsGhost)
@@ -86,7 +88,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		base.OnStartServer();
 	}
 
+	[Server]
+	public void ReenterBodyUpdates(GameObject recipient){
+		SendSyncMessage(recipient);
+		UpdateInventorySlots(recipient);
+	}
 
+	[Server]
+	public void SendSyncMessage(GameObject recipient){
+		SyncPlayerInventoryGuidMessage.Send(recipient, initSync);
+	}
 
 	public bool InventoryContainsItem(GameObject item, out InventorySlot slot)
 	{
@@ -312,6 +323,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			fromSlot?.UUID);
 
 		UpdatePlayerEquipSprites(fromSlot, toSlot);
+	}
+
+	[Server]
+	public void UpdateInventorySlots(GameObject recipient)
+	{
+		for (int i = 0; i < slotNames.Length; i++)
+		{
+			InventorySlot invSlot = Inventory[slotNames[i]];
+			UpdateSlotMessage.Send(recipient, invSlot.UUID, null, invSlot.Item);
+		}
 	}
 
 	[Server]

@@ -325,20 +325,6 @@ public class InventoryManager : MonoBehaviour
 		DropItem(GetSlotFromItem(item), pos);
 	}
 
-	/// <summary>
-	/// Performs cleanup needed when a player disconnects. Drops their items at their current location and removes all the inventory slots.
-	/// </summary>
-	/// <param name="owner">gameobject of the player that is disconnecting, which should still be present wherever it was prior to disconnecting.</param>
-	public static void HandleDisconnect(GameObject owner)
-	{
-		//drop everything
-		AllServerInventorySlots
-			.FindAll(x => x.Owner && x.Owner.gameObject == owner && x.Item)
-			.ForEach(x => DropGameItem(owner, x.Item, owner.transform.position));
-
-		//remove their slots
-		AllServerInventorySlots.RemoveAll(x => x.Owner && x.Owner.gameObject == owner);
-	}
 }
 
 //Helps identify the position in syncEquip list

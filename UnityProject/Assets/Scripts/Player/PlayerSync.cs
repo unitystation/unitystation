@@ -360,9 +360,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		//Init pending actions queue for your local player
 		if (isLocalPlayer)
 		{
-			pendingActions = new Queue<PlayerAction>();
-			UpdatePredictedState();
-			predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
+			setLocalPlayer();
 		}
 		//Init pending actions queue for server
 		if (isServer)
@@ -374,6 +372,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		healthBehaviorScript = GetComponent<LivingHealthBehaviour>();
 		registerTile = GetComponent<RegisterTile>();
 		pushPull = GetComponent<PushPull>();
+	}
+
+	public void setLocalPlayer(){
+		pendingActions = new Queue<PlayerAction>();
+		UpdatePredictedState();
+		predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
 	}
 
 	private void Update()
