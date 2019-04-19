@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 114348495363464762}
   - component: {fileID: 114675370128025870}
   - component: {fileID: 114836435796936700}
-  - component: {fileID: 114007797438959630}
   - component: {fileID: 114923609856049834}
   - component: {fileID: 114185907784239616}
   - component: {fileID: 2836368675170884176}
@@ -218,18 +217,6 @@ MonoBehaviour:
   hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &114007797438959630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645856876941636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114923609856049834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,3 +275,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c1dcb3aeedc1446a9e40fc57eb5cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CablePrefab: {fileID: 1042895037894172, guid: e76e1e2174fe48d41bf086955b459b61,
+    type: 3}

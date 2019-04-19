@@ -206,6 +206,7 @@ public static class ElectricalSynchronisation
 		foreach (CableInheritance cabel in NUCableStructureChange) {
 			cabel.PowerUpdateStructureChange();
 		}
+		NUCableStructureChange.Clear();
 		foreach (var category in OrderList)
 		{
 			foreach (PowerSupplyControlInheritance TheSupply in AliveSupplies[category])

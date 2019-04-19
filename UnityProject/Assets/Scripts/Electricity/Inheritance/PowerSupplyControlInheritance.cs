@@ -292,7 +292,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 		return (Resistance);
 	}
 
-	[ContextMethod("Destroy cable", "x")]
+	[ContextMethod("Destroy THIS", "x")]
 	public void Destroy()
 	{
 		ElectricalSynchronisation.StructureChange = true;

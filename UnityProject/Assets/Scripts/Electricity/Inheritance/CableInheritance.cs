@@ -45,7 +45,8 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public void toDestroy()
 	{
 		Logger.Log("1");
-		gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		//gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
 		ElectricalSynchronisation.StructureChange = true;
 		ElectricalSynchronisation.NUCableStructureChange.Add(this);
 	}
@@ -69,10 +70,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		Logger.Log("2");
 		wireConnect.FlushConnectionAndUp();
 		wireConnect.registerTile.Unregister();
-		//if (gameObject != null) { 
-		//	PoolManager.PoolNetworkDestroy(gameObject);
-		//}
-		Destroy(this);
+		PoolManager.PoolNetworkDestroy(gameObject);
 	}
 	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
 	//FIXME: that also renderers IDevice useless. Please reassess
@@ -103,8 +101,69 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	{
 		//FIXME this breaks wires that were placed via unity editor:
 		// need to address when we allow users to add wires at runtime
+		ElectricalSynchronisation.StructureChange = true;
 		SetDirection(WireEndB, WireEndA, CableType);
+		FindOverlapsAndCombine();
 	}
+
+	public void FindOverlapsAndCombine()
+	{
+		Logger.Log("A");
+		if (WireEndA == Connection.Overlap | WireEndB == Connection.Overlap)
+		{
+			Logger.Log("B");
+			bool isA;
+			if (WireEndA == Connection.Overlap)
+			{
+				isA = true;
+			}
+			else {
+				isA = false;
+			}
+			Logger.Log(wireConnect.registerTile.Position.ToString());
+			var Econns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.Position);
+			foreach (var con in Econns)
+			{
+				if (ApplianceType == con.InData.Categorytype)
+				{
+					Logger.Log("C");
+					if (wireConnect != con)
+					{
+						Logger.Log("D");
+						if (con.WireEndA == Connection.Overlap)
+						{
+							if (isA)
+							{
+								Logger.Log("B");
+								WireEndA = con.WireEndB;
+							}
+							else {
+								Logger.Log("C");
+								WireEndB = con.WireEndB;
+							}
+							SetDirection(WireEndB, WireEndA, CableType);
+							con.gameObject.GetComponent<CableInheritance>().toDestroy();
+						}
+						else if (con.WireEndB == Connection.Overlap)
+						{
+							if (isA)
+							{
+								Logger.Log("E");
+								WireEndA = con.WireEndA;
+							}
+							else {
+								Logger.Log("F");
+								WireEndB = con.WireEndA;
+							}
+							SetDirection(WireEndB, WireEndA, CableType);
+							con.gameObject.GetComponent<CableInheritance>().toDestroy();
+						}
+					}
+				}
+			}
+		}
+	}
+
 
 	public void SetDirection(int WireEndB)
 	{
@@ -115,11 +174,14 @@ public class CableInheritance : InputTrigger, IDeviceControl
 
 	public void SetDirection(Connection REWireEndA, Connection REWireEndB, WiringColor RECableType = WiringColor.unknown)
 	{
-		if (!(RECableType == WiringColor.unknown)) {
-			CableType = RECableType;
+
+		if (REWireEndA == REWireEndB) {
+			Logger.LogError("whY!!!! Don't make it end and start in the same place!" + REWireEndA + " " + REWireEndB , Category.Electrical);
+			return;
 		}
-		if (WireEndA == WireEndB) {
-			Logger.LogError("whY!!!! Don't make it end and start in the same place!", Category.Electrical);
+		if (!(RECableType == WiringColor.unknown))
+		{
+			CableType = RECableType;
 		}
 		WireEndA = REWireEndA;
 		WireEndB = REWireEndB;
