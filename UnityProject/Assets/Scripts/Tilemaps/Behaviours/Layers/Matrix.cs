@@ -126,14 +126,13 @@ public class Matrix : MonoBehaviour
 
 	public IEnumerable<T> Get<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
-		var objectList = isServer ? serverObjects : clientObjects;
-		if ( objectList == null || !objectList.HasObjects( position ) )
+		if ( (isServer ? serverObjects : clientObjects) == null || !(isServer ? serverObjects : clientObjects).HasObjects( position ) )
 		{
 			return Enumerable.Empty<T>(); //?
 		}
 
 		var filtered = new List<T>();
-		foreach ( RegisterTile t in objectList.Get(position) )
+		foreach ( RegisterTile t in (isServer ? serverObjects : clientObjects).Get(position) )
 		{
 			T x = t.GetComponent<T>();
 			if (x != null)
@@ -147,9 +146,8 @@ public class Matrix : MonoBehaviour
 
 	public T GetFirst<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
-		var objectList = isServer ? serverObjects : clientObjects;
 		//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine
-		foreach ( RegisterTile t in objectList.Get(position) )
+		foreach ( RegisterTile t in (isServer ? serverObjects : clientObjects).Get(position) )
 		{
 			T c = t.GetComponent<T>();
 			if (c != null)
@@ -165,14 +163,13 @@ public class Matrix : MonoBehaviour
 
 	public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type, bool isServer) where T : MonoBehaviour
 	{
-		var objectList = isServer ? serverObjects : clientObjects;
-		if ( !objectList.HasObjects( position ) )
+		if ( !(isServer ? serverObjects : clientObjects).HasObjects( position ) )
 		{
 			return Enumerable.Empty<T>();
 		}
 
 		var filtered = new List<T>();
-		foreach ( RegisterTile t in objectList.Get(position, type) )
+		foreach ( RegisterTile t in (isServer ? serverObjects : clientObjects).Get(position, type) )
 		{
 			T x = t.GetComponent<T>();
 			if (x != null)

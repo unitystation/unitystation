@@ -67,33 +67,4 @@
 
 			return !isClosed;
 		}
-
-		private CustomNetTransform cnt;
-		protected override void InitDerived()
-		{
-			cnt = GetComponent<CustomNetTransform>();
-		}
-
-		public override void UpdatePositionServer()
-        {
-        	if ( !cnt )
-        	{
-        		base.UpdatePositionServer();
-        	}
-        	else
-        	{
-        		PositionS = cnt.ServerLocalPosition;
-        	}
-        }
-		public override void UpdatePositionClient()
-		{
-			if ( !cnt )
-			{
-				base.UpdatePositionClient();
-			}
-			else
-			{
-				PositionC = cnt.ClientLocalPosition;
-			}
-		}
 	}

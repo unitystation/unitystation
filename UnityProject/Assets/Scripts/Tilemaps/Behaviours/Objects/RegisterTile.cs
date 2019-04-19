@@ -52,6 +52,8 @@ public abstract class RegisterTile : NetworkBehaviour
 	         " will always remain upright (top pointing to the top of the screen")]
 	public bool rotateWithMatrix;
 
+	private PushPull customTransform;
+
 	/// <summary>
 	/// Matrix this object lives in
 	/// </summary>
@@ -134,7 +136,10 @@ public abstract class RegisterTile : NetworkBehaviour
 			if (layer)
 			{
 				layer.ServerObjects.Remove(serverPosition, this);
-				layer.ServerObjects.Add(value, this);
+				if ( value != TransformState.HiddenPos )
+				{
+					layer.ServerObjects.Add(value, this);
+				}
 			}
 
 			serverPosition = value;
@@ -150,7 +155,10 @@ public abstract class RegisterTile : NetworkBehaviour
 			if (layer)
 			{
 				layer.ClientObjects.Remove(clientPosition, this);
-				layer.ClientObjects.Add(value, this);
+				if ( value != TransformState.HiddenPos )
+				{
+					layer.ClientObjects.Add( value, this );
+				}
 			}
 
 			clientPosition = value;
@@ -220,10 +228,12 @@ public abstract class RegisterTile : NetworkBehaviour
 				}
 			}
 		}
-		InitDerived();
-	}
 
-	protected virtual void InitDerived() { }
+		if ( customTransform == null )
+		{
+			customTransform = GetComponent<PushPull>();
+		}
+	}
 
 	public override void OnStartClient()
 	{
@@ -266,29 +276,17 @@ public abstract class RegisterTile : NetworkBehaviour
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 
 			PositionS = Vector3Int.RoundToInt(transform.localPosition);
-//			UpdatePositionServer();
 			PositionC = Vector3Int.RoundToInt(transform.localPosition);
-//			UpdatePositionClient();
 		}
 	}
 
 	public void UnregisterClient()
 	{
 		PositionC = TransformState.HiddenPos;
-
-		if (layer)
-		{
-			layer.ClientObjects.Remove(PositionC, this);
-		}
 	}
 	public void UnregisterServer()
 	{
 		PositionS = TransformState.HiddenPos;
-
-		if (layer)
-		{
-			layer.ServerObjects.Remove(PositionS, this);
-		}
 	}
 
 	private void OnDisable()
@@ -298,13 +296,13 @@ public abstract class RegisterTile : NetworkBehaviour
 	}
 
 	public virtual void UpdatePositionServer()
-	{ //To be overridden, use as fallback only
-		PositionS = Vector3Int.RoundToInt(transform.localPosition);
+	{
+		PositionS = customTransform ? customTransform.Pushable.ServerLocalPosition : transform.localPosition.RoundToInt();
 	}
 
 	public virtual void UpdatePositionClient()
 	{
-		PositionC = Vector3Int.RoundToInt(transform.localPosition);
+		PositionC = customTransform ? customTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
 	}
 
 	/// <summary>

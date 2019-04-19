@@ -26,35 +26,6 @@ public class RegisterObject : RegisterTile
 		return AtmosPassable || (isServer ? PositionS == TransformState.HiddenPos : PositionC == TransformState.HiddenPos );
 	}
 
-	private CustomNetTransform pushable;
-	protected override void InitDerived()
-	{
-		pushable = GetComponent<CustomNetTransform>();
-	}
-
-	public override void UpdatePositionServer()
-	{
-		if ( !pushable )
-		{
-			base.UpdatePositionServer();
-		}
-		else
-		{
-			PositionS = pushable.ServerLocalPosition;
-		}
-	}
-	public override void UpdatePositionClient()
-	{
-		if ( !pushable )
-		{
-			base.UpdatePositionClient();
-		}
-		else
-		{
-			PositionC = pushable.ClientLocalPosition;
-		}
-	}
-
 	#region UI Mouse Actions
 
 	public void OnHoverStart()

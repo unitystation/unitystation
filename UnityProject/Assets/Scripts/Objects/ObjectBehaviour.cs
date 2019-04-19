@@ -14,7 +14,7 @@ public class ObjectBehaviour : PushPull
 
 	//The object that this object is contained inside
 	public ObjectBehaviour parentContainer = null;
-	private Vector3 lastNonHiddenPosition = new Vector3();
+	private Vector3 lastNonHiddenPosition = TransformState.HiddenPos;
 
 	//returns position of highest object this object is contained in
     public Vector3 AssumedLocation()
@@ -27,7 +27,10 @@ public class ObjectBehaviour : PushPull
 		else if (registerTile.WorldPositionS != TransformState.HiddenPos)
 		{
 			lastNonHiddenPosition = registerTile.WorldPositionS;
-		}
+		} else if ( lastNonHiddenPosition == TransformState.HiddenPos )
+        { //If not initialized yet
+	        lastNonHiddenPosition = transform.position;
+        }
 
         return lastNonHiddenPosition;
     }

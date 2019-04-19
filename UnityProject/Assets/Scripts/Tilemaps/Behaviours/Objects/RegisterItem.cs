@@ -16,32 +16,4 @@ public class OnCrossed : UnityEvent<RegisterPlayer>{};
 			crossed.Invoke(registerPlayer);
 		}
 
-		private CustomNetTransform pushable;
-		protected override void InitDerived()
-		{
-			pushable = GetComponent<CustomNetTransform>();
-		}
-
-		public override void UpdatePositionServer()
-		{
-			if ( !pushable )
-			{
-				base.UpdatePositionServer();
-			}
-			else
-			{
-				PositionS = pushable.ServerLocalPosition;
-			}
-		}
-		public override void UpdatePositionClient()
-		{
-			if ( !pushable )
-			{
-				base.UpdatePositionClient();
-			}
-			else
-			{
-				PositionC = pushable.ClientLocalPosition;
-			}
-		}
 	}

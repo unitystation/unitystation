@@ -188,33 +188,4 @@ public class RegisterPlayer : RegisterTile
 		playerScript.playerMove.allowInput = true;
 	}
 
-
-	private PlayerSync pushable;
-	protected override void InitDerived()
-	{
-		pushable = GetComponent<PlayerSync>();
-	}
-
-	public override void UpdatePositionServer()
-	{
-		if ( !pushable )
-		{
-			base.UpdatePositionServer();
-		}
-		else
-		{
-			PositionS = pushable.ServerLocalPosition;
-		}
-	}
-	public override void UpdatePositionClient()
-	{
-		if ( !pushable )
-		{
-			base.UpdatePositionClient();
-		}
-		else
-		{
-			PositionC = pushable.ClientLocalPosition;
-		}
-	}
 }

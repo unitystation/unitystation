@@ -48,7 +48,6 @@ public class MatrixManager : MonoBehaviour
 				return mat;
 			}
 		}
-
 		return Instance.ActiveMatrices[0];
 	}
 
@@ -585,7 +584,7 @@ public class MatrixManager : MonoBehaviour
 	public static Vector3 LocalToWorld(Vector3 localPos, MatrixInfo matrix, MatrixState state = default(MatrixState))
 	{
 		//Invalid matrix info provided
-		if (matrix.Equals(MatrixInfo.Invalid))
+		if (matrix.Equals(MatrixInfo.Invalid) || localPos == TransformState.HiddenPos)
 		{
 			return TransformState.HiddenPos;
 		}
@@ -610,7 +609,7 @@ public class MatrixManager : MonoBehaviour
 	public static Vector3 WorldToLocal( Vector3 worldPos, MatrixInfo matrix )
 	{
 		//Invalid matrix info provided
-		if (matrix.Equals(MatrixInfo.Invalid))
+		if (matrix.Equals(MatrixInfo.Invalid) || worldPos == TransformState.HiddenPos)
 		{
 			return TransformState.HiddenPos;
 		}
