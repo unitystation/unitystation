@@ -201,6 +201,7 @@ public static class ConnectionMap
 	NorthWest,
 	Overlap,
 	MachineConnect,
+	NA
 }
 
 	public struct ConnPoint{
