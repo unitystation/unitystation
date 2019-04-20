@@ -103,8 +103,8 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		// need to address when we allow users to add wires at runtime
 		ElectricalSynchronisation.StructureChange = true;
 		SetDirection(WireEndB, WireEndA, CableType);
-		FindOverlapsAndCombine();
 	}
+
 
 	public void FindOverlapsAndCombine()
 	{
@@ -122,41 +122,44 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			}
 			Logger.Log(wireConnect.registerTile.Position.ToString());
 			var Econns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.Position);
-			foreach (var con in Econns)
+			if (Econns != null)
 			{
-				if (ApplianceType == con.InData.Categorytype)
+				foreach (var con in Econns)
 				{
-					Logger.Log("C");
-					if (wireConnect != con)
+					if (ApplianceType == con.InData.Categorytype)
 					{
-						Logger.Log("D");
-						if (con.WireEndA == Connection.Overlap)
+						Logger.Log("C");
+						if (wireConnect != con)
 						{
-							if (isA)
+							Logger.Log("D");
+							if (con.WireEndA == Connection.Overlap)
 							{
-								Logger.Log("B");
-								WireEndA = con.WireEndB;
+								if (isA)
+								{
+									Logger.Log("B");
+									WireEndA = con.WireEndB;
+								}
+								else {
+									Logger.Log("C");
+									WireEndB = con.WireEndB;
+								}
+								SetDirection(WireEndB, WireEndA, CableType);
+								con.gameObject.GetComponent<CableInheritance>().toDestroy();
 							}
-							else {
-								Logger.Log("C");
-								WireEndB = con.WireEndB;
-							}
-							SetDirection(WireEndB, WireEndA, CableType);
-							con.gameObject.GetComponent<CableInheritance>().toDestroy();
-						}
-						else if (con.WireEndB == Connection.Overlap)
-						{
-							if (isA)
+							else if (con.WireEndB == Connection.Overlap)
 							{
-								Logger.Log("E");
-								WireEndA = con.WireEndA;
+								if (isA)
+								{
+									Logger.Log("E");
+									WireEndA = con.WireEndA;
+								}
+								else {
+									Logger.Log("F");
+									WireEndB = con.WireEndA;
+								}
+								SetDirection(WireEndB, WireEndA, CableType);
+								con.gameObject.GetComponent<CableInheritance>().toDestroy();
 							}
-							else {
-								Logger.Log("F");
-								WireEndB = con.WireEndA;
-							}
-							SetDirection(WireEndB, WireEndA, CableType);
-							con.gameObject.GetComponent<CableInheritance>().toDestroy();
 						}
 					}
 				}
@@ -188,6 +191,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 
 		//Logger.Log(WireEndB.ToString() + " <WireEndB and WireEndA> " + WireEndA.ToString(), Category.Electrical);
 		SetSprite();
+		FindOverlapsAndCombine();
 	}
 
 

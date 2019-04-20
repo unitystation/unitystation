@@ -22,49 +22,51 @@ public class CableCoil : PickUpTrigger
 		//{
 		//	return false;
 		//}
-		//if (!isServer)
-		//{
-		//	InteractMessage.Send(gameObject, hand);
-		//}
-		//else {
-		if (gameObject == UIManager.Hands.CurrentSlot.Item)
+		if (!isServer)
 		{
-			position = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
-			position.z = 0f;
-			position = position.RoundToInt();
-			Vector3 PlaceDirection = originator.transform.position - position;
-			Connection WireEndB = Connection.NA;
-			if (PlaceDirection == Vector3.up) {  WireEndB = Connection.North; }
-			else if (PlaceDirection == Vector3.down) {  WireEndB = Connection.South; }
-			else if (PlaceDirection == Vector3.right) {  WireEndB = Connection.East; }
-			else if (PlaceDirection == Vector3.left) {  WireEndB = Connection.West; }
-			 
-			else if (PlaceDirection == Vector3.down + Vector3.left) {  WireEndB = Connection.SouthWest; }
-			else if (PlaceDirection == Vector3.down + Vector3.right) {  WireEndB = Connection.SouthEast; }
-			else if (PlaceDirection == Vector3.up + Vector3.left) {  WireEndB = Connection.NorthWest;  }
-			else if (PlaceDirection == Vector3.up + Vector3.right) { WireEndB = Connection.NorthEast; }
+			InteractMessage.Send(gameObject, hand);
+		}
+		else {
+			if (gameObject == UIManager.Hands.CurrentSlot.Item)
+			{
+				position = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+				position.z = 0f;
+				position = position.RoundToInt();
+				Vector3 PlaceDirection = originator.transform.position - position;
+				Connection WireEndB = Connection.NA;
+				if (PlaceDirection == Vector3.up) { WireEndB = Connection.North; }
+				else if (PlaceDirection == Vector3.down) { WireEndB = Connection.South; }
+				else if (PlaceDirection == Vector3.right) { WireEndB = Connection.East; }
+				else if (PlaceDirection == Vector3.left) { WireEndB = Connection.West; }
 
-			if (WireEndB != Connection.NA) {
-				if (CableType == WiringColor.high) { 
-					switch (WireEndB)
+				else if (PlaceDirection == Vector3.down + Vector3.left) { WireEndB = Connection.SouthWest; }
+				else if (PlaceDirection == Vector3.down + Vector3.right) { WireEndB = Connection.SouthEast; }
+				else if (PlaceDirection == Vector3.up + Vector3.left) { WireEndB = Connection.NorthWest; }
+				else if (PlaceDirection == Vector3.up + Vector3.right) { WireEndB = Connection.NorthEast; }
+
+				if (WireEndB != Connection.NA)
+				{
+					if (CableType == WiringColor.high)
 					{
-						case  Connection.NorthEast:
-							return true;
-						case Connection.NorthWest:
-							return true;
-						case Connection.SouthWest:
-							return true;
-						case Connection.SouthEast:
-							return true; 
+						switch (WireEndB)
+						{
+							case Connection.NorthEast:
+								return true;
+							case Connection.NorthWest:
+								return true;
+							case Connection.SouthWest:
+								return true;
+							case Connection.SouthEast:
+								return true;
+						}
+
 					}
-				
+					Logger.Log(WireEndB.ToString());
+					BuildCable(position, originator.transform.parent, WireEndB);
 				}
-				Logger.Log(WireEndB.ToString());
-				BuildCable(position, originator.transform.parent, WireEndB);
-			}
-			//Logger.Log(position.ToString());
-		
-			return true;
+				//Logger.Log(position.ToString());
+			} 
+			return base.Interact(originator, position, hand);
 		}
 
 		//}
