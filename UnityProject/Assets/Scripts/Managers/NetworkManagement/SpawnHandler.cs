@@ -27,13 +27,7 @@ public static class SpawnHandler
 	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
 	{
 		GameObject player = CreatePlayer(jobType);
-		var connectedPlayer = PlayerList.Instance.Get(conn);
-		PlayerList.Instance.UpdatePlayer(conn, player);
-		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
-		TriggerEventMessage.Send(player, EVENT.PlayerSpawned);
-		if (connectedPlayer.Script.PlayerSync != null) {
-			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
-		}
+		TransferPlayer(conn, playerControllerId, player);
 	}
 
 	/// <summary>
@@ -114,4 +108,22 @@ public static class SpawnHandler
 
 		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
 	}
+
+	/// <summary>
+	/// Connects a client to a character.
+	/// </summary>
+	/// <param name="conn">The client's NetworkConnection.</param>
+	/// <param name="playerControllerId">ID of the client player to be transfered.</param>
+	/// <param name="player">The player's character gameobject to be transfered into.</param>
+	public static void TransferPlayer(NetworkConnection conn, short playerControllerId, GameObject player){
+		var connectedPlayer = PlayerList.Instance.Get(conn);
+		PlayerList.Instance.UpdatePlayer(conn, player);
+		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
+		TriggerEventMessage.Send(player, EVENT.PlayerSpawned);
+		if (connectedPlayer.Script.PlayerSync != null)
+		{
+			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
+		}
+	}
+
 }

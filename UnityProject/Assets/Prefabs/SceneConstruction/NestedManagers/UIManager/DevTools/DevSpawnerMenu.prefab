@@ -142,7 +142,18 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8227747343382171699}
+        m_MethodName: OnSearchBoxChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.InputField+OnChangeEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
@@ -673,6 +684,9 @@ MonoBehaviour:
     type: 3}
   contentPanel: {fileID: 4228042807187021209}
   searchBox: {fileID: 8733358033406559583}
+  alwaysWildcard: 1
+  searchWhileTyping: 0
+  minCharactersForSearch: 3
 --- !u!1 &4113884316881524652
 GameObject:
   m_ObjectHideFlags: 0

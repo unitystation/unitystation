@@ -95,3 +95,4 @@ consumption from Unity easier.
 Finally, for unitystation, we did the following:
  - Remove empty catch blocks so we can determine what errors are happening
  - Provide the ability to delete the index
+ - Allow wildcard searches with leading wildcard

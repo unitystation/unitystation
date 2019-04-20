@@ -21,6 +21,14 @@ public class GUI_DevSpawner : MonoBehaviour
 	public GameObject contentPanel;
 	public InputField searchBox;
 
+	[Tooltip("Always perform a wildcard search, with wildcard being added at the end")]
+	public bool alwaysWildcard = true;
+	[Tooltip("Update search results as you type into the search box.")]
+	public bool searchWhileTyping = false;
+	[Tooltip("If searchWhileTyping is turned on, don't start searching until at least this many" +
+	         " characters are entered.")]
+	public int minCharactersForSearch = 3;
+
 	// search index
 	private Lucene3D lucene;
 
@@ -95,6 +103,17 @@ public class GUI_DevSpawner : MonoBehaviour
 	    Logger.LogFormat("Lucene indexing progress title: {0}, total: {1}", Category.ItemSpawn, e.Title, e.Total);
     }
 
+    public void OnSearchBoxChanged()
+    {
+	    if (searchWhileTyping)
+	    {
+		    if (searchBox.text.Length >= minCharactersForSearch)
+		    {
+			    Search();
+		    }
+	    }
+    }
+
     public void Search()
     {
 	    //delete previous results
@@ -103,7 +122,13 @@ public class GUI_DevSpawner : MonoBehaviour
 		    Destroy(child.gameObject);
 	    }
 
-	    var docs = lucene.Search(searchBox.text);
+	    var search = searchBox.text;
+	    if (alwaysWildcard)
+	    {
+		    search += "*";
+	    }
+
+	    var docs = lucene.Search(search, true);
 
 	    //display new results
 	    foreach (var doc in docs)
@@ -114,15 +139,19 @@ public class GUI_DevSpawner : MonoBehaviour
 
     private void ConfigureLucene()
     {
-	    //delete if exists
-	    lucene = new Lucene3D(deleteIfExists:true);
 
-	    lucene.Progress += OnLuceneProgress;
+	    //dont reindex when reopening the spawner
+	    if (lucene == null)
+	    {
+		    lucene = new Lucene3D(deleteIfExists: true);
 
-	    lucene.DefineIndexField<DevSpawnerDocument>("id", doc => doc.Name, IndexOptions.PrimaryKey);
-	    lucene.DefineIndexField<DevSpawnerDocument>("name", doc => doc.Name, IndexOptions.IndexTermsAndStore);
-	    lucene.DefineIndexField<DevSpawnerDocument>("hier", doc => doc.Hier, IndexOptions.IndexTermsAndStore);
-	    lucene.DefineIndexField<DevSpawnerDocument>("type", doc => doc.Type, IndexOptions.IndexTermsAndStore);
+		    lucene.Progress += OnLuceneProgress;
+
+		    lucene.DefineIndexField<DevSpawnerDocument>("id", doc => doc.Name, IndexOptions.PrimaryKey);
+		    lucene.DefineIndexField<DevSpawnerDocument>("name", doc => doc.Name, IndexOptions.IndexTermsAndStore);
+		    lucene.DefineIndexField<DevSpawnerDocument>("hier", doc => doc.Hier, IndexOptions.IndexTermsAndStore);
+		    lucene.DefineIndexField<DevSpawnerDocument>("type", doc => doc.Type, IndexOptions.IndexTermsAndStore);
+	    }
     }
 
 

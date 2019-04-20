@@ -34,12 +34,14 @@ public class Deconstruction : MonoBehaviour
 		{
 			//Set up the action to be invoked when progress bar finishes:
 			var progressFinishAction = new FinishProgressAction(
-				FinishProgressAction.Action.TileDeconstruction,
-				matrixRoot.GetComponent<TileChangeManager>(),
-				tileType,
-				cellPos,
-				worldCellPos,
-				player
+				finishReason =>
+				{
+					if (finishReason == FinishProgressAction.FinishReason.COMPLETED)
+					{
+						CraftingManager.Deconstruction.TryTileDeconstruct(
+							matrixRoot.GetComponent<TileChangeManager>(), tileType, cellPos, worldCellPos);
+					}
+				}
 			);
 
 			//Start the progress bar:
@@ -48,6 +50,12 @@ public class Deconstruction : MonoBehaviour
 
 			SoundManager.PlayNetworkedAtPos("Weld", worldCellPos, Random.Range(0.9f, 1.1f));
 		}
+	}
+
+	//does the deconstruction when deconstruction progress finishes
+	private void DoTileDeconstruction()
+	{
+
 	}
 
 	private void DoWallDeconstruction(Vector3Int cellPos, TileChangeManager tcm, Vector3 worldPos)
