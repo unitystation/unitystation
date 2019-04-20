@@ -109,6 +109,12 @@ public static class SpawnHandler
 		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
 	}
 
+	/// <summary>
+	/// Connects a client to a character.
+	/// </summary>
+	/// <param name="conn">The client's NetworkConnection.</param>
+	/// <param name="playerControllerId">ID of the client player to be transfered.</param>
+	/// <param name="player">The player's character gameobject to be transfered into.</param>
 	public static void TransferPlayer(NetworkConnection conn, short playerControllerId, GameObject player){
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		PlayerList.Instance.UpdatePlayer(conn, player);

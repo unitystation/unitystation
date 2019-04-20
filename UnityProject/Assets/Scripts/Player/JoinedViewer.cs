@@ -123,6 +123,10 @@ public class JoinedViewer : NetworkBehaviour
         
     }
 
+    /// <summary>
+    /// Asks the server to let the client rejoin into a logged off character.
+    /// </summary>
+    /// <param name="loggedOffPlayer">The character to be rejoined into.</param>
 	[Command]
 	public void CmdRejoin(GameObject loggedOffPlayer)
 	{

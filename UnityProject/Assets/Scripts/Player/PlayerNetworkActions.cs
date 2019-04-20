@@ -88,14 +88,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		base.OnStartServer();
 	}
 
+	/// <summary>
+	/// Sync the player with the server.
+	/// </summary>
+	/// <param name="recipient">The player to be synced.</param>
 	[Server]
-	public void ReenterBodyUpdates(GameObject recipient){
+	public void ReenterBodyUpdates(GameObject recipient)
+	{
 		SendSyncMessage(recipient);
 		UpdateInventorySlots(recipient);
 	}
 
+	/// <summary>
+	/// Sends a message to sync the clientside player's inventory with the serverside inventory.
+	/// </summary>
+	/// <param name="recipient">The player to be synced.</param>
 	[Server]
-	public void SendSyncMessage(GameObject recipient){
+	public void SendSyncMessage(GameObject recipient)
+	{
 		SyncPlayerInventoryGuidMessage.Send(recipient, initSync);
 	}
 
@@ -325,6 +335,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		UpdatePlayerEquipSprites(fromSlot, toSlot);
 	}
 
+	/// <summary>
+	/// Sends messages to a client to update every slot in the player's clientside inventory.
+	/// </summary>
+	/// <param name="recipient">The player to have their inventory updated.</param>
 	[Server]
 	public void UpdateInventorySlots(GameObject recipient)
 	{

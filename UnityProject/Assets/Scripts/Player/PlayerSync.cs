@@ -374,7 +374,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		pushPull = GetComponent<PushPull>();
 	}
 
-	public void setLocalPlayer(){
+	/// <summary>
+	/// Sets up the action queue for the local player.
+	/// </summary>
+	public void setLocalPlayer()
+	{
 		pendingActions = new Queue<PlayerAction>();
 		UpdatePredictedState();
 		predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
