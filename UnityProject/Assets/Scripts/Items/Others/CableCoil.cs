@@ -17,22 +17,33 @@ public class CableCoil : PickUpTrigger
     }
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		Logger.Log("oh cool");
+		//Logger.LogError("oh cool");
 		//if (!CanUse(originator, hand, position, false))
 		//{
 		//	return false;
 		//}
+		Logger.Log(originator + " " + position + " " + hand);
 		if (!isServer)
 		{
-			InteractMessage.Send(gameObject, hand);
+			InteractMessage.Send(gameObject, position , hand);
 		}
 		else {
-			if (gameObject == UIManager.Hands.CurrentSlot.Item)
+
+			PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
+			GameObject handObj = pna.Inventory[hand].Item;
+			if (handObj == null)
 			{
-				position = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+				return base.Interact(originator, position, hand);
+			}
+			if (handObj.GetComponent<CableCoil>())
+			{
+			//if ( UIManager.Hands.CurrentSlot.Item.GetComponent<CableCoil>() != null)
+			//{
+				//position = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 				position.z = 0f;
 				position = position.RoundToInt();
 				Vector3 PlaceDirection = originator.transform.position - position;
+				Logger.Log(PlaceDirection.ToString());
 				Connection WireEndB = Connection.NA;
 				if (PlaceDirection == Vector3.up) { WireEndB = Connection.North; }
 				else if (PlaceDirection == Vector3.down) { WireEndB = Connection.South; }
@@ -81,6 +92,8 @@ public class CableCoil : PickUpTrigger
 		GameObject Cable = PoolManager.PoolNetworkInstantiate(CablePrefab, position, parent);
 		//DisappearObject();
 		Connection WireEndA = Connection.Overlap;
+		//GameObject cable, Connection WireEndA, Connection WireEndB, WiringColor CableType
+		ElectricalCableMessage.Send(Cable, WireEndA, WireEndB, CableType);
 		Cable.GetComponent<CableInheritance>().SetDirection(WireEndB, WireEndA, CableType);
 	}
 

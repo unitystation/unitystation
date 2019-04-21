@@ -103,6 +103,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		// need to address when we allow users to add wires at runtime
 		ElectricalSynchronisation.StructureChange = true;
 		SetDirection(WireEndB, WireEndA, CableType);
+		//FindOverlapsAndCombine();
 	}
 
 
@@ -144,6 +145,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 									WireEndB = con.WireEndB;
 								}
 								SetDirection(WireEndB, WireEndA, CableType);
+								ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
 								con.gameObject.GetComponent<CableInheritance>().toDestroy();
 							}
 							else if (con.WireEndB == Connection.Overlap)
@@ -158,6 +160,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 									WireEndB = con.WireEndA;
 								}
 								SetDirection(WireEndB, WireEndA, CableType);
+								ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
 								con.gameObject.GetComponent<CableInheritance>().toDestroy();
 							}
 						}
@@ -179,7 +182,8 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	{
 
 		if (REWireEndA == REWireEndB) {
-			Logger.LogError("whY!!!! Don't make it end and start in the same place!" + REWireEndA + " " + REWireEndB , Category.Electrical);
+			//Logger.LogError("whY!!!! Don't make it end and start in the same place!" + REWireEndA + " " + REWireEndB , Category.Electrical);
+			Logger.LogWarning(" Catching Wire connection both at the same place " + REWireEndA + " " + REWireEndB , Category.Electrical);
 			return;
 		}
 		if (!(RECableType == WiringColor.unknown))
@@ -188,10 +192,11 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		}
 		WireEndA = REWireEndA;
 		WireEndB = REWireEndB;
-
 		//Logger.Log(WireEndB.ToString() + " <WireEndB and WireEndA> " + WireEndA.ToString(), Category.Electrical);
 		SetSprite();
-		FindOverlapsAndCombine();
+		if (isServer) { 
+			FindOverlapsAndCombine();
+		}
 	}
 
 

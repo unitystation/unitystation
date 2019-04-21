@@ -211,6 +211,13 @@ public class Matrix : MonoBehaviour
 
 	public IEnumerable<ElectricalOIinheritance> GetElectricalConnections(Vector3Int position)
 	{
-		return objects.Get(position).Select(x => x.GetComponent<ElectricalOIinheritance>()).Where(x => x != null);
+		if (objects != null)
+		{
+			return objects.Get(position).Select(x => x.GetComponent<ElectricalOIinheritance>()).Where(x => x != null);
+		}
+		else 
+		{			return null;
+		}
+
 	}
 }
