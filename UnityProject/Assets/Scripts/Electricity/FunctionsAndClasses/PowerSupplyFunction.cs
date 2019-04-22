@@ -15,7 +15,6 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 		Supply.InData.ControllingDevice.isOnForInterface = true;
 		ElectricalSynchronisation.AddSupply(Supply.InData.ControllingUpdate, Supply.InData.Categorytype);
 		ElectricalSynchronisation.NUStructureChangeReact.Add (Supply.InData.ControllingUpdate);
-		Logger.Log("ADDD ED TurnOnSupply" + Supply);
 		ElectricalSynchronisation.NUResistanceChange.Add (Supply.InData.ControllingUpdate);
 		ElectricalSynchronisation.NUCurrentChange.Add (Supply.InData.ControllingUpdate);
 	}

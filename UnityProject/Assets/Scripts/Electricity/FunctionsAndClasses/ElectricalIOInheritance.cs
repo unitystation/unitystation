@@ -37,10 +37,8 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		FindPossibleConnections();
 	}
 
-	[ContextMethod("REEEEE", "Magnifying_glass")]
 	public virtual void FindPossibleConnections()
 	{
-		//Logger.Log(InData.CanConnectTo.Count.ToString() + "owoeeeeeee");
 		Data.connections.Clear();
 		if (registerTile != null) {
 			Data.connections = ElectricityFunctions.FindPossibleConnections(

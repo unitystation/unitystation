@@ -90,7 +90,6 @@ public static class ElectricityFunctions
 			{
 				if (OIinheritance.WireEndA == con.WireEndA && OIinheritance.WireEndB == con.WireEndB) { 
 					Logger.LogError(PositionE + " < duplicate Please remove " + OIinheritance.InData.Categorytype);
-					//OIinheritance.ElectricityOutput(0, null);
 				} else if (OIinheritance.WireEndA == con.WireEndB && OIinheritance.WireEndB == con.WireEndA){
 					Logger.LogError(PositionE + " < duplicate Please remove " + OIinheritance.InData.Categorytype);
 				}

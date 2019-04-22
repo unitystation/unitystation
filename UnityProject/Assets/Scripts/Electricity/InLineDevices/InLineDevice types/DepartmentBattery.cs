@@ -163,25 +163,6 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		//Interact stuff with the SMES here
-		if (!isServer)
-		{
-			InteractMessage.Send(gameObject, hand);
-		}
-		else
-		{
-			if (!powerSupply.Data.ChangeToOff)
-			{
-				isOn = !isOn;
-				UpdateServerState(isOn);
-			}
-		}
-
-		return true;
-	}
-
 	public override float ModifyElectricityInput( float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		int InstanceID = SourceInstance.GetInstanceID();

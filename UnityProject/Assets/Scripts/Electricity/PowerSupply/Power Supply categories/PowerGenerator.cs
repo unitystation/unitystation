@@ -228,6 +228,7 @@ public class PowerGenerator : PowerSupplyControlInheritance
 			{
 				UpdateServerState(!isOn);
 			}
+			ConstructionInteraction(originator, position, hand);
 		}
 
 		return true;
