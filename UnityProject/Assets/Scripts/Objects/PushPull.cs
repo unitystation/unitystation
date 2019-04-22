@@ -554,7 +554,7 @@ public class PushPull : VisibleBehaviour {
 		if ( isNotPushable || !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
-		lastReliablePos = registerTile.WorldPositionS;
+		lastReliablePos = registerTile.WorldPositionC;
 		if ( from != lastReliablePos ) {
 			return false;
 		}
