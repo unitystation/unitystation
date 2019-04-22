@@ -75,7 +75,7 @@ public class PowerGenerator : PowerSupplyControlInheritance
 	/// </summary>
 	IEnumerator CheckStartingPlasma()
 	{
-		yield return YieldHelper.DeciSecond;
+		yield return YieldHelper.FiveSecs; //Todo: figure out a robust way to init such things, don't rely on timeouts
 		var plasmaObjs = registerTile.Matrix.Get<SolidPlasma>(registerTile.PositionS, true);
 		foreach (SolidPlasma plasma in plasmaObjs)
 		{
