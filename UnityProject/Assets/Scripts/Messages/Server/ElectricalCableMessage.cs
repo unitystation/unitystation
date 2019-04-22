@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
+/// <summary>
+/// Used to update the ends, and colour of  A cable
+/// </summary>
 public class ElectricalCableMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.ElectricalCableMessage;
