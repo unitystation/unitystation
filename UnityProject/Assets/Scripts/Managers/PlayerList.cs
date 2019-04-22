@@ -13,6 +13,9 @@ public class PlayerList : NetworkBehaviour
 	private static List<ConnectedPlayer> values = new List<ConnectedPlayer>();
 	private static List<ConnectedPlayer> oldValues = new List<ConnectedPlayer>();
 
+	private static List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
+
+
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
 
@@ -272,10 +275,10 @@ public class PlayerList : NetworkBehaviour
 	[Server]
 	private void TryRemove(ConnectedPlayer player)
 	{
-		Logger.Log($"Removed {player}",Category.Connections);
+		Logger.Log($"Removed {player}", Category.Connections);
+		loggedOff.Add(player);
 		values.Remove(player);
 		AddPrevious( player );
-		NetworkServer.Destroy(player.GameObject);
 		UpdateConnectedPlayersMessage.Send();
 		CheckRcon();
 	}
@@ -367,6 +370,20 @@ public class PlayerList : NetworkBehaviour
 		if(RconManager.Instance != null){
 			RconManager.UpdatePlayerListRcon();
 		}
+	}
+
+	[Server]
+	public GameObject TakeLoggedOffPlayer(ulong steamId)
+	{
+		foreach (var player in loggedOff)
+		{
+			if (player.SteamId == steamId)
+			{
+				loggedOff.Remove(player);
+				return player.GameObject;
+			}
+		}
+		return null;
 	}
 }
 
