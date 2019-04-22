@@ -121,11 +121,11 @@ MonoBehaviour:
   size: 0
   spriteType: 0
   type: 14
-  ConnectedToTank: 0
-  throwDamage: 5
+  CanConnectToTank: 0
+  throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 5
+  hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &929426244290126300
@@ -227,7 +227,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Temperature: 20
   MaxCapacity: 50
-  CurrentCapacity: 0
   Chemicals:
   - carrot_juice
   Amounts:

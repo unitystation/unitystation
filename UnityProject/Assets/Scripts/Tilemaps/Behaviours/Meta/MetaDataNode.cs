@@ -41,7 +41,7 @@ public class MetaDataNode: IGasMixContainer
 	/// <summary>
 	/// Current damage inflicted on this tile.
 	/// </summary>
-	public int Damage;
+	public float Damage;
 
 	/// <summary>
 	/// Number of neighboring MetaDataNodes

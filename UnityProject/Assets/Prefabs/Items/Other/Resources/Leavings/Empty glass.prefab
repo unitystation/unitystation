@@ -120,11 +120,11 @@ MonoBehaviour:
   size: 0
   spriteType: 0
   type: 0
-  ConnectedToTank: 0
-  throwDamage: 5
+  CanConnectToTank: 0
+  throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 5
+  hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114608524725813366
@@ -211,7 +211,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Temperature: 20
   MaxCapacity: 50
-  CurrentCapacity: 0
   Chemicals: []
   Amounts: []
 --- !u!1 &1469747287601084

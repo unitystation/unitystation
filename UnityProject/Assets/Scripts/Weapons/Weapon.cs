@@ -94,11 +94,6 @@ public class Weapon : PickUpTrigger
 	public GameObject Projectile;
 
 	/// <summary>
-	///     The damage for this weapon
-	/// </summary>
-	public int ProjectileDamage;
-
-	/// <summary>
 	///     The amount of projectiles expended per shot
 	/// </summary>
 	public int ProjectilesFired;

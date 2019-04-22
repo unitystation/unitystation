@@ -32,8 +32,7 @@ public class MeleeTrigger : MonoBehaviour
 			var mousePos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 			var handItem = UIManager.Hands.CurrentSlot.Item.GetComponent<ItemAttributes>();
 
-			if (handItem.itemType == ItemType.Food) {
-				//TODO Add medical stuff too
+			if (handItem.itemType == ItemType.Food || handItem.itemType == ItemType.Medical) {
 				return false;
 			}
 
