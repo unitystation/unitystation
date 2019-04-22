@@ -159,4 +159,12 @@ public class PickUpTrigger : InputTrigger
 			}
 		}
 	}
+
+	/// <summary>
+	/// Using an item on another mob, currently only working on medical items
+	/// </summary>
+	[Server]
+	public virtual void Attack(GameObject target, GameObject originator, BodyPartType bodyPart){
+
+	}
 }

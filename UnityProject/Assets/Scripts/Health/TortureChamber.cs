@@ -33,7 +33,8 @@ public class TortureChamber
 
 	private static void Bleed(PlayerScript ps, TortureSeverity severity)
 	{
-		ps.playerHealth.bloodSystem.AddBloodLoss(( int ) Mathf.Pow(2, ( float ) severity));
+		BodyPartBehaviour bodyPart = ps.playerHealth.FindBodyPart(BodyPartType.Chest);
+		ps.playerHealth.bloodSystem.AddBloodLoss(( int ) Mathf.Pow(2, ( float ) severity), bodyPart);
 	}
 	private static void DropShit(PlayerScript ps, TortureSeverity severity)
 	{

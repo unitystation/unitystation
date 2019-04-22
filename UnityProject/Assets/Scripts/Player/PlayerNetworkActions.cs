@@ -815,12 +815,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
-		//FIXME: remove health and blood changes after TDM
+		//FIXME: remove blood changes after TDM
 		//and use this Cmd for healing hunger and applying
 		//food related attributes instead:
-		playerHealth.AddHealth(baseFood.healAmount);
 		playerHealth.bloodSystem.BloodLevel += baseFood.healAmount;
-		playerHealth.bloodSystem.StopBleeding();
+		playerHealth.bloodSystem.StopBleedingAll();
 
 		InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
 		equipment.ClearItemSprite(fromSlot);
@@ -832,6 +831,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			leavings = PoolManager.PoolNetworkInstantiate(leavings);
 			AddItemToUISlot(leavings, fromSlot);
 		}
+	}
+
+	[Command]
+	public void CmdAttack(GameObject target, GameObject originator, BodyPartType bodyPart, GameObject itemInHand)
+	{
+		var itemPUT = itemInHand.GetComponent<PickUpTrigger>();
+		itemPUT.Attack(target, originator, UIManager.DamageZone);
 	}
 
 	[Command]

@@ -26,7 +26,7 @@ public class UI_HeartMonitor : MonoBehaviour
 	private int spriteStart;
 	private bool startMonitoring;
 	private float timeWait;
-	private int overallHealthCache = 100;
+	private float overallHealthCache = 100;
 
 	private void Start()
 	{

@@ -210,11 +210,11 @@ MonoBehaviour:
   size: 0
   spriteType: 2
   type: 16
-  ConnectedToTank: 0
-  throwDamage: 16
+  CanConnectToTank: 0
+  hitDamage: 5
+  throwDamage: 5
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 36
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114793187246988634
@@ -238,7 +238,6 @@ MonoBehaviour:
   FireRate: 3
   MaxRecoilVariance: 0
   Projectile: {fileID: 1932369758612010, guid: 008fa24b13fdb4e98971489ecee9218c, type: 3}
-  ProjectileDamage: 18
   ProjectilesFired: 1
   ProjectileVelocity: 10
   WeaponType: 1
