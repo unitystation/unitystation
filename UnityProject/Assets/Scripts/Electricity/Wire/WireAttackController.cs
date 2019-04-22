@@ -5,7 +5,6 @@ public class WireAttackController : InputTrigger
 {
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		Logger.Log("OWO");
 		//if no glubs
 		//zap him
 		//if object == null
