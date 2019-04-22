@@ -66,7 +66,6 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 		{
 			ElectricalSynchronisation.RemoveSupply(this, powerSupply.InData.Categorytype);
 			PoolManager.PoolNetworkDestroy(gameObject);
-
 		}
 	}
 
@@ -127,12 +126,20 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 			UpdateServerState(isOn);
 		}
 		_Interact(originator, position, hand);
+		ConstructionInteraction(originator, position, hand);
 		return true;
 	}
 	public virtual void _Interact(GameObject originator, Vector3 position, string hand)
 	{
 	}
-
+	public virtual void ConstructionInteraction(GameObject originator, Vector3 position, string hand) { 
+		var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
+		var Screwdriver = slot.Item?.GetComponent<ScrewdriverTrigger>();
+		if (Screwdriver != null) {
+			Destroy();
+		}
+	
+	}
 	public virtual void TurnOffCleanup()
 	{
 		_TurnOffCleanup();	}
@@ -142,11 +149,11 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 
 	public virtual void PowerUpdateStructureChange() {
 		//Logger.Log("PowerUpdateStructureChange" + this);
+		powerSupply.PowerUpdateStructureChange();
+		_PowerUpdateStructureChange();
 		ElectricalSynchronisation.NUStructureChangeReact.Add(powerSupply.InData.ControllingUpdate);
 		ElectricalSynchronisation.NUResistanceChange.Add(powerSupply.InData.ControllingUpdate);
 		ElectricalSynchronisation.NUCurrentChange.Add(powerSupply.InData.ControllingUpdate);
-		powerSupply.PowerUpdateStructureChange();
-		_PowerUpdateStructureChange();
 	}
 	public virtual void _PowerUpdateStructureChange()
 	{
@@ -292,8 +299,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 		return (Resistance);
 	}
 
-	[ContextMethod("Destroy THIS", "x")]
-	public void Destroy()
+	public virtual void Destroy()
 	{
 		ElectricalSynchronisation.StructureChange = true;
 		SelfDestruct = true;

@@ -41,6 +41,14 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			Thiswire.Data.CurrentComingFrom[SourceInstanceID] = new Dictionary<ElectricalOIinheritance, float>();
 		}
 		Thiswire.Data.CurrentComingFrom[SourceInstanceID][ComingFrom] = Current;
+
+		if (!(Thiswire.Data.ResistanceComingFrom.ContainsKey(SourceInstanceID))) {			ElectricalSynchronisation.StructureChange = true;
+			ElectricalSynchronisation.NUStructureChangeReact.Add(Thiswire.InData.ControllingUpdate);
+			ElectricalSynchronisation.NUResistanceChange.Add(Thiswire.InData.ControllingUpdate);
+			ElectricalSynchronisation.NUCurrentChange.Add(Thiswire.InData.ControllingUpdate);
+			Logger.LogError("Resistances Isn't initialised on " + SourceInstance);
+			return;
+		}
 		Thiswire.Data.SourceVoltages[SourceInstanceID] = Current * (ElectricityFunctions.WorkOutResistance(Thiswire.Data.ResistanceComingFrom[SourceInstanceID]));
 		ELCurrent.CurrentWorkOnNextListADD(Thiswire);
 		Thiswire.Data.CurrentStoreValue = ElectricityFunctions.WorkOutCurrent(Thiswire.Data.CurrentComingFrom[SourceInstanceID]);

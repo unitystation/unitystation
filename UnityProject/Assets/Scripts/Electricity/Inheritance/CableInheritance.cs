@@ -13,9 +13,8 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public PowerTypeCategory ApplianceType;
 	public HashSet<PowerTypeCategory> CanConnectTo;
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)// yeah, If anyone works out how  to do it
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		Logger.Log("HEYEYEYYEYEYE");
 		if (!CanUse(originator, hand, position, false))
 		{
 			return false;
@@ -44,7 +43,6 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	//[ContextMethod("Destroy cable", "x")]
 	public void toDestroy()
 	{
-		Logger.Log("1");
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 		//gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
 		ElectricalSynchronisation.StructureChange = true;
@@ -67,7 +65,6 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	}
 	public virtual void PowerUpdateStructureChange()
 	{
-		Logger.Log("2");
 		wireConnect.FlushConnectionAndUp();
 		wireConnect.registerTile.Unregister();
 		PoolManager.PoolNetworkDestroy(gameObject);
@@ -109,10 +106,10 @@ public class CableInheritance : InputTrigger, IDeviceControl
 
 	public void FindOverlapsAndCombine()
 	{
-		Logger.Log("A");
+		//Logger.Log("A");
 		if (WireEndA == Connection.Overlap | WireEndB == Connection.Overlap)
 		{
-			Logger.Log("B");
+			//Logger.Log("B");
 			bool isA;
 			if (WireEndA == Connection.Overlap)
 			{
@@ -121,50 +118,56 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			else {
 				isA = false;
 			}
-			Logger.Log(wireConnect.registerTile.Position.ToString());
-			var Econns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.Position);
+			List<ElectricalOIinheritance> Econns = new List<ElectricalOIinheritance>();
+			//Logger.Log(wireConnect.registerTile.Position.ToString());
+			var IEnumerableEconns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.Position);
+			foreach (var T in IEnumerableEconns) {
+				Econns.Add(T);
+			}
+			int i = 0;
 			if (Econns != null)
 			{
-				foreach (var con in Econns)
-				{
-					if (ApplianceType == con.InData.Categorytype)
+				while (!(i >= Econns.Count)){
+				//Econns[i]
+					if (ApplianceType == Econns[i].InData.Categorytype)
 					{
-						Logger.Log("C");
-						if (wireConnect != con)
+						//Logger.Log("C");
+						if (wireConnect != Econns[i])
 						{
-							Logger.Log("D");
-							if (con.WireEndA == Connection.Overlap)
+							//Logger.Log("D");
+							if (Econns[i].WireEndA == Connection.Overlap)
 							{
 								if (isA)
 								{
-									Logger.Log("B");
-									WireEndA = con.WireEndB;
+									//Logger.Log("B");
+									WireEndA = Econns[i].WireEndB;
 								}
 								else {
-									Logger.Log("C");
-									WireEndB = con.WireEndB;
+									//Logger.Log("C");
+									WireEndB = Econns[i].WireEndB;
 								}
 								SetDirection(WireEndB, WireEndA, CableType);
 								ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
-								con.gameObject.GetComponent<CableInheritance>().toDestroy();
+								Econns[i].gameObject.GetComponent<CableInheritance>().toDestroy();
 							}
-							else if (con.WireEndB == Connection.Overlap)
+							else if (Econns[i].WireEndB == Connection.Overlap)
 							{
 								if (isA)
 								{
-									Logger.Log("E");
-									WireEndA = con.WireEndA;
+									//Logger.Log("E");
+									WireEndA = Econns[i].WireEndA;
 								}
 								else {
-									Logger.Log("F");
-									WireEndB = con.WireEndA;
+									//Logger.Log("F");
+									WireEndB = Econns[i].WireEndA;
 								}
 								SetDirection(WireEndB, WireEndA, CableType);
 								ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
-								con.gameObject.GetComponent<CableInheritance>().toDestroy();
+								Econns[i].gameObject.GetComponent<CableInheritance>().toDestroy();
 							}
 						}
 					}
+					i++;
 				}
 			}
 		}

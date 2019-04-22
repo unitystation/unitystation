@@ -21,8 +21,6 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 
 	public static class PowerSupplies{
 		public static void FlushConnectionAndUp (ElectricalOIinheritance Object){
-			Object.Data.Upstream.Clear();
-			Object.Data.Downstream.Clear();
 			Object.Data.ResistanceComingFrom.Clear();
 			Object.Data.ResistanceGoingTo.Clear();
 			Object.Data.CurrentGoingTo.Clear();
@@ -42,26 +40,31 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 	
 				}
 
-				//foreach (KeyValuePair<int, HashSet<ElectricalOIinheritance>> Supply in Object.Data.Downstream) {
-				//	foreach (ElectricalOIinheritance Device in Supply.Value) {
-				//		Device.FlushConnectionAndUp();
-				//		if (log)
-				//		{
-				//			Logger.Log("Device1" + Device);
-				//		}
-				//	}
-				//	foreach (ElectricalOIinheritance Device in Object.Data.Upstream[Supply.Key])
-				//	{
-				//		Device.FlushConnectionAndUp();
-				//		if (log)
-				//		{
-				//			Logger.Log("Device2" + Device);
-				//		}
-				//	}
-				//}
-
+				foreach (KeyValuePair<int, HashSet<ElectricalOIinheritance>> Supply in Object.Data.Downstream)
+				{
+					foreach (ElectricalOIinheritance Device in Supply.Value)
+					{
+						Device.FlushConnectionAndUp();
+						//if (log)
+						//{
+						//	Logger.Log("Device1" + Device);
+						//}
+					}
+				}
+				foreach (KeyValuePair<int, HashSet<ElectricalOIinheritance>> Supply in Object.Data.Upstream)
+				{
+					foreach (ElectricalOIinheritance Device in Supply.Value)
+					{
+						Device.FlushConnectionAndUp();
+						//if (log)
+						//{
+						//	Logger.Log("Device1" + Device);
+						//}
+					}
+				}
+				Object.Data.Upstream.Clear();
+				Object.Data.Downstream.Clear();
 			}
-
 		}
 
 		public static void FlushResistanceAndUp (ElectricalOIinheritance Object,  GameObject SourceInstance = null  ){
