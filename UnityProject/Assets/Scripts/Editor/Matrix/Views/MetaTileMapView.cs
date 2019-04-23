@@ -18,6 +18,7 @@ public class MetaTileMapView : BasicView
 		globalChecks.Add(new ShowGlobalPositionsCheck());
 		globalChecks.Add(new ShowPositionsCheck());
 		globalChecks.Add(new AtPointCheck());
+		globalChecks.Add(new StickyClientCheck());
 	}
 
 	public override void DrawContent()
@@ -95,6 +96,18 @@ public class MetaTileMapView : BasicView
 			if (MatrixManager.IsSpaceAt(position, false))
 			{
 				GizmoUtils.DrawCube(position, Color.red, false);
+			}
+		}
+	}
+	private class StickyClientCheck : Check<MatrixManager>
+	{
+		public override string Label { get; } = "Sticky";
+
+		public override void DrawGizmo(MatrixManager source, Vector3Int position)
+		{
+			if (!MatrixManager.IsNonStickyAt(position, false))
+			{
+				GizmoUtils.DrawCube(position, Color.yellow, false);
 			}
 		}
 	}

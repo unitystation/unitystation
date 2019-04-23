@@ -391,7 +391,7 @@ public class PushPull : VisibleBehaviour {
 	}
 	[Server]
 	private bool TryFollow( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
-		if ( !IsBeingPulled || isNotPushable || isPushing || Pushable == null )
+		if ( !IsBeingPulled || isNotPushable || isBeingPushed || Pushable == null )
 		{
 			return false;
 		}
@@ -433,7 +433,7 @@ public class PushPull : VisibleBehaviour {
 	#region Push fields
 
 	//Server fields
-	private bool isPushing;
+	private bool isBeingPushed;
 	private Vector3Int pushTarget = TransformState.HiddenPos;
 	private Queue<Tuple<Vector2Int, float>> pushRequestQueue = new Queue<Tuple<Vector2Int, float>>();
 
@@ -458,13 +458,22 @@ public class PushPull : VisibleBehaviour {
 
 	private void CheckQueue()
 	{
-		if ( pushRequestQueue.Count > 0 && !isPushing )
+		if ( pushRequestQueue.Count > 0 && !isBeingPushed )
 		{
 			var tuple = pushRequestQueue.Dequeue();
-			if ( !TryPush(tuple.Item1, tuple.Item2 ) ) {
+			if ( !TryPush(tuple.Item1, tuple.Item2 ) )
+			{
 				pushRequestQueue.Clear();
 			}
+			StartCoroutine( ReCheckQueueLater() );
 		}
+	}
+
+	private IEnumerator ReCheckQueueLater()
+	{
+		yield return YieldHelper.DeciSecond;
+		yield return YieldHelper.DeciSecond;
+		CheckQueue();
 	}
 
 
@@ -491,7 +500,7 @@ public class PushPull : VisibleBehaviour {
 			{
 				ReleaseControl();
 			}
-			isPushing = true;
+			isBeingPushed = true;
 			pushTarget = target;
 			Logger.LogTraceFormat( "{2}: Started push {0}->{1}", Category.PushPull, from, target, gameObject.name );
 		}
@@ -524,7 +533,7 @@ public class PushPull : VisibleBehaviour {
 	/// cause the object to move.</returns>
 	private bool CanPush(Vector3Int from, Vector2Int dir, float speed = Single.NaN, bool serverSide = true)
 	{
-		if (isNotPushable || isPushing || Pushable == null || !isAllowedDir(dir))
+		if (isNotPushable || isBeingPushed || Pushable == null || !isAllowedDir(dir))
 		{
 			return false;
 		}
@@ -603,11 +612,11 @@ public class PushPull : VisibleBehaviour {
 	#region Events
 
 	private void OnServerTileReached( Vector3Int newPos ) {
-		if ( !isPushing && pushRequestQueue.Count == 0 ) {
+		if ( !isBeingPushed && pushRequestQueue.Count == 0 ) {
 			return;
 		}
 //		Logger.LogTraceFormat( "{0}: {1} is reached ON SERVER", Category.PushPull, gameObject.name, pos );
-		isPushing = false;
+		isBeingPushed = false;
 		if ( pushTarget != TransformState.HiddenPos &&
 		     pushTarget != newPos &&
 		     !MatrixManager.IsFloatingAt(gameObject, newPos, true))

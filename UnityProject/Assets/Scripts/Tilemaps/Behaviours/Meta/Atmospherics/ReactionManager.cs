@@ -55,7 +55,6 @@ public class ReactionManager : MonoBehaviour
 							{
 								if ( pushable.Pushable.IsTileSnap )
 								{
-									//fixme multipush: avoid getting stuck on one tile (CheckQueue more often)
 									for ( byte j = 0; j < (byte)Mathf.Clamp((int)correctedForce / 10, 1, 10); j++ )
 									{
 										pushable.QueuePush( windyNode.WindDirection, Random.Range( ( float ) ( correctedForce * 0.8 ), correctedForce ) );

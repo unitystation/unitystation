@@ -36,7 +36,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	private PlayerSync _playerSync; //Example of good on-demand reference init
 	public PlayerSync PlayerSync => _playerSync ? _playerSync : (_playerSync = GetComponent<PlayerSync>());
 
-	public RegisterTile registerTile { get; set; }
+	public RegisterPlayer registerTile { get; set; }
 
 	public MouseInputController mouseInputController { get; set; }
 
@@ -90,7 +90,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	private void Awake()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
-		registerTile = GetComponent<RegisterTile>();
+		registerTile = GetComponent<RegisterPlayer>();
 		playerHealth = GetComponent<PlayerHealth>();
 		pushPull = GetComponent<ObjectBehaviour>();
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();

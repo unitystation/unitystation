@@ -5,24 +5,21 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class RegisterPlayer : RegisterTile
 {
-	private bool isStunned;
-
 	/// <summary>
-	/// Whether the player should currently be depicted laying on the ground
+	/// True when the player is laying down
 	/// </summary>
-	private bool isDown;
+	public bool IsDown { get; private set; }
+	public bool IsDownServer { get; set; }
+	public bool IsStunnedServer { get; private set; }
+
 
 	private UserControlledSprites playerSprites;
 	private PlayerScript playerScript;
 	private MetaDataLayer metaDataLayer;
 
-	public bool IsBlocking => !playerScript.IsGhost && !isDown;
+	public bool IsBlocking => !playerScript.IsGhost && !IsDown;
+	public bool IsBlockingServer => !playerScript.IsGhost && !IsDownServer && !IsStunnedServer;
 
-	/// <summary>
-	/// True when the player is laying down
-	/// </summary>
-	public bool IsDown => isDown;
-	public bool IsStunned => isStunned;
 
 	private void Awake()
 	{
@@ -35,7 +32,7 @@ public class RegisterPlayer : RegisterTile
 
 	public override bool IsPassable(bool isServer)
 	{
-		return !IsBlocking;
+		return isServer ? !IsBlockingServer : !IsBlocking;
 	}
 
 	public override bool IsPassable(Vector3Int from, bool isServer)
@@ -58,7 +55,7 @@ public class RegisterPlayer : RegisterTile
 		//but players need to stay upright constantly unless they are downed
 		foreach (SpriteRenderer renderer in spriteRenderers)
 		{
-			renderer.transform.rotation = isDown ? Quaternion.Euler(0, 0, -90) : Quaternion.identity;
+			renderer.transform.rotation = IsDown ? Quaternion.Euler(0, 0, -90) : Quaternion.identity;
 		}
 	}
 
@@ -73,7 +70,7 @@ public class RegisterPlayer : RegisterTile
 		}
 
 		//add extra rotation to ensure we are sideways
-		if (isDown)
+		if (IsDown)
 		{
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
 			{
@@ -88,9 +85,9 @@ public class RegisterPlayer : RegisterTile
 	/// </summary>
 	public void LayDown()
 	{
-		if (!isDown)
+		if (!IsDown)
 		{
-			isDown = true;
+			IsDown = true;
 			//make sure sprite is in sync with server regardless of local prediction
 			playerSprites.SyncWithServer();
 			//rotate the sprites and change their layer
@@ -109,9 +106,9 @@ public class RegisterPlayer : RegisterTile
 	/// </summary>
 	public void GetUp()
 	{
-		if (isDown)
+		if (IsDown)
 		{
-			isDown = false;
+			IsDown = false;
 			//make sure sprite is in sync with server regardless of local prediction
 			playerSprites.SyncWithServer();
 			//change sprites to be upright
@@ -130,7 +127,7 @@ public class RegisterPlayer : RegisterTile
 	{
 		// Don't slip while walking unless its enabled with "slipWhileWalking".
 		// Don't slip while player's consious state is crit, soft crit, or dead.
-		if ( isStunned
+		if ( IsStunnedServer
 			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
 		    || playerScript.playerHealth.IsCrit
 		    || playerScript.playerHealth.IsSoftCrit
@@ -152,8 +149,8 @@ public class RegisterPlayer : RegisterTile
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	public void Stun(float stunDuration = 4f, bool dropItem = true)
 	{
-		isStunned = true;
-		PlayerUprightMessage.SendToAll(gameObject, false);
+		IsStunnedServer = true;
+		PlayerUprightMessage.SendToAll(gameObject, !IsStunnedServer);
 		if (dropItem)
 		{
 			playerScript.playerNetworkActions.DropItem("leftHand");
@@ -172,20 +169,16 @@ public class RegisterPlayer : RegisterTile
 
 	public void RemoveStun()
 	{
-		isStunned = false;
-		UpdateCanMove();
-	}
-
-	private void UpdateCanMove()
-	{
-		if (playerScript.playerHealth.IsCrit || playerScript.playerHealth.IsSoftCrit ||
-		    playerScript.playerHealth.IsDead || isStunned)
+		IsStunnedServer = false;
+		
+		if (playerScript.playerHealth.IsCrit 
+		 || playerScript.playerHealth.IsSoftCrit 
+		 || playerScript.playerHealth.IsDead )
 		{
 			return;
 		}
 
-		PlayerUprightMessage.SendToAll(gameObject, true);
+		PlayerUprightMessage.SendToAll(gameObject, !IsStunnedServer);
 		playerScript.playerMove.allowInput = true;
 	}
-
 }

@@ -194,7 +194,12 @@ public class MetaTileMap : MonoBehaviour
 					if ( o is RegisterObject )
 					{
 						PushPull pushPull = o.GetComponent<PushPull>();
-						if ( !pushPull || pushPull.isNotPushable )
+						if ( !pushPull )
+						{
+							return o.IsPassable( isServer );
+						}
+
+						if ( pushPull.isNotPushable )
 						{
 							return false;
 						}

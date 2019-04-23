@@ -233,7 +233,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	private bool IsAroundPushables(Vector3 worldPos, bool isServer, out PushPull pushable, GameObject except = null)
 	{
 		pushable = null;
-		if ( registerPlayer.IsStunned )
+		if ( registerPlayer.IsStunnedServer )
 		{
 			return false;
 		}

@@ -619,7 +619,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			else if (s.isOn == LightSwitchTrigger.States.Off) {
 				s.isOn = LightSwitchTrigger.States.On;
 			}
- 
+
 		}
 		else
 		{
@@ -700,6 +700,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void OnConsciousStateChanged(ConsciousState oldState, ConsciousState newState)
 	{
+		playerScript.registerTile.IsDownServer = newState != ConsciousState.CONSCIOUS;
 		switch (newState)
 		{
 			case ConsciousState.CONSCIOUS:
