@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// The main girder component
+/// </summary>
 public class GirderTrigger : InputTrigger
 {
 	private TileChangeManager tileChangeManager;

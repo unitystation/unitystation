@@ -3,6 +3,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// The main metal sheet component
+/// </summary>
 public class MetalTrigger : PickUpTrigger
 {
 	private bool isBuilding;
