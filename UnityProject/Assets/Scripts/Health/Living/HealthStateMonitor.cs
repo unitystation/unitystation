@@ -10,13 +10,13 @@ using UnityEngine.Networking;
 public class HealthStateMonitor : ManagedNetworkBehaviour
 {
 	//Cached members
-	int overallHealthCache;
+	float overallHealthCache;
 	ConsciousState consciousStateCache;
 	bool isBreathingCache;
 	bool isSuffocatingCache;
 	int heartRateCache;
 	int bloodLevelCache;
-	float oxygenLevelCache;
+	float oxygenDamageCache;
 	float toxinLevelCache;
 	bool isHuskCache;
 	int brainDamageCache;
@@ -79,7 +79,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	{
 		heartRateCache = livingHealthBehaviour.bloodSystem.HeartRate;
 		bloodLevelCache = livingHealthBehaviour.bloodSystem.BloodLevel;
-		oxygenLevelCache = livingHealthBehaviour.bloodSystem.OxygenLevel;
+		oxygenDamageCache = livingHealthBehaviour.bloodSystem.OxygenDamage;
 		toxinLevelCache = livingHealthBehaviour.bloodSystem.ToxinLevel;
 	}
 
@@ -107,6 +107,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		CheckOverallHealth();
 		CheckRespiratoryHealth();
 		CheckCruicialBloodHealth();
+		CheckConsciousState();
 	}
 
 	// Monitoring stats that don't need to be updated straight away on clients
@@ -121,13 +122,20 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		}
 	}
 
+	void CheckConsciousState()
+	{
+		if (consciousStateCache != livingHealthBehaviour.ConsciousState)
+		{
+			consciousStateCache = livingHealthBehaviour.ConsciousState;
+			SendConsciousUpdate();
+		}
+	}
+
 	void CheckOverallHealth()
 	{
-		if (overallHealthCache != livingHealthBehaviour.OverallHealth ||
-			consciousStateCache != livingHealthBehaviour.ConsciousState)
+		if (overallHealthCache != livingHealthBehaviour.OverallHealth)
 		{
 			overallHealthCache = livingHealthBehaviour.OverallHealth;
-			consciousStateCache = livingHealthBehaviour.ConsciousState;
 			SendOverallUpdate();
 		}
 	}
@@ -156,7 +164,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void CheckNonCrucialBloodHealth()
 	{
 		if (bloodLevelCache != livingHealthBehaviour.bloodSystem.BloodLevel ||
-			oxygenLevelCache != livingHealthBehaviour.bloodSystem.OxygenLevel)
+			oxygenDamageCache != livingHealthBehaviour.bloodSystem.OxygenDamage)
 		{
 			UpdateBloodCaches();
 			SendBloodUpdate();
@@ -178,21 +186,25 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	/// SEND TO ALL SERVER --> CLIENT
 	/// ---------------------------
 
+	void SendConsciousUpdate()
+	{
+		HealthConsciousMessage.SendToAll(gameObject, livingHealthBehaviour.ConsciousState);
+	}
+
 	void SendOverallUpdate()
 	{
-		HealthOverallMessage.SendToAll(gameObject, livingHealthBehaviour.OverallHealth,
-			livingHealthBehaviour.ConsciousState);
+		HealthOverallMessage.Send(gameObject, gameObject, livingHealthBehaviour.OverallHealth);
 	}
 
 	void SendBloodUpdate()
 	{
-		HealthBloodMessage.SendToAll(gameObject, heartRateCache, bloodLevelCache,
-			oxygenLevelCache, toxinLevelCache);
+		HealthBloodMessage.Send(gameObject, gameObject, heartRateCache, bloodLevelCache,
+			oxygenDamageCache, toxinLevelCache);
 	}
 
 	void SendRespiratoryUpdate()
 	{
-		HealthRespiratoryMessage.SendToAll(gameObject, livingHealthBehaviour.respiratorySystem.IsBreathing,
+		HealthRespiratoryMessage.Send(gameObject, gameObject, livingHealthBehaviour.respiratorySystem.IsBreathing,
 			livingHealthBehaviour.respiratorySystem.IsSuffocating);
 	}
 
@@ -211,14 +223,13 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 
 	void SendOverallUpdate(GameObject requestor)
 	{
-		HealthOverallMessage.Send(requestor, gameObject, livingHealthBehaviour.OverallHealth,
-			livingHealthBehaviour.ConsciousState);
+		HealthOverallMessage.Send(requestor, gameObject, livingHealthBehaviour.OverallHealth);
 	}
 
 	void SendBloodUpdate(GameObject requestor)
 	{
 		HealthBloodMessage.Send(requestor, gameObject, heartRateCache, bloodLevelCache,
-			oxygenLevelCache, toxinLevelCache);
+			oxygenDamageCache, toxinLevelCache);
 	}
 
 	void SendRespiratoryUpdate(GameObject requestor)

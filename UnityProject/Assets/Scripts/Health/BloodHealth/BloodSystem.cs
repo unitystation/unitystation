@@ -19,12 +19,12 @@ public class BloodSystem : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Oxygen levels found in the blood. 0% to 100%
+	/// The lack of oxygen levels found in the blood.
 	/// </summary>
-	public float OxygenLevel
+	public float OxygenDamage
 	{
-		get { return Mathf.Clamp(oxygenLevel, 0, 101); }
-		set { oxygenLevel = Mathf.Clamp(value, 0, 101); }
+		get { return Mathf.Clamp(oxygenDamage, 0, 200); }
+		set { oxygenDamage = Mathf.Clamp(value, 0, 200); }
 	}
 	/// <summary>
 	/// The heart rate affects the rate at which blood is pumped around the body
@@ -39,7 +39,7 @@ public class BloodSystem : MonoBehaviour
 	/// </summary>
 	public bool HeartStopped => HeartRate == 0;
 
-	private float oxygenLevel = 100;
+	public float oxygenDamage = 0;
 	private float toxinLevel = 0;
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private DNAandBloodType bloodType;
@@ -107,8 +107,6 @@ public class BloodSystem : MonoBehaviour
 	/// </summary>
 	void PumpBlood()
 	{
-		OxygenLevel -= 10; //Remove 10% oxygen from system
-
 		if (IsBleeding)
 		{
 			LoseBlood(bleedVolume);
@@ -120,18 +118,19 @@ public class BloodSystem : MonoBehaviour
 	/// <summary>
 	/// Subtract an amount of blood from the player. Server Only
 	/// </summary>
-	public void AddBloodLoss(int amount)
+	public void AddBloodLoss(int amount, BodyPartBehaviour bodyPart)
 	{
 		if (amount <= 0)
 		{
 			return;
 		}
 		bleedVolume += amount;
-		TryBleed();
+		TryBleed(bodyPart);
 	}
 
-	private void TryBleed()
+	private void TryBleed(BodyPartBehaviour bodyPart)
 	{
+		bodyPart.isBleeding = true;
 		//don't start another coroutine when already bleeding
 		if (!IsBleeding)
 		{
@@ -140,10 +139,31 @@ public class BloodSystem : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Stems any bleeding. Server Only.
+	/// Stops bleeding on the selected bodypart. The bloodsystem continues bleeding if there's another bodypart bleeding. Server Only.
 	/// </summary>
-	public void StopBleeding()
+	public void StopBleeding(BodyPartBehaviour bodyPart)
 	{
+		bodyPart.isBleeding = false;
+		for (int i = 0; i < livingHealthBehaviour.BodyParts.Count; i++)
+		{
+			BodyPartBehaviour BPB = livingHealthBehaviour.BodyParts[i];
+			if(BPB.isBleeding){
+				return;
+			}
+		}
+		bleedVolume = 0;
+		IsBleeding = false;
+	}
+
+	/// <summary>
+	/// Stops bleeding on all bodyparts. Server Only.
+	/// </summary>
+	public void StopBleedingAll(){
+		for (int i = 0; i < livingHealthBehaviour.BodyParts.Count; i++)
+		{
+			BodyPartBehaviour BPB = livingHealthBehaviour.BodyParts[i];
+			BPB.isBleeding = false;
+		}
 		bleedVolume = 0;
 		IsBleeding = false;
 	}
@@ -214,25 +234,10 @@ public class BloodSystem : MonoBehaviour
 		if (damageType == DamageType.Brute)
 		{
 			int bloodLoss = (int)(Mathf.Clamp(amount, 0f, 10f) * BleedFactor(damageType));
-			// don't start bleeding if limb is in ok condition after it received damage
-			switch (bodyPart.Severity)
-			{
-				case DamageSeverity.Light:
-				case DamageSeverity.LightModerate:
-				case DamageSeverity.Moderate:
-				case DamageSeverity.Bad:
-				case DamageSeverity.Critical:
-					LoseBlood(bloodLoss);
-					AddBloodLoss(bloodLoss);
-					break;
-				default:
-					//For particularly powerful hits when a body part is fine
-					if (amount > 40)
-					{
-						LoseBlood(bloodLoss);
-						AddBloodLoss(bloodLoss);
-					}
-					break;
+			// start bleeding if the limb is really damaged
+			if(bodyPart.BruteDamage > 40){
+				LoseBlood(bloodLoss);
+				AddBloodLoss(bloodLoss, bodyPart);
 			}
 		}
 
@@ -252,7 +257,7 @@ public class BloodSystem : MonoBehaviour
 	// UPDATES FROM SERVER
 	// --------------------
 
-	public void UpdateClientBloodStats(int heartRate, int bloodVolume, float _oxygenLevel, float _toxinLevel)
+	public void UpdateClientBloodStats(int heartRate, int bloodVolume, float _oxygenDamage, float _toxinLevel)
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
@@ -261,7 +266,7 @@ public class BloodSystem : MonoBehaviour
 
 		HeartRate = heartRate;
 		BloodLevel = bloodVolume;
-		oxygenLevel = _oxygenLevel;
+		OxygenDamage = _oxygenDamage;
 		toxinLevel = _toxinLevel;
 	}
 }
