@@ -6,8 +6,8 @@ public class ChemistryDispenser : NetworkTabTrigger {
 
 	public ReagentContainer Container;
 	public ObjectBehaviour objectse;
-	public delegate void ChangeEvent (); 
-	public static event ChangeEvent changeEvent;  
+	public delegate void ChangeEvent ();
+	public static event ChangeEvent changeEvent;
 
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
@@ -18,6 +18,8 @@ public class ChemistryDispenser : NetworkTabTrigger {
 		}
 		if (!isServer)
 		{
+			//ask server to perform the interaction
+			InteractMessage.Send(gameObject, position, hand);
 			return true;
 		}
 
@@ -49,7 +51,7 @@ public class ChemistryDispenser : NetworkTabTrigger {
 	public void  UpdateGUI()
 	{
 		// Change event runs updateAll in ChemistryGUI
-   		if(changeEvent!=null) 
+   		if(changeEvent!=null)
 		{
 			changeEvent();
 		}

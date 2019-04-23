@@ -20,9 +20,11 @@ public class VendorTrigger : InputTrigger
 			return false;
 		}
 		if(!isServer){
+			//ask server to perform the interaction
+			InteractMessage.Send(gameObject, position, hand);
 			return true;
 		}
-		
+
 		if (!allowSell && deniedMessage != null && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
 		{
 			UpdateChatMessage.Send(originator, ChatChannel.Examine, deniedMessage);
@@ -37,7 +39,7 @@ public class VendorTrigger : InputTrigger
 			ServerVendorInteraction(position);
 			StartCoroutine(VendorInputCoolDown());
 		}
-	
+
 		return true;
 	}
 

@@ -210,11 +210,11 @@ MonoBehaviour:
   size: 1
   spriteType: 0
   type: 0
-  ConnectedToTank: 0
-  throwDamage: 0
+  CanConnectToTank: 0
+  hitDamage: 10
+  throwDamage: 7
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 0
   hitSound: GenericHit
   attackVerb:
   - flogged

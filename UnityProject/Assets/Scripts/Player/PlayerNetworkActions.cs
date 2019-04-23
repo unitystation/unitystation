@@ -47,6 +47,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private static readonly Vector3 FALLEN = new Vector3(0, 0, -90);
 	private static readonly Vector3 STRAIGHT = Vector3.zero;
 
+	private List<InventorySlot> initSync;
+
 	private void Start()
 	{
 		equipment = GetComponent<Equipment>();
@@ -65,7 +67,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				playerScript = GetComponent<PlayerScript>();
 			}
-			List<InventorySlot> initSync = new List<InventorySlot>();
+			initSync = new List<InventorySlot>();
 			foreach (string slotName in slotNames)
 			{
 				var invSlot = new InventorySlot(Guid.NewGuid(), slotName, true, playerScript);
@@ -74,7 +76,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				initSync.Add(invSlot);
 			}
 
-			SyncPlayerInventoryGuidMessage.Send(gameObject, initSync);
+			SendSyncMessage(gameObject);
 
 			//if this is the ghost, respawn after 10 seconds
 			if (playerScript.IsGhost)
@@ -86,7 +88,26 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		base.OnStartServer();
 	}
 
+	/// <summary>
+	/// Sync the player with the server.
+	/// </summary>
+	/// <param name="recipient">The player to be synced.</param>
+	[Server]
+	public void ReenterBodyUpdates(GameObject recipient)
+	{
+		SendSyncMessage(recipient);
+		UpdateInventorySlots(recipient);
+	}
 
+	/// <summary>
+	/// Sends a message to sync the clientside player's inventory with the serverside inventory.
+	/// </summary>
+	/// <param name="recipient">The player to be synced.</param>
+	[Server]
+	public void SendSyncMessage(GameObject recipient)
+	{
+		SyncPlayerInventoryGuidMessage.Send(recipient, initSync);
+	}
 
 	public bool InventoryContainsItem(GameObject item, out InventorySlot slot)
 	{
@@ -312,6 +333,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			fromSlot?.UUID);
 
 		UpdatePlayerEquipSprites(fromSlot, toSlot);
+	}
+
+	/// <summary>
+	/// Sends messages to a client to update every slot in the player's clientside inventory.
+	/// </summary>
+	/// <param name="recipient">The player to have their inventory updated.</param>
+	[Server]
+	public void UpdateInventorySlots(GameObject recipient)
+	{
+		for (int i = 0; i < slotNames.Length; i++)
+		{
+			InventorySlot invSlot = Inventory[slotNames[i]];
+			UpdateSlotMessage.Send(recipient, invSlot.UUID, null, invSlot.Item);
+		}
 	}
 
 	[Server]
@@ -815,12 +850,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
-		//FIXME: remove health and blood changes after TDM
+		//FIXME: remove blood changes after TDM
 		//and use this Cmd for healing hunger and applying
 		//food related attributes instead:
-		playerHealth.AddHealth(baseFood.healAmount);
 		playerHealth.bloodSystem.BloodLevel += baseFood.healAmount;
-		playerHealth.bloodSystem.StopBleeding();
+		playerHealth.bloodSystem.StopBleedingAll();
 
 		InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
 		equipment.ClearItemSprite(fromSlot);
@@ -832,6 +866,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			leavings = PoolManager.PoolNetworkInstantiate(leavings);
 			AddItemToUISlot(leavings, fromSlot);
 		}
+	}
+
+	[Command]
+	public void CmdAttack(GameObject target, GameObject originator, BodyPartType bodyPart, GameObject itemInHand)
+	{
+		var itemPUT = itemInHand.GetComponent<PickUpTrigger>();
+		itemPUT.Attack(target, originator, UIManager.DamageZone);
 	}
 
 	[Command]

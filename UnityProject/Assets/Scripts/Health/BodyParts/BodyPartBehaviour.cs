@@ -14,8 +14,10 @@ public class BodyPartBehaviour : MonoBehaviour
 	public Sprite DarkOrangeDamageMonitorIcon;
 	public Sprite RedDamageMonitorIcon;
 	public Sprite GrayDamageMonitorIcon;
-	private int MaxDamage = 100;
+	public int MaxDamage = 100;
 	public BodyPartType Type;
+	public bool isBleeding = false;
+	public LivingHealthBehaviour livingHealthBehaviour;
 
 	public DamageSeverity Severity; //{ get; private set; }
 	public float OverallDamage => BruteDamage + BurnDamage;
@@ -54,6 +56,9 @@ public class BodyPartBehaviour : MonoBehaviour
 		{
 			case DamageType.Brute:
 				BruteDamage -= damage;
+				if(BruteDamage == 0){
+					livingHealthBehaviour.bloodSystem.StopBleeding(this);
+				}
 				break;
 
 			case DamageType.Burn:
@@ -89,7 +94,7 @@ public class BodyPartBehaviour : MonoBehaviour
 			Severity = DamageSeverity.None;
 		}
 		// If the limb is under 20% damage
-		else if (severity < 0.2) 
+		else if (severity < 0.2)
 		{
 			Severity = DamageSeverity.Light;
 		}

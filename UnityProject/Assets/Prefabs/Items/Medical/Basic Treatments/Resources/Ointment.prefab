@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 114694925990113112}
   - component: {fileID: 114005167837307954}
   - component: {fileID: 114212368612829520}
-  - component: {fileID: 114760182787218712}
+  - component: {fileID: 3940407882045855072}
   - component: {fileID: 114012095212642768}
   - component: {fileID: 114424771078077746}
   m_Layer: 10
@@ -130,15 +130,15 @@ MonoBehaviour:
   itemType: 0
   size: 1
   spriteType: 0
-  type: 0
-  ConnectedToTank: 0
+  type: 15
+  CanConnectToTank: 0
+  hitDamage: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &114760182787218712
+--- !u!114 &3940407882045855072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1408536760214900}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Script: {fileID: 11500000, guid: f28a039182438fc4c87f65331f689d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114012095212642768

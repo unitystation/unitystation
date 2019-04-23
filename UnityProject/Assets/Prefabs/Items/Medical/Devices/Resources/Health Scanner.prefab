@@ -206,15 +206,15 @@ MonoBehaviour:
   inHandReferenceRight: -1
   itemDescription: Used to check somebody's health.
   itemName: Medical Scanner
-  itemType: 0
+  itemType: 15
   size: 1
   spriteType: 0
   type: 0
-  ConnectedToTank: 0
+  CanConnectToTank: 0
+  hitDamage: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114250079265950594

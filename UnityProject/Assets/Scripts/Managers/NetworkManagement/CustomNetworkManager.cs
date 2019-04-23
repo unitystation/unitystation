@@ -371,12 +371,6 @@ public class CustomNetworkManager : NetworkManager
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
 		var player = PlayerList.Instance.Get(conn);
-		if (player.GameObject)
-		{
-			//Tell the inventorymanager about the disconnect so it can perform whatever cleanup is needed
-			InventoryManager.HandleDisconnect(player.GameObject);
-		}
-
 		Logger.Log($"Player Disconnected: {player.Name}", Category.Connections);
 		PlayerList.Instance.Remove(conn);
 	}
