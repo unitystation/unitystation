@@ -63,9 +63,9 @@ public class Deconstruction : MonoBehaviour
 		tcm.RemoveTile(cellPos, LayerType.Walls);
 		SoundManager.PlayNetworkedAtPos("Deconstruct", worldPos, 1f);
 
-		//Spawn 4 metal sheets:
+		//Spawn 2 metal sheets:
 		int spawnMetalsAmt = 0;
-		while (spawnMetalsAmt < 4)
+		while (spawnMetalsAmt < 2)
 		{
 			spawnMetalsAmt++;
 			PoolManager.PoolNetworkInstantiate(metalPrefab, worldPos, tcm.transform);

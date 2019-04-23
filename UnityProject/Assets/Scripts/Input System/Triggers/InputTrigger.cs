@@ -128,4 +128,13 @@ public abstract class InputTrigger : NetworkBehaviour
 
 		return true;
 	}
+
+	/// <summary>
+	//Removes the object from the world
+	/// </summary>
+	[Server]
+	public virtual void DisappearObject()
+	{
+		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+	}
 }
