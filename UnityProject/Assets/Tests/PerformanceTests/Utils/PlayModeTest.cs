@@ -44,6 +44,7 @@ namespace Tests
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneLoaded -= StopWaiting;
+			yield return new WaitForFixedUpdate();
 
 			void StopWaiting(Scene scene, LoadSceneMode mode) => wait = false;
 		}
@@ -58,6 +59,7 @@ namespace Tests
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneLoaded -= StopWaiting;
+			yield return new WaitForFixedUpdate();
 
 			void StopWaiting(Scene scene, LoadSceneMode mode) => wait = false;
 		}
@@ -72,6 +74,7 @@ namespace Tests
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneUnloaded -= StopWaiting;
+			yield return new WaitForFixedUpdate();
 
 			void StopWaiting(Scene scene) => wait = false;
 		}
@@ -86,6 +89,7 @@ namespace Tests
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneUnloaded -= StopWaiting;
+			yield return new WaitForFixedUpdate();
 
 			void StopWaiting(Scene scene) => wait = false;
 		}
@@ -99,52 +103,55 @@ namespace Tests
 		{
 			Debug.Log($"Starting to search for button: {buttonName}");
 			float currentRetrySecs = passedRetrySeconds;
-			do
+			while (currentRetrySecs <= RetrySeconds)
 			{
 				var obj = GameObject.Find(buttonName);
 				if (obj != null)
 				{
 					yield return ClickButton(obj, currentRetrySecs);
-					break;
+					yield break;
 				}
-				yield return new WaitForFixedUpdate();
+				yield return null;
 				currentRetrySecs += Time.fixedDeltaTime;
-			} while (currentRetrySecs <= RetrySeconds);
+			}
+			throw new TimeoutException("Retry period exceeded");
 		}
 
 		protected IEnumerator ClickButton(GameObject gameObject, float passedRetrySeconds = 0)
 		{
 			Debug.Log("Starting to search for button component");
 			float currentRetrySecs = passedRetrySeconds;
-			do
+			while (currentRetrySecs <= RetrySeconds)
 			{
 				var button = gameObject.GetComponent<Button>();
 				if (button != null)
 				{
 					yield return ClickButton(button, currentRetrySecs);
-					break;
+					yield break;
 				}
-				yield return new WaitForFixedUpdate();
+				yield return null;
 				currentRetrySecs += Time.fixedDeltaTime;
-			} while (currentRetrySecs <= RetrySeconds);
+			}
+			throw new TimeoutException("Retry period exceeded");
 		}
 
 		protected IEnumerator ClickButton(Button button, float passedRetrySeconds = 0)
 		{
 			Debug.Log("Starting to click button");
 			float currentRetrySecs = passedRetrySeconds;
-			do
+			while (currentRetrySecs <= RetrySeconds)
 			{
 				try
 				{
 					button.onClick.Invoke();
 					Debug.Log("Clicked button");
-					break;
+					yield break;
 				}
 				catch (NullReferenceException) { }
-				yield return new WaitForFixedUpdate();
+				yield return null;
 				currentRetrySecs += Time.fixedDeltaTime;
-			} while (currentRetrySecs <= RetrySeconds);
+			}
+			throw new TimeoutException("Retry period exceeded");
 		}
 
 		protected void ListButtons()
