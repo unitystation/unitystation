@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Text;
 using Unity.PerformanceTesting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -40,7 +41,7 @@ namespace Tests
 			SceneManager.sceneLoaded += StopWaiting;
 
 			action();
-			Debug.Log("Waiting for scene load");
+			Logger.Log("Waiting for scene load");
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneLoaded -= StopWaiting;
@@ -55,7 +56,7 @@ namespace Tests
 			SceneManager.sceneLoaded += StopWaiting;
 
 			yield return action;
-			Debug.Log("Waiting for scene load");
+			Logger.Log("Waiting for scene load");
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneLoaded -= StopWaiting;
@@ -70,7 +71,7 @@ namespace Tests
 			SceneManager.sceneUnloaded += StopWaiting;
 
 			action();
-			Debug.Log("Waiting for scene unload");
+			Logger.Log("Waiting for scene unload");
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneUnloaded -= StopWaiting;
@@ -85,7 +86,7 @@ namespace Tests
 			SceneManager.sceneUnloaded += StopWaiting;
 
 			yield return action;
-			Debug.Log("Waiting for scene unload");
+			Logger.Log("Waiting for scene unload");
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneUnloaded -= StopWaiting;
@@ -101,7 +102,7 @@ namespace Tests
 
 		protected IEnumerator ClickButton(string buttonName, float passedRetrySeconds = 0)
 		{
-			Debug.Log($"Starting to search for button: {buttonName}");
+			Logger.Log($"Starting to search for button: {buttonName}");
 			float currentRetrySecs = passedRetrySeconds;
 			while (currentRetrySecs <= RetrySeconds)
 			{
@@ -119,7 +120,7 @@ namespace Tests
 
 		protected IEnumerator ClickButton(GameObject gameObject, float passedRetrySeconds = 0)
 		{
-			Debug.Log("Starting to search for button component");
+			Logger.Log("Starting to search for button component");
 			float currentRetrySecs = passedRetrySeconds;
 			while (currentRetrySecs <= RetrySeconds)
 			{
@@ -137,14 +138,14 @@ namespace Tests
 
 		protected IEnumerator ClickButton(Button button, float passedRetrySeconds = 0)
 		{
-			Debug.Log("Starting to click button");
+			Logger.Log("Starting to click button");
 			float currentRetrySecs = passedRetrySeconds;
 			while (currentRetrySecs <= RetrySeconds)
 			{
 				try
 				{
 					button.onClick.Invoke();
-					Debug.Log("Clicked button");
+					Logger.Log("Clicked button");
 					yield break;
 				}
 				catch (NullReferenceException) { }
@@ -156,14 +157,17 @@ namespace Tests
 
 		protected void ListButtons()
 		{
-			Debug.Log(
-				"---- ---- ---- ----" + Environment.NewLine +
-				"Buttons:");
-			Debug.Log(String.Join(", \n\r",
+			var sb = new StringBuilder();
+			sb.AppendLine("---- ---- ---- ----");
+			sb.AppendLine("Buttons:");
+			sb.AppendLine(
+				String.Join(", \n\r",
 				GameObject.FindObjectsOfType<Button>()
 				.Where(b => b.IsInteractable())
 				.Select(b => b.name)
 				.OrderBy(n => n)));
+			sb.AppendLine("---- ---- ---- ----");
+			Logger.Log(sb.ToString());
 		}
 		#endregion
 	}
