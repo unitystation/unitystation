@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class GizmoUtils
+public static class DebugGizmoUtils
 {
 	public static void DrawText(string text, Vector3 position, int fontSize = 0, float yOffset = 0)
 	{

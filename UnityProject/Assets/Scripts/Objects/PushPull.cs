@@ -679,12 +679,12 @@ public class PushPull : VisibleBehaviour {
 	private void OnDrawGizmos() {
 		if ( IsBeingPulled ) {
 			Gizmos.color = color1;
-			GizmoUtils.DrawArrow( transform.position, PulledBy.transform.position - transform.position, 0.1f );
+			DebugGizmoUtils.DrawArrow( transform.position, PulledBy.transform.position - transform.position, 0.1f );
 		}
 		if ( IsBeingPulledClient ) {
 			Gizmos.color = color2;
 			Vector3 offPosition = transform.position + offset;
-			GizmoUtils.DrawArrow( offPosition, (PulledByClient.transform.position + offset) - offPosition, 0.1f );
+			DebugGizmoUtils.DrawArrow( offPosition, (PulledByClient.transform.position + offset) - offPosition, 0.1f );
 		}
 	}
 #endif

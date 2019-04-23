@@ -43,7 +43,7 @@ public class WallmountBehavior : MonoBehaviour
 	void OnDrawGizmos ()
 	{
 		Gizmos.color = Color.green;
-		GizmoUtils.DrawArrow(transform.position, - transform.up);
+		DebugGizmoUtils.DrawArrow(transform.position, - transform.up);
 	}
 
 	/// <summary>
