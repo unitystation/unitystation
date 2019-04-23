@@ -7,11 +7,10 @@ public class HealthScanner : PickUpTrigger
 	public void PlayerFound(PlayerHealth Playerhealth) {
 		string ToShow = (Playerhealth.name + " is " + Playerhealth.ConsciousState.ToString() + "\n"
 			+ "OverallHealth = " + Playerhealth.OverallHealth.ToString() + " Blood level = " + Playerhealth.bloodSystem.BloodLevel.ToString() + "\n"
-						 + "Blood oxygen level = " + Playerhealth.bloodSystem.OxygenLevel.ToString() + "\n");
+						 + "Blood levels = " + Playerhealth.CalculateOverallBloodLossDamage() + "\n");
 		string StringBuffer = "";
 		float TotalBruteDamage = 0;
 		float TotalBurnDamage = 0;
-		float TotalOxygendamage = Playerhealth.CalculateOverallBloodLossDamage();
 		foreach (BodyPartBehaviour BodyPart in Playerhealth.BodyParts)
 		{
 			StringBuffer += BodyPart.Type.ToString() + "\t";
@@ -21,9 +20,9 @@ public class HealthScanner : PickUpTrigger
 			TotalBurnDamage += BodyPart.BurnDamage;
 			StringBuffer += "\n";
 		}
-		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " OxyLoss " + TotalOxygendamage.ToString() + "\n" + "Body Part, Brute, Burn \n" + StringBuffer;
+		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " OxyLoss " + Playerhealth.bloodSystem.OxygenDamage.ToString() + "\n" + "Body Part, Brute, Burn \n" + StringBuffer;
 		ChatRelay.Instance.AddToChatLogClient(ToShow, ChatChannel.Examine);
-		//PostToChatMessage.Send(ToShow,ChatChannel.System); 
+		//PostToChatMessage.Send(ToShow,ChatChannel.System);
 		//Logger.Log(ToShow);
 	}
 	public override bool Interact(GameObject originator, Vector3 position, string hand)

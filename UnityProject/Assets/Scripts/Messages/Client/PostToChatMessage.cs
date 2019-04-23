@@ -53,7 +53,7 @@ public class PostToChatMessage : ClientMessage
 	/// <param name="victim">GameObject of the player hat was the victim</param>
 	/// <param name="damage">damage done</param>
 	/// <param name="hitZone">zone that was damaged</param>
-	public static void SendItemAttackMessage( GameObject item, GameObject attacker, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.None )
+	public static void SendItemAttackMessage( GameObject item, GameObject attacker, GameObject victim, float damage, BodyPartType hitZone = BodyPartType.None )
 	{
 		var itemAttributes = item.GetComponent<ItemAttributes>();
 

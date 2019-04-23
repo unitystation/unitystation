@@ -30,6 +30,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private float tickRate = 1f;
 	private float tick = 0f;
 	private PlayerScript playerScript;
+	private float breatheCooldown = 0;
+
 
 	void Awake()
 	{
@@ -80,15 +82,24 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 				CheckPressureDamage(node.GasMix.Pressure);
 			}
 
-			if (Breathe(node))
-			{
-				AtmosManager.Update(node);
+			if(livingHealthBehaviour.OverallHealth >= HealthThreshold.SoftCrit){
+				if (Breathe(node))
+					{
+						AtmosManager.Update(node);
+					}
+			}
+			else{
+				bloodSystem.OxygenDamage += 1;
 			}
 		}
 	}
 
 	private bool Breathe(IGasMixContainer node)
 	{
+		breatheCooldown --; //not timebased, but tickbased
+		if(breatheCooldown > 0){
+			return false;
+		}
 		// if no internal breathing is possible, get the from the surroundings
 		IGasMixContainer container = GetInternalGasMix() ?? node;
 
@@ -138,7 +149,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 		if (oxygenPressure < OXYGEN_SAFE_MIN)
 		{
-			if (Random.value < 0.2)
+			if (Random.value < 0.1)
 			{
 				PostToChatMessage.SendGasp(base.gameObject);
 			}
@@ -146,23 +157,20 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			if (oxygenPressure > 0)
 			{
 				float ratio = 1 - oxygenPressure / OXYGEN_SAFE_MIN;
-
-				ApplyDamage(Mathf.Min(5 * ratio, 3), DamageType.Oxy);
-				bloodSystem.OxygenLevel += 30 * ratio;
-
+				bloodSystem.OxygenDamage += 1 * ratio;
 				oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen) * ratio;
 			}
 			else
 			{
-				ApplyDamage(3, DamageType.Oxy);
+				bloodSystem.OxygenDamage += 1;
 			}
 		}
 		else
 		{
 			oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen);
-			bloodSystem.OxygenLevel += 30;
+			bloodSystem.OxygenDamage -= 2.5f;
+			breatheCooldown = 4;
 		}
-
 		return oxygenUsed;
 	}
 

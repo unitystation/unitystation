@@ -16,6 +16,11 @@ public class P2PInteractions : InputTrigger
 				return true;
 			}
 
+			if (CheckMedical(UIManager.Hands.CurrentSlot.Item, originator))
+			{
+				return true;
+			}
+
 			//Is it a weapon/ballistic or specific hand to hand melee combat with weapons?
 			if (CheckWeapon(UIManager.Hands.CurrentSlot.Item, false))
 			{
@@ -37,6 +42,14 @@ public class P2PInteractions : InputTrigger
 			}
 		}
 
+		return false;
+	}
+
+	private bool CheckMedical(GameObject itemInHand, GameObject originator){
+		if(itemInHand.GetComponent<ItemAttributes>().itemType == ItemType.Medical){
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAttack(gameObject, originator, UIManager.DamageZone, itemInHand);
+			return true;
+		}
 		return false;
 	}
 

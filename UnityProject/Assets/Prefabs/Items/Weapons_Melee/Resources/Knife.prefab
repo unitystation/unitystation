@@ -211,11 +211,11 @@ MonoBehaviour:
   size: 1
   spriteType: 0
   type: 15
-  ConnectedToTank: 0
-  throwDamage: 40
+  CanConnectToTank: 0
+  hitDamage: 10
+  throwDamage: 10
   throwSpeed: 3
   throwRange: 6
-  hitDamage: 71
   hitSound: BladeSlice
   attackVerb:
   - slashed
