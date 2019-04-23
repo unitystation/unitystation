@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -6,50 +6,47 @@ using UnityEngine;
 	///     This StructurePowerWire editor script helps set the correct
 	///     wires when building maps
 	/// </summary>
-	[CustomEditor(typeof(StructurePowerWire))]
+	[CustomEditor(typeof(CableInheritance))]
 	public class EditorStructurePowerWire : Editor
 	{
-		private int endCache;
+		
 		private float msgTime;
 		private bool showError;
-		private int startCache;
+		private Connection startCache;
+		private Connection endCache;
 
 		public override void OnInspectorGUI()
 		{
-			StructurePowerWire sTarget = (StructurePowerWire) target;
-			startCache = sTarget.DirectionStart;
-			endCache = sTarget.DirectionEnd;
+			CableInheritance sTarget = (CableInheritance) target;
+			startCache = sTarget.WireEndB;
+			endCache = sTarget.WireEndA;
 
 			EditorGUI.BeginChangeCheck();
 			EditorGUILayout.HelpBox(
-				"The starting dir of this wire in a turf, " + "using 4 bits to indicate N S E W - 1 2 4 8\r\n" +
-				"Corners can also be used i.e.: 5 = NE (1 + 4) = 0101\r\n" + "This is the edge of the location where the wire enters the turf", MessageType.Info);
-			sTarget.DirectionStart = EditorGUILayout.IntField("DirectionStart: ", sTarget.DirectionStart);
+				"yeah Enum are Great, The order is done by clockwise starting at north then going to middle then machine connect", MessageType.Info);
+			sTarget.WireEndB = (Connection)EditorGUILayout.EnumPopup(sTarget.WireEndB);
 
 			EditorGUILayout.HelpBox(
-				"The ending dir of this wire in a turf, " + "using 4 bits to indicate N S E W - 1 2 4 8\r\n" +
-				"Corners can also be used i.e.: 5 = NE (1 + 4) = 0101\r\n" + "This is the edge of the location where the wire exits the turf\r\n" +
-				"Can be null of knot wires", MessageType.Info);
+				"yeah Enum are Great, The order is done by clockwise starting at north then going to middle then machine connect", MessageType.Info);
 
-			sTarget.DirectionEnd = EditorGUILayout.IntField("DirectionEnd: ", sTarget.DirectionEnd);
+			sTarget.WireEndA = (Connection)EditorGUILayout.EnumPopup(sTarget.WireEndA);
 
-			sTarget.Color = (WiringColor) EditorGUILayout.EnumPopup("Wiring Color: ", sTarget.Color);
+			sTarget.CableType = (WiringColor) EditorGUILayout.EnumPopup("Wiring Color: ", sTarget.CableType);
 
 			if (EditorGUI.EndChangeCheck())
 			{
 				try
 				{
-					sTarget.SetDirection(sTarget.DirectionStart, sTarget.DirectionEnd);
+					sTarget.SetDirection(sTarget.WireEndB, sTarget.WireEndA, sTarget.CableType);
 					showError = false;
 					PrefabUtility.RecordPrefabInstancePropertyModifications(sTarget);
-
 				}
 				catch
 				{
 					msgTime = 0f;
 					showError = true;
-					//sTarget.DirectionStart = startCache;
-					//sTarget.DirectionEnd = endCache;
+					//sTarget.WireEndB = startCache;
+					//sTarget.WireEndA = endCache;
 				}
 			}
 

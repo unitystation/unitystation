@@ -1,4 +1,4 @@
-﻿
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,8 +28,8 @@ public class LowVoltageMachineConnector : NetworkBehaviour  , IDeviceControl
 		base.OnStartServer();
 		RelatedWire.InData.CanConnectTo = CanConnectTo;
 		RelatedWire.InData.Categorytype = ApplianceType;
-		RelatedWire.DirectionEnd = 9;
-		RelatedWire.DirectionStart = 0;
+		RelatedWire.WireEndA = Connection.MachineConnect;
+		RelatedWire.WireEndB = Connection.Overlap;
 		//RelatedWire.InData.ControllingDevice = this;
 	}
 

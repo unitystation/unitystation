@@ -37,7 +37,8 @@ internal enum MessageTypes : short
 	TriggerEvent = 1033,
 	Suicide = 1034,
 	PlayerUprightMessage = 1035,
-
+  ElectricalCableMessage = 1036,
+  
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
 	InteractMessage = 2001,

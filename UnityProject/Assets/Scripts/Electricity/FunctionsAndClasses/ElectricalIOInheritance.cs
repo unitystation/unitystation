@@ -5,8 +5,8 @@ using UnityEngine.Events;
 using UnityEngine.Networking;
 [System.Serializable]
 public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every  node inherits from 
-	public int DirectionStart;
-	public int DirectionEnd;
+	public Connection WireEndB;
+	public Connection WireEndA;
 
 	[SerializeField]
 	public ElectronicData Data = new ElectronicData();
@@ -39,14 +39,14 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 
 	public virtual void FindPossibleConnections()
 	{
-		//Logger.Log(InData.CanConnectTo.Count.ToString() + "owoeeeeeee");
 		Data.connections.Clear();
 		if (registerTile != null) {
 			Data.connections = ElectricityFunctions.FindPossibleConnections(
 				transform.localPosition,
 				matrix,
 				InData.CanConnectTo,
-				GetConnPoints()
+				GetConnPoints(),
+				this
 			);
 		}
 
@@ -59,19 +59,19 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	public virtual ConnPoint GetConnPoints()
 	{
 		ConnPoint conns = new ConnPoint();
-		conns.pointA = DirectionStart;
-		conns.pointB = DirectionEnd;
+		conns.pointA = WireEndB;
+		conns.pointB = WireEndA;
 		return conns;
 	}
 
-	public int InputPosition()
+	public Connection InputPosition()
 	{
-		return DirectionStart;
+		return WireEndB;
 	}
 
-	public int OutputPosition()
+	public Connection OutputPosition()
 	{
-		return DirectionEnd;
+		return WireEndA;
 	}
 
 	public virtual GameObject GameObject()
@@ -130,7 +130,8 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	/// </summary>
 	public virtual void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
-		Logger.Log("oh man?");
+		//SourceInstance.GetComponent<ElectricalOIinheritance>();
+		//Logger.Log("oh man?");
 		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
 		ElectricityFunctions.WorkOutActualNumbers(this);
 	}
@@ -142,10 +143,10 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	///     This is the edge of the location where the input connection enters the turf
 	///     Use 0 for Machines or grills that can conduct electricity from being placed ontop of any wire configuration
 	/// </summary>
-	public virtual void SetConnPoints(int DirectionEndin, int DirectionStartin)
+	public virtual void SetConnPoints(Connection DirectionEndin, Connection DirectionStartin)
 	{
-		DirectionEnd = DirectionEndin;
-		DirectionStart = DirectionStartin;
+		WireEndA = DirectionEndin;
+		WireEndB = DirectionStartin;
 	}
 
 	/// <summary>

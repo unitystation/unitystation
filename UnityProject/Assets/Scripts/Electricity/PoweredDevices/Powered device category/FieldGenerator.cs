@@ -15,19 +15,18 @@ public class FieldGenerator : PowerSupplyControlInheritance
 	List<Sprite> animSprites = new List<Sprite>();
 	public float Voltage;
 
-	public PowerTypeCategory ApplianceType = PowerTypeCategory.FieldGenerator;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
-		PowerTypeCategory.StandardCable
-	};
-
-	public override void OnStartServer()
+	public override void OnStartServerInitialise()
 	{
-		base.OnStartServer();
+		ApplianceType = PowerTypeCategory.FieldGenerator;
+		CanConnectTo = new HashSet<PowerTypeCategory>(){
+		PowerTypeCategory.StandardCable
+		};
+
 		Resistance = 1500;
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.DirectionStart = 0;
-		powerSupply.DirectionEnd = 9;
+		powerSupply.WireEndB = Connection.Overlap;
+		powerSupply.WireEndA = Connection.MachineConnect;
 		resistance.Ohms = Resistance;
 		ElectricalSynchronisation.PoweredDevices.Add(this);
 		PowerInputReactions PRLCable = new PowerInputReactions();
