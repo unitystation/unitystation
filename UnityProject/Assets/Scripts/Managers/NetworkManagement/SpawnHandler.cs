@@ -130,6 +130,7 @@ public static class SpawnHandler
 		{
 			ClosetHandlerMessage.Send(player, playerObjectBehavior.parentContainer.gameObject);
 		}
-	}
 
+		CustomNetworkManager.Instance.SyncPlayerData(player);
+	}
 }
