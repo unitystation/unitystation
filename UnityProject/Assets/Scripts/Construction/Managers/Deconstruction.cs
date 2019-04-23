@@ -34,12 +34,14 @@ public class Deconstruction : MonoBehaviour
 		{
 			//Set up the action to be invoked when progress bar finishes:
 			var progressFinishAction = new FinishProgressAction(
-				FinishProgressAction.Action.TileDeconstruction,
-				matrixRoot.GetComponent<TileChangeManager>(),
-				tileType,
-				cellPos,
-				worldCellPos,
-				player
+				finishReason =>
+				{
+					if (finishReason == FinishProgressAction.FinishReason.COMPLETED)
+					{
+						CraftingManager.Deconstruction.TryTileDeconstruct(
+							matrixRoot.GetComponent<TileChangeManager>(), tileType, cellPos, worldCellPos);
+					}
+				}
 			);
 
 			//Start the progress bar:
@@ -50,14 +52,20 @@ public class Deconstruction : MonoBehaviour
 		}
 	}
 
+	//does the deconstruction when deconstruction progress finishes
+	private void DoTileDeconstruction()
+	{
+
+	}
+
 	private void DoWallDeconstruction(Vector3Int cellPos, TileChangeManager tcm, Vector3 worldPos)
 	{
 		tcm.RemoveTile(cellPos, LayerType.Walls);
 		SoundManager.PlayNetworkedAtPos("Deconstruct", worldPos, 1f);
 
-		//Spawn 4 metal sheets:
+		//Spawn 2 metal sheets:
 		int spawnMetalsAmt = 0;
-		while (spawnMetalsAmt < 4)
+		while (spawnMetalsAmt < 2)
 		{
 			spawnMetalsAmt++;
 			PoolManager.PoolNetworkInstantiate(metalPrefab, worldPos, tcm.transform);

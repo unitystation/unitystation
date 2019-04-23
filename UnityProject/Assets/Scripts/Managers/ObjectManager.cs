@@ -151,6 +151,7 @@ public enum ItemType
 	ID,
 	PDA,
 	Food,
+	Medical,
 	Knife,
 	Gun
 }

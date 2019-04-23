@@ -202,19 +202,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clothingReference: -1
   hierarchy: 
-  inHandReferenceLeft: 984
-  inHandReferenceRight: 996
+  inHandReferenceLeft: 312
+  inHandReferenceRight: 324
   itemDescription: A Mop
   itemName: mop
   itemType: 0
   size: 2
   spriteType: 0
   type: 0
-  ConnectedToTank: 0
-  throwDamage: 7
+  CanConnectToTank: 0
+  hitDamage: 8
+  throwDamage: 10
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 10
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114694404974510270

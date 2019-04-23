@@ -10,9 +10,9 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(HealthStateMonitor))]
 public abstract class LivingHealthBehaviour : NetworkBehaviour
 {
-	public int maxHealth = 100;
+	public float maxHealth = 100;
 
-	public int OverallHealth { get; private set; } = 100;
+	public float OverallHealth { get; private set; } = 100;
 
 	// Systems can also be added via inspector
 	public BloodSystem bloodSystem;
@@ -137,7 +137,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			Logger.LogWarning($"Max health ({maxHealth}) set to zero/below zero!", Category.Health);
 			maxHealth = 1;
 		}
-		OverallHealth = maxHealth;
 
 		//Generate BloodType and DNA
 		DNABloodType = new DNAandBloodType();
@@ -338,13 +337,14 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	void UpdateMe()
 	{
 		//Server Only:
-		if (CustomNetworkManager.Instance._isServer && !IsDead)
+		if (isServer && !IsDead)
 		{
 			tick += Time.deltaTime;
 			if (tick > tickRate)
 			{
 				tick = 0f;
 				CalculateOverallHealth();
+				CheckHealthAndUpdateConsciousState();
 			}
 		}
 	}
@@ -377,53 +377,22 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// Recalculates the overall player health and updates OverallHealth property. Server only
 	/// </summary>
 	[Server]
-	protected void CalculateOverallHealth()
+	public void CalculateOverallHealth()
 	{
-		int newHealth = 100;
+		float newHealth = 100;
 		newHealth -= CalculateOverallBodyPartDamage();
 		newHealth -= CalculateOverallBloodLossDamage();
-
-		//We are in critical state. Add suffocation damage:
-		if (newHealth <= 0 || bloodSystem.OxygenLevel < 5)
-		{
-			//Force into crit state if everything else is fine but there is no oxygen
-			if (newHealth > 0)
-			{
-				newHealth = 0;
-			}
-
-			if (respiratorySystem.IsSuffocating)
-			{
-				newHealth -= respiratorySystem.SuffocationDamage;
-			}
-		}
-
+		newHealth -= bloodSystem.OxygenDamage;
 		OverallHealth = newHealth;
-		CheckHealthAndUpdateConsciousState();
 	}
 
-	int CalculateOverallBodyPartDamage()
+	public int CalculateOverallBodyPartDamage()
 	{
 		float bodyPartDmg = 0;
 		for (int i = 0; i < BodyParts.Count; i++)
 		{
-			if (BodyParts[i].Severity == DamageSeverity.None)
-			{
-				continue;
-			}
-
-			var calc = (float)BodyParts[i].Severity / BodyParts.Count;
-
-			//Head and chest are vital areas, if either one reaches max damage thats automatic crit:
-			if (BodyParts[i].Type == BodyPartType.Chest || BodyParts[i].Type == BodyPartType.Head)
-			{
-				if (BodyParts[i].Severity == DamageSeverity.Max)
-				{
-					calc = 100;
-				}
-			}
-
-			bodyPartDmg += calc;
+			bodyPartDmg += BodyParts[i].BruteDamage;
+			bodyPartDmg += BodyParts[i].BurnDamage;
 		}
 		return Mathf.RoundToInt(Mathf.Clamp(bodyPartDmg, -100f, 100f));
 	}
@@ -459,9 +428,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			return;
 		}
 		ConsciousState = ConsciousState.DEAD;
-		OverallHealth = HealthThreshold.Dead;
 		OnDeathActions();
-		bloodSystem.StopBleeding();
+		bloodSystem.StopBleedingAll();
 	}
 
 	private void Crit(bool allowCrawl = false)
@@ -492,21 +460,21 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// </summary>
 	private void CheckHealthAndUpdateConsciousState()
 	{
-		if (ConsciousState != ConsciousState.CONSCIOUS
-		    && OverallHealth > HealthThreshold.SoftCrit)
+		if (ConsciousState != ConsciousState.CONSCIOUS && bloodSystem.OxygenDamage < HealthThreshold.OxygenPassOut && OverallHealth > HealthThreshold.SoftCrit)
 		{
 			Logger.LogFormat( "{0}, back on your feet!", Category.Health, gameObject.name );
 			Uncrit();
 			return;
 		}
-		if (OverallHealth <= HealthThreshold.Crit)
+
+		if (OverallHealth <= HealthThreshold.SoftCrit || bloodSystem.OxygenDamage > HealthThreshold.OxygenPassOut)
 		{
-			Crit(false);
-		}
-		else if (OverallHealth <= HealthThreshold.SoftCrit)
-		{
-			//health isn't low enough for crit, but might be low enough for soft crit
-			Crit(true);
+			if (OverallHealth <= HealthThreshold.Crit)
+			{
+				Crit(false);
+			}else{
+				Crit(true); //health isn't low enough for crit, but might be low enough for soft crit or passed out from lack of oxygen
+			}
 		}
 		if (NotSuitableForDeath())
 		{
@@ -538,11 +506,18 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <summary>
 	/// Updates the main health stats from the server via NetMsg
 	/// </summary>
-	public void UpdateClientHealthStats(int overallHealth, ConsciousState consciousState)
+	public void UpdateClientHealthStats(float overallHealth)
 	{
 		OverallHealth = overallHealth;
 		//	Logger.Log($"Update stats for {gameObject.name} OverallHealth: {overallHealth} ConsciousState: {consciousState.ToString()}", Category.Health);
-		CheckHealthAndUpdateConsciousState();
+	}
+
+	/// <summary>
+	/// Updates the conscious state from the server via NetMsg
+	/// </summary>
+	public void UpdateClientConsciousState(ConsciousState proposedState)
+	{
+		ConsciousState = proposedState;
 	}
 
 	/// <summary>
@@ -552,17 +527,14 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	{
 		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating);
 		//	Logger.Log($"Update stats for {gameObject.name} isBreathing: {isBreathing} isSuffocating {isSuffocating}", Category.Health);
-
-		CheckHealthAndUpdateConsciousState();
 	}
 
 	/// <summary>
 	/// Updates the blood health stats from the server via NetMsg
 	/// </summary>
-	public void UpdateClientBloodStats(int heartRate, int bloodVolume, float oxygenLevel, float toxinLevel)
+	public void UpdateClientBloodStats(int heartRate, int bloodVolume, float oxygenDamage, float toxinLevel)
 	{
-		bloodSystem.UpdateClientBloodStats(heartRate, bloodVolume, oxygenLevel, toxinLevel);
-		CheckHealthAndUpdateConsciousState();
+		bloodSystem.UpdateClientBloodStats(heartRate, bloodVolume, oxygenDamage, toxinLevel);
 	}
 
 	/// <summary>
@@ -573,7 +545,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		if (brainSystem != null)
 		{
 			brainSystem.UpdateClientBrainStats(isHusk, brainDamage);
-			CheckHealthAndUpdateConsciousState();
 		}
 	}
 
@@ -650,35 +621,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		foreach (BodyPartBehaviour bodyPart in BodyParts)
 		{
 			bodyPart.RestoreDamage();
+			bodyPart.livingHealthBehaviour = this;
 		}
 	}
 
-	[Server]
-	public void ServerOnlySetHealth(int newValue)
-	{
-		if (isServer)
-		{
-			OverallHealth = newValue;
-			CheckHealthAndUpdateConsciousState();
-		}
-	}
-
-	//FIXME: This must be converted into a method to alleviate hunger soon
-	[System.Obsolete]
-	public void AddHealth(int amount)
-	{
-		Debug.Log("TODO PRIORITY: Food should no longer heal, instead it should cure hunger");
-		if (amount <= 0)
-		{
-			return;
-		}
-		OverallHealth += amount;
-
-		if (OverallHealth > maxHealth)
-		{
-			OverallHealth = maxHealth;
-		}
-	}
 }
 
 public static class HealthThreshold
@@ -686,4 +632,5 @@ public static class HealthThreshold
 	public const int SoftCrit = 0;
 	public const int Crit = -30;
 	public const int Dead = -100;
+	public const int OxygenPassOut = 50;
 }

@@ -248,6 +248,7 @@ public enum WiringColor
 	yellow,
 	low,
 	high,
+	unknown,
 }
 
 [Serializable]

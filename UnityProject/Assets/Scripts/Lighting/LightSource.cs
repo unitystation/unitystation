@@ -117,16 +117,28 @@ public class LightSource : ObjectTrigger
 			if (RelatedLightSwitchTrigger == null){
 				RelatedLightSwitchTrigger = Received.LightSwitchTrigger;
 			}
-			if (Received.RelatedAPC != null) {
+			if (Received.RelatedAPC != null)
+			{
 				RelatedAPC = Received.RelatedAPC;
 				{
 					if (State == LightState.On)
 					{
-						if (!RelatedAPC.ConnectedSwitchesAndLights [RelatedLightSwitchTrigger].Contains (this)) {
-							RelatedAPC.ConnectedSwitchesAndLights [RelatedLightSwitchTrigger].Add (this);
+						if (!RelatedAPC.ConnectedSwitchesAndLights[RelatedLightSwitchTrigger].Contains(this))
+						{
+							RelatedAPC.ConnectedSwitchesAndLights[RelatedLightSwitchTrigger].Add(this);
 						}
 
 					}
+				}
+			}
+			else if (RelatedLightSwitchTrigger.SelfPowered){
+				if (State == LightState.On)
+				{
+					if (!RelatedLightSwitchTrigger.SelfPowerLights.Contains(this))
+					{
+						RelatedLightSwitchTrigger.SelfPowerLights.Add(this);
+					}
+
 				}
 			}
 

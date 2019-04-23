@@ -41,7 +41,7 @@ public class MetaDataNode: IGasMixContainer
 	/// <summary>
 	/// Current damage inflicted on this tile.
 	/// </summary>
-	public int Damage;
+	public float Damage;
 
 	public Vector2Int 	WindDirection 	= Vector2Int.zero;
 	public float		WindForce 		= 0;

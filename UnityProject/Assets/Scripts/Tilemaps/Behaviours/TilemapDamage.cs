@@ -119,7 +119,7 @@ public class TilemapDamage : MonoBehaviour
 		}
 	}
 
-	private void AddWindowDamage(int damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
+	private void AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
 	{
 		data.Damage += damage;
 		if (data.Damage >= 20 && data.Damage < 50 && data.WindowDmgType != "crack01")
@@ -156,7 +156,7 @@ public class TilemapDamage : MonoBehaviour
 		}
 	}
 
-	private void AddGrillDamage(int damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
+	private void AddGrillDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
 	{
 		data.Damage += damage;
 

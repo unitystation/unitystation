@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 
 public class WireAttackController : InputTrigger
@@ -14,7 +14,7 @@ public class WireAttackController : InputTrigger
 		//visible message: wires are snibbedy snabd
 		//play audio: snip
 		//int wireCount = 1;
-		//if(DirectionEnd != 0)
+		//if(WireEndA != 0)
 		//the wire is two long
 		//wireCount++
 		//check floor for wires
@@ -32,16 +32,16 @@ public class WireAttackController : InputTrigger
 		//may want to do something more fancy? idk
 		//print something to the user: "no current on this wire, sorry mang"
 		//if attackby wire stack object
-		//if DirectionEnd != 0
+		//if WireEndA != 0
 		//int newDirectionEnd = relative direction of the attacking mob
 		//check the floor for wires
 		//for (StructurePowerWire wire in List)
-		//if(wire.DirectionStart == DirectionStart && wire.DirectionEnd == newDirectionEnd)
+		//if(wire.WireEndB == WireEndB && wire.WireEndA == newDirectionEnd)
 		//print to mob: "there's already a wire there"
 		//return
 		//reduce wire stack object's count by 1
 		//Color = wire stack object's color
-		//setDirection(DirectionStart, newDirectionEnd)
+		//setDirection(WireEndB, newDirectionEnd)
 		//return
 
 		return true;

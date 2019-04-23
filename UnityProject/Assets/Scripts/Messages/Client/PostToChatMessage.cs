@@ -53,7 +53,7 @@ public class PostToChatMessage : ClientMessage
 	/// <param name="victim">GameObject of the player hat was the victim</param>
 	/// <param name="damage">damage done</param>
 	/// <param name="hitZone">zone that was damaged</param>
-	public static void SendItemAttackMessage( GameObject item, GameObject attacker, GameObject victim, int damage, BodyPartType hitZone = BodyPartType.None )
+	public static void SendItemAttackMessage( GameObject item, GameObject attacker, GameObject victim, float damage, BodyPartType hitZone = BodyPartType.None )
 	{
 		var itemAttributes = item.GetComponent<ItemAttributes>();
 
@@ -80,6 +80,19 @@ public class PostToChatMessage : ClientMessage
 			radius = 9f,
 			sizeMod = Mathf.Clamp( damage/15, 1, 3 )
 		} );
+	}
+	/// <summary>
+	/// Sends a gasp message to nearby players
+	public static void SendGasp(GameObject victim)
+	{
+		var message = $"{victim.ExpensiveName()} gasps";
+		ChatRelay.Instance.AddToChatLogServer( new ChatEvent {
+			channels = ChatChannel.Local,
+			message = message,
+			position = victim.transform.position,
+			radius = 9f,
+		} );
+
 	}
 
 	private static string InTheZone( BodyPartType hitZone ) {

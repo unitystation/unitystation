@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -20,13 +20,6 @@ public class PowerGenerator : PowerSupplyControlInheritance
 	//Server only
 	public List<SolidPlasma> plasmaFuel = new List<SolidPlasma>();
 
-	public PowerTypeCategory ApplianceType =  PowerTypeCategory.PowerGenerator;
-	public HashSet<PowerTypeCategory> CanConnectTo  = new HashSet<PowerTypeCategory>()
-	{
-		PowerTypeCategory.StandardCable,
-			PowerTypeCategory.HighVoltageCable,
-	};
-
 	void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
@@ -34,11 +27,17 @@ public class PowerGenerator : PowerSupplyControlInheritance
 
 	public override void OnStartServerInitialise()
 	{
+		CanConnectTo = new HashSet<PowerTypeCategory>
+		{
+			PowerTypeCategory.StandardCable,
+			PowerTypeCategory.HighVoltageCable,
+		};
+		ApplianceType = PowerTypeCategory.PowerGenerator;
 		// Voltage_source_voltage / Internal_resistance_of_voltage_source = 10 is good Rule of thumb
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.DirectionStart = DirectionStart;
-		powerSupply.DirectionEnd = DirectionEnd;
+		powerSupply.WireEndB = WireEndB;
+		powerSupply.WireEndA = WireEndA;
 
 		SupplyingVoltage = 760000;
 		InternalResistance = 76000;
@@ -229,6 +228,7 @@ public class PowerGenerator : PowerSupplyControlInheritance
 			{
 				UpdateServerState(!isOn);
 			}
+			ConstructionInteraction(originator, position, hand);
 		}
 
 		return true;

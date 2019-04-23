@@ -160,4 +160,21 @@ public class PickUpTrigger : InputTrigger
 			}
 		}
 	}
+
+	/// <summary>
+	// Removes the object from the player inventory before vanishing it
+	/// </summary>
+	[Server]
+	public override void DisappearObject()
+	{
+		InventoryManager.DestroyItemInSlot(gameObject);
+		base.DisappearObject();
+	}
+	/// <summary>
+	/// Using an item on another mob, currently only working on medical items
+	/// </summary>
+	[Server]
+	public virtual void Attack(GameObject target, GameObject originator, BodyPartType bodyPart){
+
+	}
 }

@@ -223,20 +223,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clothingReference: -1
-  hierarchy: 
+  hierarchy: /obj/item/weapon/wrench
   inHandReferenceLeft: 1044
   inHandReferenceRight: 1056
   itemDescription: A wrench with common uses. Can be found in your hand.
   itemName: wrench
   itemType: 0
-  size: 2
+  size: 1
   spriteType: 0
   type: 0
-  ConnectedToTank: 0
-  throwDamage: 36
+  CanConnectToTank: 0
+  hitDamage: 5
+  throwDamage: 7
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 50
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114998062039538404

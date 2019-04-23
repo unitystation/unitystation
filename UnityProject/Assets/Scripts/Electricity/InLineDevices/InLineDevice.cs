@@ -21,7 +21,8 @@ public class InLineDevice : ElectricalOIinheritance
 			transform.localPosition,
 			matrix,
 			InData.CanConnectTo,
-			GetConnPoints()
+			GetConnPoints(),
+			this
 		);
 		if (Data.connections.Count > 0)
 		{

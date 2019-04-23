@@ -18,6 +18,8 @@ public class ChemistryDispenser : NetworkTabTrigger {
 		}
 		if (!isServer)
 		{
+			//ask server to perform the interaction
+			InteractMessage.Send(gameObject, position, hand);
 			return true;
 		}
 

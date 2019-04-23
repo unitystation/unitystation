@@ -23,6 +23,7 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 	{
 		ElectricalSynchronisation.CircuitSearchLoop(Supply);
 	}
+
 	public static void PowerUpdateCurrentChange(ElectricalOIinheritance Supply)
 	{
 		Supply.FlushSupplyAndUp(Supply.GameObject());
@@ -43,7 +44,10 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 			}
 			else {
 				foreach (ElectricalOIinheritance connectedDevice in Supply.connectedDevices) {
-					ElectricalSynchronisation.NUCurrentChange.Add(connectedDevice.InData.ControllingDevice);
+					if (ElectricalSynchronisation.ReactiveSuppliesSet.Contains(connectedDevice.InData.Categorytype))
+					{
+						ElectricalSynchronisation.NUCurrentChange.Add(connectedDevice.InData.ControllingDevice);
+					}
 				}
 			}
 			ELCurrent.Currentloop(Supply.GameObject());

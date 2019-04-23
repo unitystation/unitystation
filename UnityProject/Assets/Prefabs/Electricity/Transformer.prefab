@@ -176,9 +176,8 @@ MonoBehaviour:
   SelfDestruct: 0
   powerSupply: {fileID: 114266721718608546}
   isOn: 0
-  ChangeToOff: 0
-  DirectionStart: 0
-  DirectionEnd: 9
+  WireEndB: 2
+  WireEndA: 6
   MonitoringResistance: 0
   Previouscurrent: 0
   SupplyingVoltage: 0
@@ -188,6 +187,8 @@ MonoBehaviour:
   TurnRatio: 0
   VoltageLimiting: 0
   VoltageLimitedTo: 0
+  _IElectricityIO: {fileID: 114266721718608546}
+  ApplianceType: 6
   MaximumCurrentSupport: 0
   MinimumSupportVoltage: 0
   StandardSupplyingVoltage: 0
@@ -213,8 +214,6 @@ MonoBehaviour:
   ChargLastDeductedTime: 0
   PassChangeToOff: 0
   isOnForInterface: 0
-  RelatedDevice: {fileID: 114266721718608546}
-  ApplianceType: 6
 --- !u!114 &114266721718608546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,10 +226,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DirectionStart: 4
-  DirectionEnd: 8
+  WireEndB: 2
+  WireEndA: 6
+  Data:
+    FirstPresent: 0
+    ActualCurrentChargeInWire:
+      Voltage: 0
+      Current: 0
+      EstimatedResistant: 0
+    UpstreamCount: 0
+    DownstreamCount: 0
+    CurrentInWire: 0
+    ActualVoltage: 0
+    EstimatedResistance: 0
+    SupplyingCurrent: 0
+    InternalResistance: 0
+    SupplyingVoltage: 0
+    ChangeToOff: 0
+    CurrentStoreValue: 0
+  InData:
+    Categorytype: 0
+    ControllingDevice: {fileID: 0}
+    ControllingUpdate: {fileID: 0}
+    DirectionOverride: 0
+    ResistanceOverride: 0
+    ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
+  RelatedDevice: {fileID: 0}
   registerTile3: {fileID: 114038174743996046}
 --- !u!1 &1744594665423798
 GameObject:

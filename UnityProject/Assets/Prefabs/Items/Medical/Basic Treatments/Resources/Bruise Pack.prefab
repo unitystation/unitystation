@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 114117693627431154}
   - component: {fileID: 114012578210888208}
   - component: {fileID: 114509519296518920}
-  - component: {fileID: 114006668094499968}
+  - component: {fileID: 2424302522061221452}
   - component: {fileID: 114250079265950594}
   - component: {fileID: 114537529964992312}
   m_Layer: 10
@@ -206,18 +206,18 @@ MonoBehaviour:
   inHandReferenceRight: -1
   itemDescription: Used to cure brute damage.
   itemName: Bruise Pack
-  itemType: 0
+  itemType: 15
   size: 1
   spriteType: 0
   type: 0
-  ConnectedToTank: 0
+  CanConnectToTank: 0
+  hitDamage: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &114006668094499968
+--- !u!114 &2424302522061221452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1862150311813888}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ab238b594cec46419bf8854d3a6ecbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114250079265950594
