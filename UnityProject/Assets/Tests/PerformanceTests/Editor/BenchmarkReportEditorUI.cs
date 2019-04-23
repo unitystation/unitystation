@@ -36,7 +36,7 @@ public class BenchmarkReportEditorUI : EditorWindow
 
 	[MenuItem("Window/Benchmark Report")] static void ShowWindow() => GetWindow<BenchmarkReportEditorUI>("Benchmark Report");
 
-	private void OnEnable()
+	void OnEnable()
 	{
 		CreateFolders();
 	}
@@ -69,20 +69,40 @@ public class BenchmarkReportEditorUI : EditorWindow
 
 	void AddResult()
 	{
-		using (new EditorGUI.DisabledScope(!File.Exists(ResultLocation)))
+		var disabled = !File.Exists(ResultLocation);
+		if (!disabled)
+		{
+			var fileName = FileName(new FileInfo(ResultLocation));
+
+			var UnselectedFileLocation = Path.Combine(UnselectedResultsFolderLocation, fileName);
+			var SelectedFileLocation   = Path.Combine(SelectedResultsFolderLocation, fileName);
+			var BaselineFileLocation   = Path.Combine(BaselineResultFolderLocation, fileName);
+
+			if (File.Exists(UnselectedFileLocation) ||
+				File.Exists(SelectedFileLocation  ) ||
+				File.Exists(BaselineFileLocation  ))
+			{
+				disabled = true;
+			}
+		}
+
+
+		using (new EditorGUI.DisabledScope(disabled))
 			if (GUILayout.Button("Add Result"))
 			{
-				if (!Directory.Exists(SelectedResultsFolderLocation)) Directory.CreateDirectory(SelectedResultsFolderLocation);
 				var file = new FileInfo(ResultLocation);
+				var fileName = FileName(file);
 
-				var OutputFile = Path.Combine(SelectedResultsFolderLocation,
-					Path.GetFileNameWithoutExtension(file.Name) +
-					file.LastWriteTime.ToUniversalTime().ToString("yyyy-MM-dd_hh-mm-ss") +
-					file.Extension);
-
-				if (File.Exists(OutputFile)) return;
-				File.Copy(file.FullName, OutputFile);
+				var UnselectedFileLocation = Path.Combine(UnselectedResultsFolderLocation, fileName);
+				File.Copy(file.FullName, UnselectedFileLocation);
 			}
+
+		string FileName(FileInfo sourceFile)
+		{
+			return Path.GetFileNameWithoutExtension(sourceFile.Name) +
+			sourceFile.LastWriteTime.ToUniversalTime().ToString("yyyy-MM-dd_hh-mm-ss") +
+			sourceFile.Extension;
+		}
 	}
 
 	void CreateReport()
@@ -161,7 +181,7 @@ public class BenchmarkReportEditorUI : EditorWindow
 		EditorGUILayout.EndVertical();
 	}
 
-	void MoveableList(IEnumerable<FileInfo> files, string moveFolder,string shiftMoveFolder)
+	void MoveableList(IEnumerable<FileInfo> files, string moveFolder, string shiftMoveFolder)
 	{
 		var shift = Event.current.shift;
 		using (new EditorGUI.DisabledScope(shift && Baseline != null))
@@ -196,6 +216,7 @@ public class BenchmarkReportEditorUI : EditorWindow
 		CreateFolder(SelectedResultsFolderLocation);
 		CreateFolder(UnselectedResultsFolderLocation);
 		CreateFolder(BaselineResultFolderLocation);
+		CreateFolder(BenchmarkReportFolderLocation);
 		void CreateFolder(string folder)
 		{
 			if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
