@@ -69,6 +69,27 @@ public class RequestInteractMessage : ClientMessage
 				ProcessMouseDrop(droppedObj, targetObj, processorObj, performerObj);
 
 			}
+			else if ((interactionType == typeof(HandApply)))
+			{
+				if (UsedObject == NetworkInstanceId.Invalid)
+				{
+					//empty hand
+					yield return WaitFor(TargetObject, ProcessorObject);
+					var targetObj = NetworkObjects[0];
+					var processorObj = NetworkObjects[1];
+					var performerObj = SentByPlayer.GameObject;
+					ProcessHandApply(null, targetObj, processorObj, performerObj);
+				}
+				else
+				{
+					yield return WaitFor(UsedObject, TargetObject, ProcessorObject);
+					var handObj = NetworkObjects[0];
+					var targetObj = NetworkObjects[1];
+					var processorObj = NetworkObjects[2];
+					var performerObj = SentByPlayer.GameObject;
+					ProcessHandApply(handObj, targetObj, processorObj, performerObj);
+				}
+			}
 			//TODO: Other interaction types
 			else
 			{
@@ -90,6 +111,14 @@ public class RequestInteractMessage : ClientMessage
 		var processorComponent = TryGetProcessor<MouseDrop>(processorObj);
 		processorComponent.ServerProcessInteraction(
 			new MouseDrop(performerObj, droppedObj, targetObj));
+	}
+
+	private void ProcessHandApply(GameObject handObject, GameObject targetObj, GameObject processorObj, GameObject performerObj)
+	{
+		//try to look up the component on the processor
+		var processorComponent = TryGetProcessor<HandApply>(processorObj);
+		processorComponent.ServerProcessInteraction(
+			new HandApply(performerObj, handObject, targetObj));
 	}
 
 	private IInteractionProcessor<T> TryGetProcessor<T>(GameObject processorObj)
@@ -151,6 +180,10 @@ public class RequestInteractMessage : ClientMessage
 			{
 				msg = CreateMouseDropMessage(info as MouseDrop, processorObject, typeID);
 			}
+			else if (typeof(T) == typeof(HandApply))
+			{
+				msg = CreateHandApplyMessage(info as HandApply, processorObject, typeID);
+			}
 			//TODO: Other types
 
 			if (msg != null)
@@ -182,6 +215,18 @@ public class RequestInteractMessage : ClientMessage
 		{
 			UsedObject = mouseDrop.UsedObject.GetComponent<NetworkIdentity>().netId,
 			TargetObject = mouseDrop.TargetObject.GetComponent<NetworkIdentity>().netId,
+			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId,
+			ProcessorTypeID = typeId
+		};
+	}
+
+	private static RequestInteractMessage CreateHandApplyMessage(HandApply handApply, GameObject processorObject,
+		short typeId)
+	{
+		return new RequestInteractMessage()
+		{
+			UsedObject = handApply.UsedObject != null ? handApply.UsedObject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			TargetObject = handApply.TargetObject.GetComponent<NetworkIdentity>().netId,
 			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId,
 			ProcessorTypeID = typeId
 		};

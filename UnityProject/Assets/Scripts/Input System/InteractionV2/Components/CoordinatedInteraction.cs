@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -30,18 +31,15 @@ public abstract class CoordinatedInteraction<T>
 
 	protected void Start()
 	{
-		coordinator = new InteractionCoordinator<T>(this, Validate, ServerPerformInteraction);
+		coordinator = new InteractionCoordinator<T>(this, Validators(), ServerPerformInteraction);
 		//subclasses must remember to call base.Start() if they use Start
 	}
 
 	/// <summary>
-	/// Validate the interaction on client and server side
+	/// Return the validators that should be used for this interaction for client/server validation.
 	/// </summary>
-	/// <param name="interaction">interaction being validated</param>
-	/// <param name="isServer">whether this is server or client validation</param>
-	/// <returns>true iff interaction should occur (validation success),
-	/// false otherwise.</returns>
-	protected abstract ValidationResult Validate(T interaction, NetworkSide side);
+	/// <returns>List of interaction validators to use for this interaction.</returns>
+	protected abstract IList<IInteractionValidator<T>> Validators();
 
 	/// <summary>
 	/// Server-side. Called after validation succeeds on server side.

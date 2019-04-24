@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
@@ -19,6 +20,8 @@ public class PlayerMove : NetworkBehaviour
 
 	[SyncVar] public bool allowInput = true;
 	[SyncVar(hook=nameof(OnRestrainedChanged))] private bool restrained = false;
+	//callback invoked when we are unbuckled.
+	private Action onUnbuckled;
 
 	/// <summary>
 	/// Tracks the server's idea of whether we have help intent
@@ -78,8 +81,8 @@ public class PlayerMove : NetworkBehaviour
 	public float WalkSpeed = 3;
 	public float CrawlSpeed = 0.8f;
 
-	private RegisterTile registerTile;
-	private Matrix matrix => registerTile.Matrix;
+	private RegisterPlayer registerPlayer;
+	private Matrix matrix => registerPlayer.Matrix;
 
 	/// temp solution for use with the UI network prediction
 	public bool isMoving { get; } = false;
@@ -93,7 +96,7 @@ public class PlayerMove : NetworkBehaviour
 	{
 		playerSprites = gameObject.GetComponent<UserControlledSprites>();
 
-		registerTile = GetComponent<RegisterTile>();
+		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
 	}
 
@@ -224,14 +227,22 @@ public class PlayerMove : NetworkBehaviour
 	/// <summary>
 	/// Restrain the player to their current position.
 	/// </summary>
+	/// <param name="onUnbuckled">callback to invoke when we become unbuckled</param>
 	[Server]
-	public void Restrain()
+	public void Restrain(Action onUnbuckled = null)
 	{
 		restrained = true;
 		//can't push/pull when buckled in, break if we are pulled / pulling
-		playerScript.pushPull.CmdStopFollowing();
-		playerScript.pushPull.CmdStopPulling();
-		playerScript.pushPull.isNotPushable = true;
+		PlayerScript.pushPull.CmdStopFollowing();
+		PlayerScript.pushPull.CmdStopPulling();
+		PlayerScript.pushPull.isNotPushable = true;
+		this.onUnbuckled = onUnbuckled;
+
+		//if player is downed, make them upright
+		if (registerPlayer.IsDown)
+		{
+			PlayerUprightMessage.SendToAll(gameObject, true);
+		}
 	}
 
 	/// <summary>
@@ -240,9 +251,28 @@ public class PlayerMove : NetworkBehaviour
 	[Command]
 	public void CmdUnrestrain()
 	{
+		Unrestrain();
+	}
+
+	/// <summary>
+	/// Server side logic for unrestraining a player
+	/// </summary>
+	[Server]
+	public void Unrestrain()
+	{
 		restrained = false;
 		//we can be pushed / pulled again
-		playerScript.pushPull.isNotPushable = false;
+		PlayerScript.pushPull.isNotPushable = false;
+
+		//if player is crit, soft crit, or dead, lay them back down
+		if (playerScript.playerHealth.ConsciousState == ConsciousState.DEAD ||
+		    playerScript.playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
+		    playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
+		{
+			PlayerUprightMessage.SendToAll(gameObject, false);
+		}
+
+		onUnbuckled?.Invoke();
 	}
 
 	//invoked client side when the restrained syncvar changes
@@ -250,6 +280,7 @@ public class PlayerMove : NetworkBehaviour
 	{
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
+			//have to do this with a lambda otherwise the Cmd will not fire
 			UIManager.AlertUI.ToggleAlertRestrained(isRestrained, () => this.CmdUnrestrain());
 		}
 

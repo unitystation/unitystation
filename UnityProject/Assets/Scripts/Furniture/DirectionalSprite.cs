@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -9,7 +10,7 @@ using UnityEngine.SceneManagement;
 ///
 /// Initial orientation is based on the sprite the SpriteRenderer is initially set to.
 /// </summary>
-public class DirectionalSprite : MonoBehaviour
+public class DirectionalSprite : NetworkBehaviour
 {
 	/// <summary>
 	/// When true, chairs will rotate to their new orientation at the end of matrix rotation. When false
@@ -17,6 +18,7 @@ public class DirectionalSprite : MonoBehaviour
 	/// </summary>
 	private const bool ROTATE_AT_END = true;
 
+	//absolute orientation
 	private Orientation orientation;
 
 	public Sprite s_right;
@@ -29,6 +31,13 @@ public class DirectionalSprite : MonoBehaviour
 	private MatrixMove matrixMove;
 	// cached registertile on this chair
 	private RegisterTile registerTile;
+
+	//when true, sprite will be put in the BuckledOverPlayer layer
+	//when it is facing up, so it appears on top of the player.
+	[SyncVar(hook=nameof(SyncBuckledOverPlayer))]
+	private bool renderBuckledOverPlayer;
+	//holds the original layer name if the layer is changed.
+	private string originalSpriteLayerName;
 
 	public void Start()
 	{
@@ -48,6 +57,12 @@ public class DirectionalSprite : MonoBehaviour
 			//TODO: Is this still needed?
 			StartCoroutine(WaitForInit());
 		}
+	}
+
+	public override void OnStartClient()
+	{
+		//must invoke this because SyncVar hooks are not called on client init
+		SyncBuckledOverPlayer(renderBuckledOverPlayer);
 	}
 
 	/// <summary>
@@ -114,6 +129,45 @@ public class DirectionalSprite : MonoBehaviour
 		else
 		{
 			spriteRenderer.sprite = s_right;
+		}
+
+		EnsureSpriteLayer();
+	}
+
+	/// <summary>
+	/// Renders this object on top of the player when orientation is Up.
+	/// Used for things like chairs which need to be drawn on top of the player
+	/// when the player is buckled in when the chair is facing up.
+	/// </summary>
+	[Server]
+	public void RenderBuckledOverPlayerWhenUp(bool renderBuckledOverPlayer)
+	{
+		this.renderBuckledOverPlayer = renderBuckledOverPlayer;
+	}
+
+	//syncvar hook for renderBuckledOverPlayer
+	private void SyncBuckledOverPlayer(bool newValue)
+	{
+		renderBuckledOverPlayer = newValue;
+		EnsureSpriteLayer();
+	}
+
+	//ensures we are rendering in the correct sprite layer
+	private void EnsureSpriteLayer()
+	{
+		if (orientation == Orientation.Up && renderBuckledOverPlayer)
+		{
+			//move to the corresponding sprite layer above the player
+			originalSpriteLayerName = spriteRenderer.sortingLayerName;
+			spriteRenderer.sortingLayerName = "BuckledOverPlayer";
+		}
+		else
+		{
+			//restore original layer
+			if (originalSpriteLayerName != null)
+			{
+				spriteRenderer.sortingLayerName = originalSpriteLayerName;
+			}
 		}
 	}
 }

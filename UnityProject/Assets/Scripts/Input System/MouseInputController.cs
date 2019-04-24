@@ -22,6 +22,9 @@ public class MouseInputController : MonoBehaviour
 	/// </summary>
 	private float InputCooldownTimer = 0.01f;
 
+	//used so that drag interaction cannot be started until the mouse button is up after a click interaction
+	private bool canDrag = true;
+
 	private readonly Dictionary<Vector2, Tuple<Color, float>> RecentTouches = new Dictionary<Vector2, Tuple<Color, float>>();
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
 	private LayerMask layerMask;
@@ -95,20 +98,41 @@ public class MouseInputController : MonoBehaviour
 			CheckHover();
 			return;
 		}
+
+		if (!canDrag && CommonInput.GetMouseButtonUp(0))
+		{
+			//reset candrag on buttonup
+			canDrag = true;
+		}
 		if (CommonInput.GetMouseButtonDown(0))
 		{
-			if (!CheckAltClick())
+			var clicked = CheckAltClick();
+			if (!clicked)
 			{
-				if (!CheckThrow())
-				{
-					CheckClick();
-				}
+				clicked = CheckThrow();
+			}
+			if (!clicked)
+			{
+				clicked = CheckClick();
+			}
+			if (!clicked)
+			{
+				clicked = CheckClickV2();
+			}
+
+			if (clicked)
+			{
+				//wait until mouseup to allow drag interaction again
+				canDrag = false;
 			}
 		}
 		else if (CommonInput.GetMouseButton(0))
 		{
 			//mouse being held down / dragged
-			CheckDrag();
+			if (!CheckDrag() && canDrag)
+			{
+				CheckDragV2();
+			}
 		}
 		else
 		{
@@ -144,13 +168,15 @@ public class MouseInputController : MonoBehaviour
 		}
 	}
 
-	private void CheckClick()
+	//note - bool is now returned to indicate the CheckClickV2 should be skipped if an interacton occurs in
+	//this version of the method.
+	private bool CheckClick()
 	{
 		//currently there is nothing for ghosts to interact with, they only can change facing
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			ChangeDirection();
-			return;
+			return false;
 		}
 
 		bool ctrlClick = KeyboardInputManager.IsControlPressed();
@@ -159,11 +185,18 @@ public class MouseInputController : MonoBehaviour
 			//change the facingDirection of player on click
 			ChangeDirection();
 
-			//if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
-			if (!RayHitInteract(false) && !EventSystem.current.IsPointerOverGameObject())
+			if (RayHitInteract(false))
 			{
-				InteractHands(false);
+				return true;
 			}
+
+			//if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
+			if (!EventSystem.current.IsPointerOverGameObject())
+			{
+				return InteractHands(false);
+			}
+
+			return false;
 		}
 		else
 		{
@@ -172,24 +205,123 @@ public class MouseInputController : MonoBehaviour
 			{
 				if (!hitRenderer)
 				{
-					return;
+					return true;
 				}
 				hitRenderer.transform.SendMessageUpwards("OnCtrlClick", SendMessageOptions.DontRequireReceiver);
+				return true;
+			}
+			//we always return true for a ctrl click in the current system - this will not always be the case
+			return true;
+		}
+	}
+
+	/// <summary>
+	/// Checks for a click within the interaction framework v2. Until everything is moved over to V2,
+	/// this will have to be used alongside the old one.
+	/// </summary>
+	private bool CheckClickV2()
+	{
+		//currently there is nothing for ghosts to interact with, they only can change facing
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			return false;
+		}
+
+		bool ctrlClick = KeyboardInputManager.IsControlPressed();
+		if (!ctrlClick)
+		{
+			var handApplyTargets =
+				MouseUtils.GetOrderedObjectsUnderMouse(layerMask, go => go.GetComponent<RegisterTile>() != null)
+					//get the root gameobject of the dropped-on sprite renderer
+					.Select(sr => sr.GetComponentInParent<RegisterTile>().gameObject)
+					//only want distinct game objects even if we hit multiple renderers on one object.
+					.Distinct();
+			//object in hand
+			var handObj = UIManager.Hands.CurrentSlot.Item;
+
+			//go through the stack of objects and call any drop components we find
+			foreach (GameObject applyTarget in handApplyTargets)
+			{
+				HandApply info = new HandApply(PlayerManager.LocalPlayer, handObj, applyTarget.gameObject);
+				//call the used object's handapply interaction methods if it has any, for each object we are applying to
+				//if handobj is null, then its an empty hand apply so we only need to check the receiving object
+				if (handObj != null)
+				{
+					foreach (IInteractable<HandApply> handApply in handObj.GetComponents<IInteractable<HandApply>>())
+					{
+						var result = handApply.Interact(info);
+						if (result.SomethingHappened)
+						{
+							//we're done checking, something happened
+							return true;
+						}
+					}
+				}
+
+				//call the hand apply interaction methods on the target object if it has any
+				foreach (IInteractable<HandApply> handApply in applyTarget.GetComponents<IInteractable<HandApply>>())
+				{
+					var result = handApply.Interact(info);
+					if (result.SomethingHappened)
+					{
+						//something happened, done checking
+						return true;
+					}
+				}
 			}
 		}
+
+		return false;
 	}
 
 	/// <summary>
 	/// Handles events that should happen while mouse is being held down (but not when it is initially clicked down)
 	/// </summary>
-	private void CheckDrag()
+	private bool CheckDrag()
 	{
 		//if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
-		if (!RayHitInteract(true) && !EventSystem.current.IsPointerOverGameObject())
+		var hit = RayHitInteract(true);
+		if (hit)
 		{
-			InteractHands(true);
+			return true;
+		}
+		if (!EventSystem.current.IsPointerOverGameObject())
+		{
+			return InteractHands(true);
+		}
+
+		return false;
+	}
+
+	private void CheckDragV2()
+	{
+		if (EventSystem.current.IsPointerOverGameObject())
+		{
+			//currently UI is not a part of interaction framework V2
+			return;
+		}
+		//currently there is nothing for ghosts to interact with, they only can change facing
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			return;
+		}
+
+		var draggable =
+			MouseUtils.GetOrderedObjectsUnderMouse(layerMask, go =>
+					go.GetComponent<MouseDraggable>() != null &&
+					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayer))
+				//get the root gameobject of the draggable
+				.Select(sr => sr.GetComponentInParent<MouseDraggable>().gameObject)
+				//only want distinct game objects even if we hit multiple renderers on one object.
+				.Distinct()
+				.FirstOrDefault();
+		if (draggable != null)
+		{
+			//start dragging the first draggable we found
+			draggable.GetComponent<MouseDraggable>().BeginDrag();
 		}
 	}
+
 
 	private bool CheckAltClick()
 	{
@@ -452,16 +584,6 @@ public class MouseInputController : MonoBehaviour
 					{
 						return true;
 					}
-				}
-			}
-			//there was an input trigger but no interaction occurred. Now check for drag and drop via MouseDraggable
-			if (isDrag)
-			{
-				var draggable = _transform.GetComponentInParent<MouseDraggable>();
-				if (draggable != null)
-				{
-					draggable.BeginDrag();
-					return true;
 				}
 			}
 

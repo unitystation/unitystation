@@ -23,6 +23,16 @@ public class MouseDraggable : MonoBehaviour
 	         "SpriteRenderer encountered on this object or its children")]
 	public Sprite shadow;
 
+	[Tooltip("If true, the player attempting to drag must be adjacent to the this in order" +
+	         " to be able to begin the drag")]
+	public bool draggerMustBeAdjacent = true;
+
+	[Tooltip("If true, drag may be initiated even when in soft crit. If false, player must be fully" +
+	         " conscious in order to drag.")]
+	public bool allowDragWhileSoftCrit = true;
+
+	private LightingSystem lightingSystem;
+
 	//the currently active shadow object
 	private GameObject shadowObject;
 	//prefab to use to create the shadow object
@@ -44,6 +54,7 @@ public class MouseDraggable : MonoBehaviour
 				                  " so there will be no drag shadow for this object.");
 			}
 		}
+		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
 	/// <summary>
@@ -79,6 +90,11 @@ public class MouseDraggable : MonoBehaviour
 		UIManager.IsMouseInteractionDisabled = false;
 		Destroy(shadowObject);
 		shadowObject = null;
+		if (lightingSystem.enabled && !lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
+		{
+			//do nothing, the point is not visible.
+			return;
+		}
 		//check what we dropped on, which may or may not have mousedrop interaction components
 		//can only drop on things that have a RegisterTile
 		var dropTargets =
@@ -114,5 +130,15 @@ public class MouseDraggable : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	/// <summary>
+	/// Checks if the drag can be performed by this dragger
+	/// </summary>
+	/// <param name="dragger">player attempting the drag</param>
+	/// <returns></returns>
+	public bool CanBeginDrag(GameObject dragger)
+	{
+		return CanApply.Validate(dragger, gameObject, allowDragWhileSoftCrit, draggerMustBeAdjacent);
 	}
 }

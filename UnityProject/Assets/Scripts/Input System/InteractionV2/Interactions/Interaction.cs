@@ -18,7 +18,7 @@ public abstract class Interaction
 	/// <summary>
 	/// Object that is being used by the player to perform the interaction.
 	/// For example...
-	/// For hand apply - object in hand.
+	/// For hand apply - object in hand. Null if empty hand.
 	/// For combine - object that was dragged to another slot.
 	/// For activate - the object being activated
 	/// For mouse drop - the object being dragged and dropped.
@@ -31,7 +31,7 @@ public abstract class Interaction
 	/// <param name="performer">The gameobject of the player performing the interaction</param>
 	/// <param name="usedObject">Object that is being used by the player to perform the interaction.
 	///  For example...
-	/// For hand apply - object in hand.
+	/// For hand apply - object in hand. Null if empty hand.
 	/// For combine - object that was dragged to another slot.
 	/// For activate - the object being activated
 	/// For mouse drop - the object being dragged and dropped.</param>

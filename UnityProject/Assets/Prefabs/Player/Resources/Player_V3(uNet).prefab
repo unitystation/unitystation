@@ -1087,7 +1087,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropLayers:
     serializedVersion: 2
-    m_Bits: 18432
+    m_Bits: 553666560
   shadow: {fileID: 21300750, guid: edb6a9bb8c0d64b80953e48ba732f4e9, type: 3}
 --- !u!1 &1147423205297840
 GameObject:
@@ -3840,12 +3840,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
-        type: 3}
-      propertyPath: Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758,
-        type: 3}
     - target: {fileID: 33937463476659220, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: m_Mesh
@@ -3856,6 +3850,12 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
 --- !u!4 &4304794156734570639 stripped
