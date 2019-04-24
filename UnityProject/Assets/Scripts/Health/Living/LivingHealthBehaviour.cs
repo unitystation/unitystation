@@ -532,7 +532,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <summary>
 	/// Updates the blood health stats from the server via NetMsg
 	/// </summary>
-	public void UpdateClientBloodStats(int heartRate, int bloodVolume, float oxygenDamage, float toxinLevel)
+	public void UpdateClientBloodStats(int heartRate, float bloodVolume, float oxygenDamage, float toxinLevel)
 	{
 		bloodSystem.UpdateClientBloodStats(heartRate, bloodVolume, oxygenDamage, toxinLevel);
 	}

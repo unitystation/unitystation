@@ -11,7 +11,7 @@ public class HealthBloodMessage : ServerMessage
 
 	public NetworkInstanceId EntityToUpdate;
 	public int HeartRate;
-	public int BloodLevel;
+	public float BloodLevel;
 	public float OxygenDamage;
 	public float ToxinLevel;
 
@@ -21,7 +21,7 @@ public class HealthBloodMessage : ServerMessage
 		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBloodStats(HeartRate, BloodLevel, OxygenDamage, ToxinLevel);
 	}
 
-	public static HealthBloodMessage Send(GameObject recipient, GameObject entityToUpdate, int heartRate, int bloodLevel,
+	public static HealthBloodMessage Send(GameObject recipient, GameObject entityToUpdate, int heartRate, float bloodLevel,
 		float oxygenDamage, float toxinLevel)
 	{
 		HealthBloodMessage msg = new HealthBloodMessage
@@ -36,7 +36,7 @@ public class HealthBloodMessage : ServerMessage
 		return msg;
 	}
 
-	public static HealthBloodMessage SendToAll(GameObject entityToUpdate, int heartRate, int bloodLevel,
+	public static HealthBloodMessage SendToAll(GameObject entityToUpdate, int heartRate, float bloodLevel,
 		float oxygenDamage, float toxinLevel)
 	{
 		HealthBloodMessage msg = new HealthBloodMessage
