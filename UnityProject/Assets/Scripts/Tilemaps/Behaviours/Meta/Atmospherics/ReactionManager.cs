@@ -47,7 +47,6 @@ public class ReactionManager : MonoBehaviour
 				{
 					if ( winds.TryDequeue( out var windyNode ) )
 					{
-						//fixme: restrict pushing multiple solid objects on the same tile
 						foreach ( var pushable in matrix.Get<PushPull>( windyNode.Position, true ) )
 						{
 							float correctedForce = windyNode.WindForce / ( int ) pushable.Pushable.Size;
@@ -55,7 +54,8 @@ public class ReactionManager : MonoBehaviour
 							{
 								if ( pushable.Pushable.IsTileSnap )
 								{
-									for ( byte j = 0; j < (byte)Mathf.Clamp((int)correctedForce / 10, 1, 10); j++ )
+									byte pushes = (byte)Mathf.Clamp((int)correctedForce / 10, 1, 10);
+									for ( byte j = 0; j < pushes; j++ )
 									{
 										pushable.QueuePush( windyNode.WindDirection, Random.Range( ( float ) ( correctedForce * 0.8 ), correctedForce ) );
 									}

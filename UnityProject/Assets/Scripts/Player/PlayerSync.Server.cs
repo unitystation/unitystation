@@ -72,8 +72,7 @@ public partial class PlayerSync
 	/// <summary>
 	/// If the position of this player is "non-sticky", i.e. meaning they would slide / float in a given direction
 	/// </summary>
-	public bool IsNonStickyServer => registerPlayer.IsStunnedServer
-	            || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ), true);
+	public bool IsNonStickyServer => !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ), true);
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState, true );
 
 
@@ -566,6 +565,15 @@ public partial class PlayerSync
 		}
 
 		if ( consideredFloatingServer && !IsWeightlessServer ) {
+			var worldOrigin = ServerPosition;
+			var worldTarget = worldOrigin + serverState.Impulse.RoundToInt();
+			if ( registerPlayer.IsStunnedServer && MatrixManager.IsPassableAt( worldOrigin, worldTarget, true ) )
+			{
+				Logger.LogFormat( "Letting stunned {0} fly onto {1}", Category.Movement, gameObject.name, worldTarget );
+				serverState.ImportantFlightUpdate = true;
+				NotifyPlayers();
+				return;
+			}
 			Stop();
 		}
 	}

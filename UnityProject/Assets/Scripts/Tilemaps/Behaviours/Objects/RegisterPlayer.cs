@@ -19,6 +19,7 @@ public class RegisterPlayer : RegisterTile
 
 	public bool IsBlocking => !playerScript.IsGhost && !IsDown;
 	public bool IsBlockingServer => !playerScript.IsGhost && !IsDownServer && !IsStunnedServer;
+	private Coroutine unstunHandle;
 
 
 	private void Awake()
@@ -149,6 +150,10 @@ public class RegisterPlayer : RegisterTile
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	public void Stun(float stunDuration = 4f, bool dropItem = true)
 	{
+		if ( IsStunnedServer )
+		{
+			return;
+		}
 		IsStunnedServer = true;
 		PlayerUprightMessage.SendToAll(gameObject, !IsStunnedServer);
 		if (dropItem)
@@ -158,21 +163,20 @@ public class RegisterPlayer : RegisterTile
 		}
 		playerScript.playerMove.allowInput = false;
 
-		StartCoroutine(StunTimer(stunDuration));
-
-		IEnumerator StunTimer(float stunTime)
-		{
-			yield return new WaitForSeconds(stunTime);
-			RemoveStun();
-		}
+		this.RestartCoroutine(StunTimer(stunDuration), ref unstunHandle);
+	}
+	private IEnumerator StunTimer(float stunTime)
+	{
+		yield return new WaitForSeconds(stunTime);
+		RemoveStun();
 	}
 
 	public void RemoveStun()
 	{
 		IsStunnedServer = false;
-		
-		if (playerScript.playerHealth.IsCrit 
-		 || playerScript.playerHealth.IsSoftCrit 
+
+		if (playerScript.playerHealth.IsCrit
+		 || playerScript.playerHealth.IsSoftCrit
 		 || playerScript.playerHealth.IsDead )
 		{
 			return;

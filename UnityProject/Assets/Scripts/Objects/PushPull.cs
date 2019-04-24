@@ -145,8 +145,10 @@ public class PushPull : VisibleBehaviour {
 
 	#endregion
 
-	private Coroutine revertPullHandle;
-	private Coroutine revertPushHandle;
+	private Coroutine revertPredictivePullHandle;
+	private Coroutine revertPredictivePushHandle;
+	private Coroutine revertIsBeingPushedHandle;
+
 
 	public Vector2 InheritedImpulse => IsBeingPulled ? PulledBy.InheritedImpulse : Pushable.ServerImpulse;
 
@@ -503,9 +505,20 @@ public class PushPull : VisibleBehaviour {
 			isBeingPushed = true;
 			pushTarget = target;
 			Logger.LogTraceFormat( "{2}: Started push {0}->{1}", Category.PushPull, from, target, gameObject.name );
+			this.RestartCoroutine( NoMoveSafeguard( from ), ref revertIsBeingPushedHandle );
 		}
 
 		return success;
+	}
+
+	private IEnumerator NoMoveSafeguard( Vector3Int @from )
+	{
+		yield return YieldHelper.Second;
+		if ( isBeingPushed && Pushable.ServerPosition == from )
+		{
+			Logger.LogWarningFormat( "{0} didn't move despite being pushed! Removing isBeingPushed flag", Category.PushPull, gameObject.name );
+			isBeingPushed = false;
+		}
 	}
 
 	/// Check against clientside position
@@ -591,7 +604,7 @@ public class PushPull : VisibleBehaviour {
 		pushApproval = ApprovalState.None;
 		predictivePushTarget = TransformState.HiddenPos;
 		lastReliablePos = TransformState.HiddenPos;
-		this.TryStopCoroutine( ref revertPushHandle );
+		this.TryStopCoroutine( ref revertPredictivePushHandle );
 	}
 
 	[Server]
@@ -617,6 +630,8 @@ public class PushPull : VisibleBehaviour {
 		}
 //		Logger.LogTraceFormat( "{0}: {1} is reached ON SERVER", Category.PushPull, gameObject.name, pos );
 		isBeingPushed = false;
+		this.TryStopCoroutine( ref revertIsBeingPushedHandle );
+
 		if ( pushTarget != TransformState.HiddenPos &&
 		     pushTarget != newPos &&
 		     !MatrixManager.IsFloatingAt(gameObject, newPos, true))
@@ -630,7 +645,7 @@ public class PushPull : VisibleBehaviour {
 	/// For prediction
 	private void OnUpdateReceived( Vector3Int serverPos ) {
 		if ( IsBeingPulledClient ) {
-			this.RestartCoroutine( RevertPullTimer(), ref revertPullHandle );
+			this.RestartCoroutine( RevertPullTimer(), ref revertPredictivePullHandle );
 		}
 
 		if ( pushPrediction == PushState.None ) {
@@ -676,9 +691,9 @@ public class PushPull : VisibleBehaviour {
 				Logger.LogTraceFormat( "...uh, we assume it's a space push and finish prediction", Category.PushPull );
 				FinishPrediction();
 			}
-			else if ( revertPushHandle == null )
+			else if ( revertPredictivePushHandle == null )
 			{
-				this.StartCoroutine( RevertPushTimer(), ref revertPushHandle );
+				this.StartCoroutine( RevertPushTimer(), ref revertPredictivePushHandle );
 			}
 			return;
 		}
