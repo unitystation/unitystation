@@ -56,7 +56,7 @@ public class BodyPartBehaviour : MonoBehaviour
 		{
 			case DamageType.Brute:
 				BruteDamage -= damage;
-				if(BruteDamage == 0){
+				if(BruteDamage < 20){
 					livingHealthBehaviour.bloodSystem.StopBleeding(this);
 				}
 				break;
@@ -66,6 +66,18 @@ public class BodyPartBehaviour : MonoBehaviour
 				break;
 		}
 		UpdateSeverity();
+	}
+
+	public float GetDamageValue(DamageType damageType){
+		if(damageType == DamageType.Brute)
+		{
+			return bruteDamage;
+		}
+		if (damageType == DamageType.Burn)
+		{
+			return burnDamage;
+		}
+		return 0;
 	}
 
 	private void UpdateIcons()

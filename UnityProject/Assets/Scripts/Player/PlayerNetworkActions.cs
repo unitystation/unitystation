@@ -619,7 +619,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			else if (s.isOn == LightSwitchTrigger.States.Off) {
 				s.isOn = LightSwitchTrigger.States.On;
 			}
- 
+
 		}
 		else
 		{
@@ -879,7 +879,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdAttack(GameObject target, GameObject originator, BodyPartType bodyPart, GameObject itemInHand)
 	{
 		var itemPUT = itemInHand.GetComponent<PickUpTrigger>();
-		itemPUT.Attack(target, originator, UIManager.DamageZone);
+		itemPUT.Attack(target, originator, bodyPart);
 	}
 
 	[Command]
