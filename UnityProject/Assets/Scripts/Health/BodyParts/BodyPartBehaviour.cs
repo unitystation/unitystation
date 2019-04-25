@@ -141,8 +141,8 @@ public class BodyPartBehaviour : MonoBehaviour
 
 	public virtual void RestoreDamage()
 	{
-        BruteDamage = 0;
-        BurnDamage = 0;
+		BruteDamage = 0;
+		BurnDamage = 0;
 		UpdateSeverity();
 	}
 
@@ -151,8 +151,8 @@ public class BodyPartBehaviour : MonoBehaviour
 	// --------------------
 	public void UpdateClientBodyPartStat(float _bruteDamage, float _burnDamage)
 	{
-        BruteDamage = _bruteDamage;
-        BurnDamage = _burnDamage;
+		BruteDamage = _bruteDamage;
+		BurnDamage = _burnDamage;
 		UpdateSeverity();
 	}
 }

@@ -8,61 +8,61 @@ using UnityEngine;
 public class MedicalStackTrigger : PickUpTrigger
 {
 	public DamageType healType;
-    private bool isSelfHealing;
+	private bool isSelfHealing;
 	private int amount = 6; //TODO: move into some stack component (metal sheets, ores, etc)
 
-    public override void Attack(GameObject target, GameObject originator, BodyPartType bodyPart)
-    {
-        var LHB = target.GetComponent<LivingHealthBehaviour>();
-        if (LHB.IsDead)
-        {
-            return;
-        }
-        var targetBodyPart = LHB.FindBodyPart(bodyPart);
-        if (targetBodyPart.GetDamageValue(healType) > 0)
-        {
+	public override void Attack(GameObject target, GameObject originator, BodyPartType bodyPart)
+	{
+		var LHB = target.GetComponent<LivingHealthBehaviour>();
+		if (LHB.IsDead)
+		{
+			return;
+		}
+		var targetBodyPart = LHB.FindBodyPart(bodyPart);
+		if (targetBodyPart.GetDamageValue(healType) > 0)
+		{
 			if(target != originator)
 			{
-                ApplyHeal(targetBodyPart);
+				ApplyHeal(targetBodyPart);
 			}
-            else
+			else
 			{
-                SelfHeal(originator, targetBodyPart);
+				SelfHeal(originator, targetBodyPart);
 			}
-        }
-    }
+		}
+	}
 
 	private void ApplyHeal(BodyPartBehaviour targetBodyPart)
 	{
 		targetBodyPart.HealDamage(40, healType);
-        amount--;
+		amount--;
 		if(amount == 0)
 		{
 			DisappearObject();
 		}
-    }
+	}
 
-    private void SelfHeal(GameObject originator, BodyPartBehaviour targetBodyPart)
-    {
-        if (!isSelfHealing)
-        {
-            var progressFinishAction = new FinishProgressAction(
-                reason =>
-                {
-                    if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
-                    {
-                        isSelfHealing = false;
-                    }
-                    else if (reason == FinishProgressAction.FinishReason.COMPLETED)
-                    {
-                        ApplyHeal(targetBodyPart);
-                        isSelfHealing = false;
-                    }
-                }
-            );
-            isSelfHealing = true;
-            UIManager.ProgressBar.StartProgress(originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator);
-        }
-    }
+	private void SelfHeal(GameObject originator, BodyPartBehaviour targetBodyPart)
+	{
+		if (!isSelfHealing)
+		{
+			var progressFinishAction = new FinishProgressAction(
+				reason =>
+				{
+					if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
+					{
+						isSelfHealing = false;
+					}
+					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
+					{
+						ApplyHeal(targetBodyPart);
+						isSelfHealing = false;
+					}
+				}
+			);
+			isSelfHealing = true;
+			UIManager.ProgressBar.StartProgress(originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator);
+		}
+	}
 
 }
