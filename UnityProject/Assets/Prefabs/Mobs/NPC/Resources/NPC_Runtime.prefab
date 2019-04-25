@@ -33,7 +33,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 57, y: 56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2343874451617258338}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300210, guid: 9222585df95e4391bbd7cd83ddfd0474, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -160,7 +161,9 @@ MonoBehaviour:
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
   respiratorySystem: {fileID: 0}
-  BodyParts: []
+  BodyParts:
+  - {fileID: 8271809860616263456}
+  - {fileID: 544425337743952269}
   allowKnifeHarvest: 1
   butcherResults:
   - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 3}
@@ -226,3 +229,145 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5258005088007752283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5871718606718482414}
+  - component: {fileID: 544425337743952269}
+  m_Layer: 8
+  m_Name: RuntimeChest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5871718606718482414
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5258005088007752283}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2343874451617258338}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &544425337743952269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5258005088007752283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BlueDamageMonitorIcon: {fileID: 0}
+  GreenDamageMonitorIcon: {fileID: 0}
+  YellowDamageMonitorIcon: {fileID: 0}
+  OrangeDamageMonitorIcon: {fileID: 0}
+  DarkOrangeDamageMonitorIcon: {fileID: 0}
+  RedDamageMonitorIcon: {fileID: 0}
+  GrayDamageMonitorIcon: {fileID: 0}
+  MaxDamage: 100
+  Type: 1
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
+  Severity: 0
+--- !u!1 &7364280484336522164
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3408112225263000323}
+  - component: {fileID: 8271809860616263456}
+  m_Layer: 8
+  m_Name: RuntimeHead
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3408112225263000323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7364280484336522164}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2343874451617258338}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8271809860616263456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7364280484336522164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BlueDamageMonitorIcon: {fileID: 0}
+  GreenDamageMonitorIcon: {fileID: 0}
+  YellowDamageMonitorIcon: {fileID: 0}
+  OrangeDamageMonitorIcon: {fileID: 0}
+  DarkOrangeDamageMonitorIcon: {fileID: 0}
+  RedDamageMonitorIcon: {fileID: 0}
+  GrayDamageMonitorIcon: {fileID: 0}
+  MaxDamage: 100
+  Type: 0
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
+  Severity: 0
+--- !u!1 &8607780478860151628
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2343874451617258338}
+  m_Layer: 8
+  m_Name: BodyParts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2343874451617258338
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8607780478860151628}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 20, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3408112225263000323}
+  - {fileID: 5871718606718482414}
+  m_Father: {fileID: 4398708211663736}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

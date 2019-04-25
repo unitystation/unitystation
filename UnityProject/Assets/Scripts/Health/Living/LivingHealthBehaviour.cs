@@ -386,7 +386,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		OverallHealth = newHealth;
 	}
 
-	public int CalculateOverallBodyPartDamage()
+	public float CalculateOverallBodyPartDamage()
 	{
 		float bodyPartDmg = 0;
 		for (int i = 0; i < BodyParts.Count; i++)
@@ -394,7 +394,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			bodyPartDmg += BodyParts[i].BruteDamage;
 			bodyPartDmg += BodyParts[i].BurnDamage;
 		}
-		return Mathf.RoundToInt(Mathf.Clamp(bodyPartDmg, -100f, 100f));
+		return bodyPartDmg;
 	}
 
 	/// Blood Loss and Toxin damage:
