@@ -15,7 +15,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	bool isBreathingCache;
 	bool isSuffocatingCache;
 	int heartRateCache;
-	int bloodLevelCache;
+	float bloodLevelCache;
 	float oxygenDamageCache;
 	float toxinLevelCache;
 	bool isHuskCache;

@@ -5,8 +5,8 @@ public class BodyPartBehaviour : MonoBehaviour
 	//Different types of damages for medical.
 	private float bruteDamage;
 	private float burnDamage;
-	public float BruteDamage { get { return bruteDamage; } set { bruteDamage = Mathf.Clamp(value, 0, 101); } }
-	public float BurnDamage { get { return burnDamage; } set { burnDamage = Mathf.Clamp(value, 0, 101); } }
+	public float BruteDamage { get { return bruteDamage; } set { bruteDamage = Mathf.Clamp(value, 0, 200); } }
+	public float BurnDamage { get { return burnDamage; } set { burnDamage = Mathf.Clamp(value, 0, 200); } }
 	public Sprite BlueDamageMonitorIcon;
 	public Sprite GreenDamageMonitorIcon;
 	public Sprite YellowDamageMonitorIcon;
@@ -14,7 +14,7 @@ public class BodyPartBehaviour : MonoBehaviour
 	public Sprite DarkOrangeDamageMonitorIcon;
 	public Sprite RedDamageMonitorIcon;
 	public Sprite GrayDamageMonitorIcon;
-	public int MaxDamage = 100;
+	public int MaxDamage = 200;
 	public BodyPartType Type;
 	public bool isBleeding = false;
 	public LivingHealthBehaviour livingHealthBehaviour;
@@ -56,7 +56,7 @@ public class BodyPartBehaviour : MonoBehaviour
 		{
 			case DamageType.Brute:
 				BruteDamage -= damage;
-				if(BruteDamage == 0){
+				if(BruteDamage < 20){
 					livingHealthBehaviour.bloodSystem.StopBleeding(this);
 				}
 				break;
@@ -66,6 +66,18 @@ public class BodyPartBehaviour : MonoBehaviour
 				break;
 		}
 		UpdateSeverity();
+	}
+
+	public float GetDamageValue(DamageType damageType){
+		if(damageType == DamageType.Brute)
+		{
+			return BruteDamage;
+		}
+		if (damageType == DamageType.Burn)
+		{
+			return BurnDamage;
+		}
+		return 0;
 	}
 
 	private void UpdateIcons()
@@ -129,8 +141,8 @@ public class BodyPartBehaviour : MonoBehaviour
 
 	public virtual void RestoreDamage()
 	{
-		bruteDamage = 0;
-		burnDamage = 0;
+		BruteDamage = 0;
+		BurnDamage = 0;
 		UpdateSeverity();
 	}
 
@@ -139,8 +151,8 @@ public class BodyPartBehaviour : MonoBehaviour
 	// --------------------
 	public void UpdateClientBodyPartStat(float _bruteDamage, float _burnDamage)
 	{
-		bruteDamage = _bruteDamage;
-		burnDamage = _burnDamage;
+		BruteDamage = _bruteDamage;
+		BurnDamage = _burnDamage;
 		UpdateSeverity();
 	}
 }
