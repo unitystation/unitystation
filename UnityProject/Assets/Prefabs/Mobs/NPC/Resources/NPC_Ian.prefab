@@ -50,7 +50,10 @@ MonoBehaviour:
   DarkOrangeDamageMonitorIcon: {fileID: 0}
   RedDamageMonitorIcon: {fileID: 0}
   GrayDamageMonitorIcon: {fileID: 0}
+  MaxDamage: 100
   Type: 1
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
   Severity: 0
 --- !u!1 &1088824078489892
 GameObject:
@@ -102,7 +105,10 @@ MonoBehaviour:
   DarkOrangeDamageMonitorIcon: {fileID: 0}
   RedDamageMonitorIcon: {fileID: 0}
   GrayDamageMonitorIcon: {fileID: 0}
+  MaxDamage: 100
   Type: 0
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
   Severity: 0
 --- !u!1 &1178824245349430
 GameObject:
@@ -134,87 +140,8 @@ Transform:
   - {fileID: 4751586958383970}
   - {fileID: 4046525160069288}
   m_Father: {fileID: 4398708211663736}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1639672318491930
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4075354139123318}
-  - component: {fileID: 212528056298463238}
-  m_Layer: 8
-  m_Name: sprite
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4075354139123318
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639672318491930}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4398708211663736}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &212528056298463238
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639672318491930}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -229502157
-  m_SortingLayer: 13
-  m_SortingOrder: 11
-  m_Sprite: {fileID: 21300130, guid: 9222585df95e4391bbd7cd83ddfd0474, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &1722833055556988
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +162,7 @@ GameObject:
   - component: {fileID: 114653357792706156}
   - component: {fileID: 114536369792164230}
   - component: {fileID: 114721267536428640}
+  - component: {fileID: 2215143835289934263}
   m_Layer: 8
   m_Name: NPC_Ian
   m_TagString: Untagged
@@ -253,7 +181,6 @@ Transform:
   m_LocalPosition: {x: 77, y: 55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4075354139123318}
   - {fileID: 4694411012898730}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -344,7 +271,7 @@ MonoBehaviour:
   aliveSprite: {fileID: 21300130, guid: 9222585df95e4391bbd7cd83ddfd0474, type: 3}
   deadSprite: {fileID: 21300132, guid: 9222585df95e4391bbd7cd83ddfd0474, type: 3}
   deadState: 0
-  spriteRend: {fileID: 212528056298463238}
+  spriteRend: {fileID: 2215143835289934263}
 --- !u!114 &114555785714625820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,13 +305,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
@@ -445,7 +370,7 @@ MonoBehaviour:
   - {x: 72, y: 48}
   - {x: 78, y: 55}
   testStatus: 0
-  spriteObj: {fileID: 1639672318491930}
+  spriteObj: {fileID: 0}
 --- !u!114 &114536369792164230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,3 +395,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c2cd445a75442e6842dd3e2fe81f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &2215143835289934263
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -229502157
+  m_SortingLayer: 14
+  m_SortingOrder: 11
+  m_Sprite: {fileID: 21300130, guid: 9222585df95e4391bbd7cd83ddfd0474, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
