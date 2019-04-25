@@ -12,11 +12,19 @@ public class TankInteract : InputTrigger
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
+		if(!CanUse(originator, hand, position, false)){
+			return false;
+		}
+		if(!isServer){
+			//ask server to perform the interaction
+			InteractMessage.Send(gameObject, position, hand);
+			return true;
+		}
+
 		container.Opened = !container.Opened;
 
 		string msg = container.Opened ? "The valve is open." : "The valve is closed.";
-
-		ChatRelay.Instance.AddToChatLogClient(msg, ChatChannel.Local);
+		UpdateChatMessage.Send(originator, ChatChannel.Examine, msg);
 
 		return true;
 	}
