@@ -1,22 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1961709938469034}
-  m_IsPrefabParent: 1
 --- !u!1 &1961709938469034
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4371063069824940}
   - component: {fileID: 114271083428414816}
@@ -29,9 +19,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4371063069824940
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961709938469034}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -42,37 +33,37 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114271083428414816
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961709938469034}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef832313bc8da84b8fa31c209efe06e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uniform: /obj/item/clothing/under/rank/det
-  jobType: 17
-  allowedAccess: 060000001b00000022000000230000004300000044000000
-  ears: /obj/item/device/radio/headset/headset_sec/alt
-  belt: /obj/item/device/pda/detective
-  back: 
-  shoes: /obj/item/clothing/shoes/sneakers/brown
-  glasses: 
-  gloves: /obj/item/clothing/gloves/color/black
-  suit: /obj/item/clothing/suit/det_suit
-  head: /obj/item/clothing/head/fedora/det_hat
   accessory: 
-  mask: /obj/item/clothing/mask/cigarette
+  allowedAccess: 060000001b0000002200000023000000430000004400000031000000
   backpack: 
-  satchel: 
-  duffelbag: 
-  box: 
-  l_hand: 
-  l_pocket: /obj/item/toy/crayon/white
-  r_pocket: /obj/item/weapon/lighter
-  suit_store: 
   backpack_contents:
   - /obj/item/weapon/storage/box/evidence
   - /obj/item/device/detective_scanner
   - /obj/item/weapon/melee/classic_baton
+  belt: /obj/item/device/pda/detective
+  box: 
+  duffelbag: 
+  ears: /obj/item/device/radio/headset/headset_sec/alt
+  glasses: 
+  gloves: /obj/item/clothing/gloves/color/black
+  head: /obj/item/clothing/head/fedora/det_hat
+  jobType: 17
+  l_hand: 
+  l_pocket: /obj/item/toy/crayon/white
+  mask: /obj/item/clothing/mask/cigarette
+  r_pocket: /obj/item/weapon/lighter
+  satchel: 
+  shoes: /obj/item/clothing/shoes/sneakers/brown
+  suit: /obj/item/clothing/suit/det_suit
+  suit_store: 
+  uniform: /obj/item/clothing/under/rank/det
