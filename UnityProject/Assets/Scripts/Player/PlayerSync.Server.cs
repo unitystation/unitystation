@@ -33,7 +33,7 @@ public partial class PlayerSync
 
 	private Queue<PlayerAction> serverPendingActions;
 
-	/// Max size of serverside queue, client will be rolled back and punished if it overflows
+	/// Max size of serverside queue, client will be rolled back if it overflows
 	private readonly int maxServerQueue = 10;
 
 	private HashSet<PushPull> questionablePushables = new HashSet<PushPull>();
@@ -72,7 +72,8 @@ public partial class PlayerSync
 	/// <summary>
 	/// If the position of this player is "non-sticky", i.e. meaning they would slide / float in a given direction
 	/// </summary>
-	public bool IsNonStickyServer => !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ), true);
+	public bool IsNonStickyServer => registerPlayer.IsStunnedServer
+	            || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ), true);
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState, true );
 
 
@@ -113,6 +114,7 @@ public partial class PlayerSync
 	}
 
 	private PlayerAction lastAddedAction = PlayerAction.None;
+	private Coroutine floatingSyncHandle;
 
 	[Command(channel = 0)]
 	private void CmdProcessAction(PlayerAction action)
@@ -550,6 +552,11 @@ public partial class PlayerSync
 				}
 				else if ( consideredFloatingServer )
 				{
+					if ( floatingSyncHandle == null )
+					{
+						this.StartCoroutine( FloatingAwarenessSync(), ref floatingSyncHandle );
+					}
+
 					var oldPos = serverState.WorldPosition;
 
 					//Extending prediction by one tile if player's transform reaches previously set goal
@@ -578,7 +585,22 @@ public partial class PlayerSync
 		}
 	}
 
-	public void Stop() {
+	/// <summary>
+	/// Send current position of space floating player to clients every second in case their reproduction is wrog
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator FloatingAwarenessSync()
+	{
+		yield return YieldHelper.Second;
+//		Logger.LogFormat( "{0} is floating at {1} (friendly reminder)", Category.Movement, gameObject.name, ServerPosition );
+		serverState.ImportantFlightUpdate = true;
+		NotifyPlayers();
+		this.RestartCoroutine( FloatingAwarenessSync(), ref floatingSyncHandle );
+	}
+
+	public void Stop()
+	{
+		this.TryStopCoroutine( ref floatingSyncHandle );
 		if ( consideredFloatingServer ) {
 			PushPull spaceObjToGrab;
 			if ( IsAroundPushables( serverState, isServer: true, out spaceObjToGrab ) && spaceObjToGrab.IsSolidServer ) {
