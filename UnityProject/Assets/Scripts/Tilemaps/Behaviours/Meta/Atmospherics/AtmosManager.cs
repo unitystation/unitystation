@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AtmosManager : MonoBehaviour
 {
-	public float Speed = 0.1f;
+	public float Speed = 0.01f;
 
 	public int NumberThreads = 1;
 

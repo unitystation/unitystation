@@ -8,8 +8,9 @@ public class RegisterPlayer : RegisterTile
 	/// <summary>
 	/// True when the player is laying down
 	/// </summary>
-	public bool IsDown { get; private set; }
+	public bool IsDownClient { get; private set; }
 	public bool IsDownServer { get; set; }
+	public bool IsStunnedClient { get; set; }
 	public bool IsStunnedServer { get; private set; }
 
 
@@ -17,7 +18,7 @@ public class RegisterPlayer : RegisterTile
 	private PlayerScript playerScript;
 	private MetaDataLayer metaDataLayer;
 
-	public bool IsBlocking => !playerScript.IsGhost && !IsDown;
+	public bool IsBlockingClient => !playerScript.IsGhost && !IsDownClient;
 	public bool IsBlockingServer => !playerScript.IsGhost && !IsDownServer && !IsStunnedServer;
 	private Coroutine unstunHandle;
 
@@ -33,7 +34,7 @@ public class RegisterPlayer : RegisterTile
 
 	public override bool IsPassable(bool isServer)
 	{
-		return isServer ? !IsBlockingServer : !IsBlocking;
+		return isServer ? !IsBlockingServer : !IsBlockingClient;
 	}
 
 	public override bool IsPassable(Vector3Int from, bool isServer)
@@ -56,7 +57,7 @@ public class RegisterPlayer : RegisterTile
 		//but players need to stay upright constantly unless they are downed
 		foreach (SpriteRenderer renderer in spriteRenderers)
 		{
-			renderer.transform.rotation = IsDown ? Quaternion.Euler(0, 0, -90) : Quaternion.identity;
+			renderer.transform.rotation = IsDownClient ? Quaternion.Euler(0, 0, -90) : Quaternion.identity;
 		}
 	}
 
@@ -71,7 +72,7 @@ public class RegisterPlayer : RegisterTile
 		}
 
 		//add extra rotation to ensure we are sideways
-		if (IsDown)
+		if (IsDownClient)
 		{
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
 			{
@@ -86,9 +87,9 @@ public class RegisterPlayer : RegisterTile
 	/// </summary>
 	public void LayDown()
 	{
-		if (!IsDown)
+		if (!IsDownClient)
 		{
-			IsDown = true;
+			IsDownClient = true;
 			//make sure sprite is in sync with server regardless of local prediction
 			playerSprites.SyncWithServer();
 			//rotate the sprites and change their layer
@@ -107,9 +108,9 @@ public class RegisterPlayer : RegisterTile
 	/// </summary>
 	public void GetUp()
 	{
-		if (IsDown)
+		if (IsDownClient)
 		{
-			IsDown = false;
+			IsDownClient = false;
 			//make sure sprite is in sync with server regardless of local prediction
 			playerSprites.SyncWithServer();
 			//change sprites to be upright
@@ -155,7 +156,7 @@ public class RegisterPlayer : RegisterTile
 			return;
 		}
 		IsStunnedServer = true;
-		PlayerUprightMessage.SendToAll(gameObject, !IsStunnedServer);
+		PlayerUprightMessage.SendToAll(gameObject, !IsStunnedServer, IsStunnedServer);
 		if (dropItem)
 		{
 			playerScript.playerNetworkActions.DropItem("leftHand");
@@ -182,7 +183,7 @@ public class RegisterPlayer : RegisterTile
 			return;
 		}
 
-		PlayerUprightMessage.SendToAll(gameObject, !IsStunnedServer);
+		PlayerUprightMessage.SendToAll(gameObject, !IsStunnedServer, IsStunnedServer);
 		playerScript.playerMove.allowInput = true;
 	}
 }

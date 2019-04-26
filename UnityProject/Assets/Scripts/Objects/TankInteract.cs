@@ -23,7 +23,7 @@ public class TankInteract : InputTrigger
 
 		container.Opened = !container.Opened;
 
-		string msg = container.Opened ? "The valve is open." : "The valve is closed.";
+		string msg = container.Opened ? $"The valve is open, outputting at {container.ReleasePressure} kPa." : "The valve is closed.";
 		UpdateChatMessage.Send(originator, ChatChannel.Examine, msg);
 
 		return true;

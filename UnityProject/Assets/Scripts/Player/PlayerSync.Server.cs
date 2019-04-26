@@ -535,7 +535,7 @@ public partial class PlayerSync
 		//Space walk checks
 		if ( IsNonStickyServer )
 		{
-			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero /*&& !IsBeingPulledServer*/)
+			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
 			{
 				//server initiated space dive.
 				serverState.Impulse = serverLastDirection;
@@ -568,6 +568,14 @@ public partial class PlayerSync
 
 					OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 				}
+
+				//Explicitly informing about stunned players
+				//because they don't always meet clientside flight prediction expectations
+				if ( registerPlayer.IsStunnedServer )
+				{
+					serverState.ImportantFlightUpdate = true;
+					NotifyPlayers();
+				}
 			}
 		}
 
@@ -577,8 +585,6 @@ public partial class PlayerSync
 			if ( registerPlayer.IsStunnedServer && MatrixManager.IsPassableAt( worldOrigin, worldTarget, true ) )
 			{
 				Logger.LogFormat( "Letting stunned {0} fly onto {1}", Category.Movement, gameObject.name, worldTarget );
-				serverState.ImportantFlightUpdate = true;
-				NotifyPlayers();
 				return;
 			}
 			Stop();

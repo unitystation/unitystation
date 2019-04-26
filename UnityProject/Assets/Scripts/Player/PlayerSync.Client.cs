@@ -77,10 +77,10 @@ public partial class PlayerSync
 	private float predictedSpeedClient;
 
 	///Does server claim this client is floating rn?
-	public bool isFloatingClient => playerState.Impulse != Vector2.zero /*&& !IsBeingPulledClient*/;
+	public bool isFloatingClient => playerState.Impulse != Vector2.zero;
 
 	/// Does your client think you should be floating rn? (Regardless of what server thinks)
-	private bool isPseudoFloatingClient => predictedState.Impulse != Vector2.zero /*&& !IsBeingPulledClient*/;
+	private bool isPseudoFloatingClient => predictedState.Impulse != Vector2.zero;
 
 	/// Measure to avoid lerping back and forth in a lagspike
 	/// where player simulated entire spacewalk (start and stop) without getting server's answer yet
@@ -461,9 +461,8 @@ public partial class PlayerSync
 	{
 		playerState.NoLerp = false;
 
-		bool isWeightless = IsWeightlessClient;
 		//Space walk checks
-		if (!isWeightless)
+		if (!IsWeightlessClient)
 		{
 			if (isPseudoFloatingClient)
 			{
@@ -486,7 +485,7 @@ public partial class PlayerSync
 				}
 			}
 		}
-		if (isWeightless)
+		else
 		{
 			if (predictedState.Impulse == Vector2.zero && LastDirection != Vector2.zero)
 			{

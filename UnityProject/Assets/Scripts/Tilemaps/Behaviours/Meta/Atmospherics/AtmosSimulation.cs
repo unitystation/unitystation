@@ -19,7 +19,7 @@ namespace Atmospherics
 		/// <summary>
 		/// Interval (seconds) between updates of the simulation.
 		/// </summary>
-		public float Speed = 0.1f;
+		public float Speed = 0.01f;
 
 		/// <summary>
 		/// True if the atmos simulation has no updates to perform
