@@ -10,8 +10,8 @@ using UnityEngine;
 /// Upon being dragged, a sprite is placed under the mouse during the drag action indicating the
 /// object being dragged. It can then be released to "drop" the object on another object.
 ///
-/// When dropped, any MouseDrop components on the dropped object will be fired and any MouseDropTarget components
-/// on the topmost object under the mouse will be fired as well.
+/// When dropped, any MouseDrop interaction components on the dropped object as well as the target object
+/// will be invoked, stopping after the first one that returns InteractionResult.SOMETHING_HAPPENED.
 ///
 /// </summary>
 public class MouseDraggable : MonoBehaviour
