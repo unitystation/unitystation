@@ -525,7 +525,5 @@ public static class ElectricalSynchronisation
 			}
 			IterateDirectionWorkOnNextListWait.Clear();
 		}
-
 	}
-
 }

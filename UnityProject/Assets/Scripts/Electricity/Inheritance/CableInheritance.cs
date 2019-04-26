@@ -96,8 +96,6 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	// Use this for initialization
 	private void Start()
 	{
-		//FIXME this breaks wires that were placed via unity editor:
-		// need to address when we allow users to add wires at runtime
 		ElectricalSynchronisation.StructureChange = true;
 		SetDirection(WireEndB, WireEndA, CableType);
 		//FindOverlapsAndCombine();

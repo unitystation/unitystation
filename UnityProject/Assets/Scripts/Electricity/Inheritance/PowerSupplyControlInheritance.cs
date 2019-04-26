@@ -199,7 +199,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	public virtual void PowerUpdateCurrentChange()
 	{
 		//Logger.Log("PowerUpdateCurrentChange()"+ this);
-		if (powerSupply.Data.ResistanceComingFrom.Count > 0)
+		if (powerSupply.Data.ResistanceComingFrom.ContainsKey(powerSupply.gameObject.GetInstanceID()))
 		{
 			powerSupply.FlushSupplyAndUp(powerSupply.gameObject); //Room for optimisation
 			CircuitResistance = ElectricityFunctions.WorkOutResistance(powerSupply.Data.ResistanceComingFrom[powerSupply.gameObject.GetInstanceID()]); // //!!
@@ -220,6 +220,10 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 				powerSupply.Data.SupplyingCurrent = current;
 				Previouscurrent = current;
 			}
+		}
+		else {
+			//not  Getting reset on  Cable cut
+			CircuitResistance = 999999999999;
 		}
 	
 
@@ -267,13 +271,15 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 			{
 				if (Supplie.Value.Contains(PowerTypeCategory.StandardCable))
 				{
-					Logger.Log("yyuuuus");
 					ElectricalSynchronisation.ResistanceChange.Add(this);
 					ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingUpdate);
 				}
 			}
 		}
-		//Logger.Log(CurrentCapacity + " < CurrentCapacity", Category.Electrical);
+		if (CurrentCapacity > 0) { 
+			Logger.Log(CurrentCapacity + " < CurrentCapacity", Category.Electrical);
+		}
+
 		_PowerNetworkUpdate();
 
 	}
