@@ -150,7 +150,7 @@ public class RequestInteractMessage : ClientMessage
 	/// should be the processor, as such this parameter should almost always be passed using the "this" keyword, and
 	/// should almost always be either a component on the target object or a component on the used object</param>
 	/// <typeparamref name="T">Interaction subtype
-	/// for the interaction that the processor can handle (such as MouseDropInfo for a mouse drop interaction).
+	/// for the interaction that the processor can handle (such as MouseDrop for a mouse drop interaction).
 	/// Must be a subtype of Interaction.</typeparamref>
 	/// <returns></returns>
 	public static RequestInteractMessage Send<T>(T info, IInteractionProcessor<T> processor)

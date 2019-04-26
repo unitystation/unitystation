@@ -8,10 +8,10 @@ using UnityEngine;
 ///
 /// </summary>
 /// <typeparamref name="T">Interaction subtype
-/// for the interaction that this component wants to handle (such as MouseDropInfo for a mouse drop interaction).
+/// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
 /// /// <typeparamref name="T2">Second interaction subtype
-/// for the interaction that this component wants to handle (such as MouseDropInfo for a mouse drop interaction).
+/// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
 public abstract class CoordinatedInteraction<T,T2>
 	: CoordinatedInteraction<T>, IInteractable<T2>, IInteractionProcessor<T2>

@@ -13,7 +13,7 @@ using System.Collections.Generic;
 /// 4. Server updates its own state and informs whatever clients need to be informed
 /// </summary>
 /// <typeparamref name="T">Interaction subtype
-/// for the interaction that this component wants to handle (such as MouseDropInfo for a mouse drop interaction).
+/// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
 public class InteractionCoordinator<T>
 	where T : Interaction

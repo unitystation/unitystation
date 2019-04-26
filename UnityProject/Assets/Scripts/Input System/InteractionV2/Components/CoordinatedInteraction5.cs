@@ -8,19 +8,19 @@ using UnityEngine;
 ///
 /// </summary>
 /// <typeparamref name="T">Interaction subtype
-/// for the interaction that this component wants to handle (such as MouseDropInfo for a mouse drop interaction).
+/// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
 /// <typeparamref name="T2">Second interaction subtype
-/// for the interaction that this component wants to handle (such as MouseDropInfo for a mouse drop interaction).
+/// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
 /// <typeparamref name="T3">Third interaction subtype
-/// for the interaction that this component wants to handle (such as MouseDropInfo for a mouse drop interaction).
+/// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
 /// <typeparamref name="T4">fourth interaction subtype
-/// for the interaction that this component wants to handle (such as MouseDropInfo for a mouse drop interaction).
+/// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
 /// <typeparamref name="T5">fourth interaction subtype
-/// for the interaction that this component wants to handle (such as MouseDropInfo for a mouse drop interaction).
+/// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
 public abstract class CoordinatedInteraction<T,T2,T3,T4,T5>
 	: CoordinatedInteraction<T,T2,T3,T4>, IInteractable<T5>, IInteractionProcessor<T5>
