@@ -18,9 +18,9 @@ public class RequestInteractMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.RequestInteractMessage;
 
-	//ID of the type of component that should be used to process the
-	//message on ProcessorObject, looked up in the dictionaries
-	public short ProcessorTypeID;
+	//ID of the type of interaction that should be processed by the components on
+	//ProcessorObject, looked up in the dictionaries
+	public short InteractionTypeID;
 	//object that will process the interaction
 	public NetworkInstanceId ProcessorObject;
 	//netid of the object being dropped, applied, or activated
@@ -55,7 +55,7 @@ public class RequestInteractMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-		if (InteractionIDToType.TryGetValue(ProcessorTypeID, out var interactionType))
+		if (InteractionIDToType.TryGetValue(InteractionTypeID, out var interactionType))
 		{
 
 			//determine which type of interaction to process
@@ -101,38 +101,55 @@ public class RequestInteractMessage : ClientMessage
 		else
 		{
 			Logger.LogErrorFormat("Interaction subtype could not be looked up by the ID sent by the client: {0}. " +
-			                      "this is most likely a programming error. Message will not be processed", Category.NetMessage, ProcessorTypeID);
+			                      "this is most likely a programming error. Message will not be processed", Category.NetMessage, InteractionTypeID);
 		}
 	}
 
 	private void ProcessMouseDrop(GameObject droppedObj, GameObject targetObj, GameObject processorObj, GameObject performerObj)
 	{
-		//try to look up the component on the processor
-		var processorComponent = TryGetProcessor<MouseDrop>(processorObj);
-		processorComponent.ServerProcessInteraction(
-			new MouseDrop(performerObj, droppedObj, targetObj));
+		//try to look up the components on the processor that can handle this interaction
+		var processorComponents = TryGetProcessors<MouseDrop>(processorObj);
+		//invoke each component that can handle this interaction
+		foreach (var processorComponent in processorComponents)
+		{
+			if (processorComponent.ServerProcessInteraction(new MouseDrop(performerObj, droppedObj, targetObj)) ==
+			    InteractionResult.SOMETHING_HAPPENED)
+			{
+				//something happened, don't check further components
+				return;
+			}
+		}
 	}
 
 	private void ProcessHandApply(GameObject handObject, GameObject targetObj, GameObject processorObj, GameObject performerObj)
 	{
-		//try to look up the component on the processor
-		var processorComponent = TryGetProcessor<HandApply>(processorObj);
-		processorComponent.ServerProcessInteraction(
-			new HandApply(performerObj, handObject, targetObj));
+		//try to look up the components on the processor that can handle this interaction
+		var processorComponents = TryGetProcessors<HandApply>(processorObj);
+		//invoke each component that can handle this interaction
+		foreach (var processorComponent in processorComponents)
+		{
+			if (processorComponent.ServerProcessInteraction(
+				    new HandApply(performerObj, handObject, targetObj)) ==
+			    InteractionResult.SOMETHING_HAPPENED)
+			{
+				//something happened, don't check further components
+				return;
+			}
+		}
 	}
 
-	private IInteractionProcessor<T> TryGetProcessor<T>(GameObject processorObj)
+	private IInteractionProcessor<T>[] TryGetProcessors<T>(GameObject processorObj)
 		where T : Interaction
 	{
-		var processorComponent = processorObj.GetComponent<IInteractionProcessor<T>>();
-		if (processorComponent == null)
+		var processorComponents = processorObj.GetComponents<IInteractionProcessor<T>>();
+		if (processorComponents == null || processorComponents.Length == 0)
 		{
 			Logger.LogError("Processor component could not be looked up by the ID sent by the client, " +
 			                "this is most likely a programming error. Message will not be processed", Category.NetMessage);
 			return null;
 		}
 
-		return processorComponent;
+		return processorComponents;
 	}
 
 	/// <summary>
@@ -216,7 +233,7 @@ public class RequestInteractMessage : ClientMessage
 			UsedObject = mouseDrop.UsedObject.GetComponent<NetworkIdentity>().netId,
 			TargetObject = mouseDrop.TargetObject.GetComponent<NetworkIdentity>().netId,
 			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId,
-			ProcessorTypeID = typeId
+			InteractionTypeID = typeId
 		};
 	}
 
@@ -228,7 +245,7 @@ public class RequestInteractMessage : ClientMessage
 			UsedObject = handApply.UsedObject != null ? handApply.UsedObject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
 			TargetObject = handApply.TargetObject.GetComponent<NetworkIdentity>().netId,
 			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId,
-			ProcessorTypeID = typeId
+			InteractionTypeID = typeId
 		};
 	}
 
@@ -236,7 +253,7 @@ public class RequestInteractMessage : ClientMessage
 	{
 		base.Deserialize(reader);
 
-		ProcessorTypeID = reader.ReadInt16();
+		InteractionTypeID = reader.ReadInt16();
 		ProcessorObject = reader.ReadNetworkId();
 		UsedObject = reader.ReadNetworkId();
 		TargetObject = reader.ReadNetworkId();
@@ -246,7 +263,7 @@ public class RequestInteractMessage : ClientMessage
 	{
 		base.Serialize(writer);
 		//typeID comes first so we can determine what will be next (for when other interaction types are supported)
-		writer.Write(ProcessorTypeID);
+		writer.Write(InteractionTypeID);
 		writer.Write(ProcessorObject);
 		writer.Write(UsedObject);
 		writer.Write(TargetObject);
