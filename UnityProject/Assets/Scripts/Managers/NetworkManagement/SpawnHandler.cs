@@ -12,16 +12,11 @@ public static class SpawnHandler
 		GameObject joinedViewer = Object.Instantiate(networkManager.playerPrefab);
 		NetworkServer.AddPlayerForConnection(conn, joinedViewer, 0);
 	}
+
 	public static void SpawnDummyPlayer(JobType jobType = JobType.NULL)
 	{
-		var conn = new NetworkConnection();
 		GameObject dummyPlayer = CreatePlayer(jobType);
-		var connectedPlayer = PlayerList.Instance.Get(conn);
-		PlayerList.Instance.UpdatePlayer(conn, dummyPlayer);
-		NetworkServer.AddPlayerForConnection(conn, dummyPlayer, 0);
-		if (connectedPlayer.Script.PlayerSync != null) {
-			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
-		}
+		TransferPlayer(null, 0, dummyPlayer, null, EVENT.PlayerSpawned);
 	}
 
 	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType, GameObject oldBody)
@@ -46,11 +41,15 @@ public static class SpawnHandler
 	/// <param name="eventType">Event type for the player sync.</param>
 	public static void TransferPlayer(NetworkConnection conn, short playerControllerId, GameObject newBody, GameObject oldBody, EVENT eventType)
 	{
+
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		if (connectedPlayer == ConnectedPlayer.Invalid)
 		{
-			PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
-			return;
+          //  ConnectedPlayer loggedOffPlayer = PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
+			//conn = new NetworkConnection();
+           // conn = loggedOffPlayer.connection;
+            NetworkServer.AddPlayerForConnection(conn, newBody, 0); // <- bajillion warnings
+
 		}
 		else
 		{
@@ -63,6 +62,7 @@ public static class SpawnHandler
 		{
 			playerScript.PlayerSync.NotifyPlayers(true);
 		}
+		CustomNetworkManager.Instance.SyncPlayerData(newBody);
 	}
 
 	private static GameObject CreateGhost(GameObject oldBody)
