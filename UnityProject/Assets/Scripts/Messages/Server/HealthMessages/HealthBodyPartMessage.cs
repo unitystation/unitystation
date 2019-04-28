@@ -23,7 +23,6 @@ public class HealthBodyPartMessage : ServerMessage
 	public static HealthBodyPartMessage Send(GameObject recipient, GameObject entityToUpdate, BodyPartType bodyPartType,
 		float bruteDamage, float burnDamage)
 	{
-		Debug.Log("ARAN: normal sned");
 		HealthBodyPartMessage msg = new HealthBodyPartMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
@@ -39,7 +38,6 @@ public class HealthBodyPartMessage : ServerMessage
 	public static HealthBodyPartMessage SendToAll(GameObject entityToUpdate, BodyPartType bodyPartType,
 		float bruteDamage, float burnDamage)
 	{
-		Debug.Log("ARAN: all sned");
 		HealthBodyPartMessage msg = new HealthBodyPartMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
