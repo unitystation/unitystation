@@ -45,10 +45,10 @@ public static class SpawnHandler
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		if (connectedPlayer == ConnectedPlayer.Invalid)
 		{
-          //  ConnectedPlayer loggedOffPlayer = PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
 			//conn = new NetworkConnection();
-           // conn = loggedOffPlayer.connection;
-            NetworkServer.AddPlayerForConnection(conn, newBody, 0); // <- bajillion warnings
+			ConnectedPlayer loggedOffPlayer = PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
+			conn = loggedOffPlayer.Connection;
+			NetworkServer.ReplacePlayerForConnection(conn, newBody, 0); // <- bajillion warnings
 
 		}
 		else
