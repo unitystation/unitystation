@@ -43,13 +43,20 @@ public static class SpawnHandler
 	{
 
 		var connectedPlayer = PlayerList.Instance.Get(conn);
-		if (connectedPlayer == ConnectedPlayer.Invalid)
+		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
 		{
-			//conn = new NetworkConnection();
 			ConnectedPlayer loggedOffPlayer = PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
-			conn = loggedOffPlayer.Connection;
-			NetworkServer.ReplacePlayerForConnection(conn, newBody, 0); // <- bajillion warnings
-
+			if(loggedOffPlayer == null)
+			{
+				conn = new NetworkConnection(); //not logged out either, we're creating a dummy mob
+			}
+			else
+			{
+				conn = new NetworkConnection(); //WIP
+				//conn = loggedOffPlayer.Connection;
+			}
+			NetworkServer.AddPlayerForConnection(conn, newBody, 0);
+			PlayerList.Instance.UpdatePlayer(conn, newBody);
 		}
 		else
 		{
