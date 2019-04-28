@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 /// Server-only full player information class
 public class ConnectedPlayer
 {
-    public string name;
+    private string name;
     private JobType job;
     private ulong steamId;
     private GameObject gameObject;
