@@ -83,10 +83,25 @@ public class RegisterPlayer : RegisterTile
 
 	/// <summary>
 	/// Cause the player sprite to appear as laying down, which also causes them to become
-	/// passable
+	/// passable.
+	///
+	/// No effect if player is restrained.
 	/// </summary>
-	public void LayDown()
+	/// <param name="force">Allows forcing of the player to lay down without validation.
+	///
+	/// This is used so server can force client to lay the player down in the event
+	/// that they are restrained but the syncvar Playermove.restrained has not yet finished being
+	/// propagated.</param>
+	public void LayDown(bool force=false)
 	{
+		if (!force)
+		{
+			if (playerScript.playerMove.IsRestrained)
+			{
+				return;
+			}
+		}
+
 		if (!isDown)
 		{
 			isDown = true;

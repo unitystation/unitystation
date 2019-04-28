@@ -345,6 +345,14 @@ public partial class PlayerSync
 	[Server]
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{
+		//movement not allowed when buckled
+		if (playerMove.IsRestrained)
+		{
+			Logger.LogWarning( $"Ignored {action}: player is bucked, rolling back!", Category.Movement );
+			RollbackPosition();
+			return state;
+		}
+
 		//Check if there is a bump interaction according to the server
 		BumpType serverBump = CheckSlideAndBump(state, ref action);
 

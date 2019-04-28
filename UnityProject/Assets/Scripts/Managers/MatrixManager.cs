@@ -280,7 +280,7 @@ public class MatrixManager : MonoBehaviour
 
 	/// <summary>
 	/// Return the playermove if there is a non-passable player with help intent at the specified position who is
-	/// not pulling something (it is not possible to swap with someone who is pulling something)
+	/// not pulling something and not restrained (it is not possible to swap with someone who is pulling something)
 	/// </summary>
 	/// <param name="targetWorldPos">Position to check</param>
 	/// <param name="mover">gameobject of the thing attempting the move, only used to prevent itself from being checked</param>
@@ -291,7 +291,7 @@ public class MatrixManager : MonoBehaviour
 		foreach (PlayerMove playerMove in playerMoves)
 		{
 			if (playerMove.IsHelpIntent && !playerMove.PlayerScript.registerTile.IsPassable() && playerMove.gameObject != mover
-			    && !playerMove.PlayerScript.pushPull.IsPullingSomething)
+			    && !playerMove.PlayerScript.pushPull.IsPullingSomething && !playerMove.IsRestrained)
 			{
 				return playerMove;
 			}

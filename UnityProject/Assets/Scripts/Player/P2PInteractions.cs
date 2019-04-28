@@ -28,7 +28,7 @@ public class P2PInteractions : InputTrigger
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	public override bool DragInteract(GameObject originator, Vector3 position, string hand)
