@@ -18,6 +18,8 @@ public partial class PlayerSync
 	public Vector3IntEvent OnUpdateRecieved() => onUpdateReceived;
 	private UnityEvent onPullInterrupt = new UnityEvent();
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
+	public CollisionEvent onHighSpeedCollision = new CollisionEvent();
+	public CollisionEvent OnHighSpeedCollision() => onHighSpeedCollision;
 
 	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
 	public Vector3Int ServerLocalPosition => serverState.Position.RoundToInt();
@@ -587,7 +589,24 @@ public partial class PlayerSync
 				Logger.LogFormat( "Letting stunned {0} fly onto {1}", Category.Movement, gameObject.name, worldTarget );
 				return;
 			}
-			Stop();
+			if ( serverState.Speed >= PushPull.HIGH_SPEED_COLLISION_THRESHOLD && IsTileSnap )
+			{
+				//Stop first (reach tile), then inform about collision
+				var collisionInfo = new CollisionInfo
+				{
+					Speed = serverState.Speed,
+					Size = this.Size,
+					CollisionTile = worldTarget
+				};
+
+				Stop();
+
+				OnHighSpeedCollision().Invoke( collisionInfo );
+			}
+			else
+			{
+				Stop();
+			}
 		}
 	}
 

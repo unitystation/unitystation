@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class PushPull : VisibleBehaviour {
 	public const float DEFAULT_PUSH_SPEED = 6;
+	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
+
 	[SyncVar]
 	public bool isNotPushable = false;
 
@@ -28,8 +30,32 @@ public class PushPull : VisibleBehaviour {
 					StopFollowing();
 					ReleaseControl();//maybe it won't be required for all situations
 				} );
+				pushable?.OnHighSpeedCollision().AddListener( OnHighSpeedCollision );
 			}
 			return pushable;
+		}
+	}
+
+	private void OnHighSpeedCollision( CollisionInfo collision )
+	{
+		bool collided = false;
+		foreach ( var living in MatrixManager.GetAt<LivingHealthBehaviour>( collision.CollisionTile, true ) )
+		{
+			living.ApplyDamage( gameObject, collision.Damage, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			collided = true;
+		}
+		foreach ( var tile in MatrixManager.GetDamagetableTilemapsAt( collision.CollisionTile ) )
+		{
+			tile.DoMeleeDamage( collision.CollisionTile.To2Int(), gameObject, (int)collision.Damage );
+			collided = true;
+		}
+
+		if ( collided )
+		{
+			//Damage self as bad as the thing you collide with
+			GetComponent<LivingHealthBehaviour>()?.ApplyDamage( gameObject, collision.Damage, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			Logger.LogFormat( "{0}: collided with something at {2}, both received {1} damage",
+				Category.Health, gameObject.name, collision.Damage, collision.CollisionTile );
 		}
 	}
 

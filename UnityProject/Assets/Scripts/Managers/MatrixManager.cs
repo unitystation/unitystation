@@ -23,6 +23,8 @@ public class MatrixManager : MonoBehaviour
 {
 	//Declare in awake as MatrixManager needs to be destroyed on each scene change
 	public static MatrixManager Instance;
+	private static LayerMask tileDmgMask;
+
 	private MatrixInfo[] ActiveMatrices = new MatrixInfo[0];
 
 	public static bool IsInitialized;
@@ -126,6 +128,26 @@ public class MatrixManager : MonoBehaviour
 		return isAtInternal(mat =>
 			mat.Matrix.IsPassableAt(WorldToLocalInt(worldOrigin, mat),WorldToLocalInt(worldTarget, mat), isServer,
 				collisionType: collisionType, includingPlayers: includingPlayers, context: context), includeList);
+	}
+
+	/// <summary>
+	/// Server only.
+	/// Finds all TilemapDamage at given world pos, so you could apply damage to given tiles via DoMeleeDamage etc.
+	/// </summary>
+	/// <param name="worldTarget"></param>
+	/// <returns></returns>
+	public static List<TilemapDamage> GetDamagetableTilemapsAt( Vector3Int worldTarget )
+	{
+		var hit2D = Physics2D.RaycastAll(worldTarget.To2Int(), Vector2.zero, 10, tileDmgMask);
+		var hitTilemaps = new List<TilemapDamage>();
+		for (int i = 0; i < hit2D.Length; i++) {
+			var tileDmg = hit2D[i].collider.gameObject.GetComponent<TilemapDamage>();
+			if ( tileDmg != null ) {
+				hitTilemaps.Add( tileDmg );
+			}
+		}
+
+		return hitTilemaps;
 	}
 
 	/// <summary>
@@ -362,6 +384,7 @@ public class MatrixManager : MonoBehaviour
 	private void OnEnable()
 	{
 		IsInitialized = false;
+		tileDmgMask = LayerMask.GetMask( "Windows", "Walls" );
 	}
 
 	void Awake()

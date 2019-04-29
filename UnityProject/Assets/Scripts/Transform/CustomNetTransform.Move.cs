@@ -13,6 +13,7 @@ public enum SpinMode {
 }
 
 public partial class CustomNetTransform {
+
 	private const string STOPPED_FLOATING = "{0} stopped floating";
 	private const string PREDICTIVE_STOP_TO = "{0}: predictive stop @ {1} to {2}";
 	private const string NUDGE = "Nudge:{0} {1}";
@@ -35,9 +36,6 @@ public partial class CustomNetTransform {
 	public bool IsBeingThrown => !serverState.ActiveThrow.Equals( ThrowInfo.NoThrow );
 	public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
 	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
-
-	private LayerMask tileDmgMask;
-
 
 	/// (Server) Did the flying item reach the planned landing point?
 	private bool ShouldStopThrow {
@@ -118,8 +116,23 @@ public partial class CustomNetTransform {
 		return true;
 	}
 
+	/// <summary>
+	/// Stop floating, kill impulse
+	/// </summary>
 	public void Stop() {
-		StopFloating();
+		Logger.LogTraceFormat(  STOPPED_FLOATING, Category.Transform, gameObject.name );
+		if ( IsTileSnap ) {
+			serverState.Position = Vector3Int.RoundToInt( serverState.Position );
+		}
+		else {
+			serverState.Speed = 0;
+		}
+		serverState.Impulse = Vector2.zero;
+		serverState.SpinRotation = transform.localRotation.eulerAngles.z;
+		serverState.SpinFactor = 0;
+		serverState.ActiveThrow = ThrowInfo.NoThrow;
+		NotifyPlayers();
+		registerTile.UpdatePositionServer();
 	}
 
 	/// <summary>
@@ -343,7 +356,24 @@ public partial class CustomNetTransform {
 		if ( isWithinTile || ValidateFloating( worldPosition, newGoal ) ) {
 			AdvanceMovement( worldPosition, newGoal );
 		} else {
-			StopFloating();
+			if ( serverState.Speed >= PushPull.HIGH_SPEED_COLLISION_THRESHOLD && IsTileSnap )
+			{
+				//Stop first (reach tile), then inform about collision
+				var collisionInfo = new CollisionInfo
+				{
+					Speed = serverState.Speed,
+					Size = this.Size,
+					CollisionTile = intGoal
+				};
+
+				Stop();
+
+				OnHighSpeedCollision().Invoke( collisionInfo );
+			}
+			else
+			{
+				Stop();
+			}
 		}
 
 		if ( distance > 1 ) {
@@ -371,12 +401,12 @@ public partial class CustomNetTransform {
 
 			//no slide inertia for tile snapped objects like closets
 			if ( IsTileSnap ) {
-				StopFloating();
+				Stop();
 				return;
 			}
 			serverState.Speed = serverState.Speed - (serverState.Speed * (Time.deltaTime*10));
 			if ( serverState.Speed <= 0.05f ) {
-				StopFloating();
+				Stop();
 			} else {
 				NotifyPlayers();
 			}
@@ -411,24 +441,14 @@ public partial class CustomNetTransform {
 		}
 
 		//Can't drift to goal for some reason:
-
-		//Check Tile damage from throw
-		var hit2D = Physics2D.RaycastAll(origin, info.Trajectory.normalized, 1.5f, tileDmgMask);
-		var hitTilemaps = new List<TilemapDamage>();
-		for (int i = 0; i < hit2D.Length; i++) {
-			//Debug.Log("THROW HIT: " + hit2D[i].collider.gameObject.name);
-			//TilemapDamage automatically detects if a layer is below another damageable layer and won't affect it
-			var tileDmg = hit2D[i].collider.gameObject.GetComponent<TilemapDamage>();
-			if ( tileDmg != null ) {
-				hitTilemaps.Add( tileDmg );
-			}
-		}
-
-		OnHit( intGoal, info, hitDamageables, hitTilemaps );
+		OnHit( intGoal, info, hitDamageables, MatrixManager.GetDamagetableTilemapsAt( intGoal ) );
 
 		return false;
 	}
 
+	/// <summary>
+	/// Hit for thrown (non-tile-snapped) items
+	/// </summary>
 	protected virtual void OnHit(Vector3Int pos, ThrowInfo info, List<LivingHealthBehaviour> objects, List<TilemapDamage> tiles) {
 		if ( !ItemAttributes ) {
 			Logger.LogWarningFormat( "{0}: Tried to hit stuff at pos {1} but have no ItemAttributes.", Category.Throwing, gameObject.name, pos );
@@ -456,24 +476,6 @@ public partial class CustomNetTransform {
 			//todo different sound for no-damage hit?
 			SoundManager.PlayNetworkedAtPos("GenericHit", transform.position, 0.8f);
 		}
-	}
-
-	/// Stopping drift, killing impulse
-	[Server]
-	private void StopFloating() {
-		Logger.LogTraceFormat(  STOPPED_FLOATING, Category.Transform, gameObject.name );
-		if ( IsTileSnap ) {
-			serverState.Position = Vector3Int.RoundToInt( serverState.Position );
-		}
-		else {
-			serverState.Speed = 0;
-		}
-		serverState.Impulse = Vector2.zero;
-		serverState.SpinRotation = transform.localRotation.eulerAngles.z;
-		serverState.SpinFactor = 0;
-		serverState.ActiveThrow = ThrowInfo.NoThrow;
-		NotifyPlayers();
-		registerTile.UpdatePositionServer();
 	}
 
 

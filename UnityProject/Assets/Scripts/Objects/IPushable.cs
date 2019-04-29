@@ -17,6 +17,7 @@ public interface IPushable {
 	DualVector3IntEvent OnClientStartMove();
 	Vector3IntEvent OnTileReached();
 	Vector3IntEvent OnClientTileReached();
+	CollisionEvent OnHighSpeedCollision();
 	/// When you need to break pulling of this object
 	UnityEvent OnPullInterrupt();
 	bool CanPredictPush { get; }
@@ -48,3 +49,9 @@ public interface IPushable {
 
 public class Vector3IntEvent : UnityEvent<Vector3Int> {}
 public class DualVector3IntEvent : UnityEvent<Vector3Int,Vector3Int> {}
+
+/// <summary>
+/// Collision event that's invoked when a tile snapped object (player/machine) flies into something at high enough speed
+/// In order to apply damage to both flying object and whatever there is on next tile
+/// </summary>
+public class CollisionEvent : UnityEvent<CollisionInfo> {}

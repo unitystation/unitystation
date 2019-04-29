@@ -115,6 +115,10 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	public Vector3IntEvent OnTileReached() => onTileReached;
 	private Vector3IntEvent onClientTileReached = new Vector3IntEvent();
 	public Vector3IntEvent OnClientTileReached() => onClientTileReached;
+
+	public CollisionEvent onHighSpeedCollision = new CollisionEvent();
+	public CollisionEvent OnHighSpeedCollision() => onHighSpeedCollision;
+
 	private UnityEvent onPullInterrupt = new UnityEvent();
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
 
@@ -220,7 +224,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	{
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributes>();
-		tileDmgMask = LayerMask.GetMask ("Windows", "Walls");
 		var _pushPull = PushPull; //init
 		OnUpdateRecieved().AddListener( Poke );
 	}
