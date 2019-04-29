@@ -22,7 +22,7 @@ public static class MouseUtils
 		var result = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), Vector2.zero, 10f,
 				layerMask)
 			//get the hit game object
-			.Select(hit => hit.transform.gameObject);
+			.Select(hit => hit.collider.transform.gameObject);
 		if (gameObjectFilter != null)
 		{
 			//apply the GO filter

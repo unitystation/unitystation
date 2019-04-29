@@ -880,7 +880,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdAttack(GameObject target, GameObject originator, BodyPartType bodyPart, GameObject itemInHand)
 	{
 		var itemPUT = itemInHand.GetComponent<PickUpTrigger>();
-		itemPUT.Attack(target, originator, UIManager.DamageZone);
+		itemPUT.Attack(target, originator, bodyPart);
 	}
 
 	[Command]

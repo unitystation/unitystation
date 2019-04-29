@@ -91,8 +91,8 @@ GameObject:
   - component: {fileID: 61823647137541954}
   - component: {fileID: 114117693627431154}
   - component: {fileID: 114012578210888208}
+  - component: {fileID: 6200346118780942845}
   - component: {fileID: 114509519296518920}
-  - component: {fileID: 2424302522061221452}
   - component: {fileID: 114250079265950594}
   - component: {fileID: 114537529964992312}
   m_Layer: 10
@@ -188,6 +188,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6200346118780942845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862150311813888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19988dde784f6ae4f874dcb496f6115d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healType: 0
 --- !u!114 &114509519296518920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,18 +230,6 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &2424302522061221452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1862150311813888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ab238b594cec46419bf8854d3a6ecbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114250079265950594
 MonoBehaviour:
   m_ObjectHideFlags: 0

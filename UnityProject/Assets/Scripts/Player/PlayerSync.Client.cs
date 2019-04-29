@@ -96,6 +96,18 @@ public partial class PlayerSync
 		}
 	}
 
+#if UNITY_EDITOR
+	public bool DoAction(PlayerAction action)
+	{
+		if (action.moveActions.Length != 0 && !MoveCooldown)
+		{
+			StartCoroutine(DoProcess(action));
+			return true;
+		}
+		return false;
+	}
+#endif
+
 	private IEnumerator DoProcess(PlayerAction action)
 	{
 		MoveCooldown = true;

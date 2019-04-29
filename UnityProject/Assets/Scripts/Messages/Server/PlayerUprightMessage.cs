@@ -39,7 +39,8 @@ public class PlayerUprightMessage : ServerMessage
 		}
 		else
 		{
-			registerPlayer.LayDown();
+			//we ignore restraint
+			registerPlayer.LayDown(true);
 		}
 
 		if ( Stunned != StunnedState.Unknown )
@@ -48,12 +49,16 @@ public class PlayerUprightMessage : ServerMessage
 		}
 	}
 
-	public static PlayerUprightMessage Send(GameObject recipient, GameObject subjectPlayer, bool state, bool isStunned)
+	public static PlayerUprightMessage Send(GameObject recipient, GameObject subjectPlayer, bool upright, bool isStunned)
 	{
+		if (!IsValid(subjectPlayer, upright))
+		{
+			return null;
+		}
 		var msg = new PlayerUprightMessage
 		{
 			SubjectPlayer = subjectPlayer.NetId(),
-			Upright = state,
+			Upright = upright,
 			Stunned = isStunned ? StunnedState.Stunned : StunnedState.NonStunned
 		};
 		msg.SendTo(recipient);
@@ -64,19 +69,39 @@ public class PlayerUprightMessage : ServerMessage
 	/// Stunned info will ONLY be sent to subject!
 	/// </summary>
 	/// <param name="subjectPlayer"></param>
-	/// <param name="state"></param>
+	/// <param name="upright"></param>
 	/// <param name="isStunned"></param>
-	public static void SendToAll(GameObject subjectPlayer, bool state, bool isStunned)
+	public static void SendToAll(GameObject subjectPlayer, bool upright, bool isStunned)
 	{
+		if (!IsValid(subjectPlayer, upright))
+		{
+			return;
+		}
 		var msg = new PlayerUprightMessage
 		{
 			SubjectPlayer = subjectPlayer.NetId(),
-			Upright = state,
+			Upright = upright,
 			Stunned = StunnedState.Unknown
 		};
 		msg.SendToAllExcept( subjectPlayer );
 		msg.Stunned = isStunned ? StunnedState.Stunned : StunnedState.NonStunned;
 		msg.SendTo( subjectPlayer );
+	}
+
+	private static bool IsValid(GameObject subjectPlayer, bool upright)
+	{
+		//checks if player is actually in a state where they can become up / down
+		var playerScript = subjectPlayer.GetComponent<PlayerScript>();
+		if (!upright)
+		{
+			//cannot lay down if they are restrained
+			if (playerScript.playerMove.IsRestrained)
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public override string ToString()
