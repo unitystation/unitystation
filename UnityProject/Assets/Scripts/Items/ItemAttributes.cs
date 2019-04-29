@@ -469,13 +469,11 @@ public class ItemAttributes : NetworkBehaviour
 	public void OnHoverStart()
 	{
 		// Show the parenthesis for an item's description only if the item has a description
-		string tooltip = itemName;
-
-		if (!String.IsNullOrEmpty(itemDescription)) {
-			itemName += $" ({itemDescription})";
-		}
-
-		UIManager.SetToolTip = tooltip;
+		UIManager.SetToolTip =
+			itemName +
+			(String.IsNullOrEmpty(itemDescription) ?
+				"" :
+				$" ({itemDescription})");
 	}
 
 	public void OnHoverEnd()
