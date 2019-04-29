@@ -16,6 +16,7 @@ TagManager:
   - AmbientSound
   - Music
   - EmergencyLight
+  - APC
   layers:
   - Default
   - TransparentFX
@@ -97,6 +98,9 @@ TagManager:
     locked: 0
   - name: Players
     uniqueID: 3392514689
+    locked: 0
+  - name: BuckledOverPlayer
+    uniqueID: 3362631851
     locked: 0
   - name: Doors Closed
     uniqueID: 2469278067

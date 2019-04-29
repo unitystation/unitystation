@@ -30,29 +30,54 @@ public class PlayerUprightMessage : ServerMessage
 		}
 		else
 		{
-			registerPlayer.LayDown();
+			//we ignore restraint
+			registerPlayer.LayDown(true);
 		}
 	}
 
-	public static PlayerUprightMessage Send(GameObject recipient, GameObject subjectPlayer, bool state)
+	public static PlayerUprightMessage Send(GameObject recipient, GameObject subjectPlayer, bool upright)
 	{
+		if (!IsValid(subjectPlayer, upright))
+		{
+			return null;
+		}
 		var msg = new PlayerUprightMessage
 		{
 			SubjectPlayer = subjectPlayer.NetId(),
-			Upright = state,
+			Upright = upright,
 		};
 		msg.SendTo(recipient);
 		return msg;
 	}
 
-	public static void SendToAll(GameObject subjectPlayer, bool state)
+	public static void SendToAll(GameObject subjectPlayer, bool upright)
 	{
+		if (!IsValid(subjectPlayer, upright))
+		{
+			return;
+		}
 		var msg = new PlayerUprightMessage
 		{
 			SubjectPlayer = subjectPlayer.NetId(),
-			Upright = state,
+			Upright = upright,
 		};
 		msg.SendToAll();
+	}
+
+	private static bool IsValid(GameObject subjectPlayer, bool upright)
+	{
+		//checks if player is actually in a state where they can become up / down
+		var playerScript = subjectPlayer.GetComponent<PlayerScript>();
+		if (!upright)
+		{
+			//cannot lay down if they are restrained
+			if (playerScript.playerMove.IsRestrained)
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public override string ToString()

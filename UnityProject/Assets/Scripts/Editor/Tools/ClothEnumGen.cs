@@ -76,7 +76,7 @@ public class ClothEnumGen : MonoBehaviour
 		DmObjectData dm = Resources.Load("DmObjectData") as DmObjectData;
 		foreach (Dictionary<string, string> dic in dm.ObjectList)
 		{
-			string hier = ItemAttributes.tryGetAttr(dic, "hierarchy");
+			string hier = ItemAttributes.TryGetAttr(dic, "hierarchy");
 			if (!hier.Equals("") && hier.StartsWith("/obj/item/clothing/")) // these might require fine-tunung
 			{
 				//                                var name = ItemAttributes.tryGetAttr(dic, "name").Trim()
@@ -86,7 +86,7 @@ public class ClothEnumGen : MonoBehaviour
 				//                                        .Replace("(", "").Replace("!","")
 				//                                        .ToLower();
 				string[] hierz = hier.Split('/');
-				string name = Regex.Replace(ItemAttributes.tryGetAttr(dic, "name").Trim().Replace('-', '_').Replace(' ', '_'), @"[^a-zA-Z0-9_]", "") + "__" +
+				string name = Regex.Replace(ItemAttributes.TryGetAttr(dic, "name").Trim().Replace('-', '_').Replace(' ', '_'), @"[^a-zA-Z0-9_]", "") + "__" +
 				              hierz[hierz.GetUpperBound(0) - 2] + "_" + hierz[hierz.GetUpperBound(0) - 1] + "_" + hierz[hierz.GetUpperBound(0)];
 
 				tmpDic.Add(hier, name);
