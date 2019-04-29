@@ -35,8 +35,8 @@ public class ReactionManager : MonoBehaviour
 
 	private void Update()
 	{
-		timePassed += Time.fixedDeltaTime;
-		timePassed2 += Time.fixedDeltaTime;
+		timePassed += Time.deltaTime;
+		timePassed2 += Time.deltaTime;
 
 		if ( timePassed2 >= 0.1 )
 		{
