@@ -105,7 +105,7 @@ public static class Calculations
 	/// </summary>
 	public static Dictionary<string, float> Reactions(Dictionary<string, float> area, float Temperature)
 	{
-		var reactionBuffer = ValidReactions(area, Temperature);
+		var reactionBuffer = ValidReactions(area, Temperature).ToArray(); //Force evaluate or else it will throw a InvalidOperationException for IEnumerable modification
 
 		//Logger.Log (reactionBuffer.Count() + " < ReactionBuffer");
 		foreach (var reaction in reactionBuffer)
