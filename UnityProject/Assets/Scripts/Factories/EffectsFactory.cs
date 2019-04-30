@@ -83,7 +83,7 @@ public class EffectsFactory : NetworkBehaviour
 	public void WaterSplat(Vector3 pos)
 	{
 		GameObject w = PoolManager.PoolNetworkInstantiate(waterTile, pos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(pos)).Objects, Quaternion.identity);
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(pos)).Objects);
 		WaterSplat wSplat = w.GetComponent<WaterSplat>();
 		wSplat.sprite = 9;
 	}
