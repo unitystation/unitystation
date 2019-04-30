@@ -43,14 +43,14 @@ public class Reaction
 
 public static class ChemistryGlobals
 {
-	public static bool IsInitialised = false;
-	public static Dictionary<string, HashSet<Reaction>> ReactionsStoreDictionary = new Dictionary<string, HashSet<Reaction>>();
+	public static bool isInitialised = false;
+	public static Dictionary<string, HashSet<Reaction>> reactionsStoreDictionary = new Dictionary<string, HashSet<Reaction>>();
 	public static List<Reaction> reactions = new List<Reaction>();
 }
 
 public static class Initialization
 {
-	public static void run()
+	public static void Run()
 	{
 		JsonImportInitialization();
 		CemInitialization();
@@ -86,11 +86,11 @@ public static class Initialization
 		{
 			foreach (string chemical in reaction.ReagentsAndRatio.Keys)
 			{
-				if (!ChemistryGlobals.ReactionsStoreDictionary.ContainsKey(chemical))
+				if (!ChemistryGlobals.reactionsStoreDictionary.ContainsKey(chemical))
 				{
-					ChemistryGlobals.ReactionsStoreDictionary[chemical] = new HashSet<Reaction>();
+					ChemistryGlobals.reactionsStoreDictionary[chemical] = new HashSet<Reaction>();
 				}
-				ChemistryGlobals.ReactionsStoreDictionary[chemical].Add(reaction);
+				ChemistryGlobals.reactionsStoreDictionary[chemical].Add(reaction);
 			}
 		}
 	}
@@ -151,11 +151,11 @@ public static class Calculations
 		var originalAmount = area[compatibleChem];
 		var reAndRa = reaction.ReagentsAndRatio;
 
-		foreach (string Chemical in reaction.ReagentsAndRatio.Keys)
+		foreach (string chemical in reaction.ReagentsAndRatio.Keys)
 		{
-			if (reaction.Catalysts.ContainsKey(Chemical)) { continue; }
+			if (reaction.Catalysts.ContainsKey(chemical)) { continue; }
 
-			area[Chemical] -= originalAmount * SwapFix(reAndRa[compatibleChem], reAndRa[Chemical]);
+			area[chemical] -= originalAmount * SwapFix(reAndRa[compatibleChem], reAndRa[chemical]);
 		}
 	}
 
@@ -164,11 +164,11 @@ public static class Calculations
 	/// </summary>
 	private static IEnumerable<string> CompatibleChemicals(Dictionary<string, float> area, Reaction reaction)
 	{
-		foreach (string Chemical in reaction.ReagentsAndRatio.Keys)
+		foreach (string chemical in reaction.ReagentsAndRatio.Keys)
 		{
-			if (!ReactionCompatible(area, reaction, Chemical)) { continue; }
+			if (!ReactionCompatible(area, reaction, chemical)) { continue; }
 
-			yield return Chemical;
+			yield return chemical;
 		}
 	}
 
@@ -177,11 +177,11 @@ public static class Calculations
 	/// </summary>
 	private static void RemoveEmptyChemicals(Dictionary<string, float> area)
 	{
-		foreach (var Chemical in area.ToArray()) //ToArray neccesary because we can't modify the IEnumerable we are iterating over
+		foreach (var chemical in area.ToArray()) //ToArray neccesary because we can't modify the IEnumerable we are iterating over
 		{
-			if (Chemical.Value > 0) { continue; }
+			if (chemical.Value > 0) { continue; }
 
-			area.Remove(Chemical.Key);
+			area.Remove(chemical.Key);
 		}
 	}
 
@@ -208,16 +208,16 @@ public static class Calculations
 
 	private static IEnumerable<Reaction> ValidReactions(Dictionary<string, float> area, float temperature)
 	{
-		foreach (string Chemical in area.Keys)
+		foreach (string chemical in area.Keys)
 		{
-			if (!ChemistryGlobals.ReactionsStoreDictionary.ContainsKey(Chemical)) { continue; }
+			if (!ChemistryGlobals.reactionsStoreDictionary.ContainsKey(chemical)) { continue; }
 
-			foreach (var Reaction in ChemistryGlobals.ReactionsStoreDictionary[Chemical])
+			foreach (var reaction in ChemistryGlobals.reactionsStoreDictionary[chemical])
 			{ //so A list of every reaction that that chemical can be in
-				if (temperature < Reaction.MinimumTemperature) { continue; }
-				if (!ReactionComponentsPresent(area, Reaction)) { continue; }
+				if (temperature < reaction.MinimumTemperature) { continue; }
+				if (!ReactionComponentsPresent(area, reaction)) { continue; }
 
-				yield return Reaction; //then adds it
+				yield return reaction; //then adds it
 			}
 		}
 	}
@@ -227,9 +227,9 @@ public static class Calculations
 	/// </summary>
 	private static bool ReactionComponentsPresent(Dictionary<string, float> area, Reaction reaction)
 	{
-		foreach (string RequiredChemical in reaction.ReagentsAndRatio.Keys)
+		foreach (string requiredChemical in reaction.ReagentsAndRatio.Keys)
 		{
-			if (!area.ContainsKey(RequiredChemical))
+			if (!area.ContainsKey(requiredChemical))
 			{
 				return false;
 			}
