@@ -1,7 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(ResistanceSourceModule))]
 public class BatterySupplyingModule : ModuleSupplyingDevice
 {
 	[Header("Battery Settings")]
@@ -27,11 +28,15 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 	public float ChargingWatts = 0;
 	public float CircuitResistance = 0;
 	public float ActualVoltage = 0;
+	public bool isOnForInterface = false;
+
+	public ResistanceSourceModule ResistanceSourceModule;
 
 	public override void BroadcastSetUpMessage(ElectricalNodeControl Node)
 	{
 		RequiresUpdateOn = new HashSet<ElectricalUpdateTypeCategory>
 		{
+			ElectricalUpdateTypeCategory.PowerUpdateStructureChange,
 			ElectricalUpdateTypeCategory.PowerUpdateStructureChangeReact,
 			ElectricalUpdateTypeCategory.PowerUpdateCurrentChange,
 			ElectricalUpdateTypeCategory.TurnOnSupply,
@@ -41,6 +46,18 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 		ModuleType = ElectricalModuleTypeCategory.BatterySupplyingDevice;
 		ControllingNode = Node;
 		Node.AddModule(this);
+	}
+
+	public override void TurnOnSupply()
+	{
+		isOnForInterface = true;
+		PowerSupplyFunction.TurnOnSupply(this);
+	}
+
+	public override void TurnOffSupply()
+	{
+		isOnForInterface = false;
+		PowerSupplyFunction.TurnOffSupply(this);
 	}
 
 	public override void PowerUpdateCurrentChange()
@@ -71,6 +88,25 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 			//not  Getting reset on  Cable cut
 			CircuitResistance = 999999999999;
 		}
-		PowerSupplyFunction.PowerUpdateCurrentChange(ControllingNode.Node);
+		PowerSupplyFunction.PowerUpdateCurrentChange(this);
+	}
+	public override void PowerNetworkUpdate()
+	{
+		ActualVoltage = ControllingNode.Node.Data.ActualVoltage;
+		BatteryCalculation.PowerNetworkUpdate(this);
+		if (current != Previouscurrent | SupplyingVoltage != PreviousSupplyingVoltage | InternalResistance != PreviousInternalResistance)
+		{
+			ControllingNode.Node.Data.SupplyingCurrent = current;
+			Previouscurrent = current;
+
+			ControllingNode.Node.Data.SupplyingVoltage = SupplyingVoltage;
+			PreviousSupplyingVoltage = SupplyingVoltage;
+
+			ControllingNode.Node.Data.InternalResistance = InternalResistance;
+			PreviousInternalResistance = InternalResistance;
+
+			ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode.Node.InData.ControllingDevice);
+		}
+		//Logger.Log(CurrentCapacity + " < CurrentCapacity", Category.Electrical);
 	}
 }

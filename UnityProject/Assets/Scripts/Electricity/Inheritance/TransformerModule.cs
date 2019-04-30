@@ -24,6 +24,7 @@ public class TransformerModule : ElectricalModuleInheritance
 	public override void OnStartServer()
 	{
 	}
+	//ModifyElectricityOutput!!!
 	public override float ModifyElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		int InstanceID = SourceInstance.GetInstanceID();
@@ -32,7 +33,8 @@ public class TransformerModule : ElectricalModuleInheritance
 
 		float Resistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.ResistanceComingFrom[InstanceID]);
 		float Voltage = (Current * Resistance);
-		Tuple<float, float> Currentandoffcut = TransformerCalculations.TransformerCalculate22(this, Voltage: Voltage, ResistanceModified: Resistance, ActualCurrent: ActualCurrent);
+		//Logger.Log (Voltage.ToString() + " < Voltage " + Resistance.ToString() + " < Resistance" + ActualCurrent.ToString() + " < ActualCurrent" + Current.ToString() + " < Current");
+		Tuple<float, float> Currentandoffcut = TransformerCalculations.TransformerCalculate(this, Voltage: Voltage, ResistanceModified: Resistance, ActualCurrent: ActualCurrent);
 		if (Currentandoffcut.Item2 > 0)
 		{
 			if (!(ControllingNode.Node.Data.CurrentGoingTo.ContainsKey(InstanceID)))
@@ -43,13 +45,12 @@ public class TransformerModule : ElectricalModuleInheritance
 		}
 		//return (Current);
 		return (Currentandoffcut.Item1);
-
 	}
-
 	public override float ModifyResistancyOutput(float Resistance, GameObject SourceInstance)
 	{
-		Tuple<float, float> ResistanceM = TransformerCalculations.TransformerCalculate22(this, ResistanceToModify: Resistance);
+		Tuple<float, float> ResistanceM = TransformerCalculations.TransformerCalculate(this, ResistanceToModify: Resistance);
 		//return (Resistance);
 		return (ResistanceM.Item1);
 	}
+
 }

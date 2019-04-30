@@ -6,22 +6,26 @@ using UnityEngine.Networking;
 public class ElectricalNodeControl : NetworkBehaviour
 {
 	[SerializeField]
-	public InLineDevice2 Node;
-	public ElectricalOIinheritance _IElectricityIO;
+	public InLineDevice Node;
 	public PowerTypeCategory ApplianceType;
 	public List<PowerTypeCategory> ListCanConnectTo;
 	public HashSet<PowerTypeCategory> CanConnectTo;
-
+	public bool SelfDestruct;
 	public List<PowerInputReactions> Reactions;
+
+	public INodeControl NodeControl;
+
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
 		BroadcastMessage("BroadcastSetUpMessage", this);
+		NodeControl = gameObject.GetComponent<INodeControl>();
+		Node = gameObject.GetComponent<InLineDevice>();
 		ElectricalSynchronisation.StructureChange = true;
 		CanConnectTo = new HashSet<PowerTypeCategory>(ListCanConnectTo);
-		_IElectricityIO = Node;
 		Node.InData.Categorytype = ApplianceType;
 		Node.InData.CanConnectTo = CanConnectTo;
+		Node.InData.ControllingDevice = this;
 		Node.RelatedDevice = this;//fix line inheritance
 		foreach (PowerInputReactions ReactionC in Reactions)
 		{
@@ -32,9 +36,21 @@ public class ElectricalNodeControl : NetworkBehaviour
 		//Node.InData.ControllingDevice = this;
 	}
 
+	public void PotentialDestroyed()
+	{
+		UpPotentialDestroyed();
+		if (SelfDestruct)
+		{
+			ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
+			PoolManager.PoolNetworkDestroy(gameObject);
+		}
+
+	}
+
 
 	public void TurnOnSupply()
 	{
+		//Logger.Log("gogogogoggo");
 		UpTurnOnSupply();
 	}
 	public void TurnOffSupply()
@@ -44,7 +60,7 @@ public class ElectricalNodeControl : NetworkBehaviour
 
 	public  void PowerUpdateStructureChange()
 	{
-		Node.FlushConnectionAndUp();
+		//Node.FlushConnectionAndUp();
 		UpPowerUpdateStructureChange();
 	}
 	public void PowerUpdateStructureChangeReact()
@@ -57,7 +73,7 @@ public class ElectricalNodeControl : NetworkBehaviour
 		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in Node.Data.ResistanceToConnectedDevices)
 		{
 			Node.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
-			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingUpdate);
+			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
 		}
 		UpInitialPowerUpdateResistance();
 	}
@@ -67,18 +83,25 @@ public class ElectricalNodeControl : NetworkBehaviour
 		UpPowerUpdateResistanceChange();
 	}
 
-	public  void PowerNetworkUpdate()
-	{
-		UpPowerNetworkUpdate();
-	}
 
 	public  void PowerUpdateCurrentChange()
 	{
 		UpPowerUpdateCurrentChange();
 	}
 
+	public void PowerNetworkUpdate()
+	{
+		UpPowerNetworkUpdate();
+		if (NodeControl != null)
+		{
+			NodeControl.PowerNetworkUpdate();
+		}
+	}
 
-
+	public void TurnOffCleanup()
+	{
+		UpTurnOffCleanup();
+	}
 
 
 	public  float ModifyElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
@@ -176,7 +199,7 @@ public class ElectricalNodeControl : NetworkBehaviour
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.PowerUpdateStructureChange))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.OnStartServer])
+			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.PowerUpdateStructureChange])
 			{
 				UpdateDelegateDictionary[Module].PowerUpdateStructureChange();
 			}
@@ -220,9 +243,20 @@ public class ElectricalNodeControl : NetworkBehaviour
 	{
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.PowerUpdateCurrentChange))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.OnStartServer])
+			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.PowerUpdateCurrentChange])
 			{
 				UpdateDelegateDictionary[Module].PowerUpdateCurrentChange();
+			}
+		}
+	}
+
+	public void UpPotentialDestroyed()
+	{
+		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.PotentialDestroyed))
+		{
+			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.PotentialDestroyed])
+			{
+				UpdateDelegateDictionary[Module].PotentialDestroyed();
 			}
 		}
 	}

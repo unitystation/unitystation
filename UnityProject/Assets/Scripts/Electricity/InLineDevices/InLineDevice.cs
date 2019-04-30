@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 public class InLineDevice : ElectricalOIinheritance
 {
 	//What is the purpose of inline device, It is to modify current, resistance going over the device E.G a Transformer For any other device that can be thought of
-	public PowerSupplyControlInheritance RelatedDevice;
+	public ElectricalNodeControl RelatedDevice;
 
 	public RegisterObject registerTile3;
 	private Matrix matrix => registerTile3.Matrix;
@@ -48,32 +48,10 @@ public class InLineDevice : ElectricalOIinheritance
 		FindPossibleConnections();
 	}
 
-	public void TurnOnSupply()
-	{
-		PowerSupplyFunction.TurnOnSupply (this);
-	}
-
-	public void TurnOffSupply()
-	{
-		PowerSupplyFunction.TurnOffSupply (this);
-	}
 
 	public void PowerUpdateStructureChange()
 	{
 		FlushConnectionAndUp();
-	}
-
-	public void PowerUpdateStructureChangeReact()
-	{
-		PowerSupplyFunction.PowerUpdateStructureChangeReact (this);
-	}
-
-	public void InitialPowerUpdateResistance(){}
-	public void PowerUpdateResistanceChange(){
-	}
-	public void PowerUpdateCurrentChange()
-	{
-		PowerSupplyFunction.PowerUpdateCurrentChange (this);
 	}
 
 	public void PowerNetworkUpdate() { }
@@ -102,8 +80,8 @@ public class InLineDevice : ElectricalOIinheritance
 	public override void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
 		if (!(SourceInstance == gameObject)){
-			if (!ElectricalSynchronisation.NUCurrentChange.Contains(InData.ControllingUpdate)) { 
-				ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingUpdate);
+			if (!ElectricalSynchronisation.NUCurrentChange.Contains(InData.ControllingDevice)) { 
+				ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingDevice);
 			}
 		}
 

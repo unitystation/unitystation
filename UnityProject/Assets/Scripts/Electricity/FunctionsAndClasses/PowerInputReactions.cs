@@ -9,6 +9,8 @@ public class PowerInputReactions
 	public bool ResistanceReaction = false;
 	public bool ElectricalReaction = false;
 
+	public DeadEndConnection RelatedComingFrom;
+
 	public DirectionReactionClass DirectionReactionA = new DirectionReactionClass();
 	public ResistanceReactionClass ResistanceReactionA = new ResistanceReactionClass();
 	public ElectricalReactionClass ElectricalReactionA = new ElectricalReactionClass();

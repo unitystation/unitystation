@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 114703946515217786}
   - component: {fileID: 2612899668775311046}
   - component: {fileID: 2731523975421391927}
-  - component: {fileID: 3658959868551395783}
+  - component: {fileID: 3919982737323789382}
   m_Layer: 11
   m_Name: Transformer
   m_TagString: Untagged
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModuleType: 0
-  ControllingNode: {fileID: 0}
+  ControllingNode: {fileID: 2731523975421391927}
   TurnRatio: 250
   VoltageLimiting: 3300
   VoltageLimitedTo: 3300
@@ -189,12 +189,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Node: {fileID: 3658959868551395783}
-  _IElectricityIO: {fileID: 0}
+  Node: {fileID: 3919982737323789382}
   ApplianceType: 6
   ListCanConnectTo: 010000000b000000
-  Update_Handler: {fileID: 0}
---- !u!114 &3658959868551395783
+  SelfDestruct: 0
+  Reactions: []
+--- !u!114 &3919982737323789382
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55c2b1a39357ce04198725a00aa4220a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WireEndB: 2
@@ -234,7 +234,7 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   connected: 0
   RelatedDevice: {fileID: 0}
-  registerTile3: {fileID: 0}
+  registerTile3: {fileID: 114038174743996046}
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

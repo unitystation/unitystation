@@ -44,8 +44,9 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public void toDestroy()
 	{
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		SelfDestruct = true;
 		//gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
-		ElectricalSynchronisation.StructureChange = true;
+		//ElectricalSynchronisation.StructureChange = true;
 		ElectricalSynchronisation.NUCableStructureChange.Add(this);
 	}
 
@@ -57,6 +58,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
+		//wireConnect.gameObject = gameObject;
 		_OnStartServer();
 		//wireConnect.InData.ControllingDevice = this;
 	}
@@ -65,9 +67,15 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	}
 	public virtual void PowerUpdateStructureChange()
 	{
+		
 		wireConnect.FlushConnectionAndUp();
-		wireConnect.registerTile.Unregister();
-		PoolManager.PoolNetworkDestroy(gameObject);
+		wireConnect.FindPossibleConnections();
+		wireConnect.FlushConnectionAndUp();
+		if (SelfDestruct) { 
+			wireConnect.registerTile.Unregister();
+			PoolManager.PoolNetworkDestroy(gameObject);
+		}
+
 	}
 	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
 	//FIXME: that also renderers IDevice useless. Please reassess
@@ -96,7 +104,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	// Use this for initialization
 	private void Start()
 	{
-		ElectricalSynchronisation.StructureChange = true;
+		ElectricalSynchronisation.NUCableStructureChange.Add(this);
 		SetDirection(WireEndB, WireEndA, CableType);
 		//FindOverlapsAndCombine();
 	}

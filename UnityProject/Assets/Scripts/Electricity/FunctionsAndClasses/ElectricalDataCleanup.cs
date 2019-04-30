@@ -180,7 +180,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 					Object.Data.CurrentGoingTo.Remove (InstanceID);
 					Object.Data.CurrentComingFrom.Remove (InstanceID);
 					Object.Data.SourceVoltages.Remove (InstanceID);
-					ElectricityFunctions.WorkOutActualNumbers(Object);;
+					ElectricityFunctions.WorkOutActualNumbers(Object);
 					Object.Data.UpstreamCount = new int ();
 					Object.Data.DownstreamCount = new int ();
 				}

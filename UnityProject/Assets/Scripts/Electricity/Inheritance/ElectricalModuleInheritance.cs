@@ -40,6 +40,11 @@ public class ElectricalModuleInheritance : MonoBehaviour
 	{
 	}
 
+	public virtual void PotentialDestroyed()
+	{
+	}
+
+
 	public virtual float ModifyElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
 		return (Current);

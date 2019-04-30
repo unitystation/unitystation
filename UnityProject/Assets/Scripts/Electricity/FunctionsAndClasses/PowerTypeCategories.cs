@@ -36,6 +36,7 @@ public enum ElectricalUpdateTypeCategory
 	TurnOffCleanup,
 	TurnOnSupply, 
 	TurnOffSupply,
+	PotentialDestroyed,
 }
 
 public enum ElectricalModuleTypeCategory

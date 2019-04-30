@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(APCInteract))]
-public class APC : PowerSupplyControlInheritance
+public class APC  : InputTrigger, INodeControl
 {
 	// -----------------------------------------------------
 	//					ELECTRICAL THINGS
@@ -17,7 +17,6 @@ public class APC : PowerSupplyControlInheritance
 	/// <summary>
 	/// The current voltage of this APC. Calls OnVoltageChange when changed.
 	/// </summary>
-
 	public int CashOfConnectedDevices = 0;
 
 	public float Voltage
@@ -58,6 +57,10 @@ public class APC : PowerSupplyControlInheritance
 		}
 	}
 
+	public ElectricalNodeControl ElectricalNodeControl;
+
+	public ResistanceSourceModule ResistanceSourceModule;
+
 	/// <summary>
 	/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
 	/// </summary>
@@ -66,69 +69,33 @@ public class APC : PowerSupplyControlInheritance
 		Voltage = newVoltage;
 	}
 
-	private float _resistance = 0;
-	/// <summary>
-	/// The current resistance of devices connected to this APC.
-	/// </summary>
-	public float Resistance
-	{
-		get
-		{
-			return _resistance;
-		}
-		set
-		{
-			if (value != _resistance)
-			{
-				if (value == 0 || double.IsInfinity(value))
-				{
-					if (_resistance != 9999999999)
-					{
-						dirtyResistance = true;
-						_resistance = 9999999999;
-					}
-				}
-				else
-				{
-					dirtyResistance = true;
-					_resistance = value;
-				}
-			}
-		}
-	}
+	//public override void OnStartServer()
+	//{
+		
+	//}
+	//public override void OnStartServerInitialise()
+	//{
+	//	ApplianceType = PowerTypeCategory.APC;
+	//	CanConnectTo = new HashSet<PowerTypeCategory>()
+	//	{
+	//		PowerTypeCategory.LowMachineConnector
+	//	};
 
-	/// <summary>
-	/// Flag to determine if ElectricalSynchronisation has processed the resistance change yet
-	/// </summary>
-	private bool dirtyResistance = false;
-	/// <summary>
-	/// Class to hold resistance so ElectricalSync can have a reference to it
-	/// </summary>
-	private Resistance ResistanceClass = new Resistance();
-
-	public override void OnStartServerInitialise()
-	{
-		ApplianceType = PowerTypeCategory.APC;
-		CanConnectTo = new HashSet<PowerTypeCategory>()
-		{
-			PowerTypeCategory.LowMachineConnector
-		};
-
-		powerSupply.InData.CanConnectTo = CanConnectTo;
-		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.WireEndB = Connection.Overlap;
-		powerSupply.WireEndA = Connection.MachineConnect;
-		ResistanceClass.Ohms = Resistance;
-		ElectricalSynchronisation.PoweredDevices.Add(this);
-		PowerInputReactions PRLCable = new PowerInputReactions();
-		PRLCable.DirectionReaction = true;
-		PRLCable.ConnectingDevice = PowerTypeCategory.LowMachineConnector;
-		PRLCable.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
-		PRLCable.DirectionReactionA.YouShallNotPass = true;
-		PRLCable.ResistanceReaction = true;
-		PRLCable.ResistanceReactionA.Resistance = ResistanceClass;
-		powerSupply.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
-	}
+	//	powerSupply.InData.CanConnectTo = CanConnectTo;
+	//	powerSupply.InData.Categorytype = ApplianceType;
+	//	powerSupply.WireEndB = Connection.Overlap;
+	//	powerSupply.WireEndA = Connection.MachineConnect;
+	//	ResistanceClass.Ohms = Resistance;
+	//	ElectricalSynchronisation.PoweredDevices.Add(this);
+	//	PowerInputReactions PRLCable = new PowerInputReactions();
+	//	PRLCable.DirectionReaction = true;
+	//	PRLCable.ConnectingDevice = PowerTypeCategory.LowMachineConnector;
+	//	PRLCable.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
+	//	PRLCable.DirectionReactionA.YouShallNotPass = true;
+	//	PRLCable.ResistanceReaction = true;
+	//	PRLCable.ResistanceReactionA.Resistance = ResistanceClass;
+	//	powerSupply.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
+	//}
 	//public override void PowerUpdateStructureChange() {
 	//	//Logger.Log("PowerUpdateStructureChange" + this);
 	//	powerSupply.Data.connections.Clear();
@@ -150,15 +117,16 @@ public class APC : PowerSupplyControlInheritance
 
 	private void OnDisable()
 	{
-		ElectricalSynchronisation.PoweredDevices.Remove(this);
+		ElectricalSynchronisation.PoweredDevices.Remove(ElectricalNodeControl);
 	}
 
-	public override void _PowerNetworkUpdate()
+	public void PowerNetworkUpdate()
 	{
-		if (!(CashOfConnectedDevices == powerSupply.Data.ResistanceToConnectedDevices.Count)) {
-			CashOfConnectedDevices = powerSupply.Data.ResistanceToConnectedDevices.Count;
+		//Logger.Log("humm...");
+		if (!(CashOfConnectedDevices == ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices.Count)) {
+			CashOfConnectedDevices = ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices.Count;
 			ConnectedDepartmentBatteries.Clear ();
-			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Device in powerSupply.Data.ResistanceToConnectedDevices) {
+			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Device in ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices) {
 				if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery) {
 					if (!(ConnectedDepartmentBatteries.Contains (Device.Key.GameObject().GetComponent<DepartmentBattery>()))) {
 						ConnectedDepartmentBatteries.Add (Device.Key.GameObject ().GetComponent<DepartmentBattery> ());
@@ -167,51 +135,31 @@ public class APC : PowerSupplyControlInheritance
 			}
 		}
 
-		Voltage = powerSupply.Data.ActualVoltage;
-		Current = powerSupply.Data.CurrentInWire;
+		Voltage = ElectricalNodeControl.Node.Data.ActualVoltage;
+		Current = ElectricalNodeControl.Node.Data.CurrentInWire;
 		UpdateLights();
-		if (dirtyResistance)
-		{
-			//Logger.Log(ResistanceClass.Ohms + " vs " + Resistance + " < new");
-			ResistanceClass.Ohms = Resistance;
-			//Logger.Log("or this??");
-			ElectricalSynchronisation.ResistanceChange.Add (this);
-			dirtyResistance = false;
-		}
 	}
 	public NetTabType NetTabType;
-	public override void _Interact(GameObject originator, Vector3 position, string hand)
-	{
+
+	public override bool Interact(GameObject originator, Vector3 position, string hand) { 
 		var playerScript = originator.GetComponent<PlayerScript>();
 		if (playerScript.canNotInteract() || !playerScript.IsInReach(gameObject))
 		{ //check for both client and server
-			return;
+			return false;
 		}
 		if (!isServer)
 		{
 			//Client wants this code to be run on server
 			InteractMessage.Send(gameObject, hand);
+			return true;
 		}
 		else
 		{
 			//Server actions
 			TabUpdateMessage.Send(originator, gameObject, NetTabType, TabAction.Open);
-
 		}
+		return false;
 	}
-	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
-	//FIXME: that also renderers IDevice useless. Please reassess
-	public void OnDestroy()
-	{
-//		ElectricalSynchronisation.StructureChangeReact = true;
-//		ElectricalSynchronisation.ResistanceChange = true;
-//		ElectricalSynchronisation.CurrentChange = true;
-		ElectricalSynchronisation.PoweredDevices.Remove(this);
-		SelfDestruct = true;
-		//Making Invisible
-	}
-
-
 	// -----------------------------------------------------
 	//					APC STATE THINGS
 	// -----------------------------------------------------
@@ -229,9 +177,9 @@ public class APC : PowerSupplyControlInheritance
 		Dead		// Internal battery is empty, no power from wire.
 	}
 	private APCState _state = APCState.Full;
-	/// <summary>
-	/// The current state of this APC. Can only be set internally and calls OnStateChange when changed.
-	/// </summary>
+//	/// <summary>
+//	/// The current state of this APC. Can only be set internally and calls OnStateChange when changed.
+//	/// </summary>
 	public APCState State
 	{
 		get
@@ -273,9 +221,9 @@ public class APC : PowerSupplyControlInheritance
 				break;
 		}
 	}
-	// -----------------------------------------------------
-	//					DISPLAY THINGS
-	// -----------------------------------------------------
+//	// -----------------------------------------------------
+//	//					DISPLAY THINGS
+//	// -----------------------------------------------------
 	/// <summary>
 	/// The screen sprites which are currently being displayed
 	/// </summary>
@@ -328,9 +276,9 @@ public class APC : PowerSupplyControlInheritance
 		}
 	}
 
-	/// <summary>
-	/// Animates the APC screen sprites
-	/// </summary>
+//	///// <summary>
+//	///// Animates the APC screen sprites
+//	///// </summary>
 	private void RefreshDisplayScreen()
 	{
 		if (++displayIndex >= loadedScreenSprites.Length)
@@ -378,7 +326,8 @@ public class APC : PowerSupplyControlInheritance
 			}
 
 		}
-		Resistance = (1 / CalculatingResistance);
+		//Logger.Log("man");
+		ResistanceSourceModule.Resistance = (1 / CalculatingResistance);
 	}
 
 	private bool _emergencyState = false;
@@ -414,8 +363,5 @@ public class APC : PowerSupplyControlInheritance
 			ConnectedEmergencyLights[i].Toggle(isOn);
 		}
 	}
-	public GameObject GameObject()
-	{
-		return gameObject;
-	}
+
 }

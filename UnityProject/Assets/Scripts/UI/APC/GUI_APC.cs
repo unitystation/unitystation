@@ -212,7 +212,7 @@ public class GUI_APC : NetTab
 		float newCapacity = 0;
 		foreach (DepartmentBattery battery in LocalAPC.ConnectedDepartmentBatteries)
 		{
-			newCapacity += battery.CapacityMax;
+			newCapacity += battery.BatterySupplyingModule.CapacityMax;
 		}
 		MaxCapacity = newCapacity;
 	}
@@ -228,7 +228,7 @@ public class GUI_APC : NetTab
 		float newCapacity = 0;
 		foreach (DepartmentBattery battery in LocalAPC.ConnectedDepartmentBatteries)
 		{
-			newCapacity += battery.CurrentCapacity;
+			newCapacity += battery.BatterySupplyingModule.CurrentCapacity;
 		}
 
 		return (newCapacity / MaxCapacity).ToString("P0");

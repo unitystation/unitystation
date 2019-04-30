@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class FieldGenerator : PowerSupplyControlInheritance
+public class FieldGenerator : InputTrigger, INodeControl
 {
 	public bool connectedToOther = false;
 	private Coroutine coSpriteAnimator;
@@ -15,34 +15,17 @@ public class FieldGenerator : PowerSupplyControlInheritance
 	List<Sprite> animSprites = new List<Sprite>();
 	public float Voltage;
 
-	public override void OnStartServerInitialise()
-	{
-		ApplianceType = PowerTypeCategory.FieldGenerator;
-		CanConnectTo = new HashSet<PowerTypeCategory>(){
-		PowerTypeCategory.StandardCable
-		};
+	public ElectricalNodeControl ElectricalNodeControl;
 
-		Resistance = 1500;
-		powerSupply.InData.CanConnectTo = CanConnectTo;
-		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.WireEndB = Connection.Overlap;
-		powerSupply.WireEndA = Connection.MachineConnect;
-		resistance.Ohms = Resistance;
-		ElectricalSynchronisation.PoweredDevices.Add(this);
-		PowerInputReactions PRLCable = new PowerInputReactions();
-		PRLCable.DirectionReaction = true;
-		PRLCable.ConnectingDevice = PowerTypeCategory.StandardCable;
-		PRLCable.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
-		PRLCable.DirectionReactionA.YouShallNotPass = true;
-		PRLCable.ResistanceReaction = true;
-		PRLCable.ResistanceReactionA.Resistance = resistance;
-		powerSupply.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PRLCable;
-	}
+	public ResistanceSourceModule ResistanceSourceModule;
+
+	[SyncVar(hook = "UpdateSprites")]
+	public bool isOn = false;
 
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		CheckState(isOn);
+		UpdateSprites(isOn);
 	}
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
@@ -54,21 +37,22 @@ public class FieldGenerator : PowerSupplyControlInheritance
 		else
 		{
 			isOn = !isOn;
-			CheckState(isOn);
+			UpdateSprites(isOn);
 		}
 
 		return true;
 	}
 
 
-	public override void _PowerNetworkUpdate()
+	public void PowerNetworkUpdate()
 	{
-		Voltage = powerSupply.Data.ActualVoltage;
-		UpdateSprites();
+		Voltage = ElectricalNodeControl.Node.Data.ActualVoltage;
+		UpdateSprites(isOn);
 		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
 	}
 
-	void UpdateSprites(){
+	void UpdateSprites(bool _isOn){
+		isOn = _isOn;
 		if (isOn)
 		{
 			if(Voltage < 2700){
@@ -121,14 +105,5 @@ public class FieldGenerator : PowerSupplyControlInheritance
 			index++;
 			yield return new WaitForSeconds(0.3f);
 		}
-	}
-	public void OnDestroy()
-	{
-//		ElectricalSynchronisation.StructureChangeReact = true;
-//		ElectricalSynchronisation.ResistanceChange = true;
-//		ElectricalSynchronisation.CurrentChange = true;
-		ElectricalSynchronisation.PoweredDevices.Remove(this);
-		SelfDestruct = true;
-		//Make Invisible
 	}
 }

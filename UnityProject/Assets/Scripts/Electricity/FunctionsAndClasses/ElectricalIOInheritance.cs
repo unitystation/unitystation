@@ -30,6 +30,9 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		base.OnStartServer();
 		StartCoroutine(WaitForLoad());
 	}
+	public virtual void _Start()
+	{
+	}
 
 	IEnumerator WaitForLoad()
 	{

@@ -1,13 +1,13 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System; 
 
 public static class BatteryCalculation  {
-	public static void TurnOffEverything(PowerSupplyControlInheritance Battery){ //For turn off
+	public static void TurnOffEverything(BatterySupplyingModule Battery){ //For turn off
 		Battery.ChargingWatts = 0;
 		Battery.ChargingMultiplier = 0.1f;
-		Battery.Resistance = 0;
+		Battery.ResistanceSourceModule.Resistance = 0;
 		Battery.ChargLastDeductedTime = 0;
 
 		Battery.PullingWatts = 0;
@@ -16,7 +16,7 @@ public static class BatteryCalculation  {
 		//Battery.PassChangeToOff = false;
 	}
 
-	public static void PowerUpdateCurrentChange (PowerSupplyControlInheritance Battery){
+	public static void PowerUpdateCurrentChange (BatterySupplyingModule Battery){
 		if (Battery.Cansupport) { //Denotes capacity to Provide current
 			if (Battery.ToggleCansupport) { //Denotes Whether at the current time it is allowed to provide current
 				if (Battery.ActualVoltage < Battery.MinimumSupportVoltage) {
@@ -46,17 +46,17 @@ public static class BatteryCalculation  {
 			} 
 		} 
 	}
-	public static void PowerNetworkUpdate(PowerSupplyControlInheritance Battery){
+	public static void PowerNetworkUpdate(BatterySupplyingModule Battery){
 		if (Battery.isOnForInterface) { //Checks if the battery is actually on This is not needed in PowerUpdateCurrentChange Since having those updates Would mean it would be on
 			if (Battery.CanCharge) { //Ability to charge 
 				if (Battery.ToggleCanCharge) { //Is available for charging
-					if (Battery.Resistance > 0) {
+					if (Battery.ResistanceSourceModule.Resistance > 0) {
 
 						if (Battery.ChargLastDeductedTime == 0) { //so it's based on time
 							Battery.ChargLastDeductedTime = Time.time;
 						}
 						//Logger.Log (Battery.ActualVoltage.ToString () + " < ActualVoltage " + Battery.Resistance.ToString () + " < Resistance ", Category.Electrical);
-						Battery.ChargingWatts = (Battery.ActualVoltage / Battery.Resistance) * Battery.ActualVoltage;
+						Battery.ChargingWatts = (Battery.ActualVoltage / Battery.ResistanceSourceModule.Resistance) * Battery.ActualVoltage;
 						Battery.CurrentCapacity = Battery.CurrentCapacity + (Battery.ChargingWatts * (Time.time - Battery.ChargLastDeductedTime));
 						Battery.ChargLastDeductedTime = Time.time;
 
@@ -64,17 +64,17 @@ public static class BatteryCalculation  {
 							if (!(Battery.ChargingMultiplier >= Battery.MaxChargingMultiplier)) {
 
 								Battery.ChargingMultiplier = Battery.ChargingMultiplier + Battery.ChargeSteps;
-								Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) )); 
+								Battery.ResistanceSourceModule.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) )); 
 							}
 
 						} else if (Battery.ActualVoltage < Battery.ExtraChargeCutOff) {
 							if (!(0.1 >= Battery.ChargingMultiplier)) {  
 								Battery.ChargingMultiplier = Battery.ChargingMultiplier - Battery.ChargeSteps;
-								Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) ));
+								Battery.ResistanceSourceModule.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) ));
 							} else { //Turning off charge if it pulls too much
 								Battery.ChargingWatts = 0;
 								Battery.ChargingMultiplier = 0.1f;
-								Battery.Resistance = 0;
+								Battery.ResistanceSourceModule.Resistance = 0;
 								Battery.ChargLastDeductedTime = 0;
 							}
 						}
@@ -84,21 +84,21 @@ public static class BatteryCalculation  {
 							Battery.CurrentCapacity = Battery.CapacityMax;
 							Battery.ChargingWatts = 0;
 							Battery.ChargingMultiplier = 0.1f;
-							Battery.Resistance = 0;
+							Battery.ResistanceSourceModule.Resistance = 0;
 							Battery.ChargLastDeductedTime = 0;
 							//Logger.Log ("Turn off charging battery full", Category.Electrical);
 						}
 					} else if ((Battery.ActualVoltage > Battery.IncreasedChargeVoltage) && (!(Battery.CurrentCapacity >= Battery.CapacityMax))) {
-						Battery.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) ));
+						Battery.ResistanceSourceModule.Resistance = (1000 / ((Battery.StandardChargeNumber * Battery.ChargingMultiplier) ));
 						Battery.ChargLastDeductedTime = Time.time;
 						//Logger.Log ("Charging turning back on from line voltage checks\n", Category.Electrical);
 					}
 	
 				} else {
-					if (Battery.Resistance > 0) {
+					if (Battery.ResistanceSourceModule.Resistance > 0) {
 						Battery.ChargingWatts = 0;
 						Battery.ChargingMultiplier = 0.1f;
-						Battery.Resistance = 0;
+						Battery.ResistanceSourceModule.Resistance = 0;
 						Battery.ChargLastDeductedTime = 0;
 						//Logger.Log (" Turning off Charging because support was terminated for charging", Category.Electrical);
 					}
