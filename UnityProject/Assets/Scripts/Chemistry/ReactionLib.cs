@@ -80,7 +80,7 @@ public static class Initialization
 		Logger.Log("JsonImportInitialization done!", Category.Chemistry);
 	}
 
-	private static void CemInitialization()
+	private static void ChemInitialization()
 	{
 		foreach(var reaction in ChemistryGlobals.reactions)
 		{
