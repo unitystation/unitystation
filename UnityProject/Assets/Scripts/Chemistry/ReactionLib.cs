@@ -4,18 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-//Initialization.run();
-//var area = new Dictionary<String, float>();
-//area.Add("potassium", 59.0f);
-//area.Add("oxygen", 49.0f);
-//area.Add("sugar", 45.0f);
-//area.Add("iodine", 20.0f);
-
-//area.Add("virusfood",59f);
-//area.Add("blood",49f);
-//float Temperature = 400f;
-//Dictionary<string, float> area_new = Calculations.Reactions(area,Temperature);
-
 public class Reaction
 {
 	public string Name { get; set; }
