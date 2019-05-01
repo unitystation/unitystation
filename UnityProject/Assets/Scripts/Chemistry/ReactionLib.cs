@@ -53,7 +53,7 @@ public static class Initialization
 	public static void Run()
 	{
 		JsonImportInitialization();
-		CemInitialization();
+		ChemInitialization();
 	}
 
 	private static void JsonImportInitialization()
