@@ -642,8 +642,8 @@ public partial class PlayerSync
 				if ( cnt && cnt.IsFloatingServer && Vector2Int.RoundToInt(cnt.ServerState.Impulse) == Vector2Int.RoundToInt(serverState.Impulse) )
 				{
 					Logger.LogTraceFormat( "Caught {0} at {1} (registered at {2})", Category.Movement, spaceObjToGrab.gameObject.name,
-							( Vector2 ) cnt.ServerState.WorldPosition, ( Vector2 ) ( Vector3 ) spaceObjToGrab.registerTile.WorldPositionS );
-					cnt.SetPosition( spaceObjToGrab.registerTile.WorldPositionS );
+							( Vector2 ) cnt.ServerState.WorldPosition, ( Vector2 ) ( Vector3 ) spaceObjToGrab.registerTile.WorldPositionServer );
+					cnt.SetPosition( spaceObjToGrab.registerTile.WorldPositionServer );
 					spaceObjToGrab.Stop();
 				}
 			}

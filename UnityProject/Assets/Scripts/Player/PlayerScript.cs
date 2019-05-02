@@ -42,7 +42,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public HitIcon hitIcon { get; set; }
 
-	public Vector3Int WorldPos => registerTile.WorldPositionS;
+	public Vector3Int WorldPos => registerTile.WorldPositionServer;
 
 	public ChatChannel SelectedChannels
 	{
@@ -241,7 +241,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
 	public bool IsInReach(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance)
 	{
-		return IsInReach(isServer ? registerTile.WorldPositionS : registerTile.WorldPositionC, otherPosition, interactDist);
+		return IsInReach(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, interactDist);
 	}
 
 	///Smart way to detect reach, supports high speeds in ships. Should use it more!
@@ -249,13 +249,13 @@ public class PlayerScript : ManagedNetworkBehaviour
 	{
 		if ( isServer )
 		{
-			return from.Matrix == to.Matrix && IsInReach(from.PositionS, to.PositionS, interactDist) ||
-			IsInReach(from.WorldPositionS, to.WorldPositionS, interactDist);
+			return from.Matrix == to.Matrix && IsInReach(from.PositionServer, to.PositionServer, interactDist) ||
+			IsInReach(from.WorldPositionServer, to.WorldPositionServer, interactDist);
 		}
 		else
 		{
-			return from.Matrix == to.Matrix && IsInReach(from.PositionC, to.PositionC, interactDist) ||
-		       IsInReach(from.WorldPositionC, to.WorldPositionC, interactDist);
+			return from.Matrix == to.Matrix && IsInReach(from.PositionClient, to.PositionClient, interactDist) ||
+		       IsInReach(from.WorldPositionClient, to.WorldPositionClient, interactDist);
 		}
 	}
 

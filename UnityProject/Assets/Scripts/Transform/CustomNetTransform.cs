@@ -364,13 +364,13 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 
 		//Checking if we should change matrix once per tile
-		if (server && registerTile.PositionS != Vector3Int.RoundToInt(serverState.Position) ) {
+		if (server && registerTile.PositionServer != Vector3Int.RoundToInt(serverState.Position) ) {
 			CheckMatrixSwitch();
 			registerTile.UpdatePositionServer();
 			changed = true;
 		}
 		//Registering
-		if (registerTile.PositionC != Vector3Int.RoundToInt(predictedState.Position) )
+		if (registerTile.PositionClient != Vector3Int.RoundToInt(predictedState.Position) )
 		{
 //			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPositionC, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
 			registerTile.UpdatePositionClient();

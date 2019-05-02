@@ -250,7 +250,7 @@ public class ClosetControl : InputTrigger
 	{
 		if (!isOpen)
 		{
-			heldItems = matrix.Get<ObjectBehaviour>(registerTile.PositionS, ObjectType.Item, true);
+			heldItems = matrix.Get<ObjectBehaviour>(registerTile.PositionServer, ObjectType.Item, true);
 		}
 
 		foreach ( ObjectBehaviour item in heldItems )
@@ -259,7 +259,7 @@ public class ClosetControl : InputTrigger
 			if (isOpen)
 			{
 				//avoids blinking of premapped items when opening first time in another place:
-				Vector3Int pos = registerTile.WorldPositionS;
+				Vector3Int pos = registerTile.WorldPositionServer;
 				netTransform.AppearAtPosition(pos);
 				item.parentContainer = null;
 				if (pushPull && pushPull.Pushable.IsMovingServer)
@@ -286,7 +286,7 @@ public class ClosetControl : InputTrigger
 	{
 		if (!isOpen)
 		{
-			heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.PositionS, ObjectType.Player, true);
+			heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.PositionServer, ObjectType.Player, true);
 		}
 
 		foreach ( ObjectBehaviour player in heldPlayers )
@@ -295,7 +295,7 @@ public class ClosetControl : InputTrigger
 			var playerSync = playerScript.PlayerSync;
 			if (isOpen)
 			{
-				playerSync.AppearAtPositionServer(registerTile.WorldPositionS);
+				playerSync.AppearAtPositionServer(registerTile.WorldPositionServer);
 				player.parentContainer = null;
 				if (pushPull && pushPull.Pushable.IsMovingServer)
 				{

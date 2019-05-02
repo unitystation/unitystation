@@ -94,7 +94,7 @@ using UnityEngine.Networking;
 			//only do this check when door is closing, and only for doors that block all directions (like airlocks)
 			if (isServer && !IsOpened && !registerTile.OneDirectionRestricted)
 			{
-				if (!MatrixManager.IsPassableAt(registerTile.WorldPositionS, registerTile.WorldPositionS,
+				if (!MatrixManager.IsPassableAt(registerTile.WorldPositionServer, registerTile.WorldPositionServer,
 					isServer: true, includingPlayers: true, context: this.gameObject))
 				{
 					//something is in the way, open back up
@@ -173,7 +173,7 @@ using UnityEngine.Networking;
 		public void TryClose()
 		{
 			// Sliding door is not passable according to matrix
-            if( IsOpened && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.PositionS, true ) || doorType == DoorType.sliding ) ) {
+            if( IsOpened && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.PositionServer, true ) || doorType == DoorType.sliding ) ) {
 	            Close();
             }
 			else

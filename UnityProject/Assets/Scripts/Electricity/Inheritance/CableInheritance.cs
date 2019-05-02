@@ -120,7 +120,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			}
 			List<ElectricalOIinheritance> Econns = new List<ElectricalOIinheritance>();
 			//Logger.Log(wireConnect.registerTile.Position.ToString());
-			var IEnumerableEconns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.PositionS);
+			var IEnumerableEconns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.PositionServer);
 			foreach (var T in IEnumerableEconns) {
 				Econns.Add(T);
 			}

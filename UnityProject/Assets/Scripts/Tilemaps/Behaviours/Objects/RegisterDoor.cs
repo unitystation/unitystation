@@ -24,7 +24,7 @@
 				if (isClosed != value)
 				{
 					isClosed = value;
-					subsystemManager.UpdateAt(PositionS);
+					subsystemManager.UpdateAt(PositionServer);
 				}
 			}
 		}
@@ -37,7 +37,7 @@
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				return !(to - (isServer ? PositionS : PositionC)).y.Equals(v.y);
+				return !(to - (isServer ? PositionServer : PositionClient)).y.Equals(v.y);
 			}
 
 			return !isClosed;
@@ -62,7 +62,7 @@
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				return !(from - (isServer ? PositionS : PositionC)).y.Equals(v.y);
+				return !(from - (isServer ? PositionServer : PositionClient)).y.Equals(v.y);
 			}
 
 			return !isClosed;

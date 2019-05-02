@@ -24,9 +24,9 @@ public class ObjectBehaviour : PushPull
         {
             lastNonHiddenPosition = parentContainer.AssumedLocation();
         }
-		else if (registerTile.WorldPositionS != TransformState.HiddenPos)
+		else if (registerTile.WorldPositionServer != TransformState.HiddenPos)
 		{
-			lastNonHiddenPosition = registerTile.WorldPositionS;
+			lastNonHiddenPosition = registerTile.WorldPositionServer;
 		} else if ( lastNonHiddenPosition == TransformState.HiddenPos )
         { //If not initialized yet
 	        lastNonHiddenPosition = transform.position;

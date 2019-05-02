@@ -458,11 +458,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 
 		//Registering
-		if (registerTile.PositionC != Vector3Int.RoundToInt(predictedState.Position))
+		if (registerTile.PositionClient != Vector3Int.RoundToInt(predictedState.Position))
 		{
 			registerTile.UpdatePositionClient();
 		}
-		if (registerTile.PositionS != Vector3Int.RoundToInt(serverState.Position))
+		if (registerTile.PositionServer != Vector3Int.RoundToInt(serverState.Position))
 		{
 			registerTile.UpdatePositionServer();
 		}
@@ -534,12 +534,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	{
 		//registerTile S pos
 		Gizmos.color = color7;
-		Vector3 regPosS = registerTile.WorldPositionS;
+		Vector3 regPosS = registerTile.WorldPositionServer;
 		Gizmos.DrawCube(regPosS, size5);
 
 		//registerTile C pos
 		Gizmos.color = color0;
-		Vector3 regPosC = registerTile.WorldPositionC;
+		Vector3 regPosC = registerTile.WorldPositionClient;
 		Gizmos.DrawCube(regPosC, size2);
 
 		//serverState

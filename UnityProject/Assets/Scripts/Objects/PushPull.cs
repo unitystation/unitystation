@@ -519,12 +519,12 @@ public class PushPull : VisibleBehaviour {
 		if ( success )
 		{
 			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledBy.registerTile.WorldPositionS, target) ) )
+			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledBy.registerTile.WorldPositionServer, target) ) )
 			{
 				StopFollowing();
 			}
 			if ( IsPullingSomethingServer && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledObjectServer.registerTile.WorldPositionS, target) ) )
+			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target) ) )
 			{
 				ReleaseControl();
 			}
@@ -602,7 +602,7 @@ public class PushPull : VisibleBehaviour {
 		if ( isNotPushable || !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
-		lastReliablePos = registerTile.WorldPositionC;
+		lastReliablePos = registerTile.WorldPositionClient;
 		if ( from != lastReliablePos ) {
 			return false;
 		}

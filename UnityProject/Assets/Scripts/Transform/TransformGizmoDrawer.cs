@@ -29,12 +29,12 @@ public class TransformGizmoDrawer : MonoBehaviour {
 		}
 		//registerTile server pos
 		Gizmos.color = color7;
-		Vector3 regPosS = rt.WorldPositionS;
+		Vector3 regPosS = rt.WorldPositionServer;
 		Gizmos.DrawCube( regPosS, size1 );
 
 		//registerTile client pos
 		Gizmos.color = color0;
-		Vector3 regPosC = rt.WorldPositionC;
+		Vector3 regPosC = rt.WorldPositionClient;
 		Gizmos.DrawCube( regPosC, size2 );
 
 		//server lerp

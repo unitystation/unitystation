@@ -121,14 +121,14 @@ public abstract class RegisterTile : NetworkBehaviour
 	// is invoked.
 	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
 
-	public Vector3Int WorldPositionS => MatrixManager.Instance.LocalToWorldInt(serverPosition, Matrix);
-	public Vector3Int WorldPositionC => MatrixManager.Instance.LocalToWorldInt(clientPosition, Matrix);
+	public Vector3Int WorldPositionServer => MatrixManager.Instance.LocalToWorldInt(serverPosition, Matrix);
+	public Vector3Int WorldPositionClient => MatrixManager.Instance.LocalToWorldInt(clientPosition, Matrix);
 
 	/// <summary>
 	/// the "registered" local position of this object (which might differ from transform.localPosition).
 	/// It will be set to TransformState.HiddenPos when hiding the object.
 	/// </summary>
-	public Vector3Int PositionS
+	public Vector3Int PositionServer
 	{
 		get => serverPosition;
 		protected set
@@ -147,7 +147,7 @@ public abstract class RegisterTile : NetworkBehaviour
 		}
 	}
 	private Vector3Int serverPosition;
-	public Vector3Int PositionC
+	public Vector3Int PositionClient
 	{
 		get => clientPosition;
 		protected set
@@ -184,17 +184,17 @@ public abstract class RegisterTile : NetworkBehaviour
 		}
 
 		//remove from current parent layer
-		layer?.ClientObjects.Remove(PositionC, this);
-		layer?.ServerObjects.Remove(PositionS, this);
+		layer?.ClientObjects.Remove(PositionClient, this);
+		layer?.ServerObjects.Remove(PositionServer, this);
 		layer = parent.GetComponentInChildren<ObjectLayer>();
 		Matrix = parent.GetComponentInChildren<Matrix>();
 		transform.parent = layer.transform;
 		//if we are hidden, remain hidden, otherwise update because we have a new parent
-		if (PositionC != TransformState.HiddenPos)
+		if (PositionClient != TransformState.HiddenPos)
 		{
 			UpdatePositionClient();
 		}
-		if (PositionS != TransformState.HiddenPos)
+		if (PositionServer != TransformState.HiddenPos)
 		{
 			UpdatePositionServer();
 		}
@@ -257,8 +257,8 @@ public abstract class RegisterTile : NetworkBehaviour
 	{
 		if (layer)
 		{
-			layer.ServerObjects.Remove(PositionS, this);
-			layer.ClientObjects.Remove(PositionC, this);
+			layer.ServerObjects.Remove(PositionServer, this);
+			layer.ClientObjects.Remove(PositionClient, this);
 		}
 	}
 
@@ -275,18 +275,18 @@ public abstract class RegisterTile : NetworkBehaviour
 			layer = transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 
-			PositionS = Vector3Int.RoundToInt(transform.localPosition);
-			PositionC = Vector3Int.RoundToInt(transform.localPosition);
+			PositionServer = Vector3Int.RoundToInt(transform.localPosition);
+			PositionClient = Vector3Int.RoundToInt(transform.localPosition);
 		}
 	}
 
 	public void UnregisterClient()
 	{
-		PositionC = TransformState.HiddenPos;
+		PositionClient = TransformState.HiddenPos;
 	}
 	public void UnregisterServer()
 	{
-		PositionS = TransformState.HiddenPos;
+		PositionServer = TransformState.HiddenPos;
 	}
 
 	private void OnDisable()
@@ -297,12 +297,12 @@ public abstract class RegisterTile : NetworkBehaviour
 
 	public virtual void UpdatePositionServer()
 	{
-		PositionS = customTransform ? customTransform.Pushable.ServerLocalPosition : transform.localPosition.RoundToInt();
+		PositionServer = customTransform ? customTransform.Pushable.ServerLocalPosition : transform.localPosition.RoundToInt();
 	}
 
 	public virtual void UpdatePositionClient()
 	{
-		PositionC = customTransform ? customTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
+		PositionClient = customTransform ? customTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
 	}
 
 	/// <summary>
