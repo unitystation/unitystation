@@ -106,7 +106,7 @@ public class MopTrigger : PickUpTrigger
 	    if (!MatrixManager.IsSpaceAt(worldPosInt))
 	    {
 		    // Create a WaterSplat Decal (visible slippery tile)
-		    // EffectsFactory.Instance.WaterSplat(targetWorldIntPos);
+		    EffectsFactory.Instance.WaterSplat(worldPosInt);
 
 		    // Sets a tile to slippery
 		    matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);
