@@ -69,11 +69,11 @@ public class MetaDataSystem : SubsystemBehaviour
 		MetaUtils.RemoveFromNeighbors(node);
 		externalNodes.TryRemove(node, out MetaDataNode nothing);
 
-		if (metaTileMap.IsAtmosPassableAt(position))
+		if (metaTileMap.IsAtmosPassableAt(position, true))
 		{
 			node.ClearNeighbors();
 
-			node.Type = metaTileMap.IsSpaceAt(position) ? NodeType.Space : NodeType.Room;
+			node.Type = metaTileMap.IsSpaceAt(position, true) ? NodeType.Space : NodeType.Room;
 			SetupNeighbors(node);
 			MetaUtils.AddToNeighbors(node);
 		}
@@ -95,14 +95,14 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void FindRoomAt(Vector3Int position)
 	{
-		if (!metaTileMap.IsAtmosPassableAt(position))
+		if (!metaTileMap.IsAtmosPassableAt(position, true))
 		{
 			MetaDataNode node = metaDataLayer.Get(position);
 			node.Type = NodeType.Occupied;
 
 			SetupNeighbors(node);
 		}
-		else if (!metaTileMap.IsSpaceAt(position) && !metaDataLayer.IsRoomAt(position) && !metaDataLayer.IsSpaceAt(position))
+		else if (!metaTileMap.IsSpaceAt(position, true) && !metaDataLayer.IsRoomAt(position) && !metaDataLayer.IsSpaceAt(position))
 		{
 			CreateRoom(position);
 		}
@@ -127,16 +127,16 @@ public class MetaDataSystem : SubsystemBehaviour
 				for (var i = 0; i < neighbors.Length; i++)
 				{
 					Vector3Int neighbor = neighbors[i];
-					if (metaTileMap.IsSpaceAt(neighbor))
+					if (metaTileMap.IsSpaceAt(neighbor, true))
 					{
 						Vector3Int worldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
 
-						if (MatrixManager.IsSpaceAt(worldPosition))
+						if (MatrixManager.IsSpaceAt(worldPosition, true))
 						{
 							isSpace = true;
 						}
 					}
-					else if (metaTileMap.IsAtmosPassableAt(position, neighbor))
+					else if (metaTileMap.IsAtmosPassableAt(position, neighbor, true))
 					{
 						if (!roomPositions.Contains(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
 						{
@@ -185,7 +185,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		{
 			Vector3Int neighbor = dir + node.Position;
 
-			if (metaTileMap.IsSpaceAt(neighbor))
+			if (metaTileMap.IsSpaceAt(neighbor, true))
 			{
 				if (node.IsRoom && !externalNodes.ContainsKey(node))
 				{
@@ -194,16 +194,16 @@ public class MetaDataSystem : SubsystemBehaviour
 
 				Vector3 neighborWorldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
 
-				if (!MatrixManager.IsSpaceAt(neighborWorldPosition.RoundToInt()))
+				if (!MatrixManager.IsSpaceAt(neighborWorldPosition.RoundToInt(), true))
 				{
-					MatrixInfo matrixInfo = MatrixManager.AtPoint(neighborWorldPosition.RoundToInt());
+					MatrixInfo matrixInfo = MatrixManager.AtPoint(neighborWorldPosition.RoundToInt(), true);
 
 					if (matrixInfo.MetaTileMap != metaTileMap)
 					{
 						Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);
 						Vector3Int nodeLocalPosition = MatrixManager.WorldToLocalInt(nodeWorldPosition, matrixInfo);
 
-						if (matrixInfo.MetaTileMap.IsAtmosPassableAt(nodeLocalPosition, neighborlocalPosition))
+						if (matrixInfo.MetaTileMap.IsAtmosPassableAt(nodeLocalPosition, neighborlocalPosition, true))
 						{
 							node.AddNeighbor(matrixInfo.MetaDataLayer.Get(neighborlocalPosition));
 						}
@@ -213,11 +213,11 @@ public class MetaDataSystem : SubsystemBehaviour
 				}
 			}
 
-			if (metaTileMap.IsAtmosPassableAt(node.Position, neighbor))
+			if (metaTileMap.IsAtmosPassableAt(node.Position, neighbor, true))
 			{
 				MetaDataNode neighborNode = metaDataLayer.Get(neighbor);
 
-				if (metaTileMap.IsSpaceAt(neighbor))
+				if (metaTileMap.IsSpaceAt(neighbor, true))
 				{
 					neighborNode.Type = NodeType.Space;
 				}

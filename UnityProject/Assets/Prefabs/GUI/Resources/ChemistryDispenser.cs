@@ -25,7 +25,7 @@ public class ChemistryDispenser : NetworkTabTrigger {
 
 		if (Container == null){
 			PlayerScript ps = originator.GetComponent<PlayerScript>();
-			if (ps.canNotInteract() || !ps.IsInReach(position))
+			if (ps.canNotInteract() || !ps.IsInReach(position, true))
 			{
 				return false;
 			}

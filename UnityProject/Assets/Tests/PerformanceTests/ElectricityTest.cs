@@ -67,7 +67,7 @@ namespace Tests
 
 		T GetAtRelative<T>(Orientation orientation) where T : MonoBehaviour
 		{
-			return MatrixManager.GetAt<T>(player.ClientPosition + Vector3Int.FloorToInt(orientation.Vector)).First();
+			return MatrixManager.GetAt<T>(player.ClientPosition + Vector3Int.FloorToInt(orientation.Vector), true).First();
 		}
 
 		IEnumerator Move(int repeat, params MoveAction[] moves)

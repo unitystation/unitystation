@@ -23,7 +23,7 @@ public class ComponentAtTargetMatrixPosition<T> : IInteractionValidator<MouseDro
 	private ValidationResult AllValidate(TargetedInteraction toValidate, NetworkSide side)
 	{
 		var position = toValidate.TargetObject.transform.position.CutToInt();
-		return MatrixManager.GetAt<T>(position).Any(criteria) == shouldAnyMatch ?
+		return MatrixManager.GetAt<T>(position, side == NetworkSide.SERVER).Any(criteria) == shouldAnyMatch ?
 			ValidationResult.SUCCESS :
 			ValidationResult.FAIL;
 	}

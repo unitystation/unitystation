@@ -365,7 +365,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		if (damageType == DamageType.Brute)
 		{
 			//spawn blood
-			EffectsFactory.Instance.BloodSplat(registerTile.WorldPosition, BloodSplatSize.medium);
+			EffectsFactory.Instance.BloodSplat(registerTile.WorldPositionServer, BloodSplatSize.medium);
 		}
 	}
 

@@ -512,7 +512,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command] //Remember with the parent you can only send networked objects:
 	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
-		if (playerScript.canNotInteract() || !playerScript.IsInReach(pos))
+		if (playerScript.canNotInteract() || !playerScript.IsInReach(pos, true))
 		{
 			return;
 		}
@@ -569,7 +569,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			return;
 		}
-		if (playerScript.IsInReach(cupbObj) || closet.Contains(this.gameObject))
+		if (playerScript.IsInReach(cupbObj, true) || closet.Contains(this.gameObject))
 		{
 			closet.ServerToggleCupboard();
 		}
@@ -700,6 +700,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void OnConsciousStateChanged(ConsciousState oldState, ConsciousState newState)
 	{
+		playerScript.registerTile.IsDownServer = newState != ConsciousState.CONSCIOUS;
 		switch (newState)
 		{
 			case ConsciousState.CONSCIOUS:
@@ -892,7 +893,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdRefillWelder(GameObject welder, GameObject weldingTank)
 	{
 		//Double check reach just in case:
-		if (playerScript.IsInReach(weldingTank))
+		if (playerScript.IsInReach(weldingTank, true))
 		{
 			var w = welder.GetComponent<Welder>();
 

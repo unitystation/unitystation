@@ -183,7 +183,7 @@ public class APC : PowerSupplyControlInheritance
 	public override void _Interact(GameObject originator, Vector3 position, string hand)
 	{
 		var playerScript = originator.GetComponent<PlayerScript>();
-		if (playerScript.canNotInteract() || !playerScript.IsInReach(gameObject))
+		if (playerScript.canNotInteract() || !playerScript.IsInReach(gameObject, false))
 		{ //check for both client and server
 			return;
 		}

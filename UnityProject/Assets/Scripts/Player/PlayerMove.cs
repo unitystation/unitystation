@@ -80,6 +80,10 @@ public class PlayerMove : NetworkBehaviour
 	public float RunSpeed = 6;
 	public float WalkSpeed = 3;
 	public float CrawlSpeed = 0.8f;
+	/// <summary>
+	/// Player will fall when pushed with such speed
+	/// </summary>
+	public float PushFallSpeed = 10;
 
 	private RegisterPlayer registerPlayer;
 	private Matrix matrix => registerPlayer.Matrix;
@@ -239,9 +243,9 @@ public class PlayerMove : NetworkBehaviour
 		this.onUnbuckled = onUnbuckled;
 
 		//if player is downed, make them upright
-		if (registerPlayer.IsDown)
+		if (registerPlayer.IsDownServer)
 		{
-			PlayerUprightMessage.SendToAll(gameObject, true);
+			PlayerUprightMessage.SendToAll(gameObject, true, registerPlayer.IsStunnedServer);
 		}
 	}
 
@@ -269,7 +273,7 @@ public class PlayerMove : NetworkBehaviour
 		    playerScript.playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
 		    playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
 		{
-			PlayerUprightMessage.SendToAll(gameObject, false);
+			PlayerUprightMessage.SendToAll(gameObject, false, registerPlayer.IsStunnedServer);
 		}
 
 		onUnbuckled?.Invoke();

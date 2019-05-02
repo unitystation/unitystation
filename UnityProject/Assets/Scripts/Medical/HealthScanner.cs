@@ -31,8 +31,7 @@ public class HealthScanner : PickUpTrigger
 		{
 			Vector3 tposition = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
 			tposition.z = 0f;
-			List<PlayerHealth> objects = MatrixManager.GetAt<PlayerHealth>(tposition.RoundToInt());
-			foreach (PlayerHealth theObject in objects) {
+			foreach (PlayerHealth theObject in MatrixManager.GetAt<PlayerHealth>(tposition.RoundToInt(), false)) {
 				PlayerFound(theObject);
 			}
 			return base.Interact(originator, position, hand);;

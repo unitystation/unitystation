@@ -18,8 +18,11 @@ public partial class PlayerSync
 	public Vector3IntEvent OnUpdateRecieved() => onUpdateReceived;
 	private UnityEvent onPullInterrupt = new UnityEvent();
 	public UnityEvent OnPullInterrupt() => onPullInterrupt;
+	public CollisionEvent onHighSpeedCollision = new CollisionEvent();
+	public CollisionEvent OnHighSpeedCollision() => onHighSpeedCollision;
 
 	public Vector3Int ServerPosition => serverState.WorldPosition.RoundToInt();
+	public Vector3Int ServerLocalPosition => serverState.Position.RoundToInt();
 
 	/// Current server state. Integer positions.
 	private PlayerState serverState;
@@ -32,7 +35,7 @@ public partial class PlayerSync
 
 	private Queue<PlayerAction> serverPendingActions;
 
-	/// Max size of serverside queue, client will be rolled back and punished if it overflows
+	/// Max size of serverside queue, client will be rolled back if it overflows
 	private readonly int maxServerQueue = 10;
 
 	private HashSet<PushPull> questionablePushables = new HashSet<PushPull>();
@@ -64,15 +67,16 @@ public partial class PlayerSync
 				return false;
 			}
 			GameObject[] context = pushPull.IsPullingSomethingServer ? new[]{gameObject, pushPull.PulledObjectServer.gameObject} : new[]{gameObject};
-			return MatrixManager.IsFloatingAt( context, Vector3Int.RoundToInt( serverState.WorldPosition ) );
+			return MatrixManager.IsFloatingAt( context, Vector3Int.RoundToInt( serverState.WorldPosition ), isServer: true );
 		}
 	}
 
 	/// <summary>
 	/// If the position of this player is "non-sticky", i.e. meaning they would slide / float in a given direction
 	/// </summary>
-	public bool IsNonStickyServer => !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ));
-	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState );
+	public bool IsNonStickyServer => registerPlayer.IsStunnedServer
+	            || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ), true);
+	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState, true );
 
 
 	public bool IsMovingServer => consideredFloatingServer || !ServerPositionsMatch;
@@ -96,7 +100,7 @@ public partial class PlayerSync
 		private void InitServerState()
 		{
 			Vector3Int worldPos = Vector3Int.RoundToInt((Vector2) transform.position); //cutting off Z-axis & rounding
-			MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos);
+			MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos, true);
 			masterSpeedServer = playerMove.RunSpeed;
 			PlayerState state = new PlayerState
 			{
@@ -112,6 +116,7 @@ public partial class PlayerSync
 	}
 
 	private PlayerAction lastAddedAction = PlayerAction.None;
+	private Coroutine floatingSyncHandle;
 
 	[Command(channel = 0)]
 	private void CmdProcessAction(PlayerAction action)
@@ -151,17 +156,21 @@ public partial class PlayerSync
 		Vector3Int origin = Vector3Int.RoundToInt( (Vector2)serverState.WorldPosition );
 		Vector3Int pushGoal = origin + Vector3Int.RoundToInt( (Vector2)direction );
 
-		if ( !MatrixManager.IsPassableAt( origin, pushGoal, includingPlayers: !followMode ) ) {
+		if ( !MatrixManager.IsPassableAt( origin, pushGoal, isServer: true, includingPlayers: !followMode ) ) {
 			return false;
 		}
 
 		if ( followMode ) {
 			SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
 		}
+		else if ( !float.IsNaN( speed ) && speed >= playerMove.PushFallSpeed )
+		{
+			registerPlayer.Slip(true);
+		}
 
-		Logger.LogTraceFormat( "Server push to {0}", Category.PushPull, pushGoal );
+		Logger.LogTraceFormat( "{1}: Server push to {0}", Category.PushPull, pushGoal, gameObject.name );
 		ClearQueueServer();
-		MatrixInfo newMatrix = MatrixManager.AtPoint( pushGoal );
+		MatrixInfo newMatrix = MatrixManager.AtPoint( pushGoal, true );
 		//Note the client queue reset
 		var newState = new PlayerState {
 			MoveNumber = 0,
@@ -190,7 +199,7 @@ public partial class PlayerSync
 	{
 		ClearQueueServer();
 		Vector3Int roundedPos = Vector3Int.RoundToInt((Vector2)worldPos); //cutting off z-axis
-		MatrixInfo newMatrix = MatrixManager.AtPoint(roundedPos);
+		MatrixInfo newMatrix = MatrixManager.AtPoint(roundedPos, true);
 		//Note the client queue reset
 		var newState = new PlayerState
 		{
@@ -354,7 +363,7 @@ public partial class PlayerSync
 		}
 
 		//Check if there is a bump interaction according to the server
-		BumpType serverBump = CheckSlideAndBump(state, ref action);
+		BumpType serverBump = CheckSlideAndBump(state, isServer: true, ref action);
 
 		//Client only needs to check whether movement was prevented, specific type of bump doesn't matter
 		bool isClientBump = action.isBump;
@@ -386,12 +395,13 @@ public partial class PlayerSync
 		bool swapped = false;
 		if (serverBump == BumpType.HelpIntent)
 		{
-			swapped = CheckAndDoSwap(state.WorldPosition.RoundToInt() + action.Direction().To3Int(), action.Direction() * -1);
+			swapped = CheckAndDoSwap(state.WorldPosition.RoundToInt() + action.Direction().To3Int(), action.Direction() * -1
+				, isServer: true);
 		}
 
 		if ( IsNonStickyServer && !swapped ) {
 			PushPull pushable;
-			if (!swapped && IsAroundPushables( serverState, out pushable ) ) {
+			if (!swapped && IsAroundPushables( serverState, isServer: true, out pushable ) ) {
 				StartCoroutine( InteractSpacePushable( pushable, action.Direction() ) );
 			}
 			return state;
@@ -403,7 +413,7 @@ public partial class PlayerSync
 			return state;
 		}
 
-		PlayerState nextState = NextState(state, action);
+		PlayerState nextState = NextState(state, action, true);
 
 		nextState.Speed = SpeedServer;
 
@@ -416,7 +426,7 @@ public partial class PlayerSync
 	[Command(channel = 0)]
 	private void CmdValidatePush( GameObject pushable ) {
 		var pushPull = pushable.GetComponent<PushPull>();
-		if ( playerScript.canNotInteract() || pushPull && !playerScript.IsInReach(pushPull.registerTile) ) {
+		if ( playerScript.canNotInteract() || pushPull && !playerScript.IsInReach(pushPull.registerTile, true) ) {
 			questionablePushables.Add( pushPull );
 			Logger.LogWarningFormat( "Added questionable {0}", Category.PushPull, pushPull );
 		}
@@ -452,7 +462,7 @@ public partial class PlayerSync
 	private IEnumerator InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false, int i = 0 ) {
 		//Return if pushable is solid and you're trying to walk through it
 		Vector3Int pushablePosition = pushable.Pushable.ServerPosition;
-		if ( pushable.IsSolid && pushablePosition == this.ServerPosition + direction.RoundToInt() ) {
+		if ( pushable.IsSolidServer && pushablePosition == this.ServerPosition + direction.RoundToInt() ) {
 			Logger.LogTraceFormat( "Not doing anything: trying to push solid {0} through yourself", Category.PushPull, pushable.gameObject );
 			yield break;
 		}
@@ -498,7 +508,7 @@ public partial class PlayerSync
 		if ( IsNonStickyServer ) {
 			return;
 		}
-		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, direction.To2Int(), gameObject);
+		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, direction.To2Int(), gameObject, isServer: true);
 		if (pushables.Count > 0)
 		{
 			pushables[0].TryPush(direction.To2Int());
@@ -513,7 +523,7 @@ public partial class PlayerSync
 	private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 	{
 		// Make sure there is a door which can be interacted with
-		DoorTrigger door = MatrixManager.GetClosedDoorAt(currentPos, targetPos);
+		DoorTrigger door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);
 
 		// Attempt to open door
 		if (door != null)
@@ -535,7 +545,7 @@ public partial class PlayerSync
 		//Space walk checks
 		if ( IsNonStickyServer )
 		{
-			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero /*&& !IsBeingPulledServer*/)
+			if (serverState.Impulse == Vector2.zero && serverLastDirection != Vector2.zero)
 			{
 				//server initiated space dive.
 				serverState.Impulse = serverLastDirection;
@@ -552,6 +562,11 @@ public partial class PlayerSync
 				}
 				else if ( consideredFloatingServer )
 				{
+					if ( floatingSyncHandle == null )
+					{
+						this.StartCoroutine( FloatingAwarenessSync(), ref floatingSyncHandle );
+					}
+
 					var oldPos = serverState.WorldPosition;
 
 					//Extending prediction by one tile if player's transform reaches previously set goal
@@ -563,25 +578,72 @@ public partial class PlayerSync
 
 					OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 				}
+
+				//Explicitly informing about stunned players
+				//because they don't always meet clientside flight prediction expectations
+				if ( registerPlayer.IsStunnedServer )
+				{
+					serverState.ImportantFlightUpdate = true;
+					NotifyPlayers();
+				}
 			}
 		}
 
 		if ( consideredFloatingServer && !IsWeightlessServer ) {
-			Stop();
+			var worldOrigin = ServerPosition;
+			var worldTarget = worldOrigin + serverState.Impulse.RoundToInt();
+			if ( registerPlayer.IsStunnedServer && MatrixManager.IsPassableAt( worldOrigin, worldTarget, true ) )
+			{
+				Logger.LogFormat( "Letting stunned {0} fly onto {1}", Category.Movement, gameObject.name, worldTarget );
+				return;
+			}
+			if ( serverState.Speed >= PushPull.HIGH_SPEED_COLLISION_THRESHOLD && IsTileSnap )
+			{
+				//Stop first (reach tile), then inform about collision
+				var collisionInfo = new CollisionInfo
+				{
+					Speed = serverState.Speed,
+					Size = this.Size,
+					CollisionTile = worldTarget
+				};
+
+				Stop();
+
+				OnHighSpeedCollision().Invoke( collisionInfo );
+			}
+			else
+			{
+				Stop();
+			}
 		}
 	}
 
-	public void Stop() {
+	/// <summary>
+	/// Send current position of space floating player to clients every second in case their reproduction is wrog
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator FloatingAwarenessSync()
+	{
+		yield return YieldHelper.Second;
+//		Logger.LogFormat( "{0} is floating at {1} (friendly reminder)", Category.Movement, gameObject.name, ServerPosition );
+		serverState.ImportantFlightUpdate = true;
+		NotifyPlayers();
+		this.RestartCoroutine( FloatingAwarenessSync(), ref floatingSyncHandle );
+	}
+
+	public void Stop()
+	{
+		this.TryStopCoroutine( ref floatingSyncHandle );
 		if ( consideredFloatingServer ) {
 			PushPull spaceObjToGrab;
-			if ( IsAroundPushables( serverState, out spaceObjToGrab ) && spaceObjToGrab.IsSolid ) {
+			if ( IsAroundPushables( serverState, isServer: true, out spaceObjToGrab ) && spaceObjToGrab.IsSolidServer ) {
 				//some hacks to avoid space closets stopping out of player's reach
 				var cnt = spaceObjToGrab.GetComponent<CustomNetTransform>();
 				if ( cnt && cnt.IsFloatingServer && Vector2Int.RoundToInt(cnt.ServerState.Impulse) == Vector2Int.RoundToInt(serverState.Impulse) )
 				{
 					Logger.LogTraceFormat( "Caught {0} at {1} (registered at {2})", Category.Movement, spaceObjToGrab.gameObject.name,
-							( Vector2 ) cnt.ServerState.WorldPosition, ( Vector2 ) ( Vector3 ) spaceObjToGrab.registerTile.WorldPosition );
-					cnt.SetPosition( spaceObjToGrab.registerTile.WorldPosition );
+							( Vector2 ) cnt.ServerState.WorldPosition, ( Vector2 ) ( Vector3 ) spaceObjToGrab.registerTile.WorldPositionServer );
+					cnt.SetPosition( spaceObjToGrab.registerTile.WorldPositionServer );
 					spaceObjToGrab.Stop();
 				}
 			}
@@ -619,7 +681,7 @@ public partial class PlayerSync
 			// Check for swap once movement is done, to prevent us and another player moving into the same tile
 			if (!playerScript.IsGhost)
 			{
-				CheckAndDoSwap(targetPos.RoundToInt(), serverLastDirection * -1);
+				CheckAndDoSwap(targetPos.RoundToInt(), serverLastDirection * -1, isServer: true);
 			}
 		}
 		if ( TryNotifyPlayers() ) {
@@ -644,7 +706,7 @@ public partial class PlayerSync
 		{
 			return;
 		}
-		List<RegisterItem> objects = MatrixManager.GetAt<RegisterItem>(position);
+		List<RegisterItem> objects = MatrixManager.GetAt<RegisterItem>(position, true);
 		// Removes player from object list
 		objects.Remove(gameObject.GetComponent<RegisterItem>());
 		for (int i = 0; i < objects.Count; i++)

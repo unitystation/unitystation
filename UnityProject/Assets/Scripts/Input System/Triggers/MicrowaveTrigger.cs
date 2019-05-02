@@ -36,7 +36,7 @@ public class MicrowaveTrigger : InputTrigger
 	private bool ValidateMicrowaveInteraction(GameObject originator, Vector3 position, string hand)
 	{
 		PlayerScript ps = originator.GetComponent<PlayerScript>();
-		if (ps.canNotInteract() || !ps.IsInReach(position))
+		if (ps.canNotInteract() || !ps.IsInReach(position, true))
 		{
 			return false;
 		}

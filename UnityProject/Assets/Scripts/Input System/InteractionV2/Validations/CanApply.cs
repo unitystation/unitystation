@@ -49,6 +49,6 @@ public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<
 			return false;
 		}
 
-		return ignoreRange || playerScript.IsInReach(target.transform.position);
+		return ignoreRange || playerScript.IsInReach(target.transform.position, false);
 	}
 }

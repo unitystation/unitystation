@@ -1,12 +1,21 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+
+public enum StunnedState
+{
+	Unknown = 0,
+	Stunned = 1,
+	NonStunned = 2
+}
 
 ///   Tells client to make given player appear laying down or back up on feet
 public class PlayerUprightMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.PlayerUprightMessage;
 	public bool Upright;
+	public StunnedState Stunned;
 	/// Whom is it about
 	public NetworkInstanceId SubjectPlayer;
 
@@ -33,9 +42,14 @@ public class PlayerUprightMessage : ServerMessage
 			//we ignore restraint
 			registerPlayer.LayDown(true);
 		}
+
+		if ( Stunned != StunnedState.Unknown )
+		{
+			registerPlayer.IsStunnedClient = Stunned == StunnedState.Stunned;
+		}
 	}
 
-	public static PlayerUprightMessage Send(GameObject recipient, GameObject subjectPlayer, bool upright)
+	public static PlayerUprightMessage Send(GameObject recipient, GameObject subjectPlayer, bool upright, bool isStunned)
 	{
 		if (!IsValid(subjectPlayer, upright))
 		{
@@ -45,12 +59,19 @@ public class PlayerUprightMessage : ServerMessage
 		{
 			SubjectPlayer = subjectPlayer.NetId(),
 			Upright = upright,
+			Stunned = isStunned ? StunnedState.Stunned : StunnedState.NonStunned
 		};
 		msg.SendTo(recipient);
 		return msg;
 	}
 
-	public static void SendToAll(GameObject subjectPlayer, bool upright)
+	/// <summary>
+	/// Stunned info will ONLY be sent to subject!
+	/// </summary>
+	/// <param name="subjectPlayer"></param>
+	/// <param name="upright"></param>
+	/// <param name="isStunned"></param>
+	public static void SendToAll(GameObject subjectPlayer, bool upright, bool isStunned)
 	{
 		if (!IsValid(subjectPlayer, upright))
 		{
@@ -60,8 +81,11 @@ public class PlayerUprightMessage : ServerMessage
 		{
 			SubjectPlayer = subjectPlayer.NetId(),
 			Upright = upright,
+			Stunned = StunnedState.Unknown
 		};
-		msg.SendToAll();
+		msg.SendToAllExcept( subjectPlayer );
+		msg.Stunned = isStunned ? StunnedState.Stunned : StunnedState.NonStunned;
+		msg.SendTo( subjectPlayer );
 	}
 
 	private static bool IsValid(GameObject subjectPlayer, bool upright)

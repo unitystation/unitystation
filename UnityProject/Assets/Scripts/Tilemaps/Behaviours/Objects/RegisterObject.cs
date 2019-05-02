@@ -11,16 +11,19 @@ public class RegisterObject : RegisterTile
 	public bool AtmosPassable = true;
 	public bool Passable = true;
 
-	public override bool IsPassable(Vector3Int from) => Passable || Position == TransformState.HiddenPos;
-
-	public override bool IsPassable()
+	public override bool IsPassable(Vector3Int from, bool isServer)
 	{
-		return Passable || Position == TransformState.HiddenPos;
+		return Passable || (isServer ? PositionServer == TransformState.HiddenPos : PositionClient == TransformState.HiddenPos );
 	}
 
-	public override bool IsAtmosPassable(Vector3Int from)
+	public override bool IsPassable(bool isServer)
 	{
-		return AtmosPassable || Position == TransformState.HiddenPos;
+		return Passable || (isServer ? PositionServer == TransformState.HiddenPos : PositionClient == TransformState.HiddenPos );
+	}
+
+	public override bool IsAtmosPassable(Vector3Int from, bool isServer)
+	{
+		return AtmosPassable || (isServer ? PositionServer == TransformState.HiddenPos : PositionClient == TransformState.HiddenPos );
 	}
 
 	#region UI Mouse Actions

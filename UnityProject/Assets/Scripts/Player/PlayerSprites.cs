@@ -129,7 +129,7 @@ public class PlayerSprites : UserControlledSprites
 	/// <param name="direction"></param>
 	public override void LocalFaceDirection(Orientation direction)
 	{
-		if (registerPlayer.IsDown || playerSync.isBumping)
+		if (registerPlayer.IsDownClient || playerSync.isBumping)
 		{
 			//Don't face while bumping is occuring on this frame
 			//or when player is down

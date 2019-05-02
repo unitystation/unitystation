@@ -66,7 +66,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public virtual void PowerUpdateStructureChange()
 	{
 		wireConnect.FlushConnectionAndUp();
-		wireConnect.registerTile.Unregister();
+		wireConnect.registerTile.UnregisterServer();
 		PoolManager.PoolNetworkDestroy(gameObject);
 	}
 	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
@@ -120,7 +120,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			}
 			List<ElectricalOIinheritance> Econns = new List<ElectricalOIinheritance>();
 			//Logger.Log(wireConnect.registerTile.Position.ToString());
-			var IEnumerableEconns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.Position);
+			var IEnumerableEconns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.PositionServer);
 			foreach (var T in IEnumerableEconns) {
 				Econns.Add(T);
 			}
@@ -197,7 +197,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		WireEndB = REWireEndB;
 		//Logger.Log(WireEndB.ToString() + " <WireEndB and WireEndA> " + WireEndA.ToString(), Category.Electrical);
 		SetSprite();
-		if (isServer) { 
+		if (isServer) {
 			FindOverlapsAndCombine();
 		}
 	}
@@ -222,7 +222,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		{
 			Compound = WireEndA + "_" + WireEndB;
 		}
-		else { 
+		else {
 			Compound = WireEndB + "_" + WireEndA;
 		}
 		//Logger.Log(Compound + "?");

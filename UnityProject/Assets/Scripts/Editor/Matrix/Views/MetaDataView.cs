@@ -21,6 +21,7 @@ public class MetaDataView : BasicView
 		localChecks.Add(new NeighborCheck());
 		localChecks.Add(new SpaceConnectCheck());
 		localChecks.Add(new HotspotCheck());
+		localChecks.Add(new WindCheck());
 		localChecks.Add(new PlasmaCheck());
 		localChecks.Add(new OxygenCheck());
 		localChecks.Add(new CarbonDioxideCheck());
@@ -189,6 +190,25 @@ public class MetaDataView : BasicView
 			if (node.HasHotspot)
 			{
 				GizmoUtils.DrawWireCube(position, Color.red, size:0.85f);
+			}
+		}
+	}
+	private class WindCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Space Wind";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+			if (node.HasWind)
+			{
+				var alpha = Mathf.Clamp(node.WindForce / 20, 0.1f, 0.8f);
+				GizmoUtils.DrawCube( position, Color.blue, true, alpha );
+
+				Gizmos.color = Color.white;
+				GizmoUtils.DrawText($"{node.WindForce:0.#}", LocalToWorld(source, position) + (Vector3)Vector2.down/4, false);
+
+				GizmoUtils.DrawArrow( position, (Vector2)node.WindDirection/2 );
 			}
 		}
 	}

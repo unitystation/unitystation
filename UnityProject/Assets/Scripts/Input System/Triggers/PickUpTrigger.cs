@@ -33,7 +33,7 @@ public class PickUpTrigger : InputTrigger
 			//PreCheck
 			if (UIManager.CanPutItemToSlot(uiSlotObject))
 			{
-				if ( player.IsInReach( this.gameObject ) )
+				if ( player.IsInReach( this.gameObject, false ) )
 				{
 					//Predictive disappear only if item is within normal range
 					gameObject.GetComponent<CustomNetTransform>().DisappearFromWorld();
@@ -103,16 +103,17 @@ public class PickUpTrigger : InputTrigger
 		var cnt = GetComponent<CustomNetTransform>();
 		var state = cnt.ServerState;
 
-		if (cnt.IsFloatingServer ? !CanReachFloating(ps, state) : !ps.IsInReach(cnt.RegisterTile))
+		if (cnt.IsFloatingServer ? !CanReachFloating(ps, state) : !ps.IsInReach(cnt.RegisterTile, true))
 		{
 			//Long arms perk
 			if ( !cnt.IsFloatingServer && CanReachFloating(ps, state) )
 			{
-				var worldPosition = cnt.RegisterTile.WorldPosition;
+				var worldPosition = cnt.RegisterTile.WorldPositionServer;
+				var trajectory = ((Vector3)ps.WorldPos-worldPosition)/ Random.Range( 10, 31 );
 				cnt.Nudge( new NudgeInfo
 				{
-					OriginPos = worldPosition - ((Vector3)ps.WorldPos-worldPosition)/ Random.Range( 10, 31 ),
-					TargetPos = worldPosition,
+					OriginPos = worldPosition - trajectory,
+					Trajectory = trajectory,
 					SpinMode = SpinMode.Clockwise,
 					SpinMultiplier = 15,
 					InitialSpeed = 2
@@ -140,7 +141,7 @@ public class PickUpTrigger : InputTrigger
 	/// </summary>
 	private static bool CanReachFloating(PlayerScript ps, TransformState state)
 	{
-		return ps.IsInReach(state.WorldPosition) || ps.IsInReach(state.WorldPosition - (Vector3)state.Impulse, 1.75f);
+		return ps.IsInReach(state.WorldPosition, true) || ps.IsInReach(state.WorldPosition - (Vector3)state.Impulse, true, 1.75f);
 	}
 
 	/// <summary>

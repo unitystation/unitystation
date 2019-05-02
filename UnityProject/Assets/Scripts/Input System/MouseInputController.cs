@@ -333,7 +333,7 @@ public class MouseInputController : MonoBehaviour
 			position.z = 0f;
 			if (!lightingSystem.enabled || lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
 			{
-				if (PlayerManager.LocalPlayerScript.IsInReach(position))
+				if (PlayerManager.LocalPlayerScript.IsInReach(position, false))
 				{
 					List<GameObject> objects = UITileList.GetItemsAtPosition(position);
 					//remove hidden wallmounts
@@ -526,7 +526,7 @@ public class MouseInputController : MonoBehaviour
 
 		//attempt to trigger the things in range we clicked on
 		var localPlayer = PlayerManager.LocalPlayerScript;
-		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition)) || localPlayer.IsHidden)
+		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), false) || localPlayer.IsHidden)
 		{
 			//Check for melee triggers first. If a melee interaction occurs, stop checking for any further interactions
 			MeleeTrigger meleeTrigger = _transform.GetComponentInParent<MeleeTrigger>();

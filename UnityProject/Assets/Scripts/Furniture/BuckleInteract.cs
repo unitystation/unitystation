@@ -38,10 +38,11 @@ public class BuckleInteract : CoordinatedInteraction<MouseDrop, HandApply>
 		//occupying another player's space)
 		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
 		var registerPlayer = playerMove.GetComponent<RegisterPlayer>();
-		if (!registerPlayer.IsDown) return ValidationResult.SUCCESS;
+		if (side == NetworkSide.SERVER ? !registerPlayer.IsDownServer : !registerPlayer.IsDownClient) return ValidationResult.SUCCESS;
 		return ComponentAtTargetMatrixPosition<PlayerMove>.NoneMatchingCriteria(pm =>
 			pm != playerMove &&
-			pm.GetComponent<RegisterPlayer>().IsBlocking)
+			(side == NetworkSide.SERVER ? pm.GetComponent<RegisterPlayer>().IsBlockingServer
+										: pm.GetComponent<RegisterPlayer>().IsBlockingClient))
 			.Validate(drop, side);
 	}
 
@@ -71,7 +72,7 @@ public class BuckleInteract : CoordinatedInteraction<MouseDrop, HandApply>
 
 	protected override InteractionResult ServerPerformInteraction(HandApply interaction)
 	{
-		var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt())?.First(pm => pm.IsRestrained);
+		var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)?.First(pm => pm.IsRestrained);
 		//cannot use the CmdUnrestrain because commands are only allowed to be invoked by local player
 		playerMoveAtPosition.Unrestrain();
 		//the above will then invoke onunbuckle as it was the callback passed to Restrain

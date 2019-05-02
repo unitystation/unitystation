@@ -36,13 +36,13 @@ public class PlayerScript : ManagedNetworkBehaviour
 	private PlayerSync _playerSync; //Example of good on-demand reference init
 	public PlayerSync PlayerSync => _playerSync ? _playerSync : (_playerSync = GetComponent<PlayerSync>());
 
-	public RegisterTile registerTile { get; set; }
+	public RegisterPlayer registerTile { get; set; }
 
 	public MouseInputController mouseInputController { get; set; }
 
 	public HitIcon hitIcon { get; set; }
 
-	public Vector3Int WorldPos => registerTile.WorldPosition;
+	public Vector3Int WorldPos => registerTile.WorldPositionServer;
 
 	public ChatChannel SelectedChannels
 	{
@@ -90,7 +90,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	private void Awake()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
-		registerTile = GetComponent<RegisterTile>();
+		registerTile = GetComponent<RegisterPlayer>();
 		playerHealth = GetComponent<PlayerHealth>();
 		pushPull = GetComponent<ObjectBehaviour>();
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
@@ -217,39 +217,46 @@ public class PlayerScript : ManagedNetworkBehaviour
 	/// </summary>
 	public bool IsGhost => PlayerUtils.IsGhost(gameObject);
 
-	public bool IsInReach(GameObject go, float interactDist = interactionDistance)
+	public bool IsInReach(GameObject go, bool isServer, float interactDist = interactionDistance)
 	{
 		var rt = go.RegisterTile();
 		if (rt)
 		{
-			return IsInReach(rt, interactDist);
+			return IsInReach(rt, isServer, interactDist);
 		}
 		else
 		{
-			return IsInReach(go.transform.position, interactDist);
+			return IsInReach(go.transform.position, isServer, interactDist);
 		}
 	}
 
 	/// The smart way:
 	///  <inheritdoc cref="IsInReach(Vector3,float)"/>
-	public bool IsInReach(RegisterTile otherObject, float interactDist = interactionDistance)
+	public bool IsInReach(RegisterTile otherObject, bool isServer, float interactDist = interactionDistance)
 	{
-		return IsInReach(registerTile, otherObject, interactDist);
+		return IsInReach(registerTile, otherObject, isServer, interactDist);
 	}
 	///     Checks if the player is within reach of something
 	/// <param name="otherPosition">The position of whatever we are trying to reach</param>
 	/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
-	public bool IsInReach(Vector3 otherPosition, float interactDist = interactionDistance)
+	public bool IsInReach(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance)
 	{
-		Vector3Int worldPosition = registerTile.WorldPosition;
-		return IsInReach(worldPosition, otherPosition, interactDist);
+		return IsInReach(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, interactDist);
 	}
 
 	///Smart way to detect reach, supports high speeds in ships. Should use it more!
-	public static bool IsInReach(RegisterTile from, RegisterTile to, float interactDist = interactionDistance)
+	public static bool IsInReach(RegisterTile from, RegisterTile to, bool isServer, float interactDist = interactionDistance)
 	{
-		return from.Matrix == to.Matrix && IsInReach(from.Position, to.Position, interactDist) ||
-			IsInReach(from.WorldPosition, to.WorldPosition, interactDist);
+		if ( isServer )
+		{
+			return from.Matrix == to.Matrix && IsInReach(from.PositionServer, to.PositionServer, interactDist) ||
+			IsInReach(from.WorldPositionServer, to.WorldPositionServer, interactDist);
+		}
+		else
+		{
+			return from.Matrix == to.Matrix && IsInReach(from.PositionClient, to.PositionClient, interactDist) ||
+		       IsInReach(from.WorldPositionClient, to.WorldPositionClient, interactDist);
+		}
 	}
 
 	public static bool IsInReach(Vector3 from, Vector3 to, float interactDist = interactionDistance)
