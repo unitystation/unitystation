@@ -554,7 +554,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public void UpdateClientGauges(UI_PressureAlert.PressureChecker pressureStatus, UI_TempAlert.TempChecker tempStatus)
 	{
 		respiratorySystem.UpdateClientGauges(pressureStatus, tempStatus);
-		CheckHealthAndUpdateConsciousState();
 	}
 
 
