@@ -54,7 +54,7 @@ public class VendorTrigger : InputTrigger
 
 		int randIndex = Random.Range(0, vendorcontent.Length);
 
-		var spawnedItem = PoolManager.PoolNetworkInstantiate(vendorcontent[randIndex], transform.position);
+		var spawnedItem = PoolManager.PoolNetworkInstantiate(vendorcontent[randIndex], transform.position, transform.parent);
 
 		//Dispensing in direction
 		if ( DispenseDirection != DispenseDirection.None ) {
