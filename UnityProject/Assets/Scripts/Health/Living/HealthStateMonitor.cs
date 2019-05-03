@@ -14,7 +14,8 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	ConsciousState consciousStateCache;
 	bool isBreathingCache;
 	bool isSuffocatingCache;
-	RespiratorySystem.PressureChecker pressureStatusCache;
+	UI_PressureAlert.PressureChecker pressureStatusCache;
+	UI_TempAlert.TempChecker tempStatusCache;
 	int heartRateCache;
 	int bloodLevelCache;
 	float oxygenLevelCache;
@@ -67,7 +68,8 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		consciousStateCache = livingHealthBehaviour.ConsciousState;
 		isBreathingCache = livingHealthBehaviour.respiratorySystem.IsBreathing;
 		isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
-		pressureStatusCache = livingHealthBehaviour.respiratorySystem.pressureStatus;
+		pressureStatusCache = livingHealthBehaviour.PressureStatus;
+		tempStatusCache = livingHealthBehaviour.TempStatus;
 		UpdateBloodCaches();
 		if (livingHealthBehaviour.brainSystem != null)
 		{
@@ -126,10 +128,14 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void CheckOverallHealth()
 	{
 		if (overallHealthCache != livingHealthBehaviour.OverallHealth ||
-			consciousStateCache != livingHealthBehaviour.ConsciousState)
+			consciousStateCache != livingHealthBehaviour.ConsciousState || 
+			pressureStatusCache != livingHealthBehaviour.PressureStatus ||
+			tempStatusCache != livingHealthBehaviour.TempStatus)
 		{
 			overallHealthCache = livingHealthBehaviour.OverallHealth;
 			consciousStateCache = livingHealthBehaviour.ConsciousState;
+			pressureStatusCache = livingHealthBehaviour.PressureStatus;
+			tempStatusCache = livingHealthBehaviour.TempStatus;
 			SendOverallUpdate();
 		}
 	}
@@ -137,12 +143,10 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void CheckRespiratoryHealth()
 	{
 		if (isBreathingCache != livingHealthBehaviour.respiratorySystem.IsBreathing ||
-			isSuffocatingCache != livingHealthBehaviour.respiratorySystem.IsSuffocating || 
-			pressureStatusCache != livingHealthBehaviour.respiratorySystem.pressureStatus)
+			isSuffocatingCache != livingHealthBehaviour.respiratorySystem.IsSuffocating)
 		{
 			isBreathingCache = livingHealthBehaviour.respiratorySystem.IsBreathing;
 			isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
-			pressureStatusCache = livingHealthBehaviour.respiratorySystem.pressureStatus;
 			SendRespiratoryUpdate();
 		}
 	}
@@ -185,7 +189,8 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void SendOverallUpdate()
 	{
 		HealthOverallMessage.SendToAll(gameObject, livingHealthBehaviour.OverallHealth,
-			livingHealthBehaviour.ConsciousState);
+			livingHealthBehaviour.ConsciousState, livingHealthBehaviour.PressureStatus,
+			livingHealthBehaviour.TempStatus);
 	}
 
 	void SendBloodUpdate()
@@ -197,7 +202,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void SendRespiratoryUpdate()
 	{
 		HealthRespiratoryMessage.SendToAll(gameObject, livingHealthBehaviour.respiratorySystem.IsBreathing,
-			livingHealthBehaviour.respiratorySystem.IsSuffocating, livingHealthBehaviour.respiratorySystem.pressureStatus);
+			livingHealthBehaviour.respiratorySystem.IsSuffocating);
 	}
 
 	void SendBrainUpdate()
@@ -216,7 +221,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void SendOverallUpdate(GameObject requestor)
 	{
 		HealthOverallMessage.Send(requestor, gameObject, livingHealthBehaviour.OverallHealth,
-			livingHealthBehaviour.ConsciousState);
+			livingHealthBehaviour.ConsciousState, livingHealthBehaviour.PressureStatus, livingHealthBehaviour.TempStatus);
 	}
 
 	void SendBloodUpdate(GameObject requestor)
@@ -228,7 +233,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void SendRespiratoryUpdate(GameObject requestor)
 	{
 		HealthRespiratoryMessage.Send(requestor, gameObject, livingHealthBehaviour.respiratorySystem.IsBreathing,
-			livingHealthBehaviour.respiratorySystem.IsSuffocating, livingHealthBehaviour.respiratorySystem.pressureStatus);
+			livingHealthBehaviour.respiratorySystem.IsSuffocating);
 	}
 
 	void SendBrainUpdate(GameObject requestor)

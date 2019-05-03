@@ -15,7 +15,9 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	public bool IsBreathing { get; private set; } = true;
 	public bool IsSuffocating { get; private set; } = false;
 
-	public PressureChecker pressureStatus;
+	public UI_PressureAlert.PressureChecker PressureStatus { get; private set; } = UI_PressureAlert.PressureChecker.noAlert;
+
+	public UI_TempAlert.TempChecker TempStatus { get; private set; } = UI_TempAlert.TempChecker.noAlert;
 
 	/// <summary>
 	/// 2 minutes of suffocation = 100% damage
@@ -76,7 +78,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		{
 			Vector3Int position = objectBehaviour.AssumedLocation().RoundToInt();
 			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
-
+			PressureStatus = CheckPressureStatus(node.GasMix.Pressure);
+			TempStatus = CheckTempStatus(node.GasMix.Temperature);
 			if (!IsEVACompatible())
 			{
 				CheckPressureDamage(node.GasMix.Pressure);
@@ -170,34 +173,63 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		return oxygenUsed;
 	}
 
-	public enum PressureChecker {
-		noAlert = 1,
-		tooHigh = 2,
-		tooLow = 4
+
+
+	private UI_PressureAlert.PressureChecker CheckPressureStatus(float pressure) {
+		if (!IsEVACompatible())
+		{
+			if (pressure <= AtmosConstants.WARNING_LOW_PRESSURE)
+			{
+				Logger.LogWarning("Pressure TOO LOW");
+				return UI_PressureAlert.PressureChecker.tooLow;
+			}
+			else if (pressure >= AtmosConstants.WARNING_HIGH_PRESSURE)
+			{
+				return UI_PressureAlert.PressureChecker.tooHigh;
+				Logger.LogWarning("Pressure TOO HIGH");
+			}
+			else
+			{
+				return UI_PressureAlert.PressureChecker.noAlert;
+			}
+		}
+		else{
+			return UI_PressureAlert.PressureChecker.noAlert;
+		}
+
+
+	}
+
+	private UI_TempAlert.TempChecker CheckTempStatus(float temp) {
+
+		 if (temp <= AtmosConstants.WARNING_LOW_TEMP)
+			{
+				Logger.LogWarning("Temp TOO LOW");
+				return UI_TempAlert.TempChecker.tooLow;
+			}
+			else if (temp >= AtmosConstants.WARNING_HIGH_TEMP)
+			{
+				Logger.LogWarning("Temp TOO HIGH");
+				return UI_TempAlert.TempChecker.tooHigh;
+			}
+			else
+			{
+				return UI_TempAlert.TempChecker.noAlert;
+			}
+
 	}
 
 	private void CheckPressureDamage(float pressure)
 	{
 		if (pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
 		{	
-			//1 pressure status indicates Low Pressure
-			pressureStatus |= PressureChecker.tooLow;
-			pressureStatus &= ~(PressureChecker.noAlert);
 			ApplyDamage(AtmosConstants.LOW_PRESSURE_DAMAGE, DamageType.Brute);
 		}
 		else if (pressure > AtmosConstants.HAZARD_HIGH_PRESSURE)
 		{
 			float damage = Mathf.Min(((pressure / AtmosConstants.HAZARD_HIGH_PRESSURE) - 1) * AtmosConstants.PRESSURE_DAMAGE_COEFFICIENT,
 				AtmosConstants.MAX_HIGH_PRESSURE_DAMAGE);
-			//2 pressure status indicates High Pressure
-			pressureStatus |= PressureChecker.tooHigh;
-			pressureStatus &= ~(PressureChecker.noAlert);
 			ApplyDamage(damage, DamageType.Brute);
-		}
-		else
-		{
-			pressureStatus |= PressureChecker.noAlert;
-			pressureStatus &= ~(PressureChecker.tooHigh | PressureChecker.tooLow);
 		}
 	}
 
@@ -233,7 +265,19 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	/// <summary>
 	/// Updated from server via NetMsg
 	/// </summary>
-	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating, PressureChecker pressureStatus)
+
+	public void UpdateClientGauges( UI_PressureAlert.PressureChecker pressureStatus, UI_TempAlert.TempChecker tempStatus)
+	{
+		if (CustomNetworkManager.IsServer)
+		{
+			return;
+		}
+		PressureStatus = pressureStatus;
+		TempStatus = tempStatus;
+		
+
+	}
+	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
 	{
 		if (CustomNetworkManager.IsServer)
 		{

@@ -11,7 +11,7 @@ public class UI_OxygenAlert : MonoBehaviour {
 	private Image img;
 	private Sprite sprite;
 
-	void Start ()
+	void Awake()
 	{
 		img = GetComponent<Image>();
 		sprite = img.sprite;
@@ -33,15 +33,15 @@ public class UI_OxygenAlert : MonoBehaviour {
 	{
 		while (true)
 		{
-			sprite = statusImages[activeImageIndex];
-			activeImageIndex++;
-
+			
+			
 			//Restart "animation"
 			if (activeImageIndex >= statusImages.Length)
 			{
 				activeImageIndex = 0;
 			}
-
+			sprite = statusImages[activeImageIndex];
+			activeImageIndex++;
 			img.sprite = sprite;
 
 			yield return new WaitForSeconds(1f);

@@ -8,8 +8,8 @@ public class PlayerHealthUI : MonoBehaviour
 	public UI_HeartMonitor heartMonitor;
 	public OverlayCrits overlayCrits;
 	private UI_OxygenAlert oxygenAlert;
-	public RespiratorySystem.PressureChecker pressureToggle;
-	public bool tempToggle = false;
+	public UI_PressureAlert.PressureChecker pressureStatusCache = UI_PressureAlert.PressureChecker.noAlert;
+	public UI_TempAlert.TempChecker tempStatusCache = UI_TempAlert.TempChecker.noAlert;
 	private UI_TempAlert tempAlert;
 	private UI_PressureAlert pressureAlert;
 	private bool monitorBreathing = false;
@@ -92,32 +92,36 @@ public class PlayerHealthUI : MonoBehaviour
 			}
 		}
 		// Handles temperature alert UI element
-		if (monitorTemp)
+		if (monitorTemp && tempStatusCache != PlayerManager.LocalPlayerScript.playerHealth.TempStatus)
 		{
-			tempToggle = PlayerManager.LocalPlayerScript.playerHealth.isBurned;
-			if (tempToggle && !tempAlert.gameObject.activeInHierarchy)
-			{
+			tempStatusCache = PlayerManager.LocalPlayerScript.playerHealth.TempStatus;
+			if ((tempStatusCache == UI_TempAlert.TempChecker.tooHigh | tempStatusCache == UI_TempAlert.TempChecker.tooLow) && !tempAlert.gameObject.activeInHierarchy)
+			{	
+				Logger.LogError("Enabled Temp Guage");
 				tempAlert.gameObject.SetActive(true);
 			}
-			if (!tempToggle && tempAlert.gameObject.activeInHierarchy)
+			if ((tempStatusCache == UI_TempAlert.TempChecker.noAlert) && tempAlert.gameObject.activeInHierarchy)
 			{
+				Logger.LogError("Disabled Temp Guage");
 				tempAlert.gameObject.SetActive(false);
 			}
 
 		}
 		// Handles pressure alert UI element
-		if (monitorPressure)
+		if (monitorPressure && (pressureStatusCache != PlayerManager.LocalPlayerScript.playerHealth.PressureStatus))
 		{
-			pressureToggle = PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.pressureStatus;
-			if ((pressureToggle & (RespiratorySystem.PressureChecker.tooHigh | RespiratorySystem.PressureChecker.tooLow)) != 0 && !pressureAlert.gameObject.activeInHierarchy)
+			pressureStatusCache = PlayerManager.LocalPlayerScript.playerHealth.PressureStatus;
+			Logger.LogWarning(pressureStatusCache.ToString());
+			if ((pressureStatusCache == UI_PressureAlert.PressureChecker.tooHigh | pressureStatusCache == UI_PressureAlert.PressureChecker.tooLow) && !pressureAlert.gameObject.activeInHierarchy)
 			{
+				Logger.LogError("Enabled Pressure Gauge");
 				pressureAlert.gameObject.SetActive(true);
 			}
-			if ((pressureToggle & RespiratorySystem.PressureChecker.noAlert) != 0 && pressureAlert.gameObject.activeInHierarchy)
+			if ((pressureStatusCache == UI_PressureAlert.PressureChecker.noAlert) && pressureAlert.gameObject.activeInHierarchy)
 			{
+				Logger.LogError("Disabled Pressure Gauge");
 				pressureAlert.gameObject.SetActive(false);
 			}
-			
 
 		}
 

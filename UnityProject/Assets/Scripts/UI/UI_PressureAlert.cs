@@ -13,11 +13,15 @@ public class UI_PressureAlert : MonoBehaviour {
 
 	private int indexLower;
 
+	public enum PressureChecker {
+		noAlert = 1,
+		tooHigh = 2,
+		tooLow = 3,
+	}
 
-	void Start ()
+	void Awake()
 	{
 		// Cycles the high pressure or low pressure images depending on the value
-
 		img = GetComponent<Image>();
 		sprite = img.sprite;
 		
@@ -40,7 +44,7 @@ public class UI_PressureAlert : MonoBehaviour {
 		while(true)
 		{	
 
-			if ( (UIManager.PlayerHealthUI.pressureToggle & RespiratorySystem.PressureChecker.tooLow) != 0)
+			if ( (UIManager.PlayerHealthUI.pressureStatusCache & PressureChecker.tooLow) != 0)
 			{
 				indexLower = 0;
 			}

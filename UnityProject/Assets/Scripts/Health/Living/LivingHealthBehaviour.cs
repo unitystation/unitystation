@@ -35,10 +35,13 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	[Header("Is this an animal or NPC?")]
 	public bool isNotPlayer = false;
 
-	public bool isBurned = false;
 	protected DamageType LastDamageType;
 
 	protected GameObject LastDamagedBy;
+
+	public UI_PressureAlert.PressureChecker PressureStatus { get; private set; } = UI_PressureAlert.PressureChecker.noAlert;
+
+	public UI_TempAlert.TempChecker TempStatus { get; private set; } = UI_TempAlert.TempChecker.noAlert;
 
 
 	public ConsciousState ConsciousState
@@ -118,7 +121,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		{
 			respiratorySystem = gameObject.AddComponent<RespiratorySystem>();
 		}
-
 		var tryGetHead = FindBodyPart(BodyPartType.Head);
 		if (tryGetHead != null && brainSystem == null)
 		{
@@ -547,19 +549,25 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	}
 
 	/// <summary>
+	/// Updates the UI Gauges for temp, pressure and oxygen
+	/// </summary>
+	public void UpdateClientGauges(UI_PressureAlert.PressureChecker pressureStatus, UI_TempAlert.TempChecker tempStatus)
+	{
+		respiratorySystem.UpdateClientGauges(pressureStatus, tempStatus);
+		CheckHealthAndUpdateConsciousState();
+	}
+
+
+	/// <summary>
 	/// Updates the respiratory health stats from the server via NetMsg
 	/// </summary>
-	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating, RespiratorySystem.PressureChecker pressureStatus)
+	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
 	{
-		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating, pressureStatus);
+		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating);
 		//	Logger.Log($"Update stats for {gameObject.name} isBreathing: {isBreathing} isSuffocating {isSuffocating}", Category.Health);
 
 		CheckHealthAndUpdateConsciousState();
 	}
-
-	/// <summary>
-	/// Updates the blood health stats from the server via NetMsg
-	/// </summary>
 	public void UpdateClientBloodStats(int heartRate, int bloodVolume, float oxygenLevel, float toxinLevel)
 	{
 		bloodSystem.UpdateClientBloodStats(heartRate, bloodVolume, oxygenLevel, toxinLevel);
@@ -584,16 +592,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public void UpdateClientBodyPartStats(BodyPartType bodyPartType, float bruteDamage, float burnDamage)
 	{
 		var bodyPart = FindBodyPart(bodyPartType);
-		if (burnDamage > 0)
-		{
-			isBurned = true;
-
-		}
-		else 
-		{
-			isBurned = false;
-		}
-
 		if (bodyPart != null)
 		{
 			//	Logger.Log($"Update stats for {gameObject.name} body part {bodyPartType.ToString()} BruteDmg: {bruteDamage} BurnDamage: {burnDamage}", Category.Health);

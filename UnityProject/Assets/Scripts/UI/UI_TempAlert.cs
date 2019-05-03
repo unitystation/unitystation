@@ -14,7 +14,14 @@ public class UI_TempAlert : MonoBehaviour
 	private Sprite sprite;
 	private int indexLower;
 
-	void Start ()
+	public enum TempChecker {
+		noAlert = 1,
+		tooHigh = 2,
+		tooLow = 3,
+
+	}
+
+	void Awake()
 	{
 		img = GetComponent<Image>();
 		sprite = img.sprite;
