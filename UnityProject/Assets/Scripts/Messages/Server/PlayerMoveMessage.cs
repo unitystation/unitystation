@@ -13,12 +13,12 @@ public class PlayerMoveMessage : ServerMessage
 	///To be run on client
 	public override IEnumerator Process()
 	{
-//		Logger.Log("Processed " + ToString());
 		yield return WaitFor(SubjectPlayer);
 
 		if ( NetworkObject == null ) {
 			yield break;
 		}
+		Logger.LogTraceFormat("Processed {1}'s state: {0}", Category.Movement, this, NetworkObject.name);
 
 		var playerSync = NetworkObject.GetComponent<PlayerSync>();
 		playerSync.UpdateClientState(State);

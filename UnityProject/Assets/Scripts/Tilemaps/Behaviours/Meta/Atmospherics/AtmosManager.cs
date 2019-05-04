@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AtmosManager : MonoBehaviour
@@ -29,7 +30,15 @@ public class AtmosManager : MonoBehaviour
 	{
 		if (Mode == AtmosMode.GameLoop && Running)
 		{
-			AtmosThread.RunStep();
+			try
+			{
+				AtmosThread.RunStep();
+			}
+			catch ( Exception e )
+			{
+				Logger.LogError( $"Exception in Atmos Thread! Will no longer mix gases!\n{e.StackTrace}", Category.Atmos );
+				throw;
+			}
 		}
 	}
 
