@@ -85,6 +85,12 @@ public class ConnectedPlayer
                 steamId = value;
 				Logger.Log( $"Updated steamID! {this}" , Category.Steam);
             }
+            else
+            {
+	            //todo: temporary allowing non-steam players
+	            steamId = ulong.MaxValue;
+				Logger.Log( $"Player supposedly without steamID! {this}" , Category.Steam);
+            }
         }
     }
 

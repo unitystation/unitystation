@@ -115,7 +115,8 @@ public partial class PlayerSync
 		//arguably it shouldn't really be like that in the future
 		if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost))
 		{
-			//				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
+			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement, 
+				action.Direction(), pendingActions.Count, ClientState, predictedState );
 
 			//experiment: not enqueueing or processing action if floating, unless we are stopped.
 			//arguably it shouldn't really be like that in the future
@@ -174,6 +175,11 @@ public partial class PlayerSync
 			}
 			//Sending action for server approval
 			CmdProcessAction(action);
+		}
+		else
+		{
+			Logger.LogTraceFormat( "Can't enqueue move: block = {0}, pseudoFloating = {1}, floating = {2}\nclientState = {3}\npredictedState = {4}"
+				, Category.Movement, blockClientMovement, isPseudoFloatingClient, isFloatingClient, ClientState, predictedState );
 		}
 
 		yield return YieldHelper.DeciSecond;
