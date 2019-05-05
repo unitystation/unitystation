@@ -69,7 +69,6 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 
 		public static void FlushResistanceAndUp (ElectricalOIinheritance Object,  GameObject SourceInstance = null  ){
 			if (SourceInstance == null) {
-				Logger.Log ("yo do not?");
 				if (Object.Data.ResistanceComingFrom.Count > 0) {
 					Object.Data.ResistanceComingFrom.Clear ();
 					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections) {

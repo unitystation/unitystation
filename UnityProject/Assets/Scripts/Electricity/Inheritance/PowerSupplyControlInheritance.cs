@@ -267,7 +267,6 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 			{
 				if (Supplie.Value.Contains(PowerTypeCategory.StandardCable))
 				{
-					Logger.Log("yyuuuus");
 					ElectricalSynchronisation.ResistanceChange.Add(this);
 					ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingUpdate);
 				}
