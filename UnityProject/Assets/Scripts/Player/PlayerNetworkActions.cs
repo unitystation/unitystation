@@ -603,7 +603,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			//TODO: Output name of player attempting to interact with shutter switch.
 			Logger.LogWarning("Player attempted to interact with shutter switch through wall," +
-				" this could indicate a hacked client."); 
+				" this could indicate a hacked client.", Category.Exploits); 
 		}
 	}
 
@@ -626,7 +626,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			//TODO: Output name of player attempting to interact with light switch.
 			Logger.LogWarning("player attempted to interact with light switch through wall," +
-				" this could indicate a hacked client.");
+				" this could indicate a hacked client.", Category.Exploits);
 		}
 	}
 
@@ -672,7 +672,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			//TODO: Output name of player attempting to interact with fire cabinet.
 			Logger.LogWarning("player attempted to interact with fire cabinet through wall," +
-				" this could indicate a hacked client.");
+				" this could indicate a hacked client.", Category.Exploits);
 		}
 	}
 
