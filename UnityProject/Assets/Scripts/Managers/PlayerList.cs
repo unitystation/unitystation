@@ -387,16 +387,14 @@ public class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public ConnectedPlayer UpdateLoggedOffPlayer(GameObject newBody, GameObject oldBody){
+	public void UpdateLoggedOffPlayer(GameObject newBody, GameObject oldBody){
 		for (int i = 0; i < loggedOff.Count; i++)
 		{
 			var player = loggedOff[i];
 			if(player.GameObject == oldBody){
 				player.GameObject = newBody;
-				return player;
 			}
 		}
-		return null;
 	}
 }
 
