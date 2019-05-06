@@ -42,7 +42,8 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		}
 		Thiswire.Data.CurrentComingFrom[SourceInstanceID][ComingFrom] = Current;
 
-		if (!(Thiswire.Data.ResistanceComingFrom.ContainsKey(SourceInstanceID))) {			ElectricalSynchronisation.StructureChange = true;
+		if (!(Thiswire.Data.ResistanceComingFrom.ContainsKey(SourceInstanceID))) {
+			ElectricalSynchronisation.StructureChange = true;
 			ElectricalSynchronisation.NUStructureChangeReact.Add(Thiswire.InData.ControllingUpdate);
 			ElectricalSynchronisation.NUResistanceChange.Add(Thiswire.InData.ControllingUpdate);
 			ElectricalSynchronisation.NUCurrentChange.Add(Thiswire.InData.ControllingUpdate);

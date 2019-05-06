@@ -255,7 +255,7 @@ namespace Lobby
 			}
 			catch (InvalidOperationException e)
 			{
-				Logger.Log("Invalid character settings: {0}", Category.UI, e.Message);
+				Logger.LogFormat("Invalid character settings: {0}", Category.UI, e.Message);
 				DisplayErrorText(e.Message);
 				return;
 			}
