@@ -200,7 +200,7 @@ public class RconManager : RconConsole
 			conn.ConnectionState != WebSocketState.Closed){
 				conn.Context.WebSocket.Send(msg);
 			} else {
-				Debug.Log("Do not broadcast to (connection not ready): " + conn.ID);
+				Logger.LogFormat("Do not broadcast to (connection not ready): {0}", Category.Rcon, conn.ID);
 			}
 		}
 	}

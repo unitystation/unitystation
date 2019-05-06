@@ -106,7 +106,7 @@ namespace PathFinding
 			}
 
 			status = Status.idle;
-			Debug.Log("Search complete");
+			Logger.LogTrace("SearchForRoute: Search complete", Category.Movement);
 			return null;
 		}
 

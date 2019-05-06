@@ -253,7 +253,8 @@ public class BloodSystem : MonoBehaviour
 	//Do any healing stuff:
 	private void CheckHealing(BodyPartBehaviour bodyPart, DamageType damageType, float healAmt)
 	{
-		Debug.Log("TODO PRIORITY: Do Blood Healing!!");
+		//TODO: PRIORITY! Do Blood healing!
+		Logger.Log("Not implemented: Blood healing.", Category.Health);
 	}
 
 	// --------------------

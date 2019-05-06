@@ -244,19 +244,22 @@ public class LightingSystem : MonoBehaviour
 	{
 		if (iMainCamera.backgroundColor.a > 0)
 		{
-			UnityEngine.Debug.Log("FovSystem Camera Validation: Camera backgroundColor.a must be 0. This is required to create background mask. Adjusted...");
+			Logger.Log("FovSystem Camera Validation: Camera backgroundColor.a must be 0."+
+				" This is required to create background mask. Adjusted...", Category.Lighting);
 
 			iMainCamera.backgroundColor = new Color(iMainCamera.backgroundColor.r, iMainCamera.backgroundColor.g, iMainCamera.backgroundColor.b, 0);
 		}
 
 		if (((LayerMask)iMainCamera.cullingMask).HasAny(iRenderSettings.lightSourceLayers))
 		{
-			UnityEngine.Debug.Log("FovSystem Camera Validation: Camera does not cull one of Light Source Layers! Light System may not work currently.");
+			Logger.Log("FovSystem Camera Validation: Camera does not cull one of Light Source Layers!"+
+				" Light System may not work currently.", Category.Lighting);
 		}
 
 		if (((LayerMask)iMainCamera.cullingMask).HasAny(iRenderSettings.backgroundLayers))
 		{
-			UnityEngine.Debug.Log("FovSystem Camera Validation: Camera does not cull one of Background Layers! Light System wound be able to mask background and would not work correctly.");
+			Logger.Log("FovSystem Camera Validation: Camera does not cull one of Background Layers!"+
+				"Light System wound be able to mask background and would not work correctly.", Category.Lighting);
 		}
 	}
 
@@ -271,8 +274,8 @@ public class LightingSystem : MonoBehaviour
 
 		if (!SystemInfo.supportsAsyncGPUReadback)
 		{
-			UnityEngine.Debug.LogWarning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
-			                             " be used instead.");
+			Logger.LogWarning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
+			                             " be used instead.", Category.Lighting);
 		}
 		HandlePPPositionRequest += ProviderPPPosition;
 
@@ -503,7 +506,7 @@ public class LightingSystem : MonoBehaviour
 
 		if (materialContainer.blitMaterial == null)
 		{
-			Debug.Log($"FovSystemManager: Unable to blit Fov mask. {nameof(materialContainer.blitMaterial)} not provided.");
+			Logger.LogFormat("FovSystemManager: Unable to blit Fov mask. {0} not provided.", Category.Lighting, nameof(materialContainer.blitMaterial));
 			return;
 		}
 

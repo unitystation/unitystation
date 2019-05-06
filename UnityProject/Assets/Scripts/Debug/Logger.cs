@@ -231,6 +231,8 @@ public enum Category
 	Round,
 	DebugConsole,
 	Camera,
+	Exploits,
+	Graphics,
 }
 
 [Serializable]
