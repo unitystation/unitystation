@@ -104,6 +104,12 @@ public class MetaDataNode: IGasMixContainer
 	public bool IsRoom => Type == NodeType.Room;
 
 	/// <summary>
+	/// Does this tile contain a closed airlock/shutters?
+	/// (used for gas freezing)
+	/// </summary>
+	public bool IsClosedAirlock { get; set; }
+
+	/// <summary>
 	/// Is this tile occupied by something impassable (airtight!)
 	/// </summary>
 	public bool IsOccupied => Type == NodeType.Occupied;

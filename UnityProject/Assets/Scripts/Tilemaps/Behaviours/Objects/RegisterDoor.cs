@@ -5,13 +5,9 @@
 	public class RegisterDoor : RegisterTile
 	{
 		private SubsystemManager subsystemManager;
+		private SubsystemManager SubsystemManager => subsystemManager ? subsystemManager : subsystemManager = GetComponentInParent<SubsystemManager>();
 
 		public bool OneDirectionRestricted;
-
-		private void Awake()
-		{
-			subsystemManager = GetComponentInParent<SubsystemManager>();
-		}
 
 		[SerializeField]
 		private bool isClosed = true;
@@ -24,7 +20,7 @@
 				if (isClosed != value)
 				{
 					isClosed = value;
-					subsystemManager.UpdateAt(PositionServer);
+					SubsystemManager.UpdateAt(PositionServer);
 				}
 			}
 		}
