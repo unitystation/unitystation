@@ -26,6 +26,8 @@ public class MetaDataView : BasicView
 		localChecks.Add(new OxygenCheck());
 		localChecks.Add(new CarbonDioxideCheck());
 		localChecks.Add(new RoomNumberCheck());
+		localChecks.Add(new AirlockCheck());
+		localChecks.Add(new SlipperyCheck());
 	}
 
 	public override void DrawContent()
@@ -209,6 +211,32 @@ public class MetaDataView : BasicView
 				GizmoUtils.DrawText($"{node.WindForce:0.#}", LocalToWorld(source, position) + (Vector3)Vector2.down/4, false);
 
 				GizmoUtils.DrawArrow( position, (Vector2)node.WindDirection/2 );
+			}
+		}
+	}
+	private class AirlockCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Closed Airlock";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+			if (node.IsClosedAirlock)
+			{
+				GizmoUtils.DrawCube( position, Color.blue, true );
+			}
+		}
+	}
+	private class SlipperyCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Slippery";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+			if (node.IsSlippery)
+			{
+				GizmoUtils.DrawCube( position, Color.cyan, true );
 			}
 		}
 	}
