@@ -145,19 +145,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 			SelectedChannels = ChatChannel.Local;
 
 		}
-		else if (isServer)
-		{
-			playerMove = GetComponent<PlayerMove>();
-
-			//Updates the player record on the server:
-			PlayerList.Instance.Add(new ConnectedPlayer
-			{
-				Connection = connectionToClient,
-					GameObject = gameObject,
-					Job = JobType,
-					Name = playerName
-			});
-		}
 	}
 
 	public bool canNotInteract()
