@@ -17,7 +17,9 @@ public class HealthBodyPartMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(EntityToUpdate);
-		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBodyPartStats(BodyPart, BruteDamage, BurnDamage);
+		if (NetworkObject != null){
+			NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientBodyPartStats(BodyPart, BruteDamage, BurnDamage);
+		}
 	}
 
 	public static HealthBodyPartMessage Send(GameObject recipient, GameObject entityToUpdate, BodyPartType bodyPartType,

@@ -41,22 +41,11 @@ public static class SpawnHandler
 	/// <param name="eventType">Event type for the player sync.</param>
 	public static void TransferPlayer(NetworkConnection conn, short playerControllerId, GameObject newBody, GameObject oldBody, EVENT eventType)
 	{
-
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
 		{
-			ConnectedPlayer loggedOffPlayer = PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
-			if(loggedOffPlayer == null)
-			{
-				conn = new NetworkConnection(); //not logged out either, we're creating a dummy mob
-			}
-			else
-			{
-				conn = new NetworkConnection(); //WIP
-				//conn = loggedOffPlayer.Connection;
-			}
-			NetworkServer.AddPlayerForConnection(conn, newBody, 0);
-			PlayerList.Instance.UpdatePlayer(conn, newBody);
+			PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
+			NetworkServer.Spawn(newBody);
 		}
 		else
 		{
