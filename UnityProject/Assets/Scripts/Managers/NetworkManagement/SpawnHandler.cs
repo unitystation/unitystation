@@ -124,7 +124,7 @@ public static class SpawnHandler
 		{
 			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
 		}
-		// HAMISHTODO: Closet stuff
+
 		var playerObjectBehavior = player.GetComponent<ObjectBehaviour>();
 		if (playerObjectBehavior.parentContainer != null)
 		{
