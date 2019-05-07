@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,6 +19,8 @@ public class ControlChat : MonoBehaviour
 	public GameObject chatEntryPrefab;
 	public GameObject background;
 	public GameObject uiObj;
+	public GameObject activeChannelTemplate;
+	public Dictionary<ChatChannel, GameObject> ActiveChannels = new Dictionary<ChatChannel, GameObject>();
 
 	// set in inspector (to enable/disable panel)
 
@@ -343,8 +345,8 @@ public class ControlChat : MonoBehaviour
 	{
 		// Disable OOC if it's on
 		if (ChannelToggles[ChatChannel.OOC].isOn)
-			{
-				PlayerManager.LocalPlayerScript.SelectedChannels &= ~ChatChannel.OOC;
+		{
+			PlayerManager.LocalPlayerScript.SelectedChannels &= ~ChatChannel.OOC;
 			ChannelToggles[ChatChannel.OOC].isOn = false;
 		}
 
@@ -395,5 +397,14 @@ public class ControlChat : MonoBehaviour
 		}
 
 		return true;
+	}
+
+	private void AddToActiveChannels(ChatChannel channel)
+	{
+		GameObject newActiveChannel = Instantiate(activeChannelTemplate, activeChannelTemplate.transform.parent, false);
+		// Add to dictionary for easy destruction
+		ActiveChannels.Add(channel, newActiveChannel);
+		newActiveChannel.GetComponentInChildren<Text>().text = channel.ToString();
+		newActiveChannel.SetActive(true);
 	}
 }
