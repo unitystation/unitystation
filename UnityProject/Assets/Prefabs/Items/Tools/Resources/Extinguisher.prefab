@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 640
-  m_Sprite: {fileID: 21300182, guid: fa8cb4bb662a44e3ae784801d8bad0a4, type: 3}
+  m_Sprite: {fileID: 21300182, guid: 0bccb8bbbef5f45b798662f9614b955c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -205,12 +205,11 @@ MonoBehaviour:
   hierarchy: /obj/item/weapon/extinguisher
   inHandReferenceLeft: 88
   inHandReferenceRight: 96
-  itemDescription: A heavy fire extinguisher
   itemName: Extinguisher
+  itemDescription: A heavy fire extinguisher
   itemType: 0
   size: 2
   spriteType: 0
-  type: 0
   CanConnectToTank: 0
   hitDamage: 10
   throwDamage: 10
@@ -263,19 +262,17 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114503468551468690
 MonoBehaviour:
   m_ObjectHideFlags: 0

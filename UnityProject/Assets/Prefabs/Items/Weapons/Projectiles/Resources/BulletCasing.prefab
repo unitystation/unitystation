@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: 853167107
   m_SortingLayer: 3
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300130, guid: 9491d0afbfb74a1aaab729fd2c0a7619, type: 3}
+  m_Sprite: {fileID: 21300142, guid: 6019d144b0abc4a98bb168dd6d96bedf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -203,15 +203,17 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 1
+  crossed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114808326139610746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,6 +231,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!114 &114088795432989764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,17 +248,16 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 0
   inHandReferenceRight: 0
-  itemDescription: A spent bullet casing
   itemName: Bullet Casing
+  itemDescription: A spent bullet casing
   itemType: 0
   size: 0
   spriteType: 0
-  type: 0
-  ConnectedToTank: 0
+  CanConnectToTank: 0
+  hitDamage: 0
   throwDamage: 0
   throwSpeed: 3
   throwRange: 7
-  hitDamage: 0
   hitSound: 
   attackVerb: []
 --- !u!61 &61429855537186034
