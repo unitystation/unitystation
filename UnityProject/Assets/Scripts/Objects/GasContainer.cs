@@ -69,5 +69,10 @@ namespace Objects
 		{
 			GasMix = GasMix.FromTemperature(Gases, Temperature, Volume);
 		}
+
+		/// <summary>
+		/// Slots that should be checked for gas containers
+		/// </summary>
+		public static readonly string[] GasSlots = {"leftHand","rightHand","storage01","storage02","suitStorage"};
 	}
 }

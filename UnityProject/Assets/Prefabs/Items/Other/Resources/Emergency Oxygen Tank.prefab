@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 540
-  m_Sprite: {fileID: 21300000, guid: 4addb5429da8248c08105eecb7dfa2c2, type: 3}
+  m_Sprite: {fileID: 21300006, guid: 4addb5429da8248c08105eecb7dfa2c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 114330809230976920}
   - component: {fileID: 3305593915559126072}
   m_Layer: 10
-  m_Name: Oxygen Tank 1
+  m_Name: Emergency Oxygen Tank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,16 +247,17 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 28
   inHandReferenceRight: 36
-  itemName: Oxygen Tank
-  itemDescription: A tank of oxygen
+  itemName: Emergency Oxygen Tank
+  itemDescription: Used for emergencies. Contains very little oxygen, so try to conserve
+    it until you actually need it.
   itemType: 0
-  size: 4
+  size: 1
   spriteType: 0
   CanConnectToTank: 0
-  hitDamage: 10
-  throwDamage: 10
+  hitDamage: 4
+  throwDamage: 4
   throwSpeed: 1
-  throwRange: 1
+  throwRange: 5
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114330809230976920
@@ -289,6 +290,6 @@ MonoBehaviour:
   Temperature: 293.15
   Gases:
   - 0
-  - 10000
+  - 41.027596
   - 0
   - 0
