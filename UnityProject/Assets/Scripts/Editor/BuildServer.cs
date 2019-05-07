@@ -8,8 +8,8 @@ public class BuildScript
 		buildPlayerOptions.scenes = new[] {"Assets/scenes/Lobby.unity", "Assets/scenes/OutpostStation.unity"};
 		buildPlayerOptions.locationPathName = "../Tools/ContentBuilder/content/Server/Unitystation-Server";
 		buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
-		buildPlayerOptions.options = BuildOptions.EnableHeadlessMode;
-        BuildPreferences.SetRelease(true);
+		buildPlayerOptions.options = BuildOptions.None;
+		BuildPreferences.SetRelease(true);
         BuildPipeline.BuildPlayer(buildPlayerOptions);
 	}
 	private static void PerformWindowsBuild()
