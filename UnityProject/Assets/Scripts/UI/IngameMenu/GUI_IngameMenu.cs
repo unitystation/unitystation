@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -31,6 +32,7 @@ public class GUI_IngameMenu : MonoBehaviour
 
 
 	#if UNITY_EDITOR
+		[NonSerialized]
 		public bool isTest = false;
 	#endif
 
