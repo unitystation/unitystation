@@ -93,11 +93,9 @@ public class PlayerSprites : UserControlledSprites
 	protected override IEnumerator WaitForLoad()
 	{
 		yield return YieldHelper.EndOfFrame;
-		if (PlayerManager.LocalPlayer == gameObject)
-		{
-			CmdUpdateCharacter(JsonUtility.ToJson(PlayerManager.CurrentCharacterSettings));
-			LocalFaceDirection( currentDirection );
-		}
+		var characterSettings = gameObject.GetComponent<PlayerScript>().characterSettings;
+		CmdUpdateCharacter(JsonUtility.ToJson(characterSettings));
+		LocalFaceDirection(currentDirection);
 		while(string.IsNullOrEmpty(characterData)){
 			yield return YieldHelper.DeciSecond;
 		}

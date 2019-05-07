@@ -48,8 +48,6 @@ public class PlayerManager : MonoBehaviour
 			PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(new CharacterSettings()));
 			PlayerPrefs.Save();
 		}
-
-		CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(PlayerPrefs.GetString("currentcharacter")));
 	}
 
 	private void OnEnable()
