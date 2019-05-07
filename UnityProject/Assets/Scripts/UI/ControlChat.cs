@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -291,26 +291,31 @@ public class ControlChat : MonoBehaviour
 		{
 			return;
 		}
-		ChatChannel curChannel = source.channel;
+		ChatChannel currentChannel = source.channel;
 
 		if (isOn)
 		{
+			// The channel is being turned on
+
 			//Deselect all other channels in UI if OOC was selected
-			if (curChannel == ChatChannel.OOC)
+			if (currentChannel == ChatChannel.OOC)
 			{
-				DisableAllExceptChannel (curChannel);
-				PlayerManager.LocalPlayerScript.SelectedChannels = curChannel;
+				DisableAllExceptChannel (ChatChannel.OOC);
+				PlayerManager.LocalPlayerScript.SelectedChannels = ChatChannel.OOC;
 			}
 			else
 			{
 				TryDisableOOC();
-				PlayerManager.LocalPlayerScript.SelectedChannels |= curChannel;
+				AddToActiveChannels(currentChannel);
+				PlayerManager.LocalPlayerScript.SelectedChannels |= currentChannel;
 			}
 		}
 		else
 		{
+			// The channel is being turned off
+
 			// Make some exceptions for Local and OOC buttons
-			if (curChannel == ChatChannel.Local)
+			if (currentChannel == ChatChannel.Local)
 			{
 				// Disable all of the other channels
 				DisableAllExceptChannel (ChatChannel.Local);
@@ -319,7 +324,7 @@ public class ControlChat : MonoBehaviour
 				ChannelToggles[ChatChannel.Local].isOn = true;
 				PlayerManager.LocalPlayerScript.SelectedChannels = ChatChannel.Local;
 			}
-			else if (curChannel == ChatChannel.OOC)
+			else if (currentChannel == ChatChannel.OOC)
 			{
 				// Leave OOC on, don't let players disable it by pressing it again
 				ChannelToggles[ChatChannel.OOC].isOn = true;
@@ -327,7 +332,7 @@ public class ControlChat : MonoBehaviour
 			else
 			{
 				// Disable the current channel
-				PlayerManager.LocalPlayerScript.SelectedChannels &= ~curChannel;
+				PlayerManager.LocalPlayerScript.SelectedChannels &= ~currentChannel;
 			}
 		}
 
@@ -336,14 +341,14 @@ public class ControlChat : MonoBehaviour
 
 	private void TryDisableOOC()
 	{
-		foreach (KeyValuePair<ChatChannel, Toggle> chanToggle in ChannelToggles)
-		{
-			if (chanToggle.Key == ChatChannel.OOC)
+		// Disable OOC if it's on
+		if (ChannelToggles[ChatChannel.OOC].isOn)
 			{
 				PlayerManager.LocalPlayerScript.SelectedChannels &= ~ChatChannel.OOC;
-				chanToggle.Value.isOn = false;
-			}
+			ChannelToggles[ChatChannel.OOC].isOn = false;
 		}
+
+		// Activate local channel again
 		PlayerManager.LocalPlayerScript.SelectedChannels |= ChatChannel.Local;
 		ChannelToggles[ChatChannel.Local].isOn = true;
 	}
