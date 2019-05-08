@@ -70,7 +70,11 @@ namespace Atmospherics
 		private void Update(MetaDataNode node)
 		{
 			nodes.Clear();
-			nodes.Add(node);
+
+			if ( !node.IsClosedAirlock )
+			{ //Gases are frozen within closed airlocks
+				nodes.Add(node);
+			}
 
 			node.AddNeighborsToList(ref nodes);
 

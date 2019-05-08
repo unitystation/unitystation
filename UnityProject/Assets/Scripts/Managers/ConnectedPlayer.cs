@@ -79,7 +79,6 @@ public class ConnectedPlayer
         get { return steamId; }
         set
         {
-
             if ( value != 0 )
             {
                 steamId = value;
