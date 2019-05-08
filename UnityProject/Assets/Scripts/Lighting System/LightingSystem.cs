@@ -207,9 +207,9 @@ public class LightingSystem : MonoBehaviour
 
 		// Check for out of bounds;
 		if (_viewportPos.x < 0.0f ||
-		    _viewportPos.x > 1.0f ||
-		    _viewportPos.y < 0.0f ||
-		    _viewportPos.y > 1.0f)
+			_viewportPos.x > 1.0f ||
+			_viewportPos.y < 0.0f ||
+			_viewportPos.y > 1.0f)
 			return false;
 
 		// Use PPRT occlusion mask to get normalized texture coordinate.
@@ -275,7 +275,7 @@ public class LightingSystem : MonoBehaviour
 		if (!SystemInfo.supportsAsyncGPUReadback)
 		{
 			Logger.LogWarning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
-			                             " be used instead.", Category.Lighting);
+										 " be used instead.", Category.Lighting);
 		}
 		HandlePPPositionRequest += ProviderPPPosition;
 
