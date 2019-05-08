@@ -34,7 +34,7 @@ public class TilemapConverter
 
 			if (!mapping.ContainsKey(name))
 			{
-				Logger.LogError("Missing tile for key: " + name);
+				Logger.LogErrorFormat("Missing tile for key: {0}", Category.TileMaps, name);
 				return null;
 			}
 
@@ -49,7 +49,7 @@ public class TilemapConverter
 				}
 				else
 				{
-					Logger.LogError("Missing tile at path: " + assetPath + " (key: " + name + " )");
+					Logger.LogErrorFormat("Missing tile at path: {0} (key: {1} )", Category.TileMaps, assetPath, name);
 					return null;
 				}
 			}

@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
 		if (mm.State.Position == TransformState.HiddenPos)
 		{
 			Logger.LogError("Matrix Move is not initialized! Wait for it to be" +
-				"ready before calling ServerSetSpaceBody ");
+				"ready before calling ServerSetSpaceBody ", Category.Server);
 			return;
 		}
 

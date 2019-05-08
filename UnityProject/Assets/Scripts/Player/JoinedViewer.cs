@@ -116,7 +116,7 @@ public class JoinedViewer : NetworkBehaviour
         }
         else
         {
-            Logger.LogWarning("[Jobs] Request Job Failed: Already Has Job");
+            Logger.LogWarning("[Jobs] Request Job Failed: Already Has Job", Category.Jobs);
 
 
         }

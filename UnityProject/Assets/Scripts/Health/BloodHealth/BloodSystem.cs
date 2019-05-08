@@ -178,7 +178,7 @@ public class BloodSystem : MonoBehaviour
 		{
 			return;
 		}
-		Logger.LogTraceFormat("Lost blood: {0}->{1}", Category.Health, BloodLevel, BloodLevel - amount);
+		Logger.LogTraceFormat("{0} lost blood: {1}->{2}", Category.Health, this.gameObject.name, BloodLevel, BloodLevel - amount);
 		BloodLevel -= amount;
 		BloodSplatSize scaleOfTragedy;
 		if (amount > 0 && amount < 15)

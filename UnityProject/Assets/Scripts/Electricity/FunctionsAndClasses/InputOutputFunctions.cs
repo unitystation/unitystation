@@ -47,7 +47,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			ElectricalSynchronisation.NUStructureChangeReact.Add(Thiswire.InData.ControllingUpdate);
 			ElectricalSynchronisation.NUResistanceChange.Add(Thiswire.InData.ControllingUpdate);
 			ElectricalSynchronisation.NUCurrentChange.Add(Thiswire.InData.ControllingUpdate);
-			Logger.LogError("Resistances Isn't initialised on " + SourceInstance);
+			Logger.LogErrorFormat("Resistance isn't initialised on {1}", Category.Electrical, SourceInstance);
 			return;
 		}
 		Thiswire.Data.SourceVoltages[SourceInstanceID] = Current * (ElectricityFunctions.WorkOutResistance(Thiswire.Data.ResistanceComingFrom[SourceInstanceID]));
@@ -90,7 +90,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			if (Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(IElec))
 			{
 				if (Thiswire.Data.ResistanceToConnectedDevices [IElec].Count > 1) {
-					Logger.LogError ("oh no!, problem!!!!");
+					Logger.LogErrorFormat("{0} has too many resistance reactions specified.", Category.Electrical, Thiswire.ToString());
 				}
 				foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[IElec])
 				{

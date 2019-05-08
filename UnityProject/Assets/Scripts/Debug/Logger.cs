@@ -233,6 +233,7 @@ public enum Category
 	Camera,
 	Exploits,
 	Graphics,
+	Server,
 }
 
 [Serializable]

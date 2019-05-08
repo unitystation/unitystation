@@ -27,7 +27,7 @@ public class ReagentContainer : Container {
 		float totalToAdd = AmountOfReagents(reagents);
 		if (CurrentCapacity + totalToAdd > MaxCapacity)
 		{
-			Logger.Log("The container overflows spilling the excess");
+			Logger.Log("The container overflows spilling the excess", Category.Chemistry);
 		}
 		float divideAmount = Math.Min((MaxCapacity - CurrentCapacity), totalToAdd) / totalToAdd;
 		foreach (KeyValuePair<string, float> Chemical in reagents)

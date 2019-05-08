@@ -224,7 +224,7 @@ public class PlayerList : NetworkBehaviour
 	{
 		if ( player.Equals(ConnectedPlayer.Invalid) )
 		{
-			Logger.Log("Refused to add invalid connected player",Category.Connections);
+			Logger.Log("Refused to add invalid connected player", Category.Connections);
 			return;
 		}
 		if ( ContainsConnection(player.Connection) )
@@ -239,7 +239,7 @@ public class PlayerList : NetworkBehaviour
 		else
 		{
 			values.Add(player);
-			Logger.Log($"Added {player}. Total:{values.Count}; {string.Join("; ",values)}",Category.Connections);
+			Logger.LogFormat("Added {0}. Total:{1}; {2}", Category.Connections, player, values.Count, string.Join(";", values));
 			//Adding kick timer for new players only
 			StartCoroutine(KickTimer(player));
 		}

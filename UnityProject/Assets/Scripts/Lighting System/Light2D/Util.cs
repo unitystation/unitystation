@@ -362,7 +362,7 @@ namespace Light2D
             }
             catch (Exception ex)
             {
-                Logger.LogErrorFormat("Deserialize: {0}", Category.Light2D);
+                Logger.LogErrorFormat("Deserialize: {0}", Category.Light2D, ex); 
                 return default(T);
             }
         }
