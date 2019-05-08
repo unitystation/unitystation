@@ -22,6 +22,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 			ElectricalUpdateTypeCategory.TurnOnSupply,
 			ElectricalUpdateTypeCategory.TurnOffSupply, 
 			ElectricalUpdateTypeCategory.PowerNetworkUpdate,
+			ElectricalUpdateTypeCategory.PotentialDestroyed,
 		};
 		ModuleType = ElectricalModuleTypeCategory.SupplyingDevice;
 		ControllingNode = Node;
@@ -33,7 +34,9 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 
 	public override void PotentialDestroyed()
 	{
-
+		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
+		ElectricalSynchronisation.ResistanceChange.Add(ControllingNode);
+		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
 		if (ControllingNode.SelfDestruct)
 		{
 			ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
@@ -61,11 +64,27 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 
 	public override void TurnOnSupply()
 	{
+		if (InternalResistance > 0)
+		{
+			foreach (PowerTypeCategory Connecting in ControllingNode.CanConnectTo)
+			{
+				ControllingNode.OverlayInternalResistance(InternalResistance, Connecting);
+			}
+			ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
+		}
 		PowerSupplyFunction.TurnOnSupply(this);
 	}
 
 	public override void TurnOffSupply()
 	{
+		if (InternalResistance > 0)
+		{
+			foreach (PowerTypeCategory Connecting in ControllingNode.CanConnectTo)
+			{
+				ControllingNode.RestoreResistance(Connecting);
+			}
+		}
+		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
 		PowerSupplyFunction.TurnOffSupply(this);
 	}
 	public override void PowerNetworkUpdate()

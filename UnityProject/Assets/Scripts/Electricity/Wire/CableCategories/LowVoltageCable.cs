@@ -8,6 +8,8 @@ public class LowVoltageCable : CableInheritance
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.LowMachineConnector,
 		PowerTypeCategory.LowVoltageCable,
+		PowerTypeCategory.SolarPanelController,
+		PowerTypeCategory.SolarPanel,
 	};
 	public override void _OnStartServer()
 	{

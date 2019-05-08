@@ -50,6 +50,7 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 			ElectricalUpdateTypeCategory.InitialPowerUpdateResistance,
 			ElectricalUpdateTypeCategory.PowerUpdateResistanceChange,
 			ElectricalUpdateTypeCategory.PowerNetworkUpdate,
+			ElectricalUpdateTypeCategory.PotentialDestroyed,
 		};
 		ModuleType = ElectricalModuleTypeCategory.ResistanceSource;
 		ControllingNode = Node;
@@ -58,6 +59,11 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 		ControllingNode.Node.InData.ConnectionReaction[ReactionTo.ConnectingDevice] = ReactionTo;
 		ElectricalSynchronisation.PoweredDevices.Add(ControllingNode);
 		Node.AddModule(this);
+	}
+
+	public override void PotentialDestroyed()
+	{
+		ElectricalSynchronisation.ResistanceChange.Add(ControllingNode);
 	}
 
 	public override void InitialPowerUpdateResistance()

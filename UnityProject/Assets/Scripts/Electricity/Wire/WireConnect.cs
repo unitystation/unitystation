@@ -157,6 +157,7 @@ public class WireConnect : ElectricalOIinheritance
 
 	public override void FlushConnectionAndUp()
 	{
+
 		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
 		RelatedLine = null;
 		//InData.ControllingDevice.PotentialDestroyed();
@@ -229,12 +230,13 @@ public class WireConnect : ElectricalOIinheritance
 	{
 		if (isServer)
 		{
-			Logger.Log("connections " + (Data.connections.Count.ToString()), Category.Electrical);
+			Logger.Log("connections " + (string.Join(",", Data.connections)), Category.Electrical);
 			Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
 			Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);
 			Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
 			Logger.Log("UpstreamCount " + (Data.UpstreamCount.ToString()), Category.Electrical);
 			Logger.Log("DownstreamCount " + (Data.DownstreamCount.ToString()), Category.Electrical);
+			Logger.Log("Present supplies" + (string.Join(",", Data.Upstream)), Category.Electrical);
 			if (RelatedLine != null)
 			{
 				Logger.Log("line heree!!!");
@@ -247,9 +249,6 @@ public class WireConnect : ElectricalOIinheritance
 			Logger.Log("ActualVoltage " + (Data.ActualVoltage.ToString()), Category.Electrical);
 			Logger.Log("CurrentInWire " + (Data.CurrentInWire.ToString()), Category.Electrical);
 			Logger.Log("EstimatedResistance " + (Data.EstimatedResistance.ToString()), Category.Electrical);
-			
-
-
 		}
 
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);

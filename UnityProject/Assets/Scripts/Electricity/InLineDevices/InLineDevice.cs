@@ -79,11 +79,11 @@ public class InLineDevice : ElectricalOIinheritance
 
 	public override void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
-		if (!(SourceInstance == gameObject)){
-			if (!ElectricalSynchronisation.NUCurrentChange.Contains(InData.ControllingDevice)) { 
-				ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingDevice);
-			}
-		}
+		//if (!(SourceInstance == gameObject)){ // In line  Device bouncing off each other
+		//	if (!ElectricalSynchronisation.NUCurrentChange.Contains(InData.ControllingDevice)) { 
+		//		ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingDevice);
+		//	}
+		//}
 
 		Current = RelatedDevice.ModifyElectricityOutput(Current, SourceInstance);
 

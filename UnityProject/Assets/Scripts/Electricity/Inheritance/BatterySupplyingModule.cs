@@ -27,7 +27,8 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 	public float PullingWatts = 0;
 	public float ChargingWatts = 0;
 	public float CircuitResistance = 0;
-	public float ActualVoltage = 0;
+	public float VoltageAtChargePort = 0;
+	public float VoltageAtSupplyPort = 0;
 	public bool isOnForInterface = false;
 
 	public ResistanceSourceModule ResistanceSourceModule;
@@ -42,6 +43,8 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 			ElectricalUpdateTypeCategory.TurnOnSupply,
 			ElectricalUpdateTypeCategory.TurnOffSupply,
 			ElectricalUpdateTypeCategory.PowerNetworkUpdate,
+			ElectricalUpdateTypeCategory.ModifyElectricityOutput,
+			ElectricalUpdateTypeCategory.PotentialDestroyed, //Remember to keep the inherited updates
 		};
 		ModuleType = ElectricalModuleTypeCategory.BatterySupplyingDevice;
 		ControllingNode = Node;
@@ -66,7 +69,8 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 		{
 			ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node.gameObject); //Room for optimisation
 			CircuitResistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.ResistanceComingFrom[ControllingNode.Node.gameObject.GetInstanceID()]); // //!!
-			ActualVoltage = ControllingNode.Node.Data.ActualVoltage;
+			VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
+			VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageNOTFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
 
 			BatteryCalculation.PowerUpdateCurrentChange(this);
 
@@ -92,7 +96,8 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 	}
 	public override void PowerNetworkUpdate()
 	{
-		ActualVoltage = ControllingNode.Node.Data.ActualVoltage;
+		VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
+		VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageNOTFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
 		BatteryCalculation.PowerNetworkUpdate(this);
 		if (current != Previouscurrent | SupplyingVoltage != PreviousSupplyingVoltage | InternalResistance != PreviousInternalResistance)
 		{
@@ -105,8 +110,20 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 			ControllingNode.Node.Data.InternalResistance = InternalResistance;
 			PreviousInternalResistance = InternalResistance;
 
-			ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode.Node.InData.ControllingDevice);
+			ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
 		}
-		//Logger.Log(CurrentCapacity + " < CurrentCapacity", Category.Electrical);
+		//Logger.Log(CurrentCapacity + " < CurrentCapacity" + ControllingNode.Node.InData.Categorytype, Category.Electrical);
+	}
+
+	public override float ModifyElectricityOutput(float Current, GameObject SourceInstance)
+	{
+		if (!(SourceInstance == gameObject))
+		{ 
+			if (!ElectricalSynchronisation.NUCurrentChange.Contains(ControllingNode))
+			{
+				ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
+			}
+		}
+		return (Current);
 	}
 }

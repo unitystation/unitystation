@@ -5,11 +5,14 @@ using UnityEngine;
 public static class PowerSupplyFunction  { //Responsible for keeping the update and day to clean up off the supply in check
 	public static void TurnOffSupply(ModuleSupplyingDevice Supply)
 	{
+		//Logger.Log("TTTTTTTTTTTTTTTTTTTT");
 		Supply.ControllingNode.Node.Data.ChangeToOff = true;
 		ElectricalSynchronisation.NUCurrentChange.Add (Supply.ControllingNode);
+		//ElectricalSynchronisation.RemoveSupply(Supply.ControllingNode, Supply.ControllingNode.ApplianceType);
 	}
 	public static void TurnOnSupply(ModuleSupplyingDevice Supply)
 	{
+		//Logger.Log("nnnnnnnnnn" + Supply.ControllingNode);
 		Supply.ControllingNode.Node.Data.ChangeToOff = false;
 		ElectricalSynchronisation.AddSupply(Supply.ControllingNode, Supply.ControllingNode.ApplianceType);
 		ElectricalSynchronisation.NUStructureChangeReact.Add (Supply.ControllingNode);
@@ -19,6 +22,7 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 
 	public static void PowerUpdateStructureChangeReact(ModuleSupplyingDevice Supply)
 	{
+		//Logger.Log("doing");
 		ElectricalSynchronisation.CircuitSearchLoop(Supply.ControllingNode.Node);
 	}
 
@@ -32,12 +36,14 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 			{
 				if (Supply.ControllingNode.Node.Data.SupplyingCurrent != 0)
 				{
+					Logger.Log(Supply.ControllingNode.Node.Data.SupplyingCurrent + " Supply.ControllingNode.Node.Data.SupplyingCurrent ");
 					Supply.ControllingNode.Node.ElectricityOutput(Supply.ControllingNode.Node.Data.SupplyingCurrent, Supply.ControllingNode.Node.GameObject());
 				}
 				else if (Supply.ControllingNode.Node.Data.SupplyingVoltage != 0)
 				{
 					int SourceInstanceID = Supply.ControllingNode.Node.GameObject().GetInstanceID();
-					Supply.ControllingNode.Node.ElectricityOutput((Supply.SupplyingVoltage) / (Supply.InternalResistance + ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.Data.ResistanceComingFrom[SourceInstanceID])), Supply.gameObject);
+					float Current = (Supply.SupplyingVoltage) / (Supply.InternalResistance + ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.Data.ResistanceComingFrom[SourceInstanceID]));
+					Supply.ControllingNode.Node.ElectricityOutput(((Supply.SupplyingVoltage-(Current * Supply.InternalResistance))/ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.Data.ResistanceComingFrom[SourceInstanceID])), Supply.gameObject);
 				}
 
 			}

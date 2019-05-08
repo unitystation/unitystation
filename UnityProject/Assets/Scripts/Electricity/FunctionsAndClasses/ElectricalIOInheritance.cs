@@ -185,13 +185,14 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	public virtual void ShowDetails()
 	{
 		if (isServer)
-		{
-			Logger.Log("connections " + (Data.connections.Count.ToString()), Category.Electrical);
+		{ //(string.Join(",", Data.connection))
+			Logger.Log("connections " + (string.Join(",", Data.connections)), Category.Electrical);
 			Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
 			Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);
 			Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
 			Logger.Log("UpstreamCount " + (Data.UpstreamCount.ToString()), Category.Electrical);
 			Logger.Log("DownstreamCount " + (Data.DownstreamCount.ToString()), Category.Electrical);
+			Logger.Log("Present supplies" + (string.Join(",", Data.Upstream)), Category.Electrical);
 			Logger.Log("ActualVoltage " + (Data.ActualVoltage.ToString()), Category.Electrical);
 			Logger.Log("CurrentInWire " + (Data.CurrentInWire.ToString()), Category.Electrical);
 			Logger.Log("EstimatedResistance " + (Data.EstimatedResistance.ToString()), Category.Electrical);

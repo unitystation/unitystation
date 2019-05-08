@@ -53,39 +53,37 @@ public static class ElectricalSynchronisation
 
 	public static List<PowerTypeCategory> OrderList = new List<PowerTypeCategory>()
 	{ //Since you want the batteries to come after the radiation collectors so batteries don't put all there charge out then realise radiation collectors already doing it
+		PowerTypeCategory.SolarPanel,
 		PowerTypeCategory.RadiationCollector, //make sure unconditional supplies come first
 		PowerTypeCategory.PowerGenerator,
 		PowerTypeCategory.SMES, //Then conditional supplies With the hierarchy you want
+		PowerTypeCategory.SolarPanelController,
 		PowerTypeCategory.DepartmentBattery,
 
 	};
-	public static List<PowerTypeCategory> WireConnectRelated = new List<PowerTypeCategory>()
-	{
-		PowerTypeCategory.LowVoltageCable,
-		PowerTypeCategory.LowMachineConnector,
-		PowerTypeCategory.StandardCable,
-		PowerTypeCategory.MediumMachineConnector,
-		PowerTypeCategory.HighVoltageCable,
-		PowerTypeCategory.HighVoltageCable,
+	//public static List<PowerTypeCategory> WireConnectRelated = new List<PowerTypeCategory>()
+	//{
+	//	PowerTypeCategory.LowVoltageCable,
+	//	PowerTypeCategory.LowMachineConnector,
+	//	PowerTypeCategory.StandardCable,
+	//	PowerTypeCategory.MediumMachineConnector,
+	//	PowerTypeCategory.HighVoltageCable,
+	//	PowerTypeCategory.HighVoltageCable,
 
-	};
+	//};
 	public static List<PowerTypeCategory> UnconditionalSupplies = new List<PowerTypeCategory>()
 	{
 		PowerTypeCategory.RadiationCollector, //make sure unconditional supplies come first
 		PowerTypeCategory.PowerGenerator,
+		PowerTypeCategory.SolarPanel,
 
 	};
-	public static List<PowerTypeCategory> ReactiveSupplies = new List<PowerTypeCategory>()
-	{
-		PowerTypeCategory.SMES, //Then conditional supplies With the hierarchy you want
-		PowerTypeCategory.DepartmentBattery,
 
-	};
 	public static HashSet<PowerTypeCategory> ReactiveSuppliesSet = new HashSet<PowerTypeCategory>()
 	{
 		PowerTypeCategory.SMES, //Then conditional supplies With the hierarchy you want
 		PowerTypeCategory.DepartmentBattery,
-
+		PowerTypeCategory.SolarPanelController,
 	};
 	public static HashSet<ElectricalNodeControl> TotalSupplies = new HashSet<ElectricalNodeControl>();
 	public static Dictionary<PowerTypeCategory, HashSet<ElectricalNodeControl>> AliveSupplies = new Dictionary<PowerTypeCategory, HashSet<ElectricalNodeControl>>()
@@ -239,6 +237,7 @@ public static class ElectricalSynchronisation
 			{
 				if (NUStructureChangeReact.Contains(TheSupply))
 				{
+					//Logger.Log("PowerUpdateStructureChangeReact " + TheSupply); 
 					TheSupply.PowerUpdateStructureChangeReact();
 					NUStructureChangeReact.Remove(TheSupply);
 				}
@@ -272,6 +271,7 @@ public static class ElectricalSynchronisation
 				if (NUResistanceChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)))
 				{
 					TheSupply.PowerUpdateResistanceChange();
+					//Logger.Log("PowerUpdateResistanceChange " + TheSupply);
 					NUResistanceChange.Remove(TheSupply);
 				}
 			}
@@ -293,6 +293,7 @@ public static class ElectricalSynchronisation
 			{
 				if (NUCurrentChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)) && !(NUResistanceChange.Contains(TheSupply)))
 				{
+					//Logger.Log("PowerUpdateCurrentChange " + TheSupply);
 					TheSupply.PowerUpdateCurrentChange();
 					NUCurrentChange.Remove(TheSupply);
 				}
@@ -347,6 +348,7 @@ public static class ElectricalSynchronisation
 			}
 			if (LowestReactive != null)
 			{
+				//Logger.Log("PowerUpdateCurrentChange " + LowestReactive);
 				LowestReactive.PowerUpdateCurrentChange();
 				NUCurrentChange.Remove(LowestReactive);
 				DoneSupplies.Add(LowestReactive);

@@ -11,6 +11,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		float Voltage = Current * (ElectricityFunctions.WorkOutResistance(Thiswire.Data.ResistanceComingFrom[SourceInstanceID]));
 		foreach (KeyValuePair<ElectricalOIinheritance, float> JumpTo in Thiswire.Data.ResistanceComingFrom[SourceInstanceID])
 		{
+			//Logger.Log(JumpTo.Key.ToString());
 			if (Voltage > 0)
 			{
 				SupplyingCurrent = (Voltage / JumpTo.Value);
@@ -82,6 +83,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			else {
 				Thiswire.Data.ResistanceGoingTo[SourceInstanceID][JumpTo] = ResistanceSplit;
 			}
+			//Logger.Log(SourceInstance.name + "to ResistanceInput " + JumpTo);
 			JumpTo.ResistanceInput(ResistanceSplit, SourceInstance, Thiswire);
 		}
 	}
@@ -91,19 +93,22 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		ElectricalOIinheritance IElec = SourceInstance.GetComponent<ElectricalOIinheritance>();
 		if (ComingFrom == null)
 		{
-			if (Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(IElec))
+			if (IElec != Thiswire)
 			{
-				if (Thiswire.Data.ResistanceToConnectedDevices[IElec].Count > 1)
+				if (Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(IElec))
 				{
-					Logger.LogError("oh no!, problem!!!!");
-				}
-				foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[IElec])
-				{
-					Resistance = Thiswire.InData.ConnectionReaction[ConnectionFrom].ResistanceReactionA.Resistance.Ohms;
-					//Logger.Log (Resistance + " < to man Resistance |            " + ConnectionFrom + " < to man ConnectionFrom |      " + Thiswire.GameObject().name + " < to man IS ");
-					ComingFrom = ElectricalSynchronisation.DeadEnd;
-					//ComingFrom = new DeadEndConnection();
-					//ComingFrom.InData.Categorytype = PowerTypeCategory.DeadEndConnection;
+					if (Thiswire.Data.ResistanceToConnectedDevices[IElec].Count > 1)
+					{
+						Logger.LogError("oh no!, problem!!!!");
+					}
+					foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[IElec])
+					{
+						Resistance = Thiswire.InData.ConnectionReaction[ConnectionFrom].ResistanceReactionA.Resistance.Ohms;
+						//Logger.Log (Resistance + " < to man Resistance |            " + ConnectionFrom + " < to man ConnectionFrom |      " + Thiswire.GameObject().name + " < to man IS ");
+						ComingFrom = ElectricalSynchronisation.DeadEnd;
+						//ComingFrom = new DeadEndConnection();
+						//ComingFrom.InData.Categorytype = PowerTypeCategory.DeadEndConnection;
+					}
 				}
 			}
 		}
@@ -180,7 +185,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 				//}
 				if (!(Thiswire.Data.Downstream[SourceInstanceID].Contains(Related)) && pass)
 				{
-					//Logger.Log("4");
+					//Logger.Log(SourceInstance.name + "to DirectionInput " + Related);
 					Thiswire.Data.Downstream[SourceInstanceID].Add(Related);
 					Related.DirectionInput(SourceInstance, Thiswire);
 				}
@@ -191,6 +196,10 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 	public static void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalOIinheritance Thiswire)
 	{
 		//Logger.Log("5");
+		if (Thiswire.Data.connections.Count == 0)
+		{
+			Thiswire.FindPossibleConnections(); //piz don't remove it is necessary for preventing incomplete cleanups when there has been multiple
+		}
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		if (Thiswire.Data.FirstPresent == 0)
 		{

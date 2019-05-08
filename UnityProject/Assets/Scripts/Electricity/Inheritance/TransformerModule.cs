@@ -7,6 +7,7 @@ public class TransformerModule : ElectricalModuleInheritance
 {
 	[Header("Transformer Settings")]
 	public float TurnRatio; //the Turn ratio of the transformer so if it 2, 1v in 2v out 
+	public bool InvertingTurnRatio;  //what it will be limited to
 	public float VoltageLimiting; //If it requires VoltageLimiting and  At what point the VoltageLimiting will kick in
 	public float VoltageLimitedTo;  //what it will be limited to
 
@@ -19,6 +20,9 @@ public class TransformerModule : ElectricalModuleInheritance
 		};
 		ModuleType = ElectricalModuleTypeCategory.Transformer;
 		ControllingNode = Node;
+		if (InvertingTurnRatio) {
+			TurnRatio = 1 / TurnRatio;
+		}
 		Node.AddModule(this);
 	}
 	public override void OnStartServer()
@@ -32,7 +36,8 @@ public class TransformerModule : ElectricalModuleInheritance
 		float ActualCurrent = ControllingNode.Node.Data.CurrentInWire;
 
 		float Resistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.ResistanceComingFrom[InstanceID]);
-		float Voltage = (Current * Resistance);
+		float Voltage = (Current * Resistance);		//float Voltage = ElectricityFunctions.WorkOutVoltage(ControllingNode.Node);
+
 		//Logger.Log (Voltage.ToString() + " < Voltage " + Resistance.ToString() + " < Resistance" + ActualCurrent.ToString() + " < ActualCurrent" + Current.ToString() + " < Current");
 		Tuple<float, float> Currentandoffcut = TransformerCalculations.TransformerCalculate(this, Voltage: Voltage, ResistanceModified: Resistance, ActualCurrent: ActualCurrent);
 		if (Currentandoffcut.Item2 > 0)

@@ -32,6 +32,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 			Object.Data.ResistanceToConnectedDevices.Clear();
 			Object.connectedDevices.Clear();
 			if (Object.Data.connections.Count > 0) {
+				//Logger.Log("jumping from" + Object);
 				List<ElectricalOIinheritance> Backupconnections = new List<ElectricalOIinheritance>(Object.Data.connections);
 				Object.Data.connections.Clear();
 
@@ -39,6 +40,10 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 					JumpTo.FlushConnectionAndUp ();
 	
 				}
+				//bool log = false;
+				//if (Object.InData.Categorytype == PowerTypeCategory.SolarPanelController) {
+				//	log = true;
+				//}
 
 				foreach (KeyValuePair<int, HashSet<ElectricalOIinheritance>> Supply in Object.Data.Downstream)
 				{

@@ -36,18 +36,26 @@ public static class TransformerCalculations  {
 			float R2 = V2 / ((Voltage / V2) * (Voltage / ResistanceModified));
 			if (!(TransformInformation.VoltageLimiting == 0))
 			{ //if Total Voltage greater than that then  Push some of it to ground  to == VoltageLimitedTo And then everything after it to ground/
-
-				float SUBV2 = (ActualCurrent * ResistanceModified) / TransformInformation.TurnRatio;
-
-				if ((V2 + SUBV2) > TransformInformation.VoltageLimiting)
-				{
-					offcut = ((V2 + SUBV2) - TransformInformation.VoltageLimitedTo) / R2;
-					V2 = TransformInformation.VoltageLimitedTo - SUBV2;
+				float VVoltage = ElectricityFunctions.WorkOutVoltage(TransformInformation.ControllingNode.Node);
+				if (VVoltage + V2 > TransformInformation.VoltageLimiting) { 
+					offcut = ((V2 + VVoltage) - TransformInformation.VoltageLimitedTo);
+					V2 = V2 - offcut;
 					if (V2 < 0)
 					{
 						V2 = 0;
 					}
 				}
+				//float SUBV2 = (ActualCurrent * ResistanceModified) / TransformInformation.TurnRatio;
+
+				//if ((V2 + SUBV2) > TransformInformation.VoltageLimiting)
+				//{
+				//	offcut = ((V2 + SUBV2) - TransformInformation.VoltageLimitedTo) / R2;
+				//	V2 = TransformInformation.VoltageLimitedTo - SUBV2;
+				//	if (V2 < 0)
+				//	{
+				//		V2 = 0;
+				//	}
+				//}
 			}
 			float I2 = V2 / R2;
 			Tuple<float, float> returns = new Tuple<float, float>(

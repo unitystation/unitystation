@@ -12,13 +12,13 @@ public class ElectricalNodeControl : NetworkBehaviour
 	public HashSet<PowerTypeCategory> CanConnectTo;
 	public bool SelfDestruct;
 	public List<PowerInputReactions> Reactions;
+	public Dictionary<PowerTypeCategory,float> ResistanceRestorepoints = new Dictionary<PowerTypeCategory, float>();
 
 	public INodeControl NodeControl;
 
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
-		BroadcastMessage("BroadcastSetUpMessage", this);
 		NodeControl = gameObject.GetComponent<INodeControl>();
 		Node = gameObject.GetComponent<InLineDevice>();
 		ElectricalSynchronisation.StructureChange = true;
@@ -31,6 +31,7 @@ public class ElectricalNodeControl : NetworkBehaviour
 		{
 			Node.InData.ConnectionReaction[ReactionC.ConnectingDevice] = ReactionC;
 		}
+		BroadcastMessage("BroadcastSetUpMessage", this);
 		UpOnStartServer();
 
 		//Node.InData.ControllingDevice = this;
@@ -46,7 +47,22 @@ public class ElectricalNodeControl : NetworkBehaviour
 		}
 
 	}
+	public void OverlayInternalResistance(float InternalResistance, PowerTypeCategory Connecting) {
+		if (Node.InData.ConnectionReaction.ContainsKey(Connecting) && (!(ResistanceRestorepoints.ContainsKey(Connecting))))
+		{
+			ResistanceRestorepoints[Connecting] = Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms;
+			Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms = InternalResistance;
+		}
 
+			
+	}
+	public void RestoreResistance(PowerTypeCategory Connecting) { 
+		if (Node.InData.ConnectionReaction.ContainsKey(Connecting) && (ResistanceRestorepoints.ContainsKey(Connecting)))
+		{
+			Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms = ResistanceRestorepoints[Connecting];
+			ResistanceRestorepoints.Remove(Connecting);
+		}
+	}
 
 	public void TurnOnSupply()
 	{
@@ -80,6 +96,11 @@ public class ElectricalNodeControl : NetworkBehaviour
 
 	public  void PowerUpdateResistanceChange()
 	{
+		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in Node.Data.ResistanceToConnectedDevices)
+		{
+			Node.ResistanceInput(1.11111111f, Supplie.Key.GameObject(), null);
+			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
+		}
 		UpPowerUpdateResistanceChange();
 	}
 

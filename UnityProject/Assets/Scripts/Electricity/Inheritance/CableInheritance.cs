@@ -67,7 +67,6 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	}
 	public virtual void PowerUpdateStructureChange()
 	{
-		
 		wireConnect.FlushConnectionAndUp();
 		wireConnect.FindPossibleConnections();
 		wireConnect.FlushConnectionAndUp();

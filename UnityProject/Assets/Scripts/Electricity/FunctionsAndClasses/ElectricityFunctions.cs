@@ -254,6 +254,63 @@ public static class ElectricityFunctions
 		return (Current, Voltage, (Voltage / Current));
 	}
 
+	public static float WorkOutVoltage(ElectricalOIinheritance ElectricItem)
+	{  
+		float Voltage = 0;
+		foreach (KeyValuePair<int, float> CurrentIDItem in ElectricItem.Data.SourceVoltages)
+		{ //Voltages easy to work out just add up all the voltages from different sources
+			Voltage += CurrentIDItem.Value;
+		}
+		return (Voltage);
+	}
+
+
+	public static float WorkOutVoltageFromConnector(ElectricalOIinheritance ElectricItem, PowerTypeCategory SpecifiedDevice)
+	{
+		float Voltage = 0;
+		foreach (KeyValuePair<int, float> CurrentIDItem in ElectricItem.Data.SourceVoltages)
+		{ //Voltages easy to work out just add up all the voltages from different sources
+			bool pass = false;
+			foreach (var subcheck in ElectricItem.Data.Upstream[CurrentIDItem.Key])
+			{
+				if (subcheck.InData.Categorytype == SpecifiedDevice)
+				{
+					pass = true;
+
+				}
+
+
+			}
+			if (pass)
+			{
+				Voltage += CurrentIDItem.Value;
+			}
+		}
+		return (Voltage);
+	}
+
+		public static float WorkOutVoltageNOTFromConnector(ElectricalOIinheritance ElectricItem, PowerTypeCategory SpecifiedDevice)
+	{
+		float Voltage = 0;
+		foreach (KeyValuePair<int, float> CurrentIDItem in ElectricItem.Data.SourceVoltages)
+		{ //Voltages easy to work out just add up all the voltages from different sources
+			bool pass = true;
+			foreach (var subcheck in ElectricItem.Data.Upstream[CurrentIDItem.Key])
+			{
+				if (subcheck.InData.Categorytype == SpecifiedDevice)
+				{
+					pass = false;
+
+				}
+
+			}
+			if (pass) { 
+				Voltage += CurrentIDItem.Value;
+			}
+		}
+		return (Voltage);
+	}
+
 	//public static void CircuitSearchLoop(ElectricalOIinheritance Thiswire, ElectricalOIinheritance ProvidingPower)
 	//{
 	//	InputOutputFunctions.DirectionOutput(Thiswire.GameObject(), Thiswire);

@@ -14,14 +14,12 @@ GameObject:
   - component: {fileID: 114943457949527232}
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
-  - component: {fileID: 114500746951952046}
-  - component: {fileID: 114421102744754910}
-  - component: {fileID: 3451459747492305769}
-  - component: {fileID: 1899468008703458127}
-  - component: {fileID: 7874108366048478862}
-  - component: {fileID: 8556410435183048791}
+  - component: {fileID: 1302529419740996430}
+  - component: {fileID: 2683382063024116834}
+  - component: {fileID: 1586879679072018965}
+  - component: {fileID: 8957231011455724627}
   m_Layer: 11
-  m_Name: DepartmentBattery
+  m_Name: SolarPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,9 +36,7 @@ Transform:
   m_LocalPosition: {x: 4, y: -34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5135599405086934931}
-  - {fileID: 3625771099087644385}
-  - {fileID: 2330324625041255647}
+  - {fileID: 972798899641740819}
   - {fileID: 4920401221825478}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -166,51 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114500746951952046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a0a87aa5be02bc408919928681abdec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentSprite: 0
-  Renderer: {fileID: 212514117955345912}
-  BatteryOpenPresent: {fileID: 21300002, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
-  BatteryOpenMissing: {fileID: 21300004, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
-  BatteryClosedMissing: {fileID: 21300000, guid: 96a44934f4545ce4889e1daaf35858fb,
-    type: 3}
-  BatteryCharged: {fileID: 21300010, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
-  PartialCharge: {fileID: 21300006, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
-  CurrentState: 0
-  LightOn: {fileID: 21300028, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
-  LightOff: {fileID: 21300026, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
-  LightRed: {fileID: 21300030, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
-  BatteryCompartmentSprite: {fileID: 4847492469325755623}
-  BatteryIndicatorSprite: {fileID: 5224863508151970015}
-  PowerIndicator: {fileID: 8806630982829426426}
-  enums: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a000000
-  Sprite:
-  - {fileID: 21300000, guid: b9d3891b95a39a84598734922347a87f, type: 3}
-  - {fileID: 21300002, guid: b9d3891b95a39a84598734922347a87f, type: 3}
-  - {fileID: 21300004, guid: b9d3891b95a39a84598734922347a87f, type: 3}
-  - {fileID: 21300006, guid: b9d3891b95a39a84598734922347a87f, type: 3}
-  - {fileID: 21300008, guid: b9d3891b95a39a84598734922347a87f, type: 3}
-  - {fileID: 21300010, guid: b9d3891b95a39a84598734922347a87f, type: 3}
-  - {fileID: 21300012, guid: b9d3891b95a39a84598734922347a87f, type: 3}
-  - {fileID: 21300014, guid: b9d3891b95a39a84598734922347a87f, type: 3}
-  - {fileID: 21300016, guid: b9d3891b95a39a84598734922347a87f, type: 3}
-  - {fileID: 21300016, guid: b9d3891b95a39a84598734922347a87f, type: 3}
-  - {fileID: 21300020, guid: b9d3891b95a39a84598734922347a87f, type: 3}
-  ElectricalNodeControl: {fileID: 3451459747492305769}
-  BatterySupplyingModule: {fileID: 7874108366048478862}
-  isOn: 0
-  currentCharge: 0
---- !u!114 &114421102744754910
+--- !u!114 &1302529419740996430
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,7 +202,7 @@ MonoBehaviour:
   connected: 0
   RelatedDevice: {fileID: 0}
   registerTile3: {fileID: 114038174743996046}
---- !u!114 &3451459747492305769
+--- !u!114 &2683382063024116834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -262,12 +214,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Node: {fileID: 114421102744754910}
-  ApplianceType: 7
-  ListCanConnectTo: 09000000
+  Node: {fileID: 1302529419740996430}
+  ApplianceType: 14
+  ListCanConnectTo: 08000000
   SelfDestruct: 0
   Reactions:
-  - ConnectingDevice: 9
+  - ConnectingDevice: 8
     DirectionReaction: 0
     ResistanceReaction: 1
     ElectricalReaction: 0
@@ -285,7 +237,7 @@ MonoBehaviour:
     ElectricalReactionA:
       Current: 0
       YouShallNotPass: 0
---- !u!114 &1899468008703458127
+--- !u!114 &1586879679072018965
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -294,77 +246,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6674578bb1278de4c9af970c45c78d9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ModuleType: 0
-  ControllingNode: {fileID: 0}
-  resistance:
-    Ohms: 0
-    ResistanceAvailable: 1
-  ReactionTo:
-    ConnectingDevice: 1
-    DirectionReaction: 0
-    ResistanceReaction: 1
-    ElectricalReaction: 0
-    RelatedComingFrom: {fileID: 0}
-    DirectionReactionA:
-      AddResistanceCall:
-        Ohms: 0
-        ResistanceAvailable: 1
-      YouShallNotPass: 0
-    ResistanceReactionA:
-      Resistance:
-        Ohms: 0
-        ResistanceAvailable: 1
-      YouShallNotPass: 0
-    ElectricalReactionA:
-      Current: 0
-      YouShallNotPass: 0
---- !u!114 &7874108366048478862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d118f1d8db746943b4a84d87f71d1d2, type: 3}
+  m_Script: {fileID: 11500000, guid: afc0599350d172f4b97acd59a6626136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ModuleType: 0
   ControllingNode: {fileID: 0}
   current: 0
   Previouscurrent: 0
-  SupplyingVoltage: 0
-  PreviousSupplyingVoltage: 0
-  PreviousInternalResistance: 0
-  InternalResistance: 0
-  MaximumCurrentSupport: 8
-  MinimumSupportVoltage: 216
-  StandardSupplyingVoltage: 240
-  CapacityMax: 432000
-  CurrentCapacity: 432000
-  ExtraChargeCutOff: 240
-  IncreasedChargeVoltage: 241
-  StandardChargeNumber: 6
-  ChargeSteps: 0.1
-  MaxChargingMultiplier: 1.2
-  ChargingMultiplier: 0.1
-  CanCharge: 1
-  Cansupport: 1
-  ToggleCanCharge: 1
-  ToggleCansupport: 1
-  PullLastDeductedTime: 0
-  ChargLastDeductedTime: 0
-  PullingWatts: 0
-  ChargingWatts: 0
-  CircuitResistance: 0
-  ActualVoltage: 0
-  isOnForInterface: 0
-  ResistanceSourceModule: {fileID: 1899468008703458127}
---- !u!114 &8556410435183048791
+  SupplyingVoltage: 24
+  PreviousSupplyingVoltage: 24
+  PreviousInternalResistance: 0.001
+  InternalResistance: 0.001
+--- !u!114 &8957231011455724627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -373,14 +266,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 949c77a5c6348e94e90d1c1a8f074e44, type: 3}
+  m_Script: {fileID: 11500000, guid: 6415106dad0ebcd43b2704093600f0c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModuleType: 0
-  ControllingNode: {fileID: 0}
-  TurnRatio: 12.5
-  VoltageLimiting: 0
-  VoltageLimitedTo: 0
+  isOn: 0
+  ElectricalNodeControl: {fileID: 2683382063024116834}
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +300,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4734855229797344}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &212514117955345912
 SpriteRenderer:
@@ -446,10 +336,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayerID: -24161425
+  m_SortingLayer: 4
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: b9d3891b95a39a84598734922347a87f, type: 3}
+  m_Sprite: {fileID: 21300140, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -460,7 +350,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &4099588646285911349
+--- !u!1 &5476319447929860129
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -468,180 +358,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2330324625041255647}
-  - component: {fileID: 4847492469325755623}
+  - component: {fileID: 972798899641740819}
+  - component: {fileID: 5052810172837785038}
   m_Layer: 0
-  m_Name: Battery compartment
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2330324625041255647
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4099588646285911349}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4734855229797344}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &4847492469325755623
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4099588646285911349}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 0
-  m_RenderingLayerMask: 4294967295
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 142874271
-  m_SortingLayer: 10
-  m_SortingOrder: 12
-  m_Sprite: {fileID: 21300022, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!1 &4398064358147536303
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3625771099087644385}
-  - component: {fileID: 5224863508151970015}
-  m_Layer: 0
-  m_Name: Battery charge
+  m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3625771099087644385
+--- !u!4 &972798899641740819
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4398064358147536303}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4734855229797344}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5224863508151970015
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4398064358147536303}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 0
-  m_RenderingLayerMask: 4294967295
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 142874271
-  m_SortingLayer: 10
-  m_SortingOrder: 13
-  m_Sprite: {fileID: 21300012, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!1 &8295667826118917176
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5135599405086934931}
-  - component: {fileID: 8806630982829426426}
-  m_Layer: 0
-  m_Name: on off light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5135599405086934931
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8295667826118917176}
+  m_GameObject: {fileID: 5476319447929860129}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -649,21 +381,21 @@ Transform:
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &8806630982829426426
+--- !u!212 &5052810172837785038
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8295667826118917176}
+  m_GameObject: {fileID: 5476319447929860129}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 0
-  m_RenderingLayerMask: 4294967295
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
@@ -683,10 +415,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 142874271
-  m_SortingLayer: 10
+  m_SortingLayerID: -24161425
+  m_SortingLayer: 4
   m_SortingOrder: 12
-  m_Sprite: {fileID: 21300028, guid: 96a44934f4545ce4889e1daaf35858fb, type: 3}
+  m_Sprite: {fileID: 21300134, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
