@@ -136,7 +136,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		//SourceInstance.GetComponent<ElectricalOIinheritance>();
 		//Logger.Log("oh man?");
 		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
-		ElectricityFunctions.WorkOutActualNumbers(this);
+
 	}
 
 	/// <summary>
@@ -186,6 +186,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	{
 		if (isServer)
 		{ //(string.Join(",", Data.connection))
+			ElectricityFunctions.WorkOutActualNumbers(this);
 			Logger.Log("connections " + (string.Join(",", Data.connections)), Category.Electrical);
 			Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
 			Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);

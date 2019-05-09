@@ -107,11 +107,13 @@ public class ElectricalNodeControl : NetworkBehaviour
 
 	public  void PowerUpdateCurrentChange()
 	{
+		ElectricityFunctions.WorkOutActualNumbers(Node);
 		UpPowerUpdateCurrentChange();
 	}
 
 	public void PowerNetworkUpdate()
 	{
+		ElectricityFunctions.WorkOutActualNumbers(Node);
 		UpPowerNetworkUpdate();
 		if (NodeControl != null)
 		{

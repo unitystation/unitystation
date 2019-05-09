@@ -17,6 +17,10 @@ public class APC  : InputTrigger, INodeControl
 	/// <summary>
 	/// The current voltage of this APC. Calls OnVoltageChange when changed.
 	/// </summary>
+
+	public bool PowerMachinery = true;
+	public bool PowerLights = true;
+	public bool PowerEnvironment = true;
 	public int CashOfConnectedDevices = 0;
 
 	public float Voltage
@@ -137,8 +141,85 @@ public class APC  : InputTrigger, INodeControl
 
 		Voltage = ElectricalNodeControl.Node.Data.ActualVoltage;
 		Current = ElectricalNodeControl.Node.Data.CurrentInWire;
-		UpdateLights();
+		HandleDevices();
 	}
+
+	/// <summary>
+	/// Change brightness of lights connected to this APC proportionally to voltage
+	/// </summary>
+	public void HandleDevices() {
+		//Lights
+		float Voltages = Voltage;
+		if (Voltages > 270) {
+			Voltages = 0.001f;
+		}
+		float CalculatingResistance = new float();
+		if (PowerLights)
+		{
+			foreach (KeyValuePair<LightSwitchTrigger, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
+			{
+				SwitchTrigger.Key.PowerNetworkUpdate(Voltages);
+				if (SwitchTrigger.Key.isOn == LightSwitchTrigger.States.On)
+				{
+					for (int i = 0; i < SwitchTrigger.Value.Count; i++)
+					{
+						SwitchTrigger.Value[i].PowerLightIntensityUpdate(Voltages);
+						CalculatingResistance += (1 / SwitchTrigger.Value[i].Resistance);
+					}
+				}
+			}
+		} else { 
+			foreach (KeyValuePair<LightSwitchTrigger, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
+			{
+				SwitchTrigger.Key.PowerNetworkUpdate(0);
+				if (SwitchTrigger.Key.isOn == LightSwitchTrigger.States.On)
+				{
+					for (int i = 0; i < SwitchTrigger.Value.Count; i++)
+					{
+						SwitchTrigger.Value[i].PowerLightIntensityUpdate(0);
+					}
+				}
+			}
+		}
+		//Machinery 
+		if (PowerMachinery)
+		{
+			foreach (APCPoweredDevice Device in ConnectedDevices)
+			{
+				Device.PowerNetworkUpdate(Voltages);
+				CalculatingResistance += (1 / Device.Resistance);
+			}
+		}
+		else { 
+			foreach (APCPoweredDevice Device in ConnectedDevices)
+			{
+				Device.PowerNetworkUpdate(0);
+			}
+		}
+		//Environment
+		if (PowerEnvironment)
+		{
+			foreach (APCPoweredDevice Device in EnvironmentalDevices)
+			{
+				Device.PowerNetworkUpdate(Voltages);
+				CalculatingResistance += (1 / Device.Resistance);
+			}
+		}
+		else { 
+			foreach (APCPoweredDevice Device in EnvironmentalDevices)
+			{
+				Device.PowerNetworkUpdate(0);
+			}
+		}
+		ResistanceSourceModule.Resistance = (1 / CalculatingResistance);
+	}
+
+	public void FindPoweredDevices() { 
+		//yeah They be manually assigned for now
+		//needs a way of checking that doesn't cause too much lag and  can respond adequately to changes in the environment E.G a device getting destroyed/a new device being made
+	}
+
+
 	public NetTabType NetTabType;
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand) { 
@@ -301,34 +382,21 @@ public class APC  : InputTrigger, INodeControl
 	/// </summary>
 	public Dictionary<LightSwitchTrigger,List<LightSource>> ConnectedSwitchesAndLights = new Dictionary<LightSwitchTrigger,List<LightSource>> ();
 
+	/// <summary>
+	/// list of connected machines to the APC
+	/// </summary>
+	public List<APCPoweredDevice> ConnectedDevices = new List<APCPoweredDevice>();
+
+	/// <summary>
+	/// list of connected machines to the APC
+	/// </summary>
+	public List<APCPoweredDevice> EnvironmentalDevices = new List<APCPoweredDevice>();
+
 	// TODO make apcs detect connected department batteries
 	/// <summary>
 	/// List of the department batteries connected to this APC
 	/// </summary>
 	public List<DepartmentBattery> ConnectedDepartmentBatteries = new List<DepartmentBattery> ();
-
-	/// <summary>
-	/// Change brightness of lights connected to this APC proportionally to voltage
-	/// </summary>
-	public void UpdateLights()
-	{
-		float CalculatingResistance = new float();
-		foreach (KeyValuePair<LightSwitchTrigger,List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
-		{
-			SwitchTrigger.Key.PowerNetworkUpdate (Voltage);
-			if (SwitchTrigger.Key.isOn == LightSwitchTrigger.States.On)
-			{
-				for (int i = 0; i < SwitchTrigger.Value.Count; i++)
-				{
-					SwitchTrigger.Value[i].PowerLightIntensityUpdate(Voltage);
-					CalculatingResistance += (1/SwitchTrigger.Value [i].Resistance);
-				}
-			}
-
-		}
-		//Logger.Log("man");
-		ResistanceSourceModule.Resistance = (1 / CalculatingResistance);
-	}
 
 	private bool _emergencyState = false;
 	/// <summary>
