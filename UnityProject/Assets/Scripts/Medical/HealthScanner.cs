@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class HealthScanner : PickUpTrigger
 {
-    public override void Attack(GameObject target, GameObject originator, BodyPartType bodyPart)
-    {
+	public override void Attack(GameObject target, GameObject originator, BodyPartType bodyPart)
+	{
 		var playerHealth = target.GetComponent<PlayerHealth>();
-        PlayerFound(playerHealth);
-    }
+		PlayerFound(playerHealth);
+	}
 
 	public void PlayerFound(PlayerHealth Playerhealth) {
 		string ToShow = (Playerhealth.name + " is " + Playerhealth.ConsciousState.ToString() + "\n"
