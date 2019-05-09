@@ -65,12 +65,12 @@ public class FireCabinetTrigger : InputTrigger
 		}
 
 		PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
-        GameObject handObj = pna.Inventory[hand].Item;
+		GameObject handObj = pna.Inventory[hand].Item;
 
 		if (IsClosed)
 		{
 			if(isFull && !handObj){
-                RemoveExtinguisher(pna, hand);
+				RemoveExtinguisher(pna, hand);
 			}
 			IsClosed = false;
 		}
@@ -80,8 +80,8 @@ public class FireCabinetTrigger : InputTrigger
 			{
 				if (handObj == null)
 				{
-                    RemoveExtinguisher(pna, hand);
-                }
+					RemoveExtinguisher(pna, hand);
+				}
 				else
 				{
 					IsClosed = true;
@@ -91,7 +91,7 @@ public class FireCabinetTrigger : InputTrigger
 			{
 				if (handObj && handObj.GetComponent<FireExtinguisher>())
 				{
-                    AddExtinguisher(pna, hand, handObj);
+					AddExtinguisher(pna, hand, handObj);
 				}
 				else
 				{
@@ -103,19 +103,19 @@ public class FireCabinetTrigger : InputTrigger
 	}
 
 	private void RemoveExtinguisher(PlayerNetworkActions pna, string hand){
-        if (pna.AddItemToUISlot(storedObject.gameObject, hand))
-        {
-            storedObject.visibleState = true;
-            storedObject = null;
-            isFull = false;
-        }
+		if (pna.AddItemToUISlot(storedObject.gameObject, hand))
+		{
+			storedObject.visibleState = true;
+			storedObject = null;
+			isFull = false;
+		}
 	}
 
 	private void AddExtinguisher(PlayerNetworkActions pna, string hand, GameObject handObj){
-        storedObject = handObj.GetComponent<ObjectBehaviour>();
-        pna.ClearInventorySlot(hand);
-        storedObject.visibleState = false;
-        isFull = true;
+		storedObject = handObj.GetComponent<ObjectBehaviour>();
+		pna.ClearInventorySlot(hand);
+		storedObject.visibleState = false;
+		isFull = true;
 	}
 
 	public void SyncItemSprite(bool value)
@@ -149,7 +149,7 @@ public class FireCabinetTrigger : InputTrigger
 
 	private void Open()
 	{
-        SoundManager.PlayAtPosition("OpenClose", transform.position);
+		SoundManager.PlayAtPosition("OpenClose", transform.position);
 		if (isFull)
 		{
 			spriteRenderer.sprite = spriteOpenedOccupied;
@@ -162,7 +162,7 @@ public class FireCabinetTrigger : InputTrigger
 
 	private void Close()
 	{
-        SoundManager.PlayAtPosition("OpenClose", transform.position);
+		SoundManager.PlayAtPosition("OpenClose", transform.position);
 		spriteRenderer.sprite = spriteClosed;
 	}
 
