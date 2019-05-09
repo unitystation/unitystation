@@ -58,6 +58,13 @@ public static class SpawnHandler
 		{
 			playerScript.PlayerSync.NotifyPlayers(true);
 		}
+
+		var playerObjectBehavior = newBody.GetComponent<ObjectBehaviour>();
+		if (playerObjectBehavior.parentContainer)
+		{
+			ClosetHandlerMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
+		}
+
 		CustomNetworkManager.Instance.SyncPlayerData(newBody);
 	}
 

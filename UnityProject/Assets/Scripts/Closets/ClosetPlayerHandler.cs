@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 
 //TODO make into a more generic component to handle coffins, disposal bins etc. Will
@@ -23,7 +24,8 @@ public class ClosetPlayerHandler : MonoBehaviour
 		{
 			// TODO: Change this stuff to the proper settings once re-entering corpse becomes a feature.
 			Camera2DFollow.followControl.target = closetControl.transform;
-			Camera2DFollow.followControl.damping = 0.2f;
+			Camera2DFollow.followControl.damping = 0.0f;
+			StartCoroutine(WaitForCameraToReachCloset());
 		}
 
 		if (!closetControl)
@@ -36,6 +38,13 @@ public class ClosetPlayerHandler : MonoBehaviour
 		{
 			monitor = true;
 		}
+	}
+
+	IEnumerator WaitForCameraToReachCloset()
+	{
+		yield return new WaitUntil(() =>
+			Camera2DFollow.followControl.transform == Camera2DFollow.followControl.target);
+		Camera2DFollow.followControl.damping = 0.2f;
 	}
 
 	private void Update()
