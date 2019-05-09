@@ -15,15 +15,6 @@ public class ChemistryInitializationTest : MonoBehaviour
 		}
 	}
 
-	void Start ()
-	{
-		var objects = Object.FindObjectsOfType<ReagentContainer>();
-		foreach(var obj in objects)
-		{
-			Debug.Log(obj.name);
-		}
-	}
-
 	public static void ChemistryTest ()
 	{
 		var reactions = ChemistryGlobals.reactions;
