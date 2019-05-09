@@ -9,17 +9,17 @@ public class Reaction
 	public string Name { get; set; }
 
 	/// <summary>
-	/// Example "Chemical Name":2, "Chemical Name2":1, Will return the amount specified if all Chemicals are present for ReagentsAndRatio 
+	/// Example "Reagent Name":2, "Reagent Name2":1, Will return the amount specified if all Reagents are present for ReagentsAndRatio 
 	/// </summary>
 	public Dictionary<string, float> Results { get; set; }
 
 	/// <summary>
-	/// Example "Chemical Name":2, "Chemical Name2":1, note if there is a catalyst it has to be specified in here as well
+	/// Example "Reagent Name":2, "Reagent Name2":1, note if there is a catalyst it has to be specified in here as well
 	/// </summary>
 	public Dictionary<string, float> ReagentsAndRatio { get; set; }
 
 	/// <summary>
-	/// Example "Chemical Name":0, "Chemical Name2":0, note catalysts Have to be specified in ReagentsAndRatio
+	/// Example "Reagent Name":0, "Reagent Name2":0, note catalysts Have to be specified in ReagentsAndRatio
 	/// </summary>
 	public Dictionary<string, float> Catalysts { get; set; }
 
@@ -52,8 +52,8 @@ public static class Initialization
 		{
 			ChemistryGlobals.reactions.Add(new Reaction
 			{
-				Name             = reaction["Name"].ToString(),
-				Results          = JsonConvert.DeserializeObject<Dictionary<string, float>>(reaction["Results"].ToString()),
+				Name = reaction["Name"].ToString(),
+				Results = JsonConvert.DeserializeObject<Dictionary<string, float>>(reaction["Results"].ToString()),
 				ReagentsAndRatio = JsonConvert.DeserializeObject<Dictionary<string, float>>(reaction["Reagents_and_ratio"].ToString()),
 
 				Catalysts = reaction.ContainsKey("Catalysts") ?
@@ -70,15 +70,15 @@ public static class Initialization
 
 	private static void ChemInitialization()
 	{
-		foreach(var reaction in ChemistryGlobals.reactions)
+		foreach (var reaction in ChemistryGlobals.reactions)
 		{
-			foreach (string chemical in reaction.ReagentsAndRatio.Keys)
+			foreach (string reagent in reaction.ReagentsAndRatio.Keys)
 			{
-				if (!ChemistryGlobals.reactionsStoreDictionary.ContainsKey(chemical))
+				if (!ChemistryGlobals.reactionsStoreDictionary.ContainsKey(reagent))
 				{
-					ChemistryGlobals.reactionsStoreDictionary[chemical] = new HashSet<Reaction>();
+					ChemistryGlobals.reactionsStoreDictionary[reagent] = new HashSet<Reaction>();
 				}
-				ChemistryGlobals.reactionsStoreDictionary[chemical].Add(reaction);
+				ChemistryGlobals.reactionsStoreDictionary[reagent].Add(reaction);
 			}
 		}
 	}
@@ -87,137 +87,115 @@ public static class Initialization
 public static class Calculations
 {
 	/// <summary>
-	/// Ok, so you're wondering how to call it <see cref="Reaction"/>
-	/// <paramref name="area"/> would look something like this {"Chemical":5,"Another chemical":2}
-	/// It will return The modified <paramref name="area"/>
+	/// Decimal point all reagent will be rounded to
 	/// </summary>
-	public static Dictionary<string, float> Reactions(Dictionary<string, float> area, float Temperature)
+	private const int REAGENT_SIGNIFICANT_DECIMAL_POINTS = 3;
+
+	/// <summary>
+	/// Ok, so you're wondering how to call it <see cref="Reaction"/>
+	/// <paramref name="reagents"/> would look something like this {"Reagent":5,"Another reagent":2}
+	/// It will return The modified <paramref name="reagents"/>
+	/// </summary>
+	public static Dictionary<string, float> Reactions(Dictionary<string, float> reagents, float Temperature)
 	{
-		var reactionBuffer = ValidReactions(area, Temperature).ToArray(); //Force evaluate or else it will throw a InvalidOperationException for IEnumerable modification
+		bool reactionsFinished = false;
 
-		//Logger.Log (reactionBuffer.Count() + " < ReactionBuffer");
-		foreach (var reaction in reactionBuffer)
+		do
 		{
-			var compatibleChem = CompatibleChemicals(area, reaction).FirstOrDefault();
-			if (compatibleChem == null) continue;
+			var nextReaction = GetValidReaction(reagents, Temperature); // Get next possible reaction
+			if (nextReaction != null)
+			{
+				DoReaction(reagents, nextReaction);
+			}
+			else
+			{
+				reactionsFinished = true;
+			}
 
-			//Logger.Log (area[compatibleChem] + " < Area [CompatibleChem ");
-			DoReaction(area, reaction, compatibleChem);
-		}
+		} while (!reactionsFinished); // Do reactions until all have finished
 
-		RemoveEmptyChemicals(area);
-
-		if (reactionBuffer.Any())
-		{
-			area = Reactions(area, Temperature);
-		}
-		return area;
+		return RoundReagents(reagents); // Round reagents to a significant decimal point
 	}
 
-	private static void DoReaction(Dictionary<string, float> area, Reaction reaction, string compatibleChem)
+	/// <summary>
+	/// Removes all reagents from <paramref name="reagents"/> where the value is not more than zero
+	/// </summary>
+	public static Dictionary<string, float> RemoveEmptyReagents(Dictionary<string, float> reagents)
 	{
-		var originalAmount = area[compatibleChem];
-		RemoveReagents(area, reaction, compatibleChem);
-		AddResults(area, reaction, compatibleChem, originalAmount);
+		foreach (var reagent in reagents.ToArray()) //ToArray neccesary because we can't modify the IEnumerable we are iterating over
+		{
+			if (reagent.Value <= 0)
+			{
+				reagents.Remove(reagent.Key);
+			}
+		}
+		return reagents;
 	}
 
-	private static void AddResults(Dictionary<string, float> area, Reaction reaction, string compatibleChem, float originalAmount)
+	private static void DoReaction(Dictionary<string, float> reagents, Reaction reaction)
 	{
-		foreach (string chemical in reaction.Results.Keys)
-		{
-			if (!area.ContainsKey(chemical)) { area[chemical] = 0; } //if result of the reaction doesn't already exist initialize it
+		var leadingReagent = GetLeadingReagent(reagents, reaction); // Get a reagent to lead the reaction
+		float leadingQuantity = reagents[leadingReagent.Key]; // Store the original reaction quantity for reference as it will be removed in the reaction process
+		RemoveReagents(reagents, reaction, leadingReagent, leadingQuantity);
+		AddResults(reagents, reaction, leadingReagent, leadingQuantity);
+	}
 
-			area[chemical] += reaction.Results[chemical] * originalAmount / reaction.ReagentsAndRatio[compatibleChem]; //then adds the result
+	private static void AddResults(Dictionary<string, float> reagents, Reaction reaction, KeyValuePair<string, float> leadingReagent, float leadingQuantity)
+	{
+		foreach (var reagent in reaction.Results)
+		{
+			if (!reagents.ContainsKey(reagent.Key)) //if result of the reaction doesn't already exist initialize it
+			{
+				reagents[reagent.Key] = 0;
+			}
+			reagents[reagent.Key] += leadingQuantity / leadingReagent.Value * reagent.Value; //then add the result adjusted by the leading reagent
 		}
 	}
 
 	/// <summary>
 	/// Does some mathematics to work out how much of each element to take away
 	/// </summary>
-	private static void RemoveReagents(Dictionary<string, float> area, Reaction reaction, string compatibleChem)
+	private static void RemoveReagents(Dictionary<string, float> reagents, Reaction reaction, KeyValuePair<string, float> leadingReagent, float leadingQuantity)
 	{
-		var originalAmount = area[compatibleChem];
-		var reAndRa = reaction.ReagentsAndRatio;
-
-		foreach (string chemical in reaction.ReagentsAndRatio.Keys)
+		foreach (var reagent in reaction.ReagentsAndRatio)
 		{
-			if (reaction.Catalysts.ContainsKey(chemical)) { continue; }
-
-			area[chemical] -= originalAmount * SwapFix(reAndRa[compatibleChem], reAndRa[chemical]);
+			if (reaction.Catalysts.ContainsKey(reagent.Key))
+			{
+				continue;
+			}
+			reagents[reagent.Key] -= leadingQuantity / leadingReagent.Value * reagent.Value; // remove reagents adjusted by the leading reagent
 		}
 	}
 
-	/// <summary>
-	/// Finds the best chemical to do the reaction formula
-	/// </summary>
-	private static IEnumerable<string> CompatibleChemicals(Dictionary<string, float> area, Reaction reaction)
+	private static Reaction GetValidReaction(Dictionary<string, float> reagents, float temperature)
 	{
-		foreach (string chemical in reaction.ReagentsAndRatio.Keys)
+		foreach (string reagent in reagents.Keys)
 		{
-			if (!ReactionCompatible(area, reaction, chemical)) { continue; }
+			if (!ChemistryGlobals.reactionsStoreDictionary.ContainsKey(reagent))
+			{
+				continue;
+			}
 
-			yield return chemical;
-		}
-	}
-
-	/// <summary>
-	/// Removes all chemicals from <paramref name="area"/> where the value is not more than zero
-	/// </summary>
-	private static void RemoveEmptyChemicals(Dictionary<string, float> area)
-	{
-		foreach (var chemical in area.ToArray()) //ToArray neccesary because we can't modify the IEnumerable we are iterating over
-		{
-			if (chemical.Value > 0) { continue; }
-
-			area.Remove(chemical.Key);
-		}
-	}
-
-	/// <summary>
-	/// Checks if ratios work out
-	/// </summary>
-	private static bool ReactionCompatible(Dictionary<string, float> area, Reaction reaction, string chemicalKey)
-	{
-		var reRa = reaction.ReagentsAndRatio;
-
-		var areaChem = area[chemicalKey];
-		var reRaChem = reRa[chemicalKey];
-
-		foreach (var subChemicalKey in reRa.Keys)
-		{
-			var areaSub = area[subChemicalKey];
-			var reRaSub = reRa[subChemicalKey];
-
-			if (areaChem * (reRaSub / reRaChem) > areaSub) return false;
-			if (areaChem <= 0) return false;
-		}
-		return true;
-	}
-
-	private static IEnumerable<Reaction> ValidReactions(Dictionary<string, float> area, float temperature)
-	{
-		foreach (string chemical in area.Keys)
-		{
-			if (!ChemistryGlobals.reactionsStoreDictionary.ContainsKey(chemical)) { continue; }
-
-			foreach (var reaction in ChemistryGlobals.reactionsStoreDictionary[chemical])
-			{ //so A list of every reaction that that chemical can be in
-				if (temperature < reaction.MinimumTemperature) { continue; }
-				if (!ReactionComponentsPresent(area, reaction)) { continue; }
-
-				yield return reaction; //then adds it
+			foreach (var reaction in ChemistryGlobals.reactionsStoreDictionary[reagent])
+			{ 
+				if (temperature >= reaction.MinimumTemperature && ReactionComponentsPresent(reagents, reaction))
+				{
+					return reaction;
+				}
 			}
 		}
+
+		return null;
 	}
 
 	/// <summary>
-	/// Checks if all the other chemicals are in
+	/// Checks if all the other reagents are in
 	/// </summary>
-	private static bool ReactionComponentsPresent(Dictionary<string, float> area, Reaction reaction)
+	private static bool ReactionComponentsPresent(Dictionary<string, float> reagents, Reaction reaction)
 	{
-		foreach (string requiredChemical in reaction.ReagentsAndRatio.Keys)
+		foreach (string requiredReagent in reaction.ReagentsAndRatio.Keys)
 		{
-			if (!area.ContainsKey(requiredChemical))
+			if (!reagents.ContainsKey(requiredReagent) || reagents[requiredReagent] <= 0)
 			{
 				return false;
 			}
@@ -225,12 +203,31 @@ public static class Calculations
 		return true;
 	}
 
-	private static float SwapFix(float n1, float n2)
+	/// <summary>
+	/// Find which reagent is going to be used up in the reaction first so it can lead the reaction
+	/// </summary>
+	private static KeyValuePair<string, float> GetLeadingReagent(Dictionary<string, float> reagents, Reaction reaction)
 	{
-		if (n1 > n2)
+		KeyValuePair<string, float> leadingReagent = reaction.ReagentsAndRatio.First();
+		foreach (var reagent in reaction.ReagentsAndRatio)
 		{
-			return (n1 / n2);
+			if (reagents[reagent.Key] / reagent.Value < reagents[leadingReagent.Key] / leadingReagent.Value) // Get the the least abundant reagent adjusted for ratios
+			{
+				leadingReagent = reagent;
+			}
 		}
-		return (n2 / n1);
+		return leadingReagent;
+	}
+
+	/// <summary>
+	/// Rounds reagents to nearest significant decimal point
+	/// </summary>
+	private static Dictionary<string, float> RoundReagents(Dictionary<string, float> reagents) // 
+	{
+		foreach (var reagent in reagents.ToArray())
+		{
+			reagents[reagent.Key] = Mathf.Round(reagents[reagent.Key] * Mathf.Pow(10.0f, REAGENT_SIGNIFICANT_DECIMAL_POINTS)) / Mathf.Pow(10.0f, REAGENT_SIGNIFICANT_DECIMAL_POINTS);
+		}
+		return reagents;
 	}
 }
