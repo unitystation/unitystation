@@ -36,19 +36,13 @@ public class Equipment : NetworkBehaviour
 	}
 
 	private InventorySlot[] InitPotentialGasSlots()
-	{
-		var playerInventoryDic = new Dictionary<string, InventorySlot>();
-		foreach ( var slot in playerInventory )
-		{
-			playerInventoryDic.Add( slot.SlotName, slot );
-		}
-
+	{		
 		var slots = new List<InventorySlot>();
-		foreach ( var gasSlot in GasContainer.GasSlots )
+		foreach (var slot in playerInventory)
 		{
-			if ( playerInventoryDic.ContainsKey( gasSlot ) )
+			if (GasContainer.GasSlots.Contains(slot.SlotName))
 			{
-				slots.Add( playerInventoryDic[gasSlot] );
+				slots.Add(slot);
 			}
 		}
 

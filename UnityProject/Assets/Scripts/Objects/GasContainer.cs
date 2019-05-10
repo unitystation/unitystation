@@ -73,6 +73,6 @@ namespace Objects
 		/// <summary>
 		/// Slots that should be checked for gas containers
 		/// </summary>
-		public static readonly string[] GasSlots = {"leftHand","rightHand","storage01","storage02","suitStorage"};
+		public static readonly string[] GasSlots = {"leftHand","rightHand","storage01","storage02","suitStorage","back","belt"};
 	}
 }
