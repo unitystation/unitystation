@@ -302,7 +302,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	private void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
+	public void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
 	{
 		for (int i = 0; i < slotNames.Length; i++)
 		{
@@ -624,51 +624,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
-				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
-		}
-	}
-
-	[Command]
-	public void CmdToggleFireCabinet(GameObject cabObj, bool forItemInteract, string currentSlotName)
-	{
-		if (CanInteractWallmount(cabObj.GetComponent<WallmountBehavior>()))
-		{
-			FireCabinetTrigger c = cabObj.GetComponent<FireCabinetTrigger>();
-
-			if (!forItemInteract)
-			{
-				if (c.IsClosed)
-				{
-					c.IsClosed = false;
-				}
-				else
-				{
-					c.IsClosed = true;
-				}
-			}
-			else
-			{
-				if (c.isFull)
-				{
-					c.isFull = false;
-					if (AddItemToUISlot(c.storedObject.gameObject, currentSlotName))
-					{
-						c.storedObject.visibleState = true;
-						c.storedObject = null;
-					}
-				}
-				else
-				{
-					c.storedObject = Inventory[currentSlotName].Item.GetComponent<ObjectBehaviour>();
-					ClearInventorySlot(currentSlotName);
-					c.storedObject.visibleState = false;
-					c.isFull = true;
-				}
-			}
-		}
-		else
-		{
-			Logger.LogWarningFormat("Player {0} attempted to interact with fire cabinet through wall," +
 				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
