@@ -304,6 +304,11 @@ public class LightingSystem : MonoBehaviour
 			mPostProcessingStack = new PostProcessingStack(materialContainer);
 		}
 
+		if (!renderSettings.disableAsyncGPUReadback && SystemInfo.supportsAsyncGPUReadback)
+		{
+			mTextureDataRequest = new TextureDataRequest();
+		}
+
 		operationParameters = new OperationParameters(mMainCamera, renderSettings, matrixRotationMode);;
 
 		ResolveRenderingTextures(operationParameters);
@@ -473,7 +478,7 @@ public class LightingSystem : MonoBehaviour
 			return;
 		}
 
-		mTextureDataRequest = new TextureDataRequest(iRequest);
+		mTextureDataRequest.StoreData(iRequest);
 	}
 
 	private void OnRenderImage(RenderTexture iSource, RenderTexture iDestination)
