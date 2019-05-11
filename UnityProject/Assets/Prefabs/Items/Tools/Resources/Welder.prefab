@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 670
-  m_Sprite: {fileID: 21300000, guid: e648057ab7554119b73f083cc0c06981, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -307,12 +307,11 @@ MonoBehaviour:
   hierarchy: /obj/item/weapon/weldingtool
   inHandReferenceLeft: 928
   inHandReferenceRight: 940
-  itemDescription: 
   itemName: 
+  itemDescription: 
   itemType: 0
   size: 1
   spriteType: 0
-  type: 0
   CanConnectToTank: 0
   hitDamage: 3
   throwDamage: 5
@@ -353,19 +352,17 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114223049745630950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,14 +388,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   welderSprites:
-  - {fileID: 21300000, guid: e648057ab7554119b73f083cc0c06981, type: 3}
-  - {fileID: 21300002, guid: e648057ab7554119b73f083cc0c06981, type: 3}
-  - {fileID: 21300004, guid: e648057ab7554119b73f083cc0c06981, type: 3}
-  - {fileID: 21300006, guid: e648057ab7554119b73f083cc0c06981, type: 3}
-  - {fileID: 21300010, guid: e648057ab7554119b73f083cc0c06981, type: 3}
+  - {fileID: 21300000, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
+  - {fileID: 21300002, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
+  - {fileID: 21300004, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
+  - {fileID: 21300006, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
+  - {fileID: 21300010, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
   flameSprites:
-  - {fileID: 21300012, guid: e648057ab7554119b73f083cc0c06981, type: 3}
-  - {fileID: 21300014, guid: e648057ab7554119b73f083cc0c06981, type: 3}
+  - {fileID: 21300012, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
+  - {fileID: 21300014, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
   welderRenderer: {fileID: 212316710125154168}
   flameRenderer: {fileID: 212351652085156724}
   clientFuelAmt: 0

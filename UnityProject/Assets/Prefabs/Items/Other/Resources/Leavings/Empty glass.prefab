@@ -114,17 +114,16 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
-  itemDescription: 
   itemName: Empty glass
+  itemDescription: 
   itemType: 0
   size: 0
   spriteType: 0
-  type: 0
   CanConnectToTank: 0
+  hitDamage: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114608524725813366
@@ -172,19 +171,17 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,7 +278,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 620
-  m_Sprite: {fileID: 21300030, guid: ed69078d0d254c81b53350e6d1b39239, type: 3}
+  m_Sprite: {fileID: 21300030, guid: 3547c548ae071487c84212e8ee25d554, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -289,6 +286,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

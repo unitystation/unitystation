@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 680
-  m_Sprite: {fileID: 21300078, guid: e648057ab7554119b73f083cc0c06981, type: 3}
+  m_Sprite: {fileID: 21300078, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -226,12 +226,11 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 1036
   inHandReferenceRight: 1048
-  itemDescription: Used for cutting wires
   itemName: wirecutters
+  itemDescription: Used for cutting wires
   itemType: 0
   size: 0
   spriteType: 0
-  type: 0
   CanConnectToTank: 0
   hitDamage: 6
   throwDamage: 0
@@ -272,19 +271,17 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114004374585619388
 MonoBehaviour:
   m_ObjectHideFlags: 0
