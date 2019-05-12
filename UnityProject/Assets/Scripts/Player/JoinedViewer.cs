@@ -97,21 +97,21 @@ public class JoinedViewer : NetworkBehaviour
 	/// At the moment players can choose their jobs on round start:
 	/// </summary>
 	[Command]
-	public void CmdRequestJob(JobType jobType)
+	public void CmdRequestJob(JobType jobType, CharacterSettings characterSettings)
 	{
 		var player = PlayerList.Instance.Get(connectionToClient);
 		/// Verifies that the player has no job
 		if (player.Job == JobType.NULL)
 		{
 			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
-			GameManager.Instance.GetRandomFreeOccupation(jobType), gameObject);
+			GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings, gameObject);
 
 		}
 		/// Spawns in player if they have a job but aren't spawned
 		else if (player.GameObject == null)
 		{
 			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
-			GameManager.Instance.GetRandomFreeOccupation(player.Job), gameObject);
+			GameManager.Instance.GetRandomFreeOccupation(player.Job), characterSettings, gameObject);
 
 		}
 		else
@@ -130,7 +130,7 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	public void CmdRejoin(GameObject loggedOffPlayer)
 	{
-		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, loggedOffPlayer, gameObject, EVENT.PlayerSpawned);
+		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, loggedOffPlayer, gameObject, EVENT.PlayerSpawned, null);
 		loggedOffPlayer.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(loggedOffPlayer);
 	}
 }

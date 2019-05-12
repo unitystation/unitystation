@@ -8,6 +8,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	public const float interactionDistance = 1.5f;
 
 	[SyncVar] public JobType JobType = JobType.NULL;
+	[SyncVar(hook = "OnCharacterSettingsChange")] public CharacterSettings characterSettings;
 
 	private float pingUpdate;
 
@@ -59,6 +60,12 @@ public class PlayerScript : ManagedNetworkBehaviour
 		StartCoroutine(WaitForLoad());
 		Init();
 		base.OnStartClient();
+	}
+
+	private void OnCharacterSettingsChange(CharacterSettings value){
+		characterSettings = value;
+		var userControlledSprites = GetComponent<UserControlledSprites>();
+		userControlledSprites.UpdateCharacterSprites();
 	}
 
 	private IEnumerator WaitForLoad()

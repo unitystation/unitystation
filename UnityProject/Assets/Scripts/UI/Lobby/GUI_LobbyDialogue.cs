@@ -65,6 +65,10 @@ namespace Lobby
 
 			//TODO TODO: Check if Auto login is set and if both username and password are saved
 			ShowLoginScreen();
+
+			if (PlayerPrefs.GetInt("autoLogin") == 1){
+				PerformLogin();
+			}
 		}
 
 		private void Update() {
@@ -146,6 +150,10 @@ namespace Lobby
 		public void OnLogin()
 		{
 			SoundManager.Play("Click01");
+			PerformLogin();
+		}
+
+		public void PerformLogin(){
 			HideAllPanels();
 			loggingInPanel.SetActive(true);
 			loggingInText.text = "Logging in..";

@@ -743,7 +743,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void SpawnPlayerGhost()
 	{
 		RpcBeforeGhost();
-		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject);
+		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
 
 	}
 
@@ -753,7 +753,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
 		yield return new WaitForSeconds(timeout);
-		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, gameObject);
+		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.characterSettings, gameObject);
 		RpcAfterRespawn();
 	}
 
