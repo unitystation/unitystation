@@ -40,6 +40,12 @@ public class ClosetPlayerHandler : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Applies the camera dampening when the camera reaches the closet.
+	/// This makes the camera snap the to closet before making the camera "drag" as the closet moves.
+	/// Snapping the camera to the closet is needed for when a player inside the closet rejoins the game, otherwise the
+	/// camera will move/"drag" from coordinate 0,0 across the station to the closet's position.
+	/// </summary>
 	IEnumerator WaitForCameraToReachCloset()
 	{
 		yield return new WaitUntil(() =>
