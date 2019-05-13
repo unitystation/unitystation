@@ -86,35 +86,22 @@ public static class Initialization
 
 public static class Calculations
 {
-	/// <summary>
-	/// Decimal point all reagent will be rounded to
-	/// </summary>
-	private const int REAGENT_SIGNIFICANT_DECIMAL_POINTS = 3;
+	private const int REAGENT_SIGNIFICANT_DECIMAL_POINTS = 3; // Decimal point all reagents will be rounded to
 
 	/// <summary>
 	/// Ok, so you're wondering how to call it <see cref="Reaction"/>
 	/// <paramref name="reagents"/> would look something like this {"Reagent":5,"Another reagent":2}
 	/// It will return The modified <paramref name="reagents"/>
 	/// </summary>
-	public static Dictionary<string, float> Reactions(Dictionary<string, float> reagents, float Temperature)
+	public static Dictionary<string, float> Reactions(Dictionary<string, float> reagents, float temperature)
 	{
-		bool reactionsFinished = false;
-
-		do
+		Dictionary<string, float> modifiedReagents = new Dictionary<string, float>(reagents); // Creates a copy that will be returned after all the reactions are done so that the original is not modified
+		Reaction reaction;
+		while ((reaction = GetValidReaction(modifiedReagents, temperature)) != null)
 		{
-			var nextReaction = GetValidReaction(reagents, Temperature); // Get next possible reaction
-			if (nextReaction != null)
-			{
-				DoReaction(reagents, nextReaction);
-			}
-			else
-			{
-				reactionsFinished = true;
-			}
-
-		} while (!reactionsFinished); // Do reactions until all have finished
-
-		return RoundReagents(reagents); // Round reagents to a significant decimal point
+			DoReaction(modifiedReagents, reaction);
+		}
+		return modifiedReagents;
 	}
 
 	/// <summary>
@@ -122,25 +109,26 @@ public static class Calculations
 	/// </summary>
 	public static Dictionary<string, float> RemoveEmptyReagents(Dictionary<string, float> reagents)
 	{
-		foreach (var reagent in reagents.ToArray()) //ToArray neccesary because we can't modify the IEnumerable we are iterating over
+		Dictionary<string, float> modifiedReagents = new Dictionary<string, float>(reagents);
+		foreach (var reagent in reagents)
 		{
-			if (reagent.Value <= 0)
+			if (reagent.Value <= 0.001)
 			{
-				reagents.Remove(reagent.Key);
+				modifiedReagents.Remove(reagent.Key);
 			}
 		}
-		return reagents;
+		return modifiedReagents;
 	}
 
 	private static void DoReaction(Dictionary<string, float> reagents, Reaction reaction)
 	{
 		var leadingReagent = GetLeadingReagent(reagents, reaction); // Get a reagent to lead the reaction
-		float leadingQuantity = reagents[leadingReagent.Key]; // Store the original reaction quantity for reference as it will be removed in the reaction process
-		RemoveReagents(reagents, reaction, leadingReagent, leadingQuantity);
-		AddResults(reagents, reaction, leadingReagent, leadingQuantity);
+		float reactionMultiplier = reagents[leadingReagent.Key] / leadingReagent.Value; // Calculate the multiplier for the reaction's recipe
+		RemoveReagents(reagents, reaction, reactionMultiplier);
+		AddResults(reagents, reaction, reactionMultiplier);
 	}
 
-	private static void AddResults(Dictionary<string, float> reagents, Reaction reaction, KeyValuePair<string, float> leadingReagent, float leadingQuantity)
+	private static void AddResults(Dictionary<string, float> reagents, Reaction reaction, float reactionMultiplier)
 	{
 		foreach (var reagent in reaction.Results)
 		{
@@ -148,14 +136,14 @@ public static class Calculations
 			{
 				reagents[reagent.Key] = 0;
 			}
-			reagents[reagent.Key] += leadingQuantity / leadingReagent.Value * reagent.Value; //then add the result adjusted by the leading reagent
+			reagents[reagent.Key] += reagent.Value * reactionMultiplier; //then add the result adjusted by the leading reagent
 		}
 	}
 
 	/// <summary>
 	/// Does some mathematics to work out how much of each element to take away
 	/// </summary>
-	private static void RemoveReagents(Dictionary<string, float> reagents, Reaction reaction, KeyValuePair<string, float> leadingReagent, float leadingQuantity)
+	private static void RemoveReagents(Dictionary<string, float> reagents, Reaction reaction, float reactionMultiplier)
 	{
 		foreach (var reagent in reaction.ReagentsAndRatio)
 		{
@@ -163,10 +151,14 @@ public static class Calculations
 			{
 				continue;
 			}
-			reagents[reagent.Key] -= leadingQuantity / leadingReagent.Value * reagent.Value; // remove reagents adjusted by the leading reagent
+			reagents[reagent.Key] -= reagent.Value * reactionMultiplier; // remove reagents adjusted by the leading reagent
 		}
 	}
 
+
+	/// <summary>
+	/// Gets a reaction that is possible with <paramref name="reagents"/>
+	/// </summary>
 	private static Reaction GetValidReaction(Dictionary<string, float> reagents, float temperature)
 	{
 		foreach (string reagent in reagents.Keys)
@@ -189,7 +181,7 @@ public static class Calculations
 	}
 
 	/// <summary>
-	/// Checks if all the other reagents are in
+	/// Checks if all the reagents for the reaction are present
 	/// </summary>
 	private static bool ReactionComponentsPresent(Dictionary<string, float> reagents, Reaction reaction)
 	{
@@ -222,12 +214,13 @@ public static class Calculations
 	/// <summary>
 	/// Rounds reagents to nearest significant decimal point
 	/// </summary>
-	private static Dictionary<string, float> RoundReagents(Dictionary<string, float> reagents) // 
+	public static Dictionary<string, float> RoundReagents(Dictionary<string, float> reagents) // 
 	{
-		foreach (var reagent in reagents.ToArray())
+		Dictionary<string, float> modifiedReagents = new Dictionary<string, float>(reagents);
+		foreach (var reagent in reagents)
 		{
-			reagents[reagent.Key] = Mathf.Round(reagents[reagent.Key] * Mathf.Pow(10.0f, REAGENT_SIGNIFICANT_DECIMAL_POINTS)) / Mathf.Pow(10.0f, REAGENT_SIGNIFICANT_DECIMAL_POINTS);
+			modifiedReagents[reagent.Key] = Mathf.Round(reagents[reagent.Key] * Mathf.Pow(10.0f, REAGENT_SIGNIFICANT_DECIMAL_POINTS)) / Mathf.Pow(10.0f, REAGENT_SIGNIFICANT_DECIMAL_POINTS);
 		}
-		return reagents;
+		return modifiedReagents;
 	}
 }
