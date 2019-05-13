@@ -61,10 +61,10 @@ public class NetUIDynamicList : NetUIElement {
 		Remove(new[]{toBeRemoved});
 	}
 	protected void Remove( string[] toBeRemoved )
-	{ 
+	{
 		var mode = toBeRemoved.Length > 1 ? "Bulk" : "Single";
 		var entries = EntryIndex;
-		
+
 		for ( var i = 0; i < toBeRemoved.Length; i++ ) {
 			var item = toBeRemoved[i];
 			var entryToRemove = entries[item];
@@ -79,11 +79,11 @@ public class NetUIDynamicList : NetUIElement {
 		RefreshPositions();
 	}
 
-	protected DynamicEntry[] AddBulk( string[] proposedIndices ) 
+	protected DynamicEntry[] AddBulk( string[] proposedIndices )
 	{
 		var dynamicEntries = new DynamicEntry[proposedIndices.Length];
 		var mode = proposedIndices.Length > 1 ? "Bulk" : "Single";
-		
+
 		string elementType = $"{MasterTab.Type}Entry";
 		GameObject prefab = Resources.Load<GameObject>( elementType );
 
@@ -99,11 +99,12 @@ public class NetUIDynamicList : NetUIElement {
 
 			RefreshPositions();
 
-			if ( resultIndex != "" ) {
-//				Logger.Log( $"{mode} spawning entry #[{resultIndex}]: proposed: [{proposedIndex}], entry: {dynamicEntry}" );
+			if ( resultIndex != string.Empty ) {
+				Logger.LogTraceFormat( "{0} spawning dynamic entry #[{1}]: proposed: [{2}], entry: {3}", Category.NetUI,
+					mode, resultIndex, proposedIndex, dynamicEntry );
 			} else {
-				
-				Logger.LogWarning( $"Entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}", Category.NetUI );
+
+				Logger.LogWarning( $"Dynamic entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}", Category.NetUI );
 			}
 
 			dynamicEntries[i] = dynamicEntry;
@@ -117,7 +118,7 @@ public class NetUIDynamicList : NetUIElement {
 
 	/// Adds new entry at given index (or generates index if none is provided)
 	/// Does NOT notify players implicitly
-	protected DynamicEntry Add( string proposedIndex = "" ) 
+	protected DynamicEntry Add( string proposedIndex = "" )
 	{
 		return AddBulk(new []{proposedIndex})[0];
 	}
@@ -138,15 +139,15 @@ public class NetUIDynamicList : NetUIElement {
 	}
 
 	///Not just own value, include inner elements' values as well
-	protected override void UpdatePeepers() {
+	protected override void UpdatePeepersLogic() {
 		List<ElementValue> valuesToSend = new List<ElementValue>(100) {ElementValue};
 		var dynamicEntries = Entries;
-		for ( var i = 0; i < dynamicEntries.Length; i++ ) 
+		for ( var i = 0; i < dynamicEntries.Length; i++ )
 		{
 			var entry = dynamicEntries[i];
 			var entryElements = entry.Elements;
-			
-			for ( var j = 0; j < entryElements.Length; j++ ) 
+
+			for ( var j = 0; j < entryElements.Length; j++ )
 			{
 				var element = entryElements[j];
 				valuesToSend.Add( element.ElementValue );
@@ -159,23 +160,40 @@ public class NetUIDynamicList : NetUIElement {
 	/// Sets entry name to index, also makes its elements unique by appending index as postfix
 	private string InitDynamicEntry( DynamicEntry entry, string desiredName = "" ) {
 		if ( !entry ) {
-			return "";
+			return string.Empty;
 		}
 
 		string index = desiredName;
-		if ( desiredName == "" ) {
+		if ( desiredName == string.Empty ) {
 			index = entryCount++.ToString();
 		}
 		entry.name = index;
 
 		//Making inner elements' names unique by adding "index" to the end
-		for ( var i = 0; i < entry.Elements.Length; i++ ) {
-			if ( entry.Elements[i] == entry ) {
+		foreach ( NetUIElement innerElement in entry.Elements )
+		{
+			if ( innerElement == entry ) {
 				//not including self!
 				continue;
 			}
+
+			if ( innerElement.name.Contains( DELIMITER ) )
+			{
+				Logger.LogWarningFormat( "Inner element {0} already has indexed name, but {1} was expected", Category.NetUI, innerElement, index );
+				if ( innerElement.name.Contains( DELIMITER + index ) )
+				{
+					//Same index - ignore
+					return index;
+				}
+				else
+				{
+					//Different index - cut and let set it again
+					innerElement.name = innerElement.name.Split( DELIMITER )[0];
+				}
+			}
+
 			//postfix and not prefix because of how NetKeyButton works
-			entry.Elements[i].name = entry.Elements[i].name + "_" + index; 
+			innerElement.name = innerElement.name + DELIMITER + index;
 		}
 
 		return index;
@@ -195,7 +213,7 @@ public class NetUIDynamicList : NetUIElement {
 				var existing = EntryIndex.Keys;
 				var toRemove = existing.Except( proposed ).ToArray();
 				var toAdd = proposed.Except( existing ).ToArray();
-				
+
 				Remove( toRemove );
 
 				AddBulk( toAdd );

@@ -14,6 +14,16 @@ public class GUI_Spawner : NetTab
 			return entryList;
 		}
 	}
+
+	private NetUIElement infoDisplay;
+	private NetUIElement InfoDisplay {
+		get {
+			if ( !infoDisplay ) {
+				infoDisplay = this["RandomText"];
+			}
+			return infoDisplay;
+		}
+	}
 //	private ItemList EntryList => this["EntryList"] as ItemList;
 
 	private void Start() {
@@ -25,6 +35,21 @@ public class GUI_Spawner : NetTab
 				var item = initList[i];
 				EntryList.AddItem( item );
 			}
+			tgtMode = true;
+			StartCoroutine( ToggleStory(0) );
+		}
+	}
+
+	private static string[] tgt = ("One day while Andy was toggling, " +
+	                            "Toggle got toggled. He could no longer help himself! " +
+	                            "He watched as Andy stroked his juicy kawaii toggle.").Split( ' ' );
+
+	private bool tgtMode;
+	private IEnumerator ToggleStory(int word) {
+		InfoDisplay.SetValue = tgt.Wrap(word);
+		yield return YieldHelper.FiveSecs;
+		if ( tgtMode ) {
+			StartCoroutine( ToggleStory(++word) );
 		}
 	}
 

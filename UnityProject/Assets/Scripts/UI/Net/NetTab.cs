@@ -57,23 +57,36 @@ public class NetTab : Tab {
 	private void InitElements() {
 		var elements = Elements;
 		//Init and add new elements to cache
-		for ( var i = 0; i < elements.Count; i++ ) {
-			NetUIElement element = elements[i];
-			if ( !CachedElements.ContainsValue( element ) ) {
+		foreach ( NetUIElement element in elements )
+		{
+			if ( !CachedElements.ContainsValue( element ) )
+			{
 				element.Init();
+
+				if ( CachedElements.ContainsValue( element ) )
+				{
+					//Someone called InitElements in Init()
+					Logger.LogWarning( $"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI );
+					return;
+				}
+
 				CachedElements.Add( element.name, element );
 			}
 		}
 
 		var toRemove = new List<string>();
 		//Mark non-existent elements for removal
-		foreach ( var pair in CachedElements ) {
-			if ( !elements.Contains(pair.Value) ) {
+		foreach ( var pair in CachedElements )
+		{
+			if ( !elements.Contains(pair.Value) )
+			{
 				toRemove.Add( pair.Key );
 			}
 		}
+
 		//Remove obsolete elements from cache
-		for ( var i = 0; i < toRemove.Count; i++ ) {
+		for ( var i = 0; i < toRemove.Count; i++ )
+		{
 			CachedElements.Remove( toRemove[i] );
 		}
 	}
@@ -87,7 +100,8 @@ public class NetTab : Tab {
 		//set DynamicList values first (so that corresponding subelements would get created)
 		for ( var i = 0; i < values.Length; i++ ) {
 			var elementId = values[i].Id;
-			if ( CachedElements.ContainsKey( elementId ) && this[elementId] is NetUIDynamicList ) {
+			if ( CachedElements.ContainsKey( elementId ) &&
+			     (this[elementId] is NetUIDynamicList || this[elementId] is NetPageSwitcher) ) {
 				bool listContentsChanged = this[elementId].Value != values[i].Value;
 				if ( listContentsChanged ) {
 					this[elementId].Value = values[i].Value;

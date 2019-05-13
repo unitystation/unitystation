@@ -2,17 +2,44 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class NetPageSwitcher : MonoBehaviour
+/// <summary>
+/// Page switcher script.
+/// If pages aren't defined manually,
+/// they are scanned among immediate children
+/// of this gameObject (non-recursive)
+/// </summary>
+public class NetPageSwitcher : NetUIElement
 {
+	public override ElementMode InteractionMode => ElementMode.ServerWrite;
+	public override void ExecuteServer() {	}
+
 	public List<NetPage> Pages = new List<NetPage>();
 	public NetPage DefaultPage;
+	public NetPage CurrentPage;
 
-	private void Start()
+	public override string Value {
+		get { return Pages.IndexOf( CurrentPage ).ToString(); }
+		set {
+			externalChange = true;
+			if ( int.TryParse( value, out var parsedValue ) && Pages.Count > parsedValue )
+			{
+				SetActivePageInternal( Pages[parsedValue] );
+			}
+			else
+			{
+				Logger.LogErrorFormat( "'{0}' page switcher: unknown index value {1}", Category.NetUI, gameObject.name, value );
+			}
+			externalChange = false;
+		}
+	}
+
+	public override void Init()
 	{
 		if ( Pages.Count == 0 )
 		{
-			Logger.LogWarningFormat( "{0}: Lazy ass didn't add any pages to the list, trying manually", Category.NetUI,	gameObject.name);
 			Pages = this.GetComponentsOnlyInChildren<NetPage>().ToList();
+			Logger.LogFormat( "'{0}' page switcher: dev didn't add any pages to the list, found {1} page(s)",
+				Category.NetUI, gameObject.name, Pages.Count );
 		}
 
 		if ( Pages.Count > 0 )
@@ -20,9 +47,57 @@ public class NetPageSwitcher : MonoBehaviour
 			if ( !DefaultPage )
 			{
 				DefaultPage = Pages[0];
-				Logger.LogWarningFormat( "{0}: Default Page not set, accepting first found from list ({1})", Category.NetUI,
+				Logger.LogFormat( "'{0}' page switcher: Default Page not set explicitly, assuming it's {1}", Category.NetUI,
 					gameObject.name, DefaultPage );
 			}
 		}
+		if ( MasterTab.IsServer && DefaultPage && !CurrentPage )
+		{
+			SetActivePage( DefaultPage );
+		}
+	}
+
+	///Not just own value, include current page elements as well
+	protected override void UpdatePeepersLogic() {
+		List<ElementValue> valuesToSend = new List<ElementValue>(100) {ElementValue};
+		foreach ( NetUIElement entry in CurrentPage.Elements )
+		{
+			valuesToSend.Add( entry.ElementValue );
+		}
+
+		TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, valuesToSend.ToArray() );
+	}
+
+	/// <summary>
+	/// Activate desired page
+	/// </summary>
+	public void SetActivePage( NetPage page )
+	{
+		SetValue = Pages.IndexOf( page ).ToString();
+	}
+
+	private void SetActivePageInternal( NetPage page )
+	{
+		if ( !page )
+		{
+			Logger.LogErrorFormat( "'{0}' page switcher: trying to activate null page", Category.NetUI, gameObject.name );
+			return;
+		}
+
+		foreach ( var listedPage in Pages )
+		{
+			if ( listedPage != page )
+			{
+				listedPage.gameObject.SetActive( false );
+			}
+		}
+
+		Logger.LogTraceFormat( "'{0}' page switcher: activating page {1}", Category.NetUI, gameObject.name, page );
+
+		page.gameObject.SetActive( true );
+
+		CurrentPage = page;
+
+		MasterTab.RescanElements();
 	}
 }
