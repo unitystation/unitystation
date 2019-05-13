@@ -235,6 +235,7 @@ public enum Category
 	Graphics,
 	Server, 
 	Editor, //Used when responding to requests by the user in the editor. (Test functions, etc.)
+	Tests,
 }
 
 [Serializable]
