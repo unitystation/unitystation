@@ -245,9 +245,9 @@ public class ItemAttributes : NetworkBehaviour
 	private void DebugInfo()
 	{
 		//Logger.Log(GetItemDebugInfo());
-		Logger.Log("hier: " + hier);
-		Logger.Log("is server: " + isServer);
-		Logger.Log("is eva capable: " + IsEVACapable);
+		Logger.Log("hier: " + hier, Category.Editor);
+		Logger.Log("is server: " + isServer, Category.Editor);
+		Logger.Log("is eva capable: " + IsEVACapable, Category.Editor);
 	}
 
 	/// <summary>
@@ -395,7 +395,7 @@ public class ItemAttributes : NetworkBehaviour
 			var hiers = asset.text.Split('\n').Where(h => h.Contains("cloth"));
 			return hiers.ToArray();
 		}
-		Logger.LogError($"Couldn't initialize {nameof(HierList)} asset \"{path}\" is null");
+		Logger.LogError($"Couldn't initialize {nameof(HierList)} asset \"{path}\" is null", Category.DmMetadata);
 		return null;
 	}
 

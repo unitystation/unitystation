@@ -709,11 +709,11 @@ public class Weapon : PickUpTrigger
 		{
 			//this can happen if client is spamming CmdUnloadWeapon
 			Logger.LogWarning("Player tried to queue an unload action while an unload action was already queued. Ignoring the" +
-			                  " second unload.");
+			                  " second unload.", Category.Firearms);
 		}
 		else if (queuedLoadMagNetID != NetworkInstanceId.Invalid)
 		{
-			Logger.LogWarning("Player tried to queue an unload action while a load action was already queued. Ignoring the unload.");
+			Logger.LogWarning("Player tried to queue an unload action while a load action was already queued. Ignoring the unload.", Category.Firearms);
 		}
 		else
 		{

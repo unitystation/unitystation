@@ -128,7 +128,8 @@ public static class SweetExtensions {
 			if ( posData.Length > 1 && int.TryParse(posData[0], out x) && int.TryParse(posData[1], out y) ) {
 				return new Vector2(x, y);
 			}
-			Logger.LogWarning( $"Vector parse failed: what the hell is '{stringifiedVector}'?" );
+		//Would normally not use Category.Server for this, but I really don't see this fitting anywhere else unless I made a Misc or Utils category which could easily become a catch-all for people. -Alice
+		Logger.LogWarning( $"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.Server); 
 			return TransformState.HiddenPos;
 		}
 

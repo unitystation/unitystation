@@ -41,7 +41,7 @@ using UnityEngine;
 			}
 			else
 			{
-				Logger.Log("Cannot revert to prefab - nothing selected");
+				Logger.Log("Cannot revert to prefab - nothing selected", Category.Editor);
 			}
 		}
 
