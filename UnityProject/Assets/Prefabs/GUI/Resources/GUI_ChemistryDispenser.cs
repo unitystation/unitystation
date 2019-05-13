@@ -193,7 +193,7 @@ public class GUI_ChemistryDispenser : NetTab {
 			{
 				newListOfReagents = newListOfReagents + char.ToUpper (Chemical.Key [0]) + Chemical.Key.Substring (1) + " - " + Chemical.Value.ToString () + " U \n";
 			}
-			TotalAndTemperature.SetValue = ChemistryDispenser.Container.AmountOfReagents (ChemistryDispenser.Container.Contents).ToString () + " U @ " + ChemistryDispenser.Container.Temperature.ToString () + "C° ";
+			TotalAndTemperature.SetValue = ChemistryDispenser.Container.AmountOfReagents(roundedReagents).ToString () + " U @ " + ChemistryDispenser.Container.Temperature.ToString () + "C° ";
 		}
 		else
 		{
