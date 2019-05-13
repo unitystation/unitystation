@@ -7,10 +7,10 @@ public class HealthScanner : PickUpTrigger
 	public override void Attack(GameObject target, GameObject originator, BodyPartType bodyPart)
 	{
 		var playerHealth = target.GetComponent<PlayerHealth>();
-		PlayerFound(playerHealth);
+		PlayerFound(playerHealth, originator);
 	}
 
-	public void PlayerFound(PlayerHealth Playerhealth) {
+	public void PlayerFound(PlayerHealth Playerhealth, GameObject originator) {
 		string ToShow = (Playerhealth.name + " is " + Playerhealth.ConsciousState.ToString() + "\n"
 			+ "OverallHealth = " + Playerhealth.OverallHealth.ToString() + " Blood level = " + Playerhealth.bloodSystem.BloodLevel.ToString() + "\n"
 						 + "Blood levels = " + Playerhealth.CalculateOverallBloodLossDamage() + "\n");
@@ -27,6 +27,6 @@ public class HealthScanner : PickUpTrigger
 			StringBuffer += "\n";
 		}
 		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " OxyLoss " + Playerhealth.bloodSystem.OxygenDamage.ToString() + "\n" + "Body Part, Brute, Burn \n" + StringBuffer;
-		ChatRelay.Instance.AddToChatLogClient(ToShow, ChatChannel.Examine);
+		UpdateChatMessage.Send(originator, ChatChannel.Examine, ToShow);
 	}
 }
