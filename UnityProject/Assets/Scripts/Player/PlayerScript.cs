@@ -157,7 +157,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	public bool canNotInteract()
 	{
 		return playerMove == null || !playerMove.allowInput || IsGhost ||
-			playerHealth.ConsciousState != ConsciousState.CONSCIOUS;
+			playerHealth.consciousState != ConsciousState.CONSCIOUS;
 	}
 
 	public override void UpdateMe()

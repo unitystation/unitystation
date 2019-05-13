@@ -24,23 +24,6 @@ public class PlayerHealth : LivingHealthBehaviour
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		playerMove = GetComponent<PlayerMove>();
 		registerPlayer = GetComponent<RegisterPlayer>();
-
-		PlayerScript playerScript = GetComponent<PlayerScript>();
-		//fixme: these are all workarounds to hide your spess dummy player. get rid of him
-		if (playerScript.JobType == JobType.NULL)
-		{
-			foreach (Transform t in transform)
-			{
-				t.gameObject.SetActive(false);
-			}
-			ConsciousState = ConsciousState.DEAD;
-
-			// Fixme: No more setting allowInputs on client:
-			// When job selection screen is removed from round start
-			// (and moved to preference system in lobby) then we can remove this
-			playerMove.allowInput = false;
-		}
-
 		base.OnStartClient();
 	}
 

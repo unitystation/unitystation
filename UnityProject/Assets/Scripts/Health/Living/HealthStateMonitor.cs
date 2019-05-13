@@ -11,7 +11,6 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 {
 	//Cached members
 	float overallHealthCache;
-	ConsciousState consciousStateCache;
 	bool isBreathingCache;
 	bool isSuffocatingCache;
 	int heartRateCache;
@@ -63,7 +62,6 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	void InitServerCache()
 	{
 		overallHealthCache = livingHealthBehaviour.OverallHealth;
-		consciousStateCache = livingHealthBehaviour.ConsciousState;
 		isBreathingCache = livingHealthBehaviour.respiratorySystem.IsBreathing;
 		isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
 		UpdateBloodCaches();
@@ -107,7 +105,6 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		CheckOverallHealth();
 		CheckRespiratoryHealth();
 		CheckCruicialBloodHealth();
-		CheckConsciousState();
 	}
 
 	// Monitoring stats that don't need to be updated straight away on clients
@@ -119,15 +116,6 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		if (livingHealthBehaviour.brainSystem != null)
 		{
 			CheckNonCrucialBrainHealth();
-		}
-	}
-
-	void CheckConsciousState()
-	{
-		if (consciousStateCache != livingHealthBehaviour.ConsciousState)
-		{
-			consciousStateCache = livingHealthBehaviour.ConsciousState;
-			SendConsciousUpdate();
 		}
 	}
 
@@ -185,11 +173,6 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	/// ---------------------------
 	/// SEND TO ALL SERVER --> CLIENT
 	/// ---------------------------
-
-	void SendConsciousUpdate()
-	{
-		HealthConsciousMessage.SendToAll(gameObject, livingHealthBehaviour.ConsciousState);
-	}
 
 	void SendOverallUpdate()
 	{

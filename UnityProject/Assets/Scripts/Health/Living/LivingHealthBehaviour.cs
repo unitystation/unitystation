@@ -40,20 +40,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	protected GameObject LastDamagedBy;
 
 
-	public ConsciousState ConsciousState
-	{
-		get => consciousState;
-		protected set
-		{
-			ConsciousState oldState = consciousState;
-			if (value != oldState)
-			{
-				consciousState = value;
-				OnConsciousStateChange(oldState, value);
-			}
-		}
-	}
-
 	// JSON string for blood types and DNA.
 	[SyncVar(hook = "DNASync")] //May remove this in the future and only provide DNA info on request
 	private string DNABloodTypeJSON;
@@ -63,12 +49,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	private float tickRate = 1f;
 	private float tick = 0;
 	private RegisterTile registerTile;
-	private ConsciousState consciousState;
+	[SyncVar(hook = nameof(ChangeConciousState))] public ConsciousState consciousState;
 
-	public bool IsCrit => ConsciousState == ConsciousState.UNCONSCIOUS;
-	public bool IsSoftCrit => ConsciousState == ConsciousState.BARELY_CONSCIOUS;
+	public bool IsCrit => consciousState == ConsciousState.UNCONSCIOUS;
+	public bool IsSoftCrit => consciousState == ConsciousState.BARELY_CONSCIOUS;
 
-	public bool IsDead => ConsciousState == ConsciousState.DEAD;
+	public bool IsDead => consciousState == ConsciousState.DEAD;
 
 	/// <summary>
 	/// Has the heart stopped.
@@ -147,6 +133,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
+		ChangeConciousState(consciousState);
 		StartCoroutine(WaitForClientLoad());
 		base.OnStartClient();
 	}
@@ -427,7 +414,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		{
 			return;
 		}
-		ConsciousState = ConsciousState.DEAD;
+		ChangeConciousState(ConsciousState.DEAD);
 		OnDeathActions();
 		bloodSystem.StopBleedingAll();
 	}
@@ -435,23 +422,21 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	private void Crit(bool allowCrawl = false)
 	{
 		var proposedState = allowCrawl ? ConsciousState.BARELY_CONSCIOUS : ConsciousState.UNCONSCIOUS;
-
-		if (ConsciousState == proposedState || IsDead)
-		{
-			return;
-		}
-
-		ConsciousState = proposedState;
+		ChangeConciousState(proposedState);
 	}
 
 	private void Uncrit()
 	{
-		var proposedState = ConsciousState.CONSCIOUS;
-		if (ConsciousState == proposedState || IsDead)
+		ChangeConciousState(ConsciousState.CONSCIOUS);
+	}
+
+	private void ChangeConciousState(ConsciousState proposedState){
+		if (proposedState != consciousState)
 		{
-			return;
+			ConsciousState oldState = consciousState;
+			consciousState = proposedState;
+			OnConsciousStateChange(oldState, consciousState);
 		}
-		ConsciousState = proposedState;
 	}
 
 	/// <summary>
@@ -460,7 +445,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// </summary>
 	private void CheckHealthAndUpdateConsciousState()
 	{
-		if (ConsciousState != ConsciousState.CONSCIOUS && bloodSystem.OxygenDamage < HealthThreshold.OxygenPassOut && OverallHealth > HealthThreshold.SoftCrit)
+		if (consciousState != ConsciousState.CONSCIOUS && bloodSystem.OxygenDamage < HealthThreshold.OxygenPassOut && OverallHealth > HealthThreshold.SoftCrit)
 		{
 			Logger.LogFormat( "{0}, back on your feet!", Category.Health, gameObject.name );
 			Uncrit();
@@ -510,14 +495,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	{
 		OverallHealth = overallHealth;
 		//	Logger.Log($"Update stats for {gameObject.name} OverallHealth: {overallHealth} ConsciousState: {consciousState.ToString()}", Category.Health);
-	}
-
-	/// <summary>
-	/// Updates the conscious state from the server via NetMsg
-	/// </summary>
-	public void UpdateClientConsciousState(ConsciousState proposedState)
-	{
-		ConsciousState = proposedState;
 	}
 
 	/// <summary>

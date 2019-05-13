@@ -11,7 +11,7 @@ public class HealthScanner : PickUpTrigger
 	}
 
 	public void PlayerFound(PlayerHealth Playerhealth) {
-		string ToShow = (Playerhealth.name + " is " + Playerhealth.ConsciousState.ToString() + "\n"
+		string ToShow = (Playerhealth.name + " is " + Playerhealth.consciousState.ToString() + "\n"
 			+ "OverallHealth = " + Playerhealth.OverallHealth.ToString() + " Blood level = " + Playerhealth.bloodSystem.BloodLevel.ToString() + "\n"
 						 + "Blood levels = " + Playerhealth.CalculateOverallBloodLossDamage() + "\n");
 		string StringBuffer = "";

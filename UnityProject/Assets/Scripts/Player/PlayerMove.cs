@@ -269,9 +269,9 @@ public class PlayerMove : NetworkBehaviour
 		PlayerScript.pushPull.isNotPushable = false;
 
 		//if player is crit, soft crit, or dead, lay them back down
-		if (playerScript.playerHealth.ConsciousState == ConsciousState.DEAD ||
-		    playerScript.playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
-		    playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
+		if (playerScript.playerHealth.consciousState == ConsciousState.DEAD ||
+		    playerScript.playerHealth.consciousState == ConsciousState.UNCONSCIOUS ||
+		    playerScript.playerHealth.consciousState == ConsciousState.BARELY_CONSCIOUS)
 		{
 			PlayerUprightMessage.SendToAll(gameObject, false, registerPlayer.IsStunnedServer);
 		}
