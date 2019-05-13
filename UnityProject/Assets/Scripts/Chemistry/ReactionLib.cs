@@ -122,8 +122,7 @@ public static class Calculations
 
 	private static void DoReaction(Dictionary<string, float> reagents, Reaction reaction)
 	{
-		var leadingReagent = GetLeadingReagent(reagents, reaction); // Get a reagent to lead the reaction
-		float reactionMultiplier = reagents[leadingReagent.Key] / leadingReagent.Value; // Calculate the multiplier for the reaction's recipe
+		float reactionMultiplier = GetReactionMultiplier(reagents, reaction); // Get the multiplier to multiply the reaction by
 		RemoveReagents(reagents, reaction, reactionMultiplier);
 		AddResults(reagents, reaction, reactionMultiplier);
 	}
@@ -196,19 +195,19 @@ public static class Calculations
 	}
 
 	/// <summary>
-	/// Find which reagent is going to be used up in the reaction first so it can lead the reaction
+	/// Calculate the reaction multiplier to magnify the reaction by
 	/// </summary>
-	private static KeyValuePair<string, float> GetLeadingReagent(Dictionary<string, float> reagents, Reaction reaction)
+	private static float GetReactionMultiplier(Dictionary<string, float> reagents, Reaction reaction)
 	{
-		KeyValuePair<string, float> leadingReagent = reaction.ReagentsAndRatio.First();
+		KeyValuePair<string, float> leadingReagent = reaction.ReagentsAndRatio.First(); //
 		foreach (var reagent in reaction.ReagentsAndRatio)
 		{
-			if (reagents[reagent.Key] / reagent.Value < reagents[leadingReagent.Key] / leadingReagent.Value) // Get the the least abundant reagent adjusted for ratios
+			if (reagents[reagent.Key] / reagent.Value < reagents[leadingReagent.Key] / leadingReagent.Value) // Find the leading reagent by getting the the least abundant reagent adjusted for ratios
 			{
 				leadingReagent = reagent;
 			}
 		}
-		return leadingReagent;
+		return reagents[leadingReagent.Key] / leadingReagent.Value; // Calculate the multiplier
 	}
 
 	/// <summary>
