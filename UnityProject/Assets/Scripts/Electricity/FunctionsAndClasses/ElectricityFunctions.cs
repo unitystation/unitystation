@@ -160,7 +160,7 @@ public static class ElectricityFunctions
 		int UesID = From.Data.FirstPresent;
 		if (Upstream)
 		{
-			if (From.Data.Upstream[UesID].Contains(To))
+			if (From.Data.SupplyDependent[UesID].Upstream.Contains(To))
 			{
 				isTrue = true;
 				return (isTrue);
@@ -172,7 +172,7 @@ public static class ElectricityFunctions
 		}
 		else
 		{
-			if (From.Data.Downstream[UesID].Contains(To))
+			if (From.Data.SupplyDependent[UesID].Downstream.Contains(To))
 			{
 				isTrue = true;
 				return (isTrue);
@@ -184,28 +184,28 @@ public static class ElectricityFunctions
 		}
 	}
 
-	public static bool CalculateDirectionFromID(ElectricalOIinheritance On, int TheID)
-	{
-		bool isTrue = false;
-		if (!(On.Data.ResistanceComingFrom.ContainsKey(TheID)))
-		{
-			return (true);
-		}
-		if (!(On.Data.ResistanceComingFrom.ContainsKey(On.Data.FirstPresent)))
-		{
-			return (true);
-		}
-		isTrue = true;
-		foreach (KeyValuePair<ElectricalOIinheritance, float> CurrentItem in On.Data.ResistanceComingFrom[On.Data.FirstPresent])
-		{
+	//public static bool CalculateDirectionFromID(ElectricalOIinheritance On, int TheID)
+	//{
+	//	bool isTrue = false;
+	//	if (!(On.Data.ResistanceComingFrom.ContainsKey(TheID)))
+	//	{
+	//		return (true);
+	//	}
+	//	if (!(On.Data.ResistanceComingFrom.ContainsKey(On.Data.FirstPresent)))
+	//	{
+	//		return (true);
+	//	}
+	//	isTrue = true;
+	//	foreach (KeyValuePair<ElectricalOIinheritance, float> CurrentItem in On.Data.ResistanceComingFrom[On.Data.FirstPresent])
+	//	{
 
-			if (!(On.Data.ResistanceComingFrom[TheID].ContainsKey(CurrentItem.Key)))
-			{
-				isTrue = false;
-			}
-		}
-		return (isTrue);
-	}
+	//		if (!(On.Data.ResistanceComingFrom[TheID].ContainsKey(CurrentItem.Key)))
+	//		{
+	//			isTrue = false;
+	//		}
+	//	}
+	//	return (isTrue);
+	//}
 
 	public static float WorkOutResistance(Dictionary<ElectricalOIinheritance, float> ResistanceSources)
 	{ //Worked out per source
@@ -232,13 +232,14 @@ public static class ElectricityFunctions
 	{  //Sometimes gives wrong readings at junctions, Needs to be looked into
 		float Current = 0; //Calculates the actual voltage and current flowing through the Node
 		float Voltage = 0;
-		foreach (KeyValuePair<int, float> CurrentIDItem in ElectricItem.Data.SourceVoltages) { //Voltages easy to work out just add up all the voltages from different sources
-			Voltage += CurrentIDItem.Value;
-		}
-		foreach (KeyValuePair<int, Dictionary<ElectricalOIinheritance, float>> CurrentIDItem in ElectricItem.Data.CurrentComingFrom)
+		foreach (var Supply in ElectricItem.Data.SupplyDependent) //Voltages easy to work out just add up all the voltages from different sources
 		{
-			foreach (KeyValuePair<ElectricalOIinheritance, float> CurrentItem in CurrentIDItem.Value) //Tricky for current since it can flow one way or the other
-			{ 
+			Voltage += Supply.Value.SourceVoltages;
+		}
+		foreach (var Supply in ElectricItem.Data.SupplyDependent) //Voltages easy to work out just add up all the voltages from different sources
+		{
+			foreach (KeyValuePair<ElectricalOIinheritance, float> CurrentItem in Supply.Value.CurrentComingFrom) //Tricky for current since it can flow one way or the other
+			{
 				Current += CurrentItem.Value;
 			}
 		}
@@ -257,9 +258,9 @@ public static class ElectricityFunctions
 	public static float WorkOutVoltage(ElectricalOIinheritance ElectricItem)
 	{  
 		float Voltage = 0;
-		foreach (KeyValuePair<int, float> CurrentIDItem in ElectricItem.Data.SourceVoltages)
-		{ //Voltages easy to work out just add up all the voltages from different sources
-			Voltage += CurrentIDItem.Value;
+		foreach (var Supply in ElectricItem.Data.SupplyDependent) 
+		{
+			Voltage += Supply.Value.SourceVoltages;
 		}
 		return (Voltage);
 	}
@@ -268,22 +269,29 @@ public static class ElectricityFunctions
 	public static float WorkOutVoltageFromConnector(ElectricalOIinheritance ElectricItem, PowerTypeCategory SpecifiedDevice)
 	{
 		float Voltage = 0;
-		foreach (KeyValuePair<int, float> CurrentIDItem in ElectricItem.Data.SourceVoltages)
-		{ //Voltages easy to work out just add up all the voltages from different sources
+		foreach (var Supply in ElectricItem.Data.SupplyDependent)
+		{
 			bool pass = false;
-			foreach (var subcheck in ElectricItem.Data.Upstream[CurrentIDItem.Key])
+			foreach (var subcheck in Supply.Value.Upstream)
 			{
 				if (subcheck.InData.Categorytype == SpecifiedDevice)
 				{
 					pass = true;
 
 				}
-
-
+			}
+			if (!pass) { 
+				foreach (var subcheck in Supply.Value.Downstream)
+				{
+					if (subcheck.InData.Categorytype == SpecifiedDevice)
+					{
+						pass = true;
+					}
+				}
 			}
 			if (pass)
 			{
-				Voltage += CurrentIDItem.Value;
+				Voltage += Supply.Value.SourceVoltages;
 			}
 		}
 		return (Voltage);
@@ -292,20 +300,53 @@ public static class ElectricityFunctions
 		public static float WorkOutVoltageNOTFromConnector(ElectricalOIinheritance ElectricItem, PowerTypeCategory SpecifiedDevice)
 	{
 		float Voltage = 0;
-		foreach (KeyValuePair<int, float> CurrentIDItem in ElectricItem.Data.SourceVoltages)
-		{ //Voltages easy to work out just add up all the voltages from different sources
+		foreach (var Supply in ElectricItem.Data.SupplyDependent)
+		{
 			bool pass = true;
-			foreach (var subcheck in ElectricItem.Data.Upstream[CurrentIDItem.Key])
+			foreach (var subcheck in Supply.Value.Upstream)
 			{
+
 				if (subcheck.InData.Categorytype == SpecifiedDevice)
 				{
 					pass = false;
 
 				}
-
 			}
-			if (pass) { 
-				Voltage += CurrentIDItem.Value;
+			if (pass)
+			{
+				Voltage += Supply.Value.SourceVoltages;
+			}
+		}
+		return (Voltage);
+	}
+
+	public static float WorkOutVoltageFromConnectors(ElectricalOIinheritance ElectricItem, HashSet<PowerTypeCategory> SpecifiedDevices)
+	{
+		float Voltage = 0;
+		foreach (var Supply in ElectricItem.Data.SupplyDependent)
+		{
+			bool pass = false;
+			foreach (var subcheck in Supply.Value.Upstream)
+			{
+				if (SpecifiedDevices.Contains(subcheck.InData.Categorytype))
+				{
+					pass = true;
+
+				}
+			}
+			if (!pass) { 
+				foreach (var subcheck in Supply.Value.Downstream)
+				{
+					if (SpecifiedDevices.Contains(subcheck.InData.Categorytype))
+					{
+						pass = true;
+
+					}
+				}
+			}
+			if (pass)
+			{
+				Voltage += Supply.Value.SourceVoltages;
 			}
 		}
 		return (Voltage);

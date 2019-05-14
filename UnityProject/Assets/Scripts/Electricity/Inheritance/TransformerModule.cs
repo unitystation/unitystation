@@ -35,18 +35,14 @@ public class TransformerModule : ElectricalModuleInheritance
 
 		float ActualCurrent = ControllingNode.Node.Data.CurrentInWire;
 
-		float Resistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.ResistanceComingFrom[InstanceID]);
+		float Resistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.SupplyDependent[InstanceID].ResistanceComingFrom);
 		float Voltage = (Current * Resistance);		//float Voltage = ElectricityFunctions.WorkOutVoltage(ControllingNode.Node);
 
 		//Logger.Log (Voltage.ToString() + " < Voltage " + Resistance.ToString() + " < Resistance" + ActualCurrent.ToString() + " < ActualCurrent" + Current.ToString() + " < Current");
 		Tuple<float, float> Currentandoffcut = TransformerCalculations.TransformerCalculate(this, Voltage: Voltage, ResistanceModified: Resistance, ActualCurrent: ActualCurrent);
 		if (Currentandoffcut.Item2 > 0)
 		{
-			if (!(ControllingNode.Node.Data.CurrentGoingTo.ContainsKey(InstanceID)))
-			{
-				ControllingNode.Node.Data.CurrentGoingTo[InstanceID] = new Dictionary<ElectricalOIinheritance, float>();
-			}
-			ControllingNode.Node.Data.CurrentGoingTo[InstanceID][ControllingNode.Node.GameObject().GetComponent<ElectricalOIinheritance>()] = Currentandoffcut.Item2;
+			ControllingNode.Node.Data.SupplyDependent[InstanceID].CurrentGoingTo[ControllingNode.Node.GameObject().GetComponent<ElectricalOIinheritance>()] = Currentandoffcut.Item2;
 		}
 		//return (Current);
 		return (Currentandoffcut.Item1);

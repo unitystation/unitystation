@@ -23,6 +23,9 @@ public static class ElectricalSynchronisation
 	public static HashSet<ElectricalNodeControl> ResistanceChange = new HashSet<ElectricalNodeControl>();
 	public static HashSet<ElectricalNodeControl> InitialiseResistanceChange = new HashSet<ElectricalNodeControl>();
 	public static HashSet<ElectricalNodeControl> NUCurrentChange = new HashSet<ElectricalNodeControl>();
+	public static HashSet<CableInheritance> CableUpdates = new HashSet<CableInheritance>();
+	public static HashSet<CableInheritance> WorkingCableUpdates = new HashSet<CableInheritance>();
+	public static CableInheritance CableToDestroy;
 	private static bool Initialise = false;
 	public static DeadEndConnection DeadEnd = new DeadEndConnection(); //so resistance sources coming from itself  like an apc Don't cause loops this is used as coming from and so therefore it is ignored
 
@@ -42,7 +45,8 @@ public static class ElectricalSynchronisation
 	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextListWait = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
 
 	public static KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance> OneJump;
-
+	public static ElectronicSupplyData InputSupplyingUsingData;
+	public static ElectronicSupplyData OutputSupplyingUsingData;
 	public static bool UesAlternativeResistanceWorkOnNextList;
 
 	public static int currentTick;
@@ -208,6 +212,7 @@ public static class ElectricalSynchronisation
 			Profiler.EndSample();
 			return;
 		}
+		Logger.Log("PowerUpdateStructureChange!!!");
 		StructureChange = false;
 		foreach (var category in OrderList)
 		{
@@ -381,6 +386,17 @@ public static class ElectricalSynchronisation
 		foreach (ElectricalNodeControl ToWork in PoweredDevices)
 		{
 			ToWork.PowerNetworkUpdate();
+		}
+		WorkingCableUpdates = new HashSet<CableInheritance>(CableUpdates);
+		CableUpdates.Clear();
+		foreach (CableInheritance ToWork in WorkingCableUpdates)
+		{
+			ToWork.PowerNetworkUpdate();
+		}
+		WorkingCableUpdates.Clear();
+		if (CableToDestroy != null) { 
+			CableToDestroy.toDestroy();
+			CableToDestroy = null;
 		}
 		Profiler.EndSample();
 	}

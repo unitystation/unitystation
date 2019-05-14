@@ -10,6 +10,7 @@ public class LowVoltageCable : CableInheritance
 		PowerTypeCategory.LowVoltageCable,
 		PowerTypeCategory.SolarPanelController,
 		PowerTypeCategory.SolarPanel,
+		PowerTypeCategory.PowerSink,
 	};
 	public override void _OnStartServer()
 	{

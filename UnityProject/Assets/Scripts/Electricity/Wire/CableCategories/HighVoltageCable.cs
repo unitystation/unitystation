@@ -13,6 +13,7 @@ public class HighVoltageCable : CableInheritance
 			PowerTypeCategory.RadiationCollector,
 			PowerTypeCategory.HighVoltageCable,
 			PowerTypeCategory.Transformer,
+			PowerTypeCategory.PowerSink,
 		};
 		ApplianceType = PowerTypeCategory.HighVoltageCable;
 		CableType = WiringColor.high;

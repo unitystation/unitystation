@@ -37,6 +37,8 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 		}
 	}
 
+	public float EditorResistance;
+	public bool NotEditorResistanceset = true;
 	/// <summary>
 	/// Flag to determine if ElectricalSynchronisation has processed the resistance change yet
 	/// </summary>
@@ -89,6 +91,15 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 		//Logger.Log("yo");
 		if (dirtyResistance)
 		{
+			//	public float EditorResistance;
+			//public bool EditorResistanceset = false;
+			if (NotEditorResistanceset){
+				NotEditorResistanceset = false;
+				if (EditorResistance != 0)
+				{
+					Resistance = EditorResistance;
+				}
+			}
 			//Logger.Log("dirtyResistance!");
 			resistance.Ohms = Resistance;
 			dirtyResistance = false;

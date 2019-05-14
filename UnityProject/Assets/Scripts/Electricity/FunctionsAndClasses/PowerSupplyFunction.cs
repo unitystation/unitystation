@@ -30,33 +30,33 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 	{
 		//Logger.Log("PowerUpdateCurrentChange > " + Supply.name);
 		Supply.ControllingNode.Node.FlushSupplyAndUp(Supply.gameObject);
-		if (Supply.ControllingNode.Node.connectedDevices.Count > 0)
+		if (!Supply.ControllingNode.Node.Data.ChangeToOff)
 		{
-			if (!Supply.ControllingNode.Node.Data.ChangeToOff)
+			if (Supply.ControllingNode.Node.Data.SupplyingCurrent != 0)
 			{
-				if (Supply.ControllingNode.Node.Data.SupplyingCurrent != 0)
-				{
-					Logger.Log(Supply.ControllingNode.Node.Data.SupplyingCurrent + " Supply.ControllingNode.Node.Data.SupplyingCurrent ");
-					Supply.ControllingNode.Node.ElectricityOutput(Supply.ControllingNode.Node.Data.SupplyingCurrent, Supply.ControllingNode.Node.GameObject());
-				}
-				else if (Supply.ControllingNode.Node.Data.SupplyingVoltage != 0)
-				{
-					int SourceInstanceID = Supply.ControllingNode.Node.GameObject().GetInstanceID();
-					float Current = (Supply.SupplyingVoltage) / (Supply.InternalResistance + ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.Data.ResistanceComingFrom[SourceInstanceID]));
-					Supply.ControllingNode.Node.ElectricityOutput(((Supply.SupplyingVoltage-(Current * Supply.InternalResistance))/ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.Data.ResistanceComingFrom[SourceInstanceID])), Supply.gameObject);
-				}
+				Logger.Log(Supply.ControllingNode.Node.Data.SupplyingCurrent + " Supply.ControllingNode.Node.Data.SupplyingCurrent ");
+				Supply.ControllingNode.Node.ElectricityOutput(Supply.ControllingNode.Node.Data.SupplyingCurrent, Supply.ControllingNode.Node.GameObject());
+			}
+			else if (Supply.ControllingNode.Node.Data.SupplyingVoltage != 0)
+			{
+				int SourceInstanceID = Supply.ControllingNode.Node.GameObject().GetInstanceID();
+				float Current = (Supply.SupplyingVoltage) / (Supply.InternalResistance + ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.Data.SupplyDependent[SourceInstanceID].ResistanceComingFrom));
+				Supply.ControllingNode.Node.ElectricityOutput(Current, Supply.gameObject);
 
 			}
-			else {
-				foreach (ElectricalOIinheritance connectedDevice in Supply.ControllingNode.Node.connectedDevices) {
-					if (ElectricalSynchronisation.ReactiveSuppliesSet.Contains(connectedDevice.InData.Categorytype))
-					{
-						ElectricalSynchronisation.NUCurrentChange.Add(connectedDevice.InData.ControllingDevice);
-					}
+
+		}
+		else {
+			foreach (ElectricalOIinheritance connectedDevice in Supply.ControllingNode.Node.connectedDevices)
+			{
+				if (ElectricalSynchronisation.ReactiveSuppliesSet.Contains(connectedDevice.InData.Categorytype))
+				{
+					ElectricalSynchronisation.NUCurrentChange.Add(connectedDevice.InData.ControllingDevice);
 				}
 			}
-			ELCurrent.Currentloop(Supply.gameObject);
 		}
+		ELCurrent.Currentloop(Supply.gameObject);
+
 
 		if (Supply.ControllingNode.Node.Data.ChangeToOff)
 		{

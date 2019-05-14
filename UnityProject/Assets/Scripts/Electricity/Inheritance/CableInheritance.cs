@@ -13,6 +13,12 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public PowerTypeCategory ApplianceType;
 	public HashSet<PowerTypeCategory> CanConnectTo;
 
+	public float MaximumInstantBreakCurrent;
+	public float MaximumBreakdownCurrent;
+	public float TimeDeforeDestructiveBreakdown;
+	public bool CheckDestruction;
+	public float DestructionPriority;
+
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (!CanUse(originator, hand, position, false))
@@ -53,6 +59,8 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	void Awake()
 	{
 		wireConnect = GetComponent<WireConnect>();
+		wireConnect.ControllingCable = this;
+		wireConnect.InData.ElectricityOverride = true;
 	}
 
 	public override void OnStartServer()
@@ -76,6 +84,63 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		}
 
 	}
+
+	public virtual void PowerNetworkUpdate()
+	{
+		ElectricityFunctions.WorkOutActualNumbers(wireConnect);
+		if (MaximumInstantBreakCurrent != 0)
+		{
+			if (MaximumInstantBreakCurrent < wireConnect.Data.CurrentInWire)
+			{
+				QueueForDemolition(this);
+			}
+			if (MaximumBreakdownCurrent < wireConnect.Data.CurrentInWire) {
+				if (CheckDestruction)
+				{
+					QueueForDemolition(this);
+				}
+				else {
+					//Logger.Log("WaitForDemolition");
+					StartCoroutine(WaitForDemolition());
+				}
+			}
+			if (CheckDestruction)
+			{
+				CheckDestruction = false;
+			}
+		}
+
+	}
+
+	public void QueueForDemolition(CableInheritance CableToDestroy)
+	{
+		DestructionPriority = wireConnect.Data.CurrentInWire * MaximumBreakdownCurrent;
+		if (ElectricalSynchronisation.CableToDestroy != null)
+		{
+			if (DestructionPriority > ElectricalSynchronisation.CableToDestroy.DestructionPriority)
+			{
+				ElectricalSynchronisation.CableUpdates.Add(ElectricalSynchronisation.CableToDestroy);
+				ElectricalSynchronisation.CableToDestroy = this;
+			}
+			else {
+				ElectricalSynchronisation.CableUpdates.Add(this);
+			}
+		}
+		else {
+			ElectricalSynchronisation.CableToDestroy = this;
+		}
+	}
+
+
+	IEnumerator WaitForDemolition()
+	{
+		//print(Time.time);
+		yield return new WaitForSeconds(TimeDeforeDestructiveBreakdown);
+		//print(Time.time);
+		CheckDestruction = true;
+		ElectricalSynchronisation.CableUpdates.Add(this);
+	}
+
 	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
 	//FIXME: that also renderers IDevice useless. Please reassess
 	public void OnDestroy()

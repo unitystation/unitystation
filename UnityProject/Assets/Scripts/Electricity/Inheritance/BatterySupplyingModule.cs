@@ -65,12 +65,14 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 
 	public override void PowerUpdateCurrentChange()
 	{
-		if (ControllingNode.Node.Data.ResistanceComingFrom.ContainsKey(ControllingNode.Node.gameObject.GetInstanceID()))
+		if (ControllingNode.Node.Data.SupplyDependent[ControllingNode.Node.gameObject.GetInstanceID()].ResistanceComingFrom.Count > 0)
 		{
 			ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node.gameObject); //Room for optimisation
-			CircuitResistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.ResistanceComingFrom[ControllingNode.Node.gameObject.GetInstanceID()]); // //!!
+			CircuitResistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.SupplyDependent[ControllingNode.Node.gameObject.GetInstanceID()].ResistanceComingFrom); // //!!
 			VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
-			VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageNOTFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
+			Logger.Log(VoltageAtChargePort.ToString() + "VoltageAtChargePort");
+			VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageFromConnectors(ControllingNode.Node, ControllingNode.CanConnectTo);
+			Logger.Log(VoltageAtSupplyPort.ToString() + "VoltageAtSupplyPort");
 
 			BatteryCalculation.PowerUpdateCurrentChange(this);
 
@@ -97,7 +99,7 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 	public override void PowerNetworkUpdate()
 	{
 		VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
-		VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageNOTFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
+		VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageFromConnectors(ControllingNode.Node, ControllingNode.CanConnectTo);
 		BatteryCalculation.PowerNetworkUpdate(this);
 		if (current != Previouscurrent | SupplyingVoltage != PreviousSupplyingVoltage | InternalResistance != PreviousInternalResistance)
 		{

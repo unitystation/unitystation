@@ -222,21 +222,12 @@ MonoBehaviour:
   - ConnectingDevice: 8
     DirectionReaction: 0
     ResistanceReaction: 1
-    ElectricalReaction: 0
-    RelatedComingFrom: {fileID: 0}
     DirectionReactionA:
-      AddResistanceCall:
-        Ohms: 0
-        ResistanceAvailable: 0
       YouShallNotPass: 0
     ResistanceReactionA:
       Resistance:
         Ohms: 1e+10
         ResistanceAvailable: 1
-      YouShallNotPass: 1
-    ElectricalReactionA:
-      Current: 0
-      YouShallNotPass: 0
 --- !u!114 &1586879679072018965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,8 +246,8 @@ MonoBehaviour:
   Previouscurrent: 0
   SupplyingVoltage: 24
   PreviousSupplyingVoltage: 24
-  PreviousInternalResistance: 0.001
-  InternalResistance: 0.001
+  PreviousInternalResistance: 2.4
+  InternalResistance: 2.4
 --- !u!114 &8957231011455724627
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -29,6 +29,9 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	{
 		base.OnStartServer();
 		StartCoroutine(WaitForLoad());
+		//FindPossibleConnections();
+		//FlushConnectionAndUp();
+		//FindPossibleConnections();
 	}
 	public virtual void _Start()
 	{
@@ -97,8 +100,8 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		InputOutputFunctions.DirectionOutput(SourceInstance, this);
-		Data.DownstreamCount = Data.Downstream[SourceInstanceID].Count;
-		Data.UpstreamCount = Data.Upstream[SourceInstanceID].Count;
+		//Data.DownstreamCount = Data.SupplyDependent[SourceInstanceID].Downstream.Count;
+		//Data.UpstreamCount = Data.SupplyDependent[SourceInstanceID].Upstream.Count;
 		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString (), Category.Electrical);
 	}
 
@@ -115,8 +118,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	/// </summary>
 	public virtual void ResistancyOutput(GameObject SourceInstance)
 	{
-
-		float Resistance = ElectricityFunctions.WorkOutResistance(Data.ResistanceComingFrom[ SourceInstance.GetInstanceID()]);
+		float Resistance = ElectricityFunctions.WorkOutResistance(Data.SupplyDependent[SourceInstance.GetInstanceID()].ResistanceComingFrom);
 		InputOutputFunctions.ResistancyOutput(Resistance, SourceInstance, this);
 	}
 
@@ -191,12 +193,26 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 			Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
 			Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);
 			Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
-			Logger.Log("UpstreamCount " + (Data.UpstreamCount.ToString()), Category.Electrical);
-			Logger.Log("DownstreamCount " + (Data.DownstreamCount.ToString()), Category.Electrical);
-			Logger.Log("Present supplies" + (string.Join(",", Data.Upstream)), Category.Electrical);
-			Logger.Log("ActualVoltage " + (Data.ActualVoltage.ToString()), Category.Electrical);
-			Logger.Log("CurrentInWire " + (Data.CurrentInWire.ToString()), Category.Electrical);
-			Logger.Log("EstimatedResistance " + (Data.EstimatedResistance.ToString()), Category.Electrical);
+			foreach (var Supply in Data.SupplyDependent)
+			{
+				string ToLog;
+				ToLog = "Supply > " + Supply.Key + "\n";
+				ToLog += "Upstream > ";
+				ToLog += string.Join(",", Supply.Value.Upstream) + "\n";
+				ToLog += "Downstream > ";
+				ToLog += string.Join(",", Supply.Value.Downstream) + "\n";
+				ToLog += "ResistanceGoingTo > ";
+				ToLog += string.Join(",", Supply.Value.ResistanceGoingTo) + "\n";
+				ToLog += "ResistanceComingFrom > ";
+				ToLog += string.Join(",", Supply.Value.ResistanceComingFrom) + "\n";
+				ToLog += "CurrentComingFrom > ";
+				ToLog += string.Join(",", Supply.Value.CurrentComingFrom) + "\n";
+				ToLog += "CurrentGoingTo > ";
+				ToLog += string.Join(",", Supply.Value.CurrentGoingTo) + "\n";
+				ToLog += Supply.Value.SourceVoltages.ToString();
+				Logger.Log(ToLog, Category.Electrical);
+			}
+			Logger.Log(" ActualVoltage > " + Data.ActualVoltage + " CurrentInWire > " + Data.CurrentInWire + " EstimatedResistance >  " + Data.EstimatedResistance, Category.Electrical);
 		}
 
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);

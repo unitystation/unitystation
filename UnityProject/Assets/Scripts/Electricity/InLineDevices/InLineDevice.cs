@@ -66,7 +66,7 @@ public class InLineDevice : ElectricalOIinheritance
 	public override void ResistancyOutput(GameObject SourceInstance)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
-		float Resistance = ElectricityFunctions.WorkOutResistance(Data.ResistanceComingFrom[SourceInstanceID]);
+		float Resistance = ElectricityFunctions.WorkOutResistance(Data.SupplyDependent[SourceInstanceID].ResistanceComingFrom);
 		Resistance = RelatedDevice.ModifyResistancyOutput( Resistance, SourceInstance);
 		InputOutputFunctions.ResistancyOutput( Resistance, SourceInstance, this);
 	}

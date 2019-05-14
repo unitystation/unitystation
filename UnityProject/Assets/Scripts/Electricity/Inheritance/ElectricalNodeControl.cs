@@ -21,7 +21,7 @@ public class ElectricalNodeControl : NetworkBehaviour
 		base.OnStartServer();
 		NodeControl = gameObject.GetComponent<INodeControl>();
 		Node = gameObject.GetComponent<InLineDevice>();
-		ElectricalSynchronisation.StructureChange = true;
+		//ElectricalSynchronisation.StructureChange = true;
 		CanConnectTo = new HashSet<PowerTypeCategory>(ListCanConnectTo);
 		Node.InData.Categorytype = ApplianceType;
 		Node.InData.CanConnectTo = CanConnectTo;
@@ -31,10 +31,19 @@ public class ElectricalNodeControl : NetworkBehaviour
 		{
 			Node.InData.ConnectionReaction[ReactionC.ConnectingDevice] = ReactionC;
 		}
-		BroadcastMessage("BroadcastSetUpMessage", this);
-		UpOnStartServer();
-
+		//BroadcastMessage("BroadcastSetUpMessage", this);
+		//UpOnStartServer();
 		//Node.InData.ControllingDevice = this;
+		BroadcastMessage("BroadcastSetUpMessage", this, SendMessageOptions.DontRequireReceiver);
+		UpOnStartServer();
+		StartCoroutine(WaitForload());
+	}
+
+	IEnumerator WaitForload()
+	{
+		yield return new WaitForSeconds(1);
+		Node.FindPossibleConnections();
+		Node.FlushConnectionAndUp();
 	}
 
 	public void PotentialDestroyed()
@@ -105,7 +114,7 @@ public class ElectricalNodeControl : NetworkBehaviour
 	}
 
 
-	public  void PowerUpdateCurrentChange()
+	public void PowerUpdateCurrentChange()
 	{
 		ElectricityFunctions.WorkOutActualNumbers(Node);
 		UpPowerUpdateCurrentChange();
