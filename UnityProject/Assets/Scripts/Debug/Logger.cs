@@ -231,6 +231,10 @@ public enum Category
 	Round,
 	DebugConsole,
 	Camera,
+	Exploits, //Used when (potentially illegal/invalid) actions occur that are likely caused due to exploits, cheats or hacking
+	Graphics,
+	Server, 
+	Tests,
 }
 
 [Serializable]

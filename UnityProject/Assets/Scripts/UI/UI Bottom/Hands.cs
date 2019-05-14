@@ -154,7 +154,7 @@ public class Hands : MonoBehaviour
 			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
 				PlayerManager.LocalPlayerScript.IsGhost)
 			{
-				Logger.Log("Invalid player, cannot perform action!");
+				Logger.Log("Invalid player, cannot perform action!", Category.UI);
 				return false;
 			}
 		}

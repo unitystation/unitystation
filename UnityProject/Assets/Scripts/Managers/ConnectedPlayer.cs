@@ -129,7 +129,7 @@ public class ConnectedPlayer
 		//Issue #1377
 		if (isValidName(playerName) == false)
 		{
-			Logger.LogWarning("Attempting to assign invalid name to ConnectedPlayer. Assigning default name " + DEFAULT_NAME + " instead");
+			Logger.LogWarningFormat("Attempting to assign invalid name to ConnectedPlayer. Assigning default name ({0}) instead", Category.Server, DEFAULT_NAME);
 			playerName = DEFAULT_NAME;
 		}
 

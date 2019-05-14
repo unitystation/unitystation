@@ -601,8 +601,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
-			Logger.LogWarning("player attempted to interact with shutter switch through wall," +
-				" this could indicate a hacked client.");
+			Logger.LogWarningFormat("Player {0} attempted to interact with shutter switch through wall," +
+				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name); 
 		}
 	}
 
@@ -623,8 +623,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
-			Logger.LogWarning("player attempted to interact with light switch through wall," +
-				" this could indicate a hacked client.");
+			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
+				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
 

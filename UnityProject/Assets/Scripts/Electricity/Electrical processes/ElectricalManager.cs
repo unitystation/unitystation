@@ -42,12 +42,12 @@ public class ElectricalManager : MonoBehaviour
 	void OnRoundStart()
 	{
 		roundStartedServer = true;
-		Debug.Log("Round Started");
+		Logger.Log("Round Started", Category.Electrical);
 	}
 
 	void OnRoundEnd()
 	{
 		roundStartedServer = false;
-		Debug.Log("Round Ended");
+		Logger.Log("Round Ended", Category.Electrical);
 	}
 }

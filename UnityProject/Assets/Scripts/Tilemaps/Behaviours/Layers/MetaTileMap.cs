@@ -336,7 +336,7 @@ public class MetaTileMap : MonoBehaviour
 
 		if (!Layers.ContainsKey(tile.LayerType))
 		{
-			Debug.LogError($"LAYER TYPE: {tile.LayerType} not found!");
+			Logger.LogErrorFormat($"LAYER TYPE: {0} not found!", Category.TileMaps, tile.LayerType);
 			return;
 		}
 

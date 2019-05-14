@@ -41,7 +41,7 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		if (changeList.List.Count > 0)
 		{
-			Debug.Log ("Request all updates: " + requestedBy.name);
+			Logger.LogFormat("Request all updates: ", Category.TileMaps, requestedBy.name);
 			string jsondata = JsonUtility.ToJson (changeList);
 
 			TileChangesNewClientSync.Send(gameObject, requestedBy, jsondata);

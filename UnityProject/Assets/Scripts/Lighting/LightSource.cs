@@ -252,7 +252,7 @@ public class LightSource : ObjectTrigger
 
 		if (_assignedSprite == null)
 		{
-			UnityEngine.Debug.LogError("LightSource: Unable to extract light source state sprites from SpriteSheet. Operation require Renderer.sprite to be assigned in inspector.");
+			Logger.LogError("LightSource: Unable to extract light source state sprites from SpriteSheet. Operation requires Renderer.sprite to be assigned in inspector.", Category.Lighting);
 			return;
 		}
 

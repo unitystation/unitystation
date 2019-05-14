@@ -136,7 +136,7 @@ public class GUI_ChemistryDispenser : NetTab {
 	public void ToggleHeater()
 	{
 		HeaterOn = !HeaterOn;
-		Logger.Log (HeaterOn.ToString());
+		Logger.LogFormat("Heater turned {0}.", Category.Chemistry, HeaterOn ? "on" : "off");
 		Updateall ();
 	}
 

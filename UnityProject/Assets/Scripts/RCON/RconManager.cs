@@ -123,9 +123,9 @@ public class RconManager : RconConsole
 
 		if (httpServer.IsListening)
 		{
-			Logger.Log("Providing websocket services on port " + httpServer.Port, Category.Rcon);
+			Logger.LogFormat("Providing websocket services on port {0}.", Category.Rcon, httpServer.Port);
 			foreach (var path in httpServer.WebSocketServices.Paths)
-				Logger.Log("- " + path);
+				Logger.LogFormat("- {0}", Category.Rcon, path);
 		}
 	}
 
@@ -200,7 +200,7 @@ public class RconManager : RconConsole
 			conn.ConnectionState != WebSocketState.Closed){
 				conn.Context.WebSocket.Send(msg);
 			} else {
-				Debug.Log("Do not broadcast to (connection not ready): " + conn.ID);
+				Logger.LogFormat("Do not broadcast to (connection not ready): {0}", Category.Rcon, conn.ID);
 			}
 		}
 	}
