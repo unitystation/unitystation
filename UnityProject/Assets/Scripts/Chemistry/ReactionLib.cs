@@ -186,10 +186,14 @@ public static class Calculations
 	{
 		foreach (string requiredReagent in reaction.ReagentsAndRatio.Keys)
 		{
-			if (!reagents.ContainsKey(requiredReagent) || reagents[requiredReagent] <= 0)
-			{
-				return false;
-			}
+				if (!reagents.ContainsKey(requiredReagent) || reagents[requiredReagent] <= 0)
+				{
+					return false;
+				}
+				else if (reaction.Catalysts.ContainsKey(requiredReagent) && reagents[requiredReagent] < reaction.ReagentsAndRatio[requiredReagent]) // If Catalyst, there should be atleast the ammount of catalyst specified in the recipe
+				{
+					return false;
+				}
 		}
 		return true;
 	}
