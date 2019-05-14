@@ -52,9 +52,9 @@ public class ReagentContainer : Container {
 			reagent => reagent.Key,
 			reagent => divideAmount > 1 ? reagent.Value : (reagent.Value * divideAmount)
 		);
-		foreach(var geagent in transfering)
+		foreach(var reagent in transfering)
 		{
-			Contents[geagent.Key] -= geagent.Value;
+			Contents[reagent.Key] -= reagent.Value;
 		}
 		Contents = Calculations.RemoveEmptyReagents(Contents);
 		CurrentCapacity = AmountOfReagents(Contents);
