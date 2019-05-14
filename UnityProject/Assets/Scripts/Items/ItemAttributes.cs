@@ -245,9 +245,9 @@ public class ItemAttributes : NetworkBehaviour
 	private void DebugInfo()
 	{
 		//Logger.Log(GetItemDebugInfo());
-		Logger.Log("hier: " + hier, Category.Editor);
-		Logger.Log("is server: " + isServer, Category.Editor);
-		Logger.Log("is eva capable: " + IsEVACapable, Category.Editor);
+		Logger.Log("hier: " + hier, Category.DmMetadata);
+		Logger.Log("is server: " + isServer, Category.DmMetadata);
+		Logger.Log("is eva capable: " + IsEVACapable, Category.DmMetadata);
 	}
 
 	/// <summary>
