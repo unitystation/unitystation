@@ -112,7 +112,7 @@ public static class Calculations
 		Dictionary<string, float> modifiedReagents = new Dictionary<string, float>(reagents);
 		foreach (var reagent in reagents)
 		{
-			if (reagent.Value <= 0.001)
+			if (reagent.Value <= Mathf.Pow(10.0f, -REAGENT_SIGNIFICANT_DECIMAL_POINTS))
 			{
 				modifiedReagents.Remove(reagent.Key);
 			}
