@@ -63,58 +63,82 @@ Is used on cables and connectors, It has modifications so it can make a cablelin
 Contains 
 
 Categorytype 
+
 What type of machine or cable, APC, SMES, ect.
 
 CanConnectTo 
+
 What devices is it able to connect to
 
 ConnectionReaction 
+
 What resistances are given to which connection so Maybe you want to display 5000 ohms to a low voltage cable while a low voltage machine connector you want to display 1000 ohms this is how you would do it
 
 ControllingDevice
+
 Is a IDeviceControl of the machine controlling that section of the network
 
 ControllingUpdate
+
 Is a way of accessing the updating cycles of the machine controlling that section of the network will be null if controlling device doesn't have updating cycles
 
 
 **ElectronicData**
+
 Contains 
 
 ResistanceToConnectedDevices
+
 Stores what supplies are connected to this section through what local connection, 
+
 note: This will only be on things like APCs and things that have resistances
 
 connections
+
 Simply a list of all the neighbours
 
 CurrentGoingTo (needed for calculating current)
+
 According to each supply (int)
+
 Which connections are receiving current and how much
 
 CurrentComingFrom
+
 According to each supply (int)
+
 Which connections current is coming from and how much
 
 ResistanceGoingTo
+
 According to each supply (int)
+
 Which connections are receiving resistance and how much
 
 ResistanceComingFrom
+
 According to each supply (int)
+
 Which connections resistance is coming from and how much
 
 Downstream and Upstream
+
 According to each supply (int)
+
 is Used for the direction of flow, calculated from the supply outwards 
 
 FirstPresent
+
 Used for calculations a voltage and Current 
+
 (Since current can only flow 2 ways, you have to work out what's plus and minus so this is based on which supply is first present)
 
 ActualCurrentChargeInWire
+
 is the Store of CurrentInWire and ActualVoltage and EstimatedResistance but in a class
 
 SourceVoltages
+
 According to each supply (int)
+
 What's the voltage on the line
