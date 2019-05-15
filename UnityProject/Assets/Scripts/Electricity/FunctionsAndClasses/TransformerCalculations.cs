@@ -37,7 +37,6 @@ public static class TransformerCalculations  {
 			if (!(TransformInformation.VoltageLimiting == 0))
 			{ //if Total Voltage greater than that then  Push some of it to ground  to == VoltageLimitedTo And then everything after it to ground/
 			  //float VVoltage = ElectricityFunctions.WorkOutVoltage(TransformInformation.ControllingNode.Node);
-				Logger.Log(V2.ToString());
 				if (V2 > TransformInformation.VoltageLimiting) { 
 					offcut = ((V2) - TransformInformation.VoltageLimitedTo);
 					V2 = V2 - offcut;

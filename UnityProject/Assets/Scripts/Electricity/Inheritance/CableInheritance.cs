@@ -79,7 +79,8 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		wireConnect.FindPossibleConnections();
 		wireConnect.FlushConnectionAndUp();
 		if (SelfDestruct) { 
-			wireConnect.registerTile.Unregister();
+			wireConnect.registerTile.UnregisterClient();
+			wireConnect.registerTile.UnregisterServer();
 			PoolManager.PoolNetworkDestroy(gameObject);
 		}
 
