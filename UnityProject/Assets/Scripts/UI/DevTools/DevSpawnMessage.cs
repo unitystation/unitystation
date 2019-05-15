@@ -21,7 +21,7 @@ public class DevSpawnMessage : ClientMessage
 		//TODO: Validate if player is allowed to spawn things, check if they have admin privs.
 		//For now we will let anyone spawn.
 
-		if (MatrixManager.IsPassableAt(WorldPosition.RoundToInt()))
+		if (MatrixManager.IsPassableAt(WorldPosition.RoundToInt(), true))
 		{
 			if (!IsUniCloth)
 			{

@@ -39,16 +39,16 @@ public class RadiationCollector : MonoBehaviour
 	//	isOn = true;
 	//	UpdateServerState(isOn);
 	//}
-
+  
 	//public override void StateChange(bool isOn)
 	//{
 	//	if (isOn)
 	//	{
-	//		Debug.Log("TODO: Sprite changes for radiation collector (close door)");
+	//		Logger.Log("Not implemented: Sprite change of closing radiation collector.", Category.Power);
 	//	}
 	//	else
 	//	{
-	//		Debug.Log("TODO: Sprite changes off for radiation collector (open door)");
+	//		Logger.Log("Not implemented: Sprite change of opening radiation collector.", Category.Power);
 	//	}
 	//}
 }

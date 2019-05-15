@@ -86,7 +86,7 @@ public class TileTrigger : InputTrigger
 			{
 				Logger.LogError("Client is attempting to determine the tile actions of a player other than" +
 				                " themselves. This should not happen and should be fixed. Client should only determine their own" +
-				                " actions.");
+				                " actions.", Category.Exploits);
 				return false;
 			}
 			else

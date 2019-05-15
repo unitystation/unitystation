@@ -25,7 +25,7 @@ public class Slippery : MonoBehaviour
 
 	private void Slip(RegisterPlayer registerPlayer)
 	{
-		if (MatrixManager.IsSpaceAt(registerItem.WorldPosition) || customNetTransform.IsBeingThrown)
+		if (MatrixManager.IsSpaceAt(registerItem.WorldPositionServer, true) || customNetTransform.IsBeingThrown)
 		{
 			return;
 		}

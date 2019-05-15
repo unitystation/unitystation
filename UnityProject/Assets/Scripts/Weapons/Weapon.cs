@@ -577,20 +577,23 @@ public class Weapon : PickUpTrigger
 			PlayerScript shooterScript = nextShot.shooter.GetComponent<PlayerScript>();
 			if (!shooter.allowInput || shooterScript.IsGhost)
 			{
-				Logger.LogWarning("A shot was attempted when shooter is a ghost or is not allowed to shoot.");
+				Logger.Log("A player tried to shoot when not allowed or when they were a ghost.", Category.Exploits);
+				Logger.LogWarning("A shot was attempted when shooter is a ghost or is not allowed to shoot.", Category.Firearms);
 				return;
 			}
 
 
 			if (CurrentMagazine == null || CurrentMagazine.ammoRemains <= 0 || Projectile == null)
 			{
-				Logger.LogWarning("A shot was attempted when there is no ammo.");
+				Logger.LogTrace("Player tried to shoot when there was no ammo.", Category.Exploits);
+				Logger.LogWarning("A shot was attempted when there is no ammo.", Category.Firearms);
 				return;
 			}
 
 			if (FireCountDown > 0)
 			{
-				Logger.LogWarning("Shot was attempted to be dequeued when the fire count down is not yet at 0.");
+				Logger.LogTrace("Player tried to shoot too fast.", Category.Exploits);
+				Logger.LogWarning("Shot was attempted to be dequeued when the fire count down is not yet at 0.", Category.Exploits);
 				return;
 			}
 
@@ -688,7 +691,7 @@ public class Weapon : PickUpTrigger
 		{
 			//can happen if client is spamming CmdLoadWeapon
 			Logger.LogWarning("Player tried to queue a load action while a load action was already queued, ignoring the" +
-			                  " second load.");
+			                  " second load.", Category.Firearms);
 		}
 		else
 		{
@@ -706,11 +709,11 @@ public class Weapon : PickUpTrigger
 		{
 			//this can happen if client is spamming CmdUnloadWeapon
 			Logger.LogWarning("Player tried to queue an unload action while an unload action was already queued. Ignoring the" +
-			                  " second unload.");
+			                  " second unload.", Category.Firearms);
 		}
 		else if (queuedLoadMagNetID != NetworkInstanceId.Invalid)
 		{
-			Logger.LogWarning("Player tried to queue an unload action while a load action was already queued. Ignoring the unload.");
+			Logger.LogWarning("Player tried to queue an unload action while a load action was already queued. Ignoring the unload.", Category.Firearms);
 		}
 		else
 		{

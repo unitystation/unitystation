@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class PushPull : VisibleBehaviour {
 	public const float DEFAULT_PUSH_SPEED = 6;
+	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
+
 	[SyncVar]
 	public bool isNotPushable = false;
 
@@ -28,8 +30,32 @@ public class PushPull : VisibleBehaviour {
 					StopFollowing();
 					ReleaseControl();//maybe it won't be required for all situations
 				} );
+				pushable?.OnHighSpeedCollision().AddListener( OnHighSpeedCollision );
 			}
 			return pushable;
+		}
+	}
+
+	private void OnHighSpeedCollision( CollisionInfo collision )
+	{
+		bool collided = false;
+		foreach ( var living in MatrixManager.GetAt<LivingHealthBehaviour>( collision.CollisionTile, true ) )
+		{
+			living.ApplyDamage( gameObject, collision.Damage, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			collided = true;
+		}
+		foreach ( var tile in MatrixManager.GetDamagetableTilemapsAt( collision.CollisionTile ) )
+		{
+			tile.DoMeleeDamage( collision.CollisionTile.To2Int(), gameObject, (int)collision.Damage );
+			collided = true;
+		}
+
+		if ( collided )
+		{
+			//Damage self as bad as the thing you collide with
+			GetComponent<LivingHealthBehaviour>()?.ApplyDamage( gameObject, collision.Damage, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			Logger.LogFormat( "{0}: collided with something at {2}, both received {1} damage",
+				Category.Health, gameObject.name, collision.Damage, collision.CollisionTile );
 		}
 	}
 
@@ -43,7 +69,8 @@ public class PushPull : VisibleBehaviour {
 		Pushable?.OnClientTileReached().RemoveAllListeners();
 	}
 
-	public bool IsSolid => !registerTile.IsPassable();
+	public bool IsSolidServer => !registerTile.IsPassable(true);
+	public bool IsSolidClient => !registerTile.IsPassable(false);
 
 
 	#region Pull Master
@@ -110,7 +137,7 @@ public class PushPull : VisibleBehaviour {
 			return;
 		}
 
-		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile )
+		if ( PlayerScript.IsInReach( pullable.registerTile, this.registerTile, true )
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
@@ -144,7 +171,10 @@ public class PushPull : VisibleBehaviour {
 
 	#endregion
 
-	private Coroutine revertPullHandle;
+	private Coroutine revertPredictivePullHandle;
+	private Coroutine revertPredictivePushHandle;
+	private Coroutine revertIsBeingPushedHandle;
+
 
 	public Vector2 InheritedImpulse => IsBeingPulled ? PulledBy.InheritedImpulse : Pushable.ServerImpulse;
 
@@ -152,7 +182,7 @@ public class PushPull : VisibleBehaviour {
 		yield return YieldHelper.Second;
 		yield return YieldHelper.Second;
 
-		if ( IsBeingPulledClient && !Pushable.IsMovingClient
+		if ( !Pushable.IsMovingClient
 			 && Pushable.ClientPosition != Pushable.TrustedPosition
 		   )
 		{
@@ -160,6 +190,18 @@ public class PushPull : VisibleBehaviour {
 			Pushable.RollbackPrediction();
 		} else {
 			Logger.LogTraceFormat( "{0}: No need to revert pull position", Category.PushPull, gameObject.name );
+		}
+	}
+	private IEnumerator RevertPushTimer() {
+		yield return YieldHelper.Second;
+		yield return YieldHelper.Second;
+
+		if ( Pushable.ClientPosition != Pushable.TrustedPosition )
+		{
+			Logger.LogFormat( "{0}: Reverted push position", Category.PushPull, gameObject.name );
+			Pushable.RollbackPrediction();
+		} else {
+			Logger.LogTraceFormat( "{0}: No need to revert push position", Category.PushPull, gameObject.name );
 		}
 	}
 
@@ -318,7 +360,7 @@ public class PushPull : VisibleBehaviour {
 		bool chooChooTrain = attachTo.IsBeingPulled && attachTo.PulledBy != this;
 
 		//if puller can reach this + not trying to pull himself + not being pulled
-		if ( PlayerScript.IsInReach( attachTo.registerTile, this.registerTile )
+		if ( PlayerScript.IsInReach( attachTo.registerTile, this.registerTile, true )
 		     && attachTo != this && (!attachTo.IsBeingPulled || chooChooTrain) )
 		{
 			Logger.LogTraceFormat( "{0} started following {1}", Category.PushPull, this.gameObject.name, attachTo.gameObject.name );
@@ -364,7 +406,7 @@ public class PushPull : VisibleBehaviour {
 	public void TryPullThis() {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
-		if ( PlayerScript.IsInReach( this.registerTile, initiator.registerTile ) && initiator != this ) {
+		if ( PlayerScript.IsInReach( this.registerTile, initiator.registerTile, false ) && initiator != this ) {
 			//client request: start/stop pulling
 			initiator.CmdPullObject( gameObject );
 
@@ -377,7 +419,7 @@ public class PushPull : VisibleBehaviour {
 	}
 	[Server]
 	private bool TryFollow( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
-		if ( !IsBeingPulled || isNotPushable || isPushing || Pushable == null )
+		if ( !IsBeingPulled || isNotPushable || isBeingPushed || Pushable == null )
 		{
 			return false;
 		}
@@ -388,7 +430,7 @@ public class PushPull : VisibleBehaviour {
 		}
 
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( !MatrixManager.IsPassableAt( from, target, includingPlayers: false) ) //non-solid things can be pushed to player tile
+		if ( !MatrixManager.IsPassableAt( from, target, isServer: true, includingPlayers: false) ) //non-solid things can be pushed to player tile
 		{
 			return false;
 		}
@@ -407,12 +449,6 @@ public class PushPull : VisibleBehaviour {
 			return false;
 		}
 
-//		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-//		if ( !MatrixManager.IsPassableAt( from, target, false )
-//		     ) {
-//			return false;
-//		}
-
 		bool success = Pushable.PredictivePush( target.To2Int(), speed, true );
 		if ( success ) {
 //			Logger.LogTraceFormat( "Started predictive follow {0}->{1}", Category.PushPull, from, target );
@@ -425,9 +461,9 @@ public class PushPull : VisibleBehaviour {
 	#region Push fields
 
 	//Server fields
-	private bool isPushing;
+	private bool isBeingPushed;
 	private Vector3Int pushTarget = TransformState.HiddenPos;
-	private Queue<Vector2Int> pushRequestQueue = new Queue<Vector2Int>();
+	private Queue<Tuple<Vector2Int, float>> pushRequestQueue = new Queue<Tuple<Vector2Int, float>>();
 
 	//Client fields
 	private PushState pushPrediction = PushState.None;
@@ -441,26 +477,88 @@ public class PushPull : VisibleBehaviour {
 	#region Push
 
 	[Server]
-	public void QueuePush( Vector2Int dir )
+	public void QueuePush( Vector2Int dir, float speed = Single.NaN, bool allowDiagonals = false )
 	{
-		pushRequestQueue.Enqueue( dir );
+//		Logger.LogTraceFormat( "{0}: queued push {1} {2}", Category.PushPull, gameObject.name, dir, speed );
+		pushRequestQueue.Enqueue( new Tuple<Vector2Int, float>(dir, speed) );
 		CheckQueue();
 	}
 
 	private void CheckQueue()
 	{
-		if ( pushRequestQueue.Count > 0 && !isPushing ) {
-			if ( !TryPush( pushRequestQueue.Dequeue() ) ) {
+		if ( pushRequestQueue.Count > 0 && !isBeingPushed )
+		{
+			var tuple = pushRequestQueue.Dequeue();
+			if ( !TryPush(tuple.Item1, tuple.Item2 ) )
+			{
 				pushRequestQueue.Clear();
 			}
+			StartCoroutine( ReCheckQueueLater() );
 		}
+	}
+
+	private IEnumerator ReCheckQueueLater()
+	{
+		yield return YieldHelper.DeciSecond;
+		yield return YieldHelper.DeciSecond;
+		CheckQueue();
 	}
 
 
 	[Server]
 	public bool TryPush( Vector2Int dir, float speed = Single.NaN )
 	{
-		return TryPush( registerTile.WorldPosition, dir, speed );
+		Vector3Int from = Pushable.ServerPosition;
+		if (!CanPushServer(from, dir, speed))
+		{
+			return false;
+		}
+
+		bool success = Pushable.Push( dir, speed );
+		Vector3Int target = from + dir.To3Int();
+		if ( success )
+		{
+			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
+			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledBy.registerTile.WorldPositionServer, target) ) )
+			{
+				StopFollowing();
+			}
+			if ( IsPullingSomethingServer && //Break pull only if pushable will end up far enough
+			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target) ) )
+			{
+				ReleaseControl();
+			}
+			isBeingPushed = true;
+			pushTarget = target;
+			Logger.LogTraceFormat( "{2}: Started push {0}->{1}", Category.PushPull, from, target, gameObject.name );
+			this.RestartCoroutine( NoMoveSafeguard( from ), ref revertIsBeingPushedHandle );
+		}
+
+		return success;
+	}
+
+	private IEnumerator NoMoveSafeguard( Vector3Int @from )
+	{
+		yield return YieldHelper.Second;
+		if ( isBeingPushed && Pushable.ServerPosition == from )
+		{
+			Logger.LogWarningFormat( "{0} didn't move despite being pushed! Removing isBeingPushed flag", Category.PushPull, gameObject.name );
+			isBeingPushed = false;
+		}
+	}
+
+	/// Check against clientside position
+	/// <inheritdoc cref="CanPush"/>
+	public bool CanPushClient( Vector3Int from, Vector2Int dir, float speed = Single.NaN )
+	{
+		return CanPush( from, dir, speed, false );
+	}
+
+	/// Check against serverside position
+	/// <inheritdoc cref="CanPush"/>
+	public bool CanPushServer( Vector3Int from, Vector2Int dir, float speed = Single.NaN )
+	{
+		return CanPush( from, dir, speed, true );
 	}
 
 	/// <summary>
@@ -472,13 +570,14 @@ public class PushPull : VisibleBehaviour {
 	/// <param name="speed">speed of the push</param>
 	/// <returns>true iff a push from the specified position in the specified direction would
 	/// cause the object to move.</returns>
-	public bool CanPush(Vector3Int from, Vector2Int dir, float speed = Single.NaN)
+	private bool CanPush(Vector3Int from, Vector2Int dir, float speed = Single.NaN, bool serverSide = true)
 	{
-		if (isNotPushable || isPushing || Pushable == null || !isAllowedDir(dir))
+		if (isNotPushable || isBeingPushed || Pushable == null || !isAllowedDir(dir))
 		{
 			return false;
 		}
-		Vector3Int currentPos = registerTile.WorldPosition;
+
+		Vector3Int currentPos = serverSide ? Pushable.ServerPosition : Pushable.ClientPosition;
 		if (from != currentPos)
 		{
 			return false;
@@ -491,7 +590,7 @@ public class PushPull : VisibleBehaviour {
 		}
 
 		Vector3Int target = from + Vector3Int.RoundToInt((Vector2)dir);
-		if (!MatrixManager.IsPassableAt(from, target, includingPlayers: IsSolid)) //non-solid things can be pushed to player tile
+		if (!MatrixManager.IsPassableAt(from, target, isServer: false, includingPlayers: IsSolidClient)) //non-solid things can be pushed to player tile
 		{
 			return false;
 		}
@@ -499,47 +598,17 @@ public class PushPull : VisibleBehaviour {
 		return true;
 	}
 
-	[Server]
-	public bool TryPush( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
-		if (!CanPush(from, dir, speed))
-		{
-			return false;
-		}
-
-
-		bool success = Pushable.Push( dir, speed );
-		Vector3Int target = from + dir.To3Int();
-		if ( success )
-		{
-			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
-				( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledBy.registerTile.WorldPosition, target) ) )
-			{
-				StopFollowing();
-			}
-			if ( IsPullingSomethingServer && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !PlayerScript.IsInReach(PulledObjectServer.registerTile.WorldPosition, target) ) )
-			{
-				ReleaseControl();
-			}
-			isPushing = true;
-			pushTarget = target;
-			Logger.LogTraceFormat( "Started push {0}->{1}", Category.PushPull, from, target );
-		}
-
-		return success;
-	}
-
 	public bool TryPredictivePush( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
 		if ( isNotPushable || !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
 			return false;
 		}
-		lastReliablePos = registerTile.WorldPosition;
+		lastReliablePos = registerTile.WorldPositionClient;
 		if ( from != lastReliablePos ) {
 			return false;
 		}
 		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( !MatrixManager.IsPassableAt( from, target ) ||
-		     MatrixManager.IsNoGravityAt( target ) ) { //not allowing predictive push into space
+		if ( !MatrixManager.IsPassableAt( from, target, isServer: false ) ||
+		     MatrixManager.IsNoGravityAt( target, isServer: false ) ) { //not allowing predictive push into space
 			return false;
 		}
 
@@ -561,6 +630,7 @@ public class PushPull : VisibleBehaviour {
 		pushApproval = ApprovalState.None;
 		predictivePushTarget = TransformState.HiddenPos;
 		lastReliablePos = TransformState.HiddenPos;
+		this.TryStopCoroutine( ref revertPredictivePushHandle );
 	}
 
 	[Server]
@@ -569,7 +639,8 @@ public class PushPull : VisibleBehaviour {
 	}
 
 	private bool isAllowedDir( Vector2Int dir ) {
-		return dir == Vector2Int.up || dir == Vector2Int.down || dir == Vector2Int.left || dir == Vector2Int.right;
+		return dir == Vector2Int.up || dir == Vector2Int.down || dir == Vector2Int.left || dir == Vector2Int.right
+			|| dir == MINUS_ONE || dir == BOTTOM_RIGHT || dir == TOP_LEFT || dir == Vector2Int.one; //temp diagonal
 	}
 
 	enum PushState { None, InProgress, Finished }
@@ -580,14 +651,16 @@ public class PushPull : VisibleBehaviour {
 	#region Events
 
 	private void OnServerTileReached( Vector3Int newPos ) {
-		if ( !isPushing && pushRequestQueue.Count == 0 ) {
+		if ( !isBeingPushed && pushRequestQueue.Count == 0 ) {
 			return;
 		}
 //		Logger.LogTraceFormat( "{0}: {1} is reached ON SERVER", Category.PushPull, gameObject.name, pos );
-		isPushing = false;
+		isBeingPushed = false;
+		this.TryStopCoroutine( ref revertIsBeingPushedHandle );
+
 		if ( pushTarget != TransformState.HiddenPos &&
 		     pushTarget != newPos &&
-		     !MatrixManager.IsFloatingAt(gameObject, newPos))
+		     !MatrixManager.IsFloatingAt(gameObject, newPos, true))
 		{
 			//unexpected pos reported by server tile (common in space, space )
 			pushRequestQueue.Clear();
@@ -598,7 +671,7 @@ public class PushPull : VisibleBehaviour {
 	/// For prediction
 	private void OnUpdateReceived( Vector3Int serverPos ) {
 		if ( IsBeingPulledClient ) {
-			this.RestartCoroutine( RevertPullTimer(), ref revertPullHandle );
+			this.RestartCoroutine( RevertPullTimer(), ref revertPredictivePullHandle );
 		}
 
 		if ( pushPrediction == PushState.None ) {
@@ -640,9 +713,13 @@ public class PushPull : VisibleBehaviour {
 
 		if ( pos != predictivePushTarget ) {
 			Logger.LogFormat( "Lerped to {0} while target pos was {1}", Category.PushPull, pos, predictivePushTarget );
-			if ( MatrixManager.IsNoGravityAt( pos ) ) {
+			if ( MatrixManager.IsNoGravityAt( pos, false ) ) {
 				Logger.LogTraceFormat( "...uh, we assume it's a space push and finish prediction", Category.PushPull );
 				FinishPrediction();
+			}
+			else if ( revertPredictivePushHandle == null )
+			{
+				this.StartCoroutine( RevertPushTimer(), ref revertPredictivePushHandle );
 			}
 			return;
 		}
@@ -671,6 +748,9 @@ public class PushPull : VisibleBehaviour {
 		Pushable.Stop();
 	}
 
+	public static readonly Vector2Int MINUS_ONE = new Vector2Int(-1,-1);
+	public static readonly Vector2Int TOP_LEFT = new Vector2Int(-1,1);
+	public static readonly Vector2Int BOTTOM_RIGHT = new Vector2Int(1,-1);
 #if UNITY_EDITOR
 	private static Color color1 = Color.red;
 	private static Color color2 = Color.cyan;

@@ -27,7 +27,7 @@ public class InformPullMessage : ServerMessage
 
 		if ( PlayerManager.LocalPlayer ) {
 			if ( subject == PlayerManager.LocalPlayerScript.pushPull.PulledObjectClient && pulledBy == null ) {
-				Logger.Log( "Removing all frelling blue arrows for ya!", Category.PushPull );
+//				Logger.Log( "Removing all frelling blue arrows for ya!", Category.PushPull );
 				for ( var i = 0; i < trackedObjects.Count; i++ ) {
 					PushPull trackedObject = trackedObjects[i];
 					if ( !trackedObject || trackedObject.Pushable == null ) {

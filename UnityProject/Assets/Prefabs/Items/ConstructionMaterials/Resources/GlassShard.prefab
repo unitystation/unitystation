@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 60
-  m_Sprite: {fileID: 21300004, guid: 41c6f86bf813452ca22c5800a59bfccc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 62b75d542e953427384d9f1bf6c33d76, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1645856876941636
@@ -205,12 +205,11 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 40
   inHandReferenceRight: 48
-  itemDescription: 
   itemName: Glass Shard
+  itemDescription: 
   itemType: 0
   size: 0
   spriteType: 0
-  type: 0
   CanConnectToTank: 0
   hitDamage: 5
   throwDamage: 10
@@ -263,19 +262,17 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 1
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114925156265635096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,7 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glassSprites:
-  - {fileID: 21300000, guid: 41c6f86bf813452ca22c5800a59bfccc, type: 3}
-  - {fileID: 21300002, guid: 41c6f86bf813452ca22c5800a59bfccc, type: 3}
-  - {fileID: 21300004, guid: 41c6f86bf813452ca22c5800a59bfccc, type: 3}
+  - {fileID: 21300000, guid: 62b75d542e953427384d9f1bf6c33d76, type: 3}
+  - {fileID: 21300002, guid: 62b75d542e953427384d9f1bf6c33d76, type: 3}
+  - {fileID: 21300004, guid: 62b75d542e953427384d9f1bf6c33d76, type: 3}
   spriteIndex: 0

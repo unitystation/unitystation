@@ -42,7 +42,7 @@ public class ClothFactory : NetworkBehaviour
 		{
 			Logger.LogError("ClothFactory was attempted to be used before it has initialized. Please delay using" +
 			                " ClothFactory (such as by using a coroutine to wait) until it is initialized. Nothing will" +
-			                " be done and null will be returned.");
+			                " be done and null will be returned.", Category.PlayerSprites);
 			return false;
 		}
 

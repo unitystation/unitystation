@@ -1,40 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
 namespace Atmospherics
 {
 	public static class AtmosUtils
 	{
-		public static bool IsPressureChanged(MetaDataNode node)
+		public static readonly Vector2Int MINUS_ONE = new Vector2Int( -1, -1 );
+
+		public static bool IsPressureChanged(MetaDataNode node, out Vector2Int windDirection, out float windForce)
 		{
 			MetaDataNode[] neighbors = node.Neighbors;
+			windDirection = Vector2Int.zero;
+			Vector3Int clampVector = Vector3Int.zero;
+			windForce = 0L;
+			bool result = false;
 
 			for (var i = 0; i < neighbors.Length; i++)
 			{
 				MetaDataNode neighbor = neighbors[i];
 				if (neighbor != null)
 				{
-					if (Mathf.Abs(node.GasMix.Pressure - neighbor.GasMix.Pressure) > AtmosConstants.MinPressureDifference)
+					float pressureDifference = node.GasMix.Pressure - neighbor.GasMix.Pressure;
+					float absoluteDifference = Mathf.Abs(pressureDifference);
+					if (absoluteDifference > AtmosConstants.MinPressureDifference)
 					{
-						return true;
-					}
+						result = true;
 
-					// check if the moles are different. (e.g. CO2 is different from breathing)
-					for (int j = 0; j < Gas.Count; j++)
-					{
-						float moles = node.GasMix.Gases[j];
-						float molesNeighbor = neighbor.GasMix.Gases[j];
-
-						if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+						if ( !neighbor.IsOccupied )
 						{
-							return true;
+							if ( absoluteDifference > windForce )
+							{
+								windForce = absoluteDifference;
+							}
+
+							int neighborOffsetX = ( neighbor.Position.x - node.Position.x );
+							int neighborOffsetY = ( neighbor.Position.y - node.Position.y );
+
+							if ( pressureDifference > 0 )
+							{
+								windDirection.x += neighborOffsetX;
+								windDirection.y += neighborOffsetY;
+							}
+							else if ( pressureDifference < 0 )
+							{
+								windDirection.x -= neighborOffsetX;
+								windDirection.y -= neighborOffsetY;
+							}
+
+							clampVector.x -= neighborOffsetX;
+							clampVector.y -= neighborOffsetY;
+
 						}
 					}
+					else
+					{
+						// check if the moles are different. (e.g. CO2 is different from breathing)
+						for (int j = 0; j < Gas.Count; j++)
+						{
+							float moles = node.GasMix.Gases[j];
+							float molesNeighbor = neighbor.GasMix.Gases[j];
+
+							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+							{
+								result = true;
+							}
+						}
+					}
+
 				}
 			}
+			//not blowing in direction of tiles that aren't atmos passable
+			windDirection.y = Mathf.Clamp( windDirection.y, 	clampVector.y < 0? 0 : -1,
+																	clampVector.y > 0? 0 : 1);
+			windDirection.x = Mathf.Clamp( windDirection.x, 	clampVector.x < 0? 0 : -1,
+																	clampVector.x > 0? 0 : 1);
 
-			return false;
+			return result;
 		}
 
 		public static float CalcPressure(float volume, float moles, float temperature)

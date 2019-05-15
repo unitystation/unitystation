@@ -142,7 +142,8 @@ public class PowerSupplyControlInheritance //: //InputTrigger//, IDeviceControl
 	//}
 	//public virtual void TurnOffCleanup()
 	//{
-	//	_TurnOffCleanup();	//}
+	//	_TurnOffCleanup();
+	//}
 	//public virtual void _TurnOffCleanup()
 	//{
 	//}
@@ -264,7 +265,6 @@ public class PowerSupplyControlInheritance //: //InputTrigger//, IDeviceControl
 	//			resistance.ResistanceAvailable = false;
 	//			ElectricalDataCleanup.CleanConnectedDevices(powerSupply);
 	//		}
-
 	//		PreviousResistance = Resistance;
 	//		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data
 	//			.ResistanceToConnectedDevices)

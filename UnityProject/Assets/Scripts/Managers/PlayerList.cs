@@ -43,8 +43,8 @@ public class PlayerList : NetworkBehaviour
 		if ( Instance == null )
 		{
 			Instance = this;
-            Instance.ResetSyncedState();
-        }
+			Instance.ResetSyncedState();
+		}
 		else
 		{
 			Destroy(gameObject);
@@ -224,7 +224,7 @@ public class PlayerList : NetworkBehaviour
 	{
 		if ( player.Equals(ConnectedPlayer.Invalid) )
 		{
-			Logger.Log("Refused to add invalid connected player",Category.Connections);
+			Logger.Log("Refused to add invalid connected player", Category.Connections);
 			return;
 		}
 		if ( ContainsConnection(player.Connection) )
@@ -239,7 +239,7 @@ public class PlayerList : NetworkBehaviour
 		else
 		{
 			values.Add(player);
-			Logger.Log($"Added {player}. Total:{values.Count}; {string.Join("; ",values)}",Category.Connections);
+			Logger.LogFormat("Added {0}. Total:{1}; {2}", Category.Connections, player, values.Count, string.Join(";", values));
 			//Adding kick timer for new players only
 			StartCoroutine(KickTimer(player));
 		}
@@ -254,22 +254,22 @@ public class PlayerList : NetworkBehaviour
 			yield break;
 		}
 		int tries = 10; // 10 second wait, just incase of slow loading on lower end machines
-        while (!player.IsAuthenticated)
-        {
-            if (tries-- < 0)
-            {
-                CustomNetworkManager.Kick(player, "Auth timed out");
-                yield break;
-            }
-            yield return YieldHelper.Second;
-        }
-    }
+		while (!player.IsAuthenticated)
+		{
+			if (tries-- < 0)
+			{
+				CustomNetworkManager.Kick(player, "Auth timed out");
+				yield break;
+			}
+			yield return YieldHelper.Second;
+		}
+	}
 
 	public static bool IsConnWhitelisted( ConnectedPlayer player )
 	{
 		return player.Connection == null ||
-		       player.Connection == ConnectedPlayer.Invalid.Connection ||
-		       !player.Connection.isConnected;
+			   player.Connection == ConnectedPlayer.Invalid.Connection ||
+			   !player.Connection.isConnected;
 	}
 
 	[Server]
@@ -384,6 +384,17 @@ public class PlayerList : NetworkBehaviour
 			}
 		}
 		return null;
+	}
+
+	[Server]
+	public void UpdateLoggedOffPlayer(GameObject newBody, GameObject oldBody){
+		for (int i = 0; i < loggedOff.Count; i++)
+		{
+			var player = loggedOff[i];
+			if(player.GameObject == oldBody){
+				player.GameObject = newBody;
+			}
+		}
 	}
 }
 

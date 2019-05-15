@@ -52,6 +52,8 @@ public abstract class RegisterTile : NetworkBehaviour
 	         " will always remain upright (top pointing to the top of the screen")]
 	public bool rotateWithMatrix;
 
+	private PushPull customTransform;
+
 	/// <summary>
 	/// Matrix this object lives in
 	/// </summary>
@@ -119,28 +121,51 @@ public abstract class RegisterTile : NetworkBehaviour
 	// is invoked.
 	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
 
-	public Vector3Int WorldPosition => MatrixManager.Instance.LocalToWorldInt(position, Matrix);
+	public Vector3Int WorldPositionServer => MatrixManager.Instance.LocalToWorldInt(serverPosition, Matrix);
+	public Vector3Int WorldPositionClient => MatrixManager.Instance.LocalToWorldInt(clientPosition, Matrix);
 
 	/// <summary>
 	/// the "registered" local position of this object (which might differ from transform.localPosition).
 	/// It will be set to TransformState.HiddenPos when hiding the object.
 	/// </summary>
-	public Vector3Int Position
+	public Vector3Int PositionServer
 	{
-		get { return position; }
-		private set
+		get => serverPosition;
+		protected set
 		{
 			if (layer)
 			{
-				layer.Objects.Remove(position, this);
-				layer.Objects.Add(value, this);
+				layer.ServerObjects.Remove(serverPosition, this);
+				if ( value != TransformState.HiddenPos )
+				{
+					layer.ServerObjects.Add(value, this);
+				}
 			}
 
-			position = value;
+			serverPosition = value;
 
 		}
 	}
-	private Vector3Int position;
+	private Vector3Int serverPosition;
+	public Vector3Int PositionClient
+	{
+		get => clientPosition;
+		protected set
+		{
+			if (layer)
+			{
+				layer.ClientObjects.Remove(clientPosition, this);
+				if ( value != TransformState.HiddenPos )
+				{
+					layer.ClientObjects.Add( value, this );
+				}
+			}
+
+			clientPosition = value;
+
+		}
+	}
+	private Vector3Int clientPosition;
 
 	/// <summary>
 	/// Invoked when parentNetId is changed on the server, updating the client's parentNetId. This
@@ -159,14 +184,19 @@ public abstract class RegisterTile : NetworkBehaviour
 		}
 
 		//remove from current parent layer
-		layer?.Objects.Remove(Position, this);
+		layer?.ClientObjects.Remove(PositionClient, this);
+		layer?.ServerObjects.Remove(PositionServer, this);
 		layer = parent.GetComponentInChildren<ObjectLayer>();
 		Matrix = parent.GetComponentInChildren<Matrix>();
 		transform.parent = layer.transform;
 		//if we are hidden, remain hidden, otherwise update because we have a new parent
-		if (Position != TransformState.HiddenPos)
+		if (PositionClient != TransformState.HiddenPos)
 		{
-			UpdatePosition();
+			UpdatePositionClient();
+		}
+		if (PositionServer != TransformState.HiddenPos)
+		{
+			UpdatePositionServer();
 		}
 		OnParentChangeComplete();
 	}
@@ -198,6 +228,11 @@ public abstract class RegisterTile : NetworkBehaviour
 				}
 			}
 		}
+
+		if ( customTransform == null )
+		{
+			customTransform = GetComponent<PushPull>();
+		}
 	}
 
 	public override void OnStartClient()
@@ -222,7 +257,8 @@ public abstract class RegisterTile : NetworkBehaviour
 	{
 		if (layer)
 		{
-			layer.Objects.Remove(Position, this);
+			layer.ServerObjects.Remove(PositionServer, this);
+			layer.ClientObjects.Remove(PositionClient, this);
 		}
 	}
 
@@ -238,28 +274,35 @@ public abstract class RegisterTile : NetworkBehaviour
 		{
 			layer = transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
-			UpdatePosition();
+
+			PositionServer = Vector3Int.RoundToInt(transform.localPosition);
+			PositionClient = Vector3Int.RoundToInt(transform.localPosition);
 		}
 	}
 
-	public void Unregister()
+	public void UnregisterClient()
 	{
-		Position = TransformState.HiddenPos;
-
-		if (layer)
-		{
-			layer.Objects.Remove(Position, this);
-		}
+		PositionClient = TransformState.HiddenPos;
+	}
+	public void UnregisterServer()
+	{
+		PositionServer = TransformState.HiddenPos;
 	}
 
 	private void OnDisable()
 	{
-		Unregister();
+		UnregisterClient();
+		UnregisterServer();
 	}
 
-	public void UpdatePosition()
+	public virtual void UpdatePositionServer()
 	{
-		Position = Vector3Int.RoundToInt(transform.localPosition);
+		PositionServer = customTransform ? customTransform.Pushable.ServerLocalPosition : transform.localPosition.RoundToInt();
+	}
+
+	public virtual void UpdatePositionClient()
+	{
+		PositionClient = customTransform ? customTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
 	}
 
 	/// <summary>
@@ -315,24 +358,24 @@ public abstract class RegisterTile : NetworkBehaviour
 	{
 	}
 
-	public virtual bool IsPassable()
+	public virtual bool IsPassable(bool isServer)
 	{
 		return true;
 	}
 
 	/// Is it passable when approaching from outside?
-	public virtual bool IsPassable(Vector3Int from)
+	public virtual bool IsPassable(Vector3Int from, bool isServer)
 	{
 		return true;
 	}
 
 	/// Is it passable when trying to leave it?
-	public virtual bool IsPassableTo(Vector3Int to)
+	public virtual bool IsPassableTo(Vector3Int to, bool isServer)
 	{
 		return true;
 	}
 
-	public virtual bool IsAtmosPassable(Vector3Int from)
+	public virtual bool IsAtmosPassable(Vector3Int from, bool isServer)
 	{
 		return true;
 	}

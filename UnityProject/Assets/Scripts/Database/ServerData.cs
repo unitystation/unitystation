@@ -31,41 +31,6 @@ namespace DatabaseAPI
 		private const string URL_UpdateChar = ServerRoot + "/updatechar?key=" + ApiKey + "&data=";
 		private const string URL_GetChar = ServerRoot + "/getchar?key=" + ApiKey + "&username=";
 
-		void Start()
-		{
-			if (PlayerPrefs.HasKey("autoLogin"))
-			{
-				int getLoginSetting = PlayerPrefs.GetInt("autoLogin");
-				if (getLoginSetting == 1)
-				{
-					sessionCookie = PlayerPrefs.GetString("cookie");
-					TryRetrieveCharSettings(OnAutoLoginSuccess, OnAutoLoginFailure);
-					if (LobbyManager.Instance != null)
-					{
-						LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
-					}
-				}
-			}
-		}
-
-		private void OnAutoLoginSuccess(string msg)
-		{
-			GameData.IsLoggedIn = true;
-			GameData.LoggedInUsername = PlayerPrefs.GetString("username");
-			PlayerManager.CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(msg);
-			PlayerPrefs.SetString("currentcharacter", msg);
-			if (LobbyManager.Instance != null)
-			{
-				LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
-			}
-		}
-
-		private void OnAutoLoginFailure(string msg)
-		{
-			//Log out on any error for the moment:
-			GameData.IsLoggedIn = false;
-			Logger.LogError(msg, Category.DatabaseAPI);
-		}
 
 		void OnEnable()
 		{

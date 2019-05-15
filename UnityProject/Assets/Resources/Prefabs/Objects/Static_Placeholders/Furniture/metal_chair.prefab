@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 114601193997943186}
   - component: {fileID: 114055517453558958}
   - component: {fileID: 114338334281631116}
+  - component: {fileID: 9048663693282033040}
   m_Layer: 11
   m_Name: metal_chair
   m_TagString: Untagged
@@ -150,6 +151,18 @@ MonoBehaviour:
   s_left: {fileID: 21300008, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
   s_up: {fileID: 21300004, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
   spriteRenderer: {fileID: 212222381246785194}
+--- !u!114 &9048663693282033040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169897606440870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e12f147c494feb4bb0f1d25f7968cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1581991274901662
 GameObject:
   m_ObjectHideFlags: 0

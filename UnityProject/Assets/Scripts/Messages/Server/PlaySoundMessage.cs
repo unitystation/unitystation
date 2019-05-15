@@ -28,7 +28,7 @@ public class PlaySoundMessage : ServerMessage
 		if ( ShakeGround )
 		{
 			if ( PlayerManager.LocalPlayerScript
-			 && !PlayerManager.LocalPlayerScript.IsInReach( Position, ShakeRange ) )
+			 && !PlayerManager.LocalPlayerScript.IsInReach( Position, false, ShakeRange ) )
 			{
 				//Don't shake if local player is out of range
 				yield break;

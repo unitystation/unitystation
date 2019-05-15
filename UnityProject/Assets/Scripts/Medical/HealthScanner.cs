@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class HealthScanner : PickUpTrigger
 {
-	public void PlayerFound(PlayerHealth Playerhealth) {
+	public override void Attack(GameObject target, GameObject originator, BodyPartType bodyPart)
+	{
+		var playerHealth = target.GetComponent<PlayerHealth>();
+		PlayerFound(playerHealth, originator);
+	}
+
+	public void PlayerFound(PlayerHealth Playerhealth, GameObject originator) {
 		string ToShow = (Playerhealth.name + " is " + Playerhealth.ConsciousState.ToString() + "\n"
 			+ "OverallHealth = " + Playerhealth.OverallHealth.ToString() + " Blood level = " + Playerhealth.bloodSystem.BloodLevel.ToString() + "\n"
 						 + "Blood levels = " + Playerhealth.CalculateOverallBloodLossDamage() + "\n");
@@ -21,25 +27,6 @@ public class HealthScanner : PickUpTrigger
 			StringBuffer += "\n";
 		}
 		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " OxyLoss " + Playerhealth.bloodSystem.OxygenDamage.ToString() + "\n" + "Body Part, Brute, Burn \n" + StringBuffer;
-		ChatRelay.Instance.AddToChatLogClient(ToShow, ChatChannel.Examine);
-		//PostToChatMessage.Send(ToShow,ChatChannel.System);
-		//Logger.Log(ToShow);
-	}
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		if (gameObject == UIManager.Hands.CurrentSlot.Item)
-		{
-			Vector3 tposition = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-			tposition.z = 0f;
-			List<PlayerHealth> objects = MatrixManager.GetAt<PlayerHealth>(tposition.RoundToInt());
-			foreach (PlayerHealth theObject in objects) {
-				PlayerFound(theObject);
-			}
-			return base.Interact(originator, position, hand);;
-		}
-		else
-		{
-			return base.Interact(originator, position, hand);
-		}
+		UpdateChatMessage.Send(originator, ChatChannel.Examine, ToShow);
 	}
 }

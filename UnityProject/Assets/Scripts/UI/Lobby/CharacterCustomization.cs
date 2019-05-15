@@ -238,7 +238,8 @@ namespace Lobby
 
 		public void SaveDataSuccess(string msg)
 		{
-			Debug.Log("TODO: Turn on nav panel top");
+			//TODO: Turn on nav panel top
+			Logger.LogTrace("Not implemented: Save data success notification", Category.UI);
 		}
 
 		//------------------
@@ -254,7 +255,7 @@ namespace Lobby
 			}
 			catch (InvalidOperationException e)
 			{
-				Debug.Log("Invalid character settings. " + e.Message);
+				Logger.LogFormat("Invalid character settings: {0}", Category.UI, e.Message);
 				DisplayErrorText(e.Message);
 				return;
 			}

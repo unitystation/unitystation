@@ -302,7 +302,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	private void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
+	public void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
 	{
 		for (int i = 0; i < slotNames.Length; i++)
 		{
@@ -512,7 +512,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command] //Remember with the parent you can only send networked objects:
 	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
-		if (playerScript.canNotInteract() || !playerScript.IsInReach(pos))
+		if (playerScript.canNotInteract() || !playerScript.IsInReach(pos, true))
 		{
 			return;
 		}
@@ -569,7 +569,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			return;
 		}
-		if (playerScript.IsInReach(cupbObj) || closet.Contains(this.gameObject))
+		if (playerScript.IsInReach(cupbObj, true) || closet.Contains(this.gameObject))
 		{
 			closet.ServerToggleCupboard();
 		}
@@ -601,8 +601,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
-			Logger.LogWarning("player attempted to interact with shutter switch through wall," +
-				" this could indicate a hacked client.");
+			Logger.LogWarningFormat("Player {0} attempted to interact with shutter switch through wall," +
+				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name); 
 		}
 	}
 
@@ -619,57 +619,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			else if (s.isOn == LightSwitchTrigger.States.Off) {
 				s.isOn = LightSwitchTrigger.States.On;
 			}
- 
+
 		}
 		else
 		{
-			Logger.LogWarning("player attempted to interact with light switch through wall," +
-				" this could indicate a hacked client.");
-		}
-	}
-
-	[Command]
-	public void CmdToggleFireCabinet(GameObject cabObj, bool forItemInteract, string currentSlotName)
-	{
-		if (CanInteractWallmount(cabObj.GetComponent<WallmountBehavior>()))
-		{
-			FireCabinetTrigger c = cabObj.GetComponent<FireCabinetTrigger>();
-
-			if (!forItemInteract)
-			{
-				if (c.IsClosed)
-				{
-					c.IsClosed = false;
-				}
-				else
-				{
-					c.IsClosed = true;
-				}
-			}
-			else
-			{
-				if (c.isFull)
-				{
-					c.isFull = false;
-					if (AddItemToUISlot(c.storedObject.gameObject, currentSlotName))
-					{
-						c.storedObject.visibleState = true;
-						c.storedObject = null;
-					}
-				}
-				else
-				{
-					c.storedObject = Inventory[currentSlotName].Item.GetComponent<ObjectBehaviour>();
-					ClearInventorySlot(currentSlotName);
-					c.storedObject.visibleState = false;
-					c.isFull = true;
-				}
-			}
-		}
-		else
-		{
-			Logger.LogWarning("player attempted to interact with fire cabinet through wall," +
-				" this could indicate a hacked client.");
+			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
+				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
 
@@ -700,6 +655,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void OnConsciousStateChanged(ConsciousState oldState, ConsciousState newState)
 	{
+		playerScript.registerTile.IsDownServer = newState != ConsciousState.CONSCIOUS;
 		switch (newState)
 		{
 			case ConsciousState.CONSCIOUS:
@@ -787,7 +743,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void SpawnPlayerGhost()
 	{
 		RpcBeforeGhost();
-		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId);
+		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
 
 	}
 
@@ -797,7 +753,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
 		yield return new WaitForSeconds(timeout);
-		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType);
+		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.characterSettings, gameObject);
 		RpcAfterRespawn();
 	}
 
@@ -879,7 +835,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdAttack(GameObject target, GameObject originator, BodyPartType bodyPart, GameObject itemInHand)
 	{
 		var itemPUT = itemInHand.GetComponent<PickUpTrigger>();
-		itemPUT.Attack(target, originator, UIManager.DamageZone);
+		itemPUT.Attack(target, originator, bodyPart);
 	}
 
 	[Command]
@@ -892,7 +848,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdRefillWelder(GameObject welder, GameObject weldingTank)
 	{
 		//Double check reach just in case:
-		if (playerScript.IsInReach(weldingTank))
+		if (playerScript.IsInReach(weldingTank, true))
 		{
 			var w = welder.GetComponent<Welder>();
 

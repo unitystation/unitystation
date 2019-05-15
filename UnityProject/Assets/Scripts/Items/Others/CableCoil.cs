@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CableCoil : PickUpTrigger
 {
-	public WiringColor CableType; 
+	public WiringColor CableType;
 	public GameObject CablePrefab;
     void Start()
     {
-        
+
     }
 	public Connection GetDirectionFromFaceDirection(GameObject originator) { 
 		var playerScript = originator.GetComponent<PlayerScript>();
@@ -40,7 +40,6 @@ public class CableCoil : PickUpTrigger
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-
 		//Logger.Log(originator + " " + position + " " + hand);
 		if (!isServer)
 		{
@@ -86,7 +85,7 @@ public class CableCoil : PickUpTrigger
 					}
 
 					var worldPosInt = position.CutToInt();
-					var matrix = MatrixManager.AtPoint(worldPosInt);
+					var matrix = MatrixManager.AtPoint(worldPosInt, true);
 					var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
 
 					var econs = originator.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
@@ -108,13 +107,14 @@ public class CableCoil : PickUpTrigger
 									else if (con.WireEndA == Econ.WireEndB || con.WireEndB == Econ.WireEndB){
 										ChatRelay.Instance.AddToChatLogClient("There is already a cable at that position", ChatChannel.Examine);
 										return true;
-									}								} 
+									}
+								}
 							}
 						}
 					}
 					BuildCable(position, originator.transform.parent, WireEndB);
 				}
-			} 
+			}
 			return base.Interact(originator, position, hand);
 		}
 		return base.Interact(originator, position, hand);

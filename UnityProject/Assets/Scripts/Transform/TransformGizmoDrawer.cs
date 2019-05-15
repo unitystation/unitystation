@@ -21,16 +21,21 @@ public class TransformGizmoDrawer : MonoBehaviour {
 							color1 = Color.red,
 							color2 = DebugTools.HexToColor( "fd7c6e" ),//pink
 							color3 = DebugTools.HexToColor( "22e600" ),//green
-							color4 = DebugTools.HexToColor( "ebfceb" );//white
-
+							color4 = DebugTools.HexToColor( "ebfceb" ),//white
+							color7 = DebugTools.HexToColor( "ff666655" );//reddish
 	private void OnDrawGizmos() {
 		if ( !cnt ) {
 			return;
 		}
-		//registerTile pos
+		//registerTile server pos
+		Gizmos.color = color7;
+		Vector3 regPosS = rt.WorldPositionServer;
+		Gizmos.DrawCube( regPosS, size1 );
+
+		//registerTile client pos
 		Gizmos.color = color0;
-		Vector3 regPos = rt.WorldPosition;
-		Gizmos.DrawCube( regPos, size1 );
+		Vector3 regPosC = rt.WorldPositionClient;
+		Gizmos.DrawCube( regPosC, size2 );
 
 		//server lerp
 		Gizmos.color = color1;

@@ -1,30 +1,30 @@
 ﻿using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
-public struct TextureDataRequest
+public class TextureDataRequest
 {
-	private bool mRequestLoaded;
-	private AsyncGPUReadbackRequest mRequest;
+	private bool iRequestLoaded;
+	private List<Color32> textureBuffer = new List<Color32>();
+	private int height;
+	private int width;
 
-	public TextureDataRequest(AsyncGPUReadbackRequest iRequest)
+	public void StoreData(AsyncGPUReadbackRequest iRequest)
 	{
-		// Store request to track if it was disposed.
-		mRequest = iRequest;
-		mRequestLoaded = true;
+		iRequestLoaded = true;
+		textureBuffer.Clear();
+		foreach(Color32 C in iRequest.GetData<Color32>()){
+			textureBuffer.Add(C);
+		}
+		height = iRequest.height;
+		width = iRequest.width;
 	}
-
-	private NativeArray<Color32> textureBuffer => mRequest.GetData<Color32>();
-
-	private int height => mRequest.height;
-
-	private int width => mRequest.width;
 
 	public bool TryGetPixelNormalized(float iNormalizedX, float iNormalizedY, out Color32 oColor32)
 	{
 		var _width = (int)(iNormalizedX * width);
 		var _height = (int)(iNormalizedY * height);
-
 		return TryGetPixel(_width, _height, out oColor32);
 	}
 
@@ -32,9 +32,7 @@ public struct TextureDataRequest
 	{
 		oColor32 = default(Color32);
 
-		if (mRequestLoaded == false ||
-		    mRequest.done == false ||
-		    mRequest.hasError == true ||
+		if (iRequestLoaded == false ||
 		    iX < 0 ||
 		    iX > width ||
 		    iY < 0 ||

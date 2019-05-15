@@ -24,7 +24,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 	public void BtnOk(JobType preference)
 	{
 		SoundManager.Play("Click01");
-		PlayerManager.LocalViewerScript.CmdRequestJob(preference);
+		PlayerManager.LocalViewerScript.CmdRequestJob(preference, PlayerManager.CurrentCharacterSettings);
 		UIManager.Instance.GetComponent<ControlDisplays>().jobSelectWindow.SetActive(false);
 		hasPickedAJob = true;
 	}
@@ -39,7 +39,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 
 		foreach (GameObject occupationGo in GameManager.Instance.Occupations)
 		{
-			
+
 			GameObject occupation = Instantiate(buttonPrefab);
 			JobType jobType = occupationGo.GetComponent<OccupationRoster>().Type;
 			//For nuke ops mode, syndis spawn via a different button

@@ -39,14 +39,19 @@ public abstract class UserControlledSprites : NetworkBehaviour
 
     public override void OnStartClient()
     {
+		UpdateCharacterSprites();
 	    StartCoroutine(WaitForLoad());
 	    base.OnStartClient();
     }
 
+	public virtual void UpdateCharacterSprites(){
+
+	}
+
     /// <summary>
     /// Invoked from OnStartClient as a coroutine. Override this to modify the setup logic.
     /// <returns></returns>
-    protected virtual IEnumerator WaitForLoad()
+    protected IEnumerator WaitForLoad()
     {
 	    yield return YieldHelper.EndOfFrame;
 	    if (PlayerManager.LocalPlayer == gameObject)

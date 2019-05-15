@@ -31,7 +31,7 @@ public class ShutterSwitchTrigger : InputTrigger
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		if (!PlayerManager.LocalPlayerScript.IsInReach(transform.position, 1.5f) ||
+		if (!PlayerManager.LocalPlayerScript.IsInReach(transform.position, false, 1.5f) ||
 		    PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return true;
@@ -60,7 +60,7 @@ public class ShutterSwitchTrigger : InputTrigger
 				s.Trigger(isClosed);
 			}
 			else {
-				Logger.LogError("you Have a null reference You have a missing reference for a shutter");
+				Logger.LogError("Missing reference to shutter.", Category.Shutters);
 			}
 		}
 	}

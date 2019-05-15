@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,7 +17,7 @@ public class Equipment : NetworkBehaviour
 	private PlayerScript playerScript;
 	public SyncListInt syncEquipSprites = new SyncListInt();
 	private List<InventorySlot> playerInventory;
-	private InventorySlot suitStorageSlot;
+	private InventorySlot[] gasSlots;
 	private InventorySlot maskSlot;
 	private GameObject idPrefab;
 
@@ -27,9 +29,24 @@ public class Equipment : NetworkBehaviour
 		playerNetworkActions = gameObject.GetComponent<PlayerNetworkActions>();
 		playerScript = gameObject.GetComponent<PlayerScript>();
 		playerInventory = InventoryManager.AllClientInventorySlots;
-		suitStorageSlot = playerInventory.Find(s => s.SlotName == "suitStorage");
+
+		gasSlots = InitPotentialGasSlots();
 		maskSlot = playerInventory.Find(s => s.SlotName == "mask");
 		idPrefab = Resources.Load<GameObject>("ID");
+	}
+
+	private InventorySlot[] InitPotentialGasSlots()
+	{		
+		var slots = new List<InventorySlot>();
+		foreach (var slot in playerInventory)
+		{
+			if (GasContainer.GasSlots.Contains(slot.SlotName))
+			{
+				slots.Add(slot);
+			}
+		}
+
+		return slots.ToArray();
 	}
 
 	public override void OnStartServer()
@@ -410,15 +427,21 @@ public class Equipment : NetworkBehaviour
 	}
 
 	/// <summary>
+	/// Clientside method.
 	/// Checks if player has proper internals equipment (Oxygen Tank and Mask)
 	/// equipped in the correct inventory slots (suitStorage and mask)
 	/// </summary>
 	public bool HasInternalsEquipped()
 	{
-		if (suitStorageSlot?.ItemAttributes?.itemName == "Oxygen Tank" &&
-		    maskSlot?.ItemAttributes?.itemType == ItemType.Mask)
+		if ( maskSlot?.ItemAttributes?.itemType == ItemType.Mask )
 		{
-			return true;
+			foreach ( var gasSlot in gasSlots )
+			{
+				if ( gasSlot.Item && gasSlot.Item.GetComponent<GasContainer>() )
+				{
+					return true;
+				}
+			}
 		}
 
 		return false;

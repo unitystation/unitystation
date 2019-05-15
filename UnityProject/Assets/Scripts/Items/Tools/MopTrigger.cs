@@ -12,7 +12,7 @@ public class MopTrigger : PickUpTrigger
     {
 		var playerScript = originator.GetComponent<PlayerScript>();
 		//do nothing if player is not in reach of the specified position
-		if (!playerScript.IsInReach(position))
+		if (!playerScript.IsInReach(position, false))
 		{
 			return false;
 		}
@@ -28,7 +28,7 @@ public class MopTrigger : PickUpTrigger
 			}
 
 			//ask the server to let us mop if it's in reach
-			if (PlayerManager.PlayerScript.IsInReach(position))
+			if (PlayerManager.PlayerScript.IsInReach(position, false))
 			{
 				if (!isServer)
 				{
@@ -94,19 +94,19 @@ public class MopTrigger : PickUpTrigger
 	private void CleanTile (Vector3 worldPos)
     {
 	    var worldPosInt = worldPos.CutToInt();
-	    var matrix = MatrixManager.AtPoint( worldPosInt );
+	    var matrix = MatrixManager.AtPoint( worldPosInt, true );
 	    var localPosInt = MatrixManager.WorldToLocalInt( worldPosInt, matrix );
-	    var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt);
+	    var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
 
 	    for ( var i = 0; i < floorDecals.Count; i++ )
 	    {
 		    floorDecals[i].DisappearFromWorldServer();
 	    }
 
-	    if (!MatrixManager.IsSpaceAt(worldPosInt))
+	    if (!MatrixManager.IsSpaceAt(worldPosInt, true))
 	    {
 		    // Create a WaterSplat Decal (visible slippery tile)
-		    // EffectsFactory.Instance.WaterSplat(targetWorldIntPos);
+		    EffectsFactory.Instance.WaterSplat(worldPosInt);
 
 		    // Sets a tile to slippery
 		    matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);

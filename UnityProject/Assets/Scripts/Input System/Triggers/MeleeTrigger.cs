@@ -48,7 +48,7 @@ public class MeleeTrigger : MonoBehaviour
 				handItem.itemType != ItemType.Shoes &&
 				handItem.itemType != ItemType.Suit &&
 				handItem.itemType != ItemType.Uniform &&
-				PlayerManager.LocalPlayerScript.IsInReach(mousePos))
+				PlayerManager.LocalPlayerScript.IsInReach(mousePos, false))
 			{
 				if (UIManager.CurrentIntent == Intent.Harm ||
 					handItem.itemType != ItemType.Gun ||
@@ -58,7 +58,7 @@ public class MeleeTrigger : MonoBehaviour
 					Vector2 dir = (mousePos - PlayerManager.LocalPlayer.transform.position).normalized;
 
 					//special case - when we have a gun and click ourselves, we should actually shoot ourselves rather than melee, which is handled elsewhere
-					if ((handItem.type == ItemType.Gun || handItem.itemType == ItemType.Gun) && originator == gameObject)
+					if (handItem.itemType == ItemType.Gun && originator == gameObject)
 					{
 						return false;
 					}

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class ShuttleInteract : NetworkTabTrigger 
+public class ShuttleInteract : NetworkTabTrigger
 {
     public string interactionMessage;
     public MatrixMove ShuttleMatrixMove;
@@ -44,13 +44,13 @@ public class ShuttleInteract : NetworkTabTrigger
     public override bool Interact(GameObject originator, Vector3 position, string hand)
     {
 	    var playerScript = originator.GetComponent<PlayerScript>();
-	    if (playerScript.canNotInteract() || !playerScript.IsInReach( gameObject ))
+	    if (playerScript.canNotInteract() || !playerScript.IsInReach( gameObject, false ))
 	    { //check for both client and server
 		    return true;
 	    }
-	
+
 	    if (!isServer)
-	    { 
+	    {
 		    //Client wants this code to be run on server
 		    InteractMessage.Send(gameObject, hand);
 	    }

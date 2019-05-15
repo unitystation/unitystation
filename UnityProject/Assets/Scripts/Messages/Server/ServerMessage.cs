@@ -13,6 +13,27 @@ public abstract class ServerMessage : GameMessageBase
 		Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, this);
 	}
 
+	public void SendToAllExcept(GameObject excluded)
+	{
+		if ( excluded == null )
+		{
+			SendToAll();
+			return;
+		}
+
+		var excludedConnection = excluded.GetComponent<NetworkIdentity>().connectionToClient;
+
+		for (int index = 0; index < NetworkServer.connections.Count; ++index)
+		{
+			var connection = NetworkServer.connections[index];
+			if ( connection != null && connection != excludedConnection )
+			{
+				connection.Send(GetMessageType(), this);
+			}
+		}
+		Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, this, excluded.name);
+	}
+
 	public void SendTo(GameObject recipient)
 	{
 		if ( recipient == null ) {

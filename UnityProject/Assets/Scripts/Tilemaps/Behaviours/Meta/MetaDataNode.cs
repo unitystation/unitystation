@@ -43,6 +43,9 @@ public class MetaDataNode: IGasMixContainer
 	/// </summary>
 	public float Damage;
 
+	public Vector2Int 	WindDirection 	= Vector2Int.zero;
+	public float		WindForce 		= 0;
+
 	/// <summary>
 	/// Number of neighboring MetaDataNodes
 	/// </summary>
@@ -69,21 +72,25 @@ public class MetaDataNode: IGasMixContainer
 
 	private List<MetaDataNode> neighbors;
 
+	public ReactionManager ReactionManager => reactionManager;
+	private ReactionManager reactionManager;
+
 
 	/// <summary>
 	/// Create a new MetaDataNode on the specified local position (within the parent matrix)
 	/// </summary>
 	/// <param name="position">local position (within the matrix) the node exists on</param>
-	public MetaDataNode(Vector3Int position)
+	public MetaDataNode(Vector3Int position, ReactionManager reactionManager)
 	{
 		Position = position;
 		neighbors = new List<MetaDataNode>();
 		GasMix = GasMixes.Space;
+		this.reactionManager = reactionManager;
 	}
 
 	static MetaDataNode()
 	{
-		None = new MetaDataNode(Vector3Int.one * -1000000);
+		None = new MetaDataNode(Vector3Int.one * -1000000, null);
 	}
 
 	/// <summary>
@@ -97,7 +104,13 @@ public class MetaDataNode: IGasMixContainer
 	public bool IsRoom => Type == NodeType.Room;
 
 	/// <summary>
-	/// Is this tile occupied by something impassable
+	/// Does this tile contain a closed airlock/shutters?
+	/// (used for gas freezing)
+	/// </summary>
+	public bool IsClosedAirlock { get; set; }
+
+	/// <summary>
+	/// Is this tile occupied by something impassable (airtight!)
 	/// </summary>
 	public bool IsOccupied => Type == NodeType.Occupied;
 
@@ -138,6 +151,7 @@ public class MetaDataNode: IGasMixContainer
 	}
 
 	public bool HasHotspot => Hotspot != null;
+	public bool HasWind => WindDirection != Vector2Int.zero;
 
 	public void RemoveNeighbor(MetaDataNode neighbor)
 	{

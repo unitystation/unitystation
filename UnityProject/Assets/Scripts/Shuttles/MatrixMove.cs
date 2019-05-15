@@ -621,7 +621,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			// Exclude the moving matrix, we shouldn't be able to collide with ourselves
 			int[] excludeList = { MatrixInfo.Id };
-			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt(), collisionType: matrixColliderType, excludeList: excludeList))
+			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt(), isServer: true, 
+											collisionType: matrixColliderType, excludeList: excludeList))
 			{
 				Logger.LogTrace(
 					$"Can't pass {serverTargetState.Position}->{serverTargetState.Position + dir} (because {sensorPos}->{sensorPos + dir})!",
@@ -652,7 +653,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			// Exclude the rotating matrix, we shouldn't be able to collide with ourselves
 			int[] excludeList = { MatrixInfo.Id };
-			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos, collisionType: matrixColliderType, includingPlayers: true, excludeList: excludeList))
+			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos, isServer: true,
+											collisionType: matrixColliderType, includingPlayers: true, excludeList: excludeList))
 			{
 				Logger.LogTrace(
 					$"Can't rotate at {serverTargetState.Position}->{serverTargetState.Position } (because {sensorPos} is occupied)!",

@@ -27,9 +27,30 @@ public static class SweetExtensions {
 		}
 
 		/// Creates garbage! Use very sparsely!
-		public static Vector3 WorldPos( this GameObject go ) {
-			return go.GetComponent<RegisterTile>()?.WorldPosition ?? go.transform.position;
-//			return go.GetComponent<CustomNetTransform>()?.State.position ?? go.Player()?.Script.playerSync.ServerState.WorldPosition ??  go.transform.position;
+		public static Vector3 WorldPosServer( this GameObject go ) {
+			return go.GetComponent<RegisterTile>()?.WorldPositionServer ?? go.transform.position;
+		}
+		/// Creates garbage! Use very sparsely!
+		public static Vector3 WorldPosClient( this GameObject go ) {
+			return go.GetComponent<RegisterTile>()?.WorldPositionClient ?? go.transform.position;
+		}
+
+		/// <summary>
+		/// Returns true for adjacent coordinates
+		/// </summary>
+		public static bool IsAdjacentTo( this Vector3 one, Vector3 two )
+		{
+			var oneInt = one.To2Int();
+			var twoInt = two.To2Int();
+			return Mathf.Abs(oneInt.x - twoInt.x) == 1 
+				|| Mathf.Abs(oneInt.y - twoInt.y) == 1 ;
+		}
+
+		/// <summary>
+		/// Returns true for adjacent coordinates OR if they are the same when rounded
+		/// </summary>
+		public static bool IsAdjacentToOrSameAs( this Vector3 one, Vector3 two ) {
+			return one.To2Int() == two.To2Int() || one.IsAdjacentTo(two);
 		}
 		/// Creates garbage! Use very sparsely!
 		public static RegisterTile RegisterTile( this GameObject go ) {
@@ -107,7 +128,7 @@ public static class SweetExtensions {
 			if ( posData.Length > 1 && int.TryParse(posData[0], out x) && int.TryParse(posData[1], out y) ) {
 				return new Vector2(x, y);
 			}
-			Logger.LogWarning( $"Vector parse failed: what the hell is '{stringifiedVector}'?" );
+		Logger.LogWarning( $"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.NetUI); 
 			return TransformState.HiddenPos;
 		}
 

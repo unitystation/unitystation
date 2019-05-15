@@ -120,20 +120,20 @@ using UnityEngine.Networking;
 			Vector3Int horizontal = Vector3Int.Scale(direction, Vector3Int.right);
 			Vector3Int vertical = Vector3Int.Scale(direction, Vector3Int.up);
 
-			if (_matrix.IsPassableAt(currentPosition + direction))
+			if (_matrix.IsPassableAt(currentPosition + direction, true))
 			{
-				if (_matrix.IsPassableAt(currentPosition + horizontal) ||
-				    _matrix.IsPassableAt(currentPosition + vertical))
+				if (_matrix.IsPassableAt(currentPosition + horizontal, true) ||
+				    _matrix.IsPassableAt(currentPosition + vertical, true))
 				{
 					targetPosition = currentPosition + direction;
 					return true;
 				}
 			}
 
-			if (_matrix.IsPassableAt(currentPosition + direction))
+			if (_matrix.IsPassableAt(currentPosition + direction, true))
 			{
-				if (_matrix.IsPassableAt(currentPosition + horizontal) ||
-				    _matrix.IsPassableAt(currentPosition + vertical))
+				if (_matrix.IsPassableAt(currentPosition + horizontal, true) ||
+				    _matrix.IsPassableAt(currentPosition + vertical, true))
 				{
 					targetPosition = currentPosition + direction;
 					return true;
@@ -141,12 +141,12 @@ using UnityEngine.Networking;
 			}
 			else if (horizontal != Vector3.zero && vertical != Vector3.zero)
 			{
-				if (_matrix.IsPassableAt(currentPosition + horizontal))
+				if (_matrix.IsPassableAt(currentPosition + horizontal, true))
 				{
 					targetPosition = currentPosition + horizontal;
 					return true;
 				}
-				if (_matrix.IsPassableAt(currentPosition + vertical))
+				if (_matrix.IsPassableAt(currentPosition + vertical, true))
 				{
 					targetPosition = currentPosition + vertical;
 					return true;

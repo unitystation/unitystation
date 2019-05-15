@@ -41,7 +41,7 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		if (changeList.List.Count > 0)
 		{
-			Debug.Log ("Request all updates: " + requestedBy.name);
+			Logger.LogFormat("Request all updates: ", Category.TileMaps, requestedBy.name);
 			string jsondata = JsonUtility.ToJson (changeList);
 
 			TileChangesNewClientSync.Send(gameObject, requestedBy, jsondata);
@@ -62,7 +62,7 @@ public class TileChangeManager : NetworkBehaviour
 	[Server]
 	public void RemoveTile(Vector3Int position, LayerType layerType)
 	{
-		if(metaTileMap.HasTile(position, layerType))
+		if(metaTileMap.HasTile(position, layerType, true))
 		{
 			RpcRemoveTile(position, layerType, false);
 
@@ -75,7 +75,7 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		position.z = -1;
 
-		if (metaTileMap.HasTile(position, layerType))
+		if (metaTileMap.HasTile(position, layerType, true))
 		{
 			RpcRemoveTile(position, layerType, true);
 

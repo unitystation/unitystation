@@ -32,13 +32,13 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		ElectricalSynchronisation.InputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstanceID];
 		ElectricalSynchronisation.InputSupplyingUsingData.CurrentComingFrom[ComingFrom] = Current;
-
 		if (!(ElectricalSynchronisation.InputSupplyingUsingData.ResistanceComingFrom.Count > 0))
-		{			ElectricalSynchronisation.StructureChange = true;
+		{
+			ElectricalSynchronisation.StructureChange = true;
 			ElectricalSynchronisation.NUStructureChangeReact.Add(Thiswire.InData.ControllingDevice);
 			ElectricalSynchronisation.NUResistanceChange.Add(Thiswire.InData.ControllingDevice);
 			ElectricalSynchronisation.NUCurrentChange.Add(Thiswire.InData.ControllingDevice);
-			Logger.LogError("Resistances Isn't initialised on " + SourceInstance);
+			Logger.LogErrorFormat("Resistance isn't initialised on {1}", Category.Electrical, SourceInstance);
 			return;
 		}
 		ElectricalSynchronisation.InputSupplyingUsingData.SourceVoltages = Current * (ElectricityFunctions.WorkOutResistance(ElectricalSynchronisation.InputSupplyingUsingData.ResistanceComingFrom));
@@ -90,7 +90,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 				{
 					if (Thiswire.Data.ResistanceToConnectedDevices[IElec].Count > 1)
 					{
-						Logger.LogError("oh no!, problem!!!!");
+						Logger.LogErrorFormat("{0} has too many resistance reactions specified.", Category.Electrical, Thiswire.ToString());
 					}
 					foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[IElec])
 					{

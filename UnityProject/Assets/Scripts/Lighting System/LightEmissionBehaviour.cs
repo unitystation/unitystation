@@ -120,13 +120,13 @@ public class LightEmissionBehaviour : MonoBehaviour
 
 		if (iRoot == null)
 		{
-			UnityEngine.Debug.LogError("LightEmissionBehaviour: UInitialization require valid parent.");
+			Logger.LogError("LightEmissionBehaviour: UInitialization require valid parent.", Category.Lighting);
 			return;
 		}
 
 		if (iEmissionMaterial == null)
 		{
-			UnityEngine.Debug.LogError("LightEmissionBehaviour: UInitialization require assigned emission material.");
+			Logger.LogError("LightEmissionBehaviour: UInitialization require assigned emission material.", Category.Lighting);
 			return;
 		}
 

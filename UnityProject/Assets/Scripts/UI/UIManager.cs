@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
 	public InventorySlotCache inventorySlotCache;
 	public PlayerHealthUI playerHealthUI;
 	public PlayerListUI playerListUIControl;
+	public AlertUI alertUI;
 	public Text toolTip;
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
@@ -91,6 +92,7 @@ public class UIManager : MonoBehaviour
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 	public static ProgressBar ProgressBar => Instance.progressBar;
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
+	public static AlertUI AlertUI => Instance.alertUI;
 
 	public static Hands Hands => Instance.hands;
 

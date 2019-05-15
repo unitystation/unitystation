@@ -96,11 +96,11 @@ public class LightSwitchTrigger : InputTrigger
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		if (!PlayerManager.LocalPlayerScript.IsInReach(position))
+		if (!PlayerManager.LocalPlayerScript.IsInReach(position, false))
 		{
 			return true;
 		}
-		if (!SelfPowered) { 
+		if (!SelfPowered) {
 			if (RelatedAPC == null)
 			{
 				return true;

@@ -24,7 +24,7 @@ public class WireConnect : ElectricalOIinheritance
 				if (!(Data.connections.Count > 2)) {
 					RelatedLine = new CableLine ();
 					if (RelatedLine == null) {
-						Logger.Log ("HE:LP:::::::::::::::::::niniinininininin");
+						Logger.Log("DirectionInput: RelatedLine is null.", Category.Power);
 					}
 					RelatedLine.InitialGenerator = SourceInstance;
 					RelatedLine.TheStart = this;
@@ -149,8 +149,7 @@ public class WireConnect : ElectricalOIinheritance
 	}
 	public override void FlushResistanceAndUp(GameObject SourceInstance = null)
 	{
-		Logger.LogError ("yes? not ues haha lol no");
-		//yeham, Might need to work on in future but not used Currently
+		//TODO: yeham, Might need to work on in future but not used Currently
 		ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp(this, SourceInstance);
 	}
 	public override void FlushSupplyAndUp(GameObject SourceInstance = null)

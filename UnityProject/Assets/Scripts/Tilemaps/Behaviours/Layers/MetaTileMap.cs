@@ -43,21 +43,23 @@ public class MetaTileMap : MonoBehaviour
 		SolidLayersValues = solidLayersValues.ToArray();
 	}
 
-	public bool IsPassableAt(Vector3Int position)
+	public bool IsPassableAt(Vector3Int position, bool isServer)
 	{
-		return IsPassableAt(position, position);
+		return IsPassableAt(position, position, isServer);
 	}
 
-	public bool IsPassableAt(Vector3Int origin, Vector3Int to, CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
+	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
+							 CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 		Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
-		return _IsPassableAt(origin, toX, collisionType, inclPlayers, context) && _IsPassableAt(toX, to, collisionType, inclPlayers, context) ||
-		       _IsPassableAt(origin, toY, collisionType, inclPlayers, context) && _IsPassableAt(toY, to, collisionType, inclPlayers, context);
+		return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context) && _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context) ||
+		       _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context) && _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context);
 	}
 
-	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
+	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
+							   CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		for (var i = 0; i < SolidLayersValues.Length; i++)
 		{
@@ -67,7 +69,7 @@ public class MetaTileMap : MonoBehaviour
 			{
 				continue;
 			}
-			if (!SolidLayersValues[i].IsPassableAt(origin, to, collisionType: collisionType, inclPlayers: inclPlayers, context: context))
+			if (!SolidLayersValues[i].IsPassableAt(origin, to, isServer, collisionType: collisionType, inclPlayers: inclPlayers, context: context))
 			{
 				return false;
 			}
@@ -76,25 +78,25 @@ public class MetaTileMap : MonoBehaviour
 		return true;
 	}
 
-	public bool IsAtmosPassableAt(Vector3Int position)
+	public bool IsAtmosPassableAt(Vector3Int position, bool isServer)
 	{
-		return IsAtmosPassableAt(position, position);
+		return IsAtmosPassableAt(position, position, isServer);
 	}
 
-	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
+	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)
 	{
 		Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 		Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
-		return _IsAtmosPassableAt(origin, toX) && _IsAtmosPassableAt(toX, to) ||
-		       _IsAtmosPassableAt(origin, toY) && _IsAtmosPassableAt(toY, to);
+		return _IsAtmosPassableAt(origin, toX, isServer) && _IsAtmosPassableAt(toX, to, isServer) ||
+		       _IsAtmosPassableAt(origin, toY, isServer) && _IsAtmosPassableAt(toY, to, isServer);
 	}
 
-	private bool _IsAtmosPassableAt(Vector3Int origin, Vector3Int to)
+	private bool _IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)
 	{
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
-			if (!LayersValues[i].IsAtmosPassableAt(origin, to))
+			if (!LayersValues[i].IsAtmosPassableAt(origin, to, isServer))
 			{
 				return false;
 			}
@@ -103,11 +105,11 @@ public class MetaTileMap : MonoBehaviour
 		return true;
 	}
 
-	public bool IsSpaceAt(Vector3Int position)
+	public bool IsSpaceAt(Vector3Int position, bool isServer)
 	{
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
-			if (!LayersValues[i].IsSpaceAt(position))
+			if (!LayersValues[i].IsSpaceAt(position, isServer))
 			{
 				return false;
 			}
@@ -147,23 +149,23 @@ public class MetaTileMap : MonoBehaviour
 		return null;
 	}
 
-	public bool IsEmptyAt(Vector3Int position)
+	public bool IsEmptyAt(Vector3Int position, bool isServer)
 	{
 		for (var index = 0; index < LayersKeys.Length; index++)
 		{
 			LayerType layer = LayersKeys[index];
-			if (layer != LayerType.Objects && HasTile(position, layer))
+			if (layer != LayerType.Objects && HasTile(position, layer, isServer))
 			{
 				return false;
 			}
 
 			if (layer == LayerType.Objects)
 			{
-				var objects = ((ObjectLayer) LayersValues[index]).Objects.Get(position);
-				for (var i = 0; i < objects.Count; i++)
+				foreach ( RegisterTile o in isServer ?
+					((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
+					: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position) )
 				{
-					RegisterTile o = objects[i];
-					if (!o.IsPassable())
+					if (!o.IsPassable(isServer))
 					{
 						return false;
 					}
@@ -174,25 +176,30 @@ public class MetaTileMap : MonoBehaviour
 		return true;
 	}
 
-	public bool IsNoGravityAt(Vector3Int position)
+	public bool IsNoGravityAt(Vector3Int position, bool isServer)
 	{
 		for (var i = 0; i < LayersKeys.Length; i++)
 		{
 			LayerType layer = LayersKeys[i];
-			if (layer != LayerType.Objects && HasTile(position, layer))
+			if (layer != LayerType.Objects && HasTile(position, layer, isServer))
 			{
 				return false;
 			}
 			if (layer == LayerType.Objects)
 			{
-				var objects = ((ObjectLayer) LayersValues[i]).Objects.Get(position);
-				for (var j = 0; j < objects.Count; j++)
+				foreach ( RegisterTile o in isServer ?
+					((ObjectLayer) LayersValues[i]).ServerObjects.Get(position)
+					: ((ObjectLayer) LayersValues[i]).ClientObjects.Get(position) )
 				{
-					RegisterTile o = objects[j];
 					if ( o is RegisterObject )
 					{
 						PushPull pushPull = o.GetComponent<PushPull>();
-						if ( !pushPull || pushPull.isNotPushable )
+						if ( !pushPull )
+						{
+							return o.IsPassable( isServer );
+						}
+
+						if ( pushPull.isNotPushable )
 						{
 							return false;
 						}
@@ -204,23 +211,23 @@ public class MetaTileMap : MonoBehaviour
 		return true;
 	}
 
-	public bool IsEmptyAt(GameObject[] context, Vector3Int position)
+	public bool IsEmptyAt(GameObject[] context, Vector3Int position, bool isServer)
 	{
 		for (var i1 = 0; i1 < LayersKeys.Length; i1++)
 		{
 			LayerType layer = LayersKeys[i1];
-			if (layer != LayerType.Objects && HasTile(position, layer))
+			if (layer != LayerType.Objects && HasTile(position, layer, isServer))
 			{
 				return false;
 			}
 
 			if (layer == LayerType.Objects)
 			{
-				var objects = ((ObjectLayer) LayersValues[i1]).Objects.Get(position);
-				for (var i = 0; i < objects.Count; i++)
+				foreach ( RegisterTile o in isServer ?
+					((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
+					: ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position) )
 				{
-					RegisterTile o = objects[i];
-					if (!o.IsPassable())
+					if (!o.IsPassable(isServer))
 					{
 						bool isExcluded = false;
 						for (var index = 0; index < context.Length; index++)
@@ -249,20 +256,20 @@ public class MetaTileMap : MonoBehaviour
 	/// </summary>
 	/// <param name="position"></param>
 	/// <returns></returns>
-	public bool HasTile(Vector3Int position)
+	public bool HasTile(Vector3Int position, bool isServer)
 	{
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
-			if (LayersValues[i].HasTile(position))
+			if (LayersValues[i].HasTile(position, isServer))
 			{
 				return true;
 			}
 		}
 		return false;
 	}
-	public bool HasTile(Vector3Int position, LayerType layerType)
+	public bool HasTile(Vector3Int position, LayerType layerType, bool isServer)
 	{
-		return Layers[layerType].HasTile(position);
+		return Layers[layerType].HasTile(position, isServer);
 	}
 
 	public void RemoveTile(Vector3Int position, LayerType refLayer)
@@ -329,7 +336,7 @@ public class MetaTileMap : MonoBehaviour
 
 		if (!Layers.ContainsKey(tile.LayerType))
 		{
-			Debug.LogError($"LAYER TYPE: {tile.LayerType} not found!");
+			Logger.LogErrorFormat($"LAYER TYPE: {0} not found!", Category.TileMaps, tile.LayerType);
 			return;
 		}
 

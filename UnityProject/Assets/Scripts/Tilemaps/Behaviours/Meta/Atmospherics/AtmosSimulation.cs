@@ -19,7 +19,7 @@ namespace Atmospherics
 		/// <summary>
 		/// Interval (seconds) between updates of the simulation.
 		/// </summary>
-		public float Speed = 0.1f;
+		public float Speed = 0.01f;
 
 		/// <summary>
 		/// True if the atmos simulation has no updates to perform
@@ -70,12 +70,21 @@ namespace Atmospherics
 		private void Update(MetaDataNode node)
 		{
 			nodes.Clear();
-			nodes.Add(node);
+
+			if ( !node.IsClosedAirlock )
+			{ //Gases are frozen within closed airlocks
+				nodes.Add(node);
+			}
 
 			node.AddNeighborsToList(ref nodes);
 
-			if (node.IsOccupied || node.IsSpace || AtmosUtils.IsPressureChanged(node))
+			bool isPressureChanged = AtmosUtils.IsPressureChanged(node, out var windDirection, out var windForce);
+			if (node.IsOccupied || node.IsSpace || isPressureChanged)
 			{
+				if ( isPressureChanged )
+				{
+					node.ReactionManager.AddWindEvent( node, windDirection, windForce ); //fixme: ass backwards
+				}
 				Equalize();
 
 				for (int i = 1; i < nodes.Count; i++)

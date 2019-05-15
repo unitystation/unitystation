@@ -109,7 +109,6 @@ public class CableInheritance : InputTrigger, IDeviceControl
 				CheckDestruction = false;
 			}
 		}
-
 	}
 
 	public void QueueForDemolition(CableInheritance CableToDestroy)
@@ -190,7 +189,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			}
 			List<ElectricalOIinheritance> Econns = new List<ElectricalOIinheritance>();
 			//Logger.Log(wireConnect.registerTile.Position.ToString());
-			var IEnumerableEconns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.Position);
+			var IEnumerableEconns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.PositionServer);
 			foreach (var T in IEnumerableEconns) {
 				Econns.Add(T);
 			}
@@ -255,8 +254,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	{
 
 		if (REWireEndA == REWireEndB) {
-			//Logger.LogError("whY!!!! Don't make it end and start in the same place!" + REWireEndA + " " + REWireEndB , Category.Electrical);
-			Logger.LogWarning(" Catching Wire connection both at the same place " + REWireEndA + " " + REWireEndB , Category.Electrical);
+			Logger.LogWarningFormat("Wire connection both starts ({0}) and ends ({1}) in the same place!", Category.Electrical, REWireEndA, REWireEndB);
 			return;
 		}
 		if (!(RECableType == WiringColor.unknown))
@@ -267,7 +265,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		WireEndB = REWireEndB;
 		//Logger.Log(WireEndB.ToString() + " <WireEndB and WireEndA> " + WireEndA.ToString(), Category.Electrical);
 		SetSprite();
-		if (isServer) { 
+		if (isServer) {
 			FindOverlapsAndCombine();
 		}
 	}
@@ -292,7 +290,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		{
 			Compound = WireEndA + "_" + WireEndB;
 		}
-		else { 
+		else {
 			Compound = WireEndB + "_" + WireEndA;
 		}
 		//Logger.Log(Compound + "?");
@@ -305,7 +303,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		SR.sprite = Color[spriteIndex];
 		if (SR.sprite == null)
 		{
-			Logger.LogError("aww man, it didn't return anything SetSprite Is acting up", Category.Electrical);
+			Logger.LogError("SetSprite: Couldn't find wire sprite, sprite value didn't return anything!", Category.Electrical);
 		}
 	}
 }

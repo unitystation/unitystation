@@ -88,10 +88,9 @@ public static class ElectricityFunctions
 		{
 			if (OIinheritance != con)
 			{
-				if (OIinheritance.WireEndA == con.WireEndA && OIinheritance.WireEndB == con.WireEndB) { 
-					Logger.LogError(PositionE + " < duplicate Please remove " + OIinheritance.InData.Categorytype);
-				} else if (OIinheritance.WireEndA == con.WireEndB && OIinheritance.WireEndB == con.WireEndA){
-					Logger.LogError(PositionE + " < duplicate Please remove " + OIinheritance.InData.Categorytype);
+				if ((OIinheritance.WireEndA == con.WireEndA && OIinheritance.WireEndB == con.WireEndB) ||
+					(OIinheritance.WireEndA == con.WireEndB && OIinheritance.WireEndB == con.WireEndA)) { 
+					Logger.LogErrorFormat("{0} < duplicate Please remove {1}", Category.Electrical, PositionE, OIinheritance.InData.Categorytype);
 				}
 
 			}

@@ -39,7 +39,9 @@ public partial class PlayerSync
 	public bool CanPredictPush => ClientPositionReady;
 	public bool IsMovingClient => !ClientPositionReady;
 	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
+	public Vector3Int ClientLocalPosition => predictedState.Position.RoundToInt();
 	public Vector3Int TrustedPosition => playerState.WorldPosition.RoundToInt();
+	public Vector3Int TrustedLocalPosition => playerState.Position.RoundToInt();
 
 	/// Does client's transform pos match state pos? Ignores Z-axis.
 	private bool ClientPositionReady => (Vector2)predictedState.Position == (Vector2)transform.localPosition;
@@ -55,7 +57,7 @@ public partial class PlayerSync
 				return false;
 			}
 			GameObject[] context = pushPull.IsPullingSomethingClient ? new[] { gameObject, pushPull.PulledObjectClient.gameObject } : new[] { gameObject };
-			return MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(predictedState.WorldPosition));
+			return MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(predictedState.WorldPosition), isServer: false);
 		}
 	}
 
@@ -75,10 +77,10 @@ public partial class PlayerSync
 	private float predictedSpeedClient;
 
 	///Does server claim this client is floating rn?
-	public bool isFloatingClient => playerState.Impulse != Vector2.zero /*&& !IsBeingPulledClient*/;
+	public bool isFloatingClient => playerState.Impulse != Vector2.zero;
 
 	/// Does your client think you should be floating rn? (Regardless of what server thinks)
-	private bool isPseudoFloatingClient => predictedState.Impulse != Vector2.zero /*&& !IsBeingPulledClient*/;
+	private bool isPseudoFloatingClient => predictedState.Impulse != Vector2.zero;
 
 	/// Measure to avoid lerping back and forth in a lagspike
 	/// where player simulated entire spacewalk (start and stop) without getting server's answer yet
@@ -94,7 +96,6 @@ public partial class PlayerSync
 		}
 	}
 
-#if UNITY_EDITOR
 	public bool DoAction(PlayerAction action)
 	{
 		if (action.moveActions.Length != 0 && !MoveCooldown)
@@ -104,7 +105,6 @@ public partial class PlayerSync
 		}
 		return false;
 	}
-#endif
 
 	private IEnumerator DoProcess(PlayerAction action)
 	{
@@ -113,15 +113,16 @@ public partial class PlayerSync
 		//arguably it shouldn't really be like that in the future
 		if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost))
 		{
-			//				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
+			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement, 
+				action.Direction(), pendingActions.Count, ClientState, predictedState );
 
 			//experiment: not enqueueing or processing action if floating, unless we are stopped.
 			//arguably it shouldn't really be like that in the future
-			bool isGrounded = !MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition));
+			bool isGrounded = !MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt(predictedState.WorldPosition), isServer: false);
 			if ((isGrounded || playerScript.IsGhost || !IsMovingClient) && playerState.Active)
 			{
 				//RequestMoveMessage.Send(action);
-				BumpType clientBump = CheckSlideAndBump(predictedState, ref action);
+				BumpType clientBump = CheckSlideAndBump(predictedState, false, ref action);
 
 				action.isRun = UIManager.WalkRun.running;
 
@@ -138,7 +139,9 @@ public partial class PlayerSync
 					if (!isServer)
 					{
 						//only client performs this check, otherwise it would be performed twice by server
-						CheckAndDoSwap(((Vector2)predictedState.WorldPosition + action.Direction()).RoundToInt(), action.Direction() * -1);
+						CheckAndDoSwap(((Vector2)predictedState.WorldPosition + action.Direction()).RoundToInt(),
+							inDirection: action.Direction() * -1,
+							isServer: false);
 					}
 
 					//move freely
@@ -171,6 +174,11 @@ public partial class PlayerSync
 			//Sending action for server approval
 			CmdProcessAction(action);
 		}
+		else
+		{
+			Logger.LogTraceFormat( "Can't enqueue move: block = {0}, pseudoFloating = {1}, floating = {2}\nclientState = {3}\npredictedState = {4}"
+				, Category.Movement, blockClientMovement, isPseudoFloatingClient, isFloatingClient, ClientState, predictedState );
+		}
 
 		yield return YieldHelper.DeciSecond;
 		MoveCooldown = false;
@@ -188,11 +196,11 @@ public partial class PlayerSync
 			return;
 		}
 		// Is the object pushable (iterate through all of the objects at the position):
-		var pushPulls = MatrixManager.GetAt<PushPull>(worldTile);
+		var pushPulls = MatrixManager.GetAt<PushPull>(worldTile, false);
 		for (int i = 0; i < pushPulls.Count; i++)
 		{
 			var pushPull = pushPulls[i];
-			if (pushPull && pushPull.gameObject != gameObject && pushPull.IsSolid)
+			if (pushPull && pushPull.gameObject != gameObject && pushPull.IsSolidClient)
 			{
 				//					Logger.LogTraceFormat( "Predictive pushing {0} from {1} to {2}", Category.PushPull, pushPulls[i].gameObject, worldTile, (Vector2)(Vector3)worldTile+(Vector2)direction );
 				if (pushPull.TryPredictivePush(worldTile, direction))
@@ -218,7 +226,7 @@ public partial class PlayerSync
 
 		Vector3Int target3int = target.To3Int();
 
-		if (!followMode && !MatrixManager.IsPassableAt(target3int, target3int)) //might have issues with windoors
+		if (!followMode && !MatrixManager.IsPassableAt(target3int, target3int, false)) //might have issues with windoors
 		{
 			return false;
 		}
@@ -231,7 +239,7 @@ public partial class PlayerSync
 
 		Logger.LogTraceFormat("Client predictive push to {0}", Category.PushPull, target);
 
-		predictedState.MatrixId = MatrixManager.AtPoint(target3int).Id;
+		predictedState.MatrixId = MatrixManager.AtPoint(target3int, false).Id;
 		predictedState.WorldPosition = target.To3Int();
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
 			predictedState.Speed = speed;
@@ -322,7 +330,8 @@ public partial class PlayerSync
 	/// Called when PlayerMoveMessage is received
 	public void UpdateClientState(PlayerState newState)
 	{
-		OnUpdateRecieved().Invoke(Vector3Int.RoundToInt(newState.WorldPosition));
+		var newWorldPos = Vector3Int.RoundToInt(newState.WorldPosition);
+		OnUpdateRecieved().Invoke(newWorldPos);
 
 		playerState = newState;
 
@@ -388,6 +397,8 @@ public partial class PlayerSync
 				Logger.LogWarning($"{nameof(spacewalkReset)}={spacewalkReset}, {nameof(wrongFloatDir)}={wrongFloatDir}", Category.Movement);
 				ClearQueueClient();
 				RollbackPrediction();
+
+				OnClientStartMove().Invoke( newWorldPos-LastDirection.RoundToInt(), newWorldPos );
 			}
 			return;
 		}
@@ -466,9 +477,8 @@ public partial class PlayerSync
 	{
 		playerState.NoLerp = false;
 
-		bool isWeightless = IsWeightlessClient;
 		//Space walk checks
-		if (!isWeightless)
+		if (!IsWeightlessClient)
 		{
 			if (isPseudoFloatingClient)
 			{
@@ -491,7 +501,7 @@ public partial class PlayerSync
 				}
 			}
 		}
-		if (isWeightless)
+		else
 		{
 			if (predictedState.Impulse == Vector2.zero && LastDirection != Vector2.zero)
 			{
@@ -547,7 +557,7 @@ public partial class PlayerSync
 				if (!isServer && !playerScript.IsGhost)
 				{
 					//only check on client otherwise server would check this twice
-					CheckAndDoSwap(worldPos.RoundToInt(), lastDirection*-1);
+					CheckAndDoSwap(worldPos.RoundToInt(), lastDirection*-1, isServer: false);
 				}
 
 			}

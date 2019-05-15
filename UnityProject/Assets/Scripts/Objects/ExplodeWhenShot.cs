@@ -228,7 +228,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 				}
 
 				Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y - j, 0);
-				if (registerObject.Matrix.IsPassableAt(checkPos)) // || MatrixOld.Matrix.At(checkPos).IsPlayer())
+				if (registerObject.Matrix.IsPassableAt(checkPos, true)) // || MatrixOld.Matrix.At(checkPos).IsPlayer())
 				{
 					EffectsFactory.Instance.SpawnFileTileLocal(Random.Range(0.4f, 1f), checkPos, transform.parent);
 					maxNumOfFire--;

@@ -122,7 +122,7 @@ public abstract class InputTrigger : NetworkBehaviour
 			return false;
 		}
 
-		if(!playerScript.IsInReach(position)){
+		if(!playerScript.IsInReach(position, false)){
 			return false;
 		}
 

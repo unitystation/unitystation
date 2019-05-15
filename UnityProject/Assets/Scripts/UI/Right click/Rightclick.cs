@@ -144,7 +144,7 @@ public class Rightclick : MonoBehaviour
 
 	private bool IsUnderFloorTile(GameObject obj)
 	{
-		LayerTile tile = UITileList.GetTileAtPosition(obj.WorldPos());
+		LayerTile tile = UITileList.GetTileAtPosition(obj.WorldPosClient());
 
 		if (tile.LayerType != LayerType.Base && obj.layer < 1)
 		{
