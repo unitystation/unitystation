@@ -188,11 +188,12 @@ public class GUI_ChemistryDispenser : NetTab {
 		string newListOfReagents = "";
 		if (ChemistryDispenser.Container != null)
 		{
-			foreach (KeyValuePair<string,float> Chemical in ChemistryDispenser.Container.Contents)
+			var roundedReagents = Calculations.RoundReagents(ChemistryDispenser.Container.Contents); // Round the contents to look better in the UI
+			foreach (KeyValuePair<string,float> Chemical in roundedReagents)
 			{
 				newListOfReagents = newListOfReagents + char.ToUpper (Chemical.Key [0]) + Chemical.Key.Substring (1) + " - " + Chemical.Value.ToString () + " U \n";
 			}
-			TotalAndTemperature.SetValue = ChemistryDispenser.Container.AmountOfReagents (ChemistryDispenser.Container.Contents).ToString () + " U @ " + ChemistryDispenser.Container.Temperature.ToString () + "C° ";
+			TotalAndTemperature.SetValue = ChemistryDispenser.Container.AmountOfReagents(roundedReagents).ToString () + " U @ " + ChemistryDispenser.Container.Temperature.ToString () + "C° ";
 		}
 		else
 		{
