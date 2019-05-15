@@ -101,6 +101,9 @@ public static class Calculations
 		{
 			DoReaction(modifiedReagents, reaction);
 		}
+
+		RemoveEmptyReagents(modifiedReagents);
+
 		return modifiedReagents;
 	}
 

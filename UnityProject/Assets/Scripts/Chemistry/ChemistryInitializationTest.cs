@@ -26,7 +26,6 @@ public class ChemistryInitializationTest : MonoBehaviour
 			}
 			var Temperature = reactions [i].MinimumTemperature;
 			var ReturnedResults = Calculations.Reactions (RequiredReagents, Temperature);
-			ReturnedResults = Calculations.RemoveEmptyReagents(ReturnedResults);
 
 			foreach (string reagent in reactions[i].Results.Keys) {
 				if (ReturnedResults.ContainsKey (reagent)) {

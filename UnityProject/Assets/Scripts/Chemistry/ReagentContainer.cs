@@ -37,7 +37,6 @@ public class ReagentContainer : Container {
 		}
 		float oldCapacity = CurrentCapacity;
 		Contents = Calculations.Reactions(Contents, Temperature);
-		Contents = Calculations.RemoveEmptyReagents(Contents);
 		CurrentCapacity = AmountOfReagents(Contents);
 		totalToAdd = ((CurrentCapacity - oldCapacity) * temperatureContainer) + (oldCapacity * Temperature);
 		Temperature = totalToAdd / CurrentCapacity;
