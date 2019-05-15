@@ -102,7 +102,7 @@ public static class Calculations
 			DoReaction(modifiedReagents, reaction);
 		}
 
-		RemoveEmptyReagents(modifiedReagents);
+		modifiedReagents = RemoveEmptyReagents(modifiedReagents);
 
 		return modifiedReagents;
 	}
