@@ -21,6 +21,7 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 	public bool Cansupport = false;
 	public bool ToggleCanCharge = false;
 	public bool ToggleCansupport = false;
+	public bool SlowResponse = false; //If set to true then the battery won't respond instantly to loss of power waiting one tick to update
 
 	public float PullLastDeductedTime = 0;
 	public float ChargLastDeductedTime = 0;
@@ -65,29 +66,30 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 
 	public override void PowerUpdateCurrentChange()
 	{
-		if (ControllingNode.Node.Data.SupplyDependent[ControllingNode.Node.gameObject.GetInstanceID()].ResistanceComingFrom.Count > 0)
+		if (ControllingNode.Node.Data.SupplyDependent[ControllingNode.Node.gameObject.GetInstanceID()].ResistanceComingFrom.Count > 0 )
 		{
-			ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node.gameObject); //Room for optimisation
-			CircuitResistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.SupplyDependent[ControllingNode.Node.gameObject.GetInstanceID()].ResistanceComingFrom); // //!!
-			VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
-			Logger.Log(VoltageAtChargePort.ToString() + "VoltageAtChargePort");
-			VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageFromConnectors(ControllingNode.Node, ControllingNode.CanConnectTo);
-			Logger.Log(VoltageAtSupplyPort.ToString() + "VoltageAtSupplyPort");
-
-			BatteryCalculation.PowerUpdateCurrentChange(this);
-
-			if (current != Previouscurrent)
+			if (!(SlowResponse && PullingWatts == 0))
 			{
-				if (Previouscurrent == 0 && !(current <= 0))
-				{
+				ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node.gameObject); //Room for optimisation
+				CircuitResistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.SupplyDependent[ControllingNode.Node.gameObject.GetInstanceID()].ResistanceComingFrom); // //!!
+				VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
+				VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageFromConnectors(ControllingNode.Node, ControllingNode.CanConnectTo);
 
-				}
-				else if (current == 0 && !(Previouscurrent <= 0))
+				BatteryCalculation.PowerUpdateCurrentChange(this);
+
+				if (current != Previouscurrent)
 				{
-					ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node.gameObject);
+					if (Previouscurrent == 0 && !(current <= 0))
+					{
+
+					}
+					else if (current == 0 && !(Previouscurrent <= 0))
+					{
+						ControllingNode.Node.FlushSupplyAndUp(ControllingNode.Node.gameObject);
+					}
+					ControllingNode.Node.Data.SupplyingCurrent = current;
+					Previouscurrent = current;
 				}
-				ControllingNode.Node.Data.SupplyingCurrent = current;
-				Previouscurrent = current;
 			}
 		}
 		else {

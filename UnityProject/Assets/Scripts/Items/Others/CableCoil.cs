@@ -10,13 +10,37 @@ public class CableCoil : PickUpTrigger
     {
         
     }
+	public Connection GetDirectionFromFaceDirection(GameObject originator) { 
+		var playerScript = originator.GetComponent<PlayerScript>();
+		switch (playerScript.CurrentDirection.ToString())
+		{
+			case "Left":
+				{
+					return (Connection.West);
+				}
+			case "Right":
+				{
 
-    void Update()
-    {
-        
-    }
+					return (Connection.East);
+				}
+			case "Up":
+				{
+
+					return (Connection.North);
+				}
+			case "Down":
+				{
+
+					return (Connection.South);
+				}
+		}
+		return (Connection.NA);
+	
+	}
+
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
+
 		//Logger.Log(originator + " " + position + " " + hand);
 		if (!isServer)
 		{
@@ -30,7 +54,7 @@ public class CableCoil : PickUpTrigger
 			{
 				position.z = 0f;
 				position = position.RoundToInt();
-				Vector3 PlaceDirection = originator.transform.position - position;
+				Vector3 PlaceDirection = originator.Player().Script.WorldPos - position; //need to Change
 				Connection WireEndB = Connection.NA;
 				if (PlaceDirection == Vector3.up) { WireEndB = Connection.North; }
 				else if (PlaceDirection == Vector3.down) { WireEndB = Connection.South; }
@@ -41,6 +65,7 @@ public class CableCoil : PickUpTrigger
 				else if (PlaceDirection == Vector3.down + Vector3.right) { WireEndB = Connection.SouthEast; }
 				else if (PlaceDirection == Vector3.up + Vector3.left) { WireEndB = Connection.NorthWest; }
 				else if (PlaceDirection == Vector3.up + Vector3.right) { WireEndB = Connection.NorthEast; }
+				else if (PlaceDirection == Vector3.zero) { WireEndB = GetDirectionFromFaceDirection(originator); }
 
 				if (WireEndB != Connection.NA)
 				{

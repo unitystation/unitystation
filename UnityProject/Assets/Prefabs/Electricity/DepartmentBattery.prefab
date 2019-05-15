@@ -270,21 +270,12 @@ MonoBehaviour:
   - ConnectingDevice: 9
     DirectionReaction: 0
     ResistanceReaction: 1
-    ElectricalReaction: 0
-    RelatedComingFrom: {fileID: 0}
     DirectionReactionA:
-      AddResistanceCall:
-        Ohms: 0
-        ResistanceAvailable: 0
       YouShallNotPass: 0
     ResistanceReactionA:
       Resistance:
         Ohms: 1e+10
         ResistanceAvailable: 1
-      YouShallNotPass: 1
-    ElectricalReactionA:
-      Current: 0
-      YouShallNotPass: 0
 --- !u!114 &1899468008703458127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,25 +293,18 @@ MonoBehaviour:
   resistance:
     Ohms: 0
     ResistanceAvailable: 1
+  EditorResistance: 0
+  NotEditorResistanceset: 1
   ReactionTo:
     ConnectingDevice: 1
     DirectionReaction: 0
     ResistanceReaction: 1
-    ElectricalReaction: 0
-    RelatedComingFrom: {fileID: 0}
     DirectionReactionA:
-      AddResistanceCall:
-        Ohms: 0
-        ResistanceAvailable: 1
       YouShallNotPass: 0
     ResistanceReactionA:
       Resistance:
         Ohms: 0
         ResistanceAvailable: 1
-      YouShallNotPass: 0
-    ElectricalReactionA:
-      Current: 0
-      YouShallNotPass: 0
 --- !u!114 &7874108366048478862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,12 +340,14 @@ MonoBehaviour:
   Cansupport: 1
   ToggleCanCharge: 1
   ToggleCansupport: 1
+  SlowResponse: 1
   PullLastDeductedTime: 0
   ChargLastDeductedTime: 0
   PullingWatts: 0
   ChargingWatts: 0
   CircuitResistance: 0
-  ActualVoltage: 0
+  VoltageAtChargePort: 0
+  VoltageAtSupplyPort: 0
   isOnForInterface: 0
   ResistanceSourceModule: {fileID: 1899468008703458127}
 --- !u!114 &8556410435183048791
@@ -379,6 +365,7 @@ MonoBehaviour:
   ModuleType: 0
   ControllingNode: {fileID: 0}
   TurnRatio: 12.5
+  InvertingTurnRatio: 0
   VoltageLimiting: 0
   VoltageLimitedTo: 0
 --- !u!1 &1744594665423798

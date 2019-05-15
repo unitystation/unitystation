@@ -19,6 +19,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
 
+	public Orientation CurrentDirection => playerSprites.CurrentDirection;
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>

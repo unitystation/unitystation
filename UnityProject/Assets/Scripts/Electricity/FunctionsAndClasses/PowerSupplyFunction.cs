@@ -34,7 +34,6 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 		{
 			if (Supply.ControllingNode.Node.Data.SupplyingCurrent != 0)
 			{
-				Logger.Log(Supply.ControllingNode.Node.Data.SupplyingCurrent + " Supply.ControllingNode.Node.Data.SupplyingCurrent ");
 				Supply.ControllingNode.Node.ElectricityOutput(Supply.ControllingNode.Node.Data.SupplyingCurrent, Supply.ControllingNode.Node.GameObject());
 			}
 			else if (Supply.ControllingNode.Node.Data.SupplyingVoltage != 0)
