@@ -3,6 +3,18 @@
 so, Is based off V/IR and ohm's law.
 It simulates each supply separately then adds them all together to get the final component 
 
+**More in-depth in Theory**
+The first step is to calculate from each supply which rate current would be flowing in every single cable leading to a resistant source, a bit like a map of how to get to the resistant sources and back
+
+Then the resistance sources send out their resistances down the lanes defined by the first update for each supply accumulating on each supply giving a reading of the resistance 
+
+Third update is where the supplies send out their current through the system going down the previously defined paths getting to each individual resistance source
+Just after the third update
+For reactive supplies each reactive supply is updated according to it having the least amount of reactive supplies not updated of higher priority than it, allowing for instant reaction to power outage/current change
+
+the fourth update is to tell everything that this is the current and voltage  and resistance you should use for your calculations for machines and lighting
+
+
 **What controls everything?**
 Electrical synchronisation is the main manager but 
 Each supply so E.G an SMES manages its own connections, and Current calculations
