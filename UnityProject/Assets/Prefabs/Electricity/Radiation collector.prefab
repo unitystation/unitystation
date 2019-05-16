@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8275105296698566321}
   - component: {fileID: 4896273805710721720}
   - component: {fileID: 672904832946805518}
+  - component: {fileID: 789212836123974602}
   m_Layer: 11
   m_Name: Radiation collector
   m_TagString: Untagged
@@ -193,7 +194,6 @@ MonoBehaviour:
   InData:
     Categorytype: 0
     ControllingDevice: {fileID: 0}
-    ControllingUpdate: {fileID: 0}
     DirectionOverride: 0
     ResistanceOverride: 0
     ElectricityOverride: 0
@@ -221,20 +221,12 @@ MonoBehaviour:
   - ConnectingDevice: 11
     DirectionReaction: 0
     ResistanceReaction: 1
-    ElectricalReaction: 0
     DirectionReactionA:
-      AddResistanceCall:
-        Ohms: 0
-        ResistanceAvailable: 0
       YouShallNotPass: 0
     ResistanceReactionA:
       Resistance:
         Ohms: 1e+10
         ResistanceAvailable: 1
-      YouShallNotPass: 1
-    ElectricalReactionA:
-      Current: 0
-      YouShallNotPass: 0
 --- !u!114 &672904832946805518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +247,20 @@ MonoBehaviour:
   PreviousSupplyingVoltage: 760000
   PreviousInternalResistance: 76000
   InternalResistance: 76000
+--- !u!114 &789212836123974602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f4b0b61a502b4a4a97470aa5e50fcd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ElectricalNodeControl: {fileID: 4896273805710721720}
+  isOn: 0
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
