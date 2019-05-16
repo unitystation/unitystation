@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server

@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Food behaviour. The base for every food item in the game

@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using Random = UnityEngine.Random;
 
 
@@ -72,7 +72,7 @@ public class PickUpTrigger : InputTrigger
 	{
 		OnDropItemServer();
 	}
-	public virtual void OnPickUpServer(NetworkInstanceId ownerId) { }
+	public virtual void OnPickUpServer(uint ownerId) { }
 	public virtual void OnDropItemServer() { }
 
 	[Server]

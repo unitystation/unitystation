@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Request electrical stats from the server
@@ -9,8 +9,8 @@ public class RequestElectricalStats : ClientMessage
 {
 	public static short MessageType = (short)MessageTypes.RequestElectricalStats;
 
-	public NetworkInstanceId Player;
-	public NetworkInstanceId ElectricalItem;
+	public uint Player;
+	public uint ElectricalItem;
 
 	public override IEnumerator Process()
 	{

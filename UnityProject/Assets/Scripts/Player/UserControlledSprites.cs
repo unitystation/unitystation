@@ -1,7 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Abstract behavior representing a behavior for an object that is currently being controlled by the user's inputs,

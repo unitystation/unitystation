@@ -1,14 +1,14 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public class PaperUpdateMessage : ServerMessage
 {
 
 	public static short MessageType = (short)MessageTypes.PaperUpdateMessage;
 
-	public NetworkInstanceId PaperToUpdate;
-	public NetworkInstanceId Recipient;
+	public uint PaperToUpdate;
+	public uint Recipient;
 	public string Message;
 
 	public override IEnumerator Process()

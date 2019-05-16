@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using Facepunch.Steamworks;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -35,6 +35,7 @@ public class CustomNetworkManager : NetworkManager
 
 	private void Start()
 	{
+		/*
 		customConfig = true;
 
 		SetSpawnableList();
@@ -51,6 +52,7 @@ public class CustomNetworkManager : NetworkManager
 		config.AcksType = ConnectionAcksType.Acks64;
 		config.FragmentSize = 512;
 		config.PacketSize = 1440;
+		*/
 
 		if (GameData.IsInGame && PoolManager.Instance == null)
 		{
@@ -199,7 +201,7 @@ public class CustomNetworkManager : NetworkManager
 		player.Connection.Dispose();
 	}
 
-	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{
 		//This spawns the player prefab
 		if (GameData.IsHeadlessServer || GameData.Instance.testServer)
@@ -207,13 +209,13 @@ public class CustomNetworkManager : NetworkManager
 			//this is a headless server || testing headless (it removes the server player for localClient)
 			if (conn.address != "localClient")
 			{
-				StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+				StartCoroutine(WaitToSpawnPlayer(conn, 0));
 			}
 		}
 		else
 		{
 			//This is a host server (keep the server player as it is for the host player)
-			StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+			StartCoroutine(WaitToSpawnPlayer(conn, 0));
 		}
 
 		if (_isServer)
@@ -258,20 +260,25 @@ public class CustomNetworkManager : NetworkManager
 	{
 		if (playerPrefab == null)
 		{
+			/*
 			if (!LogFilter.logError)
 			{
 				return;
 			}
+			*/
 			Logger.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.", Category.Connections);
 		}
 		else if (playerPrefab.GetComponent<NetworkIdentity>() == null)
 		{
+			/*
 			if (!LogFilter.logError)
 			{
 				return;
 			}
+			*/
 			Logger.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.", Category.Connections);
 		}
+		/*
 		else if (playerControllerId < conn.playerControllers.Count && conn.playerControllers[playerControllerId].IsValid &&
 			conn.playerControllers[playerControllerId].gameObject != null)
 		{
@@ -281,6 +288,7 @@ public class CustomNetworkManager : NetworkManager
 			}
 			Logger.LogError("There is already a player at that playerControllerId for this connections.", Category.Connections);
 		}
+		*/
 		else
 		{
 			SpawnHandler.SpawnViewer(conn, playerControllerId);

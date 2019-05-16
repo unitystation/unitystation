@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine.Serialization;
 
 /// <summary>

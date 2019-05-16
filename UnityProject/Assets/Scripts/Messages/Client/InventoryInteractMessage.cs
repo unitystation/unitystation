@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Informs server of inventory mangling
@@ -11,13 +11,13 @@ public class InventoryInteractMessage : ClientMessage
 	public bool ForceSlotUpdate;
 	public string SlotUUID;
 	public string FromSlotUUID;
-	public NetworkInstanceId Subject;
+	public uint Subject;
 
 	//Serverside
 	public override IEnumerator Process()
 	{
 		//		Logger.Log("Processed " + ToString());
-		if (Subject.Equals(NetworkInstanceId.Invalid))
+		if (Subject.Equals(uint.Invalid))
 		{
 			//Drop item message
 			ProcessFurther(SentByPlayer);
@@ -54,7 +54,7 @@ public class InventoryInteractMessage : ClientMessage
 	{
 		InventoryInteractMessage msg = new InventoryInteractMessage
 		{
-			Subject = subject ? subject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			Subject = subject ? subject.GetComponent<NetworkIdentity>().netId : uint.Invalid,
 				SlotUUID = slotUUID,
 				FromSlotUUID = fromSlotUUID,
 				ForceSlotUpdate = forceSlotUpdate

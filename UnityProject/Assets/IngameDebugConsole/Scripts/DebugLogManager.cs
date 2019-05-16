@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine.UI;
 
 namespace IngameDebugConsole

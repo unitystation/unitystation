@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Lobby;
 using UnityEngine;
-using UnityEngine.Networking;
+using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
+using Mirror;
 
 namespace DatabaseAPI
 {

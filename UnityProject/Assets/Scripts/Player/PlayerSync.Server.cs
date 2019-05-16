@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
+using Mirror;
 
 public partial class PlayerSync
 {
@@ -118,7 +118,7 @@ public partial class PlayerSync
 	private PlayerAction lastAddedAction = PlayerAction.None;
 	private Coroutine floatingSyncHandle;
 
-	[Command(channel = 0)]
+	[Command]
 	private void CmdProcessAction(PlayerAction action)
 	{
 		if ( serverPendingActions.Count > 0 && !lastAddedAction.Equals(PlayerAction.None)
@@ -423,7 +423,7 @@ public partial class PlayerSync
 	#region walk interactions
 
 	///Revert client push prediction straight ahead if it's wrong
-	[Command(channel = 0)]
+	[Command]
 	private void CmdValidatePush( GameObject pushable ) {
 		var pushPull = pushable.GetComponent<PushPull>();
 		if ( playerScript.canNotInteract() || pushPull && !playerScript.IsInReach(pushPull.registerTile, true) ) {

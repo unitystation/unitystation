@@ -1,9 +1,9 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Light2D;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking;
+using Mirror;
 
 
 /// <summary>
@@ -27,7 +27,7 @@ public class Weapon : PickUpTrigger
 	/// </summary>
 	public string AmmoType;
 
-	[SyncVar] public NetworkInstanceId ControlledByPlayer;
+	[SyncVar] public uint ControlledByPlayer;
 
 	/// <summary>
 	///     The current magazine for this weapon, null means empty
@@ -80,7 +80,7 @@ public class Weapon : PickUpTrigger
 	/// mag) accordingly in OnMagNetIDChanged. This field is set to NetworkInstanceID.Invalid when no mag is loaded.
 	/// </summary>
 	[SyncVar(hook = nameof(OnMagNetIDChanged))]
-	private NetworkInstanceId MagNetID;
+	private uint MagNetID;
 
 	//TODO connect these with the actual shooting of a projectile
 	/// <summary>
@@ -123,7 +123,7 @@ public class Weapon : PickUpTrigger
 	/// the actual unload / load (updating MagNetID) once the shot queue is empty.
 	/// </summary>
 	private bool queuedUnload = false;
-	private NetworkInstanceId queuedLoadMagNetID = NetworkInstanceId.Invalid;
+	private uint queuedLoadMagNetID = uint.Invalid;
 
 	/// <summary>
 	/// RNG whose seed is based on the netID of the magazine and reset when the mag is loaded and synced when
@@ -150,7 +150,7 @@ public class Weapon : PickUpTrigger
 
 	private void Update()
 	{
-		if (ControlledByPlayer == NetworkInstanceId.Invalid)
+		if (ControlledByPlayer == uint.Invalid)
 		{
 			return;
 		}
@@ -192,16 +192,16 @@ public class Weapon : PickUpTrigger
 			// done processing shot queue,
 			// perform the queued unload action, causing all clients and server to update their version of this Weapon
 			//due to the syncvar hook
-			MagNetID = NetworkInstanceId.Invalid;
+			MagNetID = uint.Invalid;
 			queuedUnload = false;
 
 		}
-		if (queuedLoadMagNetID != NetworkInstanceId.Invalid && queuedShots.Count == 0)
+		if (queuedLoadMagNetID != uint.Invalid && queuedShots.Count == 0)
 		{
 			//done processing shot queue, perform the reload, causing all clients and server to update their version of this Weapon
 			//due to the syncvar hook
 			MagNetID = queuedLoadMagNetID;
-			queuedLoadMagNetID = NetworkInstanceId.Invalid;
+			queuedLoadMagNetID = uint.Invalid;
 		}
 
 		//rest of the Update is only needed for the weapon if it is held by the local player
@@ -226,7 +226,7 @@ public class Weapon : PickUpTrigger
 
 	private IEnumerator WaitForLoad()
 	{
-		while (MagNetID == NetworkInstanceId.Invalid)
+		while (MagNetID == uint.Invalid)
 		{
 			yield return YieldHelper.EndOfFrame;
 		}
@@ -255,7 +255,7 @@ public class Weapon : PickUpTrigger
 	{
 		yield return new WaitForSeconds(2f);
 		//			if (GameData.IsHeadlessServer || GameData.Instance.testServer) {
-		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
+		uint networkID = magazine.GetComponent<NetworkIdentity>().netId;
 		MagNetID = networkID;
 		//			} else {
 		//				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
@@ -685,9 +685,9 @@ public class Weapon : PickUpTrigger
 	/// </summary>
 	/// <param name="newMagazineID">id of the new magazine</param>
 	[Server]
-	public void ServerHandleReloadRequest(NetworkInstanceId newMagazineID)
+	public void ServerHandleReloadRequest(uint newMagazineID)
 	{
-		if (queuedLoadMagNetID != NetworkInstanceId.Invalid)
+		if (queuedLoadMagNetID != uint.Invalid)
 		{
 			//can happen if client is spamming CmdLoadWeapon
 			Logger.LogWarning("Player tried to queue a load action while a load action was already queued, ignoring the" +
@@ -711,7 +711,7 @@ public class Weapon : PickUpTrigger
 			Logger.LogWarning("Player tried to queue an unload action while an unload action was already queued. Ignoring the" +
 			                  " second unload.", Category.Firearms);
 		}
-		else if (queuedLoadMagNetID != NetworkInstanceId.Invalid)
+		else if (queuedLoadMagNetID != uint.Invalid)
 		{
 			Logger.LogWarning("Player tried to queue an unload action while a load action was already queued. Ignoring the unload.", Category.Firearms);
 		}
@@ -741,12 +741,12 @@ public class Weapon : PickUpTrigger
 	/// Invoked on all clients and server when the server updates MagNetID, updating the local version of this weapon to
 	/// load / unload the mag.
 	/// </summary>
-	/// <param name="magazineID">id of the new magazine to load, NetworkInstanceId.Invalid if we should unload
+	/// <param name="magazineID">id of the new magazine to load, uint.Invalid if we should unload
 	/// the current mag</param>
-	private void OnMagNetIDChanged(NetworkInstanceId magazineID)
+	private void OnMagNetIDChanged(uint magazineID)
 	{
 		//if the magazine ID is invalid remove the magazine
-		if (magazineID == NetworkInstanceId.Invalid)
+		if (magazineID == uint.Invalid)
 		{
 			CurrentMagazine = null;
 		}
@@ -786,14 +786,14 @@ public class Weapon : PickUpTrigger
 	#region Weapon Pooling
 
 	//This is only called on the serverside
-	public override void OnPickUpServer(NetworkInstanceId ownerId)
+	public override void OnPickUpServer(uint ownerId)
 	{
 		ControlledByPlayer = ownerId;
 	}
 
 	public override void OnDropItemServer()
 	{
-		ControlledByPlayer = NetworkInstanceId.Invalid;
+		ControlledByPlayer = uint.Invalid;
 	}
 
 	#endregion

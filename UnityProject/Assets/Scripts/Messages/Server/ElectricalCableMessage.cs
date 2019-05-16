@@ -1,7 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 /// <summary>
 /// Used to update the ends, and colour of  A cable
 /// </summary>
@@ -11,7 +11,7 @@ public class ElectricalCableMessage : ServerMessage
 	public Connection REWireEndA;
 	public Connection REWireEndB;
 	public WiringColor RECableType;
-	public NetworkInstanceId Cable;
+	public uint Cable;
 
 	public override IEnumerator Process()
 	{

@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Request from client to deconstruct a tile
@@ -9,8 +9,8 @@ public class RequestTileDeconstructMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.RequestTileDeconstructMessage;
 
-	public NetworkInstanceId Player;
-	public NetworkInstanceId MatrixRoot;
+	public uint Player;
+	public uint MatrixRoot;
 	public int TileType;
 	public Vector3 CellPos;
 	public Vector3 CellWorldPos;

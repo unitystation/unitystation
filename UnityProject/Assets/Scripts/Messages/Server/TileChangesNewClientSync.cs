@@ -1,14 +1,14 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 //long name I know. This is for syncing new clients when they join to all of the tile changes
 public class TileChangesNewClientSync : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.TileChangesNewClientSync;
 	public string data;
-	public NetworkInstanceId ManagerSubject;
+	public uint ManagerSubject;
 
 	public override IEnumerator Process()
 	{

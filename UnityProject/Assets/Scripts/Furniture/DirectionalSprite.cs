@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine.SceneManagement;
 
 /// <summary>

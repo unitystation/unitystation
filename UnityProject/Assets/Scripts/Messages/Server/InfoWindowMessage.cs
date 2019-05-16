@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Message that pops up for client in a window
@@ -11,7 +11,7 @@ public class InfoWindowMessage : ServerMessage
 	public string Text;
 	public string Title;
 	public bool Bwoink;
-	public NetworkInstanceId Recipient;
+	public uint Recipient;
 
 	public override IEnumerator Process()
 	{

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using Random = UnityEngine.Random;
 
 public static class SweetExtensions {
@@ -22,8 +22,8 @@ public static class SweetExtensions {
 			return list?.Count > 0 ? list.PickRandom() : default(T);
 		}
 
-		public static NetworkInstanceId NetId( this GameObject go ) {
-			return go ? go.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid;
+		public static uint NetId( this GameObject go ) {
+			return go ? go.GetComponent<NetworkIdentity>().netId : uint.Invalid;
 		}
 
 		/// Creates garbage! Use very sparsely!

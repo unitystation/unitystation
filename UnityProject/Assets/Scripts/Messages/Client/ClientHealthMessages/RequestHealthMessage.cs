@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Requests update of all health stats for a living entity from server
@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 public class RequestHealthMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.RequestHealthStats;
-	public NetworkInstanceId LivingEntity;
+	public uint LivingEntity;
 
 	public override IEnumerator Process()
 	{

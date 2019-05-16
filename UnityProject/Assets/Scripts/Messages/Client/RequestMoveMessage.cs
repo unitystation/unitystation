@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using UnityEngine.Networking;
+using System.Collections;
+using Mirror;
 
 /// <summary>
 ///     Informs server of predicted movement action

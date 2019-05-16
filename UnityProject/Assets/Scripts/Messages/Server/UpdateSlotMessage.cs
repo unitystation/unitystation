@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Tells client to update certain slot (place an object)
@@ -9,8 +9,8 @@ public class UpdateSlotMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateSlotMessage;
 	public bool ForceRefresh;
-	public NetworkInstanceId ObjectForSlot;
-	public NetworkInstanceId Recipient;
+	public uint ObjectForSlot;
+	public uint Recipient;
 	public string ToUUID;
 	public string FromUUID;
 
@@ -19,7 +19,7 @@ public class UpdateSlotMessage : ServerMessage
 		//To be run on client
 		//        Logger.Log("Processed " + ToString());
 
-		if (ObjectForSlot == NetworkInstanceId.Invalid)
+		if (ObjectForSlot == uint.Invalid)
 		{
 			//Clear slot message
 			yield return WaitFor(Recipient);
@@ -39,7 +39,7 @@ public class UpdateSlotMessage : ServerMessage
 			Recipient = recipient.GetComponent<NetworkIdentity>().netId, //?
 			ToUUID = toUUID,
 			FromUUID = fromUUID,
-			ObjectForSlot = objectForSlot != null ? objectForSlot.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			ObjectForSlot = objectForSlot != null ? objectForSlot.GetComponent<NetworkIdentity>().netId : uint.Invalid,
 			ForceRefresh = forced
 		};
 		msg.SendTo(recipient);

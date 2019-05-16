@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Tells client to update the progress bar for crafting
@@ -9,7 +9,7 @@ public class ProgressBarMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.ProgressBarMessage;
 
-	public NetworkInstanceId Recipient;
+	public uint Recipient;
 	public int SpriteIndex;
 	public Vector3 Position;
 

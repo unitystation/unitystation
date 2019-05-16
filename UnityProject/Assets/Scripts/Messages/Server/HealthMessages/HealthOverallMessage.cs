@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Tells client to update overall health stats
@@ -9,7 +9,7 @@ public class HealthOverallMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.HealthOverallStats;
 
-	public NetworkInstanceId EntityToUpdate;
+	public uint EntityToUpdate;
 	public float OverallHealth;
 
 	public override IEnumerator Process()

@@ -1,4 +1,4 @@
-﻿using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Headset properties

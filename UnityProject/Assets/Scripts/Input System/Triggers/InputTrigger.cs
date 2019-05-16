@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Represents a behavior for a gameobject which can trigger reactions in response to input.

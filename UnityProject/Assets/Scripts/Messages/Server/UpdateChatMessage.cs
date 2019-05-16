@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Message that tells client to add a ChatEvent to their chat
@@ -10,7 +10,7 @@ public class UpdateChatMessage : ServerMessage
 	public static short MessageType = (short) MessageTypes.UpdateChatMessage;
 	public ChatChannel Channels;
 	public string ChatMessageText;
-	public NetworkInstanceId Recipient;//fixme: Recipient is redundant! Can be safely removed
+	public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
 
 	public override IEnumerator Process()
 	{

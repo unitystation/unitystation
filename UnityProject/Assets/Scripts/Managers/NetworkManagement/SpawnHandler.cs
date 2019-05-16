@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public static class SpawnHandler
 {
@@ -10,7 +10,7 @@ public static class SpawnHandler
 	public static void SpawnViewer(NetworkConnection conn, short playerControllerId, JobType jobType = JobType.NULL)
 	{
 		GameObject joinedViewer = Object.Instantiate(networkManager.playerPrefab);
-		NetworkServer.AddPlayerForConnection(conn, joinedViewer, 0);
+		NetworkServer.AddPlayerForConnection(conn, joinedViewer);
 	}
 
 	public static void SpawnDummyPlayer(JobType jobType = JobType.NULL)

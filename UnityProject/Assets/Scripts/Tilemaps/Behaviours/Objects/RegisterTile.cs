@@ -1,5 +1,5 @@
-﻿﻿using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
+using Mirror;
 
 public enum ObjectType
 {
@@ -104,7 +104,7 @@ public abstract class RegisterTile : NetworkBehaviour
 	//cached spriteRenderers of this gameobject
 	protected SpriteRenderer[] spriteRenderers;
 
-	public NetworkInstanceId ParentNetId
+	public uint ParentNetId
 	{
 		get { return parentNetId; }
 		set
@@ -119,7 +119,7 @@ public abstract class RegisterTile : NetworkBehaviour
 	}
 	// Note that syncvar only runs on the client, so server must ensure SetParent
 	// is invoked.
-	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
+	[SyncVar(hook = nameof(SetParent))] private uint parentNetId;
 
 	public Vector3Int WorldPositionServer => MatrixManager.Instance.LocalToWorldInt(serverPosition, Matrix);
 	public Vector3Int WorldPositionClient => MatrixManager.Instance.LocalToWorldInt(clientPosition, Matrix);
@@ -173,8 +173,8 @@ public abstract class RegisterTile : NetworkBehaviour
 	/// of the new parentid.
 	/// provided netId
 	/// </summary>
-	/// <param name="netId">NetworkInstanceId of the new parent</param>
-	private void SetParent(NetworkInstanceId netId)
+	/// <param name="netId">uint of the new parent</param>
+	private void SetParent(uint netId)
 	{
 		GameObject parent = ClientScene.FindLocalObject(netId);
 		if (parent == null)

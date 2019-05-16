@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Objects;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 
 public class Equipment : NetworkBehaviour
@@ -76,7 +76,7 @@ public class Equipment : NetworkBehaviour
 		}
 
 		InitInternals();
-		syncEquipSprites.Callback = SyncSprites;
+		//syncEquipSprites.Callback += SyncSprites;
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
 			//All the other slots:
@@ -97,7 +97,7 @@ public class Equipment : NetworkBehaviour
 		}
 	}
 
-	public void SyncSprites(SyncList<int>.Operation op, int index)
+	public void SyncSprites(SyncList<int>.Operation op, int index, int item)
 	{
 		clothingSlots[index].Reference = syncEquipSprites[index];
 	}
@@ -339,11 +339,11 @@ public class Equipment : NetworkBehaviour
 		Epos enumA = (Epos)Enum.Parse(typeof(Epos), hand);
 		if (hand == "leftHand")
 		{
-			syncEquipSprites[(int)enumA] = att.NetworkInHandRefLeft();
+			//syncEquipSprites[(int)enumA] = att.NetworkInHandRefLeft();
 		}
 		else
 		{
-			syncEquipSprites[(int)enumA] = att.NetworkInHandRefRight();
+			//syncEquipSprites[(int)enumA] = att.NetworkInHandRefRight();
 		}
 	}
 
@@ -358,7 +358,7 @@ public class Equipment : NetworkBehaviour
 		Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
 		if (hasPlayerSprite(enumA))
 		{
-			syncEquipSprites[(int)enumA] = -1;
+			//syncEquipSprites[(int)enumA] = -1;
 		}
 	}
 

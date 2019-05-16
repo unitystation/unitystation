@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
+using UnityEngine;
+using Mirror;
 
 
 	public class ClosetHealthBehaviour : NetworkBehaviour

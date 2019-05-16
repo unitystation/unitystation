@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Informs server of interaction with some object's tab element
@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 public class TabInteractMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.TabInteractMessage;
-	public NetworkInstanceId TabProvider;
+	public uint TabProvider;
 	public NetTabType NetTabType;
 	public string ElementId;
 	public string ElementValue;

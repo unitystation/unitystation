@@ -1,7 +1,7 @@
-﻿using System.Linq;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public class Sprite2PrefabChild_Gun_MenuItem
 {

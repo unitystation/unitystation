@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Informs server of interaction. Implied that the sender of the message is the player performing the interaciton.
@@ -22,7 +22,7 @@ public class InteractMessage : ClientMessage
 	/// specified position. Other times subject is the object being targeted by interaction. Regardless,
 	/// Subject will always be the game object whose InputTrigger is invoked when this message is processed.
 	/// </summary>
-	public NetworkInstanceId Subject;
+	public uint Subject;
 	//if true, indicates this interaction is happening in the subject's UI
 	public bool UITrigger;
 

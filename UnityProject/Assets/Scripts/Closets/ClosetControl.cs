@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 
 public class ClosetControl : InputTrigger
@@ -326,7 +326,7 @@ public class ClosetControl : InputTrigger
 	/// in the closet, passing the update on to their RegisterTile behaviors.
 	/// </summary>
 	/// <param name="parentNetId">new parent net ID</param>
-	public void OnParentChangeComplete(NetworkInstanceId parentNetId)
+	public void OnParentChangeComplete(uint parentNetId)
 	{
 		foreach (ObjectBehaviour objectBehaviour in heldItems)
 		{

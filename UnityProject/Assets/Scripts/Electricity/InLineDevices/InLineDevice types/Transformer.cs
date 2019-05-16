@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System; 
-using UnityEngine.Networking;
+using Mirror;
 
 
 public class Transformer : PowerSupplyControlInheritance 

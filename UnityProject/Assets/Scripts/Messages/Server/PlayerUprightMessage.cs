@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public enum StunnedState
 {
@@ -17,7 +17,7 @@ public class PlayerUprightMessage : ServerMessage
 	public bool Upright;
 	public StunnedState Stunned;
 	/// Whom is it about
-	public NetworkInstanceId SubjectPlayer;
+	public uint SubjectPlayer;
 
 	///To be run on client
 	public override IEnumerator Process()

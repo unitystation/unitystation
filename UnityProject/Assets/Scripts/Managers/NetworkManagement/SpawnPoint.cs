@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Networking;
+using Mirror;
 
 public class SpawnPoint : NetworkStartPosition
 {

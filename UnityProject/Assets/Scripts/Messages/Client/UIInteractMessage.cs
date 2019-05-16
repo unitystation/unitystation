@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Informs server of UI Item Interaction
@@ -9,7 +9,7 @@ public class UIInteractMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.UIInteractMessage;
 	public byte Hand;
-	public NetworkInstanceId Subject;
+	public uint Subject;
 
 	public override IEnumerator Process()
 	{

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
+using UnityEngine;
+using Mirror;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -38,7 +38,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		RpcPlayerSoundAtPos("Deconstruct", transform.position, false);
 	}
 
-	[ClientRpc(channel = 1)]
+	[ClientRpc]
 	public void RpcPlayerSoundAtPos(string soundName, Vector3 position, bool pitchvariations)
 	{
 		if (!pitchvariations)

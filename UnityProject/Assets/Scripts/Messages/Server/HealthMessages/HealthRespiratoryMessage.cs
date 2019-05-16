@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Tells client to update respiratory health stats
@@ -9,7 +9,7 @@ public class HealthRespiratoryMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.HealthRespiratoryStats;
 
-	public NetworkInstanceId EntityToUpdate;
+	public uint EntityToUpdate;
 	public bool IsBreathing;
 	public bool IsSuffocating;
 

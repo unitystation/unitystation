@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Atmospherics;
 using Boo.Lang;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine.Serialization;
 
 namespace Objects

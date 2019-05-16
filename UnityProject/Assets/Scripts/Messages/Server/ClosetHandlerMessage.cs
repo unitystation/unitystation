@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     This Server to Client message is sent when a player is stored inside a closet or crate.
@@ -12,7 +12,7 @@ public class ClosetHandlerMessage : ServerMessage
 	public static short MessageType = (short) MessageTypes.ClosetHandlerMessage;
 	public GameObject Closet;
 
-	public NetworkInstanceId Recipient;
+	public uint Recipient;
 
 	public override IEnumerator Process()
 	{

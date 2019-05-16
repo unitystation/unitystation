@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine.Serialization;
 using Random = System.Random;
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
+using Mirror;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 /// Current state of transform, server modifies these and sends to clients.

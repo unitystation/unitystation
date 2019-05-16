@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
+using UnityEngine;
+using Mirror;
 
 /// Server-only full player information class
 public class ConnectedPlayer

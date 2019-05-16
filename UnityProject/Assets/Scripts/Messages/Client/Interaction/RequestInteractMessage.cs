@@ -1,10 +1,9 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Message a client (or server player) sends to the server to request the server to validate
@@ -22,12 +21,12 @@ public class RequestInteractMessage : ClientMessage
 	//ProcessorObject, looked up in the dictionaries
 	public short InteractionTypeID;
 	//object that will process the interaction
-	public NetworkInstanceId ProcessorObject;
+	public uint ProcessorObject;
 	//netid of the object being dropped, applied, or activated
-	public NetworkInstanceId UsedObject;
+	public uint UsedObject;
 	//netid of the object being targeted if this is a mouse drop or hand
 	//apply or combine
-	public NetworkInstanceId TargetObject;
+	public uint TargetObject;
 
 	//used for efficiently sending the type of the Interaction subtype that this message concerns
 	private static readonly Dictionary<Type, short> InteractionTypeToID;
@@ -71,7 +70,7 @@ public class RequestInteractMessage : ClientMessage
 			}
 			else if ((interactionType == typeof(HandApply)))
 			{
-				if (UsedObject == NetworkInstanceId.Invalid)
+				if (UsedObject == uint.Invalid)
 				{
 					//empty hand
 					yield return WaitFor(TargetObject, ProcessorObject);
@@ -242,7 +241,7 @@ public class RequestInteractMessage : ClientMessage
 	{
 		return new RequestInteractMessage()
 		{
-			UsedObject = handApply.UsedObject != null ? handApply.UsedObject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			UsedObject = handApply.UsedObject != null ? handApply.UsedObject.GetComponent<NetworkIdentity>().netId : uint.Invalid,
 			TargetObject = handApply.TargetObject.GetComponent<NetworkIdentity>().netId,
 			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId,
 			InteractionTypeID = typeId

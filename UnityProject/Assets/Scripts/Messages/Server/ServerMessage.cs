@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Represents a network message sent from the server to clients.
@@ -23,9 +23,9 @@ public abstract class ServerMessage : GameMessageBase
 
 		var excludedConnection = excluded.GetComponent<NetworkIdentity>().connectionToClient;
 
-		for (int index = 0; index < NetworkServer.connections.Count; ++index)
+		for (int index = 0; index < NetworkServer.connections.Values.Count; ++index)
 		{
-			var connection = NetworkServer.connections[index];
+			var connection = NetworkServer.connections.Values[index];
 			if ( connection != null && connection != excludedConnection )
 			{
 				connection.Send(GetMessageType(), this);

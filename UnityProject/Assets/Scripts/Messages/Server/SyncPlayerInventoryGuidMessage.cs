@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Syncs the client owned player UI inventory slots with the server slot UUIDs on new player spawn
@@ -12,7 +12,7 @@ public class SyncPlayerInventoryGuidMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.SyncPlayerInventoryGuidMessage;
 
-	public NetworkInstanceId Recipient;
+	public uint Recipient;
 	public string Data;
 
 	public override IEnumerator Process()

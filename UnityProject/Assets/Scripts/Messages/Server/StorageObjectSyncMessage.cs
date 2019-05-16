@@ -1,6 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Tells client to update certain slot (place an object)
@@ -8,8 +8,8 @@ using UnityEngine.Networking;
 public class StorageObjectSyncMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.StorageObjectSyncMessage;
-	public NetworkInstanceId Recipient;
-	public NetworkInstanceId StorageObj;
+	public uint Recipient;
+	public uint StorageObj;
 	public string Data;
 
 	public override IEnumerator Process()
