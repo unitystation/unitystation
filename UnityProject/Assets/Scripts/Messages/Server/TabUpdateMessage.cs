@@ -84,6 +84,7 @@ public class TabUpdateMessage : ServerMessage {
 				break;
 		}
 		msg.SendTo( recipient );
+		Logger.LogTrace( msg.ToString(), Category.NetUI );
 		return msg;
 	}
 }

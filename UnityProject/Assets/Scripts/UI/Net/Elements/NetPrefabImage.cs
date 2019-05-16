@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 /// Holds value of prefab containing sprite we're looking for.
 /// prefab-based for now
+[RequireComponent(typeof(Image))]
 public class NetPrefabImage : NetUIElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
@@ -25,6 +26,6 @@ public class NetPrefabImage : NetUIElement
 			return element;
 		}
 	}
-	
+
 	public override void ExecuteServer() {}
 }

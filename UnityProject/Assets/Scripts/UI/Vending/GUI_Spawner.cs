@@ -6,38 +6,45 @@ using UnityEngine;
 public class GUI_Spawner : NetTab
 {
 	private ItemList entryList;
-	private ItemList EntryList {
-		get {
-			if ( !entryList ) {
-				entryList = this["EntryList"] as ItemList;
-			}
-			return entryList;
-		}
-	}
+	private ItemList EntryList => entryList ? entryList : entryList = this["EntryList"] as ItemList;
 
 	private NetUIElement infoDisplay;
-	private NetUIElement InfoDisplay {
-		get {
-			if ( !infoDisplay ) {
-				infoDisplay = this["RandomText"];
-			}
-			return infoDisplay;
-		}
-	}
-//	private ItemList EntryList => this["EntryList"] as ItemList;
+	private NetUIElement InfoDisplay => infoDisplay ? infoDisplay : infoDisplay = this["RandomText"];
 
-	private void Start() {
-		//Not doing this for clients
-		if ( IsServer ) {
-			// Add items from InitialContents list
-			List<GameObject> initList = Provider.GetComponent<SpawnerInteract>().InitialContents;
-			for ( var i = 0; i < initList.Count; i++ ) {
-				var item = initList[i];
-				EntryList.AddItem( item );
-			}
+	private NetUIElement nestedPageName;
+	private NetUIElement NestedPageName => nestedPageName ? nestedPageName : nestedPageName = this["NestedPageName"];
+
+	protected override void InitServer()
+	{
+		//Init fields from pages/subpages that you want to access later
+		//They're visible during InitServer() but might become invisible again afterwards, so get references to them now
+		InfoDisplay?.Init();
+		NestedPageName?.Init();
+	}
+
+	private void Start()
+	{
+		if ( IsServer )
+		{
+			//Storytelling
 			tgtMode = true;
 			StartCoroutine( ToggleStory(0) );
+
+			// Add items from InitialContents list
+			List<GameObject> initList = Provider.GetComponent<SpawnerInteract>().InitialContents;
+			foreach ( GameObject item in initList )
+			{
+				EntryList.AddItem( item );
+			}
+
+	//		Done via editor in this example, but can be done via code as well, like this:
+	//		NestedSwitcher.OnPageChange.AddListener( RefreshSubpageLabel );
 		}
+	}
+
+	public void RefreshSubpageLabel( NetPage oldPage, NetPage newPage )
+	{
+		NestedPageName.SetValue = newPage.name;
 	}
 
 	private static string[] tgt = ("One day while Andy was toggling, " +
@@ -47,7 +54,8 @@ public class GUI_Spawner : NetTab
 	private bool tgtMode;
 	private IEnumerator ToggleStory(int word) {
 		InfoDisplay.SetValue = tgt.Wrap(word);
-		yield return YieldHelper.FiveSecs;
+		yield return YieldHelper.Second;
+		yield return YieldHelper.Second;
 		if ( tgtMode ) {
 			StartCoroutine( ToggleStory(++word) );
 		}
@@ -63,17 +71,21 @@ public class GUI_Spawner : NetTab
 
 	public void SpawnItemByIndex( string index ) {
 		ItemEntry item = GetItemFromIndex( index );
-		var prefab = item?.Prefab;
-//		Logger.Log( $"Spawning item '{prefab?.name}'!" );
+
+		if ( item == null )
+		{
+			return;
+		}
 
 		Vector3 originPos = Provider.WorldPosServer();
 		Vector3 nearestPlayerPos = GetNearestPlayerPos(originPos);
 
-		if ( nearestPlayerPos == TransformState.HiddenPos ) {
+		if ( nearestPlayerPos == TransformState.HiddenPos )
+		{
 			return;
 		}
 
-		var spawnedItem = PoolManager.PoolNetworkInstantiate( prefab, originPos );
+		var spawnedItem = PoolManager.PoolNetworkInstantiate( item.Prefab, originPos );
 		spawnedItem.GetComponent<CustomNetTransform>()?.Throw( new ThrowInfo {
 			ThrownBy = Provider,
 			Aim = BodyPartType.Chest,
@@ -134,7 +146,20 @@ public class GUI_Spawner : NetTab
 		RemoveItem( GetItemFromIndex(index)?.Prefab.name );
 	}
 
-	private ItemEntry GetItemFromIndex(string index) {
-		return EntryList.EntryIndex[index] as ItemEntry;
+	private ItemEntry GetItemFromIndex(string index)
+	{
+		var entryCatalog = EntryList.EntryIndex;
+		if ( entryCatalog.ContainsKey( index ) )
+		{
+			return entryCatalog[index] as ItemEntry;
+		}
+		Logger.LogTraceFormat( "'{0}' spawner tab: item with string index {1} not found in the list, trying to interpret as actual array index", Category.NetUI, gameObject.name, index);
+		var entries = EntryList.Entries;
+		if ( int.TryParse( index, out var intIndex ) && entries.Length > intIndex )
+		{
+			return entries[intIndex] as ItemEntry;
+		}
+		Logger.LogErrorFormat( "'{0}' spawner tab: item with index {1} not found in the list, might be hidden/destroyed", Category.NetUI, gameObject.name, index);
+		return null;
 	}
 }

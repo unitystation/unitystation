@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 /// Holds value of what sprite to load
 /// sprite-based
+[RequireComponent(typeof(Image))]
 public class NetSpriteImage : NetUIElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
@@ -29,19 +30,19 @@ public class NetSpriteImage : NetUIElement
 						if ( !Sprites.ContainsKey( spriteFile ) ) {
 							Sprites.Add( spriteFile, Resources.LoadAll<Sprite>( spriteFile ) );
 						}
-	
+
 						var spriteSheet = Sprites[spriteFile];
 						int index;
 						if ( int.TryParse( split[1], out index ) && spriteSheet?.Length > 0 ) {
 							Element.sprite = spriteSheet[index];
 							spriteName = value;
 						} else {
-						
+
 						Logger.LogWarning( $"Unable to load sprite '{spriteFile}'",Category.NetUI );
 						}
 						break;
 				}
-			}			
+			}
 			externalChange = false;
 		}
 	}
@@ -55,6 +56,6 @@ public class NetSpriteImage : NetUIElement
 			return element;
 		}
 	}
-	
+
 	public override void ExecuteServer() {}
 }

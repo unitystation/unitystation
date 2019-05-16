@@ -37,8 +37,20 @@ public class NetTab : Tab {
 	public ElementValue[] ElementValues => CachedElements.Values.Select( element => element.ElementValue ).ToArray(); //likely expensive
 
 	public virtual void OnEnable() {
-		InitElements();
+		if ( IsServer )
+		{
+			InitElements(true);
+			InitServer();
+		}
+		else
+		{
+			InitElements();
+		}
 	}
+/// <summary>
+/// Serverside-only init that happens once after fist element init
+/// </summary>
+	protected virtual void InitServer() { }
 
 	public NetUIElement this[ string elementId ] => CachedElements.ContainsKey(elementId) ? CachedElements[elementId] : null;
 
@@ -54,11 +66,18 @@ public class NetTab : Tab {
 		InitElements();
 	}
 
-	private void InitElements() {
+	private void InitElements(bool serverFirstTime = false) {
 		var elements = Elements;
 		//Init and add new elements to cache
 		foreach ( NetUIElement element in elements )
 		{
+			if ( serverFirstTime && element is NetPageSwitcher switcher && !switcher.StartInitialized )
+			{ //First time we make sure all pages are enabled in order to be scanned
+				switcher.Init();
+				InitElements(true);
+				return;
+			}
+
 			if ( !CachedElements.ContainsValue( element ) )
 			{
 				element.Init();
@@ -66,7 +85,7 @@ public class NetTab : Tab {
 				if ( CachedElements.ContainsValue( element ) )
 				{
 					//Someone called InitElements in Init()
-					Logger.LogWarning( $"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI );
+					Logger.LogError( $"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI );
 					return;
 				}
 
@@ -134,7 +153,7 @@ public class NetTab : Tab {
 
 				}
 			} else {
-				Logger.LogWarning( $"'{name}' wonky value import: can't find '{elementId}'", Category.NetUI );
+				Logger.LogWarning( $"'{name}' wonky value import: can't find '{elementId}'.\n Expected: {string.Join("/",CachedElements.Keys)}", Category.NetUI );
 			}
 		}
 		return firstTouchedElement;

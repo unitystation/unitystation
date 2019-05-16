@@ -57,10 +57,31 @@ public static class SweetExtensions {
 			return go.GetComponent<RegisterTile>();
 		}
 
-		/// Wraps provided index value if it's more that array length
+		/// Wraps provided index value if it's more than array length or is negative
 		public static T Wrap<T>(this T[] array, int index)
 		{
 			return array[((index % array.Length) + array.Length) % array.Length];
+		}
+
+		/// Wraps provided index value if it's more than list length or is negative
+		public static T Wrap<T>(this List<T> list, int index)
+		{
+			return list[((index % list.Count) + list.Count) % list.Count];
+		}
+
+		/// <summary>
+		/// Returns valid, wrapped index of overflown provided index
+		/// </summary>
+		public static int WrappedIndex<T>(this List<T> list, int index)
+		{
+			return ((index % list.Count) + list.Count) % list.Count;
+		}
+		/// <summary>
+		/// Returns valid, wrapped index of overflown provided index
+		/// </summary>
+		public static int WrappedIndex<T>(this T[] array, int index)
+		{
+			return ((index % array.Length) + array.Length) % array.Length;
 		}
 
 		public static BoundsInt BoundsAround( this Vector3Int pos ) {

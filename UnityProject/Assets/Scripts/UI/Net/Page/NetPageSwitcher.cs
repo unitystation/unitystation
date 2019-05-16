@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Page switcher script.
@@ -11,14 +12,22 @@ using UnityEngine;
 public class NetPageSwitcher : NetUIElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
-	public override void ExecuteServer() {	}
 
 	public List<NetPage> Pages = new List<NetPage>();
 	public NetPage DefaultPage;
 	public NetPage CurrentPage;
+	private int CurrentPageIndex => Pages.IndexOf( CurrentPage );
+	public bool StartInitialized { get; private set; } = false;
+
+	/// <summary>
+	/// Serverside event, hook up with it to do custom things on page change
+	/// </summary>
+	public PageChangeEvent OnPageChange;
+
+	public override void ExecuteServer() {}
 
 	public override string Value {
-		get { return Pages.IndexOf( CurrentPage ).ToString(); }
+		get => CurrentPageIndex.ToString();
 		set {
 			externalChange = true;
 			if ( int.TryParse( value, out var parsedValue ) && Pages.Count > parsedValue )
@@ -51,6 +60,21 @@ public class NetPageSwitcher : NetUIElement
 					gameObject.name, DefaultPage );
 			}
 		}
+
+		if ( MasterTab.IsServer && !StartInitialized )
+		{
+			//Enabling all pages
+			//so that all elements will be visible during Start()
+			foreach ( var page in Pages )
+			{
+				page.gameObject.SetActive( true );
+			}
+			StartInitialized = true;
+		}
+	}
+
+	private void Start()
+	{
 		if ( MasterTab.IsServer && DefaultPage && !CurrentPage )
 		{
 			SetActivePage( DefaultPage );
@@ -69,6 +93,7 @@ public class NetPageSwitcher : NetUIElement
 	}
 
 	/// <summary>
+	///	[Server]
 	/// Activate desired page
 	/// </summary>
 	public void SetActivePage( NetPage page )
@@ -76,9 +101,9 @@ public class NetPageSwitcher : NetUIElement
 		SetValue = Pages.IndexOf( page ).ToString();
 	}
 
-	private void SetActivePageInternal( NetPage page )
+	private void SetActivePageInternal( NetPage newPage )
 	{
-		if ( !page )
+		if ( !newPage )
 		{
 			Logger.LogErrorFormat( "'{0}' page switcher: trying to activate null page", Category.NetUI, gameObject.name );
 			return;
@@ -86,18 +111,72 @@ public class NetPageSwitcher : NetUIElement
 
 		foreach ( var listedPage in Pages )
 		{
-			if ( listedPage != page )
+			if ( listedPage != newPage )
 			{
 				listedPage.gameObject.SetActive( false );
 			}
 		}
 
-		Logger.LogTraceFormat( "'{0}' page switcher: activating page {1}", Category.NetUI, gameObject.name, page );
+		Logger.LogTraceFormat( "'{0}' page switcher: activating page {1}", Category.NetUI, gameObject.name, newPage );
 
-		page.gameObject.SetActive( true );
+		newPage.gameObject.SetActive( true );
 
-		CurrentPage = page;
+		if ( MasterTab.IsServer )
+		{
+			OnPageChange.Invoke( CurrentPage, newPage );
+		}
+
+		CurrentPage = newPage;
 
 		MasterTab.RescanElements();
 	}
+
+	/// <summary>
+	///	[Server]
+	/// Tries to go to next page from Pages list
+	/// </summary>
+	/// <param name="wrap">Set to true if you want infinite scrolling</param>
+	public void NextPage( bool wrap = false )
+	{
+		int pageCount = Pages.Count;
+		int suggestedIndex = CurrentPageIndex + 1;
+		if ( wrap )
+		{
+			SetValue = Pages.WrappedIndex( suggestedIndex ).ToString();
+		}
+		else
+		{
+			if ( suggestedIndex >= pageCount )
+			{
+				Logger.LogTraceFormat( "'{0}' page switcher: no more >> pages to switch to (index={1})", Category.NetUI, gameObject.name, suggestedIndex );
+				return;
+			}
+			SetValue = suggestedIndex.ToString();
+		}
+	}
+
+	/// <summary>
+	///	[Server]
+	/// Tries to go to previous page from Pages list
+	/// </summary>
+	/// <param name="wrap">Set to true if you want infinite scrolling</param>
+	public void PreviousPage( bool wrap = false )
+	{
+		int suggestedIndex = CurrentPageIndex - 1;
+		if ( wrap )
+		{
+			SetValue = Pages.WrappedIndex( suggestedIndex ).ToString();
+		}
+		else
+		{
+			if ( suggestedIndex < 0 )
+			{
+				Logger.LogTraceFormat( "'{0}' page switcher: no more << pages to switch to (index={1})", Category.NetUI, gameObject.name, suggestedIndex );
+				return;
+			}
+			SetValue = suggestedIndex.ToString();
+		}
+	}
 }
+[Serializable]
+public class PageChangeEvent : UnityEvent<NetPage,NetPage> {}
