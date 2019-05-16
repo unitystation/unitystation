@@ -112,6 +112,10 @@ MonoBehaviour:
   CableType: 0
   wireConnect: {fileID: 114267477996268474}
   ApplianceType: 11
+  MaximumInstantBreakCurrent: 1
+  MaximumBreakdownCurrent: 0.5
+  TimeDeforeDestructiveBreakdown: 60
+  CheckDestruction: 0
   TRay: 0
 --- !u!114 &114267477996268474
 MonoBehaviour:
@@ -146,12 +150,12 @@ MonoBehaviour:
   InData:
     Categorytype: 11
     ControllingDevice: {fileID: 0}
-    ControllingUpdate: {fileID: 0}
     DirectionOverride: 0
     ResistanceOverride: 0
     ElectricityOverride: 0
   registerTile: {fileID: 114813624096347676}
   connected: 0
+  ControllingCable: {fileID: 0}
 --- !u!114 &114605427988546660
 MonoBehaviour:
   m_ObjectHideFlags: 0

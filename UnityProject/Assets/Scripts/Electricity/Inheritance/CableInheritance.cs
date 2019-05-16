@@ -13,6 +13,12 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public PowerTypeCategory ApplianceType;
 	public HashSet<PowerTypeCategory> CanConnectTo;
 
+	public float MaximumInstantBreakCurrent;
+	public float MaximumBreakdownCurrent;
+	public float TimeDeforeDestructiveBreakdown;
+	public bool CheckDestruction;
+	public float DestructionPriority;
+
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (!CanUse(originator, hand, position, false))
@@ -44,19 +50,23 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public void toDestroy()
 	{
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+		SelfDestruct = true;
 		//gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
-		ElectricalSynchronisation.StructureChange = true;
+		//ElectricalSynchronisation.StructureChange = true;
 		ElectricalSynchronisation.NUCableStructureChange.Add(this);
 	}
 
 	void Awake()
 	{
 		wireConnect = GetComponent<WireConnect>();
+		wireConnect.ControllingCable = this;
+		wireConnect.InData.ElectricityOverride = true;
 	}
 
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
+		//wireConnect.gameObject = gameObject;
 		_OnStartServer();
 		//wireConnect.InData.ControllingDevice = this;
 	}
@@ -66,9 +76,71 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public virtual void PowerUpdateStructureChange()
 	{
 		wireConnect.FlushConnectionAndUp();
-		wireConnect.registerTile.UnregisterServer();
-		PoolManager.PoolNetworkDestroy(gameObject);
+		wireConnect.FindPossibleConnections();
+		wireConnect.FlushConnectionAndUp();
+		if (SelfDestruct) { 
+			wireConnect.registerTile.UnregisterClient();
+			wireConnect.registerTile.UnregisterServer();
+			PoolManager.PoolNetworkDestroy(gameObject);
+		}
+
 	}
+
+	public virtual void PowerNetworkUpdate()
+	{
+		ElectricityFunctions.WorkOutActualNumbers(wireConnect);
+		if (MaximumInstantBreakCurrent != 0)
+		{
+			if (MaximumInstantBreakCurrent < wireConnect.Data.CurrentInWire)
+			{
+				QueueForDemolition(this);
+			}
+			if (MaximumBreakdownCurrent < wireConnect.Data.CurrentInWire) {
+				if (CheckDestruction)
+				{
+					QueueForDemolition(this);
+				}
+				else {
+					//Logger.Log("WaitForDemolition");
+					StartCoroutine(WaitForDemolition());
+				}
+			}
+			if (CheckDestruction)
+			{
+				CheckDestruction = false;
+			}
+		}
+	}
+
+	public void QueueForDemolition(CableInheritance CableToDestroy)
+	{
+		DestructionPriority = wireConnect.Data.CurrentInWire * MaximumBreakdownCurrent;
+		if (ElectricalSynchronisation.CableToDestroy != null)
+		{
+			if (DestructionPriority > ElectricalSynchronisation.CableToDestroy.DestructionPriority)
+			{
+				ElectricalSynchronisation.CableUpdates.Add(ElectricalSynchronisation.CableToDestroy);
+				ElectricalSynchronisation.CableToDestroy = this;
+			}
+			else {
+				ElectricalSynchronisation.CableUpdates.Add(this);
+			}
+		}
+		else {
+			ElectricalSynchronisation.CableToDestroy = this;
+		}
+	}
+
+
+	IEnumerator WaitForDemolition()
+	{
+		//print(Time.time);
+		yield return new WaitForSeconds(TimeDeforeDestructiveBreakdown);
+		//print(Time.time);
+		CheckDestruction = true;
+		ElectricalSynchronisation.CableUpdates.Add(this);
+	}
+
 	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
 	//FIXME: that also renderers IDevice useless. Please reassess
 	public void OnDestroy()
@@ -96,9 +168,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	// Use this for initialization
 	private void Start()
 	{
-		//FIXME this breaks wires that were placed via unity editor:
-		// need to address when we allow users to add wires at runtime
-		ElectricalSynchronisation.StructureChange = true;
+		ElectricalSynchronisation.NUCableStructureChange.Add(this);
 		SetDirection(WireEndB, WireEndA, CableType);
 		//FindOverlapsAndCombine();
 	}

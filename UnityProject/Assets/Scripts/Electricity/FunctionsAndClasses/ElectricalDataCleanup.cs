@@ -21,12 +21,8 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 
 	public static class PowerSupplies{
 		public static void FlushConnectionAndUp (ElectricalOIinheritance Object){
-			Object.Data.ResistanceComingFrom.Clear();
-			Object.Data.ResistanceGoingTo.Clear();
-			Object.Data.CurrentGoingTo.Clear();
-			Object.Data.CurrentComingFrom.Clear();
+
 			Object.Data.FirstPresent = 0;
-			Object.Data.SourceVoltages.Clear();
 			Object.Data.CurrentInWire = new float();
 			Object.Data.ActualVoltage = new float();
 			Object.Data.ResistanceToConnectedDevices.Clear();
@@ -39,10 +35,22 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 					JumpTo.FlushConnectionAndUp ();
 	
 				}
+				//bool log = false;
+				//if (Object.InData.Categorytype == PowerTypeCategory.SolarPanelController) {
+				//	log = true;
+				//}
 
-				foreach (KeyValuePair<int, HashSet<ElectricalOIinheritance>> Supply in Object.Data.Downstream)
+				foreach (KeyValuePair<int, ElectronicSupplyData> Supply in Object.Data.SupplyDependent)
 				{
-					foreach (ElectricalOIinheritance Device in Supply.Value)
+					foreach (ElectricalOIinheritance Device in Supply.Value.Downstream)
+					{
+						Device.FlushConnectionAndUp();
+						//if (log)
+						//{
+						//	Logger.Log("Device1" + Device);
+						//}
+					}
+					foreach (ElectricalOIinheritance Device in Supply.Value.Upstream)
 					{
 						Device.FlushConnectionAndUp();
 						//if (log)
@@ -51,48 +59,57 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 						//}
 					}
 				}
-				foreach (KeyValuePair<int, HashSet<ElectricalOIinheritance>> Supply in Object.Data.Upstream)
+				foreach (KeyValuePair<int, ElectronicSupplyData> Supply in Object.Data.SupplyDependent)
 				{
-					foreach (ElectricalOIinheritance Device in Supply.Value)
-					{
-						Device.FlushConnectionAndUp();
-						//if (log)
-						//{
-						//	Logger.Log("Device1" + Device);
-						//}
-					}
+					Supply.Value.CurrentComingFrom.Clear();
+					Supply.Value.CurrentGoingTo.Clear();
+					Supply.Value.ResistanceGoingTo.Clear();
+					Supply.Value.ResistanceComingFrom.Clear();
+					Supply.Value.Upstream.Clear();
+					Supply.Value.Downstream.Clear();
+					Supply.Value.SourceVoltages = 0;
 				}
-				Object.Data.Upstream.Clear();
-				Object.Data.Downstream.Clear();
 			}
 		}
 
 		public static void FlushResistanceAndUp (ElectricalOIinheritance Object,  GameObject SourceInstance = null  ){
 			if (SourceInstance == null) {
-				if (Object.Data.ResistanceComingFrom.Count > 0) {
-					Object.Data.ResistanceComingFrom.Clear ();
-					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections) {
-						JumpTo.FlushResistanceAndUp ();
+        bool pass = false;
+				foreach (var Supply in Object.Data.SupplyDependent) {
+					if (Supply.Value.ResistanceComingFrom.Count > 0) {
+						pass = true;
 					}
-					Object.Data.ResistanceGoingTo.Clear ();
-					Object.Data.CurrentGoingTo.Clear ();
-					Object.Data.CurrentComingFrom.Clear ();
-					Object.Data.SourceVoltages.Clear ();
-					Object.Data.CurrentInWire = new float ();
-					Object.Data.ActualVoltage = new float ();
+				}
+				if (pass) {
+					foreach (var Supply in Object.Data.SupplyDependent)
+					{
+						Supply.Value.ResistanceComingFrom.Clear();
+						Supply.Value.ResistanceGoingTo.Clear();
+						Supply.Value.CurrentGoingTo.Clear();
+						Supply.Value.CurrentComingFrom.Clear();
+						Supply.Value.SourceVoltages = 0;
+	
+					}
+					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections)
+					{
+						JumpTo.FlushResistanceAndUp();
+					}
+					Object.Data.CurrentInWire = new float();
+					Object.Data.ActualVoltage = new float();
 				}
 
 			} else {
 				int InstanceID = SourceInstance.GetInstanceID ();
-				if (Object.Data.ResistanceComingFrom.ContainsKey (InstanceID) || Object.Data.ResistanceGoingTo.ContainsKey (InstanceID)) {
-					Object.Data.ResistanceComingFrom.Remove (InstanceID);
-					Object.Data.ResistanceGoingTo.Remove (InstanceID);
+
+				if (Object.Data.SupplyDependent[InstanceID].ResistanceComingFrom.Count > 0 || Object.Data.SupplyDependent[InstanceID].ResistanceGoingTo.Count > 0) {
+					Object.Data.SupplyDependent[InstanceID].ResistanceComingFrom.Clear();
+					Object.Data.SupplyDependent[InstanceID].ResistanceGoingTo.Clear();
 					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections) {
 						JumpTo.FlushResistanceAndUp (SourceInstance);
 					}
-					Object.Data.CurrentGoingTo.Remove (InstanceID);
-					Object.Data.CurrentComingFrom.Remove (InstanceID);
-					Object.Data.SourceVoltages.Remove (InstanceID);
+					Object.Data.SupplyDependent[InstanceID].CurrentGoingTo.Clear();
+					Object.Data.SupplyDependent[InstanceID].CurrentComingFrom.Clear();
+					Object.Data.SupplyDependent[InstanceID].SourceVoltages = 0;
 					Object.Data.CurrentInWire = new float ();
 					Object.Data.ActualVoltage = new float ();
 				}
@@ -101,55 +118,67 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 
 		public static void FlushSupplyAndUp (ElectricalOIinheritance Object,GameObject SourceInstance = null ){
 			if (SourceInstance == null) {
-				if (Object.Data.CurrentComingFrom.Count > 0) {
-					Object.Data.CurrentComingFrom.Clear();
-					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections) {
+				bool pass = false;
+				foreach (var Supply in Object.Data.SupplyDependent)
+				{
+					if (Supply.Value.CurrentComingFrom.Count > 0)
+					{
+						pass = true;
+					}
+				}
+				if (pass)
+				{
+					foreach (var Supply in Object.Data.SupplyDependent)
+					{
+						Supply.Value.CurrentComingFrom.Clear();
+						Supply.Value.CurrentGoingTo.Clear();
+						Supply.Value.SourceVoltages = 0;
+					}
+					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections)
+					{
 						JumpTo.FlushSupplyAndUp();
 					}
-					Object.Data.CurrentGoingTo.Clear();
-					Object.Data.SourceVoltages.Clear();
-					Object.Data.CurrentInWire = new float ();
-					Object.Data.ActualVoltage = new float ();
+					Object.Data.CurrentInWire = new float();
+					Object.Data.ActualVoltage = new float();
 				}
-
 			} else {
 				int InstanceID = SourceInstance.GetInstanceID ();
-				//Logger.Log(Object.GameObject().name);
-				if (Object.Data.CurrentComingFrom.ContainsKey (InstanceID)) {
-					Object.Data.CurrentGoingTo.Remove (InstanceID);
-					Object.Data.CurrentComingFrom.Remove (InstanceID);
-					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections) {
-						JumpTo.FlushSupplyAndUp (SourceInstance);
+				//Logger.Log(Object.GameObject().name); 
+				if (Object.Data.SupplyDependent.ContainsKey(InstanceID))
+				{
+					if (Object.Data.SupplyDependent[InstanceID].CurrentComingFrom.Count > 0 || Object.Data.SupplyDependent[InstanceID].CurrentGoingTo.Count > 0)
+					{
+						Object.Data.SupplyDependent[InstanceID].CurrentGoingTo.Clear();
+						Object.Data.SupplyDependent[InstanceID].CurrentComingFrom.Clear();
+						foreach (ElectricalOIinheritance JumpTo in Object.Data.connections)
+						{
+							JumpTo.FlushSupplyAndUp(SourceInstance);
+						}
 					}
-				} else if (Object.Data.CurrentGoingTo.ContainsKey (InstanceID)) {
-					Object.Data.CurrentGoingTo.Remove (InstanceID);
-					Object.Data.CurrentComingFrom.Remove (InstanceID);
-					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections) {
-						JumpTo.FlushSupplyAndUp (SourceInstance);
-					}
+					Object.Data.SupplyDependent[InstanceID].SourceVoltages = 0;
 				}
-				Object.Data.CurrentGoingTo.Remove (InstanceID);
-				Object.Data.SourceVoltages.Remove (InstanceID);
+
 				ElectricityFunctions.WorkOutActualNumbers (Object);
 			}
 		}
 
 		public static void RemoveSupply(ElectricalOIinheritance Object,GameObject SourceInstance = null ){		
 			if (SourceInstance == null) {
-				if (Object.Data.Downstream.Count > 0 || Object.Data.Upstream.Count > 0) {
-					Object.Data.Downstream.Clear();
-					Object.Data.Upstream.Clear();
+				bool pass = false;
+				foreach (var Supply in Object.Data.SupplyDependent)
+				{
+					if (Supply.Value.Downstream.Count > 0 || Supply.Value.Upstream.Count > 0)
+					{
+						pass = true;
+					}
+				}
+				if (pass)
+				{
+					Object.Data.SupplyDependent.Clear();
 					Object.Data.FirstPresent = new int ();
 					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections) {
 						JumpTo.RemoveSupply ();
 					}
-					Object.Data.Upstream.Clear();
-					Object.Data.SourceVoltages.Clear();
-					Object.Data.ResistanceGoingTo.Clear();
-					Object.Data.ResistanceComingFrom.Clear();
-					Object.Data.CurrentGoingTo.Clear();
-					Object.Data.CurrentComingFrom.Clear();
-					Object.Data.SourceVoltages.Clear();
 					Object.Data.CurrentInWire = new float ();
 					Object.Data.ActualVoltage = new float ();
 					Object.Data.EstimatedResistance = new float ();
@@ -160,8 +189,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 				}
 			} else {
 				int InstanceID = SourceInstance.GetInstanceID ();
-				if (Object.Data.Downstream.ContainsKey (InstanceID)) {
-					Object.Data.Downstream.Remove (InstanceID);
+				if (Object.Data.SupplyDependent[InstanceID].Downstream.Count > 0) {
 					if (Object.Data.FirstPresent == InstanceID) {
 						Object.Data.FirstPresent = new int ();
 					}
@@ -172,14 +200,8 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 						CleanConnectedDevicesFromPower (Object);
 						Object.Data.ResistanceToConnectedDevices.Clear();
 					}
-					Object.Data.Upstream.Remove (InstanceID);
-					Object.Data.SourceVoltages.Remove (InstanceID); 
-					Object.Data.ResistanceGoingTo.Remove (InstanceID);
-					Object.Data.ResistanceComingFrom.Remove (InstanceID);
-					Object.Data.CurrentGoingTo.Remove (InstanceID);
-					Object.Data.CurrentComingFrom.Remove (InstanceID);
-					Object.Data.SourceVoltages.Remove (InstanceID);
-					ElectricityFunctions.WorkOutActualNumbers(Object);;
+					Object.Data.SupplyDependent.Remove(InstanceID);
+					ElectricityFunctions.WorkOutActualNumbers(Object);
 					Object.Data.UpstreamCount = new int ();
 					Object.Data.DownstreamCount = new int ();
 				}

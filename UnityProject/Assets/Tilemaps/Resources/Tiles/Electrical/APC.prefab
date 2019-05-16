@@ -16,8 +16,10 @@ GameObject:
   - component: {fileID: 114809207030236184}
   - component: {fileID: 114795609584507792}
   - component: {fileID: 5337989651947616586}
+  - component: {fileID: 7309201818092580452}
+  - component: {fileID: 3643045761793170736}
   m_Layer: 19
-  m_Name: VIR_APC
+  m_Name: APC
   m_TagString: APC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,47 +112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b795fd3e621e742b0aafdb501b9d36cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelfDestruct: 0
-  powerSupply: {fileID: 5337989651947616586}
-  isOn: 0
-  DirectionStart: 0
-  DirectionEnd: 9
-  MonitoringResistance: 0
-  Previouscurrent: 0
-  SupplyingVoltage: 0
-  PreviousSupplyingVoltage: 0
-  InternalResistance: 0
-  PreviousInternalResistance: 0
-  TurnRatio: 0
-  VoltageLimiting: 0
-  VoltageLimitedTo: 0
-  MaximumCurrentSupport: 0
-  MinimumSupportVoltage: 0
-  StandardSupplyingVoltage: 0
-  CapacityMax: 0
-  CurrentCapacity: 0
-  ExtraChargeCutOff: 0
-  IncreasedChargeVoltage: 0
-  StandardChargeNumber: 0
-  ChargeSteps: 0
-  MaxChargingMultiplier: 0
-  ChargingMultiplier: 0
-  CanCharge: 0
-  Cansupport: 0
-  ToggleCanCharge: 0
-  ToggleCansupport: 0
-  PullingWatts: 0
-  ChargingWatts: 0
-  Resistance: 0
-  PreviousResistance: 0
-  CircuitResistance: 0
-  ActualVoltage: 0
-  PullLastDeductedTime: 0
-  ChargLastDeductedTime: 0
-  PassChangeToOff: 0
-  isOnForInterface: 0
   CashOfConnectedDevices: 0
   Current: 0
+  ElectricalNodeControl: {fileID: 3643045761793170736}
+  ResistanceSourceModule: {fileID: 7309201818092580452}
   NetTabType: 6
   criticalSprites:
   - {fileID: 21300276, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
@@ -187,13 +152,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
@@ -235,10 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DirectionStart: 0
-  DirectionEnd: 0
+  WireEndB: 10
+  WireEndA: 9
   Data:
-    connections: []
     FirstPresent: 0
     ActualCurrentChargeInWire:
       Voltage: 0
@@ -257,14 +219,65 @@ MonoBehaviour:
   InData:
     Categorytype: 0
     ControllingDevice: {fileID: 0}
-    ControllingUpdate: {fileID: 0}
     DirectionOverride: 0
     ResistanceOverride: 0
     ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
-  RelatedDevice: {fileID: 0}
+  RelatedDevice: {fileID: 3643045761793170736}
   registerTile3: {fileID: 114840369580293110}
+--- !u!114 &7309201818092580452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6674578bb1278de4c9af970c45c78d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModuleType: 0
+  ControllingNode: {fileID: 0}
+  resistance:
+    Ohms: 0
+    ResistanceAvailable: 1
+  ReactionTo:
+    ConnectingDevice: 9
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    ElectricalReaction: 0
+    DirectionReactionA:
+      AddResistanceCall:
+        Ohms: 0
+        ResistanceAvailable: 1
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 240
+        ResistanceAvailable: 1
+      YouShallNotPass: 1
+    ElectricalReactionA:
+      Current: 0
+      YouShallNotPass: 0
+--- !u!114 &3643045761793170736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638130848907210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Node: {fileID: 5337989651947616586}
+  ApplianceType: 0
+  ListCanConnectTo: 09000000
+  SelfDestruct: 0
+  Reactions: []
 --- !u!1 &1670300920953744
 GameObject:
   m_ObjectHideFlags: 0

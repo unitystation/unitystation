@@ -3,6 +3,18 @@
 so, Is based off V/IR and ohm's law.
 It simulates each supply separately then adds them all together to get the final component 
 
+**More in-depth in Theory**
+The first step is to calculate from each supply which rate current would be flowing in every single cable leading to a resistant source, a bit like a map of how to get to the resistant sources and back
+
+Then the resistance sources send out their resistances down the lanes defined by the first update for each supply accumulating on each supply giving a reading of the resistance 
+
+Third update is where the supplies send out their current through the system going down the previously defined paths getting to each individual resistance source
+Just after the third update
+For reactive supplies each reactive supply is updated according to it having the least amount of reactive supplies not updated of higher priority than it, allowing for instant reaction to power outage/current change
+
+the fourth update is to tell everything that this is the current and voltage  and resistance you should use for your calculations for machines and lighting
+
+
 **What controls everything?**
 Electrical synchronisation is the main manager but 
 Each supply so E.G an SMES manages its own connections, and Current calculations
@@ -63,22 +75,93 @@ Is used on cables and connectors, It has modifications so it can make a cablelin
 Contains 
 
 Categorytype 
+
 What type of machine or cable, APC, SMES, ect.
 
 CanConnectTo 
+
 What devices is it able to connect to
 
 ConnectionReaction 
+
 What resistances are given to which connection so Maybe you want to display 5000 ohms to a low voltage cable while a low voltage machine connector you want to display 1000 ohms this is how you would do it
 
 ControllingDevice
+
 Is a IDeviceControl of the machine controlling that section of the network
 
 ControllingUpdate
+
 Is a way of accessing the updating cycles of the machine controlling that section of the network will be null if controlling device doesn't have updating cycles
 
 
+**ElectricalNodeControl**
+
+ElectricalNodeControl is meant to be the controlling hub for more complex nodes than a single cable, it's meant to be the basis for the module system, so let's say you want the transformer capabilities but also the capabilities of a battery supply, you would just add each module to the prefab and fill out the values, reducing the need to dive in and make a custom script for it saving times.
+
+TransformerModule
+Will act as a transformer giving a specified time ratio it will apply that to the voltage 12 to 240 would be the invert option and the 10 ratio turn to ‭20‬, (240 / 12) = 20, 
+for a supply turning down to  12 v from 240v  it would be the same calculation as before but you don't click the invert option
+With voltage limiting there is a minimum threshold that it will trigger and what it should limit it to
+
+ResistanceSourceModule 
+Handles the changes in resistance and applies the appropriate updates, for a variable resistance
+Resistance Is the value that you are supposed to be modifying to update it properly
+
+ModuleSupplyingDevice
+Handles a simple supply, it can handle updating variable currents and voltages, if you are using the voltage option you need an internal resistance,  for the calculations to work out correctly
+for turning off and on the supply ues ElectricalNodeControl.TurnOnSupply and TurnOffSupply
+
+BatterySupplyingModule
+This is probably the most complex module, requiring a resistance source for the charging resistance, this handles charging of the cell and providing supporting current to  ensure a stable voltage
+
+MaximumCurrentSupport 
+The maximum number of amps can be pulled From the battery 
+
+MinimumSupportVoltage 
+At which point the battery kicks in
+
+StandardSupplyingVoltage 
+the target voltage for the supply to supply
+
+CapacityMax
+the maximum capacity of the battery
+
+CurrentCapacity 
+the starting capacity of the battery
+
+ExtraChargeCutOff 
+if  The voltages less than this it will decrease the charge steps until A it is not or B it reaches zero then stops charging
+
+IncreasedChargeVoltage  
+At what voltage the charge multiplier will increase
+
+StandardChargeNumber 
+Basically part of the multiplier of how much it should charge
+
+ChargeSteps 
+The steps it will go up by when adjusting the charge current
+
+MaxChargingMultiplier 
+the maximum the ChargingMultiplier can go up to
+
+CanCharge
+is an option for if the device can actually Charge
+Cansupport 
+is an option for if the device can actually send current out
+
+ToggleCanCharge 
+is an option for if this feature is temporarily disabled E.g buttons
+
+ToggleCansupport 
+is an option for if this feature is temporarily disabled E.g buttons
+
+SlowResponse 
+If set to true then the battery won't respond instantly to loss of power waiting one tick to update resulting in the lights turning off and then turning back on again, 
+
+
 **ElectronicData**
+
 Contains 
 
 ResistanceToConnectedDevices
@@ -87,12 +170,12 @@ note: This will only be on things like APCs and things that have resistances
 
 connections
 Simply a list of all the neighbours
-
 CurrentGoingTo (needed for calculating current)
+
 According to each supply (int)
 Which connections are receiving current and how much
-
 CurrentComingFrom
+
 According to each supply (int)
 Which connections current is coming from and how much
 
@@ -110,11 +193,13 @@ is Used for the direction of flow, calculated from the supply outwards
 
 FirstPresent
 Used for calculations a voltage and Current 
+
 (Since current can only flow 2 ways, you have to work out what's plus and minus so this is based on which supply is first present)
 
 ActualCurrentChargeInWire
 is the Store of CurrentInWire and ActualVoltage and EstimatedResistance but in a class
 
 SourceVoltages
+
 According to each supply (int)
 What's the voltage on the line
