@@ -21,18 +21,18 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	public float InternalResistance = 0;
 	public float PreviousInternalResistance = 0;
 	[Header("Transformer Settings")]
-	public float TurnRatio; //the Turn ratio of the transformer so if it 2, 1v in 2v out 
+	public float TurnRatio; //the Turn ratio of the transformer so if it 2, 1v in 2v out
 	public float VoltageLimiting; //If it requires VoltageLimiting and  At what point the VoltageLimiting will kick in
 	public float VoltageLimitedTo;  //what it will be limited to
 
 	public ElectricalOIinheritance _IElectricityIO;
 	public PowerTypeCategory ApplianceType;
-	public HashSet<PowerTypeCategory> CanConnectTo; 
+	public HashSet<PowerTypeCategory> CanConnectTo;
 
 
 	public  Resistance resistance { get; set; } = new Resistance();
 	[Header("Battery Settings")]
-	public  float MaximumCurrentSupport = 0; //The maximum number of amps can be pulled From the battery 
+	public  float MaximumCurrentSupport = 0; //The maximum number of amps can be pulled From the battery
 	public  float MinimumSupportVoltage = 0; //At which point the battery kicks in
 	public  float StandardSupplyingVoltage = 0;
 	public  float CapacityMax = 0;
@@ -41,8 +41,8 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	public  float IncreasedChargeVoltage = 0; // At what voltage the charge multiplier will increase
 	public  float StandardChargeNumber  = 0; //Basically part of the multiplier of how much it should charge
 	public  float ChargeSteps = 0; //The steps it will go up by when adjusting the charge current
-	public  float MaxChargingMultiplier = 0; 
-	public  float ChargingMultiplier = 0; 
+	public  float MaxChargingMultiplier = 0;
+	public  float ChargingMultiplier = 0;
 	public  bool CanCharge = false;
 	public  bool Cansupport = false;
 	public  bool ToggleCanCharge = false;
@@ -132,17 +132,24 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	public virtual void _Interact(GameObject originator, Vector3 position, string hand)
 	{
 	}
-	public virtual void ConstructionInteraction(GameObject originator, Vector3 position, string hand) { 
+	public virtual void ConstructionInteraction(GameObject originator, Vector3 position, string hand) {
 		var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
-		var Screwdriver = slot.Item?.GetComponent<ScrewdriverTrigger>();
+
+		if ( slot == null || slot.Item == null )
+		{
+			return;
+		}
+
+		var Screwdriver = slot.Item.GetComponent<ScrewdriverTrigger>();
 		if (Screwdriver != null) {
 			Destroy();
 		}
-	
+
 	}
 	public virtual void TurnOffCleanup()
 	{
-		_TurnOffCleanup();	}
+		_TurnOffCleanup();
+	}
 	public virtual void _TurnOffCleanup()
 	{
 	}
@@ -169,7 +176,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	}
 	public virtual void InitialPowerUpdateResistance() {
 		powerSupply.InitialPowerUpdateResistance();
-		//this ok 
+		//this ok
 		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices)
 		{
 			//Modified to not do already done supplies
@@ -182,7 +189,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 	public virtual void _InitialPowerUpdateResistance()
 	{
 	}
-	public virtual void PowerUpdateResistanceChange() { 
+	public virtual void PowerUpdateResistanceChange() {
 		//Logger.Log("PowerUpdateResistanceChange()"+ this);
 		powerSupply.PowerUpdateResistanceChange();
 		foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in powerSupply.Data.ResistanceToConnectedDevices)
@@ -221,7 +228,7 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 				Previouscurrent = current;
 			}
 		}
-	
+
 
 		powerSupply.PowerUpdateCurrentChange();
 		_PowerUpdateCurrentChange();
@@ -284,14 +291,14 @@ public class PowerSupplyControlInheritance : InputTrigger, IDeviceControl
 		return (gameObject);
 	}
 
-	public virtual float ModifyElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom) { 
+	public virtual float ModifyElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom) {
 		return (Current);
 	}
-	public virtual float ModifyElectricityOutput(float Current, GameObject SourceInstance) { 
+	public virtual float ModifyElectricityOutput(float Current, GameObject SourceInstance) {
 		return (Current);
 	}
 
-	public virtual float ModifyResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom) { 
+	public virtual float ModifyResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom) {
 		return (Resistance);
 	}
 	public virtual float ModifyResistancyOutput(float Resistance, GameObject SourceInstance) {
