@@ -1,12 +1,12 @@
 {
-    "name": "Assets",
-    "references": [
-        "Mirror"
-    ],
+    "name": "Mirror.Weaver",
+    "references": [],
     "optionalUnityReferences": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
