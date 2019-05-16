@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -224,58 +225,50 @@ public class WireConnect : ElectricalOIinheritance
 		if (isServer)
 		{
 			ElectricityFunctions.WorkOutActualNumbers(this);
+
 			Logger.Log("connections " + (string.Join(",", Data.connections)), Category.Electrical);
 			Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
 			Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);
 			Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
-			foreach (var Supply in Data.SupplyDependent) {
-				string ToLog;
-				ToLog = "Supply > " + Supply.Key + "\n";
-				ToLog += "Upstream > ";
-				ToLog += string.Join(",", Supply.Value.Upstream) + "\n";
-				ToLog += "Downstream > ";
-				ToLog += string.Join(",", Supply.Value.Downstream) + "\n";
-				ToLog += "ResistanceGoingTo > ";
-				ToLog += string.Join(",", Supply.Value.ResistanceGoingTo) + "\n";
-				ToLog += "ResistanceComingFrom > ";
-				ToLog += string.Join(",", Supply.Value.ResistanceComingFrom) + "\n";
-				ToLog += "CurrentComingFrom > ";
-				ToLog += string.Join(",", Supply.Value.CurrentComingFrom) + "\n";
-				ToLog += "CurrentGoingTo > ";
-				ToLog += string.Join(",", Supply.Value.CurrentGoingTo) + "\n";
-				ToLog += Supply.Value.SourceVoltages.ToString();
-				Logger.Log(ToLog, Category.Electrical);
-			}
+
+			foreach (var Supply in Data.SupplyDependent) LogSupply(Supply);
+
 			if (RelatedLine != null)
 			{
 				Logger.Log("line heree!!!");
 				ElectricityFunctions.WorkOutActualNumbers(RelatedLine.TheEnd);
+
 				Data.ActualVoltage = RelatedLine.TheEnd.Data.ActualVoltage;
 				Data.CurrentInWire = RelatedLine.TheEnd.Data.CurrentInWire;
 				Data.EstimatedResistance = RelatedLine.TheEnd.Data.EstimatedResistance;
-				foreach (var Supply in RelatedLine.TheEnd.Data.SupplyDependent)
-				{
-					string ToLog;
-					ToLog = "Supply > " + Supply.Key + "\n";
-					ToLog += "Upstream > ";
-					ToLog += string.Join(",", Supply.Value.Upstream) + "\n";
-					ToLog += "Downstream > ";
-					ToLog += string.Join(",", Supply.Value.Downstream) + "\n";
-					ToLog += "ResistanceGoingTo > ";
-					ToLog += string.Join(",", Supply.Value.ResistanceGoingTo) + "\n";
-					ToLog += "ResistanceComingFrom > ";
-					ToLog += string.Join(",", Supply.Value.ResistanceComingFrom) + "\n";
-					ToLog += "CurrentComingFrom > ";
-					ToLog += string.Join(",", Supply.Value.CurrentComingFrom) + "\n";
-					ToLog += "CurrentGoingTo > ";
-					ToLog += string.Join(",", Supply.Value.CurrentGoingTo) + "\n";
-					ToLog += Supply.Value.SourceVoltages.ToString();
-					Logger.Log(ToLog, Category.Electrical);
-				}
+
+				foreach (var Supply in RelatedLine.TheEnd.Data.SupplyDependent) LogSupply(Supply);
 			}
+
 			Logger.Log(" ActualVoltage > " + Data.ActualVoltage + " CurrentInWire > " + Data.CurrentInWire + " EstimatedResistance >  " + Data.EstimatedResistance, Category.Electrical);
 		}
 
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
+	}
+
+	private void LogSupply(KeyValuePair<int, ElectronicSupplyData> supply)
+	{
+		var sv = supply.Value;
+		StringBuilder logMessage = new StringBuilder();
+		logMessage.AppendLine("Supply > " + supply.Key);
+		logMessage.Append("Upstream > ");
+		logMessage.AppendLine(string.Join(",", sv.Upstream));
+		logMessage.Append("Downstream > ");
+		logMessage.AppendLine(string.Join(",", sv.Downstream));
+		logMessage.Append("ResistanceGoingTo > ");
+		logMessage.AppendLine(string.Join(",", sv.ResistanceGoingTo));
+		logMessage.Append("ResistanceComingFrom > ");
+		logMessage.AppendLine(string.Join(",", sv.ResistanceComingFrom));
+		logMessage.Append("CurrentComingFrom > ");
+		logMessage.AppendLine(string.Join(",", sv.CurrentComingFrom));
+		logMessage.Append("CurrentGoingTo > ");
+		logMessage.AppendLine(string.Join(",", sv.CurrentGoingTo));
+		logMessage.Append(sv.SourceVoltages.ToString());
+		Logger.Log(logMessage.ToString(), Category.Electrical);
 	}
 }
