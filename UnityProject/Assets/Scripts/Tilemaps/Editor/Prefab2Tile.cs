@@ -79,7 +79,7 @@ public class Prefab2Tile : EditorWindow
 			}
 		}
 		EditorUtility.ClearProgressBar();
-		Logger.Log(created + " / " + counter + " Tiles created for prefabs");
+		Logger.LogFormat("{0}/{1} Tiles created for prefabs", Category.UI, created, counter);
 	}
 
 
@@ -124,7 +124,7 @@ public class Prefab2Tile : EditorWindow
 			}
 		}
 		EditorUtility.ClearProgressBar();
-		Logger.Log(cleaned + " / " + counter + " Preview sprites deleted for missing tiles");
+		Logger.LogFormat("{0}/{1} Preview sprites deleted for missing tiles", Category.UI, cleaned, counter);
 	}
 
 	public static void CheckTiles(string subject)
@@ -168,6 +168,6 @@ public class Prefab2Tile : EditorWindow
 			}
 		}
 		EditorUtility.ClearProgressBar();
-		Logger.Log(cleaned + " / " + counter + " Tiles deleted for Prefabs");
+		Logger.LogFormat("{0} / {1} Tiles deleted for Prefabs", Category.UI, cleaned, counter);
 	}
 }

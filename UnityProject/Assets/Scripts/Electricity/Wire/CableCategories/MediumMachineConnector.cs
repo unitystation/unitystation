@@ -13,6 +13,7 @@ public class MediumMachineConnector : NetworkBehaviour , IDeviceControl
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.StandardCable,
 		PowerTypeCategory.SMES,
+		PowerTypeCategory.SolarPanelController,
 	};
 
 	public void PotentialDestroyed(){

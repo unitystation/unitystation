@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SMES : PowerSupplyControlInheritance
+public class SMES : InputTrigger, INodeControl
 {
 	//public override bool isOnForInterface { get; set; } = false;
 	//public override bool PassChangeToOff { get; set; } = false;
@@ -24,41 +24,11 @@ public class SMES : PowerSupplyControlInheritance
 	public SpriteRenderer OnOffIndicator;
 	public SpriteRenderer chargeIndicator;
 
-	public override void OnStartServerInitialise()
-	{
-		ApplianceType = PowerTypeCategory.SMES;
-		CanConnectTo = new HashSet<PowerTypeCategory>
-		{
-			PowerTypeCategory.MediumMachineConnector
-		};
-		powerSupply.InData.CanConnectTo = CanConnectTo;
-		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.WireEndB = WireEndB;
-		powerSupply.WireEndA = WireEndA;
+	public ElectricalNodeControl ElectricalNodeControl;
+	public BatterySupplyingModule BatterySupplyingModule;
 
-		resistance.Ohms = Resistance;
-		resistance.ResistanceAvailable = false;
-
-		PowerInputReactions PIRMedium = new PowerInputReactions(); //You need a resistance on the output just so supplies can communicate properly
-		PIRMedium.DirectionReaction = true;
-		PIRMedium.ConnectingDevice = PowerTypeCategory.MediumMachineConnector;
-		PIRMedium.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
-		PIRMedium.DirectionReactionA.YouShallNotPass = true;
-		PIRMedium.ResistanceReaction = true;
-		PIRMedium.ResistanceReactionA.Resistance.Ohms = MonitoringResistance;
-
-		PowerInputReactions PRSDCable = new PowerInputReactions();
-		PRSDCable.DirectionReaction = true;
-		PRSDCable.ConnectingDevice = PowerTypeCategory.StandardCable;
-		PRSDCable.DirectionReactionA.AddResistanceCall = resistance;
-		PRSDCable.ResistanceReaction = true;
-		PRSDCable.ResistanceReactionA.Resistance = resistance;
-		resistance.Ohms = 10000;
-
-		powerSupply.InData.ConnectionReaction[PowerTypeCategory.MediumMachineConnector] = PIRMedium;
-		powerSupply.InData.ConnectionReaction[PowerTypeCategory.StandardCable] = PRSDCable;
-		currentCharge = 0;
-	}
+	[SyncVar(hook = "UpdateState")]
+	public bool isOn = false;
 
 	public override void OnStartClient()
 	{
@@ -66,15 +36,44 @@ public class SMES : PowerSupplyControlInheritance
 		UpdateState(isOn);
 	}
 
-	//Update the current State of the SMES (mostly visual for clientside updates) 
-	public override void StateChange(bool isOn)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
+		if (!isServer)
+		{
+			InteractMessage.Send(gameObject, hand);
+		}
+		else
+		{
+			isOn = !isOn;
+			UpdateServerState(isOn);
+		}
+		//ConstructionInteraction(originator, position, hand);
+		return true;
+	}
+
+	public void UpdateServerState(bool _isOn)
+	{
+		if (isOn)
+		{
+			ElectricalNodeControl.TurnOnSupply();
+		}
+		else
+		{
+			ElectricalNodeControl.TurnOffSupply();
+		}
+	}
+
+	public void PowerNetworkUpdate() { }
+
+
+	public void UpdateState(bool _isOn)
+	{
+		isOn = _isOn;
 		if (isOn)
 		{
 			OnOffIndicator.sprite = onlineSprite;
 			chargeIndicator.gameObject.SetActive(true);
 			statusIndicator.gameObject.SetActive(true);
-
 			int chargeIndex = (currentCharge / 100) * 4;
 			chargeIndicator.sprite = chargeIndicatorSprites[chargeIndex];
 			if (chargeIndex == 0)
@@ -94,32 +93,16 @@ public class SMES : PowerSupplyControlInheritance
 		}
 	}
 
-	[ContextMethod("Toggle Charge", "Power_Button")]
-	public void ToggleCharge()
-	{
-		ToggleCanCharge = !ToggleCanCharge;
-	}
+	//[ContextMethod("Toggle Charge", "Power_Button")]
+	//public void ToggleCharge()
+	//{
+	//	//ToggleCanCharge = !ToggleCanCharge;
+	//}
 
-	[ContextMethod("Toggle Support", "Power_Button")]
-	public void ToggleSupport()
-	{
-		ToggleCansupport = !ToggleCansupport;
-	}
+	//[ContextMethod("Toggle Support", "Power_Button")]
+	//public void ToggleSupport()
+	//{
+	//	//ToggleCansupport = !ToggleCansupport;
+	//}
 
-	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
-	//FIXME: that also renderers IDevice useless. Please reassess
-	public void OnDestroy()
-	{
-//		ElectricalSynchronisation.StructureChangeReact = true;
-//		ElectricalSynchronisation.ResistanceChange = true;
-//		ElectricalSynchronisation.CurrentChange = true;
-		ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
-		SelfDestruct = true;
-		//Make Invisible
-	}
-
-	public override void TurnOffCleanup (){
-		BatteryCalculation.TurnOffEverything(this);
-		ElectricalSynchronisation.RemoveSupply(this, ApplianceType);
-	}
 }

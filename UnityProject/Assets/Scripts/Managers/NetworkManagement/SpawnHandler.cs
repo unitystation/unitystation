@@ -62,7 +62,7 @@ public static class SpawnHandler
 		// If the player is inside a container, send a ClosetHandlerMessage.
 		// The ClosetHandlerMessage will attach the container to the transfered player.
 		var playerObjectBehavior = newBody.GetComponent<ObjectBehaviour>();
-		if (playerObjectBehavior.parentContainer)
+		if (playerObjectBehavior && playerObjectBehavior.parentContainer)
 		{
 			ClosetHandlerMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
 		}

@@ -25,7 +25,7 @@ public class DmiIconData : ScriptableObject
 				return sprites;
 			}
 		}
-		Logger.LogError("Could not find sprites for key " + path,Category.DmMetadata);
+		Logger.LogErrorFormat("Could not find sprites for key {0}.", Category.DmMetadata, path);
 		return new Sprite[0];
 	}
 
@@ -52,7 +52,7 @@ public class DmiIconData : ScriptableObject
 				}
 			}
 		}
-		Logger.LogErrorFormat("failed to getSpriteFromLegacyName: {0} {1}",Category.DmMetadata, spriteSheet, legacyUnityName);
+		Logger.LogErrorFormat("failed to getSpriteFromLegacyName: {0} {1}", Category.DmMetadata, spriteSheet, legacyUnityName);
 		return null;
 	}
 
@@ -63,7 +63,7 @@ public class DmiIconData : ScriptableObject
 		{
 			return icon.spriteSheet[offset];
 		}
-		Logger.LogErrorFormat("Couldn't find sprite by offset: {0}({1}) in {2}",Category.DmMetadata, spriteSheet, offset, icon.icon);
+		Logger.LogErrorFormat("Couldn't find sprite by offset: {0}({1}) in {2}", Category.DmMetadata, spriteSheet, offset, icon.icon);
 		return null;
 	}
 
@@ -88,7 +88,7 @@ public class DmiIconData : ScriptableObject
 					return icon.spriteSheet[offset];
 				}
 			}
-			Logger.LogErrorFormat("Couldn't find sprite by UN: {0}({1}) in {2}",Category.DmMetadata , spriteSheet, unityName, icon.icon);
+			Logger.LogErrorFormat("Couldn't find sprite by UN: {0}({1}) in {2}", Category.DmMetadata , spriteSheet, unityName, icon.icon);
 		}
 		return null;
 	}
@@ -104,7 +104,7 @@ public class DmiIconData : ScriptableObject
 				return icon;
 			}
 		}
-		Logger.LogError("Could not find Icon for sheet " + iPath,Category.DmMetadata);
+		Logger.LogErrorFormat("Could not find Icon for sheet {0}.", Category.DmMetadata, iPath);
 		return new DmiIcon();
 	}
 
@@ -116,7 +116,7 @@ public class DmiIconData : ScriptableObject
 			DmiState foundState = dmiIcon.states.Find(x => x.state == state);
 			if (foundState != null)
 			{
-				Logger.LogTrace("foundState: "+ foundState, Category.DmMetadata);
+				Logger.LogTraceFormat("Found state: {0}", Category.DmMetadata, foundState);
 				return dmiIcon;
 			}
 		}

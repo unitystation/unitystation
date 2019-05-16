@@ -13,7 +13,8 @@ public class StandardCable : CableInheritance
 		PowerTypeCategory.Transformer,
 		PowerTypeCategory.DepartmentBattery,
 		PowerTypeCategory.MediumMachineConnector,
-		PowerTypeCategory.PowerGenerator
+		PowerTypeCategory.PowerGenerator,
+		PowerTypeCategory.PowerSink
 	};
 
 	public override void _OnStartServer()

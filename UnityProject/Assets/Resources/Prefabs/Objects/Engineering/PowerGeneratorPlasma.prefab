@@ -5104,6 +5104,8 @@ GameObject:
   - component: {fileID: 114093731737732554}
   - component: {fileID: 820786687953803850}
   - component: {fileID: 7281671087508858390}
+  - component: {fileID: 6324674111779620640}
+  - component: {fileID: 579887912259031821}
   m_Layer: 11
   m_Name: PowerGeneratorPlasma
   m_TagString: Untagged
@@ -5229,13 +5231,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
@@ -5264,47 +5264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da4a35ac83c48864898817a319fae506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelfDestruct: 0
-  powerSupply: {fileID: 7281671087508858390}
-  isOn: 0
-  WireEndB: 8
-  WireEndA: 9
-  MonitoringResistance: 1e+10
-  Previouscurrent: 0
-  SupplyingVoltage: 0
-  PreviousSupplyingVoltage: 0
-  InternalResistance: 0
-  PreviousInternalResistance: 0
-  TurnRatio: 0
-  VoltageLimiting: 0
-  VoltageLimitedTo: 0
-  _IElectricityIO: {fileID: 0}
-  ApplianceType: 0
-  MaximumCurrentSupport: 0
-  MinimumSupportVoltage: 0
-  StandardSupplyingVoltage: 0
-  CapacityMax: 0
-  CurrentCapacity: 0
-  ExtraChargeCutOff: 0
-  IncreasedChargeVoltage: 0
-  StandardChargeNumber: 0
-  ChargeSteps: 0
-  MaxChargingMultiplier: 0
-  ChargingMultiplier: 0
-  CanCharge: 0
-  Cansupport: 0
-  ToggleCanCharge: 0
-  ToggleCansupport: 0
-  PullingWatts: 0
-  ChargingWatts: 0
-  Resistance: 0
-  PreviousResistance: 0
-  CircuitResistance: 0
-  ActualVoltage: 0
-  PullLastDeductedTime: 0
-  ChargLastDeductedTime: 0
-  PassChangeToOff: 0
-  isOnForInterface: 0
   objectBehaviour: {fileID: 820786687953803850}
   isSecured: 0
   startSecured: 0
@@ -5319,6 +5278,8 @@ MonoBehaviour:
   generatorEndSfx: {fileID: 82174488758175454}
   smokeParticles: {fileID: 198581407923697672}
   plasmaFuel: []
+  isOn: 0
+  ElectricalNodeControl: {fileID: 6324674111779620640}
 --- !u!114 &820786687953803850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5371,11 +5332,81 @@ MonoBehaviour:
   InData:
     Categorytype: 0
     ControllingDevice: {fileID: 0}
-    ControllingUpdate: {fileID: 0}
     DirectionOverride: 0
     ResistanceOverride: 0
     ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
-  RelatedDevice: {fileID: 114093731737732554}
+  RelatedDevice: {fileID: 0}
   registerTile3: {fileID: 114738137265545768}
+--- !u!114 &6324674111779620640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Node: {fileID: 7281671087508858390}
+  ApplianceType: 13
+  ListCanConnectTo: 010000000b000000
+  SelfDestruct: 0
+  Reactions:
+  - ConnectingDevice: 1
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    ElectricalReaction: 0
+    DirectionReactionA:
+      AddResistanceCall:
+        Ohms: 0
+        ResistanceAvailable: 0
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 1e+10
+        ResistanceAvailable: 1
+      YouShallNotPass: 0
+    ElectricalReactionA:
+      Current: 0
+      YouShallNotPass: 0
+  - ConnectingDevice: 11
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    ElectricalReaction: 0
+    DirectionReactionA:
+      AddResistanceCall:
+        Ohms: 0
+        ResistanceAvailable: 0
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 1e+10
+        ResistanceAvailable: 1
+      YouShallNotPass: 1
+    ElectricalReactionA:
+      Current: 0
+      YouShallNotPass: 0
+--- !u!114 &579887912259031821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afc0599350d172f4b97acd59a6626136, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModuleType: 0
+  ControllingNode: {fileID: 0}
+  current: 0
+  Previouscurrent: 0
+  SupplyingVoltage: 760000
+  PreviousSupplyingVoltage: 760000
+  PreviousInternalResistance: 76000
+  InternalResistance: 76000

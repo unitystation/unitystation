@@ -178,7 +178,7 @@ public class BloodSystem : MonoBehaviour
 		{
 			return;
 		}
-		Logger.LogTraceFormat("Lost blood: {0}->{1}", Category.Health, BloodLevel, BloodLevel - amount);
+		Logger.LogTraceFormat("{0} lost blood: {1}->{2}", Category.Health, this.gameObject.name, BloodLevel, BloodLevel - amount);
 		BloodLevel -= amount;
 		BloodSplatSize scaleOfTragedy;
 		if (amount > 0 && amount < 15)
@@ -253,7 +253,8 @@ public class BloodSystem : MonoBehaviour
 	//Do any healing stuff:
 	private void CheckHealing(BodyPartBehaviour bodyPart, DamageType damageType, float healAmt)
 	{
-		Debug.Log("TODO PRIORITY: Do Blood Healing!!");
+		//TODO: PRIORITY! Do Blood healing!
+		Logger.Log("Not implemented: Blood healing.", Category.Health);
 	}
 
 	// --------------------
