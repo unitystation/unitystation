@@ -17,12 +17,12 @@ public static class ElectricalSynchronisation
 	//What keeps electrical Ticking
 	//so this is correlated to what has changed on the network, Needs to be optimised so (when one resistant source changes only that one updates its values currently the entire network updates their values)
 	public static bool StructureChange = true; //deals with the connections this will clear them out only
-	public static HashSet<CableInheritance> NUCableStructureChange = new HashSet<CableInheritance>();
-	public static HashSet<ElectricalNodeControl> NUStructureChangeReact = new HashSet<ElectricalNodeControl>();
-	public static HashSet<ElectricalNodeControl> NUResistanceChange = new HashSet<ElectricalNodeControl>();
-	public static HashSet<ElectricalNodeControl> ResistanceChange = new HashSet<ElectricalNodeControl>();
-	public static HashSet<ElectricalNodeControl> InitialiseResistanceChange = new HashSet<ElectricalNodeControl>();
-	public static HashSet<ElectricalNodeControl> NUCurrentChange = new HashSet<ElectricalNodeControl>();
+	public static HashSet<CableInheritance> NUCableStructureChange = new HashSet<CableInheritance>(); //used for tracking cable deconstruction
+	public static HashSet<ElectricalNodeControl> NUStructureChangeReact = new HashSet<ElectricalNodeControl>();  //Used for poking the supplies to make up and down paths all the resistant sources 
+	public static HashSet<ElectricalNodeControl> NUResistanceChange = new HashSet<ElectricalNodeControl>(); //Used for all the resistant sources to broadcast there resistance  Used for supplies but could probably be combined with ResistanceChange
+	public static HashSet<ElectricalNodeControl> ResistanceChange = new HashSet<ElectricalNodeControl>(); //
+	public static HashSet<ElectricalNodeControl> InitialiseResistanceChange = new HashSet<ElectricalNodeControl>(); //Used for getting stuff to generate constant resistance values not really used properly
+	public static HashSet<ElectricalNodeControl> NUCurrentChange = new HashSet<ElectricalNodeControl>(); //
 	public static HashSet<CableInheritance> CableUpdates = new HashSet<CableInheritance>();
 	public static HashSet<CableInheritance> WorkingCableUpdates = new HashSet<CableInheritance>();
 	public static CableInheritance CableToDestroy;
@@ -205,7 +205,7 @@ public static class ElectricalSynchronisation
 		//if (!StructureChange) return;
 		//Logger.Log("PowerUpdateStructureChange");
 		foreach (CableInheritance cabel in NUCableStructureChange) {
-			cabel.PowerUpdateStructureChange();
+			cabel.PowerUpdateStructureChange(); //so Destruction of cables won't trigger the entire thing to refresh saving a bit of performance since they have a bit of code for jumping onto different supplies and  , adding them to NUStructureChangeReact
 		}
 		NUCableStructureChange.Clear();
 		if (!StructureChange) { 
@@ -260,7 +260,7 @@ public static class ElectricalSynchronisation
 		//Logger.Log("PowerUpdateResistanceChange/InitialPowerUpdateResistance");
 		foreach (ElectricalNodeControl PoweredDevice in InitialiseResistanceChange)
 		{
-			PoweredDevice.InitialPowerUpdateResistance();
+			PoweredDevice.InitialPowerUpdateResistance(); 
 		}
 		//Logger.Log("InitialiseResistanceChange");
 		InitialiseResistanceChange.Clear();
@@ -299,7 +299,7 @@ public static class ElectricalSynchronisation
 				if (NUCurrentChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)) && !(NUResistanceChange.Contains(TheSupply)))
 				{
 					//Logger.Log("PowerUpdateCurrentChange " + TheSupply);
-					TheSupply.PowerUpdateCurrentChange();
+					TheSupply.PowerUpdateCurrentChange(); //Does all the updates for the constant sources since they don't have to worry about other supplies being on or off since they just go steaming ahead
 					NUCurrentChange.Remove(TheSupply);
 				}
 			}
@@ -308,7 +308,7 @@ public static class ElectricalSynchronisation
 		ElectricalNodeControl LowestReactive = null;
 		int LowestReactiveint = 9999;
 		List<ElectricalNodeControl> QToRemove = new List<ElectricalNodeControl>();
-		while (NumberOfReactiveSupplies_f() > 0)
+		while (NumberOfReactiveSupplies_f() > 0) //This is to calculate the lowest number of supplies that are above the reactive supply so therefore the one that needs to be updated first
 		{
 			//Logger.Log("NUCurrentChange.Count > 0");
 			foreach (ElectricalNodeControl TheSupply in NUCurrentChange)
@@ -391,7 +391,7 @@ public static class ElectricalSynchronisation
 		CableUpdates.Clear();
 		foreach (CableInheritance ToWork in WorkingCableUpdates)
 		{
-			ToWork.PowerNetworkUpdate();
+			ToWork.PowerNetworkUpdate(); //This is used to update the cables  if they have the current change to detect if there was an overcurrent
 		}
 		WorkingCableUpdates.Clear();
 		if (CableToDestroy != null) { 

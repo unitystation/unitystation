@@ -45,17 +45,6 @@ public static class TransformerCalculations  {
 						V2 = 0;
 					}
 				}
-				//float SUBV2 = (ActualCurrent * ResistanceModified) / TransformInformation.TurnRatio;
-
-				//if ((V2 + SUBV2) > TransformInformation.VoltageLimiting)
-				//{
-				//	offcut = ((V2 + SUBV2) - TransformInformation.VoltageLimitedTo) / R2;
-				//	V2 = TransformInformation.VoltageLimitedTo - SUBV2;
-				//	if (V2 < 0)
-				//	{
-				//		V2 = 0;
-				//	}
-				//}
 			}
 			float I2 = V2 / R2;
 			Tuple<float, float> returns = new Tuple<float, float>(
