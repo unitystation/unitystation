@@ -89,8 +89,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4689164884545176}
   - component: {fileID: 114916079852887170}
-  - component: {fileID: 5574129286074940778}
   - component: {fileID: 1110489766907035133}
+  - component: {fileID: 5574129286074940778}
   m_Layer: 15
   m_Name: Bullet_revolver
   m_TagString: Untagged
@@ -127,6 +127,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 60
   damageType: 0
+--- !u!114 &1110489766907035133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932369758612010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9753a64261245d45b627f287951be7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  secondsPerSegment: 0.02
+  limitTrailLength: 1
+  maxPositions: 2
 --- !u!120 &5574129286074940778
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -240,21 +255,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 0
---- !u!114 &1110489766907035133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1932369758612010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9753a64261245d45b627f287951be7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  secondsPerSegment: 0.02
-  limitTrailLength: 1
-  maxPositions: 2
 --- !u!1 &8751278666841600575
 GameObject:
   m_ObjectHideFlags: 0

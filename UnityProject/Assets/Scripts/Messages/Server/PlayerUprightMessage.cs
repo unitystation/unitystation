@@ -1,12 +1,21 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+
+public enum StunnedState
+{
+	Unknown = 0,
+	Stunned = 1,
+	NonStunned = 2
+}
 
 ///   Tells client to make given player appear laying down or back up on feet
 public class PlayerUprightMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.PlayerUprightMessage;
 	public bool Upright;
+	public StunnedState Stunned;
 	/// Whom is it about
 	public NetworkInstanceId SubjectPlayer;
 
@@ -30,29 +39,69 @@ public class PlayerUprightMessage : ServerMessage
 		}
 		else
 		{
-			registerPlayer.LayDown();
+			//we ignore restraint
+			registerPlayer.LayDown(true);
+		}
+
+		if ( Stunned != StunnedState.Unknown )
+		{
+			registerPlayer.IsStunnedClient = Stunned == StunnedState.Stunned;
 		}
 	}
 
-	public static PlayerUprightMessage Send(GameObject recipient, GameObject subjectPlayer, bool state)
+	public static PlayerUprightMessage Send(GameObject recipient, GameObject subjectPlayer, bool upright, bool isStunned)
 	{
+		if (!IsValid(subjectPlayer, upright))
+		{
+			return null;
+		}
 		var msg = new PlayerUprightMessage
 		{
 			SubjectPlayer = subjectPlayer.NetId(),
-			Upright = state,
+			Upright = upright,
+			Stunned = isStunned ? StunnedState.Stunned : StunnedState.NonStunned
 		};
 		msg.SendTo(recipient);
 		return msg;
 	}
 
-	public static void SendToAll(GameObject subjectPlayer, bool state)
+	/// <summary>
+	/// Stunned info will ONLY be sent to subject!
+	/// </summary>
+	/// <param name="subjectPlayer"></param>
+	/// <param name="upright"></param>
+	/// <param name="isStunned"></param>
+	public static void SendToAll(GameObject subjectPlayer, bool upright, bool isStunned)
 	{
+		if (!IsValid(subjectPlayer, upright))
+		{
+			return;
+		}
 		var msg = new PlayerUprightMessage
 		{
 			SubjectPlayer = subjectPlayer.NetId(),
-			Upright = state,
+			Upright = upright,
+			Stunned = StunnedState.Unknown
 		};
-		msg.SendToAll();
+		msg.SendToAllExcept( subjectPlayer );
+		msg.Stunned = isStunned ? StunnedState.Stunned : StunnedState.NonStunned;
+		msg.SendTo( subjectPlayer );
+	}
+
+	private static bool IsValid(GameObject subjectPlayer, bool upright)
+	{
+		//checks if player is actually in a state where they can become up / down
+		var playerScript = subjectPlayer.GetComponent<PlayerScript>();
+		if (!upright)
+		{
+			//cannot lay down if they are restrained
+			if (playerScript.playerMove.IsRestrained)
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public override string ToString()

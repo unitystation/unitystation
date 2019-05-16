@@ -54,12 +54,10 @@ public class Grenade : PickUpTrigger
 	//whether this object has exploded
 	private bool hasExploded;
 	//this object's registerObject
-    private bool timerRunning = false;
+	private bool timerRunning = false;
 	private RegisterObject registerObject;
-	//this object's custom net transform
-	private CustomNetTransform customNetTransform;
 
-    private ObjectBehaviour objectBehaviour;
+	private ObjectBehaviour objectBehaviour;
 	private TileChangeManager tileChangeManager;
 
 	private void Start()
@@ -68,28 +66,27 @@ public class Grenade : PickUpTrigger
 		OBSTACLE_MASK = LayerMask.GetMask("Walls", "Door Closed");
 
 		registerObject = GetComponent<RegisterObject>();
-		customNetTransform = GetComponent<CustomNetTransform>();
-        objectBehaviour = GetComponent<ObjectBehaviour>();
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 	}
 
 	public override void UI_Interact(GameObject originator, string hand)
 	{
 		if (!isServer)
-        {
-            InteractMessage.Send(gameObject, hand, true);
-        }
+		{
+			InteractMessage.Send(gameObject, hand, true);
+		}
 		else
 		{
-        	StartCoroutine(TimeExplode(originator));
+			StartCoroutine(TimeExplode(originator));
 		}
 	}
 
-    private IEnumerator TimeExplode(GameObject originator)
-    {
-        if (!timerRunning)
-        {
-            timerRunning = true;
+	private IEnumerator TimeExplode(GameObject originator)
+	{
+		if (!timerRunning)
+		{
+			timerRunning = true;
 			PlayPinSFX(originator.transform.position);
 			if (unstableFuse)
 			{
@@ -101,10 +98,10 @@ public class Grenade : PickUpTrigger
 				float radiusVariation = radius / 4;
 				radius = Random.Range(radius - radiusVariation, radius + radiusVariation);
 			}
-            yield return new WaitForSeconds(fuseLength);
-            Explode("explosion");
-        }
-    }
+			yield return new WaitForSeconds(fuseLength);
+			Explode("explosion");
+		}
+	}
 
 	public void Explode(string damagedBy)
 	{
@@ -190,33 +187,13 @@ public class Grenade : PickUpTrigger
 	/// </summary>
 	private void PlaySoundAndShake()
 	{
-        Vector3Int explodePosition = objectBehaviour.AssumedLocation().RoundToInt();
-        string sndName = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
-        byte shakeIntensity = (byte)Mathf.Clamp( damage/5, byte.MinValue, byte.MaxValue);
-        SoundManager.PlayNetworkedAtPos( sndName, explodePosition, -1f, true, shakeIntensity, (int)shakeDistance);
+		Vector3Int explodePosition = objectBehaviour.AssumedLocation().RoundToInt();
+		string sndName = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
+		byte shakeIntensity = (byte)Mathf.Clamp( damage/5, byte.MinValue, byte.MaxValue);
+		SoundManager.PlayNetworkedAtPos( sndName, explodePosition, -1f, true, shakeIntensity, (int)shakeDistance);
 	}
 
-	/// <summary>
-	/// disappear this object (while still keeping the explosion around)
-	/// </summary>
-	private void DisappearObject()
-	{
-		if (isServer)
-		{
-			//make it vanish in the server's state of the world
-			//this currently removes it from the world and any player inventory
 
-			//If it is in an inventory slot it will be removed:
-			InventoryManager.DestroyItemInSlot(gameObject);
-
-			customNetTransform.DisappearFromWorldServer();
-		}
-		else
-		{
-			//make it vanish in the client's local world
-			customNetTransform.DisappearFromWorld();
-		}
-	}
 
 	/// <summary>
 	/// Set the tiles to show fire effect in the pattern that was chosen
@@ -330,7 +307,7 @@ public class Grenade : PickUpTrigger
 	public IEnumerator TimedEffect(Vector3Int position, TileType tileType, string tileName, float time)
 	{
 		tileChangeManager.UpdateTile(position, TileType.Effects, "Fire");
-        yield return new WaitForSeconds(time);
+		yield return new WaitForSeconds(time);
 		tileChangeManager.RemoveTile(position, LayerType.Effects);
 	}
 

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Drag and drop component, for use in the UI only.
+/// </summary>
 public class DragAndDrop : MonoBehaviour
 {
 	public Image dragDummy;

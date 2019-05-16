@@ -18,6 +18,7 @@ public class MetaTileMapView : BasicView
 		globalChecks.Add(new ShowGlobalPositionsCheck());
 		globalChecks.Add(new ShowPositionsCheck());
 		globalChecks.Add(new AtPointCheck());
+		globalChecks.Add(new StickyClientCheck());
 	}
 
 	public override void DrawContent()
@@ -53,7 +54,7 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawGizmo(MetaTileMap source, Vector3Int position)
 		{
-			if (!source.IsEmptyAt(position))
+			if (!source.IsEmptyAt(position, false))
 			{
 				GizmoUtils.DrawCube(position, Color.green);
 			}
@@ -66,7 +67,7 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawGizmo(MetaTileMap source, Vector3Int position)
 		{
-			if (!source.IsAtmosPassableAt(position))
+			if (!source.IsAtmosPassableAt(position, false))
 			{
 				GizmoUtils.DrawCube(position, Color.blue);
 			}
@@ -79,7 +80,7 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawGizmo(MetaTileMap source, Vector3Int position)
 		{
-			if (!source.IsPassableAt(position))
+			if (!source.IsPassableAt(position, false))
 			{
 				GizmoUtils.DrawCube(position, Color.blue);
 			}
@@ -92,9 +93,21 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawGizmo(MatrixManager source, Vector3Int position)
 		{
-			if (MatrixManager.IsSpaceAt(position))
+			if (MatrixManager.IsSpaceAt(position, false))
 			{
 				GizmoUtils.DrawCube(position, Color.red, false);
+			}
+		}
+	}
+	private class StickyClientCheck : Check<MatrixManager>
+	{
+		public override string Label { get; } = "Sticky";
+
+		public override void DrawGizmo(MatrixManager source, Vector3Int position)
+		{
+			if (!MatrixManager.IsNonStickyAt(position, false))
+			{
+				GizmoUtils.DrawCube(position, Color.yellow, false);
 			}
 		}
 	}
@@ -105,7 +118,7 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawLabel(MetaTileMap source, Vector3Int position)
 		{
-			if (!source.IsEmptyAt(position))
+			if (!source.IsEmptyAt(position, false))
 			{
 				Vector3 p = source.transform.TransformPoint(position) + GizmoUtils.HalfOne;
 				GizmoUtils.DrawText($"{position.x}, {position.y}", p, false);
@@ -129,9 +142,9 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawLabel(MatrixManager source, Vector3Int position)
 		{
-			if (!MatrixManager.IsSpaceAt(position))
+			if (!MatrixManager.IsSpaceAt(position, false))
 			{
-				MatrixInfo matrix = MatrixManager.AtPoint(position);
+				MatrixInfo matrix = MatrixManager.AtPoint(position, false);
 				Vector3 localPosition = MatrixManager.WorldToLocal(position, matrix);
 
 				GizmoUtils.DrawText($"{localPosition.x}, {localPosition.y}", position, false);
@@ -149,9 +162,9 @@ public class MetaTileMapView : BasicView
 
 		public override void DrawLabel(MatrixManager source, Vector3Int position)
 		{
-			if (!MatrixManager.IsSpaceAt(position))
+			if (!MatrixManager.IsSpaceAt(position, false))
 			{
-				MatrixInfo matrix = MatrixManager.AtPoint(position);
+				MatrixInfo matrix = MatrixManager.AtPoint(position, false);
 
 				GizmoUtils.DrawText($"{matrix.Id}", position, false);
 			}

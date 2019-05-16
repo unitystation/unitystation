@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -28,6 +29,12 @@ public class GUI_IngameMenu : MonoBehaviour
 			Destroy(gameObject);
 		}
 	}
+
+
+	#if UNITY_EDITOR
+		[NonSerialized]
+		public bool isTest = false;
+	#endif
 
 	// Main Ingame Menu Functions
 	// ==================================================
@@ -70,6 +77,7 @@ public class GUI_IngameMenu : MonoBehaviour
 		StopNetworking();
 		// Either shutdown the application or stop the editor
 		#if UNITY_EDITOR
+			if (isTest) return;
 			UnityEditor.EditorApplication.isPlaying = false;
 		#else
 			Application.Quit();

@@ -61,22 +61,22 @@ public class JsonToTilemap : Editor
 
 		// mark as dirty, otherwise the scene can't be saved.
 		EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-		Logger.Log("Import kinda finished");
+		Logger.Log("Import kinda finished", Category.TileMaps);
 	}
 
 	private static Matrix4x4 FindObjectPosition(MetaTileMap metaTileMap, ref Vector3Int position, LayerTile tile)
 	{
-		bool onStructure = metaTileMap.HasTile(position, LayerType.Walls) ||
-		                   metaTileMap.HasTile(position, LayerType.Windows);
+		bool onStructure = metaTileMap.HasTile(position, LayerType.Walls, true) ||
+		                   metaTileMap.HasTile(position, LayerType.Windows, true);
 
 		Quaternion rotation = Quaternion.identity;
 
 		for (int i = 0; i < 4; i++)
 		{
 			Vector3Int offset = Vector3Int.RoundToInt(rotation * Vector3.up);
-			bool hasStructure = metaTileMap.HasTile(position + offset, LayerType.Walls) ||
-			                    metaTileMap.HasTile(position, LayerType.Windows);
-			bool isOccupied = metaTileMap.HasTile(position + offset, onStructure ? LayerType.Base : LayerType.Objects);
+			bool hasStructure = metaTileMap.HasTile(position + offset, LayerType.Walls, true) ||
+			                    metaTileMap.HasTile(position, LayerType.Windows, true);
+			bool isOccupied = metaTileMap.HasTile(position + offset, onStructure ? LayerType.Base : LayerType.Objects, true);
 
 			if (onStructure != hasStructure && isOccupied == onStructure)
 			{

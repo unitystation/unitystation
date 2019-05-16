@@ -37,7 +37,7 @@ namespace Objects
 		{
 			if (Opened)
 			{
-				MetaDataLayer metaDataLayer = MatrixManager.AtPoint(Vector3Int.RoundToInt(transform.position)).MetaDataLayer;
+				MetaDataLayer metaDataLayer = MatrixManager.AtPoint(Vector3Int.RoundToInt(transform.position), true).MetaDataLayer;
 
 				Vector3Int position = transform.localPosition.RoundToInt();
 				MetaDataNode node = metaDataLayer.Get(position, false);
@@ -69,5 +69,10 @@ namespace Objects
 		{
 			GasMix = GasMix.FromTemperature(Gases, Temperature, Volume);
 		}
+
+		/// <summary>
+		/// Slots that should be checked for gas containers
+		/// </summary>
+		public static readonly string[] GasSlots = {"leftHand","rightHand","storage01","storage02","suitStorage","back","belt"};
 	}
 }

@@ -50,7 +50,6 @@ namespace DatabaseAPI
 					string s = r.GetResponseHeader("set-cookie");
 					sessionCookie = s.Split(';') [0];
 					GameData.LoggedInUsername = request.username;
-					GameData.IsLoggedIn = true;
 					if (autoLoginSetting)
 					{
 						PlayerPrefs.SetString("username", request.username);
@@ -59,6 +58,7 @@ namespace DatabaseAPI
 						PlayerPrefs.Save();
 					}
 					successCallBack.Invoke(apiResponse.message);
+					GameData.IsLoggedIn = true;
 				}
 			}
 		}

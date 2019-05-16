@@ -58,7 +58,7 @@ public class GUI_ChemistryDispenser : NetTab {
 				listOfReagents = this["IngredientList"];
 			}
 			return listOfReagents;
-		} 
+		}
 	}
 
 	//The thing that says 100U @ 10c
@@ -69,13 +69,13 @@ public class GUI_ChemistryDispenser : NetTab {
 				totalAndTemperature = this["AmountAndTemperature"];
 			}
 			return totalAndTemperature;
-		} 
+		}
 	}
 
 	void Start()
 	{
 		this ["20"].SetValue = "1";
-		if (Provider != null) 
+		if (Provider != null)
 		{
 			//Makes sure it connects with the dispenser properly
 			ChemistryDispenser = Provider.GetComponentInChildren<ChemistryDispenser> ();
@@ -103,25 +103,25 @@ public class GUI_ChemistryDispenser : NetTab {
 
 		//Logger.Log (DispensedNumber.ToString ());
 		Updateall ();
-	} 
+	}
 	public void RemoveAmount(int Number)
 	{
 		if (ChemistryDispenser.Container != null) {
-			
+
 			//Logger.Log (Number.ToString ());
 			ChemistryDispenser.Container.MoveReagentsTo (Number);
 		}
 		Updateall ();
-	} 
+	}
 
 	public void DispenseChemical(string Chemical )
 	{
-		if (ChemistryDispenser.Container != null) 
+		if (ChemistryDispenser.Container != null)
 		{
 			//Logger.Log (Chemical);
 			if (DispensableChemicals.Contains (Chemical)) //Checks if the the dispenser can dispense this chemical
 			{
-				Dictionary<string,float> AddE = new Dictionary<string,float> () 
+				Dictionary<string,float> AddE = new Dictionary<string,float> ()
 				{
 					[Chemical] = DispensedNumber
 				};
@@ -131,21 +131,21 @@ public class GUI_ChemistryDispenser : NetTab {
 		}
 		Updateall ();
 	}
-		
+
 	//Turns off and on the heater
 	public void ToggleHeater()
 	{
 		HeaterOn = !HeaterOn;
-		Logger.Log (HeaterOn.ToString());
+		Logger.LogFormat("Heater turned {0}.", Category.Chemistry, HeaterOn ? "on" : "off");
 		Updateall ();
-	} 
+	}
 
 	public void EjectContainer(){
-		if (ChemistryDispenser.Container != null) 
+		if (ChemistryDispenser.Container != null)
 		{
 			//unhiding malarkey
 			//Logger.Log ("Ejected");
-			Vector3Int pos = ChemistryDispenser.gameObject.WorldPos ().RoundToInt();
+			Vector3Int pos = ChemistryDispenser.gameObject.WorldPosServer().RoundToInt();
 			CustomNetTransform netTransform = ChemistryDispenser.objectse.GetComponent<CustomNetTransform>();
 			netTransform.AppearAtPosition(pos);
 			netTransform.AppearAtPositionServer(pos);
@@ -161,9 +161,9 @@ public class GUI_ChemistryDispenser : NetTab {
 	public void SetHeaterTemperature(string TheString )
 	{
 		int mev;
-		if (int.TryParse (TheString, out mev)) 
+		if (int.TryParse (TheString, out mev))
 		{
-			HeaterTemperature = int.Parse( TheString); 
+			HeaterTemperature = int.Parse( TheString);
 		}
 
 		Updateall ();
@@ -179,25 +179,26 @@ public class GUI_ChemistryDispenser : NetTab {
 		}
 	}
 	public void Updateall()
-	{ 
+	{
 		HeatingUpdate ();
 		UpdateDisplay ();
 	}
 	// Updates UI elements
 	public void UpdateDisplay(){
 		string newListOfReagents = "";
-		if (ChemistryDispenser.Container != null) 
+		if (ChemistryDispenser.Container != null)
 		{
-			foreach (KeyValuePair<string,float> Chemical in ChemistryDispenser.Container.Contents) 
+			var roundedReagents = Calculations.RoundReagents(ChemistryDispenser.Container.Contents); // Round the contents to look better in the UI
+			foreach (KeyValuePair<string,float> Chemical in roundedReagents)
 			{
 				newListOfReagents = newListOfReagents + char.ToUpper (Chemical.Key [0]) + Chemical.Key.Substring (1) + " - " + Chemical.Value.ToString () + " U \n";
 			}
-			TotalAndTemperature.SetValue = ChemistryDispenser.Container.AmountOfReagents (ChemistryDispenser.Container.Contents).ToString () + " U @ " + ChemistryDispenser.Container.Temperature.ToString () + "C° ";
+			TotalAndTemperature.SetValue = ChemistryDispenser.Container.AmountOfReagents(roundedReagents).ToString () + " U @ " + ChemistryDispenser.Container.Temperature.ToString () + "C° ";
 		}
-		else 
+		else
 		{
 			newListOfReagents = "Current contain a nonexistent";
-			TotalAndTemperature.SetValue = "No container inserted"; 
+			TotalAndTemperature.SetValue = "No container inserted";
 		}
 		ListOfReagents.SetValue = newListOfReagents;
 	}

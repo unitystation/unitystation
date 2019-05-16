@@ -621,7 +621,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			// Exclude the moving matrix, we shouldn't be able to collide with ourselves
 			int[] excludeList = { MatrixInfo.Id };
-			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt(), collisionType: matrixColliderType, excludeList: excludeList))
+			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt(), isServer: true, 
+											collisionType: matrixColliderType, excludeList: excludeList))
 			{
 				Logger.LogTrace(
 					$"Can't pass {serverTargetState.Position}->{serverTargetState.Position + dir} (because {sensorPos}->{sensorPos + dir})!",
@@ -652,7 +653,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			// Exclude the rotating matrix, we shouldn't be able to collide with ourselves
 			int[] excludeList = { MatrixInfo.Id };
-			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos, collisionType: matrixColliderType, includingPlayers: true, excludeList: excludeList))
+			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos, isServer: true,
+											collisionType: matrixColliderType, includingPlayers: true, excludeList: excludeList))
 			{
 				Logger.LogTrace(
 					$"Can't rotate at {serverTargetState.Position}->{serverTargetState.Position } (because {sensorPos} is occupied)!",
@@ -918,8 +920,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 		Gizmos.DrawWireCube(serverPos, size1);
 		if (serverState.IsMoving)
 		{
-			GizmoUtils.DrawArrow(serverPos + Vector3.right / 3, serverState.Direction.Vector * serverState.Speed);
-			GizmoUtils.DrawText(serverState.Speed.ToString(), serverPos + Vector3.right, 15);
+			DebugGizmoUtils.DrawArrow(serverPos + Vector3.right / 3, serverState.Direction.Vector * serverState.Speed);
+			DebugGizmoUtils.DrawText(serverState.Speed.ToString(), serverPos + Vector3.right, 15);
 		}
 
 		//serverTargetState
@@ -928,8 +930,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 		Gizmos.DrawWireCube(serverTargetPos, size2);
 		if (serverTargetState.IsMoving)
 		{
-			GizmoUtils.DrawArrow(serverTargetPos, serverTargetState.Direction.Vector * serverTargetState.Speed);
-			GizmoUtils.DrawText(serverTargetState.Speed.ToString(), serverTargetPos + Vector3.down, 15);
+			DebugGizmoUtils.DrawArrow(serverTargetPos, serverTargetState.Direction.Vector * serverTargetState.Speed);
+			DebugGizmoUtils.DrawText(serverTargetState.Speed.ToString(), serverTargetPos + Vector3.down, 15);
 		}
 
 		//clientState
@@ -938,8 +940,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 		Gizmos.DrawWireCube(pos, size3);
 		if (clientState.IsMoving)
 		{
-			GizmoUtils.DrawArrow(pos + Vector3.left / 3, clientState.Direction.Vector * clientState.Speed);
-			GizmoUtils.DrawText(clientState.Speed.ToString(), pos + Vector3.left, 15);
+			DebugGizmoUtils.DrawArrow(pos + Vector3.left / 3, clientState.Direction.Vector * clientState.Speed);
+			DebugGizmoUtils.DrawText(clientState.Speed.ToString(), pos + Vector3.left, 15);
 		}
 	}
 #endif

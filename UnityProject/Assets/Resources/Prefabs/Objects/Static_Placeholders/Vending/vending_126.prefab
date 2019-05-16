@@ -170,7 +170,7 @@ MonoBehaviour:
   stock: 5
   interactionMessage: 
   deniedMessage: 
-  DispenseDirection: 0
+  EjectDirection: 2
 --- !u!114 &114896506477870920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -221,7 +221,7 @@ MonoBehaviour:
   stock: 5
   interactionMessage: bzzzz...
   deniedMessage: Vendor is refreshing stocking, please wait...
-  DispenseDirection: 2
+  EjectDirection: 2
 --- !u!212 &212235302915095170
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -5,15 +5,15 @@ using UnityEngine.Networking;
 
 public class TabUpdateMessage : ServerMessage {
 	public static short MessageType = (short) MessageTypes.TabUpdateMessage;
- 
+
 	public NetworkInstanceId Provider;
 	public NetTabType Type;
 	public TabAction Action;
 
 	public ElementValue[] ElementValues;
-	
+
 	public bool Touched;
-	
+
 	public override IEnumerator Process() {
 		Logger.LogTraceFormat("Processed {0}", Category.NetUI, ToString());
 		yield return WaitFor( Provider );
@@ -43,7 +43,7 @@ public class TabUpdateMessage : ServerMessage {
 //		TabUpdateMessage logMessage = null;
 		for ( var i = 0; i < list.Count; i++ ) {
 			var connectedPlayer = list[i];
-//			logMessage = 
+//			logMessage =
 				Send( connectedPlayer.GameObject, provider, type, tabAction, null, values );
 		}
 //		if ( logMessage != null ) {
@@ -63,20 +63,20 @@ public class TabUpdateMessage : ServerMessage {
 			ElementValues = values,
 			Touched = changedBy != null
 		};
-		switch ( tabAction ) { 
+		switch ( tabAction ) {
 			case TabAction.Open:
 				NetworkTabManager.Instance.Add(provider, type, recipient);
-				//!! resetting ElementValues 
+				//!! resetting ElementValues
 				msg.ElementValues = NetworkTabManager.Instance.Get( provider, type ).ElementValues;
 				//!!
 				break;
 			case TabAction.Close:
 				NetworkTabManager.Instance.Remove(provider, type, recipient);
 				break;
-			case TabAction.Update: 
+			case TabAction.Update:
 				var playerScript = recipient.Player()?.Script;
 				//Not sending updates and closing tab for players that don't pass the validation anymore
-				bool validate = playerScript && !playerScript.canNotInteract() && playerScript.IsInReach( provider );
+				bool validate = playerScript && !playerScript.canNotInteract() && playerScript.IsInReach( provider, true );
 				if ( !validate ) {
 					Send( recipient, provider, type, TabAction.Close );
 					return msg;

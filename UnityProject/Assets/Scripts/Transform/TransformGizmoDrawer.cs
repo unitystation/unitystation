@@ -21,16 +21,21 @@ public class TransformGizmoDrawer : MonoBehaviour {
 							color1 = Color.red,
 							color2 = DebugTools.HexToColor( "fd7c6e" ),//pink
 							color3 = DebugTools.HexToColor( "22e600" ),//green
-							color4 = DebugTools.HexToColor( "ebfceb" );//white
-
+							color4 = DebugTools.HexToColor( "ebfceb" ),//white
+							color7 = DebugTools.HexToColor( "ff666655" );//reddish
 	private void OnDrawGizmos() {
 		if ( !cnt ) {
 			return;
 		}
-		//registerTile pos
+		//registerTile server pos
+		Gizmos.color = color7;
+		Vector3 regPosS = rt.WorldPositionServer;
+		Gizmos.DrawCube( regPosS, size1 );
+
+		//registerTile client pos
 		Gizmos.color = color0;
-		Vector3 regPos = rt.WorldPosition;
-		Gizmos.DrawCube( regPos, size1 );
+		Vector3 regPosC = rt.WorldPositionClient;
+		Gizmos.DrawCube( regPosC, size2 );
 
 		//server lerp
 		Gizmos.color = color1;
@@ -41,22 +46,22 @@ public class TransformGizmoDrawer : MonoBehaviour {
 		Gizmos.color = color2;
 		Vector3 ssPos = cnt.ServerState.WorldPosition;
 		Gizmos.DrawWireCube( ssPos, size2 );
-		GizmoUtils.DrawArrow( ssPos + Vector3.right / 2, cnt.ServerState.Impulse );
-		GizmoUtils.DrawText( cnt.ServerState.MatrixId.ToString(), ssPos + Vector3.right / 2 + Vector3.up / 3, 15 );
+		DebugGizmoUtils.DrawArrow( ssPos + Vector3.right / 2, cnt.ServerState.Impulse );
+		DebugGizmoUtils.DrawText( cnt.ServerState.MatrixId.ToString(), ssPos + Vector3.right / 2 + Vector3.up / 3, 15 );
 
 		//predictedState
 		Gizmos.color = color3;
 		Vector3 predictedState = cnt.PredictedState.WorldPosition;
 		Gizmos.DrawWireCube( predictedState, size4 );
-		GizmoUtils.DrawArrow( predictedState + Vector3.right / 5, cnt.PredictedState.Impulse );
-		GizmoUtils.DrawText( cnt.PredictedState.MatrixId.ToString(), predictedState + Vector3.right / 2 + Vector3.up / 6, 15 );
+		DebugGizmoUtils.DrawArrow( predictedState + Vector3.right / 5, cnt.PredictedState.Impulse );
+		DebugGizmoUtils.DrawText( cnt.PredictedState.MatrixId.ToString(), predictedState + Vector3.right / 2 + Vector3.up / 6, 15 );
 //		GizmoUtils.DrawText( cnt.ClientState.Speed.ToString(), clientState + Vector3.right / 1.5f + Vector3.up / 6, 10 );
 
 		//clientState
 		Gizmos.color = color4;
 		Vector3 clientState = cnt.ClientState.WorldPosition;
 		Gizmos.DrawWireCube( clientState, size3 );
-		GizmoUtils.DrawArrow( clientState + Vector3.right / 5, cnt.ClientState.Impulse );
+		DebugGizmoUtils.DrawArrow( clientState + Vector3.right / 5, cnt.ClientState.Impulse );
 //		GizmoUtils.DrawText( cnt.PredictedState.MatrixId.ToString(), clientState + Vector3.right / 2 + Vector3.up / 6, 15 );
 	}
 #endif

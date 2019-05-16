@@ -296,7 +296,7 @@ public class InventoryManager : MonoBehaviour
 		{
 			itemObj.parentContainer = null;
 		}
-		slot.Item.GetComponent<RegisterTile>().UpdatePosition();
+		slot.Item.GetComponent<RegisterTile>().UpdatePositionServer();
 		UpdateInvSlot(true, "", slot.Item, slot.UUID);
 	}
 

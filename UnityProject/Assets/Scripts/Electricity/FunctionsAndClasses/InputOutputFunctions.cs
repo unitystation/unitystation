@@ -41,6 +41,15 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			Thiswire.Data.CurrentComingFrom[SourceInstanceID] = new Dictionary<ElectricalOIinheritance, float>();
 		}
 		Thiswire.Data.CurrentComingFrom[SourceInstanceID][ComingFrom] = Current;
+
+		if (!(Thiswire.Data.ResistanceComingFrom.ContainsKey(SourceInstanceID))) {
+			ElectricalSynchronisation.StructureChange = true;
+			ElectricalSynchronisation.NUStructureChangeReact.Add(Thiswire.InData.ControllingUpdate);
+			ElectricalSynchronisation.NUResistanceChange.Add(Thiswire.InData.ControllingUpdate);
+			ElectricalSynchronisation.NUCurrentChange.Add(Thiswire.InData.ControllingUpdate);
+			Logger.LogErrorFormat("Resistance isn't initialised on {1}", Category.Electrical, SourceInstance);
+			return;
+		}
 		Thiswire.Data.SourceVoltages[SourceInstanceID] = Current * (ElectricityFunctions.WorkOutResistance(Thiswire.Data.ResistanceComingFrom[SourceInstanceID]));
 		ELCurrent.CurrentWorkOnNextListADD(Thiswire);
 		Thiswire.Data.CurrentStoreValue = ElectricityFunctions.WorkOutCurrent(Thiswire.Data.CurrentComingFrom[SourceInstanceID]);
@@ -81,7 +90,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			if (Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(IElec))
 			{
 				if (Thiswire.Data.ResistanceToConnectedDevices [IElec].Count > 1) {
-					Logger.LogError ("oh no!, problem!!!!");
+					Logger.LogErrorFormat("{0} has too many resistance reactions specified.", Category.Electrical, Thiswire.ToString());
 				}
 				foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[IElec])
 				{
@@ -135,20 +144,20 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		{
 			Thiswire.FindPossibleConnections();
 		}
-		for (int i = 0; i < Thiswire.Data.connections.Count; i++)
+		foreach (ElectricalOIinheritance Related in Thiswire.Data.connections)
 		{
-			if (!(Thiswire.Data.Upstream[SourceInstanceID].Contains(Thiswire.Data.connections[i])) && (!(Thiswire == Thiswire.Data.connections[i])))
+			if (!(Thiswire.Data.Upstream[SourceInstanceID].Contains(Related)) && (!(Thiswire == Related)))
 			{
 				bool pass = true;
 				if (RelatedLine != null) {
-					if (RelatedLine.Covering.Contains (Thiswire.Data.connections [i])) {
+					if (RelatedLine.Covering.Contains (Related)) {
 						pass = false;
 					}
 				}
-				if (!(Thiswire.Data.Downstream[SourceInstanceID].Contains(Thiswire.Data.connections[i])) && pass)
+				if (!(Thiswire.Data.Downstream[SourceInstanceID].Contains(Related)) && pass)
 				{
-					Thiswire.Data.Downstream[SourceInstanceID].Add(Thiswire.Data.connections[i]);
-					Thiswire.Data.connections[i].DirectionInput(SourceInstance, Thiswire);
+					Thiswire.Data.Downstream[SourceInstanceID].Add(Related);
+					Related.DirectionInput(SourceInstance, Thiswire);
 				}
 			}
 		}
@@ -188,6 +197,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 					}
 					Thiswire.Data.ResistanceToConnectedDevices[SourceInstancPowerSupply].Add(ComingFrom.InData.Categorytype);
 					SourceInstancPowerSupply.connectedDevices.Add(Thiswire);
+					//Logger.Log(" add " + SourceInstance + "  " + Thiswire);
 					ElectricalSynchronisation.InitialiseResistanceChange.Add (Thiswire.InData.ControllingUpdate);
 				}
 				if (Thiswire.InData.ConnectionReaction[ComingFrom.InData.Categorytype].DirectionReactionA.YouShallNotPass)

@@ -41,7 +41,7 @@ public class GUI_Spawner : NetTab
 		var prefab = item?.Prefab;
 //		Logger.Log( $"Spawning item '{prefab?.name}'!" );
 
-		Vector3 originPos = Provider.WorldPos();
+		Vector3 originPos = Provider.WorldPosServer();
 		Vector3 nearestPlayerPos = GetNearestPlayerPos(originPos);
 
 		if ( nearestPlayerPos == TransformState.HiddenPos ) {

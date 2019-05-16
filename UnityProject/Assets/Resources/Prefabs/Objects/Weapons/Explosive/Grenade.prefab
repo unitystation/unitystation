@@ -204,17 +204,16 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 0
   inHandReferenceRight: 0
-  itemDescription: It's a metal can with a pretty ring attached to it.
   itemName: Grenade
+  itemDescription: It's a metal can with a pretty ring attached to it.
   itemType: 0
   size: 0
   spriteType: 0
-  type: 0
-  ConnectedToTank: 0
-  throwDamage: 3
+  CanConnectToTank: 0
+  hitDamage: 0
+  throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 3
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &5173015474296263790
@@ -250,19 +249,17 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &7947197821612226908
 MonoBehaviour:
   m_ObjectHideFlags: 0

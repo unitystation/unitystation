@@ -23,7 +23,7 @@ public class WireConnect : ElectricalOIinheritance
 				if (!(Data.connections.Count > 2)) {
 					RelatedLine = new CableLine ();
 					if (RelatedLine == null) {
-						Logger.Log ("HE:LP:::::::::::::::::::niniinininininin");
+						Logger.Log("DirectionInput: RelatedLine is null.", Category.Power);
 					}
 					RelatedLine.InitialGenerator = SourceInstance;
 					RelatedLine.TheStart = this;
@@ -128,24 +128,24 @@ public class WireConnect : ElectricalOIinheritance
 					PassOn.TheEnd = this;
 				}
 			}
-			for (int i = 0; i < Data.connections.Count; i++)
+			foreach (ElectricalOIinheritance Related in Data.connections)
 			{
-				if (!(RelatedLine.Covering.Contains(Data.connections[i]) || RelatedLine.TheStart == Data.connections[i]))
+				if (!(RelatedLine.Covering.Contains(Related) || RelatedLine.TheStart == Related))
 				{
 					bool canpass = true;
 					if (SourceInstance != null)
 					{
 						int SourceInstanceID = SourceInstance.GetInstanceID();
-						if (Data.Upstream[SourceInstanceID].Contains(Data.connections[i]))
+						if (Data.Upstream[SourceInstanceID].Contains(Related))
 						{
 							canpass = false;
 						}
 					}
 					if (canpass)
 					{
-						if (Data.connections[i].GameObject().GetComponent<WireConnect>() != null)
+						if (Related.GameObject().GetComponent<WireConnect>() != null)
 						{
-							Data.connections[i].GameObject().GetComponent<WireConnect>().lineExplore(RelatedLine);
+							Related.GameObject().GetComponent<WireConnect>().lineExplore(RelatedLine);
 						}
 					}
 
@@ -159,12 +159,11 @@ public class WireConnect : ElectricalOIinheritance
 	{
 		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
 		RelatedLine = null;
-		InData.ControllingDevice.PotentialDestroyed();
+		//InData.ControllingDevice.PotentialDestroyed();
 	}
 	public override void FlushResistanceAndUp(GameObject SourceInstance = null)
 	{
-		Logger.LogError ("yes? not ues haha lol no");
-		//yeham, Might need to work on in future but not used Currently
+		//TODO: yeham, Might need to work on in future but not used Currently
 		ElectricalDataCleanup.PowerSupplies.FlushResistanceAndUp(this, SourceInstance);
 	}
 	public override void FlushSupplyAndUp(GameObject SourceInstance = null)
@@ -237,7 +236,6 @@ public class WireConnect : ElectricalOIinheritance
 			Logger.Log("DownstreamCount " + (Data.DownstreamCount.ToString()), Category.Electrical);
 			if (RelatedLine != null)
 			{
-				Logger.Log("line heree!!!");
 				//RelatedLine.UpdateCoveringCable();
 				Data.ActualVoltage = RelatedLine.TheEnd.Data.ActualVoltage;
 				Data.CurrentInWire = RelatedLine.TheEnd.Data.CurrentInWire;

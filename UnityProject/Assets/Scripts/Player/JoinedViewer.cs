@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// This is the Viewer object for a joined player. 
+/// This is the Viewer object for a joined player.
 /// Once they join they will have local ownership of this object until a job is determined
 /// and then they are spawned as player entity
 /// </summary>
@@ -93,44 +93,44 @@ public class JoinedViewer : NetworkBehaviour
 		}
 	}
 
-    /// <summary>
-    /// At the moment players can choose their jobs on round start:
-    /// </summary>
-    [Command]
-    public void CmdRequestJob(JobType jobType)
-    {
-        var player = PlayerList.Instance.Get(connectionToClient);
-        /// Verifies that the player has no job
-        if (player.Job == JobType.NULL)
-        {
-            SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
-            GameManager.Instance.GetRandomFreeOccupation(jobType));
+	/// <summary>
+	/// At the moment players can choose their jobs on round start:
+	/// </summary>
+	[Command]
+	public void CmdRequestJob(JobType jobType, CharacterSettings characterSettings)
+	{
+		var player = PlayerList.Instance.Get(connectionToClient);
+		/// Verifies that the player has no job
+		if (player.Job == JobType.NULL)
+		{
+			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
+			GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings, gameObject);
 
-        }
-        /// Spawns in player if they have a job but aren't spawned
-        else if (player.GameObject == null)
-        {
-            SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
-            GameManager.Instance.GetRandomFreeOccupation(player.Job));
+		}
+		/// Spawns in player if they have a job but aren't spawned
+		else if (player.GameObject == null)
+		{
+			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
+			GameManager.Instance.GetRandomFreeOccupation(player.Job), characterSettings, gameObject);
 
-        }
-        else
-        {
-            Logger.LogWarning("[Jobs] Request Job Failed: Already Has Job");
+		}
+		else
+		{
+			Logger.LogWarning("[Jobs] Request Job Failed: Already Has Job", Category.Jobs);
 
 
-        }
-        
-    }
+		}
 
-    /// <summary>
-    /// Asks the server to let the client rejoin into a logged off character.
-    /// </summary>
-    /// <param name="loggedOffPlayer">The character to be rejoined into.</param>
+	}
+
+	/// <summary>
+	/// Asks the server to let the client rejoin into a logged off character.
+	/// </summary>
+	/// <param name="loggedOffPlayer">The character to be rejoined into.</param>
 	[Command]
 	public void CmdRejoin(GameObject loggedOffPlayer)
 	{
-		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, loggedOffPlayer);
+		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, loggedOffPlayer, gameObject, EVENT.PlayerSpawned, null);
 		loggedOffPlayer.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(loggedOffPlayer);
 	}
 }

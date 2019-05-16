@@ -41,18 +41,12 @@ public class ObjectManager : MonoBehaviour
 public enum ItemSize
 {
 	//w_class
-	Tiny,
-	Small,
-	Medium, //Normal
-	Large, //Bulky
-	Huge
+	Tiny = 	1,
+	Small = 2,
+	Medium =3, //Normal
+	Large = 4, //Bulky
+	Huge = 	5
 }
-
-//	public enum W_CLASS { //w_class
-//		WEIGHT_CLASS_TINY, WEIGHT_CLASS_SMALL,
-//		WEIGHT_CLASS_NORMAL, WEIGHT_CLASS_BULKY,
-//		WEIGHT_CLASS_HUGE
-//	}
 
 public enum SLOT_FLAGS
 {
@@ -132,18 +126,6 @@ public enum FLAGS
 	SS_BACKGROUND
 }
 
-
-public enum BODYPARTS
-{
-//body_parts_covered
-	CHEST,
-	GROIN,
-	LEGS,
-	FEET,
-	ARMS,
-	HANDS
-}
-
 public enum SpriteType
 {
 	Items,
@@ -169,6 +151,7 @@ public enum ItemType
 	ID,
 	PDA,
 	Food,
+	Medical,
 	Knife,
 	Gun
 }

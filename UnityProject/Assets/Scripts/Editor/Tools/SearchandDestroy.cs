@@ -100,7 +100,7 @@ public class SearchAndDestroy : EditorWindow
 						}
 						catch
 						{
-							Logger.Log("For some reason, prefab " + prefab + " won't cast to GameObject");
+							Logger.LogFormat("For some reason, prefab {0} won't cast to GameObject", Category.UI, prefab);
 						}
 					}
 					EditorUtility.ClearProgressBar();
@@ -145,12 +145,12 @@ public class SearchAndDestroy : EditorWindow
 								//			PrefabUtility.ReplacePrefab(castGO, castPrefab, ReplacePrefabOptions.Default);
 								PrefabUtility.ReplacePrefab(cast, PrefabUtility.GetCorrespondingObjectFromSource(cast), ReplacePrefabOptions.ConnectToPrefab);
 								DestroyImmediate(cast, true);
-								Logger.Log("Removed " + componentName + " From " + prefab);
+								Logger.LogFormat("Removed {0} From {1}.", Category.UI, componentName, prefab);
 								i++;
 							}
 						}
 					}
-					Logger.Log("Removed components from" + i + " prefabs");
+					Logger.LogFormat("Removed components from {0} prefabs.", Category.UI, i);
 					EditorUtility.ClearProgressBar();
 				}
 				break;

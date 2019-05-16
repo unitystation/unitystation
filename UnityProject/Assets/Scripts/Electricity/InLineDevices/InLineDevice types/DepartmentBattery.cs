@@ -42,12 +42,6 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 	[SyncVar]
 	public int currentCharge; // 0 - 100
 
-	public PowerTypeCategory ApplianceType = PowerTypeCategory.DepartmentBattery;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
-	{
-		PowerTypeCategory.LowMachineConnector
-	};
-
 	void Start() {//Initialise Sprites
 		for (int i = 0; i< enums.Count; i++)
 		{
@@ -61,10 +55,15 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 	}
 	public override void OnStartServerInitialise()
 	{
+		ApplianceType = PowerTypeCategory.DepartmentBattery;
+		CanConnectTo = new HashSet<PowerTypeCategory>
+		{
+			PowerTypeCategory.LowMachineConnector
+		};
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.DirectionStart = DirectionStart;
-		powerSupply.DirectionEnd = DirectionEnd;
+		powerSupply.WireEndB = WireEndB;
+		powerSupply.WireEndA = WireEndA;
 
 		resistance.ResistanceAvailable = false;
 
@@ -162,25 +161,6 @@ public class DepartmentBattery : PowerSupplyControlInheritance
 			PowerIndicator.sprite = LightOff;
 		}
 
-	}
-
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		//Interact stuff with the SMES here
-		if (!isServer)
-		{
-			InteractMessage.Send(gameObject, hand);
-		}
-		else
-		{
-			if (!powerSupply.Data.ChangeToOff)
-			{
-				isOn = !isOn;
-				UpdateServerState(isOn);
-			}
-		}
-
-		return true;
 	}
 
 	public override float ModifyElectricityInput( float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)

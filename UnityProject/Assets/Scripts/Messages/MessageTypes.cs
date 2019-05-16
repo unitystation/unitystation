@@ -29,14 +29,16 @@ internal enum MessageTypes : short
 	ElectricalStatsMessage = 1025,
 	InformPull = 1026,
 	HealthOverallStats = 1027,
-	HealthRespiratoryStats = 1028,
-	HealthBloodStats = 1029,
-	HealthBrainStats = 1030,
-	HealthBodyPartStats = 1031,
-	TriggerEvent = 1032,
-	Suicide = 1033,
-	PlayerUprightMessage = 1034,
-
+	HealthConsciousState = 1028,
+	HealthRespiratoryStats = 1029,
+	HealthBloodStats = 1030,
+	HealthBrainStats = 1031,
+	HealthBodyPartStats = 1032,
+	TriggerEvent = 1033,
+	Suicide = 1034,
+	PlayerUprightMessage = 1035,
+  ElectricalCableMessage = 1036,
+  
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
 	InteractMessage = 2001,
@@ -55,5 +57,7 @@ internal enum MessageTypes : short
 	RequestHealthStats = 2014,
 	DevSpawnMessage = 2015,
 	DevCloneMessage = 2016,
-	DevDestroyMessage = 2017
+	DevDestroyMessage = 2017,
+	RequestMouseDropMessage = 2018,
+	RequestInteractMessage = 2019
 }

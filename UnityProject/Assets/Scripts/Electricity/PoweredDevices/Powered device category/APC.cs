@@ -105,18 +105,19 @@ public class APC : PowerSupplyControlInheritance
 	/// Class to hold resistance so ElectricalSync can have a reference to it
 	/// </summary>
 	private Resistance ResistanceClass = new Resistance();
-	private PowerTypeCategory ApplianceType = PowerTypeCategory.APC;
-	private HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>()
-	{
-		PowerTypeCategory.LowMachineConnector
-	};
 
 	public override void OnStartServerInitialise()
 	{
+		ApplianceType = PowerTypeCategory.APC;
+		CanConnectTo = new HashSet<PowerTypeCategory>()
+		{
+			PowerTypeCategory.LowMachineConnector
+		};
+
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.DirectionStart = 0;
-		powerSupply.DirectionEnd = 9;
+		powerSupply.WireEndB = Connection.Overlap;
+		powerSupply.WireEndA = Connection.MachineConnect;
 		ResistanceClass.Ohms = Resistance;
 		ElectricalSynchronisation.PoweredDevices.Add(this);
 		PowerInputReactions PRLCable = new PowerInputReactions();
@@ -128,6 +129,24 @@ public class APC : PowerSupplyControlInheritance
 		PRLCable.ResistanceReactionA.Resistance = ResistanceClass;
 		powerSupply.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
 	}
+	//public override void PowerUpdateStructureChange() {
+	//	//Logger.Log("PowerUpdateStructureChange" + this);
+	//	powerSupply.Data.connections.Clear();
+	//	powerSupply.Data.Upstream.Clear();
+	//	powerSupply.Data.Downstream.Clear();
+	//	powerSupply.Data.ResistanceComingFrom.Clear();
+	//	powerSupply.Data.ResistanceGoingTo.Clear();
+	//	powerSupply.Data.CurrentGoingTo.Clear();
+	//	powerSupply.Data.CurrentComingFrom.Clear();
+	//	powerSupply.Data.FirstPresent = 0;
+	//	powerSupply.Data.SourceVoltages.Clear();
+	//	powerSupply.Data.CurrentInWire = new float();
+	//	powerSupply.Data.ActualVoltage = new float();
+	//	powerSupply.Data.ResistanceToConnectedDevices.Clear();
+	//	powerSupply.connectedDevices.Clear();
+	//	powerSupply.PowerUpdateStructureChange();
+	//	_PowerUpdateStructureChange();
+	//}
 
 	private void OnDisable()
 	{
@@ -153,7 +172,9 @@ public class APC : PowerSupplyControlInheritance
 		UpdateLights();
 		if (dirtyResistance)
 		{
+			//Logger.Log(ResistanceClass.Ohms + " vs " + Resistance + " < new");
 			ResistanceClass.Ohms = Resistance;
+			//Logger.Log("or this??");
 			ElectricalSynchronisation.ResistanceChange.Add (this);
 			dirtyResistance = false;
 		}
@@ -162,7 +183,7 @@ public class APC : PowerSupplyControlInheritance
 	public override void _Interact(GameObject originator, Vector3 position, string hand)
 	{
 		var playerScript = originator.GetComponent<PlayerScript>();
-		if (playerScript.canNotInteract() || !playerScript.IsInReach(gameObject))
+		if (playerScript.canNotInteract() || !playerScript.IsInReach(gameObject, false))
 		{ //check for both client and server
 			return;
 		}
@@ -344,10 +365,10 @@ public class APC : PowerSupplyControlInheritance
 	public void UpdateLights()
 	{
 		float CalculatingResistance = new float();
-		foreach (KeyValuePair<LightSwitchTrigger,List<LightSource>> SwitchTrigger in  ConnectedSwitchesAndLights)
+		foreach (KeyValuePair<LightSwitchTrigger,List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
 		{
 			SwitchTrigger.Key.PowerNetworkUpdate (Voltage);
-			if (SwitchTrigger.Key.isOn)
+			if (SwitchTrigger.Key.isOn == LightSwitchTrigger.States.On)
 			{
 				for (int i = 0; i < SwitchTrigger.Value.Count; i++)
 				{

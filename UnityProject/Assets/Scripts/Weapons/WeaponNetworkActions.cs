@@ -120,7 +120,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		}
 
 		//This check cannot be used with TilemapDamage as the transform position is always far away
-		if (!playerScript.IsInReach(victim))
+		if (!playerScript.IsInReach(victim, true))
 		{
 			return;
 		}
@@ -128,7 +128,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		//Meaty bodies:
 		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 
-		if (victimHealth.IsDead && weaponAttr.type == ItemType.Knife)
+		if (victimHealth.IsDead && weaponAttr.itemType == ItemType.Knife)
 		{
 			if (victim.GetComponent<SimpleAnimal>())
 			{

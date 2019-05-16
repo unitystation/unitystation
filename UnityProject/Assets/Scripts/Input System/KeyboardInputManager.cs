@@ -118,8 +118,8 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	public static bool IsControlPressed()
 	{
-		return CommonInput.GetKey(KeyCode.LeftControl) || CommonInput.GetKey(KeyCode.LeftControl) ||
-		       CommonInput.GetKey(KeyCode.LeftCommand) || CommonInput.GetKey(KeyCode.LeftCommand);
+		return CommonInput.GetKey(KeyCode.LeftControl) || CommonInput.GetKey(KeyCode.RightControl) ||
+		       CommonInput.GetKey(KeyCode.LeftCommand) || CommonInput.GetKey(KeyCode.RightCommand);
 	}
 
 	/// <summary>

@@ -378,7 +378,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300232, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
+  m_Sprite: {fileID: 21300236, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5062,7 +5062,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 14
+  m_SortingLayer: 15
   m_SortingOrder: 34
   m_RenderMode: 0
   m_SortMode: 0
@@ -5267,23 +5267,52 @@ MonoBehaviour:
   SelfDestruct: 0
   powerSupply: {fileID: 7281671087508858390}
   isOn: 0
-  DirectionStart: 0
-  DirectionEnd: 0
+  WireEndB: 8
+  WireEndA: 9
   MonitoringResistance: 1e+10
-  current: 0
   Previouscurrent: 0
   SupplyingVoltage: 0
   PreviousSupplyingVoltage: 0
   InternalResistance: 0
   PreviousInternalResistance: 0
+  TurnRatio: 0
+  VoltageLimiting: 0
+  VoltageLimitedTo: 0
+  _IElectricityIO: {fileID: 0}
+  ApplianceType: 0
+  MaximumCurrentSupport: 0
+  MinimumSupportVoltage: 0
+  StandardSupplyingVoltage: 0
+  CapacityMax: 0
+  CurrentCapacity: 0
+  ExtraChargeCutOff: 0
+  IncreasedChargeVoltage: 0
+  StandardChargeNumber: 0
+  ChargeSteps: 0
+  MaxChargingMultiplier: 0
+  ChargingMultiplier: 0
+  CanCharge: 0
+  Cansupport: 0
+  ToggleCanCharge: 0
+  ToggleCansupport: 0
+  PullingWatts: 0
+  ChargingWatts: 0
+  Resistance: 0
+  PreviousResistance: 0
+  CircuitResistance: 0
+  ActualVoltage: 0
+  PullLastDeductedTime: 0
+  ChargLastDeductedTime: 0
+  PassChangeToOff: 0
+  isOnForInterface: 0
   objectBehaviour: {fileID: 820786687953803850}
   isSecured: 0
   startSecured: 0
   startAsOn: 0
-  generatorSecuredSprite: {fileID: 21300230, guid: 6c565852bdc446c78d0f44aa66c28bc2,
+  generatorSecuredSprite: {fileID: 21300234, guid: 0fc938f537a804eeeac7529d8c81d9d8,
     type: 3}
-  generatorOnSprite: {fileID: 21300234, guid: 6c565852bdc446c78d0f44aa66c28bc2, type: 3}
-  generatorUnSecuredSprite: {fileID: 21300232, guid: 6c565852bdc446c78d0f44aa66c28bc2,
+  generatorOnSprite: {fileID: 21300238, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  generatorUnSecuredSprite: {fileID: 21300236, guid: 0fc938f537a804eeeac7529d8c81d9d8,
     type: 3}
   spriteRend: {fileID: 212599920820597512}
   generatorRunSfx: {fileID: 82901662514687406}
@@ -5321,8 +5350,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DirectionStart: 0
-  DirectionEnd: 0
+  WireEndB: 8
+  WireEndA: 9
+  Data:
+    FirstPresent: 0
+    ActualCurrentChargeInWire:
+      Voltage: 0
+      Current: 0
+      EstimatedResistant: 0
+    UpstreamCount: 0
+    DownstreamCount: 0
+    CurrentInWire: 0
+    ActualVoltage: 0
+    EstimatedResistance: 0
+    SupplyingCurrent: 0
+    InternalResistance: 0
+    SupplyingVoltage: 0
+    ChangeToOff: 0
+    CurrentStoreValue: 0
+  InData:
+    Categorytype: 0
+    ControllingDevice: {fileID: 0}
+    ControllingUpdate: {fileID: 0}
+    DirectionOverride: 0
+    ResistanceOverride: 0
+    ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
+  RelatedDevice: {fileID: 114093731737732554}
   registerTile3: {fileID: 114738137265545768}

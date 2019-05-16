@@ -307,11 +307,11 @@ MonoBehaviour:
   size: 2
   spriteType: 0
   type: 0
-  ConnectedToTank: 0
-  throwDamage: 7
+  CanConnectToTank: 0
+  throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 10
+  hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114660078625858576

@@ -54,7 +54,7 @@ public class InventorySlotCache : MonoBehaviour
 	public ItemType GetItemType(GameObject obj)
 	{
 		ItemAttributes item = obj.GetComponent<ItemAttributes>();
-		return item.type;
+		return item.itemType;
 	}
 
 	public SpriteType GetItemMasterType(GameObject obj)
@@ -72,7 +72,7 @@ public class InventorySlotCache : MonoBehaviour
 	public static UI_ItemSlot GetSlotByItemType(GameObject obj)
 	{
 		ItemAttributes item = obj.GetComponent<ItemAttributes>();
-		return GetSlotByItemType(item.type);
+		return GetSlotByItemType(item.itemType);
 	}
 
 	public static UI_ItemSlot GetSlotByItem(GameObject obj)

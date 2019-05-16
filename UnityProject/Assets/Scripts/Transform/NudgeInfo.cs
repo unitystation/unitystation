@@ -7,22 +7,22 @@ public struct NudgeInfo
 {
 	/// Null object, means that there's no nudge in progress
 	public static readonly NudgeInfo NoNudge =
-		new NudgeInfo{ OriginPos = TransformState.HiddenPos, TargetPos = TransformState.HiddenPos };
+		new NudgeInfo{ OriginPos = TransformState.HiddenPos, Trajectory = TransformState.HiddenPos };
 	public Vector3 OriginPos;
-	public Vector3 TargetPos;
+//	public Vector3 TargetPos;
 	public float SpinMultiplier;
 	public float InitialSpeed;
 	public SpinMode SpinMode;
-	public Vector3 Trajectory => TargetPos - OriginPos;
+	public Vector3 Trajectory;
 
 	public override string ToString() {
 		return Equals(NoNudge) ? "[No nudge]" :
-			$"[{nameof( OriginPos )}: {OriginPos}, {nameof( TargetPos )}: {TargetPos}, " +
+			$"[{nameof( OriginPos )}: {OriginPos}, " +
 			$"{nameof( SpinMultiplier )}: {SpinMultiplier}, {nameof( InitialSpeed )}: {InitialSpeed}, {nameof( SpinMode )}: {SpinMode}]";
 	}
 
-	public bool Equals( ThrowInfo other ) {
-		return OriginPos.Equals( other.OriginPos ) && TargetPos.Equals( other.TargetPos );
+	public bool Equals( NudgeInfo other ) {
+		return OriginPos.Equals( other.OriginPos ) && Trajectory.Equals( other.Trajectory );
 	}
 
 	public override bool Equals( object obj ) {
@@ -30,12 +30,12 @@ public struct NudgeInfo
 			return false;
 		}
 
-		return obj is ThrowInfo && Equals( ( ThrowInfo ) obj );
+		return obj is NudgeInfo && Equals( ( NudgeInfo ) obj );
 	}
 
 	public override int GetHashCode() {
 		unchecked {
-			return ( OriginPos.GetHashCode() * 397 ) ^ TargetPos.GetHashCode();
+			return ( OriginPos.GetHashCode() * 397 ) ^ Trajectory.GetHashCode();
 		}
 	}
 }

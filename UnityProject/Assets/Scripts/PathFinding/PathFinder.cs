@@ -104,9 +104,9 @@ namespace PathFinding
 					return null;
 				}
 			}
-			
+
 			status = Status.idle;
-			Debug.Log("Search complete");
+			Logger.LogTrace("SearchForRoute: Search complete", Category.Movement);
 			return null;
 		}
 
@@ -139,7 +139,7 @@ namespace PathFinding
 					}
 				}
 			}
-			
+
 			currentNode.neighbors = newNeighbours;
 		}
 
@@ -184,20 +184,20 @@ namespace PathFinding
 			Vector3Int checkPos = new Vector3Int(node.position.x,
 				node.position.y, 0);
 
-			if (matrix.IsPassableAt(checkPos))
+			if (matrix.IsPassableAt(checkPos, true))
 			{
 				node.nodeType = NodeType.Open;
 				return;
 			}
 			else
 			{
-				var getDoor = matrix.GetFirst<DoorController>(checkPos);
+				var getDoor = matrix.GetFirst<DoorController>(checkPos, true);
 				if (!getDoor)
 				{
 					//TODO: Door consideration will work if you change this condition back to doors
 					//It is off for the time being as npcs that can't use doors keeps trying to make a path through them
 
-					//node.nodeType = NodeType.Door; 
+					//node.nodeType = NodeType.Door;
 
 					//So block doors for the meantime:
 					node.nodeType = NodeType.Blocked;

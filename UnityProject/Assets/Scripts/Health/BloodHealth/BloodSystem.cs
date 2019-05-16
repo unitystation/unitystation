@@ -19,16 +19,15 @@ public class BloodSystem : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Oxygen levels found in the blood. 0% to 100%
+	/// The lack of oxygen levels found in the blood.
 	/// </summary>
-	public float OxygenLevel
+	public float OxygenDamage
 	{
-		get { return Mathf.Clamp(oxygenLevel, 0, 101); }
-		set { oxygenLevel = Mathf.Clamp(value, 0, 101); }
+		get { return Mathf.Clamp(oxygenDamage, 0, 200); }
+		set { oxygenDamage = Mathf.Clamp(value, 0, 200); }
 	}
 	/// <summary>
 	/// The heart rate affects the rate at which blood is pumped around the body
-	/// Each pump consumes 7% of oxygen
 	/// This is only relevant on the Server.
 	/// HeartRate value can be requested by a client via a NetMsg
 	/// </summary>
@@ -39,13 +38,12 @@ public class BloodSystem : MonoBehaviour
 	/// </summary>
 	public bool HeartStopped => HeartRate == 0;
 
-	private float oxygenLevel = 100;
+	public float oxygenDamage = 0;
 	private float toxinLevel = 0;
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private DNAandBloodType bloodType;
 	private readonly float bleedRate = 2f;
-	private int bleedVolume;
-	public int BloodLevel = (int)BloodVolume.NORMAL;
+	public float BloodLevel = (int)BloodVolume.NORMAL;
 	public bool IsBleeding { get; private set; }
 	private float tickRate = 1f;
 	private float tick = 0f;
@@ -107,10 +105,17 @@ public class BloodSystem : MonoBehaviour
 	/// </summary>
 	void PumpBlood()
 	{
-		OxygenLevel -= 10; //Remove 10% oxygen from system
-
 		if (IsBleeding)
 		{
+			float bleedVolume = 0;
+			for (int i = 0; i < livingHealthBehaviour.BodyParts.Count; i++)
+			{
+				BodyPartBehaviour BPB = livingHealthBehaviour.BodyParts[i];
+				if (BPB.isBleeding)
+				{
+					bleedVolume += (BPB.BruteDamage * 0.013f);
+				}
+			}
 			LoseBlood(bleedVolume);
 		}
 
@@ -120,18 +125,18 @@ public class BloodSystem : MonoBehaviour
 	/// <summary>
 	/// Subtract an amount of blood from the player. Server Only
 	/// </summary>
-	public void AddBloodLoss(int amount)
+	public void AddBloodLoss(int amount, BodyPartBehaviour bodyPart)
 	{
 		if (amount <= 0)
 		{
 			return;
 		}
-		bleedVolume += amount;
-		TryBleed();
+		TryBleed(bodyPart);
 	}
 
-	private void TryBleed()
+	private void TryBleed(BodyPartBehaviour bodyPart)
 	{
+		bodyPart.isBleeding = true;
 		//don't start another coroutine when already bleeding
 		if (!IsBleeding)
 		{
@@ -140,21 +145,40 @@ public class BloodSystem : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Stems any bleeding. Server Only.
+	/// Stops bleeding on the selected bodypart. The bloodsystem continues bleeding if there's another bodypart bleeding. Server Only.
 	/// </summary>
-	public void StopBleeding()
+	public void StopBleeding(BodyPartBehaviour bodyPart)
 	{
-		bleedVolume = 0;
+		bodyPart.isBleeding = false;
+		for (int i = 0; i < livingHealthBehaviour.BodyParts.Count; i++)
+		{
+			BodyPartBehaviour BPB = livingHealthBehaviour.BodyParts[i];
+			if(BPB.isBleeding){
+				return;
+			}
+		}
 		IsBleeding = false;
 	}
 
-	private void LoseBlood(int amount)
+	/// <summary>
+	/// Stops bleeding on all bodyparts. Server Only.
+	/// </summary>
+	public void StopBleedingAll(){
+		for (int i = 0; i < livingHealthBehaviour.BodyParts.Count; i++)
+		{
+			BodyPartBehaviour BPB = livingHealthBehaviour.BodyParts[i];
+			BPB.isBleeding = false;
+		}
+		IsBleeding = false;
+	}
+
+	private void LoseBlood(float amount)
 	{
 		if (amount <= 0)
 		{
 			return;
 		}
-		Logger.LogTraceFormat("Lost blood: {0}->{1}", Category.Health, BloodLevel, BloodLevel - amount);
+		Logger.LogTraceFormat("{0} lost blood: {1}->{2}", Category.Health, this.gameObject.name, BloodLevel, BloodLevel - amount);
 		BloodLevel -= amount;
 		BloodSplatSize scaleOfTragedy;
 		if (amount > 0 && amount < 15)
@@ -214,25 +238,9 @@ public class BloodSystem : MonoBehaviour
 		if (damageType == DamageType.Brute)
 		{
 			int bloodLoss = (int)(Mathf.Clamp(amount, 0f, 10f) * BleedFactor(damageType));
-			// don't start bleeding if limb is in ok condition after it received damage
-			switch (bodyPart.Severity)
-			{
-				case DamageSeverity.Light:
-				case DamageSeverity.LightModerate:
-				case DamageSeverity.Moderate:
-				case DamageSeverity.Bad:
-				case DamageSeverity.Critical:
-					LoseBlood(bloodLoss);
-					AddBloodLoss(bloodLoss);
-					break;
-				default:
-					//For particularly powerful hits when a body part is fine
-					if (amount > 40)
-					{
-						LoseBlood(bloodLoss);
-						AddBloodLoss(bloodLoss);
-					}
-					break;
+			// start bleeding if the limb is really damaged
+			if(bodyPart.BruteDamage > 40){
+				AddBloodLoss(bloodLoss, bodyPart);
 			}
 		}
 
@@ -245,14 +253,15 @@ public class BloodSystem : MonoBehaviour
 	//Do any healing stuff:
 	private void CheckHealing(BodyPartBehaviour bodyPart, DamageType damageType, float healAmt)
 	{
-		Debug.Log("TODO PRIORITY: Do Blood Healing!!");
+		//TODO: PRIORITY! Do Blood healing!
+		Logger.Log("Not implemented: Blood healing.", Category.Health);
 	}
 
 	// --------------------
 	// UPDATES FROM SERVER
 	// --------------------
 
-	public void UpdateClientBloodStats(int heartRate, int bloodVolume, float _oxygenLevel, float _toxinLevel)
+	public void UpdateClientBloodStats(int heartRate, float bloodVolume, float _oxygenDamage, float _toxinLevel)
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
@@ -261,7 +270,7 @@ public class BloodSystem : MonoBehaviour
 
 		HeartRate = heartRate;
 		BloodLevel = bloodVolume;
-		oxygenLevel = _oxygenLevel;
+		OxygenDamage = _oxygenDamage;
 		toxinLevel = _toxinLevel;
 	}
 }

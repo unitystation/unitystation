@@ -73,9 +73,9 @@ public class TilemapDamage : MonoBehaviour
 		if (Layer.LayerType == LayerType.Grills)
 		{
 			//Make sure a window is not protecting it first:
-			if (!metaTileMap.HasTile(cellPos, LayerType.Windows))
+			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
-				if (metaTileMap.HasTile(cellPos, LayerType.Grills))
+				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
 					//TODO damage amt based off type of bullet
 					AddGrillDamage(bullet.damage, data, cellPos, bulletHitTarget);
@@ -97,7 +97,7 @@ public class TilemapDamage : MonoBehaviour
 
 		if (Layer.LayerType == LayerType.Windows)
 		{
-			if (metaTileMap.HasTile(cellPos, LayerType.Windows))
+			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
 				SoundManager.PlayNetworkedAtPos("GlassHit", dmgPosition, Random.Range(0.9f, 1.1f));
 				AddWindowDamage(dmgAmt, data, cellPos, dmgPosition);
@@ -108,9 +108,9 @@ public class TilemapDamage : MonoBehaviour
 		if (Layer.LayerType == LayerType.Grills)
 		{
 			//Make sure a window is not protecting it first:
-			if (!metaTileMap.HasTile(cellPos, LayerType.Windows))
+			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
-				if (metaTileMap.HasTile(cellPos, LayerType.Grills))
+				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
 					SoundManager.PlayNetworkedAtPos("GrillHit", dmgPosition, Random.Range(0.9f, 1.1f));
 					AddGrillDamage(dmgAmt, data, cellPos, dmgPosition);
@@ -119,7 +119,7 @@ public class TilemapDamage : MonoBehaviour
 		}
 	}
 
-	private void AddWindowDamage(int damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
+	private void AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
 	{
 		data.Damage += damage;
 		if (data.Damage >= 20 && data.Damage < 50 && data.WindowDmgType != "crack01")
@@ -156,7 +156,7 @@ public class TilemapDamage : MonoBehaviour
 		}
 	}
 
-	private void AddGrillDamage(int damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
+	private void AddGrillDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
 	{
 		data.Damage += damage;
 
@@ -184,9 +184,9 @@ public class TilemapDamage : MonoBehaviour
 		if (Layer.LayerType == LayerType.Grills)
 		{
 			//Make sure a window is not protecting it first:
-			if (!metaTileMap.HasTile(cellPos, LayerType.Windows))
+			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
-				if (metaTileMap.HasTile(cellPos, LayerType.Grills))
+				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
 					tileChangeManager.RemoveTile(cellPos, LayerType.Grills);
 

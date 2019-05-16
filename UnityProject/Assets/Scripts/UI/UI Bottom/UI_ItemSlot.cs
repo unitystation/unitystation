@@ -203,7 +203,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 		if (!allowAllItems)
 		{
-			if (!allowedItemTypes.Contains(attributes.type))
+			if (!allowedItemTypes.Contains(attributes.itemType))
 			{
 				return false;
 			}
@@ -215,7 +215,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		}
 
 		bool allowed = false;
-		if (allowAllItems || allowedItemTypes.Contains(attributes.type))
+		if (allowAllItems || allowedItemTypes.Contains(attributes.itemType))
 		{
 			allowed = true;
 		}

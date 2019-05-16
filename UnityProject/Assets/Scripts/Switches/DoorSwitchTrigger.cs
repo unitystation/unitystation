@@ -26,7 +26,7 @@ public class DoorSwitchTrigger : InputTrigger
 	{
 		if (!isServer)
 		{
-			if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform.position, 1.2f) ||
+			if (!PlayerManager.LocalPlayerScript.IsInReach(spriteRenderer.transform.position, false, 1.2f) ||
 				PlayerManager.LocalPlayerScript.IsGhost)
 			{
 				return true;
@@ -41,7 +41,7 @@ public class DoorSwitchTrigger : InputTrigger
 		else
 		{
 			var ps = originator.GetComponent<PlayerScript>();
-			if (!ps.IsInReach(spriteRenderer.transform.position, 1.2f) ||
+			if (!ps.IsInReach(spriteRenderer.transform.position, true, 1.2f) ||
 				ps.IsGhost)
 			{
 				return true;

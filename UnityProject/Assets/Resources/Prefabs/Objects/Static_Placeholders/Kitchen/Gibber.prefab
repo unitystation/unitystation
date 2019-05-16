@@ -143,7 +143,8 @@ MonoBehaviour:
   stock: 5
   interactionMessage: You manage to scrape a small slap of stale meat out of the Gibber...
   deniedMessage: You don't dare to put your hand any deeper in search of some meat...
-  DispenseDirection: 3
+  EjectObjects: 0
+  EjectDirection: 0
 --- !u!114 &114320204715381500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,13 +160,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
@@ -276,7 +275,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300034, guid: 3f95a9fe53a3442ca95ab4434d2478e7, type: 3}
+  m_Sprite: {fileID: 21300034, guid: bf954400b0d1442e097a6f315e73cb72, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -355,7 +354,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300038, guid: 3f95a9fe53a3442ca95ab4434d2478e7, type: 3}
+  m_Sprite: {fileID: 21300038, guid: bf954400b0d1442e097a6f315e73cb72, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

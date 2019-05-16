@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 114008051345712512}
   - component: {fileID: 114969823251644552}
   - component: {fileID: 61506100139303226}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: VIR_LowVoltageMachineConnector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,6 +94,10 @@ MonoBehaviour:
       PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
+  crossed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114217685053654352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,8 +124,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c50f14e3b584c1996d019edd96fc01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DirectionStart: 0
-  DirectionEnd: 0
+  WireEndB: 0
+  WireEndA: 0
+  Data:
+    FirstPresent: 0
+    ActualCurrentChargeInWire:
+      Voltage: 0
+      Current: 0
+      EstimatedResistant: 0
+    UpstreamCount: 0
+    DownstreamCount: 0
+    CurrentInWire: 0
+    ActualVoltage: 0
+    EstimatedResistance: 0
+    SupplyingCurrent: 0
+    InternalResistance: 0
+    SupplyingVoltage: 0
+    ChangeToOff: 0
+    CurrentStoreValue: 0
+  InData:
+    Categorytype: 0
+    ControllingDevice: {fileID: 0}
+    ControllingUpdate: {fileID: 0}
+    DirectionOverride: 0
+    ResistanceOverride: 0
+    ElectricityOverride: 0
   registerTile: {fileID: 114947796331066130}
   connected: 0
 --- !u!114 &114969823251644552
@@ -172,7 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4741424964789636}
   - component: {fileID: 212218204924086210}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

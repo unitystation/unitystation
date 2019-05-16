@@ -91,6 +91,8 @@ public class Rightclick : MonoBehaviour
 		SpriteDictionary["Pour_away"] = Resources.Load<Sprite>("UI/RightClickButtonIcon/" + "Pour_away");
 		SpriteDictionary["Spill"] = Resources.Load<Sprite>("UI/RightClickButtonIcon/" + "Spill");
 
+		SpriteDictionary["x"] = Resources.Load<Sprite>("UI/RightClickButtonIcon/" + "x");
+
 		ColourDictionary[InterColour.Default] = "#BEBEBE";
 		ColourDictionary[InterColour.Test] = "#4cffeb";
 	}
@@ -142,7 +144,7 @@ public class Rightclick : MonoBehaviour
 
 	private bool IsUnderFloorTile(GameObject obj)
 	{
-		LayerTile tile = UITileList.GetTileAtPosition(obj.WorldPos());
+		LayerTile tile = UITileList.GetTileAtPosition(obj.WorldPosClient());
 
 		if (tile.LayerType != LayerType.Base && obj.layer < 1)
 		{

@@ -3,15 +3,14 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-///     Tells client to update overall health stats and conscious state
+///     Tells client to update overall health stats
 /// </summary>
 public class HealthOverallMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.HealthOverallStats;
 
 	public NetworkInstanceId EntityToUpdate;
-	public int OverallHealth;
-	public ConsciousState ConsciousState;
+	public float OverallHealth;
 
 	public UI_PressureAlert.PressureChecker PressureStatus;
 	public UI_TempAlert.TempChecker TempStatus;
@@ -45,7 +44,6 @@ public class HealthOverallMessage : ServerMessage
 				ConsciousState = consciousState,
 				PressureStatus = pressureStatus,
 				TempStatus = tempStatus,
-
 		};
 		msg.SendToAll();
 		return msg;

@@ -103,6 +103,32 @@ public static class GizmoUtils
 		Gizmos.DrawWireCube(position + (local ? HalfOne: Vector3.zero), Vector3.one * size);
 	}
 
+	public static void DrawArrow(Vector3 pos, Vector3 direction, bool local=true, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
+	{
+		if (direction == Vector3.zero)
+		{
+			return;
+		}
+
+		if ( local )
+		{
+			pos += HalfOne;
+		}
+
+		Gizmos.DrawRay(pos, direction);
+
+		Quaternion lookRotation = Quaternion.LookRotation(direction);
+		Vector3 right = lookRotation * Quaternion.Euler(arrowHeadAngle, 0, 0) * Vector3.back;
+		Vector3 left = lookRotation * Quaternion.Euler(-arrowHeadAngle, 0, 0) * Vector3.back;
+		Vector3 up = lookRotation * Quaternion.Euler(0, arrowHeadAngle, 0) * Vector3.back;
+		Vector3 down = lookRotation * Quaternion.Euler(0, -arrowHeadAngle, 0) * Vector3.back;
+		Gizmos.color = Gizmos.color;
+		Gizmos.DrawRay(pos + direction, right * arrowHeadLength);
+		Gizmos.DrawRay(pos + direction, left * arrowHeadLength);
+		Gizmos.DrawRay(pos + direction, up * arrowHeadLength);
+		Gizmos.DrawRay(pos + direction, down * arrowHeadLength);
+	}
+
 	public static void DrawText(string text, Vector3 position, bool local=true, int fontSize = 0, float yOffset = 0)
 	{
 		DrawText(text, position, Color.white, local, fontSize, yOffset);
@@ -113,7 +139,7 @@ public static class GizmoUtils
 		GUISkin guiSkin = GUI.skin;
 		if (guiSkin == null)
 		{
-			Debug.LogWarning("editor warning: guiSkin parameter is null");
+			Logger.LogWarning("editor warning: guiSkin parameter is null", Category.UI);
 			return;
 		}
 

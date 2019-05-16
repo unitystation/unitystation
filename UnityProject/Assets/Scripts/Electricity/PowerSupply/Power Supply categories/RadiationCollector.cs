@@ -1,16 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 public class RadiationCollector : PowerSupplyControlInheritance
 {
-	public PowerTypeCategory ApplianceType = PowerTypeCategory.RadiationCollector;
-	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>
-	{
-			PowerTypeCategory.HighVoltageCable,
-	};
-
 	//public void PotentialDestroyed()
 	//{
 	//	if (SelfDestruct)
@@ -21,11 +15,16 @@ public class RadiationCollector : PowerSupplyControlInheritance
 
 	public override void OnStartServerInitialise()
 	{
+		ApplianceType = PowerTypeCategory.RadiationCollector;
+		CanConnectTo = new HashSet<PowerTypeCategory>
+		{
+				PowerTypeCategory.HighVoltageCable,
+		};
 		
 		powerSupply.InData.CanConnectTo = CanConnectTo;
 		powerSupply.InData.Categorytype = ApplianceType;
-		powerSupply.DirectionStart = DirectionStart;
-		powerSupply.DirectionEnd = DirectionEnd;
+		powerSupply.WireEndB = WireEndB;
+		powerSupply.WireEndA = WireEndA;
 		SupplyingVoltage = 760000;
 		InternalResistance = 76000;
 		//current = 20; 
@@ -45,11 +44,13 @@ public class RadiationCollector : PowerSupplyControlInheritance
 	{
 		if (isOn)
 		{
-			Debug.Log("TODO: Sprite changes for radiation collector (close door)");
+			//TODO: Sprite changes for radiation collector (close door)
+			Logger.Log("Not implemented: Sprite change of closing radiation collector.", Category.Power);
 		}
 		else
 		{
-			Debug.Log("TODO: Sprite changes off for radiation collector (open door)");
+			//TODO: Sprite changes for radiation collector (close door)
+			Logger.Log("Not implemented: Sprite change of opening radiation collector.", Category.Power);
 		}
 	}
 }

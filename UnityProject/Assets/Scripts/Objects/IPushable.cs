@@ -17,6 +17,7 @@ public interface IPushable {
 	DualVector3IntEvent OnClientStartMove();
 	Vector3IntEvent OnTileReached();
 	Vector3IntEvent OnClientTileReached();
+	CollisionEvent OnHighSpeedCollision();
 	/// When you need to break pulling of this object
 	UnityEvent OnPullInterrupt();
 	bool CanPredictPush { get; }
@@ -25,13 +26,22 @@ public interface IPushable {
 	Vector2 ServerImpulse { get; }
 	float SpeedServer { get; }
 	float SpeedClient { get; }
+
+	bool IsTileSnap { get; }
+
+	void Nudge( NudgeInfo info );
+	ItemSize Size { get; }
+
 	/// Try stopping object if it's flying
 	void Stop();
 
 	/// ServerState WorldPosition because registerTile doesn't cut it
 	Vector3Int ServerPosition { get; }
+	Vector3Int ServerLocalPosition { get; }
 	Vector3Int ClientPosition { get; }
+	Vector3Int ClientLocalPosition { get; }
 	Vector3Int TrustedPosition { get; }
+	Vector3Int TrustedLocalPosition { get; }
 
 	/// Rollback predictive push on client using last good position
 	void RollbackPrediction();
@@ -39,3 +49,9 @@ public interface IPushable {
 
 public class Vector3IntEvent : UnityEvent<Vector3Int> {}
 public class DualVector3IntEvent : UnityEvent<Vector3Int,Vector3Int> {}
+
+/// <summary>
+/// Collision event that's invoked when a tile snapped object (player/machine) flies into something at high enough speed
+/// In order to apply damage to both flying object and whatever there is on next tile
+/// </summary>
+public class CollisionEvent : UnityEvent<CollisionInfo> {}

@@ -59,7 +59,7 @@ public class EffectsFactory : NetworkBehaviour
 		//blood splat should be relative to the matrix it appears in, but parented to Objects just like all
 		// the other objects in the matrix
 		GameObject b = PoolManager.PoolNetworkInstantiate(bloodTile, pos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(pos)).Objects);
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(pos), true).Objects);
 		BloodSplat bSplat = b.GetComponent<BloodSplat>();
 		//choose a random blood sprite
 		int spriteNum = 0;
@@ -83,7 +83,7 @@ public class EffectsFactory : NetworkBehaviour
 	public void WaterSplat(Vector3 pos)
 	{
 		GameObject w = PoolManager.PoolNetworkInstantiate(waterTile, pos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(pos)).Objects, Quaternion.identity);
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(pos), true).Objects, Quaternion.identity);
 		WaterSplat wSplat = w.GetComponent<WaterSplat>();
 		wSplat.sprite = 9;
 	}

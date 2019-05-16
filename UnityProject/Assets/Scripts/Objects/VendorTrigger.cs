@@ -12,14 +12,17 @@ public class VendorTrigger : InputTrigger
 	public int stock = 5;
 	public string interactionMessage;
 	public string deniedMessage;
-	public DispenseDirection DispenseDirection = DispenseDirection.None;
+	public bool EjectObjects = false;
+	public EjectDirection EjectDirection = EjectDirection.None;
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		if(!CanUse(originator, hand, position, false)){
+		if (!CanUse(originator, hand, position, false))
+		{
 			return false;
 		}
-		if(!isServer){
+		if (!isServer)
+		{
 			//ask server to perform the interaction
 			InteractMessage.Send(gameObject, position, hand);
 			return true;
@@ -29,7 +32,7 @@ public class VendorTrigger : InputTrigger
 		{
 			UpdateChatMessage.Send(originator, ChatChannel.Examine, deniedMessage);
 		}
-		else if(allowSell)
+		else if (allowSell)
 		{
 			allowSell = false;
 			if (!GameData.Instance.testServer && !GameData.IsHeadlessServer)
@@ -46,7 +49,7 @@ public class VendorTrigger : InputTrigger
 	[Server]
 	private bool ServerVendorInteraction(Vector3 position)
 	{
-//		Debug.Log("status" + allowSell);
+		//		Debug.Log("status" + allowSell);
 		if (vendorcontent.Length == 0)
 		{
 			return false;
@@ -54,29 +57,32 @@ public class VendorTrigger : InputTrigger
 
 		int randIndex = Random.Range(0, vendorcontent.Length);
 
-		var spawnedItem = PoolManager.PoolNetworkInstantiate(vendorcontent[randIndex], transform.position);
+		var spawnedItem = PoolManager.PoolNetworkInstantiate(vendorcontent[randIndex], transform.position, transform.parent);
 
-		//Dispensing in direction
-		if ( DispenseDirection != DispenseDirection.None ) {
+		//Ejecting in direction
+		if (EjectObjects && EjectDirection != EjectDirection.None)
+		{
 			Vector3 offset = Vector3.zero;
-			switch ( DispenseDirection ) {
-				case DispenseDirection.Up:
-					offset = transform.rotation * Vector3.up / Random.Range(4,12);
+			switch (EjectDirection)
+			{
+				case EjectDirection.Up:
+					offset = transform.rotation * Vector3.up / Random.Range(4, 12);
 					break;
-				case DispenseDirection.Down:
-					offset = transform.rotation * Vector3.down / Random.Range(4,12);
+				case EjectDirection.Down:
+					offset = transform.rotation * Vector3.down / Random.Range(4, 12);
 					break;
-				case DispenseDirection.Random:
-					offset = new Vector3( Random.Range( -0.15f, 0.15f ), Random.Range( -0.15f, 0.15f ), 0 );
+				case EjectDirection.Random:
+					offset = new Vector3(Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f), 0);
 					break;
 			}
-			spawnedItem.GetComponent<CustomNetTransform>()?.Throw( new ThrowInfo {
+			spawnedItem.GetComponent<CustomNetTransform>()?.Throw(new ThrowInfo
+			{
 				ThrownBy = gameObject,
 				Aim = BodyPartType.Chest,
 				OriginPos = transform.position,
 				TargetPos = transform.position + offset,
-				SpinMode = DispenseDirection == DispenseDirection.Random ? SpinMode.Clockwise : SpinMode.None
-			} );
+				SpinMode = EjectDirection == EjectDirection.Random ? SpinMode.Clockwise : SpinMode.None
+			});
 		}
 		stock--;
 
@@ -86,7 +92,7 @@ public class VendorTrigger : InputTrigger
 	private IEnumerator VendorInputCoolDown()
 	{
 		yield return new WaitForSeconds(cooldownTimer);
-		if ( stock > 0 )
+		if (stock > 0)
 		{
 			allowSell = true;
 		}
@@ -94,4 +100,4 @@ public class VendorTrigger : InputTrigger
 
 }
 
-public enum DispenseDirection { None, Up, Down, Random }
+public enum EjectDirection { None, Up, Down, Random }

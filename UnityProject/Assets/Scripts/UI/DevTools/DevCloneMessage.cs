@@ -26,7 +26,7 @@ public class DevCloneMessage : ClientMessage
 		else
 		{
 			yield return WaitFor(ToClone);
-			if (MatrixManager.IsPassableAt(WorldPosition.RoundToInt()))
+			if (MatrixManager.IsPassableAt(WorldPosition.RoundToInt(), true))
 			{
 				PoolManager.NetworkClone(NetworkObject, WorldPosition);
 			}

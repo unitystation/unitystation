@@ -47,11 +47,19 @@ public class Ian : MonoBehaviour
 			times.Add(sw.ElapsedMilliseconds);
 		}
 		times.Sort();
-		Debug.Log($"Finished running {times.Count} times...\n" +
-		    $"Mean: {times.Average()}ms\n" +
-		    $"Median: {times[times.Count / 2]}ms\n" +
-			$"Best: {times[0]}ms\n" +
-		    $"Worst: {times[times.Count - 1]}ms");
+		Logger.LogFormat("Finished running {amount} times...\n" +
+		"Mean: {mean}ms\n" +
+		"Median: {median}ms\n" +
+		"Best: {best}ms\n" +
+		"Worst: {worst}ms", Category.NetMessage,
+		args: new
+		{
+			amount = times.Count,
+			mean = times.Average(),
+			media = times[times.Count / 2],
+			best = times[0],
+			worst = times[times.Count - 1]
+		});
 
 		if (path != null)
 			PathFound(path);
@@ -63,7 +71,7 @@ public class Ian : MonoBehaviour
 		customNetTransform.enabled = false;
 
 		if (testStatus == TestStatus.Idle) {
-			Debug.Log("Test path");
+			Logger.Log("Testing target path", Category.NetMessage);
 			index = 0;
 			FindPath();
 		}
@@ -79,14 +87,14 @@ public class Ian : MonoBehaviour
 
 	private void PathFound(List<Node> path)
 	{
-		Debug.Log("PathFound. Steps: " + path.Count);
+		Logger.Log("Path found. Steps: " + path.Count, Category.NetMessage);
 		StartCoroutine(TestMovement(path));
 		testStatus = TestStatus.FollowingPath;
 	}
 
 	private void NoPathFound()
 	{
-		Debug.Log("No path found");
+		Logger.Log("No path found", Category.NetMessage);
 		testStatus = TestStatus.Idle;
 	}
 
