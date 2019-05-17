@@ -158,4 +158,18 @@ public class NetTab : Tab {
 		}
 		return firstTouchedElement;
 	}
+
+	/// <summary>
+    /// Not sending updates and closing tab for players that don't pass the validation anymore
+	/// </summary>
+	public void ValidatePeepers()
+	{
+        foreach ( var peeper in Peepers.ToArray() )
+        {
+            bool validate = peeper.Script && !peeper.Script.canNotInteract() && peeper.Script.IsInReach( Provider, true );
+            if ( !validate ) {
+                TabUpdateMessage.Send( peeper.GameObject, Provider, Type, TabAction.Close );
+            }
+        }
+	}
 }

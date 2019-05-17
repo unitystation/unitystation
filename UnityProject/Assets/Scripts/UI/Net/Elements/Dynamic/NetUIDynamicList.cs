@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
 /// Base class for List of dynamic entries, which can be added/removed at runtime.
@@ -10,7 +11,28 @@ public class NetUIDynamicList : NetUIElement {
 	private int entryCount = 0;
 
 	public DynamicEntry[] Entries => GetComponentsInChildren<DynamicEntry>( false );
-//	public DynamicEntry[] EntriesIncludeInactive => GetComponentsInChildren<DynamicEntry>( true );
+
+	/// <summary>
+	/// Deactivate entry gameobject after putting it to pool and vice versa
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	protected class UniqueEntryQueue<T> : UniqueQueue<T> where T : MonoBehaviour
+	{
+		protected override void AfterEnqueue( T enqueuedItem )
+		{
+			enqueuedItem.gameObject.SetActive( false );
+		}
+		protected override void AfterDequeue( T dequeuedItem )
+		{
+			dequeuedItem.gameObject.SetActive( true );
+		}
+	}
+	/// <summary>
+	/// Pool with disabled entries, ready to be reused
+	/// </summary>
+	protected UniqueEntryQueue<DynamicEntry> DisabledEntryPool = new UniqueEntryQueue<DynamicEntry>();
+
+	public GameObject EntryPrefab;
 
 	public Dictionary<string,DynamicEntry> EntryIndex {
 		get {
@@ -30,11 +52,23 @@ public class NetUIDynamicList : NetUIElement {
 		}
 	}
 
-	/// Non-runtime static init
-	public override void Init() {
-		var entryArray = Entries;
-		for ( var i = 0; i < entryArray.Length; i++ ) {
-			var value = entryArray[i];
+	private void Start()
+	{
+		DisabledEntryPool.EnqueueAll( GetComponentsInChildren<DynamicEntry>( true ).Where( entry => !entry.gameObject.activeSelf ).ToList() );
+		Logger.LogTraceFormat( "{0} dynamic list: initialized DisabledEntryPool with {1} items", Category.NetUI, gameObject.name, DisabledEntryPool.Count );
+	}
+
+	public override void Init()
+	{
+		if ( !EntryPrefab )
+		{
+			string elementType = $"{MasterTab.Type}Entry";
+			Logger.LogFormat( "{0} dynamic list: EntryPrefab not assigned, trying to find it as '{1}'", Category.NetUI, gameObject.name, elementType );
+			EntryPrefab = Resources.Load<GameObject>( elementType );
+		}
+		entryCount = 0;
+		foreach ( DynamicEntry value in Entries )
+		{
 			InitDynamicEntry( value );
 		}
 	}
@@ -43,18 +77,25 @@ public class NetUIDynamicList : NetUIElement {
 		return Value;
 	}
 
-	public virtual void Clear() {
-		var entryArray = Entries;
-		for ( var i = 0; i < entryArray.Length; i++ ) {
-			var entry = entryArray[i];
-			entry.gameObject.SetActive( false );
-		}
+	public virtual void Clear()
+	{
+		DisabledEntryPool.EnqueueAll( Entries.ToList() );
 
-		if ( MasterTab.IsServer ) {
+		RearrangeListItems();
+	}
+
+	/// <summary>
+	/// [Server]
+	/// Sets up proper layout for entries and sends coordinates to peepers
+	/// </summary>
+	private void RearrangeListItems()
+	{
+		if ( MasterTab.IsServer )
+		{
 			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
+			RefreshPositions();
 			UpdatePeepers();
 		}
-		RefreshPositions();
 	}
 
 	protected void Remove( string toBeRemoved ) {
@@ -62,21 +103,17 @@ public class NetUIDynamicList : NetUIElement {
 	}
 	protected void Remove( string[] toBeRemoved )
 	{
-		var mode = toBeRemoved.Length > 1 ? "Bulk" : "Single";
+//		var mode = toBeRemoved.Length > 1 ? "Bulk" : "Single";
 		var entries = EntryIndex;
 
-		for ( var i = 0; i < toBeRemoved.Length; i++ ) {
-			var item = toBeRemoved[i];
-			var entryToRemove = entries[item];
+		foreach ( string itemName in toBeRemoved )
+		{
+			var entryToRemove = entries[itemName];
 //			Logger.Log( $"{mode} destroying entry #{item}({entryToRemove})" );
-			entryToRemove.gameObject.SetActive( false );
+			DisabledEntryPool.Enqueue( entryToRemove );
 		}
 
-		if ( MasterTab.IsServer ) {
-			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
-			UpdatePeepers();
-		}
-		RefreshPositions();
+		RearrangeListItems();
 	}
 
 	protected DynamicEntry[] AddBulk( string[] proposedIndices )
@@ -84,36 +121,47 @@ public class NetUIDynamicList : NetUIElement {
 		var dynamicEntries = new DynamicEntry[proposedIndices.Length];
 		var mode = proposedIndices.Length > 1 ? "Bulk" : "Single";
 
-		string elementType = $"{MasterTab.Type}Entry";
-		GameObject prefab = Resources.Load<GameObject>( elementType );
-
 		for ( var i = 0; i < proposedIndices.Length; i++ ) {
 			var proposedIndex = proposedIndices[i];
 			//future suggestion: support more than one kind of entries per tab (introduce EntryType field or something)
 
-			GameObject entryObject = Instantiate( prefab, transform, false );
-
-			DynamicEntry dynamicEntry = entryObject.GetComponent<DynamicEntry>();
+			DynamicEntry dynamicEntry = PoolSpawnEntry();
 
 			string resultIndex = InitDynamicEntry( dynamicEntry, proposedIndex );
 
-			RefreshPositions();
 
-			if ( resultIndex != string.Empty ) {
+			if ( resultIndex != string.Empty )
+			{
 				Logger.LogTraceFormat( "{0} spawning dynamic entry #[{1}]: proposed: [{2}], entry: {3}", Category.NetUI,
 					mode, resultIndex, proposedIndex, dynamicEntry );
-			} else {
-
-				Logger.LogWarning( $"Dynamic entry \"{proposedIndex}\" {mode} spawn failure, no such entryObject {elementType}", Category.NetUI );
+			}
+			else
+			{
+				Logger.LogWarning( $"Dynamic entry \"{proposedIndex}\" {mode} spawn failure, something's wrong with {dynamicEntry}", Category.NetUI );
 			}
 
 			dynamicEntries[i] = dynamicEntry;
 		}
 
-		if ( MasterTab.IsServer ) {
-			NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
-		}
+		RearrangeListItems();
 		return dynamicEntries;
+	}
+
+	private DynamicEntry PoolSpawnEntry()
+	{
+		bool nonPool = !DisabledEntryPool.TryDequeue( out var dynamicEntry );
+		if ( nonPool )
+		{
+			var entryObject = Instantiate( EntryPrefab, transform, false );
+			dynamicEntry = entryObject.GetComponent<DynamicEntry>();
+		}
+		else
+		{
+			//Reusing
+			dynamicEntry.transform.parent = transform;
+		}
+
+		return dynamicEntry;
 	}
 
 	/// Adds new entry at given index (or generates index if none is provided)
@@ -125,17 +173,19 @@ public class NetUIDynamicList : NetUIElement {
 
 	/// Need to run this on list change to ensure no gaps are present
 	protected virtual void RefreshPositions() {
-		var entries = Entries;
-		for ( var i = 0; i < entries.Length; i++ ) {
+		//Adding new entries to the end by default
+		var entries = Entries.OrderBy( entry => entry.name ).ToArray();
+		for ( int i = 0; i < entries.Length; i++ )
+		{
 			SetProperPosition( entries[i], i );
 		}
 	}
 
 	/// Defines the way list items are positioned.
 	/// Adds next entries directly below (using height) by default
-	protected virtual void SetProperPosition( DynamicEntry entry, int index = 0 ) {
+	protected virtual void SetProperPosition( DynamicEntry entry, int sortIndex = 0 ) {
 		RectTransform rect = entry.gameObject.GetComponent<RectTransform>();
-		rect.anchoredPosition = Vector3.down * rect.rect.height * index;
+		rect.anchoredPosition = Vector3.down * rect.rect.height * sortIndex;
 	}
 
 	///Not just own value, include inner elements' values as well
@@ -179,7 +229,6 @@ public class NetUIDynamicList : NetUIElement {
 
 			if ( innerElement.name.Contains( DELIMITER ) )
 			{
-				Logger.LogWarningFormat( "Inner element {0} already has indexed name, but {1} was expected", Category.NetUI, innerElement, index );
 				if ( innerElement.name.Contains( DELIMITER + index ) )
 				{
 					//Same index - ignore
@@ -187,6 +236,7 @@ public class NetUIDynamicList : NetUIElement {
 				}
 				else
 				{
+					Logger.LogWarningFormat( "Inner element {0} already has indexed name, but {1} was expected", Category.NetUI, innerElement, index );
 					//Different index - cut and let set it again
 					innerElement.name = innerElement.name.Split( DELIMITER )[0];
 				}

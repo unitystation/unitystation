@@ -56,9 +56,11 @@ public abstract class NetUIElement : MonoBehaviour
 			UpdatePeepersLogic();
 		} else
 		{
-			Logger.LogTraceFormat( "'{0}': didn't update peepers because gameObject is inactive (another page?)", Category.NetUI, name );
+//			Logger.LogTraceFormat( "'{0}': didn't update peepers because gameObject is inactive (another page?)", Category.NetUI, name );
+			MasterTab.ValidatePeepers();
 		}
 	}
+
 
 	/// Override if you want custom "send update to peepers" logic
 	/// i.e. to include more values than just the current one

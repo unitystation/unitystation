@@ -85,7 +85,7 @@ public class GUI_Spawner : NetTab
 			return;
 		}
 
-		var spawnedItem = PoolManager.PoolNetworkInstantiate( item.Prefab, originPos );
+		var spawnedItem = PoolManager.PoolNetworkInstantiate( item.Prefab, originPos, Provider.transform.parent );
 		spawnedItem.GetComponent<CustomNetTransform>()?.Throw( new ThrowInfo {
 			ThrownBy = Provider,
 			Aim = BodyPartType.Chest,
@@ -153,12 +153,12 @@ public class GUI_Spawner : NetTab
 		{
 			return entryCatalog[index] as ItemEntry;
 		}
-		Logger.LogTraceFormat( "'{0}' spawner tab: item with string index {1} not found in the list, trying to interpret as actual array index", Category.NetUI, gameObject.name, index);
-		var entries = EntryList.Entries;
-		if ( int.TryParse( index, out var intIndex ) && entries.Length > intIndex )
-		{
-			return entries[intIndex] as ItemEntry;
-		}
+//		Logger.LogTraceFormat( "'{0}' spawner tab: item with string index {1} not found in the list, trying to interpret as actual array index", Category.NetUI, gameObject.name, index);
+//		var entries = EntryList.Entries;
+//		if ( int.TryParse( index, out var intIndex ) && entries.Length > intIndex )
+//		{
+//			return entries[intIndex] as ItemEntry;
+//		}
 		Logger.LogErrorFormat( "'{0}' spawner tab: item with index {1} not found in the list, might be hidden/destroyed", Category.NetUI, gameObject.name, index);
 		return null;
 	}
