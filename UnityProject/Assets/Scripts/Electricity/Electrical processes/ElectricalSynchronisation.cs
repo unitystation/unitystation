@@ -35,7 +35,6 @@ public static class ElectricalSynchronisation
 
 	public static List<ElectricalOIinheritance> _DirectionWorkOnNextList = new List<ElectricalOIinheritance>();
 	public static List<ElectricalOIinheritance> _DirectionWorkOnNextListWait = new List<ElectricalOIinheritance>();
-
 	public static bool UesAlternativeDirectionWorkOnNextList;
 
 	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> ResistanceWorkOnNextList = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
@@ -43,11 +42,13 @@ public static class ElectricalSynchronisation
 
 	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextList = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
 	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextListWait = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+	public static bool UesAlternativeResistanceWorkOnNextList;
+
 
 	public static KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance> OneJump;
 	public static ElectronicSupplyData InputSupplyingUsingData;
 	public static ElectronicSupplyData OutputSupplyingUsingData;
-	public static bool UesAlternativeResistanceWorkOnNextList;
+
 
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
@@ -212,7 +213,7 @@ public static class ElectricalSynchronisation
 			Profiler.EndSample();
 			return;
 		}
-		Logger.Log("PowerUpdateStructureChange!!!");
+		//Logger.Log("PowerUpdateStructureChange!!!");
 		StructureChange = false;
 		foreach (var category in OrderList)
 		{

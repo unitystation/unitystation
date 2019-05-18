@@ -33,8 +33,7 @@ public class ElectricalNodeControl : NetworkBehaviour
 		}
 		//BroadcastMessage("BroadcastSetUpMessage", this);
 		//UpOnStartServer();
-		//Node.InData.ControllingDevice = this;
-		BroadcastMessage("BroadcastSetUpMessage", this, SendMessageOptions.DontRequireReceiver);
+		//Node.InData.ControllingDevice = this;		gameObject.SendMessage("BroadcastSetUpMessage", this, SendMessageOptions.DontRequireReceiver);
 		UpOnStartServer();
 		StartCoroutine(WaitForload());
 	}

@@ -141,13 +141,6 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 
 	}
 
-	/// <summary>
-	///     Returns a struct with both connection points as members
-	///     the connpoint connection positions are represented using 4 bits to indicate N S E W - 1 2 4 8
-	///     Corners can also be used i.e.: 5 = NE (1 + 4) = 0101
-	///     This is the edge of the location where the input connection enters the turf
-	///     Use 0 for Machines or grills that can conduct electricity from being placed ontop of any wire configuration
-	/// </summary>
 	public virtual void SetConnPoints(Connection DirectionEndin, Connection DirectionStartin)
 	{
 		WireEndA = DirectionEndin;

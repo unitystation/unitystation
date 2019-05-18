@@ -43,17 +43,32 @@ public class CableCoil : PickUpTrigger
 		//Logger.Log(originator + " " + position + " " + hand);
 		if (!isServer)
 		{
-			InteractMessage.Send(gameObject, position , hand);
+			InteractMessage.Send(gameObject, position, hand);
 		}
 		else {
+			//HasTile
+
 			var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
 			var CableCoil_ = slot.Item?.GetComponent<CableCoil>();
-
 			if (CableCoil_ != null)
 			{
+				
 				position.z = 0f;
 				position = position.RoundToInt();
-				Vector3 PlaceDirection = originator.Player().Script.WorldPos - position; //need to Change
+				var worldPosInt = position.CutToInt();
+				MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
+				var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
+				if (matrix.Matrix != null)
+				{
+					if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
+					{
+						return (false);
+					}
+				}
+				else {
+					return (false);
+				}
+				Vector3 PlaceDirection = originator.Player().Script.WorldPos - position; 
 				Connection WireEndB = Connection.NA;
 				if (PlaceDirection == Vector3.up) { WireEndB = Connection.North; }
 				else if (PlaceDirection == Vector3.down) { WireEndB = Connection.South; }
@@ -73,21 +88,16 @@ public class CableCoil : PickUpTrigger
 						switch (WireEndB)
 						{
 							case Connection.NorthEast:
-								return true;
+								return false;
 							case Connection.NorthWest:
-								return true;
+								return false;
 							case Connection.SouthWest:
-								return true;
+								return false;
 							case Connection.SouthEast:
-								return true;
+								return false;
 						}
 
 					}
-
-					var worldPosInt = position.CutToInt();
-					var matrix = MatrixManager.AtPoint(worldPosInt, true);
-					var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
-
 					var econs = originator.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
 					foreach (var con in econs) {
 						if (con.WireEndA == Connection.Overlap || con.WireEndB == Connection.Overlap) {

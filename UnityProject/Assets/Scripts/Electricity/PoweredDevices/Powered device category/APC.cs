@@ -21,6 +21,7 @@ public class APC  : InputTrigger, INodeControl
 	public bool PowerMachinery = true;
 	public bool PowerLights = true;
 	public bool PowerEnvironment = true;
+	public bool BatteryCharging = false;
 	public int CashOfConnectedDevices = 0;
 
 	public float Voltage
@@ -34,32 +35,10 @@ public class APC  : InputTrigger, INodeControl
 			if(value != _voltage)
 			{
 				_voltage = value;
-				OnVoltageChange();
 			}
 		}
 	}
 	public float Current;
-	private void OnVoltageChange()
-	{
-		// Determine the state of the APC using the voltage
-		// Changing State will trigger OnStateChange to handle it
-		if (Voltage > 219f)
-		{
-			State = APCState.Full;
-		}
-		else if (Voltage > 40f)
-		{
-			State = APCState.Charging;
-		}
-		else if (Voltage > 0f)
-		{
-			State = APCState.Critical;
-		}
-		else
-		{
-			State = APCState.Dead;
-		}
-	}
 
 	public ElectricalNodeControl ElectricalNodeControl;
 
@@ -100,24 +79,6 @@ public class APC  : InputTrigger, INodeControl
 	//	PRLCable.ResistanceReactionA.Resistance = ResistanceClass;
 	//	powerSupply.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
 	//}
-	//public override void PowerUpdateStructureChange() {
-	//	//Logger.Log("PowerUpdateStructureChange" + this);
-	//	powerSupply.Data.connections.Clear();
-	//	powerSupply.Data.Upstream.Clear();
-	//	powerSupply.Data.Downstream.Clear();
-	//	powerSupply.Data.ResistanceComingFrom.Clear();
-	//	powerSupply.Data.ResistanceGoingTo.Clear();
-	//	powerSupply.Data.CurrentGoingTo.Clear();
-	//	powerSupply.Data.CurrentComingFrom.Clear();
-	//	powerSupply.Data.FirstPresent = 0;
-	//	powerSupply.Data.SourceVoltages.Clear();
-	//	powerSupply.Data.CurrentInWire = new float();
-	//	powerSupply.Data.ActualVoltage = new float();
-	//	powerSupply.Data.ResistanceToConnectedDevices.Clear();
-	//	powerSupply.connectedDevices.Clear();
-	//	powerSupply.PowerUpdateStructureChange();
-	//	_PowerUpdateStructureChange();
-	//}
 
 	private void OnDisable()
 	{
@@ -138,10 +99,40 @@ public class APC  : InputTrigger, INodeControl
 				}
 			}
 		}
-
+		BatteryCharging = false;
+		foreach (var bat in ConnectedDepartmentBatteries) {
+			if (bat.BatterySupplyingModule.ChargingWatts > 0) {
+				BatteryCharging = true;
+			}
+		}
 		Voltage = ElectricalNodeControl.Node.Data.ActualVoltage;
 		Current = ElectricalNodeControl.Node.Data.CurrentInWire;
 		HandleDevices();
+		UpdateDisplay();
+	}
+
+	public void UpdateDisplay() { 		
+		if (Voltage > 270)
+		{
+			State = APCState.Critical;
+		}
+		else if (Voltage > 219f)
+		{
+			State = APCState.Full;
+		}
+		else if (Voltage > 0f)
+		{
+			State = APCState.Critical;
+		}
+		else
+		{
+			State = APCState.Critical;
+		}
+		if (BatteryCharging)
+		{
+			State = APCState.Charging;
+		}
+	
 	}
 
 	/// <summary>

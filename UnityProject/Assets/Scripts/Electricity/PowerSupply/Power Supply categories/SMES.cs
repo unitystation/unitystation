@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SMES : InputTrigger, INodeControl
+public class SMES : NetworkBehaviour, IInteractable<HandApply>, IInteractionProcessor<HandApply>, INodeControl
 {
 	//public override bool isOnForInterface { get; set; } = false;
 	//public override bool PassChangeToOff { get; set; } = false;
@@ -36,20 +36,48 @@ public class SMES : InputTrigger, INodeControl
 		UpdateState(isOn);
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+    public InteractionResult Interact(HandApply interaction)
 	{
-		if (!isServer)
-		{
-			InteractMessage.Send(gameObject, hand);
+		// We can still re-use validators if we want:
+		ValidationResult validationResult = CanApply.ONLY_IF_CONSCIOUS.Validate(interaction, NetworkSide.CLIENT);
+		if (validationResult == ValidationResult.SUCCESS) { 
+			RequestInteractMessage.Send(interaction, this);
+			return (InteractionResult.SOMETHING_HAPPENED);
 		}
-		else
+		return (InteractionResult.NOTHING_HAPPENED);
+	}
+
+	//from IInteractionProcessor, this will be invoked when the server gets the RequestInteractMessage
+	public InteractionResult ServerProcessInteraction(HandApply interaction)
+	{
+		ValidationResult validationResult = CanApply.ONLY_IF_CONSCIOUS.Validate(interaction, NetworkSide.SERVER);
+		if (validationResult == ValidationResult.SUCCESS)
 		{
 			isOn = !isOn;
 			UpdateServerState(isOn);
-		}
-		//ConstructionInteraction(originator, position, hand);
-		return true;
+			return (InteractionResult.SOMETHING_HAPPENED);
+		} 
+		return (InteractionResult.NOTHING_HAPPENED);
+		//validate and perform the update server side after it gets the RequestInteractMessage,
+		//then inform all clients.
 	}
+
+
+
+	//public override bool Interact(GameObject originator, Vector3 position, string hand)
+	//{
+	//	if (!isServer)
+	//	{
+	//		InteractMessage.Send(gameObject, hand);
+	//	}
+	//	else
+	//	{
+	//		isOn = !isOn;
+	//		UpdateServerState(isOn);
+	//	}
+	//	//ConstructionInteraction(originator, position, hand);
+	//	return true;
+	//}
 
 	public void UpdateServerState(bool _isOn)
 	{

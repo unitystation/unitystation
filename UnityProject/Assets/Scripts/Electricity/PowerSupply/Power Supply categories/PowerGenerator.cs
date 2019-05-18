@@ -167,6 +167,10 @@ public class PowerGenerator : InputTrigger, INodeControl
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
+		if (!CanUse(originator, hand, position, false))
+		{
+			return false;
+		}
 		if (!isServer)
 		{
 			InteractMessage.Send(gameObject, hand);

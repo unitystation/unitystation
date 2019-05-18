@@ -33,12 +33,12 @@ public class SolarPanelControl : InputTrigger, INodeControl
 	{
 		if (isOn)
 		{
-			Logger.Log("TurnOnSupply");
+			//Logger.Log("TurnOnSupply");
 			ElectricalNodeControl.TurnOnSupply();
 		}
 		else
 		{
-			Logger.Log("TurnOffSupply");
+			//Logger.Log("TurnOffSupply");
 			ElectricalNodeControl.TurnOffSupply();
 		}
 	}
@@ -51,11 +51,11 @@ public class SolarPanelControl : InputTrigger, INodeControl
 		isOn = _isOn;
 		if (isOn)
 		{
-			Logger.Log("on");
+			//Logger.Log("on");
 		}
 		else
 		{
-			Logger.Log("off");
+			//Logger.Log("off");
 		}
 	}
 }

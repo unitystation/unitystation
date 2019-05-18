@@ -5097,7 +5097,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4297268230046392}
   - component: {fileID: 61778593853642650}
-  - component: {fileID: 61751954293713458}
   - component: {fileID: 114055404044358512}
   - component: {fileID: 114738137265545768}
   - component: {fileID: 114537316452419530}
@@ -5142,32 +5141,6 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!61 &61751954293713458
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853426429102140}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -5359,37 +5332,21 @@ MonoBehaviour:
   - ConnectingDevice: 1
     DirectionReaction: 0
     ResistanceReaction: 1
-    ElectricalReaction: 0
     DirectionReactionA:
-      AddResistanceCall:
-        Ohms: 0
-        ResistanceAvailable: 0
       YouShallNotPass: 0
     ResistanceReactionA:
       Resistance:
         Ohms: 1e+10
         ResistanceAvailable: 1
-      YouShallNotPass: 0
-    ElectricalReactionA:
-      Current: 0
-      YouShallNotPass: 0
   - ConnectingDevice: 11
     DirectionReaction: 0
     ResistanceReaction: 1
-    ElectricalReaction: 0
     DirectionReactionA:
-      AddResistanceCall:
-        Ohms: 0
-        ResistanceAvailable: 0
       YouShallNotPass: 0
     ResistanceReactionA:
       Resistance:
         Ohms: 1e+10
         ResistanceAvailable: 1
-      YouShallNotPass: 1
-    ElectricalReactionA:
-      Current: 0
-      YouShallNotPass: 0
 --- !u!114 &579887912259031821
 MonoBehaviour:
   m_ObjectHideFlags: 0

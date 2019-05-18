@@ -11,7 +11,7 @@ public enum BatteryStateSprite
 	Empty,
 }
 
-public class DepartmentBattery : InputTrigger, INodeControl
+public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, IInteractionProcessor<HandApply>, INodeControl
 {
 	public DepartmentBatterySprite CurrentSprite  = DepartmentBatterySprite.Default;
 	public SpriteRenderer Renderer;
@@ -120,20 +120,28 @@ public class DepartmentBattery : InputTrigger, INodeControl
 
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+    public InteractionResult Interact(HandApply interaction)
 	{
-		//Interact stuff with the Radiation collector here
-		if (!isServer)
+		ValidationResult validationResult = CanApply.ONLY_IF_CONSCIOUS.Validate(interaction, NetworkSide.CLIENT);
+		if (validationResult == ValidationResult.SUCCESS)
 		{
-			InteractMessage.Send(gameObject, hand);
+			RequestInteractMessage.Send(interaction, this);
+			return (InteractionResult.SOMETHING_HAPPENED);
 		}
-		else
+		return (InteractionResult.NOTHING_HAPPENED);
+	}
+
+
+	public InteractionResult ServerProcessInteraction(HandApply interaction)
+	{
+		ValidationResult validationResult = CanApply.ONLY_IF_CONSCIOUS.Validate(interaction, NetworkSide.SERVER);
+		if (validationResult == ValidationResult.SUCCESS)
 		{
 			isOn = !isOn;
 			UpdateServerState(isOn);
+			return (InteractionResult.SOMETHING_HAPPENED);
 		}
-		//ConstructionInteraction(originator, position, hand);
-		return true;
+		return (InteractionResult.NOTHING_HAPPENED);
 	}
 	public void UpdateServerState(bool _isOn)
 	{

@@ -13,6 +13,9 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public PowerTypeCategory ApplianceType;
 	public HashSet<PowerTypeCategory> CanConnectTo;
 
+	public ParticleSystem Sparks;
+	public ParticleSystem Smoke;
+
 	public float MaximumInstantBreakCurrent;
 	public float MaximumBreakdownCurrent;
 	public float TimeDeforeDestructiveBreakdown;
@@ -30,6 +33,21 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			InteractMessage.Send(gameObject, hand);
 		}
 		else {
+			position.z = 0f;
+			position = position.RoundToInt();
+			var worldPosInt = position.CutToInt();
+			MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
+			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
+			if (matrix.Matrix != null)
+			{
+				if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
+				{
+					return (false);
+				}
+			}
+			else {
+				return (false);
+			}
 			var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
 			var Wirecutter = slot.Item?.GetComponentInChildren<WirecutterTrigger>();
 			if (Wirecutter != null)
@@ -49,6 +67,11 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	//[ContextMethod("Destroy cable", "x")]
 	public void toDestroy()
 	{
+		if (wireConnect.RelatedLine != null)
+		{
+			foreach (var CB in wireConnect.RelatedLine.Covering)
+				CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
+		}
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 		SelfDestruct = true;
 		//gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
@@ -94,26 +117,48 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			if (MaximumInstantBreakCurrent < wireConnect.Data.CurrentInWire)
 			{
 				QueueForDemolition(this);
+				return;
 			}
 			if (MaximumBreakdownCurrent < wireConnect.Data.CurrentInWire) {
 				if (CheckDestruction)
 				{
+					if (wireConnect.RelatedLine != null)
+					{
+						foreach (var CB in wireConnect.RelatedLine.Covering)
+							CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
+					}
 					QueueForDemolition(this);
+					return;
 				}
-				else {
+				else 
+				{
+					if (wireConnect.RelatedLine != null) {
+						foreach (var CB in wireConnect.RelatedLine.Covering)
+							CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Play();
+					}
+					Smoke.Play();
 					//Logger.Log("WaitForDemolition");
 					StartCoroutine(WaitForDemolition());
+					return;
 				}
-			}
+			} 
 			if (CheckDestruction)
 			{
 				CheckDestruction = false;
+				if (wireConnect.RelatedLine != null)
+				{
+					foreach (var CB in wireConnect.RelatedLine.Covering)
+						CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
+				}
+				Smoke.Stop();
 			}
+			Sparks.Stop();
 		}
 	}
 
 	public void QueueForDemolition(CableInheritance CableToDestroy)
 	{
+		Sparks.Play();
 		DestructionPriority = wireConnect.Data.CurrentInWire * MaximumBreakdownCurrent;
 		if (ElectricalSynchronisation.CableToDestroy != null)
 		{
