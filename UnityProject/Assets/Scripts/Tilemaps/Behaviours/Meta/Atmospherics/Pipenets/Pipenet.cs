@@ -7,14 +7,14 @@ public class Pipenet
 	public Atmospherics.GasMix gasMix;
 	public List<SimplePipe> members = new List<SimplePipe>();
 
-	public List<Atmospherics.GasMix> otherAirs = new List<Atmospherics.GasMix>();	//are these two lists useless?
-	public List<AdvancedPipe> advancedPipes = new List<AdvancedPipe>();
+	public Pipenet() {
+		gasMix = new Atmospherics.GasMix(Atmospherics.GasMixes.Empty);
+	}
 
-
-	public void AddPipe(SimplePipe pipe){
-		for (int i = 0; i < pipe.nodes.Count; i++)
+	public void AddPipe(SimplePipe simplePipe){
+		for (int i = 0; i < simplePipe.nodes.Count; i++)
 		{
-			var attachedPipe = pipe.nodes[i].GetComponent<SimplePipe>();
+			var attachedPipe = simplePipe.nodes[i].GetComponent<SimplePipe>();
 			if(attachedPipe && attachedPipe.pipenet != this){
 				if(this.members.Count >= attachedPipe.pipenet.members.Count)
 				{
@@ -23,26 +23,22 @@ public class Pipenet
 				else
 				{
 					attachedPipe.pipenet.MergePipenet(this);
-					attachedPipe.pipenet.AddPipe(pipe);
+					attachedPipe.pipenet.AddPipe(simplePipe);
 					return;
 				}
 			}
 		}
-
-		members.Add(pipe);
-		pipe.pipenet = this;
-		//add the pipe.volume to the gasmix
+		AddSimplePipe(simplePipe);
 	}
 
 	public void MergePipenet(Pipenet otherPipenet){
 		for (int i = 0; i < otherPipenet.members.Count; i++)
 		{
-			SimplePipe pipe = otherPipenet.members[i];
-			members.Add(pipe);
-			pipe.pipenet = this;
-			//add the pipe.volume to the gasmix
+			SimplePipe simplePipe = otherPipenet.members[i];
+			AddSimplePipe(simplePipe);
 		}
-		//merge airs here, including volume
+		otherPipenet.members = new List<SimplePipe>();
+		gasMix += otherPipenet.gasMix;
 		otherPipenet.DeletePipenet();
 	}
 
@@ -52,47 +48,73 @@ public class Pipenet
 		{
 			members[i].pipenet = null;
 		}
-		members.Clear(); //necessary?
-		advancedPipes.Clear(); //necessary?
+	}
+
+	public void AddSimplePipe(SimplePipe simplePipe)
+	{
+		members.Add(simplePipe);
+		simplePipe.pipenet = this;
+		gasMix.ChangeVolumeValue(simplePipe.volume);
 	}
 
 	public void RemoveSimplePipe(SimplePipe simplePipe)
 	{
+		simplePipe.pipenet = null;
 		members.Remove(simplePipe);
+		gasMix.ChangeVolumeValue( - simplePipe.volume);
 	}
 
 	public void Separate()
 	{
-		advancedPipes.Clear();
-		for (int i = 0; i < members.Count; i++)
+		var oldGasMix = gasMix;
+		var oldMembers = members;
+		gasMix = new Atmospherics.GasMix(Atmospherics.GasMixes.Empty);
+		members = new List<SimplePipe>();
+
+		for (int i = 0; i < oldMembers.Count; i++)
 		{
-			members[i].pipenet = null;
+			oldMembers[i].pipenet = null;
 		}
 
 		Pipenet newPipenet = this;
-		for (int i = 0; i < members.Count; i++)
+		var separatedPipenets = new List<Pipenet>(){this};
+		for (int i = 0; i < oldMembers.Count; i++)
 		{
-			if(members[i].pipenet == null)
+			var simplePipe = oldMembers[i];
+			if(simplePipe.pipenet == null)
 			{
 				if(newPipenet == null)
 				{
 					newPipenet = new Pipenet();
+					separatedPipenets.Add(newPipenet);
+					newPipenet.ARANname = Random.Range(0,100).ToString();
 				}
-				newPipenet.SpreadPipenet(members[i]);
+				newPipenet.SpreadPipenet(simplePipe);
 				newPipenet = null;
 			}
-
 		}
+
+		oldGasMix = oldGasMix/oldGasMix.Volume;
+		for (int i = 0; i < separatedPipenets.Count; i++)
+		{
+			var pipenet = separatedPipenets[i];
+			var oldVolume = pipenet.gasMix.Volume;
+			pipenet.gasMix = oldGasMix * pipenet.gasMix.Volume;
+			pipenet.gasMix.ChangeVolumeValue( - (pipenet.gasMix.Volume - oldVolume));
+		}
+
 	}
 
+	public string ARANname = "FIRST";
 	public void SpreadPipenet(SimplePipe startPipe)
 	{
+
 		List<SimplePipe> foundPipes = new List<SimplePipe>();
 		foundPipes.Add(startPipe);
 		while(foundPipes.Count > 0)
 		{
 			var simplePipe = foundPipes[0];
-			simplePipe.pipenet = this;
+			AddSimplePipe(simplePipe);
 			foundPipes.Remove(simplePipe);
 			for (int i = 0; i < simplePipe.nodes.Count; i++)
 			{
@@ -103,11 +125,6 @@ public class Pipenet
 					{
 						foundPipes.Add(nextPipe);
 					}
-				}
-				else
-				{
-					var advancedPipe = simplePipe.nodes[i].GetComponent<AdvancedPipe>();
-					advancedPipes.Add(advancedPipe);
 				}
 			}
 		}

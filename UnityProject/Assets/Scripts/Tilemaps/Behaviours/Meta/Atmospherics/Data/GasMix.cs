@@ -132,6 +132,11 @@ namespace Atmospherics
 			return Gases[gas];
 		}
 
+		public void ChangeVolumeValue(float value){
+			Volume += value;
+			Recalculate();
+		}
+
 		public GasMix RemoveVolume(float volume, bool setVolume = false)
 		{
 			GasMix removed = RemoveRatio(volume / Volume);

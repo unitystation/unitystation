@@ -5,12 +5,27 @@ using UnityEngine;
 public class SimplePipe : Pipe
 {
 	public Pipenet pipenet;
-	public float volume;
+	public float volume = 70;
 
+	public int ARANpipenetmembers;
+	public string ARANpipenetName;
+	public float ARANpipenetVolume;
+
+	private void Update() {
+		if(pipenet != null){
+			ARANpipenetmembers = pipenet.members.Count;
+			ARANpipenetName = pipenet.ARANname;
+			ARANpipenetVolume = pipenet.gasMix.Volume;
+		}
+		else
+		{
+			ARANpipenetVolume = 0;
+			ARANpipenetmembers = 0;
+			ARANpipenetName = "NONE";
+		}
+	}
 
 	public override void Attach(){
-		CalculateAttachedNodes();
-
 		Pipenet foundPipenet = null;
 		for (int i = 0; i < nodes.Count; i++)
 		{
@@ -28,11 +43,7 @@ public class SimplePipe : Pipe
 		foundPipenet.AddPipe(this);
 	}
 
-	public void CalculateAttachedNodes(){
-		List<Pipe> attachedNodes = new List<Pipe>();
-		//TODO: check turfs based on the aim of the pipe and get the pipes and add them to this list
-		nodes = attachedNodes;
-	}
+
 
 	public override void Detach(){
 		//TODO: release gas to environmental air
@@ -41,23 +52,22 @@ public class SimplePipe : Pipe
 		for (int i = 0; i < nodes.Count; i++)
 		{
 			var pipe = nodes[i];
-			var advancedPipe = pipe.GetComponent<AdvancedPipe>();
-			if(advancedPipe != null)
-			{
-				advancedPipe.DetachPipe(this);
-			}
-			else
+			pipe.nodes.Remove(this);
+			var simplePipe = pipe.GetComponent<SimplePipe>();
+			if(simplePipe != null)
 			{
 				neighboorSimplePipes ++;
 			}
 		}
+		nodes = new List<Pipe>();
 
+		Pipenet oldPipenet = pipenet;
 		pipenet.RemoveSimplePipe(this);
 
-		if (pipenet.members.Count == 0)
+		if (oldPipenet.members.Count == 0)
 		{
 			//we're the only pipe on the net, delete it
-			pipenet.DeletePipenet();
+			oldPipenet.DeletePipenet();
 			return;
 		}
 
@@ -66,8 +76,7 @@ public class SimplePipe : Pipe
 			//we're at an edge of the pipenet, safe to remove
 			return;
 		}
-
-		pipenet.Separate();
+		oldPipenet.Separate();
 	}
 
 
