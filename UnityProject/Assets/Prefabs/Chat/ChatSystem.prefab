@@ -1131,7 +1131,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -245, y: 0.000011295165}
+  m_AnchoredPosition: {x: -245, y: 0.000015217727}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &222333231492848688
@@ -2160,6 +2160,7 @@ MonoBehaviour:
     type: 3}
   background: {fileID: 1657666001891494}
   uiObj: {fileID: 1625392850373996}
+  activeRadioChannelPanel: {fileID: 1549249320892692889}
   activeChannelTemplate: {fileID: 8380570029279695647}
   InputFieldChat: {fileID: 114048708187955788}
   scrollBar: {fileID: 0}
@@ -2284,7 +2285,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: -24, y: 25.100016}
-  m_SizeDelta: {x: 230.6, y: 0}
+  m_SizeDelta: {x: 230.6, y: 65}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2231670310572086515
 MonoBehaviour:
@@ -2421,7 +2422,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7653906924561620463
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2568,7 +2569,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1897758349740974}
         m_MethodName: 
         m_Mode: 1
         m_Arguments:

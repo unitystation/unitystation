@@ -19,8 +19,38 @@ public class ControlChat : MonoBehaviour
 	public GameObject chatEntryPrefab;
 	public GameObject background;
 	public GameObject uiObj;
+	public GameObject activeRadioChannelPanel;
+
 	public GameObject activeChannelTemplate;
 	public Dictionary<ChatChannel, GameObject> ActiveChannels = new Dictionary<ChatChannel, GameObject>();
+
+	/// <summary>
+	/// The main types of channels which shouldn't be active together.
+	/// Local and OOC
+	/// </summary>
+	private readonly static List<ChatChannel> MainChannels = new List<ChatChannel>
+	{
+		ChatChannel.Local,
+		ChatChannel.OOC
+	};
+
+	/// <summary>
+	/// General radio channels which should also broadcast to local
+	/// </summary>
+	private readonly static List<ChatChannel> RadioChannels = new List<ChatChannel>
+	{
+		ChatChannel.Common,
+		ChatChannel.Binary,
+		ChatChannel.Supply,
+		ChatChannel.CentComm,
+		ChatChannel.Command,
+		ChatChannel.Engineering,
+		ChatChannel.Medical,
+		ChatChannel.Science,
+		ChatChannel.Security,
+		ChatChannel.Service,
+		ChatChannel.Syndicate
+	};
 
 	// set in inspector (to enable/disable panel)
 
@@ -169,7 +199,11 @@ public class ControlChat : MonoBehaviour
 		// Change the selected channel if one is passed to the function
 		if (selectedChannel != ChatChannel.None)
 		{
+			ClearActiveRadioChannels();
+			ClearToggles();
 			PlayerManager.LocalPlayerScript.SelectedChannels = selectedChannel;
+			EnableChannel(selectedChannel);
+			RefreshRadioChannelPanel();
 		}
 		EventManager.Broadcast (EVENT.ChatFocused);
 		chatInputWindow.SetActive (true);
@@ -203,6 +237,7 @@ public class ControlChat : MonoBehaviour
 			PruneUnavailableChannels();
 			PopulateChannelPanel(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(),
 				PlayerManager.LocalPlayerScript.SelectedChannels);
+			RefreshRadioChannelPanel();
 			//				Logger.Log($"Toggling channel panel ON. selected:{ListChannels(PlayerManager.LocalPlayerScript.SelectedChannels)}, " +
 			//				          $"available:{ListChannels(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask())}");
 		}
@@ -239,23 +274,53 @@ public class ControlChat : MonoBehaviour
 
 	public void PopulateChannelPanel(ChatChannel channelsAvailable, ChatChannel channelsSelected)
 	{
+		// TODO make it so the toggles don't get created and destroyed all the time
 		foreach (ChatChannel currentChannel in Enum.GetValues(typeof(ChatChannel)))
 		{
+			// Skip the channel if it's None or isn't in the available channels
 			if (currentChannel == ChatChannel.None || (channelsAvailable & currentChannel) != currentChannel)
 			{
 				continue;
 			}
 
+			bool channelIsOn = (channelsSelected & currentChannel) == currentChannel;
+
+			// Create the toggle button
 			GameObject channelToggleItem = Instantiate(channelToggle, channelPanel.transform);
 			Toggle toggle = channelToggleItem.GetComponent<Toggle>();
 			toggle.GetComponent<UIToggleChannel>().channel = currentChannel;
 			toggle.GetComponentInChildren<Text>().text = IconConstants.ChatPanelIcons[currentChannel];
-			toggle.onValueChanged.AddListener(Toggle_Channel);
 
-			toggle.isOn = (channelsSelected & currentChannel) == currentChannel;
+			// Use the OnClick trigger to invoke Toggle_Channel instead of OnValueChanged
+			EventTrigger trigger = toggle.GetComponent<EventTrigger>();
+			EventTrigger.Entry entry = new EventTrigger.Entry();
+			entry.eventID = EventTriggerType.PointerClick;
+			entry.callback.AddListener( (eventData) => Toggle_Channel(toggle.isOn) );
+			trigger.triggers.Add(entry);
+
+			toggle.isOn = channelIsOn;
 			if (!ChannelToggles.ContainsKey(currentChannel))
 			{
 				ChannelToggles.Add(currentChannel, toggle);
+			}
+
+			// Create an active channel entry for radio channels
+			if (RadioChannels.Contains(currentChannel) && !ActiveChannels.ContainsKey(currentChannel))
+			{
+				Logger.Log($"Creating radio channel entry for {currentChannel}", Category.UI);
+				// Create the template object which is hidden in the list but deactivated
+				GameObject radioEntry = Instantiate(activeChannelTemplate, activeChannelTemplate.transform.parent, false);
+
+				// Setup the name and onClick function
+				radioEntry.GetComponentInChildren<Text>().text = currentChannel.ToString();
+				radioEntry.GetComponentInChildren<Button>().onClick.AddListener(() =>
+				{
+					SoundManager.Play("Click01");
+					DisableChannel(currentChannel);
+				});
+				radioEntry.SetActive(channelIsOn);
+				// Add it to a list for easy access later
+				ActiveChannels.Add(currentChannel, radioEntry);
 			}
 		}
 
@@ -269,17 +334,29 @@ public class ControlChat : MonoBehaviour
 
 	public void EmptyChannelPanel()
 	{
-		ChannelToggles.Clear();
-		LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
-		layoutElement.minWidth = 0;
-
-		foreach (Transform child in channelPanel.transform)
+		// Clear out the channel toggles
+		foreach (var entry in ChannelToggles)
 		{
-			Destroy(child.gameObject);
+			Destroy(entry.Value.gameObject);
 		}
+		ChannelToggles.Clear();
 	}
 
-	public void Toggle_Channel(bool isOn)
+	private void RefreshRadioChannelPanel()
+	{
+		// Enable the radio panel if radio channels are active, otherwise hide it
+		foreach (var radioChannel in RadioChannels)
+		{
+			if (PlayerManager.LocalPlayerScript.SelectedChannels.HasFlag(radioChannel))
+			{
+				activeRadioChannelPanel.SetActive(true);
+				return;
+			}
+		}
+		activeRadioChannelPanel.SetActive(false);
+	}
+
+	public void Toggle_Channel(bool turnOn)
 	{
 		SoundManager.Play("Click01");
 		GameObject curObject = EventSystem.current.currentSelectedGameObject;
@@ -293,49 +370,14 @@ public class ControlChat : MonoBehaviour
 		{
 			return;
 		}
-		ChatChannel currentChannel = source.channel;
 
-		if (isOn)
+		if (turnOn)
 		{
-			// The channel is being turned on
-
-			//Deselect all other channels in UI if OOC was selected
-			if (currentChannel == ChatChannel.OOC)
-			{
-				DisableAllExceptChannel (ChatChannel.OOC);
-				PlayerManager.LocalPlayerScript.SelectedChannels = ChatChannel.OOC;
-			}
-			else
-			{
-				TryDisableOOC();
-				AddToActiveChannels(currentChannel);
-				PlayerManager.LocalPlayerScript.SelectedChannels |= currentChannel;
-			}
+			EnableChannel(source.channel);
 		}
 		else
 		{
-			// The channel is being turned off
-
-			// Make some exceptions for Local and OOC buttons
-			if (currentChannel == ChatChannel.Local)
-			{
-				// Disable all of the other channels
-				DisableAllExceptChannel (ChatChannel.Local);
-
-				// Make sure Local is still selected so player can't select ChatChannel.None
-				ChannelToggles[ChatChannel.Local].isOn = true;
-				PlayerManager.LocalPlayerScript.SelectedChannels = ChatChannel.Local;
-			}
-			else if (currentChannel == ChatChannel.OOC)
-			{
-				// Leave OOC on, don't let players disable it by pressing it again
-				ChannelToggles[ChatChannel.OOC].isOn = true;
-			}
-			else
-			{
-				// Disable the current channel
-				PlayerManager.LocalPlayerScript.SelectedChannels &= ~currentChannel;
-			}
+			DisableChannel(source.channel);
 		}
 
 		UpdateChannelToggleText();
@@ -344,18 +386,14 @@ public class ControlChat : MonoBehaviour
 	private void TryDisableOOC()
 	{
 		// Disable OOC if it's on
-		if (ChannelToggles[ChatChannel.OOC].isOn)
+		if (ChannelToggles.ContainsKey(ChatChannel.OOC) && ChannelToggles[ChatChannel.OOC].isOn)
 		{
 			PlayerManager.LocalPlayerScript.SelectedChannels &= ~ChatChannel.OOC;
 			ChannelToggles[ChatChannel.OOC].isOn = false;
 		}
-
-		// Activate local channel again
-		PlayerManager.LocalPlayerScript.SelectedChannels |= ChatChannel.Local;
-		ChannelToggles[ChatChannel.Local].isOn = true;
 	}
 
-	private void DisableAllExceptChannel (ChatChannel channel)
+	private void ClearTogglesExcept (ChatChannel channel)
 	{
 		foreach (KeyValuePair<ChatChannel, Toggle> chanToggle in ChannelToggles)
 		{
@@ -365,6 +403,15 @@ public class ControlChat : MonoBehaviour
 			}
 
 			chanToggle.Value.isOn = false;
+		}
+	}
+
+	private void ClearToggles()
+	{
+		foreach (var entry in ChannelToggles)
+		{
+			// Disable the toggle
+			entry.Value.isOn = false;
 		}
 	}
 
@@ -399,12 +446,86 @@ public class ControlChat : MonoBehaviour
 		return true;
 	}
 
-	private void AddToActiveChannels(ChatChannel channel)
+	private void ClearActiveRadioChannels()
 	{
-		GameObject newActiveChannel = Instantiate(activeChannelTemplate, activeChannelTemplate.transform.parent, false);
-		// Add to dictionary for easy destruction
-		ActiveChannels.Add(channel, newActiveChannel);
-		newActiveChannel.GetComponentInChildren<Text>().text = channel.ToString();
-		newActiveChannel.SetActive(true);
+		Logger.Log("Clearing active radio channel panel", Category.UI);
+		foreach (var channelEntry in ActiveChannels)
+		{
+			channelEntry.Value.SetActive(false);
+		}
+		activeRadioChannelPanel.SetActive(false);
 	}
+
+	public void EnableChannel(ChatChannel channel)
+	{
+		Logger.Log($"Enabling {channel}", Category.UI);
+
+		if (ChannelToggles.ContainsKey(channel))
+		{
+			ChannelToggles[channel].isOn = true;
+		}
+
+		//Deselect all other channels in UI if OOC was selected
+		if (channel == ChatChannel.OOC)
+		{
+			ClearTogglesExcept (ChatChannel.OOC);
+			ClearActiveRadioChannels();
+			PlayerManager.LocalPlayerScript.SelectedChannels = ChatChannel.OOC;
+		}
+		else
+		{
+			// Disable OOC and enable the local channel
+			TryDisableOOC();
+			PlayerManager.LocalPlayerScript.SelectedChannels |= channel;
+
+			if (channel != ChatChannel.Local)
+			{
+				// Activate local channel again
+				PlayerManager.LocalPlayerScript.SelectedChannels |= ChatChannel.Local;
+
+				if (ChannelToggles.ContainsKey(channel))
+				{
+					ChannelToggles[ChatChannel.Local].isOn = true;
+				}
+
+				// Only add to active channel list if it's a radio channel
+				ActiveChannels[channel].SetActive(true);
+				activeRadioChannelPanel.SetActive(true);
+			}
+		}
+	}
+
+	public void DisableChannel(ChatChannel channel)
+	{
+		Logger.Log($"Disabling {channel}", Category.UI);
+
+		// Special behaviour for main channels
+		if (MainChannels.Contains(channel))
+		{
+			ClearToggles();
+			ClearActiveRadioChannels();
+
+			// Make sure toggle is still on so player can't disable them all
+			ChannelToggles[channel].isOn = true;
+			PlayerManager.LocalPlayerScript.SelectedChannels = channel;
+		}
+		else
+		{
+			// Remove channel from SelectedChannels and disable toggle
+			PlayerManager.LocalPlayerScript.SelectedChannels &= ~channel;
+			if (ChannelToggles.ContainsKey(channel))
+			{
+				ChannelToggles[channel].isOn = false;
+			}
+
+			if (RadioChannels.Contains(channel))
+			{
+				ActiveChannels[channel].SetActive(false);
+				RefreshRadioChannelPanel();
+			}
+		}
+	}
+
+	// TODO simplify all this shit by assigning selectedchannels and refreshing everything based on that (much simpler)
+	// TODO ghost testing and shit
 }

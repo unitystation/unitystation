@@ -49,6 +49,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	public ChatChannel SelectedChannels
 	{
 		get { return selectedChannels & GetAvailableChannelsMask(); }
+		// TODO change this to refresh channel pannel automatically
 		set { selectedChannels = value; }
 	}
 
