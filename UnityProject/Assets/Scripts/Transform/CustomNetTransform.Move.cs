@@ -424,24 +424,16 @@ public partial class CustomNetTransform {
 		Vector3Int intGoal = Vector3Int.RoundToInt( goal );
 		var info = serverState.ActiveThrow;
 		List<LivingHealthBehaviour> hitDamageables;
-		if ( CanDriftTo( intOrigin, intGoal, isServer: true ) & !HittingSomething( intGoal, info.ThrownBy, out hitDamageables ) )
+
+        if(serverState.Speed > SpeedHitThreshold && HittingSomething( intGoal, info.ThrownBy, out hitDamageables ))
 		{
-			//if object is solid, check if player is nearby to make it stop
-			return registerTile && registerTile.IsPassable(true) || !IsPlayerNearby(serverState);
+			OnHit( intGoal, info, hitDamageables, MatrixManager.GetDamagetableTilemapsAt( intGoal ) );
 		}
 
-		if ( serverState.Speed > SpeedHitThreshold ) {
-			serverState.ActiveThrow = new ThrowInfo {
-				Aim = BodyPartType.Chest.Randomize(0),
-				OriginPos = origin,
-				TargetPos = goal,
-				SpinMode = SpinMode.None
-			};
-			info = serverState.ActiveThrow;
+		if (CanDriftTo( intOrigin, intGoal, isServer: true ))
+		{
+			return (registerTile && registerTile.IsPassable(true));
 		}
-
-		//Can't drift to goal for some reason:
-		OnHit( intGoal, info, hitDamageables, MatrixManager.GetDamagetableTilemapsAt( intGoal ) );
 
 		return false;
 	}
@@ -462,7 +454,7 @@ public partial class CustomNetTransform {
 		}
 
 		//Hurting objects
-		if ( objects != null && objects.Count > 0 && !Equals( info, ThrowInfo.NoThrow ) ) {
+		if ( objects != null && objects.Count > 0) {
 			for ( var i = 0; i < objects.Count; i++ ) {
 				//Remove cast to int when moving health values to float
 				var damage = (int)( ItemAttributes.throwDamage * 2 );
