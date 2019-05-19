@@ -64,14 +64,23 @@ using UnityEngine.UI;
 			await Task.Delay(TimeSpan.FromSeconds(0.1f));
 			if (!pref.shroudActive)
 			{
-				shroudImg.enabled = false;
+				if (shroudImg != null)
+				{
+					shroudImg.enabled = false;
+				}
+
 				return;
 			}
+
 			DoAdjust();
-			shroudImg.enabled = true;
 			holeMat.SetColor("_Color", pref.shroudColor);
 			holeMat.SetFloat("_Radius", pref.holeRadius);
 			holeMat.SetFloat("_Shape", pref.holeShape);
+
+			if(shroudImg != null)
+			{
+				shroudImg.enabled = true;
+			}
 		}
 	}
 
