@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -279,6 +280,12 @@ public class ClosetControl : InputTrigger
 			}
 
 			item.visibleState = isOpen;
+		}
+
+		if(isOpen)
+		{
+			// If open, no items are held anymore.
+			heldItems = Enumerable.Empty<ObjectBehaviour>();
 		}
 	}
 
