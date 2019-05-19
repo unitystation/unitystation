@@ -20,12 +20,6 @@ using System.Collections;
 		public Image shroudImg;
 		public ShroudPreference unconsciousSettings;
 
-		public async void AdjustOverlayPos()
-		{
-			await Task.Delay(TimeSpan.FromSeconds(0.1f));
-			DoAdjust();
-		}
-
 		private void DoAdjust()
 		{
 			if (PlayerManager.LocalPlayer != null)
