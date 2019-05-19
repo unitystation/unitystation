@@ -1,22 +1,29 @@
-﻿using Unity.Collections;
+﻿using System.Collections.Generic;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Rendering;
-using System.Collections.Generic;
 
 public class TextureDataRequest
 {
 	private bool iRequestLoaded;
-	private List<Color32> textureBuffer = new List<Color32>();
 	private int height;
 	private int width;
+	NativeArray<Color32> colors;
+
+	public void DeallocateOnClose()
+	{
+		colors.Dispose();
+	}
 
 	public void StoreData(AsyncGPUReadbackRequest iRequest)
 	{
-		iRequestLoaded = true;
-		textureBuffer.Clear();
-		foreach(Color32 C in iRequest.GetData<Color32>()){
-			textureBuffer.Add(C);
+		if (colors.Length > 0)
+		{
+			colors.Dispose();
 		}
+		iRequestLoaded = true;
+		colors = new NativeArray<Color32>(iRequest.GetData<Color32>(), Allocator.Persistent);
 		height = iRequest.height;
 		width = iRequest.width;
 	}
@@ -33,15 +40,14 @@ public class TextureDataRequest
 		oColor32 = default(Color32);
 
 		if (iRequestLoaded == false ||
-		    iX < 0 ||
-		    iX > width ||
-		    iY < 0 ||
-		    iY > height)
+			iX < 0 ||
+			iX > width ||
+			iY < 0 ||
+			iY > height)
 			return false;
 
 		int _index = (iY * width) + iX;
-		oColor32 = textureBuffer[_index];
-
+		oColor32 = colors[_index];
 		return true;
 	}
 }
