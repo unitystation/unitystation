@@ -43,6 +43,24 @@ ExportedObj/
 *.booproj
 *.svd
 
+# Binary windows
+*.dll
+*.lib
+*.exe
+*.bin
+*.zip
+
+# Binary linux
+*.so
+*.o
+*.a
+*.dylib
+
+# Generated Files and Folders
+[Bb]in/
+[Dd]ebug/
+[Rr]elease/
+
 # GIT specific
 .gitconfig
 
