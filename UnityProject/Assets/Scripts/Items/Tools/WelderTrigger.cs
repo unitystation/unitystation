@@ -8,6 +8,7 @@ public class WelderTrigger : PickUpTrigger
     private void Start()
     {
         welder = GetComponent<Welder>();
+        base.Start();
     }
     public override bool Interact(GameObject originator, Vector3 position, string hand)
     {

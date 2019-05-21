@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ReagentContainer : Container {
+[RequireComponent(typeof(RightClickMenu))]
+public class ReagentContainer : Container, IRightClickable {
 	public float CurrentCapacity { get; private set; }
 	public List<string> Reagents; //Specify reagent
 	public List<float> Amounts;  //And how much
+
+	public RightClickOption contentsOption;
+	public RightClickOption pourOutOption;
+	public RightClickOption addToOption;
+
+	private RegisterTile registerTile;
 
 	void Start() //Initialise the contents if there are any
 	{
@@ -19,6 +26,31 @@ public class ReagentContainer : Container {
 			Contents[Reagents[i]] = Amounts[i];
 		}
 		CurrentCapacity = AmountOfReagents(Contents);
+
+		registerTile = GetComponent<RegisterTile>();
+		RightClickMenu.EnsureComponentExists(gameObject);
+
+
+	}
+
+	public Dictionary<RightClickOption, Action> GenerateRightClickOptions()
+	{
+		var result = new Dictionary<RightClickOption, Action>();
+		contentsOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/Contents", contentsOption);
+		pourOutOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/PourOut", pourOutOption);
+		addToOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/AddTo", addToOption);
+
+		//contents can always be viewed
+		result.Add(contentsOption, LogReagents);
+
+		//Pour / add can only be done if in reach
+		if ( PlayerScript.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
+		{
+			result.Add(pourOutOption, RemoveSome);
+			result.Add(addToOption, AddTo);
+		}
+
+		return result;
 	}
 
 	public void AddReagents(Dictionary<string, float> reagents, float temperatureContainer) //Automatic overflow If you Don't want to lose check before adding
@@ -62,8 +94,7 @@ public class ReagentContainer : Container {
 
 	public float AmountOfReagents(Dictionary<string, float> Reagents) => Reagents.Select(reagent => reagent.Value).Sum();
 
-	[ContextMethod("Contents", "Science_flask")]
-	public void LogReagents()
+	private void LogReagents()
 	{
 		foreach (var reagent in Contents)
 		{
@@ -71,8 +102,7 @@ public class ReagentContainer : Container {
 		}
 	}
 
-	[ContextMethod("Add to", "Pour_into")]
-	public void AddTo()
+	private void AddTo()
 	{
 		var transfering = new Dictionary<string, float>
 		{
@@ -83,6 +113,5 @@ public class ReagentContainer : Container {
 		AddReagents(transfering, 20f);
 	}
 
-	[ContextMethod("Pour out", "Pour_away")]
-	public void RemoveSome() => MoveReagentsTo(10);
+	private void RemoveSome() => MoveReagentsTo(10);
 }

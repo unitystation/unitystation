@@ -6,7 +6,7 @@ using UnityEngine;
 public class BatterySupplyingModule : ModuleSupplyingDevice
 {
 	[Header("Battery Settings")]
-	public float MaximumCurrentSupport = 0; //The maximum number of amps can be pulled From the battery 
+	public float MaximumCurrentSupport = 0; //The maximum number of amps can be pulled From the battery
 	public float MinimumSupportVoltage = 0; //At which point the battery kicks in
 	public float StandardSupplyingVoltage = 0;
 	public float CapacityMax = 0;
@@ -120,24 +120,12 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 	public override float ModifyElectricityOutput(float Current, GameObject SourceInstance)
 	{
 		if (!(SourceInstance == gameObject))
-		{ 
+		{
 			if (!ElectricalSynchronisation.NUCurrentChange.Contains(ControllingNode))
 			{
 				ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
 			}
 		}
 		return (Current);
-	}
-
-	[ContextMethod("Toggle Charge", "Power_Button")]
-	public void ToggleCharge()
-	{
-		ToggleCanCharge = !ToggleCanCharge;
-	}
-
-	[ContextMethod("Toggle Support", "Power_Button")]
-	public void ToggleSupport()
-	{
-		ToggleCansupport = !ToggleCansupport;
 	}
 }

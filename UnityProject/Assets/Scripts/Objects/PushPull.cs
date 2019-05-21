@@ -6,7 +6,8 @@ using UnityEngine.Events;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-public class PushPull : VisibleBehaviour {
+[RequireComponent(typeof(RightClickMenu))]
+public class PushPull : VisibleBehaviour, IRightClickable {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
 
@@ -14,6 +15,9 @@ public class PushPull : VisibleBehaviour {
 	public bool isNotPushable = false;
 
 	private IPushable pushableTransform;
+
+	public RightClickOption pullOption;
+	public RightClickOption stopPullOption;
 
 	public IPushable Pushable {
 		get {
@@ -205,8 +209,35 @@ public class PushPull : VisibleBehaviour {
 		}
 	}
 
+	public Dictionary<RightClickOption,Action> GenerateRightClickOptions()
+	{
+		var result = new Dictionary<RightClickOption,Action>();
+		pullOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/Pull", pullOption);
+		stopPullOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/StopPull", stopPullOption);
+		//check if our local player can reach this
+		var initiator = PlayerManager.LocalPlayerScript.pushPull;
+		//if it's pulled by us
+		if (IsPulledByClient(initiator))
+		{
+			//already pulled by us, but we can stop pulling
+			result.Add(stopPullOption, TryPullThis);
+		}
+		else
+		{
+			//check if in range for pulling
+			if (PlayerScript.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
+			{
+				result.Add(pullOption, TryPullThis);
+			}
+		}
+
+		return result;
+	}
+
 	protected override void Awake() {
 		base.Awake();
+		RightClickMenu.EnsureComponentExists(gameObject);
+
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
 
 		followAction = (oldPos, newPos) => {
@@ -402,7 +433,6 @@ public class PushPull : VisibleBehaviour {
 		TryPullThis();
 	}
 
-	[ContextMethod("Pull","Drag_Hand")]
 	public void TryPullThis() {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation

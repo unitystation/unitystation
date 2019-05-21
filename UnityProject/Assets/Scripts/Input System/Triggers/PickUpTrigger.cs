@@ -1,17 +1,47 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-
-public class PickUpTrigger : InputTrigger
+[RequireComponent(typeof(RightClickMenu))]
+public class PickUpTrigger : InputTrigger, IRightClickable
 {
-	private void Start()
+
+	public RightClickOption pickUpOption;
+
+	// make sure to call this in subclasses
+	public void Start()
 	{
 		CheckSpriteOrder();
+		RightClickMenu.EnsureComponentExists(gameObject);
 	}
-	[ContextMethod("Pick Up", "hand")]
-	public void GUIInteract()
+	public Dictionary<RightClickOption, Action> GenerateRightClickOptions()
+	{
+		//TODO: Code duplication (of validation logic) with Interact. Eliminate this duplication once this is refactored to IF2.
+		var result = new Dictionary<RightClickOption, Action>();
+		//can only pick up when in reach
+		pickUpOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/PickUp",
+			pickUpOption);
+
+		if (PlayerManager.LocalPlayerScript.canNotInteract())
+		{
+			return result;
+		}
+		var player = PlayerManager.LocalPlayerScript;
+		UISlotObject uiSlotObject = new UISlotObject(UIManager.Hands.CurrentSlot.inventorySlot.UUID, gameObject);
+		if (UIManager.CanPutItemToSlot(uiSlotObject))
+		{
+			if (player.IsInReach(this.gameObject, false))
+			{
+				result.Add(pickUpOption, GUIInteract);
+			}
+		}
+
+		return result;
+	}
+
+	private void GUIInteract()
 	{
 		Interact(
 		PlayerManager.LocalPlayerScript.gameObject,

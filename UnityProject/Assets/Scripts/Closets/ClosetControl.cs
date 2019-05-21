@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-
-public class ClosetControl : InputTrigger
+[RequireComponent(typeof(RightClickMenu))]
+public class ClosetControl : InputTrigger, IRightClickable
 {
 	private Sprite doorClosed;
 	public Sprite doorOpened;
@@ -31,6 +32,8 @@ public class ClosetControl : InputTrigger
 
 	public SpriteRenderer spriteRenderer;
 
+	public RightClickOption openCloseOption;
+
 	private void Awake()
 	{
 		doorClosed = spriteRenderer != null ? spriteRenderer.sprite : null;
@@ -41,6 +44,7 @@ public class ClosetControl : InputTrigger
 		registerTile = GetComponent<RegisterCloset>();
 		pushPull = GetComponent<PushPull>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+		RightClickMenu.EnsureComponentExists(gameObject);
 	}
 
 	public override void OnStartServer()
@@ -184,8 +188,7 @@ public class ClosetControl : InputTrigger
 		}
 	}
 
-	[ContextMethod("Open/close", "hand")]
-	public void GUIInteract()
+	private void GUIInteract()
 	{
 		//don't put your hand contents on open/close rmb action!
 		InteractInternal(false);
@@ -344,5 +347,27 @@ public class ClosetControl : InputTrigger
 		{
 			objectBehaviour.registerTile.ParentNetId = parentNetId;
 		}
+	}
+
+	public Dictionary<RightClickOption, Action> GenerateRightClickOptions()
+	{
+		var result = new Dictionary<RightClickOption, Action>();
+		//TODO: Code duplication (of validation logic) with Interact. Eliminate this duplication once this is refactored to IF2.
+		openCloseOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/OpenClose",
+			openCloseOption);
+
+		PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
+		if (localPlayer.canNotInteract())
+		{
+			return result;
+		}
+
+		bool isInReach = localPlayer.IsInReach(registerTile, false);
+		if (isInReach || localPlayer.IsHidden)
+		{
+			result.Add(openCloseOption, GUIInteract);
+		}
+
+		return result;
 	}
 }

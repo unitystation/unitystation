@@ -23,6 +23,9 @@ public class ItemAttributes : NetworkBehaviour
 	private static readonly Lazy<string[]> hierList = new Lazy<string[]>(InitializeHierList);
 	private static string[] HierList => hierList.Value;
 
+	public RightClickOption examineOption;
+	private RightClickMenu rightClickMenu;
+
 	//on-player references
 	private static readonly string[] onPlayer = {
 		"mob/uniform",
@@ -116,6 +119,14 @@ public class ItemAttributes : NetworkBehaviour
 		yield return null;
 	}
 
+	private void Awake()
+	{
+		//init our right click options
+		examineOption = RightClickMenu.AddRightClickOption("ScriptableObjects/Interaction/RightclickOptions/Examine",
+			gameObject, OnExamine, examineOption);
+	}
+
+	//invoked when cloned, copy the item attribute hier
 	/// <summary>
 	/// Invoked when cloned copies the item attribute hier
 	/// </summary>
@@ -496,8 +507,7 @@ public class ItemAttributes : NetworkBehaviour
 		}
 	}
 
-	[ContextMethod("Examine", "Magnifying_glass")]
-	public void OnExamine()
+	private void OnExamine()
 	{
 		if (!string.IsNullOrEmpty(itemDescription))
 		{

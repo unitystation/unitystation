@@ -7,6 +7,7 @@ public class FoodTrigger : PickUpTrigger
 	void Start()
 	{
 		food = GetComponent<FoodBehaviour>();
+		base.Start();
 	}
 
 	public override void UI_Interact(GameObject originator, string hand)

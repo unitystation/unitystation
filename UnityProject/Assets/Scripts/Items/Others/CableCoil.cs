@@ -6,11 +6,8 @@ public class CableCoil : PickUpTrigger
 {
 	public WiringColor CableType;
 	public GameObject CablePrefab;
-    void Start()
-    {
 
-    }
-	public Connection GetDirectionFromFaceDirection(GameObject originator) { 
+	public Connection GetDirectionFromFaceDirection(GameObject originator) {
 		var playerScript = originator.GetComponent<PlayerScript>();
 		switch (playerScript.CurrentDirection.ToString())
 		{
@@ -35,7 +32,7 @@ public class CableCoil : PickUpTrigger
 				}
 		}
 		return (Connection.NA);
-	
+
 	}
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)

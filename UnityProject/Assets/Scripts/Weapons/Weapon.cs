@@ -146,6 +146,7 @@ public class Weapon : PickUpTrigger
 		}
 
 		queuedShots = new Queue<QueuedShot>();
+		base.Start();
 	}
 
 	private void Update()

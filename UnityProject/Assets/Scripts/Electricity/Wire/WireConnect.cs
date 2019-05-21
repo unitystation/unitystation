@@ -63,21 +63,21 @@ public class WireConnect : ElectricalOIinheritance
 	}
 
 	public override void DirectionOutput( GameObject SourceInstance){
-		
+
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString () + this.name + " <  name! ", Category.Electrical);
 		if (RelatedLine == null) {
 			InputOutputFunctions.DirectionOutput (SourceInstance, this);
 		} else {
-			
-			ElectricalOIinheritance GoingTo; 
+
+			ElectricalOIinheritance GoingTo;
 			if (RelatedLine.TheEnd == this.GetComponent<ElectricalOIinheritance> ()) {
 				GoingTo = RelatedLine.TheStart;
 			} else if (RelatedLine.TheStart == this.GetComponent<ElectricalOIinheritance> ()) {
 				GoingTo = RelatedLine.TheEnd;
 			} else {
 				GoingTo = null;
-				return; 
+				return;
 			}
 
 			if (!(Data.SupplyDependent[SourceInstanceID].Downstream.Contains (GoingTo) || Data.SupplyDependent[SourceInstanceID].Upstream.Contains (GoingTo)) )  {
@@ -224,8 +224,8 @@ public class WireConnect : ElectricalOIinheritance
 			RelatedLine.PassOnRemoveSupply (this, SourceInstance);
 		}
 	}
-	[ContextMethod("Details", "Magnifying_glass")]
-	public override void ShowDetails()
+
+	protected override void ShowDetails()
 	{
 		if (isServer)
 		{
