@@ -159,6 +159,19 @@ namespace Atmospherics
 			return removed;
 		}
 
+		public void MergeGasMix(GasMix otherGas)
+		{
+			float totalVolume = Volume + otherGas.Volume;
+			for (int i = 0; i < Gas.Count; i++)
+			{
+				float gas = (Gases[i] + otherGas.Gases[i]) / totalVolume;
+				Gases[i] = gas * Volume;
+				otherGas.Gases[i] = gas * otherGas.Volume;
+			}
+			Recalculate();
+			otherGas.Recalculate();
+		}
+
 		public void AddGas(Gas gas, float moles)
 		{
 			Gases[gas] += moles;

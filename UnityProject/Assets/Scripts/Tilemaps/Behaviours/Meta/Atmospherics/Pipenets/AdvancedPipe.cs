@@ -6,14 +6,16 @@ using UnityEngine;
 public class AdvancedPipe : Pipe
 {
 
-
-	public override void Detach()
+	public override void SpriteChange()
 	{
-		for (int i = 0; i < nodes.Count; i++)
+		if (anchored == false)
 		{
-			nodes[i].nodes.Remove(this);
+			base.SpriteChange();
+			return;
 		}
-		nodes = new List<Pipe>();
+		if(nodes.Count == 1)
+		{
+			spriteRenderer.sprite = pipeSprites[1];
+		}
 	}
-
 }

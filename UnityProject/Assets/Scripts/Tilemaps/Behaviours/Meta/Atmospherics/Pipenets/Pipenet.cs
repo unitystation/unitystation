@@ -1,21 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Atmospherics;
 
 public class Pipenet
 {
-	public Atmospherics.GasMix gasMix;
-	public List<SimplePipe> members = new List<SimplePipe>();
+	public GasMix gasMix;
+	public List<Pipe> members = new List<Pipe>();
 
 	public Pipenet() {
-		gasMix = new Atmospherics.GasMix(Atmospherics.GasMixes.Empty);
+		gasMix = new GasMix(GasMixes.Empty);
 	}
 
-	public void AddPipe(SimplePipe simplePipe){
-		for (int i = 0; i < simplePipe.nodes.Count; i++)
+	public void AddPipe(Pipe pipe){
+		for (int i = 0; i < pipe.nodes.Count; i++)
 		{
-			var attachedPipe = simplePipe.nodes[i].GetComponent<SimplePipe>();
-			if(attachedPipe && attachedPipe.pipenet != this){
+			var attachedPipe = pipe.nodes[i];
+			if(attachedPipe.pipenet != this){
 				if(this.members.Count >= attachedPipe.pipenet.members.Count)
 				{
 					MergePipenet(attachedPipe.pipenet);
@@ -23,21 +24,21 @@ public class Pipenet
 				else
 				{
 					attachedPipe.pipenet.MergePipenet(this);
-					attachedPipe.pipenet.AddPipe(simplePipe);
+					attachedPipe.pipenet.AddPipe(pipe);
 					return;
 				}
 			}
 		}
-		AddSimplePipe(simplePipe);
+		AddPipeEXTRA(pipe);
 	}
 
 	public void MergePipenet(Pipenet otherPipenet){
 		for (int i = 0; i < otherPipenet.members.Count; i++)
 		{
-			SimplePipe simplePipe = otherPipenet.members[i];
-			AddSimplePipe(simplePipe);
+			var pipe = otherPipenet.members[i];
+			AddPipeEXTRA(pipe);
 		}
-		otherPipenet.members = new List<SimplePipe>();
+		otherPipenet.members = new List<Pipe>();
 		gasMix += otherPipenet.gasMix;
 		otherPipenet.DeletePipenet();
 	}
@@ -50,26 +51,26 @@ public class Pipenet
 		}
 	}
 
-	public void AddSimplePipe(SimplePipe simplePipe)
+	public void AddPipeEXTRA(Pipe pipe)
 	{
-		members.Add(simplePipe);
-		simplePipe.pipenet = this;
-		gasMix.ChangeVolumeValue(simplePipe.volume);
+		members.Add(pipe);
+		pipe.pipenet = this;
+		gasMix.ChangeVolumeValue(pipe.volume);
 	}
 
-	public void RemoveSimplePipe(SimplePipe simplePipe)
+	public void RemovePipe(Pipe pipe)
 	{
-		simplePipe.pipenet = null;
-		members.Remove(simplePipe);
-		gasMix.ChangeVolumeValue( - simplePipe.volume);
+		pipe.pipenet = null;
+		members.Remove(pipe);
+		gasMix.ChangeVolumeValue( - pipe.volume);
 	}
 
 	public void Separate()
 	{
 		var oldGasMix = gasMix;
 		var oldMembers = members;
-		gasMix = new Atmospherics.GasMix(Atmospherics.GasMixes.Empty);
-		members = new List<SimplePipe>();
+		gasMix = new GasMix(GasMixes.Empty);
+		members = new List<Pipe>();
 
 		for (int i = 0; i < oldMembers.Count; i++)
 		{
@@ -80,8 +81,8 @@ public class Pipenet
 		var separatedPipenets = new List<Pipenet>(){this};
 		for (int i = 0; i < oldMembers.Count; i++)
 		{
-			var simplePipe = oldMembers[i];
-			if(simplePipe.pipenet == null)
+			var pipe = oldMembers[i];
+			if(pipe.pipenet == null)
 			{
 				if(newPipenet == null)
 				{
@@ -89,7 +90,7 @@ public class Pipenet
 					separatedPipenets.Add(newPipenet);
 					newPipenet.ARANname = Random.Range(0,100).ToString();
 				}
-				newPipenet.SpreadPipenet(simplePipe);
+				newPipenet.SpreadPipenet(pipe);
 				newPipenet = null;
 			}
 		}
@@ -106,25 +107,22 @@ public class Pipenet
 	}
 
 	public string ARANname = "FIRST";
-	public void SpreadPipenet(SimplePipe startPipe)
+	public void SpreadPipenet(Pipe pipe)
 	{
 
-		List<SimplePipe> foundPipes = new List<SimplePipe>();
-		foundPipes.Add(startPipe);
+		List<Pipe> foundPipes = new List<Pipe>();
+		foundPipes.Add(pipe);
 		while(foundPipes.Count > 0)
 		{
-			var simplePipe = foundPipes[0];
-			AddSimplePipe(simplePipe);
-			foundPipes.Remove(simplePipe);
-			for (int i = 0; i < simplePipe.nodes.Count; i++)
+			var foundPipe = foundPipes[0];
+			AddPipeEXTRA(foundPipe);
+			foundPipes.Remove(foundPipe);
+			for (int i = 0; i < foundPipe.nodes.Count; i++)
 			{
-				var nextPipe = simplePipe.nodes[i].GetComponent<SimplePipe>();
-				if(nextPipe != null)
+				var nextPipe = foundPipe.nodes[i];
+				if(nextPipe.pipenet == null)
 				{
-					if(nextPipe.pipenet == null)
-					{
-						foundPipes.Add(nextPipe);
-					}
+					foundPipes.Add(nextPipe);
 				}
 			}
 		}
