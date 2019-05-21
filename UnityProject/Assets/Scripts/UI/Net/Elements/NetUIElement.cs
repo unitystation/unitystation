@@ -76,6 +76,11 @@ public abstract class NetUIElement : MonoBehaviour
 	}
 
 	public const char DELIMITER = '~';
+
+	/// <summary>
+	/// Special logic to execute after all tab elements are initialized
+	/// </summary>
+	public virtual void AfterInit() { }
 }
 
 public enum ElementMode {

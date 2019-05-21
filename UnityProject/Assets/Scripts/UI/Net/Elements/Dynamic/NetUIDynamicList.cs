@@ -236,7 +236,7 @@ public class NetUIDynamicList : NetUIElement {
 				}
 				else
 				{
-					Logger.LogWarningFormat( "Inner element {0} already has indexed name, but {1} was expected", Category.NetUI, innerElement, index );
+					Logger.LogTraceFormat( "Reuse: Inner element {0} already had indexed name, while {1} was expected", Category.NetUI, innerElement, index );
 					//Different index - cut and let set it again
 					innerElement.name = innerElement.name.Split( DELIMITER )[0];
 				}

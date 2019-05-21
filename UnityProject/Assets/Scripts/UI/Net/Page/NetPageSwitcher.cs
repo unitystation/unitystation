@@ -73,7 +73,7 @@ public class NetPageSwitcher : NetUIElement
 		}
 	}
 
-	private void Start()
+	public override void AfterInit()
 	{
 		if ( MasterTab.IsServer && DefaultPage && !CurrentPage )
 		{

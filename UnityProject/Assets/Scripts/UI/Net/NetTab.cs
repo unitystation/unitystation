@@ -46,8 +46,18 @@ public class NetTab : Tab {
 		{
 			InitElements();
 		}
+		AfterInitElements();
 	}
-/// <summary>
+
+	private void AfterInitElements()
+	{
+		foreach ( var element in CachedElements.Values.ToArray() )
+		{
+			element.AfterInit();
+		}
+	}
+
+	/// <summary>
 /// Serverside-only init that happens once after fist element init
 /// </summary>
 	protected virtual void InitServer() { }
