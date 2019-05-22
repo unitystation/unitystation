@@ -88,7 +88,6 @@ public class Pipenet
 				{
 					newPipenet = new Pipenet();
 					separatedPipenets.Add(newPipenet);
-					newPipenet.ARANname = Random.Range(0,100).ToString();
 				}
 				newPipenet.SpreadPipenet(pipe);
 				newPipenet = null;
@@ -106,7 +105,6 @@ public class Pipenet
 
 	}
 
-	public string ARANname = "FIRST";
 	public void SpreadPipenet(Pipe pipe)
 	{
 

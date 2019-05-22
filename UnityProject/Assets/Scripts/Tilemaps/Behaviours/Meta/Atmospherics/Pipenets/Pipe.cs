@@ -14,10 +14,6 @@ public class Pipe : PickUpTrigger
 	public Pipenet pipenet;
 	public float volume = 70;
 
-	public int ARANpipenetmembers;
-	public string ARANpipenetName;
-	public float ARANpipenetVolume;
-
 	public enum Direction
 	{
 		NORTH,

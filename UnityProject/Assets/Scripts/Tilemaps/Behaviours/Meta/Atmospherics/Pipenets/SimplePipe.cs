@@ -5,22 +5,6 @@ using Atmospherics;
 
 public class SimplePipe : Pipe
 {
-
-	private void Update() {
-		if(pipenet != null){
-			ARANpipenetmembers = pipenet.members.Count;
-			ARANpipenetName = pipenet.ARANname;
-			ARANpipenetVolume = pipenet.gasMix.Volume;
-		}
-		else
-		{
-			ARANpipenetVolume = 0;
-			ARANpipenetmembers = 0;
-			ARANpipenetName = "NONE";
-		}
-	}
-
-
 	public override void SpriteChange()
 	{
 		if(anchored == false)
