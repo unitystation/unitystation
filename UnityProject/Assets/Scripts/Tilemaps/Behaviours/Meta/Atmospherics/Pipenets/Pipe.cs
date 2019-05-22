@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Atmospherics;
+using Tilemaps.Behaviours.Meta;
 
 public class Pipe : PickUpTrigger
 {
@@ -170,8 +171,17 @@ public class Pipe : PickUpTrigger
 
 	public void CalculateAttachedNodes()
 	{
-		var adjacentTurfs = GetAdjacentTurfs();
-		for (int i = 0; i < adjacentTurfs.Count; i++)
+		Vector3Int[] dir;
+		if (direction == Direction.NORTH || direction == Direction.SOUTH)
+		{
+			dir = new Vector3Int[] { Vector3Int.up, Vector3Int.down };
+		}
+		else
+		{
+			dir = new Vector3Int[] { Vector3Int.left, Vector3Int.right };
+		}
+		var adjacentTurfs = MetaUtils.GetNeighbors(registerTile.WorldPositionServer, dir);
+		for (int i = 0; i < adjacentTurfs.Length; i++)
 		{
 			var pipe = GetAnchoredPipe(adjacentTurfs[i]);
 			if (pipe)
@@ -182,24 +192,6 @@ public class Pipe : PickUpTrigger
 			}
 		}
 	}
-
-	public List<Vector3Int> GetAdjacentTurfs()
-	{
-		Vector3Int firstDir = registerTile.WorldPositionServer;
-		Vector3Int secondDir = registerTile.WorldPositionServer;
-		if (direction == Direction.NORTH || direction == Direction.SOUTH)
-		{
-			firstDir += new Vector3Int(0, 1, 0);
-			secondDir += new Vector3Int(0, -1, 0);
-		}
-		else
-		{
-			firstDir += new Vector3Int(1, 0, 0);
-			secondDir += new Vector3Int(-1, 0, 0);
-		}
-		return new List<Vector3Int>() { firstDir, secondDir };
-	}
-
 
 	public virtual void SpriteChange()
 	{

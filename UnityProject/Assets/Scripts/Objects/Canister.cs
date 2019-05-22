@@ -30,7 +30,7 @@ public class Canister : InputTrigger
 		{
 			if(connector == null)
 			{
-				var foundConnectors = MatrixManager.GetAt<Connector>(registerTile.PositionServer, true);
+				var foundConnectors = MatrixManager.GetAt<Connector>(registerTile.WorldPositionServer, true);
 				for (int n = 0; n < foundConnectors.Count; n++)
 				{
 					var conn = foundConnectors[n];
