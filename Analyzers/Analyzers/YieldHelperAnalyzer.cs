@@ -1,8 +1,10 @@
+using System.Linq;
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Analyzers.Extensions;
 
 namespace Analyzers
 {
@@ -24,9 +26,21 @@ namespace Analyzers
 
 		private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
 		{
-			var syntaxNode = (YieldStatementSyntax)context.Node;
-			var diagnostic = Diagnostic.Create(Rule, syntaxNode.GetLocation());
-			context.ReportDiagnostic(diagnostic);
+			var yieldSyntax = (YieldStatementSyntax)context.Node;
+
+			var createSyntax = yieldSyntax.ChildNodes().FirstOrDefault() as ObjectCreationExpressionSyntax;
+			if (createSyntax is null) return;
+
+			var (identifierNode, argsNode) = createSyntax.ChildNodes();
+			if (identifierNode is IdentifierNameSyntax identifierSyntax && identifierSyntax.Identifier.Text == "WaitForSeconds" && argsNode is ArgumentListSyntax argsSyntax)
+			{
+				var paramSyntax = argsSyntax.ChildNodes().FirstOrDefault() as ArgumentSyntax;
+				if (paramSyntax != null && paramSyntax.Expression is LiteralExpressionSyntax)
+				{
+					var diagnostic = Diagnostic.Create(Rule, argsNode.GetLocation());
+					context.ReportDiagnostic(diagnostic);
+				}
+			}
 		}
 	}
 }

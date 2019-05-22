@@ -5,21 +5,31 @@ using TestHelper;
 
 namespace Analyzers.Test
 {
-	[TestClass]
-	public class YieldHelperAnalyzerTests : DiagnosticVerifier
-	{
-		[TestMethod]
-		public void Should_Ignore()
-		{
-			var test = @"";
+    [TestClass]
+    public class YieldHelperAnalyzerTests : DiagnosticVerifier
+    {
+        [TestMethod]
+        public void Should_Ignore_Non_Static_Duration()
+        {
+            var test = @"
+				public class FireCabinetTrigger : InputTrigger
+				{
+					private IEnumerator WaitForLoad()
+					{
+						yield return new WaitForSeconds(Math.Random());
+						SyncCabinet(IsClosed);
+						SyncItemSprite(isFull);
+					}					
+				}
+			";
 
-			VerifyCSharpDiagnostic(test);
-		}
+            VerifyCSharpDiagnostic(test);
+        }
 
-		[TestMethod]
-		public void Should_Warn()
-		{
-			var test = @"
+        [TestMethod]
+        public void Should_Warn()
+        {
+            var test = @"
 				public class FireCabinetTrigger : InputTrigger
 				{
 					private IEnumerator WaitForLoad()
@@ -31,18 +41,23 @@ namespace Analyzers.Test
 				}
 			";
 
-			var expected = new DiagnosticResult
-			{
-				Id = YieldHelperAnalyzer.DiagnosticId,
-				Severity = DiagnosticSeverity.Warning,
-			};
+            var expected = new DiagnosticResult
+            {
+                Id = YieldHelperAnalyzer.DiagnosticId,
+                Message = "Instantiating yield instructions generates garbage, consider using a YieldHelper static instead.",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                            new DiagnosticResultLocation("Test0.cs", 6, 38)
+                        }
+            };
 
-			VerifyCSharpDiagnostic(test, expected);
-		}
+            VerifyCSharpDiagnostic(test, expected);
+        }
 
-		protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
-		{
-			return new YieldHelperAnalyzer();
-		}
-	}
+        protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
+        {
+            return new YieldHelperAnalyzer();
+        }
+    }
 }
