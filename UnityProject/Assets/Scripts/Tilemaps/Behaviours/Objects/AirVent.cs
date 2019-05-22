@@ -26,8 +26,8 @@ public class AirVent : AdvancedPipe
 
 	private void LoadTurf()
 	{
-		metaDataLayer = MatrixManager.AtPoint(Vector3Int.RoundToInt(transform.position), true).MetaDataLayer;
-		metaNode = metaDataLayer.Get(Vector3Int.RoundToInt(transform.position), false);
+		metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
+		metaNode = metaDataLayer.Get(registerTile.WorldPositionServer, false);
 	}
 
 	void UpdateMe()
@@ -45,7 +45,7 @@ public class AirVent : AdvancedPipe
 			GasMix gasMix = pipenet.gasMix;
 			pipenet.gasMix = gasMix / 2;
 			metaNode.GasMix = metaNode.GasMix + gasMix;
-			metaDataLayer.UpdateSystemsAt(Vector3Int.RoundToInt(transform.position));
+			metaDataLayer.UpdateSystemsAt(registerTile.WorldPositionServer);
 		}
 	}
 }

@@ -8,6 +8,7 @@ public class Pipe : PickUpTrigger
 	public List<Pipe> nodes = new List<Pipe>();
 	public bool anchored = false;
 	public Direction direction = Direction.NORTH;
+	public RegisterTile registerTile;
 	public Sprite[] pipeSprites;
 	public SpriteRenderer spriteRenderer;
 
@@ -20,6 +21,10 @@ public class Pipe : PickUpTrigger
 		SOUTH,
 		WEST,
 		EAST
+	}
+
+	public void Awake() {
+		registerTile = GetComponent<RegisterTile>();
 	}
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
@@ -54,7 +59,7 @@ public class Pipe : PickUpTrigger
 				}
 				else
 				{
-					if (GetAnchoredPipe(transform.position) != null)
+					if (GetAnchoredPipe(registerTile.WorldPositionServer) != null)
 					{
 						return true;
 					}
@@ -63,7 +68,7 @@ public class Pipe : PickUpTrigger
 					anchored = true;
 				}
 				SpriteChange();
-				SoundManager.PlayAtPosition("Wrench", transform.position);
+				SoundManager.PlayAtPosition("Wrench", registerTile.WorldPositionServer);
 			}
 		}
 
@@ -86,7 +91,7 @@ public class Pipe : PickUpTrigger
 		foundPipenet.AddPipe(this);
 
 		transform.rotation = new Quaternion();
-		transform.position = Vector3Int.RoundToInt(transform.position);
+		transform.position = registerTile.WorldPositionServer;
 	}
 
 
@@ -149,9 +154,9 @@ public class Pipe : PickUpTrigger
 		}
 	}
 
-	public Pipe GetAnchoredPipe(Vector3 position)
+	public Pipe GetAnchoredPipe(Vector3Int position)
 	{
-		var foundPipes = MatrixManager.GetAt<Pipe>(position.RoundToInt(), true);
+		var foundPipes = MatrixManager.GetAt<Pipe>(position, true);
 		for (int n = 0; n < foundPipes.Count; n++)
 		{
 			var pipe = foundPipes[n];
@@ -178,21 +183,21 @@ public class Pipe : PickUpTrigger
 		}
 	}
 
-	public List<Vector3> GetAdjacentTurfs()
+	public List<Vector3Int> GetAdjacentTurfs()
 	{
-		Vector3 firstDir = transform.position;
-		Vector3 secondDir = transform.position;
+		Vector3Int firstDir = registerTile.WorldPositionServer;
+		Vector3Int secondDir = registerTile.WorldPositionServer;
 		if (direction == Direction.NORTH || direction == Direction.SOUTH)
 		{
-			firstDir += new Vector3(0, 1, 0);
-			secondDir += new Vector3(0, -1, 0);
+			firstDir += new Vector3Int(0, 1, 0);
+			secondDir += new Vector3Int(0, -1, 0);
 		}
 		else
 		{
-			firstDir += new Vector3(1, 0, 0);
-			secondDir += new Vector3(-1, 0, 0);
+			firstDir += new Vector3Int(1, 0, 0);
+			secondDir += new Vector3Int(-1, 0, 0);
 		}
-		return new List<Vector3>() { firstDir, secondDir };
+		return new List<Vector3Int>() { firstDir, secondDir };
 	}
 
 

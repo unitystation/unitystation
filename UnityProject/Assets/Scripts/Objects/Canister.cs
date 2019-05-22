@@ -5,10 +5,12 @@ public class Canister : InputTrigger
 {
 	public GasContainer container;
 	private Connector connector;
+	private RegisterTile registerTile;
 
 	private void Awake()
 	{
 		container = GetComponent<GasContainer>();
+		registerTile = GetComponent<RegisterTile>();
 	}
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
@@ -28,7 +30,7 @@ public class Canister : InputTrigger
 		{
 			if(connector == null)
 			{
-				var foundConnectors = MatrixManager.GetAt<Connector>(position.RoundToInt(), true);
+				var foundConnectors = MatrixManager.GetAt<Connector>(registerTile.PositionServer, true);
 				for (int n = 0; n < foundConnectors.Count; n++)
 				{
 					var conn = foundConnectors[n];
