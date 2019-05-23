@@ -32,7 +32,7 @@ public class AirVent : AdvancedPipe
 
 	void UpdateMe()
 	{
-		if (isServer && anchored)
+		if (anchored)
 		{
 			CheckAtmos();
 		}

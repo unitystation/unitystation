@@ -12,11 +12,12 @@ GameObject:
   - component: {fileID: 61175210989043412}
   - component: {fileID: 61256080335844696}
   - component: {fileID: 114379431276966866}
+  - component: {fileID: 4252939187967585031}
   - component: {fileID: 114255515820156884}
   - component: {fileID: 114850447683734040}
   - component: {fileID: 114215226708324816}
   m_Layer: 11
-  m_Name: HidrogenTubes
+  m_Name: ShuttleHeater
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,6 +123,25 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &4252939187967585031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547459616489196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 352c75cf35ef70b4ba50e454d14aa536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodes: []
+  anchored: 0
+  direction: 0
+  registerTile: {fileID: 0}
+  pipeSprites: []
+  spriteRenderer: {fileID: 0}
+  volume: 70
 --- !u!114 &114255515820156884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,13 +170,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 1
   AtmosPassable: 0
@@ -241,7 +259,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300084, guid: 9fa652f05ffb4d27afcf8e281b54ba51, type: 3}
+  m_Sprite: {fileID: 21300392, guid: 19f6ef6ee7639411ab17229343906b20, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

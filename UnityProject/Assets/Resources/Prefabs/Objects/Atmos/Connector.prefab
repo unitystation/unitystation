@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 61321219257688126}
   - component: {fileID: 114348495363464762}
   - component: {fileID: 114675370128025870}
+  - component: {fileID: 1017861296826197586}
   - component: {fileID: 9021031151912966899}
   - component: {fileID: 114836435796936700}
   - component: {fileID: 114007797438959630}
@@ -189,6 +190,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1017861296826197586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 027d1f2fae780624ebb2115cfc6e78af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &9021031151912966899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,14 +217,12 @@ MonoBehaviour:
   nodes: []
   anchored: 0
   direction: 0
+  registerTile: {fileID: 0}
   pipeSprites:
   - {fileID: 21300032, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
   - {fileID: 21300072, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
   spriteRenderer: {fileID: 212588640390319518}
   volume: 70
-  ARANpipenetmembers: 0
-  ARANpipenetName: 
-  ARANpipenetVolume: 0
 --- !u!114 &114836435796936700
 MonoBehaviour:
   m_ObjectHideFlags: 0

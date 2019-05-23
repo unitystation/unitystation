@@ -4,7 +4,7 @@ using UnityEngine;
 using Atmospherics;
 using Tilemaps.Behaviours.Meta;
 
-public class Pipe : PickUpTrigger
+public class Pipe : MonoBehaviour
 {
 	public List<Pipe> nodes = new List<Pipe>();
 	public bool anchored = false;
@@ -28,54 +28,26 @@ public class Pipe : PickUpTrigger
 		registerTile = GetComponent<RegisterTile>();
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	public void WrenchAct()
 	{
-		if (!CanUse(originator, hand, position, false))
+		if (anchored)
 		{
-			return false;
+			anchored = false;
+			Detach();
 		}
-		if (!isServer)
+		else
 		{
-			//ask server to perform the interaction
-			InteractMessage.Send(gameObject, position, hand);
-			return true;
-		}
-
-		PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
-		GameObject handObj = pna.Inventory[hand].Item;
-
-		if(handObj == null)
-		{
-			if(!anchored){
-				return base.Interact(originator, position, hand);
-			}
-		}
-		else{
-			if (handObj.GetComponent<WrenchTrigger>())
+			if (GetAnchoredPipe(registerTile.WorldPositionServer) != null)
 			{
-				if (anchored)
-				{
-					anchored = false;
-					Detach();
-				}
-				else
-				{
-					if (GetAnchoredPipe(registerTile.WorldPositionServer) != null)
-					{
-						return true;
-					}
-					CalculateAttachedNodes();
-					Attach();
-					anchored = true;
-				}
-				SpriteChange();
-				SoundManager.PlayAtPosition("Wrench", registerTile.WorldPositionServer);
+				return;
 			}
+			CalculateAttachedNodes();
+			Attach();
+			anchored = true;
 		}
-
-		return true;
+		SpriteChange();
+		SoundManager.PlayAtPosition("Wrench", registerTile.WorldPositionServer);
 	}
-
 
 	public virtual void Attach()
 	{
