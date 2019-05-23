@@ -29,7 +29,7 @@ public class PipeTrigger : PickUpTrigger
 
 		if (handObj == null)
 		{
-			if (!pipe.anchored)
+			if (!pipe.objectBehaviour.isNotPushable)
 			{
 				return base.Interact(originator, position, hand);
 			}

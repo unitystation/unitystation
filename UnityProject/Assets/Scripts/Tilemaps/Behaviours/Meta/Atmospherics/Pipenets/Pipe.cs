@@ -7,9 +7,9 @@ using Tilemaps.Behaviours.Meta;
 public class Pipe : MonoBehaviour
 {
 	public List<Pipe> nodes = new List<Pipe>();
-	public bool anchored = false;
 	public Direction direction = Direction.NORTH;
 	public RegisterTile registerTile;
+	public ObjectBehaviour objectBehaviour;
 	public Sprite[] pipeSprites;
 	public SpriteRenderer spriteRenderer;
 
@@ -26,13 +26,14 @@ public class Pipe : MonoBehaviour
 
 	public void Awake() {
 		registerTile = GetComponent<RegisterTile>();
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
 	public void WrenchAct()
 	{
-		if (anchored)
+		if (objectBehaviour.isNotPushable)
 		{
-			anchored = false;
+			objectBehaviour.isNotPushable = false;
 			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Items");
 			Detach();
 		}
@@ -44,7 +45,7 @@ public class Pipe : MonoBehaviour
 			}
 			CalculateAttachedNodes();
 			Attach();
-			anchored = true;
+			objectBehaviour.isNotPushable = true;
 			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Objects");
 		}
 		SpriteChange();
@@ -135,7 +136,7 @@ public class Pipe : MonoBehaviour
 		for (int n = 0; n < foundPipes.Count; n++)
 		{
 			var pipe = foundPipes[n];
-			if (pipe.anchored && pipe.IsCorrectDirection(direction))
+			if (pipe.objectBehaviour.isNotPushable && pipe.IsCorrectDirection(direction))
 			{
 				return pipe;
 			}

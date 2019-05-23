@@ -11,7 +11,7 @@ public class Scrubber : AdvancedPipe
 
 	private void Start()
 	{
-		if (anchored)
+		if (objectBehaviour.isNotPushable)
 		{
 			LoadTurf();
 		}
@@ -32,7 +32,7 @@ public class Scrubber : AdvancedPipe
 
 	void UpdateMe()
 	{
-		if (anchored)
+		if (objectBehaviour.isNotPushable)
 		{
 			CheckAtmos();
 		}
