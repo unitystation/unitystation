@@ -3,14 +3,18 @@ using UnityEngine;
 
 public class Canister : InputTrigger
 {
+	public ObjectBehaviour objectBehaviour;
 	public GasContainer container;
 	private Connector connector;
 	private RegisterTile registerTile;
+	public SpriteRenderer connectorRenderer;
+	public Sprite connectorSprite;
 
 	private void Awake()
 	{
 		container = GetComponent<GasContainer>();
 		registerTile = GetComponent<RegisterTile>();
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
@@ -38,6 +42,8 @@ public class Canister : InputTrigger
 					{
 						connector = conn;
 						connector.ConnectCanister(this);
+						connectorRenderer.sprite = connectorSprite;
+						objectBehaviour.isNotPushable = true;
 						return true;
 					}
 				}
@@ -45,7 +51,9 @@ public class Canister : InputTrigger
 			else
 			{
 				connector.DisconnectCanister();
+				connectorRenderer.sprite = null;
 				connector = null;
+				objectBehaviour.isNotPushable = false;
 				return true;
 			}
 		}
