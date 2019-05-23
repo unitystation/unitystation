@@ -33,6 +33,7 @@ public class Pipe : MonoBehaviour
 		if (anchored)
 		{
 			anchored = false;
+			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Items");
 			Detach();
 		}
 		else
@@ -44,6 +45,7 @@ public class Pipe : MonoBehaviour
 			CalculateAttachedNodes();
 			Attach();
 			anchored = true;
+			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Objects");
 		}
 		SpriteChange();
 		SoundManager.PlayAtPosition("Wrench", registerTile.WorldPositionServer);
