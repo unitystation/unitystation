@@ -7,7 +7,7 @@ public class SimplePipe : Pipe
 {
 	public override void SpriteChange()
 	{
-		if(anchored == false)
+		if(objectBehaviour.isNotPushable == false)
 		{
 			base.SpriteChange();
 			return;

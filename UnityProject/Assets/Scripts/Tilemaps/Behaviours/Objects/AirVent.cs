@@ -11,7 +11,7 @@ public class AirVent : AdvancedPipe
 
 	private void Start()
 	{
-		if(anchored)
+		if(objectBehaviour.isNotPushable)
 		{
 			LoadTurf();
 		}
@@ -32,7 +32,7 @@ public class AirVent : AdvancedPipe
 
 	void UpdateMe()
 	{
-		if (anchored)
+		if (objectBehaviour.isNotPushable)
 		{
 			CheckAtmos();
 		}

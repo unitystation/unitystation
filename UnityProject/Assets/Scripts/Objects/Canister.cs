@@ -38,7 +38,7 @@ public class Canister : InputTrigger
 				for (int n = 0; n < foundConnectors.Count; n++)
 				{
 					var conn = foundConnectors[n];
-					if (conn.anchored)
+					if (conn.objectBehaviour.isNotPushable)
 					{
 						connector = conn;
 						connector.ConnectCanister(this);

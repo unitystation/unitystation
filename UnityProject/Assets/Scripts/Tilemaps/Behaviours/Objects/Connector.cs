@@ -23,7 +23,7 @@ public class Connector : AdvancedPipe
 
 	void UpdateMe()
 	{
-		if (anchored && canister != null)
+		if (objectBehaviour.isNotPushable && canister != null)
 		{
 			MergeAir();
 		}
