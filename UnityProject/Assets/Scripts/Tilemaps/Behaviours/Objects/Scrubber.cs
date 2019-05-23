@@ -32,7 +32,7 @@ public class Scrubber : AdvancedPipe
 
 	void UpdateMe()
 	{
-		if (isServer && anchored)
+		if (anchored)
 		{
 			CheckAtmos();
 		}

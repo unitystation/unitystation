@@ -23,7 +23,7 @@ public class Connector : AdvancedPipe
 
 	void UpdateMe()
 	{
-		if (isServer && anchored && canister != null)
+		if (anchored && canister != null)
 		{
 			MergeAir();
 		}
