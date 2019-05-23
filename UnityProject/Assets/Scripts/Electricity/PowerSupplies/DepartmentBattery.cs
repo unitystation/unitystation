@@ -167,17 +167,4 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, IIn
 			PowerIndicator.sprite = LightOff;
 		}
 	}
-
-//	[ContextMethod("Toggle Charge", "Power_Button")]
-//	public void ToggleCharge()
-//	{
-//		ToggleCanCharge = !ToggleCanCharge;
-//	}
-
-//	[ContextMethod("Toggle Support", "Power_Button")]
-//	public void ToggleSupport()
-//	{
-//		ToggleCansupport = !ToggleCansupport;
-//	}
-
 }

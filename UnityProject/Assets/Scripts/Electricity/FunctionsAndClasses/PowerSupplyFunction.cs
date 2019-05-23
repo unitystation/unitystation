@@ -5,14 +5,11 @@ using UnityEngine;
 public static class PowerSupplyFunction  { //Responsible for keeping the update and day to clean up off the supply in check
 	public static void TurnOffSupply(ModuleSupplyingDevice Supply)
 	{
-		//Logger.Log("TTTTTTTTTTTTTTTTTTTT");
 		Supply.ControllingNode.Node.Data.ChangeToOff = true;
 		ElectricalSynchronisation.NUCurrentChange.Add (Supply.ControllingNode);
-		//ElectricalSynchronisation.RemoveSupply(Supply.ControllingNode, Supply.ControllingNode.ApplianceType);
 	}
 	public static void TurnOnSupply(ModuleSupplyingDevice Supply)
 	{
-		//Logger.Log("nnnnnnnnnn" + Supply.ControllingNode);
 		Supply.ControllingNode.Node.Data.ChangeToOff = false;
 		ElectricalSynchronisation.AddSupply(Supply.ControllingNode, Supply.ControllingNode.ApplianceType);
 		ElectricalSynchronisation.NUStructureChangeReact.Add (Supply.ControllingNode);
@@ -22,13 +19,11 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 
 	public static void PowerUpdateStructureChangeReact(ModuleSupplyingDevice Supply)
 	{
-		//Logger.Log("doing");
 		ElectricalSynchronisation.CircuitSearchLoop(Supply.ControllingNode.Node);
 	}
 
 	public static void PowerUpdateCurrentChange(ModuleSupplyingDevice Supply)
 	{
-		//Logger.Log("PowerUpdateCurrentChange > " + Supply.name);
 		Supply.ControllingNode.Node.FlushSupplyAndUp(Supply.gameObject);
 		if (!Supply.ControllingNode.Node.Data.ChangeToOff)
 		{
@@ -43,7 +38,6 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 				Supply.ControllingNode.Node.ElectricityOutput(Current, Supply.gameObject);
 
 			}
-
 		}
 		else {
 			foreach (ElectricalOIinheritance connectedDevice in Supply.ControllingNode.Node.connectedDevices)
@@ -56,14 +50,11 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 		}
 		ELCurrent.Currentloop(Supply.gameObject);
 
-
 		if (Supply.ControllingNode.Node.Data.ChangeToOff)
 		{
 			Supply.ControllingNode.Node.Data.ChangeToOff = false;
 			Supply.ControllingNode.TurnOffCleanup();
 			ElectricalSynchronisation.RemoveSupply(Supply.ControllingNode.Node.InData.ControllingDevice, Supply.ControllingNode.Node.InData.Categorytype);
 		}
-
 	}
-
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 [System.Serializable]
-public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every  node inherits from 
+public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every node inherits from 
 	public Connection WireEndB;
 	public Connection WireEndA;
 
@@ -18,6 +18,8 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	public Matrix matrix => registerTile.Matrix; //This is a bit janky with inheritance 
 	public bool connected = false;
 
+	public bool Logall = false;
+
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
@@ -29,9 +31,6 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	{
 		base.OnStartServer();
 		StartCoroutine(WaitForLoad());
-		//FindPossibleConnections();
-		//FlushConnectionAndUp();
-		//FindPossibleConnections();
 	}
 	public virtual void _Start()
 	{
@@ -90,6 +89,10 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	/// </summary>
 	public virtual void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom,  CableLine PassOn  = null)
 	{
+		if (Logall)
+		{
+			Logger.Log("this > " + this + "DirectionInput SourceInstance > " + SourceInstance + " ComingFrom > " + ComingFrom + "  PassOn > " + PassOn, Category.Electrical);
+		}
 		InputOutputFunctions.DirectionInput(SourceInstance, ComingFrom, this);
 	}
 
@@ -99,10 +102,11 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	public virtual void DirectionOutput(GameObject SourceInstance)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
-		InputOutputFunctions.DirectionOutput(SourceInstance, this);
-		//Data.DownstreamCount = Data.SupplyDependent[SourceInstanceID].Downstream.Count;
-		//Data.UpstreamCount = Data.SupplyDependent[SourceInstanceID].Upstream.Count;
-		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString (), Category.Electrical);
+		InputOutputFunctions.DirectionOutput(SourceInstance, this);		if (Logall)
+		{
+			Logger.Log("this > " + this + "DirectionOutput " + this.gameObject+ " <ID | Downstream = " + Data.SupplyDependent[SourceInstanceID].Downstream.Count + " Upstream = " + Data.SupplyDependent[SourceInstanceID].Upstream.Count + "connections " + (string.Join(",", Data.connections)), Category.Electrical);
+		}
+
 	}
 
 	/// <summary>
@@ -110,6 +114,10 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	/// </summary>
 	public virtual void ResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
+		if (Logall)
+		{
+			Logger.Log("this > " + this + "ResistanceInput, Resistance > " + Resistance + " SourceInstance  > " + SourceInstance + " ComingFrom > " + ComingFrom , Category.Electrical);
+		}
 		InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, this);
 	}
 
@@ -119,6 +127,10 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	public virtual void ResistancyOutput(GameObject SourceInstance)
 	{
 		float Resistance = ElectricityFunctions.WorkOutResistance(Data.SupplyDependent[SourceInstance.GetInstanceID()].ResistanceComingFrom);
+		if (Logall)
+		{
+			Logger.Log("this > " + this + "ResistancyOutput, Resistance > " + Resistance + " SourceInstance  > " + SourceInstance , Category.Electrical);
+		}
 		InputOutputFunctions.ResistancyOutput(Resistance, SourceInstance, this);
 	}
 
@@ -127,6 +139,10 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	/// </summary>
 	public virtual void ElectricityInput( float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
+		if (Logall)
+		{
+			Logger.Log("this > " + this + "ElectricityInput, Current > " + Current + " SourceInstance  > " + SourceInstance + " ComingFrom > " + ComingFrom,  Category.Electrical);
+		}
 		InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, this);
 	}
 
@@ -135,8 +151,10 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	/// </summary>
 	public virtual void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
-		//SourceInstance.GetComponent<ElectricalOIinheritance>();
-		//Logger.Log("oh man?");
+		if (Logall)
+		{
+			Logger.Log("this > " + this + "ElectricityOutput, Current > " + Current + " SourceInstance  > " + SourceInstance, Category.Electrical);
+		}
 		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
 
 	}
@@ -180,7 +198,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	public virtual void ShowDetails()
 	{
 		if (isServer)
-		{ //(string.Join(",", Data.connection))
+		{
 			ElectricityFunctions.WorkOutActualNumbers(this);
 			Logger.Log("connections " + (string.Join(",", Data.connections)), Category.Electrical);
 			Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);

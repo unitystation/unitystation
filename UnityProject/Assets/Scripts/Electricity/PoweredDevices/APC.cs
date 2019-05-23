@@ -177,6 +177,7 @@ public class APC  : InputTrigger, INodeControl
 		{
 			foreach (APCPoweredDevice Device in ConnectedDevices)
 			{
+				
 				Device.PowerNetworkUpdate(Voltages);
 				CalculatingResistance += (1 / Device.Resistance);
 			}

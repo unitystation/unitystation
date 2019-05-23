@@ -175,8 +175,12 @@ MonoBehaviour:
   ModuleType: 0
   ControllingNode: {fileID: 2731523975421391927}
   TurnRatio: 250
+  InvertingTurnRatio: 0
   VoltageLimiting: 3300
   VoltageLimitedTo: 3300
+  HighsideConnections: 0b000000
+  LowsideConnections: 01000000
+  TreatComingFromNullAs: 0
 --- !u!114 &2731523975421391927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,13 +231,12 @@ MonoBehaviour:
   InData:
     Categorytype: 0
     ControllingDevice: {fileID: 0}
-    ControllingUpdate: {fileID: 0}
     DirectionOverride: 0
     ResistanceOverride: 0
     ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
-  RelatedDevice: {fileID: 0}
+  Logall: 0
   registerTile3: {fileID: 114038174743996046}
 --- !u!1 &1744594665423798
 GameObject:

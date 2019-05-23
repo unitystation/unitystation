@@ -44,6 +44,9 @@ public class ElectricalModuleInheritance : MonoBehaviour
 	{
 	}
 
+	public virtual void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalNodeControl ComplexPassOn)
+	{
+	}
 
 	public virtual float ModifyElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{

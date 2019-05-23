@@ -32,3 +32,4 @@ public class DeadEndConnection : ElectricalOIinheritance { //Used for formatting
 
 	public override	GameObject GameObject(){return(null);}
 }
+//shhhh Ignore the new Mono behaviour warning

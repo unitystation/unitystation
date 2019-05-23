@@ -7,7 +7,6 @@ using UnityEngine.Networking;
 public class InLineDevice : ElectricalOIinheritance
 {
 	//What is the purpose of inline device, It is to modify current, resistance going over the device E.G a Transformer For any other device that can be thought of
-	public ElectricalNodeControl RelatedDevice;
 
 	public RegisterObject registerTile3;
 	private Matrix matrix => registerTile3.Matrix;
@@ -34,13 +33,12 @@ public class InLineDevice : ElectricalOIinheritance
 	{
 		base.OnStartServer();
 		InData.ElectricityOverride = true;
+		InData.ResistanceOverride = true;
 		//Not working for some reason:
 		registerTile3 = gameObject.GetComponent<RegisterObject>();
 		StartCoroutine(WaitForLoad());
 		posCache = transform.localPosition;
 	}
-
-
 
 	IEnumerator WaitForLoad()
 	{
@@ -48,18 +46,9 @@ public class InLineDevice : ElectricalOIinheritance
 		FindPossibleConnections();
 	}
 
-
-	public void PowerUpdateStructureChange()
-	{
-		FlushConnectionAndUp();
-	}
-
-	public void PowerNetworkUpdate() { }
-
-
 	public override void ResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
-		Resistance = RelatedDevice.ModifyResistanceInput(Resistance, SourceInstance, ComingFrom);
+		Resistance = InData.ControllingDevice.ModifyResistanceInput(Resistance, SourceInstance, ComingFrom);
 		InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, this);
 	}
 
@@ -67,28 +56,20 @@ public class InLineDevice : ElectricalOIinheritance
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		float Resistance = ElectricityFunctions.WorkOutResistance(Data.SupplyDependent[SourceInstanceID].ResistanceComingFrom);
-		Resistance = RelatedDevice.ModifyResistancyOutput( Resistance, SourceInstance);
+		Resistance = InData.ControllingDevice.ModifyResistancyOutput( Resistance, SourceInstance);
 		InputOutputFunctions.ResistancyOutput( Resistance, SourceInstance, this);
 	}
 
 	public override void ElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom)
 	{
-		Current = RelatedDevice.ModifyElectricityInput( Current, SourceInstance, ComingFrom);
+		Current = InData.ControllingDevice.ModifyElectricityInput( Current, SourceInstance, ComingFrom);
 		InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, this);
 	}
 
 	public override void ElectricityOutput(float Current, GameObject SourceInstance)
 	{
-		//if (!(SourceInstance == gameObject)){ // In line  Device bouncing off each other
-		//	if (!ElectricalSynchronisation.NUCurrentChange.Contains(InData.ControllingDevice)) { 
-		//		ElectricalSynchronisation.NUCurrentChange.Add(InData.ControllingDevice);
-		//	}
-		//}
-
-		Current = RelatedDevice.ModifyElectricityOutput(Current, SourceInstance);
-
+		Current = InData.ControllingDevice.ModifyElectricityOutput(Current, SourceInstance);
 		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, this);
-
 		ElectricityFunctions.WorkOutActualNumbers(this);
 	}		
 }

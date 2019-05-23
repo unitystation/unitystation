@@ -74,7 +74,6 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 				CircuitResistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.Data.SupplyDependent[ControllingNode.Node.gameObject.GetInstanceID()].ResistanceComingFrom); // //!!
 				VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node, ResistanceSourceModule.ReactionTo.ConnectingDevice);
 				VoltageAtSupplyPort = ElectricityFunctions.WorkOutVoltageFromConnectors(ControllingNode.Node, ControllingNode.CanConnectTo);
-
 				BatteryCalculation.PowerUpdateCurrentChange(this);
 
 				if (current != Previouscurrent)
@@ -93,7 +92,6 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 			}
 		}
 		else {
-			//not  Getting reset on  Cable cut
 			CircuitResistance = 999999999999;
 		}
 		PowerSupplyFunction.PowerUpdateCurrentChange(this);
@@ -129,5 +127,17 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 			}
 		}
 		return (Current);
+	}
+
+	[ContextMethod("Toggle Charge", "Power_Button")]
+	public void ToggleCharge()
+	{
+		ToggleCanCharge = !ToggleCanCharge;
+	}
+
+	[ContextMethod("Toggle Support", "Power_Button")]
+	public void ToggleSupport()
+	{
+		ToggleCansupport = !ToggleCansupport;
 	}
 }

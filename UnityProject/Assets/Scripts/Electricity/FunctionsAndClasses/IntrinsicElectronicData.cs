@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class IntrinsicElectronicData  {
 	public PowerTypeCategory Categorytype;
-	public HashSet<PowerTypeCategory> CanConnectTo; 
+	public HashSet<PowerTypeCategory> CanConnectTo =new HashSet<PowerTypeCategory>(); 
 	/// <summary>
 	/// if the incoming input is from a certain type of  Machine/cable React differently
 	/// </summary>

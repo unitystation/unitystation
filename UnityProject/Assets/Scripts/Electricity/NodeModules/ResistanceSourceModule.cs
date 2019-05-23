@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class ResistanceSourceModule : ElectricalModuleInheritance
 {
-	//[Header("Transformer Settings")]
 	public Resistance resistance = new Resistance();
 	private float _resistance = 9999999999;
-	/// <summary>
-	/// The current resistance of devices connected to this APC.
-	/// </summary>
+
 	public float Resistance
 	{
 		get
@@ -39,6 +36,7 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 
 	public float EditorResistance;
 	public bool NotEditorResistanceset = true;
+
 	/// <summary>
 	/// Flag to determine if ElectricalSynchronisation has processed the resistance change yet
 	/// </summary>
@@ -88,11 +86,8 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 	}
 	public override void PowerNetworkUpdate()
 	{
-		//Logger.Log("yo");
 		if (dirtyResistance)
 		{
-			//	public float EditorResistance;
-			//public bool EditorResistanceset = false;
 			if (NotEditorResistanceset){
 				NotEditorResistanceset = false;
 				if (EditorResistance != 0)
@@ -100,7 +95,6 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 					Resistance = EditorResistance;
 				}
 			}
-			//Logger.Log("dirtyResistance!");
 			resistance.Ohms = Resistance;
 			dirtyResistance = false;
 			ElectricalSynchronisation.ResistanceChange.Add(ControllingNode);

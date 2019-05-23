@@ -10,7 +10,6 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 	public float PreviousSupplyingVoltage = 0;
 	public float PreviousInternalResistance = 0;
 	public float InternalResistance = 0;
-	//public bool ChangeToOff;
 
 	public virtual void BroadcastSetUpMessage(ElectricalNodeControl Node)
 	{

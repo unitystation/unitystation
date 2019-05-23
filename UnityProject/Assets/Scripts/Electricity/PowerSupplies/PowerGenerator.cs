@@ -202,7 +202,6 @@ public class PowerGenerator : InputTrigger, INodeControl
 			{
 				UpdateServerState(!isOn);
 			}
-			//ConstructionInteraction(originator, position, hand);
 		}
 
 		return true;

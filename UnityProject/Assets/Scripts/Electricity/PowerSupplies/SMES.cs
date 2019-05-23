@@ -5,8 +5,6 @@ using UnityEngine.Networking;
 
 public class SMES : NetworkBehaviour, IInteractable<HandApply>, IInteractionProcessor<HandApply>, INodeControl
 {
-	//public override bool isOnForInterface { get; set; } = false;
-	//public override bool PassChangeToOff { get; set; } = false;
 	public bool ResistanceChange = false;
 
 	[SyncVar]
@@ -62,23 +60,6 @@ public class SMES : NetworkBehaviour, IInteractable<HandApply>, IInteractionProc
 		//then inform all clients.
 	}
 
-
-
-	//public override bool Interact(GameObject originator, Vector3 position, string hand)
-	//{
-	//	if (!isServer)
-	//	{
-	//		InteractMessage.Send(gameObject, hand);
-	//	}
-	//	else
-	//	{
-	//		isOn = !isOn;
-	//		UpdateServerState(isOn);
-	//	}
-	//	//ConstructionInteraction(originator, position, hand);
-	//	return true;
-	//}
-
 	public void UpdateServerState(bool _isOn)
 	{
 		if (isOn)
@@ -92,7 +73,6 @@ public class SMES : NetworkBehaviour, IInteractable<HandApply>, IInteractionProc
 	}
 
 	public void PowerNetworkUpdate() { }
-
 
 	public void UpdateState(bool _isOn)
 	{
@@ -120,17 +100,4 @@ public class SMES : NetworkBehaviour, IInteractable<HandApply>, IInteractionProc
 			statusIndicator.gameObject.SetActive(false);
 		}
 	}
-
-	//[ContextMethod("Toggle Charge", "Power_Button")]
-	//public void ToggleCharge()
-	//{
-	//	//ToggleCanCharge = !ToggleCanCharge;
-	//}
-
-	//[ContextMethod("Toggle Support", "Power_Button")]
-	//public void ToggleSupport()
-	//{
-	//	//ToggleCansupport = !ToggleCansupport;
-	//}
-
 }

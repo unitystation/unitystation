@@ -1,13 +1,13 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SolarPanel : InputTrigger, INodeControl
+public class RadiationCollector : InputTrigger
 {
-  	[SyncVar(hook = "UpdateState")]
-	public bool isOn = false;
 	public ElectricalNodeControl ElectricalNodeControl;
+	[SyncVar(hook = "UpdateState")]
+	public bool isOn = false;
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
@@ -20,42 +20,37 @@ public class SolarPanel : InputTrigger, INodeControl
 			isOn = !isOn;
 			UpdateServerState(isOn);
 		}
-		//ConstructionInteraction(originator, position, hand);
 		return true;
 	}
-	public override void OnStartServer()
+
+	public override void OnStartClient()
 	{
-		base.OnStartServer();
-		isOn = true;
-		UpdateServerState(isOn);
+		base.OnStartClient();
+		UpdateState(isOn);
 	}
+
 	public void UpdateServerState(bool _isOn)
 	{
 		if (isOn)
 		{
-			//Logger.Log("TurnOnSupply");
 			ElectricalNodeControl.TurnOnSupply();
 		}
 		else
 		{
-			//Logger.Log("TurnOffSupply");
 			ElectricalNodeControl.TurnOffSupply();
 		}
 	}
-
-	public void PowerNetworkUpdate() { }
-
 
 	public void UpdateState(bool _isOn)
 	{
 		isOn = _isOn;
 		if (isOn)
 		{
-			//Logger.Log("on");
+			
 		}
 		else
 		{
-			//Logger.Log("off");
+
 		}
 	}
 }

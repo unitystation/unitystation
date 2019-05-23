@@ -63,6 +63,7 @@ public class FieldGenerator : InputTrigger, INodeControl
 				spriteRend.sprite = onSprite;
 			}
 			if(Voltage >= 2700){
+				ResistanceSourceModule.Resistance = 50f;
 				if(!connectedToOther){
 					animSprites = new List<Sprite>(searchingSprites);
 					if (coSpriteAnimator == null) {

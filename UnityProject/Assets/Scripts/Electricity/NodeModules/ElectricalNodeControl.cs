@@ -21,19 +21,14 @@ public class ElectricalNodeControl : NetworkBehaviour
 		base.OnStartServer();
 		NodeControl = gameObject.GetComponent<INodeControl>();
 		Node = gameObject.GetComponent<InLineDevice>();
-		//ElectricalSynchronisation.StructureChange = true;
 		CanConnectTo = new HashSet<PowerTypeCategory>(ListCanConnectTo);
 		Node.InData.Categorytype = ApplianceType;
 		Node.InData.CanConnectTo = CanConnectTo;
 		Node.InData.ControllingDevice = this;
-		Node.RelatedDevice = this;//fix line inheritance
 		foreach (PowerInputReactions ReactionC in Reactions)
 		{
 			Node.InData.ConnectionReaction[ReactionC.ConnectingDevice] = ReactionC;
-		}
-		//BroadcastMessage("BroadcastSetUpMessage", this);
-		//UpOnStartServer();
-		//Node.InData.ControllingDevice = this;		gameObject.SendMessage("BroadcastSetUpMessage", this, SendMessageOptions.DontRequireReceiver);
+		}		gameObject.SendMessage("BroadcastSetUpMessage", this, SendMessageOptions.DontRequireReceiver);
 		UpOnStartServer();
 		StartCoroutine(WaitForload());
 	}
@@ -61,7 +56,7 @@ public class ElectricalNodeControl : NetworkBehaviour
 			ResistanceRestorepoints[Connecting] = Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms;
 			Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms = InternalResistance;
 		}
-
+		ElectricalSynchronisation.InitialiseResistanceChange.Add(this);
 			
 	}
 	public void RestoreResistance(PowerTypeCategory Connecting) { 
@@ -74,7 +69,6 @@ public class ElectricalNodeControl : NetworkBehaviour
 
 	public void TurnOnSupply()
 	{
-		//Logger.Log("gogogogoggo");
 		UpTurnOnSupply();
 	}
 	public void TurnOffSupply()
@@ -84,7 +78,6 @@ public class ElectricalNodeControl : NetworkBehaviour
 
 	public  void PowerUpdateStructureChange()
 	{
-		//Node.FlushConnectionAndUp();
 		UpPowerUpdateStructureChange();
 	}
 	public void PowerUpdateStructureChangeReact()
@@ -156,11 +149,6 @@ public class ElectricalNodeControl : NetworkBehaviour
 
 
 
-
-
-
-
-
 	//Update manager
 	public Dictionary<ElectricalModuleTypeCategory, ElectricalModuleInheritance> UpdateDelegateDictionary =
 		new Dictionary<ElectricalModuleTypeCategory, ElectricalModuleInheritance>();
@@ -180,7 +168,6 @@ public class ElectricalNodeControl : NetworkBehaviour
 			UpdateRequestDictionary[UpdateType].Add(Module.ModuleType);
 		}
 	}
-
 
 	public void UpOnStartServer()
 	{
