@@ -234,7 +234,10 @@ public class WireConnect : ElectricalOIinheritance
 			Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
 			Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);
 			Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
-			foreach (var Supply in Data.SupplyDependent) LogSupply(Supply);
+			foreach (var Supply in Data.SupplyDependent)
+			{
+				LogSupply(Supply);
+			}
 
 			if (RelatedLine != null)
 			{

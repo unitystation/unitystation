@@ -45,7 +45,6 @@ public class MachineConnectorSpriteHandler : NetworkBehaviour
 	}
 	public void UpdateSprites(string states)
 	{
-		Logger.Log("states > " + states);
 		for (int i = 0; i < states.Length; i++)
 		{
 			if (i == 0){
