@@ -32,6 +32,10 @@ public class RadarEntry : DynamicEntry {
 
 	}
 
+	/// <summary>
+	/// Update entry's internal elements to inform peepers about tracked object updates,
+	/// As this entry's value is simply its layout coordinates
+	/// </summary>
 	public void ReInit() {
 		for ( var i = 0; i < Elements.Length; i++ ) {
 			var element = Elements[i];

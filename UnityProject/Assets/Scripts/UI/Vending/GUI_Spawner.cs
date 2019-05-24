@@ -6,7 +6,10 @@ using UnityEngine;
 public class GUI_Spawner : NetTab
 {
 	private ItemList entryList;
-	private ItemList EntryList => entryList ? entryList : entryList = this["EntryList"] as ItemList;
+	private ItemList PrefabEntryList => entryList ? entryList : entryList = this["EntryList"] as ItemList;
+
+	private SpawnedObjectList spawnedObjectList;
+	private SpawnedObjectList SpawnedObjectList => spawnedObjectList ? spawnedObjectList : spawnedObjectList = this["MobList"] as SpawnedObjectList;
 
 	private NetUIElement infoDisplay;
 	private NetUIElement InfoDisplay => infoDisplay ? infoDisplay : infoDisplay = this["RandomText"];
@@ -20,6 +23,23 @@ public class GUI_Spawner : NetTab
 		//They're visible during InitServer() but might become invisible again afterwards, so get references to them now
 		InfoDisplay?.Init();
 		NestedPageName?.Init();
+		SpawnedObjectList?.Init();
+		// -- we don't actually need to call Init(), it's just to call /something/ so that lazy loading would happen
+
+		//Logic for updating mob entry's internal values to reflect set mob gameObject info
+		SpawnedObjectList.OnObjectChange.AddListener( ( newObject, elementName, element ) =>
+		{
+			switch ( elementName )
+			{
+				case "MobName":
+					element.Value = newObject.ExpensiveName();
+					break;
+				case "MobIcon":
+					element.Value = newObject.NetId().ToString();
+					break;
+			}
+		} );
+
 	}
 
 	private void Start()
@@ -34,11 +54,13 @@ public class GUI_Spawner : NetTab
 			List<GameObject> initList = Provider.GetComponent<SpawnerInteract>().InitialContents;
 			foreach ( GameObject item in initList )
 			{
-				EntryList.AddItem( item );
+				PrefabEntryList.AddItem( item );
 			}
 
-	//		Done via editor in this example, but can be done via code as well, like this:
-	//		NestedSwitcher.OnPageChange.AddListener( RefreshSubpageLabel );
+			SpawnedObjectList.AddObjects( GUI_ShuttleControl.GetObjectsOf<LivingHealthBehaviour>() );
+
+			//		Done via editor in this example, but can be done via code as well, like this:
+			//		NestedSwitcher.OnPageChange.AddListener( RefreshSubpageLabel );
 		}
 	}
 
@@ -62,11 +84,11 @@ public class GUI_Spawner : NetTab
 	}
 
 	public void AddItem( string prefabName ) {
-		EntryList.AddItem( prefabName );
+		PrefabEntryList.AddItem( prefabName );
 	}
 
 	public void RemoveItem( string prefabName ) {
-		EntryList.RemoveItem( prefabName );
+		PrefabEntryList.RemoveItem( prefabName );
 	}
 
 	public void SpawnItemByIndex( string index ) {
@@ -129,7 +151,7 @@ public class GUI_Spawner : NetTab
 	}
 
 	private IEnumerator KeepFiring(int shot) {
-		var strings = EntryList.Value.Split( new[]{','}, StringSplitOptions.RemoveEmptyEntries );
+		var strings = PrefabEntryList.Value.Split( new[]{','}, StringSplitOptions.RemoveEmptyEntries );
 		if ( strings.Length > 0 ) {
 			//See, this is pretty cool
 			string s = strings.Wrap( shot );
@@ -148,18 +170,48 @@ public class GUI_Spawner : NetTab
 
 	private ItemEntry GetItemFromIndex(string index)
 	{
-		var entryCatalog = EntryList.EntryIndex;
+		var entryCatalog = PrefabEntryList.EntryIndex;
 		if ( entryCatalog.ContainsKey( index ) )
 		{
 			return entryCatalog[index] as ItemEntry;
 		}
-//		Logger.LogTraceFormat( "'{0}' spawner tab: item with string index {1} not found in the list, trying to interpret as actual array index", Category.NetUI, gameObject.name, index);
-//		var entries = EntryList.Entries;
-//		if ( int.TryParse( index, out var intIndex ) && entries.Length > intIndex )
-//		{
-//			return entries[intIndex] as ItemEntry;
-//		}
 		Logger.LogErrorFormat( "'{0}' spawner tab: item with index {1} not found in the list, might be hidden/destroyed", Category.NetUI, gameObject.name, index);
+		return null;
+	}
+
+	public void HugMobByIndex( string index )
+	{
+		var mob = GetMob( index );
+		if ( mob )
+		{
+			SoundManager.PlayNetworkedAtPos( "Notice1", Provider.transform.position );
+			//Get mob's gameobject and do something good to it
+			UpdateChatMessage.Send(mob.TrackedObject, ChatChannel.Common, "You feel like you're being hugged by something invisible");
+		}
+	}
+	public void RemoveMobByIndex( string index )
+	{
+		var mob = GetMob( index );
+		if ( mob )
+		{
+			SoundManager.PlayNetworkedAtPos( "Notice1", Provider.transform.position );
+
+			//Get mob's gameobject and do something bad to it
+			mob.TrackedObject.GetComponent<LivingHealthBehaviour>().ApplyDamage( null, 500, DamageType.Brute, BodyPartType.Head );
+			SoundManager.PlayNetworkedAtPos( "Smash", mob.TrackedObject.transform.position );
+
+			SpawnedObjectList.Remove( index );
+		}
+	}
+
+	//TODO: generify: integrate into list functionality
+	private SpawnedObjectEntry GetMob(string index)
+	{
+		var entryCatalog = SpawnedObjectList.EntryIndex;
+		if ( entryCatalog.ContainsKey( index ) )
+		{
+			return entryCatalog[index] as SpawnedObjectEntry;
+		}
 		return null;
 	}
 }

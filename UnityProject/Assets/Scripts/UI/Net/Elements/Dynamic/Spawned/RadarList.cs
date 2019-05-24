@@ -62,29 +62,34 @@ public class RadarList : NetUIDynamicList {
 		return projX >= projY ? projX : projY;
 	}
 
-	//do we need to bulk add static positions? don't think so
-	public bool AddStaticItem( MapIconType type, Vector2 staticPosition, int radius = -1 ) {
-		for ( var i = 0; i < Entries.Length; i++ ) {
+	public bool AddStaticItem( MapIconType type, Vector2 staticPosition, int radius = -1 )
+	{
+		for ( var i = 0; i < Entries.Length; i++ )
+		{
 			var item = Entries[i] as RadarEntry;
-			if ( !item ) {
+			if ( !item )
+			{
 				continue;
 			}
 
-			if ( staticPosition == (Vector2) item.StaticPosition ) {
+			if ( staticPosition == ( Vector2 ) item.StaticPosition )
+			{
 				return false;
 			}
 		}
-			//add new entry
-			RadarEntry newEntry = Add() as RadarEntry;
-			if ( !newEntry ) {
-			Logger.LogWarning( $"Added {newEntry} is not an RadarEntry!",Category.NetUI );
-				return false;
-			}
 
-			//set its elements
-			newEntry.Radius = radius;
-			newEntry.Type = type;
-			newEntry.StaticPosition = staticPosition;
+		//add new entry
+		RadarEntry newEntry = Add() as RadarEntry;
+		if ( !newEntry )
+		{
+			Logger.LogWarning( $"Added {newEntry} is not an RadarEntry!", Category.NetUI );
+			return false;
+		}
+
+		//set its elements
+		newEntry.Radius = radius;
+		newEntry.Type = type;
+		newEntry.StaticPosition = staticPosition;
 
 		//rescan elements and notify
 		NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );

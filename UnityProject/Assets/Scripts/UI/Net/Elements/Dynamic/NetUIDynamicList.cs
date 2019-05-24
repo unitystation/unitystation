@@ -9,6 +9,7 @@ using UnityEngine;
 public class NetUIDynamicList : NetUIElement {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	private int entryCount = 0;
+	public string EntryPrefix => gameObject.name;//= String.Empty;
 
 	public DynamicEntry[] Entries => GetComponentsInChildren<DynamicEntry>( false );
 
@@ -98,10 +99,17 @@ public class NetUIDynamicList : NetUIElement {
 		}
 	}
 
-	protected void Remove( string toBeRemoved ) {
+	/// <summary>
+	/// Remove entry by its name-index
+	/// </summary>
+	public void Remove( string toBeRemoved ) {
 		Remove(new[]{toBeRemoved});
 	}
-	protected void Remove( string[] toBeRemoved )
+
+	/// <summary>
+	/// Remove entries by their name-index
+	/// </summary>
+	public void Remove( string[] toBeRemoved )
 	{
 //		var mode = toBeRemoved.Length > 1 ? "Bulk" : "Single";
 		var entries = EntryIndex;
@@ -123,7 +131,6 @@ public class NetUIDynamicList : NetUIElement {
 
 		for ( var i = 0; i < proposedIndices.Length; i++ ) {
 			var proposedIndex = proposedIndices[i];
-			//future suggestion: support more than one kind of entries per tab (introduce EntryType field or something)
 
 			DynamicEntry dynamicEntry = PoolSpawnEntry();
 
@@ -215,7 +222,7 @@ public class NetUIDynamicList : NetUIElement {
 
 		string index = desiredName;
 		if ( desiredName == string.Empty ) {
-			index = entryCount++.ToString();
+			index = EntryPrefix == string.Empty ? entryCount++.ToString() : EntryPrefix+":"+entryCount++;
 		}
 		entry.name = index;
 

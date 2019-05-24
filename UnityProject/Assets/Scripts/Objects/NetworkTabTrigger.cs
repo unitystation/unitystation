@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public abstract class NetworkTabTrigger : InputTrigger {
-    public NetTabType NetTabType;
+public abstract class NetworkTabTrigger : InputTrigger
+{
+	public NetTabType NetTabType = NetTabType.None;
+
     public override bool Interact(GameObject originator, Vector3 position, string hand)
     {
         var playerScript = originator.GetComponent<PlayerScript>();

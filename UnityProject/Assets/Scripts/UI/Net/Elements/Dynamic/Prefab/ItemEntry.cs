@@ -1,5 +1,10 @@
 ﻿using UnityEngine;
-/// all server only
+
+/// <summary>
+/// For storing Prefabs and not actual instances
+/// To be renamed into PrefabEntry
+/// All methods are serverside.
+/// </summary>
 public class ItemEntry : DynamicEntry {
 	private GameObject prefab;
 
