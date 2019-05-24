@@ -73,8 +73,8 @@ MonoBehaviour:
   - {fileID: 21300092, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
   spriteRend: {fileID: 212285348860713558}
   Voltage: 0
-  ElectricalNodeControl: {fileID: 0}
-  ResistanceSourceModule: {fileID: 0}
+  ElectricalNodeControl: {fileID: 3903394726411491279}
+  ResistanceSourceModule: {fileID: 1461403780681083615}
   isOn: 0
 --- !u!61 &61697181358093446
 BoxCollider2D:
@@ -231,24 +231,18 @@ MonoBehaviour:
   resistance:
     Ohms: 1500
     ResistanceAvailable: 1
+  EditorResistance: 500
+  NotEditorResistanceset: 0
   ReactionTo:
     ConnectingDevice: 1
     DirectionReaction: 0
     ResistanceReaction: 1
-    ElectricalReaction: 0
     DirectionReactionA:
-      AddResistanceCall:
-        Ohms: 0
-        ResistanceAvailable: 1
       YouShallNotPass: 0
     ResistanceReactionA:
       Resistance:
         Ohms: 1500
         ResistanceAvailable: 1
-      YouShallNotPass: 1
-    ElectricalReactionA:
-      Current: 0
-      YouShallNotPass: 0
 --- !u!114 &1120991291872144437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,13 +276,12 @@ MonoBehaviour:
   InData:
     Categorytype: 0
     ControllingDevice: {fileID: 0}
-    ControllingUpdate: {fileID: 0}
     DirectionOverride: 0
     ResistanceOverride: 0
     ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
-  RelatedDevice: {fileID: 0}
+  Logall: 0
   registerTile3: {fileID: 114469741977146778}
 --- !u!1 &1712574560713454
 GameObject:

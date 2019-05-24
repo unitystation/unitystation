@@ -35,7 +35,6 @@ public static class ElectricalSynchronisation
 
 	public static List<ElectricalOIinheritance> _DirectionWorkOnNextList = new List<ElectricalOIinheritance>();
 	public static List<ElectricalOIinheritance> _DirectionWorkOnNextListWait = new List<ElectricalOIinheritance>();
-
 	public static bool UesAlternativeDirectionWorkOnNextList;
 
 	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> ResistanceWorkOnNextList = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
@@ -43,11 +42,13 @@ public static class ElectricalSynchronisation
 
 	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextList = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
 	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextListWait = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+	public static bool UesAlternativeResistanceWorkOnNextList;
+
 
 	public static KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance> OneJump;
 	public static ElectronicSupplyData InputSupplyingUsingData;
 	public static ElectronicSupplyData OutputSupplyingUsingData;
-	public static bool UesAlternativeResistanceWorkOnNextList;
+
 
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
@@ -65,16 +66,7 @@ public static class ElectricalSynchronisation
 		PowerTypeCategory.DepartmentBattery,
 
 	};
-	//public static List<PowerTypeCategory> WireConnectRelated = new List<PowerTypeCategory>()
-	//{
-	//	PowerTypeCategory.LowVoltageCable,
-	//	PowerTypeCategory.LowMachineConnector,
-	//	PowerTypeCategory.StandardCable,
-	//	PowerTypeCategory.MediumMachineConnector,
-	//	PowerTypeCategory.HighVoltageCable,
-	//	PowerTypeCategory.HighVoltageCable,
 
-	//};
 	public static List<PowerTypeCategory> UnconditionalSupplies = new List<PowerTypeCategory>()
 	{
 		PowerTypeCategory.RadiationCollector, //make sure unconditional supplies come first
@@ -91,8 +83,7 @@ public static class ElectricalSynchronisation
 	};
 	public static HashSet<ElectricalNodeControl> TotalSupplies = new HashSet<ElectricalNodeControl>();
 	public static Dictionary<PowerTypeCategory, HashSet<ElectricalNodeControl>> AliveSupplies = new Dictionary<PowerTypeCategory, HashSet<ElectricalNodeControl>>()
-	{ //Things that are supplying voltage
-	};
+	{};//Things that are supplying voltage
 
 	public static HashSet<ElectricalNodeControl> PoweredDevices = new HashSet<ElectricalNodeControl>(); // things that may need electrical updates to react to voltage changes 
 	public static Queue<ElectricalSynchronisationStorage> ToRemove = new Queue<ElectricalSynchronisationStorage>();
@@ -202,8 +193,7 @@ public static class ElectricalSynchronisation
 	private static void IfStructureChange()
 	{
 		Profiler.BeginSample("IfStructureChange");
-		//if (!StructureChange) return;
-		//Logger.Log("PowerUpdateStructureChange");
+		//Logger.Log("PowerUpdateStructureChange", Category.Electrical);
 		foreach (CableInheritance cabel in NUCableStructureChange) {
 			cabel.PowerUpdateStructureChange(); //so Destruction of cables won't trigger the entire thing to refresh saving a bit of performance since they have a bit of code for jumping onto different supplies and  , adding them to NUStructureChangeReact
 		}
@@ -212,7 +202,7 @@ public static class ElectricalSynchronisation
 			Profiler.EndSample();
 			return;
 		}
-		Logger.Log("PowerUpdateStructureChange!!!");
+		//Logger.Log("StructureChange bool PowerUpdateStructureChange!",Category.Electrical);
 		StructureChange = false;
 		foreach (var category in OrderList)
 		{
@@ -235,14 +225,14 @@ public static class ElectricalSynchronisation
 	private static void PowerUpdateStructureChangeReact()
 	{
 		Profiler.BeginSample("PowerUpdateStructureChangeReact");
-		//Logger.Log("PowerUpdateStructureChangeReact");
+		//Logger.Log("PowerUpdateStructureChangeReact", Category.Electrical);
 		for (int i = 0; i < OrderList.Count; i++)
 		{
 			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
 			{
 				if (NUStructureChangeReact.Contains(TheSupply))
 				{
-					//Logger.Log("PowerUpdateStructureChangeReact " + TheSupply); 
+					//Logger.Log("PowerUpdateStructureChangeReact " + TheSupply, Category.Electrical); 
 					TheSupply.PowerUpdateStructureChangeReact();
 					NUStructureChangeReact.Remove(TheSupply);
 				}
@@ -257,7 +247,7 @@ public static class ElectricalSynchronisation
 	private static void PowerUpdateResistanceChange()
 	{
 		Profiler.BeginSample("PowerUpdateResistanceChange");
-		//Logger.Log("PowerUpdateResistanceChange/InitialPowerUpdateResistance");
+		//Logger.Log("PowerUpdateResistanceChange/InitialPowerUpdateResistance", Category.Electrical);
 		foreach (ElectricalNodeControl PoweredDevice in InitialiseResistanceChange)
 		{
 			PoweredDevice.InitialPowerUpdateResistance(); 
@@ -276,7 +266,7 @@ public static class ElectricalSynchronisation
 				if (NUResistanceChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)))
 				{
 					TheSupply.PowerUpdateResistanceChange();
-					//Logger.Log("PowerUpdateResistanceChange " + TheSupply);
+					//Logger.Log("PowerUpdateResistanceChange " + TheSupply, Category.Electrical);
 					NUResistanceChange.Remove(TheSupply);
 				}
 			}
@@ -298,7 +288,7 @@ public static class ElectricalSynchronisation
 			{
 				if (NUCurrentChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)) && !(NUResistanceChange.Contains(TheSupply)))
 				{
-					//Logger.Log("PowerUpdateCurrentChange " + TheSupply);
+					//Logger.Log("PowerUpdateCurrentChange " + TheSupply, Category.Electrical);
 					TheSupply.PowerUpdateCurrentChange(); //Does all the updates for the constant sources since they don't have to worry about other supplies being on or off since they just go steaming ahead
 					NUCurrentChange.Remove(TheSupply);
 				}
@@ -310,7 +300,6 @@ public static class ElectricalSynchronisation
 		List<ElectricalNodeControl> QToRemove = new List<ElectricalNodeControl>();
 		while (NumberOfReactiveSupplies_f() > 0) //This is to calculate the lowest number of supplies that are above the reactive supply so therefore the one that needs to be updated first
 		{
-			//Logger.Log("NUCurrentChange.Count > 0");
 			foreach (ElectricalNodeControl TheSupply in NUCurrentChange)
 			{
 				if (!DoneSupplies.Contains(TheSupply))
@@ -332,7 +321,6 @@ public static class ElectricalSynchronisation
 									LowestReactive = TheSupply;
 									LowestReactiveint = NumberOfReactiveSupplies(TheSupply.Node);
 								}
-								//TheSupply.GameObject().GetComponent<ElectricalOIinheritance>().Data.ResistanceToConnectedDevices
 							}
 							else
 							{
@@ -353,7 +341,7 @@ public static class ElectricalSynchronisation
 			}
 			if (LowestReactive != null)
 			{
-				//Logger.Log("PowerUpdateCurrentChange " + LowestReactive);
+				//Logger.Log("PowerUpdateCurrentChange " + LowestReactive, Category.Electrical);
 				LowestReactive.PowerUpdateCurrentChange();
 				NUCurrentChange.Remove(LowestReactive);
 				DoneSupplies.Add(LowestReactive);
@@ -435,7 +423,8 @@ public static class ElectricalSynchronisation
 
 	public static void CircuitSearchLoop(ElectricalOIinheritance Thiswire)
 	{
-		//Logger.Log("EE");
+		
+		//Logger.Log("CircuitSearchLoop Enter", Category.Electrical);
 		GameObject GameObject = Thiswire.GameObject();
 		InputOutputFunctions.DirectionOutput(GameObject, Thiswire);
 		bool Break = true;
@@ -449,7 +438,7 @@ public static class ElectricalSynchronisation
 
 			if (DirectionWorkOnNextList.Count <= 0 & DirectionWorkOnNextListWait.Count <= 0 & _DirectionWorkOnNextList.Count <= 0 & _DirectionWorkOnNextListWait.Count <= 0)
 			{
-				//Logger.Log ("stop!");
+				//Logger.Log ("CircuitSearchLoop stop!", Category.Electrical );
 				Break = false;
 			}
 		}
@@ -522,7 +511,6 @@ public static class ElectricalSynchronisation
 	{
 		do
 		{
-			//Logger.Log("bob");
 			UesAlternativeResistanceWorkOnNextList = false;
 			DOCircuitResistanceLoop(_ResistanceWorkOnNextList, _ResistanceWorkOnNextListWait);
 

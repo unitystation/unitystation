@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class ElectricalDataCleanup { //To clean out data on cables and machines
-	public static void CleanConnectedDevices(ElectricalOIinheritance Thiswire){
-		//Logger.Log ("Cleaning it out");
+	public static void CleanConnectedDevices(ElectricalOIinheritance Thiswire){ 
+		//Logger.Log ("CleanConnectedDevices" + Thiswire, Category.Electrical);
 		foreach (KeyValuePair<ElectricalOIinheritance,HashSet<PowerTypeCategory>> IsConnectedTo in Thiswire.Data.ResistanceToConnectedDevices) {
 			IsConnectedTo.Key.connectedDevices.Remove (Thiswire);
 		}
@@ -12,7 +12,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 	}
 
 	public static void CleanConnectedDevicesFromPower(ElectricalOIinheritance Thiswire){
-		//Logger.Log ("Cleaning it out");
+		//Logger.Log ("CleanConnectedDevicesFromPower" + Thiswire, Category.Electrical);
 		foreach (ElectricalOIinheritance IsConnectedTo in Thiswire.connectedDevices) {
 			IsConnectedTo.Data.ResistanceToConnectedDevices.Remove (Thiswire);
 		}
@@ -22,7 +22,6 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 	public static class PowerSupplies{
 		public static void FlushConnectionAndUp (ElectricalOIinheritance Object){
 
-			Object.Data.FirstPresent = 0;
 			Object.Data.CurrentInWire = new float();
 			Object.Data.ActualVoltage = new float();
 			Object.Data.ResistanceToConnectedDevices.Clear();
@@ -35,28 +34,15 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 					JumpTo.FlushConnectionAndUp ();
 	
 				}
-				//bool log = false;
-				//if (Object.InData.Categorytype == PowerTypeCategory.SolarPanelController) {
-				//	log = true;
-				//}
-
 				foreach (KeyValuePair<int, ElectronicSupplyData> Supply in Object.Data.SupplyDependent)
 				{
 					foreach (ElectricalOIinheritance Device in Supply.Value.Downstream)
 					{
 						Device.FlushConnectionAndUp();
-						//if (log)
-						//{
-						//	Logger.Log("Device1" + Device);
-						//}
 					}
 					foreach (ElectricalOIinheritance Device in Supply.Value.Upstream)
 					{
 						Device.FlushConnectionAndUp();
-						//if (log)
-						//{
-						//	Logger.Log("Device1" + Device);
-						//}
 					}
 				}
 				foreach (KeyValuePair<int, ElectronicSupplyData> Supply in Object.Data.SupplyDependent)
@@ -143,7 +129,6 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 				}
 			} else {
 				int InstanceID = SourceInstance.GetInstanceID ();
-				//Logger.Log(Object.GameObject().name); 
 				if (Object.Data.SupplyDependent.ContainsKey(InstanceID))
 				{
 					if (Object.Data.SupplyDependent[InstanceID].CurrentComingFrom.Count > 0 || Object.Data.SupplyDependent[InstanceID].CurrentGoingTo.Count > 0)
@@ -175,24 +160,18 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 				if (pass)
 				{
 					Object.Data.SupplyDependent.Clear();
-					Object.Data.FirstPresent = new int ();
 					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections) {
 						JumpTo.RemoveSupply ();
 					}
 					Object.Data.CurrentInWire = new float ();
 					Object.Data.ActualVoltage = new float ();
 					Object.Data.EstimatedResistance = new float ();
-					Object.Data.UpstreamCount = new int ();
-					Object.Data.DownstreamCount = new int ();
 					Object.Data.ResistanceToConnectedDevices.Clear();
 					Object.connectedDevices.Clear();
 				}
 			} else {
 				int InstanceID = SourceInstance.GetInstanceID ();
 				if (Object.Data.SupplyDependent[InstanceID].Downstream.Count > 0) {
-					if (Object.Data.FirstPresent == InstanceID) {
-						Object.Data.FirstPresent = new int ();
-					}
 					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections) {
 						JumpTo.RemoveSupply (SourceInstance);
 					}
@@ -202,8 +181,6 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 					}
 					Object.Data.SupplyDependent.Remove(InstanceID);
 					ElectricityFunctions.WorkOutActualNumbers(Object);
-					Object.Data.UpstreamCount = new int ();
-					Object.Data.DownstreamCount = new int ();
 				}
 			}
 		}

@@ -13,11 +13,15 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public PowerTypeCategory ApplianceType;
 	public HashSet<PowerTypeCategory> CanConnectTo;
 
+	public ParticleSystem Sparks;
+	public ParticleSystem Smoke;
+
 	public float MaximumInstantBreakCurrent;
 	public float MaximumBreakdownCurrent;
 	public float TimeDeforeDestructiveBreakdown;
 	public bool CheckDestruction;
 	public float DestructionPriority;
+	public bool CanOverCurrent = true;
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
@@ -30,6 +34,21 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			InteractMessage.Send(gameObject, hand);
 		}
 		else {
+			position.z = 0f;
+			position = position.RoundToInt();
+			var worldPosInt = position.CutToInt();
+			MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
+			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
+			if (matrix.Matrix != null)
+			{
+				if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
+				{
+					return (false);
+				}
+			}
+			else {
+				return (false);
+			}
 			var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
 			var Wirecutter = slot.Item?.GetComponentInChildren<WirecutterTrigger>();
 			if (Wirecutter != null)
@@ -49,6 +68,11 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	//[ContextMethod("Destroy cable", "x")]
 	public void toDestroy()
 	{
+		if (wireConnect.RelatedLine != null)
+		{
+			foreach (var CB in wireConnect.RelatedLine.Covering)
+				CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
+		}
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 		SelfDestruct = true;
 		//gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
@@ -66,9 +90,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
-		//wireConnect.gameObject = gameObject;
 		_OnStartServer();
-		//wireConnect.InData.ControllingDevice = this;
 	}
 	public virtual void _OnStartServer()
 	{
@@ -89,31 +111,52 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public virtual void PowerNetworkUpdate()
 	{
 		ElectricityFunctions.WorkOutActualNumbers(wireConnect);
-		if (MaximumInstantBreakCurrent != 0)
+		if (MaximumInstantBreakCurrent != 0 && CanOverCurrent)
 		{
 			if (MaximumInstantBreakCurrent < wireConnect.Data.CurrentInWire)
 			{
 				QueueForDemolition(this);
+				return;
 			}
 			if (MaximumBreakdownCurrent < wireConnect.Data.CurrentInWire) {
 				if (CheckDestruction)
 				{
+					if (wireConnect.RelatedLine != null)
+					{
+						foreach (var CB in wireConnect.RelatedLine.Covering)
+							CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
+					}
 					QueueForDemolition(this);
+					return;
 				}
-				else {
-					//Logger.Log("WaitForDemolition");
+				else 
+				{
+					if (wireConnect.RelatedLine != null) {
+						foreach (var CB in wireConnect.RelatedLine.Covering)
+							CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Play();
+					}
+					Smoke.Play();
 					StartCoroutine(WaitForDemolition());
+					return;
 				}
-			}
+			} 
 			if (CheckDestruction)
 			{
 				CheckDestruction = false;
+				if (wireConnect.RelatedLine != null)
+				{
+					foreach (var CB in wireConnect.RelatedLine.Covering)
+						CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
+				}
+				Smoke.Stop();
 			}
+			Sparks.Stop();
 		}
 	}
 
 	public void QueueForDemolition(CableInheritance CableToDestroy)
 	{
+		Sparks.Play();
 		DestructionPriority = wireConnect.Data.CurrentInWire * MaximumBreakdownCurrent;
 		if (ElectricalSynchronisation.CableToDestroy != null)
 		{
@@ -134,9 +177,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 
 	IEnumerator WaitForDemolition()
 	{
-		//print(Time.time);
 		yield return new WaitForSeconds(TimeDeforeDestructiveBreakdown);
-		//print(Time.time);
 		CheckDestruction = true;
 		ElectricalSynchronisation.CableUpdates.Add(this);
 	}
@@ -145,9 +186,6 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	//FIXME: that also renderers IDevice useless. Please reassess
 	public void OnDestroy()
 	{
-		//		ElectricalSynchronisation.StructureChangeReact = true;
-		//		ElectricalSynchronisation.ResistanceChange = true;
-		//		ElectricalSynchronisation.CurrentChange = true;
 		SelfDestruct = true;
 		//Making Invisible
 	}
@@ -170,16 +208,13 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	{
 		ElectricalSynchronisation.NUCableStructureChange.Add(this);
 		SetDirection(WireEndB, WireEndA, CableType);
-		//FindOverlapsAndCombine();
 	}
 
 
 	public void FindOverlapsAndCombine()
 	{
-		//Logger.Log("A");
 		if (WireEndA == Connection.Overlap | WireEndB == Connection.Overlap)
 		{
-			//Logger.Log("B");
 			bool isA;
 			if (WireEndA == Connection.Overlap)
 			{
@@ -189,7 +224,6 @@ public class CableInheritance : InputTrigger, IDeviceControl
 				isA = false;
 			}
 			List<ElectricalOIinheritance> Econns = new List<ElectricalOIinheritance>();
-			//Logger.Log(wireConnect.registerTile.Position.ToString());
 			var IEnumerableEconns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.PositionServer);
 			foreach (var T in IEnumerableEconns) {
 				Econns.Add(T);
@@ -198,22 +232,17 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			if (Econns != null)
 			{
 				while (!(i >= Econns.Count)){
-				//Econns[i]
 					if (ApplianceType == Econns[i].InData.Categorytype)
 					{
-						//Logger.Log("C");
 						if (wireConnect != Econns[i])
 						{
-							//Logger.Log("D");
 							if (Econns[i].WireEndA == Connection.Overlap)
 							{
 								if (isA)
 								{
-									//Logger.Log("B");
 									WireEndA = Econns[i].WireEndB;
 								}
 								else {
-									//Logger.Log("C");
 									WireEndB = Econns[i].WireEndB;
 								}
 								SetDirection(WireEndB, WireEndA, CableType);
@@ -224,11 +253,9 @@ public class CableInheritance : InputTrigger, IDeviceControl
 							{
 								if (isA)
 								{
-									//Logger.Log("E");
 									WireEndA = Econns[i].WireEndA;
 								}
 								else {
-									//Logger.Log("F");
 									WireEndB = Econns[i].WireEndA;
 								}
 								SetDirection(WireEndB, WireEndA, CableType);
@@ -243,17 +270,8 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		}
 	}
 
-
-	public void SetDirection(int WireEndB)
-	{
-		//this.WireEndB = WireEndB;
-		//WireEndA = 0;
-		//SetSprite();
-	}
-
 	public void SetDirection(Connection REWireEndA, Connection REWireEndB, WiringColor RECableType = WiringColor.unknown)
 	{
-
 		if (REWireEndA == REWireEndB) {
 			Logger.LogWarningFormat("Wire connection both starts ({0}) and ends ({1}) in the same place!", Category.Electrical, REWireEndA, REWireEndB);
 			return;
@@ -275,9 +293,6 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	[ContextMenu("FindConnections")]
 	private void SetSprite()
 	{
-		//WireEndA;
-		//WireEndB;
-
 		Sprite[] Color = SpriteManager.WireSprites[CableType.ToString()];
 		if (Color == null)
 		{
@@ -294,7 +309,6 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		else {
 			Compound = WireEndB + "_" + WireEndA;
 		}
-		//Logger.Log(Compound + "?");
 		int spriteIndex = WireDirections.GetSpriteIndex(Compound);
 		if (TRay)
 		{

@@ -15,7 +15,6 @@ public static class BatteryCalculation  {
 		Battery.PullingWatts = 0;
 		Battery.current  = 0;
 		Battery.PullLastDeductedTime = 0;
-		//Battery.PassChangeToOff = false;
 	}
 
 	public static void PowerUpdateCurrentChange (BatterySupplyingModule Battery){
@@ -125,7 +124,6 @@ public static class BatteryCalculation  {
 							Battery.PullingWatts = 0;
 							Battery.current = 0;
 							Battery.PullLastDeductedTime = 0;
-							//Battery.PassChangeToOff = false;
 							//Logger.Log ("Turning off supply from loss of capacity", Category.Electrical);
 						}
 					} else {
@@ -142,8 +140,6 @@ public static class BatteryCalculation  {
 					}
 				}  else {
 					if (Battery.PullingWatts > 0) {
-						//Battery.CurrentCapacity = 0;
-						//Battery.ToggleCansupport = false;
 						Battery.PullingWatts = 0;
 						Battery.current = 0;
 						Battery.PullLastDeductedTime = 0;
@@ -154,3 +150,4 @@ public static class BatteryCalculation  {
 	}
 }
 //1 Nothing, 3 Start charging, 4 Stop charging
+//  /\ idk what this is?
