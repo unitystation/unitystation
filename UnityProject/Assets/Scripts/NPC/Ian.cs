@@ -112,7 +112,7 @@ public class Ian : MonoBehaviour
 	IEnumerator TestMovement(List<Node> path)
 	{
 		_path = path;
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		//For visual purposes only, not networked synced and CNT is switched off until changes
 		//can be made for path following in the near future:
 
@@ -124,7 +124,7 @@ public class Ian : MonoBehaviour
 			{
 				transform.localPosition =
 					Vector3.MoveTowards(transform.localPosition, new Vector2(path[i].position.x, path[i].position.y), 2f * Time.deltaTime);
-				yield return YieldHelper.EndOfFrame;
+				yield return WaitFor.EndOfFrame;
 			}
 		}
 		index++;

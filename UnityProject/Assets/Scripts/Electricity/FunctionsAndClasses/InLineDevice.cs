@@ -42,7 +42,7 @@ public class InLineDevice : ElectricalOIinheritance
 
 	IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		FindPossibleConnections();
 	}
 

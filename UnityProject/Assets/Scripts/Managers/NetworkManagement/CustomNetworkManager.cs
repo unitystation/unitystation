@@ -224,7 +224,7 @@ public class CustomNetworkManager : NetworkManager
 	}
 	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId)
 	{
-		yield return new WaitForSeconds(1f);
+		yield return WaitFor.Seconds(1f);
 		OnServerAddPlayerInternal(conn, playerControllerId);
 	}
 
@@ -361,7 +361,7 @@ public class CustomNetworkManager : NetworkManager
 	{
 		while (!spawnableListReady)
 		{
-			yield return new WaitForSeconds(1);
+			yield return WaitFor.Seconds(1);
 		}
 
 		base.OnClientConnect(conn);
@@ -395,7 +395,7 @@ public class CustomNetworkManager : NetworkManager
 
 	private IEnumerator DoHeadlessCheck()
 	{
-		yield return new WaitForSeconds(0.1f);
+		yield return WaitFor.Seconds(0.1f);
 		if (!GameData.IsHeadlessServer && !GameData.Instance.testServer)
 		{
 			if (!IsClientConnected())
@@ -435,7 +435,7 @@ public class CustomNetworkManager : NetworkManager
 			{
 				NudgeTransform(scripts[j], sequence[i]);
 			}
-			yield return new WaitForSeconds(1.5f);
+			yield return WaitFor.Seconds(1.5f);
 		}
 	}
 

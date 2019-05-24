@@ -74,7 +74,7 @@ using UnityEngine;
 
 		private IEnumerator Delay()
 		{
-			yield return new WaitForSeconds(0.3f);
+			yield return WaitFor.Seconds(0.3f);
 			doorController.isPerformingAction = false;
 		}
 
@@ -94,7 +94,7 @@ using UnityEngine;
 					{
 						doorController.BoxCollToggleOn();
 					}
-					yield return new WaitForSeconds(0.1f);
+					yield return WaitFor.Seconds(0.1f);
 				}
 			}
 
@@ -119,7 +119,7 @@ using UnityEngine;
 					{
 						doorController.BoxCollToggleOff();
 					}
-					yield return new WaitForSeconds(0.1f);
+					yield return WaitFor.Seconds(0.1f);
 				}
 			}
 
@@ -142,7 +142,7 @@ using UnityEngine;
 					doorbase.sprite = sprites[closeFrame + (int) direction];
 				}
 				light = !light;
-				yield return new WaitForSeconds(0.05f);
+				yield return WaitFor.Seconds(0.05f);
 			}
 			doorbase.sprite = sprites[closeFrame + (int) direction];
 			doorController.OnAnimationFinished();

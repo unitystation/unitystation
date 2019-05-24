@@ -21,7 +21,7 @@ public class GUI_Paper : NetTab
 	{
 		while (Provider == null)
 		{
-			yield return YieldHelper.EndOfFrame;
+			yield return WaitFor.EndOfFrame;
 		}
 		RefreshText();
 	}

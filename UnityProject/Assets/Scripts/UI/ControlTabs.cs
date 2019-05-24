@@ -257,7 +257,7 @@ public class ControlTabs : MonoBehaviour
 
 	private IEnumerator SetHeaderPosition(GameObject header, int index = 0)
 	{
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 
 		if (header != null)
 		{
@@ -547,7 +547,7 @@ public class ControlTabs : MonoBehaviour
 
 	private IEnumerator FingerDecay(Image finger)
 	{
-		yield return new WaitForSeconds(0.05f);
+		yield return WaitFor.Seconds(0.05f);
 		var c = finger.color;
 		finger.color = new Color(c.r, c.g, c.b, Mathf.Clamp(c.a - 0.03f, 0, 1));
 		if (finger.color.a <= 0)
@@ -594,9 +594,9 @@ public class ControlTabs : MonoBehaviour
 		{
 			lerpTime += Time.deltaTime * 4f;
 			transform.position = Vector3.Lerp(currentPos, targetPos, lerpTime);
-			yield return new WaitForEndOfFrame();
+			yield return WaitFor.EndOfFrame;
 		}
-		yield return new WaitForEndOfFrame();
+		yield return WaitFor.EndOfFrame;
 		Vector3 newScale = rolloutIcon.localScale;
 		newScale.y = -newScale.y;
 		rolloutIcon.localScale = newScale;

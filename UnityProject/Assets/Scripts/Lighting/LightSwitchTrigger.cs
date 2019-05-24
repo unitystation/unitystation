@@ -90,7 +90,7 @@ public class LightSwitchTrigger : InputTrigger
 
 	private IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(3f);
+		yield return WaitFor.Seconds(3f);
 		SyncLightSwitch(isOn);
 	}
 
@@ -124,7 +124,7 @@ public class LightSwitchTrigger : InputTrigger
 	private IEnumerator CoolDown()
 	{
 		switchCoolDown = true;
-		yield return new WaitForSeconds(0.2f);
+		yield return WaitFor.Seconds(0.2f);
 		switchCoolDown = false;
 	}
 

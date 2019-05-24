@@ -156,9 +156,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		//wait for DNA:
 		while (string.IsNullOrEmpty(DNABloodTypeJSON))
 		{
-			yield return YieldHelper.EndOfFrame;
+			yield return WaitFor.EndOfFrame;
 		}
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		DNASync(DNABloodTypeJSON);
 	}
 

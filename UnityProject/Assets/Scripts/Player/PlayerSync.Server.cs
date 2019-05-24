@@ -456,7 +456,7 @@ public partial class PlayerSync
 //		Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.Movement, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
 		InteractPushable(worldPos, direction );
 
-		yield return YieldHelper.DeciSecond;
+		yield return WaitFor.Seconds(.1f);
 	}
 
 	private IEnumerator InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false, int i = 0 ) {
@@ -624,7 +624,7 @@ public partial class PlayerSync
 	/// <returns></returns>
 	private IEnumerator FloatingAwarenessSync()
 	{
-		yield return YieldHelper.Second;
+		yield return WaitFor.Seconds(1);
 //		Logger.LogFormat( "{0} is floating at {1} (friendly reminder)", Category.Movement, gameObject.name, ServerPosition );
 		serverState.ImportantFlightUpdate = true;
 		NotifyPlayers();

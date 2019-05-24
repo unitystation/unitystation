@@ -73,9 +73,9 @@ public class PlayerScript : ManagedNetworkBehaviour
 	{
 		//fixme: name isn't resolved at the moment of pool creation
 		//(player pools now use netIDs, but it would be nice to have names for readability)
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		OnNameChange(playerName);
-		yield return new WaitForSeconds(1f);
+		yield return WaitFor.Seconds(1f);
 		//Refresh chat log:
 		//s		ChatRelay.Instance.RefreshLog();
 	}

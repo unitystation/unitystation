@@ -60,7 +60,7 @@ using UnityEngine.SceneManagement;
 		private IEnumerator WaitForDisplay()
 		{
 			checkingDisplayOnLoad = true;
-			yield return new WaitForSeconds(0.2f);
+			yield return WaitFor.Seconds(0.2f);
 			screenWidthCache = Screen.width;
 			screenHeightCache = Screen.height;
 			//AdjustHudBottom(rightPanelResize.panelRectTransform.sizeDelta);
@@ -93,7 +93,7 @@ using UnityEngine.SceneManagement;
 
 		private IEnumerator ForceGameWindowAspect()
 		{
-			yield return new WaitForSeconds(1.2f);
+			yield return WaitFor.Seconds(1.2f);
 			//The following conditions check if the screen width or height
 			//is an odd number. If it is, then it adjusted to be an even number
 			//This fixes the sprite bleeding between tiles:
@@ -133,7 +133,7 @@ using UnityEngine.SceneManagement;
 			parentCanvas.enabled = false;
 			canvasScaler.enabled = false;
 			graphicRaycaster.enabled = false;
-			yield return new WaitForEndOfFrame();
+			yield return WaitFor.EndOfFrame;
 			parentCanvas.enabled = true;
 			canvasScaler.enabled = true;
 			graphicRaycaster.enabled = true;

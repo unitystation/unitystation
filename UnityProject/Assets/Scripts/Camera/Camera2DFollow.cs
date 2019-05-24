@@ -140,7 +140,7 @@ public class Camera2DFollow : MonoBehaviour
 
 	private IEnumerator LookAheadSwitch()
 	{
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		lookAheadFactor = lookAheadSave;
 	}
 

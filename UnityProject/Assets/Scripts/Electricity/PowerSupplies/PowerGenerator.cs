@@ -44,7 +44,7 @@ public class PowerGenerator : InputTrigger, INodeControl
 	/// </summary>
 	IEnumerator CheckStartingPlasma()
 	{
-		yield return YieldHelper.FiveSecs; //Todo: figure out a robust way to init such things, don't rely on timeouts
+		yield return WaitFor.Seconds(5); //Todo: figure out a robust way to init such things, don't rely on timeouts
 		var plasmaObjs = registerTile.Matrix.Get<SolidPlasma>(registerTile.PositionServer, true);
 		foreach (SolidPlasma plasma in plasmaObjs)
 		{

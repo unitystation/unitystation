@@ -168,7 +168,7 @@ public class GUI_ShuttleControl : NetTab {
 			yield break;
 		}
 		EntryList.RefreshTrackedPos();
-		yield return new WaitForSeconds( 2f );
+		yield return WaitFor.Seconds( 2f );
 
 		if ( RefreshRadar ) {
 			StartCoroutine( Refresh() );

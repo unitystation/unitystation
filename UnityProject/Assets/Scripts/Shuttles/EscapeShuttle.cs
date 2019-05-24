@@ -95,7 +95,7 @@ public class EscapeShuttle : MonoBehaviour
 
 	IEnumerator ReverseIntoStation(MatrixMove mm)
 	{
-		yield return new WaitForSeconds(3f);
+		yield return WaitFor.Seconds(3f);
 		mm.MoveFor(offSetReverse);
 	}
 

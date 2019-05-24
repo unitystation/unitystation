@@ -228,10 +228,10 @@ public class Weapon : PickUpTrigger
 	{
 		while (MagNetID == NetworkInstanceId.Invalid)
 		{
-			yield return YieldHelper.EndOfFrame;
+			yield return WaitFor.EndOfFrame;
 		}
 
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		OnMagNetIDChanged(MagNetID);
 	}
 
@@ -253,7 +253,7 @@ public class Weapon : PickUpTrigger
 	//Gives it a chance for weaponNetworkActions and initial ammo to init
 	private IEnumerator SetMagazineOnStart(GameObject magazine)
 	{
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		//			if (GameData.IsHeadlessServer || GameData.Instance.testServer) {
 		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
 		MagNetID = networkID;
@@ -265,7 +265,7 @@ public class Weapon : PickUpTrigger
 	//gives it a chance for magazine to init
 	private IEnumerator SetAmmoOnClone(int ammoCount)
 	{
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		CurrentMagazine.ammoRemains = ammoCount;
 	}
 

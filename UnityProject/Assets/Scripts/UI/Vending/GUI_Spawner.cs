@@ -99,7 +99,7 @@ public class GUI_Spawner : NetTab
 			//fire
 			SpawnItemByIndex( s );
 		}
-		yield return new WaitForSeconds( 1.5f );
+		yield return WaitFor.Seconds( 1.5f );
 		if ( firingMode ) {
 			StartCoroutine( KeepFiring(++shot) );
 		}

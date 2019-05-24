@@ -287,7 +287,7 @@ public class LightSource : ObjectTrigger
 	// Handle sync failure.
 	private IEnumerator WaitToTryAgain()
 	{
-		yield return new WaitForSeconds(0.2f);
+		yield return WaitFor.Seconds(0.2f);
 		if (Renderer == null)
 		{
 			Renderer = GetComponentInChildren<SpriteRenderer>();
