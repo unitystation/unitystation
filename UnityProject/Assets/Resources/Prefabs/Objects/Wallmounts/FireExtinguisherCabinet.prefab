@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300004, guid: 59b1c11cc6b3442f92314b9d5193a323, type: 3}
+  m_Sprite: {fileID: 21300004, guid: 3b1e36e624d234cd497e5937549e74a1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -157,9 +157,9 @@ MonoBehaviour:
   IsClosed: 1
   isFull: 1
   itemPrefab: {fileID: 1907679543779350, guid: 7920a824df456044381e381e90277a5d, type: 3}
-  spriteClosed: {fileID: 21300004, guid: 59b1c11cc6b3442f92314b9d5193a323, type: 3}
-  spriteOpenedEmpty: {fileID: 21300006, guid: 59b1c11cc6b3442f92314b9d5193a323, type: 3}
-  spriteOpenedOccupied: {fileID: 21300000, guid: 59b1c11cc6b3442f92314b9d5193a323,
+  spriteClosed: {fileID: 21300004, guid: 3b1e36e624d234cd497e5937549e74a1, type: 3}
+  spriteOpenedEmpty: {fileID: 21300006, guid: 3b1e36e624d234cd497e5937549e74a1, type: 3}
+  spriteOpenedOccupied: {fileID: 21300000, guid: 3b1e36e624d234cd497e5937549e74a1,
     type: 3}
   storedObject: {fileID: 0}
 --- !u!114 &114487885281549826
@@ -210,13 +210,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1

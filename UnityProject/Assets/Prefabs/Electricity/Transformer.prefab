@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 114943457949527232}
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
-  - component: {fileID: 114513032444922126}
-  - component: {fileID: 114266721718608546}
+  - component: {fileID: 2612899668775311046}
+  - component: {fileID: 2731523975421391927}
+  - component: {fileID: 3919982737323789382}
   m_Layer: 11
   m_Name: Transformer
   m_TagString: Untagged
@@ -138,13 +139,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
@@ -161,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114513032444922126
+--- !u!114 &2612899668775311046
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,51 +169,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9df24501aecf7974ca26e7ef18d58a6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 949c77a5c6348e94e90d1c1a8f074e44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelfDestruct: 0
-  powerSupply: {fileID: 114266721718608546}
-  isOn: 0
-  WireEndB: 2
-  WireEndA: 6
-  MonitoringResistance: 0
-  Previouscurrent: 0
-  SupplyingVoltage: 0
-  PreviousSupplyingVoltage: 0
-  InternalResistance: 0
-  PreviousInternalResistance: 0
-  TurnRatio: 0
-  VoltageLimiting: 0
-  VoltageLimitedTo: 0
-  _IElectricityIO: {fileID: 114266721718608546}
+  ModuleType: 0
+  ControllingNode: {fileID: 2731523975421391927}
+  TurnRatio: 250
+  InvertingTurnRatio: 0
+  VoltageLimiting: 3300
+  VoltageLimitedTo: 3300
+  HighsideConnections: 0b000000
+  LowsideConnections: 01000000
+--- !u!114 &2731523975421391927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Node: {fileID: 3919982737323789382}
   ApplianceType: 6
-  MaximumCurrentSupport: 0
-  MinimumSupportVoltage: 0
-  StandardSupplyingVoltage: 0
-  CapacityMax: 0
-  CurrentCapacity: 0
-  ExtraChargeCutOff: 0
-  IncreasedChargeVoltage: 0
-  StandardChargeNumber: 0
-  ChargeSteps: 0
-  MaxChargingMultiplier: 0
-  ChargingMultiplier: 0
-  CanCharge: 0
-  Cansupport: 0
-  ToggleCanCharge: 0
-  ToggleCansupport: 0
-  PullingWatts: 0
-  ChargingWatts: 0
-  Resistance: 0
-  PreviousResistance: 0
-  CircuitResistance: 0
-  ActualVoltage: 0
-  PullLastDeductedTime: 0
-  ChargLastDeductedTime: 0
-  PassChangeToOff: 0
-  isOnForInterface: 0
---- !u!114 &114266721718608546
+  ListCanConnectTo: 010000000b000000
+  SelfDestruct: 0
+  Reactions: []
+--- !u!114 &3919982737323789382
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,13 +230,12 @@ MonoBehaviour:
   InData:
     Categorytype: 0
     ControllingDevice: {fileID: 0}
-    ControllingUpdate: {fileID: 0}
     DirectionOverride: 0
     ResistanceOverride: 0
     ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
-  RelatedDevice: {fileID: 0}
+  Logall: 0
   registerTile3: {fileID: 114038174743996046}
 --- !u!1 &1744594665423798
 GameObject:

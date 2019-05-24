@@ -149,7 +149,7 @@ public static class SweetExtensions {
 			if ( posData.Length > 1 && int.TryParse(posData[0], out x) && int.TryParse(posData[1], out y) ) {
 				return new Vector2(x, y);
 			}
-			Logger.LogWarning( $"Vector parse failed: what the hell is '{stringifiedVector}'?" );
+		Logger.LogWarning( $"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.NetUI); 
 			return TransformState.HiddenPos;
 		}
 

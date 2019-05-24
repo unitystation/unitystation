@@ -10,12 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4647312529661892}
   - component: {fileID: 114590706900826186}
-  - component: {fileID: 114351192079221646}
   - component: {fileID: 61697181358093446}
   - component: {fileID: 61444365541677466}
   - component: {fileID: 114870889522965122}
   - component: {fileID: 114469741977146778}
   - component: {fileID: 114460259331596316}
+  - component: {fileID: 3903394726411491279}
+  - component: {fileID: 1461403780681083615}
+  - component: {fileID: 1120991291872144437}
   m_Layer: 11
   m_Name: FieldGenerator
   m_TagString: Untagged
@@ -50,8 +52,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5abc7c87dbf4367935e3e1dbce8d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poweredDevice: {fileID: 114351192079221646}
-  isOn: 0
   connectedToOther: 0
   offSprite: {fileID: 21300114, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
   onSprite: {fileID: 21300104, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
@@ -73,31 +73,9 @@ MonoBehaviour:
   - {fileID: 21300092, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
   spriteRend: {fileID: 212285348860713558}
   Voltage: 0
-  Resistance: 240
-  PreviousResistance: 1500
-  ApplianceType: 3
---- !u!114 &114351192079221646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1305738920282892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abab4a0c666224f6f9c70acdb74436c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DirectionStart: 0
-  DirectionEnd: 0
-  registerTile: {fileID: 0}
-  connected: 0
-  NorthConnection: {fileID: 0}
-  SouthConnection: {fileID: 0}
-  WestConnection: {fileID: 0}
-  EastConnection: {fileID: 0}
-  registerTile3: {fileID: 0}
-  IsConnector: 0
+  ElectricalNodeControl: {fileID: 3903394726411491279}
+  ResistanceSourceModule: {fileID: 1461403780681083615}
+  isOn: 0
 --- !u!61 &61697181358093446
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -198,13 +176,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
@@ -221,6 +197,92 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3903394726411491279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305738920282892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Node: {fileID: 1120991291872144437}
+  ApplianceType: 3
+  ListCanConnectTo: 01000000
+  SelfDestruct: 0
+  Reactions: []
+--- !u!114 &1461403780681083615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305738920282892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6674578bb1278de4c9af970c45c78d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModuleType: 0
+  ControllingNode: {fileID: 0}
+  resistance:
+    Ohms: 1500
+    ResistanceAvailable: 1
+  EditorResistance: 500
+  NotEditorResistanceset: 0
+  ReactionTo:
+    ConnectingDevice: 1
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    DirectionReactionA:
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 1500
+        ResistanceAvailable: 1
+--- !u!114 &1120991291872144437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305738920282892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WireEndB: 9
+  WireEndA: 8
+  Data:
+    FirstPresent: 0
+    ActualCurrentChargeInWire:
+      Voltage: 0
+      Current: 0
+      EstimatedResistant: 0
+    UpstreamCount: 0
+    DownstreamCount: 0
+    CurrentInWire: 0
+    ActualVoltage: 0
+    EstimatedResistance: 0
+    SupplyingCurrent: 0
+    InternalResistance: 0
+    SupplyingVoltage: 0
+    ChangeToOff: 0
+    CurrentStoreValue: 0
+  InData:
+    Categorytype: 0
+    ControllingDevice: {fileID: 0}
+    DirectionOverride: 0
+    ResistanceOverride: 0
+    ElectricityOverride: 0
+  registerTile: {fileID: 0}
+  connected: 0
+  Logall: 0
+  registerTile3: {fileID: 114469741977146778}
 --- !u!1 &1712574560713454
 GameObject:
   m_ObjectHideFlags: 0

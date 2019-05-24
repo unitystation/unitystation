@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 940
-  m_Sprite: {fileID: 21300012, guid: 3f95a9fe53a3442ca95ab4434d2478e7, type: 3}
+  m_Sprite: {fileID: 21300012, guid: bf954400b0d1442e097a6f315e73cb72, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -204,13 +204,12 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 564
   inHandReferenceRight: 576
+  itemName: kitchen knife
   itemDescription: A general purpose Chef's Knife made by SpaceCook Incorporated.
     Guaranteed to stay sharp for years to come.
-  itemName: kitchen knife
   itemType: 0
   size: 1
   spriteType: 0
-  type: 15
   CanConnectToTank: 0
   hitDamage: 10
   throwDamage: 10
@@ -270,16 +269,14 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null

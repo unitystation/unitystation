@@ -1,55 +1,51 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using Atmospherics;
-using UnityEngine.Networking;
 
-namespace Tilemaps.Behaviours.Objects
+public class AirVent : AdvancedPipe
 {
-	public class AirVent : NetworkBehaviour
+	public float MinimumPressure = 101.325f;
+	private MetaDataNode metaNode;
+	private MetaDataLayer metaDataLayer;
+
+	private void Start()
 	{
-		public float MinimumPressure = 101.325f;
-
-		private SubsystemManager subsystemManager;
-		private MetaDataNode metaNode;
-
-		private void Awake()
+		if(objectBehaviour.isNotPushable)
 		{
-			subsystemManager = GetComponentInParent<SubsystemManager>();
+			LoadTurf();
 		}
+		UpdateManager.Instance.Add(UpdateMe);
+	}
 
-		void OnEnable()
+	public override void Attach()
+	{
+		base.Attach();
+		LoadTurf();
+	}
+
+	private void LoadTurf()
+	{
+		metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
+		metaNode = metaDataLayer.Get(registerTile.WorldPositionServer, false);
+	}
+
+	void UpdateMe()
+	{
+		if (objectBehaviour.isNotPushable)
 		{
-			UpdateManager.Instance.Add(UpdateMe);
+			CheckAtmos();
 		}
+	}
 
-		void OnDisable()
+	private void CheckAtmos()
+	{
+		if (metaNode.GasMix.Pressure < MinimumPressure)
 		{
-			if (UpdateManager.Instance != null)
-			{
-				UpdateManager.Instance.Remove(UpdateMe);
-			}
-		}
-
-		private void Start()
-		{
-			MetaDataLayer metaDataLayer = GetComponentInParent<MetaDataLayer>();
-			metaNode = metaDataLayer.Get(transform.localPosition.RoundToInt());
-		}
-
-		void UpdateMe()
-		{
-			if (isServer)
-			{
-				CheckAtmos();
-			}
-		}
-
-		[Server]
-		private void CheckAtmos()
-		{
-			if (metaNode.GasMix.Pressure < MinimumPressure)
-			{
-				metaNode.GasMix = new GasMix(GasMixes.Air);
-				subsystemManager.UpdateAt(metaNode.Position);
-			}
+			GasMix gasMix = pipenet.gasMix;
+			pipenet.gasMix = gasMix / 2;
+			metaNode.GasMix = metaNode.GasMix + gasMix;
+			metaDataLayer.UpdateSystemsAt(registerTile.WorldPositionServer);
 		}
 	}
 }

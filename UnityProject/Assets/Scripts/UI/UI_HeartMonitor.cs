@@ -24,19 +24,13 @@ public class UI_HeartMonitor : MonoBehaviour
 	private Sprite[] sprites;
 
 	private int spriteStart;
-	private bool startMonitoring;
 	private float timeWait;
 	private float overallHealthCache = 100;
 
 	private void Start()
 	{
+		spriteStart = fullHealthStart;
 		sprites = SpriteManager.ScreenUISprites["gen"];
-		if (SceneManager.GetActiveScene().name != "Lobby")
-		{
-			//Game has been started without the lobby scene
-			//so start the heart monitor manually
-			TryStartMonitor();
-		}
 	}
 
 	private void OnEnable()
@@ -56,29 +50,14 @@ public class UI_HeartMonitor : MonoBehaviour
 
 	private void OnSceneChange(Scene prev, Scene next)
 	{
-		if (next.name != "Lobby")
-		{
-			TryStartMonitor();
-		}
-		else
-		{
-			startMonitoring = false;
-		}
-	}
-
-	private void TryStartMonitor()
-	{
-		if (!startMonitoring)
-		{
-			spriteStart = fullHealthStart;
-			startMonitoring = true;
-		}
+		// Ensure crit overlay is reset to normal.
+		overlayCrits.SetState(OverlayState.normal);
 	}
 
 	//Managed by UpdateManager
 	void UpdateMe()
 	{
-		if (startMonitoring && PlayerManager.LocalPlayer != null && !PlayerManager.LocalPlayerScript.IsGhost)
+		if (PlayerManager.LocalPlayer != null && !PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			CheckHealth();
 			timeWait += Time.deltaTime;

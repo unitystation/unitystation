@@ -173,6 +173,26 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.HasTile( position, isServer );
 	}
 
+	public bool IsClearUnderfloorConstruction(Vector3Int position, bool isServer)
+	{
+		if (MetaTileMap.HasTile(position, LayerType.Floors, isServer))
+		{
+			return (false);
+		}
+		else if (MetaTileMap.HasTile(position, LayerType.Walls, isServer)){
+			return (false);
+		}
+		else if (MetaTileMap.HasTile(position, LayerType.Windows, isServer))
+		{
+			return (false);
+		}
+		else if (MetaTileMap.HasTile(position, LayerType.Grills, isServer))
+		{
+			return (false);
+		}
+		return (true);
+	}
+
 	public IEnumerable<ElectricalOIinheritance> GetElectricalConnections(Vector3Int position)
 	{
 		if (ServerObjects != null)

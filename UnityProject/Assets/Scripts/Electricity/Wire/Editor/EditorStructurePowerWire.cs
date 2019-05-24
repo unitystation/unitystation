@@ -9,7 +9,6 @@ using UnityEngine;
 	[CustomEditor(typeof(CableInheritance))]
 	public class EditorStructurePowerWire : Editor
 	{
-		
 		private float msgTime;
 		private bool showError;
 		private Connection startCache;

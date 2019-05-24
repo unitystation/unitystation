@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1107720523271132}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4370604793044084}
   m_RootOrder: 0
@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 540
-  m_Sprite: {fileID: 21300000, guid: fc6d56fd154b4103a3e8a2bc2b86dfa6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4addb5429da8248c08105eecb7dfa2c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -192,13 +192,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   AtmosPassable: 1
@@ -247,19 +245,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clothingReference: -1
   hierarchy: 
-  inHandReferenceLeft: 28
-  inHandReferenceRight: 36
-  itemDescription: a tank with oxygen
+  inHandReferenceLeft: 8
+  inHandReferenceRight: 16
   itemName: Oxygen Tank
+  itemDescription: A tank of oxygen
   itemType: 0
-  size: 2
+  size: 4
   spriteType: 0
-  type: 0
   CanConnectToTank: 0
+  hitDamage: 10
   throwDamage: 10
   throwSpeed: 1
   throwRange: 1
-  hitDamage: 10
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114330809230976920
@@ -292,6 +289,6 @@ MonoBehaviour:
   Temperature: 293.15
   Gases:
   - 0
-  - 41.027596
+  - 10000
   - 0
   - 0

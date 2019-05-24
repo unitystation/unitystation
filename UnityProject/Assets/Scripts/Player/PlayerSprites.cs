@@ -11,14 +11,10 @@ using UnityEngine.Networking;
 /// </summary>
 public class PlayerSprites : UserControlledSprites
 {
-	[SyncVar(hook = nameof(UpdateCharacterSprites))]
-	private string characterData;
-
 	//For character customization
 	public ClothingItem[] characterSprites;
 
 	private PlayerSync playerSync;
-	private CharacterSettings characterSettings;
 	private PlayerHealth playerHealth;
 	//clothes for each clothing slot
 	private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
@@ -35,23 +31,11 @@ public class PlayerSprites : UserControlledSprites
 		playerHealth = GetComponent<PlayerHealth>();
 	}
 
-	[Command]
-	private void CmdUpdateCharacter(string data)
+	public override void UpdateCharacterSprites()
 	{
-		var character = JsonUtility.FromJson<CharacterSettings>(data);
-		//Remove sensitive data:
-		character.username = "";
-		characterSettings = character;
-		characterData = JsonUtility.ToJson(character);
-	}
-	private void UpdateCharacterSprites(string data)
-	{
-
-		var character = JsonUtility.FromJson<CharacterSettings>(data);
-		characterSettings = character;
+		var characterSettings = GetComponent<PlayerScript>().characterSettings;
 
 		Color newColor = Color.white;
-
 		//Skintone:
 		ColorUtility.TryParseHtmlString(characterSettings.skinTone, out newColor);
 
@@ -88,24 +72,6 @@ public class PlayerSprites : UserControlledSprites
 		characterSprites[10].UpdateSprite();
 		ColorUtility.TryParseHtmlString(characterSettings.hairColor, out newColor);
 		characterSprites[10].spriteRenderer.color = newColor;
-	}
-
-	protected override IEnumerator WaitForLoad()
-	{
-		yield return YieldHelper.EndOfFrame;
-		if (PlayerManager.LocalPlayer == gameObject)
-		{
-			CmdUpdateCharacter(JsonUtility.ToJson(PlayerManager.CurrentCharacterSettings));
-			LocalFaceDirection( currentDirection );
-		}
-		while(string.IsNullOrEmpty(characterData)){
-			yield return YieldHelper.DeciSecond;
-		}
-		FaceDirectionSync(currentDirection);
-		if (PlayerManager.LocalPlayer != gameObject)
-		{
-			UpdateCharacterSprites(characterData);
-		}
 	}
 
 	/// <summary>

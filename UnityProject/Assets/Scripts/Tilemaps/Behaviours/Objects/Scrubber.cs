@@ -1,33 +1,52 @@
-using Atmospherics;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Atmospherics;
 
-namespace Tilemaps.Behaviours.Objects
+public class Scrubber : AdvancedPipe
 {
-	public class Scrubber : MonoBehaviour
+	public float MinimumPressure = 101.325f;
+	private MetaDataNode metaNode;
+	private MetaDataLayer metaDataLayer;
+
+	private void Start()
 	{
-		public float MaximumPressure = 101.025f;
-
-		private SubsystemManager _subsystemManager;
-		private MetaDataNode metaNode;
-
-		private void Awake()
+		if (objectBehaviour.isNotPushable)
 		{
-			_subsystemManager = GetComponentInParent<SubsystemManager>();
+			LoadTurf();
 		}
+		UpdateManager.Instance.Add(UpdateMe);
+	}
 
-		private void Start()
-		{
-			MetaDataLayer metaDataLayer = GetComponentInParent<MetaDataLayer>();
-			metaNode = metaDataLayer.Get(transform.localPosition.RoundToInt());
-		}
+	public override void Attach()
+	{
+		base.Attach();
+		LoadTurf();
+	}
 
-		private void Update()
+	private void LoadTurf()
+	{
+		metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
+		metaNode = metaDataLayer.Get(registerTile.WorldPositionServer, false);
+	}
+
+	void UpdateMe()
+	{
+		if (objectBehaviour.isNotPushable)
 		{
-			if (metaNode.GasMix.Pressure > MaximumPressure)
-			{
-				metaNode.GasMix = new GasMix(GasMixes.Space);
-				_subsystemManager.UpdateAt(metaNode.Position);
-			}
+			CheckAtmos();
 		}
 	}
+
+	private void CheckAtmos()
+	{
+		if (metaNode.GasMix.Pressure > MinimumPressure)
+		{
+			var suckedAir =  metaNode.GasMix / 2;
+			pipenet.gasMix += suckedAir;
+			metaNode.GasMix -= suckedAir;
+			metaDataLayer.UpdateSystemsAt(registerTile.WorldPositionServer);
+		}
+	}
+
 }

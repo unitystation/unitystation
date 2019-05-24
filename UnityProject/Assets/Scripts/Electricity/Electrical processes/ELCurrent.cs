@@ -21,11 +21,12 @@ public static class ELCurrent
 
 	public static void Currentloop(GameObject SourceInstance)
 	{
-		//Logger.Log("yo");
+		
+		//Logger.Log("Currentloop", Category.Electrical);
 		SourceInstanceID = SourceInstance.GetInstanceID();
 		bool Break = true;
 		while (Break) {
-			//Logger.Log(CurrentWorkOnNextList.Count.ToString() + "yeah man");
+			//Logger.Log(CurrentWorkOnNextList.Count.ToString() + "how many processing in Currentloop", Category.Electrical);
 			doWorkingList = false;
 			DoCurrentloop(CurrentWorkOnNextList, SourceInstance);
 			CurrentWorkOnNextList.Clear();
@@ -42,12 +43,12 @@ public static class ELCurrent
 	public static void DoCurrentloop(HashSet<ElectricalOIinheritance> WorkingOn, GameObject SourceInstance) { 
 		foreach (ElectricalOIinheritance Node in WorkingOn)
 		{
-			//Logger.Log("yow");
 			if (!Node.InData.ElectricityOverride)
 			{
+				ElectricalSynchronisation.OutputSupplyingUsingData = Node.Data.SupplyDependent[SourceInstanceID];
 				float SupplyingCurrent = 0;
-				float Voltage = Node.Data.CurrentStoreValue * (ElectricityFunctions.WorkOutResistance(Node.Data.ResistanceComingFrom[SourceInstanceID]));
-				foreach (KeyValuePair<ElectricalOIinheritance, float> JumpTo in Node.Data.ResistanceComingFrom[SourceInstanceID])
+				float Voltage = Node.Data.CurrentStoreValue * (ElectricityFunctions.WorkOutResistance(ElectricalSynchronisation.OutputSupplyingUsingData.ResistanceComingFrom));
+				foreach (KeyValuePair<ElectricalOIinheritance, float> JumpTo in ElectricalSynchronisation.OutputSupplyingUsingData.ResistanceComingFrom)
 				{
 					if (Voltage > 0)
 					{
@@ -57,32 +58,19 @@ public static class ELCurrent
 					{
 						SupplyingCurrent = Node.Data.CurrentStoreValue;
 					}
-					if (!(Node.Data.CurrentGoingTo.ContainsKey(SourceInstanceID)))
-					{
-						Node.Data.CurrentGoingTo[SourceInstanceID] = new Dictionary<ElectricalOIinheritance, float>();
-					}
-					Node.Data.CurrentGoingTo[SourceInstanceID][JumpTo.Key] = SupplyingCurrent;
+					ElectricalSynchronisation.OutputSupplyingUsingData.CurrentGoingTo[JumpTo.Key] = SupplyingCurrent;
 					if (!JumpTo.Key.InData.ElectricityOverride)
 					{
-						//Logger.Log (tick.ToString () + " <tick " + Current.ToString () + " <Current " + SourceInstance.ToString () + " <SourceInstance " + ComingFrom.ToString () + " <ComingFrom " + Thiswire.ToString () + " <Thiswire ", Category.Electrical);
-						if (!(JumpTo.Key.Data.SourceVoltages.ContainsKey(SourceInstanceID)))
-						{
-							JumpTo.Key.Data.SourceVoltages[SourceInstanceID] = new float();
-						}
-						if (!(JumpTo.Key.Data.CurrentComingFrom.ContainsKey(SourceInstanceID)))
-						{
-							JumpTo.Key.Data.CurrentComingFrom[SourceInstanceID] = new Dictionary<ElectricalOIinheritance, float>();
-						}
-						JumpTo.Key.Data.CurrentComingFrom[SourceInstanceID][Node] = SupplyingCurrent;
-						JumpTo.Key.Data.SourceVoltages[SourceInstanceID] = SupplyingCurrent * (ElectricityFunctions.WorkOutResistance(JumpTo.Key.Data.ResistanceComingFrom[SourceInstanceID]));
+						ElectricalSynchronisation.OutputSupplyingUsingData = JumpTo.Key.Data.SupplyDependent[SourceInstanceID];
+						ElectricalSynchronisation.OutputSupplyingUsingData.CurrentComingFrom[Node] = SupplyingCurrent;
+						ElectricalSynchronisation.OutputSupplyingUsingData.SourceVoltages = SupplyingCurrent * (ElectricityFunctions.WorkOutResistance(ElectricalSynchronisation.OutputSupplyingUsingData.ResistanceComingFrom));
+						//Logger.Log(SupplyingCurrent.ToString() + " <Current " + SourceInstance.ToString() + " <SourceInstance " + Node.ToString() + " <ComingFrom " + JumpTo.ToString() + " <Thiswire ", Category.Electrical);
 						CurrentWorkOnNextListADD(JumpTo.Key);
-						JumpTo.Key.Data.CurrentStoreValue = ElectricityFunctions.WorkOutCurrent(JumpTo.Key.Data.CurrentComingFrom[SourceInstanceID]);
-						//JumpTo.Key.ElectricityOutput(ElectricityFunctions.WorkOutCurrent(JumpTo.Key.Data.CurrentComingFrom[SourceInstanceID]), SourceInstance);
-					}
+						JumpTo.Key.Data.CurrentStoreValue = ElectricityFunctions.WorkOutCurrent(ElectricalSynchronisation.OutputSupplyingUsingData.CurrentComingFrom);
+						}
 					else {
 						JumpTo.Key.ElectricityInput(SupplyingCurrent, SourceInstance, Node);
 					}
-					ElectricityFunctions.WorkOutActualNumbers(Node);
 				}
 			}
 			else {

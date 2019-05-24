@@ -8,11 +8,12 @@ public class MediumMachineConnector : NetworkBehaviour , IDeviceControl
 {
 	private bool SelfDestruct = false;
 
-	public WireConnect RelatedWire; //!!!!
+	public WireConnect RelatedWire; 
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.MediumMachineConnector;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.StandardCable,
 		PowerTypeCategory.SMES,
+		PowerTypeCategory.SolarPanelController,
 	};
 
 	public void PotentialDestroyed(){
@@ -28,17 +29,11 @@ public class MediumMachineConnector : NetworkBehaviour , IDeviceControl
 		RelatedWire.InData.Categorytype = ApplianceType;
 		RelatedWire.WireEndA = Connection.MachineConnect;
 		RelatedWire.WireEndB = Connection.Overlap;
-		//RelatedWire.InData.ControllingDevice = this;
 	}
 
 	//FIXME:
 	public void OnDestroy(){
-//		ElectricalSynchronisation.StructureChangeReact = true;
-//		ElectricalSynchronisation.ResistanceChange = true;
-//		ElectricalSynchronisation.CurrentChange = true;
 		SelfDestruct = true;
-
-		//Make Invisible
 	}
 	public void TurnOffCleanup (){
 	}

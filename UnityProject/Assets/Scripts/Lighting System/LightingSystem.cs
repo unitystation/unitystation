@@ -207,9 +207,9 @@ public class LightingSystem : MonoBehaviour
 
 		// Check for out of bounds;
 		if (_viewportPos.x < 0.0f ||
-		    _viewportPos.x > 1.0f ||
-		    _viewportPos.y < 0.0f ||
-		    _viewportPos.y > 1.0f)
+			_viewportPos.x > 1.0f ||
+			_viewportPos.y < 0.0f ||
+			_viewportPos.y > 1.0f)
 			return false;
 
 		// Use PPRT occlusion mask to get normalized texture coordinate.
@@ -222,7 +222,7 @@ public class LightingSystem : MonoBehaviour
 		{
 
 			if (mTextureDataRequest.TryGetPixelNormalized(_normalizedMaskPoint.x, _normalizedMaskPoint.y,
-				out _sampledColor))
+					out _sampledColor))
 			{
 				bool _sampledVisibleWall = _sampledColor.r > 0;
 				bool _sampledVisibleFloor = _sampledColor.g > 0;
@@ -244,19 +244,22 @@ public class LightingSystem : MonoBehaviour
 	{
 		if (iMainCamera.backgroundColor.a > 0)
 		{
-			UnityEngine.Debug.Log("FovSystem Camera Validation: Camera backgroundColor.a must be 0. This is required to create background mask. Adjusted...");
+			Logger.Log("FovSystem Camera Validation: Camera backgroundColor.a must be 0." +
+				" This is required to create background mask. Adjusted...", Category.Lighting);
 
 			iMainCamera.backgroundColor = new Color(iMainCamera.backgroundColor.r, iMainCamera.backgroundColor.g, iMainCamera.backgroundColor.b, 0);
 		}
 
 		if (((LayerMask)iMainCamera.cullingMask).HasAny(iRenderSettings.lightSourceLayers))
 		{
-			UnityEngine.Debug.Log("FovSystem Camera Validation: Camera does not cull one of Light Source Layers! Light System may not work currently.");
+			Logger.Log("FovSystem Camera Validation: Camera does not cull one of Light Source Layers!" +
+				" Light System may not work currently.", Category.Lighting);
 		}
 
 		if (((LayerMask)iMainCamera.cullingMask).HasAny(iRenderSettings.backgroundLayers))
 		{
-			UnityEngine.Debug.Log("FovSystem Camera Validation: Camera does not cull one of Background Layers! Light System wound be able to mask background and would not work correctly.");
+			Logger.Log("FovSystem Camera Validation: Camera does not cull one of Background Layers!" +
+				"Light System wound be able to mask background and would not work correctly.", Category.Lighting);
 		}
 	}
 
@@ -271,8 +274,8 @@ public class LightingSystem : MonoBehaviour
 
 		if (!SystemInfo.supportsAsyncGPUReadback)
 		{
-			UnityEngine.Debug.LogWarning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
-			                             " be used instead.");
+			Logger.LogWarning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
+				" be used instead.", Category.Lighting);
 		}
 		HandlePPPositionRequest += ProviderPPPosition;
 
@@ -304,6 +307,11 @@ public class LightingSystem : MonoBehaviour
 			mPostProcessingStack = new PostProcessingStack(materialContainer);
 		}
 
+		if (!renderSettings.disableAsyncGPUReadback && SystemInfo.supportsAsyncGPUReadback)
+		{
+			mTextureDataRequest = new TextureDataRequest();
+		}
+
 		operationParameters = new OperationParameters(mMainCamera, renderSettings, matrixRotationMode);;
 
 		ResolveRenderingTextures(operationParameters);
@@ -329,6 +337,11 @@ public class LightingSystem : MonoBehaviour
 		operationParameters = default(OperationParameters);
 
 		HandlePPPositionRequest -= ProviderPPPosition;
+
+		if (mTextureDataRequest != null)
+		{
+			mTextureDataRequest.DeallocateOnClose();
+		}
 	}
 
 	private void Update()
@@ -393,7 +406,7 @@ public class LightingSystem : MonoBehaviour
 			return;
 		}
 
-		using (new DisposableProfiler("1. Occlusion Mask Render (No Gfx Time)"))
+		using(new DisposableProfiler("1. Occlusion Mask Render (No Gfx Time)"))
 		{
 			mOcclusionPPRT = mOcclusionRenderer.Render(mMainCamera, operationParameters.occlusionPPRTParameter, matrixRotationMode);
 
@@ -403,7 +416,7 @@ public class LightingSystem : MonoBehaviour
 			}
 		}
 
-		using (new DisposableProfiler("2. Generate FoV"))
+		using(new DisposableProfiler("2. Generate FoV"))
 		{
 			if (wallFloorOcclusionMask == null)
 			{
@@ -439,7 +452,7 @@ public class LightingSystem : MonoBehaviour
 			}
 		}
 
-		using (new DisposableProfiler("3. Object Occlusion Mask"))
+		using(new DisposableProfiler("3. Object Occlusion Mask"))
 		{
 			// These step calculates the objectOcclusionMask using the wallFloorOcclusionMask, so that objects / wallmounts will be hidden
 			// if they are not in view
@@ -450,7 +463,7 @@ public class LightingSystem : MonoBehaviour
 			Shader.SetGlobalVector("_ObjectFovMaskTransformation", objectOcclusionMask.GetTransformation(mMainCamera));
 		}
 
-		using (new DisposableProfiler("4. Blur Object Occlusion Mask"))
+		using(new DisposableProfiler("4. Blur Object Occlusion Mask"))
 		{
 			// Note: This blur is used only with shaders during scene render, so 1 pass should be enough.
 			mPostProcessingStack.BlurOcclusionMask(objectOcclusionMask.renderTexture, renderSettings, operationParameters.cameraOrthographicSize);
@@ -473,7 +486,7 @@ public class LightingSystem : MonoBehaviour
 			return;
 		}
 
-		mTextureDataRequest = new TextureDataRequest(iRequest);
+		mTextureDataRequest.StoreData(iRequest);
 	}
 
 	private void OnRenderImage(RenderTexture iSource, RenderTexture iDestination)
@@ -503,7 +516,7 @@ public class LightingSystem : MonoBehaviour
 
 		if (materialContainer.blitMaterial == null)
 		{
-			Debug.Log($"FovSystemManager: Unable to blit Fov mask. {nameof(materialContainer.blitMaterial)} not provided.");
+			Logger.LogFormat("FovSystemManager: Unable to blit Fov mask. {0} not provided.", Category.Lighting, nameof(materialContainer.blitMaterial));
 			return;
 		}
 
@@ -513,7 +526,7 @@ public class LightingSystem : MonoBehaviour
 			return;
 		}
 
-		using (new DisposableProfiler("5. Light Mask Render (No Gfx Time)"))
+		using(new DisposableProfiler("5. Light Mask Render (No Gfx Time)"))
 		{
 			mlightPPRT = mLightMaskRenderer.Render(
 				mMainCamera,
@@ -523,7 +536,7 @@ public class LightingSystem : MonoBehaviour
 				matrixRotationMode);
 		}
 
-		using (new DisposableProfiler("6. Generate Obstacle Light Mask"))
+		using(new DisposableProfiler("6. Generate Obstacle Light Mask"))
 		{
 			mPostProcessingStack.CreateWallLightMask(
 				mlightPPRT,
@@ -570,14 +583,14 @@ public class LightingSystem : MonoBehaviour
 			return;
 		}
 
-		using (new DisposableProfiler("7. Light Mask Blur"))
+		using(new DisposableProfiler("7. Light Mask Blur"))
 		{
 			mPostProcessingStack.BlurLightMask(mlightPPRT.renderTexture, renderSettings, operationParameters.cameraOrthographicSize, mMatrixRotationModeBlend);
 		}
 
 		RenderTexture _backgroundMask = null;
 
-		using (new DisposableProfiler("8. Render Background"))
+		using(new DisposableProfiler("8. Render Background"))
 		{
 			_backgroundMask = mBackgroundRenderer.Render(renderSettings);
 		}
@@ -596,7 +609,7 @@ public class LightingSystem : MonoBehaviour
 			return;
 		}
 
-		using (new DisposableProfiler("9. Blit Scene with Mixed Lights"))
+		using(new DisposableProfiler("9. Blit Scene with Mixed Lights"))
 		{
 			mlightPPRT.renderTexture.filterMode = FilterMode.Bilinear;
 			obstacleLightMask.renderTexture.filterMode = FilterMode.Bilinear;

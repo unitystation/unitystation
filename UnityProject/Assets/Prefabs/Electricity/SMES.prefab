@@ -95,6 +95,9 @@ GameObject:
   - component: {fileID: 114703946515217786}
   - component: {fileID: 114705152130084640}
   - component: {fileID: 1302529419740996430}
+  - component: {fileID: 2683382063024116834}
+  - component: {fileID: 1502216706390324168}
+  - component: {fileID: 2504760058904090374}
   m_Layer: 11
   m_Name: SMES
   m_TagString: Untagged
@@ -220,13 +223,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
@@ -255,47 +256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660444470280440158965f29ae7f389a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelfDestruct: 0
-  powerSupply: {fileID: 1302529419740996430}
-  isOn: 0
-  WireEndB: 8
-  WireEndA: 9
-  MonitoringResistance: 999999
-  Previouscurrent: 0
-  SupplyingVoltage: 0
-  PreviousSupplyingVoltage: 0
-  InternalResistance: 0
-  PreviousInternalResistance: 0
-  TurnRatio: 0
-  VoltageLimiting: 0
-  VoltageLimitedTo: 0
-  _IElectricityIO: {fileID: 0}
-  ApplianceType: 2
-  MaximumCurrentSupport: 8
-  MinimumSupportVoltage: 2700
-  StandardSupplyingVoltage: 3000
-  CapacityMax: 1800000
-  CurrentCapacity: 1800000
-  ExtraChargeCutOff: 3000
-  IncreasedChargeVoltage: 3010
-  StandardChargeNumber: 12
-  ChargeSteps: 0.1
-  MaxChargingMultiplier: 1.5
-  ChargingMultiplier: 0.1
-  CanCharge: 1
-  Cansupport: 1
-  ToggleCanCharge: 1
-  ToggleCansupport: 1
-  PullingWatts: 0
-  ChargingWatts: 0
-  Resistance: 0
-  PreviousResistance: 0
-  CircuitResistance: 0
-  ActualVoltage: 0
-  PullLastDeductedTime: 0
-  ChargLastDeductedTime: 0
-  PassChangeToOff: 0
-  isOnForInterface: 0
   ResistanceChange: 0
   currentCharge: 0
   offlineSprite: {fileID: 21300264, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
@@ -312,6 +272,9 @@ MonoBehaviour:
   statusIndicator: {fileID: 212307946053701930}
   OnOffIndicator: {fileID: 212962152979335194}
   chargeIndicator: {fileID: 212327025118819594}
+  ElectricalNodeControl: {fileID: 2683382063024116834}
+  BatterySupplyingModule: {fileID: 2504760058904090374}
+  isOn: 0
 --- !u!114 &1302529419740996430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,8 +287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WireEndB: 0
-  WireEndA: 0
+  WireEndB: 9
+  WireEndA: 8
   Data:
     FirstPresent: 0
     ActualCurrentChargeInWire:
@@ -345,7 +308,6 @@ MonoBehaviour:
   InData:
     Categorytype: 0
     ControllingDevice: {fileID: 0}
-    ControllingUpdate: {fileID: 0}
     DirectionOverride: 0
     ResistanceOverride: 0
     ElectricityOverride: 0
@@ -353,6 +315,106 @@ MonoBehaviour:
   connected: 0
   RelatedDevice: {fileID: 0}
   registerTile3: {fileID: 114038174743996046}
+--- !u!114 &2683382063024116834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Node: {fileID: 1302529419740996430}
+  ApplianceType: 2
+  ListCanConnectTo: 04000000
+  SelfDestruct: 0
+  Reactions:
+  - ConnectingDevice: 4
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    DirectionReactionA:
+      YouShallNotPass: 1
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 1e+10
+        ResistanceAvailable: 1
+--- !u!114 &1502216706390324168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6674578bb1278de4c9af970c45c78d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModuleType: 1
+  ControllingNode: {fileID: 0}
+  resistance:
+    Ohms: 0
+    ResistanceAvailable: 1
+  EditorResistance: 0
+  NotEditorResistanceset: 1
+  ReactionTo:
+    ConnectingDevice: 1
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    DirectionReactionA:
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 0
+        ResistanceAvailable: 1
+--- !u!114 &2504760058904090374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d118f1d8db746943b4a84d87f71d1d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModuleType: 0
+  ControllingNode: {fileID: 0}
+  current: 0
+  Previouscurrent: 0
+  SupplyingVoltage: 0
+  PreviousSupplyingVoltage: 0
+  PreviousInternalResistance: 0
+  InternalResistance: 0
+  MaximumCurrentSupport: 8
+  MinimumSupportVoltage: 2700
+  StandardSupplyingVoltage: 3000
+  CapacityMax: 1800000
+  CurrentCapacity: 1800000
+  ExtraChargeCutOff: 3000
+  IncreasedChargeVoltage: 3010
+  StandardChargeNumber: 1
+  ChargeSteps: 0.1
+  MaxChargingMultiplier: 1.5
+  ChargingMultiplier: 0.1
+  CanCharge: 1
+  Cansupport: 1
+  ToggleCanCharge: 1
+  ToggleCansupport: 1
+  SlowResponse: 0
+  PullLastDeductedTime: 0
+  ChargLastDeductedTime: 0
+  PullingWatts: 0
+  ChargingWatts: 0
+  CircuitResistance: 0
+  VoltageAtChargePort: 0
+  VoltageAtSupplyPort: 0
+  isOnForInterface: 0
+  ResistanceSourceModule: {fileID: 1502216706390324168}
 --- !u!1 &1610444276709522
 GameObject:
   m_ObjectHideFlags: 0

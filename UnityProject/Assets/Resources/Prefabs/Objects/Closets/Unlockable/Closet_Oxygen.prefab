@@ -153,6 +153,9 @@ MonoBehaviour:
   DefaultContents:
   - {fileID: 1277678737481138, guid: f99902d04c3b1fe47b0e4e4ec36b7971, type: 3}
   - {fileID: 1639223380925416, guid: 611c366b2d389b94193a817e11987cdc, type: 3}
+  - {fileID: 1277678737481138, guid: f99902d04c3b1fe47b0e4e4ec36b7971, type: 3}
+  - {fileID: 1639223380925416, guid: 611c366b2d389b94193a817e11987cdc, type: 3}
+  - {fileID: 1277678737481138, guid: 4661484912df68a4192af5d6c9a8cd58, type: 3}
   IsClosed: 0
   IsLocked: 0
   items: {fileID: 1632989689975038}
@@ -175,6 +178,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!114 &114195129605414080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,17 +194,16 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 0
+  closetType: 0
 --- !u!114 &114202447134840306
 MonoBehaviour:
   m_ObjectHideFlags: 0

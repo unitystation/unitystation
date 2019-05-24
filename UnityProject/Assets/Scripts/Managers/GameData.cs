@@ -167,7 +167,7 @@ public class GameData : MonoBehaviour
 		{
 			float calcFrameRate = 1f / Time.fixedDeltaTime;
 			Application.targetFrameRate = (int) calcFrameRate;
-			Logger.Log("START SERVER HEADLESS MODE");
+			Logger.Log("Starting server in HEADLESS mode.", Category.Server);
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
 

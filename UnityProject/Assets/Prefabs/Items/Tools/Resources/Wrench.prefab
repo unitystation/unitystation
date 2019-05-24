@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 690
-  m_Sprite: {fileID: 21300086, guid: e648057ab7554119b73f083cc0c06981, type: 3}
+  m_Sprite: {fileID: 21300086, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -226,12 +226,11 @@ MonoBehaviour:
   hierarchy: /obj/item/weapon/wrench
   inHandReferenceLeft: 1044
   inHandReferenceRight: 1056
-  itemDescription: A wrench with common uses. Can be found in your hand.
   itemName: wrench
+  itemDescription: A wrench with common uses. Can be found in your hand.
   itemType: 0
   size: 1
   spriteType: 0
-  type: 0
   CanConnectToTank: 0
   hitDamage: 5
   throwDamage: 7
@@ -272,19 +271,17 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114604725354548750
 MonoBehaviour:
   m_ObjectHideFlags: 0

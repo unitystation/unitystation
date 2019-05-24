@@ -302,7 +302,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	private void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
+	public void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
 	{
 		for (int i = 0; i < slotNames.Length; i++)
 		{
@@ -601,8 +601,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
-			Logger.LogWarning("player attempted to interact with shutter switch through wall," +
-				" this could indicate a hacked client.");
+			Logger.LogWarningFormat("Player {0} attempted to interact with shutter switch through wall," +
+				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name); 
 		}
 	}
 
@@ -623,53 +623,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
-			Logger.LogWarning("player attempted to interact with light switch through wall," +
-				" this could indicate a hacked client.");
-		}
-	}
-
-	[Command]
-	public void CmdToggleFireCabinet(GameObject cabObj, bool forItemInteract, string currentSlotName)
-	{
-		if (CanInteractWallmount(cabObj.GetComponent<WallmountBehavior>()))
-		{
-			FireCabinetTrigger c = cabObj.GetComponent<FireCabinetTrigger>();
-
-			if (!forItemInteract)
-			{
-				if (c.IsClosed)
-				{
-					c.IsClosed = false;
-				}
-				else
-				{
-					c.IsClosed = true;
-				}
-			}
-			else
-			{
-				if (c.isFull)
-				{
-					c.isFull = false;
-					if (AddItemToUISlot(c.storedObject.gameObject, currentSlotName))
-					{
-						c.storedObject.visibleState = true;
-						c.storedObject = null;
-					}
-				}
-				else
-				{
-					c.storedObject = Inventory[currentSlotName].Item.GetComponent<ObjectBehaviour>();
-					ClearInventorySlot(currentSlotName);
-					c.storedObject.visibleState = false;
-					c.isFull = true;
-				}
-			}
-		}
-		else
-		{
-			Logger.LogWarning("player attempted to interact with fire cabinet through wall," +
-				" this could indicate a hacked client.");
+			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
+				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
 
@@ -788,7 +743,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void SpawnPlayerGhost()
 	{
 		RpcBeforeGhost();
-		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject);
+		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
 
 	}
 
@@ -798,7 +753,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
 		yield return new WaitForSeconds(timeout);
-		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, gameObject);
+		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.characterSettings, gameObject);
 		RpcAfterRespawn();
 	}
 

@@ -10,19 +10,22 @@ using System.Linq;
 public class ElectricalSynchronisationStorage
 {
 	public PowerTypeCategory category;
-	public PowerSupplyControlInheritance device;
+	public ElectricalNodeControl device;
 }
 public static class ElectricalSynchronisation
 {
 	//What keeps electrical Ticking
 	//so this is correlated to what has changed on the network, Needs to be optimised so (when one resistant source changes only that one updates its values currently the entire network updates their values)
 	public static bool StructureChange = true; //deals with the connections this will clear them out only
-	public static HashSet<CableInheritance> NUCableStructureChange = new HashSet<CableInheritance>();
-	public static HashSet<PowerSupplyControlInheritance> NUStructureChangeReact = new HashSet<PowerSupplyControlInheritance>();
-	public static HashSet<PowerSupplyControlInheritance> NUResistanceChange = new HashSet<PowerSupplyControlInheritance>();
-	public static HashSet<PowerSupplyControlInheritance> ResistanceChange = new HashSet<PowerSupplyControlInheritance>();
-	public static HashSet<PowerSupplyControlInheritance> InitialiseResistanceChange = new HashSet<PowerSupplyControlInheritance>();
-	public static HashSet<PowerSupplyControlInheritance> NUCurrentChange = new HashSet<PowerSupplyControlInheritance>();
+	public static HashSet<CableInheritance> NUCableStructureChange = new HashSet<CableInheritance>(); //used for tracking cable deconstruction
+	public static HashSet<ElectricalNodeControl> NUStructureChangeReact = new HashSet<ElectricalNodeControl>();  //Used for poking the supplies to make up and down paths all the resistant sources 
+	public static HashSet<ElectricalNodeControl> NUResistanceChange = new HashSet<ElectricalNodeControl>(); //Used for all the resistant sources to broadcast there resistance  Used for supplies but could probably be combined with ResistanceChange
+	public static HashSet<ElectricalNodeControl> ResistanceChange = new HashSet<ElectricalNodeControl>(); //
+	public static HashSet<ElectricalNodeControl> InitialiseResistanceChange = new HashSet<ElectricalNodeControl>(); //Used for getting stuff to generate constant resistance values not really used properly
+	public static HashSet<ElectricalNodeControl> NUCurrentChange = new HashSet<ElectricalNodeControl>(); //
+	public static HashSet<CableInheritance> CableUpdates = new HashSet<CableInheritance>();
+	public static HashSet<CableInheritance> WorkingCableUpdates = new HashSet<CableInheritance>();
+	public static CableInheritance CableToDestroy;
 	private static bool Initialise = false;
 	public static DeadEndConnection DeadEnd = new DeadEndConnection(); //so resistance sources coming from itself  like an apc Don't cause loops this is used as coming from and so therefore it is ignored
 
@@ -32,7 +35,6 @@ public static class ElectricalSynchronisation
 
 	public static List<ElectricalOIinheritance> _DirectionWorkOnNextList = new List<ElectricalOIinheritance>();
 	public static List<ElectricalOIinheritance> _DirectionWorkOnNextListWait = new List<ElectricalOIinheritance>();
-
 	public static bool UesAlternativeDirectionWorkOnNextList;
 
 	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> ResistanceWorkOnNextList = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
@@ -40,10 +42,13 @@ public static class ElectricalSynchronisation
 
 	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextList = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
 	public static HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>> _ResistanceWorkOnNextListWait = new HashSet<KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>>();
+	public static bool UesAlternativeResistanceWorkOnNextList;
+
 
 	public static KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance> OneJump;
+	public static ElectronicSupplyData InputSupplyingUsingData;
+	public static ElectronicSupplyData OutputSupplyingUsingData;
 
-	public static bool UesAlternativeResistanceWorkOnNextList;
 
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
@@ -53,46 +58,34 @@ public static class ElectricalSynchronisation
 
 	public static List<PowerTypeCategory> OrderList = new List<PowerTypeCategory>()
 	{ //Since you want the batteries to come after the radiation collectors so batteries don't put all there charge out then realise radiation collectors already doing it
+		PowerTypeCategory.SolarPanel,
 		PowerTypeCategory.RadiationCollector, //make sure unconditional supplies come first
 		PowerTypeCategory.PowerGenerator,
 		PowerTypeCategory.SMES, //Then conditional supplies With the hierarchy you want
+		PowerTypeCategory.SolarPanelController,
 		PowerTypeCategory.DepartmentBattery,
 
 	};
-	public static List<PowerTypeCategory> WireConnectRelated = new List<PowerTypeCategory>()
-	{
-		PowerTypeCategory.LowVoltageCable,
-		PowerTypeCategory.LowMachineConnector,
-		PowerTypeCategory.StandardCable,
-		PowerTypeCategory.MediumMachineConnector,
-		PowerTypeCategory.HighVoltageCable,
-		PowerTypeCategory.HighVoltageCable,
 
-	};
 	public static List<PowerTypeCategory> UnconditionalSupplies = new List<PowerTypeCategory>()
 	{
 		PowerTypeCategory.RadiationCollector, //make sure unconditional supplies come first
 		PowerTypeCategory.PowerGenerator,
+		PowerTypeCategory.SolarPanel,
 
 	};
-	public static List<PowerTypeCategory> ReactiveSupplies = new List<PowerTypeCategory>()
-	{
-		PowerTypeCategory.SMES, //Then conditional supplies With the hierarchy you want
-		PowerTypeCategory.DepartmentBattery,
 
-	};
 	public static HashSet<PowerTypeCategory> ReactiveSuppliesSet = new HashSet<PowerTypeCategory>()
 	{
 		PowerTypeCategory.SMES, //Then conditional supplies With the hierarchy you want
 		PowerTypeCategory.DepartmentBattery,
-
+		PowerTypeCategory.SolarPanelController,
 	};
-	public static HashSet<PowerSupplyControlInheritance> TotalSupplies = new HashSet<PowerSupplyControlInheritance>();
-	public static Dictionary<PowerTypeCategory, HashSet<PowerSupplyControlInheritance>> AliveSupplies = new Dictionary<PowerTypeCategory, HashSet<PowerSupplyControlInheritance>>()
-	{ //Things that are supplying voltage
-	};
+	public static HashSet<ElectricalNodeControl> TotalSupplies = new HashSet<ElectricalNodeControl>();
+	public static Dictionary<PowerTypeCategory, HashSet<ElectricalNodeControl>> AliveSupplies = new Dictionary<PowerTypeCategory, HashSet<ElectricalNodeControl>>()
+	{};//Things that are supplying voltage
 
-	public static HashSet<PowerSupplyControlInheritance> PoweredDevices = new HashSet<PowerSupplyControlInheritance>(); // things that may need electrical updates to react to voltage changes 
+	public static HashSet<ElectricalNodeControl> PoweredDevices = new HashSet<ElectricalNodeControl>(); // things that may need electrical updates to react to voltage changes 
 	public static Queue<ElectricalSynchronisationStorage> ToRemove = new Queue<ElectricalSynchronisationStorage>();
 
 
@@ -110,16 +103,16 @@ public static class ElectricalSynchronisation
 	private static readonly ProfilerMarker[] markers = markerNames.Select(mn => new ProfilerMarker(mn)).ToArray();
 #endif
 
-	public static void AddSupply(PowerSupplyControlInheritance Supply, PowerTypeCategory category)
+	public static void AddSupply(ElectricalNodeControl Supply, PowerTypeCategory category)
 	{
 		if (!(AliveSupplies.ContainsKey(category)))
 		{
-			AliveSupplies[category] = new HashSet<PowerSupplyControlInheritance>();
+			AliveSupplies[category] = new HashSet<ElectricalNodeControl>();
 		}
 		AliveSupplies[category].Add(Supply);
 		TotalSupplies.Add(Supply);
 	}
-	public static void RemoveSupply(PowerSupplyControlInheritance Supply, PowerTypeCategory category)
+	public static void RemoveSupply(ElectricalNodeControl Supply, PowerTypeCategory category)
 	{
 		ElectricalSynchronisationStorage QuickAdd = new ElectricalSynchronisationStorage();
 		QuickAdd.device = Supply;
@@ -138,7 +131,7 @@ public static class ElectricalSynchronisation
 			{
 				if (!AliveSupplies.ContainsKey(category))
 				{
-					AliveSupplies[category] = new HashSet<PowerSupplyControlInheritance>();
+					AliveSupplies[category] = new HashSet<ElectricalNodeControl>();
 				}
 			}
 			DeadEnd.InData.Categorytype = PowerTypeCategory.DeadEndConnection; //yeah Class stuff
@@ -200,22 +193,26 @@ public static class ElectricalSynchronisation
 	private static void IfStructureChange()
 	{
 		Profiler.BeginSample("IfStructureChange");
-		if (!StructureChange) return;
-		//Logger.Log("PowerUpdateStructureChange");
-		StructureChange = false;
+		//Logger.Log("PowerUpdateStructureChange", Category.Electrical);
 		foreach (CableInheritance cabel in NUCableStructureChange) {
-			cabel.PowerUpdateStructureChange();
+			cabel.PowerUpdateStructureChange(); //so Destruction of cables won't trigger the entire thing to refresh saving a bit of performance since they have a bit of code for jumping onto different supplies and  , adding them to NUStructureChangeReact
 		}
 		NUCableStructureChange.Clear();
+		if (!StructureChange) { 
+			Profiler.EndSample();
+			return;
+		}
+		//Logger.Log("StructureChange bool PowerUpdateStructureChange!",Category.Electrical);
+		StructureChange = false;
 		foreach (var category in OrderList)
 		{
-			foreach (PowerSupplyControlInheritance TheSupply in AliveSupplies[category])
+			foreach (ElectricalNodeControl TheSupply in AliveSupplies[category])
 			{
 				TheSupply.PowerUpdateStructureChange();
 			}
 		}
 
-		foreach (PowerSupplyControlInheritance ToWork in PoweredDevices)
+		foreach (ElectricalNodeControl ToWork in PoweredDevices)
 		{
 			ToWork.PowerUpdateStructureChange();
 		}
@@ -228,13 +225,14 @@ public static class ElectricalSynchronisation
 	private static void PowerUpdateStructureChangeReact()
 	{
 		Profiler.BeginSample("PowerUpdateStructureChangeReact");
-		//Logger.Log("PowerUpdateStructureChangeReact");
+		//Logger.Log("PowerUpdateStructureChangeReact", Category.Electrical);
 		for (int i = 0; i < OrderList.Count; i++)
 		{
-			foreach (PowerSupplyControlInheritance TheSupply in AliveSupplies[OrderList[i]])
+			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
 			{
 				if (NUStructureChangeReact.Contains(TheSupply))
 				{
+					//Logger.Log("PowerUpdateStructureChangeReact " + TheSupply, Category.Electrical); 
 					TheSupply.PowerUpdateStructureChangeReact();
 					NUStructureChangeReact.Remove(TheSupply);
 				}
@@ -249,25 +247,26 @@ public static class ElectricalSynchronisation
 	private static void PowerUpdateResistanceChange()
 	{
 		Profiler.BeginSample("PowerUpdateResistanceChange");
-		//Logger.Log("PowerUpdateResistanceChange/InitialPowerUpdateResistance");
-		foreach (PowerSupplyControlInheritance PoweredDevice in InitialiseResistanceChange)
+		//Logger.Log("PowerUpdateResistanceChange/InitialPowerUpdateResistance", Category.Electrical);
+		foreach (ElectricalNodeControl PoweredDevice in InitialiseResistanceChange)
 		{
-			PoweredDevice.InitialPowerUpdateResistance();
+			PoweredDevice.InitialPowerUpdateResistance(); 
 		}
 		//Logger.Log("InitialiseResistanceChange");
 		InitialiseResistanceChange.Clear();
-		foreach (PowerSupplyControlInheritance PoweredDevice in ResistanceChange)
+		foreach (ElectricalNodeControl PoweredDevice in ResistanceChange)
 		{
 			PoweredDevice.PowerUpdateResistanceChange();
 		}
 		ResistanceChange.Clear();
 		for (int i = 0; i < OrderList.Count; i++)
 		{
-			foreach (PowerSupplyControlInheritance TheSupply in AliveSupplies[OrderList[i]])
+			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
 			{
 				if (NUResistanceChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)))
 				{
 					TheSupply.PowerUpdateResistanceChange();
+					//Logger.Log("PowerUpdateResistanceChange " + TheSupply, Category.Electrical);
 					NUResistanceChange.Remove(TheSupply);
 				}
 			}
@@ -285,29 +284,29 @@ public static class ElectricalSynchronisation
 		Profiler.BeginSample("PowerUpdateCurrentChange");
 		for (int i = 0; i < UnconditionalSupplies.Count; i++)
 		{
-			foreach (PowerSupplyControlInheritance TheSupply in AliveSupplies[OrderList[i]])
+			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
 			{
 				if (NUCurrentChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)) && !(NUResistanceChange.Contains(TheSupply)))
 				{
-					TheSupply.PowerUpdateCurrentChange();
+					//Logger.Log("PowerUpdateCurrentChange " + TheSupply, Category.Electrical);
+					TheSupply.PowerUpdateCurrentChange(); //Does all the updates for the constant sources since they don't have to worry about other supplies being on or off since they just go steaming ahead
 					NUCurrentChange.Remove(TheSupply);
 				}
 			}
 		}
-		HashSet<PowerSupplyControlInheritance> DoneSupplies = new HashSet<PowerSupplyControlInheritance>();
-		PowerSupplyControlInheritance LowestReactive = null;
+		HashSet<ElectricalNodeControl> DoneSupplies = new HashSet<ElectricalNodeControl>();
+		ElectricalNodeControl LowestReactive = null;
 		int LowestReactiveint = 9999;
-		List<PowerSupplyControlInheritance> QToRemove = new List<PowerSupplyControlInheritance>();
-		while (NumberOfReactiveSupplies_f() > 0)
+		List<ElectricalNodeControl> QToRemove = new List<ElectricalNodeControl>();
+		while (NumberOfReactiveSupplies_f() > 0) //This is to calculate the lowest number of supplies that are above the reactive supply so therefore the one that needs to be updated first
 		{
-			//Logger.Log("NUCurrentChange.Count > 0");
-			foreach (PowerSupplyControlInheritance TheSupply in NUCurrentChange)
+			foreach (ElectricalNodeControl TheSupply in NUCurrentChange)
 			{
 				if (!DoneSupplies.Contains(TheSupply))
 				{
 					if (TotalSupplies.Contains(TheSupply))
 					{
-						if (ReactiveSuppliesSet.Contains(TheSupply._IElectricityIO.InData.Categorytype))
+						if (ReactiveSuppliesSet.Contains(TheSupply.Node.InData.Categorytype))
 						{
 							if (NUCurrentChange.Contains(TheSupply) && !(NUStructureChangeReact.Contains(TheSupply)) && !(NUResistanceChange.Contains(TheSupply)))
 							{
@@ -315,14 +314,13 @@ public static class ElectricalSynchronisation
 								if (LowestReactive == null)
 								{
 									LowestReactive = TheSupply;
-									LowestReactiveint = NumberOfReactiveSupplies(TheSupply._IElectricityIO);
+									LowestReactiveint = NumberOfReactiveSupplies(TheSupply.Node);
 								}
-								else if (LowestReactiveint > NumberOfReactiveSupplies(TheSupply._IElectricityIO))
+								else if (LowestReactiveint > NumberOfReactiveSupplies(TheSupply.Node))
 								{
 									LowestReactive = TheSupply;
-									LowestReactiveint = NumberOfReactiveSupplies(TheSupply._IElectricityIO);
+									LowestReactiveint = NumberOfReactiveSupplies(TheSupply.Node);
 								}
-								//TheSupply.GameObject().GetComponent<ElectricalOIinheritance>().Data.ResistanceToConnectedDevices
 							}
 							else
 							{
@@ -343,6 +341,7 @@ public static class ElectricalSynchronisation
 			}
 			if (LowestReactive != null)
 			{
+				//Logger.Log("PowerUpdateCurrentChange " + LowestReactive, Category.Electrical);
 				LowestReactive.PowerUpdateCurrentChange();
 				NUCurrentChange.Remove(LowestReactive);
 				DoneSupplies.Add(LowestReactive);
@@ -350,11 +349,11 @@ public static class ElectricalSynchronisation
 
 			LowestReactive = null;
 			LowestReactiveint = 9999;
-			foreach (PowerSupplyControlInheritance re in QToRemove)
+			foreach (ElectricalNodeControl re in QToRemove)
 			{
 				NUCurrentChange.Remove(re);
 			}
-			QToRemove = new List<PowerSupplyControlInheritance>();
+			QToRemove = new List<ElectricalNodeControl>();
 		}
 		Profiler.EndSample();
 	}
@@ -367,14 +366,25 @@ public static class ElectricalSynchronisation
 		Profiler.BeginSample("PowerNetworkUpdate");
 		for (int i = 0; i < OrderList.Count; i++)
 		{
-			foreach (PowerSupplyControlInheritance TheSupply in AliveSupplies[OrderList[i]])
+			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
 			{
 				TheSupply.PowerNetworkUpdate();
 			}
 		}
-		foreach (PowerSupplyControlInheritance ToWork in PoweredDevices)
+		foreach (ElectricalNodeControl ToWork in PoweredDevices)
 		{
 			ToWork.PowerNetworkUpdate();
+		}
+		WorkingCableUpdates = new HashSet<CableInheritance>(CableUpdates);
+		CableUpdates.Clear();
+		foreach (CableInheritance ToWork in WorkingCableUpdates)
+		{
+			ToWork.PowerNetworkUpdate(); //This is used to update the cables  if they have the current change to detect if there was an overcurrent
+		}
+		WorkingCableUpdates.Clear();
+		if (CableToDestroy != null) { 
+			CableToDestroy.toDestroy();
+			CableToDestroy = null;
 		}
 		Profiler.EndSample();
 	}
@@ -382,11 +392,11 @@ public static class ElectricalSynchronisation
 	public static int NumberOfReactiveSupplies_f()
 	{
 		int Counting = 0;
-		foreach (PowerSupplyControlInheritance Device in NUCurrentChange)
+		foreach (ElectricalNodeControl Device in NUCurrentChange)
 		{
 			if (Device != null)
 			{
-				if (ReactiveSuppliesSet.Contains(Device._IElectricityIO.InData.Categorytype))
+				if (ReactiveSuppliesSet.Contains(Device.Node.InData.Categorytype))
 				{
 					Counting++;
 				}
@@ -413,7 +423,8 @@ public static class ElectricalSynchronisation
 
 	public static void CircuitSearchLoop(ElectricalOIinheritance Thiswire)
 	{
-		//Logger.Log("EE");
+		
+		//Logger.Log("CircuitSearchLoop Enter", Category.Electrical);
 		GameObject GameObject = Thiswire.GameObject();
 		InputOutputFunctions.DirectionOutput(GameObject, Thiswire);
 		bool Break = true;
@@ -427,7 +438,7 @@ public static class ElectricalSynchronisation
 
 			if (DirectionWorkOnNextList.Count <= 0 & DirectionWorkOnNextListWait.Count <= 0 & _DirectionWorkOnNextList.Count <= 0 & _DirectionWorkOnNextListWait.Count <= 0)
 			{
-				//Logger.Log ("stop!");
+				//Logger.Log ("CircuitSearchLoop stop!", Category.Electrical );
 				Break = false;
 			}
 		}
@@ -525,7 +536,5 @@ public static class ElectricalSynchronisation
 			}
 			IterateDirectionWorkOnNextListWait.Clear();
 		}
-
 	}
-
 }

@@ -60,7 +60,7 @@ public class ShutterSwitchTrigger : InputTrigger
 				s.Trigger(isClosed);
 			}
 			else {
-				Logger.LogError("you Have a null reference You have a missing reference for a shutter");
+				Logger.LogError("Missing reference to shutter.", Category.Shutters);
 			}
 		}
 	}

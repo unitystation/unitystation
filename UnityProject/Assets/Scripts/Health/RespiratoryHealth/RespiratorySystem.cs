@@ -128,13 +128,25 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 			// Check if internals exist
 			ItemAttributes mask = inventory.ContainsKey("mask") ? inventory["mask"]?.ItemAttributes : null;
-			ItemAttributes suitStorage = inventory.ContainsKey("suitStorage") ? inventory["suitStorage"]?.ItemAttributes : null;
 
 			bool internalsEnabled = equipment.IsInternalsEnabled;
 
-			if (mask != null && suitStorage != null && mask.CanConnectToTank && internalsEnabled)
+			//todo: devise a convenient method to get item/script from top level of inventory instead of this
+			if (mask != null && mask.CanConnectToTank && internalsEnabled)
 			{
-				return suitStorage.GetComponent<GasContainer>();
+				foreach ( var gasSlot in GasContainer.GasSlots )
+				{
+					if ( !inventory.ContainsKey(gasSlot) || inventory[gasSlot] == null || !inventory[gasSlot].Item )
+					{
+						continue;
+					}
+
+					var gasContainer = inventory[gasSlot].Item.GetComponent<GasContainer>();
+					if ( gasContainer )
+					{
+						return gasContainer;
+					}
+				}
 			}
 		}
 

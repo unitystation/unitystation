@@ -4,8 +4,6 @@ using UnityEngine.Networking;
 
 public class FireCabinetTrigger : InputTrigger
 {
-	public bool hasJustPlaced;
-
 	[SyncVar(hook = nameof(SyncCabinet))] public bool IsClosed;
 
 	[SyncVar(hook = nameof(SyncItemSprite))] public bool isFull;
@@ -18,8 +16,6 @@ public class FireCabinetTrigger : InputTrigger
 
 	//For storing extinguishers server side
 	[HideInInspector] public ObjectBehaviour storedObject;
-
-	private bool sync;
 
 	private void Start()
 	{
@@ -69,59 +65,62 @@ public class FireCabinetTrigger : InputTrigger
 		}
 
 		PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
+		GameObject handObj = pna.Inventory[hand].Item;
 
 		if (IsClosed)
 		{
-			HandleInteraction(false, hand, pna);
+			if(isFull && !handObj){
+				RemoveExtinguisher(pna, hand);
+			}
+			IsClosed = false;
 		}
 		else
 		{
-			GameObject handObj = pna.Inventory[hand].Item;
-			if (isFull && !hasJustPlaced)
+			if (isFull)
 			{
 				if (handObj == null)
 				{
-					HandleInteraction(true, hand, pna);
+					RemoveExtinguisher(pna, hand);
 				}
 				else
 				{
-					HandleInteraction(false, hand, pna);
+					IsClosed = true;
 				}
 			}
 			else
 			{
-				if (handObj != null)
+				if (handObj && handObj.GetComponent<FireExtinguisher>())
 				{
-					if (handObj.GetComponent<ItemAttributes>().itemName == "Extinguisher")
-					{
-						HandleInteraction(true, hand, pna);
-						hasJustPlaced = true;
-					}
-					else
-					{
-						HandleInteraction(false, hand, pna);
-						hasJustPlaced = false;
-					}
+					AddExtinguisher(pna, hand, handObj);
 				}
 				else
 				{
-					HandleInteraction(false, hand, pna);
-					hasJustPlaced = false;
+					IsClosed = true;
 				}
 			}
 		}
-
 		return true;
 	}
 
-	private void HandleInteraction(bool forItemInteract, string currentHand, PlayerNetworkActions pna)
-	{
-		pna.CmdToggleFireCabinet(gameObject, forItemInteract, currentHand);
+	private void RemoveExtinguisher(PlayerNetworkActions pna, string hand){
+		if (pna.AddItemToUISlot(storedObject.gameObject, hand))
+		{
+			storedObject.visibleState = true;
+			storedObject = null;
+			isFull = false;
+		}
 	}
 
-	public void SyncItemSprite(bool _isFull)
+	private void AddExtinguisher(PlayerNetworkActions pna, string hand, GameObject handObj){
+		storedObject = handObj.GetComponent<ObjectBehaviour>();
+		pna.ClearInventorySlot(hand);
+		storedObject.visibleState = false;
+		isFull = true;
+	}
+
+	public void SyncItemSprite(bool value)
 	{
-		isFull = _isFull;
+		isFull = value;
 		if (!isFull)
 		{
 			spriteRenderer.sprite = spriteOpenedEmpty;
@@ -135,10 +134,10 @@ public class FireCabinetTrigger : InputTrigger
 		}
 	}
 
-	private void SyncCabinet(bool _isClosed)
+	private void SyncCabinet(bool value)
 	{
-		IsClosed = _isClosed;
-		if (_isClosed)
+		IsClosed = value;
+		if (IsClosed)
 		{
 			Close();
 		}
@@ -150,7 +149,7 @@ public class FireCabinetTrigger : InputTrigger
 
 	private void Open()
 	{
-		PlaySound();
+		SoundManager.PlayAtPosition("OpenClose", transform.position);
 		if (isFull)
 		{
 			spriteRenderer.sprite = spriteOpenedOccupied;
@@ -163,24 +162,8 @@ public class FireCabinetTrigger : InputTrigger
 
 	private void Close()
 	{
-		PlaySound();
+		SoundManager.PlayAtPosition("OpenClose", transform.position);
 		spriteRenderer.sprite = spriteClosed;
 	}
 
-	private void PlaySound()
-	{
-		if (!sync)
-		{
-			sync = true;
-		}
-		else
-		{
-			SoundManager.PlayAtPosition("OpenClose", transform.position);
-		}
-	}
-
-	private bool IsCorrectItem(GameObject item)
-	{
-		return item.GetComponent<ItemAttributes>().itemName == itemPrefab.GetComponent<ItemAttributes>().itemName;
-	}
 }

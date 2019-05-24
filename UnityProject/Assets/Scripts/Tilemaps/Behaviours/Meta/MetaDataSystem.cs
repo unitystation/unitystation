@@ -133,7 +133,7 @@ public class MetaDataSystem : SubsystemBehaviour
 			{
 				roomPositions.Add(position);
 
-				Vector3Int[] neighbors = MetaUtils.GetNeighbors(position);
+				Vector3Int[] neighbors = MetaUtils.GetNeighbors(position, null);
 				for (var i = 0; i < neighbors.Length; i++)
 				{
 					Vector3Int neighbor = neighbors[i];

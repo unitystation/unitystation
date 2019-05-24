@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConsoleScreenAnimator : MonoBehaviour
+public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 {
 	private bool isOn = true;
 	public bool IsOn
@@ -25,6 +25,7 @@ public class ConsoleScreenAnimator : MonoBehaviour
 			}
 		}
 	}
+
 	public float timeBetweenFrames = 0.1f;
 	public SpriteRenderer spriteRenderer;
 	public GameObject screenGlow;
@@ -45,6 +46,20 @@ public class ConsoleScreenAnimator : MonoBehaviour
 			{
 				screenGlow.SetActive(false);
 			}
+		}
+	}
+
+	public void PowerNetworkUpdate(float Voltage) {
+	}
+
+	public void StateUpdate(PowerStates State)
+	{
+		if (State == PowerStates.Off || State == PowerStates.LowVoltage)
+		{
+			isOn = false;
+		}
+		else { 
+			isOn = true;
 		}
 	}
 

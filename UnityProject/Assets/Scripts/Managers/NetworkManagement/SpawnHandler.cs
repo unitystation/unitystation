@@ -16,19 +16,19 @@ public static class SpawnHandler
 	public static void SpawnDummyPlayer(JobType jobType = JobType.NULL)
 	{
 		GameObject dummyPlayer = CreatePlayer(jobType);
-		TransferPlayer(null, 0, dummyPlayer, null, EVENT.PlayerSpawned);
+		TransferPlayer(null, 0, dummyPlayer, null, EVENT.PlayerSpawned, null);
 	}
 
-	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType, GameObject oldBody)
+	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType, CharacterSettings characterSettings, GameObject oldBody)
 	{
 		GameObject player = CreatePlayer(jobType);
-		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned);
+		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
 	}
 
-	public static void SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody)
+	public static void SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)
 	{
 		GameObject ghost = CreateGhost(oldBody);
-		TransferPlayer(conn, playerControllerId, ghost, oldBody, EVENT.GhostSpawned);
+		TransferPlayer(conn, playerControllerId, ghost, oldBody, EVENT.GhostSpawned, characterSettings);
 	}
 
 	/// <summary>
@@ -39,7 +39,7 @@ public static class SpawnHandler
 	/// <param name="newBody">The character gameobject to be transfered into.</param>
 	/// <param name="oldBody">The old body of the character.</param>
 	/// <param name="eventType">Event type for the player sync.</param>
-	public static void TransferPlayer(NetworkConnection conn, short playerControllerId, GameObject newBody, GameObject oldBody, EVENT eventType)
+	public static void TransferPlayer(NetworkConnection conn, short playerControllerId, GameObject newBody, GameObject oldBody, EVENT eventType, CharacterSettings characterSettings)
 	{
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
@@ -58,7 +58,18 @@ public static class SpawnHandler
 		{
 			playerScript.PlayerSync.NotifyPlayers(true);
 		}
+
+		// If the player is inside a container, send a ClosetHandlerMessage.
+		// The ClosetHandlerMessage will attach the container to the transfered player.
+		var playerObjectBehavior = newBody.GetComponent<ObjectBehaviour>();
+		if (playerObjectBehavior && playerObjectBehavior.parentContainer)
+		{
+			ClosetHandlerMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
+		}
+
 		CustomNetworkManager.Instance.SyncPlayerData(newBody);
+		if(characterSettings != null){
+			playerScript.characterSettings = characterSettings;}
 	}
 
 	private static GameObject CreateGhost(GameObject oldBody)

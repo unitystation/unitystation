@@ -17,5 +17,35 @@ public enum PowerTypeCategory { //The standard way of identifying what machinery
 	HighVoltageCable,
 	DeadEndConnection,
 	PowerGenerator,
-	NotSet_SomeonesDoneABooBoo, 
+	SolarPanel, 
+	SolarPanelController,
+	PowerSink,
+
 }//hey Be careful when changing this because it's stored as numbers in prefabs/saved scenes for some stupid reason so addon never Change the order 
+
+public enum ElectricalUpdateTypeCategory
+{ 
+	OnStartServer,
+	ModifyResistancyOutput,
+	ModifyResistanceInput,
+	ModifyElectricityOutput,
+	ModifyElectricityInput,
+	PowerNetworkUpdate,
+	PowerUpdateCurrentChange,
+	PowerUpdateResistanceChange,
+	InitialPowerUpdateResistance,
+	PowerUpdateStructureChangeReact,
+	PowerUpdateStructureChange,
+	TurnOffCleanup,
+	TurnOnSupply, 
+	TurnOffSupply,
+	PotentialDestroyed,
+}
+
+public enum ElectricalModuleTypeCategory
+{
+	Transformer,
+	ResistanceSource,
+	SupplyingDevice,
+	BatterySupplyingDevice,
+}
