@@ -80,11 +80,11 @@ public class ItemAttributes : NetworkBehaviour
 	/// throw-related fields
 	[Tooltip("Damage when we click someone with harm intent")]
 	[Range(0, 100)]
-	public float hitDamage = 2;
+	public float hitDamage = 0;
 
 	[Tooltip("How painful it is when someone throws it at you")]
 	[Range(0, 100)]
-	public float throwDamage = 2;
+	public float throwDamage = 0;
 
 	[Tooltip("How many tiles to move per 0.1s when being thrown")]
 	public float throwSpeed = 2;
@@ -132,7 +132,7 @@ public class ItemAttributes : NetworkBehaviour
 
 	public List<string> TryParseList(string attr)
 	{
-		return 
+		return
 			TryGetAttr(attr)
 			.Trim()
 			.Replace("list(", "")
@@ -321,7 +321,7 @@ public class ItemAttributes : NetworkBehaviour
 			DmiState state = dmi.searchStateInIcon(states[i], icons, 4, false);
 
 			if (state == null) continue;
-			
+
 			return state.offset;
 		}
 
