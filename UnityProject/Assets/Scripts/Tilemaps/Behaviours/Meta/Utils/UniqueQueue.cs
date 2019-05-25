@@ -34,9 +34,13 @@ namespace Tilemaps.Behaviours.Meta
 				if (hashSet.Add(item))
 				{
 					queue.Enqueue(item);
+					AfterEnqueue(item);
 				}
 			}
 		}
+
+		protected virtual void AfterEnqueue(T enqueuedItem) { }
+		protected virtual void AfterDequeue(T dequeuedItem) { }
 
 		public void EnqueueAll(List<T> elements)
 		{
@@ -53,6 +57,7 @@ namespace Tilemaps.Behaviours.Meta
 				lock (hashSet)
 				{
 					hashSet.Remove(item);
+					AfterDequeue(item);
 				}
 
 				return true;

@@ -11,7 +11,7 @@ public class RadarList : NetUIDynamicList {
 
 	public void RefreshTrackedPos(bool update = true) {
 		Vector2 originPos = Origin.State.Position;
-		
+
 		//Refreshing positions of every item
 		var entryArray = Entries;
 		for ( var i = 0; i < entryArray.Length; i++ ) {
@@ -26,12 +26,14 @@ public class RadarList : NetUIDynamicList {
 			{
 //				Logger.Log( $"Hiding {item} as it's out of range" );
 				OutOfRangeEntries.Add( item );
+
+//				fixme: Old manual (de)activation conflicts with reuse pool, entries still fill up on server
 				item.gameObject.SetActive( false );
 			}
 		}
 		//Check if any item in "out of range" list should be shown again
 		for ( var i = 0; i < OutOfRangeEntries.Count; i++ ) {
-			var item = OutOfRangeEntries[i];
+			RadarEntry item = OutOfRangeEntries[i];
 			item.RefreshTrackedPos( originPos );
 			if ( item.Position != TransformState.HiddenPos && ProjectionMagnitude( item.Position ) <= Range )
 			{
@@ -40,14 +42,14 @@ public class RadarList : NetUIDynamicList {
 				item.gameObject.SetActive( true );
 			}
 		}
-		
+
 		for ( var i = 0; i < ToRestore.Count; i++ ) {
 			var item = ToRestore[i];
 			OutOfRangeEntries.Remove( item );
 		}
 
 		ToRestore.Clear();
-		
+
 		if ( update ) {
 			UpdatePeepers();
 		}
@@ -60,38 +62,43 @@ public class RadarList : NetUIDynamicList {
 		return projX >= projY ? projX : projY;
 	}
 
-	//do we need to bulk add static positions? don't think so
-	public bool AddStaticItem( MapIconType type, Vector2 staticPosition, int radius = -1 ) { 
-		for ( var i = 0; i < Entries.Length; i++ ) {
+	public bool AddStaticItem( MapIconType type, Vector2 staticPosition, int radius = -1 )
+	{
+		for ( var i = 0; i < Entries.Length; i++ )
+		{
 			var item = Entries[i] as RadarEntry;
-			if ( !item ) {
+			if ( !item )
+			{
 				continue;
 			}
 
-			if ( staticPosition == (Vector2) item.StaticPosition ) {
+			if ( staticPosition == ( Vector2 ) item.StaticPosition )
+			{
 				return false;
 			}
 		}
-			//add new entry
-			RadarEntry newEntry = Add() as RadarEntry;
-			if ( !newEntry ) {
-			Logger.LogWarning( $"Added {newEntry} is not an RadarEntry!",Category.NetUI );
-				return false;
-			}
 
-			//set its elements
-			newEntry.Radius = radius;
-			newEntry.Type = type;
-			newEntry.StaticPosition = staticPosition;
-		
+		//add new entry
+		RadarEntry newEntry = Add() as RadarEntry;
+		if ( !newEntry )
+		{
+			Logger.LogWarning( $"Added {newEntry} is not an RadarEntry!", Category.NetUI );
+			return false;
+		}
+
+		//set its elements
+		newEntry.Radius = radius;
+		newEntry.Type = type;
+		newEntry.StaticPosition = staticPosition;
+
 		//rescan elements and notify
 		NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
 		RefreshTrackedPos();
-		
+
 		return true;
 	}
 
-	public bool AddItems( MapIconType type, List<GameObject> objects ) 
+	public bool AddItems( MapIconType type, List<GameObject> objects )
 	{
 		var objectSet = new HashSet<GameObject>(objects);
 		var duplicates = new HashSet<GameObject>();
@@ -108,7 +115,7 @@ public class RadarList : NetUIDynamicList {
 
 		for ( var i = 0; i < objects.Count; i++ ) {
 			var obj = objects[i];
-			//skipping already found objects 
+			//skipping already found objects
 			if ( duplicates.Contains( obj ) ) {
 				continue;
 			}
@@ -125,11 +132,11 @@ public class RadarList : NetUIDynamicList {
 			newEntry.TrackedObject = obj;
 		}
 //		Logger.Log( $"RadarList: Item add success! added {objects.Count} items" );
-		
+
 		//rescan elements and notify
 		NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
 		RefreshTrackedPos();
-		
+
 		return true;
 	}
 
@@ -146,9 +153,9 @@ public class RadarList : NetUIDynamicList {
 		RefreshTrackedPos( false );
 
 		bool notFound = true;
-		
+
 		var entries = Entries;
-		for ( var i = 0; i < entries.Length; i++ ) 
+		for ( var i = 0; i < entries.Length; i++ )
 		{
 			var entry = entries[i] as RadarEntry;
 			if ( !entry || entry.TrackedObject != trackedObject ) {
@@ -156,17 +163,17 @@ public class RadarList : NetUIDynamicList {
 			}
 
 			notFound = false;
-			
+
 			List<ElementValue> valuesToSend = new List<ElementValue>(10) {ElementValue};
 			var entryElements = entry.Elements;
-			for ( var j = 0; j < entryElements.Length; j++ ) 
+			for ( var j = 0; j < entryElements.Length; j++ )
 			{
 				var element = entryElements[j];
 				valuesToSend.Add( element.ElementValue );
 			}
 			TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, valuesToSend.ToArray() );
 		}
-		//if not found (being hidden etc), send just the list entry count so it would disappear for peepers, too 
+		//if not found (being hidden etc), send just the list entry count so it would disappear for peepers, too
 		if ( notFound ) {
 			TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, new []{ElementValue} );
 		}
@@ -174,5 +181,5 @@ public class RadarList : NetUIDynamicList {
 
 	//Don't apply any clientside ordering and just rely on whatever server provided
 	protected override void RefreshPositions() {}
-	protected override void SetProperPosition( DynamicEntry entry, int index = 0 ) {}
+	protected override void SetProperPosition( DynamicEntry entry, int sortIndex = 0 ) {}
 }

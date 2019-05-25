@@ -42,7 +42,7 @@ public static class SweetExtensions {
 		{
 			var oneInt = one.To2Int();
 			var twoInt = two.To2Int();
-			return Mathf.Abs(oneInt.x - twoInt.x) == 1 
+			return Mathf.Abs(oneInt.x - twoInt.x) == 1
 				|| Mathf.Abs(oneInt.y - twoInt.y) == 1 ;
 		}
 
@@ -57,10 +57,31 @@ public static class SweetExtensions {
 			return go.GetComponent<RegisterTile>();
 		}
 
-		/// Wraps provided index value if it's more that array length
+		/// Wraps provided index value if it's more than array length or is negative
 		public static T Wrap<T>(this T[] array, int index)
 		{
 			return array[((index % array.Length) + array.Length) % array.Length];
+		}
+
+		/// Wraps provided index value if it's more than list length or is negative
+		public static T Wrap<T>(this List<T> list, int index)
+		{
+			return list[((index % list.Count) + list.Count) % list.Count];
+		}
+
+		/// <summary>
+		/// Returns valid, wrapped index of overflown provided index
+		/// </summary>
+		public static int WrappedIndex<T>(this List<T> list, int index)
+		{
+			return ((index % list.Count) + list.Count) % list.Count;
+		}
+		/// <summary>
+		/// Returns valid, wrapped index of overflown provided index
+		/// </summary>
+		public static int WrappedIndex<T>(this T[] array, int index)
+		{
+			return ((index % array.Length) + array.Length) % array.Length;
 		}
 
 		public static BoundsInt BoundsAround( this Vector3Int pos ) {
@@ -139,4 +160,71 @@ public static class SweetExtensions {
 		}
 		//For job formatting purposes
 		private static readonly TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+
+		/// <summary>
+		/// Gets the components only in immediate children of parent.
+		/// </summary>
+		/// <returns>The components only in children.</returns>
+		/// <param name="script">MonoBehaviour Script, e.g. "this".</param>
+		/// <param name="isRecursive">If set to <c>true</c> recursive search of children is performed.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		public static T[] GetComponentsOnlyInChildren<T>(this MonoBehaviour script, bool isRecursive = false) where T : class
+		{
+			if (isRecursive)
+				return script.GetComponentsOnlyInChildren_Recursive<T>();
+			return script.GetComponentsOnlyInChildren_NonRecursive<T>();
+		}
+
+		/// <summary>
+		/// Gets the components only in children transform search. Not recursive, ie not grandchildren!
+		/// </summary>
+		/// <returns>The components only in children transform search.</returns>
+		/// <param name="parent">Parent, ie "this".</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		static T[] GetComponentsOnlyInChildren_NonRecursive<T>(this MonoBehaviour parent) where T : class
+		{
+			if (parent.transform.childCount <= 0) return null;
+
+			var output = new List<T>();
+
+			for (int i = 0; i < parent.transform.childCount; i++)
+			{
+				var component = parent.transform.GetChild(i).GetComponent<T>();
+				if (component != null)
+					output.Add(component);
+			}
+			if (output.Count > 0)
+				return output.ToArray();
+
+			return null;
+		}
+
+		/// <summary>
+		/// Gets the components only in children, recursively for children of children.
+		/// </summary>
+		/// <returns>The components only in children of calling parent.</returns>
+		/// <param name="parent">Parent.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		static T[] GetComponentsOnlyInChildren_Recursive<T>(this MonoBehaviour parent) where T : class
+		{
+			if (parent.transform.childCount <= 0) return null;
+
+			var transforms = new HashSet<Transform>(parent.GetComponentsInChildren<Transform>());
+			transforms.Remove(parent.transform);
+
+			var output = new List<T>();
+			foreach (var child in transforms)
+			{
+				var component = child.GetComponent<T>();
+				if (component != null)
+				{
+					output.Add(component);
+				}
+			}
+
+			if (output.Count > 0)
+				return output.ToArray();
+
+			return null;
+		}
 	}

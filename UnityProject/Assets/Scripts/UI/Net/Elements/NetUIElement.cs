@@ -18,17 +18,7 @@ public abstract class NetUIElement : MonoBehaviour
 	private NetTab masterTab;
 
 	public ElementValue ElementValue => new ElementValue{Id = name, Value = Value};
-//	private ElementValue elementValue;
-//	public ElementValue ElementValue {
-//		get {
-//			if ( elementValue.Value == null ) {
-//				elementValue = new ElementValue {Id = name, Value = Value};
-//			}
-//			elementValue.Value = Value;
-//			return elementValue;
-//		}
-//	}
-	
+
 	public virtual ElementMode InteractionMode => ElementMode.Normal;
 
 	/// Server-only method for updating element (i.e. changing label text) from server GUI code
@@ -49,7 +39,7 @@ public abstract class NetUIElement : MonoBehaviour
 		set {
 		}
 	}
-	
+
 	/// Always point to this method in OnValueChanged
 	/// <a href="https://camo.githubusercontent.com/e3bbac26b36a01c9df8fbb6a6858bb4a82ba3036/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3339333738373838303431353239373534332f3435333632313031363433343833353435362f7467745f636c69656e742e676966">See GIF</a>
 	public void ExecuteClient() {
@@ -58,24 +48,46 @@ public abstract class NetUIElement : MonoBehaviour
 			TabInteractMessage.Send(MasterTab.Provider, MasterTab.Type, name, Value);
 		}
 	}
-	
+
 	/// Send update to observers.
-	/// Override if you want to include more values than just the current one
-	protected virtual void UpdatePeepers() {
+	protected void UpdatePeepers() {
+		if ( gameObject.activeInHierarchy )
+		{
+			UpdatePeepersLogic();
+		} else
+		{
+//			Logger.LogTraceFormat( "'{0}': didn't update peepers because gameObject is inactive (another page?)", Category.NetUI, name );
+			MasterTab.ValidatePeepers();
+		}
+	}
+
+
+	/// Override if you want custom "send update to peepers" logic
+	/// i.e. to include more values than just the current one
+	protected virtual void UpdatePeepersLogic()
+	{
 		TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, new[] {ElementValue} );
 	}
+
 	public abstract void ExecuteServer();
 
 	public override string ToString() {
 		return ElementValue.ToString();
 	}
+
+	public const char DELIMITER = '~';
+
+	/// <summary>
+	/// Special logic to execute after all tab elements are initialized
+	/// </summary>
+	public virtual void AfterInit() { }
 }
 
 public enum ElementMode {
 	/// Changeable by both client and server
-	Normal, 
+	Normal,
 	/// Only server can change value
-	ServerWrite, 
+	ServerWrite,
 	/// Only client can change value, and server doesn't store it
 	ClientWrite
 }

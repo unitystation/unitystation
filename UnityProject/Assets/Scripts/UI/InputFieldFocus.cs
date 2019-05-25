@@ -14,13 +14,14 @@ public class InputFieldFocus : InputField
 	/// </summary>
 	public KeyCode ExitButton = KeyCode.Escape;
 
-	protected override void OnEnable() {
-		base.OnEnable();
-		StartCoroutine( SelectDelayed() );
-	}
+//disabling auto focus on enable temporarily because it causes NREs
+//	protected override void OnEnable() {
+//		base.OnEnable();
+//		StartCoroutine( SelectDelayed() );
+//	}
 	/// Waiting one frame to init
 	private IEnumerator SelectDelayed() {
-		yield return new WaitForEndOfFrame();
+		yield return YieldHelper.EndOfFrame;
 		Select();
 	}
 

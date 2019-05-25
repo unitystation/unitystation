@@ -1,5 +1,10 @@
 ﻿using UnityEngine;
-/// all server only
+
+/// <summary>
+/// For storing Prefabs and not actual instances
+/// To be renamed into PrefabEntry
+/// All methods are serverside.
+/// </summary>
 public class ItemEntry : DynamicEntry {
 	private GameObject prefab;
 
@@ -22,14 +27,14 @@ public class ItemEntry : DynamicEntry {
 			return;
 		}
 		foreach ( var element in Elements ) {
-			string nameBeforeIndex = element.name.Split( '_' )[0];
+			string nameBeforeIndex = element.name.Split( DELIMITER )[0];
 			switch ( nameBeforeIndex ) {
 					case "ItemName":
 						element.Value = itemAttributes.name;
 						break;
 					case "ItemIcon":
-						element.Value = itemAttributes.gameObject.name; 
-//						element.Value = itemAttributes.GetComponentInChildren<SpriteRenderer>()?.sprite.name; 
+						element.Value = itemAttributes.gameObject.name;
+//						element.Value = itemAttributes.GetComponentInChildren<SpriteRenderer>()?.sprite.name;
 						break;
 				}
 		}

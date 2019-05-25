@@ -12,7 +12,7 @@ public class GUI_ShuttleControl : NetTab {
 				entryList = this["EntryList"] as RadarList;
 			}
 			return entryList;
-		} 
+		}
 	}
 	private MatrixMove matrixMove;
 	[HideInInspector]
@@ -34,7 +34,7 @@ public class GUI_ShuttleControl : NetTab {
 	private void Start() {
 		Trigger = Provider.GetComponent<ShuttleInteract>();
 		Trigger.OnStateChange.AddListener( OnStateChange );
-		
+
 		//Not doing this for clients
 		if ( IsServer ) {
 			EntryList.Origin = MatrixMove;
@@ -50,7 +50,7 @@ public class GUI_ShuttleControl : NetTab {
 				Waypoint = new GameObject( $"{MatrixMove.gameObject.name}Waypoint" );
 			}
 			HideWaypoint(false);
-			
+
 			rulersColor = this["Rulers"].Value;
 			rayColor = this["RadarScanRay"].Value;
 			crosshairColor = this["Crosshair"].Value;
@@ -96,12 +96,12 @@ public class GUI_ShuttleControl : NetTab {
 			MatrixMove.DisableAutopilotTarget();
 		}
 	}
-	
+
 	public void SetSafetyProtocols( bool on ) {
 		MatrixMove.SafetyProtocolsOn = on;
 	}
 
-	public void SetWaypoint( string position ) 
+	public void SetWaypoint( string position )
 	{
 		if ( !Autopilot ) {
 			return;
@@ -110,21 +110,21 @@ public class GUI_ShuttleControl : NetTab {
 		if ( proposedPos == TransformState.HiddenPos ) {
 			return;
 		}
-		
+
 		//Ignoring requests to set waypoint outside intended radar window
 		if ( RadarList.ProjectionMagnitude( proposedPos ) > EntryList.Range ) {
 			return;
 		}
 		//Mind the ship's actual position
 		Waypoint.transform.position = (Vector2) proposedPos + Vector2Int.RoundToInt(MatrixMove.State.Position);
-		
+
 		EntryList.UpdateExclusive( Waypoint );
-		
+
 //		Logger.Log( $"Ordering travel to {Waypoint.transform.position}" );
 		MatrixMove.AutopilotTo( Waypoint.transform.position );
 	}
 
-	public void HideWaypoint( bool updateImmediately = true ) { 
+	public void HideWaypoint( bool updateImmediately = true ) {
 		Waypoint.transform.position = TransformState.HiddenPos;
 		if ( updateImmediately ) {
 			EntryList.UpdateExclusive( Waypoint );
@@ -176,13 +176,14 @@ public class GUI_ShuttleControl : NetTab {
 	}
 
 	/// Get a list of positions for objects of given type within certain range from provided origin
-	private List<GameObject> GetObjectsOf<T>( HashSet<T> except = null, string nameFilter="" ) 
-		where T : Behaviour 
+	/// todo: move, make it an util method
+	public static List<GameObject> GetObjectsOf<T>( HashSet<T> except = null, string nameFilter="" )
+		where T : Behaviour
 	{
 		T[] foundBehaviours = FindObjectsOfType<T>();
 		var foundObjects = new List<GameObject>();
-		
-		for ( var i = 0; i < foundBehaviours.Length; i++ ) 
+
+		for ( var i = 0; i < foundBehaviours.Length; i++ )
 		{
 			if ( except != null && except.Contains(foundBehaviours[i]) ) {
 				continue;
@@ -216,7 +217,7 @@ public class GUI_ShuttleControl : NetTab {
 				this["Rulers"].SetValue = rulersColor;
 				this["RadarScanRay"].SetValue = rayColor;
 				this["Crosshair"].SetValue = crosshairColor;
-				
+
 				break;
 			case TabState.Emagged:
 				PowerOff();
@@ -228,13 +229,13 @@ public class GUI_ShuttleControl : NetTab {
 				this["RadarScanRay"].SetValue = ChangeColorHue( rayColor, -80 );
 				this["Crosshair"].SetValue = ChangeColorHue( crosshairColor, -80 );
 				AddEmagItems();
-				
+
 				break;
 			case TabState.Off:
 				PowerOff();
 				//Black screen overlay
 				this["OffOverlay"].SetValue = DebugTools.ColorToHex(Color.black);
-				
+
 				break;
 			default:
 				return;

@@ -1,17 +1,20 @@
 ﻿using System;
 using UnityEngine;
 
-/// prefab-based for now
-/// all server only
+/// <summary>
+/// For storing Prefabs and not actual instances
+/// To be renamed into PrefabList
+/// All methods are serverside.
+/// </summary>
 public class ItemList : NetUIDynamicList {
 
 	public bool AddItem( string prefabName ) {
 		GameObject prefab = Resources.Load( prefabName ) as GameObject;
 		return AddItem( prefab );
-		
+
 	}
 
-	public bool AddItem( GameObject prefab ) 
+	public bool AddItem( GameObject prefab )
 	{
 		if ( !prefab || !prefab.GetComponent<ItemAttributes>() ) {
 			Logger.LogWarning( $"No valid prefab found: {prefab}",Category.ItemSpawn );
@@ -40,8 +43,8 @@ public class ItemList : NetUIDynamicList {
 
 		//rescan elements  and notify
 		NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
-		UpdatePeepers(); 
-		
+		UpdatePeepers();
+
 		return true;
 	}
 
@@ -51,7 +54,7 @@ public class ItemList : NetUIDynamicList {
 	public bool RemoveItem( string prefabName ) {
 		foreach ( var pair in EntryIndex ) {
 			if ( String.Equals( ( (ItemEntry) pair.Value )?.Prefab.name, prefabName,
-				StringComparison.CurrentCultureIgnoreCase ) ) 
+				StringComparison.CurrentCultureIgnoreCase ) )
 			{
 				Remove( pair.Key );
 				return true;

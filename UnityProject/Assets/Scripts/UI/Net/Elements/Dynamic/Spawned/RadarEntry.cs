@@ -21,21 +21,25 @@ public class RadarEntry : DynamicEntry {
 //			Vector2 objectPos = (Vector2)TrackedObject.WorldPos() - origin; // WorldPos generates garbage :(
 			Vector2 objectPos = (Vector2)TrackedObject.transform.position - origin;
 			Value = (int)objectPos.x+"x"+(int)objectPos.y;
-		} 
-		else if ( StaticPosition != TransformState.HiddenPos ) 
+		}
+		else if ( StaticPosition != TransformState.HiddenPos )
 		{
 			Vector2 objectPos = (Vector2)StaticPosition - origin;
 			Value = (int)objectPos.x+"x"+(int)objectPos.y;
 		} else {
 			Position = TransformState.HiddenPos;
 		}
-		
+
 	}
 
+	/// <summary>
+	/// Update entry's internal elements to inform peepers about tracked object updates,
+	/// As this entry's value is simply its layout coordinates
+	/// </summary>
 	public void ReInit() {
 		for ( var i = 0; i < Elements.Length; i++ ) {
 			var element = Elements[i];
-			string nameBeforeIndex = element.name.Split( '_' )[0];
+			string nameBeforeIndex = element.name.Split( DELIMITER )[0];
 			switch ( nameBeforeIndex ) {
 				//can be expanded in the future
 				case "MapIcon":
