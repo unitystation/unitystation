@@ -9,6 +9,16 @@ public static class WaitFor
 	private static Dictionary<float, WaitForSeconds> cachedWaitForSeconds = new Dictionary<float, WaitForSeconds>();
 	private static Dictionary<float, WaitForSecondsRealtime> cachedWaitForSecondsRealtime = new Dictionary<float, WaitForSecondsRealtime>();
 
+	static WaitFor()
+	{
+		EventManager.AddHandler(EVENT.RoundStarted, RoundStarted);
+	}
+
+	private static void RoundStarted()
+	{
+		Clear();
+	}
+
 	public static WaitForSeconds Seconds(float seconds){
 		if(!cachedWaitForSeconds.ContainsKey(seconds)){
 			cachedWaitForSeconds[seconds] = new WaitForSeconds(seconds);
@@ -21,5 +31,10 @@ public static class WaitFor
 			cachedWaitForSecondsRealtime[seconds] = new WaitForSecondsRealtime(seconds);
 		}
 		return cachedWaitForSecondsRealtime[seconds];
+	}
+
+	public static void Clear(){
+		cachedWaitForSeconds.Clear();
+		cachedWaitForSecondsRealtime.Clear();
 	}
 }
