@@ -42,17 +42,17 @@ public class GUI_CargoItem : DynamicEntry
 			string nameBeforeIndex = element.name.Split('~')[0];
 			switch (nameBeforeIndex)
 			{
-				case "RequestName":
-					element.Value = order.OrderName;
+				case "SupplyName":
+					element.SetValue = order.OrderName;
 					break;
 				case "Price":
-					element.Value = order.CreditsCost.ToString() + " credits";
+					element.SetValue = order.CreditsCost.ToString() + " credits";
 					break;
 				case "CartName":
-					element.Value = order.OrderName + "\n" + order.CreditsCost.ToString() + " credits";
+					element.SetValue = order.OrderName + "\n" + order.CreditsCost.ToString() + " credits";
 					break;
 				case "Cancel":
-					element.Value = "CANCEL";
+					element.SetValue = "CANCEL";
 					break;
 			}
 		}

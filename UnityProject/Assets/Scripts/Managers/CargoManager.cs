@@ -41,7 +41,6 @@ public class CargoManager : MonoBehaviour
 		if (!CustomNetworkManager.Instance._isServer)
 			return;
 
-		Debug.Log("we are calling shuttle!");
 		if (shuttleIsMoving)
 		{
 			return;

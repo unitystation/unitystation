@@ -12,19 +12,24 @@ public class GUI_CargoTabCart : GUI_CargoTab
 
 	[SerializeField]
 	private GUI_CargoItemList orderList = null;
+	private bool inited = false;
 
 	public override void Init()
 	{
+		if (inited || !gameObject.activeInHierarchy)
+			return;
 		if (!CustomNetworkManager.Instance._isServer)
 			return;
-
-		Debug.Log(CargoManager.Instance);
-		Debug.Log(CargoManager.Instance.OnCartUpdate);
 		CargoManager.Instance.OnCartUpdate.AddListener(UpdateTab);
 	}
 
 	public override void OpenTab()
 	{
+		if (!inited)
+		{
+			Init();
+			inited = true;
+		}
 		UpdateTab();
 	}
 

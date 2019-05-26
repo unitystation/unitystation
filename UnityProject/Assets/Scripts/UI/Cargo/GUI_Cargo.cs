@@ -29,8 +29,6 @@ public class GUI_Cargo : NetTab
 	{
 		base.OnEnable();
 		StartCoroutine(WaitForProvider());
-
-		Debug.Log("Opened");
 	}
 
 	IEnumerator WaitForProvider()
