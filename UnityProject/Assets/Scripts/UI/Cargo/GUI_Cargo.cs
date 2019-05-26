@@ -7,50 +7,22 @@ using UnityEngine.UI;
 
 public class GUI_Cargo : NetTab
 {
-	//Submenus
-	[SerializeField]
-	private List<GUI_CargoTab> cargoTabs = new List<GUI_CargoTab>();
-	private GUI_CargoTab currentTab = null;
 	[SerializeField]
 	private Text creditsText = null;
 	[SerializeField]
 	private Text directoryText = null;
 
-	public void OpenTab(GUI_CargoTab tabToOpen)
-	{
-		foreach (GUI_CargoTab tab in cargoTabs)
-		{
-			if (tab.gameObject.activeInHierarchy)
-			{
-				tab.gameObject.SetActive(false);
-				tab.OnTabClosed();
-			}
-		}
-		currentTab = tabToOpen;
-		tabToOpen.gameObject.SetActive(true);
-		tabToOpen.OnTabOpened();
-		RefreshTab();
-	}
-
 	public override void OnEnable()
 	{
 		base.OnEnable();
 		StartCoroutine(WaitForProvider());
-		if (currentTab == null)
-		{
-			OpenTab(cargoTabs[0]);
-		}
-		else
-		{
-			OpenTab(currentTab);
-		}
-		CargoManager.Instance.OnCreditsUpdate += RefreshTab;
+		//CargoManager.Instance.OnCreditsUpdate += RefreshTab;
 		Debug.Log("Opened");
 	}
 
 	private void OnDisable()
 	{
-		CargoManager.Instance.OnCreditsUpdate -= RefreshTab;
+		//CargoManager.Instance.OnCreditsUpdate -= RefreshTab;
 		Debug.Log("Closed");
 	}
 
@@ -66,8 +38,9 @@ public class GUI_Cargo : NetTab
 	public override void RefreshTab()
 	{
 		base.RefreshTab();
+		//server only
 		creditsText.text = "Budget: " + CargoManager.Instance.Credits.ToString();
-		directoryText.text = currentTab.DirectoryName;
+		//directoryText.text = currentTab.DirectoryName;
 	}
 
 	public void CallShuttle()
@@ -78,6 +51,7 @@ public class GUI_Cargo : NetTab
 
 	public void CloseTab()
 	{
+		/*
 		foreach (GUI_CargoTab tab in cargoTabs)
 		{
 			if (tab.gameObject.activeInHierarchy)
@@ -86,6 +60,7 @@ public class GUI_Cargo : NetTab
 				tab.OnTabClosed();
 			}
 		}
+		*/
 		ControlTabs.CloseTab(Type, Provider);
 	}
 }

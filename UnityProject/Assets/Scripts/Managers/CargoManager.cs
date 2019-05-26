@@ -33,6 +33,7 @@ public class CargoManager : MonoBehaviour
 	/// </summary>
 	public void CallShuttle()
 	{
+		Debug.Log("we are calling shuttle!");
 		if (shuttleIsMoving)
 		{
 			return;

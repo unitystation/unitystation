@@ -7,10 +7,10 @@ public class CargoShuttle : MonoBehaviour
 	public static CargoShuttle Instance;
 
 	[SerializeField]
-	private Vector2 centcomDest;
-	public Vector2 StationDest;
+	private Vector2 centcomDest = new Vector2(4, 150);
+	public Vector2 StationDest = new Vector2(4, 85);
 	[SerializeField]
-	private int stationOffset = 23;
+	private int dockOffset = 23;
 	private Vector3 destination;
 	private bool moving;
 
@@ -89,7 +89,7 @@ public class CargoShuttle : MonoBehaviour
 	IEnumerator ReverseIntoStation()
 	{
 		yield return new WaitForSeconds(3f);
-		mm.MoveFor(stationOffset);
+		mm.MoveFor(dockOffset);
 		yield return new WaitForSeconds(2f);
 		CargoManager.Instance.OnShuttleArrival();
 	}
@@ -108,7 +108,8 @@ public class CargoShuttle : MonoBehaviour
 			if (item != null && CargoManager.Instance.AddCredits(item))
 			{
 				Debug.Log("Destroyed " + item.name);
-				item.registerTile.Unregister();
+				item.registerTile.UnregisterClient();
+				item.registerTile.UnregisterServer();
 				PoolManager.PoolNetworkDestroy(item.gameObject);
 			}
 		}
@@ -145,7 +146,7 @@ public class CargoShuttle : MonoBehaviour
 			spawnPos = Vector3Int.RoundToInt(transform.position);
 			spawnPos.x += Random.Range(-width, width);
 			spawnPos.y += Random.Range(-height, height) + 1;
-			if (MatrixManager.Instance.GetFirst<ClosetControl>(spawnPos) == null)
+			if (MatrixManager.Instance.GetFirst<ClosetControl>(spawnPos, true) == null)
 			{
 				break;
 			}
