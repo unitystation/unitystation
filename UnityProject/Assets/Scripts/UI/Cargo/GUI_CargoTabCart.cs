@@ -6,63 +6,56 @@ using UnityEngine.UI;
 public class GUI_CargoTabCart : GUI_CargoTab
 {
 	[SerializeField]
-	private GUI_CargoItem itemPrefab = null;
+	private NetLabel confirmButtonText = null;
 	[SerializeField]
-	private Transform itemHolder = null;
-	[SerializeField]
-	private Text confirmButtonText = null;
-	[SerializeField]
-	private Text totalPriceText = null;
+	private NetLabel totalPriceText = null;
 
 	[SerializeField]
-	private GUI_CargoItemList orderList;
+	private GUI_CargoItemList orderList = null;
 
-	private void Start()
+	public override void Init()
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 			return;
-		CargoManager.Instance.OnCartUpdate += DisplayCurrentCart;
-		/*
-		List<CargoOrder> initList = CargoManager.Instance.CurrentCart;
-		for ( var i = 0; i < initList.Count; i++ )
-		{
-			EntryList.AddItem(itemPrefab.gameObject);
-		}
-		*/
+
+		Debug.Log(CargoManager.Instance);
+		Debug.Log(CargoManager.Instance.OnCartUpdate);
+		CargoManager.Instance.OnCartUpdate.AddListener(UpdateTab);
 	}
 
-	public override void OnTabClosed()
+	public override void OpenTab()
 	{
-
+		UpdateTab();
 	}
 
-	public override void OnTabOpened()
+	private void UpdateTab()
 	{
-		DisplayCurrentCart();
-		//UpdateTab();
-	}
+		if (!CustomNetworkManager.Instance._isServer)
+			return;
 
-	public override void UpdateTab()
-	{
 		DisplayCurrentCart();
 		if (CanAffordCart())
 		{
-			confirmButtonText.text = "CONFIRM CART";
+			confirmButtonText.SetValue = "CONFIRM CART";
 		}
 		else
 		{
-			confirmButtonText.text = "NOT ENOUGH CREDITS";
+			confirmButtonText.SetValue = "NOT ENOUGH CREDITS";
 		}
-		totalPriceText.text = "TOTAL: " + CargoManager.Instance.TotalCartPrice().ToString() + " CREDITS";
+		totalPriceText.SetValue = "TOTAL: " + CargoManager.Instance.TotalCartPrice().ToString() + " CREDITS";
 		if (CargoManager.Instance.CurrentCart.Count == 0)
 		{
-			confirmButtonText.text = "CART IS EMPTY";
-			totalPriceText.text = "";
+			confirmButtonText.SetValue = "CART IS EMPTY";
+			totalPriceText.SetValue = "";
 		}
+		
 	}
 
 	public void ConfirmCart()
 	{
+		if (!CustomNetworkManager.Instance._isServer)
+			return;
+
 		if (!CanAffordCart())
 		{
 			return;
@@ -77,51 +70,16 @@ public class GUI_CargoTabCart : GUI_CargoTab
 
 	private void DisplayCurrentCart()
 	{
-		ClearList();
 		List<CargoOrder> currentCart = CargoManager.Instance.CurrentCart;
 
-		if (currentCart.Count > orderList.Entries.Length)
-		{
-			Debug.Log(currentCart.Count + "/" + orderList.Entries.Length);
-			PopulateList();
-		}
+		orderList.Clear();
+		orderList.AddItems(currentCart);
 
 		for (int i = 0; i < currentCart.Count; i++)
 		{
 			GUI_CargoItem item = orderList.Entries[i] as GUI_CargoItem;
 			item.Order = currentCart[i];
 			item.gameObject.SetActive(true);
-			Debug.Log("Reinited " + currentCart[i].OrderName);
-		}
-	}
-
-	public void AddItem(CargoOrder order)
-	{
-		Debug.Log("Adding " + order.OrderName);
-		orderList.AddItem(order);
-	}
-
-	private void RemoveItem(CargoOrder order)
-	{
-		orderList.RemoveItem(order);
-	}
-
-	private void ClearList()
-	{
-		for (int i = 0; i < orderList.Entries.Length; i++)
-		{
-			Debug.Log("removed");
-			orderList.Entries[i].gameObject.SetActive(false);
-		}
-	}
-
-	private void PopulateList()
-	{
-		List<CargoOrder> currentCart = CargoManager.Instance.CurrentCart;
-
-		for (int i = orderList.Entries.Length; i < currentCart.Count; i++)
-		{
-			AddItem(currentCart[i]);
 		}
 	}
 }

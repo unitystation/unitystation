@@ -7,23 +7,30 @@ using UnityEngine.UI;
 
 public class GUI_Cargo : NetTab
 {
-	[SerializeField]
-	private Text creditsText = null;
-	[SerializeField]
-	private Text directoryText = null;
+	private NetLabel creditsText;
+	private NetLabel СreditsText => creditsText ? creditsText : creditsText = this["HeaderCredits"] as NetLabel;
+	private NetLabel directoryText;
+	private NetLabel DirectoryText => directoryText ? directoryText : directoryText = this["HeaderDirectory"] as NetLabel;
+	private NetPageSwitcher nestedSwitcher;
+	private NetPageSwitcher NestedSwitcher => nestedSwitcher ? nestedSwitcher : nestedSwitcher = this["ScreenBounds"] as NetPageSwitcher;
+
+	protected override void InitServer()
+	{
+		NestedSwitcher.OnPageChange.AddListener(RefreshSubpage);
+		CargoManager.Instance.OnCreditsUpdate.AddListener(UpdateCreditsText);
+		foreach (NetPage page in NestedSwitcher.Pages)
+		{
+			page.GetComponent<GUI_CargoTab>().Init();
+		}
+		UpdateCreditsText();
+	}
 
 	public override void OnEnable()
 	{
 		base.OnEnable();
 		StartCoroutine(WaitForProvider());
-		//CargoManager.Instance.OnCreditsUpdate += RefreshTab;
-		Debug.Log("Opened");
-	}
 
-	private void OnDisable()
-	{
-		//CargoManager.Instance.OnCreditsUpdate -= RefreshTab;
-		Debug.Log("Closed");
+		Debug.Log("Opened");
 	}
 
 	IEnumerator WaitForProvider()
@@ -32,35 +39,33 @@ public class GUI_Cargo : NetTab
 		{
 			yield return YieldHelper.EndOfFrame;
 		}
-		RefreshTab();
 	}
 
-	public override void RefreshTab()
+
+	public void RefreshSubpage(NetPage oldPage, NetPage newPage)
 	{
-		base.RefreshTab();
-		//server only
-		creditsText.text = "Budget: " + CargoManager.Instance.Credits.ToString();
-		//directoryText.text = currentTab.DirectoryName;
+		DirectoryText.SetValue = newPage.GetComponent<GUI_CargoTab>().DirectoryName;
+	}
+
+	private void UpdateCreditsText()
+	{
+		СreditsText.SetValue = "Budget: " + CargoManager.Instance.Credits.ToString();
+		СreditsText.ExecuteServer();
 	}
 
 	public void CallShuttle()
 	{
 		CargoManager.Instance.CallShuttle();
-		RefreshTab();
+	}
+
+	public void OpenTab(NetPage pageToOpen)
+	{
+		NestedSwitcher.SetActivePage(pageToOpen);
+		pageToOpen.GetComponent<GUI_CargoTab>().OpenTab();
 	}
 
 	public void CloseTab()
 	{
-		/*
-		foreach (GUI_CargoTab tab in cargoTabs)
-		{
-			if (tab.gameObject.activeInHierarchy)
-			{
-				tab.gameObject.SetActive(false);
-				tab.OnTabClosed();
-			}
-		}
-		*/
 		ControlTabs.CloseTab(Type, Provider);
 	}
 }

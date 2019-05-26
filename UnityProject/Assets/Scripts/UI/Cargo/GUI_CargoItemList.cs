@@ -1,8 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GUI_CargoItemList : NetUIDynamicList
 {
+
+	public void AddItems(List<CargoOrder> orders)
+	{
+		for (int i = 0; i < orders.Count; i++)
+		{
+			AddItem(orders[i]);
+		}
+	}
+
 	public bool AddItem(CargoOrder order)
 	{
 		if (order == null)
@@ -46,6 +56,7 @@ public class GUI_CargoItemList : NetUIDynamicList
 				return true;
 			}
 		}
+		UpdatePeepers();
 		Logger.LogWarning($"Didn't find order '{order.OrderName}' in the list", Category.ItemSpawn);
 		return false;
 	}

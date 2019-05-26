@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 224026978416182424}
   - component: {fileID: 222842931053061846}
   - component: {fileID: 114347988238203114}
+  - component: {fileID: 4520177508259872125}
   m_Layer: 5
-  m_Name: Directory
+  m_Name: HeaderDirectory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,6 +80,18 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: /.../avaliable_supplies
+--- !u!114 &4520177508259872125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155826666078090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1297454887248136
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,8 +306,8 @@ MonoBehaviour:
   isPopOut: 1
   Provider: {fileID: 0}
   Type: 7
-  creditsText: {fileID: 5704539871096539773}
-  directoryText: {fileID: 114347988238203114}
+  directoryText: {fileID: 4520177508259872125}
+  nestedSwitcher: {fileID: 7735421939598056928}
 --- !u!1 &1571967781877764
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,6 +877,7 @@ GameObject:
   - component: {fileID: 8753875093156131515}
   - component: {fileID: 117841680225739519}
   - component: {fileID: 6371025474935749750}
+  - component: {fileID: 1160288762531688144}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -932,6 +946,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: CONFIRM CART
+--- !u!114 &1160288762531688144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706475290453041094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &729707965438161263
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,7 +988,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4967813488898781808}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1251,10 +1277,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 8509031413102911857}
   - {fileID: 1771089669769436863}
   - {fileID: 1103467910701758285}
   - {fileID: 4984138795760380887}
-  - {fileID: 8509031413102911857}
   - {fileID: 4422585825497849431}
   m_Father: {fileID: 2846010541325572902}
   m_RootOrder: 0
@@ -1312,6 +1338,7 @@ GameObject:
   - component: {fileID: 4984138795760380887}
   - component: {fileID: 7749482154374340154}
   - component: {fileID: 6971356516286214339}
+  - component: {fileID: 4598942918871441577}
   m_Layer: 5
   m_Name: CreditsText
   m_TagString: Untagged
@@ -1331,7 +1358,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4967813488898781808}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1380,6 +1407,18 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 20000
+--- !u!114 &4598942918871441577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2514484128257384743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2641084498932019610
 GameObject:
   m_ObjectHideFlags: 0
@@ -1760,8 +1799,8 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7735421939598056928}
-        m_MethodName: SetActivePage
+      - m_Target: {fileID: 5799221400677952107}
+        m_MethodName: OpenTab
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 7377552719008199954}
@@ -1901,6 +1940,7 @@ GameObject:
   - component: {fileID: 1771089669769436863}
   - component: {fileID: 8961978999663919754}
   - component: {fileID: 6823546874817702837}
+  - component: {fileID: 2950091651157376318}
   m_Layer: 5
   m_Name: ShuttleStatus
   m_TagString: Untagged
@@ -1920,7 +1960,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4967813488898781808}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1969,6 +2009,18 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: OnRouteToCentcom
+--- !u!114 &2950091651157376318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4868112368059710352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4902426075377608565
 GameObject:
   m_ObjectHideFlags: 0
@@ -2516,7 +2568,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a74be3b69c1a9aab4faa8fc5cdd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntryPrefab: {fileID: 0}
+  EntryPrefab: {fileID: 3799708768014915418, guid: c67f9783b43ef8b5f8f9703eab15d8a8,
+    type: 3}
 --- !u!1 &5653396452640463717
 GameObject:
   m_ObjectHideFlags: 0
@@ -2764,8 +2817,8 @@ MonoBehaviour:
   itemPrefab: {fileID: 1332292009012541675, guid: c67f9783b43ef8b5f8f9703eab15d8a8,
     type: 3}
   itemHolder: {fileID: 267302548500254817}
-  confirmButtonText: {fileID: 6371025474935749750}
-  totalPriceText: {fileID: 8565676933236076363}
+  confirmButtonText: {fileID: 1160288762531688144}
+  totalPriceText: {fileID: 877981627049165476}
   orderList: {fileID: 7833887176071246338}
 --- !u!1 &6241861635497367242
 GameObject:
@@ -3033,8 +3086,8 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7735421939598056928}
-        m_MethodName: SetActivePage
+      - m_Target: {fileID: 5799221400677952107}
+        m_MethodName: OpenTab
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 6294078452491510302}
@@ -3249,8 +3302,8 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7735421939598056928}
-        m_MethodName: SetActivePage
+      - m_Target: {fileID: 5799221400677952107}
+        m_MethodName: OpenTab
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 2086902534434124868}
@@ -3273,6 +3326,7 @@ GameObject:
   - component: {fileID: 181962845086448717}
   - component: {fileID: 4405403164222282890}
   - component: {fileID: 8565676933236076363}
+  - component: {fileID: 877981627049165476}
   m_Layer: 5
   m_Name: TotalCost
   m_TagString: Untagged
@@ -3341,6 +3395,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'TOTAL: 300 CREDITS'
+--- !u!114 &877981627049165476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7170081637555265809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8031545426327173179
 GameObject:
   m_ObjectHideFlags: 0
@@ -3697,7 +3763,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4967813488898781808}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3849,7 +3915,7 @@ GameObject:
   - component: {fileID: 5704539871096539773}
   - component: {fileID: 2033719692920413289}
   m_Layer: 5
-  m_Name: Credits
+  m_Name: HeaderCredits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4053,5 +4119,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DirectoryName: /.../status
-  creditsText: {fileID: 6971356516286214339}
-  shuttleStatusText: {fileID: 6823546874817702837}
+  creditsText: {fileID: 4598942918871441577}
+  shuttleStatusText: {fileID: 2950091651157376318}

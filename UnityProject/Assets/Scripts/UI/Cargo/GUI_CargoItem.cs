@@ -27,6 +27,7 @@ public class GUI_CargoItem : DynamicEntry
 	public void RemoveFromCart()
 	{
 		CargoManager.Instance.RemoveFromCart(Order);
+		Debug.Log("Remove");
 	}
 
 	public void ReInit()
@@ -38,14 +39,20 @@ public class GUI_CargoItem : DynamicEntry
 		}
 		foreach ( var element in Elements )
 		{
-			string nameBeforeIndex = element.name.Split('_')[0];
-			switch ( nameBeforeIndex)
+			string nameBeforeIndex = element.name.Split('~')[0];
+			switch (nameBeforeIndex)
 			{
-				case "ItemName":
+				case "RequestName":
 					element.Value = order.OrderName;
 					break;
 				case "Price":
 					element.Value = order.CreditsCost.ToString() + " credits";
+					break;
+				case "CartName":
+					element.Value = order.OrderName + "\n" + order.CreditsCost.ToString() + " credits";
+					break;
+				case "Cancel":
+					element.Value = "CANCEL";
 					break;
 			}
 		}

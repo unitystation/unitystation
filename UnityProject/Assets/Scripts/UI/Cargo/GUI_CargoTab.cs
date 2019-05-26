@@ -7,29 +7,20 @@ public class GUI_CargoTab : NetPage
 	public string DirectoryName = "/.../avaliable_supplies";
 
 	/// <summary>
-	/// Method to open tab
-	/// Called from GUI_Cargo when this tab is opened
+	/// Method to init tab
+	/// Called from GUI_Cargo on ServerInit()
 	/// </summary>
-	public virtual void OnTabOpened()
+	public virtual void Init()
 	{
 
 	}
 
 	/// <summary>
-	/// Method to close tab
-	/// Called from GUI_Cargo when other tab is opened
+	/// Method to update tab info on it's opening
+	/// Called from GUI_Cargo on SwitchTab()
 	/// </summary>
-	public virtual void OnTabClosed()
+	public virtual void OpenTab()
 	{
 
-	}
-
-	/// <summary>
-	/// Method to update tab
-	/// Called from GUI_Cargo
-	/// </summary>
-	public virtual void UpdateTab()
-	{
-		
 	}
 }

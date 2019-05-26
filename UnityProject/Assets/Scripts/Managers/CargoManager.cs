@@ -1,10 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CargoManager : MonoBehaviour
 {
-	public static CargoManager Instance;
+	private static CargoManager cargoManager;
+	public static CargoManager Instance
+	{
+		get
+		{
+			if (cargoManager == null)
+				cargoManager = FindObjectOfType<CargoManager>();
+			return cargoManager;
+		}
+	}
 
 	public int Credits = 0;
 	public CargoShuttleStatus ShuttleStatus = CargoShuttleStatus.DockedStation;
@@ -18,14 +28,9 @@ public class CargoManager : MonoBehaviour
 	public List<CargoOrder> CurrentRequests = new List<CargoOrder>();
 	//Cart - current orders, that haven't been payed for/ordered yet
 	public List<CargoOrder> CurrentCart = new List<CargoOrder>();
-	public System.Action OnCartUpdate;
-	public System.Action OnShuttleUpdate;
-	public System.Action OnCreditsUpdate;
-
-	private void Awake()
-	{
-		Instance = this;
-	}
+	public CargoUpdateEvent OnCartUpdate = new CargoUpdateEvent();
+	public CargoUpdateEvent OnShuttleUpdate = new CargoUpdateEvent();
+	public CargoUpdateEvent OnCreditsUpdate = new CargoUpdateEvent();
 
 	/// <summary>
 	/// Calls the shuttle.
@@ -33,6 +38,9 @@ public class CargoManager : MonoBehaviour
 	/// </summary>
 	public void CallShuttle()
 	{
+		if (!CustomNetworkManager.Instance._isServer)
+			return;
+
 		Debug.Log("we are calling shuttle!");
 		if (shuttleIsMoving)
 		{
@@ -61,6 +69,9 @@ public class CargoManager : MonoBehaviour
 	/// </summary>
 	public void OnShuttleArrival()
 	{
+		if (!CustomNetworkManager.Instance._isServer)
+			return;
+
 		shuttleIsMoving = false;
 		if (ShuttleStatus == CargoShuttleStatus.OnRouteCentcom)
 		{
@@ -87,6 +98,7 @@ public class CargoManager : MonoBehaviour
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 			return;
+
 		CurrentCart.Add(orderToAdd);
 		Debug.Log(orderToAdd.OrderName + " was added to cart.");
 		OnCartUpdate?.Invoke();
@@ -96,7 +108,9 @@ public class CargoManager : MonoBehaviour
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 			return;
+
 		CurrentCart.Remove(orderToRemove);
+		Debug.Log("Removed");
 		OnCartUpdate?.Invoke();
 	}
 
@@ -113,16 +127,18 @@ public class CargoManager : MonoBehaviour
 
 	public void ConfirmCart()
 	{
-		int totalPrice = TotalCartPrice();
+		if (!CustomNetworkManager.Instance._isServer)
+			return;
 
+		int totalPrice = TotalCartPrice();
 		if (totalPrice <= Credits)
 		{
 			CurrentOrders.AddRange(CurrentCart);
 			CurrentCart.Clear();
 			Credits -= totalPrice;
 		}
-		OnCartUpdate?.Invoke();
 		OnCreditsUpdate?.Invoke();
+		OnCartUpdate?.Invoke();
 		return;
 	}
 
@@ -133,6 +149,9 @@ public class CargoManager : MonoBehaviour
 	/// <param name="item">Item.</param>
 	public bool AddCredits(ObjectBehaviour item)
 	{
+		if (!CustomNetworkManager.Instance._isServer)
+			return false;
+
 		Credits += 100;
 		OnCreditsUpdate?.Invoke();
 		return true;
@@ -149,3 +168,5 @@ public class CargoOrder
 	public GameObject Crate = null;
 	public List<GameObject> Items = new List<GameObject>();
 }
+
+public class CargoUpdateEvent : UnityEvent {}

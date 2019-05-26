@@ -6,26 +6,29 @@ using UnityEngine.UI;
 public class GUI_CargoTabStatus : GUI_CargoTab
 {
 	[SerializeField]
-	private Text creditsText = null;
+	private NetLabel creditsText = null;
 	[SerializeField]
-	private Text shuttleStatusText = null;
+	private NetLabel shuttleStatusText = null;
 
-	public override void OnTabOpened()
+	public override void Init()
 	{
-		CargoManager.Instance.OnCreditsUpdate += UpdateTab;
-		CargoManager.Instance.OnShuttleUpdate += UpdateTab;
+		CargoManager.Instance.OnCreditsUpdate.AddListener(UpdateTab);
+		CargoManager.Instance.OnShuttleUpdate.AddListener(UpdateTab);
+	}
+
+	public override void OpenTab()
+	{
 		UpdateTab();
 	}
 
-	public override void OnTabClosed()
+	private void UpdateTab()
 	{
-		CargoManager.Instance.OnCreditsUpdate -= UpdateTab;
-		CargoManager.Instance.OnShuttleUpdate -= UpdateTab;
-	}
+		Debug.Log("status updated");
 
-	public override void UpdateTab()
-	{
-		creditsText.text = CargoManager.Instance.Credits.ToString();
-		shuttleStatusText.text = CargoManager.Instance.ShuttleStatus.ToString();
+		Debug.Log(CargoManager.Instance.Credits.ToString());
+		Debug.Log(CargoManager.Instance.ShuttleStatus.ToString());
+
+		creditsText.SetValue = CargoManager.Instance.Credits.ToString();
+		shuttleStatusText.SetValue = CargoManager.Instance.ShuttleStatus.ToString();
 	}
 }

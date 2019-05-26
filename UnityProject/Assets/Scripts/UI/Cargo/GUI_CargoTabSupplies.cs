@@ -13,18 +13,7 @@ public class GUI_CargoTabSupplies : GUI_CargoTab
 	//Item Lists
 	private List<GUI_CargoItem> itemsList = new List<GUI_CargoItem>();
 
-	public override void OnTabClosed()
-	{
-		ClearList();
-	}
-
-	public override void OnTabOpened()
-	{
-		PopulateList();
-		DisplayCurrentSupplies();
-	}
-
-	public override void UpdateTab()
+	private void UpdateTab()
 	{
 		ClearList();
 		PopulateList();
