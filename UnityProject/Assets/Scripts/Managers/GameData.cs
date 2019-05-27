@@ -165,9 +165,9 @@ public class GameData : MonoBehaviour
 		//Check if running in batchmode (headless server)
 		if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null || Instance.testServer)
 		{
-			float calcFrameRate = 1f / Time.fixedDeltaTime;
+			float calcFrameRate = 1f / Time.deltaTime;
 			Application.targetFrameRate = (int) calcFrameRate;
-			Logger.Log("Starting server in HEADLESS mode.", Category.Server);
+			Logger.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}", Category.Server);
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
 
