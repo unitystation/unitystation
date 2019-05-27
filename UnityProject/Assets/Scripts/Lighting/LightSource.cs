@@ -230,7 +230,7 @@ public class LightSource : ObjectTrigger
 				if (RelatedAPC == null)
 				{
 					Logger.LogError("EmergencyLight is missing APC reference, at " + transform.position, Category.Electrical); 
-					RelatedAPC.Current = 1;
+					RelatedAPC.Current = 1; //so It will bring up an error, you can go to click on to go to the actual object with the missing reference 
 				}
 			}
 			return;
