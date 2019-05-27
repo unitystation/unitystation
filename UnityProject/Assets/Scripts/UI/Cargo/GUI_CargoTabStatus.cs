@@ -11,6 +11,12 @@ public class GUI_CargoTabStatus : GUI_CargoTab
 	private NetLabel shuttleButtonText = null;
 	[SerializeField]
 	private NetLabel messageText = null;
+	[SerializeField]
+	private NetColorChanger statusCargoImage = null;
+	[SerializeField]
+	private NetColorChanger statusTransitImage = null;
+	[SerializeField]
+	private NetColorChanger statusCentcomImage = null;
 	private bool inited = false;
 
 	public override void Init()
@@ -53,13 +59,32 @@ public class GUI_CargoTabStatus : GUI_CargoTab
 			{
 				shuttleButtonText.SetValue = "ARRIVING";
 			}
+			SetShuttleStatus(statusTransitImage);
 		}
 		else
 		{
+			if (cm.ShuttleStatus == CargoShuttleStatus.DockedStation)
+			{
+				SetShuttleStatus(statusCargoImage);
+			}
+			else
+			{
+				SetShuttleStatus(statusCentcomImage);
+			}
 			shuttleButtonText.SetValue = "SEND";
 		}
 
 		messageText.SetValue = cm.CentcomMessage;
 		creditsText.SetValue = cm.Credits.ToString();
+	}
+
+	//Current shuttle status is displayed like a switch - only one is active
+	private void SetShuttleStatus(NetColorChanger objToSwitch)
+	{
+		statusCargoImage.SetValue = "000000";
+		statusTransitImage.SetValue = "000000";
+		statusCentcomImage.SetValue = "000000";
+
+		objToSwitch.SetValue = "ffffff";
 	}
 }
