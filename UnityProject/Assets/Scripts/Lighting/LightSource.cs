@@ -22,7 +22,7 @@ internal enum LightState
 
 	TypeCount,
 }
-
+[ExecuteInEditMode]
 public class LightSource : ObjectTrigger
 {
 	private const LightState InitialState = LightState.Off;
@@ -219,6 +219,23 @@ public class LightSource : ObjectTrigger
 		State = InitialState;
 
 		ExtractLightSprites();
+	}
+
+	void Update() { 
+#if UNITY_EDITOR
+		if (!Application.isPlaying)
+		{
+			if (gameObject.tag == "EmergencyLight")
+			{
+				if (RelatedAPC == null)
+				{
+					Logger.LogError("EmergencyLight is missing APC reference, at " + transform.position, Category.Electrical); 
+					RelatedAPC.Current = 1;
+				}
+			}
+			return;
+		}
+#endif
 	}
 
 	void Start()
