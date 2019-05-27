@@ -2,24 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO - delete this class once generic DynamicList arrives
 public class GUI_CargoItemList : NetUIDynamicList
 {
-
-	public void AddItems(List<CargoOrder> orders)
+	public void AddItems(int count)
 	{
-		for (int i = 0; i < orders.Count; i++)
+		for (int i = 0; i < count; i++)
 		{
-			AddItem(orders[i]);
+			AddItem();
 		}
 	}
 
-	public bool AddItem(CargoOrder order)
+	public bool AddItem()
 	{
-		if (order == null)
-		{
-			return false;
-		}
-
 		var entryArray = Entries;
 		for (var i = 0; i < entryArray.Length; i++)
 		{
@@ -34,8 +29,6 @@ public class GUI_CargoItemList : NetUIDynamicList
 			Logger.LogWarning($"Added {newEntry} is not an CargoItem!", Category.ItemSpawn);
 			return false;
 		}
-		//set its elements
-		newEntry.Order = order;
 		Logger.Log($"ItemList: Item add success! newEntry={newEntry}", Category.ItemSpawn);
 
 		//rescan elements  and notify

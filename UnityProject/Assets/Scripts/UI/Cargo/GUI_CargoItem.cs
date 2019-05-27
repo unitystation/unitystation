@@ -18,9 +18,15 @@ public class GUI_CargoItem : DynamicEntry
 			ReInit();
 		}
 	}
+	private CargoOrderCategory category;
 
 	public void AddToCart()
 	{
+		if (category != null)
+		{
+			OpenCategory();
+			return;
+		}
 		CargoManager.Instance.AddToCart(Order);
 	}
 
@@ -30,8 +36,14 @@ public class GUI_CargoItem : DynamicEntry
 		Debug.Log("Remove");
 	}
 
+	public void OpenCategory()
+	{
+		CargoManager.Instance.OpenCategory(category);
+	}
+
 	public void ReInit()
 	{
+		category = null;
 		if (order == null)
 		{
 			Logger.Log("CargoItem: no order found, not doing init", Category.NetUI);
@@ -53,6 +65,24 @@ public class GUI_CargoItem : DynamicEntry
 					break;
 				case "Cancel":
 					element.SetValue = "CANCEL";
+					break;
+			}
+		}
+	}
+
+	public void ReInit(CargoOrderCategory _category)
+	{
+		category = _category;
+		foreach ( var element in Elements )
+		{
+			string nameBeforeIndex = element.name.Split('~')[0];
+			switch (nameBeforeIndex)
+			{
+				case "SupplyName":
+					element.SetValue = category.CategoryName;
+					break;
+				case "Price":
+					element.SetValue = "ENTER";
 					break;
 			}
 		}

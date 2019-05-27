@@ -14,7 +14,9 @@ public class GUI_CargoTabStatus : GUI_CargoTab
 	public override void Init()
 	{
 		if (inited || !gameObject.activeInHierarchy)
+		{
 			return;
+		}
 		CargoManager.Instance.OnCreditsUpdate.AddListener(UpdateTab);
 		CargoManager.Instance.OnShuttleUpdate.AddListener(UpdateTab);
 	}
@@ -31,11 +33,6 @@ public class GUI_CargoTabStatus : GUI_CargoTab
 
 	private void UpdateTab()
 	{
-		Debug.Log("status updated");
-
-		Debug.Log(CargoManager.Instance.Credits.ToString());
-		Debug.Log(CargoManager.Instance.ShuttleStatus.ToString());
-
 		creditsText.SetValue = CargoManager.Instance.Credits.ToString();
 		shuttleStatusText.SetValue = CargoManager.Instance.ShuttleStatus.ToString();
 	}

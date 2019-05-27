@@ -78,7 +78,7 @@ public class GUI_CargoTabCart : GUI_CargoTab
 		List<CargoOrder> currentCart = CargoManager.Instance.CurrentCart;
 
 		orderList.Clear();
-		orderList.AddItems(currentCart);
+		orderList.AddItems(currentCart.Count);
 
 		for (int i = 0; i < currentCart.Count; i++)
 		{

@@ -21,7 +21,9 @@ public class CargoManager : MonoBehaviour
 	private bool shuttleIsMoving;
 
 	//Supplies - all the stuff cargo can order
-	public List<CargoOrder> Supplies = new List<CargoOrder>();
+	//TODO - summary
+	public List<CargoOrderCategory> Supplies = new List<CargoOrderCategory>();
+	public CargoOrderCategory CurrentCategory = null;
 	//Orders - payed orders
 	public List<CargoOrder> CurrentOrders = new List<CargoOrder>();
 	//Request - order requests made by non cargonians
@@ -31,6 +33,7 @@ public class CargoManager : MonoBehaviour
 	public CargoUpdateEvent OnCartUpdate = new CargoUpdateEvent();
 	public CargoUpdateEvent OnShuttleUpdate = new CargoUpdateEvent();
 	public CargoUpdateEvent OnCreditsUpdate = new CargoUpdateEvent();
+	public CargoUpdateEvent OnCategoryUpdate = new CargoUpdateEvent();
 
 	/// <summary>
 	/// Calls the shuttle.
@@ -39,7 +42,9 @@ public class CargoManager : MonoBehaviour
 	public void CallShuttle()
 	{
 		if (!CustomNetworkManager.Instance._isServer)
+		{
 			return;
+		}
 
 		if (shuttleIsMoving)
 		{
@@ -69,7 +74,9 @@ public class CargoManager : MonoBehaviour
 	public void OnShuttleArrival()
 	{
 		if (!CustomNetworkManager.Instance._isServer)
+		{
 			return;
+		}
 
 		shuttleIsMoving = false;
 		if (ShuttleStatus == CargoShuttleStatus.OnRouteCentcom)
@@ -96,7 +103,9 @@ public class CargoManager : MonoBehaviour
 	public void AddToCart(CargoOrder orderToAdd)
 	{
 		if (!CustomNetworkManager.Instance._isServer)
+		{
 			return;
+		}
 
 		CurrentCart.Add(orderToAdd);
 		Debug.Log(orderToAdd.OrderName + " was added to cart.");
@@ -106,17 +115,29 @@ public class CargoManager : MonoBehaviour
 	public void RemoveFromCart(CargoOrder orderToRemove)
 	{
 		if (!CustomNetworkManager.Instance._isServer)
+		{
 			return;
+		}
 
 		CurrentCart.Remove(orderToRemove);
 		Debug.Log("Removed");
 		OnCartUpdate?.Invoke();
 	}
 
+	public void OpenCategory(CargoOrderCategory categoryToOpen)
+	{
+		if (!CustomNetworkManager.Instance._isServer)
+		{
+			return;
+		}
+
+		CurrentCategory = categoryToOpen;
+		OnCategoryUpdate?.Invoke();
+	}
+
 	public int TotalCartPrice()
 	{
 		int totalPrice = 0;
-
 		for (int i = 0; i < CurrentCart.Count; i++)
 		{
 			totalPrice += CurrentCart[i].CreditsCost;
@@ -127,7 +148,9 @@ public class CargoManager : MonoBehaviour
 	public void ConfirmCart()
 	{
 		if (!CustomNetworkManager.Instance._isServer)
+		{
 			return;
+		}
 
 		int totalPrice = TotalCartPrice();
 		if (totalPrice <= Credits)
@@ -149,7 +172,9 @@ public class CargoManager : MonoBehaviour
 	public bool AddCredits(ObjectBehaviour item)
 	{
 		if (!CustomNetworkManager.Instance._isServer)
+		{
 			return false;
+		}
 
 		Credits += 100;
 		OnCreditsUpdate?.Invoke();
@@ -166,6 +191,13 @@ public class CargoOrder
 	public int CreditsCost = 1000;
 	public GameObject Crate = null;
 	public List<GameObject> Items = new List<GameObject>();
+}
+
+[System.Serializable]
+public class CargoOrderCategory
+{
+	public string CategoryName = "";
+	public List<CargoOrder> Supplies = new List<CargoOrder>();
 }
 
 public class CargoUpdateEvent : UnityEvent {}
