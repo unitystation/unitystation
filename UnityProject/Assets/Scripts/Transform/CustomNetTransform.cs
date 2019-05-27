@@ -442,6 +442,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		OnPullInterrupt().Invoke();
 		serverState.Position = TransformState.HiddenPos;
 		serverLerpState.Position = TransformState.HiddenPos;
+
+		RegisterObject registerObject = GetComponent<RegisterObject>();
+		if (registerObject)
+			registerObject.Passable = true;
+
 		if (CheckFloatingServer() && stopInertia )
 		{
 			Stop();
