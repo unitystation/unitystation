@@ -9,15 +9,6 @@ public class Scrubber : AdvancedPipe
 	private MetaDataNode metaNode;
 	private MetaDataLayer metaDataLayer;
 
-	private void Start()
-	{
-		if (objectBehaviour.isNotPushable)
-		{
-			LoadTurf();
-		}
-		UpdateManager.Instance.Add(UpdateMe);
-	}
-
 	public override void Attach()
 	{
 		base.Attach();
@@ -30,9 +21,9 @@ public class Scrubber : AdvancedPipe
 		metaNode = metaDataLayer.Get(registerTile.WorldPositionServer, false);
 	}
 
-	void UpdateMe()
+	public override void UpdateMe()
 	{
-		if (objectBehaviour.isNotPushable)
+		if (anchored)
 		{
 			CheckAtmos();
 		}
