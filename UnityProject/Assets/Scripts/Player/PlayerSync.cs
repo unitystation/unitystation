@@ -413,13 +413,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		Synchronize();
 	}
-
-	private void RegisterObjects()
-	{
-		//Register playerpos in matrix
-
-	}
-
 	private void Synchronize()
 	{
 		if (isLocalPlayer && GameData.IsHeadlessServer)
