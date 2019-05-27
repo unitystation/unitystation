@@ -1,10 +1,10 @@
-using System.Linq;
-using System.Collections.Immutable;
+using Analyzers.Extensions;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Analyzers.Extensions;
+using Microsoft.CodeAnalysis.Diagnostics;
+using System.Collections.Immutable;
+using System.Linq;
 
 namespace Analyzers
 {
@@ -13,7 +13,12 @@ namespace Analyzers
 	{
 		public const string DiagnosticId = "HONK1001";
 
-		private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, "Use YieldHelper", "Instantiating yield instructions generates garbage, consider using a YieldHelper static instead.", "Performance", DiagnosticSeverity.Warning, isEnabledByDefault: true);
+		private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
+			DiagnosticId,
+			"Use YieldHelper",
+			"Instantiating yield instructions generates garbage, consider using a YieldHelper static instead.", "Performance",
+			DiagnosticSeverity.Warning,
+			isEnabledByDefault: true);
 
 		public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(Rule); } }
 
@@ -29,7 +34,10 @@ namespace Analyzers
 			var yieldSyntax = (YieldStatementSyntax)context.Node;
 
 			var createSyntax = yieldSyntax.ChildNodes().FirstOrDefault() as ObjectCreationExpressionSyntax;
-			if (createSyntax is null) return;
+			if (createSyntax is null)
+			{
+				return;
+			}
 
 			var (identifierNode, argsNode) = createSyntax.ChildNodes();
 			if (identifierNode is IdentifierNameSyntax identifierSyntax && identifierSyntax.Identifier.Text == "WaitForSeconds" && argsNode is ArgumentListSyntax argsSyntax)
