@@ -284,7 +284,7 @@ public class APC  : InputTrigger, INodeControl
 				break;
 			case APCState.Critical:
 				loadedScreenSprites = criticalSprites;
-				EmergencyState = false;
+				EmergencyState = true;
 				if (!RefreshDisplay) StartRefresh();
 				break;
 			case APCState.Dead:
