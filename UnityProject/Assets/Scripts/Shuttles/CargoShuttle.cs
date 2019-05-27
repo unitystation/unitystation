@@ -73,16 +73,17 @@ public class CargoShuttle : MonoBehaviour
 			mm.StopMovement();
 			mm.RotateTo(Orientation.Up);
 
-			if (CargoManager.Instance.ShuttleStatus == CargoShuttleStatus.OnRouteCentcom)
-			{
-				UnloadCargo();
-				CargoManager.Instance.OnShuttleArrival();
-			}
-			else if (CargoManager.Instance.ShuttleStatus == CargoShuttleStatus.OnRouteStation)
+			if (CargoManager.Instance.ShuttleStatus == CargoShuttleStatus.OnRouteStation)
 			{
 				mm.ChangeDir(Orientation.Down);
 				StartCoroutine(ReverseIntoStation());
 			}
+		}
+		if (CargoManager.Instance.CurrentFlyTime <= 0f &&
+			CargoManager.Instance.ShuttleStatus == CargoShuttleStatus.OnRouteCentcom)
+		{
+			UnloadCargo();
+			CargoManager.Instance.OnShuttleArrival();
 		}
 	}
 
@@ -95,22 +96,19 @@ public class CargoShuttle : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Destroys all items on the shuttle and adds credits.
+	/// Calls CargoManager.DestroyItem() for all items on the shuttle.
 	/// Server only.
 	/// </summary>
 	void UnloadCargo()
 	{
-		//Destroy all items on the shuttle and add credits
+		//Destroy all items on the shuttle
 		Transform objectHolder = mm.MatrixInfo.Objects;
 		for (int i = 0; i < objectHolder.childCount; i++)
 		{
 			ObjectBehaviour item = objectHolder.GetChild(i).GetComponent<ObjectBehaviour>();
-			if (item != null && CargoManager.Instance.AddCredits(item))
+			if (item != null)
 			{
-				Debug.Log("Destroyed " + item.name);
-				item.registerTile.UnregisterClient();
-				item.registerTile.UnregisterServer();
-				PoolManager.PoolNetworkDestroy(item.gameObject);
+				CargoManager.Instance.DestroyItem(item);
 			}
 		}
 	}
@@ -129,6 +127,7 @@ public class CargoShuttle : MonoBehaviour
 		{
 			PoolManager.PoolNetworkInstantiate(order.Items[i], pos);
 		}
+		CargoManager.Instance.CentcomMessage += "Loaded " + order.OrderName + " onto shuttle.\n";
 	}
 
 	/// <summary>

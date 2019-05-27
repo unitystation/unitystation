@@ -16,6 +16,7 @@ public class GUI_Cargo : NetTab
 
 	protected override void InitServer()
 	{
+		CargoManager.Instance.LoadData();
 		NestedSwitcher.OnPageChange.AddListener(RefreshSubpage);
 		CargoManager.Instance.OnCreditsUpdate.AddListener(UpdateCreditsText);
 		foreach (NetPage page in NestedSwitcher.Pages)

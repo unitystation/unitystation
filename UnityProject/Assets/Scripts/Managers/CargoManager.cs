@@ -11,29 +11,36 @@ public class CargoManager : MonoBehaviour
 		get
 		{
 			if (cargoManager == null)
+			{
 				cargoManager = FindObjectOfType<CargoManager>();
+			}
 			return cargoManager;
 		}
 	}
 
+	[SerializeField]
+	private CargoData cargoData = null;
 	public int Credits = 0;
 	public CargoShuttleStatus ShuttleStatus = CargoShuttleStatus.DockedStation;
-	private bool shuttleIsMoving;
+	[SerializeField]
+	private float shuttleFlyDuration = 10f;
+	public float CurrentFlyTime = 0f;
+	//Message that will appear in status tab. Resets on sending shuttle to centcom.
+	public string CentcomMessage = "";
 
 	//Supplies - all the stuff cargo can order
-	//TODO - summary
 	public List<CargoOrderCategory> Supplies = new List<CargoOrderCategory>();
 	public CargoOrderCategory CurrentCategory = null;
-	//Orders - payed orders
+	//Orders - payed orders that will spawn in shuttle on centcom arrival
 	public List<CargoOrder> CurrentOrders = new List<CargoOrder>();
-	//Request - order requests made by non cargonians
-	public List<CargoOrder> CurrentRequests = new List<CargoOrder>();
 	//Cart - current orders, that haven't been payed for/ordered yet
 	public List<CargoOrder> CurrentCart = new List<CargoOrder>();
+
 	public CargoUpdateEvent OnCartUpdate = new CargoUpdateEvent();
 	public CargoUpdateEvent OnShuttleUpdate = new CargoUpdateEvent();
 	public CargoUpdateEvent OnCreditsUpdate = new CargoUpdateEvent();
 	public CargoUpdateEvent OnCategoryUpdate = new CargoUpdateEvent();
+	public CargoUpdateEvent OnTimerUpdate = new CargoUpdateEvent();
 
 	/// <summary>
 	/// Calls the shuttle.
@@ -46,25 +53,53 @@ public class CargoManager : MonoBehaviour
 			return;
 		}
 
-		if (shuttleIsMoving)
+		if (CurrentFlyTime > 0f)
 		{
 			return;
 		}
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			shuttleIsMoving = true;
+			CurrentFlyTime = shuttleFlyDuration;
+			//It works so - shuttle stays in centcomDest until timer is done,
+			//then it starts moving to station
 			if (ShuttleStatus == CargoShuttleStatus.DockedCentcom)
 			{
-				CargoShuttle.Instance.MoveToStation();
 				ShuttleStatus = CargoShuttleStatus.OnRouteStation;
+				CentcomMessage += "Shuttle is sent back with goods." + "\n";
+				StartCoroutine(Timer(true));
 			}
+			//If we are at station - we start timer and launch shuttle at the same time.
+			//Once shuttle arrives centcomDest - CargoShuttle will wait till timer is done
+			//and will call OnShuttleArrival()
 			else if (ShuttleStatus == CargoShuttleStatus.DockedStation)
 			{
 				CargoShuttle.Instance.MoveToCentcom();
 				ShuttleStatus = CargoShuttleStatus.OnRouteCentcom;
+				CentcomMessage = "";
+				StartCoroutine(Timer(false));
 			}
 		}
 		OnShuttleUpdate?.Invoke();
+	}
+
+	public void LoadData()
+	{
+		Supplies = cargoData.Supplies;
+	}
+
+	private IEnumerator Timer(bool launchToStation)
+	{
+		while (CurrentFlyTime > 0f)
+		{
+			CurrentFlyTime -= 1f;
+			OnTimerUpdate?.Invoke();
+			yield return YieldHelper.Second;
+		}
+
+		if (launchToStation)
+		{
+			CargoShuttle.Instance.MoveToStation();
+		}
 	}
 
 	/// <summary>
@@ -78,7 +113,6 @@ public class CargoManager : MonoBehaviour
 			return;
 		}
 
-		shuttleIsMoving = false;
 		if (ShuttleStatus == CargoShuttleStatus.OnRouteCentcom)
 		{
 			ShuttleStatus = CargoShuttleStatus.DockedCentcom;
@@ -89,6 +123,24 @@ public class CargoManager : MonoBehaviour
 			ShuttleStatus = CargoShuttleStatus.DockedStation;
 		}
 		OnShuttleUpdate?.Invoke();
+	}
+
+	public void DestroyItem(ObjectBehaviour item)
+	{
+		//If there is no bounty for the item - we dont destroy it.
+		float credits = CargoManager.Instance.AddCredits(item);
+		if (credits <= 0f)
+		{
+			return;
+		}
+
+		if (CentcomMessage == "")
+			CentcomMessage = "Bounty items recieved.\n";
+		//1 - quantity of items
+		CentcomMessage += "+" + credits + " credits: recieved " + "1" + " " + item.name + ".\n";
+		item.registerTile.UnregisterClient();
+		item.registerTile.UnregisterServer();
+		PoolManager.PoolNetworkDestroy(item.gameObject);
 	}
 
 	private void SpawnOrder()
@@ -169,16 +221,18 @@ public class CargoManager : MonoBehaviour
 	/// </summary>
 	/// <returns><c>true</c>, if credits were added, <c>false</c> otherwise.</returns>
 	/// <param name="item">Item.</param>
-	public bool AddCredits(ObjectBehaviour item)
+	public float AddCredits(ObjectBehaviour item)
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			return false;
+			return 0;
 		}
 
-		Credits += 100;
+		int credits = cargoData.GetBounty(item);
+		Credits += credits;
 		OnCreditsUpdate?.Invoke();
-		return true;
+
+		return credits;
 	}
 }
 

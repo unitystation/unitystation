@@ -43,28 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4289915e7c267bbf0a38261747963c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cargoData: {fileID: 11400000, guid: 7cae1272613faf9a89f21ea1fbc2d806, type: 2}
   Credits: 100
   ShuttleStatus: 1
-  Supplies:
-  - OrderName: Beer
-    CreditsCost: 100
-    Crate: {fileID: 1501407896951118, guid: f2cd419b41c964ba0a7a26218ec7a38c, type: 3}
-    Items:
-    - {fileID: 1110193000772614, guid: 0a444092780864964b48a63b1a16cd34, type: 3}
-  - OrderName: Shit
-    CreditsCost: 100
-    Crate: {fileID: 1501407896951118, guid: f2cd419b41c964ba0a7a26218ec7a38c, type: 3}
-    Items:
-    - {fileID: 1110193000772614, guid: 0a444092780864964b48a63b1a16cd34, type: 3}
-  - OrderName: Cum
-    CreditsCost: 100
-    Crate: {fileID: 1501407896951118, guid: f2cd419b41c964ba0a7a26218ec7a38c, type: 3}
-    Items:
-    - {fileID: 1110193000772614, guid: 0a444092780864964b48a63b1a16cd34, type: 3}
+  shuttleFlyDuration: 10
+  CurrentFlyTime: 0
+  CentcomMessage: 
+  Supplies: []
+  CurrentCategory:
+    CategoryName: 
+    Supplies: []
   CurrentOrders: []
-  CurrentRequests: []
-  CurrentCart:
-  - OrderName: beer
-    CreditsCost: 10
-    Crate: {fileID: 0}
-    Items: []
+  CurrentCart: []
