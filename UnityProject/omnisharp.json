@@ -1,7 +1,9 @@
 {
   "RoslynExtensionsOptions": {
     "enableAnalyzersSupport": true,
-    "locationPaths": ["lib"]
+    "locationPaths": [
+      "lib"
+    ]
   },
   "FormattingOptions": {
     "NewLine": "\n",
@@ -55,5 +57,14 @@
     "NewLineForMembersInObjectInit": true,
     "NewLineForMembersInAnonymousTypes": true,
     "NewLineForClausesInQuery": true
+  },
+  "fileOptions": {
+    "excludeSearchPatterns": [
+      "**/bin/**/*",
+      "**/obj/**/*",
+      "**/lib/**/*",
+      "**/Logs/**/*",
+      "**/Assets/**/*"
+    ]
   }
 }
