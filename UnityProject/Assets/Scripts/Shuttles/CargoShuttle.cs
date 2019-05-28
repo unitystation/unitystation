@@ -12,6 +12,9 @@ public class CargoShuttle : MonoBehaviour
 	[SerializeField]
 	private int dockOffset = 23;
 	private Vector3 destination;
+	private List<Vector3Int> availableSpawnSlots = new List<Vector3Int>();
+	private int shuttleWidth = 2;
+	private int shuttleHeight = 4;
 	private bool moving;
 
 	private MatrixMove mm;
@@ -114,6 +117,15 @@ public class CargoShuttle : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Do some stuff you need to do before spawning orders.
+	/// Called once.
+	/// </summary>
+	public void PrepareSpawnOrders()
+	{
+		GetAvailablePositions();
+	}
+
+	/// <summary>
 	/// Spawns the order inside cargo shuttle.
 	/// Server only.
 	/// </summary>
@@ -121,7 +133,7 @@ public class CargoShuttle : MonoBehaviour
 	public bool SpawnOrder(CargoOrder order)
 	{
 		Vector3 pos = GetRandomFreePos();
-		if (pos == Vector3.zero)
+		if (pos == TransformState.HiddenPos)
 			return (false);
 
 		PoolManager.PoolNetworkInstantiate(order.Crate, pos);
@@ -133,29 +145,44 @@ public class CargoShuttle : MonoBehaviour
 		return (true);
 	}
 
+	private void GetAvailablePositions()
+	{
+		Vector3Int pos;
+		availableSpawnSlots = new List<Vector3Int>();
+
+		for (int i = -shuttleHeight; i <= shuttleHeight; i++)
+		{
+			for (int j = -shuttleWidth; j <= shuttleWidth; j++)
+			{
+				pos = Vector3Int.RoundToInt(transform.position);
+				pos += new Vector3Int(j, i + 1, 0);
+				if (MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null)
+				{
+					availableSpawnSlots.Add(pos);
+				}
+				else
+				{
+					Debug.Log("Pos is occupied");
+				}
+			}
+		}
+	}
+
 	/// <summary>
-	/// Get random unoccupied position inside shuttle.
-	/// Beware - shuttle size is hardcoded.
+	/// Gets random unoccupied position inside shuttle.
 	/// </summary>
 	private Vector3 GetRandomFreePos()
 	{
-		int width = 2;
-		int height = 4;
-		int i = 0;
-
 		Vector3Int spawnPos;
-		//temporary max crates in one
-		while (i < 40)
+
+		if (availableSpawnSlots.Count > 0)
 		{
-			spawnPos = Vector3Int.RoundToInt(transform.position);
-			spawnPos.x += Random.Range(-width, width);
-			spawnPos.y += Random.Range(-height, height) + 1;
-			if (MatrixManager.Instance.GetFirst<ClosetControl>(spawnPos, true) == null)
-			{
-				return spawnPos;
-			}
-			i++;
+			spawnPos = availableSpawnSlots[Random.Range(0, availableSpawnSlots.Count)];
+			availableSpawnSlots.Remove(spawnPos);
+			Debug.Log(availableSpawnSlots.Count + " empty");
+			return spawnPos;
 		}
-		return Vector3.zero;
+
+		return TransformState.HiddenPos;
 	}
 }

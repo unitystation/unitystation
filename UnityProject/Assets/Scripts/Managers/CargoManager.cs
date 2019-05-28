@@ -135,9 +135,9 @@ public class CargoManager : MonoBehaviour
 		}
 
 		if (CentcomMessage == "")
-			CentcomMessage = "Bounty items recieved.\n";
+			CentcomMessage = "Bounty items received.\n";
 		//1 - quantity of items
-		CentcomMessage += $"+{credits} credits: recieved 1 {item.gameObject.ExpensiveName()}.\n";
+		CentcomMessage += $"+{credits} credits: received 1 {item.gameObject.ExpensiveName()}.\n";
 		item.registerTile.UnregisterClient();
 		item.registerTile.UnregisterServer();
 		PoolManager.PoolNetworkDestroy(item.gameObject);
@@ -145,6 +145,7 @@ public class CargoManager : MonoBehaviour
 
 	private void SpawnOrder()
 	{
+		CargoShuttle.Instance.PrepareSpawnOrders();
 		for (int i = 0; i < CurrentOrders.Count; i++)
 		{
 			if (CargoShuttle.Instance.SpawnOrder(CurrentOrders[i]))
