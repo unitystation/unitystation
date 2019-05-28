@@ -34,6 +34,19 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 
 	public ResistanceSourceModule ResistanceSourceModule;
 
+	public RightClickOption toggleChargeOption;
+	public RightClickOption toggleSupportOption;
+
+	void Start()
+	{
+		toggleChargeOption = RightClickMenu.AddRightClickOption(
+			"ScriptableObjects/Interaction/RightclickOptions/ToggleCharge",
+			gameObject, ToggleCharge, toggleChargeOption);
+		toggleSupportOption = RightClickMenu.AddRightClickOption(
+			"ScriptableObjects/Interaction/RightclickOptions/ToggleSupport",
+			gameObject, ToggleSupport, toggleSupportOption);
+	}
+
 	public override void BroadcastSetUpMessage(ElectricalNodeControl Node)
 	{
 		RequiresUpdateOn = new HashSet<ElectricalUpdateTypeCategory>
@@ -127,5 +140,15 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 			}
 		}
 		return (Current);
+	}
+
+	public void ToggleCharge()
+	{
+		ToggleCanCharge = !ToggleCanCharge;
+	}
+
+	public void ToggleSupport()
+	{
+		ToggleCansupport = !ToggleCansupport;
 	}
 }
