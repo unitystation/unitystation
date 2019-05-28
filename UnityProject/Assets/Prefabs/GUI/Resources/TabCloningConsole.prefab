@@ -527,6 +527,7 @@ MonoBehaviour:
   netPageSwitcher: {fileID: 8459014077835937837}
   PageAllRecords: {fileID: 6131979530180401044}
   PageSpecificRecord: {fileID: 6536002348720503472}
+  buttonTextViewRecord: {fileID: 5020872562838086715}
   recordName: {fileID: 2755176137237246009}
   recordScanID: {fileID: 1982123808811570113}
   recordOxy: {fileID: 933730185120883445}
@@ -643,7 +644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &224919451912428540
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1502,6 +1503,7 @@ GameObject:
   - component: {fileID: 4060135179896175684}
   - component: {fileID: 5091213509939157682}
   - component: {fileID: 346620117180897513}
+  - component: {fileID: 5020872562838086715}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1570,6 +1572,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: View Records (1)
+--- !u!114 &5020872562838086715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018593977089520644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2419497363407773394
 GameObject:
   m_ObjectHideFlags: 0
@@ -3350,7 +3364,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4714100396516715410
 RectTransform:
   m_ObjectHideFlags: 0
