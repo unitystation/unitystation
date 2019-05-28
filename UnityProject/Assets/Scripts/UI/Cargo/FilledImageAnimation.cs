@@ -24,8 +24,7 @@ public class FilledImageAnimation : MonoBehaviour
 		StartCoroutine(FadeCoroutine());
 	}
 
-	//For example of usage check CargoRequestItem prefab
-
+	//For an example of usage check CargoSupplyItem prefab
 	private IEnumerator FadeCoroutine()
 	{
 		float t = 0;

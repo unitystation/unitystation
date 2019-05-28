@@ -33,7 +33,6 @@ public class GUI_CargoItem : DynamicEntry
 	public void RemoveFromCart()
 	{
 		CargoManager.Instance.RemoveFromCart(Order);
-		Debug.Log("Remove");
 	}
 
 	public void OpenCategory()

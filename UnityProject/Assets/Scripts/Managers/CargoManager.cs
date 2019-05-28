@@ -160,7 +160,6 @@ public class CargoManager : MonoBehaviour
 		}
 
 		CurrentCart.Add(orderToAdd);
-		Debug.Log(orderToAdd.OrderName + " was added to cart.");
 		OnCartUpdate?.Invoke();
 	}
 
@@ -172,7 +171,6 @@ public class CargoManager : MonoBehaviour
 		}
 
 		CurrentCart.Remove(orderToRemove);
-		Debug.Log("Removed");
 		OnCartUpdate?.Invoke();
 	}
 

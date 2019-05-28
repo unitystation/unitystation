@@ -32,7 +32,6 @@ public class GUI_CargoItemList : NetUIDynamicList
 		Logger.Log($"ItemList: Item add success! newEntry={newEntry}", Category.ItemSpawn);
 
 		//rescan elements  and notify
-		Debug.Log("tab " + MasterTab.ToString() + " desc " + MasterTab.NetTabDescriptor.ToString());
 		NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
 		UpdatePeepers();
 

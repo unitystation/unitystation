@@ -45,12 +45,10 @@ public class GUI_CargoTabSupplies : GUI_CargoTab
 		{
 			DisplayCurrentSupplies();
 		}
-		Debug.Log("Update");
 	}
 
 	private void DisplayCategoriesCatalog()
 	{
-		Debug.Log("Displaying catalogue");
 		List<CargoOrderCategory> categories = CargoManager.Instance.Supplies;
 
 		orderList.Clear();
@@ -65,7 +63,6 @@ public class GUI_CargoTabSupplies : GUI_CargoTab
 
 	private void DisplayCurrentSupplies()
 	{
-		Debug.Log("Displaying supplies");
 		List<CargoOrder> supplies = CargoManager.Instance.CurrentCategory.Supplies;
 
 		orderList.Clear();
