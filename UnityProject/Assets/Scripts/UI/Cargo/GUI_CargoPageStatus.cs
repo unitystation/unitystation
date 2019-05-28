@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GUI_CargoTabStatus : GUI_CargoTab
+public class GUI_CargoPageStatus : GUI_CargoPage
 {
 	[SerializeField]
 	private NetLabel creditsText = null;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GUI_CargoTabCart : GUI_CargoTab
+public class GUI_CargoPageCart : GUI_CargoPage
 {
 	[SerializeField]
 	private NetLabel confirmButtonText = null;

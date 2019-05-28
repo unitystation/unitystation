@@ -21,7 +21,7 @@ public class GUI_Cargo : NetTab
 		CargoManager.Instance.OnCreditsUpdate.AddListener(UpdateCreditsText);
 		foreach (NetPage page in NestedSwitcher.Pages)
 		{
-			page.GetComponent<GUI_CargoTab>().Init();
+			page.GetComponent<GUI_CargoPage>().Init();
 		}
 		UpdateCreditsText();
 	}
@@ -43,7 +43,7 @@ public class GUI_Cargo : NetTab
 
 	public void RefreshSubpage(NetPage oldPage, NetPage newPage)
 	{
-		DirectoryText.SetValue = newPage.GetComponent<GUI_CargoTab>().DirectoryName;
+		DirectoryText.SetValue = newPage.GetComponent<GUI_CargoPage>().DirectoryName;
 	}
 
 	private void UpdateCreditsText()
@@ -60,7 +60,7 @@ public class GUI_Cargo : NetTab
 	public void OpenTab(NetPage pageToOpen)
 	{
 		NestedSwitcher.SetActivePage(pageToOpen);
-		pageToOpen.GetComponent<GUI_CargoTab>().OpenTab();
+		pageToOpen.GetComponent<GUI_CargoPage>().OpenTab();
 	}
 
 	public void CloseTab()

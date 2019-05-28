@@ -64,6 +64,7 @@ public class CargoManager : MonoBehaviour
 			//then it starts moving to station
 			if (ShuttleStatus == CargoShuttleStatus.DockedCentcom)
 			{
+				SpawnOrder();
 				ShuttleStatus = CargoShuttleStatus.OnRouteStation;
 				CentcomMessage += "Shuttle is sent back with goods." + "\n";
 				StartCoroutine(Timer(true));
@@ -116,7 +117,6 @@ public class CargoManager : MonoBehaviour
 		if (ShuttleStatus == CargoShuttleStatus.OnRouteCentcom)
 		{
 			ShuttleStatus = CargoShuttleStatus.DockedCentcom;
-			SpawnOrder();
 		}
 		else if (ShuttleStatus == CargoShuttleStatus.OnRouteStation)
 		{
@@ -137,7 +137,7 @@ public class CargoManager : MonoBehaviour
 		if (CentcomMessage == "")
 			CentcomMessage = "Bounty items recieved.\n";
 		//1 - quantity of items
-		CentcomMessage += "+" + credits + " credits: recieved " + "1" + " " + item.name + ".\n";
+		CentcomMessage += $"+{credits} credits: recieved 1 {item.gameObject.ExpensiveName()}.\n";
 		item.registerTile.UnregisterClient();
 		item.registerTile.UnregisterServer();
 		PoolManager.PoolNetworkDestroy(item.gameObject);
@@ -147,9 +147,12 @@ public class CargoManager : MonoBehaviour
 	{
 		for (int i = 0; i < CurrentOrders.Count; i++)
 		{
-			CargoShuttle.Instance.SpawnOrder(CurrentOrders[i]);
+			if (CargoShuttle.Instance.SpawnOrder(CurrentOrders[i]))
+			{
+				CurrentOrders.RemoveAt(i);
+				i--;
+			}
 		}
-		CurrentOrders.Clear();
 	}
 
 	public void AddToCart(CargoOrder orderToAdd)

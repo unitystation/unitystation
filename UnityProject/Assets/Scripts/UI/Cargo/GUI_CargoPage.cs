@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_CargoTab : NetPage
+public class GUI_CargoPage : NetPage
 {
 	public string DirectoryName = "/.../avaliable_supplies";
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GUI_CargoTabSupplies : GUI_CargoTab
+public class GUI_CargoPageSupplies : GUI_CargoPage
 {
 	[SerializeField]
 	private GUI_CargoItemList orderList = null;

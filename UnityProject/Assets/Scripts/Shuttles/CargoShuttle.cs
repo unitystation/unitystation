@@ -118,9 +118,11 @@ public class CargoShuttle : MonoBehaviour
 	/// Server only.
 	/// </summary>
 	/// <param name="order">Order to spawn.</param>
-	public void SpawnOrder(CargoOrder order)
+	public bool SpawnOrder(CargoOrder order)
 	{
 		Vector3 pos = GetRandomFreePos();
+		if (pos == Vector3.zero)
+			return (false);
 
 		PoolManager.PoolNetworkInstantiate(order.Crate, pos);
 		for (int i = 0; i < order.Items.Count; i++)
@@ -128,6 +130,7 @@ public class CargoShuttle : MonoBehaviour
 			PoolManager.PoolNetworkInstantiate(order.Items[i], pos);
 		}
 		CargoManager.Instance.CentcomMessage += "Loaded " + order.OrderName + " onto shuttle.\n";
+		return (true);
 	}
 
 	/// <summary>
@@ -138,18 +141,21 @@ public class CargoShuttle : MonoBehaviour
 	{
 		int width = 2;
 		int height = 4;
+		int i = 0;
 
 		Vector3Int spawnPos;
-		while (true)
+		//temporary max crates in one
+		while (i < 40)
 		{
 			spawnPos = Vector3Int.RoundToInt(transform.position);
 			spawnPos.x += Random.Range(-width, width);
 			spawnPos.y += Random.Range(-height, height) + 1;
 			if (MatrixManager.Instance.GetFirst<ClosetControl>(spawnPos, true) == null)
 			{
-				break;
+				return spawnPos;
 			}
+			i++;
 		}
-		return spawnPos;
+		return Vector3.zero;
 	}
 }
