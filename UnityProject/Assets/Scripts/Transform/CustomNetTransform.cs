@@ -443,10 +443,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		serverState.Position = TransformState.HiddenPos;
 		serverLerpState.Position = TransformState.HiddenPos;
 
-		RegisterObject registerObject = GetComponent<RegisterObject>();
-		if (registerObject)
-			registerObject.Passable = true;
-
 		if (CheckFloatingServer() && stopInertia )
 		{
 			Stop();
@@ -512,7 +508,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	/// Registers if unhidden, unregisters if hidden
 	private void UpdateActiveStatusServer()
 	{
-		if (predictedState.Active)
+		if (serverState.Active)
 		{
 			registerTile.UpdatePositionServer();
 		}
