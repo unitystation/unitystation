@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114584853831947100}
   - component: {fileID: 114323871763878754}
   - component: {fileID: 114222151832573512}
+  - component: {fileID: 1133233680905039252}
   m_Layer: 11
   m_Name: Spawner Turret
   m_TagString: Untagged
@@ -137,13 +138,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
@@ -174,6 +173,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 3
   InitialContents: []
+--- !u!114 &1133233680905039252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395871990776010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoredSpriteRenderers: []
+  registerTile: {fileID: 0}
+  visibleState: 1
+  isNotPushable: 0
+  closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!1 &1587334133710578
 GameObject:
   m_ObjectHideFlags: 0

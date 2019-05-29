@@ -14,8 +14,10 @@ public class TabUpdateMessage : ServerMessage {
 
 	public bool Touched;
 
+	private static readonly ElementValue[] NoValues = new ElementValue[0];
+
 	public override IEnumerator Process() {
-		Logger.LogTraceFormat("Processed {0}", Category.NetUI, ToString());
+		Logger.LogTraceFormat("Processed {0}", Category.NetUI, this);
 		yield return WaitFor( Provider );
 		switch ( Action ) {
 			case TabAction.Open:
@@ -33,22 +35,18 @@ public class TabUpdateMessage : ServerMessage {
 	public override string ToString() {
 		return $"[TabUpdateMessage {nameof( Provider )}: {Provider}, {nameof( Type )}: {Type}, " +
 		       $"{nameof( Action )}: {Action}, " +
-		       $"{nameof( ElementValue )}: {string.Join("; ",ElementValues)}]";
+		       $"{nameof( ElementValue )}: {string.Join("; ",ElementValues ?? NoValues)}]";
 	}
 
 	public static void SendToPeepers( GameObject provider, NetTabType type, TabAction tabAction,
-		ElementValue[] values = null ) {
+		ElementValue[] values = null )
+	{
 		//Notify all peeping players of the change
 		List<ConnectedPlayer> list = NetworkTabManager.Instance.GetPeepers( provider, type );
-//		TabUpdateMessage logMessage = null;
-		for ( var i = 0; i < list.Count; i++ ) {
-			var connectedPlayer = list[i];
-//			logMessage =
-				Send( connectedPlayer.GameObject, provider, type, tabAction, null, values );
+		foreach ( ConnectedPlayer connectedPlayer in list )
+		{
+			Send( connectedPlayer.GameObject, provider, type, tabAction, null, values );
 		}
-//		if ( logMessage != null ) {
-//			Logger.Log( $"Sending {logMessage}" );
-//		}
 	}
 
 	public static TabUpdateMessage Send( GameObject recipient, GameObject provider, NetTabType type, TabAction tabAction, GameObject changedBy = null,
@@ -75,6 +73,8 @@ public class TabUpdateMessage : ServerMessage {
 				break;
 			case TabAction.Update:
 				var playerScript = recipient.Player()?.Script;
+
+				//fixme: duplication of NetTab.ValidatePeepers
 				//Not sending updates and closing tab for players that don't pass the validation anymore
 				bool validate = playerScript && !playerScript.canNotInteract() && playerScript.IsInReach( provider, true );
 				if ( !validate ) {
@@ -84,6 +84,7 @@ public class TabUpdateMessage : ServerMessage {
 				break;
 		}
 		msg.SendTo( recipient );
+		Logger.LogTrace( msg.ToString(), Category.NetUI );
 		return msg;
 	}
 }

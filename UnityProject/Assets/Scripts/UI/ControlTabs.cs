@@ -421,11 +421,11 @@ public class ControlTabs : MonoBehaviour
 		}
 
 		// Need to spawn a local instance of the NetTab to obtain its isPopOut property first. Parent is changed later.
-		var openedTab = new NetTabDescriptor(tabProvider, type);
-		NetTab tabInfo = openedTab.Spawn(tabProvider.transform);
+		var tabDescriptor = new NetTabDescriptor(tabProvider, type);
+		NetTab tab = FindOrSpawn( tabProvider, tabDescriptor );
 
 		//Make use of NetTab's fancy isPopOut bool instead of depending on the NetTabType.
-		bool isPopOut = tabInfo.isPopOut;
+		bool isPopOut = tab.isPopOut;
 
 
 		if (!Instance.rolledOut && !isPopOut)
@@ -434,16 +434,18 @@ public class ControlTabs : MonoBehaviour
 		}
 
 		//try to dig out a hidden tab with matching parameters and enable it:
-		if (Instance.HiddenNetTabs.ContainsKey(openedTab))
+		var hiddenNetTabs = Instance.HiddenNetTabs;
+		if (hiddenNetTabs.ContainsKey(tabDescriptor))
 		{
 			//				Logger.Log( $"Yay, found an old hidden {openedTab} tab. Unhiding it" );
-			Instance.UnhideTab(Instance.HiddenNetTabs[openedTab]);
+			Instance.UnhideTab(hiddenNetTabs[tabDescriptor]);
 		}
-		if (!Instance.OpenedNetTabs.ContainsKey(openedTab))
+
+		if (!Instance.OpenedNetTabs.ContainsKey(tabDescriptor))
 		{
 			Transform newParent = !isPopOut ? Instance.TabStorage : Instance.TabStoragePopOut;
-			tabInfo.transform.SetParent(newParent, false);
-			GameObject tabObject = tabInfo.gameObject;
+			tab.transform.SetParent(newParent, false);
+			GameObject tabObject = tab.gameObject;
 
 			//putting into the right place
 			tabObject.transform.localScale = Vector3.one;
@@ -460,18 +462,33 @@ public class ControlTabs : MonoBehaviour
 				var localPos = Vector3.zero;
 				localPos.y += 20f;
 				rect.transform.localPosition = localPos;
-				tabInfo.isPopOut = true;
+				tab.isPopOut = true;
 			}
 
 			Instance.RefreshTabHeaders();
 		}
 
-		NetTab tab = Instance.OpenedNetTabs[openedTab];
 		tab.ImportValues(elementValues);
 		if (!isPopOut)
 		{
 			Instance.SelectTab(tab.gameObject, false);
 		}
+	}
+
+	private static NetTab FindOrSpawn( GameObject tabProvider, NetTabDescriptor descriptor )
+	{
+		var hiddenNetTabs = Instance.HiddenNetTabs;
+		if ( hiddenNetTabs.ContainsKey( descriptor ) )
+		{
+			return hiddenNetTabs[descriptor];
+		}
+		var openedNetTabs = Instance.OpenedNetTabs;
+		if ( openedNetTabs.ContainsKey( descriptor ) )
+		{
+			return openedNetTabs[descriptor];
+		}
+
+		return descriptor.Spawn(tabProvider.transform);
 	}
 
 	public static void CloseTab(NetTabType type, GameObject tabProvider)

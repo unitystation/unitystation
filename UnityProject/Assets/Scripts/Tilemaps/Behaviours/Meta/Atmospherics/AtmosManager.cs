@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AtmosManager : MonoBehaviour
@@ -10,6 +12,22 @@ public class AtmosManager : MonoBehaviour
 	public AtmosMode Mode = AtmosMode.Threaded;
 
 	public bool Running { get; private set; }
+
+	public bool roundStartedServer = false;
+	public List<Pipe> roundStartPipes = new List<Pipe>();
+
+	private static AtmosManager atmosManager;
+	public static AtmosManager Instance
+	{
+		get
+		{
+			if (atmosManager == null)
+			{
+				atmosManager = FindObjectOfType<AtmosManager>();
+			}
+			return atmosManager;
+		}
+	}
 
 	private void OnValidate()
 	{
@@ -41,6 +59,39 @@ public class AtmosManager : MonoBehaviour
 			}
 		}
 	}
+
+	void OnEnable()
+	{
+		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
+		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
+	}
+
+	void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
+		EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
+	}
+
+	void OnRoundStart()
+	{
+		roundStartedServer = true;
+		StartCoroutine(SetPipes());
+	}
+
+	private IEnumerator SetPipes() /// TODO: FIX ALL MANAGERS LOADING ORDER AND REMOVE ANY WAITFORSECONDS
+	{
+		yield return new WaitForSeconds(2);
+		for (int i = 0; i < roundStartPipes.Count; i++)
+		{
+			roundStartPipes[i].Attach();
+		}
+	}
+
+	void OnRoundEnd()
+	{
+		roundStartedServer = false;
+	}
+
 
 	private void OnApplicationQuit()
 	{

@@ -50,7 +50,10 @@ public partial class PlayerSync
 		get => masterSpeedServer;
 		set
 		{ // Future move speed (applied on the next step)
-			Logger.LogTraceFormat( "{0}: setting SERVER speed {1}->{2}", Category.Movement, gameObject.name, SpeedServer, value );
+			if ( Math.Abs( masterSpeedServer - value ) > 0.01f )
+			{
+				Logger.LogTraceFormat( "{0}: setting SERVER speed {1}->{2}", Category.Movement, gameObject.name, SpeedServer, value );
+			}
 			masterSpeedServer = value < 0 ? 0 : value;
 		}
 	}
@@ -327,13 +330,17 @@ public partial class PlayerSync
 		{
 			Logger.LogWarning("Server ignored queued move while player isn't supposed to move", Category.Movement);
 			serverPendingActions.Dequeue();
+
+			TryUpdateServerTarget();
 			return;
 		}
 
 		var curState = serverState;
 		PlayerState nextState = NextStateServer( curState, serverPendingActions.Dequeue() );
 
-		if ( Equals( curState, nextState ) ) {
+		if ( Equals( curState, nextState ) )
+		{
+			TryUpdateServerTarget();
 			return;
 		}
 
@@ -347,6 +354,8 @@ public partial class PlayerSync
 			CheckMovementServer();
 			OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 		}
+
+		TryUpdateServerTarget();
 		//Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 	}
 

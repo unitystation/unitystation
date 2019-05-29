@@ -66,7 +66,10 @@ public partial class PlayerSync
 		get => predictedSpeedClient;
 		set
 		{
-			Logger.LogTraceFormat( "{0}: setting PREDICTED speed {1}->{2}", Category.Movement, gameObject.name, SpeedClient, value );
+			if ( Math.Abs( predictedSpeedClient - value ) > 0.01f )
+			{
+				Logger.LogTraceFormat( "{0}: setting PREDICTED speed {1}->{2}", Category.Movement, gameObject.name, SpeedClient, value );
+			}
 			predictedSpeedClient = value < 0 ? 0 : value;
 		}
 	}
@@ -113,7 +116,7 @@ public partial class PlayerSync
 		//arguably it shouldn't really be like that in the future
 		if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost))
 		{
-			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement, 
+			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement,
 				action.Direction(), pendingActions.Count, ClientState, predictedState );
 
 			//experiment: not enqueueing or processing action if floating, unless we are stopped.
@@ -546,8 +549,9 @@ public partial class PlayerSync
 			}
 			else
 			{
-				transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos,
-				predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
+				transform.localPosition =
+					Vector3.MoveTowards(transform.localPosition, targetPos,
+										predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
 			}
 
 			if (ClientPositionReady)
