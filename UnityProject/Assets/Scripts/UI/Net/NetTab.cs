@@ -13,6 +13,7 @@ public enum NetTabType {
 	ChemistryDispenser = 5,
 	Apc = 6,
 	Cargo = 7,
+	CloningConsole = 8,
 	//add your tabs here
 }
 /// Descriptor for unique Net UI Tab
