@@ -540,8 +540,8 @@ public partial class PlayerSync
 		if (!ClientPositionReady)
 		{
 			//PlayerLerp
-			var worldPos = predictedState.WorldPosition;
-			Vector3 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(Matrix));
+			var worldPos = predictedState.WorldPosition.CutToInt();
+			Vector2 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(Matrix));
 
 			if (playerState.NoLerp || Vector3.Distance(transform.localPosition, targetPos) > 30)
 			{
@@ -556,12 +556,12 @@ public partial class PlayerSync
 
 			if (ClientPositionReady)
 			{
-				OnClientTileReached().Invoke(Vector3Int.RoundToInt(worldPos));
+				OnClientTileReached().Invoke(worldPos);
 				// Check for swap once movement is done, to prevent us and another player moving into the same tile
 				if (!isServer && !playerScript.IsGhost)
 				{
 					//only check on client otherwise server would check this twice
-					CheckAndDoSwap(worldPos.RoundToInt(), lastDirection*-1, isServer: false);
+					CheckAndDoSwap(worldPos, lastDirection*-1, isServer: false);
 				}
 
 			}
