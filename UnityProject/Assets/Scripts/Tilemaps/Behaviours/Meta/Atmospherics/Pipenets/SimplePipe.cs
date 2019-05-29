@@ -20,13 +20,27 @@ public class SimplePipe : Pipe
 
 			case 1:
 				var pipe = nodes[0];
-				if(pipe.transform.position.y > transform.position.y)
+				if (HasDirection(direction, Direction.NORTH))
 				{
-					spriteRenderer.sprite = pipeSprites[2];
+					if(pipe.transform.position.y > transform.position.y)
+					{
+						spriteRenderer.sprite = pipeSprites[2];
+					}
+					else
+					{
+						spriteRenderer.sprite = pipeSprites[3];
+					}
 				}
 				else
 				{
-					spriteRenderer.sprite = pipeSprites[3];
+					if (pipe.transform.position.x < transform.position.x)
+					{
+						spriteRenderer.sprite = pipeSprites[2];
+					}
+					else
+					{
+						spriteRenderer.sprite = pipeSprites[3];
+					}
 				}
 				break;
 
