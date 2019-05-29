@@ -38,7 +38,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 
 	IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(1f);
+		yield return WaitFor.Seconds(1f);
 		FindPossibleConnections();
 	}
 
@@ -102,7 +102,8 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	public virtual void DirectionOutput(GameObject SourceInstance)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
-		InputOutputFunctions.DirectionOutput(SourceInstance, this);		if (Logall)
+		InputOutputFunctions.DirectionOutput(SourceInstance, this);
+		if (Logall)
 		{
 			Logger.Log("this > " + this + "DirectionOutput " + this.gameObject+ " <ID | Downstream = " + Data.SupplyDependent[SourceInstanceID].Downstream.Count + " Upstream = " + Data.SupplyDependent[SourceInstanceID].Upstream.Count + "connections " + (string.Join(",", Data.connections)), Category.Electrical);
 		}

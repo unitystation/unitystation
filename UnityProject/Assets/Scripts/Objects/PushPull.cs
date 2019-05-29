@@ -179,8 +179,7 @@ public class PushPull : VisibleBehaviour {
 	public Vector2 InheritedImpulse => IsBeingPulled ? PulledBy.InheritedImpulse : Pushable.ServerImpulse;
 
 	private IEnumerator RevertPullTimer() {
-		yield return YieldHelper.Second;
-		yield return YieldHelper.Second;
+		yield return WaitFor.Seconds(2);
 
 		if ( !Pushable.IsMovingClient
 			 && Pushable.ClientPosition != Pushable.TrustedPosition
@@ -193,8 +192,7 @@ public class PushPull : VisibleBehaviour {
 		}
 	}
 	private IEnumerator RevertPushTimer() {
-		yield return YieldHelper.Second;
-		yield return YieldHelper.Second;
+		yield return WaitFor.Seconds(2);
 
 		if ( Pushable.ClientPosition != Pushable.TrustedPosition )
 		{
@@ -499,8 +497,7 @@ public class PushPull : VisibleBehaviour {
 
 	private IEnumerator ReCheckQueueLater()
 	{
-		yield return YieldHelper.DeciSecond;
-		yield return YieldHelper.DeciSecond;
+		yield return WaitFor.Seconds(.2f);
 		CheckQueue();
 	}
 
@@ -539,7 +536,7 @@ public class PushPull : VisibleBehaviour {
 
 	private IEnumerator NoMoveSafeguard( Vector3Int @from )
 	{
-		yield return YieldHelper.Second;
+		yield return WaitFor.Seconds(1);
 		if ( isBeingPushed && Pushable.ServerPosition == from )
 		{
 			Logger.LogWarningFormat( "{0} didn't move despite being pushed! Removing isBeingPushed flag", Category.PushPull, gameObject.name );

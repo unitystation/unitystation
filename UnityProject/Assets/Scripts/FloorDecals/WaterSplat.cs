@@ -16,7 +16,7 @@ public class WaterSplat : FloorDecal
 	}
 
 	private IEnumerator DryUp(){
-		yield return new WaitForSeconds(15f);
+		yield return WaitFor.Seconds(15f);
 		DisappearFromWorldServer();
 	}
 }

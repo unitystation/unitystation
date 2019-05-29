@@ -94,7 +94,7 @@ public class CargoManager : MonoBehaviour
 		{
 			CurrentFlyTime -= 1f;
 			OnTimerUpdate?.Invoke();
-			yield return YieldHelper.Second;
+			yield return WaitFor.Seconds(1);
 		}
 
 		if (launchToStation)

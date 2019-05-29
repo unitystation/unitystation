@@ -53,9 +53,9 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	{
 		while (PlayerManager.LocalPlayer == null)
 		{
-			yield return YieldHelper.EndOfFrame;
+			yield return WaitFor.EndOfFrame;
 		}
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		RequestHealthMessage.Send(gameObject);
 	//	Logger.Log("SEND REQUEST TO UPDATE: " + gameObject.name, Category.Health);
 	}
@@ -266,20 +266,20 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	{
 		SendOverallUpdate(requestor);
 
-		yield return YieldHelper.DeciSecond;
+		yield return WaitFor.Seconds(.1f);
 
 		SendBloodUpdate(requestor);
 
-		yield return YieldHelper.DeciSecond;
+		yield return WaitFor.Seconds(.1f);
 
 		SendRespiratoryUpdate(requestor);
 
-		yield return YieldHelper.DeciSecond;
+		yield return WaitFor.Seconds(.1f);
 
 		if (livingHealthBehaviour.brainSystem != null)
 		{
 			SendBrainUpdate(requestor);
-			yield return YieldHelper.DeciSecond;
+			yield return WaitFor.Seconds(.1f);
 		}
 
 		for (int i = 0; i < livingHealthBehaviour.BodyParts.Count; i++)
@@ -288,7 +288,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 				livingHealthBehaviour.BodyParts[i].Type,
 				livingHealthBehaviour.BodyParts[i].BruteDamage,
 				livingHealthBehaviour.BodyParts[i].BurnDamage);
-			yield return YieldHelper.DeciSecond;
+			yield return WaitFor.Seconds(.1f);
 		}
 	}
 }

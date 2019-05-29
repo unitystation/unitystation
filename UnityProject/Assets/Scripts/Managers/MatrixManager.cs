@@ -405,7 +405,7 @@ public class MatrixManager : MonoBehaviour
 	/// Waiting for scene to load before finding matrices
 	private IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(0.5f);
+		yield return WaitFor.Seconds(0.5f);
 		InitMatrices();
 	}
 

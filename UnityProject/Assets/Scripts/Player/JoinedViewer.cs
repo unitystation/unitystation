@@ -77,7 +77,7 @@ public class JoinedViewer : NetworkBehaviour
 	//Just ensures connected player record is set on the server first before Auth req is sent
 	IEnumerator WaitUntilServerInit()
 	{
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		if (Client.Instance != null)
 		{
 			Logger.Log("Client Requesting Auth", Category.Steam);

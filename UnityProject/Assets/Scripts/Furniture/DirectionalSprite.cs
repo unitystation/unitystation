@@ -92,7 +92,7 @@ public class DirectionalSprite : NetworkBehaviour
 	{
 		while (!matrixMove.ReceivedInitialRotation)
 		{
-			yield return YieldHelper.EndOfFrame;
+			yield return WaitFor.EndOfFrame;
 		}
 	}
 

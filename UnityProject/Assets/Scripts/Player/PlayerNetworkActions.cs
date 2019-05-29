@@ -752,7 +752,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private IEnumerator InitiateRespawn(int timeout)
 	{
 		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
-		yield return new WaitForSeconds(timeout);
+		yield return WaitFor.Seconds(timeout);
 		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.characterSettings, gameObject);
 		RpcAfterRespawn();
 	}

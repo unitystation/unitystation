@@ -261,7 +261,7 @@ public class PlayerList : NetworkBehaviour
 				CustomNetworkManager.Kick(player, "Auth timed out");
 				yield break;
 			}
-			yield return YieldHelper.Second;
+			yield return WaitFor.Seconds(1);
 		}
 	}
 

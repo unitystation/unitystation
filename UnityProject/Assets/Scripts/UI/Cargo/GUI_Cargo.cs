@@ -36,7 +36,7 @@ public class GUI_Cargo : NetTab
 	{
 		while (Provider == null)
 		{
-			yield return YieldHelper.EndOfFrame;
+			yield return WaitFor.EndOfFrame;
 		}
 	}
 

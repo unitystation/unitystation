@@ -183,7 +183,7 @@ public partial class PlayerSync
 				, Category.Movement, blockClientMovement, isPseudoFloatingClient, isFloatingClient, ClientState, predictedState );
 		}
 
-		yield return YieldHelper.DeciSecond;
+		yield return WaitFor.Seconds(.1f);
 		MoveCooldown = false;
 		isBumping = false;
 	}
@@ -441,7 +441,7 @@ public partial class PlayerSync
 
 	private IEnumerator RollbackPullables()
 	{
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		if (gameObject == PlayerManager.LocalPlayer
 			 && pushPull && pushPull.IsPullingSomethingClient)
 		{
@@ -465,7 +465,7 @@ public partial class PlayerSync
 	private IEnumerator BlockMovement()
 	{
 		blockClientMovement = true;
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		if (blockClientMovement)
 		{
 			Logger.LogWarning("Looks like you got stuck. Rolling back predictive moves", Category.Movement);

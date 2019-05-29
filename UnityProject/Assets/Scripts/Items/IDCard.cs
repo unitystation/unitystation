@@ -93,7 +93,7 @@ public class IDCard : NetworkBehaviour
 	//Sync all of the current in game ID's throughout the map with new players
 	private IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(3f);
+		yield return WaitFor.Seconds(3f);
 		SyncName(RegisteredName);
 		SyncJobType(jobTypeInt);
 		SyncIDCardType(idCardTypeInt);

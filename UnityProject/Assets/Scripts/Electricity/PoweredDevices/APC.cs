@@ -343,7 +343,7 @@ public class APC  : InputTrigger, INodeControl
 	private IEnumerator Refresh()
 	{
 		RefreshDisplayScreen();
-		yield return new WaitForSeconds( 2f );
+		yield return WaitFor.Seconds( 2f );
 		if ( RefreshDisplay ) {
 			StartCoroutine( Refresh() );
 		}

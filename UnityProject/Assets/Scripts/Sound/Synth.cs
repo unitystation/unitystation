@@ -101,7 +101,7 @@ public class Synth : MonoBehaviour {
 
 	private IEnumerator PlayNote( int module ) {
 		SunVox.sv_send_event((int)Slot.FX, 0, Random.Range( 48, 72 ), 128, module + 1, 0, 0);
-		yield return new WaitForSeconds( 0.1f );
+		yield return WaitFor.Seconds( 0.1f );
 		SunVox.sv_send_event((int)Slot.FX, 0, 128, 128, module + 1, 0, 0);
 	}
 
@@ -134,7 +134,7 @@ public class Synth : MonoBehaviour {
 		}
 	}
 	private IEnumerator SpeakAnnouncement() {
-		yield return new WaitForSeconds( 3f );
+		yield return WaitFor.Seconds( 3f );
 		SunVox.sv_send_event( (int)Slot.Announce, 0, 60, 128, SamplerModule + 1, 0, 0 );
 	}
 

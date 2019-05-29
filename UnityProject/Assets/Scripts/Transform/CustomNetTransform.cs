@@ -187,7 +187,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	/// </summary>
 	private IEnumerator FreezeWithTimeout()
 	{
-		yield return YieldHelper.FiveSecs;
+		yield return WaitFor.Seconds(5);
 		if ( MotionState == MotionStateEnum.Still )
 		{
 			base.OnDisable();

@@ -42,14 +42,14 @@ public class CentComm : MonoBehaviour
 
 	IEnumerator WaitToPrepareReport()
 	{
-		yield return YieldHelper.EndOfFrame; //OnStartServer starts one frame after OnLevelFinishedLoading
+		yield return WaitFor.EndOfFrame; //OnStartServer starts one frame after OnLevelFinishedLoading
 		//Server only:
 		if (!CustomNetworkManager.Instance._isServer)
 		{
 			yield break;
 		}
 		//Wait some time after the round has started
-		yield return new WaitForSeconds(60f);
+		yield return WaitFor.Seconds(60f);
 
 		//Gather asteroid locations:
 		for (int i = 0; i < gameManager.SpaceBodies.Count; i++)

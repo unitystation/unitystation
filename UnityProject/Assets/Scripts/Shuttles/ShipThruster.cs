@@ -41,14 +41,14 @@ public class ShipThruster : MonoBehaviour
 		{
 			tries++;
 			shipMatrixMove = transform.root.gameObject.GetComponent<MatrixMove>();
-			yield return new WaitForEndOfFrame();
+			yield return WaitFor.EndOfFrame;
 			if(tries >= 5){
 				this.enabled = false;
 				yield break;
 			}
 
 		}
-		yield return new WaitForEndOfFrame();
+		yield return WaitFor.EndOfFrame;
 		shipMatrixMove.OnStart.AddListener(UpdateEngineState);
 		shipMatrixMove.OnStop.AddListener(UpdateEngineState);
 		shipMatrixMove.OnRotateStart.AddListener(RotateFX);
