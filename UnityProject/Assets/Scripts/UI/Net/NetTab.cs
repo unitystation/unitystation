@@ -12,6 +12,7 @@ public enum NetTabType {
 	Paper = 4,
 	ChemistryDispenser = 5,
 	Apc = 6,
+	Cargo = 7,
 	CloningConsole = 8,
 	//add your tabs here
 }

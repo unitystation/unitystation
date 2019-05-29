@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tilemaps.Behaviours.Meta;
@@ -67,7 +67,7 @@ public class NetUIDynamicList : NetUIElement {
 			Logger.LogFormat( "{0} dynamic list: EntryPrefab not assigned, trying to find it as '{1}'", Category.NetUI, gameObject.name, elementType );
 			EntryPrefab = Resources.Load<GameObject>( elementType );
 		}
-		entryCount = 0;
+//		entryCount = 0;
 		foreach ( DynamicEntry value in Entries )
 		{
 			InitDynamicEntry( value );
@@ -165,7 +165,7 @@ public class NetUIDynamicList : NetUIElement {
 		else
 		{
 			//Reusing
-			dynamicEntry.transform.parent = transform;
+			dynamicEntry.transform.SetParent( transform, false );
 		}
 
 		return dynamicEntry;
