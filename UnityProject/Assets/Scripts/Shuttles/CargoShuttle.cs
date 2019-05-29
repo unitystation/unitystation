@@ -13,7 +13,9 @@ public class CargoShuttle : MonoBehaviour
 	private int dockOffset = 23;
 	private Vector3 destination;
 	private List<Vector3Int> availableSpawnSlots = new List<Vector3Int>();
+	//It is actually (cargoZoneWidth - 1) / 2
 	private int shuttleWidth = 2;
+	//It is actually (cargoZoneHeight - 1) / 2
 	private int shuttleHeight = 4;
 	private bool moving;
 
@@ -145,6 +147,10 @@ public class CargoShuttle : MonoBehaviour
 		return (true);
 	}
 
+	/// <summary>
+	/// Get all unoccupied positions inside shuttle.
+	/// Needs to be called before starting to spawn orders.
+	/// </summary>
 	private void GetAvailablePositions()
 	{
 		Vector3Int pos;
@@ -154,15 +160,12 @@ public class CargoShuttle : MonoBehaviour
 		{
 			for (int j = -shuttleWidth; j <= shuttleWidth; j++)
 			{
-				pos = Vector3Int.RoundToInt(transform.position);
+				pos = mm.State.Position.RoundToInt();
+				//i + 1 because cargo shuttle center is offseted by 1
 				pos += new Vector3Int(j, i + 1, 0);
 				if (MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null)
 				{
 					availableSpawnSlots.Add(pos);
-				}
-				else
-				{
-					Debug.Log("Pos is occupied");
 				}
 			}
 		}
@@ -179,7 +182,6 @@ public class CargoShuttle : MonoBehaviour
 		{
 			spawnPos = availableSpawnSlots[Random.Range(0, availableSpawnSlots.Count)];
 			availableSpawnSlots.Remove(spawnPos);
-			Debug.Log(availableSpawnSlots.Count + " empty");
 			return spawnPos;
 		}
 
