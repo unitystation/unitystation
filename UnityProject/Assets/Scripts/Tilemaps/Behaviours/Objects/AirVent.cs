@@ -9,10 +9,14 @@ public class AirVent : AdvancedPipe
 	private MetaDataNode metaNode;
 	private MetaDataLayer metaDataLayer;
 
-	public override void Attach()
+	public override bool Attach()
 	{
-		base.Attach();
+		if (base.Attach() == false)
+		{
+			return false;
+		}
 		LoadTurf();
+		return true;
 	}
 
 	private void LoadTurf()
