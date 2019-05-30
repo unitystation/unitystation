@@ -19,17 +19,14 @@ public class AdvancedPipe : Pipe
 
 	}
 
-	public override void SpriteChange()
+	public override void CalculateSprite()
 	{
 		if (objectBehaviour.isNotPushable == false)
 		{
-			base.SpriteChange();
+			base.CalculateSprite();
 			return;
 		}
-		if(nodes.Count == 1)
-		{
-			spriteRenderer.sprite = pipeSprites[1];
-		}
+		SetSprite(1);
 	}
 
 	public override void CalculateDirection()
