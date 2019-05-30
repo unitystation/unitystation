@@ -8,7 +8,8 @@ using System;
 public class LightSwitchTrigger : InputTrigger
 {
 
-	public enum States { 
+	public enum States
+	{
 		Off,
 		On,
 		PowerCut,
@@ -18,7 +19,8 @@ public class LightSwitchTrigger : InputTrigger
 	private readonly Collider2D[] lightSpriteColliders = new Collider2D[MAX_TARGETS];
 	private AudioSource clickSFX;
 
-	[SyncVar(hook = "SyncLightSwitch")] public States isOn = States.On;
+	[SyncVar(hook = "SyncLightSwitch")]
+	public States isOn = States.On;
 
 	public float AtShutOffVoltage = 50;
 
@@ -39,6 +41,10 @@ public class LightSwitchTrigger : InputTrigger
 
 	private void Awake()
 	{
+		if (!Application.isPlaying)
+		{
+			return;
+		}
 		registerTile = GetComponent<RegisterTile>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		clickSFX = GetComponent<AudioSource>();
@@ -46,7 +52,6 @@ public class LightSwitchTrigger : InputTrigger
 
 	void Update()
 	{
-#if UNITY_EDITOR
 		if (!Application.isPlaying)
 		{
 			if (!SelfPowered && RelatedAPC == null)
@@ -56,13 +61,16 @@ public class LightSwitchTrigger : InputTrigger
 			}
 			return;
 		}
-#endif
 	}
 
 	private void Start()
 	{
-	   //This is needed because you can no longer apply lightSwitch prefabs (it will move all of the child sprite positions)
-	   gameObject.layer = LayerMask.NameToLayer("WallMounts");
+		if (!Application.isPlaying)
+		{
+			return;
+		}
+		//This is needed because you can no longer apply lightSwitch prefabs (it will move all of the child sprite positions)
+		gameObject.layer = LayerMask.NameToLayer("WallMounts");
 		//and the rest of the mask caches:
 		lightingMask = LayerMask.GetMask("Lighting");
 		obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
@@ -73,7 +81,8 @@ public class LightSwitchTrigger : InputTrigger
 		{
 			RelatedAPC.ConnectedSwitchesAndLights[this] = new List<LightSource>();
 		}
-		if (SelfPowered) {
+		if (SelfPowered)
+		{
 			for (int i = 0; i < SelfPowerLights.Count; i++)
 			{
 				SelfPowerLights[i].PowerLightIntensityUpdate(240);
@@ -82,9 +91,9 @@ public class LightSwitchTrigger : InputTrigger
 	}
 	public void PowerNetworkUpdate(float Voltage)
 	{
-		if (Voltage < AtShutOffVoltage && isOn ==  States.On)
+		if (Voltage < AtShutOffVoltage && isOn == States.On)
 		{
-			isOn =  States.PowerCut;
+			isOn = States.PowerCut;
 			PowerCut = true;
 			if (PowerCut)
 			{
@@ -116,7 +125,8 @@ public class LightSwitchTrigger : InputTrigger
 		{
 			return true;
 		}
-		if (!SelfPowered) {
+		if (!SelfPowered)
+		{
 			if (RelatedAPC == null)
 			{
 				return true;
@@ -155,7 +165,7 @@ public class LightSwitchTrigger : InputTrigger
 		int layerMask = LayerMask.GetMask("WallMounts");
 		var possibleApcs = Physics2D.OverlapCircleAll(GetCastPos(), radius, layerMask);
 
-		int thisRoomNum = MatrixManager.GetMetaDataAt(Vector3Int.RoundToInt(transform.position-transform.up)).RoomNumber;
+		int thisRoomNum = MatrixManager.GetMetaDataAt(Vector3Int.RoundToInt(transform.position - transform.up)).RoomNumber;
 
 		foreach (Collider2D col in possibleApcs)
 		{
@@ -168,15 +178,16 @@ public class LightSwitchTrigger : InputTrigger
 					break;
 				}
 
-				if (MatrixManager.GetMetaDataAt(Vector3Int.RoundToInt(col.transform.position-col.transform.up )).RoomNumber == thisRoomNum)
+				if (MatrixManager.GetMetaDataAt(Vector3Int.RoundToInt(col.transform.position - col.transform.up)).RoomNumber == thisRoomNum)
 				{
 					RelatedAPC = col.gameObject.GetComponent<APC>();
 					break;
 				}
 			}
 		}
-		if (RelatedAPC == null && !SelfPowered) {
-			isOn =  States.PowerCut;
+		if (RelatedAPC == null && !SelfPowered)
+		{
+			isOn = States.PowerCut;
 		}
 	}
 
@@ -197,7 +208,7 @@ public class LightSwitchTrigger : InputTrigger
 					LightSwitchData Send = new LightSwitchData() { state = state, LightSwitchTrigger = this, RelatedAPC = RelatedAPC };
 					localObject.SendMessage("Received", Send, SendMessageOptions.DontRequireReceiver);
 				}
-				if (RelatedAPC != null ) //|| SelfPowered
+				if (RelatedAPC != null) //|| SelfPowered
 				{
 					LightSwitchData Send = new LightSwitchData() { LightSwitchTrigger = this, RelatedAPC = RelatedAPC, SelfPowered = SelfPowered };
 					localObject.SendMessage("EmergencyLight", Send, SendMessageOptions.DontRequireReceiver);
@@ -210,13 +221,12 @@ public class LightSwitchTrigger : InputTrigger
 	{
 		return distance <= radius &&
 			Physics2D.Raycast(Abs(pos), Abs(targetPos) - Abs(pos), distance, obstacleMask).collider == null;
-	
-
 	}
 
-	public Vector2 Abs (Vector2 v2) {
+	public Vector2 Abs(Vector2 v2)
+	{
 		return (new Vector2(Mathf.Abs(v2.x), Mathf.Abs(v2.y)));
-    }
+	}
 
 
 	private Vector2 GetCastPos()
@@ -231,7 +241,8 @@ public class LightSwitchTrigger : InputTrigger
 		{
 			DetectLightsAndAction(true);
 		}
-		else if (state == States.Off || state == States.PowerCut){ 
+		else if (state == States.Off || state == States.PowerCut)
+		{
 			DetectLightsAndAction(false);
 		}
 

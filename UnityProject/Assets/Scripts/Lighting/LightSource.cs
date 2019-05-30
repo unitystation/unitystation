@@ -49,7 +49,7 @@ public class LightSource : ObjectTrigger
 		set
 		{
 			value = Mathf.Clamp(value, 0, 1);
-			if ( _intensity != value)
+			if (_intensity != value)
 			{
 				_intensity = value;
 				OnIntensityChange();
@@ -113,8 +113,10 @@ public class LightSource : ObjectTrigger
 		{
 			return;
 		}
-		if (Received.LightSwitchTrigger == RelatedLightSwitchTrigger || RelatedLightSwitchTrigger == null) {
-			if (RelatedLightSwitchTrigger == null){
+		if (Received.LightSwitchTrigger == RelatedLightSwitchTrigger || RelatedLightSwitchTrigger == null)
+		{
+			if (RelatedLightSwitchTrigger == null)
+			{
 				RelatedLightSwitchTrigger = Received.LightSwitchTrigger;
 			}
 			if (Received.RelatedAPC != null)
@@ -131,7 +133,8 @@ public class LightSource : ObjectTrigger
 					}
 				}
 			}
-			else if (RelatedLightSwitchTrigger.SelfPowered){
+			else if (RelatedLightSwitchTrigger.SelfPowered)
+			{
 				if (State == LightState.On)
 				{
 					if (!RelatedLightSwitchTrigger.SelfPowerLights.Contains(this))
@@ -209,6 +212,10 @@ public class LightSource : ObjectTrigger
 
 	private void Awake()
 	{
+		if (!Application.isPlaying)
+		{
+			return;
+		}
 		Renderer = GetComponentInChildren<SpriteRenderer>();
 
 		if (mLightRendererObject == null)
@@ -220,26 +227,29 @@ public class LightSource : ObjectTrigger
 
 		ExtractLightSprites();
 	}
-
-	void Update() { 
-#if UNITY_EDITOR
+	void Update()
+	{
 		if (!Application.isPlaying)
 		{
 			if (gameObject.tag == "EmergencyLight")
 			{
 				if (RelatedAPC == null)
 				{
-					Logger.LogError("EmergencyLight is missing APC reference, at " + transform.position, Category.Electrical); 
+
+					Logger.LogError("EmergencyLight is missing APC reference, at " + transform.position, Category.Electrical);
 					RelatedAPC.Current = 1; //so It will bring up an error, you can go to click on to go to the actual object with the missing reference 
 				}
 			}
 			return;
 		}
-#endif
 	}
 
 	void Start()
 	{
+		if (!Application.isPlaying)
+		{
+			return;
+		}
 		Color _color;
 
 		if (customColor == new Color(0, 0, 0, 0))
@@ -280,7 +290,7 @@ public class LightSource : ObjectTrigger
 		int _baseIndex;
 		if (_spriteSheet != null && _splitedName.Length == 2 && int.TryParse(_splitedName[1], out _baseIndex))
 		{
-			Func<int, Sprite> ExtractSprite = delegate(int iIndex)
+			Func<int, Sprite> ExtractSprite = delegate (int iIndex)
 			{
 				if (iIndex >= 0 && iIndex < _spriteSheet.Length)
 					return _spriteSheet[iIndex];
