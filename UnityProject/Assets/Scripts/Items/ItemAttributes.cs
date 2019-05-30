@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 using Random = System.Random;
 
 [RequireComponent(typeof(ObjectBehaviour))]
-public class ItemAttributes : NetworkBehaviour
+public class ItemAttributes : NetworkBehaviour, IRightClickable
 {
 	private const string MaskInternalsFlag = "MASKINTERNALS";
 	private const string ObjItemClothing = "/obj/item/clothing";
@@ -22,9 +22,6 @@ public class ItemAttributes : NetworkBehaviour
 	/// </summary>
 	private static readonly Lazy<string[]> hierList = new Lazy<string[]>(InitializeHierList);
 	private static string[] HierList => hierList.Value;
-
-	public RightClickOption examineOption;
-	private RightClickMenu rightClickMenu;
 
 	//on-player references
 	private static readonly string[] onPlayer = {
@@ -117,13 +114,6 @@ public class ItemAttributes : NetworkBehaviour
 		//		yield return new WaitForSeconds(2f);
 		ConstructItem(hierarchy);
 		yield return null;
-	}
-
-	private void Awake()
-	{
-		//init our right click options
-		examineOption = RightClickMenu.AddRightClickOption("ScriptableObjects/Interaction/RightclickOptions/Examine",
-			gameObject, OnExamine, examineOption);
 	}
 
 	//invoked when cloned, copy the item attribute hier
@@ -513,5 +503,11 @@ public class ItemAttributes : NetworkBehaviour
 		{
 			ChatRelay.Instance.AddToChatLogClient(itemDescription, ChatChannel.Examine);
 		}
+	}
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		return RightClickableResult.Create()
+			.AddElement("Examine", OnExamine);
 	}
 }

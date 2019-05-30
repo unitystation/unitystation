@@ -14,6 +14,7 @@ public class RightClickOption : ScriptableObject
 	[Tooltip("background color of the radial menu item")]
 	public Color backgroundColor;
 
+
 	/// <summary>
 	/// Default to the RightClickOption at the specified path if option is null. Convenience method
 	/// for defaulting to a programmer-defined instance of this SO.
@@ -25,5 +26,16 @@ public class RightClickOption : ScriptableObject
 	public static RightClickOption DefaultIfNull(string defaultOptionPath, RightClickOption option)
 	{
 		return option ? option : Resources.Load<RightClickOption>(defaultOptionPath);
+	}
+
+
+	/// <summary>
+	/// Create a Right click Menu item whose appearance is based on the settings in this RightClickOption.
+	/// Action and sub menus are left empty.
+	/// </summary>
+	public RightclickManager.Menu AsMenu()
+	{
+		var menu = new RightclickManager.Menu {Label = label, Sprite = icon, Colour = backgroundColor};
+		return menu;
 	}
 }

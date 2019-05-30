@@ -77,12 +77,11 @@ public class RadialMenu : MonoBehaviour {
 			float ypos = Mathf.Cos (theta);
 			newButton.transform.localPosition = new Vector2 (xpos, ypos) * Menudepth;
 
-			newButton.Circle.color = Menus[i].colour;
-			newButton.Icon.sprite = Menus[i].sprite;
-			newButton.Item = Menus [i].Item;
+			newButton.Circle.color = Menus[i].Colour;
+			newButton.Icon.sprite = Menus[i].Sprite;
 			newButton.MenuDepth = Menudepth;
 			newButton.Action = Menus[i].Action;
-			newButton.Hiddentitle = Menus[i].title;
+			newButton.Hiddentitle = Menus[i].Label;
 
 			newButton.MyMenu = this;
 

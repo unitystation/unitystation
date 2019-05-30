@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(RightClickMenu))]
+[RequireComponent(typeof(RightClickAppearance))]
 public class PickUpTrigger : InputTrigger, IRightClickable
 {
 
@@ -14,19 +14,14 @@ public class PickUpTrigger : InputTrigger, IRightClickable
 	public void Start()
 	{
 		CheckSpriteOrder();
-		RightClickMenu.EnsureComponentExists(gameObject);
 	}
-	public Dictionary<RightClickOption, Action> GenerateRightClickOptions()
+	public RightClickableResult GenerateRightClickOptions()
 	{
 		//TODO: Code duplication (of validation logic) with Interact. Eliminate this duplication once this is refactored to IF2.
-		var result = new Dictionary<RightClickOption, Action>();
-		//can only pick up when in reach
-		pickUpOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/PickUp",
-			pickUpOption);
 
 		if (PlayerManager.LocalPlayerScript.canNotInteract())
 		{
-			return result;
+			return null;
 		}
 		var player = PlayerManager.LocalPlayerScript;
 		UISlotObject uiSlotObject = new UISlotObject(UIManager.Hands.CurrentSlot.inventorySlot.UUID, gameObject);
@@ -34,11 +29,12 @@ public class PickUpTrigger : InputTrigger, IRightClickable
 		{
 			if (player.IsInReach(this.gameObject, false))
 			{
-				result.Add(pickUpOption, GUIInteract);
+				return RightClickableResult.Create()
+					.AddElement("PickUp", GUIInteract);
 			}
 		}
 
-		return result;
+		return null;
 	}
 
 	private void GUIInteract()

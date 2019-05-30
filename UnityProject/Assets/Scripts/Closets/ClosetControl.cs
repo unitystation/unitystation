@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(RightClickMenu))]
+[RequireComponent(typeof(RightClickAppearance))]
 public class ClosetControl : InputTrigger, IRightClickable
 {
 	private Sprite doorClosed;
@@ -32,8 +32,6 @@ public class ClosetControl : InputTrigger, IRightClickable
 
 	public SpriteRenderer spriteRenderer;
 
-	public RightClickOption openCloseOption;
-
 	private void Awake()
 	{
 		doorClosed = spriteRenderer != null ? spriteRenderer.sprite : null;
@@ -44,7 +42,6 @@ public class ClosetControl : InputTrigger, IRightClickable
 		registerTile = GetComponent<RegisterCloset>();
 		pushPull = GetComponent<PushPull>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
-		RightClickMenu.EnsureComponentExists(gameObject);
 	}
 
 	public override void OnStartServer()
@@ -349,13 +346,10 @@ public class ClosetControl : InputTrigger, IRightClickable
 		}
 	}
 
-	public Dictionary<RightClickOption, Action> GenerateRightClickOptions()
+	public RightClickableResult GenerateRightClickOptions()
 	{
-		var result = new Dictionary<RightClickOption, Action>();
 		//TODO: Code duplication (of validation logic) with Interact. Eliminate this duplication once this is refactored to IF2.
-		openCloseOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/OpenClose",
-			openCloseOption);
-
+		var result = RightClickableResult.Create();
 		PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
 		if (localPlayer.canNotInteract())
 		{
@@ -365,7 +359,7 @@ public class ClosetControl : InputTrigger, IRightClickable
 		bool isInReach = localPlayer.IsInReach(registerTile, false);
 		if (isInReach || localPlayer.IsHidden)
 		{
-			result.Add(openCloseOption, GUIInteract);
+			result.AddElement("OpenClose", GUIInteract);
 		}
 
 		return result;

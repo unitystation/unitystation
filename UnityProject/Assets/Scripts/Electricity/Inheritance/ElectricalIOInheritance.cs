@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 [System.Serializable]
-public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every node inherits from
+public class ElectricalOIinheritance : NetworkBehaviour, IRightClickable { //is the Bass class but every node inherits from
 	public Connection WireEndB;
 	public Connection WireEndA;
 
@@ -18,16 +18,12 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	public Matrix matrix => registerTile.Matrix; //This is a bit janky with inheritance
 	public bool connected = false;
 
-	public RightClickOption detailsOption;
-
 	public bool Logall = false;
 
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
 		registerTile = gameObject.GetComponent<RegisterItem>();
-		detailsOption = RightClickMenu.AddRightClickOption("ScriptableObjects/Interaction/RightclickOptions/Details",
-			gameObject, ShowDetails, detailsOption);
 	}
 
 	public override void OnStartServer()
@@ -230,6 +226,12 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		}
 
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
+	}
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		return RightClickableResult.Create()
+			.AddElement("Details", ShowDetails);
 	}
 }
 

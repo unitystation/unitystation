@@ -8,7 +8,6 @@ using System.Reflection;
 
 public class RadialButton : MonoBehaviour{
 
-	public GameObject Item;
 	public Image Circle;
 	public Image Icon;
 	public Text title;
@@ -20,7 +19,7 @@ public class RadialButton : MonoBehaviour{
 	public Action Action;
 
 	public void SetColour (Color Color)
-	{ 
+	{
 		Circle.color = Color;
 	}
 	public Color ReceiveCurrentColour()

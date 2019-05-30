@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(RightClickMenu))]
+[RequireComponent(typeof(RightClickAppearance))]
 public class PushPull : VisibleBehaviour, IRightClickable {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
@@ -209,34 +209,32 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 		}
 	}
 
-	public Dictionary<RightClickOption,Action> GenerateRightClickOptions()
+	public RightClickableResult GenerateRightClickOptions()
 	{
-		var result = new Dictionary<RightClickOption,Action>();
-		pullOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/Pull", pullOption);
-		stopPullOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/StopPull", stopPullOption);
 		//check if our local player can reach this
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//if it's pulled by us
 		if (IsPulledByClient(initiator))
 		{
 			//already pulled by us, but we can stop pulling
-			result.Add(stopPullOption, TryPullThis);
+			return RightClickableResult.Create()
+				.AddElement("StopPull", TryPullThis);
 		}
 		else
 		{
 			//check if in range for pulling
 			if (PlayerScript.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
 			{
-				result.Add(pullOption, TryPullThis);
+				return RightClickableResult.Create()
+					.AddElement("Pull", TryPullThis);
 			}
 		}
 
-		return result;
+		return null;
 	}
 
 	protected override void Awake() {
 		base.Awake();
-		RightClickMenu.EnsureComponentExists(gameObject);
 
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
 

@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(RightClickMenu))]
+[RequireComponent(typeof(RightClickAppearance))]
 public class ReagentContainer : Container, IRightClickable {
 	public float CurrentCapacity { get; private set; }
 	public List<string> Reagents; //Specify reagent
 	public List<float> Amounts;  //And how much
-
-	public RightClickOption contentsOption;
-	public RightClickOption pourOutOption;
-	public RightClickOption addToOption;
 
 	private RegisterTile registerTile;
 
@@ -28,26 +24,19 @@ public class ReagentContainer : Container, IRightClickable {
 		CurrentCapacity = AmountOfReagents(Contents);
 
 		registerTile = GetComponent<RegisterTile>();
-		RightClickMenu.EnsureComponentExists(gameObject);
-
-
 	}
 
-	public Dictionary<RightClickOption, Action> GenerateRightClickOptions()
+	public RightClickableResult GenerateRightClickOptions()
 	{
-		var result = new Dictionary<RightClickOption, Action>();
-		contentsOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/Contents", contentsOption);
-		pourOutOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/PourOut", pourOutOption);
-		addToOption = RightClickOption.DefaultIfNull("ScriptableObjects/Interaction/RightclickOptions/AddTo", addToOption);
-
-		//contents can always be viewed
-		result.Add(contentsOption, LogReagents);
+		var result = RightClickableResult.Create()
+			//contents can always be viewed
+			.AddElement("Contents", LogReagents);
 
 		//Pour / add can only be done if in reach
 		if ( PlayerScript.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
 		{
-			result.Add(pourOutOption, RemoveSome);
-			result.Add(addToOption, AddTo);
+			result.AddElement("PourOut", RemoveSome)
+				.AddElement("AddTo", AddTo);
 		}
 
 		return result;
