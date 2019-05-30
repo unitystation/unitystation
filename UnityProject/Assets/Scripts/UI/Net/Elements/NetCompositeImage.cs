@@ -42,7 +42,7 @@ public class NetCompositeImage : NetUIElement
 
 	private IEnumerator SetObject()
 	{
-		yield return WaitFor( ObjectNetId );
+		yield return WaitForNetworkInstanceId( ObjectNetId );
 		UpdateCompositeImage();
 		externalChange = false;
 	}
@@ -77,7 +77,7 @@ public class NetCompositeImage : NetUIElement
 	private GameObject ResolvedObject;
 	private Coroutine handle;
 
-	protected IEnumerator WaitFor(NetworkInstanceId id)
+	protected IEnumerator WaitForNetworkInstanceId(NetworkInstanceId id)
 	{
 		if (id.IsEmpty())
 		{
@@ -94,7 +94,7 @@ public class NetCompositeImage : NetUIElement
 				yield break;
 			}
 
-			yield return YieldHelper.EndOfFrame;
+			yield return WaitFor.EndOfFrame;
 		}
 	}
 

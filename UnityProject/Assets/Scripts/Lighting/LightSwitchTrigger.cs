@@ -221,8 +221,6 @@ public class LightSwitchTrigger : InputTrigger
 	{
 		return distance <= radius &&
 			Physics2D.Raycast(Abs(pos), Abs(targetPos) - Abs(pos), distance, obstacleMask).collider == null;
-
-
 	}
 
 	public Vector2 Abs(Vector2 v2)

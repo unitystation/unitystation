@@ -192,7 +192,7 @@ public class Welder : NetworkBehaviour
 				reactionManager.ExposeHotspot(position, 700, 0.005f);
 			}
 
-			yield return YieldHelper.DeciSecond;
+			yield return WaitFor.Seconds(.1f);
 		}
 	}
 }

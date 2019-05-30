@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Atmospherics;
@@ -7,74 +8,93 @@ using Tilemaps.Behaviours.Meta;
 public class Pipe : MonoBehaviour
 {
 	public List<Pipe> nodes = new List<Pipe>();
-	public Direction direction = Direction.NORTH;
+	public Direction direction = Direction.NORTH | Direction.SOUTH;
 	public RegisterTile registerTile;
 	public ObjectBehaviour objectBehaviour;
 	public Sprite[] pipeSprites;
 	public SpriteRenderer spriteRenderer;
+	public bool anchored;
 
 	public Pipenet pipenet;
 	public float volume = 70;
 
+	[Flags]
 	public enum Direction
 	{
-		NORTH,
-		SOUTH,
-		WEST,
-		EAST
+		NONE = 0,
+		NORTH = 1,
+		SOUTH = 2,
+		WEST = 4,
+		EAST = 8
 	}
+	public static readonly Direction[] allDirections = { Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST, };
 
 	public void Awake() {
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+		if(AtmosManager.Instance.roundStartedServer == false)
+		{
+			AtmosManager.Instance.roundStartPipes.Add(this);
+		}
 	}
 
 	public void WrenchAct()
 	{
-		if (objectBehaviour.isNotPushable)
+		if (anchored)
 		{
-			objectBehaviour.isNotPushable = false;
-			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Items");
 			Detach();
+			SpriteChange();
 		}
 		else
 		{
-			if (GetAnchoredPipe(registerTile.WorldPositionServer) != null)
+			if(Attach() == false)
 			{
+				// show message to the player 'theres something attached in this direction already'
 				return;
 			}
-			CalculateAttachedNodes();
-			Attach();
-			objectBehaviour.isNotPushable = true;
-			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Objects");
 		}
-		SpriteChange();
 		SoundManager.PlayAtPosition("Wrench", registerTile.WorldPositionServer);
 	}
 
-	public virtual void Attach()
+	public virtual bool Attach()
 	{
-		Pipenet foundPipenet = null;
-		for (int i = 0; i < nodes.Count; i++)
+		CalculateDirection();
+		if (GetAnchoredPipe(registerTile.WorldPositionServer, direction) != null)
 		{
-			foundPipenet = nodes[i].pipenet;
-			break;
+			return false;
 		}
-		if (foundPipenet == null)
+		CalculateAttachedNodes();
+
+		Pipenet foundPipenet = null;
+		if(nodes.Count > 0)
+		{
+			foundPipenet = nodes[0].pipenet;
+		}
+		else
 		{
 			foundPipenet = new Pipenet();
 		}
 		foundPipenet.AddPipe(this);
+		SetAnchored(true);
+		SetSpriteLayer();
 
-		transform.rotation = new Quaternion();
 		transform.position = registerTile.WorldPositionServer;
+		SpriteChange();
+
+		return true;
 	}
 
+	public virtual void SetAnchored(bool value)
+	{
+		anchored = value;
+		objectBehaviour.isNotPushable = value;
+	}
 
 	public void Detach()
 	{
 		//TODO: release gas to environmental air
-
+		SetAnchored(false);
+		SetSpriteLayer();
 		int neighboorPipes = 0;
 		for (int i = 0; i < nodes.Count; i++)
 		{
@@ -104,41 +124,27 @@ public class Pipe : MonoBehaviour
 	}
 
 
-	public bool IsCorrectDirection(Direction oppositeDir)
+	public bool HasDirection(Direction a, Direction b)
 	{
-		if(oppositeDir == Direction.NORTH || oppositeDir == Direction.SOUTH)
-		{
-			if(direction == Direction.NORTH || direction == Direction.SOUTH)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			if (direction == Direction.EAST || direction == Direction.WEST)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+		return (a & b) == b;
 	}
 
-	public Pipe GetAnchoredPipe(Vector3Int position)
+	public Pipe GetAnchoredPipe(Vector3Int position, Direction dir)
 	{
 		var foundPipes = MatrixManager.GetAt<Pipe>(position, true);
-		for (int n = 0; n < foundPipes.Count; n++)
+		for (int i = 0; i < allDirections.Length; i++)
 		{
-			var pipe = foundPipes[n];
-			if (pipe.objectBehaviour.isNotPushable && pipe.IsCorrectDirection(direction))
+			var specificDir = allDirections[i];
+			if (HasDirection(dir, specificDir))
 			{
-				return pipe;
+				for (int n = 0; n < foundPipes.Count; n++)
+				{
+					var pipe = foundPipes[n];
+					if (pipe.anchored && HasDirection(pipe.direction, specificDir))
+					{
+						return pipe;
+					}
+				}
 			}
 		}
 		return null;
@@ -146,31 +152,101 @@ public class Pipe : MonoBehaviour
 
 	public void CalculateAttachedNodes()
 	{
-		Vector3Int[] dir;
-		if (direction == Direction.NORTH || direction == Direction.SOUTH)
+		for (int i = 0; i < allDirections.Length; i++)
 		{
-			dir = new Vector3Int[] { Vector3Int.up, Vector3Int.down };
+			var dir = allDirections[i];
+			if(HasDirection(direction, dir))
+			{
+				var adjacentTurf = MetaUtils.GetNeighbors(registerTile.WorldPositionServer, DirectionToVector3IntList(dir));
+				var pipe = GetAnchoredPipe(adjacentTurf[0], OppositeDirection(dir));
+				if (pipe)
+				{
+					nodes.Add(pipe);
+					pipe.nodes.Add(this);
+					pipe.SpriteChange();
+				}
+			}
+		}
+	}
+
+	/* cheatsheet:
+	0-45 = south
+	45-135 = east
+	135-225 = north
+	225-315 = west
+	315-360 = south
+	*/
+	public virtual void CalculateDirection()
+	{
+		direction = 0;
+		var rotation = transform.rotation.eulerAngles.z;
+		if ((rotation >= 45 && rotation <= 135) || (rotation >= 225 && rotation <= 315))
+		{
+			direction = Direction.EAST | Direction.WEST;
 		}
 		else
 		{
-			dir = new Vector3Int[] { Vector3Int.left, Vector3Int.right };
+			direction = Direction.NORTH | Direction.SOUTH;
 		}
-		var adjacentTurfs = MetaUtils.GetNeighbors(registerTile.WorldPositionServer, dir);
-		for (int i = 0; i < adjacentTurfs.Length; i++)
+	}
+
+	Direction OppositeDirection(Direction dir)
+	{
+		if (dir == Direction.NORTH)
 		{
-			var pipe = GetAnchoredPipe(adjacentTurfs[i]);
-			if (pipe)
-			{
-				nodes.Add(pipe);
-				pipe.nodes.Add(this);
-				pipe.SpriteChange();
-			}
+			return Direction.SOUTH;
 		}
+		if (dir == Direction.SOUTH)
+		{
+			return Direction.NORTH;
+		}
+		if (dir == Direction.WEST)
+		{
+			return Direction.EAST;
+		}
+		if (dir == Direction.EAST)
+		{
+			return Direction.WEST;
+		}
+		return Direction.NONE;
+	}
+
+	Vector3Int[] DirectionToVector3IntList(Direction dir)
+	{
+		if (dir == Direction.NORTH)
+		{
+			return new Vector3Int[] { Vector3Int.up };
+		}
+		if (dir == Direction.SOUTH)
+		{
+			return new Vector3Int[] { Vector3Int.down };
+		}
+		if (dir == Direction.WEST)
+		{
+			return new Vector3Int[] { Vector3Int.left };
+		}
+		if (dir == Direction.EAST)
+		{
+			return new Vector3Int[] { Vector3Int.right };
+		}
+		return null;
 	}
 
 	public virtual void SpriteChange()
 	{
 		spriteRenderer.sprite = pipeSprites[0];
+	}
+
+	public virtual void SetSpriteLayer()
+	{
+		if(anchored == false)
+		{
+			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Items");
+		}
+		else
+		{
+			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Objects");
+		}
 	}
 
 }

@@ -29,7 +29,7 @@ public class StorageObject : NetworkBehaviour
 	IEnumerator InitSlots(bool _isServer)
 	{
 		//Wait for onscene change event to take place on InventoryManager
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		var syncData = new StorageSlotsUUIDSync();
 		storageSlots = new StorageSlots();
 		for (int i = 0; i < maxSlots; i++)
@@ -51,7 +51,7 @@ public class StorageObject : NetworkBehaviour
 
 		}
 
-		yield return YieldHelper.DeciSecond;
+		yield return WaitFor.Seconds(.1f);
 
 		if (syncData.UUIDs.Count != 0)
 		{

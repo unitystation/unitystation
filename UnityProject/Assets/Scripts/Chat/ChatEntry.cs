@@ -56,7 +56,7 @@ public class ChatEntry : MonoBehaviour {
 		Vector2 sizeDelta = rect.sizeDelta;
 		sizeDelta.x = 472f;
 		rect.sizeDelta = sizeDelta;
-        yield return new WaitForSeconds(12f);
+        yield return WaitFor.Seconds(12f);
         if (!ControlChat.Instance.chatInputWindow.gameObject.activeInHierarchy)
         {
             text.CrossFadeAlpha(0.01f, 3f, false);
@@ -64,7 +64,7 @@ public class ChatEntry : MonoBehaviour {
         {
             yield break;
         }
-        yield return new WaitForSeconds(3f);
+        yield return WaitFor.Seconds(3f);
         isCoolingDown = false;
     }
 }

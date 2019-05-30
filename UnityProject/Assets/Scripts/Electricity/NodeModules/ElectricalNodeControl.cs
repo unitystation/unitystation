@@ -28,14 +28,15 @@ public class ElectricalNodeControl : NetworkBehaviour
 		foreach (PowerInputReactions ReactionC in Reactions)
 		{
 			Node.InData.ConnectionReaction[ReactionC.ConnectingDevice] = ReactionC;
-		}		gameObject.SendMessage("BroadcastSetUpMessage", this, SendMessageOptions.DontRequireReceiver);
+		}
+		gameObject.SendMessage("BroadcastSetUpMessage", this, SendMessageOptions.DontRequireReceiver);
 		UpOnStartServer();
 		StartCoroutine(WaitForload());
 	}
 
 	IEnumerator WaitForload()
 	{
-		yield return new WaitForSeconds(1);
+		yield return WaitFor.Seconds(1);
 		Node.FindPossibleConnections();
 		Node.FlushConnectionAndUp();
 	}

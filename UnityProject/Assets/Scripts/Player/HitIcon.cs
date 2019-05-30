@@ -55,7 +55,7 @@ public class HitIcon : MonoBehaviour
 			float lerpProgress = timer / time;
 			spriteRenderer.color = Color.Lerp(transparent, visible, lerpProgress);
 			transform.localPosition = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress / 2f);
-			yield return new WaitForEndOfFrame();
+			yield return WaitFor.EndOfFrame;
 		}
 		lerpFrom = transform.localPosition;
 		timer = 0f;
@@ -67,7 +67,7 @@ public class HitIcon : MonoBehaviour
 			float lerpProgress = timer / time;
 			spriteRenderer.color = Color.Lerp(visible, transparent, lerpProgress);
 			transform.localPosition = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress);
-			yield return new WaitForEndOfFrame();
+			yield return WaitFor.EndOfFrame;
 		}
 		spriteRenderer.sprite = null;
 		isFading = false;

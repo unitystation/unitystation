@@ -9,19 +9,14 @@ public class AirVent : AdvancedPipe
 	private MetaDataNode metaNode;
 	private MetaDataLayer metaDataLayer;
 
-	private void Start()
+	public override bool Attach()
 	{
-		if(objectBehaviour.isNotPushable)
+		if (base.Attach() == false)
 		{
-			LoadTurf();
+			return false;
 		}
-		UpdateManager.Instance.Add(UpdateMe);
-	}
-
-	public override void Attach()
-	{
-		base.Attach();
 		LoadTurf();
+		return true;
 	}
 
 	private void LoadTurf()
@@ -30,9 +25,9 @@ public class AirVent : AdvancedPipe
 		metaNode = metaDataLayer.Get(registerTile.WorldPositionServer, false);
 	}
 
-	void UpdateMe()
+	public override void UpdateMe()
 	{
-		if (objectBehaviour.isNotPushable)
+		if (anchored)
 		{
 			CheckAtmos();
 		}

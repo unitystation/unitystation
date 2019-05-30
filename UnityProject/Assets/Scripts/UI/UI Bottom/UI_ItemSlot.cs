@@ -72,7 +72,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	IEnumerator SetSlotOnEnable()
 	{
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		if (!InventoryManager.AllClientInventorySlots.Contains(inventorySlot))
 		{
 			InventoryManager.AllClientInventorySlots.Add(inventorySlot);

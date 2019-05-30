@@ -45,7 +45,7 @@ namespace Tests
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneLoaded -= StopWaiting;
-			yield return new WaitForFixedUpdate();
+			yield return WaitFor.FixedUpdate;
 
 			void StopWaiting(Scene scene, LoadSceneMode mode) => wait = false;
 		}
@@ -60,7 +60,7 @@ namespace Tests
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneLoaded -= StopWaiting;
-			yield return new WaitForFixedUpdate();
+			yield return WaitFor.FixedUpdate;
 
 			void StopWaiting(Scene scene, LoadSceneMode mode) => wait = false;
 		}
@@ -75,7 +75,7 @@ namespace Tests
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneUnloaded -= StopWaiting;
-			yield return new WaitForFixedUpdate();
+			yield return WaitFor.FixedUpdate;
 
 			void StopWaiting(Scene scene) => wait = false;
 		}
@@ -90,7 +90,7 @@ namespace Tests
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneUnloaded -= StopWaiting;
-			yield return new WaitForFixedUpdate();
+			yield return WaitFor.FixedUpdate;
 
 			void StopWaiting(Scene scene) => wait = false;
 		}

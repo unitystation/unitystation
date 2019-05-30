@@ -98,7 +98,7 @@ public class Grenade : PickUpTrigger
 				float radiusVariation = radius / 4;
 				radius = Random.Range(radius - radiusVariation, radius + radiusVariation);
 			}
-			yield return new WaitForSeconds(fuseLength);
+			yield return WaitFor.Seconds(fuseLength);
 			Explode("explosion");
 		}
 	}
@@ -307,7 +307,7 @@ public class Grenade : PickUpTrigger
 	public IEnumerator TimedEffect(Vector3Int position, TileType tileType, string tileName, float time)
 	{
 		tileChangeManager.UpdateTile(position, TileType.Effects, "Fire");
-		yield return new WaitForSeconds(time);
+		yield return WaitFor.Seconds(time);
 		tileChangeManager.RemoveTile(position, LayerType.Effects);
 	}
 

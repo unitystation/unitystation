@@ -55,7 +55,7 @@ public class GUI_Nuke : NetTab
 	}
 
 	private IEnumerator HideCode() {
-		yield return new WaitForSeconds( 1 );
+		yield return WaitFor.Seconds( 1 );
 		CodeDisplay.SetValue = "".PadLeft( CodeDisplay.Value.Length, '*' );
 	}
 
@@ -82,17 +82,17 @@ public class GUI_Nuke : NetTab
 	public IEnumerator ErrorCooldown() {
 		cooldown = true;
 		InfoDisplay.SetValue = "Incorrect code!";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "Incorrect code!";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "Incorrect code!";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		cooldown = false;
 		Clear();
 		InfoDisplay.SetValue = InitialInfoText;

@@ -39,11 +39,11 @@ public class NukeInteract : NetworkTabTrigger
 
 	IEnumerator WaitForDeath()
 	{
-		yield return new WaitForSeconds(5f);
+		yield return WaitFor.Seconds(5f);
 		GibMessage.Send();
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		PlayerList.Instance.ReportScores(); //Report scores for who won (Crew or Syndicate)
-		yield return new WaitForSeconds(30f);
+		yield return WaitFor.Seconds(30f);
 		//Restart Round:
 		GameManager.Instance.RestartRound();
 	}
