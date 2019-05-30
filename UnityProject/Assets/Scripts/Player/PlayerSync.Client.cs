@@ -66,7 +66,10 @@ public partial class PlayerSync
 		get => predictedSpeedClient;
 		set
 		{
-			Logger.LogTraceFormat( "{0}: setting PREDICTED speed {1}->{2}", Category.Movement, gameObject.name, SpeedClient, value );
+			if ( Math.Abs( predictedSpeedClient - value ) > 0.01f )
+			{
+				Logger.LogTraceFormat( "{0}: setting PREDICTED speed {1}->{2}", Category.Movement, gameObject.name, SpeedClient, value );
+			}
 			predictedSpeedClient = value < 0 ? 0 : value;
 		}
 	}
@@ -113,7 +116,7 @@ public partial class PlayerSync
 		//arguably it shouldn't really be like that in the future
 		if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost))
 		{
-			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement, 
+			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement,
 				action.Direction(), pendingActions.Count, ClientState, predictedState );
 
 			//experiment: not enqueueing or processing action if floating, unless we are stopped.
@@ -180,7 +183,7 @@ public partial class PlayerSync
 				, Category.Movement, blockClientMovement, isPseudoFloatingClient, isFloatingClient, ClientState, predictedState );
 		}
 
-		yield return YieldHelper.DeciSecond;
+		yield return WaitFor.Seconds(.1f);
 		MoveCooldown = false;
 		isBumping = false;
 	}
@@ -438,7 +441,7 @@ public partial class PlayerSync
 
 	private IEnumerator RollbackPullables()
 	{
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		if (gameObject == PlayerManager.LocalPlayer
 			 && pushPull && pushPull.IsPullingSomethingClient)
 		{
@@ -462,7 +465,7 @@ public partial class PlayerSync
 	private IEnumerator BlockMovement()
 	{
 		blockClientMovement = true;
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		if (blockClientMovement)
 		{
 			Logger.LogWarning("Looks like you got stuck. Rolling back predictive moves", Category.Movement);
@@ -537,8 +540,8 @@ public partial class PlayerSync
 		if (!ClientPositionReady)
 		{
 			//PlayerLerp
-			var worldPos = predictedState.WorldPosition;
-			Vector3 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(Matrix));
+			var worldPos = predictedState.WorldPosition.CutToInt();
+			Vector2 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(Matrix));
 
 			if (playerState.NoLerp || Vector3.Distance(transform.localPosition, targetPos) > 30)
 			{
@@ -546,18 +549,19 @@ public partial class PlayerSync
 			}
 			else
 			{
-				transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos,
-				predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
+				transform.localPosition =
+					Vector3.MoveTowards(transform.localPosition, targetPos,
+										predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
 			}
 
 			if (ClientPositionReady)
 			{
-				OnClientTileReached().Invoke(Vector3Int.RoundToInt(worldPos));
+				OnClientTileReached().Invoke(worldPos);
 				// Check for swap once movement is done, to prevent us and another player moving into the same tile
 				if (!isServer && !playerScript.IsGhost)
 				{
 					//only check on client otherwise server would check this twice
-					CheckAndDoSwap(worldPos.RoundToInt(), lastDirection*-1, isServer: false);
+					CheckAndDoSwap(worldPos, lastDirection*-1, isServer: false);
 				}
 
 			}

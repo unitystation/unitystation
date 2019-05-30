@@ -22,7 +22,7 @@ internal enum LightState
 
 	TypeCount,
 }
-
+[ExecuteInEditMode]
 public class LightSource : ObjectTrigger
 {
 	private const LightState InitialState = LightState.Off;
@@ -221,6 +221,23 @@ public class LightSource : ObjectTrigger
 		ExtractLightSprites();
 	}
 
+	void Update() { 
+#if UNITY_EDITOR
+		if (!Application.isPlaying)
+		{
+			if (gameObject.tag == "EmergencyLight")
+			{
+				if (RelatedAPC == null)
+				{
+					Logger.LogError("EmergencyLight is missing APC reference, at " + transform.position, Category.Electrical); 
+					RelatedAPC.Current = 1; //so It will bring up an error, you can go to click on to go to the actual object with the missing reference 
+				}
+			}
+			return;
+		}
+#endif
+	}
+
 	void Start()
 	{
 		Color _color;
@@ -287,7 +304,7 @@ public class LightSource : ObjectTrigger
 	// Handle sync failure.
 	private IEnumerator WaitToTryAgain()
 	{
-		yield return new WaitForSeconds(0.2f);
+		yield return WaitFor.Seconds(0.2f);
 		if (Renderer == null)
 		{
 			Renderer = GetComponentInChildren<SpriteRenderer>();

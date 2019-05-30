@@ -251,7 +251,7 @@ public class GUI_APC : NetTab
 	private IEnumerator Refresh()
 	{
 		UpdateScreenDisplay();
-		yield return new WaitForSeconds(0.5F);
+		yield return WaitFor.Seconds(0.5F);
 		if (RefreshDisplay)
 		{
 			StartCoroutine( Refresh() );

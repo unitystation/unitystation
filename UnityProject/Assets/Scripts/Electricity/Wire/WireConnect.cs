@@ -18,7 +18,7 @@ public class WireConnect : ElectricalOIinheritance
 
 	//IEnumerator WaitForLoad()
 	//{
-	//	yield return new WaitForSeconds(7);
+	//	yield return WaitFor.Seconds(7);
 	//	if (SpriteHandler != null)
 	//	{
 	//		SpriteHandler.Check();

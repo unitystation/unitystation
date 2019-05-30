@@ -177,7 +177,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 
 	IEnumerator WaitForDemolition()
 	{
-		yield return new WaitForSeconds(TimeDeforeDestructiveBreakdown);
+		yield return WaitFor.Seconds(TimeDeforeDestructiveBreakdown);
 		CheckDestruction = true;
 		ElectricalSynchronisation.CableUpdates.Add(this);
 	}

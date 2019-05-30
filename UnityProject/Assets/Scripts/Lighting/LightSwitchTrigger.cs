@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System;
 
+[ExecuteInEditMode]
 public class LightSwitchTrigger : InputTrigger
 {
 
@@ -43,10 +44,25 @@ public class LightSwitchTrigger : InputTrigger
 		clickSFX = GetComponent<AudioSource>();
 	}
 
+	void Update()
+	{
+#if UNITY_EDITOR
+		if (!Application.isPlaying)
+		{
+			if (!SelfPowered && RelatedAPC == null)
+			{
+				Logger.LogError("Lightswitch is missing APC reference, at " + transform.position, Category.Electrical);
+				RelatedAPC.Current = 1; //so It will bring up an error, you can go to click on to go to the actual object with the missing reference 
+			}
+			return;
+		}
+#endif
+	}
+
 	private void Start()
 	{
-		//This is needed because you can no longer apply lightSwitch prefabs (it will move all of the child sprite positions)
-		gameObject.layer = LayerMask.NameToLayer("WallMounts");
+	   //This is needed because you can no longer apply lightSwitch prefabs (it will move all of the child sprite positions)
+	   gameObject.layer = LayerMask.NameToLayer("WallMounts");
 		//and the rest of the mask caches:
 		lightingMask = LayerMask.GetMask("Lighting");
 		obstacleMask = LayerMask.GetMask("Walls", "Door Open", "Door Closed");
@@ -90,7 +106,7 @@ public class LightSwitchTrigger : InputTrigger
 
 	private IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(3f);
+		yield return WaitFor.Seconds(3f);
 		SyncLightSwitch(isOn);
 	}
 
@@ -124,7 +140,7 @@ public class LightSwitchTrigger : InputTrigger
 	private IEnumerator CoolDown()
 	{
 		switchCoolDown = true;
-		yield return new WaitForSeconds(0.2f);
+		yield return WaitFor.Seconds(0.2f);
 		switchCoolDown = false;
 	}
 

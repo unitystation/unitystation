@@ -58,7 +58,7 @@ public class Asteroid : NetworkBehaviour
 	{
 		while (mm.State.Position == TransformState.HiddenPos)
 		{
-			yield return YieldHelper.EndOfFrame;
+			yield return WaitFor.EndOfFrame;
 		}
 		SpawnNearStation();
 		RandomRotation();

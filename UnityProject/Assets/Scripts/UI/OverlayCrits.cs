@@ -55,7 +55,7 @@ using System.Collections;
 
 		IEnumerator AdjustShroud(ShroudPreference pref)
 		{
-			yield return YieldHelper.DeciSecond;
+			yield return WaitFor.Seconds(.1f);
 			if (!pref.shroudActive)
 			{
 

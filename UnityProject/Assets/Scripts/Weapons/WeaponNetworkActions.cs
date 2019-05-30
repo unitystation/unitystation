@@ -169,7 +169,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private IEnumerator AttackCoolDown(float seconds = 0.5f)
 	{
 		allowAttack = false;
-		yield return new WaitForSeconds(seconds);
+		yield return WaitFor.Seconds(seconds);
 		allowAttack = true;
 	}
 
@@ -264,7 +264,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private IEnumerator ShowMuzzleFlash()
 	{
 		muzzleFlash.gameObject.SetActive(true);
-		yield return new WaitForSeconds(0.1f);
+		yield return WaitFor.Seconds(0.1f);
 		muzzleFlash.gameObject.SetActive(false);
 		isFlashing = false;
 	}

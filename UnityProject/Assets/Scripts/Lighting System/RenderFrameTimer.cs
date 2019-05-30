@@ -33,7 +33,7 @@ public class RenderFrameTimer : MonoBehaviour
 		while (true)
 		{
 			// Wait until all rendering + UI is done.
-			yield return new WaitForEndOfFrame();
+			yield return WaitFor.EndOfFrame;
 			OnEndOfFrame();
 
 		}

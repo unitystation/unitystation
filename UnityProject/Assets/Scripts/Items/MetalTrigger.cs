@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 public class MetalTrigger : PickUpTrigger
 {
 	private bool isBuilding;
-	public GameObject griderPrefab;
+	public GameObject girderPrefab;
 
 
 	public override void UI_Interact(GameObject originator, string hand)
@@ -53,7 +53,7 @@ public class MetalTrigger : PickUpTrigger
 	[Server]
 	private void BuildGirder(Vector3 position)
 	{
-		PoolManager.PoolNetworkInstantiate(griderPrefab, position);
+		PoolManager.PoolNetworkInstantiate(girderPrefab, position);
 		isBuilding = false;
 		DisappearObject();
 	}

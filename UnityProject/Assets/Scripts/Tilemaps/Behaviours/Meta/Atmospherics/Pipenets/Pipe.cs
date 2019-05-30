@@ -12,6 +12,7 @@ public class Pipe : MonoBehaviour
 	public ObjectBehaviour objectBehaviour;
 	public Sprite[] pipeSprites;
 	public SpriteRenderer spriteRenderer;
+	public bool anchored;
 
 	public Pipenet pipenet;
 	public float volume = 70;
@@ -27,14 +28,16 @@ public class Pipe : MonoBehaviour
 	public void Awake() {
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+		if(AtmosManager.Instance.roundStartedServer == false)
+		{
+			AtmosManager.Instance.roundStartPipes.Add(this);
+		}
 	}
 
 	public void WrenchAct()
 	{
-		if (objectBehaviour.isNotPushable)
+		if (anchored)
 		{
-			objectBehaviour.isNotPushable = false;
-			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Items");
 			Detach();
 		}
 		else
@@ -43,10 +46,9 @@ public class Pipe : MonoBehaviour
 			{
 				return;
 			}
-			CalculateAttachedNodes();
 			Attach();
-			objectBehaviour.isNotPushable = true;
-			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Objects");
+			transform.rotation = new Quaternion();
+			transform.position = registerTile.WorldPositionServer;
 		}
 		SpriteChange();
 		SoundManager.PlayAtPosition("Wrench", registerTile.WorldPositionServer);
@@ -54,27 +56,32 @@ public class Pipe : MonoBehaviour
 
 	public virtual void Attach()
 	{
+		CalculateAttachedNodes();
 		Pipenet foundPipenet = null;
-		for (int i = 0; i < nodes.Count; i++)
+		if(nodes.Count > 0)
 		{
-			foundPipenet = nodes[i].pipenet;
-			break;
+			foundPipenet = nodes[0].pipenet;
 		}
-		if (foundPipenet == null)
+		else
 		{
 			foundPipenet = new Pipenet();
 		}
 		foundPipenet.AddPipe(this);
-
-		transform.rotation = new Quaternion();
-		transform.position = registerTile.WorldPositionServer;
+		SetAnchored(true);
+		SetSpriteLayer();
 	}
 
+	public virtual void SetAnchored(bool value)
+	{
+		anchored = value;
+		objectBehaviour.isNotPushable = value;
+	}
 
 	public void Detach()
 	{
 		//TODO: release gas to environmental air
-
+		SetAnchored(false);
+		SetSpriteLayer();
 		int neighboorPipes = 0;
 		for (int i = 0; i < nodes.Count; i++)
 		{
@@ -136,7 +143,7 @@ public class Pipe : MonoBehaviour
 		for (int n = 0; n < foundPipes.Count; n++)
 		{
 			var pipe = foundPipes[n];
-			if (pipe.objectBehaviour.isNotPushable && pipe.IsCorrectDirection(direction))
+			if (pipe.anchored && pipe.IsCorrectDirection(direction))
 			{
 				return pipe;
 			}
@@ -171,6 +178,18 @@ public class Pipe : MonoBehaviour
 	public virtual void SpriteChange()
 	{
 		spriteRenderer.sprite = pipeSprites[0];
+	}
+
+	public virtual void SetSpriteLayer()
+	{
+		if(anchored == false)
+		{
+			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Items");
+		}
+		else
+		{
+			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Objects");
+		}
 	}
 
 }

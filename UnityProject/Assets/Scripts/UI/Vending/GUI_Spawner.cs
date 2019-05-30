@@ -76,8 +76,7 @@ public class GUI_Spawner : NetTab
 	private bool tgtMode;
 	private IEnumerator ToggleStory(int word) {
 		InfoDisplay.SetValue = tgt.Wrap(word);
-		yield return YieldHelper.Second;
-		yield return YieldHelper.Second;
+		yield return WaitFor.Seconds(2);
 		if ( tgtMode ) {
 			StartCoroutine( ToggleStory(++word) );
 		}
@@ -158,7 +157,7 @@ public class GUI_Spawner : NetTab
 			//fire
 			SpawnItemByIndex( s );
 		}
-		yield return new WaitForSeconds( 1.5f );
+		yield return WaitFor.Seconds( 1.5f );
 		if ( firingMode ) {
 			StartCoroutine( KeepFiring(++shot) );
 		}

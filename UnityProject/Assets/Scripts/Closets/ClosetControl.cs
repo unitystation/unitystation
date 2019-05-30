@@ -56,7 +56,7 @@ public class ClosetControl : InputTrigger
 
 	private IEnumerator WaitForServerReg()
 	{
-		yield return new WaitForSeconds(1f);
+		yield return WaitFor.Seconds(1f);
 		IsClosed = true;
 		SetItems(!IsClosed);
 	}
@@ -96,7 +96,7 @@ public class ClosetControl : InputTrigger
 
 	private IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(3f);
+		yield return WaitFor.Seconds(3f);
 		bool iC = IsClosed;
 		bool iL = IsLocked;
 		OpenClose(iC);

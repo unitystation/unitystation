@@ -116,7 +116,7 @@ public class ShutterController : ObjectTrigger
 	//Handle network spawn sync failure
 	private IEnumerator WaitToTryAgain()
 	{
-		yield return new WaitForSeconds(0.2f);
+		yield return WaitFor.Seconds(0.2f);
 		if (animator == null)
 		{
 			animator = GetComponentInChildren<Animator>();

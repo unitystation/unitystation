@@ -91,7 +91,7 @@ public class VendorTrigger : InputTrigger
 
 	private IEnumerator VendorInputCoolDown()
 	{
-		yield return new WaitForSeconds(cooldownTimer);
+		yield return WaitFor.Seconds(cooldownTimer);
 		if (stock > 0)
 		{
 			allowSell = true;

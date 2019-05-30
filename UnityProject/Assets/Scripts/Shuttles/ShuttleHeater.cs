@@ -9,4 +9,14 @@ public class ShuttleHeater : AdvancedPipe
 	{
 		return;
 	}
+
+	public override void SetSpriteLayer()
+	{
+		return;
+	}
+
+	public override void SetAnchored(bool value)
+	{
+		anchored = value;
+	}
 }

@@ -124,7 +124,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 	/// <returns></returns>
 	private IEnumerator WaitToDestroy()
 	{
-		yield return new WaitForSeconds(5f);
+		yield return WaitFor.Seconds(5f);
 		NetworkServer.Destroy(gameObject);
 	}
 

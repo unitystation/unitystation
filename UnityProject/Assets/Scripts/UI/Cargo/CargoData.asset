@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a52a1b6e0621ee84e9a337e8b5793a69, type: 3}
+  m_Name: CargoData
+  m_EditorClassIdentifier: 
+  Supplies:
+  - CategoryName: Kitchen
+    Supplies:
+    - OrderName: Beer Crate
+      CreditsCost: 100
+      Crate: {fileID: 1501407896951118, guid: f2cd419b41c964ba0a7a26218ec7a38c, type: 3}
+      Items:
+      - {fileID: 1110193000772614, guid: 0a444092780864964b48a63b1a16cd34, type: 3}
+      - {fileID: 1110193000772614, guid: 0a444092780864964b48a63b1a16cd34, type: 3}
+      - {fileID: 1110193000772614, guid: 0a444092780864964b48a63b1a16cd34, type: 3}
+    - OrderName: Steak
+      CreditsCost: 100
+      Crate: {fileID: 1501407896951118, guid: f2cd419b41c964ba0a7a26218ec7a38c, type: 3}
+      Items:
+      - {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 3}
+      - {fileID: 1651733465195328, guid: 5d017514ecdb1cb4b91d054838c247b3, type: 3}
+  - CategoryName: Security
+    Supplies:
+    - OrderName: Baton Crate
+      CreditsCost: 100
+      Crate: {fileID: 1623680258428568, guid: d5e2aef45df114aa39de1eae7d792aa2, type: 3}
+      Items:
+      - {fileID: 1000011622113908, guid: b3c9185918b6a40848954ead4b67f0e4, type: 3}
+    - OrderName: Batons Crate
+      CreditsCost: 300
+      Crate: {fileID: 1623680258428568, guid: d5e2aef45df114aa39de1eae7d792aa2, type: 3}
+      Items:
+      - {fileID: 1000011622113908, guid: b3c9185918b6a40848954ead4b67f0e4, type: 3}
+      - {fileID: 1000011622113908, guid: b3c9185918b6a40848954ead4b67f0e4, type: 3}
+      - {fileID: 1000011622113908, guid: b3c9185918b6a40848954ead4b67f0e4, type: 3}
+    - OrderName: Baton Crate
+      CreditsCost: 100
+      Crate: {fileID: 1623680258428568, guid: d5e2aef45df114aa39de1eae7d792aa2, type: 3}
+      Items:
+      - {fileID: 1000011622113908, guid: b3c9185918b6a40848954ead4b67f0e4, type: 3}
+  - CategoryName: Medical
+    Supplies:
+    - OrderName: Banana Juice Crate
+      CreditsCost: 50
+      Crate: {fileID: 1501407896951118, guid: f2cd419b41c964ba0a7a26218ec7a38c, type: 3}
+      Items:
+      - {fileID: 1110193000772614, guid: c2b2938c3617748ab9fa565d6338f68b, type: 3}
+    - OrderName: Banana Peel Crate
+      CreditsCost: 50
+      Crate: {fileID: 1501407896951118, guid: f2cd419b41c964ba0a7a26218ec7a38c, type: 3}
+      Items:
+      - {fileID: 1907679543779350, guid: f55ea2147f7e49449a11c6d0063822f6, type: 3}

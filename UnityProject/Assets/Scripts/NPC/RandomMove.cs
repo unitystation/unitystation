@@ -65,7 +65,7 @@ using UnityEngine.Networking;
 		private IEnumerator RandMove()
 		{
 			float ranTime = Random.Range(2f, 10f);
-			yield return new WaitForSeconds(ranTime);
+			yield return WaitFor.Seconds(ranTime);
 
 			int ranDir = Random.Range(0, 4);
 
@@ -101,7 +101,7 @@ using UnityEngine.Networking;
 				}
 			}
 
-			yield return new WaitForSeconds(0.2f);
+			yield return WaitFor.Seconds(0.2f);
 
 			StartCoroutine(RandMove());
 		}
