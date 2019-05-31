@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SMES : NetworkBehaviour, IInteractable<HandApply>, IInteractionProcessor<HandApply>, INodeControl
+public class SMES : NetworkCoordinatedHandApplyInteraction, INodeControl
 {
 	public bool ResistanceChange = false;
 
@@ -25,7 +25,7 @@ public class SMES : NetworkBehaviour, IInteractable<HandApply>, IInteractionProc
 	public ElectricalNodeControl ElectricalNodeControl;
 	public BatterySupplyingModule BatterySupplyingModule;
 
-	[SyncVar(hook = "UpdateState")]
+	[SyncVar(hook = nameof(UpdateState))]
 	public bool isOn = false;
 
 	public override void OnStartClient()
@@ -34,30 +34,21 @@ public class SMES : NetworkBehaviour, IInteractable<HandApply>, IInteractionProc
 		UpdateState(isOn);
 	}
 
-    public InteractionResult Interact(HandApply interaction)
+	protected override IList<IInteractionValidator<HandApply>> Validators()
 	{
-		// We can still re-use validators if we want:
-		ValidationResult validationResult = CanApply.ONLY_IF_CONSCIOUS.Validate(interaction, NetworkSide.CLIENT);
-		if (validationResult == ValidationResult.SUCCESS) {
-			RequestInteractMessage.Send(interaction, this);
-			return (InteractionResult.SOMETHING_HAPPENED);
-		}
-		return (InteractionResult.NOTHING_HAPPENED);
+		return new List<IInteractionValidator<HandApply>>
+		{
+			//use existing validators so we can re-use common validation logic
+			CanApply.ONLY_IF_CONSCIOUS
+		};
 	}
 
-	//from IInteractionProcessor, this will be invoked when the server gets the RequestInteractMessage
-	public InteractionResult ServerProcessInteraction(HandApply interaction)
+	protected override InteractionResult ServerPerformInteraction(HandApply interaction)
 	{
-		ValidationResult validationResult = CanApply.ONLY_IF_CONSCIOUS.Validate(interaction, NetworkSide.SERVER);
-		if (validationResult == ValidationResult.SUCCESS)
-		{
-			isOn = !isOn;
-			UpdateServerState(isOn);
-			return (InteractionResult.SOMETHING_HAPPENED);
-		}
-		return (InteractionResult.NOTHING_HAPPENED);
-		//validate and perform the update server side after it gets the RequestInteractMessage,
-		//then inform all clients.
+		isOn = !isOn;
+		UpdateServerState(isOn);
+
+		return InteractionResult.SOMETHING_HAPPENED;
 	}
 
 	public void UpdateServerState(bool _isOn)
