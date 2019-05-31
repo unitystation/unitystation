@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using Atmospherics;
 using Tilemaps.Behaviours.Meta;
 
-public class Pipe : MonoBehaviour
+public class Pipe : NetworkBehaviour
 {
 	public List<Pipe> nodes = new List<Pipe>();
 	public Direction direction = Direction.NORTH | Direction.SOUTH;
@@ -13,6 +14,7 @@ public class Pipe : MonoBehaviour
 	public ObjectBehaviour objectBehaviour;
 	public Sprite[] pipeSprites;
 	public SpriteRenderer spriteRenderer;
+	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
 	public bool anchored;
 
 	public Pipenet pipenet;
@@ -43,7 +45,7 @@ public class Pipe : MonoBehaviour
 		if (anchored)
 		{
 			Detach();
-			SpriteChange();
+			CalculateSprite();
 		}
 		else
 		{
@@ -76,10 +78,10 @@ public class Pipe : MonoBehaviour
 		}
 		foundPipenet.AddPipe(this);
 		SetAnchored(true);
-		SetSpriteLayer();
+		SetSpriteLayer(true);
 
 		transform.position = registerTile.WorldPositionServer;
-		SpriteChange();
+		CalculateSprite();
 
 		return true;
 	}
@@ -90,17 +92,37 @@ public class Pipe : MonoBehaviour
 		objectBehaviour.isNotPushable = value;
 	}
 
+	public void SyncSprite(int value)
+	{
+		if(value == 0) // its using the item sprite
+		{
+			SetSpriteLayer(false);
+		}
+		else
+		{
+			SetSpriteLayer(true);
+		}
+		SetSprite(value);
+	}
+
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		SyncSprite(spriteSync);
+	}
+
+
 	public void Detach()
 	{
 		//TODO: release gas to environmental air
 		SetAnchored(false);
-		SetSpriteLayer();
+		SetSpriteLayer(false);
 		int neighboorPipes = 0;
 		for (int i = 0; i < nodes.Count; i++)
 		{
 			var pipe = nodes[i];
 			pipe.nodes.Remove(this);
-			pipe.SpriteChange();
+			pipe.CalculateSprite();
 			neighboorPipes++;
 		}
 		nodes = new List<Pipe>();
@@ -163,7 +185,7 @@ public class Pipe : MonoBehaviour
 				{
 					nodes.Add(pipe);
 					pipe.nodes.Add(this);
-					pipe.SpriteChange();
+					pipe.CalculateSprite();
 				}
 			}
 		}
@@ -232,20 +254,27 @@ public class Pipe : MonoBehaviour
 		return null;
 	}
 
-	public virtual void SpriteChange()
+	public virtual void CalculateSprite()
 	{
-		spriteRenderer.sprite = pipeSprites[0];
+		SetSprite(0);
 	}
 
-	public virtual void SetSpriteLayer()
+	public void SetSprite(int value)
 	{
-		if(anchored == false)
+		spriteSync = value;
+		Debug.Log($"ARAN: SETSPRITE FOR {name} - value: {value} - pipesprites: {pipeSprites.Length}");
+		spriteRenderer.sprite = pipeSprites[value];
+	}
+
+	public virtual void SetSpriteLayer(bool anchoredLayer)
+	{
+		if(anchoredLayer)
 		{
-			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Items");
+			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Objects");
 		}
 		else
 		{
-			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Objects");
+			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Items");
 		}
 	}
 

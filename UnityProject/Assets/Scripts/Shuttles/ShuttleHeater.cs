@@ -5,12 +5,12 @@ using Atmospherics;
 
 public class ShuttleHeater : AdvancedPipe
 {
-	public override void SpriteChange()
+	public override void CalculateSprite()
 	{
 		return;
 	}
 
-	public override void SetSpriteLayer()
+	public override void SetSpriteLayer(bool anchoredLayer)
 	{
 		return;
 	}

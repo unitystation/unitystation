@@ -5,17 +5,17 @@ using Atmospherics;
 
 public class SimplePipe : Pipe
 {
-	public override void SpriteChange()
+	public override void CalculateSprite()
 	{
 		if(objectBehaviour.isNotPushable == false)
 		{
-			base.SpriteChange();
+			base.CalculateSprite();
 			return;
 		}
 		switch (nodes.Count)
 		{
 			case 2:
-				spriteRenderer.sprite = pipeSprites[1];
+				SetSprite(1);
 				break;
 
 			case 1:
@@ -24,28 +24,28 @@ public class SimplePipe : Pipe
 				{
 					if(pipe.transform.position.y > transform.position.y)
 					{
-						spriteRenderer.sprite = pipeSprites[2];
+						SetSprite(2);
 					}
 					else
 					{
-						spriteRenderer.sprite = pipeSprites[3];
+						SetSprite(3);
 					}
 				}
 				else
 				{
 					if (pipe.transform.position.x < transform.position.x)
 					{
-						spriteRenderer.sprite = pipeSprites[2];
+						SetSprite(2);
 					}
 					else
 					{
-						spriteRenderer.sprite = pipeSprites[3];
+						SetSprite(3);
 					}
 				}
 				break;
 
 			case 0:
-				spriteRenderer.sprite = pipeSprites[4];
+				SetSprite(4);
 				break;
 
 		}
