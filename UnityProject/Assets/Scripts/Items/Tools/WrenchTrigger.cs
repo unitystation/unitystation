@@ -1,16 +1,12 @@
 ﻿using UnityEngine;
 
-public class WrenchTrigger : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class WrenchTrigger : InputTrigger
 {
     public override bool Interact(GameObject originator, Vector3 position, string hand)
     {
-        //TODO:  Fill this in.
+        //TODO: Remove after IF2 refactor
 
-        if (UIManager.Hands.CurrentSlot.Item != gameObject)
-        {
-            return base.Interact(originator, position, hand);
-        }
-
-        return base.Interact(originator, position, hand);
+        return false;
     }
 }

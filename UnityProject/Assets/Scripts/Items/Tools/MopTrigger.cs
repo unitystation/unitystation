@@ -3,7 +3,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class MopTrigger : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class MopTrigger : InputTrigger
 {
 	//server-side only, tracks if mop is currently cleaning.
 	private bool isCleaning;
@@ -21,10 +22,10 @@ public class MopTrigger : PickUpTrigger
 		{
 			//we are initiating the interaction locally
 
-			//if the mop is not in our hand, pick it up
+			//if the mop is not in our hand, don't do anything (it will be picked up)
 			if (UIManager.Hands.CurrentSlot.Item != gameObject)
 			{
-				return base.Interact (originator, position, hand);
+				return false;
 			}
 
 			//ask the server to let us mop if it's in reach
@@ -47,11 +48,11 @@ public class MopTrigger : PickUpTrigger
 		else if (isServer)
 		{
 			//server is being asked to mop on behalf of some other player.
-			//if mop is not in their hand, pick it up by delegating to Pickuptrigger
+			//if mop is not in their hand, don't do anything (it will be picked up)
 			var targetSlot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
 			if (targetSlot.Item == null)
 			{
-				return base.Interact (originator, position, hand);
+				return false;
 			}
 
 			//mop is in their hand, let them mop

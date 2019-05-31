@@ -112,7 +112,7 @@ public class MouseDraggable : MonoBehaviour
 			foreach (IInteractable<MouseDrop> mouseDrop in mouseDrops)
 			{
 				var result = mouseDrop.Interact(info);
-				if (result.SomethingHappened)
+				if (result.StopProcessing)
 				{
 					//we're done checking, something happened
 					return;
@@ -123,7 +123,7 @@ public class MouseDraggable : MonoBehaviour
 			foreach (IInteractable<MouseDrop> mouseDropTarget in dropTarget.GetComponents<IInteractable<MouseDrop>>())
 			{
 				var result = mouseDropTarget.Interact(info);
-				if (result.SomethingHappened)
+				if (result.StopProcessing)
 				{
 					//something happened, done checking
 					return;
@@ -139,6 +139,9 @@ public class MouseDraggable : MonoBehaviour
 	/// <returns></returns>
 	public bool CanBeginDrag(GameObject dragger)
 	{
-		return CanApply.Validate(dragger, gameObject, allowDragWhileSoftCrit, draggerMustBeAdjacent);
+		return CanApply.Validate(dragger, gameObject, allowDragWhileSoftCrit,
+			//always client side
+			NetworkSide.CLIENT,
+			draggerMustBeAdjacent ? ReachRange.STANDARD : ReachRange.UNLIMITED);
 	}
 }

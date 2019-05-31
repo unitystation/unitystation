@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 114120662618608678}
   - component: {fileID: 114336348675555448}
   - component: {fileID: 114234295319972672}
+  - component: {fileID: 114465317721107106}
   m_Layer: 10
   m_Name: UniBackPack
   m_TagString: Untagged
@@ -289,3 +290,20 @@ MonoBehaviour:
     inventorySlots: []
   maxSlots: 7
   maxItemSize: 3
+--- !u!114 &114465317721107106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585232330438968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDropServer:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

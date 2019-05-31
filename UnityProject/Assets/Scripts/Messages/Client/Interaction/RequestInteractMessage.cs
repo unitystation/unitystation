@@ -25,6 +25,9 @@ public class RequestInteractMessage : ClientMessage
 	public NetworkInstanceId ProcessorObject;
 	//netid of the object being dropped, applied, or activated
 	public NetworkInstanceId UsedObject;
+	//name of the slot being used (such as which hand slot) / source slot if this is a combine
+	public string UsedSlotName;
+
 	//netid of the object being targeted if this is a mouse drop or hand
 	//apply or combine
 	public NetworkInstanceId TargetObject;
@@ -113,7 +116,7 @@ public class RequestInteractMessage : ClientMessage
 		foreach (var processorComponent in processorComponents)
 		{
 			if (processorComponent.ServerProcessInteraction(new MouseDrop(performerObj, droppedObj, targetObj)) ==
-			    InteractionResult.SOMETHING_HAPPENED)
+			    InteractionControl.STOP_PROCESSING)
 			{
 				//something happened, don't check further components
 				return;
@@ -126,11 +129,11 @@ public class RequestInteractMessage : ClientMessage
 		//try to look up the components on the processor that can handle this interaction
 		var processorComponents = TryGetProcessors<HandApply>(processorObj);
 		//invoke each component that can handle this interaction
+		var handApply = new HandApply(performerObj, handObject, targetObj, UsedSlotName);
 		foreach (var processorComponent in processorComponents)
 		{
-			if (processorComponent.ServerProcessInteraction(
-				    new HandApply(performerObj, handObject, targetObj)) ==
-			    InteractionResult.SOMETHING_HAPPENED)
+			if (processorComponent.ServerProcessInteraction(handApply) ==
+			    InteractionControl.STOP_PROCESSING)
 			{
 				//something happened, don't check further components
 				return;
@@ -243,6 +246,7 @@ public class RequestInteractMessage : ClientMessage
 		return new RequestInteractMessage()
 		{
 			UsedObject = handApply.UsedObject != null ? handApply.UsedObject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			UsedSlotName = handApply.HandSlotName,
 			TargetObject = handApply.TargetObject.GetComponent<NetworkIdentity>().netId,
 			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId,
 			InteractionTypeID = typeId
@@ -256,6 +260,7 @@ public class RequestInteractMessage : ClientMessage
 		InteractionTypeID = reader.ReadInt16();
 		ProcessorObject = reader.ReadNetworkId();
 		UsedObject = reader.ReadNetworkId();
+		UsedSlotName = reader.ReadString();
 		TargetObject = reader.ReadNetworkId();
 	}
 
@@ -266,6 +271,7 @@ public class RequestInteractMessage : ClientMessage
 		writer.Write(InteractionTypeID);
 		writer.Write(ProcessorObject);
 		writer.Write(UsedObject);
+		writer.Write(UsedSlotName);
 		writer.Write(TargetObject);
 	}
 }

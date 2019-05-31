@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthScanner : PickUpTrigger
+public class HealthScanner : Pickupable
 {
 	public override void Attack(GameObject target, GameObject originator, BodyPartType bodyPart)
 	{

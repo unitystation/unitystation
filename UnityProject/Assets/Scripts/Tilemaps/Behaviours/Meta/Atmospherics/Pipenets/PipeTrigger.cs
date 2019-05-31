@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PipeTrigger : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class PipeTrigger : InputTrigger
 {
 	Pipe pipe;
 
@@ -31,7 +32,7 @@ public class PipeTrigger : PickUpTrigger
 		{
 			if (!pipe.objectBehaviour.isNotPushable)
 			{
-				return base.Interact(originator, position, hand);
+				return false;
 			}
 		}
 		else
