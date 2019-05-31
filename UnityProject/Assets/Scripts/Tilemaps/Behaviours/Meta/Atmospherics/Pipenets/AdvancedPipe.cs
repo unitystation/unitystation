@@ -37,23 +37,18 @@ public class AdvancedPipe : Pipe
 		{
 			direction = Direction.EAST;
 		}
+		else if (rotation > 135 && rotation < 225)
+		{
+			direction = Direction.NORTH;
+		}
+		else if (rotation > 225 && rotation < 315)
+		{
+			direction = Direction.WEST;
+		}
 		else
 		{
-			if (rotation > 135 && rotation < 225)
-			{
-				direction = Direction.NORTH;
-			}
-			else
-			{
-				if (rotation > 225 && rotation < 315)
-				{
-					direction = Direction.WEST;
-				}
-				else
-				{
-					direction = Direction.SOUTH;
-				}
-			}
+			direction = Direction.SOUTH;
 		}
 	}
+
 }

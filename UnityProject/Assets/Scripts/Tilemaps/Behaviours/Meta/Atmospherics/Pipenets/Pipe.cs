@@ -191,25 +191,9 @@ public class Pipe : NetworkBehaviour
 		}
 	}
 
-	/* cheatsheet:
-	0-45 = south
-	45-135 = east
-	135-225 = north
-	225-315 = west
-	315-360 = south
-	*/
 	public virtual void CalculateDirection()
 	{
-		direction = 0;
-		var rotation = transform.rotation.eulerAngles.z;
-		if ((rotation >= 45 && rotation <= 135) || (rotation >= 225 && rotation <= 315))
-		{
-			direction = Direction.EAST | Direction.WEST;
-		}
-		else
-		{
-			direction = Direction.NORTH | Direction.SOUTH;
-		}
+
 	}
 
 	Direction OppositeDirection(Direction dir)
@@ -262,7 +246,6 @@ public class Pipe : NetworkBehaviour
 	public void SetSprite(int value)
 	{
 		spriteSync = value;
-		Debug.Log($"ARAN: SETSPRITE FOR {name} - value: {value} - pipesprites: {pipeSprites.Length}");
 		spriteRenderer.sprite = pipeSprites[value];
 	}
 
