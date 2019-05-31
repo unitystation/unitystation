@@ -31,11 +31,11 @@ public class RightClickOption : ScriptableObject
 
 	/// <summary>
 	/// Create a Right click Menu item whose appearance is based on the settings in this RightClickOption.
-	/// Action and sub menus are left empty.
 	/// </summary>
-	public RightclickManager.Menu AsMenu()
+	/// <param name="action">action to invoke when clicked</param>
+	public RightClickMenuItem AsMenu(Action action)
 	{
-		var menu = new RightclickManager.Menu {Label = label, Sprite = icon, Colour = backgroundColor};
+		var menu = RightClickMenuItem.CreateSubMenuItem(backgroundColor, icon, label, action);
 		return menu;
 	}
 }

@@ -84,14 +84,12 @@ public class RightClickableElement
 	/// Create a menu item based on this element.
 	/// </summary>
 	/// <returns></returns>
-	public RightclickManager.Menu AsMenu()
+	public RightClickMenuItem AsMenu()
 	{
-		var result = new RightclickManager.Menu();
-		result.Label = nameOverride ?? option.label;
-		result.Action = action;
-		result.Colour = bgColorOverride ?? option.backgroundColor;
-		result.Sprite = spriteOverride ? spriteOverride : option.icon;
+		var label = nameOverride ?? option.label;
+		var color = bgColorOverride ?? option.backgroundColor;
+		var sprite = spriteOverride ? spriteOverride : option.icon;
 
-		return result;
+		return RightClickMenuItem.CreateSubMenuItem(color, sprite, label, action);
 	}
 }

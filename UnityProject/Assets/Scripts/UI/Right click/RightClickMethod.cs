@@ -1,5 +1,6 @@
 
 using System;
+using System.Reflection;
 using UnityEngine;
 
 /// <summary>
@@ -18,11 +19,11 @@ public class RightClickMethod : Attribute
 	/// <summary>
 	/// Cause the attributed method to be invokable via the right click menu.
 	/// </summary>
-	/// <param name="label">Label to show under the menu option.</param>
+	/// <param name="label">Label to show under the menu option. If null, will default to the attributed method's name</param>
 	/// <param name="bgColorHex">Hex string (#ffffff) representing the background color of the option. Defaults to gray.</param>
 	/// <param name="spritePath">Path to the sprite to show for the option, such as
 	/// "UI/RightClickButtonIcon/question_mark". Defaults to question mark</param>
-	public RightClickMethod(string label, string bgColorHex = "#444444", string spritePath = "UI/RightClickButtonIcon/question_mark.png")
+	public RightClickMethod(string label = null, string bgColorHex = "#444444", string spritePath = "UI/RightClickButtonIcon/question_mark")
 	{
 		this.label = label;
 		this.bgColorHex = bgColorHex;
@@ -30,24 +31,26 @@ public class RightClickMethod : Attribute
 	}
 
 	/// <summary>
-	/// Creates a Menu whose appearance is based on the properties specified in this attribute.
-	/// Does not wire up the Action or submenus.
+	/// Creates a RightClickMenuItem whose appearance is based on the properties specified in this attribute,
+	/// wired to the specified action (which should be the method it is attributed on)
 	/// </summary>
-	public RightclickManager.Menu AsMenu()
+	/// <param name="attributedMethod">method this was attributed to</param>
+	/// <param name="attributedMethod">component instance whose method should be invoked when this option is clicked.</param>
+	public RightClickMenuItem AsMenu(MethodInfo attributedMethod, Component forComponent)
 	{
-		var menu = new RightclickManager.Menu();
+		var labelToUse = label ?? attributedMethod.Name;
+
+		var colorToUse = Color.gray;
 		if (ColorUtility.TryParseHtmlString(bgColorHex, out var color))
 		{
-			menu.Colour = color;
+			colorToUse = color;
 		}
 		else
 		{
 			Logger.LogWarningFormat("Unable to parse hex color string {0} in RightClickMethod. Please ensure this is a" +
 			                        " valid hex color string like #223344. Defaulting to gray.", Category.UI, bgColorHex);
-			menu.Colour = Color.gray;
 		}
 
-		menu.Label = label;
 		var sprite = Resources.Load<Sprite>(spritePath);
 		if (sprite == null)
 		{
@@ -56,8 +59,6 @@ public class RightClickMethod : Attribute
 			sprite = Resources.Load<Sprite>("UI/RightClickButtonIcon/question_mark.png");
 		}
 
-		menu.Sprite = sprite;
-
-		return menu;
+		return RightClickMenuItem.CreateSubMenuItem(colorToUse, sprite, labelToUse, (Action) Delegate.CreateDelegate(typeof(Action), forComponent, attributedMethod));
 	}
 }

@@ -78,12 +78,12 @@ public class RightClickableResult
 	}
 
 	/// <summary>
-	/// Convert the elements in this result to an ordered list of Menus, where order is
+	/// Convert the elements in this result to an ordered list of RightClickMenuItems, where order is
 	/// defined by the specified rightClickOptionOrder
 	/// </summary>
 	/// <param name="rightClickOptionOrder"></param>
 	/// <returns>ordered menu items</returns>
-	public IEnumerable<RightclickManager.Menu> AsOrderedMenus(RightClickOptionOrder rightClickOptionOrder)
+	public IEnumerable<RightClickMenuItem> AsOrderedMenus(RightClickOptionOrder rightClickOptionOrder)
 	{
 		elements.Sort(RightClickableElement.CompareBy(rightClickOptionOrder));
 		return elements.Select(elem => elem.AsMenu());

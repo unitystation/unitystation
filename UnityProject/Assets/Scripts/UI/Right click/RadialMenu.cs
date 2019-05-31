@@ -11,7 +11,7 @@ public class RadialMenu : MonoBehaviour {
 
 	public Dictionary<int,List<RadialButton>> CurrentOptionsDepth = new Dictionary<int,List<RadialButton>>();
 
-	public Dictionary<int,List<RightclickManager.Menu>> DepthMenus = new Dictionary<int,List<RightclickManager.Menu>>();
+	public Dictionary<int,List<RightClickMenuItem>> DepthMenus = new Dictionary<int,List<RightClickMenuItem>>();
 
 	public Dictionary<int,int> Density = new  Dictionary<int,int>(){
 		{100,6},
@@ -43,13 +43,13 @@ public class RadialMenu : MonoBehaviour {
 
 	public float LastSelectedTime;
 
-	public void SetupMenu (List<RightclickManager.Menu> ListRightclick) {
+	public void SetupMenu (List<RightClickMenuItem> ListRightclick) {
 		//Captures the centre circle
 		centercirlce = new Vector2 (CommonInput.mousePosition.x, CommonInput.mousePosition.y);
 		SpawnButtons (ListRightclick,100,0);
 
 	}
-	public void SpawnButtons (List<RightclickManager.Menu> Menus,int Menudepth,int StartingAngle) {
+	public void SpawnButtons (List<RightClickMenuItem> Menus,int Menudepth,int StartingAngle) {
 		Initialised = false;
 		CurrentMenuDepth = Menudepth;
 		int Range = 360; //is the range that the buttons will be on in degrees
@@ -67,7 +67,7 @@ public class RadialMenu : MonoBehaviour {
 			}
 		}
 
-		for (int i = 0; i < Menus.Count; i++) {
+		for (var i = 0; i < Menus.Count; i++) {
 			RadialButton newButton = Instantiate (ButtonPrefab) as RadialButton;
 			newButton.transform.SetParent (transform, false);
 			//Magic maths
@@ -77,8 +77,8 @@ public class RadialMenu : MonoBehaviour {
 			float ypos = Mathf.Cos (theta);
 			newButton.transform.localPosition = new Vector2 (xpos, ypos) * Menudepth;
 
-			newButton.Circle.color = Menus[i].Colour;
-			newButton.Icon.sprite = Menus[i].Sprite;
+			newButton.Circle.color = Menus[i].BackgroundColor;
+			newButton.Icon.sprite = Menus[i].IconSprite;
 			newButton.MenuDepth = Menudepth;
 			newButton.Action = Menus[i].Action;
 			newButton.Hiddentitle = Menus[i].Label;
@@ -95,7 +95,7 @@ public class RadialMenu : MonoBehaviour {
 			if (DepthMenus.ContainsKey (Menudepth)) {
 				DepthMenus [Menudepth].Add (Menus [i]);
 			} else {
-				DepthMenus [Menudepth] = new List<RightclickManager.Menu>();
+				DepthMenus [Menudepth] = new List<RightClickMenuItem>();
 				DepthMenus [Menudepth].Add (Menus [i]);
 			}
 

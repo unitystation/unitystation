@@ -15,8 +15,6 @@ using UnityEngine;
 /// </summary>
 public class RightclickManager : MonoBehaviour
 {
-	public List<Menu> options = new List<Menu>();
-
 	[Tooltip("Ordering to use for right click options.")]
 	public RightClickOptionOrder rightClickOptionOrder;
 
@@ -32,21 +30,6 @@ public class RightclickManager : MonoBehaviour
 	{
 		public Type ComponentType;
 		public List<MethodInfo> AttributedMethods;
-	}
-
-
-	/// <summary>
-	/// Encapsulates all the info for a single radial menu item - sub menus as well as top-level menu items
-	/// </summary>
-	/// TODO: Definitely refactor to its own class and create static factories
-	public class Menu
-	{
-		public Color Colour;
-		public Sprite Sprite;
-		public string Label;
-
-		public List<Menu> SubMenus = new List<Menu>();
-		public Action Action;
 	}
 
 	private void Start()
@@ -91,7 +74,7 @@ public class RightclickManager : MonoBehaviour
 			//gets Items on the position of the mouse that are able to be right clicked
 			List<GameObject> objects = GetRightClickableObjects();
 			//Generates menus
-			options = Generate(objects);
+			var options = Generate(objects);
 			//Logger.Log ("yo", Category.UI);
 			if (options.Count > 0)
 			{
@@ -138,14 +121,12 @@ public class RightclickManager : MonoBehaviour
 		return false;
 	}
 
-	//TODO: Clean up all this code, it's a bit messy, sprawling. Possibly refactor Menu into an actual class
-
-	private List<Menu> Generate(List<GameObject> objects)
+	private List<RightClickMenuItem> Generate(List<GameObject> objects)
 	{
-		var result = new List<Menu>();
+		var result = new List<RightClickMenuItem>();
 		foreach (var curObject in objects)
 		{
-			Menu objectMenu = CreateObjectMenu(curObject);
+			var subMenus = new List<RightClickMenuItem>();
 
 			//check for any IRightClickable components and gather their options
 			var rightClickables = curObject.GetComponents<IRightClickable>();
@@ -158,7 +139,7 @@ public class RightclickManager : MonoBehaviour
 				}
 			}
 			//add the menu items generated so far
-			objectMenu.SubMenus.AddRange(rightClickableResult.AsOrderedMenus(rightClickOptionOrder));
+			subMenus.AddRange(rightClickableResult.AsOrderedMenus(rightClickOptionOrder));
 
 			//check for any components that have an attributed method. These are added to the end in whatever order,
 			//doesn't matter since it's only for development.
@@ -168,73 +149,59 @@ public class RightclickManager : MonoBehaviour
 				foreach (var component in components)
 				{
 					//create menu items for these components
-					objectMenu.SubMenus.AddRange(CreateSubMenuOptions(attributedType, component));
+					subMenus.AddRange(CreateSubMenuOptions(attributedType, component));
 				}
 			}
 
-			if (objectMenu.SubMenus.Count > 0)
+			if (subMenus.Count > 0)
 			{
-				result.Add(objectMenu);
+				result.Add(CreateObjectMenu(curObject, subMenus));
 			}
 		}
 
 		return result;
 	}
 
-	//creates a sub menu option based on the value in the dict returned from the IRightClickable
-	private Menu CreateSubMenuOption(RightClickOption forOption, Action action)
-	{
-		var menu = forOption.AsMenu();
-		menu.Action = action;
-
-		return menu;
-	}
-
-
 	//creates sub menu items for the specified component, hooking them up the the corresponding method on the
 	//actual component
-	private IEnumerable<Menu> CreateSubMenuOptions(RightClickAttributedComponent attributedType, Component actualComponent)
+	private IEnumerable<RightClickMenuItem> CreateSubMenuOptions(RightClickAttributedComponent attributedType, Component actualComponent)
 	{
 		return attributedType.AttributedMethods
 			.Select(m => CreateSubMenuOption(m, actualComponent));
 	}
 
-	private Menu CreateSubMenuOption(MethodInfo forMethod, Component actualComponent)
+	private RightClickMenuItem CreateSubMenuOption(MethodInfo forMethod, Component actualComponent)
 	{
 		var rightClickMethod = forMethod.GetCustomAttribute<RightClickMethod>();
-		var menu = rightClickMethod.AsMenu();
-		//hook up the component action
-		menu.Action = (Action) Delegate.CreateDelegate(typeof(Action), actualComponent, forMethod);
-		return menu;
+		return rightClickMethod.AsMenu(forMethod, actualComponent);
 	}
 
-	//creates the top-level menu item for this object. If object has a RightClickMenu, uses that to
+	//creates the top-level menu item for this object. If object has a RightClickAppearance, uses that to
 	//define the appeareance. Otherwise sticks to defaults. Doesn't populate the sub menus though.
-	private Menu CreateObjectMenu(GameObject forObject)
+	private RightClickMenuItem CreateObjectMenu(GameObject forObject, List<RightClickMenuItem> subMenus)
 	{
 		RightClickAppearance rightClickAppearance = forObject.GetComponent<RightClickAppearance>();
 		if (rightClickAppearance != null)
 		{
 			//use right click menu to determine appearance
-			return rightClickAppearance.AsMenu();
+			return rightClickAppearance.AsMenu(subMenus);
 		}
 
 		//use defaults
-		var menu = new Menu();
-		menu.Colour = Color.gray;
-		menu.Label = forObject.name.Replace("(clone)","");
+		var label = forObject.name.Replace("(clone)","");
 		SpriteRenderer firstSprite = forObject.GetComponentInChildren<SpriteRenderer>();
+		Sprite sprite = null;
 		if (firstSprite != null)
 		{
-			menu.Sprite = firstSprite.sprite;
+			sprite = firstSprite.sprite;
 		}
 		else
 		{
 			Logger.LogWarningFormat("Could not determine sprite to use for right click menu" +
-			                        " for object {0}. Please specify a sprite in the RightClickMenu component" +
-			                        " for this object.", Category.UI, forObject.name);
+			                        " for object {0}. Please manually configure a sprite in a RightClickAppearance component" +
+			                        " on this object.", Category.UI, forObject.name);
 		}
 
-		return menu;
+		return RightClickMenuItem.CreateObjectMenuItem(Color.gray, sprite, label, subMenus);
 	}
 }

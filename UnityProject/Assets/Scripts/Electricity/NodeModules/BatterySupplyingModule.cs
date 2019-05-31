@@ -129,13 +129,13 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 		return (Current);
 	}
 
-	[RightClickMethod("ToggleCharge")]
+	[RightClickMethod]
 	public void ToggleCharge()
 	{
 		ToggleCanCharge = !ToggleCanCharge;
 	}
 
-	[RightClickMethod("ToggleSupport")]
+	[RightClickMethod]
 	public void ToggleSupport()
 	{
 		ToggleCansupport = !ToggleCansupport;

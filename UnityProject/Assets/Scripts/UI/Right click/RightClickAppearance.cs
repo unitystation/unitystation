@@ -24,22 +24,19 @@ public class RightClickAppearance : MonoBehaviour
 	public Sprite iconOverride;
 
 	/// <summary>
-	/// Create a Menu based on the current configuration in this RightClickMenu. Only defines
-	/// the appearance of the menu, doesn't add any children or action.
+	/// Create a RightClickMenuItem for the object based on the current configuration in this RightClickAppearance.
 	/// </summary>
-	public RightclickManager.Menu AsMenu()
+	/// <param name="subMenus">sub menu items to show underneath this object's menu</param>
+	public RightClickMenuItem AsMenu(List<RightClickMenuItem> subMenus)
 	{
-		RightclickManager.Menu newMenu = new RightclickManager.Menu();
-
-		newMenu.Colour = backgroundColor;
-		newMenu.Label = nameOverride != null && nameOverride.Trim().Length != 0 ? nameOverride : gameObject.name.Replace("(clone)","");
-
+		var label = nameOverride != null && nameOverride.Trim().Length != 0 ? nameOverride : gameObject.name.Replace("(clone)","");
+		Sprite sprite = null;
 		if (iconOverride == null)
 		{
 			SpriteRenderer firstSprite = GetComponentInChildren<SpriteRenderer>();
 			if (firstSprite != null)
 			{
-				newMenu.Sprite = firstSprite.sprite;
+				sprite = firstSprite.sprite;
 			}
 			else
 			{
@@ -50,9 +47,9 @@ public class RightClickAppearance : MonoBehaviour
 		}
 		else
 		{
-			newMenu.Sprite = iconOverride;
+			sprite = iconOverride;
 		}
 
-		return newMenu;
+		return RightClickMenuItem.CreateObjectMenuItem(backgroundColor, sprite, label, subMenus);
 	}
 }
