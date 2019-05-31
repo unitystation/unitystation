@@ -28,23 +28,18 @@ public class ShuttleHeater : AdvancedPipe
 		{
 			direction = Direction.WEST;
 		}
+		else if (rotation > 135 && rotation < 225)
+		{
+			direction = Direction.SOUTH;
+		}
+		else if (rotation > 225 && rotation < 315)
+		{
+			direction = Direction.EAST;
+		}
 		else
 		{
-			if (rotation > 135 && rotation < 225)
-			{
-				direction = Direction.SOUTH;
-			}
-			else
-			{
-				if (rotation > 225 && rotation < 315)
-				{
-					direction = Direction.EAST;
-				}
-				else
-				{
-					direction = Direction.NORTH;
-				}
-			}
+			direction = Direction.NORTH;
 		}
 	}
+
 }
