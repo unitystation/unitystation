@@ -46,10 +46,12 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public Vector3Int WorldPos => registerTile.WorldPositionServer;
 
+	/// <summary>
+	/// The currently selected chat channels. Prunes all unavailable ones on get.
+	/// </summary>
 	public ChatChannel SelectedChannels
 	{
 		get { return selectedChannels & GetAvailableChannelsMask(); }
-		// TODO change this to refresh channel pannel automatically
 		set { selectedChannels = value; }
 	}
 
@@ -151,8 +153,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 			//				Request sync to get all the latest transform data
 			new RequestSyncMessage().Send();
-			SelectedChannels = ChatChannel.Local;
-
+			EventManager.Broadcast(EVENT.UpdateChatChannels);
 		}
 	}
 
