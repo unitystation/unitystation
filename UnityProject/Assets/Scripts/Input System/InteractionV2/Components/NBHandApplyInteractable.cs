@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Version of CoordinatedInteraction which supports HandApply and extends NetworkBehavior rather than MonoBehavior
+/// Version of Interactable which supports HandApply and extends NetworkBehavior rather than MonoBehavior
 /// </summary>
-public abstract class NetworkCoordinatedHandApplyInteraction
+public abstract class NBHandApplyInteractable
 	: NetworkBehaviour, IInteractable<HandApply>, IInteractionProcessor<HandApply>
 {
 	//we delegate our interaction logic to this.

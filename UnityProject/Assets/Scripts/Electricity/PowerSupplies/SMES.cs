@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SMES : NetworkCoordinatedHandApplyInteraction, INodeControl
+public class SMES : NBHandApplyInteractable, INodeControl
 {
 	public bool ResistanceChange = false;
 
@@ -38,7 +38,6 @@ public class SMES : NetworkCoordinatedHandApplyInteraction, INodeControl
 	{
 		return new List<IInteractionValidator<HandApply>>
 		{
-			//use existing validators so we can re-use common validation logic
 			CanApply.ONLY_IF_CONSCIOUS
 		};
 	}

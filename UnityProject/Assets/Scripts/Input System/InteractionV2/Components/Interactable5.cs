@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Version of <see cref="CoordinatedInteraction{T}"/> which supports 5
+/// Version of <see cref="Interactable{T}"/> which supports 5
 /// interaction types.
 ///
 /// </summary>
@@ -22,8 +22,8 @@ using UnityEngine;
 /// <typeparamref name="T5">fourth interaction subtype
 /// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
-public abstract class CoordinatedInteraction<T,T2,T3,T4,T5>
-	: CoordinatedInteraction<T,T2,T3,T4>, IInteractable<T5>, IInteractionProcessor<T5>
+public abstract class Interactable<T,T2,T3,T4,T5>
+	: Interactable<T,T2,T3,T4>, IInteractable<T5>, IInteractionProcessor<T5>
 	where T : Interaction
 	where T2 : Interaction
 	where T3 : Interaction

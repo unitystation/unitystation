@@ -22,7 +22,7 @@ using UnityEngine;
 /// <typeparamref name="T">Interaction subtype
 /// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
-public abstract class CoordinatedInteraction<T>
+public abstract class Interactable<T>
 	: MonoBehaviour, IInteractable<T>, IInteractionProcessor<T>
 	where T : Interaction
 {

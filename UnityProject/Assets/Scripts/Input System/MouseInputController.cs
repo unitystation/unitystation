@@ -113,13 +113,12 @@ public class MouseInputController : MonoBehaviour
 			}
 			if (!clicked)
 			{
-				clicked = CheckClick();
+				clicked = CheckClickV2();
 			}
 			if (!clicked)
 			{
-				clicked = CheckClickV2();
+				clicked = CheckClick();
 			}
-
 			if (clicked)
 			{
 				//wait until mouseup to allow drag interaction again
@@ -168,8 +167,6 @@ public class MouseInputController : MonoBehaviour
 		}
 	}
 
-	//note - bool is now returned to indicate the CheckClickV2 should be skipped if an interacton occurs in
-	//this version of the method.
 	private bool CheckClick()
 	{
 		//currently there is nothing for ghosts to interact with, they only can change facing
