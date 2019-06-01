@@ -11,7 +11,7 @@ using UnityEngine;
 /// 1. A component can implement IRightClickable to define what options should be shown based on its current state.
 /// 2. (For development only) Add the RightClickMethod attribute to a method on a component.
 ///
-/// Refer to documentation at https://github.com/unitystation/unitystation/wiki/Right-Click-Menu-(Interaction-Framework-2)
+/// Refer to documentation at https://github.com/unitystation/unitystation/wiki/Right-Click-Menu
 /// </summary>
 public class RightclickManager : MonoBehaviour
 {
