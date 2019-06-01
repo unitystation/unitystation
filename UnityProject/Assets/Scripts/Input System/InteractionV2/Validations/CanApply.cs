@@ -3,7 +3,7 @@ using UnityEngine;
 
 /// <summary>
 /// Validates if the performer is in range and not in crit, which are typical requirements for all
-/// hand apply interactions.
+/// hand apply interactions. Can also optionally allow soft crit.
 /// </summary>
 public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<MouseDrop>
 {

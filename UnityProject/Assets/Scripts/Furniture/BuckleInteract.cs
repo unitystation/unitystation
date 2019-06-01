@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 /// Buckle a player in when they are dragged and dropped while on this object, then unbuckle
 /// them when the object is hand-applied to.
 /// </summary>
-public class BuckleInteract : CoordinatedInteraction<MouseDrop, HandApply>
+public class BuckleInteract : Interactable<MouseDrop, HandApply>
 {
 	//may be null
 	private DirectionalSprite directionalSprite;

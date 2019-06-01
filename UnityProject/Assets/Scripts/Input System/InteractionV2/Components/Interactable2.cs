@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Version of <see cref="CoordinatedInteraction{T}"/> which supports 2
+/// Version of <see cref="Interactable{T}"/> which supports 2
 /// interaction types.
 ///
 /// </summary>
@@ -13,8 +13,8 @@ using UnityEngine;
 /// /// <typeparamref name="T2">Second interaction subtype
 /// for the interaction that this component wants to handle (such as MouseDrop for a mouse drop interaction).
 /// Must be a subtype of Interaction.</typeparamref>
-public abstract class CoordinatedInteraction<T,T2>
-	: CoordinatedInteraction<T>, IInteractable<T2>, IInteractionProcessor<T2>
+public abstract class Interactable<T,T2>
+	: Interactable<T>, IInteractable<T2>, IInteractionProcessor<T2>
 	where T : Interaction
 	where T2 : Interaction
 {
