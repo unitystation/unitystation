@@ -239,7 +239,6 @@ public class Pipe : NetworkBehaviour
 		if(anchored == false)
 		{
 			SetSprite(0);	//not anchored, item sprite
-			return;
 		}
 	}
 
@@ -250,43 +249,43 @@ public class Pipe : NetworkBehaviour
 		transform.rotation = Quaternion.identity;
 		if ((rotation >= 45 && rotation < 135))
 		{
-			SetSprite(3);
 			DirectionEast();
 		}
 		else if (rotation >= 135 && rotation < 225)
 		{
-			SetSprite(2);
 			DirectionNorth();
 		}
 		else if (rotation >= 225 && rotation < 315)
 		{
-			SetSprite(4);
 			DirectionWest();
 		}
 		else
 		{
-			SetSprite(1);
 			DirectionSouth();
 		}
 	}
 
 	public virtual void DirectionEast()
 	{
+		SetSprite(3);
 		direction = Direction.EAST;
 	}
 
 	public virtual void DirectionNorth()
 	{
+		SetSprite(2);
 		direction = Direction.NORTH;
 	}
 
 	public virtual void DirectionWest()
 	{
+		SetSprite(4);
 		direction = Direction.WEST;
 	}
 
 	public virtual void DirectionSouth()
 	{
+		SetSprite(1);
 		direction = Direction.SOUTH;
 	}
 
