@@ -91,6 +91,7 @@ public class PlayerLightControl : PickUpTrigger
 			EnumSprite = EnumSprite,
 			Size = Size,
 		};
+		base.Start();
 	}
 	public void OnAddToInventorySlot(InventorySlot slot)
 	{

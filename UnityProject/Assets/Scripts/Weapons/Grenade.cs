@@ -68,6 +68,7 @@ public class Grenade : PickUpTrigger
 		registerObject = GetComponent<RegisterObject>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
+		base.Start();
 	}
 
 	public override void UI_Interact(GameObject originator, string hand)

@@ -12,6 +12,7 @@ public class BackPackTrigger : PickUpTrigger
 	{
 		storageObj = GetComponent<StorageObject>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+
 	}
 	public override bool UI_InteractOtherSlot(GameObject originator, GameObject item)
 	{

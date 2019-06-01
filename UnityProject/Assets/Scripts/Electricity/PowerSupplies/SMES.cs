@@ -38,7 +38,7 @@ public class SMES : NetworkBehaviour, IInteractable<HandApply>, IInteractionProc
 	{
 		// We can still re-use validators if we want:
 		ValidationResult validationResult = CanApply.ONLY_IF_CONSCIOUS.Validate(interaction, NetworkSide.CLIENT);
-		if (validationResult == ValidationResult.SUCCESS) { 
+		if (validationResult == ValidationResult.SUCCESS) {
 			RequestInteractMessage.Send(interaction, this);
 			return (InteractionResult.SOMETHING_HAPPENED);
 		}
@@ -54,7 +54,7 @@ public class SMES : NetworkBehaviour, IInteractable<HandApply>, IInteractionProc
 			isOn = !isOn;
 			UpdateServerState(isOn);
 			return (InteractionResult.SOMETHING_HAPPENED);
-		} 
+		}
 		return (InteractionResult.NOTHING_HAPPENED);
 		//validate and perform the update server side after it gets the RequestInteractMessage,
 		//then inform all clients.

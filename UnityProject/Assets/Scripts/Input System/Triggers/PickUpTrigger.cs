@@ -1,17 +1,40 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-
-public class PickUpTrigger : InputTrigger
+[RequireComponent(typeof(RightClickAppearance))]
+public class PickUpTrigger : InputTrigger, IRightClickable
 {
-	private void Start()
+	// make sure to call this in subclasses
+	public void Start()
 	{
 		CheckSpriteOrder();
 	}
-	[ContextMethod("Pick Up", "hand")]
-	public void GUIInteract()
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		//TODO: Code duplication (of validation logic) with Interact. Eliminate this duplication once this is refactored to IF2.
+
+		if (PlayerManager.LocalPlayerScript.canNotInteract())
+		{
+			return null;
+		}
+		var player = PlayerManager.LocalPlayerScript;
+		UISlotObject uiSlotObject = new UISlotObject(UIManager.Hands.CurrentSlot.inventorySlot.UUID, gameObject);
+		if (UIManager.CanPutItemToSlot(uiSlotObject))
+		{
+			if (player.IsInReach(this.gameObject, false))
+			{
+				return RightClickableResult.Create()
+					.AddElement("PickUp", GUIInteract);
+			}
+		}
+
+		return null;
+	}
+
+	private void GUIInteract()
 	{
 		Interact(
 		PlayerManager.LocalPlayerScript.gameObject,

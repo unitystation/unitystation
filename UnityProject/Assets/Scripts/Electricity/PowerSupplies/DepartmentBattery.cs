@@ -65,7 +65,7 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, IIn
 		UpdateState(isOn);
 	}
 
-	public void PowerNetworkUpdate() { 
+	public void PowerNetworkUpdate() {
 		if (BatterySupplyingModule.CurrentCapacity > 0)
 		{
 			if (BatterySupplyingModule.CurrentCapacity > (BatterySupplyingModule.CapacityMax / 2))
