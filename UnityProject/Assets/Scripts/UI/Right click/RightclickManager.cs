@@ -50,8 +50,8 @@ public class RightclickManager : MonoBehaviour
 
 		foreach (var componentType in allComponentTypes)
 		{
-			var attributedMethodsForType = componentType.GetMethods()
-				.Where(m => m.GetCustomAttributes(typeof(RightClickMethod), false).Length > 0)
+			var attributedMethodsForType = componentType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy)
+				.Where(m => m.GetCustomAttribute<RightClickMethod>(true) != null)
 				.ToList();
 			if (attributedMethodsForType.Count > 0)
 			{
@@ -176,7 +176,7 @@ public class RightclickManager : MonoBehaviour
 
 	private RightClickMenuItem CreateSubMenuOption(MethodInfo forMethod, Component actualComponent)
 	{
-		var rightClickMethod = forMethod.GetCustomAttribute<RightClickMethod>();
+		var rightClickMethod = forMethod.GetCustomAttribute<RightClickMethod>(true);
 		return rightClickMethod.AsMenu(forMethod, actualComponent);
 	}
 

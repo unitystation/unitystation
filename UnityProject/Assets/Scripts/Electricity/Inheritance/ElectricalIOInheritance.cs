@@ -195,12 +195,6 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	}
 
 	[RightClickMethod]
-	public void Bob()
-	{
-		Logger.Log("Bob called");
-	}
-
-	[RightClickMethod]
 	protected virtual void ShowDetails()
 	{
 		if (isServer)

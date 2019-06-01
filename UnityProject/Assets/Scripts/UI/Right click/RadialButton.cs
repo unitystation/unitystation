@@ -10,7 +10,6 @@ public class RadialButton : MonoBehaviour{
 
 	public Image Circle;
 	public Image Icon;
-	public Image Background;
 	public Text title;
 	public string Hiddentitle;
 	public RadialMenu MyMenu;
