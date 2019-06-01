@@ -9,10 +9,12 @@ public class RightClickOption : ScriptableObject
 {
 	[Tooltip("Icon to display for this option in the radial menu.")]
 	public Sprite icon;
+	[Tooltip("Sprite to show behind the icon.")]
+	public Sprite backgroundSprite;
 	[Tooltip("Text to show for this option in the radial menu.")]
 	public String label;
 	[Tooltip("background color of the radial menu item")]
-	public Color backgroundColor;
+	public Color backgroundColor = Color.gray;
 
 
 	/// <summary>
@@ -35,7 +37,7 @@ public class RightClickOption : ScriptableObject
 	/// <param name="action">action to invoke when clicked</param>
 	public RightClickMenuItem AsMenu(Action action)
 	{
-		var menu = RightClickMenuItem.CreateSubMenuItem(backgroundColor, icon, label, action);
+		var menu = RightClickMenuItem.CreateSubMenuItem(backgroundColor, icon, backgroundSprite, label, action);
 		return menu;
 	}
 }

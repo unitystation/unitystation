@@ -79,6 +79,7 @@ public class RadialMenu : MonoBehaviour {
 
 			newButton.Circle.color = Menus[i].BackgroundColor;
 			newButton.Icon.sprite = Menus[i].IconSprite;
+			newButton.Background.sprite = Menus[i].BackgroundSprite;
 			newButton.MenuDepth = Menudepth;
 			newButton.Action = Menus[i].Action;
 			newButton.Hiddentitle = Menus[i].Label;

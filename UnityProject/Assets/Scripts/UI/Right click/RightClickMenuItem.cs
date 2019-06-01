@@ -11,19 +11,21 @@ public class RightClickMenuItem
 {
 	public readonly Color BackgroundColor;
 	public readonly Sprite IconSprite;
+	public readonly Sprite BackgroundSprite;
 	public readonly string Label;
 
 	public readonly List<RightClickMenuItem> SubMenus;
 	public readonly Action Action;
 
 
-	private RightClickMenuItem(Color backgroundColor, Sprite iconSprite, string label, List<RightClickMenuItem> subMenus, Action action)
+	private RightClickMenuItem(Color backgroundColor, Sprite iconSprite, Sprite backgroundSprite, string label, List<RightClickMenuItem> subMenus, Action action)
 	{
 		this.BackgroundColor = backgroundColor;
 		this.IconSprite = iconSprite;
 		this.Label = label;
 		this.Action = action;
 		this.SubMenus = subMenus;
+		this.BackgroundSprite = backgroundSprite;
 	}
 
 	/// <summary>
@@ -31,11 +33,12 @@ public class RightClickMenuItem
 	/// </summary>
 	/// <param name="color">background color</param>
 	/// <param name="sprite">sprite of icon</param>
+	/// <param name="backgroundSprite">background sprite of icon, can be null</param>
 	/// <param name="label">label to show</param>
 	/// <param name="action">action to invoke when it is clicked</param>
-	public static RightClickMenuItem CreateSubMenuItem(Color color, Sprite sprite, string label, Action action)
+	public static RightClickMenuItem CreateSubMenuItem(Color color, Sprite sprite, Sprite backgroundSprite, string label, Action action)
 	{
-		return new RightClickMenuItem(color, sprite, label, null, action);
+		return new RightClickMenuItem(color, sprite, backgroundSprite, label, null, action);
 	}
 
 	/// <summary>
@@ -44,11 +47,12 @@ public class RightClickMenuItem
 	/// </summary>
 	/// <param name="color">background color</param>
 	/// <param name="sprite">sprite of icon</param>
+	/// <param name="backgroundSprite">background sprite of icon, can be null</param>
 	/// <param name="label">label to show</param>
 	/// <param name="subMenus">submenu items to show for this object</param>
-	public static RightClickMenuItem CreateObjectMenuItem(Color color, Sprite sprite, string label,
+	public static RightClickMenuItem CreateObjectMenuItem(Color color, Sprite sprite, Sprite backgroundSprite, string label,
 		List<RightClickMenuItem> subMenus)
 	{
-		return new RightClickMenuItem(color, sprite, label, subMenus, null);
+		return new RightClickMenuItem(color, sprite, backgroundSprite,  label, subMenus, null);
 	}
 }

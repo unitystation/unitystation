@@ -16,9 +16,6 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 
 	private IPushable pushableTransform;
 
-	public RightClickOption pullOption;
-	public RightClickOption stopPullOption;
-
 	public IPushable Pushable {
 		get {
 			IPushable pushable;

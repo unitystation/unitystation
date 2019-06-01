@@ -23,6 +23,9 @@ public class RightClickAppearance : MonoBehaviour
 	         " the first SpriteRenderer of this object as the icon.")]
 	public Sprite iconOverride;
 
+	[Tooltip("Background sprite to show. Leave empty to show no background sprite.")]
+	public Sprite backgroundSprite;
+
 	/// <summary>
 	/// Create a RightClickMenuItem for the object based on the current configuration in this RightClickAppearance.
 	/// </summary>
@@ -50,6 +53,6 @@ public class RightClickAppearance : MonoBehaviour
 			sprite = iconOverride;
 		}
 
-		return RightClickMenuItem.CreateObjectMenuItem(backgroundColor, sprite, label, subMenus);
+		return RightClickMenuItem.CreateObjectMenuItem(backgroundColor, sprite, backgroundSprite, label, subMenus);
 	}
 }

@@ -15,6 +15,7 @@ public class RightClickMethod : Attribute
 	public readonly string label;
 	public readonly string bgColorHex;
 	public readonly string spritePath;
+	public readonly string bgSpritePath;
 
 	/// <summary>
 	/// Cause the attributed method to be invokable via the right click menu.
@@ -23,11 +24,14 @@ public class RightClickMethod : Attribute
 	/// <param name="bgColorHex">Hex string (#ffffff) representing the background color of the option. Defaults to gray.</param>
 	/// <param name="spritePath">Path to the sprite to show for the option, such as
 	/// "UI/RightClickButtonIcon/question_mark". Defaults to question mark</param>
-	public RightClickMethod(string label = null, string bgColorHex = "#444444", string spritePath = "UI/RightClickButtonIcon/question_mark")
+	/// <param name="bgSpritePath">Path to the sprite to show for the option, such as
+	/// "UI/RightClickButtonIcon/question_mark". Defaults to null, showing no background.</param>
+	public RightClickMethod(string label = null, string bgColorHex = "#808080", string spritePath = "UI/RightClickButtonIcon/question_mark", string bgSpritePath = null)
 	{
 		this.label = label;
 		this.bgColorHex = bgColorHex;
 		this.spritePath = spritePath;
+		this.bgSpritePath = bgSpritePath;
 	}
 
 	/// <summary>
@@ -59,6 +63,18 @@ public class RightClickMethod : Attribute
 			sprite = Resources.Load<Sprite>("UI/RightClickButtonIcon/question_mark.png");
 		}
 
-		return RightClickMenuItem.CreateSubMenuItem(colorToUse, sprite, labelToUse, (Action) Delegate.CreateDelegate(typeof(Action), forComponent, attributedMethod));
+		Sprite bgSprite = null;
+		if (bgSpritePath != null)
+		{
+			bgSprite = Resources.Load<Sprite>(bgSpritePath);
+			if (bgSprite == null)
+			{
+				Logger.LogWarningFormat(
+					"Unable to load bgSprite at path {0} in RightClickMethod. Please ensure this is a" +
+					" valid path to a sprite. Defaulting to question no background.", Category.UI, bgSpritePath);
+			}
+		}
+
+		return RightClickMenuItem.CreateSubMenuItem(colorToUse, sprite, bgSprite, labelToUse, (Action) Delegate.CreateDelegate(typeof(Action), forComponent, attributedMethod));
 	}
 }

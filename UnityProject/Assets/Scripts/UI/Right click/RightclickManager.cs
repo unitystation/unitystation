@@ -148,8 +148,12 @@ public class RightclickManager : MonoBehaviour
 				var components = curObject.GetComponents(attributedType.ComponentType);
 				foreach (var component in components)
 				{
-					//create menu items for these components
-					subMenus.AddRange(CreateSubMenuOptions(attributedType, component));
+					//only add the item if the concrete type matches
+					if (component.GetType() == attributedType.ComponentType)
+					{
+						//create menu items for these components
+						subMenus.AddRange(CreateSubMenuOptions(attributedType, component));
+					}
 				}
 			}
 
@@ -202,6 +206,6 @@ public class RightclickManager : MonoBehaviour
 			                        " on this object.", Category.UI, forObject.name);
 		}
 
-		return RightClickMenuItem.CreateObjectMenuItem(Color.gray, sprite, label, subMenus);
+		return RightClickMenuItem.CreateObjectMenuItem(Color.gray, sprite, null, label, subMenus);
 	}
 }

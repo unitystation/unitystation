@@ -7,9 +7,6 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(RightClickAppearance))]
 public class PickUpTrigger : InputTrigger, IRightClickable
 {
-
-	public RightClickOption pickUpOption;
-
 	// make sure to call this in subclasses
 	public void Start()
 	{

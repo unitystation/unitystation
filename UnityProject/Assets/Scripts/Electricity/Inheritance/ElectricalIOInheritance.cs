@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 [System.Serializable]
-public class ElectricalOIinheritance : NetworkBehaviour, IRightClickable { //is the Bass class but every node inherits from
+public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every node inherits from
 	public Connection WireEndB;
 	public Connection WireEndA;
 
@@ -194,6 +194,13 @@ public class ElectricalOIinheritance : NetworkBehaviour, IRightClickable { //is 
 		ElectricalDataCleanup.PowerSupplies.RemoveSupply(this, SourceInstance);
 	}
 
+	[RightClickMethod]
+	public void Bob()
+	{
+		Logger.Log("Bob called");
+	}
+
+	[RightClickMethod]
 	protected virtual void ShowDetails()
 	{
 		if (isServer)
@@ -228,10 +235,11 @@ public class ElectricalOIinheritance : NetworkBehaviour, IRightClickable { //is 
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
 	}
 
-	public RightClickableResult GenerateRightClickOptions()
-	{
-		return RightClickableResult.Create()
-			.AddElement("Details", ShowDetails);
-	}
+//
+//	public RightClickableResult GenerateRightClickOptions()
+//	{
+//		return RightClickableResult.Create()
+//			.AddElement("Details", ShowDetails);
+//	}
 }
 
