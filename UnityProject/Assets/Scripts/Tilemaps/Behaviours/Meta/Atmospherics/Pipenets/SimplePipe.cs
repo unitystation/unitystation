@@ -5,88 +5,82 @@ using Atmospherics;
 
 public class SimplePipe : Pipe
 {
-	public SpriteRenderer[] conectionRenderer;
-	public Sprite[] connectionSprite;
 
 	public override void CalculateSprite()
 	{
-		for (int i = 0; i < conectionRenderer.Length; i++)
+		if (anchored)
 		{
-			conectionRenderer[i].sprite = null;
-		}
-		if(objectBehaviour.isNotPushable == false)
-		{
-			base.CalculateSprite();
-			return;
-		}
-		for (int i = 0; i < nodes.Count; i++)
-		{
-			var pipe = nodes[i];
-			if (pipe.transform.position.y < transform.position.y)
+			if(nodes.Count == 2)
 			{
-				conectionRenderer[0].sprite = connectionSprite[0];
+				if(HasDirection(direction, Direction.SOUTH))
+				{
+					SetSprite(1);
+				}
+				else
+				{
+					SetSprite(2);
+				}
 			}
-			else if (pipe.transform.position.y > transform.position.y)
+			else if(nodes.Count == 1)
 			{
-				conectionRenderer[1].sprite = connectionSprite[1];
+				for (int i = 0; i < nodes.Count; i++)
+				{
+					var pipe = nodes[i];
+					if (pipe.transform.position.y < transform.position.y)
+					{
+						SetSprite(3);
+					}
+					else if (pipe.transform.position.y > transform.position.y)
+					{
+						SetSprite(4);
+					}
+					else if (pipe.transform.position.x > transform.position.x)
+					{
+						SetSprite(5);
+					}
+					else if (pipe.transform.position.x < transform.position.x)
+					{
+						SetSprite(6);
+					}
+				}
 			}
-			else if (pipe.transform.position.x > transform.position.x)
+			else if(nodes.Count == 0)
 			{
-				conectionRenderer[2].sprite = connectionSprite[2];
+				if (HasDirection(direction, Direction.SOUTH))
+				{
+					SetSprite(7);
+				}
+				else
+				{
+					SetSprite(8);
+				}
 			}
-			else if (pipe.transform.position.x < transform.position.x)
-			{
-				conectionRenderer[3].sprite = connectionSprite[3];
-			}
-		}
-	}
-
-	public override void CalculateDirection()
-	{
-		direction = 0;
-		var rotation = transform.rotation.eulerAngles.z;
-		transform.rotation = Quaternion.identity;
-		if ((rotation >= 45 && rotation < 135))
-		{
-			SetSprite(3);
-			DirectionEast();
-		}
-		else if (rotation >= 135 && rotation < 225)
-		{
-			SetSprite(2);
-			DirectionNorth();
-		}
-		else if (rotation >= 225 && rotation < 315)
-		{
-			SetSprite(4);
-			DirectionWest();
 		}
 		else
 		{
-			SetSprite(1);
-			DirectionSouth();
+			SetSprite(0);
 		}
 	}
 
-	public virtual void DirectionEast()
+
+	public override void DirectionEast()
 	{
 		direction = Direction.EAST | Direction.WEST;
 	}
 
-	public virtual void DirectionNorth()
+	public override void DirectionNorth()
 	{
 		direction = Direction.NORTH | Direction.SOUTH;
 	}
 
-	public virtual void DirectionWest()
+	public override void DirectionWest()
 	{
 		direction = Direction.EAST | Direction.WEST;
 	}
 
-	public virtual void DirectionSouth()
+	public override void DirectionSouth()
 	{
 		direction = Direction.NORTH | Direction.SOUTH;
 	}
-
 
 }

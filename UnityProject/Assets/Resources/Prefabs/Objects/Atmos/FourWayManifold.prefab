@@ -218,30 +218,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6083c1f01853b44b287c22b0bb00c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodes: []
-  direction: 3
   registerTile: {fileID: 0}
   objectBehaviour: {fileID: 0}
+  nodes: []
+  direction: 3
+  anchored: 0
+  volume: 70
   pipeSprites:
   - {fileID: 21300132, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
   - {fileID: 21300038, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300038, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300038, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
-  - {fileID: 21300038, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   spriteRenderer: {fileID: 212588640390319518}
   spriteSync: 0
-  anchored: 0
-  volume: 70
-  conectionRenderer:
-  - {fileID: 3405745187045870037}
-  - {fileID: 671696593743680170}
-  - {fileID: 2369631279410760376}
-  - {fileID: 4656729331413939348}
   connectionSprite:
   - {fileID: 21300056, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   - {fileID: 21300058, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   - {fileID: 21300060, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   - {fileID: 21300062, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
+  conectionRenderer:
+  - {fileID: 3405745187045870037}
+  - {fileID: 671696593743680170}
+  - {fileID: 2369631279410760376}
+  - {fileID: 4656729331413939348}
 --- !u!114 &114836435796936700
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,17 +8,18 @@ using Tilemaps.Behaviours.Meta;
 
 public class Pipe : NetworkBehaviour
 {
-	public List<Pipe> nodes = new List<Pipe>();
-	public Direction direction = Direction.NORTH | Direction.SOUTH;
 	public RegisterTile registerTile;
 	public ObjectBehaviour objectBehaviour;
+
+	public List<Pipe> nodes = new List<Pipe>();
+	public Direction direction = Direction.NORTH | Direction.SOUTH;
+	public Pipenet pipenet;
+	public bool anchored;
+	public float volume = 70;
+
 	public Sprite[] pipeSprites;
 	public SpriteRenderer spriteRenderer;
 	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
-	public bool anchored;
-
-	public Pipenet pipenet;
-	public float volume = 70;
 
 	[Flags]
 	public enum Direction
@@ -191,11 +192,6 @@ public class Pipe : NetworkBehaviour
 		}
 	}
 
-	public virtual void CalculateDirection()
-	{
-
-	}
-
 	Direction OppositeDirection(Direction dir)
 	{
 		if (dir == Direction.NORTH)
@@ -240,7 +236,57 @@ public class Pipe : NetworkBehaviour
 
 	public virtual void CalculateSprite()
 	{
-		SetSprite(0);
+		if(anchored == false)
+		{
+			SetSprite(0);	//not anchored, item sprite
+		}
+	}
+
+	public virtual void CalculateDirection()
+	{
+		direction = 0;
+		var rotation = transform.rotation.eulerAngles.z;
+		transform.rotation = Quaternion.identity;
+		if ((rotation >= 45 && rotation < 135))
+		{
+			DirectionEast();
+		}
+		else if (rotation >= 135 && rotation < 225)
+		{
+			DirectionNorth();
+		}
+		else if (rotation >= 225 && rotation < 315)
+		{
+			DirectionWest();
+		}
+		else
+		{
+			DirectionSouth();
+		}
+	}
+
+	public virtual void DirectionEast()
+	{
+		SetSprite(3);
+		direction = Direction.EAST;
+	}
+
+	public virtual void DirectionNorth()
+	{
+		SetSprite(2);
+		direction = Direction.NORTH;
+	}
+
+	public virtual void DirectionWest()
+	{
+		SetSprite(4);
+		direction = Direction.WEST;
+	}
+
+	public virtual void DirectionSouth()
+	{
+		SetSprite(1);
+		direction = Direction.SOUTH;
 	}
 
 	public void SetSprite(int value)
