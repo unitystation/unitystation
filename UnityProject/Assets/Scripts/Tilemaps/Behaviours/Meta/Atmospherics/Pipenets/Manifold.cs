@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Manifold : SimplePipe
 {
@@ -8,40 +9,95 @@ public class Manifold : SimplePipe
 	public Sprite[] connectionSprite;
 	public SpriteRenderer[] conectionRenderer;
 
+	[SyncVar(hook = nameof(SyncConnectionSprite))] public Direction connectionSpriteSync;
+
 	public override void CalculateSprite()
 	{
-		for (int i = 0; i < conectionRenderer.Length; i++)
-		{
-			conectionRenderer[i].sprite = null;
-		}
+		NullConnectionSprites();
 		if (anchored)
 		{
+			Direction syncValue = Direction.NONE;
 			for (int i = 0; i < nodes.Count; i++)
 			{
 				var pipe = nodes[i];
 				if (pipe.transform.position.y < transform.position.y)
 				{
-					conectionRenderer[0].sprite = connectionSprite[0];
+					syncValue |= Direction.SOUTH;
+					SetConnectionSprite(0);
 				}
 				else if (pipe.transform.position.y > transform.position.y)
 				{
-					conectionRenderer[1].sprite = connectionSprite[1];
+					syncValue |= Direction.NORTH;
+					SetConnectionSprite(1);
 				}
 				else if (pipe.transform.position.x > transform.position.x)
 				{
-					conectionRenderer[2].sprite = connectionSprite[2];
+					syncValue |= Direction.EAST;
+					SetConnectionSprite(2);
 				}
 				else if (pipe.transform.position.x < transform.position.x)
 				{
-					conectionRenderer[3].sprite = connectionSprite[3];
+					syncValue |= Direction.WEST;
+					SetConnectionSprite(3);
 				}
 			}
+			connectionSpriteSync = syncValue;
 		}
 		else
 		{
+			connectionSpriteSync = Direction.NONE;
 			SetSprite(0);
 		}
 	}
+
+	void NullConnectionSprites()
+	{
+		for (int i = 0; i < conectionRenderer.Length; i++)
+		{
+			conectionRenderer[i].sprite = null;
+		}
+	}
+
+	void SetConnectionSprite(int index)
+	{
+		conectionRenderer[index].sprite = connectionSprite[index];
+	}
+
+
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		SyncConnectionSprite(connectionSpriteSync);
+	}
+
+	void SyncConnectionSprite(Direction value)
+	{
+		NullConnectionSprites();
+		for (int i = 0; i < allDirections.Length; i++)
+		{
+			Direction D = allDirections[i];
+			if(HasDirection(value, D))
+			{
+				if(D == Direction.SOUTH)
+				{
+					SetConnectionSprite(0);
+				}
+				else if (D == Direction.NORTH)
+				{
+					SetConnectionSprite(1);
+				}
+				else if (D == Direction.EAST)
+				{
+					SetConnectionSprite(2);
+				}
+				else
+				{
+					SetConnectionSprite(3);
+				}
+			}
+		}
+	}
+
 
 	public override void DirectionEast()
 	{
