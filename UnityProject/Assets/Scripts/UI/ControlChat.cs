@@ -1,37 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.Serialization;
 
 public class ControlChat : MonoBehaviour
 {
 	public static ControlChat Instance;
-
-	private readonly List<ChatEvent> _localEvents = new List<ChatEvent>();
-	[FormerlySerializedAs("channelListToggle")]
-	public Toggle chatInputLabel;
-
-	public RectTransform channelPanel;
-	public GameObject channelToggleTemplate;
 	public GameObject chatInputWindow;
-	public RectTransform ChatPanel;
 	public Transform content;
 	public GameObject chatEntryPrefab;
-	public GameObject background;
-	public GameObject uiObj;
-	public GameObject activeRadioChannelPanel;
+	private readonly List<ChatEvent> _localEvents = new List<ChatEvent>();
+	[SerializeField]
+	private Toggle chatInputLabel;
+	[SerializeField]
+	private RectTransform channelPanel;
+	[SerializeField]
+	private GameObject channelToggleTemplate;
+	[SerializeField]
+	private GameObject background;
+	[SerializeField]
+	private GameObject uiObj;
+	[SerializeField]
+	private GameObject activeRadioChannelPanel;
+	[SerializeField]
+	private GameObject activeChannelTemplate;
+	[SerializeField]
+	private InputField InputFieldChat;
 
-	public GameObject activeChannelTemplate;
-	public Dictionary<ChatChannel, GameObject> ActiveChannels = new Dictionary<ChatChannel, GameObject>();
+	/// <summary>
+	/// A map of channel names and their toggles for UI manipulation
+	/// </summary>
+	private Dictionary<ChatChannel, Toggle> ChannelToggles = new Dictionary<ChatChannel, Toggle>();
+	/// <summary>
+	/// A map of channel names and their active radio channel entry for UI manipulation
+	/// </summary>
+	private Dictionary<ChatChannel, GameObject> ActiveChannels = new Dictionary<ChatChannel, GameObject>();
 
 	/// <summary>
 	/// The main channels which shouldn't be active together.
 	/// Local, Ghost and OOC.
 	/// Order determines default selection priority so DON'T CHANGE THE ORDER!
 	/// </summary>
-	private readonly static List<ChatChannel> MainChannels = new List<ChatChannel>
+	private static readonly List<ChatChannel> MainChannels = new List<ChatChannel>
 	{
 		ChatChannel.Local,
 		ChatChannel.Ghost,
@@ -41,7 +51,7 @@ public class ControlChat : MonoBehaviour
 	/// <summary>
 	/// Radio channels which should also broadcast to local
 	/// </summary>
-	private readonly static List<ChatChannel> RadioChannels = new List<ChatChannel>
+	private static readonly List<ChatChannel> RadioChannels = new List<ChatChannel>
 	{
 		ChatChannel.Common,
 		ChatChannel.Binary,
@@ -55,12 +65,14 @@ public class ControlChat : MonoBehaviour
 		ChatChannel.Service,
 		ChatChannel.Syndicate
 	};
+	/// <summary>
+	/// The last available set of channels. May be out of date.
+	/// </summary>
 	private ChatChannel availableChannelCache;
-	public InputField InputFieldChat;
-	public Scrollbar scrollBar;
-
+	/// <summary>
+	/// Are the channel toggles on show?
+	/// </summary>
 	private bool showChannels = false;
-	public InputField usernameInput;
 
 	private void Awake()
 	{
@@ -92,7 +104,7 @@ public class ControlChat : MonoBehaviour
 		// Create all the required channel toggles
 		InitToggles();
 
-		// Make sure the window and channel pannel start disabled
+		// Make sure the window and channel panel start disabled
 		chatInputWindow.SetActive(false);
 		channelPanel.gameObject.SetActive(false);
 		EventManager.AddHandler(EVENT.UpdateChatChannels, OnUpdateChatChannels);
@@ -103,7 +115,7 @@ public class ControlChat : MonoBehaviour
 		EventManager.RemoveHandler(EVENT.UpdateChatChannels, OnUpdateChatChannels);
 	}
 
-	public void Update()
+	private void Update()
 	{
 		// TODO add text system "say:, ooc:, ghost: etc..."
 		// TODO add events to inventory slot changes to trigger channel refresh
@@ -193,7 +205,7 @@ public class ControlChat : MonoBehaviour
 	/// <summary>
 	/// Check if player should show a speech balloon
 	/// </summary>
-	public bool PlayerChatShown()
+	private bool PlayerChatShown()
 	{
 		// Don't show if player is dead, crit or sent an empty message
 		if (PlayerManager.LocalPlayerScript.IsGhost ||
@@ -213,6 +225,10 @@ public class ControlChat : MonoBehaviour
 		CloseChatWindow();
 	}
 
+	/// <summary>
+	/// Opens the chat window to send messages
+	/// </summary>
+	/// <param name="selectedChannel">The chat channels to select when opening it</param>
 	public void OpenChatWindow (ChatChannel selectedChannel = ChatChannel.None)
 	{
 		if (PlayerManager.LocalPlayer == null)
@@ -239,6 +255,7 @@ public class ControlChat : MonoBehaviour
 		InputFieldChat.OnPointerClick (new PointerEventData (EventSystem.current));
 		RefreshChannelPanel();
 	}
+
 	public void CloseChatWindow()
 	{
 		UIManager.IsInputFocus = false;
@@ -247,12 +264,15 @@ public class ControlChat : MonoBehaviour
 		background.SetActive(false);
 	}
 
-	public void RefreshChannelPanel()
+	/// <summary>
+	/// Will update the toggles, active radio channels and channel text
+	/// </summary>
+	private void RefreshChannelPanel()
 	{
 		Logger.LogTrace("Refreshing channel panel!", Category.UI);
 		RefreshToggles();
 		RefreshRadioChannelPanel();
-		UpdateChannelToggleText();
+		UpdateChannelText();
 	}
 
 	public void Toggle_ChannelPanel()
@@ -263,23 +283,15 @@ public class ControlChat : MonoBehaviour
 		{
 			channelPanel.gameObject.SetActive(true);
 			RefreshToggles();
-			// PruneUnavailableChannels();
-			// PopulateChannelPanel(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(),
-			// 	PlayerManager.LocalPlayerScript.SelectedChannels);
-			// RefreshRadioChannelPanel();
-			//				Logger.Log($"Toggling channel panel ON. selected:{ListChannels(PlayerManager.LocalPlayerScript.SelectedChannels)}, " +
-			//				          $"available:{ListChannels(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask())}");
 		}
 		else
 		{
 			channelPanel.gameObject.SetActive(false);
-			// EmptyChannelPanel();
-			//				Logger.Log("Toggling channel panel OFF.");
 		}
 	}
 
 	/// <summary>
-	/// Tried to select the most appropriate channel (Local, Ghost then OOC)
+	/// Try to select the most appropriate channel (Local, Ghost then OOC)
 	/// </summary>
 	private void TrySelectDefaultChannel()
 	{
@@ -297,57 +309,19 @@ public class ControlChat : MonoBehaviour
 		}
 	}
 
-	private void PruneUnavailableChannels()
-	{
-		PlayerManager.LocalPlayerScript.SelectedChannels &= PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
-		UpdateChannelToggleText();
-	}
-
-	/// Visualize that channel mask mess
-	public static string ListChannels(ChatChannel channels, string separator = ", ")
+	/// <summary>
+	/// Turn a ChatChannel into a string of all channels within it
+	/// </summary>
+	/// <returns>Returns a string of all of the channel names</returns>
+	private static string ListChannels(ChatChannel channels, string separator = ", ")
 	{
 		string listChannels = string.Join(separator, EncryptionKey.getChannelsByMask(channels));
 		return listChannels == "" ? "None" : listChannels;
 	}
 
-	///Channel-Toggle map for UI things
-	public Dictionary<ChatChannel, Toggle> ChannelToggles = new Dictionary<ChatChannel, Toggle>();
-
-	public void PopulateChannelPanel(ChatChannel channelsAvailable, ChatChannel channelsSelected)
-	{
-		// FIXME: make it so the toggles don't get created and destroyed all the time
-		foreach (ChatChannel currentChannel in Enum.GetValues(typeof(ChatChannel)))
-		{
-			// Skip the channel if it's None or isn't in the available channels
-			if (currentChannel == ChatChannel.None || (channelsAvailable & currentChannel) != currentChannel)
-			{
-				continue;
-			}
-
-			// Create a channel toggle
-			CreateToggle(currentChannel);
-
-			// Create an active channel entry if it's a radio channel
-			if (RadioChannels.Contains(currentChannel) && !ActiveChannels.ContainsKey(currentChannel))
-			{
-				CreateRadioEntry(currentChannel);
-			}
-
-			// If the channel is currently selected enable it
-			if ((channelsSelected & currentChannel) == currentChannel)
-			{
-				EnableChannel(currentChannel);
-			}
-		}
-
-		float width = 64f;
-		int count = ChannelToggles.Count;
-		LayoutElement layoutElement = channelPanel.GetComponent<LayoutElement>();
-		HorizontalLayoutGroup horizontalLayoutGroup = channelPanel.GetComponent<HorizontalLayoutGroup>();
-		layoutElement.minWidth = width * count + horizontalLayoutGroup.spacing * count;
-		//			Logger.Log($"Populating wid={width} cnt={count} minWid={layoutElement.minWidth}");
-	}
-
+	/// <summary>
+	/// Creates a channel toggle for the channel, and adds it to the ChannelToggles dictionary
+	/// </summary>
 	private void CreateToggle(ChatChannel channel)
 	{
 		// Check a channel toggle doesn't already exist
@@ -376,7 +350,10 @@ public class ControlChat : MonoBehaviour
 		ChannelToggles.Add(channel, toggle);
 	}
 
-	private void CreateRadioEntry(ChatChannel channel)
+	/// <summary>
+	/// Creates an active radio entry for the channel, and adds it to the ActiveChannels dictionary
+	/// </summary>
+	private void CreateActiveRadioEntry(ChatChannel channel)
 	{
 		Logger.Log($"Creating radio channel entry for {channel}", Category.UI);
 		// Create the template object which is hidden in the list but deactivated
@@ -393,16 +370,9 @@ public class ControlChat : MonoBehaviour
 		ActiveChannels.Add(channel, radioEntry);
 	}
 
-	public void EmptyChannelPanel()
-	{
-		// Clear out the channel toggles
-		foreach (var entry in ChannelToggles)
-		{
-			Destroy(entry.Value.gameObject);
-		}
-		ChannelToggles.Clear();
-	}
-
+	/// <summary>
+	/// Creates all the channel toggles
+	/// </summary>
 	private void InitToggles()
 	{
 		// Create toggles for all main and radio channels
@@ -416,9 +386,12 @@ public class ControlChat : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Will show all available channel toggles, and hide the rest
+	/// </summary>
 	private void RefreshToggles()
 	{
-		var availChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+		ChatChannel availChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
 
 		foreach (var entry in ChannelToggles)
 		{
@@ -436,6 +409,9 @@ public class ControlChat : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Will show the active radio channel panel if a radio channel is active, otherwise hide it
+	/// </summary>
 	private void RefreshRadioChannelPanel()
 	{
 		// Enable the radio panel if radio channels are active, otherwise hide it
@@ -508,7 +484,20 @@ public class ControlChat : MonoBehaviour
 		}
 	}
 
-	private void UpdateChannelToggleText()
+	private void ClearActiveRadioChannels()
+	{
+		Logger.Log("Clearing active radio channel panel", Category.UI);
+		foreach (var channelEntry in ActiveChannels)
+		{
+			channelEntry.Value.SetActive(false);
+		}
+		activeRadioChannelPanel.SetActive(false);
+	}
+
+	/// <summary>
+	/// Updates the text showing the channels
+	/// </summary>
+	private void UpdateChannelText()
 	{
 		ChatChannel channelsSelected = PlayerManager.LocalPlayerScript.SelectedChannels;
 		string channelString = ListChannels(channelsSelected, "\n");
@@ -516,6 +505,9 @@ public class ControlChat : MonoBehaviour
 		text.text = channelString;
 	}
 
+	/// <summary>
+	/// Checks if the availableChannelCache is out of date and updates it if so
+	/// </summary>
 	private bool isChannelListUpToDate()
 	{
 		ChatChannel availableChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
@@ -532,17 +524,11 @@ public class ControlChat : MonoBehaviour
 		}
 	}
 
-	private void ClearActiveRadioChannels()
-	{
-		Logger.Log("Clearing active radio channel panel", Category.UI);
-		foreach (var channelEntry in ActiveChannels)
-		{
-			channelEntry.Value.SetActive(false);
-		}
-		activeRadioChannelPanel.SetActive(false);
-	}
-
-	public void EnableChannel(ChatChannel channel)
+	/// <summary>
+	/// Enable a channel and perform all special logic for it.
+	/// Main channels disable all other channels, and radio channels enable local too
+	/// </summary>
+	private void EnableChannel(ChatChannel channel)
 	{
 		Logger.Log($"Enabling {channel}", Category.UI);
 
@@ -582,17 +568,21 @@ public class ControlChat : MonoBehaviour
 				// Only add to active channel list if it's a radio channel
 				if (!ActiveChannels.ContainsKey(channel))
 				{
-					CreateRadioEntry(channel);
+					CreateActiveRadioEntry(channel);
 				}
 				ActiveChannels[channel].SetActive(true);
 				activeRadioChannelPanel.SetActive(true);
 			}
 		}
 
-		UpdateChannelToggleText();
+		UpdateChannelText();
 	}
 
-	public void DisableChannel(ChatChannel channel)
+	/// <summary>
+	/// Disable a channel and perform all special logic for it.
+	/// Main channels can't be disabled, and radio channels can hide the active radio channel panel
+	/// </summary>
+	private void DisableChannel(ChatChannel channel)
 	{
 		Logger.Log($"Disabling {channel}", Category.UI);
 
@@ -622,6 +612,6 @@ public class ControlChat : MonoBehaviour
 			}
 		}
 
-		UpdateChannelToggleText();
+		UpdateChannelText();
 	}
 }
