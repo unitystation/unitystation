@@ -14,7 +14,7 @@ public class ControlChat : MonoBehaviour
 	public Toggle chatInputLabel;
 
 	public RectTransform channelPanel;
-	public GameObject channelToggle;
+	public GameObject channelToggleTemplate;
 	public GameObject chatInputWindow;
 	public RectTransform ChatPanel;
 	public Transform content;
@@ -55,7 +55,7 @@ public class ControlChat : MonoBehaviour
 		ChatChannel.Service,
 		ChatChannel.Syndicate
 	};
-
+	private ChatChannel availableChannelCache;
 	public InputField InputFieldChat;
 	public Scrollbar scrollBar;
 
@@ -89,7 +89,12 @@ public class ControlChat : MonoBehaviour
 
 	public void Start()
 	{
+		// Create all the required channel toggles
+		InitToggles();
+
+		// Make sure the window and channel pannel start disabled
 		chatInputWindow.SetActive(false);
+		channelPanel.gameObject.SetActive(false);
 		EventManager.AddHandler(EVENT.UpdateChatChannels, OnUpdateChatChannels);
 	}
 
@@ -100,10 +105,13 @@ public class ControlChat : MonoBehaviour
 
 	public void Update()
 	{
-		// if (channelPanel.gameObject.activeInHierarchy && !isChannelListUpToDate())
-		// {
-			// RefreshChannelPanel();
-		// }
+		// TODO add text system "say:, ooc:, ghost: etc..."
+		// TODO add events to inventory slot changes to trigger channel refresh
+		if (chatInputWindow.activeInHierarchy && !isChannelListUpToDate())
+		{
+			Logger.Log("Channel list is outdated!", Category.UI);
+			RefreshChannelPanel();
+		}
 
 		if (UIManager.IsInputFocus)
 		{
@@ -137,8 +145,6 @@ public class ControlChat : MonoBehaviour
 
 	private void OnUpdateChatChannels()
 	{
-		// PopulateChannelPanel(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(),
-		// 		PlayerManager.LocalPlayerScript.SelectedChannels);
 		TrySelectDefaultChannel();
 		RefreshChannelPanel();
 	}
@@ -220,8 +226,6 @@ public class ControlChat : MonoBehaviour
 		if (selectedChannel != ChatChannel.None && (availChannels & selectedChannel) == selectedChannel)
 		{
 			EnableChannel(selectedChannel);
-			RefreshRadioChannelPanel();
-			RefreshChannelPanel();
 		}
 		else
 		{
@@ -233,7 +237,7 @@ public class ControlChat : MonoBehaviour
 		UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
 		EventSystem.current.SetSelectedGameObject (InputFieldChat.gameObject, null);
 		InputFieldChat.OnPointerClick (new PointerEventData (EventSystem.current));
-		UpdateChannelToggleText ();
+		RefreshChannelPanel();
 	}
 	public void CloseChatWindow()
 	{
@@ -246,16 +250,7 @@ public class ControlChat : MonoBehaviour
 	public void RefreshChannelPanel()
 	{
 		Logger.LogTrace("Refreshing channel panel!", Category.UI);
-
-		// Empty everything
-		EmptyChannelPanel();
-
-		// Repopulate the channel toggles if it's on show
-		if (showChannels)
-		{
-			PopulateChannelPanel(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(),
-				PlayerManager.LocalPlayerScript.SelectedChannels);
-		}
+		RefreshToggles();
 		RefreshRadioChannelPanel();
 		UpdateChannelToggleText();
 	}
@@ -263,21 +258,22 @@ public class ControlChat : MonoBehaviour
 	public void Toggle_ChannelPanel()
 	{
 		showChannels = !showChannels;
-		//			SoundManager.Play("Click01");
+		SoundManager.Play("Click01");
 		if (showChannels)
 		{
 			channelPanel.gameObject.SetActive(true);
+			RefreshToggles();
 			// PruneUnavailableChannels();
-			PopulateChannelPanel(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(),
-				PlayerManager.LocalPlayerScript.SelectedChannels);
-			RefreshRadioChannelPanel();
+			// PopulateChannelPanel(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(),
+			// 	PlayerManager.LocalPlayerScript.SelectedChannels);
+			// RefreshRadioChannelPanel();
 			//				Logger.Log($"Toggling channel panel ON. selected:{ListChannels(PlayerManager.LocalPlayerScript.SelectedChannels)}, " +
 			//				          $"available:{ListChannels(PlayerManager.LocalPlayerScript.GetAvailableChannelsMask())}");
 		}
 		else
 		{
 			channelPanel.gameObject.SetActive(false);
-			EmptyChannelPanel();
+			// EmptyChannelPanel();
 			//				Logger.Log("Toggling channel panel OFF.");
 		}
 	}
@@ -328,11 +324,9 @@ public class ControlChat : MonoBehaviour
 				continue;
 			}
 
-			// Create a channel toggle if one doesn't already exist
-			if (!ChannelToggles.ContainsKey(currentChannel))
-			{
-				CreateToggle(currentChannel);
-			}
+			// Create a channel toggle
+			CreateToggle(currentChannel);
+
 			// Create an active channel entry if it's a radio channel
 			if (RadioChannels.Contains(currentChannel) && !ActiveChannels.ContainsKey(currentChannel))
 			{
@@ -356,9 +350,16 @@ public class ControlChat : MonoBehaviour
 
 	private void CreateToggle(ChatChannel channel)
 	{
+		// Check a channel toggle doesn't already exist
+		if (ChannelToggles.ContainsKey(channel))
+		{
+			Logger.LogWarning($"Channel toggle already exists for {channel}!", Category.UI);
+			return;
+		}
+
 		Logger.Log($"Creating channel toggle for {channel}", Category.UI);
 		// Create the toggle button
-		GameObject channelToggleItem = Instantiate(channelToggle, channelPanel.transform);
+		GameObject channelToggleItem = Instantiate(channelToggleTemplate, channelToggleTemplate.transform.parent, false);
 		Toggle toggle = channelToggleItem.GetComponent<Toggle>();
 		toggle.GetComponent<UIToggleChannel>().channel = channel;
 		toggle.GetComponentInChildren<Text>().text = IconConstants.ChatPanelIcons[channel];
@@ -371,6 +372,7 @@ public class ControlChat : MonoBehaviour
 		entry.callback.AddListener( (eventData) => Toggle_Channel(toggle.isOn) );
 		trigger.triggers.Add(entry);
 
+		// Add it to a list for easy access later
 		ChannelToggles.Add(channel, toggle);
 	}
 
@@ -399,6 +401,39 @@ public class ControlChat : MonoBehaviour
 			Destroy(entry.Value.gameObject);
 		}
 		ChannelToggles.Clear();
+	}
+
+	private void InitToggles()
+	{
+		// Create toggles for all main and radio channels
+		foreach (ChatChannel channel in MainChannels)
+		{
+			CreateToggle(channel);
+		}
+		foreach (ChatChannel channel in RadioChannels)
+		{
+			CreateToggle(channel);
+		}
+	}
+
+	private void RefreshToggles()
+	{
+		var availChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+
+		foreach (var entry in ChannelToggles)
+		{
+			ChatChannel toggleChannel = entry.Key;
+			GameObject toggle = entry.Value.gameObject;
+			// If the channel is available activate it's toggle, otherwise disable it
+			if ((availChannels & toggleChannel) == toggleChannel)
+			{
+				toggle.SetActive(true);
+			}
+			else
+			{
+				toggle.SetActive(false);
+			}
+		}
 	}
 
 	private void RefreshRadioChannelPanel()
@@ -439,8 +474,6 @@ public class ControlChat : MonoBehaviour
 		{
 			DisableChannel(source.channel);
 		}
-
-		UpdateChannelToggleText();
 	}
 
 	private void TryDisableOOC()
@@ -486,25 +519,17 @@ public class ControlChat : MonoBehaviour
 	private bool isChannelListUpToDate()
 	{
 		ChatChannel availableChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
-		int availableCount = EnumUtils.GetSetBitCount((long)availableChannels);
 
-		// Check the lengths for cheap comparison
-		if (availableCount != ChannelToggles.Count)
+		// See if available channels have changed
+		if (availableChannelCache != availableChannels)
 		{
+			availableChannelCache = availableChannels;
 			return false;
 		}
-
-		// Check all the individual channels match if the length is the same
-		foreach (var entry in ChannelToggles)
+		else
 		{
-			ChatChannel channel = entry.Key;
-			if ((availableChannels & channel) != channel)
-			{
-				return false;
-			}
+			return true;
 		}
-
-		return true;
 	}
 
 	private void ClearActiveRadioChannels()
@@ -563,6 +588,8 @@ public class ControlChat : MonoBehaviour
 				activeRadioChannelPanel.SetActive(true);
 			}
 		}
+
+		UpdateChannelToggleText();
 	}
 
 	public void DisableChannel(ChatChannel channel)
@@ -594,5 +621,7 @@ public class ControlChat : MonoBehaviour
 				RefreshRadioChannelPanel();
 			}
 		}
+
+		UpdateChannelToggleText();
 	}
 }
