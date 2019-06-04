@@ -4,7 +4,6 @@ public class ControlDisplays : MonoBehaviour
 {
 	public GameObject backGround;
 	public RectTransform hudBottom;
-	public RectTransform hudRight;
 	public GameObject jobSelectWindow;
 	public GameObject teamSelectionWindow;
 	public RectTransform panelRight;
@@ -31,7 +30,7 @@ public class ControlDisplays : MonoBehaviour
 		SoundManager.StopAmbient();
 		SoundManager.PlayRandomTrack(); //Gimme dat slap bass
 		ResetUI(); //Make sure UI is back to default for next play
-		hudRight.gameObject.SetActive(false);
+		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		hudBottom.gameObject.SetActive(false);
 		backGround.SetActive(true);
 		panelRight.gameObject.SetActive(false);
@@ -41,7 +40,7 @@ public class ControlDisplays : MonoBehaviour
 
 	public void SetScreenForGame()
 	{
-		hudRight.gameObject.SetActive(true);
+		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		hudBottom.gameObject.SetActive(true);
 		backGround.SetActive(false);
 		panelRight.gameObject.SetActive(true);
