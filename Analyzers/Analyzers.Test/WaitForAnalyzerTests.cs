@@ -6,7 +6,7 @@ using TestHelper;
 namespace Analyzers.Test
 {
     [TestClass]
-    public class YieldHelperAnalyzerTests : DiagnosticVerifier
+    public class WaitForAnalyzerTests : DiagnosticVerifier
     {
         [TestMethod]
         public void Should_Ignore_Non_Static_Duration()
@@ -43,12 +43,12 @@ namespace Analyzers.Test
 
             var expected = new DiagnosticResult
             {
-                Id = YieldHelperAnalyzer.DiagnosticId,
-                Message = "Instantiating yield instructions generates garbage, consider using a YieldHelper static instead.",
+                Id = WaitForAnalyzer.DiagnosticId,
+                Message = "Instantiating yield instructions generates garbage, consider using WaitFor.Seconds() instead.",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
-                            new DiagnosticResultLocation("Test0.cs", 6, 38)
+                            new DiagnosticResultLocation("Test0.cs", 6, 7)
                         }
             };
 
@@ -57,7 +57,7 @@ namespace Analyzers.Test
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
-            return new YieldHelperAnalyzer();
+            return new WaitForAnalyzer();
         }
     }
 }

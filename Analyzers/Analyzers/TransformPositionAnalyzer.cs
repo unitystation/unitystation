@@ -18,6 +18,7 @@ namespace Analyzers
 			"Do not use transform.position, use registerTile.WorldPositionClient or registerTile.WorldPositionServer.",
 			"Code Review",
 			DiagnosticSeverity.Warning,
+			helpLinkUri: "HONK1002_AvoidTransformPosition.md",
 			isEnabledByDefault: true);
 
 		public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(Rule); } }
