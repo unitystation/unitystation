@@ -149,7 +149,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		if (isSuffocatingCache != livingHealthBehaviour.respiratorySystem.IsSuffocating)
 		{
 			isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
-			SendRespiratoryUpdate(gameObject);
+			SendRespiratoryUpdate();
 		}
 	}
 
@@ -246,9 +246,9 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 			oxygenDamageCache, toxinLevelCache);
 	}
 
-	void SendRespiratoryUpdate(GameObject requestor)
+	void SendRespiratoryUpdate()
 	{
-		HealthRespiratoryMessage.Send(requestor, gameObject, isSuffocatingCache);
+		HealthRespiratoryMessage.Send(gameObject, isSuffocatingCache);
 	}
 
 	void SendTemperatureUpdate()
@@ -295,7 +295,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 
 		yield return WaitFor.Seconds(.1f);
 
-		SendRespiratoryUpdate(requestor);
+		SendRespiratoryUpdate();
 
 		yield return WaitFor.Seconds(.1f);
 
