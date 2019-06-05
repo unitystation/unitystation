@@ -36,6 +36,7 @@ public class Canister : InputTrigger
 		{
 			if(isConnected)
 			{
+				SoundManager.PlayAtPosition("Wrench", registerTile.WorldPositionServer);
 				connector.DisconnectCanister();
 				isConnected = false;
 				connectorRenderer.sprite = null;
@@ -51,6 +52,7 @@ public class Canister : InputTrigger
 					var conn = foundConnectors[n];
 					if (conn.objectBehaviour.isNotPushable)
 					{
+						SoundManager.PlayAtPosition("Wrench", registerTile.WorldPositionServer);
 						connector = conn;
 						isConnected = true;
 						connector.ConnectCanister(this);
