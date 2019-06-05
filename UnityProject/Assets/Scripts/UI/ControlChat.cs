@@ -11,7 +11,7 @@ public class ControlChat : MonoBehaviour
 	public GameObject chatEntryPrefab;
 	private readonly List<ChatEvent> _localEvents = new List<ChatEvent>();
 	[SerializeField]
-	private Toggle chatInputLabel;
+	private Text chatInputLabel;
 	[SerializeField]
 	private RectTransform channelPanel;
 	[SerializeField]
@@ -117,7 +117,6 @@ public class ControlChat : MonoBehaviour
 
 	private void Update()
 	{
-		// TODO add text system "say:, ooc:, ghost: etc..."
 		// TODO add events to inventory slot changes to trigger channel refresh
 		if (chatInputWindow.activeInHierarchy && !isChannelListUpToDate())
 		{
@@ -270,9 +269,10 @@ public class ControlChat : MonoBehaviour
 	private void RefreshChannelPanel()
 	{
 		Logger.LogTrace("Refreshing channel panel!", Category.UI);
+		Logger.Log("Selected channels: " + ListChannels(PlayerManager.LocalPlayerScript.SelectedChannels), Category.UI);
 		RefreshToggles();
 		RefreshRadioChannelPanel();
-		UpdateChannelText();
+		UpdateInputLabel();
 	}
 
 	public void Toggle_ChannelPanel()
@@ -495,14 +495,23 @@ public class ControlChat : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Updates the text showing the channels
+	/// Updates the label next to the chat input field
 	/// </summary>
-	private void UpdateChannelText()
+	private void UpdateInputLabel()
 	{
 		ChatChannel channelsSelected = PlayerManager.LocalPlayerScript.SelectedChannels;
-		string channelString = ListChannels(channelsSelected, "\n");
-		Text text = chatInputLabel.GetComponentInChildren<Text>();
-		text.text = channelString;
+		if ((channelsSelected & ChatChannel.OOC) == ChatChannel.OOC)
+		{
+			chatInputLabel.text = "OOC:";
+		}
+		else if ((channelsSelected & ChatChannel.Ghost) == ChatChannel.Ghost)
+		{
+			chatInputLabel.text = "Ghost:";
+		}
+		else
+		{
+			chatInputLabel.text = "Say:";
+		}
 	}
 
 	/// <summary>
@@ -575,7 +584,7 @@ public class ControlChat : MonoBehaviour
 			}
 		}
 
-		UpdateChannelText();
+		UpdateInputLabel();
 	}
 
 	/// <summary>
@@ -612,6 +621,6 @@ public class ControlChat : MonoBehaviour
 			}
 		}
 
-		UpdateChannelText();
+		UpdateInputLabel();
 	}
 }
