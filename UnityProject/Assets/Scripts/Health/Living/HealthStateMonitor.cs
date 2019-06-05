@@ -158,7 +158,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		if (temperatureCache != livingHealthBehaviour.respiratorySystem.temperature)
 		{
 			temperatureCache = livingHealthBehaviour.respiratorySystem.temperature;
-			SendTemperatureUpdate(gameObject);
+			SendTemperatureUpdate();
 		}
 	}
 
@@ -167,7 +167,7 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		if (pressureCache != livingHealthBehaviour.respiratorySystem.pressure)
 		{
 			pressureCache = livingHealthBehaviour.respiratorySystem.pressure;
-			SendPressureUpdate(gameObject);
+			SendPressureUpdate();
 		}
 	}
 
@@ -251,14 +251,14 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		HealthRespiratoryMessage.Send(requestor, gameObject, isSuffocatingCache);
 	}
 
-	void SendTemperatureUpdate(GameObject requestor)
+	void SendTemperatureUpdate()
 	{
-		HealthTemperatureMessage.Send(requestor, gameObject, temperatureCache);
+		HealthTemperatureMessage.Send(gameObject, temperatureCache);
 	}
 
-	void SendPressureUpdate(GameObject requestor)
+	void SendPressureUpdate()
 	{
-		HealthPressureMessage.Send(requestor, gameObject, pressureCache);
+		HealthPressureMessage.Send(gameObject, pressureCache);
 	}
 
 	void SendBrainUpdate(GameObject requestor)
@@ -299,11 +299,11 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 
 		yield return WaitFor.Seconds(.1f);
 
-		SendTemperatureUpdate(requestor);
+		SendTemperatureUpdate();
 
 		yield return WaitFor.Seconds(.1f);
 
-		SendPressureUpdate(requestor);
+		SendPressureUpdate();
 
 		yield return WaitFor.Seconds(.1f);
 

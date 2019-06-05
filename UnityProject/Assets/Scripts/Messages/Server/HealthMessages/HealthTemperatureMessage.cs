@@ -18,25 +18,14 @@ public class HealthTemperatureMessage : ServerMessage
 		NetworkObject.GetComponent<LivingHealthBehaviour>().UpdateClientTemperatureStats(temperature);
 	}
 
-	public static HealthTemperatureMessage Send(GameObject recipient, GameObject entityToUpdate, float temperatureValue)
+	public static HealthTemperatureMessage Send(GameObject entityToUpdate, float temperatureValue)
 	{
 		HealthTemperatureMessage msg = new HealthTemperatureMessage
 		{
 			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
 			temperature = temperatureValue
 		};
-		msg.SendTo(recipient);
-		return msg;
-	}
-
-	public static HealthTemperatureMessage SendToAll(GameObject entityToUpdate, float temperatureValue)
-	{
-		HealthTemperatureMessage msg = new HealthTemperatureMessage
-		{
-			EntityToUpdate = entityToUpdate.GetComponent<NetworkIdentity>().netId,
-			temperature = temperatureValue
-		};
-		msg.SendToAll();
+		msg.SendTo(entityToUpdate);
 		return msg;
 	}
 }
