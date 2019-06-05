@@ -140,4 +140,16 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 	{
 		ToggleCansupport = !ToggleCansupport;
 	}
+	public float bob = 0;
+	public float bob1 = 1;
+	public float bob2 = 2;
+	public float bob3 = 3;
+	public float bob4 = 4;
+	public float bob5 = 5;
+	public float bob6 = 6;
+	public float bob7 = 7;
+	public float bob8 = 8;
+	public float bob9 = 9;
+	public float bob10 = 10;
+	public float bob11 = 11;
 }

@@ -42,7 +42,9 @@ internal enum MessageTypes : short
 	HealthPressureStats = 1038,
 	EquipmentSpritesMessage = 1039,
 	PlayerSpritesMessage = 1040,
-
+	BookNetMessage = 1041,
+	
+	
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
 	InteractMessage = 2001,
