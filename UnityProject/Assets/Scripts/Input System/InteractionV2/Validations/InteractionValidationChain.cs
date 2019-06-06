@@ -85,3 +85,24 @@ public class InteractionValidationChain<T>
 		return this;
 	}
 }
+
+
+/// <summary>
+/// Refers to a "side" of the network - client or server.
+/// </summary>
+public enum NetworkSide
+{
+	CLIENT,
+	SERVER
+}
+
+/// <summary>
+/// Result of validation of an interaction.
+/// </summary>
+public enum ValidationResult
+{
+	//validation failed - interaction should not be performed
+	FAIL,
+	//validation succeeded, proceed with the interaction
+	SUCCESS
+}

@@ -81,29 +81,32 @@ public class PlayerLightControl : InputTrigger
 		var pickup = GetComponent<Pickupable>();
 		if (pickup != null)
 		{
-			pickup.OnPickupSuccessServer.AddListener(OnPickupServer);
+			pickup.OnPickupServer.AddListener(OnPickupServer);
 			pickup.OnDropServer.AddListener(OnDrop);
 		}
 	}
 	public void OnAddToInventorySlot(InventorySlot slot)
 	{
-		if (slot.IsUISlot)
+		if (isServer)
 		{
-			if (!(CompatibleSlots.Contains(slot.SlotName)))
+			if (slot.IsUISlot)
 			{
-				LightEmission.RemoveLight(PlayerLightData);
+				if (!(CompatibleSlots.Contains(slot.SlotName)))
+				{
+					LightEmission.RemoveLight(PlayerLightData);
+				}
+				else
+				{
+					if (LightEmission != null)
+					{
+						LightEmission.AddLight(PlayerLightData);
+					}
+				}
 			}
 			else
 			{
-				if (LightEmission != null)
-				{
-					LightEmission.AddLight(PlayerLightData);
-				}
+				LightEmission.RemoveLight(PlayerLightData);
 			}
-		}
-		else
-		{
-			LightEmission.RemoveLight(PlayerLightData);
 		}
 	}
 }

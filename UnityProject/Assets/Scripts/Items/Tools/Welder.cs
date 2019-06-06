@@ -68,7 +68,7 @@ public class Welder : NetworkBehaviour
 		var pickup = GetComponent<Pickupable>();
 		if (pickup != null)
 		{
-			pickup.OnPickupSuccessServer.AddListener(OnPickupServer);
+			pickup.OnPickupServer.AddListener(OnPickupServer);
 		}
 	}
 

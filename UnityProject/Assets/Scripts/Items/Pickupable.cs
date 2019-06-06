@@ -11,13 +11,12 @@ using Random = UnityEngine.Random;
 public class Pickupable : NBHandApplyInteractable, IRightClickable
 {
 	/// <summary>
-	/// Event fired after the object is picked up, on server only. Passes the gameobject of the player
-	/// picking up this object.
+	/// Event fired after the object is picked up, on server only.
 	/// </summary>
 	[HideInInspector]
-	public PickupSuccessEvent OnPickupSuccessServer = new PickupSuccessEvent();
+	public PickupSuccessEvent OnPickupServer = new PickupSuccessEvent();
 	/// <summary>
-	/// Fired when item is being dropped, on server side only
+	/// Fired when item is being dropped, on server side only.
 	/// </summary>
 	[HideInInspector]
 	public UnityEvent OnDropServer = new UnityEvent();
@@ -92,7 +91,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 				Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Security,
 					cnt.ServerState.WorldPosition, interaction.Performer.transform.position, cnt.IsFloatingServer);
 				//continue to what happens after pickup
-				OnPickupSuccessServer.Invoke(interaction);
+				OnPickupServer.Invoke(interaction);
 			}
 			else
 			{
