@@ -13,7 +13,7 @@ public class HealthPressureMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return null;
-		PlayerManager.LocalPlayerScript.GetComponent<LivingHealthBehaviour>().UpdateClientPressureStats(pressure);
+		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientPressureStats(pressure);
 	}
 
 	public static HealthPressureMessage Send(GameObject entityToUpdate, float pressureValue)

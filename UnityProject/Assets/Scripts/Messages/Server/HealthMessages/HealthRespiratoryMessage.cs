@@ -13,7 +13,7 @@ public class HealthRespiratoryMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return null;
-		PlayerManager.LocalPlayerScript.GetComponent<LivingHealthBehaviour>().UpdateClientRespiratoryStats(IsSuffocating);
+		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientRespiratoryStats(IsSuffocating);
 	}
 
 	public static HealthRespiratoryMessage Send(GameObject entityToUpdate, bool IsSuffocating)

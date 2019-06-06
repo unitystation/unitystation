@@ -13,7 +13,7 @@ public class HealthTemperatureMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return null;
-		PlayerManager.LocalPlayerScript.GetComponent<LivingHealthBehaviour>().UpdateClientTemperatureStats(temperature);
+		PlayerManager.LocalPlayerScript.playerHealth?.UpdateClientTemperatureStats(temperature);
 	}
 
 	public static HealthTemperatureMessage Send(GameObject entityToUpdate, float temperatureValue)
