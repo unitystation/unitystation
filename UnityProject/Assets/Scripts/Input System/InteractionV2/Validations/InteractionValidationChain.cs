@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 
 /// <summary>
@@ -78,9 +79,16 @@ public class InteractionValidationChain<T>
 	/// Adds the specified interaction to the end of the chain
 	/// </summary>
 	/// <param name="toAdd"></param>
+	/// <param name="onFail">invoked when this validation fails. This will only be invoked on the side (client or server)
+	/// that validation fails - if it fails client side, the onFail will be invoked on client side but
+	/// will not be invoked on the server.</param>
 	/// <returns>this</returns>
-	public InteractionValidationChain<T> WithValidation(IInteractionValidator<T> toAdd)
+	public InteractionValidationChain<T> WithValidation(IInteractionValidator<T> toAdd, Action<T, NetworkSide> onFail = null)
 	{
+		if (onFail != null)
+		{
+			toAdd = new OnFailValidator<T>(toAdd, onFail);
+		}
 		validations.Add(toAdd);
 		return this;
 	}

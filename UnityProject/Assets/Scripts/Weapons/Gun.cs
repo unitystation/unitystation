@@ -1,27 +1,14 @@
 ﻿﻿using System.Collections;
 using System.Collections.Generic;
-using Light2D;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
-
-/// <summary>
-///     Generic weapon types
-/// </summary>
-public enum WeaponType
-{
-	Melee, //TODO: SUPPORT MELEE WEAPONS
-	SemiAutomatic,
-	FullyAutomatic,
-	Burst //TODO: SUPPORT BURST WEAPONS
-}
-
-/// <summary>
-///     Generic weapon base. Weapons are server authoritative.
+ /// <summary>
+///  Allows an object to behave like a gun and fire shots. Server authoritative with client prediction.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Weapon : InputTrigger
+public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractable<InventoryApply>
 {
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
@@ -64,11 +51,6 @@ public class Weapon : InputTrigger
 	///     The amount of times per second this weapon can fire
 	/// </summary>
 	public double FireRate;
-
-	/// <summary>
-	///     If the weapon is currently in automatic action
-	/// </summary>
-	private bool InAutomaticAction;
 
 	/// <summary>
 	///     If suicide shooting should be prevented (for when user inadvertently drags over themselves during a burst)
@@ -132,9 +114,18 @@ public class Weapon : InputTrigger
 	/// </summary>
 	private System.Random magSyncedRNG;
 
+	//caching the interaction validation chain to reduce GC
+	private InteractionValidationChain<AimApply> validationChain;
+
+
+
 	private void Start()
 	{
-		StopAutomaticBurst();
+		validationChain =
+			InteractionValidationChain<AimApply>.Create()
+			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
+			.WithValidation(new FunctionValidator<AimApply>(ValidateShoot));
+
 		//init weapon with missing settings
 		if (AmmoType == null)
 		{
@@ -153,6 +144,112 @@ public class Weapon : InputTrigger
 		{
 			pickup.OnPickupServer.AddListener(OnPickupServer);
 		}
+	}
+	//custom validation logic related to Weapon
+	private ValidationResult ValidateShoot(AimApply interaction, NetworkSide side)
+	{
+		if (CurrentMagazine == null)
+		{
+			PlayEmptySFX();
+			return ValidationResult.FAIL;
+		}
+
+		if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0)
+		{
+			if (SmartGun)
+			{
+				RequestUnload(CurrentMagazine);
+				OutOfAmmoSFX();
+			}
+			else
+			{
+				PlayEmptySFX();
+			}
+			return ValidationResult.FAIL;
+		}
+
+		if (Projectile != null && CurrentMagazine.ammoRemains > 0 && FireCountDown <= 0)
+		{
+			if (interaction.MouseButtonState == MouseButtonState.PRESS)
+			{
+				return ValidationResult.SUCCESS;
+			}
+			else
+			{
+				//being held, only can shoot if this is an automatic
+				return WeaponType == WeaponType.FullyAutomatic ? ValidationResult.SUCCESS : ValidationResult.FAIL;
+			}
+		}
+
+		return ValidationResult.FAIL;
+
+	}
+
+	protected override InteractionValidationChain<AimApply> InteractionValidationChain()
+	{
+		return validationChain;
+	}
+
+	protected override void ClientPredictInteraction(AimApply interaction)
+	{
+		//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
+		//case 1 - we are beginning a new shot, need to see if we are shooting ourselves
+		//case 2 - we are firing an automatic and are currently shooting ourselves, need to see if we moused off
+		//	ourselves.
+		var isSuicide = false;
+		if (interaction.MouseButtonState == MouseButtonState.PRESS ||
+		    (WeaponType == WeaponType.FullyAutomatic && AllowSuicide))
+		{
+			isSuicide = interaction.IsAimingAtSelf;
+			AllowSuicide = isSuicide;
+		}
+
+		var dir = ApplyRecoil(interaction.TargetVector.normalized);
+		DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide);
+	}
+
+	protected override void ServerPerformInteraction(AimApply interaction)
+	{
+		//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
+		//case 1 - we are beginning a new shot, need to see if we are shooting ourselves
+		//case 2 - we are firing an automatic and are currently shooting ourselves, need to see if we moused off
+		//	ourselves.
+		var isSuicide = false;
+		if (interaction.MouseButtonState == MouseButtonState.PRESS ||
+		    (WeaponType == WeaponType.FullyAutomatic && AllowSuicide))
+		{
+			isSuicide = interaction.IsAimingAtSelf;
+			AllowSuicide = isSuicide;
+		}
+
+		//enqueue the shot (will be processed in Update)
+		ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
+	}
+
+
+
+	public InteractionControl Interact(Activate interaction)
+	{
+		//try ejecting the mag
+		if(CurrentMagazine != null)
+		{
+			RequestUnload(CurrentMagazine);
+			return InteractionControl.STOP_PROCESSING;
+		}
+
+		return InteractionControl.CONTINUE_PROCESSING;
+	}
+
+	public InteractionControl Interact(InventoryApply interaction)
+	{
+		//only reload if the gun is the target
+		if (interaction.TargetObject == gameObject)
+		{
+			TryReload(interaction.UsedObject);
+			return InteractionControl.STOP_PROCESSING;
+		}
+
+		return InteractionControl.CONTINUE_PROCESSING;
 	}
 
 	private void OnPickupServer(HandApply interaction)
@@ -223,18 +320,6 @@ public class Weapon : InputTrigger
 			//due to the syncvar hook
 			MagNetID = queuedLoadMagNetID;
 			queuedLoadMagNetID = NetworkInstanceId.Invalid;
-		}
-
-		//rest of the Update is only needed for the weapon if it is held by the local player
-		if (PlayerManager.LocalPlayer != ClientScene.FindLocalObject(ControlledByPlayer))
-		{
-			return;
-		}
-
-		//check if burst should stop if the weapon is held by the local player
-		if (CommonInput.GetMouseButtonUp(0))
-		{
-			StopAutomaticBurst();
 		}
 	}
 
@@ -308,62 +393,10 @@ public class Weapon : InputTrigger
 	#endregion
 
 	#region Weapon Firing Mechanism
-
-	/// <summary>
-	/// Occurs when shooting by clicking on empty space
-	/// </summary>
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		//shoot gun interation if its in hand
-		if (gameObject == UIManager.Hands.CurrentSlot.Item)
-		{
-			return AttemptToFireWeapon(false);
-		}
-		//if the weapon is not in our hands not in hands, do nothing (it will be picked up)
-		else
-		{
-			return false;
-		}
-	}
-
-	/// <summary>
-	/// Occurs when shooting by clicking on empty space
-	/// </summary>
-	public override bool DragInteract(GameObject originator, Vector3 position, string hand)
-	{
-		//continue automatic fire while dragging
-		if (InAutomaticAction && FireCountDown <= 0)
-		{
-			return AttemptToFireWeapon(false);
-		}
-
-		return false;
-	}
-
-	/// <summary>
-	/// Occurs when a user uses another slot to interact with the weapon
-	/// </summary>
-	public override bool UI_InteractOtherSlot(GameObject originator, GameObject item)
-	{
-		return TryReload(item);
-	}
-
-	/// <summary>
-	/// Occurs when a user interacts with the slot using the same hand
-	/// </summary>
-	public override void UI_Interact(GameObject originator, string hand)
-	{
-		if(CurrentMagazine != null)
-		{
-			StopAutomaticBurst();
-			RequestUnload(CurrentMagazine);
-		}
-	}
-
 	/// <summary>
 	/// attempt to reload the weapon with the item given
 	/// </summary>
-	public bool TryReload(GameObject item)
+	private void TryReload(GameObject item)
 	{
 		string hand;
 		if (item != null)
@@ -394,157 +427,6 @@ public class Weapon : InputTrigger
 						ChatChannel.Examine);
 				}
 			}
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-
-	/// <summary>
-	/// Shoot the weapon holder.
-	/// </summary>
-	/// <param name="isDrag">if this suicide is being attempted during a drag interaction</param>
-	/// <returns>true iff something happened</returns>
-	public bool AttemptSuicideShot(bool isDrag)
-	{
-		//Only allow drag shot suicide if we've already started a burst
-		if (isDrag && InAutomaticAction && FireCountDown <= 0)
-		{
-			return AttemptToFireWeapon(true);
-		}
-		else if (!isDrag)
-		{
-			return AttemptToFireWeapon(true);
-		}
-
-		return false;
-	}
-
-	/// <summary>
-	/// Attempt to fire a single shot of the weapon (this is called once per bullet for a burst of automatic fire). This
-	/// should be invoked by the client when they want to perform a shot.
-	/// </summary>
-	/// <param name="isSuicide">if the shot should be a suicide shot, striking the weapon holder</param>
-	/// <returns>true iff something happened</returns>
-	private bool AttemptToFireWeapon(bool isSuicide)
-	{
-		PlayerScript shooter = ClientScene.FindLocalObject(ControlledByPlayer).GetComponent<PlayerScript>();
-		if ( shooter.canNotInteract() )
-		{
-			return false;
-		}
-		//suicide is not allowed in some cases.
-		isSuicide = isSuicide && AllowSuicide;
-		//ignore if we are hovering over UI
-		if (EventSystem.current.IsPointerOverGameObject())
-		{
-			return false;
-		}
-
-		//if we have no mag/clip loaded play empty sound
-		if (CurrentMagazine == null)
-		{
-			StopAutomaticBurst();
-			PlayEmptySFX();
-			return true;
-		}
-		//if we are out of ammo for this weapon eject magazine and play out of ammo sfx if smartgun
-		// otherwise play empty
-		else if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0)
-		{
-			StopAutomaticBurst();
-			if (SmartGun)
-			{
-				RequestUnload(CurrentMagazine);
-				OutOfAmmoSFX();
-			}
-			else
-			{
-				PlayEmptySFX();
-			}
-			return true;
-		}
-		else
-		{
-			//if we have a projectile to shoot, we have ammo and we are not waiting to be allowed to shoot again, Fire!
-			if (Projectile != null && CurrentMagazine.ammoRemains > 0 && FireCountDown <= 0)
-			{
-				//fire a single round if its a semi or automatic weapon
-				if (WeaponType == WeaponType.SemiAutomatic || WeaponType == WeaponType.FullyAutomatic)
-				{
-					//shot direction
-					Vector2 dir = (Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
-	                                   PlayerManager.LocalPlayer.transform.position).normalized;
-					if (!isServer)
-					{
-						//we're a client, request the server to make us shoot
-						RequestShootMessage.Send(gameObject, dir, Projectile.name, UIManager.DamageZone, isSuicide,
-							PlayerManager.LocalPlayer);
-						//Prediction (client bullets don't do any damage)
-						dir = ApplyRecoil(dir);
-						DisplayShot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide);
-					}
-					else
-					{
-						// we are the server, go ahead and shoot
-						ServerShoot(PlayerManager.LocalPlayer, dir, UIManager.DamageZone, isSuicide);
-					}
-
-					if (WeaponType == WeaponType.FullyAutomatic)
-					{
-						PlayerManager.LocalPlayerScript.mouseInputController.OnMouseDownDir(dir);
-					}
-				}
-
-				if (WeaponType == WeaponType.FullyAutomatic && !InAutomaticAction)
-				{
-					StartBurst(isSuicide);
-				}
-				else
-				{
-					ContinueBurst(isSuicide);
-				}
-
-				return true;
-			}
-		}
-
-		return true;
-	}
-
-	/// <summary>
-	/// Stop a burst of automatic fire.
-	/// </summary>
-	private void StopAutomaticBurst()
-	{
-		InAutomaticAction = false;
-		AllowSuicide = true;
-		//remove recoil after shooting is released
-		CurrentRecoilVariance = 0;
-	}
-
-	/// <summary>
-	/// Start a burst of automatic fire
-	/// </summary>
-	/// <param name="isSuicide">if burst is starting with gun pointing at own player</param>
-	private void StartBurst(bool isSuicide)
-	{
-		//only allow suicide if the burst starts out as a suicide.
-		AllowSuicide = isSuicide;
-		InAutomaticAction = true;
-	}
-
-	/// <summary>
-	/// Continue a burst, turning off suicide allowance if the burst is no longer pointing at the player
-	/// </summary>
-	/// <param name="isSuicide"></param>
-	private void ContinueBurst(bool isSuicide)
-	{
-		if (isSuicide == false)
-		{
-			AllowSuicide = false;
 		}
 	}
 
@@ -553,7 +435,7 @@ public class Weapon : InputTrigger
 	/// and informing all clients of the shot once the shot is processed
 	/// </summary>
 	/// <param name="shotBy">gameobject of the player performing the shot</param>
-	/// <param name="target">targeted spot (actual trajectory will differ due to accuracy)</param>
+	/// <param name="target">normalized target vector(actual trajectory will differ due to accuracy)</param>
 	/// <param name="damageZone">targeted body part</param>
 	/// <param name="isSuicideShot">if this is a suicide shot</param>
 	[Server]
@@ -655,11 +537,11 @@ public class Weapon : InputTrigger
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
 		if (isSuicideShot)
 		{
-			b.Suicide(shooter, null, damageZone);
+			b.Suicide(shooter, this, damageZone);
 		}
 		else
 		{
-			b.Shoot(finalDirection, shooter, null, damageZone);
+			b.Shoot(finalDirection, shooter, this, damageZone);
 		}
 
 
@@ -827,7 +709,7 @@ public class Weapon : InputTrigger
 	/// <summary>
 	/// Applies recoil to calcuate the final direction of the shot
 	/// </summary>
-	/// <param name="target">targeted position</param>
+	/// <param name="target">normalized target vector</param>
 	/// <returns>final position after applying recoil</returns>
 	private Vector2 ApplyRecoil(Vector2 target)
 	{
@@ -871,7 +753,7 @@ public class Weapon : InputTrigger
 		if (CurrentRecoilVariance < MaxRecoilVariance)
 		{
 			//get a random recoil
-			float randRecoil = MagSyncedRandomFloat(CurrentRecoilVariance, MaxRecoilVariance);;
+			float randRecoil = MagSyncedRandomFloat(CurrentRecoilVariance, MaxRecoilVariance);
 			CurrentRecoilVariance += randRecoil;
 			//make sure the recoil is not too high
 			if (CurrentRecoilVariance > MaxRecoilVariance)
@@ -882,23 +764,6 @@ public class Weapon : InputTrigger
 	}
 
 	#endregion
-}
 
-/// <summary>
-/// Represents a shot that has been queued up to fire when the weapon is next able to. Only used on server side.
-/// </summary>
-struct QueuedShot
-{
-	public readonly GameObject shooter;
-	public readonly Vector2 finalDirection;
-	public readonly BodyPartType damageZone;
-	public readonly bool isSuicide;
 
-	public QueuedShot(GameObject shooter, Vector2 finalDirection, BodyPartType damageZone, bool isSuicide)
-	{
-		this.shooter = shooter;
-		this.finalDirection = finalDirection;
-		this.damageZone = damageZone;
-		this.isSuicide = isSuicide;
-	}
 }

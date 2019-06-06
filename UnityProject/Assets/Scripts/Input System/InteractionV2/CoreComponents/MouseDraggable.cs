@@ -107,7 +107,7 @@ public class MouseDraggable : MonoBehaviour
 		//go through the stack of objects and call any drop components we find
 		foreach (GameObject dropTarget in dropTargets)
 		{
-			MouseDrop info = new MouseDrop(PlayerManager.LocalPlayer, gameObject, dropTarget.gameObject);
+			MouseDrop info = MouseDrop.ByLocalPlayer( gameObject, dropTarget.gameObject);
 			//call this object's mousedrop interaction methods if it has any, for each object we are dropping on
 			foreach (IInteractable<MouseDrop> mouseDrop in mouseDrops)
 			{
@@ -142,6 +142,6 @@ public class MouseDraggable : MonoBehaviour
 		return CanApply.Validate(dragger, gameObject, allowDragWhileSoftCrit,
 			//always client side
 			NetworkSide.CLIENT,
-			draggerMustBeAdjacent ? ReachRange.STANDARD : ReachRange.UNLIMITED);
+			draggerMustBeAdjacent ? ReachRange.STANDARD : ReachRange.UNLIMITED) == ValidationResult.SUCCESS;
 	}
 }

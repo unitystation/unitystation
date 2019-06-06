@@ -125,7 +125,7 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, IIn
 		ValidationResult validationResult = CanApply.ONLY_IF_CONSCIOUS.Validate(interaction, NetworkSide.CLIENT);
 		if (validationResult == ValidationResult.SUCCESS)
 		{
-			RequestInteractMessage.Send(interaction, this);
+			InteractionMessageUtils.SendRequest(interaction, this);
 			return (InteractionControl.STOP_PROCESSING);
 		}
 		return (InteractionControl.CONTINUE_PROCESSING);

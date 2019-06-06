@@ -22,6 +22,14 @@ public class MouseInputController : MonoBehaviour
 	/// </summary>
 	private float InputCooldownTimer = 0.01f;
 
+	[Tooltip("Seconds to wait before trying to trigger an aim apply while mouse is being held. There is" +
+	         " no need to re-trigger aim apply every frame and sometimes those triggers can be expensive, so" +
+	         " this can be set to avoid that. It should be set low enough so that every AimApply interaction" +
+	         " triggers frequently enough (for example, based on the fastest-firing gun).")]
+	public float AimApplyInterval = 0.01f;
+	//value used to check against the above while mouse is being held down.
+	private float secondsSinceLastAimApplyTrigger;
+
 	//used so that drag interaction cannot be started until the mouse button is up after a click interaction
 	private bool canDrag = true;
 
@@ -37,6 +45,13 @@ public class MouseInputController : MonoBehaviour
 	public static readonly Vector3 sz = new Vector3(0.05f, 0.05f, 0.05f);
 
 	private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+
+	/// <summary>
+	/// currently triggering aimapply interactable - when mouse is clicked down this is set to the
+	/// interactable that was triggered, then it is re-triggered continuously while the button is held,
+	/// then set back to null when the button is released.
+	/// </summary>
+	private IInteractable<AimApply> triggeredAimApply;
 
 	private void OnDrawGizmos()
 	{
@@ -99,10 +114,13 @@ public class MouseInputController : MonoBehaviour
 			return;
 		}
 
-		if (!canDrag && CommonInput.GetMouseButtonUp(0))
+		if (CommonInput.GetMouseButtonUp(0))
 		{
 			//reset candrag on buttonup
 			canDrag = true;
+			//no more triggering of the current aim apply
+			triggeredAimApply = null;
+			secondsSinceLastAimApplyTrigger = 0;
 		}
 		if (CommonInput.GetMouseButtonDown(0))
 		{
@@ -119,6 +137,10 @@ public class MouseInputController : MonoBehaviour
 			{
 				clicked = CheckClick();
 			}
+			if (!clicked)
+			{
+				clicked = CheckAimApply(MouseButtonState.PRESS);
+			}
 			if (clicked)
 			{
 				//wait until mouseup to allow drag interaction again
@@ -128,6 +150,10 @@ public class MouseInputController : MonoBehaviour
 		else if (CommonInput.GetMouseButton(0))
 		{
 			//mouse being held down / dragged
+			if (CheckAimApply(MouseButtonState.HOLD))
+			{
+				return;
+			}
 			if (!CheckDrag() && canDrag)
 			{
 				CheckDragV2();
@@ -213,11 +239,13 @@ public class MouseInputController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Checks for a click within the interaction framework v2. Until everything is moved over to V2,
+	/// Checks for a click within the interaction framework v2, which can trigger HandApply as well
+	/// as AimApply interactions. Until everything is moved over to V2,
 	/// this will have to be used alongside the old one.
 	/// </summary>
 	private bool CheckClickV2()
 	{
+		ChangeDirection();
 		//currently there is nothing for ghosts to interact with, they only can change facing
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
@@ -229,7 +257,7 @@ public class MouseInputController : MonoBehaviour
 		{
 			var handApplyTargets =
 				MouseUtils.GetOrderedObjectsUnderMouse(layerMask, go => go.GetComponent<RegisterTile>() != null)
-					//get the root gameobject of the dropped-on sprite renderer
+					//get the root gameobject of the clicked-on sprite renderer
 					.Select(sr => sr.GetComponentInParent<RegisterTile>().gameObject)
 					//only want distinct game objects even if we hit multiple renderers on one object.
 					.Distinct();
@@ -237,10 +265,10 @@ public class MouseInputController : MonoBehaviour
 			var handObj = UIManager.Hands.CurrentSlot.Item;
 			var handSlotName = UIManager.Hands.CurrentSlot.eventName;
 
-			//go through the stack of objects and call any drop components we find
+			//go through the stack of objects and call any interaction components we find
 			foreach (GameObject applyTarget in handApplyTargets)
 			{
-				HandApply info = new HandApply(PlayerManager.LocalPlayer, handObj, applyTarget.gameObject, handSlotName);
+				HandApply info = HandApply.ByLocalPlayer(applyTarget.gameObject);
 				//call the used object's handapply interaction methods if it has any, for each object we are applying to
 				//if handobj is null, then its an empty hand apply so we only need to check the receiving object
 				if (handObj != null)
@@ -266,6 +294,70 @@ public class MouseInputController : MonoBehaviour
 						return true;
 					}
 				}
+			}
+		}
+
+		return false;
+	}
+
+	private bool CheckAimApply(MouseButtonState buttonState)
+	{
+		if (EventSystem.current.IsPointerOverGameObject())
+		{
+			//don't do aim apply while over UI
+			return false;
+		}
+		ChangeDirection();
+		//currently there is nothing for ghosts to interact with, they only can change facing
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			return false;
+		}
+
+		//can't do anything if we have no item in hand
+		var handObj = UIManager.Hands.CurrentSlot.Item;
+		if (handObj == null)
+		{
+			triggeredAimApply = null;
+			secondsSinceLastAimApplyTrigger = 0;
+			return false;
+		}
+
+		var aimApplyInfo = AimApply.ByLocalPlayer(buttonState);
+		if (buttonState == MouseButtonState.PRESS)
+		{
+			//it's being clicked down
+			triggeredAimApply = null;
+			//Checks for aim apply interactions which can trigger
+			foreach (var aimApply in handObj.GetComponents<IInteractable<AimApply>>())
+			{
+				var result = aimApply.Interact(aimApplyInfo);
+				if (result == InteractionControl.STOP_PROCESSING)
+				{
+					triggeredAimApply = aimApply;
+					secondsSinceLastAimApplyTrigger = 0;
+					return true;
+				}
+			}
+		}
+		else
+		{
+			//it's being held
+			//if we are already triggering an AimApply, keep triggering it based on the AimApplyInterval
+			if (triggeredAimApply != null)
+			{
+				secondsSinceLastAimApplyTrigger += Time.deltaTime;
+				if (secondsSinceLastAimApplyTrigger > AimApplyInterval)
+				{
+					if (triggeredAimApply.Interact(aimApplyInfo) == InteractionControl.STOP_PROCESSING)
+					{
+						//only reset timer if it was actually triggered
+						secondsSinceLastAimApplyTrigger = 0;
+					}
+				}
+
+				//no matter what the result, we keep trying to trigger it until mouse is released.
+				return true;
 			}
 		}
 
