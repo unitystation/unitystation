@@ -5,89 +5,148 @@ using UnityEngine.UI;
 
 public class PlayerHealthUI : MonoBehaviour
 {
+	public GameObject toxinAlert;
+	public GameObject heatAlert;
+	public GameObject coldAlert;
+	public UI_PressureAlert pressureAlert;
+	public GameObject oxygenAlert;
+	public UI_TemperatureAlert temperatureAlert;
+	public GameObject hungerAlert;
+	public Button oxygenButton;
 	public UI_HeartMonitor heartMonitor;
-	public OverlayCrits overlayCrits;
-	private UI_OxygenAlert oxygenAlert;
-	private bool monitorBreathing = false;
-	private Button oxygenButton;
+	public List<DamageMonitorListener> bodyPartListeners = new List<DamageMonitorListener>();
+	public GameObject baseBody;
 
-	List<DamageMonitorListener> bodyPartListeners = new List<DamageMonitorListener>();
+	public bool humanUI;
 
 	void Awake()
 	{
-		bodyPartListeners = new List<DamageMonitorListener>(UIManager.Instance.GetComponentsInChildren<DamageMonitorListener>(true));
-		oxygenAlert = GetComponentInChildren<UI_OxygenAlert>(true);
-		oxygenAlert.gameObject.SetActive(false);
-		oxygenButton = GetComponentInChildren<OxygenButton>(true).gameObject.GetComponent<Button>();
+		DisableAll();
 	}
 
 	private void OnEnable()
 	{
-		SceneManager.activeSceneChanged += OnSceneChange;
 		UpdateManager.Instance.Add(UpdateMe);
-		if (SceneManager.GetActiveScene().name != "Lobby")
-		{
-			monitorBreathing = true;
-		}
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.activeSceneChanged -= OnSceneChange;
 		if (UpdateManager.Instance != null)
 		{
 			UpdateManager.Instance.Remove(UpdateMe);
 		}
 	}
 
-	void UpdateMe()
+	private void DisableAll()
 	{
-		if (monitorBreathing && PlayerManager.LocalPlayer != null)
+		Transform[] childrenList = GetComponentsInChildren<Transform>(true);
+		for (int i = 0; i < childrenList.Length; i++)
 		{
-			if (PlayerManager.LocalPlayerScript.IsGhost || PlayerManager.LocalPlayerScript.playerHealth.IsDead)
+			var children = childrenList[i].gameObject;
+			if(children == gameObject)
 			{
-				if (oxygenAlert.gameObject.activeInHierarchy)
-				{
-					oxygenAlert.gameObject.SetActive(false);
-				}
-				return;
+				continue;
 			}
-
-			if (PlayerManager.LocalPlayerScript.playerHealth.IsRespiratoryArrest && !oxygenAlert.gameObject.activeInHierarchy)
-			{
-				oxygenAlert.gameObject.SetActive(true);
-			}
-
-			if (!PlayerManager.LocalPlayerScript.playerHealth.IsRespiratoryArrest && oxygenAlert.gameObject.activeInHierarchy)
-			{
-				oxygenAlert.gameObject.SetActive(false);
-			}
+			children.SetActive(false);
 		}
+		humanUI = false;
+	}
 
-		if (PlayerManager.LocalPlayer != null)
+	private void EnableAlwaysVisible()
+	{
+		oxygenButton.gameObject.SetActive(true);
+		heartMonitor.gameObject.SetActive(true);
+		for (int i = 0; i < bodyPartListeners.Count; i++)
 		{
-			if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
-			{
-				oxygenButton.interactable = true;
-			}
+			bodyPartListeners[i].gameObject.SetActive(true);
+		}
+		baseBody.SetActive(true);
+		humanUI = true;
+	}
 
-			if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
-			{
-				EventManager.Broadcast(EVENT.DisableInternals);
-				oxygenButton.interactable = false;
-			}
+	void SetSpecificVisibility(bool value, GameObject UIelement)
+	{
+		if(UIelement.activeInHierarchy != value)
+		{
+			UIelement.SetActive(value);
 		}
 	}
 
-	private void OnSceneChange(Scene prev, Scene next)
+	void UpdateMe()
 	{
-		if (next.name != "Lobby")
+		if (PlayerManager.LocalPlayer == null)
 		{
-			monitorBreathing = true;
+			return;
+		}
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			if(humanUI)
+			{
+				DisableAll();
+			}
+			return;
+		}
+		if(!PlayerManager.LocalPlayerScript.IsGhost && !humanUI)
+		{
+			EnableAlwaysVisible();
+		}
+
+		float temperature = PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.temperature;
+		float pressure = PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.pressure;
+
+		if(temperature < 110)
+		{
+			SetSpecificVisibility(true, coldAlert);
 		}
 		else
 		{
-			monitorBreathing = false;
+			SetSpecificVisibility(false, coldAlert);
+		}
+
+		if (temperature > 510)
+		{
+			SetSpecificVisibility(true, heatAlert);
+		}
+		else
+		{
+			SetSpecificVisibility(false, heatAlert);
+		}
+
+
+		if(temperature > 260 && temperature < 360)
+		{
+			SetSpecificVisibility(false, temperatureAlert.gameObject);
+		}
+		else
+		{
+			SetSpecificVisibility(true, temperatureAlert.gameObject);
+			temperatureAlert.SetTemperatureSprite(temperature);
+		}
+
+		if (pressure > 50 && pressure < 325)
+		{
+			SetSpecificVisibility(false, pressureAlert.gameObject);
+		}
+		else
+		{
+			SetSpecificVisibility(true, pressureAlert.gameObject);
+			pressureAlert.SetPressureSprite(pressure);
+		}
+
+		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.respiratorySystem.IsSuffocating, oxygenAlert);
+
+		SetSpecificVisibility(false, toxinAlert);
+		SetSpecificVisibility(false, hungerAlert);
+
+		if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
+		{
+			oxygenButton.interactable = true;
+		}
+
+		if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
+		{
+			EventManager.Broadcast(EVENT.DisableInternals);
+			oxygenButton.interactable = false;
 		}
 	}
 

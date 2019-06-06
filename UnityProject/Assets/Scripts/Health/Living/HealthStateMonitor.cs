@@ -12,8 +12,9 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	//Cached members
 	float overallHealthCache;
 	ConsciousState consciousStateCache;
-	bool isBreathingCache;
 	bool isSuffocatingCache;
+	float temperatureCache;
+	float pressureCache;
 	int heartRateCache;
 	float bloodLevelCache;
 	float oxygenDamageCache;
@@ -64,8 +65,9 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	{
 		overallHealthCache = livingHealthBehaviour.OverallHealth;
 		consciousStateCache = livingHealthBehaviour.ConsciousState;
-		isBreathingCache = livingHealthBehaviour.respiratorySystem.IsBreathing;
 		isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
+		temperatureCache = livingHealthBehaviour.respiratorySystem.temperature;
+		pressureCache = livingHealthBehaviour.respiratorySystem.pressure;
 		UpdateBloodCaches();
 		if (livingHealthBehaviour.brainSystem != null)
 		{
@@ -106,6 +108,8 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 	{
 		CheckOverallHealth();
 		CheckRespiratoryHealth();
+		CheckTemperature();
+		CheckPressure();
 		CheckCruicialBloodHealth();
 		CheckConsciousState();
 	}
@@ -142,12 +146,28 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 
 	void CheckRespiratoryHealth()
 	{
-		if (isBreathingCache != livingHealthBehaviour.respiratorySystem.IsBreathing ||
-			isSuffocatingCache != livingHealthBehaviour.respiratorySystem.IsSuffocating)
+		if (isSuffocatingCache != livingHealthBehaviour.respiratorySystem.IsSuffocating)
 		{
-			isBreathingCache = livingHealthBehaviour.respiratorySystem.IsBreathing;
 			isSuffocatingCache = livingHealthBehaviour.respiratorySystem.IsSuffocating;
 			SendRespiratoryUpdate();
+		}
+	}
+
+	void CheckTemperature()
+	{
+		if (temperatureCache != livingHealthBehaviour.respiratorySystem.temperature)
+		{
+			temperatureCache = livingHealthBehaviour.respiratorySystem.temperature;
+			SendTemperatureUpdate();
+		}
+	}
+
+	void CheckPressure()
+	{
+		if (pressureCache != livingHealthBehaviour.respiratorySystem.pressure)
+		{
+			pressureCache = livingHealthBehaviour.respiratorySystem.pressure;
+			SendPressureUpdate();
 		}
 	}
 
@@ -202,12 +222,6 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 			oxygenDamageCache, toxinLevelCache);
 	}
 
-	void SendRespiratoryUpdate()
-	{
-		HealthRespiratoryMessage.Send(gameObject, gameObject, livingHealthBehaviour.respiratorySystem.IsBreathing,
-			livingHealthBehaviour.respiratorySystem.IsSuffocating);
-	}
-
 	void SendBrainUpdate()
 	{
 		if (livingHealthBehaviour.brainSystem != null)
@@ -232,10 +246,19 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 			oxygenDamageCache, toxinLevelCache);
 	}
 
-	void SendRespiratoryUpdate(GameObject requestor)
+	void SendRespiratoryUpdate()
 	{
-		HealthRespiratoryMessage.Send(requestor, gameObject, livingHealthBehaviour.respiratorySystem.IsBreathing,
-			livingHealthBehaviour.respiratorySystem.IsSuffocating);
+		HealthRespiratoryMessage.Send(gameObject, isSuffocatingCache);
+	}
+
+	void SendTemperatureUpdate()
+	{
+		HealthTemperatureMessage.Send(gameObject, temperatureCache);
+	}
+
+	void SendPressureUpdate()
+	{
+		HealthPressureMessage.Send(gameObject, pressureCache);
 	}
 
 	void SendBrainUpdate(GameObject requestor)
@@ -272,7 +295,15 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 
 		yield return WaitFor.Seconds(.1f);
 
-		SendRespiratoryUpdate(requestor);
+		SendRespiratoryUpdate();
+
+		yield return WaitFor.Seconds(.1f);
+
+		SendTemperatureUpdate();
+
+		yield return WaitFor.Seconds(.1f);
+
+		SendPressureUpdate();
 
 		yield return WaitFor.Seconds(.1f);
 
