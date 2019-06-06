@@ -56,7 +56,7 @@ public class Pipe : NetworkBehaviour
 				return;
 			}
 		}
-		SoundManager.PlayAtPosition("Wrench", registerTile.WorldPositionServer);
+		SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 	}
 
 	public virtual bool Attach()

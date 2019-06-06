@@ -48,7 +48,7 @@ public class GirderTrigger : InputTrigger
 		}
 
 		if (handObj.GetComponent<WrenchTrigger>()){
-			SoundManager.PlayAtPosition("Wrench", transform.localPosition);
+			SoundManager.PlayNetworkedAtPos("Wrench", transform.localPosition, 1f);
 			var progressFinishAction = new FinishProgressAction(
 				reason =>
 				{
