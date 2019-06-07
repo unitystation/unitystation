@@ -50,7 +50,7 @@ public class ReactionManager : MonoBehaviour
 						foreach ( var pushable in matrix.Get<PushPull>( windyNode.Position, true ) )
 						{
 							float correctedForce = windyNode.WindForce / ( int ) pushable.Pushable.Size;
-							if ( correctedForce >= AtmosConstants.MinPushForce )
+							if (!pushable.isNotPushable && correctedForce >= AtmosConstants.MinPushForce )
 							{
 								if ( pushable.Pushable.IsTileSnap )
 								{
