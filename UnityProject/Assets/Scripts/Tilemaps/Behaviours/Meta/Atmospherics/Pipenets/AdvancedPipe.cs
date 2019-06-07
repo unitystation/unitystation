@@ -12,6 +12,7 @@ public class AdvancedPipe : Pipe
 		{
 			UpdateManager.Instance.Add(UpdateMe);
 		}
+		base.Start();
 	}
 
 	public virtual void UpdateMe()

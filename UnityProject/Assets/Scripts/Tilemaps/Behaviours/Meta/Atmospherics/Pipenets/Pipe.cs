@@ -35,7 +35,10 @@ public class Pipe : NetworkBehaviour
 	public void Awake() {
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
-		if(AtmosManager.Instance.roundStartedServer == false)
+	}
+
+	public void Start(){
+		if (AtmosManager.Instance.roundStartedServer == false)
 		{
 			AtmosManager.Instance.roundStartPipes.Add(this);
 		}
