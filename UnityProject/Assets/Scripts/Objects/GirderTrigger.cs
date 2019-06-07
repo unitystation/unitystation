@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// The main girder component
 /// </summary>
+[RequireComponent(typeof(Pickupable))]
 public class GirderTrigger : InputTrigger
 {
 	private TileChangeManager tileChangeManager;
@@ -75,7 +76,7 @@ public class GirderTrigger : InputTrigger
 	[Server]
 	private void ConstructWall(GameObject handObj){
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), TileType.Wall, "Wall");
-		handObj.GetComponent<PickUpTrigger>().DisappearObject();
+		handObj.GetComponent<Pickupable>().DisappearObject();
 		DisappearObject();
 	}
 

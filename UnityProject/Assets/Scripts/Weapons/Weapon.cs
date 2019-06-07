@@ -20,7 +20,8 @@ public enum WeaponType
 /// <summary>
 ///     Generic weapon base. Weapons are server authoritative.
 /// </summary>
-public class Weapon : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class Weapon : InputTrigger
 {
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
@@ -146,7 +147,26 @@ public class Weapon : PickUpTrigger
 		}
 
 		queuedShots = new Queue<QueuedShot>();
-		base.Start();
+
+		var pickup = GetComponent<Pickupable>();
+		if (pickup != null)
+		{
+			pickup.OnPickupServer.AddListener(OnPickupServer);
+		}
+	}
+
+	private void OnPickupServer(HandApply interaction)
+	{
+		//sync ammo count now that we will potentially be shooting this locally.
+		if (CurrentMagazine != null)
+		{
+			SyncMagAmmoAndRNG();
+		}
+
+		if (isServer)
+		{
+			ControlledByPlayer = interaction.Performer.GetComponent<NetworkIdentity>().netId;
+		}
 	}
 
 	private void Update()
@@ -299,16 +319,10 @@ public class Weapon : PickUpTrigger
 		{
 			return AttemptToFireWeapon(false);
 		}
-		//if the weapon is not in our hands not in hands, pick it up
+		//if the weapon is not in our hands not in hands, do nothing (it will be picked up)
 		else
 		{
-			//sync ammo count now that we will potentially be shooting this locally.
-			if (CurrentMagazine != null)
-			{
-				SyncMagAmmoAndRNG();
-			}
-			return base.Interact(originator, position, hand);
-
+			return false;
 		}
 	}
 
@@ -786,14 +800,9 @@ public class Weapon : PickUpTrigger
 
 	#region Weapon Pooling
 
-	//This is only called on the serverside
-	public override void OnPickUpServer(NetworkInstanceId ownerId)
+	public void OnDropItemServer()
 	{
-		ControlledByPlayer = ownerId;
-	}
-
-	public override void OnDropItemServer()
-	{
+		//TODO: Need to add drop interaction and/or event hook on Pickupable probably
 		ControlledByPlayer = NetworkInstanceId.Invalid;
 	}
 

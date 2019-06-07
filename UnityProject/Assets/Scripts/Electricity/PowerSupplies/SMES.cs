@@ -34,20 +34,15 @@ public class SMES : NBHandApplyInteractable, INodeControl
 		UpdateState(isOn);
 	}
 
-	protected override IList<IInteractionValidator<HandApply>> Validators()
+	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
-		return new List<IInteractionValidator<HandApply>>
-		{
-			CanApply.ONLY_IF_CONSCIOUS
-		};
+		return InteractionValidationChain<HandApply>.Create(CanApply.ONLY_IF_CONSCIOUS);
 	}
 
-	protected override InteractionResult ServerPerformInteraction(HandApply interaction)
+	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		isOn = !isOn;
 		UpdateServerState(isOn);
-
-		return InteractionResult.SOMETHING_HAPPENED;
 	}
 
 	public void UpdateServerState(bool _isOn)

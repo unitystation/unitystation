@@ -23,16 +23,24 @@ public abstract class Interactable<T,T2>
 
 	protected void Start()
 	{
-		coordinator = new InteractionCoordinator<T2>(this, ValidatorsT2(), ServerPerformInteraction);
+		EnsureCoordinatorInit();
 		//subclasses must remember to call base.Start() if they use Start
 		base.Start();
+	}
+
+	private void EnsureCoordinatorInit()
+	{
+		if (coordinator == null)
+		{
+			coordinator = new InteractionCoordinator<T2>(this, InteractionValidationChainT2(), ServerPerformInteraction);
+		}
 	}
 
 	/// <summary>
 	/// Return the validators that should be used for this interaction for client/server validation.
 	/// </summary>
 	/// <returns>List of interaction validators to use for this interaction.</returns>
-	protected abstract IList<IInteractionValidator<T2>> ValidatorsT2();
+	protected abstract InteractionValidationChain<T2> InteractionValidationChainT2();
 
 	/// <summary>
 	/// Server-side. Called after validation succeeds on server side.
@@ -40,15 +48,30 @@ public abstract class Interactable<T,T2>
 	/// </summary>
 	/// <param name="interaction"></param>
 	/// <returns>Currently should always be SOMETHING_HAPPENED, may be expanded later if needed.</returns>
-	protected abstract InteractionResult ServerPerformInteraction(T2 interaction);
+	protected abstract void ServerPerformInteraction(T2 interaction);
 
-	public InteractionResult Interact(T2 info)
+	/// <summary>
+	/// Client-side prediction. Called after validation succeeds on client side.
+	/// Client can perform client side prediction.
+	/// </summary>
+	/// <param name="interaction"></param>
+	protected virtual void ClientPredictInteraction(T2 interaction) { }
+
+	/// <summary>
+	/// Called on the server if server validation fails. Server can use this to inform client they should rollback any predictions they made.
+	/// </summary>
+	/// <param name="interaction"></param>
+	protected virtual void OnServerInteractionValidationFail(T2 interaction) { }
+
+	public InteractionControl Interact(T2 info)
 	{
-		return coordinator.ClientValidateAndRequest(info);
+		EnsureCoordinatorInit();
+		return InteractionComponentUtils.CoordinatedInteract(info, coordinator, ClientPredictInteraction);
 	}
 
-	public InteractionResult ServerProcessInteraction(T2 info)
+	public InteractionControl ServerProcessInteraction(T2 info)
 	{
-		return coordinator.ServerValidateAndPerform(info);
+		EnsureCoordinatorInit();
+		return InteractionComponentUtils.ServerProcessCoordinatedInteraction(info, coordinator, OnServerInteractionValidationFail);
 	}
 }

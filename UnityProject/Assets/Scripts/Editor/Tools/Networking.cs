@@ -8,7 +8,7 @@ public class Networking : Editor
 	[MenuItem("Networking/Pickup Random Item (Client)")]
 	private static void PickupRandomItem()
 	{
-		PickUpTrigger[] items = FindObjectsOfType<PickUpTrigger>();
+		Pickupable[] items = FindObjectsOfType<Pickupable>();
 		GameObject gameObject = items[Random.Range(1, items.Length)].gameObject;
 		InteractMessage.Send(gameObject, "id");
 	}
@@ -17,7 +17,7 @@ public class Networking : Editor
 	private static void GiveItems()
 	{
 		PlayerNetworkActions[] players = FindObjectsOfType<PlayerNetworkActions>();
-		PickUpTrigger[] items = FindObjectsOfType<PickUpTrigger>();
+		Pickupable[] items = FindObjectsOfType<Pickupable>();
 
 		//		var gameObject = items[Random.Range(1, items.Length)].gameObject;
 		for (int i = 0; i < players.Length; i++)

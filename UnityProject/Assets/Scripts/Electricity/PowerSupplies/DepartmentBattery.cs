@@ -120,28 +120,28 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, IIn
 
 	}
 
-    public InteractionResult Interact(HandApply interaction)
+    public InteractionControl Interact(HandApply interaction)
 	{
 		ValidationResult validationResult = CanApply.ONLY_IF_CONSCIOUS.Validate(interaction, NetworkSide.CLIENT);
 		if (validationResult == ValidationResult.SUCCESS)
 		{
 			RequestInteractMessage.Send(interaction, this);
-			return (InteractionResult.SOMETHING_HAPPENED);
+			return (InteractionControl.STOP_PROCESSING);
 		}
-		return (InteractionResult.NOTHING_HAPPENED);
+		return (InteractionControl.CONTINUE_PROCESSING);
 	}
 
 
-	public InteractionResult ServerProcessInteraction(HandApply interaction)
+	public InteractionControl ServerProcessInteraction(HandApply interaction)
 	{
 		ValidationResult validationResult = CanApply.ONLY_IF_CONSCIOUS.Validate(interaction, NetworkSide.SERVER);
 		if (validationResult == ValidationResult.SUCCESS)
 		{
 			isOn = !isOn;
 			UpdateServerState(isOn);
-			return (InteractionResult.SOMETHING_HAPPENED);
+			return (InteractionControl.STOP_PROCESSING);
 		}
-		return (InteractionResult.NOTHING_HAPPENED);
+		return (InteractionControl.CONTINUE_PROCESSING);
 	}
 	public void UpdateServerState(bool _isOn)
 	{

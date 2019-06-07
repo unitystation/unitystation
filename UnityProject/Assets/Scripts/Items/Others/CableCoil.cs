@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CableCoil : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class CableCoil : InputTrigger
 {
 	public WiringColor CableType;
 	public GameObject CablePrefab;
@@ -49,7 +50,7 @@ public class CableCoil : PickUpTrigger
 			var CableCoil_ = slot.Item?.GetComponent<CableCoil>();
 			if (CableCoil_ != null)
 			{
-				
+
 				position.z = 0f;
 				position = position.RoundToInt();
 				var worldPosInt = position.CutToInt();
@@ -65,7 +66,7 @@ public class CableCoil : PickUpTrigger
 				else {
 					return (false);
 				}
-				Vector3 PlaceDirection = originator.Player().Script.WorldPos - position; 
+				Vector3 PlaceDirection = originator.Player().Script.WorldPos - position;
 				Connection WireEndB = Connection.NA;
 				if (PlaceDirection == Vector3.up) { WireEndB = Connection.North; }
 				else if (PlaceDirection == Vector3.down) { WireEndB = Connection.South; }
@@ -122,9 +123,11 @@ public class CableCoil : PickUpTrigger
 					BuildCable(position, originator.transform.parent, WireEndB);
 				}
 			}
-			return base.Interact(originator, position, hand);
+
+			return false;
 		}
-		return base.Interact(originator, position, hand);
+
+		return false;
 	}
 	private void BuildCable(Vector3 position, Transform parent, Connection WireEndB)
 	{

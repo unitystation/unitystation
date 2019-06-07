@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 114741019056190926}
   - component: {fileID: 114843876647253344}
   - component: {fileID: 114559639511531318}
+  - component: {fileID: 114930140412175382}
   m_Layer: 10
   m_Name: Paper
   m_TagString: Untagged
@@ -113,13 +114,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   AtmosPassable: 1
@@ -170,17 +169,16 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 0
   inHandReferenceRight: 0
-  itemDescription: A piece of paper
   itemName: Paper
+  itemDescription: A piece of paper
   itemType: 0
   size: 0
   spriteType: 0
-  type: 0
-  ConnectedToTank: 0
+  CanConnectToTank: 0
+  hitDamage: 0
   throwDamage: 0
   throwSpeed: 1
   throwRange: 1
-  hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114843876647253344
@@ -214,6 +212,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 4
   paper: {fileID: 114843876647253344}
+--- !u!114 &114930140412175382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320386684021000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDropServer:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1731708282254700
 GameObject:
   m_ObjectHideFlags: 0

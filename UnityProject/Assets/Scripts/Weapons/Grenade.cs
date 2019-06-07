@@ -20,7 +20,8 @@ public enum ExplosionType
 /// <summary>
 ///     Generic grenade base.
 /// </summary>
-public class Grenade : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class Grenade : InputTrigger
 {
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -68,7 +69,12 @@ public class Grenade : PickUpTrigger
 		registerObject = GetComponent<RegisterObject>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
-		base.Start();
+	}
+
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	{
+		//TODO: Remove after IF2 refactor
+		return false;
 	}
 
 	public override void UI_Interact(GameObject originator, string hand)

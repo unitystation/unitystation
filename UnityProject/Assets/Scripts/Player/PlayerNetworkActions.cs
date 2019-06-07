@@ -834,7 +834,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdAttack(GameObject target, GameObject originator, BodyPartType bodyPart, GameObject itemInHand)
 	{
-		var itemPUT = itemInHand.GetComponent<PickUpTrigger>();
+		var itemPUT = itemInHand.GetComponent<Pickupable>();
 		itemPUT.Attack(target, originator, bodyPart);
 	}
 

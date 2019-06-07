@@ -235,6 +235,7 @@ public enum Category
 	Graphics,
 	Server, 
 	Tests,
+	Editor
 }
 
 [Serializable]
