@@ -74,13 +74,13 @@ public class AtmosManager : MonoBehaviour
 
 	void OnRoundStart()
 	{
-		roundStartedServer = true;
 		StartCoroutine(SetPipes());
 	}
 
 	private IEnumerator SetPipes() /// TODO: FIX ALL MANAGERS LOADING ORDER AND REMOVE ANY WAITFORSECONDS
 	{
 		yield return new WaitForSeconds(2);
+		roundStartedServer = true;
 		for (int i = 0; i < roundStartPipes.Count; i++)
 		{
 			roundStartPipes[i].Attach();
