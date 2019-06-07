@@ -50,7 +50,7 @@ internal enum MessageTypes : short
 	InteractMessage = 2001,
 	InventoryInteractMessage = 2002,
 	PostToChatMessage = 2003,
-//	RemoveEncryptionKeyMessage = 2004, -was redundant, this id is free now
+	OpenPageValueNetMessage = 2004,
 	SimpleInteractMessage = 2005,
 	RequestSyncMessage = 2006,
 	RequestAuthMessage = 2007,

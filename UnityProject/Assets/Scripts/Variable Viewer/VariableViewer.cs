@@ -7,6 +7,12 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Text;
 
+
+// TODO 
+// pooling
+// Preexisting ID checks for Books
+// Colour code
+
 public static class VariableViewer
 {
 
@@ -58,7 +64,7 @@ public static class VariableViewer
 	}
 
 	public static void SendBookToClient(Librarian.Book Book) { 
-		//Send book
+		BookNetMessage.Send(Book);
 	}
 
 	public static void SendBookShelfToClient(Librarian.BookShelf BookShelf)
@@ -107,7 +113,31 @@ public static class VariableViewer
 		//	}
 		//}
 	}
-	//Client side
+	//Receive from Client side
+	public static void RequestOpenPageValue(ulong PageID){
+		if (Librarian.IDToPage.ContainsKey(PageID))
+		{
+			Librarian.Page Page = Librarian.IDToPage[PageID];
+			Librarian.Book book;
+			MonoBehaviour _MonoBehaviour = Page.Variable as MonoBehaviour;
+			if (_MonoBehaviour == null)
+			{
+				if ((Page.Variable as string) == "null") {					Logger.LogWarning("Trying to process page value as book PageID > " + PageID);
+					return;
+				}
+				book = Librarian.GenerateNonMonoBook(Page.VariableType); //Currently dangerous needs type to book implemented for it
+				BookNetMessage.Send(book);
+			}
+			else {
+				book = Librarian.PartialGeneratebook(_MonoBehaviour); //Currently dangerous needs MonoBehaviour to book implemented for it
+				Librarian.PopulateBook(book);
+				BookNetMessage.Send(book);
+			}	
+		}
+		else { 
+			Logger.LogError("Page ID has not been generated PageID > " + PageID);
+		}
+	} 
 
 
 }
@@ -150,51 +180,6 @@ public static class Librarian{
 		}
 	}
 
-	//public static BookShelf GenerateBookShelf(GameObject gameObject) {
-	//	BookShelf bookShelf = new BookShelf();
-	//	bookShelf.ID = BookShelfAID;
-	//	BookShelfAID++;
-	//	bookShelf.ShelfName = gameObject.name;
-	//	bookShelf.Shelf = gameObject;
-	//	bookShelf.IsEnabled = gameObject.activeInHierarchy;
-	//	IDToBookShelf[bookShelf.ID] = bookShelf;
-	//	TransformToBookShelf[bookShelf.Shelf.transform] = bookShelf;
-
-
-	//	MonoBehaviour[] scriptComponents = gameObject.GetComponents<MonoBehaviour>();
-	//	foreach (MonoBehaviour mono in scriptComponents)
-	//	{
-	//		bookShelf.HeldBooksAdd(PartialGeneratebook(mono));
-	//	}
-	//	Transform[] ts = gameObject.GetComponentsInChildren<Transform>();
-	//	foreach (Transform child in ts)
-	//	{
-	//		if (child != ts[0])
-	//		{
-	//			BookShelf _bookShelf = new BookShelf();
-	//			if (TransformToBookShelf.ContainsKey(child))
-	//			{
-	//				_bookShelf = TransformToBookShelf[child];
-	//			}
-	//			else { 
-	//				_bookShelf = PartialGeneratebookShelf(child);
-	//			}
-	
-	//			bookShelf.ObscuredBookShelves.Add(_bookShelf);
-	//		}
-	//	}
-	//	Transform _Transform = bookShelf.Shelf.transform.parent;
-	//	if (TransformToBookShelf.ContainsKey(_Transform))
-	//	{
-	//		bookShelf.ObscuredBy = TransformToBookShelf[_Transform];
-	//	}
-	//	else
-	//	{
-	//		bookShelf.ObscuredBy = PartialGeneratebookShelf(_Transform);
-	//	}
-
-	//	return (bookShelf);
-	//}
 
 	public static Book PartialGeneratebook(MonoBehaviour mono)
 	{ 
@@ -206,6 +191,60 @@ public static class Librarian{
 		book.IsEnabled = mono.isActiveAndEnabled;
 		IDToBook[book.ID] = book;
 
+		return (book);
+	}
+
+	public static Book GenerateNonMonoBook(Type Eclass){ //Currently dangerous needs type to book implemented for it
+		Book book = new Book();
+		book.ID = BookAID;
+		BookAID++;
+		book.NonMonoBookClass = Eclass;
+		book.IsnotMono = true;
+		book.Title = Eclass.ToString();
+		IDToBook[book.ID] = book;
+
+		foreach (FieldInfo method in Eclass.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+		{
+			if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+			{
+				Page Page = new Page();
+				Page.VariableName = method.Name;
+				Page.ID = PageAID;
+				PageAID++;
+				Page.Variable = method.GetValue(Eclass);
+				if (Page.Variable == null)
+				{
+					Page.Variable = "null";
+				}
+				Page.VariableType = method.FieldType;
+				//Page.BindedTo = book; unneeded?
+
+				IDToPage[Page.ID] = Page;
+
+				book.BindedPagesAdd(Page);
+			}
+		}
+
+		foreach (PropertyInfo method in Eclass.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+		{
+			if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+			{
+				Page Page = new Page();
+				Page.VariableName = method.Name;
+				Page.Variable = method.GetValue(Eclass);
+				Page.VariableType = method.PropertyType;
+				if (Page.Variable == null)
+				{
+					Page.Variable = "null";
+				}
+				Page.ID = PageAID;
+				PageAID++;
+				//Page.BindedTo = book; unneeded?
+				IDToPage[Page.ID] = Page;
+
+				book.BindedPagesAdd(Page);
+			}
+		}
 		return (book);
 	}
 
@@ -361,6 +400,8 @@ public static class Librarian{
 		public ulong ID;
 		public string Title;
 		public MonoBehaviour BookClass;
+		public Type NonMonoBookClass;
+		public bool IsnotMono;
 		public bool IsEnabled;
 
 		private List<Page> _BindedPages = new List<Page>();
@@ -419,4 +460,67 @@ public static class Librarian{
 		}
 		//public Book BindedTo; unneeded?
 	}
+
+
+	public static Type UEGetType(string TypeName)
+	{
+
+		// Try Type.GetType() first. This will work with types defined
+		// by the Mono runtime, in the same assembly as the caller, etc.
+		var type = Type.GetType(TypeName);
+
+		// If it worked, then we're done here
+		if (type != null)
+			return type;
+
+		// If the TypeName is a full name, then we can try loading the defining assembly directly
+		if (TypeName.Contains("."))
+		{
+
+			// Get the name of the assembly (Assumption is that we are using 
+			// fully-qualified type names)
+			var assemblyName = TypeName.Substring(0, TypeName.IndexOf('.'));
+
+			// Attempt to load the indicated Assembly
+			var assembly = Assembly.Load(assemblyName);
+			if (assembly == null)
+				return null;
+
+			// Ask that assembly to return the proper Type
+			type = assembly.GetType(TypeName);
+			if (type != null)
+				return type;
+
+		}
+
+		// If we still haven't found the proper type, we can enumerate all of the 
+		// loaded assemblies and see if any of them define the type
+		var currentAssembly = Assembly.GetExecutingAssembly();
+		var referencedAssemblies = currentAssembly.GetReferencedAssemblies();
+		foreach (var assemblyName in referencedAssemblies)
+		{
+
+			// Load the referenced assembly
+			var assembly = Assembly.Load(assemblyName);
+			if (assembly != null)
+			{
+				// See if that assembly defines the named type
+				type = assembly.GetType(TypeName);
+				if (type != null)
+					return type;
+			}
+		}
+
+		// The type just couldn't be found...
+		return null;
+	}
+
+}
+public enum DisplayValueType
+{
+	Bools,
+	Ints,
+	Floats, 
+	Strings,
+	Classes,
 }

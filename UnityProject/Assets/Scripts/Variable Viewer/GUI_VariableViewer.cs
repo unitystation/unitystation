@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
+using System.Reflection;
 
 public class GUI_VariableViewer : MonoBehaviour
 {
@@ -54,9 +56,9 @@ public class GUI_VariableViewer : MonoBehaviour
 	public GameObject LeftArrow;
 	public GameObject RightArrow;
 
+
 	public void PageRight() {
 		int tint = intCurrentlyOpen;
-		Logger.Log((tint + 1).ToString());
 		if ((tint+1) <= PagesInBook.Count)
 		{
 			intCurrentlyOpen++;
@@ -70,7 +72,6 @@ public class GUI_VariableViewer : MonoBehaviour
 				page.gameObject.SetActive(true);
 			}
 			LeftArrow.gameObject.SetActive(true);
-			Logger.Log((intCurrentlyOpen + 1).ToString() + " < yoyo > " + PagesInBook.Count);
 			if (intCurrentlyOpen + 1 >= PagesInBook.Count)
 			{
 				RightArrow.gameObject.SetActive(false);
@@ -84,7 +85,6 @@ public class GUI_VariableViewer : MonoBehaviour
 	public void PageLeft()
 	{
 		int tint = intCurrentlyOpen;
-		Logger.Log((tint - 1).ToString());
 		if ((tint-1) >= 0)
 		{
 			intCurrentlyOpen = intCurrentlyOpen - 1;
@@ -123,14 +123,28 @@ public class GUI_VariableViewer : MonoBehaviour
 	//GUI_PageEntrypublic RadialButton ButtonPrefab;
 	public void ReceiveBook( BookNetMessage.NetFriendlyBook Book )
 	{
-		
+		PresentPagesCount = 0;
+		RightArrow.SetActive(false);
+		LeftArrow.SetActive(false);
+		foreach (var b in PagesInBook) //Temporary solution needs pooling
+		{
+			foreach (var E in b)
+			{
+				Destroy(E.gameObject);
+			}
+		}
+		PagesInBook.Clear();
+		CurrentlyOpen.Clear();
 		CurrentlyOpenBook = Book;
+
 
 		foreach (var page in CurrentlyOpenBook.BindedPages) { 
 			GUI_PageEntry PageEntry = Instantiate(PageEntryPrefab) as GUI_PageEntry;
 			PageEntry.transform.SetParent(PagePanel.transform, true);
 			PageEntry.transform.localScale = Vector3.one;
 			PageEntry.Page = page;
+
+
 			//Logger.Log(PresentPagesCount.ToString());
 			if (PresentPagesCount > MaximumPerTwoPages)
 			{
@@ -173,3 +187,5 @@ public class GUI_VariableViewer : MonoBehaviour
 		//boookID.text = BookID.ToString();
 	}
 }
+
+
