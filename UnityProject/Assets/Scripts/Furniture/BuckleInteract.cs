@@ -48,9 +48,19 @@ public class BuckleInteract : CoordinatedInteraction<MouseDrop, HandApply>
 
 	protected override InteractionResult ServerPerformInteraction(MouseDrop drop)
 	{
-		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
+		SoundManager.PlayNetworkedAtPos("Click01", drop.TargetObject.WorldPosServer());
 
+		UserControlledSprites userControlledSprites = drop.UsedObject.GetComponent<UserControlledSprites>();
+
+		if (userControlledSprites && directionalSprite)
+		{
+			userControlledSprites.ChangeAndSyncPlayerDirection(directionalSprite.orientation);
+		}
+
+		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
 		playerMove.Restrain(OnUnbuckle);
+
+		
 
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
@@ -72,6 +82,8 @@ public class BuckleInteract : CoordinatedInteraction<MouseDrop, HandApply>
 
 	protected override InteractionResult ServerPerformInteraction(HandApply interaction)
 	{
+		SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer());
+
 		var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)?.First(pm => pm.IsRestrained);
 		//cannot use the CmdUnrestrain because commands are only allowed to be invoked by local player
 		playerMoveAtPosition.Unrestrain();
