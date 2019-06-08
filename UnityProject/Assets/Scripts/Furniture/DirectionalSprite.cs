@@ -19,7 +19,9 @@ public class DirectionalSprite : NetworkBehaviour
 	private const bool ROTATE_AT_END = true;
 
 	//absolute orientation
-	private Orientation orientation;
+	public Orientation orientation {
+		get; private set;
+	}
 
 	public Sprite s_right;
 	public Sprite s_down;
@@ -27,6 +29,14 @@ public class DirectionalSprite : NetworkBehaviour
 	public Sprite s_up;
 
 	public SpriteRenderer spriteRenderer;
+
+	// The Sprite drawn in front of the player when the player is buckled in, e.g. the seatbelt
+	public Sprite s_right_front;
+	public Sprite s_down_front;
+	public Sprite s_left_front;
+	public Sprite s_up_front;
+
+	public SpriteRenderer spriteRendererFront;
 
 	private MatrixMove matrixMove;
 	// cached registertile on this chair
@@ -73,6 +83,7 @@ public class DirectionalSprite : NetworkBehaviour
 		if (spriteRenderer.sprite == s_right)
 		{
 			orientation = Orientation.Right;
+
 		}
 		else if (spriteRenderer.sprite == s_down)
 		{
@@ -131,7 +142,37 @@ public class DirectionalSprite : NetworkBehaviour
 			spriteRenderer.sprite = s_right;
 		}
 
+		UpdateFrontSprite();
 		EnsureSpriteLayer();
+	}
+
+	// Updates the sprite that's drawn over the player when the player is buckled in (e.g. the seatbelt)
+	private void UpdateFrontSprite()
+	{
+		if (spriteRendererFront)
+		{
+			if (renderBuckledOverPlayer)
+			{
+				if (orientation == Orientation.Up)
+				{
+					spriteRendererFront.sprite = s_up_front;
+				}
+				else if (orientation == Orientation.Down)
+				{
+					spriteRendererFront.sprite = s_down_front;
+				}
+				else if (orientation == Orientation.Left)
+				{
+					spriteRendererFront.sprite = s_left_front;
+				}
+				else
+				{
+					spriteRendererFront.sprite = s_right_front;
+				}
+			}
+			else
+				spriteRendererFront.sprite = null;
+		}
 	}
 
 	/// <summary>
@@ -149,6 +190,7 @@ public class DirectionalSprite : NetworkBehaviour
 	private void SyncBuckledOverPlayer(bool newValue)
 	{
 		renderBuckledOverPlayer = newValue;
+		UpdateFrontSprite();
 		EnsureSpriteLayer();
 	}
 
