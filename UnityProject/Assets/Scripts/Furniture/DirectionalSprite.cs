@@ -19,7 +19,9 @@ public class DirectionalSprite : NetworkBehaviour
 	private const bool ROTATE_AT_END = true;
 
 	//absolute orientation
-	private Orientation orientation;
+	public Orientation orientation {
+		get; private set;
+	}
 
 	public Sprite s_right;
 	public Sprite s_down;
