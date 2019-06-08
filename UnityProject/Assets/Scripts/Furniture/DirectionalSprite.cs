@@ -151,8 +151,6 @@ public class DirectionalSprite : NetworkBehaviour
 	{
 		if (spriteRendererFront)
 		{
-			spriteRendererFront.enabled = renderBuckledOverPlayer;
-
 			if (renderBuckledOverPlayer)
 			{
 				if (orientation == Orientation.Up)
@@ -172,6 +170,8 @@ public class DirectionalSprite : NetworkBehaviour
 					spriteRendererFront.sprite = s_right_front;
 				}
 			}
+			else
+				spriteRendererFront.sprite = null;
 		}
 	}
 
