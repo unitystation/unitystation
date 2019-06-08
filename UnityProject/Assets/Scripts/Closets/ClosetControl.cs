@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
-
-public class ClosetControl : InputTrigger
+[RequireComponent(typeof(RightClickAppearance))]
+public class ClosetControl : InputTrigger, IRightClickable
 {
 	private Sprite doorClosed;
 	public Sprite doorOpened;
@@ -184,8 +185,7 @@ public class ClosetControl : InputTrigger
 		}
 	}
 
-	[ContextMethod("Open/close", "hand")]
-	public void GUIInteract()
+	private void GUIInteract()
 	{
 		//don't put your hand contents on open/close rmb action!
 		InteractInternal(false);
@@ -344,5 +344,24 @@ public class ClosetControl : InputTrigger
 		{
 			objectBehaviour.registerTile.ParentNetId = parentNetId;
 		}
+	}
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		//TODO: Code duplication (of validation logic) with Interact. Eliminate this duplication once this is refactored to IF2.
+		var result = RightClickableResult.Create();
+		PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
+		if (localPlayer.canNotInteract())
+		{
+			return result;
+		}
+
+		bool isInReach = localPlayer.IsInReach(registerTile, false);
+		if (isInReach || localPlayer.IsHidden)
+		{
+			result.AddElement("OpenClose", GUIInteract);
+		}
+
+		return result;
 	}
 }

@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaperTrigger : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class PaperTrigger : InputTrigger
 {
 	public NetTabType NetTabType;
 	public Paper paper;
+
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	{
+		//TODO: Remove after IF2 refactor
+		return false;
+	}
 
 	public override void UI_Interact(GameObject originator, string hand)
 	{

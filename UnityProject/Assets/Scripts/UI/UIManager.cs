@@ -335,14 +335,6 @@ public class UIManager : MonoBehaviour
 	{
 		// On death, set UI elements to inactive
 		// On revive, set UI elements back to active
-		foreach (Transform child in Display.hudRight.GetComponentsInChildren<Transform>(true))
-		{
-			if (child.gameObject.name != "PlayerHealth_UI_Hud")
-			{
-				child.gameObject.SetActive(vis);
-			}
-		}
-
 		foreach (Transform child in Display.hudBottom.GetComponentsInChildren<Transform>(true))
 		{
 			if (

@@ -10,5 +10,10 @@ public interface IInteractable<T>
 	where T : Interaction
 {
 
-	InteractionResult Interact(T interaction);
+	/// <summary>
+	/// Handle the interaction
+	/// </summary>
+	/// <param name="interaction"></param>
+	/// <returns>what should happen next for this interaction event</returns>
+	InteractionControl Interact(T interaction);
 }

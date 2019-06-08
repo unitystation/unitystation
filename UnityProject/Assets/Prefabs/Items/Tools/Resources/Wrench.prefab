@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 114998062039538404}
   - component: {fileID: 114484434474911270}
   - component: {fileID: 114604725354548750}
+  - component: {fileID: 114015390832439874}
   m_Layer: 10
   m_Name: Wrench
   m_TagString: Untagged
@@ -294,3 +295,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba013348c050ce742b140b0d6f49b8ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114015390832439874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDropServer:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

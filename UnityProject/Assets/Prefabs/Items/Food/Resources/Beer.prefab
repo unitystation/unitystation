@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 114208883059431984}
   - component: {fileID: 114880268731048502}
   - component: {fileID: 605743259192835951}
+  - component: {fileID: 114177210049336486}
   m_Layer: 10
   m_Name: Beer
   m_TagString: Untagged
@@ -115,17 +116,16 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
-  itemDescription: 
   itemName: Beer
+  itemDescription: 
   itemType: 14
   size: 0
   spriteType: 0
-  type: 14
   CanConnectToTank: 0
+  hitDamage: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
-  hitDamage: 0
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &3596357613667156491
@@ -173,19 +173,17 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114208883059431984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +229,23 @@ MonoBehaviour:
   - beer
   Amounts:
   - 50
+--- !u!114 &114177210049336486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDropServer:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0

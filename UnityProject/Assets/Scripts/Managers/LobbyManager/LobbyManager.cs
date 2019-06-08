@@ -52,7 +52,7 @@ namespace Lobby
 
 		public void CheckIfFirstTime()
 		{
-			if (PlayerManager.CurrentCharacterSettings.username == null)
+			if (PlayerManager.CurrentCharacterSettings?.username == null)
 			{
 				//is First time, show the character settings screen
 				lobbyDialogue.gameObject.SetActive(false);

@@ -12,11 +12,12 @@ public class APC  : InputTrigger, INodeControl
 	/// <summary>
 	/// Holds information about wire connections to this APC
 	/// </summary>
-	[SyncVar (hook="SetVoltage")]
-	private float _voltage = 0;
+
+
 	/// <summary>
 	/// The current voltage of this APC. Calls OnVoltageChange when changed.
 	/// </summary>
+	[SyncVar (hook=nameof(SetVoltage))] private float voltageSync = 0;
 
 	public bool PowerMachinery = true;
 	public bool PowerLights = true;
@@ -28,13 +29,13 @@ public class APC  : InputTrigger, INodeControl
 	{
 		get
 		{
-			return _voltage;
+			return voltageSync;
 		}
 		private set
 		{
-			if(value != _voltage)
+			if(value != voltageSync)
 			{
-				_voltage = value;
+				voltageSync = value;
 			}
 		}
 	}
@@ -50,35 +51,21 @@ public class APC  : InputTrigger, INodeControl
 	private void SetVoltage(float newVoltage)
 	{
 		Voltage = newVoltage;
+		UpdateDisplay();
 	}
 
-	//public override void OnStartServer()
-	//{
-		
-	//}
-	//public override void OnStartServerInitialise()
-	//{
-	//	ApplianceType = PowerTypeCategory.APC;
-	//	CanConnectTo = new HashSet<PowerTypeCategory>()
-	//	{
-	//		PowerTypeCategory.LowMachineConnector
-	//	};
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		StartCoroutine(WaitForLoad());
+	}
 
-	//	powerSupply.InData.CanConnectTo = CanConnectTo;
-	//	powerSupply.InData.Categorytype = ApplianceType;
-	//	powerSupply.WireEndB = Connection.Overlap;
-	//	powerSupply.WireEndA = Connection.MachineConnect;
-	//	ResistanceClass.Ohms = Resistance;
-	//	ElectricalSynchronisation.PoweredDevices.Add(this);
-	//	PowerInputReactions PRLCable = new PowerInputReactions();
-	//	PRLCable.DirectionReaction = true;
-	//	PRLCable.ConnectingDevice = PowerTypeCategory.LowMachineConnector;
-	//	PRLCable.DirectionReactionA.AddResistanceCall.ResistanceAvailable = true;
-	//	PRLCable.DirectionReactionA.YouShallNotPass = true;
-	//	PRLCable.ResistanceReaction = true;
-	//	PRLCable.ResistanceReactionA.Resistance = ResistanceClass;
-	//	powerSupply.InData.ConnectionReaction[PowerTypeCategory.LowMachineConnector] = PRLCable;
-	//}
+	IEnumerator WaitForLoad()
+	{
+		yield return WaitFor.Seconds(2f);
+		SetVoltage(voltageSync);
+	}
+
 
 	private void OnDisable()
 	{
@@ -111,7 +98,7 @@ public class APC  : InputTrigger, INodeControl
 		UpdateDisplay();
 	}
 
-	public void UpdateDisplay() { 		
+	public void UpdateDisplay() {
 		if (Voltage > 270)
 		{
 			State = APCState.Critical;
@@ -132,7 +119,6 @@ public class APC  : InputTrigger, INodeControl
 		{
 			State = APCState.Charging;
 		}
-	
 	}
 
 	/// <summary>
@@ -159,7 +145,7 @@ public class APC  : InputTrigger, INodeControl
 					}
 				}
 			}
-		} else { 
+		} else {
 			foreach (KeyValuePair<LightSwitchTrigger, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
 			{
 				SwitchTrigger.Key.PowerNetworkUpdate(0);
@@ -172,17 +158,17 @@ public class APC  : InputTrigger, INodeControl
 				}
 			}
 		}
-		//Machinery 
+		//Machinery
 		if (PowerMachinery)
 		{
 			foreach (APCPoweredDevice Device in ConnectedDevices)
 			{
-				
+
 				Device.PowerNetworkUpdate(Voltages);
 				CalculatingResistance += (1 / Device.Resistance);
 			}
 		}
-		else { 
+		else {
 			foreach (APCPoweredDevice Device in ConnectedDevices)
 			{
 				Device.PowerNetworkUpdate(0);
@@ -197,7 +183,7 @@ public class APC  : InputTrigger, INodeControl
 				CalculatingResistance += (1 / Device.Resistance);
 			}
 		}
-		else { 
+		else {
 			foreach (APCPoweredDevice Device in EnvironmentalDevices)
 			{
 				Device.PowerNetworkUpdate(0);
@@ -206,7 +192,7 @@ public class APC  : InputTrigger, INodeControl
 		ResistanceSourceModule.Resistance = (1 / CalculatingResistance);
 	}
 
-	public void FindPoweredDevices() { 
+	public void FindPoweredDevices() {
 		//yeah They be manually assigned for now
 		//needs a way of checking that doesn't cause too much lag and  can respond adequately to changes in the environment E.G a device getting destroyed/a new device being made
 	}
@@ -214,7 +200,7 @@ public class APC  : InputTrigger, INodeControl
 
 	public NetTabType NetTabType;
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand) { 
+	public override bool Interact(GameObject originator, Vector3 position, string hand) {
 		var playerScript = originator.GetComponent<PlayerScript>();
 		if (playerScript.canNotInteract() || !playerScript.IsInReach(gameObject, false))
 		{ //check for both client and server

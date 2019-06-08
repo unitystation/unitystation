@@ -8,17 +8,18 @@ using Tilemaps.Behaviours.Meta;
 
 public class Pipe : NetworkBehaviour
 {
-	public List<Pipe> nodes = new List<Pipe>();
-	public Direction direction = Direction.NORTH | Direction.SOUTH;
 	public RegisterTile registerTile;
 	public ObjectBehaviour objectBehaviour;
+
+	public List<Pipe> nodes = new List<Pipe>();
+	public Direction direction = Direction.NORTH | Direction.SOUTH;
+	public Pipenet pipenet;
+	public bool anchored;
+	public float volume = 70;
+
 	public Sprite[] pipeSprites;
 	public SpriteRenderer spriteRenderer;
 	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
-	public bool anchored;
-
-	public Pipenet pipenet;
-	public float volume = 70;
 
 	[Flags]
 	public enum Direction
@@ -34,7 +35,10 @@ public class Pipe : NetworkBehaviour
 	public void Awake() {
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
-		if(AtmosManager.Instance.roundStartedServer == false)
+	}
+
+	public void Start(){
+		if (AtmosManager.Instance.roundStartedServer == false)
 		{
 			AtmosManager.Instance.roundStartPipes.Add(this);
 		}
@@ -55,7 +59,7 @@ public class Pipe : NetworkBehaviour
 				return;
 			}
 		}
-		SoundManager.PlayAtPosition("Wrench", registerTile.WorldPositionServer);
+		SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 	}
 
 	public virtual bool Attach()
@@ -191,27 +195,6 @@ public class Pipe : NetworkBehaviour
 		}
 	}
 
-	/* cheatsheet:
-	0-45 = south
-	45-135 = east
-	135-225 = north
-	225-315 = west
-	315-360 = south
-	*/
-	public virtual void CalculateDirection()
-	{
-		direction = 0;
-		var rotation = transform.rotation.eulerAngles.z;
-		if ((rotation >= 45 && rotation <= 135) || (rotation >= 225 && rotation <= 315))
-		{
-			direction = Direction.EAST | Direction.WEST;
-		}
-		else
-		{
-			direction = Direction.NORTH | Direction.SOUTH;
-		}
-	}
-
 	Direction OppositeDirection(Direction dir)
 	{
 		if (dir == Direction.NORTH)
@@ -256,13 +239,62 @@ public class Pipe : NetworkBehaviour
 
 	public virtual void CalculateSprite()
 	{
-		SetSprite(0);
+		if(anchored == false)
+		{
+			SetSprite(0);	//not anchored, item sprite
+		}
+	}
+
+	public virtual void CalculateDirection()
+	{
+		direction = 0;
+		var rotation = transform.rotation.eulerAngles.z;
+		transform.rotation = Quaternion.identity;
+		if ((rotation >= 45 && rotation < 135))
+		{
+			DirectionEast();
+		}
+		else if (rotation >= 135 && rotation < 225)
+		{
+			DirectionNorth();
+		}
+		else if (rotation >= 225 && rotation < 315)
+		{
+			DirectionWest();
+		}
+		else
+		{
+			DirectionSouth();
+		}
+	}
+
+	public virtual void DirectionEast()
+	{
+		SetSprite(3);
+		direction = Direction.EAST;
+	}
+
+	public virtual void DirectionNorth()
+	{
+		SetSprite(2);
+		direction = Direction.NORTH;
+	}
+
+	public virtual void DirectionWest()
+	{
+		SetSprite(4);
+		direction = Direction.WEST;
+	}
+
+	public virtual void DirectionSouth()
+	{
+		SetSprite(1);
+		direction = Direction.SOUTH;
 	}
 
 	public void SetSprite(int value)
 	{
 		spriteSync = value;
-		Debug.Log($"ARAN: SETSPRITE FOR {name} - value: {value} - pipesprites: {pipeSprites.Length}");
 		spriteRenderer.sprite = pipeSprites[value];
 	}
 

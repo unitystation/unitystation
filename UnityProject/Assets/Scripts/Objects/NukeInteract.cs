@@ -77,7 +77,7 @@ public class NukeInteract : NetworkTabTrigger
 
 		SoundManager.StopAmbient();
 		//turning off all the UI except for the right panel
-		UIManager.Display.hudRight.gameObject.SetActive(false);
+		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		UIManager.Display.hudBottom.gameObject.SetActive(false);
 		UIManager.Display.backGround.SetActive(false);
 		ControlChat.Instance.CloseChatWindow();

@@ -8,7 +8,7 @@ public class UI_OxygenAlert : MonoBehaviour {
 	public Sprite[] statusImages; //images to cycle between when active
 	private int activeImageIndex = 0;
 
-	private Image img;
+	public Image img;
 	private Sprite sprite;
 
 	void Start ()
@@ -17,7 +17,7 @@ public class UI_OxygenAlert : MonoBehaviour {
 		sprite = img.sprite;
 		InvokeRepeating("CycleImg", 1f, 1f); //Cycle images every 1 second
 	}
-	
+
 	void CycleImg()
 	{
 		sprite = statusImages[activeImageIndex];

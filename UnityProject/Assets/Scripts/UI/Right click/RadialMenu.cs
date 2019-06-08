@@ -11,7 +11,7 @@ public class RadialMenu : MonoBehaviour {
 
 	public Dictionary<int,List<RadialButton>> CurrentOptionsDepth = new Dictionary<int,List<RadialButton>>();
 
-	public Dictionary<int,List<Rightclick.Menu>> DepthMenus = new Dictionary<int,List<Rightclick.Menu>>();
+	public Dictionary<int,List<RightClickMenuItem>> DepthMenus = new Dictionary<int,List<RightClickMenuItem>>();
 
 	public Dictionary<int,int> Density = new  Dictionary<int,int>(){
 		{100,6},
@@ -43,13 +43,13 @@ public class RadialMenu : MonoBehaviour {
 
 	public float LastSelectedTime;
 
-	public void SetupMenu (List<Rightclick.Menu> ListRightclick) {
+	public void SetupMenu (List<RightClickMenuItem> ListRightclick) {
 		//Captures the centre circle
 		centercirlce = new Vector2 (CommonInput.mousePosition.x, CommonInput.mousePosition.y);
 		SpawnButtons (ListRightclick,100,0);
 
 	}
-	public void SpawnButtons (List<Rightclick.Menu> Menus,int Menudepth,int StartingAngle) {
+	public void SpawnButtons (List<RightClickMenuItem> Menus,int Menudepth,int StartingAngle) {
 		Initialised = false;
 		CurrentMenuDepth = Menudepth;
 		int Range = 360; //is the range that the buttons will be on in degrees
@@ -67,7 +67,7 @@ public class RadialMenu : MonoBehaviour {
 			}
 		}
 
-		for (int i = 0; i < Menus.Count; i++) {
+		for (var i = 0; i < Menus.Count; i++) {
 			RadialButton newButton = Instantiate (ButtonPrefab) as RadialButton;
 			newButton.transform.SetParent (transform, false);
 			//Magic maths
@@ -77,16 +77,16 @@ public class RadialMenu : MonoBehaviour {
 			float ypos = Mathf.Cos (theta);
 			newButton.transform.localPosition = new Vector2 (xpos, ypos) * Menudepth;
 
-			newButton.Circle.color = Menus[i].colour;
-			newButton.Icon.sprite = Menus[i].sprite;
-			newButton.Item = Menus [i].Item;
-			newButton.MenuDepth = Menudepth;
-			newButton.Mono = Menus[i].Mono;
-			newButton.Method = Menus[i].Method;
-			newButton.Hiddentitle = Menus[i].title;
-			if (Menus [i].BackgroundSprite != null) {
+			newButton.Circle.color = Menus[i].BackgroundColor;
+			newButton.Icon.sprite = Menus[i].IconSprite;
+			if (Menus[i].BackgroundSprite != null)
+			{
 				newButton.Circle.sprite = Menus[i].BackgroundSprite;
 			}
+
+			newButton.MenuDepth = Menudepth;
+			newButton.Action = Menus[i].Action;
+			newButton.Hiddentitle = Menus[i].Label;
 
 			newButton.MyMenu = this;
 
@@ -100,7 +100,7 @@ public class RadialMenu : MonoBehaviour {
 			if (DepthMenus.ContainsKey (Menudepth)) {
 				DepthMenus [Menudepth].Add (Menus [i]);
 			} else {
-				DepthMenus [Menudepth] = new List<Rightclick.Menu>();
+				DepthMenus [Menudepth] = new List<RightClickMenuItem>();
 				DepthMenus [Menudepth].Add (Menus [i]);
 			}
 
@@ -220,11 +220,9 @@ public class RadialMenu : MonoBehaviour {
 		}
 		if (CommonInput.GetMouseButtonUp(1))
 		{
-			if (Selected) {
-				if (!(Selected.Mono == null)) {
-					//The magic function
-					Selected.Method.Invoke(Selected.Mono, new object[] {  });
-				}
+			if (Selected)
+			{
+				Selected.Action?.Invoke();
 				//Logger.Log ("yo this "+Selected.title.text , Category.RightClick);
 			}
 			LastSelectedset = false;

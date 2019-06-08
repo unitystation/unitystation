@@ -6,7 +6,8 @@ using UnityEngine.Events;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-public class PushPull : VisibleBehaviour {
+[RequireComponent(typeof(RightClickAppearance))]
+public class PushPull : VisibleBehaviour, IRightClickable {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
 
@@ -203,8 +204,33 @@ public class PushPull : VisibleBehaviour {
 		}
 	}
 
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		//check if our local player can reach this
+		var initiator = PlayerManager.LocalPlayerScript.pushPull;
+		//if it's pulled by us
+		if (IsPulledByClient(initiator))
+		{
+			//already pulled by us, but we can stop pulling
+			return RightClickableResult.Create()
+				.AddElement("StopPull", TryPullThis);
+		}
+		else
+		{
+			//check if in range for pulling
+			if (PlayerScript.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
+			{
+				return RightClickableResult.Create()
+					.AddElement("Pull", TryPullThis);
+			}
+		}
+
+		return null;
+	}
+
 	protected override void Awake() {
 		base.Awake();
+
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
 
 		followAction = (oldPos, newPos) => {
@@ -400,7 +426,6 @@ public class PushPull : VisibleBehaviour {
 		TryPullThis();
 	}
 
-	[ContextMethod("Pull","Drag_Hand")]
 	public void TryPullThis() {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation

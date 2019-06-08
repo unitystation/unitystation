@@ -75,10 +75,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// </summary>
 	public bool IsCardiacArrest => bloodSystem.HeartStopped;
 
-	/// <summary>
-	/// Has breathing stopped
-	/// </summary>
-	public bool IsRespiratoryArrest => !respiratorySystem.IsBreathing;
 
 	/// ---------------------------
 	/// INIT METHODS
@@ -477,10 +473,19 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <summary>
 	/// Updates the respiratory health stats from the server via NetMsg
 	/// </summary>
-	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
+	public void UpdateClientRespiratoryStats(bool value)
 	{
-		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating);
-		//	Logger.Log($"Update stats for {gameObject.name} isBreathing: {isBreathing} isSuffocating {isSuffocating}", Category.Health);
+		respiratorySystem.IsSuffocating = value;
+	}
+
+	public void UpdateClientTemperatureStats(float value)
+	{
+		respiratorySystem.temperature = value;
+	}
+
+	public void UpdateClientPressureStats(float value)
+	{
+		respiratorySystem.pressure = value;
 	}
 
 	/// <summary>

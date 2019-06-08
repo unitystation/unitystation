@@ -113,13 +113,12 @@ public class MouseInputController : MonoBehaviour
 			}
 			if (!clicked)
 			{
-				clicked = CheckClick();
+				clicked = CheckClickV2();
 			}
 			if (!clicked)
 			{
-				clicked = CheckClickV2();
+				clicked = CheckClick();
 			}
-
 			if (clicked)
 			{
 				//wait until mouseup to allow drag interaction again
@@ -168,8 +167,6 @@ public class MouseInputController : MonoBehaviour
 		}
 	}
 
-	//note - bool is now returned to indicate the CheckClickV2 should be skipped if an interacton occurs in
-	//this version of the method.
 	private bool CheckClick()
 	{
 		//currently there is nothing for ghosts to interact with, they only can change facing
@@ -238,11 +235,12 @@ public class MouseInputController : MonoBehaviour
 					.Distinct();
 			//object in hand
 			var handObj = UIManager.Hands.CurrentSlot.Item;
+			var handSlotName = UIManager.Hands.CurrentSlot.eventName;
 
 			//go through the stack of objects and call any drop components we find
 			foreach (GameObject applyTarget in handApplyTargets)
 			{
-				HandApply info = new HandApply(PlayerManager.LocalPlayer, handObj, applyTarget.gameObject);
+				HandApply info = new HandApply(PlayerManager.LocalPlayer, handObj, applyTarget.gameObject, handSlotName);
 				//call the used object's handapply interaction methods if it has any, for each object we are applying to
 				//if handobj is null, then its an empty hand apply so we only need to check the receiving object
 				if (handObj != null)
@@ -250,7 +248,7 @@ public class MouseInputController : MonoBehaviour
 					foreach (IInteractable<HandApply> handApply in handObj.GetComponents<IInteractable<HandApply>>())
 					{
 						var result = handApply.Interact(info);
-						if (result.SomethingHappened)
+						if (result.StopProcessing)
 						{
 							//we're done checking, something happened
 							return true;
@@ -262,7 +260,7 @@ public class MouseInputController : MonoBehaviour
 				foreach (IInteractable<HandApply> handApply in applyTarget.GetComponents<IInteractable<HandApply>>())
 				{
 					var result = handApply.Interact(info);
-					if (result.SomethingHappened)
+					if (result.StopProcessing)
 					{
 						//something happened, done checking
 						return true;

@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 /// Buckle a player in when they are dragged and dropped while on this object, then unbuckle
 /// them when the object is hand-applied to.
 /// </summary>
-public class BuckleInteract : CoordinatedInteraction<MouseDrop, HandApply>
+public class BuckleInteract : Interactable<MouseDrop, HandApply>
 {
 	//may be null
 	private DirectionalSprite directionalSprite;
@@ -19,16 +19,14 @@ public class BuckleInteract : CoordinatedInteraction<MouseDrop, HandApply>
 		base.Start();
 	}
 
-	protected override IList<IInteractionValidator<MouseDrop>> Validators()
+	protected override InteractionValidationChain<MouseDrop> InteractionValidationChain()
 	{
-		return new List<IInteractionValidator<MouseDrop>>
-		{
-			IsDroppedObjectAtTargetPosition.IS,
-			DoesDroppedObjectHaveComponent<PlayerMove>.DOES,
-			CanApply.EVEN_IF_SOFT_CRIT,
-			ComponentAtTargetMatrixPosition<PlayerMove>.NoneMatchingCriteria(pm => pm.IsRestrained),
-			new FunctionValidator<MouseDrop>(AdditionalValidation)
-		};
+		return InteractionValidationChain<MouseDrop>.Create()
+			.WithValidation(IsDroppedObjectAtTargetPosition.IS)
+			.WithValidation(DoesDroppedObjectHaveComponent<PlayerMove>.DOES)
+			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
+			.WithValidation(ComponentAtTargetMatrixPosition<PlayerMove>.NoneMatchingCriteria(pm => pm.IsRestrained))
+			.WithValidation(new FunctionValidator<MouseDrop>(AdditionalValidation));
 	}
 
 	private ValidationResult AdditionalValidation(MouseDrop drop, NetworkSide side)
@@ -46,7 +44,7 @@ public class BuckleInteract : CoordinatedInteraction<MouseDrop, HandApply>
 			.Validate(drop, side);
 	}
 
-	protected override InteractionResult ServerPerformInteraction(MouseDrop drop)
+	protected override void ServerPerformInteraction(MouseDrop drop)
 	{
 		SoundManager.PlayNetworkedAtPos("Click01", drop.TargetObject.WorldPosServer());
 
@@ -65,22 +63,18 @@ public class BuckleInteract : CoordinatedInteraction<MouseDrop, HandApply>
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
 		directionalSprite?.RenderBuckledOverPlayerWhenUp(true);
-
-		return InteractionResult.SOMETHING_HAPPENED;
 	}
 
-	protected override IList<IInteractionValidator<HandApply>> ValidatorsT2()
+	protected override InteractionValidationChain<HandApply> InteractionValidationChainT2()
 	{
-		return new List<IInteractionValidator<HandApply>>
-		{
-			IsHand.EMPTY,
-			TargetIs.GameObject(gameObject),
-			CanApply.EVEN_IF_SOFT_CRIT,
-			ComponentAtTargetMatrixPosition<PlayerMove>.MatchingCriteria(pm => pm.IsRestrained)
-		};
+		return InteractionValidationChain<HandApply>.Create()
+			.WithValidation(IsHand.EMPTY)
+			.WithValidation(TargetIs.GameObject(gameObject))
+			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
+			.WithValidation(ComponentAtTargetMatrixPosition<PlayerMove>.MatchingCriteria(pm => pm.IsRestrained));
 	}
 
-	protected override InteractionResult ServerPerformInteraction(HandApply interaction)
+	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer());
 
@@ -88,8 +82,6 @@ public class BuckleInteract : CoordinatedInteraction<MouseDrop, HandApply>
 		//cannot use the CmdUnrestrain because commands are only allowed to be invoked by local player
 		playerMoveAtPosition.Unrestrain();
 		//the above will then invoke onunbuckle as it was the callback passed to Restrain
-
-		return InteractionResult.SOMETHING_HAPPENED;
 	}
 
 

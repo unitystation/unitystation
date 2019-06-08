@@ -1,15 +1,12 @@
 ﻿using UnityEngine;
 
-public class WirecutterTrigger : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class WirecutterTrigger : InputTrigger
 {
     public override bool Interact(GameObject originator, Vector3 position, string hand)
     {
-		//TODO:  Fill this in.
-        if (UIManager.Hands.CurrentSlot.Item != gameObject)
-        {
-            return base.Interact(originator, position, hand);
-        }
+	    //TODO: Remove after IF2 refactor
 
-        return base.Interact(originator, position, hand);
+	    return false;
     }
 }
