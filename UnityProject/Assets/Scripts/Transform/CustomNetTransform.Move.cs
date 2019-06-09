@@ -280,6 +280,12 @@ public partial class CustomNetTransform {
 	/// </summary>
 	[Server]
 	public void Nudge( NudgeInfo info ) {
+		
+		if ( PushPull.isNotPushable )
+        {
+            return;
+        }
+
 		Vector2 impulse = info.Trajectory.normalized;
 
 		serverState.Speed = info.InitialSpeed;
