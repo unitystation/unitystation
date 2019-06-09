@@ -378,7 +378,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractabl
 	// invoked when being cloned, syncs up ammo (creates an empty mag if there isn't a mag in the cloned weapon)
 	private void OnClonedServer(GameObject otherGun)
 	{
-		var otherMag = otherGun.GetComponent<Weapon>().CurrentMagazine;
+		var otherMag = otherGun.GetComponent<Gun>().CurrentMagazine;
 		if (otherMag == null)
 		{
 			StartCoroutine(SetAmmoOnClone(0));
@@ -767,3 +767,32 @@ public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractabl
 
 
 }
+
+ /// <summary>
+ /// Represents a shot that has been queued up to fire when the weapon is next able to. Only used on server side.
+ /// </summary>
+ struct QueuedShot
+ {
+	 public readonly GameObject shooter;
+	 public readonly Vector2 finalDirection;
+	 public readonly BodyPartType damageZone;
+	 public readonly bool isSuicide;
+
+	 public QueuedShot(GameObject shooter, Vector2 finalDirection, BodyPartType damageZone, bool isSuicide)
+	 {
+		 this.shooter = shooter;
+		 this.finalDirection = finalDirection;
+		 this.damageZone = damageZone;
+		 this.isSuicide = isSuicide;
+	 }
+ }
+
+ /// <summary>
+ ///     Generic weapon types
+ /// </summary>
+ public enum WeaponType
+ {
+	 SemiAutomatic = 0,
+	 FullyAutomatic = 1,
+	 Burst = 2
+ }

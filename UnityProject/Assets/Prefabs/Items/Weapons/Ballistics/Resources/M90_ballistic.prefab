@@ -92,10 +92,10 @@ GameObject:
   - component: {fileID: 114447931929392012}
   - component: {fileID: 114895715854096586}
   - component: {fileID: 114228701505719040}
-  - component: {fileID: 114725437689652196}
   - component: {fileID: 114841962871814582}
   - component: {fileID: 114157227028527442}
   - component: {fileID: 114916393656445134}
+  - component: {fileID: 1352949759129444310}
   m_Layer: 10
   m_Name: M90_ballistic
   m_TagString: Untagged
@@ -217,30 +217,6 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &114725437689652196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1860654956334788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12ad712be1fefd043b45761b18e23798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AmmoType: 50mm
-  SpawnsCaseing: 1
-  SmartGun: 0
-  CurrentRecoilVariance: 0
-  FireCountDown: 0
-  FireingSound: ShootLMG
-  FireRate: 0.5
-  MaxRecoilVariance: 0
-  Projectile: {fileID: 1932369758612010, guid: c4f47edad32bd47c2b4a1643227aadf6, type: 3}
-  ProjectilesFired: 1
-  ProjectileVelocity: 10
-  WeaponType: 1
 --- !u!114 &114841962871814582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,3 +278,27 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1352949759129444310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860654956334788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8343d0f678a24c949baac4bba12c2f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoType: 50mm
+  SpawnsCaseing: 1
+  SmartGun: 0
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FireingSound: ShootLMG
+  FireRate: 0.5
+  MaxRecoilVariance: 0
+  Projectile: {fileID: 1932369758612010, guid: c4f47edad32bd47c2b4a1643227aadf6, type: 3}
+  ProjectilesFired: 1
+  ProjectileVelocity: 10
+  WeaponType: 0
