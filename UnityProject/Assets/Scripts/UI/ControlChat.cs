@@ -230,6 +230,12 @@ public class ControlChat : MonoBehaviour
 	/// <param name="selectedChannel">The chat channels to select when opening it</param>
 	public void OpenChatWindow (ChatChannel selectedChannel = ChatChannel.None)
 	{
+		// Can't open chat window while main menu open
+		if (GUI_IngameMenu.Instance.mainIngameMenu.activeInHierarchy)
+		{
+			return;
+		}
+
 		if (PlayerManager.LocalPlayer == null)
 		{
 			Logger.LogWarning("You cannot use the chat without the LocalPlayer object being set in PlayerManager", Category.Telecoms);
