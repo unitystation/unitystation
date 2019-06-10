@@ -3,7 +3,10 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-public class VendorTrigger : InputTrigger
+/// <summary>
+/// Component which allows an object to act as a vendor, dispensing items when interacted with.
+/// </summary>
+public class Vendor : NBHandApplyInteractable
 {
 	public GameObject[] vendorcontent;
 
@@ -15,39 +18,40 @@ public class VendorTrigger : InputTrigger
 	public bool EjectObjects = false;
 	public EjectDirection EjectDirection = EjectDirection.None;
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		if (!CanUse(originator, hand, position, false))
-		{
-			return false;
-		}
-		if (!isServer)
-		{
-			//ask server to perform the interaction
-			InteractMessage.Send(gameObject, position, hand);
-			return true;
-		}
+	//caching validations
+	private InteractionValidationChain<HandApply> validations;
 
+	private void Start()
+	{
+		validations = InteractionValidationChain<HandApply>.Create()
+			.WithValidation(CanApply.ONLY_IF_CONSCIOUS);
+	}
+
+	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	{
+		return validations;
+	}
+
+	protected override void ServerPerformInteraction(HandApply interaction)
+	{
 		if (!allowSell && deniedMessage != null && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
 		{
-			UpdateChatMessage.Send(originator, ChatChannel.Examine, deniedMessage);
+			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, deniedMessage);
 		}
 		else if (allowSell)
 		{
 			allowSell = false;
 			if (!GameData.Instance.testServer && !GameData.IsHeadlessServer)
 			{
-				UpdateChatMessage.Send(originator, ChatChannel.Examine, interactionMessage);
+				UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, interactionMessage);
 			}
-			ServerVendorInteraction(position);
+			ServerVendorInteraction();
 			StartCoroutine(VendorInputCoolDown());
 		}
-
-		return true;
 	}
 
 	[Server]
-	private bool ServerVendorInteraction(Vector3 position)
+	private bool ServerVendorInteraction()
 	{
 		//		Debug.Log("status" + allowSell);
 		if (vendorcontent.Length == 0)
@@ -97,6 +101,7 @@ public class VendorTrigger : InputTrigger
 			allowSell = true;
 		}
 	}
+
 
 }
 
