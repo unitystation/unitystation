@@ -37,7 +37,8 @@ public class PipeTrigger : InputTrigger
 		}
 		else
 		{
-			if (handObj.GetComponent<WrenchTrigger>())
+			var tool = handObj.GetComponent<Tool>();
+			if (tool != null && tool.ToolType == ToolType.Wrench)
 			{
 				pipe.WrenchAct();
 			}

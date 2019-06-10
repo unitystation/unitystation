@@ -50,8 +50,8 @@ public class CableInheritance : InputTrigger, IDeviceControl
 				return (false);
 			}
 			var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
-			var Wirecutter = slot.Item?.GetComponentInChildren<WirecutterTrigger>();
-			if (Wirecutter != null)
+			var tool = slot.Item != null ? slot.Item.GetComponentInChildren<Tool>() : null;
+			if (tool != null && tool.ToolType == ToolType.Wirecutter)
 			{
 				toDestroy();
 			}
@@ -129,7 +129,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 					QueueForDemolition(this);
 					return;
 				}
-				else 
+				else
 				{
 					if (wireConnect.RelatedLine != null) {
 						foreach (var CB in wireConnect.RelatedLine.Covering)
@@ -139,7 +139,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 					StartCoroutine(WaitForDemolition());
 					return;
 				}
-			} 
+			}
 			if (CheckDestruction)
 			{
 				CheckDestruction = false;

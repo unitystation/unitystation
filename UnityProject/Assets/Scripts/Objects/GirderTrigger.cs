@@ -48,7 +48,8 @@ public class GirderTrigger : InputTrigger
 			UIManager.ProgressBar.StartProgress(position.RoundToInt(), 5f, progressFinishAction, originator);
 		}
 
-		if (handObj.GetComponent<WrenchTrigger>()){
+		var tool = handObj.GetComponent<Tool>();
+		if (tool != null && tool.ToolType == ToolType.Wrench){
 			SoundManager.PlayNetworkedAtPos("Wrench", transform.localPosition, 1f);
 			var progressFinishAction = new FinishProgressAction(
 				reason =>

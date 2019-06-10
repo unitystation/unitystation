@@ -95,8 +95,8 @@ GameObject:
   - component: {fileID: 114909773131868738}
   - component: {fileID: 114998062039538404}
   - component: {fileID: 114484434474911270}
-  - component: {fileID: 114604725354548750}
   - component: {fileID: 114015390832439874}
+  - component: {fileID: 1880284032232329105}
   m_Layer: 10
   m_Name: Wrench
   m_TagString: Untagged
@@ -283,18 +283,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
---- !u!114 &114604725354548750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519710982558066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba013348c050ce742b140b0d6f49b8ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114015390832439874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,3 +300,16 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1880284032232329105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToolType: 2

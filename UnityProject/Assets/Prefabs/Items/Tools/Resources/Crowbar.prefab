@@ -92,10 +92,10 @@ GameObject:
   - component: {fileID: 114009608666145778}
   - component: {fileID: 114287030664492144}
   - component: {fileID: 114909773131868738}
-  - component: {fileID: 114025950358683784}
   - component: {fileID: 114998062039538404}
   - component: {fileID: 114484434474911270}
   - component: {fileID: 114079509811454882}
+  - component: {fileID: 2107020011812829422}
   m_Layer: 10
   m_Name: Crowbar
   m_TagString: Untagged
@@ -217,18 +217,6 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &114025950358683784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519710982558066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5750d33eea9b88429b645179398462d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114998062039538404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,3 +278,16 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &2107020011812829422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToolType: 0

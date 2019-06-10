@@ -121,7 +121,8 @@ public class TileTrigger : InputTrigger
 				case TileType.Floor:
 				{
 					//Crowbar
-					if (handObj.GetComponent<CrowbarTrigger>())
+					var tool = handObj.GetComponent<Tool>();
+					if (tool != null && tool.ToolType == ToolType.Crowbar)
 					{
 						pna.CmdCrowBarRemoveFloorTile(originator, LayerType.Floors,
 							new Vector2(cellPos.x, cellPos.y), position);

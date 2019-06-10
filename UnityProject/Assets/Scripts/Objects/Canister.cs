@@ -32,7 +32,8 @@ public class Canister : InputTrigger
 
 		PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
 		GameObject handObj = pna.Inventory[hand].Item;
-		if (handObj && handObj.GetComponent<WrenchTrigger>())
+		var tool = handObj != null ? handObj.GetComponent<Tool>() : null;
+		if (tool != null && tool.ToolType == ToolType.Wrench)
 		{
 			if(isConnected)
 			{

@@ -178,8 +178,8 @@ public class PowerGenerator : InputTrigger, INodeControl
 		else
 		{
 			var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
-			var wrench = slot.Item?.GetComponent<WrenchTrigger>();
-			if (wrench != null)
+			var tool = slot.Item?.GetComponent<Tool>();
+			if (tool != null && tool.ToolType == ToolType.Wrench)
 			{
 				UpdateSecured(!isSecured);
 				if (!isSecured && isOn)
