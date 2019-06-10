@@ -9,6 +9,7 @@ public class CloningConsole : NetworkTabTrigger
 	public static event ChangeEvent changeEvent;
 
 	public List<CloningRecord> CloningRecords = new List<CloningRecord>();
+	public DNAscanner scanner;
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
@@ -29,11 +30,34 @@ public class CloningConsole : NetworkTabTrigger
 		return true;
 	}
 
-	public void Start()
+	public void ToggleLock()
 	{
-		//DEBUG
-		CreateRecord("Dana Ray", 50, 117, 0, 33, "630991235560514Eb1815");
-		CreateRecord("Trinity Ray", 50, 117, 0, 33, "630991235560514Eb1815");
+		if(scanner && scanner.IsClosed)
+		{
+			scanner.IsLocked = !scanner.IsLocked;
+		}
+	}
+
+	public void Scan()
+	{
+		if(scanner && scanner.occupant)
+		{
+			var mob = scanner.occupant;
+			var uniqueIdentifier = "35562Eb18150514630991";
+			for (int i = 0; i < CloningRecords.Count; i++)
+			{
+				if(uniqueIdentifier == CloningRecords[i].UniqueIdentifier)
+				{
+					return;
+				}
+			}
+			var name = mob.GetComponent<PlayerScript>().playerName;
+			var oxyDmg = mob.bloodSystem.oxygenDamage;
+			var burnDmg = mob.GetTotalBurnDamage();
+			var toxinDmg = 0;
+			var bruteDmg = mob.GetTotalBruteDamage();
+			CreateRecord(name, oxyDmg, burnDmg, toxinDmg, bruteDmg, uniqueIdentifier);
+		}
 	}
 
 	public void CreateRecord(string name, float oxyDmg, float burnDmg, float toxingDmg, float bruteDmg, string uniqueIdentifier)

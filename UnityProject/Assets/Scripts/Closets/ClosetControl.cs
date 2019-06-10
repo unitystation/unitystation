@@ -15,8 +15,8 @@ public class ClosetControl : InputTrigger, IRightClickable
 	private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
 	protected List<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
 
-	[SyncVar(hook = nameof(SyncIsClosed))] public bool IsClosed;
-	[SyncVar(hook = nameof(LockUnlock))] public bool IsLocked;
+	public bool IsClosed;
+	[SyncVar(hook = nameof(SetIsLocked))] public bool IsLocked;
 	public LockLightController lockLight;
 	public int playerLimit = 3;
 
@@ -25,7 +25,8 @@ public class ClosetControl : InputTrigger, IRightClickable
 	private Matrix matrix => registerTile.Matrix;
 	private ObjectBehaviour objectBehaviour;
 
-	private Sprite doorClosed;
+	[SyncVar(hook = nameof(SyncStatus))] public ClosetStatus statusSync;
+	protected Sprite doorClosed;
 	public Sprite doorOpened;
 	public SpriteRenderer spriteRenderer;
 
@@ -50,14 +51,13 @@ public class ClosetControl : InputTrigger, IRightClickable
 	private IEnumerator WaitForServerReg()
 	{
 		yield return WaitFor.Seconds(1f);
-		IsClosed = true;
-		HandleItems();
+		SetIsClosed(true);
 	}
 
 	public override void OnStartLocalPlayer()
 	{
-		SyncIsClosed(IsClosed);
-		LockUnlock(IsLocked);
+		SyncSprite(statusSync);
+		SetIsLocked(IsLocked);
 		base.OnStartLocalPlayer();
 	}
 
@@ -89,55 +89,93 @@ public class ClosetControl : InputTrigger, IRightClickable
 		SoundManager.PlayNetworkedAtPos("OpenClose", registerTile.WorldPositionServer, 1f);
 		if (IsClosed)
 		{
-			if (lockLight != null && lockLight.IsLocked())
-			{
-				IsLocked = false;
-				return;
-			}
-			IsClosed = false;
-			HandleItems();
+			SetIsClosed(false);
 		}
 		else
 		{
-			IsClosed = true;
-			HandleItems();
+			SetIsClosed(true);
 		}
 	}
 
-	private void SyncIsClosed(bool value)
+	private void SetIsClosed(bool value)
 	{
 		IsClosed = value;
+		HandleItems();
 		ChangeSprite();
 	}
 
-	private void LockUnlock(bool value)
+	private void SetIsLocked(bool value)
 	{
 		IsLocked = value;
-		if (lockLight == null && !IsLocked)
+		if (lockLight)
 		{
-			lockLight.Unlock();
+			if(IsLocked)
+			{
+				lockLight.Lock();
+			}
+			else
+			{
+				lockLight.Unlock();
+			}
 		}
 	}
 
-	public virtual void ChangeSprite()
+	private void ChangeSprite()
 	{
-		registerTile.IsClosed = IsClosed;
 		if(IsClosed)
 		{
-			spriteRenderer.sprite = doorClosed;
-			if (lockLight != null)
+			if(heldPlayers.Count > 0)
 			{
-				lockLight.Show();
+				statusSync = ClosetStatus.ClosedWithOccupant;
+			}
+			else
+			{
+				statusSync = ClosetStatus.Closed;
 			}
 		}
 		else
 		{
+			statusSync = ClosetStatus.Open;
+		}
+	}
+
+	public enum ClosetStatus
+	{
+		Closed,
+		ClosedWithOccupant,
+		Open
+	}
+
+	private void SyncStatus(ClosetStatus value)
+	{
+		if(value == ClosetStatus.Open)
+		{
+			registerTile.IsClosed = false;
+		}
+		else
+		{
+			registerTile.IsClosed = true;
+		}
+		SyncSprite(value);
+	}
+
+	public virtual void SyncSprite(ClosetStatus value)
+	{
+		if (value == ClosetStatus.Open)
+		{
 			spriteRenderer.sprite = doorOpened;
-			if (lockLight != null)
+			if (lockLight)
 			{
 				lockLight.Hide();
 			}
-
+		}
+		else
+		{
+			spriteRenderer.sprite = doorClosed;
+			if (lockLight)
+			{
+				lockLight.Show();
+			}
 		}
 	}
 
@@ -183,11 +221,18 @@ public class ClosetControl : InputTrigger, IRightClickable
 				return true;
 			}
 		}
+		else
+		{
+			if(IsLocked)
+			{
+				return true;
+			}
+		}
 		ToggleLocker();
 		return true;
 	}
 
-	private void HandleItems()
+	public virtual void HandleItems()
 	{
 		if (IsClosed)
 		{
@@ -262,11 +307,11 @@ public class ClosetControl : InputTrigger, IRightClickable
 		int mobsIndex = 0;
 		foreach (ObjectBehaviour player in mobsFound)
 		{
-			mobsIndex++;
 			if(mobsIndex >= playerLimit)
 			{
 				return;
 			}
+			mobsIndex++;
 			heldPlayers.Add(player);
 			var playerScript = player.GetComponent<PlayerScript>();
 			var playerSync = playerScript.PlayerSync;
