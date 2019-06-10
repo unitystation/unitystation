@@ -23,7 +23,7 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 	{
 		return InteractionValidationChain<MouseDrop>.Create()
 			.WithValidation(IsDroppedObjectAtTargetPosition.IS)
-			.WithValidation(DoesDroppedObjectHaveComponent<PlayerMove>.DOES)
+			.WithValidation(DoesUsedObjectHaveComponent<PlayerMove>.DOES)
 			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
 			.WithValidation(ComponentAtTargetMatrixPosition<PlayerMove>.NoneMatchingCriteria(pm => pm.IsRestrained))
 			.WithValidation(new FunctionValidator<MouseDrop>(AdditionalValidation));

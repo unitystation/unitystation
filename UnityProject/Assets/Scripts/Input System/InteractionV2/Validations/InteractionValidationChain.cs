@@ -46,6 +46,19 @@ public class InteractionValidationChain<T>
 	}
 
 	/// <summary>
+	/// Validates the specified interaction using the validations in this chain, returning true if it validates.
+	/// Shorthand for checking if Validate == ValidationResult.SUCCESS
+	/// </summary>
+	/// <param name="interaction"></param>
+	/// <param name="networkSide">whether to do client-side or server-side validation. Server-side validation
+	/// should only be used when the server is validating a client's attempt to perform an interaction.</param>
+	/// <returns>result of validation</returns>
+	public bool DoesValidate(T interaction, NetworkSide networkSide)
+	{
+		return Validate(interaction, networkSide) == ValidationResult.SUCCESS;
+	}
+
+	/// <summary>
 	/// Create a new empty validation chain.
 	/// </summary>
 	/// <returns></returns>
