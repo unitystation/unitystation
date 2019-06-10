@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(RightClickAppearance))]
-public class ClosetControl : InputTrigger
+public class ClosetControl : InputTrigger, IRightClickable
 {
 	[Header("Contents that will spawn inside every locker of type")]
 	public List<GameObject> DefaultContents;
@@ -299,5 +299,30 @@ public class ClosetControl : InputTrigger
 		{
 			objectBehaviour.registerTile.ParentNetId = parentNetId;
 		}
+	}
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		//TODO: Code duplication (of validation logic) with Interact. Eliminate this duplication once this is refactored to IF2.
+		var result = RightClickableResult.Create();
+		PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
+		if (localPlayer.canNotInteract())
+		{
+			return result;
+		}
+
+		bool isInReach = localPlayer.IsInReach(registerTile, false);
+		if (isInReach || localPlayer.IsHidden)
+		{
+			result.AddElement("OpenClose", RightClickInteract);
+		}
+
+		return result;
+	}
+
+	private void RightClickInteract()
+	{
+		Interact(PlayerManager.LocalPlayer,  registerTile.WorldPositionClient,
+			UIManager.Hands.CurrentSlot.eventName);
 	}
 }
