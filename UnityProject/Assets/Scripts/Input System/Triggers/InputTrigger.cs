@@ -114,7 +114,7 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// <param name="position">position of the interaction</param>
 	/// <param name="allowSoftCrit">if true it allows mobs in soft crit perform the action</param>
 	/// <returns>true if the server confirms the interaction is valid. The Interact() following this will be carried on serverside</returns>
-	public bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false){
+	public virtual bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false){
 		var playerScript = originator.GetComponent<PlayerScript>();
 
 		if (playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
