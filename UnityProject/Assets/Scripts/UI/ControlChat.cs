@@ -242,8 +242,9 @@ public class ControlChat : MonoBehaviour
 		{
 			EnableChannel(selectedChannel);
 		}
-		else
+		else if (PlayerManager.LocalPlayerScript.SelectedChannels == ChatChannel.None)
 		{
+			// Make sure the player has at least one channel selected
 			TrySelectDefaultChannel();
 		}
 		EventManager.Broadcast (EVENT.ChatFocused);
