@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-///     Food behaviour. The base for every food item in the game
+///     Indicates an edible object.
 /// </summary>
-public class FoodBehaviour : NetworkBehaviour
+public class FoodBehaviour : NetworkBehaviour, IInteractable<Activate>, IInteractable<HandApply>
 {
     public GameObject leavings;
     protected bool isDrink = false;
@@ -46,5 +46,25 @@ public class FoodBehaviour : NetworkBehaviour
 		//FIXME: PNA Cmd is being used to heal the player instead of heal hunger for the TDM
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdEatFood(gameObject,
             UIManager.Hands.CurrentSlot.eventName, isDrink);
+	}
+
+	public InteractionControl Interact(Activate interaction)
+	{
+		//eat on activate
+		TryEat();
+		return InteractionControl.STOP_PROCESSING;
+	}
+
+	public InteractionControl Interact(HandApply interaction)
+	{
+		//eat when we hand apply to ourselves
+		if (interaction.Performer == PlayerManager.LocalPlayer &&
+		    interaction.UsedObject == gameObject)
+		{
+			TryEat();
+			return InteractionControl.STOP_PROCESSING;
+		}
+
+		return InteractionControl.CONTINUE_PROCESSING;
 	}
 }

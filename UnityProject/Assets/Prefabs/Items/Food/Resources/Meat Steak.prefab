@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 61202592083071704}
   - component: {fileID: 114842434566603030}
   - component: {fileID: 114828422824226692}
-  - component: {fileID: 6889854733789362965}
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
   - component: {fileID: 114298061437451200}
@@ -128,18 +127,6 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &6889854733789362965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110193000772614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6226df5fc2d4f374fa1cd7ba52d5af40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114931546224579044
 MonoBehaviour:
   m_ObjectHideFlags: 0
