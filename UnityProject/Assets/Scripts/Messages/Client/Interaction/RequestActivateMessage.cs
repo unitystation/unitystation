@@ -66,7 +66,7 @@ public class RequestActivateMessage : ClientMessage
 	/// should almost always be either a component on the target object or a component on the used object</param>
 	public static void Send(Activate activate, GameObject processorObject)
 	{
-		var msg = new RequestMouseDropMessage
+		var msg = new RequestActivateMessage
 		{
 			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId
 		};
