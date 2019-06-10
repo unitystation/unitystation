@@ -10,6 +10,8 @@ using System.Collections.Generic;
 public class InteractionValidationChain<T>
 	where T : Interaction
 {
+	public static readonly InteractionValidationChain<T> EMPTY = new InteractionValidationChain<T>(null);
+
 	private IList<IInteractionValidator<T>> validations;
 
 	/// <summary>

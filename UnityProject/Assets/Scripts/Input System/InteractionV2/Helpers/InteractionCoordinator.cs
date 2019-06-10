@@ -32,7 +32,7 @@ public class InteractionCoordinator<T>
 	/// implement IInteractionProcessor and delegate processing to this coordinator.
 	/// Component which will process the interaction on the server side.</param>
 	/// <param name="validationChain">Validations to perform on client and server side. If any validation fails,
-	/// the entire validation will fail.</param>
+	/// the entire validation will fail. Can be null if there is no need for validations.</param>
 	/// <param name="interactionLogic">Function to invoke on the server side to perform the interaction logic
 	/// if validation succeeds.</param>
 	public InteractionCoordinator(IInteractionProcessor<T> processor, InteractionValidationChain<T> validationChain,
@@ -71,7 +71,7 @@ public class InteractionCoordinator<T>
 	/// <returns>whether validation succeeded or failed</returns>
 	public ValidationResult ClientValidateAndRequest(T interaction)
 	{
-		if (validationChain.Validate(interaction, NetworkSide.CLIENT) == ValidationResult.SUCCESS)
+		if (validationChain == null || validationChain.Validate(interaction, NetworkSide.CLIENT) == ValidationResult.SUCCESS)
 		{
 			InteractionMessageUtils.SendRequest(interaction, processor);
 			return ValidationResult.SUCCESS;
@@ -90,7 +90,7 @@ public class InteractionCoordinator<T>
 	/// <returns>whether server validation succeeded or failed</returns>
 	public ValidationResult ServerValidateAndPerform(T interaction)
 	{
-		if (validationChain.Validate(interaction, NetworkSide.SERVER) == ValidationResult.SUCCESS)
+		if (validationChain == null || validationChain.Validate(interaction, NetworkSide.SERVER) == ValidationResult.SUCCESS)
 		{
 			interactionLogic.Invoke(interaction);
 			return ValidationResult.SUCCESS;

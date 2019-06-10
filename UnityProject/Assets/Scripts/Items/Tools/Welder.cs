@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(Pickupable))]
-public class Welder : NetworkBehaviour
+public class Welder : NBActivateInteractable
 {
 	//TODO: Update the sprites from the array below based on how much fuel is left
 	//TODO: gas readout in stats
@@ -70,6 +70,17 @@ public class Welder : NetworkBehaviour
 		{
 			pickup.OnPickupServer.AddListener(OnPickupServer);
 		}
+	}
+
+	protected override InteractionValidationChain<Activate> InteractionValidationChain()
+	{
+		//no validations to perform, just toggle it
+		return InteractionValidationChain<Activate>.EMPTY;
+	}
+
+	protected override void ServerPerformInteraction(Activate interaction)
+	{
+		ToggleWelder(interaction.Performer);
 	}
 
 	private void OnPickupServer(HandApply interaction)
@@ -210,5 +221,10 @@ public class Welder : NetworkBehaviour
 
 			yield return WaitFor.Seconds(.1f);
 		}
+	}
+
+	public InteractionControl Interact(Activate interaction)
+	{
+		throw new NotImplementedException();
 	}
 }
