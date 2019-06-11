@@ -9,26 +9,34 @@ public class GUI_Vendor : NetTab
 	[SerializeField]
 	private float cooldownTimer = 2f;
 	[SerializeField]
-	private string interactionMessage;
+	private string interactionMessage = "Item given.";
 	[SerializeField]
-	private string deniedMessage;
+	private string deniedMessage = "Bzzt.";
 	public bool EjectObjects = false;
 	[SerializeField]
 	private EjectDirection ejectDirection = EjectDirection.None;
 
 	private VendorTrigger vendor;
 	private List<VendorItem> vendorContent = new List<VendorItem>();
-	
+	private EmptyItemList itemList;
 
 	protected override void InitServer()
 	{
 		vendor = Provider.GetComponent<VendorTrigger>();
 		vendorContent = vendor.VendorContent;
+		GenerateList();
 	}
 
 	private void GenerateList()
 	{
-		
+		itemList.Clear();
+		itemList.AddItems(vendorContent.Count);
+		for (int i = 0; i < vendorContent.Count; i++)
+		{
+			VendorItemEntry item = itemList.Entries[i] as VendorItemEntry;
+			//item.Order = vendorContent[i];
+			item.gameObject.SetActive(true);
+		}
 	}
 
 	private void SpawnItem(VendorItem item)
@@ -36,7 +44,8 @@ public class GUI_Vendor : NetTab
 		if (CanSell() == false)
 			return;
 
-		var spawnedItem = PoolManager.PoolNetworkInstantiate(item.item, transform.position, transform.parent);
+		Vector3 spawnPos = vendor.gameObject.RegisterTile().WorldPositionServer;
+		var spawnedItem = PoolManager.PoolNetworkInstantiate(item.item, spawnPos, vendor.transform.parent);
 
 		//Ejecting in direction
 		if (EjectObjects && ejectDirection != EjectDirection.None)
@@ -45,10 +54,10 @@ public class GUI_Vendor : NetTab
 			switch (ejectDirection)
 			{
 				case EjectDirection.Up:
-					offset = transform.rotation * Vector3.up / Random.Range(4, 12);
+					offset = vendor.transform.rotation * Vector3.up / Random.Range(4, 12);
 					break;
 				case EjectDirection.Down:
-					offset = transform.rotation * Vector3.down / Random.Range(4, 12);
+					offset = vendor.transform.rotation * Vector3.down / Random.Range(4, 12);
 					break;
 				case EjectDirection.Random:
 					offset = new Vector3(Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f), 0);
@@ -58,8 +67,8 @@ public class GUI_Vendor : NetTab
 			{
 				ThrownBy = gameObject,
 				Aim = BodyPartType.Chest,
-				OriginPos = transform.position,
-				TargetPos = transform.position + offset,
+				OriginPos = spawnPos,
+				TargetPos = spawnPos + offset,
 				SpinMode = ejectDirection == EjectDirection.Random ? SpinMode.Clockwise : SpinMode.None
 			});
 		}

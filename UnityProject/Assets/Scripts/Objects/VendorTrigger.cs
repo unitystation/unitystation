@@ -7,7 +7,9 @@ using Random = UnityEngine.Random;
 public class VendorTrigger : NetworkTabTrigger
 {
 	public List<VendorItem> VendorContent = new List<VendorItem>();
+	[HideInInspector]
 	public GameObject Originator;
+	public Color HullColor;
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
