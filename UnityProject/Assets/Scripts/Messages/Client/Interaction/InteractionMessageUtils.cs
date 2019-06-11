@@ -44,7 +44,12 @@ public static class InteractionMessageUtils
 
 		//send the message appropriate to the specific interaction type
 		var processorObject = (processor as Component).gameObject;
-		if (typeof(T) == typeof(HandApply))
+		if (typeof(T) == typeof(PositionalHandApply))
+		{
+			RequestPositionalHandApplyMessage.Send(info as PositionalHandApply, processorObject);
+			return;
+		}
+		else if (typeof(T) == typeof(HandApply))
 		{
 			RequestHandApplyMessage.Send(info as HandApply, processorObject);
 			return;

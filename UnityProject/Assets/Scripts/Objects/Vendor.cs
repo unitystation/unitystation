@@ -18,18 +18,9 @@ public class Vendor : NBHandApplyInteractable
 	public bool EjectObjects = false;
 	public EjectDirection EjectDirection = EjectDirection.None;
 
-	//caching validations
-	private InteractionValidationChain<HandApply> validations;
-
-	private void Start()
-	{
-		validations = InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS);
-	}
-
 	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
-		return validations;
+		return CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS;
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)

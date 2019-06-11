@@ -20,7 +20,7 @@ public class HandApply : TargetedInteraction
 	/// <param name="handObject">Object in the player's active hand. Null if player's hand is empty.</param>
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="handSlot">active hand slot that is being used.</param>
-	private HandApply(GameObject performer, GameObject handObject, GameObject targetObject, HandSlot handSlot) :
+	protected HandApply(GameObject performer, GameObject handObject, GameObject targetObject, HandSlot handSlot) :
 		base(performer, handObject, targetObject)
 	{
 		this.handSlot = handSlot;

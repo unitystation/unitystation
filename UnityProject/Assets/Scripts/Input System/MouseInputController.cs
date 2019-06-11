@@ -331,44 +331,77 @@ public class MouseInputController : MonoBehaviour
 		if (!ctrlClick)
 		{
 			var handApplyTargets =
-				MouseUtils.GetOrderedObjectsUnderMouse(layerMask, go => go.GetComponent<RegisterTile>() != null)
-					//get the root gameobject of the clicked-on sprite renderer
-					.Select(sr => sr.GetComponentInParent<RegisterTile>().gameObject)
-					//only want distinct game objects even if we hit multiple renderers on one object.
-					.Distinct();
-			//object in hand
-			var handObj = UIManager.Hands.CurrentSlot.Item;
-			var handSlotName = UIManager.Hands.CurrentSlot.eventName;
+				MouseUtils.GetOrderedObjectsUnderMouse(layerMask);
 
 			//go through the stack of objects and call any interaction components we find
 			foreach (GameObject applyTarget in handApplyTargets)
 			{
-				HandApply info = HandApply.ByLocalPlayer(applyTarget.gameObject);
-				//call the used object's handapply interaction methods if it has any, for each object we are applying to
-				//if handobj is null, then its an empty hand apply so we only need to check the receiving object
-				if (handObj != null)
-				{
-					foreach (IInteractable<HandApply> handApply in handObj.GetComponents<IInteractable<HandApply>>())
-					{
-						var result = handApply.Interact(info);
-						if (result.StopProcessing)
-						{
-							//we're done checking, something happened
-							return true;
-						}
-					}
-				}
+				//check for positionalHandApply first since it is more specific
+				PositionalHandApply interaction = PositionalHandApply.ByLocalPlayer(applyTarget.gameObject);
+				if (CheckPositionalHandApply(interaction)) return true;
+				if (CheckHandApply(interaction)) return true;
+			}
+		}
 
-				//call the hand apply interaction methods on the target object if it has any
-				foreach (IInteractable<HandApply> handApply in applyTarget.GetComponents<IInteractable<HandApply>>())
+		return false;
+	}
+
+	private bool CheckPositionalHandApply(PositionalHandApply interaction)
+	{
+		//call the used object's handapply interaction methods if it has any, for each object we are applying to
+        //if handobj is null, then its an empty hand apply so we only need to check the receiving object
+        if (interaction.UsedObject != null)
+        {
+        	foreach (IInteractable<PositionalHandApply> handApply in interaction.UsedObject.GetComponents<IInteractable<PositionalHandApply>>())
+        	{
+        		var result = handApply.Interact(interaction);
+        		if (result.StopProcessing)
+        		{
+        			//we're done checking, something happened
+        			return true;
+        		}
+        	}
+        }
+
+        //call the hand apply interaction methods on the target object if it has any
+        foreach (IInteractable<PositionalHandApply> handApply in interaction.TargetObject.GetComponents<IInteractable<PositionalHandApply>>())
+        {
+        	var result = handApply.Interact(interaction);
+        	if (result.StopProcessing)
+        	{
+        		//something happened, done checking
+        		return true;
+        	}
+        }
+
+        return false;
+	}
+
+	private bool CheckHandApply(HandApply interaction)
+	{
+		//call the used object's handapply interaction methods if it has any, for each object we are applying to
+		//if handobj is null, then its an empty hand apply so we only need to check the receiving object
+		if (interaction.UsedObject != null)
+		{
+			foreach (IInteractable<HandApply> handApply in interaction.UsedObject.GetComponents<IInteractable<HandApply>>())
+			{
+				var result = handApply.Interact(interaction);
+				if (result.StopProcessing)
 				{
-					var result = handApply.Interact(info);
-					if (result.StopProcessing)
-					{
-						//something happened, done checking
-						return true;
-					}
+					//we're done checking, something happened
+					return true;
 				}
+			}
+		}
+
+		//call the hand apply interaction methods on the target object if it has any
+		foreach (IInteractable<HandApply> handApply in interaction.TargetObject.GetComponents<IInteractable<HandApply>>())
+		{
+			var result = handApply.Interact(interaction);
+			if (result.StopProcessing)
+			{
+				//something happened, done checking
+				return true;
 			}
 		}
 
@@ -461,10 +494,6 @@ public class MouseInputController : MonoBehaviour
 			MouseUtils.GetOrderedObjectsUnderMouse(layerMask, go =>
 					go.GetComponent<MouseDraggable>() != null &&
 					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayer))
-				//get the root gameobject of the draggable
-				.Select(sr => sr.GetComponentInParent<MouseDraggable>().gameObject)
-				//only want distinct game objects even if we hit multiple renderers on one object.
-				.Distinct()
 				.FirstOrDefault();
 		if (draggable != null)
 		{

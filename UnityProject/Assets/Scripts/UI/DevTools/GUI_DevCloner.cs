@@ -125,8 +125,7 @@ public class GUI_DevCloner : MonoBehaviour
 			{
 				//NOTE: Avoiding multiple enumeration by converting IEnumerables to lists.
 				var hitGOs = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
-					go => go.GetComponent<CustomNetTransform>() != null)
-					.Select(r => r.GetComponentInParent<CustomNetTransform>().gameObject).ToList();
+					go => go.GetComponent<CustomNetTransform>() != null).ToList();
 				//warn about objects which cannot be cloned
 				var nonPooledHits = hitGOs
 					.Where(go => PoolManager.DeterminePrefab(go) == null).ToList();

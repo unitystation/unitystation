@@ -98,11 +98,7 @@ public class MouseDraggable : MonoBehaviour
 		//check what we dropped on, which may or may not have mousedrop interaction components
 		//can only drop on things that have a RegisterTile
 		var dropTargets =
-			MouseUtils.GetOrderedObjectsUnderMouse(dropLayers, go => go.GetComponent<RegisterTile>() != null)
-				//get the root gameobject of the dropped-on sprite renderer
-				.Select(sr => sr.GetComponentInParent<RegisterTile>().gameObject)
-				//only want distinct game objects even if we hit multiple renderers on one object.
-				.Distinct();
+			MouseUtils.GetOrderedObjectsUnderMouse(dropLayers);
 
 		//go through the stack of objects and call any drop components we find
 		foreach (GameObject dropTarget in dropTargets)

@@ -64,5 +64,6 @@ internal enum MessageTypes : short
 	RequestHandApplyMessage = 2019,
 	RequestAimApplyMessage = 2020,
 	RequestActivateMessage = 2021,
-	RequestInventoryApplyMessage = 2022
+	RequestInventoryApplyMessage = 2022,
+	RequestPositionalHandApplyMessage = 2023
 }

@@ -5,26 +5,20 @@ using System.Collections.Generic;
 /// <summary>
 /// Represents a sequence of IInteractionValidators to use to validate an interaction.
 ///
-/// This is NOT immutable, but it supports method chaining.
+/// Immutable, to encourage re-use / sharing to avoid consuming lots of memory with lots of validators.
 /// </summary>
 public class InteractionValidationChain<T>
 	where T : Interaction
 {
-	public static readonly InteractionValidationChain<T> EMPTY = new InteractionValidationChain<T>(null);
+	public static readonly InteractionValidationChain<T> EMPTY = new InteractionValidationChain<T>(null, null);
 
-	private IList<IInteractionValidator<T>> validations;
+	private readonly IInteractionValidator<T> validation;
+	private readonly InteractionValidationChain<T> previous;
 
-	/// <summary>
-	/// Validation chain which performs the specified sequence of validations.
-	/// </summary>
-	/// <param name="validations">Sequence of validations to perform</param>
-	public InteractionValidationChain(IList<IInteractionValidator<T>> validations)
+	private InteractionValidationChain(IInteractionValidator<T> validation, InteractionValidationChain<T> previous)
 	{
-		this.validations = validations;
-		if (this.validations == null)
-		{
-			this.validations = new List<IInteractionValidator<T>>();
-		}
+		this.validation = validation;
+		this.previous = previous;
 	}
 
 	/// <summary>
@@ -36,13 +30,18 @@ public class InteractionValidationChain<T>
 	/// <returns>result of validation</returns>
 	public ValidationResult Validate(T interaction, NetworkSide networkSide)
 	{
-		foreach (var validator in validations)
+		//DFS so we don't blow up the stack
+		var curChain = this;
+		do
 		{
-			if (validator.Validate(interaction, networkSide) == ValidationResult.FAIL)
+			if (curChain.validation != null && curChain.validation.Validate(interaction, networkSide) == ValidationResult.FAIL)
 			{
 				return ValidationResult.FAIL;
 			}
+
+			curChain = curChain.previous;
 		}
+		while (curChain != null);
 
 		return ValidationResult.SUCCESS;
 	}
@@ -66,7 +65,7 @@ public class InteractionValidationChain<T>
 	/// <returns></returns>
 	public static InteractionValidationChain<T> Create()
 	{
-		return new InteractionValidationChain<T>(null);
+		return EMPTY;
 	}
 
 	/// <summary>
@@ -75,19 +74,7 @@ public class InteractionValidationChain<T>
 	/// <returns></returns>
 	public static InteractionValidationChain<T> Create(IInteractionValidator<T> toAdd)
 	{
-		return new InteractionValidationChain<T>(new List<IInteractionValidator<T>>()
-		{
-			toAdd
-		});
-	}
-
-	/// <summary>
-	/// Create a validation chain which performs the specified sequence of validations.
-	/// </summary>
-	/// <param name="validations">Sequence of validations to perform</param>
-	public static InteractionValidationChain<T> Create(IList<IInteractionValidator<T>> validations)
-	{
-		return new InteractionValidationChain<T>(validations);
+		return new InteractionValidationChain<T>(toAdd, null);
 	}
 
 	/// <summary>
@@ -104,8 +91,8 @@ public class InteractionValidationChain<T>
 		{
 			toAdd = new OnFailValidator<T>(toAdd, onFail);
 		}
-		validations.Add(toAdd);
-		return this;
+
+		return new InteractionValidationChain<T>(toAdd, this);
 	}
 }
 

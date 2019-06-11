@@ -8,8 +8,10 @@ using UnityEngine.Networking;
 ///
 /// Also works for AimApply, but reach range is always UNLIMITED.
 ///
+/// For PositionalHandApply, reach range is based on how far away they are clicking from themselves
+///
 /// </summary>
-public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<MouseDrop>,
+public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<PositionalHandApply>, IInteractionValidator<MouseDrop>,
 	IInteractionValidator<AimApply>
 {
 	public static readonly CanApply EVEN_IF_SOFT_CRIT = new CanApply(true, ReachRange.STANDARD);
@@ -35,14 +37,19 @@ public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<
 		return this;
 	}
 
-	private ValidationResult ValidateAll(TargetedInteraction toValidate, NetworkSide side)
+	private ValidationResult ValidateAll(TargetedInteraction toValidate, NetworkSide side, Vector2? targetVector = null)
 	{
-		return Validate(toValidate.Performer, toValidate.TargetObject, allowSoftCrit, side, reachRange);
+		return Validate(toValidate.Performer, toValidate.TargetObject, allowSoftCrit, side, reachRange, targetVector);
 	}
 
 	public ValidationResult Validate(HandApply toValidate, NetworkSide side)
 	{
 		return ValidateAll(toValidate, side);
+	}
+
+	public ValidationResult Validate(PositionalHandApply toValidate, NetworkSide side)
+	{
+		return ValidateAll(toValidate, side, toValidate.TargetVector);
 	}
 
 	public ValidationResult Validate(MouseDrop toValidate, NetworkSide side)
@@ -63,9 +70,11 @@ public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<
 	/// <param name="allowSoftCrit">whether to allow soft crit</param>
 	/// <param name="networkSide">whether client or server-side logic should be used</param>
 	/// <param name="reachRange">range of reach to allow</param>
+	/// <param name="targetVector">target vector pointing from performer to the position they are trying to click,
+	/// if specified will use this to determine if in range rather than target object position.</param>
 	/// <returns></returns>
 	public static ValidationResult Validate(GameObject player, GameObject target, bool allowSoftCrit, NetworkSide networkSide,
-		ReachRange reachRange = ReachRange.STANDARD)
+		ReachRange reachRange = ReachRange.STANDARD, Vector2? targetVector = null)
 	{
 		var playerScript = player.GetComponent<PlayerScript>();
 
@@ -75,13 +84,15 @@ public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<
 		}
 
 		var result = ValidationResult.FAIL;
+		var targetWorldPosition =
+			targetVector != null ? player.transform.position + targetVector : target.transform.position;
 		switch (reachRange)
 		{
 			case ReachRange.UNLIMITED:
 				result = ValidationResult.SUCCESS;
 				break;
 			case ReachRange.STANDARD:
-				result = playerScript.IsInReach(target.transform.position, networkSide == NetworkSide.SERVER)
+				result = playerScript.IsInReach((Vector3) targetWorldPosition, networkSide == NetworkSide.SERVER)
 					? ValidationResult.SUCCESS : ValidationResult.FAIL;
 				break;
 			case ReachRange.EXTENDED_SERVER:
