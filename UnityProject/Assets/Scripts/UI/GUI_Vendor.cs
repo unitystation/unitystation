@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GUI_Vendor : NetTab
 {
@@ -18,13 +20,19 @@ public class GUI_Vendor : NetTab
 
 	private VendorTrigger vendor;
 	private List<VendorItem> vendorContent = new List<VendorItem>();
+	[SerializeField]
 	private EmptyItemList itemList;
 
-	protected override void InitServer()
+	private void Start()
 	{
 		vendor = Provider.GetComponent<VendorTrigger>();
 		vendorContent = vendor.VendorContent;
 		GenerateList();
+	}
+
+	protected override void InitServer()
+	{
+		
 	}
 
 	private void GenerateList()
@@ -34,12 +42,11 @@ public class GUI_Vendor : NetTab
 		for (int i = 0; i < vendorContent.Count; i++)
 		{
 			VendorItemEntry item = itemList.Entries[i] as VendorItemEntry;
-			//item.Order = vendorContent[i];
-			item.gameObject.SetActive(true);
+			item.SetItem(vendorContent[i], this);
 		}
 	}
 
-	private void SpawnItem(VendorItem item)
+	public void VendItem(VendorItem item)
 	{
 		if (CanSell() == false)
 			return;
@@ -77,7 +84,7 @@ public class GUI_Vendor : NetTab
 		StartCoroutine(VendorInputCoolDown());
 	}
 
-	public bool CanSell()
+	private bool CanSell()
 	{
 		if (!allowSell && deniedMessage != null && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
 		{
