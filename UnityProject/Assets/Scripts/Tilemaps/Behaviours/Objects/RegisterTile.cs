@@ -121,6 +121,12 @@ public abstract class RegisterTile : NetworkBehaviour
 	// is invoked.
 	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
 
+	/// <summary>
+	/// Returns the correct client/server version of world position depending on if this is
+	/// called on client or server.
+	/// </summary>
+	public Vector3Int WorldPosition => isServer ? WorldPositionServer : WorldPositionClient;
+
 	public Vector3Int WorldPositionServer => MatrixManager.Instance.LocalToWorldInt(serverPosition, Matrix);
 	public Vector3Int WorldPositionClient => MatrixManager.Instance.LocalToWorldInt(clientPosition, Matrix);
 
