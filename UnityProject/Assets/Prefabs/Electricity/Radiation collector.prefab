@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8275105296698566321}
   - component: {fileID: 4896273805710721720}
   - component: {fileID: 672904832946805518}
-  - component: {fileID: 789212836123974602}
+  - component: {fileID: 7344875649816476101}
   m_Layer: 11
   m_Name: Radiation collector
   m_TagString: Untagged
@@ -176,13 +176,6 @@ MonoBehaviour:
   WireEndB: 8
   WireEndA: 9
   Data:
-    FirstPresent: 0
-    ActualCurrentChargeInWire:
-      Voltage: 0
-      Current: 0
-      EstimatedResistant: 0
-    UpstreamCount: 0
-    DownstreamCount: 0
     CurrentInWire: 0
     ActualVoltage: 0
     EstimatedResistance: 0
@@ -247,7 +240,7 @@ MonoBehaviour:
   PreviousSupplyingVoltage: 760000
   PreviousInternalResistance: 76000
   InternalResistance: 76000
---- !u!114 &789212836123974602
+--- !u!114 &7344875649816476101
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,11 +249,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f4b0b61a502b4a4a97470aa5e50fcd1, type: 3}
+  m_Script: {fileID: 11500000, guid: 6415106dad0ebcd43b2704093600f0c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ElectricalNodeControl: {fileID: 4896273805710721720}
   isOn: 0
+  ElectricalNodeControl: {fileID: 4896273805710721720}
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

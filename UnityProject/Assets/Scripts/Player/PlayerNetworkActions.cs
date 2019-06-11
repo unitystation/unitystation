@@ -574,7 +574,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
-			ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
+			ShutterSwitch s = switchObj.GetComponent<ShutterSwitch>();
 			if (s.IsClosed)
 			{
 				s.IsClosed = false;

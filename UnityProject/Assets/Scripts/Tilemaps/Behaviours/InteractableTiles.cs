@@ -17,7 +17,7 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 
 	private Tilemap grillTileMap;
 
-	//cache validation
+	//cache validation to reduce gc - can be static since there is no state-dependent validation
 	private static InteractionValidationChain<PositionalHandApply> validations;
 
 	void Start()

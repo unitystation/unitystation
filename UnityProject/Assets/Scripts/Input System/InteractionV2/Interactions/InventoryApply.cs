@@ -6,7 +6,6 @@ using UnityEngine;
 ///
 /// Like HandApply, but targeting something in the inventory rather than in the world.
 /// Triggers when clicking an item in the inventory when the active hand has an item.
-/// by clicking the item while another item is in the active hand.
 /// </summary>
 public class InventoryApply : TargetedInteraction
 {

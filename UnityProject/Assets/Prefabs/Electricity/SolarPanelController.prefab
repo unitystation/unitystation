@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3451459747492305769}
   - component: {fileID: 7228791764891142202}
   - component: {fileID: 7947394244290333764}
-  - component: {fileID: 3019153325807225697}
+  - component: {fileID: 7473882610070268955}
   m_Layer: 11
   m_Name: SolarPanelController
   m_TagString: Untagged
@@ -177,13 +177,6 @@ MonoBehaviour:
   WireEndB: 9
   WireEndA: 8
   Data:
-    FirstPresent: 0
-    ActualCurrentChargeInWire:
-      Voltage: 0
-      Current: 0
-      EstimatedResistant: 0
-    UpstreamCount: 0
-    DownstreamCount: 0
     CurrentInWire: 0
     ActualVoltage: 0
     EstimatedResistance: 0
@@ -200,7 +193,7 @@ MonoBehaviour:
     ElectricityOverride: 0
   registerTile: {fileID: 0}
   connected: 0
-  RelatedDevice: {fileID: 0}
+  Logall: 0
   registerTile3: {fileID: 114038174743996046}
 --- !u!114 &3451459747492305769
 MonoBehaviour:
@@ -222,39 +215,21 @@ MonoBehaviour:
   - ConnectingDevice: 4
     DirectionReaction: 0
     ResistanceReaction: 1
-    ElectricalReaction: 0
-    RelatedComingFrom: {fileID: 0}
     DirectionReactionA:
-      AddResistanceCall:
-        Ohms: 0
-        ResistanceAvailable: 0
       YouShallNotPass: 1
     ResistanceReactionA:
       Resistance:
         Ohms: 1e+10
         ResistanceAvailable: 1
-      YouShallNotPass: 1
-    ElectricalReactionA:
-      Current: 0
-      YouShallNotPass: 0
   - ConnectingDevice: 8
     DirectionReaction: 0
     ResistanceReaction: 1
-    ElectricalReaction: 0
-    RelatedComingFrom: {fileID: 0}
     DirectionReactionA:
-      AddResistanceCall:
-        Ohms: 0
-        ResistanceAvailable: 0
       YouShallNotPass: 1
     ResistanceReactionA:
       Resistance:
         Ohms: 1e+10
         ResistanceAvailable: 1
-      YouShallNotPass: 1
-    ElectricalReactionA:
-      Current: 0
-      YouShallNotPass: 0
 --- !u!114 &7228791764891142202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,25 +247,18 @@ MonoBehaviour:
   resistance:
     Ohms: 0
     ResistanceAvailable: 1
+  EditorResistance: 0
+  NotEditorResistanceset: 1
   ReactionTo:
     ConnectingDevice: 8
     DirectionReaction: 0
     ResistanceReaction: 1
-    ElectricalReaction: 0
-    RelatedComingFrom: {fileID: 0}
     DirectionReactionA:
-      AddResistanceCall:
-        Ohms: 0
-        ResistanceAvailable: 1
       YouShallNotPass: 1
     ResistanceReactionA:
       Resistance:
         Ohms: 0
         ResistanceAvailable: 1
-      YouShallNotPass: 1
-    ElectricalReactionA:
-      Current: 0
-      YouShallNotPass: 0
 --- !u!114 &7947394244290333764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,15 +294,17 @@ MonoBehaviour:
   Cansupport: 1
   ToggleCanCharge: 1
   ToggleCansupport: 1
+  SlowResponse: 0
   PullLastDeductedTime: 0
   ChargLastDeductedTime: 0
   PullingWatts: 0
   ChargingWatts: 0
   CircuitResistance: 0
-  ActualVoltage: 0
+  VoltageAtChargePort: 0
+  VoltageAtSupplyPort: 0
   isOnForInterface: 0
   ResistanceSourceModule: {fileID: 7228791764891142202}
---- !u!114 &3019153325807225697
+--- !u!114 &7473882610070268955
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -343,7 +313,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97127cc9855842848ae6fca39f53e91e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6415106dad0ebcd43b2704093600f0c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isOn: 0

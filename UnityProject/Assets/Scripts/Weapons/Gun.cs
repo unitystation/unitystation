@@ -114,18 +114,8 @@ public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractabl
 	/// </summary>
 	private System.Random magSyncedRNG;
 
-	//caching the interaction validation chain to reduce GC
-	private InteractionValidationChain<AimApply> validationChain;
-
-
-
 	private void Start()
 	{
-		validationChain =
-			InteractionValidationChain<AimApply>.Create()
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-			.WithValidation(new FunctionValidator<AimApply>(ValidateShoot));
-
 		//init weapon with missing settings
 		if (AmmoType == null)
 		{
@@ -187,7 +177,9 @@ public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractabl
 
 	protected override InteractionValidationChain<AimApply> InteractionValidationChain()
 	{
-		return validationChain;
+		return InteractionValidationChain<AimApply>.Create()
+			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
+			.WithValidation(new FunctionValidator<AimApply>(ValidateShoot));
 	}
 
 	protected override void ClientPredictInteraction(AimApply interaction)

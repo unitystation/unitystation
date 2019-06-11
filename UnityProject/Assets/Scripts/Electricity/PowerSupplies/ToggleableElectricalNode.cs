@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SolarPanel : InputTrigger, INodeControl
+/// <summary>
+/// Allows this object to toggle its electrical node when clicked - turning the supply on or off.
+/// </summary>
+public class ToggleableElectricalNode : NBHandApplyInteractable, INodeControl
 {
   	[SyncVar(hook = "UpdateState")]
 	public bool isOn = false;
 	public ElectricalNodeControl ElectricalNodeControl;
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
-		if (!isServer)
-		{
-			InteractMessage.Send(gameObject, hand);
-		}
-		else
-		{
-			isOn = !isOn;
-			UpdateServerState(isOn);
-		}
-		return true;
+		return CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS;
 	}
+
+	protected override void ServerPerformInteraction(HandApply interaction)
+	{
+		isOn = !isOn;
+		UpdateServerState(isOn);
+	}
+
 	public override void OnStartServer()
 	{
 		base.OnStartServer();

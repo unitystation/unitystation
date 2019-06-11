@@ -18,8 +18,8 @@ public class NetworkTabManager : MonoBehaviour {
 		}
 	}
 	private readonly Dictionary<NetTabDescriptor, NetTab> openTabs = new Dictionary<NetTabDescriptor, NetTab>();
-	
-	public List<ConnectedPlayer> GetPeepers(GameObject provider, NetTabType type) 
+
+	public List<ConnectedPlayer> GetPeepers(GameObject provider, NetTabType type)
 	{
 		var descriptor = Tab( provider, type );
 		if ( !openTabs.ContainsKey( descriptor ) ) {
@@ -61,12 +61,12 @@ public class NetworkTabManager : MonoBehaviour {
 	}
 
 	///Create new NetworkTabInfo if it doesn't exist, otherwise add player to it
-	public void Add( NetTabDescriptor tabDescriptor, GameObject player ) 
+	public void Add( NetTabDescriptor tabDescriptor, GameObject player )
 	{
 		if ( tabDescriptor.Equals( NetTabDescriptor.Invalid ) ) {
 			return;
 		}
-		
+
 		if ( !openTabs.ContainsKey( tabDescriptor ) ) {
 			//Spawning new one
 			openTabs.Add( tabDescriptor, tabDescriptor.Spawn(transform) );
@@ -107,11 +107,12 @@ public class NetworkTabManager : MonoBehaviour {
 
 public struct NetTabDescriptor {
 	public static readonly NetTabDescriptor Invalid = new NetTabDescriptor(null, NetTabType.None);
-	private readonly InputTrigger provider;
+	private readonly GameObject provider;
 	private readonly NetTabType type;
 
-	public NetTabDescriptor( GameObject provider, NetTabType type ) {
-		this.provider = provider != null ? provider.GetComponent<InputTrigger>() : null;
+	public NetTabDescriptor( GameObject provider, NetTabType type )
+	{
+		this.provider = provider;
 		this.type = type;
 		if ( type == NetTabType.None && this.provider != null ) {
 			Logger.LogError( "You forgot to set a proper NetTabType in your new tab!\n" +

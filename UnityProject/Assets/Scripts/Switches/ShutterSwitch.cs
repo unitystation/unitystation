@@ -2,11 +2,17 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class ShutterSwitchTrigger : InputTrigger
+/// <summary>
+/// Component which enables the object to function as a shutter switch, opening / closing shutters it is
+/// connected with (via TriggeringObjects)
+/// </summary>
+public class ShutterSwitch : NetworkBehaviour, IInteractable<HandApply>
 {
 	private Animator animator;
 
 	[SyncVar(hook = "SyncShutters")] public bool IsClosed;
+
+	[Tooltip("Shutters this switch controls.")]
 	public ObjectTrigger[] TriggeringObjects;
 
 	private void Start()
@@ -29,12 +35,11 @@ public class ShutterSwitchTrigger : InputTrigger
 		SyncShutters(IsClosed);
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	public InteractionControl Interact(HandApply interaction)
 	{
-		if (!PlayerManager.LocalPlayerScript.IsInReach(transform.position, false, 1.5f) ||
-		    PlayerManager.LocalPlayerScript.IsGhost)
+		if (!CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS.DoesValidate(interaction, NetworkSide.CLIENT))
 		{
-			return true;
+			return InteractionControl.CONTINUE_PROCESSING;
 		}
 
 		//if the button is idle and not animating it can be pressed
@@ -42,13 +47,16 @@ public class ShutterSwitchTrigger : InputTrigger
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
 		{
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleShutters(gameObject);
+			return InteractionControl.STOP_PROCESSING;
+
 		}
 		else
 		{
 			Logger.Log("DOOR NOT FINISHED CLOSING YET!", Category.Shutters);
 		}
 
-		return true;
+		return InteractionControl.CONTINUE_PROCESSING;
+
 	}
 
 	private void SyncShutters(bool isClosed)
@@ -64,4 +72,6 @@ public class ShutterSwitchTrigger : InputTrigger
 			}
 		}
 	}
+
+
 }

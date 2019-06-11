@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-public class PowerGenerator : InputTrigger, INodeControl
+public class PowerGenerator : NBHandApplyInteractable, INodeControl
 {
 	public ObjectBehaviour objectBehaviour;
 	[SyncVar(hook = "UpdateSecured")]
@@ -165,45 +165,38 @@ public class PowerGenerator : InputTrigger, INodeControl
 		}
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
-		if (!CanUse(originator, hand, position, false))
-		{
-			return false;
-		}
-		if (!isServer)
-		{
-			InteractMessage.Send(gameObject, hand);
-		}
-		else
-		{
-			var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
-			var tool = slot.Item?.GetComponent<Tool>();
-			if (tool != null && tool.ToolType == ToolType.Wrench)
-			{
-				UpdateSecured(!isSecured);
-				if (!isSecured && isOn)
-				{
-					isOn = !isOn;
-					UpdateServerState(isOn);
-				}
-				return true;
-			}
-
-			var solidPlasma = slot.Item?.GetComponent<SolidPlasma>();
-			if (solidPlasma != null)
-			{
-				plasmaFuel.Add(solidPlasma);
-				InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
-				return true;
-			}
-
-			if (isSecured)
-			{
-				UpdateServerState(!isOn);
-			}
-		}
-
-		return true;
+		return CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS;
 	}
+
+	protected override void ServerPerformInteraction(HandApply interaction)
+	{
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
+		var tool = slot.Item?.GetComponent<Tool>();
+		if (tool != null && tool.ToolType == ToolType.Wrench)
+		{
+			UpdateSecured(!isSecured);
+			if (!isSecured && isOn)
+			{
+				isOn = !isOn;
+				UpdateServerState(isOn);
+			}
+			return;
+		}
+
+		var solidPlasma = slot.Item?.GetComponent<SolidPlasma>();
+		if (solidPlasma != null)
+		{
+			plasmaFuel.Add(solidPlasma);
+			InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
+			return;
+		}
+
+		if (isSecured)
+		{
+			UpdateServerState(!isOn);
+		}
+	}
+
 }
