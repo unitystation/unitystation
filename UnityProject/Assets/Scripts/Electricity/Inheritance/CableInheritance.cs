@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CableInheritance : InputTrigger, IDeviceControl
+public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceControl
 {
 	public bool SelfDestruct = false;
 	public WiringColor CableType;
@@ -23,41 +23,34 @@ public class CableInheritance : InputTrigger, IDeviceControl
 	public float DestructionPriority;
 	public bool CanOverCurrent = true;
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	protected override InteractionValidationChain<PositionalHandApply> InteractionValidationChain()
 	{
-		if (!CanUse(originator, hand, position, false))
+		return InteractionValidationChain<PositionalHandApply>.Create()
+			.WithValidation(IsToolUsed.OfType(ToolType.Wirecutter) as IInteractionValidator<PositionalHandApply>)
+			.WithValidation(TargetIs.GameObject(gameObject))
+			.WithValidation(CanApply.ONLY_IF_CONSCIOUS);
+	}
+
+	protected override void ServerPerformInteraction(PositionalHandApply interaction)
+	{
+		//wirecutters can be used to cut this cable
+		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
+		MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
+		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
+		if (matrix.Matrix != null)
 		{
-			return false;
-		}
-		if (!isServer)
-		{
-			InteractMessage.Send(gameObject, hand);
+			if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
+			{
+				return;
+			}
 		}
 		else {
-			position.z = 0f;
-			position = position.RoundToInt();
-			var worldPosInt = position.CutToInt();
-			MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
-			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
-			if (matrix.Matrix != null)
-			{
-				if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
-				{
-					return (false);
-				}
-			}
-			else {
-				return (false);
-			}
-			var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
-			var tool = slot.Item != null ? slot.Item.GetComponentInChildren<Tool>() : null;
-			if (tool != null && tool.ToolType == ToolType.Wirecutter)
-			{
-				toDestroy();
-			}
+			return;
 		}
-		return true;
+
+		toDestroy();
 	}
+
 	public void PotentialDestroyed()
 	{
 		if (SelfDestruct)
@@ -209,7 +202,6 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		ElectricalSynchronisation.NUCableStructureChange.Add(this);
 		SetDirection(WireEndB, WireEndA, CableType);
 	}
-
 
 	public void FindOverlapsAndCombine()
 	{

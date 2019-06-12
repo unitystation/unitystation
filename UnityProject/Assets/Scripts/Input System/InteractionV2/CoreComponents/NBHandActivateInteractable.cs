@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Version of Interactable which supports Activate and extends NetworkBehavior rather than MonoBehavior
+/// Version of Interactable which supports Hand Activate and extends NetworkBehavior rather than MonoBehavior
 /// </summary>
-public abstract class NBActivateInteractable
-	: NetworkBehaviour, IInteractable<Activate>, IInteractionProcessor<Activate>
+public abstract class NBHandActivateInteractable
+	: NetworkBehaviour, IInteractable<HandActivate>, IInteractionProcessor<HandActivate>
 {
 	//we delegate our interaction logic to this.
-	private InteractionCoordinator<Activate> coordinator;
+	private InteractionCoordinator<HandActivate> coordinator;
 
 	protected void Start()
 	{
@@ -21,7 +21,7 @@ public abstract class NBActivateInteractable
 	{
 		if (coordinator == null)
 		{
-			coordinator = new InteractionCoordinator<Activate>(this, InteractionValidationChain(), ServerPerformInteraction);
+			coordinator = new InteractionCoordinator<HandActivate>(this, InteractionValidationChain(), ServerPerformInteraction);
 		}
 	}
 
@@ -29,14 +29,14 @@ public abstract class NBActivateInteractable
 	/// Return the validators that should be used for this interaction for client/server validation.
 	/// </summary>
 	/// <returns>List of interaction validators to use for this interaction.</returns>
-	protected abstract InteractionValidationChain<Activate> InteractionValidationChain();
+	protected abstract InteractionValidationChain<HandActivate> InteractionValidationChain();
 
 	/// <summary>
 	/// Server-side. Called after validation succeeds on server side.
 	/// Server should perform the interaction and inform clients as needed.
 	/// </summary>
 	/// <param name="interaction"></param>
-	protected abstract void ServerPerformInteraction(Activate interaction);
+	protected abstract void ServerPerformInteraction(HandActivate interaction);
 
 	/// <summary>
 	/// Client-side prediction. Called after validation succeeds on client side.
@@ -44,21 +44,21 @@ public abstract class NBActivateInteractable
 	/// for prediction.
 	/// </summary>
 	/// <param name="interaction"></param>
-	protected virtual void ClientPredictInteraction(Activate interaction) { }
+	protected virtual void ClientPredictInteraction(HandActivate interaction) { }
 
 	/// <summary>
 	/// Called on the server if server validation fails. Server can use this to inform client they should rollback any predictions they made.
 	/// </summary>
 	/// <param name="interaction"></param>
-	protected virtual void OnServerInteractionValidationFail(Activate interaction) { }
+	protected virtual void OnServerInteractionValidationFail(HandActivate interaction) { }
 
-	public InteractionControl Interact(Activate info)
+	public InteractionControl Interact(HandActivate info)
 	{
 		EnsureCoordinatorInit();
 		return InteractionComponentUtils.CoordinatedInteract(info, coordinator, ClientPredictInteraction);
 	}
 
-	public InteractionControl ServerProcessInteraction(Activate info)
+	public InteractionControl ServerProcessInteraction(HandActivate info)
 	{
 		EnsureCoordinatorInit();
 		return InteractionComponentUtils.ServerProcessCoordinatedInteraction(info, coordinator, OnServerInteractionValidationFail);

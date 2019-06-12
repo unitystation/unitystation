@@ -66,7 +66,7 @@ public class ClosetPlayerHandler : MonoBehaviour
 				if (!closetControl.IsLocked)
 				{
 					//TODO: This should probably be done in the main inputcontroller rather than in Update
-					closetControl.Interact(gameObject, "lefthand");
+					closetControl.Interact(HandApply.ByLocalPlayer(closetControl.gameObject));
 				}
 			}
 			//take the player with the closet so they can interact with it

@@ -63,7 +63,7 @@ internal enum MessageTypes : short
 	RequestMouseDropMessage = 2018,
 	RequestHandApplyMessage = 2019,
 	RequestAimApplyMessage = 2020,
-	RequestActivateMessage = 2021,
+	RequestHandActivateMessage = 2021,
 	RequestInventoryApplyMessage = 2022,
 	RequestPositionalHandApplyMessage = 2023
 }

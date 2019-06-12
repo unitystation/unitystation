@@ -4,8 +4,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System;
 
+/// <summary>
+/// Main component for light switch
+/// </summary>
 [ExecuteInEditMode]
-public class LightSwitchTrigger : InputTrigger
+public class LightSwitch : NetworkBehaviour, IInteractable<HandApply>
 {
 
 	public enum States
@@ -57,7 +60,7 @@ public class LightSwitchTrigger : InputTrigger
 			if (!SelfPowered && RelatedAPC == null)
 			{
 				Logger.LogError("Lightswitch is missing APC reference, at " + transform.position, Category.Electrical);
-				RelatedAPC.Current = 1; //so It will bring up an error, you can go to click on to go to the actual object with the missing reference 
+				RelatedAPC.Current = 1; //so It will bring up an error, you can go to click on to go to the actual object with the missing reference
 			}
 			return;
 		}
@@ -119,32 +122,34 @@ public class LightSwitchTrigger : InputTrigger
 		SyncLightSwitch(isOn);
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	public InteractionControl Interact(HandApply interaction)
 	{
-		if (!PlayerManager.LocalPlayerScript.IsInReach(position, false))
+
+		if (!CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS.DoesValidate(interaction, NetworkSide.CLIENT))
 		{
-			return true;
+			return InteractionControl.CONTINUE_PROCESSING;
 		}
+
 		if (!SelfPowered)
 		{
 			if (RelatedAPC == null)
 			{
-				return true;
+				return InteractionControl.CONTINUE_PROCESSING;
 			}
 			if (RelatedAPC.Voltage == 0f)
 			{
-				return true;
+				return InteractionControl.CONTINUE_PROCESSING;
 			}
 		}
 		if (switchCoolDown)
 		{
-			return true;
+			return InteractionControl.CONTINUE_PROCESSING;
 		}
 
 		StartCoroutine(CoolDown());
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
 
-		return true;
+		return InteractionControl.STOP_PROCESSING;
 	}
 
 	private IEnumerator CoolDown()
@@ -205,12 +210,12 @@ public class LightSwitchTrigger : InputTrigger
 			{
 				if (localObject.tag != "EmergencyLight")
 				{
-					LightSwitchData Send = new LightSwitchData() { state = state, LightSwitchTrigger = this, RelatedAPC = RelatedAPC };
+					LightSwitchData Send = new LightSwitchData() { state = state, LightSwitch = this, RelatedAPC = RelatedAPC };
 					localObject.SendMessage("Received", Send, SendMessageOptions.DontRequireReceiver);
 				}
 				if (RelatedAPC != null) //|| SelfPowered
 				{
-					LightSwitchData Send = new LightSwitchData() { LightSwitchTrigger = this, RelatedAPC = RelatedAPC, SelfPowered = SelfPowered };
+					LightSwitchData Send = new LightSwitchData() { LightSwitch = this, RelatedAPC = RelatedAPC, SelfPowered = SelfPowered };
 					localObject.SendMessage("EmergencyLight", Send, SendMessageOptions.DontRequireReceiver);
 				}
 			}
@@ -269,12 +274,14 @@ public class LightSwitchTrigger : InputTrigger
 		}
 		soundAllowed = true;
 	}
+
+
 }
 
 public class LightSwitchData
 {
 	public bool state;
-	public LightSwitchTrigger LightSwitchTrigger;
+	public LightSwitch LightSwitch;
 	public APC RelatedAPC;
 	public bool SelfPowered;
 }

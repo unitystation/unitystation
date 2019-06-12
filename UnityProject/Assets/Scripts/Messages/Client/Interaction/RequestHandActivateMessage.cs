@@ -14,9 +14,9 @@ using UnityEngine.Networking;
 /// client's choice. When the message is sent, they specify the gameobject and component that should
 /// process the request on the server side.
 /// </summary>
-public class RequestActivateMessage : ClientMessage
+public class RequestHandActivateMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestActivateMessage;
+	public static short MessageType = (short) MessageTypes.RequestHandActivateMessage;
 
 	//object that will process the interaction
 	public NetworkInstanceId ProcessorObject;
@@ -38,9 +38,9 @@ public class RequestActivateMessage : ClientMessage
 	private void ProcessActivate(GameObject activatedObject, GameObject processorObj, GameObject performerObj, HandSlot handSlot)
 	{
 		//try to look up the components on the processor that can handle this interaction
-		var processorComponents = InteractionMessageUtils.TryGetProcessors<Activate>(processorObj);
+		var processorComponents = InteractionMessageUtils.TryGetProcessors<HandActivate>(processorObj);
 		//invoke each component that can handle this interaction
-		var activate = Activate.ByClient(performerObj, activatedObject, handSlot);
+		var activate = HandActivate.ByClient(performerObj, activatedObject, handSlot);
 		foreach (var processorComponent in processorComponents)
 		{
 			if (processorComponent.ServerProcessInteraction(activate) ==
@@ -57,16 +57,16 @@ public class RequestActivateMessage : ClientMessage
 	///
 	/// Sends a request to the server to validate + perform the interaction.
 	/// </summary>
-	/// <param name="activate">info on the interaction being performed. Each object involved in the interaction
+	/// <param name="handActivate">info on the interaction being performed. Each object involved in the interaction
 	/// must have a networkidentity.</param>
 	/// <param name="processorObject">object who has a component implementing IInteractionProcessor<Activate> which
 	/// will process the interaction on the server-side. This object must have a NetworkIdentity and there must only be one instance
 	/// of this component on the object. For organization, we suggest that the component which is sending this message
 	/// should be on the processorObject, as such this parameter should almost always be passed using "this.gameObject", and
 	/// should almost always be either a component on the target object or a component on the used object</param>
-	public static void Send(Activate activate, GameObject processorObject)
+	public static void Send(HandActivate handActivate, GameObject processorObject)
 	{
-		var msg = new RequestActivateMessage
+		var msg = new RequestHandActivateMessage
 		{
 			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId
 		};

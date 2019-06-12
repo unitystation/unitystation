@@ -6,8 +6,9 @@ using UnityEngine;
 /// </summary>
 public class IsToolUsed :
 	IInteractionValidator<MouseDrop>,
+	IInteractionValidator<PositionalHandApply>,
 	IInteractionValidator<HandApply>,
-	IInteractionValidator<Activate>,
+	IInteractionValidator<HandActivate>,
 	IInteractionValidator<AimApply>,
 	IInteractionValidator<InventoryApply>
 {
@@ -45,7 +46,12 @@ public class IsToolUsed :
 		return ValidateAll(toValidate, side);
 	}
 
-	public ValidationResult Validate(Activate toValidate, NetworkSide side)
+	public ValidationResult Validate(PositionalHandApply toValidate, NetworkSide side)
+	{
+		return ValidateAll(toValidate, side);
+	}
+
+	public ValidationResult Validate(HandActivate toValidate, NetworkSide side)
 	{
 		return ValidateAll(toValidate, side);
 	}

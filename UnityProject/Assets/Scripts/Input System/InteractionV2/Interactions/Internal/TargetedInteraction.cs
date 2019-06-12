@@ -2,6 +2,7 @@
 using UnityEngine;
 
 /// <summary>
+/// Abstract, only used internally for IF2 - should not be used in interactable components.
 /// Represents an interaction that has a target upon which the interaction is performed.
 /// </summary>
 public abstract class TargetedInteraction: Interaction

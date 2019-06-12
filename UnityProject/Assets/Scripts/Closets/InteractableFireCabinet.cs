@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class FireCabinetTrigger : InputTrigger
+public class InteractableFireCabinet : NBHandApplyInteractable
 {
 	[SyncVar(hook = nameof(SyncCabinet))] public bool IsClosed;
 
@@ -51,26 +51,20 @@ public class FireCabinetTrigger : InputTrigger
 		SyncItemSprite(isFull);
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
-		if (!CanUse(originator, hand, position, false))
-		{
-			return false;
-		}
-		if (!isServer)
-		{
-			//ask server to perform the interaction
-			InteractMessage.Send(gameObject, position, hand);
-			return true;
-		}
+		return CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS
+			.WithValidation(TargetIs.GameObject(gameObject));
+	}
 
-		PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
-		GameObject handObj = pna.Inventory[hand].Item;
+	protected override void ServerPerformInteraction(HandApply interaction)
+	{
+		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
 
 		if (IsClosed)
 		{
-			if(isFull && !handObj){
-				RemoveExtinguisher(pna, hand);
+			if(isFull && interaction.UsedObject == null) {
+				RemoveExtinguisher(pna, interaction.HandSlot.SlotName);
 			}
 			IsClosed = false;
 		}
@@ -78,9 +72,9 @@ public class FireCabinetTrigger : InputTrigger
 		{
 			if (isFull)
 			{
-				if (handObj == null)
+				if (interaction.UsedObject == null)
 				{
-					RemoveExtinguisher(pna, hand);
+					RemoveExtinguisher(pna, interaction.HandSlot.SlotName);
 				}
 				else
 				{
@@ -89,9 +83,9 @@ public class FireCabinetTrigger : InputTrigger
 			}
 			else
 			{
-				if (handObj && handObj.GetComponent<FireExtinguisher>())
+				if (interaction.UsedObject && interaction.UsedObject.GetComponent<FireExtinguisher>())
 				{
-					AddExtinguisher(pna, hand, handObj);
+					AddExtinguisher(pna, interaction.HandSlot.SlotName, interaction.UsedObject);
 				}
 				else
 				{
@@ -99,7 +93,6 @@ public class FireCabinetTrigger : InputTrigger
 				}
 			}
 		}
-		return true;
 	}
 
 	private void RemoveExtinguisher(PlayerNetworkActions pna, string hand){

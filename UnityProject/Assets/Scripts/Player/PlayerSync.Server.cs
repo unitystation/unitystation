@@ -532,12 +532,12 @@ public partial class PlayerSync
 	private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 	{
 		// Make sure there is a door which can be interacted with
-		DoorTrigger door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);
+		InteractableDoor door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);
 
 		// Attempt to open door
 		if (door != null)
 		{
-			door.Interact(gameObject, TransformState.HiddenPos);
+			door.Bump(gameObject);
 		}
 	}
 

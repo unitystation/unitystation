@@ -7,6 +7,7 @@ using UnityEngine;
 public class DoesTargetObjectHaveComponent<T> :
 	IInteractionValidator<MouseDrop>,
 	IInteractionValidator<HandApply>,
+	IInteractionValidator<PositionalHandApply>,
 	IInteractionValidator<InventoryApply>
 	where T : Component
 {
@@ -33,6 +34,11 @@ public class DoesTargetObjectHaveComponent<T> :
 	}
 
 	public ValidationResult Validate(InventoryApply toValidate, NetworkSide side)
+	{
+		return ValidateAll(toValidate.TargetObject, side);
+	}
+
+	public ValidationResult Validate(PositionalHandApply toValidate, NetworkSide side)
 	{
 		return ValidateAll(toValidate.TargetObject, side);
 	}

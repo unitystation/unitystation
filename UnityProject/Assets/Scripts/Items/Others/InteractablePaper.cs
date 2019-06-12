@@ -7,18 +7,18 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(Paper))]
 [RequireComponent(typeof(Pickupable))]
-public class InteractablePaper : Interactable<Activate, InventoryApply>
+public class InteractablePaper : Interactable<HandActivate, InventoryApply>
 {
 	public NetTabType NetTabType;
 	public Paper paper;
 
-	protected override InteractionValidationChain<Activate> InteractionValidationChain()
+	protected override InteractionValidationChain<HandActivate> InteractionValidationChain()
 	{
 		//no validations for activate
-		return InteractionValidationChain<Activate>.EMPTY;
+		return InteractionValidationChain<HandActivate>.EMPTY;
 	}
 
-	protected override void ServerPerformInteraction(Activate interaction)
+	protected override void ServerPerformInteraction(HandActivate interaction)
 	{
 		//show the paper to the client
 		TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);

@@ -58,7 +58,7 @@ public class LightSource : ObjectTrigger
 	}
 
 	public APC RelatedAPC;
-	public LightSwitchTrigger RelatedLightSwitchTrigger;
+	public LightSwitch relatedLightSwitch;
 	public Color customColor; //Leave null if you want default light color.
 
 	// For network sync reliability.
@@ -113,11 +113,11 @@ public class LightSource : ObjectTrigger
 		{
 			return;
 		}
-		if (Received.LightSwitchTrigger == RelatedLightSwitchTrigger || RelatedLightSwitchTrigger == null)
+		if (Received.LightSwitch == relatedLightSwitch || relatedLightSwitch == null)
 		{
-			if (RelatedLightSwitchTrigger == null)
+			if (relatedLightSwitch == null)
 			{
-				RelatedLightSwitchTrigger = Received.LightSwitchTrigger;
+				relatedLightSwitch = Received.LightSwitch;
 			}
 			if (Received.RelatedAPC != null)
 			{
@@ -125,21 +125,21 @@ public class LightSource : ObjectTrigger
 				{
 					if (State == LightState.On)
 					{
-						if (!RelatedAPC.ConnectedSwitchesAndLights[RelatedLightSwitchTrigger].Contains(this))
+						if (!RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Contains(this))
 						{
-							RelatedAPC.ConnectedSwitchesAndLights[RelatedLightSwitchTrigger].Add(this);
+							RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Add(this);
 						}
 
 					}
 				}
 			}
-			else if (RelatedLightSwitchTrigger.SelfPowered)
+			else if (relatedLightSwitch.SelfPowered)
 			{
 				if (State == LightState.On)
 				{
-					if (!RelatedLightSwitchTrigger.SelfPowerLights.Contains(this))
+					if (!relatedLightSwitch.SelfPowerLights.Contains(this))
 					{
-						RelatedLightSwitchTrigger.SelfPowerLights.Add(this);
+						relatedLightSwitch.SelfPowerLights.Add(this);
 					}
 
 				}

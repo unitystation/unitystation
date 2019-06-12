@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Cable coil which can be applied to the ground to lay cable.
+/// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class CableCoil : InputTrigger
+public class CableCoil : NBPositionalHandApplyInteractable
 {
 	public WiringColor CableType;
 	public GameObject CablePrefab;
@@ -36,99 +39,97 @@ public class CableCoil : InputTrigger
 
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+
+	protected override InteractionValidationChain<PositionalHandApply> InteractionValidationChain()
 	{
-		//Logger.Log(originator + " " + position + " " + hand);
-		if (!isServer)
+		return InteractionValidationChain<PositionalHandApply>.Create()
+			//can only be placed on tiles
+			.WithValidation(DoesTargetObjectHaveComponent<InteractableTiles>.DOES)
+			.WithValidation(IsHand.OCCUPIED)
+			.WithValidation(CanApply.ONLY_IF_CONSCIOUS);
+	}
+
+	protected override void ServerPerformInteraction(PositionalHandApply interaction)
+	{
+		var cableCoil = interaction.UsedObject.GetComponent<CableCoil>();
+		if (cableCoil != null)
 		{
-			InteractMessage.Send(gameObject, position, hand);
-		}
-		else {
-			//HasTile
-
-			var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
-			var CableCoil_ = slot.Item?.GetComponent<CableCoil>();
-			if (CableCoil_ != null)
+			Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
+			MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
+			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
+			if (matrix.Matrix != null)
 			{
-
-				position.z = 0f;
-				position = position.RoundToInt();
-				var worldPosInt = position.CutToInt();
-				MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
-				var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
-				if (matrix.Matrix != null)
+				//can't place wires here
+				if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
 				{
-					if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
+					return;
+				}
+			}
+			else {
+				//no matrix found to place wires in
+				return;
+			}
+
+			var roundTargetWorldPosition = interaction.WorldPositionTarget.RoundToInt();
+			Vector3 PlaceDirection = interaction.Performer.Player().Script.WorldPos - (Vector3)roundTargetWorldPosition;
+			Connection WireEndB = Connection.NA;
+			if (PlaceDirection == Vector3.up) { WireEndB = Connection.North; }
+			else if (PlaceDirection == Vector3.down) { WireEndB = Connection.South; }
+			else if (PlaceDirection == Vector3.right) { WireEndB = Connection.East; }
+			else if (PlaceDirection == Vector3.left) { WireEndB = Connection.West; }
+
+			else if (PlaceDirection == Vector3.down + Vector3.left) { WireEndB = Connection.SouthWest; }
+			else if (PlaceDirection == Vector3.down + Vector3.right) { WireEndB = Connection.SouthEast; }
+			else if (PlaceDirection == Vector3.up + Vector3.left) { WireEndB = Connection.NorthWest; }
+			else if (PlaceDirection == Vector3.up + Vector3.right) { WireEndB = Connection.NorthEast; }
+			else if (PlaceDirection == Vector3.zero) { WireEndB = GetDirectionFromFaceDirection(interaction.Performer); }
+
+			if (WireEndB != Connection.NA)
+			{
+				if (CableType == WiringColor.high)
+				{
+					switch (WireEndB)
 					{
-						return (false);
+						case Connection.NorthEast:
+							return;
+						case Connection.NorthWest:
+							return;
+						case Connection.SouthWest:
+							return;
+						case Connection.SouthEast:
+							return;
 					}
-				}
-				else {
-					return (false);
-				}
-				Vector3 PlaceDirection = originator.Player().Script.WorldPos - position;
-				Connection WireEndB = Connection.NA;
-				if (PlaceDirection == Vector3.up) { WireEndB = Connection.North; }
-				else if (PlaceDirection == Vector3.down) { WireEndB = Connection.South; }
-				else if (PlaceDirection == Vector3.right) { WireEndB = Connection.East; }
-				else if (PlaceDirection == Vector3.left) { WireEndB = Connection.West; }
 
-				else if (PlaceDirection == Vector3.down + Vector3.left) { WireEndB = Connection.SouthWest; }
-				else if (PlaceDirection == Vector3.down + Vector3.right) { WireEndB = Connection.SouthEast; }
-				else if (PlaceDirection == Vector3.up + Vector3.left) { WireEndB = Connection.NorthWest; }
-				else if (PlaceDirection == Vector3.up + Vector3.right) { WireEndB = Connection.NorthEast; }
-				else if (PlaceDirection == Vector3.zero) { WireEndB = GetDirectionFromFaceDirection(originator); }
-
-				if (WireEndB != Connection.NA)
-				{
-					if (CableType == WiringColor.high)
-					{
-						switch (WireEndB)
+				}
+				var econs = interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
+				foreach (var con in econs) {
+					if (con.WireEndA == Connection.Overlap || con.WireEndB == Connection.Overlap) {
+						if (con.WireEndA == WireEndB || con.WireEndB == WireEndB)
 						{
-							case Connection.NorthEast:
-								return false;
-							case Connection.NorthWest:
-								return false;
-							case Connection.SouthWest:
-								return false;
-							case Connection.SouthEast:
-								return false;
+							ChatRelay.Instance.AddToChatLogClient("There is already a cable at that position", ChatChannel.Examine);
+							return;
 						}
-
-					}
-					var econs = originator.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
-					foreach (var con in econs) {
-						if (con.WireEndA == Connection.Overlap || con.WireEndB == Connection.Overlap) {
-							if (con.WireEndA == WireEndB || con.WireEndB == WireEndB)
+						foreach (var Econ in econs)
+						{
+							if (Econ.WireEndA == WireEndB || Econ.WireEndB == WireEndB)
 							{
-								ChatRelay.Instance.AddToChatLogClient("There is already a cable at that position", ChatChannel.Examine);
-								return true;
-							}
-							foreach (var Econ in econs)
-							{
-								if (Econ.WireEndA == WireEndB || Econ.WireEndB == WireEndB)
-								{
-									if (con.WireEndA == Econ.WireEndA || con.WireEndB == Econ.WireEndA){
-										ChatRelay.Instance.AddToChatLogClient("There is already a cable at that position", ChatChannel.Examine);
-										return true;
-									}
-									else if (con.WireEndA == Econ.WireEndB || con.WireEndB == Econ.WireEndB){
-										ChatRelay.Instance.AddToChatLogClient("There is already a cable at that position", ChatChannel.Examine);
-										return true;
-									}
+								if (con.WireEndA == Econ.WireEndA || con.WireEndB == Econ.WireEndA){
+									ChatRelay.Instance.AddToChatLogClient("There is already a cable at that position", ChatChannel.Examine);
+									return;
+								}
+								else if (con.WireEndA == Econ.WireEndB || con.WireEndB == Econ.WireEndB){
+									ChatRelay.Instance.AddToChatLogClient("There is already a cable at that position", ChatChannel.Examine);
+									return;
 								}
 							}
 						}
 					}
-					BuildCable(position, originator.transform.parent, WireEndB);
 				}
+				BuildCable(roundTargetWorldPosition, interaction.Performer.transform.parent, WireEndB);
 			}
-
-			return false;
 		}
-
-		return false;
 	}
+
 	private void BuildCable(Vector3 position, Transform parent, Connection WireEndB)
 	{
 		Connection WireEndA = Connection.Overlap;

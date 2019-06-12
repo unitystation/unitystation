@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(Pickupable))]
-public class Welder : NBActivateInteractable
+public class Welder : NBHandActivateInteractable
 {
 	//TODO: Update the sprites from the array below based on how much fuel is left
 	//TODO: gas readout in stats
@@ -72,13 +72,13 @@ public class Welder : NBActivateInteractable
 		}
 	}
 
-	protected override InteractionValidationChain<Activate> InteractionValidationChain()
+	protected override InteractionValidationChain<HandActivate> InteractionValidationChain()
 	{
 		//no validations to perform, just toggle it
-		return InteractionValidationChain<Activate>.EMPTY;
+		return InteractionValidationChain<HandActivate>.EMPTY;
 	}
 
-	protected override void ServerPerformInteraction(Activate interaction)
+	protected override void ServerPerformInteraction(HandActivate interaction)
 	{
 		ToggleWelder(interaction.Performer);
 	}
@@ -223,7 +223,7 @@ public class Welder : NBActivateInteractable
 		}
 	}
 
-	public InteractionControl Interact(Activate interaction)
+	public InteractionControl Interact(HandActivate interaction)
 	{
 		throw new NotImplementedException();
 	}

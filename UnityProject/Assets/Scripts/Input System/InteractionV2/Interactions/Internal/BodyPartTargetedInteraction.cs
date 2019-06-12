@@ -2,6 +2,7 @@
 using UnityEngine;
 
 /// <summary>
+/// Abstract, only used internally for IF2 - should not be used in interactable components.
 /// Targeted interaction which targets a specific body part
 /// </summary>
 public abstract class BodyPartTargetedInteraction: TargetedInteraction

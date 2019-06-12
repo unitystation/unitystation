@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(APCInteract))]
-public class APC  : InputTrigger, INodeControl
+public class APC  : NBHandApplyInteractable, INodeControl
 {
 	// -----------------------------------------------------
 	//					ELECTRICAL THINGS
@@ -133,10 +133,10 @@ public class APC  : InputTrigger, INodeControl
 		float CalculatingResistance = new float();
 		if (PowerLights)
 		{
-			foreach (KeyValuePair<LightSwitchTrigger, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
+			foreach (KeyValuePair<LightSwitch, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
 			{
 				SwitchTrigger.Key.PowerNetworkUpdate(Voltages);
-				if (SwitchTrigger.Key.isOn == LightSwitchTrigger.States.On)
+				if (SwitchTrigger.Key.isOn == LightSwitch.States.On)
 				{
 					for (int i = 0; i < SwitchTrigger.Value.Count; i++)
 					{
@@ -146,10 +146,10 @@ public class APC  : InputTrigger, INodeControl
 				}
 			}
 		} else {
-			foreach (KeyValuePair<LightSwitchTrigger, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
+			foreach (KeyValuePair<LightSwitch, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
 			{
 				SwitchTrigger.Key.PowerNetworkUpdate(0);
-				if (SwitchTrigger.Key.isOn == LightSwitchTrigger.States.On)
+				if (SwitchTrigger.Key.isOn == LightSwitch.States.On)
 				{
 					for (int i = 0; i < SwitchTrigger.Value.Count; i++)
 					{
@@ -200,25 +200,16 @@ public class APC  : InputTrigger, INodeControl
 
 	public NetTabType NetTabType;
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand) {
-		var playerScript = originator.GetComponent<PlayerScript>();
-		if (playerScript.canNotInteract() || !playerScript.IsInReach(gameObject, false))
-		{ //check for both client and server
-			return false;
-		}
-		if (!isServer)
-		{
-			//Client wants this code to be run on server
-			InteractMessage.Send(gameObject, hand);
-			return true;
-		}
-		else
-		{
-			//Server actions
-			TabUpdateMessage.Send(originator, gameObject, NetTabType, TabAction.Open);
-		}
-		return false;
+	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	{
+		return CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS;
 	}
+
+	protected override void ServerPerformInteraction(HandApply interaction)
+	{
+		TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+	}
+
 	// -----------------------------------------------------
 	//					APC STATE THINGS
 	// -----------------------------------------------------
@@ -358,7 +349,7 @@ public class APC  : InputTrigger, INodeControl
 	/// <summary>
 	/// Dictionary of all the light switches and their lights connected to this APC
 	/// </summary>
-	public Dictionary<LightSwitchTrigger,List<LightSource>> ConnectedSwitchesAndLights = new Dictionary<LightSwitchTrigger,List<LightSource>> ();
+	public Dictionary<LightSwitch,List<LightSource>> ConnectedSwitchesAndLights = new Dictionary<LightSwitch,List<LightSource>> ();
 
 	/// <summary>
 	/// list of connected machines to the APC

@@ -2,9 +2,9 @@
 using UnityEngine;
 
 /// <summary>
-/// Activate interaction. Triggers by pressing the Activate key or clicking the item while it's in the active hand.
+/// Hand Activate interaction. Triggers by pressing the Activate key or clicking the item while it's in the active hand.
 /// </summary>
-public class Activate : Interaction
+public class HandActivate : Interaction
 {
 	private readonly HandSlot handSlot;
 
@@ -19,7 +19,7 @@ public class Activate : Interaction
 	/// <param name="performer">The gameobject of the player activating the item</param>
 	/// <param name="activatedObject">Object that is being activated</param>
 	/// <param name="handSlot">hand slot that is being activated</param>
-	private Activate(GameObject performer, GameObject activatedObject, HandSlot handSlot) :
+	private HandActivate(GameObject performer, GameObject activatedObject, HandSlot handSlot) :
 		base(performer, activatedObject)
 	{
 		this.handSlot = handSlot;
@@ -29,9 +29,9 @@ public class Activate : Interaction
 	/// Create an Activate interaction where the local player is activating their active hand item
 	/// </summary>
 	/// <returns></returns>
-	public static Activate ByLocalPlayer()
+	public static HandActivate ByLocalPlayer()
 	{
-		return new Activate(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item,
+		return new HandActivate(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item,
 			HandSlot.ForName(UIManager.Hands.CurrentSlot.eventName));
 	}
 
@@ -44,8 +44,8 @@ public class Activate : Interaction
 	/// it doesn't need to be looked up again, since it already should've been looked up in
 	/// the message processing logic. Should match HandSlot.ForName(SentByPlayer.Script.playerNetworkActions.activeHand).</param>
 	/// <returns></returns>
-	public static Activate ByClient(GameObject clientPlayer, GameObject activatedObject, HandSlot handSlot)
+	public static HandActivate ByClient(GameObject clientPlayer, GameObject activatedObject, HandSlot handSlot)
 	{
-		return new Activate(clientPlayer, activatedObject, handSlot);
+		return new HandActivate(clientPlayer, activatedObject, handSlot);
 	}
 }

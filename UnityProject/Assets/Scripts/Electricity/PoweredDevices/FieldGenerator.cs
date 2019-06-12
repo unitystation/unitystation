@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class FieldGenerator : InputTrigger, INodeControl
+public class FieldGenerator : NBHandApplyInteractable, INodeControl
 {
 	public bool connectedToOther = false;
 	private Coroutine coSpriteAnimator;
@@ -28,21 +28,18 @@ public class FieldGenerator : InputTrigger, INodeControl
 		UpdateSprites(isOn);
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		if (!isServer)
-		{
-			InteractMessage.Send(gameObject, hand);
-		}
-		else
-		{
-			isOn = !isOn;
-			UpdateSprites(isOn);
-		}
 
-		return true;
+	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	{
+		return CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS
+			.WithValidation(TargetIs.GameObject(gameObject));
 	}
 
+	protected override void ServerPerformInteraction(HandApply interaction)
+	{
+		isOn = !isOn;
+		UpdateSprites(isOn);
+	}
 
 	public void PowerNetworkUpdate()
 	{

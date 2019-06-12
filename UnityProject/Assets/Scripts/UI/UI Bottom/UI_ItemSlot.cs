@@ -263,8 +263,8 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		if (Item != null && UIManager.Hands.CurrentSlot.eventName == eventName)
 		{
 			//check IF2 logic first
-			var interactables = Item.GetComponents<IInteractable<Activate>>();
-			var activate = Activate.ByLocalPlayer();
+			var interactables = Item.GetComponents<IInteractable<HandActivate>>();
+			var activate = HandActivate.ByLocalPlayer();
 			foreach (var interactable in interactables)
 			{
 				if (interactable.Interact(activate) == InteractionControl.STOP_PROCESSING)
@@ -310,18 +310,21 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	private bool TryIF2InventoryApply()
 	{
 		//check IF2 InventoryApply interaction - apply the active hand item with this (only if
-		//both are occupied)
-		if (UIManager.Hands.CurrentSlot.IsFull && Item != null)
+		//target slot is occupied, but it's okay if active hand slot is not occupied)
+		if (Item != null)
 		{
 			var combine = InventoryApply.ByLocalPlayer(inventorySlot);
-			//check interactables in the active hand
-			var handInteractables = UIManager.Hands.CurrentSlot.Item.GetComponents<IInteractable<InventoryApply>>();
-			foreach (var interactable in handInteractables)
+			//check interactables in the active hand (if active hand occupied)
+			if (UIManager.Hands.CurrentSlot.Item != null)
 			{
-				if (interactable.Interact(combine) == InteractionControl.STOP_PROCESSING)
+				var handInteractables = UIManager.Hands.CurrentSlot.Item.GetComponents<IInteractable<InventoryApply>>();
+				foreach (var interactable in handInteractables)
 				{
-					//something combined, don't do anything else
-					return true;
+					if (interactable.Interact(combine) == InteractionControl.STOP_PROCESSING)
+					{
+						//something combined, don't do anything else
+						return true;
+					}
 				}
 			}
 

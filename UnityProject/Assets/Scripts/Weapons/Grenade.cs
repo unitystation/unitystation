@@ -21,7 +21,7 @@ public enum ExplosionType
 ///     Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Grenade : InputTrigger
+public class Grenade : NBHandActivateInteractable
 {
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -71,22 +71,14 @@ public class Grenade : InputTrigger
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	protected override InteractionValidationChain<HandActivate> InteractionValidationChain()
 	{
-		//TODO: Remove after IF2 refactor
-		return false;
+		return InteractionValidationChain<HandActivate>.EMPTY;
 	}
 
-	public override void UI_Interact(GameObject originator, string hand)
+	protected override void ServerPerformInteraction(HandActivate interaction)
 	{
-		if (!isServer)
-		{
-			InteractMessage.Send(gameObject, hand, true);
-		}
-		else
-		{
-			StartCoroutine(TimeExplode(originator));
-		}
+		StartCoroutine(TimeExplode(interaction.Performer));
 	}
 
 	private IEnumerator TimeExplode(GameObject originator)
@@ -122,7 +114,7 @@ public class Grenade : InputTrigger
 			PlaySoundAndShake();
 			CreateShape();
 			CalcAndApplyExplosionDamage(damagedBy);
-			DisappearObject();
+			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 		}
 	}
 

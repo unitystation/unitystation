@@ -5,8 +5,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Allows closet to be opened / closed / locked
+/// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
-public class ClosetControl : InputTrigger, IRightClickable
+public class ClosetControl : NetworkBehaviour, IInteractable<HandApply>, IRightClickable
 {
 	[Header("Contents that will spawn inside every locker of type")]
 	public List<GameObject> DefaultContents;
@@ -199,19 +202,18 @@ public class ClosetControl : InputTrigger, IRightClickable
 		return true;
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	public InteractionControl Interact(HandApply interaction)
 	{
-		if (!CanUse(originator, hand, position, false))
-		{
-			return false;
-		}
-		if (!isServer)
-		{
-			//ask server to perform the interaction
-			InteractMessage.Send(gameObject, position, hand);
-			return true;
-		}
-		if (!IsClosed)
+		return InteractInternal(interaction.UsedObject != null) ? InteractionControl.STOP_PROCESSING : InteractionControl.CONTINUE_PROCESSING;
+	}
+
+	private bool InteractInternal(bool placeItem = true)
+	{
+		//this better be rewritten to use IF2 Interactable: following code is executed on clientside
+		PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
+
+		bool isInReach = localPlayer.IsInReach(registerTile, false);
+		if (isInReach || localPlayer.IsHidden)
 		{
 			PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
 			GameObject handObj = pna.Inventory[hand].Item;

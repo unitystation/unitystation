@@ -94,6 +94,16 @@ public class InteractionValidationChain<T>
 
 		return new InteractionValidationChain<T>(toAdd, this);
 	}
+
+	/// <summary>
+	/// Adds the specified interaction validation function to the end of the chain,
+	/// shorthand for WithValidation(new FunctionValidator<T>(validationFunction))
+	/// </summary>
+	/// <returns>this</returns>
+	public InteractionValidationChain<T> WithValidation(Func<T, NetworkSide, ValidationResult> validationFunction, Action<T, NetworkSide> onFail = null)
+	{
+		return WithValidation(new FunctionValidator<T>(validationFunction), onFail);
+	}
 }
 
 

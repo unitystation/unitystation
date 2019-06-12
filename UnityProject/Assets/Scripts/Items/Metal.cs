@@ -6,32 +6,20 @@ using UnityEngine.Networking;
 /// <summary>
 /// The main metal sheet component
 /// </summary>
-public class MetalTrigger : InputTrigger
+public class Metal : NBHandActivateInteractable
 {
 	private bool isBuilding;
 	public GameObject girderPrefab;
 
-
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	protected override InteractionValidationChain<HandActivate> InteractionValidationChain()
 	{
-		//TODO: remove after IF2 refactor
-		return false;
+		return InteractionValidationChain<HandActivate>.EMPTY;
 	}
 
-	public override void UI_Interact(GameObject originator, string hand)
+	protected override void ServerPerformInteraction(HandActivate interaction)
 	{
-		base.UI_Interact(originator, hand);
-
-		if (!isServer)
-		{
-			UIInteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
-		}
-		else
-		{
-			startBuilding(originator, originator.transform.position);
-		}
+		startBuilding(interaction.Performer, interaction.Performer.transform.position);
 	}
-
 
 	[Server]
 	private void startBuilding(GameObject originator, Vector3 position)
@@ -61,7 +49,7 @@ public class MetalTrigger : InputTrigger
 	{
 		PoolManager.PoolNetworkInstantiate(girderPrefab, position);
 		isBuilding = false;
-		DisappearObject();
+		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 	}
 
 	[Server]
@@ -69,4 +57,5 @@ public class MetalTrigger : InputTrigger
 	{
 		isBuilding = false;
 	}
+
 }

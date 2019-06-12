@@ -7,7 +7,8 @@ using UnityEngine;
 public class DoesUsedObjectHaveComponent<T> :
 	IInteractionValidator<MouseDrop>,
 	IInteractionValidator<HandApply>,
-	IInteractionValidator<Activate>,
+	IInteractionValidator<PositionalHandApply>,
+	IInteractionValidator<HandActivate>,
 	IInteractionValidator<AimApply>,
 	IInteractionValidator<InventoryApply>
 	where T : Component
@@ -34,7 +35,12 @@ public class DoesUsedObjectHaveComponent<T> :
 		return ValidateAll(toValidate, side);
 	}
 
-	public ValidationResult Validate(Activate toValidate, NetworkSide side)
+	public ValidationResult Validate(PositionalHandApply toValidate, NetworkSide side)
+	{
+		return ValidateAll(toValidate, side);
+	}
+
+	public ValidationResult Validate(HandActivate toValidate, NetworkSide side)
 	{
 		return ValidateAll(toValidate, side);
 	}

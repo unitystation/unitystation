@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 ///  Allows an object to behave like a gun and fire shots. Server authoritative with client prediction.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractable<InventoryApply>
+public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInteractable<InventoryApply>
 {
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
@@ -179,7 +179,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractabl
 	{
 		return InteractionValidationChain<AimApply>.Create()
 			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-			.WithValidation(new FunctionValidator<AimApply>(ValidateShoot));
+			.WithValidation(ValidateShoot);
 	}
 
 	protected override void ClientPredictInteraction(AimApply interaction)
@@ -220,7 +220,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractabl
 
 
 
-	public InteractionControl Interact(Activate interaction)
+	public InteractionControl Interact(HandActivate interaction)
 	{
 		//try ejecting the mag
 		if(CurrentMagazine != null)

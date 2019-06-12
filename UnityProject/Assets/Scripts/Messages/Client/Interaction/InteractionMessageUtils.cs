@@ -64,9 +64,9 @@ public static class InteractionMessageUtils
 			RequestMouseDropMessage.Send(info as MouseDrop, processorObject);
 			return;
 		}
-		else if (typeof(T) == typeof(Activate))
+		else if (typeof(T) == typeof(HandActivate))
 		{
-			RequestActivateMessage.Send(info as Activate, processorObject);
+			RequestHandActivateMessage.Send(info as HandActivate, processorObject);
 			return;
 		}
 		else if (typeof(T) == typeof(InventoryApply))

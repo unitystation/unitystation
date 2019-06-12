@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Ensures that the target object is a specific gameobject.
 /// </summary>
-public class TargetIs : IInteractionValidator<HandApply>
+public class TargetIs : IInteractionValidator<HandApply>, IInteractionValidator<PositionalHandApply>
 {
 	private readonly GameObject expectedTarget;
 
@@ -13,12 +13,21 @@ public class TargetIs : IInteractionValidator<HandApply>
 		this.expectedTarget = expectedTarget;
 	}
 
+	private ValidationResult ValidateAll(TargetedInteraction targetedInteraction, NetworkSide side)
+	{
+		return targetedInteraction.TargetObject == expectedTarget ?
+			ValidationResult.SUCCESS :
+			ValidationResult.FAIL;
+	}
 
 	public ValidationResult Validate(HandApply toValidate, NetworkSide side)
 	{
-		return toValidate.TargetObject == expectedTarget ?
-			ValidationResult.SUCCESS :
-			ValidationResult.FAIL;
+		return ValidateAll(toValidate, side);
+	}
+
+	public ValidationResult Validate(PositionalHandApply toValidate, NetworkSide side)
+	{
+		return ValidateAll(toValidate, side);
 	}
 
 	/// <summary>

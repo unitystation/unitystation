@@ -2,6 +2,7 @@
 using UnityEngine;
 
 /// <summary>
+/// Abstract, only used internally for IF2 - should not be used in interactable components.
 /// Base class containing the info on an attempt to perform a particular interaction -
 /// each interaction has a performer (player performing it)
 /// and a used object (object they are using, dropping, or combining)

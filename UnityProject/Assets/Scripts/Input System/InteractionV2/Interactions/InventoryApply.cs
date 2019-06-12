@@ -5,7 +5,7 @@ using UnityEngine;
 /// Encapsulates all of the info needed for handling an inventory apply interaction.
 ///
 /// Like HandApply, but targeting something in the inventory rather than in the world.
-/// Triggers when clicking an item in the inventory when the active hand has an item.
+/// Triggers when clicking an item in the inventory. Triggers even when active hand has no item.
 /// </summary>
 public class InventoryApply : TargetedInteraction
 {

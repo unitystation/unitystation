@@ -217,17 +217,17 @@ public class MatrixManager : MonoBehaviour
 	/// <param name="targetPos">target world position to check</param>
 	/// <returns>The DoorTrigger of the closed door object specified in the summary, null if no such object
 	/// exists at that location</returns>
-	public static DoorTrigger GetClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
+	public static InteractableDoor GetClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
 	{
 		// Check door on the local tile first
 		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
-		DoorTrigger originDoor = Instance.GetFirst<DoorTrigger>(worldOrigin, isServer);
+		InteractableDoor originDoor = Instance.GetFirst<InteractableDoor>(worldOrigin, isServer);
 		if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
 			return originDoor;
 
 		// No closed door on local tile, check target tile
 		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
-		DoorTrigger targetDoor = Instance.GetFirst<DoorTrigger>(targetPos, isServer);
+		InteractableDoor targetDoor = Instance.GetFirst<InteractableDoor>(targetPos, isServer);
 		if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
 			return targetDoor;
 

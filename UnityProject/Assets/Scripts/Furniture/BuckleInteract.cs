@@ -26,7 +26,7 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 			.WithValidation(DoesUsedObjectHaveComponent<PlayerMove>.DOES)
 			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
 			.WithValidation(ComponentAtTargetMatrixPosition<PlayerMove>.NoneMatchingCriteria(pm => pm.IsRestrained))
-			.WithValidation(new FunctionValidator<MouseDrop>(AdditionalValidation));
+			.WithValidation(AdditionalValidation);
 	}
 
 	private ValidationResult AdditionalValidation(MouseDrop drop, NetworkSide side)
@@ -58,7 +58,7 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
 		playerMove.Restrain(OnUnbuckle);
 
-		
+
 
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
