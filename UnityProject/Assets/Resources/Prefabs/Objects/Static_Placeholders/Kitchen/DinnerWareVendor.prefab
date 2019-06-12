@@ -294,8 +294,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 0
   VendorContent:
-  - item: {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 3}
-  - item: {fileID: 1000011622113908, guid: fc5783dcb3f74ab1b2187da95b6c932d, type: 3}
-  - item: {fileID: 1110193000772614, guid: 252b1325bc181714a9aaadbaf3c8147d, type: 3}
-  Originator: {fileID: 0}
+  - Item: {fileID: 1000011622113908, guid: fc5783dcb3f74ab1b2187da95b6c932d, type: 3}
+    Stock: 5
+  - Item: {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 3}
+    Stock: 5
+  - Item: {fileID: 1110193000772614, guid: 252b1325bc181714a9aaadbaf3c8147d, type: 3}
+    Stock: 5
   HullColor: {r: 0.42745098, g: 0.62352943, b: 0.7529412, a: 1}
+  EjectObjects: 0
+  EjectDirection: 0
+  Originator: {fileID: 0}
+  InteractPosition: {x: 0, y: 0, z: 0}
+  InteractHand: 

@@ -215,13 +215,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 0
   VendorContent:
-  - item: {fileID: 1519710982558066, guid: daa925ae33eab5d4988f8182a1ce33ac, type: 3}
-  - item: {fileID: 1519710982558066, guid: 716afa9ab8df5874a8801b81b5e626be, type: 3}
-  - item: {fileID: 1519710982558066, guid: 698c97193d3a26f48885710aa6c90ffe, type: 3}
-  - item: {fileID: 1519710982558066, guid: 9198440a9fbd8684fa7906b4ede7ad02, type: 3}
-  - item: {fileID: 1519710982558066, guid: ac13474c9d8108940b75c30b2bff8a38, type: 3}
-  Originator: {fileID: 0}
+  - Item: {fileID: 1519710982558066, guid: ac13474c9d8108940b75c30b2bff8a38, type: 3}
+    Stock: 5
+  - Item: {fileID: 1519710982558066, guid: daa925ae33eab5d4988f8182a1ce33ac, type: 3}
+    Stock: 5
+  - Item: {fileID: 1519710982558066, guid: 698c97193d3a26f48885710aa6c90ffe, type: 3}
+    Stock: 5
+  - Item: {fileID: 1519710982558066, guid: 9198440a9fbd8684fa7906b4ede7ad02, type: 3}
+    Stock: 5
+  - Item: {fileID: 1519710982558066, guid: 716afa9ab8df5874a8801b81b5e626be, type: 3}
+    Stock: 5
   HullColor: {r: 0.79607844, g: 0.6509804, b: 0.20392157, a: 1}
+  EjectObjects: 0
+  EjectDirection: 0
+  Originator: {fileID: 0}
+  InteractPosition: {x: 0, y: 0, z: 0}
+  InteractHand: 
 --- !u!114 &114518179293593798
 MonoBehaviour:
   m_ObjectHideFlags: 0

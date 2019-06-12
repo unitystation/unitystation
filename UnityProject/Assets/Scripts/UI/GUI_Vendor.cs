@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
 using Random = UnityEngine.Random;
 
 public class GUI_Vendor : NetTab
@@ -44,6 +45,8 @@ public class GUI_Vendor : NetTab
 	public override void OnEnable()
 	{
 		CheckRestock();
+		UpdateList();
+		allowSell = true;
 		base.OnEnable();
 	}
 

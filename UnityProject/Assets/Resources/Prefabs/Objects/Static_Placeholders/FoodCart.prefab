@@ -213,15 +213,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vendorcontent:
-  - {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 3}
-  allowSell: 1
-  cooldownTimer: 180
-  stock: 5
-  interactionMessage: You found a slice of stale meat on the bottom...
-  deniedMessage: Damn, you ate EVERYTHING!
+  NetTabType: 0
+  VendorContent:
+  - Item: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 3}
+    Stock: 2
+  - Item: {fileID: 1110193000772614, guid: 1a54efe7f51314f4eb3da3e5917c99b2, type: 3}
+    Stock: 5
+  HullColor: {r: 0.45882353, g: 0.3882353, b: 0.3137255, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  Originator: {fileID: 0}
+  InteractPosition: {x: 0, y: 0, z: 0}
+  InteractHand: 
 --- !u!114 &114969507595526308
 MonoBehaviour:
   m_ObjectHideFlags: 0

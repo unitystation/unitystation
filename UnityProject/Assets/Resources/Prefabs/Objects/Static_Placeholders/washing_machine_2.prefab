@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 61550620252209522}
   - component: {fileID: 61370470844344494}
   - component: {fileID: 114527221069213556}
-  - component: {fileID: 114375170646223112}
   - component: {fileID: 114697854038962110}
   - component: {fileID: 114550909179472828}
   m_Layer: 11
@@ -122,26 +121,6 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114375170646223112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1368506209604720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vendorcontent:
-  - {fileID: 1519710982558066, guid: daa925ae33eab5d4988f8182a1ce33ac, type: 3}
-  allowSell: 1
-  cooldownTimer: 180
-  stock: 5
-  interactionMessage: Damn engineers always forget to remove tools from their pocket...
-  deniedMessage: Good, all pockets empty
-  DispenseDirection: 0
 --- !u!114 &114697854038962110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,13 +136,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1

@@ -172,12 +172,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 0
   VendorContent:
-  - item: {fileID: 1110193000772614, guid: 1a54efe7f51314f4eb3da3e5917c99b2, type: 3}
-  - item: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 3}
-  - item: {fileID: 1110193000772614, guid: 8af5096e4df03fd42a23efb157a94bf3, type: 3}
-  - item: {fileID: 1110193000772614, guid: 37525b624e2b1134fb3d2efdc22f2f0a, type: 3}
-  Originator: {fileID: 0}
+  - Item: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 3}
+    Stock: 5
+  - Item: {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 3}
+    Stock: 5
+  - Item: {fileID: 1110193000772614, guid: 1a54efe7f51314f4eb3da3e5917c99b2, type: 3}
+    Stock: 5
+  - Item: {fileID: 1110193000772614, guid: 0a444092780864964b48a63b1a16cd34, type: 3}
+    Stock: 5
   HullColor: {r: 0.98039216, g: 0.972549, b: 0.972549, a: 1}
+  EjectObjects: 0
+  EjectDirection: 0
+  Originator: {fileID: 0}
+  InteractPosition: {x: 0, y: 0, z: 0}
+  InteractHand: 
 --- !u!1 &1000013897877296
 GameObject:
   m_ObjectHideFlags: 0
