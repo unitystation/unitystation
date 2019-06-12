@@ -24,6 +24,7 @@ public enum EVENT
 	PlayerDied,
 	GhostSpawned,
 	LogLevelAdjusted,
+	UpdateChatChannels
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
@@ -107,6 +108,8 @@ public class EventManager : MonoBehaviour
 		{
 			case EVENT.ChatFocused:
 			case EVENT.ChatUnfocused:
+			case EVENT.UpdateChatChannels:
+			case EVENT.UpdateFov:
 				category = Category.UI;
 				break;
 			case EVENT.DisableInternals:
@@ -121,9 +124,6 @@ public class EventManager : MonoBehaviour
 				break;
 			case EVENT.PowerNetSelfCheck:
 				category = Category.Electrical;
-				break;
-			case EVENT.UpdateFov:
-				category = Category.UI;
 				break;
 			case EVENT.RoundStarted:
 			case EVENT.RoundEnded:
