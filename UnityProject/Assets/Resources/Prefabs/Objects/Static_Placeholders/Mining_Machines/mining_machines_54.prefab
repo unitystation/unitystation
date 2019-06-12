@@ -213,14 +213,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vendorcontent:
-  - {fileID: 1519710982558066, guid: daa925ae33eab5d4988f8182a1ce33ac, type: 3}
-  allowSell: 1
-  cooldownTimer: 2
-  stock: 5
-  interactionMessage: bzzz...
-  deniedMessage: Vendor is refreshing stocking, please wait...
-  DispenseDirection: 2
+  NetTabType: 0
+  VendorContent:
+  - item: {fileID: 1789684726173154, guid: 410abe86fc48d40bb9ad25ad581a52fc, type: 3}
+  - item: {fileID: 1869747887731904, guid: 2c99ab6482de84a4b8225f17e97d3ef4, type: 3}
+  Originator: {fileID: 0}
+  HullColor: {r: 0.5882353, g: 0.4392157, b: 0.19607843, a: 1}
 --- !u!114 &114030207048474028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,13 +234,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1

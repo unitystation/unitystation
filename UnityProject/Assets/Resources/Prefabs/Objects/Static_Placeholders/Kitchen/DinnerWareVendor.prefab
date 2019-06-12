@@ -233,13 +233,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 0
@@ -294,15 +292,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vendorcontent:
-  - {fileID: 1000011622113908, guid: fc5783dcb3f74ab1b2187da95b6c932d, type: 3}
-  - {fileID: 1000012939332086, guid: 04684ac0ef7f4d938957d3420c0d938f, type: 3}
-  - {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 3}
-  - {fileID: 1036141445992816, guid: dd31a44e0061599419dba34dd9e7fff7, type: 3}
-  - {fileID: 1651733465195328, guid: 5d017514ecdb1cb4b91d054838c247b3, type: 3}
-  allowSell: 1
-  cooldownTimer: 1
-  stock: 15
-  interactionMessage: bzzzz...
-  deniedMessage: Vendor is refreshing stocking, please wait...
-  DispenseDirection: 0
+  NetTabType: 0
+  VendorContent:
+  - item: {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 3}
+  - item: {fileID: 1000011622113908, guid: fc5783dcb3f74ab1b2187da95b6c932d, type: 3}
+  - item: {fileID: 1110193000772614, guid: 252b1325bc181714a9aaadbaf3c8147d, type: 3}
+  Originator: {fileID: 0}
+  HullColor: {r: 0.42745098, g: 0.62352943, b: 0.7529412, a: 1}

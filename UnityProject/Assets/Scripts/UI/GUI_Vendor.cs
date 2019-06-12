@@ -14,19 +14,19 @@ public class GUI_Vendor : NetTab
 	private string interactionMessage = "Item given.";
 	[SerializeField]
 	private string deniedMessage = "Bzzt.";
-	public bool EjectObjects = false;
-	[SerializeField]
-	private EjectDirection ejectDirection = EjectDirection.None;
 
 	private VendorTrigger vendor;
 	private List<VendorItem> vendorContent = new List<VendorItem>();
 	[SerializeField]
 	private EmptyItemList itemList;
+	[SerializeField]
+	private NetColorChanger hullColor;
 
 	private void Start()
 	{
 		vendor = Provider.GetComponent<VendorTrigger>();
 		vendorContent = vendor.VendorContent;
+		hullColor.SetValue = ColorUtility.ToHtmlStringRGB(vendor.HullColor);
 		GenerateList();
 	}
 
@@ -55,10 +55,10 @@ public class GUI_Vendor : NetTab
 		var spawnedItem = PoolManager.PoolNetworkInstantiate(item.item, spawnPos, vendor.transform.parent);
 
 		//Ejecting in direction
-		if (EjectObjects && ejectDirection != EjectDirection.None)
+		if (vendor.EjectObjects && vendor.EjectDirection != EjectDirection.None)
 		{
 			Vector3 offset = Vector3.zero;
-			switch (ejectDirection)
+			switch (vendor.EjectDirection)
 			{
 				case EjectDirection.Up:
 					offset = vendor.transform.rotation * Vector3.up / Random.Range(4, 12);
@@ -76,7 +76,7 @@ public class GUI_Vendor : NetTab
 				Aim = BodyPartType.Chest,
 				OriginPos = spawnPos,
 				TargetPos = spawnPos + offset,
-				SpinMode = ejectDirection == EjectDirection.Random ? SpinMode.Clockwise : SpinMode.None
+				SpinMode = (vendor.EjectDirection == EjectDirection.Random) ? SpinMode.Clockwise : SpinMode.None
 			});
 		}
 

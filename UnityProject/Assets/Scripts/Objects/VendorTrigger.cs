@@ -9,7 +9,9 @@ public class VendorTrigger : NetworkTabTrigger
 	public List<VendorItem> VendorContent = new List<VendorItem>();
 	[HideInInspector]
 	public GameObject Originator;
-	public Color HullColor;
+	public Color HullColor = Color.white;
+	public bool EjectObjects = false;
+	public EjectDirection EjectDirection = EjectDirection.None;
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
