@@ -86,7 +86,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 			//set ForceInform to false for simulation
 			//the return value of AddItemToUISlot is an extra layer of validation on top of our other validations,
 			//not sure if this is redundant with our validation chain.
-			if (ps.playerNetworkActions.AddItemToUISlot(gameObject, interaction.HandSlotName, false /*, false*/))
+			if (ps.playerNetworkActions.AddItemToUISlot(gameObject, interaction.HandSlot.SlotName, false /*, false*/))
 			{
 				Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Security,
 					cnt.ServerState.WorldPosition, interaction.Performer.transform.position, cnt.IsFloatingServer);

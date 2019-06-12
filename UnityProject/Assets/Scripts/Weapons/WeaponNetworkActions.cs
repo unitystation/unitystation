@@ -40,20 +40,20 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	}
 
 	[Command]
-	public void CmdLoadMagazine(GameObject weapon, GameObject magazine, string hand)
+	public void CmdLoadMagazine(GameObject gunObject, GameObject magazine, string hand)
 	{
-		Weapon w = weapon.GetComponent<Weapon>();
+		Gun gun = gunObject.GetComponent<Gun>();
 		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
-		w.ServerHandleReloadRequest(networkID);
+		gun.ServerHandleReloadRequest(networkID);
 		GetComponent<PlayerNetworkActions>().ClearInventorySlot(hand);
 	}
 
 	[Command]
-	public void CmdUnloadWeapon(GameObject weapon)
+	public void CmdUnloadWeapon(GameObject gunObject)
 	{
-		Weapon w = weapon.GetComponent<Weapon>();
+		Gun gun = gunObject.GetComponent<Gun>();
 
-		var cnt = w.CurrentMagazine?.GetComponent<CustomNetTransform>();
+		var cnt = gun.CurrentMagazine?.GetComponent<CustomNetTransform>();
 		if(cnt != null)
 		{
 			cnt.InertiaDrop(transform.position, playerScript.PlayerSync.SpeedServer, playerScript.PlayerSync.ServerState.Impulse);
@@ -61,7 +61,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			Logger.Log("Magazine not found for unload weapon", Category.Firearms);
 		}
 
-		w.ServerHandleUnloadRequest();
+		gun.ServerHandleUnloadRequest();
 	}
 
 	[Command]

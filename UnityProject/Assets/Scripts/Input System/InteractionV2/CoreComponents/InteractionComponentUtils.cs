@@ -47,8 +47,11 @@ public static class InteractionComponentUtils
 		var validated = coordinator.ClientValidateAndRequest(info);
 		if (validated == ValidationResult.SUCCESS)
 		{
-			//success, so do client prediction
-			onValidationSuccess.Invoke(info);
+			//success, so do client prediction if not server player
+			if (!CustomNetworkManager.Instance._isServer)
+			{
+				onValidationSuccess.Invoke(info);
+			}
 		}
 
 		return validated == ValidationResult.SUCCESS ? InteractionControl.STOP_PROCESSING : InteractionControl.CONTINUE_PROCESSING;

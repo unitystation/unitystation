@@ -9,17 +9,17 @@ using UnityEngine;
 /// </summary>
 public static class MouseUtils
 {
-
 	/// <summary>
-	/// Gets the renderers under the mouse, ordered so that highest item comes first
+	/// Gets the renderers under the given world position, ordered so that highest item comes first
 	/// </summary>
+	/// <param name="worldPoint">world point to check</param>
 	/// <param name="layerMask">layers to check for hits in</param>
 	/// <param name="gameObjectFilter"> optional filter to apply to each game object before sorting, the final list will only
 	/// include spriterenderers whose game objects match the condition</param>
 	/// <returns>the ordered sprite renderers that were under the mouse, top first</returns>
-	public static IOrderedEnumerable<SpriteRenderer> GetOrderedObjectsUnderMouse(LayerMask layerMask, Func<GameObject,bool> gameObjectFilter = null)
+	public static IOrderedEnumerable<SpriteRenderer> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask layerMask, Func<GameObject,bool> gameObjectFilter = null)
 	{
-		var result = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), Vector2.zero, 10f,
+		var result = Physics2D.RaycastAll(worldPoint, Vector2.zero, 10f,
 				layerMask)
 			//get the hit game object
 			.Select(hit => hit.collider.transform.gameObject);
@@ -38,6 +38,19 @@ public static class MouseUtils
 			.OrderByDescending(r => SortingLayer.GetLayerValueFromID(r.sortingLayerID))
 			//then by sort order
 			.ThenByDescending(renderer => renderer.sortingOrder);
+	}
+
+	/// <summary>
+	/// Gets the renderers under the mouse, ordered so that highest item comes first
+	/// </summary>
+	/// <param name="layerMask">layers to check for hits in</param>
+	/// <param name="gameObjectFilter"> optional filter to apply to each game object before sorting, the final list will only
+	/// include spriterenderers whose game objects match the condition</param>
+	/// <returns>the ordered sprite renderers that were under the mouse, top first</returns>
+	public static IOrderedEnumerable<SpriteRenderer> GetOrderedObjectsUnderMouse(LayerMask layerMask, Func<GameObject,bool> gameObjectFilter = null)
+	{
+		return GetOrderedObjectsAtPoint(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), layerMask,
+			gameObjectFilter);
 	}
 
 	/// <summary>
