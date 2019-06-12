@@ -30,10 +30,13 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
 		return InteractionValidationChain<HandApply>.Create()
+			.WithValidation(IsHand.EMPTY)
+			//We are the ones being picked up
+			.WithValidation(TargetIs.GameObject(gameObject))
 			//allow extended range, so we can nudge it if it is stationary and a little too far,
 			//or allow picking it up if it is floating and a little too far
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT.WithRange(ReachRange.EXTENDED_SERVER))
-			.WithValidation(IsHand.EMPTY);
+			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT.WithRange(ReachRange.EXTENDED_SERVER));
+
 	}
 
 	protected override void ClientPredictInteraction(HandApply interaction)
@@ -165,13 +168,6 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 	{
 		InventoryManager.DestroyItemInSlot(gameObject);
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
-	}
-	/// <summary>
-	/// Using an item on another mob, currently only working on medical items
-	/// </summary>
-	[Server]
-	public virtual void Attack(GameObject target, GameObject originator, BodyPartType bodyPart){
-
 	}
 }
 

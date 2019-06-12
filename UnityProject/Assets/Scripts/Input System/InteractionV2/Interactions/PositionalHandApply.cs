@@ -7,8 +7,12 @@ using UnityEngine;
 /// spot they are clicking). Useful for objects which have different logic based on where you click,
 /// such as InteractableTiles).
 /// </summary>
-public class PositionalHandApply : HandApply
+public class PositionalHandApply : TargetedInteraction
 {
+	private readonly HandSlot handSlot;
+
+	public HandSlot HandSlot => handSlot;
+
 	private readonly Vector2 targetVector;
 
 	/// <summary>
@@ -30,9 +34,10 @@ public class PositionalHandApply : HandApply
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="handSlot">active hand slot that is being used.</param>
 	private PositionalHandApply(GameObject performer, GameObject handObject, GameObject targetObject, Vector2 targetVector, HandSlot handSlot) :
-		base(performer, handObject, targetObject, handSlot)
+		base(performer, handObject, targetObject)
 	{
 		this.targetVector = targetVector;
+		this.handSlot = handSlot;
 	}
 
 	/// <summary>

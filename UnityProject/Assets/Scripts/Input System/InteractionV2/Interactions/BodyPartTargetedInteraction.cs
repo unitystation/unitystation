@@ -1,0 +1,35 @@
+
+using UnityEngine;
+
+/// <summary>
+/// Targeted interaction which targets a specific body part
+/// </summary>
+public abstract class BodyPartTargetedInteraction: TargetedInteraction
+{
+	private readonly GameObject targetObject;
+	private readonly BodyPartType targetBodyPart;
+
+	/// <summary>
+	/// Object that is targeted by the interaction
+	/// </summary>
+	public GameObject TargetObject => targetObject;
+
+	/// <summary>
+	/// Body part being targeted.
+	/// </summary>
+	public BodyPartType TargetBodyPart => targetBodyPart;
+
+	/// <summary>
+	///
+	/// </summary>
+	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
+	/// <param name="usedObject">Object that is being used</param>
+	/// <param name="targetObject">Object that is being targeted</param>
+	/// <param name="targetBodyPart">targeted body part</param>
+	public BodyPartTargetedInteraction(GameObject performer, GameObject usedObject, GameObject targetObject, BodyPartType targetBodyPart) :
+		base(performer, usedObject, targetObject)
+	{
+		this.targetObject = targetObject;
+		this.targetBodyPart = targetBodyPart;
+	}
+}

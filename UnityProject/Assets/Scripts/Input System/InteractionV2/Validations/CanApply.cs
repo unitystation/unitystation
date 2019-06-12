@@ -104,7 +104,17 @@ public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<
 				else
 				{
 					var cnt = target.GetComponent<CustomNetTransform>();
-					result = ServerCanReachExtended(playerScript, cnt.ServerState) ? ValidationResult.SUCCESS : ValidationResult.FAIL;
+					if (cnt == null)
+					{
+						//fallback to standard range check if there is no CNT
+						result = playerScript.IsInReach((Vector3) targetWorldPosition, networkSide == NetworkSide.SERVER)
+							? ValidationResult.SUCCESS : ValidationResult.FAIL;
+					}
+					else
+					{
+						result = ServerCanReachExtended(playerScript, cnt.ServerState) ? ValidationResult.SUCCESS : ValidationResult.FAIL;
+					}
+
 
 				}
 				break;

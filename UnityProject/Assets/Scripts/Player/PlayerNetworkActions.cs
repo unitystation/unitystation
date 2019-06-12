@@ -817,13 +817,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdAttack(GameObject target, GameObject originator, BodyPartType bodyPart, GameObject itemInHand)
-	{
-		var itemPUT = itemInHand.GetComponent<Pickupable>();
-		itemPUT.Attack(target, originator, bodyPart);
-	}
-
-	[Command]
 	public void CmdSetActiveHand(string hand)
 	{
 		activeHand = hand;

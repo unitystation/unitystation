@@ -22,6 +22,8 @@ public class RequestHandApplyMessage : ClientMessage
 	public NetworkInstanceId ProcessorObject;
 	//netid of the object being targeted
 	public NetworkInstanceId TargetObject;
+	//targeted body part
+	public BodyPartType TargetBodyPart;
 
 	public override IEnumerator Process()
 	{
@@ -43,7 +45,7 @@ public class RequestHandApplyMessage : ClientMessage
 		//try to look up the components on the processor that can handle this interaction
 		var processorComponents = InteractionMessageUtils.TryGetProcessors<HandApply>(processorObj);
 		//invoke each component that can handle this interaction
-		var handApply = HandApply.ByClient(performerObj, handObject, targetObj, usedSlot);
+		var handApply = HandApply.ByClient(performerObj, handObject, targetObj, TargetBodyPart, usedSlot);
 		foreach (var processorComponent in processorComponents)
 		{
 			if (processorComponent.ServerProcessInteraction(handApply) ==
@@ -72,7 +74,8 @@ public class RequestHandApplyMessage : ClientMessage
 		var msg = new RequestHandApplyMessage
 		{
 			TargetObject = handApply.TargetObject.GetComponent<NetworkIdentity>().netId,
-			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId
+			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId,
+			TargetBodyPart = handApply.TargetBodyPart
 		};
 		msg.Send();
 	}
@@ -83,6 +86,7 @@ public class RequestHandApplyMessage : ClientMessage
 		base.Deserialize(reader);
 		ProcessorObject = reader.ReadNetworkId();
 		TargetObject = reader.ReadNetworkId();
+		TargetBodyPart = (BodyPartType) reader.ReadUInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -90,6 +94,7 @@ public class RequestHandApplyMessage : ClientMessage
 		base.Serialize(writer);
 		writer.Write(ProcessorObject);
 		writer.Write(TargetObject);
+		writer.Write((int) TargetBodyPart);
 	}
 
 }

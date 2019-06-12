@@ -337,9 +337,8 @@ public class MouseInputController : MonoBehaviour
 			foreach (GameObject applyTarget in handApplyTargets)
 			{
 				//check for positionalHandApply first since it is more specific
-				PositionalHandApply interaction = PositionalHandApply.ByLocalPlayer(applyTarget.gameObject);
-				if (CheckPositionalHandApply(interaction)) return true;
-				if (CheckHandApply(interaction)) return true;
+				if (CheckPositionalHandApply(PositionalHandApply.ByLocalPlayer(applyTarget.gameObject))) return true;
+				if (CheckHandApply(HandApply.ByLocalPlayer(applyTarget.gameObject))) return true;
 			}
 		}
 
@@ -731,19 +730,6 @@ public class MouseInputController : MonoBehaviour
 						return true;
 					}
 
-					//FIXME currently input controller only uses the first InputTrigger found on an object
-					/////// some objects have more then 1 input trigger, like players for example
-					/////// below is a solution that should be removed when InputController is refactored
-					/////// to support multiple InputTriggers on the target object
-					if (inputTrigger.gameObject.layer == 8)
-					{
-						//This is a player. Attempt to use the player based inputTrigger
-						P2PInteractions playerInteractions = inputTrigger.gameObject.GetComponent<P2PInteractions>();
-						if (playerInteractions != null)
-						{
-							interacted = playerInteractions.Trigger(position);
-						}
-					}
 					if (interacted)
 					{
 						return true;
