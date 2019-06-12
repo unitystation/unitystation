@@ -24,6 +24,7 @@ public class GUI_Vendor : NetTab
 	private EmptyItemList itemList;
 	[SerializeField]
 	private NetColorChanger hullColor;
+	private bool inited = false;
 
 	private void Start()
 	{
@@ -31,6 +32,7 @@ public class GUI_Vendor : NetTab
 		GenerateContentList();
 		hullColor.SetValue = ColorUtility.ToHtmlStringRGB(vendor.HullColor);
 		UpdateList();
+		inited = true;
 	}
 
 	private void GenerateContentList()
@@ -44,6 +46,8 @@ public class GUI_Vendor : NetTab
 
 	public override void OnEnable()
 	{
+		if (!inited)
+			return;
 		CheckRestock();
 		UpdateList();
 		allowSell = true;
