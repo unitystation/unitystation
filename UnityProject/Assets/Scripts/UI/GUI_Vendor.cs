@@ -14,6 +14,8 @@ public class GUI_Vendor : NetTab
 	private string interactionMessage = "Item given.";
 	[SerializeField]
 	private string deniedMessage = "Bzzt.";
+	[SerializeField]
+	private string restockMessage = "Stock refreshed.";
 
 	private VendorTrigger vendor;
 	private List<VendorItem> vendorContent = new List<VendorItem>();
@@ -25,17 +27,63 @@ public class GUI_Vendor : NetTab
 	private void Start()
 	{
 		vendor = Provider.GetComponent<VendorTrigger>();
-		vendorContent = vendor.VendorContent;
+		GenerateContentList();
 		hullColor.SetValue = ColorUtility.ToHtmlStringRGB(vendor.HullColor);
-		GenerateList();
+		UpdateList();
 	}
 
-	protected override void InitServer()
+	private void GenerateContentList()
 	{
-		
+		vendorContent = new List<VendorItem>();
+		for (int i = 0; i < vendor.VendorContent.Count; i++)
+		{
+			vendorContent.Add(new VendorItem(vendor.VendorContent[i]));
+		}
 	}
 
-	private void GenerateList()
+	public override void OnEnable()
+	{
+		CheckRestock();
+		base.OnEnable();
+	}
+
+	private void CheckRestock()
+	{
+		if (!vendor || !vendor.Originator)
+		{
+			return;
+		}
+		PlayerScript ps = vendor.Originator.GetComponent<PlayerScript>();
+		if (!ps || ps.canNotInteract() || !ps.IsInReach(vendor.InteractPosition, true))
+		{
+			return;
+		}
+
+		var slot = InventoryManager.GetSlotFromOriginatorHand(vendor.Originator, vendor.InteractHand);
+		var restock = slot.Item?.GetComponentInChildren<VendingRestock>();
+		if (restock != null && RestockItems())
+		{
+			GameObject item = ps.playerNetworkActions.Inventory[vendor.InteractHand].Item;
+			InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
+		}
+	}
+
+	public bool RestockItems()
+	{
+		for (int i = 0; i < vendorContent.Count; i++)
+		{
+			if (vendorContent[i].Stock != vendor.VendorContent[i].Stock)
+			{
+				GenerateContentList();
+				UpdateList();
+				UpdateChatMessage.Send(vendor.Originator, ChatChannel.Examine, restockMessage);
+				return (true);
+			}
+		}
+		return (false);
+	}
+
+	private void UpdateList()
 	{
 		itemList.Clear();
 		itemList.AddItems(vendorContent.Count);
@@ -49,10 +97,28 @@ public class GUI_Vendor : NetTab
 	public void VendItem(VendorItem item)
 	{
 		if (CanSell() == false)
+		{
 			return;
+		}
+
+		VendorItem itemToSpawn = null;
+		foreach (var vendorItem in vendorContent)
+		{
+			if (vendorItem == item)
+			{
+				itemToSpawn = item;
+				break;
+			}
+		}
+		if (itemToSpawn == null || itemToSpawn.Stock <= 0)
+		{
+			UpdateChatMessage.Send(vendor.Originator, ChatChannel.Examine, deniedMessage);
+			return;
+		}
 
 		Vector3 spawnPos = vendor.gameObject.RegisterTile().WorldPositionServer;
-		var spawnedItem = PoolManager.PoolNetworkInstantiate(item.item, spawnPos, vendor.transform.parent);
+		var spawnedItem = PoolManager.PoolNetworkInstantiate(itemToSpawn.Item, spawnPos, vendor.transform.parent);
+		itemToSpawn.Stock--;
 
 		//Ejecting in direction
 		if (vendor.EjectObjects && vendor.EjectDirection != EjectDirection.None)
@@ -80,6 +146,8 @@ public class GUI_Vendor : NetTab
 			});
 		}
 
+		UpdateChatMessage.Send(vendor.Originator, ChatChannel.Examine, interactionMessage);
+		UpdateList();
 		allowSell = false;
 		StartCoroutine(VendorInputCoolDown());
 	}
@@ -92,7 +160,6 @@ public class GUI_Vendor : NetTab
 		}
 		else if (allowSell && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
 		{
-			UpdateChatMessage.Send(vendor.Originator, ChatChannel.Examine, interactionMessage);
 			return true;
 		}
 		return false;

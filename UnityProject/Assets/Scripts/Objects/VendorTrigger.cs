@@ -9,6 +9,8 @@ public class VendorTrigger : NetworkTabTrigger
 	public List<VendorItem> VendorContent = new List<VendorItem>();
 	[HideInInspector]
 	public GameObject Originator;
+	public Vector3 InteractPosition;
+	public string InteractHand;
 	public Color HullColor = Color.white;
 	public bool EjectObjects = false;
 	public EjectDirection EjectDirection = EjectDirection.None;
@@ -16,7 +18,11 @@ public class VendorTrigger : NetworkTabTrigger
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		if (CustomNetworkManager.Instance._isServer)
+		{
 			Originator = originator;
+			InteractPosition = position;
+			InteractHand = hand;
+		}
 		return base.Interact(originator, position, hand);
 	}
 }
@@ -28,5 +34,12 @@ public enum EjectDirection { None, Up, Down, Random }
 [System.Serializable]
 public class VendorItem
 {
-	public GameObject item;
+	public GameObject Item;
+	public int Stock = 5;
+
+	public VendorItem(VendorItem item)
+	{
+		this.Item = item.Item;
+		this.Stock = item.Stock;
+	}
 }
