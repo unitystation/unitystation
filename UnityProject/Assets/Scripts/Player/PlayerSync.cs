@@ -94,8 +94,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// For client code
 	public PlayerState ClientState => playerState;
 
-		private LivingHealthBehaviour healthBehaviorScript;
-
 	public PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private UserControlledSprites playerSprites;
@@ -378,7 +376,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 		playerScript = GetComponent<PlayerScript>();
 		playerSprites = GetComponent<UserControlledSprites>();
-		healthBehaviorScript = GetComponent<LivingHealthBehaviour>();
 		registerTile = GetComponent<RegisterTile>();
 		pushPull = GetComponent<PushPull>();
 	}
@@ -413,13 +410,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		Synchronize();
 	}
-
-	private void RegisterObjects()
-	{
-		//Register playerpos in matrix
-
-	}
-
 	private void Synchronize()
 	{
 		if (isLocalPlayer && GameData.IsHeadlessServer)

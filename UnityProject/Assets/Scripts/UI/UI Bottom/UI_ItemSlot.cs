@@ -31,7 +31,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	public bool IsFull => Item != null;
 
-	//Inventoryslot theifing is prevented by the UUID system 
+	//Inventoryslot theifing is prevented by the UUID system
 	//(clients don't know what other clients UUID's are and all slots are server authorative with validation checks)
 	public InventorySlot inventorySlot { get; set; }
 
@@ -72,7 +72,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	IEnumerator SetSlotOnEnable()
 	{
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		if (!InventoryManager.AllClientInventorySlots.Contains(inventorySlot))
 		{
 			InventoryManager.AllClientInventorySlots.Add(inventorySlot);
@@ -241,7 +241,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 			{
 				// If there is an an interaction, run and check if it wants to swap
 				var inputTrigger = Item.GetComponent<InputTrigger>();
-				bool response = inputTrigger.UI_InteractOtherSlot(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item);
+				bool response = inputTrigger == null || inputTrigger.UI_InteractOtherSlot(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item);
 				if (response)
 				{
 					UIManager.Hands.SwapItem(this);
@@ -258,7 +258,10 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		if (Item != null && UIManager.Hands.CurrentSlot.eventName == eventName)
 		{
 			var inputTrigger = Item.GetComponent<InputTrigger>();
-			inputTrigger.UI_Interact(PlayerManager.LocalPlayer, eventName);
+			if (inputTrigger != null)
+			{
+				inputTrigger.UI_Interact(PlayerManager.LocalPlayer, eventName);
+			}
 		}
 		else
 		{

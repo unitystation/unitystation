@@ -46,6 +46,9 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public Vector3Int WorldPos => registerTile.WorldPositionServer;
 
+	/// <summary>
+	/// The currently selected chat channels. Prunes all unavailable ones on get.
+	/// </summary>
 	public ChatChannel SelectedChannels
 	{
 		get { return selectedChannels & GetAvailableChannelsMask(); }
@@ -73,9 +76,9 @@ public class PlayerScript : ManagedNetworkBehaviour
 	{
 		//fixme: name isn't resolved at the moment of pool creation
 		//(player pools now use netIDs, but it would be nice to have names for readability)
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		OnNameChange(playerName);
-		yield return new WaitForSeconds(1f);
+		yield return WaitFor.Seconds(1f);
 		//Refresh chat log:
 		//s		ChatRelay.Instance.RefreshLog();
 	}
@@ -150,8 +153,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 			//				Request sync to get all the latest transform data
 			new RequestSyncMessage().Send();
-			SelectedChannels = ChatChannel.Local;
-
+			EventManager.Broadcast(EVENT.UpdateChatChannels);
 		}
 	}
 

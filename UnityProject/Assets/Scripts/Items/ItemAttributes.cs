@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 using Random = System.Random;
 
 [RequireComponent(typeof(ObjectBehaviour))]
-public class ItemAttributes : NetworkBehaviour
+public class ItemAttributes : NetworkBehaviour, IRightClickable
 {
 	private const string MaskInternalsFlag = "MASKINTERNALS";
 	private const string ObjItemClothing = "/obj/item/clothing";
@@ -80,11 +80,11 @@ public class ItemAttributes : NetworkBehaviour
 	/// throw-related fields
 	[Tooltip("Damage when we click someone with harm intent")]
 	[Range(0, 100)]
-	public float hitDamage = 2;
+	public float hitDamage = 0;
 
 	[Tooltip("How painful it is when someone throws it at you")]
 	[Range(0, 100)]
-	public float throwDamage = 2;
+	public float throwDamage = 0;
 
 	[Tooltip("How many tiles to move per 0.1s when being thrown")]
 	public float throwSpeed = 2;
@@ -111,11 +111,12 @@ public class ItemAttributes : NetworkBehaviour
 
 	private IEnumerator WaitForLoad()
 	{
-		//		yield return new WaitForSeconds(2f);
+		//		yield return WaitFor.Seconds(2f);
 		ConstructItem(hierarchy);
 		yield return null;
 	}
 
+	//invoked when cloned, copy the item attribute hier
 	/// <summary>
 	/// Invoked when cloned copies the item attribute hier
 	/// </summary>
@@ -132,7 +133,7 @@ public class ItemAttributes : NetworkBehaviour
 
 	public List<string> TryParseList(string attr)
 	{
-		return 
+		return
 			TryGetAttr(attr)
 			.Trim()
 			.Replace("list(", "")
@@ -321,7 +322,7 @@ public class ItemAttributes : NetworkBehaviour
 			DmiState state = dmi.searchStateInIcon(states[i], icons, 4, false);
 
 			if (state == null) continue;
-			
+
 			return state.offset;
 		}
 
@@ -496,12 +497,17 @@ public class ItemAttributes : NetworkBehaviour
 		}
 	}
 
-	[ContextMethod("Examine", "Magnifying_glass")]
-	public void OnExamine()
+	private void OnExamine()
 	{
 		if (!string.IsNullOrEmpty(itemDescription))
 		{
 			ChatRelay.Instance.AddToChatLogClient(itemDescription, ChatChannel.Examine);
 		}
+	}
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		return RightClickableResult.Create()
+			.AddElement("Examine", OnExamine);
 	}
 }

@@ -16,14 +16,10 @@ public class ElectronicData  { //to Store data about the electrical device
 	/// The things connected in the vicinity of this
 	/// </summary>
 	public HashSet<ElectricalOIinheritance> connections = new HashSet<ElectricalOIinheritance> ();
-	public int FirstPresent;
-	public Electricity ActualCurrentChargeInWire = new Electricity();
-	public float UpstreamCount;
-	public float DownstreamCount;
 	public float CurrentInWire;
 	public float ActualVoltage;
 	public float EstimatedResistance;
-	public float SupplyingCurrent;
+	public float SupplyingCurrent; //Doesn't really need to access this from the data but no harm in keeping it around  could access from the  supplying device module
 	public float InternalResistance;
 	public float SupplyingVoltage;
 	public bool ChangeToOff;

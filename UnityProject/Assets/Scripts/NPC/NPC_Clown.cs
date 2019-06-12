@@ -39,7 +39,7 @@ using UnityEngine;
 		{
 			float ranTime = Random.Range(0.2f, 6f);
 
-			yield return new WaitForSeconds(ranTime);
+			yield return WaitFor.Seconds(ranTime);
 
 			int ranDir = Random.Range(0, 4);
 

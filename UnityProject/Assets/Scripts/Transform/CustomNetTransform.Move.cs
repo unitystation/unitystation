@@ -329,8 +329,13 @@ public partial class CustomNetTransform
 	/// Nudge object (sliding on the ground, not in the air)
 	/// </summary>
 	[Server]
-	public void Nudge(NudgeInfo info)
-	{
+	public void Nudge( NudgeInfo info ) {
+		
+		if ( PushPull.isNotPushable )
+        {
+            return;
+        }
+
 		Vector2 impulse = info.Trajectory.normalized;
 
 		serverState.Speed = info.InitialSpeed;

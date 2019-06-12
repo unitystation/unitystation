@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class BackPackTrigger : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class BackPackTrigger : InputTrigger
 {
 	private StorageObject storageObj;
 	private ObjectBehaviour objectBehaviour;
+
+	void Start()
+	{
+		var pickup = GetComponent<Pickupable>();
+		if (pickup != null)
+		{
+			pickup.OnPickupServer.AddListener(OnPickupServer);
+		}
+	}
 
 	void Awake()
 	{
 		storageObj = GetComponent<StorageObject>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+
 	}
 	public override bool UI_InteractOtherSlot(GameObject originator, GameObject item)
 	{
@@ -42,6 +53,12 @@ public class BackPackTrigger : PickUpTrigger
 		return false;
 	}
 
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	{
+		//TODO: Remove once refactored to IF2
+		return false;
+	}
+
 	public override void UI_Interact(GameObject originator, string hand)
 	{
 		if (UIManager.StorageHandler.storageCache != storageObj)
@@ -55,11 +72,9 @@ public class BackPackTrigger : PickUpTrigger
 	}
 
 	[Server]
-	public override bool ValidatePickUp(GameObject originator, string handSlot = null)
+	public void OnPickupServer(HandApply interaction)
 	{
 		//Do a sync of the storage items when adding to UI
-		storageObj.NotifyPlayer(originator);
-
-		return base.ValidatePickUp(originator, handSlot);
+		storageObj.NotifyPlayer(interaction.Performer);
 	}
 }

@@ -42,7 +42,7 @@ public class ChatIcon : MonoBehaviour
 
 	private IEnumerator WaitToTurnOff()
 	{
-		yield return new WaitForSeconds(3f);
+		yield return WaitFor.Seconds(3f);
 		spriteRend.enabled = false;
 	}
 }

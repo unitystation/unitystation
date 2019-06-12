@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireExtinguisher : PickUpTrigger
+public class FireExtinguisher : Pickupable
 {
 
 }

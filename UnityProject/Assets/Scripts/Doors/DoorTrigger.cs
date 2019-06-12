@@ -67,7 +67,7 @@ public class DoorTrigger : InputTrigger
 	/// Disables any interactions with door for a while
 	private IEnumerator DoorInputCoolDown()
 	{
-		yield return new WaitForSeconds(0.3f);
+		yield return WaitFor.Seconds(0.3f);
 		allowInput = true;
 	}
 }

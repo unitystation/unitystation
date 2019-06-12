@@ -93,6 +93,7 @@ public class PlayerMove : NetworkBehaviour
 
 	/// <summary>
 	/// Whether character is restrained, such as by being buckled to a chair
+	/// TODO: Differentiate between being handcuffed and dragged (where you can turn around) and being buckled to a chair (where you may not)
 	/// </summary>
 	public bool IsRestrained => restrained;
 

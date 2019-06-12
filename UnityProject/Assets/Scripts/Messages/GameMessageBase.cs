@@ -33,7 +33,7 @@ public abstract class GameMessageBase : MessageBase
 				yield break;
 			}
 
-			yield return YieldHelper.EndOfFrame;
+			yield return global::WaitFor.EndOfFrame;
 		}
 	}
 
@@ -50,7 +50,7 @@ public abstract class GameMessageBase : MessageBase
 
 		while (!AllLoaded(ids))
 		{
-			yield return YieldHelper.EndOfFrame;
+			yield return global::WaitFor.EndOfFrame;
 		}
 	}
 

@@ -397,7 +397,7 @@ MonoBehaviour:
   CurrentCapacity: 1800000
   ExtraChargeCutOff: 3000
   IncreasedChargeVoltage: 3010
-  StandardChargeNumber: 12
+  StandardChargeNumber: 1
   ChargeSteps: 0.1
   MaxChargingMultiplier: 1.5
   ChargingMultiplier: 0.1
@@ -405,6 +405,7 @@ MonoBehaviour:
   Cansupport: 1
   ToggleCanCharge: 1
   ToggleCansupport: 1
+  SlowResponse: 0
   PullLastDeductedTime: 0
   ChargLastDeductedTime: 0
   PullingWatts: 0

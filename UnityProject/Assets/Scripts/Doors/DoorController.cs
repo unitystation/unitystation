@@ -136,7 +136,7 @@ using UnityEngine.Networking;
 		private IEnumerator WaitUntilClose()
 		{
 			// After the door opens, wait until it's supposed to close.
-			yield return new WaitForSeconds(maxTimeOpen);
+			yield return WaitFor.Seconds(maxTimeOpen);
 			if (isServer)
 			{
 				TryClose();

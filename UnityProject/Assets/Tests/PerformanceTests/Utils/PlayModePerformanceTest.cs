@@ -14,7 +14,7 @@ namespace Tests
 
 		protected abstract SampleGroupDefinition[] SampleGroupDefinitions { get; }
 
-		protected WaitForSecondsRealtime Settle() => new WaitForSecondsRealtime(SettleSeconds);
+		protected WaitForSecondsRealtime Settle() => WaitFor.SecondsRealtime(SettleSeconds);
 
 		protected IEnumerator UpdateBenchmark(int sampleCount = DefaultSamples)
 		{

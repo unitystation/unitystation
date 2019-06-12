@@ -79,7 +79,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	private IEnumerator DryUp(MetaDataNode tile)
 	{
-		yield return new WaitForSeconds(15f);
+		yield return WaitFor.Seconds(15f);
 		tile.IsSlippery = false;
 	}
 

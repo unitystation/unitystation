@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// The main girder component
 /// </summary>
+[RequireComponent(typeof(Pickupable))]
 public class GirderTrigger : InputTrigger
 {
 	private TileChangeManager tileChangeManager;
@@ -48,7 +49,7 @@ public class GirderTrigger : InputTrigger
 		}
 
 		if (handObj.GetComponent<WrenchTrigger>()){
-			SoundManager.PlayAtPosition("Wrench", transform.localPosition);
+			SoundManager.PlayNetworkedAtPos("Wrench", transform.localPosition, 1f);
 			var progressFinishAction = new FinishProgressAction(
 				reason =>
 				{
@@ -75,7 +76,7 @@ public class GirderTrigger : InputTrigger
 	[Server]
 	private void ConstructWall(GameObject handObj){
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), TileType.Wall, "Wall");
-		handObj.GetComponent<PickUpTrigger>().DisappearObject();
+		handObj.GetComponent<Pickupable>().DisappearObject();
 		DisappearObject();
 	}
 

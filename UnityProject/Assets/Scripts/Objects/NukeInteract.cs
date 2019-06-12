@@ -39,11 +39,11 @@ public class NukeInteract : NetworkTabTrigger
 
 	IEnumerator WaitForDeath()
 	{
-		yield return new WaitForSeconds(5f);
+		yield return WaitFor.Seconds(5f);
 		GibMessage.Send();
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		PlayerList.Instance.ReportScores(); //Report scores for who won (Crew or Syndicate)
-		yield return new WaitForSeconds(30f);
+		yield return WaitFor.Seconds(30f);
 		//Restart Round:
 		GameManager.Instance.RestartRound();
 	}
@@ -77,7 +77,7 @@ public class NukeInteract : NetworkTabTrigger
 
 		SoundManager.StopAmbient();
 		//turning off all the UI except for the right panel
-		UIManager.Display.hudRight.gameObject.SetActive(false);
+		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		UIManager.Display.hudBottom.gameObject.SetActive(false);
 		UIManager.Display.backGround.SetActive(false);
 		ControlChat.Instance.CloseChatWindow();

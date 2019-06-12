@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(Pickupable))]
 public class Welder : NetworkBehaviour
 {
 	//TODO: Update the sprites from the array below based on how much fuel is left
@@ -59,6 +61,20 @@ public class Welder : NetworkBehaviour
 	{
 		serverFuelAmt = 100f;
 		clientFuelAmt = 100f;
+	}
+
+	private void Start()
+	{
+		var pickup = GetComponent<Pickupable>();
+		if (pickup != null)
+		{
+			pickup.OnPickupServer.AddListener(OnPickupServer);
+		}
+	}
+
+	private void OnPickupServer(HandApply interaction)
+	{
+		heldByPlayer = interaction.Performer;
 	}
 
 	void Awake()
@@ -192,7 +208,7 @@ public class Welder : NetworkBehaviour
 				reactionManager.ExposeHotspot(position, 700, 0.005f);
 			}
 
-			yield return YieldHelper.DeciSecond;
+			yield return WaitFor.Seconds(.1f);
 		}
 	}
 }

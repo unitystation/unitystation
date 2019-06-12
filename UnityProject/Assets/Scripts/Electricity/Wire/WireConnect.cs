@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -8,18 +9,42 @@ public class WireConnect : ElectricalOIinheritance
 {
 	public CableInheritance ControllingCable;
 	public CableLine RelatedLine;
+	public MachineConnectorSpriteHandler SpriteHandler;
+	//public override void OnStartServer()
+	//{
+	//	base.OnStartServer();
+	//	StartCoroutine(WaitForLoad());
+	//}
+
+	//IEnumerator WaitForLoad()
+	//{
+	//	yield return WaitFor.Seconds(7);
+	//	if (SpriteHandler != null)
+	//	{
+	//		SpriteHandler.Check();
+	//	}
+	//	FindPossibleConnections();
+	//}
+
+	public override void FindPossibleConnections()
+	{
+		base.FindPossibleConnections();
+		if (SpriteHandler != null){
+			SpriteHandler.Check();
+		}
+	}
 
 	public override void DirectionInput( GameObject SourceInstance, ElectricalOIinheritance ComingFrom, CableLine PassOn  = null){
 		InputOutputFunctions.DirectionInput ( SourceInstance, ComingFrom, this);
 		if (PassOn == null) {
 			if (RelatedLine != null) {
-				if (RelatedLine.TheEnd == this.GetComponent<ElectricalOIinheritance> ()) {
-					//Logger.Log ("looc");
-				} else if (RelatedLine.TheStart == this.GetComponent<ElectricalOIinheritance> ()) {
-					//Logger.Log ("cool");
-				} else {
-					//Logger.Log ("hELP{!!!");
-				}
+				//if (RelatedLine.TheEnd == this.GetComponent<ElectricalOIinheritance> ()) {
+				//	//Logger.Log ("looc");
+				//} else if (RelatedLine.TheStart == this.GetComponent<ElectricalOIinheritance> ()) {
+				//	//Logger.Log ("cool");
+				//} else {
+				//	//Logger.Log ("hELP{!!!");
+				//}
 			} else {
 				if (!(Data.connections.Count > 2)) {
 					RelatedLine = new CableLine ();
@@ -38,30 +63,23 @@ public class WireConnect : ElectricalOIinheritance
 	}
 
 	public override void DirectionOutput( GameObject SourceInstance){
-		
+
 		int SourceInstanceID = SourceInstance.GetInstanceID();
 		//Logger.Log (this.gameObject.GetInstanceID().ToString() + " <ID | Downstream = "+Data.Downstream[SourceInstanceID].Count.ToString() + " Upstream = " + Data.Upstream[SourceInstanceID].Count.ToString () + this.name + " <  name! ", Category.Electrical);
 		if (RelatedLine == null) {
 			InputOutputFunctions.DirectionOutput (SourceInstance, this);
 		} else {
-			
-			ElectricalOIinheritance GoingTo; 
+
+			ElectricalOIinheritance GoingTo;
 			if (RelatedLine.TheEnd == this.GetComponent<ElectricalOIinheritance> ()) {
 				GoingTo = RelatedLine.TheStart;
 			} else if (RelatedLine.TheStart == this.GetComponent<ElectricalOIinheritance> ()) {
 				GoingTo = RelatedLine.TheEnd;
 			} else {
 				GoingTo = null;
-				return; 
+				return;
 			}
 
-			if (GoingTo != null) {
-				//Logger.Log ("to" + GoingTo.GameObject ().name);///wow
-			}
-
-			foreach (ElectricalOIinheritance bob in Data.SupplyDependent[SourceInstanceID].Upstream){
-				//Logger.Log("Upstream" + bob.GameObject ().name );
-			}
 			if (!(Data.SupplyDependent[SourceInstanceID].Downstream.Contains (GoingTo) || Data.SupplyDependent[SourceInstanceID].Upstream.Contains (GoingTo)) )  {
 				Data.SupplyDependent[SourceInstanceID].Downstream.Add (GoingTo);
 
@@ -80,15 +98,6 @@ public class WireConnect : ElectricalOIinheritance
 			ElectricalSynchronisation.CableUpdates.Add(ControllingCable);
 		}
 	}
-
-	//public void UpdateRelatedLine()
-	//{
-	//	if (RelatedLine != null)
-	//	{
-	//		RelatedLine.UpdateCoveringCable();
-
-	//	}
-	//}
 
 	public void lineExplore(CableLine PassOn, GameObject SourceInstance = null)
 	{
@@ -133,7 +142,6 @@ public class WireConnect : ElectricalOIinheritance
 							Related.GameObject().GetComponent<WireConnect>().lineExplore(RelatedLine);
 						}
 					}
-
 				}
 			}
 		}
@@ -142,10 +150,8 @@ public class WireConnect : ElectricalOIinheritance
 
 	public override void FlushConnectionAndUp()
 	{
-
 		ElectricalDataCleanup.PowerSupplies.FlushConnectionAndUp(this);
 		RelatedLine = null;
-		//InData.ControllingDevice.PotentialDestroyed();
 	}
 	public override void FlushResistanceAndUp(GameObject SourceInstance = null)
 	{
@@ -218,8 +224,8 @@ public class WireConnect : ElectricalOIinheritance
 			RelatedLine.PassOnRemoveSupply (this, SourceInstance);
 		}
 	}
-	[ContextMethod("Details", "Magnifying_glass")]
-	public override void ShowDetails()
+
+	protected override void ShowDetails()
 	{
 		if (isServer)
 		{
@@ -228,24 +234,11 @@ public class WireConnect : ElectricalOIinheritance
 			Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
 			Logger.Log("Type " + (InData.Categorytype.ToString()), Category.Electrical);
 			Logger.Log("Can connect to " + (string.Join(",", InData.CanConnectTo)), Category.Electrical);
-			foreach (var Supply in Data.SupplyDependent) {
-				string ToLog;
-				ToLog = "Supply > " + Supply.Key + "\n";
-				ToLog += "Upstream > ";
-				ToLog += string.Join(",", Supply.Value.Upstream) + "\n";
-				ToLog += "Downstream > ";
-				ToLog += string.Join(",", Supply.Value.Downstream) + "\n";
-				ToLog += "ResistanceGoingTo > ";
-				ToLog += string.Join(",", Supply.Value.ResistanceGoingTo) + "\n";
-				ToLog += "ResistanceComingFrom > ";
-				ToLog += string.Join(",", Supply.Value.ResistanceComingFrom) + "\n";
-				ToLog += "CurrentComingFrom > ";
-				ToLog += string.Join(",", Supply.Value.CurrentComingFrom) + "\n";
-				ToLog += "CurrentGoingTo > ";
-				ToLog += string.Join(",", Supply.Value.CurrentGoingTo) + "\n";
-				ToLog += Supply.Value.SourceVoltages.ToString();
-				Logger.Log(ToLog, Category.Electrical);
+			foreach (var Supply in Data.SupplyDependent)
+			{
+				LogSupply(Supply);
 			}
+
 			if (RelatedLine != null)
 			{
 				Logger.Log("line heree!!!");
@@ -253,29 +246,32 @@ public class WireConnect : ElectricalOIinheritance
 				Data.ActualVoltage = RelatedLine.TheEnd.Data.ActualVoltage;
 				Data.CurrentInWire = RelatedLine.TheEnd.Data.CurrentInWire;
 				Data.EstimatedResistance = RelatedLine.TheEnd.Data.EstimatedResistance;
-				foreach (var Supply in RelatedLine.TheEnd.Data.SupplyDependent)
-				{
-					string ToLog;
-					ToLog = "Supply > " + Supply.Key + "\n";
-					ToLog += "Upstream > ";
-					ToLog += string.Join(",", Supply.Value.Upstream) + "\n";
-					ToLog += "Downstream > ";
-					ToLog += string.Join(",", Supply.Value.Downstream) + "\n";
-					ToLog += "ResistanceGoingTo > ";
-					ToLog += string.Join(",", Supply.Value.ResistanceGoingTo) + "\n";
-					ToLog += "ResistanceComingFrom > ";
-					ToLog += string.Join(",", Supply.Value.ResistanceComingFrom) + "\n";
-					ToLog += "CurrentComingFrom > ";
-					ToLog += string.Join(",", Supply.Value.CurrentComingFrom) + "\n";
-					ToLog += "CurrentGoingTo > ";
-					ToLog += string.Join(",", Supply.Value.CurrentGoingTo) + "\n";
-					ToLog += Supply.Value.SourceVoltages.ToString();
-					Logger.Log(ToLog, Category.Electrical);
-				}
+
+				foreach (var Supply in RelatedLine.TheEnd.Data.SupplyDependent) LogSupply(Supply);
 			}
 			Logger.Log(" ActualVoltage > " + Data.ActualVoltage + " CurrentInWire > " + Data.CurrentInWire + " EstimatedResistance >  " + Data.EstimatedResistance, Category.Electrical);
 		}
-
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
+	}
+
+	private void LogSupply(KeyValuePair<int, ElectronicSupplyData> supply)
+	{
+		var sv = supply.Value;
+		StringBuilder logMessage = new StringBuilder();
+		logMessage.AppendLine("Supply > " + supply.Key);
+		logMessage.Append("Upstream > ");
+		logMessage.AppendLine(string.Join(",", sv.Upstream));
+		logMessage.Append("Downstream > ");
+		logMessage.AppendLine(string.Join(",", sv.Downstream));
+		logMessage.Append("ResistanceGoingTo > ");
+		logMessage.AppendLine(string.Join(",", sv.ResistanceGoingTo));
+		logMessage.Append("ResistanceComingFrom > ");
+		logMessage.AppendLine(string.Join(",", sv.ResistanceComingFrom));
+		logMessage.Append("CurrentComingFrom > ");
+		logMessage.AppendLine(string.Join(",", sv.CurrentComingFrom));
+		logMessage.Append("CurrentGoingTo > ");
+		logMessage.AppendLine(string.Join(",", sv.CurrentGoingTo));
+		logMessage.Append(sv.SourceVoltages.ToString());
+		Logger.Log(logMessage.ToString(), Category.Electrical);
 	}
 }

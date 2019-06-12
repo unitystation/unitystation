@@ -170,9 +170,11 @@ GameObject:
   - component: {fileID: 61199487226274286}
   - component: {fileID: 61206666438295416}
   - component: {fileID: 114093823026356112}
+  - component: {fileID: 587524036529041418}
   - component: {fileID: 114178605300182066}
   - component: {fileID: 114784912755194898}
   - component: {fileID: 114080400140570374}
+  - component: {fileID: 7421829385032138288}
   m_Layer: 11
   m_Name: Cloning_Console
   m_TagString: Untagged
@@ -282,6 +284,19 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &587524036529041418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581020911112336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60ab2691c833e4d47acba80181e7ebd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 8
 --- !u!114 &114178605300182066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,6 +371,26 @@ MonoBehaviour:
   - {fileID: 21300210, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
   - {fileID: 21300212, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
   - {fileID: 21300214, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+--- !u!114 &7421829385032138288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581020911112336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinimumWorkingVoltage: 190
+  MaximumWorkingVoltage: 300
+  IsEnvironmentalDevice: 0
+  Wattusage: 50
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  State: 2
 --- !u!1 &1753008131445868
 GameObject:
   m_ObjectHideFlags: 0

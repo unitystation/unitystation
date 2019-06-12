@@ -24,11 +24,12 @@ public class Deconstruction : MonoBehaviour
 	public void ProcessDeconstructRequest(GameObject player, GameObject matrixRoot, TileType tileType,
 		Vector3 cellPos, Vector3 worldCellPos)
 	{
-		if (Vector3.Distance(player.transform.position, worldCellPos) > 1.5f)
+		if (player.Player().Script.IsInReach(worldCellPos, true) == false)
 		{
 			//Not in range on the server, do not process any further:
 			return;
 		}
+
 		//Process Wall deconstruct request:
 		if (tileType == TileType.Wall)
 		{

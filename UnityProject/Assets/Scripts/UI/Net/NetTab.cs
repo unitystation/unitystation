@@ -12,6 +12,8 @@ public enum NetTabType {
 	Paper = 4,
 	ChemistryDispenser = 5,
 	Apc = 6,
+	Cargo = 7,
+	CloningConsole = 8,
 	//add your tabs here
 }
 /// Descriptor for unique Net UI Tab
@@ -37,8 +39,30 @@ public class NetTab : Tab {
 	public ElementValue[] ElementValues => CachedElements.Values.Select( element => element.ElementValue ).ToArray(); //likely expensive
 
 	public virtual void OnEnable() {
-		InitElements();
+		if ( IsServer )
+		{
+			InitElements(true);
+			InitServer();
+		}
+		else
+		{
+			InitElements();
+		}
+		AfterInitElements();
 	}
+
+	private void AfterInitElements()
+	{
+		foreach ( var element in CachedElements.Values.ToArray() )
+		{
+			element.AfterInit();
+		}
+	}
+
+	/// <summary>
+/// Serverside-only init that happens once after fist element init
+/// </summary>
+	protected virtual void InitServer() { }
 
 	public NetUIElement this[ string elementId ] => CachedElements.ContainsKey(elementId) ? CachedElements[elementId] : null;
 
@@ -54,26 +78,46 @@ public class NetTab : Tab {
 		InitElements();
 	}
 
-	private void InitElements() {
+	private void InitElements(bool serverFirstTime = false) {
 		var elements = Elements;
 		//Init and add new elements to cache
-		for ( var i = 0; i < elements.Count; i++ ) {
-			NetUIElement element = elements[i];
-			if ( !CachedElements.ContainsValue( element ) ) {
+		foreach ( NetUIElement element in elements )
+		{
+			if ( serverFirstTime && element is NetPageSwitcher switcher && !switcher.StartInitialized )
+			{ //First time we make sure all pages are enabled in order to be scanned
+				switcher.Init();
+				InitElements(true);
+				return;
+			}
+
+			if ( !CachedElements.ContainsValue( element ) )
+			{
 				element.Init();
+
+				if ( CachedElements.ContainsValue( element ) )
+				{
+					//Someone called InitElements in Init()
+					Logger.LogError( $"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI );
+					return;
+				}
+
 				CachedElements.Add( element.name, element );
 			}
 		}
 
 		var toRemove = new List<string>();
 		//Mark non-existent elements for removal
-		foreach ( var pair in CachedElements ) {
-			if ( !elements.Contains(pair.Value) ) {
+		foreach ( var pair in CachedElements )
+		{
+			if ( !elements.Contains(pair.Value) )
+			{
 				toRemove.Add( pair.Key );
 			}
 		}
+
 		//Remove obsolete elements from cache
-		for ( var i = 0; i < toRemove.Count; i++ ) {
+		for ( var i = 0; i < toRemove.Count; i++ )
+		{
 			CachedElements.Remove( toRemove[i] );
 		}
 	}
@@ -87,7 +131,8 @@ public class NetTab : Tab {
 		//set DynamicList values first (so that corresponding subelements would get created)
 		for ( var i = 0; i < values.Length; i++ ) {
 			var elementId = values[i].Id;
-			if ( CachedElements.ContainsKey( elementId ) && this[elementId] is NetUIDynamicList ) {
+			if ( CachedElements.ContainsKey( elementId ) &&
+			     (this[elementId] is NetUIDynamicList || this[elementId] is NetPageSwitcher) ) {
 				bool listContentsChanged = this[elementId].Value != values[i].Value;
 				if ( listContentsChanged ) {
 					this[elementId].Value = values[i].Value;
@@ -120,9 +165,23 @@ public class NetTab : Tab {
 
 				}
 			} else {
-				Logger.LogWarning( $"'{name}' wonky value import: can't find '{elementId}'", Category.NetUI );
+				Logger.LogWarning( $"'{name}' wonky value import: can't find '{elementId}'.\n Expected: {string.Join("/",CachedElements.Keys)}", Category.NetUI );
 			}
 		}
 		return firstTouchedElement;
+	}
+
+	/// <summary>
+    /// Not sending updates and closing tab for players that don't pass the validation anymore
+	/// </summary>
+	public void ValidatePeepers()
+	{
+        foreach ( var peeper in Peepers.ToArray() )
+        {
+            bool validate = peeper.Script && !peeper.Script.canNotInteract() && peeper.Script.IsInReach( Provider, true );
+            if ( !validate ) {
+                TabUpdateMessage.Send( peeper.GameObject, Provider, Type, TabAction.Close );
+            }
+        }
 	}
 }

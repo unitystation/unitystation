@@ -54,33 +54,8 @@ public class GUI_Nuke : NetTab
 		}
 	}
 
-//ow
-//	private static string tgt = "One day while Andy was toggling, " +
-//	                            "Toggle got toggled. He could no longer help himself! " +
-//	                            "He watched as Andy stroked his juicy kawaii toggle.";
-//
-//	private bool tgtMode;
-//	public void ToggleGotToggled( bool toggled ) {
-//		if ( toggled ) {
-//			tgtMode = true;
-//			StartCoroutine( ToggleStory(0) );
-//		} else {
-//			tgtMode = false;
-//			InfoDisplay.SetValue = InitialInfoText;
-//		}
-//	}
-//	private IEnumerator ToggleStory(int word) {
-//		var strings = tgt.Split( ' ' );
-//		InfoDisplay.SetValue = strings.Wrap(word);
-//		yield return new WaitForSeconds( 0.15f );
-//		if ( tgtMode ) {
-//			StartCoroutine( ToggleStory(++word) );
-//		}
-//
-//	}
-
 	private IEnumerator HideCode() {
-		yield return new WaitForSeconds( 1 );
+		yield return WaitFor.Seconds( 1 );
 		CodeDisplay.SetValue = "".PadLeft( CodeDisplay.Value.Length, '*' );
 	}
 
@@ -107,17 +82,17 @@ public class GUI_Nuke : NetTab
 	public IEnumerator ErrorCooldown() {
 		cooldown = true;
 		InfoDisplay.SetValue = "Incorrect code!";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "Incorrect code!";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "Incorrect code!";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		cooldown = false;
 		Clear();
 		InfoDisplay.SetValue = InitialInfoText;

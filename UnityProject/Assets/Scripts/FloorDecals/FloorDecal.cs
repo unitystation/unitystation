@@ -17,7 +17,7 @@ public partial class FloorDecal : CustomNetTransform
 
 	private IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(3f);
+		yield return WaitFor.Seconds(3f);
 		SetSprite(sprite);
 		Splash();
 	}
