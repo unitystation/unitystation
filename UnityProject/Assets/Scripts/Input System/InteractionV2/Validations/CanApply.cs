@@ -4,9 +4,13 @@ using UnityEngine.Networking;
 
 /// <summary>
 /// Validates if the performer is in range and not in crit, which are typical requirements for all
-/// hand apply interactions. Can also optionally allow soft crit.
+/// various interactions. Can also optionally allow soft crit.
+///
+/// Also works for AimApply, but reach range is always UNLIMITED.
+///
 /// </summary>
-public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<MouseDrop>
+public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<MouseDrop>,
+	IInteractionValidator<AimApply>
 {
 	public static readonly CanApply EVEN_IF_SOFT_CRIT = new CanApply(true, ReachRange.STANDARD);
 	public static readonly CanApply ONLY_IF_CONSCIOUS = new CanApply(false, ReachRange.STANDARD);
@@ -33,7 +37,7 @@ public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<
 
 	private ValidationResult ValidateAll(TargetedInteraction toValidate, NetworkSide side)
 	{
-		return Validate(toValidate.Performer, toValidate.TargetObject, allowSoftCrit, side, reachRange) ? ValidationResult.SUCCESS : ValidationResult.FAIL;
+		return Validate(toValidate.Performer, toValidate.TargetObject, allowSoftCrit, side, reachRange);
 	}
 
 	public ValidationResult Validate(HandApply toValidate, NetworkSide side)
@@ -46,6 +50,11 @@ public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<
 		return ValidateAll(toValidate, side);
 	}
 
+	public ValidationResult Validate(AimApply toValidate, NetworkSide side)
+	{
+		return Validate(toValidate.Performer, null, allowSoftCrit, side, ReachRange.UNLIMITED);
+	}
+
 	/// <summary>
 	/// Perform the validation in a static context
 	/// </summary>
@@ -55,41 +64,42 @@ public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<
 	/// <param name="networkSide">whether client or server-side logic should be used</param>
 	/// <param name="reachRange">range of reach to allow</param>
 	/// <returns></returns>
-	public static bool Validate(GameObject player, GameObject target, bool allowSoftCrit, NetworkSide networkSide,
+	public static ValidationResult Validate(GameObject player, GameObject target, bool allowSoftCrit, NetworkSide networkSide,
 		ReachRange reachRange = ReachRange.STANDARD)
 	{
 		var playerScript = player.GetComponent<PlayerScript>();
 
 		if (playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
 		{
-			return false;
+			return ValidationResult.FAIL;
 		}
 
-		var result = false;
+		var result = ValidationResult.FAIL;
 		switch (reachRange)
 		{
 			case ReachRange.UNLIMITED:
-				result = true;
+				result = ValidationResult.SUCCESS;
 				break;
 			case ReachRange.STANDARD:
-				result = playerScript.IsInReach(target.transform.position, networkSide == NetworkSide.SERVER);
+				result = playerScript.IsInReach(target.transform.position, networkSide == NetworkSide.SERVER)
+					? ValidationResult.SUCCESS : ValidationResult.FAIL;
 				break;
 			case ReachRange.EXTENDED_SERVER:
 				//we don't check range client-side for this case.
 				if (networkSide == NetworkSide.CLIENT)
 				{
-					result = true;
+					result = ValidationResult.SUCCESS;
 				}
 				else
 				{
 					var cnt = target.GetComponent<CustomNetTransform>();
-					result = ServerCanReachExtended(playerScript, cnt.ServerState);
+					result = ServerCanReachExtended(playerScript, cnt.ServerState) ? ValidationResult.SUCCESS : ValidationResult.FAIL;
 
 				}
 				break;
 		}
 
-		if (result == false && networkSide == NetworkSide.SERVER)
+		if (result == ValidationResult.FAIL && networkSide == NetworkSide.SERVER)
 		{
 			//client tried to pick up something out of range, report it
 			var cnt = target.GetComponent<CustomNetTransform>();

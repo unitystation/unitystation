@@ -347,6 +347,26 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		return bodyPartDmg;
 	}
 
+	public float GetTotalBruteDamage()
+	{
+		float bruteDmg = 0;
+		for (int i = 0; i < BodyParts.Count; i++)
+		{
+			bruteDmg += BodyParts[i].BruteDamage;
+		}
+		return bruteDmg;
+	}
+
+	public float GetTotalBurnDamage()
+	{
+		float burnDmg = 0;
+		for (int i = 0; i < BodyParts.Count; i++)
+		{
+			burnDmg += BodyParts[i].BurnDamage;
+		}
+		return burnDmg;
+	}
+
 	/// Blood Loss and Toxin damage:
 	public int CalculateOverallBloodLossDamage()
 	{

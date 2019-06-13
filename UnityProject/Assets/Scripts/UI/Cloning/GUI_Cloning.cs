@@ -50,13 +50,13 @@ public class GUI_Cloning : NetTab
 
 	public void StartScan()
 	{
-		Logger.Log("Scanning", Category.NetUI);
+		CloningConsole.Scan();
 		UpdateDisplay();
 	}
 
 	public void LockScanner()
 	{
-		Logger.Log("Toggling scanner lock", Category.NetUI);
+		CloningConsole.ToggleLock();
 		UpdateDisplay();
 	}
 

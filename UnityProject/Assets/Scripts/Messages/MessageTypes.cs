@@ -61,5 +61,8 @@ internal enum MessageTypes : short
 	DevCloneMessage = 2016,
 	DevDestroyMessage = 2017,
 	RequestMouseDropMessage = 2018,
-	RequestInteractMessage = 2019
+	RequestHandApplyMessage = 2019,
+	RequestAimApplyMessage = 2020,
+	RequestActivateMessage = 2021,
+	RequestInventoryApplyMessage = 2022
 }

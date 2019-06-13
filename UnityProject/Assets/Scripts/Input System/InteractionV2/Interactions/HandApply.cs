@@ -9,25 +9,25 @@ using UnityEngine;
 /// </summary>
 public class HandApply : TargetedInteraction
 {
-	private readonly string handSlotName;
+	private readonly HandSlot handSlot;
 
-	public string HandSlotName => handSlotName;
+	public HandSlot HandSlot => handSlot;
 
 	/// <summary>
 	///
 	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
-	/// <param name="handObject">Object in the player's hand. Null if player's hand is empty.</param>
+	/// <param name="handObject">Object in the player's active hand. Null if player's hand is empty.</param>
 	/// <param name="targetObject">Object that the player clicked on</param>
-	/// <param name="handSlotName">name of the hand slot that is being used.</param>
-	public HandApply(GameObject performer, GameObject handObject, GameObject targetObject, string handSlotName) :
+	/// <param name="handSlot">active hand slot that is being used.</param>
+	private HandApply(GameObject performer, GameObject handObject, GameObject targetObject, HandSlot handSlot) :
 		base(performer, handObject, targetObject)
 	{
-		this.handSlotName = handSlotName;
+		this.handSlot = handSlot;
 	}
 
 	/// <summary>
-	/// Creates a HandApply interaction performed by the local player, on client side, targeting the specified object.
+	/// Creates a HandApply interaction performed by the local player targeting the specified object.
 	/// </summary>
 	/// <param name="targetObject">object targeted by the interaction</param>
 	/// <returns></returns>
@@ -36,6 +36,24 @@ public class HandApply : TargetedInteraction
 		return new HandApply(PlayerManager.LocalPlayer,
 			UIManager.Hands.CurrentSlot.Item,
 			targetObject,
-			UIManager.Instance.hands.CurrentSlot.eventName);
+			HandSlot.ForName(UIManager.Instance.hands.CurrentSlot.eventName));
+	}
+
+	/// <summary>
+	/// For server only. Create a hand apply interaction initiated by the client.
+	/// </summary>
+	/// <param name="clientPlayer">gameobject of the client's player</param>
+	/// <param name="targetObject">object client is targeting.</param>
+	/// <param name="handObject">object in the player's active hand. This parameter is used so
+	/// it doesn't need to be looked up again, since it already should've been looked up in
+	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.GetActiveHandItem().</param>
+	/// <param name="handSlot">Player's active hand. This parameter is used so
+	/// it doesn't need to be looked up again, since it already should've been looked up in
+	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.activeHand.</param>
+	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
+	public static HandApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject,
+		HandSlot handSlot)
+	{
+		return new HandApply(clientPlayer, handObject, targetObject, handSlot);
 	}
 }

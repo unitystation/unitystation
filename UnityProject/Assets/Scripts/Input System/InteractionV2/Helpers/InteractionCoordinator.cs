@@ -73,7 +73,7 @@ public class InteractionCoordinator<T>
 	{
 		if (validationChain.Validate(interaction, NetworkSide.CLIENT) == ValidationResult.SUCCESS)
 		{
-			RequestInteractMessage.Send(interaction, processor);
+			InteractionMessageUtils.SendRequest(interaction, processor);
 			return ValidationResult.SUCCESS;
 		}
 		else

@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 114416506546312668}
   - component: {fileID: 114523708158631030}
   - component: {fileID: 114064114876883076}
-  - component: {fileID: 114815510690793504}
   - component: {fileID: 114083348550750644}
   - component: {fileID: 114335168548285402}
   - component: {fileID: 114949645437376370}
+  - component: {fileID: 5019103039272272128}
   m_Layer: 10
   m_Name: Heirloom_Handgun_Ballistic
   m_TagString: Untagged
@@ -138,30 +138,6 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &114815510690793504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1269203658156660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12ad712be1fefd043b45761b18e23798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AmmoType: 9mm
-  SpawnsCaseing: 1
-  SmartGun: 0
-  CurrentRecoilVariance: 0
-  FireCountDown: 0
-  FireingSound: ShootGun01
-  FireRate: 4
-  MaxRecoilVariance: 0
-  Projectile: {fileID: 1932369758612010, guid: 40ea4aea218be439eaf29f853612870c, type: 3}
-  ProjectilesFired: 1
-  ProjectileVelocity: 10
-  WeaponType: 1
 --- !u!114 &114083348550750644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +199,30 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &5019103039272272128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269203658156660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8343d0f678a24c949baac4bba12c2f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoType: 9mm
+  SpawnsCaseing: 1
+  SmartGun: 0
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FireingSound: ShootGun01
+  FireRate: 4
+  MaxRecoilVariance: 0
+  Projectile: {fileID: 1932369758612010, guid: 40ea4aea218be439eaf29f853612870c, type: 3}
+  ProjectilesFired: 1
+  ProjectileVelocity: 10
+  WeaponType: 0
 --- !u!1 &1752804189775886
 GameObject:
   m_ObjectHideFlags: 0

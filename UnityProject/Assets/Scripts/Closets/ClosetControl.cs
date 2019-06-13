@@ -8,37 +8,31 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(RightClickAppearance))]
 public class ClosetControl : InputTrigger, IRightClickable
 {
-	private Sprite doorClosed;
-	public Sprite doorOpened;
-
 	[Header("Contents that will spawn inside every locker of type")]
 	public List<GameObject> DefaultContents;
 
 	//Inventory
 	private IEnumerable<ObjectBehaviour> heldItems = new List<ObjectBehaviour>();
+	protected List<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
 
-	private IEnumerable<ObjectBehaviour> heldPlayers = new List<ObjectBehaviour>();
-
-	[SyncVar(hook = nameof(OpenClose))] public bool IsClosed;
-
-	[SyncVar(hook = nameof(LockUnlock))] public bool IsLocked;
-	public GameObject items;
+	public bool IsClosed;
+	[SyncVar(hook = nameof(SetIsLocked))] public bool IsLocked;
 	public LockLightController lockLight;
+	public int playerLimit = 3;
 
 	private RegisterCloset registerTile;
 	private PushPull pushPull;
 	private Matrix matrix => registerTile.Matrix;
 	private ObjectBehaviour objectBehaviour;
 
+	[SyncVar(hook = nameof(SyncStatus))] public ClosetStatus statusSync;
+	protected Sprite doorClosed;
+	public Sprite doorOpened;
 	public SpriteRenderer spriteRenderer;
 
 	private void Awake()
 	{
 		doorClosed = spriteRenderer != null ? spriteRenderer.sprite : null;
-	}
-
-	private void Start()
-	{
 		registerTile = GetComponent<RegisterCloset>();
 		pushPull = GetComponent<PushPull>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
@@ -48,7 +42,6 @@ public class ClosetControl : InputTrigger, IRightClickable
 	{
 		StartCoroutine(WaitForServerReg());
 		base.OnStartServer();
-
 		foreach (GameObject itemPrefab in DefaultContents)
 		{
 			PoolManager.PoolNetworkInstantiate(itemPrefab, transform.position, parent: transform.parent);
@@ -58,24 +51,22 @@ public class ClosetControl : InputTrigger, IRightClickable
 	private IEnumerator WaitForServerReg()
 	{
 		yield return WaitFor.Seconds(1f);
-		IsClosed = true;
-		SetItems(!IsClosed);
+		SetIsClosed(true);
 	}
 
-	public override void OnStartClient()
+	public override void OnStartLocalPlayer()
 	{
-		StartCoroutine(WaitForLoad());
-		base.OnStartClient();
+		SyncSprite(statusSync);
+		SetIsLocked(IsLocked);
+		base.OnStartLocalPlayer();
 	}
 
-	/// SERVERSIDE -- Does this closet contain this object? (if it's closed)
 	public bool Contains(GameObject gameObject)
 	{
 		if (!IsClosed)
 		{
 			return false;
 		}
-
 		foreach (var player in heldPlayers)
 		{
 			if (player.gameObject == gameObject)
@@ -83,7 +74,6 @@ public class ClosetControl : InputTrigger, IRightClickable
 				return true;
 			}
 		}
-
 		foreach (var item in heldItems)
 		{
 			if (item.gameObject == gameObject)
@@ -91,242 +81,252 @@ public class ClosetControl : InputTrigger, IRightClickable
 				return true;
 			}
 		}
-
 		return false;
 	}
 
-	private IEnumerator WaitForLoad()
+	public void ToggleLocker()
 	{
-		yield return WaitFor.Seconds(3f);
-		bool iC = IsClosed;
-		bool iL = IsLocked;
-		OpenClose(iC);
-		LockUnlock(iL);
-	}
-
-	[Server]
-	public void ServerToggleCupboard()
-	{
+		SoundManager.PlayNetworkedAtPos("OpenClose", registerTile.WorldPositionServer, 1f);
 		if (IsClosed)
 		{
-			if (lockLight != null)
-			{
-				if (lockLight.IsLocked())
-				{
-					IsLocked = false;
-					return;
-				}
+			SetIsClosed(false);
+		}
+		else
+		{
+			SetIsClosed(true);
+		}
+	}
 
-				IsClosed = false;
-				SetItems(true);
+	private void SetIsClosed(bool value)
+	{
+		IsClosed = value;
+		HandleItems();
+		ChangeSprite();
+	}
+
+	private void SetIsLocked(bool value)
+	{
+		IsLocked = value;
+		if (lockLight)
+		{
+			if(IsLocked)
+			{
+				lockLight.Lock();
 			}
 			else
 			{
-				IsClosed = false;
-				SetItems(true);
+				lockLight.Unlock();
 			}
 		}
-		else
-		{
-			IsClosed = true;
-			SetItems(false);
-		}
 	}
 
-	private void OpenClose(bool isClosed)
+	private void ChangeSprite()
 	{
-		IsClosed = isClosed;
-		if (isClosed)
+		if(IsClosed)
 		{
-			Close();
-		}
-		else
-		{
-			Open();
-		}
-	}
-
-	private void LockUnlock(bool lockIt)
-	{
-		IsLocked = lockIt;
-		if (lockLight == null)
-		{
-			return;
-		}
-
-		if (lockIt)
-		{
-		}
-		else
-		{
-			lockLight.Unlock();
-		}
-	}
-
-	private void Close()
-	{
-		registerTile.IsClosed = true;
-		SoundManager.PlayAtPosition("OpenClose", transform.position);
-		spriteRenderer.sprite = doorClosed;
-		if (lockLight != null)
-		{
-			lockLight.Show();
-		}
-	}
-
-	private void Open()
-	{
-		registerTile.IsClosed = false;
-		SoundManager.PlayAtPosition("OpenClose", transform.position);
-		spriteRenderer.sprite = doorOpened;
-		if (lockLight != null)
-		{
-			lockLight.Hide();
-		}
-	}
-
-	private void GUIInteract()
-	{
-		//don't put your hand contents on open/close rmb action!
-		InteractInternal(false);
-	}
-
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		return InteractInternal();
-	}
-
-	private bool InteractInternal(bool placeItem = true)
-	{
-		//this better be rewritten to net messages: following code is executed on clientside
-		PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
-		if (localPlayer.canNotInteract())
-		{
-			return true;
-		}
-
-		bool isInReach = localPlayer.IsInReach(registerTile, false);
-		if (isInReach || localPlayer.IsHidden)
-		{
-			if (IsClosed)
+			if(heldPlayers.Count > 0)
 			{
-				localPlayer.playerNetworkActions.CmdToggleCupboard(gameObject);
-				return true;
-			}
-
-			GameObject item = UIManager.Hands.CurrentSlot.Item;
-			if (placeItem && item != null && isInReach)
-			{
-				localPlayer.playerNetworkActions.CmdPlaceItem(
-					UIManager.Hands.CurrentSlot.eventName, transform.position, null, false);
-
-				item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+				statusSync = ClosetStatus.ClosedWithOccupant;
 			}
 			else
 			{
-				localPlayer.playerNetworkActions.CmdToggleCupboard(gameObject);
+				statusSync = ClosetStatus.Closed;
 			}
+		}
+		else
+		{
+			statusSync = ClosetStatus.Open;
+		}
+	}
 
-			return true;
+	public enum ClosetStatus
+	{
+		Closed,
+		ClosedWithOccupant,
+		Open
+	}
+
+	private void SyncStatus(ClosetStatus value)
+	{
+		if(value == ClosetStatus.Open)
+		{
+			registerTile.IsClosed = false;
+		}
+		else
+		{
+			registerTile.IsClosed = true;
+		}
+		SyncSprite(value);
+	}
+
+	public virtual void SyncSprite(ClosetStatus value)
+	{
+		if (value == ClosetStatus.Open)
+		{
+			spriteRenderer.sprite = doorOpened;
+			if (lockLight)
+			{
+				lockLight.Hide();
+			}
+		}
+		else
+		{
+			spriteRenderer.sprite = doorClosed;
+			if (lockLight)
+			{
+				lockLight.Show();
+			}
+		}
+	}
+
+	public override bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false)
+	{
+		var playerScript = originator.GetComponent<PlayerScript>();
+
+		if (playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
+		{
+			return false;
+		}
+
+		if (!playerScript.IsInReach(position, false))
+		{
+			if(isServer && !Contains(originator))
+			{
+				return false;
+			}
 		}
 
 		return true;
 	}
 
-	private void SetItems(bool open)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		if (!open)
+		if (!CanUse(originator, hand, position, false))
 		{
-			SetItemsAliveState(false);
-			SetPlayersAliveState(false);
+			return false;
+		}
+		if (!isServer)
+		{
+			//ask server to perform the interaction
+			InteractMessage.Send(gameObject, position, hand);
+			return true;
+		}
+		if (!IsClosed)
+		{
+			PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
+			GameObject handObj = pna.Inventory[hand].Item;
+			if (handObj != null)
+			{
+				pna.CmdPlaceItem(hand, position, null, false);
+				return true;
+			}
 		}
 		else
 		{
-			SetItemsAliveState(true);
-			SetPlayersAliveState(true);
+			if(IsLocked)
+			{
+				return true;
+			}
+		}
+		ToggleLocker();
+		return true;
+	}
+
+	public virtual void HandleItems()
+	{
+		if (IsClosed)
+		{
+			CloseItemHandling();
+			ClosePlayerHandling();
+		}
+		else
+		{
+			OpenItemHandling();
+			OpenPlayerHandling();
 		}
 	}
 
-	private void SetItemsAliveState(bool isOpen)
+	private void OpenItemHandling()
 	{
-		if (!isOpen)
-		{
-			heldItems = matrix.Get<ObjectBehaviour>(registerTile.PositionServer, ObjectType.Item, true);
-		}
-
-		foreach ( ObjectBehaviour item in heldItems )
+		foreach (ObjectBehaviour item in heldItems)
 		{
 			CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
-			if (isOpen)
+			//avoids blinking of premapped items when opening first time in another place:
+			Vector3Int pos = registerTile.WorldPositionServer;
+			netTransform.AppearAtPosition(pos);
+			item.parentContainer = null;
+			if (pushPull && pushPull.Pushable.IsMovingServer)
 			{
-				//avoids blinking of premapped items when opening first time in another place:
-				Vector3Int pos = registerTile.WorldPositionServer;
-				netTransform.AppearAtPosition(pos);
-				item.parentContainer = null;
-				if (pushPull && pushPull.Pushable.IsMovingServer)
-				{
-					netTransform.InertiaDrop(pos, pushPull.Pushable.SpeedServer,
-						pushPull.InheritedImpulse.To2Int());
-				}
-				else
-				{
-					netTransform.AppearAtPositionServer(pos);
-				}
+				netTransform.InertiaDrop(pos, pushPull.Pushable.SpeedServer,
+					pushPull.InheritedImpulse.To2Int());
 			}
 			else
 			{
-				item.parentContainer = objectBehaviour;
-				netTransform.DisappearFromWorldServer();
+				netTransform.AppearAtPositionServer(pos);
 			}
-
-			item.visibleState = isOpen;
+			item.visibleState = true;
 		}
 
-		if(isOpen)
+		heldItems = Enumerable.Empty<ObjectBehaviour>();
+	}
+
+	private void CloseItemHandling()
+	{
+		heldItems = matrix.Get<ObjectBehaviour>(registerTile.PositionServer, ObjectType.Item, true);
+		foreach (ObjectBehaviour item in heldItems)
 		{
-			// If open, no items are held anymore.
-			heldItems = Enumerable.Empty<ObjectBehaviour>();
+			CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
+			item.parentContainer = objectBehaviour;
+			netTransform.DisappearFromWorldServer();
+			item.visibleState = false;
 		}
 	}
 
-	private void SetPlayersAliveState(bool isOpen)
+	private void OpenPlayerHandling()
 	{
-		if (!isOpen)
-		{
-			heldPlayers = matrix.Get<ObjectBehaviour>(registerTile.PositionServer, ObjectType.Player, true);
-		}
-
-		foreach ( ObjectBehaviour player in heldPlayers )
+		foreach (ObjectBehaviour player in heldPlayers)
 		{
 			var playerScript = player.GetComponent<PlayerScript>();
 			var playerSync = playerScript.PlayerSync;
-			if (isOpen)
+
+			playerSync.AppearAtPositionServer(registerTile.WorldPositionServer);
+			player.parentContainer = null;
+			if (pushPull && pushPull.Pushable.IsMovingServer)
 			{
-				playerSync.AppearAtPositionServer(registerTile.WorldPositionServer);
-				player.parentContainer = null;
-				if (pushPull && pushPull.Pushable.IsMovingServer)
-				{
-					playerScript.pushPull.TryPush(pushPull.InheritedImpulse.To2Int(),
-						pushPull.Pushable.SpeedServer);
-				}
+				playerScript.pushPull.TryPush(pushPull.InheritedImpulse.To2Int(),
+					pushPull.Pushable.SpeedServer);
 			}
+			player.visibleState = true;
+		}
+		heldPlayers = new List<ObjectBehaviour>();
+	}
 
-			player.visibleState = isOpen;
-
-			if (!isOpen)
+	private void ClosePlayerHandling()
+	{
+		var mobsFound = matrix.Get<ObjectBehaviour>(registerTile.PositionServer, ObjectType.Player, true);
+		int mobsIndex = 0;
+		foreach (ObjectBehaviour player in mobsFound)
+		{
+			if(mobsIndex >= playerLimit)
 			{
-				player.parentContainer = objectBehaviour;
-				playerSync.DisappearFromWorldServer();
-				//Make sure a ClosetPlayerHandler is created on the client to monitor
-				//the players input inside the storage. The handler also controls the camera follow targets:
-				if (!playerScript.IsGhost)
-				{
-					ClosetHandlerMessage.Send(player.gameObject, gameObject);
-				}
+				return;
+			}
+			mobsIndex++;
+			heldPlayers.Add(player);
+			var playerScript = player.GetComponent<PlayerScript>();
+			var playerSync = playerScript.PlayerSync;
+
+			player.visibleState = false;
+			player.parentContainer = objectBehaviour;
+			playerSync.DisappearFromWorldServer();
+			//Make sure a ClosetPlayerHandler is created on the client to monitor
+			//the players input inside the storage. The handler also controls the camera follow targets:
+			if (!playerScript.IsGhost)
+			{
+				ClosetHandlerMessage.Send(player.gameObject, gameObject);
 			}
 		}
 	}
-
 
 	/// <summary>
 	/// Invoked when the parent net ID of this closet's RegisterCloset changes. Updates the parent net ID of the player / items
@@ -359,9 +359,15 @@ public class ClosetControl : InputTrigger, IRightClickable
 		bool isInReach = localPlayer.IsInReach(registerTile, false);
 		if (isInReach || localPlayer.IsHidden)
 		{
-			result.AddElement("OpenClose", GUIInteract);
+			result.AddElement("OpenClose", RightClickInteract);
 		}
 
 		return result;
+	}
+
+	private void RightClickInteract()
+	{
+		Interact(PlayerManager.LocalPlayer,  registerTile.WorldPositionClient,
+			UIManager.Hands.CurrentSlot.eventName);
 	}
 }

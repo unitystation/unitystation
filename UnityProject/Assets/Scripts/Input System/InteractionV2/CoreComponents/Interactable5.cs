@@ -64,7 +64,8 @@ public abstract class Interactable<T,T2,T3,T4,T5>
 
 	/// <summary>
 	/// Client-side prediction. Called after validation succeeds on client side.
-	/// Client can perform client side prediction.
+	/// Client can perform client side prediction. NOT invoked for server player, since there is no need
+	/// for prediction.
 	/// </summary>
 	/// <param name="interaction"></param>
 	protected virtual void ClientPredictInteraction(T5 interaction) { }
