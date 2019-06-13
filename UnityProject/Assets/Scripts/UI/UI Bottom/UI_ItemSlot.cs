@@ -243,14 +243,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 				//both are occupied)
 				if (TryIF2InventoryApply()) return;
 
-				//old interaction logic
-				// If there is an an interaction, run and check if it wants to swap
-				var inputTrigger = Item.GetComponent<InputTrigger>();
-				bool response = inputTrigger == null || inputTrigger.UI_InteractOtherSlot(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item);
-				if (response)
-				{
-					UIManager.Hands.SwapItem(this);
-				}
+				UIManager.Hands.SwapItem(this);
 				return;
 			}
 			else
@@ -272,13 +265,6 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 					return;
 				}
 			}
-
-			//old interaction logic for Activate
-			var inputTrigger = Item.GetComponent<InputTrigger>();
-			if (inputTrigger != null)
-			{
-				inputTrigger.UI_Interact(PlayerManager.LocalPlayer, eventName);
-			}
 		}
 		else
 		{
@@ -288,20 +274,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 				if (UIManager.Hands.OtherSlot.Item != null)
 				{
 					if (TryIF2InventoryApply()) return;
-
-					//old interaction logic
-					var trig = UIManager.Hands.OtherSlot.Item.GetComponent<InputTrigger>();
-					if (trig != null)
-					{
-						// If there is an an interaction, run and check if it wants to swap
-						bool response = trig.UI_InteractOtherSlot(PlayerManager.LocalPlayer,
-							UIManager.Hands.CurrentSlot.Item);
-						if (response)
-						{
-							UIManager.Hands.SwapItem(this);
-						}
-						return;
-					}
+					UIManager.Hands.SwapItem(this);
 				}
 			}
 		}

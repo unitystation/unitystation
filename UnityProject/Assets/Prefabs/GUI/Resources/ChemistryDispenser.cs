@@ -2,53 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChemistryDispenser : NetworkTabTrigger {
+/// <summary>
+/// Main component for chemistry dispenser.
+/// </summary>
+public class ChemistryDispenser : NBHandApplyInteractable {
 
 	public ReagentContainer Container;
 	public ObjectBehaviour objectse;
 	public delegate void ChangeEvent ();
 	public static event ChangeEvent changeEvent;
 
-
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		if (!CanUse(originator, hand, position, false))
-		{
-			return false;
-		}
-		if (!isServer)
-		{
-			//ask server to perform the interaction
-			InteractMessage.Send(gameObject, position, hand);
-			return true;
-		}
-
-		if (Container == null){
-			PlayerScript ps = originator.GetComponent<PlayerScript>();
-			if (ps.canNotInteract() || !ps.IsInReach(position, true))
-			{
-				return false;
-			}
-			var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
-			var stContainer = slot.Item?.GetComponentInChildren<ReagentContainer>();
-			if (stContainer != null)
-			{
-				Container = stContainer;
-				//Logger.Log ("set!!");
-				GameObject item = ps.playerNetworkActions.Inventory[hand].Item;
-				objectse = item.GetComponentInChildren<ObjectBehaviour> ();
-				InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
-				UpdateGUI();
-				return true;
-			}
-			TabUpdateMessage.Send( originator, gameObject, NetTabType, TabAction.Open );
-		} else {
-			TabUpdateMessage.Send( originator, gameObject, NetTabType, TabAction.Open );
-		}
-		return true;
-	}
-
-	public void  UpdateGUI()
+	private void  UpdateGUI()
 	{
 		// Change event runs updateAll in ChemistryGUI
    		if(changeEvent!=null)
@@ -57,5 +21,19 @@ public class ChemistryDispenser : NetworkTabTrigger {
 		}
  	}
 
+	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	{
+		return CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS
+			.WithValidation(DoesUsedObjectHaveComponent<ReagentContainer>.DOES);
+	}
 
+	protected override void ServerPerformInteraction(HandApply interaction)
+	{
+		//put the reagant container inside me
+		Container = interaction.UsedObject.GetComponent<ReagentContainer>();
+		objectse = interaction.UsedObject.GetComponentInChildren<ObjectBehaviour> ();
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
+		InventoryManager.UpdateInvSlot(true, "", interaction.UsedObject, slot.UUID);
+		UpdateGUI();
+	}
 }

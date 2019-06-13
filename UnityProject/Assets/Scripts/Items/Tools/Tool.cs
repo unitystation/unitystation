@@ -15,5 +15,6 @@ public enum ToolType
 {
 	Crowbar = 0,
 	Wirecutter = 1,
-	Wrench = 2
+	Wrench = 2,
+	Emag = 3
 }

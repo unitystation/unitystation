@@ -85,8 +85,9 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 				case TileType.Window:
 				{
 					//Check Melee:
-					MeleeTrigger melee = windowTileMap.gameObject.GetComponent<MeleeTrigger>();
-					if (melee != null && melee.MeleeInteract(interaction.Performer, interaction.HandSlot.SlotName))
+					Meleeable melee = windowTileMap.gameObject.GetComponent<Meleeable>();
+					if (melee != null &&
+					    melee.Interact(PositionalHandApply.ByLocalPlayer(gameObject))== InteractionControl.STOP_PROCESSING)
 					{
 						return InteractionControl.STOP_PROCESSING;
 					}
@@ -96,8 +97,8 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 				case TileType.Grill:
 				{
 					//Check Melee:
-					MeleeTrigger melee = grillTileMap.gameObject.GetComponent<MeleeTrigger>();
-					if (melee != null && melee.MeleeInteract(interaction.Performer, interaction.HandSlot.SlotName))
+					Meleeable melee = grillTileMap.gameObject.GetComponent<Meleeable>();
+					if (melee != null && melee.Interact(PositionalHandApply.ByLocalPlayer(gameObject))== InteractionControl.STOP_PROCESSING)
 					{
 						return InteractionControl.STOP_PROCESSING;
 					}

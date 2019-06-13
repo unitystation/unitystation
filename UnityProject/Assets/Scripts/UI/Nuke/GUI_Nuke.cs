@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class GUI_Nuke : NetTab
 {
-	private NukeInteract nukeInteract;
-	private NukeInteract NukeInteract {
+	private Nuke nuke;
+	private Nuke Nuke {
 		get {
-			if ( !nukeInteract ) {
-				nukeInteract = Provider.GetComponent<NukeInteract>();
+			if ( !nuke ) {
+				nuke = Provider.GetComponent<Nuke>();
 			}
 
-			return nukeInteract;
+			return nuke;
 		}
 	}
 	private bool cooldown;
@@ -36,7 +36,7 @@ public class GUI_Nuke : NetTab
 		//Not doing this for clients
 		if ( IsServer ) {
 //			Logger.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
-			InitialInfoText = $"Enter {NukeInteract.NukeCode.ToString().Length}-digit code:";
+			InitialInfoText = $"Enter {Nuke.NukeCode.ToString().Length}-digit code:";
 			InfoDisplay.SetValue = InitialInfoText;
 		}
 	}
@@ -45,10 +45,10 @@ public class GUI_Nuke : NetTab
 		if ( cooldown ) {
 			return;
 		}
-		if ( NukeInteract.AppendKey( digit ) ) {
-			int length = NukeInteract.CurrentCode.Length;
+		if ( Nuke.AppendKey( digit ) ) {
+			int length = Nuke.CurrentCode.Length;
 			//replace older digits with asterisks
-			string newDigit = NukeInteract.CurrentCode.Substring( length <= 0 ? 0 : length - 1 );
+			string newDigit = Nuke.CurrentCode.Substring( length <= 0 ? 0 : length - 1 );
 			CodeDisplay.SetValue = newDigit.PadLeft( length, '*' );
 			StartCoroutine( HideCode() );
 		}
@@ -63,7 +63,7 @@ public class GUI_Nuke : NetTab
 		if ( cooldown ) {
 			return;
 		}
-		NukeInteract.Clear();
+		Nuke.Clear();
 		CodeDisplay.SetValue = "";
 	}
 	public void TryArm() {
@@ -71,7 +71,7 @@ public class GUI_Nuke : NetTab
 			return;
 		}
 
-		if (NukeInteract.Validate()) {
+		if (Nuke.Validate()) {
 			InfoDisplay.SetValue = "PREPARE TO DIE";
 		} else {
 			StartCoroutine( ErrorCooldown() );

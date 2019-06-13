@@ -84,40 +84,40 @@ public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<
 		}
 
 		var result = ValidationResult.FAIL;
-		var targetWorldPosition =
-			targetVector != null ? player.transform.position + targetVector : target.transform.position;
-		switch (reachRange)
+		if (reachRange == ReachRange.UNLIMITED)
 		{
-			case ReachRange.UNLIMITED:
+			result = ValidationResult.SUCCESS;
+		}
+		else if (reachRange == ReachRange.STANDARD)
+		{
+			var targetWorldPosition =
+				targetVector != null ? player.transform.position + targetVector : target.transform.position;
+			result = playerScript.IsInReach((Vector3) targetWorldPosition, networkSide == NetworkSide.SERVER)
+				? ValidationResult.SUCCESS : ValidationResult.FAIL;
+		}
+		else if (reachRange == ReachRange.EXTENDED_SERVER)
+		{
+			//we don't check range client-side for this case.
+			if (networkSide == NetworkSide.CLIENT)
+			{
 				result = ValidationResult.SUCCESS;
-				break;
-			case ReachRange.STANDARD:
-				result = playerScript.IsInReach((Vector3) targetWorldPosition, networkSide == NetworkSide.SERVER)
-					? ValidationResult.SUCCESS : ValidationResult.FAIL;
-				break;
-			case ReachRange.EXTENDED_SERVER:
-				//we don't check range client-side for this case.
-				if (networkSide == NetworkSide.CLIENT)
+			}
+			else
+			{
+				var cnt = target.GetComponent<CustomNetTransform>();
+				if (cnt == null)
 				{
-					result = ValidationResult.SUCCESS;
+					var targetWorldPosition =
+						targetVector != null ? player.transform.position + targetVector : target.transform.position;
+					//fallback to standard range check if there is no CNT
+					result = playerScript.IsInReach((Vector3) targetWorldPosition, networkSide == NetworkSide.SERVER)
+						? ValidationResult.SUCCESS : ValidationResult.FAIL;
 				}
 				else
 				{
-					var cnt = target.GetComponent<CustomNetTransform>();
-					if (cnt == null)
-					{
-						//fallback to standard range check if there is no CNT
-						result = playerScript.IsInReach((Vector3) targetWorldPosition, networkSide == NetworkSide.SERVER)
-							? ValidationResult.SUCCESS : ValidationResult.FAIL;
-					}
-					else
-					{
-						result = ServerCanReachExtended(playerScript, cnt.ServerState) ? ValidationResult.SUCCESS : ValidationResult.FAIL;
-					}
-
-
+					result = ServerCanReachExtended(playerScript, cnt.ServerState) ? ValidationResult.SUCCESS : ValidationResult.FAIL;
 				}
-				break;
+			}
 		}
 
 		if (result == ValidationResult.FAIL && networkSide == NetworkSide.SERVER)

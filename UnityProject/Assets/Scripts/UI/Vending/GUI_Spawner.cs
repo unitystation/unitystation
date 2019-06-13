@@ -51,7 +51,7 @@ public class GUI_Spawner : NetTab
 			StartCoroutine( ToggleStory(0) );
 
 			// Add items from InitialContents list
-			List<GameObject> initList = Provider.GetComponent<SpawnerInteract>().InitialContents;
+			List<GameObject> initList = Provider.GetComponent<Spawner>().InitialContents;
 			foreach ( GameObject item in initList )
 			{
 				PrefabEntryList.AddItem( item );

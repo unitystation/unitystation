@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Indicates an edible object.
 /// </summary>
-public class FoodBehaviour : NetworkBehaviour, IInteractable<HandActivate>, IInteractable<HandApply>
+public class Edible : NetworkBehaviour, IInteractable<HandActivate>, IInteractable<HandApply>
 {
     public GameObject leavings;
     protected bool isDrink = false;
@@ -59,7 +59,8 @@ public class FoodBehaviour : NetworkBehaviour, IInteractable<HandActivate>, IInt
 	{
 		//eat when we hand apply to ourselves
 		if (interaction.Performer == PlayerManager.LocalPlayer &&
-		    interaction.UsedObject == gameObject)
+		    interaction.UsedObject == gameObject
+		    && interaction.TargetObject == PlayerManager.LocalPlayer)
 		{
 			TryEat();
 			return InteractionControl.STOP_PROCESSING;

@@ -3,32 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class CloningConsole : NetworkTabTrigger
+/// <summary>
+/// Main component for cloning console
+/// </summary>
+public class CloningConsole : MonoBehaviour
 {
 	public delegate void ChangeEvent();
 	public static event ChangeEvent changeEvent;
 
 	public List<CloningRecord> CloningRecords = new List<CloningRecord>();
 	public DNAscanner scanner;
-
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		if (!CanUse(originator, hand, position, false))
-		{
-			return false;
-		}
-		if (!isServer)
-		{
-			//ask server to perform the interaction
-			InteractMessage.Send(gameObject, position, hand);
-			return true;
-		}
-
-		UpdateGUI();
-		TabUpdateMessage.Send(originator, gameObject, NetTabType, TabAction.Open);
-
-		return true;
-	}
 
 	public void ToggleLock()
 	{
@@ -65,15 +49,6 @@ public class CloningConsole : NetworkTabTrigger
 		int scanID = Random.Range(0, 1000);
 		var CRone = new CloningRecord(name, scanID, oxyDmg, burnDmg, toxingDmg, bruteDmg, uniqueIdentifier);
 		CloningRecords.Add(CRone);
-	}
-
-	public void UpdateGUI()
-	{
-		// Change event runs updateAll in CloningGUI
-		if (changeEvent != null)
-		{
-			changeEvent();
-		}
 	}
 }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(APCInteract))]
 public class APC  : NBHandApplyInteractable, INodeControl
 {
 	// -----------------------------------------------------

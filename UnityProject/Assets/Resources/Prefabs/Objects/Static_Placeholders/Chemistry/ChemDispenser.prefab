@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 114733452049384340}
   - component: {fileID: 114495021001438090}
   - component: {fileID: 114149925567654774}
+  - component: {fileID: 8011082951398334408}
   m_Layer: 11
   m_Name: ChemDispenser
   m_TagString: Untagged
@@ -249,6 +250,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac94ea034f589c46b4568ffe0d4d992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 5
   Container: {fileID: 0}
   objectse: {fileID: 0}
+--- !u!114 &8011082951398334408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880613391911220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 5

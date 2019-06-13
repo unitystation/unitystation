@@ -2,7 +2,10 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class NukeInteract : NetworkTabTrigger
+/// <summary>
+/// Main component for nuke.
+/// </summary>
+public class Nuke : NetworkBehaviour
 {
 	public float cooldownTimer = 2f;
 	public string interactionMessage;

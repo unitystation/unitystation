@@ -421,11 +421,6 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 		NotifyPlayers();
 	}
 
-	public virtual void OnCtrlClick()
-	{
-		TryPullThis();
-	}
-
 	public void TryPullThis() {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
