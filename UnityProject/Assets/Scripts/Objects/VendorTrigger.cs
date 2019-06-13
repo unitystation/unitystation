@@ -19,13 +19,22 @@ public class VendorTrigger : NetworkTabTrigger
 
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (!CanUse(originator, hand, position, false))
+		{
+			return false;
+		}
+		if (!isServer)
+		{
+			InteractMessage.Send(gameObject, position, hand);
+		}
+		else
 		{
 			Originator = originator;
 			InteractPosition = position;
 			InteractHand = hand;
+			TabUpdateMessage.Send(originator, gameObject, NetTabType, TabAction.Open);
 		}
-		return base.Interact(originator, position, hand);
+		return true;
 	}
 }
 

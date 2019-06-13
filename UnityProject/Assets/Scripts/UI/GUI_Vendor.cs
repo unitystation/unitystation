@@ -28,15 +28,40 @@ public class GUI_Vendor : NetTab
 
 	private void Start()
 	{
+		if (!CustomNetworkManager.Instance._isServer)
+		{
+			return;
+		}
+
+		Debug.Log("Start");
+	}
+
+	protected override void InitServer()
+	{
+		Debug.LogError("INIT SERVER");
+		StartCoroutine(WaitForProvider());
+	}
+
+	IEnumerator WaitForProvider()
+	{
+		while (Provider == null)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
 		vendor = Provider.GetComponent<VendorTrigger>();
-		GenerateContentList();
 		hullColor.SetValue = ColorUtility.ToHtmlStringRGB(vendor.HullColor);
-		UpdateList();
 		inited = true;
+		GenerateContentList();
+		UpdateList();
 	}
 
 	private void GenerateContentList()
 	{
+		if (!CustomNetworkManager.Instance._isServer)
+		{
+			return;
+		}
+
 		vendorContent = new List<VendorItem>();
 		for (int i = 0; i < vendor.VendorContent.Count; i++)
 		{
@@ -46,12 +71,15 @@ public class GUI_Vendor : NetTab
 
 	public override void OnEnable()
 	{
-		if (!inited)
+		base.OnEnable();
+		Debug.Log("enable");
+		if (!CustomNetworkManager.Instance._isServer || !inited)
+		{
 			return;
+		}
 		CheckRestock();
 		UpdateList();
 		allowSell = true;
-		base.OnEnable();
 	}
 
 	private void CheckRestock()
