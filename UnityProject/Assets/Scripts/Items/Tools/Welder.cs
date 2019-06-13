@@ -33,6 +33,7 @@ public class Welder : NBHandActivateInteractable
 	private bool isBurning = false;
 	private float burnRate = 0.2f;
 
+	//seems to be server-side only
 	public GameObject heldByPlayer;
 	private string currentHand;
 
@@ -159,20 +160,17 @@ public class Welder : NBHandActivateInteractable
 
 	void CheckHeldByPlayer()
 	{
-		//Local player is holding it, this is so we can update the UISlot of that player holding it
-		if (heldByPlayer == PlayerManager.LocalPlayer && heldByPlayer != null)
+		if (UIManager.Hands.CurrentSlot.Item == gameObject)
 		{
-			if (UIManager.Hands.CurrentSlot.Item == gameObject)
-			{
-				UIManager.Hands.CurrentSlot.SetSecondaryImage(flameRenderer.sprite);
-			}
+			UIManager.Hands.CurrentSlot.SetSecondaryImage(flameRenderer.sprite);
 		}
 
 		//Server also needs to know which player is holding the item so that it can sync
 		//the inhand image when the player turns it on and off:
 		if (isServer && heldByPlayer != null)
 		{
-			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, UIManager.Hands.CurrentSlot.eventName);
+			var clientPNA = heldByPlayer.GetComponent<PlayerNetworkActions>();
+			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, clientPNA.activeHand);
 		}
 	}
 
@@ -221,10 +219,5 @@ public class Welder : NBHandActivateInteractable
 
 			yield return WaitFor.Seconds(.1f);
 		}
-	}
-
-	public InteractionControl Interact(HandActivate interaction)
-	{
-		throw new NotImplementedException();
 	}
 }
