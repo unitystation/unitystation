@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 /// Allows closet to be opened / closed / locked
 /// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
-public class ClosetControl : NetworkBehaviour, IInteractable<HandApply>, IRightClickable
+public class ClosetControl : NBHandApplyInteractable, IRightClickable
 {
 	[Header("Contents that will spawn inside every locker of type")]
 	public List<GameObject> DefaultContents;
@@ -182,7 +182,7 @@ public class ClosetControl : NetworkBehaviour, IInteractable<HandApply>, IRightC
 		}
 	}
 
-	public override bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false)
+	public bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false)
 	{
 		var playerScript = originator.GetComponent<PlayerScript>();
 
@@ -202,36 +202,25 @@ public class ClosetControl : NetworkBehaviour, IInteractable<HandApply>, IRightC
 		return true;
 	}
 
-	public InteractionControl Interact(HandApply interaction)
+	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
-		return InteractInternal(interaction.UsedObject != null) ? InteractionControl.STOP_PROCESSING : InteractionControl.CONTINUE_PROCESSING;
+		return CommonValidationChains.CAN_APPLY_HAND_SOFT_CRIT
+			.WithValidation(TargetIs.GameObject(gameObject));
 	}
 
-	private bool InteractInternal(bool placeItem = true)
+	protected override void ServerPerformInteraction(HandApply interaction)
 	{
-		//this better be rewritten to use IF2 Interactable: following code is executed on clientside
-		PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
 
-		bool isInReach = localPlayer.IsInReach(registerTile, false);
-		if (isInReach || localPlayer.IsHidden)
+		//Is the player trying to put something in the closet
+		if (interaction.UsedObject != null && !IsClosed)
 		{
-			PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
-			GameObject handObj = pna.Inventory[hand].Item;
-			if (handObj != null)
-			{
-				pna.CmdPlaceItem(hand, position, null, false);
-				return true;
-			}
+			PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
+			pna.CmdPlaceItem(interaction.HandSlot.SlotName, registerTile.WorldPosition, null, false);
 		}
-		else
+		else if (!IsLocked)
 		{
-			if(IsLocked)
-			{
-				return true;
-			}
+			ToggleLocker();
 		}
-		ToggleLocker();
-		return true;
 	}
 
 	public virtual void HandleItems()
@@ -350,26 +339,20 @@ public class ClosetControl : NetworkBehaviour, IInteractable<HandApply>, IRightC
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		//TODO: Code duplication (of validation logic) with Interact. Eliminate this duplication once this is refactored to IF2.
 		var result = RightClickableResult.Create();
-		PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
-		if (localPlayer.canNotInteract())
-		{
-			return result;
-		}
 
-		bool isInReach = localPlayer.IsInReach(registerTile, false);
-		if (isInReach || localPlayer.IsHidden)
+		if (InteractionValidationChain()
+			.DoesValidate(HandApply.ByLocalPlayer(gameObject), NetworkSide.CLIENT))
 		{
 			result.AddElement("OpenClose", RightClickInteract);
 		}
+
 
 		return result;
 	}
 
 	private void RightClickInteract()
 	{
-		Interact(PlayerManager.LocalPlayer,  registerTile.WorldPositionClient,
-			UIManager.Hands.CurrentSlot.eventName);
+		Interact(HandApply.ByLocalPlayer(gameObject));
 	}
 }

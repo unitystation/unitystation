@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 /// <summary>
 /// Validates if the performer is in range and not in crit, which are typical requirements for all
-/// various interactions. Can also optionally allow soft crit.
+/// various interactions. Works properly even if player is hidden in a ClosetControl. Can also optionally allow soft crit.
 ///
 /// Also works for AimApply, but reach range is always UNLIMITED.
 ///
@@ -77,11 +77,36 @@ public class CanApply : IInteractionValidator<HandApply>, IInteractionValidator<
 		ReachRange reachRange = ReachRange.STANDARD, Vector2? targetVector = null)
 	{
 		var playerScript = player.GetComponent<PlayerScript>();
+		var playerObjBehavior = player.GetComponent<ObjectBehaviour>();
 
 		if (playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
 		{
 			return ValidationResult.FAIL;
 		}
+
+		//no matter what, if player is in closet, they can only reach the closet
+		if (playerScript.IsHidden)
+		{
+			//Client does not seem to know what they are hidden in (playerObjBehavior.parentContianer is not set clientside),
+			//so in this case they simply validate this and defer to the server to decide if it's valid
+			//TODO: Correct this if there is a way for client to know their container.
+			if (networkSide == NetworkSide.CLIENT)
+			{
+				return ValidationResult.SUCCESS;
+			}
+			else
+			{
+				//server checks if player is trying to click the container they are in.
+				var parentObj = playerObjBehavior.parentContainer != null
+					? playerObjBehavior.parentContainer.gameObject
+					: null;
+				return parentObj == target
+					? ValidationResult.SUCCESS
+					: ValidationResult.FAIL;
+			}
+
+		}
+
 
 		var result = ValidationResult.FAIL;
 		if (reachRange == ReachRange.UNLIMITED)
