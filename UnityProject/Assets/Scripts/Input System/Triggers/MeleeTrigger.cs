@@ -6,6 +6,7 @@ using UnityEngine;
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
 /// Checks for and handles melee interactions. Note that other interactions (such as P2PInteraction) are possible and handled in other classes.
+/// Note that this handles melee interactions from the point of view of the victim (as far as I can tell) - JaytleBee
 /// </summary>
 public class MeleeTrigger : MonoBehaviour
 {

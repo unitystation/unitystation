@@ -90,6 +90,17 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 			return;
 		}
 		Logger.LogTraceFormat("Setting item {0} to {1}", Category.UI, item.name, eventName);
+
+		UpdateImage(item);
+
+		image.enabled = true;
+		image.preserveAspect = true;
+		Item = item;
+		item.transform.position = TransformState.HiddenPos;
+	}
+
+	public void UpdateImage(GameObject item)
+	{
 		var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
 		if (image == null)
 		{
@@ -103,10 +114,6 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 				SetSecondaryImage(spriteRends[1].sprite);
 			}
 		}
-		image.enabled = true;
-		image.preserveAspect = true;
-		Item = item;
-		item.transform.position = TransformState.HiddenPos;
 	}
 
 	public void SetSecondaryImage(Sprite sprite)

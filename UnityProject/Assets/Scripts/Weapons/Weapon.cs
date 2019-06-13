@@ -1,10 +1,10 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Light2D;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
-
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Generic weapon types
@@ -58,7 +58,8 @@ public class Weapon : InputTrigger
 	/// <summary>
 	///     The the name of the sound this gun makes when shooting
 	/// </summary>
-	public string FireingSound;
+	[FormerlySerializedAs("FireingSound")]
+	public string FiringSound;
 
 	/// <summary>
 	///     The amount of times per second this weapon can fire
@@ -666,7 +667,7 @@ public class Weapon : InputTrigger
 		//add additional recoil after shooting for the next round
 		AppendRecoil(angle);
 
-		SoundManager.PlayAtPosition(FireingSound, shooter.transform.position);
+		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position);
 	}
 
 	#endregion

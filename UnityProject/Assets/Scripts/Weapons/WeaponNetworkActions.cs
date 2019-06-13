@@ -125,6 +125,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
+		MeleeIemTrigger mit = weapon.GetComponent<MeleeIemTrigger>();
+
+
+		if (!mit.MeleeItemInteract(victim))
+			return;
+
 		//Meaty bodies:
 		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 
