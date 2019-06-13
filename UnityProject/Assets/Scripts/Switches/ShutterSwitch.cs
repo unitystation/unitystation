@@ -37,7 +37,9 @@ public class ShutterSwitch : NetworkBehaviour, IInteractable<HandApply>
 
 	public InteractionControl Interact(HandApply interaction)
 	{
-		if (!CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS.DoesValidate(interaction, NetworkSide.CLIENT))
+		if (!InteractionValidationChain<HandApply>.Create()
+			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
+			.DoesValidate(interaction, NetworkSide.CLIENT))
 		{
 			return InteractionControl.CONTINUE_PROCESSING;
 		}

@@ -19,7 +19,8 @@ public class HealsTheLiving : NBHandApplyInteractable
 	{
 		if (validationChain == null)
 		{
-			validationChain = CommonValidationChains.CAN_APPLY_HAND_SOFT_CRIT
+			validationChain = InteractionValidationChain<HandApply>.Create()
+				.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
 				.WithValidation(DoesTargetObjectHaveComponent<LivingHealthBehaviour>.DOES);
 		}
 	}

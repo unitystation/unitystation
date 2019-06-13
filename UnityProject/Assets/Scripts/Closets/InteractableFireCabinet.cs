@@ -53,7 +53,8 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 
 	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
-		return CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS
+		return InteractionValidationChain<HandApply>.Create()
+			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
 			.WithValidation(TargetIs.GameObject(gameObject));
 	}
 

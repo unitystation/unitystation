@@ -22,7 +22,8 @@ public class DoorSwitch : NBHandApplyInteractable
 
 	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
-		return CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS
+		return InteractionValidationChain<HandApply>.Create()
+			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
 			.WithValidation(TargetIs.GameObject(gameObject))
 			.WithValidation(ClientSwitchValidation);
 	}

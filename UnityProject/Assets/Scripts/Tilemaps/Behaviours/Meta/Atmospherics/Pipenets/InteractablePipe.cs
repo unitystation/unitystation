@@ -16,7 +16,8 @@ public class InteractablePipe : NBHandApplyInteractable
 
 	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
-		return CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS
+		return InteractionValidationChain<HandApply>.Create()
+			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
 			.WithValidation(IsToolUsed.OfType(ToolType.Wrench))
 			.WithValidation(TargetIs.GameObject(gameObject));
 	}

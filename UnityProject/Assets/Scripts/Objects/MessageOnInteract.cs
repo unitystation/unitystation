@@ -9,7 +9,8 @@ public class MessageOnInteract : NBHandApplyInteractable
 
 	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
-		return CommonValidationChains.CAN_APPLY_HAND_SOFT_CRIT;
+		return InteractionValidationChain<HandApply>.Create()
+			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT);
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)

@@ -25,7 +25,8 @@ public class InteractableDoor : Interactable<HandApply>
 
 	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
 	{
-		return CommonValidationChains.CAN_APPLY_HAND_SOFT_CRIT
+		return InteractionValidationChain<HandApply>.Create()
+			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
 			.WithValidation(TargetIs.GameObject(gameObject))
 			.WithValidation(IsInputAllowed);
 	}
