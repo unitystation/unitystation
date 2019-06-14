@@ -122,36 +122,30 @@ public class LightSwitch : NetworkBehaviour, IInteractable<HandApply>
 		SyncLightSwitch(isOn);
 	}
 
-	public InteractionControl Interact(HandApply interaction)
+	public bool Interact(HandApply interaction)
 	{
-
-		if (!InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-			.DoesValidate(interaction, NetworkSide.CLIENT))
-		{
-			return InteractionControl.CONTINUE_PROCESSING;
-		}
+		if (!DefaultWillInteract.HandApply(interaction, NetworkSide.Client)) return false;
 
 		if (!SelfPowered)
 		{
 			if (RelatedAPC == null)
 			{
-				return InteractionControl.CONTINUE_PROCESSING;
+				return false;
 			}
 			if (RelatedAPC.Voltage == 0f)
 			{
-				return InteractionControl.CONTINUE_PROCESSING;
+				return false;
 			}
 		}
 		if (switchCoolDown)
 		{
-			return InteractionControl.CONTINUE_PROCESSING;
+			return false;
 		}
 
 		StartCoroutine(CoolDown());
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleLightSwitch(gameObject);
 
-		return InteractionControl.STOP_PROCESSING;
+		return true;
 	}
 
 	private IEnumerator CoolDown()

@@ -29,11 +29,11 @@ public class FieldGenerator : NBHandApplyInteractable, INodeControl
 	}
 
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-			.WithValidation(TargetIs.GameObject(gameObject));
+		if (!base.WillInteract(interaction, side)) return false;
+		if (interaction.TargetObject != gameObject) return false;
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)

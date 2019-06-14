@@ -12,12 +12,6 @@ public class InteractablePaper : Interactable<HandActivate, InventoryApply>
 	public NetTabType NetTabType;
 	public Paper paper;
 
-	protected override InteractionValidationChain<HandActivate> InteractionValidationChain()
-	{
-		//no validations for activate
-		return InteractionValidationChain<HandActivate>.EMPTY;
-	}
-
 	protected override void ServerPerformInteraction(HandActivate interaction)
 	{
 		//show the paper to the client
@@ -25,11 +19,12 @@ public class InteractablePaper : Interactable<HandActivate, InventoryApply>
 		paper.UpdatePlayer(interaction.Performer);
 	}
 
-	protected override InteractionValidationChain<InventoryApply> InteractionValidationChainT2()
+	protected override bool WillInteractT2(InventoryApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<InventoryApply>.Create()
-			//show the paper if a pen is used on this paper
-			.WithValidation(DoesUsedObjectHaveComponent<Pen>.DOES);
+		if (!base.WillInteractT2(interaction, side)) return false;
+		//only pen can be used on this
+		if (!Validations.HasComponent<Pen>(interaction.HandObject)) return false;
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(InventoryApply interaction)

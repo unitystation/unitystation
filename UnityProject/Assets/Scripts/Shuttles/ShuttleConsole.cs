@@ -45,11 +45,12 @@ public class ShuttleConsole : NBHandApplyInteractable
     }
 
 
-    protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+    protected override bool WillInteract(HandApply interaction, NetworkSide side)
     {
-	    return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-		    .WithValidation(IsToolUsed.OfType(ToolType.Emag));
+	    if (!base.WillInteract(interaction, side)) return false;
+	    //can only be interacted with an emag (normal click behavior is in HasNetTab)
+	    if (!Validations.IsTool(interaction.UsedObject, ToolType.Emag)) return false;
+	    return true;
     }
 
     protected override void ServerPerformInteraction(HandApply interaction)

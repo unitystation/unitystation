@@ -107,8 +107,8 @@ public class MouseDraggable : MonoBehaviour
 			//call this object's mousedrop interaction methods if it has any, for each object we are dropping on
 			foreach (IInteractable<MouseDrop> mouseDrop in mouseDrops)
 			{
-				var result = mouseDrop.Interact(info);
-				if (result.StopProcessing)
+				var interacted = mouseDrop.Interact(info);
+				if (interacted)
 				{
 					//we're done checking, something happened
 					return;
@@ -118,8 +118,8 @@ public class MouseDraggable : MonoBehaviour
 			//call the mousedrop interaction methods on the dropped-on object if it has any
 			foreach (IInteractable<MouseDrop> mouseDropTarget in dropTarget.GetComponents<IInteractable<MouseDrop>>())
 			{
-				var result = mouseDropTarget.Interact(info);
-				if (result.StopProcessing)
+				var interacted = mouseDropTarget.Interact(info);
+				if (interacted)
 				{
 					//something happened, done checking
 					return;
@@ -135,9 +135,7 @@ public class MouseDraggable : MonoBehaviour
 	/// <returns></returns>
 	public bool CanBeginDrag(GameObject dragger)
 	{
-		return CanApply.Validate(dragger, gameObject, allowDragWhileSoftCrit,
-			//always client side
-			NetworkSide.CLIENT,
-			draggerMustBeAdjacent ? ReachRange.STANDARD : ReachRange.UNLIMITED) == ValidationResult.SUCCESS;
+		return Validations.CanApply(dragger, gameObject, NetworkSide.Client, allowDragWhileSoftCrit,
+			draggerMustBeAdjacent ? ReachRange.Standard : ReachRange.Unlimited);
 	}
 }

@@ -30,23 +30,23 @@ public class InteractableStorage : MonoBehaviour, IInteractable<HandActivate>, I
 
 	}
 
-	public InteractionControl Interact(InventoryApply interaction)
+	public bool Interact(InventoryApply interaction)
 	{
 		if (interaction.TargetObject != gameObject)
 		{
 			//backpack can't be "applied" to something else in inventory
-			return InteractionControl.CONTINUE_PROCESSING;
+			return false;
 		}
-		if (interaction.UsedObject != null)
+		if (interaction.HandObject != null)
 		{
 			//Put item in back without opening it
 			//Check if it is a storage obj:
 			if (storageObj.NextSpareSlot() != null)
 			{
-				UIManager.TryUpdateSlot(new UISlotObject(storageObj.NextSpareSlot().UUID, interaction.UsedObject,
-					InventorySlotCache.GetSlotByItem(interaction.UsedObject)?.inventorySlot.UUID));
+				UIManager.TryUpdateSlot(new UISlotObject(storageObj.NextSpareSlot().UUID, interaction.HandObject,
+					InventorySlotCache.GetSlotByItem(interaction.HandObject)?.inventorySlot.UUID));
 				SoundManager.PlayAtPosition("Rustle0" + UnityEngine.Random.Range(1, 6).ToString(), PlayerManager.LocalPlayer.transform.position);
-				ObjectBehaviour itemObj = interaction.UsedObject.GetComponent<ObjectBehaviour>();
+				ObjectBehaviour itemObj = interaction.HandObject.GetComponent<ObjectBehaviour>();
 				itemObj.parentContainer = objectBehaviour;
 			}
 		}
@@ -58,10 +58,10 @@ public class InteractableStorage : MonoBehaviour, IInteractable<HandActivate>, I
 		}
 
 
-		return InteractionControl.CONTINUE_PROCESSING;
+		return false;
 	}
 
-	public InteractionControl Interact(HandActivate interaction)
+	public bool Interact(HandActivate interaction)
 	{
 		//open / close the backpack on activate
 		if (UIManager.StorageHandler.storageCache != storageObj)
@@ -73,7 +73,7 @@ public class InteractableStorage : MonoBehaviour, IInteractable<HandActivate>, I
 			UIManager.StorageHandler.CloseStorageUI();
 		}
 
-		return InteractionControl.STOP_PROCESSING;
+		return true;
 	}
 
 	public void OnPickupServer(HandApply interaction)

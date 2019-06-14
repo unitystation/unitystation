@@ -38,15 +38,27 @@ public abstract class Interactable<T>
 	{
 		if (coordinator == null)
 		{
-			coordinator = new InteractionCoordinator<T>(this, InteractionValidationChain(), ServerPerformInteraction);
+			coordinator = new InteractionCoordinator<T>(this, WillInteract, ServerPerformInteraction);
 		}
 	}
 
 	/// <summary>
-	/// Return the validators that should be used for this interaction for client/server validation.
+	/// Decides if interaction logic should proceed. On client side, the interaction
+	/// request will only be sent to the server if this returns true. On server side,
+	/// the interaction will only be performed if this returns true.
+	///
+	/// Each interaction has a default implementation of this which should apply for most cases.
+	/// By overriding this and adding more specific logic, you can reduce the amount of messages
+	/// sent by the client to the server, decreasing overall network load.
 	/// </summary>
-	/// <returns>List of interaction validators to use for this interaction.</returns>
-	protected abstract InteractionValidationChain<T> InteractionValidationChain();
+	/// <param name="interaction">interaction to validate</param>
+	/// <param name="side">which side of the network this is being invoked on</param>
+	/// <returns>True/False based on whether the interaction logic should proceed as described above.</returns>
+	protected virtual bool WillInteract(T interaction, NetworkSide side)
+	{
+		return DefaultWillInteract.Default(interaction, side);
+	}
+
 
 	/// <summary>
 	/// Server-side. Called after validation succeeds on server side.
@@ -69,13 +81,13 @@ public abstract class Interactable<T>
 	/// <param name="interaction"></param>
 	protected virtual void OnServerInteractionValidationFail(T interaction) { }
 
-	public InteractionControl Interact(T info)
+	public bool Interact(T info)
 	{
 		EnsureCoordinatorInit();
 		return InteractionComponentUtils.CoordinatedInteract(info, coordinator, ClientPredictInteraction);
 	}
 
-	public InteractionControl ServerProcessInteraction(T info)
+	public bool ServerProcessInteraction(T info)
 	{
 		EnsureCoordinatorInit();
 		return InteractionComponentUtils.ServerProcessCoordinatedInteraction(info, coordinator, OnServerInteractionValidationFail);

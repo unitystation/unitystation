@@ -11,11 +11,6 @@ public class Metal : NBHandActivateInteractable
 	private bool isBuilding;
 	public GameObject girderPrefab;
 
-	protected override InteractionValidationChain<HandActivate> InteractionValidationChain()
-	{
-		return InteractionValidationChain<HandActivate>.EMPTY;
-	}
-
 	protected override void ServerPerformInteraction(HandActivate interaction)
 	{
 		startBuilding(interaction.Performer, interaction.Performer.transform.position);
@@ -49,7 +44,9 @@ public class Metal : NBHandActivateInteractable
 	{
 		PoolManager.PoolNetworkInstantiate(girderPrefab, position);
 		isBuilding = false;
+		GetComponent<Pickupable>().DisappearObject();
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+
 	}
 
 	[Server]

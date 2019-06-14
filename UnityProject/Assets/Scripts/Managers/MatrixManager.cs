@@ -344,6 +344,12 @@ public class MatrixManager : MonoBehaviour
 		return t;
 	}
 
+	//shorthand for calling GetAt at the targeted object's position
+	public static List<T> GetAt<T>(GameObject targetObject, NetworkSide side) where T : MonoBehaviour
+	{
+		return GetAt<T>((Vector3Int) targetObject.TileWorldPosition(), side == NetworkSide.Server);
+	}
+
 	private static bool isAtInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
 	{
 		for (var i = 0; i < matrixInfos.Length; i++)

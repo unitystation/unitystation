@@ -14,6 +14,11 @@ public class HandApply : BodyPartTargetedInteraction
 	public HandSlot HandSlot => handSlot;
 
 	/// <summary>
+	/// Object being used in hand (same as UsedObject). Returns null if nothing in hand).
+	/// </summary>
+	public GameObject HandObject => UsedObject;
+
+	/// <summary>
 	///
 	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>

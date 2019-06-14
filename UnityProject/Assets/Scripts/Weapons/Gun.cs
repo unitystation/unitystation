@@ -135,13 +135,14 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 			pickup.OnPickupServer.AddListener(OnPickupServer);
 		}
 	}
-	//custom validation logic related to Weapon
-	private ValidationResult ValidateShoot(AimApply interaction, NetworkSide side)
+
+	protected override bool WillInteract(AimApply interaction, NetworkSide side)
 	{
+		if (!base.WillInteract(interaction, side)) return false;
 		if (CurrentMagazine == null)
 		{
 			PlayEmptySFX();
-			return ValidationResult.FAIL;
+			return false;
 		}
 
 		if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0)
@@ -155,31 +156,24 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 			{
 				PlayEmptySFX();
 			}
-			return ValidationResult.FAIL;
+
+			return false;
 		}
 
 		if (Projectile != null && CurrentMagazine.ammoRemains > 0 && FireCountDown <= 0)
 		{
 			if (interaction.MouseButtonState == MouseButtonState.PRESS)
 			{
-				return ValidationResult.SUCCESS;
+				return true;
 			}
 			else
 			{
 				//being held, only can shoot if this is an automatic
-				return WeaponType == WeaponType.FullyAutomatic ? ValidationResult.SUCCESS : ValidationResult.FAIL;
+				return WeaponType == WeaponType.FullyAutomatic;
 			}
 		}
 
-		return ValidationResult.FAIL;
-
-	}
-
-	protected override InteractionValidationChain<AimApply> InteractionValidationChain()
-	{
-		return InteractionValidationChain<AimApply>.Create()
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-			.WithValidation(ValidateShoot);
+		return false;
 	}
 
 	protected override void ClientPredictInteraction(AimApply interaction)
@@ -220,28 +214,28 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 
 
 
-	public InteractionControl Interact(HandActivate interaction)
+	public bool Interact(HandActivate interaction)
 	{
 		//try ejecting the mag
 		if(CurrentMagazine != null)
 		{
 			RequestUnload(CurrentMagazine);
-			return InteractionControl.STOP_PROCESSING;
+			return true;
 		}
 
-		return InteractionControl.CONTINUE_PROCESSING;
+		return false;
 	}
 
-	public InteractionControl Interact(InventoryApply interaction)
+	public bool Interact(InventoryApply interaction)
 	{
 		//only reload if the gun is the target
 		if (interaction.TargetObject == gameObject)
 		{
-			TryReload(interaction.UsedObject);
-			return InteractionControl.STOP_PROCESSING;
+			TryReload(interaction.HandObject);
+			return true;
 		}
 
-		return InteractionControl.CONTINUE_PROCESSING;
+		return false;
 	}
 
 	private void OnPickupServer(HandApply interaction)

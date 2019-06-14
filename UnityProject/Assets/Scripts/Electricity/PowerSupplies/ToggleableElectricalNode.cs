@@ -12,12 +12,6 @@ public class ToggleableElectricalNode : NBHandApplyInteractable, INodeControl
 	public bool isOn = false;
 	public ElectricalNodeControl ElectricalNodeControl;
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
-	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS);
-	}
-
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		isOn = !isOn;

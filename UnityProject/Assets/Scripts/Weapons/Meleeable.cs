@@ -22,16 +22,16 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 		}
 	}
 
-	public InteractionControl Interact(PositionalHandApply interaction)
+	public bool Interact(PositionalHandApply interaction)
 	{
 		//NOTE that for meleeing tiles, this is invoked from InteractableTiles.
 
-		if (interaction.UsedObject != null)
+		if (interaction.HandObject != null)
 		{
-			var handItem = interaction.UsedObject.GetComponent<ItemAttributes>();
+			var handItem = interaction.HandObject.GetComponent<ItemAttributes>();
 
 			if (handItem.itemType == ItemType.Food || handItem.itemType == ItemType.Medical) {
-				return InteractionControl.CONTINUE_PROCESSING;
+				return false;
 			}
 
 			//special case
@@ -44,7 +44,7 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 					if (gun.CurrentMagazine != null && gun.CurrentMagazine.ammoRemains > 0)
 					{
 						//we have ammo and are clicking ourselves - don't melee. Shoot instead.
-						return InteractionControl.CONTINUE_PROCESSING;
+						return false;
 					}
 				}
 			}
@@ -73,7 +73,7 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 					//special case - when we have a gun and click ourselves, we should actually shoot ourselves rather than melee, which is handled elsewhere
 					if (handItem.itemType == ItemType.Gun && interaction.Performer == gameObject)
 					{
-						return InteractionControl.CONTINUE_PROCESSING;
+						return false;
 					}
 
 					PlayerScript lps = PlayerManager.LocalPlayerScript;
@@ -88,11 +88,11 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 						lps.weaponNetworkActions.CmdRequestMeleeAttack(gameObjectRoot, UIManager.Hands.CurrentSlot.eventName, dir,
 							UIManager.DamageZone, tileMapLayer.LayerType);
 					}
-					return InteractionControl.STOP_PROCESSING;
+					return true;
 				}
 			}
 		}
-		return InteractionControl.CONTINUE_PROCESSING;
+		return false;
 
 	}
 }

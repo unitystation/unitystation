@@ -14,12 +14,12 @@ public class InteractablePipe : NBHandApplyInteractable
 		pipe = GetComponent<Pipe>();
 	}
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-			.WithValidation(IsToolUsed.OfType(ToolType.Wrench))
-			.WithValidation(TargetIs.GameObject(gameObject));
+		if (!base.WillInteract(interaction, side)) return false;
+		//only wrench can be used on this
+		if (!Validations.IsTool(interaction.HandObject, ToolType.Wrench)) return false;
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)

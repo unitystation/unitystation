@@ -18,31 +18,37 @@ public class Girder : NBHandApplyInteractable
 		registerObject = GetComponent<RegisterObject>();
 	}
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-			.WithValidation(TargetIs.GameObject(gameObject))
-			.WithValidation(IsHand.OCCUPIED);
+		//start with the default HandApply WillInteract logic.
+		if (!base.WillInteract(interaction, side)) return false;
+
+		//only care about interactions targeting us
+		if (interaction.TargetObject != gameObject) return false;
+		//only try to interact if the user has a wrench or metal in their hand
+		if (!Validations.HasComponent<Metal>(interaction.HandObject)) return false;
+		if (!Validations.IsTool(interaction.HandObject, ToolType.Wrench)) return false;
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
-		if (interaction.UsedObject.GetComponent<Metal>()){
+		if (interaction.TargetObject != gameObject) return;
+
+		if (Validations.HasComponent<Metal>(interaction.HandObject)){
 			var progressFinishAction = new FinishProgressAction(
 				reason =>
 				{
 					if (reason == FinishProgressAction.FinishReason.COMPLETED)
 					{
-						ConstructWall(interaction.UsedObject);
+						ConstructWall(interaction.HandObject);
 					}
 				}
 			);
 			UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
 		}
-
-		var tool = interaction.UsedObject.GetComponent<Tool>();
-		if (tool != null && tool.ToolType == ToolType.Wrench){
+		else if (Validations.IsTool(interaction.HandObject, ToolType.Wrench))
+		{
 			SoundManager.PlayNetworkedAtPos("Wrench", transform.localPosition, 1f);
 			var progressFinishAction = new FinishProgressAction(
 				reason =>

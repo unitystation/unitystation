@@ -17,26 +17,15 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 
 	private Tilemap grillTileMap;
 
-	//cached - can be static since there is no state-dependent validation
-	private static InteractionValidationChain<PositionalHandApply> validations;
-
-	void Start()
+	private void Start()
 	{
 		CacheTileMaps();
-		if (validations == null)
-		{
-			validations = InteractionValidationChain<PositionalHandApply>.Create()
-				.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-				.WithValidation(IsHand.OCCUPIED);
-		}
 	}
 
-	public InteractionControl Interact(PositionalHandApply interaction)
+	public bool Interact(PositionalHandApply interaction)
 	{
-		if (!validations.DoesValidate(interaction, NetworkSide.CLIENT))
-		{
-			return InteractionControl.CONTINUE_PROCESSING;
-		}
+		if (!DefaultWillInteract.PositionalHandApply(interaction, NetworkSide.Client)) return false;
+
 		metaTileMap = interaction.Performer.GetComponentInParent<MetaTileMap>();
 		objectLayer = interaction.Performer.GetComponentInParent<ObjectLayer>();
 		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
@@ -56,28 +45,27 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 					Vector3 targetPosition = interaction.WorldPositionTarget;
 					targetPosition.z = -0.2f;
 					pna.CmdPlaceItem(interaction.HandSlot.SlotName, targetPosition, interaction.Performer, true);
-					return InteractionControl.STOP_PROCESSING;
+					return true;
 				}
 				case TileType.Floor:
 				{
 					//Crowbar
-					var tool = interaction.UsedObject.GetComponent<Tool>();
-					if (tool != null && tool.ToolType == ToolType.Crowbar)
+					if (Validations.IsTool(interaction.HandObject, ToolType.Crowbar))
 					{
 						pna.CmdCrowBarRemoveFloorTile(interaction.Performer, LayerType.Floors,
 							new Vector2(cellPos.x, cellPos.y), interaction.WorldPositionTarget);
-						return InteractionControl.STOP_PROCESSING;
+						return true;
 					}
 
 					break;
 				}
 				case TileType.Base:
 				{
-					if (interaction.UsedObject.GetComponent<UniFloorTile>())
+					if (Validations.HasComponent<UniFloorTile>(interaction.HandObject))
 					{
 						pna.CmdPlaceFloorTile(interaction.Performer,
-							new Vector2(cellPos.x, cellPos.y), interaction.UsedObject);
-						return InteractionControl.STOP_PROCESSING;
+							new Vector2(cellPos.x, cellPos.y), interaction.HandObject);
+						return true;
 					}
 
 					break;
@@ -87,9 +75,9 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 					//Check Melee:
 					Meleeable melee = windowTileMap.gameObject.GetComponent<Meleeable>();
 					if (melee != null &&
-					    melee.Interact(PositionalHandApply.ByLocalPlayer(gameObject))== InteractionControl.STOP_PROCESSING)
+					    melee.Interact(PositionalHandApply.ByLocalPlayer(gameObject)))
 					{
-						return InteractionControl.STOP_PROCESSING;
+						return true;
 					}
 
 					break;
@@ -98,24 +86,24 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 				{
 					//Check Melee:
 					Meleeable melee = grillTileMap.gameObject.GetComponent<Meleeable>();
-					if (melee != null && melee.Interact(PositionalHandApply.ByLocalPlayer(gameObject))== InteractionControl.STOP_PROCESSING)
+					if (melee != null && melee.Interact(PositionalHandApply.ByLocalPlayer(gameObject)))
 					{
-						return InteractionControl.STOP_PROCESSING;
+						return true;
 					}
 
 					break;
 				}
 				case TileType.Wall:
 				{
-					Welder welder = interaction.UsedObject.GetComponent<Welder>();
-					if (welder)
+					Welder welder = interaction.HandObject != null ? interaction.HandObject.GetComponent<Welder>() : null;
+					if (welder != null)
 					{
 						if (welder.isOn)
 						{
 							//Request to deconstruct from the server:
 							RequestTileDeconstructMessage.Send(interaction.Performer, gameObject, TileType.Wall,
 								cellPos, interaction.WorldPositionTarget);
-							return InteractionControl.STOP_PROCESSING;
+							return true;
 						}
 					}
 					break;
@@ -123,7 +111,7 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 			}
 		}
 
-		return InteractionControl.CONTINUE_PROCESSING;
+		return false;
 	}
 
 	void CacheTileMaps()

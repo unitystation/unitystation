@@ -71,11 +71,6 @@ public class Grenade : NBHandActivateInteractable
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 	}
 
-	protected override InteractionValidationChain<HandActivate> InteractionValidationChain()
-	{
-		return InteractionValidationChain<HandActivate>.EMPTY;
-	}
-
 	protected override void ServerPerformInteraction(HandActivate interaction)
 	{
 		StartCoroutine(TimeExplode(interaction.Performer));

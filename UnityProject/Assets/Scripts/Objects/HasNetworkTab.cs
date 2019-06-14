@@ -11,14 +11,6 @@ public class HasNetworkTab : Interactable<HandApply>
 	[Tooltip("Network tab to display.")]
 	public NetTabType NetTabType = NetTabType.None;
 
-
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
-	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-			.WithValidation(TargetIs.GameObject(gameObject));
-	}
-
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		TabUpdateMessage.Send( interaction.Performer, gameObject, NetTabType, TabAction.Open );

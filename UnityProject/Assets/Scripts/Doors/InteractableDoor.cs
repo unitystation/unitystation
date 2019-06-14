@@ -23,17 +23,13 @@ public class InteractableDoor : Interactable<HandApply>
 		}
 	}
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-			.WithValidation(TargetIs.GameObject(gameObject))
-			.WithValidation(IsInputAllowed);
-	}
+		if (!base.WillInteract(interaction, side)) return false;
 
-	private ValidationResult IsInputAllowed(HandApply interaction, NetworkSide side)
-	{
-		return allowInput && Controller != null ? ValidationResult.SUCCESS : ValidationResult.FAIL;
+		if (interaction.TargetObject != gameObject) return false;
+
+		return allowInput && Controller != null;
 	}
 
 	protected override void ClientPredictInteraction(HandApply interaction)

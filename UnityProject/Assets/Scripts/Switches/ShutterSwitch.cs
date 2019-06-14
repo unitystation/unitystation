@@ -35,21 +35,16 @@ public class ShutterSwitch : NetworkBehaviour, IInteractable<HandApply>
 		SyncShutters(IsClosed);
 	}
 
-	public InteractionControl Interact(HandApply interaction)
+	public bool Interact(HandApply interaction)
 	{
-		if (!InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-			.DoesValidate(interaction, NetworkSide.CLIENT))
-		{
-			return InteractionControl.CONTINUE_PROCESSING;
-		}
+		if (!DefaultWillInteract.HandApply(interaction, NetworkSide.Client)) return false;
 
 		//if the button is idle and not animating it can be pressed
 		//this is weird it should check all children objects to see if they are idle and finished
 		if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
 		{
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleShutters(gameObject);
-			return InteractionControl.STOP_PROCESSING;
+			return true;
 
 		}
 		else
@@ -57,7 +52,7 @@ public class ShutterSwitch : NetworkBehaviour, IInteractable<HandApply>
 			Logger.Log("DOOR NOT FINISHED CLOSING YET!", Category.Shutters);
 		}
 
-		return InteractionControl.CONTINUE_PROCESSING;
+		return false;
 
 	}
 

@@ -48,8 +48,7 @@ public class RequestPositionalHandApplyMessage : ClientMessage
 		var handApply = PositionalHandApply.ByClient(performerObj, handObject, targetObj, targetVector, usedSlot);
 		foreach (var processorComponent in processorComponents)
 		{
-			if (processorComponent.ServerProcessInteraction(handApply) ==
-			    InteractionControl.STOP_PROCESSING)
+			if (processorComponent.ServerProcessInteraction(handApply))
 			{
 				//something happened, don't check further components
 				return;

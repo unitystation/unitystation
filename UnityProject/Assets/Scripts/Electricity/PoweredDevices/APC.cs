@@ -199,12 +199,6 @@ public class APC  : NBHandApplyInteractable, INodeControl
 
 	public NetTabType NetTabType;
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
-	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS);
-	}
-
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);

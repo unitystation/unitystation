@@ -13,6 +13,11 @@ public class InventoryApply : TargetedInteraction
 	private InventorySlot targetSlot;
 
 	/// <summary>
+	/// Object being used in hand (same as UsedObject). Returns null if nothing in hand.
+	/// </summary>
+	public GameObject HandObject => UsedObject;
+
+	/// <summary>
 	/// slot of the hand that is being used to perform the apply.
 	/// </summary>
 	public HandSlot HandSlot => handSlot;

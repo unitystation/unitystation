@@ -7,18 +7,15 @@ using UnityEngine;
 public class WeldingFuelSource : MonoBehaviour, IInteractable<HandApply>
 {
 
-	public InteractionControl Interact(HandApply interaction)
+	public bool Interact(HandApply interaction)
 	{
-		if (InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-			.WithValidation(TargetIs.GameObject(gameObject))
-			.WithValidation(DoesUsedObjectHaveComponent<Welder>.DOES)
-			.DoesValidate(interaction, NetworkSide.CLIENT))
-		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdRefillWelder(interaction.UsedObject, gameObject);
-			return InteractionControl.STOP_PROCESSING;
-		}
+		if (!DefaultWillInteract.HandApply(interaction, NetworkSide.Client)) return false;
 
-		return InteractionControl.CONTINUE_PROCESSING;
+		if (interaction.TargetObject != gameObject) return false;
+
+		if (!Validations.HasComponent<Welder>(interaction.HandObject)) return false;
+
+		PlayerManager.PlayerScript.playerNetworkActions.CmdRefillWelder(interaction.HandObject, gameObject);
+		return true;
 	}
 }

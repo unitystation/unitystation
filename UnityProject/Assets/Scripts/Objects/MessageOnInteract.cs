@@ -7,12 +7,6 @@ public class MessageOnInteract : NBHandApplyInteractable
 {
 	public string Message;
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
-	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT);
-	}
-
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, Message);

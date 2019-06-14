@@ -20,28 +20,18 @@ public class DoorSwitch : NBHandApplyInteractable
 		animator = GetComponent<Animator>();
 	}
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-			.WithValidation(TargetIs.GameObject(gameObject))
-			.WithValidation(ClientSwitchValidation);
-	}
-
-	private ValidationResult ClientSwitchValidation(HandApply interaction, NetworkSide side)
-	{
+		if (!base.WillInteract(interaction, side)) return false;
 		//this validation is only done client side for their convenience - they can't
 		//press button while it's animating.
-		if (side == NetworkSide.CLIENT)
+		if (side == NetworkSide.Client)
 		{
 			//if the button is idle and not animating it can be pressed
-			if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-			{
-				return ValidationResult.SUCCESS;
-			}
+			return animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
 		}
 
-		return ValidationResult.FAIL;
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)

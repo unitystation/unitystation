@@ -13,6 +13,11 @@ public class PositionalHandApply : TargetedInteraction
 
 	public HandSlot HandSlot => handSlot;
 
+	/// <summary>
+	/// Object being used in hand (same as UsedObject). Returns null if nothing in hand.
+	/// </summary>
+	public GameObject HandObject => UsedObject;
+
 	private readonly Vector2 targetVector;
 
 	/// <summary>

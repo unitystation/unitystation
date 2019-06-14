@@ -9,12 +9,12 @@ public class Mop : Interactable<PositionalHandApply>
 	//server-side only, tracks if mop is currently cleaning.
 	private bool isCleaning;
 
-	protected override InteractionValidationChain<PositionalHandApply> InteractionValidationChain()
+	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<PositionalHandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-			.WithValidation(DoesUsedObjectHaveComponent<Mop>.DOES)
-			.WithValidation(DoesTargetObjectHaveComponent<InteractableTiles>.DOES);
+		if (!base.WillInteract(interaction, side)) return false;
+		//can only mop tiles
+		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(PositionalHandApply interaction)

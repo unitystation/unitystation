@@ -73,12 +73,6 @@ public class Welder : NBHandActivateInteractable
 		}
 	}
 
-	protected override InteractionValidationChain<HandActivate> InteractionValidationChain()
-	{
-		//no validations to perform, just toggle it
-		return InteractionValidationChain<HandActivate>.EMPTY;
-	}
-
 	protected override void ServerPerformInteraction(HandActivate interaction)
 	{
 		ToggleWelder(interaction.Performer);

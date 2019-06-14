@@ -48,8 +48,7 @@ public class RequestHandApplyMessage : ClientMessage
 		var handApply = HandApply.ByClient(performerObj, handObject, targetObj, TargetBodyPart, usedSlot);
 		foreach (var processorComponent in processorComponents)
 		{
-			if (processorComponent.ServerProcessInteraction(handApply) ==
-			    InteractionControl.STOP_PROCESSING)
+			if (processorComponent.ServerProcessInteraction(handApply))
 			{
 				//something happened, don't check further components
 				return;

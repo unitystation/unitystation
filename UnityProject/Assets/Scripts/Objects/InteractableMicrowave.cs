@@ -15,17 +15,17 @@ public class InteractableMicrowave : Interactable<HandApply>
 		microwave = GetComponent<Microwave>();
 	}
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS)
-			.WithValidation(TargetIs.GameObject(gameObject))
-			.WithValidation(IsHand.OCCUPIED);
+		if (!base.WillInteract(interaction, side)) return false;
+		if (interaction.TargetObject != gameObject) return false;
+		if (interaction.HandObject == null) return false;
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
-		ItemAttributes attr = interaction.UsedObject.GetComponent<ItemAttributes>();
+		ItemAttributes attr = interaction.HandObject.GetComponent<ItemAttributes>();
 
 		Ingredient ingredient = new Ingredient(attr.itemName);
 
@@ -34,7 +34,7 @@ public class InteractableMicrowave : Interactable<HandApply>
 		if (meal)
 		{
 			interaction.Performer.GetComponent<PlayerNetworkActions>().CmdStartMicrowave(interaction.HandSlot.SlotName, gameObject, meal.name);
-			interaction.UsedObject.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+			interaction.HandObject.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 }

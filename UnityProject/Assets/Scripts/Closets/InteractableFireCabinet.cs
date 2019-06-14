@@ -51,11 +51,14 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 		SyncItemSprite(isFull);
 	}
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-			.WithValidation(TargetIs.GameObject(gameObject));
+		if (!base.WillInteract(interaction, side)) return false;
+
+		//only allow interactions targeting this
+		if (interaction.TargetObject != gameObject) return false;
+
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)
@@ -64,7 +67,7 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 
 		if (IsClosed)
 		{
-			if(isFull && interaction.UsedObject == null) {
+			if(isFull && interaction.HandObject == null) {
 				RemoveExtinguisher(pna, interaction.HandSlot.SlotName);
 			}
 			IsClosed = false;
@@ -73,7 +76,7 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 		{
 			if (isFull)
 			{
-				if (interaction.UsedObject == null)
+				if (interaction.HandObject == null)
 				{
 					RemoveExtinguisher(pna, interaction.HandSlot.SlotName);
 				}
@@ -84,9 +87,9 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 			}
 			else
 			{
-				if (interaction.UsedObject && interaction.UsedObject.GetComponent<FireExtinguisher>())
+				if (interaction.HandObject && interaction.HandObject.GetComponent<FireExtinguisher>())
 				{
-					AddExtinguisher(pna, interaction.HandSlot.SlotName, interaction.UsedObject);
+					AddExtinguisher(pna, interaction.HandSlot.SlotName, interaction.HandObject);
 				}
 				else
 				{

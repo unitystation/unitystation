@@ -40,18 +40,17 @@ public class CableCoil : NBPositionalHandApplyInteractable
 	}
 
 
-	protected override InteractionValidationChain<PositionalHandApply> InteractionValidationChain()
+	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<PositionalHandApply>.Create()
-			//can only be placed on tiles
-			.WithValidation(DoesTargetObjectHaveComponent<InteractableTiles>.DOES)
-			.WithValidation(IsHand.OCCUPIED)
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS);
+		if (!base.WillInteract(interaction, side)) return false;
+		//can only be used on tiles
+		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		var cableCoil = interaction.UsedObject.GetComponent<CableCoil>();
+		var cableCoil = interaction.HandObject.GetComponent<CableCoil>();
 		if (cableCoil != null)
 		{
 			Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();

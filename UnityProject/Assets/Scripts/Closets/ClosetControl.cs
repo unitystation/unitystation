@@ -202,18 +202,21 @@ public class ClosetControl : NBHandApplyInteractable, IRightClickable
 		return true;
 	}
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-			.WithValidation(TargetIs.GameObject(gameObject));
+		if (!base.WillInteract(interaction, side)) return false;
+
+		//only allow interactions targeting this closet
+		if (interaction.TargetObject != gameObject) return false;
+
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 
 		//Is the player trying to put something in the closet
-		if (interaction.UsedObject != null && !IsClosed)
+		if (interaction.HandObject != null && !IsClosed)
 		{
 			PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
 			pna.CmdPlaceItem(interaction.HandSlot.SlotName, registerTile.WorldPosition, null, false);
@@ -342,8 +345,7 @@ public class ClosetControl : NBHandApplyInteractable, IRightClickable
 	{
 		var result = RightClickableResult.Create();
 
-		if (InteractionValidationChain()
-			.DoesValidate(HandApply.ByLocalPlayer(gameObject), NetworkSide.CLIENT))
+		if (WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client))
 		{
 			result.AddElement("OpenClose", RightClickInteract);
 		}

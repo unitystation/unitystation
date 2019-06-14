@@ -18,12 +18,6 @@ public class Vendor : NBHandApplyInteractable
 	public bool EjectObjects = false;
 	public EjectDirection EjectDirection = EjectDirection.None;
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
-	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS);
-	}
-
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		if (!allowSell && deniedMessage != null && !GameData.Instance.testServer && !GameData.IsHeadlessServer)

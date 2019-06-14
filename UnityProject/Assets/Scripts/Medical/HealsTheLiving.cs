@@ -12,22 +12,12 @@ public class HealsTheLiving : NBHandApplyInteractable
 	private bool isSelfHealing;
 	private int amount = 6; //TODO: move into some stack component (metal sheets, ores, etc)
 
-	//can be cached since it has no state-dependent validation
-	private static InteractionValidationChain<HandApply> validationChain;
-
-	private void Start()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (validationChain == null)
-		{
-			validationChain = InteractionValidationChain<HandApply>.Create()
-				.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-				.WithValidation(DoesTargetObjectHaveComponent<LivingHealthBehaviour>.DOES);
-		}
-	}
-
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
-	{
-		return validationChain;
+		if (!base.WillInteract(interaction, side)) return false;
+		//can only be applied to LHB
+		if (!Validations.HasComponent<LivingHealthBehaviour>(interaction.TargetObject)) return false;
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)

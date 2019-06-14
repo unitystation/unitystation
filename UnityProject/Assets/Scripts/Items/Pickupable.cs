@@ -27,16 +27,15 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 		CheckSpriteOrder();
 	}
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(IsHand.EMPTY)
-			//We are the ones being picked up
-			.WithValidation(TargetIs.GameObject(gameObject))
-			//allow extended range, so we can nudge it if it is stationary and a little too far,
-			//or allow picking it up if it is floating and a little too far
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT.WithRange(ReachRange.EXTENDED_SERVER));
-
+		//we need to be the target
+		if (interaction.TargetObject != gameObject) return false;
+		//hand needs to be empty for pickup
+		if (interaction.HandObject != null) return false;
+		//instead of the base logic, we need to use extended range check for CanApply
+		if (!Validations.CanApply(interaction, side, true, ReachRange.ExtendedServer)) return false;
+		return true;
 	}
 
 	protected override void ClientPredictInteraction(HandApply interaction)
@@ -107,13 +106,8 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 	public RightClickableResult GenerateRightClickOptions()
 	{
 		//would the interaction validate locally?
-		var valid = InteractionValidationChain()
-			//unlike the normal validation chain, we only want to show the option if they are within standard (not extended) range
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT.WithRange(ReachRange.STANDARD))
-			.Validate(HandApply.ByLocalPlayer(gameObject), NetworkSide.CLIENT);
-
-
-		if (valid == ValidationResult.SUCCESS)
+		var valid = WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client);
+		if (valid)
 		{
 			return RightClickableResult.Create()
 				.AddElement("PickUp", RightClickInteract);

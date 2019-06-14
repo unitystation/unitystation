@@ -43,8 +43,7 @@ public class RequestHandActivateMessage : ClientMessage
 		var activate = HandActivate.ByClient(performerObj, activatedObject, handSlot);
 		foreach (var processorComponent in processorComponents)
 		{
-			if (processorComponent.ServerProcessInteraction(activate) ==
-			    InteractionControl.STOP_PROCESSING)
+			if (processorComponent.ServerProcessInteraction(activate))
 			{
 				//something happened, don't check further components
 				return;

@@ -318,12 +318,12 @@ public class MouseInputController : MonoBehaviour
 	{
 		//call the used object's handapply interaction methods if it has any, for each object we are applying to
         //if handobj is null, then its an empty hand apply so we only need to check the receiving object
-        if (interaction.UsedObject != null)
+        if (interaction.HandObject != null)
         {
-        	foreach (IInteractable<PositionalHandApply> handApply in interaction.UsedObject.GetComponents<IInteractable<PositionalHandApply>>())
+        	foreach (IInteractable<PositionalHandApply> handApply in interaction.HandObject.GetComponents<IInteractable<PositionalHandApply>>())
         	{
-        		var result = handApply.Interact(interaction);
-        		if (result.StopProcessing)
+        		var interacted = handApply.Interact(interaction);
+        		if (interacted)
         		{
         			//we're done checking, something happened
         			return true;
@@ -334,8 +334,8 @@ public class MouseInputController : MonoBehaviour
         //call the hand apply interaction methods on the target object if it has any
         foreach (IInteractable<PositionalHandApply> handApply in interaction.TargetObject.GetComponents<IInteractable<PositionalHandApply>>())
         {
-        	var result = handApply.Interact(interaction);
-        	if (result.StopProcessing)
+        	var interacted = handApply.Interact(interaction);
+        	if (interacted)
         	{
         		//something happened, done checking
         		return true;
@@ -349,12 +349,12 @@ public class MouseInputController : MonoBehaviour
 	{
 		//call the used object's handapply interaction methods if it has any, for each object we are applying to
 		//if handobj is null, then its an empty hand apply so we only need to check the receiving object
-		if (interaction.UsedObject != null)
+		if (interaction.HandObject != null)
 		{
-			foreach (IInteractable<HandApply> handApply in interaction.UsedObject.GetComponents<IInteractable<HandApply>>())
+			foreach (IInteractable<HandApply> handApply in interaction.HandObject.GetComponents<IInteractable<HandApply>>())
 			{
-				var result = handApply.Interact(interaction);
-				if (result.StopProcessing)
+				var interacted = handApply.Interact(interaction);
+				if (interacted)
 				{
 					//we're done checking, something happened
 					return true;
@@ -365,8 +365,8 @@ public class MouseInputController : MonoBehaviour
 		//call the hand apply interaction methods on the target object if it has any
 		foreach (IInteractable<HandApply> handApply in interaction.TargetObject.GetComponents<IInteractable<HandApply>>())
 		{
-			var result = handApply.Interact(interaction);
-			if (result.StopProcessing)
+			var interacted = handApply.Interact(interaction);
+			if (interacted)
 			{
 				//something happened, done checking
 				return true;
@@ -407,8 +407,8 @@ public class MouseInputController : MonoBehaviour
 			//Checks for aim apply interactions which can trigger
 			foreach (var aimApply in handObj.GetComponents<IInteractable<AimApply>>())
 			{
-				var result = aimApply.Interact(aimApplyInfo);
-				if (result == InteractionControl.STOP_PROCESSING)
+				var interacted = aimApply.Interact(aimApplyInfo);
+				if (interacted)
 				{
 					triggeredAimApply = aimApply;
 					secondsSinceLastAimApplyTrigger = 0;
@@ -425,7 +425,7 @@ public class MouseInputController : MonoBehaviour
 				secondsSinceLastAimApplyTrigger += Time.deltaTime;
 				if (secondsSinceLastAimApplyTrigger > AimApplyInterval)
 				{
-					if (triggeredAimApply.Interact(aimApplyInfo) == InteractionControl.STOP_PROCESSING)
+					if (triggeredAimApply.Interact(aimApplyInfo))
 					{
 						//only reset timer if it was actually triggered
 						secondsSinceLastAimApplyTrigger = 0;

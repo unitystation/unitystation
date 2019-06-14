@@ -23,12 +23,15 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 	public float DestructionPriority;
 	public bool CanOverCurrent = true;
 
-	protected override InteractionValidationChain<PositionalHandApply> InteractionValidationChain()
+	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<PositionalHandApply>.Create()
-			.WithValidation(IsToolUsed.OfType(ToolType.Wirecutter) as IInteractionValidator<PositionalHandApply>)
-			.WithValidation(TargetIs.GameObject(gameObject))
-			.WithValidation(CanApply.ONLY_IF_CONSCIOUS);
+		if (!base.WillInteract(interaction, side)) return false;
+
+		if (!Validations.IsTool(interaction.HandObject, ToolType.Wirecutter)) return false;
+
+		if (interaction.TargetObject != gameObject) return false;
+
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(PositionalHandApply interaction)

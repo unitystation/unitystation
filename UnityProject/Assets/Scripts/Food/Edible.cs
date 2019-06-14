@@ -48,24 +48,24 @@ public class Edible : NetworkBehaviour, IInteractable<HandActivate>, IInteractab
             UIManager.Hands.CurrentSlot.eventName, isDrink);
 	}
 
-	public InteractionControl Interact(HandActivate interaction)
+	public bool Interact(HandActivate interaction)
 	{
 		//eat on activate
 		TryEat();
-		return InteractionControl.STOP_PROCESSING;
+		return true;
 	}
 
-	public InteractionControl Interact(HandApply interaction)
+	public bool Interact(HandApply interaction)
 	{
 		//eat when we hand apply to ourselves
 		if (interaction.Performer == PlayerManager.LocalPlayer &&
-		    interaction.UsedObject == gameObject
+		    interaction.HandObject == gameObject
 		    && interaction.TargetObject == PlayerManager.LocalPlayer)
 		{
 			TryEat();
-			return InteractionControl.STOP_PROCESSING;
+			return true;
 		}
 
-		return InteractionControl.CONTINUE_PROCESSING;
+		return false;
 	}
 }

@@ -260,7 +260,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 			var activate = HandActivate.ByLocalPlayer();
 			foreach (var interactable in interactables)
 			{
-				if (interactable.Interact(activate) == InteractionControl.STOP_PROCESSING)
+				if (interactable.Interact(activate))
 				{
 					return;
 				}
@@ -293,7 +293,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 				var handInteractables = UIManager.Hands.CurrentSlot.Item.GetComponents<IInteractable<InventoryApply>>();
 				foreach (var interactable in handInteractables)
 				{
-					if (interactable.Interact(combine) == InteractionControl.STOP_PROCESSING)
+					if (interactable.Interact(combine))
 					{
 						//something combined, don't do anything else
 						return true;
@@ -305,7 +305,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 			var targetInteractables = Item.GetComponents<IInteractable<InventoryApply>>();
 			foreach (var interactable in targetInteractables)
 			{
-				if (interactable.Interact(combine) == InteractionControl.STOP_PROCESSING)
+				if (interactable.Interact(combine))
 				{
 					//something combined, don't do anything else
 					return true;
