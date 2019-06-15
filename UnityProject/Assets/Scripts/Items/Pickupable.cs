@@ -29,6 +29,11 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 
 	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
+		return Validations.ValidateWithServerRollback(interaction, side, CheckWillInteract, ServerInformClientRollback);
+	}
+
+	private bool CheckWillInteract(HandApply interaction, NetworkSide side)
+	{
 		//we need to be the target
 		if (interaction.TargetObject != gameObject) return false;
 		//hand needs to be empty for pickup
@@ -47,7 +52,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 		}
 	}
 
-	protected override void OnServerInteractionValidationFail(HandApply interaction)
+	private void ServerInformClientRollback(HandApply interaction)
 	{
 		//Rollback prediction (inform player about item's true state)
 		GetComponent<CustomNetTransform>().NotifyPlayer(interaction.Performer);
@@ -80,7 +85,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 			Logger.LogTraceFormat( "Nudging! server pos:{0} player pos:{1}", Category.Security,
 				cnt.ServerState.WorldPosition, interaction.Performer.transform.position);
 			//client prediction doesn't handle nudging, so we need to roll them back
-			OnServerInteractionValidationFail(interaction);
+			ServerInformClientRollback(interaction);
 		}
 		else
 		{
@@ -98,7 +103,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 			else
 			{
 				//for some reason pickup failed even after earlier validation, need to rollback client
-				OnServerInteractionValidationFail(interaction);
+				ServerInformClientRollback(interaction);
 			}
 		}
 	}

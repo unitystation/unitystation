@@ -75,12 +75,6 @@ public abstract class Interactable<T>
 	/// <param name="interaction"></param>
 	protected virtual void ClientPredictInteraction(T interaction) { }
 
-	/// <summary>
-	/// Called on the server if server validation fails. Server can use this to inform client they should rollback any predictions they made.
-	/// </summary>
-	/// <param name="interaction"></param>
-	protected virtual void OnServerInteractionValidationFail(T interaction) { }
-
 	public bool Interact(T info)
 	{
 		EnsureCoordinatorInit();
@@ -90,7 +84,7 @@ public abstract class Interactable<T>
 	public bool ServerProcessInteraction(T info)
 	{
 		EnsureCoordinatorInit();
-		return InteractionComponentUtils.ServerProcessCoordinatedInteraction(info, coordinator, OnServerInteractionValidationFail);
+		return InteractionComponentUtils.ServerProcessCoordinatedInteraction(info, coordinator);
 	}
 
 }

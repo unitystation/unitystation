@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -205,4 +206,24 @@ public static class Validations
 		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange);
 
 	#endregion
+
+	/// <summary>
+	/// Convenience method for implementing server-initiated rollback in WillInteract.
+	/// Returns the result of willInteract, but if side == Server and the result is false,
+	/// invokes serverRollback first.
+	/// </summary>
+	/// <param name="interaction"></param>
+	/// <param name="side"></param>
+	/// <param name="willInteract"></param>
+	/// <param name="serverRollback"></param>
+	public static bool ValidateWithServerRollback(HandApply interaction, NetworkSide side, Func<HandApply, NetworkSide, bool> willInteract, Action<HandApply> serverRollback)
+	{
+		var will = willInteract(interaction, side);
+		if (!will && side == NetworkSide.Server)
+		{
+			serverRollback(interaction);
+		}
+
+		return will;
+	}
 }

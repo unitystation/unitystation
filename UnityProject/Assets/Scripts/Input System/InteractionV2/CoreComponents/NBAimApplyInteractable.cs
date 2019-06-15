@@ -57,12 +57,6 @@ public abstract class NBAimApplyInteractable
 	/// <param name="interaction"></param>
 	protected virtual void ClientPredictInteraction(AimApply interaction) { }
 
-	/// <summary>
-	/// Called on the server if server validation fails. Server can use this to inform client they should rollback any predictions they made.
-	/// </summary>
-	/// <param name="interaction"></param>
-	protected virtual void OnServerInteractionValidationFail(AimApply interaction) { }
-
 	public bool Interact(AimApply info)
 	{
 		EnsureCoordinatorInit();
@@ -72,6 +66,6 @@ public abstract class NBAimApplyInteractable
 	public bool ServerProcessInteraction(AimApply info)
 	{
 		EnsureCoordinatorInit();
-		return InteractionComponentUtils.ServerProcessCoordinatedInteraction(info, coordinator, OnServerInteractionValidationFail);
+		return InteractionComponentUtils.ServerProcessCoordinatedInteraction(info, coordinator);
 	}
 }

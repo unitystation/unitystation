@@ -11,24 +11,19 @@ public static class InteractionComponentUtils
 	/// </summary>
 	/// <param name="info"></param>
 	/// <param name="coordinator"></param>
-	/// <param name="onValidationFail"></param>
 	/// <typeparam name="T">type of interaction</typeparam>
 	/// <returns>If validation succeeds and
 	/// coordinator performs server side interaction, returns
-	/// STOP_PROCESSING. Otherwise returns CONTINUE_PROCESSING and invokes the onValidationFail callback.</returns>
-	public static bool ServerProcessCoordinatedInteraction<T>(T info, InteractionCoordinator<T> coordinator,
-		Action<T> onValidationFail)
+	/// STOP_PROCESSING. Otherwise returns CONTINUE_PROCESSING.</returns>
+	public static bool ServerProcessCoordinatedInteraction<T>(T info, InteractionCoordinator<T> coordinator)
 		where T : Interaction
 	{
 		if (coordinator.ServerValidateAndPerform(info))
 		{
 			return true;
 		}
-		else
-		{
-			onValidationFail.Invoke(info);
-			return false;
-		}
+
+		return false;
 	}
 
 	/// <summary>
@@ -36,7 +31,6 @@ public static class InteractionComponentUtils
 	/// </summary>
 	/// <param name="info"></param>
 	/// <param name="coordinator"></param>
-	/// <param name="onValidationSuccess"></param>
 	/// <typeparam name="T">type of interaction</typeparam>
 	/// <returns>If validation succeeds and coordinator sends the interaciton msg, invokes
 	/// onValidationSuccess and returns STOP_PROCESSING. Otherwise returns CONTINUE_PROCESSING.</returns>

@@ -58,12 +58,6 @@ public abstract class NBHandApplyInteractable
 	/// <param name="interaction"></param>
 	protected virtual void ClientPredictInteraction(HandApply interaction) { }
 
-	/// <summary>
-	/// Called on the server if server validation fails. Server can use this to inform client they should rollback any predictions they made.
-	/// </summary>
-	/// <param name="interaction"></param>
-	protected virtual void OnServerInteractionValidationFail(HandApply interaction) { }
-
 	public bool Interact(HandApply info)
 	{
 		EnsureCoordinatorInit();
@@ -73,6 +67,6 @@ public abstract class NBHandApplyInteractable
 	public bool ServerProcessInteraction(HandApply info)
 	{
 		EnsureCoordinatorInit();
-		return InteractionComponentUtils.ServerProcessCoordinatedInteraction(info, coordinator, OnServerInteractionValidationFail);
+		return InteractionComponentUtils.ServerProcessCoordinatedInteraction(info, coordinator);
 	}
 }
