@@ -19,6 +19,12 @@ public class GUI_Vendor : NetTab
 	[SerializeField]
 	private NetColorChanger hullColor;
 	private bool inited = false;
+	[SerializeField]
+	private string vendMessage = "Item given.";
+	[SerializeField]
+	private string deniedMessage = "Bzzt.";
+	[SerializeField]
+	private string restockMessage = "Items restocked.";
 
 	private void Start()
 	{
@@ -76,6 +82,7 @@ public class GUI_Vendor : NetTab
 	{
 		GenerateContentList();
 		UpdateList();
+		SendToChat(restockMessage);
 	}
 
 	private void UpdateList()
@@ -107,12 +114,14 @@ public class GUI_Vendor : NetTab
 		}
 		if (itemToSpawn == null || itemToSpawn.Stock <= 0)
 		{
+			SendToChat(deniedMessage);
 			return;
 		}
 
 		Vector3 spawnPos = vendor.gameObject.RegisterTile().WorldPositionServer;
 		var spawnedItem = PoolManager.PoolNetworkInstantiate(itemToSpawn.Item, spawnPos, vendor.transform.parent);
 		itemToSpawn.Stock--;
+		PostToChatMessage.Send("Item given", ChatChannel.Examine);
 
 		//Ejecting in direction
 		if (vendor.EjectObjects && vendor.EjectDirection != EjectDirection.None)
@@ -140,6 +149,7 @@ public class GUI_Vendor : NetTab
 			});
 		}
 
+		SendToChat(vendMessage);
 		UpdateList();
 		allowSell = false;
 		StartCoroutine(VendorInputCoolDown());
@@ -151,7 +161,20 @@ public class GUI_Vendor : NetTab
 		{
 			return true;
 		}
+		SendToChat(deniedMessage);
 		return false;
+	}
+
+	private void SendToChat(string messageToSend)
+	{
+		ChatEvent chatEvent = new ChatEvent();
+
+		chatEvent.speaker = vendor.name;
+		chatEvent.channels = ChatChannel.Local;
+		chatEvent.message = messageToSend;
+		chatEvent.position = vendor.transform.position;
+		chatEvent.radius = 3f;
+		ChatRelay.Instance.AddToChatLogServer(chatEvent);
 	}
 
 	private IEnumerator VendorInputCoolDown()
