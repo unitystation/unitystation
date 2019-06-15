@@ -37,8 +37,10 @@ internal enum MessageTypes : short
 	TriggerEvent = 1033,
 	Suicide = 1034,
 	PlayerUprightMessage = 1035,
-  ElectricalCableMessage = 1036,
-  
+	ElectricalCableMessage = 1036,
+	HealthTemperatureStats = 1037,
+	HealthPressureStats = 1038,
+
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
 	InteractMessage = 2001,
@@ -59,5 +61,8 @@ internal enum MessageTypes : short
 	DevCloneMessage = 2016,
 	DevDestroyMessage = 2017,
 	RequestMouseDropMessage = 2018,
-	RequestInteractMessage = 2019
+	RequestHandApplyMessage = 2019,
+	RequestAimApplyMessage = 2020,
+	RequestActivateMessage = 2021,
+	RequestInventoryApplyMessage = 2022
 }

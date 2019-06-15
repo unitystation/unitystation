@@ -20,30 +20,11 @@ public class P2PInteractions : InputTrigger
 			{
 				return true;
 			}
-
-			//Is it a weapon/ballistic or specific hand to hand melee combat with weapons?
-			if (CheckWeapon(UIManager.Hands.CurrentSlot.Item, false))
-			{
-				return true;
-			}
 		}
 
 		return false;
 	}
 
-	public override bool DragInteract(GameObject originator, Vector3 position, string hand)
-	{
-		if (UIManager.Hands.CurrentSlot.Item != null)
-		{
-			//while dragging, can still be firing an automatic
-			if (CheckWeapon(UIManager.Hands.CurrentSlot.Item, true))
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
 
 	private bool CheckMedical(GameObject itemInHand, GameObject originator){
 		if(itemInHand.GetComponent<ItemAttributes>().itemType == ItemType.Medical){
@@ -73,24 +54,5 @@ public class P2PInteractions : InputTrigger
 			//and use that here
 		}
 		return true;
-	}
-
-	private bool CheckWeapon(GameObject itemInHand, bool isDrag)
-	{
-		Weapon weapon = itemInHand.GetComponent<Weapon>();
-		if (weapon == null)
-		{
-			return false;
-		}
-
-		if (PlayerManager.LocalPlayer == gameObject)
-		{
-			//suicide
-			return weapon.AttemptSuicideShot(isDrag);
-		}
-		else
-		{
-			return weapon.Trigger();
-		}
 	}
 }

@@ -92,9 +92,10 @@ GameObject:
   - component: {fileID: 114369089847583798}
   - component: {fileID: 114696358063239130}
   - component: {fileID: 114853416549807176}
-  - component: {fileID: 114339226152180654}
   - component: {fileID: 114355234130924692}
   - component: {fileID: 114975342974608640}
+  - component: {fileID: 114419866923798150}
+  - component: {fileID: 2522490648275854769}
   m_Layer: 10
   m_Name: Revolver_Detective_Ballistic
   m_TagString: Untagged
@@ -204,12 +205,11 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 112
   inHandReferenceRight: 268
-  itemDescription: 
   itemName: Black Detective revolver
+  itemDescription: 
   itemType: 0
   size: 0
   spriteType: 2
-  type: 16
   CanConnectToTank: 0
   hitDamage: 5
   throwDamage: 5
@@ -217,30 +217,6 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &114339226152180654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589781730870112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12ad712be1fefd043b45761b18e23798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AmmoType: 38
-  SpawnsCaseing: 1
-  SmartGun: 0
-  CurrentRecoilVariance: 0
-  FireCountDown: 0
-  FireingSound: ShootGun04
-  FireRate: 3
-  MaxRecoilVariance: 0
-  Projectile: {fileID: 1932369758612010, guid: 008fa24b13fdb4e98971489ecee9218c, type: 3}
-  ProjectilesFired: 1
-  ProjectileVelocity: 10
-  WeaponType: 1
 --- !u!114 &114355234130924692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,16 +250,55 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &114419866923798150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589781730870112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDropServer:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &2522490648275854769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589781730870112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8343d0f678a24c949baac4bba12c2f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoType: 38
+  SpawnsCaseing: 1
+  SmartGun: 0
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FireingSound: ShootGun04
+  FireRate: 3
+  MaxRecoilVariance: 0
+  Projectile: {fileID: 1932369758612010, guid: 008fa24b13fdb4e98971489ecee9218c, type: 3}
+  ProjectilesFired: 1
+  ProjectileVelocity: 10
+  WeaponType: 0

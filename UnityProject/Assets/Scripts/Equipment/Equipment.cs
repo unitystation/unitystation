@@ -115,7 +115,7 @@ public class Equipment : NetworkBehaviour
 				yield break;
 			}
 
-			yield return YieldHelper.DeciSecond;
+			yield return WaitFor.Seconds(.1f);
 		}
 	}
 
@@ -242,7 +242,7 @@ public class Equipment : NetworkBehaviour
 		}
 		SpawnID(jobOutfit);
 
-		yield return new WaitForSeconds(3f); //Wait a bit for headset to be fully setup and player to be fully spawned.
+		yield return WaitFor.Seconds(3f); //Wait a bit for headset to be fully setup and player to be fully spawned.
 		if (playerScript.JobType == JobType.SYNDICATE)
 		{
 			//Check to see if there is a nuke and communicate the nuke code:
@@ -395,7 +395,7 @@ public class Equipment : NetworkBehaviour
 	private IEnumerator SetItemPatiently(string slotName, GameObject obj)
 	{
 		//Waiting for hier name resolve
-		yield return new WaitForSeconds(0.2f);
+		yield return WaitFor.Seconds(0.2f);
 		playerNetworkActions.AddItemToUISlot(obj, slotName, true);
 	}
 

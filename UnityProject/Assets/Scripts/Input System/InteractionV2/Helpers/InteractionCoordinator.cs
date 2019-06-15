@@ -21,8 +21,8 @@ public class InteractionCoordinator<T>
 	//note: using enums rather than bool for these so it's more clear what the
 	//delegate functions need to do.
 
-	private readonly IList<IInteractionValidator<T>> validations;
-	private readonly Func<T, InteractionResult> interactionLogic;
+	private readonly InteractionValidationChain<T> validationChain;
+	private readonly Action<T> interactionLogic;
 	private readonly IInteractionProcessor<T> processor;
 
 	/// <summary>
@@ -31,14 +31,14 @@ public class InteractionCoordinator<T>
 	/// <param name="processor">Should almost always be "this" - the component using this coordinator should
 	/// implement IInteractionProcessor and delegate processing to this coordinator.
 	/// Component which will process the interaction on the server side.</param>
-	/// <param name="validations">Validations to perform on client and server side. If any validation fails,
+	/// <param name="validationChain">Validations to perform on client and server side. If any validation fails,
 	/// the entire validation will fail.</param>
 	/// <param name="interactionLogic">Function to invoke on the server side to perform the interaction logic
 	/// if validation succeeds.</param>
-	public InteractionCoordinator(IInteractionProcessor<T> processor, IList<IInteractionValidator<T>> validations,
-		Func<T, InteractionResult> interactionLogic)
+	public InteractionCoordinator(IInteractionProcessor<T> processor, InteractionValidationChain<T> validationChain,
+		Action<T> interactionLogic)
 	{
-		this.validations = validations;
+		this.validationChain = validationChain;
 		this.processor = processor;
 		this.interactionLogic = interactionLogic;
 	}
@@ -54,9 +54,9 @@ public class InteractionCoordinator<T>
 	/// <param name="interactionLogic">Function to invoke on the server side to perform the interaction logic
 	/// if validation succeeds.</param>
 	public InteractionCoordinator(IInteractionProcessor<T> processor, Func<T, NetworkSide, ValidationResult> validationLogic,
-		Func<T, InteractionResult> interactionLogic)
+		Action<T> interactionLogic)
 	{
-		this.validations = new List<IInteractionValidator<T>> {new FunctionValidator<T>(validationLogic)};
+		this.validationChain = InteractionValidationChain<T>.Create(new FunctionValidator<T>(validationLogic));
 		this.processor = processor;
 		this.interactionLogic = interactionLogic;
 	}
@@ -68,19 +68,18 @@ public class InteractionCoordinator<T>
 	/// to perform the interaction.
 	/// </summary>
 	/// <param name="interaction">interaction being performed.</param>
-	/// <returns>SOMETHING_HAPPENED if interaction validated and message was sent, NOTHING_HAPPENED otherwise</returns>
-	public InteractionResult ClientValidateAndRequest(T interaction)
+	/// <returns>whether validation succeeded or failed</returns>
+	public ValidationResult ClientValidateAndRequest(T interaction)
 	{
-		foreach (var validator in validations)
+		if (validationChain.Validate(interaction, NetworkSide.CLIENT) == ValidationResult.SUCCESS)
 		{
-			if (validator.Validate(interaction, NetworkSide.CLIENT) == ValidationResult.FAIL)
-			{
-				return InteractionResult.NOTHING_HAPPENED;
-			}
+			InteractionMessageUtils.SendRequest(interaction, processor);
+			return ValidationResult.SUCCESS;
 		}
-
-		RequestInteractMessage.Send(interaction, processor);
-		return InteractionResult.SOMETHING_HAPPENED;
+		else
+		{
+			return ValidationResult.FAIL;
+		}
 	}
 
 	/// <summary>
@@ -88,38 +87,18 @@ public class InteractionCoordinator<T>
 	/// if validation succeeds. Validation fails if any of the validators fail.
 	/// </summary>
 	/// <param name="interaction">info on the interaction being requested</param>
-	/// <returns>NOTHING_HAPPENED if validation fails, otherwise returns the result of the
-	/// interaction./returns>
-	public InteractionResult ServerValidateAndPerform(T interaction)
+	/// <returns>whether server validation succeeded or failed</returns>
+	public ValidationResult ServerValidateAndPerform(T interaction)
 	{
-		foreach (var validator in validations)
+		if (validationChain.Validate(interaction, NetworkSide.SERVER) == ValidationResult.SUCCESS)
 		{
-			if (validator.Validate(interaction, NetworkSide.SERVER) == ValidationResult.FAIL)
-			{
-				return InteractionResult.NOTHING_HAPPENED;
-			}
+			interactionLogic.Invoke(interaction);
+			return ValidationResult.SUCCESS;
 		}
-
-		return interactionLogic.Invoke(interaction);
+		else
+		{
+			return ValidationResult.FAIL;
+		}
 	}
 }
 
-/// <summary>
-/// Refers to a "side" of the network - client or server.
-/// </summary>
-public enum NetworkSide
-{
-	CLIENT,
-	SERVER
-}
-
-/// <summary>
-/// Result of validation of an interaction.
-/// </summary>
-public enum ValidationResult
-{
-	//validation failed - interaction should not be performed
-	FAIL,
-	//validation succeeded, proceed with the interaction
-	SUCCESS
-}

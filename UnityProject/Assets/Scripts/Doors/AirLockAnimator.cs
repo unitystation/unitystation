@@ -89,11 +89,11 @@ using UnityEditor;
 		private IEnumerator MakePassable(bool instant) {
 			if (instant)
 			{
-				yield return new WaitForEndOfFrame();
+				yield return WaitFor.EndOfFrame;
 			}
 			else
 			{
-				yield return new WaitForSeconds(0.15f);
+				yield return WaitFor.Seconds(0.15f);
 			}
 			doorController.BoxCollToggleOff();
 		}
@@ -133,11 +133,11 @@ using UnityEditor;
 		private IEnumerator MakeSolid(bool instant) {
 			if (instant)
 			{
-				yield return new WaitForEndOfFrame();
+				yield return WaitFor.EndOfFrame;
 			}
 			else
 			{
-				yield return new WaitForSeconds( 0.15f );
+				yield return WaitFor.Seconds( 0.15f );
 			}
 			doorController.BoxCollToggleOn();
 		}
@@ -166,10 +166,10 @@ using UnityEditor;
 					for (int i = offset; i < limit; i++)
 					{
 						renderer.sprite = list[i];
-						yield return new WaitForSeconds(0.1f);
+						yield return WaitFor.Seconds(0.1f);
 					}
 				}
-				yield return new WaitForSeconds(0.1f);
+				yield return WaitFor.Seconds(0.1f);
 				if (nullfySprite)
 				{
 					renderer.sprite = null;
@@ -199,7 +199,7 @@ using UnityEditor;
 		private IEnumerator PlaySimpleLightAnim()
 		{
 			overlay_Lights.sprite = overlayLights[doorController.DoorLightSpriteOffset];
-			yield return new WaitForSeconds(0.6f);
+			yield return WaitFor.Seconds(0.6f);
 			overlay_Lights.sprite = null;
 		}
 
@@ -223,7 +223,7 @@ using UnityEditor;
 
 				}
 				light = !light;
-				yield return new WaitForSeconds(0.05f);
+				yield return WaitFor.Seconds(0.05f);
 			}
 			overlay_Lights.sprite = null;
 			doorController.isPerformingAction = false;

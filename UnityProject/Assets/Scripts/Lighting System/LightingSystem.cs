@@ -405,6 +405,10 @@ public class LightingSystem : MonoBehaviour
 			Shader.SetGlobalVector("_ObjectFovMaskTransformation", objectOcclusionMask.GetTransformation(mMainCamera));
 			return;
 		}
+		if(!Application.isPlaying)
+		{
+			return;
+		}
 
 		using(new DisposableProfiler("1. Occlusion Mask Render (No Gfx Time)"))
 		{

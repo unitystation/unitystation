@@ -39,7 +39,7 @@ public class FuelTankHealthBehaviour : MonoBehaviour
 
 	private IEnumerator explodeWithDelay(float delay, string damagedBy)
 	{
-		yield return new WaitForSeconds(delay);
+		yield return WaitFor.Seconds(delay);
 		GetComponentInParent<ExplodeWhenShot>().ExplodeOnDamage(damagedBy);
 		yield return null;
 	}

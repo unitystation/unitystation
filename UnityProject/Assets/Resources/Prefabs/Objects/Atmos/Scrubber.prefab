@@ -135,15 +135,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284c55ecf95c48fe9eb8073c0d662d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodes: []
-  anchored: 0
-  direction: 0
   registerTile: {fileID: 0}
+  objectBehaviour: {fileID: 0}
+  nodes: []
+  direction: 0
+  anchored: 0
+  volume: 70
   pipeSprites:
   - {fileID: 21300216, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
   - {fileID: 21300770, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
+  - {fileID: 21300772, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
+  - {fileID: 21300774, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
+  - {fileID: 21300776, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
   spriteRenderer: {fileID: 3335986396963275010}
-  volume: 70
+  spriteSync: 0
   MinimumPressure: 101.325
 --- !u!114 &4696558778661555457
 MonoBehaviour:

@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 using Random = System.Random;
 
 [RequireComponent(typeof(ObjectBehaviour))]
-public class ItemAttributes : NetworkBehaviour
+public class ItemAttributes : NetworkBehaviour, IRightClickable
 {
 	private const string MaskInternalsFlag = "MASKINTERNALS";
 	private const string ObjItemClothing = "/obj/item/clothing";
@@ -111,11 +111,12 @@ public class ItemAttributes : NetworkBehaviour
 
 	private IEnumerator WaitForLoad()
 	{
-		//		yield return new WaitForSeconds(2f);
+		//		yield return WaitFor.Seconds(2f);
 		ConstructItem(hierarchy);
 		yield return null;
 	}
 
+	//invoked when cloned, copy the item attribute hier
 	/// <summary>
 	/// Invoked when cloned copies the item attribute hier
 	/// </summary>
@@ -496,12 +497,17 @@ public class ItemAttributes : NetworkBehaviour
 		}
 	}
 
-	[ContextMethod("Examine", "Magnifying_glass")]
-	public void OnExamine()
+	private void OnExamine()
 	{
 		if (!string.IsNullOrEmpty(itemDescription))
 		{
 			ChatRelay.Instance.AddToChatLogClient(itemDescription, ChatChannel.Examine);
 		}
+	}
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		return RightClickableResult.Create()
+			.AddElement("Examine", OnExamine);
 	}
 }

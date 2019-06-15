@@ -33,10 +33,10 @@ public class FoodBehaviour : NetworkBehaviour
 		PoolManager pI = PoolManager.Instance;
 		while (pI == null)
 		{
-			yield return new WaitForSeconds(0.1f);
+			yield return WaitFor.Seconds(0.1f);
 			pI = PoolManager.Instance;
 		}
-		yield return new WaitForEndOfFrame();
+		yield return WaitFor.EndOfFrame;
 
 		PoolManager.PoolCacheObject(gameObject);
 	}

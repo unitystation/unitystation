@@ -57,7 +57,10 @@ MonoBehaviour:
     type: 3}
   GrayDamageMonitorIcon: {fileID: 21300832, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  MaxDamage: 200
   Type: 3
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
   Severity: 0
 --- !u!1 &1028579746739352
 GameObject:
@@ -492,7 +495,10 @@ MonoBehaviour:
     type: 3}
   GrayDamageMonitorIcon: {fileID: 21300844, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  MaxDamage: 200
   Type: 4
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
   Severity: 0
 --- !u!1 &1075270923249368
 GameObject:
@@ -670,6 +676,7 @@ GameObject:
   - component: {fileID: 114908376472113748}
   - component: {fileID: 6017414943583453005}
   - component: {fileID: 6880295280032021907}
+  - component: {fileID: 4282259093670066203}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -793,6 +800,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   JobType: 0
+  characterSettings:
+    username: 
+    Name: Cuban Pete
+    Gender: 0
+    Age: 22
+    hairStyleOffset: -1
+    hairStyleName: Bald
+    hairCollectionIndex: 4
+    hairColor: black
+    eyeColor: black
+    facialHairOffset: -1
+    facialHairName: Shaved
+    facialHairCollectionIndex: 4
+    facialHairColor: black
+    skinTone: '#ffe0d1'
+    underwearOffset: 20
+    underwearName: Mankini
+    underwearCollectionIndex: 1
+    socksOffset: 376
+    socksName: Knee-High (Freedom)
+    socksCollectionIndex: 3
+    headSpriteIndex: 20
+    torsoSpriteIndex: 28
   playerName: ' '
 --- !u!114 &114285118255153820
 MonoBehaviour:
@@ -889,6 +919,7 @@ MonoBehaviour:
   RunSpeed: 6
   WalkSpeed: 3
   CrawlSpeed: 0.8
+  PushFallSpeed: 10
 --- !u!114 &114617980452984522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -971,13 +1002,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 2
   rotateWithMatrix: 0
 --- !u!114 &114803877374308862
@@ -998,6 +1027,7 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   visibleState: 1
   isNotPushable: 0
+  pullOption: {fileID: 0}
   closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
 --- !u!114 &114449635359748350
@@ -1089,6 +1119,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 553666560
   shadow: {fileID: 21300750, guid: edb6a9bb8c0d64b80953e48ba732f4e9, type: 3}
+  draggerMustBeAdjacent: 1
+  allowDragWhileSoftCrit: 1
+--- !u!114 &4282259093670066203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 21300750, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1643,7 +1690,10 @@ MonoBehaviour:
     type: 3}
   GrayDamageMonitorIcon: {fileID: 21300830, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  MaxDamage: 200
   Type: 1
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
   Severity: 0
 --- !u!1 &1332325770335918
 GameObject:
@@ -2340,7 +2390,10 @@ MonoBehaviour:
     type: 3}
   GrayDamageMonitorIcon: {fileID: 21300836, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  MaxDamage: 200
   Type: 2
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
   Severity: 0
 --- !u!1 &1492008254133120
 GameObject:
@@ -3129,7 +3182,10 @@ MonoBehaviour:
     type: 3}
   GrayDamageMonitorIcon: {fileID: 21300824, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  MaxDamage: 200
   Type: 0
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
   Severity: 0
 --- !u!1 &1708637642242452
 GameObject:
@@ -3188,7 +3244,10 @@ MonoBehaviour:
     type: 3}
   GrayDamageMonitorIcon: {fileID: 21300840, guid: da41a78685fb46e1b8e7a41e8f9fe42e,
     type: 3}
+  MaxDamage: 200
   Type: 5
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
   Severity: 0
 --- !u!1 &1795409780741894
 GameObject:

@@ -104,7 +104,7 @@ public class FieldGenerator : InputTrigger, INodeControl
 			}
 			spriteRend.sprite = animSprites[index];
 			index++;
-			yield return new WaitForSeconds(0.3f);
+			yield return WaitFor.Seconds(0.3f);
 		}
 	}
 }

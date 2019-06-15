@@ -6,6 +6,7 @@ using UnityEngine;
 //Do not derive from NetworkBehaviour, this is also used on tilemap layers
 /// <summary>
 /// Checks for and handles melee interactions. Note that other interactions (such as P2PInteraction) are possible and handled in other classes.
+/// MeleeTrigger is placed on the TARGET of a melee interaction.
 /// </summary>
 public class MeleeTrigger : MonoBehaviour
 {
@@ -34,6 +35,21 @@ public class MeleeTrigger : MonoBehaviour
 
 			if (handItem.itemType == ItemType.Food || handItem.itemType == ItemType.Medical) {
 				return false;
+			}
+
+			//special case
+			//We don't melee if we are wielding a gun with ammo and clicking ourselves (we will instead shoot ourselves)
+			if (gameObject == originator)
+			{
+				var gun = handItem.GetComponent<Gun>();
+				if (gun != null)
+				{
+					if (gun.CurrentMagazine != null && gun.CurrentMagazine.ammoRemains > 0)
+					{
+						//we have ammo and are clicking ourselves - don't melee. Shoot instead.
+						return false;
+					}
+				}
 			}
 
 			if (handItem.itemType != ItemType.ID &&

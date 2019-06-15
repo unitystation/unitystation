@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// The main medical stack component. For bruise packs and ointments.
 /// </summary>
-public class MedicalStackTrigger : PickUpTrigger
+public class MedicalStackTrigger : Pickupable
 {
 	public DamageType healType;
 	private bool isSelfHealing;

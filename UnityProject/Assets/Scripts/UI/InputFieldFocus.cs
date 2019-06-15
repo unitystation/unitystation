@@ -21,7 +21,7 @@ public class InputFieldFocus : InputField
 //	}
 	/// Waiting one frame to init
 	private IEnumerator SelectDelayed() {
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		Select();
 	}
 

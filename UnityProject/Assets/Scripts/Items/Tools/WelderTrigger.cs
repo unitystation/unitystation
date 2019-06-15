@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class WelderTrigger : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class WelderTrigger : InputTrigger
 {
 
     private Welder welder;
@@ -11,16 +12,9 @@ public class WelderTrigger : PickUpTrigger
     }
     public override bool Interact(GameObject originator, Vector3 position, string hand)
     {
-        //make sure that interactmessage doesn't tell the server to pick it up for server player:
-        if (originator == PlayerManager.LocalPlayer)
-        {
-            if (UIManager.Hands.CurrentSlot.Item != gameObject)
-            {
-                welder.heldByPlayer = originator;
-                return base.Interact(originator, position, hand);
-            }
-        }
-        return base.Interact(originator, position, hand);
+        //TODO: Remove after IF2 refactor
+
+        return false;
     }
 
     public override void UI_Interact(GameObject originator, string hand)

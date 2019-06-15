@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 
-public class ScrewdriverTrigger : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class ScrewdriverTrigger : InputTrigger
 {
 	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
 		//Only peform screwdriver actions on other things when holding the screwdriver
 		if (UIManager.Hands.CurrentSlot.Item != gameObject)
 		{
-			return base.Interact(originator, position, hand);
+			return false;
 		}
 
 		//TODO detect the actual target of the interact, instead of requiring the headset to be in the other hand
@@ -17,8 +18,9 @@ public class ScrewdriverTrigger : PickUpTrigger
 		{
 			//Remove encryption key
 			UpdateHeadsetKeyMessage.Send(otherHandsItem);
+			return true;
 		}
 
-		return base.Interact(originator, position, hand);
+		return false;
 	}
 }

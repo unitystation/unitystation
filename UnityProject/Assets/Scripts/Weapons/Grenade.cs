@@ -20,7 +20,8 @@ public enum ExplosionType
 /// <summary>
 ///     Generic grenade base.
 /// </summary>
-public class Grenade : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class Grenade : InputTrigger
 {
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -70,6 +71,12 @@ public class Grenade : PickUpTrigger
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 	}
 
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	{
+		//TODO: Remove after IF2 refactor
+		return false;
+	}
+
 	public override void UI_Interact(GameObject originator, string hand)
 	{
 		if (!isServer)
@@ -98,7 +105,7 @@ public class Grenade : PickUpTrigger
 				float radiusVariation = radius / 4;
 				radius = Random.Range(radius - radiusVariation, radius + radiusVariation);
 			}
-			yield return new WaitForSeconds(fuseLength);
+			yield return WaitFor.Seconds(fuseLength);
 			Explode("explosion");
 		}
 	}
@@ -307,7 +314,7 @@ public class Grenade : PickUpTrigger
 	public IEnumerator TimedEffect(Vector3Int position, TileType tileType, string tileName, float time)
 	{
 		tileChangeManager.UpdateTile(position, TileType.Effects, "Fire");
-		yield return new WaitForSeconds(time);
+		yield return WaitFor.Seconds(time);
 		tileChangeManager.RemoveTile(position, LayerType.Effects);
 	}
 

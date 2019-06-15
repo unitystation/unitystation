@@ -4,6 +4,9 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// A set of flags to show active chat channels. Be aware this can contain multiple active chat channels at a time!
+/// </summary>
 [Flags]
 public enum ChatChannel
 {
@@ -11,7 +14,7 @@ public enum ChatChannel
 	[Description("")] 	Examine 	= 1 << 0,
 	[Description("")] 	Local 		= 1 << 1,
 	[Description("")] 	OOC 		= 1 << 2,
-	[Description("")] 	Common 		= 1 << 3,
+	[Description(";")] 	Common 		= 1 << 3,
 	[Description(":b")] Binary 		= 1 << 4,
 	[Description(":u")] Supply 		= 1 << 5,
 	[Description(":y")] CentComm 	= 1 << 6,
@@ -27,6 +30,9 @@ public enum ChatChannel
 	[Description("")] 	Combat 		= 1 << 16
 }
 
+/// <summary>
+/// A set of flags to show active chat modifiers. Be aware this can contain multiple active chat modifiers at once!
+/// </summary>
 [Flags]
 public enum ChatModifier
 {

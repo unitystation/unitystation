@@ -58,12 +58,12 @@ public class GamePad : MonoBehaviour
 
 	private IEnumerator ClearPressed()
 	{
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		justPressed.Clear();
 	}
 	private IEnumerator ClearReleased()
 	{
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		justReleased.Clear();
 	}
 

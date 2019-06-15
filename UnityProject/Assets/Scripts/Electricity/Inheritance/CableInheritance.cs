@@ -65,7 +65,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 			//Then you can destroy
 		}
 	}
-	//[ContextMethod("Destroy cable", "x")]
+
 	public void toDestroy()
 	{
 		if (wireConnect.RelatedLine != null)
@@ -100,7 +100,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 		wireConnect.FlushConnectionAndUp();
 		wireConnect.FindPossibleConnections();
 		wireConnect.FlushConnectionAndUp();
-		if (SelfDestruct) { 
+		if (SelfDestruct) {
 			wireConnect.registerTile.UnregisterClient();
 			wireConnect.registerTile.UnregisterServer();
 			PoolManager.PoolNetworkDestroy(gameObject);
@@ -177,7 +177,7 @@ public class CableInheritance : InputTrigger, IDeviceControl
 
 	IEnumerator WaitForDemolition()
 	{
-		yield return new WaitForSeconds(TimeDeforeDestructiveBreakdown);
+		yield return WaitFor.Seconds(TimeDeforeDestructiveBreakdown);
 		CheckDestruction = true;
 		ElectricalSynchronisation.CableUpdates.Add(this);
 	}

@@ -78,9 +78,9 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 			{
 				sIndex = 0;
 			}
-			yield return new WaitForSeconds(timeBetweenFrames);
+			yield return WaitFor.Seconds(timeBetweenFrames);
 		}
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		spriteRenderer.enabled = false;
 		if (screenGlow != null)
 		{

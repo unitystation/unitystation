@@ -560,21 +560,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return Inventory.ContainsKey(eventName) && Inventory[eventName].Item != null;
 	}
 
-	/// Allows interactions if player is in reach or inside closet
-	[Command]
-	public void CmdToggleCupboard(GameObject cupbObj)
-	{
-		ClosetControl closet = cupbObj.GetComponent<ClosetControl>();
-		if (playerScript.canNotInteract())
-		{
-			return;
-		}
-		if (playerScript.IsInReach(cupbObj, true) || closet.Contains(this.gameObject))
-		{
-			closet.ServerToggleCupboard();
-		}
-	}
-
 	[Command]
 	public void CmdStartMicrowave(string slotName, GameObject microwave, string mealName)
 	{
@@ -602,7 +587,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarningFormat("Player {0} attempted to interact with shutter switch through wall," +
-				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name); 
+				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
 
@@ -752,7 +737,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private IEnumerator InitiateRespawn(int timeout)
 	{
 		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
-		yield return new WaitForSeconds(timeout);
+		yield return WaitFor.Seconds(timeout);
 		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.characterSettings, gameObject);
 		RpcAfterRespawn();
 	}
@@ -834,7 +819,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdAttack(GameObject target, GameObject originator, BodyPartType bodyPart, GameObject itemInHand)
 	{
-		var itemPUT = itemInHand.GetComponent<PickUpTrigger>();
+		var itemPUT = itemInHand.GetComponent<Pickupable>();
 		itemPUT.Attack(target, originator, bodyPart);
 	}
 

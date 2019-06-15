@@ -1,11 +1,13 @@
 using Objects;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Canister : InputTrigger
 {
 	public ObjectBehaviour objectBehaviour;
 	public GasContainer container;
-	private Connector connector;
+	public Connector connector;
+	[SyncVar(hook = nameof(SyncConnected))] public bool isConnected;
 	private RegisterTile registerTile;
 	public SpriteRenderer connectorRenderer;
 	public Sprite connectorSprite;
@@ -32,7 +34,17 @@ public class Canister : InputTrigger
 		GameObject handObj = pna.Inventory[hand].Item;
 		if (handObj && handObj.GetComponent<WrenchTrigger>())
 		{
-			if(connector == null)
+			if(isConnected)
+			{
+				SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
+				connector.DisconnectCanister();
+				isConnected = false;
+				connectorRenderer.sprite = null;
+				SetConnectedSprite(null);
+				objectBehaviour.isNotPushable = false;
+				return true;
+			}
+			else
 			{
 				var foundConnectors = MatrixManager.GetAt<Connector>(registerTile.WorldPositionServer, true);
 				for (int n = 0; n < foundConnectors.Count; n++)
@@ -40,21 +52,15 @@ public class Canister : InputTrigger
 					var conn = foundConnectors[n];
 					if (conn.objectBehaviour.isNotPushable)
 					{
+						SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 						connector = conn;
+						isConnected = true;
 						connector.ConnectCanister(this);
-						connectorRenderer.sprite = connectorSprite;
+						SetConnectedSprite(connectorSprite);
 						objectBehaviour.isNotPushable = true;
 						return true;
 					}
 				}
-			}
-			else
-			{
-				connector.DisconnectCanister();
-				connectorRenderer.sprite = null;
-				connector = null;
-				objectBehaviour.isNotPushable = false;
-				return true;
 			}
 		}
 
@@ -64,5 +70,28 @@ public class Canister : InputTrigger
 		UpdateChatMessage.Send(originator, ChatChannel.Examine, msg);
 
 		return true;
+	}
+
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		SyncConnected(isConnected);
+	}
+
+	void SetConnectedSprite(Sprite value)
+	{
+		connectorRenderer.sprite = value;
+	}
+
+	void SyncConnected(bool value)
+	{
+		if(value)
+		{
+			SetConnectedSprite(connectorSprite);
+		}
+		else
+		{
+			SetConnectedSprite(null);
+		}
 	}
 }

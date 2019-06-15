@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 [System.Serializable]
-public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every node inherits from 
+public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every node inherits from
 	public Connection WireEndB;
 	public Connection WireEndA;
 
@@ -15,7 +15,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	public HashSet<ElectricalOIinheritance> connectedDevices  = new HashSet<ElectricalOIinheritance>();
 
 	public RegisterItem registerTile;
-	public Matrix matrix => registerTile.Matrix; //This is a bit janky with inheritance 
+	public Matrix matrix => registerTile.Matrix; //This is a bit janky with inheritance
 	public bool connected = false;
 
 	public bool Logall = false;
@@ -24,7 +24,6 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	{
 		base.OnStartClient();
 		registerTile = gameObject.GetComponent<RegisterItem>();
-
 	}
 
 	public override void OnStartServer()
@@ -38,7 +37,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 
 	IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(1f);
+		yield return WaitFor.Seconds(1f);
 		FindPossibleConnections();
 	}
 
@@ -60,7 +59,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 			connected = true;
 		}
 	}
-		
+
 	public virtual ConnPoint GetConnPoints()
 	{
 		ConnPoint conns = new ConnPoint();
@@ -85,7 +84,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	}
 
 	/// <summary>
-	///  Sets the upstream 
+	///  Sets the upstream
 	/// </summary>
 	public virtual void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom,  CableLine PassOn  = null)
 	{
@@ -97,12 +96,13 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	}
 
 	/// <summary>
-	/// Sets the downstream and pokes the next one along 
+	/// Sets the downstream and pokes the next one along
 	/// </summary>
 	public virtual void DirectionOutput(GameObject SourceInstance)
 	{
 		int SourceInstanceID = SourceInstance.GetInstanceID();
-		InputOutputFunctions.DirectionOutput(SourceInstance, this);		if (Logall)
+		InputOutputFunctions.DirectionOutput(SourceInstance, this);
+		if (Logall)
 		{
 			Logger.Log("this > " + this + "DirectionOutput " + this.gameObject+ " <ID | Downstream = " + Data.SupplyDependent[SourceInstanceID].Downstream.Count + " Upstream = " + Data.SupplyDependent[SourceInstanceID].Upstream.Count + "connections " + (string.Join(",", Data.connections)), Category.Electrical);
 		}
@@ -175,7 +175,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	}
 
 	/// <summary>
-	/// Flushs the resistance and up. Cleans out resistance and current 
+	/// Flushs the resistance and up. Cleans out resistance and current
 	/// </summary>
 	public virtual void FlushResistanceAndUp(GameObject SourceInstance = null)
 	{
@@ -183,7 +183,7 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	}
 
 	/// <summary>
-	/// Flushs the supply and up. Cleans out the current 
+	/// Flushs the supply and up. Cleans out the current
 	/// </summary>
 	public virtual void FlushSupplyAndUp(GameObject SourceInstance = null)
 	{
@@ -194,8 +194,8 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 		ElectricalDataCleanup.PowerSupplies.RemoveSupply(this, SourceInstance);
 	}
 
-	[ContextMethod("Details", "Magnifying_glass")]
-	public virtual void ShowDetails()
+	[RightClickMethod]
+	protected virtual void ShowDetails()
 	{
 		if (isServer)
 		{
@@ -228,5 +228,12 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 
 		RequestElectricalStats.Send(PlayerManager.LocalPlayer, gameObject);
 	}
+
+//
+//	public RightClickableResult GenerateRightClickOptions()
+//	{
+//		return RightClickableResult.Create()
+//			.AddElement("Details", ShowDetails);
+//	}
 }
 

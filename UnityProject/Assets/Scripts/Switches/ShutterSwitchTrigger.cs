@@ -25,7 +25,7 @@ public class ShutterSwitchTrigger : InputTrigger
 
 	private IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(3f);
+		yield return WaitFor.Seconds(3f);
 		SyncShutters(IsClosed);
 	}
 

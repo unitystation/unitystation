@@ -27,7 +27,7 @@ public class SimpleAnimal : LivingHealthBehaviour
 
 	private IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		SetAliveState(deadState);
 	}
 

@@ -53,7 +53,7 @@ public abstract class UserControlledSprites : NetworkBehaviour
     /// <returns></returns>
     protected IEnumerator WaitForLoad()
     {
-	    yield return YieldHelper.EndOfFrame;
+	    yield return WaitFor.EndOfFrame;
 	    if (PlayerManager.LocalPlayer == gameObject)
 	    {
 		    LocalFaceDirection( currentDirection );

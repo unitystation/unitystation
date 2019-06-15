@@ -69,7 +69,8 @@ public class ControlAction : MonoBehaviour
 			Throw(); // Disable throw
 		}
 		UIManager.CheckStorageHandlerOnMove(currentSlot.Item);
-		lps.playerNetworkActions.RequestDropItem(currentSlot.inventorySlot.UUID, false);
+		//forceClientInform = true because we aren't doing prediction any more.
+		lps.playerNetworkActions.RequestDropItem(currentSlot.inventorySlot.UUID, true);
 		SoundManager.Play("Click01");
 		Logger.Log("Drop Button", Category.UI);
 	}

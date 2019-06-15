@@ -183,7 +183,7 @@ public class RegisterPlayer : RegisterTile
 	}
 	private IEnumerator StunTimer(float stunTime)
 	{
-		yield return new WaitForSeconds(stunTime);
+		yield return WaitFor.Seconds(stunTime);
 		RemoveStun();
 	}
 

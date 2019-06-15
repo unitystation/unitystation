@@ -54,32 +54,6 @@ public abstract class InputTrigger : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Trigger a drag interaction with the position set to this transform, the originator set to the LocalPlayer
-	/// (if localplayer is not null), and the hand set to the localplayer's current hand.
-	/// </summary>
-	/// <returns>true if further interactions should be prevented for the current update</returns>
-	public bool TriggerDrag() {
-		return TriggerDrag(transform.position);
-	}
-
-	/// <summary>
-	/// Trigger an interaction with the position set to the specified position, the originator set to the LocalPlayer
-	/// (if localplayer is not null), and the hand set to the localplayer's current hand.
-	/// </summary>
-	/// <param name="position">position of the interaction</param>
-	/// <returns>true if further interactions should be prevented for the current update</returns>
-	public bool TriggerDrag(Vector3 position) {
-		return DragInteract(position);
-	}
-
-	private bool DragInteract(Vector3 position) {
-		if (PlayerManager.LocalPlayer != null) {
-			return DragInteract(PlayerManager.LocalPlayerScript.gameObject, position, UIManager.Hands.CurrentSlot.eventName);
-		}
-		return false;
-	}
-
-	/// <summary>
 	/// Trigger an interaction, defined as when the mouse is initially clicked (but not while it is being held down and dragged)
 	/// </summary>
 	/// <param name="originator">game object of the player that is performing the interaction upon this gameobject</param>
@@ -114,7 +88,7 @@ public abstract class InputTrigger : NetworkBehaviour
 	/// <param name="position">position of the interaction</param>
 	/// <param name="allowSoftCrit">if true it allows mobs in soft crit perform the action</param>
 	/// <returns>true if the server confirms the interaction is valid. The Interact() following this will be carried on serverside</returns>
-	public bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false){
+	public virtual bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false){
 		var playerScript = originator.GetComponent<PlayerScript>();
 
 		if (playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))

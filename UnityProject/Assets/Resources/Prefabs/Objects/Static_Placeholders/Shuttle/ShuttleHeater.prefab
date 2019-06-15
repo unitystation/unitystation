@@ -136,11 +136,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodes: []
-  anchored: 0
   direction: 0
   registerTile: {fileID: 0}
-  pipeSprites: []
-  spriteRenderer: {fileID: 0}
+  objectBehaviour: {fileID: 0}
+  pipeSprites:
+  - {fileID: 21300392, guid: 19f6ef6ee7639411ab17229343906b20, type: 3}
+  spriteRenderer: {fileID: 212213825783837650}
+  spriteSync: 0
+  anchored: 0
   volume: 70
 --- !u!114 &114255515820156884
 MonoBehaviour:

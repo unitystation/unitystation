@@ -5,17 +5,19 @@ using UnityEngine;
 //scrubbers, vents, pumps, etc
 public class AdvancedPipe : Pipe
 {
-
-	public override void SpriteChange()
+	private void Start()
 	{
-		if (objectBehaviour.isNotPushable == false)
+		var registerTile = GetComponent<RegisterTile>();
+		if (registerTile.isServer)
 		{
-			base.SpriteChange();
-			return;
+			UpdateManager.Instance.Add(UpdateMe);
 		}
-		if(nodes.Count == 1)
-		{
-			spriteRenderer.sprite = pipeSprites[1];
-		}
+		base.Start();
 	}
+
+	public virtual void UpdateMe()
+	{
+
+	}
+
 }

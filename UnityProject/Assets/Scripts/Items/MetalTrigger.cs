@@ -6,11 +6,17 @@ using UnityEngine.Networking;
 /// <summary>
 /// The main metal sheet component
 /// </summary>
-public class MetalTrigger : PickUpTrigger
+public class MetalTrigger : InputTrigger
 {
 	private bool isBuilding;
-	public GameObject griderPrefab;
+	public GameObject girderPrefab;
 
+
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	{
+		//TODO: remove after IF2 refactor
+		return false;
+	}
 
 	public override void UI_Interact(GameObject originator, string hand)
 	{
@@ -53,7 +59,7 @@ public class MetalTrigger : PickUpTrigger
 	[Server]
 	private void BuildGirder(Vector3 position)
 	{
-		PoolManager.PoolNetworkInstantiate(griderPrefab, position);
+		PoolManager.PoolNetworkInstantiate(girderPrefab, position);
 		isBuilding = false;
 		DisappearObject();
 	}

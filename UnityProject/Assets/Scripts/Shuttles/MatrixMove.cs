@@ -886,7 +886,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 					//if both need change determine faster rotation first
 					RotateTo(xRotationsTo < yRotationsTo ? xDesiredDir : yDesiredDir);
 					//wait till it rotates
-					yield return YieldHelper.Second;
+					yield return WaitFor.Seconds(1);
 				}
 			}
 
@@ -896,7 +896,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			}
 
 			//Relaunching self once in a while as CheckMovementServer check can fail in rare occasions
-			yield return YieldHelper.Second;
+			yield return WaitFor.Seconds(1);
 			StartCoroutine(TravelToTarget());
 		}
 

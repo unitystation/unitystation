@@ -112,7 +112,7 @@ using UnityEngine;
 				radialDispersion.Add(i, lightTiles);
 			}
 
-			yield return new WaitForEndOfFrame();
+			yield return WaitFor.EndOfFrame;
 
 			int secondLast = range - 1;
 			foreach (KeyValuePair<int, List<Vector2>> tileRadial in radialDispersion)
@@ -142,7 +142,7 @@ using UnityEngine;
 					}
 				}
 			}
-			yield return new WaitForEndOfFrame();
+			yield return WaitFor.EndOfFrame;
 			transmitting = false;
 		}
 

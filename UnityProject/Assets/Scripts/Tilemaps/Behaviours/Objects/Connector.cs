@@ -7,10 +7,6 @@ public class Connector : AdvancedPipe
 {
 	private Canister canister;
 
-	private void Start() {
-		UpdateManager.Instance.Add(UpdateMe);
-	}
-
 	public void ConnectCanister(Canister newCanister)
 	{
 		canister = newCanister;
@@ -21,9 +17,9 @@ public class Connector : AdvancedPipe
 		canister = null;
 	}
 
-	void UpdateMe()
+	public override void UpdateMe()
 	{
-		if (objectBehaviour.isNotPushable && canister != null)
+		if ( anchored && canister != null)
 		{
 			MergeAir();
 		}

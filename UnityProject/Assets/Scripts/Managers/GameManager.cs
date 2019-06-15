@@ -129,9 +129,9 @@ public class GameManager : MonoBehaviour
 				mm.SetPosition(proposedPosition);
 				SpaceBodies.Add(mm);
 			}
-			yield return YieldHelper.EndOfFrame;
+			yield return WaitFor.EndOfFrame;
 		}
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		isProcessingSpaceBody = false;
 	}
 
