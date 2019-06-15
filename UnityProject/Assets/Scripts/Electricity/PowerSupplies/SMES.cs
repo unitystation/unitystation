@@ -28,7 +28,7 @@ public class SMES : NBHandApplyInteractable, INodeControl
 	[SyncVar(hook = nameof(UpdateState))]
 	public bool isOn = false;
 
-	[ContextMethod("test", "question_mark")]
+	[RightClickMethod]
 	public void test()
 	{
 		VariableViewer.PrintSomeVariables(gameObject);

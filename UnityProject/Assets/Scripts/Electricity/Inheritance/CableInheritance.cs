@@ -23,8 +23,9 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 	public float DestructionPriority;
 	public bool CanOverCurrent = true;
 
-	
-	[ContextMethod("test", "question_mark")]
+
+
+	[RightClickMethod]
 	public void test()
 	{
 		VariableViewer.PrintSomeVariables(gameObject);

@@ -431,7 +431,6 @@ public static class Librarian
 									sentence.KeyVariableType = valueType.GetProperty("Key").GetType();
 									sentence.ValueVariable = valueType.GetProperty("Value").GetValue(c, null);
 									sentence.ValueVariableType = valueType.GetProperty("Value").GetType();
-
 								}
 							}
 							GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);

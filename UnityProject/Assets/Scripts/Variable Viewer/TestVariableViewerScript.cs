@@ -17,6 +17,7 @@ public class TestVariableViewerScript : MonoBehaviour
 	public HashSet<bool> PHashSetbool = new HashSet<bool>();
 	public HashSet<string> PHashSetstring = new HashSet<string>();
 	public HashSet<Connection> PHashSetConnection = new HashSet<Connection>();
+	public HashSet<object> PHashSetobject = new HashSet<object>();
 
 	public Dictionary<int,int> PDictionaryIntInt = new Dictionary<int, int>();
 	public Dictionary<bool,bool> PDictionaryboolbool  = new Dictionary<bool, bool>();
@@ -28,7 +29,7 @@ public class TestVariableViewerScript : MonoBehaviour
 
 	public int length = 10;
 
-	[ContextMethod("test", "question_mark")]
+	[RightClickMethod]
 	public void test()
 	{
 		VariableViewer.PrintSomeVariables(gameObject);
