@@ -6,15 +6,34 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Text;
+using Newtonsoft.Json;
 
 public class BookNetMessage : ServerMessage
 {
+
+	public class NetFriendlySentence
+	{
+		public uint SentenceID;
+		public uint PagePosition;
+		public string KeyVariable;
+		public string KeyVariableType;
+
+		public string ValueVariable;
+		public string ValueVariableType;
+
+		public ulong OnPageID;
+		public List<NetFriendlySentence> Sentences;
+
+	}
+
 	public class NetFriendlyPage
 	{
 		public ulong ID;
 		public string VariableName;
 		public string Variable;
 		public string VariableType;
+
+		public string Sentences;
 
 		public override string ToString()
 		{
@@ -23,7 +42,8 @@ public class BookNetMessage : ServerMessage
 		//public Book BindedTo; unneeded?
 	}
 
-	public class NetFriendlyBook { 
+	public class NetFriendlyBook
+	{
 		public ulong ID;
 		public string Title;
 		public string BookClassname;
@@ -43,7 +63,7 @@ public class BookNetMessage : ServerMessage
 	}
 
 
-	public static short MessageType = (short) MessageTypes.BookNetMessage;
+	public static short MessageType = (short)MessageTypes.BookNetMessage;
 	public NetFriendlyBook Book;
 
 	public override IEnumerator Process()
@@ -58,6 +78,14 @@ public class BookNetMessage : ServerMessage
 
 	public static BookNetMessage Send(Librarian.Book _book)
 	{
+		string Classe;
+		if (_book.IsnotMono)
+		{
+			Classe = _book.NonMonoBookClass.ToString();
+		}
+		else {
+			Classe = _book.BookClass.GetType().Name;
+		}
 		BookNetMessage msg = new BookNetMessage
 		{
 			Book = new NetFriendlyBook()
@@ -65,13 +93,14 @@ public class BookNetMessage : ServerMessage
 				ID = _book.ID,
 				//BindedPages = _book.BindedPages.ToArray(),
 				IsEnabled = _book.IsEnabled,
-				BookClassname = _book.BookClass.GetType().Name,
+				BookClassname = Classe,
 				Title = _book.Title,
 				UnGenerated = _book.UnGenerated
 			}
 		};
 		List<NetFriendlyPage> ListPages = new List<NetFriendlyPage>();
-		foreach (var bob in _book.BindedPages) {
+		foreach (var bob in _book.BindedPages)
+		{
 			NetFriendlyPage Page = new NetFriendlyPage
 			{
 				ID = bob.ID,
@@ -79,11 +108,47 @@ public class BookNetMessage : ServerMessage
 				VariableName = bob.VariableName,
 				VariableType = bob.VariableType.ToString()
 			};
+			if (bob.Sentences.Sentences != null && (bob.Sentences.Sentences.Count > 0))
+			{
+				NetFriendlySentence NetFriendlySentences = new NetFriendlySentence();
+				RecursiveSentencePopulate(NetFriendlySentences, bob.Sentences);
+				Page.Sentences = JsonConvert.SerializeObject(NetFriendlySentences);
+				Logger.Log(Page.Sentences);
+			}
 			ListPages.Add(Page);
 		}
 
 		msg.Book.BindedPages = ListPages.ToArray();
 		msg.SendToAll();
 		return msg;
+	}
+
+	public static void RecursiveSentencePopulate(NetFriendlySentence NetFriendlySentence, Librarian.Sentence LibrarianSentence) {
+		if (LibrarianSentence.Sentences != null)
+		{
+			NetFriendlySentence.Sentences = new List<NetFriendlySentence>();
+			foreach (var _Sentence in LibrarianSentence.Sentences)
+			{
+				NetFriendlySentence FriendlySentence = new NetFriendlySentence()
+				{
+					PagePosition = _Sentence.PagePosition,
+					SentenceID = _Sentence.SentenceID,
+					ValueVariable = _Sentence.ValueVariable.ToString(),
+					ValueVariableType = _Sentence.ValueVariableType.ToString(),
+					OnPageID = _Sentence.OnPageID,
+				};
+				if (_Sentence.KeyVariable != null)
+				{
+					FriendlySentence.KeyVariable = _Sentence.KeyVariable.ToString();
+					FriendlySentence.KeyVariableType = _Sentence.KeyVariableType.ToString();
+				}
+				if (_Sentence.Sentences != null)
+				{
+					RecursiveSentencePopulate(FriendlySentence, _Sentence);
+				}
+
+				NetFriendlySentence.Sentences.Add(FriendlySentence);
+			}
+		}
 	}
 }

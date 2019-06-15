@@ -92,8 +92,9 @@ GameObject:
   - component: {fileID: 2386666770070602841}
   - component: {fileID: 6482214974699671988}
   - component: {fileID: 7350487826098529002}
+  - component: {fileID: 3143252610608396474}
   m_Layer: 5
-  m_Name: InputField
+  m_Name: UIInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,6 +231,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3537ce591f2a123419a5d273b68bbf21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TInputField: {fileID: 6482214974699671988}
+--- !u!114 &3143252610608396474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8435366236381438256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97283e89db7c83946bd4f24d8d38793a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TInputField: {fileID: 6482214974699671988}

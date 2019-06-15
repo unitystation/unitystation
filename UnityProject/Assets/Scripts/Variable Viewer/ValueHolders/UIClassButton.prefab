@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 1658471955167505230}
   - component: {fileID: 3043138368249561376}
   - component: {fileID: 1748909628609038694}
+  - component: {fileID: 4484524514752820378}
   m_Layer: 5
   m_Name: UIClassButton
   m_TagString: Untagged
@@ -207,6 +208,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4484524514752820378}
+        m_MethodName: RequestOpenBookOnPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1748909628609038694
@@ -219,6 +231,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8371dcf153916b4ab4b8c0c01641344, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TButton: {fileID: 3043138368249561376}
+  TText: {fileID: 8620331596105178668}
+  ID: 0
+--- !u!114 &4484524514752820378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7196344902052116295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a9c61274ab25d4a828f8991500003c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TButton: {fileID: 3043138368249561376}

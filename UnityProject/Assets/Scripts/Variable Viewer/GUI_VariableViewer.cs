@@ -107,6 +107,8 @@ public class GUI_VariableViewer : MonoBehaviour
 			LeftArrow.gameObject.SetActive(false);
 		}
 	}
+
+	public List<GUI_PageEntry> PooledPages = new List<GUI_PageEntry>();
 	public List<List<GUI_PageEntry>> PagesInBook = new List<List<GUI_PageEntry>>();
 	public List<GUI_PageEntry> CurrentlyOpen;
 	public int intCurrentlyOpen = 0;
@@ -126,25 +128,40 @@ public class GUI_VariableViewer : MonoBehaviour
 		PresentPagesCount = 0;
 		RightArrow.SetActive(false);
 		LeftArrow.SetActive(false);
-		foreach (var b in PagesInBook) //Temporary solution needs pooling
+		foreach (var ListOfPages in PagesInBook) 
 		{
-			foreach (var E in b)
+			foreach (var Page in ListOfPages)
 			{
-				Destroy(E.gameObject);
+				PoolPageEntry(Page);
 			}
 		}
+		foreach (var Page in CurrentlyOpen)
+		{
+			PoolPageEntry(Page);
+		}
+
 		PagesInBook.Clear();
+		PagesInBook.Add(new List<GUI_PageEntry>());
 		CurrentlyOpen.Clear();
 		CurrentlyOpenBook = Book;
 
 
-		foreach (var page in CurrentlyOpenBook.BindedPages) { 
-			GUI_PageEntry PageEntry = Instantiate(PageEntryPrefab) as GUI_PageEntry;
-			PageEntry.transform.SetParent(PagePanel.transform, true);
-			PageEntry.transform.localScale = Vector3.one;
+		foreach (var page in CurrentlyOpenBook.BindedPages) {
+			GUI_PageEntry PageEntry;
+			if (PooledPages.Count > 0)
+			{
+				PageEntry = PooledPages[0];
+				PooledPages.RemoveAt(0);
+				PageEntry.gameObject.SetActive(true);
+				PageEntry.transform.SetParent(PagePanel.transform, true);
+			}
+			else { 
+				PageEntry = Instantiate(PageEntryPrefab) as GUI_PageEntry;
+				PageEntry.transform.SetParent(PagePanel.transform, true);
+				PageEntry.transform.localScale = Vector3.one;
+			}
+		
 			PageEntry.Page = page;
-
-
 			//Logger.Log(PresentPagesCount.ToString());
 			if (PresentPagesCount > MaximumPerTwoPages)
 			{
@@ -161,9 +178,6 @@ public class GUI_VariableViewer : MonoBehaviour
 			}
 			else
 			{
-				if (PagesInBook.Count == 0) {
-					PagesInBook.Add(new List<GUI_PageEntry>());
-				}
 				PagesInBook[0].Add(PageEntry);
 			}
 			PresentPagesCount++;
@@ -175,10 +189,21 @@ public class GUI_VariableViewer : MonoBehaviour
 		}
 	}
 
+	public void PoolPageEntry(GUI_PageEntry PageEntry)
+	{
+		PageEntry.gameObject.SetActive(false);
+		PageEntry.Pool();
+		if (!PooledPages.Contains(PageEntry))
+		{
+			PooledPages.Add(PageEntry);
+		}
+	}
+
 
 	public void Start()
 	{
 		UIManager.Instance.VariableViewer = this;
+
 	}
 
 	// Update is called once per frame
