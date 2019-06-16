@@ -26,6 +26,22 @@ public struct Orientation
 		Degrees = degree;
 	}
 
+	public static Orientation FromEnum(OrientationEnum from)
+	{
+		switch (from)
+		{
+			case OrientationEnum.Up:
+				return Orientation.Up;
+			case OrientationEnum.Right:
+				return Orientation.Right;
+			case OrientationEnum.Left:
+				return Orientation.Left;
+			default:
+				return Orientation.Down;
+		}
+
+	}
+
 	/// <summary>
 	/// Index of this rotation in the clockwiseOrientation array
 	/// </summary>
@@ -212,4 +228,15 @@ public struct Orientation
 	{
 		return Mathf.RoundToInt(Degrees);
 	}
+}
+
+/// <summary>
+/// Only for allowing setting an orientation in editor
+/// </summary>
+public enum OrientationEnum
+{
+	Right = 0,
+	Up = 1,
+	Left = 2,
+	Down = 3
 }

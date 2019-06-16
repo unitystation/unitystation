@@ -11,11 +11,11 @@ using UnityEngine.Networking;
 public class BuckleInteract : Interactable<MouseDrop, HandApply>
 {
 	//may be null
-	private DirectionalSprite directionalSprite;
+	private OccupiableDirectionalSprite occupiableDirectionalSprite;
 
 	private void Start()
 	{
-		directionalSprite = GetComponent<DirectionalSprite>();
+		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
 		base.Start();
 	}
 
@@ -59,7 +59,7 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
-		directionalSprite?.RenderBuckledOverPlayerWhenUp(true);
+		occupiableDirectionalSprite?.RenderOccupied(true);
 	}
 
 	protected override bool WillInteractT2(HandApply interaction, NetworkSide side)
@@ -87,6 +87,6 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 	//delegate invoked from playerMove when they are unrestrained from this
 	private void OnUnbuckle()
 	{
-		directionalSprite?.RenderBuckledOverPlayerWhenUp(false);
+		occupiableDirectionalSprite?.RenderOccupied(false);
 	}
 }

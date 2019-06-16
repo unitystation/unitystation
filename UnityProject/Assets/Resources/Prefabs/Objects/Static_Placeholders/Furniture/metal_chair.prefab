@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114055517453558958}
   - component: {fileID: 114338334281631116}
   - component: {fileID: 9048663693282033040}
+  - component: {fileID: 8641185870989047510}
   m_Layer: 11
   m_Name: metal_chair
   m_TagString: Untagged
@@ -145,15 +146,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26fa92bf17c5d3d459ff63a0ac3aca0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  s_right: {fileID: 21300006, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
-  s_down: {fileID: 21300002, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
-  s_left: {fileID: 21300008, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
-  s_up: {fileID: 21300004, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
+  Right: {fileID: 21300006, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
+  Down: {fileID: 21300002, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
+  Left: {fileID: 21300008, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
+  Up: {fileID: 21300004, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
   spriteRenderer: {fileID: 212222381246785194}
-  s_right_front: {fileID: 21300216, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
-  s_down_front: {fileID: 21300214, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
-  s_left_front: {fileID: 21300218, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
-  s_up_front: {fileID: 0}
+  OccupiedRight: {fileID: 21300216, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
+  OccupiedDown: {fileID: 21300214, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
+  OccupiedLeft: {fileID: 21300218, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
+  OccupiedUp: {fileID: 0}
   spriteRendererFront: {fileID: 1984205454135248540}
 --- !u!114 &9048663693282033040
 MonoBehaviour:
@@ -167,6 +168,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e12f147c494feb4bb0f1d25f7968cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8641185870989047510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169897606440870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitialDirection: 3
+  IgnoreMatrixRotation: 0
 --- !u!1 &1581991274901662
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +250,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300002, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
+  m_Sprite: {fileID: 21300006, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

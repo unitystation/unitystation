@@ -263,10 +263,10 @@ public class PlayerMove : NetworkBehaviour
 		playerScript.PlayerSync.SetPosition(toObject.TileWorldPosition().To3Int());
 
 		//force sync direction if toObject has a direction
-		var directionalSprite = toObject.GetComponent<DirectionalSprite>();
-		if (directionalSprite != null)
+		var directionalObject = toObject.GetComponent<Directional>();
+		if (directionalObject != null)
 		{
-			playerDirectional.TargetForceDirection(PlayerScript.connectionToClient, directionalSprite.orientation);
+			playerDirectional.TargetForceDirection(PlayerScript.connectionToClient, directionalObject.CurrentDirection);
 		}
 		else
 		{
@@ -318,10 +318,10 @@ public class PlayerMove : NetworkBehaviour
 		//unsub if we are subbed
 		if (restrainingObject != NetworkInstanceId.Invalid)
 		{
-			var directionalSprite = ClientScene.FindLocalObject(restrainingObject).GetComponent<DirectionalSprite>();
-			if (directionalSprite != null)
+			var directionalObject = ClientScene.FindLocalObject(restrainingObject).GetComponent<Directional>();
+			if (directionalObject != null)
 			{
-				directionalSprite.OnDirectionChanged.RemoveListener(OnRestrainingObjectDirectionChange);
+				directionalObject.OnDirectionChange.RemoveListener(OnRestrainingObjectDirectionChange);
 			}
 		}
 		if (PlayerManager.LocalPlayer == gameObject)
@@ -334,10 +334,10 @@ public class PlayerMove : NetworkBehaviour
 		//sub
 		if (restrainingObject != NetworkInstanceId.Invalid)
 		{
-			var directionalSprite = ClientScene.FindLocalObject(restrainingObject).GetComponent<DirectionalSprite>();
-			if (directionalSprite != null)
+			var directionalObject = ClientScene.FindLocalObject(restrainingObject).GetComponent<Directional>();
+			if (directionalObject != null)
 			{
-				directionalSprite.OnDirectionChanged.AddListener(OnRestrainingObjectDirectionChange);
+				directionalObject.OnDirectionChange.AddListener(OnRestrainingObjectDirectionChange);
 			}
 		}
 		//ensure we are in sync with server

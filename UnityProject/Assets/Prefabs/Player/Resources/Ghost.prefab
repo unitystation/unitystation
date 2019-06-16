@@ -158,7 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a28f9f9a41257418b09671ebb5c96e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBumping: 0
   playerMove: {fileID: 3920682320074774566}
 --- !u!114 &843330595842111116
 MonoBehaviour:
@@ -242,4 +241,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ClientHasAuthority: 0
+  InitialDirection: 3
+  IgnoreMatrixRotation: 1
