@@ -15,10 +15,8 @@ public class RegisterPlayer : RegisterTile
 	public bool IsStunnedClient { get; set; }
 	public bool IsStunnedServer { get; private set; }
 
-
-	private UserControlledSprites playerSprites;
 	private PlayerScript playerScript;
-	private MetaDataLayer metaDataLayer;
+	private Directional playerDirectional;
 
 	/// <summary>
 	/// Returns whether this player is blocking other players from occupying the space, using the
@@ -32,11 +30,10 @@ public class RegisterPlayer : RegisterTile
 
 	private void Awake()
 	{
-		playerSprites = GetComponent<UserControlledSprites>();
 		playerScript = GetComponent<PlayerScript>();
 		//initially we are upright and don't rotate with the matrix
 		rotateWithMatrix = false;
-		metaDataLayer = transform.GetComponentInParent<MetaDataLayer>();
+		playerDirectional = GetComponent<Directional>();
 	}
 
 	public override bool IsPassable(bool isServer)
@@ -112,8 +109,6 @@ public class RegisterPlayer : RegisterTile
 		if (!IsDownClient)
 		{
 			IsDownClient = true;
-			//make sure sprite is in sync with server regardless of local prediction
-			playerSprites.SyncWithServer();
 			//rotate the sprites and change their layer
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
 			{
@@ -133,8 +128,6 @@ public class RegisterPlayer : RegisterTile
 		if (IsDownClient)
 		{
 			IsDownClient = false;
-			//make sure sprite is in sync with server regardless of local prediction
-			playerSprites.SyncWithServer();
 			//change sprites to be upright
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
 			{

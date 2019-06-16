@@ -49,6 +49,11 @@ public class DirectionalSprite : NetworkBehaviour
 	//holds the original layer name if the layer is changed.
 	private string originalSpriteLayerName;
 
+	/// <summary>
+	/// Invoked when this sprite's direction changes, passing the new direction.
+	/// </summary>
+	public DirectionChangeEvent OnDirectionChanged = new DirectionChangeEvent();
+
 	public void Start()
 	{
 		InitDirection();
@@ -97,6 +102,8 @@ public class DirectionalSprite : NetworkBehaviour
 		{
 			orientation = Orientation.Up;
 		}
+
+		OnDirectionChanged.Invoke(orientation);
 	}
 
 	IEnumerator WaitForInit()
@@ -144,6 +151,7 @@ public class DirectionalSprite : NetworkBehaviour
 
 		UpdateFrontSprite();
 		EnsureSpriteLayer();
+		OnDirectionChanged.Invoke(orientation);
 	}
 
 	// Updates the sprite that's drawn over the player when the player is buckled in (e.g. the seatbelt)
@@ -183,7 +191,7 @@ public class DirectionalSprite : NetworkBehaviour
 	[Server]
 	public void RenderBuckledOverPlayerWhenUp(bool renderBuckledOverPlayer)
 	{
-		this.renderBuckledOverPlayer = renderBuckledOverPlayer;
+		SyncBuckledOverPlayer(renderBuckledOverPlayer);
 	}
 
 	//syncvar hook for renderBuckledOverPlayer

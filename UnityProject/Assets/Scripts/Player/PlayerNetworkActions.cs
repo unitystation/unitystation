@@ -39,7 +39,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private Equipment equipment;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private UserControlledSprites playerSprites;
 	private ObjectBehaviour objectBehaviour;
 
 	public Dictionary<string, InventorySlot> Inventory { get; } = new Dictionary<string, InventorySlot>();
@@ -53,7 +52,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
-		playerSprites = GetComponent<UserControlledSprites>();
 		playerScript = GetComponent<PlayerScript>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
@@ -728,7 +726,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void SpawnPlayerGhost()
 	{
 		RpcBeforeGhost();
-		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
+		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.CharacterSettings);
 
 	}
 
@@ -738,7 +736,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
 		yield return WaitFor.Seconds(timeout);
-		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.characterSettings, gameObject);
+		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.CharacterSettings, gameObject);
 		RpcAfterRespawn();
 	}
 

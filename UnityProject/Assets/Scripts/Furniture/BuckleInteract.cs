@@ -31,6 +31,10 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 			return false;
 		}
 
+		//can't buckle during movement
+		var playerSync = interaction.DroppedObject.GetComponent<PlayerSync>();
+		if (playerSync.IsMoving) return false;
+
 		//if the player to buckle is currently downed, we cannot buckle if there is another player on the tile
 		//(because buckling a player causes the tile to become unpassable, thus a player could end up
 		//occupying another player's space)
@@ -50,15 +54,8 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 	{
 		SoundManager.PlayNetworkedAtPos("Click01", drop.TargetObject.WorldPosServer());
 
-		UserControlledSprites userControlledSprites = drop.UsedObject.GetComponent<UserControlledSprites>();
-
-		if (userControlledSprites && directionalSprite)
-		{
-			userControlledSprites.ChangeAndSyncPlayerDirection(directionalSprite.orientation);
-		}
-
 		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
-		playerMove.Restrain(OnUnbuckle);
+		playerMove.Restrain(gameObject, OnUnbuckle);
 
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled

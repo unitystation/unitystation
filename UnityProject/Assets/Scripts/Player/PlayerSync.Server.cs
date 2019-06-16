@@ -164,7 +164,9 @@ public partial class PlayerSync
 		}
 
 		if ( followMode ) {
-			SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
+			playerDirectional.FaceDirection(Orientation.From(direction));
+			//force directional update of client, since it can't predict where it's being pulled
+			playerDirectional.TargetForceDirection(playerScript.connectionToClient, playerDirectional.CurrentDirection);
 		}
 		else if ( !float.IsNaN( speed ) && speed >= playerMove.PushFallSpeed )
 		{
@@ -396,7 +398,7 @@ public partial class PlayerSync
 				BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
 			}
 
-			playerSprites.LocalFaceDirection( Orientation.From( action.Direction() ) );
+			playerDirectional.FaceDirection( Orientation.From( action.Direction() ) );
 			return state;
 		}
 

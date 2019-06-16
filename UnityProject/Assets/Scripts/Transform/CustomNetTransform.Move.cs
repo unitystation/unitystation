@@ -162,6 +162,10 @@ public partial class CustomNetTransform
 		registerTile.UpdatePositionServer();
 	}
 
+	public void OnClientStartFollowing(){}
+
+	public void OnClientStopFollowing(){}
+
 	/// <summary>
 	/// Predictive client movement
 	/// Mimics server collision checks for obviously impassable things.
@@ -330,7 +334,7 @@ public partial class CustomNetTransform
 	/// </summary>
 	[Server]
 	public void Nudge( NudgeInfo info ) {
-		
+
 		if ( PushPull.isNotPushable )
         {
             return;

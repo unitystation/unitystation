@@ -68,8 +68,10 @@ public static class SpawnHandler
 		}
 
 		CustomNetworkManager.Instance.SyncPlayerData(newBody);
-		if(characterSettings != null){
-			playerScript.characterSettings = characterSettings;}
+		if(characterSettings != null)
+		{
+			playerScript.ServerSetCharacterSettings(characterSettings);
+		}
 	}
 
 	private static GameObject CreateGhost(GameObject oldBody)

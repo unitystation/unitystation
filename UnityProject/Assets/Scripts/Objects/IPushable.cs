@@ -45,6 +45,16 @@ public interface IPushable {
 
 	/// Rollback predictive push on client using last good position
 	void RollbackPrediction();
+
+	/// <summary>
+	/// Invoked on client-side when this object is beginning following / being pulled by another object
+	/// </summary>
+	void OnClientStartFollowing();
+
+	/// <summary>
+	/// Invoked on client-side when this object is stopping following / being pulled by another object
+	/// </summary>
+	void OnClientStopFollowing();
 }
 
 public class Vector3IntEvent : UnityEvent<Vector3Int> {}
