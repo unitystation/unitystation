@@ -213,14 +213,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vendorcontent:
-  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 3}
-  allowSell: 1
-  cooldownTimer: 180
-  stock: 5
-  interactionMessage: You cut some meat of the hanging creature...
-  deniedMessage: There's not enough meat left on this creatures bones...
-  DispenseDirection: 0
+  NetTabType: 0
+  VendorContent:
+  - Item: {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 3}
+    Stock: 3
+  HullColor: {r: 0.81960785, g: 0.02745098, b: 0.02745098, a: 1}
+  EjectObjects: 1
+  EjectDirection: 3
+  Originator: {fileID: 0}
+  InteractPosition: {x: 0, y: 0, z: 0}
+  InteractHand: 
 --- !u!114 &114392787270580666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,13 +238,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
