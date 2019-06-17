@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,19 +21,23 @@ public class ChemistryDispenser : NBHandApplyInteractable {
 		}
  	}
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return CommonValidationChains.CAN_APPLY_HAND_CONSCIOUS
-			.WithValidation(DoesUsedObjectHaveComponent<ReagentContainer>.DOES);
+		if (!base.WillInteract(interaction, side)) return false;
+
+		//only interaction that works is using a reagent container on this
+		if (!Validations.HasComponent<ReagentContainer>(interaction.HandObject)) return false;
+
+		return true;
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		//put the reagant container inside me
-		Container = interaction.UsedObject.GetComponent<ReagentContainer>();
-		objectse = interaction.UsedObject.GetComponentInChildren<ObjectBehaviour> ();
+		Container = interaction.HandObject.GetComponent<ReagentContainer>();
+		objectse = interaction.HandObject.GetComponentInChildren<ObjectBehaviour> ();
 		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
-		InventoryManager.UpdateInvSlot(true, "", interaction.UsedObject, slot.UUID);
+		InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
 		UpdateGUI();
 	}
 }
