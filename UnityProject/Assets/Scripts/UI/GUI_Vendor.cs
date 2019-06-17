@@ -12,7 +12,7 @@ public class GUI_Vendor : NetTab
 	[SerializeField]
 	private float cooldownTimer = 2f;
 
-	private VendorTrigger vendor;
+	private Vendor vendor;
 	private List<VendorItem> vendorContent = new List<VendorItem>();
 	[SerializeField]
 	private EmptyItemList itemList;
@@ -45,7 +45,7 @@ public class GUI_Vendor : NetTab
 		{
 			yield return WaitFor.EndOfFrame;
 		}
-		vendor = Provider.GetComponent<VendorTrigger>();
+		vendor = Provider.GetComponent<Vendor>();
 		hullColor.SetValue = ColorUtility.ToHtmlStringRGB(vendor.HullColor);
 		inited = true;
 		GenerateContentList();

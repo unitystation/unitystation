@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 61926733661208534}
   - component: {fileID: 114418060968581254}
   - component: {fileID: 8473214172519441615}
+  - component: {fileID: 5612805261423721810}
   m_Layer: 11
   m_Name: DinnerWareVendor
   m_TagString: Untagged
@@ -292,7 +293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 0
   VendorContent:
   - Item: {fileID: 1000011622113908, guid: fc5783dcb3f74ab1b2187da95b6c932d, type: 3}
     Stock: 5
@@ -303,6 +303,16 @@ MonoBehaviour:
   HullColor: {r: 0.42745098, g: 0.62352943, b: 0.7529412, a: 1}
   EjectObjects: 0
   EjectDirection: 0
-  Originator: {fileID: 0}
-  InteractPosition: {x: 0, y: 0, z: 0}
-  InteractHand: 
+--- !u!114 &5612805261423721810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013211423706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 0

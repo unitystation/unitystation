@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114312756739737956}
   - component: {fileID: 114010932235653022}
   - component: {fileID: 525738165772301342}
+  - component: {fileID: 5787332934185140899}
   m_Layer: 11
   m_Name: SmartFridge
   m_TagString: Untagged
@@ -170,7 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 0
   VendorContent:
   - Item: {fileID: 1110193000772614, guid: 6bee1f6e9832bf940a50f7cfe3788b0f, type: 3}
     Stock: 5
@@ -183,9 +183,19 @@ MonoBehaviour:
   HullColor: {r: 0.98039216, g: 0.972549, b: 0.972549, a: 1}
   EjectObjects: 0
   EjectDirection: 0
-  Originator: {fileID: 0}
-  InteractPosition: {x: 0, y: 0, z: 0}
-  InteractHand: 
+--- !u!114 &5787332934185140899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013344912928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 0
 --- !u!1 &1000013897877296
 GameObject:
   m_ObjectHideFlags: 0

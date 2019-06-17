@@ -1,8 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class VendorTrigger : NetworkTabTrigger
+/// <summary>
+/// Main component for vending machine object (other logic is in GUI_Vendor). Allows restocking
+/// when clicking on vendor with a VendingRestock item in hand.
+/// </summary>
+[RequireComponent(typeof(HasNetworkTab))]
+public class Vendor : NBHandApplyInteractable
 {
 	public List<VendorItem> VendorContent = new List<VendorItem>();
 	public Color HullColor = Color.white;
@@ -10,37 +16,35 @@ public class VendorTrigger : NetworkTabTrigger
 	public EjectDirection EjectDirection = EjectDirection.None;
 	public VendorUpdateEvent OnRestockUsed = new VendorUpdateEvent();
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	private void Awake()
 	{
-		if (!CanUse(originator, hand, position, false))
+		//ensure we have a net tab set up with the correct type
+		var hasNetTab = GetComponent<HasNetworkTab>();
+		if (hasNetTab == null)
 		{
-			return false;
-		}
-		if (!isServer)
-		{
-			InteractMessage.Send(gameObject, position, hand);
-			return true;
+			hasNetTab = gameObject.AddComponent<HasNetworkTab>();
 		}
 
-		TabUpdateMessage.Send(originator, gameObject, NetTabType, TabAction.Open);
+		hasNetTab.NetTabType = NetTabType.Vendor;
+	}
 
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!base.WillInteract(interaction, side)) return false;
+		if (!Validations.HasComponent<VendingRestock>(interaction.HandObject)) return false;
+		return true;
+	}
+
+	protected override void ServerPerformInteraction(HandApply interaction)
+	{
 		//Checking restock
-		PlayerScript ps = originator.GetComponent<PlayerScript>();
-		if (!ps || ps.canNotInteract() || !ps.IsInReach(position, true))
-		{
-			return true;
-		}
-
-		var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
 		var restock = slot.Item?.GetComponentInChildren<VendingRestock>();
 		if (restock != null)
 		{
 			OnRestockUsed?.Invoke();
-			GameObject item = ps.playerNetworkActions.Inventory[hand].Item;
 			InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
 		}
-
-		return true;
 	}
 }
 

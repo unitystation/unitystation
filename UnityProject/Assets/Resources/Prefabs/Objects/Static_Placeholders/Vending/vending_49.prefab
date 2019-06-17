@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114443609394574780}
   - component: {fileID: 114108621238303254}
   - component: {fileID: 114720041223956740}
+  - component: {fileID: 6137180702026501814}
   m_Layer: 11
   m_Name: vending_49
   m_TagString: Untagged
@@ -134,13 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vendorcontent:
-  - {fileID: 1519710982558066, guid: daa925ae33eab5d4988f8182a1ce33ac, type: 3}
-  allowSell: 1
-  cooldownTimer: 2
-  stock: 5
-  interactionMessage: bzzzz...
-  deniedMessage: Vendor is refreshing stocking, please wait...
+  VendorContent: []
+  HullColor: {r: 1, g: 1, b: 1, a: 1}
+  EjectObjects: 0
   EjectDirection: 2
 --- !u!114 &114108621238303254
 MonoBehaviour:
@@ -157,13 +154,11 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
@@ -180,6 +175,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6137180702026501814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098498793573822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 0
 --- !u!1 &1707143163515096
 GameObject:
   m_ObjectHideFlags: 0

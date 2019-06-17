@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114744021291581812}
   - component: {fileID: 61869229900283464}
   - component: {fileID: 114947365864617716}
+  - component: {fileID: 171602551372974216}
   m_Layer: 11
   m_Name: vending_0
   m_TagString: Untagged
@@ -135,7 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 0
   VendorContent:
   - Item: {fileID: 1110193000772614, guid: 22bc59024142b461aa3cf4ec2174f50e, type: 3}
     Stock: 5
@@ -144,9 +144,6 @@ MonoBehaviour:
   HullColor: {r: 0.39607844, g: 0.52156866, b: 0.27450982, a: 1}
   EjectObjects: 0
   EjectDirection: 0
-  Originator: {fileID: 0}
-  InteractPosition: {x: 0, y: 0, z: 0}
-  InteractHand: 
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +206,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &171602551372974216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 0
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0
