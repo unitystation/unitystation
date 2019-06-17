@@ -44,7 +44,7 @@ public abstract class RegisterTile : NetworkBehaviour
 	[HideInInspector]
 	public OrientationEvent OnRotateStart = new OrientationEvent();
 
-	private ObjectLayer layer;
+	public ObjectLayer layer;
 
 	public ObjectType ObjectType;
 
