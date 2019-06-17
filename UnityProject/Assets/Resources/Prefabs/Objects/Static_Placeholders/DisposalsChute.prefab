@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4000013482940758}
   - component: {fileID: 61000010615699320}
   - component: {fileID: 114654115629251212}
-  - component: {fileID: 114469661336575222}
   - component: {fileID: 114394597018269012}
   - component: {fileID: 114770898345557290}
   m_Layer: 11
@@ -95,28 +94,6 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114469661336575222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010167295674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vendorcontent:
-  - {fileID: 1645856876941636, guid: 29d17c6e33a25434ca93edfb29f82cb7, type: 3}
-  - {fileID: 1907679543779350, guid: f55ea2147f7e49449a11c6d0063822f6, type: 3}
-  allowSell: 1
-  cooldownTimer: 180
-  stock: 5
-  interactionMessage: The disposal gives out a loud screech and throws out its content...
-  deniedMessage: The handle is stuck...
-  EjectObjects: 0
-  EjectDirection: 0
 --- !u!114 &114394597018269012
 MonoBehaviour:
   m_ObjectHideFlags: 0

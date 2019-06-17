@@ -93,7 +93,6 @@ GameObject:
   - component: {fileID: 114691953950751716}
   - component: {fileID: 114608685007237984}
   - component: {fileID: 114778853778945220}
-  - component: {fileID: 114251210058078666}
   - component: {fileID: 114862503678879326}
   m_Layer: 11
   m_Name: vending_51
@@ -214,14 +213,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vendorcontent:
-  - {fileID: 1000011622113908, guid: b3c9185918b6a40848954ead4b67f0e4, type: 3}
-  allowSell: 1
-  cooldownTimer: 2
-  stock: 5
-  interactionMessage: bzzzz...
-  deniedMessage: Vendor is refreshing stocking, please wait...
-  EjectDirection: 2
+  NetTabType: 0
+  VendorContent:
+  - Item: {fileID: 1000011622113908, guid: b3c9185918b6a40848954ead4b67f0e4, type: 3}
+    Stock: 5
+  - Item: {fileID: 1907860461332556, guid: 7c935e73269835f438b96b96b6f4403b, type: 3}
+    Stock: 1
+  - Item: {fileID: 1245908573886190, guid: ed6bbc7139ce2ba44bb6264c92954de0, type: 3}
+    Stock: 2
+  HullColor: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
+  EjectObjects: 0
+  EjectDirection: 0
+  Originator: {fileID: 0}
+  InteractPosition: {x: 0, y: 0, z: 0}
+  InteractHand: 
 --- !u!114 &114778853778945220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,36 +242,15 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
   rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 0
---- !u!114 &114251210058078666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1699312583147682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vendorcontent: []
-  allowSell: 1
-  cooldownTimer: 2
-  stock: 5
-  interactionMessage: 
-  deniedMessage: 
-  EjectDirection: 2
 --- !u!114 &114862503678879326
 MonoBehaviour:
   m_ObjectHideFlags: 0

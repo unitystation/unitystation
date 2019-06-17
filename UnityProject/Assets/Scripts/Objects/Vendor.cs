@@ -1,94 +1,64 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-using Random = UnityEngine.Random;
+using UnityEngine.Events;
 
-/// <summary>
-/// Component which allows an object to act as a vendor, dispensing items when interacted with.
-/// </summary>
-public class Vendor : NBHandApplyInteractable
+public class VendorTrigger : NetworkTabTrigger
 {
-	public GameObject[] vendorcontent;
-
-	public bool allowSell = true;
-	public float cooldownTimer = 2f;
-	public int stock = 5;
-	public string interactionMessage;
-	public string deniedMessage;
+	public List<VendorItem> VendorContent = new List<VendorItem>();
+	public Color HullColor = Color.white;
 	public bool EjectObjects = false;
 	public EjectDirection EjectDirection = EjectDirection.None;
+	public VendorUpdateEvent OnRestockUsed = new VendorUpdateEvent();
 
-	protected override void ServerPerformInteraction(HandApply interaction)
+	public override bool Interact(GameObject originator, Vector3 position, string hand)
 	{
-		if (!allowSell && deniedMessage != null && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
-		{
-			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, deniedMessage);
-		}
-		else if (allowSell)
-		{
-			allowSell = false;
-			if (!GameData.Instance.testServer && !GameData.IsHeadlessServer)
-			{
-				UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, interactionMessage);
-			}
-			ServerVendorInteraction();
-			StartCoroutine(VendorInputCoolDown());
-		}
-	}
-
-	[Server]
-	private bool ServerVendorInteraction()
-	{
-		//		Debug.Log("status" + allowSell);
-		if (vendorcontent.Length == 0)
+		if (!CanUse(originator, hand, position, false))
 		{
 			return false;
 		}
-
-		int randIndex = Random.Range(0, vendorcontent.Length);
-
-		var spawnedItem = PoolManager.PoolNetworkInstantiate(vendorcontent[randIndex], transform.position, transform.parent);
-
-		//Ejecting in direction
-		if (EjectObjects && EjectDirection != EjectDirection.None)
+		if (!isServer)
 		{
-			Vector3 offset = Vector3.zero;
-			switch (EjectDirection)
-			{
-				case EjectDirection.Up:
-					offset = transform.rotation * Vector3.up / Random.Range(4, 12);
-					break;
-				case EjectDirection.Down:
-					offset = transform.rotation * Vector3.down / Random.Range(4, 12);
-					break;
-				case EjectDirection.Random:
-					offset = new Vector3(Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f), 0);
-					break;
-			}
-			spawnedItem.GetComponent<CustomNetTransform>()?.Throw(new ThrowInfo
-			{
-				ThrownBy = gameObject,
-				Aim = BodyPartType.Chest,
-				OriginPos = transform.position,
-				TargetPos = transform.position + offset,
-				SpinMode = EjectDirection == EjectDirection.Random ? SpinMode.Clockwise : SpinMode.None
-			});
+			InteractMessage.Send(gameObject, position, hand);
+			return true;
 		}
-		stock--;
+
+		TabUpdateMessage.Send(originator, gameObject, NetTabType, TabAction.Open);
+
+		//Checking restock
+		PlayerScript ps = originator.GetComponent<PlayerScript>();
+		if (!ps || ps.canNotInteract() || !ps.IsInReach(position, true))
+		{
+			return true;
+		}
+
+		var slot = InventoryManager.GetSlotFromOriginatorHand(originator, hand);
+		var restock = slot.Item?.GetComponentInChildren<VendingRestock>();
+		if (restock != null)
+		{
+			OnRestockUsed?.Invoke();
+			GameObject item = ps.playerNetworkActions.Inventory[hand].Item;
+			InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
+		}
 
 		return true;
 	}
-
-	private IEnumerator VendorInputCoolDown()
-	{
-		yield return WaitFor.Seconds(cooldownTimer);
-		if (stock > 0)
-		{
-			allowSell = true;
-		}
-	}
-
-
 }
 
 public enum EjectDirection { None, Up, Down, Random }
+
+public class VendorUpdateEvent: UnityEvent {}
+
+//Adding this as a separate class so we can easily extend it in future -
+//add price or required access, stock amount and etc.
+[System.Serializable]
+public class VendorItem
+{
+	public GameObject Item;
+	public int Stock = 5;
+
+	public VendorItem(VendorItem item)
+	{
+		this.Item = item.Item;
+		this.Stock = item.Stock;
+	}
+}
