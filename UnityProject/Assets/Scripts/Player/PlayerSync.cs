@@ -33,7 +33,6 @@ public struct PlayerState
 			{
 				return TransformState.HiddenPos;
 			}
-
 			return MatrixManager.LocalToWorld(Position, MatrixManager.Get(MatrixId));
 		}
 		set
@@ -364,6 +363,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 	private void Start()
 	{
+		playerState.WorldPosition = transform.localPosition;
 		//Init pending actions queue for your local player
 		if (isLocalPlayer)
 		{
