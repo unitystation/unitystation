@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Component which allows an object to have an orientation (facing) which is synced over the network and supports client
-/// prediction and responds to matrix rotation events and runs in edit mode.
+/// Component which allows an object to have an orientation (facing) which is synced over the network, supports client
+/// prediction, responds to matrix rotation events, and allows setting an initial direction
+/// in editor (useful for mapping).
+///
 /// It's up to other components to decide how to update their display when direction changes,
 /// by subscribing to the OnDirectionChange UnityEvent. Client prediction / server sync is entirely handled
 /// within this component, so components which react to direction changes don't need to think about it - just subscribe to the event.
 ///
-/// This component should be used for all components which have some sort of directional behavior,
-/// not just players.
+/// Note that sprite rotation is handled in the SpriteRotation component
+///
+/// This component should be used for all components which have some sort of directional behavior.
 /// </summary>
 [RequireComponent(typeof(RegisterTile))]
 public class Directional : NetworkBehaviour
@@ -36,9 +38,15 @@ public class Directional : NetworkBehaviour
 	//don't occur too late / early due to lag from server telling us the new direction
 	private RotationOffset clientMatrixRotationOffset = RotationOffset.Same;
 
-	[Tooltip("This object will ignore matrix rotation events, preserving its current direction when" +
-	         " the matrix rotates.")]
-	public bool IgnoreMatrixRotation;
+	/// <summary>
+	/// If true, direction will be changed at the end of
+	/// matrix rotation to match the matrix rotation that occurred. If false,
+	/// direction will not be changed regardless of matrix rotation.
+	/// </summary>
+	[Tooltip("If true, direction will be changed at the end of " +
+	         "matrix rotation to match the matrix rotation that occurred. If false," +
+	         " direction will not be changed regardless of matrix rotation.")]
+	public bool ChangeDirectionWithMatrix = false;
 
 	/// <summary>
 	/// Whether this component is on the local player object, which has special handling because the local
@@ -67,18 +75,39 @@ public class Directional : NetworkBehaviour
 		(isServer || (!IsLocalPlayer && !IgnoreServerUpdates) ? serverDirection : clientDirection)
 		.Rotate(clientMatrixRotationOffset);
 
-
-	private MatrixMove matrixMove;
-	// cached registertile on this chair
+	// cached registertile
 	private RegisterTile registerTile;
+	//cached spriteRenderers of this gameobject
+	protected SpriteRenderer[] spriteRenderers;
 
 	private void Awake()
 	{
+		this.registerTile = GetComponent<RegisterTile>();
 		//subscribe to matrix rotations (even on client side so we can predict them)
-		matrixMove = transform.root.GetComponent<MatrixMove>();
-		var registerTile = GetComponent<RegisterTile>();
-		registerTile.OnRotateEnd.AddListener(OnRotateEnd);
+		registerTile.OnMatrixWillChange.AddListener(OnMatrixWillChange);
+		OnMatrixWillChange(registerTile.Matrix);
+	}
 
+	//invoked when our parent matrix is being changed or initially set
+	private void OnMatrixWillChange(Matrix newMatrix)
+	{
+		//add our listeners
+		//unsub from old matrix
+		if (registerTile.Matrix != null)
+		{
+			var move = registerTile.Matrix.GetComponentInChildren<MatrixMove>();
+			if (move != null)
+			{
+				move.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
+			}
+		}
+
+		//sub to new matrix
+		var newMove = newMatrix.GetComponentInChildren<MatrixMove>();
+		if (newMove != null)
+		{
+			newMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
+		}
 
 	}
 
@@ -108,23 +137,30 @@ public class Directional : NetworkBehaviour
 
     private void OnDisable()
     {
-	    if (registerTile != null)
+	    if (registerTile.Matrix != null)
 	    {
-		    registerTile.OnRotateEnd.RemoveListener(OnRotateEnd);
+		    var move = registerTile.Matrix.GetComponentInChildren<MatrixMove>();
+		    if (move != null)
+		    {
+			    move.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
+		    }
 	    }
     }
 
-
+    /// <summary>
+    /// Invoked when receiving rotation event from our current matrix's matrixmove
+    /// </summary>
     //invoked when matrix rotation is ending
-    private void OnRotateEnd(RotationOffset fromCurrent, bool isInitialRotation)
+    private void OnMatrixRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
     {
-	    if (IgnoreMatrixRotation) return;
-
-		//entirely client side - update rotation value stored on this client and
-		//display the new resulting rotation. Don't update any of our Orientation variables.
-		clientMatrixRotationOffset = clientMatrixRotationOffset.Rotate(fromCurrent);
-		OnDirectionChange.Invoke(CurrentDirection);
-	}
+	    if (ChangeDirectionWithMatrix)
+	    {
+		    //entirely client side - update rotation value stored on this client and
+		    //display the new resulting rotation. Don't update any of our Orientation variables.
+		    clientMatrixRotationOffset = clientMatrixRotationOffset.Rotate(fromCurrent);
+		    OnDirectionChange.Invoke(CurrentDirection);
+	    }
+    }
 
     /// <summary>
     ///Force this object to face the direction currently set on the server for this object.
@@ -184,6 +220,29 @@ public class Directional : NetworkBehaviour
 		    OnDirectionChange.Invoke(serverDirection.Rotate(clientMatrixRotationOffset));
 	    }
     }
+}
+
+/// <summary>
+/// Enum describing how an object's sprites should rotate when matrix rotations happen
+/// </summary>
+public enum SpriteMatrixRotationBehavior
+{
+	/// <summary>
+	/// Object always remains upright, top of the sprite pointing at the top of the screen
+	/// </summary>
+	RemainUpright = 0,
+	/// <summary>
+	/// Object sprites always rotate along with the parent matrix - top of the sprite
+	/// always points at the top of the matrix they are on.
+	/// </summary>
+	RotateWithMatrix = 1,
+
+	/// <summary>
+	/// Object rotates with matrix until the end of a matrix rotation, at which point
+	/// it rotates so its top is pointing at the top of the screen (this is how most objects in the game behave).
+	/// </summary>
+	RotateUprightAtEndOfMatrixRotation = 2
+
 }
 
 /// <summary>

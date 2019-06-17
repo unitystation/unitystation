@@ -2,6 +2,8 @@
 using UnityEngine;
 
 
+[RequireComponent(typeof(Directional))]
+[RequireComponent(typeof(SpriteMatrixRotation))]
 [ExecuteInEditMode]
 public class RegisterPlayer : RegisterTile
 {
@@ -17,6 +19,7 @@ public class RegisterPlayer : RegisterTile
 
 	private PlayerScript playerScript;
 	private Directional playerDirectional;
+	private SpriteMatrixRotation spriteMatrixRotation;
 
 	/// <summary>
 	/// Returns whether this player is blocking other players from occupying the space, using the
@@ -26,14 +29,16 @@ public class RegisterPlayer : RegisterTile
 	public bool IsBlockingClient => !playerScript.IsGhost && !IsDownClient;
 	public bool IsBlockingServer => !playerScript.IsGhost && !IsDownServer && !IsStunnedServer;
 	private Coroutine unstunHandle;
-
+	//cached spriteRenderers of this gameobject
+	protected SpriteRenderer[] spriteRenderers;
 
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
-		//initially we are upright and don't rotate with the matrix
-		rotateWithMatrix = false;
 		playerDirectional = GetComponent<Directional>();
+		playerDirectional.ChangeDirectionWithMatrix = false;
+		spriteMatrixRotation.spriteMatrixRotationBehavior = SpriteMatrixRotationBehavior.RemainUpright;
+		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 	}
 
 	public override bool IsPassable(bool isServer)
@@ -44,45 +49,6 @@ public class RegisterPlayer : RegisterTile
 	public override bool IsPassable(Vector3Int from, bool isServer)
 	{
 		return IsPassable(isServer);
-	}
-
-	protected override void OnRotationStart(RotationOffset fromCurrent, bool isInitialRotation)
-	{
-		base.OnRotationStart(fromCurrent, isInitialRotation);
-		if (!isInitialRotation)
-		{
-			UpdateManager.Instance.Add(RemainUpright);
-		}
-	}
-
-	void RemainUpright()
-	{
-		//stay upright until rotation stops (RegisterTile only updates our rotation at the end of rotation),
-		//but players need to stay upright constantly unless they are downed
-		foreach (SpriteRenderer renderer in spriteRenderers)
-		{
-			renderer.transform.rotation = IsDownClient ? Quaternion.Euler(0, 0, -90) : Quaternion.identity;
-		}
-	}
-
-	protected override void OnRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
-	{
-		base.OnRotationEnd(fromCurrent, isInitialRotation);
-
-		if (!isInitialRotation)
-		{
-			//stop reorienting to face upright
-			UpdateManager.Instance.Remove(RemainUpright);
-		}
-
-		//add extra rotation to ensure we are sideways
-		if (IsDownClient)
-		{
-			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-			{
-				spriteRenderer.transform.Rotate(0, 0, -90);
-			}
-		}
 	}
 
 	/// <summary>
@@ -109,11 +75,10 @@ public class RegisterPlayer : RegisterTile
 		if (!IsDownClient)
 		{
 			IsDownClient = true;
-			//rotate the sprites and change their layer
+			spriteMatrixRotation.ExtraRotation = Quaternion.Euler(0, 0, -90);
+			//Change sprite layer
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
 			{
-				spriteRenderer.transform.rotation = Quaternion.identity;
-				spriteRenderer.transform.Rotate(0, 0, -90);
 				spriteRenderer.sortingLayerName = "Blood";
 			}
 		}
@@ -128,10 +93,10 @@ public class RegisterPlayer : RegisterTile
 		if (IsDownClient)
 		{
 			IsDownClient = false;
-			//change sprites to be upright
+			spriteMatrixRotation.ExtraRotation = Quaternion.identity;
+			//back to original layer
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
 			{
-				spriteRenderer.transform.rotation = Quaternion.identity;
 				spriteRenderer.sortingLayerName = "Players";
 			}
 		}
