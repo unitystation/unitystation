@@ -19,29 +19,31 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 		base.Start();
 	}
 
-	protected override InteractionValidationChain<MouseDrop> InteractionValidationChain()
+	protected override bool WillInteract(MouseDrop interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<MouseDrop>.Create()
-			.WithValidation(IsDroppedObjectAtTargetPosition.IS)
-			.WithValidation(DoesDroppedObjectHaveComponent<PlayerMove>.DOES)
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-			.WithValidation(ComponentAtTargetMatrixPosition<PlayerMove>.NoneMatchingCriteria(pm => pm.IsRestrained))
-			.WithValidation(new FunctionValidator<MouseDrop>(AdditionalValidation));
-	}
+		if (!base.WillInteract(interaction, side)) return false;
+		if (!Validations.ObjectsAtSameTile(interaction.DroppedObject, interaction.TargetObject)) return false;
+		if (!Validations.HasComponent<PlayerMove>(interaction.DroppedObject)) return false;
+		//if there are any restrained players already here, we can't restrain another one here
+		if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
+			.Any(pm => pm.IsRestrained))
+		{
+			return false;
+		}
 
-	private ValidationResult AdditionalValidation(MouseDrop drop, NetworkSide side)
-	{
 		//if the player to buckle is currently downed, we cannot buckle if there is another player on the tile
 		//(because buckling a player causes the tile to become unpassable, thus a player could end up
 		//occupying another player's space)
-		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
+		var playerMove = interaction.DroppedObject.GetComponent<PlayerMove>();
 		var registerPlayer = playerMove.GetComponent<RegisterPlayer>();
-		if (side == NetworkSide.SERVER ? !registerPlayer.IsDownServer : !registerPlayer.IsDownClient) return ValidationResult.SUCCESS;
-		return ComponentAtTargetMatrixPosition<PlayerMove>.NoneMatchingCriteria(pm =>
-			pm != playerMove &&
-			(side == NetworkSide.SERVER ? pm.GetComponent<RegisterPlayer>().IsBlockingServer
-										: pm.GetComponent<RegisterPlayer>().IsBlockingClient))
-			.Validate(drop, side);
+		//player to buckle is up, no need to check for other players on the tile
+		if (!registerPlayer.IsDown) return true;
+
+		//Player to buckle is down,
+		//return false if there are any blocking players on this tile (because if we buckle this player
+		//they would become blocking, and we can't have 2 blocking players on the same tile).
+		return !MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
+			.Any(pm => pm != playerMove && pm.GetComponent<RegisterPlayer>().IsBlocking);
 	}
 
 	protected override void ServerPerformInteraction(MouseDrop drop)
@@ -58,20 +60,20 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
 		playerMove.Restrain(OnUnbuckle);
 
-		
-
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
 		directionalSprite?.RenderBuckledOverPlayerWhenUp(true);
 	}
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChainT2()
+	protected override bool WillInteractT2(HandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<HandApply>.Create()
-			.WithValidation(IsHand.EMPTY)
-			.WithValidation(TargetIs.GameObject(gameObject))
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-			.WithValidation(ComponentAtTargetMatrixPosition<PlayerMove>.MatchingCriteria(pm => pm.IsRestrained));
+		if (!base.WillInteractT2(interaction, side)) return false;
+		if (interaction.TargetObject != gameObject) return false;
+		//can only do this empty handed
+		if (interaction.HandObject != null) return false;
+		//can only do this if there is a buckled player here
+		return MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
+			.Any(pm => pm.IsRestrained);
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)

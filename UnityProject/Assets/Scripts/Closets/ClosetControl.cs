@@ -5,8 +5,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Allows closet to be opened / closed / locked
+/// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
-public class ClosetControl : InputTrigger, IRightClickable
+public class ClosetControl : NBHandApplyInteractable, IRightClickable
 {
 	[Header("Contents that will spawn inside every locker of type")]
 	public List<GameObject> DefaultContents;
@@ -179,7 +182,7 @@ public class ClosetControl : InputTrigger, IRightClickable
 		}
 	}
 
-	public override bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false)
+	public bool CanUse(GameObject originator, string hand, Vector3 position, bool allowSoftCrit = false)
 	{
 		var playerScript = originator.GetComponent<PlayerScript>();
 
@@ -199,37 +202,29 @@ public class ClosetControl : InputTrigger, IRightClickable
 		return true;
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!CanUse(originator, hand, position, false))
-		{
-			return false;
-		}
-		if (!isServer)
-		{
-			//ask server to perform the interaction
-			InteractMessage.Send(gameObject, position, hand);
-			return true;
-		}
-		if (!IsClosed)
-		{
-			PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
-			GameObject handObj = pna.Inventory[hand].Item;
-			if (handObj != null)
-			{
-				pna.CmdPlaceItem(hand, position, null, false);
-				return true;
-			}
-		}
-		else
-		{
-			if(IsLocked)
-			{
-				return true;
-			}
-		}
-		ToggleLocker();
+		if (!base.WillInteract(interaction, side)) return false;
+
+		//only allow interactions targeting this closet
+		if (interaction.TargetObject != gameObject) return false;
+
 		return true;
+	}
+
+	protected override void ServerPerformInteraction(HandApply interaction)
+	{
+
+		//Is the player trying to put something in the closet
+		if (interaction.HandObject != null && !IsClosed)
+		{
+			PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
+			pna.CmdPlaceItem(interaction.HandSlot.SlotName, registerTile.WorldPosition, null, false);
+		}
+		else if (!IsLocked)
+		{
+			ToggleLocker();
+		}
 	}
 
 	public virtual void HandleItems()
@@ -348,26 +343,19 @@ public class ClosetControl : InputTrigger, IRightClickable
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		//TODO: Code duplication (of validation logic) with Interact. Eliminate this duplication once this is refactored to IF2.
 		var result = RightClickableResult.Create();
-		PlayerScript localPlayer = PlayerManager.LocalPlayerScript;
-		if (localPlayer.canNotInteract())
-		{
-			return result;
-		}
 
-		bool isInReach = localPlayer.IsInReach(registerTile, false);
-		if (isInReach || localPlayer.IsHidden)
+		if (WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client))
 		{
 			result.AddElement("OpenClose", RightClickInteract);
 		}
+
 
 		return result;
 	}
 
 	private void RightClickInteract()
 	{
-		Interact(PlayerManager.LocalPlayer,  registerTile.WorldPositionClient,
-			UIManager.Hands.CurrentSlot.eventName);
+		Interact(HandApply.ByLocalPlayer(gameObject));
 	}
 }

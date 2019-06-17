@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 114250079265950594}
   - component: {fileID: 114537529964992312}
   - component: {fileID: 5004646865096198730}
+  - component: {fileID: 8947076166887268501}
   m_Layer: 10
   m_Name: Health Scanner
   m_TagString: Untagged
@@ -204,12 +205,11 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
-  itemDescription: Used to check somebody's health.
   itemName: Medical Scanner
+  itemDescription: Used to check somebody's health.
   itemType: 15
   size: 1
   spriteType: 0
-  type: 0
   CanConnectToTank: 0
   hitDamage: 0
   throwDamage: 0
@@ -250,19 +250,17 @@ MonoBehaviour:
   OnRotateEnd:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnRotateStart:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 0
   rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &5004646865096198730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,3 +273,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ede96e91fa456f549b8d8bf8ac9aace5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8947076166887268501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862150311813888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDropServer:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

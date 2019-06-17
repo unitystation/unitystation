@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Utilities related to mouse / pointer interactions, such as figuring out what is under the mouse
@@ -10,58 +11,77 @@ using UnityEngine;
 public static class MouseUtils
 {
 	/// <summary>
-	/// Gets the renderers under the given world position, ordered so that highest item comes first
+	/// Gets the game objects under the given world position, ordered so that highest item comes first.
+	///
+	/// The top-level matrix gameobject (the one with InteractableTiles) at this point is included at the end (if any of its tilemap gameobjects were at this point)
 	/// </summary>
 	/// <param name="worldPoint">world point to check</param>
 	/// <param name="layerMask">layers to check for hits in</param>
-	/// <param name="gameObjectFilter"> optional filter to apply to each game object before sorting, the final list will only
-	/// include spriterenderers whose game objects match the condition</param>
-	/// <returns>the ordered sprite renderers that were under the mouse, top first</returns>
-	public static IOrderedEnumerable<SpriteRenderer> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask layerMask, Func<GameObject,bool> gameObjectFilter = null)
+	/// <param name="gameObjectFilter">optional filter to filter out game objects prior to sorting and checking for pixel hits, can improve performance
+	/// by shrinking the amount of sorting and pixel checking that needs to be done. Func should return true if should include the gameobject, otherwise false.
+	/// Be aware that the GameObject passed to this function will be the one that the SpriteRenderer or TilemapRenderer lives on, which may NOT
+	/// be the "root" of the gameobject this renderer lives on.</param>
+	/// <returns>the ordered game objects that were under the mouse, top first</returns>
+	public static IEnumerable<GameObject> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask layerMask, Func<GameObject,bool> gameObjectFilter = null)
 	{
 		var result = Physics2D.RaycastAll(worldPoint, Vector2.zero, 10f,
 				layerMask)
 			//get the hit game object
 			.Select(hit => hit.collider.transform.gameObject);
+
 		if (gameObjectFilter != null)
 		{
-			//apply the GO filter
 			result = result.Where(gameObjectFilter);
 		}
 
-
 		return result
 			//check for a pixel hit
-			.Select(go => MouseUtils.IsPixelHit(go.transform))
+			.Select(go => IsPixelHit(go.transform))
 			.Where(r => r != null)
 			//order by sort layer
 			.OrderByDescending(r => SortingLayer.GetLayerValueFromID(r.sortingLayerID))
 			//then by sort order
-			.ThenByDescending(renderer => renderer.sortingOrder);
+			.ThenByDescending(renderer => renderer.sortingOrder)
+			//get the "parent" game object of each of the hit renderers
+			//for a sprite renderer, the parent is the object that has a RegisterTile.
+			//for a tilemap renderer, the parent is the oject that has a Matrix
+			.Select(r => r is TilemapRenderer ? r.GetComponentInParent<InteractableTiles>().gameObject :
+				r.GetComponentInParent<RegisterTile>().gameObject)
+			//each gameobject should only show up once
+			.Distinct();
 	}
 
 	/// <summary>
-	/// Gets the renderers under the mouse, ordered so that highest item comes first
+	/// Gets the game objects under the mouse, ordered so that highest item comes first.
+	/// The top-level matrix gameobject (the one with InteractableTiles) at this point is included at the end (if any of its tilemap gameobjects were at this point)
 	/// </summary>
 	/// <param name="layerMask">layers to check for hits in</param>
-	/// <param name="gameObjectFilter"> optional filter to apply to each game object before sorting, the final list will only
-	/// include spriterenderers whose game objects match the condition</param>
-	/// <returns>the ordered sprite renderers that were under the mouse, top first</returns>
-	public static IOrderedEnumerable<SpriteRenderer> GetOrderedObjectsUnderMouse(LayerMask layerMask, Func<GameObject,bool> gameObjectFilter = null)
+	/// <param name="gameObjectFilter">optional filter to filter out game objects prior to sorting and checking for pixel hits, can improve performance
+	/// by shrinking the amount of sorting and pixel checking that needs to be done. Func should return true if should include the gameobject, otherwise false.
+	/// Be aware that the GameObject passed to this function will be the one that the SpriteRenderer or TilemapRenderer lives on, which may NOT
+	/// be the "root" of the gameobject this renderer lives on.</param>
+	/// <returns>the ordered game objects that were under the mouse, top first</returns>
+	public static IEnumerable<GameObject> GetOrderedObjectsUnderMouse(LayerMask layerMask, Func<GameObject,bool> gameObjectFilter = null)
 	{
-		return GetOrderedObjectsAtPoint(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), layerMask,
-			gameObjectFilter);
+		return GetOrderedObjectsAtPoint(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), layerMask);
 	}
 
 	/// <summary>
-	/// Checks if there is a non transparent pixel in a renderer in this transform under the mouse
+	/// Checks if there is a non transparent pixel in a renderer in this transform under the mouse. If
+	/// the transform has a TilemapRenderer, simply returns that renderer.
 	/// </summary>
 	/// <param name="transform">transform to check</param>
 	/// <param name="recentTouches">Dictionary from touch position to the pixel color and time the touch occurred,
 	/// will be updated with the hit information if a hit occurs.</param>
-	/// <returns>sprite renderer that was hit if there is a hit</returns>
-	public static SpriteRenderer IsPixelHit(Transform transform, Dictionary<Vector2, Tuple<Color, float>> recentTouches = null)
+	/// <returns>spriterenderer that was hit if there is a hit, or tilemaprenderer if transform has one</returns>
+	public static Renderer IsPixelHit(Transform transform, Dictionary<Vector2, Tuple<Color, float>> recentTouches = null)
 	{
+		var tilemapRenderer = transform.gameObject.GetComponent<TilemapRenderer>();
+		if (tilemapRenderer != null)
+		{
+			return tilemapRenderer;
+		}
+
 		SpriteRenderer[] spriteRenderers = transform.GetComponentsInChildren<SpriteRenderer>(false);
 
 		//check order in layer for what should be triggered first

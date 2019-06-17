@@ -246,7 +246,7 @@ public class Equipment : NetworkBehaviour
 		if (playerScript.JobType == JobType.SYNDICATE)
 		{
 			//Check to see if there is a nuke and communicate the nuke code:
-			NukeInteract nuke = FindObjectOfType<NukeInteract>();
+			Nuke nuke = FindObjectOfType<Nuke>();
 			if (nuke != null)
 			{
 				UpdateChatMessage.Send(gameObject, ChatChannel.Syndicate,

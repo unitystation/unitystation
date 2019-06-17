@@ -574,7 +574,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
-			ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
+			ShutterSwitch s = switchObj.GetComponent<ShutterSwitch>();
 			if (s.IsClosed)
 			{
 				s.IsClosed = false;
@@ -596,13 +596,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
-			LightSwitchTrigger s = switchObj.GetComponent<LightSwitchTrigger>();
-			if (s.isOn == LightSwitchTrigger.States.On)
+			LightSwitch s = switchObj.GetComponent<LightSwitch>();
+			if (s.isOn == LightSwitch.States.On)
 			{
-				s.isOn = LightSwitchTrigger.States.Off;
+				s.isOn = LightSwitch.States.Off;
 			}
-			else if (s.isOn == LightSwitchTrigger.States.Off) {
-				s.isOn = LightSwitchTrigger.States.On;
+			else if (s.isOn == LightSwitch.States.Off) {
+				s.isOn = LightSwitch.States.On;
 			}
 
 		}
@@ -787,7 +787,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
+		Edible baseFood = food.GetComponent<Edible>();
 		if (isDrink)
 		{
 			SoundManager.PlayNetworkedAtPos( "Slurp", transform.position );
@@ -814,13 +814,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			leavings = PoolManager.PoolNetworkInstantiate(leavings);
 			AddItemToUISlot(leavings, fromSlot);
 		}
-	}
-
-	[Command]
-	public void CmdAttack(GameObject target, GameObject originator, BodyPartType bodyPart, GameObject itemInHand)
-	{
-		var itemPUT = itemInHand.GetComponent<Pickupable>();
-		itemPUT.Attack(target, originator, bodyPart);
 	}
 
 	[Command]

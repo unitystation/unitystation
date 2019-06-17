@@ -6,8 +6,10 @@ using UnityEngine;
 public class RegisterPlayer : RegisterTile
 {
 	/// <summary>
-	/// True when the player is laying down
+	/// True when the player is laying down. Gets the correct value
+	/// based on whether this is called on client or server side
 	/// </summary>
+	public bool IsDown => isServer ? IsDownServer : IsDownClient;
 	public bool IsDownClient { get; private set; }
 	public bool IsDownServer { get; set; }
 	public bool IsStunnedClient { get; set; }
@@ -18,6 +20,11 @@ public class RegisterPlayer : RegisterTile
 	private PlayerScript playerScript;
 	private MetaDataLayer metaDataLayer;
 
+	/// <summary>
+	/// Returns whether this player is blocking other players from occupying the space, using the
+	/// correct server/client side logic based on where this is being called from.
+	/// </summary>
+	public bool IsBlocking => isServer ? IsBlockingServer : IsBlockingClient;
 	public bool IsBlockingClient => !playerScript.IsGhost && !IsDownClient;
 	public bool IsBlockingServer => !playerScript.IsGhost && !IsDownServer && !IsStunnedServer;
 	private Coroutine unstunHandle;

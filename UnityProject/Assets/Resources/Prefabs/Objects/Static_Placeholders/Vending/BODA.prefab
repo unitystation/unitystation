@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114810295364911794}
   - component: {fileID: 114739519536560000}
   - component: {fileID: 114405417986018830}
+  - component: {fileID: 1799849713025885935}
   m_Layer: 11
   m_Name: BODA
   m_TagString: Untagged
@@ -134,7 +135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 0
   VendorContent:
   - Item: {fileID: 1110193000772614, guid: ea3aced27602b4327bcbd90af271bba2, type: 3}
     Stock: 5
@@ -142,9 +142,6 @@ MonoBehaviour:
     Stock: 5
   - Item: {fileID: 1110193000772614, guid: c2b2938c3617748ab9fa565d6338f68b, type: 3}
     Stock: 5
-  Originator: {fileID: 0}
-  InteractPosition: {x: 0, y: 0, z: 0}
-  InteractHand: 
   HullColor: {r: 0, g: 0.7137255, b: 0.7137255, a: 1}
   EjectObjects: 0
   EjectDirection: 0
@@ -184,6 +181,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1799849713025885935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459620712919388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 0
 --- !u!1 &1855299798957980
 GameObject:
   m_ObjectHideFlags: 0

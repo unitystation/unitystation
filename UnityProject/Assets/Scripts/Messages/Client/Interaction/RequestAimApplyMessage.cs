@@ -47,8 +47,7 @@ public class RequestAimApplyMessage : ClientMessage
 		var aimApply = AimApply.ByClient(performerObj, targetVector, handObject, usedSlot, buttonState);
 		foreach (var processorComponent in processorComponents)
 		{
-			if (processorComponent.ServerProcessInteraction(aimApply) ==
-			    InteractionControl.STOP_PROCESSING)
+			if (processorComponent.ServerProcessInteraction(aimApply))
 			{
 				//something happened, don't check further components
 				return;

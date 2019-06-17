@@ -98,11 +98,7 @@ public class MouseDraggable : MonoBehaviour
 		//check what we dropped on, which may or may not have mousedrop interaction components
 		//can only drop on things that have a RegisterTile
 		var dropTargets =
-			MouseUtils.GetOrderedObjectsUnderMouse(dropLayers, go => go.GetComponent<RegisterTile>() != null)
-				//get the root gameobject of the dropped-on sprite renderer
-				.Select(sr => sr.GetComponentInParent<RegisterTile>().gameObject)
-				//only want distinct game objects even if we hit multiple renderers on one object.
-				.Distinct();
+			MouseUtils.GetOrderedObjectsUnderMouse(dropLayers);
 
 		//go through the stack of objects and call any drop components we find
 		foreach (GameObject dropTarget in dropTargets)
@@ -111,8 +107,8 @@ public class MouseDraggable : MonoBehaviour
 			//call this object's mousedrop interaction methods if it has any, for each object we are dropping on
 			foreach (IInteractable<MouseDrop> mouseDrop in mouseDrops)
 			{
-				var result = mouseDrop.Interact(info);
-				if (result.StopProcessing)
+				var interacted = mouseDrop.Interact(info);
+				if (interacted)
 				{
 					//we're done checking, something happened
 					return;
@@ -122,8 +118,8 @@ public class MouseDraggable : MonoBehaviour
 			//call the mousedrop interaction methods on the dropped-on object if it has any
 			foreach (IInteractable<MouseDrop> mouseDropTarget in dropTarget.GetComponents<IInteractable<MouseDrop>>())
 			{
-				var result = mouseDropTarget.Interact(info);
-				if (result.StopProcessing)
+				var interacted = mouseDropTarget.Interact(info);
+				if (interacted)
 				{
 					//something happened, done checking
 					return;
@@ -139,9 +135,7 @@ public class MouseDraggable : MonoBehaviour
 	/// <returns></returns>
 	public bool CanBeginDrag(GameObject dragger)
 	{
-		return CanApply.Validate(dragger, gameObject, allowDragWhileSoftCrit,
-			//always client side
-			NetworkSide.CLIENT,
-			draggerMustBeAdjacent ? ReachRange.STANDARD : ReachRange.UNLIMITED) == ValidationResult.SUCCESS;
+		return Validations.CanApply(dragger, gameObject, NetworkSide.Client, allowDragWhileSoftCrit,
+			draggerMustBeAdjacent ? ReachRange.Standard : ReachRange.Unlimited);
 	}
 }

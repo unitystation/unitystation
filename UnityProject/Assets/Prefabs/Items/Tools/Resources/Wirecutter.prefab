@@ -95,8 +95,8 @@ GameObject:
   - component: {fileID: 114909773131868738}
   - component: {fileID: 114998062039538404}
   - component: {fileID: 114484434474911270}
-  - component: {fileID: 114004374585619388}
   - component: {fileID: 114098934439909434}
+  - component: {fileID: 3886908202543390868}
   m_Layer: 10
   m_Name: Wirecutter
   m_TagString: Untagged
@@ -283,18 +283,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
---- !u!114 &114004374585619388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519710982558066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 389e75c6e8f03f347990af26150d4e11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114098934439909434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,3 +300,16 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &3886908202543390868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToolType: 1

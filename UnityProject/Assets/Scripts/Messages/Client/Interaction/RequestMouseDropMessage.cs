@@ -45,8 +45,7 @@ public class RequestMouseDropMessage : ClientMessage
 		var mouseDrop = MouseDrop.ByClient(performerObj, handObject, targetObj);
 		foreach (var processorComponent in processorComponents)
 		{
-			if (processorComponent.ServerProcessInteraction(mouseDrop) ==
-			    InteractionControl.STOP_PROCESSING)
+			if (processorComponent.ServerProcessInteraction(mouseDrop))
 			{
 				//something happened, don't check further components
 				return;
