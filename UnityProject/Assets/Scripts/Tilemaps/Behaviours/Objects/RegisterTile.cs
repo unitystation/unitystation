@@ -23,7 +23,7 @@ public abstract class RegisterTile : NetworkBehaviour
 {
 	private bool hasInit = false;
 
-	private ObjectLayer layer;
+	public ObjectLayer layer;
 
 	public ObjectType ObjectType;
 
