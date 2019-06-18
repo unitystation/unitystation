@@ -46,7 +46,7 @@ public class Directional : NetworkBehaviour
 	[Tooltip("If true, direction will be changed at the end of " +
 	         "matrix rotation to match the matrix rotation that occurred. If false," +
 	         " direction will not be changed regardless of matrix rotation.")]
-	public bool ChangeDirectionWithMatrix = false;
+	public bool ChangeDirectionWithMatrix = true;
 
 	/// <summary>
 	/// Whether this component is on the local player object, which has special handling because the local
@@ -95,7 +95,7 @@ public class Directional : NetworkBehaviour
 		//unsub from old matrix
 		if (registerTile.Matrix != null)
 		{
-			var move = registerTile.Matrix.GetComponentInChildren<MatrixMove>();
+			var move = registerTile.Matrix.GetComponentInParent<MatrixMove>();
 			if (move != null)
 			{
 				move.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
@@ -103,12 +103,14 @@ public class Directional : NetworkBehaviour
 		}
 
 		//sub to new matrix
-		var newMove = newMatrix.GetComponentInChildren<MatrixMove>();
-		if (newMove != null)
+		if (newMatrix != null)
 		{
-			newMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
+			var newMove = newMatrix.GetComponentInParent<MatrixMove>();
+			if (newMove != null)
+			{
+				newMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
+			}
 		}
-
 	}
 
 	public override void OnStartServer()
@@ -139,7 +141,7 @@ public class Directional : NetworkBehaviour
     {
 	    if (registerTile.Matrix != null)
 	    {
-		    var move = registerTile.Matrix.GetComponentInChildren<MatrixMove>();
+		    var move = registerTile.Matrix.GetComponentInParent<MatrixMove>();
 		    if (move != null)
 		    {
 			    move.OnRotateEnd.RemoveListener(OnMatrixRotationEnd);
@@ -220,29 +222,6 @@ public class Directional : NetworkBehaviour
 		    OnDirectionChange.Invoke(serverDirection.Rotate(clientMatrixRotationOffset));
 	    }
     }
-}
-
-/// <summary>
-/// Enum describing how an object's sprites should rotate when matrix rotations happen
-/// </summary>
-public enum SpriteMatrixRotationBehavior
-{
-	/// <summary>
-	/// Object always remains upright, top of the sprite pointing at the top of the screen
-	/// </summary>
-	RemainUpright = 0,
-	/// <summary>
-	/// Object sprites always rotate along with the parent matrix - top of the sprite
-	/// always points at the top of the matrix they are on.
-	/// </summary>
-	RotateWithMatrix = 1,
-
-	/// <summary>
-	/// Object rotates with matrix until the end of a matrix rotation, at which point
-	/// it rotates so its top is pointing at the top of the screen (this is how most objects in the game behave).
-	/// </summary>
-	RotateUprightAtEndOfMatrixRotation = 2
-
 }
 
 /// <summary>

@@ -20,6 +20,7 @@ public enum ObjectType
 /// do so via RegisterTile.OnRotateEnd / OnRotateStart rather than manually tracking / subscribing to the current matrix itself,
 /// as RegisterTile takes care of tracking the current matrix.
 /// </summary>
+[RequireComponent(typeof(SpriteMatrixRotation))]
 [ExecuteInEditMode]
 public abstract class RegisterTile : NetworkBehaviour
 {
@@ -30,7 +31,8 @@ public abstract class RegisterTile : NetworkBehaviour
 	private PushPull customTransform;
 
 	/// <summary>
-	/// Invoked when parent matrix is going to change, just before the matrix is actually changed.
+	/// Invoked when parent matrix is going to change, just before the matrix is actually changed. Passes
+	/// the new matrix.
 	/// </summary>
 	public MatrixChangeEvent OnMatrixWillChange = new MatrixChangeEvent();
 
@@ -44,7 +46,7 @@ public abstract class RegisterTile : NetworkBehaviour
 		{
 			if (value)
 			{
-				OnMatrixWillChange.Invoke(matrix);
+				OnMatrixWillChange.Invoke(value);
 				matrix = value;
 			}
 		}

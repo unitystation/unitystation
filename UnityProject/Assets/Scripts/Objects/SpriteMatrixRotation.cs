@@ -13,17 +13,25 @@ public class SpriteMatrixRotation : MonoBehaviour
 	/// Defines how this object's sprites should rotate when its parent matrix rotates.
 	/// </summary>
 	[Tooltip("Defines how this object's sprites should rotate when its parent matrix rotates.")]
-	public SpriteMatrixRotationBehavior spriteMatrixRotationBehavior;
+	public SpriteMatrixRotationBehavior spriteMatrixRotationBehavior =
+		SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation;
 
 	/// <summary>
 	/// Client side only. Extra rotation to apply to the sprites after setting their rotation based on
 	/// MatrixSpriteRotationBehavior, can be used to give the object an appearance
 	/// of being knocked down by, for example, setting this to Quaternion.Euler(0,0,-90).
 	/// </summary>
-	[Tooltip("Extra rotation to apply to the sprites, after setting their rotation based on MatrixSpriteRotationBehavior" +
-	         ", can be used to give the object an appearance" +
-	         " of being knocked down.")]
-	public Quaternion ExtraRotation = Quaternion.identity;
+	public Quaternion ExtraRotation
+	{
+		get => extraRotation;
+		set
+		{
+			extraRotation = value;
+			//need to update sprite the moment this is set
+			SetSpritesUpright();
+		}
+	}
+	private Quaternion extraRotation = Quaternion.identity;
 
 	//cached spriteRenderers of this gameobject
 	protected SpriteRenderer[] spriteRenderers;
@@ -38,29 +46,8 @@ public class SpriteMatrixRotation : MonoBehaviour
 		{
 			spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 			//orient upright
-			//set sprites
-			if (spriteRenderers != null)
-			{
-				//set upright
-				if ((spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright
-				     || spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation)
-				)
-				{
-					foreach (SpriteRenderer renderer in spriteRenderers)
-					{
-						renderer.transform.rotation = ExtraRotation;
-					}
-				}
-				//set upright in matrix
-				else if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RotateWithMatrix)
-				{
-					foreach (SpriteRenderer renderer in spriteRenderers)
-					{
-						renderer.transform.localRotation = ExtraRotation;
-					}
-				}
+			SetSpritesUpright();
 
-			}
 		}
 
 		//subscribe to matrix rotations
@@ -68,11 +55,22 @@ public class SpriteMatrixRotation : MonoBehaviour
 		OnMatrixWillChange(registerTile.Matrix);
 	}
 
+	private void SetSpritesUpright()
+	{
+		if (spriteRenderers != null)
+		{
+			foreach (SpriteRenderer renderer in spriteRenderers)
+			{
+				renderer.transform.rotation = ExtraRotation;
+			}
+		}
+	}
+
 	private void OnDisable()
 	{
 		if (registerTile.Matrix != null)
 		{
-			var move = registerTile.Matrix.GetComponentInChildren<MatrixMove>();
+			var move = registerTile.Matrix.GetComponentInParent<MatrixMove>();
 			if (move != null)
 			{
 				move.OnRotateStart.RemoveListener(OnMatrixRotationStart);
@@ -88,7 +86,7 @@ public class SpriteMatrixRotation : MonoBehaviour
 		//unsub from old matrix
 		if (registerTile.Matrix != null)
 		{
-			var move = registerTile.Matrix.GetComponentInChildren<MatrixMove>();
+			var move = registerTile.Matrix.GetComponentInParent<MatrixMove>();
 			if (move != null)
 			{
 				move.OnRotateStart.RemoveListener(OnMatrixRotationStart);
@@ -97,11 +95,14 @@ public class SpriteMatrixRotation : MonoBehaviour
 		}
 
 		//sub to new matrix
-		var newMove = newMatrix.GetComponentInChildren<MatrixMove>();
-		if (newMove != null)
+		if (newMatrix != null)
 		{
-			newMove.OnRotateStart.AddListener(OnMatrixRotationStart);
-			newMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
+			var newMove = newMatrix.GetComponentInParent<MatrixMove>();
+			if (newMove != null)
+			{
+				newMove.OnRotateStart.AddListener(OnMatrixRotationStart);
+				newMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
+			}
 		}
 	}
 
@@ -109,16 +110,7 @@ public class SpriteMatrixRotation : MonoBehaviour
 	{
 		if (!isInitialRotation && spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
 		{
-			UpdateManager.Instance.Add(RemainUpright);
-		}
-	}
-
-	private void RemainUpright()
-	{
-		//stay upright until rotation stops
-		foreach (SpriteRenderer renderer in spriteRenderers)
-		{
-			renderer.transform.rotation = ExtraRotation;
+			UpdateManager.Instance.Add(SetSpritesUpright);
 		}
 	}
 
@@ -131,18 +123,27 @@ public class SpriteMatrixRotation : MonoBehaviour
 		if (!isInitialRotation && spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
 		{
 			//stop reorienting to face upright
-			UpdateManager.Instance.Remove(RemainUpright);
+			UpdateManager.Instance.Remove(SetSpritesUpright);
 		}
 
-		// reorient to stay upright if we are configured to do so
-		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation
-		    || spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
-		{
-			foreach (SpriteRenderer renderer in spriteRenderers)
-			{
-				renderer.transform.rotation = Quaternion.identity;
-			}
-		}
+		SetSpritesUpright();
 	}
+}
+
+
+/// <summary>
+/// Enum describing how an object's sprites should rotate when matrix rotations happen
+/// </summary>
+public enum SpriteMatrixRotationBehavior
+{
+	/// <summary>
+	/// Object always remains upright, top of the sprite pointing at the top of the screen
+	/// </summary>
+	RemainUpright = 0,
+	/// <summary>
+	/// Object rotates with matrix until the end of a matrix rotation, at which point
+	/// it rotates so its top is pointing at the top of the screen (this is how most objects in the game behave).
+	/// </summary>
+	RotateUprightAtEndOfMatrixRotation = 1
 
 }

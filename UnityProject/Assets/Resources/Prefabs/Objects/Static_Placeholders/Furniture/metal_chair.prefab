@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114338334281631116}
   - component: {fileID: 9048663693282033040}
   - component: {fileID: 8641185870989047510}
+  - component: {fileID: 8992642222336011252}
   m_Layer: 11
   m_Name: metal_chair
   m_TagString: Untagged
@@ -110,16 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
-  rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114055517453558958
@@ -181,7 +173,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialDirection: 3
-  IgnoreMatrixRotation: 0
+  ChangeDirectionWithMatrix: 1
+--- !u!114 &8992642222336011252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169897606440870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
+  ExtraRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &1581991274901662
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +256,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300006, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 34c0eb827d8824c148b0af1358d3d257, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

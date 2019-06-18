@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 public class OnCrossed : UnityEvent<RegisterPlayer>{};
 
 [ExecuteInEditMode]
+[RequireComponent(typeof(SpriteMatrixRotation))]
 	public class RegisterItem : RegisterTile
 	{
 		public OnCrossed crossed;

@@ -5,6 +5,7 @@ using UnityEngine;
 /// <see cref="RegisterTile"/> for an object, adds additional logic to
 /// make object passable / impassable.
 /// </summary>
+[RequireComponent(typeof(SpriteMatrixRotation))]
 [ExecuteInEditMode]
 public class RegisterObject : RegisterTile
 {

@@ -35,6 +35,7 @@ public class RegisterPlayer : RegisterTile
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
+		spriteMatrixRotation = GetComponent<SpriteMatrixRotation>();
 		playerDirectional = GetComponent<Directional>();
 		playerDirectional.ChangeDirectionWithMatrix = false;
 		spriteMatrixRotation.spriteMatrixRotationBehavior = SpriteMatrixRotationBehavior.RemainUpright;
