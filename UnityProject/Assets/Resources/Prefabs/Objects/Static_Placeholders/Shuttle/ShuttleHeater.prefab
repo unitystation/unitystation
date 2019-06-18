@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 114255515820156884}
   - component: {fileID: 114850447683734040}
   - component: {fileID: 114215226708324816}
-  - component: {fileID: 114822017405267480}
   m_Layer: 11
   m_Name: ShuttleHeater
   m_TagString: Untagged
@@ -186,19 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114822017405267480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547459616489196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
 --- !u!1 &1663957144760596
 GameObject:
   m_ObjectHideFlags: 0
