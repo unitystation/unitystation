@@ -83,7 +83,7 @@ public static class SpawnHandler
 	{
 		var registerTile = spawnSpot.GetComponent<RegisterTile>();
 		var objectLayer = registerTile.layer;
-		Vector3 spawnPosition = registerTile.WorldPositionServer;
+		Vector3 spawnPosition = spawnSpot.GetComponent<ObjectBehaviour>().AssumedLocation();
 
 		GameObject newMob = Object.Instantiate(mobPrefab, spawnPosition, Quaternion.identity, objectLayer.transform);
 
