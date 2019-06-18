@@ -56,6 +56,12 @@ public class SpriteMatrixRotation : MonoBehaviour
 		OnMatrixWillChange(registerTile.Matrix);
 	}
 
+	private void OnBecameVisible()
+	{
+		//fail safe
+		SetSpritesUpright();
+	}
+
 	private void OnEnable()
 	{
 		SetSpritesUpright();
