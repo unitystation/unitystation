@@ -81,7 +81,8 @@ public class Nuke : NetworkBehaviour
 		SoundManager.StopAmbient();
 		//turning off all the UI except for the right panel
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
-		UIManager.Display.hudBottom.gameObject.SetActive(false);
+		UIManager.Display.hudBottomHuman.gameObject.SetActive(false);
+		UIManager.Display.hudBottomGhost.gameObject.SetActive(false);
 		UIManager.Display.backGround.SetActive(false);
 		ControlChat.Instance.CloseChatWindow();
 		GameManager.Instance.GameOver = true;

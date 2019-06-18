@@ -15,15 +15,7 @@ public class GUI_NukeOps : MonoBehaviour
 
 	public Button nukeOpsbtn;
 
-	void OnEnable()
-	{
-		UIManager.Instance.bottomBar.SetActive(false);
-	}
 
-	void OnDisable()
-	{
-		UIManager.Instance.bottomBar.SetActive(true);
-	}
 	void Update()
 	{
 		syndiActive = GameManager.Instance.GetOccupationsCount(JobType.SYNDICATE);
