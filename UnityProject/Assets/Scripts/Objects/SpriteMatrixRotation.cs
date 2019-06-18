@@ -4,7 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// Client side. Defines how sprites of an object should rotate based on their parent matrix
-///  and matrix rotations.
+///  and matrix rotations. If you want something to always stay rotated along with the matrix (such as shuttle thrusters),
+/// simply omit this component from the object.
 /// </summary>
 [RequireComponent(typeof(RegisterTile))]
 public class SpriteMatrixRotation : MonoBehaviour
