@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 61655055042275860}
   - component: {fileID: 114980732835007016}
   - component: {fileID: 114072681450652006}
+  - component: {fileID: 114836899234497498}
   m_Layer: 19
   m_Name: Camera
   m_TagString: Untagged
@@ -198,15 +199,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
-  rotateWithMatrix: 1
   AtmosPassable: 1
   Passable: 1
+--- !u!114 &114836899234497498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014018295980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1

@@ -66,7 +66,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 114465338665296638}
   - component: {fileID: 114942625721484022}
   - component: {fileID: 114056794007261734}
+  - component: {fileID: 114773043881674562}
   m_Layer: 19
   m_Name: LightSwitch
   m_TagString: Untagged
@@ -305,18 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
   ObjectType: 1
-  rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114056794007261734
@@ -331,3 +321,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114773043881674562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014236108730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1

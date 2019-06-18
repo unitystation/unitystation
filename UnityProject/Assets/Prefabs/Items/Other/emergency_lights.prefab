@@ -63,6 +63,7 @@ GameObject:
   - component: {fileID: 114065967972627576}
   - component: {fileID: 114694480355599990}
   - component: {fileID: 61222086973544660}
+  - component: {fileID: 114740931393989540}
   m_Layer: 13
   m_Name: emergency_lights
   m_TagString: EmergencyLight
@@ -132,7 +133,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectType: 1
-  rotateWithMatrix: 1
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114065967972627576
@@ -150,7 +150,7 @@ MonoBehaviour:
   mLightRendererObject: {fileID: 1128005765242482}
   Resistance: 1200
   RelatedAPC: {fileID: 0}
-  RelatedLightSwitchTrigger: {fileID: 0}
+  relatedLightSwitch: {fileID: 0}
   customColor: {r: 0.8901961, g: 0.03529412, b: 0, a: 0.84705883}
 --- !u!114 &114694480355599990
 MonoBehaviour:
@@ -198,6 +198,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3094215, y: 0.2810439}
   m_EdgeRadius: 0
+--- !u!114 &114740931393989540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275749971873228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
 --- !u!1 &1892682482372664
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +277,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 16
+  m_SortingLayer: 18
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300004, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

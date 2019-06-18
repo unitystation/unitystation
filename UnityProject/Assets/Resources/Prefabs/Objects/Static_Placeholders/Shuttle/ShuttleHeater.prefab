@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114255515820156884}
   - component: {fileID: 114850447683734040}
   - component: {fileID: 114215226708324816}
+  - component: {fileID: 114822017405267480}
   m_Layer: 11
   m_Name: ShuttleHeater
   m_TagString: Untagged
@@ -135,16 +136,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 352c75cf35ef70b4ba50e454d14aa536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodes: []
-  direction: 0
   registerTile: {fileID: 0}
   objectBehaviour: {fileID: 0}
+  nodes: []
+  direction: 0
+  anchored: 0
+  volume: 70
   pipeSprites:
   - {fileID: 21300392, guid: 19f6ef6ee7639411ab17229343906b20, type: 3}
   spriteRenderer: {fileID: 212213825783837650}
   spriteSync: 0
-  anchored: 0
-  volume: 70
 --- !u!114 &114255515820156884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,16 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
-  rotateWithMatrix: 1
   AtmosPassable: 0
   Passable: 0
 --- !u!114 &114215226708324816
@@ -194,6 +186,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114822017405267480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547459616489196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
 --- !u!1 &1663957144760596
 GameObject:
   m_ObjectHideFlags: 0
