@@ -56,6 +56,11 @@ public class SpriteMatrixRotation : MonoBehaviour
 		OnMatrixWillChange(registerTile.Matrix);
 	}
 
+	private void OnEnable()
+	{
+		SetSpritesUpright();
+	}
+
 	private void SetSpritesUpright()
 	{
 		if (spriteRenderers != null)
@@ -104,12 +109,14 @@ public class SpriteMatrixRotation : MonoBehaviour
 				newMove.OnRotateStart.AddListener(OnMatrixRotationStart);
 				newMove.OnRotateEnd.AddListener(OnMatrixRotationEnd);
 			}
+			//changed matrices, so we have to re-orient as well (esp if this is the first matrix we subscribed to)
+			SetSpritesUpright();
 		}
 	}
 
 	private void OnMatrixRotationStart(RotationOffset fromCurrent, bool isInitialRotation)
 	{
-		if (!isInitialRotation && spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
+		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
 		{
 			UpdateManager.Instance.Add(SetSpritesUpright);
 		}
@@ -121,7 +128,7 @@ public class SpriteMatrixRotation : MonoBehaviour
 	//invoked when matrix rotation is ending
 	private void OnMatrixRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
 	{
-		if (!isInitialRotation && spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
+		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RemainUpright)
 		{
 			//stop reorienting to face upright
 			UpdateManager.Instance.Remove(SetSpritesUpright);

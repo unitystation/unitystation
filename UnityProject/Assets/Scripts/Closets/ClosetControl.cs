@@ -44,7 +44,6 @@ public class ClosetControl : NBHandApplyInteractable, IRightClickable
 	public override void OnStartServer()
 	{
 		StartCoroutine(WaitForServerReg());
-		base.OnStartServer();
 		foreach (GameObject itemPrefab in DefaultContents)
 		{
 			PoolManager.PoolNetworkInstantiate(itemPrefab, transform.position, parent: transform.parent);
@@ -57,11 +56,10 @@ public class ClosetControl : NBHandApplyInteractable, IRightClickable
 		SetIsClosed(true);
 	}
 
-	public override void OnStartLocalPlayer()
+	public override void OnStartClient()
 	{
 		SyncSprite(statusSync);
 		SetIsLocked(IsLocked);
-		base.OnStartLocalPlayer();
 	}
 
 	public bool Contains(GameObject gameObject)

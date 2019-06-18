@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Behavior common to all wall mounts. Note that a wallmount's facing is determined by the Directional.InitialDirection,
@@ -42,26 +43,6 @@ public class WallmountBehavior : MonoBehaviour
 		return difference >= 91 || difference <= -91;
 	}
 
-	void OnDrawGizmos ()
-	{
-		Gizmos.color = Color.green;
-		if (directional == null)
-		{
-			directional = GetComponent<Directional>();
-		}
-
-		if (Application.isEditor && !Application.isPlaying)
-		{
-			DebugGizmoUtils.DrawArrow(transform.position, directional.InitialOrientation.Vector);
-		}
-		else
-		{
-			DebugGizmoUtils.DrawArrow(transform.position, directional.CurrentDirection.Vector);
-		}
-
-
-	}
-
 	/// <summary>
 	/// Checks if the wallmount has been hidden based on facing calculation already performed. Use this
 	/// to avoid having to re-calculate facing.
@@ -81,22 +62,4 @@ public class WallmountBehavior : MonoBehaviour
 		//there were no renderers or all of them were transparent, it's hidden
 		return true;
 	}
-//  NOTE: This was the code used to set wallmount rotations with ExecuteInEditor, this can be removed once this is merged if there
-//  are no mapping conflicts
-//	#if UNITY_EDITOR
-//	private void Update()
-//	{
-//		//fix the wallmounts
-//		var directional = GetComponent<Directional>();
-//		if (directional == null)
-//		{
-//			directional = gameObject.AddComponent<Directional>();
-//		}
-//		Vector3 facing = -transform.up;
-//		var initialOrientation = Orientation.From(facing);
-//		directional.InitialDirection = initialOrientation.AsEnum();
-//		//directional.InitialDirection = directional.InitialOrientation.Rotate(RotationOffset.Backwards).AsEnum();
-//
-//	}
-//	#endif
 }

@@ -35,7 +35,9 @@ public class Directional : NetworkBehaviour
 
 	//tracks the current offset due to matrix rotations - entirely client side so that
 	//rotations are displayed at the correct moment for the client (at the end of matrix rotation) and
-	//don't occur too late / early due to lag from server telling us the new direction
+	//don't occur too late / early due to lag from server telling us the new direction.
+	//Any time our direction is set to a specific value, this is reset to RotationOffset.Same to maintain
+	//sync with the server.
 	private RotationOffset clientMatrixRotationOffset = RotationOffset.Same;
 
 	/// <summary>
@@ -56,10 +58,37 @@ public class Directional : NetworkBehaviour
 
 	/// <summary>
 	/// Turn this on when doing client prediction - this Directional will completely ignore server
-	/// direction updates and only perform direction changes when they are made locally.
+	/// direction updates and only perform direction changes when they are made locally. When this
+	/// is turned back off, direction will be synced with server.
 	/// </summary>
-	[NonSerialized]
-	public bool IgnoreServerUpdates = false;
+	public bool IgnoreServerUpdates
+	{
+		get => ignoreServerUpdates;
+		set
+		{
+			if (!value)
+			{
+				SyncDirection();
+			}
+			ignoreServerUpdates = value;
+		}
+	}
+
+	/// <summary>
+	/// When true, direction changes are no longer allowed, player will be stuck in their current direction
+	/// </summary>
+	public bool LockDirection
+	{
+		get => lockDirection;
+		set
+		{
+			lockDirection = value;
+			SyncDirection();
+		}
+	}
+	private bool lockDirection;
+
+	private bool ignoreServerUpdates = false;
 
 	/// <summary>
 	/// Invoked when this object's sprites should be updated to indicate it is facing the
@@ -113,6 +142,20 @@ public class Directional : NetworkBehaviour
 		}
 	}
 
+	void OnDrawGizmos ()
+	{
+		Gizmos.color = Color.green;
+
+		if (Application.isEditor && !Application.isPlaying)
+		{
+			DebugGizmoUtils.DrawArrow(transform.position, InitialOrientation.Vector);
+		}
+		else
+		{
+			DebugGizmoUtils.DrawArrow(transform.position, CurrentDirection.Vector);
+		}
+	}
+
 	public override void OnStartServer()
     {
 	    ServerDirectionChangeHook(InitialOrientation);
@@ -155,7 +198,7 @@ public class Directional : NetworkBehaviour
     //invoked when matrix rotation is ending
     private void OnMatrixRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
     {
-	    if (ChangeDirectionWithMatrix)
+	    if (ChangeDirectionWithMatrix && !LockDirection)
 	    {
 		    //entirely client side - update rotation value stored on this client and
 		    //display the new resulting rotation. Don't update any of our Orientation variables.
@@ -169,19 +212,27 @@ public class Directional : NetworkBehaviour
     /// </summary>
     private void SyncDirection()
     {
+	    //reset rotation offset since we are getting explicit absolute direction from server
+	    clientMatrixRotationOffset = RotationOffset.Same;
 	    clientDirection = serverDirection;
-	    OnDirectionChange.Invoke(clientDirection.Rotate(clientMatrixRotationOffset));
+	    OnDirectionChange.Invoke(clientDirection);
     }
 
     /// <summary>
     /// Cause the object to face the specified direction. On server, syncs the direction to all clients.
     /// On client, if this object IsLocalPlayer, requests the direction change from the server and
     /// locally predicts it. On a client object that is not the local player, this locally predicts the change (when
-    /// the next value is received from server it will switch to that)
+    /// the next value is received from server it will switch to that).
+    ///
+    /// No effect if LockDirection = true;
     /// </summary>
     /// <param name="newDir"></param>
     public void FaceDirection(Orientation newDir)
     {
+	    if (LockDirection) return;
+
+	    //reset rotation offset since we are being told to face an absolute direction
+	    clientMatrixRotationOffset = RotationOffset.Same;
 	    Logger.LogTraceFormat("{0} FaceDirection newDir {1} IsLocalPlayer {2} ignoreServerUpdates {3} clientDir {4} serverDir {5} ", Category.Movement,
 		    gameObject.name, newDir, IsLocalPlayer, IgnoreServerUpdates, clientDirection, serverDirection);
 	    if (isServer)
@@ -193,18 +244,27 @@ public class Directional : NetworkBehaviour
 	    {
 		    CmdChangeDirection(newDir);
 	    }
-	    OnDirectionChange.Invoke(clientDirection.Rotate(clientMatrixRotationOffset));
+	    OnDirectionChange.Invoke(clientDirection);
     }
 
     /// <summary>
-    /// Force the client to face the specified direction, even if IgnoreServerUpdates = true
+    /// Force the clients object to face the current server direction, even if IgnoreServerUpdates = true
     /// </summary>
-    /// <param name="newDir"></param>
-    [TargetRpc]
-    public void TargetForceDirection(NetworkConnection target, Orientation newDir)
+    public void TargetForceSyncDirection(NetworkConnection target)
     {
-	    FaceDirection(newDir);
+	    //note: doing it this way (internal TargetRpc passing serverDirection)
+	    //so we are guaranteed that the client has the correct
+	    //server direction when we force them to sync to it.
+	    TargetForceSyncDirection(target, serverDirection);
     }
+
+    [TargetRpc]
+    private void TargetForceSyncDirection(NetworkConnection target, Orientation direction)
+    {
+	    ServerDirectionChangeHook(direction);
+	    SyncDirection();
+    }
+
 
     //client requests the server to change serverDirection
     [Command]
@@ -219,7 +279,9 @@ public class Directional : NetworkBehaviour
 	    serverDirection = dir;
 	    if (!IgnoreServerUpdates)
 	    {
-		    OnDirectionChange.Invoke(serverDirection.Rotate(clientMatrixRotationOffset));
+		    //reset rotation offset since we are being told to face an absolute direction
+		    clientMatrixRotationOffset = RotationOffset.Same;
+		    OnDirectionChange.Invoke(serverDirection);
 	    }
     }
 }

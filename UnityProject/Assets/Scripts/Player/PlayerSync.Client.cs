@@ -296,7 +296,6 @@ public partial class PlayerSync
 			if (LastDirection != Vector2.zero)
 			{
 				OnClientStartMove().Invoke(oldPos.RoundToInt(), newPos.RoundToInt());
-
 				playerDirectional.FaceDirection(Orientation.From(LastDirection));
 			}
 

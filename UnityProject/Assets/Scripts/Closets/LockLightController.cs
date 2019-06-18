@@ -6,7 +6,7 @@ public class LockLightController : MonoBehaviour
 	public SpriteRenderer spriteRenderer;
 	public Sprite spriteUnlocked;
 
-	private void Start()
+	private void Awake()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		spriteLocked = spriteRenderer.sprite;

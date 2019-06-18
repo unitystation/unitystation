@@ -80,8 +80,10 @@ public class RegisterPlayer : RegisterTile
 			//Change sprite layer
 			foreach (SpriteRenderer spriteRenderer in spriteRenderers)
 			{
-				spriteRenderer.sortingLayerName = "Blood";
+				spriteRenderer.sortingLayerName = "Bodies";
 			}
+			//lock current direction
+			playerDirectional.LockDirection = true;
 		}
 	}
 
@@ -100,6 +102,8 @@ public class RegisterPlayer : RegisterTile
 			{
 				spriteRenderer.sortingLayerName = "Players";
 			}
+			playerDirectional.LockDirection = false;
+
 		}
 	}
 	/// <summary>

@@ -248,6 +248,11 @@ public class PlayerMove : NetworkBehaviour
 
 		OnRestrainedChangedHook(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
+		//inform the puller
+		if (PlayerScript.pushPull.PulledBy != null)
+		{
+			PlayerScript.pushPull.PulledBy.CmdStopPulling();
+		}
 		PlayerScript.pushPull.CmdStopFollowing();
 		PlayerScript.pushPull.CmdStopPulling();
 		PlayerScript.pushPull.isNotPushable = true;
@@ -262,17 +267,19 @@ public class PlayerMove : NetworkBehaviour
 		//sync position to ensure they buckle to the correct spot
 		playerScript.PlayerSync.SetPosition(toObject.TileWorldPosition().To3Int());
 
-		//force sync direction if toObject has a direction
+		//set direction if toObject has a direction
 		var directionalObject = toObject.GetComponent<Directional>();
 		if (directionalObject != null)
 		{
-			playerDirectional.TargetForceDirection(PlayerScript.connectionToClient, directionalObject.CurrentDirection);
+			playerDirectional.FaceDirection(directionalObject.CurrentDirection);
 		}
 		else
 		{
-			//force sync direction to current
-			playerDirectional.TargetForceDirection(PlayerScript.connectionToClient, playerDirectional.CurrentDirection);
+			playerDirectional.FaceDirection(playerDirectional.CurrentDirection);
 		}
+
+		//force sync direction to current direction
+		playerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
 
 	}
 
