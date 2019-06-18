@@ -16,14 +16,13 @@ public enum ObjectType
 /// can have multiple gameobjects with RegisterTile behavior. This lets each gameobject on the tile
 /// influence how the tile works (such as making it impassible)
 ///
-/// Also tracks the Matrix the object is in. Any object that needs to subscribe to rotation events should
-/// do so via RegisterTile.OnRotateEnd / OnRotateStart rather than manually tracking / subscribing to the current matrix itself,
-/// as RegisterTile takes care of tracking the current matrix.
+/// Also tracks the Matrix the object is in.
 /// </summary>
-[RequireComponent(typeof(SpriteMatrixRotation))]
 [ExecuteInEditMode]
 public abstract class RegisterTile : NetworkBehaviour
 {
+	private bool hasInit = false;
+
 	private ObjectLayer layer;
 
 	public ObjectType ObjectType;
@@ -154,6 +153,12 @@ public abstract class RegisterTile : NetworkBehaviour
 			UpdatePositionServer();
 		}
 		OnParentChangeComplete();
+
+		if (!hasInit)
+		{
+			hasInit = true;
+		}
+
 	}
 	private void Awake()
 	{
@@ -161,6 +166,7 @@ public abstract class RegisterTile : NetworkBehaviour
 		{
 			customTransform = GetComponent<PushPull>();
 		}
+
 	}
 
 	public override void OnStartClient()

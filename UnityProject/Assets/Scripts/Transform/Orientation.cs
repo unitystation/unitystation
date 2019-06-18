@@ -42,6 +42,27 @@ public struct Orientation
 
 	}
 
+
+	public OrientationEnum AsEnum()
+	{
+		if (this == Up)
+		{
+			return OrientationEnum.Up;
+		}
+		else if (this == Right)
+		{
+			return OrientationEnum.Right;
+		}
+		else if (this == Left)
+		{
+			return OrientationEnum.Left;
+		}
+		else
+		{
+			return OrientationEnum.Down;
+		}
+	}
+
 	/// <summary>
 	/// Index of this rotation in the clockwiseOrientation array
 	/// </summary>

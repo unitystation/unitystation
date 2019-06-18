@@ -2,7 +2,6 @@
 
 
 [ExecuteInEditMode]
-[RequireComponent(typeof(SpriteMatrixRotation))]
 [RequireComponent(typeof(ClosetControl))]
 public class RegisterCloset : RegisterObject
 {

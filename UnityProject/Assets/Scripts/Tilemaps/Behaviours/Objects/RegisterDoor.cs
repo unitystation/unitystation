@@ -2,7 +2,6 @@
 
 
 	[ExecuteInEditMode]
-	[RequireComponent(typeof(SpriteMatrixRotation))]
 	public class RegisterDoor : RegisterTile
 	{
 		private SubsystemManager subsystemManager;
