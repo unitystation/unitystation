@@ -91,10 +91,10 @@ public class WallmountBehavior : MonoBehaviour
 //		if (directional == null)
 //		{
 //			directional = gameObject.AddComponent<Directional>();
-//			Vector3 facing = -transform.up;
-//			var initialOrientation = Orientation.From(facing);
-//			directional.InitialDirection = initialOrientation.AsEnum();
 //		}
+//		Vector3 facing = -transform.up;
+//		var initialOrientation = Orientation.From(facing);
+//		directional.InitialDirection = initialOrientation.AsEnum();
 //		//directional.InitialDirection = directional.InitialOrientation.Rotate(RotationOffset.Backwards).AsEnum();
 //
 //	}
