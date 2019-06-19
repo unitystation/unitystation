@@ -77,12 +77,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			SendSyncMessage(gameObject);
-
-			//if this is the ghost, respawn after 10 seconds
-			if (playerScript.IsGhost)
-			{
-				RespawnPlayer(RESPAWN_TIME_SECONDS);
-			}
 		}
 
 		base.OnStartServer();
@@ -712,33 +706,42 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//Respawn action for Deathmatch v 0.1.3
 
-	[Server]
-	public void RespawnPlayer(int timeout = 0)
+	[Command]
+	public void CmdRespawnPlayer()
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			StartCoroutine(InitiateRespawn(timeout));
+			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.characterSettings, gameObject);
+			RpcAfterRespawn();
 		}
 	}
 
 	/// <summary>
 	/// Spawn the ghost for this player and tell the client to switch input / camera to it
 	/// </summary>
-	[Server]
-	public void SpawnPlayerGhost()
+	[Command]
+	public void CmdSpawnPlayerGhost()
 	{
-		RpcBeforeGhost();
-		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
-
+		if(GetComponent<LivingHealthBehaviour>().IsDead)
+		{
+			RpcBeforeGhost();
+			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
+			playerScript.mind.Ghosting(newGhost);
+		}
 	}
 
 
-	[Server]
-	private IEnumerator InitiateRespawn(int timeout)
+	/// <summary>
+	/// Asks the server to let the client rejoin into a logged off character.
+	/// </summary>
+	/// <param name="loggedOffPlayer">The character to be rejoined into.</param>
+	[Command]
+	public void CmdEnterBody()
 	{
-		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
-		yield return WaitFor.Seconds(timeout);
-		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.characterSettings, gameObject);
+		playerScript.mind.ReturnToBody();
+		var body = playerScript.mind.body.gameObject;
+		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, body, gameObject, EVENT.PlayerSpawned, null);
+		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(body);
 		RpcAfterRespawn();
 	}
 
@@ -748,7 +751,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// </summary>
 	/// <param name="bodyObject">object which was turned into a ghost</param>
 	[ClientRpc]
-	private void RpcBeforeGhost()
+	public void RpcBeforeGhost()
 	{
 		//only need to clean up client side if we are controlling the body who is becoming a ghost
 		//no more closet handler, they are dead
@@ -759,11 +762,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		//no more input can be sent to the body.
-		MouseInputController mouseInput = GetComponent<MouseInputController>();
-		if (mouseInput != null)
-		{
-			Destroy(mouseInput);
-		}
+		GetComponent<MouseInputController>().enabled = false;
 	}
 
 	/// <summary>

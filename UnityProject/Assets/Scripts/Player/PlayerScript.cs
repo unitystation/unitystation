@@ -8,6 +8,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	public const float interactionDistance = 1.5f;
 
 	[SyncVar] public JobType JobType = JobType.NULL;
+	public Mind mind;
 	[SyncVar(hook = "OnCharacterSettingsChange")] public CharacterSettings characterSettings;
 
 	private float pingUpdate;

@@ -23,12 +23,16 @@ public static class SpawnHandler
 	{
 		GameObject player = CreatePlayer(jobType);
 		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
+		var playerScript = player.GetComponent<PlayerScript>();
+		playerScript.mind = new Mind();
+		playerScript.mind.body = playerScript;
 	}
 
-	public static void SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)
+	public static GameObject SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)
 	{
 		GameObject ghost = CreateGhost(oldBody);
 		TransferPlayer(conn, playerControllerId, ghost, oldBody, EVENT.GhostSpawned, characterSettings);
+		return ghost;
 	}
 
 	/// <summary>
