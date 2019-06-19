@@ -93,9 +93,15 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// For client code
 	public PlayerState ClientState => playerState;
 
+	/// <summary>
+	/// Returns whether player is currently moving. Returns correct value depending on if this
+	/// is being called from client or server.
+	/// </summary>
+	public bool IsMoving => isServer ? IsMovingServer : IsMovingClient;
+
 	public PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private UserControlledSprites playerSprites;
+	private Directional playerDirectional;
 
 	private Matrix Matrix => registerTile.Matrix;
 
@@ -375,9 +381,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			serverPendingActions = new Queue<PlayerAction>();
 		}
 		playerScript = GetComponent<PlayerScript>();
-		playerSprites = GetComponent<UserControlledSprites>();
 		registerTile = GetComponent<RegisterTile>();
 		pushPull = GetComponent<PushPull>();
+		playerDirectional = GetComponent<Directional>();
 	}
 
 	/// <summary>

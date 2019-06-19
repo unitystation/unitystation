@@ -48,7 +48,7 @@ public class MouseInputController : MonoBehaviour
 	private LayerMask layerMask;
 	private ObjectBehaviour objectBehaviour;
 	private PlayerMove playerMove;
-	private UserControlledSprites playerSprites;
+	private Directional playerDirectional;
 	/// reference to the global lighting system, used to check occlusion
 	private LightingSystem lightingSystem;
 
@@ -99,7 +99,7 @@ public class MouseInputController : MonoBehaviour
 	private void Start()
 	{
 		//for changing direction on click
-		playerSprites = gameObject.GetComponent<UserControlledSprites>();
+		playerDirectional = gameObject.GetComponent<Directional>();
 		playerMove = GetComponent<PlayerMove>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 
@@ -540,7 +540,7 @@ public class MouseInputController : MonoBehaviour
 
 		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsRestrained)
 		{
-			playerSprites.ChangeAndSyncPlayerDirection(Orientation.From(dir));
+			playerDirectional.FaceDirection(Orientation.From(dir));
 		}
 	}
 }

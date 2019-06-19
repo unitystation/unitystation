@@ -34,16 +34,16 @@ public class ProgressBar : NetworkBehaviour
 		FinishProgressAction finishProgressAction, GameObject _player,
 		string _additionalSfx = "", float _additionalSfxPitch = 1f)
 	{
-		var _playerSprites = _player.GetComponent<PlayerSprites>();
+		var _playerDirectional = _player.GetComponent<Directional>();
 		playerProgress.Add(new PlayerProgressEntry
 		{
 			player = _player,
 				timeToFinish = timeForCompletion,
 				completedAction = finishProgressAction,
 				position = pos,
-				playerSprites = _playerSprites,
+				playerDirectional = _playerDirectional,
 				playerPositionCache = _player.transform.position,
-				facingDirectionCache = _playerSprites.CurrentDirection,
+				facingDirectionCache = _playerDirectional.CurrentDirection,
 				additionalSfx = _additionalSfx,
 				additionalSfxPitch = _additionalSfxPitch
 		});
@@ -127,7 +127,7 @@ public class PlayerProgressEntry
 	public float progress = 0f;
 	public float timeToFinish;
 	public GameObject player;
-	public PlayerSprites playerSprites;
+	public Directional playerDirectional;
 	public Vector3 playerPositionCache;
 	public Orientation facingDirectionCache;
 	public FinishProgressAction completedAction;
@@ -142,7 +142,7 @@ public class PlayerProgressEntry
 	//has the player moved away while the progress bar is in progress?
 	public bool HasMovedAway()
 	{
-		if (playerSprites.CurrentDirection != facingDirectionCache ||
+		if (playerDirectional.CurrentDirection != facingDirectionCache ||
 			player.transform.position != playerPositionCache)
 		{
 			return true;

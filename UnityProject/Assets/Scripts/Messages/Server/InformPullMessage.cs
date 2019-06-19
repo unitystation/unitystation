@@ -34,6 +34,7 @@ public class InformPullMessage : ServerMessage
 						continue;
 					}
 					trackedObject.Pushable.OnClientStartMove().RemoveAllListeners();
+					trackedObject.Pushable.OnClientStopFollowing();
 					trackedObject.PulledObjectClient = null;
 				}
 

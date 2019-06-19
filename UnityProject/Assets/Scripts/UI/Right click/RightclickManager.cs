@@ -76,7 +76,7 @@ public class RightclickManager : MonoBehaviour
 			//Generates menus
 			var options = Generate(objects);
 			//Logger.Log ("yo", Category.UI);
-			if (options.Count > 0)
+			if (options != null && options.Count > 0)
 			{
 				RadialMenuSpawner.ins.SpawnRadialMenu(options);
 			}
@@ -114,7 +114,7 @@ public class RightclickManager : MonoBehaviour
 	{
 		LayerTile tile = UITileList.GetTileAtPosition(obj.WorldPosClient());
 
-		if (tile.LayerType != LayerType.Base && obj.layer < 1)
+		if (tile != null && tile.LayerType != LayerType.Base && obj.layer < 1)
 		{
 			return true;
 		}
@@ -123,6 +123,10 @@ public class RightclickManager : MonoBehaviour
 
 	private List<RightClickMenuItem> Generate(List<GameObject> objects)
 	{
+		if (objects == null || objects.Count == 0)
+		{
+			return null;
+		}
 		var result = new List<RightClickMenuItem>();
 		foreach (var curObject in objects)
 		{
