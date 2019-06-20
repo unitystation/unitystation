@@ -84,10 +84,6 @@ public class PlayerHealth : LivingHealthBehaviour
 			}
 
 			PlayerDeathMessage.Send(gameObject);
-
-
-			//spawn ghost
-			pna.SpawnPlayerGhost();
 		}
 	}
 

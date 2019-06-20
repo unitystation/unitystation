@@ -9,6 +9,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	public const float interactionDistance = 1.5f;
 
 	[SyncVar] public JobType JobType = JobType.NULL;
+	public Mind mind;
 
 	//note: needs to be init'd to an object otherwise network serialization throws NRE
 	[SyncVar(hook = "CharacterSettingsHook")]

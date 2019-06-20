@@ -96,7 +96,7 @@ public class Networking : Editor
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.RespawnPlayer();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer();
 		}
 	}
 }

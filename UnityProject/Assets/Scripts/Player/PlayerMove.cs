@@ -128,9 +128,19 @@ public class PlayerMove : NetworkBehaviour
 			// {
 			// 	actionKeys.Add((int)moveList[i]);
 			// }
-			if (KeyboardInputManager.CheckMoveAction(moveList[i]) && allowInput && !IsRestrained)
+			if (KeyboardInputManager.CheckMoveAction(moveList[i]))
 			{
-				actionKeys.Add((int) moveList[i]);
+				if(allowInput && !IsRestrained){
+					actionKeys.Add((int)moveList[i]);
+				}
+				else
+				{
+					var LHB = GetComponent<LivingHealthBehaviour>();
+					if(LHB.IsDead)
+					{
+						pna.CmdSpawnPlayerGhost();
+					}
+				}
 			}
 		}
 
