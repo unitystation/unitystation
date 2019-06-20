@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public class PlayerScript : ManagedNetworkBehaviour
@@ -9,7 +10,21 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	[SyncVar] public JobType JobType = JobType.NULL;
 	public Mind mind;
-	[SyncVar(hook = "OnCharacterSettingsChange")] public CharacterSettings characterSettings;
+
+	//note: needs to be init'd to an object otherwise network serialization throws NRE
+	[SyncVar(hook = "CharacterSettingsHook")]
+	private CharacterSettings characterSettings = new CharacterSettings();
+
+	/// <summary>
+	/// Current character settings for this player. Value is synced from server.
+	/// </summary>
+	public CharacterSettings CharacterSettings => characterSettings;
+
+	/// <summary>
+	/// Invoked when character settings are recieved from the server. Other components can listen to this
+	/// to update themselves based on the new settings.
+	/// </summary>
+	public CharacterSettingsEvent OnCharacterSettingsChange = new CharacterSettingsEvent();
 
 	private float pingUpdate;
 
@@ -21,7 +36,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
 
-	public Orientation CurrentDirection => playerSprites.CurrentDirection;
+	public Orientation CurrentDirection => playerDirectional.CurrentDirection;
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>
@@ -34,7 +49,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	/// </summary>
 	public ObjectBehaviour pushPull { get; set; }
 
-	public UserControlledSprites playerSprites { get; set; }
+	public Directional playerDirectional { get; set; }
 
 	private PlayerSync _playerSync; //Example of good on-demand reference init
 	public PlayerSync PlayerSync => _playerSync ? _playerSync : (_playerSync = GetComponent<PlayerSync>());
@@ -61,16 +76,20 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public override void OnStartClient()
 	{
+		//server settings will have been sent from the server now, so call the hook
+		//since its not called automatically on join
+		CharacterSettingsHook(characterSettings);
 		//Local player is set a frame or two after OnStartClient
 		StartCoroutine(WaitForLoad());
 		Init();
 		base.OnStartClient();
 	}
 
-	private void OnCharacterSettingsChange(CharacterSettings value){
-		characterSettings = value;
-		var userControlledSprites = GetComponent<UserControlledSprites>();
-		userControlledSprites.UpdateCharacterSprites();
+	//syncvar hook when server sends us settings
+	private void CharacterSettingsHook(CharacterSettings newSettings)
+	{
+		characterSettings = newSettings;
+		OnCharacterSettingsChange.Invoke(newSettings);
 	}
 
 	private IEnumerator WaitForLoad()
@@ -109,7 +128,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		mouseInputController = GetComponent<MouseInputController>();
 		hitIcon = GetComponentInChildren<HitIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
-		playerSprites = GetComponent<UserControlledSprites>();
+		playerDirectional = GetComponent<Directional>();
 	}
 
 	public void Init()
@@ -375,4 +394,15 @@ public class PlayerScript : ManagedNetworkBehaviour
 			Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
 		}
 	}
+
+	[Server]
+	public void ServerSetCharacterSettings(CharacterSettings newSettings)
+	{
+		CharacterSettingsHook(newSettings);
+	}
 }
+
+/// <summary>
+/// Fired when character settings are sent from the server.
+/// </summary>
+public class CharacterSettingsEvent : UnityEvent<CharacterSettings>{ }

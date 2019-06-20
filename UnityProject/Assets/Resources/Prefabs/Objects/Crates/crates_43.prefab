@@ -253,6 +253,7 @@ GameObject:
   - component: {fileID: 114997183691469382}
   - component: {fileID: 1469083798200047767}
   - component: {fileID: 114204757990214010}
+  - component: {fileID: 114040774181031300}
   m_Layer: 11
   m_Name: crates_43
   m_TagString: Untagged
@@ -359,12 +360,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorOpened: {fileID: 21300088, guid: a3e59ff9ae7064d5984b0a1769fca29e, type: 3}
   DefaultContents: []
   IsClosed: 0
   IsLocked: 0
-  items: {fileID: 1300543639362030}
   lockLight: {fileID: 0}
+  playerLimit: 3
+  statusSync: 0
+  doorOpened: {fileID: 21300088, guid: a3e59ff9ae7064d5984b0a1769fca29e, type: 3}
   spriteRenderer: {fileID: 212794693044921064}
 --- !u!114 &1469083798200047767
 MonoBehaviour:
@@ -396,18 +398,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
   ObjectType: 1
-  rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 0
-  closetType: 1
+  closetType: 0
+--- !u!114 &114040774181031300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969509301568012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1

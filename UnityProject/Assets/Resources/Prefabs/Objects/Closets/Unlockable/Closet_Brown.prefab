@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 114226188280779116}
   - component: {fileID: 8773753914500097141}
   - component: {fileID: 114137355759862740}
+  - component: {fileID: 114322818485990734}
   m_Layer: 11
   m_Name: Closet_Brown
   m_TagString: Untagged
@@ -228,12 +229,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
   DefaultContents: []
   IsClosed: 0
   IsLocked: 0
-  items: {fileID: 1522744671779814}
   lockLight: {fileID: 0}
+  playerLimit: 3
+  statusSync: 0
+  doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
   spriteRenderer: {fileID: 212585266423504292}
 --- !u!114 &8773753914500097141
 MonoBehaviour:
@@ -252,6 +254,7 @@ MonoBehaviour:
   visibleState: 1
   isNotPushable: 0
   closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!114 &114137355759862740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,20 +267,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
   ObjectType: 1
-  rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 0
+  closetType: 0
+--- !u!114 &114322818485990734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326196951998806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
 --- !u!1 &1522744671779814
 GameObject:
   m_ObjectHideFlags: 0

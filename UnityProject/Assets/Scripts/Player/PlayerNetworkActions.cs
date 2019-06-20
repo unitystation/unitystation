@@ -39,7 +39,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private Equipment equipment;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private UserControlledSprites playerSprites;
 	private ObjectBehaviour objectBehaviour;
 
 	public Dictionary<string, InventorySlot> Inventory { get; } = new Dictionary<string, InventorySlot>();
@@ -53,7 +52,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
-		playerSprites = GetComponent<UserControlledSprites>();
 		playerScript = GetComponent<PlayerScript>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
@@ -711,7 +709,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.characterSettings, gameObject);
+			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.CharacterSettings, gameObject);
 			RpcAfterRespawn();
 		}
 	}
@@ -725,7 +723,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if(GetComponent<LivingHealthBehaviour>().IsDead)
 		{
 			RpcBeforeGhost();
-			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
+			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.CharacterSettings);
 			playerScript.mind.Ghosting(newGhost);
 		}
 	}

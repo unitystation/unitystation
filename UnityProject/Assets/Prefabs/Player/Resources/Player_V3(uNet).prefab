@@ -677,6 +677,7 @@ GameObject:
   - component: {fileID: 6017414943583453005}
   - component: {fileID: 6880295280032021907}
   - component: {fileID: 4282259093670066203}
+  - component: {fileID: 4933264570295522567}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -800,29 +801,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   JobType: 0
-  characterSettings:
-    username: 
-    Name: Cuban Pete
-    Gender: 0
-    Age: 22
-    hairStyleOffset: -1
-    hairStyleName: Bald
-    hairCollectionIndex: 4
-    hairColor: black
-    eyeColor: black
-    facialHairOffset: -1
-    facialHairName: Shaved
-    facialHairCollectionIndex: 4
-    facialHairColor: black
-    skinTone: '#ffe0d1'
-    underwearOffset: 20
-    underwearName: Mankini
-    underwearCollectionIndex: 1
-    socksOffset: 376
-    socksName: Knee-High (Freedom)
-    socksCollectionIndex: 3
-    headSpriteIndex: 20
-    torsoSpriteIndex: 28
   playerName: ' '
 --- !u!114 &114285118255153820
 MonoBehaviour:
@@ -860,6 +838,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1d9cf66ac5f9524193eaaacb77505a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxClickDuration: 1
+  MouseDragDeadzone: 0.2
+  AimApplyInterval: 0.01
 --- !u!114 &114407246905810916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -932,7 +913,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a28f9f9a41257418b09671ebb5c96e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBumping: 0
   playerMove: {fileID: 114792299177679754}
 --- !u!114 &114173340621344012
 MonoBehaviour:
@@ -994,21 +974,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c7b6bc021c23c54d8e5410a430ca7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 2
-  rotateWithMatrix: 0
 --- !u!114 &114803877374308862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,7 +998,6 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   visibleState: 1
   isNotPushable: 0
-  pullOption: {fileID: 0}
   closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
 --- !u!114 &114449635359748350
@@ -1039,9 +1009,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1133514949248654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7694dd331aa6a4114bb8f0f996d2e71a, type: 3}
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitialDirection: 3
+  ChangeDirectionWithMatrix: 0
 --- !u!50 &50851566022184656
 Rigidbody2D:
   serializedVersion: 4
@@ -1136,6 +1108,21 @@ MonoBehaviour:
   nameOverride: 
   backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   iconOverride: {fileID: 21300750, guid: da41a78685fb46e1b8e7a41e8f9fe42e, type: 3}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &4933264570295522567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 0
+  ExtraRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -3899,6 +3886,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758,
+        type: 3}
     - target: {fileID: 33937463476659220, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: m_Mesh
@@ -3909,12 +3902,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
-        type: 3}
-      propertyPath: Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
 --- !u!4 &4304794156734570639 stripped

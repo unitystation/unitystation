@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 114672592214754418}
   - component: {fileID: 114415491443398522}
   - component: {fileID: 114922646120329610}
+  - component: {fileID: 114305057455163378}
   m_Layer: 10
   m_Name: atmos_5
   m_TagString: Untagged
@@ -218,7 +219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectBehaviour: {fileID: 0}
   container: {fileID: 0}
+  connector: {fileID: 0}
+  isConnected: 0
   connectorRenderer: {fileID: 6378763764581388997}
   connectorSprite: {fileID: 21300022, guid: 73b44edfc9994ce4a7fb1bd22c556761, type: 3}
 --- !u!114 &114930344040478920
@@ -260,16 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   ObjectType: 1
-  rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114672592214754418
@@ -323,6 +318,19 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+--- !u!114 &114305057455163378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1498044554059982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
 --- !u!1 &836250867301468388
 GameObject:
   m_ObjectHideFlags: 0

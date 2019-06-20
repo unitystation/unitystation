@@ -63,7 +63,7 @@ public static class MouseUtils
 	/// <returns>the ordered game objects that were under the mouse, top first</returns>
 	public static IEnumerable<GameObject> GetOrderedObjectsUnderMouse(LayerMask layerMask, Func<GameObject,bool> gameObjectFilter = null)
 	{
-		return GetOrderedObjectsAtPoint(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), layerMask);
+		return GetOrderedObjectsAtPoint(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), layerMask, gameObjectFilter);
 	}
 
 	/// <summary>

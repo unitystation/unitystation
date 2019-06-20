@@ -68,6 +68,7 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 		Pushable?.OnUpdateRecieved().RemoveAllListeners();
 		Pushable?.OnClientStartMove().RemoveAllListeners();
 		Pushable?.OnClientTileReached().RemoveAllListeners();
+		Pushable?.OnClientStopFollowing();
 	}
 
 	public bool IsSolidServer => !registerTile.IsPassable(true);
@@ -350,11 +351,14 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 		set {
 			if ( IsBeingPulledClient /*&& !isServer*/ ) { //toggle prediction here <v
 				pulledByClient.Pushable?.OnClientStartMove().RemoveListener( predictiveFollowAction );
+				Pushable?.OnClientStopFollowing();
+
 			}
 
 			if ( value != null /*&& !isServer*/ )
 			{
 				value.Pushable?.OnClientStartMove().AddListener( predictiveFollowAction );
+				Pushable?.OnClientStartFollowing();
 			}
 
 			pulledByClient = value;

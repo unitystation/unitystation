@@ -11,11 +11,11 @@ using UnityEngine.Networking;
 public class BuckleInteract : Interactable<MouseDrop, HandApply>
 {
 	//may be null
-	private DirectionalSprite directionalSprite;
+	private OccupiableDirectionalSprite occupiableDirectionalSprite;
 
 	private void Start()
 	{
-		directionalSprite = GetComponent<DirectionalSprite>();
+		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
 		base.Start();
 	}
 
@@ -30,6 +30,10 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 		{
 			return false;
 		}
+
+		//can't buckle during movement
+		var playerSync = interaction.DroppedObject.GetComponent<PlayerSync>();
+		if (playerSync.IsMoving) return false;
 
 		//if the player to buckle is currently downed, we cannot buckle if there is another player on the tile
 		//(because buckling a player causes the tile to become unpassable, thus a player could end up
@@ -50,19 +54,12 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 	{
 		SoundManager.PlayNetworkedAtPos("Click01", drop.TargetObject.WorldPosServer());
 
-		UserControlledSprites userControlledSprites = drop.UsedObject.GetComponent<UserControlledSprites>();
-
-		if (userControlledSprites && directionalSprite)
-		{
-			userControlledSprites.ChangeAndSyncPlayerDirection(directionalSprite.orientation);
-		}
-
 		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
-		playerMove.Restrain(OnUnbuckle);
+		playerMove.Restrain(gameObject, OnUnbuckle);
 
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
-		directionalSprite?.RenderBuckledOverPlayerWhenUp(true);
+		occupiableDirectionalSprite?.RenderOccupied(true);
 	}
 
 	protected override bool WillInteractT2(HandApply interaction, NetworkSide side)
@@ -90,6 +87,6 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 	//delegate invoked from playerMove when they are unrestrained from this
 	private void OnUnbuckle()
 	{
-		directionalSprite?.RenderBuckledOverPlayerWhenUp(false);
+		occupiableDirectionalSprite?.RenderOccupied(false);
 	}
 }

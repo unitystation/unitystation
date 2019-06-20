@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 4917660536286328}
   - component: {fileID: 61106100713950454}
   - component: {fileID: 114057055290497368}
+  - component: {fileID: 1491614389099873586}
   - component: {fileID: 114197525563370534}
   - component: {fileID: 114356547472611804}
   - component: {fileID: 114510560690312678}
@@ -174,6 +175,18 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &1491614389099873586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745947215034166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114197525563370534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +202,7 @@ MonoBehaviour:
   mLightRendererObject: {fileID: 0}
   Resistance: 1200
   RelatedAPC: {fileID: 0}
-  RelatedLightSwitchTrigger: {fileID: 0}
+  relatedLightSwitch: {fileID: 0}
   customColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114356547472611804
 MonoBehaviour:
@@ -215,15 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  LogUpdates: 0
   ObjectType: 1
-  rotateWithMatrix: 1
   AtmosPassable: 1
   Passable: 1
