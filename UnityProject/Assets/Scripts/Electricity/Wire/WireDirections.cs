@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 	public static class WireDirections
 	{
 		private static Dictionary<string, int> LogicToIndexMap;
@@ -48,7 +47,6 @@
 				LogicToIndexMap.Add("SouthWest_West", 34);
 				LogicToIndexMap.Add("SouthWest_NorthWest", 35);
 			}
-		//Logger.Log(logic);
 		return LogicToIndexMap[logic];
 		}
 	}

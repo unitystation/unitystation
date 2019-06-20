@@ -33,7 +33,6 @@ public struct PlayerState
 			{
 				return TransformState.HiddenPos;
 			}
-
 			return MatrixManager.LocalToWorld(Position, MatrixManager.Get(MatrixId));
 		}
 		set
@@ -94,11 +93,15 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// For client code
 	public PlayerState ClientState => playerState;
 
-		private LivingHealthBehaviour healthBehaviorScript;
+	/// <summary>
+	/// Returns whether player is currently moving. Returns correct value depending on if this
+	/// is being called from client or server.
+	/// </summary>
+	public bool IsMoving => isServer ? IsMovingServer : IsMovingClient;
 
 	public PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private UserControlledSprites playerSprites;
+	private Directional playerDirectional;
 
 	private Matrix Matrix => registerTile.Matrix;
 
@@ -366,6 +369,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 	private void Start()
 	{
+		playerState.WorldPosition = transform.localPosition;
 		//Init pending actions queue for your local player
 		if (isLocalPlayer)
 		{
@@ -377,10 +381,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			serverPendingActions = new Queue<PlayerAction>();
 		}
 		playerScript = GetComponent<PlayerScript>();
-		playerSprites = GetComponent<UserControlledSprites>();
-		healthBehaviorScript = GetComponent<LivingHealthBehaviour>();
 		registerTile = GetComponent<RegisterTile>();
 		pushPull = GetComponent<PushPull>();
+		playerDirectional = GetComponent<Directional>();
 	}
 
 	/// <summary>
@@ -413,13 +416,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		Synchronize();
 	}
-
-	private void RegisterObjects()
-	{
-		//Register playerpos in matrix
-
-	}
-
 	private void Synchronize()
 	{
 		if (isLocalPlayer && GameData.IsHeadlessServer)

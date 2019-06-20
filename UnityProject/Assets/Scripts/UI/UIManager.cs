@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
 	public DragAndDrop dragAndDrop;
 	public ControlDisplays displayControl;
 	public DisplayManager displayManager;
-	public GameObject bottomBar;
 	public Hands hands;
 	public ControlIntent intentControl;
 	public InventorySlotCache inventorySlotCache;
@@ -329,32 +328,5 @@ public class UIManager : MonoBehaviour
 		bool canTrySendAgain = f >= d || f >= 1.5;
 		Logger.LogTraceFormat("canTrySendAgain = {0} {1}>={2} ", Category.UI, canTrySendAgain, f, d);
 		return canTrySendAgain;
-	}
-
-	public static void SetDeathVisibility(bool vis)
-	{
-		// On death, set UI elements to inactive
-		// On revive, set UI elements back to active
-		foreach (Transform child in Display.hudRight.GetComponentsInChildren<Transform>(true))
-		{
-			if (child.gameObject.name != "PlayerHealth_UI_Hud")
-			{
-				child.gameObject.SetActive(vis);
-			}
-		}
-
-		foreach (Transform child in Display.hudBottom.GetComponentsInChildren<Transform>(true))
-		{
-			if (
-				// If game object is named one of these, ignore hide/showing
-				child.gameObject.name != "Panel_Hud_Bottom" &&
-				child.gameObject.name != "Equip-Hands" &&
-				child.gameObject.name != "Equip" &&
-				child.gameObject.name != "Swap"
-				)
-			{
-				child.gameObject.SetActive(vis);
-			}
-		}
 	}
 }

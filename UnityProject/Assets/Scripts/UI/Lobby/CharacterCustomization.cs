@@ -61,6 +61,12 @@ namespace Lobby
 		private void LoadSettings()
 		{
 			currentCharacter = PlayerManager.CurrentCharacterSettings;
+			//If we are playing locally offline, init character settings if they're null
+			if (currentCharacter == null)
+			{
+				currentCharacter = new CharacterSettings();
+				PlayerManager.CurrentCharacterSettings = currentCharacter;
+			}
 			PopulateAllDropdowns();
 			DoInitChecks();
 		}
@@ -112,7 +118,7 @@ namespace Lobby
 			if (currentCharacter.Gender == Gender.Male)
 			{
 				currentCharacter.Name = StringManager.GetRandomMaleName();
-				currentCharacter.facialHairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];				
+				currentCharacter.facialHairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];
 			}
 			else
 			{
@@ -120,7 +126,7 @@ namespace Lobby
 			}
 
 			// Randomise rest of data
-			currentCharacter.hairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];	
+			currentCharacter.hairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];
 			currentCharacter.skinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
@@ -217,13 +223,13 @@ namespace Lobby
 			}
 
 			// No need to call Refresh() since it gets called when value changes
-		}		
+		}
 
 		//------------------
 		//PLAYER ACCOUNTS:
 		//------------------
 		private void SaveData()
-		{ 
+		{
 			ServerData.UpdateCharacterProfile(currentCharacter, SaveDataSuccess, SaveDataError);
 			PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(currentCharacter));
 			PlayerPrefs.Save();
@@ -238,7 +244,8 @@ namespace Lobby
 
 		public void SaveDataSuccess(string msg)
 		{
-			Debug.Log("TODO: Turn on nav panel top");
+			//TODO: Turn on nav panel top
+			Logger.LogTrace("Not implemented: Save data success notification", Category.UI);
 		}
 
 		//------------------
@@ -254,7 +261,7 @@ namespace Lobby
 			}
 			catch (InvalidOperationException e)
 			{
-				Debug.Log("Invalid character settings. " + e.Message);
+				Logger.LogFormat("Invalid character settings: {0}", Category.UI, e.Message);
 				DisplayErrorText(e.Message);
 				return;
 			}
@@ -345,7 +352,7 @@ namespace Lobby
 			// Repopulate underwear and facial hair dropdown boxes
 			PopulateDropdown(SpriteManager.UnderwearCollection, underwearDropdown, true);
 			PopulateDropdown(SpriteManager.FacialHairCollection, facialHairDropdown, true);
-			
+
 			// Set underwear and facial hair to default setting (nude, and shaved)
 			SetDropdownValue(underwearDropdown, "Nude");
 			SetDropdownValue(facialHairDropdown, "Shaved");
@@ -360,7 +367,7 @@ namespace Lobby
 			headSpriteController.reference = currentCharacter.headSpriteIndex;
 			torsoSpriteController.reference = currentCharacter.torsoSpriteIndex;
 			headSpriteController.UpdateSprite();
-			torsoSpriteController.UpdateSprite();	
+			torsoSpriteController.UpdateSprite();
 		}
 
 		//------------------
@@ -476,7 +483,7 @@ namespace Lobby
 			SpriteAccessory newFacialHair = SpriteManager.FacialHairCollection.Find(item => item.name == facialHairDropdown.options[index].text);
 			if (newFacialHair.name != null)
 			{
-				currentCharacter.LoadFacialHairSetting(newFacialHair);	
+				currentCharacter.LoadFacialHairSetting(newFacialHair);
 			}
 			else
 			{
@@ -556,7 +563,7 @@ namespace Lobby
 			SpriteAccessory newUnderwear = SpriteManager.UnderwearCollection.Find(item => item.name == underwearDropdown.options[index].text);
 			if (newUnderwear.name != null)
 			{
-				currentCharacter.LoadUnderwearSetting(newUnderwear);	
+				currentCharacter.LoadUnderwearSetting(newUnderwear);
 			}
 			else
 			{
@@ -703,7 +710,7 @@ public class CharacterSettings
 		{
 			throw new InvalidOperationException("Name cannot be blank");
 		}
-		
+
 		if (Name.Length > MAX_NAME_LENGTH)
 		{
 			throw new InvalidOperationException("Name cannot exceed " + MAX_NAME_LENGTH + " characters");

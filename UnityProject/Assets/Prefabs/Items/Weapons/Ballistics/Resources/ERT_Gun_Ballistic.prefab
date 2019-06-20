@@ -13,9 +13,11 @@ GameObject:
   - component: {fileID: 114703404969080964}
   - component: {fileID: 114346683018347606}
   - component: {fileID: 114906344895876820}
-  - component: {fileID: 114598204740365856}
   - component: {fileID: 114752816660759734}
   - component: {fileID: 114959013130737060}
+  - component: {fileID: 114027104691969066}
+  - component: {fileID: 2251993831743313043}
+  - component: {fileID: 114538355917789768}
   m_Layer: 10
   m_Name: ERT_Gun_Ballistic
   m_TagString: Untagged
@@ -125,12 +127,11 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 320
   inHandReferenceRight: 104
-  itemDescription: 
   itemName: Emergency Response Gun
+  itemDescription: 
   itemType: 0
   size: 2
   spriteType: 2
-  type: 16
   CanConnectToTank: 0
   hitDamage: 5
   throwDamage: 5
@@ -138,30 +139,6 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &114598204740365856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1167865368234136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12ad712be1fefd043b45761b18e23798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AmmoType: 46x30mmtT
-  SpawnsCaseing: 1
-  SmartGun: 1
-  CurrentRecoilVariance: 0
-  FireCountDown: 0
-  FireingSound: ShootSMG
-  FireRate: 8
-  MaxRecoilVariance: 0.05
-  Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 3}
-  ProjectilesFired: 1
-  ProjectileVelocity: 10
-  WeaponType: 2
 --- !u!114 &114752816660759734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,22 +169,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
   ObjectType: 0
-  rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &114027104691969066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167865368234136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDropServer:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &2251993831743313043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167865368234136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8343d0f678a24c949baac4bba12c2f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoType: 46x30mmtT
+  SpawnsCaseing: 1
+  SmartGun: 1
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FireingSound: ShootSMG
+  FireRate: 8
+  MaxRecoilVariance: 0.05
+  Projectile: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 3}
+  ProjectilesFired: 1
+  ProjectileVelocity: 10
+  WeaponType: 1
+--- !u!114 &114538355917789768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167865368234136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
 --- !u!1 &1205640307324434
 GameObject:
   m_ObjectHideFlags: 0

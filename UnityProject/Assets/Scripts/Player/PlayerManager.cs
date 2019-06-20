@@ -35,22 +35,18 @@ public class PlayerManager : MonoBehaviour
 		}
 	}
 
+#if UNITY_EDITOR	//Opening the station scene instead of going through the lobby
 	void Awake()
 	{
-		if (!PlayerPrefs.HasKey("currentcharacter"))
-		{
-			PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(new CharacterSettings()));
-			PlayerPrefs.Save();
+		if (CurrentCharacterSettings == null){
+			CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(PlayerPrefs.GetString("currentcharacter")));
+			if (CurrentCharacterSettings == null)
+			{
+				CurrentCharacterSettings = new CharacterSettings();
+			}
 		}
-
-		if (string.IsNullOrWhiteSpace(PlayerPrefs.GetString("currentcharacter")))
-		{
-			PlayerPrefs.SetString("currentcharacter", JsonUtility.ToJson(new CharacterSettings()));
-			PlayerPrefs.Save();
-		}
-
-		CurrentCharacterSettings = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(PlayerPrefs.GetString("currentcharacter")));
 	}
+#endif
 
 	private void OnEnable()
 	{

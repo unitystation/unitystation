@@ -31,7 +31,7 @@ public class Sprite2PrefabChild_Gun_MenuItem
 			parent.AddComponent<NetworkIdentity>();
 			parent.AddComponent<NetworkTransform>();
 			parent.AddComponent<ItemAttributes>();
-			parent.AddComponent<Weapon>();
+			parent.AddComponent<Gun>();
 			parent.AddComponent<ObjectBehaviour>();
 			parent.AddComponent<RegisterItem>();
 			GameObject spriteObject = new GameObject();

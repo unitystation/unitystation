@@ -217,17 +217,17 @@ public class MatrixManager : MonoBehaviour
 	/// <param name="targetPos">target world position to check</param>
 	/// <returns>The DoorTrigger of the closed door object specified in the summary, null if no such object
 	/// exists at that location</returns>
-	public static DoorTrigger GetClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
+	public static InteractableDoor GetClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
 	{
 		// Check door on the local tile first
 		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
-		DoorTrigger originDoor = Instance.GetFirst<DoorTrigger>(worldOrigin, isServer);
+		InteractableDoor originDoor = Instance.GetFirst<InteractableDoor>(worldOrigin, isServer);
 		if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
 			return originDoor;
 
 		// No closed door on local tile, check target tile
 		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
-		DoorTrigger targetDoor = Instance.GetFirst<DoorTrigger>(targetPos, isServer);
+		InteractableDoor targetDoor = Instance.GetFirst<InteractableDoor>(targetPos, isServer);
 		if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
 			return targetDoor;
 
@@ -344,6 +344,12 @@ public class MatrixManager : MonoBehaviour
 		return t;
 	}
 
+	//shorthand for calling GetAt at the targeted object's position
+	public static List<T> GetAt<T>(GameObject targetObject, NetworkSide side) where T : MonoBehaviour
+	{
+		return GetAt<T>((Vector3Int) targetObject.TileWorldPosition(), side == NetworkSide.Server);
+	}
+
 	private static bool isAtInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
 	{
 		for (var i = 0; i < matrixInfos.Length; i++)
@@ -405,7 +411,7 @@ public class MatrixManager : MonoBehaviour
 	/// Waiting for scene to load before finding matrices
 	private IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(0.5f);
+		yield return WaitFor.Seconds(0.5f);
 		InitMatrices();
 	}
 

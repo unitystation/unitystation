@@ -132,6 +132,11 @@ namespace Atmospherics
 			return Gases[gas];
 		}
 
+		public void ChangeVolumeValue(float value){
+			Volume += value;
+			Recalculate();
+		}
+
 		public GasMix RemoveVolume(float volume, bool setVolume = false)
 		{
 			GasMix removed = RemoveRatio(volume / Volume);
@@ -149,9 +154,27 @@ namespace Atmospherics
 		{
 			GasMix removed = this * ratio;
 
-			this -= removed;
+			for (int i = 0; i < Gas.Count; i++)
+			{
+				Gases[i] -= removed.Gases[i];
+			}
+
+			Pressure -= removed.Pressure * removed.Volume / Volume;
 
 			return removed;
+		}
+
+		public void MergeGasMix(GasMix otherGas)
+		{
+			float totalVolume = Volume + otherGas.Volume;
+			for (int i = 0; i < Gas.Count; i++)
+			{
+				float gas = (Gases[i] + otherGas.Gases[i]) / totalVolume;
+				Gases[i] = gas * Volume;
+				otherGas.Gases[i] = gas * otherGas.Volume;
+			}
+			Recalculate();
+			otherGas.Recalculate();
 		}
 
 		public void AddGas(Gas gas, float moles)

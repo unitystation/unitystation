@@ -92,9 +92,11 @@ GameObject:
   - component: {fileID: 114107019470061730}
   - component: {fileID: 114064348143944282}
   - component: {fileID: 114452692074497964}
-  - component: {fileID: 114149588504688960}
   - component: {fileID: 114222453711107380}
   - component: {fileID: 114232596724965892}
+  - component: {fileID: 114644531332598490}
+  - component: {fileID: 9012059881719020525}
+  - component: {fileID: 114005296484789580}
   m_Layer: 10
   m_Name: LaserPistol
   m_TagString: Untagged
@@ -204,12 +206,11 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 28
   inHandReferenceRight: 32
-  itemDescription: 
   itemName: LaserPistol
+  itemDescription: 
   itemType: 0
   size: 0
   spriteType: 2
-  type: 16
   CanConnectToTank: 0
   hitDamage: 10
   throwDamage: 5
@@ -217,30 +218,6 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &114149588504688960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1245908573886190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12ad712be1fefd043b45761b18e23798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AmmoType: FusionCells
-  SpawnsCaseing: 0
-  SmartGun: 1
-  CurrentRecoilVariance: 0
-  FireCountDown: 0
-  FireingSound: ShootLaser
-  FireRate: 5
-  MaxRecoilVariance: 0
-  Projectile: {fileID: 1553142956179786, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
-  ProjectilesFired: 1
-  ProjectileVelocity: 27
-  WeaponType: 1
 --- !u!114 &114222453711107380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,19 +248,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
   ObjectType: 0
-  rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &114644531332598490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245908573886190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDropServer:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &9012059881719020525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245908573886190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8343d0f678a24c949baac4bba12c2f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoType: FusionCells
+  SpawnsCaseing: 0
+  SmartGun: 1
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FireingSound: ShootLaser
+  FireRate: 5
+  MaxRecoilVariance: 0
+  Projectile: {fileID: 1553142956179786, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
+  ProjectilesFired: 1
+  ProjectileVelocity: 27
+  WeaponType: 0
+--- !u!114 &114005296484789580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245908573886190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1

@@ -11,8 +11,11 @@ using UnityEngine;
 public class Matrix : MonoBehaviour
 {
 	private MetaTileMap metaTileMap;
+	private MetaTileMap MetaTileMap => metaTileMap ? metaTileMap : metaTileMap = GetComponent<MetaTileMap>();
 	private TileList serverObjects;
+	private TileList ServerObjects => serverObjects ?? (serverObjects = ((ObjectLayer) MetaTileMap.Layers[LayerType.Objects] ).ServerObjects);
 	private TileList clientObjects;
+	private TileList ClientObjects => clientObjects ?? (clientObjects = ((ObjectLayer) MetaTileMap.Layers[LayerType.Objects]).ClientObjects);
 	private Vector3Int initialOffset;
 	public Vector3Int InitialOffset => initialOffset;
 	public int Id { get; set; } = 0;
@@ -20,20 +23,6 @@ public class Matrix : MonoBehaviour
 	private void Awake()
 	{
 		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
-		metaTileMap = GetComponent<MetaTileMap>();
-	}
-
-	private void Start()
-	{
-		try
-		{
-			serverObjects = ((ObjectLayer) metaTileMap.Layers[LayerType.Objects]).ServerObjects;
-			clientObjects = ((ObjectLayer) metaTileMap.Layers[LayerType.Objects]).ClientObjects;
-		}
-		catch
-		{
-			Logger.LogError("CAST ERROR: Make sure everything is in its proper layer type.", Category.Matrix);
-		}
 	}
 
 	public bool IsPassableAt(Vector3Int position, bool isServer)
@@ -58,22 +47,22 @@ public class Matrix : MonoBehaviour
 	/// <returns></returns>
 	public bool IsPassableAt(Vector3Int origin, Vector3Int position, bool isServer, CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null)
 	{
-		return metaTileMap.IsPassableAt(origin, position, isServer, collisionType: collisionType, inclPlayers: includingPlayers, context: context);
+		return MetaTileMap.IsPassableAt(origin, position, isServer, collisionType: collisionType, inclPlayers: includingPlayers, context: context);
 	}
 
 	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int position, bool isServer)
 	{
-		return metaTileMap.IsAtmosPassableAt(origin, position, isServer);
+		return MetaTileMap.IsAtmosPassableAt(origin, position, isServer);
 	}
 
 	public bool IsSpaceAt(Vector3Int position, bool isServer)
 	{
-		return metaTileMap.IsSpaceAt(position, isServer);
+		return MetaTileMap.IsSpaceAt(position, isServer);
 	}
 
 	public bool IsEmptyAt(Vector3Int position, bool isServer)
 	{
-		return metaTileMap.IsEmptyAt(position, isServer);
+		return MetaTileMap.IsEmptyAt(position, isServer);
 	}
 
 	/// Is this position and surrounding area completely clear of solid objects?
@@ -81,7 +70,7 @@ public class Matrix : MonoBehaviour
 	{
 		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
-			if (!metaTileMap.IsEmptyAt(pos, isServer))
+			if (!MetaTileMap.IsEmptyAt(pos, isServer))
 			{
 				return false;
 			}
@@ -93,7 +82,7 @@ public class Matrix : MonoBehaviour
 	/// Is current position NOT a station tile? (Objects not taken into consideration)
 	public bool IsNoGravityAt( Vector3Int position, bool isServer )
 	{
-		return metaTileMap.IsNoGravityAt(position, isServer);
+		return MetaTileMap.IsNoGravityAt(position, isServer);
 	}
 
 	/// Should player NOT stick to the station at this position?
@@ -101,7 +90,7 @@ public class Matrix : MonoBehaviour
 	{
 		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
-			if (!metaTileMap.IsNoGravityAt(pos, isServer))
+			if (!MetaTileMap.IsNoGravityAt(pos, isServer))
 			{
 				return false;
 			}
@@ -115,7 +104,7 @@ public class Matrix : MonoBehaviour
 	{
 		foreach (Vector3Int pos in position.BoundsAround().allPositionsWithin)
 		{
-			if (!metaTileMap.IsEmptyAt(context, pos, isServer))
+			if (!MetaTileMap.IsEmptyAt(context, pos, isServer))
 			{
 				return false;
 			}
@@ -126,13 +115,13 @@ public class Matrix : MonoBehaviour
 
 	public IEnumerable<T> Get<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
-		if ( (isServer ? serverObjects : clientObjects) == null || !(isServer ? serverObjects : clientObjects).HasObjects( position ) )
+		if ( !(isServer ? ServerObjects : ClientObjects).HasObjects( position ) )
 		{
 			return Enumerable.Empty<T>(); //?
 		}
 
 		var filtered = new List<T>();
-		foreach ( RegisterTile t in (isServer ? serverObjects : clientObjects).Get(position) )
+		foreach ( RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(position) )
 		{
 			T x = t.GetComponent<T>();
 			if (x != null)
@@ -147,7 +136,7 @@ public class Matrix : MonoBehaviour
 	public T GetFirst<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
 		//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine
-		foreach ( RegisterTile t in (isServer ? serverObjects : clientObjects).Get(position) )
+		foreach ( RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(position) )
 		{
 			T c = t.GetComponent<T>();
 			if (c != null)
@@ -157,19 +146,17 @@ public class Matrix : MonoBehaviour
 		}
 
 		return null;
-		//Old way that only checked the first RegisterTile on a cell pos:
-		//return objects.GetFirst(position)?.GetComponent<T>();
 	}
 
 	public IEnumerable<T> Get<T>(Vector3Int position, ObjectType type, bool isServer) where T : MonoBehaviour
 	{
-		if ( !(isServer ? serverObjects : clientObjects).HasObjects( position ) )
+		if ( !(isServer ? ServerObjects : ClientObjects).HasObjects( position ) )
 		{
 			return Enumerable.Empty<T>();
 		}
 
 		var filtered = new List<T>();
-		foreach ( RegisterTile t in (isServer ? serverObjects : clientObjects).Get(position, type) )
+		foreach ( RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(position, type) )
 		{
 			T x = t.GetComponent<T>();
 			if (x != null)
@@ -183,14 +170,34 @@ public class Matrix : MonoBehaviour
 
 	public bool HasTile( Vector3Int position, bool isServer )
 	{
-		return metaTileMap.HasTile( position, isServer );
+		return MetaTileMap.HasTile( position, isServer );
+	}
+
+	public bool IsClearUnderfloorConstruction(Vector3Int position, bool isServer)
+	{
+		if (MetaTileMap.HasTile(position, LayerType.Floors, isServer))
+		{
+			return (false);
+		}
+		else if (MetaTileMap.HasTile(position, LayerType.Walls, isServer)){
+			return (false);
+		}
+		else if (MetaTileMap.HasTile(position, LayerType.Windows, isServer))
+		{
+			return (false);
+		}
+		else if (MetaTileMap.HasTile(position, LayerType.Grills, isServer))
+		{
+			return (false);
+		}
+		return (true);
 	}
 
 	public IEnumerable<ElectricalOIinheritance> GetElectricalConnections(Vector3Int position)
 	{
-		if (serverObjects != null)
+		if (ServerObjects != null)
 		{
-			return serverObjects.Get(position).Select(x => x.GetComponent<ElectricalOIinheritance>()).Where(x => x != null);
+			return ServerObjects.Get(position).Select(x => x.GetComponent<ElectricalOIinheritance>()).Where(x => x != null);
 		}
 		else
 		{

@@ -1,9 +1,12 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
-	public class Tools : Editor
+public class Tools : Editor
 	{
+
+
 		[MenuItem("Tools/Reconnect TileConnect")]
 		private static void RevertTileConnect()
 		{
@@ -61,4 +64,24 @@ using UnityEngine;
 		//				//PrefabUtility.RevertPrefabInstance(r.gameObject);
 		//			}
 		//		}
+
+		//this is just for migrating from old way of setting wallmount directions to the new way
+		[MenuItem("Tools/Set Wallmount Directionals from Transforms")]
+		private static void FixWallmountDirectionals()
+		{
+			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
+			{
+				foreach (var wallmount in gameObject.GetComponentsInChildren<WallmountBehavior>())
+				{
+					var directional = wallmount.GetComponent<Directional>();
+					var directionalSO = new SerializedObject(directional);
+					var initialD = directionalSO.FindProperty("InitialDirection");
+
+					Vector3 facing = -wallmount.transform.up;
+					var initialOrientation = Orientation.From(facing);
+					initialD.enumValueIndex = (int) initialOrientation.AsEnum();
+					directionalSO.ApplyModifiedPropertiesWithoutUndo();
+				}
+			}
+		}
 	}

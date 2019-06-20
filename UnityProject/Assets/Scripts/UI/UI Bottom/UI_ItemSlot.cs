@@ -31,7 +31,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	public bool IsFull => Item != null;
 
-	//Inventoryslot theifing is prevented by the UUID system 
+	//Inventoryslot theifing is prevented by the UUID system
 	//(clients don't know what other clients UUID's are and all slots are server authorative with validation checks)
 	public InventorySlot inventorySlot { get; set; }
 
@@ -72,7 +72,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	IEnumerator SetSlotOnEnable()
 	{
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		if (!InventoryManager.AllClientInventorySlots.Contains(inventorySlot))
 		{
 			InventoryManager.AllClientInventorySlots.Add(inventorySlot);
@@ -239,13 +239,11 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 			// If full, attempt to interact the two, otherwise swap
 			if (Item != null)
 			{
-				// If there is an an interaction, run and check if it wants to swap
-				var inputTrigger = Item.GetComponent<InputTrigger>();
-				bool response = inputTrigger.UI_InteractOtherSlot(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item);
-				if (response)
-				{
-					UIManager.Hands.SwapItem(this);
-				}
+				//check IF2 InventoryApply interaction - combine the active hand item with this (only if
+				//both are occupied)
+				if (TryIF2InventoryApply()) return;
+
+				UIManager.Hands.SwapItem(this);
 				return;
 			}
 			else
@@ -257,8 +255,16 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		// If there is an item and the hand is interacting in the same slot
 		if (Item != null && UIManager.Hands.CurrentSlot.eventName == eventName)
 		{
-			var inputTrigger = Item.GetComponent<InputTrigger>();
-			inputTrigger.UI_Interact(PlayerManager.LocalPlayer, eventName);
+			//check IF2 logic first
+			var interactables = Item.GetComponents<IInteractable<HandActivate>>();
+			var activate = HandActivate.ByLocalPlayer();
+			foreach (var interactable in interactables)
+			{
+				if (interactable.Interact(activate))
+				{
+					return;
+				}
+			}
 		}
 		else
 		{
@@ -267,21 +273,49 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 				//Clicked on item with otherslot selected
 				if (UIManager.Hands.OtherSlot.Item != null)
 				{
-					var trig = UIManager.Hands.OtherSlot.Item.GetComponent<InputTrigger>();
-					if (trig != null)
-					{
-						// If there is an an interaction, run and check if it wants to swap
-						bool response = trig.UI_InteractOtherSlot(PlayerManager.LocalPlayer,
-							UIManager.Hands.CurrentSlot.Item);
-						if (response)
-						{
-							UIManager.Hands.SwapItem(this);
-						}
-						return;
-					}
+					if (TryIF2InventoryApply()) return;
+					UIManager.Hands.SwapItem(this);
 				}
 			}
 		}
+	}
+
+	private bool TryIF2InventoryApply()
+	{
+		//check IF2 InventoryApply interaction - apply the active hand item with this (only if
+		//target slot is occupied, but it's okay if active hand slot is not occupied)
+		if (Item != null)
+		{
+			var combine = InventoryApply.ByLocalPlayer(inventorySlot);
+			//check interactables in the active hand (if active hand occupied)
+			if (UIManager.Hands.CurrentSlot.Item != null)
+			{
+				var handInteractables = UIManager.Hands.CurrentSlot.Item.GetComponents<IInteractable<InventoryApply>>();
+				foreach (var interactable in handInteractables)
+				{
+					if (interactable.Interact(combine))
+					{
+						//something combined, don't do anything else
+						return true;
+					}
+				}
+			}
+
+			//check interactables in the target
+			var targetInteractables = Item.GetComponents<IInteractable<InventoryApply>>();
+			foreach (var interactable in targetInteractables)
+			{
+				if (interactable.Interact(combine))
+				{
+					//something combined, don't do anything else
+					return true;
+				}
+			}
+
+
+		}
+
+		return false;
 	}
 
 	public void OnDrag(PointerEventData data)

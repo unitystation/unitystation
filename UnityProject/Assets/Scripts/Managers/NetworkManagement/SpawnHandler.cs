@@ -12,86 +12,129 @@ public static class SpawnHandler
 		GameObject joinedViewer = Object.Instantiate(networkManager.playerPrefab);
 		NetworkServer.AddPlayerForConnection(conn, joinedViewer, 0);
 	}
+
 	public static void SpawnDummyPlayer(JobType jobType = JobType.NULL)
 	{
-		var conn = new NetworkConnection();
 		GameObject dummyPlayer = CreatePlayer(jobType);
-		var connectedPlayer = PlayerList.Instance.Get(conn);
-		PlayerList.Instance.UpdatePlayer(conn, dummyPlayer);
-		NetworkServer.AddPlayerForConnection(conn, dummyPlayer, 0);
-		if (connectedPlayer.Script.PlayerSync != null) {
-			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
-		}
+		TransferPlayer(null, 0, dummyPlayer, null, EVENT.PlayerSpawned, null);
 	}
 
-	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType)
+	public static void ClonePlayer(NetworkConnection conn, short playerControllerId, JobType jobType, CharacterSettings characterSettings, GameObject oldBody, GameObject spawnSpot)
+	{
+		GameObject player = CreateMob(jobType, spawnSpot, CustomNetworkManager.Instance.humanPlayerPrefab);
+		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
+	}
+
+	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType, CharacterSettings characterSettings, GameObject oldBody)
 	{
 		GameObject player = CreatePlayer(jobType);
-		TransferPlayer(conn, playerControllerId, player);
+		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
+		var playerScript = player.GetComponent<PlayerScript>();
+		playerScript.mind = new Mind();
+		playerScript.mind.body = playerScript;
+	}
+
+	public static GameObject SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)
+	{
+		var jobType = oldBody.GetComponent<PlayerScript>().JobType;
+		GameObject ghost = CreateMob(jobType, oldBody, CustomNetworkManager.Instance.ghostPrefab);
+		TransferPlayer(conn, playerControllerId, ghost, oldBody, EVENT.GhostSpawned, characterSettings);
+		return ghost;
 	}
 
 	/// <summary>
-	/// Spawn the ghost as a new object and set that as the focus / what the user controls. Leave the player body where it is.
+	/// Connects a client to a character or redirects a logged out ConnectedPlayer.
 	/// </summary>
-	/// <param name="conn">connection whose ghost is being spawned</param>
-	/// <param name="playerControllerId">ID of player whose ghost should be spawned</param>
-	/// <returns>the gameobject of the ghost</returns>
-	public static void SpawnPlayerGhost(NetworkConnection conn, short playerControllerId)
+	/// <param name="conn">The client's NetworkConnection. If logged out the playerlist will return an invalid connectedplayer</param>
+	/// <param name="playerControllerId">ID of the client player to be transfered. If logged out it's empty.</param>
+	/// <param name="newBody">The character gameobject to be transfered into.</param>
+	/// <param name="oldBody">The old body of the character.</param>
+	/// <param name="eventType">Event type for the player sync.</param>
+	public static void TransferPlayer(NetworkConnection conn, short playerControllerId, GameObject newBody, GameObject oldBody, EVENT eventType, CharacterSettings characterSettings)
 	{
 		var connectedPlayer = PlayerList.Instance.Get(conn);
-		GameObject body = connectedPlayer.GameObject;
-		JobType savedJobType = body.GetComponent<PlayerScript>().JobType;
-		GameObject ghost = CreateGhost(connectedPlayer, savedJobType);
-		PlayerList.Instance.UpdatePlayer(conn, ghost);
-		NetworkServer.ReplacePlayerForConnection(conn, ghost, playerControllerId);
-		TriggerEventMessage.Send(ghost, EVENT.GhostSpawned);
-		if (connectedPlayer.Script.PlayerSync != null) {
-			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
+		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
+		{
+			PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
+			NetworkServer.Spawn(newBody);
+		}
+		else
+		{
+			PlayerList.Instance.UpdatePlayer(conn, newBody);
+			NetworkServer.ReplacePlayerForConnection(conn, newBody, playerControllerId);
+			TriggerEventMessage.Send(newBody, eventType);
+		}
+		var playerScript = newBody.GetComponent<PlayerScript>();
+		if (playerScript.PlayerSync != null)
+		{
+			playerScript.PlayerSync.NotifyPlayers(true);
+		}
+
+		// If the player is inside a container, send a ClosetHandlerMessage.
+		// The ClosetHandlerMessage will attach the container to the transfered player.
+		var playerObjectBehavior = newBody.GetComponent<ObjectBehaviour>();
+		if (playerObjectBehavior && playerObjectBehavior.parentContainer)
+		{
+			ClosetHandlerMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
+		}
+
+		CustomNetworkManager.Instance.SyncPlayerData(newBody);
+		if(characterSettings != null)
+		{
+			playerScript.ServerSetCharacterSettings(characterSettings);
 		}
 	}
 
-	private static GameObject CreateGhost(ConnectedPlayer forPlayer, JobType jobType)
+	private static GameObject CreateMob(JobType jobType, GameObject spawnSpot, GameObject mobPrefab)
 	{
-		GameObject ghostPrefab = CustomNetworkManager.Instance.ghostPrefab;
+		var registerTile = spawnSpot.GetComponent<RegisterTile>();
 
-		Vector3 spawnPosition = forPlayer.GameObject.GetComponent<ObjectBehaviour>().AssumedLocation();
-		GameObject body = forPlayer.GameObject;
+		Transform parentTransform;
+		NetworkInstanceId parentNetId;
+		Vector3Int spawnPosition;
 
-		GameObject ghost;
+		if ( registerTile ) //spawnSpot is someone's corpse
+		{
+			var objectLayer = registerTile.layer;
+			parentNetId = objectLayer.GetComponentInParent<NetworkIdentity>().netId;
+			parentTransform = objectLayer.transform;
+			spawnPosition = spawnSpot.GetComponent<ObjectBehaviour>().AssumedLocation().RoundToInt();
+		}
+		else //spawnSpot is a Spawnpoint object
+		{
+			spawnPosition = spawnSpot.transform.position.CutToInt();
 
-		Transform parent = body.GetComponentInParent<ObjectLayer>().transform;
-		ghost = Object.Instantiate(ghostPrefab, spawnPosition, Quaternion.identity, parent);
-		ghost.GetComponent<RegisterPlayer>().ParentNetId = body.transform.parent.GetComponentInParent<NetworkIdentity>().netId;
+			var matrixInfo = MatrixManager.AtPoint( spawnPosition, true );
+			parentNetId = matrixInfo.NetId;
+			parentTransform = matrixInfo.Objects;
+		}
 
+		GameObject newMob = Object.Instantiate(mobPrefab, spawnPosition, Quaternion.identity, parentTransform);
+		var playerScript = newMob.GetComponent<PlayerScript>();
 
-		//they are a ghost but we still need to preserve job type so they can respawn with the correct job
-		ghost.GetComponent<PlayerScript>().JobType = jobType;
+		playerScript.JobType = jobType;
+		playerScript.registerTile.ParentNetId = parentNetId;
 
-		return ghost;
+		return newMob;
 	}
 
 	private static GameObject CreatePlayer(JobType jobType)
 	{
 		GameObject playerPrefab = CustomNetworkManager.Instance.humanPlayerPrefab;
 
-		Transform spawnPosition = GetSpawnForJob(jobType);
+		Transform spawnTransform = GetSpawnForJob(jobType);
 
 		GameObject player;
 
-		if (spawnPosition != null)
+		if (spawnTransform != null)
 		{
-			Vector3 position = spawnPosition.position;
-			Quaternion rotation = spawnPosition.rotation;
-			Transform parent = spawnPosition.GetComponentInParent<ObjectLayer>().transform;
-			player = Object.Instantiate(playerPrefab, position, rotation, parent);
-			player.GetComponent<RegisterPlayer>().ParentNetId = spawnPosition.GetComponentInParent<NetworkIdentity>().netId;
+			player = CreateMob( jobType, spawnTransform.gameObject, playerPrefab );
 		}
 		else
 		{
 			player = Object.Instantiate(playerPrefab);
+			player.GetComponent<PlayerScript>().JobType = jobType;
 		}
-
-		player.GetComponent<PlayerScript>().JobType = jobType;
 
 		return player;
 	}
@@ -109,21 +152,5 @@ public static class SpawnHandler
 		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
 	}
 
-	/// <summary>
-	/// Connects a client to a character.
-	/// </summary>
-	/// <param name="conn">The client's NetworkConnection.</param>
-	/// <param name="playerControllerId">ID of the client player to be transfered.</param>
-	/// <param name="player">The player's character gameobject to be transfered into.</param>
-	public static void TransferPlayer(NetworkConnection conn, short playerControllerId, GameObject player){
-		var connectedPlayer = PlayerList.Instance.Get(conn);
-		PlayerList.Instance.UpdatePlayer(conn, player);
-		NetworkServer.ReplacePlayerForConnection(conn, player, playerControllerId);
-		TriggerEventMessage.Send(player, EVENT.PlayerSpawned);
-		if (connectedPlayer.Script.PlayerSync != null)
-		{
-			connectedPlayer.Script.PlayerSync.NotifyPlayers(true);
-		}
-	}
 
 }

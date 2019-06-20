@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 114068128721699304}
   - component: {fileID: 114360944403272528}
   - component: {fileID: 114702170245798982}
+  - component: {fileID: 7072840375899318138}
+  - component: {fileID: 114236524552828258}
   m_Layer: 11
   m_Name: kitchen_60
   m_TagString: Untagged
@@ -134,14 +136,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vendorcontent:
-  - {fileID: 1970759932574268, guid: d2b4e713064f80441ac594b6a99399dd, type: 3}
-  allowSell: 1
-  cooldownTimer: 180
-  stock: 5
-  interactionMessage: You cut some meat of the hanging creature...
-  deniedMessage: There's not enough meat left on this creatures bones...
-  DispenseDirection: 0
+  VendorContent: []
+  HullColor: {r: 1, g: 1, b: 1, a: 1}
+  EjectObjects: 0
+  EjectDirection: 0
 --- !u!114 &114360944403272528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,18 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
   ObjectType: 1
-  rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114702170245798982
@@ -180,6 +167,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7072840375899318138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883046252454388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 0
+--- !u!114 &114236524552828258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883046252454388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
 --- !u!1 &1884255579492132
 GameObject:
   m_ObjectHideFlags: 0

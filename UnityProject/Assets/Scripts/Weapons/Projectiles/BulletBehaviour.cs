@@ -16,7 +16,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 	[Range(0, 100)]
 	public float damage = 25;
 	private GameObject shooter;
-	private Weapon weapon;
+	private Gun weapon;
 	public DamageType damageType;
 	private bool isSuicide = false;
 	/// <summary>
@@ -52,7 +52,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 	/// <param name="controlledByPlayer">player doing the shooting</param>
 	/// <param name="targetZone">body part being targeted</param>
 	/// <param name="fromWeapon">Weapon the shot is being fired from</param>
-	public void Suicide(GameObject controlledByPlayer, Weapon fromWeapon, BodyPartType targetZone = BodyPartType.Chest) {
+	public void Suicide(GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest) {
 		isSuicide = true;
 		StartShoot(Vector2.zero, controlledByPlayer, fromWeapon, targetZone);
 		OnShoot();
@@ -65,14 +65,14 @@ public abstract class BulletBehaviour : MonoBehaviour
 	/// <param name="controlledByPlayer"></param>
 	/// <param name="targetZone"></param>
 	/// <param name="fromWeapon">Weapon the shot is being fired from</param>
-	public void Shoot(Vector2 dir, GameObject controlledByPlayer, Weapon fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
+	public void Shoot(Vector2 dir, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
 	{
 		isSuicide = false;
 		StartShoot(dir, controlledByPlayer, fromWeapon, targetZone);
 		OnShoot();
 	}
 
-	private void StartShoot(Vector2 dir, GameObject controlledByPlayer, Weapon fromWeapon, BodyPartType targetZone)
+	private void StartShoot(Vector2 dir, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone)
 	{
 		weapon = fromWeapon;
 		Direction = dir;

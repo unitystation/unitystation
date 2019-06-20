@@ -92,9 +92,11 @@ GameObject:
   - component: {fileID: 114958751264410972}
   - component: {fileID: 114154339735646076}
   - component: {fileID: 114374851331526312}
-  - component: {fileID: 114260592088361284}
   - component: {fileID: 114758040345321802}
   - component: {fileID: 114155970044334132}
+  - component: {fileID: 114088013606370678}
+  - component: {fileID: 8735810588248712643}
+  - component: {fileID: 114159304376706970}
   m_Layer: 10
   m_Name: Tazer
   m_TagString: Untagged
@@ -204,12 +206,11 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 136
   inHandReferenceRight: 212
-  itemDescription: 
   itemName: Tazer
+  itemDescription: 
   itemType: 0
   size: 0
   spriteType: 2
-  type: 16
   CanConnectToTank: 0
   hitDamage: 5
   throwDamage: 5
@@ -217,30 +218,6 @@ MonoBehaviour:
   throwRange: 7
   hitSound: GenericHit
   attackVerb: []
---- !u!114 &114260592088361284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1392830670498528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12ad712be1fefd043b45761b18e23798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AmmoType: FusionCells
-  SpawnsCaseing: 0
-  SmartGun: 1
-  CurrentRecoilVariance: 0
-  FireCountDown: 0
-  FireingSound: ShootTazer
-  FireRate: 5
-  MaxRecoilVariance: 0
-  Projectile: {fileID: 1560634355228308, guid: 3a5f33fb4348d74429ba2cf1a1d4821d, type: 3}
-  ProjectilesFired: 1
-  ProjectileVelocity: 17
-  WeaponType: 1
 --- !u!114 &114758040345321802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,19 +248,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
   ObjectType: 0
-  rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &114088013606370678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392830670498528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDropServer:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &8735810588248712643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392830670498528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8343d0f678a24c949baac4bba12c2f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AmmoType: FusionCells
+  SpawnsCaseing: 0
+  SmartGun: 1
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FireingSound: ShootTazer
+  FireRate: 5
+  MaxRecoilVariance: 0
+  Projectile: {fileID: 1560634355228308, guid: 3a5f33fb4348d74429ba2cf1a1d4821d, type: 3}
+  ProjectilesFired: 1
+  ProjectileVelocity: 17
+  WeaponType: 0
+--- !u!114 &114159304376706970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392830670498528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1

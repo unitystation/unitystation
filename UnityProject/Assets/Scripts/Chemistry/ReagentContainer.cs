@@ -3,22 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ReagentContainer : Container {
+[RequireComponent(typeof(RightClickAppearance))]
+public class ReagentContainer : Container, IRightClickable {
 	public float CurrentCapacity { get; private set; }
-	public List<string> Chemicals; //Specify chemical
+	public List<string> Reagents; //Specify reagent
 	public List<float> Amounts;  //And how much
+
+	private RegisterTile registerTile;
 
 	void Start() //Initialise the contents if there are any
 	{
-		if(Chemicals == null)
+		if(Reagents == null)
 		{
 			return;
 		}
-		for (int i = 0; i < Chemicals.Count; i++)
+		for (int i = 0; i < Reagents.Count; i++)
 		{
-			Contents[Chemicals[i]] = Amounts[i];
+			Contents[Reagents[i]] = Amounts[i];
 		}
 		CurrentCapacity = AmountOfReagents(Contents);
+
+		registerTile = GetComponent<RegisterTile>();
+	}
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		var result = RightClickableResult.Create()
+			//contents can always be viewed
+			.AddElement("Contents", LogReagents);
+
+		//Pour / add can only be done if in reach
+		if ( PlayerScript.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
+		{
+			result.AddElement("PourOut", RemoveSome)
+				.AddElement("AddTo", AddTo);
+		}
+
+		return result;
 	}
 
 	public void AddReagents(Dictionary<string, float> reagents, float temperatureContainer) //Automatic overflow If you Don't want to lose check before adding
@@ -27,17 +48,16 @@ public class ReagentContainer : Container {
 		float totalToAdd = AmountOfReagents(reagents);
 		if (CurrentCapacity + totalToAdd > MaxCapacity)
 		{
-			Logger.Log("The container overflows spilling the excess");
+			Logger.Log("The container overflows spilling the excess", Category.Chemistry);
 		}
 		float divideAmount = Math.Min((MaxCapacity - CurrentCapacity), totalToAdd) / totalToAdd;
-		foreach (KeyValuePair<string, float> Chemical in reagents)
+		foreach (KeyValuePair<string, float> reagent in reagents)
 		{
-			float amountToAdd = Chemical.Value * divideAmount;
-			Contents[Chemical.Key] = (Contents.TryGetValue(Chemical.Key, out float val) ? val : 0f) + amountToAdd;
+			float amountToAdd = reagent.Value * divideAmount;
+			Contents[reagent.Key] = (Contents.TryGetValue(reagent.Key, out float val) ? val : 0f) + amountToAdd;
 		}
 		float oldCapacity = CurrentCapacity;
 		Contents = Calculations.Reactions(Contents, Temperature);
-		RemoveEmptyChemicals();
 		CurrentCapacity = AmountOfReagents(Contents);
 		totalToAdd = ((CurrentCapacity - oldCapacity) * temperatureContainer) + (oldCapacity * Temperature);
 		Temperature = totalToAdd / CurrentCapacity;
@@ -49,37 +69,29 @@ public class ReagentContainer : Container {
 		float toMove = target == null ? amount : Math.Min(target.MaxCapacity - target.CurrentCapacity, amount);
 		float divideAmount = toMove / CurrentCapacity;
 		var transfering = Contents.ToDictionary(
-			chemical => chemical.Key,
-			chemical => divideAmount > 1 ? chemical.Value : (chemical.Value * divideAmount)
+			reagent => reagent.Key,
+			reagent => divideAmount > 1 ? reagent.Value : (reagent.Value * divideAmount)
 		);
-		foreach(var chemical in transfering)
+		foreach(var reagent in transfering)
 		{
-			Contents[chemical.Key] -= chemical.Value;
+			Contents[reagent.Key] -= reagent.Value;
 		}
-		RemoveEmptyChemicals();
+		Contents = Calculations.RemoveEmptyReagents(Contents);
 		CurrentCapacity = AmountOfReagents(Contents);
 		target?.AddReagents(transfering, Temperature);
 	}
 
-	public float AmountOfReagents(Dictionary<string, float> Reagents) => Reagents.Select(chemical => chemical.Value).Sum();
+	public float AmountOfReagents(Dictionary<string, float> Reagents) => Reagents.Select(reagent => reagent.Value).Sum();
 
-	private void RemoveEmptyChemicals()
+	private void LogReagents()
 	{
-		var toRemove = Contents.Where(chemical => chemical.Value < 0.0000001f).Select(chemical => chemical.Key).ToList();
-		toRemove.ForEach(chemical => Contents.Remove(chemical));
-	}
-
-	[ContextMethod("Contents", "Science_flask")]
-	public void LogReagents()
-	{
-		foreach (var chemical in Contents)
+		foreach (var reagent in Contents)
 		{
-			Logger.Log(chemical.Key + " at " + chemical.Value.ToString(), Category.Chemistry);
+			Logger.Log(reagent.Key + " at " + reagent.Value.ToString(), Category.Chemistry);
 		}
 	}
 
-	[ContextMethod("Add to", "Pour_into")]
-	public void AddTo()
+	private void AddTo()
 	{
 		var transfering = new Dictionary<string, float>
 		{
@@ -90,6 +102,5 @@ public class ReagentContainer : Container {
 		AddReagents(transfering, 20f);
 	}
 
-	[ContextMethod("Pour out", "Pour_away")]
-	public void RemoveSome() => MoveReagentsTo(10);
+	private void RemoveSome() => MoveReagentsTo(10);
 }

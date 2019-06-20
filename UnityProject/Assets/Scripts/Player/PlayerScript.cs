@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public class PlayerScript : ManagedNetworkBehaviour
@@ -8,6 +9,22 @@ public class PlayerScript : ManagedNetworkBehaviour
 	public const float interactionDistance = 1.5f;
 
 	[SyncVar] public JobType JobType = JobType.NULL;
+	public Mind mind;
+
+	//note: needs to be init'd to an object otherwise network serialization throws NRE
+	[SyncVar(hook = "CharacterSettingsHook")]
+	private CharacterSettings characterSettings = new CharacterSettings();
+
+	/// <summary>
+	/// Current character settings for this player. Value is synced from server.
+	/// </summary>
+	public CharacterSettings CharacterSettings => characterSettings;
+
+	/// <summary>
+	/// Invoked when character settings are recieved from the server. Other components can listen to this
+	/// to update themselves based on the new settings.
+	/// </summary>
+	public CharacterSettingsEvent OnCharacterSettingsChange = new CharacterSettingsEvent();
 
 	private float pingUpdate;
 
@@ -19,6 +36,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
 
+	public Orientation CurrentDirection => playerDirectional.CurrentDirection;
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>
@@ -31,7 +49,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	/// </summary>
 	public ObjectBehaviour pushPull { get; set; }
 
-	public UserControlledSprites playerSprites { get; set; }
+	public Directional playerDirectional { get; set; }
 
 	private PlayerSync _playerSync; //Example of good on-demand reference init
 	public PlayerSync PlayerSync => _playerSync ? _playerSync : (_playerSync = GetComponent<PlayerSync>());
@@ -44,6 +62,9 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public Vector3Int WorldPos => registerTile.WorldPositionServer;
 
+	/// <summary>
+	/// The currently selected chat channels. Prunes all unavailable ones on get.
+	/// </summary>
 	public ChatChannel SelectedChannels
 	{
 		get { return selectedChannels & GetAvailableChannelsMask(); }
@@ -55,19 +76,29 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public override void OnStartClient()
 	{
+		//server settings will have been sent from the server now, so call the hook
+		//since its not called automatically on join
+		CharacterSettingsHook(characterSettings);
 		//Local player is set a frame or two after OnStartClient
 		StartCoroutine(WaitForLoad());
 		Init();
 		base.OnStartClient();
 	}
 
+	//syncvar hook when server sends us settings
+	private void CharacterSettingsHook(CharacterSettings newSettings)
+	{
+		characterSettings = newSettings;
+		OnCharacterSettingsChange.Invoke(newSettings);
+	}
+
 	private IEnumerator WaitForLoad()
 	{
 		//fixme: name isn't resolved at the moment of pool creation
 		//(player pools now use netIDs, but it would be nice to have names for readability)
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		OnNameChange(playerName);
-		yield return new WaitForSeconds(1f);
+		yield return WaitFor.Seconds(1f);
 		//Refresh chat log:
 		//s		ChatRelay.Instance.RefreshLog();
 	}
@@ -97,7 +128,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		mouseInputController = GetComponent<MouseInputController>();
 		hitIcon = GetComponentInChildren<HitIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
-		playerSprites = GetComponent<UserControlledSprites>();
+		playerDirectional = GetComponent<Directional>();
 	}
 
 	public void Init()
@@ -105,7 +136,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 		if (isLocalPlayer)
 		{
 			UIManager.ResetAllUI();
-			UIManager.SetDeathVisibility(true);
 			UIManager.DisplayManager.SetCameraFollowPos();
 			int rA = Random.Range(0, 3);
 			GetComponent<MouseInputController>().enabled = true;
@@ -142,21 +172,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 			//				Request sync to get all the latest transform data
 			new RequestSyncMessage().Send();
-			SelectedChannels = ChatChannel.Local;
-
-		}
-		else if (isServer)
-		{
-			playerMove = GetComponent<PlayerMove>();
-
-			//Updates the player record on the server:
-			PlayerList.Instance.Add(new ConnectedPlayer
-			{
-				Connection = connectionToClient,
-					GameObject = gameObject,
-					Job = JobType,
-					Name = playerName
-			});
+			EventManager.Broadcast(EVENT.UpdateChatChannels);
 		}
 	}
 
@@ -378,4 +394,15 @@ public class PlayerScript : ManagedNetworkBehaviour
 			Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
 		}
 	}
+
+	[Server]
+	public void ServerSetCharacterSettings(CharacterSettings newSettings)
+	{
+		CharacterSettingsHook(newSettings);
+	}
 }
+
+/// <summary>
+/// Fired when character settings are sent from the server.
+/// </summary>
+public class CharacterSettingsEvent : UnityEvent<CharacterSettings>{ }

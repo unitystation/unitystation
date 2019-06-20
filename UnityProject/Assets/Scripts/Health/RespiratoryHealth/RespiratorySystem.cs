@@ -12,8 +12,9 @@ using UnityEngine;
 public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 {
 	private const float OXYGEN_SAFE_MIN = 16;
-	public bool IsBreathing { get; private set; } = true;
-	public bool IsSuffocating { get; private set; }
+	public bool IsSuffocating;
+	public float temperature = 293.15f;
+	public float pressure = 101.325f;
 
 	/// <summary>
 	/// 2 minutes of suffocation = 100% damage
@@ -79,7 +80,14 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 			if (!IsEVACompatible())
 			{
-				CheckPressureDamage(node.GasMix.Pressure);
+				temperature = node.GasMix.Temperature;
+				pressure = node.GasMix.Pressure;
+				CheckPressureDamage();
+			}
+			else
+			{
+				pressure = 101.325f;
+				temperature = 293.15f;
 			}
 
 			if(livingHealthBehaviour.OverallHealth >= HealthThreshold.SoftCrit){
@@ -128,13 +136,25 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 			// Check if internals exist
 			ItemAttributes mask = inventory.ContainsKey("mask") ? inventory["mask"]?.ItemAttributes : null;
-			ItemAttributes suitStorage = inventory.ContainsKey("suitStorage") ? inventory["suitStorage"]?.ItemAttributes : null;
 
 			bool internalsEnabled = equipment.IsInternalsEnabled;
 
-			if (mask != null && suitStorage != null && mask.CanConnectToTank && internalsEnabled)
+			//todo: devise a convenient method to get item/script from top level of inventory instead of this
+			if (mask != null && mask.CanConnectToTank && internalsEnabled)
 			{
-				return suitStorage.GetComponent<GasContainer>();
+				foreach ( var gasSlot in GasContainer.GasSlots )
+				{
+					if ( !inventory.ContainsKey(gasSlot) || inventory[gasSlot] == null || !inventory[gasSlot].Item )
+					{
+						continue;
+					}
+
+					var gasContainer = inventory[gasSlot].Item.GetComponent<GasContainer>();
+					if ( gasContainer )
+					{
+						return gasContainer;
+					}
+				}
 			}
 		}
 
@@ -164,17 +184,19 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			{
 				bloodSystem.OxygenDamage += 1;
 			}
+			IsSuffocating = true;
 		}
 		else
 		{
 			oxygenUsed = breathGasMix.GetMoles(Gas.Oxygen);
+			IsSuffocating = false;
 			bloodSystem.OxygenDamage -= 2.5f;
 			breatheCooldown = 4;
 		}
 		return oxygenUsed;
 	}
 
-	private void CheckPressureDamage(float pressure)
+	private void CheckPressureDamage()
 	{
 		if (pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
 		{
@@ -212,23 +234,5 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private void ApplyDamage(float amount, DamageType damageType)
 	{
 		livingHealthBehaviour.ApplyDamage(null, amount, damageType);
-	}
-
-	// --------------------
-	// UPDATES FROM SERVER
-	// --------------------
-
-	/// <summary>
-	/// Updated from server via NetMsg
-	/// </summary>
-	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
-	{
-		if (CustomNetworkManager.IsServer)
-		{
-			return;
-		}
-
-		IsBreathing = isBreathing;
-		IsSuffocating = isSuffocating;
 	}
 }

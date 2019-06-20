@@ -22,21 +22,46 @@ public class MouseInputController : MonoBehaviour
 	/// </summary>
 	private float InputCooldownTimer = 0.01f;
 
-	//used so that drag interaction cannot be started until the mouse button is up after a click interaction
-	private bool canDrag = true;
+	[Tooltip("When mouse button is pressed down and held for longer than this duration, we will" +
+	         " not perform a click on mouse up.")]
+	public float MaxClickDuration = 1f;
+	//tracks how long we've had the button down
+	private float clickDuration;
+
+	[Tooltip("Distance to travel from initial click position before a drag (of a MouseDraggable) is initiated.")]
+	public float MouseDragDeadzone = 0.2f;
+	//tracks the start position (vector which points from the center of currentDraggable) to compare with above
+	private Vector2 dragStartOffset;
+	//when we click down on a draggable, stores it so we can check if we should click interact or drag interact
+	private MouseDraggable potentialDraggable;
+
+	[Tooltip("Seconds to wait before trying to trigger an aim apply while mouse is being held. There is" +
+	         " no need to re-trigger aim apply every frame and sometimes those triggers can be expensive, so" +
+	         " this can be set to avoid that. It should be set low enough so that every AimApply interaction" +
+	         " triggers frequently enough (for example, based on the fastest-firing gun).")]
+	public float AimApplyInterval = 0.01f;
+	//value used to check against the above while mouse is being held down.
+	private float secondsSinceLastAimApplyTrigger;
 
 	private readonly Dictionary<Vector2, Tuple<Color, float>> RecentTouches = new Dictionary<Vector2, Tuple<Color, float>>();
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
 	private LayerMask layerMask;
 	private ObjectBehaviour objectBehaviour;
 	private PlayerMove playerMove;
-	private UserControlledSprites playerSprites;
+	private Directional playerDirectional;
 	/// reference to the global lighting system, used to check occlusion
 	private LightingSystem lightingSystem;
 
 	public static readonly Vector3 sz = new Vector3(0.05f, 0.05f, 0.05f);
 
-	private Vector3 MousePosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+	private Vector3 MouseWorldPosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+
+	/// <summary>
+	/// currently triggering aimapply interactable - when mouse is clicked down this is set to the
+	/// interactable that was triggered, then it is re-triggered continuously while the button is held,
+	/// then set back to null when the button is released.
+	/// </summary>
+	private IInteractable<AimApply> triggeredAimApply;
 
 	private void OnDrawGizmos()
 	{
@@ -74,7 +99,7 @@ public class MouseInputController : MonoBehaviour
 	private void Start()
 	{
 		//for changing direction on click
-		playerSprites = gameObject.GetComponent<UserControlledSprites>();
+		playerDirectional = gameObject.GetComponent<Directional>();
 		playerMove = GetComponent<PlayerMove>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 
@@ -99,40 +124,102 @@ public class MouseInputController : MonoBehaviour
 			return;
 		}
 
-		if (!canDrag && CommonInput.GetMouseButtonUp(0))
-		{
-			//reset candrag on buttonup
-			canDrag = true;
-		}
+		//do we have a loaded gun
+		var loadedGun = GetLoadedGunInActiveHand();
+
 		if (CommonInput.GetMouseButtonDown(0))
 		{
-			var clicked = CheckAltClick();
-			if (!clicked)
+
+			//check ctrl+click for dragging
+			if (KeyboardInputManager.IsControlPressed())
 			{
-				clicked = CheckThrow();
-			}
-			if (!clicked)
-			{
-				clicked = CheckClick();
-			}
-			if (!clicked)
-			{
-				clicked = CheckClickV2();
+				//even if we didn't drag anything, nothing else should happen
+				CheckInitiatePull();
+
+				return;
 			}
 
-			if (clicked)
+			//check the alt click and throw, which doesn't have any special logic
+			if (CheckAltClick()) return;
+			if (CheckThrow()) return;
+
+			if (loadedGun != null)
 			{
-				//wait until mouseup to allow drag interaction again
-				canDrag = false;
+				//if we are on harm intent with loaded gun,
+				//don't do anything else, just shoot (trigger the AimApply).
+				if (UIManager.CurrentIntent == Intent.Harm)
+				{
+					CheckAimApply(MouseButtonState.PRESS);
+				}
+				else
+				{
+					//proceed to normal click interaction
+					CheckClickInteractions(true);
+				}
+			}
+			else
+			{
+				//we don't have a loaded gun
+				//Are we over something draggable?
+				var draggable = GetDraggable();
+				if (draggable != null)
+				{
+					//We are over a draggable. We need to wait to see if the user
+					//tries to drag the object or lifts the mouse.
+					potentialDraggable = draggable;
+					dragStartOffset = MouseWorldPosition - potentialDraggable.transform.position;
+					clickDuration = 0;
+				}
+				else
+				{
+					//no possibility of dragging something, proceed to normal click logic
+					CheckClickInteractions(true);
+				}
+
 			}
 		}
 		else if (CommonInput.GetMouseButton(0))
 		{
-			//mouse being held down / dragged
-			if (!CheckDrag() && canDrag)
+			//mouse button being held down.
+			//increment the time since they initially clicked the mouse
+			clickDuration += Time.deltaTime;
+
+			//If we are possibly dragging and have exceeded the drag distance, initiate the drag
+			if (potentialDraggable != null)
 			{
-				CheckDragV2();
+				var currentOffset = MouseWorldPosition - potentialDraggable.transform.position;
+				if (((Vector2) currentOffset - dragStartOffset).magnitude > MouseDragDeadzone)
+				{
+					potentialDraggable.BeginDrag();
+					potentialDraggable = null;
+				}
 			}
+
+			//continue to trigger the aim apply if it was initially triggered
+			CheckAimApply(MouseButtonState.HOLD);
+
+		}
+		else if (CommonInput.GetMouseButtonUp(0))
+		{
+			//mouse button is lifted.
+			//If we were waiting for mouseup to trigger a click, trigger it if we're still within
+			//the duration threshold
+			if (potentialDraggable != null)
+			{
+				if (clickDuration < MaxClickDuration)
+				{
+					//we are lifting the mouse, so AimApply should not be performed but other
+					//clicks can.
+					CheckClickInteractions(false);
+				}
+
+				clickDuration = 0;
+				potentialDraggable = null;
+			}
+
+			//no more triggering of the current aim apply
+			triggeredAimApply = null;
+			secondsSinceLastAimApplyTrigger = 0;
 		}
 		else
 		{
@@ -140,87 +227,69 @@ public class MouseInputController : MonoBehaviour
 		}
 	}
 
-	private Renderer lastHoveredThing;
-	private static readonly Type TilemapType = typeof( TilemapRenderer );
+	private void CheckInitiatePull()
+	{
+		//checks if there is anything in reach we can drag
+		var topObject = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
+			go => go.GetComponent<PushPull>() != null).FirstOrDefault();
+
+		if (topObject != null)
+		{
+			var pushPull = topObject.GetComponent<PushPull>();
+			if (pushPull != null)
+			{
+				topObject.GetComponent<PushPull>().TryPullThis();
+			}
+		}
+	}
+
+	private void CheckClickInteractions(bool includeAimApply)
+	{
+		if (CheckClick()) return;
+		if (includeAimApply) CheckAimApply(MouseButtonState.PRESS);
+	}
+
+	//return the Gun component if there is a loaded gun in active hand, otherwise null.
+	private Gun GetLoadedGunInActiveHand()
+	{
+		var item = UIManager.Hands.CurrentSlot.Item;
+		if (item != null)
+		{
+			var gun = item.GetComponent<Gun>();
+			if (gun != null && gun.CurrentMagazine != null && gun.CurrentMagazine.ammoRemains > 0)
+			{
+				return gun;
+			}
+		}
+
+		return null;
+	}
+
+	private GameObject lastHoveredThing;
 
 	private void CheckHover()
 	{
-		Renderer hitRenderer;
-		if (RayHit(false, out hitRenderer))
+		var hit = MouseUtils.GetOrderedObjectsUnderMouse(layerMask).FirstOrDefault();
+		if (hit != null)
 		{
-			if (!hitRenderer)
-			{
-				return;
-			}
-
-			if (lastHoveredThing != hitRenderer)
+			if (lastHoveredThing != hit)
 			{
 				if (lastHoveredThing)
 				{
 					lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
 				}
-				hitRenderer.transform.SendMessageUpwards("OnHoverStart", SendMessageOptions.DontRequireReceiver);
+				hit.transform.SendMessageUpwards("OnHoverStart", SendMessageOptions.DontRequireReceiver);
 
-				lastHoveredThing = hitRenderer;
+				lastHoveredThing = hit;
 			}
 
-			hitRenderer.transform.SendMessageUpwards("OnHover", SendMessageOptions.DontRequireReceiver);
+			hit.transform.SendMessageUpwards("OnHover", SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
-	//note - bool is now returned to indicate the CheckClickV2 should be skipped if an interacton occurs in
-	//this version of the method.
 	private bool CheckClick()
 	{
-		//currently there is nothing for ghosts to interact with, they only can change facing
-		if (PlayerManager.LocalPlayerScript.IsGhost)
-		{
-			ChangeDirection();
-			return false;
-		}
-
-		bool ctrlClick = KeyboardInputManager.IsControlPressed();
-		if (!ctrlClick)
-		{
-			//change the facingDirection of player on click
-			ChangeDirection();
-
-			if (RayHitInteract(false))
-			{
-				return true;
-			}
-
-			//if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
-			if (!EventSystem.current.IsPointerOverGameObject())
-			{
-				return InteractHands(false);
-			}
-
-			return false;
-		}
-		else
-		{
-			Renderer hitRenderer;
-			if (RayHit(false, out hitRenderer))
-			{
-				if (!hitRenderer)
-				{
-					return true;
-				}
-				hitRenderer.transform.SendMessageUpwards("OnCtrlClick", SendMessageOptions.DontRequireReceiver);
-				return true;
-			}
-			//we always return true for a ctrl click in the current system - this will not always be the case
-			return true;
-		}
-	}
-
-	/// <summary>
-	/// Checks for a click within the interaction framework v2. Until everything is moved over to V2,
-	/// this will have to be used alongside the old one.
-	/// </summary>
-	private bool CheckClickV2()
-	{
+		ChangeDirection();
 		//currently there is nothing for ghosts to interact with, they only can change facing
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
@@ -231,43 +300,140 @@ public class MouseInputController : MonoBehaviour
 		if (!ctrlClick)
 		{
 			var handApplyTargets =
-				MouseUtils.GetOrderedObjectsUnderMouse(layerMask, go => go.GetComponent<RegisterTile>() != null)
-					//get the root gameobject of the dropped-on sprite renderer
-					.Select(sr => sr.GetComponentInParent<RegisterTile>().gameObject)
-					//only want distinct game objects even if we hit multiple renderers on one object.
-					.Distinct();
-			//object in hand
-			var handObj = UIManager.Hands.CurrentSlot.Item;
+				MouseUtils.GetOrderedObjectsUnderMouse(layerMask);
 
-			//go through the stack of objects and call any drop components we find
+			//go through the stack of objects and call any interaction components we find
 			foreach (GameObject applyTarget in handApplyTargets)
 			{
-				HandApply info = new HandApply(PlayerManager.LocalPlayer, handObj, applyTarget.gameObject);
-				//call the used object's handapply interaction methods if it has any, for each object we are applying to
-				//if handobj is null, then its an empty hand apply so we only need to check the receiving object
-				if (handObj != null)
+				//check for positionalHandApply first since it is more specific
+				if (CheckPositionalHandApply(PositionalHandApply.ByLocalPlayer(applyTarget.gameObject))) return true;
+				if (CheckHandApply(HandApply.ByLocalPlayer(applyTarget.gameObject))) return true;
+			}
+		}
+
+		return false;
+	}
+
+	private bool CheckPositionalHandApply(PositionalHandApply interaction)
+	{
+		//call the used object's handapply interaction methods if it has any, for each object we are applying to
+        //if handobj is null, then its an empty hand apply so we only need to check the receiving object
+        if (interaction.HandObject != null)
+        {
+        	foreach (IInteractable<PositionalHandApply> handApply in interaction.HandObject.GetComponents<IInteractable<PositionalHandApply>>())
+        	{
+        		var interacted = handApply.Interact(interaction);
+        		if (interacted)
+        		{
+        			//we're done checking, something happened
+        			return true;
+        		}
+        	}
+        }
+
+        //call the hand apply interaction methods on the target object if it has any
+        foreach (IInteractable<PositionalHandApply> handApply in interaction.TargetObject.GetComponents<IInteractable<PositionalHandApply>>())
+        {
+        	var interacted = handApply.Interact(interaction);
+        	if (interacted)
+        	{
+        		//something happened, done checking
+        		return true;
+        	}
+        }
+
+        return false;
+	}
+
+	private bool CheckHandApply(HandApply interaction)
+	{
+		//call the used object's handapply interaction methods if it has any, for each object we are applying to
+		//if handobj is null, then its an empty hand apply so we only need to check the receiving object
+		if (interaction.HandObject != null)
+		{
+			foreach (IInteractable<HandApply> handApply in interaction.HandObject.GetComponents<IInteractable<HandApply>>())
+			{
+				var interacted = handApply.Interact(interaction);
+				if (interacted)
 				{
-					foreach (IInteractable<HandApply> handApply in handObj.GetComponents<IInteractable<HandApply>>())
+					//we're done checking, something happened
+					return true;
+				}
+			}
+		}
+
+		//call the hand apply interaction methods on the target object if it has any
+		foreach (IInteractable<HandApply> handApply in interaction.TargetObject.GetComponents<IInteractable<HandApply>>())
+		{
+			var interacted = handApply.Interact(interaction);
+			if (interacted)
+			{
+				//something happened, done checking
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private bool CheckAimApply(MouseButtonState buttonState)
+	{
+		if (EventSystem.current.IsPointerOverGameObject())
+		{
+			//don't do aim apply while over UI
+			return false;
+		}
+		ChangeDirection();
+		//currently there is nothing for ghosts to interact with, they only can change facing
+		if (PlayerManager.LocalPlayerScript.IsGhost)
+		{
+			return false;
+		}
+
+		//can't do anything if we have no item in hand
+		var handObj = UIManager.Hands.CurrentSlot.Item;
+		if (handObj == null)
+		{
+			triggeredAimApply = null;
+			secondsSinceLastAimApplyTrigger = 0;
+			return false;
+		}
+
+		var aimApplyInfo = AimApply.ByLocalPlayer(buttonState);
+		if (buttonState == MouseButtonState.PRESS)
+		{
+			//it's being clicked down
+			triggeredAimApply = null;
+			//Checks for aim apply interactions which can trigger
+			foreach (var aimApply in handObj.GetComponents<IInteractable<AimApply>>())
+			{
+				var interacted = aimApply.Interact(aimApplyInfo);
+				if (interacted)
+				{
+					triggeredAimApply = aimApply;
+					secondsSinceLastAimApplyTrigger = 0;
+					return true;
+				}
+			}
+		}
+		else
+		{
+			//it's being held
+			//if we are already triggering an AimApply, keep triggering it based on the AimApplyInterval
+			if (triggeredAimApply != null)
+			{
+				secondsSinceLastAimApplyTrigger += Time.deltaTime;
+				if (secondsSinceLastAimApplyTrigger > AimApplyInterval)
+				{
+					if (triggeredAimApply.Interact(aimApplyInfo))
 					{
-						var result = handApply.Interact(info);
-						if (result.SomethingHappened)
-						{
-							//we're done checking, something happened
-							return true;
-						}
+						//only reset timer if it was actually triggered
+						secondsSinceLastAimApplyTrigger = 0;
 					}
 				}
 
-				//call the hand apply interaction methods on the target object if it has any
-				foreach (IInteractable<HandApply> handApply in applyTarget.GetComponents<IInteractable<HandApply>>())
-				{
-					var result = handApply.Interact(info);
-					if (result.SomethingHappened)
-					{
-						//something happened, done checking
-						return true;
-					}
-				}
+				//no matter what the result, we keep trying to trigger it until mouse is released.
+				return true;
 			}
 		}
 
@@ -275,51 +441,35 @@ public class MouseInputController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Handles events that should happen while mouse is being held down (but not when it is initially clicked down)
+	/// Checks if there is a MouseDraggable under current mouse position. Returns it if so. Doesn't initiate
+	/// the drag.
 	/// </summary>
-	private bool CheckDrag()
-	{
-		//if we found nothing at all to click on try to use whats in our hands (might be shooting at someone in space)
-		var hit = RayHitInteract(true);
-		if (hit)
-		{
-			return true;
-		}
-		if (!EventSystem.current.IsPointerOverGameObject())
-		{
-			return InteractHands(true);
-		}
-
-		return false;
-	}
-
-	private void CheckDragV2()
+	/// <returns>draggable found, null if none found</returns>
+	private MouseDraggable GetDraggable()
 	{
 		if (EventSystem.current.IsPointerOverGameObject())
 		{
 			//currently UI is not a part of interaction framework V2
-			return;
+			return null;
 		}
 		//currently there is nothing for ghosts to interact with, they only can change facing
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			return;
+			return null;
 		}
 
 		var draggable =
 			MouseUtils.GetOrderedObjectsUnderMouse(layerMask, go =>
 					go.GetComponent<MouseDraggable>() != null &&
 					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayer))
-				//get the root gameobject of the draggable
-				.Select(sr => sr.GetComponentInParent<MouseDraggable>().gameObject)
-				//only want distinct game objects even if we hit multiple renderers on one object.
-				.Distinct()
 				.FirstOrDefault();
 		if (draggable != null)
 		{
-			//start dragging the first draggable we found
-			draggable.GetComponent<MouseDraggable>().BeginDrag();
+			var dragComponent = draggable.GetComponent<MouseDraggable>();
+			return dragComponent;
 		}
+
+		return null;
 	}
 
 
@@ -329,7 +479,7 @@ public class MouseInputController : MonoBehaviour
 		{
 			//Check for items on the clicked position, and display them in the Item List Tab, if they're in reach
 			//and not FOV occluded
-			Vector3 position = MousePosition;
+			Vector3 position = MouseWorldPosition;
 			position.z = 0f;
 			if (!lightingSystem.enabled || lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
 			{
@@ -365,7 +515,7 @@ public class MouseInputController : MonoBehaviour
 			{
 				return false;
 			}
-			Vector3 position = MousePosition;
+			Vector3 position = MouseWorldPosition;
 			position.z = 0f;
 			UIManager.CheckStorageHandlerOnMove(currentSlot.Item);
 			currentSlot.Clear();
@@ -386,258 +536,11 @@ public class MouseInputController : MonoBehaviour
 
 		playerPos = transform.position;
 
-		Vector2 dir = (MousePosition - playerPos).normalized;
+		Vector2 dir = (MouseWorldPosition - playerPos).normalized;
 
-		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput)
+		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsRestrained)
 		{
-			playerSprites.ChangeAndSyncPlayerDirection(Orientation.From(dir));
+			playerDirectional.FaceDirection(Orientation.From(dir));
 		}
-	}
-
-	/// <summary>
-	/// Checks the gameobjects the mouse is over and triggers interaction for the highest object that has an interaction
-	/// to perform.
-	/// </summary>
-	/// <param name="isDrag">is this during (but not at the very start of) a drag?</param>
-	/// <returns>true iff there was a hit that caused an interaction</returns>
-	private bool RayHitInteract(bool isDrag)
-	{
-		Renderer hitRenderer;
-		return RayHit(isDrag, out hitRenderer, true);
-	}
-
-	/// <summary>
-	/// Checks the gameobjects the mouse is over and triggers interaction for the highest object that has an interaction
-	/// to perform.
-	/// </summary>
-	/// <param name="isDrag">is this during (but not at the very start of) a drag?</param>
-	/// <param name="hitRenderer">renderer of the gameobject that had an interaction</param>
-	/// <param name="interact">true iff there was an interaction that occurred</param>
-	/// <returns>true iff there was a hit that caused an interaction</returns>
-	private bool RayHit(bool isDrag, out Renderer hitRenderer, bool interact = false)
-	{
-		hitRenderer = null;
-
-		Vector3 mousePosition = MousePosition;
-
-		// Sample the FOV mask under current mouse position.
-		if (lightingSystem.enabled && lightingSystem.IsScreenPointVisible(CommonInput.mousePosition) == false)
-		{
-			return false;
-		}
-
-		RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero, 10f, layerMask);
-
-		//collect all the sprite renderers
-		List<Renderer> renderers = new List<Renderer>();
-
-		foreach (RaycastHit2D hit in hits)
-		{
-			Transform objectTransform = hit.collider.gameObject.transform;
-			Renderer _renderer = IsHit(objectTransform);
-			if (_renderer != null)
-			{
-				renderers.Add(_renderer);
-			}
-		}
-		bool isInteracting = false;
-		//check which of the sprite renderers we hit and pixel checked is the highest
-		if (renderers.Count > 0)
-		{
-			foreach ( Renderer _renderer in renderers.OrderByDescending(r => r.GetType() == TilemapType ? 0 : 1)
-													 .ThenByDescending(r => SortingLayer.GetLayerValueFromID(r.sortingLayerID))
-													 .ThenByDescending(r => r.sortingOrder))
-			{
-				// If the ray hits a FOVTile, we can continue down (don't count it as an interaction)
-				// Matrix is the base Tilemap layer. It is used for matrix detection but gets in the way
-				// of player interaction
-				if (!_renderer.sortingLayerName.Equals("FieldOfView"))
-				{
-					hitRenderer = _renderer;
-
-					if (!interact)
-					{
-						break;
-					}
-
-					if (Interact(_renderer.transform, mousePosition, isDrag))
-					{
-						isInteracting = true;
-						break;
-					}
-				}
-			}
-		}
-
-		//Do interacts below: (This is because if a ray returns true but there is no interaction, check click
-		//will not continue with the Interact call so we have to make sure it does below):
-		if (interact && !isInteracting)
-		{
-			//returning false then calls InteractHands from check click:
-			return false;
-		}
-
-		//check if we found nothing at all
-		return hits.Any();
-	}
-
-	private Renderer IsHit(Transform _transform)
-	{
-		TilemapRenderer tilemapRenderer = _transform.GetComponent<TilemapRenderer>();
-
-		if (tilemapRenderer)
-		{
-			return tilemapRenderer;
-		}
-
-		return MouseUtils.IsPixelHit(_transform);
-	}
-
-	/// <summary>
-	/// Check for and process (if the interaction should occur) an interaction on the gameobject with the given transform.
-	/// </summary>
-	/// <param name="_transform">transform to check the interaction of</param>
-	/// <param name="isDrag">is this during (but not the very start of) a drag?</param>
-	/// <returns>true iff an interaction occurred</returns>
-	public bool Interact(Transform _transform, bool isDrag)
-	{
-		return Interact(_transform, _transform.position, isDrag);
-	}
-
-
-	/// <summary>
-	/// Checks for the various interactions that can occur and delegates to the appropriate trigger classes.
-	/// Note that only one interaction is allowed to occur in this method - the first time any trigger returns true
-	/// (indicating that interaction logic has occurred), the method returns.
-	/// </summary>
-	/// <param name="_transform">transform to check the interaction of</param>
-	/// <param name="position">position the interaction is taking place</param>
-	/// <param name="isDrag">is this during (but not at the very start of) a drag?</param>
-	/// <returns>true iff an interaction occurred</returns>
-	public bool Interact(Transform _transform, Vector3 position, bool isDrag)
-	{
-		if (PlayerManager.LocalPlayerScript.IsGhost)
-		{
-			return false;
-		}
-
-		//check the actual transform for an input trigger and if there is none, check the parent
-		InputTrigger inputTrigger = _transform.GetComponentInParent<InputTrigger>();
-
-		//attempt to trigger the things in range we clicked on
-		var localPlayer = PlayerManager.LocalPlayerScript;
-		if (localPlayer.IsInReach(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition), false) || localPlayer.IsHidden)
-		{
-			//Check for melee triggers first. If a melee interaction occurs, stop checking for any further interactions
-			MeleeTrigger meleeTrigger = _transform.GetComponentInParent<MeleeTrigger>();
-			//no melee action happens due to a drag
-			if (meleeTrigger != null && !isDrag)
-			{
-				if (meleeTrigger.MeleeInteract(gameObject, UIManager.Hands.CurrentSlot.eventName))
-				{
-					return true;
-				}
-			}
-
-			if (inputTrigger)
-			{
-				if (objectBehaviour.visibleState)
-				{
-					bool interacted = TryInputTrigger( position, isDrag, inputTrigger );
-					if (interacted)
-					{
-						return true;
-					}
-
-					//FIXME currently input controller only uses the first InputTrigger found on an object
-					/////// some objects have more then 1 input trigger, like players for example
-					/////// below is a solution that should be removed when InputController is refactored
-					/////// to support multiple InputTriggers on the target object
-					if (inputTrigger.gameObject.layer == 8)
-					{
-						//This is a player. Attempt to use the player based inputTrigger
-						P2PInteractions playerInteractions = inputTrigger.gameObject.GetComponent<P2PInteractions>();
-						if (playerInteractions != null)
-						{
-							if (isDrag)
-							{
-								interacted = playerInteractions.TriggerDrag(position);
-							}
-							else
-							{
-								interacted = playerInteractions.Trigger(position);
-							}
-						}
-					}
-					if (interacted)
-					{
-						return true;
-					}
-				}
-				//Allow interact with cupboards we are inside of!
-				ClosetControl closet = inputTrigger.GetComponent<ClosetControl>();
-				//no closet interaction happens when dragging
-				if (closet && Camera2DFollow.followControl.target == closet.transform && !isDrag)
-				{
-
-					if (inputTrigger.Trigger(position))
-					{
-						return true;
-					}
-				}
-			}
-
-			return false;
-		}
-		//Still try triggering inputTrigger even if it's outside mouse reach
-		//(for things registered on tile within range but having parts outside of it)
-		else if ( inputTrigger && objectBehaviour.visibleState && TryInputTrigger( position, isDrag, inputTrigger ) )
-		{
-			return true;
-		}
-
-		//if we are holding onto an item like a gun attempt to shoot it if we were not in range to trigger anything
-		return InteractHands(isDrag);
-	}
-
-	/// <summary>
-	/// Tries to trigger InputTrigger
-	/// </summary>
-	private static bool TryInputTrigger( Vector3 position, bool isDrag, InputTrigger inputTrigger )
-	{
-		return isDrag ? inputTrigger.TriggerDrag( position ) : inputTrigger.Trigger( position );
-	}
-
-	private bool InteractHands(bool isDrag)
-	{
-		if (UIManager.Hands.CurrentSlot.Item != null && objectBehaviour.visibleState)
-		{
-			InputTrigger inputTrigger = UIManager.Hands.CurrentSlot.Item.GetComponent<InputTrigger>();
-
-			if (inputTrigger != null)
-			{
-				bool interacted = false;
-				var interactPosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
-				if (isDrag)
-				{
-					interacted = inputTrigger.TriggerDrag(interactPosition);
-				}
-				else
-				{
-					interacted = inputTrigger.Trigger(interactPosition);
-				}
-				if (interacted)
-				{
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-
-	public void OnMouseDownDir(Vector2 dir)
-	{
-		playerSprites.ChangeAndSyncPlayerDirection(Orientation.From(dir));
 	}
 }

@@ -13,7 +13,7 @@ public class TortureChamber
 		var ps = player.GetComponent<PlayerScript>();
 		if ( !ps )
 		{
-			Logger.LogWarning("Cannot torture :( not a player", Category.Security);
+			Logger.LogWarningFormat("Cannot torture {0}, not a player.", Category.Security, player.name);
 			return;
 		}
 		Torture(ps, severity);

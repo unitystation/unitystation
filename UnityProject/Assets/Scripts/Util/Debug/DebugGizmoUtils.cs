@@ -8,7 +8,7 @@ public static class DebugGizmoUtils
 		GUISkin guiSkin = GUI.skin;
 		if (guiSkin == null)
 		{
-			Debug.LogWarning("editor warning: guiSkin parameter is null");
+			Logger.LogWarning("editor warning: guiSkin parameter is null", Category.DebugConsole);
 			return;
 		}
 

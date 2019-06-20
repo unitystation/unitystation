@@ -10,5 +10,17 @@ public interface IInteractable<T>
 	where T : Interaction
 {
 
-	InteractionResult Interact(T interaction);
+	/// <summary>
+	/// Handle the interaction
+	/// </summary>
+	/// <param name="interaction"></param>
+	/// <returns>true indicates that this component "consumed" the event -
+	/// no further processing should happen for this interaction - no other components
+	/// should process the event. Typically returned when the interaction has caused something to occur.
+	///
+	/// False indicates the component didn't consume the event - other components should be allowed to
+	/// process the event. Typically returned when
+	/// the interaction didn't do anything, due to being invalid or inconsequential.
+	/// </returns>
+	bool Interact(T interaction);
 }

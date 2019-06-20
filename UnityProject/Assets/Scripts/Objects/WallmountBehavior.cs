@@ -3,22 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Behavior common to all wall mounts.
-/// Behavior common to all wall mounts. Note that a wallmount's facing is determined by the gameobject's rotation,
+/// Behavior common to all wall mounts. Note that a wallmount's facing is determined by the Directional.InitialDirection,
 /// but the wallmount sprites are always re-oriented to be upright when in game.
 ///
 /// Adds a WallmountSpriteBehavior to all child objects that have SpriteRenderers. Facing / visibility checking is handled in
 /// there. See <see cref="WallmountSpriteBehavior"/>
 /// </summary>
+[RequireComponent(typeof(Directional))]
 public class WallmountBehavior : MonoBehaviour
 {
 	//cached spriteRenderers of this gameobject
 	private SpriteRenderer[] spriteRenderers;
+	private Directional directional;
 
 	private void Start()
 	{
+		directional = GetComponent<Directional>();
 		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 		foreach (SpriteRenderer renderer in spriteRenderers)
 		{
@@ -34,16 +37,10 @@ public class WallmountBehavior : MonoBehaviour
 	public bool IsFacingPosition(Vector3 worldPosition)
 	{
 		Vector3 headingToPosition = worldPosition - transform.position;
-		Vector3 facing = transform.up;
+		Vector3 facing = -directional.CurrentDirection.Vector;
 		float difference = Vector3.Angle(facing, headingToPosition);
 		//91 rather than 90 helps prevent flickering due to rounding
 		return difference >= 91 || difference <= -91;
-	}
-
-	void OnDrawGizmos ()
-	{
-		Gizmos.color = Color.green;
-		DebugGizmoUtils.DrawArrow(transform.position, - transform.up);
 	}
 
 	/// <summary>

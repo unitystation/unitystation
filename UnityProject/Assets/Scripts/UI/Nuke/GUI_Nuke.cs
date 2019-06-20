@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class GUI_Nuke : NetTab
 {
-	private NukeInteract nukeInteract;
-	private NukeInteract NukeInteract {
+	private Nuke nuke;
+	private Nuke Nuke {
 		get {
-			if ( !nukeInteract ) {
-				nukeInteract = Provider.GetComponent<NukeInteract>();
+			if ( !nuke ) {
+				nuke = Provider.GetComponent<Nuke>();
 			}
 
-			return nukeInteract;
+			return nuke;
 		}
 	}
 	private bool cooldown;
@@ -36,7 +36,7 @@ public class GUI_Nuke : NetTab
 		//Not doing this for clients
 		if ( IsServer ) {
 //			Logger.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
-			InitialInfoText = $"Enter {NukeInteract.NukeCode.ToString().Length}-digit code:";
+			InitialInfoText = $"Enter {Nuke.NukeCode.ToString().Length}-digit code:";
 			InfoDisplay.SetValue = InitialInfoText;
 		}
 	}
@@ -45,42 +45,17 @@ public class GUI_Nuke : NetTab
 		if ( cooldown ) {
 			return;
 		}
-		if ( NukeInteract.AppendKey( digit ) ) {
-			int length = NukeInteract.CurrentCode.Length;
+		if ( Nuke.AppendKey( digit ) ) {
+			int length = Nuke.CurrentCode.Length;
 			//replace older digits with asterisks
-			string newDigit = NukeInteract.CurrentCode.Substring( length <= 0 ? 0 : length - 1 );
+			string newDigit = Nuke.CurrentCode.Substring( length <= 0 ? 0 : length - 1 );
 			CodeDisplay.SetValue = newDigit.PadLeft( length, '*' );
 			StartCoroutine( HideCode() );
 		}
 	}
 
-//ow
-//	private static string tgt = "One day while Andy was toggling, " +
-//	                            "Toggle got toggled. He could no longer help himself! " +
-//	                            "He watched as Andy stroked his juicy kawaii toggle.";
-//
-//	private bool tgtMode;
-//	public void ToggleGotToggled( bool toggled ) {
-//		if ( toggled ) {
-//			tgtMode = true;
-//			StartCoroutine( ToggleStory(0) );
-//		} else {
-//			tgtMode = false;
-//			InfoDisplay.SetValue = InitialInfoText;
-//		}
-//	}
-//	private IEnumerator ToggleStory(int word) {
-//		var strings = tgt.Split( ' ' );
-//		InfoDisplay.SetValue = strings.Wrap(word);
-//		yield return new WaitForSeconds( 0.15f );
-//		if ( tgtMode ) {
-//			StartCoroutine( ToggleStory(++word) );
-//		}
-//
-//	}
-
 	private IEnumerator HideCode() {
-		yield return new WaitForSeconds( 1 );
+		yield return WaitFor.Seconds( 1 );
 		CodeDisplay.SetValue = "".PadLeft( CodeDisplay.Value.Length, '*' );
 	}
 
@@ -88,7 +63,7 @@ public class GUI_Nuke : NetTab
 		if ( cooldown ) {
 			return;
 		}
-		NukeInteract.Clear();
+		Nuke.Clear();
 		CodeDisplay.SetValue = "";
 	}
 	public void TryArm() {
@@ -96,7 +71,7 @@ public class GUI_Nuke : NetTab
 			return;
 		}
 
-		if (NukeInteract.Validate()) {
+		if (Nuke.Validate()) {
 			InfoDisplay.SetValue = "PREPARE TO DIE";
 		} else {
 			StartCoroutine( ErrorCooldown() );
@@ -107,17 +82,17 @@ public class GUI_Nuke : NetTab
 	public IEnumerator ErrorCooldown() {
 		cooldown = true;
 		InfoDisplay.SetValue = "Incorrect code!";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "Incorrect code!";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "Incorrect code!";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		InfoDisplay.SetValue = "";
-		yield return new WaitForSeconds( 0.5F );
+		yield return WaitFor.Seconds( 0.5F );
 		cooldown = false;
 		Clear();
 		InfoDisplay.SetValue = InitialInfoText;

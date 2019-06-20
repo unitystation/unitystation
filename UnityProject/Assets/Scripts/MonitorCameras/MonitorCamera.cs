@@ -25,13 +25,13 @@ public class MonitorCamera : MonoBehaviour
 		{
 			for (int i = 0; i < 7; i++)
 			{
-				yield return new WaitForSeconds(time);
+				yield return WaitFor.Seconds(time);
 				spriteRenderer.sprite = sprites[baseSprite + i * 8];
 			}
 
 			for (int i = 6; i >= 0; i--)
 			{
-				yield return new WaitForSeconds(time);
+				yield return WaitFor.Seconds(time);
 				spriteRenderer.sprite = sprites[baseSprite + i * 8];
 			}
 		}

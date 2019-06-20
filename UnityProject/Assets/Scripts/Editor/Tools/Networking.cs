@@ -5,19 +5,11 @@ using UnityEngine.Networking;
 
 public class Networking : Editor
 {
-	[MenuItem("Networking/Pickup Random Item (Client)")]
-	private static void PickupRandomItem()
-	{
-		PickUpTrigger[] items = FindObjectsOfType<PickUpTrigger>();
-		GameObject gameObject = items[Random.Range(1, items.Length)].gameObject;
-		InteractMessage.Send(gameObject, "id");
-	}
-
 	[MenuItem("Networking/Give Random Item To All (Server)")]
 	private static void GiveItems()
 	{
 		PlayerNetworkActions[] players = FindObjectsOfType<PlayerNetworkActions>();
-		PickUpTrigger[] items = FindObjectsOfType<PickUpTrigger>();
+		Pickupable[] items = FindObjectsOfType<Pickupable>();
 
 		//		var gameObject = items[Random.Range(1, items.Length)].gameObject;
 		for (int i = 0; i < players.Length; i++)
@@ -58,7 +50,7 @@ public class Networking : Editor
 		foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
 			//Printing this the pretty way, example:
 			//Bob (CAPTAIN) is located at (77,0, 52,0, 0,0)
-			Logger.Log( $"{player.Name} ({player.Job}) is located at {player.Script.WorldPos}" );
+			Logger.LogFormat( "{0} ({1)} is located at {2}.", Category.Server, player.Name, player.Job, player.Script.WorldPos );
 		}
 
 	}
@@ -104,7 +96,7 @@ public class Networking : Editor
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.RespawnPlayer();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer();
 		}
 	}
 }

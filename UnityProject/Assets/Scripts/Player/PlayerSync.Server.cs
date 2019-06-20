@@ -50,7 +50,10 @@ public partial class PlayerSync
 		get => masterSpeedServer;
 		set
 		{ // Future move speed (applied on the next step)
-			Logger.LogTraceFormat( "{0}: setting SERVER speed {1}->{2}", Category.Movement, gameObject.name, SpeedServer, value );
+			if ( Math.Abs( masterSpeedServer - value ) > 0.01f )
+			{
+				Logger.LogTraceFormat( "{0}: setting SERVER speed {1}->{2}", Category.Movement, gameObject.name, SpeedServer, value );
+			}
 			masterSpeedServer = value < 0 ? 0 : value;
 		}
 	}
@@ -161,7 +164,9 @@ public partial class PlayerSync
 		}
 
 		if ( followMode ) {
-			SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
+			playerDirectional.FaceDirection(Orientation.From(direction));
+			//force directional update of client, since it can't predict where it's being pulled
+			playerDirectional.TargetForceSyncDirection(playerScript.connectionToClient);
 		}
 		else if ( !float.IsNaN( speed ) && speed >= playerMove.PushFallSpeed )
 		{
@@ -327,13 +332,17 @@ public partial class PlayerSync
 		{
 			Logger.LogWarning("Server ignored queued move while player isn't supposed to move", Category.Movement);
 			serverPendingActions.Dequeue();
+
+			TryUpdateServerTarget();
 			return;
 		}
 
 		var curState = serverState;
 		PlayerState nextState = NextStateServer( curState, serverPendingActions.Dequeue() );
 
-		if ( Equals( curState, nextState ) ) {
+		if ( Equals( curState, nextState ) )
+		{
+			TryUpdateServerTarget();
 			return;
 		}
 
@@ -347,6 +356,8 @@ public partial class PlayerSync
 			CheckMovementServer();
 			OnStartMove().Invoke( oldPos.RoundToInt(), newPos.RoundToInt() );
 		}
+
+		TryUpdateServerTarget();
 		//Logger.Log($"Server Updated target {serverTargetState}. {serverPendingActions.Count} pending");
 	}
 
@@ -387,7 +398,7 @@ public partial class PlayerSync
 				BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
 			}
 
-			playerSprites.LocalFaceDirection( Orientation.From( action.Direction() ) );
+			playerDirectional.FaceDirection( Orientation.From( action.Direction() ) );
 			return state;
 		}
 
@@ -456,7 +467,7 @@ public partial class PlayerSync
 //		Logger.LogTraceFormat( "{0} Interacting {1}->{2}, server={3}", Category.Movement, Time.unscaledTime*1000, worldPos, worldTarget, isServer );
 		InteractPushable(worldPos, direction );
 
-		yield return YieldHelper.DeciSecond;
+		yield return WaitFor.Seconds(.1f);
 	}
 
 	private IEnumerator InteractSpacePushable( PushPull pushable, Vector2 direction, bool isRecursive = false, int i = 0 ) {
@@ -523,12 +534,12 @@ public partial class PlayerSync
 	private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 	{
 		// Make sure there is a door which can be interacted with
-		DoorTrigger door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);
+		InteractableDoor door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);
 
 		// Attempt to open door
 		if (door != null)
 		{
-			door.Interact(gameObject, TransformState.HiddenPos);
+			door.Bump(gameObject);
 		}
 	}
 
@@ -624,7 +635,7 @@ public partial class PlayerSync
 	/// <returns></returns>
 	private IEnumerator FloatingAwarenessSync()
 	{
-		yield return YieldHelper.Second;
+		yield return WaitFor.Seconds(1);
 //		Logger.LogFormat( "{0} is floating at {1} (friendly reminder)", Category.Movement, gameObject.name, ServerPosition );
 		serverState.ImportantFlightUpdate = true;
 		NotifyPlayers();

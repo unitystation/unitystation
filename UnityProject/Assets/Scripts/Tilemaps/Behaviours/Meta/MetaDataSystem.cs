@@ -76,10 +76,15 @@ public class MetaDataSystem : SubsystemBehaviour
 			node.Type = metaTileMap.IsSpaceAt(position, true) ? NodeType.Space : NodeType.Room;
 			SetupNeighbors(node);
 			MetaUtils.AddToNeighbors(node);
+			node.IsClosedAirlock = false;
 		}
 		else
 		{
 			node.Type = NodeType.Occupied;
+			if ( matrix.GetFirst<RegisterDoor>(position, true) )
+			{
+				node.IsClosedAirlock = true;
+			}
 		}
 	}
 
@@ -99,6 +104,11 @@ public class MetaDataSystem : SubsystemBehaviour
 		{
 			MetaDataNode node = metaDataLayer.Get(position);
 			node.Type = NodeType.Occupied;
+
+			if ( matrix.GetFirst<RegisterDoor>(position, true) )
+			{
+				node.IsClosedAirlock = true;
+			}
 
 			SetupNeighbors(node);
 		}
@@ -123,7 +133,7 @@ public class MetaDataSystem : SubsystemBehaviour
 			{
 				roomPositions.Add(position);
 
-				Vector3Int[] neighbors = MetaUtils.GetNeighbors(position);
+				Vector3Int[] neighbors = MetaUtils.GetNeighbors(position, null);
 				for (var i = 0; i < neighbors.Length; i++)
 				{
 					Vector3Int neighbor = neighbors[i];

@@ -38,7 +38,9 @@ public class InventoryInteractMessage : ClientMessage
 			if (!pna.ValidateDropItem(InventoryManager.GetSlotFromUUID(FromSlotUUID, true)
 			, ForceSlotUpdate))
 			{
-				pna.RollbackPrediction(SlotUUID, FromSlotUUID, item);
+				//NOTE: There is currently no drop prediction, so nothing to roll back.
+				//The below logic will cause desync to occur if invoked so removing it for now.
+				//pna.RollbackPrediction(SlotUUID, FromSlotUUID, item);
 			}
 		}
 		else

@@ -1,5 +1,6 @@
 ﻿﻿using UnityEngine;
-using UnityEngine.Networking;
+ using UnityEngine.Events;
+ using UnityEngine.Networking;
 
 public enum ObjectType
 {
@@ -15,44 +16,24 @@ public enum ObjectType
 /// can have multiple gameobjects with RegisterTile behavior. This lets each gameobject on the tile
 /// influence how the tile works (such as making it impassible)
 ///
-/// Also tracks the Matrix the object is in. Any object that needs to subscribe to rotation events should
-/// do so via RegisterTile.OnRotateEnd / OnRotateStart rather than manually tracking / subscribing to the current matrix itself,
-/// as RegisterTile takes care of tracking the current matrix.
+/// Also tracks the Matrix the object is in.
 /// </summary>
 [ExecuteInEditMode]
 public abstract class RegisterTile : NetworkBehaviour
 {
-	/// <summary>
-	/// When true, registertiles will rotate to their new orientation at the end of matrix rotation. When false
-	/// they will rotate to the new orientation at the start of matrix rotation.
-	/// </summary>
-	private const bool ROTATE_AT_END = true;
+	private bool hasInit = false;
 
-	/// <summary>
-	/// Invoked when rotation ends. Passes through the OrientationEvent from this registertile's
-	/// current MatrixMove. Allows objects which have a RegisterTile component to subscribe to rotation events
-	/// for the correct matrix rather than having to determine which matrix to subscribe to and having to
-	/// constantly check if the matrix has changed. In general, it's better to use this event rather than
-	/// MatrixMove.OnRotateEnd because RegisterTile takes care of always subscribing to the correct matrix
-	/// even when the matrix changes.
-	/// </summary>
-	[HideInInspector]
-	public OrientationEvent OnRotateEnd = new OrientationEvent();
-	/// <summary>
-	/// See <see cref="OnRotateEnd"/>. Invoked when rotation begins.
-	/// </summary>
-	[HideInInspector]
-	public OrientationEvent OnRotateStart = new OrientationEvent();
-
-	private ObjectLayer layer;
+	public ObjectLayer layer;
 
 	public ObjectType ObjectType;
 
-	[Tooltip("If true, this object's sprites will rotate along with the matrix. If false, this wallmount's sprites" +
-	         " will always remain upright (top pointing to the top of the screen")]
-	public bool rotateWithMatrix;
-
 	private PushPull customTransform;
+
+	/// <summary>
+	/// Invoked when parent matrix is going to change, just before the matrix is actually changed. Passes
+	/// the new matrix.
+	/// </summary>
+	public MatrixChangeEvent OnMatrixWillChange = new MatrixChangeEvent();
 
 	/// <summary>
 	/// Matrix this object lives in
@@ -64,45 +45,12 @@ public abstract class RegisterTile : NetworkBehaviour
 		{
 			if (value)
 			{
+				OnMatrixWillChange.Invoke(value);
 				matrix = value;
-				//update matrix move as well
-				//if it exists
-				MatrixMove = matrix.transform.root.GetComponent<MatrixMove>();
 			}
 		}
 	}
 	private Matrix matrix;
-
-	/// <summary>
-	/// MatrixMove this registerTile exists in, if the tile's current matrix can actually move.
-	/// Null if there is no MatrixMove for this matrix (i.e. for an non-movable matrix).
-	/// Cached so we don't have to re-locate it every time it's needed
-	/// </summary>
-	public MatrixMove MatrixMove
-	{
-		get => matrixMove;
-		private set
-		{
-			//unsubscribe from old event
-			if (matrixMove != null)
-			{
-				matrixMove.OnRotateStart.RemoveListener(OnRotationStart);
-				matrixMove.OnRotateEnd.RemoveListener(OnRotationEnd);
-			}
-
-			matrixMove = value;
-			//set up rotation listener
-			if (matrixMove != null)
-			{
-				matrixMove.OnRotateStart.AddListener(OnRotationStart);
-				matrixMove.OnRotateEnd.AddListener(OnRotationEnd);
-			}
-		}
-	}
-	private MatrixMove matrixMove;
-
-	//cached spriteRenderers of this gameobject
-	protected SpriteRenderer[] spriteRenderers;
 
 	public NetworkInstanceId ParentNetId
 	{
@@ -120,6 +68,12 @@ public abstract class RegisterTile : NetworkBehaviour
 	// Note that syncvar only runs on the client, so server must ensure SetParent
 	// is invoked.
 	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
+
+	/// <summary>
+	/// Returns the correct client/server version of world position depending on if this is
+	/// called on client or server.
+	/// </summary>
+	public Vector3Int WorldPosition => isServer ? WorldPositionServer : WorldPositionClient;
 
 	public Vector3Int WorldPositionServer => MatrixManager.Instance.LocalToWorldInt(serverPosition, Matrix);
 	public Vector3Int WorldPositionClient => MatrixManager.Instance.LocalToWorldInt(clientPosition, Matrix);
@@ -199,40 +153,20 @@ public abstract class RegisterTile : NetworkBehaviour
 			UpdatePositionServer();
 		}
 		OnParentChangeComplete();
-	}
 
-	private void Start()
-	{
-		Init();
-	}
-
-	private void Awake()
-	{
-		//some things (such as items in closets) do not start with sprite renderers so we need to init
-		//when they are awoken not just on Start
-		Init();
-	}
-
-	private void Init()
-	{
-		//cache the sprite renderers
-		if (spriteRenderers == null)
+		if (!hasInit)
 		{
-			spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-			//orient upright
-			if (!rotateWithMatrix && spriteRenderers != null)
-			{
-				foreach (SpriteRenderer renderer in spriteRenderers)
-				{
-					renderer.transform.rotation = Quaternion.identity;
-				}
-			}
+			hasInit = true;
 		}
 
+	}
+	private void Awake()
+	{
 		if ( customTransform == null )
 		{
 			customTransform = GetComponent<PushPull>();
 		}
+
 	}
 
 	public override void OnStartClient()
@@ -306,48 +240,6 @@ public abstract class RegisterTile : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Invoked when receiving rotation event from our current matrix's matrixmove
-	/// </summary>
-	/// <param name="fromCurrent">offset our matrix has rotated by from its previous orientation</param>
-	protected virtual void OnRotationStart(RotationOffset fromCurrent, bool isInitialRotation)
-	{
-		if (!ROTATE_AT_END && spriteRenderers != null)
-		{
-			// reorient to stay upright if we are configured to do so
-			if (!rotateWithMatrix)
-			{
-				foreach (SpriteRenderer renderer in spriteRenderers)
-				{
-					renderer.transform.rotation = Quaternion.identity;
-				}
-			}
-		}
-
-		OnRotateStart.Invoke(fromCurrent, isInitialRotation);
-	}
-
-	/// <summary>
-	/// Invoked when receiving rotation event from our current matrix's matrixmove
-	/// </summary>
-	/// <param name="fromCurrent">offset our matrix has rotated by from its previous orientation</param>
-	protected virtual void OnRotationEnd(RotationOffset fromCurrent, bool isInitialRotation)
-	{
-		if (ROTATE_AT_END && spriteRenderers != null)
-		{
-			// reorient to stay upright if we are configured to do so
-			if (!rotateWithMatrix)
-			{
-				foreach (SpriteRenderer renderer in spriteRenderers)
-				{
-					renderer.transform.rotation = Quaternion.identity;
-				}
-			}
-		}
-
-		OnRotateEnd.Invoke(fromCurrent, isInitialRotation);
-	}
-
-	/// <summary>
 	/// Invoked when the parent net ID of this RegisterTile has changed, after reparenting
 	/// has been performed in RegisterTile (which updates the parent net ID, parent transform, parent
 	/// matrix, position, object layer, and parent matrix move if one is present in the matrix).
@@ -380,3 +272,8 @@ public abstract class RegisterTile : NetworkBehaviour
 		return true;
 	}
 }
+
+ /// <summary>
+ /// Event fired when current matrix is changing. Passes the new matrix.
+ /// </summary>
+ public class MatrixChangeEvent : UnityEvent<Matrix>{};

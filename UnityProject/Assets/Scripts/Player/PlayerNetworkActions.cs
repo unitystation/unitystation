@@ -39,7 +39,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private Equipment equipment;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private UserControlledSprites playerSprites;
 	private ObjectBehaviour objectBehaviour;
 
 	public Dictionary<string, InventorySlot> Inventory { get; } = new Dictionary<string, InventorySlot>();
@@ -53,7 +52,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
-		playerSprites = GetComponent<UserControlledSprites>();
 		playerScript = GetComponent<PlayerScript>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
@@ -77,12 +75,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			SendSyncMessage(gameObject);
-
-			//if this is the ghost, respawn after 10 seconds
-			if (playerScript.IsGhost)
-			{
-				RespawnPlayer(RESPAWN_TIME_SECONDS);
-			}
 		}
 
 		base.OnStartServer();
@@ -302,7 +294,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	private void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
+	public void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
 	{
 		for (int i = 0; i < slotNames.Length; i++)
 		{
@@ -560,21 +552,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return Inventory.ContainsKey(eventName) && Inventory[eventName].Item != null;
 	}
 
-	/// Allows interactions if player is in reach or inside closet
-	[Command]
-	public void CmdToggleCupboard(GameObject cupbObj)
-	{
-		ClosetControl closet = cupbObj.GetComponent<ClosetControl>();
-		if (playerScript.canNotInteract())
-		{
-			return;
-		}
-		if (playerScript.IsInReach(cupbObj, true) || closet.Contains(this.gameObject))
-		{
-			closet.ServerToggleCupboard();
-		}
-	}
-
 	[Command]
 	public void CmdStartMicrowave(string slotName, GameObject microwave, string mealName)
 	{
@@ -589,7 +566,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
-			ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
+			ShutterSwitch s = switchObj.GetComponent<ShutterSwitch>();
 			if (s.IsClosed)
 			{
 				s.IsClosed = false;
@@ -601,8 +578,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
-			Logger.LogWarning("player attempted to interact with shutter switch through wall," +
-				" this could indicate a hacked client.");
+			Logger.LogWarningFormat("Player {0} attempted to interact with shutter switch through wall," +
+				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
 
@@ -611,65 +588,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
-			LightSwitchTrigger s = switchObj.GetComponent<LightSwitchTrigger>();
-			if (s.isOn == LightSwitchTrigger.States.On)
+			LightSwitch s = switchObj.GetComponent<LightSwitch>();
+			if (s.isOn == LightSwitch.States.On)
 			{
-				s.isOn = LightSwitchTrigger.States.Off;
+				s.isOn = LightSwitch.States.Off;
 			}
-			else if (s.isOn == LightSwitchTrigger.States.Off) {
-				s.isOn = LightSwitchTrigger.States.On;
+			else if (s.isOn == LightSwitch.States.Off) {
+				s.isOn = LightSwitch.States.On;
 			}
 
 		}
 		else
 		{
-			Logger.LogWarning("player attempted to interact with light switch through wall," +
-				" this could indicate a hacked client.");
-		}
-	}
-
-	[Command]
-	public void CmdToggleFireCabinet(GameObject cabObj, bool forItemInteract, string currentSlotName)
-	{
-		if (CanInteractWallmount(cabObj.GetComponent<WallmountBehavior>()))
-		{
-			FireCabinetTrigger c = cabObj.GetComponent<FireCabinetTrigger>();
-
-			if (!forItemInteract)
-			{
-				if (c.IsClosed)
-				{
-					c.IsClosed = false;
-				}
-				else
-				{
-					c.IsClosed = true;
-				}
-			}
-			else
-			{
-				if (c.isFull)
-				{
-					c.isFull = false;
-					if (AddItemToUISlot(c.storedObject.gameObject, currentSlotName))
-					{
-						c.storedObject.visibleState = true;
-						c.storedObject = null;
-					}
-				}
-				else
-				{
-					c.storedObject = Inventory[currentSlotName].Item.GetComponent<ObjectBehaviour>();
-					ClearInventorySlot(currentSlotName);
-					c.storedObject.visibleState = false;
-					c.isFull = true;
-				}
-			}
-		}
-		else
-		{
-			Logger.LogWarning("player attempted to interact with fire cabinet through wall," +
-				" this could indicate a hacked client.");
+			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
+				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
 
@@ -772,33 +704,42 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//Respawn action for Deathmatch v 0.1.3
 
-	[Server]
-	public void RespawnPlayer(int timeout = 0)
+	[Command]
+	public void CmdRespawnPlayer()
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			StartCoroutine(InitiateRespawn(timeout));
+			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.CharacterSettings, gameObject);
+			RpcAfterRespawn();
 		}
 	}
 
 	/// <summary>
 	/// Spawn the ghost for this player and tell the client to switch input / camera to it
 	/// </summary>
-	[Server]
-	public void SpawnPlayerGhost()
+	[Command]
+	public void CmdSpawnPlayerGhost()
 	{
-		RpcBeforeGhost();
-		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId);
-
+		if(GetComponent<LivingHealthBehaviour>().IsDead)
+		{
+			RpcBeforeGhost();
+			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.CharacterSettings);
+			playerScript.mind.Ghosting(newGhost);
+		}
 	}
 
 
-	[Server]
-	private IEnumerator InitiateRespawn(int timeout)
+	/// <summary>
+	/// Asks the server to let the client rejoin into a logged off character.
+	/// </summary>
+	/// <param name="loggedOffPlayer">The character to be rejoined into.</param>
+	[Command]
+	public void CmdEnterBody()
 	{
-		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
-		yield return new WaitForSeconds(timeout);
-		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType);
+		playerScript.mind.ReturnToBody();
+		var body = playerScript.mind.body.gameObject;
+		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, body, gameObject, EVENT.PlayerSpawned, null);
+		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(body);
 		RpcAfterRespawn();
 	}
 
@@ -808,7 +749,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// </summary>
 	/// <param name="bodyObject">object which was turned into a ghost</param>
 	[ClientRpc]
-	private void RpcBeforeGhost()
+	public void RpcBeforeGhost()
 	{
 		//only need to clean up client side if we are controlling the body who is becoming a ghost
 		//no more closet handler, they are dead
@@ -819,11 +760,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		//no more input can be sent to the body.
-		MouseInputController mouseInput = GetComponent<MouseInputController>();
-		if (mouseInput != null)
-		{
-			Destroy(mouseInput);
-		}
+		GetComponent<MouseInputController>().enabled = false;
 	}
 
 	/// <summary>
@@ -847,7 +784,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
+		Edible baseFood = food.GetComponent<Edible>();
 		if (isDrink)
 		{
 			SoundManager.PlayNetworkedAtPos( "Slurp", transform.position );
@@ -874,13 +811,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			leavings = PoolManager.PoolNetworkInstantiate(leavings);
 			AddItemToUISlot(leavings, fromSlot);
 		}
-	}
-
-	[Command]
-	public void CmdAttack(GameObject target, GameObject originator, BodyPartType bodyPart, GameObject itemInHand)
-	{
-		var itemPUT = itemInHand.GetComponent<PickUpTrigger>();
-		itemPUT.Attack(target, originator, bodyPart);
 	}
 
 	[Command]

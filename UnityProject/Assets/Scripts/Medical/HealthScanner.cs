@@ -2,16 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthScanner : PickUpTrigger
+/// <summary>
+/// Main health scanner interaction. Applying it to a living thing sends a request to the server to
+/// tell us their health info.
+/// </summary>
+public class HealthScanner : NBHandApplyInteractable
 {
-	public void PlayerFound(PlayerHealth Playerhealth) {
-		string ToShow = (Playerhealth.name + " is " + Playerhealth.ConsciousState.ToString() + "\n"
-			+ "OverallHealth = " + Playerhealth.OverallHealth.ToString() + " Blood level = " + Playerhealth.bloodSystem.BloodLevel.ToString() + "\n"
-						 + "Blood levels = " + Playerhealth.CalculateOverallBloodLossDamage() + "\n");
+
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!base.WillInteract(interaction, side)) return false;
+		//can only be applied to LHB
+		if (!Validations.HasComponent<LivingHealthBehaviour>(interaction.TargetObject)) return false;
+		return true;
+	}
+
+	protected override void ServerPerformInteraction(HandApply interaction)
+	{
+		var livingHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
+		string ToShow = (livingHealth.name + " is " + livingHealth.ConsciousState.ToString() + "\n"
+		                 + "OverallHealth = " + livingHealth.OverallHealth.ToString() + " Blood level = " + livingHealth.bloodSystem.BloodLevel.ToString() + "\n"
+		                 + "Blood levels = " + livingHealth.CalculateOverallBloodLossDamage() + "\n");
 		string StringBuffer = "";
 		float TotalBruteDamage = 0;
 		float TotalBurnDamage = 0;
-		foreach (BodyPartBehaviour BodyPart in Playerhealth.BodyParts)
+		foreach (BodyPartBehaviour BodyPart in livingHealth.BodyParts)
 		{
 			StringBuffer += BodyPart.Type.ToString() + "\t";
 			StringBuffer += BodyPart.BruteDamage.ToString() + "\t";
@@ -20,25 +35,8 @@ public class HealthScanner : PickUpTrigger
 			TotalBurnDamage += BodyPart.BurnDamage;
 			StringBuffer += "\n";
 		}
-		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " OxyLoss " + Playerhealth.bloodSystem.OxygenDamage.ToString() + "\n" + "Body Part, Brute, Burn \n" + StringBuffer;
-		ChatRelay.Instance.AddToChatLogClient(ToShow, ChatChannel.Examine);
-		//PostToChatMessage.Send(ToShow,ChatChannel.System);
-		//Logger.Log(ToShow);
-	}
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		if (gameObject == UIManager.Hands.CurrentSlot.Item)
-		{
-			Vector3 tposition = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
-			tposition.z = 0f;
-			foreach (PlayerHealth theObject in MatrixManager.GetAt<PlayerHealth>(tposition.RoundToInt(), false)) {
-				PlayerFound(theObject);
-			}
-			return base.Interact(originator, position, hand);;
-		}
-		else
-		{
-			return base.Interact(originator, position, hand);
-		}
+		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " OxyLoss " + livingHealth.bloodSystem.OxygenDamage.ToString() + "\n" + "Body Part, Brute, Burn \n" + StringBuffer;
+		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, ToShow);
+
 	}
 }

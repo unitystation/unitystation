@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Newtonsoft.Json;
+using UnityEngine.Networking;
 
 [Serializable]
 public class PlayerLightData
@@ -22,7 +23,8 @@ public enum EnumSpriteLightData
 	Clown,
 }
 
-public class PlayerLightControl : PickUpTrigger
+[RequireComponent(typeof(Pickupable))]
+public class PlayerLightControl : NetworkBehaviour
 {
 	public LightEmissionPlayer LightEmission;
 
@@ -45,27 +47,7 @@ public class PlayerLightControl : PickUpTrigger
 
 	public PlayerLightData PlayerLightData;
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		bool OnPickUp = false;
-		if (gameObject != UIManager.Hands.CurrentSlot.Item)
-		{
-			OnPickUp = true;
-
-		}
-		bool Store = base.Interact(originator, position, hand);
-		if (OnPickUp)
-		{
-			OnPickup();
-		}
-		return (Store);
-	}
-	public override void OnDropItemServer()
-	{
-		OnDrop();
-		base.OnDropItemServer();
-	}
-	public void OnPickup()
+	private void OnPickupServer(HandApply interaction)
 	{
 		InventorySlot Slot = InventoryManager.GetSlotFromItem(this.gameObject);
 		if (Slot != null)
@@ -74,7 +56,7 @@ public class PlayerLightControl : PickUpTrigger
 			LightEmission.AddLight(PlayerLightData);
 		}
 	}
-	public void OnDrop()
+	private void OnDrop()
 	{
 		if (LightEmission != null)
 		{
@@ -91,26 +73,36 @@ public class PlayerLightControl : PickUpTrigger
 			EnumSprite = EnumSprite,
 			Size = Size,
 		};
+
+		var pickup = GetComponent<Pickupable>();
+		if (pickup != null)
+		{
+			pickup.OnPickupServer.AddListener(OnPickupServer);
+			pickup.OnDropServer.AddListener(OnDrop);
+		}
 	}
 	public void OnAddToInventorySlot(InventorySlot slot)
 	{
-		if (slot.IsUISlot)
+		if (isServer)
 		{
-			if (!(CompatibleSlots.Contains(slot.SlotName)))
+			if (slot.IsUISlot)
 			{
-				LightEmission.RemoveLight(PlayerLightData);
+				if (!(CompatibleSlots.Contains(slot.SlotName)))
+				{
+					LightEmission.RemoveLight(PlayerLightData);
+				}
+				else
+				{
+					if (LightEmission != null)
+					{
+						LightEmission.AddLight(PlayerLightData);
+					}
+				}
 			}
 			else
 			{
-				if (LightEmission != null)
-				{
-					LightEmission.AddLight(PlayerLightData);
-				}
+				LightEmission.RemoveLight(PlayerLightData);
 			}
-		}
-		else
-		{
-			LightEmission.RemoveLight(PlayerLightData);
 		}
 	}
 }

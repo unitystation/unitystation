@@ -2,13 +2,11 @@
 
 public class LockLightController : MonoBehaviour
 {
-	private bool locked = true;
-
 	private Sprite spriteLocked;
-	private SpriteRenderer spriteRenderer;
+	public SpriteRenderer spriteRenderer;
 	public Sprite spriteUnlocked;
 
-	private void Start()
+	private void Awake()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		spriteLocked = spriteRenderer.sprite;
@@ -16,40 +14,21 @@ public class LockLightController : MonoBehaviour
 
 	public void Lock()
 	{
-		locked = true;
-		if (spriteRenderer != null)
-		{
-			spriteRenderer.sprite = spriteLocked;
-		}
+		spriteRenderer.sprite = spriteLocked;
 	}
 
 	public void Unlock()
 	{
-		locked = false;
-		if (spriteRenderer != null)
-		{
-			spriteRenderer.sprite = spriteUnlocked;
-		}
+		spriteRenderer.sprite = spriteUnlocked;
 	}
 
 	public void Show()
 	{
-		if (spriteRenderer != null)
-		{
-			spriteRenderer.enabled = true;
-		}
+		spriteRenderer.enabled = true;
 	}
 
 	public void Hide()
 	{
-		if (spriteRenderer != null)
-		{
-			spriteRenderer.enabled = false;
-		}
-	}
-
-	public bool IsLocked()
-	{
-		return locked;
+		spriteRenderer.enabled = false;
 	}
 }

@@ -75,10 +75,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// </summary>
 	public bool IsCardiacArrest => bloodSystem.HeartStopped;
 
-	/// <summary>
-	/// Has breathing stopped
-	/// </summary>
-	public bool IsRespiratoryArrest => !respiratorySystem.IsBreathing;
 
 	/// ---------------------------
 	/// INIT METHODS
@@ -156,9 +152,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		//wait for DNA:
 		while (string.IsNullOrEmpty(DNABloodTypeJSON))
 		{
-			yield return YieldHelper.EndOfFrame;
+			yield return WaitFor.EndOfFrame;
 		}
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		DNASync(DNABloodTypeJSON);
 	}
 
@@ -173,6 +169,63 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// PUBLIC FUNCTIONS: HEAL AND DAMAGE:
 	/// ---------------------------
 
+	private BodyPartBehaviour GetBodyPart(float amount, DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest){
+		if (amount <= 0 || IsDead)
+		{
+			return null;
+		}
+		if (bodyPartAim == BodyPartType.Groin)
+		{
+			bodyPartAim = BodyPartType.Chest;
+		}
+		if (bodyPartAim == BodyPartType.Eyes || bodyPartAim == BodyPartType.Mouth)
+		{
+			bodyPartAim = BodyPartType.Head;
+		}
+
+		if (BodyParts.Count == 0)
+		{
+			Logger.LogError($"There are no body parts to apply a health change to for {gameObject.name}", Category.Health);
+			return null;
+		}
+
+		//See if damage affects the state of the blood:
+		// See if any of the healing applied affects blood state
+		bloodSystem.AffectBloodState(bodyPartAim, damageType, amount);
+
+		if (damageType == DamageType.Brute || damageType == DamageType.Burn)
+		{
+			BodyPartBehaviour bodyPartBehaviour = null;
+
+			for (int i = 0; i < BodyParts.Count; i++)
+			{
+				if (BodyParts[i].Type == bodyPartAim)
+				{
+					bodyPartBehaviour = BodyParts[i];
+					break;
+				}
+			}
+
+			//If the body part does not exist then try to find the chest instead
+			if (bodyPartBehaviour == null)
+			{
+				var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.Chest);
+				if (getChestIndex != -1)
+				{
+					bodyPartBehaviour = BodyParts[getChestIndex];
+				}
+				else
+				{
+					//If there is no default chest body part then do nothing
+					Logger.LogError($"No chest body part found for {gameObject.name}", Category.Health);
+					return null;
+				}
+			}
+			return bodyPartBehaviour;
+		}
+		return null;
+	}
+
 	/// <summary>
 	///  Apply Damage to the Living thing. Server only
 	/// </summary>
@@ -184,72 +237,20 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public virtual void ApplyDamage(GameObject damagedBy, float damage,
 		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
 	{
-		if (damage <= 0 || IsDead)
+		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
+		if(bodyPartBehaviour == null)
 		{
 			return;
 		}
-		if (bodyPartAim == BodyPartType.Groin)
-		{
-			bodyPartAim = BodyPartType.Chest; //Temporary fix for groin, when we add surgery this might need some changing.
-		}
-
-		if (bodyPartAim == BodyPartType.Eyes || bodyPartAim == BodyPartType.Mouth)
-		{
-			bodyPartAim = BodyPartType.Head;
-		}
-
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
-
-		if (BodyParts.Count == 0)
-		{
-			Logger.LogError($"There are no body parts to apply damage too for {gameObject.name}", Category.Health);
-			return;
-		}
-
-		//See if damage affects the state of the blood:
-		bloodSystem.AffectBloodState(bodyPartAim, damageType, damage);
-
-		if (damageType == DamageType.Brute || damageType == DamageType.Burn)
-		{
-			//Try to apply damage to the required body part
-			bool appliedDmg = false;
-			for (int i = 0; i < BodyParts.Count; i++)
-			{
-				if (BodyParts[i].Type == bodyPartAim)
-				{
-					BodyParts[i].ReceiveDamage(damageType, damage);
-					appliedDmg = true;
-					HealthBodyPartMessage.SendToAll(gameObject, bodyPartAim,
-						BodyParts[i].BruteDamage, BodyParts[i].BurnDamage);
-					break;
-				}
-			}
-
-			//If the body part does not exist then try to find the chest instead
-			if (!appliedDmg)
-			{
-				var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.Chest);
-				if (getChestIndex != -1)
-				{
-					BodyParts[getChestIndex].ReceiveDamage(damageType, damage);
-					HealthBodyPartMessage.SendToAll(gameObject, bodyPartAim,
-						BodyParts[getChestIndex].BruteDamage, BodyParts[getChestIndex].BurnDamage);
-				}
-				else
-				{
-					//If there is no default chest body part then do nothing
-					Logger.LogError($"No chest body part found for {gameObject.name}", Category.Health);
-					return;
-				}
-			}
-		}
+		bodyPartBehaviour.ReceiveDamage(damageType, damage);
+		HealthBodyPartMessage.Send(gameObject, gameObject, bodyPartAim, bodyPartBehaviour.BruteDamage, bodyPartBehaviour.BurnDamage);
 
 		//For special effects spawning like blood:
 		DetermineDamageEffects(damageType);
 
 		var prevHealth = OverallHealth;
-
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 			damage, prevHealth, OverallHealth, gameObject.name, damageType, bodyPartAim, damagedBy);
 	}
@@ -265,66 +266,15 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public virtual void HealDamage(GameObject healingItem, int healAmt,
 		DamageType damageTypeToHeal, BodyPartType bodyPartAim)
 	{
-		if (healAmt <= 0 || IsDead)
+		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(healAmt, damageTypeToHeal, bodyPartAim);
+		if (bodyPartBehaviour == null)
 		{
 			return;
 		}
-		if (bodyPartAim == BodyPartType.Groin)
-		{
-			bodyPartAim = BodyPartType.Chest;
-		}
-
-		if (bodyPartAim == BodyPartType.Eyes || bodyPartAim == BodyPartType.Mouth)
-		{
-			bodyPartAim = BodyPartType.Head;
-		}
-
-		if (BodyParts.Count == 0)
-		{
-			Logger.LogError($"There are no body parts to affect {gameObject.name}", Category.Health);
-			return;
-		}
-
-		// See if any of the healing applied affects blood state
-		bloodSystem.AffectBloodState(bodyPartAim, damageTypeToHeal, healAmt, true);
-
-		if (damageTypeToHeal == DamageType.Brute || damageTypeToHeal == DamageType.Burn)
-		{
-			//Try to apply healing to the required body part
-			bool appliedHealing = false;
-			for (int i = 0; i < BodyParts.Count; i++)
-			{
-				if (BodyParts[i].Type == bodyPartAim)
-				{
-					BodyParts[i].HealDamage(healAmt, damageTypeToHeal);
-					appliedHealing = true;
-					HealthBodyPartMessage.SendToAll(gameObject, bodyPartAim,
-						BodyParts[i].BruteDamage, BodyParts[i].BurnDamage);
-					break;
-				}
-			}
-
-			//If the body part does not exist then try to find the chest instead
-			if (!appliedHealing)
-			{
-				var getChestIndex = BodyParts.FindIndex(x => x.Type == BodyPartType.Chest);
-				if (getChestIndex != -1)
-				{
-					BodyParts[getChestIndex].HealDamage(healAmt, damageTypeToHeal);
-					HealthBodyPartMessage.SendToAll(gameObject, bodyPartAim,
-						BodyParts[getChestIndex].BruteDamage, BodyParts[getChestIndex].BurnDamage);
-				}
-				else
-				{
-					//If there is no default chest body part then do nothing
-					Logger.LogError($"No chest body part found for {gameObject.name}", Category.Health);
-					return;
-				}
-			}
-		}
+		bodyPartBehaviour.HealDamage(healAmt, damageTypeToHeal);
+		HealthBodyPartMessage.Send(gameObject, gameObject, bodyPartAim, bodyPartBehaviour.BruteDamage, bodyPartBehaviour.BurnDamage);
 
 		var prevHealth = OverallHealth;
-
 		Logger.LogTraceFormat("{3} received {0} {4} healing from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 			healAmt, prevHealth, OverallHealth, gameObject.name, damageTypeToHeal, bodyPartAim, healingItem);
 	}
@@ -395,6 +345,26 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			bodyPartDmg += BodyParts[i].BurnDamage;
 		}
 		return bodyPartDmg;
+	}
+
+	public float GetTotalBruteDamage()
+	{
+		float bruteDmg = 0;
+		for (int i = 0; i < BodyParts.Count; i++)
+		{
+			bruteDmg += BodyParts[i].BruteDamage;
+		}
+		return bruteDmg;
+	}
+
+	public float GetTotalBurnDamage()
+	{
+		float burnDmg = 0;
+		for (int i = 0; i < BodyParts.Count; i++)
+		{
+			burnDmg += BodyParts[i].BurnDamage;
+		}
+		return burnDmg;
 	}
 
 	/// Blood Loss and Toxin damage:
@@ -523,10 +493,19 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <summary>
 	/// Updates the respiratory health stats from the server via NetMsg
 	/// </summary>
-	public void UpdateClientRespiratoryStats(bool isBreathing, bool isSuffocating)
+	public void UpdateClientRespiratoryStats(bool value)
 	{
-		respiratorySystem.UpdateClientRespiratoryStats(isBreathing, isSuffocating);
-		//	Logger.Log($"Update stats for {gameObject.name} isBreathing: {isBreathing} isSuffocating {isSuffocating}", Category.Health);
+		respiratorySystem.IsSuffocating = value;
+	}
+
+	public void UpdateClientTemperatureStats(float value)
+	{
+		respiratorySystem.temperature = value;
+	}
+
+	public void UpdateClientPressureStats(float value)
+	{
+		respiratorySystem.pressure = value;
 	}
 
 	/// <summary>

@@ -6,7 +6,8 @@ using UnityEngine.Events;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
-public class PushPull : VisibleBehaviour {
+[RequireComponent(typeof(RightClickAppearance))]
+public class PushPull : VisibleBehaviour, IRightClickable {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
 
@@ -67,6 +68,7 @@ public class PushPull : VisibleBehaviour {
 		Pushable?.OnUpdateRecieved().RemoveAllListeners();
 		Pushable?.OnClientStartMove().RemoveAllListeners();
 		Pushable?.OnClientTileReached().RemoveAllListeners();
+		Pushable?.OnClientStopFollowing();
 	}
 
 	public bool IsSolidServer => !registerTile.IsPassable(true);
@@ -179,8 +181,7 @@ public class PushPull : VisibleBehaviour {
 	public Vector2 InheritedImpulse => IsBeingPulled ? PulledBy.InheritedImpulse : Pushable.ServerImpulse;
 
 	private IEnumerator RevertPullTimer() {
-		yield return YieldHelper.Second;
-		yield return YieldHelper.Second;
+		yield return WaitFor.Seconds(2);
 
 		if ( !Pushable.IsMovingClient
 			 && Pushable.ClientPosition != Pushable.TrustedPosition
@@ -193,8 +194,7 @@ public class PushPull : VisibleBehaviour {
 		}
 	}
 	private IEnumerator RevertPushTimer() {
-		yield return YieldHelper.Second;
-		yield return YieldHelper.Second;
+		yield return WaitFor.Seconds(2);
 
 		if ( Pushable.ClientPosition != Pushable.TrustedPosition )
 		{
@@ -205,8 +205,33 @@ public class PushPull : VisibleBehaviour {
 		}
 	}
 
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		//check if our local player can reach this
+		var initiator = PlayerManager.LocalPlayerScript.pushPull;
+		//if it's pulled by us
+		if (IsPulledByClient(initiator))
+		{
+			//already pulled by us, but we can stop pulling
+			return RightClickableResult.Create()
+				.AddElement("StopPull", TryPullThis);
+		}
+		else
+		{
+			//check if in range for pulling
+			if (PlayerScript.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
+			{
+				return RightClickableResult.Create()
+					.AddElement("Pull", TryPullThis);
+			}
+		}
+
+		return null;
+	}
+
 	protected override void Awake() {
 		base.Awake();
+
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
 
 		followAction = (oldPos, newPos) => {
@@ -326,11 +351,14 @@ public class PushPull : VisibleBehaviour {
 		set {
 			if ( IsBeingPulledClient /*&& !isServer*/ ) { //toggle prediction here <v
 				pulledByClient.Pushable?.OnClientStartMove().RemoveListener( predictiveFollowAction );
+				Pushable?.OnClientStopFollowing();
+
 			}
 
 			if ( value != null /*&& !isServer*/ )
 			{
 				value.Pushable?.OnClientStartMove().AddListener( predictiveFollowAction );
+				Pushable?.OnClientStartFollowing();
 			}
 
 			pulledByClient = value;
@@ -397,12 +425,6 @@ public class PushPull : VisibleBehaviour {
 		NotifyPlayers();
 	}
 
-	public virtual void OnCtrlClick()
-	{
-		TryPullThis();
-	}
-
-	[ContextMethod("Pull","Drag_Hand")]
 	public void TryPullThis() {
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
@@ -499,8 +521,7 @@ public class PushPull : VisibleBehaviour {
 
 	private IEnumerator ReCheckQueueLater()
 	{
-		yield return YieldHelper.DeciSecond;
-		yield return YieldHelper.DeciSecond;
+		yield return WaitFor.Seconds(.2f);
 		CheckQueue();
 	}
 
@@ -539,7 +560,7 @@ public class PushPull : VisibleBehaviour {
 
 	private IEnumerator NoMoveSafeguard( Vector3Int @from )
 	{
-		yield return YieldHelper.Second;
+		yield return WaitFor.Seconds(1);
 		if ( isBeingPushed && Pushable.ServerPosition == from )
 		{
 			Logger.LogWarningFormat( "{0} didn't move despite being pushed! Removing isBeingPushed flag", Category.PushPull, gameObject.name );

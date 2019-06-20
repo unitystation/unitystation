@@ -54,13 +54,13 @@ public class ClothEnumGen : MonoBehaviour
 					writer.Write(sb.ToString());
 				}
 			}
-			Debug.LogFormat("Wrote file to {0}", path);
+			Logger.LogFormat("Wrote file to {0}", Category.ItemSpawn, path);
 		}
 		catch (Exception e)
 		{
-			Debug.LogException(e);
+			Logger.LogErrorFormat("An error occured creating a clothing file: {0}", Category.PlayerSprites, e.Message);
 
-			// if we have an error, it is certainly that the file is screwed up. Delete to be save
+			// if we have an error, it is certainly that the file is screwed up. Delete to be safe
 			if (File.Exists(path))
 			{
 				File.Delete(path);
@@ -92,7 +92,7 @@ public class ClothEnumGen : MonoBehaviour
 				tmpDic.Add(hier, name);
 			}
 		}
-		Debug.LogFormat("Prepared objects, tmpDic.size={0}", tmpDic.Count);
+		Logger.LogFormat("Prepared objects, tmpDic.size={0}", Category.ItemSpawn, tmpDic.Count);
 		return tmpDic;
 	}
 #endif

@@ -68,7 +68,7 @@ public class VisibleBehaviour : NetworkBehaviour
 
 	private IEnumerator WaitForLoad()
 	{
-		yield return new WaitForSeconds(3f);
+		yield return WaitFor.Seconds(3f);
 		UpdateState(visibleState);
 	}
 
@@ -137,7 +137,7 @@ public class VisibleBehaviour : NetworkBehaviour
 	{
 		try
 		{
-			return !neverDisabled.Contains(script.GetType().Name);
+			return script != null && !neverDisabled.Contains(script.GetType().Name);
 		}
 		catch (Exception e)
 		{

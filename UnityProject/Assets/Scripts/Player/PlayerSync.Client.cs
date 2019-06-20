@@ -36,6 +36,7 @@ public partial class PlayerSync
 			lastDirection = value;
 		}
 	}
+
 	public bool CanPredictPush => ClientPositionReady;
 	public bool IsMovingClient => !ClientPositionReady;
 	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
@@ -46,8 +47,6 @@ public partial class PlayerSync
 	/// Does client's transform pos match state pos? Ignores Z-axis.
 	private bool ClientPositionReady => (Vector2)predictedState.Position == (Vector2)transform.localPosition;
 
-	// Is true on the frame that the player is bumping into something
-	public bool isBumping;
 	private bool IsWeightlessClient
 	{
 		get
@@ -66,7 +65,10 @@ public partial class PlayerSync
 		get => predictedSpeedClient;
 		set
 		{
-			Logger.LogTraceFormat( "{0}: setting PREDICTED speed {1}->{2}", Category.Movement, gameObject.name, SpeedClient, value );
+			if ( Math.Abs( predictedSpeedClient - value ) > 0.01f )
+			{
+				Logger.LogTraceFormat( "{0}: setting PREDICTED speed {1}->{2}", Category.Movement, gameObject.name, SpeedClient, value );
+			}
 			predictedSpeedClient = value < 0 ? 0 : value;
 		}
 	}
@@ -96,7 +98,6 @@ public partial class PlayerSync
 		}
 	}
 
-#if UNITY_EDITOR
 	public bool DoAction(PlayerAction action)
 	{
 		if (action.moveActions.Length != 0 && !MoveCooldown)
@@ -106,7 +107,6 @@ public partial class PlayerSync
 		}
 		return false;
 	}
-#endif
 
 	private IEnumerator DoProcess(PlayerAction action)
 	{
@@ -115,7 +115,8 @@ public partial class PlayerSync
 		//arguably it shouldn't really be like that in the future
 		if (!blockClientMovement && (!isPseudoFloatingClient && !isFloatingClient || playerScript.IsGhost))
 		{
-			//				Logger.LogTraceFormat( "{0} requesting {1} ({2} in queue)", Category.Movement, gameObject.name, action.Direction(), pendingActions.Count );
+			Logger.LogTraceFormat( "Requesting {0} ({1} in queue)\nclientState = {2}\npredictedState = {3}", Category.Movement,
+				action.Direction(), pendingActions.Count, ClientState, predictedState );
 
 			//experiment: not enqueueing or processing action if floating, unless we are stopped.
 			//arguably it shouldn't really be like that in the future
@@ -158,14 +159,11 @@ public partial class PlayerSync
 					{
 						PredictiveBumpInteract(Vector3Int.RoundToInt((Vector2)predictedState.WorldPosition + action.Direction()), action.Direction());
 					}
+
 					if (PlayerManager.LocalPlayer == gameObject)
 					{
-						playerSprites.ChangeAndSyncPlayerDirection(Orientation.From(action.Direction()));
-						isBumping = true;
+						playerDirectional.FaceDirection(Orientation.From(action.Direction()));
 					}
-					//cooldown is longer when humping walls or pushables
-					//					yield return YieldHelper.DeciSecond;
-					//					yield return YieldHelper.DeciSecond;
 				}
 			}
 			else
@@ -175,10 +173,14 @@ public partial class PlayerSync
 			//Sending action for server approval
 			CmdProcessAction(action);
 		}
+		else
+		{
+			Logger.LogTraceFormat( "Can't enqueue move: block = {0}, pseudoFloating = {1}, floating = {2}\nclientState = {3}\npredictedState = {4}"
+				, Category.Movement, blockClientMovement, isPseudoFloatingClient, isFloatingClient, ClientState, predictedState );
+		}
 
-		yield return YieldHelper.DeciSecond;
+		yield return WaitFor.Seconds(.1f);
 		MoveCooldown = false;
-		isBumping = false;
 	}
 
 
@@ -230,7 +232,7 @@ public partial class PlayerSync
 		Vector2Int direction = target - currentPos.To2Int();
 		if (followMode)
 		{
-			SendMessage("FaceDirection", Orientation.From(direction), SendMessageOptions.DontRequireReceiver);
+			playerDirectional.FaceDirection(Orientation.From(direction));
 		}
 
 		Logger.LogTraceFormat("Client predictive push to {0}", Category.PushPull, target);
@@ -294,6 +296,7 @@ public partial class PlayerSync
 			if (LastDirection != Vector2.zero)
 			{
 				OnClientStartMove().Invoke(oldPos.RoundToInt(), newPos.RoundToInt());
+				playerDirectional.FaceDirection(Orientation.From(LastDirection));
 			}
 
 
@@ -432,9 +435,28 @@ public partial class PlayerSync
 		StartCoroutine(RollbackPullables()); //? verify if robust
 	}
 
+	public void OnClientStartFollowing()
+	{
+		//when this is not the local player and is being pulled, we we start ignoring the
+		//direction updates from the server because we predict those directions entirely on the client
+		if (gameObject != PlayerManager.LocalPlayer)
+		{
+			playerDirectional.IgnoreServerUpdates = true;
+		}
+	}
+
+	public void OnClientStopFollowing()
+	{
+		//done being pulled, give server authority again
+		if (gameObject != PlayerManager.LocalPlayer)
+		{
+			playerDirectional.IgnoreServerUpdates = false;
+		}
+	}
+
 	private IEnumerator RollbackPullables()
 	{
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		if (gameObject == PlayerManager.LocalPlayer
 			 && pushPull && pushPull.IsPullingSomethingClient)
 		{
@@ -458,7 +480,7 @@ public partial class PlayerSync
 	private IEnumerator BlockMovement()
 	{
 		blockClientMovement = true;
-		yield return new WaitForSeconds(2f);
+		yield return WaitFor.Seconds(2f);
 		if (blockClientMovement)
 		{
 			Logger.LogWarning("Looks like you got stuck. Rolling back predictive moves", Category.Movement);
@@ -533,8 +555,8 @@ public partial class PlayerSync
 		if (!ClientPositionReady)
 		{
 			//PlayerLerp
-			var worldPos = predictedState.WorldPosition;
-			Vector3 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(Matrix));
+			var worldPos = predictedState.WorldPosition.CutToInt();
+			Vector2 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(Matrix));
 
 			if (playerState.NoLerp || Vector3.Distance(transform.localPosition, targetPos) > 30)
 			{
@@ -542,18 +564,19 @@ public partial class PlayerSync
 			}
 			else
 			{
-				transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos,
-				predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
+				transform.localPosition =
+					Vector3.MoveTowards(transform.localPosition, targetPos,
+										predictedState.Speed * Time.deltaTime * transform.localPosition.SpeedTo(targetPos));
 			}
 
 			if (ClientPositionReady)
 			{
-				OnClientTileReached().Invoke(Vector3Int.RoundToInt(worldPos));
+				OnClientTileReached().Invoke(worldPos);
 				// Check for swap once movement is done, to prevent us and another player moving into the same tile
 				if (!isServer && !playerScript.IsGhost)
 				{
 					//only check on client otherwise server would check this twice
-					CheckAndDoSwap(worldPos.RoundToInt(), lastDirection*-1, isServer: false);
+					CheckAndDoSwap(worldPos, lastDirection*-1, isServer: false);
 				}
 
 			}

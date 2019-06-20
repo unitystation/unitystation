@@ -17,6 +17,6 @@ public interface IInteractionProcessor<T>
 	/// of the game world if validation succeeds. Then inform whatever clients need to be informed.
 	/// </summary>
 	/// <param name="interaction">interaction being performed </param>
-	/// <returns>result of the interaction</returns>
-	InteractionResult ServerProcessInteraction(T interaction);
+	/// <returns>what should happen next for this interaction attempt</returns>
+	bool ServerProcessInteraction(T interaction);
 }

@@ -22,7 +22,7 @@ internal enum LightState
 
 	TypeCount,
 }
-
+[ExecuteInEditMode]
 public class LightSource : ObjectTrigger
 {
 	private const LightState InitialState = LightState.Off;
@@ -49,7 +49,7 @@ public class LightSource : ObjectTrigger
 		set
 		{
 			value = Mathf.Clamp(value, 0, 1);
-			if ( _intensity != value)
+			if (_intensity != value)
 			{
 				_intensity = value;
 				OnIntensityChange();
@@ -58,7 +58,7 @@ public class LightSource : ObjectTrigger
 	}
 
 	public APC RelatedAPC;
-	public LightSwitchTrigger RelatedLightSwitchTrigger;
+	public LightSwitch relatedLightSwitch;
 	public Color customColor; //Leave null if you want default light color.
 
 	// For network sync reliability.
@@ -113,9 +113,11 @@ public class LightSource : ObjectTrigger
 		{
 			return;
 		}
-		if (Received.LightSwitchTrigger == RelatedLightSwitchTrigger || RelatedLightSwitchTrigger == null) {
-			if (RelatedLightSwitchTrigger == null){
-				RelatedLightSwitchTrigger = Received.LightSwitchTrigger;
+		if (Received.LightSwitch == relatedLightSwitch || relatedLightSwitch == null)
+		{
+			if (relatedLightSwitch == null)
+			{
+				relatedLightSwitch = Received.LightSwitch;
 			}
 			if (Received.RelatedAPC != null)
 			{
@@ -123,20 +125,21 @@ public class LightSource : ObjectTrigger
 				{
 					if (State == LightState.On)
 					{
-						if (!RelatedAPC.ConnectedSwitchesAndLights[RelatedLightSwitchTrigger].Contains(this))
+						if (!RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Contains(this))
 						{
-							RelatedAPC.ConnectedSwitchesAndLights[RelatedLightSwitchTrigger].Add(this);
+							RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Add(this);
 						}
 
 					}
 				}
 			}
-			else if (RelatedLightSwitchTrigger.SelfPowered){
+			else if (relatedLightSwitch.SelfPowered)
+			{
 				if (State == LightState.On)
 				{
-					if (!RelatedLightSwitchTrigger.SelfPowerLights.Contains(this))
+					if (!relatedLightSwitch.SelfPowerLights.Contains(this))
 					{
-						RelatedLightSwitchTrigger.SelfPowerLights.Add(this);
+						relatedLightSwitch.SelfPowerLights.Add(this);
 					}
 
 				}
@@ -209,6 +212,10 @@ public class LightSource : ObjectTrigger
 
 	private void Awake()
 	{
+		if (!Application.isPlaying)
+		{
+			return;
+		}
 		Renderer = GetComponentInChildren<SpriteRenderer>();
 
 		if (mLightRendererObject == null)
@@ -220,9 +227,29 @@ public class LightSource : ObjectTrigger
 
 		ExtractLightSprites();
 	}
+	void Update()
+	{
+		if (!Application.isPlaying)
+		{
+			if (gameObject.tag == "EmergencyLight")
+			{
+				if (RelatedAPC == null)
+				{
+
+					Logger.LogError("EmergencyLight is missing APC reference, at " + transform.position, Category.Electrical);
+					RelatedAPC.Current = 1; //so It will bring up an error, you can go to click on to go to the actual object with the missing reference 
+				}
+			}
+			return;
+		}
+	}
 
 	void Start()
 	{
+		if (!Application.isPlaying)
+		{
+			return;
+		}
 		Color _color;
 
 		if (customColor == new Color(0, 0, 0, 0))
@@ -252,7 +279,7 @@ public class LightSource : ObjectTrigger
 
 		if (_assignedSprite == null)
 		{
-			UnityEngine.Debug.LogError("LightSource: Unable to extract light source state sprites from SpriteSheet. Operation require Renderer.sprite to be assigned in inspector.");
+			Logger.LogError("LightSource: Unable to extract light source state sprites from SpriteSheet. Operation requires Renderer.sprite to be assigned in inspector.", Category.Lighting);
 			return;
 		}
 
@@ -263,7 +290,7 @@ public class LightSource : ObjectTrigger
 		int _baseIndex;
 		if (_spriteSheet != null && _splitedName.Length == 2 && int.TryParse(_splitedName[1], out _baseIndex))
 		{
-			Func<int, Sprite> ExtractSprite = delegate(int iIndex)
+			Func<int, Sprite> ExtractSprite = delegate (int iIndex)
 			{
 				if (iIndex >= 0 && iIndex < _spriteSheet.Length)
 					return _spriteSheet[iIndex];
@@ -287,7 +314,7 @@ public class LightSource : ObjectTrigger
 	// Handle sync failure.
 	private IEnumerator WaitToTryAgain()
 	{
-		yield return new WaitForSeconds(0.2f);
+		yield return WaitFor.Seconds(0.2f);
 		if (Renderer == null)
 		{
 			Renderer = GetComponentInChildren<SpriteRenderer>();

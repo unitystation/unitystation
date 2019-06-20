@@ -41,11 +41,11 @@ namespace Tests
 			SceneManager.sceneLoaded += StopWaiting;
 
 			action();
-			Logger.Log("Waiting for scene load");
+			Logger.Log("Waiting for scene load", Category.Tests);
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneLoaded -= StopWaiting;
-			yield return new WaitForFixedUpdate();
+			yield return WaitFor.FixedUpdate;
 
 			void StopWaiting(Scene scene, LoadSceneMode mode) => wait = false;
 		}
@@ -56,11 +56,11 @@ namespace Tests
 			SceneManager.sceneLoaded += StopWaiting;
 
 			yield return action;
-			Logger.Log("Waiting for scene load");
+			Logger.Log("Waiting for scene load", Category.Tests);
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneLoaded -= StopWaiting;
-			yield return new WaitForFixedUpdate();
+			yield return WaitFor.FixedUpdate;
 
 			void StopWaiting(Scene scene, LoadSceneMode mode) => wait = false;
 		}
@@ -71,11 +71,11 @@ namespace Tests
 			SceneManager.sceneUnloaded += StopWaiting;
 
 			action();
-			Logger.Log("Waiting for scene unload");
+			Logger.Log("Waiting for scene unload", Category.Tests);
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneUnloaded -= StopWaiting;
-			yield return new WaitForFixedUpdate();
+			yield return WaitFor.FixedUpdate;
 
 			void StopWaiting(Scene scene) => wait = false;
 		}
@@ -86,11 +86,11 @@ namespace Tests
 			SceneManager.sceneUnloaded += StopWaiting;
 
 			yield return action;
-			Logger.Log("Waiting for scene unload");
+			Logger.Log("Waiting for scene unload", Category.Tests);
 
 			yield return new WaitWhile(() => wait);
 			SceneManager.sceneUnloaded -= StopWaiting;
-			yield return new WaitForFixedUpdate();
+			yield return WaitFor.FixedUpdate;
 
 			void StopWaiting(Scene scene) => wait = false;
 		}
@@ -102,7 +102,7 @@ namespace Tests
 
 		protected IEnumerator ClickButton(string buttonName, float passedRetrySeconds = 0)
 		{
-			Logger.Log($"Starting to search for button: {buttonName}");
+			Logger.Log($"Starting to search for button: {buttonName}", Category.Tests);
 			float currentRetrySecs = passedRetrySeconds;
 			while (currentRetrySecs <= RetrySeconds)
 			{
@@ -120,7 +120,7 @@ namespace Tests
 
 		protected IEnumerator ClickButton(GameObject gameObject, float passedRetrySeconds = 0)
 		{
-			Logger.Log("Starting to search for button component");
+			Logger.Log("Starting to search for button component", Category.Tests);
 			float currentRetrySecs = passedRetrySeconds;
 			while (currentRetrySecs <= RetrySeconds)
 			{
@@ -138,14 +138,14 @@ namespace Tests
 
 		protected IEnumerator ClickButton(Button button, float passedRetrySeconds = 0)
 		{
-			Logger.Log("Starting to click button");
+			Logger.Log("Starting to click button", Category.Tests);
 			float currentRetrySecs = passedRetrySeconds;
 			while (currentRetrySecs <= RetrySeconds)
 			{
 				try
 				{
 					button.onClick.Invoke();
-					Logger.Log("Clicked button");
+					Logger.Log("Clicked button", Category.Tests);
 					yield break;
 				}
 				catch (NullReferenceException) { }
@@ -167,7 +167,7 @@ namespace Tests
 				.Select(b => b.name)
 				.OrderBy(n => n)));
 			sb.AppendLine("---- ---- ---- ----");
-			Logger.Log(sb.ToString());
+			Logger.Log(sb.ToString(), Category.Tests);
 		}
 		#endregion
 	}

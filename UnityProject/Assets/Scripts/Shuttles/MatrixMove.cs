@@ -136,20 +136,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// </summary>
 	private bool rotatedOnPreviousUpdate;
 	/// <summary>
-	/// Invoked when rotation starts. Objects that need to subscribe to rotation events should
-	/// subscribe to RegisterTile.OnRotateEnd / OnRotateStart rather than this, if possible. Otherwise, they
-	/// would need to track when their parent matrix changes and handle unsub / resubbing. RegisterTile
-	/// takes care of this.
+	/// Invoked when rotation starts.
 	///
 	/// This is sent once when client joins to set initial rotation.
 	/// </summary>
 	[FormerlySerializedAs("OnRotate")]
 	public OrientationEvent OnRotateStart = new OrientationEvent();
 	/// <summary>
-	/// Invoked when rotation ends. Objects that need to subscribe to rotation events should
-	/// subscribe to RegisterTile.OnRotateEnd / OnRotateStart rather than this, if possible. Otherwise, they
-	/// would need to track when their parent matrix changes and handle unsub / resubbing. RegisterTile
-	/// takes care of this.
+	/// Invoked when rotation ends.
 	///
 	/// This is sent once when client joins to set initial rotation.
 	/// </summary>
@@ -344,7 +338,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		if (isClient && coordReadoutScript != null)
 		{
 			coordReadoutScript.SetCoords(clientState.Position);
-		} 
+		}
 	}
 
 	[Server]
@@ -621,7 +615,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			// Exclude the moving matrix, we shouldn't be able to collide with ourselves
 			int[] excludeList = { MatrixInfo.Id };
-			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt(), isServer: true, 
+			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt(), isServer: true,
 											collisionType: matrixColliderType, excludeList: excludeList))
 			{
 				Logger.LogTrace(
@@ -886,7 +880,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 					//if both need change determine faster rotation first
 					RotateTo(xRotationsTo < yRotationsTo ? xDesiredDir : yDesiredDir);
 					//wait till it rotates
-					yield return YieldHelper.Second;
+					yield return WaitFor.Seconds(1);
 				}
 			}
 
@@ -896,7 +890,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			}
 
 			//Relaunching self once in a while as CheckMovementServer check can fail in rare occasions
-			yield return YieldHelper.Second;
+			yield return WaitFor.Seconds(1);
 			StartCoroutine(TravelToTarget());
 		}
 

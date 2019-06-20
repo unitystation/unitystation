@@ -24,9 +24,9 @@ public class ObjectBehaviour : PushPull
         {
             lastNonHiddenPosition = parentContainer.AssumedLocation();
         }
-		else if (registerTile.WorldPositionServer != TransformState.HiddenPos)
+		else if (registerTile.WorldPosition != TransformState.HiddenPos)
 		{
-			lastNonHiddenPosition = registerTile.WorldPositionServer;
+			lastNonHiddenPosition = registerTile.WorldPosition;
 		} else if ( lastNonHiddenPosition == TransformState.HiddenPos )
         { //If not initialized yet
 	        lastNonHiddenPosition = transform.position;
@@ -68,7 +68,7 @@ public class ObjectBehaviour : PushPull
 	/// before tracking player to avoid blinking
 	private IEnumerator TargetPlayer()
 	{
-		yield return YieldHelper.EndOfFrame;
+		yield return WaitFor.EndOfFrame;
 		if (!PlayerManager.LocalPlayerScript.PlayerSync.ClientState.Active)
 		{
 			StartCoroutine(TargetPlayer());

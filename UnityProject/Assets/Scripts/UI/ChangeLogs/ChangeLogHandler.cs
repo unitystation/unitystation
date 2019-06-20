@@ -16,6 +16,9 @@ public class ChangeLogHandler : MonoBehaviour
     void Start()
     {
         window.SetActive(false);
+
+        //FIXME: broken on steam
+        return;
         string filePath = Path.Combine(Application.streamingAssetsPath, "changelog.json");
 
         if (File.Exists(filePath))
