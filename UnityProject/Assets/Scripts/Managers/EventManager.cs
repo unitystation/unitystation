@@ -35,9 +35,6 @@ public class EventManager : MonoBehaviour
 		= new Dictionary<EVENT, Action>();
 
 	private static EventManager eventManager;
-	private readonly EventController<string, GameObject> ui = new EventController<string, GameObject>();
-
-	public static EventController<string, GameObject> UI => Instance.ui;
 
 	public static EventManager Instance
 	{

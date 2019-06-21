@@ -8,23 +8,12 @@ public class PlayerScript : ManagedNetworkBehaviour
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
 
-	[SyncVar] public JobType JobType = JobType.NULL;
 	public Mind mind;
 
-	//note: needs to be init'd to an object otherwise network serialization throws NRE
-	[SyncVar(hook = "CharacterSettingsHook")]
-	private CharacterSettings characterSettings = new CharacterSettings();
-
 	/// <summary>
-	/// Current character settings for this player. Value is synced from server.
+	/// Current character settings for this player.
 	/// </summary>
-	public CharacterSettings CharacterSettings => characterSettings;
-
-	/// <summary>
-	/// Invoked when character settings are recieved from the server. Other components can listen to this
-	/// to update themselves based on the new settings.
-	/// </summary>
-	public CharacterSettingsEvent OnCharacterSettingsChange = new CharacterSettingsEvent();
+	public CharacterSettings characterSettings = new CharacterSettings();
 
 	private float pingUpdate;
 
@@ -76,20 +65,10 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		//server settings will have been sent from the server now, so call the hook
-		//since its not called automatically on join
-		CharacterSettingsHook(characterSettings);
 		//Local player is set a frame or two after OnStartClient
 		StartCoroutine(WaitForLoad());
 		Init();
 		base.OnStartClient();
-	}
-
-	//syncvar hook when server sends us settings
-	private void CharacterSettingsHook(CharacterSettings newSettings)
-	{
-		characterSettings = newSettings;
-		OnCharacterSettingsChange.Invoke(newSettings);
 	}
 
 	private IEnumerator WaitForLoad()
@@ -357,7 +336,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		//TODO add if for being drunk
 		//ChatModifier modifiers = ChatModifier.Drunk;
 
-		if (JobType == JobType.CLOWN)
+		if (mind.jobType == JobType.CLOWN)
 		{
 			modifiers |= ChatModifier.Clown;
 
@@ -394,15 +373,4 @@ public class PlayerScript : ManagedNetworkBehaviour
 			Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
 		}
 	}
-
-	[Server]
-	public void ServerSetCharacterSettings(CharacterSettings newSettings)
-	{
-		CharacterSettingsHook(newSettings);
-	}
 }
-
-/// <summary>
-/// Fired when character settings are sent from the server.
-/// </summary>
-public class CharacterSettingsEvent : UnityEvent<CharacterSettings>{ }

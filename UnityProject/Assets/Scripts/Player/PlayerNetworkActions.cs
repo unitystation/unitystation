@@ -48,7 +48,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private List<InventorySlot> initSync;
 
-	private void Start()
+	private void Awake()
 	{
 		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
@@ -377,8 +377,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 							att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
 							att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank"))
 						{
-							Epos enumA = (Epos)Enum.Parse(typeof(Epos), toSlot.SlotName);
-							equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
+							EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), toSlot.SlotName);
+							equipment.clothingSlots[(int)enumA].reference = att.clothingReference;
 						}
 					}
 				}
@@ -403,8 +403,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private void SyncEquipSprite(string slotName, int spriteRef)
 	{
-		Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
-		equipment.syncEquipSprites[(int)enumA] = spriteRef;
+		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
+		equipment.clothingSlots[(int)enumA].reference = spriteRef;
 	}
 
 	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction,
@@ -669,7 +669,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdToggleChatIcon(bool turnOn)
 	{
-		if (!GetComponent<VisibleBehaviour>().visibleState || (playerScript.JobType == JobType.NULL))
+		if (!GetComponent<VisibleBehaviour>().visibleState || (playerScript.mind.jobType == JobType.NULL))
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			return;
@@ -709,7 +709,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.CharacterSettings, gameObject);
+			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.mind.jobType, playerScript.characterSettings, gameObject);
 			RpcAfterRespawn();
 		}
 	}
@@ -723,7 +723,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if(GetComponent<LivingHealthBehaviour>().IsDead)
 		{
 			RpcBeforeGhost();
-			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.CharacterSettings);
+			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
 			playerScript.mind.Ghosting(newGhost);
 		}
 	}

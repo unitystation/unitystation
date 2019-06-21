@@ -21,7 +21,7 @@ public static class SpawnHandler
 
 	public static void ClonePlayer(NetworkConnection conn, short playerControllerId, JobType jobType, CharacterSettings characterSettings, GameObject oldBody, GameObject spawnSpot)
 	{
-		GameObject player = CreateMob(jobType, spawnSpot, CustomNetworkManager.Instance.humanPlayerPrefab);
+		GameObject player = CreateMob(spawnSpot, CustomNetworkManager.Instance.humanPlayerPrefab);
 		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
 	}
 
@@ -32,12 +32,15 @@ public static class SpawnHandler
 		var playerScript = player.GetComponent<PlayerScript>();
 		playerScript.mind = new Mind();
 		playerScript.mind.body = playerScript;
+		playerScript.mind.jobType = jobType;
+		var equipment = player.GetComponent<Equipment>();
+		equipment.SetPlayerLoadOuts();
 	}
 
 	public static GameObject SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)
 	{
-		var jobType = oldBody.GetComponent<PlayerScript>().JobType;
-		GameObject ghost = CreateMob(jobType, oldBody, CustomNetworkManager.Instance.ghostPrefab);
+		var jobType = oldBody.GetComponent<PlayerScript>().mind.jobType;
+		GameObject ghost = CreateMob(oldBody, CustomNetworkManager.Instance.ghostPrefab);
 		TransferPlayer(conn, playerControllerId, ghost, oldBody, EVENT.GhostSpawned, characterSettings);
 		return ghost;
 	}
@@ -81,11 +84,16 @@ public static class SpawnHandler
 		CustomNetworkManager.Instance.SyncPlayerData(newBody);
 		if(characterSettings != null)
 		{
-			playerScript.ServerSetCharacterSettings(characterSettings);
+			playerScript.characterSettings = characterSettings;
+		}
+		var playerSprites = newBody.GetComponent<PlayerSprites>();
+		if(playerSprites)
+		{
+			playerSprites.OnCharacterSettingsChange(characterSettings);
 		}
 	}
 
-	private static GameObject CreateMob(JobType jobType, GameObject spawnSpot, GameObject mobPrefab)
+	private static GameObject CreateMob(GameObject spawnSpot, GameObject mobPrefab)
 	{
 		var registerTile = spawnSpot.GetComponent<RegisterTile>();
 
@@ -112,7 +120,6 @@ public static class SpawnHandler
 		GameObject newMob = Object.Instantiate(mobPrefab, spawnPosition, Quaternion.identity, parentTransform);
 		var playerScript = newMob.GetComponent<PlayerScript>();
 
-		playerScript.JobType = jobType;
 		playerScript.registerTile.ParentNetId = parentNetId;
 
 		return newMob;
@@ -128,12 +135,11 @@ public static class SpawnHandler
 
 		if (spawnTransform != null)
 		{
-			player = CreateMob( jobType, spawnTransform.gameObject, playerPrefab );
+			player = CreateMob(spawnTransform.gameObject, playerPrefab );
 		}
 		else
 		{
 			player = Object.Instantiate(playerPrefab);
-			player.GetComponent<PlayerScript>().JobType = jobType;
 		}
 
 		return player;

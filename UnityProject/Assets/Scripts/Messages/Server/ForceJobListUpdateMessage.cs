@@ -13,7 +13,7 @@ public class ForceJobListUpdateMessage : ServerMessage
 		GUI_PlayerJobs playerJobs = UIManager.Instance.displayControl.jobSelectWindow.GetComponent<GUI_PlayerJobs>();
 		playerJobs.isUpToDate = false;
 
-		if (!GameData.IsHeadlessServer && PlayerManager.LocalPlayerScript.JobType == JobType.NULL)
+		if (!GameData.IsHeadlessServer && PlayerManager.LocalPlayerScript.mind.jobType == JobType.NULL)
 		{
 			//Reset required if player played in previous round
 			playerJobs.hasPickedAJob = false;
