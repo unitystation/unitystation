@@ -83,7 +83,6 @@ public class Nuke : NetworkBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		UIManager.Display.hudBottomHuman.gameObject.SetActive(false);
 		UIManager.Display.hudBottomGhost.gameObject.SetActive(false);
-		UIManager.Display.backGround.SetActive(false);
 		ControlChat.Instance.CloseChatWindow();
 		GameManager.Instance.GameOver = true;
 		GameManager.Instance.RoundEnd();
