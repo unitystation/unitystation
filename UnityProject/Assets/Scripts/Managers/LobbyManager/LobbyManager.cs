@@ -40,7 +40,7 @@ namespace Lobby
 			if (!Application.isMobilePlatform)
 			{
 				characterCustomization.transform.localScale *= 0.8f;
-				lobbyDialogue.transform.localScale *= 0.9f;
+				lobbyDialogue.transform.localScale *= 0.7f;
 			}
 		}
 
