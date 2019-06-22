@@ -40,6 +40,15 @@ public class PlayerSprites : MonoBehaviour
 		}
 	}
 
+	public void NotifyPlayer(GameObject recipient)
+	{
+		for (int i = 0; i < characterSprites.Length; i++)
+		{
+			var clothItem = characterSprites[i];
+			PlayerSpritesMessage.SendTo(gameObject, i, clothItem.reference, clothItem.color, recipient);
+		}
+	}
+
 	public void OnCharacterSettingsChange(CharacterSettings characterSettings)
 	{
 		if (characterSettings == null)

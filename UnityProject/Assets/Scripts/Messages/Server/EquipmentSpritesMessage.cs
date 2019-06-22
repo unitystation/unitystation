@@ -17,18 +17,29 @@ public class EquipmentSpritesMessage : ServerMessage
 		{
 			NetworkObject.GetComponent<Equipment>().clothingSlots[Index].SetReference(Reference);
 		}
-		yield return null;
 	}
 
 	public static EquipmentSpritesMessage SendToAll(GameObject equipmentObject, int index, int reference)
 	{
-		EquipmentSpritesMessage msg = new EquipmentSpritesMessage
+		var msg = CreateMsg(equipmentObject, index, reference);
+		msg.SendToAll();
+		return msg;
+	}
+
+	public static EquipmentSpritesMessage SendTo(GameObject equipmentObject, int index, int reference, GameObject recipient)
+	{
+		var msg = CreateMsg(equipmentObject, index, reference);
+		msg.SendTo(recipient);
+		return msg;
+	}
+
+	public static EquipmentSpritesMessage CreateMsg(GameObject equipmentObject, int index, int reference)
+	{
+		return new EquipmentSpritesMessage
 		{
 			Index = index,
 			Reference = reference,
 			EquipmentObject = equipmentObject.NetId()
 		};
-		msg.SendToAll();
-		return msg;
 	}
 }

@@ -57,23 +57,14 @@ public class Equipment : NetworkBehaviour
 		UnregisisterInternals();
 	}
 
-	/// Wait until client gains control of this player before proceeding further
-	/// (Could be moved into some more generic place in the future)
-	private IEnumerator WaitUntilInControl(int maxTries = 50)
+	public void NotifyPlayer(GameObject recipient)
 	{
-		int tries = 0;
-		while (!PlayerList.Instance.ContainsGameObject(gameObject))
+		for (int i = 0; i < clothingSlots.Length; i++)
 		{
-			if (tries++ > maxTries)
-			{
-				Logger.LogError($"{this} not in control after {maxTries} tries", Category.Equipment);
-				yield break;
-			}
-
-			yield return WaitFor.Seconds(.1f);
+			var clothItem = clothingSlots[i];
+			EquipmentSpritesMessage.SendTo(gameObject, i, clothItem.reference, recipient);
 		}
 	}
-
 
 	public void SetPlayerLoadOuts()
 	{

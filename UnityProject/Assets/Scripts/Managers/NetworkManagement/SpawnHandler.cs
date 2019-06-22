@@ -79,16 +79,19 @@ public static class SpawnHandler
 		{
 			ClosetHandlerMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
 		}
+		bool newMob = false;
 		if(characterSettings != null)
 		{
 			playerScript.characterSettings = characterSettings;
-		}
-		var playerSprites = newBody.GetComponent<PlayerSprites>();
-		if(playerSprites)
-		{
-			playerSprites.OnCharacterSettingsChange(characterSettings);
+			var playerSprites = newBody.GetComponent<PlayerSprites>();
+			if (playerSprites)
+			{
+				playerSprites.OnCharacterSettingsChange(characterSettings);
+			}
+			newMob = true;
 		}
 		CustomNetworkManager.Instance.SyncPlayerData(newBody);
+		CustomNetworkManager.Instance.SyncCharSprites(newBody, newMob);
 	}
 
 	private static GameObject CreateMob(GameObject spawnSpot, GameObject mobPrefab)

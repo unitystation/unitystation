@@ -17,6 +17,7 @@ public class ClothingItem : MonoBehaviour
 
 	public int reference = -1;
 	private int referenceOffset;
+	public Color color;
 
 	public SpriteRenderer spriteRenderer;
 	private Sprite[] sprites;
@@ -50,6 +51,7 @@ public class ClothingItem : MonoBehaviour
 
 	public void SetColor(Color value)
 	{
+		color = value;
 		spriteRenderer.color = value;
 	}
 

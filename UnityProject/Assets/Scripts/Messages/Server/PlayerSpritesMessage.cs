@@ -13,7 +13,6 @@ public class PlayerSpritesMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(EquipmentObject);
-
 		if (NetworkObject != null)
 		{
 			var sprite = NetworkObject.GetComponent<PlayerSprites>().characterSprites[Index];
@@ -23,19 +22,31 @@ public class PlayerSpritesMessage : ServerMessage
 				sprite.SetColor(NewColor);
 			}
 		}
-		yield return null;
 	}
 
 	public static PlayerSpritesMessage SendToAll(GameObject equipmentObject, int index, int reference, Color color)
 	{
-		PlayerSpritesMessage msg = new PlayerSpritesMessage
+		var msg = CreateMsg(equipmentObject, index, reference, color);
+		msg.SendToAll();
+		return msg;
+	}
+
+	public static PlayerSpritesMessage SendTo(GameObject equipmentObject, int index, int reference, Color color, GameObject recipient)
+	{
+		var msg = CreateMsg(equipmentObject, index, reference, color);
+		msg.SendTo(recipient);
+		return msg;
+	}
+
+	public static PlayerSpritesMessage CreateMsg(GameObject equipmentObject, int index, int reference, Color color)
+	{
+		return new PlayerSpritesMessage
 		{
 			Index = index,
 			Reference = reference,
 			NewColor = color,
 			EquipmentObject = equipmentObject.NetId()
 		};
-		msg.SendToAll();
-		return msg;
 	}
+
 }
