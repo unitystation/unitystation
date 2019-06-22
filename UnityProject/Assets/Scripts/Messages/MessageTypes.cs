@@ -43,7 +43,8 @@ internal enum MessageTypes : short
 	EquipmentSpritesMessage = 1039,
 	PlayerSpritesMessage = 1040,
 	BookNetMessage = 1041,
-	
+	BookshelfNetMessage = 1042,
+	SubBookshelfNetMessage = 1043,
 	
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
@@ -72,5 +73,6 @@ internal enum MessageTypes : short
 	RequestPositionalHandApplyMessage = 2023,
 	RequestActivateMessage = 2024,
 	RequestList_DictContentsMessage = 2026
-
+	RequestBookshelfNetMessage = 2027,
+	RequestOpenBookIDNetMessage = 2028
 }

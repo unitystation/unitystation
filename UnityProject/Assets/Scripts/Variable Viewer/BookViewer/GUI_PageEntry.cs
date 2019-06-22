@@ -18,13 +18,13 @@ public class GUI_PageEntry : MonoBehaviour
 	public GUI_P_Bool boolP;
 	public GUI_P_Input InputP;
 	public GUI_P_Class ClassP;
+	public GUI_P_Eume EumeP;
 	public GUI_P_Collection CollectionP;
-	public GUI_P_list_Dict P_list_Dict;
 
 	public GUI_P_Bool PoolboolP;
 	public GUI_P_Input PoolInputP;
 	public GUI_P_Class PoolClassP;
-	public GUI_P_Collection PoolCollectionP;
+	public GUI_P_Eume PoolEumeP;
 
 	public GameObject CurrentlyShowing;
 
@@ -34,8 +34,8 @@ public class GUI_PageEntry : MonoBehaviour
 
 
 
-	private BookNetMessage.NetFriendlyPage _Page;
-	public BookNetMessage.NetFriendlyPage Page
+	private VariableViewerNetworking.NetFriendlyPage _Page;
+	public VariableViewerNetworking.NetFriendlyPage Page
 	{
 		get { return _Page; }
 		set
@@ -81,19 +81,16 @@ public class GUI_PageEntry : MonoBehaviour
 			else if (t.IsGenericType)
 			{
 
-				GUI_P_list_Dict ValueEntry;
+				GUI_P_Collection ValueEntry;
 
-				ValueEntry = Instantiate(P_list_Dict) as GUI_P_list_Dict;
-
+				ValueEntry = Instantiate(CollectionP) as GUI_P_Collection;
 				ValueEntry.transform.SetParent(DynamicSizePanel.transform);
 				ValueEntry.transform.localScale = Vector3.one;
 				ValueEntry.TText.text = _Page.VariableName;
 				ValueEntry.ID = _Page.ID;
 
+				ValueEntry.Sentence = JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlySentence>(_Page.Sentences);
 
-				Logger.Log("_Page.Sentences  > " + _Page.Sentences);
-				ValueEntry.Sentence = JsonConvert.DeserializeObject<BookNetMessage.NetFriendlySentence>(_Page.Sentences);
-				Logger.Log("ValueEntry.Sentence > " + ValueEntry.Sentence);
 				//ValueEntry.TDropdown.value = ValueEntry.TDropdown.options.IndexOf(_Page.Variable);//
 				NotPoolble = true;
 				CurrentlyShowing = ValueEntry.gameObject;
@@ -126,14 +123,14 @@ public class GUI_PageEntry : MonoBehaviour
 			else if (t.IsEnum)
 			{
 				//IsEnum!!
-				GUI_P_Collection ValueEntry;
-				if (PoolCollectionP == null)
+				GUI_P_Eume ValueEntry;
+				if (PoolEumeP == null)
 				{
-					ValueEntry = Instantiate(CollectionP) as GUI_P_Collection;
-					PoolCollectionP = ValueEntry;
+					ValueEntry = Instantiate(EumeP) as GUI_P_Eume;
+					PoolEumeP = ValueEntry;
 				}
 				else {
-					ValueEntry = PoolCollectionP;
+					ValueEntry = PoolEumeP;
 					ValueEntry.gameObject.SetActive(true);
 				}
 		

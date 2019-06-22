@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
 	private static UIManager uiManager;
 	public GUI_VariableViewer VariableViewer;
+	public BookshelfViewer BookshelfViewer;
 	public ControlAction actionControl;
 	public DragAndDrop dragAndDrop;
 	public ControlDisplays displayControl;

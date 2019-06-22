@@ -19,7 +19,7 @@ public class SUB_ElementHandler : MonoBehaviour
 	public GUI_sub_P_list_Dict P_list_Dict;
 
 
-	public BookNetMessage.NetFriendlySentence Sentence;
+	public VariableViewerNetworking.NetFriendlySentence Sentence;
 
 	public void ValueSetUp()
 	{

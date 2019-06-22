@@ -46,7 +46,7 @@ public class GUI_VariableViewer : MonoBehaviour
 		}
 	}
 
-	public BookNetMessage.NetFriendlyBook CurrentlyOpenBook; //{get {} set{} };
+	public VariableViewerNetworking.NetFriendlyBook CurrentlyOpenBook; //{get {} set{} };
 
 	public Text boookID;
 	public Text boookTitle;
@@ -123,7 +123,7 @@ public class GUI_VariableViewer : MonoBehaviour
 	public GameObject PagePanel;
 	public GUI_PageEntry PageEntryPrefab;
 	//GUI_PageEntrypublic RadialButton ButtonPrefab;
-	public void ReceiveBook( BookNetMessage.NetFriendlyBook Book )
+	public void ReceiveBook( VariableViewerNetworking.NetFriendlyBook Book )
 	{
 		PresentPagesCount = 0;
 		RightArrow.SetActive(false);

@@ -15,8 +15,8 @@ public class GUI_sub_P_list_Dict : MonoBehaviour
 	public ulong ID;
 
 	public SUB_ElementHandler ElementHandler;
-	private BookNetMessage.NetFriendlySentence _Sentence;
-	public BookNetMessage.NetFriendlySentence Sentence
+	private VariableViewerNetworking.NetFriendlySentence _Sentence;
+	public VariableViewerNetworking.NetFriendlySentence Sentence
 	{
 		get { return _Sentence; }
 		set
