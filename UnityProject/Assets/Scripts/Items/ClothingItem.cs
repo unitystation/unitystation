@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 
 public enum SpriteHandType
 {
@@ -9,14 +8,14 @@ public enum SpriteHandType
 }
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class ClothingItem : NetworkBehaviour
+public class ClothingItem : MonoBehaviour
 {
 	/// <summary>
 	/// Absolute orientation
 	/// </summary>
 	private Orientation currentDirection = Orientation.Down;
-	[SyncVar(hook = nameof(SyncSprite))] public int reference = -1;
-	[SyncVar(hook = nameof(SyncColor))] public Color color;
+
+	public int reference = -1;
 	private int referenceOffset;
 
 	public SpriteRenderer spriteRenderer;
@@ -48,15 +47,14 @@ public class ClothingItem : NetworkBehaviour
 		UpdateSprite();
 	}
 
-	public void SyncColor(Color value)
+
+	public void SetColor(Color value)
 	{
-		color = value;
-		spriteRenderer.color = color;
+		spriteRenderer.color = value;
 	}
 
-	public void SyncSprite(int value)
+	public void SetReference(int value)
 	{
-		Debug.Log($"ARAN: SyncSprite {value}");
 		reference = value;
 
 		if (reference == -1)

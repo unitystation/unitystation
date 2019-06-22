@@ -39,7 +39,6 @@ public static class SpawnHandler
 
 	public static GameObject SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)
 	{
-		var jobType = oldBody.GetComponent<PlayerScript>().mind.jobType;
 		GameObject ghost = CreateMob(oldBody, CustomNetworkManager.Instance.ghostPrefab);
 		TransferPlayer(conn, playerControllerId, ghost, oldBody, EVENT.GhostSpawned, characterSettings);
 		return ghost;
@@ -80,8 +79,6 @@ public static class SpawnHandler
 		{
 			ClosetHandlerMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
 		}
-
-		CustomNetworkManager.Instance.SyncPlayerData(newBody);
 		if(characterSettings != null)
 		{
 			playerScript.characterSettings = characterSettings;
@@ -91,6 +88,7 @@ public static class SpawnHandler
 		{
 			playerSprites.OnCharacterSettingsChange(characterSettings);
 		}
+		CustomNetworkManager.Instance.SyncPlayerData(newBody);
 	}
 
 	private static GameObject CreateMob(GameObject spawnSpot, GameObject mobPrefab)

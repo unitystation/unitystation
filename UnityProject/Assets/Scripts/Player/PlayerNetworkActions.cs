@@ -378,7 +378,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 							att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank"))
 						{
 							EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), toSlot.SlotName);
-							equipment.clothingSlots[(int)enumA].reference = att.clothingReference;
+							equipment.SetReference((int)enumA, att.clothingReference);
 						}
 					}
 				}
@@ -404,7 +404,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void SyncEquipSprite(string slotName, int spriteRef)
 	{
 		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
-		equipment.clothingSlots[(int)enumA].reference = spriteRef;
+		equipment.SetReference((int)enumA, spriteRef);
 	}
 
 	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction,

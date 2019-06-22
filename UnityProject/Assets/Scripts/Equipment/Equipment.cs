@@ -281,12 +281,17 @@ public class Equipment : NetworkBehaviour
 		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), hand);
 		if (hand == "leftHand")
 		{
-			clothingSlots[(int)enumA].reference = att.NetworkInHandRefLeft();
+			SetReference((int)enumA, att.NetworkInHandRefLeft());
 		}
 		else
 		{
-			clothingSlots[(int)enumA].reference = att.NetworkInHandRefRight();
+			SetReference((int)enumA, att.NetworkInHandRefRight());
 		}
+	}
+
+	public void SetReference(int index, int reference)
+	{
+		EquipmentSpritesMessage.SendToAll(gameObject, index, reference);
 	}
 
 	//
@@ -300,7 +305,7 @@ public class Equipment : NetworkBehaviour
 		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
 		if (HasPlayerSprite(enumA))
 		{
-			clothingSlots[(int)enumA].reference = -1;
+			SetReference((int)enumA, -1);
 		}
 	}
 
