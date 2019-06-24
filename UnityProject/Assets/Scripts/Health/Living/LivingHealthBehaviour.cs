@@ -13,6 +13,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	public float maxHealth = 100;
 
 	public float OverallHealth { get; private set; } = 100;
+	public float cloningDamage;
 
 	// Systems can also be added via inspector
 	public BloodSystem bloodSystem;
@@ -333,6 +334,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		newHealth -= CalculateOverallBodyPartDamage();
 		newHealth -= CalculateOverallBloodLossDamage();
 		newHealth -= bloodSystem.OxygenDamage;
+		newHealth -= cloningDamage;
 		OverallHealth = newHealth;
 	}
 
