@@ -102,7 +102,7 @@ public class GUI_Cloning : NetTab
 			recordScanID.SetValue = "Scan ID " + specificRecord.ScanID;
 			recordOxy.SetValue = specificRecord.OxyDmg + "\tOxygen Damage";
 			recordBurn.SetValue = specificRecord.BurnDmg + "\tBurn Damage";
-			recordToxin.SetValue = specificRecord.ToxingDmg + "\tToxin Damage";
+			recordToxin.SetValue = specificRecord.ToxinDmg + "\tToxin Damage";
 			recordBrute.SetValue = specificRecord.BruteDmg + "\tBrute Damage";
 			recordUniqueID.SetValue = specificRecord.UniqueIdentifier;
 		}
