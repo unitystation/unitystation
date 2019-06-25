@@ -60,6 +60,8 @@ public class ControlDisplays : MonoBehaviour
 
 	public void SetScreenForGame()
 	{
+		hudBottomHuman.gameObject.SetActive(false);
+		hudBottomGhost.gameObject.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		backGround.SetActive(false);
 		panelRight.gameObject.SetActive(true);
