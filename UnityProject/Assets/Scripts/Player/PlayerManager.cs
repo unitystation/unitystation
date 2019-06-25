@@ -22,6 +22,8 @@ public class PlayerManager : MonoBehaviour
 
 	public static CharacterSettings CurrentCharacterSettings { get; set; }
 
+	private int mobIDcount;
+
 	public static PlayerManager Instance
 	{
 		get
@@ -96,5 +98,11 @@ public class PlayerManager : MonoBehaviour
 	private void OnPlayerDeath()
 	{
 		EventManager.Broadcast(EVENT.DisableInternals);
+	}
+
+	public int GetMobID()
+	{
+		mobIDcount++;
+		return mobIDcount;
 	}
 }

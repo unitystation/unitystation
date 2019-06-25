@@ -10,8 +10,13 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(HealthStateMonitor))]
 public abstract class LivingHealthBehaviour : NetworkBehaviour
 {
-	public float maxHealth = 100;
 
+	/// <summary>
+	/// Server side, each mob has a different one and never it never changes
+	/// </summary>
+	public int mobID { get; private set; }
+
+	public float maxHealth = 100;
 	public float OverallHealth { get; private set; } = 100;
 	public float cloningDamage;
 
@@ -128,6 +133,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	public override void OnStartServer()
 	{
+		mobID = PlayerManager.Instance.GetMobID();
 		ResetBodyParts();
 		if (maxHealth <= 0)
 		{
