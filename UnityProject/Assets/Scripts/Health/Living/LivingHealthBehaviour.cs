@@ -14,7 +14,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// <summary>
 	/// Server side, each mob has a different one and never it never changes
 	/// </summary>
-	public int mobID;
+	public int mobID { get; private set; }
 
 	public float maxHealth = 100;
 	public float OverallHealth { get; private set; } = 100;

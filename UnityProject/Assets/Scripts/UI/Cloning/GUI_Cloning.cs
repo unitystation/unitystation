@@ -75,7 +75,7 @@ public class GUI_Cloning : NetTab
 
 	public void Clone()
 	{
-		Logger.Log($"Cloning {specificRecord.Name}", Category.NetUI);
+		Logger.Log($"Cloning {specificRecord.name}", Category.NetUI);
 		RemoveRecord();
 		UpdateDisplay();
 		netPageSwitcher.SetActivePage(PageAllRecords);
@@ -98,13 +98,13 @@ public class GUI_Cloning : NetTab
 	{
 		if(specificRecord != null)
 		{
-			recordName.SetValue = specificRecord.Name;
-			recordScanID.SetValue = "Scan ID " + specificRecord.ScanID;
-			recordOxy.SetValue = specificRecord.OxyDmg + "\tOxygen Damage";
-			recordBurn.SetValue = specificRecord.BurnDmg + "\tBurn Damage";
-			recordToxin.SetValue = specificRecord.ToxinDmg + "\tToxin Damage";
-			recordBrute.SetValue = specificRecord.BruteDmg + "\tBrute Damage";
-			recordUniqueID.SetValue = specificRecord.UniqueIdentifier;
+			recordName.SetValue = specificRecord.name;
+			recordScanID.SetValue = "Scan ID " + specificRecord.scanID;
+			recordOxy.SetValue = specificRecord.oxyDmg + "\tOxygen Damage";
+			recordBurn.SetValue = specificRecord.burnDmg + "\tBurn Damage";
+			recordToxin.SetValue = specificRecord.toxinDmg + "\tToxin Damage";
+			recordBrute.SetValue = specificRecord.bruteDmg + "\tBrute Damage";
+			recordUniqueID.SetValue = specificRecord.uniqueIdentifier;
 		}
 	}
 
