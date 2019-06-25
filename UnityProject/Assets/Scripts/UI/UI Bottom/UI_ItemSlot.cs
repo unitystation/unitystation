@@ -49,7 +49,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	private void OnEnable()
 	{
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
-		StartCoroutine(SetSlotOnEnable());
+		SetSlotOnEnable();
 	}
 
 	private void OnDisable()
@@ -65,9 +65,8 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	}
 
-	IEnumerator SetSlotOnEnable()
+	void SetSlotOnEnable()
 	{
-		yield return WaitFor.EndOfFrame;
 		if (!InventoryManager.AllClientInventorySlots.Contains(inventorySlot))
 		{
 			InventoryManager.AllClientInventorySlots.Add(inventorySlot);

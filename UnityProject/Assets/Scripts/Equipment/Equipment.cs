@@ -313,16 +313,7 @@ public class Equipment : NetworkBehaviour
 	private void SetItem(string slotName, GameObject obj)
 	{
 		playerNetworkActions.AddItemToUISlot(obj, slotName, true);
-		//StartCoroutine(SetItemPatiently(slotName, obj));
 	}
-
-	private IEnumerator SetItemPatiently(string slotName, GameObject obj)
-	{
-		//Waiting for hier name resolve
-		yield return WaitFor.Seconds(0.2f);
-		playerNetworkActions.AddItemToUISlot(obj, slotName, true);
-	}
-
 
 	private void InitInternals()
 	{
