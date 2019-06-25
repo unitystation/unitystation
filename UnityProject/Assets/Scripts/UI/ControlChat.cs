@@ -73,6 +73,7 @@ public class ControlChat : MonoBehaviour
 	/// Are the channel toggles on show?
 	/// </summary>
 	private bool showChannels = false;
+	private bool debounceCloseChat = false;
 
 	private void Awake()
 	{
@@ -117,6 +118,8 @@ public class ControlChat : MonoBehaviour
 
 	private void Update()
 	{
+		debounceCloseChat = false;
+
 		// TODO add events to inventory slot changes to trigger channel refresh
 		if (chatInputWindow.activeInHierarchy && !isChannelListUpToDate())
 		{
@@ -126,10 +129,12 @@ public class ControlChat : MonoBehaviour
 
 		if (UIManager.IsInputFocus)
 		{
-			if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
-				KeyboardInputManager.IsEnterPressed())
+			if (KeyboardInputManager.IsEnterPressed())
 			{
-				PlayerSendChat();
+				if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
+				{
+					PlayerSendChat();
+				}
 				CloseChatWindow();
 			}
 		}
@@ -143,13 +148,6 @@ public class ControlChat : MonoBehaviour
 		if (InputFieldChat.isFocused) return;
 		if (KeyboardInputManager.IsMovementPressed() || KeyboardInputManager.IsEscapePressed())
 		{
-			CloseChatWindow();
-		}
-
-		if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
-			KeyboardInputManager.IsEnterPressed())
-		{
-			PlayerSendChat();
 			CloseChatWindow();
 		}
 	}
@@ -230,6 +228,11 @@ public class ControlChat : MonoBehaviour
 	/// <param name="selectedChannel">The chat channels to select when opening it</param>
 	public void OpenChatWindow (ChatChannel selectedChannel = ChatChannel.None)
 	{
+		// Prevent the chat opening on the same frame as it was closed
+		if (debounceCloseChat) {
+			return;
+		}
+
 		// Can't open chat window while main menu open
 		if (GUI_IngameMenu.Instance.mainIngameMenu.activeInHierarchy)
 		{
@@ -268,6 +271,7 @@ public class ControlChat : MonoBehaviour
 		chatInputWindow.SetActive(false);
 		EventManager.Broadcast(EVENT.ChatUnfocused);
 		background.SetActive(false);
+		debounceCloseChat = true;
 	}
 
 	/// <summary>
