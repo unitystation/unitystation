@@ -12,21 +12,26 @@ public class Mind
 	public PlayerScript ghost;
 	public PlayerScript body;
 	public bool IsGhosting;
+	public bool DenyCloning;
 
 	public void ClonePlayer(GameObject spawnPoint, CharacterSettings characterSettings)
 	{
-		GameObject oldBody;
-		if(IsGhosting)
-		{
-			oldBody = ghost.gameObject;
-		}
-		else
-		{
-			oldBody = body.gameObject;
-		}
+		GameObject oldBody = GetCurrentMob();
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var playerID = oldBody.GetComponent<NetworkBehaviour>().playerControllerId;
 		//SpawnHandler.ClonePlayer(connection, playerID, jobType, characterSettings, oldBody, spawnPoint);
+	}
+
+	public GameObject GetCurrentMob()
+	{
+		if (IsGhosting)
+		{
+			return ghost.gameObject;
+		}
+		else
+		{
+			return body.gameObject;
+		}
 	}
 
 	public void Ghosting(GameObject newGhost)
@@ -40,5 +45,38 @@ public class Mind
 	public void ReturnToBody()
 	{
 		IsGhosting = false;
+	}
+
+	public bool ConfirmClone()
+	{
+		if(DenyCloning)
+		{
+			return false;
+		}
+		var currentMob = GetCurrentMob();
+		if(!IsGhosting)
+		{
+			var livingHealthBehaviour = currentMob.GetComponent<LivingHealthBehaviour>();
+			if(!livingHealthBehaviour.IsDead)
+			{
+				return false;
+			}
+		}
+		if(!IsOnline(currentMob))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public bool IsOnline(GameObject currentMob)
+	{
+		NetworkConnection connection = currentMob.GetComponent<NetworkIdentity>().connectionToClient;
+		if (PlayerList.Instance.ContainsConnection(connection) == false)
+		{
+			return false;
+		}
+		return true;
 	}
 }

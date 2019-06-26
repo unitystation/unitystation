@@ -89,10 +89,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4715117052207926}
   - component: {fileID: 61404138305600890}
-  - component: {fileID: 114818633338735330}
   - component: {fileID: 9128197607768152992}
-  - component: {fileID: 2464575245303528366}
+  - component: {fileID: 114818633338735330}
   - component: {fileID: 114657711786529776}
+  - component: {fileID: 5322609074420117545}
+  - component: {fileID: 2464575245303528366}
   - component: {fileID: 5293454678208234974}
   - component: {fileID: 114532654656294352}
   m_Layer: 11
@@ -143,6 +144,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &9128197607768152992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22bc22136d1c0934491149324f00dded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultContents: []
+  IsClosed: 0
+  IsLocked: 0
+  lockLight: {fileID: 0}
+  playerLimit: 1
+  statusSync: 0
+  doorOpened: {fileID: 21300012, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  spriteRenderer: {fileID: 212360857505739792}
+  occupant: {fileID: 0}
+  closedWithOccupant: {fileID: 21300004, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
 --- !u!114 &114818633338735330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,44 +199,6 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &9128197607768152992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711816394935574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22bc22136d1c0934491149324f00dded, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultContents: []
-  IsClosed: 0
-  IsLocked: 0
-  lockLight: {fileID: 0}
-  playerLimit: 1
-  statusSync: 0
-  doorOpened: {fileID: 21300012, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
-  spriteRenderer: {fileID: 212360857505739792}
-  occupant: {fileID: 0}
-  closedWithOccupant: {fileID: 21300004, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
---- !u!114 &2464575245303528366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711816394935574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectType: 1
-  AtmosPassable: 1
-  Passable: 0
-  closetType: 0
 --- !u!114 &114657711786529776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +211,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5322609074420117545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoredSpriteRenderers: []
+  registerTile: {fileID: 0}
+  visibleState: 1
+  isNotPushable: 1
+  closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
+--- !u!114 &2464575245303528366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layer: {fileID: 0}
+  ObjectType: 1
+  AtmosPassable: 1
+  Passable: 0
+  closetType: 0
 --- !u!114 &5293454678208234974
 MonoBehaviour:
   m_ObjectHideFlags: 0

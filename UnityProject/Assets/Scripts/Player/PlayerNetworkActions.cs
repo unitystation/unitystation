@@ -714,6 +714,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+	[Command]
+	public void CmdToggleAllowCloning()
+	{
+		playerScript.mind.DenyCloning = !playerScript.mind.DenyCloning;
+	}
+
 	/// <summary>
 	/// Spawn the ghost for this player and tell the client to switch input / camera to it
 	/// </summary>

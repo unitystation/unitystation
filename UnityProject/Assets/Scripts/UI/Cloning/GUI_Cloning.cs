@@ -75,8 +75,7 @@ public class GUI_Cloning : NetTab
 
 	public void Clone()
 	{
-		Logger.Log($"Cloning {specificRecord.name}", Category.NetUI);
-		RemoveRecord();
+		CloningConsole.TryClone(specificRecord);
 		UpdateDisplay();
 		netPageSwitcher.SetActivePage(PageAllRecords);
 	}

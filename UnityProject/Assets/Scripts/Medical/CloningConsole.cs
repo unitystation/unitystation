@@ -12,6 +12,7 @@ public class CloningConsole : MonoBehaviour
 
 	public List<CloningRecord> CloningRecords = new List<CloningRecord>();
 	public DNAscanner scanner;
+	public CloningPod cloningPod;
 
 	public void ToggleLock()
 	{
@@ -40,9 +41,16 @@ public class CloningConsole : MonoBehaviour
 		}
 	}
 
-	public void Clone(CloningRecord record)
+	public void TryClone(CloningRecord record)
 	{
-		record.mind.ClonePlayer(gameObject, record.characterSettings);
+		if (cloningPod && cloningPod.CanClone())
+		{
+			if(record.mind.ConfirmClone())
+			{
+				cloningPod.StartCloning(record);
+				CloningRecords.Remove(record);
+			}
+		}
 	}
 
 	private void CreateRecord(LivingHealthBehaviour mob)
