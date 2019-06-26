@@ -129,7 +129,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 13
   m_Sprite: {fileID: 21300104, guid: fd3f3905eab5416c91b8df3b18a1e1e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -155,6 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212253025024547778}
   spriteSheetName: human_face
   spriteType: 0
@@ -170,7 +171,6 @@ GameObject:
   - component: {fileID: 4435576251767608}
   - component: {fileID: 212940191652905820}
   - component: {fileID: 114176283518884694}
-  - component: {fileID: 114655767677116310}
   m_Layer: 8
   m_Name: back
   m_TagString: Untagged
@@ -227,7 +227,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 12
   m_Sprite: {fileID: 21300472, guid: cbeb82cd94f5419fb70ed6a97d9f2c0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -253,23 +253,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212940191652905820}
   spriteSheetName: back
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114655767677116310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1045510969552376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: back
 --- !u!1 &1051931730128558
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,7 +326,6 @@ GameObject:
   - component: {fileID: 4535270191266732}
   - component: {fileID: 212005797941245090}
   - component: {fileID: 114683599938915282}
-  - component: {fileID: 114564090614704354}
   m_Layer: 8
   m_Name: suit
   m_TagString: Untagged
@@ -395,7 +382,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300472, guid: cbeb82cd94f5419fb70ed6a97d9f2c0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -421,23 +408,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212005797941245090}
   spriteSheetName: suit
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114564090614704354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1054941989428260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: suit
 --- !u!1 &1074894628694278
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,7 +522,6 @@ GameObject:
   - component: {fileID: 4019729277435130}
   - component: {fileID: 212344525557824326}
   - component: {fileID: 114352699279829420}
-  - component: {fileID: 114505375981646366}
   m_Layer: 8
   m_Name: feet
   m_TagString: Untagged
@@ -604,7 +578,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 15
   m_Sprite: {fileID: 21300072, guid: ddcc6eb0c41c448dbf9dbc0e495ebe51, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -630,23 +604,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212344525557824326}
   spriteSheetName: feet
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114505375981646366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1106181757792460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: feet
 --- !u!1 &1133514949248654
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,7 +762,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f99bb0ad07434da089f740997e6916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JobType: 0
+  characterSettings:
+    username: 
+    Name: Cuban Pete
+    Gender: 0
+    Age: 22
+    hairStyleOffset: -1
+    hairStyleName: Bald
+    hairCollectionIndex: 4
+    hairColor: black
+    eyeColor: black
+    facialHairOffset: -1
+    facialHairName: Shaved
+    facialHairCollectionIndex: 4
+    facialHairColor: black
+    skinTone: '#ffe0d1'
+    underwearOffset: 20
+    underwearName: Mankini
+    underwearCollectionIndex: 1
+    socksOffset: 376
+    socksName: Knee-High (Freedom)
+    socksCollectionIndex: 3
+    headSpriteIndex: 20
+    torsoSpriteIndex: 28
   playerName: ' '
 --- !u!114 &114285118255153820
 MonoBehaviour:
@@ -926,6 +910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ec24547a834ed59569affa30e7249b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mobID: 0
   maxHealth: 100
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
@@ -979,6 +964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c7b6bc021c23c54d8e5410a430ca7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 2
 --- !u!114 &114803877374308862
 MonoBehaviour:
@@ -1122,7 +1108,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 0
-  ExtraRotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,7 +1119,6 @@ GameObject:
   - component: {fileID: 4535496056478974}
   - component: {fileID: 212847469326298166}
   - component: {fileID: 114186826461219604}
-  - component: {fileID: 114636370206516294}
   m_Layer: 8
   m_Name: sunglasses
   m_TagString: Untagged
@@ -1191,7 +1175,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300472, guid: cbeb82cd94f5419fb70ed6a97d9f2c0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1217,23 +1201,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212847469326298166}
   spriteSheetName: eyes
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114636370206516294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1147423205297840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: eyes
 --- !u!1 &1152904469002598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1301,7 +1273,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 20
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1327,6 +1299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212039247469239700}
   spriteSheetName: human_face
   spriteType: 0
@@ -1398,7 +1371,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 7
   m_Sprite: {fileID: 21300104, guid: fd3f3905eab5416c91b8df3b18a1e1e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1424,6 +1397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212258264285545284}
   spriteSheetName: underwear
   spriteType: 0
@@ -1495,7 +1469,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300040, guid: 1d23b0663aad42c08e1fafdb4c8fe77c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1520,7 +1494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reference: 20
+  reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212140744761718774}
   spriteSheetName: human_parts_greyscale
   spriteType: 0
@@ -1592,7 +1567,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 20
   m_Sprite: {fileID: 21300002, guid: 5f05c8bb3e78413e8825186edf0a4013, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1693,7 +1668,6 @@ GameObject:
   - component: {fileID: 4185669113134418}
   - component: {fileID: 212144883045729364}
   - component: {fileID: 114292210339441364}
-  - component: {fileID: 114393970884408578}
   m_Layer: 8
   m_Name: head
   m_TagString: Untagged
@@ -1750,7 +1724,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 19
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1776,23 +1750,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212144883045729364}
   spriteSheetName: head
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114393970884408578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332325770335918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: head
 --- !u!1 &1392646042361530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1804,7 +1766,6 @@ GameObject:
   - component: {fileID: 4122965008470958}
   - component: {fileID: 212073504853382616}
   - component: {fileID: 114998611308440448}
-  - component: {fileID: 114966985701112248}
   m_Layer: 8
   m_Name: neck
   m_TagString: Untagged
@@ -1861,7 +1822,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 12
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1887,23 +1848,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212073504853382616}
   spriteSheetName: neck
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114966985701112248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1392646042361530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: neck
 --- !u!1 &1410239830885134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1971,7 +1920,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 8
   m_Sprite: {fileID: 21300104, guid: fd3f3905eab5416c91b8df3b18a1e1e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1997,6 +1946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212853338683630810}
   spriteSheetName: human_face
   spriteType: 0
@@ -2068,7 +2018,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300104, guid: fd3f3905eab5416c91b8df3b18a1e1e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2094,6 +2044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212584759339869742}
   spriteSheetName: underwear
   spriteType: 0
@@ -2109,7 +2060,6 @@ GameObject:
   - component: {fileID: 4183188191239546}
   - component: {fileID: 212695445263472394}
   - component: {fileID: 114600225155881128}
-  - component: {fileID: 114317598722413354}
   m_Layer: 8
   m_Name: rightHand
   m_TagString: Untagged
@@ -2166,7 +2116,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 30
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2192,23 +2142,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212695445263472394}
   spriteSheetName: items_righthand
   spriteType: 1
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114317598722413354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442926995363424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: rightHand
 --- !u!1 &1456517064699986
 GameObject:
   m_ObjectHideFlags: 0
@@ -2220,7 +2158,6 @@ GameObject:
   - component: {fileID: 4813964138953014}
   - component: {fileID: 212924062595901212}
   - component: {fileID: 114572444233789018}
-  - component: {fileID: 114609944151092206}
   m_Layer: 8
   m_Name: belt
   m_TagString: Untagged
@@ -2277,7 +2214,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 15
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2303,23 +2240,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212924062595901212}
   spriteSheetName: belt
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114609944151092206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456517064699986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: belt
 --- !u!1 &1475777022527010
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,7 +2374,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300008, guid: 1d23b0663aad42c08e1fafdb4c8fe77c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2474,7 +2399,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reference: 4
+  reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212525861963860774}
   spriteSheetName: human_parts_greyscale
   spriteType: 0
@@ -2490,7 +2416,6 @@ GameObject:
   - component: {fileID: 4240144908851984}
   - component: {fileID: 212437748770145178}
   - component: {fileID: 114150458415481364}
-  - component: {fileID: 114761353998407626}
   m_Layer: 8
   m_Name: uniform
   m_TagString: Untagged
@@ -2547,7 +2472,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 8
   m_Sprite: {fileID: 21300384, guid: 81ec7ea9108d4e7cae05acd176cf43ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2573,23 +2498,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212437748770145178}
   spriteSheetName: uniform
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114761353998407626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1562215114468348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: uniform
 --- !u!1 &1626073062007556
 GameObject:
   m_ObjectHideFlags: 0
@@ -2601,7 +2514,6 @@ GameObject:
   - component: {fileID: 4858754577876330}
   - component: {fileID: 212990490947787952}
   - component: {fileID: 114857622421506280}
-  - component: {fileID: 114446262269173418}
   m_Layer: 8
   m_Name: leftHand
   m_TagString: Untagged
@@ -2658,7 +2570,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 30
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2684,23 +2596,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212990490947787952}
   spriteSheetName: items_lefthand
   spriteType: 2
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114446262269173418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626073062007556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: leftHand
 --- !u!1 &1646833726656528
 GameObject:
   m_ObjectHideFlags: 0
@@ -2768,7 +2668,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300024, guid: 1d23b0663aad42c08e1fafdb4c8fe77c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2793,7 +2693,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reference: 12
+  reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212238641902904474}
   spriteSheetName: human_parts_greyscale
   spriteType: 0
@@ -2809,7 +2710,6 @@ GameObject:
   - component: {fileID: 4489561192197254}
   - component: {fileID: 212068773527747804}
   - component: {fileID: 114133756563624140}
-  - component: {fileID: 114705432356065350}
   m_Layer: 8
   m_Name: mask
   m_TagString: Untagged
@@ -2866,7 +2766,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 22
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2892,23 +2792,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212068773527747804}
   spriteSheetName: mask
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114705432356065350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1653009388007362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: mask
 --- !u!1 &1659484884520852
 GameObject:
   m_ObjectHideFlags: 0
@@ -2976,7 +2864,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 20
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -3012,7 +2900,6 @@ GameObject:
   - component: {fileID: 4696408350976564}
   - component: {fileID: 212458270926585534}
   - component: {fileID: 114280887415014694}
-  - component: {fileID: 114804659299628030}
   m_Layer: 8
   m_Name: ear
   m_TagString: Untagged
@@ -3069,7 +2956,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3095,23 +2982,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212458270926585534}
   spriteSheetName: ears
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114804659299628030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660669868818532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: ear
 --- !u!1 &1693036899965374
 GameObject:
   m_ObjectHideFlags: 0
@@ -3303,7 +3178,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300016, guid: 1d23b0663aad42c08e1fafdb4c8fe77c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3328,7 +3203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reference: 8
+  reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212492286651421720}
   spriteSheetName: human_parts_greyscale
   spriteType: 0
@@ -3400,7 +3276,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300472, guid: cbeb82cd94f5419fb70ed6a97d9f2c0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3425,7 +3301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reference: 1
+  reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212249819486018122}
   spriteSheetName: human_face
   spriteType: 0
@@ -3497,7 +3374,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300032, guid: 1d23b0663aad42c08e1fafdb4c8fe77c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3522,7 +3399,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reference: 16
+  reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212721698993232106}
   spriteSheetName: human_parts_greyscale
   spriteType: 0
@@ -3538,7 +3416,6 @@ GameObject:
   - component: {fileID: 4591570146842988}
   - component: {fileID: 212272552631623328}
   - component: {fileID: 114686590975304092}
-  - component: {fileID: 114420756666831838}
   m_Layer: 8
   m_Name: hands
   m_TagString: Untagged
@@ -3595,7 +3472,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3621,23 +3498,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212272552631623328}
   spriteSheetName: hands
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
---- !u!114 &114420756666831838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1889549945948160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7f9f8fb4fb0a5145b517fa045d90170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventName: hands
 --- !u!1 &1894933337466704
 GameObject:
   m_ObjectHideFlags: 0
@@ -3801,7 +3666,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300056, guid: 1d23b0663aad42c08e1fafdb4c8fe77c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3826,7 +3691,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2bd72f088cba748a730db28ab0c0e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reference: 28
+  reference: -1
+  color: {r: 0, g: 0, b: 0, a: 0}
   spriteRenderer: {fileID: 212650584535459368}
   spriteSheetName: human_parts_greyscale
   spriteType: 0

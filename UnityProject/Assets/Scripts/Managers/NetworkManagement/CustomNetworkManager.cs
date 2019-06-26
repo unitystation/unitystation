@@ -351,10 +351,31 @@ public class CustomNetworkManager : NetworkManager
 		{
 			doors[i].NotifyPlayer(playerGameObject);
 		}
-
-
-
 		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
+	}
+
+	public void SyncCharSprites(GameObject recipient, bool newMob)
+	{
+		//All player bodies
+		PlayerSync[] playerBodies = FindObjectsOfType<PlayerSync>();
+		for (var i = 0; i < playerBodies.Length; i++)
+		{
+			var playerBody = playerBodies[i];
+			if(newMob && playerBody.gameObject == recipient)
+			{
+				continue;
+			}
+			var playerSprites = playerBody.GetComponent<PlayerSprites>();
+			if (playerSprites)
+			{
+				playerSprites.NotifyPlayer(recipient);
+			}
+			var equipment = playerBody.GetComponent<Equipment>();
+			if(equipment)
+			{
+				equipment.NotifyPlayer(recipient);
+			}
+		}
 	}
 
 	private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)

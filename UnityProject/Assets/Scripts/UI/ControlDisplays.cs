@@ -58,6 +58,8 @@ public class ControlDisplays : MonoBehaviour
 
 	public void SetScreenForGame()
 	{
+		hudBottomHuman.gameObject.SetActive(false);
+		hudBottomGhost.gameObject.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		uiAnimator.Play("idle");

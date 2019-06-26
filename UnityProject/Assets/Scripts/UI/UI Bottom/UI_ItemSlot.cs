@@ -44,17 +44,12 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		secondaryImage.enabled = false;
 		image.alphaHitTestMinimumThreshold = 0.5f;
 		image.enabled = false;
-		if (eventName.Length > 0)
-		{
-			//				Logger.LogTraceFormat("Triggered SetItem for {0}", Category.UI, eventName);
-			EventManager.UI.AddListener(eventName, SetItem);
-		}
 	}
 
 	private void OnEnable()
 	{
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
-		StartCoroutine(SetSlotOnEnable());
+		SetSlotOnEnable();
 	}
 
 	private void OnDisable()
@@ -70,9 +65,8 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	}
 
-	IEnumerator SetSlotOnEnable()
+	void SetSlotOnEnable()
 	{
-		yield return WaitFor.EndOfFrame;
 		if (!InventoryManager.AllClientInventorySlots.Contains(inventorySlot))
 		{
 			InventoryManager.AllClientInventorySlots.Add(inventorySlot);
