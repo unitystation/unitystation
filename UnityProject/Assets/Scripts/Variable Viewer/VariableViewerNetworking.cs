@@ -57,16 +57,36 @@ public class VariableViewerNetworking : MonoBehaviour
 
 	public class NetFriendlySentence
 	{
+
 		public uint SentenceID;
+
 		public uint PagePosition;
+
 		public string KeyVariable;
+
 		public string KeyVariableType;
 
 		public string ValueVariable;
+
 		public string ValueVariableType;
 
 		public ulong OnPageID;
-		public List<NetFriendlySentence> Sentences;
+
+
+		public uint HeldBySentenceID;
+
+
+		private List<NetFriendlySentence> Sentences;
+
+		public void SetSentences(List<NetFriendlySentence> _Sentences)
+		{
+			Sentences = _Sentences;
+		}
+
+		public List<NetFriendlySentence> GetSentences()
+		{
+			return (Sentences);
+		}
 
 	}
 
@@ -77,13 +97,54 @@ public class VariableViewerNetworking : MonoBehaviour
 		public string Variable;
 		public string VariableType;
 
-		public string Sentences;
+		public NetFriendlySentence[] Sentences;
 
 		public override string ToString()
 		{
 			return (VariableName + " = " + Variable + " of   " + VariableType);
 		}
-		//public Book BindedTo; unneeded?
+
+		public void ProcessSentences()
+		{
+			bool log = false;
+			Dictionary<uint, NetFriendlySentence> DictionaryStore = new Dictionary<uint, NetFriendlySentence>();
+			if (Sentences.Length > 0)
+			{
+				//Logger.Log("YOOOOO");
+				NetFriendlySentence TOPClientFriendlySentence = Sentences[0];
+				DictionaryStore[Sentences[0].SentenceID] = TOPClientFriendlySentence;
+				//Logger.Log(JsonConvert.SerializeObject(Sentences));
+				foreach (var bob in Sentences)
+				{
+					bob.SetSentences(new List<NetFriendlySentence>());
+					DictionaryStore[bob.SentenceID] = bob;
+				}
+				foreach (var bob in Sentences)
+				{
+					if (bob.SentenceID != 0)
+					{
+						if (DictionaryStore.ContainsKey(bob.HeldBySentenceID))
+						{
+							DictionaryStore[bob.HeldBySentenceID].GetSentences().Add(bob);
+						}
+					}
+
+				}
+				NetFriendlySentence[] _bob = new NetFriendlySentence[1] {
+				TOPClientFriendlySentence
+				};
+				Sentences = _bob;
+				//Logger.Log("TT");
+				if (log)
+				{
+					Logger.Log(JsonConvert.SerializeObject(Sentences[0].GetSentences()));
+					Logger.Log(JsonConvert.SerializeObject(Sentences[0].GetSentences()[0].GetSentences()));
+				}
+				//Logger.Log(JsonConvert.SerializeObject(Sentences[0].GetSentences()));
+			}
+		}
+
+
 	}
 
 	public class NetFriendlyBook
@@ -159,8 +220,6 @@ public class VariableViewerNetworking : MonoBehaviour
 		BookShelf.HB = _lisofIDnName.ToArray();
 
 
-
-
 		BookShelf.OB = new IDnName
 		{ID = _BookShelf.ObscuredBy.ID,
 		SN = _BookShelf.ObscuredBy.ShelfName,};
@@ -218,6 +277,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		List<NetFriendlyPage> ListPages = new List<NetFriendlyPage>();
 		foreach (var bob in _book.GetBindedPages())
 		{
+			List<NetFriendlySentence> Sentences = new List<NetFriendlySentence>();
 			NetFriendlyPage Page = new NetFriendlyPage
 			{
 				ID = bob.ID,
@@ -225,12 +285,20 @@ public class VariableViewerNetworking : MonoBehaviour
 				VariableName = bob.VariableName,
 				VariableType = bob.VariableType.ToString()
 			};
+			if (bob.AssemblyQualifiedName != null) {
+				Page.VariableType = bob.AssemblyQualifiedName;
+			}
 			if (bob.Sentences.Sentences != null && (bob.Sentences.Sentences.Count > 0))
 			{
-				NetFriendlySentence NetFriendlySentences = new NetFriendlySentence();
-				RecursiveSentencePopulate(NetFriendlySentences, bob.Sentences);
-				Page.Sentences = JsonConvert.SerializeObject(NetFriendlySentences);
+				NetFriendlySentence FriendlySentence = new NetFriendlySentence()
+				{
+					HeldBySentenceID = bob.Sentences.SentenceID
+				};
+				FriendlySentence.OnPageID = 8888888;
+				Sentences.Add(FriendlySentence);
+				RecursiveSentencePopulate(bob.Sentences, Sentences);
 			}
+			Page.Sentences = Sentences.ToArray();
 			ListPages.Add(Page);
 		}
 		Book.BindedPages = ListPages.ToArray();
@@ -239,11 +307,10 @@ public class VariableViewerNetworking : MonoBehaviour
 
 	}
 
-	public static void RecursiveSentencePopulate(NetFriendlySentence NetFriendlySentence, Librarian.Sentence LibrarianSentence)
+	public static void RecursiveSentencePopulate(Librarian.Sentence LibrarianSentence, List<NetFriendlySentence> Sentences)
 	{
 		if (LibrarianSentence.Sentences != null)
 		{
-			NetFriendlySentence.Sentences = new List<NetFriendlySentence>();
 			foreach (var _Sentence in LibrarianSentence.Sentences)
 			{
 				NetFriendlySentence FriendlySentence = new NetFriendlySentence()
@@ -253,6 +320,7 @@ public class VariableViewerNetworking : MonoBehaviour
 					ValueVariable = _Sentence.ValueVariable.ToString(),
 					ValueVariableType = _Sentence.ValueVariableType.ToString(),
 					OnPageID = _Sentence.OnPageID,
+					HeldBySentenceID = LibrarianSentence.SentenceID
 				};
 				if (_Sentence.KeyVariable != null)
 				{
@@ -261,10 +329,10 @@ public class VariableViewerNetworking : MonoBehaviour
 				}
 				if (_Sentence.Sentences != null)
 				{
-					RecursiveSentencePopulate(FriendlySentence, _Sentence);
+					RecursiveSentencePopulate( _Sentence,Sentences);
 				}
 
-				NetFriendlySentence.Sentences.Add(FriendlySentence);
+				Sentences.Add(FriendlySentence);
 			}
 		}
 	}

@@ -65,7 +65,6 @@ public class BookshelfViewer : MonoBehaviour
 			IsUnInitialised = false;
 			for (uint i = 0; i < 3; i++)
 			{
-				Logger.Log("i" + i);
 				SingleBookshelf SingleBookEntry = Instantiate(UISingleBookshelf) as SingleBookshelf;
 				SingleBookEntry.transform.SetParent(DynamicPanel.transform);
 				SingleBookEntry.transform.localScale = Vector3.one;
@@ -78,7 +77,6 @@ public class BookshelfViewer : MonoBehaviour
 		else { 
 			for (uint i = 0; i < 3; i++)
 			{
-				Logger.Log(" _BookShelfView.HeldShelfIDs.Length > " + _BookShelfView.HeldShelfIDs.Length);
 				if (!(_BookShelfView.HeldShelfIDs.Length <= (i)))
 				{
 					BookshelfList[(int)i].gameObject.SetActive(true);
@@ -95,12 +93,10 @@ public class BookshelfViewer : MonoBehaviour
 	}
 
 	public void PageUp() {
-		Logger.Log("Start of" + "ListTop > " + ListTop + " ListBottom > " + ListBottom);
 		if (ListTop != 0) {			BookshelfList[2].BookShelfView = BookshelfList[1].BookShelfView;
 			BookshelfList[1].BookShelfView = BookshelfList[0].BookShelfView;
 			ListTop--;
 			ListBottom--;
-			Logger.Log("end of" + "ListTop > " + ListTop + " ListBottom > " + ListBottom);
 			WaitingOn.Add(_BookShelfView.HeldShelfIDs[(int)ListTop].ID);
 			IDToLocation[_BookShelfView.HeldShelfIDs[ListTop].ID] = 0;
 			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[ListTop].ID);
@@ -109,14 +105,12 @@ public class BookshelfViewer : MonoBehaviour
 	
 	}
 	public void PageDown() {
-		Logger.Log("Start of" + "ListTop > " + ListTop + " ListBottom > " + ListBottom);
 		if (!(_BookShelfView.HeldShelfIDs.Length <= (ListBottom+1)))
 		{
 			BookshelfList[0].BookShelfView = BookshelfList[1].BookShelfView;
 			BookshelfList[1].BookShelfView = BookshelfList[2].BookShelfView;
 			ListTop++;
 			ListBottom++;
-			Logger.Log("end of" + "ListTop > " + ListTop + " ListBottom > " + ListBottom);
 			WaitingOn.Add(_BookShelfView.HeldShelfIDs[(int)ListBottom].ID);
 			IDToLocation[_BookShelfView.HeldShelfIDs[ListBottom].ID] = 2;
 			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[ListBottom].ID);

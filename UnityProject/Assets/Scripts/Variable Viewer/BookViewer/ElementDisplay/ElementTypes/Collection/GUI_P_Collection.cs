@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
+using Newtonsoft.Json;
 
-
-public class GUI_P_Collection : MonoBehaviour
+public class GUI_P_Collection : PageElement
 {
 	public Text TText;
 	public Text ButtonText;
@@ -26,17 +27,53 @@ public class GUI_P_Collection : MonoBehaviour
 		}
 	}
 	public void ValueSetUp() {
-		if (_Sentence != null && _Sentence.Sentences != null)
+		if (_Sentence != null && _Sentence.GetSentences() != null)
 		{
-			foreach (var bob in _Sentence.Sentences)
+			foreach (var bob in _Sentence.GetSentences())
 			{
 				SUB_ElementHandler ValueEntry = Instantiate(ElementHandler) as SUB_ElementHandler;
 				ValueEntry.transform.SetParent(DynamicSizePanel.transform, false);
 				ValueEntry.transform.localScale = Vector3.one;
-				ValueEntry.Sentence = bob;
+				ValueEntry.Sentence = bob; //.GetSentences()
+				//Logger.Log(JsonConvert.SerializeObject(bob));
 				ValueEntry.ValueSetUp();
 			}
 		}
+	}
+
+	public override bool IsThisType(Type TType)
+	{
+		if (TType.IsGenericType)
+		{
+			return (true);
+		}
+		else {
+			return (false);
+		}
+	}
+
+	public override void SetUpValues(Type ValueType, VariableViewerNetworking.NetFriendlyPage Page = null, VariableViewerNetworking.NetFriendlySentence Sentence = null, bool Iskey = false)
+	{
+		VariableViewerNetworking.NetFriendlySentence Data = new VariableViewerNetworking.NetFriendlySentence();
+		if (Page != null)
+		{
+			Page.ProcessSentences();
+			//Logger.Log(JsonConvert.SerializeObject(Page));
+			if (Page.Sentences.Length > 0)
+			{
+				Data = Page.Sentences[0];
+			}
+		}
+		else {
+			if (Iskey)
+			{
+				Logger.LogError("WHAT?, GenericType Dictionary key?");
+			}
+			else {
+				Data = Sentence;
+			}
+		}
+		this.Sentence = Data;
 	}
 
 	public void TogglePage()

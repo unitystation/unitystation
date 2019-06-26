@@ -56,6 +56,45 @@ public class GUI_VariableViewer : MonoBehaviour
 	public GameObject LeftArrow;
 	public GameObject RightArrow;
 
+	public GameObject HistoryForward;
+	public GameObject HistoryBackwards;
+
+	public List<ulong> History = new List<ulong>();
+	public int HistoryLocation = -1;
+	public bool NotModifyingHistory;
+
+	public void NextBook()
+	{
+		int tint = HistoryLocation;
+		if ((tint + 1) <= History.Count)
+		{ 
+			HistoryLocation = HistoryLocation + 1;
+			OpenBookIDNetMessage.Send(History[HistoryLocation]);
+			NotModifyingHistory = true;
+			if (HistoryLocation + 1 >= History.Count)
+			{
+				HistoryForward.SetActive(false);
+			}
+		}
+	}
+
+
+	public void Previousbook()
+	{
+		int tint = HistoryLocation;
+		Logger.Log(tint.ToString() + " <R> " + HistoryLocation);
+		if ((tint - 1) >= 0)
+		{
+			Logger.Log(tint.ToString() + " <A> " + HistoryLocation);
+			HistoryLocation = HistoryLocation - 1;
+
+			NotModifyingHistory = true;
+			Logger.Log(" at " + HistoryLocation.ToString());
+			Logger.Log("Sending > " + History[HistoryLocation]);
+			OpenBookIDNetMessage.Send(History[HistoryLocation]);
+
+		}
+	}
 
 	public void PageRight() {
 		int tint = intCurrentlyOpen;
@@ -123,12 +162,13 @@ public class GUI_VariableViewer : MonoBehaviour
 	public GameObject PagePanel;
 	public GUI_PageEntry PageEntryPrefab;
 	//GUI_PageEntrypublic RadialButton ButtonPrefab;
-	public void ReceiveBook( VariableViewerNetworking.NetFriendlyBook Book )
+	public void ReceiveBook(VariableViewerNetworking.NetFriendlyBook Book)
 	{
 		PresentPagesCount = 0;
 		RightArrow.SetActive(false);
 		LeftArrow.SetActive(false);
-		foreach (var ListOfPages in PagesInBook) 
+		VVUIElementHandler.Pool();
+		foreach (var ListOfPages in PagesInBook)
 		{
 			foreach (var Page in ListOfPages)
 			{
@@ -145,6 +185,33 @@ public class GUI_VariableViewer : MonoBehaviour
 		CurrentlyOpen.Clear();
 		CurrentlyOpenBook = Book;
 
+		if (History.Count > 0)
+		{
+			HistoryBackwards.SetActive(true);
+		}
+		if (!NotModifyingHistory)
+		{
+			History.Add(Book.ID);
+			HistoryLocation = HistoryLocation + 1;
+
+		}
+		NotModifyingHistory = false;
+
+		if (HistoryLocation < 1)
+		{
+			HistoryBackwards.SetActive(false);
+		} else
+		{
+			HistoryBackwards.SetActive(true);
+		}
+
+		if (HistoryLocation + 1 < History.Count)
+		{
+			HistoryForward.SetActive(true);
+		}
+		else { 
+			HistoryForward.SetActive(false);
+		}
 
 		foreach (var page in CurrentlyOpenBook.BindedPages) {
 			GUI_PageEntry PageEntry;
@@ -192,7 +259,6 @@ public class GUI_VariableViewer : MonoBehaviour
 	public void PoolPageEntry(GUI_PageEntry PageEntry)
 	{
 		PageEntry.gameObject.SetActive(false);
-		PageEntry.Pool();
 		if (!PooledPages.Contains(PageEntry))
 		{
 			PooledPages.Add(PageEntry);

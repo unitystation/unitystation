@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3580879374036316963}
   - component: {fileID: 2754195241632302010}
   - component: {fileID: 3296730499224271226}
-  - component: {fileID: 5838792865058973689}
   m_Layer: 5
   m_Name: UIBool
   m_TagString: Untagged
@@ -97,19 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5ddc9c9ad63004197a5958e225e181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TToggle: {fileID: 2754195241632302010}
---- !u!114 &5838792865058973689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3332951052049272712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 415ba448a8909354a87c2fdc77751452, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  PageElementType: 0
+  IsPoolble: 1
   TToggle: {fileID: 2754195241632302010}
 --- !u!1 &3347433742232180734
 GameObject:
