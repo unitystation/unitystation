@@ -79,7 +79,7 @@ public class CloningRecord
 		var playerScript = mob.GetComponent<PlayerScript>();
 		mind = playerScript.mind;
 		name = playerScript.playerName;
-		characterSettings = playerScript.CharacterSettings;
+		characterSettings = playerScript.characterSettings;
 		oxyDmg = mob.bloodSystem.oxygenDamage;
 		burnDmg = mob.GetTotalBurnDamage();
 		toxinDmg = 0;
