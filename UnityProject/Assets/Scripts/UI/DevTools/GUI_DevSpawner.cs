@@ -125,7 +125,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	    var search = searchBox.text;
 	    if (alwaysWildcard)
 	    {
-		    search += "*";
+		    search = "*" + search + "*";
 	    }
 
 	    var docs = lucene.Search(search, true);
