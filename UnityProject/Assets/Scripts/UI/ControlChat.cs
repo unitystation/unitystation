@@ -129,14 +129,11 @@ public class ControlChat : MonoBehaviour
 
 		if (UIManager.IsInputFocus && KeyboardInputManager.IsEnterPressed())
 		{
-			if (KeyboardInputManager.IsEnterPressed())
+			if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
 			{
-				if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
-				{
-					PlayerSendChat();
-				}
-				CloseChatWindow();
+				PlayerSendChat();
 			}
+			CloseChatWindow();
 		}
 
 		if (!chatInputWindow.activeInHierarchy) return;
