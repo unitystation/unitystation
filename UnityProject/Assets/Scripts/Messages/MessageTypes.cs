@@ -72,7 +72,7 @@ internal enum MessageTypes : short
 	RequestInventoryApplyMessage = 2022,
 	RequestPositionalHandApplyMessage = 2023,
 	RequestActivateMessage = 2024,
-	RequestList_DictContentsMessage = 2026
+	RequestToViewObjectsAtTile = 2026,
 	RequestBookshelfNetMessage = 2027,
-	RequestOpenBookIDNetMessage = 2028
+	RequestOpenBookIDNetMessage = 2028,
 }

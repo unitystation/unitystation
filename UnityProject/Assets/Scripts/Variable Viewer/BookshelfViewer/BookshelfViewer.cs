@@ -59,6 +59,7 @@ public class BookshelfViewer : MonoBehaviour
 
 	public void ValueSetUp()
 	{
+		Logger.LogError("yoyoy");
 		ListTop = 0;
 		if (IsUnInitialised)
 		{
@@ -68,28 +69,27 @@ public class BookshelfViewer : MonoBehaviour
 				SingleBookshelf SingleBookEntry = Instantiate(UISingleBookshelf) as SingleBookshelf;
 				SingleBookEntry.transform.SetParent(DynamicPanel.transform);
 				SingleBookEntry.transform.localScale = Vector3.one;
-				WaitingOn.Add(_BookShelfView.HeldShelfIDs[i].ID);
 				BookshelfList.Add(SingleBookEntry);
+				BookshelfList[(int)i].gameObject.SetActive(false);
+			}
+		}
+
+		for (uint i = 0; i < 3; i++)
+		{
+			Logger.Log(_BookShelfView.HeldShelfIDs.Length + " <> " + i);
+			if (_BookShelfView.HeldShelfIDs.Length > (i))
+			{
+				BookshelfList[(int)i].gameObject.SetActive(true);
+				WaitingOn.Add(_BookShelfView.HeldShelfIDs[i].ID);
 				IDToLocation[_BookShelfView.HeldShelfIDs[i].ID] = i;
 				RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[i].ID);
+				ListBottom = i;
+			}
+			else {
+				BookshelfList[(int)i].gameObject.SetActive(false);
 			}
 		}
-		else { 
-			for (uint i = 0; i < 3; i++)
-			{
-				if (!(_BookShelfView.HeldShelfIDs.Length <= (i)))
-				{
-					BookshelfList[(int)i].gameObject.SetActive(true);
-					WaitingOn.Add(_BookShelfView.HeldShelfIDs[i].ID);
-					IDToLocation[_BookShelfView.HeldShelfIDs[i].ID] = i;
-					RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[i].ID);
-					ListBottom = i;
-				}
-				else { 
-					BookshelfList[(int)i].gameObject.SetActive(false);
-				}
-			}
-		}
+
 	}
 
 	public void PageUp() {
@@ -120,6 +120,7 @@ public class BookshelfViewer : MonoBehaviour
 	public void Start()
 	{
 		UIManager.Instance.BookshelfViewer = this;
+		gameObject.SetActive(false);
 
 	}
 
@@ -127,5 +128,10 @@ public class BookshelfViewer : MonoBehaviour
 	{
 		Logger.LogError(_BookShelfView.ID.ToString());
 		RequestBookshelfNetMessage.Send(_BookShelfView.ID, true);
+	}
+
+	public void Close()
+	{
+		gameObject.SetActive(false);
 	}
 }

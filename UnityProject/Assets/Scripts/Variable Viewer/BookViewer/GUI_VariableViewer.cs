@@ -269,13 +269,12 @@ public class GUI_VariableViewer : MonoBehaviour
 	public void Start()
 	{
 		UIManager.Instance.VariableViewer = this;
-
+		gameObject.SetActive(false);
 	}
 
-	// Update is called once per frame
-	public void Update()
+	public void Close()
 	{
-		//boookID.text = BookID.ToString();
+		gameObject.SetActive(false);
 	}
 }
 

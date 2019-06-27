@@ -18,6 +18,7 @@ public class BookshelfNetMessage : ServerMessage
 	public override IEnumerator Process()
 	{//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
 		UIManager.Instance.BookshelfViewer.BookShelfView  = data;
+		UIManager.Instance.BookshelfViewer.ValueSetUp();
 		Logger.LogWarning(data.ID.ToString());
 		return null;
 	}

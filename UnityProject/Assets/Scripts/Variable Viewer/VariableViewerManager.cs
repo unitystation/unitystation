@@ -18,9 +18,10 @@ public class VariableViewerManager : MonoBehaviour
 		VVUIElementHandler.initialise(AvailableElementsToInitialise);
 	}
 
-	// Update is called once per frame
-	//void Update()
-	//{
+	void Awake()
+	{
 
-	//}
+		VariableViewer.layerMask = LayerMask.GetMask("Furniture", "Machines", "Items",
+			"Objects");
+	}
 }

@@ -285,8 +285,9 @@ public class VariableViewerNetworking : MonoBehaviour
 				VariableName = bob.VariableName,
 				VariableType = bob.VariableType.ToString()
 			};
-			if (bob.AssemblyQualifiedName != null) {
-				Page.VariableType = bob.AssemblyQualifiedName;
+			if (Librarian.UEGetType(Page.VariableType) == null)
+			{
+				Page.VariableType = bob.VariableType.AssemblyQualifiedName;
 			}
 			if (bob.Sentences.Sentences != null && (bob.Sentences.Sentences.Count > 0))
 			{
@@ -322,11 +323,21 @@ public class VariableViewerNetworking : MonoBehaviour
 					OnPageID = _Sentence.OnPageID,
 					HeldBySentenceID = LibrarianSentence.SentenceID
 				};
+				if (Librarian.UEGetType(FriendlySentence.ValueVariableType) == null)
+				{
+					FriendlySentence.ValueVariableType = _Sentence.ValueVariableType.AssemblyQualifiedName;
+				}
 				if (_Sentence.KeyVariable != null)
 				{
 					FriendlySentence.KeyVariable = _Sentence.KeyVariable.ToString();
 					FriendlySentence.KeyVariableType = _Sentence.KeyVariableType.ToString();
+					if ((FriendlySentence.KeyVariableType == null) || (Librarian.UEGetType(FriendlySentence.KeyVariableType) == null))
+					{
+						FriendlySentence.KeyVariableType = _Sentence.KeyVariableType.AssemblyQualifiedName;
+					}
 				}
+		
+
 				if (_Sentence.Sentences != null)
 				{
 					RecursiveSentencePopulate( _Sentence,Sentences);

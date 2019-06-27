@@ -15,6 +15,22 @@ using System.Text;
 
 public static class VariableViewer
 {
+	// objects selectable for cloning
+	public static LayerMask layerMask;
+
+	public static void ProcessTile(Vector3 Location)
+	{
+		//var _Objects = MouseUtils.GetOrderedObjectsAtPoint(Location, layerMask);
+		Location.z = 0f;
+		List<GameObject> _Objects = UITileList.GetItemsAtPosition(Location);
+		List<Transform> transforms = new List<Transform>();
+		foreach (var Object in _Objects) {
+			Logger.Log("RR");
+			transforms.Add(Object.transform);
+		}
+		Logger.Log(transforms.Count + "YYOOLL");
+		ProcessListOnTileTransform(transforms);
+	}
 
 	public static void ProcessListOnTileTransform(List<Transform> transform)
 	{
@@ -72,7 +88,7 @@ public static class VariableViewer
 
 	public static void SendBookShelfToClient(Librarian.BookShelf BookShelf)
 	{
-		//Send BookShelf
+		BookshelfNetMessage.Send(BookShelf);
 	}
 
 
@@ -282,7 +298,7 @@ public static class Librarian
 				Page.Sentences = new Librarian.Sentence();
 				Page.Sentences.SentenceID = Page.ASentenceID;
 				Page.ASentenceID++;
-				GenerateSentenceValuesforSentence(Page.Sentences, method.FieldType, Page, method, Info: method);
+				GenerateSentenceValuesforSentence(Page.Sentences, method.FieldType, Page, Eclass, Info: method);
 				book.BindedPagesAdd(Page);
 			}
 		}
@@ -306,7 +322,7 @@ public static class Librarian
 				Page.Sentences = new Librarian.Sentence();
 				Page.Sentences.SentenceID = Page.ASentenceID;
 				Page.ASentenceID++;
-				GenerateSentenceValuesforSentence(Page.Sentences, method.PropertyType, Page, method, PInfo: method);
+				GenerateSentenceValuesforSentence(Page.Sentences, method.PropertyType, Page, Eclass, PInfo: method);
 				book.BindedPagesAdd(Page);
 			}
 		}
@@ -495,7 +511,11 @@ public static class Librarian
 
 									_sentence.ValueVariableType = valueType.GetGenericArguments()[1];
 									_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
+									if (_sentence.KeyVariableType == null)
+									{
 
+										Logger.LogError("HEGEGEEGHELP!!");
+									}
 								}
 							}
 							GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
@@ -509,12 +529,6 @@ public static class Librarian
 		else { 
 			if (VariableType.IsGenericType)
 			{
-				var tt = VariableType.ToString();
-				//Logger.LogError(tt);
-				if (UEGetType(tt) == null)
-				{
-					Page.AssemblyQualifiedName = VariableType.AssemblyQualifiedName;
-				}
 				IEnumerable list;
 				Type TType;
 				if (Info == null)
@@ -553,6 +567,9 @@ public static class Librarian
 
 							_sentence.ValueVariableType = valueType.GetGenericArguments()[1];
 							_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
+							if (_sentence.KeyVariableType == null) {
+								Logger.LogError("HEGEGEEGHELP!!");
+							}
 
 						}
 					}
