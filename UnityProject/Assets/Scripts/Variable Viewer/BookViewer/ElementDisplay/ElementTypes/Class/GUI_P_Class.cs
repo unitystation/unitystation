@@ -8,8 +8,10 @@ public class GUI_P_Class : PageElement
 {
 	public Button TButton;
 	public Text TText;
-	public ulong ID;
-
+	public ulong PageID;
+	public uint SentenceID;
+	public bool IsSentence;
+	public bool iskey;
 
 	public override bool IsThisType(Type TType)
 	{
@@ -32,14 +34,20 @@ public class GUI_P_Class : PageElement
 		TText.text = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
 		if (Page != null)
 		{
-			ID = Page.ID;
+			PageID = Page.ID;
+			SentenceID = 0;
+			IsSentence = false;
+			iskey = false;
 		}
-		else { 
-			//need to set up subsystem for Sentence values
+		else {
+			PageID = Sentence.OnPageID;
+			SentenceID = Sentence.SentenceID;
+			IsSentence = true;
+			iskey = Iskey;
 		}
 	}
 
 	public void RequestOpenBookOnPage() { 
-		OpenPageValueNetMessage.Send(ID);
+		OpenPageValueNetMessage.Send(PageID,SentenceID, IsSentence,iskey);
 	}
 }

@@ -134,26 +134,41 @@ public static class VariableViewer
 		//}
 	}
 	//Receive from Client side
-	public static void RequestOpenPageValue(ulong PageID)
+	public static void RequestOpenPageValue(ulong PageID,uint SentenceID , bool IsSentence, bool iskey)
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
 			Librarian.Page Page = Librarian.IDToPage[PageID];
 			Librarian.Book book;
-			MonoBehaviour _MonoBehaviour = Page.Variable as MonoBehaviour;
-			if (_MonoBehaviour == null)
+			if (!IsSentence)
 			{
-				if ((Page.Variable as string) == "null")
-				{					Logger.LogWarning("Trying to process page value as book PageID > " + PageID);
-					return;
+				MonoBehaviour _MonoBehaviour = Page.Variable as MonoBehaviour;
+				if (_MonoBehaviour == null)
+				{
+					if ((Page.Variable as string) == "null")
+					{
+						Logger.LogWarning("Trying to process page value as book PageID > " + PageID);
+						return;
+					}
+					book = Librarian.GenerateNonMonoBook(Page.Variable); //Currently dangerous needs type to book implemented for it
+					BookNetMessage.Send(book);
 				}
-				book = Librarian.GenerateNonMonoBook(Page.Variable); //Currently dangerous needs type to book implemented for it
-				BookNetMessage.Send(book);
+				else {
+					book = Librarian.PartialGeneratebook(_MonoBehaviour);
+					book = Librarian.PopulateBook(book);
+					BookNetMessage.Send(book);
+				}
 			}
 			else {
-				book = Librarian.PartialGeneratebook(_MonoBehaviour); //Currently dangerous needs MonoBehaviour to book implemented for it
-				book = Librarian.PopulateBook(book);
-				BookNetMessage.Send(book);
+				if (iskey)
+				{
+					book = Librarian.GenerateNonMonoBook(Page.IDtoSentence[SentenceID].KeyVariable); 
+					BookNetMessage.Send(book);
+				}
+				else { 
+					book = Librarian.GenerateNonMonoBook(Page.IDtoSentence[SentenceID].ValueVariable); 
+					BookNetMessage.Send(book);
+				}
 			}
 		}
 		else {
@@ -373,7 +388,6 @@ public static class Librarian
 					else {
 						_bookShelf = PartialGeneratebookShelf(child);
 					}
-
 					bookShelf.ObscuredBookShelves.Add(_bookShelf);
 				}
 			}
