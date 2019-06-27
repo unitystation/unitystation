@@ -127,7 +127,7 @@ public class ControlChat : MonoBehaviour
 			RefreshChannelPanel();
 		}
 
-		if (UIManager.IsInputFocus)
+		if (UIManager.IsInputFocus && KeyboardInputManager.IsEnterPressed())
 		{
 			if (KeyboardInputManager.IsEnterPressed())
 			{
