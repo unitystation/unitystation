@@ -19,7 +19,6 @@ public class BookNetMessage : ServerMessage
 
 		UIManager.Instance.VariableViewer.ID = Book.ID;
 		UIManager.Instance.VariableViewer.Title = Book.Title;
-		UIManager.Instance.VariableViewer.IsEnabled = Book.IsEnabled;
 		UIManager.Instance.VariableViewer.ReceiveBook(Book);
 		return null;
 	}

@@ -152,7 +152,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		public ulong ID;
 		public string Title;
 		public string BookClassname;
-		public bool IsEnabled;
+		//public bool IsEnabled;
 		public NetFriendlyPage[] BindedPages;
 		public bool UnGenerated = true;
 
@@ -256,19 +256,10 @@ public class VariableViewerNetworking : MonoBehaviour
 
 	public static NetFriendlyBook ProcessBook(Librarian.Book _book) { 
 		string Classe;
-		if (_book.IsnotMono)
-		{
-			Classe = _book.NonMonoBookClass.ToString();
-		}
-		else {
-			Classe = _book.BookClass.GetType().Name;
-		}
-
+		Classe = _book.BookClass.GetType().Name;
 		NetFriendlyBook Book = new NetFriendlyBook()
 		{
 			ID = _book.ID,
-			//BindedPages = _book.BindedPages.ToArray(),
-			IsEnabled = _book.IsEnabled,
 			BookClassname = Classe,
 			Title = _book.Title,
 			UnGenerated = _book.UnGenerated

@@ -9,10 +9,10 @@ using System.Text;
 
 
 // TODO 
-// Code duplication galore.
 // also about 10 FieldInfos named method that hurts.
 // Colour code
-
+//Sentences refresh completely
+// valleys shouldnt need to be updated Since They should have a link to the actual data object
 public static class VariableViewer
 {
 	// objects selectable for cloning
@@ -20,15 +20,13 @@ public static class VariableViewer
 
 	public static void ProcessTile(Vector3 Location)
 	{
-		//var _Objects = MouseUtils.GetOrderedObjectsAtPoint(Location, layerMask);
 		Location.z = 0f;
 		List<GameObject> _Objects = UITileList.GetItemsAtPosition(Location);
 		List<Transform> transforms = new List<Transform>();
-		foreach (var Object in _Objects) {
-			Logger.Log("RR");
+		foreach (var Object in _Objects)
+		{
 			transforms.Add(Object.transform);
 		}
-		Logger.Log(transforms.Count + "YYOOLL");
 		ProcessListOnTileTransform(transforms);
 	}
 
@@ -91,19 +89,12 @@ public static class VariableViewer
 		BookshelfNetMessage.Send(BookShelf);
 	}
 
-
-
 	public static void PrintSomeVariables(GameObject _object)
 	{
 
 		var bob = ProcessTransform(_object.transform);
 		Librarian.PopulateBookShelf(bob);
-		//Librarian.PopulateBookShelf(bob.ObscuredBy);
-		var booke = bob.HeldBooks;
-		var bookeE = booke[3];
-		bookeE.GetBindedPages();
 		BookshelfNetMessage.Send(bob.ObscuredBy);
-		BookNetMessage.Send(bookeE);
 		//For each monoBehaviour in the list of script components
 		//foreach (MonoBehaviour mono in scriptComponents)
 		//{
@@ -134,7 +125,7 @@ public static class VariableViewer
 		//}
 	}
 	//Receive from Client side
-	public static void RequestOpenPageValue(ulong PageID,uint SentenceID , bool IsSentence, bool iskey)
+	public static void RequestOpenPageValue(ulong PageID, uint SentenceID, bool IsSentence, bool iskey)
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
@@ -162,11 +153,11 @@ public static class VariableViewer
 			else {
 				if (iskey)
 				{
-					book = Librarian.GenerateNonMonoBook(Page.IDtoSentence[SentenceID].KeyVariable); 
+					book = Librarian.GenerateNonMonoBook(Page.IDtoSentence[SentenceID].KeyVariable);
 					BookNetMessage.Send(book);
 				}
-				else { 
-					book = Librarian.GenerateNonMonoBook(Page.IDtoSentence[SentenceID].ValueVariable); 
+				else {
+					book = Librarian.GenerateNonMonoBook(Page.IDtoSentence[SentenceID].ValueVariable);
 					BookNetMessage.Send(book);
 				}
 			}
@@ -176,29 +167,24 @@ public static class VariableViewer
 		}
 	}
 
-
 	public static void RequestSendBookshelf(ulong BookshelfID, bool IsNewbookBookshelf)
 	{
 		if (Librarian.IDToBookShelf.ContainsKey(BookshelfID))
 		{
 			Librarian.BookShelf Bookshelf = Librarian.IDToBookShelf[BookshelfID];
-			if (IsNewbookBookshelf) {
-				Logger.Log("man");
-				if (Bookshelf.IsPartiallyGenerated) {
-					Logger.Log("man2");
+			if (IsNewbookBookshelf)
+			{
+				if (Bookshelf.IsPartiallyGenerated)
+				{
 					Librarian.PopulateBookShelf(Bookshelf);
 				}
-				Logger.Log("Bookshelf.ObscuredBy != null");
 				if (Bookshelf.ObscuredBy != null)
 				{
-					Logger.Log("man3 != null");
 					BookshelfNetMessage.Send(Bookshelf.ObscuredBy);
 				}
-			
-			} 
+
+			}
 			else { SubBookshelfNetMessage.Send(Bookshelf); }
-
-
 		}
 		else {
 			Logger.LogError("Bookshelf ID has not been generated BookshelfID > " + BookshelfID);
@@ -210,6 +196,13 @@ public static class VariableViewer
 		if (Librarian.IDToBook.ContainsKey(BookID))
 		{
 			Librarian.Book Book = Librarian.IDToBook[BookID];
+			if (!Book.UnGenerated)
+			{
+				foreach (var page in Book.BindedPages)
+				{
+					page.UpdatePage();
+				}
+			}
 			BookNetMessage.Send(Book);
 		}
 		else {
@@ -225,8 +218,6 @@ public static class Librarian
 	public static Dictionary<ulong, BookShelf> IDToBookShelf = new Dictionary<ulong, BookShelf>();
 	public static Dictionary<ulong, Book> IDToBook = new Dictionary<ulong, Book>();
 	public static Dictionary<ulong, Page> IDToPage = new Dictionary<ulong, Page>();
-
-
 
 	public static ulong BookShelfAID = 0;
 	public static ulong BookAID = 0;
@@ -269,14 +260,13 @@ public static class Librarian
 		BookAID++;
 		book.BookClass = mono;
 		book.Title = mono.ToString();
-		book.IsEnabled = mono.isActiveAndEnabled;
 		IDToBook[book.ID] = book;
 		MonoBehaviourToBook[mono] = book;
 		return (book);
 	}
 
 	public static Book GenerateNonMonoBook(object Eclass)
-	{ //Currently dangerous needs type to book implemented for it
+	{
 
 		if (ObjectToBook.ContainsKey(Eclass))
 		{
@@ -286,67 +276,24 @@ public static class Librarian
 		Book book = new Book();
 		book.ID = BookAID;
 		BookAID++;
-		book.NonMonoBookClass = TType;
+		book.BookClass = Eclass;
 		book.IsnotMono = true;
 		book.UnGenerated = false;
 		book.Title = Eclass.ToString();
 		ObjectToBook[Eclass] = book;
 		IDToBook[book.ID] = book;
 
-		foreach (FieldInfo method in TType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
-		{
-			if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
-			{
-				Page Page = new Page();
-				Page.VariableName = method.Name;
-				Page.ID = PageAID;
-				PageAID++;
-				Page.Variable = method.GetValue(Eclass);
-				if (Page.Variable == null)
-				{
-					Page.Variable = "null";
-				}
-				Page.VariableType = method.FieldType;
-				Page.BindedTo = book;
-
-				IDToPage[Page.ID] = Page;
-				Page.Sentences = new Librarian.Sentence();
-				Page.Sentences.SentenceID = Page.ASentenceID;
-				Page.ASentenceID++;
-				GenerateSentenceValuesforSentence(Page.Sentences, method.FieldType, Page, Eclass, Info: method);
-				book.BindedPagesAdd(Page);
-			}
-		}
-
-		foreach (PropertyInfo method in TType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
-		{
-			if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
-			{
-				Page Page = new Page();
-				Page.VariableName = method.Name;
-				Page.Variable = method.GetValue(Eclass);
-				Page.VariableType = method.PropertyType;
-				if (Page.Variable == null)
-				{
-					Page.Variable = "null";
-				}
-				Page.ID = PageAID;
-				PageAID++;
-				Page.BindedTo = book;
-				IDToPage[Page.ID] = Page;
-				Page.Sentences = new Librarian.Sentence();
-				Page.Sentences.SentenceID = Page.ASentenceID;
-				Page.ASentenceID++;
-				GenerateSentenceValuesforSentence(Page.Sentences, method.PropertyType, Page, Eclass, PInfo: method);
-				book.BindedPagesAdd(Page);
-			}
-		}
+		book = GetAttributes(book, Eclass);
 		return (book);
 	}
 
+
+
+
 	public static BookShelf PartialGeneratebookShelf(Transform _Transform)
 	{
-		if (TransformToBookShelf.ContainsKey(_Transform)) {
+		if (TransformToBookShelf.ContainsKey(_Transform))
+		{
 			return (TransformToBookShelf[_Transform]);
 		}
 		BookShelf _bookShelf = new BookShelf();
@@ -354,7 +301,8 @@ public static class Librarian
 		_bookShelf.ID = BookShelfAID;
 		BookShelfAID++;
 		_bookShelf.Shelf = _Transform.gameObject;
-		if (_bookShelf.Shelf == null) {
+		if (_bookShelf.Shelf == null)
+		{
 			Logger.LogError("HELP");
 		}
 		IDToBookShelf[_bookShelf.ID] = _bookShelf;
@@ -364,7 +312,8 @@ public static class Librarian
 
 	public static BookShelf PopulateBookShelf(BookShelf bookShelf)
 	{
-		if (!bookShelf.IsPartiallyGenerated) {
+		if (!bookShelf.IsPartiallyGenerated)
+		{
 			return (bookShelf);
 		}
 		MonoBehaviour[] scriptComponents = bookShelf.Shelf.GetComponents<MonoBehaviour>();
@@ -392,7 +341,6 @@ public static class Librarian
 				}
 			}
 		}
-
 		Transform _Transform = bookShelf.Shelf.transform.parent;
 
 		if (_Transform != null)
@@ -409,7 +357,7 @@ public static class Librarian
 		else {
 			if (TopSceneBookshelf == null)
 			{
-				
+
 				List<BookShelf> BookShelfs = new List<BookShelf>();
 				foreach (var game in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
 				{
@@ -419,7 +367,8 @@ public static class Librarian
 				TopSceneBookshelf = GenerateCustomBookCase(BookShelfs);
 			}
 			bookShelf.ObscuredBy = TopSceneBookshelf;
-			if (!TopSceneBookshelf.ObscuredBookShelves.Contains(bookShelf)) {
+			if (!TopSceneBookshelf.ObscuredBookShelves.Contains(bookShelf))
+			{
 				TopSceneBookshelf.ObscuredBookShelves.Add(bookShelf);
 			}
 		}
@@ -436,6 +385,13 @@ public static class Librarian
 		var mono = book.BookClass;
 		book.UnGenerated = false;
 		Type monoType = mono.GetType();
+		book = GetAttributes(book, mono);
+		return (book);
+	}
+
+	public static Book GetAttributes(Book Book, object Script)
+	{
+		Type monoType = Script.GetType();
 		foreach (FieldInfo method in monoType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
 		{
 			if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
@@ -444,19 +400,20 @@ public static class Librarian
 				Page.VariableName = method.Name;
 				Page.ID = PageAID;
 				PageAID++;
-				Page.Variable = method.GetValue(mono);
+				Page.Info = method;
+				Page.Variable = method.GetValue(Script);
 				if (Page.Variable == null)
 				{
 					Page.Variable = "null";
 				}
 				Page.VariableType = method.FieldType;
-				Page.BindedTo = book;
+				Page.BindedTo = Book;
 				IDToPage[Page.ID] = Page;
 				Page.Sentences = new Librarian.Sentence();
 				Page.Sentences.SentenceID = Page.ASentenceID;
 				Page.ASentenceID++;
-				GenerateSentenceValuesforSentence(Page.Sentences, method.FieldType, Page, mono, Info: method);
-				book.BindedPagesAdd(Page);
+				GenerateSentenceValuesforSentence(Page.Sentences, method.FieldType, Page, Script, Info: method);
+				Book.BindedPagesAdd(Page);
 			}
 		}
 
@@ -466,26 +423,28 @@ public static class Librarian
 			{
 				Page Page = new Page();
 				Page.VariableName = method.Name;
-				Page.Variable = method.GetValue(mono);
+				Page.Variable = method.GetValue(Script);
 				Page.VariableType = method.PropertyType;
+				Page.PInfo = method;
 				if (Page.Variable == null)
 				{
 					Page.Variable = "null";
 				}
 				Page.ID = PageAID;
 				PageAID++;
-				Page.BindedTo = book;
+				Page.BindedTo = Book;
 				IDToPage[Page.ID] = Page;
 				Page.Sentences = new Librarian.Sentence();
 				Page.Sentences.SentenceID = Page.ASentenceID;
 				Page.ASentenceID++;
-				GenerateSentenceValuesforSentence(Page.Sentences, method.PropertyType, Page, mono, PInfo : method );
+				GenerateSentenceValuesforSentence(Page.Sentences, method.PropertyType, Page, Script, PInfo: method);
 
-				book.BindedPagesAdd(Page);
+				Book.BindedPagesAdd(Page);
 			}
 		}
-		return (book);
+		return (Book);
 	}
+
 
 
 	public static void GenerateSentenceValuesforSentence(Sentence sentence, Type VariableType, Page Page, object Script, FieldInfo Info = null, PropertyInfo PInfo = null)
@@ -525,11 +484,6 @@ public static class Librarian
 
 									_sentence.ValueVariableType = valueType.GetGenericArguments()[1];
 									_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
-									if (_sentence.KeyVariableType == null)
-									{
-
-										Logger.LogError("HEGEGEEGHELP!!");
-									}
 								}
 							}
 							GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
@@ -540,7 +494,7 @@ public static class Librarian
 				}
 			}
 		}
-		else { 
+		else {
 			if (VariableType.IsGenericType)
 			{
 				IEnumerable list;
@@ -555,41 +509,40 @@ public static class Librarian
 					list = Info.GetValue(Script) as IEnumerable; //
 					TType = Info.FieldType;
 				}
-		
 				sentence.Sentences = new List<Sentence>();
 				uint count = 0;
-				foreach (object c in list)
+				Logger.Log("HEL");
+				if (list != null)
 				{
-
-					Sentence _sentence = new Sentence();
-					_sentence.ValueVariable = c;
-					_sentence.OnPageID = Page.ID;
-					_sentence.PagePosition = count;
-					_sentence.ValueVariableType = c.GetType();
-					_sentence.SentenceID = Page.ASentenceID;
-					Page.ASentenceID++;
-					Page.IDtoSentence[_sentence.SentenceID] = _sentence;
-
-					Type valueType = c.GetType();
-					if (valueType.IsGenericType)
+					foreach (object c in list)
 					{
-						Type baseType = valueType.GetGenericTypeDefinition();
-						if (baseType == typeof(KeyValuePair<,>))
+						Logger.Log("TT");
+						Sentence _sentence = new Sentence();
+						_sentence.ValueVariable = c;
+						_sentence.OnPageID = Page.ID;
+						_sentence.PagePosition = count;
+						_sentence.ValueVariableType = c.GetType();
+						_sentence.SentenceID = Page.ASentenceID;
+						Page.ASentenceID++;
+						Page.IDtoSentence[_sentence.SentenceID] = _sentence;
+
+						Type valueType = c.GetType();
+						if (valueType.IsGenericType)
 						{
-							_sentence.KeyVariable = valueType.GetProperty("Key").GetValue(c, null);
-							_sentence.ValueVariable = valueType.GetProperty("Value").GetValue(c, null);
+							Type baseType = valueType.GetGenericTypeDefinition();
+							if (baseType == typeof(KeyValuePair<,>))
+							{
+								_sentence.KeyVariable = valueType.GetProperty("Key").GetValue(c, null);
+								_sentence.ValueVariable = valueType.GetProperty("Value").GetValue(c, null);
 
-							_sentence.ValueVariableType = valueType.GetGenericArguments()[1];
-							_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
-							if (_sentence.KeyVariableType == null) {
-								Logger.LogError("HEGEGEEGHELP!!");
+								_sentence.ValueVariableType = valueType.GetGenericArguments()[1];
+								_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
 							}
-
 						}
+						GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
+						count++;
+						Page.Sentences.Sentences.Add(_sentence);
 					}
-					GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
-					count++;
-					Page.Sentences.Sentences.Add(_sentence);
 				}
 			}
 		}
@@ -623,15 +576,12 @@ public static class Librarian
 		}
 	}
 
-	[Serializable]
 	public class Book
 	{
 		public ulong ID;
 		public string Title;
-		public MonoBehaviour BookClass;
-		public Type NonMonoBookClass;
+		public object BookClass;
 		public bool IsnotMono;
-		public bool IsEnabled;
 
 		private List<Page> _BindedPages = new List<Page>();
 		public List<Page> BindedPages
@@ -684,6 +634,8 @@ public static class Librarian
 		public Type VariableType;
 		public string AssemblyQualifiedName;
 		public Book BindedTo;
+		public PropertyInfo PInfo;
+		public FieldInfo Info;
 
 		public uint ASentenceID;
 		public Sentence Sentences;
@@ -694,6 +646,35 @@ public static class Librarian
 		{
 			return (VariableName + " = " + Variable + " of   " + VariableType);
 		}
+
+		public void UpdatePage()
+		{
+			if (PInfo != null)
+			{
+				Variable = PInfo.GetValue(BindedTo.BookClass);
+			}
+			else {
+				Variable = Info.GetValue(BindedTo.BookClass);
+			}
+			//GenerateSentenceValuesforSentence
+			if (Sentences.Sentences != null)
+			{
+				IDtoSentence.Clear();
+				Sentences = new Sentence();
+				ASentenceID = 0;
+				Sentences.SentenceID = ASentenceID;
+				ASentenceID++;
+				if (PInfo != null)
+				{
+					GenerateSentenceValuesforSentence(Sentences, PInfo.PropertyType, this, BindedTo.BookClass, PInfo: PInfo);
+				}
+				else {
+					GenerateSentenceValuesforSentence(Sentences, Info.FieldType, this, BindedTo.BookClass, Info: Info);
+				}
+
+			}
+		}
+
 
 	}
 
