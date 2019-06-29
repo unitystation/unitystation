@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4222321654889152}
   - component: {fileID: 61178295307230726}
   - component: {fileID: 114280203122771016}
-  - component: {fileID: 114812256408381122}
   - component: {fileID: 114680268422892540}
   - component: {fileID: 114646101893439272}
   - component: {fileID: 114741019056190926}
@@ -19,6 +18,7 @@ GameObject:
   - component: {fileID: 114559639511531318}
   - component: {fileID: 114930140412175382}
   - component: {fileID: 114414318728299190}
+  - component: {fileID: 114455083295167806}
   m_Layer: 10
   m_Name: Paper
   m_TagString: Untagged
@@ -100,21 +100,6 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114812256408381122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320386684021000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectType: 0
-  AtmosPassable: 1
-  Passable: 1
 --- !u!114 &114680268422892540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +219,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &114455083295167806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320386684021000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layer: {fileID: 0}
+  ObjectType: 0
+  crossed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &1731708282254700
 GameObject:
   m_ObjectHideFlags: 0
