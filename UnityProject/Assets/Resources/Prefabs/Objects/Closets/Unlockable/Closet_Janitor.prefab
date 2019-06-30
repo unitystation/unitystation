@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 114092939811341892}
   - component: {fileID: 114301095212362376}
   m_Layer: 11
-  m_Name: Closet_Purple
+  m_Name: Closet_Janitor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -341,6 +341,9 @@ MonoBehaviour:
   DefaultContents:
   - {fileID: 1801347380884054, guid: 882710f093d1c5f4c9f1dbd99b8dd790, type: 3}
   - {fileID: 1801347380884054, guid: 882710f093d1c5f4c9f1dbd99b8dd790, type: 3}
+  - {fileID: 1110193000772614, guid: 8c2952660a46d90479f70105bc1cbab8, type: 3}
+  - {fileID: 1110193000772614, guid: 8c2952660a46d90479f70105bc1cbab8, type: 3}
+  - {fileID: 1110193000772614, guid: 8c2952660a46d90479f70105bc1cbab8, type: 3}
   IsClosed: 0
   IsLocked: 0
   lockLight: {fileID: 0}
@@ -378,6 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
