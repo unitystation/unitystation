@@ -268,7 +268,7 @@ public class GUI_VariableViewer : MonoBehaviour
 
 	public void Start()
 	{
-		UIManager.Instance.VariableViewer = this;
+		//UIManager.Instance.VariableViewer = this;
 		gameObject.SetActive(false);
 	}
 
@@ -276,6 +276,11 @@ public class GUI_VariableViewer : MonoBehaviour
 	{
 		gameObject.SetActive(false);
 	}
+	public void Refresh()
+	{
+		OpenBookIDNetMessage.Send(CurrentlyOpenBook.ID);
+	}
+
 }
 
 

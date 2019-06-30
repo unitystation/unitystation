@@ -59,7 +59,6 @@ public class BookshelfViewer : MonoBehaviour
 
 	public void ValueSetUp()
 	{
-		Logger.LogError("yoyoy");
 		ListTop = 0;
 		if (IsUnInitialised)
 		{
@@ -119,15 +118,22 @@ public class BookshelfViewer : MonoBehaviour
 
 	public void Start()
 	{
-		UIManager.Instance.BookshelfViewer = this;
+		//UIManager.Instance.BookshelfViewer = this;
 		gameObject.SetActive(false);
 
 	}
 
 	public void GoToObscuringBookshelf()
 	{
-		Logger.LogError(_BookShelfView.ID.ToString());
 		RequestBookshelfNetMessage.Send(_BookShelfView.ID, true);
+	}
+
+	public void Refresh()
+	{
+		if (_BookShelfView.HeldShelfIDs.Length > 0)
+		{
+			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[0].ID, true);
+		}
 	}
 
 	public void Close()

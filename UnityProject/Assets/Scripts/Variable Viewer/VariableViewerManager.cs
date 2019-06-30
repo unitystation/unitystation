@@ -16,12 +16,11 @@ public class VariableViewerManager : MonoBehaviour
 	{
 		VVUIElementHandler.VariableViewerManager = this;
 		VVUIElementHandler.initialise(AvailableElementsToInitialise);
+
 	}
 
 	void Awake()
 	{
 
-		VariableViewer.layerMask = LayerMask.GetMask("Furniture", "Machines", "Items",
-			"Objects");
 	}
 }
