@@ -39,8 +39,16 @@ namespace Lobby
 		{
 			if (!Application.isMobilePlatform)
 			{
-				characterCustomization.transform.localScale *= 0.8f;
-				lobbyDialogue.transform.localScale *= 0.7f;
+				if (Screen.height > 720f)
+				{
+					characterCustomization.transform.localScale *= 0.8f;
+					lobbyDialogue.transform.localScale *= 0.8f;
+				}
+				else
+				{
+					characterCustomization.transform.localScale *= 0.9f;
+					lobbyDialogue.transform.localScale *= 0.9f;
+				}
 			}
 		}
 
