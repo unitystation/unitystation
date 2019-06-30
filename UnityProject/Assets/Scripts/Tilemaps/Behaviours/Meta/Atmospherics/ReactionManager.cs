@@ -146,7 +146,7 @@ public class ReactionManager : MonoBehaviour
 			var healths = matrix.Get<LivingHealthBehaviour>(position, true);
 			foreach (LivingHealthBehaviour health in healths)
 			{
-				health.ApplyDamage(null, 1, DamageType.Burn);
+				health.ApplyDamage(null, 1, AttackType.Fire, DamageType.Burn);
 			}
 		}
 	}

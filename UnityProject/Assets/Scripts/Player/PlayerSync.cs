@@ -454,11 +454,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 
 		//Registering
-		if (registerTile.PositionClient != Vector3Int.RoundToInt(predictedState.Position))
+		if (registerTile.LocalPositionClient != Vector3Int.RoundToInt(predictedState.Position))
 		{
 			registerTile.UpdatePositionClient();
 		}
-		if (registerTile.PositionServer != Vector3Int.RoundToInt(serverState.Position))
+		if (registerTile.LocalPositionServer != Vector3Int.RoundToInt(serverState.Position))
 		{
 			registerTile.UpdatePositionServer();
 		}

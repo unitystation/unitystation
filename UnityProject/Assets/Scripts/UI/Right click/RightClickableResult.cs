@@ -51,6 +51,17 @@ public class RightClickableResult
 	}
 
 	/// <summary>
+	/// Adds the right clickable element to this result, intended for things
+	/// only to be used by admins
+	/// </summary>
+	public RightClickableResult AddAdminElement(string optionName, Action action,
+		string nameOverride = null, Sprite spriteOverride = null)
+	{
+		AddElement(RightClickableElement.FromOptionName(optionName, action, Color.red, nameOverride, spriteOverride));
+		return this;
+	}
+
+	/// <summary>
 	/// Adds the right clickable element to this result
 	/// </summary>
 	/// <param name="toAdd"></param>

@@ -39,6 +39,16 @@ public class ClosetControl : NBHandApplyInteractable, IRightClickable
 		registerTile = GetComponent<RegisterCloset>();
 		pushPull = GetComponent<PushPull>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+	}
+
+	private void OnWillDestroyServer(DestructionInfo arg0)
+	{
+		//force it open
+		SetIsLocked(false);
+		SetIsClosed(false);
+
+		ItemFactory.SpawnMetal(2, gameObject.TileWorldPosition(), parent: transform.parent);
 	}
 
 	public override void OnStartServer()
@@ -265,7 +275,7 @@ public class ClosetControl : NBHandApplyInteractable, IRightClickable
 
 	private void CloseItemHandling()
 	{
-		heldItems = matrix.Get<ObjectBehaviour>(registerTile.PositionServer, ObjectType.Item, true);
+		heldItems = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true);
 		foreach (ObjectBehaviour item in heldItems)
 		{
 			CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
@@ -296,7 +306,7 @@ public class ClosetControl : NBHandApplyInteractable, IRightClickable
 
 	private void ClosePlayerHandling()
 	{
-		var mobsFound = matrix.Get<ObjectBehaviour>(registerTile.PositionServer, ObjectType.Player, true);
+		var mobsFound = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true);
 		int mobsIndex = 0;
 		foreach (ObjectBehaviour player in mobsFound)
 		{

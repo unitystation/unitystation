@@ -64,7 +64,7 @@ public static class Validations
 	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false)
 	{
 		var playerScript = player.GetComponent<PlayerScript>();
-		if (playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
+		if (playerScript.IsGhost || playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
 		{
 			return false;
 		}

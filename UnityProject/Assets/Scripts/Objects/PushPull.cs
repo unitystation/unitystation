@@ -42,7 +42,7 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 		bool collided = false;
 		foreach ( var living in MatrixManager.GetAt<LivingHealthBehaviour>( collision.CollisionTile, true ) )
 		{
-			living.ApplyDamage( gameObject, collision.Damage, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			living.ApplyDamage( gameObject, collision.Damage, AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
 			collided = true;
 		}
 		foreach ( var tile in MatrixManager.GetDamagetableTilemapsAt( collision.CollisionTile ) )
@@ -54,7 +54,7 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 		if ( collided )
 		{
 			//Damage self as bad as the thing you collide with
-			GetComponent<LivingHealthBehaviour>()?.ApplyDamage( gameObject, collision.Damage, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
+			GetComponent<LivingHealthBehaviour>()?.ApplyDamage( gameObject, collision.Damage,  AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize(0) );
 			Logger.LogFormat( "{0}: collided with something at {2}, both received {1} damage",
 				Category.Health, gameObject.name, collision.Damage, collision.CollisionTile );
 		}

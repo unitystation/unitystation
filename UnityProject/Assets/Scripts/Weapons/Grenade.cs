@@ -147,7 +147,7 @@ public class Grenade : NBHandActivateInteractable
 		foreach (KeyValuePair<GameObject, int> pair in toBeDamaged)
 		{
 			pair.Key.GetComponent<LivingHealthBehaviour>()
-				.ApplyDamage(pair.Key, pair.Value, DamageType.Burn);
+				.ApplyDamage(pair.Key, pair.Value, AttackType.Bomb, DamageType.Burn);
 		}
 	}
 
