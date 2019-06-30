@@ -8,7 +8,6 @@ using UnityEngine.Networking;
 using UnityEngine.Serialization;
 using Random = System.Random;
 
-[RequireComponent(typeof(NetworkIdentity))]
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ObjectBehaviour))]
 [RequireComponent(typeof(RegisterItem))]
