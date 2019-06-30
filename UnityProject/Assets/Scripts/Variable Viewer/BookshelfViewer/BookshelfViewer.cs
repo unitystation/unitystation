@@ -75,7 +75,6 @@ public class BookshelfViewer : MonoBehaviour
 
 		for (uint i = 0; i < 3; i++)
 		{
-			Logger.Log(_BookShelfView.HeldShelfIDs.Length + " <> " + i);
 			if (_BookShelfView.HeldShelfIDs.Length > (i))
 			{
 				BookshelfList[(int)i].gameObject.SetActive(true);
@@ -99,7 +98,6 @@ public class BookshelfViewer : MonoBehaviour
 			WaitingOn.Add(_BookShelfView.HeldShelfIDs[(int)ListTop].ID);
 			IDToLocation[_BookShelfView.HeldShelfIDs[ListTop].ID] = 0;
 			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[ListTop].ID);
-			//Request (_BookShelfView.HeldShelfIDs[ListTop].ID)
 		}
 	
 	}
@@ -118,9 +116,7 @@ public class BookshelfViewer : MonoBehaviour
 
 	public void Start()
 	{
-		//UIManager.Instance.BookshelfViewer = this;
 		gameObject.SetActive(false);
-
 	}
 
 	public void GoToObscuringBookshelf()

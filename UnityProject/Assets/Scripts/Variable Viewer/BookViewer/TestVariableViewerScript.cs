@@ -29,8 +29,6 @@ public class TestVariableViewerScript : MonoBehaviour
 
 	public Dictionary<string, HashSet<int>> DictionaryHashSet = new Dictionary<string, HashSet<int>>();
 	public Dictionary<string, List<int>> DictionaryList = new Dictionary<string, List<int>>();
-	//public Dictionary<string, Dictionary<string, List<int>>> DictionaryDictionaryList = new Dictionary<string, Dictionary<string, List<int>>>();
-
 
 	public int length = 10;
 
@@ -63,7 +61,6 @@ public class TestVariableViewerScript : MonoBehaviour
 
 			DictionaryHashSet[i.ToString()] = PHashSetInt;
 			DictionaryList[i.ToString()] = PListInt;
-			//DictionaryDictionaryList["FFF" + i] = DictionaryList;
 		}
     }
 }

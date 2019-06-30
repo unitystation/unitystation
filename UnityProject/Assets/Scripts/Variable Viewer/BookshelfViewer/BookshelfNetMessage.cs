@@ -12,20 +12,18 @@ using Newtonsoft.Json;
 public class BookshelfNetMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.BookshelfNetMessage;
-	//public VariableViewerNetworking.NetFriendlyBookShelfView BookShelfView;#
 	public VariableViewerNetworking.NetFriendlyBookShelfView data;
 
 	public override IEnumerator Process()
 	{//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
 		UIManager.Instance.BookshelfViewer.BookShelfView  = data;
 		UIManager.Instance.BookshelfViewer.ValueSetUp();
-		Logger.LogWarning(data.ID.ToString());
 		return null;
 	}
 
 	public static BookshelfNetMessage Send(Librarian.BookShelf _BookShelf)
 	{
-		BookshelfNetMessage msg = new BookshelfNetMessage(); //JsonConvert.SerializeObject()
+		BookshelfNetMessage msg = new BookshelfNetMessage(); 
 		msg.data = VariableViewerNetworking.ProcessBookShelf(_BookShelf);
 
 		msg.SendToAll();

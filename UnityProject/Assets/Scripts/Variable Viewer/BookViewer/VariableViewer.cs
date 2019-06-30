@@ -70,7 +70,7 @@ public static class VariableViewer
 			SendBookToClient(Book);
 		}
 		else {
-			Logger.LogError("book ID has not been generated  BookID > " + BookID);
+			Logger.LogError("book ID has not been generated  BookID > " + BookID, Category.VariableViewer);
 		}
 
 	}
@@ -96,13 +96,6 @@ public static class VariableViewer
 		BookshelfNetMessage.Send(BookShelf);
 	}
 
-	//public static void PrintSomeVariables(GameObject _object)
-	//{
-
-	//	var bob = ProcessTransform(_object.transform);
-	//	Librarian.PopulateBookShelf(bob);
-	//	SendBookShelfToClient(bob.ObscuredBy);
-	//}
 	//Receive from Client side
 	public static void RequestOpenPageValue(ulong PageID, uint SentenceID, bool IsSentence, bool iskey)
 	{
@@ -117,10 +110,10 @@ public static class VariableViewer
 				{
 					if ((Page.Variable as string) == "null")
 					{
-						Logger.LogWarning("Trying to process page value as book PageID > " + PageID);
+						Logger.LogWarning("Trying to process page value as book PageID > " + PageID , Category.VariableViewer);
 						return;
 					}
-					book = Librarian.GenerateNonMonoBook(Page.Variable); //Currently dangerous needs type to book implemented for it
+					book = Librarian.GenerateNonMonoBook(Page.Variable); 
 					SendBookToClient(book);
 				}
 				else {
@@ -143,7 +136,7 @@ public static class VariableViewer
 			}
 		}
 		else {
-			Logger.LogError("Page ID has not been generated PageID > " + PageID);
+			Logger.LogError("Page ID has not been generated PageID > " + PageID, Category.VariableViewer);
 		}
 	}
 
@@ -155,7 +148,7 @@ public static class VariableViewer
 			if (IsNewbookBookshelf)
 			{
 				if (!Bookshelf.ICustomBookshelf && Bookshelf.Shelf == null ) {
-					Logger.LogError("Bookshelf has been destroyed > " + BookshelfID);
+					Logger.LogError("Bookshelf has been destroyed > " + BookshelfID, Category.VariableViewer);
 					return;
 				}
 				if (Bookshelf.IsPartiallyGenerated)
@@ -171,7 +164,7 @@ public static class VariableViewer
 			else { SubBookshelfNetMessage.Send(Bookshelf); }
 		}
 		else {
-			Logger.LogError("Bookshelf ID has not been generated BookshelfID > " + BookshelfID);
+			Logger.LogError("Bookshelf ID has not been generated BookshelfID > " + BookshelfID, Category.VariableViewer);
 		}
 	}
 
@@ -183,7 +176,7 @@ public static class VariableViewer
 
 		}
 		else {
-			Logger.LogError("Book ID has not been generated Book ID > " + BookID);
+			Logger.LogError("Book ID has not been generated Book ID > " + BookID, Category.VariableViewer);
 		}
 	}
 
@@ -240,7 +233,6 @@ public static class Librarian
 
 	public static Book GenerateNonMonoBook(object Eclass)
 	{
-
 		if (ObjectToBook.ContainsKey(Eclass))
 		{
 			return (ObjectToBook[Eclass]);

@@ -52,7 +52,6 @@ public class GUI_VariableViewer : MonoBehaviour
 	public Text boookTitle;
 	public Text boookIsEnabled;
 
-
 	public GameObject LeftArrow;
 	public GameObject RightArrow;
 
@@ -82,15 +81,10 @@ public class GUI_VariableViewer : MonoBehaviour
 	public void Previousbook()
 	{
 		int tint = HistoryLocation;
-		Logger.Log(tint.ToString() + " <R> " + HistoryLocation);
 		if ((tint - 1) >= 0)
 		{
-			Logger.Log(tint.ToString() + " <A> " + HistoryLocation);
 			HistoryLocation = HistoryLocation - 1;
-
 			NotModifyingHistory = true;
-			Logger.Log(" at " + HistoryLocation.ToString());
-			Logger.Log("Sending > " + History[HistoryLocation]);
 			OpenBookIDNetMessage.Send(History[HistoryLocation]);
 
 		}
@@ -161,9 +155,11 @@ public class GUI_VariableViewer : MonoBehaviour
 	public int MaximumPerTwoPages = 40;
 	public GameObject PagePanel;
 	public GUI_PageEntry PageEntryPrefab;
-	//GUI_PageEntrypublic RadialButton ButtonPrefab;
+
 	public void ReceiveBook(VariableViewerNetworking.NetFriendlyBook Book)
 	{
+		ID = Book.ID;
+		Title = Book.Title;
 		PresentPagesCount = 0;
 		RightArrow.SetActive(false);
 		LeftArrow.SetActive(false);
@@ -233,13 +229,11 @@ public class GUI_VariableViewer : MonoBehaviour
 			}
 		
 			PageEntry.Page = page;
-			//Logger.Log(PresentPagesCount.ToString());
 			if (PresentPagesCount > MaximumPerTwoPages)
 			{
-				//Logger.Log("YAY!!");
 				PageEntry.gameObject.SetActive(false);
 				int PageSetNumber = (int)Math.Floor((decimal)(PresentPagesCount / MaximumPerTwoPages));
-				//Logger.Log(PageSetNumber.ToString());
+	
 				if ((PagesInBook.Count- 1) != PageSetNumber)
 				{
 					PagesInBook.Add(new List<GUI_PageEntry>());
@@ -273,7 +267,6 @@ public class GUI_VariableViewer : MonoBehaviour
 
 	public void Start()
 	{
-		//UIManager.Instance.VariableViewer = this;
 		gameObject.SetActive(false);
 	}
 

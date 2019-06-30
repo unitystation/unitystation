@@ -16,9 +16,6 @@ public class BookNetMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-
-		UIManager.Instance.VariableViewer.ID = Book.ID;
-		UIManager.Instance.VariableViewer.Title = Book.Title;
 		UIManager.Instance.VariableViewer.ReceiveBook(Book);
 		return null;
 	}
