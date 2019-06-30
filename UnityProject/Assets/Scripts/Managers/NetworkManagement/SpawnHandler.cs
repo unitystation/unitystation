@@ -90,6 +90,11 @@ public static class SpawnHandler
 			}
 			newMob = true;
 		}
+		var healthStateMonitor = newBody.GetComponent<HealthStateMonitor>();
+		if(healthStateMonitor)
+		{
+			healthStateMonitor.ProcessClientUpdateRequest(newBody);
+		}
 		CustomNetworkManager.Instance.SyncPlayerData(newBody);
 		CustomNetworkManager.Instance.SyncCharSprites(newBody, newMob);
 	}
