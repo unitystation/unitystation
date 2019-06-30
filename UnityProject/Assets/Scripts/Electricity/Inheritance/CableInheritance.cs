@@ -24,12 +24,6 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 	public bool CanOverCurrent = true;
 
 
-
-	[RightClickMethod]
-	public void test()
-	{
-		VariableViewer.PrintSomeVariables(gameObject);
-	}
 	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!base.WillInteract(interaction, side)) return false;

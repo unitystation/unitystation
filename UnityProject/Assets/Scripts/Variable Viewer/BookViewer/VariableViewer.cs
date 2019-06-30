@@ -96,41 +96,13 @@ public static class VariableViewer
 		BookshelfNetMessage.Send(BookShelf);
 	}
 
-	public static void PrintSomeVariables(GameObject _object)
-	{
+	//public static void PrintSomeVariables(GameObject _object)
+	//{
 
-		var bob = ProcessTransform(_object.transform);
-		Librarian.PopulateBookShelf(bob);
-		SendBookShelfToClient(bob.ObscuredBy);
-		//For each monoBehaviour in the list of script components
-		//foreach (MonoBehaviour mono in scriptComponents)
-		//{
-
-		//Librarian.Book book = Librarian.GenerateBook(mono);
-		//Logger.Log(book.ToString());
-		//Type monoType = mono.GetType();
-		//foreach (MethodInfo method in monoType.GetMethods()) // BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic
-		//{
-		//	Logger.Log(method.Name + " < this ");
-		//}
-		//Logger.LogWarning(" method " + monoType.Name);
-		//	foreach (PropertyInfo method in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic)) // 
-		//	{
-		//		if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
-		//		{
-		//			Logger.Log(method.Name + " " + method.GetValue(mono));
-		//		}
-		//	}
-		//	foreach (FieldInfo method in monoType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic)) // 
-		//	{
-		//		if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
-		//		{
-		//			Logger.LogWarning(method.FieldType + " < FieldType! ");
-		//			Logger.Log(method.Name + " " + method.GetValue(mono));
-		//		}
-		//	}
-		//}
-	}
+	//	var bob = ProcessTransform(_object.transform);
+	//	Librarian.PopulateBookShelf(bob);
+	//	SendBookShelfToClient(bob.ObscuredBy);
+	//}
 	//Receive from Client side
 	public static void RequestOpenPageValue(ulong PageID, uint SentenceID, bool IsSentence, bool iskey)
 	{

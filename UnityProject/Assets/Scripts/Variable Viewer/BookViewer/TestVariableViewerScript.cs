@@ -34,11 +34,6 @@ public class TestVariableViewerScript : MonoBehaviour
 
 	public int length = 10;
 
-	[RightClickMethod]
-	public void test()
-	{
-		VariableViewer.PrintSomeVariables(gameObject);
-	}
 
 	void Start()
     {

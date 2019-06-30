@@ -28,12 +28,6 @@ public class SMES : NBHandApplyInteractable, INodeControl
 	[SyncVar(hook = nameof(UpdateState))]
 	public bool isOn = false;
 
-	[RightClickMethod]
-	public void test()
-	{
-		VariableViewer.PrintSomeVariables(gameObject);
-	}
-
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
