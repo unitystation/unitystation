@@ -191,6 +191,10 @@ public class GUI_VariableViewer : MonoBehaviour
 		}
 		if (!NotModifyingHistory)
 		{
+			if ((History.Count - 1) != HistoryLocation)
+			{
+				ListExtensions.RemoveAtIndexForwards(History, HistoryLocation);
+			}
 			History.Add(Book.ID);
 			HistoryLocation = HistoryLocation + 1;
 
@@ -259,6 +263,7 @@ public class GUI_VariableViewer : MonoBehaviour
 	public void PoolPageEntry(GUI_PageEntry PageEntry)
 	{
 		PageEntry.gameObject.SetActive(false);
+		PageEntry.transform.SetParent(this.transform, true);
 		if (!PooledPages.Contains(PageEntry))
 		{
 			PooledPages.Add(PageEntry);

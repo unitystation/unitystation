@@ -9,14 +9,11 @@ using System.Text;
 
 
 // TODO 
-// also about 10 FieldInfos named method that hurts.
 // Colour code
 // pool books
+
 public static class VariableViewer
 {
-	// objects selectable for cloning
-	public static LayerMask layerMask;
-
 	public static void ProcessTile(Vector3 Location)
 	{
 		Location.z = 0f;
@@ -235,13 +232,8 @@ public static class Librarian
 	public static Dictionary<MonoBehaviour, Book> MonoBehaviourToBook = new Dictionary<MonoBehaviour, Book>();
 	public static Dictionary<object, Book> ObjectToBook = new Dictionary<object, Book>();
 
-	//public static Dictionary<Client, BookShelf> Customshelfs = new Dictionary<Client, BookShelf>
-
-
 	public static BookShelf TopSceneBookshelf;
-	//public static ulong AvailableBookShelfID= 0;
-	//public static ulong AvailableBookID = 0;
-	//public static ulong AvailablePageID = 0;
+
 
 	public static BookShelf GenerateCustomBookCase(List<BookShelf> BookShelfs)
 	{
@@ -319,31 +311,6 @@ public static class Librarian
 		return (_bookShelf);
 	}
 
-	/// <summary>
-	/// 		bookShelf.ObscuredBookShelves.Clear();
-	//foreach (Transform child in ts)
-	//{
-	//	if (child != ts[0])
-	//	{
-	//		if (child.parent == bookShelf.Shelf.transform)
-	//		{
-	//			BookShelf _bookShelf;
-	//			if (TransformToBookShelf.ContainsKey(child))
-	//			{
-	//				_bookShelf = TransformToBookShelf[child];
-	//			}
-	//			else {
-	//				_bookShelf = PartialGeneratebookShelf(child);
-	//			}
-	//			bookShelf.ObscuredBookShelves.Add(_bookShelf);
-	//		}
-	//	}
-	//}
-	/// </summary>
-	/// <returns>The book shelf.</returns>
-	/// <param name="bookShelf">Book shelf.</param>
-
-
 	public static BookShelf PopulateBookShelf(BookShelf bookShelf)
 	{
 		if (!bookShelf.IsPartiallyGenerated)
@@ -414,40 +381,40 @@ public static class Librarian
 	public static Book GetAttributes(Book Book, object Script)
 	{
 		Type monoType = Script.GetType();
-		foreach (FieldInfo method in monoType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+		foreach (FieldInfo Field in monoType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
 		{
-			if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+			if (Field.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 			{
 				Page Page = new Page();
-				Page.VariableName = method.Name;
+				Page.VariableName = Field.Name;
 				Page.ID = PageAID;
 				PageAID++;
-				Page.Info = method;
-				Page.Variable = method.GetValue(Script);
+				Page.Info = Field;
+				Page.Variable = Field.GetValue(Script);
 				if (Page.Variable == null)
 				{
 					Page.Variable = "null";
 				}
-				Page.VariableType = method.FieldType;
+				Page.VariableType = Field.FieldType;
 				Page.BindedTo = Book;
 				IDToPage[Page.ID] = Page;
 				Page.Sentences = new Librarian.Sentence();
 				Page.Sentences.SentenceID = Page.ASentenceID;
 				Page.ASentenceID++;
-				GenerateSentenceValuesforSentence(Page.Sentences, method.FieldType, Page, Script, Info: method);
+				GenerateSentenceValuesforSentence(Page.Sentences, Field.FieldType, Page, Script, Info: Field);
 				Book.BindedPagesAdd(Page);
 			}
 		}
 
-		foreach (PropertyInfo method in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+		foreach (PropertyInfo Properties in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
 		{
-			if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+			if (Properties.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 			{
 				Page Page = new Page();
-				Page.VariableName = method.Name;
-				Page.Variable = method.GetValue(Script);
-				Page.VariableType = method.PropertyType;
-				Page.PInfo = method;
+				Page.VariableName = Properties.Name;
+				Page.Variable = Properties.GetValue(Script);
+				Page.VariableType = Properties.PropertyType;
+				Page.PInfo = Properties;
 				if (Page.Variable == null)
 				{
 					Page.Variable = "null";
@@ -459,7 +426,7 @@ public static class Librarian
 				Page.Sentences = new Librarian.Sentence();
 				Page.Sentences.SentenceID = Page.ASentenceID;
 				Page.ASentenceID++;
-				GenerateSentenceValuesforSentence(Page.Sentences, method.PropertyType, Page, Script, PInfo: method);
+				GenerateSentenceValuesforSentence(Page.Sentences, Properties.PropertyType, Page, Script, PInfo: Properties);
 
 				Book.BindedPagesAdd(Page);
 			}
