@@ -742,7 +742,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdEnterBody()
 	{
-		playerScript.mind.ReturnToBody();
+		playerScript.mind.StopGhosting();
 		var body = playerScript.mind.body.gameObject;
 		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, body, gameObject, EVENT.PlayerSpawned, null);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(body);

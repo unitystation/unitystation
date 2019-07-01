@@ -13,13 +13,28 @@ public class Mind
 	public PlayerScript body;
 	public bool IsGhosting;
 	public bool DenyCloning;
+	public int bodyMobID;
+
+	public Mind(GameObject player, JobType newJobType)
+	{
+		jobType = newJobType;
+		var playerScript = player.GetComponent<PlayerScript>();
+		SetNewBody(playerScript);
+	}
+
+	public void SetNewBody(PlayerScript playerScript){
+		playerScript.mind = this;
+		body = playerScript;
+		bodyMobID = playerScript.GetComponent<LivingHealthBehaviour>().mobID;
+		StopGhosting();
+	}
 
 	public void ClonePlayer(GameObject spawnPoint, CharacterSettings characterSettings)
 	{
 		GameObject oldBody = GetCurrentMob();
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var playerID = oldBody.GetComponent<NetworkBehaviour>().playerControllerId;
-		//SpawnHandler.ClonePlayer(connection, playerID, jobType, characterSettings, oldBody, spawnPoint);
+		SpawnHandler.ClonePlayer(connection, playerID, jobType, characterSettings, oldBody, spawnPoint);
 	}
 
 	public GameObject GetCurrentMob()
@@ -42,13 +57,16 @@ public class Mind
 		ghost = PS;
 	}
 
-	public void ReturnToBody()
+	public void StopGhosting()
 	{
 		IsGhosting = false;
 	}
 
-	public bool ConfirmClone()
+	public bool ConfirmClone(int recordMobID)
 	{
+		if(bodyMobID != recordMobID){  //an old record might still exist even after several body swaps
+			return false;
+		}
 		if(DenyCloning)
 		{
 			return false;
