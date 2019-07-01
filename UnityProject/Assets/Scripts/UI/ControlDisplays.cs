@@ -2,7 +2,6 @@
 
 public class ControlDisplays : MonoBehaviour
 {
-	public GameObject backGround;
 	public GameObject hudBottomHuman;
 	public GameObject hudBottomGhost;
 	public GameObject jobSelectWindow;
@@ -52,7 +51,6 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		hudBottomHuman.gameObject.SetActive(false);
 		hudBottomGhost.gameObject.SetActive(false);
-		backGround.SetActive(true);
 		panelRight.gameObject.SetActive(false);
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
@@ -60,8 +58,9 @@ public class ControlDisplays : MonoBehaviour
 
 	public void SetScreenForGame()
 	{
+		hudBottomHuman.gameObject.SetActive(false);
+		hudBottomGhost.gameObject.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
-		backGround.SetActive(false);
 		panelRight.gameObject.SetActive(true);
 		uiAnimator.Play("idle");
 

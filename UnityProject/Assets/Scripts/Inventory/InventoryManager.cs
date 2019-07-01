@@ -340,7 +340,7 @@ public class InventoryManager : MonoBehaviour
 }
 
 //Helps identify the position in syncEquip list
-public enum Epos
+public enum EquipSlot
 {
 	suit,
 	belt,

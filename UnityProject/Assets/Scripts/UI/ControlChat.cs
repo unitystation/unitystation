@@ -124,14 +124,13 @@ public class ControlChat : MonoBehaviour
 			RefreshChannelPanel();
 		}
 
-		if (UIManager.IsInputFocus)
+		if (UIManager.IsInputFocus && KeyboardInputManager.IsEnterPressed())
 		{
-			if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
-				KeyboardInputManager.IsEnterPressed())
+			if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
 			{
 				PlayerSendChat();
-				CloseChatWindow();
 			}
+			CloseChatWindow();
 		}
 
 		if (!chatInputWindow.activeInHierarchy) return;
@@ -143,13 +142,6 @@ public class ControlChat : MonoBehaviour
 		if (InputFieldChat.isFocused) return;
 		if (KeyboardInputManager.IsMovementPressed() || KeyboardInputManager.IsEscapePressed())
 		{
-			CloseChatWindow();
-		}
-
-		if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()) &&
-			KeyboardInputManager.IsEnterPressed())
-		{
-			PlayerSendChat();
 			CloseChatWindow();
 		}
 	}

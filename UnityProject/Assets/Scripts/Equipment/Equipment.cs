@@ -12,10 +12,8 @@ public class Equipment : NetworkBehaviour
 	public ClothingItem[] clothingSlots;
 	public bool IsInternalsEnabled;
 
-	private bool isInit;
 	private PlayerNetworkActions playerNetworkActions;
 	private PlayerScript playerScript;
-	public SyncListInt syncEquipSprites = new SyncListInt();
 	private List<InventorySlot> playerInventory;
 	private InventorySlot[] gasSlots;
 	private InventorySlot maskSlot;
@@ -23,7 +21,7 @@ public class Equipment : NetworkBehaviour
 
 	public NetworkIdentity networkIdentity { get; set; }
 
-	private void Start()
+	private void Awake()
 	{
 		networkIdentity = GetComponent<NetworkIdentity>();
 		playerNetworkActions = gameObject.GetComponent<PlayerNetworkActions>();
@@ -36,7 +34,7 @@ public class Equipment : NetworkBehaviour
 	}
 
 	private InventorySlot[] InitPotentialGasSlots()
-	{		
+	{
 		var slots = new List<InventorySlot>();
 		foreach (var slot in playerInventory)
 		{
@@ -49,16 +47,9 @@ public class Equipment : NetworkBehaviour
 		return slots.ToArray();
 	}
 
-	public override void OnStartServer()
-	{
-		InitEquipment();
-		base.OnStartServer();
-	}
-
 	public override void OnStartClient()
 	{
-		InitEquipment();
-		base.OnStartClient();
+		InitInternals();
 	}
 
 	private void OnDestroy()
@@ -66,76 +57,19 @@ public class Equipment : NetworkBehaviour
 		UnregisisterInternals();
 	}
 
-
-
-	private void InitEquipment()
+	public void NotifyPlayer(GameObject recipient)
 	{
-		if (isInit)
-		{
-			return;
-		}
-
-		InitInternals();
-		syncEquipSprites.Callback = SyncSprites;
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
-			//All the other slots:
-			clothingSlots[i].Reference = -1;
-			if (isServer)
-			{
-				syncEquipSprites.Add(-1);
-			}
-			else
-			{
-				clothingSlots[i].Reference = syncEquipSprites[i];
-			}
-		}
-		isInit = true;
-		if (isServer)
-		{
-			StartCoroutine(SetPlayerLoadOuts());
+			var clothItem = clothingSlots[i];
+			EquipmentSpritesMessage.SendTo(gameObject, i, clothItem.reference, recipient);
 		}
 	}
 
-	public void SyncSprites(SyncList<int>.Operation op, int index)
+	public void SetPlayerLoadOuts()
 	{
-		clothingSlots[index].Reference = syncEquipSprites[index];
-	}
-
-	/// Wait until client gains control of this player before proceeding further
-	/// (Could be moved into some more generic place in the future)
-	private IEnumerator WaitUntilInControl(int maxTries = 50)
-	{
-		int tries = 0;
-		while (!PlayerList.Instance.ContainsGameObject(gameObject))
-		{
-			if (tries++ > maxTries)
-			{
-				Logger.LogError($"{this} not in control after {maxTries} tries", Category.Equipment);
-				yield break;
-			}
-
-			yield return WaitFor.Seconds(.1f);
-		}
-	}
-
-
-	public IEnumerator SetPlayerLoadOuts()
-	{
-		//Waiting for player name resolve
-		yield return WaitUntilInControl();
-
-		// Null Job players dont get a loadout
-		if (playerScript.JobType == JobType.NULL)
-		{
-			yield break;
-		}
-
-		PlayerScript pS = GetComponent<PlayerScript>();
-		pS.JobType = playerScript.JobType;
-
 		JobOutfit standardOutfit = GameManager.Instance.StandardOutfit.GetComponent<JobOutfit>();
-		JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(playerScript.JobType);
+		JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(playerScript.mind.jobType);
 
 		Dictionary<string, string> gear = new Dictionary<string, string>();
 
@@ -242,8 +176,7 @@ public class Equipment : NetworkBehaviour
 		}
 		SpawnID(jobOutfit);
 
-		yield return WaitFor.Seconds(3f); //Wait a bit for headset to be fully setup and player to be fully spawned.
-		if (playerScript.JobType == JobType.SYNDICATE)
+		if (playerScript.mind.jobType == JobType.SYNDICATE)
 		{
 			//Check to see if there is a nuke and communicate the nuke code:
 			Nuke nuke = FindObjectOfType<Nuke>();
@@ -336,15 +269,20 @@ public class Equipment : NetworkBehaviour
 	//To set the actual sprite on the player obj
 	public void SetHandItemSprite(ItemAttributes att, string hand)
 	{
-		Epos enumA = (Epos)Enum.Parse(typeof(Epos), hand);
+		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), hand);
 		if (hand == "leftHand")
 		{
-			syncEquipSprites[(int)enumA] = att.NetworkInHandRefLeft();
+			SetReference((int)enumA, att.NetworkInHandRefLeft());
 		}
 		else
 		{
-			syncEquipSprites[(int)enumA] = att.NetworkInHandRefRight();
+			SetReference((int)enumA, att.NetworkInHandRefRight());
 		}
+	}
+
+	public void SetReference(int index, int reference)
+	{
+		EquipmentSpritesMessage.SendToAll(gameObject, index, reference);
 	}
 
 	//
@@ -352,13 +290,13 @@ public class Equipment : NetworkBehaviour
 	///  Clear any sprite slot by setting the slot to -1 via the slotName (server). If the
 	///  specified slot has no associated player sprite, nothing will be done.
 	/// </summary>
-	/// <param name="slotName">name of the slot (should match an Epos enum)</param>
+	/// <param name="slotName">name of the slot (should match an EquipSlot enum)</param>
 	public void ClearItemSprite(string slotName)
 	{
-		Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
-		if (hasPlayerSprite(enumA))
+		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
+		if (HasPlayerSprite(enumA))
 		{
-			syncEquipSprites[(int)enumA] = -1;
+			SetReference((int)enumA, -1);
 		}
 	}
 
@@ -366,39 +304,16 @@ public class Equipment : NetworkBehaviour
 	///
 	/// </summary>
 	/// <param name="slot"></param>
-	/// <returns>true iff the specified Epos has an associated player sprite.</returns>
-	private bool hasPlayerSprite(Epos slot)
+	/// <returns>true iff the specified EquipSlot has an associated player sprite.</returns>
+	private bool HasPlayerSprite(EquipSlot slot)
 	{
-		return slot != Epos.id && slot != Epos.storage01 && slot != Epos.storage02 && slot != Epos.suitStorage;
+		return slot != EquipSlot.id && slot != EquipSlot.storage01 && slot != EquipSlot.storage02 && slot != EquipSlot.suitStorage;
 	}
 
 	private void SetItem(string slotName, GameObject obj)
 	{
-		StartCoroutine(SetItemPatiently(slotName, obj));
-
-		/*			if (String.IsNullOrEmpty(slotName) || itemAtts == null) {
-			return;
-			Logger.LogError("Error with item attribute for object: " + itemAtts.gameObject.name);
-		}
-
-		EquipmentPool.AddGameObject(gameObject, itemAtts.gameObject);
-
-		playerNetworkActions.TrySetItem(slotName, itemAtts.gameObject);
-		//Sync all clothing items across network using SyncListInt syncEquipSprites
-		if (itemAtts.spriteType == SpriteType.Clothing)
-		{
-			Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
-			syncEquipSprites[(int)enumA] = itemAtts.clothingReference;
-		}*/
-	}
-
-	private IEnumerator SetItemPatiently(string slotName, GameObject obj)
-	{
-		//Waiting for hier name resolve
-		yield return WaitFor.Seconds(0.2f);
 		playerNetworkActions.AddItemToUISlot(obj, slotName, true);
 	}
-
 
 	private void InitInternals()
 	{

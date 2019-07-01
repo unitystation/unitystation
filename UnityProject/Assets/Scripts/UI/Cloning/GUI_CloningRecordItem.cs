@@ -13,8 +13,8 @@ public class GUI_CloningRecordItem : DynamicEntry
 
 	public void SetValues()
 	{
-		recordName.SetValue = cloningRecord.Name;
-		recrodScanID.SetValue = "Scan ID " + cloningRecord.ScanID;
+		recordName.SetValue = cloningRecord.name;
+		recrodScanID.SetValue = "Scan ID " + cloningRecord.scanID;
 	}
 
 	public void ViewRecord()

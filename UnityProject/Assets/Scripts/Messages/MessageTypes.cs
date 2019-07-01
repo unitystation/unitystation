@@ -40,6 +40,8 @@ internal enum MessageTypes : short
 	ElectricalCableMessage = 1036,
 	HealthTemperatureStats = 1037,
 	HealthPressureStats = 1038,
+	EquipmentSpritesMessage = 1039,
+	PlayerSpritesMessage = 1040,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,

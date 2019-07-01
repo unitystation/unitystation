@@ -31,6 +31,25 @@ namespace Lobby
 			{
 				hostToggle.gameObject.SetActive(false);
 			}
+
+			DetermineUIScale();
+		}
+
+		void DetermineUIScale()
+		{
+			if (!Application.isMobilePlatform)
+			{
+				if (Screen.height > 720f)
+				{
+					characterCustomization.transform.localScale *= 0.8f;
+					lobbyDialogue.transform.localScale *= 0.8f;
+				}
+				else
+				{
+					characterCustomization.transform.localScale *= 0.9f;
+					lobbyDialogue.transform.localScale *= 0.9f;
+				}
+			}
 		}
 
 		void OnEnable()
