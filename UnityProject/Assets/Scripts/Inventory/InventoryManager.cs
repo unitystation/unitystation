@@ -325,6 +325,18 @@ public class InventoryManager : MonoBehaviour
 		DropItem(GetSlotFromItem(item), pos);
 	}
 
+	public static void DropItemInSlot(GameObject player, InventorySlot item, Vector3 pos)
+	{
+		NetworkIdentity networkIdentity = player.GetComponent<NetworkIdentity>();
+		if (!networkIdentity)
+		{
+			Logger.LogWarning("Unable to drop as NetIdentity is gone", Category.Equipment);
+			return;
+		}
+
+		DropItem(item, pos);
+	}
+
 }
 
 //Helps identify the position in syncEquip list

@@ -207,7 +207,7 @@ MonoBehaviour:
   inHandReferenceRight: 540
   itemName: Scalpel
   itemDescription: A specialist Surgery knife, hellish sharp
-  itemType: 0
+  itemType: 16
   size: 0
   spriteType: 0
   CanConnectToTank: 0
@@ -264,6 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 0
   crossed:
     m_PersistentCalls:

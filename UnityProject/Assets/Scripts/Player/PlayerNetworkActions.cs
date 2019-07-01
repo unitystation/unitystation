@@ -34,6 +34,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
 	[NonSerialized] public string activeHand = "rightHand";
 
+	private bool doingCPR = false;
+
 	private ChatIcon chatIcon;
 
 	private Equipment equipment;
@@ -869,4 +871,140 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Performs a hug from one player to another.
+	/// </summary>
+	[Command]
+	public void CmdRequestHug(string hugger, GameObject huggedPlayer)
+	{
+		string huggee = huggedPlayer.GetComponent<PlayerScript>().playerName;
+		var huggedPlayerRegister = huggedPlayer.GetComponent<RegisterPlayer>();
+		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+		{
+			channels = ChatChannel.Local,
+			message = $"{hugger} has hugged {huggee}.",
+			position = huggedPlayerRegister.WorldPosition.To2Int()
+		});
+	}
+
+	/// <summary>
+	///	Performs a CPR action from one player to another.
+	/// </summary>
+	[Command]
+	public void CmdRequestCPR(GameObject rescuer, GameObject cardiacArrestPlayer)
+	{
+		var cardiacArrestPlayerRegister = cardiacArrestPlayer.GetComponent<RegisterPlayer>();
+
+		if (doingCPR)
+			return;
+
+		var progressFinishAction = new FinishProgressAction(
+			reason =>
+			{
+				switch (reason)
+				{
+					case FinishProgressAction.FinishReason.INTERRUPTED:
+						CancelCPR();
+						doingCPR = false;
+						break;
+					case FinishProgressAction.FinishReason.COMPLETED:
+						DoCPR(rescuer, cardiacArrestPlayer);
+						doingCPR = false;
+						break;
+				}
+			}
+		);
+
+		doingCPR = true;
+		UIManager.ProgressBar.StartProgress(cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
+			rescuer);
+		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+		{
+			channels = ChatChannel.Local,
+			message = $"{rescuer.Player()?.Name} is trying to perform CPR on {cardiacArrestPlayer.Player()?.Name}.",
+			position = cardiacArrestPlayerRegister.WorldPosition.To2Int()
+		});
+	}
+
+	[Server]
+	private void DoCPR(GameObject rescuer, GameObject CardiacArrestPlayer)
+	{
+		var CardiacArrestPlayerRegister = CardiacArrestPlayer.GetComponent<RegisterPlayer>();
+		CardiacArrestPlayer.GetComponent<PlayerHealth>().bloodSystem.oxygenDamage -= 7f;
+		doingCPR = false;
+		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+		{
+			channels = ChatChannel.Local,
+			message = $"{rescuer.Player()?.Name} has performed CPR on {CardiacArrestPlayer.Player()?.Name}.",
+			position = CardiacArrestPlayerRegister.WorldPositionServer.To2Int()
+		});
+	}
+
+	[Server]
+	private void CancelCPR()
+	{
+		// Stop the in progress CPR.
+		doingCPR = false;
+	}
+
+	/// <summary>
+	/// Performs a disarm attempt from one player to another.
+	/// </summary>
+	[Command]
+	public void CmdRequestDisarm(GameObject disarmer, GameObject playerToDisarm)
+	{
+		var rng = new System.Random();
+		string disarmerName = disarmer.Player()?.Name;
+		string playerToDisarmName = playerToDisarm.Player()?.Name;
+		var leftHandItem = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, "leftHand");
+		var rightHandItem = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, "rightHand");
+		var disarmedPlayerRegister = playerToDisarm.GetComponent<RegisterPlayer>();
+
+		// This is based off the alien/humanoid/attack_hand disarm code of TGStation's codebase.
+		// Disarms have 5% chance to knock down, then it has a 50% chance to disarm.
+		if (5 >= rng.Next(1, 100))
+		{
+			disarmedPlayerRegister.Stun(6f, false);
+			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
+			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+			{
+				channels = ChatChannel.Local,
+				message = $"{disarmerName} has knocked {playerToDisarmName} down!",
+				position = disarmedPlayerRegister.WorldPositionServer.To2Int()
+			});
+		}
+		else if (50 >= rng.Next(1, 100))
+		{
+			// Disarms
+			if (leftHandItem.Item != null)
+			{
+				InventoryManager.DropItemInSlot(playerToDisarm, leftHandItem,
+					playerToDisarm.GetComponent<PlayerScript>().WorldPos);
+			}
+
+			if (rightHandItem.Item != null)
+			{
+				InventoryManager.DropItemInSlot(playerToDisarm, rightHandItem,
+					playerToDisarm.GetComponent<PlayerScript>().WorldPos);
+			}
+
+			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
+			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+			{
+				channels = ChatChannel.Local,
+				message = $"{disarmerName} has disarmed {playerToDisarmName}!",
+				position = disarmedPlayerRegister.WorldPositionServer.To2Int()
+			});
+		}
+		else
+		{
+			SoundManager.PlayNetworkedAtPos("PunchMiss", disarmedPlayerRegister.WorldPositionServer);
+			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+			{
+				channels = ChatChannel.Local,
+				message = $"{disarmerName} has attempted to disarm {playerToDisarmName}!",
+				position = disarmedPlayerRegister.WorldPositionServer.To2Int()
+			});
+		}
+	}
 }

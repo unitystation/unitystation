@@ -48,14 +48,28 @@ public class PostToChatMessage : ClientMessage
 	/// <summary>
 	/// Sends a message to all players about an attack that took place
 	/// </summary>
-	/// <param name="item">gameobject with an itemattributes, representing the item the attack was made with</param>
 	/// <param name="attacker">GameObject of the player that attacked</param>
 	/// <param name="victim">GameObject of the player hat was the victim</param>
 	/// <param name="damage">damage done</param>
 	/// <param name="hitZone">zone that was damaged</param>
-	public static void SendItemAttackMessage( GameObject item, GameObject attacker, GameObject victim, float damage, BodyPartType hitZone = BodyPartType.None )
+	/// <param name="item">optional gameobject with an itemattributes, representing the item the attack was made with</param>
+	public static void SendAttackMessage( GameObject attacker, GameObject victim, float damage, BodyPartType hitZone = BodyPartType.None, GameObject item = null )
 	{
-		var itemAttributes = item.GetComponent<ItemAttributes>();
+		string attackVerb;
+		string attack;
+
+		if (item)
+		{
+			var itemAttributes = item.GetComponent<ItemAttributes>();
+			attackVerb = itemAttributes.attackVerb.GetRandom() ?? "attacked";
+			attack = $" with {itemAttributes.itemName}";
+		}
+		else
+		{
+			// Punch attack as there is no item.
+			attackVerb = "punched";
+			attack = "";
+		}
 
 		var player = victim.Player();
 		if ( player == null ) {
@@ -69,10 +83,7 @@ public class PostToChatMessage : ClientMessage
 			victimName = victim.ExpensiveName();
 		}
 
-		var attackVerb = itemAttributes.attackVerb.GetRandom() ?? "attacked";
-
-		var message = $"{attacker.Player()?.Name} has {attackVerb} {victimName}{InTheZone( hitZone )} with {itemAttributes.itemName}!";
-//		var message = $"{victim.Name} has been {attackVerb}{zone} with {itemAttributes.itemName}!";
+		var message = $"{attacker.Player()?.Name} has {attackVerb} {victimName}{InTheZone( hitZone )}{attack}!";
 		ChatRelay.Instance.AddToChatLogServer( new ChatEvent {
 			channels = ChatChannel.Combat,
 			message = message,
@@ -81,6 +92,7 @@ public class PostToChatMessage : ClientMessage
 			sizeMod = Mathf.Clamp( damage/15, 1, 3 )
 		} );
 	}
+
 	/// <summary>
 	/// Sends a gasp message to nearby players
 	public static void SendGasp(GameObject victim)
