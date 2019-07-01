@@ -99,6 +99,7 @@ public static class VariableViewer
 	//Receive from Client side
 	public static void RequestOpenPageValue(ulong PageID, uint SentenceID, bool IsSentence, bool iskey)
 	{
+		//if ( client authorised )
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
 			Librarian.Page Page = Librarian.IDToPage[PageID];
@@ -142,6 +143,7 @@ public static class VariableViewer
 
 	public static void RequestSendBookshelf(ulong BookshelfID, bool IsNewbookBookshelf)
 	{
+		//if ( client authorised )
 		if (Librarian.IDToBookShelf.ContainsKey(BookshelfID))
 		{
 			Librarian.BookShelf Bookshelf = Librarian.IDToBookShelf[BookshelfID];
@@ -170,6 +172,7 @@ public static class VariableViewer
 
 	public static void RequestSendBook(ulong BookID)
 	{
+		//if ( client authorised )
 		if (Librarian.IDToBook.ContainsKey(BookID))
 		{
 			SendBookToClient(Librarian.IDToBook[BookID]);
