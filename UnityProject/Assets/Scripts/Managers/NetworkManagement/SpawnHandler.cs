@@ -64,6 +64,7 @@ public static class SpawnHandler
 		{
 			PlayerList.Instance.UpdatePlayer(conn, newBody);
 			NetworkServer.ReplacePlayerForConnection(conn, newBody, playerControllerId);
+			NetworkServer.ReplacePlayerForConnection(new NetworkConnection(), oldBody, 0);
 			TriggerEventMessage.Send(newBody, eventType);
 		}
 		var playerScript = newBody.GetComponent<PlayerScript>();
