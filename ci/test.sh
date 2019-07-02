@@ -5,7 +5,7 @@ set -x
 echo "Testng for $TEST_PLATFORM"
 
 ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' /opt/Unity/Editor/Unity} \
-  -projectPath $(pwd) \
+  -projectPath $(pwd)/UnityProject \
   -runTests \
   -testPlatform $TEST_PLATFORM \
   -testResults $(pwd)/$TEST_PLATFORM-results.xml \
