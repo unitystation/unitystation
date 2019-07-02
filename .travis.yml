@@ -14,20 +14,20 @@ before_install:
 - docker pull $IMAGE_NAME
 jobs:
   include:
-  - stage: test
-    script: "chmod +x ./ci/docker_test.sh && ./ci/docker_test.sh"
-    env: TEST_PLATFORM=editmode
-    addons:
-      artifacts:
-        target_paths:
-        - "$(pwd)/$TEST_PLATFORM-results.xml"
-  - stage: test
-    script: "chmod +x ./ci/docker_test.sh && ./ci/docker_test.sh"
-    env: TEST_PLATFORM=playmode
-    addons:
-      artifacts:
-        target_paths:
-        - "$(pwd)/$TEST_PLATFORM-results.xml"
+  # - stage: test
+  #   script: "chmod +x ./ci/docker_test.sh && ./ci/docker_test.sh"
+  #   env: TEST_PLATFORM=editmode
+  #   addons:
+  #     artifacts:
+  #       target_paths:
+  #       - "$(pwd)/$TEST_PLATFORM-results.xml"
+  # - stage: test
+  #   script: "chmod +x ./ci/docker_test.sh && ./ci/docker_test.sh"
+  #   env: TEST_PLATFORM=playmode
+  #   addons:
+  #     artifacts:
+  #       target_paths:
+  #       - "$(pwd)/$TEST_PLATFORM-results.xml"
   - stage: build
     env: BUILD_TARGET=StandaloneLinux64
     script: "chmod +x ./ci/docker_build.sh && ./ci/docker_build.sh"
