@@ -30,45 +30,35 @@ jobs:
   #       - "$(pwd)/$TEST_PLATFORM-results.xml"
   - stage: build
     env: BUILD_TARGET=StandaloneLinux64
-    script: "chmod +x ./ci/docker_build.sh && ./ci/docker_build.sh"
-    addons:
-      artifacts:
-        target_paths:
-        - "./Builds/"
+    script:
+      - "chmod +x ./ci/docker_build.sh && ./ci/docker_build.sh"
+      - "sudo chmod -R 777 ./Builds/"
+      - "cd ./Builds/"
+      - "zip -r ${BUILD_TARGET}.zip ./${BUILD_TARGET}/"
   - stage: build
     env: BUILD_TARGET=StandaloneOSX
-    script: "chmod +x ./ci/docker_build.sh && ./ci/docker_build.sh"
-    addons:
-      artifacts:
-        target_paths:
-        - "./Builds/"
+    script:
+      - "chmod +x ./ci/docker_build.sh && ./ci/docker_build.sh"
+      - "sudo chmod -R 777 ./Builds/"
+      - "cd ./Builds/"
+      - "zip -r ${BUILD_TARGET}.zip ./${BUILD_TARGET}/"
   - stage: build
     env: BUILD_TARGET=StandaloneWindows64
-    script: "chmod +x ./ci/docker_build.sh &&./ci/docker_build.sh"
-    addons:
-      artifacts:
-        target_paths:
-        - "./Builds/"
-    # deploy:
-    #   provider: releases
-    #   api_key: "GITHUB OAUTH TOKEN"
-    #   file: "${BUILD_TARGET}.zip"
-    #   skip_cleanup: true
-    #   draft: true
-  # - stage: build
-  #   env: BUILD_TARGET=WebGL
-  #   script: "chmod +x ./ci/docker_build.sh && ./ci/docker_build.sh"
-  #   addons:
-  #     artifacts:
-  #       target_paths:
-  #       - "./Builds/"
+    script:
+      - "chmod +x ./ci/docker_build.sh &&./ci/docker_build.sh"
+      - "sudo chmod -R 777 ./Builds/"
+      - "cd ./Builds/"
+      - "zip -r ${BUILD_TARGET}.zip ./${BUILD_TARGET}/"
 deploy:
   provider: releases
   api_key:
     secure: H1ELkzF5U81lBUsOqWX4pVGvE4oNvUuOtc1cIliunp3+BMSjUMNMcIoZvsVdbrlDaTV9AuGVEZw1mydaw7T7KpEp2L7RpgI1XcAR6qM28mFNO6vqUAtYzmo89MeXtKu1DWqowHqALbI2ML5K9Y7E+oi7Mov8pwOBAle7bZTS6nZrupr3LDI7C+0CNDUyxBztxWYfOSQ+r7NtMAd1yVCfbGqKFHJ6fQC912xyLqlqVXMhpgWlglvUfpGMUCn0/4OtJLinrWnJ+LbmzdV5kyOwlV5eJ+Jrur6ipFvZ6zBwjoJ0jbVddIoTAimI9qDkjKfZnArCDwTKcrCip2slUqX83EXtLDBO1fUejaE1/OfEUvJ/VETv2d3hkYKjOnAlfQMPKcy35Hk5ksUpfMi7yE0hHqm5rGbomUsmDneNYoSJFbGhBNJQ94Mu+CKcFS4GBnSlkyln+8NWnY7VmAbX5cV0sa4WevcoQSLnEBVJAE2bJg7Z+bUIssG89qzjx4UfIbqlAIlC7HYhm8mnajqSdGH0T8tgqoXJ6AsvGq6y2JCCukQVyG0CPaMhy3M7WxBIwWs0WmxefBuMEfH14LESxC/1JghLDVzWYhZLlm5Vbd3YCA8rAV1z5n55ZHfB3/FWpkcMbwRMxEaKSHEJ6c8CyEKOXnqvu4NxYUB7hkB6I95n1xI=
   file: "${BUILD_TARGET}.zip"
   skip_cleanup: true
-  draft: true
+  # draft: true
+  name: Experimental Build $(date +%Y-%m-%d)
+  body: There will be bugs!
+  prerelease: true
   on:
     repo: Jibbajabbafic/unitystation
     branch: travis-test
