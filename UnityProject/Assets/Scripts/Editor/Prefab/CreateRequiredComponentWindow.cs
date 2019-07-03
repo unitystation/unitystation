@@ -67,12 +67,23 @@ public class CreateRequiredComponentWindow : EditorWindow
 
 			foreach (var prefabModification in prefabModifications)
 			{
+				if (prefabModification.Skip) continue;
+
+				if (GUILayout.Button("Skip " + prefabModification.GOToModify.name))
+				{
+					prefabModification.Skip = true;
+				}
+
 				EditorGUILayout.LabelField("in " + AssetDatabase.GUIDToAssetPath(prefabModification.PrefabGUID) + "->" +
 				                           prefabModification.GOToModify.name + ":");
+
+
 				foreach (var componentToAdd in prefabModification.ComponentsToAdd)
 				{
 					EditorGUILayout.LabelField("\tAdding " + componentToAdd.Name);
 				}
+
+
 			}
 
 			GUILayout.EndScrollView();
@@ -192,6 +203,7 @@ public class CreateRequiredComponentWindow : EditorWindow
 		Logger.Log("Performing modifications:", Category.Editor);
 		foreach (var prefabModification in prefabModifications)
 		{
+			if (prefabModification.Skip) continue;
 			var path = AssetDatabase.GUIDToAssetPath(prefabModification.PrefabGUID);
 			foreach (var componentToAdd in prefabModification.ComponentsToAdd)
 			{
@@ -203,6 +215,8 @@ public class CreateRequiredComponentWindow : EditorWindow
 					componentToAdd.Name, prefabModification.GOToModify, path);
 			}
 		}
+
+		prefabModifications.Clear();
 
 		EditorUtility.DisplayDialog("Complete",
 			"Done creating required components. Check console for details.", "Close");
@@ -247,6 +261,8 @@ public class CreateRequiredComponentWindow : EditorWindow
 		public GameObject GOToModify;
 		//components which will be added to this GO
 		public List<Type> ComponentsToAdd;
+		//skipping
+		public bool Skip;
 
 		public PrefabModificationInfo(string prefabGuid, GameObject goToModify, GameObject rootGO, List<Type> componentsToAdd)
 		{

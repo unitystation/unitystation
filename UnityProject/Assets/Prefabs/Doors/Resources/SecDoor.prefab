@@ -288,6 +288,8 @@ GameObject:
   - component: {fileID: 114533986054935752}
   - component: {fileID: 114294399663088630}
   - component: {fileID: 114213890963482172}
+  - component: {fileID: 114337906859418372}
+  - component: {fileID: 114393521091076038}
   m_Layer: 17
   m_Name: SecDoor
   m_TagString: Untagged
@@ -606,6 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f0eb35888c6dfb4dbac823eb8cad23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 1
   OneDirectionRestricted: 0
   isClosed: 1
@@ -662,6 +665,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &114337906859418372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488470923909840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114393521091076038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488470923909840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
 --- !u!1 &1809255076827042
 GameObject:
   m_ObjectHideFlags: 0

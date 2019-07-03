@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
 
+	[RequireComponent(typeof(Integrity))]
+	[RequireComponent(typeof(Meleeable))]
 	[ExecuteInEditMode]
 	public class RegisterDoor : RegisterTile
 	{
