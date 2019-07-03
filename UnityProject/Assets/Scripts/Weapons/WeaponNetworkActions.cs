@@ -204,21 +204,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			}
 
 			// Make a random punch hit sound.
-SoundManager.PlayNetworkedAtPos("Punch"+rng.Next(1, 4), victimRegisterTile.WorldPosition);
-			{
-				case 1:
-					SoundManager.PlayNetworkedAtPos("Punch1", victimRegisterTile.WorldPosition);
-					break;
-				case 2:
-					SoundManager.PlayNetworkedAtPos("Punch2", victimRegisterTile.WorldPosition);
-					break;
-				case 3:
-					SoundManager.PlayNetworkedAtPos("Punch3", victimRegisterTile.WorldPosition);
-					break;
-				case 4:
-					SoundManager.PlayNetworkedAtPos("Punch4", victimRegisterTile.WorldPosition);
-					break;
-			}
+			SoundManager.PlayNetworkedAtPos("Punch"+rng.Next(1, 4), victimRegisterTile.WorldPosition);
 
 			StartCoroutine(AttackCoolDown());
 		}
