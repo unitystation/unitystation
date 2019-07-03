@@ -23,16 +23,16 @@ public static class SpawnHandler
 	{
 		GameObject player = CreateMob(spawnSpot, CustomNetworkManager.Instance.humanPlayerPrefab);
 		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
+		var playerScript = player.GetComponent<PlayerScript>();
+		var oldPlayerScript = oldBody.GetComponent<PlayerScript>();
+		oldPlayerScript.mind.SetNewBody(playerScript);
 	}
 
 	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType, CharacterSettings characterSettings, GameObject oldBody)
 	{
 		GameObject player = CreatePlayer(jobType);
 		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
-		var playerScript = player.GetComponent<PlayerScript>();
-		playerScript.mind = new Mind();
-		playerScript.mind.body = playerScript;
-		playerScript.mind.jobType = jobType;
+		new Mind(player, jobType);
 		var equipment = player.GetComponent<Equipment>();
 		equipment.SetPlayerLoadOuts();
 	}
