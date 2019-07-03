@@ -699,7 +699,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdCommitSuicide()
 	{
-		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, DamageType.Brute, BodyPartType.Chest);
+		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute, BodyPartType.Chest);
 	}
 
 	//Respawn action for Deathmatch v 0.1.3
@@ -874,5 +874,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 	}
+
+	//admin only commands
+	#region Admin
+
+	[Command]
+	public void CmdAdminSmash(GameObject toSmash)
+	{
+		toSmash.GetComponent<Integrity>().ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
+	}
+
+	#endregion
 
 }

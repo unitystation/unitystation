@@ -8,12 +8,12 @@ public class OnCrossed : UnityEvent<RegisterPlayer>{};
 
 [ExecuteInEditMode]
 public class RegisterItem : RegisterTile
+{
+	public OnCrossed crossed;
+
+	public void Cross(RegisterPlayer registerPlayer)
 	{
-		public OnCrossed crossed;
-
-		public void Cross(RegisterPlayer registerPlayer)
-		{
-			crossed.Invoke(registerPlayer);
-		}
-
+		crossed.Invoke(registerPlayer);
 	}
+
+}

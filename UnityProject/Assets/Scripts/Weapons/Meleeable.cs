@@ -24,7 +24,8 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 
 	public bool Interact(PositionalHandApply interaction)
 	{
-		//NOTE that for meleeing tiles, this is invoked from InteractableTiles.
+		//meleeable is only checked on the target of a melee interaction
+		if (interaction.UsedObject == gameObject) return false;
 
 		if (interaction.HandObject != null)
 		{

@@ -244,12 +244,12 @@ public class PlayerScript : ManagedNetworkBehaviour
 	{
 		if ( isServer )
 		{
-			return from.Matrix == to.Matrix && IsInReach(from.PositionServer, to.PositionServer, interactDist) ||
+			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionServer, to.LocalPositionServer, interactDist) ||
 			IsInReach(from.WorldPositionServer, to.WorldPositionServer, interactDist);
 		}
 		else
 		{
-			return from.Matrix == to.Matrix && IsInReach(from.PositionClient, to.PositionClient, interactDist) ||
+			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionClient, to.LocalPositionClient, interactDist) ||
 		       IsInReach(from.WorldPositionClient, to.WorldPositionClient, interactDist);
 		}
 	}

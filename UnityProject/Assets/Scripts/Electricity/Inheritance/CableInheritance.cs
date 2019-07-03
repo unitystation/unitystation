@@ -220,7 +220,7 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 				isA = false;
 			}
 			List<ElectricalOIinheritance> Econns = new List<ElectricalOIinheritance>();
-			var IEnumerableEconns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.PositionServer);
+			var IEnumerableEconns = wireConnect.matrix.GetElectricalConnections(wireConnect.registerTile.LocalPositionServer);
 			foreach (var T in IEnumerableEconns) {
 				Econns.Add(T);
 			}

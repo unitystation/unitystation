@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
 
+	[RequireComponent(typeof(Integrity))]
+	[RequireComponent(typeof(Meleeable))]
 	[ExecuteInEditMode]
 	public class RegisterDoor : RegisterTile
 	{
@@ -20,10 +22,29 @@
 				if (isClosed != value)
 				{
 					isClosed = value;
-					SubsystemManager.UpdateAt(PositionServer);
+					SubsystemManager.UpdateAt(LocalPositionServer);
 				}
 			}
 		}
+
+		private void Awake()
+		{
+			base.Awake();
+			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+		}
+
+		private void OnWillDestroyServer(DestructionInfo arg0)
+		{
+			//when we're going to be destroyed, need to tell all subsystems that our space is now passable
+			isClosed = false;
+	        if (SubsystemManager != null)
+	        {
+	            SubsystemManager.UpdateAt(LocalPositionServer);
+	        }
+	        //spawn some metal for the door
+	        ItemFactory.SpawnMetal(2, WorldPosition.To2Int(), parent: transform.parent);
+		}
+
 
 		public override bool IsPassableTo( Vector3Int to, bool isServer )
 		{
@@ -33,7 +54,7 @@
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				return !(to - (isServer ? PositionServer : PositionClient)).y.Equals(v.y);
+				return !(to - (isServer ? LocalPositionServer : LocalPositionClient)).y.Equals(v.y);
 			}
 
 			return !isClosed;
@@ -58,9 +79,10 @@
 				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 				// Returns false if player is bumping door from the restricted direction
-				return !(from - (isServer ? PositionServer : PositionClient)).y.Equals(v.y);
+				return !(from - (isServer ? LocalPositionServer : LocalPositionClient)).y.Equals(v.y);
 			}
 
 			return !isClosed;
 		}
+
 	}

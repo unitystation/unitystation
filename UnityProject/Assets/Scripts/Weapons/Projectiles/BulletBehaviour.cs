@@ -18,6 +18,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 	private GameObject shooter;
 	private Gun weapon;
 	public DamageType damageType;
+	public AttackType attackType = AttackType.Bullet;
 	private bool isSuicide = false;
 	/// <summary>
 	/// Cached trailRenderer. Note that not all bullets have a trail, thus this can be null.
@@ -139,7 +140,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 			return;
 		}
 		var aim = isSuicide ? bodyAim : bodyAim.Randomize();
-		damageable.ApplyDamage(shooter, damage, damageType, aim);
+		damageable.ApplyDamage(shooter, damage, attackType, damageType, aim);
 		PostToChatMessage.SendItemAttackMessage(weapon.gameObject, shooter, coll.gameObject, damage, aim);
 		Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, damageable.gameObject.name, damage);
 		ReturnToPool();
