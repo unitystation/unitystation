@@ -15,14 +15,14 @@ before_install:
 jobs:
   include:
   # - stage: test
-  #   script: "chmod +x ./ci/docker_test.sh && ./ci/docker_test.sh"
+  #   script: "chmod +x ./Travis/docker_test.sh && ./Travis/docker_test.sh"
   #   env: TEST_PLATFORM=editmode
   #   addons:
   #     artifacts:
   #       target_paths:
   #       - "$(pwd)/$TEST_PLATFORM-results.xml"
   # - stage: test
-  #   script: "chmod +x ./ci/docker_test.sh && ./ci/docker_test.sh"
+  #   script: "chmod +x ./Travis/docker_test.sh && ./Travis/docker_test.sh"
   #   env: TEST_PLATFORM=playmode
   #   addons:
   #     artifacts:
@@ -31,21 +31,21 @@ jobs:
   - stage: build
     env: BUILD_TARGET=StandaloneLinux64
     script:
-      - "chmod +x ./ci/docker_build.sh && ./ci/docker_build.sh"
+      - "chmod +x ./Travis/docker_build.sh && ./Travis/docker_build.sh"
       - "sudo chmod -R 777 ./Builds/"
       - "cd ./Builds/"
       - "zip -r ${BUILD_TARGET}.zip ./${BUILD_TARGET}/"
   - stage: build
     env: BUILD_TARGET=StandaloneOSX
     script:
-      - "chmod +x ./ci/docker_build.sh && ./ci/docker_build.sh"
+      - "chmod +x ./Travis/docker_build.sh && ./Travis/docker_build.sh"
       - "sudo chmod -R 777 ./Builds/"
       - "cd ./Builds/"
       - "zip -r ${BUILD_TARGET}.zip ./${BUILD_TARGET}/"
   - stage: build
     env: BUILD_TARGET=StandaloneWindows64
     script:
-      - "chmod +x ./ci/docker_build.sh &&./ci/docker_build.sh"
+      - "chmod +x ./Travis/docker_build.sh &&./Travis/docker_build.sh"
       - "sudo chmod -R 777 ./Builds/"
       - "cd ./Builds/"
       - "zip -r ${BUILD_TARGET}.zip ./${BUILD_TARGET}/"
