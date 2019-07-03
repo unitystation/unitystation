@@ -6,7 +6,12 @@ public class DNAscanner : ClosetControl
 {
 	public LivingHealthBehaviour occupant;
 	public Sprite closedWithOccupant;
+	public string statusString;
 
+	public override void OnStartServer()
+	{
+		statusString = "Ready to scan.";
+	}
 
 	public override void HandleItems()
 	{
