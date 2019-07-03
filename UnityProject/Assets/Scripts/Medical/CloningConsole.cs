@@ -13,6 +13,15 @@ public class CloningConsole : MonoBehaviour
 	public List<CloningRecord> CloningRecords = new List<CloningRecord>();
 	public DNAscanner scanner;
 	public CloningPod cloningPod;
+	public GUI_Cloning consoleGUI;
+
+	private void Start()
+	{
+		if (cloningPod)
+		{
+			cloningPod.console = this;
+		}
+	}
 
 	public void ToggleLock()
 	{
@@ -39,10 +48,12 @@ public class CloningConsole : MonoBehaviour
 				if (mobID == record.mobID)
 				{
 					record.UpdateRecord(mob, playerScript);
+					scanner.statusString = "Record updated.";
 					return;
 				}
 			}
 			CreateRecord(mob, playerScript);
+			scanner.statusString = "Subject successfully scanned.";
 		}
 	}
 
@@ -54,6 +65,10 @@ public class CloningConsole : MonoBehaviour
 			{
 				cloningPod.StartCloning(record);
 				CloningRecords.Remove(record);
+			}
+			else
+			{
+				cloningPod.statusString = "Initialisation failure.";
 			}
 		}
 	}

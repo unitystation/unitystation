@@ -10,11 +10,18 @@ public class CloningPod : NetworkBehaviour
 	public SpriteRenderer spriteRenderer;
 	public Sprite cloningSprite;
 	public Sprite emptySprite;
+	public string statusString;
+	public CloningConsole console;
 
 	public enum CloningPodStatus
 	{
 		Empty,
 		Cloning
+	}
+
+	public override void OnStartServer()
+	{
+		statusString = "Inactive.";
 	}
 
 	public override void OnStartClient()
@@ -25,12 +32,18 @@ public class CloningPod : NetworkBehaviour
 	public void StartCloning(CloningRecord record)
 	{
 		statusSync = CloningPodStatus.Cloning;
+		statusString = "Cloning cycle in progress.";
 		StartCoroutine(ProcessCloning(record));
 	}
 
 	private IEnumerator ProcessCloning(CloningRecord record)
 	{
 		yield return WaitFor.Seconds(10f);
+		statusString  = "Cloning process complete.";
+		if (console)
+		{
+			console.consoleGUI.UpdateDisplay();
+		}
 		if(record.mind.IsOnline(record.mind.GetCurrentMob()))
 		{
 			record.mind.ClonePlayer(gameObject, record.characterSettings);
