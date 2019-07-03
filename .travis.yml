@@ -56,9 +56,8 @@ deploy:
   file: "${BUILD_TARGET}.zip"
   skip_cleanup: true
   # draft: true
-  name: Experimental Build $(date +%Y-%m-%d)
+  name: Experimental Build $TRAVIS_TAG $(date +%Y-%m-%d)
   body: There will be bugs!
   prerelease: true
   on:
-    repo: Jibbajabbafic/unitystation
-    branch: travis-test
+    tags: true
