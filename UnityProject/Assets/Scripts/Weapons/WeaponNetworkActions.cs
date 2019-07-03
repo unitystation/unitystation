@@ -138,7 +138,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				playerMove.allowInput = false;
 				attackTarget.Harvest();
 				SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
-				SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position);
 			}
 			else
 			{
