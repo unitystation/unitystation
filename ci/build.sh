@@ -33,4 +33,11 @@ else
 fi
 
 ls -la $BUILD_PATH
-[ -n "$(ls -A $BUILD_PATH)" ] # fail job if build folder is empty
+
+# If success, zip the build, otherwise fail the job
+if [ -n "$(ls -A $BUILD_PATH)" ]; then
+  cd ./Builds/
+  zip -r "${BUILD_TARGET}.zip" "./${BUILD_TARGET}/"
+else
+  return 1
+fi
