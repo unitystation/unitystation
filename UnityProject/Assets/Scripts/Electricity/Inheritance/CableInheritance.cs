@@ -23,6 +23,7 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 	public float DestructionPriority;
 	public bool CanOverCurrent = true;
 
+
 	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!base.WillInteract(interaction, side)) return false;

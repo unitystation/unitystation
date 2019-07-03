@@ -29,4 +29,9 @@ public class UI_GhostOptions : MonoBehaviour
 	{
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer();
 	}
+
+	public void ToggleAllowCloning()
+	{
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleAllowCloning();
+	}
 }
