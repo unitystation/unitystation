@@ -16,6 +16,12 @@ public class Girder : NBHandApplyInteractable
 	private void Start(){
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		registerObject = GetComponent<RegisterObject>();
+		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+	}
+
+	private void OnWillDestroyServer(DestructionInfo arg0)
+	{
+		ItemFactory.SpawnMetal(1, gameObject.TileWorldPosition(), parent: transform.parent);
 	}
 
 	protected override bool WillInteract(HandApply interaction, NetworkSide side)
@@ -26,8 +32,7 @@ public class Girder : NBHandApplyInteractable
 		//only care about interactions targeting us
 		if (interaction.TargetObject != gameObject) return false;
 		//only try to interact if the user has a wrench or metal in their hand
-		if (!Validations.HasComponent<Metal>(interaction.HandObject)) return false;
-		if (!Validations.IsTool(interaction.HandObject, ToolType.Wrench)) return false;
+		if (!Validations.HasComponent<Metal>(interaction.HandObject) && !Validations.IsTool(interaction.HandObject, ToolType.Wrench)) return false;
 		return true;
 	}
 

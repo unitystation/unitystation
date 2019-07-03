@@ -120,6 +120,12 @@ public class ReactionManager : MonoBehaviour
 		timePassed = 0;
 	}
 
+	/// Same as ExposeHotspot but allows providing a world position and handles the conversion
+	public void ExposeHotspotWorldPosition(Vector2Int tileWorldPosition, float temperature, float volume)
+	{
+		ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)), temperature, volume);
+	}
+
 	public void ExposeHotspot(Vector3Int position, float temperature, float volume)
 	{
 		if (hotspots.ContainsKey(position) && hotspots[position].Hotspot != null)

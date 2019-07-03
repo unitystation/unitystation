@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
@@ -11,6 +12,7 @@ using UnityEngine.Serialization;
 /// Initial orientation should be set in Directional.
 /// </summary>
 [RequireComponent(typeof(Directional))]
+[RequireComponent(typeof(Integrity))]
 [ExecuteInEditMode]
 public class OccupiableDirectionalSprite : NetworkBehaviour
 {
@@ -61,6 +63,18 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 		directional = GetComponent<Directional>();
 		directional.OnDirectionChange.AddListener(OnDirectionChanged);
 		OnDirectionChanged(directional.CurrentDirection);
+		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+	}
+
+	private void OnWillDestroyServer(DestructionInfo info)
+	{
+		//release the player
+		if (isOccupied)
+		{
+			var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)
+				?.First(pm => pm.IsRestrained);
+			playerMoveAtPosition.Unrestrain();
+		}
 	}
 
 	public override void OnStartClient()
