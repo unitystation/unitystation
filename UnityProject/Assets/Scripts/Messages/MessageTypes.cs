@@ -42,13 +42,16 @@ internal enum MessageTypes : short
 	HealthPressureStats = 1038,
 	EquipmentSpritesMessage = 1039,
 	PlayerSpritesMessage = 1040,
-
+	BookNetMessage = 1041,
+	BookshelfNetMessage = 1042,
+	SubBookshelfNetMessage = 1043,
+	
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
 	InteractMessage = 2001,
 	InventoryInteractMessage = 2002,
 	PostToChatMessage = 2003,
-//	RemoveEncryptionKeyMessage = 2004, -was redundant, this id is free now
+	OpenPageValueNetMessage = 2004,
 	SimpleInteractMessage = 2005,
 	RequestSyncMessage = 2006,
 	RequestAuthMessage = 2007,
@@ -67,5 +70,9 @@ internal enum MessageTypes : short
 	RequestAimApplyMessage = 2020,
 	RequestHandActivateMessage = 2021,
 	RequestInventoryApplyMessage = 2022,
-	RequestPositionalHandApplyMessage = 2023
+	RequestPositionalHandApplyMessage = 2023,
+	RequestActivateMessage = 2024,
+	RequestToViewObjectsAtTile = 2026,
+	RequestBookshelfNetMessage = 2027,
+	RequestOpenBookIDNetMessage = 2028,
 }
