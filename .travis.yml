@@ -49,10 +49,10 @@ jobs:
       artifacts:
         target_paths:
         - "./Builds/"
-  - stage: build
-    env: BUILD_TARGET=WebGL
-    script: "chmod +x ./ci/docker_build.sh && ./ci/docker_build.sh"
-    addons:
-      artifacts:
-        target_paths:
-        - "./Builds/"
+  # - stage: build
+  #   env: BUILD_TARGET=WebGL
+  #   script: "chmod +x ./ci/docker_build.sh && ./ci/docker_build.sh"
+  #   addons:
+  #     artifacts:
+  #       target_paths:
+  #       - "./Builds/"
