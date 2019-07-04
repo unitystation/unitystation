@@ -173,7 +173,7 @@ using UnityEngine.Networking;
 		public void TryClose()
 		{
 			// Sliding door is not passable according to matrix
-            if( IsOpened && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.PositionServer, true ) || doorType == DoorType.sliding ) ) {
+            if( IsOpened && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) ) {
 	            Close();
             }
 			else

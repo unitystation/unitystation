@@ -17,19 +17,17 @@ public class StorageObject : NetworkBehaviour
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		StartCoroutine(InitSlots(false));
+		InitSlots(false);
 	}
 
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
-		StartCoroutine(InitSlots(true));
+		InitSlots(true);
 	}
 
-	IEnumerator InitSlots(bool _isServer)
+	void InitSlots(bool _isServer)
 	{
-		//Wait for onscene change event to take place on InventoryManager
-		yield return WaitFor.EndOfFrame;
 		var syncData = new StorageSlotsUUIDSync();
 		storageSlots = new StorageSlots();
 		for (int i = 0; i < maxSlots; i++)
@@ -46,12 +44,8 @@ public class StorageObject : NetworkBehaviour
 				invSlot = new InventorySlot(System.Guid.Empty, "inventory" + i);
 				storageSlots.inventorySlots.Add(invSlot);
 			}
-
 			InventoryManager.AddSlot(invSlot, _isServer);
-
 		}
-
-		yield return WaitFor.Seconds(.1f);
 
 		if (syncData.UUIDs.Count != 0)
 		{

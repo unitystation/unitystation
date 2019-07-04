@@ -34,12 +34,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
 	[NonSerialized] public string activeHand = "rightHand";
 
+	private bool doingCPR = false;
+
 	private ChatIcon chatIcon;
 
 	private Equipment equipment;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private UserControlledSprites playerSprites;
 	private ObjectBehaviour objectBehaviour;
 
 	public Dictionary<string, InventorySlot> Inventory { get; } = new Dictionary<string, InventorySlot>();
@@ -49,11 +50,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private List<InventorySlot> initSync;
 
-	private void Start()
+	private void Awake()
 	{
 		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
-		playerSprites = GetComponent<UserControlledSprites>();
 		playerScript = GetComponent<PlayerScript>();
 		chatIcon = GetComponentInChildren<ChatIcon>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
@@ -77,12 +77,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			SendSyncMessage(gameObject);
-
-			//if this is the ghost, respawn after 10 seconds
-			if (playerScript.IsGhost)
-			{
-				RespawnPlayer(RESPAWN_TIME_SECONDS);
-			}
 		}
 
 		base.OnStartServer();
@@ -385,8 +379,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 							att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
 							att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank"))
 						{
-							Epos enumA = (Epos)Enum.Parse(typeof(Epos), toSlot.SlotName);
-							equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
+							EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), toSlot.SlotName);
+							equipment.SetReference((int)enumA, att.clothingReference);
 						}
 					}
 				}
@@ -411,8 +405,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private void SyncEquipSprite(string slotName, int spriteRef)
 	{
-		Epos enumA = (Epos)Enum.Parse(typeof(Epos), slotName);
-		equipment.syncEquipSprites[(int)enumA] = spriteRef;
+		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
+		equipment.SetReference((int)enumA, spriteRef);
 	}
 
 	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction,
@@ -574,7 +568,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
-			ShutterSwitchTrigger s = switchObj.GetComponent<ShutterSwitchTrigger>();
+			ShutterSwitch s = switchObj.GetComponent<ShutterSwitch>();
 			if (s.IsClosed)
 			{
 				s.IsClosed = false;
@@ -596,13 +590,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
 		{
-			LightSwitchTrigger s = switchObj.GetComponent<LightSwitchTrigger>();
-			if (s.isOn == LightSwitchTrigger.States.On)
+			LightSwitch s = switchObj.GetComponent<LightSwitch>();
+			if (s.isOn == LightSwitch.States.On)
 			{
-				s.isOn = LightSwitchTrigger.States.Off;
+				s.isOn = LightSwitch.States.Off;
 			}
-			else if (s.isOn == LightSwitchTrigger.States.Off) {
-				s.isOn = LightSwitchTrigger.States.On;
+			else if (s.isOn == LightSwitch.States.Off) {
+				s.isOn = LightSwitch.States.On;
 			}
 
 		}
@@ -677,7 +671,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdToggleChatIcon(bool turnOn)
 	{
-		if (!GetComponent<VisibleBehaviour>().visibleState || (playerScript.JobType == JobType.NULL))
+		if (!GetComponent<VisibleBehaviour>().visibleState || (playerScript.mind.jobType == JobType.NULL))
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			return;
@@ -707,38 +701,53 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdCommitSuicide()
 	{
-		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, DamageType.Brute, BodyPartType.Chest);
+		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute, BodyPartType.Chest);
 	}
 
 	//Respawn action for Deathmatch v 0.1.3
 
-	[Server]
-	public void RespawnPlayer(int timeout = 0)
+	[Command]
+	public void CmdRespawnPlayer()
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			StartCoroutine(InitiateRespawn(timeout));
+			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.mind.jobType, playerScript.characterSettings, gameObject);
+			RpcAfterRespawn();
 		}
+	}
+
+	[Command]
+	public void CmdToggleAllowCloning()
+	{
+		playerScript.mind.DenyCloning = !playerScript.mind.DenyCloning;
 	}
 
 	/// <summary>
 	/// Spawn the ghost for this player and tell the client to switch input / camera to it
 	/// </summary>
-	[Server]
-	public void SpawnPlayerGhost()
+	[Command]
+	public void CmdSpawnPlayerGhost()
 	{
-		RpcBeforeGhost();
-		SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
-
+		if(GetComponent<LivingHealthBehaviour>().IsDead)
+		{
+			RpcBeforeGhost();
+			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
+			playerScript.mind.Ghosting(newGhost);
+		}
 	}
 
 
-	[Server]
-	private IEnumerator InitiateRespawn(int timeout)
+	/// <summary>
+	/// Asks the server to let the client rejoin into a logged off character.
+	/// </summary>
+	/// <param name="loggedOffPlayer">The character to be rejoined into.</param>
+	[Command]
+	public void CmdEnterBody()
 	{
-		//Debug.LogFormat("{0}: Initiated respawn in {1}s", gameObject.name, timeout);
-		yield return WaitFor.Seconds(timeout);
-		SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.JobType, playerScript.characterSettings, gameObject);
+		playerScript.mind.StopGhosting();
+		var body = playerScript.mind.body.gameObject;
+		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, body, gameObject, EVENT.PlayerSpawned, null);
+		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(body);
 		RpcAfterRespawn();
 	}
 
@@ -748,7 +757,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// </summary>
 	/// <param name="bodyObject">object which was turned into a ghost</param>
 	[ClientRpc]
-	private void RpcBeforeGhost()
+	public void RpcBeforeGhost()
 	{
 		//only need to clean up client side if we are controlling the body who is becoming a ghost
 		//no more closet handler, they are dead
@@ -759,11 +768,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		//no more input can be sent to the body.
-		MouseInputController mouseInput = GetComponent<MouseInputController>();
-		if (mouseInput != null)
-		{
-			Destroy(mouseInput);
-		}
+		GetComponent<MouseInputController>().enabled = false;
 	}
 
 	/// <summary>
@@ -787,7 +792,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		FoodBehaviour baseFood = food.GetComponent<FoodBehaviour>();
+		Edible baseFood = food.GetComponent<Edible>();
 		if (isDrink)
 		{
 			SoundManager.PlayNetworkedAtPos( "Slurp", transform.position );
@@ -814,13 +819,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			leavings = PoolManager.PoolNetworkInstantiate(leavings);
 			AddItemToUISlot(leavings, fromSlot);
 		}
-	}
-
-	[Command]
-	public void CmdAttack(GameObject target, GameObject originator, BodyPartType bodyPart, GameObject itemInHand)
-	{
-		var itemPUT = itemInHand.GetComponent<Pickupable>();
-		itemPUT.Attack(target, originator, bodyPart);
 	}
 
 	[Command]
@@ -879,4 +877,150 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Performs a hug from one player to another.
+	/// </summary>
+	[Command]
+	public void CmdRequestHug(string hugger, GameObject huggedPlayer)
+	{
+		string huggee = huggedPlayer.GetComponent<PlayerScript>().playerName;
+		var huggedPlayerRegister = huggedPlayer.GetComponent<RegisterPlayer>();
+		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+		{
+			channels = ChatChannel.Local,
+			message = $"{hugger} has hugged {huggee}.",
+			position = huggedPlayerRegister.WorldPosition.To2Int()
+		});
+	}
+
+	/// <summary>
+	///	Performs a CPR action from one player to another.
+	/// </summary>
+	[Command]
+	public void CmdRequestCPR(GameObject rescuer, GameObject cardiacArrestPlayer)
+	{
+		var cardiacArrestPlayerRegister = cardiacArrestPlayer.GetComponent<RegisterPlayer>();
+
+		if (doingCPR)
+			return;
+
+		var progressFinishAction = new FinishProgressAction(
+			reason =>
+			{
+				switch (reason)
+				{
+					case FinishProgressAction.FinishReason.INTERRUPTED:
+						CancelCPR();
+						doingCPR = false;
+						break;
+					case FinishProgressAction.FinishReason.COMPLETED:
+						DoCPR(rescuer, cardiacArrestPlayer);
+						doingCPR = false;
+						break;
+				}
+			}
+		);
+
+		doingCPR = true;
+		UIManager.ProgressBar.StartProgress(cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
+			rescuer);
+		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+		{
+			channels = ChatChannel.Local,
+			message = $"{rescuer.Player()?.Name} is trying to perform CPR on {cardiacArrestPlayer.Player()?.Name}.",
+			position = cardiacArrestPlayerRegister.WorldPosition.To2Int()
+		});
+	}
+
+	[Server]
+	private void DoCPR(GameObject rescuer, GameObject CardiacArrestPlayer)
+	{
+		var CardiacArrestPlayerRegister = CardiacArrestPlayer.GetComponent<RegisterPlayer>();
+		CardiacArrestPlayer.GetComponent<PlayerHealth>().bloodSystem.oxygenDamage -= 7f;
+		doingCPR = false;
+		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+		{
+			channels = ChatChannel.Local,
+			message = $"{rescuer.Player()?.Name} has performed CPR on {CardiacArrestPlayer.Player()?.Name}.",
+			position = CardiacArrestPlayerRegister.WorldPositionServer.To2Int()
+		});
+	}
+
+	[Server]
+	private void CancelCPR()
+	{
+		// Stop the in progress CPR.
+		doingCPR = false;
+	}
+
+	/// <summary>
+	/// Performs a disarm attempt from one player to another.
+	/// </summary>
+	[Command]
+	public void CmdRequestDisarm(GameObject disarmer, GameObject playerToDisarm)
+	{
+		var rng = new System.Random();
+		string disarmerName = disarmer.Player()?.Name;
+		string playerToDisarmName = playerToDisarm.Player()?.Name;
+		var leftHandSlot = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, "leftHand");
+		var rightHandSlot = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, "rightHand");
+		var disarmedPlayerRegister = playerToDisarm.GetComponent<RegisterPlayer>();
+		var disarmedPlayerNetworkActions = playerToDisarm.GetComponent<PlayerNetworkActions>();
+
+		// This is based off the alien/humanoid/attack_hand disarm code of TGStation's codebase.
+		// Disarms have 5% chance to knock down, then it has a 50% chance to disarm.
+		if (5 >= rng.Next(1, 100))
+		{
+			disarmedPlayerRegister.Stun(6f, false);
+			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
+			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+			{
+				channels = ChatChannel.Local,
+				message = $"{disarmerName} has knocked {playerToDisarmName} down!",
+				position = disarmedPlayerRegister.WorldPositionServer.To2Int()
+			});
+		}
+		else if (50 >= rng.Next(1, 100))
+		{
+			// Disarms
+			if (leftHandSlot.Item != null)
+			{
+				disarmedPlayerNetworkActions.DropItem("leftHand");
+			}
+
+			if (rightHandSlot.Item != null)
+			{
+				disarmedPlayerNetworkActions.DropItem("rightHand");
+			}
+
+			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
+			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+			{
+				channels = ChatChannel.Local,
+				message = $"{disarmerName} has disarmed {playerToDisarmName}!",
+				position = disarmedPlayerRegister.WorldPositionServer.To2Int()
+			});
+		}
+		else
+		{
+			SoundManager.PlayNetworkedAtPos("PunchMiss", disarmedPlayerRegister.WorldPositionServer);
+			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+			{
+				channels = ChatChannel.Local,
+				message = $"{disarmerName} has attempted to disarm {playerToDisarmName}!",
+				position = disarmedPlayerRegister.WorldPositionServer.To2Int()
+			});
+		}
+	}
+  
+	//admin only commands
+	#region Admin
+
+	[Command]
+	public void CmdAdminSmash(GameObject toSmash)
+	{
+		toSmash.GetComponent<Integrity>().ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
+	}
+
+	#endregion
 }

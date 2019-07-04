@@ -97,6 +97,9 @@ GameObject:
   - component: {fileID: 114007797438959630}
   - component: {fileID: 114923609856049834}
   - component: {fileID: 114185907784239616}
+  - component: {fileID: 114052733633541110}
+  - component: {fileID: 114450221674697092}
+  - component: {fileID: 114481024304208226}
   m_Layer: 10
   m_Name: Manifold
   m_TagString: Untagged
@@ -218,10 +221,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347fb6f21eb5e604a8f94c8900782da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodes: []
-  direction: 3
   registerTile: {fileID: 0}
   objectBehaviour: {fileID: 0}
+  nodes: []
+  direction: 3
+  anchored: 0
+  volume: 70
   pipeSprites:
   - {fileID: 21300042, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
   - {fileID: 21300032, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
@@ -230,18 +235,17 @@ MonoBehaviour:
   - {fileID: 21300034, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   spriteRenderer: {fileID: 212588640390319518}
   spriteSync: 0
-  anchored: 0
-  volume: 70
-  conectionRenderer:
-  - {fileID: 3405745187045870037}
-  - {fileID: 671696593743680170}
-  - {fileID: 2369631279410760376}
-  - {fileID: 4656729331413939348}
   connectionSprite:
   - {fileID: 21300056, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   - {fileID: 21300058, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   - {fileID: 21300060, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   - {fileID: 21300062, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
+  conectionRenderer:
+  - {fileID: 3405745187045870037}
+  - {fileID: 671696593743680170}
+  - {fileID: 2369631279410760376}
+  - {fileID: 4656729331413939348}
+  connectionSpriteSync: 0
 --- !u!114 &114836435796936700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,6 +286,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDropServer:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114923609856049834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,20 +321,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  layer: {fileID: 0}
   ObjectType: 0
-  rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &114052733633541110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
+--- !u!114 &114450221674697092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114481024304208226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
 --- !u!1 &5219228456619383682
 GameObject:
   m_ObjectHideFlags: 0

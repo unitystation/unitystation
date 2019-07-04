@@ -41,26 +41,6 @@ public class HealthStateMonitor : ManagedNetworkBehaviour
 		base.OnStartServer();
 	}
 
-	public override void OnStartClient()
-	{
-		if (!isServer)
-		{
-			StartCoroutine(ClientWaitForLocal());
-		}
-		base.OnStartClient();
-	}
-
-	IEnumerator ClientWaitForLocal()
-	{
-		while (PlayerManager.LocalPlayer == null)
-		{
-			yield return WaitFor.EndOfFrame;
-		}
-		yield return WaitFor.EndOfFrame;
-		RequestHealthMessage.Send(gameObject);
-	//	Logger.Log("SEND REQUEST TO UPDATE: " + gameObject.name, Category.Health);
-	}
-
 	void InitServerCache()
 	{
 		overallHealthCache = livingHealthBehaviour.OverallHealth;

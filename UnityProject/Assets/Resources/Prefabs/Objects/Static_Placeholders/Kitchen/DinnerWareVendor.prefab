@@ -111,6 +111,10 @@ GameObject:
   - component: {fileID: 61926733661208534}
   - component: {fileID: 114418060968581254}
   - component: {fileID: 8473214172519441615}
+  - component: {fileID: 5612805261423721810}
+  - component: {fileID: 114047225924766264}
+  - component: {fileID: 114869464615547648}
+  - component: {fileID: 114887499896345430}
   m_Layer: 11
   m_Name: DinnerWareVendor
   m_TagString: Untagged
@@ -230,18 +234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+  layer: {fileID: 0}
   ObjectType: 1
-  rotateWithMatrix: 0
   AtmosPassable: 0
   Passable: 0
 --- !u!61 &61926733661208534
@@ -294,15 +288,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vendorcontent:
-  - {fileID: 1000011622113908, guid: fc5783dcb3f74ab1b2187da95b6c932d, type: 3}
-  - {fileID: 1000012939332086, guid: 04684ac0ef7f4d938957d3420c0d938f, type: 3}
-  - {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 3}
-  - {fileID: 1036141445992816, guid: dd31a44e0061599419dba34dd9e7fff7, type: 3}
-  - {fileID: 1651733465195328, guid: 5d017514ecdb1cb4b91d054838c247b3, type: 3}
-  allowSell: 1
-  cooldownTimer: 1
-  stock: 15
-  interactionMessage: bzzzz...
-  deniedMessage: Vendor is refreshing stocking, please wait...
-  DispenseDirection: 0
+  VendorContent:
+  - Item: {fileID: 1000011622113908, guid: fc5783dcb3f74ab1b2187da95b6c932d, type: 3}
+    Stock: 5
+  - Item: {fileID: 1110193000772614, guid: 50334239d541e7643a2b9d5c8cb43430, type: 3}
+    Stock: 5
+  - Item: {fileID: 1110193000772614, guid: 252b1325bc181714a9aaadbaf3c8147d, type: 3}
+    Stock: 5
+  HullColor: {r: 0.42745098, g: 0.62352943, b: 0.7529412, a: 1}
+  EjectObjects: 0
+  EjectDirection: 0
+--- !u!114 &5612805261423721810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013211423706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 0
+--- !u!114 &114047225924766264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013211423706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
+--- !u!114 &114869464615547648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013211423706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114887499896345430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013211423706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0

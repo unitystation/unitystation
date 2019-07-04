@@ -18,5 +18,5 @@ public interface IInteractionProcessor<T>
 	/// </summary>
 	/// <param name="interaction">interaction being performed </param>
 	/// <returns>what should happen next for this interaction attempt</returns>
-	InteractionControl ServerProcessInteraction(T interaction);
+	bool ServerProcessInteraction(T interaction);
 }

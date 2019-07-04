@@ -72,6 +72,9 @@ public class GameManager : MonoBehaviour
 		{
 			Destroy(this);
 		}
+
+		//so respawn works when loading directly to outpost station
+		RespawnCurrentlyAllowed = RespawnAllowed;
 	}
 
 	private void OnEnable()

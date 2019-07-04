@@ -154,7 +154,12 @@ namespace Atmospherics
 		{
 			GasMix removed = this * ratio;
 
-			this -= removed;
+			for (int i = 0; i < Gas.Count; i++)
+			{
+				Gases[i] -= removed.Gases[i];
+			}
+
+			Pressure -= removed.Pressure * removed.Volume / Volume;
 
 			return removed;
 		}

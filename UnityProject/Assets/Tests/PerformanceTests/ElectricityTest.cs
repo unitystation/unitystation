@@ -59,7 +59,7 @@ namespace Tests
 				if(sampleCount == disableGeneratorPoint || sampleCount == enableGeneratorPoint)
 				{
 					var generator = GetAtRelative<PowerGenerator>(Orientation.Right);
-					generator.Interact(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.eventName);
+					generator.Interact(HandApply.ByLocalPlayer(generator.gameObject));
 				}
 				return sampleCount > 0;
 			}

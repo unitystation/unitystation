@@ -56,8 +56,7 @@ public class RequestInventoryApplyMessage : ClientMessage
 		var combine = InventoryApply.ByClient(performerObj, targetSlot, handObject, usedSlot);
 		foreach (var processorComponent in processorComponents)
 		{
-			if (processorComponent.ServerProcessInteraction(combine) ==
-			    InteractionControl.STOP_PROCESSING)
+			if (processorComponent.ServerProcessInteraction(combine))
 			{
 				//something happened, don't check further components
 				return;

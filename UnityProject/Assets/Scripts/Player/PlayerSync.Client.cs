@@ -36,6 +36,7 @@ public partial class PlayerSync
 			lastDirection = value;
 		}
 	}
+
 	public bool CanPredictPush => ClientPositionReady;
 	public bool IsMovingClient => !ClientPositionReady;
 	public Vector3Int ClientPosition => predictedState.WorldPosition.RoundToInt();
@@ -46,8 +47,6 @@ public partial class PlayerSync
 	/// Does client's transform pos match state pos? Ignores Z-axis.
 	private bool ClientPositionReady => (Vector2)predictedState.Position == (Vector2)transform.localPosition;
 
-	// Is true on the frame that the player is bumping into something
-	public bool isBumping;
 	private bool IsWeightlessClient
 	{
 		get
@@ -160,14 +159,11 @@ public partial class PlayerSync
 					{
 						PredictiveBumpInteract(Vector3Int.RoundToInt((Vector2)predictedState.WorldPosition + action.Direction()), action.Direction());
 					}
+
 					if (PlayerManager.LocalPlayer == gameObject)
 					{
-						playerSprites.ChangeAndSyncPlayerDirection(Orientation.From(action.Direction()));
-						isBumping = true;
+						playerDirectional.FaceDirection(Orientation.From(action.Direction()));
 					}
-					//cooldown is longer when humping walls or pushables
-					//					yield return YieldHelper.DeciSecond;
-					//					yield return YieldHelper.DeciSecond;
 				}
 			}
 			else
@@ -185,7 +181,6 @@ public partial class PlayerSync
 
 		yield return WaitFor.Seconds(.1f);
 		MoveCooldown = false;
-		isBumping = false;
 	}
 
 
@@ -237,7 +232,7 @@ public partial class PlayerSync
 		Vector2Int direction = target - currentPos.To2Int();
 		if (followMode)
 		{
-			SendMessage("FaceDirection", Orientation.From(direction), SendMessageOptions.DontRequireReceiver);
+			playerDirectional.FaceDirection(Orientation.From(direction));
 		}
 
 		Logger.LogTraceFormat("Client predictive push to {0}", Category.PushPull, target);
@@ -301,6 +296,7 @@ public partial class PlayerSync
 			if (LastDirection != Vector2.zero)
 			{
 				OnClientStartMove().Invoke(oldPos.RoundToInt(), newPos.RoundToInt());
+				playerDirectional.FaceDirection(Orientation.From(LastDirection));
 			}
 
 
@@ -437,6 +433,25 @@ public partial class PlayerSync
 		//			           $"To       {playerState}" );
 		predictedState = playerState;
 		StartCoroutine(RollbackPullables()); //? verify if robust
+	}
+
+	public void OnClientStartFollowing()
+	{
+		//when this is not the local player and is being pulled, we we start ignoring the
+		//direction updates from the server because we predict those directions entirely on the client
+		if (gameObject != PlayerManager.LocalPlayer)
+		{
+			playerDirectional.IgnoreServerUpdates = true;
+		}
+	}
+
+	public void OnClientStopFollowing()
+	{
+		//done being pulled, give server authority again
+		if (gameObject != PlayerManager.LocalPlayer)
+		{
+			playerDirectional.IgnoreServerUpdates = false;
+		}
 	}
 
 	private IEnumerator RollbackPullables()

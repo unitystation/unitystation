@@ -2,7 +2,7 @@ using Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Canister : InputTrigger
+public class Canister : NBHandApplyInteractable
 {
 	public ObjectBehaviour objectBehaviour;
 	public GasContainer container;
@@ -19,20 +19,14 @@ public class Canister : InputTrigger
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	protected override void ServerPerformInteraction(HandApply interaction)
 	{
-		if(!CanUse(originator, hand, position, false)){
-			return false;
-		}
-		if(!isServer){
-			//ask server to perform the interaction
-			InteractMessage.Send(gameObject, position, hand);
-			return true;
-		}
 
-		PlayerNetworkActions pna = originator.GetComponent<PlayerNetworkActions>();
-		GameObject handObj = pna.Inventory[hand].Item;
-		if (handObj && handObj.GetComponent<WrenchTrigger>())
+		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
+		GameObject handObj = pna.Inventory[interaction.HandSlot.SlotName].Item;
+		var tool = handObj != null ? handObj.GetComponent<Tool>() : null;
+		//can click on the canister with a wrench to connect/disconnect it from a connector
+		if (tool != null && tool.ToolType == ToolType.Wrench)
 		{
 			if(isConnected)
 			{
@@ -42,7 +36,7 @@ public class Canister : InputTrigger
 				connectorRenderer.sprite = null;
 				SetConnectedSprite(null);
 				objectBehaviour.isNotPushable = false;
-				return true;
+				return;
 			}
 			else
 			{
@@ -58,18 +52,17 @@ public class Canister : InputTrigger
 						connector.ConnectCanister(this);
 						SetConnectedSprite(connectorSprite);
 						objectBehaviour.isNotPushable = true;
-						return true;
+						return;
 					}
 				}
 			}
 		}
 
+		//can open/close connector by clicking on it without a wrench
 		container.Opened = !container.Opened;
 
 		string msg = container.Opened ? $"The valve is open, outputting at {container.ReleasePressure} kPa." : "The valve is closed.";
-		UpdateChatMessage.Send(originator, ChatChannel.Examine, msg);
-
-		return true;
+		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, msg);
 	}
 
 	public override void OnStartClient()
@@ -94,4 +87,5 @@ public class Canister : InputTrigger
 			SetConnectedSprite(null);
 		}
 	}
+
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(Pickupable))]
-public class Welder : NetworkBehaviour
+public class Welder : NBHandActivateInteractable
 {
 	//TODO: Update the sprites from the array below based on how much fuel is left
 	//TODO: gas readout in stats
@@ -33,12 +33,12 @@ public class Welder : NetworkBehaviour
 	private bool isBurning = false;
 	private float burnRate = 0.2f;
 
+	//seems to be server-side only
 	public GameObject heldByPlayer;
 	private string currentHand;
 
 	private ItemAttributes itemAtts;
-	private MetaDataLayer metaDataLayer;
-	private ReactionManager reactionManager;
+	private RegisterTile registerTile;
 
 	[SyncVar(hook = nameof(UpdateState))] public bool isOn;
 
@@ -72,6 +72,11 @@ public class Welder : NetworkBehaviour
 		}
 	}
 
+	protected override void ServerPerformInteraction(HandActivate interaction)
+	{
+		ToggleWelder(interaction.Performer);
+	}
+
 	private void OnPickupServer(HandApply interaction)
 	{
 		heldByPlayer = interaction.Performer;
@@ -80,8 +85,7 @@ public class Welder : NetworkBehaviour
 	void Awake()
 	{
 		itemAtts = GetComponent<ItemAttributes>();
-		metaDataLayer = GetComponentInParent<MetaDataLayer>();
-		reactionManager = GetComponentInParent<ReactionManager>();
+		registerTile = GetComponent<RegisterTile>();
 
 		leftHandOriginal = itemAtts.inHandReferenceLeft;
 		rightHandOriginal = itemAtts.inHandReferenceRight;
@@ -148,20 +152,17 @@ public class Welder : NetworkBehaviour
 
 	void CheckHeldByPlayer()
 	{
-		//Local player is holding it, this is so we can update the UISlot of that player holding it
-		if (heldByPlayer == PlayerManager.LocalPlayer && heldByPlayer != null)
+		if (UIManager.Instance != null && UIManager.Hands != null && UIManager.Hands.CurrentSlot != null && UIManager.Hands.CurrentSlot.Item == gameObject)
 		{
-			if (UIManager.Hands.CurrentSlot.Item == gameObject)
-			{
-				UIManager.Hands.CurrentSlot.SetSecondaryImage(flameRenderer.sprite);
-			}
+			UIManager.Hands.CurrentSlot.SetSecondaryImage(flameRenderer.sprite);
 		}
 
 		//Server also needs to know which player is holding the item so that it can sync
 		//the inhand image when the player turns it on and off:
 		if (isServer && heldByPlayer != null)
 		{
-			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, UIManager.Hands.CurrentSlot.eventName);
+			var clientPNA = heldByPlayer.GetComponent<PlayerNetworkActions>();
+			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, clientPNA.activeHand);
 		}
 	}
 
@@ -199,13 +200,13 @@ public class Welder : NetworkBehaviour
 					UpdateState(false);
 				}
 
-				Vector3Int position = transform.localPosition.RoundToInt();
+				Vector2Int position = gameObject.TileWorldPosition();
 				if (heldByPlayer != null)
 				{
-					position = heldByPlayer.transform.localPosition.RoundToInt();
+					position = heldByPlayer.gameObject.TileWorldPosition();
 				}
 
-				reactionManager.ExposeHotspot(position, 700, 0.005f);
+				registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(position, 700, 0.005f);
 			}
 
 			yield return WaitFor.Seconds(.1f);

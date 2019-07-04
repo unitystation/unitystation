@@ -17,7 +17,6 @@ public class PlayerDeathMessage : ServerMessage
 	private void OnYourDeath()
 	{
 		PlayerScript localPlayerScript = PlayerManager.LocalPlayerScript;
-		UIManager.SetDeathVisibility( false );
 		EventManager.Broadcast(EVENT.PlayerDied);
 	}
 

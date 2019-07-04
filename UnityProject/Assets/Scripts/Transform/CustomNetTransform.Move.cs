@@ -162,6 +162,10 @@ public partial class CustomNetTransform
 		registerTile.UpdatePositionServer();
 	}
 
+	public void OnClientStartFollowing(){}
+
+	public void OnClientStopFollowing(){}
+
 	/// <summary>
 	/// Predictive client movement
 	/// Mimics server collision checks for obviously impassable things.
@@ -330,7 +334,7 @@ public partial class CustomNetTransform
 	/// </summary>
 	[Server]
 	public void Nudge( NudgeInfo info ) {
-		
+
 		if ( PushPull.isNotPushable )
         {
             return;
@@ -548,7 +552,7 @@ public partial class CustomNetTransform
 				//Remove cast to int when moving health values to float
 				var damage = (int)(ItemAttributes.throwDamage * 2);
 				var hitZone = info.Aim.Randomize();
-				objects[i].ApplyDamage(info.ThrownBy, damage, DamageType.Brute, hitZone);
+				objects[i].ApplyDamage(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 				PostToChatMessage.SendThrowHitMessage(gameObject, objects[i].gameObject, damage, hitZone);
 			}
 			//hit sound

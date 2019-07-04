@@ -27,13 +27,20 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 		CheckSpriteOrder();
 	}
 
-	protected override InteractionValidationChain<HandApply> InteractionValidationChain()
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return InteractionValidationChain<HandApply>.Create()
-			//allow extended range, so we can nudge it if it is stationary and a little too far,
-			//or allow picking it up if it is floating and a little too far
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT.WithRange(ReachRange.EXTENDED_SERVER))
-			.WithValidation(IsHand.EMPTY);
+		return Validations.ValidateWithServerRollback(interaction, side, CheckWillInteract, ServerInformClientRollback);
+	}
+
+	private bool CheckWillInteract(HandApply interaction, NetworkSide side)
+	{
+		//we need to be the target
+		if (interaction.TargetObject != gameObject) return false;
+		//hand needs to be empty for pickup
+		if (interaction.HandObject != null) return false;
+		//instead of the base logic, we need to use extended range check for CanApply
+		if (!Validations.CanApply(interaction, side, true, ReachRange.ExtendedServer)) return false;
+		return true;
 	}
 
 	protected override void ClientPredictInteraction(HandApply interaction)
@@ -45,7 +52,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 		}
 	}
 
-	protected override void OnServerInteractionValidationFail(HandApply interaction)
+	private void ServerInformClientRollback(HandApply interaction)
 	{
 		//Rollback prediction (inform player about item's true state)
 		GetComponent<CustomNetTransform>().NotifyPlayer(interaction.Performer);
@@ -78,7 +85,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 			Logger.LogTraceFormat( "Nudging! server pos:{0} player pos:{1}", Category.Security,
 				cnt.ServerState.WorldPosition, interaction.Performer.transform.position);
 			//client prediction doesn't handle nudging, so we need to roll them back
-			OnServerInteractionValidationFail(interaction);
+			ServerInformClientRollback(interaction);
 		}
 		else
 		{
@@ -96,7 +103,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 			else
 			{
 				//for some reason pickup failed even after earlier validation, need to rollback client
-				OnServerInteractionValidationFail(interaction);
+				ServerInformClientRollback(interaction);
 			}
 		}
 	}
@@ -104,13 +111,8 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 	public RightClickableResult GenerateRightClickOptions()
 	{
 		//would the interaction validate locally?
-		var valid = InteractionValidationChain()
-			//unlike the normal validation chain, we only want to show the option if they are within standard (not extended) range
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT.WithRange(ReachRange.STANDARD))
-			.Validate(HandApply.ByLocalPlayer(gameObject), NetworkSide.CLIENT);
-
-
-		if (valid == ValidationResult.SUCCESS)
+		var valid = WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client);
+		if (valid)
 		{
 			return RightClickableResult.Create()
 				.AddElement("PickUp", RightClickInteract);
@@ -165,13 +167,6 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 	{
 		InventoryManager.DestroyItemInSlot(gameObject);
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
-	}
-	/// <summary>
-	/// Using an item on another mob, currently only working on medical items
-	/// </summary>
-	[Server]
-	public virtual void Attack(GameObject target, GameObject originator, BodyPartType bodyPart){
-
 	}
 }
 

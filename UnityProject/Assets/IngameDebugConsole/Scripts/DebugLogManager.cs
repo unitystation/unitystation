@@ -122,6 +122,7 @@ namespace IngameDebugConsole
 
 		[SerializeField]
 		private GameObject snapToBottomButton;
+		public FPSCounter fpsCounter;
 
 		/// <summary>
 		/// Number of entries filtered by their types
@@ -253,6 +254,13 @@ namespace IngameDebugConsole
 			//Debug.LogException( new System.IO.EndOfStreamException() );
 			//Debug.LogWarning( "warning" );
 			//Debug.Log( "log" );
+
+			//FPS Counter on for mobile only
+			if(Application.isMobilePlatform){
+				fpsCounter.enabled = true;
+			} else {
+				fpsCounter.enabled = false;
+			}
 		}
 
 		void Start()

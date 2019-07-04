@@ -1,25 +1,14 @@
 ﻿using UnityEngine;
 
-
-public class MessageOnInteract : InputTrigger
+/// <summary>
+/// Component which causes the server to send an examine message to the player who clicks the object it's on.
+/// </summary>
+public class MessageOnInteract : NBHandApplyInteractable
 {
 	public string Message;
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	protected override void ServerPerformInteraction(HandApply interaction)
 	{
-		if (!CanUse(originator, hand, position, false))
-		{
-			return false;
-		}
-		if (!isServer)
-		{
-			//ask server to perform the interaction
-			InteractMessage.Send(gameObject, position, hand);
-			return true;
-		}
-
-		UpdateChatMessage.Send(originator, ChatChannel.Examine, Message);
-		return true;
+		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, Message);
 	}
-
 }

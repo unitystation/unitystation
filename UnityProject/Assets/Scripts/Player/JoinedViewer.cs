@@ -53,7 +53,6 @@ public class JoinedViewer : NetworkBehaviour
 	{
 		PlayerManager.SetViewerForControl(this);
 		UIManager.ResetAllUI();
-		UIManager.SetDeathVisibility(true);
 
 		if (BuildPreferences.isSteamServer)
 		{

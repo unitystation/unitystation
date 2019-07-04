@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Atmospherics;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 /// <summary>
@@ -10,9 +13,15 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(HealthStateMonitor))]
 public abstract class LivingHealthBehaviour : NetworkBehaviour
 {
-	public float maxHealth = 100;
 
+	/// <summary>
+	/// Server side, each mob has a different one and never it never changes
+	/// </summary>
+	public int mobID { get; private set; }
+
+	public float maxHealth = 100;
 	public float OverallHealth { get; private set; } = 100;
+	public float cloningDamage;
 
 	// Systems can also be added via inspector
 	public BloodSystem bloodSystem;
@@ -127,6 +136,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	public override void OnStartServer()
 	{
+		mobID = PlayerManager.Instance.GetMobID();
 		ResetBodyParts();
 		if (maxHealth <= 0)
 		{
@@ -138,6 +148,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		DNABloodType = new DNAandBloodType();
 		DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
 		bloodSystem.SetBloodType(DNABloodType);
+
 		base.OnStartServer();
 	}
 
@@ -231,17 +242,20 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// </summary>
 	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
 	/// <param name="damage">Damage Amount</param>
+	/// <param name="attackType">type of attack that is causing the damage</param>
 	/// <param name="damageType">The Type of Damage</param>
 	/// <param name="bodyPartAim">Body Part that is affected</param>
 	[Server]
 	public virtual void ApplyDamage(GameObject damagedBy, float damage,
-		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
+		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
 	{
 		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
 		if(bodyPartBehaviour == null)
 		{
 			return;
 		}
+		//TODO: determine and apply armor protection
+
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
 		bodyPartBehaviour.ReceiveDamage(damageType, damage);
@@ -293,6 +307,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			if (tick > tickRate)
 			{
 				tick = 0f;
+
 				CalculateOverallHealth();
 				CheckHealthAndUpdateConsciousState();
 			}
@@ -333,6 +348,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		newHealth -= CalculateOverallBodyPartDamage();
 		newHealth -= CalculateOverallBloodLossDamage();
 		newHealth -= bloodSystem.OxygenDamage;
+		newHealth -= cloningDamage;
 		OverallHealth = newHealth;
 	}
 
@@ -604,6 +620,28 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 	}
 
+}
+
+/// <summary>
+/// Event which fires when fire stack value changes.
+/// </summary>
+public class FireStackEvent : UnityEvent<float> {}
+
+/// <summary>
+/// Communicates fire status changes.
+/// </summary>
+public class FireStatus
+{
+	//whether becoming on fire or extinguished
+	public readonly bool IsOnFire;
+	//whether we are engulfed by flames or just partially on fire
+	public readonly bool IsEngulfed;
+
+	public FireStatus(bool isOnFire, bool isEngulfed)
+	{
+		IsOnFire = isOnFire;
+		IsEngulfed = isEngulfed;
+	}
 }
 
 public static class HealthThreshold

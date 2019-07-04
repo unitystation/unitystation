@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 ///  Allows an object to behave like a gun and fire shots. Server authoritative with client prediction.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractable<InventoryApply>
+public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInteractable<InventoryApply>
 {
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
@@ -114,18 +114,8 @@ public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractabl
 	/// </summary>
 	private System.Random magSyncedRNG;
 
-	//caching the interaction validation chain to reduce GC
-	private InteractionValidationChain<AimApply> validationChain;
-
-
-
 	private void Start()
 	{
-		validationChain =
-			InteractionValidationChain<AimApply>.Create()
-			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-			.WithValidation(new FunctionValidator<AimApply>(ValidateShoot));
-
 		//init weapon with missing settings
 		if (AmmoType == null)
 		{
@@ -145,13 +135,14 @@ public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractabl
 			pickup.OnPickupServer.AddListener(OnPickupServer);
 		}
 	}
-	//custom validation logic related to Weapon
-	private ValidationResult ValidateShoot(AimApply interaction, NetworkSide side)
+
+	protected override bool WillInteract(AimApply interaction, NetworkSide side)
 	{
+		if (!base.WillInteract(interaction, side)) return false;
 		if (CurrentMagazine == null)
 		{
 			PlayEmptySFX();
-			return ValidationResult.FAIL;
+			return false;
 		}
 
 		if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0)
@@ -165,29 +156,24 @@ public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractabl
 			{
 				PlayEmptySFX();
 			}
-			return ValidationResult.FAIL;
+
+			return false;
 		}
 
 		if (Projectile != null && CurrentMagazine.ammoRemains > 0 && FireCountDown <= 0)
 		{
 			if (interaction.MouseButtonState == MouseButtonState.PRESS)
 			{
-				return ValidationResult.SUCCESS;
+				return true;
 			}
 			else
 			{
 				//being held, only can shoot if this is an automatic
-				return WeaponType == WeaponType.FullyAutomatic ? ValidationResult.SUCCESS : ValidationResult.FAIL;
+				return WeaponType == WeaponType.FullyAutomatic;
 			}
 		}
 
-		return ValidationResult.FAIL;
-
-	}
-
-	protected override InteractionValidationChain<AimApply> InteractionValidationChain()
-	{
-		return validationChain;
+		return false;
 	}
 
 	protected override void ClientPredictInteraction(AimApply interaction)
@@ -228,28 +214,28 @@ public class Gun : NBAimApplyInteractable, IInteractable<Activate>, IInteractabl
 
 
 
-	public InteractionControl Interact(Activate interaction)
+	public bool Interact(HandActivate interaction)
 	{
 		//try ejecting the mag
 		if(CurrentMagazine != null)
 		{
 			RequestUnload(CurrentMagazine);
-			return InteractionControl.STOP_PROCESSING;
+			return true;
 		}
 
-		return InteractionControl.CONTINUE_PROCESSING;
+		return false;
 	}
 
-	public InteractionControl Interact(InventoryApply interaction)
+	public bool Interact(InventoryApply interaction)
 	{
 		//only reload if the gun is the target
 		if (interaction.TargetObject == gameObject)
 		{
-			TryReload(interaction.UsedObject);
-			return InteractionControl.STOP_PROCESSING;
+			TryReload(interaction.HandObject);
+			return true;
 		}
 
-		return InteractionControl.CONTINUE_PROCESSING;
+		return false;
 	}
 
 	private void OnPickupServer(HandApply interaction)

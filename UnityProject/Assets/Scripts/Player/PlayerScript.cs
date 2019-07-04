@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public class PlayerScript : ManagedNetworkBehaviour
@@ -7,8 +8,12 @@ public class PlayerScript : ManagedNetworkBehaviour
 	/// maximum distance the player needs to be to an object to interact with it
 	public const float interactionDistance = 1.5f;
 
-	[SyncVar] public JobType JobType = JobType.NULL;
-	[SyncVar(hook = "OnCharacterSettingsChange")] public CharacterSettings characterSettings;
+	public Mind mind;
+
+	/// <summary>
+	/// Current character settings for this player.
+	/// </summary>
+	public CharacterSettings characterSettings = new CharacterSettings();
 
 	private float pingUpdate;
 
@@ -20,7 +25,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
 
-	public Orientation CurrentDirection => playerSprites.CurrentDirection;
+	public Orientation CurrentDirection => playerDirectional.CurrentDirection;
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>
@@ -33,7 +38,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	/// </summary>
 	public ObjectBehaviour pushPull { get; set; }
 
-	public UserControlledSprites playerSprites { get; set; }
+	public Directional playerDirectional { get; set; }
 
 	private PlayerSync _playerSync; //Example of good on-demand reference init
 	public PlayerSync PlayerSync => _playerSync ? _playerSync : (_playerSync = GetComponent<PlayerSync>());
@@ -64,12 +69,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 		StartCoroutine(WaitForLoad());
 		Init();
 		base.OnStartClient();
-	}
-
-	private void OnCharacterSettingsChange(CharacterSettings value){
-		characterSettings = value;
-		var userControlledSprites = GetComponent<UserControlledSprites>();
-		userControlledSprites.UpdateCharacterSprites();
 	}
 
 	private IEnumerator WaitForLoad()
@@ -108,7 +107,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		mouseInputController = GetComponent<MouseInputController>();
 		hitIcon = GetComponentInChildren<HitIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
-		playerSprites = GetComponent<UserControlledSprites>();
+		playerDirectional = GetComponent<Directional>();
 	}
 
 	public void Init()
@@ -116,7 +115,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 		if (isLocalPlayer)
 		{
 			UIManager.ResetAllUI();
-			UIManager.SetDeathVisibility(true);
 			UIManager.DisplayManager.SetCameraFollowPos();
 			int rA = Random.Range(0, 3);
 			GetComponent<MouseInputController>().enabled = true;
@@ -246,12 +244,12 @@ public class PlayerScript : ManagedNetworkBehaviour
 	{
 		if ( isServer )
 		{
-			return from.Matrix == to.Matrix && IsInReach(from.PositionServer, to.PositionServer, interactDist) ||
+			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionServer, to.LocalPositionServer, interactDist) ||
 			IsInReach(from.WorldPositionServer, to.WorldPositionServer, interactDist);
 		}
 		else
 		{
-			return from.Matrix == to.Matrix && IsInReach(from.PositionClient, to.PositionClient, interactDist) ||
+			return from.Matrix == to.Matrix && IsInReach(from.LocalPositionClient, to.LocalPositionClient, interactDist) ||
 		       IsInReach(from.WorldPositionClient, to.WorldPositionClient, interactDist);
 		}
 	}
@@ -338,7 +336,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		//TODO add if for being drunk
 		//ChatModifier modifiers = ChatModifier.Drunk;
 
-		if (JobType == JobType.CLOWN)
+		if (mind.jobType == JobType.CLOWN)
 		{
 			modifiers |= ChatModifier.Clown;
 

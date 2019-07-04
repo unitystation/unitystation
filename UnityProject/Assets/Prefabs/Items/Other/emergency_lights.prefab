@@ -60,9 +60,12 @@ GameObject:
   - component: {fileID: 4486458079919614}
   - component: {fileID: 114130103649152614}
   - component: {fileID: 114838662630386526}
+  - component: {fileID: 8902598492986650915}
   - component: {fileID: 114065967972627576}
   - component: {fileID: 114694480355599990}
   - component: {fileID: 61222086973544660}
+  - component: {fileID: 114736272981376494}
+  - component: {fileID: 114987107583708958}
   m_Layer: 13
   m_Name: emergency_lights
   m_TagString: EmergencyLight
@@ -131,10 +134,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 1
-  rotateWithMatrix: 1
   AtmosPassable: 1
   Passable: 1
+--- !u!114 &8902598492986650915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275749971873228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114065967972627576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,7 +165,7 @@ MonoBehaviour:
   mLightRendererObject: {fileID: 1128005765242482}
   Resistance: 1200
   RelatedAPC: {fileID: 0}
-  RelatedLightSwitchTrigger: {fileID: 0}
+  relatedLightSwitch: {fileID: 0}
   customColor: {r: 0.8901961, g: 0.03529412, b: 0, a: 0.84705883}
 --- !u!114 &114694480355599990
 MonoBehaviour:
@@ -198,6 +213,41 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3094215, y: 0.2810439}
   m_EdgeRadius: 0
+--- !u!114 &114736272981376494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275749971873228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114987107583708958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275749971873228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
 --- !u!1 &1892682482372664
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +314,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 16
+  m_SortingLayer: 19
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300004, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

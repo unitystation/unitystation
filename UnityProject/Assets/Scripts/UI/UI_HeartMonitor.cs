@@ -140,7 +140,7 @@ public class UI_HeartMonitor : MonoBehaviour
 			overlayCrits.SetState(OverlayState.crit);
 		}
 
-		if (overallHealthCache == -100 &&
+		if (overallHealthCache <= -100 &&
 			spriteStart != deathStart)
 		{
 			SoundManager.Stop("Critstate");

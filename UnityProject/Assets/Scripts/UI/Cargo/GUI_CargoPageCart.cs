@@ -11,7 +11,7 @@ public class GUI_CargoPageCart : GUI_CargoPage
 	private NetLabel totalPriceText = null;
 
 	[SerializeField]
-	private GUI_CargoItemList orderList = null;
+	private EmptyItemList orderList = null;
 	private bool inited = false;
 
 	public override void Init()
