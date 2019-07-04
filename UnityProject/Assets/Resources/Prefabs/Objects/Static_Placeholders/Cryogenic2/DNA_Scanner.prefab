@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultContents: []
-  IsClosed: 0
+  IsClosed: 1
   IsLocked: 0
   lockLight: {fileID: 0}
   playerLimit: 1
@@ -166,6 +166,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 212360857505739792}
   occupant: {fileID: 0}
   closedWithOccupant: {fileID: 21300004, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  statusString: 
 --- !u!114 &114818633338735330
 MonoBehaviour:
   m_ObjectHideFlags: 0
