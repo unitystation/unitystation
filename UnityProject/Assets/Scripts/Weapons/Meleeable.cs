@@ -25,6 +25,17 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 	public bool Interact(PositionalHandApply interaction)
 	{
 		var localRegisterPlayer = PlayerManager.LocalPlayer.GetComponent<RegisterPlayer>();
+		var localPlayerhealth = PlayerManager.LocalPlayer.GetComponent<PlayerHealth>();
+
+		// Only melee while conscious, and not while down or stunned.
+		if (localPlayerhealth.ConsciousState != ConsciousState.CONSCIOUS ||
+		    localRegisterPlayer.IsDown ||
+		    localRegisterPlayer.IsStunnedClient)
+			return false;
+
+		// Can't melee yourself.
+		if (interaction.Performer == interaction.TargetObject)
+			return false;
 
 		//NOTE that for meleeing tiles, this is invoked from InteractableTiles.
 		if (interaction.HandObject != null)
@@ -51,7 +62,7 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 			}
 
 			//special case
-			//We don't melee if wse are wielding a gun with ammo and clicking ourselves (we will instead shoot ourselves)
+			//We don't melee if we are wielding a gun with ammo and clicking ourselves (we will instead shoot ourselves)
 			if (interaction.TargetObject == interaction.Performer)
 			{
 				var gun = handItem.GetComponent<Gun>();
@@ -104,8 +115,7 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 			Vector2 dir = ((Vector3) interaction.WorldPositionTarget - localRegisterPlayer.WorldPosition)
 				.normalized;
 
-			lps.weaponNetworkActions.CmdRequestPunchAttack(gameObject, dir,
-				UIManager.DamageZone, interaction.Performer.Player()?.Name);
+			lps.weaponNetworkActions.CmdRequestPunchAttack(gameObject, dir, UIManager.DamageZone);
 			return true;
 		}
 

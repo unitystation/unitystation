@@ -172,8 +172,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	/// <param name="punchDirection">The direction of the punch towards the victim.</param>
 	/// <param name="damageZone">The part of the body that is being punched.</param>
 	[Command]
-	public void CmdRequestPunchAttack(GameObject victim, Vector2 punchDirection, BodyPartType damageZone,
-		string attackerName)
+	public void CmdRequestPunchAttack(GameObject victim, Vector2 punchDirection, BodyPartType damageZone)
 	{
 		var victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 		var victimRegisterTile = victim.GetComponent<RegisterTile>();
@@ -215,7 +214,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
 			{
 				channels = ChatChannel.Local,
-				message = $"{attackerName} has attempted to punch {victimName}!"
+				message = $"{gameObject.Player()?.Name} has attempted to punch {victimName}!"
 			});
 		}
 	}

@@ -956,9 +956,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var rng = new System.Random();
 		string disarmerName = disarmer.Player()?.Name;
 		string playerToDisarmName = playerToDisarm.Player()?.Name;
-		var leftHandItem = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, "leftHand");
-		var rightHandItem = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, "rightHand");
+		var leftHandSlot = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, "leftHand");
+		var rightHandSlot = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, "rightHand");
 		var disarmedPlayerRegister = playerToDisarm.GetComponent<RegisterPlayer>();
+		var disarmedPlayerNetworkActions = playerToDisarm.GetComponent<PlayerNetworkActions>();
 
 		// This is based off the alien/humanoid/attack_hand disarm code of TGStation's codebase.
 		// Disarms have 5% chance to knock down, then it has a 50% chance to disarm.
@@ -976,16 +977,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else if (50 >= rng.Next(1, 100))
 		{
 			// Disarms
-			if (leftHandItem.Item != null)
+			if (leftHandSlot.Item != null)
 			{
-				InventoryManager.DropItemInSlot(playerToDisarm, leftHandItem,
-					playerToDisarm.GetComponent<PlayerScript>().WorldPos);
+				disarmedPlayerNetworkActions.DropItem("leftHand");
 			}
 
-			if (rightHandItem.Item != null)
+			if (rightHandSlot.Item != null)
 			{
-				InventoryManager.DropItemInSlot(playerToDisarm, rightHandItem,
-					playerToDisarm.GetComponent<PlayerScript>().WorldPos);
+				disarmedPlayerNetworkActions.DropItem("rightHand");
 			}
 
 			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
