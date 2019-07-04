@@ -788,6 +788,10 @@ MonoBehaviour:
     socksCollectionIndex: 3
     headSpriteIndex: 20
     torsoSpriteIndex: 28
+    rightLegSpriteIndex: 12
+    leftLegSpriteIndex: 16
+    rightArmSpriteIndex: 4
+    leftArmSpriteIndex: 8
   playerName: ' '
 --- !u!114 &114285118255153820
 MonoBehaviour:
@@ -913,8 +917,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ec24547a834ed59569affa30e7249b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobID: 0
   maxHealth: 100
+  cloningDamage: 0
   bloodSystem: {fileID: 0}
   brainSystem: {fileID: 0}
   respiratorySystem: {fileID: 0}
@@ -1078,7 +1082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropLayers:
     serializedVersion: 2
-    m_Bits: 553666560
+    m_Bits: 562055168
   shadow: {fileID: 21300750, guid: edb6a9bb8c0d64b80953e48ba732f4e9, type: 3}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1

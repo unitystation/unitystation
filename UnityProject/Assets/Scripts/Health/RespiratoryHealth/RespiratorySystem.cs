@@ -75,7 +75,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		if (!livingHealthBehaviour.IsDead)
 		{
-			Vector3Int position = objectBehaviour.AssumedLocation().RoundToInt();
+			Vector3Int position = objectBehaviour.AssumedWorldPosition().RoundToInt();
 			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 			if (!IsEVACompatible())

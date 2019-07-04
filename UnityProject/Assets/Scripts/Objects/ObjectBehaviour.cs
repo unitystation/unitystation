@@ -16,13 +16,16 @@ public class ObjectBehaviour : PushPull
 	public ObjectBehaviour parentContainer = null;
 	private Vector3 lastNonHiddenPosition = TransformState.HiddenPos;
 
-	//returns position of highest object this object is contained in
-    public Vector3 AssumedLocation()
+	/// <summary>
+	/// World position of highest object this object is contained in
+	/// </summary>
+	/// <returns></returns>
+    public Vector3 AssumedWorldPosition()
     {
 		//If this object is contained in another, run until highest layer layer is reached
         if (parentContainer != null)
         {
-            lastNonHiddenPosition = parentContainer.AssumedLocation();
+            lastNonHiddenPosition = parentContainer.AssumedWorldPosition();
         }
 		else if (registerTile.WorldPosition != TransformState.HiddenPos)
 		{
