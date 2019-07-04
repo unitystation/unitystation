@@ -142,7 +142,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 		var aim = isSuicide ? bodyAim : bodyAim.Randomize();
 
 		damageable.ApplyDamage(shooter, damage, attackType, damageType, aim);
-		PostToChatMessage.SendItemAttackMessage(weapon.gameObject, shooter, coll.gameObject, damage, aim);
+		PostToChatMessage.SendAttackMessage( shooter, coll.gameObject, damage, aim, weapon.gameObject);
 
 		Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, damageable.gameObject.name, damage);
 		ReturnToPool();

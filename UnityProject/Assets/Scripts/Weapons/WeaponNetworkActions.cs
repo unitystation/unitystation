@@ -206,7 +206,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (90 >= rng.Next(1, 100))
 		{
 			// The punch hit.
-			victimHealth.ApplyDamage(gameObject, (int) fistDamage, DamageType.Brute, damageZone);
+			victimHealth.ApplyDamage(gameObject, (int) fistDamage, AttackType.Melee, DamageType.Brute, damageZone);
 			if (fistDamage > 0)
 			{
 				PostToChatMessage.SendAttackMessage(gameObject, victim, (int) fistDamage, damageZone);

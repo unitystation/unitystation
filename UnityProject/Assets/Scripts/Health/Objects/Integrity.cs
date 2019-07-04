@@ -18,7 +18,6 @@ using Object = System.Object;
 /// changes occur.
 /// </summary>
 [RequireComponent(typeof(CustomNetTransform))]
-[RequireComponent(typeof(RegisterTile))]
 [RequireComponent(typeof(Meleeable))]
 public class Integrity : NetworkBehaviour, IRightClickable
 {
