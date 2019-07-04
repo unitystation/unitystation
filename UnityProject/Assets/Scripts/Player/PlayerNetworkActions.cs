@@ -701,7 +701,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdCommitSuicide()
 	{
-		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, DamageType.Brute, BodyPartType.Chest);
+		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute, BodyPartType.Chest);
 	}
 
 	//Respawn action for Deathmatch v 0.1.3
@@ -714,6 +714,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.mind.jobType, playerScript.characterSettings, gameObject);
 			RpcAfterRespawn();
 		}
+	}
+
+	[Command]
+	public void CmdToggleAllowCloning()
+	{
+		playerScript.mind.DenyCloning = !playerScript.mind.DenyCloning;
 	}
 
 	/// <summary>
@@ -738,7 +744,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdEnterBody()
 	{
-		playerScript.mind.ReturnToBody();
+		playerScript.mind.StopGhosting();
 		var body = playerScript.mind.body.gameObject;
 		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, body, gameObject, EVENT.PlayerSpawned, null);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(body);
@@ -1006,4 +1012,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			});
 		}
 	}
+  
+	//admin only commands
+	#region Admin
+
+	[Command]
+	public void CmdAdminSmash(GameObject toSmash)
+	{
+		toSmash.GetComponent<Integrity>().ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
+	}
+
+	#endregion
 }

@@ -128,8 +128,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 		//Meaty bodies:
 		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
-
-		if (victimHealth.IsDead && weaponAttr.itemType == ItemType.Knife)
+		if (victimHealth != null && victimHealth.IsDead && weaponAttr.itemType == ItemType.Knife)
 		{
 			if (victim.GetComponent<SimpleAnimal>())
 			{
@@ -156,7 +155,19 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			playerMove.allowInput = false;
 		}
 
-		victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, DamageType.Brute, damageZone);
+		var integrity = victim.GetComponent<Integrity>();
+		if (integrity != null)
+		{
+			//damaging an object
+			integrity.ApplyDamage((int)weaponAttr.hitDamage, AttackType.Melee, DamageType.Brute);
+		}
+		else
+		{
+			//damaging a living thing
+			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, DamageType.Brute, damageZone);
+		}
+
+
 		if (weaponAttr.hitDamage > 0)
 		{
 			PostToChatMessage.SendAttackMessage(gameObject, victim, (int) weaponAttr.hitDamage, damageZone, weapon);

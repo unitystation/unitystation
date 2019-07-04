@@ -12,6 +12,16 @@ public class CloningConsole : MonoBehaviour
 
 	public List<CloningRecord> CloningRecords = new List<CloningRecord>();
 	public DNAscanner scanner;
+	public CloningPod cloningPod;
+	public GUI_Cloning consoleGUI;
+
+	private void Start()
+	{
+		if (cloningPod)
+		{
+			cloningPod.console = this;
+		}
+	}
 
 	public void ToggleLock()
 	{
@@ -27,29 +37,46 @@ public class CloningConsole : MonoBehaviour
 		{
 			var mob = scanner.occupant;
 			var mobID = scanner.occupant.mobID;
+			var playerScript = mob.GetComponent<PlayerScript>();
+			if(playerScript.mind.bodyMobID != mobID)
+			{
+				return;
+			}
 			for (int i = 0; i < CloningRecords.Count; i++)
 			{
 				var record = CloningRecords[i];
 				if (mobID == record.mobID)
 				{
-					record.UpdateRecord(mob);
+					record.UpdateRecord(mob, playerScript);
+					scanner.statusString = "Record updated.";
 					return;
 				}
 			}
-			CreateRecord(mob);
+			CreateRecord(mob, playerScript);
+			scanner.statusString = "Subject successfully scanned.";
 		}
 	}
 
-	public void Clone(CloningRecord record)
+	public void TryClone(CloningRecord record)
 	{
-		record.mind.ClonePlayer(gameObject, record.characterSettings);
+		if (cloningPod && cloningPod.CanClone())
+		{
+			if(record.mind.ConfirmClone(record.mobID))
+			{
+				cloningPod.StartCloning(record);
+				CloningRecords.Remove(record);
+			}
+			else
+			{
+				cloningPod.statusString = "Initialisation failure.";
+			}
+		}
 	}
 
-	private void CreateRecord(LivingHealthBehaviour mob)
+	private void CreateRecord(LivingHealthBehaviour mob, PlayerScript playerScript)
 	{
-
 		var record = new CloningRecord();
-		record.UpdateRecord(mob);
+		record.UpdateRecord(mob, playerScript);
 		CloningRecords.Add(record);
 	}
 
@@ -73,10 +100,9 @@ public class CloningRecord
 		scanID = Random.Range(0, 9999).ToString();
 	}
 
-	public void UpdateRecord(LivingHealthBehaviour mob)
+	public void UpdateRecord(LivingHealthBehaviour mob, PlayerScript playerScript)
 	{
 		mobID = mob.mobID;
-		var playerScript = mob.GetComponent<PlayerScript>();
 		mind = playerScript.mind;
 		name = playerScript.playerName;
 		characterSettings = playerScript.characterSettings;

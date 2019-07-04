@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Atmospherics;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 /// <summary>
@@ -145,6 +148,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		DNABloodType = new DNAandBloodType();
 		DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
 		bloodSystem.SetBloodType(DNABloodType);
+
 		base.OnStartServer();
 	}
 
@@ -238,17 +242,20 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// </summary>
 	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
 	/// <param name="damage">Damage Amount</param>
+	/// <param name="attackType">type of attack that is causing the damage</param>
 	/// <param name="damageType">The Type of Damage</param>
 	/// <param name="bodyPartAim">Body Part that is affected</param>
 	[Server]
 	public virtual void ApplyDamage(GameObject damagedBy, float damage,
-		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
+		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
 	{
 		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
 		if(bodyPartBehaviour == null)
 		{
 			return;
 		}
+		//TODO: determine and apply armor protection
+
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
 		bodyPartBehaviour.ReceiveDamage(damageType, damage);
@@ -300,6 +307,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			if (tick > tickRate)
 			{
 				tick = 0f;
+
 				CalculateOverallHealth();
 				CheckHealthAndUpdateConsciousState();
 			}
@@ -612,6 +620,28 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 	}
 
+}
+
+/// <summary>
+/// Event which fires when fire stack value changes.
+/// </summary>
+public class FireStackEvent : UnityEvent<float> {}
+
+/// <summary>
+/// Communicates fire status changes.
+/// </summary>
+public class FireStatus
+{
+	//whether becoming on fire or extinguished
+	public readonly bool IsOnFire;
+	//whether we are engulfed by flames or just partially on fire
+	public readonly bool IsEngulfed;
+
+	public FireStatus(bool isOnFire, bool isEngulfed)
+	{
+		IsOnFire = isOnFire;
+		IsEngulfed = isEngulfed;
+	}
 }
 
 public static class HealthThreshold

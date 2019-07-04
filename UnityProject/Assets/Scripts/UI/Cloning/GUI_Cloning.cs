@@ -14,6 +14,8 @@ public class GUI_Cloning : NetTab
 
 	public CloningRecord specificRecord;
 
+	public NetLabel[] cloningPodStatus;
+	public NetLabel scannerStatus;
 	public NetLabel buttonTextViewRecord;
 	public NetLabel recordName;
 	public NetLabel recordScanID;
@@ -29,6 +31,7 @@ public class GUI_Cloning : NetTab
 		{
 			//Makes sure it connects with the dispenser properly
 			CloningConsole = Provider.GetComponentInChildren<CloningConsole>();
+			CloningConsole.consoleGUI = this;
 			//Subscribe to change event from CloningConsole.cs
 			CloningConsole.changeEvent += UpdateDisplay;
 			UpdateDisplay();
@@ -39,6 +42,8 @@ public class GUI_Cloning : NetTab
 	{
 		DisplayAllRecords();
 		DisplayCurrentRecord();
+		DisplayPodStatus();
+		DisplayScannerStatus();
 		buttonTextViewRecord.SetValue = $"View Records({CloningConsole.CloningRecords.Count})";
 	}
 
@@ -75,8 +80,7 @@ public class GUI_Cloning : NetTab
 
 	public void Clone()
 	{
-		Logger.Log($"Cloning {specificRecord.name}", Category.NetUI);
-		RemoveRecord();
+		CloningConsole.TryClone(specificRecord);
 		UpdateDisplay();
 		netPageSwitcher.SetActivePage(PageAllRecords);
 	}
@@ -121,6 +125,35 @@ public class GUI_Cloning : NetTab
 			item.gui_Cloning = this;
 			item.cloningRecord = cloningRecords[i];
 			item.SetValues();
+		}
+	}
+
+	public void DisplayPodStatus()
+	{
+		string text;
+		if(CloningConsole.cloningPod)
+		{
+			text = CloningConsole.cloningPod.statusString;
+		}
+		else
+		{
+			text = "ERROR: no pod detected.";
+		}
+		for (int i = 0; i < cloningPodStatus.Length; i++)
+		{
+			cloningPodStatus[i].SetValue = text;
+		}
+	}
+
+	public void DisplayScannerStatus()
+	{
+		if(CloningConsole.scanner)
+		{
+			scannerStatus.SetValue = CloningConsole.scanner.statusString;
+		}
+		else
+		{
+			scannerStatus.SetValue = "ERROR: no DNA scanner detected.";
 		}
 	}
 

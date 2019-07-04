@@ -24,6 +24,7 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 
 	public bool Interact(PositionalHandApply interaction)
 	{
+  
 		var localRegisterPlayer = PlayerManager.LocalPlayer.GetComponent<RegisterPlayer>();
 		var localPlayerhealth = PlayerManager.LocalPlayer.GetComponent<PlayerHealth>();
 
@@ -32,6 +33,9 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 		    localRegisterPlayer.IsDown ||
 		    localRegisterPlayer.IsStunnedClient)
 			return false;
+
+		//meleeable is only checked on the target of a melee interaction
+		if (interaction.UsedObject == gameObject) return false;
 
 		// Can't melee yourself.
 		if (interaction.Performer == interaction.TargetObject)

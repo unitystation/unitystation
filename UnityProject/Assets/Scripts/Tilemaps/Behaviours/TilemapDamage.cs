@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+/// <summary>
+/// Allows for damaging tiles and updating tiles based on damage taken.
+/// </summary>
 public class TilemapDamage : MonoBehaviour
 {
 	private TileChangeManager tileChangeManager;
@@ -12,9 +15,33 @@ public class TilemapDamage : MonoBehaviour
 
 	public Layer Layer { get; private set; }
 
-	//FIXME: cache construction prefabs in CraftingManager.Construction:
-	private GameObject glassShardPrefab;
-	private GameObject rodsPrefab;
+	private Matrix matrix;
+
+	//armor for windows and grills
+	private static readonly Armor REINFORCED_WINDOW_ARMOR = new Armor
+	{
+		Melee = 50,
+		Bullet = 0,
+		Laser = 0,
+		Energy = 0,
+		Bomb = 25,
+		Bio = 100,
+		Rad = 100,
+		Fire = 80,
+		Acid = 100
+	};
+	private static readonly Armor GRILL_ARMOR = new Armor
+	{
+		Melee = 50,
+		Bullet = 70,
+		Laser = 70,
+		Energy = 100,
+		Bomb = 10,
+		Bio = 100,
+		Rad = 100,
+		Fire = 0,
+		Acid = 0
+	};
 
 	void Awake()
 	{
@@ -23,12 +50,7 @@ public class TilemapDamage : MonoBehaviour
 		metaTileMap = transform.GetComponentInParent<MetaTileMap>();
 
 		Layer = GetComponent<Layer>();
-	}
-
-	void Start()
-	{
-		glassShardPrefab = Resources.Load("GlassShard") as GameObject;
-		rodsPrefab = Resources.Load("Rods") as GameObject;
+		matrix = GetComponentInParent<Matrix>();
 	}
 
 	//Server Only:
@@ -65,7 +87,7 @@ public class TilemapDamage : MonoBehaviour
 			if (getTile != null)
 			{
 				//TODO damage amt based off type of bullet
-				AddWindowDamage(bullet.damage, data, cellPos, bulletHitTarget);
+				AddWindowDamage(bullet.damage, data, cellPos, bulletHitTarget, AttackType.Bullet);
 				return;
 			}
 		}
@@ -78,7 +100,7 @@ public class TilemapDamage : MonoBehaviour
 				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
 					//TODO damage amt based off type of bullet
-					AddGrillDamage(bullet.damage, data, cellPos, bulletHitTarget);
+					AddGrillDamage(bullet.damage, data, cellPos, bulletHitTarget, AttackType.Bullet);
 				}
 			}
 		}
@@ -100,7 +122,7 @@ public class TilemapDamage : MonoBehaviour
 			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
 				SoundManager.PlayNetworkedAtPos("GlassHit", dmgPosition, Random.Range(0.9f, 1.1f));
-				AddWindowDamage(dmgAmt, data, cellPos, dmgPosition);
+				AddWindowDamage(dmgAmt, data, cellPos, dmgPosition, AttackType.Melee);
 				return;
 			}
 		}
@@ -113,15 +135,15 @@ public class TilemapDamage : MonoBehaviour
 				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
 					SoundManager.PlayNetworkedAtPos("GrillHit", dmgPosition, Random.Range(0.9f, 1.1f));
-					AddGrillDamage(dmgAmt, data, cellPos, dmgPosition);
+					AddGrillDamage(dmgAmt, data, cellPos, dmgPosition, AttackType.Melee);
 				}
 			}
 		}
 	}
 
-	private void AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
+	private void AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType)
 	{
-		data.Damage += damage;
+		data.Damage += REINFORCED_WINDOW_ARMOR.GetDamage(damage, attackType);
 		if (data.Damage >= 20 && data.Damage < 50 && data.WindowDmgType != "crack01")
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack01");
@@ -156,9 +178,9 @@ public class TilemapDamage : MonoBehaviour
 		}
 	}
 
-	private void AddGrillDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget)
+	private void AddGrillDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType)
 	{
-		data.Damage += damage;
+		data.Damage += GRILL_ARMOR.GetDamage(damage, attackType);
 
 		//Make grills a little bit weaker (set to 60 hp):
 		if (data.Damage >= 60)
@@ -201,20 +223,13 @@ public class TilemapDamage : MonoBehaviour
 
 	private void SpawnRods(Vector3 pos)
 	{
-		GameObject rods = PoolManager.PoolNetworkInstantiate(rodsPrefab, Vector3Int.RoundToInt(pos));
-
-		CustomNetTransform netTransform = rods.GetComponent<CustomNetTransform>();
-		netTransform?.SetPosition(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f)));
+		ItemFactory.SpawnRods(1, pos.RoundToInt().To2Int());
 	}
 
 	private void SpawnGlassShards(Vector3 pos)
 	{
 		//Spawn 3 glass shards with different sprites:
-		PoolManager.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos)).GetComponent<GlassShard>().SetSpriteAndScatter(0);
-
-		PoolManager.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos)).GetComponent<GlassShard>().SetSpriteAndScatter(1);
-
-		PoolManager.PoolNetworkInstantiate(glassShardPrefab, Vector3Int.RoundToInt(pos)).GetComponent<GlassShard>().SetSpriteAndScatter(2);
+		ItemFactory.SpawnGlassShard(3, pos.To2Int());
 
 		//Play the breaking window sfx:
 		SoundManager.PlayNetworkedAtPos("GlassBreak0" + Random.Range(1, 4), pos, 1f);

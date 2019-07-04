@@ -188,7 +188,7 @@ public class PlayerHealthUI : MonoBehaviour
 					sprite = bodyPart.GrayDamageMonitorIcon;
 					break;
 			}
-			if (sprite != null)
+			if (sprite != null && bodyPartListeners[i] != null && bodyPartListeners[i].image != null)
 			{
 				bodyPartListeners[i].image.sprite = sprite;
 			}

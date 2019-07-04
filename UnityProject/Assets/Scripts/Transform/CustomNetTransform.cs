@@ -312,7 +312,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	//managed by UpdateManager
 	public override void UpdateMe()
 	{
-		if ( !Synchronize() )
+		if ( this != null && !Synchronize() )
 		{
 			MotionState = MotionStateEnum.Still;
 		}
@@ -364,13 +364,13 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		}
 
 		//Checking if we should change matrix once per tile
-		if (server && registerTile.PositionServer != Vector3Int.RoundToInt(serverState.Position) ) {
+		if (server && registerTile.LocalPositionServer != Vector3Int.RoundToInt(serverState.Position) ) {
 			CheckMatrixSwitch();
 			registerTile.UpdatePositionServer();
 			changed = true;
 		}
 		//Registering
-		if (registerTile.PositionClient != Vector3Int.RoundToInt(predictedState.Position) )
+		if (registerTile.LocalPositionClient != Vector3Int.RoundToInt(predictedState.Position) )
 		{
 //			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPositionC, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
 			registerTile.UpdatePositionClient();
@@ -580,6 +580,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	[Server]
 	public void FireSpawnHooks()
 	{
+		//TODO: Don't use broadcast - use interface instead
 		BroadcastMessage("OnSpawnedServer", SendMessageOptions.DontRequireReceiver);
 		RpcFireSpawnHook();
 	}
@@ -587,6 +588,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	[ClientRpc]
 	private void RpcFireSpawnHook()
 	{
+		//TODO: Don't use broadcast - use interface instead
 		BroadcastMessage("OnSpawnedClient", SendMessageOptions.DontRequireReceiver);
 	}
 
@@ -597,6 +599,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	[Server]
 	public void FireCloneHooks(GameObject clonedFrom)
 	{
+		//TODO: Don't use broadcast - use interface instead
 		BroadcastMessage("OnClonedServer", clonedFrom, SendMessageOptions.DontRequireReceiver);
 		RpcFireCloneHook(clonedFrom);
 	}
@@ -604,6 +607,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	[ClientRpc]
 	private void RpcFireCloneHook(GameObject clonedFrom)
 	{
+		//TODO: Don't use broadcast - use interface instead
 		BroadcastMessage("OnClonedClient", clonedFrom, SendMessageOptions.DontRequireReceiver);
 	}
 }

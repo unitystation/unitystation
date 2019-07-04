@@ -22,14 +22,20 @@ public class ControlDisplays : MonoBehaviour
 
 	void HumanUI()
 	{
-		hudBottomHuman.gameObject.SetActive(true);
-		hudBottomGhost.gameObject.SetActive(false);
+		if (hudBottomGhost != null && hudBottomGhost != null)
+		{
+			hudBottomHuman.gameObject.SetActive(true);
+			hudBottomGhost.gameObject.SetActive(false);
+		}
 	}
 
 	void GhostUI()
 	{
-		hudBottomHuman.gameObject.SetActive(false);
-		hudBottomGhost.gameObject.SetActive(true);
+		if (hudBottomGhost != null && hudBottomGhost != null)
+		{
+			hudBottomHuman.gameObject.SetActive(false);
+			hudBottomGhost.gameObject.SetActive(true);
+		}
 	}
 
 	/// <summary>
@@ -75,7 +81,7 @@ public class ControlDisplays : MonoBehaviour
 	public void DetermineGameMode()
 	{
 		//if(GameManager.Instance.gameMode == GameMode.nukeops){
-			nukeOpsGameMode.SetActive(true);
+		nukeOpsGameMode.SetActive(true);
 		//}
 	}
 
