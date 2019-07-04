@@ -6,6 +6,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 {
 	private readonly float speed = 7f;
 	private bool allowAttack = true;
+	float fistDamage = 5;
 
 	//muzzle flash
 	private bool isFlashing;
@@ -69,14 +70,14 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		BodyPartType damageZone, LayerType layerType)
 	{
 		if (!playerMove.allowInput ||
-			playerScript.IsGhost ||
-			!victim ||
-			!playerScript.playerNetworkActions.SlotNotEmpty(slot) ||
-			!playerScript.playerHealth.serverPlayerConscious
+		    playerScript.IsGhost ||
+		    !victim ||
+		    !playerScript.playerHealth.serverPlayerConscious
 		)
 		{
 			return;
 		}
+
 		if (!allowAttack)
 		{
 			return;
@@ -169,11 +170,64 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 		if (weaponAttr.hitDamage > 0)
 		{
-			PostToChatMessage.SendItemAttackMessage(weapon, gameObject, victim, (int) weaponAttr.hitDamage, damageZone);
+			PostToChatMessage.SendAttackMessage(gameObject, victim, (int) weaponAttr.hitDamage, damageZone, weapon);
 		}
 
 		SoundManager.PlayNetworkedAtPos( weaponAttr.hitSound, transform.position );
 		StartCoroutine(AttackCoolDown());
+	}
+
+	/// <summary>
+	/// Performs a punch attempt from one player to a target.
+	/// </summary>
+	/// <param name="punchDirection">The direction of the punch towards the victim.</param>
+	/// <param name="damageZone">The part of the body that is being punched.</param>
+	[Command]
+	public void CmdRequestPunchAttack(GameObject victim, Vector2 punchDirection, BodyPartType damageZone)
+	{
+		var victimHealth = victim.GetComponent<LivingHealthBehaviour>();
+		var victimRegisterTile = victim.GetComponent<RegisterTile>();
+		var rng = new System.Random();
+
+		if (!playerScript.IsInReach(victim, true))
+		{
+			return;
+		}
+
+		// If the punch is not self inflicted, do the simple lerp attack animation.
+		if (victim != gameObject)
+		{
+			RpcMeleeAttackLerp(punchDirection, null);
+			playerMove.allowInput = false;
+		}
+
+		// This is based off the alien/humanoid/attack_hand punch code of TGStation's codebase.
+		// Punches have 90% chance to hit, otherwise it is a miss.
+		if (90 >= rng.Next(1, 100))
+		{
+			// The punch hit.
+			victimHealth.ApplyDamage(gameObject, (int) fistDamage, DamageType.Brute, damageZone);
+			if (fistDamage > 0)
+			{
+				PostToChatMessage.SendAttackMessage(gameObject, victim, (int) fistDamage, damageZone);
+			}
+
+			// Make a random punch hit sound.
+			SoundManager.PlayNetworkedAtPos("Punch"+rng.Next(1, 4), victimRegisterTile.WorldPosition);
+
+			StartCoroutine(AttackCoolDown());
+		}
+		else
+		{
+			// The punch missed.
+			string victimName = victim.Player()?.Name;
+			SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position);
+			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+			{
+				channels = ChatChannel.Local,
+				message = $"{gameObject.Player()?.Name} has attempted to punch {victimName}!"
+			});
+		}
 	}
 
 	private IEnumerator AttackCoolDown(float seconds = 0.5f)

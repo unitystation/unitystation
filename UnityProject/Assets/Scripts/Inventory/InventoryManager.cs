@@ -324,7 +324,6 @@ public class InventoryManager : MonoBehaviour
 
 		DropItem(GetSlotFromItem(item), pos);
 	}
-
 }
 
 //Helps identify the position in syncEquip list
