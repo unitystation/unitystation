@@ -72,7 +72,6 @@ public abstract class NBMouseDropHandApplyInteractable
 	public bool ServerProcessInteraction(MouseDrop info)
 	{
 		EnsureCoordinatorInit();
-		UnityEngine.Debug.Log("ServerProcessInteraction");
 		return InteractionComponentUtils.ServerProcessCoordinatedInteraction(info, coordinatorMouseDrop);
 	}
 
