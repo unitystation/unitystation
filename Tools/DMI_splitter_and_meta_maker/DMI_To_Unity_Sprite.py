@@ -2,18 +2,31 @@ import os
 from PIL import Image #Requires pillow
 import time
 #import json
-import shutil
+import shutil #Requires shutil
 import simplejson
 import to_filename
 from decimal import Decimal
 #python 3 
 
-path = 'UnityStation' #E.G The name of a folder everything is in Just set it to bypass  The Manual input
+path = '' #E.G The name of a folder everything is in Just set it to bypass  The Manual input
 if not path: 
     path = input('''The name of the folder with the DMI textures in.
 Plonk name of folder here >> ''')
 
-seecool = input(''' see all the cool Numbers and letters Y/N ''')
+Logprint = input(''' see all the cool Numbers and letters Y/N ''')
+if Logprint == 'Y':
+    Logprint = True
+else:
+    Logprint = False
+
+
+Delete_File = input('''Delete DMI files after export Y/N ''')
+if Delete_File == 'Y':
+    Delete_File = True
+else:
+    Delete_File = False
+
+    
 start_time = time.time()
 def find_nth(haystack, needle, n):
     start = haystack.find(needle)
@@ -46,11 +59,12 @@ for root, dirs, files in os.walk(path):
     print(root)
     for _name in files:
         if _name.endswith((".dmi")):
-            print(_name)
-
+            
+            File_Time = time.time()
             DelayIndex = 1
             
             new_file = os.path.join(root, _name)
+            print(new_file)
             #os.rename(old_file,new_file)
 
             image = Image.open(new_file)
@@ -90,7 +104,7 @@ for root, dirs, files in os.walk(path):
 
             ElementsWidth = int(IMwidth/Width)
             ElementsHeight = int(IMheight/Height)
-            if seecool == 'Y':
+            if Logprint:
                 print('Elements', ElementsWidth, ElementsHeight)
             LoadingIndex = False
             Spriteindex = 1
@@ -103,13 +117,9 @@ for root, dirs, files in os.walk(path):
                 for IndexWidth in range(0, ElementsWidth):
                     
                     #cell_Image = Image.new('RGBA', CellSize, color=0)
-                    if seecool == 'Y':
+                    if Logprint:
                         print(IndexToCoordinates(CellSize,(Indexheight,IndexWidth)))
                     cell_Image = image.crop(IndexToCoordinates(CellSize,(Indexheight,IndexWidth)))
-                    if cell_Image.size[0] == 0 or cell_Image.size[1] == 0:
-                        print(CellSize,(Indexheight,IndexWidth))
-                        print(IndexToCoordinates(CellSize,(Indexheight,IndexWidth)))
-                        input("ghf")
                     #print(IndexToCoordinates(CellSize,(Indexheight,IndexWidth)))
                     #cell_Image.show()
                     #Dictionary_images[(Indexheight, IndexWidth)] = cell_Image
@@ -131,8 +141,8 @@ for root, dirs, files in os.walk(path):
                             break
 
                         IndexOfdirs = find_nth(Description,'dirs = ',  Spriteindex)
-                        ittn = int(StringToEndOfline(Description,IndexOfdirs, 7 ))
-                        if NumberOfFrames > 1 or ittn > 1:
+                        number_of_variants = int(StringToEndOfline(Description,IndexOfdirs, 7 ))
+                        if NumberOfFrames > 1 or number_of_variants > 1:
                             animationDelays = []
                             #cell_Image.show()
                             if NumberOfFrames > 1:
@@ -149,27 +159,27 @@ for root, dirs, files in os.walk(path):
                                 #print(odelay)
                                 
 
-                                for IndexWidth in range(0, ittn):
+                                for IndexWidth in range(0, number_of_variants):
                                     animationDelays.append(odelay)
                 
                             #for Indexheight in range(0, ElementsHeight)
                             preNumberOfFrames = NumberOfFrames
-                            NumberOfFrames = ittn * NumberOfFrames;
+                            NumberOfFrames = number_of_variants * NumberOfFrames;
                             LoadingIndex = True
-                            WorkingOnIndex['name'] = to_filename.clean_filename(name)
+                            WorkingOnIndex['name'] = to_filename.clean_filename(name, replace=' .')
                             if WorkingOnIndex['name'] == '':
                                WorkingOnIndex['name'] = str(time.time())
                             WorkingOnIndex['Covering_Indexes'] = [cell_Image]
-                            WorkingOnIndex['Number_Of_Variants'] = ittn
+                            WorkingOnIndex['Number_Of_Variants'] = number_of_variants
                             WorkingOnIndex['Frames_Of_Animation'] = preNumberOfFrames
                             WorkingOnIndex['Frames_Left'] = NumberOfFrames - 1
                             if len(animationDelays) > 0:
                                 #print(animationDelays)
                                 WorkingOnIndex['Delays']  = animationDelays
-
-                            
                         else:
-                            WorkingOnIndex['name'] = name
+                            WorkingOnIndex['name'] = to_filename.clean_filename(name, replace=' .')
+                            if WorkingOnIndex['name'] == '':
+                               WorkingOnIndex['name'] = str(time.time())
                             WorkingOnIndex['Covering_Indexes'] = [cell_Image]
                             Loadedindexes.append(WorkingOnIndex.copy())
                             WorkingOnIndex = {}  
@@ -186,71 +196,51 @@ for root, dirs, files in os.walk(path):
                     TotalElementIndex = TotalElementIndex + 1
 
             
-            for D in Loadedindexes:
-                if len(D['Covering_Indexes']) > 1:
+            for IndividualSprite in Loadedindexes:
+                if len(IndividualSprite['Covering_Indexes']) > 1:
                     
-                    lengthOfImage = len(D['Covering_Indexes']) * D['Covering_Indexes'][0].size[0]
-                    cell_Image = Image.new('RGBA', (lengthOfImage, D['Covering_Indexes'][0].size[1]), color=0)
+                    lengthOfImage = len(IndividualSprite['Covering_Indexes']) * IndividualSprite['Covering_Indexes'][0].size[0]
+                    cell_Image = Image.new('RGBA', (lengthOfImage, IndividualSprite['Covering_Indexes'][0].size[1]), color=0)
                     c = 0
-                    for Lindex in D['Covering_Indexes']:
-                        if seecool == 'Y':
+                    for Lindex in IndividualSprite['Covering_Indexes']:
+                        if Logprint:
                             print('Index location of animated sprite', c)
                             print(Lindex.size)
                             print(IndexToCoordinates(Lindex.size, (0,c)))
-                        #input("T")
-                        #Lindex.show()
-                        #try:
                         cell_Image.paste(Lindex, IndexToCoordinates(Lindex.size, (0,c)))
-                        #except ValueError:
-                            #cell_Image.show()
-                            #Lindex.show()
-                            #input("GG")
+
                         c = c + 1
-                    D['Covering_Indexes'] = [cell_Image]
+                    IndividualSprite['Covering_Indexes'] = [cell_Image]
 
             _name = _name.replace(".dmi", "")
-            if seecool == 'Y':
+            if Logprint:
                 print(_name)
             
             newFolder = os.path.join(root, _name)
             if not os.path.exists(newFolder):
                 os.mkdir(newFolder)
             
-            for h in Loadedindexes:
+            for IndividualSprite in Loadedindexes:
                 tim = str(time.time())
-                if h['name'] == '\\':
-                    h['name'] = 'oh no'
+    
+                if 'Delays' in IndividualSprite:
+                    FilePath =  os.path.join(newFolder, (IndividualSprite['name'] + '.json'))
+                    descriptionof = {'Delays':IndividualSprite['Delays']}
+                    descriptionof['Number_Of_Variants']= IndividualSprite['Number_Of_Variants']
+                    descriptionof['Frames_Of_Animation']= IndividualSprite['Frames_Of_Animation']
+                    with open(FilePath,'w') as json_data:
+                        simplejson.dump(descriptionof, json_data, indent=4)
+                        json_data.close()
+                        
+                FilePath =  os.path.join(newFolder, (IndividualSprite['name'] + '.png'))
+                metaFilePath = os.path.join(newFolder, (IndividualSprite['name'] + '.png.meta'))
+                shutil.copyfile("example.meta", metaFilePath)
+                IndividualSprite['Covering_Indexes'][0].save(FilePath)
+            if Delete_File:
+                os.remove(os.path.join(root, _name + ".dmi"))
+                
 
-                if 'Delays' in h:
-                    #print(h)
-                    FilePath =  os.path.join(newFolder, (h['name'] + '.json'))
-                    descriptionof = {'Delays':h['Delays']}
-                    descriptionof['Number_Of_Variants']= h['Number_Of_Variants']
-                    descriptionof['Frames_Of_Animation']= h['Frames_Of_Animation']
-                    try:
-                        with open(FilePath,'w') as json_data:
-                            simplejson.dump(descriptionof, json_data, indent=4)
-                            json_data.close()
-                    except:
-                        FilePath =  os.path.join(newFolder, (tim + '.json'))
-                        with open(FilePath,'w') as json_data:
-                            simplejson.dump(descriptionof, json_data, indent=4)
-                            json_data.close()
-                FilePath =  os.path.join(newFolder, (h['name'] + '.png'))
-                #print(FilePath)
-                try:
-                    metaFilePath = os.path.join(newFolder, (h['name'] + '.png.meta'))
-                    shutil.copyfile("example.meta", metaFilePath)
-                    h['Covering_Indexes'][0].save(FilePath)
-                except:
-                    
-                    metaFilePath = os.path.join(newFolder, (tim + '.png.meta'))
-                    FilePath =  os.path.join(newFolder, (tim + '.png'))
-                    shutil.copyfile("example.meta", metaFilePath)
-                    h['Covering_Indexes'][0].save(FilePath)
-                    #pass
-            #print(os.path.join(root, _name))
-            #os.remove(os.path.join(root, _name + ".dmi"))
+            
      
 
 
