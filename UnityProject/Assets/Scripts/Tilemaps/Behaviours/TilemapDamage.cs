@@ -6,8 +6,10 @@ using UnityEngine.Tilemaps;
 /// <summary>
 /// Allows for damaging tiles and updating tiles based on damage taken.
 /// </summary>
-public class TilemapDamage : MonoBehaviour
+public class TilemapDamage : MonoBehaviour, IFireExposable
 {
+	private static readonly float TILE_MIN_SCORCH_TEMPERATURE = 100f;
+
 	private TileChangeManager tileChangeManager;
 
 	private MetaDataLayer metaDataLayer;
@@ -233,5 +235,62 @@ public class TilemapDamage : MonoBehaviour
 
 		//Play the breaking window sfx:
 		SoundManager.PlayNetworkedAtPos("GlassBreak0" + Random.Range(1, 4), pos, 1f);
+	}
+
+	public void OnExposed(FireExposure exposure)
+	{
+		var cellPos = exposure.ExposedLocalPosition.To3Int();
+		if (Layer.LayerType == LayerType.Floors)
+		{
+			//floor scorching
+			if (exposure.IsSideExposure) return;
+			if (!(exposure.Temperature > TILE_MIN_SCORCH_TEMPERATURE)) return;
+
+			if (!metaTileMap.HasTile(cellPos, true)) return;
+			//is it already scorched
+			var metaData = metaDataLayer.Get(exposure.ExposedLocalPosition.To3Int());
+			if (metaData.IsScorched) return;
+
+			//scorch the tile, choose appearance randomly
+			//TODO: This should be done using an overlay system which hasn't been implemented yet, this replaces
+			//the tile's original appearance
+			if (Random.value >= 0.5)
+			{
+				tileChangeManager.UpdateTile(cellPos, TileType.Floor, "floorscorched1");
+			}
+			else
+			{
+				tileChangeManager.UpdateTile(cellPos, TileType.Floor, "floorscorched2");
+			}
+
+			metaData.IsScorched = true;
+		}
+		else if (Layer.LayerType == LayerType.Windows)
+		{
+			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
+			{
+				//window damage
+				MetaDataNode data = metaDataLayer.Get(cellPos);
+				SoundManager.PlayNetworkedAtPos("GlassHit", exposure.ExposedWorldPosition.To3Int(), Random.Range(0.9f, 1.1f));
+				AddWindowDamage(exposure.StandardDamage(), data, cellPos, exposure.ExposedWorldPosition.To3Int(), AttackType.Melee);
+				return;
+			}
+
+		}
+		else if (Layer.LayerType == LayerType.Grills)
+		{
+			//grill damage
+			//Make sure a window is not protecting it first:
+			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
+			{
+				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
+				{
+					//window damage
+					MetaDataNode data = metaDataLayer.Get(cellPos);
+					SoundManager.PlayNetworkedAtPos("GrillHit", exposure.ExposedWorldPosition.To3Int(), Random.Range(0.9f, 1.1f));
+					AddGrillDamage(exposure.StandardDamage(), data, cellPos, exposure.ExposedWorldPosition.To3Int(), AttackType.Melee);
+				}
+			}
+		}
 	}
 }

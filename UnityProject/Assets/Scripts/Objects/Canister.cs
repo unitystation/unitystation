@@ -1,7 +1,12 @@
+using System;
 using Objects;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Main component for canister
+/// </summary>
+[RequireComponent(typeof(Integrity))]
 public class Canister : NBHandApplyInteractable
 {
 	public ObjectBehaviour objectBehaviour;
@@ -17,6 +22,51 @@ public class Canister : NBHandApplyInteractable
 		container = GetComponent<GasContainer>();
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+		SetDefaultIntegrity();
+		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+	}
+
+	private void OnWillDestroyServer(DestructionInfo arg0)
+	{
+		//ensure we disconnect
+		Disconnect();
+	}
+
+	private void Disconnect()
+	{
+		if (isConnected)
+		{
+			connector.DisconnectCanister();
+			isConnected = false;
+			connectorRenderer.sprite = null;
+			SetConnectedSprite(null);
+			objectBehaviour.isNotPushable = false;
+		}
+	}
+
+	private void SetDefaultIntegrity()
+	{
+		//default canister integrity values
+		GetComponent<Integrity>().HeatResistance = 1000;
+		GetComponent<Integrity>().Armor = new Armor
+		{
+			Melee = 50,
+			Bullet = 50,
+			Laser = 50,
+			Energy = 100,
+			Bomb = 10,
+			Bio = 100,
+			Rad = 100,
+			Fire = 80,
+			Acid = 50
+		};
+	}
+
+	//this is just here so anyone trying to change the armor value in inspector sees it being
+	//reset
+	private void OnValidate()
+	{
+		SetDefaultIntegrity();
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)
@@ -31,11 +81,7 @@ public class Canister : NBHandApplyInteractable
 			if(isConnected)
 			{
 				SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
-				connector.DisconnectCanister();
-				isConnected = false;
-				connectorRenderer.sprite = null;
-				SetConnectedSprite(null);
-				objectBehaviour.isNotPushable = false;
+				Disconnect();
 				return;
 			}
 			else

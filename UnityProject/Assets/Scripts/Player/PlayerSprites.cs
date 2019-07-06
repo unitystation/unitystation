@@ -13,6 +13,14 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(PlayerScript))]
 public class PlayerSprites : MonoBehaviour
 {
+	private static GameObject ENGULFED_BURNING_OVERLAY_PREFAB;
+	private static GameObject PARTIAL_BURNING_OVERLAY_PREFAB;
+
+	/// <summary>
+	/// Threshold value where we switch from partial burning to fully engulfed sprite.
+	/// </summary>
+	private static readonly float FIRE_STACK_ENGULF_THRESHOLD = 3;
+
 	//For character customization
 	public ClothingItem[] characterSprites;
 
@@ -20,14 +28,65 @@ public class PlayerSprites : MonoBehaviour
 	private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
 	private Directional directional;
+	private BurningDirectionalOverlay engulfedBurningOverlay;
+	private BurningDirectionalOverlay partialBurningOverlay;
+	private LivingHealthBehaviour livingHealthBehaviour;
+	private PlayerScript playerScript;
+	private PlayerHealth playerHealth;
+	private PlayerSync playerSync;
 
 	protected void Awake()
 	{
+		if (ENGULFED_BURNING_OVERLAY_PREFAB == null)
+		{
+			ENGULFED_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("EngulfedBurningPlayer");
+			PARTIAL_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("PartialBurningPlayer");
+		}
+
+		if (engulfedBurningOverlay == null)
+		{
+			engulfedBurningOverlay = GameObject.Instantiate(ENGULFED_BURNING_OVERLAY_PREFAB, transform)
+				.GetComponent<BurningDirectionalOverlay>();
+			engulfedBurningOverlay.enabled = true;
+			engulfedBurningOverlay.StopBurning();
+			partialBurningOverlay = GameObject.Instantiate(PARTIAL_BURNING_OVERLAY_PREFAB, transform)
+				.GetComponent<BurningDirectionalOverlay>();
+			partialBurningOverlay.enabled = true;
+			partialBurningOverlay.StopBurning();
+		}
+
+		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
+		livingHealthBehaviour.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
+		OnClientFireStacksChange(livingHealthBehaviour.FireStacks);
+
+
 		directional = GetComponent<Directional>();
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes[c.name] = c;
+		}
+	}
+
+	private void OnClientFireStacksChange(float newStacks)
+	{
+		if (newStacks <= 0)
+		{
+			engulfedBurningOverlay.StopBurning();
+			partialBurningOverlay.StopBurning();
+		}
+		else
+		{
+			if (newStacks >= FIRE_STACK_ENGULF_THRESHOLD)
+			{
+				engulfedBurningOverlay.Burn(directional.CurrentDirection);
+				partialBurningOverlay.StopBurning();
+			}
+			else
+			{
+				partialBurningOverlay.Burn(directional.CurrentDirection);
+				engulfedBurningOverlay.StopBurning();
+			}
 		}
 	}
 
@@ -37,6 +96,18 @@ public class PlayerSprites : MonoBehaviour
 		foreach (ClothingItem c in clothes.Values)
 		{
 			c.Direction = direction;
+		}
+
+		if (livingHealthBehaviour.FireStacks > 0)
+		{
+			if (livingHealthBehaviour.FireStacks >= FIRE_STACK_ENGULF_THRESHOLD)
+			{
+				engulfedBurningOverlay.Burn(direction);
+			}
+			else
+			{
+				partialBurningOverlay.Burn(direction);
+			}
 		}
 	}
 
