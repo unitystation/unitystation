@@ -1,16 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class DNAscanner : ClosetControl
+public class DNAscanner : ClosetControl, IAPCPowered
 {
 	public LivingHealthBehaviour occupant;
-	public Sprite closedWithOccupant;
 	public string statusString;
+	[SyncVar(hook = nameof(SyncPowered))] public bool powered;
+	public Sprite closedWithOccupant;
+	public Sprite doorClosedPowerless;
+	public Sprite doorOpenPowerless;
 
 	public override void OnStartServer()
 	{
 		statusString = "Ready to scan.";
+	}
+
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		SyncPowered(powered);
 	}
 
 	public override void HandleItems()
@@ -55,7 +65,22 @@ public class DNAscanner : ClosetControl
 
 	public override void SyncSprite(ClosetStatus value)
 	{
-		if (value == ClosetStatus.Closed)
+		if (value == ClosetStatus.Open)
+		{
+			if (!powered)
+			{
+				spriteRenderer.sprite = doorOpenPowerless;
+			}
+			else
+			{
+				spriteRenderer.sprite = doorOpened;
+			}
+		}
+		else if (!powered)
+		{
+			spriteRenderer.sprite = doorClosedPowerless;
+		}
+		else if (value == ClosetStatus.Closed)
 		{
 			spriteRenderer.sprite = doorClosed;
 		}
@@ -63,9 +88,40 @@ public class DNAscanner : ClosetControl
 		{
 			spriteRenderer.sprite = closedWithOccupant;
 		}
+
+	}
+
+	public void SyncPowered(bool value)
+	{
+		powered = value;
+		SyncSprite(statusSync);
+	}
+
+	private void SetPowered(bool value)
+	{
+		powered = value;
+		if(!powered)
+		{
+			if(IsLocked)
+			{
+				IsLocked = false;
+			}
+		}
+	}
+
+	public void PowerNetworkUpdate(float Voltage)
+	{
+	}
+
+	public void StateUpdate(PowerStates State)
+	{
+		if (State == PowerStates.Off || State == PowerStates.LowVoltage)
+		{
+			SetPowered(false);
+		}
 		else
 		{
-			spriteRenderer.sprite = doorOpened;
+			SetPowered(true);
 		}
 	}
 
