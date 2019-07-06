@@ -8,7 +8,29 @@ import to_filename
 from decimal import Decimal
 #python 3 
 
-path = '' #E.G The name of a folder everything is in Just set it to bypass  The Manual input
+StandardInsert = '''
+    - serializedVersion: 2
+      name: {{{
+      rect:
+        serializedVersion: 2
+        x: ££
+        y: 0
+        width: **
+        height: ##
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b16489681e753a24ab39d1f4a26cd82a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []'''
+
+path = 'example' #E.G The name of a folder everything is in Just set it to bypass  The Manual input
 if not path: 
     path = input('''The name of the folder with the DMI textures in.
 Plonk name of folder here >> ''')
@@ -161,7 +183,8 @@ for root, dirs, files in os.walk(path):
 
                                 for IndexWidth in range(0, number_of_variants):
                                     animationDelays.append(odelay)
-                
+   
+
                             #for Indexheight in range(0, ElementsHeight)
                             preNumberOfFrames = NumberOfFrames
                             NumberOfFrames = number_of_variants * NumberOfFrames;
@@ -172,8 +195,9 @@ for root, dirs, files in os.walk(path):
                             WorkingOnIndex['Covering_Indexes'] = [cell_Image]
                             WorkingOnIndex['Number_Of_Variants'] = number_of_variants
                             WorkingOnIndex['Frames_Of_Animation'] = preNumberOfFrames
+                            WorkingOnIndex['Total_Sprites'] = NumberOfFrames
                             WorkingOnIndex['Frames_Left'] = NumberOfFrames - 1
-                            if len(animationDelays) > 0:
+                            if number_of_variants > 1 or preNumberOfFrames > 1:
                                 #print(animationDelays)
                                 WorkingOnIndex['Delays']  = animationDelays
                         else:
@@ -234,14 +258,34 @@ for root, dirs, files in os.walk(path):
                         
                 FilePath =  os.path.join(newFolder, (IndividualSprite['name'] + '.png'))
                 metaFilePath = os.path.join(newFolder, (IndividualSprite['name'] + '.png.meta'))
-                shutil.copyfile("example.meta", metaFilePath)
+                if 'Total_Sprites' in IndividualSprite:
+                    if IndividualSprite['Total_Sprites'] > 1:
+                        toaddto = []
+                        for MultiSpriteIndex in range(0, IndividualSprite['Total_Sprites']):
+                            newinsert = StandardInsert
+                            newinsert = newinsert.replace('££',str(int(MultiSpriteIndex*Width)))
+                            newinsert = newinsert.replace('**',str(Width)) 
+                            newinsert = newinsert.replace('##',str(Height)) 
+                            newinsert = newinsert.replace('{{{',IndividualSprite['name']+"_"+str(MultiSpriteIndex))
+                            toaddto.append(newinsert)
+                        Ttotal = ''
+                        for bob in toaddto:
+                            Ttotal = Ttotal + bob
+                        shutil.copyfile("SpriteSheetMeta.meta", metaFilePath)
+                        f = open(metaFilePath, 'r+')
+                        contents = f.read()
+                        f.close()
+                        metaFile = open(metaFilePath,"w+")
+                        contents = contents.replace('##',Ttotal)
+                        metaFile.write(contents)
+                        metaFile.close()
+                else:
+                    shutil.copyfile("SingleSpriteMeta.meta", metaFilePath)
+                
                 IndividualSprite['Covering_Indexes'][0].save(FilePath)
             if Delete_File:
                 os.remove(os.path.join(root, _name + ".dmi"))
                 
-
-            
-     
 
 
 print("--- %s seconds ---" % (time.time() - start_time)) #Total time
