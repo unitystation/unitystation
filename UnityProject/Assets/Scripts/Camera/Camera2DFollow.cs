@@ -23,11 +23,8 @@ public class Camera2DFollow : MonoBehaviour
 	private float recoilTime;
 	//how much time left until we recover fully from recoil
 	private float recoverTime;
+	private CameraRecoilConfig activeRecoilConfig;
 
-	[Tooltip("How long it takes to reach target recoil position")]
-	public float RecoilDuration = 0.1f;
-	[Tooltip("How long it takes to recover from recoil position")]
-	public float RecoveryDuration = 0.4f;
 
 	public float starScroll = 0.03f;
 
@@ -107,16 +104,16 @@ public class Camera2DFollow : MonoBehaviour
 				if (recoilTime > 0)
 				{
 					recoilTime = Mathf.Max(recoilTime - Time.deltaTime, 0);
-					recoilOffset = recoilOffsetDestination * ((RecoilDuration - recoilTime) / RecoilDuration);
+					recoilOffset = recoilOffsetDestination * ((activeRecoilConfig.RecoilDuration - recoilTime) / activeRecoilConfig.RecoilDuration);
 					if (recoilTime == 0)
 					{
-						recoverTime = RecoveryDuration;
+						recoverTime = activeRecoilConfig.RecoveryDuration;
 					}
 				}
 				else if (recoverTime > 0)
 				{
 					recoverTime = Mathf.Max(recoverTime - Time.deltaTime, 0);
-					recoilOffset = recoilOffsetDestination - (recoilOffsetDestination * ((RecoveryDuration - recoverTime) / RecoveryDuration));
+					recoilOffset = recoilOffsetDestination - (recoilOffsetDestination * ((activeRecoilConfig.RecoveryDuration - recoverTime) / activeRecoilConfig.RecoveryDuration));
 					if (recoverTime == 0)
 					{
 						recoilOffsetDestination = Vector2.zero;
@@ -188,24 +185,22 @@ public class Camera2DFollow : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Cause camera recoil in the specified direction. No effect if shaking.
+	/// Cause recoil in the specified direction, no effect if shaking
 	/// </summary>
-	/// <param name="amt"></param>
-	/// <param name="dir"></param>
-	public void Recoil(float amt, Vector2 dir)
+	/// <param name="dir">direction to recoil</param>
+	/// <param name="cameraRecoilConfig">configuration for the recoil</param>
+	public void Recoil(Vector2 dir, CameraRecoilConfig cameraRecoilConfig)
 	{
 		if (isShaking) return;
+		this.activeRecoilConfig = cameraRecoilConfig;
 		if (recoilOffsetDestination != Vector2.zero)
 		{
-			//already recoiling - recoil back to this new position
-			//TODO: CLean up shitcode
-
 			//recoil from current position
-			Vector2 newRecoilOffsetDestination = recoilOffset + dir.normalized * amt;
+			Vector2 newRecoilOffsetDestination = recoilOffset + dir.normalized * activeRecoilConfig.Distance;
 			//cap it so we don't recoil further than the maximum from our origin
-			if (newRecoilOffsetDestination.magnitude > amt)
+			if (newRecoilOffsetDestination.magnitude > activeRecoilConfig.Distance)
 			{
-				newRecoilOffsetDestination = dir.normalized * amt;
+				newRecoilOffsetDestination = dir.normalized * activeRecoilConfig.Distance;
 			}
 
 			recoilOffsetDestination = newRecoilOffsetDestination;
@@ -214,14 +209,13 @@ public class Camera2DFollow : MonoBehaviour
 			float distanceFromDestination = (recoilOffset - recoilOffsetDestination).magnitude;
 			float distanceFromOrigin = recoilOffsetDestination.magnitude;
 
-			recoilTime = RecoilDuration * (distanceFromDestination / distanceFromOrigin);
+			recoilTime = activeRecoilConfig.RecoilDuration * (distanceFromDestination / distanceFromOrigin);
 		}
 		else
 		{
 			//begin recoiling
-			recoilOffsetDestination = dir.normalized * amt;
-			recoilTime = RecoilDuration;
-			recoverTime = 0f;
+			recoilOffsetDestination = dir.normalized * activeRecoilConfig.Distance;
+			recoilTime = activeRecoilConfig.RecoilDuration;
 		}
 	}
 

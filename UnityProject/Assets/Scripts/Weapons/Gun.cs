@@ -1,7 +1,7 @@
 ﻿﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+ using UnityEngine;
 using UnityEngine.Networking;
 
  /// <summary>
@@ -90,6 +90,12 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	///     The traveling speed for this weapons projectile
 	/// </summary>
 	public int ProjectileVelocity;
+
+	/// <summary>
+	/// Describes the recoil behavior of the camera when this gun is fired
+	/// </summary>
+	[Tooltip("Describes the recoil behavior of the camera when this gun is fired")]
+	public CameraRecoilConfig CameraRecoilConfig;
 
 	/// <summary>
 	///     Current Weapon Type
@@ -552,9 +558,17 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		//jerk screen back based on recoil angle and power
 		if (shooter == PlayerManager.LocalPlayer)
 		{
-			float intensity = Mathf.Clamp(ProjectileVelocity / MAX_PROJECTILE_VELOCITY, MIN_SHAKE_INTENSITY,
-				MAX_SHAKE_INTENSITY);
-			Camera2DFollow.followControl.Recoil(intensity, -finalDirection);
+			//TODO: Just setting some default recoil params until each gun is configured
+			if (CameraRecoilConfig == null || CameraRecoilConfig.Distance == 0f)
+			{
+				CameraRecoilConfig = new CameraRecoilConfig
+				{
+					Distance = 0.3f,
+					RecoilDuration = 0.05f,
+					RecoveryDuration = 1f
+				};
+			}
+			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 		}
 
 
