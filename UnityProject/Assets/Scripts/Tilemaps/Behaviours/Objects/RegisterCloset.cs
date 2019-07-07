@@ -7,7 +7,7 @@ public class RegisterCloset : RegisterObject
 {
 
 	[Tooltip("Type of closet, affects passability / collision detection when open vs. closed.")]
-	public ClosetType closetType = ClosetType.LOCKER;
+	public ClosetType closetType;
 
 	/// <summary>
 	/// Cached closet control for this closet

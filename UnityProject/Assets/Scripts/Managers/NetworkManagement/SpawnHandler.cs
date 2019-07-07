@@ -113,7 +113,7 @@ public static class SpawnHandler
 			var objectLayer = registerTile.layer;
 			parentNetId = objectLayer.GetComponentInParent<NetworkIdentity>().netId;
 			parentTransform = objectLayer.transform;
-			spawnPosition = spawnSpot.GetComponent<ObjectBehaviour>().AssumedLocation().RoundToInt();
+			spawnPosition = spawnSpot.GetComponent<ObjectBehaviour>().AssumedWorldPosition().RoundToInt();
 		}
 		else //spawnSpot is a Spawnpoint object
 		{

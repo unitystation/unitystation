@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Light2D;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -44,29 +45,26 @@ public class Grenade : NBHandActivateInteractable
 	[TooltipAttribute("Minimum duration grenade effects are visible depending on distance from center")]
 	public float minEffectDuration = .05f;
 
-	private readonly string[] EXPLOSION_SOUNDS = { "Explosion1", "Explosion2" };
-	//LayerMask for things that can be damaged
-	private int DAMAGEABLE_MASK;
 	//LayerMask for obstructions which can block the explosion
 	private int OBSTACLE_MASK;
-	//collider array to re-use when checking for collisions with the explosion
-	private readonly List<Collider2D> colliders = new List<Collider2D>();
+	//arrays containing the list of things damaged by the explosion.
+	private readonly List<LivingHealthBehaviour> damagedLivingThings = new List<LivingHealthBehaviour>();
+	private readonly List<Integrity> damagedObjects = new List<Integrity>();
 
 	//whether this object has exploded
 	private bool hasExploded;
 	//this object's registerObject
 	private bool timerRunning = false;
-	private RegisterObject registerObject;
+	private RegisterItem registerItem;
 
 	private ObjectBehaviour objectBehaviour;
 	private TileChangeManager tileChangeManager;
 
 	private void Start()
 	{
-		DAMAGEABLE_MASK = LayerMask.GetMask("Players", "Machines", "Default" /*, "Lighting", "Items"*/);
 		OBSTACLE_MASK = LayerMask.GetMask("Walls", "Door Closed");
 
-		registerObject = GetComponent<RegisterObject>();
+		registerItem = GetComponent<RegisterItem>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 	}
@@ -121,44 +119,30 @@ public class Grenade : NBHandActivateInteractable
 	[Server]
 	public void CalcAndApplyExplosionDamage(string thanksTo)
 	{
-		Vector2 explosionPos = objectBehaviour.AssumedLocation().To2Int();
-		int length = colliders.Count;
-		Dictionary<GameObject, int> toBeDamaged = new Dictionary<GameObject, int>();
-		for (int i = 0; i < length; i++)
+		Vector2 explosionPos = objectBehaviour.AssumedWorldPosition().To2Int();
+		//trigger a hotspot caused by grenade explosion
+		registerItem.Matrix.ReactionManager.ExposeHotspotWorldPosition(explosionPos.To2Int(), 3200, 0.005f);
+
+		//apply damage to each damaged thing
+		foreach (var damagedObject in damagedObjects)
 		{
-			Collider2D localCollider = colliders[i];
-			GameObject localObject = localCollider.gameObject;
-
-			Vector2 localObjectPos = localObject.transform.position;
-			float distance = Vector3.Distance(explosionPos, localObjectPos);
-			float effect = 1 - ((distance + distance) / ((radius + radius) + minDamage));
-			int actualDamage = (int)(damage * effect);
-
-			if (NotSameObject(localCollider) && HasHealthComponent(localCollider))
-				 //todo check why it's reaching negative values anyway)
-			{
-				if (IsWithinReach(explosionPos, localObjectPos, distance) && HasEffectiveDamage(actualDamage))
-				{
-					toBeDamaged[localObject] = actualDamage;
-				}
-			}
+			int calculatedDamage = CalculateDamage(damagedObject.gameObject.TileWorldPosition(), explosionPos.To2Int());
+			if (calculatedDamage <= 0) continue;
+			damagedObject.ApplyDamage(calculatedDamage, AttackType.Bomb, DamageType.Burn);
 		}
-
-		foreach (KeyValuePair<GameObject, int> pair in toBeDamaged)
+		foreach (var damagedLiving in damagedLivingThings)
 		{
-			pair.Key.GetComponent<LivingHealthBehaviour>()
-				.ApplyDamage(pair.Key, pair.Value, AttackType.Bomb, DamageType.Burn);
+			int calculatedDamage = CalculateDamage(damagedLiving.gameObject.TileWorldPosition(), explosionPos.To2Int());
+			if (calculatedDamage <= 0) continue;
+			damagedLiving.ApplyDamage(gameObject, calculatedDamage, AttackType.Bomb, DamageType.Burn);
 		}
 	}
 
-	private bool HasEffectiveDamage(int actualDamage)
+	private int CalculateDamage(Vector2Int damagePos, Vector2Int explosionPos)
 	{
-		return actualDamage > 0;
-	}
-
-	private bool IsWithinReach(Vector2 pos, Vector2 damageablePos, float distance)
-	{
-		return Physics2D.Raycast(pos, damageablePos - pos, distance, OBSTACLE_MASK).collider == null;
+		float distance = Vector2.Distance(explosionPos, damagePos);
+		float effect = 1 - ((distance + distance) / ((radius + radius) + minDamage));
+		return (int)(damage * effect);
 	}
 
 	private bool IsPastWall(Vector2 pos, Vector2 damageablePos, float distance)
@@ -166,25 +150,13 @@ public class Grenade : NBHandActivateInteractable
 		return Physics2D.Raycast(pos, damageablePos - pos, distance, OBSTACLE_MASK).collider == null;
 	}
 
-	private static bool HasHealthComponent(Collider2D localCollider)
-	{
-		return localCollider.gameObject.GetComponent<LivingHealthBehaviour>() != null;
-	}
-
-	private bool NotSameObject(Collider2D localCollider)
-	{
-		return !localCollider.gameObject.Equals(gameObject);
-	}
-
 	/// <summary>
 	/// Plays explosion sound and shakes ground
 	/// </summary>
 	private void PlaySoundAndShake()
 	{
-		Vector3Int explodePosition = objectBehaviour.AssumedLocation().RoundToInt();
-		string sndName = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
 		byte shakeIntensity = (byte)Mathf.Clamp( damage/5, byte.MinValue, byte.MaxValue);
-		SoundManager.PlayNetworkedAtPos( sndName, explodePosition, -1f, true, shakeIntensity, (int)shakeDistance);
+		ExplosionUtils.PlaySoundAndShake(objectBehaviour.AssumedWorldPosition().RoundToInt(), shakeIntensity, (int) shakeDistance);
 	}
 
 
@@ -196,7 +168,7 @@ public class Grenade : NBHandActivateInteractable
 	private void CreateShape()
 	{
 		int radiusInteger = (int)radius;
-		Vector3Int pos = Vector3Int.RoundToInt(objectBehaviour.AssumedLocation());
+		Vector3Int pos = Vector3Int.RoundToInt(objectBehaviour.AssumedWorldPosition());
 		if (explosionType == ExplosionType.Square)
 		{
 			for (int i = -radiusInteger; i <= radiusInteger; i++)
@@ -206,7 +178,7 @@ public class Grenade : NBHandActivateInteractable
 					Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y + j, 0);
 					if (IsPastWall(pos.To2Int(), checkPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
 					{
-						CheckColliders(checkPos.To2Int());
+						CheckDamagedThings(checkPos.To2Int());
 						checkPos.x -= 1;
 						checkPos.y -= 1;
 						StartCoroutine(TimedEffect(checkPos, TileType.Effects, "Fire", DistanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
@@ -229,7 +201,7 @@ public class Grenade : NBHandActivateInteractable
 						Vector3Int diamondPos = new Vector3Int(pos.x + i, pos.y + j, 0);
 						if (IsPastWall(pos.To2Int(), diamondPos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
 						{
-							CheckColliders(diamondPos.To2Int());
+							CheckDamagedThings(diamondPos.To2Int());
 							diamondPos.x -= 1;
 							diamondPos.y -= 1;
 							StartCoroutine(TimedEffect(diamondPos, TileType.Effects, "Fire", DistanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
@@ -245,7 +217,7 @@ public class Grenade : NBHandActivateInteractable
 				Vector3Int xPos = new Vector3Int(pos.x + i, pos.y, 0);
 				if (IsPastWall(pos.To2Int(), xPos.To2Int(), Mathf.Abs(i)))
 				{
-					CheckColliders(xPos.To2Int());
+					CheckDamagedThings(xPos.To2Int());
 					xPos.x -= 1;
 					xPos.y -= 1;
 					StartCoroutine(TimedEffect(xPos, TileType.Effects, "Fire", DistanceFromCenter(i,0, minEffectDuration, maxEffectDuration)));
@@ -256,7 +228,7 @@ public class Grenade : NBHandActivateInteractable
 				Vector3Int yPos = new Vector3Int(pos.x, pos.y + j, 0);
 				if (IsPastWall(pos.To2Int(), yPos.To2Int(), Mathf.Abs(j)))
 				{
-					CheckColliders(yPos.To2Int());
+					CheckDamagedThings(yPos.To2Int());
 					yPos.x -= 1;
 					yPos.y -= 1;
 					StartCoroutine(TimedEffect(yPos, TileType.Effects, "Fire", DistanceFromCenter(0,j, minEffectDuration, maxEffectDuration)));
@@ -278,7 +250,7 @@ public class Grenade : NBHandActivateInteractable
 						Vector3Int circlePos = new Vector3Int(pos.x + i, pos.y + j, 0);
 						if (IsPastWall(pos.To2Int(), circlePos.To2Int(), Mathf.Abs(i) + Mathf.Abs(j)))
 						{
-							CheckColliders(circlePos.To2Int());
+							CheckDamagedThings(circlePos.To2Int());
 							circlePos.x -= 1;
 							circlePos.y -= 1;
 							StartCoroutine(TimedEffect(circlePos, TileType.Effects, "Fire", DistanceFromCenter(i,j, minEffectDuration, maxEffectDuration)));
@@ -289,13 +261,17 @@ public class Grenade : NBHandActivateInteractable
 		}
 	}
 
-	private void CheckColliders(Vector2 position)
+	private void CheckDamagedThings(Vector2 worldPosition)
 	{
-		Collider2D victim = Physics2D.OverlapPoint(position);
-		if (victim)
-		{
-			colliders.Add(victim);
-		}
+		//TODO: Does this damage things in lockers?
+		damagedLivingThings.AddRange(MatrixManager.GetAt<LivingHealthBehaviour>(worldPosition.RoundToInt(), true)
+			//only damage each thing once
+			.Distinct());
+		damagedObjects.AddRange(MatrixManager.GetAt<Integrity>(worldPosition.RoundToInt(), true)
+			//dont damage this grenade
+			.Where(i => i.gameObject != gameObject)
+			//only damage each thing once
+			.Distinct());
 	}
 
 	public IEnumerator TimedEffect(Vector3Int position, TileType tileType, string tileName, float time)

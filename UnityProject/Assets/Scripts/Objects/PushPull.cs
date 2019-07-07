@@ -209,6 +209,7 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 	{
 		//check if our local player can reach this
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
+		if (initiator == null) return null;
 		//if it's pulled by us
 		if (IsPulledByClient(initiator))
 		{

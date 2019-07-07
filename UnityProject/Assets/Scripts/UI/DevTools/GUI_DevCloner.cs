@@ -41,7 +41,7 @@ public class GUI_DevCloner : MonoBehaviour
 	void Awake()
 	{
 
-		layerMask = LayerMask.GetMask("Furniture", "Machines", "Items",
+		layerMask = LayerMask.GetMask("Furniture", "Machines", "Unshootable Machines", "Items",
 			"Objects");
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
