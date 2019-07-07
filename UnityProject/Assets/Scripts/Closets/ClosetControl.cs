@@ -159,6 +159,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 
 	private void SyncStatus(ClosetStatus value)
 	{
+		statusSync = value;
 		if(value == ClosetStatus.Open)
 		{
 			registerTile.IsClosed = false;
