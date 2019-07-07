@@ -7,13 +7,27 @@ public class Camera2DFollow : MonoBehaviour
 	public static Camera2DFollow followControl;
 
 	private readonly bool adjustPixel = false;
-	private readonly float lookAheadMoveThreshold = 0.1f;
+	private readonly float lookAheadMoveThreshold = 0.05f;
 	private readonly float lookAheadReturnSpeed = 0.5f;
 
 	private readonly float yOffSet = -0.5f;
 
 	private Vector3 cachePos;
 	private Vector3 currentVelocity;
+
+	//destination we will recoil too - offset from current player position
+	private Vector2 recoilOffsetDestination;
+	//current offset from player position - will grow to reach recoilDestination then recover.
+	private Vector2 recoilOffset;
+	//how much time left until we reach our recoil destination
+	private float recoilTime;
+	//how much time left until we recover fully from recoil
+	private float recoverTime;
+
+	[Tooltip("How long it takes to reach target recoil position")]
+	public float RecoilDuration = 0.1f;
+	[Tooltip("How long it takes to recover from recoil position")]
+	public float RecoveryDuration = 0.4f;
 
 	public float starScroll = 0.03f;
 
@@ -84,6 +98,34 @@ public class Camera2DFollow : MonoBehaviour
 		}
 		if (target != null && !isShaking)
 		{
+
+			Vector3 recoilOffset = Vector3.zero;
+			//if  we are recoiling, adjust target position
+			if (recoilOffsetDestination != Vector2.zero)
+			{
+				//if we have recoil time left, continue to lerp to that
+				if (recoilTime > 0)
+				{
+					recoilTime = Mathf.Max(recoilTime - Time.deltaTime, 0);
+					recoilOffset = recoilOffsetDestination * ((RecoilDuration - recoilTime) / RecoilDuration);
+					if (recoilTime == 0)
+					{
+						recoverTime = RecoveryDuration;
+					}
+				}
+				else if (recoverTime > 0)
+				{
+					recoverTime = Mathf.Max(recoverTime - Time.deltaTime, 0);
+					recoilOffset = recoilOffsetDestination - (recoilOffsetDestination * ((RecoveryDuration - recoverTime) / RecoveryDuration));
+					if (recoverTime == 0)
+					{
+						recoilOffsetDestination = Vector2.zero;
+					}
+				}
+
+			}
+
+
 			// only update lookahead pos if accelerating or changed direction
 			float xMoveDelta = (target.position - lastTargetPosition).x;
 
@@ -112,7 +154,7 @@ public class Camera2DFollow : MonoBehaviour
 				newPos.x = Mathf.RoundToInt(newPos.x * pixelAdjustment) / pixelAdjustment;
 				newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
 			}
-			transform.position = newPos;
+			transform.position = newPos + recoilOffset;
 			starsBackground.position = -newPos * starScroll;
 
 			lastTargetPosition = target.position;
@@ -120,7 +162,8 @@ public class Camera2DFollow : MonoBehaviour
 				stencilMask.transform.parent = target;
 				stencilMask.transform.localPosition = Vector3.zero;
 			}
-        }
+
+		}
 	}
 
     public void SetXOffset(float offset)
@@ -144,13 +187,66 @@ public class Camera2DFollow : MonoBehaviour
 		lookAheadFactor = lookAheadSave;
 	}
 
+	/// <summary>
+	/// Cause camera recoil in the specified direction. No effect if shaking.
+	/// </summary>
+	/// <param name="amt"></param>
+	/// <param name="dir"></param>
+	public void Recoil(float amt, Vector2 dir)
+	{
+		if (isShaking) return;
+		if (recoilOffsetDestination != Vector2.zero)
+		{
+			//already recoiling - recoil back to this new position
+			//TODO: CLean up shitcode
+
+			//recoil from current position
+			Vector2 newRecoilOffsetDestination = recoilOffset + dir.normalized * amt;
+			//cap it so we don't recoil further than the maximum from our origin
+			if (newRecoilOffsetDestination.magnitude > amt)
+			{
+				newRecoilOffsetDestination = dir.normalized * amt;
+			}
+
+			recoilOffsetDestination = newRecoilOffsetDestination;
+
+			//ensure we will reach our max recoil sooner based on how close we already our to our recoil destination
+			float distanceFromDestination = (recoilOffset - recoilOffsetDestination).magnitude;
+			float distanceFromOrigin = recoilOffsetDestination.magnitude;
+
+			recoilTime = RecoilDuration * (distanceFromDestination / distanceFromOrigin);
+		}
+		else
+		{
+			//begin recoiling
+			recoilOffsetDestination = dir.normalized * amt;
+			recoilTime = RecoilDuration;
+			recoverTime = 0f;
+		}
+	}
+
+	/// <summary>
+	/// Randomly shake for the specified duration.
+	/// </summary>
+	/// <param name="amt"></param>
+	/// <param name="length"></param>
 	public void Shake(float amt, float length)
 	{
+		//cancel recoil if it is happening
+		if (recoilOffsetDestination != Vector2.zero)
+		{
+			recoilOffsetDestination = Vector2.zero;
+			recoilTime = 0;
+			recoverTime = 0;
+			transform.position = cachePos;
+		}
+
 		isShaking = true;
 		cachePos = transform.position;
 		shakeAmount = amt;
 		InvokeRepeating(nameof( DoShake ), 0, 0.01f);
 		Invoke(nameof( StopShake ), length);
+
 	}
 
 	private void DoShake()
@@ -160,6 +256,7 @@ public class Camera2DFollow : MonoBehaviour
 			Vector3 camPos = transform.position;
 			float offsetX = Random.value * shakeAmount * 2 - shakeAmount;
 			float offsetY = Random.value * shakeAmount * 2 - shakeAmount;
+
 			camPos.x += offsetX;
 			camPos.y += offsetY;
 			transform.position = camPos;

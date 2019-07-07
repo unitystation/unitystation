@@ -325,7 +325,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		lerpSprite = null;
 	}
 
-	private IEnumerator ShowMuzzleFlash()
+	public IEnumerator ShowMuzzleFlash()
 	{
 		muzzleFlash.gameObject.SetActive(true);
 		yield return WaitFor.Seconds(0.1f);

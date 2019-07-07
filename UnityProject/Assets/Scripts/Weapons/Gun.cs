@@ -10,6 +10,11 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Pickupable))]
 public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInteractable<InventoryApply>
 {
+	//constants for calculating screen shake due to recoil
+	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
+	private static readonly float MAX_SHAKE_INTENSITY = 1f;
+	private static readonly float MIN_SHAKE_INTENSITY = 0.01f;
+
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
 	/// </summary>
@@ -544,7 +549,17 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		//add additional recoil after shooting for the next round
 		AppendRecoil(angle);
 
+		//jerk screen back based on recoil angle and power
+		if (shooter == PlayerManager.LocalPlayer)
+		{
+			float intensity = Mathf.Clamp(ProjectileVelocity / MAX_PROJECTILE_VELOCITY, MIN_SHAKE_INTENSITY,
+				MAX_SHAKE_INTENSITY);
+			Camera2DFollow.followControl.Recoil(intensity, -finalDirection);
+		}
+
+
 		SoundManager.PlayAtPosition(FireingSound, shooter.transform.position);
+		StartCoroutine(shooter.Player().Script.weaponNetworkActions.ShowMuzzleFlash());
 	}
 
 	#endregion

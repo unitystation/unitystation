@@ -87,7 +87,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 		rigidBody.transform.localPosition = Vector3.zero;
 		if (!isSuicide)
 		{
-			rigidBody.AddForce(dir.normalized * 24f, ForceMode2D.Impulse);
+			rigidBody.AddForce(dir.normalized * fromWeapon.ProjectileVelocity, ForceMode2D.Impulse);
 		}
 		else
 		{
