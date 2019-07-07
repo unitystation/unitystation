@@ -53,7 +53,7 @@ public class Mop : Interactable<PositionalHandApply>
 
 	    for ( var i = 0; i < floorDecals.Count; i++ )
 	    {
-		    floorDecals[i].DisappearFromWorldServer();
+		    floorDecals[i].TryClean();
 	    }
 
 	    if (!MatrixManager.IsSpaceAt(worldPosInt, true))
