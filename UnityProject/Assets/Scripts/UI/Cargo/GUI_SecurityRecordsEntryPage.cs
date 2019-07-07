@@ -33,9 +33,10 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 
 	private void UpdateEntry()
 	{
+		if (!CustomNetworkManager.Instance._isServer)
+			return;
 		if (record == null)
 			return;
-		/*
 		nameText.SetValue = record.EntryName;
 		idText.SetValue = record.ID;
 		sexText.SetValue = record.Sex;
@@ -43,17 +44,12 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 		speciesText.SetValue = record.Species;
 		rankText.SetValue = record.Rank;
 		fingerprintText.SetValue = record.Fingerprints;
-		*/
 		UpdateCrimesList();
 	}
 
 	public void DeleteCrime(SecurityRecordCrime crimeToDelete)
 	{
-		foreach (var crime in record.Crimes)
-		{
-			if (crime == crimeToDelete)
-				record.Crimes.Remove(crime);
-		}
+		record.Crimes.Remove(crimeToDelete);
 		UpdateEntry();
 	}
 

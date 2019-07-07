@@ -68,8 +68,9 @@ public class GUI_SecurityRecords : NetTab
 		if (InsertedCard == null ||
 			!InsertedCard.accessSyncList.Contains((int)Access.security))
 			Debug.Log("No access");
-		nestedSwitcher.SetActivePage(entriesPage);
-		entriesPage.GetComponent<GUI_SecurityRecordsEntriesPage>().UpdateTab();
+		OpenRecords();
+		//nestedSwitcher.SetActivePage(entriesPage);
+		//entriesPage.GetComponent<GUI_SecurityRecordsEntriesPage>().UpdateTab();
 	}
 
 	public void LogOut()
@@ -79,15 +80,15 @@ public class GUI_SecurityRecords : NetTab
 
 	public void OpenRecords()
 	{
-		entriesPage.OnOpen(this);
 		nestedSwitcher.SetActivePage(entriesPage);
+		entriesPage.OnOpen(this);
 	}
 
 	public void OpenRecord(SecurityRecord recordToOpen)
 	{
 		Debug.Log("Opening shit");
-		entryPage.OnOpen(recordToOpen, this);
 		nestedSwitcher.SetActivePage(entryPage);
+		entryPage.OnOpen(recordToOpen, this);
 	}
 
 	public void CloseTab()
@@ -115,4 +116,17 @@ public class SecurityRecord
 	public string Fingerprints;
 	public SecurityStatus Status;
 	public List<SecurityRecordCrime> Crimes;
+
+	public SecurityRecord()
+	{
+		EntryName = "NewEntry";
+		ID = "-";
+		Sex = "-";
+		Age = "99";
+		Species = "Human";
+		Rank = "Visitor";
+		Fingerprints = "-";
+		Status = SecurityStatus.None;
+		Crimes = new List<SecurityRecordCrime>();
+	}
 }

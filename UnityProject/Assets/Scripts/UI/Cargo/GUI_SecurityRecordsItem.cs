@@ -32,7 +32,7 @@ public class GUI_SecurityRecordsItem : DynamicEntry
 					element.SetValue = record.ID;
 					break;
 				case "RecordRankText":
-					element.SetValue = record.Rank.ToString();
+					element.SetValue = record.Rank;
 					break;
 				case "RecordFingerprintsText":
 					element.SetValue = record.Fingerprints;
