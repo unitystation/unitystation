@@ -27,6 +27,32 @@ public class DNAscanner : ClosetControl
 		}
 	}
 
+	protected override bool WillInteract(MouseDrop interaction, NetworkSide side)
+	{
+		if (side == NetworkSide.Server && IsClosed)
+			return false;
+		if (!Validations.CanInteract(interaction.Performer, side))
+			return false;
+		if (!Validations.IsAdjacent(interaction.Performer, interaction.DroppedObject))
+			return false;
+		if (!Validations.IsAdjacent(interaction.Performer, gameObject))
+			return false;
+		if (interaction.Performer == interaction.DroppedObject)
+			return false;
+		return true;
+	}
+
+	protected override void ServerPerformInteraction(MouseDrop drop)
+	{
+		var objectBehaviour = drop.DroppedObject.GetComponent<ObjectBehaviour>();
+		if(objectBehaviour)
+		{
+			IsClosed = true;
+			StorePlayer(objectBehaviour);
+			ChangeSprite();
+		}
+	}
+
 	public override void SyncSprite(ClosetStatus value)
 	{
 		if (value == ClosetStatus.Closed)
