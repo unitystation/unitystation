@@ -9,6 +9,8 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 	private EmptyItemList recordsList = null;
 	private GUI_SecurityRecords securityRecordsTab;
 	private List<SecurityRecord> currentRecords = new List<SecurityRecord>();
+	[SerializeField]
+	private NetLabel idNameText;
 
 	public void OnOpen(GUI_SecurityRecords recordsTab)
 	{
@@ -57,11 +59,33 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 		UpdateTab();
 	}
 
+	public void RemoveID()
+	{
+		securityRecordsTab.RemoveId();
+		IdNameUpdate();
+	}
+
+	public void IdNameUpdate()
+	{
+		if (securityRecordsTab == null)
+			return;
+
+		IDCard id = securityRecordsTab.InsertedCard;
+		string str;
+
+		if (id != null)
+			str = $"{id.RegisteredName}, {id.GetJobType.ToString()}";
+		else
+			str = "********";
+		idNameText.SetValue = str;
+	}
+
 	public void UpdateTab()
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 			return;
 
+		IdNameUpdate();
 		recordsList.Clear();
 		recordsList.AddItems(currentRecords.Count);
 		for (int i = 0; i < currentRecords.Count; i++)

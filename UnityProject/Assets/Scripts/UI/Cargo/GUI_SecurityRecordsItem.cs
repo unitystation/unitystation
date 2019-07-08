@@ -40,14 +40,29 @@ public class GUI_SecurityRecordsItem : DynamicEntry
 				case "RecordStatusText":
 					element.SetValue = record.Status.ToString();
 					break;
+				case "RecordBG":
+					element.SetValue = GetStatusColor(record.Status);
+					break;
 			}
 		}
-		Debug.Log("THIS FUCKING SHIT WAS INITED! HOORAY!");
+	}
+
+	private string GetStatusColor(SecurityStatus status)
+	{
+		switch (status)
+		{
+			case SecurityStatus.None:
+				return "424142";
+			case SecurityStatus.Arrest:
+				return "C10000";
+			case SecurityStatus.Parole:
+				return "F57211";
+		}
+		return ("424142");
 	}
 
 	public void OpenRecord()
 	{
-		Debug.Log("Pressed shit");
 		securityRecordsTab.OpenRecord(securityRecord);
 	}
 }

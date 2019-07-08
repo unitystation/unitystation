@@ -39,4 +39,13 @@ public class SecurityRecordCrime
 	public string Details;
 	public string Author;
 	public string Time;
+
+	public SecurityRecordCrime()
+	{
+		Crime = "None";
+		Details = "-";
+		Author = "The law";
+		Time = "12:00";
+	}
+
 }

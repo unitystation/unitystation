@@ -9,19 +9,14 @@ public class GUI_SecurityRecords : NetTab
 {
 	[SerializeField]
 	private NetPageSwitcher nestedSwitcher;
-	public IDCard InsertedCard;
 	[SerializeField]
 	private GUI_SecurityRecordsEntriesPage entriesPage;
 	[SerializeField]
 	private GUI_SecurityRecordsEntryPage entryPage;
-
-	protected override void InitServer()
-	{
-		foreach (NetPage page in nestedSwitcher.Pages)
-		{
-			//page.GetComponent<GUI_CargoPage>().Init();
-		}
-	}
+	[SerializeField]
+	private NetLabel idText;
+	private SecurityRecordsConsole console;
+	public IDCard InsertedCard;
 
 	public override void OnEnable()
 	{
@@ -35,47 +30,81 @@ public class GUI_SecurityRecords : NetTab
 		{
 			yield return WaitFor.EndOfFrame;
 		}
+
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			console = Provider.GetComponentInChildren<SecurityRecordsConsole>();
+			console.OnConsoleUpdate.AddListener(UpdateScreen);
+		}
+	}
+
+	public void UpdateScreen()
+	{
+		if (InsertedCard == null && console.IdCard != null)
+			InsertId(console.IdCard);
+
+		if (nestedSwitcher.CurrentPage == entriesPage)
+			entriesPage.IdNameUpdate();
+		else if (nestedSwitcher.CurrentPage == entryPage)
+			entryPage.IdNameUpdate();
+		else
+			UpdateIdText();
 	}
 
 	/// <summary>
-	/// Insert some ID into console.
-	/// Returns ID from console if there is one.
+	/// Insert some ID into console and update login details.
+	/// Will spit out currently inserted ID card.
 	/// </summary>
-	/// <param name="cardToInsert">card to insert into console</param>
-	/// <returns>Returns ID card if it were there before</returns>
-	public IDCard InsertID()
+	///<param name="cardToInsert">Card you want to insert</param>
+	private void InsertId(IDCard cardToInsert)
 	{
-		IDCard cardToInsert = null;
-		Debug.Log(Provider.name + "PROVIDER");
-		//
-
-		IDCard cardToReturn = null;
 		if (InsertedCard != null)
-			cardToReturn = InsertedCard;
+			RemoveId();
 		InsertedCard = cardToInsert;
-		return (cardToReturn);
 	}
 
-	public void RemoveID()
+	/// <summary>
+	/// Spits out ID card from console and updates login details.
+	/// </summary>
+	public void RemoveId()
 	{
-		//Add InsertedCard to player's hand
+		if (console != null && InsertedCard == null && console.IdCard != null)
+			InsertedCard = console.IdCard;
+		if (InsertedCard == null)
+			return;
+		ObjectBehaviour objBeh = InsertedCard.GetComponentInChildren<ObjectBehaviour>();
+
+		Vector3Int pos = console.gameObject.WorldPosServer().RoundToInt();
+		CustomNetTransform netTransform = objBeh.GetComponent<CustomNetTransform>();
+		netTransform.AppearAtPosition(pos);
+		netTransform.AppearAtPositionServer(pos);
+		console.IdCard = null;
 		InsertedCard = null;
+		UpdateIdText();
+	}
+
+	private void UpdateIdText()
+	{
+		if (InsertedCard != null)
+			idText.SetValue = $"{InsertedCard.RegisteredName}, {InsertedCard.GetJobType.ToString()}";
+		else
+			idText.SetValue = "********";
 	}
 
 	public void LogIn()
 	{
-		InsertID();
+		if (console != null && InsertedCard == null && console.IdCard != null)
+			InsertedCard = console.IdCard;
 		if (InsertedCard == null ||
 			!InsertedCard.accessSyncList.Contains((int)Access.security))
-			Debug.Log("No access");
+			return;
 		OpenRecords();
-		//nestedSwitcher.SetActivePage(entriesPage);
-		//entriesPage.GetComponent<GUI_SecurityRecordsEntriesPage>().UpdateTab();
 	}
 
 	public void LogOut()
 	{
 		nestedSwitcher.SetActivePage(nestedSwitcher.DefaultPage);
+		UpdateIdText();
 	}
 
 	public void OpenRecords()
@@ -86,7 +115,6 @@ public class GUI_SecurityRecords : NetTab
 
 	public void OpenRecord(SecurityRecord recordToOpen)
 	{
-		Debug.Log("Opening shit");
 		nestedSwitcher.SetActivePage(entryPage);
 		entryPage.OnOpen(recordToOpen, this);
 	}
