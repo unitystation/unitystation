@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 /// Allows closet to be opened / closed / locked
 /// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
-public class ClosetControl : NBHandApplyInteractable, IRightClickable
+public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 {
 	[Header("Contents that will spawn inside every locker of type")]
 	public List<GameObject> DefaultContents;
@@ -131,7 +131,7 @@ public class ClosetControl : NBHandApplyInteractable, IRightClickable
 		}
 	}
 
-	private void ChangeSprite()
+	public void ChangeSprite()
 	{
 		if(IsClosed)
 		{
@@ -159,6 +159,7 @@ public class ClosetControl : NBHandApplyInteractable, IRightClickable
 
 	private void SyncStatus(ClosetStatus value)
 	{
+		statusSync = value;
 		if(value == ClosetStatus.Open)
 		{
 			registerTile.IsClosed = false;
@@ -218,6 +219,11 @@ public class ClosetControl : NBHandApplyInteractable, IRightClickable
 		if (interaction.TargetObject != gameObject) return false;
 
 		return true;
+	}
+
+	protected override void ServerPerformInteraction(MouseDrop interaction)
+	{
+
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)
@@ -315,19 +321,24 @@ public class ClosetControl : NBHandApplyInteractable, IRightClickable
 				return;
 			}
 			mobsIndex++;
-			heldPlayers.Add(player);
-			var playerScript = player.GetComponent<PlayerScript>();
-			var playerSync = playerScript.PlayerSync;
+			StorePlayer(player);
+		}
+	}
 
-			player.visibleState = false;
-			player.parentContainer = objectBehaviour;
-			playerSync.DisappearFromWorldServer();
-			//Make sure a ClosetPlayerHandler is created on the client to monitor
-			//the players input inside the storage. The handler also controls the camera follow targets:
-			if (!playerScript.IsGhost)
-			{
-				ClosetHandlerMessage.Send(player.gameObject, gameObject);
-			}
+	public void StorePlayer(ObjectBehaviour player)
+	{
+		heldPlayers.Add(player);
+		var playerScript = player.GetComponent<PlayerScript>();
+		var playerSync = playerScript.PlayerSync;
+
+		player.visibleState = false;
+		player.parentContainer = objectBehaviour;
+		playerSync.DisappearFromWorldServer();
+		//Make sure a ClosetPlayerHandler is created on the client to monitor
+		//the players input inside the storage. The handler also controls the camera follow targets:
+		if (!playerScript.IsGhost)
+		{
+			ClosetHandlerMessage.Send(player.gameObject, gameObject);
 		}
 	}
 

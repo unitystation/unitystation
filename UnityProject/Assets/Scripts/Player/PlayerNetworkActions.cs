@@ -8,8 +8,6 @@ using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
-	// time that player will spend as a ghost until they respawn
-	private const int RESPAWN_TIME_SECONDS = 10;
 	private readonly string[] slotNames = {
 		"suit",
 		"belt",
@@ -730,7 +728,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if(GetComponent<LivingHealthBehaviour>().IsDead)
 		{
-			RpcBeforeGhost();
 			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
 			playerScript.mind.Ghosting(newGhost);
 		}
@@ -752,15 +749,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Invoked before the ghost is going to be created and input will be shifted to ghost. Allows this body object
-	/// to perform needed cleanup. Note this will be invoked on all clients.
+	/// Disables input before a body transfer.
+	/// Note this will be invoked on all clients.
 	/// </summary>
-	/// <param name="bodyObject">object which was turned into a ghost</param>
 	[ClientRpc]
-	public void RpcBeforeGhost()
+	public void RpcBeforeBodyTransfer()
 	{
-		//only need to clean up client side if we are controlling the body who is becoming a ghost
-		//no more closet handler, they are dead
 		ClosetPlayerHandler cph = GetComponent<ClosetPlayerHandler>();
 		if (cph != null)
 		{

@@ -111,10 +111,10 @@ public static class VariableViewer
 				{
 					if ((Page.Variable as string) == "null")
 					{
-						Logger.LogWarning("Trying to process page value as book PageID > " + PageID , Category.VariableViewer);
+						Logger.LogWarning("Trying to process page value as book PageID > " + PageID, Category.VariableViewer);
 						return;
 					}
-					book = Librarian.GenerateNonMonoBook(Page.Variable); 
+					book = Librarian.GenerateNonMonoBook(Page.Variable);
 					SendBookToClient(book);
 				}
 				else {
@@ -149,7 +149,8 @@ public static class VariableViewer
 			Librarian.BookShelf Bookshelf = Librarian.IDToBookShelf[BookshelfID];
 			if (IsNewbookBookshelf)
 			{
-				if (!Bookshelf.ICustomBookshelf && Bookshelf.Shelf == null ) {
+				if (!Bookshelf.ICustomBookshelf && Bookshelf.Shelf == null)
+				{
 					Logger.LogError("Bookshelf has been destroyed > " + BookshelfID, Category.VariableViewer);
 					return;
 				}
@@ -201,6 +202,8 @@ public static class Librarian
 	public static Dictionary<object, Book> ObjectToBook = new Dictionary<object, Book>();
 
 	public static BookShelf TopSceneBookshelf;
+
+	public static Type TupleTypeReference = Type.GetType("System.ITuple, mscorlib");
 
 
 	public static BookShelf GenerateCustomBookCase(List<BookShelf> BookShelfs)
@@ -372,30 +375,33 @@ public static class Librarian
 				Book.BindedPagesAdd(Page);
 			}
 		}
-
-		foreach (PropertyInfo Properties in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+		if (TupleTypeReference == monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
 		{
-			if (Properties.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+			foreach (PropertyInfo Properties in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
 			{
-				Page Page = new Page();
-				Page.VariableName = Properties.Name;
-				Page.Variable = Properties.GetValue(Script);
-				Page.VariableType = Properties.PropertyType;
-				Page.PInfo = Properties;
-				if (Page.Variable == null)
+				if (Properties.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 				{
-					Page.Variable = "null";
+					Page Page = new Page();
+					Page.VariableName = Properties.Name;
+					Logger.Log(Script.ToString());
+					Logger.Log(Properties.ToString());
+					Page.Variable = Properties.GetValue(Script);
+					Page.VariableType = Properties.PropertyType;
+					Page.PInfo = Properties;
+					if (Page.Variable == null)
+					{
+						Page.Variable = "null";
+					}
+					Page.ID = PageAID;
+					PageAID++;
+					Page.BindedTo = Book;
+					IDToPage[Page.ID] = Page;
+					Page.Sentences = new Librarian.Sentence();
+					Page.Sentences.SentenceID = Page.ASentenceID;
+					Page.ASentenceID++;
+					GenerateSentenceValuesforSentence(Page.Sentences, Properties.PropertyType, Page, Script, PInfo: Properties);
+					Book.BindedPagesAdd(Page);
 				}
-				Page.ID = PageAID;
-				PageAID++;
-				Page.BindedTo = Book;
-				IDToPage[Page.ID] = Page;
-				Page.Sentences = new Librarian.Sentence();
-				Page.Sentences.SentenceID = Page.ASentenceID;
-				Page.ASentenceID++;
-				GenerateSentenceValuesforSentence(Page.Sentences, Properties.PropertyType, Page, Script, PInfo: Properties);
-
-				Book.BindedPagesAdd(Page);
 			}
 		}
 		return (Book);
@@ -419,32 +425,35 @@ public static class Librarian
 							sentence.Sentences = new List<Sentence>();
 						}
 						uint count = 0;
-						foreach (var c in list)
+						if (list != null)
 						{
-							Sentence _sentence = new Sentence();
-							_sentence.ValueVariable = c;
-							_sentence.OnPageID = Page.ID;
-							_sentence.PagePosition = count;
-							_sentence.ValueVariableType = c.GetType();
-							_sentence.SentenceID = Page.ASentenceID;
-							Page.ASentenceID++;
-							Page.IDtoSentence[_sentence.SentenceID] = _sentence;
-							Type valueType = c.GetType();
-							if (valueType.IsGenericType)
+							foreach (var c in list)
 							{
-								Type baseType = valueType.GetGenericTypeDefinition();
-								if (baseType == typeof(KeyValuePair<,>))
+								Sentence _sentence = new Sentence();
+								_sentence.ValueVariable = c;
+								_sentence.OnPageID = Page.ID;
+								_sentence.PagePosition = count;
+								_sentence.ValueVariableType = c.GetType();
+								_sentence.SentenceID = Page.ASentenceID;
+								Page.ASentenceID++;
+								Page.IDtoSentence[_sentence.SentenceID] = _sentence;
+								Type valueType = c.GetType();
+								if (valueType.IsGenericType)
 								{
-									_sentence.KeyVariable = valueType.GetProperty("Key").GetValue(c, null);
-									_sentence.ValueVariable = valueType.GetProperty("Value").GetValue(c, null);
+									Type baseType = valueType.GetGenericTypeDefinition();
+									if (baseType == typeof(KeyValuePair<,>))
+									{
+										_sentence.KeyVariable = valueType.GetProperty("Key").GetValue(c, null);
+										_sentence.ValueVariable = valueType.GetProperty("Value").GetValue(c, null);
 
-									_sentence.ValueVariableType = valueType.GetGenericArguments()[1];
-									_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
+										_sentence.ValueVariableType = valueType.GetGenericArguments()[1];
+										_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
+									}
 								}
+								GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
+								count++;
+								sentence.Sentences.Add(_sentence);
 							}
-							GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
-							count++;
-							sentence.Sentences.Add(_sentence);
 						}
 					}
 				}

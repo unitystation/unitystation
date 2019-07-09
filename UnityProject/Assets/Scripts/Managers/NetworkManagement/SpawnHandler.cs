@@ -54,6 +54,12 @@ public static class SpawnHandler
 	/// <param name="eventType">Event type for the player sync.</param>
 	public static void TransferPlayer(NetworkConnection conn, short playerControllerId, GameObject newBody, GameObject oldBody, EVENT eventType, CharacterSettings characterSettings)
 	{
+		var oldPlayerNetworkActions = oldBody.GetComponent<PlayerNetworkActions>();
+		if(oldPlayerNetworkActions)
+		{
+			oldPlayerNetworkActions.RpcBeforeBodyTransfer();
+		}
+
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
 		{
