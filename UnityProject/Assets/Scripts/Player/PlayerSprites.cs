@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Light2D;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -34,6 +35,8 @@ public class PlayerSprites : MonoBehaviour
 	private PlayerScript playerScript;
 	private PlayerHealth playerHealth;
 	private PlayerSync playerSync;
+	[Tooltip("Muzzle flash, should be on a child of the player gameobject")]
+	public LightSprite muzzleFlash;
 
 	protected void Awake()
 	{
@@ -156,5 +159,21 @@ public class PlayerSprites : MonoBehaviour
 		//Hair
 		ColorUtility.TryParseHtmlString(characterSettings.hairColor, out newColor);
 		PlayerSpritesMessage.SendToAll(gameObject, 10, characterSettings.hairStyleOffset, newColor);
+	}
+
+
+	/// <summary>
+	/// Display the muzzle flash animation
+	/// </summary>
+	public void ShowMuzzleFlash()
+	{
+		StartCoroutine(AnimateMuzzleFlash());
+	}
+
+	private IEnumerator AnimateMuzzleFlash()
+	{
+		muzzleFlash.gameObject.SetActive(true);
+		yield return WaitFor.Seconds(0.1f);
+		muzzleFlash.gameObject.SetActive(false);
 	}
 }

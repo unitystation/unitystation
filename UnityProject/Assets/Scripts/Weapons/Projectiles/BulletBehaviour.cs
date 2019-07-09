@@ -87,7 +87,8 @@ public abstract class BulletBehaviour : MonoBehaviour
 		rigidBody.transform.localPosition = Vector3.zero;
 		if (!isSuicide)
 		{
-			rigidBody.AddForce(dir.normalized * 24f, ForceMode2D.Impulse);
+			//TODO: Which is better? rigidBody.AddForce(dir.normalized * fromWeapon.ProjectileVelocity, ForceMode2D.Impulse);
+			rigidBody.velocity = dir.normalized * fromWeapon.ProjectileVelocity;
 		}
 		else
 		{
@@ -166,6 +167,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 		{
 			trailRenderer.ShotDone();
 		}
+		rigidBody.velocity = Vector2.zero;
 		PoolManager.PoolClientDestroy(gameObject);
 	}
 }
