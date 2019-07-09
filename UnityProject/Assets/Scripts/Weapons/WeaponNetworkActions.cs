@@ -21,7 +21,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private Sprite lerpSprite;
 
 	private Vector3 lerpTo;
-	public GameObject muzzleFlash;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private RegisterPlayer registerPlayer;
@@ -323,13 +322,5 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		lerping = false;
 		isForLerpBack = false;
 		lerpSprite = null;
-	}
-
-	public IEnumerator ShowMuzzleFlash()
-	{
-		muzzleFlash.gameObject.SetActive(true);
-		yield return WaitFor.Seconds(0.1f);
-		muzzleFlash.gameObject.SetActive(false);
-		isFlashing = false;
 	}
 }

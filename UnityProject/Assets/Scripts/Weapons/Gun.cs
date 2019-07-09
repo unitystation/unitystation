@@ -558,14 +558,14 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		//jerk screen back based on recoil angle and power
 		if (shooter == PlayerManager.LocalPlayer)
 		{
-			//TODO: Just setting some default recoil params until each gun is configured
+			//Default recoil params until each gun is configured separately
 			if (CameraRecoilConfig == null || CameraRecoilConfig.Distance == 0f)
 			{
 				CameraRecoilConfig = new CameraRecoilConfig
 				{
-					Distance = 0.3f,
+					Distance = 0.2f,
 					RecoilDuration = 0.05f,
-					RecoveryDuration = 1f
+					RecoveryDuration = 0.6f
 				};
 			}
 			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
@@ -573,7 +573,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 
 
 		SoundManager.PlayAtPosition(FireingSound, shooter.transform.position);
-		StartCoroutine(shooter.Player().Script.weaponNetworkActions.ShowMuzzleFlash());
+		shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 	}
 
 	#endregion
