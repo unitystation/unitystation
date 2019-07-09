@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security;
 using UnityEngine;
@@ -27,12 +28,20 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 	private NetLabel statusButtonText;
 	[SerializeField]
 	private NetLabel idNameText;
+	[SerializeField]
+	private GameObject popupWindow;
+	private NetLabel currentlyEditingField;
 
 	public void OnOpen(SecurityRecord recordToOpen, GUI_SecurityRecords recordsTab)
 	{
 		record = recordToOpen;
 		securityRecordsTab = recordsTab;
 		UpdateEntry();
+	}
+
+	private void OnEnable()
+	{
+		ClosePopup();
 	}
 
 	public void IdNameUpdate()
@@ -89,6 +98,51 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 				break;
 		}
 		statusButtonText.SetValue = record.Status.ToString();
+	}
+
+	public void OpenPopup()
+	{
+		popupWindow.SetActive(true);
+	}
+
+	public void SetEditingField(NetLabel fieldToEdit)
+	{
+		currentlyEditingField = fieldToEdit;
+	}
+
+	public void ConfirmPopup(string value)
+	{
+		currentlyEditingField.SetValue = value;
+		string nameBeforeIndex = currentlyEditingField.name.Split('~')[0];
+		switch (nameBeforeIndex)
+		{
+			case "NameText":
+				record.EntryName = value;
+				break;
+			case "IdText":
+				record.ID = value;
+				break;
+			case "SexText":
+				record.Sex = value;
+				break;
+			case "AgeText":
+				record.Age = value;
+				break;
+			case "SpeciesText":
+				record.Species = value;
+				break;
+			case "RankText":
+				record.Rank = value;
+				break;
+			case "FingerprintText":
+				record.Fingerprints = value;
+				break;
+		}
+	}
+
+	public void ClosePopup()
+	{
+		popupWindow.SetActive(false);
 	}
 
 	public void NewCrime()
