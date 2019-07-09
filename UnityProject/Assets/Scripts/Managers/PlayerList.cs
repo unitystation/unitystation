@@ -286,6 +286,7 @@ public class PlayerList : NetworkBehaviour
 	[Server]
 	public void Add(ConnectedPlayer player) => TryAdd(player);
 
+	[Server]
 	public bool ContainsConnection(NetworkConnection connection)
 	{
 		return !Get(connection).Equals(ConnectedPlayer.Invalid);

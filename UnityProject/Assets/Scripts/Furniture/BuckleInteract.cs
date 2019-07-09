@@ -25,7 +25,7 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 			.WithValidation(IsDroppedObjectAtTargetPosition.IS)
 			.WithValidation(DoesDroppedObjectHaveComponent<PlayerMove>.DOES)
 			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-			.WithValidation(ComponentAtTargetMatrixPosition<PlayerMove>.NoneMatchingCriteria(pm => pm.IsRestrained))
+			.WithValidation(ComponentAtTargetMatrixPosition<PlayerMove>.NoneMatchingCriteria(pm => pm.IsBuckled))
 			.WithValidation(new FunctionValidator<MouseDrop>(AdditionalValidation));
 	}
 
@@ -56,7 +56,7 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 		}
 
 		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
-		playerMove.Restrain(OnUnbuckle);
+		playerMove.Buckle(OnUnbuckle);
 
 		
 
@@ -71,16 +71,16 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 			.WithValidation(IsHand.EMPTY)
 			.WithValidation(TargetIs.GameObject(gameObject))
 			.WithValidation(CanApply.EVEN_IF_SOFT_CRIT)
-			.WithValidation(ComponentAtTargetMatrixPosition<PlayerMove>.MatchingCriteria(pm => pm.IsRestrained));
+			.WithValidation(ComponentAtTargetMatrixPosition<PlayerMove>.MatchingCriteria(pm => pm.IsBuckled));
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer());
 
-		var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)?.First(pm => pm.IsRestrained);
+		var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)?.First(pm => pm.IsBuckled);
 		//cannot use the CmdUnrestrain because commands are only allowed to be invoked by local player
-		playerMoveAtPosition.Unrestrain();
+		playerMoveAtPosition.Unbuckle();
 		//the above will then invoke onunbuckle as it was the callback passed to Restrain
 	}
 

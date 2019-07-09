@@ -11,7 +11,7 @@ using UnityEngine.Serialization;
 ///     handles interaction with objects that can
 ///     be walked into it.
 /// </summary>
-public class PlayerMove : NetworkBehaviour
+public class PlayerMove : NetworkBehaviour, IRightClickable
 {
 	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript ? playerScript : ( playerScript = GetComponent<PlayerScript>() );
@@ -19,9 +19,22 @@ public class PlayerMove : NetworkBehaviour
 	public bool diagonalMovement;
 
 	[SyncVar] public bool allowInput = true;
-	[SyncVar(hook=nameof(OnRestrainedChanged))] private bool restrained = false;
+	[SyncVar(hook=nameof(OnBuckledChanged))] private bool buckled = false;
+
 	//callback invoked when we are unbuckled.
 	private Action onUnbuckled;
+
+	/// <summary>
+	/// Whether character is buckled to a chair
+	/// </summary>
+	public bool IsBuckled => buckled;
+
+	[SyncVar] private bool cuffed;
+
+	/// <summary>
+	/// Whether the character is restrained with handcuffs (or similar)
+	/// </summary>
+	public bool IsCuffed => cuffed;
 
 	/// <summary>
 	/// Tracks the server's idea of whether we have help intent
@@ -72,7 +85,7 @@ public class PlayerMove : NetworkBehaviour
 		MoveAction.MoveUp, MoveAction.MoveLeft, MoveAction.MoveDown, MoveAction.MoveRight
 	};
 
-	private UserControlledSprites playerSprites;
+	private PlayerSprites playerSprites;
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
@@ -91,15 +104,9 @@ public class PlayerMove : NetworkBehaviour
 	/// temp solution for use with the UI network prediction
 	public bool isMoving { get; } = false;
 
-	/// <summary>
-	/// Whether character is restrained, such as by being buckled to a chair
-	/// TODO: Differentiate between being handcuffed and dragged (where you can turn around) and being buckled to a chair (where you may not)
-	/// </summary>
-	public bool IsRestrained => restrained;
-
 	private void Start()
 	{
-		playerSprites = gameObject.GetComponent<UserControlledSprites>();
+		playerSprites = gameObject.GetComponent<PlayerSprites>();
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
@@ -126,7 +133,7 @@ public class PlayerMove : NetworkBehaviour
 			// {
 			// 	actionKeys.Add((int)moveList[i]);
 			// }
-			if (KeyboardInputManager.CheckMoveAction(moveList[i]) && allowInput && !restrained)
+			if (KeyboardInputManager.CheckMoveAction(moveList[i]) && allowInput && !buckled && !cuffed)
 			{
 				actionKeys.Add((int)moveList[i]);
 			}
@@ -230,13 +237,13 @@ public class PlayerMove : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Restrain the player to their current position.
+	/// Buckle the player at their current position.
 	/// </summary>
 	/// <param name="onUnbuckled">callback to invoke when we become unbuckled</param>
 	[Server]
-	public void Restrain(Action onUnbuckled = null)
+	public void Buckle(Action onUnbuckled = null)
 	{
-		restrained = true;
+		buckled = true;
 		//can't push/pull when buckled in, break if we are pulled / pulling
 		PlayerScript.pushPull.CmdStopFollowing();
 		PlayerScript.pushPull.CmdStopPulling();
@@ -246,26 +253,26 @@ public class PlayerMove : NetworkBehaviour
 		//if player is downed, make them upright
 		if (registerPlayer.IsDownServer)
 		{
-			PlayerUprightMessage.SendToAll(gameObject, true, registerPlayer.IsStunnedServer);
+			PlayerUprightMessage.SendToAll(gameObject, true, registerPlayer.IsSlippingServer);
 		}
 	}
 
 	/// <summary>
-	/// Unrestrain the player when they are currently restrained.
+	/// Unbuckle the player when they are currently buckled..
 	/// </summary>
 	[Command]
-	public void CmdUnrestrain()
+	public void CmdUnbuckle()
 	{
-		Unrestrain();
+		Unbuckle();
 	}
 
 	/// <summary>
-	/// Server side logic for unrestraining a player
+	/// Server side logic for unbuckling a player
 	/// </summary>
 	[Server]
-	public void Unrestrain()
+	public void Unbuckle()
 	{
-		restrained = false;
+		buckled = false;
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.isNotPushable = false;
 
@@ -274,21 +281,73 @@ public class PlayerMove : NetworkBehaviour
 		    playerScript.playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
 		    playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
 		{
-			PlayerUprightMessage.SendToAll(gameObject, false, registerPlayer.IsStunnedServer);
+			PlayerUprightMessage.SendToAll(gameObject, false, registerPlayer.IsSlippingServer);
 		}
 
 		onUnbuckled?.Invoke();
 	}
 
-	//invoked client side when the restrained syncvar changes
-	private void OnRestrainedChanged(bool isRestrained)
+	//invoked client side when the buckled syncvar changes
+	private void OnBuckledChanged(bool isBuckled)
 	{
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			//have to do this with a lambda otherwise the Cmd will not fire
-			UIManager.AlertUI.ToggleAlertRestrained(isRestrained, () => this.CmdUnrestrain());
+			UIManager.AlertUI.ToggleAlertBuckled(isBuckled, () => this.CmdUnbuckle());
 		}
 
-		restrained = isRestrained;
+		buckled = isBuckled;
+	}
+
+	[Server]
+	public void Cuff(GameObject cuffs)
+	{
+		cuffed = true;
+		
+		pna.SetInventorySlot("handcuffs", cuffs);
+	}
+
+	[Server]
+	public void Uncuff()
+	{
+		cuffed = false;
+
+		pna.DropItem("handcuffs");
+	}
+
+	/// <summary>
+	/// Client tries to uncuff this
+	/// </summary>
+	[Server]
+	public void RequestUncuff(GameObject uncuffingPlayer)
+	{
+		if (!cuffed || !uncuffingPlayer)
+			return;
+
+		ConnectedPlayer uncuffingClient = PlayerList.Instance.Get(uncuffingPlayer);
+
+		if (uncuffingClient.Script.canNotInteract() || !PlayerScript.IsInReach(uncuffingPlayer.RegisterTile(), gameObject.RegisterTile(), true))
+			return;
+
+		Uncuff();
+	}
+
+	public void TryUncuffThis()
+	{
+		RequestUncuffMessage.Send(gameObject);
+	}
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		var initiator = PlayerManager.LocalPlayerScript.playerMove;
+
+		if (IsCuffed && initiator != this)
+		{
+			var result = RightClickableResult.Create();
+			result.AddElement("Uncuff", TryUncuffThis);
+			return result;
+		}
+
+		return null;
 	}
 }

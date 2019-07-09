@@ -77,7 +77,7 @@ public partial class PlayerSync
 	/// <summary>
 	/// If the position of this player is "non-sticky", i.e. meaning they would slide / float in a given direction
 	/// </summary>
-	public bool IsNonStickyServer => registerPlayer.IsStunnedServer
+	public bool IsNonStickyServer => registerPlayer.IsSlippingServer
 	            || !playerScript.IsGhost && MatrixManager.IsNonStickyAt(Vector3Int.RoundToInt( serverState.WorldPosition ), true);
 	public bool CanNotSpaceMoveServer => IsWeightlessServer && !IsAroundPushables( serverState, true );
 
@@ -364,7 +364,7 @@ public partial class PlayerSync
 	private PlayerState NextStateServer(PlayerState state, PlayerAction action)
 	{
 		//movement not allowed when buckled
-		if (playerMove.IsRestrained)
+		if (playerMove.IsBuckled)
 		{
 			Logger.LogWarning( $"Ignored {action}: player is bucked, rolling back!", Category.Movement );
 			RollbackPosition();
@@ -590,7 +590,7 @@ public partial class PlayerSync
 
 				//Explicitly informing about stunned players
 				//because they don't always meet clientside flight prediction expectations
-				if ( registerPlayer.IsStunnedServer )
+				if ( registerPlayer.IsSlippingServer )
 				{
 					serverState.ImportantFlightUpdate = true;
 					NotifyPlayers();
@@ -601,7 +601,7 @@ public partial class PlayerSync
 		if ( consideredFloatingServer && !IsWeightlessServer ) {
 			var worldOrigin = ServerPosition;
 			var worldTarget = worldOrigin + serverState.Impulse.RoundToInt();
-			if ( registerPlayer.IsStunnedServer && MatrixManager.IsPassableAt( worldOrigin, worldTarget, true ) )
+			if ( registerPlayer.IsSlippingServer && MatrixManager.IsPassableAt( worldOrigin, worldTarget, true ) )
 			{
 				Logger.LogFormat( "Letting stunned {0} fly onto {1}", Category.Movement, gameObject.name, worldTarget );
 				return;

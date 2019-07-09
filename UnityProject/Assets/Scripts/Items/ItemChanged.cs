@@ -30,10 +30,7 @@
 
 		private void ChangeItem(GameObject item)
 		{
-			if (item)
-			{
-			}
-			else
+			if (!item)
 			{
 				clothingItem.Clear();
 			}

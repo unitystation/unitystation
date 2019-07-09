@@ -541,7 +541,7 @@ public class MouseInputController : MonoBehaviour
 
 		Vector2 dir = (MouseWorldPosition - playerPos).normalized;
 
-		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsRestrained)
+		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsBuckled)
 		{
 			playerSprites.ChangeAndSyncPlayerDirection(Orientation.From(dir));
 		}
@@ -777,7 +777,7 @@ public class MouseInputController : MonoBehaviour
 
 	public void OnMouseDownDir(Vector2 dir)
 	{
-		if (!playerMove.IsRestrained)
+		if (!playerMove.IsBuckled)
 			playerSprites.ChangeAndSyncPlayerDirection(Orientation.From(dir));
 	}
 }

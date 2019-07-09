@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Handle displaying the sprites related to player, which includes clothing and the body.
+/// Handle displaying the sprites related to player, which includes underwear and the body.
+/// Note that the clothing you put on (UniCloths) are handled in Equipment
 /// Ghosts are handled in GhostSprites.
 /// </summary>
 public class PlayerSprites : UserControlledSprites

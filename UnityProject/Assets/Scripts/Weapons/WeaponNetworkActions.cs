@@ -125,12 +125,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		MeleeIemTrigger mit = weapon.GetComponent<MeleeIemTrigger>();
-
-
-		if (!mit.MeleeItemInteract(victim))
-			return;
-
+		// Consider moving this into a MeleeItemTrigger for knifes
 		//Meaty bodies:
 		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 
@@ -161,13 +156,20 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			playerMove.allowInput = false;
 		}
 
-		victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, DamageType.Brute, damageZone);
+		// MeleeItemTrigger decides whether we deal damage and play the hit sound
+		MeleeItemTrigger mit = weapon.GetComponent<MeleeItemTrigger>();
+		if (mit && mit.MeleeItemInteract(gameObject, victim))
+		{
+			victimHealth.ApplyDamage(gameObject, (int)weaponAttr.hitDamage, DamageType.Brute, damageZone);
+			SoundManager.PlayNetworkedAtPos(weaponAttr.hitSound, transform.position);
+		}
+
 		if (weaponAttr.hitDamage > 0)
 		{
 			PostToChatMessage.SendItemAttackMessage(weapon, gameObject, victim, (int) weaponAttr.hitDamage, damageZone);
 		}
 
-		SoundManager.PlayNetworkedAtPos( weaponAttr.hitSound, transform.position );
+		
 		StartCoroutine(AttackCoolDown());
 
 	}

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-
+using UnityEngine.Networking;
 
 [ExecuteInEditMode]
 public class RegisterPlayer : RegisterTile
@@ -10,8 +10,11 @@ public class RegisterPlayer : RegisterTile
 	/// </summary>
 	public bool IsDownClient { get; private set; }
 	public bool IsDownServer { get; set; }
-	public bool IsStunnedClient { get; set; }
-	public bool IsStunnedServer { get; private set; }
+
+	/// <summary>
+	/// True when the player is slipping
+	/// </summary>
+	public bool IsSlippingServer { get; private set; }
 
 
 	private UserControlledSprites playerSprites;
@@ -19,7 +22,7 @@ public class RegisterPlayer : RegisterTile
 	private MetaDataLayer metaDataLayer;
 
 	public bool IsBlockingClient => !playerScript.IsGhost && !IsDownClient;
-	public bool IsBlockingServer => !playerScript.IsGhost && !IsDownServer && !IsStunnedServer;
+	public bool IsBlockingServer => !playerScript.IsGhost && !IsDownServer && !IsSlippingServer;
 	private Coroutine unstunHandle;
 
 
@@ -96,7 +99,7 @@ public class RegisterPlayer : RegisterTile
 	{
 		if (!force)
 		{
-			if (playerScript.playerMove.IsRestrained)
+			if (playerScript.playerMove.IsBuckled)
 			{
 				return;
 			}
@@ -144,7 +147,7 @@ public class RegisterPlayer : RegisterTile
 	{
 		// Don't slip while walking unless its enabled with "slipWhileWalking".
 		// Don't slip while player's consious state is crit, soft crit, or dead.
-		if ( IsStunnedServer
+		if ( IsSlippingServer
 			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
 		    || playerScript.playerHealth.IsCrit
 		    || playerScript.playerHealth.IsSoftCrit
@@ -152,6 +155,8 @@ public class RegisterPlayer : RegisterTile
 		{
 			return;
 		}
+
+		IsSlippingServer = true;
 		Stun();
 		SoundManager.PlayNetworkedAtPos("Slip", WorldPositionServer, Random.Range(0.9f, 1.1f));
 		// Let go of pulled items.
@@ -166,12 +171,7 @@ public class RegisterPlayer : RegisterTile
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	public void Stun(float stunDuration = 4f, bool dropItem = true)
 	{
-		if ( IsStunnedServer )
-		{
-			return;
-		}
-		IsStunnedServer = true;
-		PlayerUprightMessage.SendToAll(gameObject, !IsStunnedServer, IsStunnedServer);
+		PlayerUprightMessage.SendToAll(gameObject, false, true);
 		if (dropItem)
 		{
 			playerScript.playerNetworkActions.DropItem("leftHand");
@@ -189,7 +189,7 @@ public class RegisterPlayer : RegisterTile
 
 	public void RemoveStun()
 	{
-		IsStunnedServer = false;
+		IsSlippingServer = false;
 
 		if (playerScript.playerHealth.IsCrit
 		 || playerScript.playerHealth.IsSoftCrit
@@ -198,7 +198,7 @@ public class RegisterPlayer : RegisterTile
 			return;
 		}
 
-		PlayerUprightMessage.SendToAll(gameObject, !IsStunnedServer, IsStunnedServer);
+		PlayerUprightMessage.SendToAll(gameObject, !IsSlippingServer, IsSlippingServer);
 		playerScript.playerMove.allowInput = true;
 	}
 }

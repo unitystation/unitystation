@@ -27,7 +27,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		"leftHand",
 		"storage01",
 		"storage02",
-		"suitStorage"
+		"suitStorage",
+		"handcuffs",
 	};
 
 	// For access checking. Must be nonserialized.
@@ -362,7 +363,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					if (fromSlot.Item == null)
 					{
 						//clear equip sprite
-						SyncEquipSprite(fromSlot.SlotName, -1);
+						SyncEquipSpritesFor(fromSlot, -1);
 					}
 				}
 			}
@@ -377,16 +378,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					if (toSlot.Item != null)
 					{
 						var att = toSlot.Item.GetComponent<ItemAttributes>();
+
 						if (toSlot.SlotName == "leftHand" || toSlot.SlotName == "rightHand")
 						{
 							equipment.SetHandItemSprite(att, toSlot.SlotName);
 						}
 						else if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") ||
 							att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
-							att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank"))
+							att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank") || toSlot.SlotName == "handcuffs")
 						{
-							Epos enumA = (Epos)Enum.Parse(typeof(Epos), toSlot.SlotName);
-							equipment.syncEquipSprites[(int)enumA] = att.clothingReference;
+							SyncEquipSpritesFor(toSlot, att.clothingReference);
 						}
 					}
 				}
@@ -401,11 +402,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 		return false;
 		}
-		if (!slot.IsUISlot)
+
+		return slot.IsUISlot;
+	}
+
+	[Server]
+	private void SyncEquipSpritesFor(InventorySlot slot, int spriteRef)
+	{
+		//clear equip sprite
+		if (slot.Owner.gameObject == gameObject)
 		{
-			return false;
+			SyncEquipSprite(slot.SlotName, spriteRef);
 		}
-		return true;
+		else
+		{
+			slot.Owner.GetComponent<PlayerNetworkActions>()?.SyncEquipSprite(slot.SlotName, spriteRef);
+		}
 	}
 
 	[Server]

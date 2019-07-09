@@ -35,7 +35,15 @@ public class StunBaton : InputTrigger
 
 	public override void UI_Interact(GameObject originator, string hand)
 	{
-		ToggleState();
+		if (!isServer)
+		{
+			UIInteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
+		}
+		else
+		{
+			SoundManager.PlayNetworkedAtPos(soundToggle, originator.transform.position);
+			ToggleState();
+		}
 	}
 
 	private void UpdateSprite()

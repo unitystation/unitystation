@@ -28,7 +28,8 @@ public abstract class UserControlledSprites : NetworkBehaviour
 
     protected virtual void Awake()
     {
-	    registerPlayer = GetComponent<RegisterPlayer>();
+		playerMove = GetComponent<PlayerMove>();
+		registerPlayer = GetComponent<RegisterPlayer>();
     }
 
     public override void OnStartServer()

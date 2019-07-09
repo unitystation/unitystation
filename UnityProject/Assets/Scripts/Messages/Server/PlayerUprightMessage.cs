@@ -3,19 +3,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public enum StunnedState
-{
-	Unknown = 0,
-	Stunned = 1,
-	NonStunned = 2
-}
-
 ///   Tells client to make given player appear laying down or back up on feet
 public class PlayerUprightMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.PlayerUprightMessage;
 	public bool Upright;
-	public StunnedState Stunned;
 	/// Whom is it about
 	public NetworkInstanceId SubjectPlayer;
 
@@ -42,11 +34,6 @@ public class PlayerUprightMessage : ServerMessage
 			//we ignore restraint
 			registerPlayer.LayDown(true);
 		}
-
-		if ( Stunned != StunnedState.Unknown )
-		{
-			registerPlayer.IsStunnedClient = Stunned == StunnedState.Stunned;
-		}
 	}
 
 	public static PlayerUprightMessage Send(GameObject recipient, GameObject subjectPlayer, bool upright, bool isStunned)
@@ -59,7 +46,6 @@ public class PlayerUprightMessage : ServerMessage
 		{
 			SubjectPlayer = subjectPlayer.NetId(),
 			Upright = upright,
-			Stunned = isStunned ? StunnedState.Stunned : StunnedState.NonStunned
 		};
 		msg.SendTo(recipient);
 		return msg;
@@ -81,10 +67,8 @@ public class PlayerUprightMessage : ServerMessage
 		{
 			SubjectPlayer = subjectPlayer.NetId(),
 			Upright = upright,
-			Stunned = StunnedState.Unknown
 		};
 		msg.SendToAllExcept( subjectPlayer );
-		msg.Stunned = isStunned ? StunnedState.Stunned : StunnedState.NonStunned;
 		msg.SendTo( subjectPlayer );
 	}
 
@@ -95,7 +79,7 @@ public class PlayerUprightMessage : ServerMessage
 		if (!upright)
 		{
 			//cannot lay down if they are restrained
-			if (playerScript.playerMove.IsRestrained)
+			if (playerScript.playerMove.IsBuckled)
 			{
 				return false;
 			}

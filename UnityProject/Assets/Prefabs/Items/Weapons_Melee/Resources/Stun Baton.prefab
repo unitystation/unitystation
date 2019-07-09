@@ -124,17 +124,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clothingReference: -1
-  hierarchy: /obj/item/weapon/melee/baton
-  inHandReferenceLeft: 0
-  inHandReferenceRight: 0
-  itemName: 
-  itemDescription: 
+  hierarchy: 
+  inHandReferenceLeft: 372
+  inHandReferenceRight: 384
+  itemName: Stun baton
+  itemDescription: A stun baton for incapacitating people with.
   itemType: 0
-  size: 2
+  size: 3
   spriteType: 0
   CanConnectToTank: 0
-  hitDamage: 12
-  throwDamage: 0
+  hitDamage: 10
+  throwDamage: 7
   throwSpeed: 2
   throwRange: 7
   hitSound: GenericHit
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 7696668133186149747}
-  soundToggle: 
+  soundToggle: Sparks01
   spriteActive: {fileID: 21300046, guid: 67fdd009e5f134316a51fc772edb8ed8, type: 3}
   spriteInactive: {fileID: 21300060, guid: 67fdd009e5f134316a51fc772edb8ed8, type: 3}
 --- !u!114 &3232839523659743446
@@ -228,8 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc379e328bc3bd44a6541cd4f3e5a57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stunTime: 2
-  sound: EGloves
+  stunTime: 14
 --- !u!1 &7503752899205498039
 GameObject:
   m_ObjectHideFlags: 0

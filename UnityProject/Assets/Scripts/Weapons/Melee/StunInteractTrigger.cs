@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StunInteractTrigger : MeleeIemTrigger
+public class StunInteractTrigger : MeleeItemTrigger
 {
 	public float stunTime;
-
-	public string sound;
 
 	private StunBaton stunBaton;
 
@@ -16,7 +14,7 @@ public class StunInteractTrigger : MeleeIemTrigger
 		stunBaton = GetComponent<StunBaton>();
 	}
 
-	public override bool MeleeItemInteract(GameObject victim)
+	public override bool MeleeItemInteract(GameObject originator, GameObject victim)
 	{
 		// If stun baton isn't active just beat the victim
 		if (stunBaton && !stunBaton.isActive())
@@ -29,9 +27,9 @@ public class StunInteractTrigger : MeleeIemTrigger
 		if (victim && (stunBaton == null || stunBaton.isActive()))
 		{
 			registerPlayerVictim.Stun(stunTime);
-			SoundManager.PlayNetworkedAtPos(sound, victim.transform.position);
+			SoundManager.PlayNetworkedAtPos("Sparks0" + UnityEngine.Random.Range(1, 4), victim.transform.position);
 		}
 
-		return UIManager.CurrentIntent != Intent.Help;
+		return !originator.GetComponent<PlayerMove>().IsHelpIntent;
 	}
 }

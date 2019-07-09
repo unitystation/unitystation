@@ -344,6 +344,7 @@ public enum Epos
 	hands,
 	ear,
 	neck,
+	handcuffs,
 	id,
 	storage01,
 	storage02,

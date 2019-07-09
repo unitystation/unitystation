@@ -316,7 +316,7 @@ public class MatrixManager : MonoBehaviour
 		foreach (PlayerMove playerMove in playerMoves)
 		{
 			if (playerMove.IsHelpIntent && !playerMove.PlayerScript.registerTile.IsPassable(isServer) && playerMove.gameObject != mover
-			    && !playerMove.PlayerScript.pushPull.IsPullingSomething && !playerMove.IsRestrained)
+			    && !playerMove.PlayerScript.pushPull.IsPullingSomething && !playerMove.IsBuckled)
 			{
 				return playerMove;
 			}
