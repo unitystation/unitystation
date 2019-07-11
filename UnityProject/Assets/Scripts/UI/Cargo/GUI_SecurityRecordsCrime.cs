@@ -17,8 +17,10 @@ public class GUI_SecurityRecordsCrime : DynamicEntry
 
 	public void ReInit(SecurityRecordCrime crimeToInit, GUI_SecurityRecordsEntryPage entryPageToInit)
 	{
+		Debug.Log("page 1 " + entryPage);
 		crime = crimeToInit;
 		entryPage = entryPageToInit;
+		Debug.Log("page 2 " + entryPage);
 
 		crimeText.SetValue = crime.Crime;
 		detailsText.SetValue = crime.Details;
@@ -28,7 +30,19 @@ public class GUI_SecurityRecordsCrime : DynamicEntry
 
 	public void DeleteCrime()
 	{
+		Debug.Log("page 3 " + entryPage);
 		entryPage.DeleteCrime(crime);
+	}
+
+	public void SetEditingField(NetLabel fieldToEdit)
+	{
+		entryPage.SetEditingField(fieldToEdit, crime);
+	}
+
+	public void OpenPopup()
+	{
+		Debug.Log("page 4 " + entryPage);
+		entryPage.OpenPopup();
 	}
 }
 

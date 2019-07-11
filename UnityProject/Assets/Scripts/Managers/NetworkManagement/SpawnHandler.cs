@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -32,6 +32,7 @@ public static class SpawnHandler
 		var playerScript = player.GetComponent<PlayerScript>();
 		playerScript.mind = new Mind();
 		playerScript.mind.body = playerScript;
+		SecurityRecordsManager.Instance.AddRecord(playerScript);
 	}
 
 	public static GameObject SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)

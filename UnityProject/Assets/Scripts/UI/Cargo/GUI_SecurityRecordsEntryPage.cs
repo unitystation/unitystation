@@ -31,6 +31,7 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 	[SerializeField]
 	private GameObject popupWindow;
 	private NetLabel currentlyEditingField;
+	private SecurityRecordCrime currentlyEditingCrime;
 
 	public void OnOpen(SecurityRecord recordToOpen, GUI_SecurityRecords recordsTab)
 	{
@@ -110,6 +111,12 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 		currentlyEditingField = fieldToEdit;
 	}
 
+	public void SetEditingField(NetLabel fieldToEdit, SecurityRecordCrime crimeToEdit)
+	{
+		currentlyEditingField = fieldToEdit;
+		currentlyEditingCrime = crimeToEdit;
+	}
+
 	public void ConfirmPopup(string value)
 	{
 		currentlyEditingField.SetValue = value;
@@ -136,6 +143,18 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 				break;
 			case "FingerprintText":
 				record.Fingerprints = value;
+				break;
+			case "CrimeText":
+				currentlyEditingCrime.Crime = value;
+				break;
+			case "DetailsText":
+				currentlyEditingCrime.Details = value;
+				break;
+			case "AuthorText":
+				currentlyEditingCrime.Author = value;
+				break;
+			case "TimeText":
+				currentlyEditingCrime.Time = value;
 				break;
 		}
 	}
