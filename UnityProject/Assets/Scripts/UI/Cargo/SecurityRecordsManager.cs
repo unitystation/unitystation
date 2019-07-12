@@ -22,20 +22,18 @@ public class SecurityRecordsManager : MonoBehaviour
 		}
 	}
 
-	private void Start()
-	{
-
-	}
-
+	/// <summary>
+	/// Adds record to SecurityRecords list.
+	/// Called in RespawnPlayer, so every new respawn creates a record.
+	/// </summary>
 	public void AddRecord(PlayerScript script)
 	{
-		SecurityRecord record;
+		SecurityRecord record = new SecurityRecord();
 
-		record = new SecurityRecord();
 		record.EntryName = script.playerName;
-		record.Age = script.CharacterSettings.Age.ToString();
-		record.Rank = script.JobType.JobString();
-		record.Sex = script.CharacterSettings.Gender.ToString();
+		record.Age = script.characterSettings.Age.ToString();
+		record.Rank = script.mind.jobType.JobString();
+		record.Sex = script.characterSettings.Gender.ToString();
 		//We don't have races yet. Or I didn't find them.
 		record.Species = "Human";
 		//I don't know what to put in ID and Fingerprints

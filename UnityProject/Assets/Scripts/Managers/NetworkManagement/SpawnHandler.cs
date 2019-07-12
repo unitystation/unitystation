@@ -35,7 +35,7 @@ public static class SpawnHandler
 		new Mind(player, jobType);
 		var equipment = player.GetComponent<Equipment>();
 		equipment.SetPlayerLoadOuts();
-		SecurityRecordsManager.Instance.AddRecord(playerScript);
+		SecurityRecordsManager.Instance.AddRecord(player.GetComponent<PlayerScript>());
 	}
 
 	public static GameObject SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)

@@ -38,7 +38,7 @@ public class GUI_SecurityRecordsCrime : DynamicEntry
 
 	public void OpenPopup()
 	{
-		//We set entryPage only server-side, but popup is opening client-side
+		//Previously we set entryPage only server-side, but popup is opening client-side
 		if (entryPage == null)
 			entryPage = GetComponentInParent<GUI_SecurityRecordsEntryPage>();
 		entryPage.OpenPopup();

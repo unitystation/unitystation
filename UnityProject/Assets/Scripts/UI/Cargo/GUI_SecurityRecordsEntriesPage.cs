@@ -19,6 +19,9 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 		UpdateTab();
 	}
 
+	/// <summary>
+	/// Reseting list - removing all search conditions.
+	/// </summary>
 	private void ResetList()
 	{
 		List<SecurityRecord> records = SecurityRecordsManager.Instance.SecurityRecords;
@@ -28,7 +31,6 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 		{
 			currentRecords.Add(records[i]);
 		}
-		Debug.Log($"records {records.Count}, currRecords {currentRecords.Count}");
 	}
 
 /// <summary>
@@ -41,7 +43,6 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 		List<SecurityRecord> newList = new List<SecurityRecord>();
 		ResetList();
 
-		Debug.Log($"Searching for -{searchText}-");
 		if (searchText.Length > 0 && searchText != " " && !searchText.IsNullOrEmpty())
 		{
 			foreach (var record in currentRecords)
@@ -49,13 +50,12 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 				if (record.EntryName.Contains(searchText) || record.Age.Contains(searchText) ||
 					record.ID.Contains(searchText) || record.Rank.Contains(searchText) ||
 					record.Sex.Contains(searchText) || record.Species.Contains(searchText) ||
-					record.Fingerprints.Contains(searchText))
+					record.Fingerprints.Contains(searchText) || record.Status.ToString().Contains(searchText))
 					newList.Add(record);
 			}
 			currentRecords.Clear();
 			currentRecords.AddRange(newList);
 		}
-		Debug.Log($"records after search {currentRecords.Count}");
 		UpdateTab();
 	}
 

@@ -109,22 +109,40 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 		statusButtonText.SetValue = record.Status.ToString();
 	}
 
+	/// <summary>
+	/// Opens popup locally. Whole interaction cycle look like this:
+	/// 1. Client opens Popup and sets currenty edited field on the server.
+	/// 2. Client confirms edit in popup, popup closes locally.
+	/// 3. Server sets fields with values from popup.
+	/// </summary>
 	public void OpenPopup()
 	{
 		popupWindow.SetActive(true);
 	}
 
+	/// <summary>
+	/// Set field to edit in popup.
+	/// Used for info entry (name, age, etc.)
+	/// </summary>
 	public void SetEditingField(NetLabel fieldToEdit)
 	{
 		currentlyEditingField = fieldToEdit;
 	}
 
+	/// <summary>
+	/// Set Editing field for crime entry.
+	/// </summary>
 	public void SetEditingField(NetLabel fieldToEdit, SecurityRecordCrime crimeToEdit)
 	{
 		currentlyEditingField = fieldToEdit;
 		currentlyEditingCrime = crimeToEdit;
 	}
 
+	/// <summary>
+	/// Sets currentlyEditingField value to sent value.
+	/// The way it is done is bad, I just couldn't come up with better one.
+	/// </summary>
+	/// <param name="value">String to set in field.</param>
 	public void ConfirmPopup(string value)
 	{
 		currentlyEditingField.SetValue = value;
