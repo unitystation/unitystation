@@ -106,7 +106,7 @@ public class MouseInputController : MonoBehaviour
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 
 		//Do not include the Default layer! Assign your object to one of the layers below:
-		layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
+		layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Unshootable Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
 			"HiddenWalls", "Objects", "Matrix");
 	}
 
@@ -252,6 +252,7 @@ public class MouseInputController : MonoBehaviour
 	//return the Gun component if there is a loaded gun in active hand, otherwise null.
 	private Gun GetLoadedGunInActiveHand()
 	{
+		if (UIManager.Instance == null || UIManager.Hands == null || UIManager.Hands.CurrentSlot == null) return null;
 		var item = UIManager.Hands.CurrentSlot.Item;
 		if (item != null)
 		{
@@ -305,55 +306,31 @@ public class MouseInputController : MonoBehaviour
 			//go through the stack of objects and call any interaction components we find
 			foreach (GameObject applyTarget in handApplyTargets)
 			{
-				//check for positionalHandApply first since it is more specific
-				if (CheckPositionalHandApply(PositionalHandApply.ByLocalPlayer(applyTarget.gameObject))) return true;
-				if (CheckHandApply(HandApply.ByLocalPlayer(applyTarget.gameObject))) return true;
+				if (CheckHandApply(applyTarget)) return true;
 			}
 		}
 
 		return false;
 	}
 
-	private bool CheckPositionalHandApply(PositionalHandApply interaction)
+	private bool CheckHandApply(GameObject target)
 	{
 		//call the used object's handapply interaction methods if it has any, for each object we are applying to
-        //if handobj is null, then its an empty hand apply so we only need to check the receiving object
-        if (interaction.HandObject != null)
-        {
-        	foreach (IInteractable<PositionalHandApply> handApply in interaction.HandObject.GetComponents<IInteractable<PositionalHandApply>>())
-        	{
-        		var interacted = handApply.Interact(interaction);
-        		if (interacted)
-        		{
-        			//we're done checking, something happened
-        			return true;
-        		}
-        	}
-        }
+		var handApply = HandApply.ByLocalPlayer(target);
+		var posHandApply = PositionalHandApply.ByLocalPlayer(target);
 
-        //call the hand apply interaction methods on the target object if it has any
-        foreach (IInteractable<PositionalHandApply> handApply in interaction.TargetObject.GetComponents<IInteractable<PositionalHandApply>>())
-        {
-        	var interacted = handApply.Interact(interaction);
-        	if (interacted)
-        	{
-        		//something happened, done checking
-        		return true;
-        	}
-        }
-
-        return false;
-	}
-
-	private bool CheckHandApply(HandApply interaction)
-	{
-		//call the used object's handapply interaction methods if it has any, for each object we are applying to
 		//if handobj is null, then its an empty hand apply so we only need to check the receiving object
-		if (interaction.HandObject != null)
+		if (handApply.HandObject != null)
 		{
-			foreach (IInteractable<HandApply> handApply in interaction.HandObject.GetComponents<IInteractable<HandApply>>())
+			//get all components that can handapply or PositionalHandApply
+			var handAppliables = handApply.HandObject.GetComponents<Component>()
+				.Where(c => c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>);
+
+			foreach (var handAppliable in handAppliables)
 			{
-				var interacted = handApply.Interact(interaction);
+				var interacted = handAppliable is IInteractable<HandApply> ?
+					(handAppliable as IInteractable<HandApply>).Interact(handApply) :
+					(handAppliable as IInteractable<PositionalHandApply>).Interact(posHandApply);
 				if (interacted)
 				{
 					//we're done checking, something happened
@@ -363,12 +340,16 @@ public class MouseInputController : MonoBehaviour
 		}
 
 		//call the hand apply interaction methods on the target object if it has any
-		foreach (IInteractable<HandApply> handApply in interaction.TargetObject.GetComponents<IInteractable<HandApply>>())
+		var targetHandAppliables = handApply.TargetObject.GetComponents<Component>()
+			.Where(c => c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>);
+		foreach (var targetHandAppliable in targetHandAppliables)
 		{
-			var interacted = handApply.Interact(interaction);
+			var interacted = targetHandAppliable is IInteractable<HandApply> ?
+				(targetHandAppliable as IInteractable<HandApply>).Interact(handApply) :
+				(targetHandAppliable as IInteractable<PositionalHandApply>).Interact(posHandApply);
 			if (interacted)
 			{
-				//something happened, done checking
+				//we're done checking, something happened
 				return true;
 			}
 		}

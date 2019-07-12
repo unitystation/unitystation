@@ -21,24 +21,26 @@ public static class SpawnHandler
 
 	public static void ClonePlayer(NetworkConnection conn, short playerControllerId, JobType jobType, CharacterSettings characterSettings, GameObject oldBody, GameObject spawnSpot)
 	{
-		GameObject player = CreateMob(jobType, spawnSpot, CustomNetworkManager.Instance.humanPlayerPrefab);
+		GameObject player = CreateMob(spawnSpot, CustomNetworkManager.Instance.humanPlayerPrefab);
 		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
+		var playerScript = player.GetComponent<PlayerScript>();
+		var oldPlayerScript = oldBody.GetComponent<PlayerScript>();
+		oldPlayerScript.mind.SetNewBody(playerScript);
 	}
 
 	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType, CharacterSettings characterSettings, GameObject oldBody)
 	{
 		GameObject player = CreatePlayer(jobType);
 		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
-		var playerScript = player.GetComponent<PlayerScript>();
-		playerScript.mind = new Mind();
-		playerScript.mind.body = playerScript;
+		new Mind(player, jobType);
+		var equipment = player.GetComponent<Equipment>();
+		equipment.SetPlayerLoadOuts();
 		SecurityRecordsManager.Instance.AddRecord(playerScript);
 	}
 
 	public static GameObject SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)
 	{
-		var jobType = oldBody.GetComponent<PlayerScript>().JobType;
-		GameObject ghost = CreateMob(jobType, oldBody, CustomNetworkManager.Instance.ghostPrefab);
+		GameObject ghost = CreateMob(oldBody, CustomNetworkManager.Instance.ghostPrefab);
 		TransferPlayer(conn, playerControllerId, ghost, oldBody, EVENT.GhostSpawned, characterSettings);
 		return ghost;
 	}
@@ -53,6 +55,12 @@ public static class SpawnHandler
 	/// <param name="eventType">Event type for the player sync.</param>
 	public static void TransferPlayer(NetworkConnection conn, short playerControllerId, GameObject newBody, GameObject oldBody, EVENT eventType, CharacterSettings characterSettings)
 	{
+		var oldPlayerNetworkActions = oldBody.GetComponent<PlayerNetworkActions>();
+		if(oldPlayerNetworkActions)
+		{
+			oldPlayerNetworkActions.RpcBeforeBodyTransfer();
+		}
+
 		var connectedPlayer = PlayerList.Instance.Get(conn);
 		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
 		{
@@ -63,6 +71,7 @@ public static class SpawnHandler
 		{
 			PlayerList.Instance.UpdatePlayer(conn, newBody);
 			NetworkServer.ReplacePlayerForConnection(conn, newBody, playerControllerId);
+			NetworkServer.ReplacePlayerForConnection(new NetworkConnection(), oldBody, 0);
 			TriggerEventMessage.Send(newBody, eventType);
 		}
 		var playerScript = newBody.GetComponent<PlayerScript>();
@@ -78,15 +87,27 @@ public static class SpawnHandler
 		{
 			ClosetHandlerMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
 		}
-
-		CustomNetworkManager.Instance.SyncPlayerData(newBody);
+		bool newMob = false;
 		if(characterSettings != null)
 		{
-			playerScript.ServerSetCharacterSettings(characterSettings);
+			playerScript.characterSettings = characterSettings;
+			var playerSprites = newBody.GetComponent<PlayerSprites>();
+			if (playerSprites)
+			{
+				playerSprites.OnCharacterSettingsChange(characterSettings);
+			}
+			newMob = true;
 		}
+		var healthStateMonitor = newBody.GetComponent<HealthStateMonitor>();
+		if(healthStateMonitor)
+		{
+			healthStateMonitor.ProcessClientUpdateRequest(newBody);
+		}
+		CustomNetworkManager.Instance.SyncPlayerData(newBody);
+		CustomNetworkManager.Instance.SyncCharSprites(newBody, newMob);
 	}
 
-	private static GameObject CreateMob(JobType jobType, GameObject spawnSpot, GameObject mobPrefab)
+	private static GameObject CreateMob(GameObject spawnSpot, GameObject mobPrefab)
 	{
 		var registerTile = spawnSpot.GetComponent<RegisterTile>();
 
@@ -99,7 +120,7 @@ public static class SpawnHandler
 			var objectLayer = registerTile.layer;
 			parentNetId = objectLayer.GetComponentInParent<NetworkIdentity>().netId;
 			parentTransform = objectLayer.transform;
-			spawnPosition = spawnSpot.GetComponent<ObjectBehaviour>().AssumedLocation().RoundToInt();
+			spawnPosition = spawnSpot.GetComponent<ObjectBehaviour>().AssumedWorldPosition().RoundToInt();
 		}
 		else //spawnSpot is a Spawnpoint object
 		{
@@ -113,7 +134,6 @@ public static class SpawnHandler
 		GameObject newMob = Object.Instantiate(mobPrefab, spawnPosition, Quaternion.identity, parentTransform);
 		var playerScript = newMob.GetComponent<PlayerScript>();
 
-		playerScript.JobType = jobType;
 		playerScript.registerTile.ParentNetId = parentNetId;
 
 		return newMob;
@@ -129,12 +149,11 @@ public static class SpawnHandler
 
 		if (spawnTransform != null)
 		{
-			player = CreateMob( jobType, spawnTransform.gameObject, playerPrefab );
+			player = CreateMob(spawnTransform.gameObject, playerPrefab );
 		}
 		else
 		{
 			player = Object.Instantiate(playerPrefab);
-			player.GetComponent<PlayerScript>().JobType = jobType;
 		}
 
 		return player;

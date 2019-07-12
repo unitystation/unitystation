@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Atmospherics;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 /// <summary>
@@ -8,11 +11,23 @@ using UnityEngine.Networking;
 /// Monitors and calculates health
 /// </summary>
 [RequireComponent(typeof(HealthStateMonitor))]
-public abstract class LivingHealthBehaviour : NetworkBehaviour
+public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 {
+	//damage incurred per tick per fire stack
+	private static readonly float DAMAGE_PER_FIRE_STACK = 1;
+	//volume and temp of hotspot exposed by this player when they are on fire
+	private static readonly float BURNING_HOTSPOT_VOLUME = .005f;
+	private static readonly float BURNING_HOTSPOT_TEMPERATURE = 700f;
+
+	/// <summary>
+	/// Server side, each mob has a different one and never it never changes
+	/// </summary>
+	public int mobID { get; private set; }
+
 	public float maxHealth = 100;
 
 	public float OverallHealth { get; private set; } = 100;
+	public float cloningDamage;
 
 	// Systems can also be added via inspector
 	public BloodSystem bloodSystem;
@@ -57,6 +72,25 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	// JSON string for blood types and DNA.
 	[SyncVar(hook = "DNASync")] //May remove this in the future and only provide DNA info on request
 	private string DNABloodTypeJSON;
+
+	//how on fire we are, sames as tg fire_stacks. 0 = not on fire.
+	//It's called "stacks" but it's really just a floating point value that
+	//can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
+	[SyncVar(hook=nameof(SyncFireStacks))]
+	private float fireStacks;
+
+	/// <summary>
+	/// How on fire we are. Exists client side - synced with server.
+	/// </summary>
+	public float FireStacks => fireStacks;
+
+	/// <summary>
+	/// Client side event which fires when this object's fire status changes
+	/// (becoming on fire, extinguishing, etc...). Use this to update
+	/// burning sprites.
+	/// </summary>
+	[NonSerialized]
+	public FireStackEvent OnClientFireStacksChange = new FireStackEvent();
 
 	// BloodType and DNA Data.
 	private DNAandBloodType DNABloodType;
@@ -127,6 +161,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 
 	public override void OnStartServer()
 	{
+		mobID = PlayerManager.Instance.GetMobID();
 		ResetBodyParts();
 		if (maxHealth <= 0)
 		{
@@ -138,6 +173,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		DNABloodType = new DNAandBloodType();
 		DNABloodTypeJSON = JsonUtility.ToJson(DNABloodType);
 		bloodSystem.SetBloodType(DNABloodType);
+
 		base.OnStartServer();
 	}
 
@@ -156,6 +192,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 		yield return WaitFor.EndOfFrame;
 		DNASync(DNABloodTypeJSON);
+		SyncFireStacks(this.fireStacks);
 	}
 
 	// This is the DNA SyncVar hook
@@ -163,6 +200,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	{
 		DNABloodTypeJSON = updatedDNA;
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
+	}
+
+	private void SyncFireStacks(float newValue)
+	{
+		this.fireStacks = Math.Max(0,newValue);
+		OnClientFireStacksChange.Invoke(this.fireStacks);
 	}
 
 	/// ---------------------------
@@ -231,21 +274,29 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 	/// </summary>
 	/// <param name="damagedBy">The player or object that caused the damage. Null if there is none</param>
 	/// <param name="damage">Damage Amount</param>
+	/// <param name="attackType">type of attack that is causing the damage</param>
 	/// <param name="damageType">The Type of Damage</param>
 	/// <param name="bodyPartAim">Body Part that is affected</param>
 	[Server]
 	public virtual void ApplyDamage(GameObject damagedBy, float damage,
-		DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
+		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim = BodyPartType.Chest)
 	{
 		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
 		if(bodyPartBehaviour == null)
 		{
 			return;
 		}
+		//TODO: determine and apply armor protection
+
 		LastDamageType = damageType;
 		LastDamagedBy = damagedBy;
 		bodyPartBehaviour.ReceiveDamage(damageType, damage);
 		HealthBodyPartMessage.Send(gameObject, gameObject, bodyPartAim, bodyPartBehaviour.BruteDamage, bodyPartBehaviour.BurnDamage);
+
+		if (attackType == AttackType.Fire)
+		{
+			SyncFireStacks(fireStacks+1);
+		}
 
 		//For special effects spawning like blood:
 		DetermineDamageEffects(damageType);
@@ -279,6 +330,13 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			healAmt, prevHealth, OverallHealth, gameObject.name, damageTypeToHeal, bodyPartAim, healingItem);
 	}
 
+
+	public void OnExposed(FireExposure exposure)
+	{
+		//TODO: Apply to limbs, not just chest
+		ApplyDamage(null, 1, AttackType.Fire, DamageType.Burn);
+	}
+
 	/// ---------------------------
 	/// UPDATE LOOP
 	/// ---------------------------
@@ -293,6 +351,21 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 			if (tick > tickRate)
 			{
 				tick = 0f;
+				if (fireStacks > 0)
+				{
+					//TODO: Burn clothes / limbs (see species.dm handle_fire), currently it just burns the chest.
+					ApplyDamage(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Internal, DamageType.Burn);
+					//gradually deplete fire stacks
+					SyncFireStacks(fireStacks-0.1f);
+					//instantly stop burning if there's no oxygen at this location
+					MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
+					if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
+					{
+						SyncFireStacks(0);
+					}
+					registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), BURNING_HOTSPOT_TEMPERATURE, BURNING_HOTSPOT_VOLUME);
+				}
+
 				CalculateOverallHealth();
 				CheckHealthAndUpdateConsciousState();
 			}
@@ -333,6 +406,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		newHealth -= CalculateOverallBodyPartDamage();
 		newHealth -= CalculateOverallBloodLossDamage();
 		newHealth -= bloodSystem.OxygenDamage;
+		newHealth -= cloningDamage;
 		OverallHealth = newHealth;
 	}
 
@@ -400,6 +474,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		ConsciousState = ConsciousState.DEAD;
 		OnDeathActions();
 		bloodSystem.StopBleedingAll();
+		//stop burning
+		//TODO: When clothes/limb burning is implemented, probably should keep burning until clothes are burned up
+		SyncFireStacks(0);
 	}
 
 	private void Crit(bool allowCrawl = false)
@@ -604,6 +681,28 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour
 		}
 	}
 
+}
+
+/// <summary>
+/// Event which fires when fire stack value changes.
+/// </summary>
+public class FireStackEvent : UnityEvent<float> {}
+
+/// <summary>
+/// Communicates fire status changes.
+/// </summary>
+public class FireStatus
+{
+	//whether becoming on fire or extinguished
+	public readonly bool IsOnFire;
+	//whether we are engulfed by flames or just partially on fire
+	public readonly bool IsEngulfed;
+
+	public FireStatus(bool isOnFire, bool isEngulfed)
+	{
+		IsOnFire = isOnFire;
+		IsEngulfed = isEngulfed;
+	}
 }
 
 public static class HealthThreshold

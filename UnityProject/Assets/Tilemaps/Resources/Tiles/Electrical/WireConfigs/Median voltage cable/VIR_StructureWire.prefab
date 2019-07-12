@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 114605427988546660}
   - component: {fileID: 61191429627008892}
   - component: {fileID: 114707142367328636}
-  m_Layer: 29
+  m_Layer: 22
   m_Name: VIR_StructureWire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,6 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 3
   crossed:
     m_PersistentCalls:
@@ -4952,7 +4953,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 34
   m_RenderMode: 0
   m_SortMode: 0
@@ -9650,7 +9651,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 34
   m_RenderMode: 0
   m_SortMode: 0

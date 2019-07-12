@@ -22,14 +22,20 @@ public class ControlDisplays : MonoBehaviour
 
 	void HumanUI()
 	{
-		hudBottomHuman.gameObject.SetActive(true);
-		hudBottomGhost.gameObject.SetActive(false);
+		if (hudBottomGhost != null && hudBottomGhost != null)
+		{
+			hudBottomHuman.gameObject.SetActive(true);
+			hudBottomGhost.gameObject.SetActive(false);
+		}
 	}
 
 	void GhostUI()
 	{
-		hudBottomHuman.gameObject.SetActive(false);
-		hudBottomGhost.gameObject.SetActive(true);
+		if (hudBottomGhost != null && hudBottomGhost != null)
+		{
+			hudBottomHuman.gameObject.SetActive(false);
+			hudBottomGhost.gameObject.SetActive(true);
+		}
 	}
 
 	/// <summary>
@@ -58,6 +64,8 @@ public class ControlDisplays : MonoBehaviour
 
 	public void SetScreenForGame()
 	{
+		hudBottomHuman.gameObject.SetActive(false);
+		hudBottomGhost.gameObject.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		uiAnimator.Play("idle");
@@ -73,7 +81,7 @@ public class ControlDisplays : MonoBehaviour
 	public void DetermineGameMode()
 	{
 		//if(GameManager.Instance.gameMode == GameMode.nukeops){
-			nukeOpsGameMode.SetActive(true);
+		nukeOpsGameMode.SetActive(true);
 		//}
 	}
 

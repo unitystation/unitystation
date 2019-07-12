@@ -38,8 +38,7 @@ public class Welder : NBHandActivateInteractable
 	private string currentHand;
 
 	private ItemAttributes itemAtts;
-	private MetaDataLayer metaDataLayer;
-	private ReactionManager reactionManager;
+	private RegisterTile registerTile;
 
 	[SyncVar(hook = nameof(UpdateState))] public bool isOn;
 
@@ -86,8 +85,7 @@ public class Welder : NBHandActivateInteractable
 	void Awake()
 	{
 		itemAtts = GetComponent<ItemAttributes>();
-		metaDataLayer = GetComponentInParent<MetaDataLayer>();
-		reactionManager = GetComponentInParent<ReactionManager>();
+		registerTile = GetComponent<RegisterTile>();
 
 		leftHandOriginal = itemAtts.inHandReferenceLeft;
 		rightHandOriginal = itemAtts.inHandReferenceRight;
@@ -154,7 +152,7 @@ public class Welder : NBHandActivateInteractable
 
 	void CheckHeldByPlayer()
 	{
-		if (UIManager.Hands.CurrentSlot.Item == gameObject)
+		if (UIManager.Instance != null && UIManager.Hands != null && UIManager.Hands.CurrentSlot != null && UIManager.Hands.CurrentSlot.Item == gameObject)
 		{
 			UIManager.Hands.CurrentSlot.SetSecondaryImage(flameRenderer.sprite);
 		}
@@ -202,13 +200,13 @@ public class Welder : NBHandActivateInteractable
 					UpdateState(false);
 				}
 
-				Vector3Int position = transform.localPosition.RoundToInt();
+				Vector2Int position = gameObject.TileWorldPosition();
 				if (heldByPlayer != null)
 				{
-					position = heldByPlayer.transform.localPosition.RoundToInt();
+					position = heldByPlayer.gameObject.TileWorldPosition();
 				}
 
-				reactionManager.ExposeHotspot(position, 700, 0.005f);
+				registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(position, 700, 0.005f);
 			}
 
 			yield return WaitFor.Seconds(.1f);

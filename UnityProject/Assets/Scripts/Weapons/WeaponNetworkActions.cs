@@ -6,6 +6,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 {
 	private readonly float speed = 7f;
 	private bool allowAttack = true;
+	float fistDamage = 5;
 
 	//muzzle flash
 	private bool isFlashing;
@@ -20,7 +21,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private Sprite lerpSprite;
 
 	private Vector3 lerpTo;
-	public GameObject muzzleFlash;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private RegisterPlayer registerPlayer;
@@ -69,14 +69,14 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		BodyPartType damageZone, LayerType layerType)
 	{
 		if (!playerMove.allowInput ||
-			playerScript.IsGhost ||
-			!victim ||
-			!playerScript.playerNetworkActions.SlotNotEmpty(slot) ||
-			!playerScript.playerHealth.serverPlayerConscious
+		    playerScript.IsGhost ||
+		    !victim ||
+		    !playerScript.playerHealth.serverPlayerConscious
 		)
 		{
 			return;
 		}
+
 		if (!allowAttack)
 		{
 			return;
@@ -127,8 +127,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 		//Meaty bodies:
 		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
-
-		if (victimHealth.IsDead && weaponAttr.itemType == ItemType.Knife)
+		if (victimHealth != null && victimHealth.IsDead && weaponAttr.itemType == ItemType.Knife)
 		{
 			if (victim.GetComponent<SimpleAnimal>())
 			{
@@ -155,15 +154,79 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			playerMove.allowInput = false;
 		}
 
-		victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, DamageType.Brute, damageZone);
+		var integrity = victim.GetComponent<Integrity>();
+		if (integrity != null)
+		{
+			//damaging an object
+			integrity.ApplyDamage((int)weaponAttr.hitDamage, AttackType.Melee, DamageType.Brute);
+		}
+		else
+		{
+			//damaging a living thing
+			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, DamageType.Brute, damageZone);
+		}
+
+
 		if (weaponAttr.hitDamage > 0)
 		{
-			PostToChatMessage.SendItemAttackMessage(weapon, gameObject, victim, (int) weaponAttr.hitDamage, damageZone);
+			PostToChatMessage.SendAttackMessage(gameObject, victim, (int) weaponAttr.hitDamage, damageZone, weapon);
 		}
 
 		SoundManager.PlayNetworkedAtPos( weaponAttr.hitSound, transform.position );
 		StartCoroutine(AttackCoolDown());
+	}
 
+	/// <summary>
+	/// Performs a punch attempt from one player to a target.
+	/// </summary>
+	/// <param name="punchDirection">The direction of the punch towards the victim.</param>
+	/// <param name="damageZone">The part of the body that is being punched.</param>
+	[Command]
+	public void CmdRequestPunchAttack(GameObject victim, Vector2 punchDirection, BodyPartType damageZone)
+	{
+		var victimHealth = victim.GetComponent<LivingHealthBehaviour>();
+		var victimRegisterTile = victim.GetComponent<RegisterTile>();
+		var rng = new System.Random();
+
+		if (!playerScript.IsInReach(victim, true))
+		{
+			return;
+		}
+
+		// If the punch is not self inflicted, do the simple lerp attack animation.
+		if (victim != gameObject)
+		{
+			RpcMeleeAttackLerp(punchDirection, null);
+			playerMove.allowInput = false;
+		}
+
+		// This is based off the alien/humanoid/attack_hand punch code of TGStation's codebase.
+		// Punches have 90% chance to hit, otherwise it is a miss.
+		if (90 >= rng.Next(1, 100))
+		{
+			// The punch hit.
+			victimHealth.ApplyDamage(gameObject, (int) fistDamage, AttackType.Melee, DamageType.Brute, damageZone);
+			if (fistDamage > 0)
+			{
+				PostToChatMessage.SendAttackMessage(gameObject, victim, (int) fistDamage, damageZone);
+			}
+
+			// Make a random punch hit sound.
+			SoundManager.PlayNetworkedAtPos("Punch"+rng.Next(1, 4), victimRegisterTile.WorldPosition);
+
+			StartCoroutine(AttackCoolDown());
+		}
+		else
+		{
+			// The punch missed.
+			string victimName = victim.Player()?.Name;
+			SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position);
+			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+			{
+				channels = ChatChannel.Local,
+				message = $"{gameObject.Player()?.Name} has attempted to punch {victimName}!"
+			});
+		}
 	}
 
 	private IEnumerator AttackCoolDown(float seconds = 0.5f)
@@ -259,13 +322,5 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		lerping = false;
 		isForLerpBack = false;
 		lerpSprite = null;
-	}
-
-	private IEnumerator ShowMuzzleFlash()
-	{
-		muzzleFlash.gameObject.SetActive(true);
-		yield return WaitFor.Seconds(0.1f);
-		muzzleFlash.gameObject.SetActive(false);
-		isFlashing = false;
 	}
 }

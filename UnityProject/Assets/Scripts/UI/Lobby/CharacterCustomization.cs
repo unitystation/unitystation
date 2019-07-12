@@ -647,6 +647,10 @@ public class CharacterSettings
 
 	public int headSpriteIndex = 20;
 	public int torsoSpriteIndex = 28;
+	public int rightLegSpriteIndex = 12;
+	public int leftLegSpriteIndex = 16;
+	public int rightArmSpriteIndex = 4;
+	public int leftArmSpriteIndex = 8;
 
 	public void LoadHairSetting(SpriteAccessory hair)
 	{

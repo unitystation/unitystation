@@ -26,7 +26,7 @@ public class RightClickMethod : Attribute
 	/// "UI/RightClickButtonIcon/question_mark". Defaults to question mark</param>
 	/// <param name="bgSpritePath">Path to the sprite to show for the option, such as
 	/// "UI/RightClickButtonIcon/question_mark". Defaults to null, showing no background.</param>
-	public RightClickMethod(string label = null, string bgColorHex = "#808080", string spritePath = "UI/RightClickButtonIcon/question_mark", string bgSpritePath = null)
+	public RightClickMethod(string label = null, string bgColorHex = "#FF0000", string spritePath = "UI/RightClickButtonIcon/question_mark", string bgSpritePath = null)
 	{
 		this.label = label;
 		this.bgColorHex = bgColorHex;

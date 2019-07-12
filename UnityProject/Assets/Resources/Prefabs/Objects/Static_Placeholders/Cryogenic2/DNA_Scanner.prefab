@@ -89,12 +89,16 @@ GameObject:
   m_Component:
   - component: {fileID: 4715117052207926}
   - component: {fileID: 61404138305600890}
-  - component: {fileID: 114818633338735330}
   - component: {fileID: 9128197607768152992}
-  - component: {fileID: 2464575245303528366}
+  - component: {fileID: 114818633338735330}
   - component: {fileID: 114657711786529776}
+  - component: {fileID: 5322609074420117545}
+  - component: {fileID: 2464575245303528366}
   - component: {fileID: 5293454678208234974}
   - component: {fileID: 114532654656294352}
+  - component: {fileID: 114529692711081598}
+  - component: {fileID: 114039584032850022}
+  - component: {fileID: 4585042576726451927}
   m_Layer: 11
   m_Name: DNA_Scanner
   m_TagString: Untagged
@@ -143,6 +147,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &9128197607768152992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22bc22136d1c0934491149324f00dded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultContents: []
+  IsClosed: 1
+  IsLocked: 0
+  lockLight: {fileID: 0}
+  playerLimit: 1
+  statusSync: 0
+  doorOpened: {fileID: 21300012, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  spriteRenderer: {fileID: 212360857505739792}
+  occupant: {fileID: 0}
+  statusString: 
+  powered: 0
+  closedWithOccupant: {fileID: 21300004, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  doorClosedPowerless: {fileID: 21300020, guid: edb878353e4ae4062978273e8fca40e2,
+    type: 3}
+  doorOpenPowerless: {fileID: 21300022, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
 --- !u!114 &114818633338735330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,44 +207,6 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &9128197607768152992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711816394935574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22bc22136d1c0934491149324f00dded, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DefaultContents: []
-  IsClosed: 0
-  IsLocked: 0
-  lockLight: {fileID: 0}
-  playerLimit: 1
-  statusSync: 0
-  doorOpened: {fileID: 21300012, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
-  spriteRenderer: {fileID: 212360857505739792}
-  occupant: {fileID: 0}
-  closedWithOccupant: {fileID: 21300004, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
---- !u!114 &2464575245303528366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711816394935574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectType: 1
-  AtmosPassable: 1
-  Passable: 0
-  closetType: 0
 --- !u!114 &114657711786529776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +219,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5322609074420117545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoredSpriteRenderers: []
+  registerTile: {fileID: 0}
+  visibleState: 1
+  isNotPushable: 1
+  closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
+--- !u!114 &2464575245303528366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layer: {fileID: 0}
+  ObjectType: 1
+  AtmosPassable: 1
+  Passable: 0
+  closetType: 0
 --- !u!114 &5293454678208234974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,3 +283,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &114529692711081598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114039584032850022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+--- !u!114 &4585042576726451927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinimumWorkingVoltage: 190
+  MaximumWorkingVoltage: 300
+  IsEnvironmentalDevice: 0
+  Wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  State: 0

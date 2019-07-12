@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Random = UnityEngine.Random;
 
 public class GlassShard : NetworkBehaviour
 {
@@ -26,12 +28,19 @@ public class GlassShard : NetworkBehaviour
 	[Server]
 	public void SetSpriteAndScatter(int index){
 		//Set the syncvar and update to all clientS:
-		spriteIndex = index;
+		SpriteChange(index);
 
 		var netTransform = GetComponent<CustomNetTransform>();
 
 		netTransform?.SetPosition(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.4f, 0.4f), Random.Range(-0.4f, 0.4f)));
 	}
+
+	[Server]
+	public void SetRandomSprite()
+	{
+		SpriteChange(Random.Range(0, glassSprites.Length));
+	}
+
 	public void SpriteChange(int index)
 	{
 		spriteIndex = index;

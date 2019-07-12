@@ -18,6 +18,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 	private GameObject shooter;
 	private Gun weapon;
 	public DamageType damageType;
+	public AttackType attackType = AttackType.Bullet;
 	private bool isSuicide = false;
 	/// <summary>
 	/// Cached trailRenderer. Note that not all bullets have a trail, thus this can be null.
@@ -86,7 +87,8 @@ public abstract class BulletBehaviour : MonoBehaviour
 		rigidBody.transform.localPosition = Vector3.zero;
 		if (!isSuicide)
 		{
-			rigidBody.AddForce(dir.normalized * 24f, ForceMode2D.Impulse);
+			//TODO: Which is better? rigidBody.AddForce(dir.normalized * fromWeapon.ProjectileVelocity, ForceMode2D.Impulse);
+			rigidBody.velocity = dir.normalized * fromWeapon.ProjectileVelocity;
 		}
 		else
 		{
@@ -120,8 +122,6 @@ public abstract class BulletBehaviour : MonoBehaviour
 	/// </summary>
 	public void HandleTriggerEnter2D(Collider2D coll)
 	{
-		LivingHealthBehaviour damageable = coll.GetComponent<LivingHealthBehaviour>();
-
 		//only harm others if it's not a suicide
 		if (coll.gameObject == shooter && !isSuicide)
 		{
@@ -134,14 +134,30 @@ public abstract class BulletBehaviour : MonoBehaviour
 			return;
 		}
 
-		if (damageable == null || damageable.IsDead)
+		//body or object?
+		var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
+		var integrity = coll.GetComponent<Integrity>();
+		if (integrity != null)
 		{
-			return;
+			//damage object
+			integrity.ApplyDamage(damage, attackType, damageType);
+
+			PostToChatMessage.SendAttackMessage( shooter, coll.gameObject, damage, BodyPartType.None, weapon.gameObject);
+			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, integrity.gameObject.name, damage);
 		}
-		var aim = isSuicide ? bodyAim : bodyAim.Randomize();
-		damageable.ApplyDamage(shooter, damage, damageType, aim);
-		PostToChatMessage.SendItemAttackMessage(weapon.gameObject, shooter, coll.gameObject, damage, aim);
-		Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, damageable.gameObject.name, damage);
+		else
+		{
+			//damage human if there is one
+			if (livingHealth == null || livingHealth.IsDead)
+			{
+				return;
+			}
+			var aim = isSuicide ? bodyAim : bodyAim.Randomize();
+			livingHealth.ApplyDamage(shooter, damage, attackType, damageType, aim);
+			PostToChatMessage.SendAttackMessage( shooter, coll.gameObject, damage, aim, weapon.gameObject);
+			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, livingHealth.gameObject.name, damage);
+		}
+
 		ReturnToPool();
 	}
 
@@ -151,6 +167,7 @@ public abstract class BulletBehaviour : MonoBehaviour
 		{
 			trailRenderer.ShotDone();
 		}
+		rigidBody.velocity = Vector2.zero;
 		PoolManager.PoolClientDestroy(gameObject);
 	}
 }

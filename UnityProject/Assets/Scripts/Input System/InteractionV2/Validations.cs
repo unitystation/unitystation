@@ -49,7 +49,17 @@ public static class Validations
 		return obj1.TileWorldPosition() == obj2.TileWorldPosition();
 	}
 
-
+	public static bool IsAdjacent(GameObject obj1, GameObject obj2)
+	{
+		var dir1 = obj1.TileWorldPosition();
+		var dir2 = obj2.TileWorldPosition();
+		if(Mathf.Abs(dir1.x - dir2.x) <= 1 && Mathf.Abs(dir1.y - dir2.y) <= 1)
+		{
+			return true;
+		}
+		//TODO: check if there's a one sided window or something alike blocking
+		return false;
+	}
 
 	/// <summary>
 	/// Checks if a player is allowed to interact with things (based on this player's status, such
@@ -64,7 +74,7 @@ public static class Validations
 	public static bool CanInteract(GameObject player, NetworkSide side, bool allowSoftCrit = false)
 	{
 		var playerScript = player.GetComponent<PlayerScript>();
-		if (playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
+		if (playerScript.IsGhost || playerScript.canNotInteract() && (!playerScript.playerHealth.IsSoftCrit || !allowSoftCrit))
 		{
 			return false;
 		}

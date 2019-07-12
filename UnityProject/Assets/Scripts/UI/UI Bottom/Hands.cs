@@ -122,6 +122,7 @@ public class Hands : MonoBehaviour
 		// Is there an item to equip?
 		if(!CurrentSlot.IsFull)
 		{
+			Logger.Log("!CurrentSlot.IsFull");
 			return;
 		}
 
@@ -130,12 +131,19 @@ public class Hands : MonoBehaviour
 
 		if (itemSlot != null)
 		{
-			// If we couldn't equip item into pocket, let's try the other pocket!
-			if (!SwapItem(itemSlot) && itemSlot.eventName == "storage02")
+			//Try to equip the item into the appropriate slot
+			if (!SwapItem(itemSlot))
 			{
-				SwapItem(InventorySlotCache.GetSlotByEvent("storage01"));
+				//If we couldn't equip the item into it's primary slot, try the pockets!
+				if(!SwapItem(InventorySlotCache.GetSlotByEvent("storage01")))
+				{
+					//We couldn't equip the item in pocket 1. Try pocket2!
+					//This swap fails if both pockets are full, do nothing if fail
+					SwapItem(InventorySlotCache.GetSlotByEvent("storage02"));
+				}
 			}
 		}
+
 		else
 		{
 			Logger.LogError("No slot type was found for this object for auto equip", Category.UI);

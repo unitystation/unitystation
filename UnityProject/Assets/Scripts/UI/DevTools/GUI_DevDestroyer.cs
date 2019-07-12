@@ -17,7 +17,7 @@ public class GUI_DevDestroyer : MonoBehaviour
 
 	void Awake()
 	{
-		layerMask = LayerMask.GetMask("Furniture", "Machines", "Items",
+		layerMask = LayerMask.GetMask("Furniture", "Machines", "Unshootable Machines", "Items",
 			"Objects");
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}

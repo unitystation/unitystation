@@ -97,7 +97,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		foreach (KeyValuePair<GameObject, int> pair in toBeDamaged)
 		{
 			pair.Key.GetComponent<LivingHealthBehaviour>()
-				.ApplyDamage(pair.Key, pair.Value, DamageType.Burn);
+				.ApplyDamage(pair.Key, pair.Value, AttackType.Fire, DamageType.Burn);
 		}
 		RpcClientExplode();
 		gameObject.GetComponent<ObjectBehaviour>().visibleState = false;
@@ -214,7 +214,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 		int cLength = 3;
 		int rHeight = 3;
 		Vector3Int pos = Vector3Int.RoundToInt(transform.localPosition);
-		EffectsFactory.Instance.SpawnFileTileLocal(Random.Range(0.4f, 1f), pos, transform.parent);
+		EffectsFactory.Instance.SpawnFireTileClient(Random.Range(0.4f, 1f), pos, transform.parent);
 		pos.x--;
 		pos.y++;
 
@@ -230,7 +230,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 				Vector3Int checkPos = new Vector3Int(pos.x + i, pos.y - j, 0);
 				if (registerObject.Matrix.IsPassableAt(checkPos, true)) // || MatrixOld.Matrix.At(checkPos).IsPlayer())
 				{
-					EffectsFactory.Instance.SpawnFileTileLocal(Random.Range(0.4f, 1f), checkPos, transform.parent);
+					EffectsFactory.Instance.SpawnFireTileClient(Random.Range(0.4f, 1f), checkPos, transform.parent);
 					maxNumOfFire--;
 				}
 				if (maxNumOfFire <= 0)

@@ -75,7 +75,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		if (!livingHealthBehaviour.IsDead)
 		{
-			Vector3Int position = objectBehaviour.AssumedLocation().RoundToInt();
+			Vector3Int position = objectBehaviour.AssumedWorldPosition().RoundToInt();
 			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 			if (!IsEVACompatible())
@@ -233,6 +233,6 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 	private void ApplyDamage(float amount, DamageType damageType)
 	{
-		livingHealthBehaviour.ApplyDamage(null, amount, damageType);
+		livingHealthBehaviour.ApplyDamage(null, amount, AttackType.Internal, damageType);
 	}
 }

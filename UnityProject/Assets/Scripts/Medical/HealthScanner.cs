@@ -36,6 +36,10 @@ public class HealthScanner : NBHandApplyInteractable
 			StringBuffer += "\n";
 		}
 		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " OxyLoss " + livingHealth.bloodSystem.OxygenDamage.ToString() + "\n" + "Body Part, Brute, Burn \n" + StringBuffer;
+		if(livingHealth.cloningDamage > 0)
+		{
+			ToShow += $"Cellular Damage Level: {livingHealth.cloningDamage}";
+		}
 		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, ToShow);
 
 	}

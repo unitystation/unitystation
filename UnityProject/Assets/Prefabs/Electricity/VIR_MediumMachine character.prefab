@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 61506100139303226}
   - component: {fileID: 3643008678441238377}
   - component: {fileID: 114854152648262332}
-  m_Layer: 29
+  m_Layer: 22
   m_Name: VIR_MediumMachine character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 0
   crossed:
     m_PersistentCalls:
