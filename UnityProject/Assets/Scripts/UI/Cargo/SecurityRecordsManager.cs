@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,6 +41,8 @@ public class SecurityRecordsManager : MonoBehaviour
 		//I don't know what to put in ID and Fingerprints
 		record.ID = $"{UnityEngine.Random.Range(111, 999).ToString()}-{UnityEngine.Random.Range(111, 999).ToString()}";
 		record.Fingerprints = UnityEngine.Random.Range(111111, 999999).ToString();
+		//Photo stuff
+		record.player = script;
 
 		SecurityRecords.Add(record);
 	}

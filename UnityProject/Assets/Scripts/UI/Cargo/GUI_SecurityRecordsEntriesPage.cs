@@ -46,7 +46,7 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 		{
 			foreach (var record in currentRecords)
 			{
-				if (record.EntryName.Contains(searchText) || record.Age.Contains(searchText) &&
+				if (record.EntryName.Contains(searchText) || record.Age.Contains(searchText) ||
 					record.ID.Contains(searchText) || record.Rank.Contains(searchText) ||
 					record.Sex.Contains(searchText) || record.Species.Contains(searchText) ||
 					record.Fingerprints.Contains(searchText))

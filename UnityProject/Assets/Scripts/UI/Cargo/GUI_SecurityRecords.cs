@@ -144,6 +144,8 @@ public class SecurityRecord
 	public string Fingerprints;
 	public SecurityStatus Status;
 	public List<SecurityRecordCrime> Crimes;
+	//This is needed for photo as I didn't came up with nicer solution
+	public PlayerScript player;
 
 	public SecurityRecord()
 	{

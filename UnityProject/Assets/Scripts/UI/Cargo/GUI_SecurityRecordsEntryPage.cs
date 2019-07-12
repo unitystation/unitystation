@@ -32,6 +32,8 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 	private GameObject popupWindow;
 	private NetLabel currentlyEditingField;
 	private SecurityRecordCrime currentlyEditingCrime;
+	[SerializeField]
+	private NetCompositeImage photoFront;
 
 	public void OnOpen(SecurityRecord recordToOpen, GUI_SecurityRecords recordsTab)
 	{
@@ -80,6 +82,12 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 		rankText.SetValue = record.Rank;
 		fingerprintText.SetValue = record.Fingerprints;
 		statusButtonText.SetValue = record.Status.ToString();
+		photoFront.SetValue = "";
+		if (record.player != null)
+		{
+			photoFront.SetValue = record.player.netId.ToString();
+		}
+
 		IdNameUpdate();
 		UpdateCrimesList();
 	}
