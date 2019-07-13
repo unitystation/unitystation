@@ -12,7 +12,6 @@ using Random = System.Random;
 [RequireComponent(typeof(ObjectBehaviour))]
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(CustomNetTransform))]
-[RequireComponent(typeof(SpriteMatrixRotation))]
 public class ItemAttributes : NetworkBehaviour, IRightClickable
 {
 	private const string MaskInternalsFlag = "MASKINTERNALS";
