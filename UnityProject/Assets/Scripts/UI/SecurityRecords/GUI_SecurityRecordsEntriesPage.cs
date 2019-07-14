@@ -35,7 +35,7 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 
 /// <summary>
 /// Searches for records containing specific text.
-/// WARNING - case sensitive.
+/// All ToLower() might be slow, but otherwise search would be case-sensitive
 /// </summary>
 /// <param name="searchText">Text to search</param>
 	public void Search(string searchText)
@@ -43,15 +43,19 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 		List<SecurityRecord> newList = new List<SecurityRecord>();
 		ResetList();
 
-		if (searchText.Length > 0 && searchText != " " && !searchText.IsNullOrEmpty())
+		if (!searchText.IsNullOrEmpty())
 		{
+			searchText = searchText.ToLower();
 			foreach (var record in currentRecords)
 			{
-				if (record.EntryName.Contains(searchText) || record.Age.Contains(searchText) ||
-					record.ID.Contains(searchText) || record.Rank.Contains(searchText) ||
-					record.Sex.Contains(searchText) || record.Species.Contains(searchText) ||
-					record.Fingerprints.Contains(searchText) || record.Status.ToString().Contains(searchText))
+				if (record.EntryName.ToLower().Contains(searchText) || record.Age.ToLower().Contains(searchText) ||
+					record.ID.ToLower().Contains(searchText) || record.Rank.ToLower().Contains(searchText) ||
+					record.Sex.ToLower().Contains(searchText) || record.Species.ToLower().Contains(searchText) ||
+					record.Fingerprints.ToLower().Contains(searchText) ||
+					record.Status.ToString().ToLower().Contains(searchText))
+				{
 					newList.Add(record);
+				}
 			}
 			currentRecords.Clear();
 			currentRecords.AddRange(newList);
@@ -62,30 +66,17 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 	public void RemoveID()
 	{
 		securityRecordsTab.RemoveId();
-		IdNameUpdate();
-	}
-
-	public void IdNameUpdate()
-	{
-		if (securityRecordsTab == null)
-			return;
-
-		IDCard id = securityRecordsTab.InsertedCard;
-		string str;
-
-		if (id != null)
-			str = $"{id.RegisteredName}, {id.GetJobType.ToString()}";
-		else
-			str = "********";
-		idNameText.SetValue = str;
+		securityRecordsTab.UpdateIdText(idNameText);
 	}
 
 	public void UpdateTab()
 	{
 		if (!CustomNetworkManager.Instance._isServer)
+		{
 			return;
+		}
 
-		IdNameUpdate();
+		securityRecordsTab.UpdateIdText(idNameText);
 		recordsList.Clear();
 		recordsList.AddItems(currentRecords.Count);
 		for (int i = 0; i < currentRecords.Count; i++)

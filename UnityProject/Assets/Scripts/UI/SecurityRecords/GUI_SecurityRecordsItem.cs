@@ -4,12 +4,23 @@ using UnityEngine;
 
 /// <summary>
 /// SecurityRecords item is used inside EntriesPage.
-/// It's elements are hardcoded strings so don't rename anything inside gameobject.
 /// </summary>
 public class GUI_SecurityRecordsItem : DynamicEntry
 {
 	private GUI_SecurityRecords securityRecordsTab;
 	private SecurityRecord securityRecord;
+	[SerializeField]
+	private NetLabel recordNameText;
+	[SerializeField]
+	private NetLabel recordIdText;
+	[SerializeField]
+	private NetLabel recordRankText;
+	[SerializeField]
+	private NetLabel recordFingerprintsText;
+	[SerializeField]
+	private NetLabel recordStatusText;
+	[SerializeField]
+	private NetColorChanger recordBgColor;
 
 	public void ReInit(SecurityRecord record, GUI_SecurityRecords recordsTab)
 	{
@@ -20,31 +31,12 @@ public class GUI_SecurityRecordsItem : DynamicEntry
 		}
 		securityRecord = record;
 		securityRecordsTab = recordsTab;
-		foreach ( var element in Elements )
-		{
-			string nameBeforeIndex = element.name.Split('~')[0];
-			switch (nameBeforeIndex)
-			{
-				case "RecordNameText":
-					element.SetValue = record.EntryName;
-					break;
-				case "RecordIDText":
-					element.SetValue = record.ID;
-					break;
-				case "RecordRankText":
-					element.SetValue = record.Rank;
-					break;
-				case "RecordFingerprintsText":
-					element.SetValue = record.Fingerprints;
-					break;
-				case "RecordStatusText":
-					element.SetValue = record.Status.ToString();
-					break;
-				case "RecordBG":
-					element.SetValue = GetStatusColor(record.Status);
-					break;
-			}
-		}
+		recordNameText.SetValue = record.EntryName;
+		recordIdText.SetValue = record.ID;
+		recordRankText.SetValue = record.Rank;
+		recordFingerprintsText.SetValue = record.Fingerprints;
+		recordStatusText.SetValue = record.Status.ToString();
+		recordBgColor.SetValue = GetStatusColor(record.Status);
 	}
 
 	private string GetStatusColor(SecurityStatus status)

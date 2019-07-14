@@ -47,33 +47,24 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 		ClosePopup();
 	}
 
-	public void IdNameUpdate()
-	{
-		if (securityRecordsTab == null)
-			return;
-
-		IDCard id = securityRecordsTab.InsertedCard;
-		string str;
-
-		if (id != null)
-			str = $"{id.RegisteredName}, {id.GetJobType.ToString()}";
-		else
-			str = "********";
-		idNameText.SetValue = str;
-	}
-
 	public void RemoveID()
 	{
 		securityRecordsTab.RemoveId();
-		IdNameUpdate();
+		securityRecordsTab.UpdateIdText(idNameText);
 	}
 
-	private void UpdateEntry()
+	public void UpdateEntry()
 	{
 		if (!CustomNetworkManager.Instance._isServer)
+		{
 			return;
+		}
+
 		if (record == null)
+		{
 			return;
+		}
+
 		nameText.SetValue = record.EntryName;
 		idText.SetValue = record.ID;
 		sexText.SetValue = record.Sex;
@@ -88,7 +79,7 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 			photoFront.SetValue = record.player.netId.ToString();
 		}
 
-		IdNameUpdate();
+		securityRecordsTab.UpdateIdText(idNameText);
 		UpdateCrimesList();
 	}
 

@@ -21,7 +21,10 @@ public class GUI_SecurityRecords : NetTab
 	public override void OnEnable()
 	{
 		base.OnEnable();
-		StartCoroutine(WaitForProvider());
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			StartCoroutine(WaitForProvider());
+		}
 	}
 
 	IEnumerator WaitForProvider()
@@ -31,24 +34,30 @@ public class GUI_SecurityRecords : NetTab
 			yield return WaitFor.EndOfFrame;
 		}
 
-		if (CustomNetworkManager.Instance._isServer)
-		{
-			console = Provider.GetComponentInChildren<SecurityRecordsConsole>();
-			console.OnConsoleUpdate.AddListener(UpdateScreen);
-		}
+		console = Provider.GetComponentInChildren<SecurityRecordsConsole>();
+		console.OnConsoleUpdate.AddListener(UpdateScreen);
+		UpdateScreen();
 	}
 
 	public void UpdateScreen()
 	{
 		if (InsertedCard == null && console.IdCard != null)
+		{
 			InsertId(console.IdCard);
+		}
 
 		if (nestedSwitcher.CurrentPage == entriesPage)
-			entriesPage.IdNameUpdate();
+		{
+			entriesPage.UpdateTab();
+		}
 		else if (nestedSwitcher.CurrentPage == entryPage)
-			entryPage.IdNameUpdate();
+		{
+			entryPage.UpdateEntry();
+		}
 		else
-			UpdateIdText();
+		{
+			UpdateIdText(idText);
+		}
 	}
 
 	/// <summary>
@@ -59,7 +68,10 @@ public class GUI_SecurityRecords : NetTab
 	private void InsertId(IDCard cardToInsert)
 	{
 		if (InsertedCard != null)
+		{
 			RemoveId();
+		}
+
 		InsertedCard = cardToInsert;
 	}
 
@@ -68,43 +80,49 @@ public class GUI_SecurityRecords : NetTab
 	/// </summary>
 	public void RemoveId()
 	{
-		if (console != null && InsertedCard == null && console.IdCard != null)
-			InsertedCard = console.IdCard;
 		if (InsertedCard == null)
+		{
 			return;
+		}
+
 		ObjectBehaviour objBeh = InsertedCard.GetComponentInChildren<ObjectBehaviour>();
 
-		Vector3Int pos = console.gameObject.WorldPosServer().RoundToInt();
+		Vector3Int pos = console.gameObject.RegisterTile().WorldPosition;// WorldPosServer().RoundToInt();
 		CustomNetTransform netTransform = objBeh.GetComponent<CustomNetTransform>();
 		netTransform.AppearAtPosition(pos);
 		netTransform.AppearAtPositionServer(pos);
 		console.IdCard = null;
 		InsertedCard = null;
-		UpdateIdText();
+		UpdateIdText(idText);
 	}
 
-	private void UpdateIdText()
+	public void UpdateIdText(NetLabel labelToSet)
 	{
 		if (InsertedCard != null)
-			idText.SetValue = $"{InsertedCard.RegisteredName}, {InsertedCard.GetJobType.ToString()}";
+		{
+			labelToSet.SetValue = $"{InsertedCard.RegisteredName}, {InsertedCard.GetJobType.ToString()}";
+		}
 		else
-			idText.SetValue = "********";
+		{
+			labelToSet.SetValue = "********";
+		}
 	}
 
 	public void LogIn()
 	{
-		if (console != null && InsertedCard == null && console.IdCard != null)
-			InsertedCard = console.IdCard;
-		if (InsertedCard == null ||
-			!InsertedCard.accessSyncList.Contains((int)Access.security))
+		if (InsertedCard == null || 
+			!InsertedCard.accessSyncList.Contains((int) Access.security))
+		{
 			return;
+		}
+
 		OpenRecords();
 	}
 
 	public void LogOut()
 	{
 		nestedSwitcher.SetActivePage(nestedSwitcher.DefaultPage);
-		UpdateIdText();
+		UpdateIdText(idText);
 	}
 
 	public void OpenRecords()
