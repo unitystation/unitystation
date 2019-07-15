@@ -48,7 +48,7 @@ public class GUI_SecurityRecords : NetTab
 
 		if (nestedSwitcher.CurrentPage == entriesPage)
 		{
-			entriesPage.UpdateTab();
+			entriesPage.OnOpen(this);
 		}
 		else if (nestedSwitcher.CurrentPage == entryPage)
 		{
