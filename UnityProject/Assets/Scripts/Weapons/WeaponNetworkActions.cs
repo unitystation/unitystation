@@ -159,12 +159,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (integrity != null)
 		{
 			//damaging an object
-			integrity.ApplyDamage((int)weaponAttr.hitDamage, AttackType.Melee, DamageType.Brute);
+			integrity.ApplyDamage((int)weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType);
 		}
 		else
 		{
 			//damaging a living thing
-			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, DamageType.Brute, damageZone);
+			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType, damageZone);
 		}
 
 

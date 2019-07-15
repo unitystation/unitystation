@@ -86,6 +86,8 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	[Range(0, 100)]
 	public float hitDamage = 0;
 
+	public DamageType damageType = DamageType.Brute;
+
 	[Tooltip("How painful it is when someone throws it at you")]
 	[Range(0, 100)]
 	public float throwDamage = 0;

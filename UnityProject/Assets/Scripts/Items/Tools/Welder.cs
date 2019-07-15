@@ -33,6 +33,9 @@ public class Welder : NBHandActivateInteractable
 	private bool isBurning = false;
 	private float burnRate = 0.2f;
 
+	public float damageOn;
+	private float damageOff;
+
 	//seems to be server-side only
 	public GameObject heldByPlayer;
 	private string currentHand;
@@ -87,6 +90,8 @@ public class Welder : NBHandActivateInteractable
 		itemAtts = GetComponent<ItemAttributes>();
 		registerTile = GetComponent<RegisterTile>();
 
+		damageOff = itemAtts.hitDamage;
+
 		leftHandOriginal = itemAtts.inHandReferenceLeft;
 		rightHandOriginal = itemAtts.inHandReferenceRight;
 
@@ -122,6 +127,8 @@ public class Welder : NBHandActivateInteractable
 			itemAtts.inHandReferenceLeft = leftHandFlame;
 			itemAtts.inHandReferenceRight = rightHandFlame;
 			isBurning = true;
+			itemAtts.damageType = DamageType.Burn;
+			itemAtts.hitDamage = damageOn;
 			flameRenderer.sprite = flameSprites[0];
 			if (coBurnFuel == null)
 				coBurnFuel = StartCoroutine(BurnFuel());
@@ -138,6 +145,8 @@ public class Welder : NBHandActivateInteractable
 				StopCoroutine(coBurnFuel);
 				coBurnFuel = null;
 			}
+			itemAtts.damageType = DamageType.Brute;
+			itemAtts.hitDamage = damageOff;
 			flameRenderer.sprite = null;
 		}
 
