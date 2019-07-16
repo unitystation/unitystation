@@ -191,7 +191,7 @@ public class Equipment : NetworkBehaviour
 	private void SpawnID(JobOutfit outFit)
 	{
 
-		var realName = PlayerList.Instance.Get(gameObject).Name;
+		var realName = GetComponent<PlayerScript>().playerName;
 		GameObject idObj = PoolManager.PoolNetworkInstantiate(idPrefab, parent: transform.parent);
 		if (outFit.jobType == JobType.CAPTAIN)
 		{
