@@ -28,11 +28,44 @@ public class SecurityRecordsConsole : NBHandApplyInteractable
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		//Put ID card inside
-		IdCard = interaction.HandObject.GetComponent<IDCard>();
+		var handIDCard = interaction.HandObject.GetComponent<IDCard>();
+		if(handIDCard)
+		{
+			InsertID(handIDCard);
+		}
 		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
 		InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
 		UpdateGUI();
 	}
+
+	/// <summary>
+	/// Insert some ID into console and update login details.
+	/// Will spit out currently inserted ID card.
+	/// </summary>
+	///<param name="cardToInsert">Card you want to insert</param>
+	private void InsertID(IDCard cardToInsert)
+	{
+		if (IdCard)
+		{
+			RemoveID();
+		}
+		IdCard = cardToInsert;
+	}
+
+	/// <summary>
+	/// Spits out ID card from console and updates login details.
+	/// </summary>
+	public void RemoveID()
+	{
+		ObjectBehaviour objBeh = IdCard.GetComponentInChildren<ObjectBehaviour>();
+		Vector3Int pos = gameObject.RegisterTile().WorldPosition;
+		CustomNetTransform netTransform = objBeh.GetComponent<CustomNetTransform>();
+		netTransform.AppearAtPosition(pos);
+		netTransform.AppearAtPositionServer(pos);
+		IdCard = null;
+	}
+
+
 }
 
 public class SecurityRecordsUpdateEvent : UnityEvent { }
