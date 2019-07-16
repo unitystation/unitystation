@@ -13,17 +13,17 @@ public class RegisterObject : RegisterTile
 
 	public override bool IsPassable(Vector3Int from, bool isServer)
 	{
-		return Passable || (isServer ? PositionServer == TransformState.HiddenPos : PositionClient == TransformState.HiddenPos );
+		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
 	}
 
 	public override bool IsPassable(bool isServer)
 	{
-		return Passable || (isServer ? PositionServer == TransformState.HiddenPos : PositionClient == TransformState.HiddenPos );
+		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
 	}
 
 	public override bool IsAtmosPassable(Vector3Int from, bool isServer)
 	{
-		return AtmosPassable || (isServer ? PositionServer == TransformState.HiddenPos : PositionClient == TransformState.HiddenPos );
+		return AtmosPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
 	}
 
 	#region UI Mouse Actions

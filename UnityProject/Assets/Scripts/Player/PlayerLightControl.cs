@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Newtonsoft.Json;
+using UnityEngine.Networking;
 
 [Serializable]
 public class PlayerLightData
@@ -23,7 +24,7 @@ public enum EnumSpriteLightData
 }
 
 [RequireComponent(typeof(Pickupable))]
-public class PlayerLightControl : InputTrigger
+public class PlayerLightControl : NetworkBehaviour
 {
 	public LightEmissionPlayer LightEmission;
 
@@ -46,11 +47,6 @@ public class PlayerLightControl : InputTrigger
 
 	public PlayerLightData PlayerLightData;
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		//TODO: Remove after IF2 refactor
-		return false;
-	}
 	private void OnPickupServer(HandApply interaction)
 	{
 		InventorySlot Slot = InventoryManager.GetSlotFromItem(this.gameObject);

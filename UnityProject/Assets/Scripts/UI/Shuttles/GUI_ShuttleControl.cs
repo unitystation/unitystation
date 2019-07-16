@@ -19,7 +19,7 @@ public class GUI_ShuttleControl : NetTab {
 	public MatrixMove MatrixMove {
 		get {
 			if ( !matrixMove ) {
-				matrixMove = Provider.GetComponent<ShuttleInteract>().ShuttleMatrixMove;
+				matrixMove = Provider.GetComponent<ShuttleConsole>().ShuttleMatrixMove;
 			}
 
 			return matrixMove;
@@ -32,7 +32,7 @@ public class GUI_ShuttleControl : NetTab {
 	string crosshairColor;
 
 	private void Start() {
-		Trigger = Provider.GetComponent<ShuttleInteract>();
+		Trigger = Provider.GetComponent<ShuttleConsole>();
 		Trigger.OnStateChange.AddListener( OnStateChange );
 
 		//Not doing this for clients
@@ -132,7 +132,7 @@ public class GUI_ShuttleControl : NetTab {
 	}
 
 	private bool RefreshRadar = false;
-	private ShuttleInteract Trigger;
+	private ShuttleConsole Trigger;
 	private TabState State => Trigger.State;
 
 	private void StartRefresh() {

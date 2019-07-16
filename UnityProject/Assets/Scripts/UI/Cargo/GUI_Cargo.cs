@@ -40,7 +40,6 @@ public class GUI_Cargo : NetTab
 		}
 	}
 
-
 	public void RefreshSubpage(NetPage oldPage, NetPage newPage)
 	{
 		DirectoryText.SetValue = newPage.GetComponent<GUI_CargoPage>().DirectoryName;

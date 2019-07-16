@@ -14,8 +14,10 @@ public class ClothingItem : MonoBehaviour
 	/// Absolute orientation
 	/// </summary>
 	private Orientation currentDirection = Orientation.Down;
+
 	public int reference = -1;
 	private int referenceOffset;
+	public Color color;
 
 	public SpriteRenderer spriteRenderer;
 	private Sprite[] sprites;
@@ -26,16 +28,6 @@ public class ClothingItem : MonoBehaviour
 	public SpriteHandType spriteType;
 
 	public PlayerScript thisPlayerScript;
-
-	public int Reference
-	{
-		set
-		{
-			reference = value;
-			SetSprite();
-		}
-		get { return reference; }
-	}
 
 	/// <summary>
 	/// Direction clothing is facing (absolute)
@@ -50,35 +42,33 @@ public class ClothingItem : MonoBehaviour
 		get { return currentDirection; }
 	}
 
-	private void Start()
+	private void Awake()
 	{
 		sprites = SpriteManager.PlayerSprites[spriteSheetName];
 		UpdateSprite();
 	}
 
-	public void Clear()
+
+	public void SetColor(Color value)
 	{
-		Reference = -1;
+		color = value;
+		spriteRenderer.color = value;
 	}
 
-	private void SetSprite(bool force = false)
+	public void SetReference(int value)
 	{
+		reference = value;
+
 		if (reference == -1)
 		{
 			UpdateSprite();
 			return;
 		}
 
-		if (spriteType == SpriteHandType.Other)
+		if (spriteType != SpriteHandType.Other)
 		{
-			reference = Reference;
-		}
-		else
-		{
-			string networkRef = Reference.ToString();
+			string networkRef = reference.ToString();
 			int code = (int)char.GetNumericValue(networkRef[0]);
-			networkRef = networkRef.Remove(0, 1);
-			int _reference = int.Parse(networkRef);
 			switch (code)
 			{
 				case 1:
@@ -94,12 +84,10 @@ public class ClothingItem : MonoBehaviour
 			if (spriteType == SpriteHandType.RightHand)
 			{
 				spriteSheetName = spriteSheetName + "righthand";
-				reference = _reference;
 			}
 			else
 			{
 				spriteSheetName = spriteSheetName + "lefthand";
-				reference = _reference;
 			}
 		}
 
@@ -131,28 +119,24 @@ public class ClothingItem : MonoBehaviour
 
 	public void UpdateSprite()
 	{
-		if (spriteRenderer != null)
+		if (reference == -1)
 		{
-			if (reference >= 0)
-			{
-				//If reference -1 then clear the sprite
-				if (sprites != null)
-				{
-					int index = reference + referenceOffset;
-					if (index < sprites.Length)
-					{
-						spriteRenderer.sprite = sprites[reference + referenceOffset];
-					}
-					else
-					{
-						Logger.LogTrace("Index is out of range for the reference sprite! ref: " + reference, Category.PlayerSprites);
-					}
-				}
-			}
-			else
-			{
-				spriteRenderer.sprite = null;
-			}
+			spriteRenderer.sprite = null;
+			return;
 		}
+
+		int index = referenceOffset;
+		if (spriteType != SpriteHandType.Other)
+		{
+			string networkRef = reference.ToString();
+			networkRef = networkRef.Remove(0, 1);
+			index += int.Parse(networkRef);
+		}
+		else
+		{
+			index += reference;
+		}
+		spriteRenderer.sprite = sprites[index];
 	}
+
 }

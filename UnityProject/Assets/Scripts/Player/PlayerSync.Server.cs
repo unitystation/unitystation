@@ -164,7 +164,9 @@ public partial class PlayerSync
 		}
 
 		if ( followMode ) {
-			SendMessage( "FaceDirection", Orientation.From( direction ), SendMessageOptions.DontRequireReceiver );
+			playerDirectional.FaceDirection(Orientation.From(direction));
+			//force directional update of client, since it can't predict where it's being pulled
+			playerDirectional.TargetForceSyncDirection(playerScript.connectionToClient);
 		}
 		else if ( !float.IsNaN( speed ) && speed >= playerMove.PushFallSpeed )
 		{
@@ -396,7 +398,7 @@ public partial class PlayerSync
 				BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
 			}
 
-			playerSprites.LocalFaceDirection( Orientation.From( action.Direction() ) );
+			playerDirectional.FaceDirection( Orientation.From( action.Direction() ) );
 			return state;
 		}
 
@@ -532,12 +534,12 @@ public partial class PlayerSync
 	private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 	{
 		// Make sure there is a door which can be interacted with
-		DoorTrigger door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);
+		InteractableDoor door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);
 
 		// Attempt to open door
 		if (door != null)
 		{
-			door.Interact(gameObject, TransformState.HiddenPos);
+			door.Bump(gameObject);
 		}
 	}
 

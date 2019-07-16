@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(Pickupable))]
-public class StunBaton : InputTrigger
+public class StunBaton : NetworkBehaviour
 {
 	public SpriteRenderer spriteRenderer;
 
@@ -26,24 +26,6 @@ public class StunBaton : InputTrigger
 		active = newState;
 
 		UpdateSprite();
-	}
-
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
-	{
-		return false;
-	}
-
-	public override void UI_Interact(GameObject originator, string hand)
-	{
-		if (!isServer)
-		{
-			UIInteractMessage.Send(gameObject, UIManager.Hands.CurrentSlot.eventName);
-		}
-		else
-		{
-			SoundManager.PlayNetworkedAtPos(soundToggle, originator.transform.position);
-			ToggleState();
-		}
 	}
 
 	private void UpdateSprite()

@@ -40,8 +40,8 @@ TagManager:
   - WallMounts
   - HiddenWalls
   - LightingSource
-  - 
-  - 
+  - Floor
+  - Unshootable Machines
   - Matrix
   - 
   - 
@@ -93,13 +93,16 @@ TagManager:
   - name: Doors Open
     uniqueID: 2411169673
     locked: 0
+  - name: Bodies
+    uniqueID: 10580839
+    locked: 0
   - name: NPCs
     uniqueID: 4065465139
     locked: 0
   - name: Players
     uniqueID: 3392514689
     locked: 0
-  - name: BuckledOverPlayer
+  - name: OverPlayers
     uniqueID: 3362631851
     locked: 0
   - name: Doors Closed

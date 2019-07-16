@@ -5,13 +5,17 @@ using UnityEngine;
 /// Encapsulates all of the info needed for handling an inventory apply interaction.
 ///
 /// Like HandApply, but targeting something in the inventory rather than in the world.
-/// Triggers when clicking an item in the inventory when the active hand has an item.
-/// by clicking the item while another item is in the active hand.
+/// Triggers when clicking an item in the inventory. Triggers even when active hand has no item.
 /// </summary>
 public class InventoryApply : TargetedInteraction
 {
 	private HandSlot handSlot;
 	private InventorySlot targetSlot;
+
+	/// <summary>
+	/// Object being used in hand (same as UsedObject). Returns null if nothing in hand.
+	/// </summary>
+	public GameObject HandObject => UsedObject;
 
 	/// <summary>
 	/// slot of the hand that is being used to perform the apply.

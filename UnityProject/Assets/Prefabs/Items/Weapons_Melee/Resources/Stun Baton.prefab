@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7617608173269680123}
   - component: {fileID: 6417518545994622246}
   - component: {fileID: 3232839523659743446}
+  - component: {fileID: 8093143798593785570}
   m_Layer: 10
   m_Name: Stun Baton
   m_TagString: Untagged
@@ -186,16 +187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  layer: {fileID: 0}
   ObjectType: 0
-  rotateWithMatrix: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
@@ -229,6 +222,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunTime: 14
+--- !u!114 &8093143798593785570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7503752898315862941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96ecde9d8023b143a0d5c222447ea69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7503752899205498039
 GameObject:
   m_ObjectHideFlags: 0

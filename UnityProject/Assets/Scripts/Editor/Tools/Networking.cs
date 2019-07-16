@@ -5,14 +5,6 @@ using UnityEngine.Networking;
 
 public class Networking : Editor
 {
-	[MenuItem("Networking/Pickup Random Item (Client)")]
-	private static void PickupRandomItem()
-	{
-		Pickupable[] items = FindObjectsOfType<Pickupable>();
-		GameObject gameObject = items[Random.Range(1, items.Length)].gameObject;
-		InteractMessage.Send(gameObject, "id");
-	}
-
 	[MenuItem("Networking/Give Random Item To All (Server)")]
 	private static void GiveItems()
 	{
@@ -104,7 +96,7 @@ public class Networking : Editor
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.RespawnPlayer();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer();
 		}
 	}
 }

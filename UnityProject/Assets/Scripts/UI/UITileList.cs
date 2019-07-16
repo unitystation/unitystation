@@ -48,7 +48,16 @@ public class UITileList : MonoBehaviour
 
 		var registerTiles = matrix.Get<RegisterTile>(tilePosition, false);
 
-		return registerTiles.Select(x => x.gameObject).ToList();
+		var result = registerTiles.Select(x => x.gameObject).ToList();
+
+		//include interactable tiles
+		var interactableTiles = matrix.GetComponentInParent<InteractableTiles>();
+		if (interactableTiles != null)
+		{
+			result.Add(interactableTiles.gameObject);
+		}
+
+		return result;
 	}
 
 	/// <summary>

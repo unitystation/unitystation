@@ -6,6 +6,11 @@ using UnityEngine;
 /// </summary>
 public class MouseDrop : TargetedInteraction
 {
+
+	/// <summary>
+	/// Object being dropped (same as UsedObject)
+	/// </summary>
+	public GameObject DroppedObject => UsedObject;
 	/// <summary>
 	///
 	/// </summary>

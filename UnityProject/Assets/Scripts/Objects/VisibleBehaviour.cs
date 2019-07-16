@@ -137,7 +137,7 @@ public class VisibleBehaviour : NetworkBehaviour
 	{
 		try
 		{
-			return !neverDisabled.Contains(script.GetType().Name);
+			return script != null && !neverDisabled.Contains(script.GetType().Name);
 		}
 		catch (Exception e)
 		{

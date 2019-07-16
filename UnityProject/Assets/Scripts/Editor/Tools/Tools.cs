@@ -1,9 +1,12 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
-	public class Tools : Editor
+public class Tools : Editor
 	{
+
+
 		[MenuItem("Tools/Reconnect TileConnect")]
 		private static void RevertTileConnect()
 		{
@@ -61,4 +64,76 @@ using UnityEngine;
 		//				//PrefabUtility.RevertPrefabInstance(r.gameObject);
 		//			}
 		//		}
+
+		//this is just for migrating from old way of setting wallmount directions to the new way
+		[MenuItem("Tools/Set Wallmount Directionals from Transforms")]
+		private static void FixWallmountDirectionals()
+		{
+			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
+			{
+				foreach (var wallmount in gameObject.GetComponentsInChildren<WallmountBehavior>())
+				{
+					var directional = wallmount.GetComponent<Directional>();
+					var directionalSO = new SerializedObject(directional);
+					var initialD = directionalSO.FindProperty("InitialDirection");
+
+					Vector3 facing = -wallmount.transform.up;
+					var initialOrientation = Orientation.From(facing);
+					initialD.enumValueIndex = (int) initialOrientation.AsEnum();
+					directionalSO.ApplyModifiedPropertiesWithoutUndo();
+				}
+			}
+		}
+
+		//this is for fixing some prefabs that have duplicate Meleeable components
+		[MenuItem("Prefabs/Remove Duplicate Meleeable")]
+		private static void RemoveDuplicateMeleeable()
+		{
+			var prefabGUIDS = AssetDatabase.FindAssets("t:Prefab");
+			foreach (var prefabGUID in prefabGUIDS)
+			{
+				var path = AssetDatabase.GUIDToAssetPath(prefabGUID);
+				var toCheck = AssetDatabase.LoadAllAssetsAtPath(path);
+
+				//find the root gameobject
+				var rootPrefabGO = GetRootPrefabGOFromAssets(toCheck);
+
+				if (rootPrefabGO == null)
+				{
+					continue;
+				}
+
+				//does component exist in it or any children?
+				var melees = rootPrefabGO.GetComponents<Meleeable>();
+
+				if (melees == null || melees.Length <= 1) continue;
+
+				Logger.LogFormat("Removing duplicate Meleeables from {0}", Category.Editor, rootPrefabGO.name);
+
+				//remove excess
+				for (int i = 1; i < melees.Length; i++)
+				{
+					GameObject.DestroyImmediate(melees[i], true);
+				}
+
+				PrefabUtility.SavePrefabAsset(rootPrefabGO);
+			}
+		}
+
+		private static GameObject GetRootPrefabGOFromAssets(Object[] assetsToCheck)
+		{
+			foreach (var asset in assetsToCheck)
+			{
+				if (asset is GameObject)
+				{
+					var assetGO = asset as GameObject;
+					if (assetGO.transform.root == assetGO.transform)
+					{
+						return assetGO;
+					}
+				}
+			}
+
+			return null;
+		}
 	}

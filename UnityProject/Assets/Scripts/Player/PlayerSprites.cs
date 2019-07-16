@@ -10,152 +10,152 @@ using UnityEngine.Networking;
 /// Note that the clothing you put on (UniCloths) are handled in Equipment
 /// Ghosts are handled in GhostSprites.
 /// </summary>
-public class PlayerSprites : UserControlledSprites
+[RequireComponent(typeof(Directional))]
+[RequireComponent(typeof(PlayerScript))]
+public class PlayerSprites : MonoBehaviour
 {
+	private static GameObject ENGULFED_BURNING_OVERLAY_PREFAB;
+	private static GameObject PARTIAL_BURNING_OVERLAY_PREFAB;
+
+	/// <summary>
+	/// Threshold value where we switch from partial burning to fully engulfed sprite.
+	/// </summary>
+	private static readonly float FIRE_STACK_ENGULF_THRESHOLD = 3;
+
 	//For character customization
 	public ClothingItem[] characterSprites;
 
-	private PlayerSync playerSync;
-	private PlayerHealth playerHealth;
 	//clothes for each clothing slot
 	private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
-	protected override void Awake()
+	private Directional directional;
+	private BurningDirectionalOverlay engulfedBurningOverlay;
+	private BurningDirectionalOverlay partialBurningOverlay;
+	private LivingHealthBehaviour livingHealthBehaviour;
+	private PlayerScript playerScript;
+	private PlayerHealth playerHealth;
+	private PlayerSync playerSync;
+
+	protected void Awake()
 	{
-		base.Awake();
-		playerSync = GetComponent<PlayerSync>();
+		if (ENGULFED_BURNING_OVERLAY_PREFAB == null)
+		{
+			ENGULFED_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("EngulfedBurningPlayer");
+			PARTIAL_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("PartialBurningPlayer");
+		}
+
+		if (engulfedBurningOverlay == null)
+		{
+			engulfedBurningOverlay = GameObject.Instantiate(ENGULFED_BURNING_OVERLAY_PREFAB, transform)
+				.GetComponent<BurningDirectionalOverlay>();
+			engulfedBurningOverlay.enabled = true;
+			engulfedBurningOverlay.StopBurning();
+			partialBurningOverlay = GameObject.Instantiate(PARTIAL_BURNING_OVERLAY_PREFAB, transform)
+				.GetComponent<BurningDirectionalOverlay>();
+			partialBurningOverlay.enabled = true;
+			partialBurningOverlay.StopBurning();
+		}
+
+		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
+		livingHealthBehaviour.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
+		OnClientFireStacksChange(livingHealthBehaviour.FireStacks);
+
+
+		directional = GetComponent<Directional>();
+		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes[c.name] = c;
 		}
-
-		playerHealth = GetComponent<PlayerHealth>();
 	}
 
-	public override void UpdateCharacterSprites()
+	private void OnClientFireStacksChange(float newStacks)
 	{
-		var characterSettings = GetComponent<PlayerScript>().characterSettings;
-
-		Color newColor = Color.white;
-		//Skintone:
-		ColorUtility.TryParseHtmlString(characterSettings.skinTone, out newColor);
-
-		for (int i = 0; i < characterSprites.Length; i++)
+		if (newStacks <= 0)
 		{
-			characterSprites[i].spriteRenderer.color = newColor;
-			if (i == 6)
+			engulfedBurningOverlay.StopBurning();
+			partialBurningOverlay.StopBurning();
+		}
+		else
+		{
+			if (newStacks >= FIRE_STACK_ENGULF_THRESHOLD)
 			{
-				break;
+				engulfedBurningOverlay.Burn(directional.CurrentDirection);
+				partialBurningOverlay.StopBurning();
+			}
+			else
+			{
+				partialBurningOverlay.Burn(directional.CurrentDirection);
+				engulfedBurningOverlay.StopBurning();
 			}
 		}
-		//Torso
-		characterSprites[0].reference = characterSettings.torsoSpriteIndex;
-		characterSprites[0].UpdateSprite();
-		//Head
-		characterSprites[5].reference = characterSettings.headSpriteIndex;
-		characterSprites[5].UpdateSprite();
-		//Eyes
-		ColorUtility.TryParseHtmlString(characterSettings.eyeColor, out newColor);
-		characterSprites[6].spriteRenderer.color = newColor;
-		//Underwear
-		characterSprites[7].reference = characterSettings.underwearOffset;
-		characterSprites[7].UpdateSprite();
-		//Socks
-		characterSprites[8].reference = characterSettings.socksOffset;
-		characterSprites[8].UpdateSprite();
-		//Beard
-		characterSprites[9].reference = characterSettings.facialHairOffset;
-		characterSprites[9].UpdateSprite();
-		ColorUtility.TryParseHtmlString(characterSettings.facialHairColor, out newColor);
-		characterSprites[9].spriteRenderer.color = newColor;
-		//Hair
-		characterSprites[10].reference = characterSettings.hairStyleOffset;
-		characterSprites[10].UpdateSprite();
-		ColorUtility.TryParseHtmlString(characterSettings.hairColor, out newColor);
-		characterSprites[10].spriteRenderer.color = newColor;
 	}
 
-	/// <summary>
-	/// Change current facing direction to match direction (it's a Command so it's invoked on the server by
-	/// the server itself or the client)
-	/// </summary>
-	/// <param name="direction">new direction</param>
-	[Command]
-	private void CmdChangeDirection(Orientation direction)
+	private void OnDirectionChange(Orientation direction)
 	{
-		LocalFaceDirection(direction);
-	}
-
-	/// <summary>
-	/// Locally changes the direction of this player to face the specified direction but doesn't tell the server.
-	/// If this is a client, only changes the direction locally and doesn't inform other players / server.
-	/// If this is on the server, the direction change will be sent to all clients due to the syncvar.
-	///
-	/// Does nothing if player is down
-	/// </summary>
-	/// <param name="direction"></param>
-	public override void LocalFaceDirection(Orientation direction)
-	{
-		if (registerPlayer.IsDownClient || playerSync.isBumping)
-		{
-			//Don't face while bumping is occuring on this frame
-			//or when player is down
-			return;
-		}
-
-		SetDir(direction);
-	}
-
-	/// <summary>
-	/// Does nothing if this is the local player (unless player is in crit).
-	///
-	/// Invoked when currentDirection syncvar changes. Update the direction of this player to face the specified
-	/// direction. However, if this is the local player's body that is not in crit or a player being pulled by the local player,
-	/// nothing is done and we stick with whatever direction we had already set for them locally (this is to avoid
-	/// glitchy changes in facing direction caused by latency in the syncvar).
-	/// </summary>
-	/// <param name="dir"></param>
-	protected override void FaceDirectionSync(Orientation dir)
-	{
-//		//don't sync facing direction for players you're pulling locally, unless you're standing still
-		PushPull localPlayer = PlayerManager.LocalPlayerScript ? PlayerManager.LocalPlayerScript.pushPull : null;
-		if ( localPlayer && localPlayer.Pushable != null && localPlayer.Pushable.IsMovingClient )
-		{
-			if ( playerMove && playerMove.PlayerScript && playerMove.PlayerScript.pushPull
-			     && playerMove.PlayerScript.pushPull.IsPulledByClient( localPlayer ) ) {
-				return;
-			}
-		}
-
-		//check if we are crit, or else our direction might be out of sync with the server
-		if (PlayerManager.LocalPlayer != gameObject || playerHealth.IsCrit || playerHealth.IsSoftCrit)
-		{
-			currentDirection = dir;
-			SetDir(dir);
-		}
-	}
-
-	/// <summary>
-	/// Updates the direction of the body / clothing sprites.
-	/// </summary>
-	/// <param name="direction"></param>
-	private void SetDir(Orientation direction)
-	{
+		//update the clothing sprites
 		foreach (ClothingItem c in clothes.Values)
 		{
 			c.Direction = direction;
 		}
 
-		currentDirection = direction;
+		if (livingHealthBehaviour.FireStacks > 0)
+		{
+			if (livingHealthBehaviour.FireStacks >= FIRE_STACK_ENGULF_THRESHOLD)
+			{
+				engulfedBurningOverlay.Burn(direction);
+			}
+			else
+			{
+				partialBurningOverlay.Burn(direction);
+			}
+		}
 	}
 
-	/// <summary>
-	/// Overrides the local client prediction, forces the sprite to update based on the latest info we have from
-	/// the server.
-	/// </summary>
-	/// <exception cref="NotImplementedException"></exception>
-	public override void SyncWithServer()
+	public void NotifyPlayer(GameObject recipient)
 	{
-		SetDir(currentDirection);
+		for (int i = 0; i < characterSprites.Length; i++)
+		{
+			var clothItem = characterSprites[i];
+			PlayerSpritesMessage.SendTo(gameObject, i, clothItem.reference, clothItem.color, recipient);
+		}
+	}
+
+	public void OnCharacterSettingsChange(CharacterSettings characterSettings)
+	{
+		if (characterSettings == null)
+		{
+			characterSettings = new CharacterSettings();
+		}
+
+		//Skintone:
+		ColorUtility.TryParseHtmlString(characterSettings.skinTone, out var newColor);
+
+
+		//Torso
+		PlayerSpritesMessage.SendToAll(gameObject, 0, characterSettings.torsoSpriteIndex, newColor);
+		//right leg
+		PlayerSpritesMessage.SendToAll(gameObject, 1, characterSettings.rightLegSpriteIndex, newColor);
+		//left leg
+		PlayerSpritesMessage.SendToAll(gameObject, 2, characterSettings.leftLegSpriteIndex, newColor);
+		//right arm
+		PlayerSpritesMessage.SendToAll(gameObject, 3, characterSettings.rightArmSpriteIndex, newColor);
+		//left arm
+		PlayerSpritesMessage.SendToAll(gameObject, 4, characterSettings.leftArmSpriteIndex, newColor);
+		//Head
+		PlayerSpritesMessage.SendToAll(gameObject, 5, characterSettings.headSpriteIndex, newColor);
+		//Eyes
+		ColorUtility.TryParseHtmlString(characterSettings.eyeColor, out newColor);
+		PlayerSpritesMessage.SendToAll(gameObject, 6, 1, newColor);
+		//Underwear
+		PlayerSpritesMessage.SendToAll(gameObject, 7, characterSettings.underwearOffset, Color.white);
+		//Socks
+		PlayerSpritesMessage.SendToAll(gameObject, 8, characterSettings.socksOffset, Color.white);
+		//Beard
+		ColorUtility.TryParseHtmlString(characterSettings.facialHairColor, out newColor);
+		PlayerSpritesMessage.SendToAll(gameObject, 9, characterSettings.facialHairOffset, newColor);
+		//Hair
+		ColorUtility.TryParseHtmlString(characterSettings.hairColor, out newColor);
+		PlayerSpritesMessage.SendToAll(gameObject, 10, characterSettings.hairStyleOffset, newColor);
 	}
 }

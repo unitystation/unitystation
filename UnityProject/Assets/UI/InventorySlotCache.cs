@@ -129,7 +129,7 @@ public class InventorySlotCache : MonoBehaviour
 				eventName = "ear";
 				break;
 			case ItemType.Glasses:
-				eventName = "glasses";
+				eventName = "eyes";
 				break;
 			case ItemType.Gloves:
 				eventName = "hands";

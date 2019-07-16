@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GUI_CargoPageSupplies : GUI_CargoPage
 {
 	[SerializeField]
-	private GUI_CargoItemList orderList = null;
+	private EmptyItemList orderList = null;
 	private bool inited = false;
 	[SerializeField]
 	private NetLabel categoryText = null;

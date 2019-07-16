@@ -25,7 +25,6 @@ public class Sprites
 public class SpriteManager : MonoBehaviour
 {
 	private static SpriteManager spriteManager;
-	private readonly Sprites bloodSprites = new Sprites();
 	private readonly Sprites waterSprites = new Sprites();
 	private readonly Sprites doorSprites = new Sprites();
 	private readonly Sprites fireSprites = new Sprites();
@@ -62,8 +61,6 @@ public class SpriteManager : MonoBehaviour
 	public static Sprites DoorSprites => Instance.doorSprites;
 
 	public static Sprites MonitorSprites => Instance.monitorSprites;
-
-	public static Sprites BloodSprites => Instance.bloodSprites;
 
 	public static Sprites WaterSprites => Instance.waterSprites;
 
@@ -143,8 +140,6 @@ public class SpriteManager : MonoBehaviour
 		//end of doors overlays
 
 		MonitorSprites["monitors"] = dmi.getSprites("obj/monitors");
-
-		BloodSprites["blood"] = dmi.getSprites("effects/blood");
 
 		WaterSprites["water"] = Resources.LoadAll<Sprite>("icons/effects/water");
 

@@ -50,7 +50,10 @@ MonoBehaviour:
   DarkOrangeDamageMonitorIcon: {fileID: 0}
   RedDamageMonitorIcon: {fileID: 0}
   GrayDamageMonitorIcon: {fileID: 0}
+  MaxDamage: 200
   Type: 0
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
   Severity: 0
 --- !u!1 &1513511744097802
 GameObject:
@@ -102,6 +105,7 @@ GameObject:
   - component: {fileID: 114544550771380326}
   - component: {fileID: 114728033721696086}
   - component: {fileID: 114347523696378436}
+  - component: {fileID: 114416966196078904}
   m_Layer: 8
   m_Name: NPC_Pete
   m_TagString: Untagged
@@ -159,7 +163,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300552, guid: f0bc5374733847c0982de66ed6bbe227, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -289,18 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
   ObjectType: 1
-  rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 1
 --- !u!114 &114544550771380326
@@ -339,6 +332,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114416966196078904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
 --- !u!1 &1887464382434718
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,5 +395,8 @@ MonoBehaviour:
   DarkOrangeDamageMonitorIcon: {fileID: 0}
   RedDamageMonitorIcon: {fileID: 0}
   GrayDamageMonitorIcon: {fileID: 0}
+  MaxDamage: 200
   Type: 1
+  isBleeding: 0
+  livingHealthBehaviour: {fileID: 0}
   Severity: 0

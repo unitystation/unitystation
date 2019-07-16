@@ -14,12 +14,15 @@ using UnityEngine.Serialization;
 public class PlayerMove : NetworkBehaviour, IRightClickable
 {
 	private PlayerScript playerScript;
-	public PlayerScript PlayerScript => playerScript ? playerScript : ( playerScript = GetComponent<PlayerScript>() );
+	public PlayerScript PlayerScript => playerScript ? playerScript : (playerScript = GetComponent<PlayerScript>());
 
 	public bool diagonalMovement;
 
 	[SyncVar] public bool allowInput = true;
-	[SyncVar(hook=nameof(OnBuckledChanged))] private bool buckled = false;
+
+	//netid of the game object we are restrained to, NetworkInstanceId.Invalid if not restrained
+	[SyncVar(hook = nameof(OnRestrainedChangedHook))]
+	private NetworkInstanceId buckledObject = NetworkInstanceId.Invalid;
 
 	//callback invoked when we are unbuckled.
 	private Action onUnbuckled;
@@ -27,7 +30,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	/// <summary>
 	/// Whether character is buckled to a chair
 	/// </summary>
-	public bool IsBuckled => buckled;
+	public bool IsBuckled => buckledObject != NetworkInstanceId.Invalid;
 
 	[SyncVar] private bool cuffed;
 
@@ -40,6 +43,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	/// Tracks the server's idea of whether we have help intent
 	/// </summary>
 	[SyncVar] private bool serverIsHelpIntent = true;
+
 	/// <summary>
 	/// Tracks our idea of whether we have help intent so we can use it for client prediction
 	/// </summary>
@@ -85,14 +89,14 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		MoveAction.MoveUp, MoveAction.MoveLeft, MoveAction.MoveDown, MoveAction.MoveRight
 	};
 
-	private PlayerSprites playerSprites;
+	private Directional playerDirectional;
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
-	[FormerlySerializedAs( "speed" )]
-	public float RunSpeed = 6;
+	[FormerlySerializedAs("speed")] public float RunSpeed = 6;
 	public float WalkSpeed = 3;
 	public float CrawlSpeed = 0.8f;
+
 	/// <summary>
 	/// Player will fall when pushed with such speed
 	/// </summary>
@@ -101,12 +105,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	private RegisterPlayer registerPlayer;
 	private Matrix matrix => registerPlayer.Matrix;
 
-	/// temp solution for use with the UI network prediction
-	public bool isMoving { get; } = false;
-
 	private void Start()
 	{
-		playerSprites = gameObject.GetComponent<PlayerSprites>();
+		playerDirectional = gameObject.GetComponent<Directional>();
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
@@ -126,23 +127,34 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		{
 			if (PlayerManager.LocalPlayer == gameObject && UIManager.IsInputFocus)
 			{
-				return new PlayerAction { moveActions = actionKeys.ToArray() };
+				return new PlayerAction {moveActions = actionKeys.ToArray()};
 			}
 
 			// if (CommonInput.GetKey(moveList[i]) && allowInput)
 			// {
 			// 	actionKeys.Add((int)moveList[i]);
 			// }
-			if (KeyboardInputManager.CheckMoveAction(moveList[i]) && allowInput && !buckled && !cuffed)
+			if (KeyboardInputManager.CheckMoveAction(moveList[i]))
 			{
-				actionKeys.Add((int)moveList[i]);
+				if(allowInput && !IsBuckled && !IsCuffed){
+					actionKeys.Add((int)moveList[i]);
+				}
+				else
+				{
+					var LHB = GetComponent<LivingHealthBehaviour>();
+					if(LHB.IsDead)
+					{
+						pna.CmdSpawnPlayerGhost();
+					}
+				}
 			}
 		}
 
-		return new PlayerAction { moveActions = actionKeys.ToArray() };
+		return new PlayerAction {moveActions = actionKeys.ToArray()};
 	}
 
-	public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay, Matrix curMatrix = null)
+	public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay,
+		Matrix curMatrix = null)
 	{
 		if (!curMatrix)
 		{
@@ -162,6 +174,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		{
 			return GetMoveDirection(matrixInfo, isReplay);
 		}
+
 		if (moveActionList.Count > 0)
 		{
 			return GetMoveDirection(moveActionList[moveActionList.Count - 1]);
@@ -176,11 +189,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 
 		for (int i = 0; i < moveList.Length; i++)
 		{
-			if (actionKeys.Contains((int)moveList[i]) && !moveActionList.Contains(moveList[i]))
+			if (actionKeys.Contains((int) moveList[i]) && !moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Add(moveList[i]);
 			}
-			else if (!actionKeys.Contains((int)moveList[i]) && moveActionList.Contains(moveList[i]))
+			else if (!actionKeys.Contains((int) moveList[i]) && moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Remove(moveList[i]);
 			}
@@ -200,15 +213,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		direction.y = Mathf.Clamp(direction.y, -1, 1);
 //			Logger.LogTrace(direction.ToString(), Category.Movement);
 
-			if ((PlayerManager.LocalPlayer == gameObject || isServer) && !isReplay)
-			{
-				playerSprites.LocalFaceDirection(Orientation.From(direction.To2Int()));
-			}
-
 		if (matrixInfo.MatrixMove)
 		{
 			// Converting world direction to local direction
-			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.RotationOffset.QuaternionInverted * direction);
+			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.ClientState.RotationOffset.QuaternionInverted *
+			                                  direction);
 		}
 
 		return direction;
@@ -239,12 +248,27 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	/// <summary>
 	/// Buckle the player at their current position.
 	/// </summary>
+	/// <param name="toObject">object to which they should be restrained, must have network instance id.</param>
 	/// <param name="onUnbuckled">callback to invoke when we become unbuckled</param>
 	[Server]
-	public void Buckle(Action onUnbuckled = null)
+	public void Buckle(GameObject toObject, Action onUnbuckled = null)
 	{
-		buckled = true;
+		var netid = toObject.NetId();
+		if (netid == NetworkInstanceId.Invalid)
+		{
+			Logger.LogError("attempted to Restrain to object " + toObject + " which has no NetworkIdentity. Restrain" +
+			                " can only be used on objects with a Net ID. Ensure this object has one.",
+				Category.Movement);
+			return;
+		}
+
+		OnRestrainedChangedHook(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
+		//inform the puller
+		if (PlayerScript.pushPull.PulledBy != null)
+		{
+			PlayerScript.pushPull.PulledBy.CmdStopPulling();
+		}
 		PlayerScript.pushPull.CmdStopFollowing();
 		PlayerScript.pushPull.CmdStopPulling();
 		PlayerScript.pushPull.isNotPushable = true;
@@ -255,6 +279,24 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		{
 			PlayerUprightMessage.SendToAll(gameObject, true, registerPlayer.IsSlippingServer);
 		}
+
+		//sync position to ensure they buckle to the correct spot
+		playerScript.PlayerSync.SetPosition(toObject.TileWorldPosition().To3Int());
+
+		//set direction if toObject has a direction
+		var directionalObject = toObject.GetComponent<Directional>();
+		if (directionalObject != null)
+		{
+			playerDirectional.FaceDirection(directionalObject.CurrentDirection);
+		}
+		else
+		{
+			playerDirectional.FaceDirection(playerDirectional.CurrentDirection);
+		}
+
+		//force sync direction to current direction
+		playerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
+
 	}
 
 	/// <summary>
@@ -272,7 +314,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	[Server]
 	public void Unbuckle()
 	{
-		buckled = false;
+		OnRestrainedChangedHook(NetworkInstanceId.Invalid);
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.isNotPushable = false;
 
@@ -287,23 +329,49 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		onUnbuckled?.Invoke();
 	}
 
-	//invoked client side when the buckled syncvar changes
-	private void OnBuckledChanged(bool isBuckled)
+	//invoked when restrainedTo changes direction, so we can update our direction
+	private void OnRestrainingObjectDirectionChange(Orientation newDir)
 	{
+		playerDirectional.FaceDirection(newDir);
+	}
+
+	//syncvar hook invoked client side when the restrainedTo changes
+	private void OnRestrainedChangedHook(NetworkInstanceId newRestrainedTo)
+	{
+		//unsub if we are subbed
+		if (buckledObject != NetworkInstanceId.Invalid)
+		{
+			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
+			if (directionalObject != null)
+			{
+				directionalObject.OnDirectionChange.RemoveListener(OnRestrainingObjectDirectionChange);
+			}
+		}
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			//have to do this with a lambda otherwise the Cmd will not fire
-			UIManager.AlertUI.ToggleAlertBuckled(isBuckled, () => this.CmdUnbuckle());
+			UIManager.AlertUI.ToggleAlertBuckled(newRestrainedTo != NetworkInstanceId.Invalid, () => this.CmdUnbuckle());
 		}
 
-		buckled = isBuckled;
+		this.buckledObject = newRestrainedTo;
+		//sub
+		if (buckledObject != NetworkInstanceId.Invalid)
+		{
+			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
+			if (directionalObject != null)
+			{
+				directionalObject.OnDirectionChange.AddListener(OnRestrainingObjectDirectionChange);
+			}
+		}
+		//ensure we are in sync with server
+		playerScript.PlayerSync.RollbackPrediction();
 	}
 
 	[Server]
 	public void Cuff(GameObject cuffs)
 	{
 		cuffed = true;
-		
+
 		pna.SetInventorySlot("handcuffs", cuffs);
 	}
 

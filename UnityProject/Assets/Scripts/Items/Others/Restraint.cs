@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Restraint : MeleeItemTrigger
+public class Restraint : Interactable<HandApply>
 {
 	/// <summary>
 	/// How long it takes to apply the restraints
@@ -22,28 +22,37 @@ public class Restraint : MeleeItemTrigger
 	/// </summary>
 	public string sound = "Handcuffs";
 
-	public override bool MeleeItemInteract(GameObject originator, GameObject victim)
+	// Interacts if the target isn't cuffed
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		PlayerMove victimPM = victim.GetComponent<PlayerMove>();
+		GameObject target = interaction.TargetObject;
+		PlayerMove targetPM = target.GetComponent<PlayerMove>();
 
-		if (victimPM == null || victimPM.IsCuffed)
-			return true;
+		return !(targetPM?.IsCuffed ?? false);
+	}
 
-		SoundManager.PlayNetworkedAtPos(sound, victim.transform.position);
+	protected override void ServerPerformInteraction(HandApply interaction)
+	{
+		GameObject target = interaction.TargetObject;
+		GameObject performer = interaction.Performer;
+
+		SoundManager.PlayNetworkedAtPos(sound, target.transform.position);
 
 		var progressFinishAction = new FinishProgressAction(
 			reason =>
 			{
 				if (reason == FinishProgressAction.FinishReason.COMPLETED)
 				{
-					victimPM.Cuff(gameObject);
+					// Explicitly 
+					if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) == true) {
+						target.GetComponent<PlayerMove>().Cuff(gameObject);
 
-					originator.GetComponent<PlayerNetworkActions>()?.UpdatePlayerEquipSprites(InventoryManager.GetSlotFromItem(gameObject), null);
+						performer.GetComponent<PlayerNetworkActions>()?.UpdatePlayerEquipSprites(InventoryManager.GetSlotFromItem(gameObject), null);
+					}
 				}
 			}
 		);
 		
-		UIManager.ProgressBar.StartProgress(victim.transform.position, applyTime, progressFinishAction, originator);
-		return false;
+		UIManager.ProgressBar.StartProgress(target.transform.position, applyTime, progressFinishAction, performer);
 	}
 }

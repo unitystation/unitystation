@@ -56,11 +56,5 @@ public class UITileListItem : MonoBehaviour
 		{
 			return;
 		}
-		//Interact with item. In case we picked up the item, it should no longer be on the list
-		if (PlayerManager.LocalPlayerScript.mouseInputController.Interact(item.transform, false))
-		{
-			UITileList.RemoveTileListItem(transform.gameObject);
-		}
-		;
 	}
 }

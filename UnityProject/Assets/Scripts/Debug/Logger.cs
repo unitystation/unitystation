@@ -235,7 +235,8 @@ public enum Category
 	Graphics,
 	Server, 
 	Tests,
-	Editor
+	Editor,
+	VariableViewer
 }
 
 [Serializable]

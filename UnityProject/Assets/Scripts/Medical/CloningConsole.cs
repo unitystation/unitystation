@@ -1,38 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class CloningConsole : NetworkTabTrigger
+/// <summary>
+/// Main component for cloning console
+/// </summary>
+public class CloningConsole : MonoBehaviour
 {
 	public delegate void ChangeEvent();
 	public static event ChangeEvent changeEvent;
 
 	public List<CloningRecord> CloningRecords = new List<CloningRecord>();
 	public DNAscanner scanner;
+	public CloningPod cloningPod;
+	public GUI_Cloning consoleGUI;
 
-	public override bool Interact(GameObject originator, Vector3 position, string hand)
+	private void Start()
 	{
-		if (!CanUse(originator, hand, position, false))
+		if (cloningPod)
 		{
-			return false;
+			cloningPod.console = this;
 		}
-		if (!isServer)
-		{
-			//ask server to perform the interaction
-			InteractMessage.Send(gameObject, position, hand);
-			return true;
-		}
-
-		UpdateGUI();
-		TabUpdateMessage.Send(originator, gameObject, NetTabType, TabAction.Open);
-
-		return true;
 	}
 
 	public void ToggleLock()
 	{
-		if(scanner && scanner.IsClosed)
+		if(scanner && scanner.IsClosed && scanner.powered)
 		{
 			scanner.IsLocked = !scanner.IsLocked;
 		}
@@ -40,61 +33,83 @@ public class CloningConsole : NetworkTabTrigger
 
 	public void Scan()
 	{
-		if(scanner && scanner.occupant)
+		if (scanner && scanner.occupant && scanner.powered)
 		{
 			var mob = scanner.occupant;
-			var uniqueIdentifier = "35562Eb18150514630991";
+			var mobID = scanner.occupant.mobID;
+			var playerScript = mob.GetComponent<PlayerScript>();
+			if(playerScript.mind.bodyMobID != mobID)
+			{
+				return;
+			}
 			for (int i = 0; i < CloningRecords.Count; i++)
 			{
-				if(uniqueIdentifier == CloningRecords[i].UniqueIdentifier)
+				var record = CloningRecords[i];
+				if (mobID == record.mobID)
 				{
+					record.UpdateRecord(mob, playerScript);
+					scanner.statusString = "Record updated.";
 					return;
 				}
 			}
-			var name = mob.GetComponent<PlayerScript>().playerName;
-			var oxyDmg = mob.bloodSystem.oxygenDamage;
-			var burnDmg = mob.GetTotalBurnDamage();
-			var toxinDmg = 0;
-			var bruteDmg = mob.GetTotalBruteDamage();
-			CreateRecord(name, oxyDmg, burnDmg, toxinDmg, bruteDmg, uniqueIdentifier);
+			CreateRecord(mob, playerScript);
+			scanner.statusString = "Subject successfully scanned.";
 		}
 	}
 
-	public void CreateRecord(string name, float oxyDmg, float burnDmg, float toxingDmg, float bruteDmg, string uniqueIdentifier)
+	public void TryClone(CloningRecord record)
 	{
-		int scanID = Random.Range(0, 1000);
-		var CRone = new CloningRecord(name, scanID, oxyDmg, burnDmg, toxingDmg, bruteDmg, uniqueIdentifier);
-		CloningRecords.Add(CRone);
-	}
-
-	public void UpdateGUI()
-	{
-		// Change event runs updateAll in CloningGUI
-		if (changeEvent != null)
+		if (cloningPod && cloningPod.CanClone())
 		{
-			changeEvent();
+			if(record.mind.ConfirmClone(record.mobID))
+			{
+				cloningPod.StartCloning(record);
+				CloningRecords.Remove(record);
+			}
+			else
+			{
+				cloningPod.statusString = "Initialisation failure.";
+			}
 		}
 	}
+
+	private void CreateRecord(LivingHealthBehaviour mob, PlayerScript playerScript)
+	{
+		var record = new CloningRecord();
+		record.UpdateRecord(mob, playerScript);
+		CloningRecords.Add(record);
+	}
+
 }
 
 public class CloningRecord
 {
-	public string Name;
-	public string ScanID;
-	public float OxyDmg;
-	public float BurnDmg;
-	public float ToxingDmg;
-	public float BruteDmg;
-	public string UniqueIdentifier;
+	public string name;
+	public string scanID;
+	public float oxyDmg;
+	public float burnDmg;
+	public float toxinDmg;
+	public float bruteDmg;
+	public string uniqueIdentifier;
+	public CharacterSettings characterSettings;
+	public int mobID;
+	public Mind mind;
 
-	public CloningRecord(string name, int scanID, float oxyDmg, float burnDmg, float toxingDmg, float bruteDmg, string uniqueIdentifier)
+	public CloningRecord()
 	{
-		Name = name;
-		ScanID = scanID.ToString();
-		OxyDmg = oxyDmg;
-		BurnDmg = burnDmg;
-		ToxingDmg = toxingDmg;
-		BruteDmg = bruteDmg;
-		UniqueIdentifier = uniqueIdentifier;
+		scanID = Random.Range(0, 9999).ToString();
+	}
+
+	public void UpdateRecord(LivingHealthBehaviour mob, PlayerScript playerScript)
+	{
+		mobID = mob.mobID;
+		mind = playerScript.mind;
+		name = playerScript.playerName;
+		characterSettings = playerScript.characterSettings;
+		oxyDmg = mob.bloodSystem.oxygenDamage;
+		burnDmg = mob.GetTotalBurnDamage();
+		toxinDmg = 0;
+		bruteDmg = mob.GetTotalBruteDamage();
+		uniqueIdentifier = "35562Eb18150514630991";
 	}
 }
