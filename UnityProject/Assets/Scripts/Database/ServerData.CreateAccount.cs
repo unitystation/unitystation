@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Firebase;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -14,8 +16,29 @@ namespace DatabaseAPI
 		///Also send a method to the errorCallBack delegate incase of DB failure
 		///</summary>
 		public static void TryCreateAccount(string proposedName, string _password, string emailAcc,
-		 Action<string> callBack, Action<string> errorCallBack)
+			Action<string> callBack, Action<string> errorCallBack)
 		{
+			Instance.auth.CreateUserWithEmailAndPasswordAsync(emailAcc, _password).ContinueWith(task =>
+			{
+				if (task.IsCanceled)
+				{
+					Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+					return;
+				}
+				if (task.IsFaulted)
+				{
+					Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+					return;
+				}
+
+				// Firebase user has been created.
+				Firebase.Auth.FirebaseUser newUser = task.Result;
+				Debug.LogFormat("Firebase user created successfully: {0} ({1})",
+					newUser.DisplayName, newUser.UserId);
+			});
+			
+			//TODO: Am working to phase this out and move to firebase auth:
+			/* 
 			RequestCreateAccount newRequest = new RequestCreateAccount
 			{
 				username = proposedName,
@@ -26,6 +49,7 @@ namespace DatabaseAPI
 
 			var request = JsonUtility.ToJson(newRequest);
 			Instance.StartCoroutine(Instance.AttemptCreation(request, callBack, errorCallBack));
+			*/
 		}
 
 		IEnumerator AttemptCreation(string request, Action<string> callBack, Action<string> errorCallBack)
@@ -36,16 +60,22 @@ namespace DatabaseAPI
 			{
 				Logger.Log("DB request failed: " + r.error, Category.DatabaseAPI);
 				errorCallBack.Invoke(r.error);
-			} else {
+			}
+			else
+			{
 				var apiResponse = JsonUtility.FromJson<ApiResponse>(r.downloadHandler.text);
-				if(apiResponse.errorCode != 0){
+				if (apiResponse.errorCode != 0)
+				{
 					errorCallBack.Invoke(apiResponse.errorMsg);
-				} else {
+				}
+				else
+				{
 					string s = r.GetResponseHeader("set-cookie");
-					sessionCookie = s.Split(';')[0];
+					sessionCookie = s.Split(';') [0];
 					callBack.Invoke(apiResponse.message);
 				}
 			}
 		}
+
 	}
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Firebase;
+using Firebase.Extensions;
 using Lobby;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -31,6 +33,24 @@ namespace DatabaseAPI
 		private const string URL_UpdateChar = ServerRoot + "/updatechar?key=" + ApiKey + "&data=";
 		private const string URL_GetChar = ServerRoot + "/getchar?key=" + ApiKey + "&username=";
 
+		private Firebase.Auth.FirebaseAuth auth;
+		private Dictionary<string, Firebase.Auth.FirebaseUser> userByAuth = new Dictionary<string, Firebase.Auth.FirebaseUser>();
+		private bool fetchingToken = false;
+
+		void Start()
+		{
+			InitializeFirebase();
+		}
+
+		// Handle initialization of the necessary firebase modules:
+		protected void InitializeFirebase()
+		{
+			Debug.Log("Setting up Firebase Auth");
+			auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+			auth.StateChanged += AuthStateChanged;
+			auth.IdTokenChanged += IdTokenChanged;
+			AuthStateChanged(this, null);
+		}
 
 		void OnEnable()
 		{
@@ -40,6 +60,43 @@ namespace DatabaseAPI
 		void OnDisable()
 		{
 			EventManager.RemoveHandler(EVENT.LoggedOut, OnLogOut);
+		}
+
+		// Track state changes of the auth object.
+		void AuthStateChanged(object sender, System.EventArgs eventArgs)
+		{
+			Firebase.Auth.FirebaseAuth senderAuth = sender as Firebase.Auth.FirebaseAuth;
+			Firebase.Auth.FirebaseUser user = null;
+			if (senderAuth != null) userByAuth.TryGetValue(senderAuth.App.Name, out user);
+			if (senderAuth == auth && senderAuth.CurrentUser != user)
+			{
+				bool signedIn = user != senderAuth.CurrentUser && senderAuth.CurrentUser != null;
+				if (!signedIn && user != null)
+				{
+					Debug.Log("Signed out " + user.UserId);
+				}
+				user = senderAuth.CurrentUser;
+				userByAuth[senderAuth.App.Name] = user;
+				if (signedIn)
+				{
+					Debug.Log("Signed in " + user.UserId);
+					/* 
+					displayName = user.DisplayName ?? "";
+					DisplayDetailedUserInfo(user, 1);
+					*/
+				}
+			}
+		}
+
+		// Track ID token changes.
+		void IdTokenChanged(object sender, System.EventArgs eventArgs)
+		{
+			Firebase.Auth.FirebaseAuth senderAuth = sender as Firebase.Auth.FirebaseAuth;
+			if (senderAuth == auth && senderAuth.CurrentUser != null && !fetchingToken)
+			{
+				senderAuth.CurrentUser.TokenAsync(false).ContinueWithOnMainThread(
+					task => Debug.Log(String.Format("Token[0:8] = {0}", task.Result.Substring(0, 8))));
+			}
 		}
 
 		public void OnLogOut()
