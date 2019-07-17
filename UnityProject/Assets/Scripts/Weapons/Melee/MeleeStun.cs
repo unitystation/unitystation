@@ -24,6 +24,8 @@ public class MeleeStun : Interactable<HandApply>
 
 	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
+		if (!base.WillInteract(interaction, side)) return false;
+
 		return interaction.UsedObject == gameObject
 			&& (!stunBaton || stunBaton.isActive)
 			&& interaction.TargetObject.GetComponent<RegisterPlayer>();
