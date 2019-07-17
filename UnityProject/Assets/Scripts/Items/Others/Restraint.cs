@@ -22,12 +22,11 @@ public class Restraint : Interactable<HandApply>
 	/// </summary>
 	public string sound = "Handcuffs";
 
-	// Interacts if the target isn't cuffed
 	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		GameObject target = interaction.TargetObject;
-		PlayerMove targetPM = target.GetComponent<PlayerMove>();
+		PlayerMove targetPM = interaction.TargetObject?.GetComponent<PlayerMove>();
 
+		// Interacts iff the target isn't cuffed
 		return !(targetPM?.IsCuffed ?? false);
 	}
 
@@ -43,10 +42,10 @@ public class Restraint : Interactable<HandApply>
 			{
 				if (reason == FinishProgressAction.FinishReason.COMPLETED)
 				{
-					// Explicitly 
-					if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) == true) {
+					if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) ?? false) {
 						target.GetComponent<PlayerMove>().Cuff(gameObject);
 
+						// Hacky! Hand doesn't automatically update so we have to do it manually
 						performer.GetComponent<PlayerNetworkActions>()?.UpdatePlayerEquipSprites(InventoryManager.GetSlotFromItem(gameObject), null);
 					}
 				}

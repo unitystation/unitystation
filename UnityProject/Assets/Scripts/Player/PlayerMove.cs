@@ -20,8 +20,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 
 	[SyncVar] public bool allowInput = true;
 
-	//netid of the game object we are restrained to, NetworkInstanceId.Invalid if not restrained
-	[SyncVar(hook = nameof(OnRestrainedChangedHook))]
+	//netid of the game object we are buckled to, NetworkInstanceId.Invalid if not buckled
+	[SyncVar(hook = nameof(OnBuckledChangedHook))]
 	private NetworkInstanceId buckledObject = NetworkInstanceId.Invalid;
 
 	//callback invoked when we are unbuckled.
@@ -248,7 +248,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	/// <summary>
 	/// Buckle the player at their current position.
 	/// </summary>
-	/// <param name="toObject">object to which they should be restrained, must have network instance id.</param>
+	/// <param name="toObject">object to which they should be buckled, must have network instance id.</param>
 	/// <param name="onUnbuckled">callback to invoke when we become unbuckled</param>
 	[Server]
 	public void Buckle(GameObject toObject, Action onUnbuckled = null)
@@ -256,13 +256,13 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		var netid = toObject.NetId();
 		if (netid == NetworkInstanceId.Invalid)
 		{
-			Logger.LogError("attempted to Restrain to object " + toObject + " which has no NetworkIdentity. Restrain" +
+			Logger.LogError("attempted to buckle to object " + toObject + " which has no NetworkIdentity. Buckle" +
 			                " can only be used on objects with a Net ID. Ensure this object has one.",
 				Category.Movement);
 			return;
 		}
 
-		OnRestrainedChangedHook(netid);
+		OnBuckledChangedHook(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
 		//inform the puller
 		if (PlayerScript.pushPull.PulledBy != null)
@@ -314,7 +314,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	[Server]
 	public void Unbuckle()
 	{
-		OnRestrainedChangedHook(NetworkInstanceId.Invalid);
+		OnBuckledChangedHook(NetworkInstanceId.Invalid);
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.isNotPushable = false;
 
@@ -329,14 +329,14 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		onUnbuckled?.Invoke();
 	}
 
-	//invoked when restrainedTo changes direction, so we can update our direction
-	private void OnRestrainingObjectDirectionChange(Orientation newDir)
+	//invoked when buckledTo changes direction, so we can update our direction
+	private void OnBuckledObjectDirectionChange(Orientation newDir)
 	{
 		playerDirectional.FaceDirection(newDir);
 	}
 
-	//syncvar hook invoked client side when the restrainedTo changes
-	private void OnRestrainedChangedHook(NetworkInstanceId newRestrainedTo)
+	//syncvar hook invoked client side when the buckledTo changes
+	private void OnBuckledChangedHook(NetworkInstanceId newBuckledTo)
 	{
 		//unsub if we are subbed
 		if (buckledObject != NetworkInstanceId.Invalid)
@@ -344,23 +344,23 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
 			if (directionalObject != null)
 			{
-				directionalObject.OnDirectionChange.RemoveListener(OnRestrainingObjectDirectionChange);
+				directionalObject.OnDirectionChange.RemoveListener(OnBuckledObjectDirectionChange);
 			}
 		}
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			//have to do this with a lambda otherwise the Cmd will not fire
-			UIManager.AlertUI.ToggleAlertBuckled(newRestrainedTo != NetworkInstanceId.Invalid, () => this.CmdUnbuckle());
+			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetworkInstanceId.Invalid, () => this.CmdUnbuckle());
 		}
 
-		this.buckledObject = newRestrainedTo;
+		this.buckledObject = newBuckledTo;
 		//sub
 		if (buckledObject != NetworkInstanceId.Invalid)
 		{
 			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
 			if (directionalObject != null)
 			{
-				directionalObject.OnDirectionChange.AddListener(OnRestrainingObjectDirectionChange);
+				directionalObject.OnDirectionChange.AddListener(OnBuckledObjectDirectionChange);
 			}
 		}
 		//ensure we are in sync with server
@@ -384,8 +384,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	}
 
 	/// <summary>
-	/// Client tries to uncuff this
+	/// Called when a player 
 	/// </summary>
+	/// <param name="uncuffingPlayer"></param>
 	[Server]
 	public void RequestUncuff(GameObject uncuffingPlayer)
 	{
@@ -400,11 +401,18 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		Uncuff();
 	}
 
+	/// <summary>
+	/// Used for the right click action, sends a message requesting uncuffing
+	/// </summary>
 	public void TryUncuffThis()
 	{
 		RequestUncuffMessage.Send(gameObject);
 	}
 
+	/// <summary>
+	/// Anything with PlayerMove can be cuffed and uncuffed. Might make sense to seperate that into its own behaviour
+	/// </summary>
+	/// <returns>The menu including the uncuff action if applicable, otherwise null</returns>
 	public RightClickableResult GenerateRightClickOptions()
 	{
 		var initiator = PlayerManager.LocalPlayerScript.playerMove;

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Sent by the client who wishes to uncuff someone when the "uncuff" button in the right click menu is pressed
+/// </summary>
 public class RequestUncuffMessage : ClientMessage
 {
 	public static short MessageType = (short)MessageTypes.RequestUncuffMessage;

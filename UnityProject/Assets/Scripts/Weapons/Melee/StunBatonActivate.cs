@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// IF2 hook for (de-)activation of stun baton
+/// Consider making a generic behaviour for (de-)activating objects
+/// </summary>
 [RequireComponent(typeof(StunBaton))]
 public class StunBatonActivate : Interactable<HandActivate>
 {

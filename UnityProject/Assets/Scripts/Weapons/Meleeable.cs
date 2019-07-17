@@ -69,12 +69,12 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 
 			if (tileMapLayer == null)
 			{
-				lps.weaponNetworkActions.CmdRequestMeleeAttack(gameObject,
+				lps.weaponNetworkActions.CmdRequestMeleeAttackSlot(gameObject,
 					UIManager.Hands.CurrentSlot.eventName, dir, UIManager.DamageZone, LayerType.None);
 			}
 			else
 			{
-				lps.weaponNetworkActions.CmdRequestMeleeAttack(gameObjectRoot,
+				lps.weaponNetworkActions.CmdRequestMeleeAttackSlot(gameObjectRoot,
 					UIManager.Hands.CurrentSlot.eventName, dir, UIManager.DamageZone, tileMapLayer.LayerType);
 			}
 
