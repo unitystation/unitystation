@@ -11,7 +11,8 @@ public class BulletStunOnHit : BulletHitTrigger
 	/// <summary>
 	/// How long the player hit by this will be stunned
 	/// </summary>
-	public float stunTime = 4.0f;
+	[SerializeField]
+	private float stunTime = 4.0f;
 
 	public override void BulletHitInteract(GameObject target)
 	{

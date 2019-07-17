@@ -8,19 +8,23 @@ public class Restraint : Interactable<HandApply>
 	/// <summary>
 	/// How long it takes to apply the restraints
 	/// </summary>
-	public float applyTime;
+	[SerializeField]
+	private float applyTime;
 
 	/// <summary>
 	/// How long it takes for another person to remove the restraints
 	/// </summary>
-	public float removeTime;
+	[SerializeField]
+	private float removeTime;
+	public float RemoveTime => removeTime;
 
 	// TODO: Add time it takes to resist out of handcuffs
 
 	/// <summary>
 	/// Sound to be played when applying restraints
 	/// </summary>
-	public string sound = "Handcuffs";
+	[SerializeField]
+	private string sound = "Handcuffs";
 
 	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{

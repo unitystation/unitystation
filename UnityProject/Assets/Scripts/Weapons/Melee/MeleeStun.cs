@@ -12,7 +12,8 @@ public class MeleeStun : Interactable<HandApply>
 	/// <summary>
 	/// How long to stun for (in seconds)
 	/// </summary>
-	public float stunTime;
+	[SerializeField]
+	private float stunTime;
 
 	private StunBaton stunBaton;
 

@@ -4,25 +4,27 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(Pickupable))]
-[RequireComponent(typeof(StunBatonActivate))]
-public class StunBaton : NetworkBehaviour
+public class StunBaton : NBHandActivateInteractable
 {
 	public SpriteRenderer spriteRenderer;
 
 	/// <summary>
 	/// Sound played when turning this baton on/off
 	/// </summary>
-	public string soundToggle;
+	[SerializeField]
+	private string soundToggle;
 
 	/// <summary>
 	/// Sprite to be shown when the baton is on
 	/// </summary>
-	public Sprite spriteActive;
+	[SerializeField]
+	private Sprite spriteActive;
 
 	/// <summary>
 	/// Sprite to be shown when the baton is off
 	/// </summary>
-	public Sprite spriteInactive;
+	[SerializeField]
+	private Sprite spriteInactive;
 
 	[SyncVar(hook = nameof(UpdateState))]
 	private bool active;
@@ -57,5 +59,16 @@ public class StunBaton : NetworkBehaviour
 		{
 			UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
 		}
+	}
+
+	protected override void ClientPredictInteraction(HandActivate interaction)
+	{
+		ToggleState();
+	}
+
+	protected override void ServerPerformInteraction(HandActivate interaction)
+	{
+		SoundManager.PlayNetworkedAtPos(soundToggle, interaction.Performer.transform.position);
+		ToggleState();
 	}
 }

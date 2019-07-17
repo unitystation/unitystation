@@ -384,7 +384,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	}
 
 	/// <summary>
-	/// Called when a player 
+	/// Called by RequestUncuffMessage after the progress bar completes
+	/// Uncuffs this player after performing some legitimacy checks
 	/// </summary>
 	/// <param name="uncuffingPlayer"></param>
 	[Server]
