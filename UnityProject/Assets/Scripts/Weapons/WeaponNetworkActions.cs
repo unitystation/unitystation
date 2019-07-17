@@ -21,7 +21,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private Sprite lerpSprite;
 
 	private Vector3 lerpTo;
-	public GameObject muzzleFlash;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private RegisterPlayer registerPlayer;
@@ -170,12 +169,12 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (integrity != null)
 		{
 			//damaging an object
-			integrity.ApplyDamage((int)weaponAttr.hitDamage, AttackType.Melee, DamageType.Brute);
+			integrity.ApplyDamage((int)weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType);
 		}
 		else
 		{
 			//damaging a living thing
-			victimHealth.ApplyDamage(gameObject, (int)weaponAttr.hitDamage, AttackType.Melee, DamageType.Brute, damageZone);
+			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType, damageZone);
 		}
 
 		SoundManager.PlayNetworkedAtPos(weaponAttr.hitSound, transform.position);
@@ -334,13 +333,5 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		lerping = false;
 		isForLerpBack = false;
 		lerpSprite = null;
-	}
-
-	private IEnumerator ShowMuzzleFlash()
-	{
-		muzzleFlash.gameObject.SetActive(true);
-		yield return WaitFor.Seconds(0.1f);
-		muzzleFlash.gameObject.SetActive(false);
-		isFlashing = false;
 	}
 }

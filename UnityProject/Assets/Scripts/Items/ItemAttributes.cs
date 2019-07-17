@@ -12,7 +12,6 @@ using Random = System.Random;
 [RequireComponent(typeof(ObjectBehaviour))]
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(CustomNetTransform))]
-[RequireComponent(typeof(SpriteMatrixRotation))]
 public class ItemAttributes : NetworkBehaviour, IRightClickable
 {
 	private const string MaskInternalsFlag = "MASKINTERNALS";
@@ -85,6 +84,8 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	[Tooltip("Damage when we click someone with harm intent")]
 	[Range(0, 100)]
 	public float hitDamage = 0;
+
+	public DamageType damageType = DamageType.Brute;
 
 	[Tooltip("How painful it is when someone throws it at you")]
 	[Range(0, 100)]

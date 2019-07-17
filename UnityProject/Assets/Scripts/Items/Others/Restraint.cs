@@ -27,7 +27,9 @@ public class Restraint : Interactable<HandApply>
 		PlayerMove targetPM = interaction.TargetObject?.GetComponent<PlayerMove>();
 
 		// Interacts iff the target isn't cuffed
-		return !(targetPM?.IsCuffed ?? false);
+		return interaction.UsedObject == gameObject
+			&& targetPM != null
+			&& targetPM.IsCuffed == false;
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)

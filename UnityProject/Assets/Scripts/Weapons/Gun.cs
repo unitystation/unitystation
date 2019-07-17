@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Serialization;
  /// <summary>
@@ -10,6 +10,11 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Pickupable))]
 public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInteractable<InventoryApply>
 {
+	//constants for calculating screen shake due to recoil
+	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
+	private static readonly float MAX_SHAKE_INTENSITY = 1f;
+	private static readonly float MIN_SHAKE_INTENSITY = 0.01f;
+
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
 	/// </summary>
@@ -86,6 +91,12 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	///     The traveling speed for this weapons projectile
 	/// </summary>
 	public int ProjectileVelocity;
+
+	/// <summary>
+	/// Describes the recoil behavior of the camera when this gun is fired
+	/// </summary>
+	[Tooltip("Describes the recoil behavior of the camera when this gun is fired")]
+	public CameraRecoilConfig CameraRecoilConfig;
 
 	/// <summary>
 	///     Current Weapon Type
@@ -546,6 +557,24 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		AppendRecoil(angle);
 
 		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position);
+		//jerk screen back based on recoil angle and power
+		if (shooter == PlayerManager.LocalPlayer)
+		{
+			//Default recoil params until each gun is configured separately
+			if (CameraRecoilConfig == null || CameraRecoilConfig.Distance == 0f)
+			{
+				CameraRecoilConfig = new CameraRecoilConfig
+				{
+					Distance = 0.2f,
+					RecoilDuration = 0.05f,
+					RecoveryDuration = 0.6f
+				};
+			}
+			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
+		}
+
+
+		shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 	}
 
 	#endregion

@@ -317,6 +317,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 3
+  damageType: 1
   throwDamage: 5
   throwSpeed: 2
   throwRange: 7
@@ -382,6 +383,7 @@ MonoBehaviour:
   welderRenderer: {fileID: 212316710125154168}
   flameRenderer: {fileID: 212351652085156724}
   clientFuelAmt: 0
+  damageOn: 15
   heldByPlayer: {fileID: 0}
   isOn: 0
 --- !u!114 &114994829710997294
@@ -449,3 +451,12 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100

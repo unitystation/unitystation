@@ -818,6 +818,7 @@ MonoBehaviour:
   - {fileID: 114838523532892086}
   - {fileID: 114844944412084042}
   - {fileID: 114341362304352952}
+  muzzleFlash: {fileID: 114824170203619628}
 --- !u!114 &114413669770135258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -960,7 +961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99e9a7c3cfbc64868950975c02790ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  muzzleFlash: {fileID: 1894933337466704}
 --- !u!114 &114285504268110804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3594,7 +3594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Color: {r: 1, g: 0.9754564, b: 0.83823526, a: 0.359}
-  Sprite: {fileID: 21300000, guid: 1a2fa03369d897e439ef81a5d10d7241, type: 3}
+  Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: 5d8645bc2e5501a4ebd138db5aa609bd, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
