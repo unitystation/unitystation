@@ -43,7 +43,7 @@ namespace DatabaseAPI
 			Instance.StartCoroutine(Instance.PreformLogin(newRequest, successCallBack, failedCallBack, autoLoginSetting));
 			*/
 		}
-
+			/* 
 		IEnumerator PreformLogin(RequestLogin request,
 			Action<string> successCallBack, Action<string> errorCallBack, bool autoLoginSetting)
 		{
@@ -84,5 +84,6 @@ namespace DatabaseAPI
 				}
 			}
 		}
+		*/
 	}
 }

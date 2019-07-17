@@ -27,15 +27,20 @@ namespace DatabaseAPI
 
 		private string sessionCookie;
 		private const string ServerRoot = "https://dev.unitystation.org"; //dev mode (todo: load release url and key data through build server)
+		private const string FirebaseRoot = "https://firestore.googleapis.com/v1/projects/unitystation-c6a53/databases/(default)/documents";
 		private const string ApiKey = "77bCwycyzm4wJY5X"; //preloaded for development. Keys are replaced on the server
 		private const string URL_TryCreate = ServerRoot + "/create?key=" + ApiKey + "&data=";
-		private const string URL_TryLogin = ServerRoot + "/login?key=" + ApiKey + "&data=";
+		private const string URL_TryCreateChar = FirebaseRoot + "/users/";
+		//private const string URL_UpdateChar = ServerRoot + "/updatechar?key=" + ApiKey + "&data=";
 		private const string URL_UpdateChar = ServerRoot + "/updatechar?key=" + ApiKey + "&data=";
 		private const string URL_GetChar = ServerRoot + "/getchar?key=" + ApiKey + "&username=";
 
 		private Firebase.Auth.FirebaseAuth auth;
 		private Dictionary<string, Firebase.Auth.FirebaseUser> userByAuth = new Dictionary<string, Firebase.Auth.FirebaseUser>();
+		private Firebase.Auth.FirebaseUser user = null;
 		private bool fetchingToken = false;
+		public string token;
+		public bool isFirstTime = false;
 
 		void Start()
 		{
@@ -66,7 +71,6 @@ namespace DatabaseAPI
 		void AuthStateChanged(object sender, System.EventArgs eventArgs)
 		{
 			Firebase.Auth.FirebaseAuth senderAuth = sender as Firebase.Auth.FirebaseAuth;
-			Firebase.Auth.FirebaseUser user = null;
 			if (senderAuth != null) userByAuth.TryGetValue(senderAuth.App.Name, out user);
 			if (senderAuth == auth && senderAuth.CurrentUser != user)
 			{
@@ -95,8 +99,29 @@ namespace DatabaseAPI
 			if (senderAuth == auth && senderAuth.CurrentUser != null && !fetchingToken)
 			{
 				senderAuth.CurrentUser.TokenAsync(false).ContinueWithOnMainThread(
-					task => Debug.Log(String.Format("Token[0:8] = {0}", task.Result.Substring(0, 8))));
+					task => SetToken(task.Result));
 			}
+		}
+
+		void SetToken(string result)
+		{
+			Instance.token = result;
+			Debug.Log("TOKEN: " + result);
+			if (isFirstTime)
+			{
+				isFirstTime = false;
+				UpdateCharacterProfile(PlayerManager.CurrentCharacterSettings,NewCharacterSuccess, NewCharacterFailed);
+			}
+		}
+
+		void NewCharacterSuccess(string msg)
+		{
+
+		}
+
+		void NewCharacterFailed(string msg)
+		{
+
 		}
 
 		public void OnLogOut()

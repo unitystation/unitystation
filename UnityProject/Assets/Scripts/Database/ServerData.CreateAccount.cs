@@ -11,17 +11,20 @@ namespace DatabaseAPI
 		public static void TryCreateAccount(string proposedName, string _password, string emailAcc,
 			Action<Firebase.Auth.FirebaseUser, CharacterSettings> callBack, Action<string> errorCallBack)
 		{
+			Instance.isFirstTime = true;
 			Instance.auth.CreateUserWithEmailAndPasswordAsync(emailAcc, _password).ContinueWith(task =>
 			{
 				if (task.IsCanceled)
 				{
 					errorCallBack.Invoke("Cancelled");
+					Instance.isFirstTime = false;
 					//Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
 					return;
 				}
 				if (task.IsFaulted)
 				{
 					errorCallBack.Invoke(task.Exception.Message);
+					Instance.isFirstTime = false;
 					//Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
 					return;
 				}

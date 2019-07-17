@@ -11,31 +11,26 @@ namespace DatabaseAPI
 		public static void UpdateCharacterProfile(CharacterSettings updateSettings, Action<string> callBack, Action<string> errorCallBack)
 		{
 			var json = JsonUtility.ToJson(updateSettings);
-			Instance.StartCoroutine(Instance.TryUpdateChar(json, callBack, errorCallBack));
+			var url = URL_TryCreateChar + Instance.user.UserId + "/users";
+			Instance.StartCoroutine(Instance.TryUpdateChar(url, callBack, errorCallBack));
 		}
 
 		IEnumerator TryUpdateChar(string request, Action<string> callBack, Action<string> errorCallBack)
 		{
-			UnityWebRequest r = UnityWebRequest.Get(URL_UpdateChar + UnityWebRequest.EscapeURL(request));
-			r.SetRequestHeader("Cookie", sessionCookie);
+			UnityWebRequest r = UnityWebRequest.Get(request);
+			r.SetRequestHeader("Authorization", $"{Instance.token}");
 
 			yield return r.SendWebRequest();
 			if (r.error != null)
 			{
 				Logger.Log("DB request failed: " + r.error, Category.DatabaseAPI);
 				errorCallBack.Invoke(r.error);
+				Debug.Log(r.url);
 			}
 			else
 			{
-				var apiResponse = JsonUtility.FromJson<ApiResponse>(r.downloadHandler.text);
-				if (apiResponse.errorCode != 0)
-				{
-					errorCallBack.Invoke(apiResponse.errorMsg);
-				}
-				else
-				{
-					callBack.Invoke(apiResponse.message);
-				}
+				callBack.Invoke(r.downloadHandler.text);
+
 			}
 		}
 	}
