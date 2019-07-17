@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Text.RegularExpressions;
 
 namespace DatabaseAPI
 {
@@ -12,6 +12,27 @@ namespace DatabaseAPI
 		public static void AttemptLogin(string username, string _password,
 			Action<string> successCallBack, Action<string> failedCallBack, bool autoLoginSetting)
 		{
+
+			//Testing sign in with firebase:
+			Instance.auth.SignInWithEmailAndPasswordAsync(username, _password).ContinueWith(task =>
+			{
+				if (task.IsCanceled)
+				{
+					Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
+					return;
+				}
+				if (task.IsFaulted)
+				{
+					Debug.LogError("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+					return;
+				}
+
+				Firebase.Auth.FirebaseUser newUser = task.Result;
+				Debug.LogFormat("User signed in successfully: {0} ({1})",
+					newUser.DisplayName, newUser.UserId);
+			});
+
+			/* 
 			var newRequest = new RequestLogin
 			{
 				username = username,
@@ -20,6 +41,7 @@ namespace DatabaseAPI
 			};
 
 			Instance.StartCoroutine(Instance.PreformLogin(newRequest, successCallBack, failedCallBack, autoLoginSetting));
+			*/
 		}
 
 		IEnumerator PreformLogin(RequestLogin request,
@@ -39,7 +61,7 @@ namespace DatabaseAPI
 				if (apiResponse.errorCode != 0)
 				{
 					GameData.IsLoggedIn = false;
-					PlayerPrefs.SetString("username","");
+					PlayerPrefs.SetString("username", "");
 					PlayerPrefs.SetString("cookie", "");
 					PlayerPrefs.SetInt("autoLogin", 0);
 					PlayerPrefs.Save();

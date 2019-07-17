@@ -129,10 +129,10 @@ namespace Lobby
 				emailAddressInput.text, AccountCreationSuccess, AccountCreationError);
 		}
 
-		private void AccountCreationSuccess(string message)
+		private void AccountCreationSuccess(Firebase.Auth.FirebaseUser newUser, CharacterSettings charSettings)
 		{
 			pleaseWaitCreationText.text = "Created Successfully";
-			PlayerManager.CurrentCharacterSettings = new CharacterSettings();
+			PlayerManager.CurrentCharacterSettings = charSettings;
 			GameData.LoggedInUsername = chosenUsernameInput.text;
 			GameData.IsLoggedIn = true;
 			chosenPasswordInput.text = "";
