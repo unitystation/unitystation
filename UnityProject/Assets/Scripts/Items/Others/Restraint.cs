@@ -43,8 +43,6 @@ public class Restraint : Interactable<HandApply>
 		GameObject target = interaction.TargetObject;
 		GameObject performer = interaction.Performer;
 
-		SoundManager.PlayNetworkedAtPos(sound, target.transform.position);
-
 		var progressFinishAction = new FinishProgressAction(
 			reason =>
 			{
@@ -55,6 +53,8 @@ public class Restraint : Interactable<HandApply>
 
 						// Hacky! Hand doesn't automatically update so we have to do it manually
 						performer.GetComponent<PlayerNetworkActions>()?.UpdatePlayerEquipSprites(InventoryManager.GetSlotFromItem(gameObject), null);
+
+						SoundManager.PlayNetworkedAtPos(sound, target.transform.position);
 					}
 				}
 			}

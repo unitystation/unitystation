@@ -15,6 +15,12 @@ public class MeleeStun : Interactable<HandApply>
 	[SerializeField]
 	private float stunTime;
 
+	/// <summary>
+	/// Sounds to play when stunning someone
+	/// </summary>
+	[SerializeField]
+	private string stunSound = "EGloves";
+
 	private StunBaton stunBaton;
 
 	public void Start()
@@ -57,7 +63,7 @@ public class MeleeStun : Interactable<HandApply>
 		if (registerPlayerVictim)
 		{
 			registerPlayerVictim.Stun(stunTime);
-			SoundManager.PlayNetworkedAtPos("Sparks0" + UnityEngine.Random.Range(1, 4), target.transform.position);
+			SoundManager.PlayNetworkedAtPos(stunSound, target.transform.position);
 
 			// Special case: If we're on help intent (only stun), we should still show the lerp (unless we're hitting ourselves)
 			if (helpIntent && performer != target)
