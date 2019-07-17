@@ -24,6 +24,8 @@ public class Restraint : Interactable<HandApply>
 
 	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
+		if (!base.WillInteract(interaction, side)) return false;
+		
 		PlayerMove targetPM = interaction.TargetObject?.GetComponent<PlayerMove>();
 
 		// Interacts iff the target isn't cuffed
