@@ -18,7 +18,6 @@ GameObject:
   - component: {fileID: 7617608173269680123}
   - component: {fileID: 6417518545994622246}
   - component: {fileID: 3232839523659743446}
-  - component: {fileID: 8093143798593785570}
   m_Layer: 10
   m_Name: Stun Baton
   m_TagString: Untagged
@@ -34,7 +33,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7503752898315862941}
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
-  m_LocalPosition: {x: 47.467163, y: 26.663696, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7507245480305347833}
@@ -135,6 +134,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 10
+  damageType: 0
   throwDamage: 7
   throwSpeed: 2
   throwRange: 7
@@ -222,18 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stunTime: 14
---- !u!114 &8093143798593785570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7503752898315862941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96ecde9d8023b143a0d5c222447ea69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  stunSound: EGloves
 --- !u!1 &7503752899205498039
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +249,7 @@ Transform:
   m_GameObject: {fileID: 7503752899205498039}
   m_LocalRotation: {x: -0, y: -0, z: 0.00000014901144, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7507245482294410959}
   m_RootOrder: 0

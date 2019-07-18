@@ -53,13 +53,12 @@ public class Restraint : Interactable<HandApply>
 
 						// Hacky! Hand doesn't automatically update so we have to do it manually
 						performer.GetComponent<PlayerNetworkActions>()?.UpdatePlayerEquipSprites(InventoryManager.GetSlotFromItem(gameObject), null);
-
-						SoundManager.PlayNetworkedAtPos(sound, target.transform.position);
 					}
 				}
 			}
 		);
-		
+
+		SoundManager.PlayNetworkedAtPos(sound, target.transform.position);
 		UIManager.ProgressBar.StartProgress(target.transform.position, applyTime, progressFinishAction, performer);
 	}
 }
