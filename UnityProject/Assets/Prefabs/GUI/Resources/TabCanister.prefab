@@ -780,7 +780,6 @@ GameObject:
   - component: {fileID: 2934589532279352711}
   - component: {fileID: 7436919328413967509}
   - component: {fileID: 8001657212128783269}
-  - component: {fileID: 3562024177543540201}
   m_Layer: 5
   m_Name: LabelFrame
   m_TagString: Untagged
@@ -845,26 +844,6 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &3562024177543540201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1511875722092887069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b500c41061c8f794c9e11f78b9337f61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shuttleControlScript: {fileID: 0}
-  textToSet: {fileID: 3808562190613184336}
-  textSetupDict:
-    m_keys: 000000000100000002000000
-    m_values:
-    - PROPERTY OF\nNANOTRASEN\n\nKEEP OUT
-    - PROPERTY OF\nNANOTRASEN\n\nKEEP OUT
-    - Syndiate\nAssault\nShuttle\nEZ-78-3Z\n\nUse With\nCaution
 --- !u!1 &2203898181360781807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,6 +1347,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2587822167494942906}
+        m_MethodName: SpinDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &5864935479952912685
@@ -1384,18 +1374,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: TurnLeft
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3461945400162660262
@@ -3198,6 +3177,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2587822167494942906}
+        m_MethodName: SpinUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &7030409510010783837
@@ -3214,18 +3204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: TurnLeft
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &8853424794675686165
@@ -3349,7 +3328,7 @@ PrefabInstance:
     - target: {fileID: 9015964894283925304, guid: 699a42dbe71855d49a99de302af0fc0f,
         type: 3}
       propertyPath: m_Name
-      value: NumberSpinner
+      value: InternalPressure
       objectReference: {fileID: 0}
     - target: {fileID: 3663828361341572412, guid: 699a42dbe71855d49a99de302af0fc0f,
         type: 3}
@@ -3474,7 +3453,7 @@ PrefabInstance:
     - target: {fileID: 9015964894283925304, guid: 699a42dbe71855d49a99de302af0fc0f,
         type: 3}
       propertyPath: m_Name
-      value: NumberSpinner
+      value: ReleasePressure
       objectReference: {fileID: 0}
     - target: {fileID: 3663828361341572412, guid: 699a42dbe71855d49a99de302af0fc0f,
         type: 3}
@@ -3581,6 +3560,26 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5000001
       objectReference: {fileID: 0}
+    - target: {fileID: 2266404730653743562, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5463702692558937129, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535720156649920440, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643542006160950354, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 699a42dbe71855d49a99de302af0fc0f, type: 3}
 --- !u!224 &6315863020943808113 stripped
@@ -3589,3 +3588,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 7313559440767419213}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2587822167494942906 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5086588193458840567, guid: 699a42dbe71855d49a99de302af0fc0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7313559440767419213}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aff3c854a754817b6d9001a4a3457de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
