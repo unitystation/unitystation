@@ -114,7 +114,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1392830670498528}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 59.941216, y: 48.050545, z: 0.1673696}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4939799892165608}
@@ -206,18 +206,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clothingReference: -1
   hierarchy: 
-  inHandReferenceLeft: 136
-  inHandReferenceRight: 212
-  itemName: Tazer
-  itemDescription: 
-  itemType: 0
-  size: 0
+  inHandReferenceLeft: 272
+  inHandReferenceRight: 124
+  itemName: Taser gun
+  itemDescription: A low-capacity, energy-based stun gun used by security teams to
+    subdue targets at range.
+  itemType: 17
+  size: 3
   spriteType: 2
   CanConnectToTank: 0
   hitDamage: 5
+  damageType: 0
   throwDamage: 5
-  throwSpeed: 2
-  throwRange: 7
+  throwSpeed: 3
+  throwRange: 5
   hitSound: GenericHit
   attackVerb: []
 --- !u!114 &114758040345321802
@@ -290,12 +292,16 @@ MonoBehaviour:
   SmartGun: 1
   CurrentRecoilVariance: 0
   FireCountDown: 0
-  FireingSound: ShootTazer
+  FiringSound: ShootTazer
   FireRate: 5
   MaxRecoilVariance: 0
   Projectile: {fileID: 1560634355228308, guid: 3a5f33fb4348d74429ba2cf1a1d4821d, type: 3}
   ProjectilesFired: 1
   ProjectileVelocity: 17
+  CameraRecoilConfig:
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
   WeaponType: 0
 --- !u!114 &114159304376706970
 MonoBehaviour:
@@ -345,3 +351,12 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100

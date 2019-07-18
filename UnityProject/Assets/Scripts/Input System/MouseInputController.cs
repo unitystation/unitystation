@@ -519,7 +519,7 @@ public class MouseInputController : MonoBehaviour
 
 		Vector2 dir = (MouseWorldPosition - playerPos).normalized;
 
-		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsRestrained)
+		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsBuckled)
 		{
 			playerDirectional.FaceDirection(Orientation.From(dir));
 		}

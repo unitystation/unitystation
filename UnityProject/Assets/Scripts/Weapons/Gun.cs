@@ -1,9 +1,9 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
  using UnityEngine;
 using UnityEngine.Networking;
-
+using UnityEngine.Serialization;
  /// <summary>
 ///  Allows an object to behave like a gun and fire shots. Server authoritative with client prediction.
 /// </summary>
@@ -50,7 +50,8 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	/// <summary>
 	///     The the name of the sound this gun makes when shooting
 	/// </summary>
-	public string FireingSound;
+	[FormerlySerializedAs("FireingSound")]
+	public string FiringSound;
 
 	/// <summary>
 	///     The amount of times per second this weapon can fire
@@ -555,6 +556,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		//add additional recoil after shooting for the next round
 		AppendRecoil(angle);
 
+		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position);
 		//jerk screen back based on recoil angle and power
 		if (shooter == PlayerManager.LocalPlayer)
 		{
@@ -572,7 +574,6 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		}
 
 
-		SoundManager.PlayAtPosition(FireingSound, shooter.transform.position);
 		shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 	}
 

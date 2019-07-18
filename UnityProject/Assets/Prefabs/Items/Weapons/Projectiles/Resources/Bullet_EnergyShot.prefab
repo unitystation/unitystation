@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4714298942886824}
-  - component: {fileID: 114447404059583444}
+  - component: {fileID: 931388571632054408}
+  - component: {fileID: 7533891959412256121}
   m_Layer: 15
-  m_Name: Bullet_EnegryShot
+  m_Name: Bullet_EnergyShot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114447404059583444
+--- !u!114 &931388571632054408
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,11 +42,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1560634355228308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c1c43015908f564bac5726440e87603, type: 3}
+  m_Script: {fileID: 11500000, guid: f675267d1792141f686e9eda7b1cfcac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
-  damageType: 1
+  damageType: 0
+--- !u!114 &7533891959412256121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560634355228308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b0e0d3e81d5a844b4d0da1b327bf16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunTime: 4
 --- !u!1 &1577029797726278
 GameObject:
   m_ObjectHideFlags: 0
