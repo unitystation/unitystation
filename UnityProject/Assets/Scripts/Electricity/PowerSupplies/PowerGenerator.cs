@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class PowerGenerator : NBHandApplyInteractable, INodeControl
 {
 	public ObjectBehaviour objectBehaviour;
-	[SyncVar(hook = "UpdateSecured")]
+	[SyncVar(hook = nameof(UpdateSecured))]
 	public bool isSecured; //To ground
 	private RegisterTile registerTile;
 	public bool startSecured;
@@ -20,7 +20,7 @@ public class PowerGenerator : NBHandApplyInteractable, INodeControl
 	//Server only
 	public List<SolidPlasma> plasmaFuel = new List<SolidPlasma>();
 
-	[SyncVar(hook = "UpdateState")]
+	[SyncVar(hook = nameof(UpdateState))]
 	public bool isOn = false;
 
 	public ElectricalNodeControl ElectricalNodeControl;

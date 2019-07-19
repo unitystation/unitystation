@@ -19,7 +19,7 @@ public class FieldGenerator : NBHandApplyInteractable, INodeControl
 
 	public ResistanceSourceModule ResistanceSourceModule;
 
-	[SyncVar(hook = "UpdateSprites")]
+	[SyncVar(hook = nameof(UpdateSprites))]
 	public bool isOn = false;
 
 	public override void OnStartClient()

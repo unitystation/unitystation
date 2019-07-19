@@ -51,7 +51,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	private Dictionary<string, string> dmDic;
 	private string hier;
 
-	[SyncVar(hook = "ConstructItem")] public string hierarchy;
+	[SyncVar(hook = nameof(ConstructItem))] public string hierarchy;
 	/// <summary>
 	/// Custom inventory(?) icon, if present
 	/// </summary>
