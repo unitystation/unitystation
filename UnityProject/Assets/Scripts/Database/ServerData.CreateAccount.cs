@@ -41,6 +41,7 @@ namespace DatabaseAPI
 					Category.DatabaseAPI);
 
 				var newCharacter = new CharacterSettings();
+				newCharacter.username = proposedName;
 				callBack.Invoke(newUser, newCharacter);
 			});
 		}

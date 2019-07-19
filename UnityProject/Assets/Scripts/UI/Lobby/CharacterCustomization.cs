@@ -76,7 +76,7 @@ namespace Lobby
 		{
 			if (string.IsNullOrEmpty(currentCharacter.username))
 			{
-				currentCharacter.username = GameData.LoggedInUsername;
+				currentCharacter.username = ServerData.Auth.CurrentUser.DisplayName;
 				RollRandomCharacter();
 				SaveData();
 			}
@@ -238,7 +238,7 @@ namespace Lobby
 		public void SaveDataError(string msg)
 		{
 			//Log out on any error for the moment:
-			GameData.IsLoggedIn = false;
+			ServerData.Auth.SignOut();
 			Logger.LogError(msg, Category.DatabaseAPI);
 		}
 
@@ -267,7 +267,7 @@ namespace Lobby
 			}
 			SaveData();
 			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
-			if (GameData.IsLoggedIn)
+			if (ServerData.Auth.CurrentUser != null)
 			{
 				LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
 			}
@@ -283,7 +283,7 @@ namespace Lobby
 			currentCharacter = lastSettings;
 			RefreshAll();
 			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
-			if (GameData.IsLoggedIn)
+			if (ServerData.Auth.CurrentUser != null)
 			{
 				LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
 			}
