@@ -106,11 +106,10 @@ namespace DatabaseAPI
 		void SetToken(string result)
 		{
 			Instance.token = result;
-			Debug.Log("TOKEN: " + result);
 			if (isFirstTime)
 			{
 				isFirstTime = false;
-				UpdateCharacterProfile(PlayerManager.CurrentCharacterSettings,NewCharacterSuccess, NewCharacterFailed);
+				UpdateCharacterProfile(PlayerManager.CurrentCharacterSettings, NewCharacterSuccess, NewCharacterFailed);
 			}
 		}
 
