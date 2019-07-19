@@ -5,11 +5,11 @@ using UnityEngine.Networking;
 public class SimpleAnimal : LivingHealthBehaviour
 {
 	public Sprite aliveSprite;
-	
+
 	public Sprite deadSprite;
 
 	//Syncvar hook so that new players can sync state on start
-	[SyncVar(hook = "SetAliveState")] public bool deadState;
+	[SyncVar(hook = nameof(SetAliveState))] public bool deadState;
 
 	public SpriteRenderer spriteRend;
 

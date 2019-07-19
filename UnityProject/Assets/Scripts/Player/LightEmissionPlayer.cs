@@ -22,7 +22,7 @@ public class LightEmissionPlayer : NetworkBehaviour
 
 	public GameObject mLightRendererObject;
 
-	[SyncVar(hook = "UpdateHook")]
+	[SyncVar(hook = nameof(UpdateHook))]
 	public string stringPlayerLightData;
 
 

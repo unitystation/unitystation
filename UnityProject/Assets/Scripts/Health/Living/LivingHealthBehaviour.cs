@@ -70,7 +70,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IFireExposable
 	}
 
 	// JSON string for blood types and DNA.
-	[SyncVar(hook = "DNASync")] //May remove this in the future and only provide DNA info on request
+	[SyncVar(hook = nameof(DNASync))] //May remove this in the future and only provide DNA info on request
 	private string DNABloodTypeJSON;
 
 	//how on fire we are, sames as tg fire_stacks. 0 = not on fire.

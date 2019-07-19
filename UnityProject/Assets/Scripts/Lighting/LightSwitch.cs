@@ -22,7 +22,7 @@ public class LightSwitch : NetworkBehaviour, IInteractable<HandApply>
 	private readonly Collider2D[] lightSpriteColliders = new Collider2D[MAX_TARGETS];
 	private AudioSource clickSFX;
 
-	[SyncVar(hook = "SyncLightSwitch")]
+	[SyncVar(hook = nameof(SyncLightSwitch))]
 	public States isOn = States.On;
 
 	public float AtShutOffVoltage = 50;

@@ -22,7 +22,7 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, IIn
 
 	public Sprite BatteryCharged;
 	public Sprite PartialCharge;
-	[SyncVar(hook = "UpdateBattery")]
+	[SyncVar(hook = nameof(UpdateBattery))]
 	public BatteryStateSprite CurrentState;
 
 	public Sprite LightOn;
@@ -40,7 +40,7 @@ public class DepartmentBattery : NetworkBehaviour, IInteractable<HandApply>, IIn
 	public ElectricalNodeControl ElectricalNodeControl;
 	public BatterySupplyingModule BatterySupplyingModule;
 
-	[SyncVar(hook = "UpdateState")]
+	[SyncVar(hook = nameof(UpdateState))]
 	public bool isOn = false;
 
 
