@@ -34,8 +34,15 @@ public static class SpawnHandler
 		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
 		new Mind(player, jobType);
 		var equipment = player.GetComponent<Equipment>();
+
+		var playerScript = player.GetComponent<PlayerScript>();
+		var connectedPlayer = PlayerList.Instance.Get(conn);
+		connectedPlayer.Name = playerScript.playerName;
+		UpdateConnectedPlayersMessage.Send();
+		PlayerList.Instance.TryAddScores(playerScript.playerName);
+
 		equipment.SetPlayerLoadOuts();
-		SecurityRecordsManager.Instance.AddRecord(player.GetComponent<PlayerScript>(), jobType);
+		SecurityRecordsManager.Instance.AddRecord(playerScript, jobType);
 	}
 
 	public static GameObject SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)
@@ -91,6 +98,8 @@ public static class SpawnHandler
 		if(characterSettings != null)
 		{
 			playerScript.characterSettings = characterSettings;
+			playerScript.playerName = characterSettings.Name;
+			newBody.name = characterSettings.Name;
 			var playerSprites = newBody.GetComponent<PlayerSprites>();
 			if (playerSprites)
 			{

@@ -16,7 +16,6 @@ public class GUI_SecurityRecords : NetTab
 	[SerializeField]
 	private NetLabel idText;
 	private SecurityRecordsConsole console;
-	public IDCard InsertedCard;
 
 	public override void OnEnable()
 	{
@@ -41,11 +40,6 @@ public class GUI_SecurityRecords : NetTab
 
 	public void UpdateScreen()
 	{
-		if (InsertedCard == null && console.IdCard != null)
-		{
-			InsertId(console.IdCard);
-		}
-
 		if (nestedSwitcher.CurrentPage == entriesPage)
 		{
 			entriesPage.OnOpen(this);
@@ -60,47 +54,21 @@ public class GUI_SecurityRecords : NetTab
 		}
 	}
 
-	/// <summary>
-	/// Insert some ID into console and update login details.
-	/// Will spit out currently inserted ID card.
-	/// </summary>
-	///<param name="cardToInsert">Card you want to insert</param>
-	private void InsertId(IDCard cardToInsert)
-	{
-		if (InsertedCard != null)
-		{
-			RemoveId();
-		}
-
-		InsertedCard = cardToInsert;
-	}
-
-	/// <summary>
-	/// Spits out ID card from console and updates login details.
-	/// </summary>
 	public void RemoveId()
 	{
-		if (InsertedCard == null)
+		if (console.IdCard)
 		{
-			return;
+			console.RemoveID();
+			UpdateScreen();
 		}
-
-		ObjectBehaviour objBeh = InsertedCard.GetComponentInChildren<ObjectBehaviour>();
-
-		Vector3Int pos = console.gameObject.RegisterTile().WorldPosition;// WorldPosServer().RoundToInt();
-		CustomNetTransform netTransform = objBeh.GetComponent<CustomNetTransform>();
-		netTransform.AppearAtPosition(pos);
-		netTransform.AppearAtPositionServer(pos);
-		console.IdCard = null;
-		InsertedCard = null;
-		UpdateIdText(idText);
 	}
 
 	public void UpdateIdText(NetLabel labelToSet)
 	{
-		if (InsertedCard != null)
+		var IdCard = console.IdCard;
+		if (IdCard)
 		{
-			labelToSet.SetValue = $"{InsertedCard.RegisteredName}, {InsertedCard.GetJobType.ToString()}";
+			labelToSet.SetValue = $"{IdCard.RegisteredName}, {IdCard.GetJobType.ToString()}";
 		}
 		else
 		{
@@ -110,8 +78,7 @@ public class GUI_SecurityRecords : NetTab
 
 	public void LogIn()
 	{
-		if (InsertedCard == null ||
-			!InsertedCard.accessSyncList.Contains((int) Access.security))
+		if (console.IdCard == null || !console.IdCard.accessSyncList.Contains((int) Access.security))
 		{
 			return;
 		}

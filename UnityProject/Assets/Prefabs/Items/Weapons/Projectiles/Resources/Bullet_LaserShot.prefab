@@ -88,7 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4915955108055458}
-  - component: {fileID: 114036214839416986}
+  - component: {fileID: 8750900017165839274}
   m_Layer: 15
   m_Name: Bullet_LaserShot
   m_TagString: Untagged
@@ -111,7 +111,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114036214839416986
+--- !u!114 &8750900017165839274
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1553142956179786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c1c43015908f564bac5726440e87603, type: 3}
+  m_Script: {fileID: 11500000, guid: f675267d1792141f686e9eda7b1cfcac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 20

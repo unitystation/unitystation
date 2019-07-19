@@ -39,7 +39,7 @@ public class BentPipe : SimplePipe
 				for (int i = 0; i < nodes.Count; i++)
 				{
 					var pipe = nodes[i];
-					if (pipe.transform.position.y < transform.position.y)
+					if (pipe.registerTile.WorldPositionServer.y < registerTile.WorldPositionServer.y)
 					{
 						if (HasDirection(direction, Direction.EAST))
 						{
@@ -50,7 +50,7 @@ public class BentPipe : SimplePipe
 							SetSprite(6);
 						}
 					}
-					else if (pipe.transform.position.y > transform.position.y)
+					else if (pipe.registerTile.WorldPositionServer.y > registerTile.WorldPositionServer.y)
 					{
 						if (HasDirection(direction, Direction.EAST))
 						{
@@ -61,7 +61,7 @@ public class BentPipe : SimplePipe
 							SetSprite(8);
 						}
 					}
-					else if (pipe.transform.position.x > transform.position.x)
+					else if (pipe.registerTile.WorldPositionServer.x > registerTile.WorldPositionServer.x)
 					{
 						if (HasDirection(direction, Direction.SOUTH))
 						{
@@ -72,7 +72,7 @@ public class BentPipe : SimplePipe
 							SetSprite(10);
 						}
 					}
-					else if (pipe.transform.position.x < transform.position.x)
+					else if (pipe.registerTile.WorldPositionServer.x < registerTile.WorldPositionServer.x)
 					{
 						if (HasDirection(direction, Direction.SOUTH))
 						{

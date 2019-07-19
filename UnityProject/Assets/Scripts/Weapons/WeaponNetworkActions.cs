@@ -64,8 +64,20 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		gun.ServerHandleUnloadRequest();
 	}
 
+	
+	/// <summary>
+	/// Utility function that gets the weapon for you
+	/// </summary>
 	[Command]
-	public void CmdRequestMeleeAttack(GameObject victim, string slot, Vector2 stabDirection,
+	public void CmdRequestMeleeAttackSlot(GameObject victim, string slot, Vector2 stabDirection,
+	BodyPartType damageZone, LayerType layerType)
+	{
+		var weapon = playerScript.playerNetworkActions.Inventory[slot].Item;
+		CmdRequestMeleeAttack(victim, weapon, stabDirection, damageZone, layerType);
+	}
+
+	[Command]
+	public void CmdRequestMeleeAttack(GameObject victim, GameObject weapon, Vector2 stabDirection,
 		BodyPartType damageZone, LayerType layerType)
 	{
 		if (!playerMove.allowInput ||
@@ -82,7 +94,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		var weapon = playerScript.playerNetworkActions.Inventory[slot].Item;
 		ItemAttributes weaponAttr = weapon.GetComponent<ItemAttributes>();
 
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
@@ -125,6 +136,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
+		// Consider moving this into a MeleeItemTrigger for knifes
 		//Meaty bodies:
 		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 		if (victimHealth != null && victimHealth.IsDead && weaponAttr.itemType == ItemType.Knife)
@@ -145,7 +157,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				attackTarget.Harvest();
 				SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
 			}
-			return;
 		}
 
 		if (victim != gameObject)
@@ -166,13 +177,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType, damageZone);
 		}
 
+		SoundManager.PlayNetworkedAtPos(weaponAttr.hitSound, transform.position);
+
 
 		if (weaponAttr.hitDamage > 0)
 		{
 			PostToChatMessage.SendAttackMessage(gameObject, victim, (int) weaponAttr.hitDamage, damageZone, weapon);
 		}
 
-		SoundManager.PlayNetworkedAtPos( weaponAttr.hitSound, transform.position );
+		
 		StartCoroutine(AttackCoolDown());
 	}
 
@@ -188,7 +201,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		var victimRegisterTile = victim.GetComponent<RegisterTile>();
 		var rng = new System.Random();
 
-		if (!playerScript.IsInReach(victim, true))
+		if (!playerScript.IsInReach(victim, true) || !victimHealth)
 		{
 			return;
 		}
@@ -236,10 +249,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		allowAttack = true;
 	}
 
-	// Harvest should only be used for animals like pete and cows
-
 	[ClientRpc]
-	private void RpcMeleeAttackLerp(Vector2 stabDir, GameObject weapon)
+	public void RpcMeleeAttackLerp(Vector2 stabDir, GameObject weapon)
 	{
 		if (lerping)
 		{

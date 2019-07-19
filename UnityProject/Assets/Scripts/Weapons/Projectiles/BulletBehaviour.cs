@@ -10,7 +10,7 @@
 ///
 /// This allows the trail to be relative to the matrix, so the trail still looks correct when the matrix is moving.
 /// </summary>
-public abstract class BulletBehaviour : MonoBehaviour
+public class BulletBehaviour : MonoBehaviour
 {
 	private BodyPartType bodyAim;
 	[Range(0, 100)]
@@ -56,7 +56,6 @@ public abstract class BulletBehaviour : MonoBehaviour
 	public void Suicide(GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest) {
 		isSuicide = true;
 		StartShoot(Vector2.zero, controlledByPlayer, fromWeapon, targetZone);
-		OnShoot();
 	}
 
 	/// <summary>
@@ -70,7 +69,6 @@ public abstract class BulletBehaviour : MonoBehaviour
 	{
 		isSuicide = false;
 		StartShoot(dir, controlledByPlayer, fromWeapon, targetZone);
-		OnShoot();
 	}
 
 	private void StartShoot(Vector2 dir, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone)
@@ -101,9 +99,6 @@ public abstract class BulletBehaviour : MonoBehaviour
 			trailRenderer.ShotStarted();
 		}
 	}
-
-	//TODO  - change so that on call the bullets damage is set properly
-	public abstract void OnShoot();
 
 	/// <summary>
 	/// Invoked when BulletColliderBehavior passes the event up to us.
@@ -152,6 +147,10 @@ public abstract class BulletBehaviour : MonoBehaviour
 			{
 				return;
 			}
+
+		// Trigger for things like stuns
+		GetComponent<BulletHitTrigger>()?.BulletHitInteract(coll.gameObject);
+
 			var aim = isSuicide ? bodyAim : bodyAim.Randomize();
 			livingHealth.ApplyDamage(shooter, damage, attackType, damageType, aim);
 			PostToChatMessage.SendAttackMessage( shooter, coll.gameObject, damage, aim, weapon.gameObject);
