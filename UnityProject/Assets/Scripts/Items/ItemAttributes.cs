@@ -18,7 +18,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	private const string MaskInternalsFlag = "MASKINTERNALS";
 	private const string ObjItemClothing = "/obj/item/clothing";
 	private static DmiIconData dmi;
-	private static DmObjectData dm;
+	public static DmObjectData dm;
 
 	/// <summary>
 	/// This is used as a Lazy initialized backing field for <see cref="HierList"/>
@@ -200,7 +200,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 
 		inventoryIcon = UniItemUtils.GetInventoryIcon(hier, invSheetPaths, icon, icon_state);
 
-		clothingReference = TryGetClothingOffset(states);
+		clothingReference = TryGetClothingOffset(states, itemType);
 
 		//determine item type via sheet name if hier name failed
 		if (itemType == ItemType.None)
@@ -314,7 +314,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	/// </summary>
 	/// <param name="states">Expected order is {item_state, item_color, icon_state}</param>
 	/// <returns></returns>
-	private int TryGetClothingOffset(string[] states)
+	public static int TryGetClothingOffset(string[] states, ItemType itemType)
 	{
 		string[] onPlayerClothSheetHier = GetOnPlayerClothSheetHier(itemType);
 		for (int i = 0; i < states.Length; i++)
