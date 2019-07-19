@@ -160,7 +160,7 @@ namespace Lobby
 			loginNextButton.SetActive(false);
 			loginGoBackButton.SetActive(false);
 
-			LobbyManager.Instance.accountLogin.TryLogin(LoginSuccess, LoginError, autoLoginToggle.isOn);
+			LobbyManager.Instance.accountLogin.TryLogin(LoginSuccess, LoginError);
 		}
 
 		public void OnLogout()

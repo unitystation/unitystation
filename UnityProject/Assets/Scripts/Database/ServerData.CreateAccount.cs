@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace DatabaseAPI
 {
@@ -18,14 +17,12 @@ namespace DatabaseAPI
 				{
 					errorCallBack.Invoke("Cancelled");
 					Instance.isFirstTime = false;
-					//Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
 					return;
 				}
 				if (task.IsFaulted)
 				{
 					errorCallBack.Invoke(task.Exception.Message);
 					Instance.isFirstTime = false;
-					//Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
 					return;
 				}
 
@@ -35,13 +32,13 @@ namespace DatabaseAPI
 				Firebase.Auth.UserProfile profile = new Firebase.Auth.UserProfile
 				{
 					DisplayName = proposedName, //May be used for OOC chat, so find way to detect imposters
-						PhotoUrl = null //TODO: set up later
+						PhotoUrl = null //TODO: set up later (user will eventually be able to update profile photo via the website)
 				};
 
 				newUser.UpdateUserProfileAsync(profile);
 
-				Debug.LogFormat("Firebase user created successfully: {0} ({1})",
-					newUser.DisplayName, newUser.UserId);
+				Logger.LogFormat($"Firebase user created successfully: {newUser.DisplayName}",
+					Category.DatabaseAPI);
 
 				var newCharacter = new CharacterSettings();
 				callBack.Invoke(newUser, newCharacter);

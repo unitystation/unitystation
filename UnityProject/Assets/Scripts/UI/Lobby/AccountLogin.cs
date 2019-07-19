@@ -15,13 +15,13 @@ namespace Lobby
 		public Toggle autoLoginToggle;
 
 		void Start(){
-			userNameInput.text = "CubanPete";
+			userNameInput.text = "CubanPete@unitystation.org";
 			passwordInput.text = "cuban123";
 		}
-		public void TryLogin(Action<string> successAction, Action<string> errorAction, bool autoLoginSetting)
+		public void TryLogin(Action<string> successAction, Action<string> errorAction)
 		{
 			ServerData.AttemptLogin(userNameInput.text, passwordInput.text,
-				successAction, errorAction, autoLoginSetting);
+				successAction, errorAction);
 
 		}
 
