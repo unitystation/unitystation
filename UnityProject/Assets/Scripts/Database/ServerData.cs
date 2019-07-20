@@ -58,6 +58,21 @@ namespace DatabaseAPI
 			EventManager.RemoveHandler(EVENT.LoggedOut, OnLogOut);
 		}
 
+		/// <summary>
+		/// Refresh the users profile data
+		/// </summary>
+		public static void ReloadProfile()
+		{
+			ServerData.Auth.CurrentUser.ReloadAsync().ContinueWith(task =>
+			{
+				if (task.IsFaulted)
+				{
+					Debug.LogError("Error with profile reload");
+					return;
+				}
+			});
+		}
+
 		// Track state changes of the auth object.
 		void AuthStateChanged(object sender, System.EventArgs eventArgs)
 		{
