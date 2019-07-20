@@ -37,8 +37,8 @@ public class UITileList : MonoBehaviour
 	/// <param name="position">Position where to look for items</param>
 	public static List<GameObject> GetItemsAtPosition(Vector3 position)
 	{
-		Matrix matrix = PlayerManager.LocalPlayerScript?.gameObject.GetComponentInParent<Matrix>();
-		if ( !matrix )
+		var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(position), CustomNetworkManager.Instance._isServer).Matrix;
+		if (!matrix)
 		{
 			return new List<GameObject>();
 		}
