@@ -14,24 +14,30 @@ namespace Lobby
 		public InputField passwordInput;
 		public Toggle autoLoginToggle;
 
-		void Start(){
-			userNameInput.text = "CubanPete";
-			passwordInput.text = "cuban123";
+		void Start()
+		{
+			if (PlayerPrefs.HasKey("lastLogin"))
+			{
+				userNameInput.text = PlayerPrefs.GetString("lastLogin");
+			}
 		}
-		public void TryLogin(Action<string> successAction, Action<string> errorAction, bool autoLoginSetting)
+		public void TryLogin(Action<string> successAction, Action<string> errorAction)
 		{
 			ServerData.AttemptLogin(userNameInput.text, passwordInput.text,
-				successAction, errorAction, autoLoginSetting);
+				successAction, errorAction);
 
+			PlayerPrefs.SetString("lastLogin", userNameInput.text);
+			PlayerPrefs.Save();
 		}
 
-		void Awake()
+		public bool ValidLogin()
 		{
-			LoadSavedPrefs();
-		}
-
-		void LoadSavedPrefs(){
-			//TODO CHECK FOR AUTO LOGIN!
+			//Missing username or password
+			if (string.IsNullOrEmpty(userNameInput.text) || string.IsNullOrEmpty(passwordInput.text))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

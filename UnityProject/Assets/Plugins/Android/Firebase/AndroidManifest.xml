@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2016 Google Inc. All Rights Reserved.
+
+This file is placed in the Unity Android Plugin to make it support the
+eclipse style directory structure. It's currently used only as a stub, and has
+no real data that gets merged with the final manifest, but is none-the-less
+needed for the plugin to be parsed correctly in the folder structure we use.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.google.firebase.unity"
+          android:versionCode="1"
+          android:versionName="1.0">
+  <uses-sdk android:minSdkVersion="14"/>
+</manifest>
