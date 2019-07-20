@@ -34,9 +34,6 @@ namespace Lobby
 		public CharacterSprites headSpriteController;
 
 		[SerializeField]
-		public List<string> availableHairColors = new List<string>();
-
-		[SerializeField]
 		public List<string> availableSkinColors = new List<string>();
 		private CharacterSettings currentCharacter;
 
@@ -118,7 +115,7 @@ namespace Lobby
 			if (currentCharacter.Gender == Gender.Male)
 			{
 				currentCharacter.Name = StringManager.GetRandomMaleName();
-				currentCharacter.facialHairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];
+				currentCharacter.facialHairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
 			}
 			else
 			{
@@ -126,7 +123,8 @@ namespace Lobby
 			}
 
 			// Randomise rest of data
-			currentCharacter.hairColor = availableHairColors[UnityEngine.Random.Range(0, availableHairColors.Count - 1)];
+			currentCharacter.eyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
+			currentCharacter.hairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
 			currentCharacter.skinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
@@ -422,32 +420,6 @@ namespace Lobby
 			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[index]);
 			RefreshHair();
 		}
-
-		//Scrolls have been disabled for time being:
-
-		// public void HairColorScrollRight()
-		// {
-		// 	int tryNext = availableHairColors.IndexOf(currentCharacter.hairColor);
-		// 	tryNext++;
-		// 	if (tryNext == availableHairColors.Count)
-		// 	{
-		// 		tryNext = 0;
-		// 	}
-		// 	currentCharacter.hairColor = availableHairColors[tryNext];
-		// 	RefreshHair();
-		// }
-
-		// public void HairColorScrollLeft()
-		// {
-		// 	int tryNext = availableHairColors.IndexOf(currentCharacter.hairColor);
-		// 	tryNext--;
-		// 	if (tryNext < 0)
-		// 	{
-		// 		tryNext = availableHairColors.Count - 1;
-		// 	}
-		// 	currentCharacter.hairColor = availableHairColors[tryNext];
-		// 	RefreshHair();
-		// }
 
 		public void OpenHairColorPicker()
 		{
