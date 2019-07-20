@@ -91,7 +91,6 @@ namespace Lobby
 
 		public void ShowCharacterEditor()
 		{
-			Debug.Log("Show Char Screen");
 			SoundManager.Play("Click01");
 			HideAllPanels();
 			LobbyManager.Instance.characterCustomization.gameObject.SetActive(true);
@@ -158,9 +157,12 @@ namespace Lobby
 			GameData.LoggedInUsername = chosenUsernameInput.text;
 			chosenPasswordInput.text = "";
 			chosenUsernameInput.text = "";
-			emailAddressInput.text = "";
-			//	nextCreationButton.SetActive(true);
+			
 			ShowCharacterEditor();
+			PlayerPrefs.SetString("lastLogin", emailAddressInput.text);
+			PlayerPrefs.Save();
+			LobbyManager.Instance.accountLogin.userNameInput.text = emailAddressInput.text;
+			emailAddressInput.text = "";
 		}
 
 		private void AccountCreationError(string errorText)
@@ -177,6 +179,11 @@ namespace Lobby
 
 		public void PerformLogin()
 		{
+			if (!LobbyManager.Instance.accountLogin.ValidLogin())
+			{
+				return;
+			}
+
 			HideAllPanels();
 			loggingInPanel.SetActive(true);
 			loggingInText.text = "Logging in..";

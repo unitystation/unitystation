@@ -16,14 +16,28 @@ namespace Lobby
 
 		void Start()
 		{
-			userNameInput.text = "CubanPete@unitystation.org";
-			passwordInput.text = "cuban123";
+			if (PlayerPrefs.HasKey("lastLogin"))
+			{
+				userNameInput.text = PlayerPrefs.GetString("lastLogin");
+			}
 		}
 		public void TryLogin(Action<string> successAction, Action<string> errorAction)
 		{
 			ServerData.AttemptLogin(userNameInput.text, passwordInput.text,
 				successAction, errorAction);
 
+			PlayerPrefs.SetString("lastLogin", userNameInput.text);
+			PlayerPrefs.Save();
+		}
+
+		public bool ValidLogin()
+		{
+			//Missing username or password
+			if (string.IsNullOrEmpty(userNameInput.text) || string.IsNullOrEmpty(passwordInput.text))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

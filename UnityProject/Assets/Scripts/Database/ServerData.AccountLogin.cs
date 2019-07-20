@@ -26,19 +26,20 @@ namespace DatabaseAPI
 
 		static IEnumerator MonitorLogin(Action<string> successCallBack, Action<string> failedCallBack, Status status)
 		{
-			float timeOutTime = 60f;
+			float timeOutTime = 8f;
 			float timeOutCount = 0f;
 
 			while (Auth.CurrentUser == null || string.IsNullOrEmpty(Instance.refreshToken))
 			{
+				timeOutCount += Time.deltaTime;
 				if (timeOutCount >= timeOutTime || status.error)
 				{
 					if (!status.error)
 					{
 						Logger.Log("Log in timed out", Category.DatabaseAPI);
 					}
-					failedCallBack.Invoke("Log in timed out. Check your connection.");
-					break;
+					failedCallBack.Invoke("Check your username and password.");
+					yield break;
 				}
 				yield return WaitFor.EndOfFrame;
 			}
