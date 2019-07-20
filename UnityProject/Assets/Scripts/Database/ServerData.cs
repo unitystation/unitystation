@@ -11,8 +11,9 @@ namespace DatabaseAPI
 {
 	public partial class ServerData : MonoBehaviour
 	{
-		private static ServerData serverData;
+		class Status { public bool error = false; public bool profileSet = false; public bool charReceived = false; }
 
+		private static ServerData serverData;
 		public static ServerData Instance
 		{
 			get
@@ -32,6 +33,7 @@ namespace DatabaseAPI
 		private Firebase.Auth.FirebaseUser user = null;
 		private bool fetchingToken = false;
 		public string token;
+		public string refreshToken;
 		public bool isFirstTime = false;
 
 		void Start()
@@ -111,7 +113,16 @@ namespace DatabaseAPI
 
 		void SetToken(string result)
 		{
-			Instance.token = result;
+			if (string.IsNullOrEmpty(token))
+			{
+				Instance.token = result;
+			}
+			else
+			{
+				Instance.token = result;
+				Instance.refreshToken = result;
+			}
+
 			if (isFirstTime)
 			{
 				isFirstTime = false;
@@ -126,6 +137,8 @@ namespace DatabaseAPI
 		public void OnLogOut()
 		{
 			auth.SignOut();
+			token = "";
+			refreshToken = "";
 			PlayerPrefs.SetString("username", "");
 			PlayerPrefs.SetString("cookie", "");
 			PlayerPrefs.SetInt("autoLogin", 0);

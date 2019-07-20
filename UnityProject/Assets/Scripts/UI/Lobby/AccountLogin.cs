@@ -14,7 +14,8 @@ namespace Lobby
 		public InputField passwordInput;
 		public Toggle autoLoginToggle;
 
-		void Start(){
+		void Start()
+		{
 			userNameInput.text = "CubanPete@unitystation.org";
 			passwordInput.text = "cuban123";
 		}
@@ -23,15 +24,6 @@ namespace Lobby
 			ServerData.AttemptLogin(userNameInput.text, passwordInput.text,
 				successAction, errorAction);
 
-		}
-
-		void Awake()
-		{
-			LoadSavedPrefs();
-		}
-
-		void LoadSavedPrefs(){
-			//TODO CHECK FOR AUTO LOGIN!
 		}
 	}
 }

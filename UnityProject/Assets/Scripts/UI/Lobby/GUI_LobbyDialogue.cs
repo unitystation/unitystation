@@ -153,7 +153,6 @@ namespace Lobby
 
 		private void AccountCreationSuccess(CharacterSettings charSettings)
 		{
-			Debug.Log("TEST!");
 			pleaseWaitCreationText.text = "Created Successfully";
 			PlayerManager.CurrentCharacterSettings = charSettings;
 			GameData.LoggedInUsername = chosenUsernameInput.text;
@@ -205,10 +204,12 @@ namespace Lobby
 			var characterSettings = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(msg));
 			PlayerPrefs.SetString("currentcharacter", msg);
 			PlayerManager.CurrentCharacterSettings = characterSettings;
+			ShowConnectionPanel();
 		}
 
 		private void LoginError(string msg)
 		{
+			ServerData.Auth.SignOut(); //just incase
 			loggingInText.text = "Login failed:" + msg;
 			loginGoBackButton.SetActive(true);
 		}

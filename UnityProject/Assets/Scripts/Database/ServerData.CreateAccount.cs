@@ -9,12 +9,12 @@ namespace DatabaseAPI
 		///<summary>
 		///Tries to create an account for the user in player accounts
 		///</summary>
-
-		class Status { public bool error = false; public bool profileSet = false; }
 		public static void TryCreateAccount(string proposedName, string _password, string emailAcc,
 			Action<CharacterSettings> callBack, Action<string> errorCallBack)
 		{
 			var newCharacter = new CharacterSettings();
+			newCharacter.Name = StringManager.GetRandomMaleName();
+			
 			Instance.isFirstTime = true;
 			var status = new Status();
 
