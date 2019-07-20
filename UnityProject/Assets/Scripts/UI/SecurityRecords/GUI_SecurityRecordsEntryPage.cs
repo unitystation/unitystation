@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUI_SecurityRecordsEntryPage : NetPage
 {
@@ -32,8 +32,26 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 	private GameObject popupWindow;
 	private NetLabel currentlyEditingField;
 	private SecurityRecordCrime currentlyEditingCrime;
-	[SerializeField]
-	private NetCompositeImage photoFront;
+
+	public NetSpriteAndColor head;
+	public NetSpriteAndColor torso;
+	public NetSpriteAndColor beard;
+	public NetSpriteAndColor hair;
+	public NetColorChanger rightLeg;
+	public NetColorChanger leftLeg;
+	public NetColorChanger rightArm;
+	public NetColorChanger leftArm;
+	public NetColorChanger eyes;
+
+	public NetSpriteImage jumpsuit;
+	public NetSpriteImage exosuit;
+	public NetSpriteImage back;
+	public NetSpriteImage gloves;
+	public NetSpriteImage shoes;
+	public NetSpriteImage belt;
+	public NetSpriteImage neck;
+	public NetSpriteImage underwear;
+	public NetSpriteImage socks;
 
 	public void OnOpen(SecurityRecord recordToOpen, GUI_SecurityRecords recordsTab)
 	{
@@ -73,14 +91,47 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 		rankText.SetValue = record.Rank;
 		fingerprintText.SetValue = record.Fingerprints;
 		statusButtonText.SetValue = record.Status.ToString();
-		photoFront.SetValue = "";
-		if (record.player != null)
+
+		var characterSettings = record.characterSettings;
+
+		if(characterSettings != null)
 		{
-			photoFront.SetValue = record.player.netId.ToString();
+			torso.SetComplicatedValue("human_parts_greyscale", characterSettings.torsoSpriteIndex, characterSettings.skinTone);
+			head.SetComplicatedValue("human_parts_greyscale", characterSettings.headSpriteIndex, characterSettings.skinTone);
+			rightLeg.SetValue = characterSettings.skinTone;
+			leftLeg.SetValue = characterSettings.skinTone;
+			rightArm.SetValue = characterSettings.skinTone;
+			leftArm.SetValue = characterSettings.skinTone;
+			eyes.SetValue = characterSettings.eyeColor;
+			beard.SetComplicatedValue("human_face", characterSettings.facialHairOffset, characterSettings.facialHairColor);
+			hair.SetComplicatedValue("human_face", characterSettings.hairStyleOffset, characterSettings.hairColor);
+
+			exosuit.SetComplicatedValue("suit", GetSpriteOffset(record.jobOutfit.suit, ItemType.Suit));
+			jumpsuit.SetComplicatedValue("uniform", GetSpriteOffset(record.jobOutfit.uniform, ItemType.Uniform));
+			belt.SetComplicatedValue("belt", GetSpriteOffset(record.jobOutfit.belt, ItemType.Belt));
+			shoes.SetComplicatedValue("feet", GetSpriteOffset(record.jobOutfit.shoes, ItemType.Shoes));
+			back.SetComplicatedValue("back", GetSpriteOffset(record.jobOutfit.backpack, ItemType.Back));
+			//neck.SetComplicatedValue("neck", GetSpriteOffset(record.jobOutfit.neck, ItemType.Neck)); //JobOutfits dont have neck slots yet (will need for lawyer)
+			gloves.SetComplicatedValue("hands", GetSpriteOffset(record.jobOutfit.gloves, ItemType.Gloves));
+			underwear.SetComplicatedValue("underwear", characterSettings.underwearOffset);
+			socks.SetComplicatedValue("underwear", characterSettings.socksOffset);
 		}
 
 		securityRecordsTab.UpdateIdText(idNameText);
 		UpdateCrimesList();
+	}
+
+	int GetSpriteOffset(string itemPath, ItemType itemType)
+	{
+		if(itemPath.Length == 0)
+			return -1;
+		var dictionary = ItemAttributes.dm.getObject(itemPath);
+		string item_color = ItemAttributes.TryGetAttr(dictionary, "item_color");
+		string icon_state = ItemAttributes.TryGetAttr(dictionary, "icon_state");
+		string item_state = ItemAttributes.TryGetAttr(dictionary, "item_state");
+		string[] states = { icon_state, item_color, item_state };
+		var offset = ItemAttributes.TryGetClothingOffset(states, itemType);
+		return offset;
 	}
 
 	public void ChangeStatus()
