@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -108,10 +108,10 @@ public class PoolManager : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Clone the item and ensures it is synced over the network. This only works if toClone has a PoolPrefabTracker
+	/// Clone the item and ensures it is synced over the network. This only works if toClone has a PrefabTracker
 	/// attached or its name matches a prefab name, otherwise we don't know what prefab to create.
 	/// </summary>
-	/// <param name="toClone">GameObject to clone. This only works if toClone has a PoolPrefabTracker
+	/// <param name="toClone">GameObject to clone. This only works if toClone has a PrefabTracker
 	/// attached or its name matches a prefab name, otherwise we don't know what prefab to create.. Intended to work for any object, but don't
 	/// be surprised if it doesn't as there are LOTS of prefabs in the game which might need unique behavior for how they should spawn. If you are trying
 	/// to clone something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
@@ -133,10 +133,10 @@ public class PoolManager : NetworkBehaviour
 		var prefab = DeterminePrefab(toClone);
 		if (prefab == null)
 		{
-			Logger.LogErrorFormat("Object {0} at {1} cannot be cloned because it has no PoolPrefabTracker and its name" +
+			Logger.LogErrorFormat("Object {0} at {1} cannot be cloned because it has no PrefabTracker and its name" +
 			                      " does not match a prefab name, so we cannot" +
 			                      " determine the prefab to instantiate. Please fix this object so that it" +
-			                      " has an attached PoolPrefabTracker or so its name matches the prefab it was created from.", Category.ItemSpawn, toClone.name, position);
+			                      " has an attached PrefabTracker or so its name matches the prefab it was created from.", Category.ItemSpawn, toClone.name, position);
 		}
 
 		GameObject tempObject = Instance.PoolInstantiate(prefab, position ?? TransformState.HiddenPos, rotation ?? Quaternion.identity, parent, out var isPooled);
@@ -240,7 +240,7 @@ public class PoolManager : NetworkBehaviour
 
 			tempObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
 
-			tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+			tempObject.AddComponent<PrefabTracker>().myPrefab = prefab;
 
 			pooledInstance = false;
 		}
@@ -303,7 +303,7 @@ public class PoolManager : NetworkBehaviour
 		}
 
 		tempObject = Instantiate(prefab, Vector2.zero, Quaternion.identity);
-		tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+		tempObject.AddComponent<PrefabTracker>().myPrefab = prefab;
 		NetworkServer.Spawn(tempObject);
 		PoolNetworkDestroy(tempObject);
 	}
@@ -321,7 +321,7 @@ public class PoolManager : NetworkBehaviour
 		{
 			return;
 		}
-		obj.AddComponent<PoolPrefabTracker>().myPrefab = obj;
+		obj.AddComponent<PrefabTracker>().myPrefab = obj;
 		if (!Instance.pools.ContainsKey(obj))
 		{
 			Instance.pools.Add(obj, new List<GameObject>());
@@ -342,17 +342,20 @@ public class PoolManager : NetworkBehaviour
 		}
 
 		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior
-		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
+		var PrefabTracker = target.GetComponent<PrefabTracker>();
 		var objBehavior = target.GetComponent<ObjectBehaviour>();
-		if (poolPrefabTracker != null && objBehavior != null)
+		if (PrefabTracker != null && objBehavior != null)
 		{
 			//pooled
+			target.gameObject.BroadcastMessage("BeingPooled", SendMessageOptions.DontRequireReceiver);
 			Instance.AddToPool(target);
 			objBehavior.visibleState = false;
 		}
 		else
 		{
 			//not pooled
+			//Theoretically Should be never initiated
+			Logger.LogWarning(target.name + " < Did not have a PrefabTracker, And as to be destroyed, please attach the PrefabTracker so It can be properly tracked");
 			NetworkServer.Destroy(target);
 		}
 
@@ -373,13 +376,13 @@ public class PoolManager : NetworkBehaviour
 
 	private void AddToPool(GameObject target)
 	{
-		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
-		if ( !poolPrefabTracker )
+		var PrefabTracker = target.GetComponent<PrefabTracker>();
+		if ( !PrefabTracker )
 		{
-			Logger.LogWarning($"PoolPrefabTracker not found on {target}",Category.ItemSpawn);
+			Logger.LogWarning($"PrefabTracker not found on {target}",Category.ItemSpawn);
 			return;
 		}
-		GameObject prefab = poolPrefabTracker.myPrefab;
+		GameObject prefab = PrefabTracker.myPrefab;
 		prefab.transform.position = Vector2.zero;
 
 		if (!pools.ContainsKey(prefab))
@@ -420,7 +423,7 @@ public class PoolManager : NetworkBehaviour
 
 		tempObject = Instantiate(prefab);
 		tempObject.SetActive(false);
-		tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+		tempObject.AddComponent<PrefabTracker>().myPrefab = prefab;
 		return tempObject;
 	}
 
@@ -435,14 +438,14 @@ public class PoolManager : NetworkBehaviour
 
 	/// <summary>
 	/// Tries to determine the prefab that was used to create the specified object.
-	/// If there is an attached PoolPrefabTracker, uses that. Otherwise, uses the name
+	/// If there is an attached PrefabTracker, uses that. Otherwise, uses the name
 	/// and removes parentheses  like (Clone) or (1) to look up the prefab name in our map.
 	/// </summary>
 	/// <param name="instance">object whose prefab should be determined.</param>
 	/// <returns>the prefab, otherwise null if it could not be determined.</returns>
 	public static GameObject DeterminePrefab(GameObject instance)
 	{
-		var tracker = instance.GetComponent<PoolPrefabTracker>();
+		var tracker = instance.GetComponent<PrefabTracker>();
 		if (tracker != null)
 		{
 			return tracker.myPrefab;
@@ -465,8 +468,3 @@ public class PoolManager : NetworkBehaviour
 	}
 }
 
-//not used for clients unless it is a client side pool object only
-public class PoolPrefabTracker : MonoBehaviour
-{
-	public GameObject myPrefab;
-}

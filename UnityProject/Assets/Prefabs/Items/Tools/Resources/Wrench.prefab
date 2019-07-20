@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114899683467054628}
   - component: {fileID: 114117350948527228}
   - component: {fileID: 114485046366911826}
+  - component: {fileID: 4310720057554265161}
   m_Layer: 10
   m_Name: Wrench
   m_TagString: Untagged
@@ -308,6 +309,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ToolType: 2
+  SuccessChance: 100
+  IsSyndicateVariant: 0
+  SpeedMultiplier: 1
 --- !u!114 &114899683467054628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,3 +360,16 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+--- !u!114 &4310720057554265161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 063d7b7fa5784f94e8f71e8850a7ef41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Self: {fileID: 1519710982558066}

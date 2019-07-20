@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -133,7 +133,7 @@ public class GUI_DevCloner : MonoBehaviour
 				{
 					foreach (GameObject nonPooled in nonPooledHits)
 					{
-						Logger.LogWarningFormat("Object {0} does not have a PoolPrefabTracker component and its name" +
+						Logger.LogWarningFormat("Object {0} does not have a PrefabTracker component and its name" +
 						                        " did not match one of our existing prefabs " +
 						                        "therefore cannot be cloned (because we wouldn't know which prefab to instantiate). " +
 						                        "Please attach this component to the object and specify the prefab" +
