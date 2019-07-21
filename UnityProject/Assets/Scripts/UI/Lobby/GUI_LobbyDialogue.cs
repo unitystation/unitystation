@@ -370,5 +370,14 @@ namespace Lobby
 			loggingInPanel.SetActive(false);
 			connectionPanel.SetActive(false);
 		}
+		
+		void Update()
+		{
+			// Log in when the enter key gets pressed
+			if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+			{
+				OnLogin();
+			}			
+		}
 	}
 }
