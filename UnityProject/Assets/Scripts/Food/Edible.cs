@@ -19,7 +19,7 @@ public class Edible : NetworkBehaviour, IInteractable<HandActivate>, IInteractab
 	{
 		//If this wasn't spawned via ItemFactory (i.e via map editing) then add it to
 		//poolmanager so it can be safely destroyed
-		PrefabTracker pT = GetComponent<PrefabTracker>();
+		PoolPrefabTracker pT = GetComponent<PoolPrefabTracker>();
 		if (pT == null)
 		{
 			StartCoroutine(WaitForServerLoad());
