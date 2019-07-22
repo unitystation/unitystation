@@ -6,6 +6,11 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine.Networking;
 
+
+//TODO
+//Not spawning in prefab of machine from circuit board On client
+// fix the default light state
+
 public class ConstructionHandler : NBHandApplyInteractable
 {
 	public IConstructionHandler RelatedInterface;
@@ -13,7 +18,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 	public SpriteRenderer TSpriteRenderer;
 	public RegisterObject registerObject;
 
-	public List<SpriteRenderer> otherSpriteRenderer;
+	public List<KeyValuePair<SpriteRenderer,bool>> otherSpriteRenderer = new List<KeyValuePair<SpriteRenderer, bool>>();
 	public Dictionary<int, List<ComponentData>> ContainedObjects = new Dictionary<int, List<ComponentData>>();
 	public List<int> ListChance;
 	public System.Random random = new System.Random();
@@ -37,7 +42,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 		if (!base.WillInteract(interaction, side)) return false;
 
 		//only interaction that works is using a reagent container on this
-		return (InteractionCheck(interaction));
+		return (InteractionCheck(interaction, side));
 
 	}
 
@@ -129,7 +134,12 @@ public class ConstructionHandler : NBHandApplyInteractable
 		}
 	}
 
-	public bool InteractionCheck(HandApply interaction) { 
+	public bool InteractionCheck(HandApply interaction, NetworkSide side) {
+		if (side == NetworkSide.Client) {
+			if (interaction.HandSlot != null) {
+				return (true);
+			}
+		}
 		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
 
 		if (RelatedInterface != null)
@@ -246,7 +256,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 	{
 		if (ConstructionStages[CurrentStage].ObjectStateofStage == ObjectState.Normal && ConstructionStages[Stage].ObjectStateofStage == ObjectState.InConstruction)
 		{
-			setOtherSprites(false);
+			SetDefaultState(false);
 
 		}
 		CurrentStage = Stage;
@@ -255,7 +265,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 		TSpriteRenderer.sprite = ConstructionStages[CurrentStage].StageSprite;
 		if (ConstructionStages[CurrentStage].ObjectStateofStage == ObjectState.Normal)
 		{
-			setOtherSprites(true);
+			SetDefaultState(true);
 		}
 	}
 
@@ -264,7 +274,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 		if (ConstructionStages[CurrentStage].ObjectStateofStage != ConstructionStages[Stage].ObjectStateofStage )
 		{
 			gameObject.BroadcastMessage("ObjectStateChange", ConstructionStages[Stage].ObjectStateofStage, SendMessageOptions.DontRequireReceiver);
-			setOtherSprites(false);
+			SetDefaultState(false);
 
 		}
 		CurrentStage = Stage;
@@ -274,7 +284,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 		if (ConstructionStages[CurrentStage].ObjectStateofStage == ObjectState.Normal)
 		{
 			gameObject.BroadcastMessage("ObjectStateChange", ObjectState.Normal, SendMessageOptions.DontRequireReceiver);
-			setOtherSprites(true);
+			SetDefaultState(true);
 		}
 		if (ConstructionStages[CurrentStage].FinalDeconstructedResult != null) {
 
@@ -292,37 +302,36 @@ public class ConstructionHandler : NBHandApplyInteractable
 		//ConstructionStages[CurrentStage] 
 	}
 	public void SetDefaultState(bool Toggle) {
-		var Monos = this.GetComponentsInChildren<MonoBehaviour>();
-		foreach (var Mono in Monos)
-		{
-			if (TSpriteRenderer != Mono)
-			{
-				if (!DisabledMonoBehaviours.Contains(Mono))
-				{
-					DisabledMonoBehaviours.Add(Mono);
-				}
-			}
-		}
-
-		foreach (var Mono in DisabledMonoBehaviours)
-		{
-			Mono.enabled = Toggle;
-		}
 		setOtherSprites(Toggle);
 	}
-
+	public bool otherSpritesContain(SpriteRenderer SR)
+	{
+		foreach (var _Sprite in otherSpriteRenderer) {
+			if (_Sprite.Key == SR) { 
+				return (true);
+			}
+		}
+		return (false);
+	}
 
 	public void setOtherSprites(bool Toggle) {
 		var sp = this.GetComponentsInChildren<SpriteRenderer>();
 		foreach (var SR in sp) {
-			if (!otherSpriteRenderer.Contains(SR) && (SR != TSpriteRenderer)) {
-				otherSpriteRenderer.Add(SR);
+			if (!otherSpritesContain(SR) && (SR != TSpriteRenderer)) {
+				var kandV = new KeyValuePair<SpriteRenderer, bool>(SR, SR.enabled);
+				otherSpriteRenderer.Add(kandV);
 			} 
 
 		}
 		//if (prefab != PrefabUtility.GetCorrespondingObjectFromSource(selectedObject))
 		foreach (var SR in otherSpriteRenderer) {
-			SR.gameObject.SetActive(Toggle);
+			if (Toggle)
+			{
+				SR.Key.gameObject.SetActive(SR.Value);
+			}
+			else { 
+				SR.Key.gameObject.SetActive(Toggle);
+			}
 		}
 		TSpriteRenderer.gameObject.SetActive(!Toggle);
 	}
@@ -375,6 +384,18 @@ public class ConstructionHandler : NBHandApplyInteractable
 			}
 
 			GoToStage(CurrentStage);
+		}
+		else
+		{ 
+			foreach (var Stage in ConstructionStages)
+			{
+				foreach (var TOStageAdvance in Stage.StageAdvances)
+				{
+					Stage.ToolStage[TOStageAdvance.RequiredTool] = TOStageAdvance;
+				}
+			
+			}
+		
 		}
 	}
 

@@ -71,8 +71,12 @@ public class ElectricalNodeControl : NetworkBehaviour
 
 	public void ObjectStateChange(ObjectState tState)
 	{
-		if (tState == ObjectState.InConstruction) { 
+		if (tState == ObjectState.InConstruction)
+		{
 			Node.FlushConnectionAndUp();
+		}
+		else if (tState == ObjectState.Normal){
+			ElectricalSynchronisation.StructureChange = true;
 		}
 		UpObjectStateChange(tState);
 	
