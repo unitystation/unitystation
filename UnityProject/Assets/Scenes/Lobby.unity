@@ -533,31 +533,6 @@ MonoBehaviour:
   - {fileID: 1048204384}
   torsoSpriteController: {fileID: 1026955647}
   headSpriteController: {fileID: 1048204384}
-  availableHairColors:
-  - '#030303'
-  - '#6c6b6b'
-  - '#3d1f10'
-  - '#734d3c'
-  - '#974724'
-  - '#d25f26'
-  - '#f49d70'
-  - '#c88a00'
-  - '#e6b033'
-  - '#1d7c0e'
-  - '#34b220'
-  - '#7ddf6b'
-  - '#041227'
-  - '#0b74d3'
-  - '#62bce8'
-  - '#2b1639'
-  - '#953cd0'
-  - '#cb90f4'
-  - '#9b1874'
-  - '#df36ad'
-  - '#f1a6db'
-  - '#7e1915'
-  - '#df3a33'
-  - '#ff9997'
   availableSkinColors:
   - '#FFE0BD'
   - '#ffe0d1'
@@ -3688,10 +3663,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1053993310}
     m_Modifications:
-    - target: {fileID: 157272, guid: 916ee089a0d7b63419075f91e1c657ec, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 22441130, guid: 916ee089a0d7b63419075f91e1c657ec, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -3791,6 +3762,10 @@ PrefabInstance:
     - target: {fileID: 11429486, guid: 916ee089a0d7b63419075f91e1c657ec, type: 3}
       propertyPath: m_Texture
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 157272, guid: 916ee089a0d7b63419075f91e1c657ec, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22413792, guid: 916ee089a0d7b63419075f91e1c657ec, type: 3}
       propertyPath: m_AnchorMin.y
@@ -4707,6 +4682,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 452961007}
+  - component: {fileID: 452961008}
   m_Layer: 5
   m_Name: AccountLoginPanel
   m_TagString: Untagged
@@ -4738,6 +4714,34 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &452961008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 452961006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f65fe3ff7c309e4e8d64393c33f50bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TriggerMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1498495214}
+        m_MethodName: OnLogin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &453199109
 GameObject:
   m_ObjectHideFlags: 0
@@ -5344,7 +5348,7 @@ PrefabInstance:
     - target: {fileID: 224264904714827184, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 224816160242944980, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
@@ -18016,7 +18020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22400762, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000015258789
+      value: 0.000045776367
       objectReference: {fileID: 0}
     - target: {fileID: 22414360, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -20621,7 +20625,7 @@ PrefabInstance:
     - target: {fileID: 224576715969102918, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
+      value: 0.0000005213664
       objectReference: {fileID: 0}
     - target: {fileID: 224532537791131688, guid: 38ecd680d57974ffe87b4bdd8cd52589,
         type: 3}
