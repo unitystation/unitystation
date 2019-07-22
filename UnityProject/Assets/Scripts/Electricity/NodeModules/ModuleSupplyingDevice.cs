@@ -22,6 +22,8 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 			ElectricalUpdateTypeCategory.TurnOffSupply, 
 			ElectricalUpdateTypeCategory.PowerNetworkUpdate,
 			ElectricalUpdateTypeCategory.PotentialDestroyed,
+			ElectricalUpdateTypeCategory.GoingOffStage,
+			ElectricalUpdateTypeCategory.ObjectStateChange,
 		};
 		ModuleType = ElectricalModuleTypeCategory.SupplyingDevice;
 		ControllingNode = Node;
@@ -33,7 +35,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 
 	public override void PotentialDestroyed()
 	{
-		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
+		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);//this is needed
 		ElectricalSynchronisation.ResistanceChange.Add(ControllingNode);
 		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
 		if (ControllingNode.SelfDestruct)
@@ -54,6 +56,18 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		ElectricalSynchronisation.NUStructureChangeReact.Add(ControllingNode);
 		ElectricalSynchronisation.NUResistanceChange.Add(ControllingNode);
 		ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
+	}
+	public override void ObjectStateChange(ObjectState tState) {
+		if (tState == ObjectState.InConstruction) {
+			//TurnOffSupply();
+			ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
+			ControllingNode.Node.FlushSupplyAndUp(this.gameObject);
+		}
+	}
+
+	public override void GoingOffStage() { 
+		ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
+		ControllingNode.Node.FlushSupplyAndUp(this.gameObject);
 	}
 
 	public override void PowerUpdateCurrentChange()

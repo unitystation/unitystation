@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 61366423541260584}
   - component: {fileID: 114943457949527232}
   - component: {fileID: 114038174743996046}
+  - component: {fileID: 5130602903369118013}
   - component: {fileID: 114703946515217786}
   - component: {fileID: 114421102744754910}
   - component: {fileID: 3451459747492305769}
@@ -139,9 +140,118 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
+--- !u!114 &5130602903369118013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa7d96b5297053428ff5656cc555321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConstructionStages:
+  - StageSprite: {fileID: 0}
+    StageAdvances:
+    - RequiredTool: 4
+      ConstructionTime: 1
+      JumpToStage: 1
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    NeededParts: []
+    IncludePartsInitialisation: 0
+    ObjectStateofStage: 0
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 0}
+  - StageSprite: {fileID: 0}
+    StageAdvances:
+    - RequiredTool: 4
+      ConstructionTime: 1
+      JumpToStage: 0
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    - RequiredTool: 0
+      ConstructionTime: 1
+      JumpToStage: 2
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    NeededParts: []
+    IncludePartsInitialisation: 0
+    ObjectStateofStage: 1
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 0}
+  - StageSprite: {fileID: 0}
+    StageAdvances:
+    - RequiredTool: 4
+      ConstructionTime: 1
+      JumpToStage: 1
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 1
+    - RequiredTool: 0
+      ConstructionTime: 1
+      JumpToStage: 3
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    NeededParts:
+    - GameObject: {fileID: 0}
+      IdentifyingComponent: 
+      NumberNeeded: 1
+      CType: 6
+      level: 0
+      NumberPresent: 0
+      TimeNeeded: 0
+    - GameObject: {fileID: 0}
+      IdentifyingComponent: 
+      NumberNeeded: 1
+      CType: 2
+      level: 0
+      NumberPresent: 0
+      TimeNeeded: 0
+    IncludePartsInitialisation: 1
+    ObjectStateofStage: 1
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 0}
+  - StageSprite: {fileID: 0}
+    StageAdvances: []
+    NeededParts: []
+    IncludePartsInitialisation: 0
+    ObjectStateofStage: 1
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 1575520830166772, guid: b43cb41060d0928478def13fcd64abf6,
+      type: 3}
+  TSpriteRenderer: {fileID: 8730191553135436193, guid: ae67ebb257dca914bbb7c735f7581aca,
+    type: 3}
+  registerObject: {fileID: 0}
+  otherSpriteRenderer: []
+  ListChance: 
+  CurrentStage: 0
+  GenerateComponents: 1
+  PrefabCircuitBoard: {fileID: 1519710982558066, guid: ae254a95afe2c3f4b9336098b764c241,
+    type: 3}
+  CircuitBoard: {fileID: 0}
+  DisabledMonoBehaviours: []
+  StandardConstructionComponent: {fileID: 1519710982558066, guid: 3beffbd1402c7314f8f6c2d1049478b2,
+    type: 3}
 --- !u!114 &114703946515217786
 MonoBehaviour:
   m_ObjectHideFlags: 0

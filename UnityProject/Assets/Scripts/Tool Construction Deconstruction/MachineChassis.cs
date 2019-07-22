@@ -23,15 +23,17 @@ public class MachineChassis : MonoBehaviour, IConstructionHandler
 		return (false);
 
 	}
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public bool CanInteraction(HandApply interaction, InventorySlot Slot, ConstructionHandler Handler) { 
+		if (Slot?.Item != null)
+		{
+			var Circuit = Slot.Item.GetComponent<CircuitBoard>();
+			if (Circuit != null)
+			{
+				return (true);
+			}
+		}
+		return (false);
+	}
+ 
 }

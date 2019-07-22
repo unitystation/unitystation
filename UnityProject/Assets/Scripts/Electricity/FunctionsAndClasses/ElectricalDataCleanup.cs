@@ -59,14 +59,18 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 		}
 
 		public static void FlushResistanceAndUp (ElectricalOIinheritance Object,  GameObject SourceInstance = null  ){
-			if (SourceInstance == null) {
-        bool pass = false;
-				foreach (var Supply in Object.Data.SupplyDependent) {
-					if (Supply.Value.ResistanceComingFrom.Count > 0) {
+			if (SourceInstance == null)
+			{
+				bool pass = false;
+				foreach (var Supply in Object.Data.SupplyDependent)
+				{
+					if (Supply.Value.ResistanceComingFrom.Count > 0)
+					{
 						pass = true;
 					}
 				}
-				if (pass) {
+				if (pass)
+				{
 					foreach (var Supply in Object.Data.SupplyDependent)
 					{
 						Supply.Value.ResistanceComingFrom.Clear();
@@ -74,7 +78,7 @@ public static class ElectricalDataCleanup { //To clean out data on cables and ma
 						Supply.Value.CurrentGoingTo.Clear();
 						Supply.Value.CurrentComingFrom.Clear();
 						Supply.Value.SourceVoltages = 0;
-	
+
 					}
 					foreach (ElectricalOIinheritance JumpTo in Object.Data.connections)
 					{

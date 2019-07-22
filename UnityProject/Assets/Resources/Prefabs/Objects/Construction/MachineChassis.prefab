@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 114703946515217786}
   - component: {fileID: 8664429758846494604}
   - component: {fileID: 6769127131804649424}
+  - component: {fileID: 6457611703755182889}
+  - component: {fileID: 146750411261782449}
   m_Layer: 11
   m_Name: MachineChassis
   m_TagString: Untagged
@@ -136,20 +138,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa7d96b5297053428ff5656cc555321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThingsToDrop: []
   ConstructionStages:
   - StageSprite: {fileID: 0}
     StageAdvances: []
     NeededParts: []
     IncludePartsInitialisation: 0
+    ObjectStateofStage: 0
     MissingParts: 0
     PresentParts: []
     FinalDeconstructedResult: {fileID: 0}
   TSpriteRenderer: {fileID: 8730191553135436193, guid: ae67ebb257dca914bbb7c735f7581aca,
     type: 3}
+  registerObject: {fileID: 0}
   otherSpriteRenderer: []
   ListChance: 
   CurrentStage: 0
+  GenerateComponents: 1
+  PrefabCircuitBoard: {fileID: 0}
+  CircuitBoard: {fileID: 0}
+  DisabledMonoBehaviours: []
   StandardConstructionComponent: {fileID: 1519710982558066, guid: 3beffbd1402c7314f8f6c2d1049478b2,
     type: 3}
 --- !u!114 &6769127131804649424
@@ -164,6 +171,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1051f4991ad7349aad296d060e36e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6457611703755182889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
+--- !u!114 &146750411261782449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoredSpriteRenderers: []
+  registerTile: {fileID: 0}
+  visibleState: 1
+  isNotPushable: 0
+  closetHandlerCache: {fileID: 0}
+  parentContainer: {fileID: 0}
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

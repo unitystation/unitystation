@@ -60,6 +60,19 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 		ElectricalSynchronisation.PoweredDevices.Add(ControllingNode);
 		Node.AddModule(this);
 	}
+	public override void ObjectStateChange(ObjectState tState) {
+		if (tState == ObjectState.InConstruction)
+		{			ElectricalSynchronisation.PoweredDevices.Remove(ControllingNode);
+		}
+		else if (tState == ObjectState.Normal) { 
+			ElectricalSynchronisation.PoweredDevices.Add(ControllingNode);
+			ElectricalSynchronisation.InitialiseResistanceChange.Add(ControllingNode);
+		}
+	}
+
+	public override void GoingOffStage() {
+		ElectricalSynchronisation.PoweredDevices.Remove(ControllingNode);
+	}
 
 	public override void PotentialDestroyed()
 	{

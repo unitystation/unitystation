@@ -13,6 +13,8 @@ public class ConstructionStage
 
 	public bool IncludePartsInitialisation;
 
+	public ObjectState ObjectStateofStage;
+
 	[HideInInspector]
 	public bool MissingParts;
 

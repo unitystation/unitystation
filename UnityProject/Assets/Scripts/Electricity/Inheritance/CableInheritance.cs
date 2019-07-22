@@ -26,17 +26,19 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 
 	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
+		Logger.Log("AAAA");
 		if (!base.WillInteract(interaction, side)) return false;
-
+		Logger.Log("EEEE");
 		if (!Validations.IsTool(interaction.HandObject, ToolType.Wirecutter)) return false;
-
+		Logger.Log("CCCC");
 		if (interaction.TargetObject != gameObject) return false;
-
+		Logger.Log("DDDD");
 		return true;
 	}
 
 	protected override void ServerPerformInteraction(PositionalHandApply interaction)
 	{
+		Logger.Log("GETE");
 		//wirecutters can be used to cut this cable
 		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
 		MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
@@ -45,10 +47,12 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 		{
 			if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
 			{
+				Logger.Log("fdgfg");
 				return;
 			}
 		}
 		else {
+			Logger.Log("fffffff");
 			return;
 		}
 

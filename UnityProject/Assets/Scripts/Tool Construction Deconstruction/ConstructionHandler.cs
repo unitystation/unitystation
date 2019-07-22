@@ -9,7 +9,6 @@ using UnityEngine.Networking;
 public class ConstructionHandler : NBHandApplyInteractable
 {
 	public IConstructionHandler RelatedInterface;
-	public List<GameObject> ThingsToDrop;
 	public List<ConstructionStage> ConstructionStages;
 	public SpriteRenderer TSpriteRenderer;
 	public RegisterObject registerObject;
@@ -28,11 +27,23 @@ public class ConstructionHandler : NBHandApplyInteractable
 	[HideInInspector]
 	public GameObject CircuitBoard;
 
+	[HideInInspector]
+	public List<MonoBehaviour> DisabledMonoBehaviours = new List<MonoBehaviour>();
+
 	public GameObject StandardConstructionComponent;
+
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!base.WillInteract(interaction, side)) return false;
+
+		//only interaction that works is using a reagent container on this
+		return (InteractionCheck(interaction));
+
+	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
+		InventorySlot slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
 
 		if (RelatedInterface != null)
 		{
@@ -41,43 +52,59 @@ public class ConstructionHandler : NBHandApplyInteractable
 				return;
 			}
 		}
-		Logger.Log("1");
 		if (ContainedObjects[CurrentStage] != null)
 		{
-			Logger.Log("2");
-			foreach (var _Object in ContainedObjects[CurrentStage]) {
-				Logger.Log("3");				if (_Object.NumberNeeded > _Object.NumberPresent)
+			foreach (var _Object in ContainedObjects[CurrentStage]) {				if (_Object.NumberNeeded > _Object.NumberPresent)
 				{
-					Logger.Log("4");
 					if (_Object.GameObject != null)
 					{
-						Logger.Log("5");
 						if (slot.Item.GetComponent(_Object.IdentifyingComponent) != null)
 						{
-							Logger.Log(_Object.GameObject.GetComponent(_Object.IdentifyingComponent).ToString());
-							ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-							InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
-							_Object.NumberPresent++;
-						}
-					}
-					else if (_Object.CType != ConstructionElementType.Null){
-						var Item = slot.Item?.GetComponent<ConstructionComponent>();
-						if (Item != null) {
-							if (Item.CType == _Object.CType && Item.level >= _Object.level) {
+							if (_Object.TimeNeeded > 0)
+							{
+								var progressFinishAction = new FinishProgressAction(reason =>
+								{
+									if (reason == FinishProgressAction.FinishReason.COMPLETED)
+									{
+										ExceptItem(slot, interaction);
+									}
+								});
+								UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
+							}
+							else {
 								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
 								InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
 								_Object.NumberPresent++;
 							}
 						}
 					}
+					else if (_Object.CType != ConstructionElementType.Null){
+						var Item = slot.Item?.GetComponent<ConstructionComponent>();
+						if (Item != null) {
+							if (Item.CType == _Object.CType && Item.level >= _Object.level) {
+								if (_Object.TimeNeeded > 0) {
+									var progressFinishAction = new FinishProgressAction(reason =>
+									{
+										if (reason == FinishProgressAction.FinishReason.COMPLETED)
+										{
+											ExceptItem(slot, interaction);
+										}
+									});
+									UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
+								}
+								else { 
+									ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
+									InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
+									_Object.NumberPresent++;
+								}
+							}
+						}
+					}
 				}
 			}
-		//if 
 		}
 
 		var tool = slot.Item?.GetComponent<Tool>();
-		//has issues with not spawning them incorrectly
-		//if you midway through assembling something then cancel you dont get the items back
 		if (tool == null)
 		{
 			return;
@@ -99,6 +126,91 @@ public class ConstructionHandler : NBHandApplyInteractable
 			else { 
 				JumpLanding(tool);
 			}
+		}
+	}
+
+	public bool InteractionCheck(HandApply interaction) { 
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
+
+		if (RelatedInterface != null)
+		{
+			return (RelatedInterface.CanInteraction(interaction, slot, this));
+		}
+		if (ContainedObjects[CurrentStage] != null)
+		{
+			foreach (var _Object in ContainedObjects[CurrentStage])
+			{
+				if (_Object.NumberNeeded > _Object.NumberPresent)
+				{
+					if (_Object.GameObject != null)
+					{
+						if (slot.Item.GetComponent(_Object.IdentifyingComponent) != null)
+						{
+							return (true);
+						}
+					}
+					else if (_Object.CType != ConstructionElementType.Null)
+					{
+						var Item = slot.Item?.GetComponent<ConstructionComponent>();
+						if (Item != null)
+						{
+							if (Item.CType == _Object.CType && Item.level >= _Object.level)
+							{
+								return (true);
+							}
+						}
+					}
+				}
+			}
+			//if 
+		}
+
+		var tool = slot.Item?.GetComponent<Tool>();
+		//has issues with not spawning them incorrectly
+		//if you midway through assembling something then cancel you dont get the items back
+		if (tool == null)
+		{
+			return (false);
+		}
+		if (ConstructionStages[CurrentStage].ToolStage.ContainsKey(tool.ToolType))
+		{
+			return (true);
+		}
+		return (false);
+	}
+	public void ExceptItem(InventorySlot slot, HandApply interaction) { 
+	if (ContainedObjects[CurrentStage] != null)
+		{
+			foreach (var _Object in ContainedObjects[CurrentStage])
+			{
+				if (_Object.NumberNeeded > _Object.NumberPresent)
+				{
+					if (_Object.GameObject != null)
+					{
+						if (slot.Item.GetComponent(_Object.IdentifyingComponent) != null)
+						{
+							Logger.Log(_Object.GameObject.GetComponent(_Object.IdentifyingComponent).ToString());
+							ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
+							InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
+							_Object.NumberPresent++;
+						}
+					}
+					else if (_Object.CType != ConstructionElementType.Null)
+					{
+						var Item = slot.Item?.GetComponent<ConstructionComponent>();
+						if (Item != null)
+						{
+							if (Item.CType == _Object.CType && Item.level >= _Object.level)
+							{
+								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
+								InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
+								_Object.NumberPresent++;
+							}
+						}
+					}
+				}
+			}
+			//if 
 		}
 	}
 
@@ -132,7 +244,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 
 	public void ClientGoToStage(int Stage)
 	{
-		if (CurrentStage == 0 && Stage > 0)
+		if (ConstructionStages[CurrentStage].ObjectStateofStage == ObjectState.Normal && ConstructionStages[Stage].ObjectStateofStage == ObjectState.InConstruction)
 		{
 			setOtherSprites(false);
 
@@ -141,7 +253,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 
 		Logger.Log(CurrentStage.ToString());
 		TSpriteRenderer.sprite = ConstructionStages[CurrentStage].StageSprite;
-		if (CurrentStage == 0)
+		if (ConstructionStages[CurrentStage].ObjectStateofStage == ObjectState.Normal)
 		{
 			setOtherSprites(true);
 		}
@@ -149,9 +261,9 @@ public class ConstructionHandler : NBHandApplyInteractable
 
 	public void GoToStage(int Stage)
 	{
-		if (CurrentStage == 0 && Stage > 0)
+		if (ConstructionStages[CurrentStage].ObjectStateofStage != ConstructionStages[Stage].ObjectStateofStage )
 		{
-			gameObject.BroadcastMessage("ObjectStateChange", ObjectState.InConstruction, SendMessageOptions.DontRequireReceiver);
+			gameObject.BroadcastMessage("ObjectStateChange", ConstructionStages[Stage].ObjectStateofStage, SendMessageOptions.DontRequireReceiver);
 			setOtherSprites(false);
 
 		}
@@ -159,7 +271,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 
 		Logger.Log(CurrentStage.ToString());
 		TSpriteRenderer.sprite = ConstructionStages[CurrentStage].StageSprite;
-		if (CurrentStage == 0)
+		if (ConstructionStages[CurrentStage].ObjectStateofStage == ObjectState.Normal)
 		{
 			gameObject.BroadcastMessage("ObjectStateChange", ObjectState.Normal, SendMessageOptions.DontRequireReceiver);
 			setOtherSprites(true);
@@ -175,10 +287,30 @@ public class ConstructionHandler : NBHandApplyInteractable
 				netTransform.AppearAtPosition(this.transform.position);
 				netTransform.AppearAtPositionServer(this.transform.position);
 			}
-			Destroy(this.gameObject);
+			PoolManager.PoolNetworkDestroy(this.gameObject);
 		}
 		//ConstructionStages[CurrentStage] 
 	}
+	public void SetDefaultState(bool Toggle) {
+		var Monos = this.GetComponentsInChildren<MonoBehaviour>();
+		foreach (var Mono in Monos)
+		{
+			if (TSpriteRenderer != Mono)
+			{
+				if (!DisabledMonoBehaviours.Contains(Mono))
+				{
+					DisabledMonoBehaviours.Add(Mono);
+				}
+			}
+		}
+
+		foreach (var Mono in DisabledMonoBehaviours)
+		{
+			Mono.enabled = Toggle;
+		}
+		setOtherSprites(Toggle);
+	}
+
 
 	public void setOtherSprites(bool Toggle) {
 		var sp = this.GetComponentsInChildren<SpriteRenderer>();

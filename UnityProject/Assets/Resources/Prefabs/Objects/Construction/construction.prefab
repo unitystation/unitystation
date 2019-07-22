@@ -148,6 +148,7 @@ MonoBehaviour:
       Construction: 0
     NeededParts: []
     IncludePartsInitialisation: 1
+    ObjectStateofStage: 0
     MissingParts: 0
     PresentParts: []
     FinalDeconstructedResult: {fileID: 0}
@@ -169,6 +170,7 @@ MonoBehaviour:
       Construction: 0
     NeededParts: []
     IncludePartsInitialisation: 1
+    ObjectStateofStage: 1
     MissingParts: 0
     PresentParts: []
     FinalDeconstructedResult: {fileID: 0}
@@ -202,6 +204,7 @@ MonoBehaviour:
       level: 0
       NumberPresent: 0
     IncludePartsInitialisation: 1
+    ObjectStateofStage: 1
     MissingParts: 0
     PresentParts: []
     FinalDeconstructedResult: {fileID: 0}
@@ -209,6 +212,7 @@ MonoBehaviour:
     StageAdvances: []
     NeededParts: []
     IncludePartsInitialisation: 1
+    ObjectStateofStage: 1
     MissingParts: 0
     PresentParts: []
     FinalDeconstructedResult: {fileID: 1575520830166772, guid: b43cb41060d0928478def13fcd64abf6,
@@ -223,6 +227,7 @@ MonoBehaviour:
   PrefabCircuitBoard: {fileID: 1519710982558066, guid: cc7c1682dd7a40343841dfb1f65b2849,
     type: 3}
   CircuitBoard: {fileID: 0}
+  DisabledMonoBehaviours: []
   StandardConstructionComponent: {fileID: 1519710982558066, guid: 3beffbd1402c7314f8f6c2d1049478b2,
     type: 3}
 --- !u!1 &1744594665423798

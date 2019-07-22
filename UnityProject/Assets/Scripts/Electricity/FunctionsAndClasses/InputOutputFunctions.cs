@@ -37,7 +37,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 			ElectricalSynchronisation.NUStructureChangeReact.Add(Thiswire.InData.ControllingDevice);
 			ElectricalSynchronisation.NUResistanceChange.Add(Thiswire.InData.ControllingDevice);
 			ElectricalSynchronisation.NUCurrentChange.Add(Thiswire.InData.ControllingDevice);
-			Logger.LogErrorFormat("Resistance isn't initialised on {1}", Category.Electrical, SourceInstance);
+			//Logger.LogErrorFormat("Resistance isn't initialised on {1}", Category.Electrical, SourceInstance);
 			return;
 		}
 		ElectricalSynchronisation.InputSupplyingUsingData.SourceVoltages = Current * (ElectricityFunctions.WorkOutResistance(ElectricalSynchronisation.InputSupplyingUsingData.ResistanceComingFrom));
@@ -57,7 +57,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		else {
 			if (ElectricalSynchronisation.OutputSupplyingUsingData.Upstream.Count > 1)
 			{
-				ResistanceSplit = 1000 / ((1000 / Resistance) / (ElectricalSynchronisation.OutputSupplyingUsingData.Upstream.Count));
+				ResistanceSplit = Resistance * ElectricalSynchronisation.OutputSupplyingUsingData.Upstream.Count;
 			}
 			else
 			{

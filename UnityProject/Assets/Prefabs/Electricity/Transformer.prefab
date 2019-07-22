@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 2731523975421391927}
   - component: {fileID: 3919982737323789382}
   - component: {fileID: 114392163303621646}
+  - component: {fileID: 2043589462152152509}
   m_Layer: 11
   m_Name: Transformer
   m_TagString: Untagged
@@ -137,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
@@ -236,6 +238,86 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &2043589462152152509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa7d96b5297053428ff5656cc555321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConstructionStages:
+  - StageSprite: {fileID: 0}
+    StageAdvances:
+    - RequiredTool: 1
+      ConstructionTime: 0
+      JumpToStage: 1
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    NeededParts: []
+    IncludePartsInitialisation: 0
+    ObjectStateofStage: 0
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 0}
+  - StageSprite: {fileID: 21300000, guid: f713d79e7311ce34fb1de4c187bfa0c6, type: 3}
+    StageAdvances:
+    - RequiredTool: 1
+      ConstructionTime: 1
+      JumpToStage: 0
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 1
+    - RequiredTool: 0
+      ConstructionTime: 0
+      JumpToStage: 2
+      SuccessChance: 0
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    NeededParts:
+    - GameObject: {fileID: 1645856876941636, guid: 02204992fb099c145843af5f85a10d7d,
+        type: 3}
+      IdentifyingComponent: CableCoil
+      NumberNeeded: 1
+      CType: 0
+      level: 0
+      NumberPresent: 0
+      TimeNeeded: 2
+    IncludePartsInitialisation: 1
+    ObjectStateofStage: 1
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 0}
+  - StageSprite: {fileID: 21300000, guid: ab7afb757a225664587e1ca81456b2a0, type: 3}
+    StageAdvances: []
+    NeededParts: []
+    IncludePartsInitialisation: 0
+    ObjectStateofStage: 1
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 1575520830166772, guid: b43cb41060d0928478def13fcd64abf6,
+      type: 3}
+  TSpriteRenderer: {fileID: 8730191553135436193, guid: ae67ebb257dca914bbb7c735f7581aca,
+    type: 3}
+  registerObject: {fileID: 0}
+  otherSpriteRenderer: []
+  ListChance: 
+  CurrentStage: 0
+  GenerateComponents: 1
+  PrefabCircuitBoard: {fileID: 1519710982558066, guid: f06d763b4a2ed4b4b800f31eb5002fb6,
+    type: 3}
+  CircuitBoard: {fileID: 0}
+  DisabledMonoBehaviours: []
+  StandardConstructionComponent: {fileID: 1519710982558066, guid: 3beffbd1402c7314f8f6c2d1049478b2,
+    type: 3}
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

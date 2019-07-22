@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class selfReferenceTest : MonoBehaviour
+public class glasssheet : MonoBehaviour
 {
-	public GameObject Self;
     // Start is called before the first frame update
     void Start()
     {

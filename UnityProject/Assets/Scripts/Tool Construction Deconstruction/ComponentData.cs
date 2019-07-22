@@ -22,6 +22,8 @@ public class ComponentData
 
 	[HideInInspector]
 	public int NumberPresent = 0;
+
+	public float TimeNeeded = 0;
 }
 
 
