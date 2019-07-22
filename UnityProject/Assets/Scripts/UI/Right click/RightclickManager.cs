@@ -114,6 +114,7 @@ public class RightclickManager : MonoBehaviour
 	{
 		LayerTile tile = UITileList.GetTileAtPosition(obj.WorldPosClient());
 
+		// Layer 22 is the 'Floor' layer
 		return (tile != null && tile.LayerType != LayerType.Base && obj.layer == 22);
 	}
 
