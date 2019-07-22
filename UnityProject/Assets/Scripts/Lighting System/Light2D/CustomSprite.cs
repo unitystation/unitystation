@@ -65,7 +65,7 @@ namespace Light2D
             get { return _meshRenderer.isPartOfStaticBatch; }
         }
 
-        protected virtual void OnEnable()
+        protected virtual void Start()
         {
             _colors = new Color[4];
             _uv1 = new Vector2[4];
@@ -102,11 +102,6 @@ namespace Light2D
             RendererEnabled = _meshRenderer.enabled;
         }
 
-        protected virtual void Start()
-        {
-            UpdateMeshData(true);
-        }
-
         private void OnWillRenderObject()
         {
             UpdateMeshData();
@@ -114,14 +109,6 @@ namespace Light2D
             //{
             //    RendererEnabled = _meshRenderer.enabled;
             //    _meshRenderer.enabled = false; 
-            //}
-        }
-
-        private void OnRenderObject()
-        {
-            //if (Application.isPlaying && LightingSystem.Instance.EnableNormalMapping)
-            //{
-            //    _meshRenderer.enabled = RendererEnabled;
             //}
         }
 
