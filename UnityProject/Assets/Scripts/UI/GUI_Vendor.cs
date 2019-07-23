@@ -98,11 +98,6 @@ public class GUI_Vendor : NetTab
 
 	public void VendItem(VendorItem item)
 	{
-		if (CanSell() == false)
-		{
-			return;
-		}
-
 		VendorItem itemToSpawn = null;
 		foreach (var vendorItem in vendorContent)
 		{
@@ -112,9 +107,9 @@ public class GUI_Vendor : NetTab
 				break;
 			}
 		}
-		if (itemToSpawn == null || itemToSpawn.Stock <= 0)
+
+		if (!CanSell(itemToSpawn))
 		{
-			SendToChat(deniedMessage);
 			return;
 		}
 
@@ -155,9 +150,9 @@ public class GUI_Vendor : NetTab
 		StartCoroutine(VendorInputCoolDown());
 	}
 
-	private bool CanSell()
+	private bool CanSell(VendorItem itemToSpawn)
 	{
-		if (allowSell && !GameData.Instance.testServer && !GameData.IsHeadlessServer)
+		if (allowSell && itemToSpawn != null && itemToSpawn.Stock > 0)
 		{
 			return true;
 		}
