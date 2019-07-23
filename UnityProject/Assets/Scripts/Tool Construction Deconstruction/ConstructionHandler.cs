@@ -6,11 +6,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine.Networking;
 
-
-//TODO
-//Not spawning in prefab of machine from circuit board On client
-// fix the default light state
-
 public class ConstructionHandler : NBHandApplyInteractable
 {
 	public IConstructionHandler RelatedInterface;
@@ -40,8 +35,6 @@ public class ConstructionHandler : NBHandApplyInteractable
 	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!base.WillInteract(interaction, side)) return false;
-
-		//only interaction that works is using a reagent container on this
 		return (InteractionCheck(interaction, side));
 
 	}
@@ -172,12 +165,9 @@ public class ConstructionHandler : NBHandApplyInteractable
 					}
 				}
 			}
-			//if 
 		}
 
 		var tool = slot.Item?.GetComponent<Tool>();
-		//has issues with not spawning them incorrectly
-		//if you midway through assembling something then cancel you dont get the items back
 		if (tool == null)
 		{
 			return (false);
@@ -199,7 +189,6 @@ public class ConstructionHandler : NBHandApplyInteractable
 					{
 						if (slot.Item.GetComponent(_Object.IdentifyingComponent) != null)
 						{
-							Logger.Log(_Object.GameObject.GetComponent(_Object.IdentifyingComponent).ToString());
 							ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
 							InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
 							_Object.NumberPresent++;
@@ -247,7 +236,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 				}
 			}
 			else {
-				Logger.LogError("you Failed!");
+				Logger.Log("you Failed!");
 			}
 		}
 	}
@@ -260,8 +249,6 @@ public class ConstructionHandler : NBHandApplyInteractable
 
 		}
 		CurrentStage = Stage;
-
-		Logger.Log(CurrentStage.ToString());
 		TSpriteRenderer.sprite = ConstructionStages[CurrentStage].StageSprite;
 		if (ConstructionStages[CurrentStage].ObjectStateofStage == ObjectState.Normal)
 		{
@@ -278,8 +265,6 @@ public class ConstructionHandler : NBHandApplyInteractable
 
 		}
 		CurrentStage = Stage;
-
-		Logger.Log(CurrentStage.ToString());
 		TSpriteRenderer.sprite = ConstructionStages[CurrentStage].StageSprite;
 		if (ConstructionStages[CurrentStage].ObjectStateofStage == ObjectState.Normal)
 		{
