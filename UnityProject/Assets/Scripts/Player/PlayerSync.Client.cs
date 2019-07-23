@@ -44,8 +44,8 @@ public partial class PlayerSync
 	public Vector3Int TrustedPosition => playerState.WorldPosition.RoundToInt();
 	public Vector3Int TrustedLocalPosition => playerState.Position.RoundToInt();
 
-	/// Does client's transform pos match state pos? Ignores Z-axis.
-	private bool ClientPositionReady => (Vector2)predictedState.Position == (Vector2)transform.localPosition;
+	/// Does client's transform pos match state pos? Ignores Z-axis. Unity's vectors might have 1E-05 of difference
+	private bool ClientPositionReady => Vector2.Distance(predictedState.Position, transform.localPosition) < 0.001f;
 
 	private bool IsWeightlessClient
 	{

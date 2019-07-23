@@ -29,9 +29,8 @@ namespace Light2D
             get { return _meshRenderer; }
         }
 
-        protected override void OnEnable()
+        protected void OnEnable()
         {
-            base.OnEnable();
             AllLightSprites.Add(this);
         }
 
