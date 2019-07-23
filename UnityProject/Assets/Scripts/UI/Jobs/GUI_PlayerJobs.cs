@@ -37,11 +37,11 @@ public class GUI_PlayerJobs : MonoBehaviour
 			Destroy(child.gameObject);
 		}
 
-		foreach (GameObject occupationGo in GameManager.Instance.Occupations)
+		foreach (OccupationRoster occupationGo in GameManager.Instance.Occupations)
 		{
 
 			GameObject occupation = Instantiate(buttonPrefab);
-			JobType jobType = occupationGo.GetComponent<OccupationRoster>().Type;
+			JobType jobType = occupationGo.jobType;
 			//For nuke ops mode, syndis spawn via a different button
 			if(jobType == JobType.SYNDICATE){
 				continue;

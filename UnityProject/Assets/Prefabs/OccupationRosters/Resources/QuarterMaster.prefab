@@ -1,22 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1155409023102902}
-  m_IsPrefabParent: 1
 --- !u!1 &1155409023102902
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4614504402957612}
   - component: {fileID: 114882286145020194}
@@ -29,9 +19,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4614504402957612
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155409023102902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -42,17 +33,38 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114882286145020194
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155409023102902}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1758e66ff4476fd44a105877728bea23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  department: 5
   limit: 1
-  outfit: {fileID: 1436717421391230, guid: 9c69eb65325cb284e9b49b33f752d380, type: 2}
+  jobsTaken: 0
   priority: 2
-  Type: 29
+  jobType: 29
+  accessory: 
+  allowedAccess: 08000000090000001a0000001e00000022000000260000002c0000003000000031000000320000003500000036000000370000003c00000045000000
+  head: 
+  glasses: /obj/item/clothing/glasses/sunglasses
+  ears: /obj/item/device/radio/headset/headset_cargo
+  mask: 
+  neck: 
+  exosuit: 
+  suitStorage: 
+  uniform: /obj/item/clothing/under/rank/cargo
+  leftPocket: 
+  rightPocket: 
+  belt: /obj/item/device/pda/quartermaster
+  gloves: 
+  leftHand: /obj/item/weapon/clipboard
+  shoes: /obj/item/clothing/shoes/sneakers/brown
+  backpack: /obj/item/weapon/storage/backpack
+  duffelbag: /obj/item/weapon/storage/backpack/duffelbag
+  satchel: /obj/item/weapon/storage/backpack/satchel
+  box: /obj/item/weapon/storage/box/survival
+  backpack_contents: []

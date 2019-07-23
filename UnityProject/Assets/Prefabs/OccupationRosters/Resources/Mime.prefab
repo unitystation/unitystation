@@ -1,22 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1791784211476486}
-  m_IsPrefabParent: 1
 --- !u!1 &1791784211476486
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4499983253024822}
   - component: {fileID: 114209644629902292}
@@ -29,9 +19,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4499983253024822
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1791784211476486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -42,17 +33,39 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114209644629902292
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1791784211476486}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1758e66ff4476fd44a105877728bea23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  department: 5
   limit: 1
-  outfit: {fileID: 1011004731350688, guid: 1f411e4452a081a47b9808341fe52b6f, type: 2}
+  jobsTaken: 0
   priority: 99
-  Type: 27
+  jobType: 27
+  accessory: 
+  allowedAccess: 220000001a0000003100000034000000
+  head: /obj/item/clothing/head/beret
+  glasses: 
+  ears: /obj/item/device/radio/headset
+  mask: /obj/item/clothing/mask/gas/mime
+  neck: 
+  exosuit: /obj/item/clothing/suit/suspenders
+  suitStorage: 
+  uniform: /obj/item/clothing/under/rank/mime
+  leftPocket: 
+  rightPocket: 
+  belt: /obj/item/device/pda/mime
+  gloves: /obj/item/clothing/gloves/color/white
+  leftHand: 
+  shoes: /obj/item/clothing/shoes/sneakers/black
+  backpack: /obj/item/weapon/storage/backpack/mime
+  duffelbag: /obj/item/weapon/storage/backpack/duffelbag
+  satchel: /obj/item/weapon/storage/backpack/satchel
+  box: /obj/item/weapon/storage/box/survival
+  backpack_contents:
+  - '/obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing '

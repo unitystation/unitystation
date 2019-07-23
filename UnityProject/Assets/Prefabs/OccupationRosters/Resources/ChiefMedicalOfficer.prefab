@@ -1,22 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1456289663796778}
-  m_IsPrefabParent: 1
 --- !u!1 &1456289663796778
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4879828886494634}
   - component: {fileID: 114724883360912620}
@@ -29,9 +19,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4879828886494634
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456289663796778}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -42,17 +33,39 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114724883360912620
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456289663796778}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1758e66ff4476fd44a105877728bea23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  department: 1
   limit: 1
-  outfit: {fileID: 1000022580185544, guid: 5639c0b75afbd264b9abcfd4850b3775, type: 2}
+  jobsTaken: 0
   priority: 2
-  Type: 13
+  jobType: 13
+  accessory: 
+  allowedAccess: 190000001a000000220000001700000025000000260000002c00000031000000330000003a0000003b000000460000004e000000
+  head: 
+  glasses: 
+  ears: /obj/item/device/radio/headset/heads/cmo
+  mask: 
+  neck: 
+  exosuit: /obj/item/clothing/suit/toggle/labcoat/cmo
+  suitStorage: 
+  uniform: /obj/item/clothing/under/rank/chief_medical_officer
+  leftPocket: /obj/item/device/flashlight/pen
+  rightPocket: 
+  belt: /obj/item/device/pda/heads/cmo
+  gloves: 
+  leftHand: /obj/item/weapon/storage/firstaid/regular
+  shoes: /obj/item/clothing/shoes/sneakers/brown
+  backpack: /obj/item/weapon/storage/backpack/medic
+  duffelbag: /obj/item/weapon/storage/backpack/duffelbag/med
+  satchel: /obj/item/weapon/storage/backpack/satchel/med
+  box: /obj/item/weapon/storage/box/survival
+  backpack_contents:
+  - /obj/item/weapon/melee/classic_baton/telescopic

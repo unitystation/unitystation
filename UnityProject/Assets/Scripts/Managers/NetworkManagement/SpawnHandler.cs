@@ -40,6 +40,7 @@ public static class SpawnHandler
 		connectedPlayer.Name = playerScript.playerName;
 		UpdateConnectedPlayersMessage.Send();
 		PlayerList.Instance.TryAddScores(playerScript.playerName);
+		GameManager.Instance.GetOccupationRoster(jobType).jobsTaken ++;
 
 		equipment.SetPlayerLoadOuts();
 		SecurityRecordsManager.Instance.AddRecord(playerScript, jobType);

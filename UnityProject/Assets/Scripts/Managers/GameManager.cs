@@ -16,7 +16,9 @@ public class GameManager : MonoBehaviour
 	//TODO: How to network this and change before connecting:
 	public GameMode gameMode = GameMode.nukeops; //for demo
 	public bool counting;
-	public List<GameObject> Occupations = new List<GameObject>();
+
+	public List<OccupationRoster> Occupations = new List<OccupationRoster>();
+
 	public float restartTime = 10f;
 	/// <summary>
 	/// Is respawning currently allowed? Can be set during a game to disable, such as when a nuke goes off.
@@ -32,7 +34,6 @@ public class GameManager : MonoBehaviour
 
 	public Text roundTimer;
 
-	public GameObject StandardOutfit;
 	public bool waitForRestart;
 
 	public DateTime stationTime;
@@ -291,61 +292,62 @@ public class GameManager : MonoBehaviour
 		return startCount;
 	}
 
-	public int GetOccupationMaxCount(JobType jobType)
+	public OccupationRoster GetOccupationRoster(JobType jobType)
 	{
-		GameObject jobObject = Occupations.Find(o => o.GetComponent<OccupationRoster>().Type == jobType);
-		OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
-		return job.limit;
+		for (int i = 0; i < Occupations.Count(); i++)
+		{
+			var occupation = Occupations[i];
+			if(jobType == occupation.jobType){
+				return occupation;
+			}
+		}
+		return null;
 	}
 
-	public JobOutfit GetOccupationOutfit(JobType jobType)
+	public int GetOccupationMaxCount(JobType jobType)
 	{
-		return Occupations.First(o => o.GetComponent<OccupationRoster>().Type == jobType)
-			.GetComponent<OccupationRoster>().outfit.GetComponent<JobOutfit>();
+		var occupation = GetOccupationRoster(jobType);
+		return occupation.limit;
 	}
 
 	// Attempts to request job else assigns random occupation in order of priority
-	public JobType GetRandomFreeOccupation(JobType jobTypeRequest)
+	public JobType GetRandomFreeOccupation(JobType jobType)
 	{
 		// Try to assign specific job
-		if (jobTypeRequest != JobType.NULL)
+		if (jobType != JobType.NULL)
 		{
-			foreach (GameObject jobObject in Occupations.Where(o =>
-					o.GetComponent<OccupationRoster>().Type == jobTypeRequest))
+			OccupationRoster occupation = GetOccupationRoster(jobType);
+			if (IsOccupationFree(occupation))
 			{
-				OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
-				if (job.limit != -1)
-				{
-					if (job.limit > GetOccupationsCount(job.Type))
-					{
-						return job.Type;
-					}
-				}
-				if (job.limit == -1)
-				{
-					return job.Type;
-				}
+				return occupation.jobType;
 			}
 		}
 
 		// No job found, get random via priority
-		foreach (GameObject jobObject in Occupations.OrderBy(o => o.GetComponent<OccupationRoster>().priority))
+		Occupations.OrderBy(o => o.priority);
+		for (int i = 0; i < Occupations.Count(); i++)
 		{
-			OccupationRoster job = jobObject.GetComponent<OccupationRoster>();
-			if (job.limit != -1)
+			var occupation = Occupations[i];
+			if(IsOccupationFree(occupation))
 			{
-				if (job.limit > GetOccupationsCount(job.Type))
-				{
-					return job.Type;
-				}
-			}
-			if (job.limit == -1)
-			{
-				return job.Type;
+				return occupation.jobType;
 			}
 		}
 
 		return JobType.ASSISTANT;
+	}
+
+	bool IsOccupationFree(OccupationRoster occupation)
+	{
+		if (occupation.limit == -1) //limitless job (ex: assistant)
+		{
+			return true;
+		}
+		if (occupation.limit > occupation.jobsTaken)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	public void RestartRound()
