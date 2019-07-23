@@ -36,7 +36,11 @@ public class NetSpriteAndColor : NetUIElement
 				else
 				{
 					GetComponent<Image>().enabled = true;
-					var spriteSheet = SpriteManager.PlayerSprites[spriteFile];
+					if (!Sprites.ContainsKey(spriteFile))
+					{
+						Sprites.Add(spriteFile, Resources.LoadAll<Sprite>(spriteFile));
+					}
+					var spriteSheet = Sprites[spriteFile];
 					GetComponent<Image>().sprite = spriteSheet[spriteOffset];
 					GetComponent<Graphic>().color = DebugTools.HexToColor(hexColor);
 				}
