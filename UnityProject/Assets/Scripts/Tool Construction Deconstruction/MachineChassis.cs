@@ -9,13 +9,19 @@ public class MachineChassis : MonoBehaviour, IConstructionHandler
 		if (Slot?.Item != null) {			var Circuit = Slot.Item.GetComponent<CircuitBoard>();
 			if (Circuit != null)
 			{
-				var _Object = PoolManager.PoolNetworkInstantiate(Circuit.ConstructionTarget, this.transform.position, parent: this.transform.parent);
-				var  CH = _Object.GetComponent<ConstructionHandler>();
-				CH.GoToStage(Circuit.StartAtStage);
-				CH.GenerateComponents = false;
-				CH.CircuitBoard = Slot.Item;
-				InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, Slot.UUID);
-				Destroy(this.gameObject);
+				if (CustomNetworkManager.Instance._isServer == true)
+				{
+					var _Object = PoolManager.PoolNetworkInstantiate(Circuit.ConstructionTarget, this.transform.position, parent: this.transform.parent);
+					var CH = _Object.GetComponent<ConstructionHandler>();
+					CustomNetTransform netTransform = _Object.GetComponent<CustomNetTransform>();
+					netTransform.AppearAtPosition(this.transform.position);
+					netTransform.AppearAtPositionServer(this.transform.position);
+					CH.GoToStage(Circuit.StartAtStage);
+					CH.GenerateComponents = false;
+					CH.CircuitBoard = Slot.Item;
+					InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, Slot.UUID);
+					Destroy(this.gameObject);
+				}
 			}
 		}
 
