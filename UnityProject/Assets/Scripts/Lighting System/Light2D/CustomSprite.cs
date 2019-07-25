@@ -54,6 +54,7 @@ namespace Light2D
         public static Dictionary<MaterialKey, MaterialValue> MaterialMap = new Dictionary<MaterialKey, MaterialValue>();
         private const string GeneratedMaterialName = "Generated Material (DONT change it)";
         private const string GeneratedMeshName = "Generated Mesh (DONT change it)";
+        private bool initialized = false;
 
         public bool RendererEnabled { get; private set; }
 
@@ -65,8 +66,14 @@ namespace Light2D
             get { return _meshRenderer.isPartOfStaticBatch; }
         }
 
-        protected virtual void Start()
+        protected virtual void OnEnable()
         {
+            if (initialized)
+            {
+                return;
+            }
+            initialized = true;
+            
             _colors = new Color[4];
             _uv1 = new Vector2[4];
             _uv0 = new Vector2[4];
@@ -100,6 +107,11 @@ namespace Light2D
             UpdateMeshData(true);
 
             RendererEnabled = _meshRenderer.enabled;
+        }
+
+        protected virtual void Start()
+        {
+            UpdateMeshData(true);
         }
 
         private void OnWillRenderObject()
