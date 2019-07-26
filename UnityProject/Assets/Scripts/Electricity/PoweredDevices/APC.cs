@@ -53,9 +53,18 @@ public class APC  : NBHandApplyInteractable, INodeControl
 		UpdateDisplay();
 	}
 
+	 private void OnStartServer()
+	{
+		SetVoltage(this.voltageSync);
+
+		//if extending another component
+		base.OnStartServer();
+	}
+
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
+		SetVoltage(this.voltageSync);
 		StartCoroutine(WaitForLoad());
 	}
 
@@ -157,6 +166,7 @@ public class APC  : NBHandApplyInteractable, INodeControl
 				}
 			}
 		}
+
 		//Machinery
 		if (PowerMachinery)
 		{
