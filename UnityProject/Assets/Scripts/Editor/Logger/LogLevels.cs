@@ -10,13 +10,18 @@ public class LogLevels : EditorWindow
 {
     private LoggerPreferences loggerPrefs;
     private Vector2 scrollPosition;
+    private Dictionary<Category, bool> selected = new Dictionary<Category, bool>();
+    private LogLevel selectionLogLevel;
 
     [MenuItem("Logger/Adjust Log Levels")]
     public static void OpenWindow()
     {
-        LogLevels window = GetWindow<LogLevels>();
-        window.titleContent = new GUIContent("Adjust Log Levels");
-        window.CheckCategories();
+        GetWindow<LogLevels>();
+    }
+
+    public void Awake()
+    {
+        CheckCategories();
     }
 
     void OnEnable()
@@ -78,7 +83,61 @@ public class LogLevels : EditorWindow
 
     void OnGUI()
     {
+        DrawMenu();
         DrawSelectors();
+    }
+
+    private void DrawMenu()
+    {
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Select All"))
+        {
+            foreach (var key in selected.Keys.ToArray())
+            {
+                selected[key] = true;
+            }
+        }
+        if (GUILayout.Button("Deselect All"))
+        {
+            foreach (var key in selected.Keys.ToArray())
+            {
+                selected[key] = false;
+            }
+        }
+        if (GUILayout.Button("Invert selection"))
+        {
+            foreach (var key in selected.Keys.ToArray())
+            {
+                selected[key] ^= true;
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+        DrawSetSelected();
+    }
+
+    private void DrawSetSelected()
+    {
+        EditorGUILayout.BeginHorizontal();
+        selectionLogLevel = (LogLevel)EditorGUILayout.EnumPopup("Log Level:", selectionLogLevel);
+        if (GUILayout.Button("Set selected"))
+        {
+            bool dirty = false;
+            foreach (var selection in selected.Where(s => s.Value))
+            {
+                var pref = loggerPrefs.logOverrides.Single(l => l.category == selection.Key);
+                if (pref.logLevel != selectionLogLevel)
+                {
+                    pref.logLevel = selectionLogLevel;
+                    dirty = true;
+                }
+            }
+
+            if (dirty)
+            {
+                SavePrefs();
+            }
+        }
+        EditorGUILayout.EndHorizontal();
     }
 
     void DrawSelectors()
@@ -87,16 +146,29 @@ public class LogLevels : EditorWindow
         GUILayout.Space(10f);
         foreach (LogOverridePref pref in loggerPrefs.logOverrides)
         {
+            EditorGUILayout.BeginHorizontal();
             LogLevel logLevel = pref.logLevel;
             LogLevel checkLevel = logLevel;
             checkLevel = (LogLevel)EditorGUILayout.EnumPopup(pref.category.ToString(), checkLevel);
+            selected[pref.category] = EditorGUILayout.Toggle(GetValueOrDefault(selected, pref.category) ?? false);
             GUILayout.Space(2f);
             if (checkLevel != logLevel)
             {
                 pref.logLevel = checkLevel;
                 SavePrefs();
             }
+            EditorGUILayout.EndHorizontal();
         }
         GUILayout.EndScrollView();
+    }
+
+    static U? GetValueOrDefault<T, U>(Dictionary<T, U> dic, T key) where U : struct
+    {
+        if (dic.TryGetValue(key, out var value))
+        {
+            return value;
+        }
+
+        return null;
     }
 }
