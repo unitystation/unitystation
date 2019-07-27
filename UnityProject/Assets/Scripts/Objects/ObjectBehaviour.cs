@@ -27,7 +27,9 @@ public class ObjectBehaviour : PushPull
         {
             lastNonHiddenPosition = parentContainer.AssumedWorldPosition();
         }
-		else if (registerTile.WorldPosition != TransformState.HiddenPos)
+		//Last condition checks if the player wasn't closed in a closet.
+		//While in a closet the player gets teleported out of the map, which causes the lastNonHiddenPosition to be assumed incorrectly.
+		else if (registerTile.WorldPosition != TransformState.HiddenPos && lastReliablePos != TransformState.HiddenPos)
 		{
 			lastNonHiddenPosition = registerTile.WorldPosition;
 		} else if ( lastNonHiddenPosition == TransformState.HiddenPos )

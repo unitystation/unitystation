@@ -69,11 +69,6 @@ public class ClosetPlayerHandler : MonoBehaviour
 					closetControl.Interact(HandApply.ByLocalPlayer(closetControl.gameObject));
 				}
 			}
-			//take the player with the closet so they can interact with it
-			if (closetControl.transform.position != transform.position)
-			{
-				transform.position = closetControl.transform.position;
-			}
 		}
 	}
 }
