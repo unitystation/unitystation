@@ -122,6 +122,16 @@ public class Pipe : NetworkBehaviour
 
 	public void Detach()
 	{
+
+		var foundMeters = MatrixManager.GetAt<Meter>(registerTile.WorldPositionServer, true);
+		for (int i = 0; i < foundMeters.Count; i++)
+		{
+			var meter = foundMeters[i];
+			if (meter.anchored)
+			{
+				foundMeters[i].Detach();
+			}
+		}
 		//TODO: release gas to environmental air
 		SetAnchored(false);
 		SetSpriteLayer(false);
