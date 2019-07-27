@@ -75,4 +75,5 @@ internal enum MessageTypes : short
 	RequestToViewObjectsAtTile = 2026,
 	RequestBookshelfNetMessage = 2027,
 	RequestOpenBookIDNetMessage = 2028,
+	RequestUncuffMessage = 2029,
 }

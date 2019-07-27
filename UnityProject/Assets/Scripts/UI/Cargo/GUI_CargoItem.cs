@@ -69,6 +69,7 @@ public class GUI_CargoItem : DynamicEntry
 		}
 	}
 
+
 	public void ReInit(CargoOrderCategory _category)
 	{
 		category = _category;

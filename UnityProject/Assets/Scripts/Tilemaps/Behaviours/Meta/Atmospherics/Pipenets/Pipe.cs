@@ -13,6 +13,7 @@ public class Pipe : NetworkBehaviour
 
 	public List<Pipe> nodes = new List<Pipe>();
 	public Direction direction = Direction.NORTH | Direction.SOUTH;
+	private Directional directional;
 	public Pipenet pipenet;
 	public bool anchored;
 	public float volume = 70;
@@ -35,6 +36,8 @@ public class Pipe : NetworkBehaviour
 	public void Awake() {
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+		directional = GetComponent<Directional>();
+		directional.OnDirectionChange.AddListener(OnDirectionChange);
 	}
 
 	public void Start(){
@@ -71,7 +74,7 @@ public class Pipe : NetworkBehaviour
 		}
 		CalculateAttachedNodes();
 
-		Pipenet foundPipenet = null;
+		Pipenet foundPipenet;
 		if(nodes.Count > 0)
 		{
 			foundPipenet = nodes[0].pipenet;
@@ -104,6 +107,7 @@ public class Pipe : NetworkBehaviour
 		}
 		else
 		{
+			transform.rotation = Quaternion.identity; //counter shuttle rotation
 			SetSpriteLayer(true);
 		}
 		SetSprite(value);
@@ -195,6 +199,51 @@ public class Pipe : NetworkBehaviour
 		}
 	}
 
+	private void CalculateDirection()
+	{
+		float rotation = transform.rotation.eulerAngles.z;
+		var orientation = Orientation.GetOrientation(rotation);
+		if(orientation == Orientation.Up)	//look over later
+		{
+			orientation = Orientation.Down;
+		}
+		else if (orientation == Orientation.Down)
+		{
+			orientation = Orientation.Up;
+		}
+		SetDirection(orientation);
+		directional.FaceDirection(orientation);
+	}
+
+	private void OnDirectionChange(Orientation direction)
+	{
+		if(anchored)
+		{
+			SetDirection(direction);
+			CalculateSprite();
+		}
+	}
+
+	private void SetDirection(Orientation direction)
+	{
+		if (direction == Orientation.Down)
+		{
+			DirectionSouth();
+		}
+		else if (direction == Orientation.Up)
+		{
+			DirectionNorth();
+		}
+		else if (direction == Orientation.Right)
+		{
+			DirectionEast();
+		}
+		else
+		{
+			DirectionWest();
+		}
+	}
+
 	Direction OppositeDirection(Direction dir)
 	{
 		if (dir == Direction.NORTH)
@@ -239,32 +288,9 @@ public class Pipe : NetworkBehaviour
 
 	public virtual void CalculateSprite()
 	{
-		if(anchored == false)
+		if (anchored == false)
 		{
-			SetSprite(0);	//not anchored, item sprite
-		}
-	}
-
-	public virtual void CalculateDirection()
-	{
-		direction = 0;
-		var rotation = transform.rotation.eulerAngles.z;
-		transform.rotation = Quaternion.identity;
-		if ((rotation >= 45 && rotation < 135))
-		{
-			DirectionEast();
-		}
-		else if (rotation >= 135 && rotation < 225)
-		{
-			DirectionNorth();
-		}
-		else if (rotation >= 225 && rotation < 315)
-		{
-			DirectionWest();
-		}
-		else
-		{
-			DirectionSouth();
+			SetSprite(0);   //not anchored, item sprite
 		}
 	}
 

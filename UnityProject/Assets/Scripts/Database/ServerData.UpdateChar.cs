@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -11,13 +10,24 @@ namespace DatabaseAPI
 		public static void UpdateCharacterProfile(CharacterSettings updateSettings, Action<string> callBack, Action<string> errorCallBack)
 		{
 			var json = JsonUtility.ToJson(updateSettings);
-			Instance.StartCoroutine(Instance.TryUpdateChar(json, callBack, errorCallBack));
+			var url = FirebaseRoot + $"/users/{Instance.user.UserId}/?updateMask.fieldPaths=character";
+			Instance.StartCoroutine(Instance.TryUpdateChar(url, json, callBack, errorCallBack));
 		}
 
-		IEnumerator TryUpdateChar(string request, Action<string> callBack, Action<string> errorCallBack)
+		IEnumerator TryUpdateChar(string url, string jsonData, Action<string> callBack, Action<string> errorCallBack)
 		{
-			UnityWebRequest r = UnityWebRequest.Get(URL_UpdateChar + UnityWebRequest.EscapeURL(request));
-			r.SetRequestHeader("Cookie", sessionCookie);
+			var payload = Newtonsoft.Json.JsonConvert.SerializeObject(new
+			{
+				fields = new
+				{
+					character = new { stringValue = jsonData }
+				}
+			});
+
+			UnityWebRequest r = UnityWebRequest.Put(url, payload);
+			r.method = "PATCH";
+			r.SetRequestHeader("Content-Type", "application/json");
+			r.SetRequestHeader("Authorization", $"Bearer {Instance.token}");
 
 			yield return r.SendWebRequest();
 			if (r.error != null)
@@ -27,15 +37,7 @@ namespace DatabaseAPI
 			}
 			else
 			{
-				var apiResponse = JsonUtility.FromJson<ApiResponse>(r.downloadHandler.text);
-				if (apiResponse.errorCode != 0)
-				{
-					errorCallBack.Invoke(apiResponse.errorMsg);
-				}
-				else
-				{
-					callBack.Invoke(apiResponse.message);
-				}
+				callBack.Invoke(r.downloadHandler.text);
 			}
 		}
 	}

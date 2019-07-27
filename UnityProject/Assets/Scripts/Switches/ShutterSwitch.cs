@@ -10,7 +10,7 @@ public class ShutterSwitch : NetworkBehaviour, IInteractable<HandApply>
 {
 	private Animator animator;
 
-	[SyncVar(hook = "SyncShutters")] public bool IsClosed;
+	[SyncVar(hook = nameof(SyncShutters))] public bool IsClosed;
 
 	[Tooltip("Shutters this switch controls.")]
 	public ObjectTrigger[] TriggeringObjects;

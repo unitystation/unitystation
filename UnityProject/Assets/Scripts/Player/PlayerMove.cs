@@ -11,7 +11,7 @@ using UnityEngine.Serialization;
 ///     handles interaction with objects that can
 ///     be walked into it.
 /// </summary>
-public class PlayerMove : NetworkBehaviour
+public class PlayerMove : NetworkBehaviour, IRightClickable
 {
 	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript ? playerScript : (playerScript = GetComponent<PlayerScript>());
@@ -20,12 +20,24 @@ public class PlayerMove : NetworkBehaviour
 
 	[SyncVar] public bool allowInput = true;
 
-	//netid of the game object we are restrained to, NetworkInstanceId.Invalid if not restrained
-	[SyncVar(hook = nameof(OnRestrainedChangedHook))]
-	private NetworkInstanceId restrainingObject = NetworkInstanceId.Invalid;
+	//netid of the game object we are buckled to, NetworkInstanceId.Invalid if not buckled
+	[SyncVar(hook = nameof(OnBuckledChangedHook))]
+	private NetworkInstanceId buckledObject = NetworkInstanceId.Invalid;
 
 	//callback invoked when we are unbuckled.
 	private Action onUnbuckled;
+
+	/// <summary>
+	/// Whether character is buckled to a chair
+	/// </summary>
+	public bool IsBuckled => buckledObject != NetworkInstanceId.Invalid;
+
+	[SyncVar] private bool cuffed;
+
+	/// <summary>
+	/// Whether the character is restrained with handcuffs (or similar)
+	/// </summary>
+	public bool IsCuffed => cuffed;
 
 	/// <summary>
 	/// Tracks the server's idea of whether we have help intent
@@ -93,12 +105,6 @@ public class PlayerMove : NetworkBehaviour
 	private RegisterPlayer registerPlayer;
 	private Matrix matrix => registerPlayer.Matrix;
 
-	/// <summary>
-	/// Whether character is restrained, such as by being buckled to a chair. Sycned between client and server
-	/// TODO: Differentiate between being handcuffed and dragged (where you can turn around) and being buckled to a chair (where you may not)
-	/// </summary>
-	public bool IsRestrained => restrainingObject != NetworkInstanceId.Invalid;
-
 	private void Start()
 	{
 		playerDirectional = gameObject.GetComponent<Directional>();
@@ -130,7 +136,7 @@ public class PlayerMove : NetworkBehaviour
 			// }
 			if (KeyboardInputManager.CheckMoveAction(moveList[i]))
 			{
-				if(allowInput && !IsRestrained){
+				if(allowInput && !IsBuckled && !IsCuffed){
 					actionKeys.Add((int)moveList[i]);
 				}
 				else
@@ -240,23 +246,23 @@ public class PlayerMove : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Restrain the player to their current position.
+	/// Buckle the player at their current position.
 	/// </summary>
-	/// <param name="toObject">object to which they should be restrained, must have network instance id.</param>
+	/// <param name="toObject">object to which they should be buckled, must have network instance id.</param>
 	/// <param name="onUnbuckled">callback to invoke when we become unbuckled</param>
 	[Server]
-	public void Restrain(GameObject toObject, Action onUnbuckled = null)
+	public void Buckle(GameObject toObject, Action onUnbuckled = null)
 	{
 		var netid = toObject.NetId();
 		if (netid == NetworkInstanceId.Invalid)
 		{
-			Logger.LogError("attempted to Restrain to object " + toObject + " which has no NetworkIdentity. Restrain" +
+			Logger.LogError("attempted to buckle to object " + toObject + " which has no NetworkIdentity. Buckle" +
 			                " can only be used on objects with a Net ID. Ensure this object has one.",
 				Category.Movement);
 			return;
 		}
 
-		OnRestrainedChangedHook(netid);
+		OnBuckledChangedHook(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
 		//inform the puller
 		if (PlayerScript.pushPull.PulledBy != null)
@@ -271,7 +277,7 @@ public class PlayerMove : NetworkBehaviour
 		//if player is downed, make them upright
 		if (registerPlayer.IsDownServer)
 		{
-			PlayerUprightMessage.SendToAll(gameObject, true, registerPlayer.IsStunnedServer);
+			PlayerUprightMessage.SendToAll(gameObject, true, registerPlayer.IsSlippingServer);
 		}
 
 		//sync position to ensure they buckle to the correct spot
@@ -294,21 +300,21 @@ public class PlayerMove : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Unrestrain the player when they are currently restrained.
+	/// Unbuckle the player when they are currently buckled..
 	/// </summary>
 	[Command]
-	public void CmdUnrestrain()
+	public void CmdUnbuckle()
 	{
-		Unrestrain();
+		Unbuckle();
 	}
 
 	/// <summary>
-	/// Server side logic for unrestraining a player
+	/// Server side logic for unbuckling a player
 	/// </summary>
 	[Server]
-	public void Unrestrain()
+	public void Unbuckle()
 	{
-		OnRestrainedChangedHook(NetworkInstanceId.Invalid);
+		OnBuckledChangedHook(NetworkInstanceId.Invalid);
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.isNotPushable = false;
 
@@ -317,47 +323,108 @@ public class PlayerMove : NetworkBehaviour
 		    playerScript.playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
 		    playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
 		{
-			PlayerUprightMessage.SendToAll(gameObject, false, registerPlayer.IsStunnedServer);
+			PlayerUprightMessage.SendToAll(gameObject, false, registerPlayer.IsSlippingServer);
 		}
 
 		onUnbuckled?.Invoke();
 	}
 
-	//invoked when restrainedTo changes direction, so we can update our direction
-	private void OnRestrainingObjectDirectionChange(Orientation newDir)
+	//invoked when buckledTo changes direction, so we can update our direction
+	private void OnBuckledObjectDirectionChange(Orientation newDir)
 	{
 		playerDirectional.FaceDirection(newDir);
 	}
 
-//syncvar hook invoked client side when the restrainedTo changes
-	private void OnRestrainedChangedHook(NetworkInstanceId newRestrainedTo)
+	//syncvar hook invoked client side when the buckledTo changes
+	private void OnBuckledChangedHook(NetworkInstanceId newBuckledTo)
 	{
 		//unsub if we are subbed
-		if (restrainingObject != NetworkInstanceId.Invalid)
+		if (buckledObject != NetworkInstanceId.Invalid)
 		{
-			var directionalObject = ClientScene.FindLocalObject(restrainingObject).GetComponent<Directional>();
+			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
 			if (directionalObject != null)
 			{
-				directionalObject.OnDirectionChange.RemoveListener(OnRestrainingObjectDirectionChange);
+				directionalObject.OnDirectionChange.RemoveListener(OnBuckledObjectDirectionChange);
 			}
 		}
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			//have to do this with a lambda otherwise the Cmd will not fire
-			UIManager.AlertUI.ToggleAlertRestrained(newRestrainedTo != NetworkInstanceId.Invalid, () => this.CmdUnrestrain());
+			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetworkInstanceId.Invalid, () => this.CmdUnbuckle());
 		}
 
-		this.restrainingObject = newRestrainedTo;
+		this.buckledObject = newBuckledTo;
 		//sub
-		if (restrainingObject != NetworkInstanceId.Invalid)
+		if (buckledObject != NetworkInstanceId.Invalid)
 		{
-			var directionalObject = ClientScene.FindLocalObject(restrainingObject).GetComponent<Directional>();
+			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
 			if (directionalObject != null)
 			{
-				directionalObject.OnDirectionChange.AddListener(OnRestrainingObjectDirectionChange);
+				directionalObject.OnDirectionChange.AddListener(OnBuckledObjectDirectionChange);
 			}
 		}
 		//ensure we are in sync with server
 		playerScript.PlayerSync.RollbackPrediction();
+	}
+
+	[Server]
+	public void Cuff(GameObject cuffs)
+	{
+		cuffed = true;
+
+		pna.SetInventorySlot("handcuffs", cuffs);
+	}
+
+	[Server]
+	public void Uncuff()
+	{
+		cuffed = false;
+
+		pna.DropItem("handcuffs");
+	}
+
+	/// <summary>
+	/// Called by RequestUncuffMessage after the progress bar completes
+	/// Uncuffs this player after performing some legitimacy checks
+	/// </summary>
+	/// <param name="uncuffingPlayer"></param>
+	[Server]
+	public void RequestUncuff(GameObject uncuffingPlayer)
+	{
+		if (!cuffed || !uncuffingPlayer)
+			return;
+
+		ConnectedPlayer uncuffingClient = PlayerList.Instance.Get(uncuffingPlayer);
+
+		if (uncuffingClient.Script.canNotInteract() || !PlayerScript.IsInReach(uncuffingPlayer.RegisterTile(), gameObject.RegisterTile(), true))
+			return;
+
+		Uncuff();
+	}
+
+	/// <summary>
+	/// Used for the right click action, sends a message requesting uncuffing
+	/// </summary>
+	public void TryUncuffThis()
+	{
+		RequestUncuffMessage.Send(gameObject);
+	}
+
+	/// <summary>
+	/// Anything with PlayerMove can be cuffed and uncuffed. Might make sense to seperate that into its own behaviour
+	/// </summary>
+	/// <returns>The menu including the uncuff action if applicable, otherwise null</returns>
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		var initiator = PlayerManager.LocalPlayerScript.playerMove;
+
+		if (IsCuffed && initiator != this)
+		{
+			var result = RightClickableResult.Create();
+			result.AddElement("Uncuff", TryUncuffThis);
+			return result;
+		}
+
+		return null;
 	}
 }

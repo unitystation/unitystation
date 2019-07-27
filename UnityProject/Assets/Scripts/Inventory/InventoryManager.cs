@@ -343,6 +343,7 @@ public enum EquipSlot
 	hands,
 	ear,
 	neck,
+	handcuffs,
 	id,
 	storage01,
 	storage02,

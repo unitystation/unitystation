@@ -114,11 +114,8 @@ public class RightclickManager : MonoBehaviour
 	{
 		LayerTile tile = UITileList.GetTileAtPosition(obj.WorldPosClient());
 
-		if (tile != null && tile.LayerType != LayerType.Base && obj.layer < 1)
-		{
-			return true;
-		}
-		return false;
+		// Layer 22 is the 'Floor' layer
+		return (tile != null && tile.LayerType != LayerType.Base && obj.layer == 22);
 	}
 
 	private List<RightClickMenuItem> Generate(List<GameObject> objects)

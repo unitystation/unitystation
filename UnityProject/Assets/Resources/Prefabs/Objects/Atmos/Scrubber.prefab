@@ -18,9 +18,9 @@ GameObject:
   - component: {fileID: 493655120697083372}
   - component: {fileID: 3082018966209474044}
   - component: {fileID: 200003959481001672}
-  - component: {fileID: 114517870826636370}
   - component: {fileID: 114172504531317518}
   - component: {fileID: 114754654923298058}
+  - component: {fileID: 5447043449243603668}
   m_Layer: 10
   m_Name: Scrubber
   m_TagString: Untagged
@@ -152,6 +152,7 @@ MonoBehaviour:
   - {fileID: 21300776, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
   spriteRenderer: {fileID: 3335986396963275010}
   spriteSync: 0
+  ARANdirectionBool: 
   MinimumPressure: 101.325
 --- !u!114 &4696558778661555457
 MonoBehaviour:
@@ -234,19 +235,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
---- !u!114 &114517870826636370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011763452766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
 --- !u!114 &114172504531317518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,6 +270,29 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &5447043449243603668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011763452766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitialDirection: 3
+  ChangeDirectionWithMatrix: 1
 --- !u!1 &3223271260076572928
 GameObject:
   m_ObjectHideFlags: 0

@@ -104,7 +104,7 @@ for root, dirs, files in os.walk(path):
                 addString = addString + image.info['Description'][(FoundLocation+offset+Count)]
                 Count = Count + 1
             if addString == ' DMI':
-                break
+                continue
             Width = int(addString)
             Count = 0
             offset = 8
@@ -160,7 +160,7 @@ for root, dirs, files in os.walk(path):
                             NumberOfFrames = int(StringToEndOfline(Description,IndexOfFrames, 9 ))
                         except:
                             Spriteindex = Spriteindex + 1
-                            break
+                            continue
 
                         IndexOfdirs = find_nth(Description,'dirs = ',  Spriteindex)
                         number_of_variants = int(StringToEndOfline(Description,IndexOfdirs, 7 ))

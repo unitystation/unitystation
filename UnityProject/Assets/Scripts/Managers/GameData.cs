@@ -27,32 +27,6 @@ public class GameData : MonoBehaviour
 
 	public static string LoggedInUsername { get; set; }
 
-	private static bool isLoggedIn = false;
-	public static bool IsLoggedIn
-	{
-		get
-		{
-
-			return isLoggedIn;
-		}
-		set
-		{
-			isLoggedIn = value;
-			if (value == false)
-			{
-				LoggedInUsername = null;
-				EventManager.Broadcast(EVENT.LoggedOut);
-			}
-			else
-			{
-				if (LobbyManager.Instance != null)
-				{
-					LobbyManager.Instance.CheckIfFirstTime();
-				}
-			}
-		}
-	}
-
 	public static GameData Instance
 	{
 		get

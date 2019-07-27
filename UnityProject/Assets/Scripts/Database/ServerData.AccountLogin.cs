@@ -1,66 +1,84 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Text.RegularExpressions;
 
 namespace DatabaseAPI
 {
 	public partial class ServerData
 	{
 		public static void AttemptLogin(string username, string _password,
-			Action<string> successCallBack, Action<string> failedCallBack, bool autoLoginSetting)
+			Action<string> successCallBack, Action<string> failedCallBack)
 		{
-			var newRequest = new RequestLogin
+			var status = new Status();
+			Instance.auth.SignInWithEmailAndPasswordAsync(username, _password).ContinueWith(task =>
 			{
-				username = username,
-					password = _password,
-					apiKey = ApiKey
-			};
+				if (task.IsFaulted)
+				{
+					failedCallBack.Invoke("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+					status.error = true;
+					return;
+				}
+			});
 
-			Instance.StartCoroutine(Instance.PreformLogin(newRequest, successCallBack, failedCallBack, autoLoginSetting));
+			Instance.StartCoroutine(MonitorLogin(successCallBack, failedCallBack, status));
 		}
 
-		IEnumerator PreformLogin(RequestLogin request,
-			Action<string> successCallBack, Action<string> errorCallBack, bool autoLoginSetting)
+		static IEnumerator MonitorLogin(Action<string> successCallBack, Action<string> failedCallBack, Status status)
 		{
-			var requestData = JsonUtility.ToJson(request);
-			UnityWebRequest r = UnityWebRequest.Get(URL_TryLogin + UnityWebRequest.EscapeURL(requestData));
+			float timeOutTime = 8f;
+			float timeOutCount = 0f;
+
+			while (Auth.CurrentUser == null || string.IsNullOrEmpty(Instance.refreshToken))
+			{
+				timeOutCount += Time.deltaTime;
+				if (timeOutCount >= timeOutTime || status.error)
+				{
+					if (!status.error)
+					{
+						Logger.Log("Log in timed out", Category.DatabaseAPI);
+					}
+					failedCallBack.Invoke("Check your username and password.");
+					yield break;
+				}
+				yield return WaitFor.EndOfFrame;
+			}
+
+			var url = FirebaseRoot + $"/users/{Auth.CurrentUser.UserId}";
+			UnityWebRequest r = UnityWebRequest.Get(url);
+			r.SetRequestHeader("Authorization", $"Bearer {Instance.refreshToken}");
+
 			yield return r.SendWebRequest();
 			if (r.error != null)
 			{
-				Logger.Log("Login request failed: " + r.error, Category.DatabaseAPI);
-				errorCallBack.Invoke(r.error);
+				Logger.Log("Failed to retrieve user character settings: " + r.error, Category.DatabaseAPI);
+				failedCallBack.Invoke(r.error);
 			}
 			else
 			{
-				var apiResponse = JsonUtility.FromJson<ApiResponse>(r.downloadHandler.text);
-				if (apiResponse.errorCode != 0)
-				{
-					GameData.IsLoggedIn = false;
-					PlayerPrefs.SetString("username","");
-					PlayerPrefs.SetString("cookie", "");
-					PlayerPrefs.SetInt("autoLogin", 0);
-					PlayerPrefs.Save();
-					errorCallBack.Invoke(apiResponse.errorMsg);
-				}
-				else
-				{
-					string s = r.GetResponseHeader("set-cookie");
-					sessionCookie = s.Split(';') [0];
-					GameData.LoggedInUsername = request.username;
-					if (autoLoginSetting)
-					{
-						PlayerPrefs.SetString("username", request.username);
-						PlayerPrefs.SetString("cookie", s);
-						PlayerPrefs.SetInt("autoLogin", 1);
-						PlayerPrefs.Save();
-					}
-					successCallBack.Invoke(apiResponse.message);
-					GameData.IsLoggedIn = true;
-				}
+				var charData = JsonUtility.FromJson<UserDocument>(r.downloadHandler.text);
+				successCallBack.Invoke(charData.fields.character.stringValue);
 			}
 		}
 	}
+
+	[Serializable]
+	public class UserDocument
+	{
+		public string name;
+		public UserFields fields;
+	}
+
+	[Serializable]
+	public class CharacterField
+	{
+		public string stringValue;
+	}
+
+	[Serializable]
+	public class UserFields
+	{
+		public CharacterField character;
+	}
+
 }

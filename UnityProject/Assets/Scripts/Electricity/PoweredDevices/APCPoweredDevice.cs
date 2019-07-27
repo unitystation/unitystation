@@ -14,7 +14,7 @@ public class APCPoweredDevice : NetworkBehaviour
 	public IAPCPowered Powered;
 	public bool AdvancedControlToScript;
 
-	[SyncVar(hook = "UpdateSynchronisedState")]
+	[SyncVar(hook = nameof(UpdateSynchronisedState))]
 	public PowerStates State;
 
 	void Start()
@@ -70,7 +70,7 @@ public class APCPoweredDevice : NetworkBehaviour
 				{
 					State = PowerStates.LowVoltage;
 				}
-				else { 
+				else {
 					State = PowerStates.On;
 				}
 				Powered.StateUpdate(State);
@@ -98,9 +98,10 @@ public class APCPoweredDevice : NetworkBehaviour
 			}
 		}
 	}
-	public void UpdateSynchronisedState(PowerStates _State) {		State = _State;
+	public void UpdateSynchronisedState(PowerStates _State) {
+		State = _State;
 		if (Powered != null)
-		{ 
+		{
 			Powered.StateUpdate(State);
 		}
 	}
@@ -111,5 +112,5 @@ public enum PowerStates{
 	Off,
 	LowVoltage,
 	On,
-	OverVoltage, 
+	OverVoltage,
 }

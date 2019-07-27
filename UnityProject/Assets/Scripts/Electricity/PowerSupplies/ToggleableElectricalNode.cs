@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 /// </summary>
 public class ToggleableElectricalNode : NBHandApplyInteractable, INodeControl
 {
-  	[SyncVar(hook = "UpdateState")]
+  	[SyncVar(hook = nameof(UpdateState))]
 	public bool isOn = false;
 	public ElectricalNodeControl ElectricalNodeControl;
 
