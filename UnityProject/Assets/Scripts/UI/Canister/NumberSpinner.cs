@@ -24,8 +24,10 @@ public class NumberSpinner : NetUIElement
 			if (newVal == DisplayedValue) return;
 			externalChange = true;
 			Logger.LogTraceFormat("NumberSpinner current value {0} New Value {1}", Category.UI, syncedValue, newVal);
-			DisplaySpinTo(newVal);
-			//just update the value, don't update any UI elements
+			if (!IgnoreServerUpdates)
+			{
+				DisplaySpinTo(newVal);
+			}
 			syncedValue = newVal;
 			externalChange = false;
 		}
@@ -52,6 +54,11 @@ public class NumberSpinner : NetUIElement
 	private int targetValue = 0;
 
 	/// <summary>
+	/// Turn this to true to ignore server updates, allowing for client prediction.
+	/// </summary>
+	public bool IgnoreServerUpdates;
+
+	/// <summary>
 	/// Server side only. Set server target value to specified value
 	/// </summary>
 	/// <param name="newValue"></param>
@@ -66,28 +73,16 @@ public class NumberSpinner : NetUIElement
 		SetValue = newValue.ToString();
 	}
 
-
-	/// <summary>
-	/// Display one spin up - for client prediction
-	/// </summary>
-	public void DisplaySpinUp()
+	public void DisplaySpinAdjust(int offset)
 	{
-		DisplaySpinTo(targetValue + 1);
-	}
-
-	/// <summary>
-	/// Display one spin down - for client prediction
-	/// </summary>
-	public void DisplaySpinDown()
-	{
-		DisplaySpinTo(targetValue - 1);
+		DisplaySpinTo(targetValue + offset);
 	}
 
 	/// <summary>
 	/// Animate from the current value to the specified value, or jump to it if this is our initial value
 	/// </summary>
 	/// <param name="newValue"></param>
-	private void DisplaySpinTo(int newValue)
+	public void DisplaySpinTo(int newValue)
 	{
 		if (newValue == DisplayedValue) return;
 

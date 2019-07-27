@@ -20,6 +20,6 @@ public class NetWheel : NetUIElement
 	public IntEvent ServerMethod;
 
 	public override void ExecuteServer() {
-		ServerMethod.Invoke(Convert.ToInt32(Value));
+		ServerMethod.Invoke(Element.KPA);
 	}
 }

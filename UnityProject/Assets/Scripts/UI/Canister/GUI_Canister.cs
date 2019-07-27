@@ -11,8 +11,23 @@ public class GUI_Canister : NetTab
 	public NumberSpinner InternalPressureDial;
 	public NumberSpinner ReleasePressureDial;
 	public NetWheel ReleasePressureWheel;
-
 	private GasContainer container;
+
+	//LED stuff
+	public NetColorChanger Red;
+	public NetColorChanger Green;
+	public NetColorChanger Yellow;
+	private static readonly string RED_ACTIVE = "FF1C00";
+	private static readonly string RED_INACTIVE = "730000";
+	private static readonly string YELLOW_ACTIVE = "E4FF02";
+	private static readonly string YELLOW_INACTIVE = "5E5400";
+	private static readonly string GREEN_ACTIVE = "02FF23";
+	private static readonly string GREEN_INACTIVE = "005E00";
+
+	private static readonly float GreenLowerBound = 10 * AtmosConstants.ONE_ATMOSPHERE;
+	private static readonly  float YellowLowerBound = 5 * AtmosConstants.ONE_ATMOSPHERE;
+
+
 
 	protected override void InitServer()
 	{
@@ -33,6 +48,33 @@ public class GUI_Canister : NetTab
 		ReleasePressureDial.ServerSpinTo(Mathf.RoundToInt(container.ReleasePressure));
 		//subscribe to pressure changes
 		container.OnServerInternalPressureChange.AddListener(OnServerInternalPressureChange);
+		//init wheel
+		ReleasePressureWheel.SetValue = container.ReleasePressure.ToString();
+		//init colors
+		UpdateLEDs();
+	}
+
+	private void UpdateLEDs()
+	{
+		var pressure = container.ServerInternalPressure;
+		if (pressure > GreenLowerBound)
+		{
+			Red.SetValue = RED_INACTIVE;
+			Yellow.SetValue = YELLOW_INACTIVE;
+			Green.SetValue = GREEN_ACTIVE;
+		}
+		else if (pressure > YellowLowerBound)
+		{
+			Red.SetValue = RED_INACTIVE;
+			Yellow.SetValue = YELLOW_ACTIVE;
+			Green.SetValue = GREEN_INACTIVE;
+		}
+		else
+		{
+			Red.SetValue = RED_ACTIVE;
+			Yellow.SetValue = YELLOW_INACTIVE;
+			Green.SetValue = GREEN_INACTIVE;
+		}
 	}
 
 	/// <summary>
@@ -58,6 +100,7 @@ public class GUI_Canister : NetTab
 	private void OnServerInternalPressureChange(float newVal)
 	{
 		InternalPressureDial.ServerSpinTo(Mathf.RoundToInt(newVal));
+		UpdateLEDs();
 	}
 
 	/// <summary>
@@ -67,6 +110,16 @@ public class GUI_Canister : NetTab
 	public void ServerToggleRelease(bool isOpen)
 	{
 		container.Opened = isOpen;
+		if (isOpen)
+		{
+			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+			{
+				channels = ChatChannel.Local,
+				message = $"Canister releasing at {container.ReleasePressure}",
+				position = container.transform.position,
+				radius = 3f
+			});
+		}
 	}
 
 	//TODO: Provide a way to close the tab

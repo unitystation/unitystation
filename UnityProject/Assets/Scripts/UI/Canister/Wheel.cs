@@ -16,7 +16,7 @@ public class Wheel : Selectable
 	public IntEvent OnAdjustmentComplete = new IntEvent();
 
 	[Tooltip("How many kPa each degree of rotation is equivalent to.")]
-	public float KPAPerDegree = 1.5f;
+	public float KPAPerDegree = 3f;
 
 	[Tooltip("Maximum allowed pressure setting")]
 	public float MaxKPA = 1000f;
@@ -37,7 +37,7 @@ public class Wheel : Selectable
 	//degrees of rotation
 	private float degrees;
 
-	private void Start()
+	private void Awake()
 	{
 		base.Start();
 		windowDrag = GetComponentInParent<WindowDrag>();
@@ -53,9 +53,7 @@ public class Wheel : Selectable
 
 	private void SetRotation(float newRotation)
 	{
-		//can't go below minimum
-		if (newRotation < 0) return;
-		if (newRotation * KPAPerDegree > MaxKPA) return;
+		newRotation = Mathf.Clamp(newRotation, 0, MaxKPA / KPAPerDegree);
 
 		var newQuaternion = Quaternion.Euler(0, 0, newRotation);
 		transform.rotation = newQuaternion;
@@ -67,13 +65,15 @@ public class Wheel : Selectable
 		shadow.effectDistance = Quaternion.Euler(0, 0, -newRotation + 215) * Vector2.up * 10f;
 
 		degrees = newRotation;
-		//TODO: Client predict - update display while rotating regardless of server value
+		ReleasePressureDial.DisplaySpinTo(KPA);
 	}
 
 	public override void OnPointerDown(PointerEventData eventData)
 	{
 		base.OnPointerDown(eventData);
 		previousDrag = ((eventData.pressPosition - (Vector2)((RectTransform) transform).position) / UIManager.Instance.transform.localScale.x).normalized;
+		//client prediction on the dial
+		ReleasePressureDial.IgnoreServerUpdates = true;
 	}
 
 	private void Update()
@@ -92,6 +92,7 @@ public class Wheel : Selectable
 			if (CommonInput.GetMouseButtonUp(0))
 			{
 				previousDrag = null;
+				ReleasePressureDial.IgnoreServerUpdates = false;
 				OnAdjustmentComplete.Invoke(KPA);
 			}
 		}
