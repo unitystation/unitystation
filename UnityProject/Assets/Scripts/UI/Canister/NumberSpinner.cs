@@ -15,12 +15,6 @@ public class NumberSpinner : NetUIElement
 	public DigitSpinner TenThousands;
 	public DigitSpinner HundredThousands;
 
-	/// <summary>
-	/// Invoked when the server-side target value of this is changed. Only invoked on server.
-	/// </summary>
-	[NonSerialized]
-	public IntEvent OnServerValueSet = new IntEvent();
-
 	private bool init = false;
 
 	public override string Value {
@@ -58,22 +52,6 @@ public class NumberSpinner : NetUIElement
 	private int targetValue = 0;
 
 	/// <summary>
-	/// Server side only. Increase the value on the server side
-	/// </summary>
-	public void ServerSpinUp()
-	{
-		ServerSpinTo(syncedValue + 1);
-	}
-
-	/// <summary>
-	/// Server side only. Decrease the value on the server side
-	/// </summary>
-	public void ServerSpinDown()
-	{
-		ServerSpinTo(syncedValue - 1);
-	}
-
-	/// <summary>
 	/// Server side only. Set server target value to specified value
 	/// </summary>
 	/// <param name="newValue"></param>
@@ -86,7 +64,6 @@ public class NumberSpinner : NetUIElement
 		}
 		//set the new value, to be propagated to clients.
 		SetValue = newValue.ToString();
-		OnServerValueSet.Invoke(newValue);
 	}
 
 
@@ -233,8 +210,9 @@ public class NumberSpinner : NetUIElement
 		}
 	}
 
-	public override void ExecuteServer()
-	{
+	public StringEvent ServerMethod;
 
+	public override void ExecuteServer() {
+		ServerMethod.Invoke(Value);
 	}
 }

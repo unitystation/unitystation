@@ -10,6 +10,7 @@ public class GUI_Canister : NetTab
 {
 	public NumberSpinner InternalPressureDial;
 	public NumberSpinner ReleasePressureDial;
+	public NetWheel ReleasePressureWheel;
 
 	private GasContainer container;
 
@@ -32,13 +33,26 @@ public class GUI_Canister : NetTab
 		ReleasePressureDial.ServerSpinTo(Mathf.RoundToInt(container.ReleasePressure));
 		//subscribe to pressure changes
 		container.OnServerInternalPressureChange.AddListener(OnServerInternalPressureChange);
-		//subscribe to when the UI element is modified so we can set the canister's actual release pressure.
-		ReleasePressureDial.OnServerValueSet.AddListener(ServerUpdateReleasePressure);
 	}
 
-	private void ServerUpdateReleasePressure(int newValue)
+	/// <summary>
+	/// Update the actual release pressure and all the attached UI elements
+	/// </summary>
+	/// <param name="newValue"></param>
+	public void ServerUpdateReleasePressure(int newValue)
 	{
 		container.ReleasePressure = newValue;
+		ReleasePressureDial.ServerSpinTo(newValue);
+		ReleasePressureWheel.SetValue = newValue.ToString();
+	}
+
+	/// <summary>
+	/// Allows for adding / subtracting from release pressure
+	/// </summary>
+	/// <param name="offset"></param>
+	public void ServerAdjustReleasePressure(int offset)
+	{
+		ServerUpdateReleasePressure(Mathf.RoundToInt(container.ReleasePressure + offset));
 	}
 
 	private void OnServerInternalPressureChange(float newVal)

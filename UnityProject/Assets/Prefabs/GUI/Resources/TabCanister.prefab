@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14ed3befbaf4893bc7f04d3a44e9639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableDrag: 1
   resetPositionOnDisable: 0
 --- !u!114 &114385320989314586
 MonoBehaviour:
@@ -127,6 +128,7 @@ MonoBehaviour:
   Type: 9
   InternalPressureDial: {fileID: 1819273839510913054}
   ReleasePressureDial: {fileID: 2587822167494942906}
+  ReleasePressureWheel: {fileID: 2297448325736823156}
 --- !u!1 &1571967781877764
 GameObject:
   m_ObjectHideFlags: 0
@@ -1349,17 +1351,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2587822167494942906}
-        m_MethodName: DisplaySpinDown
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &5864935479952912685
@@ -1377,13 +1368,13 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2587822167494942906}
-        m_MethodName: ServerSpinDown
-        m_Mode: 1
+      - m_Target: {fileID: 2264499215962865013}
+        m_MethodName: ServerAdjustReleasePressure
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: -1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1520,6 +1511,7 @@ GameObject:
   - component: {fileID: 339135143873469047}
   - component: {fileID: 5908482920746445287}
   - component: {fileID: 4325547242439114602}
+  - component: {fileID: 2297448325736823156}
   m_Layer: 5
   m_Name: Wheel
   m_TagString: Untagged
@@ -1669,6 +1661,24 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 339135143873469047}
+  OnAdjustmentComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2297448325736823156}
+        m_MethodName: ExecuteClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: IntEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  KPAPerDegree: 1.5
+  MaxKPA: 1000
+  ReleasePressureDial: {fileID: 2587822167494942906}
   RotationSpeed: 10
   UprightSprites:
   - {fileID: 2203898181360781807}
@@ -1678,6 +1688,34 @@ MonoBehaviour:
   - {fileID: 4046790927901111167}
   - {fileID: 2812537383112460954}
   - {fileID: 4600655468047127872}
+--- !u!114 &2297448325736823156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3924313339363182391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba2c1bbed66b45d4808758ac5760a43a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Element: {fileID: 4325547242439114602}
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2264499215962865013}
+        m_MethodName: ServerUpdateReleasePressure
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: IntEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &4046790927901111167
 GameObject:
   m_ObjectHideFlags: 0
@@ -3365,17 +3403,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7030409510010783837}
-        m_MethodName: ExecuteClient
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2587822167494942906}
         m_MethodName: DisplaySpinUp
         m_Mode: 1
@@ -3404,13 +3431,13 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2587822167494942906}
-        m_MethodName: ServerSpinUp
-        m_Mode: 1
+      - m_Target: {fileID: 2264499215962865013}
+        m_MethodName: ServerAdjustReleasePressure
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3540,11 +3567,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: InternalPressure
       objectReference: {fileID: 0}
-    - target: {fileID: 2266404730653743562, guid: a12c584ce4d53914a8e55e8c19a43cb8,
-        type: 3}
-      propertyPath: SpinSpeed
-      value: 400
-      objectReference: {fileID: 0}
     - target: {fileID: 3663828361341572412, guid: a12c584ce4d53914a8e55e8c19a43cb8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3650,14 +3672,13 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5000001
       objectReference: {fileID: 0}
+    - target: {fileID: 2266404730653743562, guid: a12c584ce4d53914a8e55e8c19a43cb8,
+        type: 3}
+      propertyPath: SpinSpeed
+      value: 400
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a12c584ce4d53914a8e55e8c19a43cb8, type: 3}
---- !u!224 &7886052070782858965 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3663828361341572412, guid: a12c584ce4d53914a8e55e8c19a43cb8,
-    type: 3}
-  m_PrefabInstance: {fileID: 6892876774841705449}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1819273839510913054 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5086588193458840567, guid: a12c584ce4d53914a8e55e8c19a43cb8,
@@ -3670,6 +3691,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aff3c854a754817b6d9001a4a3457de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &7886052070782858965 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3663828361341572412, guid: a12c584ce4d53914a8e55e8c19a43cb8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6892876774841705449}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7313559440767419213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3681,26 +3708,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ReleasePressure
-      objectReference: {fileID: 0}
-    - target: {fileID: 5463702692558937129, guid: 699a42dbe71855d49a99de302af0fc0f,
-        type: 3}
-      propertyPath: SecondsPerSpin
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3535720156649920440, guid: 699a42dbe71855d49a99de302af0fc0f,
-        type: 3}
-      propertyPath: SecondsPerSpin
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3643542006160950354, guid: 699a42dbe71855d49a99de302af0fc0f,
-        type: 3}
-      propertyPath: SecondsPerSpin
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2266404730653743562, guid: 699a42dbe71855d49a99de302af0fc0f,
-        type: 3}
-      propertyPath: SecondsPerSpin
-      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3663828361341572412, guid: 699a42dbe71855d49a99de302af0fc0f,
         type: 3}
@@ -3806,6 +3813,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2266404730653743562, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5463702692558937129, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535720156649920440, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643542006160950354, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 699a42dbe71855d49a99de302af0fc0f, type: 3}
