@@ -46,12 +46,19 @@ public class GUI_Canister : NetTab
 		//init pressure dials
 		InternalPressureDial.ServerSpinTo(Mathf.RoundToInt(container.ServerInternalPressure));
 		ReleasePressureDial.ServerSpinTo(Mathf.RoundToInt(container.ReleasePressure));
-		//subscribe to pressure changes
-		container.OnServerInternalPressureChange.AddListener(OnServerInternalPressureChange);
 		//init wheel
 		ReleasePressureWheel.SetValue = container.ReleasePressure.ToString();
 		//init colors
 		UpdateLEDs();
+		StartCoroutine(RefreshInternalPressure());
+	}
+
+	private IEnumerator RefreshInternalPressure()
+	{
+		InternalPressureDial.ServerSpinTo(Mathf.RoundToInt(container.ServerInternalPressure));
+		UpdateLEDs();
+		yield return WaitFor.Seconds(0.5F);
+		StartCoroutine(RefreshInternalPressure());
 	}
 
 	private void UpdateLEDs()
@@ -95,12 +102,6 @@ public class GUI_Canister : NetTab
 	public void ServerAdjustReleasePressure(int offset)
 	{
 		ServerUpdateReleasePressure(Mathf.RoundToInt(container.ReleasePressure + offset));
-	}
-
-	private void OnServerInternalPressureChange(float newVal)
-	{
-		InternalPressureDial.ServerSpinTo(Mathf.RoundToInt(newVal));
-		UpdateLEDs();
 	}
 
 	/// <summary>

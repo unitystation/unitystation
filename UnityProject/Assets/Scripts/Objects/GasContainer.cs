@@ -27,12 +27,6 @@ namespace Objects
 
 		public float ServerInternalPressure => GasMix.Pressure;
 
-		/// <summary>
-		/// Invoked when internal pressure changes on server
-		/// </summary>
-		[NonSerialized]
-		public FloatEvent OnServerInternalPressureChange = new FloatEvent();
-
 		public override void OnStartServer()
 		{
 			UpdateGasMix();
@@ -95,8 +89,6 @@ namespace Objects
 					{
 						Gases[gas] = GasMix.Gases[gas];
 					}
-
-					OnServerInternalPressureChange.Invoke(ServerInternalPressure);
 				}
 			}
 		}
