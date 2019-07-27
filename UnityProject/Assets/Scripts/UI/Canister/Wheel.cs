@@ -1,7 +1,3 @@
-
-using System;
-using Objects;
-using UnityEditor.Experimental.UIElements;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
