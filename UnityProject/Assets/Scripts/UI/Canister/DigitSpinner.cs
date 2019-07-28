@@ -19,21 +19,14 @@ public class DigitSpinner : MonoBehaviour
 	public Text above;
 	public Text below;
 
-	private Vector3 abovePosition;
-	private Vector3 belowPosition;
+	private readonly Vector3 abovePosition = new Vector3(0,48,0);
+	private readonly Vector3 belowPosition = new Vector3(0,-48,0);
 	/// <summary>
 	/// Currently displayed digit - if animating, will be the digit we are animating FROM.
 	/// </summary>
 	public int CurrentDigit => currentDigit;
 	private int currentDigit = 0;
 	private int nextDigit = 0;
-
-	private void Start()
-	{
-		//store these so we know where numbers should scroll from
-		abovePosition = above.transform.localPosition;
-		belowPosition = below.transform.localPosition;
-	}
 
 	/// <summary>
 	/// Instantly set the displayed text to the specified digit
