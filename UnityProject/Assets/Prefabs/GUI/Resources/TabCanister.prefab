@@ -125,7 +125,7 @@ MonoBehaviour:
   Hidden: 0
   isPopOut: 1
   Provider: {fileID: 0}
-  Type: 9
+  Type: 10
   InternalPressureDial: {fileID: 1819273839510913054}
   ReleasePressureDial: {fileID: 2587822167494942906}
   ReleasePressureWheel: {fileID: 2297448325736823156}
@@ -3738,11 +3738,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: InternalPressure
       objectReference: {fileID: 0}
-    - target: {fileID: 2266404730653743562, guid: a12c584ce4d53914a8e55e8c19a43cb8,
-        type: 3}
-      propertyPath: SpinSpeed
-      value: 400
-      objectReference: {fileID: 0}
     - target: {fileID: 3663828361341572412, guid: a12c584ce4d53914a8e55e8c19a43cb8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3848,6 +3843,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5000001
       objectReference: {fileID: 0}
+    - target: {fileID: 2266404730653743562, guid: a12c584ce4d53914a8e55e8c19a43cb8,
+        type: 3}
+      propertyPath: SpinSpeed
+      value: 400
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a12c584ce4d53914a8e55e8c19a43cb8, type: 3}
 --- !u!114 &1819273839510913054 stripped
@@ -3879,26 +3879,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ReleasePressure
-      objectReference: {fileID: 0}
-    - target: {fileID: 5463702692558937129, guid: 699a42dbe71855d49a99de302af0fc0f,
-        type: 3}
-      propertyPath: SecondsPerSpin
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3535720156649920440, guid: 699a42dbe71855d49a99de302af0fc0f,
-        type: 3}
-      propertyPath: SecondsPerSpin
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3643542006160950354, guid: 699a42dbe71855d49a99de302af0fc0f,
-        type: 3}
-      propertyPath: SecondsPerSpin
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2266404730653743562, guid: 699a42dbe71855d49a99de302af0fc0f,
-        type: 3}
-      propertyPath: SecondsPerSpin
-      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3663828361341572412, guid: 699a42dbe71855d49a99de302af0fc0f,
         type: 3}
@@ -4004,6 +3984,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2266404730653743562, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5463702692558937129, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3535720156649920440, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643542006160950354, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: SecondsPerSpin
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 699a42dbe71855d49a99de302af0fc0f, type: 3}
