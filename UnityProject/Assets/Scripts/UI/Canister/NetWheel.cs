@@ -11,7 +11,7 @@ public class NetWheel : NetUIElement
 		set
 		{
 			externalChange = true;
-			Element.RotateToValue(Convert.ToInt32(value));
+			Element.RotateToValue(Convert.ToInt32(Convert.ToDouble(value)));
 			externalChange = false;
 		}
 		get => Element.KPA.ToString();

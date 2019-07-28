@@ -7,6 +7,8 @@ using UnityEngine.Networking;
 /// </summary>
 public class NumberSpinner : NetUIElement
 {
+	public override ElementMode InteractionMode => ElementMode.ServerWrite;
+
 	public DigitSpinner Ones;
 	public DigitSpinner Tens;
 	public DigitSpinner Hundreds;

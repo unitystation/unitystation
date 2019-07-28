@@ -47,7 +47,7 @@ public class GUI_Canister : NetTab
 		InternalPressureDial.ServerSpinTo(Mathf.RoundToInt(container.ServerInternalPressure));
 		ReleasePressureDial.ServerSpinTo(Mathf.RoundToInt(container.ReleasePressure));
 		//init wheel
-		ReleasePressureWheel.SetValue = container.ReleasePressure.ToString();
+		ReleasePressureWheel.SetValue = Mathf.RoundToInt(container.ReleasePressure).ToString();
 		//init colors
 		UpdateLEDs();
 		StartCoroutine(RefreshInternalPressure());
