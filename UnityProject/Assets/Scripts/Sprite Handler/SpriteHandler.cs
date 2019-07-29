@@ -53,7 +53,6 @@ public class SpriteHandler : NetworkBehaviour
 
 	void SetSpriteList(List<Sprite> newSprites)
 	{
-		//infoList = new List<SpriteInfo>();
 		if (newSprites.Count > 1)
 		{
 			LoadJson(AssetDatabase.GetAssetPath(newSprites[0]));
