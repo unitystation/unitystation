@@ -27,11 +27,8 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!base.WillInteract(interaction, side)) return false;
-
 		if (!Validations.IsTool(interaction.HandObject, ToolType.Wirecutter)) return false;
-
 		if (interaction.TargetObject != gameObject) return false;
-
 		return true;
 	}
 

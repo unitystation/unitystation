@@ -175,7 +175,8 @@ public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class bu
 	}
 
 	/// <summary>
-	/// Flushs the resistance and up. Cleans out resistance and current
+	/// Flushs the resistance and up. Cleans out resistance and current, SourceInstance is the Gameobject Of the supply,
+	/// This will be used to clean up the data from only a particular Supply
 	/// </summary>
 	public virtual void FlushResistanceAndUp(GameObject SourceInstance = null)
 	{

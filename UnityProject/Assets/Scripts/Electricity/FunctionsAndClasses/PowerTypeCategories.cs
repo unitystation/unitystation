@@ -40,6 +40,8 @@ public enum ElectricalUpdateTypeCategory
 	TurnOnSupply, 
 	TurnOffSupply,
 	PotentialDestroyed,
+	GoingOffStage,
+	ObjectStateChange,
 }
 
 public enum ElectricalModuleTypeCategory

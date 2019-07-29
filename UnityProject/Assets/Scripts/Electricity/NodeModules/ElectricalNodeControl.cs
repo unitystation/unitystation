@@ -32,6 +32,7 @@ public class ElectricalNodeControl : NetworkBehaviour
 		gameObject.SendMessage("BroadcastSetUpMessage", this, SendMessageOptions.DontRequireReceiver);
 		UpOnStartServer();
 		StartCoroutine(WaitForload());
+		ElectricalSynchronisation.StructureChange = true;
 	}
 
 	IEnumerator WaitForload()
@@ -66,6 +67,28 @@ public class ElectricalNodeControl : NetworkBehaviour
 			Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms = ResistanceRestorepoints[Connecting];
 			ResistanceRestorepoints.Remove(Connecting);
 		}
+	}
+
+	public void ObjectStateChange(ObjectState tState)
+	{
+		if (tState == ObjectState.InConstruction)
+		{
+			Node.FlushConnectionAndUp();
+		}
+		else if (tState == ObjectState.Normal){
+			ElectricalSynchronisation.StructureChange = true;
+		}
+		UpObjectStateChange(tState);
+	
+	}
+
+
+	/// <summary>
+	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
+	/// </summary>
+	public void GoingOffStage() {
+		Node.FlushConnectionAndUp();
+		UpGoingOffStage();
 	}
 
 	public void TurnOnSupply()
@@ -167,6 +190,26 @@ public class ElectricalNodeControl : NetworkBehaviour
 				UpdateRequestDictionary[UpdateType] = new HashSet<ElectricalModuleTypeCategory>();
 			}
 			UpdateRequestDictionary[UpdateType].Add(Module.ModuleType);
+		}
+	}
+
+	public void UpGoingOffStage() { 
+		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.GoingOffStage))
+		{
+			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.GoingOffStage])
+			{
+				UpdateDelegateDictionary[Module].GoingOffStage();
+			}
+		}
+	}
+
+	public void UpObjectStateChange(ObjectState tState) { 
+		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ObjectStateChange))
+		{
+			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.ObjectStateChange])
+			{
+				UpdateDelegateDictionary[Module].ObjectStateChange(tState);
+			}
 		}
 	}
 
@@ -340,4 +383,6 @@ public class ElectricalNodeControl : NetworkBehaviour
 		}
 		return (Current);
 	}
+
+
 }

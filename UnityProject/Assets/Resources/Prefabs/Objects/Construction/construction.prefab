@@ -10,16 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4734855229797344}
   - component: {fileID: 61344596048250936}
-  - component: {fileID: 61366423541260584}
   - component: {fileID: 114943457949527232}
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
-  - component: {fileID: 2612899668775311046}
-  - component: {fileID: 2731523975421391927}
-  - component: {fileID: 3919982737323789382}
-  - component: {fileID: 114392163303621646}
+  - component: {fileID: 1544323275797726959}
   m_Layer: 11
-  m_Name: Transformer
+  m_Name: construction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575520830166772}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: -34, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4920401221825478}
@@ -51,32 +47,6 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!61 &61366423541260584
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -137,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
@@ -152,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2612899668775311046
+--- !u!114 &1544323275797726959
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,81 +132,104 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 949c77a5c6348e94e90d1c1a8f074e44, type: 3}
+  m_Script: {fileID: 11500000, guid: bfa7d96b5297053428ff5656cc555321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModuleType: 0
-  ControllingNode: {fileID: 2731523975421391927}
-  TurnRatio: 250
-  InvertingTurnRatio: 0
-  VoltageLimiting: 3300
-  VoltageLimitedTo: 3300
-  HighsideConnections: 0b000000
-  LowsideConnections: 01000000
-  TreatComingFromNullAs: 0
---- !u!114 &2731523975421391927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Node: {fileID: 3919982737323789382}
-  ApplianceType: 6
-  ListCanConnectTo: 010000000b000000
-  SelfDestruct: 0
-  Reactions: []
---- !u!114 &3919982737323789382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WireEndB: 2
-  WireEndA: 6
-  Data:
-    CurrentInWire: 0
-    ActualVoltage: 0
-    EstimatedResistance: 0
-    SupplyingCurrent: 0
-    InternalResistance: 0
-    SupplyingVoltage: 0
-    ChangeToOff: 0
-    CurrentStoreValue: 0
-  InData:
-    Categorytype: 0
-    ControllingDevice: {fileID: 0}
-    DirectionOverride: 0
-    ResistanceOverride: 0
-    ElectricityOverride: 0
-  registerTile: {fileID: 0}
-  connected: 0
-  Logall: 0
-  registerTile3: {fileID: 114038174743996046}
---- !u!114 &114392163303621646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
+  ThingsToDrop: []
+  ConstructionStages:
+  - StageSprite: {fileID: 0}
+    StageAdvances:
+    - RequiredTool: 4
+      ConstructionTime: 0
+      JumpToStage: 1
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    NeededParts: []
+    IncludePartsInitialisation: 1
+    ObjectStateofStage: 0
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 0}
+  - StageSprite: {fileID: 21300018, guid: 81e026231754b4cef89ed568b7af049e, type: 3}
+    StageAdvances:
+    - RequiredTool: 4
+      ConstructionTime: 2
+      JumpToStage: 0
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    - RequiredTool: 0
+      ConstructionTime: 2
+      JumpToStage: 2
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    NeededParts: []
+    IncludePartsInitialisation: 1
+    ObjectStateofStage: 1
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 0}
+  - StageSprite: {fileID: 21300034, guid: 534b1f0ede003498d9a12c59a679544f, type: 3}
+    StageAdvances:
+    - RequiredTool: 4
+      ConstructionTime: 1
+      JumpToStage: 1
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 1
+    - RequiredTool: 0
+      ConstructionTime: 2
+      JumpToStage: 3
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    NeededParts:
+    - GameObject: {fileID: 0}
+      IdentifyingComponent: 
+      NumberNeeded: 2
+      CType: 1
+      level: 0
+      NumberPresent: 0
+    - GameObject: {fileID: 0}
+      IdentifyingComponent: 
+      NumberNeeded: 2
+      CType: 4
+      level: 0
+      NumberPresent: 0
+    IncludePartsInitialisation: 1
+    ObjectStateofStage: 1
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 0}
+  - StageSprite: {fileID: 0}
+    StageAdvances: []
+    NeededParts: []
+    IncludePartsInitialisation: 1
+    ObjectStateofStage: 1
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 1575520830166772, guid: b43cb41060d0928478def13fcd64abf6,
+      type: 3}
+  TSpriteRenderer: {fileID: 8730191553135436193, guid: ae67ebb257dca914bbb7c735f7581aca,
+    type: 3}
+  registerObject: {fileID: 0}
+  otherSpriteRenderer: []
+  ListChance: 
+  CurrentStage: 0
+  GenerateComponents: 1
+  PrefabCircuitBoard: {fileID: 1519710982558066, guid: cc7c1682dd7a40343841dfb1f65b2849,
+    type: 3}
+  CircuitBoard: {fileID: 0}
+  DisabledMonoBehaviours: []
+  StandardConstructionComponent: {fileID: 1519710982558066, guid: 3beffbd1402c7314f8f6c2d1049478b2,
+    type: 3}
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,7 +298,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: a33f12d994c64c043b38c0ccd7a430f9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 81e026231754b4cef89ed568b7af049e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

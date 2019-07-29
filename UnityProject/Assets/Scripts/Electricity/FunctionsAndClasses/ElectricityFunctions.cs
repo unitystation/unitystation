@@ -174,12 +174,13 @@ public static class ElectricityFunctions
 		}
 		return (Current);
 	}
+	public static Dictionary<ElectricalOIinheritance, float> AnInterestingDictionary = new Dictionary<ElectricalOIinheritance, float>();
 
 	public static (float, float, float) WorkOutActualNumbers(ElectricalOIinheritance ElectricItem)
 	{  //Sometimes gives wrong readings at junctions, Needs to be looked into
 		float Current = 0; //Calculates the actual voltage and current flowing through the Node
 		float Voltage = 0;
-		Dictionary<ElectricalOIinheritance, float> AnInterestingDictionary = new Dictionary<ElectricalOIinheritance, float>();
+		AnInterestingDictionary.Clear();
 		foreach (var Supply in ElectricItem.Data.SupplyDependent) //Voltages easy to work out just add up all the voltages from different sources
 		{
 			Voltage += Supply.Value.SourceVoltages;
