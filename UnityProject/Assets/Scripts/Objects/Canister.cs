@@ -9,6 +9,12 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Integrity))]
 public class Canister : NBHandApplyInteractable
 {
+	[Tooltip("Tint of the main background in the GUI")]
+	public Color UIBGTint;
+	[Tooltip("Tint of the inner panel in the GUI")]
+	public Color UIInnerPanelTint;
+	[Tooltip("Name to show for the contents of this canister in the GUI")]
+	public String ContentsName;
 	public ObjectBehaviour objectBehaviour;
 	public GasContainer container;
 	public Connector connector;

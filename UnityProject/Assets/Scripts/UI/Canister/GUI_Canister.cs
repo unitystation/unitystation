@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,6 +9,9 @@ using UnityEngine.UI;
 
 public class GUI_Canister : NetTab
 {
+	public Image BG;
+	public Image InnerPanelBG;
+	public Text LabelText;
 	public NumberSpinner InternalPressureDial;
 	public NumberSpinner ReleasePressureDial;
 	public NetWheel ReleasePressureWheel;
@@ -28,14 +32,33 @@ public class GUI_Canister : NetTab
 	private static readonly  float YellowLowerBound = 5 * AtmosConstants.ONE_ATMOSPHERE;
 
 
+	private void OnEnable()
+	{
+		base.OnEnable();
+		StartCoroutine(SetDisplayAfterProviderReady());
+	}
+
+	IEnumerator SetDisplayAfterProviderReady()
+	{
+		while (Provider == null)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+		//set the tab color and label based on the provider
+		var canister = Provider.GetComponent<Canister>();
+		BG.color = canister.UIBGTint;
+		InnerPanelBG.color = canister.UIInnerPanelTint;
+		LabelText.text = "Contains\n" + canister.ContentsName;
+	}
+
 
 	protected override void InitServer()
 	{
-		StartCoroutine(WaitForProvider());
+		StartCoroutine(ServerWaitForProvider());
 	}
 
 	//server side
-	IEnumerator WaitForProvider()
+	IEnumerator ServerWaitForProvider()
 	{
 		while (Provider == null)
 		{

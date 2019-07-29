@@ -135,15 +135,85 @@ PrefabInstance:
       propertyPath: m_AssetId.i15
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
-        type: 3}
-      propertyPath: Gases.Array.data[2]
-      value: 60933
-      objectReference: {fileID: 0}
     - target: {fileID: 114615155852173970, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
       propertyPath: Resistances.Flammable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: PrimaryUITint.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: PrimaryUITint.b
+      value: 0.047058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: SecondaryUITint.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: SecondaryUITint.g
+      value: 0.654902
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: SecondaryUITint.b
+      value: 0.5529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: UIBGTint.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: UIBGTint.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: UIBGTint.b
+      value: 0.047058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: UIInnerPanelTint.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: UIInnerPanelTint.g
+      value: 0.654902
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: UIInnerPanelTint.b
+      value: 0.5529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: UIBGTint.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: UIInnerPanelTint.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: ContentsName
+      value: Nitrogen
+      objectReference: {fileID: 0}
+    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: Gases.Array.data[2]
+      value: 60933
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
