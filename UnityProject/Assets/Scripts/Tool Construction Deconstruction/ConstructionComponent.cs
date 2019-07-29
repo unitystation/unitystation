@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Used to identify Stock parts, With their level, type  and Other identifying information
+/// </summary>
 public class ConstructionComponent : NetworkBehaviour
 {
 	[SyncVar(hook = "UpdateSprite")]

@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IConstructionHandler 
 {
 	/// <summary>
-	/// Interactions the update.
+	/// so When someone interacts with the machine, this is an override so you can implement your custom logic
 	/// </summary>
 	/// <returns><c>true</c>, Continue construction handler to handle the input, <c>false</c> Prevent any further Construction logic.</returns>
 	/// <param name="interaction">Interaction.</param>
@@ -14,7 +14,7 @@ public interface IConstructionHandler
 	bool InteractionUpdate(HandApply interaction,InventorySlot Slot, ConstructionHandler Handler);
 
 	/// <summary>
-	/// Cans the interaction.
+	/// Since how the interaction system work you have to  state if a action is possible or not before doing it
 	/// </summary>
 	/// <returns><c>true</c>, if interaction was caned, <c>false</c> otherwise.</returns>
 	/// <param name="interaction">Interaction.</param>

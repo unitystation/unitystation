@@ -3,26 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEditor;
+
+/// <summary>
+/// This is for what object is expecting to be put in before you can finish assembly, it can take either a Prefab reference with a Identifying component (like get component("GlassSheet") ) 
+/// or Otherwise identifying from one of the standard stock parts uesing 	ConstructionElementType and Level
+/// </summary>
 [System.Serializable]
 public class ComponentData
 {
+	/// <summary>
+	/// The prefab reference of what you want to spawn when deconstructing it
+	/// </summary>
 	[ConditionalField("CType", ConstructionElementType.Null)]
 	public GameObject GameObject;
 
+
+	/// <summary>
+	/// What componentTo check for if this is a valid item
+	/// </summary>
 	[ConditionalField("CType", ConstructionElementType.Null)]
 	public string IdentifyingComponent; //Would be nice to do it from the prefab but Unity doesnt like that
 
+
+	/// <summary>
+	/// How many is required to build it
+	/// </summary>
 	public int NumberNeeded = 0;
 
+
+	/// <summary>
+	/// What type of stock part
+	/// </summary>
 	[ConditionalField("GameObject", null)]
 	public ConstructionElementType CType;
 
+	/// <summary>
+	/// The required level of the stock part
+	/// </summary>
 	[ConditionalField("GameObject", null)]
 	public int level = 0;
 
 	[HideInInspector]
 	public int NumberPresent = 0;
 
+
+	/// <summary>
+	/// The time it takes to put the item into the Object
+	/// </summary>
 	public float TimeNeeded = 0;
 }
 

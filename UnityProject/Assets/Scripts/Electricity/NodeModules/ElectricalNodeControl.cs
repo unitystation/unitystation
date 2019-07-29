@@ -82,6 +82,10 @@ public class ElectricalNodeControl : NetworkBehaviour
 	
 	}
 
+
+	/// <summary>
+	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
+	/// </summary>
 	public void GoingOffStage() {
 		Node.FlushConnectionAndUp();
 		UpGoingOffStage();

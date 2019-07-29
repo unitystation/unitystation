@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This is the custom override for the construction handler for the machine Chassis, It takes a circuit board then extracts the prefab to spawn and Spawns it
+/// </summary>
 public class MachineChassis : MonoBehaviour, IConstructionHandler
 {
 
-	public bool InteractionUpdate(HandApply interaction, InventorySlot Slot, ConstructionHandler Handler) {
-		if (Slot?.Item != null) {			var Circuit = Slot.Item.GetComponent<CircuitBoard>();
+	public bool InteractionUpdate(HandApply interaction, InventorySlot Slot, ConstructionHandler Handler)
+	{
+		if (Slot?.Item != null)
+		{			var Circuit = Slot.Item.GetComponent<CircuitBoard>();
 			if (Circuit != null)
 			{
 				if (CustomNetworkManager.Instance._isServer == true)
@@ -24,13 +29,12 @@ public class MachineChassis : MonoBehaviour, IConstructionHandler
 				}
 			}
 		}
-
-
 		return (false);
 
 	}
 
-	public bool CanInteraction(HandApply interaction, InventorySlot Slot, ConstructionHandler Handler) { 
+	public bool CanInteraction(HandApply interaction, InventorySlot Slot, ConstructionHandler Handler)
+	{
 		if (Slot?.Item != null)
 		{
 			var Circuit = Slot.Item.GetComponent<CircuitBoard>();
@@ -41,5 +45,5 @@ public class MachineChassis : MonoBehaviour, IConstructionHandler
 		}
 		return (false);
 	}
- 
+
 }
