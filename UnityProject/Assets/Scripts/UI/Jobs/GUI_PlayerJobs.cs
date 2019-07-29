@@ -47,15 +47,23 @@ public class GUI_PlayerJobs : MonoBehaviour
 				continue;
 			}
 			int active = GameManager.Instance.GetOccupationsCount(jobType);
-			int available = GameManager.Instance.GetOccupationMaxCount(jobType);
+			int maxCount = GameManager.Instance.GetOccupationMaxCount(jobType);
 
 			occupation.name = jobType.ToString();
-			occupation.GetComponentInChildren<Text>().text = jobType + " (" + active + " of " + available + ")";
+			if(maxCount > 0)
+			{
+				occupation.GetComponentInChildren<Text>().text = $"{jobType} ({active} of {maxCount})";
+			}
+			else
+			{
+				occupation.GetComponentInChildren<Text>().text = $"{jobType} ({active})";
+			}
+
 			occupation.transform.SetParent(screen_Jobs.transform);
 			occupation.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
 			//Disabled button for full jobs
-			if (active >= available)
+			if (active >= maxCount && maxCount != -1)
 			{
 				occupation.GetComponentInChildren<Button>().interactable = false;
 			}
