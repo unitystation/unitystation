@@ -117,6 +117,12 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckMouseInput()
 	{
+		if (EventSystem.current.IsPointerOverGameObject())
+		{
+			//don't do any game world interactions if we are over the UI
+			return;
+		}
+
 		if (UIManager.IsMouseInteractionDisabled)
 		{
 			//still allow tooltips
@@ -359,11 +365,6 @@ public class MouseInputController : MonoBehaviour
 
 	private bool CheckAimApply(MouseButtonState buttonState)
 	{
-		if (EventSystem.current.IsPointerOverGameObject())
-		{
-			//don't do aim apply while over UI
-			return false;
-		}
 		ChangeDirection();
 		//currently there is nothing for ghosts to interact with, they only can change facing
 		if (PlayerManager.LocalPlayerScript.IsGhost)
@@ -428,11 +429,6 @@ public class MouseInputController : MonoBehaviour
 	/// <returns>draggable found, null if none found</returns>
 	private MouseDraggable GetDraggable()
 	{
-		if (EventSystem.current.IsPointerOverGameObject())
-		{
-			//currently UI is not a part of interaction framework V2
-			return null;
-		}
 		//currently there is nothing for ghosts to interact with, they only can change facing
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
@@ -483,12 +479,6 @@ public class MouseInputController : MonoBehaviour
 	}
 	private bool CheckThrow()
 	{
-		//Ignore throw if pointer is hovering over GUI
-		if (EventSystem.current.IsPointerOverGameObject())
-		{
-			return false;
-		}
-
 		if (UIManager.IsThrow)
 		{
 			var currentSlot = UIManager.Hands.CurrentSlot;
