@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEditor;
 
+
+///	<summary>
+///	Handles sprite syncing between server and clients and contains a custom animator
+///	</summary>
 public class SpriteHandler : NetworkBehaviour
 {
 	public SpriteRenderer spriteRenderer;
@@ -11,9 +16,14 @@ public class SpriteHandler : NetworkBehaviour
 	[SyncVar(hook = nameof(SyncSprite))] public int spriteIndex;
 
 	private List<SpriteInfo> infoList = new List<SpriteInfo>();
+	private SpriteJson spriteJson;
 	private int animationIndex = 0;
 	private float timeElapsed = 0;
 	private float waitTime;
+
+	private void Awake() {
+		infoList.Add(new SpriteInfo());
+	}
 
 	public override void OnStartClient()
 	{
@@ -26,7 +36,7 @@ public class SpriteHandler : NetworkBehaviour
 		if(timeElapsed >= waitTime)
 		{
 			animationIndex++;
-			if(animationIndex >= infoList.Count)
+			if(animationIndex >= spriteJson.Frames_Of_Animation)
 			{
 				animationIndex = 0;
 			}
@@ -43,20 +53,28 @@ public class SpriteHandler : NetworkBehaviour
 
 	void SetSpriteList(List<Sprite> newSprites)
 	{
-		infoList = new List<SpriteInfo>();
-		for (int i = 0; i < newSprites.Count; i++)
+		//infoList = new List<SpriteInfo>();
+		if (newSprites.Count > 1)
 		{
-			var newSprite = new SpriteInfo(newSprites[i], 0.1f);
-			infoList.Add(newSprite);
-		}
-		if(newSprites.Count > 1)
-		{
+			LoadJson(AssetDatabase.GetAssetPath(newSprites[0]));
+
+			while (newSprites.Count > infoList.Count)
+			{
+				infoList.Add(new SpriteInfo());
+			}
+			for (int i = 0; i < newSprites.Count; i++)
+			{
+				infoList[i].sprite = newSprites[i];
+				infoList[i].waitTime = spriteJson.Delays[i];
+			}
+
 			UpdateManager.Instance.Add(UpdateMe);
 		}
 		else
 		{
 			UpdateManager.Instance.Remove(UpdateMe);
 		}
+
 		SetSprite(infoList[0]);
 	}
 
@@ -73,6 +91,14 @@ public class SpriteHandler : NetworkBehaviour
 		SetSpriteList(spriteList[value].spriteList);
 	}
 
+	void LoadJson(string path)
+	{
+		int extensionIndex = path.LastIndexOf(".");
+		path = path.Substring(0, extensionIndex) + ".json";
+		string json = System.IO.File.ReadAllText(path);
+		spriteJson = JsonUtility.FromJson<SpriteJson>(json);
+	}
+
 	[System.Serializable]
 	public class SpriteList
 	{
@@ -83,12 +109,13 @@ public class SpriteHandler : NetworkBehaviour
 	{
 		public Sprite sprite;
 		public float waitTime;
+	}
 
-		public SpriteInfo(Sprite newSprite, float newTime)
-		{
-			sprite = newSprite;
-			waitTime = newTime;
-		}
+	class SpriteJson
+	{
+		public float[] Delays;
+		public int Number_Of_Variants;
+		public int Frames_Of_Animation;
 	}
 }
 
