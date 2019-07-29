@@ -2,6 +2,9 @@
 using System;
 using UnityEngine;
 
+/**
+ * NetUI component for Wheel, handles syncing the value.
+ */
 public class NetWheel : NetUIElement
 {
 	public Wheel Element;
