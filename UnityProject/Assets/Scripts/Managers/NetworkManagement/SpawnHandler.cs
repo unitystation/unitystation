@@ -43,7 +43,10 @@ public static class SpawnHandler
 		GameManager.Instance.GetOccupationRoster(jobType).jobsTaken ++;
 
 		equipment.SetPlayerLoadOuts();
-		SecurityRecordsManager.Instance.AddRecord(playerScript, jobType);
+		if(jobType != JobType.SYNDICATE && jobType != JobType.AI)
+		{
+			SecurityRecordsManager.Instance.AddRecord(playerScript, jobType);
+		}
 	}
 
 	public static GameObject SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)
