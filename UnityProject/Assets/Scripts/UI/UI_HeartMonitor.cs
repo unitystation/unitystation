@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,17 +25,13 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 	public OverlayCrits overlayCrits;
 
 	public Image pulseImg;
-	private Sprite[] sprites;
 
-	private int spriteStart;
+	[SerializeField]
+	public List<Spritelist> StatesSprites;
+	private int CurrentSpriteSet = 0; 
 	private float timeWait;
 	private float overallHealthCache = 100;
 
-	private void Start()
-	{
-		spriteStart = fullHealthStart;
-		sprites = SpriteManager.ScreenUISprites["gen"];
-	}
 
 	private void OnEnable()
 	{
@@ -66,13 +63,15 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 			timeWait += Time.deltaTime;
 			if (timeWait > 0.05f)
 			{
-				if (currentSprite != 28)
+				if (currentSprite != 27) 
 				{
-					pulseImg.sprite = sprites[spriteStart + currentSprite++];
+					pulseImg.sprite = StatesSprites[CurrentSpriteSet].SP[currentSprite];
+					currentSprite++;
 					timeWait = 0f;
 				}
 				else
 				{
+					pulseImg.sprite = StatesSprites[CurrentSpriteSet].SP[currentSprite];
 					if (timeWait > 2f)
 					{
 						currentSprite = 0;
@@ -91,64 +90,66 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 		}
 		overallHealthCache = PlayerManager.LocalPlayerScript.playerHealth.OverallHealth;
 
-		if (overallHealthCache >= 70 &&
-			spriteStart != fullHealthStart)
+		if (overallHealthCache >= 100)
 		{
 			SoundManager.Stop("Critstate");
-			spriteStart = fullHealthStart;
-			pulseImg.sprite = sprites[spriteStart];
+			CurrentSpriteSet = 0;
+			pulseImg.sprite = StatesSprites[0].SP[currentSprite];
+			overlayCrits.SetState(OverlayState.normal);
+		}
+		if (overallHealthCache >= 70)
+		{
+			CurrentSpriteSet = 1;
+			SoundManager.Stop("Critstate");
+			pulseImg.sprite = StatesSprites[1].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.normal);
 		}
 		if (overallHealthCache <= 70 &&
-			overallHealthCache > 50 &&
-			spriteStart != minorDmgStart)
+			overallHealthCache > 50)
 		{
 			SoundManager.Stop("Critstate");
-			spriteStart = minorDmgStart;
-			pulseImg.sprite = sprites[spriteStart];
+			CurrentSpriteSet = 2;
+			pulseImg.sprite = StatesSprites[2].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.injured);
 		}
 		if (overallHealthCache <= 50 &&
-			overallHealthCache > 30 &&
-			spriteStart != medDmgStart)
+			overallHealthCache > 30 )
 		{
 			SoundManager.Stop("Critstate");
-			spriteStart = medDmgStart;
-			pulseImg.sprite = sprites[spriteStart];
+			CurrentSpriteSet = 3;
+			pulseImg.sprite = StatesSprites[3].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.injured);
 		}
 		if (overallHealthCache <= 30 &&
-			overallHealthCache > 0 &&
-			spriteStart != mjrDmgStart)
+			overallHealthCache > 0 )
 		{
 			SoundManager.Stop("Critstate");
-			spriteStart = mjrDmgStart;
-			pulseImg.sprite = sprites[spriteStart];
+			CurrentSpriteSet = 4;
+			pulseImg.sprite = StatesSprites[4].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.injured);
 		}
 		if (overallHealthCache <= 0 &&
-			overallHealthCache < 15 &&
-			spriteStart != critStart)
+		    overallHealthCache < 15)
 		{
 			SoundManager.Play("Critstate");
-			spriteStart = critStart;
-			pulseImg.sprite = sprites[spriteStart];
+			CurrentSpriteSet = 5;
+			pulseImg.sprite = StatesSprites[5].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.unconscious);
 		}
 
 		if (overallHealthCache <= -15 &&
-			overallHealthCache > -100 &&
-			overlayCrits.currentState != OverlayState.crit)
+			overallHealthCache > -100)
 		{
+			CurrentSpriteSet = 6;
+			pulseImg.sprite = StatesSprites[6].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.crit);
 		}
 
-		if (overallHealthCache <= -100 &&
-			spriteStart != deathStart)
+		if (overallHealthCache <= -100)
 		{
 			SoundManager.Stop("Critstate");
-			spriteStart = deathStart;
-			pulseImg.sprite = sprites[spriteStart];
+			CurrentSpriteSet = 7;
+			pulseImg.sprite = StatesSprites[7].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.death);
 		}
 	}
