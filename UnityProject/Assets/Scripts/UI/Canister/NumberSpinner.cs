@@ -17,6 +17,17 @@ public class NumberSpinner : NetUIElement
 	public DigitSpinner TenThousands;
 	public DigitSpinner HundredThousands;
 
+	/// <summary>
+	/// Invoked when the value synced between client / server is updated.
+	/// </summary>
+	[NonSerialized]
+	public IntEvent OnSyncedValueChanged = new IntEvent();
+
+	/// <summary>
+	/// Gets the value currently synced with the server / client
+	/// </summary>
+	public int SyncedValue => syncedValue;
+
 	private bool init = false;
 
 	public override string Value {
@@ -31,6 +42,7 @@ public class NumberSpinner : NetUIElement
 				DisplaySpinTo(newVal);
 			}
 			syncedValue = newVal;
+			OnSyncedValueChanged.Invoke(syncedValue);
 			externalChange = false;
 		}
 	}

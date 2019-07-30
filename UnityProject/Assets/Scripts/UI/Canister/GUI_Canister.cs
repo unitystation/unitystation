@@ -18,27 +18,32 @@ public class GUI_Canister : NetTab
 	private GasContainer container;
 
 	//LED stuff
-	public NetColorChanger Red;
-	public NetColorChanger Green;
-	public NetColorChanger Yellow;
-	private static readonly string RED_ACTIVE = "FF1C00";
-	private static readonly string RED_INACTIVE = "730000";
-	private static readonly string YELLOW_ACTIVE = "E4FF02";
-	private static readonly string YELLOW_INACTIVE = "5E5400";
-	private static readonly string GREEN_ACTIVE = "02FF23";
-	private static readonly string GREEN_INACTIVE = "005E00";
+	public Graphic Red;
+	public Graphic Green;
+	public Graphic Yellow;
+	private static readonly Color RED_ACTIVE = DebugTools.HexToColor("FF1C00");
+	private static readonly Color RED_INACTIVE = DebugTools.HexToColor("730000");
+	private static readonly Color YELLOW_ACTIVE = DebugTools.HexToColor("E4FF02");
+	private static readonly Color YELLOW_INACTIVE = DebugTools.HexToColor("5E5400");
+	private static readonly Color GREEN_ACTIVE = DebugTools.HexToColor("02FF23");
+	private static readonly Color GREEN_INACTIVE = DebugTools.HexToColor("005E00");
+	private bool flashingRed;
+	private float secondsSinceFlash;
+	private static readonly float SECONDS_PER_FLASH = 0.3f;
+
 
 	private static readonly float GreenLowerBound = 10 * AtmosConstants.ONE_ATMOSPHERE;
 	private static readonly  float YellowLowerBound = 5 * AtmosConstants.ONE_ATMOSPHERE;
+	private static readonly float RedLowerBound = 10f;
 
 
 	private void OnEnable()
 	{
 		base.OnEnable();
-		StartCoroutine(SetDisplayAfterProviderReady());
+		StartCoroutine(ClientWaitForProvider());
 	}
 
-	IEnumerator SetDisplayAfterProviderReady()
+	IEnumerator ClientWaitForProvider()
 	{
 		while (Provider == null)
 		{
@@ -49,8 +54,67 @@ public class GUI_Canister : NetTab
 		BG.color = canister.UIBGTint;
 		InnerPanelBG.color = canister.UIInnerPanelTint;
 		LabelText.text = "Contains\n" + canister.ContentsName;
+		UpdateLEDs(InternalPressureDial.SyncedValue);
+		InternalPressureDial.OnSyncedValueChanged.AddListener(UpdateLEDs);
 	}
 
+	private void UpdateLEDs(int pressure)
+	{
+		if (pressure > GreenLowerBound)
+		{
+			flashingRed = false;
+			Red.color = RED_INACTIVE;
+			Yellow.color = YELLOW_INACTIVE;
+			Green.color = GREEN_ACTIVE;
+		}
+		else if (pressure > YellowLowerBound)
+		{
+			flashingRed = false;
+			Red.color = RED_INACTIVE;
+			Yellow.color = YELLOW_ACTIVE;
+			Green.color = GREEN_INACTIVE;
+		}
+		else if (pressure > RedLowerBound)
+		{
+			//flashing red (if not already)
+			if (!flashingRed)
+			{
+				flashingRed = true;
+				Red.color = RED_ACTIVE;
+				Yellow.color = YELLOW_INACTIVE;
+				Green.color = GREEN_INACTIVE;
+			}
+		}
+		else
+		{
+			//empty
+			flashingRed = false;
+			Red.color = RED_INACTIVE;
+			Yellow.color = YELLOW_INACTIVE;
+			Green.color = GREEN_INACTIVE;
+		}
+	}
+
+	private void Update()
+	{
+		if (flashingRed)
+		{
+			secondsSinceFlash += Time.deltaTime;
+			if (secondsSinceFlash >= SECONDS_PER_FLASH)
+			{
+				secondsSinceFlash = 0;
+				var curColor = Red.color;
+				if (curColor == RED_ACTIVE)
+				{
+					Red.color = RED_INACTIVE;
+				}
+				else
+				{
+					Red.color = RED_ACTIVE;
+				}
+			}
+		}
+	}
 
 	protected override void InitServer()
 	{
@@ -71,41 +135,17 @@ public class GUI_Canister : NetTab
 		ReleasePressureDial.ServerSpinTo(Mathf.RoundToInt(container.ReleasePressure));
 		//init wheel
 		ReleasePressureWheel.SetValue = Mathf.RoundToInt(container.ReleasePressure).ToString();
-		//init colors
-		UpdateLEDs();
-		StartCoroutine(RefreshInternalPressure());
+		StartCoroutine(ServerRefreshInternalPressure());
 	}
 
-	private IEnumerator RefreshInternalPressure()
+	private IEnumerator ServerRefreshInternalPressure()
 	{
 		InternalPressureDial.ServerSpinTo(Mathf.RoundToInt(container.ServerInternalPressure));
-		UpdateLEDs();
 		yield return WaitFor.Seconds(0.5F);
-		StartCoroutine(RefreshInternalPressure());
+		StartCoroutine(ServerRefreshInternalPressure());
 	}
 
-	private void UpdateLEDs()
-	{
-		var pressure = container.ServerInternalPressure;
-		if (pressure > GreenLowerBound)
-		{
-			Red.SetValue = RED_INACTIVE;
-			Yellow.SetValue = YELLOW_INACTIVE;
-			Green.SetValue = GREEN_ACTIVE;
-		}
-		else if (pressure > YellowLowerBound)
-		{
-			Red.SetValue = RED_INACTIVE;
-			Yellow.SetValue = YELLOW_ACTIVE;
-			Green.SetValue = GREEN_INACTIVE;
-		}
-		else
-		{
-			Red.SetValue = RED_ACTIVE;
-			Yellow.SetValue = YELLOW_INACTIVE;
-			Green.SetValue = GREEN_INACTIVE;
-		}
-	}
+
 
 	/// <summary>
 	/// Update the actual release pressure and all the attached UI elements
@@ -146,7 +186,6 @@ public class GUI_Canister : NetTab
 		}
 	}
 
-	//TODO: Provide a way to close the tab
 	public void CloseTab()
 	{
 		ControlTabs.CloseTab(Type, Provider);
