@@ -95,7 +95,7 @@ namespace Lobby
 			HideAllPanels();
 			LobbyManager.Instance.characterCustomization.gameObject.SetActive(true);
 		}
-		
+
 		private void Update() {
 			if ( Input.GetKeyDown( KeyCode.F6 ) )
 				if ( Input.GetKeyDown( KeyCode.F6 ) && !BuildPreferences.isForRelease )
