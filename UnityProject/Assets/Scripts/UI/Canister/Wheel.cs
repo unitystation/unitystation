@@ -14,9 +14,6 @@ public class Wheel : Selectable
 	[Tooltip("How many kPa each degree of rotation is equivalent to.")]
 	public float KPAPerDegree = 3f;
 
-	[Tooltip("Maximum allowed pressure setting")]
-	public float MaxKPA = 1000f;
-
 	/// <summary>
 	/// Currently selected amount
 	/// </summary>
@@ -49,7 +46,7 @@ public class Wheel : Selectable
 
 	private void SetRotation(float newRotation)
 	{
-		newRotation = Mathf.Clamp(newRotation, 0, MaxKPA / KPAPerDegree);
+		newRotation = Mathf.Clamp(newRotation, 0, Canister.MAX_RELEASE_PRESSURE / KPAPerDegree);
 
 		var newQuaternion = Quaternion.Euler(0, 0, newRotation);
 		transform.rotation = newQuaternion;

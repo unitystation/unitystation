@@ -168,6 +168,18 @@ public class GUI_Canister : NetTab
 	}
 
 	/// <summary>
+	/// So we can edit using the free text entry
+	/// </summary>
+	/// <param name="newValue"></param>
+	public void ServerEditReleasePressure(string newValue)
+	{
+		if (string.IsNullOrEmpty(newValue)) return;
+		var releasePressure = Convert.ToInt32(newValue);
+		releasePressure = Mathf.Clamp(releasePressure, 0, Canister.MAX_RELEASE_PRESSURE);
+		ServerUpdateReleasePressure(releasePressure);
+	}
+
+	/// <summary>
 	/// Open / close the release valve of the attached container
 	/// </summary>
 	/// <param name="isOpen"></param>

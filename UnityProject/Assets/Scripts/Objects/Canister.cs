@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Integrity))]
 public class Canister : NBHandApplyInteractable
 {
+	public static readonly int MAX_RELEASE_PRESSURE = 1000;
 	[Tooltip("Tint of the main background in the GUI")]
 	public Color UIBGTint;
 	[Tooltip("Tint of the inner panel in the GUI")]
