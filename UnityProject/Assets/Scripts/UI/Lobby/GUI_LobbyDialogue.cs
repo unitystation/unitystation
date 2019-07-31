@@ -96,6 +96,22 @@ namespace Lobby
 			LobbyManager.Instance.characterCustomization.gameObject.SetActive(true);
 		}
 
+		private void Update() {
+			if ( Input.GetKeyDown( KeyCode.F6 ) )
+				if ( Input.GetKeyDown( KeyCode.F6 ) && !BuildPreferences.isForRelease )
+				{
+					//skip login
+					HideAllPanels();
+					connectionPanel.SetActive(true);
+					dialogueTitle.text = "Connection Panel";
+					//if there aren't char settings, default
+					if (PlayerManager.CurrentCharacterSettings == null)
+					{
+						PlayerManager.CurrentCharacterSettings = new CharacterSettings();
+					}
+				}
+		}
+
 		public void ShowConnectionPanel()
 		{
 			HideAllPanels();
@@ -157,7 +173,7 @@ namespace Lobby
 			GameData.LoggedInUsername = chosenUsernameInput.text;
 			chosenPasswordInput.text = "";
 			chosenUsernameInput.text = "";
-			
+
 			ShowCharacterEditor();
 			PlayerPrefs.SetString("lastLogin", emailAddressInput.text);
 			PlayerPrefs.Save();
