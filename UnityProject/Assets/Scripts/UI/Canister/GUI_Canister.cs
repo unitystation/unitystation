@@ -16,6 +16,8 @@ public class GUI_Canister : NetTab
 	public NumberSpinner ReleasePressureDial;
 	public NetWheel ReleasePressureWheel;
 	private GasContainer container;
+	public GameObject EditReleasePressurePopup;
+	public Image XButton;
 
 	//LED stuff
 	public Graphic Red;
@@ -36,6 +38,17 @@ public class GUI_Canister : NetTab
 	private static readonly  float YellowLowerBound = 5 * AtmosConstants.ONE_ATMOSPHERE;
 	private static readonly float RedLowerBound = 10f;
 
+	public void OpenPopup()
+	{
+		EditReleasePressurePopup.SetActive(true);
+		EditReleasePressurePopup.GetComponentInChildren<InputFieldFocus>().Select();
+	}
+
+	public void ClosePopup()
+	{
+		EditReleasePressurePopup.SetActive(false);
+	}
+
 
 	private void OnEnable()
 	{
@@ -54,6 +67,7 @@ public class GUI_Canister : NetTab
 		BG.color = canister.UIBGTint;
 		InnerPanelBG.color = canister.UIInnerPanelTint;
 		LabelText.text = "Contains\n" + canister.ContentsName;
+		XButton.color = canister.UIBGTint;
 		UpdateLEDs(InternalPressureDial.SyncedValue);
 		InternalPressureDial.OnSyncedValueChanged.AddListener(UpdateLEDs);
 	}

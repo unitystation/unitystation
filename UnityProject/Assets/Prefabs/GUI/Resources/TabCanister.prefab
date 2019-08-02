@@ -132,6 +132,8 @@ MonoBehaviour:
   InternalPressureDial: {fileID: 1819273839510913054}
   ReleasePressureDial: {fileID: 2587822167494942906}
   ReleasePressureWheel: {fileID: 2297448325736823156}
+  EditReleasePressurePopup: {fileID: 6872762520612337824}
+  XButton: {fileID: 802225244175864948}
   Red: {fileID: 6204942986843362002}
   Green: {fileID: 3054979000305720904}
   Yellow: {fileID: 1743732811537333707}
@@ -168,6 +170,7 @@ RectTransform:
   - {fileID: 1963527936081602768}
   - {fileID: 2934589532279352711}
   - {fileID: 1117639920795037848}
+  - {fileID: 2502338538550993668}
   - {fileID: 6825517999363479458}
   - {fileID: 1569738558729625396}
   m_Father: {fileID: 224096793523660850}
@@ -962,7 +965,7 @@ RectTransform:
   m_Children:
   - {fileID: 847608758655433144}
   m_Father: {fileID: 224120160830574892}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -990,14 +993,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 00b9f947b2ed79743a4a1d83880a5901, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cc3b2d94fa0a81a42899ff1375633780, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1423,9 +1426,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 6872762520612337824}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2264499215962865013}
+        m_MethodName: ClosePopup
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3533,7 +3536,7 @@ GameObject:
   - component: {fileID: 3810412101747460147}
   - component: {fileID: 195330054854653397}
   m_Layer: 5
-  m_Name: SubmitPopup
+  m_Name: CancerSubmitPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3546,16 +3549,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6112517714705051089}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6825517999363479458}
-  m_RootOrder: 2
+  m_Father: {fileID: 224120160830574892}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -238.9, y: 72.4}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3810412101747460147
@@ -3609,9 +3612,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 6872762520612337824}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2264499215962865013}
+        m_MethodName: ClosePopup
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3951,9 +3954,8 @@ RectTransform:
   m_Children:
   - {fileID: 110503394475614515}
   - {fileID: 7966850706919206963}
-  - {fileID: 2502338538550993668}
   m_Father: {fileID: 224120160830574892}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4616,9 +4618,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6872762520612337824}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2264499215962865013}
+        m_MethodName: OpenPopup
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
