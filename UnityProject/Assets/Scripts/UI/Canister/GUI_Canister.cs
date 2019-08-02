@@ -72,6 +72,11 @@ public class GUI_Canister : NetTab
 		InternalPressureDial.OnSyncedValueChanged.AddListener(UpdateLEDs);
 	}
 
+	/// <summary>
+	/// Updates the LEDs at the top to display the correct color based on the
+	/// specified pressure.
+	/// </summary>
+	/// <param name="pressure"></param>
 	private void UpdateLEDs(int pressure)
 	{
 		if (pressure > GreenLowerBound)
@@ -111,6 +116,9 @@ public class GUI_Canister : NetTab
 
 	private void Update()
 	{
+		//if the red LED is lit up, it needs to flash.
+		//This toggles the red LED on / off based on the elapsed time
+		//since the last flash
 		if (flashingRed)
 		{
 			secondsSinceFlash += Time.deltaTime;
