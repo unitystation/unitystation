@@ -35,8 +35,6 @@ public class Wheel : Selectable
 		base.Start();
 		windowDrag = GetComponentInParent<WindowDrag>();
 		shadow = GetComponent<Shadow>();
-		//TODO: Find a way to allow wheel rotation without disabling drag.
-		windowDrag.disableDrag = true;
 	}
 
 	public void RotateToValue(int kPA)
@@ -67,6 +65,8 @@ public class Wheel : Selectable
 		previousDrag = ((eventData.pressPosition - (Vector2)((RectTransform) transform).position) / UIManager.Instance.transform.localScale.x).normalized;
 		//client prediction on the dial
 		ReleasePressureDial.IgnoreServerUpdates = true;
+		//disable window dragging until done with rotation
+		windowDrag.disableDrag = true;
 	}
 
 	private void Update()
@@ -87,6 +87,7 @@ public class Wheel : Selectable
 				previousDrag = null;
 				ReleasePressureDial.IgnoreServerUpdates = false;
 				OnAdjustmentComplete.Invoke(KPA);
+				windowDrag.disableDrag = false;
 			}
 		}
 	}
