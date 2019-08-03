@@ -91,13 +91,13 @@ GameObject:
   - component: {fileID: 61143840767580364}
   - component: {fileID: 61645807559194036}
   - component: {fileID: 114922154882281400}
-  - component: {fileID: 2681417881209337471}
   - component: {fileID: 114271548548165924}
   - component: {fileID: 6725492196284391236}
   - component: {fileID: 114623103168110180}
   - component: {fileID: 114248266581299534}
   - component: {fileID: 114104253718565984}
   - component: {fileID: 114016289089021282}
+  - component: {fileID: 2681417881209337471}
   - component: {fileID: 114781037357294102}
   - component: {fileID: 114615155852173970}
   m_Layer: 11
@@ -208,19 +208,6 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &2681417881209337471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513316462072450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 10
 --- !u!114 &114271548548165924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +220,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UIBGTint: {r: 0, g: 0, b: 0, a: 0}
+  UIInnerPanelTint: {r: 0, g: 0, b: 0, a: 0}
+  ContentsName: 
   objectBehaviour: {fileID: 0}
   container: {fileID: 0}
   connector: {fileID: 0}
@@ -319,6 +309,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &2681417881209337471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513316462072450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 10
 --- !u!114 &114781037357294102
 MonoBehaviour:
   m_ObjectHideFlags: 0

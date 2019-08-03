@@ -134,6 +134,7 @@ MonoBehaviour:
   ReleasePressureWheel: {fileID: 2297448325736823156}
   EditReleasePressurePopup: {fileID: 6872762520612337824}
   XButton: {fileID: 802225244175864948}
+  ConnectionStatus: {fileID: 8376129273598006559}
   Red: {fileID: 6204942986843362002}
   Green: {fileID: 3054979000305720904}
   Yellow: {fileID: 1743732811537333707}
@@ -473,6 +474,7 @@ GameObject:
   - component: {fileID: 190660038857218625}
   - component: {fileID: 2732164162320045157}
   - component: {fileID: 6002410234263281716}
+  - component: {fileID: 8376129273598006559}
   m_Layer: 5
   m_Name: ConnectionStatusText
   m_TagString: Untagged
@@ -520,7 +522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.67058825, g: 0.38431376, b: 0.043137256, a: 1}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -541,6 +543,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Not Connected
+--- !u!114 &8376129273598006559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524191578633213699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &749725711337510428
 GameObject:
   m_ObjectHideFlags: 0
@@ -4912,6 +4926,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 699a42dbe71855d49a99de302af0fc0f, type: 3}
+--- !u!224 &6315863020943808113 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3663828361341572412, guid: 699a42dbe71855d49a99de302af0fc0f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7313559440767419213}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2587822167494942906 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5086588193458840567, guid: 699a42dbe71855d49a99de302af0fc0f,
@@ -4924,9 +4944,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aff3c854a754817b6d9001a4a3457de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &6315863020943808113 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3663828361341572412, guid: 699a42dbe71855d49a99de302af0fc0f,
-    type: 3}
-  m_PrefabInstance: {fileID: 7313559440767419213}
-  m_PrefabAsset: {fileID: 0}

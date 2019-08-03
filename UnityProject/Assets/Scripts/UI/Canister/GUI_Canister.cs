@@ -18,6 +18,7 @@ public class GUI_Canister : NetTab
 	private GasContainer container;
 	public GameObject EditReleasePressurePopup;
 	public Image XButton;
+	public NetLabel ConnectionStatus;
 
 	//LED stuff
 	public Graphic Red;
@@ -56,6 +57,7 @@ public class GUI_Canister : NetTab
 		StartCoroutine(ClientWaitForProvider());
 	}
 
+	//client side  initialization
 	IEnumerator ClientWaitForProvider()
 	{
 		while (Provider == null)
@@ -70,6 +72,42 @@ public class GUI_Canister : NetTab
 		XButton.color = canister.UIBGTint;
 		UpdateLEDs(InternalPressureDial.SyncedValue);
 		InternalPressureDial.OnSyncedValueChanged.AddListener(UpdateLEDs);
+	}
+
+	protected override void InitServer()
+	{
+		StartCoroutine(ServerWaitForProvider());
+	}
+
+	//server side initialization
+	IEnumerator ServerWaitForProvider()
+	{
+		while (Provider == null)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		container = Provider.GetComponent<GasContainer>();
+		//init pressure dials
+		InternalPressureDial.ServerSpinTo(Mathf.RoundToInt(container.ServerInternalPressure));
+		ReleasePressureDial.ServerSpinTo(Mathf.RoundToInt(container.ReleasePressure));
+		//init connection status
+		var canister = Provider.GetComponent<Canister>();
+		canister.ServerOnConnectionStatusChange.AddListener(ServerUpdateConnectionStatus);
+		ServerUpdateConnectionStatus(canister.isConnected);
+
+		//init wheel
+		ReleasePressureWheel.SetValue = Mathf.RoundToInt(container.ReleasePressure).ToString();
+		StartCoroutine(ServerRefreshInternalPressure());
+
+	}
+
+	/// <summary>
+	/// Updates the displayed connection status.
+	/// </summary>
+	private void ServerUpdateConnectionStatus(bool isConnected)
+	{
+		ConnectionStatus.SetValue = isConnected ? "Connected" : "Not Connected";
 	}
 
 	/// <summary>
@@ -138,31 +176,15 @@ public class GUI_Canister : NetTab
 		}
 	}
 
-	protected override void InitServer()
-	{
-		StartCoroutine(ServerWaitForProvider());
-	}
-
-	//server side
-	IEnumerator ServerWaitForProvider()
-	{
-		while (Provider == null)
-		{
-			yield return WaitFor.EndOfFrame;
-		}
-
-		container = Provider.GetComponent<GasContainer>();
-		//init pressure dials
-		InternalPressureDial.ServerSpinTo(Mathf.RoundToInt(container.ServerInternalPressure));
-		ReleasePressureDial.ServerSpinTo(Mathf.RoundToInt(container.ReleasePressure));
-		//init wheel
-		ReleasePressureWheel.SetValue = Mathf.RoundToInt(container.ReleasePressure).ToString();
-		StartCoroutine(ServerRefreshInternalPressure());
-	}
-
 	private IEnumerator ServerRefreshInternalPressure()
 	{
-		InternalPressureDial.ServerSpinTo(Mathf.RoundToInt(container.ServerInternalPressure));
+		var currentValue = Mathf.RoundToInt(container.ServerInternalPressure);
+		//only update if it changed
+		if (InternalPressureDial.SyncedValue != currentValue)
+		{
+			InternalPressureDial.ServerSpinTo(currentValue);
+		}
+
 		yield return WaitFor.Seconds(0.5F);
 		StartCoroutine(ServerRefreshInternalPressure());
 	}
