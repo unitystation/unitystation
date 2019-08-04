@@ -5,7 +5,6 @@ using UnityEngine.UI;
 /// <summary>
 /// Main component for the release pressure adjustment wheel
 /// </summary>
-//TODO: Do I need selectable or is implementing the interfaces sufficient?
 public class Wheel : Selectable
 {
 	[Tooltip("Invoked when wheel is adjusted, on release of the wheel")]
