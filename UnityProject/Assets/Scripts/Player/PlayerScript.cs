@@ -213,10 +213,15 @@ public class PlayerScript : ManagedNetworkBehaviour
 		}
 	}
 
+	public static bool IsInReach( Vector3 targetVector, float interactDist = interactionDistance )
+	{
+		return Mathf.Max( Mathf.Abs(targetVector.x), Mathf.Abs(targetVector.y) ) < interactDist;
+	}
+
 	public static bool IsInReach(Vector3 from, Vector3 to, float interactDist = interactionDistance)
 	{
-		var distanceVector = from - to;
-		return Mathf.Max( Mathf.Abs(distanceVector.x), Mathf.Abs(distanceVector.y) ) < interactDist;
+		var targetVector = from - to;
+		return IsInReach( targetVector );
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)

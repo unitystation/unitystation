@@ -20,18 +20,16 @@ public class ObjectBehaviour : PushPull
 	/// World position of highest object this object is contained in
 	/// </summary>
 	/// <returns></returns>
-    public Vector3 AssumedWorldPosition()
+    public Vector3 AssumedWorldPositionServer()
     {
 		//If this object is contained in another, run until highest layer layer is reached
         if (parentContainer != null)
         {
-            lastNonHiddenPosition = parentContainer.AssumedWorldPosition();
+            lastNonHiddenPosition = parentContainer.AssumedWorldPositionServer();
         }
-		//Last condition checks if the player wasn't closed in a closet.
-		//While in a closet the player gets teleported out of the map, which causes the lastNonHiddenPosition to be assumed incorrectly.
-		else if (registerTile.WorldPosition != TransformState.HiddenPos && lastReliablePos != TransformState.HiddenPos)
+        else if (registerTile.WorldPositionServer != TransformState.HiddenPos /*&& lastReliablePos != TransformState.HiddenPos*/)
 		{
-			lastNonHiddenPosition = registerTile.WorldPosition;
+			lastNonHiddenPosition = registerTile.WorldPositionServer;
 		} else if ( lastNonHiddenPosition == TransformState.HiddenPos )
         { //If not initialized yet
 	        lastNonHiddenPosition = transform.position;

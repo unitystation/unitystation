@@ -16,18 +16,20 @@ public class PlaySoundMessage : ServerMessage
 
 	public override IEnumerator Process() {
 		yield return null;
-		if ( Position.RoundToInt() == TransformState.HiddenPos )
+		bool isPositionProvided = Position.RoundToInt() != TransformState.HiddenPos;
+
+		if ( isPositionProvided )
 		{
-			SoundManager.Play(SoundName, 1, Pitch);
-		}
-		else
+			SoundManager.PlayAtPosition( SoundName, Position, Pitch );
+		} else
 		{
-			SoundManager.PlayAtPosition(SoundName, Position, Pitch);
+			SoundManager.Play( SoundName, 1, Pitch );
 		}
 
 		if ( ShakeGround )
 		{
-			if ( PlayerManager.LocalPlayerScript
+			if ( isPositionProvided
+			 && PlayerManager.LocalPlayerScript
 			 && !PlayerManager.LocalPlayerScript.IsInReach( Position, false, ShakeRange ) )
 			{
 				//Don't shake if local player is out of range
