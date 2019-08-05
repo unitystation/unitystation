@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Integrity))]
 public class Canister : NBHandApplyInteractable
 {
+	public static readonly int MAX_RELEASE_PRESSURE = 1000;
 	[Tooltip("Tint of the main background in the GUI")]
 	public Color UIBGTint;
 	[Tooltip("Tint of the inner panel in the GUI")]
@@ -22,6 +23,17 @@ public class Canister : NBHandApplyInteractable
 	private RegisterTile registerTile;
 	public SpriteRenderer connectorRenderer;
 	public Sprite connectorSprite;
+	/// <summary>
+	/// Invoked on server side when connection status changes, provides a bool indicating
+	/// if it is connected.
+	///
+	/// NOTE: Doesn't need to be server side since isConnected is a sync var (and thus
+	/// is available to the client), but I'm not sure
+	/// it's always going to be a syncvar so I'm making this hook server only.
+	/// </summary>
+	/// <returns></returns>
+	[NonSerialized]
+	public BoolEvent ServerOnConnectionStatusChange = new BoolEvent();
 
 	private void Awake()
 	{
@@ -47,6 +59,7 @@ public class Canister : NBHandApplyInteractable
 			connectorRenderer.sprite = null;
 			SetConnectedSprite(null);
 			objectBehaviour.isNotPushable = false;
+			ServerOnConnectionStatusChange.Invoke(false);
 		}
 	}
 
@@ -73,6 +86,13 @@ public class Canister : NBHandApplyInteractable
 	private void OnValidate()
 	{
 		SetDefaultIntegrity();
+	}
+
+	protected override bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		//only wrench can be used
+		return DefaultWillInteract.HandApply(interaction, side) &&
+		       Validations.IsTool(interaction.UsedObject, ToolType.Wrench);
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)
@@ -104,17 +124,12 @@ public class Canister : NBHandApplyInteractable
 						connector.ConnectCanister(this);
 						SetConnectedSprite(connectorSprite);
 						objectBehaviour.isNotPushable = true;
+						ServerOnConnectionStatusChange.Invoke(true);
 						return;
 					}
 				}
 			}
 		}
-
-		//can open/close connector by clicking on it without a wrench
-		container.Opened = !container.Opened;
-
-		string msg = container.Opened ? $"The valve is open, outputting at {container.ReleasePressure} kPa." : "The valve is closed.";
-		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, msg);
 	}
 
 	public override void OnStartClient()
