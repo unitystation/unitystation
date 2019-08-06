@@ -675,6 +675,42 @@ public class MatrixManager : MonoBehaviour
 		return WorldToLocal(worldPos, Get(matrix));
 	}
 
+	/// <summary>
+	/// Returns a list of turfs that are inbetween two points
+	/// </summary>
+	public static List<Vector3Int> GetTiles(Vector3 startPos, Vector2 targetPos, int travelDistance)
+	{
+		List<Vector3Int> positionList = new List<Vector3Int>();
+		for (int i = 0; i < travelDistance; i++)
+		{
+			startPos = Vector2.MoveTowards(startPos, targetPos, 1);
+			positionList.Add((startPos).CutToInt());
+		}
+		return positionList;
+	}
+
+	public void CleanTile(Vector3 worldPos, bool makeSlippery)
+	{
+		var worldPosInt = worldPos.CutToInt();
+		var matrix = AtPoint(worldPosInt, true);
+		var localPosInt = WorldToLocalInt(worldPosInt, matrix);
+		var floorDecals = GetAt<FloorDecal>(worldPosInt, isServer: true);
+
+	    for (var i = 0; i<floorDecals.Count; i++ )
+	    {
+		    floorDecals[i].TryClean();
+		}
+
+	    if (!IsSpaceAt(worldPosInt, true) && makeSlippery)
+	    {
+		    // Create a WaterSplat Decal (visible slippery tile)
+		    EffectsFactory.Instance.WaterSplat(worldPosInt);
+
+		    // Sets a tile to slippery
+		    matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);
+	    }
+	}
+
 }
 
 /// Struct that helps identify matrices

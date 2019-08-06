@@ -33,6 +33,7 @@ public class Mop : Interactable<PositionalHandApply>
 					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
 					{
 						CleanTile(interaction.WorldPositionTarget);
+						isCleaning = false;
 					}
 				}
 			);
@@ -44,29 +45,14 @@ public class Mop : Interactable<PositionalHandApply>
 		}
 	}
 
-	private void CleanTile (Vector3 worldPos)
-    {
-	    var worldPosInt = worldPos.CutToInt();
-	    var matrix = MatrixManager.AtPoint( worldPosInt, true );
-	    var localPosInt = MatrixManager.WorldToLocalInt( worldPosInt, matrix );
-	    var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
+	public void CleanTile(Vector3 worldPos)
+	{
+		var worldPosInt = worldPos.CutToInt();
+		var matrix = MatrixManager.AtPoint(worldPosInt, true);
+		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
+		matrix.MetaDataLayer.Clean(worldPosInt, localPosInt, true);
+	}
 
-	    for ( var i = 0; i < floorDecals.Count; i++ )
-	    {
-		    floorDecals[i].TryClean();
-	    }
-
-	    if (!MatrixManager.IsSpaceAt(worldPosInt, true))
-	    {
-		    // Create a WaterSplat Decal (visible slippery tile)
-		    EffectsFactory.Instance.WaterSplat(worldPosInt);
-
-		    // Sets a tile to slippery
-		    matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);
-	    }
-
-	    isCleaning = false;
-    }
 
 	private void CancelCleanTile()
 	{
