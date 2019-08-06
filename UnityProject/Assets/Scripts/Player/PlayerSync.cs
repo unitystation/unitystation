@@ -528,6 +528,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 	private void OnDrawGizmos()
 	{
+		if(!Application.isPlaying) return;
+		
 		//registerTile S pos
 		Gizmos.color = color7;
 		Vector3 regPosS = registerTile.WorldPositionServer;
