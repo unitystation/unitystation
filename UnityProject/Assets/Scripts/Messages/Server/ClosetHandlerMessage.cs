@@ -10,27 +10,49 @@ using UnityEngine.Networking;
 public class ClosetHandlerMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.ClosetHandlerMessage;
-	public GameObject Closet;
-
-	public NetworkInstanceId Recipient;
+	public NetworkInstanceId Closet;
 
 	public override IEnumerator Process()
 	{
-		yield return WaitFor(Recipient);
-		//Add the local player ClosetPlayerHandler (controls camera and interaction when closet is moving)
-		//Also monitors players movement inside the cupboard and tries to break them out
-		ObjectBehaviour playerBehaviour = PlayerManager.LocalPlayer.GetComponent<ObjectBehaviour>();
-		playerBehaviour.closetHandlerCache = PlayerManager.LocalPlayer.AddComponent<ClosetPlayerHandler>();
-		ClosetControl closetCtrl = Closet.GetComponent<ClosetControl>();
-		playerBehaviour.closetHandlerCache.Init(closetCtrl);
+		if ( Closet == NetworkInstanceId.Invalid )
+		{
+			yield return null;
+		}
+		else
+		{
+			yield return WaitFor(Closet);
+		}
+		var closetObject = NetworkObject;
+
+		if (!PlayerManager.LocalPlayerScript.IsGhost)
+		{
+
+			Camera2DFollow.followControl.target = closetObject ? closetObject.transform : PlayerManager.LocalPlayer.transform;
+			//todo: check if it's still required
+//			Camera2DFollow.followControl.damping = 0.0f;
+//			StartCoroutine(WaitForCameraToReachCloset());
+		}
+
 	}
+
+//	/// <summary>
+//	/// Applies the camera dampening when the camera reaches the closet.
+//	/// This makes the camera snap the to closet before making the camera "drag" as the closet moves.
+//	/// Snapping the camera to the closet is needed for when a player inside the closet rejoins the game, otherwise the
+//	/// camera will move/"drag" from coordinate 0,0 across the station to the closet's position.
+//	/// </summary>
+//	IEnumerator WaitForCameraToReachCloset()
+//	{
+//		yield return new WaitUntil(() =>
+//			Camera2DFollow.followControl.transform == Camera2DFollow.followControl.target);
+//		Camera2DFollow.followControl.damping = 0.2f;
+//	}
 
 	public static ClosetHandlerMessage Send(GameObject recipient, GameObject closet)
 	{
 		ClosetHandlerMessage msg = new ClosetHandlerMessage
 		{
-			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
-			Closet = closet
+			Closet = closet.NetId()
 		};
 		msg.SendTo(recipient);
 		return msg;
@@ -38,6 +60,6 @@ public class ClosetHandlerMessage : ServerMessage
 
 	public override string ToString()
 	{
-		return string.Format("[ClosetHandlerMessage Recipient={0} Closet={1}]", Recipient, Closet);
+		return string.Format("[ClosetHandlerMessage Closet={0}]", Closet);
 	}
 }

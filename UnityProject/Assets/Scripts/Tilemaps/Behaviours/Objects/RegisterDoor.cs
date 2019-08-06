@@ -29,7 +29,6 @@
 
 		private void Awake()
 		{
-			base.Awake();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 		}
 

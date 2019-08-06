@@ -100,7 +100,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 				.ApplyDamage(pair.Key, pair.Value, AttackType.Fire, DamageType.Burn);
 		}
 		RpcClientExplode();
-		gameObject.GetComponent<ObjectBehaviour>().visibleState = false;
+		gameObject.GetComponent<ObjectBehaviour>().VisibleState = false;
 		StartCoroutine(WaitToDestroy());
 	}
 

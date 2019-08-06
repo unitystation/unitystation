@@ -146,6 +146,18 @@ public partial class PlayerSync
 		}
 	}
 
+	public void SetVisibleServer(bool visible)
+	{
+		if ( visible )
+		{
+			AppearAtPositionServer( pushPull.AssumedWorldPositionServer() );
+		}
+		else
+		{
+			DisappearFromWorldServer();
+		}
+	}
+
 	/// Push player in direction.
 	/// Impulse should be consumed after one tile if indoors,
 	/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space
@@ -218,6 +230,7 @@ public partial class PlayerSync
 		serverState = newState;
 		SyncMatrix();
 		NotifyPlayers();
+		registerPlayer.UpdatePositionServer();
 	}
 
 	///	When lerp is finished, inform players of new state

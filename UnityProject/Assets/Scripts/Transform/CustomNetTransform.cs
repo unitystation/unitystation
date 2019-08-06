@@ -286,16 +286,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	}
 
 	/// Is it supposed to be hidden? (For init purposes)
-	private bool IsHiddenOnInit {
-		get {
-			if ( Vector3Int.RoundToInt( transform.position ).Equals( TransformState.HiddenPos ) ||
-			     Vector3Int.RoundToInt( transform.localPosition ).Equals( TransformState.HiddenPos ) ) {
-				return true;
-			}
-			VisibleBehaviour visibleBehaviour = GetComponent<VisibleBehaviour>();
-			return visibleBehaviour && !visibleBehaviour.visibleState;
-		}
-	}
+	private bool IsHiddenOnInit =>
+		Vector3Int.RoundToInt( transform.position ).Equals( TransformState.HiddenPos ) ||
+		Vector3Int.RoundToInt( transform.localPosition ).Equals( TransformState.HiddenPos );
 
 	/// Intended for runtime spawning, so that CNT could initialize accordingly
 	[Server]
@@ -482,6 +475,17 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		UpdateActiveStatusClient();
 	}
 
+	public void SetVisibleServer(bool visible)
+    {
+	    if ( visible )
+	    {
+			AppearAtPositionServer( PushPull.AssumedWorldPositionServer() );
+	    }
+	    else
+	    {
+			DisappearFromWorldServer();
+	    }
+    }
 
 	/// Clientside
 	/// Registers if unhidden, unregisters if hidden
@@ -497,7 +501,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 				registerTile.UnregisterClient();
 			}
 		}
-		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example.
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < renderers.Length; i++)
 		{

@@ -412,6 +412,17 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			{
 				DoAction();
 			}
+
+			//moving ClosetPlayerHandler legacy here for now
+			if ( !playerScript.canNotInteract() && KeyboardInputManager.IsMovementPressed() )
+			{
+				var parentContainer = playerScript.pushPull.parentContainer;
+				if ( parentContainer )
+				{
+					var closetControl = parentContainer.GetComponent<ClosetControl>();
+					closetControl.Interact(HandApply.ByLocalPlayer(closetControl.gameObject));
+				}
+			}
 		}
 
 		Synchronize();
