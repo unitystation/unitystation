@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 /// <summary>
 ///     Indicates an object that emits sound upon activation (bike horn/air horn...)
 /// </summary>
-public class Horn : NetworkBehaviour, IInteractable<HandActivate>, IInteractable<PositionalHandApply>
+public class Horn : Interactable<HandActivate, PositionalHandApply>
 {
 	public string Sound;
 	public float Cooldown = 0.2f;
@@ -22,6 +22,7 @@ public class Horn : NetworkBehaviour, IInteractable<HandActivate>, IInteractable
 	public float CritDamage = 5f;
 
 	private bool allowUse = true;
+	private float randomPitch => Random.Range( 0.7f, 1.2f );
 
 	private IEnumerator CoolDown()
 	{
@@ -30,7 +31,6 @@ public class Horn : NetworkBehaviour, IInteractable<HandActivate>, IInteractable
 		allowUse = true;
 	}
 
-	//fixme: apparently it's only executed on client
 	//todo: check if clientside AssumedLocation calls are broken
 	private void TryHonk(PositionalHandApply clickData = null)
 	{
@@ -60,8 +60,7 @@ public class Horn : NetworkBehaviour, IInteractable<HandActivate>, IInteractable
 
 				if ( isCrit )
 				{
-					SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), Random.Range( 0.8f, 1.2f ), true, 20, 5 );
-					targetHealth.ApplyDamage(clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head);
+					StartCoroutine( CritHonk( clickData, targetHealth ) );
 				}
 
 			}
@@ -74,37 +73,47 @@ public class Horn : NetworkBehaviour, IInteractable<HandActivate>, IInteractable
 		StartCoroutine( CoolDown());
 	}
 
-	private void ClassicHonk()
+	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthBehaviour targetHealth )
 	{
-		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), Random.Range( 0.8f, 1.2f ) );
+		yield return WaitFor.Seconds( 0.02f );
+		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5 );
+		targetHealth.ApplyDamage( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
 	}
 
 	/// <summary>
 	///	honk on activate
 	/// </summary>
-	public bool Interact(HandActivate interaction)
+	protected override void ServerPerformInteraction( HandActivate interaction )
 	{
-		if ( !DefaultWillInteract.HandActivate( interaction, NetworkSide.Client ) )
-		{
-			return false;
-		}
-
 		TryHonk();
-		return true;
 	}
-
 
 	/// <summary>
 	/// honk on world click
 	/// </summary>
-	public bool Interact( PositionalHandApply interaction )
+	protected override void ServerPerformInteraction( PositionalHandApply interaction )
 	{
-		if ( !DefaultWillInteract.PositionalHandApply( interaction, NetworkSide.Client ) )
-		{
-			return false;
-		}
-
 		TryHonk(interaction);
-		return true;
+	}
+
+	private void ClassicHonk()
+	{
+		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), randomPitch, true );
+	}
+
+	/// <summary>
+	/// Allow honking when barely conscious
+	/// </summary>
+	protected override bool WillInteract( HandActivate interaction, NetworkSide side )
+	{
+		return Validations.CanInteract( interaction.Performer, side, true );
+	}
+
+	/// <summary>
+	/// Allow honking when barely conscious and when clicking anything
+	/// </summary>
+	protected override bool WillInteractT2( PositionalHandApply interaction, NetworkSide side )
+	{
+		return Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Unlimited, interaction.TargetVector);
 	}
 }

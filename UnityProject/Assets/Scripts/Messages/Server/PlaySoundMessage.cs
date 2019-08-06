@@ -13,6 +13,8 @@ public class PlaySoundMessage : ServerMessage
 	public bool ShakeGround;
 	public byte ShakeIntensity;
 	public int	ShakeRange;
+	///Allow this one to sound polyphonically
+	public bool Polyphonic;
 
 	public override IEnumerator Process() {
 		yield return null;
@@ -20,10 +22,10 @@ public class PlaySoundMessage : ServerMessage
 
 		if ( isPositionProvided )
 		{
-			SoundManager.PlayAtPosition( SoundName, Position, Pitch );
+			SoundManager.PlayAtPosition( SoundName, Position, Pitch, Polyphonic );
 		} else
 		{
-			SoundManager.Play( SoundName, 1, Pitch );
+			SoundManager.Play( SoundName, 1, Pitch, 0f, Polyphonic );
 		}
 
 		if ( ShakeGround )
@@ -41,7 +43,8 @@ public class PlaySoundMessage : ServerMessage
 	}
 
 	public static PlaySoundMessage SendToAll( string sndName, Vector3 pos, float pitch,
-			bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 ) {
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 ) {
 		PlaySoundMessage msg = new PlaySoundMessage
 		{
 			SoundName = sndName,
@@ -49,7 +52,8 @@ public class PlaySoundMessage : ServerMessage
 			Pitch = pitch,
 			ShakeGround = shakeGround,
 			ShakeIntensity = shakeIntensity,
-			ShakeRange = shakeRange
+			ShakeRange = shakeRange,
+			Polyphonic = polyphonic
 		};
 
 		msg.SendToAll();
@@ -57,7 +61,8 @@ public class PlaySoundMessage : ServerMessage
 		return msg;
 	}
 	public static PlaySoundMessage Send( GameObject recipient, string sndName, Vector3 pos, float pitch,
-			bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 ) {
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 ) {
 		PlaySoundMessage msg = new PlaySoundMessage
 		{
 			SoundName = sndName,
@@ -65,7 +70,8 @@ public class PlaySoundMessage : ServerMessage
 			Pitch = pitch,
 			ShakeGround = shakeGround,
 			ShakeIntensity = shakeIntensity,
-			ShakeRange = shakeRange
+			ShakeRange = shakeRange,
+			Polyphonic = polyphonic
 		};
 
 		msg.SendTo(recipient);
