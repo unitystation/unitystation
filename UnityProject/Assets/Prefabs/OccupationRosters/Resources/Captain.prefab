@@ -1,12 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1387094316131694}
+  m_IsPrefabParent: 1
 --- !u!1 &1387094316131694
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
   m_Component:
   - component: {fileID: 4383656569659340}
   - component: {fileID: 114539947820853932}
@@ -19,10 +29,9 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4383656569659340
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1387094316131694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -33,40 +42,16 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114539947820853932
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1387094316131694}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1758e66ff4476fd44a105877728bea23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 6
   limit: 1
-  jobsTaken: 0
   priority: 0
-  jobType: 6
-  accessory: /obj/item/clothing/accessory/medal/gold/captain
-  allowedAccess: 01000000030000000400000005000000060000000700000008000000090000000a00000015000000160000001700000018000000190000001a0000001b0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f00000030000000310000003200000033000000340000003500000036000000370000003a0000003b0000003c0000003d0000003e0000003f0000004000000042000000430000004500000046000000490000004a0000004b0000004c0000004d0000004e0000004f00000050000000
-  head: /obj/item/clothing/head/caphat
-  glasses: /obj/item/clothing/glasses/sunglasses
-  ears: /obj/item/device/radio/headset/heads/captain
-  mask: 
-  neck: 
-  exosuit: /obj/item/clothing/suit/armor/vest/capcarapace
-  suitStorage: 
-  uniform: /obj/item/clothing/under/rank/captain
-  leftPocket: 
-  rightPocket: 
-  belt: /obj/item/device/pda/captain
-  gloves: /obj/item/clothing/gloves/color/captain
-  leftHand: 
-  shoes: /obj/item/clothing/shoes/sneakers/brown
-  backpack: /obj/item/weapon/storage/backpack/captain
-  duffelbag: /obj/item/weapon/storage/backpack/duffelbag
-  satchel: /obj/item/weapon/storage/backpack/satchel/cap
-  box: /obj/item/weapon/storage/box/survival
-  backpack_contents:
-  - /obj/item/weapon/melee/classic_baton/telescopic
-  - /obj/item/weapon/station_charter
+  outfit: {fileID: 1494963329605038, guid: 94a73cbc162a81e4b8f544aa635edc55, type: 2}

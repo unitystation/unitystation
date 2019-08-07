@@ -1,12 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1866127696583700}
+  m_IsPrefabParent: 1
 --- !u!1 &1866127696583700
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
   m_Component:
   - component: {fileID: 4507014599290814}
   - component: {fileID: 114903656805233692}
@@ -19,10 +29,9 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4507014599290814
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1866127696583700}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -33,39 +42,17 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114903656805233692
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1866127696583700}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1758e66ff4476fd44a105877728bea23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  department: 2
   limit: 3
-  jobsTaken: 0
+  outfit: {fileID: 1791234296732672, guid: 8d15c89c00802874489ff3c7770daf65, type: 2}
   priority: 99
-  jobType: 3
-  accessory: 
-  allowedAccess: 0400000020000000220000001a00000031000000
-  head: 
-  glasses: 
-  ears: /obj/item/device/radio/headset/headset_eng
-  mask: 
-  neck: 
-  exosuit: 
-  suitStorage: 
-  uniform: /obj/item/clothing/under/rank/atmospheric_technician
-  leftPocket: /obj/item/device/pda/atmos
-  rightPocket: /obj/item/device/analyzer
-  belt: /obj/item/weapon/storage/belt/utility/atmostech
-  gloves: 
-  leftHand: 
-  shoes: /obj/item/clothing/shoes/sneakers/black
-  backpack: /obj/item/weapon/storage/backpack/industrial
-  duffelbag: /obj/item/weapon/storage/backpack/duffelbag/engineering
-  satchel: /obj/item/weapon/storage/backpack/satchel/eng
-  box: /obj/item/weapon/storage/box/engineer
-  backpack_contents:
-  - /obj/item/device/modular_computer/tablet/preset/advanced
+  Type: 3
