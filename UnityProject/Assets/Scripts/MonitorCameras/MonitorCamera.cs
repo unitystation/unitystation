@@ -13,7 +13,7 @@ public class MonitorCamera : MonoBehaviour
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		sprites = SpriteManager.MonitorSprites["monitors"];
-		int.TryParse(spriteRenderer.sprite.name.Substring(9), out baseSprite);
+		int.TryParse(spriteRenderer.sprite.name, out baseSprite);
 		StartCoroutine(Animate());
 	}
 

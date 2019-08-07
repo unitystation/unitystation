@@ -231,32 +231,32 @@ public class DmiIconData : ScriptableObject
 		return s;
 	}
 
-	private void OnEnable()
-	{
-		if (Data.Count != 0)
-		{
-			return;
-		}
-		IconList<DmiIcon> ilist = DeserializeJson("dmi");
-		IconList<DmiIcon> iLegacylist = DeserializeJson("legacydmi");
-		//		KeyValuePair<IconList<DmiIcon>, Dictionary<string, DmiIcon>> listsKeyValuePair
-		Dictionary<IconList<DmiIcon>, Dictionary<string, DmiIcon>> lists = new Dictionary<IconList<DmiIcon>, Dictionary<string, DmiIcon>>();
-		lists.Add(ilist, Data);
-		lists.Add(iLegacylist, legacyData);
-		//		{iLegacylist, legacyData}};
-		foreach (KeyValuePair<IconList<DmiIcon>, Dictionary<string, DmiIcon>> list in lists)
-		{
-			foreach (DmiIcon icon in list.Key.icons)
-			{
-				string substring = icon.icon.Substring(0, icon.icon.IndexOf(".dmi", StringComparison.Ordinal));
-				Sprite[]
-					sprites = Resources.LoadAll<Sprite>(substring); //todo: consider cutting off 'icons/' and extension on java side to avoid further substr mess?
+	//private void OnEnable()
+	//{
+	//	if (Data.Count != 0)
+	//	{
+	//		return;
+	//	}
+	//	IconList<DmiIcon> ilist = DeserializeJson("dmi");
+	//	IconList<DmiIcon> iLegacylist = DeserializeJson("legacydmi");
+	//	//		KeyValuePair<IconList<DmiIcon>, Dictionary<string, DmiIcon>> listsKeyValuePair
+	//	Dictionary<IconList<DmiIcon>, Dictionary<string, DmiIcon>> lists = new Dictionary<IconList<DmiIcon>, Dictionary<string, DmiIcon>>();
+	//	lists.Add(ilist, Data);
+	//	lists.Add(iLegacylist, legacyData);
+	//	//		{iLegacylist, legacyData}};
+	//	foreach (KeyValuePair<IconList<DmiIcon>, Dictionary<string, DmiIcon>> list in lists)
+	//	{
+	//		foreach (DmiIcon icon in list.Key.icons)
+	//		{
+	//			string substring = icon.icon.Substring(0, icon.icon.IndexOf(".dmi", StringComparison.Ordinal));
+	//			Sprite[]
+	//				sprites = Resources.LoadAll<Sprite>(substring); //todo: consider cutting off 'icons/' and extension on java side to avoid further substr mess?
 
-				icon.spriteSheet = sprites;
-				list.Value.Add(icon.icon, icon);
-			}
-		}
-	}
+	//			icon.spriteSheet = sprites;
+	//			list.Value.Add(icon.icon, icon);
+	//		}
+	//	}
+	//}
 
 	private static IconList<DmiIcon> DeserializeJson(string name)
 	{

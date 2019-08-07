@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 70
-  m_Sprite: {fileID: 21300042, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
+  m_Sprite: {fileID: 21300002, guid: c79afa352c73a8b4982e8d6138736aa3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -235,7 +235,6 @@ MonoBehaviour:
   - {fileID: 21300034, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   spriteRenderer: {fileID: 212588640390319518}
   spriteSync: 0
-  ARANdirectionBool: 
   connectionSprite:
   - {fileID: 21300056, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
   - {fileID: 21300058, guid: 56cc0708b88c34536828cc7262a07808, type: 3}
@@ -270,6 +269,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 0
+  damageType: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
