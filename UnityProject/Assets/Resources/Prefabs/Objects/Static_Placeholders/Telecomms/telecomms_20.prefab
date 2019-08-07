@@ -215,6 +215,15 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
 --- !u!1 &1723938365196182
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,7 +292,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300040, guid: fb37a16057ab34494a528f68d7f8c2ed, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4cdeacd2913926544b8e3e9340aa1a3a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

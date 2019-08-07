@@ -493,7 +493,7 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 	private ApprovalState pushApproval = ApprovalState.None;
 	private bool CanPredictPush => pushPrediction == PushState.None && Pushable.CanPredictPush;
 	private Vector3Int predictivePushTarget = TransformState.HiddenPos;
-	private Vector3Int lastReliablePos = TransformState.HiddenPos;
+	protected Vector3Int lastReliablePos = TransformState.HiddenPos;
 
 	#endregion
 

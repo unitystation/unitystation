@@ -124,6 +124,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 5
+  damageType: 0
   throwDamage: 5
   throwSpeed: 2
   throwRange: 5
@@ -254,6 +255,15 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
 --- !u!1 &267804334718447221
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +332,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 250
-  m_Sprite: {fileID: 21300000, guid: ddab951d393a447a89bf19ac5a3d1ead, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e0117bb99e775ea4b8de3c3dfa89dd57, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

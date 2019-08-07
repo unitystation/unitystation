@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 114471307790132060}
   - component: {fileID: 8662802031584981702}
   - component: {fileID: 114931949852656388}
-  - component: {fileID: 114937167696964686}
   - component: {fileID: 114320971445513960}
   - component: {fileID: 114077234577922880}
   - component: {fileID: 114383668046188982}
@@ -172,18 +171,6 @@ MonoBehaviour:
   damage: 150
   radius: 3
   spriteRend: {fileID: 212754324253313380}
---- !u!114 &114937167696964686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1677789019931390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d408beaded664de2817cddbbcd26c3dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114320971445513960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,6 +235,15 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
 --- !u!1 &1754091207019976
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +312,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300346, guid: 74dafca618838400c96a204b96fa7ca4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 185b88f5493eb6943be06789294c387f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
