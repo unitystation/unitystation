@@ -212,7 +212,7 @@ public partial class PlayerSync
 	/// Also clears prediction queues.
 	/// <param name="worldPos">The new position to "teleport" player</param>
 	[Server]
-	public void SetPosition(Vector3 worldPos)
+	public void SetPosition(Vector3 worldPos, bool noLerp = false)
 	{
 		ClearQueueServer();
 		Vector3Int roundedPos = Vector3Int.RoundToInt((Vector2)worldPos); //cutting off z-axis
@@ -229,7 +229,7 @@ public partial class PlayerSync
 		serverLerpState = newState;
 		serverState = newState;
 		SyncMatrix();
-		NotifyPlayers();
+		NotifyPlayers(noLerp);
 		registerPlayer.UpdatePositionServer();
 	}
 

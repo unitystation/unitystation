@@ -112,7 +112,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 	{
 		IsClosed = value;
 		HandleItems();
-		ChangeSprite();
+		StartCoroutine(ChangeSpriteDelayed());
 	}
 
 	private void SetIsLocked(bool value)
@@ -129,6 +129,12 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 				lockLight.Unlock();
 			}
 		}
+	}
+
+	public IEnumerator ChangeSpriteDelayed()
+	{
+		yield return WaitFor.EndOfFrame;
+		ChangeSprite();
 	}
 
 	public void ChangeSprite()

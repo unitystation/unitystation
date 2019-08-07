@@ -27,7 +27,7 @@ public class ClosetHandlerMessage : ServerMessage
 		if (!PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			Transform newTarget = closetObject ? closetObject.transform : PlayerManager.LocalPlayer.transform;
-			Camera2DFollow.SetTargetNextFrame( newTarget );
+			Camera2DFollow.followControl.target = newTarget;
 			//todo: check if it's still required (on live server)
 //			Camera2DFollow.followControl.damping = 0.0f;
 //			StartCoroutine(WaitForCameraToReachCloset());

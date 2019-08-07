@@ -58,21 +58,6 @@ public class Camera2DFollow : MonoBehaviour
 	[HideInInspector]
 	public Camera cam;
 
-	public static void SetTargetNextFrame( Transform newTarget )
-	{
-		followControl.InternalSetTargetNextFrame( newTarget );
-	}
-
-	private void InternalSetTargetNextFrame( Transform newTarget )
-	{
-		StartCoroutine( SetTargetCoroutine( newTarget ) );
-	}
-	private IEnumerator SetTargetCoroutine( Transform newTarget )
-	{
-		yield return WaitFor.EndOfFrame;
-		target = newTarget;
-	}
-
 	private void Awake()
 	{
 		if (followControl == null)

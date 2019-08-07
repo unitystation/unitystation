@@ -280,13 +280,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		OnPullInterrupt().Invoke();
 		serverState = PlayerState.HiddenState;
 		serverLerpState = PlayerState.HiddenState;
-		NotifyPlayers();
+		NotifyPlayers(true);
 	}
 
 	[Server]
 	public void AppearAtPositionServer(Vector3 worldPos)
 	{
-		SetPosition(worldPos);
+		SetPosition(worldPos, true);
 	}
 
 	#endregion
