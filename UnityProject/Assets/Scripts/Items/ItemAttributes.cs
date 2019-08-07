@@ -62,6 +62,9 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	public int inHandReferenceLeft;
 	public int inHandReferenceRight;
 
+	public Sprite InhandLeft;
+	public Sprite InhandRight;
+
 	private DmiIcon inventoryIcon;
 	private string[] invSheetPaths;
 	private string item_color;
