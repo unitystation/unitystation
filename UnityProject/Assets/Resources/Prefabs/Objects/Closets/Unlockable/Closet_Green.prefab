@@ -99,7 +99,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300024, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1faf6757d48f2664ca3c693b617a703b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -178,7 +178,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300040, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8ee5ee76aed095b45afc5f7f4f4b8a84, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -346,7 +346,7 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   playerLimit: 3
   statusSync: 0
-  doorOpened: {fileID: 21300042, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
+  doorOpened: {fileID: 21300000, guid: 64b240e12ad22cb448e547c57af09f62, type: 3}
   spriteRenderer: {fileID: 212563808269097272}
 --- !u!114 &2895454558127337523
 MonoBehaviour:
@@ -431,3 +431,12 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100

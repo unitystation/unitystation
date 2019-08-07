@@ -152,7 +152,6 @@ MonoBehaviour:
   - {fileID: 21300168, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
   spriteRenderer: {fileID: 8418407404781841632}
   spriteSync: 0
-  ARANdirectionBool: 
   MinimumPressure: 101.325
 --- !u!114 &8354343867630940287
 MonoBehaviour:
@@ -177,6 +176,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 0
+  damageType: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
@@ -361,7 +361,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 70
-  m_Sprite: {fileID: 21300224, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

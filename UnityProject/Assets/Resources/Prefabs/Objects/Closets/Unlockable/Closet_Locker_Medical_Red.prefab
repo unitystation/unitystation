@@ -69,7 +69,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300092, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 89bc2bd815d2f9240aa64722f14ac60e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -237,7 +237,7 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   playerLimit: 3
   statusSync: 0
-  doorOpened: {fileID: 21300090, guid: f507c5b8270d6416d9c92acb9683a1b9, type: 3}
+  doorOpened: {fileID: 21300000, guid: f54e766b8761bd141981695f05739a3c, type: 3}
   spriteRenderer: {fileID: 212255976647380646}
 --- !u!114 &1354527636327440602
 MonoBehaviour:
@@ -322,6 +322,15 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
 --- !u!1 &1660108514398418
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +399,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300088, guid: 750f8bfa924644678ef4376bd1187c3d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 380821b70a3d6094da5fd026768ecc78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

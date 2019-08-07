@@ -37,12 +37,12 @@ SpriteAtlas:
       padding: 2
       blockOffset: 1
       allowAlphaSplitting: 0
-      enableRotation: 1
-      enableTightPacking: 1
+      enableRotation: 0
+      enableTightPacking: 0
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 3ea6f0e80e1d1204a92249aa2bb2b5fc, type: 3}
-    totalSpriteSurfaceArea: 19960860
+    totalSpriteSurfaceArea: 19963932
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -2866,6 +2866,9 @@ SpriteAtlas:
   - {fileID: 21300002, guid: 4e8646721c528db45a7bed5a05fdb9d7, type: 3}
   - {fileID: 21300000, guid: 3ed6b77296bf0d945bc7ce67eaf3cba6, type: 3}
   - {fileID: 21300000, guid: fd9cb8728740c4c46991bbd261ab14d1, type: 3}
+  - {fileID: 21300000, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
+  - {fileID: 21300002, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
+  - {fileID: 21300004, guid: 9ea03a721393fdf4eaacdadddf81de55, type: 3}
   - {fileID: 21300000, guid: 9f58da72bb557cf469e9e89dfd8f30a1, type: 3}
   - {fileID: 21300000, guid: 76a44b720c52f54459ddfbaf55dd8a45, type: 3}
   - {fileID: 21300006, guid: 1ca48c721f4f82e44a632747fceaffd8, type: 3}
@@ -20510,6 +20513,9 @@ SpriteAtlas:
   - crema2_1
   - random_beebox
   - cocoon1
+  - Chair buckles_0
+  - Chair buckles_1
+  - Chair buckles_2
   - polypore-grow2
   - siphon-open
   - inje_map-3_3

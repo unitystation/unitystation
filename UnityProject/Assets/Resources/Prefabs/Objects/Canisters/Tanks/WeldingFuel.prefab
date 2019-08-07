@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300144, guid: 0fbde64226db4fe2912bb9bec9094505, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8cf71ce3617904344adc58028dd072c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,7 +93,6 @@ GameObject:
   - component: {fileID: 114117985471735314}
   - component: {fileID: 114020636723924386}
   - component: {fileID: 114527046222029886}
-  - component: {fileID: 114533782473290288}
   - component: {fileID: 114867396419559272}
   - component: {fileID: 114183243700281508}
   - component: {fileID: 114856973896395130}
@@ -234,18 +233,6 @@ MonoBehaviour:
   damage: 150
   radius: 3
   spriteRend: {fileID: 212357524740156146}
---- !u!114 &114533782473290288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1942658981970304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d408beaded664de2817cddbbcd26c3dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114867396419559272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,3 +327,12 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100

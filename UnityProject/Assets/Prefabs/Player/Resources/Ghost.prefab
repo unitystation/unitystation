@@ -99,7 +99,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f99bb0ad07434da089f740997e6916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JobType: 0
+  characterSettings:
+    username: 
+    Name: Cuban Pete
+    Gender: 0
+    Age: 22
+    hairStyleOffset: -1
+    hairStyleName: Bald
+    hairCollectionIndex: 4
+    hairColor: black
+    eyeColor: black
+    facialHairOffset: -1
+    facialHairName: Shaved
+    facialHairCollectionIndex: 4
+    facialHairColor: black
+    skinTone: '#ffe0d1'
+    underwearOffset: 20
+    underwearName: Mankini
+    underwearCollectionIndex: 1
+    socksOffset: 376
+    socksName: Knee-High (Freedom)
+    socksCollectionIndex: 3
+    headSpriteIndex: 20
+    torsoSpriteIndex: 28
+    rightLegSpriteIndex: 12
+    leftLegSpriteIndex: 16
+    rightArmSpriteIndex: 4
+    leftArmSpriteIndex: 8
   playerName: ' '
 --- !u!114 &3553771700973194240
 MonoBehaviour:
@@ -173,6 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c7b6bc021c23c54d8e5410a430ca7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 2
 --- !u!212 &5563555414371530056
 SpriteRenderer:
@@ -209,9 +236,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1066465801
-  m_SortingLayer: 21
+  m_SortingLayer: 22
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300536, guid: 8d4d1232c46147038b59099d78c772c8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e8e3c8ab1b638f444a23fdb839a9dc00, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -263,4 +290,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 0
-  ExtraRotation: {x: 0, y: 0, z: 0, w: 1}
