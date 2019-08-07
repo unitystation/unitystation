@@ -107,7 +107,7 @@ public class Grenade : NBHandActivateInteractable
 			PlaySoundAndShake();
 			CreateShape();
 			CalcAndApplyExplosionDamage(damagedBy);
-			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			objectBehaviour.VisibleState = false; //todo: should probably destroy such things (or return into pool) instead of hiding
 		}
 	}
 

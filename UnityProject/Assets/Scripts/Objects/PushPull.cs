@@ -22,7 +22,9 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		set => Pushable.SetVisibleServer( value );
 	}
 
-	//The object that this object is contained inside
+	/// <summary>
+	/// Server only: The object that this object is contained inside
+	/// </summary>
 	public PushPull parentContainer = null;
 
 	/// <summary>

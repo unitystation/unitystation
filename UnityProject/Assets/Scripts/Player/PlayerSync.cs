@@ -396,32 +396,38 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
 	}
 
+	private bool didWiggle = false;
+
 	private void Update()
 	{
 		if (isLocalPlayer && playerMove != null)
 		{
-			//				 If being pulled by another player and you try to break free
-			if (pushPull != null && pushPull.IsBeingPulledClient)
-			{
-				if ( !playerScript.canNotInteract() && KeyboardInputManager.IsMovementPressed() )
-				{
-					pushPull.CmdStopFollowing();
-				}
-			}
-			else if (ClientPositionReady)
-			{
-				DoAction();
-			}
+			didWiggle = false;
 
-			//moving ClosetPlayerHandler legacy here for now
 			if ( !playerScript.canNotInteract() && KeyboardInputManager.IsMovementPressed() )
 			{
-				var parentContainer = playerScript.pushPull.parentContainer;
-				if ( parentContainer )
+				//	If being pulled by another player and you try to break free
+				if (pushPull != null && pushPull.IsBeingPulledClient)
 				{
-					var closetControl = parentContainer.GetComponent<ClosetControl>();
-					closetControl.Interact(HandApply.ByLocalPlayer(closetControl.gameObject));
+					pushPull.CmdStopFollowing();
+					didWiggle = true;
 				}
+				else if ( Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform )
+				{
+					//	Leaving locker
+					var closet = Camera2DFollow.followControl.target.GetComponent<ClosetControl>();
+					if ( closet )
+					{
+						closet.Interact(HandApply.ByLocalPlayer(closet.gameObject));
+						didWiggle = true;
+					}
+				}
+			}
+
+			//Not requesting directional move if we're attempting to leave locker/break pull
+			if (!didWiggle && ClientPositionReady)
+			{
+				DoAction();
 			}
 		}
 

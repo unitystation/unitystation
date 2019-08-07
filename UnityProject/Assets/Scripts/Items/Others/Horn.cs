@@ -31,7 +31,6 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 		allowUse = true;
 	}
 
-	//todo: check if clientside AssumedLocation calls are broken
 	private void TryHonk(PositionalHandApply clickData = null)
 	{
 		if ( !allowUse )
