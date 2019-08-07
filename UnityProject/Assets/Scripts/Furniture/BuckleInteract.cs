@@ -13,6 +13,8 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 	//may be null
 	private OccupiableDirectionalSprite occupiableDirectionalSprite;
 
+	public bool forceUpright;
+
 	private void Start()
 	{
 		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
@@ -82,7 +84,6 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 		playerMoveAtPosition.Unbuckle();
 		//the above will then invoke onunbuckle as it was the callback passed to Restrain
 	}
-
 
 	//delegate invoked from playerMove when they are unrestrained from this
 	private void OnUnbuckle()
