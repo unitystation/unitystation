@@ -37,33 +37,25 @@ public class GUI_PlayerJobs : MonoBehaviour
 			Destroy(child.gameObject);
 		}
 
-		foreach (OccupationRoster occupationGo in GameManager.Instance.Occupations)
+		foreach (GameObject occupationGo in GameManager.Instance.Occupations)
 		{
 
 			GameObject occupation = Instantiate(buttonPrefab);
-			JobType jobType = occupationGo.jobType;
+			JobType jobType = occupationGo.GetComponent<OccupationRoster>().Type;
 			//For nuke ops mode, syndis spawn via a different button
 			if(jobType == JobType.SYNDICATE){
 				continue;
 			}
 			int active = GameManager.Instance.GetOccupationsCount(jobType);
-			int maxCount = GameManager.Instance.GetOccupationMaxCount(jobType);
+			int available = GameManager.Instance.GetOccupationMaxCount(jobType);
 
 			occupation.name = jobType.ToString();
-			if(maxCount > 0)
-			{
-				occupation.GetComponentInChildren<Text>().text = $"{jobType} ({active} of {maxCount})";
-			}
-			else
-			{
-				occupation.GetComponentInChildren<Text>().text = $"{jobType} ({active})";
-			}
-
+			occupation.GetComponentInChildren<Text>().text = jobType + " (" + active + " of " + available + ")";
 			occupation.transform.SetParent(screen_Jobs.transform);
 			occupation.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
 			//Disabled button for full jobs
-			if (active >= maxCount && maxCount != -1)
+			if (active >= available)
 			{
 				occupation.GetComponentInChildren<Button>().interactable = false;
 			}

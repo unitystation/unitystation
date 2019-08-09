@@ -68,69 +68,91 @@ public class Equipment : NetworkBehaviour
 
 	public void SetPlayerLoadOuts()
 	{
-		OccupationRoster occupation = GameManager.Instance.GetOccupationRoster(playerScript.mind.jobType);
+		JobOutfit standardOutfit = GameManager.Instance.StandardOutfit.GetComponent<JobOutfit>();
+		JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(playerScript.mind.jobType);
 
 		Dictionary<string, string> gear = new Dictionary<string, string>();
 
-		if (!string.IsNullOrEmpty(occupation.uniform))
+		gear.Add("uniform", standardOutfit.uniform);
+		gear.Add("ears", standardOutfit.ears);
+		gear.Add("belt", standardOutfit.belt);
+		gear.Add("back", standardOutfit.backpack);
+		gear.Add("shoes", standardOutfit.shoes);
+		gear.Add("glasses", standardOutfit.glasses);
+		gear.Add("gloves", standardOutfit.gloves);
+		gear.Add("suit", standardOutfit.suit);
+		gear.Add("head", standardOutfit.head);
+		//gear.Add("accessory", standardOutfit.accessory);
+		gear.Add("mask", standardOutfit.mask);
+		//gear.Add("backpack", standardOutfit.backpack);
+		//gear.Add("satchel", standardOutfit.satchel);
+		//gear.Add("duffelbag", standardOutfit.duffelbag);
+		//gear.Add("box", standardOutfit.box);
+		//gear.Add("l_hand", standardOutfit.l_hand);
+		//gear.Add("l_pocket", standardOutfit.l_pocket);
+		//gear.Add("r_pocket", standardOutfit.r_pocket);
+		//gear.Add("suit_store", standardOutfit.suit_store);
+
+		if (!string.IsNullOrEmpty(jobOutfit.uniform))
 		{
-			gear.Add("uniform", occupation.uniform);
+			gear["uniform"] = jobOutfit.uniform;
 		}
-		/*if (!String.IsNullOrEmpty(occupation.id))
-			gear.Add("id", occupation.id);*/
-		if (!string.IsNullOrEmpty(occupation.ears))
+		/*if (!String.IsNullOrEmpty(jobOutfit.id))
+			gear["id"] = jobOutfit.id;*/
+		if (!string.IsNullOrEmpty(jobOutfit.ears))
 		{
-			gear.Add("ears", occupation.ears);
+			gear["ears"] = jobOutfit.ears;
 		}
-		if (!string.IsNullOrEmpty(occupation.belt))
+		if (!string.IsNullOrEmpty(jobOutfit.belt))
 		{
-			gear.Add("belt", occupation.belt);
+			gear["belt"] = jobOutfit.belt;
 		}
-		if (!string.IsNullOrEmpty(occupation.backpack))
+		if (!string.IsNullOrEmpty(jobOutfit.backpack))
 		{
-			gear.Add("back", occupation.backpack);
+			gear["back"] = jobOutfit.backpack;
 		}
-		if (!string.IsNullOrEmpty(occupation.shoes))
+		if (!string.IsNullOrEmpty(jobOutfit.shoes))
 		{
-			gear.Add("shoes", occupation.shoes);
+			gear["shoes"] = jobOutfit.shoes;
 		}
-		if (!string.IsNullOrEmpty(occupation.glasses))
+		if (!string.IsNullOrEmpty(jobOutfit.glasses))
 		{
-			gear.Add("glasses", occupation.glasses);
+			gear["glasses"] = jobOutfit.glasses;
 		}
-		if (!string.IsNullOrEmpty(occupation.gloves))
+		if (!string.IsNullOrEmpty(jobOutfit.gloves))
 		{
-			gear.Add("gloves", occupation.gloves);
+			gear["gloves"] = jobOutfit.gloves;
 		}
-		if (!string.IsNullOrEmpty(occupation.exosuit))
+		if (!string.IsNullOrEmpty(jobOutfit.suit))
 		{
-			gear.Add("suit", occupation.exosuit);
+			gear["suit"] = jobOutfit.suit;
 		}
-		if (!string.IsNullOrEmpty(occupation.head))
+		if (!string.IsNullOrEmpty(jobOutfit.head))
 		{
-			gear.Add("head", occupation.head);
+			gear["head"] = jobOutfit.head;
 		}
-		/*if (!String.IsNullOrEmpty(occupation.accessory))
-			gear.Add("accessory", occupation.accessory);*/
-		if (!string.IsNullOrEmpty(occupation.mask))
+		/*if (!String.IsNullOrEmpty(jobOutfit.accessory))
+			gear["accessory"] = jobOutfit.accessory;*/
+		if (!string.IsNullOrEmpty(jobOutfit.mask))
 		{
-			gear.Add("mask", occupation.mask);
+			gear["mask"] = jobOutfit.mask;
 		}
-		/*
-		if (!String.IsNullOrEmpty(occupation.satchel))
-			gear.Add("satchel", occupation.satchel);
-		if (!String.IsNullOrEmpty(occupation.duffelbag))
-			gear.Add("duffelbag", occupation.duffelbag);
-		if (!String.IsNullOrEmpty(occupation.box))
-			gear.Add("box", occupation.box);
-		if (!String.IsNullOrEmpty(occupation.l_hand))
-			gear.Add("l_hand", occupation.l_hand);
-		if (!String.IsNullOrEmpty(occupation.l_pocket))
-			gear.Add("l_pocket", occupation.l_pocket);
-		if (!String.IsNullOrEmpty(occupation.r_pocket))
-			gear.Add("r_pocket", occupation.r_pocket);
-		if (!String.IsNullOrEmpty(occupation.suit_store))
-			gear.Add("suit_store", occupation.suit_store);*/
+		/*if (!String.IsNullOrEmpty(jobOutfit.backpack))
+			gear["backpack"] = jobOutfit.backpack;
+		if (!String.IsNullOrEmpty(jobOutfit.satchel))
+			gear["satchel"] = jobOutfit.satchel;
+		if (!String.IsNullOrEmpty(jobOutfit.duffelbag))
+			gear["duffelbag"] = jobOutfit.duffelbag;
+		if (!String.IsNullOrEmpty(jobOutfit.box))
+			gear["box"] = jobOutfit.box;
+		if (!String.IsNullOrEmpty(jobOutfit.l_hand))
+			gear["l_hand"] = jobOutfit.l_hand;
+		if (!String.IsNullOrEmpty(jobOutfit.l_pocket))
+			gear["l_pocket"] = jobOutfit.l_pocket;
+		if (!String.IsNullOrEmpty(jobOutfit.r_pocket))
+			gear["r_pocket"] = jobOutfit.r_pocket;
+		if (!String.IsNullOrEmpty(jobOutfit.suit_store))
+			gear["suit_store"] = jobOutfit.suit_store;*/
 
 		foreach (KeyValuePair<string, string> gearItem in gear)
 		{
@@ -152,7 +174,7 @@ public class Equipment : NetworkBehaviour
 				//					Logger.Log(gearItem.Value + " creation not implemented yet.");
 			}
 		}
-		SpawnID(occupation);
+		SpawnID(jobOutfit);
 
 		if (playerScript.mind.jobType == JobType.SYNDICATE)
 		{
@@ -166,23 +188,23 @@ public class Equipment : NetworkBehaviour
 		}
 	}
 
-	private void SpawnID(OccupationRoster occupation)
+	private void SpawnID(JobOutfit outFit)
 	{
 
 		var realName = GetComponent<PlayerScript>().playerName;
 		GameObject idObj = PoolManager.PoolNetworkInstantiate(idPrefab, parent: transform.parent);
-		if (occupation.jobType == JobType.CAPTAIN)
+		if (outFit.jobType == JobType.CAPTAIN)
 		{
-			idObj.GetComponent<IDCard>().Initialize(IDCardType.captain, occupation.jobType, occupation.allowedAccess, realName);
+			idObj.GetComponent<IDCard>().Initialize(IDCardType.captain, outFit.jobType, outFit.allowedAccess, realName);
 		}
-		else if (occupation.jobType == JobType.HOP || occupation.jobType == JobType.HOS || occupation.jobType == JobType.CMO || occupation.jobType == JobType.RD ||
-				 occupation.jobType == JobType.CHIEF_ENGINEER)
+		else if (outFit.jobType == JobType.HOP || outFit.jobType == JobType.HOS || outFit.jobType == JobType.CMO || outFit.jobType == JobType.RD ||
+				 outFit.jobType == JobType.CHIEF_ENGINEER)
 		{
-			idObj.GetComponent<IDCard>().Initialize(IDCardType.command, occupation.jobType, occupation.allowedAccess, realName);
+			idObj.GetComponent<IDCard>().Initialize(IDCardType.command, outFit.jobType, outFit.allowedAccess, realName);
 		}
 		else
 		{
-			idObj.GetComponent<IDCard>().Initialize(IDCardType.standard, occupation.jobType, occupation.allowedAccess, realName);
+			idObj.GetComponent<IDCard>().Initialize(IDCardType.standard, outFit.jobType, outFit.allowedAccess, realName);
 		}
 
 		SetItem("id", idObj);

@@ -17,6 +17,17 @@ public class NumberSpinner : NetUIElement
 	public DigitSpinner TenThousands;
 	public DigitSpinner HundredThousands;
 
+	/// <summary>
+	/// Invoked when the value synced between client / server is updated.
+	/// </summary>
+	[NonSerialized]
+	public IntEvent OnSyncedValueChanged = new IntEvent();
+
+	/// <summary>
+	/// Gets the value currently synced with the server / client
+	/// </summary>
+	public int SyncedValue => syncedValue;
+
 	private bool init = false;
 
 	public override string Value {
@@ -31,6 +42,7 @@ public class NumberSpinner : NetUIElement
 				DisplaySpinTo(newVal);
 			}
 			syncedValue = newVal;
+			OnSyncedValueChanged.Invoke(syncedValue);
 			externalChange = false;
 		}
 	}
@@ -96,7 +108,7 @@ public class NumberSpinner : NetUIElement
 
 		targetValue = newValue;
 
-		//TODO: Get spinning logic working nicely, currently we ignore the spinning logic
+
 		//and just jump to the value because spinning looks bad when the spin rate is really high (which is needed
 		//for internal pressure to update responsively)
 		Ones.JumpToDigit(targetValue % 10);
@@ -115,11 +127,13 @@ public class NumberSpinner : NetUIElement
 
 		return;
 
+		//NOTE: Previously tried to implement a spinning animation, but now am bypassing that stuff because it was
+		//proving difficult to make it look good but also be responsive when pressure is changing rapidly.
+		//Currently it just jumps directly to the number.
 		if (!init)
 		{
 			//initial value - we just opened the view and are getting our initial value, so
 			//jump directly to the new value
-			//TODO: init=false when closing or first opening tab (onenable? ondisable?).
 			Ones.JumpToDigit(targetValue % 10);
 			Tens.JumpToDigit(targetValue / 10 % 10);
 			Hundreds.JumpToDigit(targetValue / 100 % 10);
