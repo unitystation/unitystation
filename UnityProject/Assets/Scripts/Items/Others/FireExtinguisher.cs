@@ -18,7 +18,7 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 	public ParticleSystem particleSystem;
 	[SyncVar(hook = nameof(SyncParticles))] public float particleSync;
 
-	private void OnStartClient()
+	public override void OnStartClient()
 	{
 		SyncSprite(spriteSync);
 		base.OnStartClient();
@@ -66,6 +66,7 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 
 			var angle = Mathf.Atan2(targetPos.y - startPos.y, targetPos.x - startPos.x) * 180 / Mathf.PI;
 			particleSync = angle;
+			SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1);
 			reagentContainer.MoveReagentsTo(5);
 		}
 	}
@@ -116,7 +117,7 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 		spriteSync = value;
 		spriteRenderer.sprite = spriteList[spriteSync];
 
-		if (UIManager.Hands.CurrentSlot.Item == gameObject)
+		if (UIManager.Hands.CurrentSlot && UIManager.Hands.CurrentSlot.Item == gameObject)
 		{
 			UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
 		}

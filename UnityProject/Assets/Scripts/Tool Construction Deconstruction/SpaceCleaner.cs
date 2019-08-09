@@ -35,6 +35,7 @@ public class SpaceCleaner : NBAimApplyInteractable
 			particleSync = angle;
 
 			reagentContainer.MoveReagentsTo(5);
+			SoundManager.PlayNetworkedAtPos("Spray2", startPos, 1);
 		}
 	}
 
