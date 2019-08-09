@@ -68,7 +68,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 
 	public override void OnStartClient()
 	{
-		SyncSprite(statusSync);
+		SyncStatus( statusSync );
 		SetIsLocked(IsLocked);
 	}
 
