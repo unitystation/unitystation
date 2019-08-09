@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 4715117052207926}
   - component: {fileID: 61404138305600890}
   - component: {fileID: 9128197607768152992}
+  - component: {fileID: 8408979963087496618}
   - component: {fileID: 114818633338735330}
   - component: {fileID: 114657711786529776}
   - component: {fileID: 5322609074420117545}
@@ -170,10 +171,41 @@ MonoBehaviour:
   occupant: {fileID: 0}
   statusString: 
   powered: 0
-  closedWithOccupant: {fileID: 21300004, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
-  doorClosedPowerless: {fileID: 21300020, guid: edb878353e4ae4062978273e8fca40e2,
-    type: 3}
-  doorOpenPowerless: {fileID: 21300022, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  spriteHandler: {fileID: 8408979963087496618}
+--- !u!114 &8408979963087496618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0353eeb2753b8924f8da936fd95f0cc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 212360857505739792}
+  spriteList:
+  - spriteList:
+    - {fileID: 21300000, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+    - {fileID: 21300002, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  - spriteList:
+    - {fileID: 21300004, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+    - {fileID: 21300006, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+    - {fileID: 21300008, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+    - {fileID: 21300010, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  - spriteList:
+    - {fileID: 21300012, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+    - {fileID: 21300014, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  - spriteList:
+    - {fileID: 21300016, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  - spriteList:
+    - {fileID: 21300018, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  - spriteList:
+    - {fileID: 21300020, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  - spriteList:
+    - {fileID: 21300022, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  spriteIndex: 0
 --- !u!114 &114818633338735330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +350,15 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
 --- !u!114 &4585042576726451927
 MonoBehaviour:
   m_ObjectHideFlags: 0
