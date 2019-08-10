@@ -3754,7 +3754,7 @@ GameObject:
   - component: {fileID: 696835907591364663}
   - component: {fileID: 2428695031780894970}
   - component: {fileID: 3005485223294911546}
-  - component: {fileID: 734568398443660821}
+  - component: {fileID: 951634306073936116}
   m_Layer: 8
   m_Name: ChatCanvas
   m_TagString: Untagged
@@ -3826,23 +3826,18 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &734568398443660821
+--- !u!114 &951634306073936116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2322852888274628576}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cb1387213df4d54d9d8132a834b2fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &3225982707712395634
 GameObject:
   m_ObjectHideFlags: 0
