@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -32,6 +33,7 @@ public class ControlChat : MonoBehaviour
 	private Color toggleOffCol;
 	[SerializeField]
 	private Color toggleOnCol;
+	private bool windowCoolDown = false;
 
 	/// <summary>
 	/// A map of channel names and their toggles for UI manipulation
@@ -87,10 +89,24 @@ public class ControlChat : MonoBehaviour
 			Instance = this;
 			DontDestroyOnLoad(gameObject);
 			uiObj.SetActive(true);
+			InitPrefs();
 		}
 		else
 		{
 			Destroy(gameObject); //Kill the whole tree
+		}
+	}
+
+	void InitPrefs()
+	{
+		if (!PlayerPrefs.HasKey(StringManager.ChatBubblePref))
+		{
+			PlayerPrefs.SetInt(StringManager.ChatBubblePref, 0);
+			PlayerPrefs.Save();
+		}
+		if (PlayerPrefs.GetInt(StringManager.ChatBubblePref) == 1)
+		{
+			toggleChatBubbleImage.color = toggleOnCol;
 		}
 	}
 
@@ -168,9 +184,24 @@ public class ControlChat : MonoBehaviour
 		CloseChatWindow();
 	}
 
+	/// <summary>
+	/// Toggles the Chat Icon / Chat Bubble preference
+	/// </summary>
 	public void OnClickToggleBubble()
 	{
-
+		SoundManager.Play("Click01");
+		if (PlayerPrefs.GetInt(StringManager.ChatBubblePref) == 1)
+		{
+			PlayerPrefs.SetInt(StringManager.ChatBubblePref, 0);
+			toggleChatBubbleImage.color = toggleOffCol;
+		}
+		else
+		{
+			PlayerPrefs.SetInt(StringManager.ChatBubblePref, 1);
+			toggleChatBubbleImage.color = toggleOnCol;
+		}
+		PlayerPrefs.Save();
+		EventManager.Broadcast(EVENT.ToggleChatBubbles);
 	}
 
 	private void PlayerSendChat()
@@ -234,6 +265,8 @@ public class ControlChat : MonoBehaviour
 	/// <param name="selectedChannel">The chat channels to select when opening it</param>
 	public void OpenChatWindow(ChatChannel selectedChannel = ChatChannel.None)
 	{
+		if(windowCoolDown) return;
+
 		// Can't open chat window while main menu open
 		if (GUI_IngameMenu.Instance.mainIngameMenu.activeInHierarchy)
 		{
@@ -268,10 +301,18 @@ public class ControlChat : MonoBehaviour
 
 	public void CloseChatWindow()
 	{
+		windowCoolDown = true;
+		StartCoroutine(WindowCoolDown());
 		UIManager.IsInputFocus = false;
 		chatInputWindow.SetActive(false);
 		EventManager.Broadcast(EVENT.ChatUnfocused);
 		background.SetActive(false);
+	}
+
+	IEnumerator WindowCoolDown()
+	{
+		yield return WaitFor.EndOfFrame;
+		windowCoolDown = false;
 	}
 
 	/// <summary>

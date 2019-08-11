@@ -28,6 +28,30 @@ public class PlayerChatBubble : MonoBehaviour
         bubbleText.text = "";
     }
 
+    void OnEnable()
+    {
+        EventManager.AddHandler(EVENT.ToggleChatBubbles, OnToggle);
+    }
+
+    void OnDisable()
+    {
+        EventManager.RemoveHandler(EVENT.ToggleChatBubbles, OnToggle);
+    }
+
+    void OnToggle()
+    {
+        if (PlayerPrefs.GetInt(StringManager.ChatBubblePref) == 0)
+        {
+            if (showingDialogue)
+            {
+                StopCoroutine(ShowDialogue());
+                showingDialogue = false;
+                msgQueue.Clear();
+                chatBubble.SetActive(false);
+            }
+        }
+    }
+
     public void DetermineChatVisual(bool toggle, string message, ChatChannel chatChannel)
     {
         if (!UseChatBubble())
