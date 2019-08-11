@@ -199,11 +199,11 @@ public class ControlChat : MonoBehaviour
 	/// </summary>
 	private bool PlayerChatShown()
 	{
-		// Don't show if player is dead, crit or sent an empty message
+		// Don't show if player is dead, crit, talking in OOC or sent an empty message
 		if (PlayerManager.LocalPlayerScript.IsGhost ||
 			PlayerManager.LocalPlayerScript.playerHealth.IsCrit ||
-			InputFieldChat.text == ""
-		)
+			InputFieldChat.text == "" ||
+			PlayerManager.LocalPlayerScript.SelectedChannels.Equals(ChatChannel.OOC))
 		{
 			return false;
 		}

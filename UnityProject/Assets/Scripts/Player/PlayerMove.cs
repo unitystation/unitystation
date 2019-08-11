@@ -22,7 +22,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 
 	//netid of the game object we are buckled to, NetworkInstanceId.Invalid if not buckled
 	[SyncVar(hook = nameof(OnBuckledChangedHook))]
-	private NetworkInstanceId buckledObject = NetworkInstanceId.Invalid;
+	public NetworkInstanceId buckledObject = NetworkInstanceId.Invalid;
 
 	//callback invoked when we are unbuckled.
 	private Action onUnbuckled;
@@ -249,9 +249,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	/// Buckle the player at their current position.
 	/// </summary>
 	/// <param name="toObject">object to which they should be buckled, must have network instance id.</param>
-	/// <param name="onUnbuckled">callback to invoke when we become unbuckled</param>
+	/// <param name="unbuckledAction">callback to invoke when we become unbuckled</param>
 	[Server]
-	public void Buckle(GameObject toObject, Action onUnbuckled = null)
+	public void Buckle(GameObject toObject, Action unbuckledAction = null)
 	{
 		var netid = toObject.NetId();
 		if (netid == NetworkInstanceId.Invalid)
@@ -261,6 +261,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 				Category.Movement);
 			return;
 		}
+
+		var buckleInteract = toObject.GetComponent<BuckleInteract>();
+		PlayerUprightMessage.SendToAll(gameObject, buckleInteract.forceUpright, true);
 
 		OnBuckledChangedHook(netid);
 		//can't push/pull when buckled in, break if we are pulled / pulling
@@ -272,13 +275,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		PlayerScript.pushPull.CmdStopFollowing();
 		PlayerScript.pushPull.CmdStopPulling();
 		PlayerScript.pushPull.isNotPushable = true;
-		this.onUnbuckled = onUnbuckled;
-
-		//if player is downed, make them upright
-		if (registerPlayer.IsDownServer)
-		{
-			PlayerUprightMessage.SendToAll(gameObject, true, registerPlayer.IsSlippingServer);
-		}
+		onUnbuckled = unbuckledAction;
 
 		//sync position to ensure they buckle to the correct spot
 		playerScript.PlayerSync.SetPosition(toObject.TileWorldPosition().To3Int());
@@ -317,15 +314,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		OnBuckledChangedHook(NetworkInstanceId.Invalid);
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.isNotPushable = false;
-
-		//if player is crit, soft crit, or dead, lay them back down
-		if (playerScript.playerHealth.ConsciousState == ConsciousState.DEAD ||
-		    playerScript.playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
-		    playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
-		{
-			PlayerUprightMessage.SendToAll(gameObject, false, registerPlayer.IsSlippingServer);
-		}
-
+		PlayerUprightMessage.SendToAll(gameObject, !registerPlayer.IsDownServer, false); //fall or get up depending if the player can stand
 		onUnbuckled?.Invoke();
 	}
 
@@ -350,10 +339,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			//have to do this with a lambda otherwise the Cmd will not fire
-			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetworkInstanceId.Invalid, () => this.CmdUnbuckle());
+			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetworkInstanceId.Invalid, () => CmdUnbuckle());
 		}
 
-		this.buckledObject = newBuckledTo;
+		buckledObject = newBuckledTo;
 		//sub
 		if (buckledObject != NetworkInstanceId.Invalid)
 		{

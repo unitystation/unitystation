@@ -143,7 +143,7 @@ public class RegisterPlayer : RegisterTile
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	public void Stun(float stunDuration = 4f, bool dropItem = true)
 	{
-		PlayerUprightMessage.SendToAll(gameObject, false, true);
+		PlayerUprightMessage.SendToAll(gameObject, false, false);
 		if (dropItem)
 		{
 			playerScript.playerNetworkActions.DropItem("leftHand");
@@ -161,16 +161,7 @@ public class RegisterPlayer : RegisterTile
 
 	public void RemoveStun()
 	{
-		IsSlippingServer = false;
-
-		if (playerScript.playerHealth.IsCrit
-		 || playerScript.playerHealth.IsSoftCrit
-		 || playerScript.playerHealth.IsDead )
-		{
-			return;
-		}
-
-		PlayerUprightMessage.SendToAll(gameObject, !IsSlippingServer, IsSlippingServer);
+		PlayerUprightMessage.SendToAll(gameObject, true, false);
 		playerScript.playerMove.allowInput = true;
 	}
 }

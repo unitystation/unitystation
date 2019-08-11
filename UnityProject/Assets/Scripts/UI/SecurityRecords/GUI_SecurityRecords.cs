@@ -129,7 +129,7 @@ public class SecurityRecord
 	public string Fingerprints;
 	public SecurityStatus Status;
 	public List<SecurityRecordCrime> Crimes;
-	public OccupationRoster occupation;
+	public JobOutfit jobOutfit;
 	public CharacterSettings characterSettings;
 
 	public SecurityRecord()

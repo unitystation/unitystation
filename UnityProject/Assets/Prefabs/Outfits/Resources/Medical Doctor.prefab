@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1567982637835890}
+  m_IsPrefabAsset: 1
+--- !u!1 &1567982637835890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4415884133303432}
+  - component: {fileID: 114739750320285804}
+  m_Layer: 0
+  m_Name: Medical Doctor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4415884133303432
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1567982637835890}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114739750320285804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1567982637835890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef832313bc8da84b8fa31c209efe06e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  accessory: 
+  allowedAccess: 1a00000022000000330000003a0000004600000031000000
+  back: 
+  backpack: /obj/item/weapon/storage/backpack/medic
+  backpack_contents: []
+  belt: /obj/item/device/pda/medical
+  box: 
+  duffelbag: /obj/item/weapon/storage/backpack/duffelbag/med
+  ears: /obj/item/device/radio/headset/headset_med
+  glasses: 
+  gloves: 
+  head: 
+  jobType: 18
+  l_hand: /obj/item/weapon/storage/firstaid/regular
+  l_pocket: 
+  mask: 
+  r_pocket: 
+  satchel: /obj/item/weapon/storage/backpack/satchel/med
+  shoes: /obj/item/clothing/shoes/sneakers/white
+  suit: /obj/item/clothing/suit/toggle/labcoat
+  suit_store: /obj/item/device/flashlight/pen
+  uniform: /obj/item/clothing/under/rank/medical

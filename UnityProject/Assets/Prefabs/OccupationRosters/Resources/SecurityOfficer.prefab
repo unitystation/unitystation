@@ -1,12 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1710672413038410}
+  m_IsPrefabParent: 1
 --- !u!1 &1710672413038410
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
   m_Component:
   - component: {fileID: 4217394237791866}
   - component: {fileID: 114768286689842576}
@@ -19,10 +29,9 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4217394237791866
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1710672413038410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -33,39 +42,17 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114768286689842576
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1710672413038410}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1758e66ff4476fd44a105877728bea23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  department: 3
   limit: 5
-  jobsTaken: 0
+  outfit: {fileID: 1212771459599398, guid: e9221d12cb336f448b0661c33662df7c, type: 2}
   priority: 99
-  jobType: 33
-  accessory: 
-  allowedAccess: 060000001a0000001b0000003100000043000000440000002300000022000000
-  head: /obj/item/clothing/head/helmet/sec
-  glasses: /obj/item/clothing/glasses/hud/security/sunglasses
-  ears: /obj/item/device/radio/headset/headset_sec
-  mask: 
-  neck: 
-  exosuit: /obj/item/clothing/suit/armor/vest/alt
-  suitStorage: /obj/item/weapon/gun/energy/e_gun/advtaser
-  uniform: /obj/item/clothing/under/rank/security
-  leftPocket: /obj/item/weapon/restraints/handcuffs
-  rightPocket: /obj/item/device/assembly/flash/handheld
-  belt: /obj/item/device/pda/security
-  gloves: /obj/item/clothing/gloves/color/black
-  leftHand: 
-  shoes: /obj/item/clothing/shoes/jackboots
-  backpack: /obj/item/weapon/storage/backpack/security
-  duffelbag: /obj/item/weapon/storage/backpack/duffelbag/sec
-  satchel: /obj/item/weapon/storage/backpack/satchel/sec
-  box: /obj/item/weapon/storage/box/security
-  backpack_contents:
-  - /obj/item/weapon/melee/baton/loaded
+  Type: 33

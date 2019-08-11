@@ -36,30 +36,14 @@ public class PlayerUprightMessage : ServerMessage
 		}
 	}
 
-	public static PlayerUprightMessage Send(GameObject recipient, GameObject subjectPlayer, bool upright, bool isStunned)
-	{
-		if (!IsValid(subjectPlayer, upright))
-		{
-			return null;
-		}
-		var msg = new PlayerUprightMessage
-		{
-			SubjectPlayer = subjectPlayer.NetId(),
-			Upright = upright,
-		};
-		msg.SendTo(recipient);
-		return msg;
-	}
-
 	/// <summary>
 	/// Stunned info will ONLY be sent to subject!
 	/// </summary>
 	/// <param name="subjectPlayer"></param>
 	/// <param name="upright"></param>
-	/// <param name="isStunned"></param>
-	public static void SendToAll(GameObject subjectPlayer, bool upright, bool isStunned)
+	public static void SendToAll(GameObject subjectPlayer, bool upright, bool buckling)
 	{
-		if (!IsValid(subjectPlayer, upright))
+		if (!IsValid(subjectPlayer, upright, buckling))
 		{
 			return;
 		}
@@ -72,19 +56,29 @@ public class PlayerUprightMessage : ServerMessage
 		msg.SendTo( subjectPlayer );
 	}
 
-	private static bool IsValid(GameObject subjectPlayer, bool upright)
+	private static bool IsValid(GameObject subjectPlayer, bool upright, bool buckling)
 	{
+		if(buckling)
+		{
+			return true;
+		}
+
 		//checks if player is actually in a state where they can become up / down
 		var playerScript = subjectPlayer.GetComponent<PlayerScript>();
-		if (!upright)
+		var registerPlayer = subjectPlayer.GetComponent<RegisterPlayer>();
+
+		if (playerScript.playerMove.IsBuckled)
 		{
-			//cannot lay down if they are restrained
-			if (playerScript.playerMove.IsBuckled)
+			return false;
+		}
+
+		if(upright) //getting up
+		{
+			if (registerPlayer.IsDownServer)
 			{
 				return false;
 			}
 		}
-
 		return true;
 	}
 
