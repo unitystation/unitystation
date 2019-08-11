@@ -50,9 +50,9 @@ public class PlayerChatBubble : MonoBehaviour
 
     private void AddChatBubbleMsg(string msg, ChatChannel channel)
     {
-        if (msg.Length > 82)
+        if (msg.Length > 80)
         {
-            while (msg.Length > 82)
+            while (msg.Length > 80)
             {
                 int ws = -1;
                 //Searching for the nearest whitespace
@@ -71,7 +71,7 @@ public class PlayerChatBubble : MonoBehaviour
                 msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(split.Length), msg = split });
 
                 msg = msg.Substring(ws + 1);
-                if (msg.Length <= 82)
+                if (msg.Length <= 80)
                 {
                     msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(msg.Length), msg = msg });
                 }
@@ -95,7 +95,7 @@ public class PlayerChatBubble : MonoBehaviour
         }
         var b = msgQueue.Dequeue();
         chatBubble.SetActive(true);
-        bubbleText.text = b.msg;
+        bubbleText.text = $"\"{b.msg}\"";
         while (showingDialogue)
         {
             yield return WaitFor.EndOfFrame;
@@ -111,7 +111,7 @@ public class PlayerChatBubble : MonoBehaviour
                 else
                 {
                     b = msgQueue.Dequeue();
-                    bubbleText.text = b.msg;
+                    bubbleText.text = $"\"{b.msg}\"";
                 }
             }
         }
@@ -124,7 +124,7 @@ public class PlayerChatBubble : MonoBehaviour
     /// </summary>
     private float TimeToShow(int charCount)
     {
-        return Mathf.Clamp((float) charCount / 20f, 1f, 10f);
+        return Mathf.Clamp((float) charCount / 10f, 2.5f, 10f);
     }
 
     /// <summary>
