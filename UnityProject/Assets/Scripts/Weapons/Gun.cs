@@ -179,6 +179,10 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 			return false;
 		}
 
+		if (interaction.Performer == PlayerManager.LocalPlayer && PlayerManager.PlayerScript.IsHidden){
+			return false;
+		}
+
 		if (Projectile != null && CurrentMagazine.ammoRemains > 0 && FireCountDown <= 0)
 		{
 			if (interaction.MouseButtonState == MouseButtonState.PRESS)
