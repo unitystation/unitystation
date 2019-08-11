@@ -10,10 +10,8 @@ public class UpdateChatMessage : ServerMessage
 	public static short MessageType = (short) MessageTypes.UpdateChatMessage;
 	public ChatChannel Channels;
 	public string ChatMessageText;
-	public NetworkInstanceId Recipient;
-	//A list of NetId values of players who are in the visible local area
-	//in relation to the recipient
-	public string localGroupJson;
+	public NetworkInstanceId Recipient;//fixme: Recipient is redundant! Can be safely removed
+
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(Recipient);
@@ -21,14 +19,10 @@ public class UpdateChatMessage : ServerMessage
 		ChatRelay.Instance.AddToChatLogClient(ChatMessageText, Channels);
 	}
 
-	public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, string message, NetIDGroup localGroup = null)
+	public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, string message)
 	{
-		//Convert any localGroupData to json
-		var jsonData = "";
-		if(localGroup != null) jsonData = JsonUtility.ToJson(localGroup);
-
 		UpdateChatMessage msg =
-			new UpdateChatMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId, Channels = channels, ChatMessageText = message, localGroupJson = jsonData};
+			new UpdateChatMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId, Channels = channels, ChatMessageText = message};
 
 		msg.SendTo(recipient);
 		return msg;
