@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Networking;
-using UnityEngine;
-using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class ChatRelay : NetworkBehaviour
 {
@@ -16,9 +16,12 @@ public class ChatRelay : NetworkBehaviour
 	private void Awake()
 	{
 		//ensures the static instance is cleaned up after scene changes:
-		if(Instance == null){
+		if (Instance == null)
+		{
 			Instance = this;
-		} else {
+		}
+		else
+		{
 			Destroy(gameObject);
 		}
 	}
@@ -32,26 +35,25 @@ public class ChatRelay : NetworkBehaviour
 	public string GetCannelColor(ChatChannel channel)
 	{
 		var chatColors = new Dictionary<ChatChannel, String>
-		 {
-			{ChatChannel.Binary, "ff00ff"},
-			{ChatChannel.Supply, "a8732b"},
-			{ChatChannel.CentComm, "686868"},
-			{ChatChannel.Command, "204090"},
-			{ChatChannel.Common, "008000"},
-			{ChatChannel.Engineering, "fb5613"},
-			{ChatChannel.Examine, "white"},
-			{ChatChannel.Local, "white"},
-			{ChatChannel.Medical, "337296"},
-			{ChatChannel.None, ""},
-			{ChatChannel.OOC, "386aff"},
-			{ChatChannel.Science, "993399"},
-			{ChatChannel.Security, "a30000"},
-			{ChatChannel.Service, "6eaa2c"},
-			{ChatChannel.Syndicate, "6d3f40"},
-			{ChatChannel.System, "dd5555"},
-			{ChatChannel.Ghost, "386aff"},
-			{ChatChannel.Combat, "dd0000"}
-		};
+			{ { ChatChannel.Binary, "ff00ff" },
+				{ ChatChannel.Supply, "a8732b" },
+				{ ChatChannel.CentComm, "686868" },
+				{ ChatChannel.Command, "204090" },
+				{ ChatChannel.Common, "008000" },
+				{ ChatChannel.Engineering, "fb5613" },
+				{ ChatChannel.Examine, "white" },
+				{ ChatChannel.Local, "white" },
+				{ ChatChannel.Medical, "337296" },
+				{ ChatChannel.None, "" },
+				{ ChatChannel.OOC, "386aff" },
+				{ ChatChannel.Science, "993399" },
+				{ ChatChannel.Security, "a30000" },
+				{ ChatChannel.Service, "6eaa2c" },
+				{ ChatChannel.Syndicate, "6d3f40" },
+				{ ChatChannel.System, "dd5555" },
+				{ ChatChannel.Ghost, "386aff" },
+				{ ChatChannel.Combat, "dd0000" }
+			};
 
 		return chatColors[channel];
 	}
@@ -73,36 +75,52 @@ public class ChatRelay : NetworkBehaviour
 	{
 		var players = PlayerList.Instance.InGamePlayers;
 
-		//Local chat range checks:
-		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat) {
-			//			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
-			RaycastHit2D hit;
-			LayerMask layerMask = 1 << 9; //Walls layer
-			for (int i = 0; i < players.Count(); i++) {
-				if (Vector2.Distance(chatEvent.position,//speaker.GameObject.transform.position,
-									players[i].GameObject.transform.position) > 14f) {
-					//Player in the list is too far away for local chat, remove them:
-					players.Remove(players[i]);
-				} else {
-					//within range, but check if they are in another room or hiding behind a wall
-					if (Physics2D.Linecast(chatEvent.position,//speaker.GameObject.transform.position, 
-										  players[i].GameObject.transform.position, layerMask)) {
-						//if it hit a wall remove that player
-						players.Remove(players[i]);
-					}
+		//Determine who is nearby in the local group
+		var localGroup = new List<ConnectedPlayer>(players);
+		var isLocalChatEvent = chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat;
+
+		RaycastHit2D hit;
+		LayerMask layerMask = 1 << 9; //Walls layer
+		for (int i = 0; i < players.Count(); i++)
+		{
+			if (Vector2.Distance(chatEvent.position, //speaker.GameObject.transform.position,
+					players[i].GameObject.transform.position) > 14f)
+			{
+				//Player in the list is too far away for local chat, remove them:
+				localGroup.Remove(players[i]);
+				if(isLocalChatEvent) players.Remove(players[i]);
+			}
+			else
+			{
+				//within range, but check if they are in another room or hiding behind a wall
+				if (Physics2D.Linecast(chatEvent.position, //speaker.GameObject.transform.position, 
+						players[i].GameObject.transform.position, layerMask))
+				{
+					//if it hit a wall remove that player
+					localGroup.Remove(players[i]);
+					if(isLocalChatEvent) players.Remove(players[i]);
 				}
 			}
 		}
 
-		for (var i = 0; i < players.Count; i++) {
+		//List of players in the local group that should receive any visual
+		//actions when the message is being received by recipient
+		//The data will be used to show the chat bubble or the chat icon depending on
+		//the recipients preferences
+		var netIDGroup = new NetIDGroup(localGroup);
+
+		for (var i = 0; i < players.Count; i++)
+		{
 			var playerScript = players[i].GameObject.GetComponent<PlayerScript>();
 			ChatChannel channels = playerScript.GetAvailableChannelsMask(false) & chatEvent.channels;
-			UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.message);
+			UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.message, netIDGroup);
 		}
 
-		if(RconManager.Instance != null){
+		if (RconManager.Instance != null)
+		{
 			string name = "";
-			if ((namelessChannels & chatEvent.channels) != chatEvent.channels) {
+			if ((namelessChannels & chatEvent.channels) != chatEvent.channels)
+			{
 				name = "<b>[" + chatEvent.channels + "]</b> ";
 			}
 			RconManager.AddChatLog(name + chatEvent.message);
@@ -112,11 +130,13 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	private void UpdateClientChat(string message, ChatChannel channels)
 	{
-		if (UIManager.Instance.ttsToggle) {
+		if (UIManager.Instance.ttsToggle)
+		{
 			//Text to Speech:
 			var ttsString = Regex.Replace(message, @"<[^>]*>", String.Empty);
 			//message only atm
-			if (ttsString.Contains(":")) {
+			if (ttsString.Contains(":"))
+			{
 				string saysString = ":";
 				var messageString = ttsString.Substring(ttsString.IndexOf(saysString) + saysString.Length);
 				MaryTTS.Instance.Synthesize(messageString);
@@ -124,27 +144,30 @@ public class ChatRelay : NetworkBehaviour
 			}
 		}
 
-        ChatEvent chatEvent = new ChatEvent(message, channels, true);
+		ChatEvent chatEvent = new ChatEvent(message, channels, true);
 
-		if (channels == ChatChannel.None) {
+		if (channels == ChatChannel.None)
+		{
 			return;
 		}
 
 		string name = "";
-		if ((namelessChannels & channels) != channels) {
+		if ((namelessChannels & channels) != channels)
+		{
 			name = "<b>[" + channels + "]</b> ";
 		}
 
-		if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channels) == channels && (chatEvent.channels & channels) == channels) {
-            //Chatevent UI entry:
+		if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channels) == channels && (chatEvent.channels & channels) == channels)
+		{
+			//Chatevent UI entry:
 			//FIXME at the moment all chat entries are white because of the new system, its a WIP
 			//string colorMessage = "<color=#" + GetCannelColor(channels) + ">" + name + message + "</color>";
-            string colorMessage = "<color=white>" + name + message + "</color>";
-            GameObject chatEntry = Instantiate(ControlChat.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
-            Text text = chatEntry.GetComponent<Text>();
-            text.text = colorMessage;
+			string colorMessage = "<color=white>" + name + message + "</color>";
+			GameObject chatEntry = Instantiate(ControlChat.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
+			Text text = chatEntry.GetComponent<Text>();
+			text.text = colorMessage;
 			chatEntry.transform.SetParent(ControlChat.Instance.content, false);
-            chatEntry.transform.localScale = Vector3.one;
-        }
-    }
+			chatEntry.transform.localScale = Vector3.one;
+		}
+	}
 }
