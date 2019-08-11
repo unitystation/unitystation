@@ -62,8 +62,10 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	public int inHandReferenceLeft;
 	public int inHandReferenceRight;
 
-	public Sprite InhandLeft;
-	public Sprite InhandRight;
+	/// <summary>
+	/// Remember in hands is Left then right so [0] = Left, [1] = right
+	/// </summary>
+	public SpriteHandlerData spriteHandlerData;
 
 	private DmiIcon inventoryIcon;
 	private string[] invSheetPaths;

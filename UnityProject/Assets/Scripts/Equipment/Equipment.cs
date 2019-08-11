@@ -59,7 +59,7 @@ public class Equipment : NetworkBehaviour
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
 			var clothItem = clothingSlots[i];
-			EquipmentSpritesMessage.SendTo(gameObject, i, clothItem.reference, recipient);
+			EquipmentSpritesMessage.SendTo(gameObject, i, clothItem.reference, recipient, null);
 		}
 	}
 
@@ -212,17 +212,37 @@ public class Equipment : NetworkBehaviour
 	{
 		if (hand == EquipSlot.leftHand)
 		{
-			SetReference((int)hand, att.NetworkInHandRefLeft());
+			SetReference((int)hand, att.NetworkInHandRefLeft(), att.gameObject);
 		}
 		else
 		{
-			SetReference((int)hand, att.NetworkInHandRefRight());
+			SetReference((int)hand, att.NetworkInHandRefRight(), att.gameObject);;
 		}
+		//clothingSlots[enumA].sprites
 	}
 
-	public void SetReference(int index, int reference)
+	public void SetReference(int index, int reference, GameObject _Item)
 	{
-		EquipmentSpritesMessage.SendToAll(gameObject, index, reference);
+		Logger.Log("hjhjrejr");
+		if (_Item != null) { 
+			Logger.Log("pop" + _Item.name);
+		}
+		EquipmentSpritesMessage.SendToAll(gameObject, index, reference, _Item);
+	}
+
+	//
+	/// <summary>
+	///  Clear any sprite slot by setting the slot to -1 via the slotName (server). If the
+	///  specified slot has no associated player sprite, nothing will be done.
+	/// </summary>
+	/// <param name="slotName">name of the slot (should match an EquipSlot enum)</param>
+	public void ClearItemSprite(string slotName)
+	{
+		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
+		if (HasPlayerSprite(enumA))
+		{
+			SetReference((int)enumA, -1, null);
+		}
 	}
 
 	/// <summary>

@@ -29,6 +29,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 	private ObjectBehaviour objectBehaviour;
 
 	[SyncVar(hook = nameof(SyncStatus))] public ClosetStatus statusSync;
+
 	protected Sprite doorClosed;
 	public Sprite doorOpened;
 	public SpriteRenderer spriteRenderer;

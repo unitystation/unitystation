@@ -76,6 +76,7 @@ public class DNAscanner : ClosetControl, IAPCPowered
 
 	public override void SyncSprite(ClosetStatus value)
 	{
+		//Logger.Log("TTTTTTTTTTTTT" + value.ToString());
 		if (value == ClosetStatus.Open)
 		{
 			if (!powered)

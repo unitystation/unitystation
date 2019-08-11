@@ -233,6 +233,7 @@ public class DmiIconData : ScriptableObject
 
 	private void OnEnable()
 	{
+		Logger.Log("yoyoy");
 		if (Data.Count != 0)
 		{
 			return;

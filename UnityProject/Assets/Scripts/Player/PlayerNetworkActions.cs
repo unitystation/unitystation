@@ -153,6 +153,62 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+	private bool IsEquipSpriteSlot(InventorySlot slot)
+	{
+		if (slot.SlotName == "id" || slot.SlotName == "storage01" ||
+		slot.SlotName == "storage02" || slot.SlotName == "suitStorage")
+		{
+		return false;
+		}
+
+		return slot.IsUISlot;
+	}
+
+	[Server]
+	private void SyncEquipSpritesFor(InventorySlot slot, int spriteRef)
+	{
+		//clear equip sprite
+		if (slot.Owner.gameObject == gameObject)
+		{
+			SyncEquipSprite(slot.SlotName, spriteRef);
+		}
+		else
+		{
+			slot.Owner.GetComponent<PlayerNetworkActions>()?.SyncEquipSprite(slot.SlotName, spriteRef);
+		}
+	}
+
+	[Server]
+	private void SyncEquipSprite(string slotName, int spriteRef)
+	{
+		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
+		equipment.SetReference((int)enumA, spriteRef, null);
+	}
+
+	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction,
+	/// otherwise client will forcefully receive update slot messages
+	public void RequestDropItem(string handUUID, bool forceClientInform = true)
+	{
+		InventoryInteractMessage.Send("", handUUID, InventoryManager.GetSlotFromUUID(handUUID, isServer).Item, forceClientInform);
+	}
+
+	//Dropping from a slot on the UI
+	[Server]
+	public bool ValidateDropItem(InventorySlot invSlot, bool forceClientInform /* = false*/ )
+	{
+		//decline if not dropped from hands?
+		if (Inventory.ContainsKey(invSlot.SlotName) && Inventory[invSlot.SlotName].Item)
+		{
+			DropItem(invSlot.SlotName, forceClientInform);
+			return true;
+		}
+
+		Logger.Log("Object not found in Inventory", Category.Inventory);
+		return false;
+	}
+
+	///     Imperative drop.
+	/// Pass empty slot to drop a random ones
 	[Server]
 	public void DropItem(EquipSlot equipSlot)
 	{

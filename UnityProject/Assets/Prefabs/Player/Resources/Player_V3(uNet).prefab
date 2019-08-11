@@ -156,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212253025024547778}
+  spriteHandler: {fileID: 0}
   spriteSheetName: human_face
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212940191652905820}
+  spriteHandler: {fileID: 0}
   spriteSheetName: back
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -410,7 +410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212005797941245090}
+  spriteHandler: {fileID: 0}
   spriteSheetName: suit
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -606,7 +606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212344525557824326}
+  spriteHandler: {fileID: 0}
   spriteSheetName: feet
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -1243,7 +1243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212847469326298166}
+  spriteHandler: {fileID: 0}
   spriteSheetName: eyes
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -1341,7 +1341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212039247469239700}
+  spriteHandler: {fileID: 0}
   spriteSheetName: human_face
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -1439,7 +1439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212258264285545284}
+  spriteHandler: {fileID: 0}
   spriteSheetName: underwear
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -1537,7 +1537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212140744761718774}
+  spriteHandler: {fileID: 0}
   spriteSheetName: human_parts_greyscale
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -1792,7 +1792,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212144883045729364}
+  spriteHandler: {fileID: 0}
   spriteSheetName: head
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -1890,7 +1890,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212073504853382616}
+  spriteHandler: {fileID: 0}
   spriteSheetName: neck
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -1988,7 +1988,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212853338683630810}
+  spriteHandler: {fileID: 0}
   spriteSheetName: human_face
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -2086,7 +2086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212584759339869742}
+  spriteHandler: {fileID: 0}
   spriteSheetName: underwear
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -2101,6 +2101,8 @@ GameObject:
   - component: {fileID: 4183188191239546}
   - component: {fileID: 212695445263472394}
   - component: {fileID: 114600225155881128}
+  - component: {fileID: 6810023169240665027}
+  - component: {fileID: 7961637454823593106}
   m_Layer: 8
   m_Name: rightHand
   m_TagString: Untagged
@@ -2184,10 +2186,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212695445263472394}
+  spriteHandler: {fileID: 0}
   spriteSheetName: items_righthand
   spriteType: 1
   thisPlayerScript: {fileID: 114617133355526680}
+--- !u!114 &6810023169240665027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442926995363424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &7961637454823593106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442926995363424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+  spriteRenderer: {fileID: 212695445263472394}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 0
 --- !u!1 &1456517064699986
 GameObject:
   m_ObjectHideFlags: 0
@@ -2282,7 +2339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212924062595901212}
+  spriteHandler: {fileID: 0}
   spriteSheetName: belt
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -2442,7 +2499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212525861963860774}
+  spriteHandler: {fileID: 0}
   spriteSheetName: human_parts_greyscale
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -2540,7 +2597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212437748770145178}
+  spriteHandler: {fileID: 0}
   spriteSheetName: uniform
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -2555,6 +2612,8 @@ GameObject:
   - component: {fileID: 4858754577876330}
   - component: {fileID: 212990490947787952}
   - component: {fileID: 114857622421506280}
+  - component: {fileID: 6733425766695719927}
+  - component: {fileID: 8103884781919646546}
   m_Layer: 8
   m_Name: leftHand
   m_TagString: Untagged
@@ -2638,10 +2697,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212990490947787952}
+  spriteHandler: {fileID: 8103884781919646546}
   spriteSheetName: items_lefthand
   spriteType: 2
   thisPlayerScript: {fileID: 114617133355526680}
+--- !u!114 &6733425766695719927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626073062007556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &8103884781919646546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626073062007556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+  spriteRenderer: {fileID: 212990490947787952}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 0
 --- !u!1 &1646833726656528
 GameObject:
   m_ObjectHideFlags: 0
@@ -2736,7 +2850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212238641902904474}
+  spriteHandler: {fileID: 0}
   spriteSheetName: human_parts_greyscale
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -2834,7 +2948,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212068773527747804}
+  spriteHandler: {fileID: 0}
   spriteSheetName: mask
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -3024,7 +3138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212458270926585534}
+  spriteHandler: {fileID: 0}
   spriteSheetName: ears
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -3246,7 +3360,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212492286651421720}
+  spriteHandler: {fileID: 0}
   spriteSheetName: human_parts_greyscale
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -3344,7 +3458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212249819486018122}
+  spriteHandler: {fileID: 0}
   spriteSheetName: human_face
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -3442,7 +3556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212721698993232106}
+  spriteHandler: {fileID: 0}
   spriteSheetName: human_parts_greyscale
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -3540,7 +3654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212272552631623328}
+  spriteHandler: {fileID: 0}
   spriteSheetName: hands
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -3734,7 +3848,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 212650584535459368}
+  spriteHandler: {fileID: 0}
   spriteSheetName: human_parts_greyscale
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
@@ -4123,7 +4237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteRenderer: {fileID: 6479668554434910921}
+  spriteHandler: {fileID: 0}
   spriteSheetName: mob
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}

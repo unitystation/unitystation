@@ -19,7 +19,8 @@ public class ClothingItem : MonoBehaviour
 	private int referenceOffset;
 	public Color color;
 
-	public SpriteRenderer spriteRenderer;
+	public SpriteHandler spriteHandler;
+	//public SpriteRenderer spriteRenderer;
 	private Sprite[] sprites;
 
 	public string spriteSheetName;
@@ -52,16 +53,37 @@ public class ClothingItem : MonoBehaviour
 	public void SetColor(Color value)
 	{
 		color = value;
-		spriteRenderer.color = value;
+		//spriteRenderer.color = value;
 	}
 
-	public void SetReference(int value)
+	public void SetReference(int value, GameObject Item)
 	{
+		Logger.Log("value" + value.ToString());
 		reference = value;
+		if (Item != null)
+		{
+			Logger.Log(Item.name);
+		}
+		else { 
+			Logger.Log("nah");
+		}
+		if (Item != null) {
+
+			if (spriteHandler == null) { 
+				Logger.Log("OH NOOOOOOO!" + gameObject.name);
+			}
+			var bob = Item.GetComponent<ItemAttributes>().spriteHandlerData;
+			if (bob.SpriteInfos == null) { 
+				Logger.Log("OH fuuuuuuuuuuuuuu!");
+			}
+			Logger.Log(bob.SpriteInfos.AID.ToString());
+			spriteHandler.SpriteInfos = bob.SpriteInfos;
+			spriteHandler.PushTexture();
+		}
 
 		if (reference == -1)
 		{
-			UpdateSprite();
+			//UpdateSprite();
 			return;
 		}
 
@@ -92,7 +114,8 @@ public class ClothingItem : MonoBehaviour
 		}
 
 		sprites = SpriteManager.PlayerSprites[spriteSheetName];
-		UpdateSprite();
+
+		//UpdateSprite();
 	}
 
 	private void UpdateReferenceOffset()
@@ -119,9 +142,16 @@ public class ClothingItem : MonoBehaviour
 
 	public void UpdateSprite()
 	{
+		if (spriteHandler != null) {
+			if (spriteHandler.SpriteInfos != null) {
+				spriteHandler.ChangeSpriteVariant(referenceOffset);
+			}
+			
+		}
+		
 		if (reference == -1)
 		{
-			spriteRenderer.sprite = null;
+			//spriteRenderer.sprite = null;
 			return;
 		}
 
@@ -136,7 +166,7 @@ public class ClothingItem : MonoBehaviour
 		{
 			index += reference;
 		}
-		spriteRenderer.sprite = sprites[index];
+		//spriteRenderer.sprite = sprites[index];
 	}
 
 }

@@ -68,13 +68,13 @@ public class CustomNetworkManager : NetworkManager
 	{
 		spawnPrefabs.Clear();
 
-		NetworkIdentity[] networkObjects = Resources.LoadAll<NetworkIdentity>("");
+		NetworkIdentity[] networkObjects = Resources.LoadAll<NetworkIdentity>("Prefabs");
 		foreach (NetworkIdentity netObj in networkObjects)
 		{
 			spawnPrefabs.Add(netObj.gameObject);
 		}
 
-		string[] dirs = Directory.GetDirectories(Application.dataPath, "Resources\\Prefabs", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times 
+		string[] dirs = Directory.GetDirectories(Application.dataPath, "Resources/Prefabs", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times 
 		foreach (string dir in dirs)
 		{
 			loadFolder(dir);

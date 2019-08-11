@@ -3,44 +3,106 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEditor;
-
+using System.Linq;
+using Newtonsoft.Json;
+using UnityEditor.Experimental.SceneManagement;
+using UnityEditor.SceneManagement;
 
 ///	<summary>
 ///	Handles sprite syncing between server and clients and contains a custom animator
 ///	</summary>
-public class SpriteHandler : NetworkBehaviour
+public class SpriteHandler : SpriteHandlerData
 {
 	public SpriteRenderer spriteRenderer;
 
-	public List<SpriteList> spriteList = new List<SpriteList>();
-	[SyncVar(hook = nameof(SyncSprite))] public int spriteIndex;
+	[SyncVar(hook = nameof(SyncIndexSprite))]
+	public int spriteIndex;
 
-	private List<SpriteInfo> infoList = new List<SpriteInfo>();
+	[SyncVar(hook = nameof(SyncVariantIndex))]
+	public int VariantIndex;
+
 	private SpriteJson spriteJson;
 	private int animationIndex = 0;
+
 	private float timeElapsed = 0;
 	private float waitTime;
 
-	private void Awake() {
-		infoList.Add(new SpriteInfo());
-	}
+	[SyncVar(hook = nameof(setSynchroniseVariant))]
+	public bool SynchroniseVariant = true; //Used for stuff like in hands where you dont want any delays / Miss match While it synchronises Requires manual synchronisation
 
 	public override void OnStartClient()
 	{
-		SyncSprite(spriteIndex);
+		Start();
+		setSynchroniseVariant(SynchroniseVariant);
+		SyncIndexSprite(spriteIndex);
+		SyncVariantIndex(VariantIndex);
 	}
 
+	void Start()
+	{
+		SpriteInfos.DeSerializeT();
+		if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1) { 
+			UpdateManager.Instance.Add(UpdateMe);
+		}
+	}
+
+	public void PushTexture() { 
+		SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+	}
+ 	
 	public void UpdateMe()
 	{
 		timeElapsed += Time.deltaTime;
-		if(timeElapsed >= waitTime)
+		if (timeElapsed >= waitTime)
 		{
 			animationIndex++;
-			if(animationIndex >= spriteJson.Frames_Of_Animation)
+			if (animationIndex >= SpriteInfos.spriteList[spriteIndex][VariantIndex].Count)
 			{
 				animationIndex = 0;
 			}
-			SetSprite(infoList[animationIndex]);
+			SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+		}
+	}
+
+	public void SyncVariantIndex(int _VariantIndex)
+	{
+
+		if (SynchroniseVariant)
+		{
+			VariantIndex = _VariantIndex;
+			animationIndex = 0;
+			SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+			if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+			{
+				UpdateManager.Instance.Add(UpdateMe);
+			}
+			else {
+
+				UpdateManager.Instance.Remove(UpdateMe);
+			}
+		}
+	}
+
+	public void setSynchroniseVariant(bool Sync)
+	{
+		SynchroniseVariant = Sync;
+	}
+
+	public void SyncIndexSprite(int _spriteIndex) {
+		spriteIndex = _spriteIndex;
+		animationIndex = 0;
+		if (SpriteInfos.spriteList.Count > 0)
+		{
+			SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+
+			if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+			{
+				UpdateManager.Instance.Add(UpdateMe);
+			}
+			else {
+
+				UpdateManager.Instance.Remove(UpdateMe);
+			}
 		}
 	}
 
@@ -51,70 +113,42 @@ public class SpriteHandler : NetworkBehaviour
 		spriteRenderer.sprite = animationStills.sprite;
 	}
 
-	void SetSpriteList(List<Sprite> newSprites)
-	{
-		if (newSprites.Count > 1)
-		{
-			LoadJson(AssetDatabase.GetAssetPath(newSprites[0]));
-
-			while (newSprites.Count > infoList.Count)
-			{
-				infoList.Add(new SpriteInfo());
-			}
-			for (int i = 0; i < newSprites.Count; i++)
-			{
-				infoList[i].sprite = newSprites[i];
-				infoList[i].waitTime = spriteJson.Delays[i];
-			}
-
-			UpdateManager.Instance.Add(UpdateMe);
-		}
-		else
-		{
-			UpdateManager.Instance.Remove(UpdateMe);
-		}
-
-		SetSprite(infoList[0]);
-	}
-
 	public void ChangeSprite(int newSprites)
 	{
-		if(spriteIndex != newSprites)
+		if (spriteIndex != newSprites)
 		{
 			spriteIndex = newSprites;
+			animationIndex = 0;
+			SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+			if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+			{
+				UpdateManager.Instance.Add(UpdateMe);
+			}
+			else {
+				UpdateManager.Instance.Remove(UpdateMe);
+			}
 		}
 	}
 
-	void SyncSprite(int value)
+	public void ChangeSpriteVariant(int SpriteVariant)
 	{
-		SetSpriteList(spriteList[value].spriteList);
+		if (!(SpriteVariant >= SpriteInfos.spriteList[spriteIndex].Count))
+		{
+			SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+			if (VariantIndex != SpriteVariant)
+			{
+				animationIndex = 0;
+				VariantIndex = SpriteVariant;
+				if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+				{
+					UpdateManager.Instance.Add(UpdateMe);
+				}
+				else {
+					UpdateManager.Instance.Remove(UpdateMe);
+				}
+			}
+		}
 	}
 
-	void LoadJson(string path)
-	{
-		int extensionIndex = path.LastIndexOf(".");
-		path = path.Substring(0, extensionIndex) + ".json";
-		string json = System.IO.File.ReadAllText(path);
-		spriteJson = JsonUtility.FromJson<SpriteJson>(json);
-	}
-
-	[System.Serializable]
-	public class SpriteList
-	{
-		public List<Sprite> spriteList = new List<Sprite>();
-	}
-
-	class SpriteInfo
-	{
-		public Sprite sprite;
-		public float waitTime;
-	}
-
-	class SpriteJson
-	{
-		public float[] Delays;
-		public int Number_Of_Variants;
-		public int Frames_Of_Animation;
-	}
 }
 
