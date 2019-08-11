@@ -107,7 +107,8 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Serverside: Play sound for all clients
+	/// Serverside: Play sound for all clients.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworked( string sndName, float pitch = -1,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
@@ -117,7 +118,8 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Serverside: Play sound at given position for all clients
+	/// Serverside: Play sound at given position for all clients.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworkedAtPos( string sndName, Vector3 pos, float pitch = -1,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
@@ -127,8 +129,9 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Serverside: Play sound for particular player
+	/// Serverside: Play sound for particular player.
 	/// ("Doctor, there are voices in my head!")
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworkedForPlayer( GameObject recipient, string sndName, float pitch = -1,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
@@ -138,8 +141,9 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Serverside: Play sound at given position for particular player
+	/// Serverside: Play sound at given position for particular player.
 	/// ("Doctor, there are voices in my head!")
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworkedForPlayerAtPos( GameObject recipient, Vector3 pos, string sndName, float pitch = -1,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
@@ -149,7 +153,8 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Play sound locally
+	/// Play sound locally.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void Play(string name, float volume, float pitch = -1, float time = 0)
 	{
@@ -164,7 +169,8 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Play sound locally
+	/// Play sound locally.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void Play(string name)
 	{
@@ -173,7 +179,8 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Play sound locally at given world position
+	/// Play sound locally at given world position.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayAtPosition(string name, Vector3 pos, float pitch = -1)
 	{
@@ -192,6 +199,7 @@ public class SoundManager : MonoBehaviour
 
 	/// <summary>
 	/// Stops a given sound from playing locally.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void Stop(string name)
 	{
