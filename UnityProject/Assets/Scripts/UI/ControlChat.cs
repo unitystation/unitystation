@@ -26,6 +26,12 @@ public class ControlChat : MonoBehaviour
 	private GameObject activeChannelTemplate;
 	[SerializeField]
 	private InputField InputFieldChat;
+	[SerializeField]
+	private Image toggleChatBubbleImage;
+	[SerializeField]
+	private Color toggleOffCol;
+	[SerializeField]
+	private Color toggleOnCol;
 
 	/// <summary>
 	/// A map of channel names and their toggles for UI manipulation
@@ -160,6 +166,11 @@ public class ControlChat : MonoBehaviour
 			PlayerSendChat();
 		}
 		CloseChatWindow();
+	}
+
+	public void OnClickToggleBubble()
+	{
+
 	}
 
 	private void PlayerSendChat()
