@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
@@ -9,6 +11,8 @@ public class SoundManager : MonoBehaviour
 	private static SoundManager soundManager;
 
 	private readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+
+	private readonly Dictionary<string, string[]> soundPatterns = new Dictionary<string, string[]>();
 
 	public List<AudioSource> ambientTracks = new List<AudioSource>();
 
@@ -73,11 +77,42 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Chooses a random sound matching the given pattern if the name contains a wildcard. (#)
+	/// Otherwise, it returns the same name.
+	/// </summary>
+	private string ResolveSoundPattern(string sndName)
+	{
+		if (!sounds.ContainsKey(sndName) && sndName.Contains('#'))
+		{
+			var soundNames = GetMatchingSounds(sndName);
+			if (soundNames.Length > 0)
+			{
+				return soundNames[Random.Range(0, soundNames.Length)];
+			}
+		}
+		return sndName;
+	}
+
+	/// <summary>
+	/// Returns a list of known sounds that match the given pattern.
+	/// </summary>
+	private string[] GetMatchingSounds(string pattern)
+	{
+		if (soundPatterns.ContainsKey(pattern))
+		{
+			return soundPatterns[pattern];
+		}
+		var regex = new Regex(Regex.Escape(pattern).Replace(@"\#", @"\d+"));
+		return soundPatterns[pattern] = sounds.Keys.Where((Func<string, bool>)regex.IsMatch).ToArray();
+	}
+
+	/// <summary>
 	/// Serverside: Play sound for all clients
 	/// </summary>
 	public static void PlayNetworked( string sndName, float pitch = -1,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
+		sndName = Instance.ResolveSoundPattern(sndName);
 		PlaySoundMessage.SendToAll( sndName, TransformState.HiddenPos, pitch, shakeGround, shakeIntensity, shakeRange );
 	}
 
@@ -87,6 +122,7 @@ public class SoundManager : MonoBehaviour
 	public static void PlayNetworkedAtPos( string sndName, Vector3 pos, float pitch = -1,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
+		sndName = Instance.ResolveSoundPattern(sndName);
 		PlaySoundMessage.SendToAll( sndName, pos, pitch, shakeGround, shakeIntensity, shakeRange );
 	}
 
@@ -97,6 +133,7 @@ public class SoundManager : MonoBehaviour
 	public static void PlayNetworkedForPlayer( GameObject recipient, string sndName, float pitch = -1,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
+		sndName = Instance.ResolveSoundPattern(sndName);
 		PlaySoundMessage.Send( recipient, sndName, TransformState.HiddenPos, pitch, shakeGround, shakeIntensity, shakeRange );
 	}
 
@@ -107,6 +144,7 @@ public class SoundManager : MonoBehaviour
 	public static void PlayNetworkedForPlayerAtPos( GameObject recipient, Vector3 pos, string sndName, float pitch = -1,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
+		sndName = Instance.ResolveSoundPattern(sndName);
 		PlaySoundMessage.Send( recipient, sndName, pos, pitch, shakeGround, shakeIntensity, shakeRange );
 	}
 
@@ -115,6 +153,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static void Play(string name, float volume, float pitch = -1, float time = 0)
 	{
+		name = Instance.ResolveSoundPattern(name);
 		if (pitch > 0)
 		{
 			Instance.sounds[name].pitch = pitch;
@@ -129,6 +168,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static void Play(string name)
 	{
+		name = Instance.ResolveSoundPattern(name);
 		Instance.sounds[name].Play();
 	}
 
@@ -137,6 +177,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static void PlayAtPosition(string name, Vector3 pos, float pitch = -1)
 	{
+		name = Instance.ResolveSoundPattern(name);
 		if (Instance.sounds.ContainsKey(name))
 		{
 			if (pitch > 0)
@@ -149,11 +190,21 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Stops a given sound from playing locally.
+	/// </summary>
 	public static void Stop(string name)
 	{
 		if (Instance.sounds.ContainsKey(name))
 		{
 			Instance.sounds[name].Stop();
+		}
+		else
+		{
+			foreach(var sound in Instance.GetMatchingSounds(name))
+			{
+				Instance.sounds[sound].Stop();
+			}
 		}
 	}
 
