@@ -3774,14 +3774,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2006596675367633579}
-  - {fileID: 170555788465986529}
   m_Father: {fileID: 4102488425209486}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.08, y: 0.76}
-  m_SizeDelta: {x: 9.176, y: 1.204}
+  m_AnchoredPosition: {x: 0.0088, y: 0.76}
+  m_SizeDelta: {x: 2.5335, y: 1.204}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2428695031780894970
 Canvas:
@@ -3838,6 +3837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb1387213df4d54d9d8132a834b2fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chatIcon: {fileID: 114053825719430910}
 --- !u!1 &3225982707712395634
 GameObject:
   m_ObjectHideFlags: 0
@@ -4035,11 +4035,11 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4840233631772676658}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.006440865, y: 0.006440865, z: 0.006440865}
   m_Children: []
-  m_Father: {fileID: 696835907591364663}
+  m_Father: {fileID: 2006596675367633579}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4113,18 +4113,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8960499875695303671}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4776070308268166969}
+  - {fileID: 170555788465986529}
   m_Father: {fileID: 696835907591364663}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 90.824005, y: 98.796005}
+  m_AnchoredPosition: {x: -0.08874512, y: 0}
+  m_SizeDelta: {x: 97.46651, y: 98.796005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &4300145449095171559
 PrefabInstance:

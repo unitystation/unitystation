@@ -20,20 +20,22 @@ public class PlayerChatBubble : MonoBehaviour
     [SerializeField]
     private ChatIcon chatIcon;
 
-    //TODO
-    //Save pref to playerprefs
-    //Determine localPlayer for each event
-    //Showchat icon when chat bubble is disabled
-
-    public void ShowLocalMessage(string message)
+    public void DetermineChatVisual(bool toggle, string message, ChatChannel chatChannel)
     {
-
+        if (!UseChatBubble())
+        {
+            chatIcon.ToggleChatIcon(toggle);
+        }
+        else
+        {
+            
+        }
     }
 
     /// <summary>
     /// Show the ChatBubble or the ChatIcon
     /// </summary>
-    private bool ShowChatBubble()
+    private bool UseChatBubble()
     {
         if (!PlayerPrefs.HasKey(chatBubblePref))
         {

@@ -17,6 +17,18 @@ public class ChatIcon : MonoBehaviour
 		spriteRend.enabled = false;
 	}
 
+	public void ToggleChatIcon(bool toggle)
+	{
+		if (toggle)
+		{
+			TurnOnTalkIcon();
+		}
+		else
+		{
+			TurnOffTalkIcon();
+		}
+	}
+
 	//TODO needs work
 	public void TurnOnTalkIcon()
 	{
