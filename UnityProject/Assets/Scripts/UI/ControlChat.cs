@@ -165,7 +165,7 @@ public class ControlChat : MonoBehaviour
 	private void PlayerSendChat()
 	{
 		// Selected channels already masks all unavailable channels in it's get method
-		PostToChatMessage.Send (InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
+		PostToChatMessage.Send(InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
 
 		// if (GameManager.Instance.GameOver)
 		// {
@@ -188,7 +188,8 @@ public class ControlChat : MonoBehaviour
 
 		if (PlayerChatShown())
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true, InputFieldChat.text,
+				PlayerManager.LocalPlayerScript.SelectedChannels);
 		}
 		InputFieldChat.text = "";
 	}
@@ -202,8 +203,7 @@ public class ControlChat : MonoBehaviour
 		if (PlayerManager.LocalPlayerScript.IsGhost ||
 			PlayerManager.LocalPlayerScript.playerHealth.IsCrit ||
 			InputFieldChat.text == "" ||
-			PlayerManager.LocalPlayerScript.SelectedChannels.Equals(ChatChannel.OOC)
-			)
+			PlayerManager.LocalPlayerScript.SelectedChannels.Equals(ChatChannel.OOC))
 		{
 			return false;
 		}
@@ -221,7 +221,7 @@ public class ControlChat : MonoBehaviour
 	/// Opens the chat window to send messages
 	/// </summary>
 	/// <param name="selectedChannel">The chat channels to select when opening it</param>
-	public void OpenChatWindow (ChatChannel selectedChannel = ChatChannel.None)
+	public void OpenChatWindow(ChatChannel selectedChannel = ChatChannel.None)
 	{
 		// Can't open chat window while main menu open
 		if (GUI_IngameMenu.Instance.mainIngameMenu.activeInHierarchy)
@@ -246,12 +246,12 @@ public class ControlChat : MonoBehaviour
 			// Make sure the player has at least one channel selected
 			TrySelectDefaultChannel();
 		}
-		EventManager.Broadcast (EVENT.ChatFocused);
-		chatInputWindow.SetActive (true);
-		background.SetActive (true);
+		EventManager.Broadcast(EVENT.ChatFocused);
+		chatInputWindow.SetActive(true);
+		background.SetActive(true);
 		UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
-		EventSystem.current.SetSelectedGameObject (InputFieldChat.gameObject, null);
-		InputFieldChat.OnPointerClick (new PointerEventData (EventSystem.current));
+		EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
+		InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
 		RefreshChannelPanel();
 	}
 
@@ -343,7 +343,7 @@ public class ControlChat : MonoBehaviour
 		EventTrigger trigger = toggle.GetComponent<EventTrigger>();
 		EventTrigger.Entry entry = new EventTrigger.Entry();
 		entry.eventID = EventTriggerType.PointerClick;
-		entry.callback.AddListener( (eventData) => Toggle_Channel(toggle.isOn) );
+		entry.callback.AddListener((eventData) => Toggle_Channel(toggle.isOn));
 		trigger.triggers.Add(entry);
 
 		// Add it to a list for easy access later
@@ -462,7 +462,7 @@ public class ControlChat : MonoBehaviour
 		}
 	}
 
-	private void ClearTogglesExcept (ChatChannel channel)
+	private void ClearTogglesExcept(ChatChannel channel)
 	{
 		foreach (KeyValuePair<ChatChannel, Toggle> chanToggle in ChannelToggles)
 		{
