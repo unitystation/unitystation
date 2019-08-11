@@ -986,7 +986,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -216.73, y: -0.000026212485}
+  m_AnchoredPosition: {x: -216.73, y: 0.000000011145603}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &222333231492848688
@@ -2490,7 +2490,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2807939661053576224}
   m_HandleRect: {fileID: 5333097039435445460}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2871,6 +2871,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1369039240316595895}
     m_Modifications:
+    - target: {fileID: 5590516185401122086, guid: a311e2bde4b0f554c980666c969a060c,
+        type: 3}
+      propertyPath: m_Name
+      value: ActiveChannelTemplate
+      objectReference: {fileID: 0}
     - target: {fileID: 3804247380278558810, guid: a311e2bde4b0f554c980666c969a060c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2976,11 +2981,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5590516185401122086, guid: a311e2bde4b0f554c980666c969a060c,
-        type: 3}
-      propertyPath: m_Name
-      value: ActiveChannelTemplate
-      objectReference: {fileID: 0}
     - target: {fileID: 2400726790984915926, guid: a311e2bde4b0f554c980666c969a060c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3007,6 +3007,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 224044340976132104}
     m_Modifications:
+    - target: {fileID: 1618776996635460, guid: 115e79e65ed316546aea2bf6ffdcc366, type: 3}
+      propertyPath: m_Name
+      value: ChannelToggleTemplate
+      objectReference: {fileID: 0}
     - target: {fileID: 224321409555159418, guid: 115e79e65ed316546aea2bf6ffdcc366,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3111,10 +3115,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1618776996635460, guid: 115e79e65ed316546aea2bf6ffdcc366, type: 3}
-      propertyPath: m_Name
-      value: ChannelToggleTemplate
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 115e79e65ed316546aea2bf6ffdcc366, type: 3}

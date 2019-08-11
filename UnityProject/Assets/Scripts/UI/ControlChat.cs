@@ -334,20 +334,11 @@ public class ControlChat : MonoBehaviour
 		Logger.Log($"Creating channel toggle for {channel}", Category.UI);
 		// Create the toggle button
 		GameObject channelToggleItem = Instantiate(channelToggleTemplate, channelToggleTemplate.transform.parent, false);
-		Toggle toggle = channelToggleItem.GetComponent<Toggle>();
-		toggle.GetComponent<UIToggleChannel>().channel = channel;
-		toggle.GetComponentInChildren<Text>().text = IconConstants.ChatPanelIcons[channel];
+		var uiToggleScript = channelToggleItem.GetComponent<UIToggleChannel>();
 
-		// Use the OnClick trigger to invoke Toggle_Channel instead of OnValueChanged
-		// This stops infinite loops happening when the value is changed from the code
-		EventTrigger trigger = toggle.GetComponent<EventTrigger>();
-		EventTrigger.Entry entry = new EventTrigger.Entry();
-		entry.eventID = EventTriggerType.PointerClick;
-		entry.callback.AddListener((eventData) => Toggle_Channel(toggle.isOn));
-		trigger.triggers.Add(entry);
-
+		//Set the new UIToggleChannel object and
 		// Add it to a list for easy access later
-		ChannelToggles.Add(channel, toggle);
+		ChannelToggles.Add(channel, uiToggleScript.SetToggle(channel));
 	}
 
 	/// <summary>
