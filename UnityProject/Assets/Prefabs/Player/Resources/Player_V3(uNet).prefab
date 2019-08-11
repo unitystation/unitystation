@@ -3838,6 +3838,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chatIcon: {fileID: 114053825719430910}
+  chatBubble: {fileID: 8960499875695303671}
+  bubbleText: {fileID: 1034183186174661024}
 --- !u!1 &3225982707712395634
 GameObject:
   m_ObjectHideFlags: 0
@@ -4105,7 +4107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2006596675367633579
 RectTransform:
   m_ObjectHideFlags: 0
