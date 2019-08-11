@@ -166,7 +166,7 @@ public class PlayerChatBubble : MonoBehaviour
 
     private void AdjustBubbleSize(int charCount)
     {
-        var norm = Mathf.Clamp(charCount / 16, 0f, 1f);
+        var norm = Mathf.Clamp(charCount / 14, 0f, 1f);
         bg.transform.localScale = Vector3.one * Mathf.Clamp(Mathf.Lerp(0.4f, 1f, norm), 0.6f, 1f);
         var newPos = chatBubble.transform.localPosition;
         newPos.y = Mathf.Lerp(-0.13f, 0f, norm);

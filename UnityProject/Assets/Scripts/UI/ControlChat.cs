@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -146,13 +146,16 @@ public class ControlChat : MonoBehaviour
 			RefreshChannelPanel();
 		}
 
-		if (UIManager.IsInputFocus && KeyboardInputManager.IsEnterPressed())
+		if (KeyboardInputManager.IsEnterPressed() && !windowCoolDown)
 		{
-			if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
+			if (UIManager.IsInputFocus)
 			{
-				PlayerSendChat();
+				if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
+				{
+					PlayerSendChat();
+				}
+				CloseChatWindow();
 			}
-			CloseChatWindow();
 		}
 
 		if (!chatInputWindow.activeInHierarchy) return;
@@ -265,7 +268,10 @@ public class ControlChat : MonoBehaviour
 	/// <param name="selectedChannel">The chat channels to select when opening it</param>
 	public void OpenChatWindow(ChatChannel selectedChannel = ChatChannel.None)
 	{
-		if(windowCoolDown) return;
+		//Prevent input spam
+		if (windowCoolDown) return;
+		windowCoolDown = true;
+		StartCoroutine(WindowCoolDown());
 
 		// Can't open chat window while main menu open
 		if (GUI_IngameMenu.Instance.mainIngameMenu.activeInHierarchy)
