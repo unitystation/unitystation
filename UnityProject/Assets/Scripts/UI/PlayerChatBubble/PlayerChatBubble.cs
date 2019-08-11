@@ -10,16 +10,6 @@ using UnityEngine.UI;
 /// </summary>
 public class PlayerChatBubble : MonoBehaviour
 {
-    /// <summary>
-    /// The const string of the PlayerPref key for ChatBubble preference.
-    /// Use PlayerPrefs.GetInt(chatBubblePref) to determine the players
-    /// preference for showing the chat bubble or not.
-    /// 0 = false
-    /// 1 = true
-    /// </summary>
-    [HideInInspector]
-    public const string chatBubblePref = "ChatBubble";
-
     [SerializeField]
     private ChatIcon chatIcon;
     [SerializeField]
@@ -94,8 +84,8 @@ public class PlayerChatBubble : MonoBehaviour
             yield break;
         }
         var b = msgQueue.Dequeue();
-        chatBubble.SetActive(true);
-        bubbleText.text = $"\"{b.msg}\"";
+        SetBubbleText(b.msg);
+
         while (showingDialogue)
         {
             yield return WaitFor.EndOfFrame;
@@ -111,12 +101,19 @@ public class PlayerChatBubble : MonoBehaviour
                 else
                 {
                     b = msgQueue.Dequeue();
-                    bubbleText.text = $"\"{b.msg}\"";
+                    SetBubbleText(b.msg);
                 }
             }
         }
 
         yield return WaitFor.EndOfFrame;
+    }
+
+    private void SetBubbleText(string msg)
+    {
+        chatBubble.SetActive(true);
+        bubbleText.text = $"\"{msg}\"";
+        AdjustBubbleSize(bubbleText.text.Length);
     }
 
     /// <summary>
@@ -132,12 +129,17 @@ public class PlayerChatBubble : MonoBehaviour
     /// </summary>
     private bool UseChatBubble()
     {
-        if (!PlayerPrefs.HasKey(chatBubblePref))
+        if (!PlayerPrefs.HasKey(StringManager.ChatBubblePref))
         {
-            PlayerPrefs.SetInt(chatBubblePref, 0);
+            PlayerPrefs.SetInt(StringManager.ChatBubblePref, 0);
             PlayerPrefs.Save();
         }
 
-        return PlayerPrefs.GetInt(chatBubblePref) == 1;
+        return PlayerPrefs.GetInt(StringManager.ChatBubblePref) == 1;
+    }
+
+    private void AdjustBubbleSize(int charCount)
+    {
+
     }
 }
