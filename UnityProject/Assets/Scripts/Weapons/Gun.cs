@@ -178,8 +178,8 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 
 			return false;
 		}
-
-		if (interaction.Performer == PlayerManager.LocalPlayer && PlayerManager.PlayerScript.IsHidden){
+		
+		if (interaction.Performer.GetComponent<PlayerScript>().IsHidden){
 			return false;
 		}
 
