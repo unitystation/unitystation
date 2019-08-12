@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using Random = UnityEngine.Random;
@@ -9,6 +11,8 @@ public class SoundManager : MonoBehaviour
 	private static SoundManager soundManager;
 
 	private readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+
+	private readonly Dictionary<string, string[]> soundPatterns = new Dictionary<string, string[]>();
 
 	public List<AudioSource> ambientTracks = new List<AudioSource>();
 
@@ -73,52 +77,92 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Serverside: Play sound for all clients
+	/// Chooses a random sound matching the given pattern if the name contains a wildcard. (#)
+	/// Otherwise, it returns the same name.
+	/// </summary>
+	private string ResolveSoundPattern(string sndName)
+	{
+		if (!sounds.ContainsKey(sndName) && sndName.Contains('#'))
+		{
+			var soundNames = GetMatchingSounds(sndName);
+			if (soundNames.Length > 0)
+			{
+				return soundNames[Random.Range(0, soundNames.Length)];
+			}
+		}
+		return sndName;
+	}
+
+	/// <summary>
+	/// Returns a list of known sounds that match the given pattern.
+	/// </summary>
+	private string[] GetMatchingSounds(string pattern)
+	{
+		if (soundPatterns.ContainsKey(pattern))
+		{
+			return soundPatterns[pattern];
+		}
+		var regex = new Regex(Regex.Escape(pattern).Replace(@"\#", @"\d+"));
+		return soundPatterns[pattern] = sounds.Keys.Where((Func<string, bool>)regex.IsMatch).ToArray();
+	}
+
+	/// <summary>
+	/// Serverside: Play sound for all clients.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworked( string sndName, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
+		sndName = Instance.ResolveSoundPattern(sndName);
 		PlaySoundMessage.SendToAll( sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
 	}
 
 	/// <summary>
-	/// Serverside: Play sound at given position for all clients
+	/// Serverside: Play sound at given position for all clients.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworkedAtPos( string sndName, Vector3 pos, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
+		sndName = Instance.ResolveSoundPattern(sndName);
 		PlaySoundMessage.SendToAll( sndName, pos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
 	}
 
 	/// <summary>
-	/// Serverside: Play sound for particular player
+	/// Serverside: Play sound for particular player.
 	/// ("Doctor, there are voices in my head!")
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworkedForPlayer( GameObject recipient, string sndName, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
+		sndName = Instance.ResolveSoundPattern(sndName);
 		PlaySoundMessage.Send( recipient, sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
 	}
 
 	/// <summary>
-	/// Serverside: Play sound at given position for particular player
+	/// Serverside: Play sound at given position for particular player.
 	/// ("Doctor, there are voices in my head!")
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworkedForPlayerAtPos( GameObject recipient, Vector3 pos, string sndName, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
+		sndName = Instance.ResolveSoundPattern(sndName);
 		PlaySoundMessage.Send( recipient, sndName, pos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
 	}
 
 	/// <summary>
-	/// Play sound locally
+	/// Play sound locally.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void Play(string name, float volume, float pitch = -1, float time = 0, bool oneShot = false)
 	{
+		name = Instance.ResolveSoundPattern(name);
 		if (pitch > 0)
 		{
 			Instance.sounds[name].pitch = pitch;
@@ -129,10 +173,12 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Play sound locally
+	/// Play sound locally.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void Play(string name, bool polyphonic = false)
 	{
+		name = Instance.ResolveSoundPattern(name);
 		var sound = Instance.sounds[name];
 		if ( polyphonic )
 		{
@@ -145,10 +191,12 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Play sound locally at given world position
+	/// Play sound locally at given world position.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayAtPosition(string name, Vector3 pos, float pitch = -1, bool polyphonic = false)
 	{
+		name = Instance.ResolveSoundPattern(name);
 		if (Instance.sounds.ContainsKey(name))
 		{
 			var sound = Instance.sounds[name];
@@ -161,11 +209,22 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Stops a given sound from playing locally.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// </summary>
 	public static void Stop(string name)
 	{
 		if (Instance.sounds.ContainsKey(name))
 		{
 			Instance.sounds[name].Stop();
+		}
+		else
+		{
+			foreach(var sound in Instance.GetMatchingSounds(name))
+			{
+				Instance.sounds[sound].Stop();
+			}
 		}
 	}
 

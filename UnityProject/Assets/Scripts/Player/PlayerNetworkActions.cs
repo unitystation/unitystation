@@ -35,7 +35,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private bool doingCPR = false;
 
-	private ChatIcon chatIcon;
+	private PlayerChatBubble playerChatBubble;
 
 	private Equipment equipment;
 	private PlayerMove playerMove;
@@ -54,7 +54,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
 		playerScript = GetComponent<PlayerScript>();
-		chatIcon = GetComponentInChildren<ChatIcon>();
+		playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
@@ -679,33 +679,28 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdToggleChatIcon(bool turnOn)
+	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
 	{
-		if (!playerScript.pushPull.VisibleState || (playerScript.mind.jobType == JobType.NULL))
+		if (!playerScript.pushPull.VisibleState || (playerScript.mind.jobType == JobType.NULL)
+		|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
+			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
 			return;
 		}
 
-		RpcToggleChatIcon(turnOn);
+		RpcToggleChatIcon(turnOn, message, chatChannel);
 	}
 
 	[ClientRpc]
-	private void RpcToggleChatIcon(bool turnOn)
+	private void RpcToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
 	{
-		if (!chatIcon)
+		if (!playerChatBubble)
 		{
-			chatIcon = GetComponentInChildren<ChatIcon>();
+			playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
 		}
 
-		if (turnOn)
-		{
-			chatIcon.TurnOnTalkIcon();
-		}
-		else
-		{
-			chatIcon.TurnOffTalkIcon();
-		}
+		playerChatBubble.DetermineChatVisual(turnOn, message, chatChannel);
 	}
 
 	[Command]

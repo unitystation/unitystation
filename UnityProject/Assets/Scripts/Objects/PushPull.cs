@@ -179,7 +179,7 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
-				SoundManager.PlayNetworkedAtPos( "Rustle0" + Random.Range(1, 4), pullable.transform.position );
+				SoundManager.PlayNetworkedAtPos( "Rustle#", pullable.transform.position );
 
 				PulledObjectServer = pullable;
 

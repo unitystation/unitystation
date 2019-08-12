@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UIToggleChannel : MonoBehaviour
 {
 	public ChatChannel channel;
 	[SerializeField]
 	private GameObject tooltip;
+	[SerializeField]
+	private Toggle toggle;
+	[SerializeField]
+	private Text displayText;
 	private Text tooltipText;
 	private RectTransform tooltipRect;
 	private void Start()
@@ -15,6 +20,21 @@ public class UIToggleChannel : MonoBehaviour
 		tooltipText.text = channel.ToString();
 	}
 
+	public Toggle SetToggle(ChatChannel _channel)
+	{
+		channel = _channel;
+		displayText.text = IconConstants.ChatPanelIcons[channel];
+
+		// Use the OnClick trigger to invoke Toggle_Channel instead of OnValueChanged
+		// This stops infinite loops happening when the value is changed from the code
+		EventTrigger trigger = toggle.GetComponent<EventTrigger>();
+		EventTrigger.Entry entry = new EventTrigger.Entry();
+		entry.eventID = EventTriggerType.PointerClick;
+		entry.callback.AddListener((eventData) => ControlChat.Instance.Toggle_Channel(toggle.isOn));
+		trigger.triggers.Add(entry);
+		return toggle;
+	}
+
 	public void ToggleTooltip(bool isOn)
 	{
 		if (isOn)
@@ -22,7 +42,7 @@ public class UIToggleChannel : MonoBehaviour
 			// leftXCoord is calculated using the centre x coord of the tooltip box, minus half of its width
 			//     [ ]
 			// [<---X    ]
-			float leftXCoord = gameObject.transform.localPosition.x-tooltipRect.rect.width/2;
+			float leftXCoord = gameObject.transform.localPosition.x - tooltipRect.rect.width / 2;
 			// Logger.Log(gameObject.name + " localPos: " + gameObject.transform.localPosition.x);
 			// Logger.Log("Half width: " + tooltipRect.rect.width/2);
 			// Logger.Log(gameObject.name + " LeftXCoord: " + leftXCoord);
@@ -36,7 +56,7 @@ public class UIToggleChannel : MonoBehaviour
 				// (which shouldn't be off screen)
 				//    [ ]
 				// -->[      ]
-				tooltip.transform.localPosition = new Vector3(tooltipRect.rect.width/2 - thisRect.rect.width/2, tooltip.transform.localPosition.y);
+				tooltip.transform.localPosition = new Vector3(tooltipRect.rect.width / 2 - thisRect.rect.width / 2, tooltip.transform.localPosition.y);
 
 				// All this just to move a fucking box
 			}
