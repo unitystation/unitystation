@@ -38,6 +38,14 @@ public class PlayerChatBubble : MonoBehaviour
         EventManager.RemoveHandler(EVENT.ToggleChatBubbles, OnToggle);
     }
 
+    void Update()
+    {
+        if (transform.eulerAngles != Vector3.zero)
+        {
+            transform.eulerAngles = Vector3.zero;
+        }
+    }
+
     void OnToggle()
     {
         if (PlayerPrefs.GetInt(StringManager.ChatBubblePref) == 0)
@@ -66,13 +74,15 @@ public class PlayerChatBubble : MonoBehaviour
 
     private void AddChatBubbleMsg(string msg, ChatChannel channel)
     {
-        if (msg.Length > 80)
+        int maxcharLimit = 52;
+
+        if (msg.Length > maxcharLimit)
         {
-            while (msg.Length > 80)
+            while (msg.Length > maxcharLimit)
             {
                 int ws = -1;
                 //Searching for the nearest whitespace
-                for (int i = 82; i >= 0; i--)
+                for (int i = maxcharLimit; i >= 0; i--)
                 {
                     if (char.IsWhiteSpace(msg[i]))
                     {
@@ -80,14 +90,14 @@ public class PlayerChatBubble : MonoBehaviour
                         break;
                     }
                 }
-                //Player is spamming with no whitespace. Cut it up at index 82
-                if (ws == -1 || ws == 0) ws = 82;
+                //Player is spamming with no whitespace. Cut it up
+                if (ws == -1 || ws == 0)ws = maxcharLimit + 2;
 
                 var split = msg.Substring(0, ws - 1);
                 msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(split.Length), msg = split });
 
                 msg = msg.Substring(ws + 1);
-                if (msg.Length <= 80)
+                if (msg.Length <= maxcharLimit)
                 {
                     msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(msg.Length), msg = msg });
                 }
@@ -98,7 +108,7 @@ public class PlayerChatBubble : MonoBehaviour
             msgQueue.Enqueue(new BubbleMsg { maxTime = TimeToShow(msg.Length), msg = msg });
         }
 
-        if (!showingDialogue) StartCoroutine(ShowDialogue());
+        if (!showingDialogue)StartCoroutine(ShowDialogue());
     }
 
     IEnumerator ShowDialogue()
@@ -147,7 +157,7 @@ public class PlayerChatBubble : MonoBehaviour
     /// </summary>
     private float TimeToShow(int charCount)
     {
-        return Mathf.Clamp((float) charCount / 10f, 2.5f, 10f);
+        return Mathf.Clamp((float)charCount / 10f, 2.5f, 10f);
     }
 
     /// <summary>
@@ -166,10 +176,11 @@ public class PlayerChatBubble : MonoBehaviour
 
     private void AdjustBubbleSize(int charCount)
     {
-        var norm = Mathf.Clamp(charCount / 14, 0f, 1f);
-        bg.transform.localScale = Vector3.one * Mathf.Clamp(Mathf.Lerp(0.4f, 1f, norm), 0.6f, 1f);
-        var newPos = chatBubble.transform.localPosition;
-        newPos.y = Mathf.Lerp(-0.13f, 0f, norm);
-        chatBubble.transform.localPosition = newPos;
+        var norm = Mathf.Clamp((float)charCount / 14f, 0f, 1f);
+        bg.transform.localScale = Vector3.one * Mathf.Lerp(0.3f, 1f, norm);
+        var bubbleRect = chatBubble.GetComponent<RectTransform>();
+        var newPos = bubbleRect.anchoredPosition;
+        newPos.y = Mathf.Lerp(-0.12f, 0.08f, norm);
+        bubbleRect.anchoredPosition = newPos;
     }
 }
