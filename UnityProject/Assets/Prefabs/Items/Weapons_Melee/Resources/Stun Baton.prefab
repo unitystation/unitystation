@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7617608173269680123}
   - component: {fileID: 6417518545994622246}
   - component: {fileID: 3232839523659743446}
+  - component: {fileID: 114857257376150830}
   m_Layer: 10
   m_Name: Stun Baton
   m_TagString: Untagged
@@ -127,6 +128,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 372
   inHandReferenceRight: 384
+  spriteHandlerData: {fileID: 0}
   itemName: Stun baton
   itemDescription: A stun baton for incapacitating people with.
   itemType: 0
@@ -223,6 +225,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stunTime: 14
   stunSound: EGloves
+--- !u!114 &114857257376150830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7503752898315862941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
 --- !u!1 &7503752899205498039
 GameObject:
   m_ObjectHideFlags: 0

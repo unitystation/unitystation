@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114166600190300968}
   - component: {fileID: 114122756854411570}
   - component: {fileID: 114013691186649456}
+  - component: {fileID: 114144300265124736}
   m_Layer: 10
   m_Name: UniBackPack
   m_TagString: Untagged
@@ -209,6 +210,7 @@ MonoBehaviour:
   hierarchy: /obj/item/weapon/storage/backpack
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
+  spriteHandlerData: {fileID: 0}
   itemName: 
   itemDescription: 
   itemType: 0
@@ -216,6 +218,7 @@ MonoBehaviour:
   spriteType: 1
   CanConnectToTank: 0
   hitDamage: 0
+  damageType: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
@@ -350,3 +353,30 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &114144300265124736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585232330438968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []

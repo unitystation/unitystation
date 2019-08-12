@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 114973183945482710}
   - component: {fileID: 114968630120875758}
   - component: {fileID: 114993621397341992}
+  - component: {fileID: 114112507639602968}
   m_Layer: 10
   m_Name: Welder
   m_TagString: Untagged
@@ -310,6 +311,7 @@ MonoBehaviour:
   hierarchy: /obj/item/weapon/weldingtool
   inHandReferenceLeft: 928
   inHandReferenceRight: 940
+  spriteHandlerData: {fileID: 0}
   itemName: 
   itemDescription: 
   itemType: 0
@@ -460,3 +462,21 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114112507639602968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []

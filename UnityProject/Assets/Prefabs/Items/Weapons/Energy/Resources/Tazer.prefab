@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114159304376706970}
   - component: {fileID: 114352723021298410}
   - component: {fileID: 114551840644236552}
+  - component: {fileID: 114232160885882454}
   m_Layer: 10
   m_Name: Tazer
   m_TagString: Untagged
@@ -208,6 +209,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 272
   inHandReferenceRight: 124
+  spriteHandlerData: {fileID: 0}
   itemName: Taser gun
   itemDescription: A low-capacity, energy-based stun gun used by security teams to
     subdue targets at range.
@@ -360,3 +362,21 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114232160885882454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392830670498528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []

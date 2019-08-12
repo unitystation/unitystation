@@ -41,15 +41,29 @@ public class SpriteHandler : SpriteHandlerData
 	void Start()
 	{
 		SpriteInfos.DeSerializeT();
-		if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1) { 
+		if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+		{
 			UpdateManager.Instance.Add(UpdateMe);
 		}
 	}
 
-	public void PushTexture() { 
-		SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+	public void PushTexture()
+	{
+		if (!(spriteIndex >= SpriteInfos.spriteList.Count))
+		{
+			if (!(VariantIndex >= SpriteInfos.spriteList[spriteIndex].Count))
+			{
+				SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+			}
+			else {
+				spriteRenderer.sprite = null;
+			}
+		}
+		else {
+			spriteRenderer.sprite = null;
+		}
 	}
- 	
+
 	public void UpdateMe()
 	{
 		timeElapsed += Time.deltaTime;
@@ -88,7 +102,8 @@ public class SpriteHandler : SpriteHandlerData
 		SynchroniseVariant = Sync;
 	}
 
-	public void SyncIndexSprite(int _spriteIndex) {
+	public void SyncIndexSprite(int _spriteIndex)
+	{
 		spriteIndex = _spriteIndex;
 		animationIndex = 0;
 		if (SpriteInfos.spriteList.Count > 0)
@@ -115,30 +130,13 @@ public class SpriteHandler : SpriteHandlerData
 
 	public void ChangeSprite(int newSprites)
 	{
-		if (spriteIndex != newSprites)
+		if (!(newSprites >= SpriteInfos.spriteList.Count))
 		{
-			spriteIndex = newSprites;
-			animationIndex = 0;
-			SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
-			if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+			if (spriteIndex != newSprites)
 			{
-				UpdateManager.Instance.Add(UpdateMe);
-			}
-			else {
-				UpdateManager.Instance.Remove(UpdateMe);
-			}
-		}
-	}
-
-	public void ChangeSpriteVariant(int SpriteVariant)
-	{
-		if (!(SpriteVariant >= SpriteInfos.spriteList[spriteIndex].Count))
-		{
-			SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
-			if (VariantIndex != SpriteVariant)
-			{
+				spriteIndex = newSprites;
 				animationIndex = 0;
-				VariantIndex = SpriteVariant;
+				SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
 				if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
 				{
 					UpdateManager.Instance.Add(UpdateMe);
@@ -148,7 +146,35 @@ public class SpriteHandler : SpriteHandlerData
 				}
 			}
 		}
+		else
+		{
+
+		}
 	}
 
+	public void ChangeSpriteVariant(int SpriteVariant)
+	{
+		//Logger.Log(spriteIndex + " < > " + SpriteInfos.spriteList.Count);
+		//Logger.Log(SpriteVariant + " < > " + SpriteInfos.spriteList[spriteIndex].Count);
+		if (!(spriteIndex >= SpriteInfos.spriteList.Count))
+		{
+			if (!(SpriteVariant >= SpriteInfos.spriteList[spriteIndex].Count))
+			{
+				SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+				if (VariantIndex != SpriteVariant)
+				{
+					animationIndex = 0;
+					VariantIndex = SpriteVariant;
+					if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+					{
+						UpdateManager.Instance.Add(UpdateMe);
+					}
+					else {
+						UpdateManager.Instance.Remove(UpdateMe);
+					}
+				}
+			}
+		}
+	}
 }
 

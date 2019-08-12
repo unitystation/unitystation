@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 114216741964076904}
   - component: {fileID: 114339187557575792}
   - component: {fileID: 114008280874307392}
+  - component: {fileID: 114269260090842122}
   m_Layer: 10
   m_Name: LaserGun
   m_TagString: Untagged
@@ -129,6 +130,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 28
   inHandReferenceRight: 32
+  spriteHandlerData: {fileID: 0}
   itemName: LaserGun
   itemDescription: 
   itemType: 16
@@ -136,6 +138,7 @@ MonoBehaviour:
   spriteType: 2
   CanConnectToTank: 0
   hitDamage: 5
+  damageType: 0
   throwDamage: 5
   throwSpeed: 2
   throwRange: 7
@@ -211,12 +214,16 @@ MonoBehaviour:
   SmartGun: 1
   CurrentRecoilVariance: 0
   FireCountDown: 0
-  FireingSound: ShootLaser
+  FiringSound: ShootLaser
   FireRate: 5
   MaxRecoilVariance: 0
   Projectile: {fileID: 1553142956179786, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
   ProjectilesFired: 1
   ProjectileVelocity: 27
+  CameraRecoilConfig:
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
   WeaponType: 1
 --- !u!114 &114216741964076904
 MonoBehaviour:
@@ -266,6 +273,33 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &114269260090842122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907860461332556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
 --- !u!1 &1940283646410426
 GameObject:
   m_ObjectHideFlags: 0

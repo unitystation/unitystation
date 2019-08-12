@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 114797656863405006}
   - component: {fileID: 114127346376007556}
   - component: {fileID: 114395634636241260}
+  - component: {fileID: 114353477829979338}
   m_Layer: 10
   m_Name: RollingPin
   m_TagString: Untagged
@@ -207,6 +208,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 536
   inHandReferenceRight: 548
+  spriteHandlerData: {fileID: 0}
   itemName: Rolling_Pin
   itemDescription: A RollingPin to roll dough
   itemType: 0
@@ -214,6 +216,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 8
+  damageType: 0
   throwDamage: 5
   throwSpeed: 3
   throwRange: 7
@@ -320,3 +323,30 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &114353477829979338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012939332086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []

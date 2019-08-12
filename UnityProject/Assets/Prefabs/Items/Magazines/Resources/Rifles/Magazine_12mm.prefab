@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114217086723951782}
   - component: {fileID: 114191295505836602}
   - component: {fileID: 114796177124949924}
+  - component: {fileID: 114550561066821966}
   m_Layer: 10
   m_Name: Magazine_12mm
   m_TagString: Untagged
@@ -226,6 +227,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 0
   inHandReferenceRight: 0
+  spriteHandlerData: {fileID: 0}
   itemName: c20r45 Magazine
   itemDescription: 
   itemType: 0
@@ -233,6 +235,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 0
+  damageType: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
@@ -335,3 +338,30 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &114550561066821966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837689547681116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []

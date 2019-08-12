@@ -8084,8 +8084,8 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 25e12bff96bef074794047b8dfce5e71, type: 3}
   - {fileID: 21300000, guid: 27120cff49e6ad84497b1c00a328e35a, type: 3}
   m_PackedSpriteNamesToIndex:
-  - flightsuit_lock
-  - darkgygax-open
+  - actions_flightsuit_flightsuit_lock
+  - gygax_darkgygax-open
   - shield-grey_5
   - shield-grey_4
   - shield-grey_6
@@ -8093,17 +8093,17 @@ SpriteAtlas:
   - shield-grey_0
   - shield-grey_3
   - shield-grey_2
-  - r_leg3
+  - screen_gen_r_leg3
   - not_enough_co2_1
   - not_enough_co2_0
-  - nauthealth
-  - over
-  - fireripley6
-  - arrow3
-  - bloodhand_right
-  - odysseus_l_leg
-  - cable_5-9
-  - darkgygax22
+  - blob_nauthealth
+  - blood cultist_over
+  - construction firefighter_fireripley6
+  - alerts_arrow3
+  - inventory states_bloodhand_right
+  - parts_odysseus_l_leg
+  - radial_cable_5-9
+  - construction dark_darkgygax22
   - overcharged_8
   - overcharged_2
   - overcharged_3
@@ -8113,27 +8113,27 @@ SpriteAtlas:
   - overcharged_7
   - overcharged_4
   - overcharged_5
-  - popcorn
-  - zoom_mode
-  - Judicial_Visor
-  - vanguard
-  - beam_blue
-  - 2
-  - cult_sense
-  - lamp2
-  - act_rest0
-  - l_leg1
-  - sting_extract
-  - muzzle_u_laser
-  - builder_mode
-  - mending_mantra
-  - emp
+  - language_popcorn
+  - actions_items_zoom_mode
+  - actions_clockcult_Judicial_Visor
+  - alerts_vanguard
+  - projectiles_tracer_beam_blue
+  - magic_2
+  - alerts_cult_sense
+  - screen_cyborg_lamp2
+  - screen_retro_act_rest0
+  - screen_gen_l_leg1
+  - screen_gen_sting_extract
+  - projectiles_muzzle_muzzle_u_laser
+  - actions_construction_builder_mode
+  - clockwork cultus_mending_mantra
+  - implants_emp
   - greenshatter2_4
   - greenshatter2_2
   - greenshatter2_3
   - greenshatter2_0
   - greenshatter2_1
-  - deathripley-open
+  - ripley_deathripley-open
   - templar_3
   - templar_2
   - templar_1
@@ -8141,24 +8141,24 @@ SpriteAtlas:
   - smoke2_1
   - smoke2_0
   - smoke2_2
-  - revive
-  - act_rest0
-  - hudcalled
-  - stun
-  - hudbatthigh
-  - prog_bar_50
+  - actions_changeling_revive
+  - screen_midnight_act_rest0
+  - HUD_hudcalled
+  - alerts_stun
+  - HUD_hudbatthigh
+  - progessbar_prog_bar_50
   - claw_3
   - claw_2
   - claw_1
   - claw_0
-  - cable_0-9
-  - durand_r_lego
-  - bg_clock
-  - mimic_voice
-  - hudtracking
-  - dissonant_shriek
-  - rune6center
-  - beam
+  - radial_cable_0-9
+  - parts_durand_r_lego
+  - backgrounds_bg_clock
+  - actions_changeling_mimic_voice
+  - HUD_hudtracking
+  - actions_changeling_dissonant_shriek
+  - blood cultist_rune6center
+  - projectiles_tracer_beam
   - tentacle_4
   - tentacle_5
   - tentacle_6
@@ -8178,14 +8178,14 @@ SpriteAtlas:
   - electricity_4
   - electricity_9
   - electricity_8
-  - gross3
+  - alerts_gross3
   - hierophant_0
   - hierophant_1
-  - ripley13
-  - sintouched
-  - template_active
-  - drone
-  - eyes
+  - construction_ripley13
+  - HUD_sintouched
+  - screen_plasmafire_template_active
+  - language_drone
+  - zone select_eyes
   - curse0_0
   - curse0_1
   - curse0_2
@@ -8201,10 +8201,10 @@ SpriteAtlas:
   - curse0_11
   - curse0_10
   - curse0_14
-  - cable_1-2
-  - bleed2
-  - fireripley21
-  - all
+  - radial_cable_1-2
+  - bleed_bleed2
+  - construction firefighter_fireripley21
+  - supplypod_down_target_all
   - singularity_s9_6
   - singularity_s9_7
   - singularity_s9_4
@@ -8213,7 +8213,7 @@ SpriteAtlas:
   - singularity_s9_3
   - singularity_s9_0
   - singularity_s9_1
-  - template_small
+  - screen_slimecore_template_small
   - phaseout_18
   - phaseout_19
   - phaseout_10
@@ -8256,15 +8256,15 @@ SpriteAtlas:
   - wallglow_4
   - wallglow_7
   - wallglow_6
-  - alien_transfer
-  - gygax_harness3o
-  - rune6words
-  - eyes
-  - slime0
-  - arrow4
-  - sting_transform
-  - shapeshift
-  - hierophant
+  - actions_xeno_alien_transfer
+  - parts_gygax_harness3o
+  - blood cultist_rune6words
+  - screen_alien_eyes
+  - talk_slime0
+  - alerts_arrow4
+  - actions_changeling_sting_transform
+  - actions_spells_shapeshift
+  - actions_clockcult_hierophant
   - syndicate_space_sword_3
   - syndicate_space_sword_2
   - syndicate_space_sword_1
@@ -8273,13 +8273,13 @@ SpriteAtlas:
   - syndicate_space_sword_6
   - syndicate_space_sword_5
   - syndicate_space_sword_4
-  - hand_active
+  - screen_alien_hand_active
   - build_fan_2
   - build_fan_3
   - build_fan_0
   - build_fan_1
-  - rune6inner
-  - talk_wheel
+  - blood cultist_rune6inner
+  - screen_clockwork_talk_wheel
   - lichbeam_9
   - lichbeam_8
   - lichbeam_7
@@ -8312,13 +8312,13 @@ SpriteAtlas:
   - lichbeam_17
   - lichbeam_14
   - lichbeam_15
-  - health7
-  - ears
+  - screen_cyborg_health7
+  - screen_midnight_ears
   - prog_bar_30_fail_1
   - prog_bar_30_fail_0
-  - layer3
-  - ripley-g-open
-  - ripley14
+  - parallax_layer3
+  - ripley_ripley-g-open
+  - construction_ripley14
   - shieldsparkles_19
   - shieldsparkles_18
   - shieldsparkles_17
@@ -8343,46 +8343,46 @@ SpriteAtlas:
   - shieldsparkles_23
   - shieldsparkles_20
   - shieldsparkles_21
-  - freedom
-  - hudcurator
-  - bfg
+  - implants_freedom
+  - HUD_hudcurator
+  - projectiles_tracer_bfg
   - water_vapor_old_4
   - water_vapor_old_5
   - water_vapor_old_0
   - water_vapor_old_1
   - water_vapor_old_2
   - water_vapor_old_3
-  - buildmode_boom
+  - buildmode_buildmode_boom
   - internal2_1
   - internal2_0
-  - blackout
+  - AI_blackout
   - too_much_oxy_1
   - too_much_oxy_0
   - jumptomob_anim_2
   - jumptomob_anim_1
   - jumptomob_anim_0
-  - infected_old
+  - alien_infected_old
   - nitryl_old_2
   - nitryl_old_3
   - nitryl_old_0
   - nitryl_old_1
-  - mouth
-  - mech_zoom_off
-  - hudatmospherictechnician
-  - bg_hive
-  - darkgygax_harness
-  - health4
+  - zone select_mouth
+  - actions_mecha_mech_zoom_off
+  - HUD_hudatmospherictechnician
+  - backgrounds_bg_hive
+  - parts_darkgygax_harness
+  - screen_gen_old_health4
   - ionpulse1_2
   - ionpulse1_0
   - ionpulse1_1
-  - link_speech
-  - mech_phasing_on
-  - nanites100
-  - help
-  - muzzle_cult
-  - odysseus_head
-  - cult_comms
-  - huddead
+  - actions_slime_link_speech
+  - actions_mecha_mech_phasing_on
+  - HUD_nanites100
+  - screen_retro_help
+  - projectiles_muzzle_muzzle_cult
+  - parts_odysseus_head
+  - actions_cult_cult_comms
+  - HUD_huddead
   - clockwork_gateway_charging_19
   - clockwork_gateway_charging_8
   - clockwork_gateway_charging_18
@@ -8405,15 +8405,15 @@ SpriteAtlas:
   - clockwork_gateway_charging_12
   - clockwork_gateway_charging_20
   - clockwork_gateway_charging_21
-  - help
+  - screen_plasmafire_help
   - pipe-1_0
   - pipe-1_1
   - pipe-1_2
   - pipe-1_3
-  - 1562403134.547166
+  - blood cultist_1562403134.547166
   - l_leg5_0
   - l_leg5_1
-  - gygax_head3o
+  - parts_gygax_head3o
   - singularity_s11_1
   - singularity_s11_0
   - singularity_s11_3
@@ -8430,17 +8430,17 @@ SpriteAtlas:
   - singularity_s11_13
   - singularity_s11_14
   - singularity_s11_15
-  - health1
+  - screen_cyborg_health1
   - arrow7_0
   - arrow7_1
-  - blocked
+  - screen_gen_blocked
   - blessed_2
   - blessed_3
   - blessed_0
   - blessed_1
   - blessed_4
   - blessed_5
-  - gygax15
+  - construction_gygax15
   - 6_moderate_4
   - 6_moderate_5
   - 6_moderate_6
@@ -8452,13 +8452,13 @@ SpriteAtlas:
   - cat_butcher_1
   - cat_butcher_2
   - cat_butcher_3
-  - hudill2
-  - suit
-  - alienroyal0
-  - phazon0
-  - alerts
-  - all
-  - syndibot2
+  - HUD_hudill2
+  - screen_plasmafire_suit
+  - talk_alienroyal0
+  - construction_phazon0
+  - AI_alerts
+  - mecha_mouse_all
+  - talk_syndibot2
   - chameleon_outfit_2
   - chameleon_outfit_3
   - chameleon_outfit_0
@@ -8466,15 +8466,15 @@ SpriteAtlas:
   - Devil-5_0
   - Devil-5_1
   - Devil-5_2
-  - lamp0
-  - odysseus0
-  - gygax_head
+  - screen_cyborg_lamp0
+  - construction_odysseus0
+  - parts_gygax_head
   - bsa_beam_2
   - bsa_beam_0
   - bsa_beam_1
-  - l_arm
-  - augmented_eyesight
-  - hudwarn
+  - screen_gen_l_arm
+  - actions_changeling_augmented_eyesight
+  - HUD_hudwarn
   - nanotrasen_3
   - nanotrasen_2
   - nanotrasen_1
@@ -8485,9 +8485,9 @@ SpriteAtlas:
   - impact_laser_green_1
   - impact_laser_green_2
   - impact_laser_green_3
-  - impact_xray
-  - icebeam0
-  - blob2
+  - projectiles_impact_impact_xray
+  - actions_spells_icebeam0
+  - talk_blob2
   - not_enough_oxy_1
   - not_enough_oxy_0
   - pixelbeam_greyscale_1
@@ -8496,7 +8496,7 @@ SpriteAtlas:
   - pixelbeam_greyscale_2
   - colossus_1
   - colossus_0
-  - syndibot1
+  - talk_syndibot1
   - singularity_s5_2
   - singularity_s5_3
   - singularity_s5_0
@@ -8505,13 +8505,13 @@ SpriteAtlas:
   - singularity_s5_7
   - singularity_s5_4
   - singularity_s5_5
-  - cable_2-10
-  - sigiltransgression
-  - hudchiefengineer
-  - sting_mute
-  - mech_thrusters_on
-  - help
-  - radial_use
+  - radial_cable_2-10
+  - clockwork cultus_sigiltransgression
+  - HUD_hudchiefengineer
+  - screen_gen_sting_mute
+  - actions_mecha_mech_thrusters_on
+  - screen_gen_help
+  - radial_radial_use
   - speedspace_ns_6_8
   - speedspace_ns_6_9
   - speedspace_ns_6_14
@@ -8527,28 +8527,28 @@ SpriteAtlas:
   - speedspace_ns_6_12
   - speedspace_ns_6_0
   - speedspace_ns_6_1
-  - 1-5
-  - manifold4w-2
+  - power_local_1-5
+  - manifold_manifold4w-2
   - hudhealth-50_1
   - hudhealth-50_0
   - syndicate_knife_0
   - syndicate_knife_1
   - syndicate_knife_2
   - syndicate_knife_3
-  - Stargazer
-  - artificer_health7
-  - health2
+  - actions_clockcult_Stargazer
+  - screen_construct_artificer_health7
+  - screen_cyborg_health2
   - Devil-2_2
   - Devil-2_1
   - Devil-2_0
-  - buildhelp
+  - buildmode_buildhelp
   - speedwagon_1
   - speedwagon_0
   - speedwagon_3
   - speedwagon_2
-  - mech_lights_off
-  - gygax0
-  - 1562403126.4461088
+  - actions_mecha_mech_lights_off
+  - construction_gygax0
+  - blood cultist_1562403126.4461088
   - 3_light_2
   - 3_light_3
   - 3_light_0
@@ -8558,12 +8558,12 @@ SpriteAtlas:
   - 3_light_5
   - lowcell3_1
   - lowcell3_0
-  - durand7
+  - construction_durand7
   - ripley-g_3
   - ripley-g_2
   - ripley-g_1
   - ripley-g_0
-  - all (2)
+  - AI_all (2)
   - syndicate_stormtrooper_sword_5
   - syndicate_stormtrooper_sword_4
   - syndicate_stormtrooper_sword_7
@@ -8572,14 +8572,14 @@ SpriteAtlas:
   - syndicate_stormtrooper_sword_0
   - syndicate_stormtrooper_sword_3
   - syndicate_stormtrooper_sword_2
-  - hudbartender
-  - belt
-  - gygax20
+  - HUD_hudbartender
+  - screen_retro_belt
+  - construction_gygax20
   - launchpad_pull_0
   - launchpad_pull_1
-  - template_intent
-  - window_select
-  - Cogscarab
+  - screen_clockwork_template_intent
+  - actions_construction_window_select
+  - actions_clockcult_Cogscarab
   - light_ash_30
   - light_ash_31
   - light_ash_18
@@ -8612,8 +8612,8 @@ SpriteAtlas:
   - light_ash_22
   - light_ash_29
   - light_ash_28
-  - mech_lights_on
-  - pai_chassis
+  - actions_mecha_mech_lights_on
+  - actions_silicon_pai_chassis
   - ratvarwindoorglow_61
   - ratvarwindoorglow_60
   - ratvarwindoorglow_63
@@ -8682,7 +8682,7 @@ SpriteAtlas:
   - ratvarwindoorglow_20
   - ratvarwindoorglow_23
   - ratvarwindoorglow_22
-  - odysseus15
+  - construction_odysseus15
   - bloodsparkles_21
   - bloodsparkles_20
   - bloodsparkles_23
@@ -8707,35 +8707,35 @@ SpriteAtlas:
   - bloodsparkles_15
   - bloodsparkles_16
   - bloodsparkles_17
-  - ripleymkii-open
-  - monkey_up
-  - shoes
+  - ripley_ripleymkii-open
+  - actions_silicon_monkey_up
+  - screen_midnight_shoes
   - prog_bar_35_fail_0
   - prog_bar_35_fail_1
-  - darkgygax-broken
-  - talk_come
-  - drone_camogear_mask
-  - nanites20
-  - sacredflame
-  - ears
-  - neck
-  - 4-10
-  - act_throw_on
-  - cable_6-10
-  - suit
-  - arrow1
-  - exit_possession
-  - access
-  - arrow6
-  - cable_4-5
+  - gygax_darkgygax-broken
+  - screen_gen_talk_come
+  - actions_silicon_drone_camogear_mask
+  - HUD_nanites20
+  - actions_spells_sacredflame
+  - screen_plasmafire_ears
+  - screen_midnight_neck
+  - power_local_4-10
+  - screen_clockwork_act_throw_on
+  - radial_cable_6-10
+  - screen_clockwork_suit
+  - alerts_arrow1
+  - actions_spells_exit_possession
+  - radial_access
+  - alerts_arrow6
+  - radial_cable_4-5
   - immrod_0
   - immrod_1
   - immrod_2
   - immrod_3
-  - bonechill
-  - hudclown
-  - running
-  - gygax18
+  - actions_spells_bonechill
+  - HUD_hudclown
+  - screen_plasmafire_running
+  - construction_gygax18
   - ratvardoorglow_3
   - ratvardoorglow_2
   - ratvardoorglow_5
@@ -8753,8 +8753,8 @@ SpriteAtlas:
   - ratvardoorglow_8
   - ratvardoorglow_1
   - ratvardoorglow_0
-  - neck
-  - camera_off
+  - screen_slimecore_neck
+  - actions_silicon_camera_off
   - 1-corner_7
   - 1-corner_6
   - 1-corner_5
@@ -8770,8 +8770,8 @@ SpriteAtlas:
   - 8_moderate_0
   - 8_moderate_1
   - 8_moderate_6
-  - monkey_down
-  - cnorth
+  - actions_silicon_monkey_down
+  - radial_cnorth
   - prog_bar_90_fail_1
   - prog_bar_90_fail_0
   - hierophant_telegraph_edge_4
@@ -8804,9 +8804,9 @@ SpriteAtlas:
   - hierophant_telegraph_edge_5
   - hierophant_telegraph_edge_19
   - hierophant_telegraph_edge_29
-  - alien_queen_maidify
-  - ripley_l_lego
-  - durand14
+  - actions_xeno_alien_queen_maidify
+  - parts_ripley_l_lego
+  - construction_durand14
   - 4_light_5
   - 4_light_4
   - 4_light_6
@@ -8818,37 +8818,37 @@ SpriteAtlas:
   - wheelchair_3
   - wheelchair_0
   - wheelchair_1
-  - warden_gaze
-  - buildmode_link
-  - frozen
-  - layer1
-  - hudheadofsecurityOld
-  - hudchiefmedicalofficer
+  - clockwork cultus_warden_gaze
+  - buildmode_buildmode_link
+  - alerts_frozen
+  - parallax_layer1
+  - HUD_hudheadofsecurityOld
+  - HUD_hudchiefmedicalofficer
   - hudhealth-85_1
   - hudhealth-85_0
-  - phaseshift
-  - skeleton
-  - honkero
-  - act_equip
-  - ratvar
-  - high
-  - deploy_box
-  - mimic_summon
-  - hudroboticist
+  - actions_cult_phaseshift
+  - actions_spells_skeleton
+  - parts_honkero
+  - screen_slimecore_act_equip
+  - language_ratvar
+  - alerts_high
+  - actions_items_deploy_box
+  - actions_minor_antag_mimic_summon
+  - HUD_hudroboticist
   - nitrous_oxide_old_0
   - nitrous_oxide_old_1
   - nitrous_oxide_old_2
-  - override_machine
-  - l_leg
-  - emergency_lights
-  - door
-  - pressure1
-  - blur
+  - AI_override_machine
+  - screen_gen_l_leg
+  - AI_emergency_lights
+  - lava land_door
+  - screen_gen_old_pressure1
+  - beam_blur
   - fireripley17_3
   - fireripley17_2
   - fireripley17_1
   - fireripley17_0
-  - radial_pickup
+  - radial_radial_pickup
   - 1562403371.620752_19
   - 1562403371.620752_18
   - 1562403371.620752_17
@@ -8869,7 +8869,7 @@ SpriteAtlas:
   - 1562403371.620752_3
   - 1562403371.620752_8
   - 1562403371.620752_9
-  - durand_r_armo
+  - parts_durand_r_armo
   - speedspace_ns_13_11
   - speedspace_ns_13_10
   - speedspace_ns_13_13
@@ -8917,8 +8917,8 @@ SpriteAtlas:
   - uncloak_2
   - uncloak_1
   - uncloak_0
-  - running
-  - mask
+  - screen_slimecore_running
+  - screen_operative_mask
   - miasma_6
   - miasma_7
   - miasma_4
@@ -8929,8 +8929,8 @@ SpriteAtlas:
   - miasma_1
   - r_arm6_1
   - r_arm6_0
-  - impact_laser
-  - pull
+  - projectiles_impact_impact_laser
+  - screen_operative_pull
   - 3_heavy_6
   - 3_heavy_5
   - 3_heavy_4
@@ -8938,17 +8938,17 @@ SpriteAtlas:
   - 3_heavy_2
   - 3_heavy_1
   - 3_heavy_0
-  - deity_power
-  - inathneqs_endowment
-  - buildmode_mapgen
-  - catcher
-  - odysseus_torsoo
-  - lamp8
+  - screen_gen_deity_power
+  - alerts_inathneqs_endowment
+  - buildmode_buildmode_mapgen
+  - screen_gen_catcher
+  - parts_odysseus_torsoo
+  - screen_cyborg_lamp8
   - prog_bar_85_fail_1
   - prog_bar_85_fail_0
-  - cable_2-9
-  - back
-  - harm
+  - radial_cable_2-9
+  - screen_slimecore_back
+  - screen_slimecore_harm
   - bg_agent_5
   - bg_agent_4
   - bg_agent_7
@@ -8968,22 +8968,22 @@ SpriteAtlas:
   - paperwizard_2
   - paperwizard_1
   - paperwizard_0
-  - durand16
+  - construction_durand16
   - foam-disolve_0
   - foam-disolve_1
   - foam-disolve_2
   - foam-disolve_3
   - foam-disolve_4
   - foam-disolve_5
-  - beam_up
-  - 6-9
-  - shadowling
-  - manip
-  - projectile
-  - airlock
-  - foam
-  - huddiaggood
-  - slime_down
+  - actions_minor_antag_beam_up
+  - power_local_6-9
+  - HUD_shadowling
+  - actions_cult_manip
+  - actions_spells_projectile
+  - radial_airlock
+  - Foam_foam
+  - HUD_huddiaggood
+  - actions_silicon_slime_down
   - 5_very_light_3
   - 5_very_light_2
   - 5_very_light_1
@@ -8991,7 +8991,7 @@ SpriteAtlas:
   - 5_very_light_6
   - 5_very_light_5
   - 5_very_light_4
-  - darkhonker-broken
+  - honker_darkhonker-broken
   - ratvarbeamglow_4
   - ratvarbeamglow_5
   - ratvarbeamglow_6
@@ -8999,8 +8999,8 @@ SpriteAtlas:
   - ratvarbeamglow_1
   - ratvarbeamglow_2
   - ratvarbeamglow_3
-  - lightning1
-  - projectile_dampen_northwest
+  - actions_spells_lightning1
+  - Slow field_projectile_dampen_northwest
   - speedspace_ew_5_8
   - speedspace_ew_5_9
   - speedspace_ew_5_0
@@ -9016,9 +9016,9 @@ SpriteAtlas:
   - speedspace_ew_5_11
   - speedspace_ew_5_10
   - speedspace_ew_5_14
-  - chest4
-  - act_drop
-  - summary_nukefail
+  - screen_gen_chest4
+  - screen_plasmafire_act_drop
+  - cut scenes_summary_nukefail
   - Tinkerers_Cache_4
   - Tinkerers_Cache_5
   - Tinkerers_Cache_6
@@ -9027,34 +9027,34 @@ SpriteAtlas:
   - Tinkerers_Cache_1
   - Tinkerers_Cache_2
   - Tinkerers_Cache_3
-  - alien_template
-  - ripley0
-  - hudchef
-  - guardian1
-  - hudoffline
-  - icebeam
-  - huddiaglow
-  - template
-  - servant_blocker
-  - suit
-  - internal1
+  - alerts_alien_template
+  - construction_ripley0
+  - HUD_hudchef
+  - talk_guardian1
+  - HUD_hudoffline
+  - actions_spells_icebeam
+  - HUD_huddiaglow
+  - screen_clockwork_template
+  - clockwork cultist_servant_blocker
+  - screen_operative_suit
+  - screen_gen_internal1
   - blueshatter2_1
   - blueshatter2_0
   - blueshatter2_3
   - blueshatter2_2
-  - take_picture
-  - act_rest
-  - hudrevolutionary
+  - screen_pai_take_picture
+  - screen_plasmafire_act_rest
+  - HUD_hudrevolutionary
   - chest5_0
   - chest5_1
-  - knock
-  - car_rtd
+  - actions_spells_knock
+  - actions_vehicle_car_rtd
   - pirate_1
   - pirate_0
   - pirate_3
   - pirate_2
-  - hudsentient
-  - talk_stop
+  - HUD_hudsentient
+  - screen_gen_talk_stop
   - hierophant_telegraph_teleport_7
   - hierophant_telegraph_teleport_6
   - hierophant_telegraph_teleport_5
@@ -9069,7 +9069,7 @@ SpriteAtlas:
   - hierophant_telegraph_teleport_13
   - hierophant_telegraph_teleport_10
   - hierophant_telegraph_teleport_11
-  - rune3words
+  - blood cultist_rune3words
   - speedspace_ns_8_8
   - speedspace_ns_8_9
   - speedspace_ns_8_4
@@ -9087,15 +9087,15 @@ SpriteAtlas:
   - speedspace_ns_8_10
   - floating_health6_1
   - floating_health6_0
-  - areaconvert
-  - disposal
-  - shoes
+  - actions_cult_areaconvert
+  - disposal_disposal
+  - screen_plasmafire_shoes
   - highpressure2_1
   - highpressure2_0
-  - sniper_zoom
-  - call_shuttle
-  - hivevessel
-  - talk_wheel
+  - actions_items_sniper_zoom
+  - AI_call_shuttle
+  - HUD_hivevessel
+  - screen_gen_talk_wheel
   - medbeam_5
   - medbeam_4
   - medbeam_9
@@ -9112,7 +9112,7 @@ SpriteAtlas:
   - medbeam_0
   - medbeam_7
   - medbeam_6
-  - l_arm1
+  - screen_gen_l_arm1
   - impact_laser_wall_5
   - impact_laser_wall_4
   - impact_laser_wall_7
@@ -9124,14 +9124,14 @@ SpriteAtlas:
   - impact_laser_wall_9
   - impact_laser_wall_8
   - impact_laser_wall_10
-  - mask
-  - ripley1
+  - screen_clockwork_mask
+  - construction_ripley1
   - boop_2
   - boop_3
   - boop_0
   - boop_1
-  - hudwizard
-  - harm
+  - HUD_hudwizard
+  - screen_midnight_harm
   - teleport_anim_0
   - teleport_anim_5
   - teleport_anim_4
@@ -9153,18 +9153,18 @@ SpriteAtlas:
   - 6_very_light_3
   - 6_very_light_0
   - 6_very_light_1
-  - internal0
-  - 2-9
-  - honker_r_leg
-  - mind_control
-  - odysseus_r_arm
-  - honker_head
+  - screen_gen_internal0
+  - power_local_2-9
+  - parts_honker_r_leg
+  - alerts_mind_control
+  - parts_odysseus_r_arm
+  - parts_honker_head
   - prog_bar_10_fail_1
   - prog_bar_10_fail_0
-  - ichoral_stain
-  - disarm
-  - impact_plasmacutter
-  - take_picture
+  - alerts_ichoral_stain
+  - screen_midnight_disarm
+  - projectiles_impact_impact_plasmacutter
+  - AI_take_picture
   - n_beam_6
   - n_beam_7
   - n_beam_4
@@ -9173,17 +9173,17 @@ SpriteAtlas:
   - n_beam_3
   - n_beam_0
   - n_beam_1
-  - gygax_l_armo
-  - hudmove
-  - pda
-  - pin
-  - phazon14
-  - camera
-  - act_throw_on
-  - ui_light
-  - bloodchill
-  - 4-8
-  - hudstationengineer
+  - parts_gygax_l_armo
+  - HUD_hudmove
+  - AI_pda
+  - actions_hive_pin
+  - construction_phazon14
+  - AI_camera
+  - screen_midnight_act_throw_on
+  - swarm_ui_light
+  - alerts_bloodchill
+  - power_local_4-8
+  - HUD_hudstationengineer
   - lava_4
   - lava_5
   - lava_6
@@ -9256,28 +9256,28 @@ SpriteAtlas:
   - mauler_14
   - mauler_47
   - mauler_17
-  - overload_machine
-  - darkgygax3
-  - zone_sel
+  - AI_overload_machine
+  - construction dark_darkgygax3
+  - screen_slime_zone_sel
   - lightning8_0
   - lightning8_1
   - back_3
   - back_2
   - back_1
   - back_0
-  - act_rest
-  - 6-10
-  - muzzle_laser
-  - gygax_r_arm
-  - sigilsubmission
-  - 2-5
+  - screen_retro_act_rest
+  - power_local_6-10
+  - projectiles_muzzle_muzzle_laser
+  - parts_gygax_r_arm
+  - clockwork cultus_sigilsubmission
+  - power_local_2-5
   - static_base_2
   - static_base_3
   - static_base_0
   - static_base_1
   - static_base_4
   - static_base_5
-  - radial_examine2
+  - radial_radial_examine2
   - time_1
   - time_0
   - time_3
@@ -9288,11 +9288,11 @@ SpriteAtlas:
   - time_6
   - time_9
   - time_8
-  - craft
+  - screen_plasmafire_craft
   - seraph-open_0
   - seraph-open_1
   - seraph-open_2
-  - bleed9
+  - bleed_bleed9
   - tracer_beam_2
   - tracer_beam_1
   - tracer_beam_0
@@ -9315,18 +9315,18 @@ SpriteAtlas:
   - faceless_3
   - faceless_0
   - faceless_1
-  - suit_storage
-  - summary_cult
+  - screen_slimecore_suit_storage
+  - cut scenes_summary_cult
   - manifold-1_0
   - manifold-1_1
   - manifold-1_2
   - manifold-1_3
-  - holo1
-  - alien_acid
-  - firesuito
-  - act_drop
-  - template_small
-  - harvester_health4
+  - talk_holo1
+  - actions_xeno_alien_acid
+  - unknown_firesuito
+  - screen_midnight_act_drop
+  - screen_retro_template_small
+  - screen_construct_harvester_health4
   - electricity2_1
   - electricity2_0
   - electricity2_3
@@ -9339,23 +9339,23 @@ SpriteAtlas:
   - electricity2_8
   - electricity2_10
   - electricity2_11
-  - huddead2
-  - warp_down
-  - cable_1-4
-  - r_arm2
-  - wheelys
-  - empower
-  - act_resist
-  - large_stamp-ce
-  - template_acts
-  - low_mech_integrity1
-  - airlock_select
-  - slimegrow
-  - darkgygax12
-  - fireripley18
-  - cable_6-9
-  - hudmedicaldoctor
-  - odysseus_torso
+  - HUD_huddead2
+  - actions_clockcult_warp_down
+  - radial_cable_1-4
+  - screen_gen_r_arm2
+  - actions_items_wheelys
+  - actions_hive_empower
+  - screen_retro_act_resist
+  - paper stamps_large_stamp-ce
+  - screen_clockwork_template_acts
+  - alerts_low_mech_integrity1
+  - actions_construction_airlock_select
+  - actions_slime_slimegrow
+  - construction dark_darkgygax12
+  - construction firefighter_fireripley18
+  - radial_cable_6-9
+  - HUD_hudmedicaldoctor
+  - parts_odysseus_torso
   - speedspace_ns_15_13
   - speedspace_ns_15_12
   - speedspace_ns_15_11
@@ -9371,17 +9371,17 @@ SpriteAtlas:
   - speedspace_ns_15_7
   - speedspace_ns_15_8
   - speedspace_ns_15_9
-  - slime_clone
+  - alerts_slime_clone
   - belligerent_1
   - belligerent_0
   - belligerent_3
   - belligerent_2
-  - eyes
-  - planet
-  - fire1
-  - template_active
-  - sting_extract
-  - gate_dais
+  - screen_gen_eyes
+  - parallax_planet
+  - screen_cyborg_fire1
+  - screen_operative_template_active
+  - actions_changeling_sting_extract
+  - lava land_gate_dais
   - 3-half_1
   - 3-half_0
   - 3-half_3
@@ -9394,14 +9394,14 @@ SpriteAtlas:
   - clowncar_recoil_1
   - clowncar_recoil_2
   - clowncar_recoil_3
-  - l_arm2
-  - set_drop
-  - act_resist
-  - Prolonging_Prism
-  - nutrition4
-  - lighting_bolt
-  - nanites60
-  - fireripley7
+  - screen_gen_l_arm2
+  - actions_minor_antag_set_drop
+  - screen_operative_act_resist
+  - actions_clockcult_Prolonging_Prism
+  - screen_gen_old_nutrition4
+  - implants_lighting_bolt
+  - HUD_nanites60
+  - construction firefighter_fireripley7
   - atv_9
   - atv_8
   - atv_7
@@ -9418,11 +9418,11 @@ SpriteAtlas:
   - atv_11
   - atv_14
   - atv_15
-  - hudprisoner
+  - HUD_hudprisoner
   - fire_2
   - fire_0
   - fire_1
-  - ui_tocore
+  - blob_ui_tocore
   - 3_moderate_6
   - 3_moderate_5
   - 3_moderate_4
@@ -9447,8 +9447,8 @@ SpriteAtlas:
   - conpipe-j2s_1
   - conpipe-j2s_2
   - conpipe-j2s_3
-  - logout
-  - lamp10
+  - actions_vr_logout
+  - screen_cyborg_lamp10
   - clockwork_gateway_closing_2
   - clockwork_gateway_closing_3
   - clockwork_gateway_closing_0
@@ -9465,14 +9465,14 @@ SpriteAtlas:
   - clockwork_gateway_closing_12
   - clockwork_gateway_closing_15
   - clockwork_gateway_closing_14
-  - 1562403344.8953302
-  - leap_on
-  - all
+  - animals_1562403344.8953302
+  - screen_alien_leap_on
+  - AI_all
   - marker_0
   - marker_1
-  - act_drop
-  - radio
-  - rune_large
+  - screen_alien_act_drop
+  - screen_cyborg_radio
+  - blood cultist_rune_large
   - 1562403289.1289854_3
   - 1562403289.1289854_2
   - 1562403289.1289854_1
@@ -9480,16 +9480,16 @@ SpriteAtlas:
   - 1562403289.1289854_6
   - 1562403289.1289854_5
   - 1562403289.1289854_4
-  - odysseus7
-  - neck
-  - ripley7
-  - summary_selfdes
-  - dispover-full
-  - ripley-g-full-open
-  - zone_sel
-  - hudhealth12_5
-  - r_leg
-  - marauder-broken
+  - construction_odysseus7
+  - screen_plasmafire_neck
+  - construction_ripley7
+  - cut scenes_summary_selfdes
+  - disposal_dispover-full
+  - ripley_ripley-g-full-open
+  - screen_alien_zone_sel
+  - HUD_hudhealth12_5
+  - screen_gen_r_leg
+  - marauder_marauder-broken
   - 1562505404.7097845_4
   - 1562505404.7097845_5
   - 1562505404.7097845_6
@@ -9497,26 +9497,26 @@ SpriteAtlas:
   - 1562505404.7097845_1
   - 1562505404.7097845_2
   - 1562505404.7097845_3
-  - phazon21
-  - pocket
-  - 1562505403.5432723
-  - hacked
-  - gygax_chassis
-  - vortex_ff_off
-  - rune1center
-  - beam_down
-  - cable_2-6
-  - act_throw_off
+  - construction_phazon21
+  - screen_midnight_pocket
+  - vanguard_target_1562505403.5432723
+  - alerts_hacked
+  - parts_gygax_chassis
+  - actions_items_vortex_ff_off
+  - blood cultist_rune1center
+  - actions_minor_antag_beam_down
+  - radial_cable_2-6
+  - screen_midnight_act_throw_off
   - clockinfo_0
   - clockinfo_1
-  - 0-2
-  - suit
-  - eminence_rally
+  - power_local_0-2
+  - screen_slimecore_suit
+  - actions_clockcult_eminence_rally
   - 10_1
   - 10_0
   - 10_3
   - 10_2
-  - running
+  - screen_clockwork_running
   - hot3_0
   - hot3_1
   - behemoth_health6_1
@@ -9530,9 +9530,9 @@ SpriteAtlas:
   - funk_5
   - funk_6
   - funk_7
-  - disarm
-  - dispover-handle
-  - ripley4
+  - screen_alien_disarm
+  - disposal_dispover-handle
+  - construction_ripley4
   - halo5_18
   - halo5_19
   - halo5_60
@@ -9594,7 +9594,7 @@ SpriteAtlas:
   - halo5_13
   - halo5_10
   - halo5_11
-  - inv2
+  - screen_cyborg_inv2
   - mech_fire_2
   - mech_fire_3
   - mech_fire_0
@@ -9603,10 +9603,10 @@ SpriteAtlas:
   - marauder_0
   - marauder_3
   - marauder_2
-  - Devil-1
+  - screen_gen_Devil-1
   - blood_drunk_1
   - blood_drunk_0
-  - hand_r
+  - screen_slimecore_hand_r
   - reality_4
   - reality_5
   - reality_6
@@ -9622,10 +9622,10 @@ SpriteAtlas:
   - reality_12
   - reality_11
   - reality_10
-  - act_equip
-  - phazon_heado
-  - ratvarian_spear
-  - hudhealth25
+  - screen_plasmafire_act_equip
+  - parts_phazon_heado
+  - actions_clockcult_ratvarian_spear
+  - HUD_hudhealth25
   - doorglow_9
   - doorglow_8
   - doorglow_5
@@ -9636,11 +9636,11 @@ SpriteAtlas:
   - doorglow_0
   - doorglow_3
   - doorglow_2
-  - artificer_health1
-  - template_acts_selected
+  - screen_construct_artificer_health1
+  - screen_clockwork_template_acts_selected
   - lightning2_0
   - lightning2_1
-  - drop
+  - wrap_target_drop
   - Devil-4_1
   - Devil-4_0
   - Devil-4_2
@@ -9668,19 +9668,19 @@ SpriteAtlas:
   - disposal-flush_0
   - disposal-flush_1
   - disposal-flush_8
-  - sigildull
-  - large_stamp-law
-  - honker_l_lego
-  - health5
+  - clockwork cultus_sigildull
+  - paper stamps_large_stamp-law
+  - parts_honker_l_lego
+  - screen_cyborg_health5
   - syndicate_2
   - syndicate_3
   - syndicate_0
   - syndicate_1
-  - all
-  - wrap_1
-  - impact_stun
-  - zone_sel
-  - Sigil_of_Accession
+  - volt_target_all
+  - animals_wrap_1
+  - projectiles_impact_impact_stun
+  - screen_plasmafire_zone_sel
+  - actions_clockcult_Sigil_of_Accession
   - conpipe-j1s_1
   - conpipe-j1s_0
   - conpipe-j1s_3
@@ -9689,10 +9689,10 @@ SpriteAtlas:
   - conpipe-j1s_4
   - conpipe-j1s_7
   - conpipe-j1s_6
-  - prog_bar_75
-  - large_stamp-hop
-  - alien_whisper
-  - mech_internals_off
+  - progessbar_prog_bar_75
+  - paper stamps_large_stamp-hop
+  - actions_xeno_alien_whisper
+  - actions_mecha_mech_internals_off
   - 2_light_6
   - 2_light_5
   - 2_light_4
@@ -9706,15 +9706,15 @@ SpriteAtlas:
   - 16_0
   - r_leg6_1
   - r_leg6_0
-  - gygax_r_lego
-  - airlocktype
+  - parts_gygax_r_lego
+  - radial_airlocktype
   - ai_pip_camera_0
   - ai_pip_camera_1
-  - sintouch
-  - radial_down
-  - toggle
-  - hog-red-2
-  - slime_scan
+  - actions_cult_sintouch
+  - radial_radial_down
+  - screen_clockwork_toggle
+  - HUD_hog-red-2
+  - actions_silicon_slime_scan
   - 2-half_2
   - 2-half_3
   - 2-half_0
@@ -9731,38 +9731,38 @@ SpriteAtlas:
   - freon_3
   - freon_0
   - freon_1
-  - rune1words
-  - act_equip
-  - hudcultist
-  - walking
-  - template
-  - l_leg2
-  - 21
+  - blood cultist_rune1words
+  - screen_retro_act_equip
+  - HUD_hudcultist
+  - screen_midnight_walking
+  - screen_plasmafire_template
+  - screen_gen_l_leg2
+  - space_21
   - hud_imp_chem_0
   - hud_imp_chem_1
-  - alien_plant
-  - glasses
-  - slime_rainbowshield
+  - actions_xeno_alien_plant
+  - screen_clockwork_glasses
+  - alerts_slime_rainbowshield
   - ion_trails_0
   - ion_trails_1
   - ion_trails_2
   - ion_trails_3
-  - fireball0
+  - actions_spells_fireball0
   - manifoldlayer_center_3
   - manifoldlayer_center_2
   - manifoldlayer_center_1
   - manifoldlayer_center_0
-  - station_intact
-  - guardian2
-  - hudworkingleft-red
-  - x4
-  - impact_blue
-  - artificer_health3
-  - durand4
-  - harvester_health2
-  - black
-  - ripley_r_leg
-  - hudmime
+  - cut scenes_station_intact
+  - talk_guardian2
+  - HUD_hudworkingleft-red
+  - screen_gen_x4
+  - projectiles_impact_impact_blue
+  - screen_construct_artificer_health3
+  - construction_durand4
+  - screen_construct_harvester_health2
+  - space_black
+  - parts_ripley_r_leg
+  - HUD_hudmime
   - conpipe_0
   - conpipe_1
   - conpipe_2
@@ -9771,7 +9771,7 @@ SpriteAtlas:
   - conpipe_5
   - conpipe_6
   - conpipe_7
-  - alien_hide
+  - actions_xeno_alien_hide
   - station_intact_fade_red_3
   - station_intact_fade_red_2
   - station_intact_fade_red_1
@@ -9782,23 +9782,23 @@ SpriteAtlas:
   - station_intact_fade_red_4
   - station_intact_fade_red_9
   - station_intact_fade_red_8
-  - firing_effect_energy
-  - stasis
-  - hudstat-red
-  - durand_armor
-  - artificer_health2
-  - radial_center_focus
-  - groin
+  - effects_firing_effect_energy
+  - alerts_stasis
+  - HUD_hudstat-red
+  - parts_durand_armor
+  - screen_construct_artificer_health2
+  - radial_radial_center_focus
+  - screen_alien_groin
   - speedwagon_cover_1
   - speedwagon_cover_0
   - speedwagon_cover_3
   - speedwagon_cover_2
-  - delete
-  - lamp4
-  - gone
-  - hand_r
-  - statue
-  - darkgygax1
+  - radial_delete
+  - screen_cyborg_lamp4
+  - actions_cult_gone
+  - screen_midnight_hand_r
+  - actions_spells_statue
+  - construction dark_darkgygax1
   - curse_24
   - curse_25
   - curse_26
@@ -9831,46 +9831,46 @@ SpriteAtlas:
   - curse_3
   - curse_0
   - curse_1
-  - buildmode_advanced
-  - hudhealthy
-  - bg_demon
-  - prog_bar_5
-  - grab
-  - inv3_a
-  - deathripley-broken
-  - hand_active
-  - soultap
-  - cable_0-5
-  - view_images
-  - durand_heado
-  - telepathy
+  - buildmode_buildmode_advanced
+  - HUD_hudhealthy
+  - backgrounds_bg_demon
+  - progessbar_prog_bar_5
+  - screen_alien_grab
+  - screen_cyborg_inv3_a
+  - ripley_deathripley-broken
+  - screen_operative_hand_active
+  - actions_spells_soultap
+  - radial_cable_0-5
+  - AI_view_images
+  - parts_durand_heado
+  - actions_spells_telepathy
   - reticence_0
   - reticence_1
   - reticence_2
   - reticence_3
-  - act_rest
-  - drag
-  - 1562403172.0186508
-  - arrow5
-  - prog_bar_35
+  - screen_operative_act_rest
+  - visor_reticule_drag
+  - alerts_1562403172.0186508
+  - alerts_arrow5
+  - progessbar_prog_bar_35
   - nanotrasenranged_2
   - nanotrasenranged_3
   - nanotrasenranged_0
   - nanotrasenranged_1
-  - random
-  - odysseus18
-  - mood_happiness_bad
-  - flightpack_fly
-  - buildmode_throw
+  - actions_items_random
+  - construction_odysseus18
+  - screen_gen_mood_happiness_bad
+  - actions_flightsuit_flightpack_fly
+  - buildmode_buildmode_throw
   - speedwagon_cover_1
   - speedwagon_cover_0
   - speedwagon_cover_3
   - speedwagon_cover_2
-  - help
-  - ripley_harnesso
-  - gygax_r_armo
-  - slime_health7
-  - disarm
+  - screen_cyborg_help
+  - parts_ripley_harnesso
+  - parts_gygax_r_armo
+  - screen_slime_slime_health7
+  - screen_operative_disarm
   - hierophant_blast_indefinite_50
   - hierophant_blast_indefinite_51
   - hierophant_blast_indefinite_52
@@ -9927,7 +9927,7 @@ SpriteAtlas:
   - hierophant_blast_indefinite_2
   - hierophant_blast_indefinite_9
   - hierophant_blast_indefinite_8
-  - 1562403282.4829865
+  - blood cultist_1562403282.4829865
   - honker_5
   - honker_4
   - honker_7
@@ -9936,8 +9936,8 @@ SpriteAtlas:
   - honker_0
   - honker_3
   - honker_2
-  - wrap_0
-  - rune3center
+  - animals_wrap_0
+  - blood cultist_rune3center
   - clockwork_gateway_disrupted_3
   - clockwork_gateway_disrupted_2
   - clockwork_gateway_disrupted_1
@@ -9957,9 +9957,9 @@ SpriteAtlas:
   - eminence_0
   - eminence_1
   - eminence_2
-  - gygax_armor
-  - act_rest0
-  - brother
+  - parts_gygax_armor
+  - screen_plasmafire_act_rest0
+  - HUD_brother
   - explosion_8
   - explosion_5
   - explosion_4
@@ -9969,7 +9969,7 @@ SpriteAtlas:
   - explosion_0
   - explosion_3
   - explosion_2
-  - durand0
+  - construction_durand0
   - communist_3
   - communist_2
   - communist_1
@@ -9977,11 +9977,11 @@ SpriteAtlas:
   - volt_ray_2
   - volt_ray_0
   - volt_ray_1
-  - bg_tech_on
-  - fireripley1
-  - chitinous_armor
-  - swap_2
-  - ripley-broken
+  - backgrounds_bg_tech_on
+  - construction firefighter_fireripley1
+  - actions_changeling_chitinous_armor
+  - screen_slimecore_swap_2
+  - ripley_ripley-broken
   - ash_storm_2
   - ash_storm_3
   - ash_storm_0
@@ -10014,7 +10014,7 @@ SpriteAtlas:
   - holoray_1
   - holoray_2
   - holoray_3
-  - inv2_a
+  - screen_cyborg_inv2_a
   - piratespace_3
   - piratespace_2
   - piratespace_1
@@ -10023,12 +10023,12 @@ SpriteAtlas:
   - piratespace_6
   - piratespace_5
   - piratespace_4
-  - mindswap
+  - actions_spells_mindswap
   - prog_bar_60_fail_0
   - prog_bar_60_fail_1
-  - ui_factory
-  - lowcell2
-  - flash
+  - blob_ui_factory
+  - alerts_lowcell2
+  - screen_gen_flash
   - ratvarwindowglow_9
   - ratvarwindowglow_8
   - ratvarwindowglow_5
@@ -10040,19 +10040,19 @@ SpriteAtlas:
   - ratvarwindowglow_3
   - ratvarwindowglow_2
   - ratvarwindowglow_10
-  - hudwarden
-  - buildmode_copy
-  - sting_lsd
+  - HUD_hudwarden
+  - buildmode_buildmode_copy
+  - screen_gen_sting_lsd
   - r_arm7_0
   - r_arm7_1
   - lightning10_1
   - lightning10_0
-  - flight
-  - muzzle_xray
-  - uniform
-  - swarmer1
-  - lesser_form
-  - health7
+  - actions_items_flight
+  - projectiles_muzzle_muzzle_xray
+  - screen_slimecore_uniform
+  - talk_swarmer1
+  - actions_changeling_lesser_form
+  - screen_gen_old_health7
   - ion_trails_flight_3
   - ion_trails_flight_2
   - ion_trails_flight_1
@@ -10072,15 +10072,15 @@ SpriteAtlas:
   - speedspace_ew_9_3
   - speedspace_ew_9_8
   - speedspace_ew_9_9
-  - storage
-  - bg_tech_blue_on
-  - sigilactiveoverlay
-  - mech_overload_on
-  - harvester_health0
-  - camera_light
-  - muzzle_emitter
-  - pull
-  - disarmkill
+  - implants_storage
+  - backgrounds_bg_tech_blue_on
+  - clockwork cultus_sigilactiveoverlay
+  - actions_mecha_mech_overload_on
+  - screen_construct_harvester_health0
+  - AI_camera_light
+  - projectiles_muzzle_muzzle_emitter
+  - screen_slimecore_pull
+  - screen_gen_disarmkill
   - at_shield1_4
   - at_shield1_5
   - at_shield1_6
@@ -10088,7 +10088,7 @@ SpriteAtlas:
   - at_shield1_1
   - at_shield1_2
   - at_shield1_3
-  - wallfloor
+  - radial_wallfloor
   - gygax-broken_0
   - gygax-broken_1
   - gygax-broken_2
@@ -10097,27 +10097,27 @@ SpriteAtlas:
   - gygax-broken_5
   - gygax-broken_6
   - gygax-broken_7
-  - template_small
-  - 1562403328.3763232
-  - nomod
-  - fat
-  - suit_storage
-  - drop
-  - summary_nukewin
-  - hivehand
-  - arcane_barrage
-  - view_images
+  - screen_midnight_template_small
+  - alerts_1562403328.3763232
+  - screen_cyborg_nomod
+  - alerts_fat
+  - screen_retro_suit_storage
+  - mecha_mouse_drop
+  - cut scenes_summary_nukewin
+  - actions_hive_hivehand
+  - actions_spells_arcane_barrage
+  - screen_pai_view_images
   - power_regen_4
   - power_regen_1
   - power_regen_0
   - power_regen_3
   - power_regen_2
-  - durand9
+  - construction_durand9
   - pipe-j2s_2
   - pipe-j2s_3
   - pipe-j2s_0
   - pipe-j2s_1
-  - 3
+  - magic_3
   - gygax_0
   - gygax_1
   - gygax_2
@@ -10126,13 +10126,13 @@ SpriteAtlas:
   - speedbike_red_3
   - speedbike_red_0
   - speedbike_red_1
-  - cult_mark
-  - projectile_dampen_northeast
-  - durand22
+  - actions_cult_cult_mark
+  - Slow field_projectile_dampen_northeast
+  - construction_durand22
   - Clockwork_Obelisk_1
   - Clockwork_Obelisk_0
-  - huddiaghigh
-  - cable_4-8
+  - HUD_huddiaghigh
+  - radial_cable_4-8
   - pipe-j1_2
   - pipe-j1_3
   - pipe-j1_0
@@ -10147,8 +10147,8 @@ SpriteAtlas:
   - intro_nuke_0
   - intro_nuke_1
   - intro_nuke_2
-  - radial_mix
-  - chest
+  - radial_radial_mix
+  - zone select_chest
   - darkgygax19_2
   - darkgygax19_3
   - darkgygax19_0
@@ -10157,7 +10157,7 @@ SpriteAtlas:
   - skateboard_1
   - skateboard_2
   - skateboard_3
-  - hudsentientleft
+  - HUD_hudsentientleft
   - hierophant_blast_12
   - hierophant_blast_13
   - hierophant_blast_10
@@ -10223,33 +10223,33 @@ SpriteAtlas:
   - mech_toxin_0
   - mech_toxin_1
   - mech_toxin_2
-  - disarm
+  - screen_slimecore_disarm
   - 2_west_2
   - 2_west_3
   - 2_west_0
   - 2_west_1
-  - template
-  - his_grace
-  - hudhealth68_75
-  - mood8
-  - talk_yes
+  - screen_operative_template
+  - alerts_his_grace
+  - HUD_hudhealth68_75
+  - screen_gen_mood8
+  - screen_gen_talk_yes
   - ai_camera_0
   - ai_camera_1
-  - x3
-  - lightning
-  - linked_minds
-  - etherealcharge2
-  - voice_of_god
-  - phazon5
-  - art_summon
-  - transformslime
-  - swap_1_m
-  - radial_juice
-  - durand_harnesso
-  - impact_eye
-  - fireripley4
-  - floating_health7
-  - slimeeat
+  - screen_gen_x3
+  - actions_spells_lightning
+  - actions_clockcult_linked_minds
+  - alerts_etherealcharge2
+  - actions_items_voice_of_god
+  - construction_phazon5
+  - actions_minor_antag_art_summon
+  - actions_spells_transformslime
+  - screen_plasmafire_swap_1_m
+  - radial_radial_juice
+  - parts_durand_harnesso
+  - projectiles_impact_impact_eye
+  - construction firefighter_fireripley4
+  - screen_construct_floating_health7
+  - actions_slime_slimeeat
   - volt_9
   - volt_8
   - volt_7
@@ -10265,23 +10265,23 @@ SpriteAtlas:
   - volt_10
   - volt_11
   - volt_14
-  - infected1
-  - bg_default_on
+  - alien_infected1
+  - backgrounds_bg_default_on
   - lightning5_1
   - lightning5_0
-  - gygax_l_arm
-  - id
-  - cable_6-8
-  - hudbattlow
+  - parts_gygax_l_arm
+  - screen_midnight_id
+  - radial_cable_6-8
+  - HUD_hudbattlow
   - nanotrasenrangedsmg_3
   - nanotrasenrangedsmg_2
   - nanotrasenrangedsmg_1
   - nanotrasenrangedsmg_0
-  - radial_pull
-  - bg_spell
-  - phazon13
-  - dark64
-  - all
+  - radial_radial_pull
+  - backgrounds_bg_spell
+  - construction_phazon13
+  - screen_gen_dark64
+  - mecha_mouse-disable_all
   - durand-broken_2
   - durand-broken_3
   - durand-broken_0
@@ -10290,10 +10290,10 @@ SpriteAtlas:
   - syndicate_stormtrooper_pistol_0
   - syndicate_stormtrooper_pistol_3
   - syndicate_stormtrooper_pistol_2
-  - slime2
-  - legiondoor
-  - odysseus16
-  - hog-blue-1
+  - talk_slime2
+  - effects_legiondoor
+  - construction_odysseus16
+  - HUD_hog-blue-1
   - 5_moderate_5
   - 5_moderate_4
   - 5_moderate_6
@@ -10308,20 +10308,20 @@ SpriteAtlas:
   - 1_light_1
   - 1_light_2
   - 1_light_3
-  - honker_harness2o
-  - aphasia
-  - honker_r_arm
-  - darkhonker-open
+  - parts_honker_harness2o
+  - language_aphasia
+  - parts_honker_r_arm
+  - honker_darkhonker-open
   - miasma_old_4
   - miasma_old_5
   - miasma_old_0
   - miasma_old_1
   - miasma_old_2
   - miasma_old_3
-  - multicam
-  - bleed5
-  - impact_omni
-  - standard
+  - AI_multicam
+  - bleed_bleed5
+  - projectiles_impact_impact_omni
+  - screen_cyborg_standard
   - fireball1_4
   - fireball1_0
   - fireball1_1
@@ -10331,29 +10331,29 @@ SpriteAtlas:
   - syndicate_space_pistol_2
   - syndicate_space_pistol_1
   - syndicate_space_pistol_0
-  - 1-10
-  - hudjanitor
-  - swap_1
-  - arrow2
+  - power_local_1-10
+  - HUD_hudjanitor
+  - screen_plasmafire_swap_1
+  - alerts_arrow2
   - legion_0
   - legion_1
-  - 2-6
-  - harm
-  - muzzle_omni
-  - odysseus_r_armo
+  - power_local_2-6
+  - screen_plasmafire_harm
+  - projectiles_muzzle_muzzle_omni
+  - parts_odysseus_r_armo
   - cold3_1
   - cold3_0
-  - bleed10
-  - discordant_whisper
-  - talk_out
-  - hotkey_help
-  - huddiagdead
-  - radial_right
-  - over
-  - pitchfork
+  - bleed_bleed10
+  - actions_revenant_discordant_whisper
+  - screen_gen_talk_out
+  - actions_silicon_hotkey_help
+  - HUD_huddiagdead
+  - radial_radial_right
+  - wrap_target_over
+  - actions_minor_antag_pitchfork
   - l_leg6_1
   - l_leg6_0
-  - runeouter
+  - blood cultist_runeouter
   - speedspace_ew_15_12
   - speedspace_ew_15_13
   - speedspace_ew_15_10
@@ -10397,7 +10397,7 @@ SpriteAtlas:
   - pipe-toggle1flick_4
   - pipe-toggle1flick_9
   - pipe-toggle1flick_8
-  - detonate_rcds
+  - AI_detonate_rcds
   - anime_fragment_5
   - anime_fragment_4
   - anime_fragment_7
@@ -10406,31 +10406,31 @@ SpriteAtlas:
   - anime_fragment_0
   - anime_fragment_3
   - anime_fragment_2
-  - hudchaplain
-  - uniform
+  - HUD_hudchaplain
+  - screen_clockwork_uniform
   - pipe-y_0
   - pipe-y_1
   - pipe-y_2
   - pipe-y_3
-  - draw
-  - hudhealth56_25
-  - glasses
-  - state_laws
-  - ripleymkii-broken
-  - hand_active
-  - artificer
-  - ui_swap
-  - 1562403138.2931523
-  - behemoth_health4
-  - synd
-  - projectile1
-  - fugitive
-  - zone_sel
-  - mime
-  - phazon_r_lego
-  - pussywagon_destroyed
-  - hive_absorb
-  - shoes
+  - actions_cult_draw
+  - HUD_hudhealth56_25
+  - screen_retro_glasses
+  - screen_pai_state_laws
+  - ripley_ripleymkii-broken
+  - screen_plasmafire_hand_active
+  - actions_cult_artificer
+  - blob_ui_swap
+  - mecha_mouse-disable_1562403138.2931523
+  - screen_construct_behemoth_health4
+  - HUD_synd
+  - actions_spells_projectile1
+  - HUD_fugitive
+  - screen_operative_zone_sel
+  - actions_spells_mime
+  - parts_phazon_r_lego
+  - vehicles_pussywagon_destroyed
+  - actions_changeling_hive_absorb
+  - screen_operative_shoes
   - manifold-2_3
   - manifold-2_2
   - manifold-2_1
@@ -10442,16 +10442,16 @@ SpriteAtlas:
   - 7_light_0
   - 7_light_1
   - 7_light_6
-  - talk_thanks
-  - all
-  - volt_hit
-  - announcement
+  - screen_gen_talk_thanks
+  - visor_reticule_all
+  - clockwork cultus_volt_hit
+  - screen_pai_announcement
   - pressure-2_0
   - pressure-2_1
-  - apoc
-  - weaken
-  - mech_view_stats
-  - cable_8-10
+  - blood cultist_apoc
+  - alerts_weaken
+  - actions_mecha_mech_view_stats
+  - radial_cable_8-10
   - sparks_4
   - sparks_5
   - sparks_6
@@ -10480,21 +10480,21 @@ SpriteAtlas:
   - sparks_25
   - sparks_8
   - sparks_9
-  - mech_eject
-  - honker-broken
-  - slimesplit
-  - malf
-  - act_throw_off
-  - rune7inner
-  - smallqueen
+  - actions_mecha_mech_eject
+  - honker_honker-broken
+  - actions_slime_slimesplit
+  - screen_cyborg_malf
+  - screen_alien_act_throw_off
+  - blood cultist_rune7inner
+  - actions_xeno_smallqueen
   - blood_beam_0
   - blood_beam_1
   - blood_beam_2
-  - hudmalborg
-  - area_edit
-  - disarm
-  - fireripley22
-  - bg_cult
+  - HUD_hudmalborg
+  - screen_slimecore_area_edit
+  - screen_retro_disarm
+  - construction firefighter_fireripley22
+  - backgrounds_bg_cult
   - curseblob_47
   - curseblob_46
   - curseblob_34
@@ -10552,12 +10552,12 @@ SpriteAtlas:
   - mini_nar_0
   - mini_nar_3
   - mini_nar_2
-  - hand_l
-  - hudmalai
-  - hand_active
-  - manifest
-  - 1-9
-  - cable_2-5
+  - screen_alien_hand_l
+  - HUD_hudmalai
+  - screen_retro_hand_active
+  - screen_pai_manifest
+  - power_local_1-9
+  - radial_cable_2-5
   - bloodin_9
   - bloodin_8
   - bloodin_1
@@ -10570,8 +10570,8 @@ SpriteAtlas:
   - bloodin_6
   - bloodin_10
   - bloodin_11
-  - suit_storage
-  - muzzle_bfg
+  - screen_plasmafire_suit_storage
+  - projectiles_muzzle_muzzle_bfg
   - 1562403133.1221728_3
   - 1562403133.1221728_2
   - 1562403133.1221728_1
@@ -10579,35 +10579,35 @@ SpriteAtlas:
   - 1562403133.1221728_6
   - 1562403133.1221728_5
   - 1562403133.1221728_4
-  - walking
+  - screen_alien_walking
   - 12_1
   - 12_0
   - 12_4
   - 12_3
   - 12_2
-  - ui_barricade
-  - slime_bluespace_on
-  - bg_tech
-  - sanity6
-  - alien1
-  - cable_2-8
-  - old_gate
-  - pull
-  - mech_thrusters_off
-  - harvester_health3
-  - hudpatrolleft-red
+  - swarm_ui_barricade
+  - alerts_slime_bluespace_on
+  - backgrounds_bg_tech
+  - screen_gen_sanity6
+  - talk_alien1
+  - radial_cable_2-8
+  - lava land_old_gate
+  - screen_retro_pull
+  - actions_mecha_mech_thrusters_off
+  - screen_construct_harvester_health3
+  - HUD_hudpatrolleft-red
   - syndicate_space_1
   - syndicate_space_0
   - syndicate_space_3
   - syndicate_space_2
-  - head
-  - ears
-  - 3
-  - rune5words
-  - ninja_cloak
-  - intro_malf_still
-  - default1
-  - act_drop
+  - screen_midnight_head
+  - screen_slimecore_ears
+  - space_3
+  - blood cultist_rune5words
+  - actions_minor_antag_ninja_cloak
+  - cut scenes_intro_malf_still
+  - talk_default1
+  - screen_slimecore_act_drop
   - 1-half_3
   - 1-half_2
   - 1-half_1
@@ -10626,32 +10626,32 @@ SpriteAtlas:
   - piratemelee_4
   - piratemelee_7
   - piratemelee_6
-  - swap_1_m
-  - gygax7
+  - screen_retro_swap_1_m
+  - construction_gygax7
   - prog_bar_40_fail_0
   - prog_bar_40_fail_1
-  - large_stamp-hos
-  - hudparolled
-  - radial_next_noicon
-  - loyal
-  - fireripley2
+  - paper stamps_large_stamp-hos
+  - HUD_hudparolled
+  - radial_radial_next_noicon
+  - actions_hive_loyal
+  - construction firefighter_fireripley2
   - scooter_1
   - scooter_0
   - scooter_3
   - scooter_2
-  - keyjanitor
-  - phazon3
-  - hudcalledleft-red
-  - large_stamp-ok
+  - vehicles_keyjanitor
+  - construction_phazon3
+  - HUD_hudcalledleft-red
+  - paper stamps_large_stamp-ok
   - manifold_center_0
   - manifold_center_1
   - manifold_center_2
   - manifold_center_3
-  - disarm
-  - impact_cult
-  - harm
-  - Mania_Motor
-  - hudcook
+  - screen_gen_disarm
+  - projectiles_impact_impact_cult
+  - screen_cyborg_harm
+  - actions_clockcult_Mania_Motor
+  - HUD_hudcook
   - shield-red_3
   - shield-red_2
   - shield-red_1
@@ -10659,10 +10659,10 @@ SpriteAtlas:
   - shield-red_6
   - shield-red_5
   - shield-red_4
-  - phazon_armor
-  - blank
-  - grab
-  - darkgygax6
+  - parts_phazon_armor
+  - screen_gen_blank
+  - screen_midnight_grab
+  - construction dark_darkgygax6
   - medi_holo_2
   - medi_holo_3
   - medi_holo_0
@@ -10671,9 +10671,9 @@ SpriteAtlas:
   - medi_holo_7
   - medi_holo_4
   - medi_holo_5
-  - phazon_l_leg
-  - gygax_r_leg
-  - bleed7
+  - parts_phazon_l_leg
+  - parts_gygax_r_leg
+  - bleed_bleed7
   - ratvarwallglow_5
   - ratvarwallglow_4
   - ratvarwallglow_7
@@ -10691,7 +10691,7 @@ SpriteAtlas:
   - ratvarwallglow_11
   - ratvarwallglow_12
   - ratvarwallglow_13
-  - gygax_harness
+  - parts_gygax_harness
   - ratvarbrokengrilleglow_12
   - ratvarbrokengrilleglow_13
   - ratvarbrokengrilleglow_10
@@ -10709,20 +10709,20 @@ SpriteAtlas:
   - ratvarbrokengrilleglow_0
   - ratvarbrokengrilleglow_9
   - ratvarbrokengrilleglow_8
-  - service
-  - explosive
-  - cable_1-10
+  - screen_cyborg_service
+  - implants_explosive
+  - radial_cable_1-10
   - id_1
   - id_0
   - id_3
   - id_2
-  - health2
-  - manifest
-  - sigiltransmission
-  - craft
-  - durand_l_arm
-  - template_small
-  - gygax2
+  - screen_gen_old_health2
+  - AI_manifest
+  - clockwork cultus_sigiltransmission
+  - screen_midnight_craft
+  - parts_durand_l_arm
+  - screen_clockwork_template_small
+  - construction_gygax2
   - door_opening_23
   - door_opening_22
   - door_opening_18
@@ -10748,8 +10748,8 @@ SpriteAtlas:
   - door_opening_6
   - door_opening_5
   - door_opening_4
-  - talk_bye
-  - alien_neurotoxin
+  - screen_gen_talk_bye
+  - actions_xeno_alien_neurotoxin
   - ratvarfloorglow_14
   - ratvarfloorglow_9
   - ratvarfloorglow_15
@@ -10767,18 +10767,18 @@ SpriteAtlas:
   - ratvarfloorglow_0
   - ratvarfloorglow_3
   - ratvarfloorglow_2
-  - glasses
-  - Sentinels_Compromise
-  - cable_5-8
+  - screen_midnight_glasses
+  - actions_clockcult_Sentinels_Compromise
+  - radial_cable_5-8
   - lightning12_1
   - lightning12_0
-  - hudbattgood
-  - cable_invalid
+  - HUD_hudbattgood
+  - radial_cable_invalid
   - abductor_camera_0
   - abductor_camera_1
-  - regenerative_core
-  - car_dump
-  - inv1_a
+  - alerts_regenerative_core
+  - actions_vehicle_car_dump
+  - screen_cyborg_inv1_a
   - 9_very_light_6
   - 9_very_light_5
   - 9_very_light_4
@@ -10786,16 +10786,16 @@ SpriteAtlas:
   - 9_very_light_2
   - 9_very_light_1
   - 9_very_light_0
-  - ripley_r_lego
-  - ripley_l_arm
-  - car_horn
-  - honker_chassis
-  - huddeathsquad
+  - parts_ripley_r_lego
+  - parts_ripley_l_arm
+  - actions_vehicle_car_horn
+  - parts_honker_chassis
+  - HUD_huddeathsquad
   - pipe-2_3
   - pipe-2_2
   - pipe-2_1
   - pipe-2_0
-  - grab
+  - screen_clockwork_grab
   - health1_3
   - health1_2
   - health1_1
@@ -10848,8 +10848,8 @@ SpriteAtlas:
   - 9_heavy_5
   - 9_heavy_4
   - 9_heavy_6
-  - locked
-  - phazon_r_arm
+  - alerts_locked
+  - parts_phazon_r_arm
   - bubblegumfoot_3
   - bubblegumfoot_2
   - bubblegumfoot_1
@@ -10858,31 +10858,31 @@ SpriteAtlas:
   - bubblegumfoot_6
   - bubblegumfoot_5
   - bubblegumfoot_4
-  - hudhealth81_25
-  - gygax22
-  - gang_boss
+  - HUD_hudhealth81_25
+  - construction_gygax22
+  - HUD_gang_boss
   - durand19_0
   - durand19_1
   - durand19_2
   - durand19_3
-  - chest2
-  - runed_sense0
-  - r_nightvision
-  - phazon1
-  - hudgland_ready
-  - rev
-  - behemoth_health7
-  - running
-  - ripley_harness3o
-  - honker_harness
-  - jetboot
+  - screen_gen_chest2
+  - alerts_runed_sense0
+  - actions_revenant_r_nightvision
+  - construction_phazon1
+  - HUD_hudgland_ready
+  - HUD_rev
+  - screen_construct_behemoth_health7
+  - screen_operative_running
+  - parts_ripley_harness3o
+  - parts_honker_harness
+  - actions_items_jetboot
   - fusion_gas_0
   - fusion_gas_1
   - fusion_gas_2
   - fusion_gas_3
   - fusion_gas_4
   - fusion_gas_5
-  - buildmode_save
+  - buildmode_buildmode_save
   - clowncar_1
   - clowncar_0
   - clowncar_3
@@ -10893,20 +10893,20 @@ SpriteAtlas:
   - clowncar_6
   - artificer_health6_0
   - artificer_health6_1
-  - phazon9
-  - drag
+  - construction_phazon9
+  - vanguard_target_drag
   - hudgland_active_0
   - hudgland_active_1
-  - hudcargotechnician
-  - grillewindow
-  - act_resist
+  - HUD_hudcargotechnician
+  - radial_grillewindow
+  - screen_slimecore_act_resist
   - prog_bar_25_fail_1
   - prog_bar_25_fail_0
-  - silicon_template
-  - 6-8
-  - god_transport
-  - obsessed
-  - fireripley5
+  - alerts_silicon_template
+  - power_local_6-8
+  - animals_god_transport
+  - HUD_obsessed
+  - construction firefighter_fireripley5
   - 7_very_light_1
   - 7_very_light_0
   - 7_very_light_3
@@ -10914,40 +10914,40 @@ SpriteAtlas:
   - 7_very_light_5
   - 7_very_light_4
   - 7_very_light_6
-  - gygax12
-  - shoes
-  - clockwork_armor
-  - durand18
-  - 0-9
-  - r_arm4
-  - blind
-  - suit
-  - hudcalledleft
+  - construction_gygax12
+  - screen_clockwork_shoes
+  - actions_clockcult_clockwork_armor
+  - construction_durand18
+  - power_local_0-9
+  - screen_gen_r_arm4
+  - alerts_blind
+  - screen_midnight_suit
+  - HUD_hudcalledleft
   - pipe_2
   - pipe_3
   - pipe_0
   - pipe_1
-  - lightning0
-  - summary_totala
-  - hog-blue-0
-  - 5-8
-  - 24
-  - tailsweep
-  - health7
-  - hudsecurityofficer
-  - fireripley11
+  - actions_spells_lightning0
+  - cut scenes_summary_totala
+  - HUD_hog-blue-0
+  - power_local_5-8
+  - space_24
+  - actions_xeno_tailsweep
+  - screen_alien_health7
+  - HUD_hudsecurityofficer
+  - construction firefighter_fireripley11
   - ripleymkii_1
   - ripleymkii_0
   - ripleymkii_3
   - ripleymkii_2
-  - backpack_close
-  - dagger
+  - screen_gen_backpack_close
+  - actions_cult_dagger
   - 20_0
   - 20_1
   - 20_2
   - 20_3
-  - hide
-  - hudill0
+  - actions_minor_antag_hide
+  - HUD_hudill0
   - 1562403216.6156843_1
   - 1562403216.6156843_0
   - 1562403216.6156843_3
@@ -10968,8 +10968,8 @@ SpriteAtlas:
   - 1562403216.6156843_17
   - 1562403216.6156843_18
   - 1562403216.6156843_19
-  - scooter_frame
-  - cultvote
+  - vehicles_scooter_frame
+  - actions_cult_cultvote
   - judicial_explosion_3
   - judicial_explosion_2
   - judicial_explosion_1
@@ -10992,22 +10992,22 @@ SpriteAtlas:
   - manifold-3_3
   - manifold-3_0
   - manifold-3_1
-  - ripley_chassis
-  - running
+  - parts_ripley_chassis
+  - screen_retro_running
   - impact_laser_purple_3
   - impact_laser_purple_2
   - impact_laser_purple_1
   - impact_laser_purple_0
-  - mech_cycle_equip_on
-  - l_arm4
-  - inv1
-  - odysseus9
-  - brobot
-  - virus_infected
-  - blob0
-  - vortex_recall
-  - area_edit
-  - floating_health5
+  - actions_mecha_mech_cycle_equip_on
+  - screen_gen_l_arm4
+  - screen_cyborg_inv1
+  - construction_odysseus9
+  - screen_cyborg_brobot
+  - HUD_virus_infected
+  - talk_blob0
+  - actions_items_vortex_recall
+  - screen_operative_area_edit
+  - screen_construct_floating_health5
   - bloodout_2
   - bloodout_3
   - bloodout_0
@@ -11020,10 +11020,10 @@ SpriteAtlas:
   - bloodout_9
   - bloodout_11
   - bloodout_10
-  - beam_omni
-  - phazon7
-  - drop
-  - drag
+  - projectiles_tracer_beam_omni
+  - construction_phazon7
+  - visor_reticule_drop
+  - mecha_mouse-disable_drag
   - intro_malf_12
   - intro_malf_13
   - intro_malf_10
@@ -11041,27 +11041,27 @@ SpriteAtlas:
   - intro_malf_0
   - intro_malf_9
   - intro_malf_8
-  - pocket
-  - car_thanktheclown
-  - ui_tonode
-  - hudgeneticist
+  - screen_clockwork_pocket
+  - actions_vehicle_car_thanktheclown
+  - blob_ui_tonode
+  - HUD_hudgeneticist
   - cover_red_1
   - cover_red_0
   - cover_red_3
   - cover_red_2
-  - alien_fire
-  - darkgygax_harnesso
-  - impact_beam_heavy
+  - alerts_alien_fire
+  - parts_darkgygax_harnesso
+  - projectiles_impact_impact_beam_heavy
   - space_2
   - space_3
   - space_0
   - space_1
-  - ripley10
+  - construction_ripley10
   - muzzle_bullet_0
   - muzzle_bullet_1
-  - belt
-  - act_resist
-  - rune7words
+  - screen_operative_belt
+  - screen_midnight_act_resist
+  - blood cultist_rune7words
   - halo6_17
   - halo6_16
   - halo6_15
@@ -11123,60 +11123,60 @@ SpriteAtlas:
   - halo6_33
   - halo6_60
   - halo6_32
-  - hudhealth6_25
-  - craft
+  - HUD_hudhealth6_25
+  - screen_slimecore_craft
   - bluespace_4
   - bluespace_2
   - bluespace_3
   - bluespace_0
   - bluespace_1
-  - odysseus-broken
-  - radial_up
-  - l_leg
-  - darkgygax17
-  - default
-  - weightless
-  - grab
-  - over
-  - gabrielle
-  - pull
-  - pai
-  - ui_trap
-  - healthdoll_OVERLAY
-  - template
-  - area_edit
-  - cable_0-4
-  - durand1
-  - honker_harnesso
-  - key
+  - odysseus_odysseus-broken
+  - radial_radial_up
+  - screen_alien_l_leg
+  - construction dark_darkgygax17
+  - alerts_default
+  - alerts_weightless
+  - screen_gen_grab
+  - mecha_mouse_over
+  - screen_gen_gabrielle
+  - screen_plasmafire_pull
+  - screen_ghost_pai
+  - swarm_ui_trap
+  - screen_gen_healthdoll_OVERLAY
+  - screen_slimecore_template
+  - screen_retro_area_edit
+  - radial_cable_0-4
+  - construction_durand1
+  - parts_honker_harnesso
+  - vehicles_key
   - russianofficer_1
   - russianofficer_0
   - russianofficer_3
   - russianofficer_2
-  - mood6
+  - screen_gen_mood6
   - too_much_nitro_1
   - too_much_nitro_0
   - syndicate_stormtrooper_shotgun_0
   - syndicate_stormtrooper_shotgun_1
   - syndicate_stormtrooper_shotgun_2
   - syndicate_stormtrooper_shotgun_3
-  - hudno_id
-  - swap_1
-  - summary_malf
-  - odysseus10
-  - panic
-  - ghostalertsie
-  - emp
-  - ripley17
-  - slime_up
-  - hudalien
+  - HUD_hudno_id
+  - screen_midnight_swap_1
+  - cut scenes_summary_malf
+  - construction_odysseus10
+  - actions_hive_panic
+  - Blood cultists_ghostalertsie
+  - actions_spells_emp
+  - construction_ripley17
+  - actions_silicon_slime_up
+  - HUD_hudalien
   - 13_2
   - 13_3
   - 13_0
   - 13_1
   - hudhealth0_1
   - hudhealth0_0
-  - blooddrunk
+  - alerts_blooddrunk
   - health7_18
   - health7_19
   - health7_14
@@ -11205,7 +11205,7 @@ SpriteAtlas:
   - health7_2
   - health7_9
   - health7_8
-  - storage_gather_switch
+  - actions_items_storage_gather_switch
   - phazon-phase_19
   - phazon-phase_18
   - phazon-phase_2
@@ -11236,17 +11236,17 @@ SpriteAtlas:
   - cultshield_0
   - cultshield_3
   - cultshield_2
-  - ripley5
-  - darkgygax20
-  - gangster
-  - phazon19
-  - floorconstruct
-  - ripleyo
-  - hudalert-red
-  - swap_1_m
-  - low_mech_integrity2
-  - nanites50
-  - large_stamp-cap
+  - construction_ripley5
+  - construction dark_darkgygax20
+  - HUD_gangster
+  - construction_phazon19
+  - actions_cult_floorconstruct
+  - parts_ripleyo
+  - HUD_hudalert-red
+  - screen_slimecore_swap_1_m
+  - alerts_low_mech_integrity2
+  - HUD_nanites50
+  - paper stamps_large_stamp-cap
   - 3_38
   - 3_41
   - 3_39
@@ -11307,10 +11307,10 @@ SpriteAtlas:
   - pipe-t_0
   - pipe-t_3
   - pipe-t_2
-  - template
-  - 1-4
-  - durand_l_lego
-  - honker_l_arm
+  - screen_pai_template
+  - power_local_1-4
+  - parts_durand_l_lego
+  - parts_honker_l_arm
   - health0_12
   - health0_19
   - health0_18
@@ -11339,13 +11339,13 @@ SpriteAtlas:
   - health0_11
   - health0_10
   - health0_13
-  - trashcan
-  - neckchop
-  - holo0
-  - honker_r_lego
-  - prog_bar_55
-  - slimeuse1
-  - newscaster
+  - disposal_trashcan
+  - actions_items_neckchop
+  - talk_holo0
+  - parts_honker_r_lego
+  - progessbar_prog_bar_55
+  - actions_slime_slimeuse1
+  - screen_pai_newscaster
   - build_4
   - build_5
   - build_6
@@ -11354,15 +11354,15 @@ SpriteAtlas:
   - build_1
   - build_2
   - build_3
-  - talk_help
-  - beach
+  - screen_gen_talk_help
+  - language_beach
   - pai_rest_1
   - pai_rest_0
   - pai_rest_3
   - pai_rest_2
-  - shadow_mend
-  - ripley_harness2o
-  - uniform
+  - alerts_shadow_mend
+  - parts_ripley_harness2o
+  - screen_retro_uniform
   - 3-corner_5
   - 3-corner_4
   - 3-corner_7
@@ -11371,7 +11371,7 @@ SpriteAtlas:
   - 3-corner_0
   - 3-corner_3
   - 3-corner_2
-  - walking
+  - screen_operative_walking
   - health2_19
   - health2_18
   - health2_13
@@ -11400,7 +11400,7 @@ SpriteAtlas:
   - health2_23
   - health2_20
   - health2_21
-  - ui_self_repair
+  - swarm_ui_self_repair
   - hierophant_squares_indefinite_16
   - hierophant_squares_indefinite_17
   - hierophant_squares_indefinite_14
@@ -11424,29 +11424,29 @@ SpriteAtlas:
   - plasma_old_2
   - plasma_old_0
   - plasma_old_1
-  - gygax5
-  - firefighter-open
-  - prog_bar_70
-  - act_throw_on
+  - construction_gygax5
+  - ripley_firefighter-open
+  - progessbar_prog_bar_70
+  - screen_plasmafire_act_throw_on
   - harvester_health6_1
   - harvester_health6_0
-  - gate_blocker
+  - lava land_gate_blocker
   - syndicate_stormtrooper_smg_1
   - syndicate_stormtrooper_smg_0
   - syndicate_stormtrooper_smg_3
   - syndicate_stormtrooper_smg_2
   - not_enough_tox_0
   - not_enough_tox_1
-  - behemoth_health2
-  - in_love
-  - icebeam1
-  - prog_bar_40
-  - over
-  - pda_send
-  - see
-  - gross
-  - default2
-  - carve
+  - screen_construct_behemoth_health2
+  - alerts_in_love
+  - actions_spells_icebeam1
+  - progessbar_prog_bar_40
+  - visor_reticule_over
+  - AI_pda_send
+  - actions_hive_see
+  - alerts_gross
+  - talk_default2
+  - actions_cult_carve
   - Spatial_Gateway_9
   - Spatial_Gateway_8
   - Spatial_Gateway_7
@@ -11471,11 +11471,11 @@ SpriteAtlas:
   - Spatial_Gateway_17
   - Spatial_Gateway_14
   - Spatial_Gateway_15
-  - projectile_dampen_south
-  - head
+  - Slow field_projectile_dampen_south
+  - screen_slimecore_head
   - oxy1_1
   - oxy1_0
-  - blight
+  - actions_revenant_blight
   - shadow_28
   - shadow_29
   - shadow_20
@@ -11512,9 +11512,9 @@ SpriteAtlas:
   - pipe-toggle0_0
   - pipe-toggle0_3
   - pipe-toggle0_2
-  - l_leg
-  - act_throw_on
-  - head4
+  - zone select_l_leg
+  - screen_retro_act_throw_on
+  - screen_gen_head4
   - too_much_co2_1
   - too_much_co2_0
   - prog_bar_75_fail_0
@@ -11526,12 +11526,12 @@ SpriteAtlas:
   - g_beam_5
   - g_beam_4
   - g_beam_6
-  - flightpack_power
-  - odysseus_armor
-  - resonant_shriek
-  - 2
-  - gygax1
-  - machine
+  - actions_flightsuit_flightpack_power
+  - parts_odysseus_armor
+  - actions_changeling_resonant_shriek
+  - space_2
+  - construction_gygax1
+  - radial_machine
   - shield2_5
   - shield2_4
   - shield2_3
@@ -11539,10 +11539,10 @@ SpriteAtlas:
   - shield2_1
   - shield2_0
   - shield2_6
-  - odysseus8
-  - layer2
-  - hydroponics
-  - ripley16
+  - construction_odysseus8
+  - parallax_layer2
+  - screen_cyborg_hydroponics
+  - construction_ripley16
   - 8_heavy_0
   - 8_heavy_1
   - 8_heavy_2
@@ -11550,8 +11550,8 @@ SpriteAtlas:
   - 8_heavy_4
   - 8_heavy_5
   - 8_heavy_6
-  - Devil-6
-  - internal1
+  - screen_gen_Devil-6
+  - screen_gen_old_internal1
   - shield-old_5
   - shield-old_4
   - shield-old_6
@@ -11559,8 +11559,8 @@ SpriteAtlas:
   - shield-old_0
   - shield-old_3
   - shield-old_2
-  - host_monitor
-  - computer_dir
+  - screen_pai_host_monitor
+  - radial_computer_dir
   - explosion_5
   - explosion_4
   - explosion_6
@@ -11568,43 +11568,43 @@ SpriteAtlas:
   - explosion_0
   - explosion_3
   - explosion_2
-  - hudoperative
-  - ripley_r_arm
-  - prog_bar_10
-  - mood_happiness_good
-  - car_removekey
+  - HUD_hudoperative
+  - parts_ripley_r_arm
+  - progessbar_prog_bar_10
+  - screen_gen_mood_happiness_good
+  - actions_vehicle_car_removekey
   - chronofield_2
   - chronofield_1
   - chronofield_0
-  - emptycell
-  - r_leg2
-  - rune3inner
+  - alerts_emptycell
+  - screen_gen_r_leg2
+  - blood cultist_rune3inner
   - bubblegum_1
   - bubblegum_0
-  - panel
-  - hudworking
-  - darkgygax5
-  - slimeswap
-  - x2
+  - screen_cyborg_panel
+  - HUD_hudworking
+  - construction dark_darkgygax5
+  - actions_slime_slimeswap
+  - screen_gen_x2
   - cold_0
   - cold_1
-  - phazon16
-  - durand_l_armo
-  - lily_pad
-  - gygax_harness2o
-  - lawyer2
+  - construction_phazon16
+  - parts_durand_l_armo
+  - lava land_lily_pad
+  - parts_gygax_harness2o
+  - talk_lawyer2
   - hud_imp_loyal_0
   - hud_imp_loyal_1
-  - bleed4
-  - swap_2
-  - honker_heado
-  - head3
-  - separate
-  - head
-  - rune4center
-  - nutrition3
-  - hand_l
-  - pull
+  - bleed_bleed4
+  - screen_plasmafire_swap_2
+  - parts_honker_heado
+  - screen_gen_head3
+  - actions_minor_antag_separate
+  - zone select_head
+  - blood cultist_rune4center
+  - screen_gen_old_nutrition3
+  - screen_clockwork_hand_l
+  - screen_clockwork_pull
   - speedspace_ew_1_14
   - speedspace_ew_1_13
   - speedspace_ew_1_12
@@ -11624,7 +11624,7 @@ SpriteAtlas:
   - bicycle_2
   - bicycle_1
   - bicycle_0
-  - hudhealth87_5
+  - HUD_hudhealth87_5
   - conpipe-y_2
   - conpipe-y_3
   - conpipe-y_0
@@ -11632,7 +11632,7 @@ SpriteAtlas:
   - nzcrentrs_power_1
   - nzcrentrs_power_0
   - nzcrentrs_power_2
-  - large_stamp-rd
+  - paper stamps_large_stamp-rd
   - orbit_anim_6
   - orbit_anim_4
   - orbit_anim_5
@@ -11640,8 +11640,8 @@ SpriteAtlas:
   - orbit_anim_3
   - orbit_anim_0
   - orbit_anim_1
-  - gygax13
-  - 1-6
+  - construction_gygax13
+  - power_local_1-6
   - speedspace_ew_11_3
   - speedspace_ew_11_2
   - speedspace_ew_11_1
@@ -11657,43 +11657,43 @@ SpriteAtlas:
   - speedspace_ew_11_13
   - speedspace_ew_11_10
   - speedspace_ew_11_11
-  - snow
-  - black
-  - over
-  - pocket
-  - 25
-  - prog_bar_90
-  - hog-red-0
-  - fireripley12
+  - actions_spells_snow
+  - screen_gen_black
+  - mecha_mouse-disable_over
+  - screen_slimecore_pocket
+  - space_25
+  - progessbar_prog_bar_90
+  - HUD_hog-red-0
+  - construction firefighter_fireripley12
   - plasma_miner_0
   - plasma_miner_1
   - plasma_miner_2
   - plasma_miner_3
-  - pocket
-  - car_eject
-  - rcl_rainbow
+  - screen_operative_pocket
+  - actions_vehicle_car_eject
+  - actions_items_rcl_rainbow
   - internal2_1
   - internal2_0
-  - car_cannon
-  - rune2words
+  - actions_vehicle_car_cannon
+  - blood cultist_rune2words
   - pressure2_1
   - pressure2_0
-  - act_drop
-  - cable_0-1
-  - alien_oxy
-  - power_display2
-  - zone_sel
-  - walking
-  - cable_1-6
-  - sting_blind
-  - alien_evolve_larva
-  - Mending_Mantra
-  - alien_neurotoxin_0
-  - projectile_dampen_southeast
-  - command
-  - block
-  - guardian_charge
-  - gloves
+  - screen_clockwork_act_drop
+  - radial_cable_0-1
+  - alerts_alien_oxy
+  - screen_gen_power_display2
+  - screen_cyborg_zone_sel
+  - screen_plasmafire_walking
+  - radial_cable_1-6
+  - actions_changeling_sting_blind
+  - actions_xeno_alien_evolve_larva
+  - actions_clockcult_Mending_Mantra
+  - actions_xeno_alien_neurotoxin_0
+  - Slow field_projectile_dampen_southeast
+  - animals_command
+  - blob_block
+  - alerts_guardian_charge
+  - screen_clockwork_gloves
   - Ocular_Warden_0
   - Ocular_Warden_1
   - chest7_0
@@ -11721,7 +11721,7 @@ SpriteAtlas:
   - 7_moderate_6
   - 7_moderate_5
   - 7_moderate_4
-  - gross2
+  - alerts_gross2
   - shield-cult_4
   - shield-cult_5
   - shield-cult_6
@@ -11729,8 +11729,8 @@ SpriteAtlas:
   - shield-cult_1
   - shield-cult_2
   - shield-cult_3
-  - engineer
-  - muzzle_stun
+  - screen_cyborg_engineer
+  - projectiles_muzzle_muzzle_stun
   - Vanguard_8
   - Vanguard_9
   - Vanguard_4
@@ -11763,23 +11763,23 @@ SpriteAtlas:
   - hierophant_squares_17
   - finder_center_0
   - finder_center_1
-  - alien_tox
-  - rune4inner
-  - head
-  - nanites30
+  - alerts_alien_tox
+  - blood cultist_rune4inner
+  - screen_plasmafire_head
+  - HUD_nanites30
   - electrified_0
   - electrified_1
-  - pull
-  - eminence_unlimited_power
-  - organic_shield
+  - screen_midnight_pull
+  - actions_clockcult_eminence_unlimited_power
+  - actions_changeling_organic_shield
   - 3_south_1
   - 3_south_0
   - 3_south_3
   - 3_south_2
-  - galcom
-  - 1562403190.2506616
-  - hudsentientleft-red
-  - rune2inner
+  - language_galcom
+  - actions_hive_1562403190.2506616
+  - HUD_hudsentientleft-red
+  - blood cultist_rune2inner
   - judicial_markerORIGINAL_7
   - judicial_markerORIGINAL_6
   - judicial_markerORIGINAL_5
@@ -11801,13 +11801,13 @@ SpriteAtlas:
   - judicial_markerORIGINAL_18
   - judicial_markerORIGINAL_19
   - judicial_markerORIGINAL_20
-  - rune7center
-  - hudbuff
-  - rune5inner
-  - talk_wheel
-  - bleed6
-  - human_form
-  - hudhealth50
+  - blood cultist_rune7center
+  - HUD_hudbuff
+  - blood cultist_rune5inner
+  - screen_midnight_talk_wheel
+  - bleed_bleed6
+  - actions_changeling_human_form
+  - HUD_hudhealth50
   - speedspace_ns_10_14
   - speedspace_ns_10_10
   - speedspace_ns_10_11
@@ -11823,10 +11823,10 @@ SpriteAtlas:
   - speedspace_ns_10_0
   - speedspace_ns_10_3
   - speedspace_ns_10_2
-  - act_resist
-  - hudbattdead
-  - huddischarged
-  - slime_health3
+  - screen_clockwork_act_resist
+  - HUD_hudbattdead
+  - HUD_huddischarged
+  - screen_slime_slime_health3
   - quantum_sparks_24
   - quantum_sparks_25
   - quantum_sparks_26
@@ -11855,7 +11855,7 @@ SpriteAtlas:
   - quantum_sparks_10
   - quantum_sparks_13
   - quantum_sparks_12
-  - 5-9
+  - power_local_5-9
   - hierophant_telegraph_cardinal_6
   - hierophant_telegraph_cardinal_4
   - hierophant_telegraph_cardinal_5
@@ -11863,18 +11863,18 @@ SpriteAtlas:
   - hierophant_telegraph_cardinal_3
   - hierophant_telegraph_cardinal_0
   - hierophant_telegraph_cardinal_1
-  - lay_eggs
+  - animals_lay_eggs
   - head6_0
   - head6_1
   - syndicate_pistol_2
   - syndicate_pistol_3
   - syndicate_pistol_0
   - syndicate_pistol_1
-  - drag
-  - infected3
-  - guardian0
-  - shock
-  - gate_full
+  - blood cultist_drag
+  - alien_infected3
+  - talk_guardian0
+  - actions_hive_shock
+  - lava land_gate_full
   - anom_7
   - anom_6
   - anom_5
@@ -11883,21 +11883,21 @@ SpriteAtlas:
   - anom_2
   - anom_1
   - anom_0
-  - nose
-  - act_rest0
-  - starving
+  - actions_spells_nose
+  - screen_clockwork_act_rest0
+  - alerts_starving
   - id_1
   - id_0
   - id_3
   - id_2
-  - hot2
+  - alerts_hot2
   - syndicate_space_shotgun_2
   - syndicate_space_shotgun_3
   - syndicate_space_shotgun_0
   - syndicate_space_shotgun_1
-  - talk_wheel
-  - hand_active
-  - machine2
+  - screen_plasmafire_talk_wheel
+  - screen_slimecore_hand_active
+  - talk_machine2
   - punch_4
   - punch_0
   - punch_1
@@ -11935,13 +11935,13 @@ SpriteAtlas:
   - intake-flush_24
   - intake-flush_29
   - intake-flush_28
-  - hudchemist
-  - phazon-broken
-  - drop
-  - fire0
-  - ears
-  - ionpulse0
-  - nutrition0
+  - HUD_hudchemist
+  - phazon_phazon-broken
+  - vanguard_target_drop
+  - screen_cyborg_fire0
+  - screen_clockwork_ears
+  - screen_cyborg_ionpulse0
+  - screen_gen_old_nutrition0
   - nitrous_oxide_8
   - nitrous_oxide_9
   - nitrous_oxide_6
@@ -11954,12 +11954,12 @@ SpriteAtlas:
   - nitrous_oxide_1
   - nitrous_oxide_11
   - nitrous_oxide_10
-  - dark32
-  - bg_default
+  - screen_gen_dark32
+  - backgrounds_bg_default
   - lightning7_1
   - lightning7_0
-  - blobbernaut_nofactory
-  - zone_sel
+  - alerts_blobbernaut_nofactory
+  - screen_slimecore_zone_sel
   - 6_light_3
   - 6_light_2
   - 6_light_1
@@ -11982,7 +11982,7 @@ SpriteAtlas:
   - phasein_5
   - phasein_6
   - phasein_7
-  - ripley-broken-old
+  - ripley_ripley-broken-old
   - syndicate_sword_4
   - syndicate_sword_5
   - syndicate_sword_6
@@ -11991,23 +11991,23 @@ SpriteAtlas:
   - syndicate_sword_1
   - syndicate_sword_2
   - syndicate_sword_3
-  - fire
-  - hudcaptain
-  - act_resist
-  - blood
-  - darkgygax7
+  - alerts_fire
+  - HUD_hudcaptain
+  - screen_alien_act_resist
+  - alerts_blood
+  - construction dark_darkgygax7
   - hudill5_1
   - hudill5_0
-  - gib
-  - swarmer
-  - hudresearchdirector
-  - hudill3
+  - actions_spells_gib
+  - language_swarmer
+  - HUD_hudresearchdirector
+  - HUD_hudill3
   - 1562403289.1559901_0
   - 1562403289.1559901_1
   - 1562403289.1559901_2
-  - lamp6
-  - medical
-  - manifold4w-3
+  - screen_cyborg_lamp6
+  - screen_cyborg_medical
+  - manifold_manifold4w-3
   - station_explode_fade_red_9
   - station_explode_fade_red_8
   - station_explode_fade_red_5
@@ -12035,21 +12035,21 @@ SpriteAtlas:
   - station_explode_fade_red_20
   - station_explode_fade_red_23
   - station_explode_fade_red_22
-  - 0-10
-  - orbit
-  - runed_sense1
-  - alien0
-  - toggle
-  - vortex_ff_on
-  - wormhole_g
+  - power_local_0-10
+  - screen_ghost_orbit
+  - alerts_runed_sense1
+  - talk_alien0
+  - screen_retro_toggle
+  - actions_items_vortex_ff_on
+  - projectiles_muzzle_wormhole_g
   - pai_rest_1
   - pai_rest_0
   - pai_rest_3
   - pai_rest_2
-  - pressure-1
-  - alien_noqueen
-  - phazon11
-  - pull
+  - screen_gen_old_pressure-1
+  - alerts_alien_noqueen
+  - construction_phazon11
+  - screen_alien_pull
   - sacconsume_5
   - sacconsume_4
   - sacconsume_7
@@ -12060,12 +12060,12 @@ SpriteAtlas:
   - sacconsume_2
   - sacconsume_9
   - sacconsume_8
-  - jaunt
-  - flightsuit_helmet
-  - bloodcrawl
-  - barrier
-  - hudhealth93_75
-  - drain
+  - actions_spells_jaunt
+  - actions_flightsuit_flightsuit_helmet
+  - actions_minor_antag_bloodcrawl
+  - actions_cult_barrier
+  - HUD_hudhealth93_75
+  - actions_hive_drain
   - speedspace_ns_14_9
   - speedspace_ns_14_8
   - speedspace_ns_14_1
@@ -12081,15 +12081,15 @@ SpriteAtlas:
   - speedspace_ns_14_12
   - speedspace_ns_14_13
   - speedspace_ns_14_14
-  - cuff
-  - infected4
-  - artificer_health4
+  - actions_cult_cuff
+  - alien_infected4
+  - screen_construct_artificer_health4
   - robotic_factory_2
   - robotic_factory_1
   - robotic_factory_0
-  - defile
-  - hudbrainworm
-  - prog_bar_20
+  - actions_revenant_defile
+  - HUD_hudbrainworm
+  - progessbar_prog_bar_20
   - health4_11
   - health4_10
   - health4_13
@@ -12118,21 +12118,21 @@ SpriteAtlas:
   - health4_25
   - health4_26
   - health4_27
-  - huge_rune
+  - blood cultist_huge_rune
   - prog_bar_95_fail_0
   - prog_bar_95_fail_1
-  - darkgygax8
-  - pull1
-  - act_throw_off
-  - hypnosis
-  - hudquartermaster
+  - construction dark_darkgygax8
+  - screen_slime_pull1
+  - screen_operative_act_throw_off
+  - alerts_hypnosis
+  - HUD_hudquartermaster
   - impact_laser_blue_1
   - impact_laser_blue_0
   - impact_laser_blue_3
   - impact_laser_blue_2
-  - hand
-  - muzzle_blue
-  - ai_last_shell
+  - actions_cult_hand
+  - projectiles_muzzle_muzzle_blue
+  - AI_ai_last_shell
   - r_beam_2
   - r_beam_3
   - r_beam_0
@@ -12140,16 +12140,16 @@ SpriteAtlas:
   - r_beam_6
   - r_beam_4
   - r_beam_5
-  - phazon_r_leg
-  - buckled
+  - parts_phazon_r_leg
+  - alerts_buckled
   - hackingapc_1
   - hackingapc_0
   - darkgygax_0
   - darkgygax_1
   - darkgygax_2
   - darkgygax_3
-  - talk_wheel
-  - 1562505403.565272
+  - screen_retro_talk_wheel
+  - visor_reticule_1562505403.565272
   - 1_heavy_1
   - 1_heavy_0
   - 1_heavy_3
@@ -12157,25 +12157,25 @@ SpriteAtlas:
   - 1_heavy_5
   - 1_heavy_4
   - 1_heavy_6
-  - robot2
-  - radial_point
-  - drop
-  - nightvision1
-  - 0
-  - chameleon_skin
-  - swap_1_m
-  - phazon23
-  - honker-open
-  - seraph-broken
-  - toggle
-  - all
-  - alienroyal1
-  - template_small
-  - revive
-  - ripley8
-  - darkgygax13
-  - slimeeject
-  - Integration_Cog
+  - talk_robot2
+  - radial_radial_point
+  - blood cultist_drop
+  - screen_alien_nightvision1
+  - space_0
+  - actions_changeling_chameleon_skin
+  - screen_midnight_swap_1_m
+  - construction_phazon23
+  - honker_honker-open
+  - seraph_seraph-broken
+  - screen_midnight_toggle
+  - blood cultist_all
+  - talk_alienroyal1
+  - screen_plasmafire_template_small
+  - actions_cult_revive
+  - construction_ripley8
+  - construction dark_darkgygax13
+  - actions_slime_slimeeject
+  - actions_clockcult_Integration_Cog
   - speedspace_ew_14_6
   - speedspace_ew_14_7
   - speedspace_ew_14_4
@@ -12191,7 +12191,7 @@ SpriteAtlas:
   - speedspace_ew_14_10
   - speedspace_ew_14_13
   - speedspace_ew_14_12
-  - phazon_r_armo
+  - parts_phazon_r_armo
   - prog_bar_80_fail_0
   - prog_bar_80_fail_1
   - shield-flash_31
@@ -12230,13 +12230,13 @@ SpriteAtlas:
   - shield-flash_23
   - shield-flash_20
   - shield-flash_21
-  - harvester_health5
-  - gygax21
-  - chest
-  - prog_bar_65
-  - craft
-  - x
-  - block
+  - screen_construct_harvester_health5
+  - construction_gygax21
+  - screen_alien_chest
+  - progessbar_prog_bar_65
+  - screen_clockwork_craft
+  - screen_gen_x
+  - screen_gen_block
   - emppulse_3
   - emppulse_2
   - emppulse_1
@@ -12245,14 +12245,14 @@ SpriteAtlas:
   - emppulse_6
   - emppulse_5
   - emppulse_4
-  - infected5
-  - help
-  - ripley_r_armo
+  - alien_infected5
+  - screen_alien_help
+  - parts_ripley_r_armo
   - 11_0
   - 11_1
   - 11_2
   - 11_3
-  - ripley11
+  - construction_ripley11
   - halo_static_38
   - halo_static_39
   - halo_static_58
@@ -12319,16 +12319,16 @@ SpriteAtlas:
   - halo_static_62
   - halo_static_61
   - halo_static_60
-  - ninja_phase
-  - hand_active
-  - phazon_l_lego
-  - sting_lsd
-  - time
+  - actions_minor_antag_ninja_phase
+  - screen_midnight_hand_active
+  - parts_phazon_l_lego
+  - actions_changeling_sting_lsd
+  - actions_spells_time
   - 14_1
   - 14_0
   - 14_3
   - 14_2
-  - eminence_reinforce
+  - actions_clockcult_eminence_reinforce
   - cursehand1_19
   - cursehand1_18
   - cursehand1_17
@@ -12393,16 +12393,16 @@ SpriteAtlas:
   - ripley_2
   - ripley_1
   - ripley_0
-  - clockwork_gateway_components
-  - odysseus2
+  - clockwork cultus_clockwork_gateway_components
+  - construction_odysseus2
   - cover_blue_2
   - cover_blue_3
   - cover_blue_0
   - cover_blue_1
   - prog_bar_15_fail_0
   - prog_bar_15_fail_1
-  - pulse
-  - hudtrackingai
+  - blood cultist_pulse
+  - HUD_hudtrackingai
   - finder_far_4
   - finder_far_5
   - finder_far_6
@@ -12411,21 +12411,21 @@ SpriteAtlas:
   - finder_far_1
   - finder_far_2
   - finder_far_3
-  - prog_bar_30
-  - r_leg4
+  - progessbar_prog_bar_30
+  - screen_gen_r_leg4
   - prog_bar_55_fail_0
   - prog_bar_55_fail_1
-  - infected2
-  - durand_head
-  - durand8
+  - alien_infected2
+  - parts_durand_head
+  - construction_durand8
   - prog_bar_65_fail_1
   - prog_bar_65_fail_0
   - kick_0
   - kick_1
   - kick_2
   - kick_3
-  - bg_revenant
-  - ui_replicate
+  - backgrounds_bg_revenant
+  - swarm_ui_replicate
   - speedspace_ns_12_14
   - speedspace_ns_12_12
   - speedspace_ns_12_13
@@ -12441,8 +12441,8 @@ SpriteAtlas:
   - speedspace_ns_12_6
   - speedspace_ns_12_5
   - speedspace_ns_12_4
-  - sting_armblade
-  - phazon15
+  - actions_changeling_sting_armblade
+  - construction_phazon15
   - sendbeam_5
   - sendbeam_4
   - sendbeam_7
@@ -12492,19 +12492,19 @@ SpriteAtlas:
   - speedspace_ew_6_10
   - speedspace_ew_6_11
   - speedspace_ew_6_14
-  - blind
-  - Hateful_Manacles
-  - drunk
+  - actions_spells_blind
+  - actions_clockcult_Hateful_Manacles
+  - alerts_drunk
   - manifoldlayer_3
   - manifoldlayer_2
   - manifoldlayer_1
   - manifoldlayer_0
-  - 5-6
+  - power_local_5-6
   - clowncar_fire_2
   - clowncar_fire_3
   - clowncar_fire_0
   - clowncar_fire_1
-  - hudstat
+  - HUD_hudstat
   - speedspace_ew_2_7
   - speedspace_ew_2_6
   - speedspace_ew_2_5
@@ -12524,14 +12524,14 @@ SpriteAtlas:
   - 3_west_0
   - 3_west_3
   - 3_west_2
-  - hand_active
-  - holo2
-  - act_throw_on
+  - screen_clockwork_hand_active
+  - talk_holo2
+  - screen_operative_act_throw_on
   - plasma_miner_tool_3
   - plasma_miner_tool_2
   - plasma_miner_tool_1
   - plasma_miner_tool_0
-  - hudsecurityofficerOld
+  - HUD_hudsecurityofficerOld
   - ion_fade_9
   - ion_fade_8
   - ion_fade_5
@@ -12544,69 +12544,69 @@ SpriteAtlas:
   - ion_fade_2
   - ion_fade_10
   - ion_fade_11
-  - arrow0
-  - durand2
-  - hudheadofsecurity
-  - hudill4
-  - groin
+  - alerts_arrow0
+  - construction_durand2
+  - HUD_hudheadofsecurity
+  - HUD_hudill4
+  - zone select_groin
   - arm_blade_1
   - arm_blade_0
   - arm_blade_3
   - arm_blade_2
-  - gygax16
-  - summons
-  - hudhealth18_75
-  - r_arm
+  - construction_gygax16
+  - actions_spells_summons
+  - HUD_hudhealth18_75
+  - screen_gen_r_arm
   - 1562403133.1471725_1
   - 1562403133.1471725_0
   - 1562403133.1471725_2
-  - cultfist
+  - actions_cult_cultfist
   - impact_bullet_4
   - impact_bullet_1
   - impact_bullet_0
   - impact_bullet_3
   - impact_bullet_2
-  - 4-9
-  - lesserconstruct
-  - lawyer1
-  - chest1
-  - darkgygax0
+  - power_local_4-9
+  - actions_cult_lesserconstruct
+  - talk_lawyer1
+  - screen_gen_chest1
+  - construction dark_darkgygax0
   - 6_2
   - 6_3
   - 6_0
   - 6_1
-  - pda
+  - screen_pai_pda
   - lowpressure2_1
   - lowpressure2_0
-  - hand_r
-  - durand_r_arm
-  - hudalert
-  - phazon10
-  - sting_armblade
-  - back
-  - projectile_dampen_west
-  - projectile0
-  - drag
-  - chest3
+  - screen_operative_hand_r
+  - parts_durand_r_arm
+  - HUD_hudalert
+  - construction_phazon10
+  - screen_gen_sting_armblade
+  - screen_clockwork_back
+  - Slow field_projectile_dampen_west
+  - actions_spells_projectile0
+  - volt_target_drag
+  - screen_gen_chest3
   - pai_chassis_3
   - pai_chassis_2
   - pai_chassis_1
   - pai_chassis_0
-  - last_resort
-  - chest
-  - r_leg1
-  - health3
-  - nocell
-  - Abscond
-  - block2
-  - template
-  - dragnetfield
-  - dna_melt
+  - actions_changeling_last_resort
+  - screen_gen_chest
+  - screen_gen_r_leg1
+  - screen_alien_health3
+  - alerts_nocell
+  - actions_clockcult_Abscond
+  - blob_block2
+  - screen_cyborg_template
+  - effects_dragnetfield
+  - alerts_dna_melt
   - odysseus17_3
   - odysseus17_2
   - odysseus17_1
   - odysseus17_0
-  - blink
+  - actions_spells_blink
   - 2_very_light_2
   - 2_very_light_3
   - 2_very_light_0
@@ -12614,15 +12614,15 @@ SpriteAtlas:
   - 2_very_light_6
   - 2_very_light_4
   - 2_very_light_5
-  - clockwork_marauder
-  - transmute
+  - actions_clockcult_clockwork_marauder
+  - actions_cult_transmute
   - hudnobatt_1
   - hudnobatt_0
-  - hand_r
-  - reticence-broken
+  - screen_plasmafire_hand_r
+  - reticence_reticence-broken
   - prog_bar_5_fail_1
   - prog_bar_5_fail_0
-  - sting_poison
+  - screen_gen_sting_poison
   - spatial_gateway_23
   - spatial_gateway_22
   - spatial_gateway_18
@@ -12647,24 +12647,24 @@ SpriteAtlas:
   - spatial_gateway_2
   - spatial_gateway_1
   - spatial_gateway_0
-  - cable_4-9
-  - reclaim
-  - bg_clock
-  - honker_head2o
-  - vine
-  - talk_wheel
-  - mask
-  - jumptomob
-  - god_transmit
-  - durand11
-  - honker_r_armo
-  - gygax11
+  - radial_cable_4-9
+  - actions_hive_reclaim
+  - Clockwork cultist_bg_clock
+  - parts_honker_head2o
+  - beam_vine
+  - screen_slimecore_talk_wheel
+  - screen_plasmafire_mask
+  - screen_ghost_jumptomob
+  - animals_god_transmit
+  - construction_durand11
+  - parts_honker_r_armo
+  - construction_gygax11
   - wizard_3
   - wizard_2
   - wizard_1
   - wizard_0
-  - uniform
-  - slime_potion
+  - screen_operative_uniform
+  - actions_silicon_slime_potion
   - clockwork_gateway_active_10
   - clockwork_gateway_active_11
   - clockwork_gateway_active_12
@@ -12689,18 +12689,18 @@ SpriteAtlas:
   - clockwork_gateway_active_6
   - clockwork_gateway_active_9
   - clockwork_gateway_active_8
-  - pai_holoform
-  - mech_defense_mode_off
-  - durand13
-  - cable_1-5
-  - darkgygax11
+  - actions_silicon_pai_holoform
+  - actions_mecha_mech_defense_mode_off
+  - construction_durand13
+  - radial_cable_1-5
+  - construction dark_darkgygax11
   - disarm_0
   - disarm_1
   - disarm_2
   - disarm_3
   - disarm_4
-  - pocket
-  - alien_sneak_on
+  - screen_alien_pocket
+  - actions_xeno_alien_sneak_on
   - phaseout_10
   - phaseout_9
   - phaseout_8
@@ -12712,14 +12712,14 @@ SpriteAtlas:
   - phaseout_4
   - phaseout_7
   - phaseout_6
-  - 4-5
+  - power_local_4-5
   - health6_0
   - health6_1
-  - hudscientist
+  - HUD_hudscientist
   - l_arm6_1
   - l_arm6_0
-  - muzzle_plasmacutter
-  - reagents
+  - projectiles_muzzle_muzzle_plasmacutter
+  - implants_reagents
   - health6_8
   - health6_9
   - health6_4
@@ -12748,8 +12748,8 @@ SpriteAtlas:
   - health6_27
   - health6_24
   - health6_25
-  - sigil
-  - gygaxo
+  - clockwork cultus_sigil
+  - parts_gygaxo
   - speedspace_ew_3_8
   - speedspace_ew_3_9
   - speedspace_ew_3_2
@@ -12765,15 +12765,15 @@ SpriteAtlas:
   - speedspace_ew_3_14
   - speedspace_ew_3_4
   - speedspace_ew_3_5
-  - rcl_gui
-  - slime_health4
-  - 0-5
-  - suit
+  - actions_items_rcl_gui
+  - screen_slime_slime_health4
+  - power_local_0-5
+  - screen_retro_suit
   - too_much_tox_0
   - too_much_tox_1
-  - mood7
-  - alien_egg
-  - u_laser
+  - screen_gen_mood7
+  - actions_xeno_alien_egg
+  - projectiles_tracer_u_laser
   - station_corrupted_50
   - station_corrupted_51
   - station_corrupted_52
@@ -12828,8 +12828,8 @@ SpriteAtlas:
   - station_corrupted_11
   - station_corrupted_12
   - station_corrupted_13
-  - l_leg3
-  - swap_2
+  - screen_gen_l_leg3
+  - screen_clockwork_swap_2
   - liquifybckup_11
   - liquifybckup_10
   - liquifybckup_4
@@ -12842,8 +12842,8 @@ SpriteAtlas:
   - liquifybckup_3
   - liquifybckup_8
   - liquifybckup_9
-  - cable_5-10
-  - bg_mime
+  - radial_cable_5-10
+  - backgrounds_bg_mime
   - speedspace_ew_8_14
   - speedspace_ew_8_10
   - speedspace_ew_8_11
@@ -12863,11 +12863,11 @@ SpriteAtlas:
   - syndicate_smg_1
   - syndicate_smg_2
   - syndicate_smg_3
-  - blank
-  - adrenal
-  - glasses
-  - embeddedobject
-  - cable_4-6
+  - screen_cyborg_blank
+  - implants_adrenal
+  - screen_operative_glasses
+  - alerts_embeddedobject
+  - radial_cable_4-6
   - old_2
   - old_1
   - old_0
@@ -12875,8 +12875,8 @@ SpriteAtlas:
   - russianmelee_2
   - russianmelee_1
   - russianmelee_0
-  - odysseus4
-  - state_laws
+  - construction_odysseus4
+  - AI_state_laws
   - pipe-j1s_3
   - pipe-j1s_2
   - pipe-j1s_1
@@ -12885,16 +12885,16 @@ SpriteAtlas:
   - phazon_1
   - phazon_2
   - phazon_3
-  - malfunction
-  - prog_bar_45
-  - gygax4
-  - janitor
-  - eye
+  - actions_revenant_malfunction
+  - progessbar_prog_bar_45
+  - construction_gygax4
+  - screen_cyborg_janitor
+  - projectiles_tracer_eye
   - generic_camera_1
   - generic_camera_0
-  - thrall
-  - phazon17
-  - ai_core
+  - HUD_thrall
+  - construction_phazon17
+  - AI_ai_core
   - cultin_3
   - cultin_2
   - cultin_1
@@ -12927,31 +12927,31 @@ SpriteAtlas:
   - cultin_11
   - cultin_9
   - cultin_8
-  - 8-9
-  - phazon_l_arm
+  - power_local_8-9
+  - parts_phazon_l_arm
   - 8_0
   - 8_1
   - 8_2
   - 8_3
-  - odysseus_l_lego
+  - parts_odysseus_l_lego
   - cultmaster_0
   - cultmaster_1
-  - disease_menu
-  - muzzle_hcult
-  - slime_health0
-  - fireripley9
-  - hand_r
-  - slime_stoneskin
-  - l_leg4
-  - belt
-  - slimeuse2
+  - actions_minor_antag_disease_menu
+  - projectiles_muzzle_muzzle_hcult
+  - screen_slime_slime_health0
+  - construction firefighter_fireripley9
+  - screen_alien_hand_r
+  - alerts_slime_stoneskin
+  - screen_gen_l_leg4
+  - screen_clockwork_belt
+  - actions_slime_slimeuse2
   - acid_5
   - acid_4
   - acid_1
   - acid_0
   - acid_3
   - acid_2
-  - odysseus13
+  - construction_odysseus13
   - ratvars_flame_1
   - ratvars_flame_0
   - cart_buffer_9
@@ -12975,23 +12975,23 @@ SpriteAtlas:
   - 5_0
   - 5_3
   - 5_2
-  - swap_1
+  - screen_alien_swap_1
   - solar_beam_1
   - solar_beam_0
   - solar_beam_2
-  - swap_1
+  - screen_slimecore_swap_1
   - huddiagcrit_0
   - huddiagcrit_1
-  - hog-red-1
-  - pai
-  - slime_bluespace_off
-  - sting_mute
+  - HUD_hog-red-1
+  - screen_pai_pai
+  - alerts_slime_bluespace_off
+  - actions_changeling_sting_mute
   - red_lightning_0
   - red_lightning_1
   - launchpad_launch_0
   - launchpad_launch_1
-  - pull0
-  - odysseus11
+  - screen_slime_pull0
+  - construction_odysseus11
   - water_vapor_6
   - water_vapor_7
   - water_vapor_4
@@ -13000,9 +13000,9 @@ SpriteAtlas:
   - water_vapor_3
   - water_vapor_0
   - water_vapor_1
-  - regenerate
-  - ratvarwindowglow_s
-  - fleshmend
+  - actions_changeling_regenerate
+  - Construction deconstruction_ratvarwindowglow_s
+  - alerts_fleshmend
   - engineering_pod_1
   - engineering_pod_0
   - engineering_pod_3
@@ -13011,12 +13011,12 @@ SpriteAtlas:
   - engineering_pod_4
   - engineering_pod_7
   - engineering_pod_6
-  - mech_zoom_on
+  - actions_mecha_mech_zoom_on
   - back_3
   - back_2
   - back_1
   - back_0
-  - r_leg
+  - zone select_r_leg
   - health5_23
   - health5_22
   - health5_21
@@ -13045,25 +13045,25 @@ SpriteAtlas:
   - health5_4
   - health5_9
   - health5_8
-  - emitter
+  - projectiles_tracer_emitter
   - huddefib_5
   - huddefib_4
   - huddefib_3
   - huddefib_2
   - huddefib_1
   - huddefib_0
-  - healthdoll_DEAD
-  - all
-  - alien_evolve_praetorian
-  - radial_left
-  - disarm
-  - impact_solar
-  - hudchangeling
-  - ripley12
-  - mech_cycle_equip_off
-  - darkgygax9
-  - dispover-ready
-  - reticence-open
+  - screen_gen_healthdoll_DEAD
+  - vanguard_target_all
+  - actions_xeno_alien_evolve_praetorian
+  - radial_radial_left
+  - screen_clockwork_disarm
+  - projectiles_impact_impact_solar
+  - HUD_hudchangeling
+  - construction_ripley12
+  - actions_mecha_mech_cycle_equip_off
+  - construction dark_darkgygax9
+  - disposal_dispover-ready
+  - reticence_reticence-open
   - paperwiz_poof_3
   - paperwiz_poof_2
   - paperwiz_poof_1
@@ -13072,8 +13072,8 @@ SpriteAtlas:
   - paperwiz_poof_6
   - paperwiz_poof_5
   - paperwiz_poof_4
-  - moneybag
-  - cultforcewall
+  - actions_minor_antag_moneybag
+  - actions_cult_cultforcewall
   - 1_very_light_6
   - 1_very_light_5
   - 1_very_light_4
@@ -13081,10 +13081,10 @@ SpriteAtlas:
   - 1_very_light_2
   - 1_very_light_1
   - 1_very_light_0
-  - power_display
-  - mask
-  - Judicial_Marker
-  - markus
+  - screen_gen_power_display
+  - screen_slimecore_mask
+  - actions_clockcult_Judicial_Marker
+  - screen_gen_markus
   - speedspace_ns_3_9
   - speedspace_ns_3_8
   - speedspace_ns_3_3
@@ -13132,12 +13132,12 @@ SpriteAtlas:
   - extinguish_23
   - extinguish_31
   - extinguish_30
-  - prog_bar_0
-  - gloves
+  - progessbar_prog_bar_0
+  - screen_midnight_gloves
   - purple_lightning_1
   - purple_lightning_0
-  - mask
-  - durand3
+  - screen_retro_mask
+  - construction_durand3
   - halo3_29
   - halo3_28
   - halo3_58
@@ -13199,19 +13199,19 @@ SpriteAtlas:
   - halo3_6
   - halo3_9
   - halo3_8
-  - robot0
-  - solar
-  - neck
-  - ui_help
-  - break_air_alarms
-  - r_transmit
-  - act_rest0
-  - ceast
-  - darkgygax16
-  - head
-  - legsweep
-  - lungpunch
-  - machine1
+  - talk_robot0
+  - projectiles_tracer_solar
+  - screen_operative_neck
+  - blob_ui_help
+  - AI_break_air_alarms
+  - actions_revenant_r_transmit
+  - screen_slimecore_act_rest0
+  - radial_ceast
+  - construction dark_darkgygax16
+  - screen_clockwork_head
+  - actions_items_legsweep
+  - actions_items_lungpunch
+  - talk_machine1
   - piratespaceranged_6
   - piratespaceranged_7
   - piratespaceranged_4
@@ -13237,16 +13237,16 @@ SpriteAtlas:
   - health6_0
   - health6_1
   - health6_2
-  - break_fire_alarms
+  - AI_break_fire_alarms
   - phazon22_0
   - phazon22_1
   - phazon22_2
   - phazon22_3
-  - buildquit
-  - radial_slice
-  - ui_contact_swarmers
-  - marker (2)
-  - forcewall
+  - buildmode_buildquit
+  - radial_radial_slice
+  - swarm_ui_contact_swarmers
+  - screen crosser_marker (2)
+  - actions_hive_forcewall
   - drainbeam_3
   - drainbeam_2
   - drainbeam_1
@@ -13279,7 +13279,7 @@ SpriteAtlas:
   - drainbeam_28
   - drainbeam_18
   - drainbeam_19
-  - camera_jump
+  - actions_silicon_camera_jump
   - ripley-g-full_1
   - ripley-g-full_0
   - ripley-g-full_3
@@ -13350,16 +13350,16 @@ SpriteAtlas:
   - greenshatter_3
   - greenshatter_0
   - greenshatter_1
-  - 2-8
-  - pda_receive
-  - prog_bar_80
-  - l_arm
-  - odysseus14
-  - bolt
-  - infect
-  - head
-  - flightpack_stabilizer
-  - alien_queen_promote
+  - power_local_2-8
+  - screen_pai_pda_receive
+  - progessbar_prog_bar_80
+  - screen_alien_l_arm
+  - construction_odysseus14
+  - projectiles_tracer_bolt
+  - actions_minor_antag_infect
+  - screen_operative_head
+  - actions_flightsuit_flightpack_stabilizer
+  - actions_xeno_alien_queen_promote
   - singularity_s7_4
   - singularity_s7_5
   - singularity_s7_6
@@ -13368,11 +13368,11 @@ SpriteAtlas:
   - singularity_s7_1
   - singularity_s7_2
   - singularity_s7_3
-  - armor
-  - ripley_l_armo
-  - strafe
-  - cancel_peephole
-  - gygax17
+  - actions_cult_armor
+  - parts_ripley_l_armo
+  - actions_mecha_strafe
+  - screen actions_cancel_peephole
+  - construction_gygax17
   - halo4_11
   - halo4_10
   - halo4_13
@@ -13434,8 +13434,8 @@ SpriteAtlas:
   - halo4_50
   - halo4_53
   - halo4_52
-  - prog_bar_95
-  - firefighter-broken
+  - progessbar_prog_bar_95
+  - ripley_firefighter-broken
   - cursehand0_58
   - cursehand0_59
   - cursehand0_49
@@ -13496,17 +13496,17 @@ SpriteAtlas:
   - cursehand0_37
   - cursehand0_34
   - cursehand0_35
-  - impact_hcult
-  - cwest
-  - pai
-  - botcall
-  - default0
-  - ui_blobbernaut
-  - syndibot0
-  - bg_gear
-  - area_edit
-  - grab
-  - round_end
+  - projectiles_impact_impact_hcult
+  - radial_cwest
+  - actions_silicon_pai
+  - AI_botcall
+  - talk_default0
+  - blob_ui_blobbernaut
+  - talk_syndibot0
+  - Clockwork cultist_bg_gear
+  - screen_plasmafire_area_edit
+  - screen_slimecore_grab
+  - screen actions_round_end
   - halo1_52
   - halo1_53
   - halo1_50
@@ -13568,8 +13568,8 @@ SpriteAtlas:
   - halo1_57
   - halo1_54
   - halo1_55
-  - 1
-  - panacea
+  - magic_1
+  - actions_changeling_panacea
   - 8_very_light_4
   - 8_very_light_5
   - 8_very_light_6
@@ -13577,32 +13577,32 @@ SpriteAtlas:
   - 8_very_light_1
   - 8_very_light_2
   - 8_very_light_3
-  - ripley_l_leg
-  - robot1
-  - phazon_harnesso
-  - hudincarcerated
-  - pull
+  - parts_ripley_l_leg
+  - talk_robot1
+  - parts_phazon_harnesso
+  - HUD_hudincarcerated
+  - screen_construct_pull
   - dispover-charge_1
   - dispover-charge_0
-  - clockwork
-  - large_stamp-cmo
-  - bleed1
-  - eminence_avoid
+  - HUD_clockwork
+  - paper stamps_large_stamp-cmo
+  - bleed_bleed1
+  - actions_clockcult_eminence_avoid
   - speedbike_blue_3
   - speedbike_blue_2
   - speedbike_blue_1
   - speedbike_blue_0
-  - alien_sneak
-  - ai_sensor
-  - fireripley13
-  - animal
-  - odysseus12
-  - phazon12
-  - nanites40
-  - phazon4
-  - condisposal
-  - miner
-  - darkgygax2
+  - actions_xeno_alien_sneak
+  - AI_ai_sensor
+  - construction firefighter_fireripley13
+  - language_animal
+  - construction_odysseus12
+  - construction_phazon12
+  - HUD_nanites40
+  - construction_phazon4
+  - disposal_condisposal
+  - screen_cyborg_miner
+  - construction dark_darkgygax2
   - cultout_19
   - cultout_18
   - cultout_13
@@ -13635,23 +13635,23 @@ SpriteAtlas:
   - cultout_5
   - cultout_6
   - cultout_7
-  - hcult
+  - projectiles_tracer_hcult
   - 17_2
   - 17_3
   - 17_0
   - 17_1
-  - buildmode_edit
-  - odysseus-open
-  - alienroyal2
-  - default
+  - buildmode_buildmode_edit
+  - odysseus_odysseus-open
+  - talk_alienroyal2
+  - actions_genetic_default
   - firefighter_3
   - firefighter_2
   - firefighter_1
   - firefighter_0
-  - gloves
-  - phazon-open
-  - pirate
-  - gygax10
+  - screen_slimecore_gloves
+  - phazon_phazon-open
+  - language_pirate
+  - construction_gygax10
   - reappear_2
   - reappear_3
   - reappear_0
@@ -13677,21 +13677,21 @@ SpriteAtlas:
   - speedspace_ns_2_5
   - speedspace_ns_2_8
   - speedspace_ns_2_9
-  - alien_evolve_drone
+  - actions_xeno_alien_evolve_drone
   - id_1
   - id_0
   - id_3
   - id_2
-  - supplypod_selector
-  - r_arm
-  - apprentice
-  - unhide
-  - stun
-  - 2-4
-  - narsie
-  - bleed0
-  - absorb_dna
-  - fireripley8
+  - buildmode_supplypod_selector
+  - zone select_r_arm
+  - HUD_apprentice
+  - actions_minor_antag_unhide
+  - projectiles_tracer_stun
+  - power_local_2-4
+  - language_narsie
+  - bleed_bleed0
+  - actions_changeling_absorb_dna
+  - construction firefighter_fireripley8
   - blood_13
   - blood_12
   - blood_11
@@ -13708,16 +13708,16 @@ SpriteAtlas:
   - blood_5
   - blood_6
   - blood_7
-  - shoes
-  - hand_l
-  - hand_l
-  - keysec
-  - wormhole_g
-  - template_tiny
-  - back
-  - pda_receive
-  - fake_death
-  - huddiagmax
+  - screen_slimecore_shoes
+  - screen_slimecore_hand_l
+  - screen_midnight_hand_l
+  - vehicles_keysec
+  - projectiles_impact_wormhole_g
+  - screen_clockwork_template_tiny
+  - screen_midnight_back
+  - AI_pda_receive
+  - actions_changeling_fake_death
+  - HUD_huddiagmax
   - 2-full_6
   - 2-full_7
   - 2-full_4
@@ -13730,25 +13730,25 @@ SpriteAtlas:
   - marker-red_3
   - marker-red_0
   - marker-red_1
-  - behemoth_health0
+  - screen_construct_behemoth_health0
   - tritium_old_4
   - tritium_old_2
   - tritium_old_3
   - tritium_old_0
   - tritium_old_1
-  - cable_8-9
-  - darkgygax15
-  - act_drop
-  - manifold4w_center
-  - Crawl
-  - phazon8
+  - radial_cable_8-9
+  - construction dark_darkgygax15
+  - screen_operative_act_drop
+  - manifold_manifold4w_center
+  - alien_Crawl
+  - construction_phazon8
   - teleport_3
   - teleport_2
   - teleport_1
   - teleport_0
   - teleport_4
-  - muzzle_beam_heavy
-  - repulse
+  - projectiles_muzzle_muzzle_beam_heavy
+  - actions_spells_repulse
   - Geis_2
   - Geis_3
   - Geis_0
@@ -13767,25 +13767,25 @@ SpriteAtlas:
   - Geis_14
   - Geis_17
   - Geis_16
-  - mech_damtype_tox
-  - rift
+  - actions_mecha_mech_damtype_tox
+  - tear_rift
   - fulton_retract_0
   - fulton_retract_1
   - fulton_retract_2
   - fulton_retract_3
-  - mood5
-  - buildmode_atmos
-  - rune1inner
-  - pda_send
-  - hudhealth31_25
-  - hudassistant
-  - golden_violin
-  - Linked_Vanguard
-  - hack
-  - durand6
-  - template_active
-  - over
-  - prog_bar_85
+  - screen_gen_mood5
+  - buildmode_buildmode_atmos
+  - blood cultist_rune1inner
+  - screen_pai_pda_send
+  - HUD_hudhealth31_25
+  - HUD_hudassistant
+  - actions_minor_antag_golden_violin
+  - actions_clockcult_Linked_Vanguard
+  - actions_hive_hack
+  - construction_durand6
+  - screen_midnight_template_active
+  - vanguard_target_over
+  - progessbar_prog_bar_85
   - darkhonker_5
   - darkhonker_4
   - darkhonker_7
@@ -13819,7 +13819,7 @@ SpriteAtlas:
   - acid_rain_12
   - acid_rain_11
   - acid_rain_10
-  - phazon_harness
+  - parts_phazon_harness
   - slime_health6_1
   - slime_health6_0
   - at_shield2_3
@@ -13829,14 +13829,14 @@ SpriteAtlas:
   - at_shield2_6
   - at_shield2_5
   - at_shield2_4
-  - hand_l
-  - zone_sel
+  - screen_operative_hand_l
+  - screen_retro_zone_sel
   - wheelchair_overlay_3
   - wheelchair_overlay_2
   - wheelchair_overlay_1
   - wheelchair_overlay_0
-  - floating_health1
-  - ui_node
+  - screen_construct_floating_health1
+  - blob_ui_node
   - 1_21
   - 1_20
   - 1_23
@@ -13861,33 +13861,33 @@ SpriteAtlas:
   - 1_4
   - 1_7
   - 1_6
-  - durand5
-  - plasmacutter
+  - construction_durand5
+  - projectiles_tracer_plasmacutter
   - pirateranged_0
   - pirateranged_1
   - pirateranged_2
   - pirateranged_3
-  - 1562403189.5651567
-  - gygax_heado
-  - template
-  - gygax_harnesso
-  - guardian_instealth
-  - projectile_dampen_generic
-  - summonsoulstone
+  - animals_1562403189.5651567
+  - parts_gygax_heado
+  - screen_retro_template
+  - parts_gygax_harnesso
+  - alerts_guardian_instealth
+  - Slow field_projectile_dampen_generic
+  - actions_cult_summonsoulstone
   - pai_holoform_1
   - pai_holoform_0
   - pai_holoform_3
   - pai_holoform_2
-  - health2
-  - gygax_l_leg
-  - 0-8
-  - remove
+  - screen_alien_health2
+  - parts_gygax_l_leg
+  - power_local_0-8
+  - actions_hive_remove
   - syndicate_space_knife_3
   - syndicate_space_knife_2
   - syndicate_space_knife_1
   - syndicate_space_knife_0
-  - durand17
-  - mood4
+  - construction_durand17
+  - screen_gen_mood4
   - speedspace_ew_7_6
   - speedspace_ew_7_7
   - speedspace_ew_7_4
@@ -13903,8 +13903,8 @@ SpriteAtlas:
   - speedspace_ew_7_10
   - speedspace_ew_7_13
   - speedspace_ew_7_12
-  - arrow
-  - bleed8
+  - alerts_arrow
+  - bleed_bleed8
   - dragon_boat_2
   - dragon_boat_3
   - dragon_boat_0
@@ -13917,11 +13917,11 @@ SpriteAtlas:
   - cart_garbage_1
   - cart_garbage_2
   - cart_garbage_3
-  - devil
-  - badass_sun
-  - buildmode_fill
-  - zap
-  - organic_suit
+  - HUD_devil
+  - screen_gen_badass_sun
+  - buildmode_buildmode_fill
+  - actions_spells_zap
+  - actions_changeling_organic_suit
   - 2-corner_6
   - 2-corner_7
   - 2-corner_4
@@ -13966,11 +13966,11 @@ SpriteAtlas:
   - explosion_particle_23
   - explosion_particle_20
   - explosion_particle_21
-  - hudbattmax
-  - ratvar_alert
-  - 1562403294.1689785
-  - drop
-  - hudill1
+  - HUD_hudbattmax
+  - Clockwork cultist_ratvar_alert
+  - mecha_mouse_1562403294.1689785
+  - mecha_mouse-disable_drop
+  - HUD_hudill1
   - finder_med_5
   - finder_med_4
   - finder_med_7
@@ -13979,20 +13979,20 @@ SpriteAtlas:
   - finder_med_0
   - finder_med_3
   - finder_med_2
-  - smoke (2)
-  - prog_bar_15
-  - sigilvitality
-  - scan
-  - behemoth_health5
-  - 1562403345.533331
-  - cold2
-  - template
-  - hudbotanist
-  - disarm
+  - smoke_smoke (2)
+  - progessbar_prog_bar_15
+  - clockwork cultus_sigilvitality
+  - actions_hive_scan
+  - screen_construct_behemoth_health5
+  - actions_hive_1562403345.533331
+  - alerts_cold2
+  - AI_template
+  - HUD_hudbotanist
+  - screen_plasmafire_disarm
   - purplecrack_0
   - purplecrack_1
   - purplecrack_2
-  - talk_no
+  - screen_gen_talk_no
   - arrow_3
   - arrow_2
   - arrow_1
@@ -14013,9 +14013,9 @@ SpriteAtlas:
   - Replicant_1
   - Replicant_8
   - Replicant_9
-  - nanites90
-  - mood3
-  - beam_heavy
+  - HUD_nanites90
+  - screen_gen_mood3
+  - projectiles_tracer_beam_heavy
   - speedspace_ns_9_14
   - speedspace_ns_9_10
   - speedspace_ns_9_11
@@ -14031,8 +14031,8 @@ SpriteAtlas:
   - speedspace_ns_9_2
   - speedspace_ns_9_9
   - speedspace_ns_9_8
-  - chaos
-  - act_resist
+  - actions_hive_chaos
+  - screen_plasmafire_act_resist
   - druggy_13
   - druggy_12
   - druggy_11
@@ -14060,7 +14060,7 @@ SpriteAtlas:
   - druggy_16
   - druggy_15
   - druggy_14
-  - act_throw_off
+  - screen_slimecore_act_throw_off
   - 4_moderate_6
   - 4_moderate_4
   - 4_moderate_5
@@ -14068,21 +14068,21 @@ SpriteAtlas:
   - 4_moderate_3
   - 4_moderate_0
   - 4_moderate_1
-  - Soul_Vessel
+  - actions_clockcult_Soul_Vessel
   - dragon_1
   - dragon_0
-  - swap_1
+  - screen_clockwork_swap_1
   - goliath_boat_3
   - goliath_boat_2
   - goliath_boat_1
   - goliath_boat_0
-  - gygax_l_lego
+  - parts_gygax_l_lego
   - 1_south_3
   - 1_south_2
   - 1_south_1
   - 1_south_0
-  - pull
-  - fireripley20
+  - screen_cyborg_pull
+  - construction firefighter_fireripley20
   - chest6_1
   - chest6_0
   - speedspace_ns_7_12
@@ -14100,18 +14100,18 @@ SpriteAtlas:
   - speedspace_ns_7_0
   - speedspace_ns_7_9
   - speedspace_ns_7_8
-  - health4
-  - mech_damtype_fire
-  - darkgygax_head
+  - screen_alien_health4
+  - actions_mecha_mech_damtype_fire
+  - parts_darkgygax_head
   - syndicate_space_smg_3
   - syndicate_space_smg_2
   - syndicate_space_smg_1
   - syndicate_space_smg_0
-  - projectile_dampen_southwest
+  - Slow field_projectile_dampen_southwest
   - projectile_dampen_effect_2
   - projectile_dampen_effect_1
   - projectile_dampen_effect_0
-  - abductee
+  - HUD_abductee
   - russianranged_2
   - russianranged_3
   - russianranged_0
@@ -14120,21 +14120,21 @@ SpriteAtlas:
   - eskimo_3
   - eskimo_0
   - eskimo_1
-  - 9-10
+  - power_local_9-10
   - doomsday_device_0
   - doomsday_device_1
-  - radial_grind
-  - hudunknown1
-  - hudheadofpersonnel
+  - radial_radial_grind
+  - HUD_hudunknown1
+  - HUD_hudheadofpersonnel
   - outlet_1
   - outlet_0
   - outlet_3
   - outlet_2
-  - machine0
-  - template
-  - toggle
-  - selector
-  - gygax_head2o
+  - talk_machine0
+  - screen_midnight_template
+  - screen_operative_toggle
+  - screen_gen_selector
+  - parts_gygax_head2o
   - firing_effect_7
   - firing_effect_6
   - firing_effect_5
@@ -14143,21 +14143,21 @@ SpriteAtlas:
   - firing_effect_2
   - firing_effect_1
   - firing_effect_0
-  - deity_followers
-  - darkgygax10
+  - screen_gen_deity_followers
+  - construction dark_darkgygax10
   - reenter_corpse_anim_2
   - reenter_corpse_anim_3
   - reenter_corpse_anim_0
   - reenter_corpse_anim_1
   - reenter_corpse_anim_4
   - reenter_corpse_anim_5
-  - fireball
-  - honker_l_leg
-  - etherealcharge1
-  - hudhealth100
-  - harm
-  - projectile_dampen_east
-  - head
+  - actions_spells_fireball
+  - parts_honker_l_leg
+  - alerts_etherealcharge1
+  - HUD_hudhealth100
+  - screen_operative_harm
+  - Slow field_projectile_dampen_east
+  - screen_gen_head
   - clowncar_fromfire_8
   - clowncar_fromfire_9
   - clowncar_fromfire_6
@@ -14230,34 +14230,34 @@ SpriteAtlas:
   - clowncar_fromfire_40
   - clowncar_fromfire_12
   - clowncar_fromfire_41
-  - horror
-  - cable_2-4
-  - muzzle_solar
-  - reinforce
-  - inv3
-  - swarmer2
+  - actions_cult_horror
+  - radial_cable_2-4
+  - projectiles_muzzle_muzzle_solar
+  - screen_gen_reinforce
+  - screen_cyborg_inv3
+  - talk_swarmer2
   - freon_old_4
   - freon_old_5
   - freon_old_0
   - freon_old_1
   - freon_old_2
   - freon_old_3
-  - upgrade
-  - cable_5-6
-  - walking
-  - buildmode_areaedit
-  - cable_1-9
-  - help
-  - xray
-  - phazon_l_armo
+  - vehicles_upgrade
+  - radial_cable_5-6
+  - screen_clockwork_walking
+  - buildmode_buildmode_areaedit
+  - radial_cable_1-9
+  - screen_operative_help
+  - projectiles_tracer_xray
+  - parts_phazon_l_armo
   - arrow8_1
   - arrow8_0
-  - biodegrade
-  - darkgygax4
+  - actions_changeling_biodegrade
+  - construction dark_darkgygax4
   - marauder-open_0
   - marauder-open_1
   - marauder-open_2
-  - manifold4w-1
+  - manifold_manifold4w-1
   - health3_1
   - health3_0
   - health3_3
@@ -14305,19 +14305,19 @@ SpriteAtlas:
   - 7_heavy_6
   - 7_heavy_5
   - 7_heavy_4
-  - health0
+  - screen_gen_old_health0
   - hud_imp_tracking_0
   - hud_imp_tracking_1
-  - Kindle
+  - actions_clockcult_Kindle
   - lightning1_1
   - lightning1_0
   - syndicate_stormtrooper_knife_1
   - syndicate_stormtrooper_knife_0
   - syndicate_stormtrooper_knife_3
   - syndicate_stormtrooper_knife_2
-  - gloves
-  - cold1
-  - hand_l
+  - screen_retro_gloves
+  - alerts_cold1
+  - screen_plasmafire_hand_l
   - tailsweep_6
   - tailsweep_7
   - tailsweep_4
@@ -14342,23 +14342,23 @@ SpriteAtlas:
   - tailsweep_21
   - tailsweep_22
   - tailsweep_23
-  - glasses
-  - head2
-  - mood1
-  - craft
-  - swap_2
-  - ripley_harness
-  - gate_bottom
-  - odysseus_heado
+  - screen_plasmafire_glasses
+  - screen_gen_head2
+  - screen_gen_mood1
+  - screen_operative_craft
+  - screen_alien_swap_2
+  - parts_ripley_harness
+  - lava land_gate_bottom
+  - parts_odysseus_heado
   - gygax19_2
   - gygax19_3
   - gygax19_0
   - gygax19_1
-  - neck
-  - toggle
-  - drag
-  - corehealth
-  - landing
+  - screen_clockwork_neck
+  - screen_slimecore_toggle
+  - mecha_mouse_drag
+  - blob_corehealth
+  - lava land_landing
   - blip_5
   - blip_4
   - blip_3
@@ -14369,8 +14369,8 @@ SpriteAtlas:
   - zombie_1
   - zombie_2
   - zombie_3
-  - floating_health3
-  - new_cam
+  - screen_construct_floating_health3
+  - AI_new_cam
   - back_3
   - back_2
   - back_1
@@ -14380,36 +14380,36 @@ SpriteAtlas:
   - 7_1
   - 7_0
   - 7_4
-  - wormhole_g
-  - mech_damtype_brute
-  - lay_web
-  - 1562505403.7537956
-  - act_rest
-  - Vitality_Matrix
-  - harm
-  - rune4words
+  - projectiles_tracer_wormhole_g
+  - actions_mecha_mech_damtype_brute
+  - animals_lay_web
+  - wrap_target_1562505403.7537956
+  - screen_slimecore_act_rest
+  - actions_clockcult_Vitality_Matrix
+  - screen_alien_harm
+  - blood cultist_rune4words
   - r_leg5_0
   - r_leg5_1
-  - 1562403290.529493
-  - suit_storage
+  - blood cultist_1562403290.529493
+  - screen_clockwork_suit_storage
   - marker-blue_3
   - marker-blue_2
   - marker-blue_1
   - marker-blue_0
-  - windowtype
-  - hudhealth-100
-  - hudmove-red
-  - ai_shell
-  - slime_health2
-  - odysseus20
-  - behemoth_health3
-  - 2-10
-  - cable_0-6
-  - 1562403138.3161469
+  - radial_windowtype
+  - HUD_hudhealth-100
+  - HUD_hudmove-red
+  - AI_ai_shell
+  - screen_slime_slime_health2
+  - construction_odysseus20
+  - screen_construct_behemoth_health3
+  - power_local_2-10
+  - radial_cable_0-6
+  - mecha_mouse_1562403138.3161469
   - lightning9_1
   - lightning9_0
-  - 22
-  - hand_l
+  - space_22
+  - screen_retro_hand_l
   - speedspace_ns_5_10
   - speedspace_ns_5_11
   - speedspace_ns_5_12
@@ -14425,11 +14425,11 @@ SpriteAtlas:
   - speedspace_ns_5_4
   - speedspace_ns_5_7
   - speedspace_ns_5_6
-  - rune2center
+  - blood cultist_rune2center
   - Devil-3_2
   - Devil-3_0
   - Devil-3_1
-  - craft
+  - screen_retro_craft
   - sigilactivepulse_6
   - sigilactivepulse_5
   - sigilactivepulse_4
@@ -14439,9 +14439,9 @@ SpriteAtlas:
   - sigilactivepulse_0
   - clockwork_gateway_damaged_0
   - clockwork_gateway_damaged_1
-  - 1
-  - health3
-  - health8
+  - space_1
+  - screen_cyborg_health3
+  - screen_alien_health8
   - gygax-open_8
   - gygax-open_3
   - gygax-open_2
@@ -14473,10 +14473,10 @@ SpriteAtlas:
   - ripley-empty_0
   - runed_sense2_1
   - runed_sense2_0
-  - 4-6
-  - hivemind_channel
-  - oar
-  - impact_emitter
+  - power_local_4-6
+  - actions_changeling_hivemind_channel
+  - vehicles_oar
+  - projectiles_impact_impact_emitter
   - secway_11
   - secway_10
   - secway_2
@@ -14489,51 +14489,51 @@ SpriteAtlas:
   - secway_5
   - secway_8
   - secway_9
-  - walking
-  - mask
+  - screen_slimecore_walking
+  - screen_midnight_mask
   - chem_gas_old_1
   - chem_gas_old_0
   - chem_gas_old_3
   - chem_gas_old_2
   - chem_gas_old_5
   - chem_gas_old_4
-  - sanity4
-  - large_stamp-deny
-  - ripley9
-  - belt
+  - screen_gen_sanity4
+  - paper stamps_large_stamp-deny
+  - construction_ripley9
+  - screen_midnight_belt
   - conpipe-toggle0_3
   - conpipe-toggle0_2
   - conpipe-toggle0_1
   - conpipe-toggle0_0
-  - phazon24
-  - hudpatrolleft
-  - template
-  - template
-  - template_frame
-  - drugged
-  - hudunknown
-  - csouth
-  - behemoth_health1
-  - flightsuit_pack
-  - bg_changeling
-  - harm
-  - gygax8
-  - reenter_corpse
-  - bloodhand_left
-  - kindleKicks
+  - construction_phazon24
+  - HUD_hudpatrolleft
+  - alerts_template
+  - screen_alien_template
+  - screen_alien_template_frame
+  - alerts_drugged
+  - HUD_hudunknown
+  - radial_csouth
+  - screen_construct_behemoth_health1
+  - actions_flightsuit_flightsuit_pack
+  - backgrounds_bg_changeling
+  - screen_retro_harm
+  - construction_gygax8
+  - screen_ghost_reenter_corpse
+  - inventory states_bloodhand_left
+  - actions_items_kindleKicks
   - head5_1
   - head5_0
-  - ripley-open
-  - shield
-  - template_active
-  - cable_9-10
-  - darkgygax18
-  - language_menu
-  - darkness
-  - ripley6
-  - harvester_health1
-  - mutate
-  - overload_lights
+  - ripley_ripley-open
+  - actions_spells_shield
+  - screen_retro_template_active
+  - radial_cable_9-10
+  - construction dark_darkgygax18
+  - screen actions_language_menu
+  - weather_effects_darkness
+  - construction_ripley6
+  - screen_construct_harvester_health1
+  - actions_spells_mutate
+  - actions_revenant_overload_lights
   - speedspace_ew_12_8
   - speedspace_ew_12_9
   - speedspace_ew_12_4
@@ -14549,20 +14549,20 @@ SpriteAtlas:
   - speedspace_ew_12_12
   - speedspace_ew_12_11
   - speedspace_ew_12_10
-  - talk_hello
-  - zone_sel
-  - durand_r_leg
-  - abyssal_gaze
-  - armblade
-  - equip
-  - drone_vision
-  - etherealcharge3
-  - leap_off
-  - durand20
-  - radial_eject
-  - fireripley3
-  - durand15
-  - hivemind
+  - screen_gen_talk_hello
+  - screen_clockwork_zone_sel
+  - parts_durand_r_leg
+  - actions_cult_abyssal_gaze
+  - actions_changeling_armblade
+  - actions_cult_equip
+  - actions_silicon_drone_vision
+  - alerts_etherealcharge3
+  - screen_alien_leap_off
+  - construction_durand20
+  - radial_radial_eject
+  - construction firefighter_fireripley3
+  - construction_durand15
+  - HUD_hivemind
   - m_shield_5
   - m_shield_4
   - m_shield_7
@@ -14571,12 +14571,12 @@ SpriteAtlas:
   - m_shield_0
   - m_shield_3
   - m_shield_2
-  - hudbattmed
-  - swarmer0
-  - dark128
-  - gloves
-  - bleed3
-  - health4
+  - HUD_hudbattmed
+  - talk_swarmer0
+  - screen_gen_dark128
+  - screen_plasmafire_gloves
+  - bleed_bleed3
+  - screen_cyborg_health4
   - 1_moderate_1
   - 1_moderate_0
   - 1_moderate_3
@@ -14610,12 +14610,12 @@ SpriteAtlas:
   - unruneddoorglow_3
   - unruneddoorglow_8
   - unruneddoorglow_9
-  - act_throw_off
-  - hudhealth43_75
-  - umbral_ashes
-  - magicm
-  - nightvision0
-  - lowpressure1
+  - screen_retro_act_throw_off
+  - HUD_hudhealth43_75
+  - magic_umbral_ashes
+  - actions_spells_magicm
+  - screen_alien_nightvision0
+  - alerts_lowpressure1
   - shield_8
   - shield_5
   - shield_4
@@ -14625,26 +14625,26 @@ SpriteAtlas:
   - shield_0
   - shield_3
   - shield_2
-  - area_edit
-  - internal0
-  - reactivate_cameras
-  - odysseus3
-  - radial_highlight
+  - screen_midnight_area_edit
+  - screen_gen_old_internal0
+  - AI_reactivate_cameras
+  - construction_odysseus3
+  - radial_radial_highlight
   - rped_upgrade_2
   - rped_upgrade_3
   - rped_upgrade_0
   - rped_upgrade_1
-  - head
-  - swap_1_m
+  - screen_retro_head
+  - screen_clockwork_swap_1_m
   - yalp_elor_1
   - yalp_elor_0
-  - shoes
-  - 5-10
-  - grab
-  - deity_nexus
-  - ninja
-  - sanity2
-  - 1-2
+  - screen_retro_shoes
+  - power_local_5-10
+  - screen_plasmafire_grab
+  - screen_gen_deity_nexus
+  - HUD_ninja
+  - screen_gen_sanity2
+  - power_local_1-2
   - pulse_23
   - pulse_22
   - pulse_21
@@ -14675,14 +14675,14 @@ SpriteAtlas:
   - pulse_19
   - not_enough_nitro_1
   - not_enough_nitro_0
-  - cult
+  - projectiles_tracer_cult
   - r_leg7_0
   - r_leg7_1
-  - paralysis
-  - uniform
-  - hudhealth75
-  - slimeconsume
-  - durand21
+  - alerts_paralysis
+  - screen_midnight_uniform
+  - HUD_hudhealth75
+  - actions_slime_slimeconsume
+  - construction_durand21
   - hierophant_telegraph_0
   - hierophant_telegraph_3
   - hierophant_telegraph_2
@@ -14690,20 +14690,20 @@ SpriteAtlas:
   - hierophant_telegraph_4
   - hierophant_telegraph_6
   - hierophant_telegraph_1
-  - chrono_phase
-  - l_arm
-  - durand_harness
-  - fireripley16
-  - swap_1
-  - sting_transform
-  - cable_0-10
+  - actions_minor_antag_chrono_phase
+  - zone select_l_arm
+  - parts_durand_harness
+  - construction firefighter_fireripley16
+  - screen_operative_swap_1
+  - screen_gen_sting_transform
+  - radial_cable_0-10
   - ripley-old_3
   - ripley-old_2
   - ripley-old_1
   - ripley-old_0
-  - fireripley19
-  - odysseus_r_lego
-  - hudhealth37_5
+  - construction firefighter_fireripley19
+  - parts_odysseus_r_lego
+  - HUD_hudhealth37_5
   - snow_storm_5
   - snow_storm_4
   - snow_storm_6
@@ -14711,7 +14711,7 @@ SpriteAtlas:
   - snow_storm_0
   - snow_storm_3
   - snow_storm_2
-  - impact_bfg
+  - projectiles_impact_impact_bfg
   - curse1_10
   - curse1_11
   - curse1_12
@@ -14768,8 +14768,8 @@ SpriteAtlas:
   - 9_light_3
   - slime_health5_0
   - slime_health5_1
-  - aiframe
-  - fireripley0
+  - Clockwork cultist_aiframe
+  - construction firefighter_fireripley0
   - explosionOLD_8
   - explosionOLD_9
   - explosionOLD_6
@@ -14791,9 +14791,9 @@ SpriteAtlas:
   - glow_3
   - glow_2
   - glow_4
-  - durand10
-  - digital_camo
-  - cable_0-8
+  - construction_durand10
+  - actions_changeling_digital_camo
+  - radial_cable_0-8
   - speedspace_ew_4_1
   - speedspace_ew_4_0
   - speedspace_ew_4_3
@@ -14809,9 +14809,9 @@ SpriteAtlas:
   - speedspace_ew_4_12
   - speedspace_ew_4_13
   - speedspace_ew_4_14
-  - r_arm1
-  - artificer_health0
-  - 4
+  - screen_gen_r_arm1
+  - screen_construct_artificer_health0
+  - space_4
   - noise_11
   - noise_10
   - noise_13
@@ -14852,14 +14852,14 @@ SpriteAtlas:
   - noise_36
   - noise_35
   - noise_34
-  - harvester_health7
-  - transform
-  - hudvirologist
-  - neck
-  - floating_health2
-  - health3
-  - gloves
-  - moth
+  - screen_construct_harvester_health7
+  - actions_changeling_transform
+  - HUD_hudvirologist
+  - screen_retro_neck
+  - screen_construct_floating_health2
+  - screen_gen_old_health3
+  - screen_operative_gloves
+  - language_moth
   - speedspace_ns_1_9
   - speedspace_ns_1_8
   - speedspace_ns_1_5
@@ -14875,11 +14875,11 @@ SpriteAtlas:
   - speedspace_ns_1_11
   - speedspace_ns_1_12
   - speedspace_ns_1_13
-  - queen_finder
-  - radial_slice_focus
-  - bluestream
-  - sting_cryo
-  - hand_r
+  - screen_alien_queen_finder
+  - radial_radial_slice_focus
+  - tear_bluestream
+  - actions_changeling_sting_cryo
+  - screen_retro_hand_r
   - b_beam_2
   - b_beam_3
   - b_beam_0
@@ -14887,39 +14887,39 @@ SpriteAtlas:
   - b_beam_6
   - b_beam_4
   - b_beam_5
-  - belt
-  - ripley18
-  - hot1
+  - screen_slimecore_belt
+  - construction_ripley18
+  - alerts_hot1
   - syndicate_shotgun_1
   - syndicate_shotgun_0
   - syndicate_shotgun_3
   - syndicate_shotgun_2
-  - track
-  - nightmare
-  - drop
-  - large_stamp-qm
-  - fulton_noballoon
-  - mech_phasing_off
-  - id
-  - running
-  - hog-blue-2
+  - AI_track
+  - actions_hive_nightmare
+  - volt_target_drop
+  - paper stamps_large_stamp-qm
+  - fulton_balloon_fulton_noballoon
+  - actions_mecha_mech_phasing_off
+  - screen_slimecore_id
+  - screen_alien_running
+  - HUD_hog-blue-2
   - prog_bar_45_fail_1
   - prog_bar_45_fail_0
-  - tox1
-  - tele
-  - drunk2
-  - nanites70
+  - screen_gen_old_tox1
+  - actions_cult_tele
+  - alerts_drunk2
+  - HUD_nanites70
   - 18_1
   - 18_0
   - 18_3
   - 18_2
-  - lizard
-  - hivemind_link
-  - chain
+  - language_lizard
+  - actions_changeling_hivemind_link
+  - beam_chain
   - prog_bar_70_fail_1
   - prog_bar_70_fail_0
-  - slime
-  - help
+  - language_slime
+  - screen_clockwork_help
   - plasma_0
   - plasma_1
   - plasma_2
@@ -14969,10 +14969,10 @@ SpriteAtlas:
   - cloak_12
   - cloak_11
   - cloak_10
-  - mouth
-  - head
-  - radial_center
-  - drone_camogear_helm
+  - screen_gen_mouth
+  - screen_alien_head
+  - radial_radial_center
+  - actions_silicon_drone_camogear_helm
   - 1-full_3
   - 1-full_2
   - 1-full_1
@@ -14981,13 +14981,13 @@ SpriteAtlas:
   - 1-full_6
   - 1-full_5
   - 1-full_4
-  - darkgygax_heado
-  - Wraith_Spectacles
-  - floating_health4
-  - drag
-  - fulton_balloon
-  - send_mind
-  - cable_1-8
+  - parts_darkgygax_heado
+  - actions_clockcult_Wraith_Spectacles
+  - screen_construct_floating_health4
+  - wrap_target_drag
+  - fulton_balloon_fulton_balloon
+  - actions_slime_send_mind
+  - radial_cable_1-8
   - lava_0
   - lava_1
   - durand-open_1
@@ -14996,24 +14996,24 @@ SpriteAtlas:
   - durand-open_2
   - durand-open_5
   - durand-open_4
-  - clock0
-  - phazon6
-  - mech_smoke
-  - sting_blind
-  - radial_lookat
+  - talk_clock0
+  - construction_phazon6
+  - actions_mecha_mech_smoke
+  - screen_gen_sting_blind
+  - radial_radial_lookat
   - 1_west_3
   - 1_west_2
   - 1_west_1
   - 1_west_0
-  - hudwanted
-  - bg_tech_blue
+  - HUD_hudwanted
+  - backgrounds_bg_tech_blue
   - 19_0
   - 19_1
   - 19_2
   - 19_3
-  - spell_default
-  - odysseus19
-  - swap_1
+  - actions_spells_spell_default
+  - construction_odysseus19
+  - screen_retro_swap_1
   - lightning6_0
   - lightning6_1
   - ratvargearglow_0
@@ -15033,15 +15033,15 @@ SpriteAtlas:
   - ratvargearglow_16
   - ratvargearglow_15
   - ratvargearglow_14
-  - help
+  - screen_slimecore_help
   - prog_bar_50_fail_1
   - prog_bar_50_fail_0
-  - glasses
-  - strained_muscles
-  - adrenaline
-  - fireripley10
-  - id
-  - flightsuit_shoes
+  - screen_slimecore_glasses
+  - actions_changeling_strained_muscles
+  - actions_changeling_adrenaline
+  - construction firefighter_fireripley10
+  - screen_clockwork_id
+  - actions_flightsuit_flightsuit_shoes
   - 2_heavy_6
   - 2_heavy_4
   - 2_heavy_5
@@ -15049,7 +15049,7 @@ SpriteAtlas:
   - 2_heavy_3
   - 2_heavy_0
   - 2_heavy_1
-  - mapfixmarker
+  - screen_gen_mapfixmarker
   - 8_light_1
   - 8_light_0
   - 8_light_3
@@ -15057,16 +15057,16 @@ SpriteAtlas:
   - 8_light_5
   - 8_light_4
   - 8_light_6
-  - security
-  - mood9
-  - suit
-  - backbone
-  - traitor
-  - mouth
-  - expand
-  - Sigil_of_Submission
-  - health0
-  - hungry
+  - screen_cyborg_security
+  - screen_gen_mood9
+  - screen_alien_suit
+  - unknown_backbone
+  - HUD_traitor
+  - screen_alien_mouth
+  - animals_expand
+  - actions_clockcult_Sigil_of_Submission
+  - screen_alien_health0
+  - alerts_hungry
   - hierophant_slab_14
   - hierophant_slab_10
   - hierophant_slab_11
@@ -15082,18 +15082,18 @@ SpriteAtlas:
   - hierophant_slab_0
   - hierophant_slab_3
   - hierophant_slab_2
-  - back
+  - actions_cult_back
   - blueshatter_3
   - blueshatter_2
   - blueshatter_1
   - blueshatter_0
-  - emp
-  - gate_top
-  - add
-  - l_arm3
-  - belt
-  - sneeze
-  - odysseus_l_arm
+  - actions_cult_emp
+  - lava land_gate_top
+  - actions_hive_add
+  - screen_gen_l_arm3
+  - screen_plasmafire_belt
+  - actions_minor_antag_sneeze
+  - parts_odysseus_l_arm
   - speedspace_ew_10_8
   - speedspace_ew_10_9
   - speedspace_ew_10_2
@@ -15109,7 +15109,7 @@ SpriteAtlas:
   - speedspace_ew_10_13
   - speedspace_ew_10_12
   - speedspace_ew_10_14
-  - muzzle_pulse
+  - projectiles_muzzle_muzzle_pulse
   - speedspace_ns_4_13
   - speedspace_ns_4_12
   - speedspace_ns_4_11
@@ -15125,11 +15125,11 @@ SpriteAtlas:
   - speedspace_ns_4_7
   - speedspace_ns_4_8
   - speedspace_ns_4_9
-  - running
-  - suit_storage
-  - act_throw_off
-  - vote
-  - grab
+  - screen_midnight_running
+  - screen_midnight_suit_storage
+  - screen_clockwork_act_throw_off
+  - screen actions_vote
+  - screen_operative_grab
   - intro_cult_21
   - intro_cult_20
   - intro_cult_7
@@ -15152,11 +15152,11 @@ SpriteAtlas:
   - intro_cult_15
   - intro_cult_18
   - intro_cult_19
-  - cable_4-10
-  - clown
-  - act_rest
-  - hudgland_spent
-  - alien_resin
+  - radial_cable_4-10
+  - effects_clown
+  - screen_clockwork_act_rest
+  - HUD_hudgland_spent
+  - actions_xeno_alien_resin
   - heal_8
   - heal_9
   - heal_4
@@ -15171,13 +15171,13 @@ SpriteAtlas:
   - heal_12
   - heal_11
   - heal_10
-  - nanites80
+  - HUD_nanites80
   - r_arm5_0
   - r_arm5_1
-  - 8-10
-  - scan_mode
-  - r_arm
-  - Sigil_of_Transgression
+  - power_local_8-10
+  - actions_items_scan_mode
+  - screen_alien_r_arm
+  - actions_clockcult_Sigil_of_Transgression
   - conpipe-j1_0
   - conpipe-j1_1
   - conpipe-j1_2
@@ -15255,7 +15255,7 @@ SpriteAtlas:
   - Replica_Fabricator_2
   - Replica_Fabricator_0
   - Replica_Fabricator_1
-  - spread_infestation
+  - actions_changeling_spread_infestation
   - clowncar_tofire_21
   - clowncar_tofire_20
   - clowncar_tofire_23
@@ -15330,15 +15330,15 @@ SpriteAtlas:
   - clowncar_tofire_62
   - lightning11_0
   - lightning11_1
-  - mauler-broken
-  - r_leg
-  - join
-  - force
-  - rev_head
-  - radial_next
-  - infected0
-  - hudpatrol
-  - clock1
+  - marauder_mauler-broken
+  - screen_alien_r_leg
+  - actions_minor_antag_join
+  - actions_hive_force
+  - HUD_rev_head
+  - radial_radial_next
+  - alien_infected0
+  - HUD_hudpatrol
+  - talk_clock1
   - 2_19
   - 2_18
   - 2_48
@@ -15395,7 +15395,7 @@ SpriteAtlas:
   - 2_3
   - 2_0
   - 2_1
-  - template_active
+  - screen_clockwork_template_active
   - drain_life_18
   - drain_life_19
   - drain_life_14
@@ -15428,12 +15428,12 @@ SpriteAtlas:
   - drain_life_22
   - drain_life_29
   - drain_life_28
-  - hudninja
-  - talk_wheel
-  - odysseus1
-  - prog_bar_100
-  - gygax14
-  - r_arm3
+  - HUD_hudninja
+  - screen_operative_talk_wheel
+  - construction_odysseus1
+  - progessbar_prog_bar_100
+  - construction_gygax14
+  - screen_gen_r_arm3
   - ratvargrilleglow_13
   - ratvargrilleglow_12
   - ratvargrilleglow_11
@@ -15451,9 +15451,9 @@ SpriteAtlas:
   - ratvargrilleglow_7
   - ratvargrilleglow_8
   - ratvargrilleglow_9
-  - hudtraitor
-  - ears
-  - act_equip
+  - HUD_hudtraitor
+  - screen_retro_ears
+  - screen_clockwork_act_equip
   - hive_shield_6
   - hive_shield_7
   - hive_shield_4
@@ -15462,9 +15462,9 @@ SpriteAtlas:
   - hive_shield_3
   - hive_shield_0
   - hive_shield_1
-  - large_stamp-clown
-  - projectile_dampen_north
-  - slimeheal
+  - paper stamps_large_stamp-clown
+  - Slow field_projectile_dampen_north
+  - actions_slime_slimeheal
   - smoke_10
   - smoke_11
   - smoke_9
@@ -15477,9 +15477,9 @@ SpriteAtlas:
   - smoke_6
   - smoke_5
   - smoke_4
-  - eminence_repair
-  - artificer_health5
-  - tentacle
+  - actions_clockcult_eminence_repair
+  - screen_construct_artificer_health5
+  - actions_changeling_tentacle
   - explosion_indef_6
   - explosion_indef_7
   - explosion_indef_4
@@ -15489,8 +15489,8 @@ SpriteAtlas:
   - explosion_indef_0
   - explosion_indef_1
   - explosion_indef_8
-  - mood2
-  - cough
+  - screen_gen_mood2
+  - actions_minor_antag_cough
   - head7_1
   - head7_0
   - impact_laser_0
@@ -15501,23 +15501,23 @@ SpriteAtlas:
   - energynet_0
   - energynet_3
   - energynet_2
-  - slime1
+  - talk_slime1
   - 2_south_0
   - 2_south_1
   - 2_south_2
   - 2_south_3
-  - gygax3
-  - phazon18
+  - construction_gygax3
+  - construction_phazon18
   - seraph_1
   - seraph_0
   - seraph_3
   - seraph_2
-  - announcement
-  - head1
-  - all
-  - hudreleased
-  - smoke
-  - huddetective
+  - AI_announcement
+  - screen_gen_head1
+  - supplypod_target_all
+  - HUD_hudreleased
+  - actions_spells_smoke
+  - HUD_huddetective
   - mood_insane_8
   - mood_insane_6
   - mood_insane_7
@@ -15527,10 +15527,10 @@ SpriteAtlas:
   - mood_insane_3
   - mood_insane_0
   - mood_insane_1
-  - vest_mode
-  - lowcell1
-  - 23
-  - 1-8
+  - actions_minor_antag_vest_mode
+  - alerts_lowcell1
+  - space_23
+  - power_local_1-8
   - ion_fade_flight_11
   - ion_fade_flight_10
   - ion_fade_flight_8
@@ -15543,30 +15543,30 @@ SpriteAtlas:
   - ion_fade_flight_1
   - ion_fade_flight_2
   - ion_fade_flight_3
-  - fireripley15
-  - fireripley14
-  - mech_overload_off
-  - bolt_action
-  - lockdown
-  - flightpack_airbrake
-  - 1562505403.589272
-  - phazon_head
-  - swap_2
-  - hud_imp_unknown
-  - ripley3
-  - sanity1
-  - sanity5
-  - impact_u_laser
-  - ai_core
-  - act_rest0
+  - construction firefighter_fireripley15
+  - construction firefighter_fireripley14
+  - actions_mecha_mech_overload_off
+  - actions_spells_bolt_action
+  - AI_lockdown
+  - actions_flightsuit_flightpack_airbrake
+  - volt_target_1562505403.589272
+  - parts_phazon_head
+  - screen_operative_swap_2
+  - HUD_hud_imp_unknown
+  - construction_ripley3
+  - screen_gen_sanity1
+  - screen_gen_sanity5
+  - projectiles_impact_impact_u_laser
+  - AI_ai_core
+  - screen_operative_act_rest0
   - l_arm5_0
   - l_arm5_1
-  - cult
+  - HUD_cult
   - durand_2
   - durand_3
   - durand_0
   - durand_1
-  - gygax9
+  - construction_gygax9
   - pussywagon_6
   - pussywagon_7
   - pussywagon_4
@@ -15579,13 +15579,13 @@ SpriteAtlas:
   - pussywagon_9
   - pussywagon_11
   - pussywagon_10
-  - dominate
-  - build
-  - phazon20
-  - heart
-  - 0-1
-  - slime_health1
-  - hudxeno
+  - actions_cult_dominate
+  - actions_construction_build
+  - construction_phazon20
+  - effects_heart
+  - power_local_0-1
+  - screen_slime_slime_health1
+  - HUD_hudxeno
   - static_22
   - static_23
   - static_20
@@ -15610,8 +15610,8 @@ SpriteAtlas:
   - static_12
   - static_11
   - static_10
-  - lawyer0
-  - blurry
+  - talk_lawyer0
+  - screen_gen_blurry
   - empdisable_15
   - empdisable_14
   - empdisable_13
@@ -15628,23 +15628,23 @@ SpriteAtlas:
   - empdisable_3
   - empdisable_8
   - empdisable_9
-  - health1
-  - marauder_emerge
-  - bg_alien
-  - all
-  - walking
-  - harm
-  - swap_2
-  - barn
-  - asleep
-  - groin
+  - screen_gen_old_health1
+  - Clockwork cultist_marauder_emerge
+  - backgrounds_bg_alien
+  - wrap_target_all
+  - screen_retro_walking
+  - screen_gen_harm
+  - screen_retro_swap_2
+  - actions_spells_barn
+  - alerts_asleep
+  - screen_gen_groin
   - pipe-3_2
   - pipe-3_3
   - pipe-3_0
   - pipe-3_1
-  - directive
-  - 0-6
-  - eal
+  - animals_directive
+  - power_local_0-6
+  - language_eal
   - 3_very_light_5
   - 3_very_light_4
   - 3_very_light_6
@@ -15652,9 +15652,9 @@ SpriteAtlas:
   - 3_very_light_0
   - 3_very_light_3
   - 3_very_light_2
-  - darkgygax14
-  - sting_cryo
-  - codespeak
+  - construction dark_darkgygax14
+  - screen_gen_sting_cryo
+  - language_codespeak
   - door_closing_19
   - door_closing_18
   - door_closing_11
@@ -15703,7 +15703,7 @@ SpriteAtlas:
   - shieldwall_17
   - shieldwall_18
   - shieldwall_19
-  - odysseus_r_leg
+  - parts_odysseus_r_leg
   - odysseus_3
   - odysseus_2
   - odysseus_1
@@ -15756,13 +15756,13 @@ SpriteAtlas:
   - blob_attack_38
   - blob_attack_42
   - blob_attack_43
-  - meson
-  - guardian_canstealth
-  - hudshaftminer
-  - mech_internals_on
+  - actions_mecha_meson
+  - alerts_guardian_canstealth
+  - HUD_hudshaftminer
+  - actions_mecha_mech_internals_on
   - lightning3_1
   - lightning3_0
-  - swap_1_m
+  - screen_operative_swap_1_m
   - phasein_31
   - phasein_30
   - phasein_19
@@ -15795,9 +15795,9 @@ SpriteAtlas:
   - phasein_5
   - phasein_6
   - phasein_7
-  - honker_l_armo
-  - grab
-  - clock2
+  - parts_honker_l_armo
+  - screen_retro_grab
+  - talk_clock2
   - bhole3_1
   - bhole3_0
   - bhole3_3
@@ -15838,10 +15838,10 @@ SpriteAtlas:
   - pipe-toggle0flick_23
   - pipe-toggle0flick_20
   - pipe-toggle0flick_21
-  - darkgygax21
-  - area_edit
-  - Tinkerers_Daemon
-  - phazon2
+  - construction dark_darkgygax21
+  - screen_clockwork_area_edit
+  - actions_clockcult_Tinkerers_Daemon
+  - construction_phazon2
   - mauler-open_5
   - mauler-open_4
   - mauler-open_6
@@ -15849,9 +15849,9 @@ SpriteAtlas:
   - mauler-open_0
   - mauler-open_3
   - mauler-open_2
-  - meson
-  - swap_2
-  - health5
+  - actions_items_meson
+  - screen_midnight_swap_2
+  - screen_alien_health5
   - 9_moderate_1
   - 9_moderate_0
   - 9_moderate_3
@@ -15866,10 +15866,10 @@ SpriteAtlas:
   - 4_very_light_4
   - 4_very_light_5
   - 4_very_light_6
-  - uniform
-  - odysseus6
-  - mindlink
-  - medi_holo_no_anim
+  - screen_plasmafire_uniform
+  - construction_odysseus6
+  - actions_slime_mindlink
+  - effects_medi_holo_no_anim
   - 6_heavy_2
   - 6_heavy_3
   - 6_heavy_0
@@ -15877,7 +15877,7 @@ SpriteAtlas:
   - 6_heavy_6
   - 6_heavy_4
   - 6_heavy_5
-  - crew_monitor
+  - AI_crew_monitor
   - explosionfast_3
   - explosionfast_2
   - explosionfast_1
@@ -15890,16 +15890,16 @@ SpriteAtlas:
   - deathripley_2
   - deathripley_1
   - deathripley_0
-  - wish_granter
-  - flightpack_boost
-  - template_active
+  - alerts_wish_granter
+  - actions_flightsuit_flightpack_boost
+  - screen_slimecore_template_active
   - syndicate_stormtrooper_3
   - syndicate_stormtrooper_2
   - syndicate_stormtrooper_1
   - syndicate_stormtrooper_0
-  - act_rest
-  - teleport
-  - low_mech_integrity3
+  - screen_midnight_act_rest
+  - screen_ghost_teleport
+  - alerts_low_mech_integrity3
   - umbral_ashes_reforming_0
   - umbral_ashes_reforming_1
   - umbral_ashes_reforming_2
@@ -15912,20 +15912,20 @@ SpriteAtlas:
   - umbral_ashes_reforming_9
   - umbral_ashes_reforming_11
   - umbral_ashes_reforming_10
-  - rune5center
-  - blob1
-  - 0-4
+  - blood cultist_rune5center
+  - talk_blob1
+  - power_local_0-4
   - forcefield_1
   - forcefield_0
-  - harm
-  - alien2
-  - ui_resource
+  - screen_clockwork_harm
+  - talk_alien2
+  - blob_ui_resource
   - speedwagon_1
   - speedwagon_0
   - speedwagon_3
   - speedwagon_2
-  - template_small
-  - suit_storage
+  - screen_operative_template_small
+  - screen_operative_suit_storage
   - 2_moderate_0
   - 2_moderate_1
   - 2_moderate_2
@@ -15933,8 +15933,8 @@ SpriteAtlas:
   - 2_moderate_4
   - 2_moderate_5
   - 2_moderate_6
-  - floating_health0
-  - prog_bar_60
+  - screen_construct_floating_health0
+  - progessbar_prog_bar_60
   - floorglow_1
   - floorglow_0
   - floorglow_3
@@ -15957,17 +15957,17 @@ SpriteAtlas:
   - intake_3
   - intake_0
   - intake_1
-  - store
-  - abductor
-  - bloodspear
-  - durand12
-  - hudhealth62_5
+  - screen_cyborg_store
+  - HUD_abductor
+  - actions_cult_bloodspear
+  - construction_durand12
+  - HUD_hudhealth62_5
   - paper_scatter_4
   - paper_scatter_1
   - paper_scatter_0
   - paper_scatter_3
   - paper_scatter_2
-  - fleshmend
+  - actions_changeling_fleshmend
   - launchpad_target_2
   - launchpad_target_3
   - launchpad_target_0
@@ -15975,13 +15975,13 @@ SpriteAtlas:
   - launchpad_target_6
   - launchpad_target_4
   - launchpad_target_5
-  - 1562403294.1489787
-  - muzzle_eye
-  - hudcentcom
-  - odysseus5
-  - gygax6
-  - odysseus_l_armo
-  - void_magnet
+  - mecha_mouse-disable_1562403294.1489787
+  - projectiles_muzzle_muzzle_eye
+  - HUD_hudcentcom
+  - construction_odysseus5
+  - construction_gygax6
+  - parts_odysseus_l_armo
+  - actions_spells_void_magnet
   - speedspace_ns_11_4
   - speedspace_ns_11_5
   - speedspace_ns_11_6
@@ -15997,9 +15997,9 @@ SpriteAtlas:
   - speedspace_ns_11_12
   - speedspace_ns_11_11
   - speedspace_ns_11_10
-  - vest_disguise
-  - alien_neurotoxin_1
-  - pocket
+  - actions_minor_antag_vest_disguise
+  - actions_xeno_alien_neurotoxin_1
+  - screen_plasmafire_pocket
   - russianrangedelite_1
   - russianrangedelite_0
   - russianrangedelite_3
@@ -16008,21 +16008,21 @@ SpriteAtlas:
   - bite_1
   - bite_2
   - bite_3
-  - Sigil_of_Transmission
-  - wizard
-  - Stand
-  - ears
-  - assim
-  - huddiagmed
-  - zone_sel
-  - damaged
-  - over
-  - ripley2
-  - nanites10
-  - hudlawyer
-  - durand_l_leg
-  - act_throw_on
-  - act_equip
+  - actions_clockcult_Sigil_of_Transmission
+  - HUD_wizard
+  - alien_Stand
+  - screen_operative_ears
+  - actions_hive_assim
+  - HUD_huddiagmed
+  - screen_midnight_zone_sel
+  - space_damaged
+  - volt_target_over
+  - construction_ripley2
+  - HUD_nanites10
+  - HUD_hudlawyer
+  - parts_durand_l_leg
+  - screen_slimecore_act_throw_on
+  - screen_midnight_act_equip
   - pipe_2
   - pipe_3
   - pipe_0
@@ -16031,8 +16031,8 @@ SpriteAtlas:
   - pipe_7
   - pipe_4
   - pipe_5
-  - act_equip
-  - health1
+  - screen_operative_act_equip
+  - screen_alien_health1
   - pocket_0
   - pocket_1
   - pocket_2
@@ -16041,16 +16041,16 @@ SpriteAtlas:
   - nanite_ping_1
   - health6_0
   - health6_1
-  - radial_examine
-  - highpressure1
-  - toggle
+  - radial_radial_examine
+  - alerts_highpressure1
+  - screen_plasmafire_toggle
   - smash_0
   - smash_1
   - smash_2
-  - cable_0-2
-  - warp_cancel
-  - mindread
-  - light
+  - radial_cable_0-2
+  - actions_clockcult_warp_cancel
+  - actions_spells_mindread
+  - screen_pai_light
   - purplesparkles_21
   - purplesparkles_20
   - purplesparkles_23
@@ -16075,14 +16075,14 @@ SpriteAtlas:
   - purplesparkles_17
   - purplesparkles_18
   - purplesparkles_19
-  - alien_barf
-  - xeno
+  - actions_xeno_alien_barf
+  - language_xeno
   - 9_1
   - 9_0
   - 9_3
   - 9_2
   - 9_4
-  - comms
+  - actions_hive_comms
   - the_traps_0
   - the_traps_1
   - the_traps_2
@@ -16098,23 +16098,23 @@ SpriteAtlas:
   - light_snow_3
   - light_snow_4
   - light_snow_5
-  - act_drop
-  - help
-  - ui_chemswap
-  - act_throw_on
-  - hudworkingleft
-  - act_throw_off
-  - ripley15
-  - telerune
-  - health0
-  - mech_defense_mode_on
-  - prog_bar_25
+  - screen_retro_act_drop
+  - screen_midnight_help
+  - blob_ui_chemswap
+  - screen_alien_act_throw_on
+  - HUD_hudworkingleft
+  - screen_plasmafire_act_throw_off
+  - construction_ripley15
+  - actions_cult_telerune
+  - screen_cyborg_health0
+  - actions_mecha_mech_defense_mode_on
+  - progessbar_prog_bar_25
   - skeleton_3
   - skeleton_2
   - skeleton_1
   - skeleton_0
-  - wraithspecs
-  - buildmode_basic
-  - hand_r
+  - alerts_wraithspecs
+  - buildmode_buildmode_basic
+  - screen_clockwork_hand_r
   m_Tag: Other
   m_IsVariant: 0

@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 2664584551837523149}
   - component: {fileID: 2664584551837519923}
   - component: {fileID: 2092252848639280625}
+  - component: {fileID: 114187339857744694}
   m_Layer: 10
   m_Name: Handcuffs
   m_TagString: Untagged
@@ -205,6 +206,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 140
   inHandReferenceRight: 148
+  spriteHandlerData: {fileID: 0}
   itemName: Handcuffs
   itemDescription: Use this to keep prisoners in line.
   itemType: 0
@@ -286,3 +288,21 @@ MonoBehaviour:
   applyTime: 3
   removeTime: 3
   sound: Handcuffs
+--- !u!114 &114187339857744694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2664584551837519869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []

@@ -105,6 +105,10 @@ public class SpriteHandlerData : NetworkBehaviour
 
 		}
 		SpriteInfos.SerializeT();
+		var IA = this.GetComponent<ItemAttributes>();
+		if (IA != null) {
+			IA.spriteHandlerData = this;
+		}
 
 		var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
 		if (prefabStage != null)

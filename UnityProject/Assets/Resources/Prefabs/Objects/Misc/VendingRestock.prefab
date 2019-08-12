@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 114378787568583714}
   - component: {fileID: 114776743208705184}
   - component: {fileID: 114485757560598234}
+  - component: {fileID: 114212347718921996}
   m_Layer: 10
   m_Name: VendingRestock
   m_TagString: Untagged
@@ -117,6 +118,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
+  spriteHandlerData: {fileID: 0}
   itemName: Vending Restock
   itemDescription: 
   itemType: 0
@@ -264,6 +266,24 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114212347718921996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266178104534119887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
 --- !u!1 &267804334718447221
 GameObject:
   m_ObjectHideFlags: 0

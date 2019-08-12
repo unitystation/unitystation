@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 using UnityEngine.Serialization;
 using Random = System.Random;
 
+[RequireComponent(typeof(SpriteHandlerData))]
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ObjectBehaviour))]
 [RequireComponent(typeof(RegisterItem))]

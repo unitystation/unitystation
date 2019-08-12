@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 114524387658485176}
   - component: {fileID: 114588637435364954}
   - component: {fileID: 114086148071746808}
+  - component: {fileID: 114047936015034586}
   m_Layer: 10
   m_Name: Knife
   m_TagString: Untagged
@@ -207,6 +208,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 564
   inHandReferenceRight: 576
+  spriteHandlerData: {fileID: 0}
   itemName: kitchen knife
   itemDescription: A general purpose Chef's Knife made by SpaceCook Incorporated.
     Guaranteed to stay sharp for years to come.
@@ -215,6 +217,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 10
+  damageType: 0
   throwDamage: 10
   throwSpeed: 3
   throwRange: 6
@@ -328,3 +331,30 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &114047936015034586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011622113908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []

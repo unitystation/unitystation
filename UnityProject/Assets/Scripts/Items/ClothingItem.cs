@@ -60,12 +60,10 @@ public class ClothingItem : MonoBehaviour
 	{
 		Logger.Log("value" + value.ToString());
 		reference = value;
-		if (Item != null)
+		if (Item == null)
 		{
-			Logger.Log(Item.name);
-		}
-		else { 
-			Logger.Log("nah");
+			spriteHandler.SpriteInfos = null;
+			spriteHandler.PushTexture();
 		}
 		if (Item != null) {
 
@@ -73,12 +71,12 @@ public class ClothingItem : MonoBehaviour
 				Logger.Log("OH NOOOOOOO!" + gameObject.name);
 			}
 			var bob = Item.GetComponent<ItemAttributes>().spriteHandlerData;
-			if (bob.SpriteInfos == null) { 
-				Logger.Log("OH fuuuuuuuuuuuuuu!");
+			if (bob?.SpriteInfos != null)
+			{
+				spriteHandler.SpriteInfos = bob.SpriteInfos;
+				spriteHandler.PushTexture();
 			}
-			Logger.Log(bob.SpriteInfos.AID.ToString());
-			spriteHandler.SpriteInfos = bob.SpriteInfos;
-			spriteHandler.PushTexture();
+
 		}
 
 		if (reference == -1)
@@ -144,6 +142,7 @@ public class ClothingItem : MonoBehaviour
 	{
 		if (spriteHandler != null) {
 			if (spriteHandler.SpriteInfos != null) {
+				//spriteHandler.
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
 			}
 			

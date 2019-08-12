@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114480365694120160}
   - component: {fileID: 114663582793708206}
   - component: {fileID: 114789380910347572}
+  - component: {fileID: 114225723971362842}
   m_Layer: 10
   m_Name: Wirecutter
   m_TagString: Untagged
@@ -230,6 +231,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 1036
   inHandReferenceRight: 1048
+  spriteHandlerData: {fileID: 0}
   itemName: wirecutters
   itemDescription: Used for cutting wires
   itemType: 0
@@ -237,6 +239,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 6
+  damageType: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
@@ -356,3 +359,30 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &114225723971362842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []

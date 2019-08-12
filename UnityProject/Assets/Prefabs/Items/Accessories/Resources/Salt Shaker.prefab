@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114116176735104048}
   - component: {fileID: 114033844433843342}
   - component: {fileID: 114710030649419254}
+  - component: {fileID: 114005261357320888}
   m_Layer: 10
   m_Name: Salt Shaker
   m_TagString: Untagged
@@ -128,6 +129,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: -1
   inHandReferenceRight: -1
+  spriteHandlerData: {fileID: 0}
   itemName: Salt Shaker
   itemDescription: Shakes salt, or become salty and hit someone.
   itemType: 0
@@ -251,6 +253,24 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114005261357320888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036141445992816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
 --- !u!1 &1894594285269404
 GameObject:
   m_ObjectHideFlags: 0

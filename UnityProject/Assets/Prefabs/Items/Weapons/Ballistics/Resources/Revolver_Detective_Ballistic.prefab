@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114823945836049686}
   - component: {fileID: 114671987430861900}
   - component: {fileID: 114482219070415538}
+  - component: {fileID: 114773453504398434}
   m_Layer: 10
   m_Name: Revolver_Detective_Ballistic
   m_TagString: Untagged
@@ -208,6 +209,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 112
   inHandReferenceRight: 268
+  spriteHandlerData: {fileID: 0}
   itemName: Black Detective revolver
   itemDescription: 
   itemType: 0
@@ -215,6 +217,7 @@ MonoBehaviour:
   spriteType: 2
   CanConnectToTank: 0
   hitDamage: 5
+  damageType: 0
   throwDamage: 5
   throwSpeed: 2
   throwRange: 7
@@ -290,12 +293,16 @@ MonoBehaviour:
   SmartGun: 0
   CurrentRecoilVariance: 0
   FireCountDown: 0
-  FireingSound: ShootGun04
+  FiringSound: ShootGun04
   FireRate: 3
   MaxRecoilVariance: 0
   Projectile: {fileID: 1932369758612010, guid: 008fa24b13fdb4e98971489ecee9218c, type: 3}
   ProjectilesFired: 1
   ProjectileVelocity: 10
+  CameraRecoilConfig:
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
   WeaponType: 0
 --- !u!114 &114823945836049686
 MonoBehaviour:
@@ -345,3 +352,30 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &114773453504398434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589781730870112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
