@@ -29,6 +29,9 @@ public class NumberSpinner : NetUIElement
 	public int SyncedValue => syncedValue;
 
 	private bool init = false;
+	private bool muteSounds = false;
+	private static readonly float MIN_SECONDS_PER_TICK = .1f;
+	private float tickCooldown = 0f;
 
 	public override string Value {
 		get { return syncedValue.ToString(); }
@@ -52,6 +55,8 @@ public class NumberSpinner : NetUIElement
 		Ones.OnDigitChangeComplete.AddListener(OnOnesSpinComplete);
 		//we will jump directly to the first value we get
 		init = false;
+		//check if we are the server version (will not play sounds if that's the case)
+		muteSounds = GetComponentInParent<NetTab>().IsServer;
 	}
 
 	//latest value synced with server.
@@ -92,6 +97,14 @@ public class NumberSpinner : NetUIElement
 		DisplaySpinTo(targetValue + offset);
 	}
 
+	private void Update()
+	{
+		if (tickCooldown > 0)
+		{
+			tickCooldown = Math.Max(tickCooldown - Time.deltaTime, 0);
+		}
+	}
+
 	/// <summary>
 	/// Animate from the current value to the specified value, or jump to it if this is our initial value
 	/// </summary>
@@ -107,7 +120,11 @@ public class NumberSpinner : NetUIElement
 		}
 
 		targetValue = newValue;
-
+		if (!muteSounds && tickCooldown <= 0)
+		{
+			SoundManager.Play("Tick", 0.15f, pan: -0.3f);
+			tickCooldown = MIN_SECONDS_PER_TICK;
+		}
 
 		//and just jump to the value because spinning looks bad when the spin rate is really high (which is needed
 		//for internal pressure to update responsively)
