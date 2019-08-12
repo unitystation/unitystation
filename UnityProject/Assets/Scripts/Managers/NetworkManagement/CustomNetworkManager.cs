@@ -318,17 +318,30 @@ public class CustomNetworkManager : NetworkManager
 		{
 			matrices[i].NotifyPlayer(playerGameObject, true);
 		}
+
 		//All transforms
 		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
 		for (var i = 0; i < scripts.Length; i++)
 		{
 			scripts[i].NotifyPlayer(playerGameObject);
 		}
+
 		//All player bodies
 		PlayerSync[] playerBodies = FindObjectsOfType<PlayerSync>();
 		for (var i = 0; i < playerBodies.Length; i++)
 		{
-			playerBodies[i].NotifyPlayer(playerGameObject, true);
+			var playerBody = playerBodies[i];
+			playerBody.NotifyPlayer(playerGameObject, true);
+			var playerSprites = playerBody.GetComponent<PlayerSprites>();
+			if (playerSprites)
+			{
+				playerSprites.NotifyPlayer(playerGameObject);
+			}
+			var equipment = playerBody.GetComponent<Equipment>();
+			if (equipment)
+			{
+				equipment.NotifyPlayer(playerGameObject);
+			}
 		}
 
 		//StorageObject UUIDs
@@ -352,30 +365,6 @@ public class CustomNetworkManager : NetworkManager
 			doors[i].NotifyPlayer(playerGameObject);
 		}
 		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
-	}
-
-	public void SyncCharSprites(GameObject recipient, bool newMob)
-	{
-		//All player bodies
-		PlayerSync[] playerBodies = FindObjectsOfType<PlayerSync>();
-		for (var i = 0; i < playerBodies.Length; i++)
-		{
-			var playerBody = playerBodies[i];
-			if(newMob && playerBody.gameObject == recipient)
-			{
-				continue;
-			}
-			var playerSprites = playerBody.GetComponent<PlayerSprites>();
-			if (playerSprites)
-			{
-				playerSprites.NotifyPlayer(recipient);
-			}
-			var equipment = playerBody.GetComponent<Equipment>();
-			if(equipment)
-			{
-				equipment.NotifyPlayer(recipient);
-			}
-		}
 	}
 
 	private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)

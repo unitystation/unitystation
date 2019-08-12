@@ -115,8 +115,6 @@ public static class SpawnHandler
 		{
 			healthStateMonitor.ProcessClientUpdateRequest(newBody);
 		}
-		CustomNetworkManager.Instance.SyncPlayerData(newBody);
-		CustomNetworkManager.Instance.SyncCharSprites(newBody, newMob);
 	}
 
 	private static GameObject CreateMob(GameObject spawnSpot, GameObject mobPrefab)
