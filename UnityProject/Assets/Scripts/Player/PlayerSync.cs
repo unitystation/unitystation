@@ -396,6 +396,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
 	}
 
+	/// <summary>
+	/// true when player tries to break pull or leave locker.
+	/// DoAction() is not executed in this case
+	/// </summary>
 	private bool didWiggle = false;
 
 	private void Update()
@@ -546,7 +550,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	private void OnDrawGizmos()
 	{
 		if(!Application.isPlaying) return;
-		
+
 		//registerTile S pos
 		Gizmos.color = color7;
 		Vector3 regPosS = registerTile.WorldPositionServer;

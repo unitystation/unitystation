@@ -24,52 +24,11 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 	private bool allowUse = true;
 	private float randomPitch => Random.Range( 0.7f, 1.2f );
 
-	private IEnumerator CoolDown()
+	private IEnumerator StartCooldown()
 	{
 		allowUse = false;
 		yield return WaitFor.Seconds(Cooldown);
 		allowUse = true;
-	}
-
-	private void TryHonk(PositionalHandApply clickData = null)
-	{
-		if ( !allowUse )
-		{
-			return;
-		}
-
-		// simple honk on activate
-		if ( clickData == null )
-		{
-			ClassicHonk();
-		}
-		else
-		{
-			bool inCritRange = PlayerScript.IsInReach( clickData.TargetVector );
-			var targetHealth = clickData.TargetObject.GetComponent<LivingHealthBehaviour>();
-			if ( inCritRange && (targetHealth != null) )
-			{
-				// honking in the face
-				bool isCrit = Random.Range( 0f, 1f ) <= CritChance;
-				clickData.Performer.GetComponent<WeaponNetworkActions>().RpcMeleeAttackLerp( clickData.TargetVector, this.gameObject );
-
-				PostToChatMessage.SendAttackMessage(clickData.Performer, clickData.TargetObject, isCrit ? 100 : 1, BodyPartType.None, this.gameObject);
-
-				ClassicHonk();
-
-				if ( isCrit )
-				{
-					StartCoroutine( CritHonk( clickData, targetHealth ) );
-				}
-
-			}
-			else
-			{
-				ClassicHonk();
-			}
-		}
-
-		StartCoroutine( CoolDown());
 	}
 
 	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthBehaviour targetHealth )
@@ -84,7 +43,8 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 	/// </summary>
 	protected override void ServerPerformInteraction( HandActivate interaction )
 	{
-		TryHonk();
+		ClassicHonk();
+		StartCoroutine( StartCooldown());
 	}
 
 	/// <summary>
@@ -92,7 +52,30 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 	/// </summary>
 	protected override void ServerPerformInteraction( PositionalHandApply interaction )
 	{
-		TryHonk(interaction);
+		bool inCloseRange = PlayerScript.IsInReach( interaction.TargetVector );
+		var targetHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
+		bool isCrit = Random.Range( 0f, 1f ) <= CritChance;
+
+		// honking in someone's face
+		if ( inCloseRange && (targetHealth != null) )
+		{
+			interaction.Performer.GetComponent<WeaponNetworkActions>().RpcMeleeAttackLerp( interaction.TargetVector, this.gameObject );
+
+			PostToChatMessage.SendAttackMessage(interaction.Performer, interaction.TargetObject, isCrit ? 100 : 1, BodyPartType.None, this.gameObject);
+
+			ClassicHonk();
+
+			if ( isCrit )
+			{
+				StartCoroutine( CritHonk( interaction, targetHealth ) );
+			}
+		}
+		else
+		{
+			ClassicHonk();
+		}
+
+		StartCoroutine( StartCooldown());
 	}
 
 	private void ClassicHonk()
@@ -105,7 +88,8 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 	/// </summary>
 	protected override bool WillInteract( HandActivate interaction, NetworkSide side )
 	{
-		return Validations.CanInteract( interaction.Performer, side, true );
+		return Validations.CanInteract( interaction.Performer, side, true )
+		       && allowUse;
 	}
 
 	/// <summary>
@@ -113,6 +97,7 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 	/// </summary>
 	protected override bool WillInteractT2( PositionalHandApply interaction, NetworkSide side )
 	{
-		return Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Unlimited, interaction.TargetVector);
+		return Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Unlimited, interaction.TargetVector)
+				&& allowUse;
 	}
 }
