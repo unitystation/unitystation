@@ -1,11 +1,7 @@
 fileFormatVersion: 2
-guid: 264a38487ae824b28947cfe276151961
+guid: 897bf934f5a70b546be960a425f8b533
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: IngameUI_0
-    21300002: IngameUI_1
-    21300004: IngameUI_2
-    21300006: IngameUI_3
+  fileIDToRecycleName: {}
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -44,7 +40,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -66,7 +62,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: 1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -77,18 +73,7 @@ TextureImporter:
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-  - serializedVersion: 2
-    buildTarget: iPhone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: 1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -99,18 +84,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-  - serializedVersion: 2
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -119,78 +93,18 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: IngameUI_0
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 1384
-        width: 462
-        height: 622
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 96, y: 100, z: 87, w: 86}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2c979f72af4374391bca56fd9657e4ca
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IngameUI_1
-      rect:
-        serializedVersion: 2
-        x: 33
-        y: 1307
-        width: 184
-        height: 62
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 6, y: 12, z: 6, w: 6}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9bba833bc2350c7498ad500122dec939
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IngameUI_2
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 1295
-        width: 12
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 379596d396a6f5545a9121c80fb469af
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 41fa761ce63c149edbaf75be35d3c48f
+    spriteID: 8bee92be89734514a8dc7f9545b2f790
     vertices: []
     indices: 
     edges: []
     weights: []
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 1
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
