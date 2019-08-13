@@ -17,16 +17,7 @@ public class PlayerChatBubble : MonoBehaviour
 	[SerializeField]
 	private Text bubbleText;
 	[SerializeField]
-	private GameObject bg;
-
-	[SerializeField]
-	[Range(0f,1000f)]
-	private float minWidth;
-
-	[SerializeField]
-	[Range(0f,1000f)]
-	private float maxWidth;
-
+	private GameObject pointer;
 	class BubbleMsg { public float maxTime; public string msg; public float elapsedTime = 0f; }
 	private Queue<BubbleMsg> msgQueue = new Queue<BubbleMsg>();
 	private bool showingDialogue = false;
@@ -157,8 +148,7 @@ public class PlayerChatBubble : MonoBehaviour
 	private void SetBubbleText(string msg)
 	{
 		chatBubble.SetActive(true);
-		bubbleText.text = $"\"{msg}\"";
-		AdjustBubbleSize();
+		bubbleText.text = msg;
 	}
 
 	/// <summary>
@@ -181,19 +171,5 @@ public class PlayerChatBubble : MonoBehaviour
 		}
 
 		return PlayerPrefs.GetInt(StringManager.ChatBubblePref) == 1;
-	}
-
-	private void AdjustBubbleSize()
-	{
-		var textRect = bubbleText.GetComponent<RectTransform>();
-		if ( textRect.rect.width < minWidth )
-		{
-			textRect.sizeDelta = new Vector2( minWidth, textRect.sizeDelta.y );
-		}
-
-		if ( textRect.rect.width > maxWidth )
-		{
-			textRect.sizeDelta = new Vector2( maxWidth, textRect.sizeDelta.y );
-		}
 	}
 }
