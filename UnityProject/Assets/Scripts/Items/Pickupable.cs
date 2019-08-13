@@ -10,6 +10,16 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class Pickupable : NBHandApplyInteractable, IRightClickable
 {
+
+	//controls whether this can currently be picked up.
+	[SyncVar]
+	private bool canPickup = true;
+
+	/// <summary>
+	/// Whether this object can currently be picked up.
+	/// </summary>
+	public bool CanPickup => canPickup;
+
 	/// <summary>
 	/// Event fired after the object is picked up, on server only.
 	/// </summary>
@@ -32,8 +42,19 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 		return Validations.ValidateWithServerRollback(interaction, side, CheckWillInteract, ServerInformClientRollback);
 	}
 
+	/// <summary>
+	/// Server-side method, sets whether this object can be picked up.
+	/// </summary>
+	/// <param name="canPickup"></param>
+	[Server]
+	public void ServerSetCanPickup(bool canPickup)
+	{
+		this.canPickup = canPickup;
+	}
+
 	private bool CheckWillInteract(HandApply interaction, NetworkSide side)
 	{
+		if (!canPickup) return false;
 		//we need to be the target
 		if (interaction.TargetObject != gameObject) return false;
 		//hand needs to be empty for pickup
