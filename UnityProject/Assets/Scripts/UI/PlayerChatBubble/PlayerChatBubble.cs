@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Handles the ChatIcon and PlayerChatBubble. 
-/// Automatically checks PlayerPrefs to determine 
+/// Handles the ChatIcon and PlayerChatBubble.
+/// Automatically checks PlayerPrefs to determine
 /// the use of each one.
 /// </summary>
 public class PlayerChatBubble : MonoBehaviour
@@ -17,7 +17,7 @@ public class PlayerChatBubble : MonoBehaviour
 	[SerializeField]
 	private Text bubbleText;
 	[SerializeField]
-	private GameObject bg;
+	private GameObject pointer;
 	class BubbleMsg { public float maxTime; public string msg; public float elapsedTime = 0f; }
 	private Queue<BubbleMsg> msgQueue = new Queue<BubbleMsg>();
 	private bool showingDialogue = false;
@@ -148,8 +148,7 @@ public class PlayerChatBubble : MonoBehaviour
 	private void SetBubbleText(string msg)
 	{
 		chatBubble.SetActive(true);
-		bubbleText.text = $"\"{msg}\"";
-		AdjustBubbleSize(bubbleText.text.Length);
+		bubbleText.text = msg;
 	}
 
 	/// <summary>
@@ -172,15 +171,5 @@ public class PlayerChatBubble : MonoBehaviour
 		}
 
 		return PlayerPrefs.GetInt(StringManager.ChatBubblePref) == 1;
-	}
-
-	private void AdjustBubbleSize(int charCount)
-	{
-		var norm = Mathf.Clamp((float)charCount / 14f, 0f, 1f);
-		bg.transform.localScale = Vector3.one * Mathf.Lerp(0.3f, 1f, norm);
-		var bubbleRect = chatBubble.GetComponent<RectTransform>();
-		var newPos = bubbleRect.anchoredPosition;
-		newPos.y = Mathf.Lerp(-0.12f, 0.08f, norm);
-		bubbleRect.anchoredPosition = newPos;
 	}
 }
