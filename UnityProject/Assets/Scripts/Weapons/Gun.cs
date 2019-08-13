@@ -178,11 +178,6 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 
 			return false;
 		}
-		
-		if (interaction.Performer.GetComponent<PlayerScript>() != null &&
-			interaction.Performer.GetComponent<PlayerScript>().IsHidden){
-			return false;
-		}
 
 		if (Projectile != null && CurrentMagazine.ammoRemains > 0 && FireCountDown <= 0)
 		{
