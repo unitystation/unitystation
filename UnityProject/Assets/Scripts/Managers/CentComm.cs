@@ -78,8 +78,8 @@ public class CentComm : MonoBehaviour
 
 	private void SendReportToStation()
 	{
-		var commConsoles = FindObjectsOfType<CommConsole>();
-		foreach (CommConsole console in commConsoles)
+		var commConsoles = FindObjectsOfType<CommsConsole>();
+		foreach (CommsConsole console in commConsoles)
 		{
 			var p = PoolManager.PoolNetworkInstantiate(paperPrefab, console.transform.position, console.transform.parent);
 			var paper = p.GetComponent<Paper>();
