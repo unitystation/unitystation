@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 630
-  m_Sprite: {fileID: 21300092, guid: c0bb74055d01b49d59a9f293572b346e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: de2e655d00664c54c972564d2f68a0e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -209,7 +209,7 @@ MonoBehaviour:
   hierarchy: /obj/item/weapon/crowbar
   inHandReferenceLeft: 984
   inHandReferenceRight: 996
-  spriteHandlerData: {fileID: 0}
+  spriteHandlerData: {fileID: 114976959642827926}
   itemName: crowbar
   itemDescription: A Crowbar
   itemType: 0
@@ -361,6 +361,80 @@ MonoBehaviour:
   SpriteInfos:
     spriteIndex: 0
     VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+    AID: 19
+    Serialized:
+    - inlistID: 2
+      listID: 3
+      sprite: {fileID: 21300000, guid: 3f03294dc4abcc04b8a302f6c1b197eb, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 2
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 4
+      listID: 5
+      sprite: {fileID: 21300002, guid: 3f03294dc4abcc04b8a302f6c1b197eb, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 4
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 6
+      listID: 7
+      sprite: {fileID: 21300004, guid: 3f03294dc4abcc04b8a302f6c1b197eb, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 6
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 8
+      listID: 9
+      sprite: {fileID: 21300006, guid: 3f03294dc4abcc04b8a302f6c1b197eb, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 8
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 1
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 11
+      listID: 12
+      sprite: {fileID: 21300000, guid: 837d56557a43cca4cbfd2c3728061f8c, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 11
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 13
+      listID: 14
+      sprite: {fileID: 21300002, guid: 837d56557a43cca4cbfd2c3728061f8c, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 13
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 15
+      listID: 16
+      sprite: {fileID: 21300004, guid: 837d56557a43cca4cbfd2c3728061f8c, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 15
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 17
+      listID: 18
+      sprite: {fileID: 21300006, guid: 837d56557a43cca4cbfd2c3728061f8c, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 17
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 10
+      sprite: {fileID: 0}
+      waitTime: 0
+  spriteList:
+  - {fileID: 21300002, guid: 3f03294dc4abcc04b8a302f6c1b197eb, type: 3}
+  - {fileID: 21300004, guid: 837d56557a43cca4cbfd2c3728061f8c, type: 3}

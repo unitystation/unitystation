@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 510
-  m_Sprite: {fileID: 21300250, guid: 2f49d98dd1e9041099b7fa044d8ffe53, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0ece1eab34b50b8489164a1cdf6e2347, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -208,7 +208,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 984
   inHandReferenceRight: 996
-  spriteHandlerData: {fileID: 0}
+  spriteHandlerData: {fileID: 114575120587847374}
   itemName: Pickaxe
   itemDescription: A Pickaxe
   itemType: 0
@@ -347,6 +347,80 @@ MonoBehaviour:
   SpriteInfos:
     spriteIndex: 0
     VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+    AID: 19
+    Serialized:
+    - inlistID: 2
+      listID: 3
+      sprite: {fileID: 21300000, guid: 5d09e4167faed254e939fd0ac5ab4c90, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 2
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 4
+      listID: 5
+      sprite: {fileID: 21300002, guid: 5d09e4167faed254e939fd0ac5ab4c90, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 4
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 6
+      listID: 7
+      sprite: {fileID: 21300004, guid: 5d09e4167faed254e939fd0ac5ab4c90, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 6
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 8
+      listID: 9
+      sprite: {fileID: 21300006, guid: 5d09e4167faed254e939fd0ac5ab4c90, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 8
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 1
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 11
+      listID: 12
+      sprite: {fileID: 21300000, guid: 88a106ae0c1695547bc99b6926c8afd7, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 11
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 13
+      listID: 14
+      sprite: {fileID: 21300002, guid: 88a106ae0c1695547bc99b6926c8afd7, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 13
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 15
+      listID: 16
+      sprite: {fileID: 21300004, guid: 88a106ae0c1695547bc99b6926c8afd7, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 15
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 17
+      listID: 18
+      sprite: {fileID: 21300006, guid: 88a106ae0c1695547bc99b6926c8afd7, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 17
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 10
+      sprite: {fileID: 0}
+      waitTime: 0
+  spriteList:
+  - {fileID: 21300004, guid: 5d09e4167faed254e939fd0ac5ab4c90, type: 3}
+  - {fileID: 21300002, guid: 88a106ae0c1695547bc99b6926c8afd7, type: 3}

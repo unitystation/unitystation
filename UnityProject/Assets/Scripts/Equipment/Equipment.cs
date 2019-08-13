@@ -223,10 +223,6 @@ public class Equipment : NetworkBehaviour
 
 	public void SetReference(int index, int reference, GameObject _Item)
 	{
-		Logger.Log("hjhjrejr");
-		if (_Item != null) { 
-			Logger.Log("pop" + _Item.name);
-		}
 		EquipmentSpritesMessage.SendToAll(gameObject, index, reference, _Item);
 	}
 

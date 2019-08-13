@@ -180,9 +180,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300002, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
-  - {fileID: 21300000, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
-  - {fileID: 21300004, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
+  - {fileID: 21300000, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
+  - {fileID: 21300010, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
+  - {fileID: 21300016, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
   animateTime: 0.2
   rotateSpeed: 70
   isOn: 0
@@ -248,6 +248,15 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
 --- !u!1 &1892682482372664
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +325,7 @@ SpriteRenderer:
   m_SortingLayerID: 1085623217
   m_SortingLayer: 19
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300004, guid: 43e9b95c089a20949bae35a83eb0d0e8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

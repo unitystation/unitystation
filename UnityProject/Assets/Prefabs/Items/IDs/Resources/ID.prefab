@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 270
-  m_Sprite: {fileID: 21300002, guid: b2730179303804e6a8fd9ec83ea2238b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f23c8d48c642ba64ab25750c1c8b3b9d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -210,7 +210,7 @@ MonoBehaviour:
   hierarchy: 
   inHandReferenceLeft: 0
   inHandReferenceRight: 0
-  spriteHandlerData: {fileID: 0}
+  spriteHandlerData: {fileID: 114526822079318106}
   itemName: identification card
   itemDescription: A card used to provide ID and determine access across the station.
   itemType: 12
@@ -383,6 +383,80 @@ MonoBehaviour:
   SpriteInfos:
     spriteIndex: 0
     VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
+    AID: 19
+    Serialized:
+    - inlistID: 2
+      listID: 3
+      sprite: {fileID: 21300000, guid: e398857a754d23b43b2d4f8a18d2682d, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 2
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 4
+      listID: 5
+      sprite: {fileID: 21300002, guid: e398857a754d23b43b2d4f8a18d2682d, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 4
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 6
+      listID: 7
+      sprite: {fileID: 21300004, guid: e398857a754d23b43b2d4f8a18d2682d, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 6
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 8
+      listID: 9
+      sprite: {fileID: 21300006, guid: e398857a754d23b43b2d4f8a18d2682d, type: 3}
+      waitTime: 0
+    - inlistID: 1
+      listID: 8
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 1
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 11
+      listID: 12
+      sprite: {fileID: 21300000, guid: da457933363dc1e40a814917dc3aaf52, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 11
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 13
+      listID: 14
+      sprite: {fileID: 21300002, guid: da457933363dc1e40a814917dc3aaf52, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 13
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 15
+      listID: 16
+      sprite: {fileID: 21300004, guid: da457933363dc1e40a814917dc3aaf52, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 15
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 17
+      listID: 18
+      sprite: {fileID: 21300006, guid: da457933363dc1e40a814917dc3aaf52, type: 3}
+      waitTime: 0
+    - inlistID: 10
+      listID: 17
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 10
+      sprite: {fileID: 0}
+      waitTime: 0
+  spriteList:
+  - {fileID: 21300000, guid: e398857a754d23b43b2d4f8a18d2682d, type: 3}
+  - {fileID: 21300000, guid: da457933363dc1e40a814917dc3aaf52, type: 3}

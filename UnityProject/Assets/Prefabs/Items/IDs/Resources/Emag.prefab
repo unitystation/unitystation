@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 260
-  m_Sprite: {fileID: 21300016, guid: b2730179303804e6a8fd9ec83ea2238b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5c13bd3d6ff597a4487df94a04bfbb09, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -363,5 +363,7 @@ MonoBehaviour:
     VariantIndex: 0
     AID: 0
     Serialized: []
-  spriteList: []
+  spriteList:
+  - {fileID: 21300000, guid: e398857a754d23b43b2d4f8a18d2682d, type: 3}
+  - {fileID: 21300000, guid: da457933363dc1e40a814917dc3aaf52, type: 3}
 

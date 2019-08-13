@@ -62,8 +62,11 @@ public class ClothingItem : MonoBehaviour
 		reference = value;
 		if (Item == null)
 		{
-			spriteHandler.SpriteInfos = null;
-			spriteHandler.PushTexture();
+			if (spriteHandler != null) //need to remove 
+			{
+				spriteHandler.SpriteInfos = null;
+				spriteHandler.PushTexture();
+			}
 		}
 		if (Item != null) {
 
