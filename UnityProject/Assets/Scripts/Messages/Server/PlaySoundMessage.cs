@@ -13,21 +13,25 @@ public class PlaySoundMessage : ServerMessage
 	public bool ShakeGround;
 	public byte ShakeIntensity;
 	public int	ShakeRange;
+	///Allow this one to sound polyphonically
+	public bool Polyphonic;
 
 	public override IEnumerator Process() {
 		yield return null;
-		if ( Position.RoundToInt() == TransformState.HiddenPos )
+		bool isPositionProvided = Position.RoundToInt() != TransformState.HiddenPos;
+
+		if ( isPositionProvided )
 		{
-			SoundManager.Play(SoundName, 1, Pitch);
-		}
-		else
+			SoundManager.PlayAtPosition( SoundName, Position, Pitch, Polyphonic );
+		} else
 		{
-			SoundManager.PlayAtPosition(SoundName, Position, Pitch);
+			SoundManager.Play( SoundName, 1, Pitch, 0f, Polyphonic );
 		}
 
 		if ( ShakeGround )
 		{
-			if ( PlayerManager.LocalPlayerScript
+			if ( isPositionProvided
+			 && PlayerManager.LocalPlayerScript
 			 && !PlayerManager.LocalPlayerScript.IsInReach( Position, false, ShakeRange ) )
 			{
 				//Don't shake if local player is out of range
@@ -39,7 +43,8 @@ public class PlaySoundMessage : ServerMessage
 	}
 
 	public static PlaySoundMessage SendToAll( string sndName, Vector3 pos, float pitch,
-			bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 ) {
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 ) {
 		PlaySoundMessage msg = new PlaySoundMessage
 		{
 			SoundName = sndName,
@@ -47,7 +52,8 @@ public class PlaySoundMessage : ServerMessage
 			Pitch = pitch,
 			ShakeGround = shakeGround,
 			ShakeIntensity = shakeIntensity,
-			ShakeRange = shakeRange
+			ShakeRange = shakeRange,
+			Polyphonic = polyphonic
 		};
 
 		msg.SendToAll();
@@ -55,7 +61,8 @@ public class PlaySoundMessage : ServerMessage
 		return msg;
 	}
 	public static PlaySoundMessage Send( GameObject recipient, string sndName, Vector3 pos, float pitch,
-			bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 ) {
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 ) {
 		PlaySoundMessage msg = new PlaySoundMessage
 		{
 			SoundName = sndName,
@@ -63,7 +70,8 @@ public class PlaySoundMessage : ServerMessage
 			Pitch = pitch,
 			ShakeGround = shakeGround,
 			ShakeIntensity = shakeIntensity,
-			ShakeRange = shakeRange
+			ShakeRange = shakeRange,
+			Polyphonic = polyphonic
 		};
 
 		msg.SendTo(recipient);

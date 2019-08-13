@@ -681,7 +681,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
 	{
-		if (!GetComponent<VisibleBehaviour>().visibleState || (playerScript.mind.jobType == JobType.NULL)
+		if (!playerScript.pushPull.VisibleState || (playerScript.mind.jobType == JobType.NULL)
 		|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
@@ -762,12 +762,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[ClientRpc]
 	public void RpcBeforeBodyTransfer()
 	{
-		ClosetPlayerHandler cph = GetComponent<ClosetPlayerHandler>();
-		if (cph != null)
-		{
-			Destroy(cph);
-		}
-
 		//no more input can be sent to the body.
 		GetComponent<MouseInputController>().enabled = false;
 	}

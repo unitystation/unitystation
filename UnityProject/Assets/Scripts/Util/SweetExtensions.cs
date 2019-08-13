@@ -27,6 +27,10 @@ public static class SweetExtensions {
 		}
 
 		/// Creates garbage! Use very sparsely!
+		public static Vector3 AssumedWorldPosServer( this GameObject go ) {
+			return go.GetComponent<ObjectBehaviour>()?.AssumedWorldPositionServer() ?? WorldPosServer(go);
+		}
+		/// Creates garbage! Use very sparsely!
 		public static Vector3 WorldPosServer( this GameObject go ) {
 			return go.GetComponent<RegisterTile>()?.WorldPositionServer ?? go.transform.position;
 		}
@@ -149,7 +153,7 @@ public static class SweetExtensions {
 			if ( posData.Length > 1 && int.TryParse(posData[0], out x) && int.TryParse(posData[1], out y) ) {
 				return new Vector2(x, y);
 			}
-		Logger.LogWarning( $"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.NetUI); 
+		Logger.LogWarning( $"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.NetUI);
 			return TransformState.HiddenPos;
 		}
 

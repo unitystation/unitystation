@@ -107,7 +107,7 @@ public class Grenade : NBHandActivateInteractable
 			PlaySoundAndShake();
 			CreateShape();
 			CalcAndApplyExplosionDamage(damagedBy);
-			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			objectBehaviour.VisibleState = false; //todo: should probably destroy such things (or return into pool) instead of hiding
 		}
 	}
 
@@ -119,7 +119,7 @@ public class Grenade : NBHandActivateInteractable
 	[Server]
 	public void CalcAndApplyExplosionDamage(string thanksTo)
 	{
-		Vector2 explosionPos = objectBehaviour.AssumedWorldPosition().To2Int();
+		Vector2 explosionPos = objectBehaviour.AssumedWorldPositionServer().To2Int();
 		//trigger a hotspot caused by grenade explosion
 		registerItem.Matrix.ReactionManager.ExposeHotspotWorldPosition(explosionPos.To2Int(), 3200, 0.005f);
 
@@ -156,7 +156,7 @@ public class Grenade : NBHandActivateInteractable
 	private void PlaySoundAndShake()
 	{
 		byte shakeIntensity = (byte)Mathf.Clamp( damage/5, byte.MinValue, byte.MaxValue);
-		ExplosionUtils.PlaySoundAndShake(objectBehaviour.AssumedWorldPosition().RoundToInt(), shakeIntensity, (int) shakeDistance);
+		ExplosionUtils.PlaySoundAndShake(objectBehaviour.AssumedWorldPositionServer().RoundToInt(), shakeIntensity, (int) shakeDistance);
 	}
 
 
@@ -168,7 +168,7 @@ public class Grenade : NBHandActivateInteractable
 	private void CreateShape()
 	{
 		int radiusInteger = (int)radius;
-		Vector3Int pos = Vector3Int.RoundToInt(objectBehaviour.AssumedWorldPosition());
+		Vector3Int pos = Vector3Int.RoundToInt(objectBehaviour.AssumedWorldPositionServer());
 		if (explosionType == ExplosionType.Square)
 		{
 			for (int i = -radiusInteger; i <= radiusInteger; i++)

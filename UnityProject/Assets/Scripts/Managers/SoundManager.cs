@@ -111,10 +111,11 @@ public class SoundManager : MonoBehaviour
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworked( string sndName, float pitch = -1,
+		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.SendToAll( sndName, TransformState.HiddenPos, pitch, shakeGround, shakeIntensity, shakeRange );
+		PlaySoundMessage.SendToAll( sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
 	}
 
 	/// <summary>
@@ -122,10 +123,11 @@ public class SoundManager : MonoBehaviour
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworkedAtPos( string sndName, Vector3 pos, float pitch = -1,
+		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.SendToAll( sndName, pos, pitch, shakeGround, shakeIntensity, shakeRange );
+		PlaySoundMessage.SendToAll( sndName, pos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
 	}
 
 	/// <summary>
@@ -134,10 +136,11 @@ public class SoundManager : MonoBehaviour
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworkedForPlayer( GameObject recipient, string sndName, float pitch = -1,
+		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send( recipient, sndName, TransformState.HiddenPos, pitch, shakeGround, shakeIntensity, shakeRange );
+		PlaySoundMessage.Send( recipient, sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
 	}
 
 	/// <summary>
@@ -146,17 +149,18 @@ public class SoundManager : MonoBehaviour
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworkedForPlayerAtPos( GameObject recipient, Vector3 pos, string sndName, float pitch = -1,
+		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send( recipient, sndName, pos, pitch, shakeGround, shakeIntensity, shakeRange );
+		PlaySoundMessage.Send( recipient, sndName, pos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
 	}
 
 	/// <summary>
 	/// Play sound locally.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void Play(string name, float volume, float pitch = -1, float time = 0)
+	public static void Play(string name, float volume, float pitch = -1, float time = 0, bool oneShot = false)
 	{
 		name = Instance.ResolveSoundPattern(name);
 		if (pitch > 0)
@@ -165,35 +169,43 @@ public class SoundManager : MonoBehaviour
 		}
 		Instance.sounds[name].time = time;
 		Instance.sounds[name].volume = volume;
-		Instance.sounds[name].Play();
+		Play( name, oneShot );
 	}
 
 	/// <summary>
 	/// Play sound locally.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void Play(string name)
+	public static void Play(string name, bool polyphonic = false)
 	{
 		name = Instance.ResolveSoundPattern(name);
-		Instance.sounds[name].Play();
+		var sound = Instance.sounds[name];
+		if ( polyphonic )
+		{
+			sound.PlayOneShot(sound.clip);
+		}
+		else
+		{
+			sound.Play();
+		}
 	}
 
 	/// <summary>
 	/// Play sound locally at given world position.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayAtPosition(string name, Vector3 pos, float pitch = -1)
+	public static void PlayAtPosition(string name, Vector3 pos, float pitch = -1, bool polyphonic = false)
 	{
 		name = Instance.ResolveSoundPattern(name);
 		if (Instance.sounds.ContainsKey(name))
 		{
+			var sound = Instance.sounds[name];
 			if (pitch > 0)
 			{
-				Instance.sounds[name].pitch = pitch;
+				sound.pitch = pitch;
 			}
-			Instance.sounds[name].transform.position = pos;
-			Instance.sounds[name].Play();
-			//Set to cache incase it was changed
+			sound.transform.position = pos;
+			Play( name, polyphonic );
 		}
 	}
 

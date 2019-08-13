@@ -220,7 +220,7 @@ public class PoolManager : NetworkBehaviour
 			ObjectBehaviour objBehaviour = tempObject.GetComponent<ObjectBehaviour>();
 			if (objBehaviour)
 			{
-				objBehaviour.visibleState = !hide;
+				objBehaviour.VisibleState = !hide;
 			}
 			tempObject.transform.position = pos;
 			tempObject.transform.rotation = rotation;
@@ -350,7 +350,7 @@ public class PoolManager : NetworkBehaviour
 			//pooled
 			target.BroadcastMessage("GoingOffStage", SendMessageOptions.DontRequireReceiver);
 			Instance.AddToPool(target);
-			objBehavior.visibleState = false;
+			objBehavior.VisibleState = false;
 		}
 		else
 		{

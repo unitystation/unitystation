@@ -28,6 +28,8 @@ public abstract class RegisterTile : NetworkBehaviour
 	public ObjectType ObjectType;
 
 	private PushPull customTransform;
+	public PushPull CustomTransform => customTransform ? customTransform : (customTransform = GetComponent<PushPull>());
+
 
 	/// <summary>
 	/// Invoked when parent matrix is going to change, just before the matrix is actually changed. Passes
@@ -166,14 +168,6 @@ public abstract class RegisterTile : NetworkBehaviour
 		}
 
 	}
-	protected void Awake()
-	{
-		if ( customTransform == null )
-		{
-			customTransform = GetComponent<PushPull>();
-		}
-
-	}
 
 	public override void OnStartClient()
 	{
@@ -237,12 +231,12 @@ public abstract class RegisterTile : NetworkBehaviour
 
 	public virtual void UpdatePositionServer()
 	{
-		LocalPositionServer = customTransform ? customTransform.Pushable.ServerLocalPosition : transform.localPosition.RoundToInt();
+		LocalPositionServer = CustomTransform ? CustomTransform.Pushable.ServerLocalPosition : transform.localPosition.RoundToInt();
 	}
 
 	public virtual void UpdatePositionClient()
 	{
-		LocalPositionClient = customTransform ? customTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
+		LocalPositionClient = CustomTransform ? CustomTransform.Pushable.ClientLocalPosition : transform.localPosition.RoundToInt();
 	}
 
 	/// <summary>

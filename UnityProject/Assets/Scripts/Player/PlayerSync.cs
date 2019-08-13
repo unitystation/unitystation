@@ -280,13 +280,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		OnPullInterrupt().Invoke();
 		serverState = PlayerState.HiddenState;
 		serverLerpState = PlayerState.HiddenState;
-		NotifyPlayers();
+		NotifyPlayers(true);
 	}
 
 	[Server]
 	public void AppearAtPositionServer(Vector3 worldPos)
 	{
-		SetPosition(worldPos);
+		SetPosition(worldPos, true);
 	}
 
 	#endregion
@@ -396,19 +396,40 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
 	}
 
+	/// <summary>
+	/// true when player tries to break pull or leave locker.
+	/// DoAction() is not executed in this case
+	/// </summary>
+	private bool didWiggle = false;
+
 	private void Update()
 	{
 		if (isLocalPlayer && playerMove != null)
 		{
-			//				 If being pulled by another player and you try to break free
-			if (pushPull != null && pushPull.IsBeingPulledClient)
+			didWiggle = false;
+
+			if ( !playerScript.canNotInteract() && KeyboardInputManager.IsMovementPressed() )
 			{
-				if ( !playerScript.canNotInteract() && KeyboardInputManager.IsMovementPressed() )
+				//	If being pulled by another player and you try to break free
+				if (pushPull != null && pushPull.IsBeingPulledClient)
 				{
 					pushPull.CmdStopFollowing();
+					didWiggle = true;
+				}
+				else if ( Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform )
+				{
+					//	Leaving locker
+					var closet = Camera2DFollow.followControl.target.GetComponent<ClosetControl>();
+					if ( closet )
+					{
+						closet.Interact(HandApply.ByLocalPlayer(closet.gameObject));
+						didWiggle = true;
+					}
 				}
 			}
-			else if (ClientPositionReady)
+
+			//Not requesting directional move if we're attempting to leave locker/break pull
+			if (!didWiggle && ClientPositionReady)
 			{
 				DoAction();
 			}
@@ -529,7 +550,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	private void OnDrawGizmos()
 	{
 		if(!Application.isPlaying) return;
-		
+
 		//registerTile S pos
 		Gizmos.color = color7;
 		Vector3 regPosS = registerTile.WorldPositionServer;

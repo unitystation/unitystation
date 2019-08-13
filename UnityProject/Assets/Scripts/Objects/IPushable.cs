@@ -55,6 +55,8 @@ public interface IPushable {
 	/// Invoked on client-side when this object is stopping following / being pulled by another object
 	/// </summary>
 	void OnClientStopFollowing();
+
+	void SetVisibleServer(bool visible);
 }
 
 public class Vector3IntEvent : UnityEvent<Vector3Int> {}

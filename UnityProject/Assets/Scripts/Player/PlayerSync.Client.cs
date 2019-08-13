@@ -334,6 +334,12 @@ public partial class PlayerSync
 
 		playerState = newState;
 
+		//Direct transform.localPosition assignment in the same frame if NoLerp is true
+		if ( newState.NoLerp )
+		{
+			transform.localPosition = MatrixManager.WorldToLocalInt(newWorldPos, newState.MatrixId);
+		}
+
 		//			if ( !isServer )
 		//			{
 		//				Logger.LogTraceFormat( "Got server update {0}", Category.Movement, newState );
@@ -558,7 +564,7 @@ public partial class PlayerSync
 			var worldPos = predictedState.WorldPosition.CutToInt();
 			Vector2 targetPos = MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(Matrix));
 
-			if (playerState.NoLerp || Vector3.Distance(transform.localPosition, targetPos) > 30)
+			if (Vector3.Distance(transform.localPosition, targetPos) > 30)
 			{
 				transform.localPosition = targetPos;
 			}

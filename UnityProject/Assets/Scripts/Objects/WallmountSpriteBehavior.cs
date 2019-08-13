@@ -37,10 +37,7 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 
 
 		//recalculate if it is facing the player
-		//objectBehavior will be null if player is a ghost
-		bool visible = objectBehaviour != null ?
-			wallmountBehavior.IsFacingPosition(objectBehaviour.AssumedWorldPosition()) :
-			wallmountBehavior.IsFacingPosition(PlayerManager.LocalPlayer.transform.position);
+		bool visible = wallmountBehavior.IsFacingPosition(Camera2DFollow.followControl.target.position);
 		spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, visible ? 1 : 0);
 	}
 }

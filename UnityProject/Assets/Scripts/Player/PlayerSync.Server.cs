@@ -146,6 +146,18 @@ public partial class PlayerSync
 		}
 	}
 
+	public void SetVisibleServer(bool visible)
+	{
+		if ( visible )
+		{
+			AppearAtPositionServer( pushPull.AssumedWorldPositionServer() );
+		}
+		else
+		{
+			DisappearFromWorldServer();
+		}
+	}
+
 	/// Push player in direction.
 	/// Impulse should be consumed after one tile if indoors,
 	/// and last indefinitely (until hit by obstacle) if you pushed someone into deep space
@@ -200,7 +212,7 @@ public partial class PlayerSync
 	/// Also clears prediction queues.
 	/// <param name="worldPos">The new position to "teleport" player</param>
 	[Server]
-	public void SetPosition(Vector3 worldPos)
+	public void SetPosition(Vector3 worldPos, bool noLerp = false)
 	{
 		ClearQueueServer();
 		Vector3Int roundedPos = Vector3Int.RoundToInt((Vector2)worldPos); //cutting off z-axis
@@ -217,7 +229,8 @@ public partial class PlayerSync
 		serverLerpState = newState;
 		serverState = newState;
 		SyncMatrix();
-		NotifyPlayers();
+		NotifyPlayers(noLerp);
+		registerPlayer.UpdatePositionServer();
 	}
 
 	///	When lerp is finished, inform players of new state
