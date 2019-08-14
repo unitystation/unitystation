@@ -72,9 +72,13 @@ public static class DefaultWillInteract
 	/// </summary>
 	public static bool AimApply(AimApply interaction, NetworkSide side)
 	{
-		return  Validations.CanInteract(interaction.Performer, side) &&
-					!(interaction.Performer.GetComponent<PlayerScript>() != null &&
-					interaction.Performer.GetComponent<PlayerScript>().IsHidden);
+		if ( !Validations.CanInteract(interaction.Performer, side) )
+		{
+			return false;
+		}
+
+		bool? isNotHidden = !interaction.Performer.Player()?.Script.IsHidden;
+		return isNotHidden.GetValueOrDefault( true );
 	}
 
 	/// <summary>
