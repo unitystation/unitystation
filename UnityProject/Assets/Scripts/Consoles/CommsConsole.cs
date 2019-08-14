@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 public class CommsConsole : NBHandApplyInteractable
 {
-	public IDCard idCard;
 	public IDEvent IdEvent = new IDEvent();
 
+	private IDCard idCard;
 	public IDCard IdCard
 	{
 		get => idCard;

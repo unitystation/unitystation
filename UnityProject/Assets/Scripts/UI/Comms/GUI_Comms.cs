@@ -18,9 +18,8 @@ public class GUI_Comms : NetTab
 	private NetLabel idLabel;
 	private CommsConsole console;
 
-	public override void OnEnable()
+	protected override void InitServer()
 	{
-		base.OnEnable();
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			StartCoroutine(WaitForProvider());
@@ -35,10 +34,15 @@ public class GUI_Comms : NetTab
 		}
 
 		console = Provider.GetComponentInChildren<CommsConsole>();
+		
+		//starting up with no id inserted, setting appropriate labels 
+		ProcessIdChange();
 		console.IdEvent.AddListener( ProcessIdChange );
+		
+		Logger.Log( nameof(WaitForProvider), Category.NetUI );
 	}
 
-	private void ProcessIdChange( IDCard newId )
+	private void ProcessIdChange( IDCard newId = null )
 	{
 		UpdateIdTexts();
 		if ( newId != null )
@@ -114,7 +118,7 @@ public class GUI_Comms : NetTab
 
 		if ( !console.IdCard.accessSyncList.Contains((int) Access.heads) )
 		{
-			idLabel.SetValue = idLabel.Value + "(No access)";
+			idLabel.SetValue = idLabel.Value + " (No access)";
 			return;
 		}
 
