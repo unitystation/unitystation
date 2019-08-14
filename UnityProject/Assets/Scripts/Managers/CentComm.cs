@@ -96,6 +96,16 @@ public class CentComm : MonoBehaviour
 		SoundManager.PlayNetworked("InterceptMessage", 1f);
 	}
 
+	public static void MakeCaptainAnnouncement( string text )
+	{
+		ChatEvent announcement = new ChatEvent{
+			channels = ChatChannel.System,
+			message = text
+		};
+		SoundManager.PlayNetworked( "Announce" );
+		ChatRelay.Instance.AddToChatLogServer(announcement);
+	}
+
 	private string CreateStartGameReport()
 	{
 		string report = "<size=38>CentComm Report</size> \n __________________________________ \n \n" +

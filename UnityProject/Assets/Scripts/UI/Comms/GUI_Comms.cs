@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GUI_Comms : NetTab
 {
-	[SerializeField]
-	private NetPageSwitcher nestedSwitcher;
+	[FormerlySerializedAs( "nestedSwitcher" )] [SerializeField]
+	private NetPageSwitcher switcher;
 	[SerializeField]
 	private NetPage menuPage;
 	[SerializeField]
-	private NetLabel[] idTexts;
+	private NetPage announcePage;
+	[SerializeField]
+	private NetLabel idLabel;
 	private CommsConsole console;
 
 	public override void OnEnable()
@@ -38,6 +41,14 @@ public class GUI_Comms : NetTab
 	private void ProcessIdChange( IDCard newId )
 	{
 		UpdateIdTexts();
+		if ( newId != null )
+		{
+			LogIn();
+		}
+		else
+		{
+			LogOut();
+		}
 	}
 
 	public void CallShuttle()
@@ -52,8 +63,14 @@ public class GUI_Comms : NetTab
 	}
 	public void MakeAnAnnouncement()
 	{
-		//todo
 		Logger.Log( nameof(MakeAnAnnouncement), Category.NetUI );
+		switcher.SetActivePage( announcePage );
+	}
+	public void MakeAnAnnouncement(string text)
+	{
+		Logger.Log( nameof(MakeAnAnnouncement), Category.NetUI );
+		CentComm.MakeCaptainAnnouncement( text );
+		OpenMenu();
 	}
 	public void ChangeAlertLevel()
 	{
@@ -78,23 +95,26 @@ public class GUI_Comms : NetTab
 	public void UpdateIdTexts()
 	{
 		var IdCard = console.IdCard;
-		foreach ( var labelToSet in idTexts )
+		if (IdCard)
 		{
-			if (IdCard)
-			{
-				labelToSet.SetValue = $"{IdCard.RegisteredName}, {IdCard.GetJobType.ToString()}";
-			}
-			else
-			{
-				labelToSet.SetValue = "********";
-			}
+			idLabel.SetValue = $"{IdCard.RegisteredName}, {IdCard.GetJobType.ToString()}";
+		}
+		else
+		{
+			idLabel.SetValue = "<No ID inserted>";
 		}
 	}
 
 	public void LogIn()
 	{
-		if (console.IdCard == null || !console.IdCard.accessSyncList.Contains((int) Access.security))
+		if (console.IdCard == null)
 		{
+			return;
+		}
+
+		if ( !console.IdCard.accessSyncList.Contains((int) Access.heads) )
+		{
+			idLabel.SetValue = idLabel.Value + "(No access)";
 			return;
 		}
 
@@ -103,15 +123,14 @@ public class GUI_Comms : NetTab
 
 	public void LogOut()
 	{
-		nestedSwitcher.SetActivePage(nestedSwitcher.DefaultPage);
+		switcher.SetActivePage(switcher.DefaultPage);
 		UpdateIdTexts();
 	}
 
 	public void OpenMenu()
 	{
-		nestedSwitcher.SetActivePage(menuPage);
+		switcher.SetActivePage(menuPage);
 	}
-
 
 	public void CloseTab()
 	{
