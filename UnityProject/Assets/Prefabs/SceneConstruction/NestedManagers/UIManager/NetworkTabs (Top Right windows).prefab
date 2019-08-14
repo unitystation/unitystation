@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 5812174582384206504}
   - component: {fileID: 4941520234935937926}
   m_Layer: 5
-  m_Name: VV For Objects On Tile
+  m_Name: VV For Objects On Tile Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 6335360467027724366}
   - component: {fileID: 744952867126023263}
   m_Layer: 5
-  m_Name: VV For Objects On Tile (2)
+  m_Name: Open VV Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1065,8 +1065,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8880219442591467293}
   m_HandleRect: {fileID: 2133393440550017640}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

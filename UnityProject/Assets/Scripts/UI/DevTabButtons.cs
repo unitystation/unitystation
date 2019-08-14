@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 /// <summary>
 /// Behavior for the various buttons on the Dev tab
@@ -12,6 +9,7 @@ public class DevTabButtons : MonoBehaviour
 	public GUI_DevCloner devCloner;
 	public GUI_DevDestroyer devDestroyer;
 	public GUI_DevSelectVVTile devSelectTile;
+	public GUI_VariableViewer vv;
 
 	public void BtnSpawnItem()
 	{
@@ -45,8 +43,7 @@ public class DevTabButtons : MonoBehaviour
 		devCloner.gameObject.SetActive(false);
 		devDestroyer.gameObject.SetActive(false);
 		devSelectTile.gameObject.SetActive(false);
-		UIManager.Instance.VariableViewer.gameObject.SetActive(true);
-		UIManager.Instance.BookshelfViewer.gameObject.SetActive(true);
+		vv.Open();
 	}
 
 	public void BtnOpenTileVV()
@@ -57,5 +54,4 @@ public class DevTabButtons : MonoBehaviour
 		devSelectTile.gameObject.SetActive(true);
 		devSelectTile.Open();
 	}
-
 }
