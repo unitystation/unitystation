@@ -8,12 +8,13 @@ public class Managers : MonoBehaviour
 
 	public string serverIP;
 	[Header("For turning UI on and off to free up the editor window")] public GameObject UIParent;
-
 	private void Awake()
 	{
 		if (instance == null)
 		{
 			instance = this;
+			//Spawn the Options Screen Object
+			Instantiate(Resources.Load("OptionsScreen"));
 		}
 		else
 		{

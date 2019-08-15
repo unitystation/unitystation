@@ -36,6 +36,7 @@ namespace Unitystation.Options
         {
             var btns = GetComponentsInChildren<OptionsButton>(true);
             optionButtons = new List<OptionsButton>(btns);
+            screen.SetActive(false);
         }
 
         public void ToggleButtonOn(OptionsButton button)

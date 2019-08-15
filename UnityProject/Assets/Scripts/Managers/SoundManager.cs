@@ -54,6 +54,16 @@ public class SoundManager : MonoBehaviour
 
 	private void Init()
 	{
+		//Ambient Volume Preference
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.AmbientVolumeKey))
+		{
+			AmbientVolume(PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey));
+		}
+		else
+		{
+			AmbientVolume(1f);
+		}
+
 		// Cache all sounds in the tree
 		var audioSources = gameObject.GetComponentsInChildren<AudioSource>(true);
 		for (int i = 0; i < audioSources.Length; i++)
@@ -103,31 +113,31 @@ public class SoundManager : MonoBehaviour
 			return soundPatterns[pattern];
 		}
 		var regex = new Regex(Regex.Escape(pattern).Replace(@"\#", @"\d+"));
-		return soundPatterns[pattern] = sounds.Keys.Where((Func<string, bool>)regex.IsMatch).ToArray();
+		return soundPatterns[pattern] = sounds.Keys.Where((Func<string, bool>) regex.IsMatch).ToArray();
 	}
 
 	/// <summary>
 	/// Serverside: Play sound for all clients.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayNetworked( string sndName, float pitch = -1,
+	public static void PlayNetworked(string sndName, float pitch = -1,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.SendToAll( sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
+		PlaySoundMessage.SendToAll(sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
 	}
 
 	/// <summary>
 	/// Serverside: Play sound at given position for all clients.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayNetworkedAtPos( string sndName, Vector3 pos, float pitch = -1,
+	public static void PlayNetworkedAtPos(string sndName, Vector3 pos, float pitch = -1,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.SendToAll( sndName, pos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
+		PlaySoundMessage.SendToAll(sndName, pos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
 	}
 
 	/// <summary>
@@ -135,12 +145,12 @@ public class SoundManager : MonoBehaviour
 	/// ("Doctor, there are voices in my head!")
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayNetworkedForPlayer( GameObject recipient, string sndName, float pitch = -1,
+	public static void PlayNetworkedForPlayer(GameObject recipient, string sndName, float pitch = -1,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send( recipient, sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
+		PlaySoundMessage.Send(recipient, sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
 	}
 
 	/// <summary>
@@ -148,12 +158,12 @@ public class SoundManager : MonoBehaviour
 	/// ("Doctor, there are voices in my head!")
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayNetworkedForPlayerAtPos( GameObject recipient, Vector3 pos, string sndName, float pitch = -1,
+	public static void PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 pos, string sndName, float pitch = -1,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30 )
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send( recipient, sndName, pos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange );
+		PlaySoundMessage.Send(recipient, sndName, pos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
 	}
 
 	/// <summary>
@@ -169,7 +179,7 @@ public class SoundManager : MonoBehaviour
 		}
 		Instance.sounds[name].time = time;
 		Instance.sounds[name].volume = volume;
-		Play( name, oneShot );
+		Play(name, oneShot);
 	}
 
 	/// <summary>
@@ -180,7 +190,7 @@ public class SoundManager : MonoBehaviour
 	{
 		name = Instance.ResolveSoundPattern(name);
 		var sound = Instance.sounds[name];
-		if ( polyphonic )
+		if (polyphonic)
 		{
 			sound.PlayOneShot(sound.clip);
 		}
@@ -205,7 +215,7 @@ public class SoundManager : MonoBehaviour
 				sound.pitch = pitch;
 			}
 			sound.transform.position = pos;
-			Play( name, polyphonic );
+			Play(name, polyphonic);
 		}
 	}
 
@@ -221,7 +231,7 @@ public class SoundManager : MonoBehaviour
 		}
 		else
 		{
-			foreach(var sound in Instance.GetMatchingSounds(name))
+			foreach (var sound in Instance.GetMatchingSounds(name))
 			{
 				Instance.sounds[sound].Stop();
 			}
@@ -271,7 +281,7 @@ public class SoundManager : MonoBehaviour
 				"tintin.xm"
 			};
 			var vol = 255 * Instance.MusicVolume;
-			Synth.Instance.PlayMusic(trackerMusic.Wrap(Random.Range(1, 100)), false, (byte)(int)vol);
+			Synth.Instance.PlayMusic(trackerMusic.Wrap(Random.Range(1, 100)), false, (byte) (int) vol);
 		}
 	}
 
@@ -303,8 +313,18 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Sets all ambient tracks to a certain volume
+	/// </summary>
+	/// <param name="volume"></param>
 	public static void AmbientVolume(float volume)
 	{
-		Instance.ambientTracks[Instance.ambientPlaying].volume = volume;
+		foreach (AudioSource s in Instance.ambientTracks)
+		{
+			s.volume = volume;
+		}
+
+		PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, volume);
+		PlayerPrefs.Save();
 	}
 }

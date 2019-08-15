@@ -19,4 +19,15 @@
     /// 1 = enabled
     /// <summary>
     public static string ScrollWheelZoom = "ScrollWheelZoom";
+    /// <summary>
+    /// Ambient Volume level
+    /// 0 - 1f
+    /// </summary>
+    public static string AmbientVolumeKey = "AmbientVol";
+    /// <summary>
+    /// TTS Toggle Pref.
+    /// 0 = disabled
+    /// 1 = enabled
+    /// </summary>
+    public static string TTSToggleKey = "TTSSetting";
 }
