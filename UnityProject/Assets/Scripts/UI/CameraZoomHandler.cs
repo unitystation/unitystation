@@ -37,7 +37,7 @@ public class CameraZoomHandler : MonoBehaviour
 
             if (Input.mouseScrollDelta.y < 0f)
             {
-                DecreaseZoomLevel();
+                DecreaseZoomLevel(true);
             }
         }
     }
@@ -66,7 +66,7 @@ public class CameraZoomHandler : MonoBehaviour
 
     public void SetZoomLevel(float zoomLevel)
     {
-        this.zoomLevel = (int)zoomLevel;
+        this.zoomLevel = Mathf.Clamp((int)zoomLevel, 0, 10);
         Refresh();
         PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, this.zoomLevel);
         PlayerPrefs.Save();
@@ -86,10 +86,11 @@ public class CameraZoomHandler : MonoBehaviour
     /// A convenient way to increase zoom level
     /// ZoomLevel of 0 = Auto Zoom
     /// <summary>
-    public void DecreaseZoomLevel()
+    public void DecreaseZoomLevel(bool preventAuto = false)
     {
         zoomLevel--;
         if (zoomLevel <= 0)zoomLevel = 0;
+        if(preventAuto && zoomLevel == 0) zoomLevel = 1;
         SetZoomLevel(zoomLevel);
     }
 
@@ -105,5 +106,11 @@ public class CameraZoomHandler : MonoBehaviour
             PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, 1);
         }
         PlayerPrefs.Save();
+    }
+
+    public void ResetDefaults()
+    {
+        ToggleScrollWheelZoom(false);
+        SetZoomLevel(2);
     }
 }
