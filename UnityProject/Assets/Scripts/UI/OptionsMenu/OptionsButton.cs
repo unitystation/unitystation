@@ -1,0 +1,37 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+namespace Unitystation.Options
+{
+    /// <summary>
+    /// Controls the navigation button state
+    /// </summary>
+    public class OptionsButton : MonoBehaviour, IPointerDownHandler
+    {
+        [SerializeField]
+        private GameObject selectedLine;
+        [SerializeField]
+        [Tooltip("This is the actual window that contains all of the" +
+            " GUI buttons/inputs for this particular settings option")]
+        private GameObject contentWindow;
+
+        void Start()
+        {
+            OptionsMenu.Instance.RegisterOptionButton(this);
+        }
+
+        public void OnPointerDown(PointerEventData data)
+        {
+            SoundManager.Play("Click01");
+            OptionsMenu.Instance.ToggleButtonOn(this);
+        }
+
+        public void Toggle(bool activeState)
+        {
+            selectedLine.SetActive(activeState);
+            if(contentWindow) contentWindow.SetActive(activeState);
+        }
+    }
+}
