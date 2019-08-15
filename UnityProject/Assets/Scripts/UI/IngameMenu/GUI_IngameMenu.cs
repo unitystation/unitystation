@@ -8,8 +8,6 @@ using UnityEngine.SceneManagement;
 public class GUI_IngameMenu : MonoBehaviour
 {
 	public GameObject mainIngameMenu;
-	public GameObject generalSettingsMenu;
-	public GameObject controlSettingsMenu;
 
 	private ModalPanelManager modalPanelManager => ModalPanelManager.Instance;
 
@@ -30,11 +28,10 @@ public class GUI_IngameMenu : MonoBehaviour
 		}
 	}
 
-
-	#if UNITY_EDITOR
-		[NonSerialized]
-		public bool isTest = false;
-	#endif
+#if UNITY_EDITOR
+	[NonSerialized]
+	public bool isTest = false;
+#endif
 
 	// Main Ingame Menu Functions
 	// ==================================================
@@ -49,6 +46,12 @@ public class GUI_IngameMenu : MonoBehaviour
 		SoundManager.Play("Click01");
 		Logger.Log("Closing " + thisPanel.name + " menu", Category.UI);
 		thisPanel.SetActive(false);
+	}
+
+	public void OpenOptionsScreen()
+	{	
+		Unitystation.Options.OptionsMenu.Instance.Open();
+		HideAllMenus();
 	}
 
 	// Logout confirmation window functions
@@ -76,14 +79,14 @@ public class GUI_IngameMenu : MonoBehaviour
 		SoundManager.Play("Click01");
 		StopNetworking();
 		// Either shutdown the application or stop the editor
-		#if UNITY_EDITOR
-			if (isTest) return;
-			UnityEditor.EditorApplication.isPlaying = false;
-		#else
-			Application.Quit();
-		#endif
+#if UNITY_EDITOR
+		if (isTest) return;
+		UnityEditor.EditorApplication.isPlaying = false;
+#else
+		Application.Quit();
+#endif
 	}
-	
+
 	// Misc functions
 	// ==================================================
 	private void StopNetworking()
@@ -103,7 +106,5 @@ public class GUI_IngameMenu : MonoBehaviour
 	private void HideAllMenus()
 	{
 		mainIngameMenu.SetActive(false);
-		generalSettingsMenu.SetActive(false);
-		controlSettingsMenu.SetActive(false);
 	}
 }

@@ -28,8 +28,6 @@ public class UIManager : MonoBehaviour
 	public GamePad gamePad;
 	[HideInInspector]
 	public ProgressBar progressBar;
-	[SerializeField]
-	private GeneralSettingsMenu generalSettingsMenu;
 
 	///Global flag for focused input field. Movement keystrokes are ignored if true.
 	/// <see cref="InputFieldFocus"/> handles this flag automatically
@@ -69,8 +67,6 @@ public class UIManager : MonoBehaviour
 
 	private bool isMouseInteractionDisabled;
 
-
-
 	public static UIManager Instance
 	{
 		get
@@ -84,11 +80,11 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	#if UNITY_ANDROID || UNITY_IOS //|| UNITY_EDITOR
+#if UNITY_ANDROID || UNITY_IOS //|| UNITY_EDITOR
 	public static bool UseGamePad = true;
-	#else
+#else
 	public static bool UseGamePad = false;
-	#endif
+#endif
 
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 	public static ProgressBar ProgressBar => Instance.progressBar;
@@ -156,8 +152,25 @@ public class UIManager : MonoBehaviour
 
 	private void Start()
 	{
-		generalSettingsMenu.Init();
-		Logger.Log( "Touchscreen support = " + CommonInput.IsTouchscreen, Category.UI );
+		Logger.Log("Touchscreen support = " + CommonInput.IsTouchscreen, Category.UI);
+
+		if (!PlayerPrefs.HasKey(PlayerPrefKeys.TTSToggleKey))
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.TTSToggleKey, 0);
+			ttsToggle = false;
+			PlayerPrefs.Save();
+		}
+		else
+		{
+			ttsToggle = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
+		}
+	}
+
+	public static void ToggleTTS(bool activeState)
+	{
+		Instance.ttsToggle = activeState;
+		PlayerPrefs.SetInt(PlayerPrefKeys.TTSToggleKey, activeState ? 1 : 0);
+		PlayerPrefs.Save();
 	}
 
 	public static void ResetAllUI()
@@ -173,7 +186,7 @@ public class UIManager : MonoBehaviour
 		}
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
-		GamePad.gameObject.SetActive( UseGamePad );
+		GamePad.gameObject.SetActive(UseGamePad);
 	}
 
 	/// <summary>
