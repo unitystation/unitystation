@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Unitystation.Options
@@ -12,6 +13,10 @@ namespace Unitystation.Options
     public class OptionsMenu : MonoBehaviour
     {
         public static OptionsMenu Instance;
+        [SerializeField]
+        private GameObject screen;
+        //All the nav buttons in the left column
+        private List<OptionsButton> optionButtons = new List<OptionsButton>();
 
         void Awake()
         {
@@ -19,6 +24,7 @@ namespace Unitystation.Options
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
+                Init();
             }
             else
             {
@@ -26,15 +32,10 @@ namespace Unitystation.Options
             }
         }
 
-        //All the nav buttons in the left column
-        private List<OptionsButton> optionButtons = new List<OptionsButton>();
-
-        /// <summary>
-        /// Register a nav button on start
-        /// </summary>
-        public void RegisterOptionButton(OptionsButton button)
+        void Init()
         {
-            optionButtons.Add(button);
+            var btns = GetComponentsInChildren<OptionsButton>(true);
+            optionButtons = new List<OptionsButton>(btns);
         }
 
         public void ToggleButtonOn(OptionsButton button)
@@ -49,6 +50,35 @@ namespace Unitystation.Options
                 {
                     b.Toggle(false);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Open the Options Menu
+        /// </summary>
+        public void Open()
+        {
+            ToggleButtonOn(optionButtons[0]);
+            screen.SetActive(true);
+        }
+
+        /// <summary>
+        /// Close the Options Menu
+        /// </summary>
+        public void Close()
+        {
+            screen.SetActive(false);
+        }
+
+        /// <summary>
+        /// Used to reset options to default
+        /// </summary>
+        public void Reset()
+        {
+            var index = optionButtons.FindIndex(x => x.IsActive == true);
+            if (index != -1)
+            {
+                optionButtons[index].ResetDefaults();
             }
         }
     }

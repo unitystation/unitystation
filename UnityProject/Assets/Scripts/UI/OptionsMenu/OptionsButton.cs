@@ -16,11 +16,7 @@ namespace Unitystation.Options
         [Tooltip("This is the actual window that contains all of the" +
             " GUI buttons/inputs for this particular settings option")]
         private GameObject contentWindow;
-
-        void Start()
-        {
-            OptionsMenu.Instance.RegisterOptionButton(this);
-        }
+        public bool IsActive{ get { return selectedLine.activeSelf; } }
 
         public void OnPointerDown(PointerEventData data)
         {
@@ -31,7 +27,12 @@ namespace Unitystation.Options
         public void Toggle(bool activeState)
         {
             selectedLine.SetActive(activeState);
-            if(contentWindow) contentWindow.SetActive(activeState);
+            if (contentWindow) contentWindow.SetActive(activeState);
+        }
+
+        public void ResetDefaults()
+        {
+            contentWindow.BroadcastMessage("ResetDefaults", SendMessageOptions.DontRequireReceiver);
         }
     }
 }
