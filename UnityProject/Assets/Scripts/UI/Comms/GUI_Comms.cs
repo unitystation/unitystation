@@ -34,11 +34,11 @@ public class GUI_Comms : NetTab
 		}
 
 		console = Provider.GetComponentInChildren<CommsConsole>();
-		
-		//starting up with no id inserted, setting appropriate labels 
-		ProcessIdChange();
+
+		//starting up, setting appropriate labels
+		ProcessIdChange(console.IdCard);
 		console.IdEvent.AddListener( ProcessIdChange );
-		
+
 		Logger.Log( nameof(WaitForProvider), Category.NetUI );
 	}
 

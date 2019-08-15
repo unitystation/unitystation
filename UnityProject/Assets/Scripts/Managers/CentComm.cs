@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 ///------------
 /// CENTRAL COMMAND HQ
@@ -15,6 +17,10 @@ public class CentComm : MonoBehaviour
 	private List<Vector2> AsteroidLocations = new List<Vector2>();
 	private int PlasmaOrderRequestAmt;
 	private GameObject paperPrefab;
+
+	public static string CaptainAnnounceTemplate =
+		"\n\n<color=white><size=30><b>Captain Announces</b></size></color>\n\n"
+	  + "<color=#FF151F><b>{0}</b></color>\n\n";
 
 	void Start()
 	{
@@ -98,9 +104,14 @@ public class CentComm : MonoBehaviour
 
 	public static void MakeCaptainAnnouncement( string text )
 	{
+		if ( text.Trim() == string.Empty )
+		{
+			return;
+		}
+
 		ChatEvent announcement = new ChatEvent{
 			channels = ChatChannel.System,
-			message = text
+			message = string.Format( CaptainAnnounceTemplate, text )
 		};
 		SoundManager.PlayNetworked( "Announce" );
 		ChatRelay.Instance.AddToChatLogServer(announcement);
