@@ -15,6 +15,8 @@ public class GUI_Comms : NetTab
 	[SerializeField]
 	private NetPage announcePage;
 	[SerializeField]
+	private NetPage shuttlePage;
+	[SerializeField]
 	private NetLabel idLabel;
 	private CommsConsole console;
 
@@ -55,20 +57,26 @@ public class GUI_Comms : NetTab
 		}
 	}
 
-	public void CallShuttle()
+	public void CallOrRecallShuttle(string text)
 	{
-		//todo
-		Logger.Log( nameof(CallShuttle), Category.NetUI );
+		Logger.Log( nameof(CallOrRecallShuttle), Category.NetUI );
+
+		//todo: call/recall depending on shuttle status
+		bool isRecall = false;
+
+		if ( isRecall )
+		{
+			CentComm.MakeShuttleRecallAnnouncement( text );
+		} else
+		{
+			CentComm.MakeShuttleCallAnnouncement( 10, text );
+		}
+		OpenMenu();
 	}
 	public void SetStatusDisplay()
 	{
 		//todo
 		Logger.Log( nameof(SetStatusDisplay), Category.NetUI );
-	}
-	public void MakeAnAnnouncement()
-	{
-		Logger.Log( nameof(MakeAnAnnouncement), Category.NetUI );
-		switcher.SetActivePage( announcePage );
 	}
 	public void MakeAnAnnouncement(string text)
 	{

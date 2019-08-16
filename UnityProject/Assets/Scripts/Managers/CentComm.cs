@@ -22,6 +22,23 @@ public class CentComm : MonoBehaviour
 		"\n\n<color=white><size=30><b>Captain Announces</b></size></color>\n\n"
 	  + "<color=#FF151F><b>{0}</b></color>\n\n";
 
+	public static string PriorityAnnouncementTemplate =
+		"\n\n<color=white><size=30><b>Priority Announcement</b></size></color>\n\n"
+	  + "<color=#FF151F>{0}</color>\n\n";
+
+	public static string ShuttleCallSubTemplate =
+		"\n\nThe emergency shuttle has been called. It will arrive in {0} minutes." +
+		"\nNature of emergency:" +
+		"\n\n{1}";
+	// Not traced yet, but eventually will:
+//		+"\n\nCall signal traced. Results can be viewed on any communications console.";
+
+	public static string ShuttleRecallSubTemplate =
+		"\n\nThe emergency shuttle has been recalled. " +
+	// Not traced yet, but eventually will:
+//		+"Recall signal traced. Results can be viewed on any communications console.";
+		"{0}";
+
 	void Start()
 	{
 		paperPrefab = Resources.Load<GameObject>("Paper");
@@ -114,6 +131,35 @@ public class CentComm : MonoBehaviour
 			message = string.Format( CaptainAnnounceTemplate, text )
 		};
 		SoundManager.PlayNetworked( "Announce" );
+		ChatRelay.Instance.AddToChatLogServer(announcement);
+	}
+
+	/// <summary>
+	/// Text should be no less than 10 chars
+	/// </summary>
+	public static void MakeShuttleCallAnnouncement( int minutes, string text )
+	{
+		if ( text.Trim() == string.Empty || text.Trim().Length < 10)
+		{
+			return;
+		}
+
+		ChatEvent announcement = new ChatEvent{
+			channels = ChatChannel.System,
+			message = string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleCallSubTemplate,minutes,text) )
+		};
+		ChatRelay.Instance.AddToChatLogServer(announcement);
+	}
+
+	/// <summary>
+	/// Text can be empty
+	/// </summary>
+	public static void MakeShuttleRecallAnnouncement( string text )
+	{
+		ChatEvent announcement = new ChatEvent{
+			channels = ChatChannel.System,
+			message = string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleRecallSubTemplate,text) )
+		};
 		ChatRelay.Instance.AddToChatLogServer(announcement);
 	}
 
