@@ -148,7 +148,39 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			InventorySlot inventorySlot = Inventory[playerSlots[i]];
 			if(inventorySlot.Item != null)
 			{
-				UpdateSlotMessage.Send(inventorySlot.Owner, inventorySlot.Item, false, inventorySlot.equipSlot);
+				if (IsEquipSpriteSlot(fromSlot))
+				{
+					if (fromSlot.Item == null)
+					{
+						//clear equip sprite
+						SyncEquipSpritesFor(fromSlot, -1);
+					}
+				}
+			}
+		}
+
+		if (toSlot != null)
+		{
+			if (toSlot.IsUISlot)
+			{
+				if (IsEquipSpriteSlot(toSlot))
+				{
+					if (toSlot.Item != null)
+					{
+						var att = toSlot.Item.GetComponent<ItemAttributes>();
+
+						if (toSlot.SlotName == "leftHand" || toSlot.SlotName == "rightHand")
+						{
+							equipment.SetHandItemSprite(att, toSlot.SlotName);
+						}
+						//else if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") ||
+						//	att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
+						//	att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank") || toSlot.SlotName == "handcuffs")
+						//{
+						//	SyncEquipSpritesFor(toSlot, att.clothingReference);
+						//}
+					}
+				}
 			}
 		}
 	}

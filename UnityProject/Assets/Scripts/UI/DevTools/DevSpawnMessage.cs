@@ -30,7 +30,7 @@ public class DevSpawnMessage : ClientMessage
 			}
 			else
 			{
-				ClothFactory.CreateCloth(Name, WorldPosition);
+				//ClothFactory.CreateCloth(Name, WorldPosition);
 			}
 		}
 

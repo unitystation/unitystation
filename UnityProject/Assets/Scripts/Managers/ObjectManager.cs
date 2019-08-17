@@ -35,7 +35,7 @@ public class ObjectManager : MonoBehaviour
 
 		//Preload to save on Instantiation during gameplay
 		Instance.preLoadClothAmount = 0;
-		ClothFactory.PreLoadCloth(Instance.preLoadClothAmount);
+		//ClothFactory.PreLoadCloth(Instance.preLoadClothAmount);
 	}
 }
 

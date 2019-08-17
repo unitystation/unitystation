@@ -81,7 +81,7 @@ public class SpriteDataForSH
 				spriteList[i].Add(new List<SpriteHandler.SpriteInfo>());
 				foreach (var Bot in BotListPoint.Where(m => m.inlistID == Mid.listID))
 				{
-					Logger.Log("addedddddd");
+					//Logger.Log("addedddddd");
 					spriteList[i][c].Add(new SpriteHandler.SpriteInfo()
 					{
 						sprite = Bot.sprite,

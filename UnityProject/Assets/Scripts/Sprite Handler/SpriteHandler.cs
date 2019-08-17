@@ -49,11 +49,17 @@ public class SpriteHandler : SpriteHandlerData
 
 	public void PushTexture()
 	{
-		if (!(spriteIndex >= SpriteInfos.spriteList.Count))
+		if (SpriteInfos != null)
 		{
-			if (!(VariantIndex >= SpriteInfos.spriteList[spriteIndex].Count))
+			if (!(spriteIndex >= SpriteInfos.spriteList.Count))
 			{
-				SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+				if (!(VariantIndex >= SpriteInfos.spriteList[spriteIndex].Count))
+				{
+					SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+				}
+				else {
+					spriteRenderer.sprite = null;
+				}
 			}
 			else {
 				spriteRenderer.sprite = null;

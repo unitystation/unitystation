@@ -62,6 +62,7 @@ public class ClothingItem : MonoBehaviour
 		reference = value;
 		if (Item == null)
 		{
+			Logger.Log("GGGG");
 			if (spriteHandler != null) //need to remove 
 			{
 				spriteHandler.SpriteInfos = null;
@@ -70,14 +71,20 @@ public class ClothingItem : MonoBehaviour
 		}
 		if (Item != null) {
 
-			if (spriteHandler == null) { 
-				Logger.Log("OH NOOOOOOO!" + gameObject.name);
-			}
 			var bob = Item.GetComponent<ItemAttributes>().spriteHandlerData;
 			if (bob?.SpriteInfos != null)
 			{
 				spriteHandler.SpriteInfos = bob.SpriteInfos;
+				if (spriteType == SpriteHandType.RightHand)
+				{
+					spriteHandler.ChangeSprite(1); 
+				}
+				else
+				{
+					spriteHandler.ChangeSprite(0);
+				}
 				spriteHandler.PushTexture();
+
 			}
 
 		}
@@ -104,14 +111,7 @@ public class ClothingItem : MonoBehaviour
 					spriteSheetName = "guns_";
 					break;
 			}
-			if (spriteType == SpriteHandType.RightHand)
-			{
-				spriteSheetName = spriteSheetName + "righthand";
-			}
-			else
-			{
-				spriteSheetName = spriteSheetName + "lefthand";
-			}
+
 		}
 
 		sprites = SpriteManager.PlayerSprites[spriteSheetName];

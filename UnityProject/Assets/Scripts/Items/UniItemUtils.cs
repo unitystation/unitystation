@@ -125,7 +125,7 @@ public static class UniItemUtils
 		if (!icon.Equals(""))
 		{
 			//				Logger.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
-			return DmiIconData.Data[icon];
+			//return DmiIconData.Data[icon];
 		}
 		//pretty bad choice, should use this only as last resort as it's usually pretty inaccurate
 		DmiIcon invIcon = dmi.getIconByState(icon_state);

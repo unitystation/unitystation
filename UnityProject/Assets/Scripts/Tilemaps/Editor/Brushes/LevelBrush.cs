@@ -82,14 +82,14 @@ public class LevelBrush : GridBrush
 	{
 		foreach (LayerTile tile in metaTile.GetTiles())
 		{
-			metaTileMap.RemoveTile(position, tile.LayerType);
+			//metaTileMap.RemoveTile(position, tile.LayerType);
 			metaTileMap.SetTile(position, tile, cells[0].matrix);
 		}
 	}
 
 	private void PlaceLayerTile(MetaTileMap metaTileMap, Vector3Int position, LayerTile tile)
 	{
-		metaTileMap.RemoveTile(position, tile.LayerType);
+		//metaTileMap.RemoveTile(position, tile.LayerType);
 		SetTile(metaTileMap, position, tile);
 	}
 

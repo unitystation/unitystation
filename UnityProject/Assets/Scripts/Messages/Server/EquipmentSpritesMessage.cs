@@ -15,14 +15,15 @@ public class EquipmentSpritesMessage : ServerMessage
 
 		yield return WaitFor(EquipmentObject, Item);
 
-
+		Logger.Log("bob2?");
 		if (Item == NetworkInstanceId.Invalid)
 		{
+			Logger.Log("bob3?");
 			//Clear slot message			//yield return WaitFor(EquipmentObject);
-			if (NetworkObject != null)
+			if (NetworkObjects[0] != null)
 			{
 				Logger.Log("OR?");
-				NetworkObject.GetComponent<Equipment>().clothingSlots[Index].SetReference(Reference, null);
+				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference(Reference, null);
 			}
 		}
 		else { 

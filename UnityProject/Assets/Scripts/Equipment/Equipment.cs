@@ -68,72 +68,73 @@ public class Equipment : NetworkBehaviour
 		JobOutfit standardOutfit = GameManager.Instance.StandardOutfit.GetComponent<JobOutfit>();
 		JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(playerScript.mind.jobType);
 
-		Dictionary<EquipSlot, string> gear = new Dictionary<EquipSlot, string>();
+		Dictionary<string, ClothOrPrefab> gear = new Dictionary<string, ClothOrPrefab>();
 
-		gear.Add(EquipSlot.uniform, standardOutfit.uniform);
-		gear.Add(EquipSlot.ear, standardOutfit.ears);
-		gear.Add(EquipSlot.belt, standardOutfit.belt);
-		gear.Add(EquipSlot.back, standardOutfit.backpack);
-		gear.Add(EquipSlot.feet, standardOutfit.shoes);
-		gear.Add(EquipSlot.eyes, standardOutfit.glasses);
-		gear.Add(EquipSlot.hands, standardOutfit.gloves);
-		gear.Add(EquipSlot.exosuit, standardOutfit.suit);
-		gear.Add(EquipSlot.head, standardOutfit.head);
-		//gear.Add(EquipSlot.accessory, standardOutfit.accessory);
-		gear.Add(EquipSlot.mask, standardOutfit.mask);
-		//gear.Add(EquipSlot.backpack, standardOutfit.backpack);
-		//gear.Add(EquipSlot.satchel, standardOutfit.satchel);
-		//gear.Add(EquipSlot.duffelbag, standardOutfit.duffelbag);
-		//gear.Add(EquipSlot.box, standardOutfit.box);
-		//gear.Add(EquipSlot.l_hand, standardOutfit.l_hand);
-		//gear.Add(EquipSlot.l_pocket, standardOutfit.l_pocket);
-		//gear.Add(EquipSlot.r_pocket, standardOutfit.r_pocket);
-		//gear.Add(EquipSlot.suit_store, standardOutfit.suit_store);
+		gear.Add("uniform", standardOutfit.CDuniform);
+		//gear.Add("uniform", standardOutfit.uniform);
+		//gear.Add("ears", standardOutfit.ears);
+		//gear.Add("belt", standardOutfit.belt);
+		//gear.Add("back", standardOutfit.backpack);
+		//gear.Add("shoes", standardOutfit.shoes);
+		//gear.Add("glasses", standardOutfit.glasses);
+		//gear.Add("gloves", standardOutfit.gloves);
+		//gear.Add("suit", standardOutfit.suit);
+		//gear.Add("head", standardOutfit.head);
+		////gear.Add("accessory", standardOutfit.accessory);
+		//gear.Add("mask", standardOutfit.mask);
+		////gear.Add("backpack", standardOutfit.backpack);
+		////gear.Add("satchel", standardOutfit.satchel);
+		////gear.Add("duffelbag", standardOutfit.duffelbag);
+		////gear.Add("box", standardOutfit.box);
+		////gear.Add("l_hand", standardOutfit.l_hand);
+		////gear.Add("l_pocket", standardOutfit.l_pocket);
+		////gear.Add("r_pocket", standardOutfit.r_pocket);
+		////gear.Add("suit_store", standardOutfit.suit_store);
 
-		if (!string.IsNullOrEmpty(jobOutfit.uniform))
-		{
-			gear[EquipSlot.uniform] = jobOutfit.uniform;
-		}
-		/*if (!String.IsNullOrEmpty(jobOutfit.id))
-			gear[EquipSlot.id] = jobOutfit.id;*/
-		if (!string.IsNullOrEmpty(jobOutfit.ears))
-		{
-			gear[EquipSlot.ear] = jobOutfit.ears;
-		}
-		if (!string.IsNullOrEmpty(jobOutfit.belt))
-		{
-			gear[EquipSlot.belt] = jobOutfit.belt;
-		}
-		if (!string.IsNullOrEmpty(jobOutfit.backpack))
-		{
-			gear[EquipSlot.back] = jobOutfit.backpack;
-		}
-		if (!string.IsNullOrEmpty(jobOutfit.shoes))
-		{
-			gear[EquipSlot.feet] = jobOutfit.shoes;
-		}
-		if (!string.IsNullOrEmpty(jobOutfit.glasses))
-		{
-			gear[EquipSlot.eyes] = jobOutfit.glasses;
-		}
-		if (!string.IsNullOrEmpty(jobOutfit.gloves))
-		{
-			gear[EquipSlot.hands] = jobOutfit.gloves;
-		}
-		if (!string.IsNullOrEmpty(jobOutfit.suit))
-		{
-			gear[EquipSlot.exosuit] = jobOutfit.suit;
-		}
-		if (!string.IsNullOrEmpty(jobOutfit.head))
-		{
-			gear[EquipSlot.head] = jobOutfit.head;
-		}
-		/*if (!String.IsNullOrEmpty(jobOutfit.accessory))
-			gear[EquipSlot.accessory] = jobOutfit.accessory;*/
-		if (!string.IsNullOrEmpty(jobOutfit.mask))
-		{
-			gear[EquipSlot.mask] = jobOutfit.mask;
-		}
+		//if (!string.IsNullOrEmpty(jobOutfit.uniform))
+		//{
+		//	gear["uniform"] = jobOutfit.uniform;
+		//}
+		///*if (!String.IsNullOrEmpty(jobOutfit.id))
+		//	gear["id"] = jobOutfit.id;*/
+		//if (!string.IsNullOrEmpty(jobOutfit.ears))
+		//{
+		//	gear["ears"] = jobOutfit.ears;
+		//}
+		//if (!string.IsNullOrEmpty(jobOutfit.belt))
+		//{
+		//	gear["belt"] = jobOutfit.belt;
+		//}
+		//if (!string.IsNullOrEmpty(jobOutfit.backpack))
+		//{
+		//	gear["back"] = jobOutfit.backpack;
+		//}
+		//if (!string.IsNullOrEmpty(jobOutfit.shoes))
+		//{
+		//	gear["shoes"] = jobOutfit.shoes;
+		//}
+		//if (!string.IsNullOrEmpty(jobOutfit.glasses))
+		//{
+		//	gear["glasses"] = jobOutfit.glasses;
+		//}
+		//if (!string.IsNullOrEmpty(jobOutfit.gloves))
+		//{
+		//	gear["gloves"] = jobOutfit.gloves;
+		//}
+		//if (!string.IsNullOrEmpty(jobOutfit.suit))
+		//{
+		//	gear["suit"] = jobOutfit.suit;
+		//}
+		//if (!string.IsNullOrEmpty(jobOutfit.head))
+		//{
+		//	gear["head"] = jobOutfit.head;
+		//}
+		///*if (!String.IsNullOrEmpty(jobOutfit.accessory))
+		//	gear["accessory"] = jobOutfit.accessory;*/
+		//if (!string.IsNullOrEmpty(jobOutfit.mask))
+		//{
+		//	gear["mask"] = jobOutfit.mask;
+		//}
 		/*if (!String.IsNullOrEmpty(jobOutfit.backpack))
 			gear[EquipSlot.backpack] = jobOutfit.backpack;
 		if (!String.IsNullOrEmpty(jobOutfit.satchel))
@@ -151,25 +152,26 @@ public class Equipment : NetworkBehaviour
 		if (!String.IsNullOrEmpty(jobOutfit.suit_store))
 			gear[EquipSlot.suit_store] = jobOutfit.suit_store;*/
 
-		foreach (KeyValuePair<EquipSlot, string> gearItem in gear)
+		foreach (KeyValuePair<string, ClothOrPrefab> gearItem in gear)
 		{
-			if (gearItem.Value.Contains(UniItemUtils.ClothingHierIdentifier) || gearItem.Value.Contains(UniItemUtils.HeadsetHierIdentifier) ||
-			gearItem.Value.Contains(UniItemUtils.BackPackHierIdentifier) || gearItem.Value.Contains(UniItemUtils.BagHierIdentifier))
+
+			if (gearItem.Value.Clothing != null)
 			{
-				GameObject obj = ClothFactory.CreateCloth(gearItem.Value, TransformState.HiddenPos, transform.parent);
-				//if ClothFactory does not return an object then move on to the next clothing item
-				if (!obj)
+				//var obj = ClothFactory.CreateCloth(gearItem.Value, TransformState.HiddenPos, transform.parent); //Where it is made
+				//ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+				//SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
+			}
+			else {
+				if (gearItem.Value.Prefab != null)
 				{
-					Logger.LogWarning("Trying to instantiate clothing item " + gearItem.Value + " failed!", Category.Equipment);
-					continue;
+					//obj = this.gameObject;
+					//Network instantiate gearItem.Value.so and so
+					//ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+					//SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
 				}
-				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(gearItem.Key, itemAtts.gameObject);
 			}
-			else if (!string.IsNullOrEmpty(gearItem.Value))
-			{
-				//					Logger.Log(gearItem.Value + " creation not implemented yet.");
-			}
+
+
 		}
 		SpawnID(jobOutfit);
 
@@ -212,17 +214,18 @@ public class Equipment : NetworkBehaviour
 	{
 		if (hand == EquipSlot.leftHand)
 		{
-			SetReference((int)hand, att.NetworkInHandRefLeft(), att.gameObject);
+			SetReference((int)enumA, -1, att.gameObject);
 		}
 		else
 		{
-			SetReference((int)hand, att.NetworkInHandRefRight(), att.gameObject);;
+			SetReference((int)enumA, -1, att.gameObject);
 		}
 		//clothingSlots[enumA].sprites
 	}
 
 	public void SetReference(int index, int reference, GameObject _Item)
 	{
+		Logger.Log("bob?");
 		EquipmentSpritesMessage.SendToAll(gameObject, index, reference, _Item);
 	}
 
@@ -289,11 +292,11 @@ public class Equipment : NetworkBehaviour
 	/// </summary>
 	public bool HasInternalsEquipped()
 	{
-		if ( maskSlot?.ItemAttributes?.itemType == ItemType.Mask )
+		if (maskSlot?.ItemAttributes?.itemType == ItemType.Mask)
 		{
-			foreach ( var gasSlot in gasSlots )
+			foreach (var gasSlot in gasSlots)
 			{
-				if ( gasSlot.Item && gasSlot.Item.GetComponent<GasContainer>() )
+				if (gasSlot.Item && gasSlot.Item.GetComponent<GasContainer>())
 				{
 					return true;
 				}

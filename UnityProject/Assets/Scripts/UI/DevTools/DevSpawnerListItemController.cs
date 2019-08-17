@@ -67,7 +67,9 @@ public class DevSpawnerListItemController : MonoBehaviour
 				image.sprite = toUse;
 			}
 			//determine which prefab this is for
-			GameObject prefab = ClothFactory.GetClothPrefabForHier(hier);
+			//TODO!!!
+			//Change this
+			//GameObject prefab = ClothFactory.GetClothPrefabForHier(hier);
 			detailText.text = $"{prefab.name}\n{hier}";
 		}
 		titleText.text = resultDoc.Get("name");
@@ -144,7 +146,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 			{
 				if (hier != null)
 				{
-					ClothFactory.CreateCloth(hier, position);
+					//ClothFactory.CreateCloth(hier, position);
 				}
 				else
 				{
