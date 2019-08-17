@@ -6,6 +6,8 @@ TextureImporter:
     21300002: IngameUI_1
     21300004: IngameUI_2
     21300006: IngameUI_3
+    21300008: IngameUI_4
+    21300010: IngameUI_5
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -169,13 +171,73 @@ TextureImporter:
         width: 12
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 379596d396a6f5545a9121c80fb469af
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IngameUI_3
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 1273
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a769c4574217338479613ab099d11a73
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IngameUI_4
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 1273
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f05c0e9dd6147434e805be009eb89a1c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IngameUI_5
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 1273
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32b964e79a09c7646adaa1b419b9e62a
       vertices: []
       indices: 
       edges: []
