@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using Atmospherics;
 using Tilemaps.Behaviours.Meta;
 
+[RequireComponent(typeof(Pickupable))]
 public class Pipe : NetworkBehaviour
 {
 	public RegisterTile registerTile;
@@ -21,6 +22,8 @@ public class Pipe : NetworkBehaviour
 	public Sprite[] pipeSprites;
 	public SpriteRenderer spriteRenderer;
 	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
+
+	protected Pickupable pickupable;
 
 	[Flags]
 	public enum Direction
@@ -38,6 +41,22 @@ public class Pipe : NetworkBehaviour
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 		directional = GetComponent<Directional>();
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
+		pickupable = GetComponent<Pickupable>();
+	}
+
+	private void ServerInit()
+	{
+		pickupable.ServerSetCanPickup(!anchored);
+	}
+
+	public override void OnStartServer()
+	{
+		ServerInit();
+	}
+
+	void OnSpawnedServer()
+	{
+		ServerInit();
 	}
 
 	public void Start(){
@@ -97,6 +116,8 @@ public class Pipe : NetworkBehaviour
 	{
 		anchored = value;
 		objectBehaviour.isNotPushable = value;
+		//now that it's anchored, it can't be picked up
+		pickupable.ServerSetCanPickup(!value);
 	}
 
 	public void SyncSprite(int value)
