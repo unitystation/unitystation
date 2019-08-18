@@ -154,7 +154,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		{
 			pingUpdate = 0f;
 			int ping = CustomNetworkManager.Instance.client.GetRTT();
-			UIManager.SetToolTip = "ping: " + ping;
+			UIManager.SetPingDisplay = "ping: " + ping;
 		}
 	}
 

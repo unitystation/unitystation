@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
 	public PlayerListUI playerListUIControl;
 	public AlertUI alertUI;
 	public Text toolTip;
+	public Text pingDisplay;
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
 	public ZoneSelector zoneSelector;
@@ -112,6 +113,11 @@ public class UIManager : MonoBehaviour
 	public static string SetToolTip
 	{
 		set { Instance.toolTip.text = value; }
+	}
+
+	public static string SetPingDisplay
+	{
+		set { Instance.pingDisplay.text = value; }
 	}
 
 	public static InventorySlotCache InventorySlots => Instance.inventorySlotCache;
