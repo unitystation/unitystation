@@ -42,7 +42,7 @@ namespace Unitystation.Options
             diPaths.Clear();
             foreach (string p in folderPaths)
             {
-                diPaths.Add(new DirectoryInfo(Path.Combine(Application.streamingAssetsPath,$"Themes/{p}")));
+                diPaths.Add(new DirectoryInfo(Path.Combine(Application.streamingAssetsPath, $"Themes/{p}")));
             }
 
             LoadAllThemes();
@@ -88,7 +88,7 @@ namespace Unitystation.Options
 
         }
 
-        [ContextMenu("TestLoad")]
+        [ContextMenu("Test Load All Configs")]
         void LoadAllThemes()
         {
             foreach (DirectoryInfo di in diPaths)
@@ -121,13 +121,30 @@ namespace Unitystation.Options
 
             //Test Examine:
             var mapping = (YamlMappingNode) yaml.Documents[0].RootNode;
-            Debug.Log("Children nodes:");
             foreach (var entry in mapping.Children)
             {
-                Debug.Log(((YamlScalarNode) entry.Key).Value);
-            }
+                //      var node = (YamlScalarNode) entry.Key).Value
+                var nodeName = ((YamlScalarNode) entry.Key).Value;
+                Debug.Log(nodeName);
+                if (string.IsNullOrEmpty(nodeName))
+                {
+                    Logger.LogError($"No Theme Type found for {nodeName}", Category.Themes);
+                    continue;
+                }
 
-            // var items = (YamlSequenceNode)mapping.Children[new YamlScalarNode("items")];
+                var configs = (YamlMappingNode) entry.Value;
+                foreach (var c in configs.Children)
+                {
+                    var configName = ((YamlScalarNode) c.Key).Value;
+                    Debug.Log(configName);
+
+                    var values = (YamlMappingNode) c.Value;
+                    foreach (var kvp in values)
+                    {
+                        Debug.Log($"Key: {kvp.Key.ToString()} Value: {kvp.Value.ToString()}");
+                    }
+                }
+            }
         }
     }
 
