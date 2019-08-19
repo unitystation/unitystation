@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using YamlDotNet.Core;
+using YamlDotNet.RepresentationModel;
 
 namespace Unitystation.Options
 {
@@ -26,7 +27,7 @@ namespace Unitystation.Options
         }
 
         //Add the root folder paths for each config type here:
-        private static string[] folderPaths = new string[] { "/ChatBubbleThemes/" };
+        private static string[] folderPaths = new string[] { "ChatBubbleThemes" };
         //Directory info list of each folder path
         private List<DirectoryInfo> diPaths = new List<DirectoryInfo>();
         private Dictionary<ThemeType, List<ThemeHandler>> handlers = new Dictionary<ThemeType, List<ThemeHandler>>();
@@ -38,10 +39,10 @@ namespace Unitystation.Options
         void Awake()
         {
             //Create DirectoryInfo's for each folder path for ease of use
+            diPaths.Clear();
             foreach (string p in folderPaths)
             {
-                diPaths.Clear();
-                diPaths.Add(new DirectoryInfo(Path.Combine(Application.streamingAssetsPath, p)));
+                diPaths.Add(new DirectoryInfo(Path.Combine(Application.streamingAssetsPath,$"Themes/{p}")));
             }
 
             LoadAllThemes();
@@ -87,6 +88,7 @@ namespace Unitystation.Options
 
         }
 
+        [ContextMenu("TestLoad")]
         void LoadAllThemes()
         {
             foreach (DirectoryInfo di in diPaths)
@@ -99,8 +101,13 @@ namespace Unitystation.Options
                         if (file.Extension.Equals(".yaml", System.StringComparison.OrdinalIgnoreCase))
                         {
                             LoadThemeFile(file);
+                            Debug.Log("Load theme: " + file.Name);
                         }
                     }
+                }
+                else
+                {
+                    Logger.LogError($"Theme folder not found: {di.FullName}", Category.Themes);
                 }
             }
             themesLoaded = true;
@@ -108,7 +115,19 @@ namespace Unitystation.Options
 
         void LoadThemeFile(FileInfo file)
         {
-            
+            var config = file.OpenText();
+            var yaml = new YamlStream();
+            yaml.Load(config);
+
+            //Test Examine:
+            var mapping = (YamlMappingNode) yaml.Documents[0].RootNode;
+            Debug.Log("Children nodes:");
+            foreach (var entry in mapping.Children)
+            {
+                Debug.Log(((YamlScalarNode) entry.Key).Value);
+            }
+
+            // var items = (YamlSequenceNode)mapping.Children[new YamlScalarNode("items")];
         }
     }
 

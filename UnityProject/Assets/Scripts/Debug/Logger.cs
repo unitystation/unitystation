@@ -236,7 +236,8 @@ public enum Category
 	Server, 
 	Tests,
 	Editor,
-	VariableViewer
+	VariableViewer,
+	Themes
 }
 
 [Serializable]
