@@ -170,7 +170,7 @@ public class SoundManager : MonoBehaviour
 	/// Play sound locally.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void Play(string name, float volume, float pitch = -1, float time = 0, bool oneShot = false)
+	public static void Play(string name, float volume, float pitch = -1, float time = 0, bool oneShot = false, float pan = 0)
 	{
 		name = Instance.ResolveSoundPattern(name);
 		if (pitch > 0)
@@ -179,8 +179,23 @@ public class SoundManager : MonoBehaviour
 		}
 		Instance.sounds[name].time = time;
 		Instance.sounds[name].volume = volume;
-		Play(name, oneShot);
+		Instance.sounds[name].panStereo = pan;
+		Play( name, oneShot );
 	}
+
+	/// <summary>
+	/// Gets the sound for playing locally and allowing full control over it without
+	/// having to go through sound manager. For playing local sounds only (such as in UI).
+	/// </summary>
+	/// <param name="name">Accepts "#" wildcards for sound variations. (Example: "Punch#")</param>
+	/// <returns>audiosource of the sound</returns>
+	public static AudioSource GetSound(string name)
+	{
+		name = Instance.ResolveSoundPattern(name);
+		return Instance.sounds[name];
+	}
+
+
 
 	/// <summary>
 	/// Play sound locally.

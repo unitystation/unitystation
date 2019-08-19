@@ -87,7 +87,7 @@ public class Networking : Editor
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			PlayerManager.LocalPlayerScript.playerHealth.Death();
+			PlayerManager.LocalPlayerScript.playerHealth.ApplyDamage(null, 99999f, AttackType.Internal, DamageType.Brute);
 		}
 	}
 
