@@ -8832,6 +8832,7 @@ GameObject:
   - component: {fileID: 17511461833371392}
   - component: {fileID: 8112252438846003280}
   - component: {fileID: 2328973686321954452}
+  - component: {fileID: 3825634513002827830}
   m_Layer: 5
   m_Name: OptionsScreen
   m_TagString: Untagged
@@ -8933,6 +8934,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screen: {fileID: 7597910633178645888}
+--- !u!114 &3825634513002827830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7751481133704188436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f8f85725ec79804b8a1947051564f64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7759432634905933299
 GameObject:
   m_ObjectHideFlags: 0
