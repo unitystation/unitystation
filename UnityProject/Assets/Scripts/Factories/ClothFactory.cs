@@ -9,24 +9,24 @@ using UnityEngine.Networking;
 /// </summary>
 public class ClothFactory : NetworkBehaviour
 {
-	//private static ClothFactory Instance;
+	private static ClothFactory Instance;
 
 
-	public static GameObject uniCloth;
+	public GameObject uniCloth;
 	//private GameObject uniHeadSet { get; set; }
 	//private GameObject uniBackPack { get; set; }
 
-	//private void Awake()
-	//{
-	//	if (Instance == null)
-	//	{
-	//		Instance = this;
-	//	}
-	//	else
-	//	{
-	//		Destroy(this);
-	//	}
-	//}
+	private void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+	}
 
 	//private void Start()
 	//{
@@ -63,13 +63,17 @@ public class ClothFactory : NetworkBehaviour
 	//}
 
 
-	public static GameObject CreateCloth(ClothingData ClothingData, Vector3 worldPos, Transform parent=null)
+	public static GameObject CreateCloth(ClothingData ClothingData, Vector3 worldPos, Transform parent=null, ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1)
 	{
 
-		var clothObj = PoolManager.PoolNetworkInstantiate(uniCloth, worldPos, parent);
-		var Clothing = clothObj.GetComponent<clothing>();
-		//Clothing.SpriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(ClothingData, Clothing);
-
+		if (Instance.uniCloth == null) {
+			Logger.Log("oh no!");
+		}
+		var clothObj = PoolManager.PoolNetworkInstantiate(Instance.uniCloth, worldPos, parent);
+		var _Clothing = clothObj.GetComponent<Clothing>();
+		var Item = clothObj.GetComponent<ItemAttributes>();
+		_Clothing.SpriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(ClothingData, _Clothing);
+		Item.SetUpFromClothingData(ClothingData, CVT, variant);
 		return clothObj;
 	}
 

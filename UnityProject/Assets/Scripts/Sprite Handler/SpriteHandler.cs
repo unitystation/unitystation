@@ -49,12 +49,17 @@ public class SpriteHandler : SpriteHandlerData
 
 	public void PushTexture()
 	{
+		Logger.Log("1");
 		if (SpriteInfos != null)
 		{
+			Logger.Log("2");
 			if (!(spriteIndex >= SpriteInfos.spriteList.Count))
 			{
+				Logger.Log("3");
 				if (!(VariantIndex >= SpriteInfos.spriteList[spriteIndex].Count))
 				{
+					Logger.Log("4");
+					Logger.Log(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex].sprite.name);
 					SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
 				}
 				else {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [CreateAssetMenu(fileName = "ClothingData", menuName = "ScriptableObjects_ClothingData", order = 1)]
 public class ClothingData : ScriptableObject
@@ -28,6 +29,7 @@ public class ClothingData : ScriptableObject
 		equippedData.Equipped.Equipped.setSprites();
 		equippedData.InHandsLeft.Equipped.setSprites();
 		equippedData.InHandsRight.Equipped.setSprites();
+		equippedData.ItemIcon.Equipped.setSprites();
 	}
 
 }
@@ -46,5 +48,5 @@ public class EquippedData
 	public TextureAndData Equipped;
 	public TextureAndData InHandsLeft;
 	public TextureAndData InHandsRight;
-	public Sprite ItemIcon;
+	public TextureAndData ItemIcon;
 }

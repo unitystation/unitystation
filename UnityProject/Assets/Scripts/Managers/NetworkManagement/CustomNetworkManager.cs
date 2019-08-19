@@ -77,6 +77,7 @@ public class CustomNetworkManager : NetworkManager
 		string[] dirs = Directory.GetDirectories(Application.dataPath, "Resources/Prefabs", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times 
 		foreach (string dir in dirs)
 		{
+			//Should yield For a frame to Increase performance
 			loadFolder(dir);
 			foreach (string subdir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
 			{

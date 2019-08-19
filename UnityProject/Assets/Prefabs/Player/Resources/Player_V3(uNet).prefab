@@ -2244,7 +2244,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 212695445263472394}
   spriteIndex: 0
   VariantIndex: 0
-  SynchroniseVariant: 0
+  SynchroniseVariant: 1
 --- !u!1 &1456517064699986
 GameObject:
   m_ObjectHideFlags: 0
@@ -2514,6 +2514,8 @@ GameObject:
   - component: {fileID: 4240144908851984}
   - component: {fileID: 212437748770145178}
   - component: {fileID: 114150458415481364}
+  - component: {fileID: 5042052820896836135}
+  - component: {fileID: 4396879776056569945}
   m_Layer: 8
   m_Name: uniform
   m_TagString: Untagged
@@ -2597,10 +2599,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 0, g: 0, b: 0, a: 0}
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 4396879776056569945}
   spriteSheetName: uniform
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
+--- !u!114 &5042052820896836135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562215114468348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &4396879776056569945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562215114468348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+  spriteRenderer: {fileID: 212437748770145178}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 1
 --- !u!1 &1626073062007556
 GameObject:
   m_ObjectHideFlags: 0
@@ -2755,7 +2812,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 212990490947787952}
   spriteIndex: 0
   VariantIndex: 0
-  SynchroniseVariant: 0
+  SynchroniseVariant: 1
 --- !u!1 &1646833726656528
 GameObject:
   m_ObjectHideFlags: 0

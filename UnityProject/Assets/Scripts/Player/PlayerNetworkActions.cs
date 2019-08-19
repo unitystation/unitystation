@@ -87,15 +87,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 			cnt.DisappearFromWorldServer();
 		}
-
-		if(originPNA != null)
-		{
-			var fromSlot = InventoryManager.GetSlotFromItem(itemObject, originPNA);
-			InventoryManager.ClearInvSlot(fromSlot);
-		}
-		var toSlot = Inventory[equipSlot];
-		InventoryManager.EquipInInvSlot(toSlot, itemObject);
-
+		Logger.Log("got here>?");
+		SetInventorySlot(slotName, itemObject);
 		return true;
 	}
 
@@ -153,7 +146,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					if (fromSlot.Item == null)
 					{
 						//clear equip sprite
-						SyncEquipSpritesFor(fromSlot, -1);
+						SyncEquipSpritesFor(fromSlot, null);
 					}
 				}
 			}
@@ -173,12 +166,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 						{
 							equipment.SetHandItemSprite(att, toSlot.SlotName);
 						}
-						//else if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") ||
-						//	att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
-						//	att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank") || toSlot.SlotName == "handcuffs")
-						//{
-						//	SyncEquipSpritesFor(toSlot, att.clothingReference);
-						//}
+						else
+						{
+							SyncEquipSpritesFor(toSlot, att.gameObject);
+						}
 					}
 				}
 			}
@@ -197,24 +188,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	private void SyncEquipSpritesFor(InventorySlot slot, int spriteRef)
+	private void SyncEquipSpritesFor(InventorySlot slot, GameObject Item)
 	{
 		//clear equip sprite
 		if (slot.Owner.gameObject == gameObject)
 		{
-			SyncEquipSprite(slot.SlotName, spriteRef);
+			SyncEquipSprite(slot.SlotName, Item);
 		}
 		else
 		{
-			slot.Owner.GetComponent<PlayerNetworkActions>()?.SyncEquipSprite(slot.SlotName, spriteRef);
+			slot.Owner.GetComponent<PlayerNetworkActions>()?.SyncEquipSprite(slot.SlotName, Item);
 		}
 	}
 
 	[Server]
-	private void SyncEquipSprite(string slotName, int spriteRef)
+	private void SyncEquipSprite(string slotName, GameObject Item)
 	{
 		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
-		equipment.SetReference((int)enumA, spriteRef, null);
+		equipment.SetReference((int)enumA, -1, Item);
 	}
 
 	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction,

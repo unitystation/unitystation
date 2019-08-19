@@ -58,11 +58,11 @@ public class ClothingItem : MonoBehaviour
 
 	public void SetReference(int value, GameObject Item)
 	{
-		Logger.Log("value" + value.ToString());
+		//Logger.Log("value" + value.ToString());
 		reference = value;
 		if (Item == null)
 		{
-			Logger.Log("GGGG");
+			//Logger.Log("GGGG");
 			if (spriteHandler != null) //need to remove 
 			{
 				spriteHandler.SpriteInfos = null;
@@ -71,21 +71,32 @@ public class ClothingItem : MonoBehaviour
 		}
 		if (Item != null) {
 
-			var bob = Item.GetComponent<ItemAttributes>().spriteHandlerData;
-			if (bob?.SpriteInfos != null)
+			Logger.Log("is here!");
+			if (spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand)
 			{
-				spriteHandler.SpriteInfos = bob.SpriteInfos;
+				var itemAttributes = Item.GetComponent<ItemAttributes>().spriteHandlerData;
+				spriteHandler.SpriteInfos = itemAttributes.SpriteInfos;
 				if (spriteType == SpriteHandType.RightHand)
 				{
-					spriteHandler.ChangeSprite(1); 
+					spriteHandler.ChangeSprite(1);
 				}
 				else
 				{
 					spriteHandler.ChangeSprite(0);
 				}
 				spriteHandler.PushTexture();
-
 			}
+			else { 
+				var clothing = Item.GetComponent<Clothing>();
+				if (clothing != null)
+				{
+					spriteHandler.SpriteInfos = clothing.SpriteInfo;
+					spriteHandler.ChangeSprite(clothing.ReturnState(ClothingVariantType.Skirt));
+					spriteHandler.PushTexture();
+				}
+			}
+
+
 
 		}
 

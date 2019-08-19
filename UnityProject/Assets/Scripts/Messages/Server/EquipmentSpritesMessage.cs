@@ -15,14 +15,14 @@ public class EquipmentSpritesMessage : ServerMessage
 
 		yield return WaitFor(EquipmentObject, Item);
 
-		Logger.Log("bob2?");
+		//Logger.Log("bob2?");
 		if (Item == NetworkInstanceId.Invalid)
 		{
-			Logger.Log("bob3?");
+			//Logger.Log("bob3?");
 			//Clear slot message			//yield return WaitFor(EquipmentObject);
 			if (NetworkObjects[0] != null)
 			{
-				Logger.Log("OR?");
+				//Logger.Log("OR?");
 				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference(Reference, null);
 			}
 		}
@@ -30,7 +30,7 @@ public class EquipmentSpritesMessage : ServerMessage
 			//yield return WaitFor(EquipmentObject, Item);
 			if (NetworkObjects[0] != null)
 			{
-				Logger.Log("this? " + NetworkObjects[0].name + " " + NetworkObjects[1].name);
+				//Logger.Log("this? " + NetworkObjects[0].name + " " + NetworkObjects[1].name);
 				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference(Reference, NetworkObjects[1]);
 			}
 

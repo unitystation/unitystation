@@ -44,9 +44,6 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		"mob/neck",
 		"mob/suit"
 	};
-	//reference numbers for item on inhands spritesheet. should be one corresponding to player facing down
-	public int inHandReferenceLeft;
-	public int inHandReferenceRight;
 
 	/// <summary>
 	/// Remember in hands is Left then right so [0] = Left, [1] = right
@@ -98,9 +95,84 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 
 
 
+	public void SetUpFromClothingData(ClothingData ClothingData, ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1) {
+		if (spriteHandlerData == null) {
+			spriteHandlerData = new SpriteHandlerData();
+		}		if (!(variant > -1))
+		{
+			switch (CVT)
+			{
+				case ClothingVariantType.Default:
+					spriteHandlerData.SpriteInfos = new SpriteDataForSH();
+					spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft));
+					spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsRight));
+					InventoryIcon.SpriteInfos = new SpriteDataForSH();
+					InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon));
+					Logger.Log(ClothingData.Base.ItemIcon.Equipped.Sprites.Length.ToString());
+					break;
+				case ClothingVariantType.Tucked:
+					spriteHandlerData.SpriteInfos = new SpriteDataForSH();
+					if (ClothingData.Base_Adjusted.InHandsLeft != null)
+					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.InHandsLeft)); }
+					else
+					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
 
+					if (ClothingData.Base_Adjusted.InHandsRight != null)
+					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.InHandsRight)); }
+					else
+					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
 
+					InventoryIcon.SpriteInfos = new SpriteDataForSH();
+					if (ClothingData.Base_Adjusted.ItemIcon.Equipped != null)
+					{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.ItemIcon)); }
+					else
+					{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
+					break;
 
+				case ClothingVariantType.Skirt:
+					spriteHandlerData.SpriteInfos = new SpriteDataForSH();
+					if (ClothingData.DressVariant.InHandsLeft != null)
+					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.InHandsLeft)); }
+					else
+					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
+
+					if (ClothingData.DressVariant.InHandsRight != null)
+					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.InHandsRight)); }
+					else
+					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
+
+					InventoryIcon.SpriteInfos = new SpriteDataForSH();
+					if (ClothingData.DressVariant.ItemIcon.Equipped != null)
+					{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.ItemIcon)); }
+					else
+					{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
+					break;
+			}
+		}
+		else {
+			if (ClothingData.Variants.Count > variant)
+			{
+				spriteHandlerData.SpriteInfos = new SpriteDataForSH();
+				if (ClothingData.Variants[variant].InHandsLeft != null)
+				{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].InHandsLeft)); }
+				else
+				{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
+
+				if (ClothingData.Variants[variant].InHandsRight != null)
+				{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].InHandsRight)); }
+				else
+				{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
+
+				InventoryIcon.SpriteInfos = new SpriteDataForSH();
+				if (ClothingData.Variants[variant].ItemIcon.Equipped != null)
+				{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].ItemIcon)); }
+				else
+				{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
+
+			}
+		}
+		InventoryIcon.PushTexture();
+	}
 
 
 	private static string GetMasterTypeHandsString(SpriteType masterType)

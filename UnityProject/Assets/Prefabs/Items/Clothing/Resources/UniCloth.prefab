@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 114326413956932616}
   - component: {fileID: 114883521337486670}
   - component: {fileID: 114077084986960180}
+  - component: {fileID: 2258105759303593514}
   m_Layer: 10
   m_Name: UniCloth
   m_TagString: Untagged
@@ -125,11 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothingReference: -1
-  hierarchy: 
-  inHandReferenceLeft: -1
-  inHandReferenceRight: -1
-  spriteHandlerData: {fileID: 0}
+  spriteHandlerData: {fileID: 114077084986960180}
+  InventoryIcon: {fileID: 2620878637528213898}
   itemName: 
   itemDescription: 
   itemType: 0
@@ -271,6 +269,24 @@ MonoBehaviour:
     AID: 0
     Serialized: []
   spriteList: []
+--- !u!114 &2258105759303593514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4988eef284d24f4dbc16a62462df71e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VariantList: 
+  SpriteInfo:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,6 +297,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4911511444418374}
   - component: {fileID: 212340400423555046}
+  - component: {fileID: 8178844003147961128}
+  - component: {fileID: 2620878637528213898}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -350,3 +368,58 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8178844003147961128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344926539164060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &2620878637528213898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344926539164060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteInfos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+  spriteRenderer: {fileID: 212340400423555046}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 1

@@ -5,7 +5,7 @@ using System.Linq;
 using Objects;
 using UnityEngine;
 using UnityEngine.Networking;
-
+using Newtonsoft.Json;
 
 public class Equipment : NetworkBehaviour
 {
@@ -69,7 +69,8 @@ public class Equipment : NetworkBehaviour
 		JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(playerScript.mind.jobType);
 
 		Dictionary<string, ClothOrPrefab> gear = new Dictionary<string, ClothOrPrefab>();
-
+		//Logger.Log("LLLLLLLLLLLLLLLLL > " + JsonConvert.SerializeObject(standardOutfit.CDuniform.Clothing) + " <  " + playerScript.mind.jobType );
+		//Logger.Log(standardOutfit.ToString());
 		gear.Add("uniform", standardOutfit.CDuniform);
 		//gear.Add("uniform", standardOutfit.uniform);
 		//gear.Add("ears", standardOutfit.ears);
@@ -150,16 +151,16 @@ public class Equipment : NetworkBehaviour
 		if (!String.IsNullOrEmpty(jobOutfit.r_pocket))
 			gear[EquipSlot.r_pocket] = jobOutfit.r_pocket;
 		if (!String.IsNullOrEmpty(jobOutfit.suit_store))
-			gear[EquipSlot.suit_store] = jobOutfit.suit_store;*/
-
+			gear["suit_store"] = jobOutfit.suit_store;*/
 		foreach (KeyValuePair<string, ClothOrPrefab> gearItem in gear)
 		{
-
+			//Logger.Log("WOW?");			//Logger.Log("RRRRRRRRRRRRR" + JsonConvert.SerializeObject(gearItem.Value.Clothing));
 			if (gearItem.Value.Clothing != null)
 			{
-				//var obj = ClothFactory.CreateCloth(gearItem.Value, TransformState.HiddenPos, transform.parent); //Where it is made
-				//ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				//SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
+				//Logger.Log("PPPPPPPPPPPPPPPPPPPP");
+				var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent); //Where it is made
+				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+				SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
 			}
 			else {
 				if (gearItem.Value.Prefab != null)
@@ -205,12 +206,67 @@ public class Equipment : NetworkBehaviour
 		{
 			idObj.GetComponent<IDCard>().Initialize(IDCardType.standard, outFit.jobType, outFit.allowedAccess, realName);
 		}
+		SetItem("id", idObj);
+	}
 
-		SetItem(EquipSlot.id, idObj);
+	// //Hand item sprites after picking up an item (server)
+	// public void SetHandItem(string slotName, GameObject obj)
+	// {
+	// 	ItemAttributes att = obj.GetComponent<ItemAttributes>();
+	// 	SetHandItemSprite(att);
+	// 	RpcSendMessage(slotName, obj);
+	// }
+
+	// [ClientRpc]
+	// private void RpcSendMessage(string eventName, GameObject obj)
+	// {
+	// 	obj.BroadcastMessage("OnAddToInventory", eventName, SendMessageOptions.DontRequireReceiver);
+	// }
+
+	public string GetLoadOutEventName(string uniformPosition)
+	{
+		switch (uniformPosition)
+		{
+			case "glasses":
+				return "eyes";
+			case "head":
+				return "head";
+			case "neck":
+				return "neck";
+			case "mask":
+				return "mask";
+			case "ears":
+				return "ear";
+			case "suit":
+				return "suit";
+			case "uniform":
+				return "uniform";
+			case "gloves":
+				return "hands";
+			case "shoes":
+				return "feet";
+			case "belt":
+				return "belt";
+			case "back":
+				return "back";
+			case "id":
+				return "id";
+			case "l_pocket":
+				return "storage02";
+			case "r_pocket":
+				return "storage01";
+			case "l_hand":
+				return "leftHand";
+			case "r_hand":
+				return "rightHand";
+			default:
+				Logger.LogWarning("GetLoadOutEventName: Unknown uniformPosition:" + uniformPosition, Category.Equipment);
+				return null;
+		}
 	}
 
 	//To set the actual sprite on the player obj
-	public void SetHandItemSprite(ItemAttributes att, EquipSlot hand)
+	public void SetHandItemSprite(ItemAttributes att, string hand)
 	{
 		if (hand == EquipSlot.leftHand)
 		{
@@ -225,7 +281,7 @@ public class Equipment : NetworkBehaviour
 
 	public void SetReference(int index, int reference, GameObject _Item)
 	{
-		Logger.Log("bob?");
+		//Logger.Log("bob?");
 		EquipmentSpritesMessage.SendToAll(gameObject, index, reference, _Item);
 	}
 
