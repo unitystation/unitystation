@@ -18,13 +18,6 @@ namespace Unitystation.Options
             SerializedProperty ttype = serializedObject.FindProperty("themeType");
             EditorGUILayout.PropertyField(ttype, true);
 
-            SerializedProperty key = serializedObject.FindProperty("themeName");
-            if (string.IsNullOrEmpty(handler.themeName))
-            {
-                handler.themeName = "default";
-            }
-            EditorGUILayout.PropertyField(key, true);
-
             //Changes the Inspector fields depending on the UIElement selection:
             handler.targetElement = (UIElement) EditorGUILayout.EnumPopup("UIElement Type", handler.targetElement);
             if (handler.targetElement == UIElement.Text)

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using YamlDotNet.RepresentationModel;
 
@@ -33,6 +34,8 @@ namespace Unitystation.Options
         private Dictionary<ThemeType, List<ThemeHandler>> handlers = new Dictionary<ThemeType, List<ThemeHandler>>();
         //In case there are any hold ups with initialization, do init work via a queue
         private Queue<ThemeHandler> themeSetQueue = new Queue<ThemeHandler>();
+        //All the loaded configs:
+        private Dictionary<ThemeType, List<ThemeConfig>> configs = new Dictionary<ThemeType, List<ThemeConfig>>();
         //Set to true when all the themes have been successfully loaded
         private bool themesLoaded = false;
 
@@ -88,7 +91,7 @@ namespace Unitystation.Options
 
         }
 
-        [ContextMenu("Test Load All Configs")]
+        [ContextMenu("Load All Configs")]
         void LoadAllThemes()
         {
             foreach (DirectoryInfo di in diPaths)
@@ -113,17 +116,17 @@ namespace Unitystation.Options
             themesLoaded = true;
         }
 
+        //Loads one theme file into the config dictionary
         void LoadThemeFile(FileInfo file)
         {
             var config = file.OpenText();
             var yaml = new YamlStream();
             yaml.Load(config);
 
-            //Test Examine:
+            //Examine the yaml file:
             var mapping = (YamlMappingNode) yaml.Documents[0].RootNode;
             foreach (var entry in mapping.Children)
             {
-                //      var node = (YamlScalarNode) entry.Key).Value
                 var nodeName = ((YamlScalarNode) entry.Key).Value;
                 Debug.Log(nodeName);
                 if (string.IsNullOrEmpty(nodeName))
@@ -132,16 +135,57 @@ namespace Unitystation.Options
                     continue;
                 }
 
-                var configs = (YamlMappingNode) entry.Value;
-                foreach (var c in configs.Children)
+                //Get the theme type from the node name
+                ThemeType theme = (ThemeType) Enum.Parse(typeof(ThemeType), nodeName, true);
+                //See if we have a list set up for this theme type
+                if (!configs.ContainsKey(theme))
                 {
-                    var configName = ((YamlScalarNode) c.Key).Value;
-                    Debug.Log(configName);
+                    configs.Add(theme, new List<ThemeConfig>());
+                }
 
-                    var values = (YamlMappingNode) c.Value;
-                    foreach (var kvp in values)
+                //Get all the config names and their settings associated with this Theme type in this file
+                var settings = (YamlMappingNode) entry.Value;
+                foreach (var c in settings.Children)
+                {
+                    var cfg = new ThemeConfig();
+                    cfg.themeType = theme;
+                    cfg.themeName = ((YamlScalarNode) c.Key).Value;
+
+                    //check to see if that name is already in use:
+                    var index = configs[theme].FindIndex(x => x.themeName == cfg.themeName);
+                    if (index == -1)
                     {
-                        Debug.Log($"Key: {kvp.Key.ToString()} Value: {kvp.Value.ToString()}");
+                        Debug.Log($"{cfg.themeName} theme config added for {cfg.themeType.ToString()}");
+
+                        //Get all the setting values for this config
+                        var values = (YamlMappingNode) c.Value;
+                        foreach (var kvp in values)
+                        {
+                            Debug.Log($"Key: {kvp.Key.ToString()} Value: {kvp.Value.ToString()}");
+
+                            //Load hex colors into Color
+                            if (kvp.Key.ToString().Contains("ImageColor"))
+                            {
+                                if (!ColorUtility.TryParseHtmlString(kvp.Value.ToString(), out cfg.imageColor))
+                                {
+                                    Logger.LogError($"Failed to parse html color {kvp.Value.ToString()}", Category.Themes);
+                                }
+                            }
+
+                            if (kvp.Key.ToString().Contains("TextColor"))
+                            {
+
+                                if (!ColorUtility.TryParseHtmlString(kvp.Value.ToString(), out cfg.textColor))
+                                {
+                                    Logger.LogError($"Failed to parse html color {kvp.Value.ToString()}", Category.Themes);
+                                }
+                            }
+                        }
+                        configs[theme].Add(cfg);
+                    }
+                    else
+                    {
+                        Logger.LogError($"There is already a config named {cfg.themeName} in {theme.ToString()}", Category.Themes);
                     }
                 }
             }
@@ -155,5 +199,18 @@ namespace Unitystation.Options
         //Add new elements that can be customized here
         //Then you need to open ThemeHandlerEditor.cs
         //and add the inspector gui for it (follow examples already there)
+    }
+
+    /// <summary>
+    /// Add more fields as needed
+    /// Values are loaded into the config which is then
+    /// Stored in a dictionary on ThemeManager
+    /// </summary>
+    public class ThemeConfig
+    {
+        public ThemeType themeType;
+        public string themeName;
+        public Color imageColor;
+        public Color textColor;
     }
 }
