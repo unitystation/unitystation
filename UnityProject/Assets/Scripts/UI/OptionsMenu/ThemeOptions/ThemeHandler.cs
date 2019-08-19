@@ -18,9 +18,9 @@ namespace Unitystation.Options
         + " Add a ThemeHandler for each UIElement you want to"
         + " customize")]
         public UIElement targetElement;
-        [Tooltip("Indentifies the element via the key"
+        [Tooltip("Indentifies the theme via the name"
         + " found in the yaml theme config file")]
-        public string configKey;
+        public string themeName;
         public Image image;
         public Text text;
 

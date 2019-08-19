@@ -18,10 +18,10 @@ namespace Unitystation.Options
             SerializedProperty ttype = serializedObject.FindProperty("themeType");
             EditorGUILayout.PropertyField(ttype, true);
 
-            SerializedProperty key = serializedObject.FindProperty("configKey");
-            if (string.IsNullOrEmpty(handler.configKey))
+            SerializedProperty key = serializedObject.FindProperty("themeName");
+            if (string.IsNullOrEmpty(handler.themeName))
             {
-                handler.configKey = "default";
+                handler.themeName = "default";
             }
             EditorGUILayout.PropertyField(key, true);
 
