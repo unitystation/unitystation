@@ -30,4 +30,8 @@
     /// 1 = enabled
     /// </summary>
     public static string TTSToggleKey = "TTSSetting";
+    /// <summary>
+    /// Returns the name of the currently selected theme name
+    /// </summary>
+    public static string ChatBubbleThemeKey = "ChatBubbleTheme";
 }

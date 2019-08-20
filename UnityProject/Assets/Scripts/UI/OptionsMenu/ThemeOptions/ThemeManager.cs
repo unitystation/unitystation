@@ -36,6 +36,8 @@ namespace Unitystation.Options
         private Queue<ThemeHandler> themeSetQueue = new Queue<ThemeHandler>();
         //All the loaded configs:
         private Dictionary<ThemeType, List<ThemeConfig>> configs = new Dictionary<ThemeType, List<ThemeConfig>>();
+        //The theme the player has chosen to use:
+        private Dictionary<ThemeType, ThemeConfig> chosenThemes = new Dictionary<ThemeType, ThemeConfig>();
         //Set to true when all the themes have been successfully loaded
         private bool themesLoaded = false;
 
@@ -113,6 +115,10 @@ namespace Unitystation.Options
                     Logger.LogError($"Theme folder not found: {di.FullName}", Category.Themes);
                 }
             }
+
+            //Load the configs that the player has chosen to use:
+            LoadUserPreferences();
+
             themesLoaded = true;
         }
 
@@ -187,6 +193,90 @@ namespace Unitystation.Options
                     {
                         Logger.LogError($"There is already a config named {cfg.themeName} in {theme.ToString()}", Category.Themes);
                     }
+                }
+            }
+        }
+
+        // Check player prefs for the users preference
+        void LoadUserPreferences()
+        {
+            //put all initial default preferences for your custom theme types here:
+            if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleThemeKey))
+            {
+                PlayerPrefs.SetString(PlayerPrefKeys.ChatBubbleThemeKey, "Default");
+                PlayerPrefs.Save();
+            }
+
+            //Set the chosen theme:
+            //FIXME put this is some kind of loop later on when we have more themetypes
+            SetPreferredTheme(ThemeType.ChatBubbles, PlayerPrefs.GetString(PlayerPrefKeys.ChatBubbleThemeKey));
+        }
+
+        /// <summary>
+        /// Pass the ThemeType and Theme Name to set the peferred settings for this player
+        /// Client Side only!!!
+        /// </summary>
+        public static void SetPreferredTheme(ThemeType themeType, string themeName)
+        {
+            if (!Instance.configs.ContainsKey(themeType))
+            {
+                Logger.LogError($"Theme Type {themeType} not found in ThemeManager", Category.Themes);
+                return;
+            }
+
+            var index = Instance.configs[themeType].FindIndex(x => string.Equals(x.themeName, themeName, StringComparison.OrdinalIgnoreCase));
+            if (index == -1)
+            {
+                Logger.LogError($"Theme not found {themeName}", Category.Themes);
+                return;
+            }
+
+            Instance.SetPreferredTheme(themeType, Instance.configs[themeType][index]);
+        }
+
+        //Update the chosenThemes dictionary with the preferred theme
+        void SetPreferredTheme(ThemeType themeType, ThemeConfig config)
+        {
+            if (!chosenThemes.ContainsKey(themeType))
+            {
+                chosenThemes.Add(themeType, config);
+            }
+            else
+            {
+                chosenThemes[themeType] = config;
+            }
+
+            //Save preference to player prefs:
+            SavePlayerPrefs(config);
+        }
+
+        void SavePlayerPrefs(ThemeConfig config)
+        {
+            //As keys can be arbitrary values we need this switch case:
+            var prefKey = "";
+            switch (config.themeType)
+            {
+                case ThemeType.ChatBubbles:
+                    prefKey = PlayerPrefKeys.ChatBubbleThemeKey;
+                    break;
+                    //Add your keys here!
+            }
+
+            PlayerPrefs.SetString(prefKey, config.themeName);
+            PlayerPrefs.Save();
+
+            //Invoke theme change events
+            ThemeChangeEvent(config.themeType);
+        }
+        
+        //A new theme has been chosen, update all elements
+        void ThemeChangeEvent(ThemeType themeType)
+        {
+            if (handlers.ContainsKey(themeType))
+            {
+                foreach (var handler in handlers[themeType])
+                {
+                    handler.SetTheme(chosenThemes[themeType]);
                 }
             }
         }

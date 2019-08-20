@@ -14,9 +14,9 @@ namespace Unitystation.Options
     {
         [Tooltip("Add your own type if needed")]
         public ThemeType themeType;
-        [Tooltip("Is this a Text, Image or something else?" 
-        + " Add a ThemeHandler for each UIElement you want to"
-        + " customize")]
+        [Tooltip("Is this a Text, Image or something else?" +
+            " Add a ThemeHandler for each UIElement you want to" +
+            " customize")]
         public UIElement targetElement;
         public Image image;
         public Text text;
@@ -42,6 +42,15 @@ namespace Unitystation.Options
             }
             yield return WaitFor.EndOfFrame;
             ThemeManager.RegisterHandler(this);
+        }
+
+        /// <summary>
+        /// Set the theme preferences.
+        /// Called via ThemeManager
+        /// </summary>
+        public void SetTheme(ThemeConfig config)
+        {
+
         }
     }
 }
