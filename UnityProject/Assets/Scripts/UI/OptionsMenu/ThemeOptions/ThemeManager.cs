@@ -117,6 +117,8 @@ namespace Unitystation.Options
         [ContextMenu("Load All Configs")]
         public void LoadAllThemes()
         {
+            configs.Clear();
+            
             foreach (DirectoryInfo di in diPaths)
             {
                 if (di.Exists)
@@ -168,11 +170,7 @@ namespace Unitystation.Options
                 {
                     configs.Add(theme, new List<ThemeConfig>());
                 }
-                else
-                {
-                    configs[theme].Clear();
-                }
-
+                
                 //Get all the config names and their settings associated with this Theme type in this file
                 var settings = (YamlMappingNode) entry.Value;
                 foreach (var c in settings.Children)
