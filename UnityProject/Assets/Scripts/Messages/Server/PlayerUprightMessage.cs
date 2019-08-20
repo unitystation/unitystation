@@ -56,6 +56,21 @@ public class PlayerUprightMessage : ServerMessage
 		msg.SendTo( subjectPlayer );
 	}
 
+	/// <summary>
+	/// Sends the info on the subject's current status to a specific client.
+	/// </summary>
+	/// <param name="recipient">player who should recieve the message</param>
+	/// <param name="subjectPlayer">player whose status is being communicated</param>
+	public static void Sync(GameObject recipient, GameObject subjectPlayer)
+	{
+		var msg = new PlayerUprightMessage
+		{
+			SubjectPlayer = subjectPlayer.NetId(),
+			Upright = !subjectPlayer.GetComponent<RegisterPlayer>().IsDownServer
+		};
+		msg.SendTo(recipient);
+	}
+
 	private static bool IsValid(GameObject subjectPlayer, bool upright, bool buckling)
 	{
 		if(buckling)
