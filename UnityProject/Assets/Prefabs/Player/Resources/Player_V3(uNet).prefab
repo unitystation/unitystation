@@ -988,14 +988,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers:
-  - {fileID: 212974081283444976}
-  - {fileID: 0}
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &114449635359748350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3896,7 +3891,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 90fce7f3dfa2b944ebc9d75512a50a52, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3928,6 +3923,7 @@ GameObject:
   - component: {fileID: 6157268090351760418}
   - component: {fileID: 5972147830315798000}
   - component: {fileID: 5056329431132668351}
+  - component: {fileID: 7261509097524071860}
   m_Layer: 8
   m_Name: ChatBubble
   m_TagString: Untagged
@@ -4016,6 +4012,23 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!114 &7261509097524071860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3225982707712395634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5b0d29d3081f064e94e388047cf0ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  themeType: 0
+  targetElement: 1
+  configKey: default
+  image: {fileID: 5972147830315798000}
+  text: {fileID: 0}
 --- !u!1 &4560473325844253165
 GameObject:
   m_ObjectHideFlags: 0
@@ -4126,6 +4139,7 @@ GameObject:
   - component: {fileID: 6016837807696784508}
   - component: {fileID: 1034183186174661024}
   - component: {fileID: 1379583723759324943}
+  - component: {fileID: 4966525309682605044}
   m_Layer: 8
   m_Name: ChatText
   m_TagString: Untagged
@@ -4214,6 +4228,23 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &4966525309682605044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4840233631772676658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5b0d29d3081f064e94e388047cf0ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  themeType: 0
+  targetElement: 0
+  configKey: default
+  image: {fileID: 0}
+  text: {fileID: 1034183186174661024}
 --- !u!1 &7855789308551963094
 GameObject:
   m_ObjectHideFlags: 0
@@ -4225,6 +4256,7 @@ GameObject:
   - component: {fileID: 141859864810087597}
   - component: {fileID: 7374456401544043403}
   - component: {fileID: 3390362592226882320}
+  - component: {fileID: 5119598761181843338}
   m_Layer: 8
   m_Name: Pointer
   m_TagString: Untagged
@@ -4288,6 +4320,23 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &5119598761181843338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7855789308551963094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5b0d29d3081f064e94e388047cf0ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  themeType: 0
+  targetElement: 1
+  configKey: default
+  image: {fileID: 3390362592226882320}
+  text: {fileID: 0}
 --- !u!1001 &4300145449095171559
 PrefabInstance:
   m_ObjectHideFlags: 0
