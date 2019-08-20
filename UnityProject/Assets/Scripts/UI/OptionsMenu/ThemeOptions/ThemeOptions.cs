@@ -17,11 +17,45 @@ namespace Unitystation.Options
         void OnEnable()
         {
             Refresh();
+            ConstructChatBubbleOptions();
         }
 
         void Refresh()
         {
+            //Reload all the themes as there might be
+            //updates
+            ThemeManager.Instance.LoadAllThemes();
+        }
 
+        void ConstructChatBubbleOptions()
+        {
+            var options = ThemeManager.GetThemeOptions(ThemeType.ChatBubbles);
+            if (options.Count > 0)
+            {
+                chatBubbleDropDown.interactable = true;
+
+                List<Dropdown.OptionData> optionData = new List<Dropdown.OptionData>();
+                foreach (string option in options)
+                {
+                    var optData = new Dropdown.OptionData();
+                    optData.text = option;
+                    optionData.Add(optData);
+                }
+                var currentPref = optionData.FindIndex(x => string.Equals(x.text, ThemeManager.Instance.chosenThemes[ThemeType.ChatBubbles].themeName));
+                chatBubbleDropDown.options = optionData;
+                chatBubbleDropDown.value = currentPref;
+            }
+            else
+            {
+                chatBubbleDropDown.interactable = false;
+                Logger.LogError("No Options found for ChatBubbles", Category.Themes);
+            }
+        }
+
+        //Changing the value of the preferred Chat Bubble Theme from drop down list
+        public void OnChatBubbleChange()
+        {
+            ThemeManager.SetPreferredTheme(ThemeType.ChatBubbles, chatBubbleDropDown.options[chatBubbleDropDown.value].text);
         }
     }
 }

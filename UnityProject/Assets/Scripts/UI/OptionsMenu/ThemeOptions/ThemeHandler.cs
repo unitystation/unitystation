@@ -23,10 +23,10 @@ namespace Unitystation.Options
 
         void OnEnable()
         {
-            Register();
+            StartCoroutine(Register());
         }
 
-        void OnDisable()
+        void OnDestroy()
         {
             if (ThemeManager.Instance != null)
             {
@@ -40,7 +40,6 @@ namespace Unitystation.Options
             {
                 yield return WaitFor.EndOfFrame;
             }
-            yield return WaitFor.EndOfFrame;
             ThemeManager.RegisterHandler(this);
         }
 
@@ -50,7 +49,15 @@ namespace Unitystation.Options
         /// </summary>
         public void SetTheme(ThemeConfig config)
         {
-
+            switch (targetElement)
+            {
+                case UIElement.Image:
+                    image.color = config.imageColor;
+                    break;
+                case UIElement.Text:
+                    text.color = config.textColor;
+                    break;
+            }
         }
     }
 }

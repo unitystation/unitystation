@@ -37,7 +37,7 @@ namespace Unitystation.Options
         //All the loaded configs:
         private Dictionary<ThemeType, List<ThemeConfig>> configs = new Dictionary<ThemeType, List<ThemeConfig>>();
         //The theme the player has chosen to use:
-        private Dictionary<ThemeType, ThemeConfig> chosenThemes = new Dictionary<ThemeType, ThemeConfig>();
+        public Dictionary<ThemeType, ThemeConfig> chosenThemes = new Dictionary<ThemeType, ThemeConfig>();
         //Set to true when all the themes have been successfully loaded
         private bool themesLoaded = false;
 
@@ -63,6 +63,7 @@ namespace Unitystation.Options
             if (!Instance.handlers[handler.themeType].Contains(handler))
             {
                 Instance.handlers[handler.themeType].Add(handler);
+                Instance.themeSetQueue.Enqueue(handler);
             }
         }
 
@@ -88,13 +89,33 @@ namespace Unitystation.Options
             }
         }
 
+        /// <summary>
+        /// Get a list of available configs for a 
+        /// Theme Type
+        /// </summary>
+        public static List<string> GetThemeOptions(ThemeType themeType)
+        {
+            var list = new List<string>();
+            if (Instance.configs.ContainsKey(themeType))
+            {
+                foreach (ThemeConfig config in Instance.configs[themeType])
+                {
+                    list.Add(config.themeName);
+                }
+            }
+            return list;
+        }
+
         void SetTheme(ThemeHandler handler)
         {
-
+            if (chosenThemes.ContainsKey(handler.themeType))
+            {
+                handler.SetTheme(chosenThemes[handler.themeType]);
+            }
         }
 
         [ContextMenu("Load All Configs")]
-        void LoadAllThemes()
+        public void LoadAllThemes()
         {
             foreach (DirectoryInfo di in diPaths)
             {
@@ -106,7 +127,6 @@ namespace Unitystation.Options
                         if (file.Extension.Equals(".yaml", System.StringComparison.OrdinalIgnoreCase))
                         {
                             LoadThemeFile(file);
-                            Debug.Log("Load theme: " + file.Name);
                         }
                     }
                 }
@@ -134,7 +154,7 @@ namespace Unitystation.Options
             foreach (var entry in mapping.Children)
             {
                 var nodeName = ((YamlScalarNode) entry.Key).Value;
-                Debug.Log(nodeName);
+                
                 if (string.IsNullOrEmpty(nodeName))
                 {
                     Logger.LogError($"No Theme Type found for {nodeName}", Category.Themes);
@@ -147,6 +167,10 @@ namespace Unitystation.Options
                 if (!configs.ContainsKey(theme))
                 {
                     configs.Add(theme, new List<ThemeConfig>());
+                }
+                else
+                {
+                    configs[theme].Clear();
                 }
 
                 //Get all the config names and their settings associated with this Theme type in this file
@@ -161,14 +185,10 @@ namespace Unitystation.Options
                     var index = configs[theme].FindIndex(x => x.themeName == cfg.themeName);
                     if (index == -1)
                     {
-                        Debug.Log($"{cfg.themeName} theme config added for {cfg.themeType.ToString()}");
-
                         //Get all the setting values for this config
                         var values = (YamlMappingNode) c.Value;
                         foreach (var kvp in values)
                         {
-                            Debug.Log($"Key: {kvp.Key.ToString()} Value: {kvp.Value.ToString()}");
-
                             //Load hex colors into Color
                             if (kvp.Key.ToString().Contains("ImageColor"))
                             {
@@ -180,7 +200,6 @@ namespace Unitystation.Options
 
                             if (kvp.Key.ToString().Contains("TextColor"))
                             {
-
                                 if (!ColorUtility.TryParseHtmlString(kvp.Value.ToString(), out cfg.textColor))
                                 {
                                     Logger.LogError($"Failed to parse html color {kvp.Value.ToString()}", Category.Themes);
@@ -268,7 +287,7 @@ namespace Unitystation.Options
             //Invoke theme change events
             ThemeChangeEvent(config.themeType);
         }
-        
+
         //A new theme has been chosen, update all elements
         void ThemeChangeEvent(ThemeType themeType)
         {
