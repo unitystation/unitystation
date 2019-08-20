@@ -264,6 +264,7 @@ public partial class PlayerSync
 	{
 		serverState.NoLerp = noLerp;
 		var msg = PlayerMoveMessage.Send(recipient, gameObject, serverState);
+		PlayerUprightMessage.Sync(recipient, gameObject);
 		Logger.LogTraceFormat("Sent {0}", Category.Movement, msg);
 	}
 
