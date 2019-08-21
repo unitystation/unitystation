@@ -107,7 +107,7 @@ public class MouseInputController : MonoBehaviour
 
 		//Do not include the Default layer! Assign your object to one of the layers below:
 		layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Unshootable Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
-			"HiddenWalls", "Objects", "Matrix");
+			"HiddenWalls", "Objects", "Matrix", "Floor");
 	}
 
 	void LateUpdate()
