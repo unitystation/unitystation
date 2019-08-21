@@ -5,8 +5,10 @@ using UnityEngine.Networking;
 using UnityEditor;
 using System.Linq;
 using Newtonsoft.Json;
+#if UNITY_EDITOR
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
+#endif
 
 public class SpriteHandlerData : NetworkBehaviour
 {
@@ -14,17 +16,17 @@ public class SpriteHandlerData : NetworkBehaviour
 	//Maybe a dictionary so you can easily look up in hands and stuff like that
 	//With enum
 
-	public SpriteDataForSH SpriteInfos;
+	public SpriteDataForSH Infos;
 	public List<Sprite> spriteList = new List<Sprite>();
 	private SpriteJson spriteJson;
 	// Start is called before the first frame update
 	void Start()
 	{
-		SpriteInfos.DeSerializeT();
+		Infos.DeSerializeT();
 	}
 	public void HELP()
 	{
-		if (SpriteInfos == null)
+		if (Infos == null)
 		{
 			Logger.Log("OH FUCK!!");
 		}
@@ -37,14 +39,14 @@ public class SpriteHandlerData : NetworkBehaviour
 	//	return(SpriteInfos)
 
 	//}
-
+	#if UNITY_EDITOR
 	public void SetUpSheet()
 	{
-		SpriteInfos = new SpriteDataForSH();
-		SpriteInfos.spriteList = new List<List<List<SpriteInfo>>>();
+		Infos = new SpriteDataForSH();
+		Infos.List = new List<List<List<SpriteInfo>>>();
 		for (int i = 0; i < spriteList.Count; i++)
 		{
-			SpriteInfos.spriteList.Add(new List<List<SpriteInfo>>());
+			Infos.List.Add(new List<List<SpriteInfo>>());
 			var path = AssetDatabase.GetAssetPath(spriteList[i]).Substring(17);//Substring(17) To remove the "Assets/Resources/"
 			Sprite[] spriteSheetSprites = Resources.LoadAll<Sprite>(path.Remove(path.Length - 4));
 			if (spriteSheetSprites.Length > 1)
@@ -61,7 +63,7 @@ public class SpriteHandlerData : NetworkBehaviour
 				for (int J = 0; J < spriteJson.Number_Of_Variants; J++)
 				{
 					Logger.Log("J > " + J.ToString());
-					SpriteInfos.spriteList[i].Add(new List<SpriteInfo>());
+					Infos.List[i].Add(new List<SpriteInfo>());
 				}
 
 				foreach (var SP in spriteSheetSprites)
@@ -79,7 +81,7 @@ public class SpriteHandlerData : NetworkBehaviour
 					Logger.Log("i > " + i.ToString());
 					Logger.Log("c > " + c.ToString());
 
-					SpriteInfos.spriteList[i][c].Add(info);
+					Infos.List[i][c].Add(info);
 					Logger.Log("added");
 					if (c >= (spriteJson.Number_Of_Variants - 1))
 					{
@@ -98,13 +100,13 @@ public class SpriteHandlerData : NetworkBehaviour
 					sprite = spriteSheetSprites[0],
 					waitTime = 0
 				};
-				SpriteInfos.spriteList[i].Add(new List<SpriteInfo>());
-				SpriteInfos.spriteList[i][0].Add(info);
+				Infos.List[i].Add(new List<SpriteInfo>());
+				Infos.List[i][0].Add(info);
 				Logger.Log("added");
 			}
 
 		}
-		SpriteInfos.SerializeT();
+		Infos.SerializeT();
 		var IA = this.GetComponent<ItemAttributes>();
 		if (IA != null) {
 			IA.spriteHandlerData = this;
@@ -118,6 +120,7 @@ public class SpriteHandlerData : NetworkBehaviour
 		}
 
 	}
+	#endif
 
 	public class SpriteInfo
 	{

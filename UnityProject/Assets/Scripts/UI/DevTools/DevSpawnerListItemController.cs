@@ -61,11 +61,11 @@ public class DevSpawnerListItemController : MonoBehaviour
 		else
 		{
 			hier = resultDoc.Get("hier");
-			Sprite toUse = UniItemUtils.GetInventoryIconSprite(hier);
-			if (toUse != null)
-			{
-				image.sprite = toUse;
-			}
+			//Sprite toUse = UniItemUtils.GetInventoryIconSprite(hier);
+			//if (toUse != null)
+			//{
+			//	image.sprite = toUse;
+			//}
 			//determine which prefab this is for
 			//TODO!!!
 			//Change this

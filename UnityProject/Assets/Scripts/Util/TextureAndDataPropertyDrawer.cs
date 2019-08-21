@@ -1,0 +1,200 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
+using System.Linq;
+using Newtonsoft.Json;
+using System.Reflection;
+using System.Text;
+using System;
+using UnityEngine.SceneManagement;
+
+
+#if UNITY_EDITOR
+using UnityEditor;
+
+
+[CustomPropertyDrawer(typeof(SpriteSheetAndData))]
+public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
+{
+	public static Type TupleTypeReference = Type.GetType("System.ITuple, mscorlib");
+	// Draw the property inside the given rect
+	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+	{
+		// Using BeginProperty / EndProperty on the parent property means that
+		// prefab override logic works on the entire property.
+		EditorGUI.BeginProperty(position, label, property);
+
+		// Draw label
+		position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+
+		// Don't make child fields be indented
+		var indent = EditorGUI.indentLevel;
+		EditorGUI.indentLevel = 0;
+
+		// Calculate rects
+		var amountRect = new Rect(position.x, position.y, position.width, position.height);
+
+		// Draw fields - passs GUIContent.none to each so they are drawn without labels
+		EditorGUI.BeginChangeCheck();
+		property.serializedObject.Update();
+		EditorGUI.PropertyField(amountRect, property.FindPropertyRelative("Texture"), GUIContent.none);
+		property.serializedObject.ApplyModifiedProperties();
+		if (EditorGUI.EndChangeCheck())
+		{
+			var BaseSerialiseObject = property.serializedObject.targetObject;
+			GetAttributes(BaseSerialiseObject as object);
+
+		}
+		property.serializedObject.Update();
+		EditorGUI.PropertyField(new Rect(0,0,1,1), property.FindPropertyRelative("Sprites"), GUIContent.none);
+		EditorGUI.PropertyField(new Rect(0, 0, 1, 1), property.FindPropertyRelative("EquippedData"), GUIContent.none);
+		property.serializedObject.ApplyModifiedProperties();
+		// Set indent back to what it was
+		EditorGUI.indentLevel = indent;
+
+		EditorGUI.EndProperty();
+	}
+
+	public void GetAttributes(object Script)
+	{
+		//Logger.Log("1");
+		Type monoType = Script.GetType();
+		foreach (FieldInfo Field in monoType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+		{
+			//Logger.Log("2");
+			if (Field.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+			{
+				//Logger.Log("3 " + Field.FieldType);
+				if (Field.FieldType == typeof(SpriteSheetAndData))
+				{
+					//Logger.Log("4");
+					(Field.GetValue(Script) as SpriteSheetAndData).setSprites();
+				}
+				//Logger.Log("5");
+
+				ReflectionSpriteSheetAndData(Field.FieldType, Script, Info: Field);
+
+			}
+		}
+		if (TupleTypeReference == monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
+		{
+			foreach (PropertyInfo Properties in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+			{
+				if (Properties.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+				{
+					if (Properties.PropertyType == typeof(SpriteSheetAndData))
+					{
+						(Properties.GetValue(Script) as SpriteSheetAndData).setSprites();
+					}
+					ReflectionSpriteSheetAndData(Properties.PropertyType, Script, PInfo: Properties);
+				}
+			}
+		}
+
+	}
+	public void ReflectionSpriteSheetAndData(Type VariableType, object Script, FieldInfo Info = null, PropertyInfo PInfo = null)
+	{
+		//Logger.Log("6");
+		if (Info == null && PInfo == null)
+		{
+			foreach (FieldInfo method in VariableType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+			{
+				if (method.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+				{
+					if (method.FieldType == typeof(SpriteSheetAndData))
+					{
+						(method.GetValue(Script) as SpriteSheetAndData).setSprites();
+					}
+
+					if (method.FieldType.IsGenericType)
+					{
+						IEnumerable list = method.GetValue(Script) as IEnumerable;
+						if (list != null)
+						{
+							foreach (var c in list)
+							{
+
+								Type valueType = c.GetType();
+								ReflectionSpriteSheetAndData(c.GetType(), c);
+
+							}
+						}
+					}
+					else if (VariableType.IsClass)
+					{
+						if (method.GetValue(Script) != null)
+						{
+							GetAttributes(method.GetValue(Script));
+						}
+					}
+				}
+			}
+		}
+		else {
+			//Logger.Log("7");
+			if (Info == null)
+			{
+				//Logger.Log("8" + PInfo.PropertyType);
+				if (PInfo.PropertyType == typeof(SpriteSheetAndData))
+				{
+					(PInfo.GetValue(Script) as SpriteSheetAndData).setSprites();
+				}
+			}
+			else
+			{
+				//Logger.Log("8" + Info.FieldType);
+				if (Info.FieldType == typeof(SpriteSheetAndData))
+				{
+					(Info.GetValue(Script) as SpriteSheetAndData).setSprites();
+				}
+			}
+
+
+			if (VariableType.IsGenericType)
+			{
+				//Logger.Log("9");
+				IEnumerable list;
+				Type TType;
+				if (Info == null)
+				{
+					list = PInfo.GetValue(Script) as IEnumerable;
+					TType = PInfo.PropertyType;
+				}
+				else
+				{
+					list = Info.GetValue(Script) as IEnumerable;
+					TType = Info.FieldType;
+				}
+				if (list != null)
+				{
+					foreach (object c in list)
+					{
+						Type valueType = c.GetType();
+						ReflectionSpriteSheetAndData(c.GetType(), c);
+					}
+				}
+			}
+			else if (VariableType.IsClass)
+			{
+				if (Info == null)
+				{
+					if (PInfo.GetValue(Script) != null)
+					{
+						GetAttributes(PInfo.GetValue(Script));
+					}
+				}
+				else
+				{
+					if (Info.GetValue(Script) != null)
+					{
+						GetAttributes(Info.GetValue(Script));
+					}
+				}
+			}
+		}
+	}
+}
+#endif
+
+

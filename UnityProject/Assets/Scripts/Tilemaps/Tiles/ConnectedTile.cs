@@ -46,13 +46,16 @@ public class ConnectedTile : BasicTile
 		{
 			if (_sprites == null || _sprites.Length == 0)
 			{
+				
 				_sprites = Resources.LoadAll<Sprite>(texturePath); //yeah Apparently you got to get rid of the .png //.Remove(texturePath.Length - 4)
 				//Logger.Log(texturePath + "/" + spriteSheet.name);
 				if (_sprites == null || _sprites.Length == 0) {
+					#if UNITY_EDITOR
 					texturePath = AssetDatabase.GetAssetPath(spriteSheet).Substring(17); //Substring(17) To remove the "Assets/Resources/"
 					texturePath = texturePath.Remove(texturePath.Length - 4);
 					_sprites = Resources.LoadAll<Sprite>(texturePath); 
 					//Logger.Log(texturePath);
+					#endif
 				}
 					
 			}

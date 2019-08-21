@@ -5,31 +5,30 @@ using UnityEngine.Networking;
 using UnityEditor;
 using System.Linq;
 using Newtonsoft.Json;
-using UnityEditor.Experimental.SceneManagement;
-using UnityEditor.SceneManagement;
+
 public static class StaticSpriteHandler
 {
 	public static SpriteDataForSH SetUpSheetForClothingData(ClothingData ClothingData, Clothing Clothing)
 	{
 
 		var SpriteInfos = new SpriteDataForSH();
-		SpriteInfos.spriteList = new List<List<List<SpriteHandlerData.SpriteInfo>>>();
+		SpriteInfos.List = new List<List<List<SpriteHandlerData.SpriteInfo>>>();
 		int c = 0;
 
-		SpriteInfos.spriteList.Add(CompleteSpriteSetup(ClothingData.Base.Equipped));
+		SpriteInfos.List.Add(CompleteSpriteSetup(ClothingData.Base.Equipped));
 		Clothing.VariantStore[ClothingVariantType.Default] = c;
 		c++;
 
-		if (ClothingData.Base_Adjusted.Equipped.Equipped.Texture != null)
+		if (ClothingData.Base_Adjusted.Equipped.Texture != null)
 		{
-			SpriteInfos.spriteList.Add(CompleteSpriteSetup(ClothingData.Base_Adjusted.Equipped));
+			SpriteInfos.List.Add(CompleteSpriteSetup(ClothingData.Base_Adjusted.Equipped));
 			Clothing.VariantStore[ClothingVariantType.Tucked] = c;
 			c++;
 		}
 
-		if (ClothingData.DressVariant.Equipped.Equipped.Texture != null)
+		if (ClothingData.DressVariant.Equipped.Texture != null)
 		{
-			SpriteInfos.spriteList.Add(CompleteSpriteSetup(ClothingData.DressVariant.Equipped));
+			SpriteInfos.List.Add(CompleteSpriteSetup(ClothingData.DressVariant.Equipped));
 			Clothing.VariantStore[ClothingVariantType.Skirt] = c;
 			c++;
 		}
@@ -37,7 +36,7 @@ public static class StaticSpriteHandler
 		{
 			foreach (var Variant in ClothingData.Variants)
 			{
-				SpriteInfos.spriteList.Add(CompleteSpriteSetup(Variant.Equipped));
+				SpriteInfos.List.Add(CompleteSpriteSetup(Variant.Equipped));
 				Clothing.VariantStore[ClothingVariantType.Skirt] = c;
 				c++;
 			}
@@ -45,11 +44,11 @@ public static class StaticSpriteHandler
 		return (SpriteInfos);
 	}
 
-	public static List<List<SpriteHandlerData.SpriteInfo>> CompleteSpriteSetup(TextureAndData textureAndData)
+	public static List<List<SpriteHandlerData.SpriteInfo>> CompleteSpriteSetup(SpriteSheetAndData textureAndData)
 	{
 		var SpriteInfos = new List<List<SpriteHandlerData.SpriteInfo>>();
 
-		if (textureAndData.Equipped.Sprites.Length > 1)
+		if (textureAndData.Sprites.Length > 1)
 		{
 			SpriteHandlerData.SpriteJson spriteJson;
 			spriteJson = JsonConvert.DeserializeObject<SpriteHandlerData.SpriteJson>(textureAndData.EquippedData.text);
@@ -61,7 +60,7 @@ public static class StaticSpriteHandler
 				SpriteInfos.Add(new List<SpriteHandlerData.SpriteInfo>());
 			}
 
-			foreach (var SP in textureAndData.Equipped.Sprites)
+			foreach (var SP in textureAndData.Sprites)
 			{
 				var info = new SpriteHandlerData.SpriteInfo();
 				info.sprite = SP;
@@ -82,15 +81,18 @@ public static class StaticSpriteHandler
 			}
 		}
 		else {
-			if (textureAndData.Equipped.Sprites.Length > 0)
+			if (textureAndData.Sprites.Length > 0)
 			{
 				var info = new SpriteHandlerData.SpriteInfo()
 				{
-					sprite = textureAndData.Equipped.Sprites[0],
+					sprite = textureAndData.Sprites[0],
 					waitTime = 0
 				};
 				SpriteInfos.Add(new List<SpriteHandlerData.SpriteInfo>());
 				SpriteInfos[0].Add(info);
+			}
+			else {
+				Logger.LogError("HELP!!!!!");
 			}
 		}
 		return (SpriteInfos);

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEditor;
 using System.Linq;
 using Newtonsoft.Json;
-using UnityEditor.Experimental.SceneManagement;
-using UnityEditor.SceneManagement;
+#if UNITY_EDITOR
+using UnityEditor;
 
 
 [CustomPropertyDrawer(typeof(SpriteSheet))]
@@ -40,4 +39,4 @@ public class SpriteSheetPropertyDrawer : PropertyDrawer
 		EditorGUI.EndProperty();
 	}
 }
-
+#endif

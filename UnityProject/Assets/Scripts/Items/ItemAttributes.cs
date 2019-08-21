@@ -65,6 +65,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	[FormerlySerializedAs("ConnectedToTank")]
 	public bool CanConnectToTank;
 
+
 	/// throw-related fields
 	[Tooltip("Damage when we click someone with harm intent")]
 	[Range(0, 100)]
@@ -103,71 +104,71 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 			switch (CVT)
 			{
 				case ClothingVariantType.Default:
-					spriteHandlerData.SpriteInfos = new SpriteDataForSH();
-					spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft));
-					spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsRight));
-					InventoryIcon.SpriteInfos = new SpriteDataForSH();
-					InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon));
-					Logger.Log(ClothingData.Base.ItemIcon.Equipped.Sprites.Length.ToString());
+					spriteHandlerData.Infos = new SpriteDataForSH();
+					spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft));
+					spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsRight));
+					InventoryIcon.Infos = new SpriteDataForSH();
+					InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon));
+					Logger.Log(ClothingData.Base.ItemIcon.Sprites.Length.ToString());
 					break;
 				case ClothingVariantType.Tucked:
-					spriteHandlerData.SpriteInfos = new SpriteDataForSH();
+					spriteHandlerData.Infos = new SpriteDataForSH();
 					if (ClothingData.Base_Adjusted.InHandsLeft != null)
-					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.InHandsLeft)); }
+					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.InHandsLeft)); }
 					else
-					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
+					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
 
 					if (ClothingData.Base_Adjusted.InHandsRight != null)
-					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.InHandsRight)); }
+					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.InHandsRight)); }
 					else
-					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
+					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
 
-					InventoryIcon.SpriteInfos = new SpriteDataForSH();
-					if (ClothingData.Base_Adjusted.ItemIcon.Equipped != null)
-					{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.ItemIcon)); }
+					InventoryIcon.Infos = new SpriteDataForSH();
+					if (ClothingData.Base_Adjusted.ItemIcon != null)
+					{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.ItemIcon)); }
 					else
-					{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
+					{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
 					break;
 
 				case ClothingVariantType.Skirt:
-					spriteHandlerData.SpriteInfos = new SpriteDataForSH();
+					spriteHandlerData.Infos = new SpriteDataForSH();
 					if (ClothingData.DressVariant.InHandsLeft != null)
-					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.InHandsLeft)); }
+					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.InHandsLeft)); }
 					else
-					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
+					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
 
 					if (ClothingData.DressVariant.InHandsRight != null)
-					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.InHandsRight)); }
+					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.InHandsRight)); }
 					else
-					{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
+					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
 
-					InventoryIcon.SpriteInfos = new SpriteDataForSH();
-					if (ClothingData.DressVariant.ItemIcon.Equipped != null)
-					{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.ItemIcon)); }
+					InventoryIcon.Infos = new SpriteDataForSH();
+					if (ClothingData.DressVariant.ItemIcon != null)
+					{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.ItemIcon)); }
 					else
-					{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
+					{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
 					break;
 			}
 		}
 		else {
 			if (ClothingData.Variants.Count > variant)
 			{
-				spriteHandlerData.SpriteInfos = new SpriteDataForSH();
+				spriteHandlerData.Infos = new SpriteDataForSH();
 				if (ClothingData.Variants[variant].InHandsLeft != null)
-				{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].InHandsLeft)); }
+				{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].InHandsLeft)); }
 				else
-				{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
+				{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
 
 				if (ClothingData.Variants[variant].InHandsRight != null)
-				{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].InHandsRight)); }
+				{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].InHandsRight)); }
 				else
-				{ spriteHandlerData.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
+				{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
 
-				InventoryIcon.SpriteInfos = new SpriteDataForSH();
-				if (ClothingData.Variants[variant].ItemIcon.Equipped != null)
-				{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].ItemIcon)); }
+				InventoryIcon.Infos = new SpriteDataForSH();
+				if (ClothingData.Variants[variant].ItemIcon != null)
+				{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].ItemIcon)); }
 				else
-				{ InventoryIcon.SpriteInfos.spriteList.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
+				{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
 
 			}
 		}
@@ -227,11 +228,11 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 					onPlayer :
 					onPlayerClothSheetHier;
 
-			DmiState state = dmi.searchStateInIcon(states[i], icons, 4, false);
+			//DmiState state = dmi.searchStateInIcon(states[i], icons, 4, false);
 
-			if (state == null) continue;
+			//if (state == null) continue;
 
-			return state.offset;
+			//return state.offset;
 		}
 
 		//Logger.LogError("No clothing offset found!  ClothHier=" + onPlayerClothSheetHier[0] + ", " + GetItemDebugInfo());

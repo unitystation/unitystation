@@ -5,7 +5,7 @@ using System.Linq;
 [System.Serializable]
 public class SpriteDataForSH
 {
-	public List<List<List<SpriteHandler.SpriteInfo>>> spriteList = new List<List<List<SpriteHandler.SpriteInfo>>>();
+	public List<List<List<SpriteHandler.SpriteInfo>>> List = new List<List<List<SpriteHandler.SpriteInfo>>>();
 	public int spriteIndex;
 	public int VariantIndex;
 	public uint AID;
@@ -17,7 +17,7 @@ public class SpriteDataForSH
 	{
 		Serialized.Clear();
 		AID = 1; //used to assign each point an individual ID used to assess which list it as a part of and what list ID it is
-		foreach (var Top in spriteList)
+		foreach (var Top in List)
 		{
 			var TopListPoint = new SpriteHListPoint();
 			TopListPoint.listID = AID;
@@ -50,7 +50,7 @@ public class SpriteDataForSH
 	//deSerialise is the sprite data so It is in an Usable format
 	public void DeSerializeT()
 	{
-		spriteList.Clear();
+		//List.Clear();
 		//Used to initialise the dictionaries With the appropriate data from each layer
 		List<SpriteHListPoint> TopParentList = new List<SpriteHListPoint>();
 		List<SpriteHListPoint> MidParentList = new List<SpriteHListPoint>();
@@ -75,14 +75,14 @@ public class SpriteDataForSH
 
 		//Using this information using the ID to assess which layer and therefore which list it would be in
 		foreach (var Top in TopParentList) {			int c = 0;
-			spriteList.Add(new List<List<SpriteHandler.SpriteInfo>>());
+			List.Add(new List<List<SpriteHandler.SpriteInfo>>());
 			foreach (var Mid in MidParentList.Where(m => m.inlistID == Top.listID))
 			{
-				spriteList[i].Add(new List<SpriteHandler.SpriteInfo>());
+				List[i].Add(new List<SpriteHandler.SpriteInfo>());
 				foreach (var Bot in BotListPoint.Where(m => m.inlistID == Mid.listID))
 				{
 					//Logger.Log("addedddddd");
-					spriteList[i][c].Add(new SpriteHandler.SpriteInfo()
+					List[i][c].Add(new SpriteHandler.SpriteInfo()
 					{
 						sprite = Bot.sprite,
 						waitTime = Bot.waitTime
@@ -93,10 +93,10 @@ public class SpriteDataForSH
 			}
 			i++;
 		}
-		if (spriteList.Count == 0) {
-			spriteList.Add(new List<List<SpriteHandler.SpriteInfo>>());
-			spriteList[0].Add(new List<SpriteHandler.SpriteInfo>());
-			spriteList[0][0].Add(new SpriteHandler.SpriteInfo());
+		if (List.Count == 0) {
+			List.Add(new List<List<SpriteHandler.SpriteInfo>>());
+			List[0].Add(new List<SpriteHandler.SpriteInfo>());
+			List[0][0].Add(new SpriteHandler.SpriteInfo());
 		}
 	}
 }

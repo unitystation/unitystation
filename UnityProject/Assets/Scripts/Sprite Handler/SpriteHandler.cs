@@ -5,8 +5,8 @@ using UnityEngine.Networking;
 using UnityEditor;
 using System.Linq;
 using Newtonsoft.Json;
-using UnityEditor.Experimental.SceneManagement;
-using UnityEditor.SceneManagement;
+//using UnityEditor.Experimental.SceneManagement;
+//using UnityEditor.SceneManagement;
 
 ///	<summary>
 ///	Handles sprite syncing between server and clients and contains a custom animator
@@ -40,8 +40,8 @@ public class SpriteHandler : SpriteHandlerData
 
 	void Start()
 	{
-		SpriteInfos.DeSerializeT();
-		if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+		Infos.DeSerializeT();
+		if (Infos.List[spriteIndex][VariantIndex].Count > 1)
 		{
 			UpdateManager.Instance.Add(UpdateMe);
 		}
@@ -49,18 +49,19 @@ public class SpriteHandler : SpriteHandlerData
 
 	public void PushTexture()
 	{
+		Logger.Log("PushTexture > " + this.name);
 		Logger.Log("1");
-		if (SpriteInfos != null)
+		if (Infos != null)
 		{
 			Logger.Log("2");
-			if (!(spriteIndex >= SpriteInfos.spriteList.Count))
+			if (!(spriteIndex >= Infos.List.Count))
 			{
 				Logger.Log("3");
-				if (!(VariantIndex >= SpriteInfos.spriteList[spriteIndex].Count))
+				if (!(VariantIndex >= Infos.List[spriteIndex].Count))
 				{
 					Logger.Log("4");
-					Logger.Log(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex].sprite.name);
-					SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+					Logger.Log(Infos.List[spriteIndex][VariantIndex][animationIndex].sprite.name);
+					SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
 				}
 				else {
 					spriteRenderer.sprite = null;
@@ -81,11 +82,11 @@ public class SpriteHandler : SpriteHandlerData
 		if (timeElapsed >= waitTime)
 		{
 			animationIndex++;
-			if (animationIndex >= SpriteInfos.spriteList[spriteIndex][VariantIndex].Count)
+			if (animationIndex >= Infos.List[spriteIndex][VariantIndex].Count)
 			{
 				animationIndex = 0;
 			}
-			SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+			SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
 		}
 	}
 
@@ -96,8 +97,8 @@ public class SpriteHandler : SpriteHandlerData
 		{
 			VariantIndex = _VariantIndex;
 			animationIndex = 0;
-			SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
-			if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+			SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
+			if (Infos.List[spriteIndex][VariantIndex].Count > 1)
 			{
 				UpdateManager.Instance.Add(UpdateMe);
 			}
@@ -117,11 +118,11 @@ public class SpriteHandler : SpriteHandlerData
 	{
 		spriteIndex = _spriteIndex;
 		animationIndex = 0;
-		if (SpriteInfos.spriteList.Count > 0)
+		if (Infos.List.Count > 0)
 		{
-			SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+			SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
 
-			if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+			if (Infos.List[spriteIndex][VariantIndex].Count > 1)
 			{
 				UpdateManager.Instance.Add(UpdateMe);
 			}
@@ -141,14 +142,14 @@ public class SpriteHandler : SpriteHandlerData
 
 	public void ChangeSprite(int newSprites)
 	{
-		if (!(newSprites >= SpriteInfos.spriteList.Count))
+		if (!(newSprites >= Infos.List.Count))
 		{
 			if (spriteIndex != newSprites)
 			{
 				spriteIndex = newSprites;
 				animationIndex = 0;
-				SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
-				if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+				SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
+				if (Infos.List[spriteIndex][VariantIndex].Count > 1)
 				{
 					UpdateManager.Instance.Add(UpdateMe);
 				}
@@ -165,18 +166,18 @@ public class SpriteHandler : SpriteHandlerData
 
 	public void ChangeSpriteVariant(int SpriteVariant)
 	{
-		//Logger.Log(spriteIndex + " < > " + SpriteInfos.spriteList.Count);
-		//Logger.Log(SpriteVariant + " < > " + SpriteInfos.spriteList[spriteIndex].Count);
-		if (!(spriteIndex >= SpriteInfos.spriteList.Count))
+		//Logger.Log(spriteIndex + " < > " + Infos.List.Count);
+		//Logger.Log(SpriteVariant + " < > " + Infos.List[spriteIndex].Count);
+		if (!(spriteIndex >= Infos.List.Count))
 		{
-			if (!(SpriteVariant >= SpriteInfos.spriteList[spriteIndex].Count))
+			if (!(SpriteVariant >= Infos.List[spriteIndex].Count))
 			{
-				SetSprite(SpriteInfos.spriteList[spriteIndex][VariantIndex][animationIndex]);
+				SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
 				if (VariantIndex != SpriteVariant)
 				{
 					animationIndex = 0;
 					VariantIndex = SpriteVariant;
-					if (SpriteInfos.spriteList[spriteIndex][VariantIndex].Count > 1)
+					if (Infos.List[spriteIndex][VariantIndex].Count > 1)
 					{
 						UpdateManager.Instance.Add(UpdateMe);
 					}

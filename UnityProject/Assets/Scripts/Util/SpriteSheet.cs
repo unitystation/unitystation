@@ -5,8 +5,6 @@ using UnityEngine.Networking;
 using UnityEditor;
 using System.Linq;
 using Newtonsoft.Json;
-using UnityEditor.Experimental.SceneManagement;
-using UnityEditor.SceneManagement;
 
 /// <summary>
 /// Warning! due to limitations on unity, You have to manually call setSprites on in OnValidate() In your script 
@@ -25,8 +23,10 @@ public class SpriteSheet
 
 		if (Texture != null)
 		{
+			#if UNITY_EDITOR
 			var path = AssetDatabase.GetAssetPath(Texture).Substring(17);//Substring(17) To remove the "Assets/Resources/"
 			Sprites = Resources.LoadAll<Sprite>(path.Remove(path.Length - 4));
+			#endif
 		}
 		else {
 			Sprites = null;

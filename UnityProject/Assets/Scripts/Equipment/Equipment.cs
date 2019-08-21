@@ -70,8 +70,8 @@ public class Equipment : NetworkBehaviour
 
 		Dictionary<string, ClothOrPrefab> gear = new Dictionary<string, ClothOrPrefab>();
 		//Logger.Log("LLLLLLLLLLLLLLLLL > " + JsonConvert.SerializeObject(standardOutfit.CDuniform.Clothing) + " <  " + playerScript.mind.jobType );
-		//Logger.Log(standardOutfit.ToString());
-		gear.Add("uniform", standardOutfit.CDuniform);
+		Logger.Log(standardOutfit.ToString());
+		gear.Add("uniform", standardOutfit.uniform);
 		//gear.Add("uniform", standardOutfit.uniform);
 		//gear.Add("ears", standardOutfit.ears);
 		//gear.Add("belt", standardOutfit.belt);
@@ -154,7 +154,7 @@ public class Equipment : NetworkBehaviour
 			gear["suit_store"] = jobOutfit.suit_store;*/
 		foreach (KeyValuePair<string, ClothOrPrefab> gearItem in gear)
 		{
-			//Logger.Log("WOW?");			//Logger.Log("RRRRRRRRRRRRR" + JsonConvert.SerializeObject(gearItem.Value.Clothing));
+			Logger.Log("WOW?");			//Logger.Log("RRRRRRRRRRRRR" + JsonConvert.SerializeObject(gearItem.Value.Clothing));
 			if (gearItem.Value.Clothing != null)
 			{
 				//Logger.Log("PPPPPPPPPPPPPPPPPPPP");

@@ -13,40 +13,15 @@ public class ClothingData : ScriptableObject
 	public EquippedData DressVariant; //humm yeah Dresses 
 	public List<EquippedData> Variants; //For when you have 1 million colour variants
 
-
-    public void OnValidate()
-	{
-		setEquippedData(Base);
-		setEquippedData(Base_Adjusted);
-		setEquippedData(DressVariant);
-		foreach (var Variant in Variants) { 
-			setEquippedData(Variant);
-		}
-	}
-
-	public void setEquippedData(EquippedData equippedData)
-	{
-		equippedData.Equipped.Equipped.setSprites();
-		equippedData.InHandsLeft.Equipped.setSprites();
-		equippedData.InHandsRight.Equipped.setSprites();
-		equippedData.ItemIcon.Equipped.setSprites();
-	}
-
 }
 
-[System.Serializable]
-public class TextureAndData
-{
-	public SpriteSheet Equipped;
-	public TextAsset EquippedData;
 
-}
 
 [System.Serializable]
 public class EquippedData
 {
-	public TextureAndData Equipped;
-	public TextureAndData InHandsLeft;
-	public TextureAndData InHandsRight;
-	public TextureAndData ItemIcon;
+	public SpriteSheetAndData Equipped;
+	public SpriteSheetAndData InHandsLeft;
+	public SpriteSheetAndData InHandsRight;
+	public SpriteSheetAndData ItemIcon;
 }

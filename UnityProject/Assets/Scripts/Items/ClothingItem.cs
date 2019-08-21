@@ -65,17 +65,17 @@ public class ClothingItem : MonoBehaviour
 			//Logger.Log("GGGG");
 			if (spriteHandler != null) //need to remove 
 			{
-				spriteHandler.SpriteInfos = null;
-				spriteHandler.PushTexture();
+				//spriteHandler.Infos = null;
+				//spriteHandler.PushTexture();
 			}
 		}
 		if (Item != null) {
 
-			Logger.Log("is here!");
+			Logger.Log("is here!" );
 			if (spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand)
 			{
 				var itemAttributes = Item.GetComponent<ItemAttributes>().spriteHandlerData;
-				spriteHandler.SpriteInfos = itemAttributes.SpriteInfos;
+				spriteHandler.Infos = itemAttributes.Infos;
 				if (spriteType == SpriteHandType.RightHand)
 				{
 					spriteHandler.ChangeSprite(1);
@@ -90,8 +90,8 @@ public class ClothingItem : MonoBehaviour
 				var clothing = Item.GetComponent<Clothing>();
 				if (clothing != null)
 				{
-					spriteHandler.SpriteInfos = clothing.SpriteInfo;
-					spriteHandler.ChangeSprite(clothing.ReturnState(ClothingVariantType.Skirt));
+					spriteHandler.Infos = clothing.SpriteInfo;
+					spriteHandler.ChangeSprite(clothing.ReturnState(ClothingVariantType.Default));
 					spriteHandler.PushTexture();
 				}
 			}
@@ -100,32 +100,32 @@ public class ClothingItem : MonoBehaviour
 
 		}
 
-		if (reference == -1)
-		{
-			//UpdateSprite();
-			return;
-		}
+		//if (reference == -1)
+		//{
+		//	//UpdateSprite();
+		//	return;
+		//}
 
-		if (spriteType != SpriteHandType.Other)
-		{
-			string networkRef = reference.ToString();
-			int code = (int)char.GetNumericValue(networkRef[0]);
-			switch (code)
-			{
-				case 1:
-					spriteSheetName = "items_";
-					break;
-				case 2:
-					spriteSheetName = "clothing_";
-					break;
-				case 3:
-					spriteSheetName = "guns_";
-					break;
-			}
+		//if (spriteType != SpriteHandType.Other)
+		//{
+		//	string networkRef = reference.ToString();
+		//	int code = (int)char.GetNumericValue(networkRef[0]);
+		//	switch (code)
+		//	{
+		//		case 1:
+		//			spriteSheetName = "items_";
+		//			break;
+		//		case 2:
+		//			spriteSheetName = "clothing_";
+		//			break;
+		//		case 3:
+		//			spriteSheetName = "guns_";
+		//			break;
+		//	}
 
-		}
+		//}
 
-		sprites = SpriteManager.PlayerSprites[spriteSheetName];
+		//sprites = SpriteManager.PlayerSprites[spriteSheetName];
 
 		//UpdateSprite();
 	}
@@ -154,8 +154,12 @@ public class ClothingItem : MonoBehaviour
 
 	public void UpdateSprite()
 	{
+		//Logger.Log(this.name);
+		//Logger.Log("A");
 		if (spriteHandler != null) {
-			if (spriteHandler.SpriteInfos != null) {
+			//Logger.Log("B");
+			if (spriteHandler.Infos != null) {
+				//Logger.Log("C");
 				//spriteHandler.
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
 			}

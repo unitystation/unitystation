@@ -109,37 +109,37 @@ public class SpriteManager : MonoBehaviour
 			Instance.dmi = Resources.Load("DmiIconData")as DmiIconData;
 		}
 
-		PlayerSprites["mob"] = dmi.getSprites("mob/mob");
-		PlayerSprites["human"] = dmi.getSprites("mob/human");
-		PlayerSprites["human_parts_greyscale"] = dmi.getSprites("mob/human_parts_greyscale");
-		PlayerSprites["human_face"] = dmi.getSprites("mob/human_face");
-		PlayerSprites["suit"] = dmi.getSprites("mob/suit");
-		PlayerSprites["belt"] = dmi.getSprites("mob/belt");
-		PlayerSprites["feet"] = dmi.getSprites("mob/feet");
-		PlayerSprites["head"] = dmi.getSprites("mob/head");
-		PlayerSprites["mask"] = dmi.getSprites("mob/mask");
-		PlayerSprites["ears"] = dmi.getSprites("mob/ears");
-		PlayerSprites["back"] = dmi.getSprites("mob/back");
-		PlayerSprites["neck"] = dmi.getSprites("mob/ties"); //there is also mob/neck!
-		PlayerSprites["eyes"] = dmi.getSprites("mob/eyes");
-		PlayerSprites["hands"] = dmi.getSprites("mob/hands");
-		PlayerSprites["uniform"] = dmi.getSprites("mob/uniform");
-		PlayerSprites["underwear"] = dmi.getSprites("mob/underwear");
-		PlayerSprites["guns_lefthand"] = dmi.getSprites("mob/inhands/guns_lefthand");
-		PlayerSprites["guns_righthand"] = dmi.getSprites("mob/inhands/guns_righthand");
-		PlayerSprites["items_lefthand"] = dmi.getSprites("mob/inhands/items_lefthand");
-		PlayerSprites["items_righthand"] = dmi.getSprites("mob/inhands/items_righthand");
-		PlayerSprites["clothing_lefthand"] = dmi.getSprites("mob/inhands/clothing_lefthand");
-		PlayerSprites["clothing_righthand"] = dmi.getSprites("mob/inhands/clothing_righthand");
-		//Vertical Doors Sprites
-		DoorSprites["airLock"] = dmi.getSprites("obj/doors/airlocks/external/external");
-		//end of Horizontal doors.
-		//doors Ovelays
-		DoorSprites["overlaysHorizontal"] = dmi.getSprites("obj/doors/airlocks/station/overlays");
-		DoorSprites["overlaysVertical"] = dmi.getSprites("obj/doors/airlocks/external/overlays");
-		//end of doors overlays
+		//PlayerSprites["mob"] = dmi.getSprites("mob/mob");
+		//PlayerSprites["human"] = dmi.getSprites("mob/human");
+		//PlayerSprites["human_parts_greyscale"] = dmi.getSprites("mob/human_parts_greyscale");
+		//PlayerSprites["human_face"] = dmi.getSprites("mob/human_face");
+		//PlayerSprites["suit"] = dmi.getSprites("mob/suit");
+		//PlayerSprites["belt"] = dmi.getSprites("mob/belt");
+		//PlayerSprites["feet"] = dmi.getSprites("mob/feet");
+		//PlayerSprites["head"] = dmi.getSprites("mob/head");
+		//PlayerSprites["mask"] = dmi.getSprites("mob/mask");
+		//PlayerSprites["ears"] = dmi.getSprites("mob/ears");
+		//PlayerSprites["back"] = dmi.getSprites("mob/back");
+		//PlayerSprites["neck"] = dmi.getSprites("mob/ties"); //there is also mob/neck!
+		//PlayerSprites["eyes"] = dmi.getSprites("mob/eyes");
+		//PlayerSprites["hands"] = dmi.getSprites("mob/hands");
+		//PlayerSprites["uniform"] = dmi.getSprites("mob/uniform");
+		//PlayerSprites["underwear"] = dmi.getSprites("mob/underwear");
+		//PlayerSprites["guns_lefthand"] = dmi.getSprites("mob/inhands/guns_lefthand");
+		//PlayerSprites["guns_righthand"] = dmi.getSprites("mob/inhands/guns_righthand");
+		//PlayerSprites["items_lefthand"] = dmi.getSprites("mob/inhands/items_lefthand");
+		//PlayerSprites["items_righthand"] = dmi.getSprites("mob/inhands/items_righthand");
+		//PlayerSprites["clothing_lefthand"] = dmi.getSprites("mob/inhands/clothing_lefthand");
+		//PlayerSprites["clothing_righthand"] = dmi.getSprites("mob/inhands/clothing_righthand");
+		////Vertical Doors Sprites
+		//DoorSprites["airLock"] = dmi.getSprites("obj/doors/airlocks/external/external");
+		////end of Horizontal doors.
+		////doors Ovelays
+		//DoorSprites["overlaysHorizontal"] = dmi.getSprites("obj/doors/airlocks/station/overlays");
+		//DoorSprites["overlaysVertical"] = dmi.getSprites("obj/doors/airlocks/external/overlays");
+		////end of doors overlays
 
-		MonitorSprites["monitors"] = dmi.getSprites("obj/monitors");
+		//MonitorSprites["monitors"] = dmi.getSprites("obj/monitors");
 
 		WaterSprites["water"] = Resources.LoadAll<Sprite>("icons/effects/water");
 

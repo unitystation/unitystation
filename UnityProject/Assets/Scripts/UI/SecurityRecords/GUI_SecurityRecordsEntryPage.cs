@@ -96,25 +96,25 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 
 		if(characterSettings != null)
 		{
-			torso.SetComplicatedValue("human_parts_greyscale", characterSettings.torsoSpriteIndex, characterSettings.skinTone);
-			head.SetComplicatedValue("human_parts_greyscale", characterSettings.headSpriteIndex, characterSettings.skinTone);
-			rightLeg.SetValue = characterSettings.skinTone;
-			leftLeg.SetValue = characterSettings.skinTone;
-			rightArm.SetValue = characterSettings.skinTone;
-			leftArm.SetValue = characterSettings.skinTone;
-			eyes.SetValue = characterSettings.eyeColor;
-			beard.SetComplicatedValue("human_face", characterSettings.facialHairOffset, characterSettings.facialHairColor);
-			hair.SetComplicatedValue("human_face", characterSettings.hairStyleOffset, characterSettings.hairColor);
+			//torso.SetComplicatedValue("human_parts_greyscale", characterSettings.torsoSpriteIndex, characterSettings.skinTone);
+			//head.SetComplicatedValue("human_parts_greyscale", characterSettings.headSpriteIndex, characterSettings.skinTone);
+			//rightLeg.SetValue = characterSettings.skinTone;
+			//leftLeg.SetValue = characterSettings.skinTone;
+			//rightArm.SetValue = characterSettings.skinTone;
+			//leftArm.SetValue = characterSettings.skinTone;
+			//eyes.SetValue = characterSettings.eyeColor;
+			//beard.SetComplicatedValue("human_face", characterSettings.facialHairOffset, characterSettings.facialHairColor);
+			//hair.SetComplicatedValue("human_face", characterSettings.hairStyleOffset, characterSettings.hairColor);
 
-			exosuit.SetComplicatedValue("suit", GetSpriteOffset(record.jobOutfit.suit, ItemType.Suit));
-			jumpsuit.SetComplicatedValue("uniform", GetSpriteOffset(record.jobOutfit.uniform, ItemType.Uniform));
-			belt.SetComplicatedValue("belt", GetSpriteOffset(record.jobOutfit.belt, ItemType.Belt));
-			shoes.SetComplicatedValue("feet", GetSpriteOffset(record.jobOutfit.shoes, ItemType.Shoes));
-			back.SetComplicatedValue("back", GetSpriteOffset(record.jobOutfit.backpack, ItemType.Back));
-			//neck.SetComplicatedValue("neck", GetSpriteOffset(record.jobOutfit.neck, ItemType.Neck)); //JobOutfits dont have neck slots yet (will need for lawyer)
-			gloves.SetComplicatedValue("hands", GetSpriteOffset(record.jobOutfit.gloves, ItemType.Gloves));
-			underwear.SetComplicatedValue("underwear", characterSettings.underwearOffset);
-			socks.SetComplicatedValue("underwear", characterSettings.socksOffset);
+			//exosuit.SetComplicatedValue("suit", GetSpriteOffset(record.jobOutfit.suit, ItemType.Suit));
+			//jumpsuit.SetComplicatedValue("uniform", GetSpriteOffset(record.jobOutfit.uniform, ItemType.Uniform));
+			//belt.SetComplicatedValue("belt", GetSpriteOffset(record.jobOutfit.belt, ItemType.Belt));
+			//shoes.SetComplicatedValue("feet", GetSpriteOffset(record.jobOutfit.shoes, ItemType.Shoes));
+			//back.SetComplicatedValue("back", GetSpriteOffset(record.jobOutfit.backpack, ItemType.Back));
+			////neck.SetComplicatedValue("neck", GetSpriteOffset(record.jobOutfit.neck, ItemType.Neck)); //JobOutfits dont have neck slots yet (will need for lawyer)
+			//gloves.SetComplicatedValue("hands", GetSpriteOffset(record.jobOutfit.gloves, ItemType.Gloves));
+			//underwear.SetComplicatedValue("underwear", characterSettings.underwearOffset);
+			//socks.SetComplicatedValue("underwear", characterSettings.socksOffset);
 		}
 
 		securityRecordsTab.UpdateIdText(idNameText);

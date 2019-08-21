@@ -63,15 +63,15 @@ public static class UniItemUtils
 	/// </summary>
 	/// <param name="hier"></param>
 	/// <returns>first sprite for the specified hier</returns>
-	public static Sprite GetInventoryIconSprite(string hier)
-	{
-		EnsureInit();
-		DmiIcon icon = GetInventoryIcon(hier);
-		var objectAttrs = dm.getObject(hier);
-		objectAttrs.TryGetValue("icon_state", out var icon_state);
+	//public static Sprite GetInventoryIconSprite(string hier)
+	//{
+	//	EnsureInit();
+	//	DmiIcon icon = GetInventoryIcon(hier);
+	//	var objectAttrs = dm.getObject(hier);
+	//	objectAttrs.TryGetValue("icon_state", out var icon_state);
 
-		return TryGetStateSprite(icon, icon_state);
-	}
+	//	return TryGetStateSprite(icon, icon_state);
+	//}
 
 	/// <summary>
 	/// Gets the entire set of attributes associated with this particular hier
@@ -95,49 +95,49 @@ public static class UniItemUtils
 	/// <param name="icon_state">Pass a value here to speed up the method.
 	/// icon_state of the icon to get, if null will be looked up from the hier.</param>
 	/// <returns>DmiIcon for the specified hier, empty DmiIcon if unable</returns>
-	public static DmiIcon GetInventoryIcon(string hier, string[] invSheetPaths = null, string icon = null, string icon_state = null)
-	{
-		EnsureInit();
-		var objectAttrs = icon == null || icon_state == null ? dm.getObject(hier) : null;
-		if (icon == null)
-		{
-			objectAttrs.TryGetValue("icon", out icon);
-			icon = icon ?? "";
-		}
-		if (icon_state == null)
-		{
-			objectAttrs.TryGetValue("icon_state", out icon_state);
-			icon_state = icon_state ?? "";
-		}
+	//public static DmiIcon GetInventoryIcon(string hier, string[] invSheetPaths = null, string icon = null, string icon_state = null)
+	//{
+	//	EnsureInit();
+	//	var objectAttrs = icon == null || icon_state == null ? dm.getObject(hier) : null;
+	//	if (icon == null)
+	//	{
+	//		objectAttrs.TryGetValue("icon", out icon);
+	//		icon = icon ?? "";
+	//	}
+	//	if (icon_state == null)
+	//	{
+	//		objectAttrs.TryGetValue("icon_state", out icon_state);
+	//		icon_state = icon_state ?? "";
+	//	}
 
-		invSheetPaths = invSheetPaths ?? GetItemClothSheetHier(GetItemType(hier));
-		//determining invIcon
-		for (int i = 0; i < invSheetPaths.Length; i++)
-		{
-			string iconPath = DmiIconData.getIconPath(invSheetPaths[i]); //add extension junk
-			if (!iconPath.Equals("") && DmiIconData.Data.ContainsKey(iconPath) && icon.Equals(""))
-			{
-				//					Logger.Log(name + ": iSheet = dmi.DataHier[" + iconPath +"] = " + dmi.Data[iconPath]);
-				return DmiIconData.Data[iconPath];
-			}
-		}
+	//	invSheetPaths = invSheetPaths ?? GetItemClothSheetHier(GetItemType(hier));
+	//	//determining invIcon
+	//	for (int i = 0; i < invSheetPaths.Length; i++)
+	//	{
+	//		string iconPath = DmiIconData.getIconPath(invSheetPaths[i]); //add extension junk
+	//		if (!iconPath.Equals("") && DmiIconData.Data.ContainsKey(iconPath) && icon.Equals(""))
+	//		{
+	//			//					Logger.Log(name + ": iSheet = dmi.DataHier[" + iconPath +"] = " + dmi.Data[iconPath]);
+	//			return DmiIconData.Data[iconPath];
+	//		}
+	//	}
 
-		if (!icon.Equals(""))
-		{
-			//				Logger.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
-			//return DmiIconData.Data[icon];
-		}
-		//pretty bad choice, should use this only as last resort as it's usually pretty inaccurate
-		DmiIcon invIcon = dmi.getIconByState(icon_state);
-		if (invIcon != null)
-		{
+	//	if (!icon.Equals(""))
+	//	{
+	//		//				Logger.Log(name + ": iSheet = dmi.DataIcon["+icon+"] = "+iSheet);
+	//		//return DmiIconData.Data[icon];
+	//	}
+	//	//pretty bad choice, should use this only as last resort as it's usually pretty inaccurate
+	//	DmiIcon invIcon = dmi.getIconByState(icon_state);
+	//	if (invIcon != null)
+	//	{
 
-			Logger.Log($"UniItemUtils is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}", Category.DmMetadata);
-			return invIcon;
-		}
-		//			Logger.LogError();
-		return new DmiIcon();
-	}
+	//		Logger.Log($"UniItemUtils is doing bad dmi.getIconByState({icon_state}) = {invIcon.icon}", Category.DmMetadata);
+	//		return invIcon;
+	//	}
+	//	//			Logger.LogError();
+	//	return new DmiIcon();
+	//}
 
 	/// <summary>
 	/// Get the master (top level) sprite type of the specified hier

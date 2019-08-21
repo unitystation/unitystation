@@ -29,8 +29,8 @@ public class JobOutfit : MonoBehaviour
 	public string suit;
 
 	public string suit_store;
-	public string uniform;
-	public ClothOrPrefab CDuniform;
+	public ClothOrPrefab uniform;
+
 }
 
 [System.Serializable]
