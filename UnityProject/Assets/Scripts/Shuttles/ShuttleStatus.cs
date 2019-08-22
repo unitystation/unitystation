@@ -3,8 +3,8 @@
 /// </summary>
 public enum ShuttleStatus
 {
-	DockedCentcom,
-	DockedStation,
-	OnRouteCentcom,
-	OnRouteStation
+	OnRouteStation = 0,
+	DockedStation = 1,
+	OnRouteCentcom = 2,
+	DockedCentcom = 3
 }

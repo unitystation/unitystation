@@ -25,6 +25,8 @@ public class GUI_Comms : NetTab
 	private NetLabel shuttleCallResultLabel;
 	[SerializeField]
 	private NetLabel shuttleCallButtonLabel;
+	[SerializeField]
+	private NetSpriteImage statusImage;
 
 	private CommsConsole console;
 	private EscapeShuttle shuttle;
@@ -64,7 +66,12 @@ public class GUI_Comms : NetTab
 		shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
 		shuttleStatusLabel.SetValue = shuttle.Status.ToString();
-		shuttle.OnShuttleUpdate.AddListener( status => shuttleStatusLabel.SetValue = status.ToString() );
+		statusImage.SetComplicatedValue( "shuttle_status", (int)shuttle.Status );
+		shuttle.OnShuttleUpdate.AddListener( status =>
+		{
+			statusImage.SetComplicatedValue( "shuttle_status", (int)status );
+			shuttleStatusLabel.SetValue = status.ToString();
+		} );
 
 		shuttleTimerLabel.SetValue = FormatTime( shuttle.CurrentTimerSeconds );
 		shuttle.OnTimerUpdate.AddListener( timerSeconds =>{ shuttleTimerLabel.SetValue = FormatTime( timerSeconds ); } );
