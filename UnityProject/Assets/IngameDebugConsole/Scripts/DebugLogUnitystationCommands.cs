@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using PathFinding;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -75,14 +76,14 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			if (!EscapeShuttle.Instance.spawnedIn)
+			if (GameManager.Instance.PrimaryEscapeShuttle.Status == ShuttleStatus.DockedCentcom)
 			{
-				Logger.Log("Called Escape shuttle from DebugConsole.", Category.DebugConsole);
-				EscapeShuttle.Instance.CallEscapeShuttle();
+				GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result, 40);
+				Logger.Log("Called Escape shuttle from DebugConsole: "+result, Category.DebugConsole);
 			}
 			else
 			{
-				Logger.Log("Escape shuttle already called.", Category.DebugConsole);
+				Logger.Log("Escape shuttle isn't docked at centcom to be called.", Category.DebugConsole);
 			}
 		}
 

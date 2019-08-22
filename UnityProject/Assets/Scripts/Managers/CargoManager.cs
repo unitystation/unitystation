@@ -21,7 +21,7 @@ public class CargoManager : MonoBehaviour
 	[SerializeField]
 	private CargoData cargoData = null;
 	public int Credits = 0;
-	public CargoShuttleStatus ShuttleStatus = CargoShuttleStatus.DockedStation;
+	public ShuttleStatus ShuttleStatus = ShuttleStatus.DockedStation;
 	[SerializeField]
 	private float shuttleFlyDuration = 10f;
 	public float CurrentFlyTime = 0f;
@@ -62,20 +62,20 @@ public class CargoManager : MonoBehaviour
 			CurrentFlyTime = shuttleFlyDuration;
 			//It works so - shuttle stays in centcomDest until timer is done,
 			//then it starts moving to station
-			if (ShuttleStatus == CargoShuttleStatus.DockedCentcom)
+			if (ShuttleStatus == ShuttleStatus.DockedCentcom)
 			{
 				SpawnOrder();
-				ShuttleStatus = CargoShuttleStatus.OnRouteStation;
+				ShuttleStatus = ShuttleStatus.OnRouteStation;
 				CentcomMessage += "Shuttle is sent back with goods." + "\n";
 				StartCoroutine(Timer(true));
 			}
 			//If we are at station - we start timer and launch shuttle at the same time.
 			//Once shuttle arrives centcomDest - CargoShuttle will wait till timer is done
 			//and will call OnShuttleArrival()
-			else if (ShuttleStatus == CargoShuttleStatus.DockedStation)
+			else if (ShuttleStatus == ShuttleStatus.DockedStation)
 			{
 				CargoShuttle.Instance.MoveToCentcom();
-				ShuttleStatus = CargoShuttleStatus.OnRouteCentcom;
+				ShuttleStatus = ShuttleStatus.OnRouteCentcom;
 				CentcomMessage = "";
 				StartCoroutine(Timer(false));
 			}
@@ -114,13 +114,13 @@ public class CargoManager : MonoBehaviour
 			return;
 		}
 
-		if (ShuttleStatus == CargoShuttleStatus.OnRouteCentcom)
+		if (ShuttleStatus == ShuttleStatus.OnRouteCentcom)
 		{
-			ShuttleStatus = CargoShuttleStatus.DockedCentcom;
+			ShuttleStatus = ShuttleStatus.DockedCentcom;
 		}
-		else if (ShuttleStatus == CargoShuttleStatus.OnRouteStation)
+		else if (ShuttleStatus == ShuttleStatus.OnRouteStation)
 		{
-			ShuttleStatus = CargoShuttleStatus.DockedStation;
+			ShuttleStatus = ShuttleStatus.DockedStation;
 		}
 		OnShuttleUpdate?.Invoke();
 	}
@@ -237,8 +237,6 @@ public class CargoManager : MonoBehaviour
 		return credits;
 	}
 }
-
-public enum CargoShuttleStatus { DockedCentcom, DockedStation, OnRouteCentcom, OnRouteStation };
 
 [System.Serializable]
 public class CargoOrder

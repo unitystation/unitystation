@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using System.Globalization;
 using UnityEngine.Serialization;
 
-public class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 
@@ -43,10 +43,6 @@ public class GameManager : MonoBehaviour
 
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
-
-	private bool shuttleArrivalBroadcasted = false;
-
-	public bool shuttleArrived = false;
 
 	public bool GameOver = false;
 
@@ -110,14 +106,10 @@ public class GameManager : MonoBehaviour
 		while (!validPos)
 		{
 			Vector3 proposedPosition = RandomPositionInSolarSystem();
-			bool failedChecks = false;
+			bool failedChecks =
+				Vector3.Distance(proposedPosition, MatrixManager.Instance.spaceMatrix.transform.parent.transform.position)
+								< minDistanceBetweenSpaceBodies;
 			//Make sure it is away from the middle of space matrix
-			if (Vector3.Distance(proposedPosition,
-					MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
-				minDistanceBetweenSpaceBodies)
-			{
-				failedChecks = true;
-			}
 
 			for (int i = 0; i < SpaceBodies.Count; i++)
 			{
@@ -160,6 +152,7 @@ public class GameManager : MonoBehaviour
 			PendingSpaceBodies = new Queue<MatrixMove>();
 			counting = true;
 			RespawnCurrentlyAllowed = RespawnAllowed;
+			StartCoroutine( WaitToInitEscape() );
 		}
 		GameOver = false;
 		// if (scene.name != "Lobby")
@@ -217,12 +210,6 @@ public class GameManager : MonoBehaviour
 		{
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
 			roundTimer.text = stationTime.ToString("HH:mm");
-
-			if (shuttleArrived == true && shuttleArrivalBroadcasted == false)
-			{
-				PostToChatMessage.Send("Escape shuttle has arrived! Crew has 1 minute to get on it.", ChatChannel.System);
-				shuttleArrivalBroadcasted = true;
-			}
 		}
 	}
 

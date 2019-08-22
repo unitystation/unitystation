@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,17 +9,26 @@ using UnityEngine.UI;
 
 public class GUI_Comms : NetTab
 {
-	[FormerlySerializedAs( "nestedSwitcher" )] [SerializeField]
+	[SerializeField]
 	private NetPageSwitcher switcher;
+
 	[SerializeField]
 	private NetPage menuPage;
-	[SerializeField]
-	private NetPage announcePage;
-	[SerializeField]
-	private NetPage shuttlePage;
+
 	[SerializeField]
 	private NetLabel idLabel;
+	[SerializeField]
+	private NetLabel shuttleStatusLabel;
+	[SerializeField]
+	private NetLabel shuttleTimerLabel;
+	[SerializeField]
+	private NetLabel shuttleCallResultLabel;
+	[SerializeField]
+	private NetLabel shuttleCallButtonLabel;
+
 	private CommsConsole console;
+	private EscapeShuttle shuttle;
+	private Coroutine callResultHandle;
 
 	protected override void InitServer()
 	{
@@ -30,6 +40,17 @@ public class GUI_Comms : NetTab
 
 	IEnumerator WaitForProvider()
 	{
+		string FormatTime( int timerSeconds )
+		{
+			if ( shuttle.Status == ShuttleStatus.DockedCentcom || shuttle.Status == ShuttleStatus.DockedStation )
+			{
+//				return "TEST: "+TimeSpan.FromSeconds( timerSeconds ).ToString( "mm\\:ss" );
+				return String.Empty;
+			}
+
+			return "ETA: " + TimeSpan.FromSeconds( timerSeconds ).ToString( "mm\\:ss" );
+		}
+
 		while (Provider == null)
 		{
 			yield return WaitFor.EndOfFrame;
@@ -40,6 +61,15 @@ public class GUI_Comms : NetTab
 		//starting up, setting appropriate labels
 		ProcessIdChange(console.IdCard);
 		console.IdEvent.AddListener( ProcessIdChange );
+		shuttle = GameManager.Instance.PrimaryEscapeShuttle;
+
+		shuttleStatusLabel.SetValue = shuttle.Status.ToString();
+		shuttle.OnShuttleUpdate.AddListener( status => shuttleStatusLabel.SetValue = status.ToString() );
+
+		shuttleTimerLabel.SetValue = FormatTime( shuttle.CurrentTimerSeconds );
+		shuttle.OnTimerUpdate.AddListener( timerSeconds =>{ shuttleTimerLabel.SetValue = FormatTime( timerSeconds ); } );
+
+		RefreshCallButtonText();
 
 		Logger.Log( nameof(WaitForProvider), Category.NetUI );
 	}
@@ -61,21 +91,64 @@ public class GUI_Comms : NetTab
 	{
 		Logger.Log( nameof(CallOrRecallShuttle), Category.NetUI );
 
-		//todo: call/recall depending on shuttle status
-		bool isRecall = false;
+		bool isRecall = shuttle.Status == ShuttleStatus.OnRouteStation;
+
+		var minutes = 2;
+
+		string callResult;
+		bool ok;
 
 		if ( isRecall )
 		{
-			CentComm.MakeShuttleRecallAnnouncement( text );
-		} else
-		{
-			CentComm.MakeShuttleCallAnnouncement( 10, text );
+			ok = shuttle.RecallShuttle(out callResult);
+			if ( ok )
+			{
+				CentComm.MakeShuttleRecallAnnouncement( text );
+				RefreshCallButtonText();
+			}
 		}
-		OpenMenu();
+		else
+		{
+			if ( text.Trim().Length < 10 )
+			{
+				callResult = "You must provide a reason when calling shuttle!";
+				ok = false;
+			} else
+			{
+				ok = shuttle.CallShuttle(out callResult);
+				if ( ok )
+				{
+					CentComm.MakeShuttleCallAnnouncement( minutes, text );
+					RefreshCallButtonText();
+				}
+			}
+		}
+		Logger.Log( callResult, Category.Round );
+
+		this.RestartCoroutine( ShowSubmitResult( callResult ), ref callResultHandle );
+
+		if ( ok )
+		{
+			OpenMenu();
+		}
 	}
+
+	private void RefreshCallButtonText()
+	{
+		shuttleCallButtonLabel.SetValue =
+			shuttle.Status == ShuttleStatus.OnRouteStation ? "Recall Emergency Shuttle" : "Call Emergency Shuttle";
+	}
+
+	private IEnumerator ShowSubmitResult( string callResult )
+	{
+		shuttleCallResultLabel.SetValue = callResult;
+		yield return WaitFor.Seconds( 3 );
+		shuttleCallResultLabel.SetValue = String.Empty;
+	}
+
 	public void SetStatusDisplay()
 	{
-		//todo
+		//todo XOC XYECOC
 		Logger.Log( nameof(SetStatusDisplay), Category.NetUI );
 	}
 	public void MakeAnAnnouncement(string text)
