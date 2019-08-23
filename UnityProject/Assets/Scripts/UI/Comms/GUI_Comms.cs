@@ -10,10 +10,16 @@ using UnityEngine.UI;
 public class GUI_Comms : NetTab
 {
 	[SerializeField]
-	private NetPageSwitcher switcher;
-
+	private NetPageSwitcher mainSwitcher;
 	[SerializeField]
 	private NetPage menuPage;
+	
+	[SerializeField]
+	private NetPageSwitcher captainOnlySwitcher;
+	[SerializeField]
+	private NetPage noCaptainAccessPage;
+	[SerializeField]
+	private NetPage captainAccessPage;
 
 	[SerializeField]
 	private NetLabel idLabel;
@@ -46,8 +52,7 @@ public class GUI_Comms : NetTab
 		{
 			if ( shuttle.Status == ShuttleStatus.DockedCentcom || shuttle.Status == ShuttleStatus.DockedStation )
 			{
-//				return "TEST: "+TimeSpan.FromSeconds( timerSeconds ).ToString( "mm\\:ss" );
-				return String.Empty;
+				return string.Empty;
 			}
 
 			return "ETA: " + TimeSpan.FromSeconds( timerSeconds ).ToString( "mm\\:ss" );
@@ -210,18 +215,21 @@ public class GUI_Comms : NetTab
 			return;
 		}
 
+		bool isCaptain = console.IdCard.accessSyncList.Contains((int) Access.captain);
+		captainOnlySwitcher.SetActivePage( isCaptain ? captainAccessPage : noCaptainAccessPage );
+
 		OpenMenu();
 	}
 
 	public void LogOut()
 	{
-		switcher.SetActivePage(switcher.DefaultPage);
+		mainSwitcher.SetActivePage(mainSwitcher.DefaultPage);
 		UpdateIdTexts();
 	}
 
 	public void OpenMenu()
 	{
-		switcher.SetActivePage(menuPage);
+		mainSwitcher.SetActivePage(menuPage);
 	}
 
 	public void CloseTab()
