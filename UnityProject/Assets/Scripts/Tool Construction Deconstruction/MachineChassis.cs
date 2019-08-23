@@ -8,10 +8,11 @@ using UnityEngine;
 public class MachineChassis : MonoBehaviour, IConstructionHandler
 {
 
-	public bool InteractionUpdate(HandApply interaction, InventorySlot Slot, ConstructionHandler Handler)
+	public bool InteractionUpdate(HandApply interaction, InventorySlot slot, ConstructionHandler Handler)
 	{
-		if (Slot?.Item != null)
-		{			var Circuit = Slot.Item.GetComponent<CircuitBoard>();
+		if (slot?.Item != null)
+		{
+			var Circuit = slot.Item.GetComponent<CircuitBoard>();
 			if (Circuit != null)
 			{
 				if (CustomNetworkManager.Instance._isServer == true)
@@ -23,8 +24,8 @@ public class MachineChassis : MonoBehaviour, IConstructionHandler
 					netTransform.AppearAtPositionServer(this.transform.position);
 					CH.GoToStage(Circuit.StartAtStage);
 					CH.GenerateComponents = false;
-					CH.CircuitBoard = Slot.Item;
-					InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, Slot.UUID);
+					CH.CircuitBoard = slot.Item;
+					InventoryManager.ClearInvSlot(slot);
 					Destroy(this.gameObject);
 				}
 			}

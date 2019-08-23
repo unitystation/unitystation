@@ -330,14 +330,6 @@ public class CustomNetworkManager : NetworkManager
 		{
 			playerBodies[i].NotifyPlayer(playerGameObject, true);
 		}
-
-		//StorageObject UUIDs
-		StorageObject[] storageObjs = FindObjectsOfType<StorageObject>();
-		for (var i = 0; i < storageObjs.Length; i++)
-		{
-			storageObjs[i].SyncUUIDsWithPlayer(playerGameObject);
-		}
-
 		//TileChange Data
 		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
 		for (var i = 0; i < tcManagers.Length; i++)

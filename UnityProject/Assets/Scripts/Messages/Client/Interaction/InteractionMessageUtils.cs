@@ -69,11 +69,6 @@ public static class InteractionMessageUtils
 			RequestHandActivateMessage.Send(info as HandActivate, processorObject);
 			return;
 		}
-		else if (typeof(T) == typeof(InventoryApply))
-		{
-			RequestInventoryApplyMessage.Send(info as InventoryApply, processorObject);
-			return;
-		}
 
 		//TODO: Other types
 

@@ -1003,6 +1003,8 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: rightHand
+  equipSlot: 8
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 4
 --- !u!114 &8281618038162328647
@@ -1768,6 +1770,8 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: leftHand
+  equipSlot: 7
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 4
 --- !u!114 &8282046623769771551
@@ -1971,6 +1975,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 03000000
   eventName: neck
+  equipSlot: 13
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281099982155351903
@@ -2320,6 +2326,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 08000000
   eventName: hands
+  equipSlot: 11
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282013931426605571
@@ -2514,6 +2522,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0c0000000d000000
   eventName: id
+  equipSlot: 15
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281598406267256839
@@ -3754,6 +3764,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0b000000
   eventName: back
+  equipSlot: 10
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281714557989333947
@@ -3974,6 +3986,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 04000000
   eventName: mask
+  equipSlot: 5
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8278153824545481731
@@ -4242,6 +4256,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 06000000
   eventName: suit
+  equipSlot: 0
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281727653073488633
@@ -4335,6 +4351,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 07000000
   eventName: uniform
+  equipSlot: 6
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282020277741709817
@@ -4604,6 +4622,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 05000000
   eventName: ear
+  equipSlot: 12
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282083071945512055
@@ -4700,6 +4720,7 @@ MonoBehaviour:
   selectorRect: {fileID: 8099231527100106581}
   rightHand: {fileID: 8098677172105971325}
   leftHand: {fileID: 8098968523319478345}
+  hasSwitchedHands: 0
 --- !u!1 &8321917252363743471
 GameObject:
   m_ObjectHideFlags: 0
@@ -4763,6 +4784,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 00000000
   eventName: suitStorage
+  equipSlot: 18
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281769724951693843
@@ -6853,6 +6876,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 02000000
   eventName: head
+  equipSlot: 2
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281663299502864331
@@ -7020,6 +7045,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 09000000
   eventName: feet
+  equipSlot: 3
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8277981872350202469
@@ -7530,6 +7557,8 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: storage02
+  equipSlot: 17
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 1
 --- !u!114 &8282072067080021949
@@ -7623,6 +7652,8 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: storage01
+  equipSlot: 16
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 1
 --- !u!114 &8281975483754746179
@@ -7864,6 +7895,8 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 01000000
   eventName: eyes
+  equipSlot: 9
+  whythisdoesntshowup: 
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281567288758422327
@@ -8033,8 +8066,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8098916126305813031}
   - component: {fileID: 8101005726861327053}
-  - component: {fileID: 8281779622868138873}
   - component: {fileID: 8282111966572625343}
+  - component: {fileID: 8281779622868138873}
   m_Layer: 5
   m_Name: itemSlot
   m_TagString: Untagged
@@ -8070,6 +8103,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8322615842752028439}
   m_CullTransparentMesh: 0
+--- !u!114 &8282111966572625343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322615842752028439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowAllItems: 0
+  allowedItemTypes: 0a0000000d000000
+  eventName: belt
+  equipSlot: 1
+  whythisdoesntshowup: 
+  image: {fileID: 0}
+  maxItemSize: 0
 --- !u!114 &8281779622868138873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8099,23 +8151,6 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &8282111966572625343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8322615842752028439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3b731d242a842c2916749940e8916ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allowAllItems: 0
-  allowedItemTypes: 0a0000000d000000
-  eventName: belt
-  image: {fileID: 0}
-  maxItemSize: 0
 --- !u!1 &8322619663844361839
 GameObject:
   m_ObjectHideFlags: 0

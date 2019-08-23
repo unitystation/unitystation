@@ -41,7 +41,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
-		InventorySlot slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
+		InventorySlot slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 
 		if (RelatedInterface != null)
 		{
@@ -52,7 +52,8 @@ public class ConstructionHandler : NBHandApplyInteractable
 		}
 		if (ContainedObjects[CurrentStage] != null)
 		{
-			foreach (var _Object in ContainedObjects[CurrentStage]) {				if (_Object.NumberNeeded > _Object.NumberPresent)
+			foreach (var _Object in ContainedObjects[CurrentStage]) {
+				if (_Object.NumberNeeded > _Object.NumberPresent)
 				{
 					if (_Object.GameObject != null)
 					{
@@ -71,7 +72,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 							}
 							else {
 								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-								InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
+								InventoryManager.ClearInvSlot(slot);
 								_Object.NumberPresent++;
 							}
 						}
@@ -90,9 +91,9 @@ public class ConstructionHandler : NBHandApplyInteractable
 									});
 									UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
 								}
-								else { 
+								else {
 									ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-									InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
+									InventoryManager.ClearInvSlot(slot);
 									_Object.NumberPresent++;
 								}
 							}
@@ -121,7 +122,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 				});
 				UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, Jump.ConstructionTime/tool.SpeedMultiplier, progressFinishAction, interaction.Performer);
 			}
-			else { 
+			else {
 				JumpLanding(tool);
 			}
 		}
@@ -133,7 +134,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 				return (true);
 			}
 		}
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 
 		if (RelatedInterface != null)
 		{
@@ -178,7 +179,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 		}
 		return (false);
 	}
-	public void ExceptItem(InventorySlot slot, HandApply interaction) { 
+	public void ExceptItem(InventorySlot slot, HandApply interaction) {
 	if (ContainedObjects[CurrentStage] != null)
 		{
 			foreach (var _Object in ContainedObjects[CurrentStage])
@@ -190,7 +191,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 						if (slot.Item.GetComponent(_Object.IdentifyingComponent) != null)
 						{
 							ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-							InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
+							InventoryManager.ClearInvSlot(slot);
 							_Object.NumberPresent++;
 						}
 					}
@@ -202,18 +203,18 @@ public class ConstructionHandler : NBHandApplyInteractable
 							if (Item.CType == _Object.CType && Item.level >= _Object.level)
 							{
 								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
-								InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
+								InventoryManager.ClearInvSlot(slot);
 								_Object.NumberPresent++;
 							}
 						}
 					}
 				}
 			}
-			//if 
+			//if
 		}
 	}
 
-	public void JumpLanding(Tool tool) { 
+	public void JumpLanding(Tool tool) {
 		if (ConstructionStages[CurrentStage].ToolStage.ContainsKey(tool.ToolType))
 		{
 			var Jump = ConstructionStages[CurrentStage].ToolStage[tool.ToolType];
@@ -284,7 +285,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 			}
 			PoolManager.PoolNetworkDestroy(this.gameObject);
 		}
-		//ConstructionStages[CurrentStage] 
+		//ConstructionStages[CurrentStage]
 	}
 	public void SetDefaultState(bool Toggle) {
 		setOtherSprites(Toggle);
@@ -292,7 +293,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 	public bool otherSpritesContain(SpriteRenderer SR)
 	{
 		foreach (var _Sprite in otherSpriteRenderer) {
-			if (_Sprite.Key == SR) { 
+			if (_Sprite.Key == SR) {
 				return (true);
 			}
 		}
@@ -305,7 +306,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 			if (!otherSpritesContain(SR) && (SR != TSpriteRenderer)) {
 				var kandV = new KeyValuePair<SpriteRenderer, bool>(SR, SR.enabled);
 				otherSpriteRenderer.Add(kandV);
-			} 
+			}
 
 		}
 		//if (prefab != PrefabUtility.GetCorrespondingObjectFromSource(selectedObject))
@@ -314,7 +315,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 			{
 				SR.Key.gameObject.SetActive(SR.Value);
 			}
-			else { 
+			else {
 				SR.Key.gameObject.SetActive(Toggle);
 			}
 		}
@@ -324,7 +325,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 	void Start()
 	{
 		base.Start();
-	
+
 		TSpriteRenderer = Instantiate(TSpriteRenderer).GetComponent<SpriteRenderer>();
 		TSpriteRenderer.gameObject.transform.SetParent(this.transform, false);
 		if (isServer)
@@ -371,20 +372,20 @@ public class ConstructionHandler : NBHandApplyInteractable
 			GoToStage(CurrentStage);
 		}
 		else
-		{ 
+		{
 			foreach (var Stage in ConstructionStages)
 			{
 				foreach (var TOStageAdvance in Stage.StageAdvances)
 				{
 					Stage.ToolStage[TOStageAdvance.RequiredTool] = TOStageAdvance;
 				}
-			
+
 			}
-		
+
 		}
 	}
 
-	public void SpawnStage(int StageNumber) { 
+	public void SpawnStage(int StageNumber) {
 		foreach (var _Object in ContainedObjects[StageNumber])
 		{
 			for (int i = 0; i < ConstructionStages[StageNumber].PresentParts.Count; i++)

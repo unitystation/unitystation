@@ -5,36 +5,34 @@
 /// </summary>
 public class HandSlot
 {
-	public static readonly HandSlot RIGHT = new HandSlot("rightHand");
-	public static readonly HandSlot LEFT = new HandSlot("leftHand");
+	public static readonly HandSlot RIGHT = new HandSlot(EquipSlot.rightHand);
+	public static readonly HandSlot LEFT = new HandSlot(EquipSlot.leftHand);
 
-	private string slotName;
+	public EquipSlot equipSlot { get; private set; }
 
-	/// <summary>
-	/// The inventory slot name of this hand.
-	/// </summary>
-	public string SlotName => slotName;
-
-	private HandSlot(string slotName) => this.slotName = slotName;
+	private HandSlot(EquipSlot newEquipSlot)
+	{
+		equipSlot = newEquipSlot;
+	}
 
 	/// <summary>
 	/// Gets the hand slot with the specified name.
 	/// </summary>
 	/// <param name="slotName">leftHand or rightHand</param>
 	/// <returns></returns>
-	public static HandSlot ForName(string slotName)
+	public static HandSlot ForName(EquipSlot staticEquipSlot)
 	{
-		if (slotName == "rightHand")
+		if (staticEquipSlot == EquipSlot.rightHand)
 		{
 			return RIGHT;
 		}
-		else if (slotName == "leftHand")
+		else if (staticEquipSlot == EquipSlot.leftHand)
 		{
 			return LEFT;
 		}
 		else
 		{
-			Logger.LogErrorFormat("{0} is not a valid hand slot name, should be leftHand or rightHand.", Category.UI, slotName);
+			Logger.LogErrorFormat("{0} is not a valid hand slot name, should be leftHand or rightHand.", Category.UI, "equipSlot");
 			return null;
 		}
 	}

@@ -8,39 +8,33 @@ using UnityEngine.Networking;
 public class UpdateSlotMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateSlotMessage;
-	public bool ForceRefresh;
-	public NetworkInstanceId ObjectForSlot;
+	public NetworkInstanceId Item;
 	public NetworkInstanceId Recipient;
-	public string ToUUID;
-	public string FromUUID;
+	public EquipSlot equipSlot;
+	public bool RemoveItem;
 
 	public override IEnumerator Process()
 	{
-		//To be run on client
-		//        Logger.Log("Processed " + ToString());
-
-		if (ObjectForSlot == NetworkInstanceId.Invalid)
+		if (RemoveItem)
 		{
-			//Clear slot message
-			yield return WaitFor(Recipient);
-			InventoryManager.UpdateInvSlot(false, ToUUID, null, FromUUID);
+			yield return WaitFor(Recipient, Item);
+			InventoryManager.ClientClearInvSlot(NetworkObjects[0].GetComponent<PlayerNetworkActions>(), equipSlot);
 		}
 		else
 		{
-			yield return WaitFor(Recipient, ObjectForSlot);
-			InventoryManager.UpdateInvSlot(false, ToUUID, NetworkObjects[1], FromUUID);
+			yield return WaitFor(Recipient, Item);
+			InventoryManager.ClientEquipInInvSlot(NetworkObjects[0].GetComponent<PlayerNetworkActions>(), NetworkObjects[1], equipSlot);
 		}
 	}
 
-	public static UpdateSlotMessage Send(GameObject recipient, string toUUID, string fromUUID, GameObject objectForSlot = null, bool forced = true)
+	public static UpdateSlotMessage Send(GameObject recipient, GameObject item, bool removeItem, EquipSlot sentEquipSlot = 0)
 	{
 		UpdateSlotMessage msg = new UpdateSlotMessage
 		{
-			Recipient = recipient.GetComponent<NetworkIdentity>().netId, //?
-			ToUUID = toUUID,
-			FromUUID = fromUUID,
-			ObjectForSlot = objectForSlot != null ? objectForSlot.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
-			ForceRefresh = forced
+			Recipient = recipient.GetComponent<NetworkIdentity>().netId,
+			Item = item.GetComponent<NetworkIdentity>().netId,
+			RemoveItem = removeItem,
+			equipSlot = sentEquipSlot
 		};
 		msg.SendTo(recipient);
 		return msg;

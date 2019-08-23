@@ -29,7 +29,7 @@ public class RequestHandActivateMessage : ClientMessage
 		//look up item in active hand slot
 		var clientPNA = SentByPlayer.Script.playerNetworkActions;
 		var handSlot = HandSlot.ForName(clientPNA.activeHand);
-		var activatedObject = clientPNA.Inventory[handSlot.SlotName].Item;
+		var activatedObject = clientPNA.Inventory[handSlot.equipSlot].Item;
 
 		ProcessActivate(activatedObject, processorObj, performerObj, handSlot);
 	}

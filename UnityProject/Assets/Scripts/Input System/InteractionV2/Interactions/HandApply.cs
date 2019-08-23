@@ -43,7 +43,7 @@ public class HandApply : BodyPartTargetedInteraction
 			UIManager.Hands.CurrentSlot.Item,
 			targetObject,
 			UIManager.DamageZone,
-			HandSlot.ForName(UIManager.Instance.hands.CurrentSlot.eventName));
+			HandSlot.ForName(UIManager.Instance.hands.CurrentSlot.equipSlot));
 	}
 
 	/// <summary>

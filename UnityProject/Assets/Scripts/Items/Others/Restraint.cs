@@ -29,7 +29,7 @@ public class Restraint : Interactable<HandApply>
 	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!base.WillInteract(interaction, side)) return false;
-		
+
 		PlayerMove targetPM = interaction.TargetObject?.GetComponent<PlayerMove>();
 
 		// Interacts iff the target isn't cuffed
@@ -49,10 +49,7 @@ public class Restraint : Interactable<HandApply>
 				if (reason == FinishProgressAction.FinishReason.COMPLETED)
 				{
 					if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) ?? false) {
-						target.GetComponent<PlayerMove>().Cuff(gameObject);
-
-						// Hacky! Hand doesn't automatically update so we have to do it manually
-						performer.GetComponent<PlayerNetworkActions>()?.UpdatePlayerEquipSprites(InventoryManager.GetSlotFromItem(gameObject), null);
+						target.GetComponent<PlayerMove>().Cuff(gameObject, interaction.Performer.GetComponent<PlayerNetworkActions>());
 					}
 				}
 			}

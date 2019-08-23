@@ -357,11 +357,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	}
 
 	[Server]
-	public void Cuff(GameObject cuffs)
+	public void Cuff(GameObject cuffs, PlayerNetworkActions originPNA)
 	{
 		cuffed = true;
 
-		pna.SetInventorySlot("handcuffs", cuffs);
+		pna.AddItemToUISlot(cuffs, EquipSlot.handcuffs, originPNA);
 	}
 
 	[Server]
@@ -369,7 +369,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	{
 		cuffed = false;
 
-		pna.DropItem("handcuffs");
+		pna.DropItem(EquipSlot.handcuffs);
 	}
 
 	/// <summary>

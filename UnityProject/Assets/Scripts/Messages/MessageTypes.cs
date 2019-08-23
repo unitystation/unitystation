@@ -24,8 +24,8 @@ internal enum MessageTypes : short
 	ProgressBarMessage = 1020,
 	PaperUpdateMessage = 1021,
 	StorageObjectSyncMessage = 1022,
-	SyncPlayerInventoryGuidMessage = 1023,
-	StorageObjectUUIDSyncMessage = 1024,
+	// = 1023, unused, replace at will
+	// = 1024, unused, replace at will
 	ElectricalStatsMessage = 1025,
 	InformPull = 1026,
 	HealthOverallStats = 1027,
@@ -45,11 +45,11 @@ internal enum MessageTypes : short
 	BookNetMessage = 1041,
 	BookshelfNetMessage = 1042,
 	SubBookshelfNetMessage = 1043,
-	
+
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,
 	InteractMessage = 2001,
-	InventoryInteractMessage = 2002,
+	StoreItemMessage = 2002,
 	PostToChatMessage = 2003,
 	OpenPageValueNetMessage = 2004,
 	SimpleInteractMessage = 2005,
@@ -69,7 +69,7 @@ internal enum MessageTypes : short
 	RequestHandApplyMessage = 2019,
 	RequestAimApplyMessage = 2020,
 	RequestHandActivateMessage = 2021,
-	RequestInventoryApplyMessage = 2022,
+	// = 2022, unused, replace at will
 	RequestPositionalHandApplyMessage = 2023,
 	RequestActivateMessage = 2024,
 	RequestToViewObjectsAtTile = 2026,

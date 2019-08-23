@@ -45,7 +45,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		Gun gun = gunObject.GetComponent<Gun>();
 		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
 		gun.ServerHandleReloadRequest(networkID);
-		GetComponent<PlayerNetworkActions>().ClearInventorySlot(hand);
+		//var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+		//InventoryManager.ClearInvSlot(slot);
 	}
 
 	[Command]
@@ -64,12 +65,11 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		gun.ServerHandleUnloadRequest();
 	}
 
-	
 	/// <summary>
 	/// Utility function that gets the weapon for you
 	/// </summary>
 	[Command]
-	public void CmdRequestMeleeAttackSlot(GameObject victim, string slot, Vector2 stabDirection,
+	public void CmdRequestMeleeAttackSlot(GameObject victim, EquipSlot slot, Vector2 stabDirection,
 	BodyPartType damageZone, LayerType layerType)
 	{
 		var weapon = playerScript.playerNetworkActions.Inventory[slot].Item;
@@ -185,7 +185,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			PostToChatMessage.SendAttackMessage(gameObject, victim, (int) weaponAttr.hitDamage, damageZone, weapon);
 		}
 
-		
+
 		StartCoroutine(AttackCoolDown());
 	}
 

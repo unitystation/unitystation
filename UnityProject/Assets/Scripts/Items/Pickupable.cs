@@ -93,7 +93,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 			//set ForceInform to false for simulation
 			//the return value of AddItemToUISlot is an extra layer of validation on top of our other validations,
 			//not sure if this is redundant with our validation chain.
-			if (ps.playerNetworkActions.AddItemToUISlot(gameObject, interaction.HandSlot.SlotName, false /*, false*/))
+			if (ps.playerNetworkActions.AddItemToUISlot(gameObject, interaction.HandSlot.equipSlot /*, false*/))
 			{
 				Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Security,
 					cnt.ServerState.WorldPosition, interaction.Performer.transform.position, cnt.IsFloatingServer);
@@ -163,9 +163,9 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 	// Removes the object from the player inventory before vanishing it
 	/// </summary>
 	[Server]
-	public void DisappearObject()
+	public void DisappearObject(InventorySlot inventorySlot)
 	{
-		InventoryManager.DestroyItemInSlot(gameObject);
+		InventoryManager.ClearInvSlot(inventorySlot);
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 	}
 }

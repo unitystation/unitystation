@@ -46,7 +46,7 @@ public class Girder : NBHandApplyInteractable
 				{
 					if (reason == FinishProgressAction.FinishReason.COMPLETED)
 					{
-						ConstructWall(interaction.HandObject);
+						ConstructWall(interaction);
 					}
 				}
 			);
@@ -76,9 +76,11 @@ public class Girder : NBHandApplyInteractable
 	}
 
 	[Server]
-	private void ConstructWall(GameObject handObj){
+	private void ConstructWall(HandApply interaction){
+		var handObj = interaction.HandObject;
 		tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), TileType.Wall, "Wall");
-		handObj.GetComponent<Pickupable>().DisappearObject();
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+		handObj.GetComponent<Pickupable>().DisappearObject(slot);
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 	}
 

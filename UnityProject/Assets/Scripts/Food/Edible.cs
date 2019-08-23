@@ -45,7 +45,7 @@ public class Edible : NetworkBehaviour, IInteractable<HandActivate>, IInteractab
 	{
 		//FIXME: PNA Cmd is being used to heal the player instead of heal hunger for the TDM
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdEatFood(gameObject,
-            UIManager.Hands.CurrentSlot.eventName, isDrink);
+            UIManager.Hands.CurrentSlot.equipSlot, isDrink);
 	}
 
 	public bool Interact(HandActivate interaction)

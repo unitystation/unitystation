@@ -15,11 +15,11 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 		{
 			SoundManager.Play("Click01");
 			// Only try interacting if we're not actually switching hands
-			if (UIManager.Hands.hasSwitchedHands) 
+			if (UIManager.Hands.hasSwitchedHands)
 			{
 				UIManager.Hands.hasSwitchedHands = false;
 			}
-			else 
+			else
 			{
 				itemSlot.TryItemInteract();
 			}
@@ -46,9 +46,7 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 						return;
 					}
 				}
-
-				UIManager.TryUpdateSlot(new UISlotObject(itemSlot.inventorySlot.UUID, UIManager.DragAndDrop.ItemCache,
-					UIManager.DragAndDrop.ItemSlotCache?.inventorySlot.UUID));
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdUpdateSlot(itemSlot.equipSlot, UIManager.DragAndDrop.ItemSlotCache.equipSlot);
 			}
 			// else if (itemSlot.Item != null)
 			// {

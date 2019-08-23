@@ -167,7 +167,7 @@ public class PowerGenerator : NBHandApplyInteractable, INodeControl
 
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 		var tool = slot.Item?.GetComponent<Tool>();
 		if (tool != null && tool.ToolType == ToolType.Wrench)
 		{
@@ -184,7 +184,7 @@ public class PowerGenerator : NBHandApplyInteractable, INodeControl
 		if (solidPlasma != null)
 		{
 			plasmaFuel.Add(solidPlasma);
-			InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
+			InventoryManager.ClearInvSlot(slot);
 			return;
 		}
 

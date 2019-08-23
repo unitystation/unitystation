@@ -68,7 +68,7 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 		if (IsClosed)
 		{
 			if(isFull && interaction.HandObject == null) {
-				RemoveExtinguisher(pna, interaction.HandSlot.SlotName);
+				RemoveExtinguisher(pna, interaction.HandSlot.equipSlot);
 			}
 			IsClosed = false;
 		}
@@ -78,7 +78,7 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 			{
 				if (interaction.HandObject == null)
 				{
-					RemoveExtinguisher(pna, interaction.HandSlot.SlotName);
+					RemoveExtinguisher(pna, interaction.HandSlot.equipSlot);
 				}
 				else
 				{
@@ -89,7 +89,7 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 			{
 				if (interaction.HandObject && interaction.HandObject.GetComponent<FireExtinguisher>())
 				{
-					AddExtinguisher(pna, interaction.HandSlot.SlotName, interaction.HandObject);
+					AddExtinguisher(interaction);
 				}
 				else
 				{
@@ -99,7 +99,7 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 		}
 	}
 
-	private void RemoveExtinguisher(PlayerNetworkActions pna, string hand){
+	private void RemoveExtinguisher(PlayerNetworkActions pna, EquipSlot hand){
 		if (pna.AddItemToUISlot(storedObject.gameObject, hand))
 		{
 			storedObject.visibleState = true;
@@ -108,10 +108,9 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 		}
 	}
 
-	private void AddExtinguisher(PlayerNetworkActions pna, string hand, GameObject handObj){
-		storedObject = handObj.GetComponent<ObjectBehaviour>();
-		pna.ClearInventorySlot(hand);
-		storedObject.visibleState = false;
+	private void AddExtinguisher(HandApply interaction){
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+		InventoryManager.ClearInvSlot(slot);
 		isFull = true;
 	}
 

@@ -6,77 +6,27 @@ using UnityEngine.Networking;
 
 public class StorageObject : NetworkBehaviour
 {
-
 	[HideInInspector]
 	public StorageSlots storageSlots;
 	public int maxSlots = 7;
 	public ItemSize maxItemSize = ItemSize.Large;
 
+	public List<InventorySlot> inventorySlotList = new List<InventorySlot>();
+
 	public Action clientUpdatedDelegate;
 
-	public override void OnStartClient()
+	public void Start()
 	{
-		base.OnStartClient();
-		InitSlots(false);
+		InitSlots();
 	}
 
-	public override void OnStartServer()
+	void InitSlots()
 	{
-		base.OnStartServer();
-		InitSlots(true);
-	}
-
-	void InitSlots(bool _isServer)
-	{
-		var syncData = new StorageSlotsUUIDSync();
 		storageSlots = new StorageSlots();
 		for (int i = 0; i < maxSlots; i++)
 		{
-			InventorySlot invSlot = null;
-			if (_isServer)
-			{
-				invSlot = new InventorySlot(System.Guid.NewGuid(), "inventory" + i);
-				storageSlots.inventorySlots.Add(invSlot);
-				syncData.UUIDs.Add(invSlot.UUID);
-			}
-			else
-			{
-				invSlot = new InventorySlot(System.Guid.Empty, "inventory" + i);
-				storageSlots.inventorySlots.Add(invSlot);
-			}
-			InventoryManager.AddSlot(invSlot, _isServer);
-		}
-
-		if (syncData.UUIDs.Count != 0)
-		{
-			StorageObjectUUIDSyncMessage.SendAll(gameObject, JsonUtility.ToJson(syncData));
-		}
-	}
-
-	[Server]
-	public void SyncUUIDsWithPlayer(GameObject recipient)
-	{
-		StorageObjectUUIDSyncMessage.Send(recipient, gameObject, GetUUIDJsonString());
-	}
-
-	[Server]
-	private string GetUUIDJsonString()
-	{
-		var syncData = new StorageSlotsUUIDSync();
-		for (int i = 0; i < storageSlots.inventorySlots.Count; i++)
-		{
-			syncData.UUIDs.Add(storageSlots.inventorySlots[i].UUID);
-		}
-
-		return JsonUtility.ToJson(syncData);
-	}
-
-	public void SyncUUIDs(string data)
-	{
-		var syncData = JsonUtility.FromJson<StorageSlotsUUIDSync>(data);
-		for (int i = 0; i < syncData.UUIDs.Count; i++)
-		{
-			storageSlots.inventorySlots[i].UUID = syncData.UUIDs[i];
+			InventorySlot invSlot = new InventorySlot(EquipSlot.inventory01 + i, false, gameObject);
+			storageSlots.inventorySlots.Add(invSlot);
 		}
 	}
 
@@ -87,7 +37,7 @@ public class StorageObject : NetworkBehaviour
 		StorageSlots slotsData = new StorageSlots();
 		foreach (InventorySlot slot in storageSlots.inventorySlots)
 		{
-			slotsData.inventorySlots.Add(InventoryManager.GetSlotFromUUID(slot.UUID, true));
+			slotsData.inventorySlots.Add(slot);
 		}
 
 		StorageObjectSyncMessage.Send(recipient, gameObject, JsonUtility.ToJson(slotsData));
@@ -103,7 +53,9 @@ public class StorageObject : NetworkBehaviour
 	{
 		for (int i = 0; i < storageSlots.inventorySlots.Count; i++)
 		{
-			storageSlots.inventorySlots[i].RefreshInstanceIdFromIdentifier();
+			var invSlot = storageSlots.inventorySlots[i];
+			invSlot.RefreshInstanceIdFromIdentifier();
+			invSlot.Owner = gameObject;
 		}
 		if (clientUpdatedDelegate != null)
 		{
@@ -125,16 +77,23 @@ public class StorageObject : NetworkBehaviour
 
 		return invSlot;
 	}
+
+	public InventorySlot GetSlot(EquipSlot equipSlot)
+	{
+		InventorySlot invSlot = null;
+		for (int i = 0; i < storageSlots.inventorySlots.Count; i++)
+		{
+			if (storageSlots.inventorySlots[i].equipSlot == equipSlot)
+			{
+				return storageSlots.inventorySlots[i];
+			}
+		}
+		return invSlot;
+	}
 }
 
 [Serializable]
 public class StorageSlots
 {
 	public List<InventorySlot> inventorySlots = new List<InventorySlot>();
-}
-
-[Serializable]
-public class StorageSlotsUUIDSync
-{
-	public List<string> UUIDs = new List<string>();
 }

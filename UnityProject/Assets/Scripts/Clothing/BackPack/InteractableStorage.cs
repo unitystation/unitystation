@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 /// <summary>
 /// Allows a storage object to be interacted with in inventory, to open/close it and drag things
@@ -41,10 +40,11 @@ public class InteractableStorage : MonoBehaviour, IInteractable<HandActivate>, I
 		{
 			//Put item in back without opening it
 			//Check if it is a storage obj:
-			if (storageObj.NextSpareSlot() != null)
+			InventorySlot storageInvSlot = storageObj.NextSpareSlot();
+			if (storageInvSlot != null)
 			{
-				UIManager.TryUpdateSlot(new UISlotObject(storageObj.NextSpareSlot().UUID, interaction.HandObject,
-					InventorySlotCache.GetSlotByItem(interaction.HandObject)?.inventorySlot.UUID));
+				var playerInvSlot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+				StoreItemMessage.Send(gameObject, interaction.Performer, playerInvSlot.equipSlot, true);
 				SoundManager.PlayAtPosition("Rustle0" + UnityEngine.Random.Range(1, 6).ToString(), PlayerManager.LocalPlayer.transform.position);
 				ObjectBehaviour itemObj = interaction.HandObject.GetComponent<ObjectBehaviour>();
 				itemObj.parentContainer = objectBehaviour;
