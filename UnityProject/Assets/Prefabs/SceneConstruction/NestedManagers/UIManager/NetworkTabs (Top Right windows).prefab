@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 5812174582384206504}
   - component: {fileID: 4941520234935937926}
   m_Layer: 5
-  m_Name: VV For Objects On Tile
+  m_Name: VV For Objects On Tile Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 6335360467027724366}
   - component: {fileID: 744952867126023263}
   m_Layer: 5
-  m_Name: VV For Objects On Tile (2)
+  m_Name: Open VV Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -734,6 +734,7 @@ MonoBehaviour:
   devCloner: {fileID: 0}
   devDestroyer: {fileID: 0}
   devSelectTile: {fileID: 0}
+  vv: {fileID: 0}
 --- !u!114 &3908049294678507101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1065,8 +1066,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8880219442591467293}
   m_HandleRect: {fileID: 2133393440550017640}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9999998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1733,7 +1734,6 @@ GameObject:
   - component: {fileID: 5312833827637528302}
   - component: {fileID: 5420513157538410832}
   - component: {fileID: 5420579214496058452}
-  - component: {fileID: 5420804678553840072}
   m_Layer: 5
   m_Name: NetworkTabs (Top Right windows)
   m_TagString: Untagged
@@ -1815,30 +1815,6 @@ MonoBehaviour:
   HeaderStorage: {fileID: 5310468323469827364}
   rolloutIcon: {fileID: 5310635251424611316}
   canvas: {fileID: 0}
---- !u!114 &5420804678553840072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5379966297430430422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0af3d430f44554ed1bb783e233b8f65c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panelImages:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  tipText: {fileID: 0}
-  themes:
-  - newPanelColor: {r: 0.8627451, g: 0.8627451, b: 0.8627451, a: 1}
-    newTipTextColor: {r: 0, g: 0, b: 0, a: 1}
-  - newPanelColor: {r: 0.2028547, g: 0.20387784, b: 0.20588237, a: 1}
-    newTipTextColor: {r: 0.9191176, g: 0.9191176, b: 0.9191176, a: 1}
 --- !u!1 &5379995670468618288
 GameObject:
   m_ObjectHideFlags: 0

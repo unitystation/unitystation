@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -42,14 +39,14 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 
 		if (newState == State.SELECTING)
 		{
-			statusText.text = "Click to select object to clone (ESC to Cancel)";
+			statusText.text = "Click to select object to view (ESC to Cancel)";
 			UIManager.IsMouseInteractionDisabled = true;
 			lightingSystem.enabled = false;
 
 		}
 		else if (newState == State.INACTIVE)
 		{
-			statusText.text = "Click to select object to clone (ESC to Cancel)";
+			statusText.text = "Click to select object to view (ESC to Cancel)";
 			UIManager.IsMouseInteractionDisabled = false;
 			lightingSystem.enabled = true;
 			gameObject.SetActive(false);
@@ -63,7 +60,6 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 		{
 			ToState(State.INACTIVE);
 		}
-
 	}
 
 	private void OnDisable()

@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class GUI_Canister : NetTab
 {
+	private static readonly float PRESSURE_UPDATE_RATE = 0.5f;
+
 	public Image BG;
 	public Image InnerPanelBG;
 	public Text LabelText;
@@ -19,6 +21,7 @@ public class GUI_Canister : NetTab
 	public GameObject EditReleasePressurePopup;
 	public Image XButton;
 	public NetLabel ConnectionStatus;
+	public NetToggle ReleaseLever;
 
 	//LED stuff
 	public Graphic Red;
@@ -39,6 +42,33 @@ public class GUI_Canister : NetTab
 	private static readonly  float YellowLowerBound = 5 * AtmosConstants.ONE_ATMOSPHERE;
 	private static readonly float RedLowerBound = 10f;
 
+	//for fade in / out of hiss
+	private static readonly float HISS_LERP_PER_SECOND = 0.1f;
+	private static readonly float HISS_MAX_VOLUME = 0.3f;
+	private static readonly float HISS_MIN_VOLUME = 0.125f;
+	//maximum rate of change of internal pressure to achieve max hiss volume.
+	private static readonly float HISS_MAX_RATE = 500;
+	private AudioSource hiss;
+	//used to lerp from current to target volume
+	private float targetHissVolume;
+	private float currentHissVolume;
+	//how much time has elapsed since pressure has changed - we stop hissing once we
+	//have not recieved a pressure change in awhile
+	private float timeSincePressureChange;
+	private float prevInternalPressure;
+	private bool muteSounds = false;
+	private bool valveOpen;
+	/// <summary>
+	/// Whether sounds should be muted on this instance of the UI.
+	/// </summary>
+	public bool MuteSounds => muteSounds;
+
+	private void Awake()
+	{
+		muteSounds = IsServer;
+		hiss = GetComponent<AudioSource>();
+	}
+
 	public void OpenPopup()
 	{
 		EditReleasePressurePopup.SetActive(true);
@@ -57,6 +87,11 @@ public class GUI_Canister : NetTab
 		StartCoroutine(ClientWaitForProvider());
 	}
 
+	private void OnDisable()
+	{
+		hiss.Stop();
+	}
+
 	//client side  initialization
 	IEnumerator ClientWaitForProvider()
 	{
@@ -70,8 +105,8 @@ public class GUI_Canister : NetTab
 		InnerPanelBG.color = canister.UIInnerPanelTint;
 		LabelText.text = "Contains\n" + canister.ContentsName;
 		XButton.color = canister.UIBGTint;
-		UpdateLEDs(InternalPressureDial.SyncedValue);
-		InternalPressureDial.OnSyncedValueChanged.AddListener(UpdateLEDs);
+		OnInternalPressureChanged(InternalPressureDial.SyncedValue);
+		InternalPressureDial.OnSyncedValueChanged.AddListener(OnInternalPressureChanged);
 	}
 
 	protected override void InitServer()
@@ -115,8 +150,9 @@ public class GUI_Canister : NetTab
 	/// specified pressure.
 	/// </summary>
 	/// <param name="pressure"></param>
-	private void UpdateLEDs(int pressure)
+	private void OnInternalPressureChanged(int pressure)
 	{
+		//update LEDs
 		if (pressure > GreenLowerBound)
 		{
 			flashingRed = false;
@@ -150,6 +186,27 @@ public class GUI_Canister : NetTab
 			Yellow.color = YELLOW_INACTIVE;
 			Green.color = GREEN_INACTIVE;
 		}
+
+		//hissing
+		if (!muteSounds)
+		{
+			var rate = prevInternalPressure - pressure;
+			prevInternalPressure = pressure;
+			if (ReleaseLever.Element.isOn && rate > 0)
+			{
+				//we lost pressure, hiss
+				timeSincePressureChange = 0f;
+				//if not hissing, start
+				if (!hiss.isPlaying)
+				{
+					hiss.volume = 0;
+					hiss.Play();
+				}
+
+				//set target volume based on rate
+				targetHissVolume = Mathf.Lerp(HISS_MIN_VOLUME, HISS_MAX_VOLUME, rate / HISS_MAX_RATE);
+			}
+		}
 	}
 
 	private void Update()
@@ -174,6 +231,38 @@ public class GUI_Canister : NetTab
 				}
 			}
 		}
+
+		//hissing update
+		if (!muteSounds)
+		{
+			if (hiss.isPlaying)
+			{
+				timeSincePressureChange += Time.deltaTime;
+				//currently hissing
+				//stop playing sound if pressure hasn't changed in awhile
+				//or if release lever is closed
+				if (timeSincePressureChange > PRESSURE_UPDATE_RATE * 1.5)
+				{
+					targetHissVolume = 0;
+				}
+				//lerp hiss volume
+				if (targetHissVolume != currentHissVolume)
+				{
+					currentHissVolume = Mathf.MoveTowards(currentHissVolume, targetHissVolume, Time.deltaTime * HISS_LERP_PER_SECOND);
+					hiss.volume = currentHissVolume;
+				}
+				//stop playing when we reach 0
+				//or release lever is closed
+				if (currentHissVolume == 0 || !ReleaseLever.Element.isOn)
+				{
+					//will restart from 0 volume when resuming
+					currentHissVolume = 0;
+					hiss.Stop();
+				}
+			}
+		}
+
+
 	}
 
 	private IEnumerator ServerRefreshInternalPressure()
@@ -185,7 +274,7 @@ public class GUI_Canister : NetTab
 			InternalPressureDial.ServerSpinTo(currentValue);
 		}
 
-		yield return WaitFor.Seconds(0.5F);
+		yield return WaitFor.Seconds(PRESSURE_UPDATE_RATE);
 		StartCoroutine(ServerRefreshInternalPressure());
 	}
 

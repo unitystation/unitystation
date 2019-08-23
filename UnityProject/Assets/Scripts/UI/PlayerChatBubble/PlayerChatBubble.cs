@@ -48,7 +48,7 @@ public class PlayerChatBubble : MonoBehaviour
 
 	void OnToggle()
 	{
-		if (PlayerPrefs.GetInt(StringManager.ChatBubblePref) == 0)
+		if (PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleKey) == 0)
 		{
 			if (showingDialogue)
 			{
@@ -164,12 +164,12 @@ public class PlayerChatBubble : MonoBehaviour
 	/// </summary>
 	private bool UseChatBubble()
 	{
-		if (!PlayerPrefs.HasKey(StringManager.ChatBubblePref))
+		if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleKey))
 		{
-			PlayerPrefs.SetInt(StringManager.ChatBubblePref, 0);
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 0);
 			PlayerPrefs.Save();
 		}
 
-		return PlayerPrefs.GetInt(StringManager.ChatBubblePref) == 1;
+		return PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleKey) == 1;
 	}
 }

@@ -99,12 +99,12 @@ public class ControlChat : MonoBehaviour
 
 	void InitPrefs()
 	{
-		if (!PlayerPrefs.HasKey(StringManager.ChatBubblePref))
+		if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleKey))
 		{
-			PlayerPrefs.SetInt(StringManager.ChatBubblePref, 0);
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 0);
 			PlayerPrefs.Save();
 		}
-		if (PlayerPrefs.GetInt(StringManager.ChatBubblePref) == 1)
+		if (PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleKey) == 1)
 		{
 			toggleChatBubbleImage.color = toggleOnCol;
 		}
@@ -193,14 +193,14 @@ public class ControlChat : MonoBehaviour
 	public void OnClickToggleBubble()
 	{
 		SoundManager.Play("Click01");
-		if (PlayerPrefs.GetInt(StringManager.ChatBubblePref) == 1)
+		if (PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleKey) == 1)
 		{
-			PlayerPrefs.SetInt(StringManager.ChatBubblePref, 0);
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 0);
 			toggleChatBubbleImage.color = toggleOffCol;
 		}
 		else
 		{
-			PlayerPrefs.SetInt(StringManager.ChatBubblePref, 1);
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 1);
 			toggleChatBubbleImage.color = toggleOnCol;
 		}
 		PlayerPrefs.Save();
