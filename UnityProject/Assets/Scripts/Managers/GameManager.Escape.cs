@@ -44,6 +44,7 @@ public partial class GameManager
 
 			if (status == ShuttleStatus.DockedStation)
 			{
+				SoundManager.PlayNetworked( "Disembark" );
 				PostToChatMessage.Send("Escape shuttle has arrived! Crew has 1 minute to get on it.", ChatChannel.System);
 				//should be changed to manual send later
 				StartCoroutine( SendEscapeShuttle( 60 ) );
@@ -55,7 +56,7 @@ public partial class GameManager
 	{
 		yield return WaitFor.Seconds( seconds );
 		PrimaryEscapeShuttle.SendShuttle();
-		yield return WaitFor.Seconds( seconds * 3 );
+		yield return WaitFor.Seconds( seconds * 2 );
 		PrimaryEscapeShuttle.Status = ShuttleStatus.DockedCentcom; //pretending that we docked for round to end
 	}
 

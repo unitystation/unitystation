@@ -103,7 +103,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 		{
 			UIManager.ResetAllUI();
 			UIManager.DisplayManager.SetCameraFollowPos();
-			int rA = Random.Range(0, 3);
 			GetComponent<MouseInputController>().enabled = true;
 
 			if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
@@ -127,7 +126,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			else
 			{
 				//play the spawn sound
-				SoundManager.PlayVarAmbient(rA);
+				SoundManager.PlayAmbience();
 				//Hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
