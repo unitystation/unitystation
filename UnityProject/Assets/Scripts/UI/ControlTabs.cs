@@ -356,9 +356,18 @@ public class ControlTabs : MonoBehaviour
 	private void HideTab(Tab tab)
 	{
 		tab.Hidden = true;
+		bool wasActive = tab.gameObject.activeSelf;
 		tab.gameObject.SetActive(false);
 		RefreshTabHeaders();
-		SelectTab(ClientTabType.Stats, false);
+		if(wasActive)
+		{
+			SelectTab(ClientTabType.Stats, false);
+			var netTab = tab as NetTab;
+			if (rolledOut && (netTab == null || !netTab.isPopOut))
+			{
+				ToggleTabRollOut();
+			}
+		}
 	}
 
 	private void HideTab(ClientTabType type)
@@ -395,6 +404,10 @@ public class ControlTabs : MonoBehaviour
 		if (!UITileList.IsEmpty())
 		{
 			Instance.SelectTab(ClientTabType.ItemList);
+		}
+		if (!Instance.rolledOut)
+		{
+			Instance.ToggleTabRollOut();
 		}
 	}
 
