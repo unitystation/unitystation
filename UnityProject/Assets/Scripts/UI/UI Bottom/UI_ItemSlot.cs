@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -244,7 +245,8 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		if (Item != null && UIManager.Hands.CurrentSlot.equipSlot == equipSlot)
 		{
 			//check IF2 logic first
-			var interactables = Item.GetComponents<IInteractable<HandActivate>>();
+			var interactables = Item.GetComponents<IInteractable<HandActivate>>()
+				.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 			var activate = HandActivate.ByLocalPlayer();
 			foreach (var interactable in interactables)
 			{
@@ -278,7 +280,8 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 			//check interactables in the active hand (if active hand occupied)
 			if (UIManager.Hands.CurrentSlot.Item != null)
 			{
-				var handInteractables = UIManager.Hands.CurrentSlot.Item.GetComponents<IInteractable<InventoryApply>>();
+				var handInteractables = UIManager.Hands.CurrentSlot.Item.GetComponents<IInteractable<InventoryApply>>()
+					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 				foreach (var interactable in handInteractables)
 				{
 					if (interactable.Interact(combine))
@@ -290,7 +293,8 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 			}
 
 			//check interactables in the target
-			var targetInteractables = Item.GetComponents<IInteractable<InventoryApply>>();
+			var targetInteractables = Item.GetComponents<IInteractable<InventoryApply>>()
+				.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
 			foreach (var interactable in targetInteractables)
 			{
 				if (interactable.Interact(combine))

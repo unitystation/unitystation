@@ -28,6 +28,11 @@ public class GUI_CoordReadout : MonoBehaviour
 		shuttleControlScript.MatrixMove.coordReadoutScript = this;
 	}
 
+	private void OnEnable()
+	{
+		shuttleControlScript.MatrixMove.coordReadoutScript = this;
+	}
+
 	private void OnDisable()
 	{
 		// Unregister when we get disabled/destoryed

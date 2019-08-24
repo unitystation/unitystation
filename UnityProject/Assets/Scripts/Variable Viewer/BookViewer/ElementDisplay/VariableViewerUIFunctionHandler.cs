@@ -1,17 +1,10 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using System.Reflection;
-using UnityEngine.UI;
-using UnityEngine.Events;
-using System.Text;
-using Newtonsoft.Json;
 
 public static class VVUIElementHandler
 {
 	public static VariableViewerManager VariableViewerManager;
-
 	public static Dictionary<PageElementEnum, List<PageElement>> PoolDictionary = new Dictionary<PageElementEnum, List<PageElement>>();
 	public static Dictionary<PageElementEnum, PageElement> AvailableElements = new Dictionary<PageElementEnum, PageElement>();
 	public static List<PageElement> CurrentlyOpen = new List<PageElement>();
@@ -24,16 +17,18 @@ public static class VVUIElementHandler
 		{
 			ValueType = Librarian.UEGetType(Page.VariableType);
 		}
-		else {
+		else
+		{
 			if (iskey)
 			{
 				ValueType = Librarian.UEGetType(Sentence.KeyVariableType);
-			} else {
+			}
+			else
+			{
 				ValueType = Librarian.UEGetType(Sentence.ValueVariableType);
 			}
-			//Logger.Log(ValueType.ToString());
 		}
-		 
+
 		foreach (PageElementEnum _Enum in Enum.GetValues(typeof(PageElementEnum)))
 		{
 			if (AvailableElements[_Enum].IsThisType(ValueType))
@@ -51,7 +46,7 @@ public static class VVUIElementHandler
 				}
 				_PageElement.transform.SetParent(DynamicPanel.transform);
 				_PageElement.transform.localScale = Vector3.one;
-				_PageElement.SetUpValues(ValueType,Page, Sentence, iskey);
+				_PageElement.SetUpValues(ValueType, Page, Sentence, iskey);
 				CurrentlyOpen.Add(_PageElement);
 				break;
 			}
@@ -59,7 +54,6 @@ public static class VVUIElementHandler
 	}
 	public static void Pool()
 	{
-		
 		while (CurrentlyOpen.Count > 0)
 		{
 			if (CurrentlyOpen[0].IsPoolble)
@@ -68,41 +62,47 @@ public static class VVUIElementHandler
 				PoolDictionary[CurrentlyOpen[0].PageElementType].Add(CurrentlyOpen[0]);
 				CurrentlyOpen[0].transform.SetParent(VariableViewerManager.transform);
 			}
-			else {
+			else
+			{
 				ToDestroy.Add(CurrentlyOpen[0]);
 			}
 			CurrentlyOpen.RemoveAt(0);
 		}
-		foreach (var Element in ToDestroy) { 
+		foreach (var Element in ToDestroy)
+		{
 			GameObject.Destroy(Element.gameObject);
 		}
 		ToDestroy.Clear();
 	}
 
-	public static void initialise(List<PageElement> PageElements) { 
+	public static void Initialise(List<PageElement> PageElements)
+	{
 		foreach (var Element in PageElements)
 		{
 			PoolDictionary[Element.PageElementType] = new List<PageElement>();
 			AvailableElements[Element.PageElementType] = Element;
 		}
 	}
-	public static string ReturnCorrectString(VariableViewerNetworking.NetFriendlyPage Page = null, VariableViewerNetworking.NetFriendlySentence Sentence = null, bool Iskey = false) { 
+	public static string ReturnCorrectString(VariableViewerNetworking.NetFriendlyPage Page = null, VariableViewerNetworking.NetFriendlySentence Sentence = null, bool Iskey = false)
+	{
 		if (Page != null)
 		{
 			return (Page.Variable);
 		}
-		else {
+		else
+		{
 			if (Iskey)
 			{
 				return (Sentence.KeyVariable);
 			}
-			else {
+			else
+			{
 				return (Sentence.ValueVariable);
 			}
 		}
 	}
-
 }
+
 public enum PageElementEnum
 {
 	Bool,

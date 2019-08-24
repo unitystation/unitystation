@@ -107,7 +107,7 @@ public class MouseInputController : MonoBehaviour
 
 		//Do not include the Default layer! Assign your object to one of the layers below:
 		layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Unshootable Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
-			"HiddenWalls", "Objects", "Matrix");
+			"HiddenWalls", "Objects", "Matrix", "Floor");
 	}
 
 	void LateUpdate()
@@ -329,8 +329,8 @@ public class MouseInputController : MonoBehaviour
 		if (handApply.HandObject != null)
 		{
 			//get all components that can handapply or PositionalHandApply
-			var handAppliables = handApply.HandObject.GetComponents<Component>()
-				.Where(c => c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>);
+			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
+				.Where(c => c != null && c.enabled && (c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>));
 
 			foreach (var handAppliable in handAppliables)
 			{
@@ -346,8 +346,8 @@ public class MouseInputController : MonoBehaviour
 		}
 
 		//call the hand apply interaction methods on the target object if it has any
-		var targetHandAppliables = handApply.TargetObject.GetComponents<Component>()
-			.Where(c => c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>);
+		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
+			.Where(c => c.enabled && (c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>));
 		foreach (var targetHandAppliable in targetHandAppliables)
 		{
 			var interacted = targetHandAppliable is IInteractable<HandApply> ?
@@ -387,7 +387,8 @@ public class MouseInputController : MonoBehaviour
 			//it's being clicked down
 			triggeredAimApply = null;
 			//Checks for aim apply interactions which can trigger
-			foreach (var aimApply in handObj.GetComponents<IInteractable<AimApply>>())
+			foreach (var aimApply in handObj.GetComponents<IInteractable<AimApply>>()
+				.Where(mb => mb != null && (mb as MonoBehaviour).enabled))
 			{
 				var interacted = aimApply.Interact(aimApplyInfo);
 				if (interacted)
@@ -438,6 +439,7 @@ public class MouseInputController : MonoBehaviour
 		var draggable =
 			MouseUtils.GetOrderedObjectsUnderMouse(layerMask, go =>
 					go.GetComponent<MouseDraggable>() != null &&
+					go.GetComponent<MouseDraggable>().enabled &&
 					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayer))
 				.FirstOrDefault();
 		if (draggable != null)

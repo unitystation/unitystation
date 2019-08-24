@@ -34,7 +34,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private bool doingCPR = false;
 
-	private ChatIcon chatIcon;
+	private PlayerChatBubble playerChatBubble;
+
+	private Equipment equipment;
+
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 
@@ -45,8 +48,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		playerMove = GetComponent<PlayerMove>();
 		playerScript = GetComponent<PlayerScript>();
-		chatIcon = GetComponentInChildren<ChatIcon>();
-		foreach (var equipSlot in playerSlots)
+		playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
+		objectBehaviour = GetComponent<ObjectBehaviour>();
+	}
+
+	public override void OnStartServer()
+	{
+		if (isServer)
 		{
 			var invSlot = new InventorySlot(equipSlot, true, gameObject);
 			Inventory.Add(equipSlot, invSlot);
@@ -392,33 +400,28 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdToggleChatIcon(bool turnOn)
+	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
 	{
-		if (!GetComponent<VisibleBehaviour>().visibleState || (playerScript.mind.jobType == JobType.NULL))
+		if (!playerScript.pushPull.VisibleState || (playerScript.mind.jobType == JobType.NULL)
+		|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
+			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
 			return;
 		}
 
-		RpcToggleChatIcon(turnOn);
+		RpcToggleChatIcon(turnOn, message, chatChannel);
 	}
 
 	[ClientRpc]
-	private void RpcToggleChatIcon(bool turnOn)
+	private void RpcToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
 	{
-		if (!chatIcon)
+		if (!playerChatBubble)
 		{
-			chatIcon = GetComponentInChildren<ChatIcon>();
+			playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
 		}
 
-		if (turnOn)
-		{
-			chatIcon.TurnOnTalkIcon();
-		}
-		else
-		{
-			chatIcon.TurnOffTalkIcon();
-		}
+		playerChatBubble.DetermineChatVisual(turnOn, message, chatChannel);
 	}
 
 	[Command]
@@ -480,12 +483,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[ClientRpc]
 	public void RpcBeforeBodyTransfer()
 	{
-		ClosetPlayerHandler cph = GetComponent<ClosetPlayerHandler>();
-		if (cph != null)
-		{
-			Destroy(cph);
-		}
-
 		//no more input can be sent to the body.
 		GetComponent<MouseInputController>().enabled = false;
 	}

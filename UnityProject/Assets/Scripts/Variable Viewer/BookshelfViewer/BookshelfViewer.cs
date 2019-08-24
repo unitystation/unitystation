@@ -1,16 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class BookshelfViewer : MonoBehaviour
 {
 	uint ListTop = 0;
 	uint ListBottom = 2;
-
 	public HashSet<ulong> WaitingOn = new HashSet<ulong>();
 	public bool IsUnInitialised = true;
 	public Dictionary<ulong, uint> IDToLocation = new Dictionary<ulong, uint>();
-
 	public GameObject DynamicPanel;
 
 	public SingleBookshelf UISingleBookshelf;
@@ -23,11 +20,9 @@ public class BookshelfViewer : MonoBehaviour
 		get
 		{
 			return _BookShelfIn;
-
 		}
 		set
 		{
-
 			_BookShelfIn = value;
 			BookShelfInSetUp();
 			return;
@@ -40,7 +35,6 @@ public class BookshelfViewer : MonoBehaviour
 		get
 		{
 			return _BookShelfView;
-
 		}
 		set
 		{
@@ -49,12 +43,14 @@ public class BookshelfViewer : MonoBehaviour
 			return;
 		}
 	}
+
 	public void BookShelfInSetUp()
 	{
-		if (WaitingOn.Contains(_BookShelfIn.ID)) {
+		if (WaitingOn.Contains(_BookShelfIn.ID))
+		{
 			WaitingOn.Remove(_BookShelfIn.ID);
-			BookshelfList[(int)IDToLocation[_BookShelfIn.ID]].BookShelfView = _BookShelfIn;
-		} 
+			BookshelfList[(int) IDToLocation[_BookShelfIn.ID]].BookShelfView = _BookShelfIn;
+		}
 	}
 
 	public void ValueSetUp()
@@ -69,7 +65,7 @@ public class BookshelfViewer : MonoBehaviour
 				SingleBookEntry.transform.SetParent(DynamicPanel.transform);
 				SingleBookEntry.transform.localScale = Vector3.one;
 				BookshelfList.Add(SingleBookEntry);
-				BookshelfList[(int)i].gameObject.SetActive(false);
+				BookshelfList[(int) i].gameObject.SetActive(false);
 			}
 		}
 
@@ -77,46 +73,45 @@ public class BookshelfViewer : MonoBehaviour
 		{
 			if (_BookShelfView.HeldShelfIDs.Length > (i))
 			{
-				BookshelfList[(int)i].gameObject.SetActive(true);
+				BookshelfList[(int) i].gameObject.SetActive(true);
 				WaitingOn.Add(_BookShelfView.HeldShelfIDs[i].ID);
 				IDToLocation[_BookShelfView.HeldShelfIDs[i].ID] = i;
 				RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[i].ID);
 				ListBottom = i;
 			}
-			else {
-				BookshelfList[(int)i].gameObject.SetActive(false);
+			else
+			{
+				BookshelfList[(int) i].gameObject.SetActive(false);
 			}
 		}
-
 	}
 
-	public void PageUp() {
-		if (ListTop != 0) {			BookshelfList[2].BookShelfView = BookshelfList[1].BookShelfView;
+	public void PageUp()
+	{
+		if (ListTop != 0)
+		{
+			BookshelfList[2].BookShelfView = BookshelfList[1].BookShelfView;
 			BookshelfList[1].BookShelfView = BookshelfList[0].BookShelfView;
 			ListTop--;
 			ListBottom--;
-			WaitingOn.Add(_BookShelfView.HeldShelfIDs[(int)ListTop].ID);
+			WaitingOn.Add(_BookShelfView.HeldShelfIDs[(int) ListTop].ID);
 			IDToLocation[_BookShelfView.HeldShelfIDs[ListTop].ID] = 0;
 			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[ListTop].ID);
 		}
-	
 	}
-	public void PageDown() {
-		if (!(_BookShelfView.HeldShelfIDs.Length <= (ListBottom+1)))
+
+	public void PageDown()
+	{
+		if (!(_BookShelfView.HeldShelfIDs.Length <= (ListBottom + 1)))
 		{
 			BookshelfList[0].BookShelfView = BookshelfList[1].BookShelfView;
 			BookshelfList[1].BookShelfView = BookshelfList[2].BookShelfView;
 			ListTop++;
 			ListBottom++;
-			WaitingOn.Add(_BookShelfView.HeldShelfIDs[(int)ListBottom].ID);
+			WaitingOn.Add(_BookShelfView.HeldShelfIDs[(int) ListBottom].ID);
 			IDToLocation[_BookShelfView.HeldShelfIDs[ListBottom].ID] = 2;
 			RequestBookshelfNetMessage.Send(_BookShelfView.HeldShelfIDs[ListBottom].ID);
 		}
-	}
-
-	public void Start()
-	{
-		gameObject.SetActive(false);
 	}
 
 	public void GoToObscuringBookshelf()

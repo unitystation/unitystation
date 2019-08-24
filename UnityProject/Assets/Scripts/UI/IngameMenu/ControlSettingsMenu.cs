@@ -48,18 +48,22 @@ public class ControlSettingsMenu : MonoBehaviour
 
 	// Menu button functions
 	// ==================================================
+
+	[System.Obsolete("Changing a key now auto saves it")]
 	public void SaveButton()
 	{
 		modalPanelManager.Confirm(
 			"Are you sure?",
 			() =>
 			{
-				keybindManager.SaveKeybinds(tempKeybinds, true);
+				keybindManager.SaveKeybinds(tempKeybinds);
 			},
 			"Save And Close"
 		);
 	}
-	public void ResetToDefaultButton()
+
+	//Broadcast message from options
+	public void ResetDefaults()
 	{
 		modalPanelManager.Confirm(
 			"Are you sure?",
@@ -158,6 +162,7 @@ public class ControlSettingsMenu : MonoBehaviour
 		{
 			// No conflicts found so set the new keybind and refresh the view
 			tempKeybinds.Set(selectedAction, capturedKeyCombo, isPrimary);
+			keybindManager.SaveKeybinds(tempKeybinds);
 			// Make sure the player can move around again
 			UIManager.IsInputFocus = false;
 			PopulateKeybindScrollView();
@@ -176,6 +181,7 @@ public class ControlSettingsMenu : MonoBehaviour
 					// User confirms they want to change the keybind
 					tempKeybinds.Set(selectedAction, capturedKeyCombo, isPrimary);
 					tempKeybinds.Remove(conflictingAction, isConflictPrimary);
+					keybindManager.SaveKeybinds(tempKeybinds);
 					UIManager.IsInputFocus = false;
 					PopulateKeybindScrollView();
 				},

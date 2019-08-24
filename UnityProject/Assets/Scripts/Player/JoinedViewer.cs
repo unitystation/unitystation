@@ -44,6 +44,7 @@ public class JoinedViewer : NetworkBehaviour
 			SteamId = steamId
 		});
 
+		CustomNetworkManager.Instance.SyncPlayerData(gameObject);
 		// If they have a player to rejoin send the client the player to rejoin, otherwise send a null gameobject.
 		TargetLocalPlayerSetupPlayer(connectionToClient, PlayerList.Instance.TakeLoggedOffPlayer(steamId));
 	}

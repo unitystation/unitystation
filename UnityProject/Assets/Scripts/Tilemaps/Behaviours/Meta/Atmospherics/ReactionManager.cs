@@ -112,9 +112,7 @@ public class ReactionManager : MonoBehaviour
 				}
 				else
 				{
-					node.Hotspot = null;
-					hotspots.Remove(node.Position);
-					tileChangeManager.RemoveTile(node.Position, LayerType.Effects);
+					RemoveHotspot(node);
 				}
 			}
 		}
@@ -126,6 +124,21 @@ public class ReactionManager : MonoBehaviour
 	public void ExposeHotspotWorldPosition(Vector2Int tileWorldPosition, float temperature, float volume)
 	{
 		ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)), temperature, volume);
+	}
+
+	void RemoveHotspot(MetaDataNode node)
+	{
+		node.Hotspot = null;
+		hotspots.Remove(node.Position);
+		tileChangeManager.RemoveTile(node.Position, LayerType.Effects);
+	}
+
+	public void ExtinguishHotspot(Vector3Int localPosition)
+	{
+		if (hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null)
+		{
+			RemoveHotspot(hotspots[localPosition].Hotspot.node);
+		}
 	}
 
 	public void ExposeHotspot(Vector3Int localPosition, float temperature, float volume)

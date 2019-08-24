@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +11,21 @@ public class ReleaseLever : MonoBehaviour
 	//the shadow on the upper part of the lever
 	public Shadow upperShadow;
 	public float ShadowDistance = 10;
+	private bool muteSounds;
+
+	private void Awake()
+	{
+		muteSounds = GetComponentInParent<GUI_Canister>().IsServer;
+	}
 
 	public void OnToggled(bool isOpen)
 	{
+		//play toggle sound
+		if (!muteSounds)
+		{
+			SoundManager.Play("Valve", 0.1f, pan: 0.3f);
+		}
+
 		//fix the shadow and rotate
 		if (isOpen)
 		{

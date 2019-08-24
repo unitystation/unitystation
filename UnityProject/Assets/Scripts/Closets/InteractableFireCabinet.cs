@@ -34,7 +34,7 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 		GameObject item = PoolManager.PoolNetworkInstantiate(itemPrefab, parent: transform.parent);
 
 		storedObject = item.GetComponent<ObjectBehaviour>();
-		storedObject.visibleState = false;
+		storedObject.VisibleState = false;
 		base.OnStartServer();
 	}
 
@@ -102,7 +102,7 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 	private void RemoveExtinguisher(PlayerNetworkActions pna, EquipSlot hand){
 		if (pna.AddItemToUISlot(storedObject.gameObject, hand))
 		{
-			storedObject.visibleState = true;
+			storedObject.VisibleState = true;
 			storedObject = null;
 			isFull = false;
 		}
