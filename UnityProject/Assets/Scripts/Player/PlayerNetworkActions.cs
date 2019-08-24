@@ -50,11 +50,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerScript = GetComponent<PlayerScript>();
 		playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
-	}
-
-	public override void OnStartServer()
-	{
-		if (isServer)
+		foreach (var equipSlot in playerSlots)
 		{
 			var invSlot = new InventorySlot(equipSlot, true, gameObject);
 			Inventory.Add(equipSlot, invSlot);
