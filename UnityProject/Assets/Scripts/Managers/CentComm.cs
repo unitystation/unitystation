@@ -37,7 +37,7 @@ public class CentComm : MonoBehaviour
 		"\n\nThe emergency shuttle has been recalled. " +
 	// Not traced yet, but eventually will:
 //		+"Recall signal traced. Results can be viewed on any communications console.";
-		"{0}";
+		"\n\n{0}";
 
 	void Start()
 	{
@@ -111,7 +111,8 @@ public class CentComm : MonoBehaviour
 
 		ChatEvent announcement = new ChatEvent{
 			channels = ChatChannel.System,
-			message = CommandUpdateAnnouncementString()
+			message = CommandUpdateAnnouncementString(),
+			matrix = MatrixManager.MainStationMatrix
 		};
 		ChatRelay.Instance.AddToChatLogServer(announcement);
 
@@ -128,7 +129,8 @@ public class CentComm : MonoBehaviour
 
 		ChatEvent announcement = new ChatEvent{
 			channels = ChatChannel.System,
-			message = string.Format( CaptainAnnounceTemplate, text )
+			message = string.Format( CaptainAnnounceTemplate, text ),
+			matrix = MatrixManager.MainStationMatrix
 		};
 		SoundManager.PlayNetworked( "Announce" );
 		ChatRelay.Instance.AddToChatLogServer(announcement);
@@ -146,7 +148,8 @@ public class CentComm : MonoBehaviour
 
 		ChatEvent announcement = new ChatEvent{
 			channels = ChatChannel.System,
-			message = string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleCallSubTemplate,minutes,text) )
+			message = string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleCallSubTemplate,minutes,text) ),
+			matrix = MatrixManager.MainStationMatrix
 		};
 		ChatRelay.Instance.AddToChatLogServer(announcement);
 	}
@@ -158,7 +161,8 @@ public class CentComm : MonoBehaviour
 	{
 		ChatEvent announcement = new ChatEvent{
 			channels = ChatChannel.System,
-			message = string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleRecallSubTemplate,text) )
+			message = string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleRecallSubTemplate,text) ),
+			matrix = MatrixManager.MainStationMatrix
 		};
 		ChatRelay.Instance.AddToChatLogServer(announcement);
 	}
