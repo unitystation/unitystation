@@ -34,9 +34,11 @@ public partial class GameManager
 		//Starting up at Centcom coordinates
 		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.SetPosition( PrimaryEscapeShuttle.CentcomDest.Position );
 
+		bool beenToStation = false;
+		
 		PrimaryEscapeShuttle.OnShuttleUpdate?.AddListener( status =>
 		{
-			if ( status == ShuttleStatus.DockedCentcom )
+			if ( status == ShuttleStatus.DockedCentcom && beenToStation )
 			{
 				RoundEnd();
 				Logger.Log( "Shuttle arrived to Centcom, Round should end here", Category.Round );
@@ -44,6 +46,7 @@ public partial class GameManager
 
 			if (status == ShuttleStatus.DockedStation)
 			{
+				beenToStation = true;
 				SoundManager.PlayNetworked( "Disembark" );
 				PostToChatMessage.Send("Escape shuttle has arrived! Crew has 1 minute to get on it.", ChatChannel.System);
 				//should be changed to manual send later
