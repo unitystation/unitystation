@@ -7,22 +7,22 @@ public class UI_HoverTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExit
 	public bool useObjectName;
 
 	[ConditionalField("useObjectName", false)]
-    public string hoverName;
+	public string hoverName;
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
 		if (useObjectName)
 		{
-        	UIManager.SetToolTip = name;
+			UIManager.SetToolTip = name;
 		}
 		else
 		{
-	        UIManager.SetToolTip = hoverName;
+			UIManager.SetToolTip = hoverName;
 		}
 	}
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
-        UIManager.SetToolTip = "";
+		UIManager.SetToolTip = "";
 	}
 }
