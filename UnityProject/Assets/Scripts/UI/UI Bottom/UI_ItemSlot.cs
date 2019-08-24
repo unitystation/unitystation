@@ -6,11 +6,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
+public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
 	public bool allowAllItems;
 	public List<ItemType> allowedItemTypes;
 	public string eventName;
+	public string hoverName;
 	public EquipSlot equipSlot;
 	public InventorySlot inventorySlot;
 
@@ -318,5 +319,17 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	public void OnEndDrag(PointerEventData data)
 	{
 		UIManager.DragAndDrop.StopDrag();
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		// pointer is over the actual item in the slot due to raycast target
+		UIManager.SetToolTip = Item.GetComponent<ItemAttributes>().itemName;
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		// set back to the slot name since the pointer is still over the slot background
+		UIManager.SetToolTip = hoverName;
 	}
 }

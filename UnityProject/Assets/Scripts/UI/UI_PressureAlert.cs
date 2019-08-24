@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class UI_PressureAlert : MonoBehaviour
+public class UI_PressureAlert : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	public Sprite[] statusImages;
 	private int activeImageIndex = -1;
@@ -46,4 +47,20 @@ public class UI_PressureAlert : MonoBehaviour
 		image.sprite = statusImages[index];
 	}
 
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		if (activeImageIndex < 2)
+		{
+			UIManager.SetToolTip = "Low Pressure";
+		}
+		else
+		{
+			UIManager.SetToolTip = "High Pressure";
+		}
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		UIManager.SetToolTip = "";
+	}
 }

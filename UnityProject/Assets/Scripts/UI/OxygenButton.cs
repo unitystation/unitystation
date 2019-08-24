@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class OxygenButton : MonoBehaviour
+public class OxygenButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	private Image image;
 	public Sprite[] stateSprites;
@@ -62,5 +63,15 @@ public class OxygenButton : MonoBehaviour
 	{
 		image.sprite = stateSprites[0];
 		IsInternalsEnabled = false;
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		UIManager.SetToolTip = "toggle internals";
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		UIManager.SetToolTip = "";
 	}
 }

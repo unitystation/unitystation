@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-	public class ZoneSelector : MonoBehaviour
+	public class ZoneSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		public Sprite[] selectorSprites;
 		public Image selImg;
@@ -49,5 +50,15 @@ using UnityEngine.UI;
 					SelectAction(BodyPartType.Head);
 					break;
 			}
+		}
+
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			UIManager.SetToolTip = "damage zone";
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			UIManager.SetToolTip = "";
 		}
 	}

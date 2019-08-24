@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
+public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IDropHandler
 {
 	private UI_ItemSlot itemSlot;
 
@@ -77,5 +77,15 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 				storage.StoreItem(PlayerManager.LocalPlayerScript.gameObject, UIManager.DragAndDrop.ItemSlotCache.equipSlot, UIManager.DragAndDrop.ItemCache);
 			}
 		}
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		UIManager.SetToolTip = string.Format("{0}", itemSlot.hoverName);
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		UIManager.SetToolTip = "";
 	}
 }

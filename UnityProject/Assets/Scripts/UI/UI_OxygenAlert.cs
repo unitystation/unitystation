@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class UI_OxygenAlert : MonoBehaviour {
+public class UI_OxygenAlert : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
 
 	public Sprite[] statusImages; //images to cycle between when active
 	private int activeImageIndex = 0;
@@ -30,5 +32,15 @@ public class UI_OxygenAlert : MonoBehaviour {
 		}
 
 		img.sprite = sprite;
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		UIManager.SetToolTip = "Choking (No O2)";
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
+		UIManager.SetToolTip = "";
 	}
 }

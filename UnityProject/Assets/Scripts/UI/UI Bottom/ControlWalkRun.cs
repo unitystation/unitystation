@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
-	public class ControlWalkRun : MonoBehaviour
+	public class ControlWalkRun : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		private Image image;
 		public Sprite[] runWalkSprites;
@@ -15,12 +16,12 @@ using UnityEngine.UI;
 		}
 
 		/* 
-		   * Button OnClick methods
-		   */
+		* Button OnClick methods
+		*/
 
 		public void RunWalk()
 		{
-			Logger.Log("RunWalk Button",Category.UI);
+			Logger.Log("RunWalk Button", Category.UI);
 
 			SoundManager.Play("Click01");
 
@@ -34,5 +35,15 @@ using UnityEngine.UI;
 				running = false;
 				image.sprite = runWalkSprites[0];
 			}
+		}
+
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			UIManager.SetToolTip = "run/walk toggle";
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			UIManager.SetToolTip = "";
 		}
 	}

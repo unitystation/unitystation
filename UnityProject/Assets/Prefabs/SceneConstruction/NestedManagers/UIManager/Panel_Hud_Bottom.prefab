@@ -1005,6 +1005,7 @@ MonoBehaviour:
   eventName: rightHand
   equipSlot: 8
   whythisdoesntshowup: 
+  hoverName: right hand
   image: {fileID: 0}
   maxItemSize: 4
 --- !u!114 &8281618038162328647
@@ -1463,6 +1464,7 @@ GameObject:
   - component: {fileID: 8101892586714192827}
   - component: {fileID: 8281908010896302221}
   - component: {fileID: 8282011884864999309}
+  - component: {fileID: 8941797262540233539}
   m_Layer: 5
   m_Name: Pull
   m_TagString: Untagged
@@ -1579,6 +1581,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &8941797262540233539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321164708509651395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: stop pulling
 --- !u!1 &8321191460322243837
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,6 +1788,7 @@ MonoBehaviour:
   eventName: leftHand
   equipSlot: 7
   whythisdoesntshowup: 
+  hoverName: left hand
   image: {fileID: 0}
   maxItemSize: 4
 --- !u!114 &8282046623769771551
@@ -1977,6 +1994,7 @@ MonoBehaviour:
   eventName: neck
   equipSlot: 13
   whythisdoesntshowup: 
+  hoverName: neck
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281099982155351903
@@ -2328,6 +2346,7 @@ MonoBehaviour:
   eventName: hands
   equipSlot: 11
   whythisdoesntshowup: 
+  hoverName: gloves
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282013931426605571
@@ -2524,6 +2543,7 @@ MonoBehaviour:
   eventName: id
   equipSlot: 15
   whythisdoesntshowup: 
+  hoverName: id
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281598406267256839
@@ -2769,6 +2789,7 @@ GameObject:
   - component: {fileID: 8100950480723246341}
   - component: {fileID: 8281973736374526597}
   - component: {fileID: 8277941641971164525}
+  - component: {fileID: 6368011002375304705}
   m_Layer: 5
   m_Name: Resist
   m_TagString: Untagged
@@ -2885,6 +2906,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &6368011002375304705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321629272961621499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: resist
 --- !u!1 &8321634039243762281
 GameObject:
   m_ObjectHideFlags: 0
@@ -3329,6 +3364,7 @@ GameObject:
   - component: {fileID: 8101719366348564231}
   - component: {fileID: 8281223811369858701}
   - component: {fileID: 8281779293573331585}
+  - component: {fileID: 6847239713964104595}
   m_Layer: 5
   m_Name: Drop
   m_TagString: Untagged
@@ -3445,6 +3481,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &6847239713964104595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321656306025107829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: drop
 --- !u!1 &8321665812333033313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3457,6 +3507,7 @@ GameObject:
   - component: {fileID: 8101102519074917191}
   - component: {fileID: 8281181633839577613}
   - component: {fileID: 8278017596761733625}
+  - component: {fileID: 6117536462190824250}
   m_Layer: 5
   m_Name: Throw
   m_TagString: Untagged
@@ -3573,6 +3624,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &6117536462190824250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321665812333033313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: throw/catch
 --- !u!1 &8321689161433145869
 GameObject:
   m_ObjectHideFlags: 0
@@ -3766,6 +3831,7 @@ MonoBehaviour:
   eventName: back
   equipSlot: 10
   whythisdoesntshowup: 
+  hoverName: back
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281714557989333947
@@ -3988,6 +4054,7 @@ MonoBehaviour:
   eventName: mask
   equipSlot: 5
   whythisdoesntshowup: 
+  hoverName: mask
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8278153824545481731
@@ -4258,6 +4325,7 @@ MonoBehaviour:
   eventName: suit
   equipSlot: 0
   whythisdoesntshowup: 
+  hoverName: o_clothing
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281727653073488633
@@ -4353,6 +4421,7 @@ MonoBehaviour:
   eventName: uniform
   equipSlot: 6
   whythisdoesntshowup: 
+  hoverName: i_clothing
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282020277741709817
@@ -4624,6 +4693,7 @@ MonoBehaviour:
   eventName: ear
   equipSlot: 12
   whythisdoesntshowup: 
+  hoverName: ears
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282083071945512055
@@ -4786,6 +4856,7 @@ MonoBehaviour:
   eventName: suitStorage
   equipSlot: 18
   whythisdoesntshowup: 
+  hoverName: suit storage
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281769724951693843
@@ -6878,6 +6949,7 @@ MonoBehaviour:
   eventName: head
   equipSlot: 2
   whythisdoesntshowup: 
+  hoverName: head
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281663299502864331
@@ -7047,6 +7119,7 @@ MonoBehaviour:
   eventName: feet
   equipSlot: 3
   whythisdoesntshowup: 
+  hoverName: shoes
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8277981872350202469
@@ -7559,6 +7632,7 @@ MonoBehaviour:
   eventName: storage02
   equipSlot: 17
   whythisdoesntshowup: 
+  hoverName: storage2
   image: {fileID: 0}
   maxItemSize: 1
 --- !u!114 &8282072067080021949
@@ -7654,6 +7728,7 @@ MonoBehaviour:
   eventName: storage01
   equipSlot: 16
   whythisdoesntshowup: 
+  hoverName: storage1
   image: {fileID: 0}
   maxItemSize: 1
 --- !u!114 &8281975483754746179
@@ -7897,6 +7972,7 @@ MonoBehaviour:
   eventName: eyes
   equipSlot: 9
   whythisdoesntshowup: 
+  hoverName: eyes
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281567288758422327

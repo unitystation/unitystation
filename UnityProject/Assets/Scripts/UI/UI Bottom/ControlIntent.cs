@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 	public enum Intent
 	{
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 		Harm
 	}
 
-	public class ControlIntent : MonoBehaviour
+	public class ControlIntent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		public Sprite[] sprites;
 		private Image thisImg;
@@ -55,11 +56,21 @@ using UnityEngine.UI;
 			thisImg.sprite = sprites[intent];
 		}
 
-        //Hotkey method
-        public void SetIntent(Intent intent)
-        {
-            UIManager.CurrentIntent = intent;
+		//Hotkey method
+		public void SetIntent(Intent intent)
+		{
+			UIManager.CurrentIntent = intent;
 
-            thisImg.sprite = sprites[(int)intent];
-        }
+			thisImg.sprite = sprites[(int)intent];
+		}
+
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			UIManager.SetToolTip = "intent";
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			UIManager.SetToolTip = "";
+		}
 	}
