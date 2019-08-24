@@ -10,12 +10,36 @@ public class UI_OxygenAlert : MonoBehaviour {
 
 	public Image img;
 	private Sprite sprite;
+	private float timeWait;
 
-	void Start ()
+	void Start()
 	{
 		img = GetComponent<Image>();
 		sprite = img.sprite;
-		InvokeRepeating("CycleImg", 1f, 1f); //Cycle images every 1 second
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Instance.Add(UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		if (UpdateManager.Instance != null)
+		{
+			UpdateManager.Instance.Remove(UpdateMe);
+		}
+	}
+
+	void UpdateMe()
+	{
+		timeWait += Time.deltaTime;
+		// Cycle images every 1 second
+		if (timeWait > 1f)
+		{
+			CycleImg();
+			timeWait = 0f;
+		}
 	}
 
 	void CycleImg()
