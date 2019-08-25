@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class UI_OxygenAlert : MonoBehaviour {
 
+	private const float SpriteCycleTime = 1f; // cycle every 1 second
 	public Sprite[] statusImages; //images to cycle between when active
-	private int activeImageIndex = 0;
+	private int nextImageIndex = 1;
 
 	public Image img;
 	private Sprite sprite;
@@ -29,30 +30,37 @@ public class UI_OxygenAlert : MonoBehaviour {
 		{
 			UpdateManager.Instance.Remove(UpdateMe);
 		}
+		ResetImg();
 	}
 
 	void UpdateMe()
 	{
 		timeWait += Time.deltaTime;
-		// Cycle images every 1 second
-		if (timeWait > 1f)
+		if (timeWait > SpriteCycleTime)
 		{
 			CycleImg();
-			timeWait = 0f;
+			timeWait -= SpriteCycleTime;
 		}
 	}
 
 	void CycleImg()
 	{
-		sprite = statusImages[activeImageIndex];
-		activeImageIndex++;
+		sprite = statusImages[nextImageIndex];
+		nextImageIndex++;
 
 		//Restart "animation"
-		if (activeImageIndex >= statusImages.Length)
+		if (nextImageIndex >= statusImages.Length)
 		{
-			activeImageIndex = 0;
+			nextImageIndex = 0;
 		}
 
 		img.sprite = sprite;
+	}
+
+	void ResetImg() {
+		sprite = statusImages[0];
+		nextImageIndex = 1;
+		img.sprite = sprite;
+		timeWait = 0f;
 	}
 }
