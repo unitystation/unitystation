@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14ed3befbaf4893bc7f04d3a44e9639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableDrag: 0
   resetPositionOnDisable: 0
 --- !u!114 &114385320989314586
 MonoBehaviour:
@@ -166,7 +167,6 @@ MonoBehaviour:
   entriesPage: {fileID: 5962031703089890598}
   entryPage: {fileID: 4786938670563674746}
   idText: {fileID: 170393062740535389}
-  InsertedCard: {fileID: 0}
 --- !u!1 &1571967781877764
 GameObject:
   m_ObjectHideFlags: 0
@@ -1614,9 +1614,9 @@ RectTransform:
   m_Father: {fileID: 8376615117542955860}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -59.44}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1444525220832394694
@@ -3290,7 +3290,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6486874069135094639}
   m_HandleRect: {fileID: 3652796500082784574}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4519,7 +4519,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 594, y: -0.000012866932}
+  m_AnchoredPosition: {x: 594, y: -0.000029307985}
   m_SizeDelta: {x: 1188, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &9033340152016930851
@@ -9473,9 +9473,9 @@ RectTransform:
   m_Father: {fileID: 462130327096526578}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 5, y: -376}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &7602763496448007219
