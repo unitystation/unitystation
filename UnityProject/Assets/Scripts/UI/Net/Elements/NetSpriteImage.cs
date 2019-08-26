@@ -10,33 +10,37 @@ public class NetSpriteImage : NetUIElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	public static Dictionary<string, Sprite[]> Sprites = new Dictionary<string, Sprite[]>();
-
-	private string cacheValue = "-1";
-
-	public override string Value
-	{
-		get { return cacheValue ?? "-1"; }
-		set
-		{
+	public override string Value {
+		get { return spriteName ?? "-1"; }
+		set {
 			externalChange = true;
+			//don't update if it's the same sprite
+			if ( spriteName != value ) {
+				var split = value.Split( new []{'@'} , StringSplitOptions.RemoveEmptyEntries );
+				switch ( split.Length ) {
+					case 0:
+						//don't load anything
+						break;
+					case 1:
+						//load entire sprite - not implemented
+						break;
+					default:
+						//load sub-sprite from sheet
+						string spriteFile = split[0];
+						if ( !Sprites.ContainsKey( spriteFile ) ) {
+							Sprites.Add( spriteFile, Resources.LoadAll<Sprite>( spriteFile ) );
+						}
 
-			if (cacheValue != value)
-			{
-				cacheValue = value;
+						var spriteSheet = Sprites[spriteFile];
+						int index;
+						if ( int.TryParse( split[1], out index ) && spriteSheet?.Length > 0 ) {
+							Element.sprite = spriteSheet[index];
+							spriteName = value;
+						} else {
 
-				var split = value.Split(new[] { '@' }, StringSplitOptions.RemoveEmptyEntries);
-				string spriteFile = split[0];
-				int spriteOffset = int.Parse(split[1]);
-
-				if (spriteOffset == -1)
-				{
-					GetComponent<Image>().enabled = false;
-				}
-				else
-				{
-					GetComponent<Image>().enabled = true;
-					var spriteSheet = SpriteManager.PlayerSprites[spriteFile];
-					GetComponent<Image>().sprite = spriteSheet[spriteOffset];
+							Logger.LogWarning( $"Unable to load sprite '{spriteFile}'",Category.NetUI );
+						}
+						break;
 				}
 			}
 			externalChange = false;
@@ -51,5 +55,16 @@ public class NetSpriteImage : NetUIElement
 		SetValue = $"{spriteSheet}@{spriteOffset.ToString()}";
 	}
 
-	public override void ExecuteServer() { }
+	private Image element;
+	private string spriteName;
+	public Image Element {
+		get {
+			if ( !element ) {
+				element = GetComponent<Image>();
+			}
+			return element;
+		}
+	}
+
+	public override void ExecuteServer() {}
 }
