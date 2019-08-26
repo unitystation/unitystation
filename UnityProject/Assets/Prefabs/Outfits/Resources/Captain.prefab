@@ -53,18 +53,30 @@ MonoBehaviour:
   box: 
   duffelbag: 
   ears: /obj/item/device/radio/headset/heads/captain
-  glasses: /obj/item/clothing/glasses/sunglasses
-  gloves: /obj/item/clothing/gloves/color/captain
-  head: /obj/item/clothing/head/caphat
+  glasses:
+    Clothing: {fileID: 11400000, guid: f496ec88cfc8a364982418d100b198b0, type: 2}
+    Prefab: {fileID: 0}
+  gloves:
+    Clothing: {fileID: 11400000, guid: 42daddf00dcd73945bfce9864c942900, type: 2}
+    Prefab: {fileID: 0}
+  head:
+    Clothing: {fileID: 11400000, guid: 606e779e28cc6e349853bfe3a9f8b6ad, type: 2}
+    Prefab: {fileID: 0}
   jobType: 6
   l_hand: 
   l_pocket: 
   mask: 
   r_pocket: 
   satchel: /obj/item/weapon/storage/backpack/satchel/cap
-  shoes: /obj/item/clothing/shoes/sneakers/brown
-  suit: /obj/item/clothing/suit/armor/vest/capcarapace
-  suit_store: 
+  shoes:
+    Clothing: {fileID: 11400000, guid: 2fa3983339cbf9b40a9ca43f116be3fb, type: 2}
+    Prefab: {fileID: 0}
+  suit:
+    Clothing: {fileID: 11400000, guid: 1d5035c6104d1e744b4bd1a5dd575d60, type: 2}
+    Prefab: {fileID: 0}
+  suit_store:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
   uniform:
     Clothing: {fileID: 11400000, guid: 3161500b0e0022e4784e63f632708b21, type: 2}
     Prefab: {fileID: 0}

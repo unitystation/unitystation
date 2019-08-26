@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using UnityEditor;
 using System.Linq;
 using Newtonsoft.Json;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
@@ -15,7 +16,7 @@ public class SpriteHandlerData : NetworkBehaviour
 	//TODO
 	//Maybe a dictionary so you can easily look up in hands and stuff like that
 	//With enum
-
+	[FormerlySerializedAs("SpriteInfos")]
 	public SpriteDataForSH Infos;
 	public List<Sprite> spriteList = new List<Sprite>();
 	private SpriteJson spriteJson;

@@ -87,7 +87,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 			cnt.DisappearFromWorldServer();
 		}
-		Logger.Log("got here>?");
+		//Logger.Log("got here>?");
 		SetInventorySlot(slotName, itemObject);
 		return true;
 	}

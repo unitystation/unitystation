@@ -52,7 +52,14 @@ public class ClothingItem : MonoBehaviour
 
 	public void SetColor(Color value)
 	{
+
+
 		color = value;
+		if (spriteHandler != null)
+		{
+			spriteHandler.SetColor(value);
+		}
+		//SetColor
 		//spriteRenderer.color = value;
 	}
 
@@ -69,9 +76,10 @@ public class ClothingItem : MonoBehaviour
 				//spriteHandler.PushTexture();
 			}
 		}
-		if (Item != null) {
+		if (Item != null)
+		{
 
-			Logger.Log("is here!" );
+			//Logger.Log("is here!");
 			if (spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand)
 			{
 				var itemAttributes = Item.GetComponent<ItemAttributes>().spriteHandlerData;
@@ -86,7 +94,7 @@ public class ClothingItem : MonoBehaviour
 				}
 				spriteHandler.PushTexture();
 			}
-			else { 
+			else {
 				var clothing = Item.GetComponent<Clothing>();
 				if (clothing != null)
 				{
@@ -156,16 +164,18 @@ public class ClothingItem : MonoBehaviour
 	{
 		//Logger.Log(this.name);
 		//Logger.Log("A");
-		if (spriteHandler != null) {
+		if (spriteHandler != null)
+		{
 			//Logger.Log("B");
-			if (spriteHandler.Infos != null) {
+			if (spriteHandler.Infos != null)
+			{
 				//Logger.Log("C");
 				//spriteHandler.
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
 			}
-			
+
 		}
-		
+
 		if (reference == -1)
 		{
 			//spriteRenderer.sprite = null;

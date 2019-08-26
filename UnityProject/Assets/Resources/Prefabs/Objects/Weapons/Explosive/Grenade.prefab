@@ -205,11 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothingReference: -1
-  hierarchy: 
-  inHandReferenceLeft: 0
-  inHandReferenceRight: 0
   spriteHandlerData: {fileID: 0}
+  InventoryIcon: {fileID: 0}
   itemName: Grenade
   itemDescription: It's a metal can with a pretty ring attached to it.
   itemType: 0
@@ -367,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpriteInfos:
+  Infos:
     spriteIndex: 0
     VariantIndex: 0
     AID: 0

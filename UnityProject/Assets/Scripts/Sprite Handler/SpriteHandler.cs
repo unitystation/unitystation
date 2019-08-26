@@ -47,20 +47,26 @@ public class SpriteHandler : SpriteHandlerData
 		}
 	}
 
+	public void SetColor(Color value)
+	{
+		//color = value;
+		spriteRenderer.color = value;
+	}
+
 	public void PushTexture()
 	{
-		Logger.Log("PushTexture > " + this.name);
-		Logger.Log("1");
+		//Logger.Log("PushTexture > " + this.name);
+		//Logger.Log("1");
 		if (Infos != null)
 		{
-			Logger.Log("2");
+			//Logger.Log("2");
 			if (!(spriteIndex >= Infos.List.Count))
 			{
-				Logger.Log("3");
+				//Logger.Log("3");
 				if (!(VariantIndex >= Infos.List[spriteIndex].Count))
 				{
-					Logger.Log("4");
-					Logger.Log(Infos.List[spriteIndex][VariantIndex][animationIndex].sprite.name);
+					//Logger.Log("4");
+					//Logger.Log(Infos.List[spriteIndex][VariantIndex][animationIndex].sprite.name);
 					SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
 				}
 				else {
@@ -157,10 +163,6 @@ public class SpriteHandler : SpriteHandlerData
 					UpdateManager.Instance.Remove(UpdateMe);
 				}
 			}
-		}
-		else
-		{
-
 		}
 	}
 

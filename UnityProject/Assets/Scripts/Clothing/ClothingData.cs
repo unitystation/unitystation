@@ -13,6 +13,8 @@ public class ClothingData : ScriptableObject
 	public EquippedData DressVariant; //humm yeah Dresses 
 	public List<EquippedData> Variants; //For when you have 1 million colour variants
 
+	public ItemAttributesData ItemAttributes;
+
 }
 
 

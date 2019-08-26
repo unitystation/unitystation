@@ -14,21 +14,21 @@ public class JobOutfit : MonoBehaviour
 	public string duffelbag;
 	public string ears;
 
-	public string glasses;
-	public string gloves;
-	public string head;
+	public ClothOrPrefab glasses;
+	public ClothOrPrefab gloves;
+	public ClothOrPrefab head;
 	public JobType jobType;
 
 	public string l_hand;
 
 	public string l_pocket;
-	public string mask;
+	public ClothOrPrefab mask;
 	public string r_pocket;
 	public string satchel;
-	public string shoes;
-	public string suit;
+	public ClothOrPrefab shoes;
+	public ClothOrPrefab suit;
 
-	public string suit_store;
+	public ClothOrPrefab suit_store;
 	public ClothOrPrefab uniform;
 
 }

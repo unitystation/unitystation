@@ -51,6 +51,7 @@ public static class StaticSpriteHandler
 		if (textureAndData.Sprites.Length > 1)
 		{
 			SpriteHandlerData.SpriteJson spriteJson;
+			//Logger.Log(textureAndData.Texture.name);
 			spriteJson = JsonConvert.DeserializeObject<SpriteHandlerData.SpriteJson>(textureAndData.EquippedData.text);
 
 			int c = 0;

@@ -63,18 +63,23 @@ public class ClothFactory : NetworkBehaviour
 	//}
 
 
-	public static GameObject CreateCloth(ClothingData ClothingData, Vector3 worldPos, Transform parent=null, ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1)
+	public static GameObject CreateCloth(ClothingData ClothingData, Vector3 worldPos, Transform parent=null, ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
 	{
 
 		if (Instance.uniCloth == null) {
 			Logger.Log("oh no!");
 		}
-		var clothObj = PoolManager.PoolNetworkInstantiate(Instance.uniCloth, worldPos, parent);
+		GameObject clothObj;
+		if (PrefabOverride != null)
+		{clothObj = PoolManager.PoolNetworkInstantiate(PrefabOverride, worldPos, parent);}
+		else { clothObj = PoolManager.PoolNetworkInstantiate(Instance.uniCloth, worldPos, parent);}
+
 		var _Clothing = clothObj.GetComponent<Clothing>();
 		var Item = clothObj.GetComponent<ItemAttributes>();
 		_Clothing.SpriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(ClothingData, _Clothing);
 		Item.SetUpFromClothingData(ClothingData, CVT, variant);
 		return clothObj;
+
 	}
 
 	/// <summary>

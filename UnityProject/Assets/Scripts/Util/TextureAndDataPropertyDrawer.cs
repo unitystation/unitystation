@@ -44,11 +44,10 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 		{
 			var BaseSerialiseObject = property.serializedObject.targetObject;
 			GetAttributes(BaseSerialiseObject as object);
-
 		}
 		property.serializedObject.Update();
-		EditorGUI.PropertyField(new Rect(0,0,1,1), property.FindPropertyRelative("Sprites"), GUIContent.none);
-		EditorGUI.PropertyField(new Rect(0, 0, 1, 1), property.FindPropertyRelative("EquippedData"), GUIContent.none);
+		EditorGUI.PropertyField(new Rect(1000,1000,1,1), property.FindPropertyRelative("Sprites"), GUIContent.none);
+		EditorGUI.PropertyField(new Rect(1001, 1001, 1, 1), property.FindPropertyRelative("EquippedData"), GUIContent.none);
 		property.serializedObject.ApplyModifiedProperties();
 		// Set indent back to what it was
 		EditorGUI.indentLevel = indent;
@@ -56,44 +55,47 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 		EditorGUI.EndProperty();
 	}
 
-	public void GetAttributes(object Script)
+	public void GetAttributes(object Script, int Depth = 0)
 	{
-		//Logger.Log("1");
-		Type monoType = Script.GetType();
-		foreach (FieldInfo Field in monoType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
-		{
-			//Logger.Log("2");
-			if (Field.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+		Depth++;
+		//if (Depth <= 10)
+		//{
+			//Logger.Log("1");
+			Type monoType = Script.GetType();
+			foreach (FieldInfo Field in monoType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
 			{
-				//Logger.Log("3 " + Field.FieldType);
-				if (Field.FieldType == typeof(SpriteSheetAndData))
+				//Logger.Log("2");
+				if (Field.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 				{
-					//Logger.Log("4");
-					(Field.GetValue(Script) as SpriteSheetAndData).setSprites();
-				}
-				//Logger.Log("5");
-
-				ReflectionSpriteSheetAndData(Field.FieldType, Script, Info: Field);
-
-			}
-		}
-		if (TupleTypeReference == monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
-		{
-			foreach (PropertyInfo Properties in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
-			{
-				if (Properties.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
-				{
-					if (Properties.PropertyType == typeof(SpriteSheetAndData))
+					//Logger.Log("3 " + Field.FieldType);
+					if (Field.FieldType == typeof(SpriteSheetAndData))
 					{
-						(Properties.GetValue(Script) as SpriteSheetAndData).setSprites();
+						//Logger.Log("4");
+						(Field.GetValue(Script) as SpriteSheetAndData).setSprites();
 					}
-					ReflectionSpriteSheetAndData(Properties.PropertyType, Script, PInfo: Properties);
+					//Logger.Log("5");
+
+					ReflectionSpriteSheetAndData(Field.FieldType, Script, Info: Field, Depth: Depth);
+
 				}
 			}
-		}
-
+			if (TupleTypeReference == monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
+			{
+				foreach (PropertyInfo Properties in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
+				{
+					if (Properties.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
+					{
+						if (Properties.PropertyType == typeof(SpriteSheetAndData))
+						{
+							(Properties.GetValue(Script) as SpriteSheetAndData).setSprites();
+						}
+						ReflectionSpriteSheetAndData(Properties.PropertyType, Script, PInfo: Properties, Depth: Depth);
+					}
+				}
+			}
+		//}
 	}
-	public void ReflectionSpriteSheetAndData(Type VariableType, object Script, FieldInfo Info = null, PropertyInfo PInfo = null)
+	public void ReflectionSpriteSheetAndData(Type VariableType, object Script, FieldInfo Info = null, PropertyInfo PInfo = null, int Depth = 0)
 	{
 		//Logger.Log("6");
 		if (Info == null && PInfo == null)
@@ -114,18 +116,19 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 						{
 							foreach (var c in list)
 							{
-
+								
 								Type valueType = c.GetType();
 								ReflectionSpriteSheetAndData(c.GetType(), c);
 
 							}
 						}
 					}
-					else if (VariableType.IsClass)
+					else if (VariableType.IsClass && VariableType  != typeof(string))
 					{
 						if (method.GetValue(Script) != null)
 						{
-							GetAttributes(method.GetValue(Script));
+							//Logger.Log(method.ToString());
+							GetAttributes(method.GetValue(Script), Depth);
 						}
 					}
 				}
@@ -175,20 +178,22 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 					}
 				}
 			}
-			else if (VariableType.IsClass)
+			else if (VariableType.IsClass && VariableType != typeof(string))
 			{
 				if (Info == null)
 				{
 					if (PInfo.GetValue(Script) != null)
 					{
-						GetAttributes(PInfo.GetValue(Script));
+						//Logger.Log(VariableType.ToString());
+						GetAttributes(PInfo.GetValue(Script), Depth);
 					}
 				}
 				else
 				{
 					if (Info.GetValue(Script) != null)
 					{
-						GetAttributes(Info.GetValue(Script));
+						//Logger.Log(VariableType.ToString());
+						GetAttributes(Info.GetValue(Script), Depth);
 					}
 				}
 			}

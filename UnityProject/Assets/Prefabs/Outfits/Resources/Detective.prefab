@@ -54,16 +54,32 @@ MonoBehaviour:
   box: 
   duffelbag: 
   ears: /obj/item/device/radio/headset/headset_sec/alt
-  glasses: 
-  gloves: /obj/item/clothing/gloves/color/black
-  head: /obj/item/clothing/head/fedora/det_hat
+  glasses:
+    Clothing: {fileID: 11400000, guid: f496ec88cfc8a364982418d100b198b0, type: 2}
+    Prefab: {fileID: 0}
+  gloves:
+    Clothing: {fileID: 11400000, guid: 90875af41838ba343a8bde75046a1b5e, type: 2}
+    Prefab: {fileID: 0}
+  head:
+    Clothing: {fileID: 11400000, guid: f54e20bdb980ca34b9a14d654445e3bb, type: 2}
+    Prefab: {fileID: 0}
   jobType: 17
   l_hand: 
   l_pocket: /obj/item/toy/crayon/white
-  mask: /obj/item/clothing/mask/cigarette
+  mask:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
   r_pocket: /obj/item/weapon/lighter
   satchel: 
-  shoes: /obj/item/clothing/shoes/sneakers/brown
-  suit: /obj/item/clothing/suit/det_suit
-  suit_store: 
-  uniform: /obj/item/clothing/under/rank/det
+  shoes:
+    Clothing: {fileID: 11400000, guid: 2fa3983339cbf9b40a9ca43f116be3fb, type: 2}
+    Prefab: {fileID: 0}
+  suit:
+    Clothing: {fileID: 11400000, guid: 506102dad4ddf3e4991c0916586fd56f, type: 2}
+    Prefab: {fileID: 0}
+  suit_store:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  uniform:
+    Clothing: {fileID: 11400000, guid: c6ad5241a42c02643b80e7cd2e1baa5c, type: 2}
+    Prefab: {fileID: 0}

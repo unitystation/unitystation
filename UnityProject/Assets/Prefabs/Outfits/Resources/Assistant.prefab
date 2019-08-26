@@ -51,18 +51,30 @@ MonoBehaviour:
   box: 
   duffelbag: 
   ears: /obj/item/device/radio/headset
-  glasses: 
-  gloves: 
-  head: 
+  glasses:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  gloves:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  head:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
   jobType: 2
   l_hand: 
   l_pocket: 
   mask: 
   r_pocket: 
   satchel: 
-  shoes: 
-  suit: 
-  suit_store: 
+  shoes:
+    Clothing: {fileID: 11400000, guid: 8dc94143a69f613479aecde9255e9c1c, type: 2}
+    Prefab: {fileID: 0}
+  suit:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  suit_store:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
   uniform:
-    Clothing: {fileID: 11400000, guid: 3161500b0e0022e4784e63f632708b21, type: 2}
+    Clothing: {fileID: 11400000, guid: eb9b9558dd0f31a41b9ecaa51f4c68a3, type: 2}
     Prefab: {fileID: 0}

@@ -79,8 +79,8 @@ public class Equipment : NetworkBehaviour
 		//gear.Add("shoes", standardOutfit.shoes);
 		//gear.Add("glasses", standardOutfit.glasses);
 		//gear.Add("gloves", standardOutfit.gloves);
-		//gear.Add("suit", standardOutfit.suit);
-		//gear.Add("head", standardOutfit.head);
+		gear.Add("suit", standardOutfit.suit);
+		gear.Add("head", standardOutfit.head);
 		////gear.Add("accessory", standardOutfit.accessory);
 		//gear.Add("mask", standardOutfit.mask);
 		////gear.Add("backpack", standardOutfit.backpack);
@@ -110,10 +110,14 @@ public class Equipment : NetworkBehaviour
 		//{
 		//	gear["back"] = jobOutfit.backpack;
 		//}
-		//if (!string.IsNullOrEmpty(jobOutfit.shoes))
-		//{
-		//	gear["shoes"] = jobOutfit.shoes;
-		//}
+
+		gear["suit"] = jobOutfit.suit;
+		gear["head"] = jobOutfit.head;
+		gear["uniform"] = jobOutfit.uniform;
+		gear["shoes"] = jobOutfit.shoes;
+		gear["gloves"] = jobOutfit.gloves;
+		gear["glasses"] = jobOutfit.glasses;
+		gear["mask"] = jobOutfit.mask;
 		//if (!string.IsNullOrEmpty(jobOutfit.glasses))
 		//{
 		//	gear["glasses"] = jobOutfit.glasses;
@@ -154,26 +158,29 @@ public class Equipment : NetworkBehaviour
 			gear["suit_store"] = jobOutfit.suit_store;*/
 		foreach (KeyValuePair<string, ClothOrPrefab> gearItem in gear)
 		{
-			Logger.Log("WOW?");			//Logger.Log("RRRRRRRRRRRRR" + JsonConvert.SerializeObject(gearItem.Value.Clothing));
+			Logger.Log(gearItem.Key + "yoyoy");
+			//Logger.Log("RRRRRRRRRRRRR" + JsonConvert.SerializeObject(gearItem.Value.Clothing));
 			if (gearItem.Value.Clothing != null)
 			{
-				//Logger.Log("PPPPPPPPPPPPPPPPPPPP");
-				var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent); //Where it is made
+				if (gearItem.Value.Clothing.PrefabVariant != null)
+				{
+					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent, PrefabOverride: gearItem.Value.Clothing.PrefabVariant); //Where it is made
+					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
+				}
+				else {
+					Logger.Log(gearItem.Key);
+					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent); //Where it is made
+					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
+				}
+			}
+			else if (gearItem.Value.Prefab != null){
+				var obj = PoolManager.PoolNetworkInstantiate(gearItem.Value.Prefab, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 				SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
 			}
-			else {
-				if (gearItem.Value.Prefab != null)
-				{
-					//obj = this.gameObject;
-					//Network instantiate gearItem.Value.so and so
-					//ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-					//SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
-				}
-			}
-
-
-		}
+		} 
 		SpawnID(jobOutfit);
 
 		if (playerScript.mind.jobType == JobType.SYNDICATE)

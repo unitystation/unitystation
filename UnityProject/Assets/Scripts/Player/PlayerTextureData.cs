@@ -15,6 +15,7 @@ public class PlayerTextureData : ScriptableObject
 public class RaceVariantTextureData
 {
 	public SpriteSheetAndData Head;
+	public SpriteSheetAndData Eyes;
 	public SpriteSheetAndData Torso;
 	public SpriteSheetAndData ArmRight;
 	public SpriteSheetAndData ArmLeft;

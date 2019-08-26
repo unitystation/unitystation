@@ -6,7 +6,7 @@ public class PlayerSpritesMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.PlayerSpritesMessage;
 	public int Reference;
-	public int Index;
+	public string ClothingItem;
 	public Color NewColor;
 	public NetworkInstanceId EquipmentObject;
 
@@ -15,7 +15,7 @@ public class PlayerSpritesMessage : ServerMessage
 		yield return WaitFor(EquipmentObject);
 		if (NetworkObject != null)
 		{
-			var sprite = NetworkObject.GetComponent<PlayerSprites>().characterSprites[Index];
+			var sprite = NetworkObject.GetComponent<PlayerSprites>().clothes[ClothingItem];
 			sprite.SetReference(Reference, null);
 			if(NewColor != null)
 			{
@@ -24,25 +24,25 @@ public class PlayerSpritesMessage : ServerMessage
 		}
 	}
 
-	public static PlayerSpritesMessage SendToAll(GameObject equipmentObject, int index, int reference, Color color)
+	public static PlayerSpritesMessage SendToAll(GameObject equipmentObject, string ClothingItem, int reference, Color color)
 	{
-		var msg = CreateMsg(equipmentObject, index, reference, color);
+		var msg = CreateMsg(equipmentObject, ClothingItem, reference, color);
 		msg.SendToAll();
 		return msg;
 	}
 
-	public static PlayerSpritesMessage SendTo(GameObject equipmentObject, int index, int reference, Color color, GameObject recipient)
+	public static PlayerSpritesMessage SendTo(GameObject equipmentObject, string ClothingItem, int reference, Color color, GameObject recipient)
 	{
-		var msg = CreateMsg(equipmentObject, index, reference, color);
+		var msg = CreateMsg(equipmentObject, ClothingItem, reference, color);
 		msg.SendTo(recipient);
 		return msg;
 	}
 
-	public static PlayerSpritesMessage CreateMsg(GameObject equipmentObject, int index, int reference, Color color)
+	public static PlayerSpritesMessage CreateMsg(GameObject equipmentObject, string ClothingItem, int reference, Color color)
 	{
 		return new PlayerSpritesMessage
 		{
-			Index = index,
+			ClothingItem = ClothingItem,
 			Reference = reference,
 			NewColor = color,
 			EquipmentObject = equipmentObject.NetId()

@@ -109,7 +109,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 					spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsRight));
 					InventoryIcon.Infos = new SpriteDataForSH();
 					InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon));
-					Logger.Log(ClothingData.Base.ItemIcon.Sprites.Length.ToString());
+					//Logger.Log(ClothingData.Base.ItemIcon.Sprites.Length.ToString());
 					break;
 				case ClothingVariantType.Tucked:
 					spriteHandlerData.Infos = new SpriteDataForSH();
@@ -173,8 +173,26 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 			}
 		}
 		InventoryIcon.PushTexture();
+		AttributesFromCD(ClothingData);
 	}
 
+
+	public void AttributesFromCD(ClothingData ClothingData) {
+		itemName = ClothingData.ItemAttributes.itemName;
+		itemDescription = ClothingData.ItemAttributes.itemDescription;
+		itemType = ClothingData.ItemAttributes.itemType;
+		size = ClothingData.ItemAttributes.size;
+		spriteType = ClothingData.ItemAttributes.spriteType;
+		CanConnectToTank = ClothingData.ItemAttributes.CanConnectToTank;
+		hitDamage = ClothingData.ItemAttributes.hitDamage;
+		damageType = ClothingData.ItemAttributes.damageType;
+		throwDamage = ClothingData.ItemAttributes.throwDamage;
+		throwSpeed = ClothingData.ItemAttributes.throwSpeed;
+		throwRange = ClothingData.ItemAttributes.throwRange;
+		hitSound = ClothingData.ItemAttributes.hitSound;
+		attackVerb = ClothingData.ItemAttributes.attackVerb;
+
+	}
 
 	private static string GetMasterTypeHandsString(SpriteType masterType)
 	{
