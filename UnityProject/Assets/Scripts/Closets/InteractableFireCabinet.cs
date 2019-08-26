@@ -15,7 +15,7 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 	private SpriteRenderer spriteRenderer;
 
 	//For storing extinguishers server side
-	[HideInInspector] public ObjectBehaviour storedObject;
+	private GameObject storedObject;
 
 	private void Start()
 	{
@@ -30,11 +30,8 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 		}
 		IsClosed = true;
 		isFull = true;
+		storedObject = PoolManager.PoolNetworkInstantiate(itemPrefab, parent: transform.parent);
 
-		GameObject item = PoolManager.PoolNetworkInstantiate(itemPrefab, parent: transform.parent);
-
-		storedObject = item.GetComponent<ObjectBehaviour>();
-		storedObject.VisibleState = false;
 		base.OnStartServer();
 	}
 
@@ -102,7 +99,6 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 	private void RemoveExtinguisher(PlayerNetworkActions pna, EquipSlot hand){
 		if (pna.AddItemToUISlot(storedObject.gameObject, hand))
 		{
-			storedObject.VisibleState = true;
 			storedObject = null;
 			isFull = false;
 		}
@@ -111,6 +107,7 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 	private void AddExtinguisher(HandApply interaction){
 		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 		InventoryManager.ClearInvSlot(slot);
+		storedObject = interaction.HandObject;
 		isFull = true;
 	}
 

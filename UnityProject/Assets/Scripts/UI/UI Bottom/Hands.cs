@@ -106,6 +106,10 @@ public class Hands : MonoBehaviour
 						{
 							pna.CmdUpdateSlot(itemSlot.equipSlot, CurrentSlot.equipSlot);
 						}
+						else
+						{
+							StoreItemMessage.Send(itemSlot.inventorySlot.Owner, PlayerManager.LocalPlayerScript.gameObject, CurrentSlot.equipSlot, true);
+						}
 						return true;
 					}
 				}

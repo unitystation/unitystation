@@ -49,7 +49,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerMove = GetComponent<PlayerMove>();
 		playerScript = GetComponent<PlayerScript>();
 		playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
-		objectBehaviour = GetComponent<ObjectBehaviour>();
 		foreach (var equipSlot in playerSlots)
 		{
 			var invSlot = new InventorySlot(equipSlot, true, gameObject);
