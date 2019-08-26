@@ -69,11 +69,10 @@ public class ClothingItem : MonoBehaviour
 		reference = value;
 		if (Item == null)
 		{
-			//Logger.Log("GGGG");
 			if (spriteHandler != null) //need to remove 
 			{
-				//spriteHandler.Infos = null;
-				//spriteHandler.PushTexture();
+				spriteHandler.Infos = null;
+				spriteHandler.PushTexture();
 			}
 		}
 		if (Item != null)

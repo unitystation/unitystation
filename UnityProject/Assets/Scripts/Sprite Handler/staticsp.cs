@@ -100,6 +100,13 @@ public static class StaticSpriteHandler
 	}
 
 
+	public static SpriteDataForSH SetupSingleSprite(SpriteSheetAndData textureAndData) { 
+		var SpriteInfos = new SpriteDataForSH();
+		SpriteInfos.List = new List<List<List<SpriteHandlerData.SpriteInfo>>>();
+		SpriteInfos.List.Add(CompleteSpriteSetup(textureAndData));
+		return (SpriteInfos);
+	}
+
 
 
 }

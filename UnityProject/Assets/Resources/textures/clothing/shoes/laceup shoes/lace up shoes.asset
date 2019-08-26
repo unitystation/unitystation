@@ -15,9 +15,13 @@ MonoBehaviour:
   PrefabVariant: {fileID: 0}
   Base:
     Equipped:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 654828689bdda0c4e87568ddb662d784, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 654828689bdda0c4e87568ddb662d784, type: 3}
+      - {fileID: 21300002, guid: 654828689bdda0c4e87568ddb662d784, type: 3}
+      - {fileID: 21300004, guid: 654828689bdda0c4e87568ddb662d784, type: 3}
+      - {fileID: 21300006, guid: 654828689bdda0c4e87568ddb662d784, type: 3}
+      EquippedData: {fileID: 4900000, guid: d3d398f65245c03499a08406f254d60b, type: 3}
     InHandsLeft:
       Texture: {fileID: 0}
       Sprites: []
@@ -27,8 +31,9 @@ MonoBehaviour:
       Sprites: []
       EquippedData: {fileID: 0}
     ItemIcon:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: 8c6063940201c0c4fb554693a630ddbc, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 8c6063940201c0c4fb554693a630ddbc, type: 3}
       EquippedData: {fileID: 0}
   Base_Adjusted:
     Equipped:

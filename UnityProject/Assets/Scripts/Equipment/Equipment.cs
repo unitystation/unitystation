@@ -169,7 +169,6 @@ public class Equipment : NetworkBehaviour
 					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
 				}
 				else {
-					Logger.Log(gearItem.Key);
 					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent); //Where it is made
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
@@ -180,7 +179,26 @@ public class Equipment : NetworkBehaviour
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 				SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
 			}
-		} 
+		}
+		if (jobOutfit.backpack.Backpack != null)
+		{
+			if (jobOutfit.backpack.Backpack.PrefabVariant != null)
+			{
+				var obj = ClothFactory.CreateBackpackCloth(jobOutfit.backpack.Backpack, TransformState.HiddenPos, transform.parent, PrefabOverride: jobOutfit.backpack.Backpack.PrefabVariant); //Where it is made
+				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+				SetItem(GetLoadOutEventName("back"), itemAtts.gameObject);
+			}
+			else {
+				var obj = ClothFactory.CreateBackpackCloth(jobOutfit.backpack.Backpack, TransformState.HiddenPos, transform.parent); //Where it is made
+				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+				SetItem(GetLoadOutEventName("back"), itemAtts.gameObject);
+			}
+		}
+		else if (jobOutfit.backpack.Prefab){
+			var obj = PoolManager.PoolNetworkInstantiate(jobOutfit.backpack.Prefab, TransformState.HiddenPos, transform.parent);
+			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+			SetItem(GetLoadOutEventName("back"), itemAtts.gameObject);
+		}
 		SpawnID(jobOutfit);
 
 		if (playerScript.mind.jobType == JobType.SYNDICATE)

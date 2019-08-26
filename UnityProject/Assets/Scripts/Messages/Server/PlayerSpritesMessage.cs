@@ -16,7 +16,8 @@ public class PlayerSpritesMessage : ServerMessage
 		if (NetworkObject != null)
 		{
 			var sprite = NetworkObject.GetComponent<PlayerSprites>().clothes[ClothingItem];
-			sprite.SetReference(Reference, null);
+			//sprite.SetReference(Reference, null);
+			//Network stuff
 			if(NewColor != null)
 			{
 				sprite.SetColor(NewColor);

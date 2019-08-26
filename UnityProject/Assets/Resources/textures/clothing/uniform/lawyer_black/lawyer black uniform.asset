@@ -15,9 +15,13 @@ MonoBehaviour:
   PrefabVariant: {fileID: 0}
   Base:
     Equipped:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: 8119bdbdd36b8814b952db32b0b3a153, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 8119bdbdd36b8814b952db32b0b3a153, type: 3}
+      - {fileID: 21300002, guid: 8119bdbdd36b8814b952db32b0b3a153, type: 3}
+      - {fileID: 21300004, guid: 8119bdbdd36b8814b952db32b0b3a153, type: 3}
+      - {fileID: 21300006, guid: 8119bdbdd36b8814b952db32b0b3a153, type: 3}
+      EquippedData: {fileID: 4900000, guid: 2c9b9702561ee9348977c8a4e2b0f523, type: 3}
     InHandsLeft:
       Texture: {fileID: 0}
       Sprites: []
@@ -27,8 +31,9 @@ MonoBehaviour:
       Sprites: []
       EquippedData: {fileID: 0}
     ItemIcon:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: 5d8369dde84877e43ad0aab6d5dce74f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 5d8369dde84877e43ad0aab6d5dce74f, type: 3}
       EquippedData: {fileID: 0}
   Base_Adjusted:
     Equipped:
@@ -49,9 +54,13 @@ MonoBehaviour:
       EquippedData: {fileID: 0}
   DressVariant:
     Equipped:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+      Texture: {fileID: 2800000, guid: c9f48f8146cd7424fbd01c5b1487f61b, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: c9f48f8146cd7424fbd01c5b1487f61b, type: 3}
+      - {fileID: 21300002, guid: c9f48f8146cd7424fbd01c5b1487f61b, type: 3}
+      - {fileID: 21300004, guid: c9f48f8146cd7424fbd01c5b1487f61b, type: 3}
+      - {fileID: 21300006, guid: c9f48f8146cd7424fbd01c5b1487f61b, type: 3}
+      EquippedData: {fileID: 4900000, guid: 96fc34b5515e1e847a4e15f59689ad0e, type: 3}
     InHandsLeft:
       Texture: {fileID: 0}
       Sprites: []
@@ -61,14 +70,15 @@ MonoBehaviour:
       Sprites: []
       EquippedData: {fileID: 0}
     ItemIcon:
-      Texture: {fileID: 0}
-      Sprites: []
+      Texture: {fileID: 2800000, guid: a5592e7f7b1477440922905a0302ce93, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: a5592e7f7b1477440922905a0302ce93, type: 3}
       EquippedData: {fileID: 0}
   Variants: []
   ItemAttributes:
     itemName: 
     itemDescription: 
-    itemType: 0
+    itemType: 7
     size: 0
     spriteType: 0
     CanConnectToTank: 0

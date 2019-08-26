@@ -96,101 +96,33 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 
 
 
-	public void SetUpFromClothingData(ClothingData ClothingData, ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1) {
+	public void SetUpFromClothingData(EquippedData equippedData, ItemAttributesData ItemAttributes) {
 		if (spriteHandlerData == null) {
 			spriteHandlerData = new SpriteHandlerData();
-		}		if (!(variant > -1))
-		{
-			switch (CVT)
-			{
-				case ClothingVariantType.Default:
-					spriteHandlerData.Infos = new SpriteDataForSH();
-					spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft));
-					spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsRight));
-					InventoryIcon.Infos = new SpriteDataForSH();
-					InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon));
-					//Logger.Log(ClothingData.Base.ItemIcon.Sprites.Length.ToString());
-					break;
-				case ClothingVariantType.Tucked:
-					spriteHandlerData.Infos = new SpriteDataForSH();
-					if (ClothingData.Base_Adjusted.InHandsLeft != null)
-					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.InHandsLeft)); }
-					else
-					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
-
-					if (ClothingData.Base_Adjusted.InHandsRight != null)
-					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.InHandsRight)); }
-					else
-					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
-
-					InventoryIcon.Infos = new SpriteDataForSH();
-					if (ClothingData.Base_Adjusted.ItemIcon != null)
-					{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base_Adjusted.ItemIcon)); }
-					else
-					{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
-					break;
-
-				case ClothingVariantType.Skirt:
-					spriteHandlerData.Infos = new SpriteDataForSH();
-					if (ClothingData.DressVariant.InHandsLeft != null)
-					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.InHandsLeft)); }
-					else
-					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
-
-					if (ClothingData.DressVariant.InHandsRight != null)
-					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.InHandsRight)); }
-					else
-					{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
-
-					InventoryIcon.Infos = new SpriteDataForSH();
-					if (ClothingData.DressVariant.ItemIcon != null)
-					{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.DressVariant.ItemIcon)); }
-					else
-					{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
-					break;
-			}
-		}
-		else {
-			if (ClothingData.Variants.Count > variant)
-			{
-				spriteHandlerData.Infos = new SpriteDataForSH();
-				if (ClothingData.Variants[variant].InHandsLeft != null)
-				{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].InHandsLeft)); }
-				else
-				{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
-
-				if (ClothingData.Variants[variant].InHandsRight != null)
-				{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].InHandsRight)); }
-				else
-				{ spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.InHandsLeft)); }
-
-				InventoryIcon.Infos = new SpriteDataForSH();
-				if (ClothingData.Variants[variant].ItemIcon != null)
-				{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Variants[variant].ItemIcon)); }
-				else
-				{ InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothingData.Base.ItemIcon)); }
-
-			}
-		}
+		}		spriteHandlerData.Infos = new SpriteDataForSH();
+		spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsLeft));
+		spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsRight));
+		InventoryIcon.Infos = new SpriteDataForSH();
+		InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.ItemIcon));
 		InventoryIcon.PushTexture();
-		AttributesFromCD(ClothingData);
+		AttributesFromCD(ItemAttributes);
 	}
 
 
-	public void AttributesFromCD(ClothingData ClothingData) {
-		itemName = ClothingData.ItemAttributes.itemName;
-		itemDescription = ClothingData.ItemAttributes.itemDescription;
-		itemType = ClothingData.ItemAttributes.itemType;
-		size = ClothingData.ItemAttributes.size;
-		spriteType = ClothingData.ItemAttributes.spriteType;
-		CanConnectToTank = ClothingData.ItemAttributes.CanConnectToTank;
-		hitDamage = ClothingData.ItemAttributes.hitDamage;
-		damageType = ClothingData.ItemAttributes.damageType;
-		throwDamage = ClothingData.ItemAttributes.throwDamage;
-		throwSpeed = ClothingData.ItemAttributes.throwSpeed;
-		throwRange = ClothingData.ItemAttributes.throwRange;
-		hitSound = ClothingData.ItemAttributes.hitSound;
-		attackVerb = ClothingData.ItemAttributes.attackVerb;
+	public void AttributesFromCD(ItemAttributesData ItemAttributes) {
+		itemName = ItemAttributes.itemName;
+		itemDescription = ItemAttributes.itemDescription;
+		itemType = ItemAttributes.itemType;
+		size = ItemAttributes.size;
+		spriteType = ItemAttributes.spriteType;
+		CanConnectToTank = ItemAttributes.CanConnectToTank;
+		hitDamage = ItemAttributes.hitDamage;
+		damageType = ItemAttributes.damageType;
+		throwDamage = ItemAttributes.throwDamage;
+		throwSpeed = ItemAttributes.throwSpeed;
+		throwRange = ItemAttributes.throwRange;
+		hitSound = ItemAttributes.hitSound;
+		attackVerb = ItemAttributes.attackVerb;
 
 	}
 

@@ -6,7 +6,7 @@ public class JobOutfit : MonoBehaviour
 	public string accessory;
 	public List<Access> allowedAccess;
 
-	public string backpack;
+	public BackpackOrPrefab backpack;
 
 	public List<string> backpack_contents = new List<string>();
 	public string belt;
@@ -35,6 +35,14 @@ public class JobOutfit : MonoBehaviour
 
 [System.Serializable]
 public class ClothOrPrefab {	public ClothingData Clothing;
+	public GameObject Prefab;
+
+}
+
+[System.Serializable]
+public class BackpackOrPrefab
+{
+	public ContainerData Backpack;
 	public GameObject Prefab;
 
 }

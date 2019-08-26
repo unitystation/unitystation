@@ -51,16 +51,32 @@ MonoBehaviour:
   box: 
   duffelbag: 
   ears: /obj/item/device/radio/headset
-  glasses: 
-  gloves: 
-  head: /obj/item/clothing/head/helmet/space/hardsuit/
+  glasses:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  gloves:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  head:
+    Clothing: {fileID: 11400000, guid: 90875af41838ba343a8bde75046a1b5e, type: 2}
+    Prefab: {fileID: 0}
   jobType: 28
   l_hand: 
   l_pocket: 
-  mask: 
+  mask:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
   r_pocket: 
   satchel: 
-  shoes: /obj/item/clothing/shoes/workboots
-  suit: /obj/item/clothing/suit/space/hardsuit/mining
-  suit_store: 
-  uniform: /obj/item/clothing/under/rank/miner
+  shoes:
+    Clothing: {fileID: 11400000, guid: e5b9d5d568d0aa24db5b41adcbcd2a0d, type: 2}
+    Prefab: {fileID: 0}
+  suit:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  suit_store:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  uniform:
+    Clothing: {fileID: 11400000, guid: 5293c15e303b0f34bb4c7f356d8fcdbf, type: 2}
+    Prefab: {fileID: 0}

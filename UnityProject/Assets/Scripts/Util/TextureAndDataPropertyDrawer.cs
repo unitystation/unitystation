@@ -25,19 +25,17 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 		// prefab override logic works on the entire property.
 		EditorGUI.BeginProperty(position, label, property);
 
-		// Draw label
+		//// Draw label
 		position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
 		// Don't make child fields be indented
 		var indent = EditorGUI.indentLevel;
 		EditorGUI.indentLevel = 0;
-
 		// Calculate rects
 		var amountRect = new Rect(position.x, position.y, position.width, position.height);
 
-		// Draw fields - passs GUIContent.none to each so they are drawn without labels
+		// //Draw fields - passs GUIContent.none to each so they are drawn without labels
 		EditorGUI.BeginChangeCheck();
-		property.serializedObject.Update();
 		EditorGUI.PropertyField(amountRect, property.FindPropertyRelative("Texture"), GUIContent.none);
 		property.serializedObject.ApplyModifiedProperties();
 		if (EditorGUI.EndChangeCheck())
@@ -45,11 +43,9 @@ public class SpriteSheetAndDataPropertyDrawer : PropertyDrawer
 			var BaseSerialiseObject = property.serializedObject.targetObject;
 			GetAttributes(BaseSerialiseObject as object);
 		}
-		property.serializedObject.Update();
 		EditorGUI.PropertyField(new Rect(1000,1000,1,1), property.FindPropertyRelative("Sprites"), GUIContent.none);
 		EditorGUI.PropertyField(new Rect(1001, 1001, 1, 1), property.FindPropertyRelative("EquippedData"), GUIContent.none);
 		property.serializedObject.ApplyModifiedProperties();
-		// Set indent back to what it was
 		EditorGUI.indentLevel = indent;
 
 		EditorGUI.EndProperty();
