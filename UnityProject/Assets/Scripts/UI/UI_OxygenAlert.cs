@@ -10,13 +10,11 @@ public class UI_OxygenAlert : MonoBehaviour {
 	private int nextImageIndex = 1;
 
 	public Image img;
-	private Sprite sprite;
 	private float timeWait;
 
 	void Start()
 	{
 		img = GetComponent<Image>();
-		sprite = img.sprite;
 	}
 
 	private void OnEnable()
@@ -45,22 +43,12 @@ public class UI_OxygenAlert : MonoBehaviour {
 
 	void CycleImg()
 	{
-		sprite = statusImages[nextImageIndex];
-		nextImageIndex++;
-
-		//Restart "animation"
-		if (nextImageIndex >= statusImages.Length)
-		{
-			nextImageIndex = 0;
-		}
-
-		img.sprite = sprite;
+		img.sprite = statusImages.Wrap( nextImageIndex++ );
 	}
 
 	void ResetImg() {
-		sprite = statusImages[0];
+		img.sprite = statusImages[0];
 		nextImageIndex = 1;
-		img.sprite = sprite;
 		timeWait = 0f;
 	}
 }
