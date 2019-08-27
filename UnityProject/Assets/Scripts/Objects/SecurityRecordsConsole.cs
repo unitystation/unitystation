@@ -33,8 +33,8 @@ public class SecurityRecordsConsole : NBHandApplyInteractable
 		{
 			InsertID(handIDCard);
 		}
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
-		InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+		InventoryManager.ClearInvSlot(slot);
 		UpdateGUI();
 	}
 

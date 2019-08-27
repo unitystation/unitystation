@@ -41,7 +41,7 @@ public class ControlAction : MonoBehaviour
 		}
 		UI_ItemSlot currentSlot = UIManager.Hands.CurrentSlot;
 		//			Vector3 dropPos = lps.gameObject.transform.position;
-		if (!currentSlot.CanPlaceItem())
+		if (currentSlot.Item == null)
 		{
 			return;
 		}
@@ -70,7 +70,7 @@ public class ControlAction : MonoBehaviour
 		}
 		UIManager.CheckStorageHandlerOnMove(currentSlot.Item);
 		//forceClientInform = true because we aren't doing prediction any more.
-		lps.playerNetworkActions.RequestDropItem(currentSlot.inventorySlot.UUID, true);
+		lps.playerNetworkActions.CmdDropItem(currentSlot.equipSlot);
 		SoundManager.Play("Click01");
 		Logger.Log("Drop Button", Category.UI);
 	}

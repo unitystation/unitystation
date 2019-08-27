@@ -7,14 +7,13 @@ using UnityEngine.Networking;
 [Serializable]
 public class InventorySlot
 {
-	public string UUID;
-	public string SlotName = "";
+	public EquipSlot equipSlot;
 	public bool IsUISlot = false;
 	[NonSerialized]
 	public NetworkInstanceId ItemInstanceId = NetworkInstanceId.Invalid; //Cannot add to any json data, use uint instead
 	public uint netInstanceIdentifier; //serialized for json
 
-	public PlayerScript Owner { get; set; } //null = no owner (only UI slots have owners)
+	public GameObject Owner;
 	private GameObject item;
 
 	public ItemAttributes ItemAttributes { get; private set; }
@@ -55,10 +54,9 @@ public class InventorySlot
 		}
 	}
 
-	public InventorySlot(Guid uuid, string slotName = "", bool isUISlot = false, PlayerScript owner = null)
+	public InventorySlot(EquipSlot newEquipSlot, bool isUISlot, GameObject owner = null)
 	{
-		UUID = uuid.ToString();
-		SlotName = slotName;
+		equipSlot = newEquipSlot;
 		IsUISlot = isUISlot;
 		Owner = owner;
 	}

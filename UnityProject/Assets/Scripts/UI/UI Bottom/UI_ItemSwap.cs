@@ -15,11 +15,11 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 		{
 			SoundManager.Play("Click01");
 			// Only try interacting if we're not actually switching hands
-			if (UIManager.Hands.hasSwitchedHands) 
+			if (UIManager.Hands.hasSwitchedHands)
 			{
 				UIManager.Hands.hasSwitchedHands = false;
 			}
-			else 
+			else
 			{
 				itemSlot.TryItemInteract();
 			}
@@ -36,32 +36,46 @@ public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
 	{
 		if (UIManager.DragAndDrop.ItemSlotCache != null && UIManager.DragAndDrop.ItemCache != null)
 		{
-			if (itemSlot.Item == null && itemSlot.CheckItemFit(UIManager.DragAndDrop.ItemCache))
+			if (itemSlot.inventorySlot.IsUISlot)
 			{
-				if (PlayerManager.LocalPlayerScript != null)
+				if(itemSlot.Item == null)
 				{
-					if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-						PlayerManager.LocalPlayerScript.IsGhost)
+					if (itemSlot.CheckItemFit(UIManager.DragAndDrop.ItemCache))
 					{
-						return;
+						if (PlayerManager.LocalPlayerScript != null)
+						{
+							if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+								PlayerManager.LocalPlayerScript.IsGhost)
+							{
+								return;
+							}
+						}
+						if(UIManager.DragAndDrop.ItemSlotCache.inventorySlot.IsUISlot)
+						{
+							PlayerManager.LocalPlayerScript.playerNetworkActions.CmdUpdateSlot(itemSlot.equipSlot, UIManager.DragAndDrop.ItemSlotCache.equipSlot);
+						}
+						else
+						{
+							var storage = UIManager.DragAndDrop.ItemSlotCache.inventorySlot;
+							StoreItemMessage.Send(storage.Owner, PlayerManager.LocalPlayerScript.gameObject, itemSlot.equipSlot, false, storage.equipSlot);
+						}
+
 					}
 				}
-
-				UIManager.TryUpdateSlot(new UISlotObject(itemSlot.inventorySlot.UUID, UIManager.DragAndDrop.ItemCache,
-					UIManager.DragAndDrop.ItemSlotCache?.inventorySlot.UUID));
+				else
+				{
+					var storage = itemSlot.Item.GetComponent<InteractableStorage>();
+					if (storage)
+					{
+						storage.StoreItem(PlayerManager.LocalPlayerScript.gameObject, UIManager.DragAndDrop.ItemSlotCache.equipSlot, UIManager.DragAndDrop.ItemCache);
+					}
+				}
 			}
-			// else if (itemSlot.Item != null)
-			// {
-			// 	//Check if it is a storage obj:
-			// 	var storageObj = itemSlot.Item.GetComponent<StorageObject>();
-			// 	if (storageObj != null)
-			// 	{
-			// 		if(storageObj.NextSpareSlot() != null){
-			// 			UIManager.TryUpdateSlot(new UISlotObject(storageObj.NextSpareSlot().UUID, UIManager.DragAndDrop.ItemCache,
-			// 		UIManager.DragAndDrop.ItemSlotCache?.inventorySlot.UUID));
-			// 		}
-			// 	}
-			// }
+			else
+			{
+				var storage = itemSlot.inventorySlot.Owner.GetComponent<InteractableStorage>();
+				storage.StoreItem(PlayerManager.LocalPlayerScript.gameObject, UIManager.DragAndDrop.ItemSlotCache.equipSlot, UIManager.DragAndDrop.ItemCache);
+			}
 		}
 	}
 }

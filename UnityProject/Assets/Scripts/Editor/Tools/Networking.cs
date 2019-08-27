@@ -15,7 +15,7 @@ public class Networking : Editor
 		for (int i = 0; i < players.Length; i++)
 		{
 			GameObject gameObject = items[Random.Range(1, items.Length)].gameObject;
-			players[i].AddItemToUISlot(gameObject, "leftHand", true);
+			players[i].AddItemToUISlot(gameObject, EquipSlot.leftHand);
 		}
 	}
 	[MenuItem("Networking/Push everyone up")]

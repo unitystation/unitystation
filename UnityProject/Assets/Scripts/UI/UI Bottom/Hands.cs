@@ -15,8 +15,8 @@ public class Hands : MonoBehaviour
 
 	private void Start()
 	{
-		CurrentSlot = Slots["rightHand"];
-		OtherSlot = Slots["leftHand"];
+		CurrentSlot = Slots[EquipSlot.rightHand];
+		OtherSlot = Slots[EquipSlot.leftHand];
 		IsRight = true;
 		hasSwitchedHands = false;
 	}
@@ -41,26 +41,26 @@ public class Hands : MonoBehaviour
 		{
 			if (right)
 			{
-				if (CurrentSlot != Slots["rightHand"])
+				if (CurrentSlot != Slots[EquipSlot.rightHand])
 				{
 					hasSwitchedHands = true;
 				}
-				CurrentSlot = Slots["rightHand"];
-				OtherSlot = Slots["leftHand"];
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("rightHand");
-				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "rightHand";
+				CurrentSlot = Slots[EquipSlot.rightHand];
+				OtherSlot = Slots[EquipSlot.leftHand];
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(EquipSlot.rightHand);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = EquipSlot.rightHand;
 				selector.SetParent(rightHand, false);
 			}
 			else
 			{
-				if (CurrentSlot != Slots["leftHand"])
+				if (CurrentSlot != Slots[EquipSlot.leftHand])
 				{
 					hasSwitchedHands = true;
 				}
-				CurrentSlot = Slots["leftHand"];
-				OtherSlot = Slots["rightHand"];
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand("leftHand");
-				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = "leftHand";
+				CurrentSlot = Slots[EquipSlot.leftHand];
+				OtherSlot = Slots[EquipSlot.rightHand];
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetActiveHand(EquipSlot.leftHand);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.activeHand = EquipSlot.leftHand;
 				selector.SetParent(leftHand, false);
 			}
 
@@ -81,13 +81,37 @@ public class Hands : MonoBehaviour
 		{
 			if (CurrentSlot != itemSlot)
 			{
-				if (!CurrentSlot.IsFull)
+				var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
+
+				if (CurrentSlot.Item == null)
 				{
-					return Swap(CurrentSlot, itemSlot);
+					if(itemSlot.Item != null)
+					{
+						if(itemSlot.inventorySlot.IsUISlot)
+						{
+							pna.CmdUpdateSlot(CurrentSlot.equipSlot, itemSlot.equipSlot);
+						}
+						else
+						{
+							StoreItemMessage.Send(itemSlot.inventorySlot.Owner, PlayerManager.LocalPlayerScript.gameObject, CurrentSlot.equipSlot, false, itemSlot.equipSlot);
+						}
+						return true;
+					}
 				}
 				else
 				{
-					return Swap(itemSlot, CurrentSlot);
+					if(itemSlot.Item == null)
+					{
+						if (itemSlot.inventorySlot.IsUISlot)
+						{
+							pna.CmdUpdateSlot(itemSlot.equipSlot, CurrentSlot.equipSlot);
+						}
+						else
+						{
+							StoreItemMessage.Send(itemSlot.inventorySlot.Owner, PlayerManager.LocalPlayerScript.gameObject, CurrentSlot.equipSlot, true);
+						}
+						return true;
+					}
 				}
 			}
 		}
@@ -101,7 +125,7 @@ public class Hands : MonoBehaviour
 	public void Activate()
 	{
 		// Is there an item in the active hand?
-		if (!CurrentSlot.IsFull)
+		if (CurrentSlot.Item == null)
 		{
 			return;
 		}
@@ -120,7 +144,7 @@ public class Hands : MonoBehaviour
 		}
 
 		// Is there an item to equip?
-		if(!CurrentSlot.IsFull)
+		if(CurrentSlot.Item == null)
 		{
 			Logger.Log("!CurrentSlot.IsFull");
 			return;
@@ -135,11 +159,11 @@ public class Hands : MonoBehaviour
 			if (!SwapItem(itemSlot))
 			{
 				//If we couldn't equip the item into it's primary slot, try the pockets!
-				if(!SwapItem(InventorySlotCache.GetSlotByEvent("storage01")))
+				if(!SwapItem(InventorySlotCache.GetSlotByEvent(EquipSlot.storage01)))
 				{
 					//We couldn't equip the item in pocket 1. Try pocket2!
 					//This swap fails if both pockets are full, do nothing if fail
-					SwapItem(InventorySlotCache.GetSlotByEvent("storage02"));
+					SwapItem(InventorySlotCache.GetSlotByEvent(EquipSlot.storage02));
 				}
 			}
 		}
@@ -169,15 +193,4 @@ public class Hands : MonoBehaviour
 		return true;
 	}
 
-	/// <summary>
-	/// Swaps the two slots
-	/// </summary>
-	private bool Swap(UI_ItemSlot slot1, UI_ItemSlot slot2)
-	{
-		if(isValidPlayer())
-		{
-			return UIManager.TryUpdateSlot(new UISlotObject(slot1.inventorySlot.UUID, slot2.Item, slot2.inventorySlot.UUID));
-		}
-		return false;
-	}
 }

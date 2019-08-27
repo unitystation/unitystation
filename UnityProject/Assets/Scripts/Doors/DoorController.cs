@@ -191,11 +191,11 @@ using UnityEngine.Networking;
 		}
 
 		[Server]
-		public void TryOpen(GameObject Originator, string hand)
+		public void TryOpen(GameObject Originator)
 		{
 			if (AccessRestrictions != null)
 			{
-				if (AccessRestrictions.CheckAccess(Originator, hand)) {
+				if (AccessRestrictions.CheckAccess(Originator)) {
 					if (!IsOpened && !isPerformingAction) {
 						Open();
 					}
