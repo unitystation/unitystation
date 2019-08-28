@@ -1003,9 +1003,13 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: rightHand
-  equipSlot: 8
-  whythisdoesntshowup: 
   hoverName: right hand
+  equipSlot: 8
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 4
 --- !u!114 &8281618038162328647
@@ -1786,9 +1790,13 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: leftHand
-  equipSlot: 7
-  whythisdoesntshowup: 
   hoverName: left hand
+  equipSlot: 7
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 4
 --- !u!114 &8282046623769771551
@@ -1992,9 +2000,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 03000000
   eventName: neck
-  equipSlot: 13
-  whythisdoesntshowup: 
   hoverName: neck
+  equipSlot: 13
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281099982155351903
@@ -2344,9 +2356,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 08000000
   eventName: hands
-  equipSlot: 11
-  whythisdoesntshowup: 
   hoverName: gloves
+  equipSlot: 11
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282013931426605571
@@ -2541,9 +2557,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0c0000000d000000
   eventName: id
-  equipSlot: 15
-  whythisdoesntshowup: 
   hoverName: id
+  equipSlot: 15
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281598406267256839
@@ -3829,9 +3849,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0b000000
   eventName: back
-  equipSlot: 10
-  whythisdoesntshowup: 
   hoverName: back
+  equipSlot: 10
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281714557989333947
@@ -4052,9 +4076,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 04000000
   eventName: mask
-  equipSlot: 5
-  whythisdoesntshowup: 
   hoverName: mask
+  equipSlot: 5
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8278153824545481731
@@ -4323,9 +4351,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 06000000
   eventName: suit
-  equipSlot: 0
-  whythisdoesntshowup: 
   hoverName: o_clothing
+  equipSlot: 0
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281727653073488633
@@ -4419,9 +4451,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 07000000
   eventName: uniform
-  equipSlot: 6
-  whythisdoesntshowup: 
   hoverName: i_clothing
+  equipSlot: 6
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282020277741709817
@@ -4691,9 +4727,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 05000000
   eventName: ear
-  equipSlot: 12
-  whythisdoesntshowup: 
   hoverName: ears
+  equipSlot: 12
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282083071945512055
@@ -4854,9 +4894,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 00000000
   eventName: suitStorage
-  equipSlot: 18
-  whythisdoesntshowup: 
   hoverName: suit storage
+  equipSlot: 18
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281769724951693843
@@ -6947,9 +6991,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 02000000
   eventName: head
-  equipSlot: 2
-  whythisdoesntshowup: 
   hoverName: head
+  equipSlot: 2
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281663299502864331
@@ -7117,9 +7165,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 09000000
   eventName: feet
-  equipSlot: 3
-  whythisdoesntshowup: 
   hoverName: shoes
+  equipSlot: 3
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8277981872350202469
@@ -7630,9 +7682,13 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: storage02
-  equipSlot: 17
-  whythisdoesntshowup: 
   hoverName: storage2
+  equipSlot: 17
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 1
 --- !u!114 &8282072067080021949
@@ -7726,9 +7782,13 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: storage01
-  equipSlot: 16
-  whythisdoesntshowup: 
   hoverName: storage1
+  equipSlot: 16
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 1
 --- !u!114 &8281975483754746179
@@ -7970,9 +8030,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 01000000
   eventName: eyes
-  equipSlot: 9
-  whythisdoesntshowup: 
   hoverName: eyes
+  equipSlot: 9
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281567288758422327
@@ -8194,8 +8258,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0a0000000d000000
   eventName: belt
+  hoverName: belt
   equipSlot: 1
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281779622868138873
