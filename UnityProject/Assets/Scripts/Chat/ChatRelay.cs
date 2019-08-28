@@ -71,7 +71,15 @@ public class ChatRelay : NetworkBehaviour
 	[Server]
 	private void PropagateChatToClients(ChatEvent chatEvent)
 	{
-		var players = PlayerList.Instance.InGamePlayers;
+		List<ConnectedPlayer> players;
+		if ( chatEvent.matrix != MatrixInfo.Invalid )
+		{ //get players only on provided matrix
+			players = PlayerList.Instance.GetPlayersOnMatrix( chatEvent.matrix );
+		}
+		else
+		{
+			players = PlayerList.Instance.InGamePlayers;
+		}
 
 		//Local chat range checks:
 		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat) {
@@ -95,8 +103,7 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		for (var i = 0; i < players.Count; i++) {
-			var playerScript = players[i].GameObject.GetComponent<PlayerScript>();
-			ChatChannel channels = playerScript.GetAvailableChannelsMask(false) & chatEvent.channels;
+			ChatChannel channels = players[i].Script.GetAvailableChannelsMask(false) & chatEvent.channels;
 			UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.message);
 		}
 

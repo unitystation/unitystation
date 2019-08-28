@@ -44,8 +44,8 @@ public class GUI_CargoPageStatus : GUI_CargoPage
 	{
 		CargoManager cm = CargoManager.Instance;
 
-		if (cm.ShuttleStatus == CargoShuttleStatus.OnRouteCentcom ||
-			cm.ShuttleStatus == CargoShuttleStatus.OnRouteStation)
+		if (cm.ShuttleStatus == ShuttleStatus.OnRouteCentcom ||
+			cm.ShuttleStatus == ShuttleStatus.OnRouteStation)
 		{
 			if (cm.CurrentFlyTime > 0)
 			{
@@ -63,7 +63,7 @@ public class GUI_CargoPageStatus : GUI_CargoPage
 		}
 		else
 		{
-			if (cm.ShuttleStatus == CargoShuttleStatus.DockedStation)
+			if (cm.ShuttleStatus == ShuttleStatus.DockedStation)
 			{
 				SetShuttleStatus(statusCargoImage);
 			}
