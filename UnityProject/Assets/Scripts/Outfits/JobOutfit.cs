@@ -12,7 +12,7 @@ public class JobOutfit : MonoBehaviour
 	public string belt;
 	public string box;
 	public string duffelbag;
-	public string ears;
+	public HeadsetOrPrefab ears;
 
 	public ClothOrPrefab glasses;
 	public ClothOrPrefab gloves;
@@ -43,6 +43,14 @@ public class ClothOrPrefab {	public ClothingData Clothing;
 public class BackpackOrPrefab
 {
 	public ContainerData Backpack;
+	public GameObject Prefab;
+
+}
+
+[System.Serializable]
+public class HeadsetOrPrefab
+{
+	public HeadsetData Headset;
 	public GameObject Prefab;
 
 }

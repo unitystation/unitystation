@@ -45,7 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accessory: 
   allowedAccess: 06000000080000001a0000001b0000001e000000200000001f0000002200000026000000280000002b0000002c0000002f00000030000000310000003300000034000000180000004200000044000000430000001500000035000000
-  backpack: 
+  backpack:
+    Backpack: {fileID: 0}
+    Prefab: {fileID: 0}
   backpack_contents:
   - /obj/item/weapon/storage/box/ids
   - /obj/item/weapon/melee/classic_baton/telescopic
@@ -53,7 +55,9 @@ MonoBehaviour:
   belt: /obj/item/device/pda/heads/hop
   box: 
   duffelbag: 
-  ears: /obj/item/device/radio/headset/heads/hop
+  ears:
+    Headset: {fileID: 11400000, guid: e42365d7c816f6447b8b21c08ea99d71, type: 2}
+    Prefab: {fileID: 0}
   glasses:
     Clothing: {fileID: 0}
     Prefab: {fileID: 0}

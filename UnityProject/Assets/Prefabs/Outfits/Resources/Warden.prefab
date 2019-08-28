@@ -45,13 +45,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accessory: 
   allowedAccess: 22000000230000003100000043000000440000004f00000003000000
-  backpack: /obj/item/weapon/storage/backpack/security
+  backpack:
+    Backpack: {fileID: 0}
+    Prefab: {fileID: 0}
   backpack_contents:
   - /obj/item/weapon/melee/baton/loaded
   belt: /obj/item/device/pda/warden
   box: /obj/item/weapon/storage/box/security
   duffelbag: /obj/item/weapon/storage/backpack/duffelbag/sec
-  ears: /obj/item/device/radio/headset/headset_sec
+  ears:
+    Headset: {fileID: 11400000, guid: d81ff42a8ea91754b95541d07403cfbe, type: 2}
+    Prefab: {fileID: 0}
   glasses:
     Clothing: {fileID: 0}
     Prefab: {fileID: 0}

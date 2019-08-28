@@ -206,11 +206,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothingReference: -1
-  hierarchy: 
-  inHandReferenceLeft: 0
-  inHandReferenceRight: 0
   spriteHandlerData: {fileID: 114526822079318106}
+  InventoryIcon: {fileID: 0}
   itemName: identification card
   itemDescription: A card used to provide ID and determine access across the station.
   itemType: 12
@@ -253,8 +250,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee6d21d82f3c5e640a47344d3a17ac18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  captainSprite: {fileID: 21300006, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
-  commandSprite: {fileID: 21300008, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
+  captainSprite: {fileID: 21300000, guid: 567726fd081a97c46a2c93edc3a99825, type: 3}
+  commandSprite: {fileID: 21300000, guid: bd80135c3a272264ebd5515cd8050ba1, type: 3}
   idCardTypeInt: 0
   jobTypeInt: 0
   ManuallyAddedAccess: 
@@ -262,7 +259,7 @@ MonoBehaviour:
   MiningPoints: 0
   RegisteredName: John Cena
   spriteRenderer: {fileID: 212977371495627384}
-  standardSprite: {fileID: 21300002, guid: 3c5ea9c60b024de1a8718eddd1639ac5, type: 3}
+  standardSprite: {fileID: 21300000, guid: f23c8d48c642ba64ab25750c1c8b3b9d, type: 3}
 --- !u!114 &114922150393857528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpriteInfos:
+  Infos:
     spriteIndex: 0
     VariantIndex: 0
     AID: 19

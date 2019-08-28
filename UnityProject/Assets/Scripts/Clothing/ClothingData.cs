@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CreateAssetMenu(fileName = "ClothingData", menuName = "ScriptableObjects_ClothingData", order = 1)]
+[CreateAssetMenu(fileName = "ClothingData", menuName = "ScriptableObjects/ClothingData", order = 1)]
 public class ClothingData : ScriptableObject
 {
 	public GameObject PrefabVariant;

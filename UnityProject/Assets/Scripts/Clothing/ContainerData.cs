@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "ContainerData", menuName = "ScriptableObjects_BackpackData", order = 1)]
+[CreateAssetMenu(fileName = "ContainerData", menuName = "ScriptableObjects/BackpackData", order = 1)]
 public class ContainerData : ScriptableObject
 {
 	public GameObject PrefabVariant;

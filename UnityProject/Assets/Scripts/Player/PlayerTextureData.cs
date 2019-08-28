@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerTextureData", menuName = "ScriptableObjects_PlayerTextureData", order = 1)]
+[CreateAssetMenu(fileName = "PlayerTextureData", menuName = "ScriptableObjects/PlayerTextureData", order = 1)]
 public class PlayerTextureData : ScriptableObject
 {
 	public RaceVariantTextureData Base;

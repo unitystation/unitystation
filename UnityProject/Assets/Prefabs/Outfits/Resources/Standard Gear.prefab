@@ -45,21 +45,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accessory: 
   allowedAccess: 
-  backpack: /obj/item/weapon/storage/backpack
+  backpack:
+    Backpack: {fileID: 11400000, guid: e33da839e54e7fd4394ce36343dc8bae, type: 2}
+    Prefab: {fileID: 0}
   backpack_contents: []
   belt: /obj/item/device/pda
   box: /obj/item/weapon/storage/box/survival
   duffelbag: /obj/item/weapon/storage/backpack/duffelbag
-  ears: /obj/item/device/radio/headset
-  glasses: 
-  gloves: 
+  ears:
+    Headset: {fileID: 11400000, guid: 0bdc62ebe3b1c0f47a307aa3f46272c2, type: 2}
+    Prefab: {fileID: 0}
+  glasses:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  gloves:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
   head:
     Clothing: {fileID: 11400000, guid: 606e779e28cc6e349853bfe3a9f8b6ad, type: 2}
     Prefab: {fileID: 0}
   jobType: 0
   l_hand: 
   l_pocket: 
-  mask: 
+  mask:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
   r_pocket: 
   satchel: /obj/item/weapon/storage/backpack/satchel
   shoes:
@@ -68,7 +78,9 @@ MonoBehaviour:
   suit:
     Clothing: {fileID: 0}
     Prefab: {fileID: 0}
-  suit_store: 
+  suit_store:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
   uniform:
     Clothing: {fileID: 11400000, guid: 3161500b0e0022e4784e63f632708b21, type: 2}
     Prefab: {fileID: 0}

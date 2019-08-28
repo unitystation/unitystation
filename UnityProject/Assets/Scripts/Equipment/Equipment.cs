@@ -12,6 +12,8 @@ public class Equipment : NetworkBehaviour
 	public ClothingItem[] clothingSlots;
 	public bool IsInternalsEnabled;
 
+	private HeadsetOrPrefab Ears;
+	private BackpackOrPrefab Backpack;
 	private PlayerNetworkActions playerNetworkActions;
 	private PlayerScript playerScript;
 	private InventorySlot[] gasSlots;
@@ -72,25 +74,25 @@ public class Equipment : NetworkBehaviour
 		//Logger.Log("LLLLLLLLLLLLLLLLL > " + JsonConvert.SerializeObject(standardOutfit.CDuniform.Clothing) + " <  " + playerScript.mind.jobType );
 		Logger.Log(standardOutfit.ToString());
 		gear.Add("uniform", standardOutfit.uniform);
-		//gear.Add("uniform", standardOutfit.uniform);
 		//gear.Add("ears", standardOutfit.ears);
 		//gear.Add("belt", standardOutfit.belt);
-		//gear.Add("back", standardOutfit.backpack);
-		//gear.Add("shoes", standardOutfit.shoes);
-		//gear.Add("glasses", standardOutfit.glasses);
-		//gear.Add("gloves", standardOutfit.gloves);
+		gear.Add("shoes", standardOutfit.shoes);
+		gear.Add("glasses", standardOutfit.glasses);
+		gear.Add("gloves", standardOutfit.gloves);
+		Backpack = standardOutfit.backpack;
+		Ears = standardOutfit.ears;
 		gear.Add("suit", standardOutfit.suit);
 		gear.Add("head", standardOutfit.head);
-		////gear.Add("accessory", standardOutfit.accessory);
-		//gear.Add("mask", standardOutfit.mask);
-		////gear.Add("backpack", standardOutfit.backpack);
-		////gear.Add("satchel", standardOutfit.satchel);
-		////gear.Add("duffelbag", standardOutfit.duffelbag);
-		////gear.Add("box", standardOutfit.box);
-		////gear.Add("l_hand", standardOutfit.l_hand);
-		////gear.Add("l_pocket", standardOutfit.l_pocket);
-		////gear.Add("r_pocket", standardOutfit.r_pocket);
-		////gear.Add("suit_store", standardOutfit.suit_store);
+		//gear.Add("accessory", standardOutfit.accessory);
+		gear.Add("mask", standardOutfit.mask);
+		//gear.Add("backpack", standardOutfit.backpack);
+		//gear.Add("satchel", standardOutfit.satchel);
+		//gear.Add("duffelbag", standardOutfit.duffelbag);
+		//gear.Add("box", standardOutfit.box);
+		//gear.Add("l_hand", standardOutfit.l_hand);
+		//gear.Add("l_pocket", standardOutfit.l_pocket);
+		//gear.Add("r_pocket", standardOutfit.r_pocket);
+		gear.Add("suit_store", standardOutfit.suit_store);
 
 		//if (!string.IsNullOrEmpty(jobOutfit.uniform))
 		//{
@@ -110,30 +112,26 @@ public class Equipment : NetworkBehaviour
 		//{
 		//	gear["back"] = jobOutfit.backpack;
 		//}
+		AddifPresent(gear, "suit", jobOutfit.suit);
+		AddifPresent(gear, "head", jobOutfit.head);
+		AddifPresent(gear, "uniform", jobOutfit.uniform);
+		AddifPresent(gear, "shoes", jobOutfit.shoes);
+		AddifPresent(gear, "gloves", jobOutfit.gloves);
+		AddifPresent(gear, "glasses", jobOutfit.glasses);
+		AddifPresent(gear, "mask", jobOutfit.mask);
+		//AddifPresent(gear, "suit_store", jobOutfit.suit_store);
 
-		gear["suit"] = jobOutfit.suit;
-		gear["head"] = jobOutfit.head;
-		gear["uniform"] = jobOutfit.uniform;
-		gear["shoes"] = jobOutfit.shoes;
-		gear["gloves"] = jobOutfit.gloves;
-		gear["glasses"] = jobOutfit.glasses;
-		gear["mask"] = jobOutfit.mask;
-		//if (!string.IsNullOrEmpty(jobOutfit.glasses))
-		//{
-		//	gear["glasses"] = jobOutfit.glasses;
-		//}
-		//if (!string.IsNullOrEmpty(jobOutfit.gloves))
-		//{
-		//	gear["gloves"] = jobOutfit.gloves;
-		//}
-		//if (!string.IsNullOrEmpty(jobOutfit.suit))
-		//{
-		//	gear["suit"] = jobOutfit.suit;
-		//}
-		//if (!string.IsNullOrEmpty(jobOutfit.head))
-		//{
-		//	gear["head"] = jobOutfit.head;
-		//}
+		//Logger.Log(JsonConvert.SerializeObject(jobOutfit.backpack.Backpack));
+		if (jobOutfit.backpack?.Backpack?.Sprites?.Equipped?.Texture != null || jobOutfit.backpack.Prefab != null)
+		{
+			Backpack = jobOutfit.backpack;
+		}
+
+		if (jobOutfit.ears?.Headset?.Sprites?.Equipped?.Texture != null || jobOutfit.ears.Prefab != null)
+		{
+			Ears = jobOutfit.ears;
+		}
+
 		///*if (!String.IsNullOrEmpty(jobOutfit.accessory))
 		//	gear["accessory"] = jobOutfit.accessory;*/
 		//if (!string.IsNullOrEmpty(jobOutfit.mask))
@@ -158,7 +156,7 @@ public class Equipment : NetworkBehaviour
 			gear["suit_store"] = jobOutfit.suit_store;*/
 		foreach (KeyValuePair<string, ClothOrPrefab> gearItem in gear)
 		{
-			Logger.Log(gearItem.Key + "yoyoy");
+
 			//Logger.Log("RRRRRRRRRRRRR" + JsonConvert.SerializeObject(gearItem.Value.Clothing));
 			if (gearItem.Value.Clothing != null)
 			{
@@ -169,35 +167,59 @@ public class Equipment : NetworkBehaviour
 					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
 				}
 				else {
-					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent); //Where it is made
+					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent); 
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
 				}
 			}
-			else if (gearItem.Value.Prefab != null){
+			else if (gearItem.Value.Prefab != null)
+			{
 				var obj = PoolManager.PoolNetworkInstantiate(gearItem.Value.Prefab, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 				SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
 			}
 		}
-		if (jobOutfit.backpack.Backpack != null)
+		if (Backpack.Backpack != null)
 		{
-			if (jobOutfit.backpack.Backpack.PrefabVariant != null)
+			if (Backpack.Backpack.PrefabVariant != null)
 			{
-				var obj = ClothFactory.CreateBackpackCloth(jobOutfit.backpack.Backpack, TransformState.HiddenPos, transform.parent, PrefabOverride: jobOutfit.backpack.Backpack.PrefabVariant); //Where it is made
+				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent, PrefabOverride: Backpack.Backpack.PrefabVariant); //Where it is made
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 				SetItem(GetLoadOutEventName("back"), itemAtts.gameObject);
 			}
 			else {
-				var obj = ClothFactory.CreateBackpackCloth(jobOutfit.backpack.Backpack, TransformState.HiddenPos, transform.parent); //Where it is made
+				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent); 
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 				SetItem(GetLoadOutEventName("back"), itemAtts.gameObject);
 			}
 		}
-		else if (jobOutfit.backpack.Prefab){
-			var obj = PoolManager.PoolNetworkInstantiate(jobOutfit.backpack.Prefab, TransformState.HiddenPos, transform.parent);
+		else if (Backpack.Prefab)
+		{
+			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
 			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 			SetItem(GetLoadOutEventName("back"), itemAtts.gameObject);
+		}
+
+
+		if (Ears.Headset != null)
+		{
+			if (Ears.Headset.PrefabVariant != null)
+			{
+				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent, PrefabOverride: Ears.Headset.PrefabVariant); //Where it is made
+				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+				SetItem(GetLoadOutEventName("ears"), itemAtts.gameObject);
+			}
+			else {
+				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent); 
+				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+				SetItem(GetLoadOutEventName("ears"), itemAtts.gameObject);
+			}
+		}
+		else if (Ears.Prefab)
+		{
+			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
+			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
+			SetItem(GetLoadOutEventName("ears"), itemAtts.gameObject);
 		}
 		SpawnID(jobOutfit);
 
@@ -212,6 +234,15 @@ public class Equipment : NetworkBehaviour
 			}
 		}
 	}
+	private void AddifPresent(Dictionary<string, ClothOrPrefab> gear, string key, ClothOrPrefab clothOrPrefab)
+	{
+		if (clothOrPrefab?.Clothing?.Base?.Equipped != null || clothOrPrefab?.Prefab != null)
+		{
+			gear[key] = clothOrPrefab;
+		}
+	}
+
+
 
 	private void SpawnID(JobOutfit outFit)
 	{

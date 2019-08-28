@@ -45,23 +45,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accessory: 
   allowedAccess: 060000001a0000001b0000003100000043000000440000002300000022000000
-  backpack: /obj/item/weapon/storage/backpack/security
+  backpack:
+    Backpack: {fileID: 0}
+    Prefab: {fileID: 0}
   backpack_contents:
   - /obj/item/weapon/melee/baton/loaded
   belt: /obj/item/device/pda/security
   box: /obj/item/weapon/storage/box/security
   duffelbag: /obj/item/weapon/storage/backpack/duffelbag/sec
-  ears: /obj/item/device/radio/headset/headset_sec
-  glasses: 
-  gloves: /obj/item/clothing/gloves/color/black
-  head: /obj/item/clothing/head/helmet/sec
+  ears:
+    Headset: {fileID: 11400000, guid: d81ff42a8ea91754b95541d07403cfbe, type: 2}
+    Prefab: {fileID: 0}
+  glasses:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  gloves:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  head:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
   jobType: 33
   l_hand: 
   l_pocket: /obj/item/weapon/restraints/handcuffs
-  mask: 
+  mask:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
   r_pocket: /obj/item/device/assembly/flash/handheld
   satchel: /obj/item/weapon/storage/backpack/satchel/sec
-  shoes: /obj/item/clothing/shoes/jackboots
-  suit: /obj/item/clothing/suit/armor/vest/alt
-  suit_store: /obj/item/weapon/gun/energy/e_gun/advtaser
-  uniform: /obj/item/clothing/under/rank/security
+  shoes:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  suit:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  suit_store:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  uniform:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}

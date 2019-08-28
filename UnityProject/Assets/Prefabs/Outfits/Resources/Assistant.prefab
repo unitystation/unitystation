@@ -45,12 +45,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accessory: 
   allowedAccess: 310000001a00000022000000
-  backpack: 
+  backpack:
+    Backpack: {fileID: 0}
+    Prefab: {fileID: 0}
   backpack_contents: []
   belt: 
   box: 
   duffelbag: 
-  ears: /obj/item/device/radio/headset
+  ears:
+    Headset: {fileID: 11400000, guid: 0bdc62ebe3b1c0f47a307aa3f46272c2, type: 2}
+    Prefab: {fileID: 0}
   glasses:
     Clothing: {fileID: 0}
     Prefab: {fileID: 0}
@@ -63,7 +67,9 @@ MonoBehaviour:
   jobType: 2
   l_hand: 
   l_pocket: 
-  mask: 
+  mask:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
   r_pocket: 
   satchel: 
   shoes:

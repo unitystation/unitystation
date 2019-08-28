@@ -45,7 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accessory: 
   allowedAccess: 060000001b0000002200000023000000430000004400000031000000
-  backpack: 
+  backpack:
+    Backpack: {fileID: 0}
+    Prefab: {fileID: 0}
   backpack_contents:
   - /obj/item/weapon/storage/box/evidence
   - /obj/item/device/detective_scanner
@@ -53,7 +55,9 @@ MonoBehaviour:
   belt: /obj/item/device/pda/detective
   box: 
   duffelbag: 
-  ears: /obj/item/device/radio/headset/headset_sec/alt
+  ears:
+    Headset: {fileID: 11400000, guid: d81ff42a8ea91754b95541d07403cfbe, type: 2}
+    Prefab: {fileID: 0}
   glasses:
     Clothing: {fileID: 11400000, guid: f496ec88cfc8a364982418d100b198b0, type: 2}
     Prefab: {fileID: 0}

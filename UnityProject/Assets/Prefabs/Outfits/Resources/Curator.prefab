@@ -45,7 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accessory: /obj/item/clothing/accessory/pocketprotector/full
   allowedAccess: 1a00000031000000220000002f000000
-  backpack: 
+  backpack:
+    Backpack: {fileID: 0}
+    Prefab: {fileID: 0}
   backpack_contents:
   - /obj/item/weapon/melee/curator_whip
   - /obj/item/soapstone
@@ -53,7 +55,9 @@ MonoBehaviour:
   belt: /obj/item/device/pda/curator
   box: 
   duffelbag: 
-  ears: /obj/item/device/radio/headset
+  ears:
+    Headset: {fileID: 11400000, guid: 0bdc62ebe3b1c0f47a307aa3f46272c2, type: 2}
+    Prefab: {fileID: 0}
   glasses:
     Clothing: {fileID: 0}
     Prefab: {fileID: 0}

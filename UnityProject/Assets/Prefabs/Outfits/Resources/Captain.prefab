@@ -54,7 +54,9 @@ MonoBehaviour:
   belt: /obj/item/device/pda/captain
   box: 
   duffelbag: 
-  ears: /obj/item/device/radio/headset/heads/captain
+  ears:
+    Headset: {fileID: 11400000, guid: 4abf0f69bccdf514ba6ef97ce1ba6cf4, type: 2}
+    Prefab: {fileID: 0}
   glasses:
     Clothing: {fileID: 11400000, guid: f496ec88cfc8a364982418d100b198b0, type: 2}
     Prefab: {fileID: 0}

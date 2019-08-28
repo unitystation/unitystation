@@ -45,7 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accessory: 
   allowedAccess: 180000003100000022000000
-  backpack: /obj/item/weapon/storage/backpack/clown
+  backpack:
+    Backpack: {fileID: 0}
+    Prefab: {fileID: 0}
   backpack_contents:
   - /obj/item/weapon/stamp/clown
   - /obj/item/weapon/reagent_containers/spray/waterflower
@@ -53,7 +55,9 @@ MonoBehaviour:
   belt: /obj/item/device/pda/clown
   box: /obj/item/weapon/storage/box/hug/survival
   duffelbag: /obj/item/weapon/storage/backpack/duffelbag/clown
-  ears: /obj/item/device/radio/headset
+  ears:
+    Headset: {fileID: 11400000, guid: 0bdc62ebe3b1c0f47a307aa3f46272c2, type: 2}
+    Prefab: {fileID: 0}
   glasses:
     Clothing: {fileID: 0}
     Prefab: {fileID: 0}

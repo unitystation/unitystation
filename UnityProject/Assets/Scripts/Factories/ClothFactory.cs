@@ -14,13 +14,14 @@ public class ClothFactory : NetworkBehaviour
 
 	public GameObject uniCloth;
 	public GameObject uniBackpack;
+	public GameObject uniHeadSet;
 	//private GameObject uniHeadSet { get; set; }
 	//private GameObject uniBackPack { get; set; }
 
 	private void Awake()
 	{
-		//Instance.uniCloth = null;  //In case of not being able to find the prefab
-		//Logger.Log(Instance.uniCloth.name);
+		//Instance.uniCloth = null;  //In case of not being able to find the prefab //oh yeah its on Pool manager
+		//Logger.Log(Instance.uniCloth.name)s;
 		if (Instance == null)
 		{
 			Instance = this;
@@ -29,6 +30,7 @@ public class ClothFactory : NetworkBehaviour
 		{
 			Destroy(this);
 		}
+
 	}
 
 	//private void Start()
@@ -65,6 +67,26 @@ public class ClothFactory : NetworkBehaviour
 	//	}
 	//}
 
+	public static GameObject CreateHeadsetCloth(HeadsetData headsetData, Vector3 worldPos, Transform parent = null, ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
+	{
+
+		if (Instance.uniHeadSet == null)
+		{
+			Logger.Log("oh no!");
+		}
+		GameObject clothObj;
+		if (PrefabOverride != null)
+		{ clothObj = PoolManager.PoolNetworkInstantiate(PrefabOverride, worldPos, parent); }
+		else { clothObj = PoolManager.PoolNetworkInstantiate(Instance.uniHeadSet, worldPos, parent); }
+
+		var _Clothing = clothObj.GetComponent<Clothing>();
+		var Item = clothObj.GetComponent<ItemAttributes>();
+		var Headset = clothObj.GetComponent<Headset>();
+		_Clothing.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
+		Item.SetUpFromClothingData(headsetData.Sprites, headsetData.ItemAttributes);
+		Headset.EncryptionKey = headsetData.Key.EncryptionKey;
+		return clothObj;
+	}
 
 	public static GameObject CreateBackpackCloth(ContainerData ContainerData, Vector3 worldPos, Transform parent = null, ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
 	{
@@ -88,17 +110,18 @@ public class ClothFactory : NetworkBehaviour
 	}
 
 
-	public static GameObject CreateCloth(ClothingData ClothingData, Vector3 worldPos, Transform parent=null, ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
+	public static GameObject CreateCloth(ClothingData ClothingData, Vector3 worldPos, Transform parent = null, ClothingVariantType CVT = ClothingVariantType.Default, int variant = -1, GameObject PrefabOverride = null)
 	{
-		
-		if (Instance.uniCloth == null) {
+
+		if (Instance.uniCloth == null)
+		{
 			Logger.Log("oh no!");
 		}
 
 		GameObject clothObj;
 		if (PrefabOverride != null)
-		{clothObj = PoolManager.PoolNetworkInstantiate(PrefabOverride, worldPos, parent);}
-		else { clothObj = PoolManager.PoolNetworkInstantiate(Instance.uniCloth, worldPos, parent);}
+		{ clothObj = PoolManager.PoolNetworkInstantiate(PrefabOverride, worldPos, parent); }
+		else { clothObj = PoolManager.PoolNetworkInstantiate(Instance.uniCloth, worldPos, parent); }
 
 		var _Clothing = clothObj.GetComponent<Clothing>();
 		var Item = clothObj.GetComponent<ItemAttributes>();
@@ -107,8 +130,10 @@ public class ClothFactory : NetworkBehaviour
 		switch (CVT)
 		{
 			case ClothingVariantType.Default:
-				if (variant > -1) { 
-					if (!(ClothingData.Variants.Count >= variant)){ 
+				if (variant > -1)
+				{
+					if (!(ClothingData.Variants.Count >= variant))
+					{
 						Item.SetUpFromClothingData(ClothingData.Variants[variant], ClothingData.ItemAttributes);
 					}
 				}
