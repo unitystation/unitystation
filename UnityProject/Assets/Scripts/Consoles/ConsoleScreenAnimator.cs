@@ -5,26 +5,6 @@ using UnityEngine;
 public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 {
 	private bool isOn = true;
-	public bool IsOn
-	{
-		get { return isOn; }
-		set
-		{
-			if (value)
-			{
-				if (!isOn)
-				{
-					isOn = value;
-					sIndex = 0;
-					StartCoroutine(Animator());
-				}
-				else
-				{
-					isOn = value;
-				}
-			}
-		}
-	}
 
 	public float timeBetweenFrames = 0.1f;
 	public SpriteRenderer spriteRenderer;
@@ -33,14 +13,22 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 
 	private int sIndex = 0;
 
-	void Start()
+	private void Start()
 	{
-		if (isOn)
+		ToggleOn(isOn, true);
+	}
+
+	private void ToggleOn(bool turnOn, bool forceToggle = false)
+	{
+		if (turnOn && (!isOn || forceToggle))
 		{
+			isOn = true;
+			sIndex = 0;
 			StartCoroutine(Animator());
 		}
-		else
+		else if (!turnOn && (isOn || forceToggle))
 		{
+			isOn = false;
 			spriteRenderer.enabled = false;
 			if (screenGlow != null)
 			{
@@ -56,10 +44,10 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	{
 		if (State == PowerStates.Off || State == PowerStates.LowVoltage)
 		{
-			isOn = false;
+			ToggleOn(false);
 		}
-		else { 
-			isOn = true;
+		else {
+			ToggleOn(true);
 		}
 	}
 
@@ -79,12 +67,6 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 				sIndex = 0;
 			}
 			yield return WaitFor.Seconds(timeBetweenFrames);
-		}
-		yield return WaitFor.EndOfFrame;
-		spriteRenderer.enabled = false;
-		if (screenGlow != null)
-		{
-			screenGlow.SetActive(false);
 		}
 	}
 }
