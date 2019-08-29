@@ -4,12 +4,11 @@ import time
 #import json
 import shutil #Requires shutil
 import simplejson
-import to_filename
 from decimal import Decimal
 #python 3 
 
 
-path = 'example' #E.G The name of a folder everything is in Just set it to bypass  The Manual input
+path = 'textures' #E.G The name of a folder everything is in Just set it to bypass  The Manual input
 if not path: 
     path = input('''The name of the folder with the DMI textures in.
 Plonk name of folder here >> ''')
@@ -23,20 +22,32 @@ else:
 
 start_time = time.time()
 
-
+AID = 0
 Name_store = set([])
     
 for root, dirs, files in os.walk(path):
-    print(root)
+    #print(root)
     for name in files:
-        if name in Name_store:
-            #renam stuff
-        else:
-            Name_store.Add(name)
-        
+        if ".png" in name:
+            #if name in Name_store:
+            Edited_Name = name.replace('.png','.json')
+            jsonFilePath = os.path.join(root, (Edited_Name))
+            print(name + os.path.basename(root) )
+            if os.path.exists(jsonFilePath):
+                new_file = os.path.join(root,os.path.basename(root) + "_" + Edited_Name)
+                #print(new_file)
+                os.rename(jsonFilePath,new_file)
+            #print(os.path.basename(root))
+            old_file = os.path.join(root, name)
+            new_file = os.path.join(root,os.path.basename(root)+ "_" + name)
+            os.rename(old_file,new_file)
+            #print(new_file)
+            #else:
+                #Name_store.add(name)
+            
         
 
-print(Name_store)
+print(AID)
 
 print("--- %s seconds ---" % (time.time() - start_time)) #Total time
 
