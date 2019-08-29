@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -22,171 +19,85 @@ public class InventoryManager : MonoBehaviour
 		}
 	}
 
-	//Clientside only:
-	public static List<InventorySlot> AllClientInventorySlots = new List<InventorySlot>();
-	//Server holds all slots for all the clients:
-	public static List<InventorySlot> AllServerInventorySlots = new List<InventorySlot>();
-
-	void OnEnable()
-	{
-		SceneManager.activeSceneChanged += Instance.OnSceneChange;
-	}
-
-	void OnDisable()
-	{
-		SceneManager.activeSceneChanged -= Instance.OnSceneChange;
-	}
-
-	public void OnSceneChange(Scene lastScene, Scene newScene)
-	{
-		AllClientInventorySlots.Clear();
-		AllServerInventorySlots.Clear();
-	}
-
-	public static void AddSlot(InventorySlot slot, bool isServer)
-	{
-		if (isServer)
-		{
-			AllServerInventorySlots.Add(slot);
-		}
-		else
-		{
-			AllClientInventorySlots.Add(slot);
-		}
-	}
-
 	/// <summary>
-	/// Updates the inventory slot list, transferring an item out of / into an inventory slot (or ground).
+	/// Clears the slot and sends network messages to update character sprites and the player's UI
 	/// </summary>
-	/// <param name="isServer">whether to update this client's inventory slots or the server's inventory slots</param>
-	/// <param name="UUID">UUID of the destination inventory slot, empty string if item is not going into an inventory slot (such as when dropping it)</param>
-	/// <param name="item">gameobject representing the item being transferred</param>
-	/// <param name="FromUUID">UUID of the previous inventory slot that item is coming from, empty string if it's not coming from
-	/// another inventory slot</param>
-	public static void UpdateInvSlot(bool isServer, string UUID, GameObject item, string FromUUID = "")
+	public static void ClearInvSlot(InventorySlot inventorySlot)
 	{
-		bool uiSlotChanged = false;
-		string toSlotName = "";
-		GameObject fromOwner = null;
-		GameObject toOwner = null;
-
-		//find the inventory slot with the given UUID
-		var index = InventorySlotList(isServer).FindIndex(
-			x => x.UUID == UUID);
-		if (index != -1)
+		if (inventorySlot.IsUISlot)
 		{
-			var invSlot = InventorySlotList(isServer)[index];
-			//put the item in the slot
-			invSlot.Item = item;
-			if (invSlot.IsUISlot)
+			UpdateSlotMessage.Send(inventorySlot.Owner, inventorySlot.Item, true, inventorySlot.equipSlot);
+
+			if(IsEquipSpriteSlot(inventorySlot.equipSlot))
 			{
-				//if this is a UI slot, mark that it has been changed and keep track of the new owner so we can send the update
-				//message
-				uiSlotChanged = true;
-				toSlotName = invSlot.SlotName;
-				toOwner = invSlot.Owner.gameObject;
+				EquipmentSpritesMessage.SendToAll(inventorySlot.Owner, (int)inventorySlot.equipSlot, -1);
 			}
 		}
-		if (!string.IsNullOrEmpty(FromUUID))
+		inventorySlot.Item = null;
+	}
+
+	public static void ClientClearInvSlot(PlayerNetworkActions pna, EquipSlot equipSlot)
+	{
+		var inventorySlot = pna.Inventory[equipSlot];
+		inventorySlot.Item = null;
+		var UIitemSlot = InventorySlotCache.GetSlotByEvent(inventorySlot.equipSlot);
+		UIitemSlot.Clear();
+	}
+
+
+	/// <summary>
+	/// Sets the item to the slot and sends network messages to update character sprites and the player's UI
+	/// </summary>
+	public static void EquipInInvSlot(InventorySlot inventorySlot, GameObject item)
+	{
+		if (inventorySlot.IsUISlot)
 		{
-			//if this came from another slot, find it
-			index = InventorySlotList(isServer).FindIndex(
-				x => x.UUID == FromUUID);
-			if (index != -1)
+			UpdateSlotMessage.Send(inventorySlot.Owner, item, false, inventorySlot.equipSlot);
+
+			if (IsEquipSpriteSlot(inventorySlot.equipSlot))
 			{
-				var invSlot = InventorySlotList(isServer)[index];
-				//remove the item from the previous slot
-				invSlot.Item = null;
-				if (invSlot.IsUISlot)
+				var att = item.GetComponent<ItemAttributes>();
+				var reference = att.clothingReference;
 				{
-					//if the previous slot had an owner, track the owner so we can include it in the update message
-					uiSlotChanged = true;
-					fromOwner = invSlot.Owner.gameObject;
+					if (inventorySlot.equipSlot == EquipSlot.leftHand)
+					{
+						reference = att.NetworkInHandRefLeft();
+					}
+					else if(inventorySlot.equipSlot == EquipSlot.rightHand)
+					{
+						reference = att.NetworkInHandRefRight();
+					}
 				}
+				if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") ||
+					att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
+					att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank") || inventorySlot.equipSlot == EquipSlot.handcuffs
+					|| inventorySlot.equipSlot == EquipSlot.leftHand || inventorySlot.equipSlot == EquipSlot.rightHand)
+				{
+					EquipmentSpritesMessage.SendToAll(inventorySlot.Owner, (int)inventorySlot.equipSlot, reference);
+				}
+
 			}
 		}
+		inventorySlot.Item = item;
 
-		//Only ever sync UI slots straight away, storage slots will sync when they are being observed (picked up and inspected)
-		if (isServer && uiSlotChanged)
-		{
-			//send the update to the player who the item was taken from and the player it was
-			//given to
-			if (fromOwner != null)
-			{
-				UpdateSlotMessage.Send(fromOwner, UUID, FromUUID, item);
-			}
-			if (toOwner != null)
-			{
-				UpdateSlotMessage.Send(toOwner, UUID, FromUUID, item);
-			}
-
-		}
-
-		if (!isServer && uiSlotChanged)
-		{
-			UIManager.UpdateSlot(new UISlotObject(UUID, item, FromUUID));
-		}
 	}
 
-	/// <summary>
-	/// To clear an Item from an inventory slot and place at HiddenPos
-	/// (for cases where items are consumed while in a slot)
-	/// Can only be called on the server
-	/// </summary>
-	/// <param name="slotToClear"></param>
-	public static void DestroyItemInSlot(InventorySlot slotToClear)
+	public static void ClientEquipInInvSlot(PlayerNetworkActions pna, GameObject item, EquipSlot equipSlot)
 	{
-		if (slotToClear.Item == null)
-		{
-			//Slot is already empty
-			return;
-		}
-
-		DropItem(slotToClear, TransformState.HiddenPos);
-		//TODO When ItemFactory has been refactored in 0.4 then return items here to the pool
-		//If they came from the poolmanager
+		var inventorySlot = pna.Inventory[equipSlot];
+		inventorySlot.Item = item;
+		var UIitemSlot = InventorySlotCache.GetSlotByEvent(inventorySlot.equipSlot);
+		UIitemSlot.SetItem(item);
 	}
 
-	//Server only
-	/// <summary>
-	/// To clear an Item from an inventory slot and place at HiddenPos
-	/// (for cases where items are consumed while in a slot)
-	/// Can only be called on the server
-	/// </summary>
-	/// <param name="item"></param>
-	public static void DestroyItemInSlot(GameObject item)
+	private static bool IsEquipSpriteSlot(EquipSlot equipSlot)
 	{
-		if (item == null)
+		if (equipSlot == EquipSlot.id || equipSlot == EquipSlot.storage01 ||
+			equipSlot == EquipSlot.storage02 || equipSlot == EquipSlot.suitStorage)
 		{
-			return;
+			return false;
 		}
-
-		var invSlot = GetSlotFromItem(item);
-		if (invSlot != null)
-		{
-			DropItem(invSlot, TransformState.HiddenPos);
-		}
-		//TODO When ItemFactory has been refactored in 0.4 then return items here to the pool
-		//If they came from the poolmanager
-	}
-
-	/// <summary>
-	/// Get the slot ID from an Item.
-	/// Returns null if item is not in a slot
-	/// </summary>
-	/// <param name="item"></param>
-	/// <param name="isServer"></param>
-	/// <returns></returns>
-	public static string GetSlotIDFromItem(GameObject item, bool isServer = true)
-	{
-		string UUID = "";
-		if (item == null)
-		{
-			return UUID;
-		}
-
-		UUID = GetSlotFromItem(item)?.UUID;
-		return UUID;
+		return true;
 	}
 
 	/// <summary>
@@ -194,55 +105,17 @@ public class InventoryManager : MonoBehaviour
 	/// Returns null if the item is not in a slot
 	/// </summary>
 	/// <param name="item"></param>
-	/// <param name="isServer"></param>
 	/// <returns></returns>
-	public static InventorySlot GetSlotFromItem(GameObject item, bool isServer = true)
+	public static InventorySlot GetSlotFromItem(GameObject item, PlayerNetworkActions pna)
 	{
-		InventorySlot slot = null;
-		if (item == null)
+		foreach (var slot in pna.Inventory)
 		{
-			return slot;
+			if(item == slot.Value.Item)
+			{
+				return slot.Value;
+			}
 		}
-		var index = InventorySlotList(isServer).FindLastIndex(x => x.Item == item);
-		if (index != -1)
-		{
-			slot = InventorySlotList(isServer)[index];
-		}
-		return slot;
-	}
-
-	/// <summary>
-	/// Get an Inventoryslot from a slot Unique ID
-	/// Returns null if UUID is invalid or not found
-	/// </summary>
-	/// <param name="UUID"></param>
-	/// <param name="isServer"></param>
-	/// <returns></returns>
-	public static InventorySlot GetSlotFromUUID(string UUID, bool isServer)
-	{
-		InventorySlot slot = null;
-		var index = InventorySlotList(isServer).FindLastIndex(x => x.UUID == UUID);
-		if (index != -1)
-		{
-			slot = InventorySlotList(isServer)[index];
-		}
-		return slot;
-	}
-
-	/// <summary>
-	/// Get Unique ID of a slot from a clients UI slot name (i.e. belt)
-	/// </summary>
-	/// <param name="slotName"></param>
-	/// <returns></returns>
-	public static string GetClientUUIDFromSlotName(string slotName)
-	{
-		string uuid = "";
-		var index = AllClientInventorySlots.FindLastIndex(x => x.SlotName == slotName);
-		if (index != -1)
-		{
-			uuid = AllClientInventorySlots[index].UUID;
-		}
-		return uuid;
+		return null;
 	}
 
 	//Server only:
@@ -253,83 +126,50 @@ public class InventoryManager : MonoBehaviour
 	/// <param name="originator"></param>
 	/// <param name="hand"></param>
 	/// <returns></returns>
-	public static InventorySlot GetSlotFromOriginatorHand(GameObject originator, string hand)
+	public static InventorySlot GetSlotFromOriginatorHand(GameObject originator, EquipSlot hand)
 	{
-		InventorySlot slot = null;
-
-		var index = AllServerInventorySlots.FindLastIndex(x => x.Owner != null && x.Owner.gameObject == originator && x.SlotName == hand);
-		if (index != -1)
-		{
-			slot = AllServerInventorySlots[index];
-		}
-
+		var pna = originator.GetComponent<PlayerNetworkActions>();
+		var slot = pna.Inventory[hand];
 		return slot;
 	}
 
-	private static List<InventorySlot> InventorySlotList(bool isServer)
-	{
-		if (isServer)
-		{
-			return AllServerInventorySlots;
-		}
-		return AllClientInventorySlots;
-	}
-
-	private static void DropItem(InventorySlot slot, Vector3 dropPos)
-	{
-		slot.Item?.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
-		var objTransform = slot.Item.GetComponent<CustomNetTransform>();
-		if (dropPos != TransformState.HiddenPos)
-		{
-			if (slot.Owner != null)
-			{
-				//Inertia drop works only if player has external impulse (space floating etc.)
-				objTransform.InertiaDrop(dropPos, slot.Owner.PlayerSync.SpeedServer, slot.Owner.PlayerSync.ServerImpulse);
-			}
-			else
-			{
-				objTransform.AppearAtPositionServer(dropPos);
-			}
-		}
-		ObjectBehaviour itemObj = slot.Item.GetComponent<ObjectBehaviour>();
-		if (itemObj)
-		{
-			itemObj.parentContainer = null;
-		}
-		slot.Item.GetComponent<RegisterTile>().UpdatePositionServer();
-		UpdateInvSlot(true, "", slot.Item, slot.UUID);
-	}
-
-	//Server only
-	/// <summary>
-	/// Drop an item from a slot at a given position
-	/// Use only on the server. Results are synced with clients
-	/// </summary>
-	/// <param name="player"></param>
-	/// <param name="item"></param>
-	/// <param name="pos"></param>
-	public static void DropGameItem(GameObject player, GameObject item, Vector3 pos)
+	public static void DropItem(GameObject item, Vector3 dropPos, PlayerNetworkActions pna)
 	{
 		if (!item)
 		{
 			Logger.LogWarning("Trying to drop null object", Category.Inventory);
 			return;
 		}
-		NetworkIdentity networkIdentity = player.GetComponent<NetworkIdentity>();
-		if (!networkIdentity)
+		var slot = GetSlotFromItem(item, pna);
+		item.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
+		var objTransform = item.GetComponent<CustomNetTransform>();
+		if (dropPos != TransformState.HiddenPos)
 		{
-			Logger.LogWarning("Unable to drop as NetIdentity is gone", Category.Equipment);
-			return;
+			if (slot.Owner != null)
+			{
+				//Inertia drop works only if player has external impulse (space floating etc.)
+				var playerScript = slot.Owner.GetComponent<PlayerScript>();
+				objTransform.InertiaDrop(dropPos, playerScript.PlayerSync.SpeedServer, playerScript.PlayerSync.ServerImpulse);
+			}
+			else
+			{
+				objTransform.AppearAtPositionServer(dropPos);
+			}
 		}
-
-		DropItem(GetSlotFromItem(item), pos);
+		ObjectBehaviour itemObj = item.GetComponent<ObjectBehaviour>();
+		if (itemObj)
+		{
+			itemObj.parentContainer = null;
+		}
+		item.GetComponent<RegisterTile>().UpdatePositionServer();
+		ClearInvSlot(slot);
 	}
 }
 
 //Helps identify the position in syncEquip list
 public enum EquipSlot
 {
-	suit,
+	exosuit,
 	belt,
 	head,
 	feet,
@@ -347,5 +187,13 @@ public enum EquipSlot
 	id,
 	storage01,
 	storage02,
-	suitStorage
+	suitStorage,
+	inventory01,
+	inventory02,
+	inventory03,
+	inventory04,
+	inventory05,
+	inventory06,
+	inventory07
+
 }

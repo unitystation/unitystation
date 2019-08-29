@@ -70,11 +70,6 @@ public static class InteractionMessageUtils
 			RequestHandActivateMessage.Send(info as HandActivate, processorObject);
 			return;
 		}
-		else if (typeof(T) == typeof(InventoryApply))
-		{
-			RequestInventoryApplyMessage.Send(info as InventoryApply, processorObject);
-			return;
-		}
 
 		//we didn't send anything
 		Logger.LogErrorFormat("Interaction type was {0} - we couldn't determine what to do for this interaction" +

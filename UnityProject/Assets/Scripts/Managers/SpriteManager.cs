@@ -164,6 +164,7 @@ public class SpriteManager : MonoBehaviour
 		FireSprites["fire"] = Resources.LoadAll<Sprite>("icons/effects/fire");
 
 		ScreenUISprites["gen"] = Resources.LoadAll<Sprite>("screen_gen");
+		ScreenUISprites["shuttle_status"] = Resources.LoadAll<Sprite>("shuttle_status");
 		InitWireSprites();
 	}
 

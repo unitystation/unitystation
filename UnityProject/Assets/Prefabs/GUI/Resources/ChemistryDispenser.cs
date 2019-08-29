@@ -36,8 +36,8 @@ public class ChemistryDispenser : NBHandApplyInteractable {
 		//put the reagant container inside me
 		Container = interaction.HandObject.GetComponent<ReagentContainer>();
 		objectse = interaction.HandObject.GetComponentInChildren<ObjectBehaviour> ();
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
-		InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+		InventoryManager.ClearInvSlot(slot);
 		UpdateGUI();
 	}
 }

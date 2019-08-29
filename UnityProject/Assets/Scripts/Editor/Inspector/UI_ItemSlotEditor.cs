@@ -7,8 +7,8 @@ public class UI_ItemSlotEditor : Editor
 	{
 		UI_ItemSlot itemSlot = (UI_ItemSlot) target;
 
-		itemSlot.eventName = EditorGUILayout.TextField("Event Name", itemSlot.eventName);
-
+		itemSlot.eventName = EditorGUILayout.TextField("Slot Name", itemSlot.eventName);
+		itemSlot.equipSlot = (EquipSlot) EditorGUILayout.EnumPopup("EquipSlot", itemSlot.equipSlot);
 		itemSlot.allowAllItems = EditorGUILayout.Toggle("Allow All Items", itemSlot.allowAllItems);
 
 		if (itemSlot.allowAllItems)

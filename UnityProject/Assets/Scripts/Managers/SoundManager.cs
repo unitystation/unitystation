@@ -14,13 +14,12 @@ public class SoundManager : MonoBehaviour
 
 	private readonly Dictionary<string, string[]> soundPatterns = new Dictionary<string, string[]>();
 
-	public List<AudioSource> ambientTracks = new List<AudioSource>();
+	private List<AudioSource> ambientTracks = new List<AudioSource>();
+	public AudioSource ambientTrack => ambientTracks[0];
 
 	// Use this for initialization
 	//public AudioSource[] sounds;
 	public List<AudioSource> musicTracks = new List<AudioSource>();
-
-	public int ambientPlaying { get; private set; }
 
 	public static SoundManager Instance
 	{
@@ -300,32 +299,13 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-	public static void PlayVarAmbient(int variant)
+	public static void PlayAmbience()
 	{
-		//TODO ADD MORE AMBIENT VARIANTS
-		if (variant == 0)
-		{
-			//Station ambience with announcement at start
-			Instance.ambientTracks[2].Stop();
-			Instance.ambientTracks[0].Play();
-			Instance.ambientTracks[1].Play();
-			Instance.ambientPlaying = 1;
-		}
-		if (variant == 1)
-		{
-			Instance.ambientTracks[0].Stop();
-			Instance.ambientTracks[1].Play();
-			Instance.ambientTracks[2].Play();
-			Instance.ambientPlaying = 1;
-		}
+		//Station hum
+		Instance.ambientTrack.Play();
 
-		if (variant == 2)
-		{
-			Instance.ambientTracks[2].Stop();
-			Instance.ambientTracks[3].Play();
-			Instance.ambientTracks[1].Play();
-			Instance.ambientPlaying = 1;
-		}
+		//Random introduction sound
+		Play( "Ambient#" );
 	}
 
 	/// <summary>

@@ -484,17 +484,15 @@ public class MouseInputController : MonoBehaviour
 		if (UIManager.IsThrow)
 		{
 			var currentSlot = UIManager.Hands.CurrentSlot;
-			if (!currentSlot.CanPlaceItem())
+			if (currentSlot.Item == null)
 			{
 				return false;
 			}
 			Vector3 position = MouseWorldPosition;
 			position.z = 0f;
 			UIManager.CheckStorageHandlerOnMove(currentSlot.Item);
-			currentSlot.Clear();
-			//				Logger.Log( $"Requesting throw from {currentSlot.eventName} to {position}" );
-			PlayerManager.LocalPlayerScript.playerNetworkActions
-				.CmdRequestThrow(currentSlot.eventName, position, (int)UIManager.DamageZone);
+
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(currentSlot.equipSlot, position, (int)UIManager.DamageZone);
 
 			//Disabling throw button
 			UIManager.Action.Throw();

@@ -44,7 +44,7 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 				{
 					Vector3 targetPosition = interaction.WorldPositionTarget;
 					targetPosition.z = -0.2f;
-					pna.CmdPlaceItem(interaction.HandSlot.SlotName, targetPosition, interaction.Performer, true);
+					pna.CmdPlaceItem(interaction.HandSlot.equipSlot, targetPosition, interaction.Performer, true);
 					return true;
 				}
 				case TileType.Floor:

@@ -146,8 +146,8 @@ public class RegisterPlayer : RegisterTile
 		PlayerUprightMessage.SendToAll(gameObject, false, false);
 		if (dropItem)
 		{
-			playerScript.playerNetworkActions.DropItem("leftHand");
-			playerScript.playerNetworkActions.DropItem("rightHand");
+			playerScript.playerNetworkActions.DropItem(EquipSlot.leftHand);
+			playerScript.playerNetworkActions.DropItem(EquipSlot.rightHand);
 		}
 		playerScript.playerMove.allowInput = false;
 

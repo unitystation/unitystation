@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿/*
+using UnityEngine;
 
 public enum TortureSeverity
 {
@@ -56,3 +57,4 @@ public class TortureChamber
 	}
 
 }
+ */

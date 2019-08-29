@@ -55,6 +55,10 @@ public class ChatEvent
 	public Vector2 position;
 	public float radius;
 	public float sizeMod = 1f;
+	/// <summary>
+	/// Send chat message only to those on this matrix
+	/// </summary>
+	public MatrixInfo matrix = MatrixInfo.Invalid;
 
 	public ChatEvent() {
 		timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
