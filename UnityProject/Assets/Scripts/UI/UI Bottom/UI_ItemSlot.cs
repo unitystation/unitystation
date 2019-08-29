@@ -13,6 +13,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointe
 	public string eventName;
 	public string hoverName;
 	public EquipSlot equipSlot;
+	[HideInInspector]
 	public InventorySlot inventorySlot;
 
 	[HideInInspector]
