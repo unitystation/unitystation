@@ -118,7 +118,10 @@ namespace DatabaseAPI
             status.CurrentMap = SceneManager.GetActiveScene().name;
             status.GameMode = GameManager.Instance.gameMode.ToString();
             status.IngameTime = GameManager.Instance.stationTime.ToShortTimeString();
-            status.PlayerCount = PlayerList.Instance.ConnectionCount;
+            if (PlayerList.Instance != null)
+            {
+                status.PlayerCount = PlayerList.Instance.ConnectionCount;
+            }
             status.ServerIP = CustomNetworkManager.Instance.networkAddress;
             status.ServerPort = CustomNetworkManager.Instance.networkPort;
             status.WinDownload = config.WinDownload;
