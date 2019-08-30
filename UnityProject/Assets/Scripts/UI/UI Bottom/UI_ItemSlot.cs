@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 {
 	public bool allowAllItems;
 	public List<ItemType> allowedItemTypes;
@@ -21,6 +21,12 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointe
 
 	private Image secondaryImage; //For sprites that require two images
 	public ItemSize maxItemSize;
+
+	/// pointer is over the actual item in the slot due to raycast target
+	public override string Tooltip => Item.GetComponent<ItemAttributes>().itemName;
+
+	/// set back to the slot name since the pointer is still over the slot background
+	public override string ExitTooltip => hoverName;
 
 	public GameObject Item
 	{
@@ -320,17 +326,5 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler, IPointe
 	public void OnEndDrag(PointerEventData data)
 	{
 		UIManager.DragAndDrop.StopDrag();
-	}
-
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		// pointer is over the actual item in the slot due to raycast target
-		UIManager.SetToolTip = Item.GetComponent<ItemAttributes>().itemName;
-	}
-
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		// set back to the slot name since the pointer is still over the slot background
-		UIManager.SetToolTip = hoverName;
 	}
 }

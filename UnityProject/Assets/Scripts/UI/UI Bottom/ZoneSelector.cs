@@ -2,10 +2,12 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-	public class ZoneSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class ZoneSelector : TooltipMonoBehaviour
 	{
 		public Sprite[] selectorSprites;
 		public Image selImg;
+		public override string Tooltip => "damage zone";
+
 		private void Start()
 		{
 			// Select the chest initially
@@ -50,15 +52,5 @@ using UnityEngine.EventSystems;
 					SelectAction(BodyPartType.Head);
 					break;
 			}
-		}
-
-		public void OnPointerEnter(PointerEventData eventData)
-		{
-			UIManager.SetToolTip = "damage zone";
-		}
-
-		public void OnPointerExit(PointerEventData eventData)
-		{
-			UIManager.SetToolTip = "";
 		}
 	}

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class UI_OxygenAlert : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UI_OxygenAlert : TooltipMonoBehaviour
 {
 
 	public Sprite[] statusImages; //images to cycle between when active
@@ -12,6 +12,8 @@ public class UI_OxygenAlert : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
 	public Image img;
 	private Sprite sprite;
+
+	public override string Tooltip => "Choking (No O2)";
 
 	void Start ()
 	{
@@ -32,15 +34,5 @@ public class UI_OxygenAlert : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		}
 
 		img.sprite = sprite;
-	}
-
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		UIManager.SetToolTip = "Choking (No O2)";
-	}
-
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		UIManager.SetToolTip = "";
 	}
 }

@@ -10,10 +10,11 @@ using UnityEngine.EventSystems;
 		Harm
 	}
 
-	public class ControlIntent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class ControlIntent : TooltipMonoBehaviour
 	{
 		public Sprite[] sprites;
 		private Image thisImg;
+		public override string Tooltip => "intent";
 
 		private void Start()
 		{
@@ -62,15 +63,5 @@ using UnityEngine.EventSystems;
 			UIManager.CurrentIntent = intent;
 
 			thisImg.sprite = sprites[(int)intent];
-		}
-
-		public void OnPointerEnter(PointerEventData eventData)
-		{
-			UIManager.SetToolTip = "intent";
-		}
-
-		public void OnPointerExit(PointerEventData eventData)
-		{
-			UIManager.SetToolTip = "";
 		}
 	}

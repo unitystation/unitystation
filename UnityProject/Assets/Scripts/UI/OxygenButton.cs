@@ -2,18 +2,19 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class OxygenButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class OxygenButton : TooltipMonoBehaviour
 {
 	private Image image;
 	public Sprite[] stateSprites;
 	public bool IsInternalsEnabled;
+	public override string Tooltip => "toggle internals";
 
 	void Awake()
 	{
 		image = GetComponent<Image>();
 		IsInternalsEnabled = false;
 	}
-	
+
 	void OnEnable()
 	{
 		EventManager.AddHandler(EVENT.EnableInternals, OnEnableInternals);
@@ -63,15 +64,5 @@ public class OxygenButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 	{
 		image.sprite = stateSprites[0];
 		IsInternalsEnabled = false;
-	}
-
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		UIManager.SetToolTip = "toggle internals";
-	}
-
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		UIManager.SetToolTip = "";
 	}
 }

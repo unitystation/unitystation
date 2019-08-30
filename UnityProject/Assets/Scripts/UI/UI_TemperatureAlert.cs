@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class UI_TemperatureAlert : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UI_TemperatureAlert : TooltipMonoBehaviour
 {
+	public override string Tooltip => (activeImageIndex < 3) ? "Too Cold" : "Too Hot";
+
 	public Sprite[] statusImages;
 	private int activeImageIndex = -1;
 
@@ -53,22 +55,5 @@ public class UI_TemperatureAlert : MonoBehaviour, IPointerEnterHandler, IPointer
 		}
 		activeImageIndex = index;
 		image.sprite = statusImages[index];
-	}
-
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		if (activeImageIndex < 3)
-		{
-			UIManager.SetToolTip = "Too Cold";
-		}
-		else
-		{
-			UIManager.SetToolTip = "Too Hot";
-		}
-	}
-
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		UIManager.SetToolTip = "";
 	}
 }

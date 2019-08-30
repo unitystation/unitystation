@@ -3,12 +3,13 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
-	public class ControlClothing : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class ControlClothing : TooltipMonoBehaviour
 	{
 		public GameObject retractableGroup;
 		private Image[] equipImgs = new Image[0];
 		public GameObject hideOnRetract;
 		private bool isOpen;
+		public override string Tooltip => "toggle";
 
 		private void Start()
 		{
@@ -63,15 +64,5 @@ using UnityEngine.EventSystems;
 			{
 				hideOnRetract.SetActive( !isOn && UIManager.UseGamePad );
 			}
-		}
-
-		public void OnPointerEnter(PointerEventData eventData)
-		{
-			UIManager.SetToolTip = "toggle";
-		}
-
-		public void OnPointerExit(PointerEventData eventData)
-		{
-			UIManager.SetToolTip = "";
 		}
 	}
