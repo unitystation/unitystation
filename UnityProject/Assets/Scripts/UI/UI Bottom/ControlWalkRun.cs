@@ -3,10 +3,11 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
-	public class ControlWalkRun : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class ControlWalkRun : TooltipMonoBehaviour
 	{
 		private Image image;
 		public Sprite[] runWalkSprites;
+		public override string Tooltip => "run/walk toggle";
 
 		public bool running { get; private set; } = true;
 
@@ -15,7 +16,7 @@ using UnityEngine.EventSystems;
 			image = GetComponent<Image>();
 		}
 
-		/* 
+		/*
 		* Button OnClick methods
 		*/
 
@@ -35,15 +36,5 @@ using UnityEngine.EventSystems;
 				running = false;
 				image.sprite = runWalkSprites[0];
 			}
-		}
-
-		public void OnPointerEnter(PointerEventData eventData)
-		{
-			UIManager.SetToolTip = "run/walk toggle";
-		}
-
-		public void OnPointerExit(PointerEventData eventData)
-		{
-			UIManager.SetToolTip = "";
 		}
 	}

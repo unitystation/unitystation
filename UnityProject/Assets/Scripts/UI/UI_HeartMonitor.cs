@@ -7,8 +7,10 @@ using UnityEngine.EventSystems;
 /// <summary>
 ///     Controller for the heart monitor GUI
 /// </summary>
-public class UI_HeartMonitor : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UI_HeartMonitor : TooltipMonoBehaviour
 {
+	public override string Tooltip => "health";
+
 	public int critStart;
 	private int currentSprite = 0;
 	public int deathStart;
@@ -149,15 +151,5 @@ public class UI_HeartMonitor : MonoBehaviour, IPointerEnterHandler, IPointerExit
 			pulseImg.sprite = sprites[spriteStart];
 			overlayCrits.SetState(OverlayState.death);
 		}
-	}
-
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		UIManager.SetToolTip = "health";
-	}
-
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		UIManager.SetToolTip = "";
 	}
 }
