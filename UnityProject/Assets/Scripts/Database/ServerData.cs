@@ -36,6 +36,11 @@ namespace DatabaseAPI
 		public string refreshToken;
 		public bool isFirstTime = false;
 
+		void Awake()
+		{
+			//Handles config for RCON and Server Status API for dedicated servers
+			AttemptConfigLoad();
+		}
 		void Start()
 		{
 			InitializeFirebase();
