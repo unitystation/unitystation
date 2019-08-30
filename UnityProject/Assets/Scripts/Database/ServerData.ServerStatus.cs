@@ -125,7 +125,7 @@ namespace DatabaseAPI
             status.OSXDownload = config.OSXDownload;
             status.LinuxDownload = config.LinuxDownload;
 
-            UnityWebRequest r = UnityWebRequest.Get(hubUpdate + UnityWebRequest.EscapeURL(JsonUtility.ToJson(status)));
+            UnityWebRequest r = UnityWebRequest.Get(hubUpdate + UnityWebRequest.EscapeURL(JsonUtility.ToJson(status)) + "&user=" + config.HubUser);
             r.SetRequestHeader("Cookie", hubCookie);
             yield return r.SendWebRequest();
             if (r.error != null)
