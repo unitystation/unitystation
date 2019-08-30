@@ -91,4 +91,49 @@ namespace DatabaseAPI
         public string username;
         public string password;
     }
+
+    [Serializable]
+    public class ServerStatus
+    {
+        public string ServerName;
+        public string ForkName;
+        public int BuildVersion;
+        public string CurrentMap;
+        public string GameMode;
+        public string IngameTime;
+        public int PlayerCount;
+        public string ServerIP;
+        public int ServerPort;
+        public string WinDownload;
+        public string OSXDownload;
+        public string LinuxDownload;
+    }
+
+    //Read from Streaming Assets/config/config.json on the server
+    [Serializable]
+    public class ServerConfig
+    {
+        public string RconPass;
+        public int RconPort;
+        //CertKey needed in the future for SSL Rcon
+        public string certKey;
+        public string HubUser;
+        public string HubPass;
+        public string ServerName;
+        //Location on the internet where clients can be downloaded from:
+        public string WinDownload;
+        public string OSXDownload;
+        public string LinuxDownload;
+    }
+
+    //Used to identify the build and fork of this client/server
+    [Serializable]
+    public class BuildInfo
+    {
+        //This is used in the HUB to determine if the player has the right
+        //build for your server
+        public int BuildNumber;
+        //I.E. Unitystation, ColonialMarines, BeeStation
+        public string ForkName;
+    }
 }

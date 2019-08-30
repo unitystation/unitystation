@@ -325,15 +325,6 @@ public class RconPlayerList : WebSocketBehavior
 	}
 }
 
-public class ServerConfig
-{
-	public string RconPass;
-	public int RconPort;
-	public string certKey;
-	public string HubUser;
-	public string HubPass;
-}
-
 [Serializable]
 public class Players
 {
