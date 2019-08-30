@@ -39,7 +39,7 @@ namespace DatabaseAPI
 
         void AttemptConfigLoad()
         {
-            var path = Path.Combine(Application.streamingAssetsPath, "/config/config.json");
+            var path = Path.Combine(Application.streamingAssetsPath, "config", "config.json");
             buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
 
             if (File.Exists(path))
