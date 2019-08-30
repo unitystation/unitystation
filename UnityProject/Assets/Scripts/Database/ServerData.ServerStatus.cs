@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 namespace DatabaseAPI
 {
@@ -27,15 +28,20 @@ namespace DatabaseAPI
                 return Instance.config;
             }
         }
+        private BuildInfo buildInfo;
 
         private bool connectedToHub = false;
         private string hubCookie;
         private const string hubRoot = "https://api.unitystation.org";
         private const string hubLogin = hubRoot + "/login?data=";
+        private const string hubUpdate = hubRoot + "/statusupdate?data=";
+        private float updateWait = 0f;
 
         void AttemptConfigLoad()
         {
             var path = Path.Combine(Application.streamingAssetsPath, "/config/config.json");
+            buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
+
             if (File.Exists(path))
             {
                 config = JsonUtility.FromJson<ServerConfig>(File.ReadAllText(path));
@@ -81,6 +87,42 @@ namespace DatabaseAPI
                 hubCookie = s.Split(';') [0];
                 Logger.Log("Hub connected successfully", Category.DatabaseAPI);
                 connectedToHub = true;
+            }
+        }
+
+        void MonitorServerStatus()
+        {
+            updateWait += Time.deltaTime;
+            //Update the hub every 5 seconds
+            if (updateWait >= 5f)
+            {
+                updateWait = 0f;
+                Instance.StartCoroutine(Instance.SendServerStatus());
+            }
+        }
+
+        IEnumerator SendServerStatus()
+        {
+            var status = new ServerStatus();
+            status.ServerName = config.ServerName;
+            status.ForkName = buildInfo.ForkName;
+            status.BuildVersion = buildInfo.BuildNumber;
+            status.CurrentMap = SceneManager.GetActiveScene().name;
+            status.GameMode = GameManager.Instance.gameMode.ToString();
+            status.IngameTime = GameManager.Instance.stationTime.ToShortTimeString();
+            status.PlayerCount = PlayerList.Instance.ConnectionCount;
+            status.ServerIP = CustomNetworkManager.Instance.networkAddress;
+            status.ServerPort = CustomNetworkManager.Instance.networkPort;
+            status.WinDownload = config.WinDownload;
+            status.OSXDownload = config.OSXDownload;
+            status.LinuxDownload = config.LinuxDownload;
+
+            UnityWebRequest r = UnityWebRequest.Get(hubUpdate + UnityWebRequest.EscapeURL(JsonUtility.ToJson(status)));
+            r.SetRequestHeader("Cookie", hubCookie);
+            yield return r.SendWebRequest();
+            if (r.error != null)
+            {
+                Logger.Log("Failed to update hub with server status" + r.error, Category.DatabaseAPI);
             }
         }
     }
@@ -131,7 +173,7 @@ namespace DatabaseAPI
     public class BuildInfo
     {
         //This is used in the HUB to determine if the player has the right
-        //build for your server
+        //build for your server. Remember 01 is not a valid integer. Make sure it starts with at least 1
         public int BuildNumber;
         //I.E. Unitystation, ColonialMarines, BeeStation
         public string ForkName;

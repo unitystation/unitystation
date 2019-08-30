@@ -65,6 +65,14 @@ namespace DatabaseAPI
 			EventManager.RemoveHandler(EVENT.LoggedOut, OnLogOut);
 		}
 
+		void Update()
+		{
+			if (connectedToHub)
+			{
+				MonitorServerStatus();
+			}
+		}
+
 		/// <summary>
 		/// Refresh the users profile data
 		/// </summary>
