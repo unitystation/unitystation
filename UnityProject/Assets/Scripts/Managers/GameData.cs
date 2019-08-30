@@ -195,8 +195,7 @@ public class GameData : MonoBehaviour
 		//Ambient Volume
 		if (PlayerPrefs.HasKey("AmbientVol"))
 		{
-			SoundManager.Instance.ambientTracks[SoundManager.Instance.ambientPlaying].volume =
-				PlayerPrefs.GetFloat("AmbientVol");
+			SoundManager.Instance.ambientTrack.volume =	PlayerPrefs.GetFloat("AmbientVol");
 		}
 	}
 }

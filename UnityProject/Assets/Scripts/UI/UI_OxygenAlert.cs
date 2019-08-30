@@ -7,32 +7,52 @@ using UnityEngine.EventSystems;
 public class UI_OxygenAlert : TooltipMonoBehaviour
 {
 
+	private const float SpriteCycleTime = 1f; // cycle every 1 second
 	public Sprite[] statusImages; //images to cycle between when active
-	private int activeImageIndex = 0;
+	private int nextImageIndex = 1;
 
 	public Image img;
-	private Sprite sprite;
+	private float timeWait;
 
 	public override string Tooltip => "Choking (No O2)";
 
-	void Start ()
+	void Start()
 	{
 		img = GetComponent<Image>();
-		sprite = img.sprite;
-		InvokeRepeating("CycleImg", 1f, 1f); //Cycle images every 1 second
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Instance.Add(UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		if (UpdateManager.Instance != null)
+		{
+			UpdateManager.Instance.Remove(UpdateMe);
+		}
+		ResetImg();
+	}
+
+	void UpdateMe()
+	{
+		timeWait += Time.deltaTime;
+		if (timeWait > SpriteCycleTime)
+		{
+			CycleImg();
+			timeWait -= SpriteCycleTime;
+		}
 	}
 
 	void CycleImg()
 	{
-		sprite = statusImages[activeImageIndex];
-		activeImageIndex++;
+		img.sprite = statusImages.Wrap( nextImageIndex++ );
+	}
 
-		//Restart "animation"
-		if (activeImageIndex >= statusImages.Length)
-		{
-			activeImageIndex = 0;
-		}
-
-		img.sprite = sprite;
+	void ResetImg() {
+		img.sprite = statusImages[0];
+		nextImageIndex = 1;
+		timeWait = 0f;
 	}
 }

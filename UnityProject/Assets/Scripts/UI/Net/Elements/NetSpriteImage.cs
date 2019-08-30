@@ -35,7 +35,13 @@ public class NetSpriteImage : NetUIElement
 				else
 				{
 					GetComponent<Image>().enabled = true;
-					var spriteSheet = SpriteManager.PlayerSprites[spriteFile];
+
+					Sprite[] spriteSheet = SpriteManager.PlayerSprites[spriteFile];
+					if ( spriteSheet == null )
+					{
+						spriteSheet = SpriteManager.ScreenUISprites[spriteFile];
+					}
+
 					GetComponent<Image>().sprite = spriteSheet[spriteOffset];
 				}
 			}

@@ -114,24 +114,35 @@ public class PlayerList : NetworkBehaviour
 				PostToChatMessage.Send("Nuke has been detonated, <b>Syndicate wins.</b>", ChatChannel.System);
 				ReportKills();
 			}
-			else if (GetCrewAliveCount() > 0 && EscapeShuttle.Instance.GetCrewCountOnboard() == 0)
+			else
 			{
-				PostToChatMessage.Send("Station crew failed to escape, <b>Syndicate wins.</b>", ChatChannel.System);
-				ReportKills();
-			}
-			else if (GetCrewAliveCount() == 0)
-			{
-				PostToChatMessage.Send("All crew members are dead, <b>Syndicate wins.</b>", ChatChannel.System);
-				ReportKills();
-			}
-			else if (GetCrewAliveCount() > 0 && EscapeShuttle.Instance.GetCrewCountOnboard() > 0)
-			{
-				PostToChatMessage.Send(EscapeShuttle.Instance.GetCrewCountOnboard() + " Crew member(s) have managed to escape the station. <b>Syndicate lost.</b>", ChatChannel.System);
-				ReportKills();
+				int alivePlayers = GetAlivePlayers().Count;
+				int crewCountOnboard = GetAliveShuttleCrew().Count;
+				if (alivePlayers > 0 && crewCountOnboard == 0)
+				{
+					PostToChatMessage.Send("Station crew failed to escape, <b>Syndicate wins.</b>", ChatChannel.System);
+					ReportKills();
+				}
+				else if (alivePlayers == 0)
+				{
+					PostToChatMessage.Send("All crew members are dead, <b>Syndicate wins.</b>", ChatChannel.System);
+					ReportKills();
+				}
+				else if (alivePlayers > 0 && crewCountOnboard > 0)
+				{
+					PostToChatMessage.Send(crewCountOnboard + " Crew member(s) have managed to escape the station. <b>Syndicate lost.</b>", ChatChannel.System);
+					ReportKills();
+				}
 			}
 
 			PostToChatMessage.Send("Game Restarting in 30 seconds...", ChatChannel.System);
 			reportDone = true;
+		}
+
+		List<ConnectedPlayer> GetAliveShuttleCrew()
+		{
+			var playersOnMatrix = GetPlayersOnMatrix(GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
+			return GetAlivePlayers( playersOnMatrix ).FindAll( p => p.Job != JobType.SYNDICATE );
 		}
 	}
 
@@ -149,24 +160,24 @@ public class PlayerList : NetworkBehaviour
 		}
 	}
 
-	public int GetCrewAliveCount()
-	{
-		int alive = 0;
 
-		List<ConnectedPlayer> alivePlayers = InGamePlayers;
-		foreach (ConnectedPlayer ps in alivePlayers)
+
+	/// <summary>
+	/// Get all players currently located on provided matrix
+	/// </summary>
+	public List<ConnectedPlayer> GetPlayersOnMatrix( MatrixInfo matrix )
+	{
+		return InGamePlayers.FindAll( p => p.Script.registerTile.Matrix.Id == matrix.Id );
+	}
+
+	public List<ConnectedPlayer> GetAlivePlayers(List<ConnectedPlayer> players = null)
+	{
+		if ( players == null )
 		{
-			if(ps.Job == JobType.SYNDICATE || ps.GameObject.GetComponent<PlayerMove>().allowInput == false)
-			{
-				//Do nothing
-			}
-			else
-			{
-				alive++; //If player is alive and is not syndicate, add to alive count
-			}
+			players = InGamePlayers;
 		}
 
-		return alive;
+		return players.FindAll( p => !p.Script.IsGhost && p.Script.playerMove.allowInput );
 	}
 
 	public void RefreshPlayerListText()

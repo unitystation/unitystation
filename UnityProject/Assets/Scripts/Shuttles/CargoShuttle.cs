@@ -78,14 +78,14 @@ public class CargoShuttle : MonoBehaviour
 			mm.StopMovement();
 			mm.RotateTo(Orientation.Up);
 
-			if (CargoManager.Instance.ShuttleStatus == CargoShuttleStatus.OnRouteStation)
+			if (CargoManager.Instance.ShuttleStatus == ShuttleStatus.OnRouteStation)
 			{
 				mm.ChangeDir(Orientation.Down);
 				StartCoroutine(ReverseIntoStation());
 			}
 		}
 		if (CargoManager.Instance.CurrentFlyTime <= 0f &&
-			CargoManager.Instance.ShuttleStatus == CargoShuttleStatus.OnRouteCentcom)
+			CargoManager.Instance.ShuttleStatus == ShuttleStatus.OnRouteCentcom)
 		{
 			UnloadCargo();
 			CargoManager.Instance.OnShuttleArrival();

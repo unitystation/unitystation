@@ -364,7 +364,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			SetSpeed(1);
 		}
 
-//		Logger.Log($"Started moving with speed {serverTargetState.Speed}");
+		Logger.LogTrace(gameObject.name+ " started moving with speed " + serverTargetState.Speed, Category.Matrix);
 		serverTargetState.IsMoving = true;
 		RequestNotify();
 	}
@@ -373,11 +373,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	public void StopMovement()
 	{
-//		Logger.Log("Stopped movement");
+		Logger.LogTrace(gameObject.name+ " stopped movement", Category.Matrix);
 		serverTargetState.IsMoving = false;
 
 		//To stop autopilot
 		DisableAutopilotTarget();
+		TryNotifyPlayers();
 	}
 
 	public int MoveCur = -1;
@@ -810,18 +811,30 @@ public class MatrixMove : ManagedNetworkBehaviour
 		RotateTo(serverTargetState.orientation.Rotate(clockwise ? 1 : -1));
 	}
 
+	private bool RotateDirectionTo( Orientation desiredDirection )
+	{
+		return RotateTo( desiredDirection.Rotate( serverState.orientation.RotationsTo( serverState.Direction ) ) );
+	}
+
 	/// Imperative rotate to desired orientation
 	[Server]
-	public void RotateTo(Orientation desiredOrientation)
+	public bool RotateTo(Orientation desiredOrientation)
 	{
 		if (CanRotateTo(desiredOrientation))
 		{
+			int rotations = serverTargetState.orientation.RotationsTo( desiredOrientation );
+
 			serverTargetState.orientation = desiredOrientation;
+
+			var correctedDirection = serverTargetState.Direction.Rotate( -rotations );
+
 			Logger.LogTraceFormat("Orientation is now {0}, Corrected direction from {1} to {2}", Category.Matrix,
-				serverTargetState.orientation, serverTargetState.Direction, desiredOrientation);
-			serverTargetState.Direction = desiredOrientation;
+				serverTargetState.orientation, serverTargetState.Direction, correctedDirection);
+			serverTargetState.Direction = correctedDirection;
 			RequestNotify();
+			return true;
 		}
+		return false;
 	}
 
 	private Vector3 Target = TransformState.HiddenPos;
@@ -853,7 +866,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 				yield break;
 			}
 
-			Orientation currentDir = serverState.orientation;
+			Orientation currentDir = serverState.Direction;
 
 			Vector3 xProjection = Vector3.Project(pos, Vector3.right);
 			int xProjectionX = (int) xProjection.x;
@@ -878,7 +891,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 				if (xRotationsTo != 0 && yRotationsTo != 0)
 				{
 					//if both need change determine faster rotation first
-					RotateTo(xRotationsTo < yRotationsTo ? xDesiredDir : yDesiredDir);
+					RotateDirectionTo(xRotationsTo < yRotationsTo ? xDesiredDir : yDesiredDir);
 					//wait till it rotates
 					yield return WaitFor.Seconds(1);
 				}
