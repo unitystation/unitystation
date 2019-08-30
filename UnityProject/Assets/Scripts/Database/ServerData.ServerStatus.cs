@@ -83,10 +83,18 @@ namespace DatabaseAPI
             }
             else
             {
-                string s = r.GetResponseHeader("set-cookie");
-                hubCookie = s.Split(';') [0];
-                Logger.Log("Hub connected successfully", Category.DatabaseAPI);
-                connectedToHub = true;
+                var response = JsonUtility.FromJson<ApiResponse>(r.downloadHandler.text);
+                if (response.errorCode == 0)
+                {
+                    string s = r.GetResponseHeader("set-cookie");
+                    hubCookie = s.Split(';') [0];
+                    Logger.Log("Hub connected successfully", Category.DatabaseAPI);
+                    connectedToHub = true;
+                }
+                else
+                {
+                    Logger.Log("Hub Login request failed: " + response.errorMsg, Category.DatabaseAPI);
+                }
             }
         }
 
@@ -132,6 +140,14 @@ namespace DatabaseAPI
     {
         public string username;
         public string password;
+    }
+
+    [Serializable]
+    public class ApiResponse
+    {
+        public int errorCode = 0; //0 = all good, read the message variable now, otherwise read errorMsg
+        public string errorMsg;
+        public string message;
     }
 
     [Serializable]
