@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_ItemSwap : MonoBehaviour, IPointerClickHandler, IDropHandler
+public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHandler
 {
 	private UI_ItemSlot itemSlot;
+	public override string Tooltip => itemSlot.hoverName;
 
 	public void OnPointerClick(BaseEventData eventData)
 	{

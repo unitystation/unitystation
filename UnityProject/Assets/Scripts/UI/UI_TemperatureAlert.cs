@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class UI_TemperatureAlert : MonoBehaviour
+public class UI_TemperatureAlert : TooltipMonoBehaviour
 {
+	public override string Tooltip => (activeImageIndex < 3) ? "Too Cold" : "Too Hot";
+
 	public Sprite[] statusImages;
 	private int activeImageIndex = -1;
 

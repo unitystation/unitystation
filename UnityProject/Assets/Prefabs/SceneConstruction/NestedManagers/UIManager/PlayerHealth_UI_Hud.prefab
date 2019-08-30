@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4517519810791883335}
   - component: {fileID: 4781277711238192797}
   - component: {fileID: 5439942421187192221}
+  - component: {fileID: 5351476709471360231}
   m_Layer: 5
   m_Name: HeatAlert
   m_TagString: Untagged
@@ -74,6 +75,20 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &5351476709471360231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802114515472415362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: On Fire
 --- !u!1 &2009764846740981967
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,6 +100,7 @@ GameObject:
   - component: {fileID: 6402640802421800279}
   - component: {fileID: 2875873248332039545}
   - component: {fileID: 8379448491664325786}
+  - component: {fileID: 2817376643718689673}
   m_Layer: 5
   m_Name: ColdAlert
   m_TagString: Untagged
@@ -148,6 +164,20 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &2817376643718689673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009764846740981967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: Freezing
 --- !u!1 &2527893060607958148
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +282,7 @@ GameObject:
   - component: {fileID: 4099844476581970532}
   - component: {fileID: 849951525382049253}
   - component: {fileID: 3374774288711138249}
+  - component: {fileID: 5206570374448178180}
   m_Layer: 5
   m_Name: HungerAlert
   m_TagString: Untagged
@@ -315,6 +346,20 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &5206570374448178180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4075127223319410258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: Hungry
 --- !u!1 &5335150533535898624
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,6 +371,7 @@ GameObject:
   - component: {fileID: 8810361100758709964}
   - component: {fileID: 8732294695319927752}
   - component: {fileID: 3102032099939408842}
+  - component: {fileID: 4980249726110864158}
   m_Layer: 5
   m_Name: DamageMonitor_Base
   m_TagString: Untagged
@@ -395,6 +441,20 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &4980249726110864158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5335150533535898624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: health doll
 --- !u!1 &6647658818071111334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1455,7 +1515,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1481,6 +1541,7 @@ GameObject:
   - component: {fileID: 7741448252744600610}
   - component: {fileID: 8470385621756223182}
   - component: {fileID: 6707891125956946156}
+  - component: {fileID: 6759505908440951520}
   m_Layer: 5
   m_Name: ToxinsAlert
   m_TagString: Untagged
@@ -1544,3 +1605,17 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &6759505908440951520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9159967810113582864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: Choking (Plasma)

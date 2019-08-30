@@ -1,29 +1,32 @@
-﻿using UnityEditor;
+﻿using UnityEngine;
+using UnityEditor;
 
 [CustomEditor(typeof(UI_ItemSlot))]
 public class UI_ItemSlotEditor : Editor
 {
+	private SerializedProperty allowAllItems;
+
+	private void OnEnable() {
+		allowAllItems = serializedObject.FindProperty("allowAllItems");
+	}
+
 	public override void OnInspectorGUI()
 	{
-		UI_ItemSlot itemSlot = (UI_ItemSlot) target;
+		serializedObject.Update();
 
-		itemSlot.eventName = EditorGUILayout.TextField("Slot Name", itemSlot.eventName);
-		itemSlot.equipSlot = (EquipSlot) EditorGUILayout.EnumPopup("EquipSlot", itemSlot.equipSlot);
-		itemSlot.allowAllItems = EditorGUILayout.Toggle("Allow All Items", itemSlot.allowAllItems);
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("eventName"), new GUIContent("Slot Name"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("hoverName"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("equipSlot"));
+		EditorGUILayout.PropertyField(allowAllItems);
 
-		if (itemSlot.allowAllItems)
+		if (allowAllItems.boolValue)
 		{
-			itemSlot.maxItemSize = (ItemSize) EditorGUILayout.EnumPopup("Maximal Item Size", itemSlot.maxItemSize);
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("maxItemSize"), new GUIContent("Maximal Item Size"));
 		}
 		else
 		{
-			SerializedProperty tps = serializedObject.FindProperty("allowedItemTypes");
-			EditorGUI.BeginChangeCheck();
-			EditorGUILayout.PropertyField(tps, true);
-			if (EditorGUI.EndChangeCheck())
-			{
-				serializedObject.ApplyModifiedProperties();
-			}
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("allowedItemTypes"), true);
 		}
+		serializedObject.ApplyModifiedProperties();
 	}
 }

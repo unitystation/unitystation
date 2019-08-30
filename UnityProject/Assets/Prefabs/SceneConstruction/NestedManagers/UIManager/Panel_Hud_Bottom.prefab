@@ -1003,8 +1003,13 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: rightHand
+  hoverName: right hand
   equipSlot: 8
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 4
 --- !u!114 &8281618038162328647
@@ -1463,6 +1468,7 @@ GameObject:
   - component: {fileID: 8101892586714192827}
   - component: {fileID: 8281908010896302221}
   - component: {fileID: 8282011884864999309}
+  - component: {fileID: 8941797262540233539}
   m_Layer: 5
   m_Name: Pull
   m_TagString: Untagged
@@ -1579,6 +1585,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &8941797262540233539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321164708509651395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: stop pulling
 --- !u!1 &8321191460322243837
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,8 +1790,13 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: leftHand
+  hoverName: left hand
   equipSlot: 7
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 4
 --- !u!114 &8282046623769771551
@@ -1975,8 +2000,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 03000000
   eventName: neck
+  hoverName: neck
   equipSlot: 13
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281099982155351903
@@ -2326,8 +2356,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 08000000
   eventName: hands
+  hoverName: gloves
   equipSlot: 11
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282013931426605571
@@ -2522,8 +2557,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0c0000000d000000
   eventName: id
+  hoverName: id
   equipSlot: 15
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281598406267256839
@@ -2769,6 +2809,7 @@ GameObject:
   - component: {fileID: 8100950480723246341}
   - component: {fileID: 8281973736374526597}
   - component: {fileID: 8277941641971164525}
+  - component: {fileID: 6368011002375304705}
   m_Layer: 5
   m_Name: Resist
   m_TagString: Untagged
@@ -2885,6 +2926,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &6368011002375304705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321629272961621499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: resist
 --- !u!1 &8321634039243762281
 GameObject:
   m_ObjectHideFlags: 0
@@ -3329,6 +3384,7 @@ GameObject:
   - component: {fileID: 8101719366348564231}
   - component: {fileID: 8281223811369858701}
   - component: {fileID: 8281779293573331585}
+  - component: {fileID: 6847239713964104595}
   m_Layer: 5
   m_Name: Drop
   m_TagString: Untagged
@@ -3445,6 +3501,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &6847239713964104595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321656306025107829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: drop
 --- !u!1 &8321665812333033313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3457,6 +3527,7 @@ GameObject:
   - component: {fileID: 8101102519074917191}
   - component: {fileID: 8281181633839577613}
   - component: {fileID: 8278017596761733625}
+  - component: {fileID: 6117536462190824250}
   m_Layer: 5
   m_Name: Throw
   m_TagString: Untagged
@@ -3573,6 +3644,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &6117536462190824250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321665812333033313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useObjectName: 0
+  hoverName: throw/catch
 --- !u!1 &8321689161433145869
 GameObject:
   m_ObjectHideFlags: 0
@@ -3764,8 +3849,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0b000000
   eventName: back
+  hoverName: back
   equipSlot: 10
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281714557989333947
@@ -3986,8 +4076,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 04000000
   eventName: mask
+  hoverName: mask
   equipSlot: 5
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8278153824545481731
@@ -4256,8 +4351,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 06000000
   eventName: suit
+  hoverName: o_clothing
   equipSlot: 0
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281727653073488633
@@ -4351,8 +4451,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 07000000
   eventName: uniform
+  hoverName: i_clothing
   equipSlot: 6
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282020277741709817
@@ -4622,8 +4727,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 05000000
   eventName: ear
+  hoverName: ears
   equipSlot: 12
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8282083071945512055
@@ -4784,8 +4894,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 00000000
   eventName: suitStorage
+  hoverName: suit storage
   equipSlot: 18
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281769724951693843
@@ -6876,8 +6991,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 02000000
   eventName: head
+  hoverName: head
   equipSlot: 2
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281663299502864331
@@ -7045,8 +7165,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 09000000
   eventName: feet
+  hoverName: shoes
   equipSlot: 3
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8277981872350202469
@@ -7557,8 +7682,13 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: storage02
+  hoverName: storage2
   equipSlot: 17
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 1
 --- !u!114 &8282072067080021949
@@ -7652,8 +7782,13 @@ MonoBehaviour:
   allowAllItems: 1
   allowedItemTypes: 
   eventName: storage01
+  hoverName: storage1
   equipSlot: 16
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 1
 --- !u!114 &8281975483754746179
@@ -7895,8 +8030,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 01000000
   eventName: eyes
+  hoverName: eyes
   equipSlot: 9
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281567288758422327
@@ -8118,8 +8258,13 @@ MonoBehaviour:
   allowAllItems: 0
   allowedItemTypes: 0a0000000d000000
   eventName: belt
+  hoverName: belt
   equipSlot: 1
-  whythisdoesntshowup: 
+  inventorySlot:
+    equipSlot: 0
+    IsUISlot: 0
+    netInstanceIdentifier: 0
+    Owner: {fileID: 0}
   image: {fileID: 0}
   maxItemSize: 0
 --- !u!114 &8281779622868138873

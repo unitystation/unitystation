@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
-	public class ControlClothing : MonoBehaviour
+	public class ControlClothing : TooltipMonoBehaviour
 	{
 		public GameObject retractableGroup;
 		private Image[] equipImgs = new Image[0];
 		public GameObject hideOnRetract;
 		private bool isOpen;
+		public override string Tooltip => "toggle";
 
 		private void Start()
 		{

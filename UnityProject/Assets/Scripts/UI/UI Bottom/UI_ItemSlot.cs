@@ -6,12 +6,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
+public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 {
 	public bool allowAllItems;
 	public List<ItemType> allowedItemTypes;
 	public string eventName;
+	public string hoverName;
 	public EquipSlot equipSlot;
+	[HideInInspector]
 	public InventorySlot inventorySlot;
 
 	[HideInInspector]
@@ -19,6 +21,12 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 
 	private Image secondaryImage; //For sprites that require two images
 	public ItemSize maxItemSize;
+
+	/// pointer is over the actual item in the slot due to raycast target
+	public override string Tooltip => Item.GetComponent<ItemAttributes>().itemName;
+
+	/// set back to the slot name since the pointer is still over the slot background
+	public override string ExitTooltip => hoverName;
 
 	public GameObject Item
 	{
