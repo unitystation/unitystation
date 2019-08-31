@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_IdConsoleEntry : MonoBehaviour
+public class GUI_IdConsoleEntry : DynamicEntry
 {
 	[SerializeField]
 	private NetLabel displayedName;
@@ -43,7 +43,7 @@ public class GUI_IdConsoleEntry : MonoBehaviour
 		}
 		else
 		{
-			displayedBg.SetValue = "000000";
+			displayedBg.SetValue = "999999";
 		}
 	}
 

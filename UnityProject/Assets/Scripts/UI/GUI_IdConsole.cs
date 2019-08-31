@@ -6,6 +6,16 @@ using UnityEngine;
 public class GUI_IdConsole : NetTab
 {
 	private IdConsole console;
+	[SerializeField]
+	private EmptyItemList accessList;
+	[SerializeField]
+	private EmptyItemList assignList;
+	[SerializeField]
+	private NetPageSwitcher pageSwitcher;
+	[SerializeField]
+	private NetPage loginPage;
+	[SerializeField]
+	private NetPage mainPage;
 
 	public override void OnEnable()
 	{
@@ -24,12 +34,24 @@ public class GUI_IdConsole : NetTab
 		}
 
 		console = Provider.GetComponentInChildren<IdConsole>();
-		console.OnConsoleUpdate.AddListener(UpdateScreen);
-		UpdateScreen();
+		//console.OnConsoleUpdate.AddListener(UpdateScreen);
+		//UpdateScreen();
 	}
 
 	public void UpdateScreen()
 	{
+		accessList.Clear();
+		accessList.AddItems(System.Enum.GetValues(typeof(Access)).Length);
+		int i = 0;
+		GUI_IdConsoleEntry entry;
+		Debug.Log("Len " + System.Enum.GetValues(typeof(Access)).Length);
+		foreach(Access access in Enum.GetValues(typeof(Access)))
+		{
+			Debug.Log("i " + i);
+			entry = accessList.Entries[i] as GUI_IdConsoleEntry;
+			entry.SetUp(this, console.TargetCard, access, null, false);
+			i++;
+		}
 		//update both card names
 		//update contained access on target card
 		//update displayed cardholder name
@@ -86,7 +108,8 @@ public class GUI_IdConsole : NetTab
 			console.TargetCard.accessSyncList.Contains((int)Access.change_ids))
 		{
 			console.LoggedIn = true;
-			//switch page
+			pageSwitcher.SetActivePage(mainPage);
+			UpdateScreen();
 		}
 		//No access to console
 	}
@@ -95,7 +118,12 @@ public class GUI_IdConsole : NetTab
 	{
 		RemoveTargetCard();
 		console.LoggedIn = false;
-		//switch page
+		pageSwitcher.SetActivePage(loginPage);
+	}
+
+	public void CloseTab()
+	{
+		ControlTabs.CloseTab(Type, Provider);
 	}
 }
 
