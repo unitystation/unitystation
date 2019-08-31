@@ -9,11 +9,10 @@ using UnityEngine.UI;
 /// </summary>
 public class ShuttleConsole : NBHandApplyInteractable
 {
-    public string interactionMessage;
-    public MatrixMove ShuttleMatrixMove;
+	public MatrixMove ShuttleMatrixMove;
 
     public TabStateEvent OnStateChange;
-    private TabState state = TabState.None;
+    private TabState state = TabState.Normal;
     public TabState State
     {
 	    get { return state; }
@@ -56,10 +55,6 @@ public class ShuttleConsole : NBHandApplyInteractable
     protected override void ServerPerformInteraction(HandApply interaction)
     {
 	    //apply emag
-	    if ( State == TabState.None )
-	    {
-		    State = TabState.Normal;
-	    }
 	    switch ( State )
 	    {
 		    case TabState.Normal:
@@ -77,7 +72,7 @@ public class ShuttleConsole : NBHandApplyInteractable
 }
 public enum TabState
 {
-	None, Normal, Emagged, Off
+	Normal, Emagged, Off
 }
 /// <inheritdoc />
 /// "If you wish to use a generic UnityEvent type you must override the class type."
