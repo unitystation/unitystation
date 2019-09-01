@@ -24,7 +24,7 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 
 	public bool Interact(PositionalHandApply interaction)
 	{
-  
+
 		var localRegisterPlayer = PlayerManager.LocalPlayer.GetComponent<RegisterPlayer>();
 		var localPlayerhealth = PlayerManager.LocalPlayer.GetComponent<PlayerHealth>();
 
@@ -70,12 +70,12 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 			if (tileMapLayer == null)
 			{
 				lps.weaponNetworkActions.CmdRequestMeleeAttackSlot(gameObject,
-					UIManager.Hands.CurrentSlot.eventName, dir, UIManager.DamageZone, LayerType.None);
+					UIManager.Hands.CurrentSlot.equipSlot, dir, UIManager.DamageZone, LayerType.None);
 			}
 			else
 			{
 				lps.weaponNetworkActions.CmdRequestMeleeAttackSlot(gameObjectRoot,
-					UIManager.Hands.CurrentSlot.eventName, dir, UIManager.DamageZone, tileMapLayer.LayerType);
+					UIManager.Hands.CurrentSlot.equipSlot, dir, UIManager.DamageZone, tileMapLayer.LayerType);
 			}
 
 			return true;

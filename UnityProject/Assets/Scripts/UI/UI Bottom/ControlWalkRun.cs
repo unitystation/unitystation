@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
-	public class ControlWalkRun : MonoBehaviour
+	public class ControlWalkRun : TooltipMonoBehaviour
 	{
 		private Image image;
 		public Sprite[] runWalkSprites;
+		public override string Tooltip => "run/walk toggle";
 
 		public bool running { get; private set; } = true;
 
@@ -14,13 +16,13 @@ using UnityEngine.UI;
 			image = GetComponent<Image>();
 		}
 
-		/* 
-		   * Button OnClick methods
-		   */
+		/*
+		* Button OnClick methods
+		*/
 
 		public void RunWalk()
 		{
-			Logger.Log("RunWalk Button",Category.UI);
+			Logger.Log("RunWalk Button", Category.UI);
 
 			SoundManager.Play("Click01");
 

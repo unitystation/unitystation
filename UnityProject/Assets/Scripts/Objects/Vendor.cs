@@ -38,12 +38,12 @@ public class Vendor : NBHandApplyInteractable
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		//Checking restock
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 		var restock = slot.Item?.GetComponentInChildren<VendingRestock>();
 		if (restock != null)
 		{
 			OnRestockUsed?.Invoke();
-			InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
+			InventoryManager.ClearInvSlot(slot);
 		}
 	}
 }

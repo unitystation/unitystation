@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using DatabaseAPI;
 using UnityEngine;
 using WebSocketSharp;
 using WebSocketSharp.Net;
@@ -37,7 +38,7 @@ public class RconManager : RconConsole
 
 	float monitorUpdate = 0f;
 
-	private void OnEnable()
+	void Start()
 	{
 		Instance.Init();
 	}
@@ -55,24 +56,24 @@ public class RconManager : RconConsole
 		Logger.Log("Init RconManager", Category.Rcon);
 		DontDestroyOnLoad(rconManager.gameObject);
 		fpsMonitor = GetComponent<FPSMonitor>();
-		string filePath = Application.streamingAssetsPath + "/config/config.json";
 
-		try
+		if (ServerData.ServerConfig == null)
 		{
-			string result = System.IO.File.ReadAllText(filePath);
-			if (string.IsNullOrEmpty(result))
+			Logger.Log("No server config found: rcon", Category.Rcon);
+			Destroy(gameObject);
+		}
+		else
+		{
+			config = ServerData.ServerConfig;
+			if (string.IsNullOrEmpty(config.RconPass) || config.RconPort == 0)
 			{
-				Logger.Log("No server config found: rcon", Category.Rcon);
+				Logger.Log("Invalid Rcon config, please check your RconPass and RconPort values", Category.Rcon);
 				Destroy(gameObject);
 			}
-
-			config = JsonUtility.FromJson<ServerConfig>(result);
-			StartServer();
-		}
-		catch
-		{
-			Logger.Log("config failed to load", Category.Rcon);
-			Destroy(gameObject);
+			else
+			{
+				StartServer();
+			}
 		}
 	}
 
@@ -192,14 +193,19 @@ public class RconManager : RconConsole
 
 	private static void BroadcastToSessions(string msg, IEnumerable<IWebSocketSession> sessions)
 	{
-		foreach(var conn in sessions){
-			if(conn == null){
+		foreach (var conn in sessions)
+		{
+			if (conn == null)
+			{
 				continue;
 			}
-			if(conn.ConnectionState != WebSocketState.Closing || 
-			conn.ConnectionState != WebSocketState.Closed){
+			if (conn.ConnectionState != WebSocketState.Closing ||
+				conn.ConnectionState != WebSocketState.Closed)
+			{
 				conn.Context.WebSocket.Send(msg);
-			} else {
+			}
+			else
+			{
 				Logger.LogFormat("Do not broadcast to (connection not ready): {0}", Category.Rcon, conn.ID);
 			}
 		}
@@ -212,8 +218,8 @@ public class RconManager : RconConsole
 		return $"FPS Stats: Current: {Instance.fpsMonitor.Current} Average: {Instance.fpsMonitor.Average}" +
 			$" Admins Online: " + Instance.monitorHost.Sessions.Count;
 
-			// return $"FPS Stats: Current: {Instance.fpsMonitor.Current} Average: {Instance.fpsMonitor.Average}" +
-			// $" GC MEM: {GC.GetTotalMemory( false ) / 1024 / 1024} MB  Admins Online: " + Instance.monitorHost.Sessions.Count;
+		// return $"FPS Stats: Current: {Instance.fpsMonitor.Current} Average: {Instance.fpsMonitor.Average}" +
+		// $" GC MEM: {GC.GetTotalMemory( false ) / 1024 / 1024} MB  Admins Online: " + Instance.monitorHost.Sessions.Count;
 	}
 
 	public static string GetLastLog()
@@ -317,13 +323,6 @@ public class RconPlayerList : WebSocketBehavior
 			Send(playerList);
 		}
 	}
-}
-
-public class ServerConfig
-{
-	public string RconPass;
-	public int RconPort;
-	public string certKey;
 }
 
 [Serializable]

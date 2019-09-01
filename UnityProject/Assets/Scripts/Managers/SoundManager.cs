@@ -14,13 +14,12 @@ public class SoundManager : MonoBehaviour
 
 	private readonly Dictionary<string, string[]> soundPatterns = new Dictionary<string, string[]>();
 
-	public List<AudioSource> ambientTracks = new List<AudioSource>();
+	private List<AudioSource> ambientTracks = new List<AudioSource>();
+	public AudioSource ambientTrack => ambientTracks[0];
 
 	// Use this for initialization
 	//public AudioSource[] sounds;
 	public List<AudioSource> musicTracks = new List<AudioSource>();
-
-	public int ambientPlaying { get; private set; }
 
 	public static SoundManager Instance
 	{
@@ -170,7 +169,7 @@ public class SoundManager : MonoBehaviour
 	/// Play sound locally.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void Play(string name, float volume, float pitch = -1, float time = 0, bool oneShot = false)
+	public static void Play(string name, float volume, float pitch = -1, float time = 0, bool oneShot = false, float pan = 0)
 	{
 		name = Instance.ResolveSoundPattern(name);
 		if (pitch > 0)
@@ -179,8 +178,23 @@ public class SoundManager : MonoBehaviour
 		}
 		Instance.sounds[name].time = time;
 		Instance.sounds[name].volume = volume;
-		Play(name, oneShot);
+		Instance.sounds[name].panStereo = pan;
+		Play( name, oneShot );
 	}
+
+	/// <summary>
+	/// Gets the sound for playing locally and allowing full control over it without
+	/// having to go through sound manager. For playing local sounds only (such as in UI).
+	/// </summary>
+	/// <param name="name">Accepts "#" wildcards for sound variations. (Example: "Punch#")</param>
+	/// <returns>audiosource of the sound</returns>
+	public static AudioSource GetSound(string name)
+	{
+		name = Instance.ResolveSoundPattern(name);
+		return Instance.sounds[name];
+	}
+
+
 
 	/// <summary>
 	/// Play sound locally.
@@ -285,32 +299,13 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-	public static void PlayVarAmbient(int variant)
+	public static void PlayAmbience()
 	{
-		//TODO ADD MORE AMBIENT VARIANTS
-		if (variant == 0)
-		{
-			//Station ambience with announcement at start
-			Instance.ambientTracks[2].Stop();
-			Instance.ambientTracks[0].Play();
-			Instance.ambientTracks[1].Play();
-			Instance.ambientPlaying = 1;
-		}
-		if (variant == 1)
-		{
-			Instance.ambientTracks[0].Stop();
-			Instance.ambientTracks[1].Play();
-			Instance.ambientTracks[2].Play();
-			Instance.ambientPlaying = 1;
-		}
+		//Station hum
+		Instance.ambientTrack.Play();
 
-		if (variant == 2)
-		{
-			Instance.ambientTracks[2].Stop();
-			Instance.ambientTracks[3].Play();
-			Instance.ambientTracks[1].Play();
-			Instance.ambientPlaying = 1;
-		}
+		//Random introduction sound
+		Play( "Ambient#" );
 	}
 
 	/// <summary>

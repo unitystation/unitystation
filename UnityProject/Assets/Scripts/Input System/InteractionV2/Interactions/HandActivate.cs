@@ -32,7 +32,7 @@ public class HandActivate : Interaction
 	public static HandActivate ByLocalPlayer()
 	{
 		return new HandActivate(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item,
-			HandSlot.ForName(UIManager.Hands.CurrentSlot.eventName));
+			HandSlot.ForName(UIManager.Hands.CurrentSlot.equipSlot));
 	}
 
 	/// <summary>

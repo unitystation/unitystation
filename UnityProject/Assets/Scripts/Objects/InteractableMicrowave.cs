@@ -33,7 +33,7 @@ public class InteractableMicrowave : Interactable<HandApply>
 
 		if (meal)
 		{
-			interaction.Performer.GetComponent<PlayerNetworkActions>().CmdStartMicrowave(interaction.HandSlot.SlotName, gameObject, meal.name);
+			interaction.Performer.GetComponent<PlayerNetworkActions>().CmdStartMicrowave(interaction.HandSlot.equipSlot, gameObject, meal.name);
 			interaction.HandObject.BroadcastMessage("OnRemoveFromInventory", null, SendMessageOptions.DontRequireReceiver);
 		}
 	}

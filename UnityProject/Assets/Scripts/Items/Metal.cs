@@ -13,14 +13,15 @@ public class Metal : NBHandActivateInteractable
 
 	protected override void ServerPerformInteraction(HandActivate interaction)
 	{
-		startBuilding(interaction.Performer, interaction.Performer.transform.position);
+		startBuilding(interaction);
 	}
 
 	[Server]
-	private void startBuilding(GameObject originator, Vector3 position)
+	private void startBuilding(HandActivate interaction)
 	{
 		if (!isBuilding)
 		{
+			var position = interaction.Performer.transform.position;
 			var progressFinishAction = new FinishProgressAction(
 				reason =>
 				{
@@ -30,21 +31,22 @@ public class Metal : NBHandActivateInteractable
 					}
 					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
 					{
-						BuildGirder(position);
+						BuildGirder(interaction, position);
 					}
 				}
 			);
 			isBuilding = true;
-			UIManager.ProgressBar.StartProgress(position.RoundToInt(), 5f, progressFinishAction, originator);
+			UIManager.ProgressBar.StartProgress(position.RoundToInt(), 5f, progressFinishAction, interaction.Performer);
 		}
 	}
 
 	[Server]
-	private void BuildGirder(Vector3 position)
+	private void BuildGirder(HandActivate interaction, Vector3 position)
 	{
 		PoolManager.PoolNetworkInstantiate(girderPrefab, position);
 		isBuilding = false;
-		GetComponent<Pickupable>().DisappearObject();
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+		GetComponent<Pickupable>().DisappearObject(slot);
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 
 	}

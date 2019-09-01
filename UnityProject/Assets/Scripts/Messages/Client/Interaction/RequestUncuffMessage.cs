@@ -41,7 +41,7 @@ public class RequestUncuffMessage : ClientMessage
 			}
 		);
 
-		var restraint = playerToUncuff.GetComponent<PlayerNetworkActions>().Inventory["handcuffs"]?.Item?.GetComponent<Restraint>();
+		var restraint = playerToUncuff.GetComponent<PlayerNetworkActions>().Inventory[EquipSlot.handcuffs]?.Item?.GetComponent<Restraint>();
 
 		if (restraint)
 			UIManager.ProgressBar.StartProgress(actor.transform.position, restraint.RemoveTime, finishProgressAction, actor);

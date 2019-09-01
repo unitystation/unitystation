@@ -58,8 +58,8 @@ public class PlayerHealth : LivingHealthBehaviour
 			{
 				PlayerList.Instance.UpdateKillScore(LastDamagedBy, gameObject);
 			}
-			pna.DropItem("rightHand");
-			pna.DropItem("leftHand");
+			pna.DropItem(EquipSlot.rightHand);
+			pna.DropItem(EquipSlot.leftHand);
 
 			if (isServer)
 			{

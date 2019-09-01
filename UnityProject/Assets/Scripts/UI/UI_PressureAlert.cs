@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class UI_PressureAlert : MonoBehaviour
+public class UI_PressureAlert : TooltipMonoBehaviour
 {
+	public override string Tooltip => (activeImageIndex < 2) ? "Low Pressure" : "High Pressure";
+
 	public Sprite[] statusImages;
 	private int activeImageIndex = -1;
 
@@ -45,5 +48,4 @@ public class UI_PressureAlert : MonoBehaviour
 		activeImageIndex = index;
 		image.sprite = statusImages[index];
 	}
-
 }

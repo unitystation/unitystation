@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class OxygenButton : MonoBehaviour
+public class OxygenButton : TooltipMonoBehaviour
 {
 	private Image image;
 	public Sprite[] stateSprites;
 	public bool IsInternalsEnabled;
+	public override string Tooltip => "toggle internals";
 
 	void Awake()
 	{
 		image = GetComponent<Image>();
 		IsInternalsEnabled = false;
 	}
-	
+
 	void OnEnable()
 	{
 		EventManager.AddHandler(EVENT.EnableInternals, OnEnableInternals);

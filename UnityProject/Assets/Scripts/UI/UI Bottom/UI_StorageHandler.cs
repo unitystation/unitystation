@@ -36,7 +36,7 @@ public class UI_StorageHandler : MonoBehaviour
 			itemSlot.eventName = "inventory" + i;
 			itemSlot.maxItemSize = storageCache.maxItemSize;
 			itemSlot.inventorySlot = storageCache.storageSlots.inventorySlots[i];
-			storageCache.storageSlots.inventorySlots[i].SlotName = itemSlot.eventName;
+			itemSlot.equipSlot = itemSlot.inventorySlot.equipSlot;
 			localSlotCache.Add(itemSlot);
 			InventorySlotCache.Add(itemSlot);
 			if(itemSlot.Item != null){

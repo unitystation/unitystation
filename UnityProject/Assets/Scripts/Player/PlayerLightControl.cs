@@ -28,15 +28,15 @@ public class PlayerLightControl : NetworkBehaviour
 {
 	public LightEmissionPlayer LightEmission;
 
-	public HashSet<string> CompatibleSlots = new HashSet<string>() {
-		"leftHand",
-		"rightHand",
-		"suitStorage",
-		"belt",
-		"back",
-		"storage01",
-		"storage02",
-		"suitStorage",
+	public HashSet<EquipSlot> CompatibleSlots = new HashSet<EquipSlot>() {
+		EquipSlot.leftHand,
+		EquipSlot.rightHand,
+		EquipSlot.suitStorage,
+		EquipSlot.belt,
+		EquipSlot.back,
+		EquipSlot.storage01,
+		EquipSlot.storage02,
+		EquipSlot.suitStorage
 	};
 
 	public float Intensity;
@@ -49,10 +49,11 @@ public class PlayerLightControl : NetworkBehaviour
 
 	private void OnPickupServer(HandApply interaction)
 	{
-		InventorySlot Slot = InventoryManager.GetSlotFromItem(this.gameObject);
+		var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
+		InventorySlot Slot = InventoryManager.GetSlotFromItem(gameObject, pna);
 		if (Slot != null)
 		{
-			LightEmission = Slot.Owner.gameObject.GetComponent<LightEmissionPlayer>();
+			LightEmission = Slot.Owner.GetComponent<LightEmissionPlayer>();
 			LightEmission.AddLight(PlayerLightData);
 		}
 	}
@@ -87,7 +88,7 @@ public class PlayerLightControl : NetworkBehaviour
 		{
 			if (slot.IsUISlot)
 			{
-				if (!(CompatibleSlots.Contains(slot.SlotName)))
+				if (!(CompatibleSlots.Contains(slot.equipSlot)))
 				{
 					LightEmission.RemoveLight(PlayerLightData);
 				}

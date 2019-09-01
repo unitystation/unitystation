@@ -30,7 +30,7 @@ public class RequestPositionalHandApplyMessage : ClientMessage
 		//look up item in active hand slot
 		var clientPNA = SentByPlayer.Script.playerNetworkActions;
 		var usedSlot = HandSlot.ForName(clientPNA.activeHand);
-		var usedObject = clientPNA.Inventory[usedSlot.SlotName].Item;
+		var usedObject = clientPNA.Inventory[usedSlot.equipSlot].Item;
 		yield return WaitFor(TargetObject, ProcessorObject);
 		var targetObj = NetworkObjects[0];
 		var processorObj = NetworkObjects[1];

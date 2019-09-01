@@ -631,7 +631,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: FloatEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: FloatEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &1250167258751120
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,6 +838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca0ba768e05049559770488b1bedbd93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EntryPrefab: {fileID: 0}
   Range: 160
   Origin: {fileID: 0}
 --- !u!1 &1261512884334850
@@ -1322,6 +1323,7 @@ MonoBehaviour:
   isPopOut: 0
   Provider: {fileID: 0}
   Type: 1
+  CoordReadout: {fileID: 1286891109983827235}
 --- !u!1 &1608340126526448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1531,7 +1533,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: BoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: BoolEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &1661767596591212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1843,7 +1845,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: BoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: BoolEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &1725628103696136
 GameObject:
   m_ObjectHideFlags: 0
@@ -2515,7 +2517,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: StringEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: StringEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &1921458009582788
 GameObject:
   m_ObjectHideFlags: 0
@@ -2796,7 +2798,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: BoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_TypeName: BoolEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &1949954308834350
 GameObject:
   m_ObjectHideFlags: 0
@@ -3828,7 +3830,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xText: {fileID: 831780012878950400}
   yText: {fileID: 1858465741210649376}
-  shuttleControlScript: {fileID: 114343398355056170}
 --- !u!1 &4255657136823872669
 GameObject:
   m_ObjectHideFlags: 0

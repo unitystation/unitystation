@@ -239,7 +239,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 		if (interaction.HandObject != null && !IsClosed)
 		{
 			PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-			pna.CmdPlaceItem(interaction.HandSlot.SlotName, registerTile.WorldPosition, null, false);
+			pna.CmdPlaceItem(interaction.HandSlot.equipSlot, registerTile.WorldPosition, null, false);
 		}
 		else if (!IsLocked)
 		{

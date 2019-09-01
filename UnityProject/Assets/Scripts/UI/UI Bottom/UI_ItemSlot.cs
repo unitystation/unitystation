@@ -6,17 +6,27 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
+public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 {
 	public bool allowAllItems;
 	public List<ItemType> allowedItemTypes;
 	public string eventName;
+	public string hoverName;
+	public EquipSlot equipSlot;
+	[HideInInspector]
+	public InventorySlot inventorySlot;
 
 	[HideInInspector]
 	public Image image;
 
 	private Image secondaryImage; //For sprites that require two images
 	public ItemSize maxItemSize;
+
+	/// pointer is over the actual item in the slot due to raycast target
+	public override string Tooltip => Item.GetComponent<ItemAttributes>().itemName;
+
+	/// set back to the slot name since the pointer is still over the slot background
+	public override string ExitTooltip => hoverName;
 
 	public GameObject Item
 	{
@@ -30,16 +40,9 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		}
 	}
 
-	public bool IsFull => Item != null;
-
-	//Inventoryslot theifing is prevented by the UUID system
-	//(clients don't know what other clients UUID's are and all slots are server authorative with validation checks)
-	public InventorySlot inventorySlot { get; set; }
-
-	private void Awake()
-	{
+	private void Awake() {
+		inventorySlot = new InventorySlot(equipSlot, true, gameObject);
 		image = GetComponent<Image>();
-		inventorySlot = new InventorySlot(System.Guid.Empty, eventName, true);
 		secondaryImage = GetComponentsInChildren<Image>()[1];
 		secondaryImage.alphaHitTestMinimumThreshold = 0.5f;
 		secondaryImage.enabled = false;
@@ -50,7 +53,6 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	private void OnEnable()
 	{
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
-		SetSlotOnEnable();
 	}
 
 	private void OnDisable()
@@ -64,14 +66,6 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		image.sprite = null;
 		image.enabled = false;
 
-	}
-
-	void SetSlotOnEnable()
-	{
-		if (!InventoryManager.AllClientInventorySlots.Contains(inventorySlot))
-		{
-			InventoryManager.AllClientInventorySlots.Add(inventorySlot);
-		}
 	}
 
 	/// <summary>
@@ -163,6 +157,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		return item;
 	}
 
+/*
 	/// <summary>
 	///     Clientside check for dropping/placing objects from inventory slot
 	/// </summary>
@@ -170,7 +165,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	{
 		return IsFull && UIManager.SendUpdateAllowed(Item);
 	}
-
+ */
 	/// <summary>
 	///     clientside simulation of placement
 	/// </summary>
@@ -236,7 +231,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 	public void TryItemInteract()
 	{
 		// Clicked on another slot other than hands
-		if (eventName != "leftHand" && eventName != "rightHand")
+		if (equipSlot != EquipSlot.leftHand && equipSlot != EquipSlot.rightHand)
 		{
 			// If full, attempt to interact the two, otherwise swap
 			if (Item != null)
@@ -255,7 +250,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 			}
 		}
 		// If there is an item and the hand is interacting in the same slot
-		if (Item != null && UIManager.Hands.CurrentSlot.eventName == eventName)
+		if (Item != null && UIManager.Hands.CurrentSlot.equipSlot == equipSlot)
 		{
 			//check IF2 logic first
 			var interactables = Item.GetComponents<IInteractable<HandActivate>>()
@@ -271,7 +266,7 @@ public class UI_ItemSlot : MonoBehaviour, IDragHandler, IEndDragHandler
 		}
 		else
 		{
-			if (UIManager.Hands.CurrentSlot.eventName != eventName)
+			if (UIManager.Hands.CurrentSlot.equipSlot != equipSlot)
 			{
 				//Clicked on item with otherslot selected
 				if (UIManager.Hands.OtherSlot.Item != null)

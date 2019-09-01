@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-	public class ZoneSelector : MonoBehaviour
+	public class ZoneSelector : TooltipMonoBehaviour
 	{
 		public Sprite[] selectorSprites;
 		public Image selImg;
+		public override string Tooltip => "damage zone";
+
 		private void Start()
 		{
 			// Select the chest initially
