@@ -76,7 +76,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3365708065215268791
@@ -252,7 +252,18 @@ MonoBehaviour:
   spriteRenderer: {fileID: 3188862863326134089}
   screenGlow: {fileID: 3366091159237444427}
   onSprites:
-  - {fileID: 21300172, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+    Texture: {fileID: 2800000, guid: ea3d7a73d36bc38438a8d26de687b679, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: ea3d7a73d36bc38438a8d26de687b679, type: 3}
+    - {fileID: 21300002, guid: ea3d7a73d36bc38438a8d26de687b679, type: 3}
+    - {fileID: 21300004, guid: ea3d7a73d36bc38438a8d26de687b679, type: 3}
+    - {fileID: 21300006, guid: ea3d7a73d36bc38438a8d26de687b679, type: 3}
+    - {fileID: 21300008, guid: ea3d7a73d36bc38438a8d26de687b679, type: 3}
+    - {fileID: 21300010, guid: ea3d7a73d36bc38438a8d26de687b679, type: 3}
+    - {fileID: 21300012, guid: ea3d7a73d36bc38438a8d26de687b679, type: 3}
+    - {fileID: 21300014, guid: ea3d7a73d36bc38438a8d26de687b679, type: 3}
+    - {fileID: 21300016, guid: ea3d7a73d36bc38438a8d26de687b679, type: 3}
+    EquippedData: {fileID: 4900000, guid: 1472e6e776e86224b92126a58353acda, type: 3}
 --- !u!114 &5210483117512304919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,6 +345,15 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
 --- !u!1 &3365832635514216189
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,7 +422,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300002, guid: a0327c18abc5440adaa5ce474cf1c4ba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7779458ea9d5364488e6f65566722ec2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

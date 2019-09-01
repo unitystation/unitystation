@@ -22,10 +22,6 @@ public class SpriteSheetAndData
 
 	public void setSprites()
 	{
-		//Logger.Log("o3o");
-
-
-
 		if (Texture != null)
 		{
 #if UNITY_EDITOR

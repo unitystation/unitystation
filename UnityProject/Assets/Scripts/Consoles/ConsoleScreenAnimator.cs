@@ -12,8 +12,7 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	public float timeBetweenFrames = 0.1f;
 	public SpriteRenderer spriteRenderer;
 	public GameObject screenGlow;
-	public Sprite[] onSprites;
-
+	public SpriteSheetAndData onSprites;
 	private int sIndex = 0;
 
 	private void ToggleOn(bool turnOn)
@@ -48,12 +47,11 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 			ToggleOn(false);
 		}
 		else {
-			ToggleOn(true);
-		}
+			if (isOn != true) { 
+				isOn = true;
+				StartCoroutine(Animator());
+			}
 
-		if (!stateInit)
-		{
-			stateInit = true;
 		}
 	}
 
@@ -66,9 +64,9 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 
 		while (isOn)
 		{
-			spriteRenderer.sprite = onSprites[sIndex];
+			spriteRenderer.sprite = onSprites.Sprites[sIndex];
 			sIndex++;
-			if (sIndex == onSprites.Length)
+			if (sIndex == onSprites.Sprites.Length)
 			{
 				sIndex = 0;
 			}

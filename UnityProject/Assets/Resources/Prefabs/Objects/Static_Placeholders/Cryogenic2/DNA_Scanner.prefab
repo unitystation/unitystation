@@ -166,7 +166,7 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   playerLimit: 1
   statusSync: 0
-  doorOpened: {fileID: 21300012, guid: edb878353e4ae4062978273e8fca40e2, type: 3}
+  doorOpened: {fileID: 21300000, guid: fe32ef034620a70419a70fce6f2e99ef, type: 3}
   spriteRenderer: {fileID: 212360857505739792}
   occupant: {fileID: 0}
   statusString: 
@@ -343,8 +343,112 @@ MonoBehaviour:
   Infos:
     spriteIndex: 0
     VariantIndex: 0
-    AID: 0
-    Serialized: []
+    AID: 27
+    Serialized:
+    - inlistID: 2
+      listID: 3
+      sprite: {fileID: 21300000, guid: a04b8478cd5128343955dfd27c1e107f, type: 3}
+      waitTime: 0.2
+    - inlistID: 2
+      listID: 4
+      sprite: {fileID: 21300002, guid: a04b8478cd5128343955dfd27c1e107f, type: 3}
+      waitTime: 0.2
+    - inlistID: 1
+      listID: 2
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 1
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 6
+      listID: 7
+      sprite: {fileID: 21300000, guid: 0c001c28fc3f6bb49829a948f5ec139b, type: 3}
+      waitTime: 0
+    - inlistID: 5
+      listID: 6
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 5
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 9
+      listID: 10
+      sprite: {fileID: 21300000, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
+      waitTime: 0.1
+    - inlistID: 9
+      listID: 11
+      sprite: {fileID: 21300002, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
+      waitTime: 0.1
+    - inlistID: 9
+      listID: 12
+      sprite: {fileID: 21300004, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
+      waitTime: 0.1
+    - inlistID: 9
+      listID: 13
+      sprite: {fileID: 21300006, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
+      waitTime: 0.1
+    - inlistID: 8
+      listID: 9
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 8
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 15
+      listID: 16
+      sprite: {fileID: 21300000, guid: fe32ef034620a70419a70fce6f2e99ef, type: 3}
+      waitTime: 0.2
+    - inlistID: 15
+      listID: 17
+      sprite: {fileID: 21300002, guid: fe32ef034620a70419a70fce6f2e99ef, type: 3}
+      waitTime: 0.2
+    - inlistID: 14
+      listID: 15
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 14
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 19
+      listID: 20
+      sprite: {fileID: 21300000, guid: e5496b09241b8cb4f97de9c4026f904c, type: 3}
+      waitTime: 0
+    - inlistID: 18
+      listID: 19
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 18
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 22
+      listID: 23
+      sprite: {fileID: 21300000, guid: adbd8f0ee776c3f409f3d3b0b60c6916, type: 3}
+      waitTime: 0
+    - inlistID: 21
+      listID: 22
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 21
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 25
+      listID: 26
+      sprite: {fileID: 21300000, guid: d576437aea8f9b04a80ff4fd7f9a5dc0, type: 3}
+      waitTime: 0
+    - inlistID: 24
+      listID: 25
+      sprite: {fileID: 0}
+      waitTime: 0
+    - inlistID: 0
+      listID: 24
+      sprite: {fileID: 0}
+      waitTime: 0
   spriteList:
   - {fileID: 21300000, guid: a04b8478cd5128343955dfd27c1e107f, type: 3}
   - {fileID: 21300000, guid: 0c001c28fc3f6bb49829a948f5ec139b, type: 3}

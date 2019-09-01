@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections;
+
 
 /// <summary>
 /// Handles logic related to unicloths, which require special logic for instantiation because
@@ -9,14 +11,16 @@ using UnityEngine.Networking;
 /// </summary>
 public class ClothFactory : NetworkBehaviour
 {
-	private static ClothFactory Instance;
+	public static ClothFactory Instance;
 
 
 	public GameObject uniCloth;
 	public GameObject uniBackpack;
 	public GameObject uniHeadSet;
-	//private GameObject uniHeadSet { get; set; }
-	//private GameObject uniBackPack { get; set; }
+
+	public Dictionary<string, ClothingData> ClothingStoredData = new Dictionary<string, ClothingData>();
+	public Dictionary<string, ContainerData> BackpackStoredData = new Dictionary<string, ContainerData>();
+	public Dictionary<string, HeadsetData> HeadSetStoredData = new Dictionary<string, HeadsetData>();
 
 	private void Awake()
 	{
@@ -32,6 +36,8 @@ public class ClothFactory : NetworkBehaviour
 		}
 
 	}
+
+
 
 	//private void Start()
 	//{
@@ -83,6 +89,7 @@ public class ClothFactory : NetworkBehaviour
 		var Item = clothObj.GetComponent<ItemAttributes>();
 		var Headset = clothObj.GetComponent<Headset>();
 		_Clothing.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
+		_Clothing.SetSynchronise(HD : headsetData);
 		Item.SetUpFromClothingData(headsetData.Sprites, headsetData.ItemAttributes);
 		Headset.EncryptionKey = headsetData.Key.EncryptionKey;
 		return clothObj;
@@ -105,6 +112,7 @@ public class ClothFactory : NetworkBehaviour
 		var Storage = clothObj.GetComponent<StorageObject>();
 		_Clothing.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(ContainerData.Sprites.Equipped);
 		Item.SetUpFromClothingData(ContainerData.Sprites, ContainerData.ItemAttributes);
+		_Clothing.SetSynchronise(ConD: ContainerData);
 		Storage.SetUpFromStorageObjectData(ContainerData.StorageData);
 		return clothObj;
 	}
@@ -126,6 +134,7 @@ public class ClothFactory : NetworkBehaviour
 		var _Clothing = clothObj.GetComponent<Clothing>();
 		var Item = clothObj.GetComponent<ItemAttributes>();
 		_Clothing.SpriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(ClothingData, _Clothing);
+		_Clothing.SetSynchronise(CD: ClothingData);
 		Item.SetUpFromClothingData(ClothingData.Base, ClothingData.ItemAttributes);
 		switch (CVT)
 		{
@@ -146,6 +155,7 @@ public class ClothFactory : NetworkBehaviour
 				break;
 
 		}
+		clothObj.name = ClothingData.name;
 		return clothObj;
 
 	}

@@ -61,7 +61,7 @@ public class Equipment : NetworkBehaviour
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
 			var clothItem = clothingSlots[i];
-			EquipmentSpritesMessage.SendTo(gameObject, i, clothItem.reference, recipient, null);
+			EquipmentSpritesMessage.SendTo(gameObject, i, clothItem.reference, recipient, clothItem.GameObjectReference);
 		}
 	}
 

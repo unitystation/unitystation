@@ -17,13 +17,15 @@ public class ClothingItem : MonoBehaviour
 
 	public int reference = -1;
 	private int referenceOffset;
-	public Color color;
+	public Color color = Color.white;
 
 	public SpriteHandler spriteHandler;
 	//public SpriteRenderer spriteRenderer;
 	private Sprite[] sprites;
 
 	public string spriteSheetName;
+
+	public GameObject GameObjectReference;
 
 	//choice between left or right or other(clothing)
 	public SpriteHandType spriteType;
@@ -65,8 +67,8 @@ public class ClothingItem : MonoBehaviour
 
 	public void SetReference(int value, GameObject Item)
 	{
-		//Logger.Log("value" + value.ToString());
-		reference = value;
+		UpdateReferenceOffset();
+		Logger.Log("Received!!" + this.name);
 		if (Item == null)
 		{
 			if (spriteHandler != null) //need to remove 
@@ -77,7 +79,8 @@ public class ClothingItem : MonoBehaviour
 		}
 		if (Item != null)
 		{
-
+			GameObjectReference = Item;
+			Logger.Log("DD!!" + Item.name);
 			//Logger.Log("is here!");
 			if (spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand)
 			{
@@ -95,46 +98,19 @@ public class ClothingItem : MonoBehaviour
 			}
 			else {
 				var clothing = Item.GetComponent<Clothing>();
+				Logger.Log("1");
 				if (clothing != null)
 				{
+					Logger.Log("2");
+					clothing.Start(); //lagyy?
+					Logger.Log(clothing.clothingData.name + "o3o");
 					spriteHandler.Infos = clothing.SpriteInfo;
 					spriteHandler.ChangeSprite(clothing.ReturnState(ClothingVariantType.Default));
 					spriteHandler.PushTexture();
 				}
 			}
-
-
-
 		}
-
-		//if (reference == -1)
-		//{
-		//	//UpdateSprite();
-		//	return;
-		//}
-
-		//if (spriteType != SpriteHandType.Other)
-		//{
-		//	string networkRef = reference.ToString();
-		//	int code = (int)char.GetNumericValue(networkRef[0]);
-		//	switch (code)
-		//	{
-		//		case 1:
-		//			spriteSheetName = "items_";
-		//			break;
-		//		case 2:
-		//			spriteSheetName = "clothing_";
-		//			break;
-		//		case 3:
-		//			spriteSheetName = "guns_";
-		//			break;
-		//	}
-
-		//}
-
-		//sprites = SpriteManager.PlayerSprites[spriteSheetName];
-
-		//UpdateSprite();
+		UpdateReferenceOffset();
 	}
 
 	private void UpdateReferenceOffset()
@@ -174,25 +150,5 @@ public class ClothingItem : MonoBehaviour
 			}
 
 		}
-
-		if (reference == -1)
-		{
-			//spriteRenderer.sprite = null;
-			return;
-		}
-
-		int index = referenceOffset;
-		if (spriteType != SpriteHandType.Other)
-		{
-			string networkRef = reference.ToString();
-			networkRef = networkRef.Remove(0, 1);
-			index += int.Parse(networkRef);
-		}
-		else
-		{
-			index += reference;
-		}
-		//spriteRenderer.sprite = sprites[index];
 	}
-
 }

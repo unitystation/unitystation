@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300200, guid: a0327c18abc5440adaa5ce474cf1c4ba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -127,7 +127,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -147,7 +147,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300002, guid: a0327c18abc5440adaa5ce474cf1c4ba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7779458ea9d5364488e6f65566722ec2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -301,6 +301,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scanner: {fileID: 0}
+  cloningPod: {fileID: 0}
+  consoleGUI: {fileID: 0}
 --- !u!114 &114178605300182066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,28 +347,31 @@ MonoBehaviour:
   spriteRenderer: {fileID: 212203174912977006}
   screenGlow: {fileID: 1753008131445868}
   onSprites:
-  - {fileID: 21300172, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300174, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300176, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300178, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300180, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300182, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300184, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300186, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300188, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300190, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300192, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300194, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300196, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300198, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300200, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300202, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300204, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300206, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300208, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300210, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300212, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300214, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+    Texture: {fileID: 2800000, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300002, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300004, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300006, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300008, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300010, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300012, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300014, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300016, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300018, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300020, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300022, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300024, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300026, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300028, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300030, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300032, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300034, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300036, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300038, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300040, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    - {fileID: 21300042, guid: 2f6a6c30caab1064489fd035d6a41c69, type: 3}
+    EquippedData: {fileID: 4900000, guid: 8a966cd16a6ae3d42b95615351251a9d, type: 3}
 --- !u!114 &7421829385032138288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,6 +453,15 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
 --- !u!1 &1753008131445868
 GameObject:
   m_ObjectHideFlags: 0

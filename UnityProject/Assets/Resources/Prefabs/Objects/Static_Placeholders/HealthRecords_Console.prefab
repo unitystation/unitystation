@@ -268,34 +268,29 @@ MonoBehaviour:
   spriteRenderer: {fileID: 212379632270881212}
   screenGlow: {fileID: 1570216273209756}
   onSprites:
-  - {fileID: 21300220, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300222, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300224, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300226, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300228, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300230, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300232, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300234, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300236, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300238, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300240, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300242, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300244, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300246, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300248, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300250, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300252, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300254, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300256, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300258, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300260, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300262, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300264, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300266, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300268, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300270, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300272, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
-  - {fileID: 21300274, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+    Texture: {fileID: 2800000, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300002, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300004, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300006, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300008, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300010, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300012, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300014, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300016, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300018, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300020, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300022, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300024, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300026, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300028, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300030, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300032, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300034, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300036, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    - {fileID: 21300038, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+    EquippedData: {fileID: 4900000, guid: 9f403ee45301a864db1a925655a951b2, type: 3}
 --- !u!114 &2716908385991569337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +359,15 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
 --- !u!1 &1866982737474172
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,7 +436,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300002, guid: 23cac5d228c549fb907782b9c77359f6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7779458ea9d5364488e6f65566722ec2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -519,6 +523,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
