@@ -17,6 +17,11 @@ public class APCPoweredDevice : NetworkBehaviour
 	[SyncVar(hook = nameof(UpdateSynchronisedState))]
 	public PowerStates State;
 
+	public override void OnStartClient()
+	{
+		UpdateSynchronisedState((State));
+	}
+
 	void Start()
 	{
 		if (Wattusage > 0)
