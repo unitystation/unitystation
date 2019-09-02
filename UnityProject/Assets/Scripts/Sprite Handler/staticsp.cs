@@ -92,9 +92,9 @@ public static class StaticSpriteHandler
 				SpriteInfos.Add(new List<SpriteHandlerData.SpriteInfo>());
 				SpriteInfos[0].Add(info);
 			}
-			else {
-				Logger.LogError("HELP!!!!!");
-			}
+			//else {
+			//	Logger.LogError("HELP!!!!!");
+			//}
 		}
 		return (SpriteInfos);
 	}

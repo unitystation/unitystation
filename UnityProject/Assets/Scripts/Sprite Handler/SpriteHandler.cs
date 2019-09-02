@@ -152,15 +152,18 @@ public class SpriteHandler : SpriteHandlerData
 		{
 			if (spriteIndex != newSprites)
 			{
-				spriteIndex = newSprites;
-				animationIndex = 0;
-				SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
-				if (Infos.List[spriteIndex][VariantIndex].Count > 1)
+				if (!(VariantIndex >= Infos.List[newSprites].Count))
 				{
-					UpdateManager.Instance.Add(UpdateMe);
-				}
-				else {
-					UpdateManager.Instance.Remove(UpdateMe);
+					spriteIndex = newSprites;
+					animationIndex = 0;
+					SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
+					if (Infos.List[spriteIndex][VariantIndex].Count > 1)
+					{
+						UpdateManager.Instance.Add(UpdateMe);
+					}
+					else {
+						UpdateManager.Instance.Remove(UpdateMe);
+					}
 				}
 			}
 		}

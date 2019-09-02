@@ -103,7 +103,6 @@ public class ClothingItem : MonoBehaviour
 				{
 					Logger.Log("2");
 					clothing.Start(); //lagyy?
-					Logger.Log(clothing.clothingData.name + "o3o");
 					spriteHandler.Infos = clothing.SpriteInfo;
 					spriteHandler.ChangeSprite(clothing.ReturnState(ClothingVariantType.Default));
 					spriteHandler.PushTexture();
