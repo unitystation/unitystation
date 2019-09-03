@@ -276,6 +276,18 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckHover()
 	{
+		//can only hover on things within FOV
+		if (lightingSystem.enabled && !lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
+		{
+			if (lastHoveredThing)
+			{
+				lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
+			}
+
+			lastHoveredThing = null;
+			return;
+		}
+
 		var hit = MouseUtils.GetOrderedObjectsUnderMouse(layerMask).FirstOrDefault();
 		if (hit != null)
 		{
