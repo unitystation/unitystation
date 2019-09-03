@@ -65,7 +65,7 @@ public class PoolManager : NetworkBehaviour
 		}
 		else
 		{
-			
+
 			Destroy(gameObject);
 		}
 	}
@@ -247,6 +247,35 @@ public class PoolManager : NetworkBehaviour
 		}
 
 		return tempObject;
+
+	}
+
+	/// <summary>
+	/// FOR DEV / TESTING ONLY! Simulates destroying and recreating an item by putting it in the pool and taking it back
+	/// out again. Can use this to validate that the object correctly re-initializes itself after spawning -
+	/// no state should be left over from its previous incarnation.
+	/// </summary>
+	/// <returns>the re-created object</returns>
+	public static GameObject PoolNetworkTestDestroyInstantiate(GameObject target)
+	{
+		if (!IsInstanceInit())
+		{
+			return null;
+		}
+
+		var objBehavior = target.GetComponent<ObjectBehaviour>();
+		if (objBehavior == null)
+		{
+			Logger.LogErrorFormat("{0} has no ObjectBehavior thus cannot be pooled.", Category.ItemSpawn, target.name);
+		}
+		//save previous position
+		var worldPos = objBehavior.AssumedWorldPositionServer();
+
+		//this simulates going into the pool
+		target.BroadcastMessage("GoingOffStage", SendMessageOptions.DontRequireReceiver);
+		objBehavior.VisibleState = false;
+
+
 
 	}
 
