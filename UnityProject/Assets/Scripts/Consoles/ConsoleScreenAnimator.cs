@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 {
-	private bool isOn = true;
+	private bool isOn;
+	//whether we received our initial power state
+	private bool stateInit;
 
 	public float timeBetweenFrames = 0.1f;
 	public SpriteRenderer spriteRenderer;
@@ -13,23 +16,21 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 
 	private int sIndex = 0;
 
-	private void Start()
+	private void ToggleOn(bool turnOn)
 	{
-		ToggleOn(isOn, true);
-	}
-
-	private void ToggleOn(bool turnOn, bool forceToggle = false)
-	{
-		if (turnOn && (!isOn || forceToggle))
+		if (turnOn && (!isOn || !stateInit))
 		{
 			isOn = true;
 			sIndex = 0;
 			StartCoroutine(Animator());
 		}
-		else if (!turnOn && (isOn || forceToggle))
+		else if (!turnOn && (isOn || !stateInit))
 		{
 			isOn = false;
-			spriteRenderer.enabled = false;
+			//an unknown evil is enabling the spriteRenderer when power is initially off on client side
+			//even though we disable it in this component. So to turn off the screen we just clear the sprite
+			//rather than enabling / disabling the renderer.
+			spriteRenderer.sprite = null;
 			if (screenGlow != null)
 			{
 				screenGlow.SetActive(false);
@@ -49,6 +50,11 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 		else {
 			ToggleOn(true);
 		}
+
+		if (!stateInit)
+		{
+			stateInit = true;
+		}
 	}
 
 	IEnumerator Animator()
@@ -57,7 +63,7 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 		{
 			screenGlow.SetActive(true);
 		}
-		spriteRenderer.enabled = true;
+
 		while (isOn)
 		{
 			spriteRenderer.sprite = onSprites[sIndex];
