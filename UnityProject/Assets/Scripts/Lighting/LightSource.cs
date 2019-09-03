@@ -160,6 +160,9 @@ public class LightSource : ObjectTrigger
 
 	}
 
+	//broadcast target - invoked so lights can register themselves with this APC in
+	//LightSwitch.DetectLightsAndAction. There must be a better way to do this that doesn't rely
+	//on broadcasting.
 	public void EmergencyLight(LightSwitchData Received)
 	{
 		if (gameObject.tag == "EmergencyLight")
@@ -167,10 +170,8 @@ public class LightSource : ObjectTrigger
 			var emergLightAnim = gameObject.GetComponent<EmergencyLightAnimator>();
 			if (emergLightAnim != null)
 			{
-				if (!Received.RelatedAPC.ConnectedEmergencyLights.Contains(emergLightAnim))
-				{
-					Received.RelatedAPC.ConnectedEmergencyLights.Add(emergLightAnim);
-				}
+				Received.RelatedAPC.ConnectEmergencyLight(emergLightAnim);
+
 			}
 		}
 
