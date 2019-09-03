@@ -595,34 +595,35 @@ public class CharacterSettings
 	public string Name = "Cuban Pete";
 	public Gender Gender = Gender.Male;
 	public int Age = 22;
-	public int hairStyleOffset = -1;
-	public string hairStyleName = "Bald";
-	public int hairCollectionIndex = 4;
-	public string hairColor = "black";
-	public string eyeColor = "black";
-	public int facialHairOffset = -1;
-	public string facialHairName = "Shaved";
-	public int facialHairCollectionIndex = 4;
-	public string facialHairColor = "black";
-	public string skinTone = "#ffe0d1";
-	public int underwearOffset = 20;
-	public string underwearName = "Mankini";
-	public int underwearCollectionIndex = 1;
-	public int socksOffset = 376;
-	public string socksName = "Knee-High (Freedom)";
-	public int socksCollectionIndex = 3;
+	public int hairStyleOffset = -1; //Stuff needs to be changed will be #
+	public string hairStyleName = "Bald"; //#
+	public int hairCollectionIndex = 4; //#
+	public string hairColor = "black"; //#
+	public string eyeColor = "black";  //#
+	public int facialHairOffset = -1; //#
+	public string facialHairName = "Shaved"; //#
+	public int facialHairCollectionIndex = 4; //#
+	public string facialHairColor = "black"; //#?
+	public string skinTone = "#ffe0d1"; 
+	public int underwearOffset = 20; //# 
+	public string underwearName = "Mankini"; //# 
+	public int underwearCollectionIndex = 1; //#
+	public int socksOffset = 376; //# 
+	public string socksName = "Knee-High (Freedom)"; //# 
+	public int socksCollectionIndex = 3; //#
 
-	int maleHeadIndex = 20;
-	int femaleHeadIndex = 24;
-	int maleTorsoIndex = 28;
-	int femaleTorsoIndex = 32;
+	int maleHeadIndex = 20; //# n
+	int femaleHeadIndex = 24; //# n 
+	int maleTorsoIndex = 28; //# n 
+	int femaleTorsoIndex = 32; //# n
 
-	public int headSpriteIndex = 20;
-	public int torsoSpriteIndex = 28;
-	public int rightLegSpriteIndex = 12;
-	public int leftLegSpriteIndex = 16;
-	public int rightArmSpriteIndex = 4;
-	public int leftArmSpriteIndex = 8;
+	public int headSpriteIndex = 20; //# n
+	public int torsoSpriteIndex = 28; //# n 
+	public int rightLegSpriteIndex = 12; //# n
+	public int leftLegSpriteIndex = 16; //# n
+	public int rightArmSpriteIndex = 4; //# n
+	public int leftArmSpriteIndex = 8; //# n
+	//add Reference to player race Data
 
 	public void LoadHairSetting(SpriteAccessory hair)
 	{

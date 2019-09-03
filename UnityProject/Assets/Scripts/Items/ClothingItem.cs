@@ -114,6 +114,7 @@ public class ClothingItem : MonoBehaviour
 
 	private void UpdateReferenceOffset()
 	{
+		//Logger.Log("UpdateReferenceOffset" + currentDirection);
 		if (currentDirection == Orientation.Down)
 		{
 			referenceOffset = 0;
@@ -136,6 +137,7 @@ public class ClothingItem : MonoBehaviour
 
 	public void UpdateSprite()
 	{
+		//Logger.Log("UpdateSprite");
 		//Logger.Log(this.name);
 		//Logger.Log("A");
 		if (spriteHandler != null)
@@ -144,7 +146,6 @@ public class ClothingItem : MonoBehaviour
 			if (spriteHandler.Infos != null)
 			{
 				//Logger.Log("C");
-				//spriteHandler.
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
 			}
 

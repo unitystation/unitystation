@@ -94,6 +94,11 @@ public class SpriteHandler : SpriteHandlerData
 			}
 			SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
 		}
+		if (!(Infos.List[spriteIndex][VariantIndex].Count > 1))
+		{
+			UpdateManager.Instance.Remove(UpdateMe);
+		}
+
 	}
 
 	public void SyncVariantIndex(int _VariantIndex)
@@ -141,6 +146,7 @@ public class SpriteHandler : SpriteHandlerData
 
 	void SetSprite(SpriteInfo animationStills)
 	{
+		//Logger.Log("Pushed");
 		timeElapsed = 0;
 		waitTime = animationStills.waitTime;
 		spriteRenderer.sprite = animationStills.sprite;
@@ -171,17 +177,20 @@ public class SpriteHandler : SpriteHandlerData
 
 	public void ChangeSpriteVariant(int SpriteVariant)
 	{
+		//Logger.Log("Updating " + SpriteVariant);
 		//Logger.Log(spriteIndex + " < > " + Infos.List.Count);
 		//Logger.Log(SpriteVariant + " < > " + Infos.List[spriteIndex].Count);
 		if (!(spriteIndex >= Infos.List.Count))
 		{
 			if (!(SpriteVariant >= Infos.List[spriteIndex].Count))
 			{
-				SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
+				//Logger.Log("Setting " + spriteIndex + " " +  SpriteVariant + " " + animationIndex);
+				SetSprite(Infos.List[spriteIndex][SpriteVariant][animationIndex]);
 				if (VariantIndex != SpriteVariant)
 				{
 					animationIndex = 0;
 					VariantIndex = SpriteVariant;
+
 					if (Infos.List[spriteIndex][VariantIndex].Count > 1)
 					{
 						UpdateManager.Instance.Add(UpdateMe);
