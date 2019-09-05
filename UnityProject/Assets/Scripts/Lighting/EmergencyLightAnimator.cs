@@ -20,9 +20,6 @@ public class EmergencyLightAnimator : MonoBehaviour
 	{
 		lightSource = GetComponent<LightSource>();
 		lightSource.customColor = lightColor;
-	}
-	void Start()
-	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 	}
 

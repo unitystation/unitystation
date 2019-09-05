@@ -16,7 +16,8 @@ public class APC  : NBHandApplyInteractable, INodeControl
 	/// <summary>
 	/// The current voltage of this APC. Calls OnVoltageChange when changed.
 	/// </summary>
-	[SyncVar (hook=nameof(SetVoltage))] private float voltageSync = 0;
+	[SyncVar (hook=nameof(SyncVoltage))] private float voltageSync;
+	private bool voltageInit;
 
 	public bool PowerMachinery = true;
 	public bool PowerLights = true;
@@ -24,20 +25,8 @@ public class APC  : NBHandApplyInteractable, INodeControl
 	public bool BatteryCharging = false;
 	public int CashOfConnectedDevices = 0;
 
-	public float Voltage
-	{
-		get
-		{
-			return voltageSync;
-		}
-		private set
-		{
-			if(value != voltageSync)
-			{
-				voltageSync = value;
-			}
-		}
-	}
+	public float Voltage => voltageSync;
+
 	public float Current;
 
 	public ElectricalNodeControl ElectricalNodeControl;
@@ -47,33 +36,25 @@ public class APC  : NBHandApplyInteractable, INodeControl
 	/// <summary>
 	/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
 	/// </summary>
-	private void SetVoltage(float newVoltage)
+	private void SyncVoltage(float newVoltage)
 	{
-		Voltage = newVoltage;
+		//optimization - do nothing if voltage already initialized and is unchanged
+		if (voltageSync == newVoltage && voltageInit) return;
+		voltageSync = newVoltage;
 		UpdateDisplay();
 	}
 
-	 private void OnStartServer()
+	public override void OnStartServer()
 	{
-		SetVoltage(this.voltageSync);
-
-		//if extending another component
-		base.OnStartServer();
+		SyncVoltage(voltageSync);
+		voltageInit = true;
 	}
 
 	public override void OnStartClient()
 	{
-		base.OnStartClient();
-		SetVoltage(this.voltageSync);
-		StartCoroutine(WaitForLoad());
+		SyncVoltage(voltageSync);
+		voltageInit = true;
 	}
-
-	IEnumerator WaitForLoad()
-	{
-		yield return WaitFor.Seconds(2f);
-		SetVoltage(voltageSync);
-	}
-
 
 	private void OnDisable()
 	{
@@ -100,7 +81,7 @@ public class APC  : NBHandApplyInteractable, INodeControl
 				BatteryCharging = true;
 			}
 		}
-		Voltage = ElectricalNodeControl.Node.Data.ActualVoltage;
+		SyncVoltage(ElectricalNodeControl.Node.Data.ActualVoltage);
 		Current = ElectricalNodeControl.Node.Data.CurrentInWire;
 		HandleDevices();
 		UpdateDisplay();
@@ -348,7 +329,7 @@ public class APC  : NBHandApplyInteractable, INodeControl
 	/// <summary>
 	/// The list of emergency lights connected to this APC
 	/// </summary>
-	public List<EmergencyLightAnimator> ConnectedEmergencyLights = new List<EmergencyLightAnimator>();
+	private List<EmergencyLightAnimator> ConnectedEmergencyLights = new List<EmergencyLightAnimator>();
 
 	/// <summary>
 	/// Dictionary of all the light switches and their lights connected to this APC
@@ -390,6 +371,20 @@ public class APC  : NBHandApplyInteractable, INodeControl
 			}
 		}
 	}
+
+	/// <summary>
+	/// Register the light with this APC, so that it will be toggled based on emergency status
+	/// </summary>
+	/// <param name="newLight"></param>
+	public void ConnectEmergencyLight(EmergencyLightAnimator newLight)
+	{
+		if (!ConnectedEmergencyLights.Contains(newLight))
+		{
+			ConnectedEmergencyLights.Add(newLight);
+			SetEmergencyLights(EmergencyState);
+		}
+	}
+
 	/// <summary>
 	/// Set the state of the emergency lights associated with this APC
 	/// </summary>

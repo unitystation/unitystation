@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -17,8 +18,24 @@ public class APCPoweredDevice : NetworkBehaviour
 	[SyncVar(hook = nameof(UpdateSynchronisedState))]
 	public PowerStates State;
 
+	public override void OnStartClient()
+	{
+		UpdateSynchronisedState(State);
+	}
+
+	public override void OnStartServer()
+	{
+		UpdateSynchronisedState(State);
+	}
+
+	private void Awake()
+	{
+		Powered = gameObject.GetComponent<IAPCPowered>();
+	}
+
 	void Start()
 	{
+		Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
 		if (Wattusage > 0)
 		{
 			Resistance = 240 / (Wattusage / 240);
@@ -33,7 +50,6 @@ public class APCPoweredDevice : NetworkBehaviour
 				RelatedAPC.ConnectedDevices.Add(this);
 			}
 		}
-		Powered = gameObject.GetComponent<IAPCPowered>();
 	}
 	public void APCBroadcastToDevice(APC APC)
 	{
@@ -98,7 +114,12 @@ public class APCPoweredDevice : NetworkBehaviour
 			}
 		}
 	}
-	public void UpdateSynchronisedState(PowerStates _State) {
+	private void UpdateSynchronisedState(PowerStates _State) {
+		if (_State != State)
+		{
+			Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), State, _State);
+		}
+
 		State = _State;
 		if (Powered != null)
 		{

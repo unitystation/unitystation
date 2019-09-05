@@ -7,14 +7,21 @@ public class DNAscanner : ClosetControl, IAPCPowered
 {
 	public LivingHealthBehaviour occupant;
 	public string statusString;
-	[SyncVar(hook = nameof(SyncPowered))] public bool powered;
+	public bool Powered => powered;
+	[SyncVar(hook = nameof(SyncPowered))] private bool powered;
+	//tracks whether we've recieved our first power update from electriciy.
+	//allows us to avoid  syncing power when it is unchanged
+	private bool powerInit;
+
 	public Sprite closedWithOccupant;
 	public Sprite doorClosedPowerless;
 	public Sprite doorOpenPowerless;
 
 	public override void OnStartServer()
 	{
+		base.OnStartServer();
 		statusString = "Ready to scan.";
+		SyncPowered(powered);
 	}
 
 	public override void OnStartClient()
@@ -91,14 +98,12 @@ public class DNAscanner : ClosetControl, IAPCPowered
 
 	}
 
-	public void SyncPowered(bool value)
+	private void SyncPowered(bool value)
 	{
-		powered = value;
-		SyncSprite(statusSync);
-	}
+		//does nothing if power is unchanged and
+		//we've already init'd
+		if (powered == value && powerInit) return;
 
-	private void SetPowered(bool value)
-	{
 		powered = value;
 		if(!powered)
 		{
@@ -107,6 +112,7 @@ public class DNAscanner : ClosetControl, IAPCPowered
 				IsLocked = false;
 			}
 		}
+		SyncSprite(statusSync);
 	}
 
 	public void PowerNetworkUpdate(float Voltage)
@@ -117,11 +123,16 @@ public class DNAscanner : ClosetControl, IAPCPowered
 	{
 		if (State == PowerStates.Off || State == PowerStates.LowVoltage)
 		{
-			SetPowered(false);
+			SyncPowered(false);
 		}
 		else
 		{
-			SetPowered(true);
+			SyncPowered(true);
+		}
+
+		if (!powerInit)
+		{
+			powerInit = true;
 		}
 	}
 

@@ -10,9 +10,9 @@ namespace DatabaseAPI
 {
     /// <summary>
     /// If activated on a server then it will update the
-    /// unitystation rest api with the status of this server
+    /// unitystation rest api with the status of this server.
     /// To gain access to the unitystation hub for your server
-    /// speak to unitystation staff on discord
+    /// speak to unitystation staff on discord.
     /// </summary>
     public partial class ServerData
     {
@@ -36,6 +36,7 @@ namespace DatabaseAPI
         private const string hubLogin = hubRoot + "/login?data=";
         private const string hubUpdate = hubRoot + "/statusupdate?data=";
         private float updateWait = 0f;
+        private string publicIP;
 
         void AttemptConfigLoad()
         {
@@ -89,6 +90,7 @@ namespace DatabaseAPI
                     string s = r.GetResponseHeader("set-cookie");
                     hubCookie = s.Split(';') [0];
                     Logger.Log("Hub connected successfully", Category.DatabaseAPI);
+                    publicIP = new System.Net.WebClient().DownloadString("http://ipinfo.io/ip");
                     connectedToHub = true;
                 }
                 else
@@ -117,12 +119,12 @@ namespace DatabaseAPI
             status.BuildVersion = buildInfo.BuildNumber;
             status.CurrentMap = SceneManager.GetActiveScene().name;
             status.GameMode = GameManager.Instance.gameMode.ToString();
-            status.IngameTime = GameManager.Instance.stationTime.ToShortTimeString();
+            status.IngameTime = GameManager.Instance.roundTimer.text;
             if (PlayerList.Instance != null)
             {
                 status.PlayerCount = PlayerList.Instance.ConnectionCount;
             }
-            status.ServerIP = CustomNetworkManager.Instance.networkAddress;
+            status.ServerIP = publicIP;
             status.ServerPort = CustomNetworkManager.Instance.networkPort;
             status.WinDownload = config.WinDownload;
             status.OSXDownload = config.OSXDownload;
