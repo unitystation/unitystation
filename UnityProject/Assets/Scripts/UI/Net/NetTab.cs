@@ -17,6 +17,7 @@ public enum NetTabType {
 	SecurityRecords = 9,
 	Canister = 10,
 	Comms = 11,
+	IdConsole = 12,
 	//add your tabs here
 }
 /// Descriptor for unique Net UI Tab

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class IdConsole : NBHandApplyInteractable
 {
 	public IdConsoleUpdateEvent OnConsoleUpdate = new IdConsoleUpdateEvent();
-	public IDCard UserCard;
+	public IDCard AccessCard;
 	public IDCard TargetCard;
 	public bool LoggedIn;
 
@@ -35,8 +35,8 @@ public class IdConsole : NBHandApplyInteractable
 		{
 			InsertCard(handIDCard);
 		}
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
-		InventoryManager.UpdateInvSlot(true, "", interaction.HandObject, slot.UUID);
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+		InventoryManager.ClearInvSlot(slot);
 		UpdateGUI();
 	}
 
@@ -57,11 +57,11 @@ public class IdConsole : NBHandApplyInteractable
 		}
 		else
 		{
-			if (UserCard)
+			if (AccessCard)
 			{
-				EjectCard(UserCard);
+				EjectCard(AccessCard);
 			}
-			TargetCard = cardToInsert;
+			AccessCard = cardToInsert;
 		}
 	}
 
