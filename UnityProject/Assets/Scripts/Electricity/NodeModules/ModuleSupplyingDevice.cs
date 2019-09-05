@@ -19,7 +19,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 			ElectricalUpdateTypeCategory.PowerUpdateStructureChangeReact,
 			ElectricalUpdateTypeCategory.PowerUpdateCurrentChange,
 			ElectricalUpdateTypeCategory.TurnOnSupply,
-			ElectricalUpdateTypeCategory.TurnOffSupply, 
+			ElectricalUpdateTypeCategory.TurnOffSupply,
 			ElectricalUpdateTypeCategory.PowerNetworkUpdate,
 			ElectricalUpdateTypeCategory.PotentialDestroyed,
 			ElectricalUpdateTypeCategory.GoingOffStage,
@@ -65,7 +65,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		}
 	}
 
-	public override void GoingOffStage() { 
+	public override void GoingOffStageServer() {
 		ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
 		ControllingNode.Node.FlushSupplyAndUp(this.gameObject);
 	}

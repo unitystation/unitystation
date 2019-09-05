@@ -10,17 +10,8 @@ using Object = System.Object;
 /// Provides the general-purpose ability to create / destroy / colone objects and instances of prefabs, network synced, while using object pooling
 /// for some kinds of objects. Even if the object is not pooled, this should still be used to spawn / despawn / clone it.
 ///
-/// Notes on Spawn / Clone Hooks:
-/// When an object is spawned in game, each component is broadcast OnSpawnedServer on the server and then OnSpawnedClient on the
-/// client. This allows the component to set itself up after being spawned in a good "default" state that "just works".
-/// What that entails is up to the object / component.
-///
-/// When an object is cloned in game, each component is broadcast OnClonedServer on the server and then OnClonedClient on
-/// the client. This method also includes the game object that was cloned. This allows the component to
-/// inspect the cloned object and change its own state to match the object. It's up to each component / object to
-/// decide how to do this.
-///
-/// Neither of these will be called when spawning only a client-side object (via PoolClientInstantiate).
+/// Notes on Lifecycle - there are various lilfecycle stages components can hook into by implementing the
+/// appropriate interface. see TODO link to wiki
 /// </summary>
 public class PoolManager : NetworkBehaviour
 {
@@ -78,7 +69,7 @@ public class PoolManager : NetworkBehaviour
 	/// <param name="prefab">Prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
 	/// be surprised if it doesn't as there are LOTS of prefabs in the game which all have unique behavior for how they should spawn. If you are trying
 	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
-	/// properly implemented a OnSpawnedServer and OnSpawnedClient method.</param>
+	/// properly implemented necessary lifecycle methods.</param>
 	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
@@ -103,7 +94,7 @@ public class PoolManager : NetworkBehaviour
 		}
 
 		//fire the hooks for spawning
-		tempObject.GetComponent<CustomNetTransform>()?.FireSpawnHooks();
+		tempObject.GetComponent<CustomNetTransform>()?.FireGoingOnStageHooks();
 
 		return tempObject;
 	}
@@ -114,7 +105,7 @@ public class PoolManager : NetworkBehaviour
 	/// <param name="prefabName">Name of the prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
 	/// be surprised if it doesn't as there are LOTS of prefabs in the game which all have unique behavior for how they should spawn. If you are trying
 	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
-	/// properly implemented a OnSpawnedServer and OnSpawnedClient method.</param>
+	/// properly implemented a GoingOnStageServer and GoingOnStageClient method.</param>
 	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
@@ -136,8 +127,7 @@ public class PoolManager : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Spawn the item locally without syncing it over the network. OnSpawnedServer and OnSpawnedClient hooks will
-	/// not be called as this is only used for client side things.
+	/// Spawn the item locally without syncing it over the network. Only client-side lifecycle hooks will be called.
 	/// </summary>
 	/// <param name="prefab">Prefab to spawn an instance of. </param>
 	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
@@ -153,7 +143,18 @@ public class PoolManager : NetworkBehaviour
 			return null;
 		}
 		bool isPooled; // not used for Client-only instantiation
-		return Instance.PoolInstantiate(prefab, position ?? TransformState.HiddenPos, rotation ?? Quaternion.identity, parent, out isPooled);
+		var go = Instance.PoolInstantiate(prefab, position ?? TransformState.HiddenPos, rotation ?? Quaternion.identity, parent, out isPooled);
+		//fire client side lifecycle hooks
+		var hooks = go.GetComponents<IOnStageClient>();
+		if (hooks != null)
+		{
+			foreach (var hook in hooks)
+			{
+				hook.GoingOnStageClient();
+			}
+		}
+
+		return go;
 	}
 
 	/// <summary>
@@ -172,30 +173,49 @@ public class PoolManager : NetworkBehaviour
 		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior
 		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
 		var objBehavior = target.GetComponent<ObjectBehaviour>();
+		var cnt = target.GetComponent<CustomNetTransform>();
+		if (cnt)
+		{
+			cnt.FireGoingOffStageHooks();
+		}
+		else
+		{
+			Logger.LogWarningFormat("Attempting to network destroy object {0} at {1} but this object" +
+			                        " has no CustomNetTransform. Lifecycle hooks will be bypassed. This is" +
+			                        " most likely a mistake as any objects which sync over the network" +
+			                        " should have a CNT.", Category.ItemSpawn, target.name, objBehavior.AssumedWorldPositionServer());
+		}
 		if (poolPrefabTracker != null && objBehavior != null)
 		{
 			//pooled
-			target.BroadcastMessage("GoingOffStage", SendMessageOptions.DontRequireReceiver);
 			Instance.AddToPool(target);
 			objBehavior.VisibleState = false;
 		}
 		else
 		{
 			//not pooled
-			target.BroadcastMessage("GoingOffStage", SendMessageOptions.DontRequireReceiver);
 			NetworkServer.Destroy(target);
 		}
 
 	}
 
 	/// <summary>
-	///     For non network stuff only! (e.g. bullets)
+	///     For non network stuff only! (e.g. bullets). Only client side lifecycle hooks will be called
 	/// </summary>
 	public static void PoolClientDestroy(GameObject target)
 	{
 		if (!IsInstanceInit())
 		{
 			return;
+		}
+
+		var hooks = target.GetComponents<IOffStageClient>();
+		if (hooks != null)
+		{
+			foreach (var hook in hooks)
+			{
+				hook.GoingOffStageClient();
+			}
 		}
 		Instance.AddToPool(target);
 		target.SetActive(false);
@@ -253,6 +273,7 @@ public class PoolManager : NetworkBehaviour
 	/// no state should be left over from its previous incarnation.
 	/// </summary>
 	/// <returns>the re-created object</returns>
+	[Server]
 	public static GameObject PoolNetworkTestDestroyInstantiate(GameObject target)
 	{
 		if (!IsInstanceInit())
@@ -268,10 +289,18 @@ public class PoolManager : NetworkBehaviour
 		//save previous position
 		var worldPos = objBehavior.AssumedWorldPositionServer();
 
-		//TODO: Must have hooks for client and server side
-
 		//this simulates going into the pool
-		target.BroadcastMessage("GoingOffStage", SendMessageOptions.DontRequireReceiver);
+		var cnt = target.GetComponent<CustomNetTransform>();
+		if (cnt)
+		{
+			cnt.FireGoingOffStageHooks();
+		}
+		else
+		{
+			Logger.LogWarningFormat("Object {0} at {1} has no CustomNetTransform, lifecycle hooks will" +
+			                  " not be fired. This is most likely a mistake as almost all networked objects should" +
+			                  " have a CNT.", Category.ItemSpawn, target.name, worldPos);
+		}
 		objBehavior.VisibleState = false;
 
 		//this simulates coming back out of the pool
@@ -279,14 +308,12 @@ public class PoolManager : NetworkBehaviour
 		objBehavior.VisibleState = true;
 
 		target.transform.position = worldPos;
-		var cnt = target.GetComponent<CustomNetTransform>();
-		if ( cnt )
+		if (cnt)
 		{
 			cnt.ReInitServerState();
 			cnt.NotifyPlayers(); //Sending out clientState for already spawned items
+			cnt.FireGoingOnStageHooks();
 		}
-
-		target.BroadcastMessage("GoingOnStage", SendMessageOptions.DontRequireReceiver);
 
 		return target;
 	}
@@ -416,7 +443,6 @@ public class PoolManager : NetworkBehaviour
 			pooledInstance = false;
 		}
 
-		tempObject.BroadcastMessage("GoingOnStage", SendMessageOptions.DontRequireReceiver);
 		return tempObject;
 
 	}

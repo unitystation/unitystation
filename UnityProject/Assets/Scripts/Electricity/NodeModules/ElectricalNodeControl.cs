@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class ElectricalNodeControl : NetworkBehaviour
+public class ElectricalNodeControl : NetworkBehaviour, IOffStageServer
 {
 	[SerializeField]
 	public InLineDevice Node;
@@ -59,9 +59,9 @@ public class ElectricalNodeControl : NetworkBehaviour
 			Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms = InternalResistance;
 		}
 		ElectricalSynchronisation.InitialiseResistanceChange.Add(this);
-			
+
 	}
-	public void RestoreResistance(PowerTypeCategory Connecting) { 
+	public void RestoreResistance(PowerTypeCategory Connecting) {
 		if (Node.InData.ConnectionReaction.ContainsKey(Connecting) && (ResistanceRestorepoints.ContainsKey(Connecting)))
 		{
 			Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms = ResistanceRestorepoints[Connecting];
@@ -79,14 +79,14 @@ public class ElectricalNodeControl : NetworkBehaviour
 			ElectricalSynchronisation.StructureChange = true;
 		}
 		UpObjectStateChange(tState);
-	
+
 	}
 
 
 	/// <summary>
 	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
 	/// </summary>
-	public void GoingOffStage() {
+	public void GoingOffStageServer() {
 		Node.FlushConnectionAndUp();
 		UpGoingOffStage();
 	}
@@ -193,17 +193,17 @@ public class ElectricalNodeControl : NetworkBehaviour
 		}
 	}
 
-	public void UpGoingOffStage() { 
+	public void UpGoingOffStage() {
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.GoingOffStage))
 		{
 			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.GoingOffStage])
 			{
-				UpdateDelegateDictionary[Module].GoingOffStage();
+				UpdateDelegateDictionary[Module].GoingOffStageServer();
 			}
 		}
 	}
 
-	public void UpObjectStateChange(ObjectState tState) { 
+	public void UpObjectStateChange(ObjectState tState) {
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ObjectStateChange))
 		{
 			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.ObjectStateChange])

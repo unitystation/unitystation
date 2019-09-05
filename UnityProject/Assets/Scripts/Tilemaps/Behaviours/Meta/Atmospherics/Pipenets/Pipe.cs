@@ -7,7 +7,7 @@ using Atmospherics;
 using Tilemaps.Behaviours.Meta;
 
 [RequireComponent(typeof(Pickupable))]
-public class Pipe : NetworkBehaviour
+public class Pipe : NetworkBehaviour, IOnStageServer
 {
 	public RegisterTile registerTile;
 	public ObjectBehaviour objectBehaviour;
@@ -54,7 +54,7 @@ public class Pipe : NetworkBehaviour
 		ServerInit();
 	}
 
-	void OnSpawnedServer()
+	public void GoingOnStageServer()
 	{
 		ServerInit();
 	}

@@ -577,22 +577,85 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	}
 
 	/// <summary>
-	/// Invokes the OnSpawnedServer (on the server) and OnSpawnedClient (on each client) hooks so each component can
+	/// Invokes the GoingOnStageServer (on the server) and GoingOnStageClient (on each client) hooks so each component can
 	/// initialize itself as / if needed
 	/// </summary>
 	[Server]
-	public void FireSpawnHooks()
+	public void FireGoingOnStageHooks()
 	{
-		//TODO: Don't use broadcast - use interface instead
-		BroadcastMessage("OnSpawnedServer", SendMessageOptions.DontRequireReceiver);
-		RpcFireSpawnHook();
+		var comps = GetComponents<IOnStageServer>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.GoingOnStageServer();
+			}
+		}
+
+		var clientComps = GetComponents<IOnStageClient>();
+		if (clientComps != null)
+		{
+			foreach (var comp in clientComps)
+			{
+				comp.GoingOnStageClient();
+			}
+		}
+		RpcFireGoingOnStageHook();
 	}
 
 	[ClientRpc]
-	private void RpcFireSpawnHook()
+	private void RpcFireGoingOnStageHook()
 	{
-		//TODO: Don't use broadcast - use interface instead
-		BroadcastMessage("OnSpawnedClient", SendMessageOptions.DontRequireReceiver);
+
+		var comps = GetComponents<IOnStageClient>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.GoingOnStageClient();
+			}
+		}
+	}
+
+	/// <summary>
+	/// Invokes the GoingOffStageServer (on the server) and GoingOffStageClient (on each client) hooks so each component can
+	/// clean up itself as / if needed
+	/// </summary>
+	[Server]
+	public void FireGoingOffStageHooks()
+	{
+		var comps = GetComponents<IOffStageServer>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.GoingOffStageServer();
+			}
+		}
+
+		var clientComps = GetComponents<IOffStageClient>();
+		if (clientComps != null)
+		{
+			foreach (var comp in clientComps)
+			{
+				comp.GoingOffStageClient();
+			}
+		}
+		RpcFireGoingOffStageHook();
+	}
+
+	[ClientRpc]
+	private void RpcFireGoingOffStageHook()
+	{
+
+		var comps = GetComponents<IOffStageClient>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.GoingOffStageClient();
+			}
+		}
 	}
 
 	/// <summary>
