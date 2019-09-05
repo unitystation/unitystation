@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using System.Text.RegularExpressions;
 
 namespace DatabaseAPI
 {
@@ -90,7 +91,9 @@ namespace DatabaseAPI
                     string s = r.GetResponseHeader("set-cookie");
                     hubCookie = s.Split(';') [0];
                     Logger.Log("Hub connected successfully", Category.DatabaseAPI);
-                    publicIP = new System.Net.WebClient().DownloadString("http://ipinfo.io/ip");
+                    r = UnityWebRequest.Get("http://ipinfo.io/ip");
+                    yield return r.SendWebRequest();
+                    publicIP = Regex.Replace(r.downloadHandler.text, @"\t|\n|\r", "");
                     connectedToHub = true;
                 }
                 else
