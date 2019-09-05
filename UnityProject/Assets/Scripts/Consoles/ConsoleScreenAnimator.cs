@@ -1,30 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 {
-	private bool isOn = true;
-	public bool IsOn
-	{
-		get { return isOn; }
-		set
-		{
-			if (value)
-			{
-				if (!isOn)
-				{
-					isOn = value;
-					sIndex = 0;
-					StartCoroutine(Animator());
-				}
-				else
-				{
-					isOn = value;
-				}
-			}
-		}
-	}
+	private bool isOn;
+	//whether we received our initial power state
+	private bool stateInit;
 
 	public float timeBetweenFrames = 0.1f;
 	public SpriteRenderer spriteRenderer;
@@ -33,15 +16,21 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 
 	private int sIndex = 0;
 
-	void Start()
+	private void ToggleOn(bool turnOn)
 	{
-		if (isOn)
+		if (turnOn && (!isOn || !stateInit))
 		{
+			isOn = true;
+			sIndex = 0;
 			StartCoroutine(Animator());
 		}
-		else
+		else if (!turnOn && (isOn || !stateInit))
 		{
-			spriteRenderer.enabled = false;
+			isOn = false;
+			//an unknown evil is enabling the spriteRenderer when power is initially off on client side
+			//even though we disable it in this component. So to turn off the screen we just clear the sprite
+			//rather than enabling / disabling the renderer.
+			spriteRenderer.sprite = null;
 			if (screenGlow != null)
 			{
 				screenGlow.SetActive(false);
@@ -56,10 +45,15 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	{
 		if (State == PowerStates.Off || State == PowerStates.LowVoltage)
 		{
-			isOn = false;
+			ToggleOn(false);
 		}
-		else { 
-			isOn = true;
+		else {
+			ToggleOn(true);
+		}
+
+		if (!stateInit)
+		{
+			stateInit = true;
 		}
 	}
 
@@ -69,7 +63,7 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 		{
 			screenGlow.SetActive(true);
 		}
-		spriteRenderer.enabled = true;
+
 		while (isOn)
 		{
 			spriteRenderer.sprite = onSprites[sIndex];
@@ -79,12 +73,6 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 				sIndex = 0;
 			}
 			yield return WaitFor.Seconds(timeBetweenFrames);
-		}
-		yield return WaitFor.EndOfFrame;
-		spriteRenderer.enabled = false;
-		if (screenGlow != null)
-		{
-			screenGlow.SetActive(false);
 		}
 	}
 }
