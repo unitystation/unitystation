@@ -41,6 +41,7 @@ public class GUI_IdConsoleEntry : DynamicEntry
 	private void SetButton(bool pressed)
 	{
 		displayedBg.SetValue = pressed ? "555555" : "ffffff";
+		//Not sure if we will want to color code buttons
 		/*
 		if (isAssignment)
 		{

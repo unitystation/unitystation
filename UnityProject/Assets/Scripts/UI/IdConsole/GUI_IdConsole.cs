@@ -67,9 +67,6 @@ public class GUI_IdConsole : NetTab
 			UpdateAssignList();
 		}
 		UpdateCardNames();
-		//update contained access on target card
-		//update displayed cardholder name
-		//update displayed cardholder assignment
 	}
 
 	private void UpdateLoginCardName()
@@ -106,6 +103,7 @@ public class GUI_IdConsole : NetTab
 		UpdateCardNames();
 	}
 
+	//This method is super slow - call it only if the list is empty
 	private void CreateAccessList()
 	{
 		for (int i = 0; i < IdConsoleManager.Instance.AccessCategories.Count; i++)
@@ -136,6 +134,7 @@ public class GUI_IdConsole : NetTab
 		}
 	}
 
+	//This method is super slow - call it only if the list is empty
 	private void CreateAssignList()
 	{
 		assignList.Clear();
@@ -214,14 +213,12 @@ public class GUI_IdConsole : NetTab
 	public void LogIn()
 	{
 		if (console.AccessCard != null &&
-			console.AccessCard.accessSyncList.Contains((int)Access.hop))
+			console.AccessCard.accessSyncList.Contains((int)Access.change_ids))
 		{
 			console.LoggedIn = true;
 			pageSwitcher.SetActivePage(usercardPage);
 			UpdateScreen();
 		}
-		Debug.Log("No access");
-		//No access to console
 	}
 
 	public void LogOut()
