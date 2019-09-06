@@ -8,5 +8,6 @@ public interface IOnStageClient
 	/// Lifecycle hook invoked on client side after object has spawned.
 	/// Object should initialize its state.
 	/// </summary>
-	void GoingOnStageClient();
+	/// <param name="info">info about how it is being spawned</param>
+	void GoingOnStageClient(OnStageInfo info);
 }

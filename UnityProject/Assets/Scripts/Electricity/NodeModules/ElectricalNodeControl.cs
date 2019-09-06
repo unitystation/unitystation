@@ -86,9 +86,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IOffStageServer
 	/// <summary>
 	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
 	/// </summary>
-	public void GoingOffStageServer() {
+	public void GoingOffStageServer(OffStageInfo info) {
 		Node.FlushConnectionAndUp();
-		UpGoingOffStage();
+		UpGoingOffStage(info);
 	}
 
 	public void TurnOnSupply()
@@ -193,12 +193,12 @@ public class ElectricalNodeControl : NetworkBehaviour, IOffStageServer
 		}
 	}
 
-	public void UpGoingOffStage() {
+	public void UpGoingOffStage(OffStageInfo info) {
 		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.GoingOffStage))
 		{
 			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.GoingOffStage])
 			{
-				UpdateDelegateDictionary[Module].GoingOffStageServer();
+				UpdateDelegateDictionary[Module].GoingOffStageServer(info);
 			}
 		}
 	}

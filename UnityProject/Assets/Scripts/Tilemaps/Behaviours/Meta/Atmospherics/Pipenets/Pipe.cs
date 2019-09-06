@@ -54,7 +54,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 		ServerInit();
 	}
 
-	public void GoingOnStageServer()
+	public void GoingOnStageServer(OnStageInfo info)
 	{
 		ServerInit();
 	}

@@ -65,7 +65,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		}
 	}
 
-	public override void GoingOffStageServer() {
+	public override void GoingOffStageServer(OffStageInfo info) {
 		ElectricalSynchronisation.RemoveSupply(ControllingNode, ControllingNode.ApplianceType);
 		ControllingNode.Node.FlushSupplyAndUp(this.gameObject);
 	}

@@ -150,7 +150,7 @@ public class PoolManager : NetworkBehaviour
 		{
 			foreach (var hook in hooks)
 			{
-				hook.GoingOnStageClient();
+				hook.GoingOnStageClient(OnStageInfo.Info());
 			}
 		}
 
@@ -209,14 +209,6 @@ public class PoolManager : NetworkBehaviour
 			return;
 		}
 
-		var hooks = target.GetComponents<IOffStageClient>();
-		if (hooks != null)
-		{
-			foreach (var hook in hooks)
-			{
-				hook.GoingOffStageClient();
-			}
-		}
 		Instance.AddToPool(target);
 		target.SetActive(false);
 	}

@@ -20,7 +20,7 @@ public class ElectricalModuleInheritance : MonoBehaviour, IOffStageServer
 	public virtual void TurnOffSupply() {
 	}
 
-	public virtual void GoingOffStageServer() {
+	public virtual void GoingOffStageServer(OffStageInfo info) {
 	}
 
 	public virtual void PowerUpdateStructureChange(){

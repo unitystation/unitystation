@@ -74,7 +74,7 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 		}
 	}
 
-	public override void GoingOffStageServer()
+	public override void GoingOffStageServer(OffStageInfo info)
 	{
 		ElectricalSynchronisation.PoweredDevices.Remove(ControllingNode);
 	}

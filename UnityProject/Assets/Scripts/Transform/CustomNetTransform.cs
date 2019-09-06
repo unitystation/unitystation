@@ -100,7 +100,7 @@ public struct TransformState {
 	}
 }
 
-public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //see UpdateManager
+public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IRightClickable //see UpdateManager
 {
 	private Vector3IntEvent onUpdateReceived = new Vector3IntEvent();
 	public Vector3IntEvent OnUpdateRecieved() {
@@ -588,7 +588,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		{
 			foreach (var comp in comps)
 			{
-				comp.GoingOnStageServer();
+				comp.GoingOnStageServer(OnStageInfo.Info());
 			}
 		}
 
@@ -597,7 +597,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		{
 			foreach (var comp in clientComps)
 			{
-				comp.GoingOnStageClient();
+				comp.GoingOnStageClient(OnStageInfo.Info());
 			}
 		}
 		RpcFireGoingOnStageHook();
@@ -612,13 +612,13 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		{
 			foreach (var comp in comps)
 			{
-				comp.GoingOnStageClient();
+				comp.GoingOnStageClient(OnStageInfo.Info());
 			}
 		}
 	}
 
 	/// <summary>
-	/// Invokes the GoingOffStageServer (on the server) and GoingOffStageClient (on each client) hooks so each component can
+	/// Invokes the GoingOffStageServer (on the server) hook so each component can
 	/// clean up itself as / if needed
 	/// </summary>
 	[Server]
@@ -629,33 +629,13 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		{
 			foreach (var comp in comps)
 			{
-				comp.GoingOffStageServer();
+				comp.GoingOffStageServer(OffStageInfo.Info());
 			}
 		}
-
-		var clientComps = GetComponents<IOffStageClient>();
-		if (clientComps != null)
-		{
-			foreach (var comp in clientComps)
-			{
-				comp.GoingOffStageClient();
-			}
-		}
-		RpcFireGoingOffStageHook();
-	}
-
-	[ClientRpc]
-	private void RpcFireGoingOffStageHook()
-	{
-
-		var comps = GetComponents<IOffStageClient>();
-		if (comps != null)
-		{
-			foreach (var comp in comps)
-			{
-				comp.GoingOffStageClient();
-			}
-		}
+		//NOTE: No client side off-stage hook because we wouldn't be able
+		//to ensure that the hook is called before Unet destroys the
+		//client-side object unless we implement a custom destruction
+		//syncing logic.
 	}
 
 	/// <summary>
@@ -675,5 +655,18 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	{
 		//TODO: Don't use broadcast - use interface instead
 		BroadcastMessage("OnClonedClient", clonedFrom, SendMessageOptions.DontRequireReceiver);
+	}
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		return RightClickableResult.Create()
+			.AddAdminElement("Respawn", AdminRespawn);
+	}
+
+	//simulates despawning and immediately respawning this object, expectation
+	//being that it should properly initialize itself regardless of its previous state.
+	private void AdminRespawn()
+	{
+		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject);
 	}
 }

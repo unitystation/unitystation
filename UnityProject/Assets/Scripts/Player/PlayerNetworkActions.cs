@@ -742,5 +742,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		toSmash.GetComponent<Integrity>().ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
 	}
 
+	//simulates despawning and immediately respawning this object, expectation
+	//being that it should properly initialize itself regardless of its previous state.
+	[Command]
+	public void CmdAdminRespawn(GameObject toRespawn)
+	{
+		PoolManager.PoolNetworkTestDestroyInstantiate(toRespawn);
+	}
+
 	#endregion
 }

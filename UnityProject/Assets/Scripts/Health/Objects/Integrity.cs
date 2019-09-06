@@ -19,7 +19,7 @@ using Object = System.Object;
 [RequireComponent(typeof(CustomNetTransform))]
 [RequireComponent(typeof(RegisterTile))]
 [RequireComponent(typeof(Meleeable))]
-public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable
+public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnStageServer
 {
 
 	/// <summary>
@@ -61,7 +61,7 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable
 
 	[SyncVar(hook = nameof(SyncOnFire))]
 	private bool onFire = false;
-	private BurningOverlay burningObjectOverlayOverlay;
+	private BurningOverlay burningObjectOverlay;
 
 	//TODO: Should probably replace the burning effect with a particle effect?
 	private static GameObject SMALL_BURNING_PREFAB;
@@ -94,15 +94,28 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable
 		isLarge = GetComponent<Pickupable>() == null;
 		if (Resistances.Flammable)
 		{
-			if (burningObjectOverlayOverlay == false)
+			if (burningObjectOverlay == false)
 			{
-				burningObjectOverlayOverlay = GameObject.Instantiate(isLarge ? LARGE_BURNING_PREFAB : SMALL_BURNING_PREFAB, transform)
+				burningObjectOverlay = GameObject.Instantiate(isLarge ? LARGE_BURNING_PREFAB : SMALL_BURNING_PREFAB, transform)
 					.GetComponent<BurningOverlay>();
 			}
 
-			burningObjectOverlayOverlay.enabled = true;
-			burningObjectOverlayOverlay.StopBurning();
+			burningObjectOverlay.enabled = true;
+			burningObjectOverlay.StopBurning();
 		}
+	}
+
+	public void GoingOnStageServer(OnStageInfo info)
+	{
+		//reset
+		integrity = 100f;
+		timeSinceLastBurn = 0;
+		destroyed = false;
+		if (burningObjectOverlay != null)
+		{
+			burningObjectOverlay.StopBurning();
+		}
+		SyncOnFire(false);
 	}
 
 	public override void OnStartClient()
@@ -158,11 +171,11 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable
 		this.onFire = onFire;
 		if (this.onFire)
 		{
-			burningObjectOverlayOverlay.Burn();
+			burningObjectOverlay.Burn();
 		}
 		else if (!this.onFire)
 		{
-			burningObjectOverlayOverlay.StopBurning();
+			burningObjectOverlay.StopBurning();
 		}
 	}
 
@@ -206,7 +219,7 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable
 		//just a guess - objects which can be picked up should have a smaller amount of ash
 		EffectsFactory.Instance.Ash(registerTile.WorldPosition.To2Int(), isLarge);
 		ChatRelay.Instance.AddToChatLogServer(ChatEvent.Local($"{name} burnt to ash.", gameObject.TileWorldPosition()));
-		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlayOverlay?.enabled);
+		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
 		PoolManager.PoolNetworkDestroy(gameObject);
 	}
 

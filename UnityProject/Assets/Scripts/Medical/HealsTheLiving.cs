@@ -6,11 +6,18 @@ using UnityEngine.Networking;
 /// <summary>
 /// Component which allows this object to be applied to a living thing, healing it.
 /// </summary>
-public class HealsTheLiving : NBHandApplyInteractable
+public class HealsTheLiving : NBHandApplyInteractable, IOnStageServer
 {
 	public DamageType healType;
+	//total number of times this can be used
+	public int uses = 6;  //TODO: move into some stack component (metal sheets, ores, etc)
+	private int timesUsed;
 	private bool isSelfHealing;
-	private int amount = 6; //TODO: move into some stack component (metal sheets, ores, etc)
+
+	public void GoingOnStageServer(OnStageInfo info)
+	{
+		timesUsed = 0;
+	}
 
 	protected override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -45,8 +52,9 @@ public class HealsTheLiving : NBHandApplyInteractable
 	private void ApplyHeal(BodyPartBehaviour targetBodyPart)
 	{
 		targetBodyPart.HealDamage(40, healType);
-		amount--;
-		if(amount == 0)
+		timesUsed++;
+		Logger.LogTraceFormat("{0} uses left.", Category.Health, uses - timesUsed);
+		if(uses == timesUsed)
 		{
 			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 		}
