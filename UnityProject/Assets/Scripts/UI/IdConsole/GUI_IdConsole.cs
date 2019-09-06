@@ -23,6 +23,7 @@ public class GUI_IdConsole : NetTab
 	private NetLabel accessCardName;
 	[SerializeField]
 	private NetLabel loginCardName;
+	private int jobsCount;
 
 	public override void OnEnable()
 	{
@@ -30,6 +31,7 @@ public class GUI_IdConsole : NetTab
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			StartCoroutine(WaitForProvider());
+			jobsCount = GameManager.Instance.Occupations.Count - IdConsoleManager.Instance.IgnoredJobs.Count;
 		}
 	}
 
@@ -138,23 +140,24 @@ public class GUI_IdConsole : NetTab
 	private void CreateAssignList()
 	{
 		assignList.Clear();
-		assignList.AddItems(GameManager.Instance.Occupations.Count);
-		int i = 0;
+		assignList.AddItems(jobsCount);
 		GUI_IdConsoleEntry entry;
-		//foreach(JobType jobType in System.Enum.GetValues(typeof(JobType)))
-		foreach (GameObject occupationGo in GameManager.Instance.Occupations)
+		for (int i = 0; i < jobsCount; i++)
 		{
-			JobType jobType = occupationGo.GetComponent<OccupationRoster>().Type;
+			JobType jobType = GameManager.Instance.Occupations[i].GetComponent<OccupationRoster>().Type;
+			if (IdConsoleManager.Instance.IgnoredJobs.Contains(jobType))
+			{
+				continue;
+			}
 			entry = assignList.Entries[i] as GUI_IdConsoleEntry;
 			entry.SetUpAssign(this, console.TargetCard, GameManager.Instance.GetOccupationOutfit(jobType));
-			i++;
 		}
 	}
 
 	private void UpdateAssignList()
 	{
 		GUI_IdConsoleEntry entry;
-		for (int i = 0; i < GameManager.Instance.Occupations.Count; i++)
+		for (int i = 0; i < jobsCount; i++)
 		{
 			entry = assignList.Entries[i] as GUI_IdConsoleEntry;
 			entry.CheckIsSet();

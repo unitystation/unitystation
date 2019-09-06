@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IdConsoleManager : MonoBehaviour
 {
+	public List<JobType> IgnoredJobs = new List<JobType>();
 	public List<IdAccessCategory> AccessCategories = new List<IdAccessCategory>();
 	private static IdConsoleManager instance;
 
