@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace Lobby
 {
@@ -28,10 +29,20 @@ namespace Lobby
 		public CharacterSprites underwearSpriteController;
 		public CharacterSprites socksSpriteController;
 		public CharacterSprites eyesSpriteController;
+
 		public CharacterSprites[] skinControllers;
 
 		public CharacterSprites torsoSpriteController;
 		public CharacterSprites headSpriteController;
+		public CharacterSprites RarmSpriteController;
+		public CharacterSprites LarmSpriteController;
+		public CharacterSprites RlegSpriteController;
+		public CharacterSprites LlegSpriteController;
+
+		public CharacterSprites RHandSpriteController;
+		public CharacterSprites LHandSpriteController;
+
+		public PlayerTextureData playerTextureData;
 
 		[SerializeField]
 		public List<string> availableSkinColors = new List<string>();
@@ -41,6 +52,8 @@ namespace Lobby
 
 		private CharacterSettings lastSettings;
 
+		public Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>> playerCustomisationData = new Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>>();
+
 		void OnEnable()
 		{
 			LoadSettings();
@@ -49,6 +62,16 @@ namespace Lobby
 			var copyStr = JsonUtility.ToJson(currentCharacter);
 			lastSettings = JsonUtility.FromJson<CharacterSettings>(copyStr);
 			DisplayErrorText("");
+
+			torsoSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.Torso);
+			headSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.Head);
+			RarmSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.ArmRight);
+			LarmSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.ArmLeft);
+			RlegSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.LegRight);
+			LlegSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.LegLeft);
+			RHandSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.HandRight);
+			LHandSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.HandLeft);
+			eyesSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Base.Eyes);
 		}
 
 		void OnDisable()
@@ -99,11 +122,15 @@ namespace Lobby
 
 		public void RollRandomCharacter()
 		{
-			currentCharacter.Gender = (Gender) UnityEngine.Random.Range(0, 2);
+			currentCharacter.Gender = (Gender)UnityEngine.Random.Range(0, 2);
 
 			// Repopulate underwear and facialhair dropdown boxes incase gender changes
-			PopulateDropdown(SpriteManager.UnderwearCollection, underwearDropdown, true);
-			PopulateDropdown(SpriteManager.FacialHairCollection, facialHairDropdown, true);
+			if (playerCustomisationData.ContainsKey(PlayerCustomisation.FacialHair))
+			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.FacialHair], facialHairDropdown); }
+
+			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Underwear))
+			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Underwear], underwearDropdown); }
+
 
 			// Select a random value from each dropdown
 			hairDropdown.value = UnityEngine.Random.Range(0, hairDropdown.options.Count - 1);
@@ -136,13 +163,21 @@ namespace Lobby
 		//------------------
 		private void PopulateAllDropdowns()
 		{
-			PopulateDropdown(SpriteManager.HairCollection, hairDropdown);
-			PopulateDropdown(SpriteManager.FacialHairCollection, facialHairDropdown, true);
-			PopulateDropdown(SpriteManager.UnderwearCollection, underwearDropdown, true);
-			PopulateDropdown(SpriteManager.SocksCollection, socksDropdown);
+			if (playerCustomisationData.ContainsKey(PlayerCustomisation.HairStyle))
+			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.HairStyle], hairDropdown); }
+
+			if (playerCustomisationData.ContainsKey(PlayerCustomisation.FacialHair))
+			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.FacialHair], facialHairDropdown); }
+
+			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Underwear))
+			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Underwear], underwearDropdown); }
+
+			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Socks))
+			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Socks], socksDropdown); }
+
 		}
 
-		private void PopulateDropdown(List<SpriteAccessory> itemCollection, Dropdown itemDropdown, bool constrainGender = false )
+		private void PopulateDropdown(Dictionary<string, PlayerCustomisationData> itemCollection, Dropdown itemDropdown, bool constrainGender = false)
 		{
 			// Clear out old options
 			itemDropdown.ClearOptions();
@@ -150,23 +185,24 @@ namespace Lobby
 			// Make a list of all available options which can then be passed to the dropdown box
 			List<string> itemOptions = new List<string>();
 
-			foreach (SpriteAccessory item in itemCollection)
+			foreach (var item in itemCollection)
 			{
 				// Check if options are being constrained by gender, only add valid gender options if so
 				if (constrainGender)
 				{
-					if (item.gender == currentCharacter.Gender || item.gender == Gender.Neuter)
+					if (item.Value.gender == currentCharacter.Gender || item.Value.gender == Gender.Neuter)
 					{
-						itemOptions.Add(item.name);
+						itemOptions.Add(item.Key);
 					}
 				}
 				else
 				{
-					itemOptions.Add(item.name);
+					itemOptions.Add(item.Key);
 				}
 
 			}
 
+			itemOptions.Sort();
 			itemDropdown.AddOptions(itemOptions);
 		}
 
@@ -181,7 +217,7 @@ namespace Lobby
 		private void SetDropdownValue(Dropdown itemDropdown, string currentSetting)
 		{
 			// Find the index of the setting in the dropdown list which matches the currentSetting
-			int settingIndex = itemDropdown.options.FindIndex( option => option.text == currentSetting);
+			int settingIndex = itemDropdown.options.FindIndex(option => option.text == currentSetting);
 
 			if (settingIndex != -1)
 			{
@@ -339,17 +375,20 @@ namespace Lobby
 
 		public void OnGenderChange()
 		{
-			int gender = (int) currentCharacter.Gender;
+			int gender = (int)currentCharacter.Gender;
 			gender++;
-			if (gender == (int) Gender.Neuter)
+			if (gender == (int)Gender.Neuter)
 			{
 				gender = 0;
 			}
-			currentCharacter.Gender = (Gender) gender;
+			currentCharacter.Gender = (Gender)gender;
 
 			// Repopulate underwear and facial hair dropdown boxes
-			PopulateDropdown(SpriteManager.UnderwearCollection, underwearDropdown, true);
-			PopulateDropdown(SpriteManager.FacialHairCollection, facialHairDropdown, true);
+			if (playerCustomisationData.ContainsKey(PlayerCustomisation.FacialHair))
+			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.FacialHair], facialHairDropdown); }
+
+			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Underwear))
+			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Underwear], underwearDropdown); }
 
 			// Set underwear and facial hair to default setting (nude, and shaved)
 			SetDropdownValue(underwearDropdown, "Nude");
@@ -362,8 +401,19 @@ namespace Lobby
 		{
 			genderText.text = currentCharacter.Gender.ToString();
 			currentCharacter.RefreshGenderBodyParts();
-			headSpriteController.reference = currentCharacter.headSpriteIndex;
-			torsoSpriteController.reference = currentCharacter.torsoSpriteIndex;
+
+
+			if (currentCharacter.Gender == Gender.Female)
+			{
+				headSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Female.Head);
+				torsoSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Female.Torso);
+			}
+			else
+			{ 
+				headSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Male.Head);
+				torsoSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Male.Torso);
+			}
+
 			headSpriteController.UpdateSprite();
 			torsoSpriteController.UpdateSprite();
 		}
@@ -417,7 +467,7 @@ namespace Lobby
 
 		public void HairDropdownChange(int index)
 		{
-			currentCharacter.LoadHairSetting(SpriteManager.HairCollection[index]);
+			currentCharacter.LoadHairSetting(hairDropdown.options[index].text);
 			RefreshHair();
 		}
 
@@ -438,7 +488,8 @@ namespace Lobby
 
 		private void RefreshHair()
 		{
-			hairSpriteController.reference = currentCharacter.hairStyleOffset;
+			hairSpriteController.sprites =
+				                    StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.HairStyle][currentCharacter.hairStyleName].Equipped); 
 			hairSpriteController.UpdateSprite();
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.hairColor, out setColor);
@@ -466,7 +517,7 @@ namespace Lobby
 
 		private void RefreshFacialHair()
 		{
-			facialHairSpriteController.reference = currentCharacter.facialHairOffset;
+			//facialHairSpriteController.reference = currentCharacter.facialHairOffset; ############
 			facialHairSpriteController.UpdateSprite();
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.facialHairColor, out setColor);
@@ -498,6 +549,7 @@ namespace Lobby
 			skinColor.color = setColor;
 			for (int i = 0; i < skinControllers.Length; i++)
 			{
+				Logger.Log(skinControllers[i].name);
 				skinControllers[i].image.color = setColor;
 			}
 		}
@@ -532,20 +584,13 @@ namespace Lobby
 
 		public void UnderwearDropdownChange(int index)
 		{
-			SpriteAccessory newUnderwear = SpriteManager.UnderwearCollection.Find(item => item.name == underwearDropdown.options[index].text);
-			if (newUnderwear.name != null)
-			{
-				currentCharacter.LoadUnderwearSetting(newUnderwear);
-			}
-			else
-			{
-				Logger.LogError($"Unable to find {underwearDropdown.options[index].text} in UnderwearCollection!", Category.UI);
-			}
+			currentCharacter.LoadUnderwearSetting(underwearDropdown.options[index].text);
 			RefreshUnderwear();
 		}
 		private void RefreshUnderwear()
 		{
-			underwearSpriteController.reference = currentCharacter.underwearOffset;
+			underwearSpriteController.sprites =
+				StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Underwear][currentCharacter.underwearName].Equipped);
 			underwearSpriteController.UpdateSprite();
 		}
 
@@ -555,12 +600,14 @@ namespace Lobby
 
 		public void SocksDropdownChange(int index)
 		{
-			currentCharacter.LoadSocksSetting(SpriteManager.SocksCollection[index]);
+			currentCharacter.LoadSocksSetting(socksDropdown.options[index].text);
 			RefreshSocks();
 		}
 		private void RefreshSocks()
 		{
-			socksSpriteController.reference = currentCharacter.socksOffset;
+			Logger.Log(currentCharacter.socksName);
+			socksSpriteController.sprites =
+				StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Socks][currentCharacter.socksName].Equipped);
 			socksSpriteController.UpdateSprite();
 		}
 
@@ -604,7 +651,7 @@ public class CharacterSettings
 	public string facialHairName = "Shaved"; //#
 	public int facialHairCollectionIndex = 4; //#
 	public string facialHairColor = "black"; //#?
-	public string skinTone = "#ffe0d1"; 
+	public string skinTone = "#ffe0d1";
 	public int underwearOffset = 20; //# 
 	public string underwearName = "Mankini"; //# 
 	public int underwearCollectionIndex = 1; //#
@@ -623,13 +670,13 @@ public class CharacterSettings
 	public int leftLegSpriteIndex = 16; //# n
 	public int rightArmSpriteIndex = 4; //# n
 	public int leftArmSpriteIndex = 8; //# n
-	//add Reference to player race Data
+									   //add Reference to player race Data
 
-	public void LoadHairSetting(SpriteAccessory hair)
+	public void LoadHairSetting(string hair)
 	{
-		hairStyleOffset = hair.spritePos;
-		hairStyleName = hair.name;
-		hairCollectionIndex = SpriteManager.HairCollection.IndexOf(hair);
+
+		hairStyleName = hair;
+
 	}
 
 	public void LoadFacialHairSetting(SpriteAccessory facialHair)
@@ -639,18 +686,14 @@ public class CharacterSettings
 		facialHairCollectionIndex = SpriteManager.FacialHairCollection.IndexOf(facialHair);
 	}
 
-	public void LoadUnderwearSetting(SpriteAccessory underwear)
+	public void LoadUnderwearSetting(string underwear)
 	{
-		underwearOffset = underwear.spritePos;
-		underwearName = underwear.name;
-		underwearCollectionIndex = SpriteManager.UnderwearCollection.IndexOf(underwear);
+		underwearName = underwear;
 	}
 
-	public void LoadSocksSetting(SpriteAccessory socks)
+	public void LoadSocksSetting(string socks)
 	{
-		socksOffset = socks.spritePos;
-		socksName = socks.name;
-		socksCollectionIndex = SpriteManager.SocksCollection.IndexOf(socks);
+		socksName = socks;
 	}
 
 	public void RefreshGenderBodyParts()
@@ -680,7 +723,7 @@ public class CharacterSettings
 	/// <summary>
 	/// Checks if the character name follows all rules
 	/// </summary>
-    /// <exception cref="InvalidOperationException">If the name not valid</exception>
+	/// <exception cref="InvalidOperationException">If the name not valid</exception>
 	public void ValidateName()
 	{
 		if (String.IsNullOrWhiteSpace(Name))

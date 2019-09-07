@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System;
 
 //[InitializeOnLoad]
 [CreateAssetMenu(fileName = "ClothingData", menuName = "ScriptableObjects/ClothingData", order = 1)]
@@ -19,39 +21,73 @@ public class ClothingData : ScriptableObject
 
 	private static ClothFactory ClothFactoryReference;
 
-    public void Awake()
-    {
-        InitializePool();
-    }
+	public void Awake()
+	{
+		InitializePool();
+	}
 
 	private void OnEnable()
 	{
+		
 		SceneManager.sceneLoaded -= OnSceneLoaded;
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
+		
 		InitializePool();
 	}
 
 
 	public void InitializePool()
 	{
-		if (ClothFactoryReference == null) { 
-			ClothFactoryReference = Object.FindObjectOfType<ClothFactory>();
+		if (ClothFactoryReference == null)
+		{
+			ClothFactoryReference = UnityEngine.Object.FindObjectOfType<ClothFactory>();
 		}
 
-		if (ClothFactoryReference != null) {
-			if (ClothFactoryReference.ClothingStoredData.ContainsKey(this.name)) {
+		if (ClothFactoryReference != null)
+		{
+			if (ClothFactoryReference.ClothingStoredData.ContainsKey(this.name))
+			{
 				Logger.LogError("a ClothingData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
 			}
 			ClothFactoryReference.ClothingStoredData[this.name] = this;
 		}
+	}
+
+	public static void getClothingDatas(List<ClothingData> DataPCD)
+	{
+		DataPCD.Clear();
+		var PCD = Resources.LoadAll<ClothingData>("textures/clothing");
+		foreach (var PCDObj in PCD)
+		{
+			DataPCD.Add(PCDObj);
+		}
+
+		//string[] dirs = Directory.GetDirectories(Application.dataPath, "textures/clothing", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times 
+		//foreach (string dir in dirs)
+		//{
+		//	loadFolder(dir, DataPCD);
+		//	foreach (string subdir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
+		//	{
+		//		loadFolder(subdir, DataPCD);
+		//	}
+		//}
 
 	}
 
-
-
+	private static void loadFolder(string folderpath, List<ClothingData> DataPCD)
+	{
+		folderpath = folderpath.Substring(folderpath.IndexOf("Resources", StringComparison.Ordinal) + "Resources".Length);
+		foreach (var PCDObj in Resources.LoadAll<ClothingData>(folderpath))
+		{
+			if (!DataPCD.Contains(PCDObj))
+			{
+				DataPCD.Add(PCDObj);
+			}
+		}
+	}
 }
 
 

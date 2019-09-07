@@ -31,6 +31,8 @@ public class JobOutfit : MonoBehaviour
 	public ClothOrPrefab suit_store;
 	public ClothOrPrefab uniform;
 
+	public PlayerCustomisationData tt;
+
 }
 
 [System.Serializable]

@@ -8,13 +8,12 @@ namespace Lobby
 	public class CharacterSprites : MonoBehaviour
 	{
 		private CharacterDir currentDir = CharacterDir.down;
-		private Sprite[] sprites;
-		public int reference = -1;
-		public string spriteSheetName;
+		public List<List<SpriteHandlerData.SpriteInfo>> sprites = new List<List<SpriteHandlerData.SpriteInfo>>();
+
 		private int referenceOffset;
 		private CharacterView characterView;
 
-		public Image image { get; private set; }
+		public Image image;
 
 		void Awake()
 		{
@@ -22,7 +21,6 @@ namespace Lobby
 		}
 		private void Start()
 		{
-			sprites = SpriteManager.PlayerSprites[spriteSheetName];
 			UpdateSprite();
 		}
 
@@ -69,13 +67,13 @@ namespace Lobby
 		{
 			if (image != null)
 			{
-				if (reference >= 0)
+				if (sprites.Count > 0)
 				{
 					image.enabled = true;
 					//If reference -1 then clear the sprite
 					if (sprites != null)
 					{
-						image.sprite = sprites[reference + referenceOffset];
+						image.sprite = sprites[referenceOffset][0].sprite;
 					}
 				}
 				else

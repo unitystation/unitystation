@@ -73,8 +73,16 @@ namespace Lobby
 			// }
 			// else
 			// {
+
+			if (ServerData.Auth?.CurrentUser != null)
+			{
+				ShowConnectionPanel();
+			}
+			else
+			{
+
 				ShowLoginScreen();
-			// }
+			}
 		}
 
 		public void ShowLoginScreen()
