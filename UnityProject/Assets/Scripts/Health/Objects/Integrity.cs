@@ -107,15 +107,27 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnS
 
 	public void GoingOnStageServer(OnStageInfo info)
 	{
-		//reset
-		integrity = 100f;
-		timeSinceLastBurn = 0;
-		destroyed = false;
-		if (burningObjectOverlay != null)
+		if (info.IsCloned)
 		{
-			burningObjectOverlay.StopBurning();
+			//cloned
+			var clonedIntegrity = info.ClonedFrom.GetComponent<Integrity>();
+			integrity = clonedIntegrity.integrity;
+			timeSinceLastBurn = clonedIntegrity.timeSinceLastBurn;
+			destroyed = clonedIntegrity.destroyed;
+			SyncOnFire(clonedIntegrity.onFire);
 		}
-		SyncOnFire(false);
+		else
+		{
+			//spawned
+			integrity = 100f;
+			timeSinceLastBurn = 0;
+			destroyed = false;
+			if (burningObjectOverlay != null)
+			{
+				burningObjectOverlay.StopBurning();
+			}
+			SyncOnFire(false);
+		}
 	}
 
 	public override void OnStartClient()
