@@ -67,7 +67,7 @@ namespace Lobby
 		{
 			if (image != null)
 			{
-				if (sprites.Count > 0)
+				if (sprites != null && sprites.Count > 0)
 				{
 					image.enabled = true;
 					//If reference -1 then clear the sprite

@@ -201,7 +201,7 @@ namespace Lobby
 				}
 
 			}
-
+			itemOptions.Add("_None_");
 			itemOptions.Sort();
 			itemDropdown.AddOptions(itemOptions);
 		}
@@ -488,8 +488,15 @@ namespace Lobby
 
 		private void RefreshHair()
 		{
-			hairSpriteController.sprites =
-				                    StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.HairStyle][currentCharacter.hairStyleName].Equipped); 
+			if (playerCustomisationData[PlayerCustomisation.HairStyle].ContainsKey(currentCharacter.hairStyleName))
+			{
+				hairSpriteController.sprites =
+										StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.HairStyle][currentCharacter.hairStyleName].Equipped);
+			}
+			else
+			{
+				hairSpriteController.sprites = null;
+			}
 			hairSpriteController.UpdateSprite();
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.hairColor, out setColor);
@@ -503,21 +510,19 @@ namespace Lobby
 
 		public void FacialHairDropdownChange(int index)
 		{
-			SpriteAccessory newFacialHair = SpriteManager.FacialHairCollection.Find(item => item.name == facialHairDropdown.options[index].text);
-			if (newFacialHair.name != null)
-			{
-				currentCharacter.LoadFacialHairSetting(newFacialHair);
-			}
-			else
-			{
-				Logger.LogError($"Unable to find {facialHairDropdown.options[index].text} in UnderwearCollection!", Category.UI);
-			}
+
+			currentCharacter.LoadFacialHairSetting(facialHairDropdown.options[index].text);
 			RefreshFacialHair();
 		}
 
 		private void RefreshFacialHair()
 		{
-			//facialHairSpriteController.reference = currentCharacter.facialHairOffset; ############
+			if (playerCustomisationData[PlayerCustomisation.FacialHair].ContainsKey(currentCharacter.facialHairName))
+			{
+				facialHairSpriteController.sprites =
+				StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.FacialHair][currentCharacter.facialHairName].Equipped);
+			}
+			else { facialHairSpriteController.sprites = null; }
 			facialHairSpriteController.UpdateSprite();
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.facialHairColor, out setColor);
@@ -589,8 +594,12 @@ namespace Lobby
 		}
 		private void RefreshUnderwear()
 		{
-			underwearSpriteController.sprites =
-				StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Underwear][currentCharacter.underwearName].Equipped);
+			if (playerCustomisationData[PlayerCustomisation.Underwear].ContainsKey(currentCharacter.underwearName)){
+				underwearSpriteController.sprites =
+				StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Underwear][currentCharacter.underwearName].Equipped);}
+			else
+			{underwearSpriteController.sprites = null;}
+
 			underwearSpriteController.UpdateSprite();
 		}
 
@@ -605,9 +614,12 @@ namespace Lobby
 		}
 		private void RefreshSocks()
 		{
-			Logger.Log(currentCharacter.socksName);
-			socksSpriteController.sprites =
-				StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Socks][currentCharacter.socksName].Equipped);
+
+			if (playerCustomisationData[PlayerCustomisation.Socks].ContainsKey(currentCharacter.socksName)){
+				socksSpriteController.sprites =
+				StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Socks][currentCharacter.socksName].Equipped);}
+			
+			else { socksSpriteController.sprites = null; }
 			socksSpriteController.UpdateSprite();
 		}
 
@@ -679,11 +691,9 @@ public class CharacterSettings
 
 	}
 
-	public void LoadFacialHairSetting(SpriteAccessory facialHair)
+	public void LoadFacialHairSetting(string facialHair)
 	{
-		facialHairOffset = facialHair.spritePos;
-		facialHairName = facialHair.name;
-		facialHairCollectionIndex = SpriteManager.FacialHairCollection.IndexOf(facialHair);
+		facialHairName = facialHair;
 	}
 
 	public void LoadUnderwearSetting(string underwear)

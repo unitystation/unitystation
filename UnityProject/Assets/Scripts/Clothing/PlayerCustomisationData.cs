@@ -74,21 +74,21 @@ public class PlayerCustomisationData : ScriptableObject
 
 	}
 
-	public void OnValidate()
-	{
-		if (Equipped.Texture != null)
-		{
-			if (this.name != Equipped.Texture.name)
-			{
-				Name = Equipped.Texture.name.Substring(10);
-				Type = PlayerCustomisation.HairStyle;
-				string assetPath = AssetDatabase.GetAssetPath(this.GetInstanceID());
-				AssetDatabase.RenameAsset(assetPath, Equipped.Texture.name);
-				AssetDatabase.SaveAssets();
-			}
+	//public void OnValidate()
+	//{
+	//	if (Equipped.Texture != null)
+	//	{
+	//		if (this.name != Equipped.Texture.name)
+	//		{
+	//			Name = Equipped.Texture.name.Substring(12);
+	//			Type = PlayerCustomisation.FacialHair;
+	//			string assetPath = AssetDatabase.GetAssetPath(this.GetInstanceID());
+	//			AssetDatabase.RenameAsset(assetPath, Equipped.Texture.name);
+	//			AssetDatabase.SaveAssets();
+	//		}
 
-		}
-	}
+	//	}
+	//}
 
 	public static void getPlayerCustomisationDatas(List<PlayerCustomisationData>  DataPCD)
 	{
