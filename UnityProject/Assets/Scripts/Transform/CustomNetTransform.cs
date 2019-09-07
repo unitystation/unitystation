@@ -588,7 +588,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		{
 			foreach (var comp in comps)
 			{
-				comp.GoingOnStageServer(OnStageInfo.Info());
+				comp.GoingOnStageServer(OnStageInfo.Default());
 			}
 		}
 
@@ -597,7 +597,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		{
 			foreach (var comp in clientComps)
 			{
-				comp.GoingOnStageClient(OnStageInfo.Info());
+				comp.GoingOnStageClient(OnStageInfo.Default());
 			}
 		}
 		RpcFireGoingOnStageHook();
@@ -612,7 +612,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		{
 			foreach (var comp in comps)
 			{
-				comp.GoingOnStageClient(OnStageInfo.Info());
+				comp.GoingOnStageClient(OnStageInfo.Default());
 			}
 		}
 	}
@@ -645,16 +645,37 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	public void FireCloneHooks(GameObject clonedFrom)
 	{
-		//TODO: Don't use broadcast - use interface instead
-		BroadcastMessage("OnClonedServer", clonedFrom, SendMessageOptions.DontRequireReceiver);
+		var comps = GetComponents<IOnStageServer>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.GoingOnStageServer(OnStageInfo.Cloned(clonedFrom));
+			}
+		}
+
+		var clientComps = GetComponents<IOnStageClient>();
+		if (clientComps != null)
+		{
+			foreach (var comp in clientComps)
+			{
+				comp.GoingOnStageClient(OnStageInfo.Cloned(clonedFrom));
+			}
+		}
 		RpcFireCloneHook(clonedFrom);
 	}
 
 	[ClientRpc]
 	private void RpcFireCloneHook(GameObject clonedFrom)
 	{
-		//TODO: Don't use broadcast - use interface instead
-		BroadcastMessage("OnClonedClient", clonedFrom, SendMessageOptions.DontRequireReceiver);
+		var comps = GetComponents<IOnStageClient>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.GoingOnStageClient(OnStageInfo.Cloned(clonedFrom));
+			}
+		}
 	}
 
 	public RightClickableResult GenerateRightClickOptions()

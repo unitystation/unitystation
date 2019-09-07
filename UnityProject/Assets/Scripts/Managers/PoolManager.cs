@@ -150,7 +150,7 @@ public class PoolManager : NetworkBehaviour
 		{
 			foreach (var hook in hooks)
 			{
-				hook.GoingOnStageClient(OnStageInfo.Info());
+				hook.GoingOnStageClient(OnStageInfo.Default());
 			}
 		}
 
@@ -221,7 +221,7 @@ public class PoolManager : NetworkBehaviour
 	/// attached or its name matches a prefab name, otherwise we don't know what prefab to create.. Intended to work for any object, but don't
 	/// be surprised if it doesn't as there are LOTS of prefabs in the game which might need unique behavior for how they should spawn. If you are trying
 	/// to clone something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
-	/// properly implemented a OnClonedServer and OnClonedClient method.</param>
+	/// properly implemented IOnStageServer or IOnStageClient when IsCloned = true</param>
 	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things

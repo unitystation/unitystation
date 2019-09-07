@@ -8,10 +8,23 @@ using UnityEngine;
 /// </summary>
 public class OnStageInfo
 {
+	private static OnStageInfo defaultInstance = new OnStageInfo(null);
 	//note: currently no data is needed but fields may be added later
+	public readonly GameObject ClonedFrom;
+	public bool IsCloned => ClonedFrom != null;
 
-	public static OnStageInfo Info()
+	private OnStageInfo(GameObject clonedFrom)
 	{
-		return new OnStageInfo();
+		ClonedFrom = clonedFrom;
+	}
+
+	public static OnStageInfo Default()
+	{
+		return defaultInstance;
+	}
+
+	public static OnStageInfo Cloned(GameObject clonedFrom)
+	{
+		return new OnStageInfo(clonedFrom);
 	}
 }

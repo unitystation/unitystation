@@ -117,6 +117,9 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 		anchored = value;
 		objectBehaviour.isNotPushable = value;
 		//now that it's anchored, it can't be picked up
+		//TODO: This is getting called client side when joining, which is bad because it's only meant
+		//to be called server side. Most likely late joining clients have the wrong
+		//client-side state due to this issue.
 		pickupable.ServerSetCanPickup(!value);
 	}
 
