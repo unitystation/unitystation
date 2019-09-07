@@ -31,7 +31,7 @@ public class ConnectedTile : BasicTile
 
 	public ConnectCategory connectCategory = ConnectCategory.None;
 	public ConnectType connectType = ConnectType.ToAll;
-	public Texture2D spriteSheet;
+	public SpriteSheetAndData spriteSheet;
 	public string texturePath;
 	/// <summary>
 	/// Cached layer we live in, so we can determine our rotation
@@ -46,18 +46,9 @@ public class ConnectedTile : BasicTile
 		{
 			if (_sprites == null || _sprites.Length == 0)
 			{
-				
-				_sprites = Resources.LoadAll<Sprite>(texturePath); //yeah Apparently you got to get rid of the .png //.Remove(texturePath.Length - 4)
-				//Logger.Log(texturePath + "/" + spriteSheet.name);
-				if (_sprites == null || _sprites.Length == 0) {
-					#if UNITY_EDITOR
-					texturePath = AssetDatabase.GetAssetPath(spriteSheet).Substring(17); //Substring(17) To remove the "Assets/Resources/"
-					texturePath = texturePath.Remove(texturePath.Length - 4);
-					_sprites = Resources.LoadAll<Sprite>(texturePath); 
-					//Logger.Log(texturePath);
-					#endif
-				}
-					
+
+				_sprites = spriteSheet.Sprites;
+				//Logger.Log(texturePath + "/" + spriteSheet.name);					
 			}
 			return _sprites;
 		}

@@ -73,6 +73,8 @@ GameObject:
   - component: {fileID: 4306167892570828}
   - component: {fileID: 212253025024547778}
   - component: {fileID: 114341362304352952}
+  - component: {fileID: 528148646947430762}
+  - component: {fileID: 1599133673258867465}
   m_Layer: 8
   m_Name: Hair
   m_TagString: Untagged
@@ -156,11 +158,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 1599133673258867465}
   spriteSheetName: human_face
   GameObjectReference: {fileID: 0}
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
+--- !u!114 &528148646947430762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028579746739352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &1599133673258867465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028579746739352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+  spriteRenderer: {fileID: 212253025024547778}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 1
 --- !u!1 &1045510969552376
 GameObject:
   m_ObjectHideFlags: 0
@@ -999,6 +1056,33 @@ MonoBehaviour:
   - {fileID: 114341362304352952}
   - {fileID: 6015914302054547211}
   - {fileID: 5499776427588436788}
+  ThisCharacter:
+    username: 
+    Name: Cuban Pete
+    Gender: 0
+    Age: 22
+    hairStyleOffset: -1
+    hairStyleName: Bald
+    hairCollectionIndex: 4
+    hairColor: black
+    eyeColor: black
+    facialHairOffset: -1
+    facialHairName: Shaved
+    facialHairCollectionIndex: 4
+    facialHairColor: black
+    skinTone: '#ffe0d1'
+    underwearOffset: 20
+    underwearName: Mankini
+    underwearCollectionIndex: 1
+    socksOffset: 376
+    socksName: Knee-High (Freedom)
+    socksCollectionIndex: 3
+    headSpriteIndex: 20
+    torsoSpriteIndex: 28
+    rightLegSpriteIndex: 12
+    leftLegSpriteIndex: 16
+    rightArmSpriteIndex: 4
+    leftArmSpriteIndex: 8
   muzzleFlash: {fileID: 114824170203619628}
 --- !u!114 &114413669770135258
 MonoBehaviour:
@@ -1595,6 +1679,8 @@ GameObject:
   - component: {fileID: 4443435671148552}
   - component: {fileID: 212258264285545284}
   - component: {fileID: 114838523532892086}
+  - component: {fileID: 8336865775399063888}
+  - component: {fileID: 4667243628362804010}
   m_Layer: 8
   m_Name: socks
   m_TagString: Untagged
@@ -1678,11 +1764,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 4667243628362804010}
   spriteSheetName: underwear
   GameObjectReference: {fileID: 0}
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
+--- !u!114 &8336865775399063888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173533240760188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &4667243628362804010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173533240760188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+  spriteRenderer: {fileID: 212258264285545284}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 1
 --- !u!1 &1219173009942028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2163,6 +2304,8 @@ GameObject:
   - component: {fileID: 4122965008470958}
   - component: {fileID: 212073504853382616}
   - component: {fileID: 114998611308440448}
+  - component: {fileID: 3507794818273282368}
+  - component: {fileID: 5679511707142394592}
   m_Layer: 8
   m_Name: neck
   m_TagString: Untagged
@@ -2246,11 +2389,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 5679511707142394592}
   spriteSheetName: neck
   GameObjectReference: {fileID: 0}
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
+--- !u!114 &3507794818273282368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392646042361530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &5679511707142394592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392646042361530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+  spriteRenderer: {fileID: 212073504853382616}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 1
 --- !u!1 &1410239830885134
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,6 +2460,8 @@ GameObject:
   - component: {fileID: 4302632856133038}
   - component: {fileID: 212853338683630810}
   - component: {fileID: 114844944412084042}
+  - component: {fileID: 3649491073267252284}
+  - component: {fileID: 1867231810626179718}
   m_Layer: 8
   m_Name: beard
   m_TagString: Untagged
@@ -2345,11 +2545,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 1867231810626179718}
   spriteSheetName: human_face
   GameObjectReference: {fileID: 0}
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
+--- !u!114 &3649491073267252284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410239830885134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &1867231810626179718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410239830885134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+  spriteRenderer: {fileID: 212853338683630810}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 1
 --- !u!1 &1426161168093594
 GameObject:
   m_ObjectHideFlags: 0
@@ -2361,6 +2616,8 @@ GameObject:
   - component: {fileID: 4391162179719816}
   - component: {fileID: 212584759339869742}
   - component: {fileID: 114309771515309900}
+  - component: {fileID: 5971414272114550488}
+  - component: {fileID: 8764473760884168085}
   m_Layer: 8
   m_Name: underwear
   m_TagString: Untagged
@@ -2444,11 +2701,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: -1
   color: {r: 1, g: 1, b: 1, a: 1}
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 8764473760884168085}
   spriteSheetName: underwear
   GameObjectReference: {fileID: 0}
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
+--- !u!114 &5971414272114550488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426161168093594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &8764473760884168085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426161168093594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+  spriteRenderer: {fileID: 212584759339869742}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 1
 --- !u!1 &1442926995363424
 GameObject:
   m_ObjectHideFlags: 0

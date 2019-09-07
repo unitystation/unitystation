@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -15,13 +16,69 @@ MonoBehaviour:
   TileType: 1
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  AtmosPassable: 0
+  IsSealed: 0
+  Passable: 0
   PassableException:
     m_keys: 
     m_values: 
-  Passable: 0
-  AtmosPassable: 0
-  IsSealed: 0
-  spriteSheet: {fileID: 2800000, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
-  texturePath: Walls
+  MaxHealth: 0
+  HealthStates: []
+  ItemSpawn: {fileID: 0}
+  amount: 0
+  DestroyedTile: {fileID: 0}
   connectCategory: 0
   connectType: 1
+  spriteSheet:
+    Texture: {fileID: 2800000, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300002, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300004, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300006, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300008, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300010, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300012, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300014, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300016, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300018, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300020, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300022, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300024, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300026, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300028, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300030, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300032, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300034, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300036, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300038, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300040, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300042, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300044, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300046, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300048, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300050, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300052, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300054, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300056, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300058, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300060, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300062, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300064, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300066, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300068, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300070, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300072, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300074, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300076, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300078, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300080, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300082, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300084, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300086, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300088, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300090, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300092, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    - {fileID: 21300094, guid: 34fae7bba294bb24a90001d055efbbe4, type: 3}
+    EquippedData: {fileID: 0}
+  texturePath: Walls

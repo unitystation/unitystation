@@ -64,6 +64,9 @@ public class ClothingItem : MonoBehaviour
 		//SetColor
 		//spriteRenderer.color = value;
 	}
+	public void SetCustomisation(string Name, PlayerCustomisation type, BodyPartSpriteName part = BodyPartSpriteName.Null) { 
+	}
+
 
 	public void SetReference(int value, GameObject Item)
 	{

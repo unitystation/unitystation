@@ -64,17 +64,6 @@ public class ClothingData : ScriptableObject
 		{
 			DataPCD.Add(PCDObj);
 		}
-
-		//string[] dirs = Directory.GetDirectories(Application.dataPath, "textures/clothing", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times 
-		//foreach (string dir in dirs)
-		//{
-		//	loadFolder(dir, DataPCD);
-		//	foreach (string subdir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
-		//	{
-		//		loadFolder(subdir, DataPCD);
-		//	}
-		//}
-
 	}
 
 	private static void loadFolder(string folderpath, List<ClothingData> DataPCD)

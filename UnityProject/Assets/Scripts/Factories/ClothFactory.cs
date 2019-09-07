@@ -18,9 +18,12 @@ public class ClothFactory : NetworkBehaviour
 	public GameObject uniBackpack;
 	public GameObject uniHeadSet;
 
+	public Dictionary<string, PlayerTextureData> RaceData = new Dictionary<string, PlayerTextureData>();
 	public Dictionary<string, ClothingData> ClothingStoredData = new Dictionary<string, ClothingData>();
 	public Dictionary<string, ContainerData> BackpackStoredData = new Dictionary<string, ContainerData>();
 	public Dictionary<string, HeadsetData> HeadSetStoredData = new Dictionary<string, HeadsetData>();
+	public Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>> playerCustomisationData = new Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>>();
+
 
 	private void Awake()
 	{

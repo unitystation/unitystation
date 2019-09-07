@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
-using UnityEditor.Experimental.SceneManagement;
+
 using System.IO;
 using System;
 
@@ -44,7 +44,7 @@ public class PlayerCustomisationData : ScriptableObject
 
 	public void InitializePool()
 	{
-		//Logger.Log("pope?");
+		Logger.Log("pope?");
 		if (CC == null){ 
 			CC = UnityEngine.Object.FindObjectOfType<Lobby.LobbyManager>();
 		}
@@ -56,7 +56,6 @@ public class PlayerCustomisationData : ScriptableObject
 
 
 		if (CC != null) {
-			//Logger.Log("O£O");
 			if (!CC.characterCustomization.playerCustomisationData.ContainsKey(Type)) {
 				CC.characterCustomization.playerCustomisationData[Type] = new Dictionary<string, PlayerCustomisationData>();
 			}
@@ -65,11 +64,12 @@ public class PlayerCustomisationData : ScriptableObject
 
 		if (ClothFactoryReference != null)
 		{
-			if (ClothFactoryReference.ClothingStoredData.ContainsKey(this.name))
+			Logger.Log("T");
+			if (!ClothFactoryReference.playerCustomisationData.ContainsKey(Type))
 			{
-				Logger.LogError("a ClothingData Has the same name as another one name " + this.name + " Please rename one of them to a different name");
+				ClothFactoryReference.playerCustomisationData[Type] = new Dictionary<string, PlayerCustomisationData>();
 			}
-			//ClothFactoryReference.ClothingStoredData[this.name] = this;
+			ClothFactoryReference.playerCustomisationData[Type][Name] = this;		
 		}
 
 	}
@@ -149,5 +149,6 @@ public enum PlayerCustomisation{
 	Underwear = 3,
 	Undershirt= 4,
 	Socks = 5,
+	BodySprites = 6,
 	//Others as needed, 
 }
