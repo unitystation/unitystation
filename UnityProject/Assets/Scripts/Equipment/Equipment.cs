@@ -61,7 +61,7 @@ public class Equipment : NetworkBehaviour
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
 			var clothItem = clothingSlots[i];
-			EquipmentSpritesMessage.SendTo(gameObject, i, clothItem.reference, recipient, clothItem.GameObjectReference);
+			EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference);
 		}
 	}
 
@@ -72,7 +72,7 @@ public class Equipment : NetworkBehaviour
 
 		Dictionary<string, ClothOrPrefab> gear = new Dictionary<string, ClothOrPrefab>();
 		//Logger.Log("LLLLLLLLLLLLLLLLL > " + JsonConvert.SerializeObject(standardOutfit.CDuniform.Clothing) + " <  " + playerScript.mind.jobType );
-		Logger.Log(standardOutfit.ToString());
+		//Logger.Log(standardOutfit.ToString());
 		gear.Add("uniform", standardOutfit.uniform);
 		//gear.Add("ears", standardOutfit.ears);
 		//gear.Add("belt", standardOutfit.belt);
@@ -326,19 +326,19 @@ public class Equipment : NetworkBehaviour
 	{
 		if (hand == EquipSlot.leftHand)
 		{
-			SetReference((int)enumA, -1, att.gameObject);
+			SetReference((int)enumA, att.gameObject);
 		}
 		else
 		{
-			SetReference((int)enumA, -1, att.gameObject);
+			SetReference((int)enumA, att.gameObject);
 		}
 		//clothingSlots[enumA].sprites
 	}
 
-	public void SetReference(int index, int reference, GameObject _Item)
+	public void SetReference(int index, GameObject _Item)
 	{
 		//Logger.Log("bob?");
-		EquipmentSpritesMessage.SendToAll(gameObject, index, reference, _Item);
+		EquipmentSpritesMessage.SendToAll(gameObject, index, _Item);
 	}
 
 	//
@@ -352,7 +352,7 @@ public class Equipment : NetworkBehaviour
 		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
 		if (HasPlayerSprite(enumA))
 		{
-			SetReference((int)enumA, -1, null);
+			SetReference((int)enumA, null);
 		}
 	}
 

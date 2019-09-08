@@ -85,17 +85,23 @@ public class SpriteHandler : SpriteHandlerData
 	public void UpdateMe()
 	{
 		timeElapsed += Time.deltaTime;
-		if (timeElapsed >= waitTime)
+		if (Infos.List.Count >= spriteIndex)
 		{
-			animationIndex++;
-			if (animationIndex >= Infos.List[spriteIndex][VariantIndex].Count)
+			if (timeElapsed >= waitTime)
 			{
-				animationIndex = 0;
+				animationIndex++;
+				if (animationIndex >= Infos.List[spriteIndex][VariantIndex].Count)
+				{
+					animationIndex = 0;
+				}
+				SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
 			}
-			SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
+			if (!(Infos.List[spriteIndex][VariantIndex].Count > 1))
+			{
+				UpdateManager.Instance.Remove(UpdateMe);
+			}
 		}
-		if (!(Infos.List[spriteIndex][VariantIndex].Count > 1))
-		{
+		else { 
 			UpdateManager.Instance.Remove(UpdateMe);
 		}
 
@@ -185,9 +191,10 @@ public class SpriteHandler : SpriteHandlerData
 			if (!(SpriteVariant >= Infos.List[spriteIndex].Count))
 			{
 				//Logger.Log("Setting " + spriteIndex + " " +  SpriteVariant + " " + animationIndex);
-				SetSprite(Infos.List[spriteIndex][SpriteVariant][animationIndex]);
+
 				if (VariantIndex != SpriteVariant)
 				{
+					SetSprite(Infos.List[spriteIndex][SpriteVariant][animationIndex]);
 					animationIndex = 0;
 					VariantIndex = SpriteVariant;
 

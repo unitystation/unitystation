@@ -554,7 +554,6 @@ namespace Lobby
 			skinColor.color = setColor;
 			for (int i = 0; i < skinControllers.Length; i++)
 			{
-				Logger.Log(skinControllers[i].name);
 				skinControllers[i].image.color = setColor;
 			}
 		}

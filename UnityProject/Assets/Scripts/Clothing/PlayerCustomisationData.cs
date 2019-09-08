@@ -44,7 +44,6 @@ public class PlayerCustomisationData : ScriptableObject
 
 	public void InitializePool()
 	{
-		Logger.Log("pope?");
 		if (CC == null){ 
 			CC = UnityEngine.Object.FindObjectOfType<Lobby.LobbyManager>();
 		}
@@ -64,7 +63,6 @@ public class PlayerCustomisationData : ScriptableObject
 
 		if (ClothFactoryReference != null)
 		{
-			Logger.Log("T");
 			if (!ClothFactoryReference.playerCustomisationData.ContainsKey(Type))
 			{
 				ClothFactoryReference.playerCustomisationData[Type] = new Dictionary<string, PlayerCustomisationData>();

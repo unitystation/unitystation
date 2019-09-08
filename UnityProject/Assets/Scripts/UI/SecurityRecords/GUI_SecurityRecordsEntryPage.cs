@@ -125,13 +125,13 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 	{
 		if(itemPath.Length == 0)
 			return -1;
-		var dictionary = ItemAttributes.dm.getObject(itemPath);
-		string item_color = ItemAttributes.TryGetAttr(dictionary, "item_color");
-		string icon_state = ItemAttributes.TryGetAttr(dictionary, "icon_state");
-		string item_state = ItemAttributes.TryGetAttr(dictionary, "item_state");
-		string[] states = { icon_state, item_color, item_state };
-		var offset = ItemAttributes.TryGetClothingOffset(states, itemType);
-		return offset;
+		//var dictionary = ItemAttributes.dm.getObject(itemPath);
+		//string item_color = ItemAttributes.TryGetAttr(dictionary, "item_color");
+		//string icon_state = ItemAttributes.TryGetAttr(dictionary, "icon_state");
+		//string item_state = ItemAttributes.TryGetAttr(dictionary, "item_state");
+		//string[] states = { icon_state, item_color, item_state };
+		//var offset = ItemAttributes.TryGetClothingOffset(states, itemType);
+		return -1;
 	}
 
 	public void ChangeStatus()

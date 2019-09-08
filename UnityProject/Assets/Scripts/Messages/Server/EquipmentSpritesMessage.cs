@@ -23,7 +23,7 @@ public class EquipmentSpritesMessage : ServerMessage
 			if (NetworkObjects[0] != null)
 			{
 				//Logger.Log("OR?");
-				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference(Reference, null);
+				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference( null);
 			}
 		}
 		else { 
@@ -31,34 +31,33 @@ public class EquipmentSpritesMessage : ServerMessage
 			if (NetworkObjects[0] != null)
 			{
 				//Logger.Log("this? " + NetworkObjects[0].name + " " + NetworkObjects[1].name);
-				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference(Reference, NetworkObjects[1]);
+				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference( NetworkObjects[1]);
 			}
 
 		}
 	}
 
-	public static EquipmentSpritesMessage SendToAll(GameObject equipmentObject, int index, int reference, GameObject _Item)
+	public static EquipmentSpritesMessage SendToAll(GameObject equipmentObject, int index, GameObject _Item)
 	{
-		var msg = CreateMsg(equipmentObject, index, reference,_Item);
+		var msg = CreateMsg(equipmentObject, index, _Item);
 		msg.SendToAll();
 		return msg;
 	}
 
-	public static EquipmentSpritesMessage SendTo(GameObject equipmentObject, int index, int reference, GameObject recipient, GameObject _Item)
+	public static EquipmentSpritesMessage SendTo(GameObject equipmentObject, int index, GameObject recipient, GameObject _Item)
 	{
-		var msg = CreateMsg(equipmentObject, index, reference,_Item);
+		var msg = CreateMsg(equipmentObject, index, _Item);
 		msg.SendTo(recipient);
 		return msg;
 	}
 
-	public static EquipmentSpritesMessage CreateMsg(GameObject equipmentObject, int index, int reference, GameObject _Item)
+	public static EquipmentSpritesMessage CreateMsg(GameObject equipmentObject, int index, GameObject _Item)
 	{
 		if (_Item != null)
 		{
 			return new EquipmentSpritesMessage
 			{
 				Index = index,
-				Reference = reference,
 				EquipmentObject = equipmentObject.NetId(),
 				Item = _Item.NetId()
 			};
@@ -67,7 +66,6 @@ public class EquipmentSpritesMessage : ServerMessage
 			return new EquipmentSpritesMessage
 			{
 				Index = index,
-				Reference = reference,
 				EquipmentObject = equipmentObject.NetId(),
 				Item = NetworkInstanceId.Invalid
 			};

@@ -205,7 +205,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void SyncEquipSprite(string slotName, GameObject Item)
 	{
 		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
-		equipment.SetReference((int)enumA, -1, Item);
+		equipment.SetReference((int)enumA, Item);
 	}
 
 	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction,

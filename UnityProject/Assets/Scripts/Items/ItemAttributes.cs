@@ -15,35 +15,6 @@ using Random = System.Random;
 [RequireComponent(typeof(CustomNetTransform))]
 public class ItemAttributes : NetworkBehaviour, IRightClickable
 {
-	private const string MaskInternalsFlag = "MASKINTERNALS";
-	private const string ObjItemClothing = "/obj/item/clothing";
-	private static DmiIconData dmi;
-	public static DmObjectData dm;
-
-	/// <summary>
-	/// This is used as a Lazy initialized backing field for <see cref="HierList"/>
-	/// and calls <see cref="InitializeHierList"/> when <see cref="HierList"/> is first accessed
-	/// </summary>
-	private static readonly Lazy<string[]> hierList = new Lazy<string[]>(InitializeHierList);
-	private static string[] HierList => hierList.Value;
-
-	//on-player references
-	private static readonly string[] onPlayer = {
-		"mob/uniform",
-		"mob/underwear",
-		"mob/ties",
-		"mob/back",
-		"mob/belt_mirror",
-		"mob/belt",
-		"mob/eyes",
-		"mob/ears",
-		"mob/hands",
-		"mob/feet",
-		"mob/head",
-		"mob/mask",
-		"mob/neck",
-		"mob/suit"
-	};
 
 	/// <summary>
 	/// Remember in hands is Left then right so [0] = Left, [1] = right
@@ -92,9 +63,6 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	public bool IsEVACapable { get; private set; }
 
 	public List<string> attackVerb = new List<string>();
-	private static readonly char[] ListSplitters = new [] { ',', ' ' };
-
-
 
 	public void SetUpFromClothingData(EquippedData equippedData, ItemAttributesData ItemAttributes) {
 		if (spriteHandlerData == null) {
@@ -136,135 +104,6 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		}
 	}
 
-
-	/// <summary>
-	/// Checks wheter the given <paramref name="dmDic"/> is null and the item exists and return the value with the given <paramref name="key"/>
-	/// </summary>
-	/// <param name="dmDic">Dictionary to get the value from</param>
-	/// <param name="key">Key to search for in <paramref name="dmDic"/></param>
-	/// <returns>Value accosiated with the <paramref name="key"/> in <paramref name="dmDic"/>,
-	/// <see cref="String.Empty"/> if not found or <paramref name="dmDic"/> is null</returns>
-	public static string TryGetAttr(Dictionary<string, string> dmDic, string key)
-	{
-		if (dmDic != null && dmDic.ContainsKey(key))
-		{
-			return dmDic[key];
-		}
-		return String.Empty;
-	}
-
-	/// <summary>
-	/// Whether <see cref="dm"/> and <see cref="dmi"/> are both non-null
-	/// </summary>
-	/// <returns>True if neither <see cref="dm"/> or <see cref="dmi"/> is null</returns>
-	public bool HasDataLoaded()
-	{
-		return dm != null && dmi != null;
-	}
-
-	/// <summary>
-	/// Getting stuff from whatever states provided
-	/// </summary>
-	/// <param name="states">Expected order is {item_state, item_color, icon_state}</param>
-	/// <returns></returns>
-	public static int TryGetClothingOffset(string[] states, ItemType itemType)
-	{
-		string[] onPlayerClothSheetHier = GetOnPlayerClothSheetHier(itemType);
-		for (int i = 0; i < states.Length; i++)
-		{
-			if (String.IsNullOrEmpty(states[i])) continue;
-
-			var icons = itemType == ItemType.None ?
-					onPlayer :
-					onPlayerClothSheetHier;
-
-			//DmiState state = dmi.searchStateInIcon(states[i], icons, 4, false);
-
-			//if (state == null) continue;
-
-			//return state.offset;
-		}
-
-		//Logger.LogError("No clothing offset found!  ClothHier=" + onPlayerClothSheetHier[0] + ", " + GetItemDebugInfo());
-		return -1;
-	}
-
-
-	private static string[] GetOnPlayerClothSheetHier(ItemType type)
-	{
-		string p = "mob/";
-		string r = null;
-		switch (type)
-		{
-			case ItemType.Glasses: r = "eyes"   ; break;
-			case ItemType.Hat    : r = "head"   ; break;
-			case ItemType.Mask   : r = "mask"   ; break;
-			case ItemType.Ear    : r = "ears"   ; break;
-			case ItemType.Suit   : r = "suit"   ; break;
-			case ItemType.Uniform: r = "uniform"; break;
-			case ItemType.Gloves : r = "hands"  ; break;
-			case ItemType.Shoes  : r = "feet"   ; break;
-			case ItemType.Back   : r = "back"   ; break;
-
-			case ItemType.Neck: return new[] { p + "ties", p + "neck"        };
-			case ItemType.Belt: return new[] { p + "belt", p + "belt_mirror" };
-		}
-		return new[] { r == null ? "" : p + r };
-	}
-
-
-	/// <summary>
-	/// Used to initialize <see cref="HierList"/>
-	/// </summary>
-	/// <returns>The value <see cref="HierList"/> is set to</returns>
-	private static string[] InitializeHierList()
-	{
-		string path = Path.Combine("metadata", "hier");
-		TextAsset asset = Resources.Load(path) as TextAsset;
-		if (asset != null)
-		{
-			var hiers = asset.text.Split('\n').Where(h => h.Contains("cloth"));
-			return hiers.ToArray();
-		}
-		Logger.LogError($"Couldn't initialize {nameof(HierList)} asset \"{path}\" is null", Category.DmMetadata);
-		return null;
-	}
-
-	/// <summary>
-	/// Item size based on the input string, <see cref="ItemSize.Small"/> by default
-	/// </summary>
-	/// <param name="s"><see cref="string"/> to get size from</param>
-	/// <returns>Size based on <paramref name="s"/>, <see cref="ItemSize.Small"/> if <paramref name="s"/> doesn't match any other size</returns>
-	private static ItemSize GetItemSize(string s)
-	{
-		switch (s)
-		{
-			case "WEIGHT_CLASS_TINY":
-				return ItemSize.Tiny;
-			case "WEIGHT_CLASS_SMALL":
-				return ItemSize.Small;
-			case "WEIGHT_CLASS_NORMAL":
-				return ItemSize.Medium;
-			case "WEIGHT_CLASS_BULKY":
-				return ItemSize.Large;
-			case "WEIGHT_CLASS_HUGE":
-				return ItemSize.Huge;
-			default:
-				return ItemSize.Small;
-		}
-	}
-
-	private string SpriteTypeCode()
-	{
-		int i = -1;
-		switch (spriteType)
-		{
-			case SpriteType.Items   : i = 1; break;
-			case SpriteType.Clothing: i = 2; break;
-			case SpriteType.Guns    : i = 3; break;
-		}
-		return i.ToString();
-	}
 
 	public void OnHoverStart()
 	{
