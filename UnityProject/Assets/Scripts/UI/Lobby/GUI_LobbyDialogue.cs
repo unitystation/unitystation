@@ -63,15 +63,18 @@ namespace Lobby
 
 			// Init Lobby UI
 			InitPlayerName();
-
-			if (ServerData.Auth.CurrentUser != null)
-			{
-				ShowConnectionPanel();
-			}
-			else
-			{
+			
+			//TODO: Enable auto login. If CharacterSettings have not been downloaded for this instance
+			// then you need to download them if the user is already logged in. Show a logging in status text
+			// when doing this
+			// if (ServerData.Auth.CurrentUser != null)
+			// {
+			// 	ShowConnectionPanel();
+			// }
+			// else
+			// {
 				ShowLoginScreen();
-			}
+			// }
 		}
 
 		public void ShowLoginScreen()
