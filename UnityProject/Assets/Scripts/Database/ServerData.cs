@@ -40,9 +40,6 @@ namespace DatabaseAPI
 		{
 			//Handles config for RCON and Server Status API for dedicated servers
 			AttemptConfigLoad();
-		}
-		void Start()
-		{
 			InitializeFirebase();
 		}
 
