@@ -64,8 +64,6 @@ public class SecurityRecordsConsole : NBHandApplyInteractable
 		netTransform.AppearAtPositionServer(pos);
 		IdCard = null;
 	}
-
-
 }
 
 public class SecurityRecordsUpdateEvent : UnityEvent { }
