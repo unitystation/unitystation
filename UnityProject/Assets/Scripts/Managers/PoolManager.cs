@@ -261,7 +261,8 @@ public class PoolManager : NetworkBehaviour
 
 	/// <summary>
 	/// FOR DEV / TESTING ONLY! Simulates destroying and recreating an item by putting it in the pool and taking it back
-	/// out again. Can use this to validate that the object correctly re-initializes itself after spawning -
+	/// out again. If item is not pooled, simply destroys and recreates it as if calling PoolNetworkDestroy then PoolNetworkInstantiate.
+	/// Can use this to validate that the object correctly re-initializes itself after spawning -
 	/// no state should be left over from its previous incarnation.
 	/// </summary>
 	/// <returns>the re-created object</returns>
@@ -276,38 +277,58 @@ public class PoolManager : NetworkBehaviour
 		var objBehavior = target.GetComponent<ObjectBehaviour>();
 		if (objBehavior == null)
 		{
-			Logger.LogErrorFormat("{0} has no ObjectBehavior thus cannot be pooled.", Category.ItemSpawn, target.name);
-		}
-		//save previous position
-		var worldPos = objBehavior.AssumedWorldPositionServer();
+			//destroy / create using normal approach with no pooling
+			Logger.LogWarningFormat("Object {0} has no object behavior, thus cannot be pooled. It will be destroyed / created" +
+			                        " without going through the pool.", Category.ItemSpawn, target.name);
 
-		//this simulates going into the pool
-		var cnt = target.GetComponent<CustomNetTransform>();
-		if (cnt)
-		{
-			cnt.FireGoingOffStageHooks();
+			//determine prefab
+			var position = target.TileWorldPosition();
+			var prefab = DeterminePrefab(target);
+			if (prefab == null)
+			{
+				Logger.LogErrorFormat("Object {0} at {1} cannot be respawned because it has no PoolPrefabTracker and its name" +
+				                      " does not match a prefab name, so we cannot" +
+				                      " determine the prefab to instantiate. Please fix this object so that it" +
+				                      " has an attached PoolPrefabTracker or so its name matches the prefab it was created from.", Category.ItemSpawn, target.name, position);
+				return null;
+			}
+			PoolNetworkDestroy(target);
+			return PoolNetworkInstantiate(prefab, position.To3Int());
 		}
 		else
 		{
-			Logger.LogWarningFormat("Object {0} at {1} has no CustomNetTransform, lifecycle hooks will" +
-			                  " not be fired. This is most likely a mistake as almost all networked objects should" +
-			                  " have a CNT.", Category.ItemSpawn, target.name, worldPos);
+			//destroy / create with pooling
+			//save previous position
+			var worldPos = objBehavior.AssumedWorldPositionServer();
+
+			//this simulates going into the pool
+			var cnt = target.GetComponent<CustomNetTransform>();
+			if (cnt)
+			{
+				cnt.FireGoingOffStageHooks();
+			}
+			else
+			{
+				Logger.LogWarningFormat("Object {0} at {1} has no CustomNetTransform, lifecycle hooks will" +
+				                        " not be fired. This is most likely a mistake as almost all networked objects should" +
+				                        " have a CNT.", Category.ItemSpawn, target.name, worldPos);
+			}
+			objBehavior.VisibleState = false;
+
+			//this simulates coming back out of the pool
+			target.SetActive(true);
+			objBehavior.VisibleState = true;
+
+			target.transform.position = worldPos;
+			if (cnt)
+			{
+				cnt.ReInitServerState();
+				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
+				cnt.FireGoingOnStageHooks();
+			}
+
+			return target;
 		}
-		objBehavior.VisibleState = false;
-
-		//this simulates coming back out of the pool
-		target.SetActive(true);
-		objBehavior.VisibleState = true;
-
-		target.transform.position = worldPos;
-		if (cnt)
-		{
-			cnt.ReInitServerState();
-			cnt.NotifyPlayers(); //Sending out clientState for already spawned items
-			cnt.FireGoingOnStageHooks();
-		}
-
-		return target;
 	}
 
 	[Server]
