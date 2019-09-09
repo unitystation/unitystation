@@ -7,7 +7,7 @@ using Atmospherics;
 using Tilemaps.Behaviours.Meta;
 
 [RequireComponent(typeof(Pickupable))]
-public class Pipe : NetworkBehaviour
+public class Pipe : NetworkBehaviour, IOnStageServer
 {
 	public RegisterTile registerTile;
 	public ObjectBehaviour objectBehaviour;
@@ -54,7 +54,7 @@ public class Pipe : NetworkBehaviour
 		ServerInit();
 	}
 
-	void OnSpawnedServer()
+	public void GoingOnStageServer(OnStageInfo info)
 	{
 		ServerInit();
 	}
@@ -117,6 +117,9 @@ public class Pipe : NetworkBehaviour
 		anchored = value;
 		objectBehaviour.isNotPushable = value;
 		//now that it's anchored, it can't be picked up
+		//TODO: This is getting called client side when joining, which is bad because it's only meant
+		//to be called server side. Most likely late joining clients have the wrong
+		//client-side state due to this issue.
 		pickupable.ServerSetCanPickup(!value);
 	}
 

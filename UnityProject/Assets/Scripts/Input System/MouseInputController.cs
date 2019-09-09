@@ -263,7 +263,7 @@ public class MouseInputController : MonoBehaviour
 		if (item != null)
 		{
 			var gun = item.GetComponent<Gun>();
-			if (gun != null && gun.CurrentMagazine != null && gun.CurrentMagazine.ammoRemains > 0)
+			if (gun != null && gun.CurrentMagazine != null && gun.CurrentMagazine.ClientAmmoRemains > 0)
 			{
 				return gun;
 			}

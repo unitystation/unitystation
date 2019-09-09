@@ -77,7 +77,18 @@ public static class DefaultWillInteract
 			return false;
 		}
 
-		bool? isNotHidden = !interaction.Performer.Player()?.Script.IsHidden;
+		bool? isNotHidden = true;
+		if (side == NetworkSide.Client)
+		{
+			//local player is performing interaction
+			isNotHidden = !PlayerManager.LocalPlayerScript.IsHidden;
+		}
+		else
+		{
+			//server is validating the interaction
+			isNotHidden = !interaction.Performer.Player()?.Script.IsHidden;
+		}
+
 		return isNotHidden.GetValueOrDefault( true );
 	}
 

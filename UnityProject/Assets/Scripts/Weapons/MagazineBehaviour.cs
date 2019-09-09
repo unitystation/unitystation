@@ -1,10 +1,11 @@
-﻿using UnityEngine.Networking;
+﻿using System;
+using UnityEngine.Networking;
 
 /// <summary>
 /// Tracks the ammo in a magazine. Note that if you are referencing the ammo count stored in this
 /// behavior, server and client ammo counts are stored separately but can be synced with SyncClientAmmoRemainsWithServer().
 /// </summary>
-public class MagazineBehaviour : NetworkBehaviour
+public class MagazineBehaviour : NetworkBehaviour, IOnStageServer
 {
 	/*
 	We keep track of 2 ammo counts. The server's ammo count is authoritative, but when ammo is being
@@ -13,60 +14,136 @@ public class MagazineBehaviour : NetworkBehaviour
 	when it processes the shot due to the latency in setting the syncvar
 	(server thinks we've only shot once when we've already shot thrice). So instead
 	we keep our own private ammo count (clientAmmoRemains) and only sync it up with the server when we need it
-	(such as when reloading or when picking up a weapon with this mag in it).
 	*/
-	[SyncVar] private int serverAmmoRemains;
+	[SyncVar] private int serverAmmoRemains = -1;
 	private int clientAmmoRemains;
+
 	/// <summary>
-	/// Remaining ammo in the clip. On the server, this will always be get/set using the server
-	/// authoritative value. On the client, this will use our local ammoRemains count, which can be synced
-	/// with the server-authoritative count using SyncClientAmmoRemainsWithServer()
+	/// Remaining ammo, latest value synced from server. There will be lag in this while shooting a burst.
 	/// </summary>
-	public int ammoRemains
-	{
-		get
-		{
-			if (isServer)
-			{
-				return serverAmmoRemains;
-			}
-			else
-			{
-				return clientAmmoRemains;
-			}
-		}
-		set
-		{
-			if (isServer)
-			{
-				serverAmmoRemains = value;
-			}
-			clientAmmoRemains = value;
-		}
-	}
+	public int ServerAmmoRemains => serverAmmoRemains;
+
+	/// <summary>
+	/// Remaining ammo, incorporating client side prediction. Never allowed to be more
+	/// than the latest value received from server.
+	/// </summary>
+	public int ClientAmmoRemains => Math.Min(clientAmmoRemains, serverAmmoRemains);
 
 	public string ammoType; //SET IT IN INSPECTOR
 	public int magazineSize = 20;
 
-	private void Start()
-	{
-		if (isServer)
-		{
-			ammoRemains = magazineSize;
-		}
+	/// <summary>
+	/// RNG whose seed is based on the netID of the magazine and which provides a random value based
+	/// on how much ammo the magazine has left.
+	/// </summary>
+	private Random magSyncedRNG;
 
-	}
+	private double currentRNG;
 
 	public override void OnStartClient()
 	{
-		SyncClientAmmoRemainsWithServer();
+		SyncPredictionWithServer();
+	}
+
+	public override void OnStartServer()
+	{
+		ServerInit();
+	}
+
+	public void GoingOnStageServer(OnStageInfo info)
+	{
+		ServerInit();
+	}
+
+	private void ServerInit()
+	{
+		//set to max ammo if uninitialized
+		if (serverAmmoRemains == -1)
+		{
+			serverAmmoRemains = magazineSize;
+			SyncPredictionWithServer();
+		}
 	}
 
 	/// <summary>
-	/// Sets our local ammo count to match the server's latest ammo count.
+	/// Force client count to sync with server regardless of any prediction
 	/// </summary>
-	public void SyncClientAmmoRemainsWithServer()
+	public void SyncPredictionWithServer()
 	{
+		magSyncedRNG = new Random(GetComponent<NetworkIdentity>().netId.GetHashCode());
+		currentRNG = magSyncedRNG.NextDouble();
+		//fast forward RNG based on how many shots are spent
+		var shots = magazineSize - serverAmmoRemains;
+		for (int i = 0; i < shots; i++)
+		{
+			currentRNG = magSyncedRNG.NextDouble();
+		}
 		clientAmmoRemains = serverAmmoRemains;
+	}
+
+	/// <summary>
+	/// Decrease server's ammo count by one.
+	/// </summary>
+	/// <returns></returns>
+	public void ExpendAmmo()
+	{
+		if (clientAmmoRemains > serverAmmoRemains)
+		{
+			//unusual situation, we think we have more ammo than the server thinks we do, so we should reset our client predicted
+			//value to what the server thinks. This can happen when client has just picked up a gun that already has
+			//spent ammo, as their count is not synced unless they are the one shooting.
+			Logger.LogWarningFormat("Unusual ammo mismatch client {0} server {1}, syncing back to server" +
+			                        " value.", Category.Firearms, clientAmmoRemains, serverAmmoRemains);
+			SyncPredictionWithServer();
+		}
+
+		if (isServer)
+		{
+			if (ServerAmmoRemains <= 0)
+			{
+				Logger.LogWarning("Server ammo count is already zero, cannot expend more ammo. Make sure" +
+				                  " to check ammo count before expending it.", Category.Firearms);
+			}
+			else
+			{
+				serverAmmoRemains--;
+			}
+		}
+
+		if (ClientAmmoRemains <= 0)
+		{
+			Logger.LogWarning("Client ammo count is already zero, cannot expend more ammo. Make sure" +
+			                  " to check ammo count before expending it.", Category.Firearms);
+		}
+		else
+		{
+			clientAmmoRemains--;
+			currentRNG = magSyncedRNG.NextDouble();
+		}
+
+		Logger.LogTraceFormat("Expended shot, now serverAmmo {0} clientAmmo {1}", Category.Firearms, serverAmmoRemains, clientAmmoRemains);
+	}
+
+	/// <summary>
+	/// Manually set remaining server-side ammo count
+	/// </summary>
+	/// <param name="remaining"></param>
+	[Server]
+	public void ServerSetAmmoRemains(int remaining)
+	{
+		serverAmmoRemains = remaining;
+		//fast forward RNG based on how many shots are spent
+		SyncPredictionWithServer();
+	}
+
+	/// <summary>
+	/// Gets an RNG double which is based on the current ammo remaining and this mag's net ID so client
+	///  can predict deviation / recoil based on how many shots.
+	/// </summary>
+	/// <returns></returns>
+	public double CurrentRNG()
+	{
+		Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, currentRNG, serverAmmoRemains, clientAmmoRemains);
+		return currentRNG;
 	}
 }

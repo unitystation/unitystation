@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElectricalModuleInheritance : MonoBehaviour
+public class ElectricalModuleInheritance : MonoBehaviour, IOffStageServer
 {
 	public ElectricalModuleTypeCategory ModuleType;
 	public ElectricalNodeControl ControllingNode;
 	public HashSet<ElectricalUpdateTypeCategory> RequiresUpdateOn;
 
-	public virtual void OnStartServer() { 
+	public virtual void OnStartServer() {
 	}
 
 	public virtual void TurnOffCleanup(){
 	}
 
-	public virtual void TurnOnSupply() { 
+	public virtual void TurnOnSupply() {
 	}
 
-	public virtual void TurnOffSupply() { 
+	public virtual void TurnOffSupply() {
 	}
 
-	public virtual void GoingOffStage() { 
+	public virtual void GoingOffStageServer(OffStageInfo info) {
 	}
 
 	public virtual void PowerUpdateStructureChange(){
-	}	
+	}
 
 	public virtual void PowerUpdateStructureChangeReact(){
 	}
@@ -32,10 +32,10 @@ public class ElectricalModuleInheritance : MonoBehaviour
 	public virtual void InitialPowerUpdateResistance(){
 	}
 
-	public virtual void PowerUpdateResistanceChange() { 
+	public virtual void PowerUpdateResistanceChange() {
 	}
 
-	public virtual void PowerNetworkUpdate(){ 
+	public virtual void PowerNetworkUpdate(){
 	}
 
 	public virtual void PowerUpdateCurrentChange(){
@@ -44,7 +44,7 @@ public class ElectricalModuleInheritance : MonoBehaviour
 	public virtual void PotentialDestroyed(){
 	}
 
-	public virtual void ObjectStateChange(ObjectState tState) { 
+	public virtual void ObjectStateChange(ObjectState tState) {
 	}
 
 	public virtual void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalNodeControl ComplexPassOn){

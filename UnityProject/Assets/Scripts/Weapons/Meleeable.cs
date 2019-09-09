@@ -49,7 +49,7 @@ public class Meleeable : MonoBehaviour, IInteractable<PositionalHandApply>
 				var gun = handItem.GetComponent<Gun>();
 				if (gun != null)
 				{
-					if (gun.CurrentMagazine?.ammoRemains > 0)
+					if (gun.CurrentMagazine?.ClientAmmoRemains > 0)
 					{
 						//we have ammo and are clicking ourselves - don't melee. Shoot instead.
 						return false;

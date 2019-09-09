@@ -64,7 +64,8 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 	public override void ObjectStateChange(ObjectState tState)
 	{
 		if (tState == ObjectState.InConstruction)
-		{			ElectricalSynchronisation.PoweredDevices.Remove(ControllingNode);
+		{
+			ElectricalSynchronisation.PoweredDevices.Remove(ControllingNode);
 		}
 		else if (tState == ObjectState.Normal)
 		{
@@ -73,7 +74,7 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 		}
 	}
 
-	public override void GoingOffStage()
+	public override void GoingOffStageServer(OffStageInfo info)
 	{
 		ElectricalSynchronisation.PoweredDevices.Remove(ControllingNode);
 	}
