@@ -21,7 +21,7 @@ public class Girder : NBHandApplyInteractable
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		ItemFactory.SpawnMetal(1, gameObject.TileWorldPosition(), parent: transform.parent);
+		ObjectFactory.SpawnMetal(1, gameObject.TileWorldPosition(), parent: transform.parent);
 	}
 
 	protected override bool WillInteract(HandApply interaction, NetworkSide side)

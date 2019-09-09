@@ -49,7 +49,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 		SetIsLocked(false);
 		SetIsClosed(false);
 
-		ItemFactory.SpawnMetal(2, gameObject.TileWorldPosition(), parent: transform.parent);
+		ObjectFactory.SpawnMetal(2, gameObject.TileWorldPosition(), parent: transform.parent);
 	}
 
 	public override void OnStartServer()

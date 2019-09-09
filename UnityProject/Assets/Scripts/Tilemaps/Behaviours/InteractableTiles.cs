@@ -7,18 +7,43 @@ using UnityEngine.Tilemaps;
 public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandApply>
 {
 	private MetaTileMap metaTileMap;
+	private Matrix matrix;
+	private TileChangeManager tileChangeManager;
+
+	/// <summary>
+	/// MetaTileMap that can be interacted with
+	/// </summary>
+	public MetaTileMap MetaTileMap => metaTileMap;
+
+	/// <summary>
+	/// Matrix that can be interacted with
+	/// </summary>
+	public Matrix Matrix => matrix;
+
+	/// <summary>
+	/// Tile change manager that can be interacted with
+	/// </summary>
+	public TileChangeManager TileChangeManager => tileChangeManager;
+
+	private Layer floorLayer;
+	public Layer FloorLayer => floorLayer;
+	private Layer baseLayer;
+	public Layer BaseLayer => baseLayer;
+	private Layer wallLayer;
+	public Layer WallLayer => wallLayer;
+	private Layer windowLayer;
+	public Layer WindowLayer => windowLayer;
 	private ObjectLayer objectLayer;
+	public ObjectLayer ObjectLayer => objectLayer;
 
-	private Tilemap floorTileMap;
-	private Tilemap baseTileMap;
-	private Tilemap wallTileMap;
-	private Tilemap windowTileMap;
-	private Tilemap objectTileMap;
-
-	private Tilemap grillTileMap;
+	private Layer grillTileMap;
 
 	private void Start()
 	{
+		metaTileMap = GetComponentInChildren<MetaTileMap>();
+		matrix = GetComponentInChildren<Matrix>();
+		objectLayer = GetComponentInChildren<ObjectLayer>();
+		tileChangeManager = GetComponent<TileChangeManager>();
 		CacheTileMaps();
 	}
 
@@ -26,13 +51,11 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 	{
 		if (!DefaultWillInteract.PositionalHandApply(interaction, NetworkSide.Client)) return false;
 
-		metaTileMap = interaction.Performer.GetComponentInParent<MetaTileMap>();
-		objectLayer = interaction.Performer.GetComponentInParent<ObjectLayer>();
 		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
 
 		Vector3Int pos = objectLayer.transform.InverseTransformPoint(interaction.WorldPositionTarget).RoundToInt();
 		pos.z = 0;
-		Vector3Int cellPos = baseTileMap.WorldToCell(interaction.WorldPositionTarget);
+		Vector3Int cellPos = baseLayer.WorldToCell(interaction.WorldPositionTarget);
 
 		LayerTile tile = metaTileMap.GetTile(pos);
 
@@ -73,7 +96,7 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 				case TileType.Window:
 				{
 					//Check Melee:
-					Meleeable melee = windowTileMap.gameObject.GetComponent<Meleeable>();
+					Meleeable melee = windowLayer.gameObject.GetComponent<Meleeable>();
 					if (melee != null &&
 					    melee.Interact(PositionalHandApply.ByLocalPlayer(gameObject)))
 					{
@@ -116,32 +139,27 @@ public class InteractableTiles : MonoBehaviour, IInteractable<PositionalHandAppl
 
 	void CacheTileMaps()
 	{
-		var tilemaps = GetComponentsInChildren<Tilemap>(true);
+		var tilemaps = GetComponentsInChildren<Layer>(true);
 		for (int i = 0; i < tilemaps.Length; i++)
 		{
 			if (tilemaps[i].name.Contains("Floors"))
 			{
-				floorTileMap = tilemaps[i];
+				floorLayer = tilemaps[i];
 			}
 
 			if (tilemaps[i].name.Contains("Base"))
 			{
-				baseTileMap = tilemaps[i];
+				baseLayer = tilemaps[i];
 			}
 
 			if (tilemaps[i].name.Contains("Walls"))
 			{
-				wallTileMap = tilemaps[i];
+				wallLayer = tilemaps[i];
 			}
 
 			if (tilemaps[i].name.Contains("Windows"))
 			{
-				windowTileMap = tilemaps[i];
-			}
-
-			if (tilemaps[i].name.Contains("Objects"))
-			{
-				objectTileMap = tilemaps[i];
+				windowLayer = tilemaps[i];
 			}
 
 			if (tilemaps[i].name.Contains("Grills"))

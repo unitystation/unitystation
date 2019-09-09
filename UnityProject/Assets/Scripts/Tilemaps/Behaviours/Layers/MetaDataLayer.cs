@@ -11,13 +11,15 @@ public class MetaDataLayer : MonoBehaviour
 
 	private SubsystemManager subsystemManager;
 	private ReactionManager reactionManager;
-	public Matrix matrix;
+	private Matrix matrix;
+	private MetaTileMap metaTileMap;
 
 	private void Awake()
 	{
 		subsystemManager = GetComponentInParent<SubsystemManager>();
 		reactionManager = GetComponentInParent<ReactionManager>();
 		matrix = GetComponent<Matrix>();
+		metaTileMap = GetComponent<MetaTileMap>();
 	}
 
 	public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)

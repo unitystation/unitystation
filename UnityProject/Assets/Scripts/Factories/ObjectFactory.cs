@@ -4,14 +4,15 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 /// <summary>
-/// Util class for spawning commonly-spawned items without needing to save their
-/// prefab references
+/// Util class for spawning things. Also allows spawning stuff without needing to save their
+/// prefab references in every component instance.
 /// </summary>
-public static class ItemFactory
+public static class ObjectFactory
 {
 	private static GameObject metalPrefab;
 	private static GameObject glassShardPrefab;
 	private static GameObject rodsPrefab;
+	private static GameObject plasmaPrefab;
 
 	private static bool hasInit = false;
 
@@ -21,6 +22,7 @@ public static class ItemFactory
 		metalPrefab = Resources.Load<GameObject>("Metal");
 		glassShardPrefab = Resources.Load("GlassShard") as GameObject;
 		rodsPrefab = Resources.Load("Rods") as GameObject;
+		plasmaPrefab = Resources.Load("SolidPlasma") as GameObject;
 		hasInit = true;
 	}
 
@@ -61,6 +63,12 @@ public static class ItemFactory
 	{
 		EnsureInit();
 		Spawn(amount, rodsPrefab, tileWorldPosition, scatterRadius, parent);
+	}
+
+	public static void SpawnPlasma(int amount, Vector2Int tileWorldPosition, float scatterRadius = 0.1f, Transform parent=null)
+	{
+		EnsureInit();
+		Spawn(amount, plasmaPrefab, tileWorldPosition, scatterRadius, parent);
 	}
 
 }
