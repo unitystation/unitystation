@@ -87,17 +87,20 @@ public class ClothingItem : MonoBehaviour
 			//Logger.Log("is here!");
 			if (spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand)
 			{
-				var itemAttributes = Item.GetComponent<ItemAttributes>().spriteHandlerData;
-				spriteHandler.Infos = itemAttributes.Infos;
-				if (spriteType == SpriteHandType.RightHand)
+				var SHD = Item.GetComponent<ItemAttributes>()?.spriteHandlerData;
+				if (SHD != null)
 				{
-					spriteHandler.ChangeSprite(1);
+					spriteHandler.Infos = SHD.Infos;
+					if (spriteType == SpriteHandType.RightHand)
+					{
+						spriteHandler.ChangeSprite(1);
+					}
+					else
+					{
+						spriteHandler.ChangeSprite(0);
+					}
+					spriteHandler.PushTexture();
 				}
-				else
-				{
-					spriteHandler.ChangeSprite(0);
-				}
-				spriteHandler.PushTexture();
 			}
 			else {
 				var clothing = Item.GetComponent<Clothing>();
