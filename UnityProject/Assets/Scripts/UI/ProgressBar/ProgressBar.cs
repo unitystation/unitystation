@@ -42,7 +42,7 @@ public class ProgressBar : NetworkBehaviour
 				completedAction = finishProgressAction,
 				position = pos,
 				playerDirectional = _playerDirectional,
-				playerPositionCache = _player.transform.position,
+				playerPositionCache = _player.TileWorldPosition(),
 				facingDirectionCache = _playerDirectional.CurrentDirection,
 				additionalSfx = _additionalSfx,
 				additionalSfxPitch = _additionalSfxPitch,
@@ -129,7 +129,7 @@ public class PlayerProgressEntry
 	public float timeToFinish;
 	public GameObject player;
 	public Directional playerDirectional;
-	public Vector3 playerPositionCache;
+	public Vector2Int playerPositionCache;
 	public Orientation facingDirectionCache;
 	public FinishProgressAction completedAction;
 	public Vector3 position;
@@ -145,7 +145,7 @@ public class PlayerProgressEntry
 	public bool HasMovedAway()
 	{
 		if ((!allowTurning && playerDirectional.CurrentDirection != facingDirectionCache) ||
-			player.transform.position != playerPositionCache)
+			player.TileWorldPosition() != playerPositionCache)
 		{
 			return true;
 		}
