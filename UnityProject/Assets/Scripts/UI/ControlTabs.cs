@@ -544,12 +544,17 @@ public class ControlTabs : MonoBehaviour
 	public static void CheckTabClose()
 	{
 		var toClose = new List<NetTab>();
+		var toDestroy = new List<NetTab>();
 		var playerScript = PlayerManager.LocalPlayerScript;
 
 		foreach (NetTab tab in Instance.OpenedNetTabs.Values)
 		{
-			if (playerScript.canNotInteract() ||
-				!playerScript.IsInReach(tab.Provider, false))
+
+			if ( tab.Provider == null )
+			{
+				toDestroy.Add(tab);
+			}
+			else if ( playerScript.canNotInteract() || !playerScript.IsInReach(tab.Provider, false) )
 			{
 				//Make sure the item is not in the players hands first:
 				if (UIManager.Hands.CurrentSlot.Item != tab.Provider.gameObject &&
@@ -559,12 +564,24 @@ public class ControlTabs : MonoBehaviour
 				}
 			}
 		}
+
 		foreach (NetTab tab in toClose)
 		{
 			Instance.HideTab(tab);
 		}
 
+		foreach ( NetTab tab in toDestroy )
+		{
+			Instance.DestroyTab( tab );
+		}
+
 		CheckItemListTab();
+	}
+
+	private void DestroyTab( NetTab tab )
+	{
+		HideTab( tab );
+		Destroy( tab.gameObject );
 	}
 
 	private void ShowFinger(GameObject tab, GameObject element)
