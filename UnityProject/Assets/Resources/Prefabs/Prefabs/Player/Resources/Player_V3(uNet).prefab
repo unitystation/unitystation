@@ -5051,6 +5051,61 @@ MonoBehaviour:
   GameObjectReference: {fileID: 0}
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
+--- !u!114 &163977268519836175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969254411952092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &3267990453321456714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969254411952092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
+  spriteRenderer: {fileID: 212650584535459368}
+  spriteIndex: 0
+  VariantIndex: 0
+  SynchroniseVariant: 0
 --- !u!1 &241164278958766010
 GameObject:
   m_ObjectHideFlags: 0
@@ -5077,10 +5132,9 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 141859864810087597}
+  m_Children: []
   m_Father: {fileID: 4776070308268166969}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5162,8 +5216,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chatIcon: {fileID: 114053825719430910}
   chatBubble: {fileID: 3225982707712395634}
-  bubbleText: {fileID: 1034183186174661024}
-  pointer: {fileID: 7855789308551963094}
+  bubbleText: {fileID: 0}
+  pointer: {fileID: 0}
 --- !u!114 &1869898801700797615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5235,8 +5289,6 @@ GameObject:
   - component: {fileID: 4776070308268166969}
   - component: {fileID: 6157268090351760418}
   - component: {fileID: 5972147830315798000}
-  - component: {fileID: 5056329431132668351}
-  - component: {fileID: 7261509097524071860}
   m_Layer: 8
   m_Name: ChatBubble
   m_TagString: Untagged
@@ -5255,7 +5307,6 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 170555788465986529}
   - {fileID: 7025126773484805474}
   m_Father: {fileID: 696835907591364663}
   m_RootOrder: 0
@@ -5302,61 +5353,6 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &163977268519836175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969254411952092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &3267990453321456714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969254411952092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 0
-    Serialized: []
-  spriteList: []
-  spriteRenderer: {fileID: 212650584535459368}
-  spriteIndex: 0
-  VariantIndex: 0
-  SynchroniseVariant: 0
 --- !u!1 &4560473325844253165
 GameObject:
   m_ObjectHideFlags: 0
@@ -5823,22 +5819,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 23824325930050846, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 33937463476659220, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758,
         type: 3}
-    - target: {fileID: 33937463476659220, guid: e2b1333de46384f95876864de1911fff,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 23824325930050846, guid: e2b1333de46384f95876864de1911fff,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
 --- !u!1 &4299649681570296155 stripped

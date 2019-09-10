@@ -70,21 +70,21 @@ public class Equipment : NetworkBehaviour
 		JobOutfit standardOutfit = GameManager.Instance.StandardOutfit.GetComponent<JobOutfit>();
 		JobOutfit jobOutfit = GameManager.Instance.GetOccupationOutfit(playerScript.mind.jobType);
 
-		Dictionary<string, ClothOrPrefab> gear = new Dictionary<string, ClothOrPrefab>();
+		Dictionary<EquipSlot, ClothOrPrefab> gear = new Dictionary<EquipSlot, ClothOrPrefab>();
 		//Logger.Log("LLLLLLLLLLLLLLLLL > " + JsonConvert.SerializeObject(standardOutfit.CDuniform.Clothing) + " <  " + playerScript.mind.jobType );
 		//Logger.Log(standardOutfit.ToString());
-		gear.Add("uniform", standardOutfit.uniform);
+		gear.Add(EquipSlot.uniform, standardOutfit.uniform);
 		//gear.Add("ears", standardOutfit.ears);
 		//gear.Add("belt", standardOutfit.belt);
-		gear.Add("shoes", standardOutfit.shoes);
-		gear.Add("glasses", standardOutfit.glasses);
-		gear.Add("gloves", standardOutfit.gloves);
+		gear.Add(EquipSlot.feet, standardOutfit.shoes);
+		gear.Add(EquipSlot.eyes, standardOutfit.glasses);
+		gear.Add(EquipSlot.hands, standardOutfit.gloves);
 		Backpack = standardOutfit.backpack;
 		Ears = standardOutfit.ears;
-		gear.Add("suit", standardOutfit.suit);
-		gear.Add("head", standardOutfit.head);
+		gear.Add(EquipSlot.exosuit, standardOutfit.suit);
+		gear.Add(EquipSlot.head, standardOutfit.head);
 		//gear.Add("accessory", standardOutfit.accessory);
-		gear.Add("mask", standardOutfit.mask);
+		gear.Add(EquipSlot.mask, standardOutfit.mask);
 		//gear.Add("backpack", standardOutfit.backpack);
 		//gear.Add("satchel", standardOutfit.satchel);
 		//gear.Add("duffelbag", standardOutfit.duffelbag);
@@ -92,7 +92,7 @@ public class Equipment : NetworkBehaviour
 		//gear.Add("l_hand", standardOutfit.l_hand);
 		//gear.Add("l_pocket", standardOutfit.l_pocket);
 		//gear.Add("r_pocket", standardOutfit.r_pocket);
-		gear.Add("suit_store", standardOutfit.suit_store);
+		gear.Add(EquipSlot.suitStorage, standardOutfit.suit_store);
 
 		//if (!string.IsNullOrEmpty(jobOutfit.uniform))
 		//{
@@ -112,13 +112,13 @@ public class Equipment : NetworkBehaviour
 		//{
 		//	gear["back"] = jobOutfit.backpack;
 		//}
-		AddifPresent(gear, "suit", jobOutfit.suit);
-		AddifPresent(gear, "head", jobOutfit.head);
-		AddifPresent(gear, "uniform", jobOutfit.uniform);
-		AddifPresent(gear, "shoes", jobOutfit.shoes);
-		AddifPresent(gear, "gloves", jobOutfit.gloves);
-		AddifPresent(gear, "glasses", jobOutfit.glasses);
-		AddifPresent(gear, "mask", jobOutfit.mask);
+		AddifPresent(gear, EquipSlot.exosuit, jobOutfit.suit);
+		AddifPresent(gear, EquipSlot.head, jobOutfit.head);
+		AddifPresent(gear, EquipSlot.uniform, jobOutfit.uniform);
+		AddifPresent(gear, EquipSlot.feet, jobOutfit.shoes);
+		AddifPresent(gear, EquipSlot.hands, jobOutfit.gloves);
+		AddifPresent(gear, EquipSlot.eyes, jobOutfit.glasses);
+		AddifPresent(gear, EquipSlot.mask, jobOutfit.mask);
 		//AddifPresent(gear, "suit_store", jobOutfit.suit_store);
 
 		//Logger.Log(JsonConvert.SerializeObject(jobOutfit.backpack.Backpack));
@@ -154,7 +154,7 @@ public class Equipment : NetworkBehaviour
 			gear[EquipSlot.r_pocket] = jobOutfit.r_pocket;
 		if (!String.IsNullOrEmpty(jobOutfit.suit_store))
 			gear["suit_store"] = jobOutfit.suit_store;*/
-		foreach (KeyValuePair<string, ClothOrPrefab> gearItem in gear)
+		foreach (KeyValuePair<EquipSlot, ClothOrPrefab> gearItem in gear)
 		{
 
 			//Logger.Log("RRRRRRRRRRRRR" + JsonConvert.SerializeObject(gearItem.Value.Clothing));
@@ -164,19 +164,19 @@ public class Equipment : NetworkBehaviour
 				{
 					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent, PrefabOverride: gearItem.Value.Clothing.PrefabVariant); //Where it is made
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
+					SetItem(gearItem.Key, itemAtts.gameObject);
 				}
 				else {
 					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent); 
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-					SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
+					SetItem(gearItem.Key, itemAtts.gameObject);
 				}
 			}
 			else if (gearItem.Value.Prefab != null)
 			{
 				var obj = PoolManager.PoolNetworkInstantiate(gearItem.Value.Prefab, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(GetLoadOutEventName(gearItem.Key), itemAtts.gameObject);
+				SetItem(gearItem.Key, itemAtts.gameObject);
 			}
 		}
 		if (Backpack.Backpack != null)
@@ -185,19 +185,19 @@ public class Equipment : NetworkBehaviour
 			{
 				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent, PrefabOverride: Backpack.Backpack.PrefabVariant); //Where it is made
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(GetLoadOutEventName("back"), itemAtts.gameObject);
+				SetItem(EquipSlot.back, itemAtts.gameObject);
 			}
 			else {
 				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent); 
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(GetLoadOutEventName("back"), itemAtts.gameObject);
+				SetItem(EquipSlot.back, itemAtts.gameObject);
 			}
 		}
 		else if (Backpack.Prefab)
 		{
 			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
 			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(GetLoadOutEventName("back"), itemAtts.gameObject);
+			SetItem(EquipSlot.back, itemAtts.gameObject);
 		}
 
 
@@ -207,19 +207,19 @@ public class Equipment : NetworkBehaviour
 			{
 				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent, PrefabOverride: Ears.Headset.PrefabVariant); //Where it is made
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(GetLoadOutEventName("ears"), itemAtts.gameObject);
+				SetItem(EquipSlot.ear, itemAtts.gameObject);
 			}
 			else {
 				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent); 
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(GetLoadOutEventName("ears"), itemAtts.gameObject);
+				SetItem(EquipSlot.ear, itemAtts.gameObject);
 			}
 		}
 		else if (Ears.Prefab)
 		{
 			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
 			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(GetLoadOutEventName("ears"), itemAtts.gameObject);
+			SetItem(EquipSlot.ear, itemAtts.gameObject);
 		}
 		SpawnID(jobOutfit);
 
@@ -234,7 +234,7 @@ public class Equipment : NetworkBehaviour
 			}
 		}
 	}
-	private void AddifPresent(Dictionary<string, ClothOrPrefab> gear, string key, ClothOrPrefab clothOrPrefab)
+	private void AddifPresent(Dictionary<EquipSlot, ClothOrPrefab> gear, EquipSlot key, ClothOrPrefab clothOrPrefab)
 	{
 		if (clothOrPrefab?.Clothing?.Base?.Equipped != null || clothOrPrefab?.Prefab != null)
 		{
@@ -262,7 +262,7 @@ public class Equipment : NetworkBehaviour
 		{
 			idObj.GetComponent<IDCard>().Initialize(IDCardType.standard, outFit.jobType, outFit.allowedAccess, realName);
 		}
-		SetItem("id", idObj);
+		SetItem(EquipSlot.id, idObj);
 	}
 
 	// //Hand item sprites after picking up an item (server)
@@ -321,19 +321,19 @@ public class Equipment : NetworkBehaviour
 		}
 	}
 
-	//To set the actual sprite on the player obj
-	public void SetHandItemSprite(ItemAttributes att, string hand)
-	{
-		if (hand == EquipSlot.leftHand)
-		{
-			SetReference((int)enumA, att.gameObject);
-		}
-		else
-		{
-			SetReference((int)enumA, att.gameObject);
-		}
-		//clothingSlots[enumA].sprites
-	}
+	////To set the actual sprite on the player obj
+	//public void SetHandItemSprite(ItemAttributes att, string hand)
+	//{
+	//	if (hand == EquipSlot.leftHand)
+	//	{
+	//		SetReference((int)enumA, att.gameObject);
+	//	}
+	//	else
+	//	{
+	//		SetReference((int)enumA, att.gameObject);
+	//	}
+	//	//clothingSlots[enumA].sprites
+	//}
 
 	public void SetReference(int index, GameObject _Item)
 	{

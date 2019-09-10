@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteHandlerData: {fileID: 114462233250351786}
+  spriteHandlerData: {fileID: 0}
   InventoryIcon: {fileID: 0}
   itemName: Extinguisher
   itemDescription: A heavy fire extinguisher
@@ -291,12 +291,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &114690376875817604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5159,87 +5156,3 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
-  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Infos:
-    spriteIndex: 0
-    VariantIndex: 0
-    AID: 19
-    Serialized:
-    - inlistID: 2
-      listID: 3
-      sprite: {fileID: 21300000, guid: 4fb99fbf1d1ac0b499eee7a16d932971, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 2
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 4
-      listID: 5
-      sprite: {fileID: 21300002, guid: 4fb99fbf1d1ac0b499eee7a16d932971, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 4
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 6
-      listID: 7
-      sprite: {fileID: 21300004, guid: 4fb99fbf1d1ac0b499eee7a16d932971, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 6
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 8
-      listID: 9
-      sprite: {fileID: 21300006, guid: 4fb99fbf1d1ac0b499eee7a16d932971, type: 3}
-      waitTime: 0
-    - inlistID: 1
-      listID: 8
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 1
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 11
-      listID: 12
-      sprite: {fileID: 21300000, guid: 4fb99fbf1d1ac0b499eee7a16d932971, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 11
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 13
-      listID: 14
-      sprite: {fileID: 21300002, guid: 4fb99fbf1d1ac0b499eee7a16d932971, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 13
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 15
-      listID: 16
-      sprite: {fileID: 21300004, guid: 4fb99fbf1d1ac0b499eee7a16d932971, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 15
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 17
-      listID: 18
-      sprite: {fileID: 21300006, guid: 4fb99fbf1d1ac0b499eee7a16d932971, type: 3}
-      waitTime: 0
-    - inlistID: 10
-      listID: 17
-      sprite: {fileID: 0}
-      waitTime: 0
-    - inlistID: 0
-      listID: 10
-      sprite: {fileID: 0}
-      waitTime: 0
-  spriteList:
-  - {fileID: 21300002, guid: 4fb99fbf1d1ac0b499eee7a16d932971, type: 3}
-  - {fileID: 21300004, guid: 4fb99fbf1d1ac0b499eee7a16d932971, type: 3}
-

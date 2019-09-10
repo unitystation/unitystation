@@ -170,11 +170,11 @@ MonoBehaviour:
   spriteRenderer: {fileID: 212360857505739792}
   occupant: {fileID: 0}
   statusString: 
-  powered: 0
   closedWithOccupant: {fileID: 21300000, guid: cdec23d93e162af4e8ed5aa7056020f9, type: 3}
   doorClosedPowerless: {fileID: 21300000, guid: d576437aea8f9b04a80ff4fd7f9a5dc0,
     type: 3}
   doorOpenPowerless: {fileID: 21300000, guid: adbd8f0ee776c3f409f3d3b0b60c6916, type: 3}
+  spriteHandler: {fileID: 390125877411094447}
 --- !u!114 &114818633338735330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,12 +232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 1
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 1
 --- !u!114 &2464575245303528366
 MonoBehaviour:
   m_ObjectHideFlags: 0

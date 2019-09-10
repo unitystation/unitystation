@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e12f147c494feb4bb0f1d25f7968cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceProne: 1
+  forceUpright: 0
 --- !u!114 &114728226944580436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,4 +290,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
-

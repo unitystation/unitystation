@@ -168,11 +168,11 @@ public class Welder : NBHandActivateInteractable
 
 		//Server also needs to know which player is holding the item so that it can sync
 		//the inhand image when the player turns it on and off:
-		if (isServer && heldByPlayer != null)
-		{
-			var clientPNA = heldByPlayer.GetComponent<PlayerNetworkActions>();
-			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, clientPNA.activeHand);
-		}
+		//if (isServer && heldByPlayer != null)
+		//{
+		//	var clientPNA = heldByPlayer.GetComponent<PlayerNetworkActions>();
+		//	heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, clientPNA.activeHand);
+		//}
 	}
 
 	IEnumerator BurnFuel()

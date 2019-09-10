@@ -30,7 +30,7 @@ public class InventoryManager : MonoBehaviour
 
 			if(IsEquipSpriteSlot(inventorySlot.equipSlot))
 			{
-				EquipmentSpritesMessage.SendToAll(inventorySlot.Owner, (int)inventorySlot.equipSlot, -1);
+				EquipmentSpritesMessage.SendToAll(inventorySlot.Owner, (int)inventorySlot.equipSlot, null);
 			}
 		}
 		inventorySlot.Item = null;
@@ -56,25 +56,7 @@ public class InventoryManager : MonoBehaviour
 
 			if (IsEquipSpriteSlot(inventorySlot.equipSlot))
 			{
-				var att = item.GetComponent<ItemAttributes>();
-				var reference = att.clothingReference;
-				{
-					if (inventorySlot.equipSlot == EquipSlot.leftHand)
-					{
-						reference = att.NetworkInHandRefLeft();
-					}
-					else if(inventorySlot.equipSlot == EquipSlot.rightHand)
-					{
-						reference = att.NetworkInHandRefRight();
-					}
-				}
-				if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") ||
-					att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
-					att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank") || inventorySlot.equipSlot == EquipSlot.handcuffs
-					|| inventorySlot.equipSlot == EquipSlot.leftHand || inventorySlot.equipSlot == EquipSlot.rightHand)
-				{
-					EquipmentSpritesMessage.SendToAll(inventorySlot.Owner, (int)inventorySlot.equipSlot, reference);
-				}
+				EquipmentSpritesMessage.SendToAll(inventorySlot.Owner, (int)inventorySlot.equipSlot, item);
 
 			}
 		}
@@ -194,6 +176,7 @@ public enum EquipSlot
 	inventory04,
 	inventory05,
 	inventory06,
-	inventory07
+	inventory07,
+
 
 }

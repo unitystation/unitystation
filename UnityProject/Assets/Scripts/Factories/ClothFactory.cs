@@ -83,6 +83,7 @@ public class ClothFactory : NetworkBehaviour
 		{
 			Logger.Log("oh no!");
 		}
+		Logger.Log(headsetData.name);
 		GameObject clothObj;
 		if (PrefabOverride != null)
 		{ clothObj = PoolManager.PoolNetworkInstantiate(PrefabOverride, worldPos, parent); }
@@ -105,6 +106,7 @@ public class ClothFactory : NetworkBehaviour
 		{
 			Logger.Log("oh no!");
 		}
+		Logger.Log(ContainerData.name);
 		GameObject clothObj;
 		if (PrefabOverride != null)
 		{ clothObj = PoolManager.PoolNetworkInstantiate(PrefabOverride, worldPos, parent); }
@@ -128,7 +130,7 @@ public class ClothFactory : NetworkBehaviour
 		{
 			Logger.Log("oh no!");
 		}
-
+		Logger.Log(ClothingData.name);
 		GameObject clothObj;
 		if (PrefabOverride != null)
 		{ clothObj = PoolManager.PoolNetworkInstantiate(PrefabOverride, worldPos, parent); }

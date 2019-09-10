@@ -74,15 +74,15 @@ namespace Lobby
 			// else
 			// {
 
-			if (ServerData.Auth?.CurrentUser != null)
-			{
-				ShowConnectionPanel();
-			}
-			else
-			{
+			//if (ServerData.Auth?.CurrentUser != null)
+			//{
+			//	ShowConnectionPanel();
+			//}
+			//else
+			//{
 
-				ShowLoginScreen();
-			}
+			//	ShowLoginScreen();
+			//}
 		}
 
 		public void ShowLoginScreen()
