@@ -21,7 +21,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	private Sprite lerpSprite;
 
 	private Vector3 lerpTo;
-	public GameObject muzzleFlash;
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
 	private RegisterPlayer registerPlayer;
@@ -46,7 +45,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		Gun gun = gunObject.GetComponent<Gun>();
 		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
 		gun.ServerHandleReloadRequest(networkID);
-		GetComponent<PlayerNetworkActions>().ClearInventorySlot(hand);
+		//var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
+		//InventoryManager.ClearInvSlot(slot);
 	}
 
 	[Command]
@@ -65,8 +65,19 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		gun.ServerHandleUnloadRequest();
 	}
 
+	/// <summary>
+	/// Utility function that gets the weapon for you
+	/// </summary>
 	[Command]
-	public void CmdRequestMeleeAttack(GameObject victim, string slot, Vector2 stabDirection,
+	public void CmdRequestMeleeAttackSlot(GameObject victim, EquipSlot slot, Vector2 stabDirection,
+	BodyPartType damageZone, LayerType layerType)
+	{
+		var weapon = playerScript.playerNetworkActions.Inventory[slot].Item;
+		CmdRequestMeleeAttack(victim, weapon, stabDirection, damageZone, layerType);
+	}
+
+	[Command]
+	public void CmdRequestMeleeAttack(GameObject victim, GameObject weapon, Vector2 stabDirection,
 		BodyPartType damageZone, LayerType layerType)
 	{
 		if (!playerMove.allowInput ||
@@ -83,7 +94,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
-		var weapon = playerScript.playerNetworkActions.Inventory[slot].Item;
 		ItemAttributes weaponAttr = weapon.GetComponent<ItemAttributes>();
 
 		// If Tilemap LayerType is not None then it is a tilemap being attacked
@@ -126,6 +136,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			return;
 		}
 
+		// Consider moving this into a MeleeItemTrigger for knifes
 		//Meaty bodies:
 		LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 		if (victimHealth != null && victimHealth.IsDead && weaponAttr.itemType == ItemType.Knife)
@@ -146,7 +157,6 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				attackTarget.Harvest();
 				SoundManager.PlayNetworkedAtPos( "BladeSlice", transform.position );
 			}
-			return;
 		}
 
 		if (victim != gameObject)
@@ -159,13 +169,15 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		if (integrity != null)
 		{
 			//damaging an object
-			integrity.ApplyDamage((int)weaponAttr.hitDamage, AttackType.Melee, DamageType.Brute);
+			integrity.ApplyDamage((int)weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType);
 		}
 		else
 		{
 			//damaging a living thing
-			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, DamageType.Brute, damageZone);
+			victimHealth.ApplyDamage(gameObject, (int) weaponAttr.hitDamage, AttackType.Melee, weaponAttr.damageType, damageZone);
 		}
+
+		SoundManager.PlayNetworkedAtPos(weaponAttr.hitSound, transform.position);
 
 
 		if (weaponAttr.hitDamage > 0)
@@ -173,7 +185,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			PostToChatMessage.SendAttackMessage(gameObject, victim, (int) weaponAttr.hitDamage, damageZone, weapon);
 		}
 
-		SoundManager.PlayNetworkedAtPos( weaponAttr.hitSound, transform.position );
+
 		StartCoroutine(AttackCoolDown());
 	}
 
@@ -189,7 +201,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		var victimRegisterTile = victim.GetComponent<RegisterTile>();
 		var rng = new System.Random();
 
-		if (!playerScript.IsInReach(victim, true))
+		if (!playerScript.IsInReach(victim, true) || !victimHealth)
 		{
 			return;
 		}
@@ -213,7 +225,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			}
 
 			// Make a random punch hit sound.
-			SoundManager.PlayNetworkedAtPos("Punch"+rng.Next(1, 4), victimRegisterTile.WorldPosition);
+			SoundManager.PlayNetworkedAtPos("Punch#", victimRegisterTile.WorldPosition);
 
 			StartCoroutine(AttackCoolDown());
 		}
@@ -237,10 +249,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		allowAttack = true;
 	}
 
-	// Harvest should only be used for animals like pete and cows
-
 	[ClientRpc]
-	private void RpcMeleeAttackLerp(Vector2 stabDir, GameObject weapon)
+	public void RpcMeleeAttackLerp(Vector2 stabDir, GameObject weapon)
 	{
 		if (lerping)
 		{
@@ -323,13 +333,5 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 		lerping = false;
 		isForLerpBack = false;
 		lerpSprite = null;
-	}
-
-	private IEnumerator ShowMuzzleFlash()
-	{
-		muzzleFlash.gameObject.SetActive(true);
-		yield return WaitFor.Seconds(0.1f);
-		muzzleFlash.gameObject.SetActive(false);
-		isFlashing = false;
 	}
 }

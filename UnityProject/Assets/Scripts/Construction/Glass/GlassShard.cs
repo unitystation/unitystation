@@ -9,7 +9,7 @@ public class GlassShard : NetworkBehaviour
 {
 	public Sprite[] glassSprites;
 
-	[SyncVar(hook = "SpriteChange")]
+	[SyncVar(hook = nameof(SpriteChange))]
 	public int spriteIndex;
 
 	private SpriteRenderer spriteRenderer;

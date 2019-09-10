@@ -10,17 +10,8 @@ using Object = System.Object;
 /// Provides the general-purpose ability to create / destroy / colone objects and instances of prefabs, network synced, while using object pooling
 /// for some kinds of objects. Even if the object is not pooled, this should still be used to spawn / despawn / clone it.
 ///
-/// Notes on Spawn / Clone Hooks:
-/// When an object is spawned in game, each component is broadcast OnSpawnedServer on the server and then OnSpawnedClient on the
-/// client. This allows the component to set itself up after being spawned in a good "default" state that "just works".
-/// What that entails is up to the object / component.
-///
-/// When an object is cloned in game, each component is broadcast OnClonedServer on the server and then OnClonedClient on
-/// the client. This method also includes the game object that was cloned. This allows the component to
-/// inspect the cloned object and change its own state to match the object. It's up to each component / object to
-/// decide how to do this.
-///
-/// Neither of these will be called when spawning only a client-side object (via PoolClientInstantiate).
+/// Notes on Lifecycle - there are various lilfecycle stages components can hook into by implementing the
+/// appropriate interface. see TODO link to wiki
 /// </summary>
 public class PoolManager : NetworkBehaviour
 {
@@ -65,11 +56,12 @@ public class PoolManager : NetworkBehaviour
 		}
 		else
 		{
+
 			Destroy(gameObject);
 		}
 	}
 
-	private static bool IsPrefab(GameObject toCheck) => !toCheck.transform.gameObject.scene.IsValid();
+	#region PublicAPI
 
 	/// <summary>
 	/// Spawn the item and ensures it is synced over the network
@@ -77,7 +69,7 @@ public class PoolManager : NetworkBehaviour
 	/// <param name="prefab">Prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
 	/// be surprised if it doesn't as there are LOTS of prefabs in the game which all have unique behavior for how they should spawn. If you are trying
 	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
-	/// properly implemented a OnSpawnedServer and OnSpawnedClient method.</param>
+	/// properly implemented necessary lifecycle methods.</param>
 	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
@@ -102,9 +94,123 @@ public class PoolManager : NetworkBehaviour
 		}
 
 		//fire the hooks for spawning
-		tempObject.GetComponent<CustomNetTransform>()?.FireSpawnHooks();
+		tempObject.GetComponent<CustomNetTransform>()?.FireGoingOnStageHooks();
 
 		return tempObject;
+	}
+
+	/// <summary>
+	/// Spawn the item and ensures it is synced over the network
+	/// </summary>
+	/// <param name="prefabName">Name of the prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
+	/// be surprised if it doesn't as there are LOTS of prefabs in the game which all have unique behavior for how they should spawn. If you are trying
+	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
+	/// properly implemented a GoingOnStageServer and GoingOnStageClient method.</param>
+	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
+	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
+	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
+	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <returns>the newly created GameObject</returns>
+	[Server]
+	public static GameObject PoolNetworkInstantiate(String prefabName, Vector3? position = null, Transform parent = null, Quaternion? rotation = null)
+	{
+		GameObject prefab = GetPrefabByName(prefabName);
+		if (prefab == null)
+		{
+			Logger.LogErrorFormat("Attempted to spawn prefab with name {0} which is either not an actual prefab name or" +
+			                      " is a prefab which is not spawnable. Request to spawn will be ignored.", Category.ItemSpawn, prefabName);
+			return null;
+		}
+
+		return PoolNetworkInstantiate(prefab, position, parent, rotation);
+	}
+
+	/// <summary>
+	/// Spawn the item locally without syncing it over the network. Only client-side lifecycle hooks will be called.
+	/// </summary>
+	/// <param name="prefab">Prefab to spawn an instance of. </param>
+	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
+	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
+	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
+	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
+	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
+	/// <returns>the newly created GameObject</returns>
+	public static GameObject PoolClientInstantiate(GameObject prefab, Vector3? position = null, Transform parent = null, Quaternion? rotation = null)
+	{
+		if (!IsInstanceInit())
+		{
+			return null;
+		}
+		bool isPooled; // not used for Client-only instantiation
+		var go = Instance.PoolInstantiate(prefab, position ?? TransformState.HiddenPos, rotation ?? Quaternion.identity, parent, out isPooled);
+		//fire client side lifecycle hooks
+		var hooks = go.GetComponents<IOnStageClient>();
+		if (hooks != null)
+		{
+			foreach (var hook in hooks)
+			{
+				hook.GoingOnStageClient(OnStageInfo.Default());
+			}
+		}
+
+		return go;
+	}
+
+	/// <summary>
+	///     For items that are network synced only!
+	/// 	If target has no ObjectBehavior or is not pooled, it will simply be deleted and the deletion
+	/// 	will be synced to each client.
+	/// </summary>
+	[Server]
+	public static void PoolNetworkDestroy(GameObject target)
+	{
+		if (!IsInstanceInit())
+		{
+			return;
+		}
+
+		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior
+		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
+		var objBehavior = target.GetComponent<ObjectBehaviour>();
+		var cnt = target.GetComponent<CustomNetTransform>();
+		if (cnt)
+		{
+			cnt.FireGoingOffStageHooks();
+		}
+		else
+		{
+			Logger.LogWarningFormat("Attempting to network destroy object {0} at {1} but this object" +
+			                        " has no CustomNetTransform. Lifecycle hooks will be bypassed. This is" +
+			                        " most likely a mistake as any objects which sync over the network" +
+			                        " should have a CNT.", Category.ItemSpawn, target.name, objBehavior.AssumedWorldPositionServer());
+		}
+		if (poolPrefabTracker != null && objBehavior != null)
+		{
+			//pooled
+			Instance.AddToPool(target);
+			objBehavior.VisibleState = false;
+		}
+		else
+		{
+			//not pooled
+			NetworkServer.Destroy(target);
+		}
+
+	}
+
+	/// <summary>
+	///     For non network stuff only! (e.g. bullets). Only client side lifecycle hooks will be called
+	/// </summary>
+	public static void PoolClientDestroy(GameObject target)
+	{
+		if (!IsInstanceInit())
+		{
+			return;
+		}
+
+		Instance.AddToPool(target);
+		target.SetActive(false);
 	}
 
 	/// <summary>
@@ -115,7 +221,7 @@ public class PoolManager : NetworkBehaviour
 	/// attached or its name matches a prefab name, otherwise we don't know what prefab to create.. Intended to work for any object, but don't
 	/// be surprised if it doesn't as there are LOTS of prefabs in the game which might need unique behavior for how they should spawn. If you are trying
 	/// to clone something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
-	/// properly implemented a OnClonedServer and OnClonedClient method.</param>
+	/// properly implemented IOnStageServer or IOnStageClient when IsCloned = true</param>
 	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
 	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
 	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
@@ -154,132 +260,75 @@ public class PoolManager : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Spawn the item and ensures it is synced over the network
+	/// FOR DEV / TESTING ONLY! Simulates destroying and recreating an item by putting it in the pool and taking it back
+	/// out again. If item is not pooled, simply destroys and recreates it as if calling PoolNetworkDestroy then PoolNetworkInstantiate.
+	/// Can use this to validate that the object correctly re-initializes itself after spawning -
+	/// no state should be left over from its previous incarnation.
 	/// </summary>
-	/// <param name="prefabName">Name of the prefab to spawn an instance of. This is intended to be made to work for pretty much any prefab, but don't
-	/// be surprised if it doesn't as there are LOTS of prefabs in the game which all have unique behavior for how they should spawn. If you are trying
-	/// to instantiate something and it isn't properly setting itself up, check to make sure each component that needs to set something up has
-	/// properly implemented a OnSpawnedServer and OnSpawnedClient method.</param>
-	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
-	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
-	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
-	/// <returns>the newly created GameObject</returns>
+	/// <returns>the re-created object</returns>
 	[Server]
-	public static GameObject PoolNetworkInstantiate(String prefabName, Vector3? position = null, Transform parent = null, Quaternion? rotation = null)
-	{
-		GameObject prefab = GetPrefabByName(prefabName);
-		if (prefab == null)
-		{
-			Logger.LogErrorFormat("Attempted to spawn prefab with name {0} which is either not an actual prefab name or" +
-			                " is a prefab which is not spawnable. Request to spawn will be ignored.", Category.ItemSpawn, prefabName);
-			return null;
-		}
-
-		return PoolNetworkInstantiate(prefab, position, parent, rotation);
-	}
-
-	/// <summary>
-	/// Spawn the item locally without syncing it over the network. OnSpawnedServer and OnSpawnedClient hooks will
-	/// not be called as this is only used for client side things.
-	/// </summary>
-	/// <param name="prefab">Prefab to spawn an instance of. </param>
-	/// <param name="position">world position to appear at. Defaults to HiddenPos (hidden / invisible)</param>
-	/// <param name="rotation">rotation to spawn with, defaults to Quaternion.identity</param>
-	/// <param name="parent">Parent to spawn under, defaults to no parent. Most things
-	/// should always be spawned under the Objects transform in their matrix. Many objects (due to RegisterTile)
-	/// usually take care of properly parenting themselves when spawned so in many cases you can leave it null.</param>
-	/// <returns>the newly created GameObject</returns>
-	public static GameObject PoolClientInstantiate(GameObject prefab, Vector3? position = null, Transform parent = null, Quaternion? rotation = null)
+	public static GameObject PoolNetworkTestDestroyInstantiate(GameObject target)
 	{
 		if (!IsInstanceInit())
 		{
 			return null;
 		}
-		bool isPooled; // not used for Client-only instantiation
-		return Instance.PoolInstantiate(prefab, position ?? TransformState.HiddenPos, rotation ?? Quaternion.identity, parent, out isPooled);
-	}
 
-	private GameObject PoolInstantiate(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent, out bool pooledInstance)
-	{
-		GameObject tempObject = null;
-		bool hide = position == TransformState.HiddenPos;
-		//Cut off Z-axis
-		Vector3 cleanPos = ( Vector2 ) position;
-		Vector3 pos = hide ? TransformState.HiddenPos : cleanPos;
-		if (CanLoadFromPool(prefab))
+		var objBehavior = target.GetComponent<ObjectBehaviour>();
+		if (objBehavior == null)
 		{
-			//pool exists and has unused instances
-			int index = pools[prefab].Count - 1;
-			tempObject = pools[prefab][index];
-			pools[prefab].RemoveAt(index);
-			tempObject.SetActive(true);
+			//destroy / create using normal approach with no pooling
+			Logger.LogWarningFormat("Object {0} has no object behavior, thus cannot be pooled. It will be destroyed / created" +
+			                        " without going through the pool.", Category.ItemSpawn, target.name);
 
-			ObjectBehaviour objBehaviour = tempObject.GetComponent<ObjectBehaviour>();
-			if (objBehaviour)
+			//determine prefab
+			var position = target.TileWorldPosition();
+			var prefab = DeterminePrefab(target);
+			if (prefab == null)
 			{
-				objBehaviour.visibleState = !hide;
+				Logger.LogErrorFormat("Object {0} at {1} cannot be respawned because it has no PoolPrefabTracker and its name" +
+				                      " does not match a prefab name, so we cannot" +
+				                      " determine the prefab to instantiate. Please fix this object so that it" +
+				                      " has an attached PoolPrefabTracker or so its name matches the prefab it was created from.", Category.ItemSpawn, target.name, position);
+				return null;
 			}
-			tempObject.transform.position = pos;
-			tempObject.transform.rotation = rotation;
-			tempObject.transform.localScale = prefab.transform.localScale;
-			tempObject.transform.parent = parent;
-			var cnt = tempObject.GetComponent<CustomNetTransform>();
-			if ( cnt )
-			{
-				cnt.ReInitServerState();
-				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
-			}
-
-			pooledInstance = true;
+			PoolNetworkDestroy(target);
+			return PoolNetworkInstantiate(prefab, position.To3Int());
 		}
 		else
 		{
-			tempObject = Instantiate(prefab, pos, rotation, parent);
+			//destroy / create with pooling
+			//save previous position
+			var worldPos = objBehavior.AssumedWorldPositionServer();
 
-			tempObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
+			//this simulates going into the pool
+			var cnt = target.GetComponent<CustomNetTransform>();
+			if (cnt)
+			{
+				cnt.FireGoingOffStageHooks();
+			}
+			else
+			{
+				Logger.LogWarningFormat("Object {0} at {1} has no CustomNetTransform, lifecycle hooks will" +
+				                        " not be fired. This is most likely a mistake as almost all networked objects should" +
+				                        " have a CNT.", Category.ItemSpawn, target.name, worldPos);
+			}
+			objBehavior.VisibleState = false;
 
-			tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+			//this simulates coming back out of the pool
+			target.SetActive(true);
+			objBehavior.VisibleState = true;
 
-			pooledInstance = false;
+			target.transform.position = worldPos;
+			if (cnt)
+			{
+				cnt.ReInitServerState();
+				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
+				cnt.FireGoingOnStageHooks();
+			}
+
+			return target;
 		}
-
-		return tempObject;
-
-	}
-
-	private GameObject Clone(GameObject toClone, Vector3 position, Quaternion rotation, Transform parent)
-	{
-		GameObject tempObject = null;
-		bool hide = position == TransformState.HiddenPos;
-		//Cut off Z-axis
-		Vector3 cleanPos = ( Vector2 ) position;
-		Vector3 pos = hide ? TransformState.HiddenPos : cleanPos;
-		tempObject = Instantiate(toClone, pos, rotation, parent);
-		NetworkServer.Spawn(tempObject);
-		tempObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
-
-		return tempObject;
-
-	}
-
-	private bool CanLoadFromPool(GameObject prefab)
-	{
-		return pools.ContainsKey(prefab) && pools[prefab].Count > 0;
-	}
-
-	private static bool IsInstanceInit()
-	{
-		if (Instance == null)
-		{
-			Logger.LogError("PoolManager was attempted to be used before it has initialized. Please delay using" +
-			                " PoolManager (such as by using a coroutine to wait) until it is initialized. Nothing will" +
-			                " be done and null will be returned.");
-			return false;
-		}
-
-		return true;
 	}
 
 	[Server]
@@ -329,111 +378,6 @@ public class PoolManager : NetworkBehaviour
 	}
 
 	/// <summary>
-	///     For items that are network synced only!
-	/// 	If target has no ObjectBehavior or is not pooled, it will simply be deleted and the deletion
-	/// 	will be synced to each client.
-	/// </summary>
-	[Server]
-	public static void PoolNetworkDestroy(GameObject target)
-	{
-		if (!IsInstanceInit())
-		{
-			return;
-		}
-
-		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior
-		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
-		var objBehavior = target.GetComponent<ObjectBehaviour>();
-		if (poolPrefabTracker != null && objBehavior != null)
-		{
-			//pooled
-			Instance.AddToPool(target);
-			objBehavior.visibleState = false;
-		}
-		else
-		{
-			//not pooled
-			NetworkServer.Destroy(target);
-		}
-
-	}
-
-	/// <summary>
-	///     For non network stuff only! (e.g. bullets)
-	/// </summary>
-	public static void PoolClientDestroy(GameObject target)
-	{
-		if (!IsInstanceInit())
-		{
-			return;
-		}
-		Instance.AddToPool(target);
-		target.SetActive(false);
-	}
-
-	private void AddToPool(GameObject target)
-	{
-		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
-		if ( !poolPrefabTracker )
-		{
-			Logger.LogWarning($"PoolPrefabTracker not found on {target}",Category.ItemSpawn);
-			return;
-		}
-		GameObject prefab = poolPrefabTracker.myPrefab;
-		prefab.transform.position = Vector2.zero;
-
-		if (!pools.ContainsKey(prefab))
-		{
-			//pool for this prefab does not yet exist
-			pools.Add(prefab, new List<GameObject>());
-		}
-
-		pools[prefab].Add(target);
-	}
-
-	/*
-	* Use this function when you want to get an GameObject instance, but not enable it yet.
-	* A good example would be when you want to pass information to the GameObject before it calls
-	* OnEnable(). If it can't find a pooled instance, it creates and returns a new one. It does not
-	* remove the instance from the pool. Note that it will always be enabled until the next frame, so OnEnable() will run.
-	*/
-	public static GameObject GetInstanceInactive(GameObject prefab)
-	{
-		if (!IsInstanceInit())
-		{
-			return null;
-		}
-		GameObject tempObject = null;
-		if (Instance.pools.ContainsKey(prefab))
-		{
-			if (Instance.pools[prefab].Count > 0)
-			{
-				int index = Instance.pools[prefab].Count - 1;
-				tempObject = Instance.pools[prefab][index];
-				return tempObject;
-			}
-		}
-		else
-		{
-			Instance.pools.Add(prefab, new List<GameObject>());
-		}
-
-		tempObject = Instantiate(prefab);
-		tempObject.SetActive(false);
-		tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
-		return tempObject;
-	}
-
-	public static void ClearPool()
-	{
-		if (!IsInstanceInit())
-		{
-			return;
-		}
-		Instance.pools.Clear();
-	}
-
-	/// <summary>
 	/// Tries to determine the prefab that was used to create the specified object.
 	/// If there is an attached PoolPrefabTracker, uses that. Otherwise, uses the name
 	/// and removes parentheses  like (Clone) or (1) to look up the prefab name in our map.
@@ -462,6 +406,96 @@ public class PoolManager : NetworkBehaviour
 	public static GameObject GetPrefabByName(string prefabName)
 	{
 		return Instance.nameToSpawnablePrefab[prefabName];
+	}
+
+	#endregion
+
+	private static bool IsPrefab(GameObject toCheck) => !toCheck.transform.gameObject.scene.IsValid();
+
+	private GameObject PoolInstantiate(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent, out bool pooledInstance)
+	{
+		GameObject tempObject = null;
+		bool hide = position == TransformState.HiddenPos;
+		//Cut off Z-axis
+		Vector3 cleanPos = ( Vector2 ) position;
+		Vector3 pos = hide ? TransformState.HiddenPos : cleanPos;
+		if (CanLoadFromPool(prefab))
+		{
+			//pool exists and has unused instances
+			int index = pools[prefab].Count - 1;
+			tempObject = pools[prefab][index];
+			pools[prefab].RemoveAt(index);
+			tempObject.SetActive(true);
+
+			ObjectBehaviour objBehaviour = tempObject.GetComponent<ObjectBehaviour>();
+			if (objBehaviour)
+			{
+				objBehaviour.VisibleState = !hide;
+			}
+			tempObject.transform.position = pos;
+			tempObject.transform.rotation = rotation;
+			tempObject.transform.localScale = prefab.transform.localScale;
+			tempObject.transform.parent = parent;
+			var cnt = tempObject.GetComponent<CustomNetTransform>();
+			if ( cnt )
+			{
+				cnt.ReInitServerState();
+				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
+			}
+
+			pooledInstance = true;
+		}
+		else
+		{
+			tempObject = Instantiate(prefab, pos, rotation, parent);
+
+			tempObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
+
+			tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+
+			pooledInstance = false;
+		}
+
+		return tempObject;
+
+	}
+
+	private bool CanLoadFromPool(GameObject prefab)
+	{
+		return pools.ContainsKey(prefab) && pools[prefab].Count > 0;
+	}
+
+	private static bool IsInstanceInit()
+	{
+		if (Instance == null)
+		{
+			Logger.LogError("PoolManager was attempted to be used before it has initialized. Please delay using" +
+			                " PoolManager (such as by using a coroutine to wait) until it is initialized. Nothing will" +
+			                " be done and null will be returned.");
+			return false;
+		}
+
+		return true;
+	}
+
+	private void AddToPool(GameObject target)
+	{
+		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
+		if ( !poolPrefabTracker )
+		{
+			Logger.LogWarning($"PoolPrefabTracker not found on {target}",Category.ItemSpawn);
+			return;
+		}
+		GameObject prefab = poolPrefabTracker.myPrefab;
+		prefab.transform.position = Vector2.zero;
+
+		if (!pools.ContainsKey(prefab))
+		{
+			//pool for this prefab does not yet exist
+			pools.Add(prefab, new List<GameObject>());
+		}
+
+		pools[prefab].Add(target);
 	}
 }
 

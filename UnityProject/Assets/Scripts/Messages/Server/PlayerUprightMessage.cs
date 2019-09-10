@@ -3,19 +3,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public enum StunnedState
-{
-	Unknown = 0,
-	Stunned = 1,
-	NonStunned = 2
-}
-
 ///   Tells client to make given player appear laying down or back up on feet
 public class PlayerUprightMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.PlayerUprightMessage;
 	public bool Upright;
-	public StunnedState Stunned;
 	/// Whom is it about
 	public NetworkInstanceId SubjectPlayer;
 
@@ -42,27 +34,6 @@ public class PlayerUprightMessage : ServerMessage
 			//we ignore restraint
 			registerPlayer.LayDown(true);
 		}
-
-		if ( Stunned != StunnedState.Unknown )
-		{
-			registerPlayer.IsStunnedClient = Stunned == StunnedState.Stunned;
-		}
-	}
-
-	public static PlayerUprightMessage Send(GameObject recipient, GameObject subjectPlayer, bool upright, bool isStunned)
-	{
-		if (!IsValid(subjectPlayer, upright))
-		{
-			return null;
-		}
-		var msg = new PlayerUprightMessage
-		{
-			SubjectPlayer = subjectPlayer.NetId(),
-			Upright = upright,
-			Stunned = isStunned ? StunnedState.Stunned : StunnedState.NonStunned
-		};
-		msg.SendTo(recipient);
-		return msg;
 	}
 
 	/// <summary>
@@ -70,10 +41,9 @@ public class PlayerUprightMessage : ServerMessage
 	/// </summary>
 	/// <param name="subjectPlayer"></param>
 	/// <param name="upright"></param>
-	/// <param name="isStunned"></param>
-	public static void SendToAll(GameObject subjectPlayer, bool upright, bool isStunned)
+	public static void SendToAll(GameObject subjectPlayer, bool upright, bool buckling)
 	{
-		if (!IsValid(subjectPlayer, upright))
+		if (!IsValid(subjectPlayer, upright, buckling))
 		{
 			return;
 		}
@@ -81,26 +51,49 @@ public class PlayerUprightMessage : ServerMessage
 		{
 			SubjectPlayer = subjectPlayer.NetId(),
 			Upright = upright,
-			Stunned = StunnedState.Unknown
 		};
 		msg.SendToAllExcept( subjectPlayer );
-		msg.Stunned = isStunned ? StunnedState.Stunned : StunnedState.NonStunned;
 		msg.SendTo( subjectPlayer );
 	}
 
-	private static bool IsValid(GameObject subjectPlayer, bool upright)
+	/// <summary>
+	/// Sends the info on the subject's current status to a specific client.
+	/// </summary>
+	/// <param name="recipient">player who should recieve the message</param>
+	/// <param name="subjectPlayer">player whose status is being communicated</param>
+	public static void Sync(GameObject recipient, GameObject subjectPlayer)
 	{
+		var msg = new PlayerUprightMessage
+		{
+			SubjectPlayer = subjectPlayer.NetId(),
+			Upright = !subjectPlayer.GetComponent<RegisterPlayer>().IsDownServer
+		};
+		msg.SendTo(recipient);
+	}
+
+	private static bool IsValid(GameObject subjectPlayer, bool upright, bool buckling)
+	{
+		if(buckling)
+		{
+			return true;
+		}
+
 		//checks if player is actually in a state where they can become up / down
 		var playerScript = subjectPlayer.GetComponent<PlayerScript>();
-		if (!upright)
+		var registerPlayer = subjectPlayer.GetComponent<RegisterPlayer>();
+
+		if (playerScript.playerMove.IsBuckled)
 		{
-			//cannot lay down if they are restrained
-			if (playerScript.playerMove.IsRestrained)
+			return false;
+		}
+
+		if(upright) //getting up
+		{
+			if (registerPlayer.IsDownServer)
 			{
 				return false;
 			}
 		}
-
 		return true;
 	}
 

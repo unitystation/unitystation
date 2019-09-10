@@ -22,7 +22,7 @@ namespace Atmospherics
 		/// <summary>
 		/// Node this hotspot lives on.
 		/// </summary>
-		private MetaDataNode node;
+		public MetaDataNode node;
 
 		public Hotspot(MetaDataNode node, float temperature, float volume)
 		{

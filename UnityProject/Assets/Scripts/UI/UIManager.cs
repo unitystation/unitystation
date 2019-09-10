@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class UIManager : MonoBehaviour
+public class UIManager : NetworkBehaviour
 {
 	private static UIManager uiManager;
 	public GUI_VariableViewer VariableViewer;
@@ -20,6 +21,7 @@ public class UIManager : MonoBehaviour
 	public PlayerListUI playerListUIControl;
 	public AlertUI alertUI;
 	public Text toolTip;
+	public Text pingDisplay;
 	public ControlWalkRun walkRunControl;
 	public UI_StorageHandler storageHandler;
 	public ZoneSelector zoneSelector;
@@ -28,8 +30,6 @@ public class UIManager : MonoBehaviour
 	public GamePad gamePad;
 	[HideInInspector]
 	public ProgressBar progressBar;
-	[SerializeField]
-	private GeneralSettingsMenu generalSettingsMenu;
 
 	///Global flag for focused input field. Movement keystrokes are ignored if true.
 	/// <see cref="InputFieldFocus"/> handles this flag automatically
@@ -69,8 +69,6 @@ public class UIManager : MonoBehaviour
 
 	private bool isMouseInteractionDisabled;
 
-
-
 	public static UIManager Instance
 	{
 		get
@@ -84,11 +82,11 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	#if UNITY_ANDROID || UNITY_IOS //|| UNITY_EDITOR
+#if UNITY_ANDROID || UNITY_IOS //|| UNITY_EDITOR
 	public static bool UseGamePad = true;
-	#else
+#else
 	public static bool UseGamePad = false;
-	#endif
+#endif
 
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 	public static ProgressBar ProgressBar => Instance.progressBar;
@@ -116,6 +114,11 @@ public class UIManager : MonoBehaviour
 	public static string SetToolTip
 	{
 		set { Instance.toolTip.text = value; }
+	}
+
+	public static string SetPingDisplay
+	{
+		set { Instance.pingDisplay.text = value; }
 	}
 
 	public static InventorySlotCache InventorySlots => Instance.inventorySlotCache;
@@ -156,8 +159,25 @@ public class UIManager : MonoBehaviour
 
 	private void Start()
 	{
-		generalSettingsMenu.Init();
-		Logger.Log( "Touchscreen support = " + CommonInput.IsTouchscreen, Category.UI );
+		Logger.Log("Touchscreen support = " + CommonInput.IsTouchscreen, Category.UI);
+
+		if (!PlayerPrefs.HasKey(PlayerPrefKeys.TTSToggleKey))
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.TTSToggleKey, 0);
+			ttsToggle = false;
+			PlayerPrefs.Save();
+		}
+		else
+		{
+			ttsToggle = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
+		}
+	}
+
+	public static void ToggleTTS(bool activeState)
+	{
+		Instance.ttsToggle = activeState;
+		PlayerPrefs.SetInt(PlayerPrefKeys.TTSToggleKey, activeState ? 1 : 0);
+		PlayerPrefs.Save();
 	}
 
 	public static void ResetAllUI()
@@ -173,55 +193,7 @@ public class UIManager : MonoBehaviour
 		}
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
-		GamePad.gameObject.SetActive( UseGamePad );
-	}
-
-	/// <summary>
-	///     use this for client UI mangling attepts
-	/// </summary>
-	public static bool TryUpdateSlot(UISlotObject slotInfo)
-	{
-		if (!CanPutItemToSlot(slotInfo))
-		{
-			return false;
-		}
-		InventoryInteractMessage.Send(slotInfo.SlotUUID, slotInfo.FromSlotUUID, slotInfo.SlotContents, true);
-		return true;
-	}
-
-	/// <summary>
-	///     rather direct method that doesn't check anything.
-	///     probably should check if you CanPutItemToSlot before using it
-	/// </summary>
-	public static void UpdateSlot(UISlotObject slotInfo)
-	{
-		if (string.IsNullOrEmpty(slotInfo.SlotUUID) && !string.IsNullOrEmpty(slotInfo.FromSlotUUID))
-		{
-			//Dropping updates:
-			var _fromSlot = InventorySlotCache.GetSlotByUUID(slotInfo.FromSlotUUID);
-			if (_fromSlot != null)
-			{
-				CheckStorageHandlerOnMove(_fromSlot.Item);
-				_fromSlot.Clear();
-				return;
-			}
-		}
-		//Logger.LogTraceFormat("Updating slots: {0}", Category.UI, slotInfo);
-		//			InputTrigger.Touch(slotInfo.SlotContents);
-		var slot = InventorySlotCache.GetSlotByUUID(slotInfo.SlotUUID);
-		if (slot != null)
-		{
-			slot.SetItem(slotInfo.SlotContents);
-		}
-
-		var fromSlot = InventorySlotCache.GetSlotByUUID(slotInfo.FromSlotUUID);
-		bool fromS = fromSlot != null;
-		bool fromSI = fromSlot?.Item != null;
-		if (fromSlot && (fromSlot.image.enabled || fromSlot?.Item == slotInfo.SlotContents))
-		{
-			CheckStorageHandlerOnMove(fromSlot.Item);
-			fromSlot.Clear();
-		}
+		GamePad.gameObject.SetActive(UseGamePad);
 	}
 
 	public static void CheckStorageHandlerOnMove(GameObject item)
@@ -241,94 +213,21 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public static bool CanPutItemToSlot(UISlotObject proposedSlotInfo)
+	public static bool CanPutItemToSlot(InventorySlot inventorySlot, GameObject item, PlayerScript playerScript)
 	{
-		if (proposedSlotInfo.IsEmpty() || !SendUpdateAllowed(proposedSlotInfo.SlotContents))
+		if (item == null || inventorySlot.Item != null)
 		{
 			return false;
 		}
-
-		InventorySlot invSlot = InventoryManager.GetSlotFromUUID(proposedSlotInfo.SlotUUID, false);
-		PlayerScript lps = PlayerManager.LocalPlayerScript;
-
-		if (!lps || lps.canNotInteract() || invSlot.Item != null)
+		if (playerScript.canNotInteract())
 		{
 			return false;
 		}
-
-		UI_ItemSlot uiItemSlot = InventorySlotCache.GetSlotByUUID(invSlot.UUID);
-		if (uiItemSlot == null)
-		{
-			//Could it be a storage obj that is closed?
-			ItemSize checkMaxSizeOfStorage;
-			if (SlotIsFromClosedBag(invSlot, out checkMaxSizeOfStorage))
-			{
-				var itemAtts = proposedSlotInfo.SlotContents.GetComponent<ItemAttributes>();
-				if (itemAtts != null)
-				{
-					if (itemAtts.size <= checkMaxSizeOfStorage)
-					{
-						return true;
-					}
-				}
-			}
-
-			return false;
-		}
-
-		if (!uiItemSlot.CheckItemFit(proposedSlotInfo.SlotContents))
+		var uiItemSlot = InventorySlotCache.GetSlotByEvent(inventorySlot.equipSlot);
+		if (!uiItemSlot.CheckItemFit(item))
 		{
 			return false;
 		}
 		return true;
-	}
-
-	private static bool SlotIsFromClosedBag(InventorySlot invSlot, out ItemSize slotMaxItemSize)
-	{
-		slotMaxItemSize = ItemSize.Tiny;
-		foreach (UI_ItemSlot slot in InventorySlotCache.InventorySlots)
-		{
-			if (slot.Item != null)
-			{
-				var storageObj = slot.Item.GetComponent<StorageObject>();
-				if (storageObj != null)
-				{
-					for (int i = 0; i < storageObj.storageSlots.inventorySlots.Count; i++)
-					{
-						if (storageObj.storageSlots.inventorySlots[i].UUID == invSlot.UUID)
-						{
-							slotMaxItemSize = storageObj.maxItemSize;
-							return true;
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	/// Checks if player received transform update after sending interact message
-	/// (Anti-blinking protection)
-	public static bool SendUpdateAllowed(GameObject item)
-	{
-		//			if ( CustomNetworkManager.Instance._isServer ) return true;
-		//			var netId = item.GetComponent<NetworkIdentity>().netId;
-		//			var lastReceive = item.GetComponent<NetworkTransform>().lastSyncTime;
-		//			var lastSend = InputTrigger.interactCache.ContainsKey(netId) ? InputTrigger.interactCache[netId] : 0f;
-		//			if ( lastReceive < lastSend )
-		//			{
-		//				return CanTrySendAgain(lastSend, lastReceive);
-		//			}
-		//			Logger.LogTraceFormat("ItemAction allowed! {2} msgcache {0} {1}", Category.UI, InputTrigger.interactCache.Count, lastSend, item.name);
-		return true;
-	}
-
-	private static bool CanTrySendAgain(float lastSend, float lastReceive)
-	{
-		float f = Time.time - lastSend;
-		float d = lastSend - lastReceive;
-		bool canTrySendAgain = f >= d || f >= 1.5;
-		Logger.LogTraceFormat("canTrySendAgain = {0} {1}>={2} ", Category.UI, canTrySendAgain, f, d);
-		return canTrySendAgain;
 	}
 }

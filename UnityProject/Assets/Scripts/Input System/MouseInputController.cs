@@ -106,8 +106,8 @@ public class MouseInputController : MonoBehaviour
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 
 		//Do not include the Default layer! Assign your object to one of the layers below:
-		layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
-			"HiddenWalls", "Objects", "Matrix");
+		layerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Unshootable Machines", "Players", "Items", "Door Open", "Door Closed", "WallMounts",
+			"HiddenWalls", "Objects", "Matrix", "Floor");
 	}
 
 	void LateUpdate()
@@ -117,6 +117,12 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckMouseInput()
 	{
+		if (EventSystem.current.IsPointerOverGameObject())
+		{
+			//don't do any game world interactions if we are over the UI
+			return;
+		}
+
 		if (UIManager.IsMouseInteractionDisabled)
 		{
 			//still allow tooltips
@@ -257,7 +263,7 @@ public class MouseInputController : MonoBehaviour
 		if (item != null)
 		{
 			var gun = item.GetComponent<Gun>();
-			if (gun != null && gun.CurrentMagazine != null && gun.CurrentMagazine.ammoRemains > 0)
+			if (gun != null && gun.CurrentMagazine != null && gun.CurrentMagazine.ClientAmmoRemains > 0)
 			{
 				return gun;
 			}
@@ -270,6 +276,18 @@ public class MouseInputController : MonoBehaviour
 
 	private void CheckHover()
 	{
+		//can only hover on things within FOV
+		if (lightingSystem.enabled && !lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
+		{
+			if (lastHoveredThing)
+			{
+				lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
+			}
+
+			lastHoveredThing = null;
+			return;
+		}
+
 		var hit = MouseUtils.GetOrderedObjectsUnderMouse(layerMask).FirstOrDefault();
 		if (hit != null)
 		{
@@ -323,8 +341,8 @@ public class MouseInputController : MonoBehaviour
 		if (handApply.HandObject != null)
 		{
 			//get all components that can handapply or PositionalHandApply
-			var handAppliables = handApply.HandObject.GetComponents<Component>()
-				.Where(c => c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>);
+			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
+				.Where(c => c != null && c.enabled && (c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>));
 
 			foreach (var handAppliable in handAppliables)
 			{
@@ -340,8 +358,8 @@ public class MouseInputController : MonoBehaviour
 		}
 
 		//call the hand apply interaction methods on the target object if it has any
-		var targetHandAppliables = handApply.TargetObject.GetComponents<Component>()
-			.Where(c => c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>);
+		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
+			.Where(c => c.enabled && (c is IInteractable<HandApply> || c is IInteractable<PositionalHandApply>));
 		foreach (var targetHandAppliable in targetHandAppliables)
 		{
 			var interacted = targetHandAppliable is IInteractable<HandApply> ?
@@ -359,11 +377,6 @@ public class MouseInputController : MonoBehaviour
 
 	private bool CheckAimApply(MouseButtonState buttonState)
 	{
-		if (EventSystem.current.IsPointerOverGameObject())
-		{
-			//don't do aim apply while over UI
-			return false;
-		}
 		ChangeDirection();
 		//currently there is nothing for ghosts to interact with, they only can change facing
 		if (PlayerManager.LocalPlayerScript.IsGhost)
@@ -386,7 +399,8 @@ public class MouseInputController : MonoBehaviour
 			//it's being clicked down
 			triggeredAimApply = null;
 			//Checks for aim apply interactions which can trigger
-			foreach (var aimApply in handObj.GetComponents<IInteractable<AimApply>>())
+			foreach (var aimApply in handObj.GetComponents<IInteractable<AimApply>>()
+				.Where(mb => mb != null && (mb as MonoBehaviour).enabled))
 			{
 				var interacted = aimApply.Interact(aimApplyInfo);
 				if (interacted)
@@ -428,11 +442,6 @@ public class MouseInputController : MonoBehaviour
 	/// <returns>draggable found, null if none found</returns>
 	private MouseDraggable GetDraggable()
 	{
-		if (EventSystem.current.IsPointerOverGameObject())
-		{
-			//currently UI is not a part of interaction framework V2
-			return null;
-		}
 		//currently there is nothing for ghosts to interact with, they only can change facing
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
@@ -442,6 +451,7 @@ public class MouseInputController : MonoBehaviour
 		var draggable =
 			MouseUtils.GetOrderedObjectsUnderMouse(layerMask, go =>
 					go.GetComponent<MouseDraggable>() != null &&
+					go.GetComponent<MouseDraggable>().enabled &&
 					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayer))
 				.FirstOrDefault();
 		if (draggable != null)
@@ -483,26 +493,18 @@ public class MouseInputController : MonoBehaviour
 	}
 	private bool CheckThrow()
 	{
-		//Ignore throw if pointer is hovering over GUI
-		if (EventSystem.current.IsPointerOverGameObject())
-		{
-			return false;
-		}
-
 		if (UIManager.IsThrow)
 		{
 			var currentSlot = UIManager.Hands.CurrentSlot;
-			if (!currentSlot.CanPlaceItem())
+			if (currentSlot.Item == null)
 			{
 				return false;
 			}
 			Vector3 position = MouseWorldPosition;
 			position.z = 0f;
 			UIManager.CheckStorageHandlerOnMove(currentSlot.Item);
-			currentSlot.Clear();
-			//				Logger.Log( $"Requesting throw from {currentSlot.eventName} to {position}" );
-			PlayerManager.LocalPlayerScript.playerNetworkActions
-				.CmdRequestThrow(currentSlot.eventName, position, (int)UIManager.DamageZone);
+
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(currentSlot.equipSlot, position, (int)UIManager.DamageZone);
 
 			//Disabling throw button
 			UIManager.Action.Throw();
@@ -519,7 +521,7 @@ public class MouseInputController : MonoBehaviour
 
 		Vector2 dir = (MouseWorldPosition - playerPos).normalized;
 
-		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsRestrained)
+		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsBuckled)
 		{
 			playerDirectional.FaceDirection(Orientation.From(dir));
 		}

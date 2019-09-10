@@ -75,7 +75,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		if (!livingHealthBehaviour.IsDead)
 		{
-			Vector3Int position = objectBehaviour.AssumedLocation().RoundToInt();
+			Vector3Int position = objectBehaviour.AssumedWorldPositionServer().RoundToInt();
 			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 			if (!IsEVACompatible())
@@ -132,10 +132,10 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	{
 		if (playerScript != null)
 		{
-			Dictionary<string, InventorySlot> inventory = playerScript.playerNetworkActions.Inventory;
+			Dictionary<EquipSlot, InventorySlot> inventory = playerScript.playerNetworkActions.Inventory;
 
 			// Check if internals exist
-			ItemAttributes mask = inventory.ContainsKey("mask") ? inventory["mask"]?.ItemAttributes : null;
+			ItemAttributes mask = inventory.ContainsKey(EquipSlot.mask) ? inventory[EquipSlot.mask]?.ItemAttributes : null;
 
 			bool internalsEnabled = equipment.IsInternalsEnabled;
 
@@ -218,10 +218,10 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			return false;
 		}
 
-		Dictionary<string, InventorySlot> inventory = playerScript.playerNetworkActions.Inventory;
+		Dictionary<EquipSlot, InventorySlot> inventory = playerScript.playerNetworkActions.Inventory;
 
-		ItemAttributes headItem = inventory.ContainsKey("head") ? inventory["head"]?.ItemAttributes : null;
-		ItemAttributes suitItem = inventory.ContainsKey("suit") ? inventory["suit"]?.ItemAttributes : null;
+		ItemAttributes headItem = inventory.ContainsKey(EquipSlot.head) ? inventory[EquipSlot.head]?.ItemAttributes : null;
+		ItemAttributes suitItem = inventory.ContainsKey(EquipSlot.exosuit) ? inventory[EquipSlot.exosuit]?.ItemAttributes : null;
 
 		if (headItem != null && suitItem != null)
 		{

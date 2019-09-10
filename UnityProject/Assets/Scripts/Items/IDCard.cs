@@ -15,11 +15,11 @@ public class IDCard : NetworkBehaviour
 	public Sprite commandSprite;
 
 	//What type of card? (standard, command, captain, emag etc)
-	[SyncVar(hook = "SyncIDCardType")] public int idCardTypeInt;
+	[SyncVar(hook = nameof(SyncIDCardType))] public int idCardTypeInt;
 
 	private bool isInit;
 
-	[SyncVar(hook = "SyncJobType")] public int jobTypeInt;
+	[SyncVar(hook = nameof(SyncJobType))] public int jobTypeInt;
 
 	[Tooltip("This is used to place ID cards via map editor and then setting their initial access type")]
 	public List<Access> ManuallyAddedAccess = new List<Access>();
@@ -29,7 +29,7 @@ public class IDCard : NetworkBehaviour
 
 	public int MiningPoints; //For redeeming at mining equipment vendors
 
-	[SyncVar(hook = "SyncName")] public string RegisteredName;
+	[SyncVar(hook = nameof(SyncName))] public string RegisteredName;
 
 	//To switch the card sprites when the type changes
 	public SpriteRenderer spriteRenderer;

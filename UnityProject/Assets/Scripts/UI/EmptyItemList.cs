@@ -23,7 +23,7 @@ public class EmptyItemList : NetUIDynamicList
 		var newEntry = Add();
 		if (!newEntry)
 		{
-			Logger.LogWarning($"Added {newEntry} is not an CargoItem!", Category.ItemSpawn);
+			Logger.LogWarning($"Problems adding {newEntry}", Category.ItemSpawn);
 			return false;
 		}
 		Logger.Log($"ItemList: Item add success! newEntry={newEntry}", Category.ItemSpawn);

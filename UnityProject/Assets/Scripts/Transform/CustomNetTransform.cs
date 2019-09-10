@@ -100,7 +100,7 @@ public struct TransformState {
 	}
 }
 
-public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //see UpdateManager
+public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IRightClickable //see UpdateManager
 {
 	private Vector3IntEvent onUpdateReceived = new Vector3IntEvent();
 	public Vector3IntEvent OnUpdateRecieved() {
@@ -286,16 +286,9 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	}
 
 	/// Is it supposed to be hidden? (For init purposes)
-	private bool IsHiddenOnInit {
-		get {
-			if ( Vector3Int.RoundToInt( transform.position ).Equals( TransformState.HiddenPos ) ||
-			     Vector3Int.RoundToInt( transform.localPosition ).Equals( TransformState.HiddenPos ) ) {
-				return true;
-			}
-			VisibleBehaviour visibleBehaviour = GetComponent<VisibleBehaviour>();
-			return visibleBehaviour && !visibleBehaviour.visibleState;
-		}
-	}
+	private bool IsHiddenOnInit =>
+		Vector3Int.RoundToInt( transform.position ).Equals( TransformState.HiddenPos ) ||
+		Vector3Int.RoundToInt( transform.localPosition ).Equals( TransformState.HiddenPos );
 
 	/// Intended for runtime spawning, so that CNT could initialize accordingly
 	[Server]
@@ -482,6 +475,17 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		UpdateActiveStatusClient();
 	}
 
+	public void SetVisibleServer(bool visible)
+    {
+	    if ( visible )
+	    {
+			AppearAtPositionServer( PushPull.AssumedWorldPositionServer() );
+	    }
+	    else
+	    {
+			DisappearFromWorldServer();
+	    }
+    }
 
 	/// Clientside
 	/// Registers if unhidden, unregisters if hidden
@@ -497,7 +501,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 				registerTile.UnregisterClient();
 			}
 		}
-		//Consider moving VisibleBehaviour functionality to CNT. Currently VB doesn't allow predictive object hiding, for example.
 		Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
 		for (int i = 0; i < renderers.Length; i++)
 		{
@@ -574,22 +577,65 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	}
 
 	/// <summary>
-	/// Invokes the OnSpawnedServer (on the server) and OnSpawnedClient (on each client) hooks so each component can
+	/// Invokes the GoingOnStageServer (on the server) and GoingOnStageClient (on each client) hooks so each component can
 	/// initialize itself as / if needed
 	/// </summary>
 	[Server]
-	public void FireSpawnHooks()
+	public void FireGoingOnStageHooks()
 	{
-		//TODO: Don't use broadcast - use interface instead
-		BroadcastMessage("OnSpawnedServer", SendMessageOptions.DontRequireReceiver);
-		RpcFireSpawnHook();
+		var comps = GetComponents<IOnStageServer>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.GoingOnStageServer(OnStageInfo.Default());
+			}
+		}
+
+		var clientComps = GetComponents<IOnStageClient>();
+		if (clientComps != null)
+		{
+			foreach (var comp in clientComps)
+			{
+				comp.GoingOnStageClient(OnStageInfo.Default());
+			}
+		}
+		RpcFireGoingOnStageHook();
 	}
 
 	[ClientRpc]
-	private void RpcFireSpawnHook()
+	private void RpcFireGoingOnStageHook()
 	{
-		//TODO: Don't use broadcast - use interface instead
-		BroadcastMessage("OnSpawnedClient", SendMessageOptions.DontRequireReceiver);
+
+		var comps = GetComponents<IOnStageClient>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.GoingOnStageClient(OnStageInfo.Default());
+			}
+		}
+	}
+
+	/// <summary>
+	/// Invokes the GoingOffStageServer (on the server) hook so each component can
+	/// clean up itself as / if needed
+	/// </summary>
+	[Server]
+	public void FireGoingOffStageHooks()
+	{
+		var comps = GetComponents<IOffStageServer>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.GoingOffStageServer(OffStageInfo.Info());
+			}
+		}
+		//NOTE: No client side off-stage hook because we wouldn't be able
+		//to ensure that the hook is called before Unet destroys the
+		//client-side object unless we implement a custom destruction
+		//syncing logic.
 	}
 
 	/// <summary>
@@ -599,15 +645,49 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	[Server]
 	public void FireCloneHooks(GameObject clonedFrom)
 	{
-		//TODO: Don't use broadcast - use interface instead
-		BroadcastMessage("OnClonedServer", clonedFrom, SendMessageOptions.DontRequireReceiver);
+		var comps = GetComponents<IOnStageServer>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.GoingOnStageServer(OnStageInfo.Cloned(clonedFrom));
+			}
+		}
+
+		var clientComps = GetComponents<IOnStageClient>();
+		if (clientComps != null)
+		{
+			foreach (var comp in clientComps)
+			{
+				comp.GoingOnStageClient(OnStageInfo.Cloned(clonedFrom));
+			}
+		}
 		RpcFireCloneHook(clonedFrom);
 	}
 
 	[ClientRpc]
 	private void RpcFireCloneHook(GameObject clonedFrom)
 	{
-		//TODO: Don't use broadcast - use interface instead
-		BroadcastMessage("OnClonedClient", clonedFrom, SendMessageOptions.DontRequireReceiver);
+		var comps = GetComponents<IOnStageClient>();
+		if (comps != null)
+		{
+			foreach (var comp in comps)
+			{
+				comp.GoingOnStageClient(OnStageInfo.Cloned(clonedFrom));
+			}
+		}
+	}
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		return RightClickableResult.Create()
+			.AddAdminElement("Respawn", AdminRespawn);
+	}
+
+	//simulates despawning and immediately respawning this object, expectation
+	//being that it should properly initialize itself regardless of its previous state.
+	private void AdminRespawn()
+	{
+		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject);
 	}
 }

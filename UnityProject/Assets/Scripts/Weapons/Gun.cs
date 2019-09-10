@@ -1,21 +1,27 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+ using UnityEngine;
 using UnityEngine.Networking;
-
+using UnityEngine.Serialization;
  /// <summary>
 ///  Allows an object to behave like a gun and fire shots. Server authoritative with client prediction.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInteractable<InventoryApply>
+public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInteractable<InventoryApply>, IOnStageServer
 {
+	//constants for calculating screen shake due to recoil
+	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
+	private static readonly float MAX_SHAKE_INTENSITY = 1f;
+	private static readonly float MIN_SHAKE_INTENSITY = 0.01f;
+
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
 	/// </summary>
 	public string AmmoType;
 
-	[SyncVar] public NetworkInstanceId ControlledByPlayer;
+	//server-side flag indicating if the gun is currently held by a player
+	private bool serverIsHeld;
 
 	/// <summary>
 	///     The current magazine for this weapon, null means empty
@@ -45,7 +51,8 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	/// <summary>
 	///     The the name of the sound this gun makes when shooting
 	/// </summary>
-	public string FireingSound;
+	[FormerlySerializedAs("FireingSound")]
+	public string FiringSound;
 
 	/// <summary>
 	///     The amount of times per second this weapon can fire
@@ -62,8 +69,8 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	/// is processed, and then each client (and the server itself) sees this and updates their copy of the Weapon (and the currently loaded
 	/// mag) accordingly in OnMagNetIDChanged. This field is set to NetworkInstanceID.Invalid when no mag is loaded.
 	/// </summary>
-	[SyncVar(hook = nameof(OnMagNetIDChanged))]
-	private NetworkInstanceId MagNetID;
+	[SyncVar(hook = nameof(SyncMagNetID))]
+	private NetworkInstanceId magNetID = NetworkInstanceId.Invalid;
 
 	//TODO connect these with the actual shooting of a projectile
 	/// <summary>
@@ -87,6 +94,12 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	public int ProjectileVelocity;
 
 	/// <summary>
+	/// Describes the recoil behavior of the camera when this gun is fired
+	/// </summary>
+	[Tooltip("Describes the recoil behavior of the camera when this gun is fired")]
+	public CameraRecoilConfig CameraRecoilConfig;
+
+	/// <summary>
 	///     Current Weapon Type
 	/// </summary>
 	public WeaponType WeaponType;
@@ -108,14 +121,14 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	private bool queuedUnload = false;
 	private NetworkInstanceId queuedLoadMagNetID = NetworkInstanceId.Invalid;
 
-	/// <summary>
-	/// RNG whose seed is based on the netID of the magazine and reset when the mag is loaded and synced when
-	/// the client joins.
-	/// </summary>
-	private System.Random magSyncedRNG;
+	private RegisterTile registerTile;
 
-	private void Start()
+
+	#region Init Logic
+
+	private void Awake()
 	{
+		registerTile = GetComponent<RegisterTile>();
 		//init weapon with missing settings
 		if (AmmoType == null)
 		{
@@ -128,13 +141,72 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		}
 
 		queuedShots = new Queue<QueuedShot>();
+	}
 
-		var pickup = GetComponent<Pickupable>();
-		if (pickup != null)
+	private void Start()
+	{
+		//register server side drop / pickup hooks
+		if (isServer)
 		{
-			pickup.OnPickupServer.AddListener(OnPickupServer);
+			var pickup = GetComponent<Pickupable>();
+			if (pickup != null)
+			{
+				pickup.OnPickupServer.AddListener(OnPickupServer);
+				pickup.OnDropServer.AddListener(OnDropItemServer);
+			}
+
+			ServerEnsureMag();
+		}
+		base.Start();
+	}
+
+	//if no mag is already in the gun, creates one at max capacity
+	private void ServerEnsureMag()
+	{
+		if (CurrentMagazine == null)
+		{
+			GameObject ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType) as GameObject;
+
+			GameObject m = PoolManager.PoolNetworkInstantiate(ammoPrefab, parent: transform.parent);
+			var cnt = m.GetComponent<CustomNetTransform>();
+			cnt.DisappearFromWorldServer();
+
+			var networkID = m.GetComponent<NetworkIdentity>().netId;
+			SyncMagNetID(networkID);
 		}
 	}
+
+	public override void OnStartClient()
+	{
+		SyncMagNetID(magNetID);
+	}
+
+	public void GoingOnStageServer(OnStageInfo info)
+	{
+		ServerEnsureMag();
+		if (info.IsCloned)
+		{
+			//set initial ammo from cloned
+			var otherMag = info.ClonedFrom.GetComponent<Gun>().CurrentMagazine;
+			if (otherMag == null)
+			{
+				CurrentMagazine.ServerSetAmmoRemains(0);
+			}
+			else
+			{
+				CurrentMagazine.ServerSetAmmoRemains(otherMag.ServerAmmoRemains);
+			}
+		}
+		else
+		{
+			//reinit ammo to max
+			CurrentMagazine.ServerSetAmmoRemains(CurrentMagazine.magazineSize);
+		}
+	}
+
+	#endregion
+
+	#region Interaction
 
 	protected override bool WillInteract(AimApply interaction, NetworkSide side)
 	{
@@ -142,10 +214,19 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		if (CurrentMagazine == null)
 		{
 			PlayEmptySFX();
+			if (interaction.Performer != PlayerManager.LocalPlayer)
+			{
+				Logger.LogTrace("Server rejected shot - No magazine being loaded", Category.Firearms);
+			}
+
 			return false;
 		}
 
-		if (Projectile != null && CurrentMagazine.ammoRemains <= 0 && FireCountDown <= 0)
+		//note: fire count down is only checked local player side, as server processes all the shots in a queue
+		//anyway so client cannot exceed that firing rate no matter what. If we validate firing rate server
+		//side at the moment of interaction, it will reject client's shots because of lag between server / client
+		//firing countdown
+		if (Projectile != null && CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 		{
 			if (SmartGun)
 			{
@@ -156,11 +237,15 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 			{
 				PlayEmptySFX();
 			}
+			if (interaction.Performer != PlayerManager.LocalPlayer)
+			{
+				Logger.LogTrace("Server rejected shot - out of ammo", Category.Firearms);
+			}
 
 			return false;
 		}
 
-		if (Projectile != null && CurrentMagazine.ammoRemains > 0 && FireCountDown <= 0)
+		if (Projectile != null && CurrentMagazine.ClientAmmoRemains > 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 		{
 			if (interaction.MouseButtonState == MouseButtonState.PRESS)
 			{
@@ -173,6 +258,11 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 			}
 		}
 
+		if (interaction.Performer != PlayerManager.LocalPlayer)
+		{
+			Logger.LogTraceFormat("Server rejected shot - unknown reason. MouseButtonState {0} ammo remains {1} weapon type {2}", Category.Firearms,
+				interaction.MouseButtonState, CurrentMagazine.ClientAmmoRemains, WeaponType);
+		}
 		return false;
 	}
 
@@ -240,36 +330,28 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 
 	private void OnPickupServer(HandApply interaction)
 	{
-		//sync ammo count now that we will potentially be shooting this locally.
-		if (CurrentMagazine != null)
-		{
-			SyncMagAmmoAndRNG();
-		}
-
-		if (isServer)
-		{
-			ControlledByPlayer = interaction.Performer.GetComponent<NetworkIdentity>().netId;
-		}
+		serverIsHeld = true;
 	}
+
+	#endregion
+
+
+	#region Weapon Firing Mechanism
 
 	private void Update()
 	{
-		if (ControlledByPlayer == NetworkInstanceId.Invalid)
-		{
-			return;
-		}
+		//don't process if we are server and the gun is not held by anyone
+		if (isServer && !serverIsHeld) return;
 
-		//don't start it too early:
-		if (!isServer && !PlayerManager.LocalPlayer)
-		{
-			return;
-		}
+		//if we are client, make sure we've initialized
+		if (!isServer && !PlayerManager.LocalPlayer) return;
 
-		//only perform the rest of the update if the weapon is in the hand of the local player or
-		//we are the server
-		if (!isServer && PlayerManager.LocalPlayer != ClientScene.FindLocalObject(ControlledByPlayer) )
+		//if we are client, only process this if we are holding it
+		if (!isServer)
 		{
-			return;
+			if (UIManager.Hands == null || UIManager.Hands.CurrentSlot == null) return;
+			var heldItem = UIManager.Hands.CurrentSlot.Item;
+			if (gameObject != heldItem) return;
 		}
 
 		//update the time until the next shot can happen
@@ -282,6 +364,8 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 				FireCountDown = 0;
 			}
 		}
+
+		//remaining logic is server side only
 
 		//this will only be executed on the server since only the server
 		//maintains the queued actions
@@ -296,7 +380,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 			// done processing shot queue,
 			// perform the queued unload action, causing all clients and server to update their version of this Weapon
 			//due to the syncvar hook
-			MagNetID = NetworkInstanceId.Invalid;
+			SyncMagNetID(NetworkInstanceId.Invalid);
 			queuedUnload = false;
 
 		}
@@ -304,81 +388,11 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		{
 			//done processing shot queue, perform the reload, causing all clients and server to update their version of this Weapon
 			//due to the syncvar hook
-			MagNetID = queuedLoadMagNetID;
+			SyncMagNetID(queuedLoadMagNetID);
 			queuedLoadMagNetID = NetworkInstanceId.Invalid;
 		}
 	}
 
-	//Do all the weapon init for connecting clients
-	public override void OnStartClient()
-	{
-		StartCoroutine(WaitForLoad());
-		base.OnStartClient();
-	}
-
-	private IEnumerator WaitForLoad()
-	{
-		while (MagNetID == NetworkInstanceId.Invalid)
-		{
-			yield return WaitFor.EndOfFrame;
-		}
-
-		yield return WaitFor.EndOfFrame;
-		OnMagNetIDChanged(MagNetID);
-	}
-
-	#region Weapon Server Init
-
-	public override void OnStartServer()
-	{
-		GameObject ammoPrefab = Resources.Load("Rifles/Magazine_" + AmmoType) as GameObject;
-
-		GameObject m = PoolManager.PoolNetworkInstantiate(ammoPrefab, parent: transform.parent);
-		var cnt = m.GetComponent<CustomNetTransform>();
-		cnt.DisappearFromWorldServer();
-
-		StartCoroutine(SetMagazineOnStart(m));
-
-		base.OnStartServer();
-	}
-
-	//Gives it a chance for weaponNetworkActions and initial ammo to init
-	private IEnumerator SetMagazineOnStart(GameObject magazine)
-	{
-		yield return WaitFor.Seconds(2f);
-		//			if (GameData.IsHeadlessServer || GameData.Instance.testServer) {
-		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
-		MagNetID = networkID;
-		//			} else {
-		//				PlayerManager.LocalPlayerScript.weaponNetworkActions.CmdLoadMagazine(gameObject, magazine);
-		//			}
-	}
-
-	//gives it a chance for magazine to init
-	private IEnumerator SetAmmoOnClone(int ammoCount)
-	{
-		yield return WaitFor.Seconds(2f);
-		CurrentMagazine.ammoRemains = ammoCount;
-	}
-
-	// invoked when being cloned, syncs up ammo (creates an empty mag if there isn't a mag in the cloned weapon)
-	private void OnClonedServer(GameObject otherGun)
-	{
-		var otherMag = otherGun.GetComponent<Gun>().CurrentMagazine;
-		if (otherMag == null)
-		{
-			StartCoroutine(SetAmmoOnClone(0));
-		}
-		else
-		{
-			//sync up ammo
-			StartCoroutine(SetAmmoOnClone(otherMag.ammoRemains));
-		}
-	}
-
-	#endregion
-
-	#region Weapon Firing Mechanism
 	/// <summary>
 	/// attempt to reload the weapon with the item given
 	/// </summary>
@@ -433,11 +447,12 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		PlayerScript shooter = shotBy.GetComponent<PlayerScript>();
 		if ( shooter.canNotInteract() )
 		{
+			Logger.LogTrace("Server rejected shot: shooter cannot interact", Category.Firearms);
 			return;
 		}
 		//simply enqueue the shot
 		//but only enqueue the shot if we have not yet queued up all the shots in the magazine
-		if (CurrentMagazine != null && queuedShots.Count < CurrentMagazine.ammoRemains)
+		if (CurrentMagazine != null && queuedShots.Count < CurrentMagazine.ServerAmmoRemains)
 		{
 			queuedShots.Enqueue(new QueuedShot(shotBy, finalDirection, damageZone, isSuicideShot));
 		}
@@ -466,7 +481,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 			}
 
 
-			if (CurrentMagazine == null || CurrentMagazine.ammoRemains <= 0 || Projectile == null)
+			if (CurrentMagazine == null || CurrentMagazine.ServerAmmoRemains <= 0 || Projectile == null)
 			{
 				Logger.LogTrace("Player tried to shoot when there was no ammo.", Category.Exploits);
 				Logger.LogWarning("A shot was attempted when there is no ammo.", Category.Firearms);
@@ -482,6 +497,9 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 
 			//perform the actual server side shooting, creating the bullet that does actual damage
 			DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide);
+
+			//trigger a hotspot caused by gun firing
+			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(nextShot.shooter.TileWorldPosition(), 3200, 0.005f);
 
 			//tell all the clients to display the shot
 			ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide);
@@ -512,13 +530,23 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	public void DisplayShot(GameObject shooter, Vector2 finalDirection,
 		BodyPartType damageZone, bool isSuicideShot)
 	{
+		//if this is our gun (or server), last check to ensure we really can shoot
+		if ((isServer || PlayerManager.LocalPlayer == shooter) &&
+		    CurrentMagazine.ClientAmmoRemains <= 0)
+		{
+			if (isServer)
+			{
+				Logger.LogTrace("Server rejected shot - out of ammo", Category.Firearms);
+			}
+
+			return;
+		}
 		//Add too the cooldown timer to being allowed to shoot again
 		FireCountDown += 1.0 / FireRate;
-		CurrentMagazine.ammoRemains--;
+		CurrentMagazine.ExpendAmmo();
 		//get the bullet prefab being shot
 		GameObject bullet = PoolManager.PoolClientInstantiate(Resources.Load(Projectile.name) as GameObject,
 			shooter.transform.position);
-		float angle = Mathf.Atan2(finalDirection.y, finalDirection.x) * Mathf.Rad2Deg;
 
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
 		if (isSuicideShot)
@@ -532,9 +560,27 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 
 
 		//add additional recoil after shooting for the next round
-		AppendRecoil(angle);
+		AppendRecoil();
 
-		SoundManager.PlayAtPosition(FireingSound, shooter.transform.position);
+		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position);
+		//jerk screen back based on recoil angle and power
+		if (shooter == PlayerManager.LocalPlayer)
+		{
+			//Default recoil params until each gun is configured separately
+			if (CameraRecoilConfig == null || CameraRecoilConfig.Distance == 0f)
+			{
+				CameraRecoilConfig = new CameraRecoilConfig
+				{
+					Distance = 0.2f,
+					RecoilDuration = 0.05f,
+					RecoveryDuration = 0.6f
+				};
+			}
+			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
+		}
+
+
+		shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 	}
 
 	#endregion
@@ -620,14 +666,9 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		}
 	}
 
-	/// <summary>
-	/// Invoked on all clients and server when the server updates MagNetID, updating the local version of this weapon to
-	/// load / unload the mag.
-	/// </summary>
-	/// <param name="magazineID">id of the new magazine to load, NetworkInstanceId.Invalid if we should unload
-	/// the current mag</param>
-	private void OnMagNetIDChanged(NetworkInstanceId magazineID)
+	private void SyncMagNetID(NetworkInstanceId magazineID)
 	{
+		magNetID = magazineID;
 		//if the magazine ID is invalid remove the magazine
 		if (magazineID == NetworkInstanceId.Invalid)
 		{
@@ -635,14 +676,17 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		}
 		else
 		{
-			if (CurrentMagazine != null)
-			{
-				Logger.LogError("Attempted to load a new mag while a " +
-				                "mag is still in the weapon in our local instance of the game. " +
-				                "This is probably a bug. Continuing anyway...");
-			}
 			//find the magazine by NetworkID
-			GameObject magazine = ClientScene.FindLocalObject(magazineID);
+			GameObject magazine;
+			if (isServer)
+			{
+				magazine = NetworkServer.FindLocalObject(magazineID);
+			}
+			else
+			{
+				magazine = ClientScene.FindLocalObject(magazineID);
+			}
+
 			if (magazine != null)
 			{
 				MagazineBehaviour magazineBehavior = magazine.GetComponent<MagazineBehaviour>();
@@ -655,11 +699,11 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 				else
 				{
 					cnt.DisappearFromWorld();
+					//force a sync when mag is loaded
+					CurrentMagazine.SyncPredictionWithServer();
 				}
 
 				Logger.LogTraceFormat("MagazineBehaviour found ok: {0}", Category.Firearms, magazineID);
-				//sync ammo count now that we will potentially be shooting this locally.
-				SyncMagAmmoAndRNG();
 			}
 		}
 	}
@@ -668,10 +712,9 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 
 	#region Weapon Pooling
 
-	public void OnDropItemServer()
+	private void OnDropItemServer()
 	{
-		//TODO: Need to add drop interaction and/or event hook on Pickupable probably
-		ControlledByPlayer = NetworkInstanceId.Invalid;
+		serverIsHeld = false;
 	}
 
 	#endregion
@@ -701,6 +744,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	{
 		float angle = Mathf.Atan2(target.y, target.x) * Mathf.Rad2Deg;
 		float angleVariance = MagSyncedRandomFloat(-CurrentRecoilVariance, CurrentRecoilVariance);
+		Logger.LogTraceFormat("angleVariance {0}", Category.Firearms, angleVariance);
 		float newAngle = angle * Mathf.Deg2Rad + angleVariance;
 		Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
 		return vec2;
@@ -708,38 +752,16 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 
 	private float MagSyncedRandomFloat(float min, float max)
 	{
-		return (float) (magSyncedRNG.NextDouble() * (max - min) + min);
+		return (float) (CurrentMagazine.CurrentRNG() * (max - min) + min);
 	}
 
-	/// <summary>
-	/// Use this whenever the mag-based RNG and ammo count should by synced with the server's authoritative values for thos.
-	/// Syncs the ammo count of the loaded mag with the server, also syncing the RNG.
-	///
-	/// Due to client and server ammo counts not being synced until the local player picks up
-	/// a gun or reloads a mag, the RNG of this weapon will be out of sync with the server.
-	/// This method re-syncs the local RNG with the server RNG by resetting the seed and
-	/// getting as many NextDoubles() as would've been used to generate all the previously spent shots
-	/// of the current magazine.
-	/// </summary>
-	private void SyncMagAmmoAndRNG()
-	{
-		CurrentMagazine.SyncClientAmmoRemainsWithServer();
-		magSyncedRNG = new System.Random(CurrentMagazine.netId.GetHashCode());
-		var shots = CurrentMagazine.magazineSize - CurrentMagazine.ammoRemains;
-		//each shot causes 2 RNG calls (one for deviation, one for recoil increase), so fast forward RNG for each shot
-		for (int i = 0; i < shots; i++)
-		{
-			magSyncedRNG.NextDouble();
-			magSyncedRNG.NextDouble();
-		}
-	}
-
-	private void AppendRecoil(float angle)
+	private void AppendRecoil()
 	{
 		if (CurrentRecoilVariance < MaxRecoilVariance)
 		{
 			//get a random recoil
 			float randRecoil = MagSyncedRandomFloat(CurrentRecoilVariance, MaxRecoilVariance);
+			Logger.LogTraceFormat("randRecoil {0}", Category.Firearms, randRecoil);
 			CurrentRecoilVariance += randRecoil;
 			//make sure the recoil is not too high
 			if (CurrentRecoilVariance > MaxRecoilVariance)

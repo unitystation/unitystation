@@ -15,7 +15,7 @@ public class MachineConnectorSpriteHandler : NetworkBehaviour
 	public SpriteRenderer SRWest;
 	public SpriteRenderer SREast;
 
-	[SyncVar(hook = "UpdateSprites")]
+	[SyncVar(hook = nameof(UpdateSprites))]
 	public string Syncstring;
 
 

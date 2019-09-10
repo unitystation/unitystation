@@ -72,8 +72,8 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 		if (isOccupied)
 		{
 			var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)
-				?.First(pm => pm.IsRestrained);
-			playerMoveAtPosition.Unrestrain();
+				?.First(pm => pm.IsBuckled);
+			playerMoveAtPosition.Unbuckle();
 		}
 	}
 

@@ -34,7 +34,7 @@ public class InventorySlotCache : MonoBehaviour
 
 	public UI_ItemSlot this [ItemType type] => GetSlotByItemType(type);
 
-	public UI_ItemSlot this [string eventName] => GetSlotByEvent(eventName);
+	public UI_ItemSlot this [EquipSlot equipSlot] => GetSlotByEvent(equipSlot);
 
 	public int Length => InventorySlots != null ? InventorySlots.Count : 0;
 
@@ -90,17 +90,6 @@ public class InventorySlotCache : MonoBehaviour
 		return null;
 	}
 
-	public static UI_ItemSlot GetSlotByUUID(string UUID)
-	{
-		UI_ItemSlot slot = null;
-		int index = InventorySlots.FindLastIndex(x => x.inventorySlot.UUID == UUID);
-		if (index != -1)
-		{
-			slot = InventorySlots[index];
-		}
-		return slot;
-	}
-
 	public static void Add(UI_ItemSlot item)
 	{
 		InventorySlots.Add(item);
@@ -116,59 +105,59 @@ public class InventorySlotCache : MonoBehaviour
 
 	public static UI_ItemSlot GetSlotByItemType(ItemType type)
 	{
-		string eventName = "storage02";
+		EquipSlot eventName = EquipSlot.storage02;
 		switch (type)
 		{
 			case ItemType.Back:
-				eventName = "back";
+				eventName = EquipSlot.back;
 				break;
 			case ItemType.Belt:
-				eventName = "belt";
+				eventName = EquipSlot.belt;
 				break;
 			case ItemType.Ear:
-				eventName = "ear";
+				eventName = EquipSlot.ear;
 				break;
 			case ItemType.Glasses:
-				eventName = "eyes";
+				eventName = EquipSlot.eyes;
 				break;
 			case ItemType.Gloves:
-				eventName = "hands";
+				eventName = EquipSlot.hands;
 				break;
 			case ItemType.Hat:
-				eventName = "head";
+				eventName = EquipSlot.head;
 				break;
 			case ItemType.ID:
-				eventName = "id";
+				eventName = EquipSlot.id;
 				break;
 			case ItemType.PDA:
-				eventName = "id";
+				eventName = EquipSlot.id;
 				break;
 			case ItemType.Mask:
-				eventName = "mask";
+				eventName = EquipSlot.mask;
 				break;
 			case ItemType.Neck:
-				eventName = "neck";
+				eventName = EquipSlot.neck;
 				break;
 			case ItemType.Shoes:
-				eventName = "feet";
+				eventName = EquipSlot.feet;
 				break;
 			case ItemType.Suit:
-				eventName = "suit";
+				eventName = EquipSlot.exosuit;
 				break;
 			case ItemType.Uniform:
-				eventName = "uniform";
+				eventName = EquipSlot.uniform;
 				break;
 			case ItemType.Gun:
-				eventName = "suitStorage";
+				eventName = EquipSlot.suitStorage;
 				break;
 		}
 
 		return GetSlotByEvent(eventName);
 	}
 
-	public static UI_ItemSlot GetSlotByEvent(string eventName)
+	public static UI_ItemSlot GetSlotByEvent(EquipSlot equipSlot)
 	{
-		int indexSearch = InventorySlots.FindIndex(x => x.eventName == eventName);
+		int indexSearch = InventorySlots.FindIndex(x => x.equipSlot == equipSlot);
 		if (indexSearch != -1)
 		{
 			return InventorySlots[indexSearch];
@@ -176,20 +165,6 @@ public class InventorySlotCache : MonoBehaviour
 		else
 		{
 			return null;
-		}
-	}
-
-	public static void SyncGUID(SyncPlayerInventoryList syncList)
-	{
-		for (int i = 0; i < syncList.slotsToUpdate.Count; i++)
-		{
-			var slot = GetSlotByEvent(syncList.slotsToUpdate[i].SlotName);
-			if (slot == null)
-			{
-				return;
-			}
-			slot.inventorySlot.UUID = syncList.slotsToUpdate[i].UUID;
-			slot.inventorySlot.Owner = PlayerManager.LocalPlayerScript;
 		}
 	}
 }

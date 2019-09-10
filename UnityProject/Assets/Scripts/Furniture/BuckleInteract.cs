@@ -13,6 +13,8 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 	//may be null
 	private OccupiableDirectionalSprite occupiableDirectionalSprite;
 
+	public bool forceUpright;
+
 	private void Start()
 	{
 		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
@@ -26,7 +28,7 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 		if (!Validations.HasComponent<PlayerMove>(interaction.DroppedObject)) return false;
 		//if there are any restrained players already here, we can't restrain another one here
 		if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
-			.Any(pm => pm.IsRestrained))
+			.Any(pm => pm.IsBuckled))
 		{
 			return false;
 		}
@@ -55,7 +57,7 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 		SoundManager.PlayNetworkedAtPos("Click01", drop.TargetObject.WorldPosServer());
 
 		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
-		playerMove.Restrain(gameObject, OnUnbuckle);
+		playerMove.Buckle(gameObject, OnUnbuckle);
 
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
@@ -70,19 +72,18 @@ public class BuckleInteract : Interactable<MouseDrop, HandApply>
 		if (interaction.HandObject != null) return false;
 		//can only do this if there is a buckled player here
 		return MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
-			.Any(pm => pm.IsRestrained);
+			.Any(pm => pm.IsBuckled);
 	}
 
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
 		SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer());
 
-		var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)?.First(pm => pm.IsRestrained);
+		var playerMoveAtPosition = MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)?.First(pm => pm.IsBuckled);
 		//cannot use the CmdUnrestrain because commands are only allowed to be invoked by local player
-		playerMoveAtPosition.Unrestrain();
+		playerMoveAtPosition.Unbuckle();
 		//the above will then invoke onunbuckle as it was the callback passed to Restrain
 	}
-
 
 	//delegate invoked from playerMove when they are unrestrained from this
 	private void OnUnbuckle()

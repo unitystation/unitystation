@@ -68,7 +68,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 
 	public override void OnStartClient()
 	{
-		SyncSprite(statusSync);
+		SyncStatus( statusSync );
 		SetIsLocked(IsLocked);
 	}
 
@@ -112,7 +112,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 	{
 		IsClosed = value;
 		HandleItems();
-		ChangeSprite();
+		StartCoroutine(ChangeSpriteDelayed());
 	}
 
 	private void SetIsLocked(bool value)
@@ -129,6 +129,12 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 				lockLight.Unlock();
 			}
 		}
+	}
+
+	public IEnumerator ChangeSpriteDelayed()
+	{
+		yield return WaitFor.EndOfFrame;
+		ChangeSprite();
 	}
 
 	public void ChangeSprite()
@@ -159,6 +165,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 
 	private void SyncStatus(ClosetStatus value)
 	{
+		statusSync = value;
 		if(value == ClosetStatus.Open)
 		{
 			registerTile.IsClosed = false;
@@ -232,7 +239,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 		if (interaction.HandObject != null && !IsClosed)
 		{
 			PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-			pna.CmdPlaceItem(interaction.HandSlot.SlotName, registerTile.WorldPosition, null, false);
+			pna.CmdPlaceItem(interaction.HandSlot.equipSlot, registerTile.WorldPosition, null, false);
 		}
 		else if (!IsLocked)
 		{
@@ -262,7 +269,6 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 			//avoids blinking of premapped items when opening first time in another place:
 			Vector3Int pos = registerTile.WorldPositionServer;
 			netTransform.AppearAtPosition(pos);
-			item.parentContainer = null;
 			if (pushPull && pushPull.Pushable.IsMovingServer)
 			{
 				netTransform.InertiaDrop(pos, pushPull.Pushable.SpeedServer,
@@ -270,9 +276,10 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 			}
 			else
 			{
-				netTransform.AppearAtPositionServer(pos);
+//				netTransform.AppearAtPositionServer(pos);
+				item.VisibleState = true; //should act identical to line above
 			}
-			item.visibleState = true;
+			item.parentContainer = null;
 		}
 
 		heldItems = Enumerable.Empty<ObjectBehaviour>();
@@ -283,10 +290,8 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 		heldItems = matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true);
 		foreach (ObjectBehaviour item in heldItems)
 		{
-			CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
 			item.parentContainer = objectBehaviour;
-			netTransform.DisappearFromWorldServer();
-			item.visibleState = false;
+			item.VisibleState = false;
 		}
 	}
 
@@ -294,17 +299,15 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 	{
 		foreach (ObjectBehaviour player in heldPlayers)
 		{
-			var playerScript = player.GetComponent<PlayerScript>();
-			var playerSync = playerScript.PlayerSync;
-
-			playerSync.AppearAtPositionServer(registerTile.WorldPositionServer);
-			player.parentContainer = null;
+			player.VisibleState = true;
 			if (pushPull && pushPull.Pushable.IsMovingServer)
 			{
-				playerScript.pushPull.TryPush(pushPull.InheritedImpulse.To2Int(),
-					pushPull.Pushable.SpeedServer);
+				player.TryPush(pushPull.InheritedImpulse.To2Int(),pushPull.Pushable.SpeedServer);
 			}
-			player.visibleState = true;
+			player.parentContainer = null;
+
+			//Stop tracking closet
+			ClosetHandlerMessage.Send(player.gameObject, null);
 		}
 		heldPlayers = new List<ObjectBehaviour>();
 	}
@@ -328,13 +331,11 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 	{
 		heldPlayers.Add(player);
 		var playerScript = player.GetComponent<PlayerScript>();
-		var playerSync = playerScript.PlayerSync;
 
-		player.visibleState = false;
+		player.VisibleState = false;
 		player.parentContainer = objectBehaviour;
-		playerSync.DisappearFromWorldServer();
-		//Make sure a ClosetPlayerHandler is created on the client to monitor
-		//the players input inside the storage. The handler also controls the camera follow targets:
+
+		//Start tracking closet
 		if (!playerScript.IsGhost)
 		{
 			ClosetHandlerMessage.Send(player.gameObject, gameObject);

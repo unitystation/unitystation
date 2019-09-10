@@ -27,9 +27,9 @@ public class TabHeaderButton : MonoBehaviour {
 		if(mouseOver){
 			//Tab roll out
 			if (!ControlTabs.Instance.rolledOut) {
-				ControlTabs.Instance.ToggleTabRollOut();
+				ControlTabs.Instance.OpenTabWindow();
 			}
-		} 
+		}
 	}
 
 	public void PointerEnter(){

@@ -17,7 +17,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	private float pingUpdate;
 
-	[SyncVar(hook = "OnNameChange")] public string playerName = " ";
+	[SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
 
 	private ChatChannel selectedChannels;
 
@@ -65,28 +65,15 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		//Local player is set a frame or two after OnStartClient
-		StartCoroutine(WaitForLoad());
 		Init();
+		SyncPlayerName(playerName);
 		base.OnStartClient();
-	}
-
-	private IEnumerator WaitForLoad()
-	{
-		//fixme: name isn't resolved at the moment of pool creation
-		//(player pools now use netIDs, but it would be nice to have names for readability)
-		yield return WaitFor.Seconds(2f);
-		OnNameChange(playerName);
-		yield return WaitFor.Seconds(1f);
-		//Refresh chat log:
-		//s		ChatRelay.Instance.RefreshLog();
 	}
 
 	//isLocalPlayer is always called after OnStartClient
 	public override void OnStartLocalPlayer()
 	{
 		Init();
-
 		base.OnStartLocalPlayer();
 	}
 
@@ -116,15 +103,12 @@ public class PlayerScript : ManagedNetworkBehaviour
 		{
 			UIManager.ResetAllUI();
 			UIManager.DisplayManager.SetCameraFollowPos();
-			int rA = Random.Range(0, 3);
 			GetComponent<MouseInputController>().enabled = true;
 
 			if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)
 			{
 				UIManager.Instance.playerListUIControl.window.SetActive(true);
 			}
-
-			CmdTrySetInitialName(PlayerManager.PlayerNameCache);
 
 			PlayerManager.SetPlayerForControl(gameObject);
 
@@ -142,7 +126,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 			else
 			{
 				//play the spawn sound
-				SoundManager.PlayVarAmbient(rA);
+				SoundManager.PlayAmbience();
 				//Hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
@@ -169,40 +153,14 @@ public class PlayerScript : ManagedNetworkBehaviour
 		{
 			pingUpdate = 0f;
 			int ping = CustomNetworkManager.Instance.client.GetRTT();
-			UIManager.SetToolTip = "ping: " + ping;
+			UIManager.SetPingDisplay = string.Format("ping: {0,-5:D}", ping);
 		}
 	}
 
-	/// <summary>
-	/// Trying to set initial name, if player has none
-	/// </summary>
-	[Command]
-	private void CmdTrySetInitialName(string name)
+	public void SyncPlayerName(string value)
 	{
-		//			Logger.Log($"TrySetName {name}");
-		if (PlayerList.Instance != null)
-		{
-			var player = PlayerList.Instance.Get(connectionToClient);
-			player.Name = name;
-
-			playerName = player.Name;
-			PlayerList.Instance.TryAddScores(player.Name);
-			UpdateConnectedPlayersMessage.Send();
-		}
-	}
-
-	// On playerName variable change across all clients, make sure obj is named correctly
-	// and set in Playerlist for that client
-	public void OnNameChange(string newName)
-	{
-		if (string.IsNullOrEmpty(newName))
-		{
-			Logger.LogError("NO NAME PROVIDED!", Category.Connections);
-			return;
-		}
-		//			Logger.Log($"OnNameChange: GOName '{gameObject.name}'->'{newName}'; playerName '{playerName}'->'{newName}'");
-		playerName = newName;
-		gameObject.name = newName;
+		playerName = value;
+		gameObject.name = value;
 	}
 
 	public bool IsHidden => !PlayerSync.ClientState.Active;
@@ -254,10 +212,15 @@ public class PlayerScript : ManagedNetworkBehaviour
 		}
 	}
 
+	public static bool IsInReach( Vector3 targetVector, float interactDist = interactionDistance )
+	{
+		return Mathf.Max( Mathf.Abs(targetVector.x), Mathf.Abs(targetVector.y) ) < interactDist;
+	}
+
 	public static bool IsInReach(Vector3 from, Vector3 to, float interactDist = interactionDistance)
 	{
-		var distanceVector = from - to;
-		return Mathf.Max( Mathf.Abs(distanceVector.x), Mathf.Abs(distanceVector.y) ) < interactDist;
+		var targetVector = from - to;
+		return IsInReach( targetVector );
 	}
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
@@ -266,7 +229,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 		{
 			return ChatChannel.OOC;
 		}
-		PlayerMove pm = gameObject.GetComponent<PlayerMove>();
 		if (IsGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
@@ -283,9 +245,9 @@ public class PlayerScript : ManagedNetworkBehaviour
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			PlayerNetworkActions pna = gameObject.GetComponent<PlayerNetworkActions>();
-			if (pna && pna.SlotNotEmpty("ear"))
+			if (pna && pna.SlotNotEmpty(EquipSlot.ear))
 			{
-				Headset headset = pna.Inventory["ear"].Item.GetComponent<Headset>();
+				Headset headset = pna.Inventory[EquipSlot.ear].Item.GetComponent<Headset>();
 				if (headset)
 				{
 					EncryptionKeyType key = headset.EncryptionKey;
@@ -295,7 +257,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		}
 		else
 		{
-			GameObject earSlotItem = UIManager.InventorySlots["ear"].Item;
+			GameObject earSlotItem = UIManager.InventorySlots[EquipSlot.ear].Item;
 			if (earSlotItem)
 			{
 				Headset headset = earSlotItem.GetComponent<Headset>();

@@ -12,13 +12,12 @@ using Random = System.Random;
 [RequireComponent(typeof(ObjectBehaviour))]
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(CustomNetTransform))]
-[RequireComponent(typeof(SpriteMatrixRotation))]
 public class ItemAttributes : NetworkBehaviour, IRightClickable
 {
 	private const string MaskInternalsFlag = "MASKINTERNALS";
 	private const string ObjItemClothing = "/obj/item/clothing";
 	private static DmiIconData dmi;
-	private static DmObjectData dm;
+	public static DmObjectData dm;
 
 	/// <summary>
 	/// This is used as a Lazy initialized backing field for <see cref="HierList"/>
@@ -52,7 +51,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	private Dictionary<string, string> dmDic;
 	private string hier;
 
-	[SyncVar(hook = "ConstructItem")] public string hierarchy;
+	[SyncVar(hook = nameof(ConstructItem))] public string hierarchy;
 	/// <summary>
 	/// Custom inventory(?) icon, if present
 	/// </summary>
@@ -85,6 +84,8 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	[Tooltip("Damage when we click someone with harm intent")]
 	[Range(0, 100)]
 	public float hitDamage = 0;
+
+	public DamageType damageType = DamageType.Brute;
 
 	[Tooltip("How painful it is when someone throws it at you")]
 	[Range(0, 100)]
@@ -198,7 +199,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 
 		inventoryIcon = UniItemUtils.GetInventoryIcon(hier, invSheetPaths, icon, icon_state);
 
-		clothingReference = TryGetClothingOffset(states);
+		clothingReference = TryGetClothingOffset(states, itemType);
 
 		//determine item type via sheet name if hier name failed
 		if (itemType == ItemType.None)
@@ -312,7 +313,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	/// </summary>
 	/// <param name="states">Expected order is {item_state, item_color, icon_state}</param>
 	/// <returns></returns>
-	private int TryGetClothingOffset(string[] states)
+	public static int TryGetClothingOffset(string[] states, ItemType itemType)
 	{
 		string[] onPlayerClothSheetHier = GetOnPlayerClothSheetHier(itemType);
 		for (int i = 0; i < states.Length; i++)

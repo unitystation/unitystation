@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Manages all the alerts that can show up on the HUD (other than what is managed by PlayerHealthUI).
@@ -9,7 +10,8 @@ using UnityEngine;
 /// </summary>
 public class AlertUI : MonoBehaviour
 {
-	public GameObject restrained;
+	[FormerlySerializedAs("restrained")]
+	public GameObject buckled;
 	private Action onClick;
 
 	//invoked when the restrained alert is clicked
@@ -24,9 +26,9 @@ public class AlertUI : MonoBehaviour
 	/// </summary>
 	/// <param name="show">whether it should be shown</param>
 	/// <param name="onClick">if show=true, callback to invoke when the alert is clicked</param>
-	public void ToggleAlertRestrained(bool show, Action onClick)
+	public void ToggleAlertBuckled(bool show, Action onClick)
 	{
-		restrained.SetActive(show);
+		buckled.SetActive(show);
 		if (show)
 		{
 			this.onClick = onClick;

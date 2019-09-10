@@ -2,12 +2,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 /// <summary>
 ///     Controller for the heart monitor GUI
 /// </summary>
-public class UI_HeartMonitor : MonoBehaviour
+public class UI_HeartMonitor : TooltipMonoBehaviour
 {
+	public override string Tooltip => "health";
+
 	public int critStart;
 	private int currentSprite = 0;
 	public int deathStart;

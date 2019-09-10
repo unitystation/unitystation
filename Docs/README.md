@@ -14,12 +14,12 @@ See project updates on Patreon:<br>
 
 ## Talk to us
 Please join us on Discord:<br>
-[<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/fhhQcV9)
+[<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/H6EunER)
 
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://github.com/unitystation/unitystation/wiki/Starting-contribution)
 1. [Get Unity Hub](https://unity3d.com/get-unity/download)
-2. Install editor version 2018.3
+2. Install editor version 2018.3.14f1
 3. Fork the repo
 4. Add your changes
 5. Read the contribution guidelines

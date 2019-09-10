@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
 using System.Text;
+using System.Linq;
 
 
 // TODO 
@@ -17,7 +16,22 @@ public static class VariableViewer
 	public static void ProcessTile(Vector3 Location)
 	{
 		Location.z = 0f;
-		List<GameObject> _Objects = UITileList.GetItemsAtPosition(Location);
+		Vector3Int worldPosInt = Location.To2Int().To3Int();
+		Matrix matrix = MatrixManager.AtPoint(worldPosInt, true).Matrix;
+
+		Location = matrix.transform.InverseTransformPoint(Location);
+		Vector3Int tilePosition = Vector3Int.FloorToInt(Location);
+
+		var registerTiles = matrix.Get<RegisterTile>(tilePosition, false);
+
+		List<GameObject> _Objects = registerTiles.Select(x => x.gameObject).ToList();
+
+		//include interactable tiles
+		var interactableTiles = matrix.GetComponentInParent<InteractableTiles>();
+		if (interactableTiles != null)
+		{
+			_Objects.Add(interactableTiles.gameObject);
+		}
 		List<Transform> transforms = new List<Transform>();
 		foreach (var Object in _Objects)
 		{
@@ -292,7 +306,10 @@ public static class Librarian
 
 		foreach (MonoBehaviour mono in scriptComponents)
 		{
-			bookShelf.HeldBooks.Add(PartialGeneratebook(mono));
+			if (mono != null)
+			{
+				bookShelf.HeldBooks.Add(PartialGeneratebook(mono));
+			}
 		}
 		Transform[] ts = bookShelf.Shelf.GetComponentsInChildren<Transform>();
 		foreach (Transform child in ts)
@@ -383,8 +400,6 @@ public static class Librarian
 				{
 					Page Page = new Page();
 					Page.VariableName = Properties.Name;
-					Logger.Log(Script.ToString());
-					Logger.Log(Properties.ToString());
 					Page.Variable = Properties.GetValue(Script);
 					Page.VariableType = Properties.PropertyType;
 					Page.PInfo = Properties;
@@ -450,7 +465,10 @@ public static class Librarian
 										_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
 									}
 								}
-								GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
+								if (!valueType.IsClass)
+								{
+									GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
+								}
 								count++;
 								sentence.Sentences.Add(_sentence);
 							}
@@ -502,7 +520,10 @@ public static class Librarian
 								_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
 							}
 						}
+						if (!valueType.IsClass)
+						{
 						GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
+						}
 						count++;
 						Page.Sentences.Sentences.Add(_sentence);
 					}
@@ -562,7 +583,10 @@ public static class Librarian
 				HeldBooks.Clear();
 				foreach (MonoBehaviour mono in scriptComponents)
 				{
-					HeldBooks.Add(PartialGeneratebook(mono));
+					if (mono != null)
+					{
+						HeldBooks.Add(PartialGeneratebook(mono));
+					}
 				}
 				ObscuredBookShelves.Clear();
 				Transform[] ts = Shelf.GetComponentsInChildren<Transform>();

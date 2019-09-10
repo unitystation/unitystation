@@ -7,9 +7,45 @@ using UnityEngine.Networking;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(RightClickAppearance))]
-public class PushPull : VisibleBehaviour, IRightClickable {
+public class PushPull : NetworkBehaviour, IRightClickable {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
+
+	public RegisterTile registerTile;
+
+	/// <summary>
+	/// Setting this is identical to calling Appear/DisappearFromWorldServer
+	/// </summary>
+	public bool VisibleState
+	{
+		get => Pushable.ServerPosition != TransformState.HiddenPos;
+		set => Pushable.SetVisibleServer( value );
+	}
+
+	/// <summary>
+	/// Server only: The object that this object is contained inside
+	/// </summary>
+	public PushPull parentContainer = null;
+
+	/// <summary>
+	/// World position of highest object this object is contained in
+	/// </summary>
+	/// <returns></returns>
+	public Vector3 AssumedWorldPositionServer()
+	{
+		//If this object is contained in another, run until highest layer layer is reached
+		if (parentContainer)
+		{
+			return parentContainer.AssumedWorldPositionServer();
+		}
+
+		var pos = registerTile.WorldPositionServer;
+		if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
+		{
+			Logger.LogWarningFormat( "{0}: Assumed World Position is HiddenPos, something might be wrong", Category.Transform, gameObject.name );
+		}
+		return pos;
+	}
 
 	[SyncVar]
 	public bool isNotPushable = false;
@@ -143,7 +179,7 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
-				SoundManager.PlayNetworkedAtPos( "Rustle0" + Random.Range(1, 4), pullable.transform.position );
+				SoundManager.PlayNetworkedAtPos( "Rustle#", pullable.transform.position );
 
 				PulledObjectServer = pullable;
 
@@ -209,6 +245,7 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 	{
 		//check if our local player can reach this
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
+		if (initiator == null) return null;
 		//if it's pulled by us
 		if (IsPulledByClient(initiator))
 		{
@@ -229,8 +266,8 @@ public class PushPull : VisibleBehaviour, IRightClickable {
 		return null;
 	}
 
-	protected override void Awake() {
-		base.Awake();
+	protected void Awake() {
+		registerTile = GetComponent<RegisterTile>();
 
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
 

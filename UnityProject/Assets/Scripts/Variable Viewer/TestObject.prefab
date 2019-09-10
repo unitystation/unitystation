@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 1858117872449349685}
   - component: {fileID: 2460324593827096775}
   - component: {fileID: 2695544638457635684}
+  - component: {fileID: 1544323275797726959}
   m_Layer: 11
   m_Name: TestObject
   m_TagString: Untagged
@@ -125,16 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnRotateEnd:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  OnRotateStart:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: OrientationEvent, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  layer: {fileID: 0}
   ObjectType: 1
-  rotateWithMatrix: 0
   AtmosPassable: 1
   Passable: 0
 --- !u!114 &114703946515217786
@@ -401,6 +394,79 @@ MonoBehaviour:
   PListstring: []
   PListConnection: 
   length: 10
+--- !u!114 &1544323275797726959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa7d96b5297053428ff5656cc555321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ThingsToDrop: []
+  ConstructionStages:
+  - StageSprite: {fileID: 0}
+    StageAdvances:
+    - RequiredTool: 4
+      ConstructionTime: 0
+      JumpToStage: 1
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    NeededParts: []
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 0}
+  - StageSprite: {fileID: 21300034, guid: 534b1f0ede003498d9a12c59a679544f, type: 3}
+    StageAdvances:
+    - RequiredTool: 4
+      ConstructionTime: 0
+      JumpToStage: 0
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    - RequiredTool: 0
+      ConstructionTime: 0
+      JumpToStage: 2
+      SuccessChance: 100
+      SuccessText: 
+      FailedText: 
+      Construction: 0
+    NeededParts:
+    - GameObject: {fileID: 0}
+      IdentifyingComponent: 
+      NumberNeeded: 2
+      CType: 1
+      level: 0
+      NumberPresent: 0
+    - GameObject: {fileID: 0}
+      IdentifyingComponent: 
+      NumberNeeded: 2
+      CType: 4
+      level: 0
+      NumberPresent: 0
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 0}
+  - StageSprite: {fileID: 0}
+    StageAdvances: []
+    NeededParts: []
+    MissingParts: 0
+    PresentParts: []
+    FinalDeconstructedResult: {fileID: 1475833336761070, guid: c1067f45e0ff28c47900e715350e7f10,
+      type: 3}
+  TSpriteRenderer: {fileID: 8730191553135436193, guid: ae67ebb257dca914bbb7c735f7581aca,
+    type: 3}
+  otherSpriteRenderer: []
+  ListChance: 
+  CurrentStage: 0
+  StandardConstructionComponent: {fileID: 1519710982558066, guid: 3beffbd1402c7314f8f6c2d1049478b2,
+    type: 3}
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

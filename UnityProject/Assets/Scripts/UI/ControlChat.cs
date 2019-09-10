@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -26,6 +27,13 @@ public class ControlChat : MonoBehaviour
 	private GameObject activeChannelTemplate;
 	[SerializeField]
 	private InputField InputFieldChat;
+	[SerializeField]
+	private Image toggleChatBubbleImage;
+	[SerializeField]
+	private Color toggleOffCol;
+	[SerializeField]
+	private Color toggleOnCol;
+	private bool windowCoolDown = false;
 
 	/// <summary>
 	/// A map of channel names and their toggles for UI manipulation
@@ -81,10 +89,24 @@ public class ControlChat : MonoBehaviour
 			Instance = this;
 			DontDestroyOnLoad(gameObject);
 			uiObj.SetActive(true);
+			InitPrefs();
 		}
 		else
 		{
 			Destroy(gameObject); //Kill the whole tree
+		}
+	}
+
+	void InitPrefs()
+	{
+		if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleKey))
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 0);
+			PlayerPrefs.Save();
+		}
+		if (PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleKey) == 1)
+		{
+			toggleChatBubbleImage.color = toggleOnCol;
 		}
 	}
 
@@ -124,13 +146,16 @@ public class ControlChat : MonoBehaviour
 			RefreshChannelPanel();
 		}
 
-		if (UIManager.IsInputFocus && KeyboardInputManager.IsEnterPressed())
+		if (KeyboardInputManager.IsEnterPressed() && !windowCoolDown)
 		{
-			if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
+			if (UIManager.IsInputFocus)
 			{
-				PlayerSendChat();
+				if (!string.IsNullOrEmpty(InputFieldChat.text.Trim()))
+				{
+					PlayerSendChat();
+				}
+				CloseChatWindow();
 			}
-			CloseChatWindow();
 		}
 
 		if (!chatInputWindow.activeInHierarchy) return;
@@ -162,10 +187,30 @@ public class ControlChat : MonoBehaviour
 		CloseChatWindow();
 	}
 
+	/// <summary>
+	/// Toggles the Chat Icon / Chat Bubble preference
+	/// </summary>
+	public void OnClickToggleBubble()
+	{
+		SoundManager.Play("Click01");
+		if (PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleKey) == 1)
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 0);
+			toggleChatBubbleImage.color = toggleOffCol;
+		}
+		else
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleKey, 1);
+			toggleChatBubbleImage.color = toggleOnCol;
+		}
+		PlayerPrefs.Save();
+		EventManager.Broadcast(EVENT.ToggleChatBubbles);
+	}
+
 	private void PlayerSendChat()
 	{
 		// Selected channels already masks all unavailable channels in it's get method
-		PostToChatMessage.Send (InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
+		PostToChatMessage.Send(InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
 
 		// if (GameManager.Instance.GameOver)
 		// {
@@ -188,7 +233,8 @@ public class ControlChat : MonoBehaviour
 
 		if (PlayerChatShown())
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true, InputFieldChat.text,
+				PlayerManager.LocalPlayerScript.SelectedChannels);
 		}
 		InputFieldChat.text = "";
 	}
@@ -198,11 +244,11 @@ public class ControlChat : MonoBehaviour
 	/// </summary>
 	private bool PlayerChatShown()
 	{
-		// Don't show if player is dead, crit or sent an empty message
+		// Don't show if player is dead, crit, talking in OOC or sent an empty message
 		if (PlayerManager.LocalPlayerScript.IsGhost ||
 			PlayerManager.LocalPlayerScript.playerHealth.IsCrit ||
-			InputFieldChat.text == ""
-			)
+			InputFieldChat.text == "" ||
+			PlayerManager.LocalPlayerScript.SelectedChannels.Equals(ChatChannel.OOC))
 		{
 			return false;
 		}
@@ -220,8 +266,13 @@ public class ControlChat : MonoBehaviour
 	/// Opens the chat window to send messages
 	/// </summary>
 	/// <param name="selectedChannel">The chat channels to select when opening it</param>
-	public void OpenChatWindow (ChatChannel selectedChannel = ChatChannel.None)
+	public void OpenChatWindow(ChatChannel selectedChannel = ChatChannel.None)
 	{
+		//Prevent input spam
+		if (windowCoolDown) return;
+		windowCoolDown = true;
+		StartCoroutine(WindowCoolDown());
+
 		// Can't open chat window while main menu open
 		if (GUI_IngameMenu.Instance.mainIngameMenu.activeInHierarchy)
 		{
@@ -245,21 +296,29 @@ public class ControlChat : MonoBehaviour
 			// Make sure the player has at least one channel selected
 			TrySelectDefaultChannel();
 		}
-		EventManager.Broadcast (EVENT.ChatFocused);
-		chatInputWindow.SetActive (true);
-		background.SetActive (true);
+		EventManager.Broadcast(EVENT.ChatFocused);
+		chatInputWindow.SetActive(true);
+		background.SetActive(true);
 		UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
-		EventSystem.current.SetSelectedGameObject (InputFieldChat.gameObject, null);
-		InputFieldChat.OnPointerClick (new PointerEventData (EventSystem.current));
+		EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
+		InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
 		RefreshChannelPanel();
 	}
 
 	public void CloseChatWindow()
 	{
+		windowCoolDown = true;
+		StartCoroutine(WindowCoolDown());
 		UIManager.IsInputFocus = false;
 		chatInputWindow.SetActive(false);
 		EventManager.Broadcast(EVENT.ChatUnfocused);
 		background.SetActive(false);
+	}
+
+	IEnumerator WindowCoolDown()
+	{
+		yield return WaitFor.EndOfFrame;
+		windowCoolDown = false;
 	}
 
 	/// <summary>
@@ -333,20 +392,11 @@ public class ControlChat : MonoBehaviour
 		Logger.Log($"Creating channel toggle for {channel}", Category.UI);
 		// Create the toggle button
 		GameObject channelToggleItem = Instantiate(channelToggleTemplate, channelToggleTemplate.transform.parent, false);
-		Toggle toggle = channelToggleItem.GetComponent<Toggle>();
-		toggle.GetComponent<UIToggleChannel>().channel = channel;
-		toggle.GetComponentInChildren<Text>().text = IconConstants.ChatPanelIcons[channel];
+		var uiToggleScript = channelToggleItem.GetComponent<UIToggleChannel>();
 
-		// Use the OnClick trigger to invoke Toggle_Channel instead of OnValueChanged
-		// This stops infinite loops happening when the value is changed from the code
-		EventTrigger trigger = toggle.GetComponent<EventTrigger>();
-		EventTrigger.Entry entry = new EventTrigger.Entry();
-		entry.eventID = EventTriggerType.PointerClick;
-		entry.callback.AddListener( (eventData) => Toggle_Channel(toggle.isOn) );
-		trigger.triggers.Add(entry);
-
+		//Set the new UIToggleChannel object and
 		// Add it to a list for easy access later
-		ChannelToggles.Add(channel, toggle);
+		ChannelToggles.Add(channel, uiToggleScript.SetToggle(channel));
 	}
 
 	/// <summary>
@@ -461,7 +511,7 @@ public class ControlChat : MonoBehaviour
 		}
 	}
 
-	private void ClearTogglesExcept (ChatChannel channel)
+	private void ClearTogglesExcept(ChatChannel channel)
 	{
 		foreach (KeyValuePair<ChatChannel, Toggle> chanToggle in ChannelToggles)
 		{

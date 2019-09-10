@@ -77,6 +77,7 @@ using UnityEngine;
 			Color[] colors = new Color[(int) (sprites[0].rect.width * sprites[0].rect.height)];
 			foreach (Sprite s in sprites)
 			{
+				if (s == null) continue;
 				Rect rect = s.rect;
 				Color[] pixels = s.texture.GetPixels((int) rect.x, (int) rect.y, (int) rect.width, (int) rect.height);
 
@@ -104,7 +105,7 @@ using UnityEngine;
 		private static Sprite SaveSpriteToEditorPath(IReadOnlyList<Sprite> sprites, Object obj)
 		{
 			Sprite sprite = MergeSprites(sprites);
-			
+
 			string path = GetSpritePath(obj);
 
 			string dir = Path.GetDirectoryName(path);

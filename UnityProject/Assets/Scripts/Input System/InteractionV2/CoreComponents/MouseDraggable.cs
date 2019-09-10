@@ -116,7 +116,8 @@ public class MouseDraggable : MonoBehaviour
 			}
 
 			//call the mousedrop interaction methods on the dropped-on object if it has any
-			foreach (IInteractable<MouseDrop> mouseDropTarget in dropTarget.GetComponents<IInteractable<MouseDrop>>())
+			foreach (IInteractable<MouseDrop> mouseDropTarget in dropTarget.GetComponents<IInteractable<MouseDrop>>()
+				.Where(mb => mb != null && (mb as MonoBehaviour).enabled))
 			{
 				var interacted = mouseDropTarget.Interact(info);
 				if (interacted)

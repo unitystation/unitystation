@@ -17,7 +17,7 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 		{
 			if (value != _resistance)
 			{
-				if ( double.IsInfinity(value))//value == 0 ||
+				if (double.IsInfinity(value))//value == 0 ||
 				{
 					if (_resistance != 9999999999)
 					{
@@ -61,6 +61,24 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 		Node.AddModule(this);
 	}
 
+	public override void ObjectStateChange(ObjectState tState)
+	{
+		if (tState == ObjectState.InConstruction)
+		{
+			ElectricalSynchronisation.PoweredDevices.Remove(ControllingNode);
+		}
+		else if (tState == ObjectState.Normal)
+		{
+			ElectricalSynchronisation.PoweredDevices.Add(ControllingNode);
+			ElectricalSynchronisation.InitialiseResistanceChange.Add(ControllingNode);
+		}
+	}
+
+	public override void GoingOffStageServer(OffStageInfo info)
+	{
+		ElectricalSynchronisation.PoweredDevices.Remove(ControllingNode);
+	}
+
 	public override void PotentialDestroyed()
 	{
 		ElectricalSynchronisation.ResistanceChange.Add(ControllingNode);
@@ -84,11 +102,13 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 		}
 
 	}
+
 	public override void PowerNetworkUpdate()
 	{
 		if (dirtyResistance)
 		{
-			if (NotEditorResistanceset){
+			if (NotEditorResistanceset)
+			{
 				NotEditorResistanceset = false;
 				if (EditorResistance != 0)
 				{

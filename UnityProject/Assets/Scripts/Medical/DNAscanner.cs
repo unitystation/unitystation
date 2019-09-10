@@ -1,16 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class DNAscanner : ClosetControl
+public class DNAscanner : ClosetControl, IAPCPowered
 {
 	public LivingHealthBehaviour occupant;
-	public Sprite closedWithOccupant;
 	public string statusString;
+	public bool Powered => powered;
+	[SyncVar(hook = nameof(SyncPowered))] private bool powered;
+	//tracks whether we've recieved our first power update from electriciy.
+	//allows us to avoid  syncing power when it is unchanged
+	private bool powerInit;
+
+	public Sprite closedWithOccupant;
+	public Sprite doorClosedPowerless;
+	public Sprite doorOpenPowerless;
 
 	public override void OnStartServer()
 	{
+		base.OnStartServer();
 		statusString = "Ready to scan.";
+		SyncPowered(powered);
+	}
+
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		SyncPowered(powered);
 	}
 
 	public override void HandleItems()
@@ -55,7 +72,22 @@ public class DNAscanner : ClosetControl
 
 	public override void SyncSprite(ClosetStatus value)
 	{
-		if (value == ClosetStatus.Closed)
+		if (value == ClosetStatus.Open)
+		{
+			if (!powered)
+			{
+				spriteRenderer.sprite = doorOpenPowerless;
+			}
+			else
+			{
+				spriteRenderer.sprite = doorOpened;
+			}
+		}
+		else if (!powered)
+		{
+			spriteRenderer.sprite = doorClosedPowerless;
+		}
+		else if (value == ClosetStatus.Closed)
 		{
 			spriteRenderer.sprite = doorClosed;
 		}
@@ -63,9 +95,44 @@ public class DNAscanner : ClosetControl
 		{
 			spriteRenderer.sprite = closedWithOccupant;
 		}
+
+	}
+
+	private void SyncPowered(bool value)
+	{
+		//does nothing if power is unchanged and
+		//we've already init'd
+		if (powered == value && powerInit) return;
+
+		powered = value;
+		if(!powered)
+		{
+			if(IsLocked)
+			{
+				IsLocked = false;
+			}
+		}
+		SyncSprite(statusSync);
+	}
+
+	public void PowerNetworkUpdate(float Voltage)
+	{
+	}
+
+	public void StateUpdate(PowerStates State)
+	{
+		if (State == PowerStates.Off || State == PowerStates.LowVoltage)
+		{
+			SyncPowered(false);
+		}
 		else
 		{
-			spriteRenderer.sprite = doorOpened;
+			SyncPowered(true);
+		}
+
+		if (!powerInit)
+		{
+			powerInit = true;
 		}
 	}
 

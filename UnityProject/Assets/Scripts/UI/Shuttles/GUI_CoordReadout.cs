@@ -11,27 +11,18 @@ public class GUI_CoordReadout : MonoBehaviour
 	[Header("References")]
 	public Text xText;
 	public Text yText;
-	public GUI_ShuttleControl shuttleControlScript;
 
 	private int valueX = 0;
 	private int valueY = 0;
 
 	void Start()
-    {
-        if (xText == null || yText == null || shuttleControlScript == null)
+	{
+		if (xText == null || yText == null)
 		{
 			Logger.LogError("Coord Readout not setup correctly!", Category.UI);
 			this.enabled = false;
 			return;
 		}
-		// Register this script on MatrixMove to get updated
-		shuttleControlScript.MatrixMove.coordReadoutScript = this;
-	}
-
-	private void OnDisable()
-	{
-		// Unregister when we get disabled/destoryed
-		shuttleControlScript.MatrixMove.coordReadoutScript = null;
 	}
 
 	/// <summary>

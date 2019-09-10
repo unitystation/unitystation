@@ -16,7 +16,7 @@ public class NetSpriteImage : NetUIElement
 			externalChange = true;
 			//don't update if it's the same sprite
 			if ( spriteName != value ) {
-				var split = value.Split( new []{'_'} , StringSplitOptions.RemoveEmptyEntries );
+				var split = value.Split( new []{'@'} , StringSplitOptions.RemoveEmptyEntries );
 				switch ( split.Length ) {
 					case 0:
 						//don't load anything
@@ -38,7 +38,7 @@ public class NetSpriteImage : NetUIElement
 							spriteName = value;
 						} else {
 
-						Logger.LogWarning( $"Unable to load sprite '{spriteFile}'",Category.NetUI );
+							Logger.LogWarning( $"Unable to load sprite '{spriteFile}'",Category.NetUI );
 						}
 						break;
 				}
@@ -46,6 +46,15 @@ public class NetSpriteImage : NetUIElement
 			externalChange = false;
 		}
 	}
+
+	/// <summary>
+	/// Sets the value, this function only exists to make the code easier to read
+	/// </summary>
+	public void SetComplicatedValue(string spriteSheet, int spriteOffset)
+	{
+		SetValue = $"{spriteSheet}@{spriteOffset.ToString()}";
+	}
+
 	private Image element;
 	private string spriteName;
 	public Image Element {

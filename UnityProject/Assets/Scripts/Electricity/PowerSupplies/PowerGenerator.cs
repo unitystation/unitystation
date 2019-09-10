@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class PowerGenerator : NBHandApplyInteractable, INodeControl
 {
 	public ObjectBehaviour objectBehaviour;
-	[SyncVar(hook = "UpdateSecured")]
+	[SyncVar(hook = nameof(UpdateSecured))]
 	public bool isSecured; //To ground
 	private RegisterTile registerTile;
 	public bool startSecured;
@@ -20,7 +20,7 @@ public class PowerGenerator : NBHandApplyInteractable, INodeControl
 	//Server only
 	public List<SolidPlasma> plasmaFuel = new List<SolidPlasma>();
 
-	[SyncVar(hook = "UpdateState")]
+	[SyncVar(hook = nameof(UpdateState))]
 	public bool isOn = false;
 
 	public ElectricalNodeControl ElectricalNodeControl;
@@ -167,7 +167,7 @@ public class PowerGenerator : NBHandApplyInteractable, INodeControl
 
 	protected override void ServerPerformInteraction(HandApply interaction)
 	{
-		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.SlotName);
+		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 		var tool = slot.Item?.GetComponent<Tool>();
 		if (tool != null && tool.ToolType == ToolType.Wrench)
 		{
@@ -184,7 +184,7 @@ public class PowerGenerator : NBHandApplyInteractable, INodeControl
 		if (solidPlasma != null)
 		{
 			plasmaFuel.Add(solidPlasma);
-			InventoryManager.UpdateInvSlot(true, "", slot.Item, slot.UUID);
+			InventoryManager.ClearInvSlot(slot);
 			return;
 		}
 

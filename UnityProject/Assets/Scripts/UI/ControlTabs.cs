@@ -356,9 +356,18 @@ public class ControlTabs : MonoBehaviour
 	private void HideTab(Tab tab)
 	{
 		tab.Hidden = true;
+		bool wasActive = tab.gameObject.activeSelf;
 		tab.gameObject.SetActive(false);
 		RefreshTabHeaders();
-		SelectTab(ClientTabType.Stats, false);
+		if(wasActive)
+		{
+			SelectTab(ClientTabType.Stats, false);
+			var netTab = tab as NetTab;
+			if (rolledOut && (netTab == null || !netTab.isPopOut))
+			{
+				CloseTabWindow();
+			}
+		}
 	}
 
 	private void HideTab(ClientTabType type)
@@ -396,6 +405,10 @@ public class ControlTabs : MonoBehaviour
 		{
 			Instance.SelectTab(ClientTabType.ItemList);
 		}
+		if (!Instance.rolledOut)
+		{
+			Instance.OpenTabWindow();
+		}
 	}
 
 	///     Check if the Item List Tab needs to be updated or closed
@@ -430,7 +443,7 @@ public class ControlTabs : MonoBehaviour
 
 		if (!Instance.rolledOut && !isPopOut)
 		{
-			Instance.StartCoroutine(Instance.AnimTabRoll());
+			Instance.OpenTabWindow();
 		}
 
 		//try to dig out a hidden tab with matching parameters and enable it:
@@ -577,26 +590,55 @@ public class ControlTabs : MonoBehaviour
 		}
 	}
 
-	//For hiding or showing the tab window
+	public void OpenTabWindow()
+	{
+		StartCoroutine(AnimTabRoll(true, true));
+	}
+	public void CloseTabWindow()
+	{
+		StartCoroutine(AnimTabRoll(true, false));
+	}
+	// Used by UI to open/close tab window
+	// Code should use Open/Close method to set expectation and wait for current anim to finish
 	public void ToggleTabRollOut()
 	{
-		StartCoroutine(AnimTabRoll());
+		StartCoroutine(AnimTabRoll(false, null));
 	}
 
 	//Tab roll in and out animation
-	IEnumerator AnimTabRoll()
+	IEnumerator AnimTabRoll(bool wait, bool? shouldOpen)
 	{
+		if (shouldOpen == true && rolledOut)
+		{
+			yield break;
+		}
+		else if (shouldOpen == false && !rolledOut)
+		{
+			yield break;
+		}
 		if (!preventRoll)
 		{
 			preventRoll = true;
 		}
 		else
 		{
-			yield break;
+			if (wait)
+			{
+				while (preventRoll)
+				{
+					yield return WaitFor.Seconds(0.1f);
+				}
+				preventRoll = true;
+			}
+			else
+			{
+				yield break;
+			}
 		}
+		rolledOut = !rolledOut;
 		Vector3 currentPos = transform.position;
 		Vector3 targetPos = currentPos;
-		if (rolledOut)
+		if (!rolledOut)
 		{
 			//go up
 			targetPos.y += (382f * canvas.scaleFactor);
@@ -617,7 +659,6 @@ public class ControlTabs : MonoBehaviour
 		Vector3 newScale = rolloutIcon.localScale;
 		newScale.y = -newScale.y;
 		rolloutIcon.localScale = newScale;
-		rolledOut = !rolledOut;
 		preventRoll = false;
 	}
 

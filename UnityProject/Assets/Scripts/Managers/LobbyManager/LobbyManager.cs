@@ -68,20 +68,5 @@ namespace Lobby
 			accountLogin.gameObject.SetActive(true);
 			lobbyDialogue.ShowLoginScreen();
 		}
-
-		public void CheckIfFirstTime()
-		{
-			if (PlayerManager.CurrentCharacterSettings?.username == null)
-			{
-				//is First time, show the character settings screen
-				lobbyDialogue.gameObject.SetActive(false);
-				characterCustomization.gameObject.SetActive(true);
-			}
-			else
-			{
-				//Show logged in things:
-				lobbyDialogue.ShowConnectionPanel();
-			}
-		}
 	}
 }

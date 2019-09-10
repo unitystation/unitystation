@@ -101,6 +101,8 @@ GameObject:
   - component: {fileID: 114196815897616336}
   - component: {fileID: 114674513833633886}
   - component: {fileID: 114784546776582578}
+  - component: {fileID: 4189192140996770228}
+  - component: {fileID: 5513280985969151273}
   m_Layer: 10
   m_Name: Screwdriver
   m_TagString: Untagged
@@ -368,3 +370,32 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+--- !u!114 &4189192140996770228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d441a849270a4a818e3af39cdef5ea69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToolType: 4
+  SuccessChance: 100
+  IsSyndicateVariant: 0
+  SpeedMultiplier: 1
+--- !u!114 &5513280985969151273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e23be644d645346b7ad3cc13dfaf7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPrefab: {fileID: 1519710982558066}

@@ -1,5 +1,6 @@
 
 
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -69,13 +70,6 @@ public static class InteractionMessageUtils
 			RequestHandActivateMessage.Send(info as HandActivate, processorObject);
 			return;
 		}
-		else if (typeof(T) == typeof(InventoryApply))
-		{
-			RequestInventoryApplyMessage.Send(info as InventoryApply, processorObject);
-			return;
-		}
-
-		//TODO: Other types
 
 		//we didn't send anything
 		Logger.LogErrorFormat("Interaction type was {0} - we couldn't determine what to do for this interaction" +
@@ -93,7 +87,8 @@ public static class InteractionMessageUtils
 	public static IInteractionProcessor<T>[] TryGetProcessors<T>(GameObject gameObject)
 		where T : Interaction
 	{
-		var processorComponents = gameObject.GetComponents<IInteractionProcessor<T>>();
+		var processorComponents = gameObject.GetComponents<IInteractionProcessor<T>>()
+			.Where(proc => proc != null && (proc as MonoBehaviour).enabled).ToArray();
 		if (processorComponents == null || processorComponents.Length == 0)
 		{
 			Logger.LogError("Processor component could not be looked up by the ID sent by the client, " +

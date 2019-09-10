@@ -45,7 +45,7 @@ public class InteractableDoor : Interactable<HandApply>
 	{
 		if (!Controller.IsOpened)
 		{
-			Controller.TryOpen(byPlayer, null);//fixme: hand can be null
+			Controller.TryOpen(byPlayer);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class InteractableDoor : Interactable<HandApply>
 		else
 		{
 			// Attempt to open if it's closed
-			Controller.TryOpen(interaction.Performer, interaction.HandSlot.SlotName);//fixme: hand can be null
+			Controller.TryOpen(interaction.Performer);
 		}
 
 		allowInput = false;

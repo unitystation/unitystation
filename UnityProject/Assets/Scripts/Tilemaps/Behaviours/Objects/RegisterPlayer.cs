@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(Directional))]
 [RequireComponent(typeof(SpriteMatrixRotation))]
@@ -14,8 +14,13 @@ public class RegisterPlayer : RegisterTile
 	public bool IsDown => isServer ? IsDownServer : IsDownClient;
 	public bool IsDownClient { get; private set; }
 	public bool IsDownServer { get; set; }
-	public bool IsStunnedClient { get; set; }
-	public bool IsStunnedServer { get; private set; }
+
+	public bool IsStunnedClient => false;
+
+	/// <summary>
+	/// True when the player is slipping
+	/// </summary>
+	public bool IsSlippingServer { get; private set; }
 
 	private PlayerScript playerScript;
 	private Directional playerDirectional;
@@ -27,7 +32,7 @@ public class RegisterPlayer : RegisterTile
 	/// </summary>
 	public bool IsBlocking => isServer ? IsBlockingServer : IsBlockingClient;
 	public bool IsBlockingClient => !playerScript.IsGhost && !IsDownClient;
-	public bool IsBlockingServer => !playerScript.IsGhost && !IsDownServer && !IsStunnedServer;
+	public bool IsBlockingServer => !playerScript.IsGhost && !IsDownServer && !IsSlippingServer;
 	private Coroutine unstunHandle;
 	//cached spriteRenderers of this gameobject
 	protected SpriteRenderer[] spriteRenderers;
@@ -67,7 +72,7 @@ public class RegisterPlayer : RegisterTile
 	{
 		if (!force)
 		{
-			if (playerScript.playerMove.IsRestrained)
+			if (playerScript.playerMove.IsBuckled)
 			{
 				return;
 			}
@@ -114,7 +119,7 @@ public class RegisterPlayer : RegisterTile
 	{
 		// Don't slip while walking unless its enabled with "slipWhileWalking".
 		// Don't slip while player's consious state is crit, soft crit, or dead.
-		if ( IsStunnedServer
+		if ( IsSlippingServer
 			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
 		    || playerScript.playerHealth.IsCrit
 		    || playerScript.playerHealth.IsSoftCrit
@@ -122,6 +127,8 @@ public class RegisterPlayer : RegisterTile
 		{
 			return;
 		}
+
+		IsSlippingServer = true;
 		Stun();
 		SoundManager.PlayNetworkedAtPos("Slip", WorldPositionServer, Random.Range(0.9f, 1.1f));
 		// Let go of pulled items.
@@ -136,16 +143,11 @@ public class RegisterPlayer : RegisterTile
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	public void Stun(float stunDuration = 4f, bool dropItem = true)
 	{
-		if ( IsStunnedServer )
-		{
-			return;
-		}
-		IsStunnedServer = true;
-		PlayerUprightMessage.SendToAll(gameObject, !IsStunnedServer, IsStunnedServer);
+		PlayerUprightMessage.SendToAll(gameObject, false, false);
 		if (dropItem)
 		{
-			playerScript.playerNetworkActions.DropItem("leftHand");
-			playerScript.playerNetworkActions.DropItem("rightHand");
+			playerScript.playerNetworkActions.DropItem(EquipSlot.leftHand);
+			playerScript.playerNetworkActions.DropItem(EquipSlot.rightHand);
 		}
 		playerScript.playerMove.allowInput = false;
 
@@ -159,16 +161,7 @@ public class RegisterPlayer : RegisterTile
 
 	public void RemoveStun()
 	{
-		IsStunnedServer = false;
-
-		if (playerScript.playerHealth.IsCrit
-		 || playerScript.playerHealth.IsSoftCrit
-		 || playerScript.playerHealth.IsDead )
-		{
-			return;
-		}
-
-		PlayerUprightMessage.SendToAll(gameObject, !IsStunnedServer, IsStunnedServer);
+		PlayerUprightMessage.SendToAll(gameObject, true, false);
 		playerScript.playerMove.allowInput = true;
 	}
 }

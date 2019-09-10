@@ -60,7 +60,7 @@ public class PositionalHandApply : TargetedInteraction
 			UIManager.Hands.CurrentSlot.Item,
 			targetObject,
 			targetVec,
-			HandSlot.ForName(UIManager.Instance.hands.CurrentSlot.eventName));
+			HandSlot.ForName(UIManager.Instance.hands.CurrentSlot.equipSlot));
 	}
 
 	/// <summary>

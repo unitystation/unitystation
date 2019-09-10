@@ -48,7 +48,7 @@ public class InventoryApply : TargetedInteraction
 	public static InventoryApply ByLocalPlayer(InventorySlot targetObjectSlot)
 	{
 		return new InventoryApply(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item,
-			targetObjectSlot, HandSlot.ForName(UIManager.Hands.CurrentSlot.eventName));
+			targetObjectSlot, HandSlot.ForName(UIManager.Hands.CurrentSlot.equipSlot));
 	}
 
 	/// <summary>

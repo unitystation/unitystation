@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections;
+using System.Text.RegularExpressions;
 using DatabaseAPI;
 using Facepunch.Steamworks;
 using UnityEngine;
@@ -62,21 +63,18 @@ namespace Lobby
 
 			// Init Lobby UI
 			InitPlayerName();
-
-			//TODO TODO: Check if Auto login is set and if both username and password are saved
-			ShowLoginScreen();
-
-			if (PlayerPrefs.GetInt("autoLogin") == 1){
-				PerformLogin();
-			}
-		}
-
-		private void Update() {
-			if ( CommonInput.GetKeyDown( KeyCode.F6 ) && !BuildPreferences.isForRelease )
-			{
-				GameData.IsLoggedIn = true;
-				ShowCharacterEditor();
-			}
+			
+			//TODO: Enable auto login. If CharacterSettings have not been downloaded for this instance
+			// then you need to download them if the user is already logged in. Show a logging in status text
+			// when doing this
+			// if (ServerData.Auth.CurrentUser != null)
+			// {
+			// 	ShowConnectionPanel();
+			// }
+			// else
+			// {
+				ShowLoginScreen();
+			// }
 		}
 
 		public void ShowLoginScreen()
@@ -101,18 +99,60 @@ namespace Lobby
 			LobbyManager.Instance.characterCustomization.gameObject.SetActive(true);
 		}
 
+		private void Update() {
+			if ( Input.GetKeyDown( KeyCode.F6 ) )
+				if ( Input.GetKeyDown( KeyCode.F6 ) && !BuildPreferences.isForRelease )
+				{
+					//skip login
+					HideAllPanels();
+					connectionPanel.SetActive(true);
+					dialogueTitle.text = "Connection Panel";
+					//if there aren't char settings, default
+					if (PlayerManager.CurrentCharacterSettings == null)
+					{
+						PlayerManager.CurrentCharacterSettings = new CharacterSettings();
+					}
+				}
+		}
+
 		public void ShowConnectionPanel()
 		{
 			HideAllPanels();
-			if (GameData.IsLoggedIn)
+			if (ServerData.Auth.CurrentUser != null)
 			{
 				connectionPanel.SetActive(true);
-				dialogueTitle.text = "Logged in as: " + GameData.LoggedInUsername;
+				dialogueTitle.text = "Connection Panel";
+
+				StartCoroutine(WaitForReloadProfile());
 			}
 			else
 			{
 				loggingInPanel.SetActive(true);
 				dialogueTitle.text = "Please Wait..";
+			}
+		}
+
+		//Make sure we have the latest DisplayName from Auth
+		IEnumerator WaitForReloadProfile()
+		{
+			ServerData.ReloadProfile();
+
+			float timeOutLimit = 60f;
+			float timeOutCount = 0f;
+			while (string.IsNullOrEmpty(ServerData.Auth.CurrentUser.DisplayName))
+			{
+				timeOutCount += Time.deltaTime;
+				if (timeOutCount >= timeOutLimit)
+				{
+					Logger.LogError("Failed to load users profile data", Category.DatabaseAPI);
+					break;
+				}
+				yield return WaitFor.EndOfFrame;
+			}
+
+			if (!string.IsNullOrEmpty(ServerData.Auth.CurrentUser.DisplayName))
+			{
+				dialogueTitle.text = "Logged in: " + ServerData.Auth.CurrentUser.DisplayName;
 			}
 		}
 
@@ -129,16 +169,19 @@ namespace Lobby
 				emailAddressInput.text, AccountCreationSuccess, AccountCreationError);
 		}
 
-		private void AccountCreationSuccess(string message)
+		private void AccountCreationSuccess(CharacterSettings charSettings)
 		{
 			pleaseWaitCreationText.text = "Created Successfully";
-			PlayerManager.CurrentCharacterSettings = new CharacterSettings();
+			PlayerManager.CurrentCharacterSettings = charSettings;
 			GameData.LoggedInUsername = chosenUsernameInput.text;
-			GameData.IsLoggedIn = true;
 			chosenPasswordInput.text = "";
 			chosenUsernameInput.text = "";
+
+			ShowCharacterEditor();
+			PlayerPrefs.SetString("lastLogin", emailAddressInput.text);
+			PlayerPrefs.Save();
+			LobbyManager.Instance.accountLogin.userNameInput.text = emailAddressInput.text;
 			emailAddressInput.text = "";
-			//	nextCreationButton.SetActive(true);
 		}
 
 		private void AccountCreationError(string errorText)
@@ -153,25 +196,32 @@ namespace Lobby
 			PerformLogin();
 		}
 
-		public void PerformLogin(){
+		public void PerformLogin()
+		{
+			if (!LobbyManager.Instance.accountLogin.ValidLogin())
+			{
+				return;
+			}
+
 			HideAllPanels();
 			loggingInPanel.SetActive(true);
 			loggingInText.text = "Logging in..";
 			loginNextButton.SetActive(false);
 			loginGoBackButton.SetActive(false);
 
-			LobbyManager.Instance.accountLogin.TryLogin(LoginSuccess, LoginError, autoLoginToggle.isOn);
+			LobbyManager.Instance.accountLogin.TryLogin(LoginSuccess, LoginError);
 		}
 
 		public void OnLogout()
 		{
 			SoundManager.Play("Click01");
 			HideAllPanels();
-			GameData.IsLoggedIn = false;
+			ServerData.Auth.SignOut();
 			PlayerPrefs.SetString("username", "");
 			PlayerPrefs.SetString("cookie", "");
 			PlayerPrefs.SetInt("autoLogin", 0);
 			PlayerPrefs.Save();
+			ShowLoginScreen();
 		}
 
 		private void LoginSuccess(string msg)
@@ -180,10 +230,12 @@ namespace Lobby
 			var characterSettings = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(msg));
 			PlayerPrefs.SetString("currentcharacter", msg);
 			PlayerManager.CurrentCharacterSettings = characterSettings;
+			ShowConnectionPanel();
 		}
 
 		private void LoginError(string msg)
 		{
+			ServerData.Auth.SignOut(); //just incase
 			loggingInText.text = "Login failed:" + msg;
 			loginGoBackButton.SetActive(true);
 		}

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 	public enum Intent
 	{
@@ -9,10 +10,11 @@ using UnityEngine.UI;
 		Harm
 	}
 
-	public class ControlIntent : MonoBehaviour
+	public class ControlIntent : TooltipMonoBehaviour
 	{
 		public Sprite[] sprites;
 		private Image thisImg;
+		public override string Tooltip => "intent";
 
 		private void Start()
 		{
@@ -55,11 +57,11 @@ using UnityEngine.UI;
 			thisImg.sprite = sprites[intent];
 		}
 
-        //Hotkey method
-        public void SetIntent(Intent intent)
-        {
-            UIManager.CurrentIntent = intent;
+		//Hotkey method
+		public void SetIntent(Intent intent)
+		{
+			UIManager.CurrentIntent = intent;
 
-            thisImg.sprite = sprites[(int)intent];
-        }
+			thisImg.sprite = sprites[(int)intent];
+		}
 	}

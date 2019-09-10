@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,11 +10,11 @@ using UnityEngine.UI;
 /// </summary>
 public class ShuttleConsole : NBHandApplyInteractable
 {
-    public string interactionMessage;
-    public MatrixMove ShuttleMatrixMove;
+	public MatrixMove ShuttleMatrixMove;
+	private RegisterTile registerTile;
 
     public TabStateEvent OnStateChange;
-    private TabState state = TabState.None;
+    private TabState state = TabState.Normal;
     public TabState State
     {
 	    get { return state; }
@@ -27,21 +28,43 @@ public class ShuttleConsole : NBHandApplyInteractable
 	    }
     }
 
+    private void Awake()
+    {
+	    if ( !registerTile )
+	    {
+		    registerTile = GetComponent<RegisterTile>();
+	    }
+    }
+
     private void OnEnable()
     {
 	    if ( ShuttleMatrixMove == null )
 	    {
-		    ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
-
-		    if ( ShuttleMatrixMove == null )
-		    {
-			    Logger.LogError( $"{this} has no reference to MatrixMove, didn't find any in parents either", Category.Matrix );
-		    }
-		    else
-		    {
-			    Logger.Log( $"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically", Category.Matrix );
-		    }
+		    StartCoroutine( InitMatrixMove() );
 	    }
+    }
+
+    private IEnumerator InitMatrixMove()
+    {
+	    ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
+
+        if ( ShuttleMatrixMove == null )
+        {
+            while ( !registerTile.Matrix )
+            {
+                yield return WaitFor.EndOfFrame;
+            }
+            ShuttleMatrixMove = MatrixManager.Get( registerTile.Matrix ).MatrixMove;
+        }
+
+        if ( ShuttleMatrixMove == null )
+        {
+            Logger.LogError( $"{this} has no reference to MatrixMove, current matrix doesn't seem to have it either", Category.Matrix );
+        }
+        else
+        {
+            Logger.Log( $"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically", Category.Matrix );
+        }
     }
 
 
@@ -56,10 +79,6 @@ public class ShuttleConsole : NBHandApplyInteractable
     protected override void ServerPerformInteraction(HandApply interaction)
     {
 	    //apply emag
-	    if ( State == TabState.None )
-	    {
-		    State = TabState.Normal;
-	    }
 	    switch ( State )
 	    {
 		    case TabState.Normal:
@@ -77,7 +96,7 @@ public class ShuttleConsole : NBHandApplyInteractable
 }
 public enum TabState
 {
-	None, Normal, Emagged, Off
+	Normal, Emagged, Off
 }
 /// <inheritdoc />
 /// "If you wish to use a generic UnityEvent type you must override the class type."

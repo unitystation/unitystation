@@ -54,6 +54,7 @@ namespace Light2D
         public static Dictionary<MaterialKey, MaterialValue> MaterialMap = new Dictionary<MaterialKey, MaterialValue>();
         private const string GeneratedMaterialName = "Generated Material (DONT change it)";
         private const string GeneratedMeshName = "Generated Mesh (DONT change it)";
+        private bool initialized = false;
 
         public bool RendererEnabled { get; private set; }
 
@@ -67,6 +68,12 @@ namespace Light2D
 
         protected virtual void OnEnable()
         {
+            if (initialized)
+            {
+                return;
+            }
+            initialized = true;
+            
             _colors = new Color[4];
             _uv1 = new Vector2[4];
             _uv0 = new Vector2[4];
@@ -114,14 +121,6 @@ namespace Light2D
             //{
             //    RendererEnabled = _meshRenderer.enabled;
             //    _meshRenderer.enabled = false; 
-            //}
-        }
-
-        private void OnRenderObject()
-        {
-            //if (Application.isPlaying && LightingSystem.Instance.EnableNormalMapping)
-            //{
-            //    _meshRenderer.enabled = RendererEnabled;
             //}
         }
 

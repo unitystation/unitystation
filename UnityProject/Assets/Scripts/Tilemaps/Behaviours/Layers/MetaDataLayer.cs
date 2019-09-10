@@ -11,11 +11,13 @@ public class MetaDataLayer : MonoBehaviour
 
 	private SubsystemManager subsystemManager;
 	private ReactionManager reactionManager;
+	public Matrix matrix;
 
 	private void Awake()
 	{
 		subsystemManager = GetComponentInParent<SubsystemManager>();
 		reactionManager = GetComponentInParent<ReactionManager>();
+		matrix = GetComponent<Matrix>();
 	}
 
 	public MetaDataNode Get(Vector3Int position, bool createIfNotExists = true)
@@ -75,6 +77,45 @@ public class MetaDataLayer : MonoBehaviour
 		}
 		tile.CurrentDrying = DryUp(tile);
 		StartCoroutine(tile.CurrentDrying);
+	}
+
+
+	public void ReagentReact(Dictionary<string, float> reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
+	{
+		foreach (KeyValuePair<string, float> reagent in reagents)
+		{
+			if(reagent.Value < 1)
+			{
+				continue;
+			}
+			if (reagent.Key == "water")
+			{
+				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
+			} else if (reagent.Key == "space_cleaner")
+			{
+				Clean(worldPosInt, localPosInt, false);
+			}
+		}
+
+	}
+
+	public void Clean(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
+	{
+		var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
+
+		for (var i = 0; i < floorDecals.Count; i++)
+		{
+			floorDecals[i].TryClean();
+		}
+
+		if (!MatrixManager.IsSpaceAt(worldPosInt, true) && makeSlippery)
+		{
+			// Create a WaterSplat Decal (visible slippery tile)
+			EffectsFactory.Instance.WaterSplat(worldPosInt);
+
+			// Sets a tile to slippery
+			MakeSlipperyAt(localPosInt);
+		}
 	}
 
 	private IEnumerator DryUp(MetaDataNode tile)

@@ -86,7 +86,7 @@ public class AimApply : Interaction
 		}
 
 		return new AimApply(PlayerManager.LocalPlayer, UIManager.Hands.CurrentSlot.Item,
-			HandSlot.ForName(UIManager.Hands.CurrentSlot.eventName),
+			HandSlot.ForName(UIManager.Hands.CurrentSlot.equipSlot),
 			buttonState,
 			selfAim ? Vector2.zero : targetVector);
 	}

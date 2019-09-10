@@ -7,7 +7,7 @@ public class Paper : NetworkBehaviour
 {
 	public Sprite[] spriteStates; //0 = No text, 1 = text
 
-	[SyncVar(hook = "UpdateState")][Range(0, 1)]
+	[SyncVar(hook = nameof(UpdateState))][Range(0, 1)]
 	public int spriteState;
 
 	public string ServerString { get; private set; }

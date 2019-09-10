@@ -26,14 +26,30 @@ public class GUI_ShuttleControl : NetTab {
 		}
 	}
 
+
+	public GUI_CoordReadout CoordReadout;
+
 	private GameObject Waypoint;
 	string rulersColor;
 	string rayColor;
 	string crosshairColor;
 
-	private void Start() {
+	public override void OnEnable()
+	{
+		base.OnEnable();
+		StartCoroutine(WaitForProvider());
+	}
+
+	private IEnumerator WaitForProvider()
+	{
+		while (Provider == null)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
 		Trigger = Provider.GetComponent<ShuttleConsole>();
 		Trigger.OnStateChange.AddListener( OnStateChange );
+
+		MatrixMove.coordReadoutScript = CoordReadout;
 
 		//Not doing this for clients
 		if ( IsServer ) {

@@ -18,7 +18,7 @@ public class UI_StorageHandler : MonoBehaviour
 		storageCache = storageObj;
 		storageCache.clientUpdatedDelegate += StorageUpdatedEvent;
 		PopulateInventorySlots();
-		SoundManager.PlayAtPosition("Rustle0" + UnityEngine.Random.Range(1, 6).ToString(), PlayerManager.LocalPlayer.transform.position);
+		SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
 	}
 
 	private void PopulateInventorySlots()
@@ -36,7 +36,7 @@ public class UI_StorageHandler : MonoBehaviour
 			itemSlot.eventName = "inventory" + i;
 			itemSlot.maxItemSize = storageCache.maxItemSize;
 			itemSlot.inventorySlot = storageCache.storageSlots.inventorySlots[i];
-			storageCache.storageSlots.inventorySlots[i].SlotName = itemSlot.eventName;
+			itemSlot.equipSlot = itemSlot.inventorySlot.equipSlot;
 			localSlotCache.Add(itemSlot);
 			InventorySlotCache.Add(itemSlot);
 			if(itemSlot.Item != null){
@@ -47,7 +47,7 @@ public class UI_StorageHandler : MonoBehaviour
 
 	public void CloseStorageUI()
 	{
-		SoundManager.PlayAtPosition("Rustle0" + UnityEngine.Random.Range(1, 6).ToString(), PlayerManager.LocalPlayer.transform.position);
+		SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position);
 
 		storageCache.clientUpdatedDelegate -= StorageUpdatedEvent;
 		storageCache = null;

@@ -36,7 +36,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320386684021000}
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
-  m_LocalPosition: {x: 80, y: 47, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4243086549776578}
@@ -274,6 +274,15 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 1
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
 --- !u!1 &1731708282254700
 GameObject:
   m_ObjectHideFlags: 0

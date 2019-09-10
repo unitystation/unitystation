@@ -25,7 +25,7 @@ public class CloningConsole : MonoBehaviour
 
 	public void ToggleLock()
 	{
-		if(scanner && scanner.IsClosed)
+		if(scanner && scanner.IsClosed && scanner.Powered)
 		{
 			scanner.IsLocked = !scanner.IsLocked;
 		}
@@ -33,7 +33,7 @@ public class CloningConsole : MonoBehaviour
 
 	public void Scan()
 	{
-		if (scanner && scanner.occupant)
+		if (scanner && scanner.occupant && scanner.Powered)
 		{
 			var mob = scanner.occupant;
 			var mobID = scanner.occupant.mobID;

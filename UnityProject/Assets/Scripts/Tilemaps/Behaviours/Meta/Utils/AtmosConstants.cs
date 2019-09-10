@@ -22,4 +22,5 @@ public static class AtmosConstants
 	public const float MAX_HIGH_PRESSURE_DAMAGE = 4;
 	public const float PRESSURE_DAMAGE_COEFFICIENT = 4;
 	public const float BREATH_VOLUME = 0.0005f;
+	public const float ONE_ATMOSPHERE = 101.325f;
 }

@@ -18,6 +18,7 @@ public class ReactionManager : MonoBehaviour
 
 	private Dictionary<Vector3Int, MetaDataNode> hotspots;
 	private UniqueQueue<MetaDataNode> winds;
+	private TilemapDamage[] tilemapDamages;
 
 	private float timePassed;
 	private float timePassed2;
@@ -31,6 +32,7 @@ public class ReactionManager : MonoBehaviour
 
 		hotspots = new Dictionary<Vector3Int, MetaDataNode>();
 		winds = new UniqueQueue<MetaDataNode>();
+		tilemapDamages = GetComponentsInChildren<TilemapDamage>();
 	}
 
 	private void Update()
@@ -110,9 +112,7 @@ public class ReactionManager : MonoBehaviour
 				}
 				else
 				{
-					node.Hotspot = null;
-					hotspots.Remove(node.Position);
-					tileChangeManager.RemoveTile(node.Position, LayerType.Effects);
+					RemoveHotspot(node);
 				}
 			}
 		}
@@ -126,16 +126,31 @@ public class ReactionManager : MonoBehaviour
 		ExposeHotspot(MatrixManager.WorldToLocalInt(tileWorldPosition.To3Int(), MatrixManager.Get(matrix)), temperature, volume);
 	}
 
-	public void ExposeHotspot(Vector3Int position, float temperature, float volume)
+	void RemoveHotspot(MetaDataNode node)
 	{
-		if (hotspots.ContainsKey(position) && hotspots[position].Hotspot != null)
+		node.Hotspot = null;
+		hotspots.Remove(node.Position);
+		tileChangeManager.RemoveTile(node.Position, LayerType.Effects);
+	}
+
+	public void ExtinguishHotspot(Vector3Int localPosition)
+	{
+		if (hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null)
+		{
+			RemoveHotspot(hotspots[localPosition].Hotspot.node);
+		}
+	}
+
+	public void ExposeHotspot(Vector3Int localPosition, float temperature, float volume)
+	{
+		if (hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null)
 		{
 			// TODO soh?
-			hotspots[position].Hotspot.UpdateValues(volume * 25, temperature);
+			hotspots[localPosition].Hotspot.UpdateValues(volume * 25, temperature);
 		}
 		else
 		{
-			MetaDataNode node = metaDataLayer.Get(position);
+			MetaDataNode node = metaDataLayer.Get(localPosition);
 			GasMix gasMix = node.GasMix;
 
 			if (gasMix.GetMoles(Gas.Plasma) > 0.5 && gasMix.GetMoles(Gas.Oxygen) > 0.5 && temperature > Reactions.PLASMA_MINIMUM_BURN_TEMPERATURE)
@@ -143,18 +158,78 @@ public class ReactionManager : MonoBehaviour
 				// igniting
 				Hotspot hotspot = new Hotspot(node, temperature, volume * 25);
 				node.Hotspot = hotspot;
-				hotspots[position] = node;
+				hotspots[localPosition] = node;
 			}
 		}
 
-		if (hotspots.ContainsKey(position) && hotspots[position].Hotspot != null)
+		if (hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null)
 		{
-			var healths = matrix.Get<LivingHealthBehaviour>(position, true);
-			foreach (LivingHealthBehaviour health in healths)
+			//expose everything on this tile
+			Expose(localPosition, localPosition);
+
+			//expose impassable things on the adjacent tile
+			Expose(localPosition, localPosition + Vector3Int.right);
+			Expose(localPosition, localPosition + Vector3Int.left);
+			Expose(localPosition, localPosition + Vector3Int.up);
+			Expose(localPosition, localPosition + Vector3Int.down);
+		}
+	}
+
+	private void Expose(Vector3Int hotspotPosition, Vector3Int atLocalPosition)
+	{
+
+		var isSideExposure = hotspotPosition != atLocalPosition;
+		//calculate world position
+		var hotspotWorldPosition = MatrixManager.LocalToWorldInt(hotspotPosition, MatrixManager.Get(matrix));
+		var atWorldPosition = MatrixManager.LocalToWorldInt(atLocalPosition, MatrixManager.Get(matrix));
+		var exposure = FireExposure.FromMetaDataNode(hotspots[hotspotPosition], hotspotWorldPosition.To2Int(), atLocalPosition.To2Int(), atWorldPosition.To2Int());
+		if (isSideExposure)
+		{
+			//side exposure logic
+
+			//already exposed by a different hotspot
+			if (hotspots.ContainsKey(atLocalPosition)) return;
+
+			var metadata = metaDataLayer.Get(atLocalPosition);
+			if (!metadata.IsOccupied)
 			{
-				health.ApplyDamage(null, 1, AttackType.Fire, DamageType.Burn);
+				//atmos can pass here, so no need to check side exposure (nothing to brush up against)
+				return;
+			}
+
+			//only expose to atmos impassable objects, since those are the things the flames would
+			//actually brush up against
+			var regTiles = matrix.Get<RegisterTile>(atLocalPosition, true);
+			foreach (var regTile in regTiles)
+			{
+				if (!regTile.IsAtmosPassable(exposure.HotspotLocalPosition.To3Int(), true))
+				{
+					var exposable = regTile.GetComponent<IFireExposable>();
+					exposable.OnExposed(exposure);
+				}
+			}
+
+			//expose the tiles there
+			foreach (var tilemapDamage in tilemapDamages)
+			{
+				tilemapDamage.OnExposed(exposure);
 			}
 		}
+		else
+		{
+			//direct exposure logic
+			var fireExposables = matrix.Get<IFireExposable>(atLocalPosition, true);
+			foreach (var exposable in fireExposables)
+			{
+				exposable.OnExposed(exposure);
+			}
+			//expose the tiles
+			foreach (var tilemapDamage in tilemapDamages)
+			{
+				tilemapDamage.OnExposed(exposure);
+			}
+		}
+
 	}
 
 	public void AddWindEvent( MetaDataNode node, Vector2Int windDirection, float pressureDifference )

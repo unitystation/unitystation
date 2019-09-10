@@ -17,10 +17,10 @@ GameObject:
   - component: {fileID: 8354343867630940287}
   - component: {fileID: 966013011358701611}
   - component: {fileID: 6479037130962053368}
-  - component: {fileID: 114247328083268004}
   - component: {fileID: 114207068481858528}
   - component: {fileID: 3953549719403137607}
   - component: {fileID: 3771872541723634421}
+  - component: {fileID: 1554776711696640}
   m_Layer: 10
   m_Name: AirVent
   m_TagString: Untagged
@@ -152,6 +152,7 @@ MonoBehaviour:
   - {fileID: 21300168, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
   spriteRenderer: {fileID: 8418407404781841632}
   spriteSync: 0
+  ARANdirectionBool: 
   MinimumPressure: 101.325
 --- !u!114 &8354343867630940287
 MonoBehaviour:
@@ -217,19 +218,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
---- !u!114 &114247328083268004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010733523080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
 --- !u!114 &114207068481858528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,6 +270,29 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &1554776711696640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010733523080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitialDirection: 3
+  ChangeDirectionWithMatrix: 1
 --- !u!1 &8513106460640881890
 GameObject:
   m_ObjectHideFlags: 0

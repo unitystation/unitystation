@@ -1,85 +1,59 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
-using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
-	// time that player will spend as a ghost until they respawn
-	private const int RESPAWN_TIME_SECONDS = 10;
-	private readonly string[] slotNames = {
-		"suit",
-		"belt",
-		"feet",
-		"head",
-		"mask",
-		"uniform",
-		"neck",
-		"ear",
-		"eyes",
-		"hands",
-		"id",
-		"back",
-		"rightHand",
-		"leftHand",
-		"storage01",
-		"storage02",
-		"suitStorage"
+	private readonly EquipSlot[] playerSlots = {
+		EquipSlot.exosuit,
+		EquipSlot.belt,
+		EquipSlot.feet,
+		EquipSlot.head,
+		EquipSlot.mask,
+		EquipSlot.uniform,
+		EquipSlot.neck,
+		EquipSlot.ear,
+		EquipSlot.eyes,
+		EquipSlot.hands,
+		EquipSlot.id,
+		EquipSlot.back,
+		EquipSlot.rightHand,
+		EquipSlot.leftHand,
+		EquipSlot.storage01,
+		EquipSlot.storage02,
+		EquipSlot.suitStorage,
+		EquipSlot.handcuffs,
 	};
 
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
-	[NonSerialized] public string activeHand = "rightHand";
+	[NonSerialized] public EquipSlot activeHand = EquipSlot.rightHand;
+
 
 	private bool doingCPR = false;
 
-	private ChatIcon chatIcon;
+	private PlayerChatBubble playerChatBubble;
 
 	private Equipment equipment;
+
 	private PlayerMove playerMove;
 	private PlayerScript playerScript;
-	private ObjectBehaviour objectBehaviour;
 
-	public Dictionary<string, InventorySlot> Inventory { get; } = new Dictionary<string, InventorySlot>();
+	public Dictionary<EquipSlot, InventorySlot> Inventory { get; } = new Dictionary<EquipSlot, InventorySlot>();
 
-	private static readonly Vector3 FALLEN = new Vector3(0, 0, -90);
-	private static readonly Vector3 STRAIGHT = Vector3.zero;
-
-	private List<InventorySlot> initSync;
 
 	private void Awake()
 	{
-		equipment = GetComponent<Equipment>();
 		playerMove = GetComponent<PlayerMove>();
 		playerScript = GetComponent<PlayerScript>();
-		chatIcon = GetComponentInChildren<ChatIcon>();
-		objectBehaviour = GetComponent<ObjectBehaviour>();
-	}
-
-	public override void OnStartServer()
-	{
-		if (isServer)
+		playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
+		foreach (var equipSlot in playerSlots)
 		{
-			if (playerScript == null)
-			{
-				playerScript = GetComponent<PlayerScript>();
-			}
-			initSync = new List<InventorySlot>();
-			foreach (string slotName in slotNames)
-			{
-				var invSlot = new InventorySlot(Guid.NewGuid(), slotName, true, playerScript);
-				Inventory.Add(slotName, invSlot);
-				InventoryManager.AllServerInventorySlots.Add(invSlot);
-				initSync.Add(invSlot);
-			}
-
-			SendSyncMessage(gameObject);
+			var invSlot = new InventorySlot(equipSlot, true, gameObject);
+			Inventory.Add(equipSlot, invSlot);
 		}
-
-		base.OnStartServer();
 	}
 
 	/// <summary>
@@ -89,59 +63,39 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void ReenterBodyUpdates(GameObject recipient)
 	{
-		SendSyncMessage(recipient);
-		UpdateInventorySlots(recipient);
+		UpdateInventorySlots();
 	}
 
 	/// <summary>
-	/// Sends a message to sync the clientside player's inventory with the serverside inventory.
+	/// Get the item in the player's active hand
 	/// </summary>
-	/// <param name="recipient">The player to be synced.</param>
 	[Server]
-	public void SendSyncMessage(GameObject recipient)
+	public bool AddItemToUISlot(GameObject itemObject, EquipSlot equipSlot, PlayerNetworkActions originPNA = null, bool replaceIfOccupied = false)
 	{
-		SyncPlayerInventoryGuidMessage.Send(recipient, initSync);
-	}
-
-	public bool InventoryContainsItem(GameObject item, out InventorySlot slot)
-	{
-		foreach (KeyValuePair<string, InventorySlot> entry in Inventory)
-		{
-			if (entry.Value.Item == item)
-			{
-				slot = entry.Value;
-				return true;
-			}
-		}
-		slot = null;
-		return false;
-	}
-
-	[Server]
-	public bool AddItemToUISlot(GameObject itemObject, string slotName, bool replaceIfOccupied = false, bool forceInform = true)
-	{
-		if (Inventory[slotName] == null)
+		if (Inventory[equipSlot].Item != null && !replaceIfOccupied)
 		{
 			return false;
 		}
-		if (Inventory[slotName].Item != null && !replaceIfOccupied)
-		{
-			Logger.Log($"{gameObject.name}: Didn't replace existing {slotName} item {Inventory[slotName].Item?.name} with {itemObject?.name}", Category.Inventory);
-			return false;
-		}
 
-		ObjectBehaviour itemObj = itemObject.GetComponent<ObjectBehaviour>();
 		var cnt = itemObject.GetComponent<CustomNetTransform>();
 		if (cnt != null)
 		{
-			if (itemObj != null)
+			var objectBehaviour = itemObject.GetComponent<ObjectBehaviour>();
+			if (objectBehaviour != null)
 			{
-				itemObj.parentContainer = objectBehaviour;
+				objectBehaviour.parentContainer = objectBehaviour;
 			}
 			cnt.DisappearFromWorldServer();
 		}
 
-		SetInventorySlot(slotName, itemObject);
+		if(originPNA != null)
+		{
+			var fromSlot = InventoryManager.GetSlotFromItem(itemObject, originPNA);
+			InventoryManager.ClearInvSlot(fromSlot);
+		}
+		var toSlot = Inventory[equipSlot];
+		InventoryManager.EquipInInvSlot(toSlot, itemObject);
+
 		return true;
 	}
 
@@ -154,11 +108,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return Inventory[activeHand].Item;
 	}
 
-	private void PlaceInHand(GameObject item)
-	{
-		UIManager.Hands.CurrentSlot.SetItem(item);
-	}
-
 	/// Destroys item if it's in player's pool.
 	/// It's not recommended to destroy shit in general due to the specifics of our game
 	[Server]
@@ -168,8 +117,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (item == slot.Value.Item)
 			{
-				InventoryManager.DestroyItemInSlot(item);
-				ClearInventorySlot(slot.Key);
+				InventoryManager.ClearInvSlot(slot.Value);
 				break;
 			}
 		}
@@ -190,268 +138,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Validates the inv interaction.
-	/// If you are not validating a drop action then pass Vector3.zero to dropWorldPos
-	/// </summary>
-	[Server]
-	public bool ValidateInvInteraction(string slotUUID, string fromUUID, GameObject gObj = null, bool forceClientInform = true)
-	{
-		//security todo: serverside check for item size UI_ItemSlot.CheckItemFit()
-		InventorySlot fromSlot = null;
-		InventorySlot toSlot = InventoryManager.GetSlotFromUUID(slotUUID, true);
-		if (toSlot == null)
-		{
-			Logger.Log("Error no slot found for UUID: " + slotUUID, Category.Inventory);
-		}
-		else
-		{
-			if (!toSlot.IsUISlot && gObj && InventoryContainsItem(gObj, out fromSlot))
-			{
-				SetStorageInventorySlot(slotUUID, fromUUID, gObj);
-				return true;
-			}
-			if (toSlot.IsUISlot && gObj && !InventoryContainsItem(gObj, out fromSlot))
-			{
-				SetInventorySlot(toSlot.SlotName, gObj);
-				return true;
-			}
-			if (toSlot.Item != null)
-			{
-				if (!toSlot.IsUISlot && toSlot.Item == gObj)
-				{
-					//It's already been moved to the slot
-					fromSlot = InventoryManager.GetSlotFromUUID(fromUUID, isServer);
-					if (fromSlot?.Item != null)
-					{
-						Logger.Log("From slot is not null: " + fromSlot.Item.name +
-							" fromItemSlotName: " + fromSlot.UUID, Category.Inventory);
-					}
-					return true;
-				}
-				return false;
-			}
-		}
-
-		if (!gObj)
-		{
-			return ValidateDropItem(toSlot, forceClientInform);
-		}
-
-		if (toSlot.IsUISlot && gObj && InventoryContainsItem(gObj, out fromSlot))
-		{
-			SetInventorySlot(toSlot.SlotName, gObj);
-			//Clean up other slots
-			ClearObjectIfNotInSlot(gObj, fromSlot.SlotName, forceClientInform);
-			//			Debug.Log($"Approved moving {gObj.name} to slot {toSlot.SlotName}");
-			return true;
-		}
-		Logger.LogWarning($"Unable to validateInvInteraction {toSlot.SlotName}:{gObj.name}", Category.Inventory);
-		return false;
-	}
-
-	public void RollbackPrediction(string slotUUID, string fromSlotUUID, GameObject item)
-	{
-		var toSlotRequest = InventoryManager.GetSlotFromUUID(slotUUID, isServer);
-		var slotItCameFrom = InventoryManager.GetSlotFromUUID(fromSlotUUID, isServer);
-
-		if (toSlotRequest != null)
-		{
-			if (toSlotRequest.Item == item) //it already travelled to slot on the server, send it back for everyone
-			{
-				if (!ValidateInvInteraction(fromSlotUUID, slotUUID, item, true))
-				{
-					Logger.LogError("Rollback failed!", Category.Inventory);
-				}
-				return;
-			}
-		}
-
-		UpdateSlotMessage.Send(gameObject, fromSlotUUID, slotUUID, item, true);
-	}
-
-	[Server]
-	private void ClearObjectIfNotInSlot(GameObject gObj, string slot, bool forceClientInform)
-	{
-		HashSet<string> toBeCleared = new HashSet<string>();
-		foreach (string key in Inventory.Keys)
-		{
-			if (key.Equals(slot) || !Inventory[key].Item)
-			{
-				continue;
-			}
-
-			if (Inventory[key].Equals(gObj))
-			{
-				toBeCleared.Add(key);
-			}
-		}
-
-		ClearInventorySlot(forceClientInform, toBeCleared.ToArray());
-	}
-
-	[Server]
-	public void ClearInventorySlot(params string[] slotNames)
-	{
-		ClearInventorySlot(true, slotNames);
-	}
-
-	[Server]
-	public void ClearInventorySlot(bool forceClientInform, params string[] slotNames)
-	{
-		for (int i = 0; i < slotNames.Length; i++)
-		{
-			Inventory[slotNames[i]].Item = null;
-			equipment.ClearItemSprite(slotNames[i]);
-			InventoryManager.UpdateInvSlot(true, null, null, Inventory[slotNames[i]].UUID);
-		}
-
-		Logger.LogTraceFormat("Cleared {0}", Category.Inventory, slotNames);
-	}
-
-	[Server]
-	public void SetStorageInventorySlot(string slotUUID, string fromUUID, GameObject obj)
-	{
-		InventoryManager.UpdateInvSlot(true, slotUUID, obj,
-			fromUUID);
-
-		UpdatePlayerEquipSprites(InventoryManager.GetSlotFromUUID(fromUUID, true),
-			InventoryManager.GetSlotFromUUID(slotUUID, true));
-	}
-
-	[Server]
-	public void SetInventorySlot(string slotName, GameObject obj)
-	{
-		var fromSlot = InventoryManager.GetSlotFromItem(obj);
-		var toSlot = Inventory[slotName];
-		InventoryManager.UpdateInvSlot(true, toSlot.UUID, obj,
-			fromSlot?.UUID);
-
-		UpdatePlayerEquipSprites(fromSlot, toSlot);
-	}
-
-	/// <summary>
 	/// Sends messages to a client to update every slot in the player's clientside inventory.
 	/// </summary>
-	/// <param name="recipient">The player to have their inventory updated.</param>
 	[Server]
-	public void UpdateInventorySlots(GameObject recipient)
+	public void UpdateInventorySlots()
 	{
-		for (int i = 0; i < slotNames.Length; i++)
+		for (int i = 0; i < playerSlots.Length; i++)
 		{
-			InventorySlot invSlot = Inventory[slotNames[i]];
-			UpdateSlotMessage.Send(recipient, invSlot.UUID, null, invSlot.Item);
-		}
-	}
-
-	[Server]
-	public void UpdatePlayerEquipSprites(InventorySlot fromSlot, InventorySlot toSlot)
-	{
-		//Checks both slots and determnes the player equip sprites (only call this after a slot change)
-		if (fromSlot != null)
-		{
-			if (fromSlot.IsUISlot)
+			InventorySlot inventorySlot = Inventory[playerSlots[i]];
+			if(inventorySlot.Item != null)
 			{
-				if (IsEquipSpriteSlot(fromSlot))
-				{
-					if (fromSlot.Item == null)
-					{
-						//clear equip sprite
-						SyncEquipSprite(fromSlot.SlotName, -1);
-					}
-				}
-			}
-		}
-
-		if (toSlot != null)
-		{
-			if (toSlot.IsUISlot)
-			{
-				if (IsEquipSpriteSlot(toSlot))
-				{
-					if (toSlot.Item != null)
-					{
-						var att = toSlot.Item.GetComponent<ItemAttributes>();
-						if (toSlot.SlotName == "leftHand" || toSlot.SlotName == "rightHand")
-						{
-							equipment.SetHandItemSprite(att, toSlot.SlotName);
-						}
-						else if (att.spriteType == SpriteType.Clothing || att.hierarchy.Contains("headset") ||
-							att.hierarchy.Contains("storage/backpack") || att.hierarchy.Contains("storage/bag") ||
-							att.hierarchy.Contains("storage/belt") || att.hierarchy.Contains("tank"))
-						{
-							EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), toSlot.SlotName);
-							equipment.SetReference((int)enumA, att.clothingReference);
-						}
-					}
-				}
+				UpdateSlotMessage.Send(inventorySlot.Owner, inventorySlot.Item, false, inventorySlot.equipSlot);
 			}
 		}
 	}
 
-	private bool IsEquipSpriteSlot(InventorySlot slot)
-	{
-		if (slot.SlotName == "id" || slot.SlotName == "storage01" ||
-		slot.SlotName == "storage02" || slot.SlotName == "suitStorage")
-		{
-		return false;
-		}
-		if (!slot.IsUISlot)
-		{
-			return false;
-		}
-		return true;
-	}
-
 	[Server]
-	private void SyncEquipSprite(string slotName, int spriteRef)
+	public void DropItem(EquipSlot equipSlot)
 	{
-		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
-		equipment.SetReference((int)enumA, spriteRef);
-	}
-
-	/// Drop an item from a slot. use forceSlotUpdate=false when doing clientside prediction,
-	/// otherwise client will forcefully receive update slot messages
-	public void RequestDropItem(string handUUID, bool forceClientInform = true)
-	{
-		InventoryInteractMessage.Send("", handUUID, InventoryManager.GetSlotFromUUID(handUUID, isServer).Item, forceClientInform);
-	}
-
-	//Dropping from a slot on the UI
-	[Server]
-	public bool ValidateDropItem(InventorySlot invSlot, bool forceClientInform /* = false*/ )
-	{
-		//decline if not dropped from hands?
-		if (Inventory.ContainsKey(invSlot.SlotName) && Inventory[invSlot.SlotName].Item)
-		{
-			DropItem(invSlot.SlotName, forceClientInform);
-			return true;
-		}
-
-		Logger.Log("Object not found in Inventory", Category.Inventory);
-		return false;
-	}
-
-	///     Imperative drop.
-	/// Pass empty slot to drop a random one
-	[Server]
-	public void DropItem(string slot = "", bool forceClientInform = true)
-	{
-		//Drop random item
-		if (slot == "")
-		{
-			slot = "uniform";
-			foreach (var key in Inventory.Keys)
-			{
-				if (Inventory[key].Item)
-				{
-					slot = key;
-					break;
-				}
-			}
-		}
-		InventoryManager.DropGameItem(gameObject, Inventory[slot].Item, transform.position);
-
-		equipment.ClearItemSprite(slot);
+		InventoryManager.DropItem(Inventory[equipSlot].Item, transform.position, this);
 	}
 
 	/// <summary>
@@ -460,7 +165,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void DropAll()
 	{
-		//fixme: modified collectionz
 		foreach (var key in Inventory.Keys)
 		{
 			if (Inventory[key].Item)
@@ -470,21 +174,35 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	/// Client requesting throw to clicked position
+	/// <summary>
+	/// Server handling of the request to drop an item from a client
+	/// </summary>
 	[Command]
-	public void CmdRequestThrow(string slot, Vector3 worldTargetPos, int aim)
+	public void CmdDropItem(EquipSlot equipSlot)
 	{
-		if (playerScript.canNotInteract() || slot != "leftHand" && slot != "rightHand" || !SlotNotEmpty(slot))
+		if (playerScript.canNotInteract() || equipSlot != EquipSlot.leftHand && equipSlot != EquipSlot.rightHand || !SlotNotEmpty(equipSlot))
 		{
-			RollbackPrediction("", Inventory[slot].UUID, Inventory[slot].Item);
 			return;
 		}
-		GameObject throwable = Inventory[slot].Item;
+		DropItem(equipSlot);
+	}
 
+	/// <summary>
+	/// Server handling of the request to throw an item from a client
+	/// </summary>
+	[Command]
+	public void CmdThrow(EquipSlot equipSlot, Vector3 worldTargetPos, int aim)
+	{
+		var inventorySlot = Inventory[equipSlot];
+		if (playerScript.canNotInteract() || equipSlot != EquipSlot.leftHand && equipSlot != EquipSlot.rightHand || !SlotNotEmpty(equipSlot))
+		{
+			return;
+		}
+		GameObject throwable = inventorySlot.Item;
 		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
 
-		InventoryManager.DestroyItemInSlot(throwable);
-		ClearInventorySlot(slot);
+		InventoryManager.ClearInvSlot(inventorySlot);
+
 		var throwInfo = new ThrowInfo
 		{
 			ThrownBy = gameObject,
@@ -492,7 +210,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				OriginPos = playerPos,
 				TargetPos = worldTargetPos,
 				//Clockwise spin from left hand and Counterclockwise from the right hand
-				SpinMode = slot == "leftHand" ? SpinMode.Clockwise : SpinMode.CounterClockwise,
+				SpinMode = equipSlot == EquipSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise,
 		};
 		throwable.GetComponent<CustomNetTransform>().Throw(throwInfo);
 
@@ -504,34 +222,42 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command] //Remember with the parent you can only send networked objects:
-	public void CmdPlaceItem(string slotName, Vector3 pos, GameObject newParent, bool isTileMap)
+	public void CmdPlaceItem(EquipSlot equipSlot, Vector3 pos, GameObject newParent, bool isTileMap)
 	{
 		if (playerScript.canNotInteract() || !playerScript.IsInReach(pos, true))
 		{
 			return;
 		}
 
-		if (!SlotNotEmpty(slotName))
-		{
-			return;
-		}
+		var inventorySlot = Inventory[equipSlot];
+		GameObject item = inventorySlot.Item;
 
-		GameObject item = Inventory[slotName].Item;
-		InventoryManager.DropGameItem(gameObject, Inventory[slotName].Item, pos);
-		ClearInventorySlot(slotName);
 		if (item != null && newParent != null)
 		{
+			InventoryManager.DropItem(inventorySlot.Item, pos, this);
 			if (isTileMap)
 			{
 				TileChangeManager tileChangeManager = newParent.GetComponentInParent<TileChangeManager>();
-				//				item.transform.parent = tileChangeManager.ObjectParent.transform; TODO
+				//item.transform.parent = tileChangeManager.ObjectParent.transform; TODO
 			}
 			else
 			{
 				item.transform.parent = newParent.transform;
 			}
 			// TODO
-			//			ReorderGameobjectsOnTile(pos);
+			//ReorderGameobjectsOnTile(pos);
+		}
+	}
+
+	[Command]
+	public void CmdUpdateSlot(EquipSlot target, EquipSlot from)
+	{
+		var formInvSlot = Inventory[from];
+		var targetInvSlot = Inventory[target];
+		if(UIManager.CanPutItemToSlot(targetInvSlot, formInvSlot.Item, playerScript))
+		{
+			InventoryManager.EquipInInvSlot(targetInvSlot, formInvSlot.Item);
+			InventoryManager.ClearInvSlot(formInvSlot);
 		}
 	}
 
@@ -549,17 +275,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	//		}
 	//	}
 
-	public bool SlotNotEmpty(string eventName)
+	public bool SlotNotEmpty(EquipSlot eventName)
 	{
 		return Inventory.ContainsKey(eventName) && Inventory[eventName].Item != null;
 	}
 
 	[Command]
-	public void CmdStartMicrowave(string slotName, GameObject microwave, string mealName)
+	public void CmdStartMicrowave(EquipSlot equipSlot, GameObject microwave, string mealName)
 	{
 		Microwave m = microwave.GetComponent<Microwave>();
 		m.ServerSetOutputMeal(mealName);
-		ClearInventorySlot(slotName);
+		InventoryManager.ClearInvSlot(Inventory[equipSlot]);
 		m.RpcStartCooking();
 	}
 
@@ -643,8 +369,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 			case ConsciousState.BARELY_CONSCIOUS:
 				//Drop items when unconscious
-				DropItem("rightHand");
-				DropItem("leftHand");
+				DropItem(EquipSlot.rightHand);
+				DropItem(EquipSlot.leftHand);
 				playerMove.allowInput = true;
 				playerScript.PlayerSync.SpeedServer = playerMove.CrawlSpeed;
 				if (oldState == ConsciousState.CONSCIOUS)
@@ -655,8 +381,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 			case ConsciousState.UNCONSCIOUS:
 				//Drop items when unconscious
-				DropItem("rightHand");
-				DropItem("leftHand");
+				DropItem(EquipSlot.rightHand);
+				DropItem(EquipSlot.leftHand);
 				playerMove.allowInput = false;
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
@@ -669,33 +395,28 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdToggleChatIcon(bool turnOn)
+	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
 	{
-		if (!GetComponent<VisibleBehaviour>().visibleState || (playerScript.mind.jobType == JobType.NULL))
+		if (!playerScript.pushPull.VisibleState || (playerScript.mind.jobType == JobType.NULL)
+		|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
+			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
 			return;
 		}
 
-		RpcToggleChatIcon(turnOn);
+		RpcToggleChatIcon(turnOn, message, chatChannel);
 	}
 
 	[ClientRpc]
-	private void RpcToggleChatIcon(bool turnOn)
+	private void RpcToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
 	{
-		if (!chatIcon)
+		if (!playerChatBubble)
 		{
-			chatIcon = GetComponentInChildren<ChatIcon>();
+			playerChatBubble = GetComponentInChildren<PlayerChatBubble>();
 		}
 
-		if (turnOn)
-		{
-			chatIcon.TurnOnTalkIcon();
-		}
-		else
-		{
-			chatIcon.TurnOffTalkIcon();
-		}
+		playerChatBubble.DetermineChatVisual(turnOn, message, chatChannel);
 	}
 
 	[Command]
@@ -730,7 +451,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if(GetComponent<LivingHealthBehaviour>().IsDead)
 		{
-			RpcBeforeGhost();
 			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
 			playerScript.mind.Ghosting(newGhost);
 		}
@@ -752,21 +472,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Invoked before the ghost is going to be created and input will be shifted to ghost. Allows this body object
-	/// to perform needed cleanup. Note this will be invoked on all clients.
+	/// Disables input before a body transfer.
+	/// Note this will be invoked on all clients.
 	/// </summary>
-	/// <param name="bodyObject">object which was turned into a ghost</param>
 	[ClientRpc]
-	public void RpcBeforeGhost()
+	public void RpcBeforeBodyTransfer()
 	{
-		//only need to clean up client side if we are controlling the body who is becoming a ghost
-		//no more closet handler, they are dead
-		ClosetPlayerHandler cph = GetComponent<ClosetPlayerHandler>();
-		if (cph != null)
-		{
-			Destroy(cph);
-		}
-
 		//no more input can be sent to the body.
 		GetComponent<MouseInputController>().enabled = false;
 	}
@@ -784,7 +495,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//FOOD
 	[Command]
-	public void CmdEatFood(GameObject food, string fromSlot, bool isDrink)
+	public void CmdEatFood(GameObject food, EquipSlot fromSlot, bool isDrink)
 	{
 		if (Inventory[fromSlot].Item == null)
 		{
@@ -809,9 +520,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerHealth.bloodSystem.BloodLevel += baseFood.healAmount;
 		playerHealth.bloodSystem.StopBleedingAll();
 
-		InventoryManager.UpdateInvSlot(true, "", null, Inventory[fromSlot].UUID);
-		equipment.ClearItemSprite(fromSlot);
-		PoolManager.PoolNetworkDestroy(food);
+		food.GetComponent<Pickupable>().DisappearObject(Inventory[fromSlot]);
 
 		GameObject leavings = baseFood.leavings;
 		if (leavings != null)
@@ -822,7 +531,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdSetActiveHand(string hand)
+	public void CmdSetActiveHand(EquipSlot hand)
 	{
 		activeHand = hand;
 	}
@@ -854,13 +563,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//Validate paper edit request
 		//TODO Check for Pen
-		if (Inventory["leftHand"].Item == paper || Inventory["rightHand"].Item == paper)
+		if (Inventory[EquipSlot.leftHand].Item == paper || Inventory[EquipSlot.rightHand].Item == paper)
 		{
 			var paperComponent = paper.GetComponent<Paper>();
-			var pen = Inventory["leftHand"].Item?.GetComponent<Pen>();
+			var pen = Inventory[EquipSlot.leftHand].Item?.GetComponent<Pen>();
 			if (pen == null)
 			{
-				pen = Inventory["rightHand"].Item?.GetComponent<Pen>();
+				pen = Inventory[EquipSlot.rightHand].Item?.GetComponent<Pen>();
 				if (pen == null)
 				{
 					//no pen
@@ -883,12 +592,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestHug(string hugger, GameObject huggedPlayer)
 	{
-		string huggee = huggedPlayer.GetComponent<PlayerScript>().playerName;
+		string hugged = huggedPlayer.GetComponent<PlayerScript>().playerName;
 		var huggedPlayerRegister = huggedPlayer.GetComponent<RegisterPlayer>();
 		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
 		{
 			channels = ChatChannel.Local,
-			message = $"{hugger} has hugged {huggee}.",
+			message = $"{hugger} has hugged {hugged}.",
 			position = huggedPlayerRegister.WorldPosition.To2Int()
 		});
 	}
@@ -962,8 +671,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var rng = new System.Random();
 		string disarmerName = disarmer.Player()?.Name;
 		string playerToDisarmName = playerToDisarm.Player()?.Name;
-		var leftHandSlot = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, "leftHand");
-		var rightHandSlot = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, "rightHand");
+		var leftHandSlot = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, EquipSlot.leftHand);
+		var rightHandSlot = InventoryManager.GetSlotFromOriginatorHand(playerToDisarm, EquipSlot.rightHand);
 		var disarmedPlayerRegister = playerToDisarm.GetComponent<RegisterPlayer>();
 		var disarmedPlayerNetworkActions = playerToDisarm.GetComponent<PlayerNetworkActions>();
 
@@ -985,12 +694,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			// Disarms
 			if (leftHandSlot.Item != null)
 			{
-				disarmedPlayerNetworkActions.DropItem("leftHand");
+				disarmedPlayerNetworkActions.DropItem(EquipSlot.leftHand);
 			}
 
 			if (rightHandSlot.Item != null)
 			{
-				disarmedPlayerNetworkActions.DropItem("rightHand");
+				disarmedPlayerNetworkActions.DropItem(EquipSlot.rightHand);
 			}
 
 			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
@@ -1012,14 +721,33 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			});
 		}
 	}
-  
+
 	//admin only commands
 	#region Admin
+
+	[Command]
+	public void CmdAdminMakeHotspot(GameObject onObject)
+	{
+		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 700, .05f);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 700, .05f);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left, 700, .05f);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up, 700, .05f);
+		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.right, 700, .05f);
+	}
 
 	[Command]
 	public void CmdAdminSmash(GameObject toSmash)
 	{
 		toSmash.GetComponent<Integrity>().ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
+	}
+
+	//simulates despawning and immediately respawning this object, expectation
+	//being that it should properly initialize itself regardless of its previous state.
+	[Command]
+	public void CmdAdminRespawn(GameObject toRespawn)
+	{
+		PoolManager.PoolNetworkTestDestroyInstantiate(toRespawn);
 	}
 
 	#endregion
