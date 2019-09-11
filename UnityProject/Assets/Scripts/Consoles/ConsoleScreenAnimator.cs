@@ -13,7 +13,9 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	public SpriteRenderer spriteRenderer;
 	public GameObject screenGlow;
 	public SpriteSheetAndData onSprites;
+	public List<List<SpriteHandlerData.SpriteInfo>> sprites = new List<List<SpriteHandlerData.SpriteInfo>>();
 	private int sIndex = 0;
+	public float Delay;
 
 	private void ToggleOn(bool turnOn)
 	{
@@ -64,13 +66,19 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 
 		while (isOn)
 		{
-			spriteRenderer.sprite = onSprites.Sprites[sIndex];
+			if (sprites.Count == 0) {
+				if (onSprites.Texture != null) {
+					sprites = StaticSpriteHandler.CompleteSpriteSetup(onSprites);
+				}
+			}
+			spriteRenderer.sprite = sprites[0][sIndex].sprite;
+			Delay = sprites[0][sIndex].waitTime;
 			sIndex++;
-			if (sIndex == onSprites.Sprites.Length)
+			if (sIndex == sprites[0].Count)
 			{
 				sIndex = 0;
 			}
-			yield return WaitFor.Seconds(timeBetweenFrames);
+			yield return WaitFor.Seconds(Delay);
 		}
 	}
 }
