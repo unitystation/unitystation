@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1499261953
   m_SortingLayer: 12
   m_SortingOrder: 60
-  m_Sprite: {fileID: 21300174, guid: e60fa16c12a54a28b5e8c06def0303f1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7050608a943742a4e850f78aa99b6c09, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 70
   damageType: 0
+  attackType: 1
 --- !u!114 &7204795622295069220
 MonoBehaviour:
   m_ObjectHideFlags: 0

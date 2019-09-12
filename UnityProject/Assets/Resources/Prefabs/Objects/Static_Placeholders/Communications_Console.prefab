@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: 7e03c4ee7257f3946990af46b4c470f7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 6121755517172193553}
   - component: {fileID: 114077426834687316}
   - component: {fileID: 114756124129542138}
+  - component: {fileID: 6354374949080783350}
   m_Layer: 11
   m_Name: Communications_Console
   m_TagString: Untagged
@@ -360,7 +361,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294d2b1b66f24ff8befbc4e71f48652f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IdCard: {fileID: 0}
 --- !u!114 &6121755517172193553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,6 +418,34 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &6354374949080783350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832449994204696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8cac74219314e4e8ba276ffc22f95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenFrames: 0.1
+  spriteRenderer: {fileID: 212321000830179558}
+  screenGlow: {fileID: 3145195423426570531}
+  onSprites:
+    Texture: {fileID: 2800000, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
+    - {fileID: 21300002, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
+    - {fileID: 21300004, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
+    - {fileID: 21300006, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
+    - {fileID: 21300008, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
+    - {fileID: 21300010, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
+    - {fileID: 21300012, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
+    - {fileID: 21300014, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
+    EquippedData: {fileID: 4900000, guid: 503b6f0f4adc4f54fbadb8ac51d1c8a1, type: 3}
+  Delay: 0
 --- !u!1 &3145195423426570531
 GameObject:
   m_ObjectHideFlags: 0

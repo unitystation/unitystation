@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: 853167107
   m_SortingLayer: 3
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300142, guid: 6019d144b0abc4a98bb168dd6d96bedf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7050608a943742a4e850f78aa99b6c09, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -227,12 +227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &114088795432989764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,11 +242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothingReference: -1
-  hierarchy: 
-  inHandReferenceLeft: 0
-  inHandReferenceRight: 0
   spriteHandlerData: {fileID: 0}
+  InventoryIcon: {fileID: 0}
   itemName: Bullet Casing
   itemDescription: A spent bullet casing
   itemType: 0
@@ -358,7 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpriteInfos:
+  Infos:
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
