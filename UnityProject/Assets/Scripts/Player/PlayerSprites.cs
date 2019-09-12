@@ -23,11 +23,14 @@ public class PlayerSprites : MonoBehaviour
 	/// </summary>
 	private static readonly float FIRE_STACK_ENGULF_THRESHOLD = 3;
 
+	public PlayerTextureData RaceTexture;
+
 	//For character customization
 	public ClothingItem[] characterSprites;
 
+	public CharacterSettings ThisCharacter;
 	//clothes for each clothing slot
-	private readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
+	public readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
 	private Directional directional;
 	private BurningDirectionalOverlay engulfedBurningOverlay;
@@ -63,12 +66,163 @@ public class PlayerSprites : MonoBehaviour
 		livingHealthBehaviour.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
 		OnClientFireStacksChange(livingHealthBehaviour.FireStacks);
 
+		//StaticSpriteHandler
 
 		directional = GetComponent<Directional>();
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes[c.name] = c;
+		}
+		SetupBodySprites();
+
+
+	}
+
+	public void SetupCharacterData(CharacterSettings Character)
+	{
+		ThisCharacter = Character;
+		RaceTexture = ClothFactory.Instance.RaceData["human"];
+		SetupBodySprites();
+		SetupCustomisations();
+
+	}
+
+	public void SetupCustomisations()
+	{
+		if (ThisCharacter.underwearName != "_None_")
+		{
+			clothes["underwear"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["underwear"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothFactory.Instance.playerCustomisationData[
+				PlayerCustomisation.Underwear][ThisCharacter.underwearName].Equipped));
+			clothes["underwear"].spriteHandler.PushTexture();
+		}
+
+		if (ThisCharacter.socksName != "_None_")
+		{
+			clothes["socks"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["socks"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothFactory.Instance.playerCustomisationData[
+				PlayerCustomisation.Socks][ThisCharacter.socksName].Equipped));
+			clothes["socks"].spriteHandler.PushTexture();
+		}
+
+
+		if (ThisCharacter.facialHairName != "_None_")
+		{
+			ColorUtility.TryParseHtmlString(ThisCharacter.facialHairColor, out var newColor);
+			clothes["beard"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["beard"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothFactory.Instance.playerCustomisationData[
+				PlayerCustomisation.FacialHair][ThisCharacter.facialHairName].Equipped));
+			clothes["beard"].spriteHandler.SetColor(newColor);
+			clothes["beard"].spriteHandler.PushTexture();
+		}
+		if (ThisCharacter.hairStyleName != "_None_")
+		{
+			ColorUtility.TryParseHtmlString(ThisCharacter.hairColor, out var newColor);
+			clothes["Hair"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["Hair"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothFactory.Instance.playerCustomisationData[
+				PlayerCustomisation.HairStyle][ThisCharacter.hairStyleName].Equipped));
+			clothes["Hair"].spriteHandler.SetColor(newColor);
+			clothes["Hair"].spriteHandler.PushTexture();
+		}
+	}
+
+	public void SetupBodySprites()
+	{
+		//RaceVariantTextureData
+		//Assuming male for now
+		SexSetupBodySprites(RaceTexture.Base);
+		if (ThisCharacter.Gender == Gender.Female)
+		{
+			SexSetupBodySprites(RaceTexture.Female);
+		}
+		else {
+			SexSetupBodySprites(RaceTexture.Male);
+		}
+	}
+
+
+	public void SexSetupBodySprites(RaceVariantTextureData Variant)
+	{
+		ColorUtility.TryParseHtmlString(ThisCharacter.skinTone, out var newColor);
+
+		if (Variant.Torso.Texture != null)
+		{
+			clothes["body_torso"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["body_torso"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.Torso));
+			clothes["body_torso"].spriteHandler.SetColor(newColor);
+			clothes["body_torso"].spriteHandler.PushTexture();
+		}
+
+
+		if (Variant.LegRight.Texture != null)
+		{
+			clothes["body_rightleg"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["body_rightleg"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.LegRight));
+			clothes["body_rightleg"].spriteHandler.SetColor(newColor);
+			clothes["body_rightleg"].spriteHandler.PushTexture();
+		}
+
+
+		if (Variant.LegLeft.Texture != null)
+		{
+			clothes["body_leftleg"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["body_leftleg"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.LegLeft));
+			clothes["body_leftleg"].spriteHandler.SetColor(newColor);
+			clothes["body_leftleg"].spriteHandler.PushTexture();
+		}
+
+		if (Variant.ArmRight.Texture != null)
+		{
+			clothes["body_rightarm"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["body_rightarm"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.ArmRight));
+			clothes["body_rightarm"].spriteHandler.SetColor(newColor);
+			clothes["body_rightarm"].spriteHandler.PushTexture();
+		}
+
+
+		if (Variant.ArmLeft.Texture != null)
+		{
+			clothes["body_leftarm"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["body_leftarm"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.ArmLeft));
+			clothes["body_leftarm"].spriteHandler.SetColor(newColor);
+			clothes["body_leftarm"].spriteHandler.PushTexture();
+		}
+
+
+		if (Variant.Head.Texture != null)
+		{
+			clothes["body_head"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["body_head"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.Head));
+			clothes["body_head"].spriteHandler.SetColor(newColor);
+			clothes["body_head"].spriteHandler.PushTexture();
+		}
+
+
+		if (Variant.HandRight.Texture != null)
+		{
+			clothes["body_right_hand"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["body_right_hand"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.HandRight));
+			clothes["body_right_hand"].spriteHandler.SetColor(newColor);
+			clothes["body_right_hand"].spriteHandler.PushTexture();
+		}
+
+
+		if (Variant.HandLeft.Texture != null)
+		{
+			clothes["body_left_hand"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["body_left_hand"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.HandLeft));
+			clothes["body_left_hand"].spriteHandler.SetColor(newColor);
+			clothes["body_left_hand"].spriteHandler.PushTexture();
+		}
+
+		ColorUtility.TryParseHtmlString(ThisCharacter.eyeColor, out newColor);
+		if (Variant.Eyes.Texture != null)
+		{
+			clothes["eyes"].spriteHandler.Infos = new SpriteDataForSH();
+			clothes["eyes"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.Eyes));
+			clothes["eyes"].spriteHandler.SetColor(newColor);
+			clothes["eyes"].spriteHandler.PushTexture();
 		}
 	}
 
@@ -117,11 +271,7 @@ public class PlayerSprites : MonoBehaviour
 
 	public void NotifyPlayer(GameObject recipient)
 	{
-		for (int i = 0; i < characterSprites.Length; i++)
-		{
-			var clothItem = characterSprites[i];
-			PlayerSpritesMessage.SendTo(gameObject, i, clothItem.reference, clothItem.color, recipient);
-		}
+		PlayerCustomisationMessage.SendTo(gameObject, recipient, ThisCharacter);
 	}
 
 	public void OnCharacterSettingsChange(CharacterSettings characterSettings)
@@ -130,36 +280,37 @@ public class PlayerSprites : MonoBehaviour
 		{
 			characterSettings = new CharacterSettings();
 		}
-
-		//Skintone:
-		ColorUtility.TryParseHtmlString(characterSettings.skinTone, out var newColor);
-
-
+		SetupCharacterData(characterSettings);
 		//Torso
-		PlayerSpritesMessage.SendToAll(gameObject, 0, characterSettings.torsoSpriteIndex, newColor);
+		PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
 		//right leg
-		PlayerSpritesMessage.SendToAll(gameObject, 1, characterSettings.rightLegSpriteIndex, newColor);
-		//left leg
-		PlayerSpritesMessage.SendToAll(gameObject, 2, characterSettings.leftLegSpriteIndex, newColor);
-		//right arm
-		PlayerSpritesMessage.SendToAll(gameObject, 3, characterSettings.rightArmSpriteIndex, newColor);
-		//left arm
-		PlayerSpritesMessage.SendToAll(gameObject, 4, characterSettings.leftArmSpriteIndex, newColor);
-		//Head
-		PlayerSpritesMessage.SendToAll(gameObject, 5, characterSettings.headSpriteIndex, newColor);
+		//PlayerCustomisationMessage.SendToAll(gameObject, "body_rightleg", characterSettings.rightLegSpriteIndex, newColor, characterSettings);
+		////left leg
+		//PlayerCustomisationMessage.SendToAll(gameObject, "body_leftleg", characterSettings.leftLegSpriteIndex, newColor, characterSettings);
+		////right arm
+		//PlayerCustomisationMessage.SendToAll(gameObject, "body_rightarm", characterSettings.rightArmSpriteIndex, newColor, characterSettings);
+		////left arm
+		//PlayerCustomisationMessage.SendToAll(gameObject, "body_leftarm", characterSettings.leftArmSpriteIndex, newColor, characterSettings);
+		////Head
+		//PlayerCustomisationMessage.SendToAll(gameObject, "body_head", characterSettings.headSpriteIndex, newColor, characterSettings);
+
+
+		//PlayerCustomisationMessage.SendToAll(gameObject, "body_right_hand", characterSettings.headSpriteIndex, newColor, characterSettings);
+		//PlayerCustomisationMessage.SendToAll(gameObject, "body_left_hand", characterSettings.headSpriteIndex, newColor, characterSettings);
+
 		//Eyes
-		ColorUtility.TryParseHtmlString(characterSettings.eyeColor, out newColor);
-		PlayerSpritesMessage.SendToAll(gameObject, 6, 1, newColor);
-		//Underwear
-		PlayerSpritesMessage.SendToAll(gameObject, 7, characterSettings.underwearOffset, Color.white);
-		//Socks
-		PlayerSpritesMessage.SendToAll(gameObject, 8, characterSettings.socksOffset, Color.white);
-		//Beard
-		ColorUtility.TryParseHtmlString(characterSettings.facialHairColor, out newColor);
-		PlayerSpritesMessage.SendToAll(gameObject, 9, characterSettings.facialHairOffset, newColor);
-		//Hair
-		ColorUtility.TryParseHtmlString(characterSettings.hairColor, out newColor);
-		PlayerSpritesMessage.SendToAll(gameObject, 10, characterSettings.hairStyleOffset, newColor);
+		//ColorUtility.TryParseHtmlString(characterSettings.eyeColor, out newColor);
+		//PlayerCustomisationMessage.SendToAll(gameObject, "eyes", 1, newColor);
+		////Underwear
+		//PlayerCustomisationMessage.SendToAll(gameObject, "underwear", characterSettings.underwearOffset, Color.white);
+		////Socks
+		//PlayerCustomisationMessage.SendToAll(gameObject, "socks", characterSettings.socksOffset, Color.white);
+		////Beard
+		//ColorUtility.TryParseHtmlString(characterSettings.facialHairColor, out newColor);
+		//PlayerCustomisationMessage.SendToAll(gameObject, "beard", characterSettings.facialHairOffset, newColor);
+		////Hair
+		//ColorUtility.TryParseHtmlString(characterSettings.hairColor, out newColor);
+		//PlayerCustomisationMessage.SendToAll(gameObject, "Hair", characterSettings.hairStyleOffset, newColor);
 	}
 
 
@@ -177,4 +328,21 @@ public class PlayerSprites : MonoBehaviour
 		yield return WaitFor.Seconds(0.1f);
 		muzzleFlash.gameObject.SetActive(false);
 	}
+}
+
+public enum ClothingSprite
+{
+	body_torso,
+	body_rightleg,
+	body_leftleg,
+	body_rightarm,
+	body_leftarm,
+	body_head,
+	body_right_hand,
+	body_left_hand,
+	eyes,
+	underwear,
+	socks,
+	beard,
+	Hair,
 }

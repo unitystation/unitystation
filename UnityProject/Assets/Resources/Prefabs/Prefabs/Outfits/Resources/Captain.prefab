@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1494963329605038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4808317555433196}
+  - component: {fileID: 114735874007604360}
+  m_Layer: 0
+  m_Name: Captain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4808317555433196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494963329605038}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114735874007604360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494963329605038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef832313bc8da84b8fa31c209efe06e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  accessory: /obj/item/clothing/accessory/medal/gold/captain
+  allowedAccess: 01000000030000000400000005000000060000000700000008000000090000000a00000015000000160000001700000018000000190000001a0000001b0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f00000030000000310000003200000033000000340000003500000036000000370000003a0000003b0000003c0000003d0000003e0000003f00000040000000420000004300000044000000450000004600000047000000490000004a0000004b0000004c0000004d0000004e0000004f00000050000000
+  backpack:
+    Backpack: {fileID: 11400000, guid: 015583514eb8cb140a6d0f61d310de6c, type: 2}
+    Prefab: {fileID: 0}
+  backpack_contents:
+  - /obj/item/weapon/melee/classic_baton/telescopic
+  - /obj/item/weapon/station_charter
+  belt: /obj/item/device/pda/captain
+  box: 
+  duffelbag: 
+  ears:
+    Headset: {fileID: 11400000, guid: 4abf0f69bccdf514ba6ef97ce1ba6cf4, type: 2}
+    Prefab: {fileID: 0}
+  glasses:
+    Clothing: {fileID: 11400000, guid: f496ec88cfc8a364982418d100b198b0, type: 2}
+    Prefab: {fileID: 0}
+  gloves:
+    Clothing: {fileID: 11400000, guid: 42daddf00dcd73945bfce9864c942900, type: 2}
+    Prefab: {fileID: 0}
+  head:
+    Clothing: {fileID: 11400000, guid: 606e779e28cc6e349853bfe3a9f8b6ad, type: 2}
+    Prefab: {fileID: 0}
+  jobType: 6
+  l_hand: 
+  l_pocket: 
+  mask:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  r_pocket: 
+  satchel: /obj/item/weapon/storage/backpack/satchel/cap
+  shoes:
+    Clothing: {fileID: 11400000, guid: 2fa3983339cbf9b40a9ca43f116be3fb, type: 2}
+    Prefab: {fileID: 0}
+  suit:
+    Clothing: {fileID: 11400000, guid: 1d5035c6104d1e744b4bd1a5dd575d60, type: 2}
+    Prefab: {fileID: 0}
+  suit_store:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  uniform:
+    Clothing: {fileID: 11400000, guid: 3161500b0e0022e4784e63f632708b21, type: 2}
+    Prefab: {fileID: 0}
+  tt: {fileID: 11400000, guid: 9f068670ebf924043b39ef1d5cd3b0b8, type: 2}

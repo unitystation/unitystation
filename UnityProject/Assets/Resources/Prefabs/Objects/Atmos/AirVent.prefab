@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 3953549719403137607}
   - component: {fileID: 3771872541723634421}
   - component: {fileID: 1554776711696640}
+  - component: {fileID: 114798627279048580}
   m_Layer: 10
   m_Name: AirVent
   m_TagString: Untagged
@@ -145,14 +146,13 @@ MonoBehaviour:
   anchored: 0
   volume: 70
   pipeSprites:
-  - {fileID: 21300224, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
-  - {fileID: 21300162, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
-  - {fileID: 21300164, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
-  - {fileID: 21300166, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
-  - {fileID: 21300168, guid: 15ef494d1ff854fa69eab656aa860854, type: 3}
+  - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
+  - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
+  - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
+  - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
+  - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
   spriteRenderer: {fileID: 8418407404781841632}
   spriteSync: 0
-  ARANdirectionBool: 
   MinimumPressure: 101.325
 --- !u!114 &8354343867630940287
 MonoBehaviour:
@@ -166,10 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothingReference: -1
-  hierarchy: 
-  inHandReferenceLeft: 0
-  inHandReferenceRight: 0
+  spriteHandlerData: {fileID: 0}
+  InventoryIcon: {fileID: 0}
   itemName: Vent
   itemDescription: 
   itemType: 0
@@ -177,6 +175,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 0
+  damageType: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
@@ -194,12 +193,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &6479037130962053368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,6 +289,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+--- !u!114 &114798627279048580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010733523080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
 --- !u!1 &8513106460640881890
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +375,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 70
-  m_Sprite: {fileID: 21300224, guid: b17c2d8fde0016741b3ddae80bb61948, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

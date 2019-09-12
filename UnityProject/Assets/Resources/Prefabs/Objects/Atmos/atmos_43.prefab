@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300086, guid: 73b44edfc9994ce4a7fb1bd22c556761, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 464a44e549e21bb4881edc32070aba24, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -195,12 +195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &114084661371645066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,3 +295,12 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100

@@ -76,7 +76,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1092092399962626
@@ -147,7 +147,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300058, guid: a3e59ff9ae7064d5984b0a1769fca29e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cf0e9da173b120245a332e0e517d3c4f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -315,7 +315,7 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   playerLimit: 3
   statusSync: 0
-  doorOpened: {fileID: 21300060, guid: a3e59ff9ae7064d5984b0a1769fca29e, type: 3}
+  doorOpened: {fileID: 21300000, guid: 300d84635bd6fbc468cbec7d47ebaa31, type: 3}
   spriteRenderer: {fileID: 212212683899085798}
 --- !u!114 &4711233239866855599
 MonoBehaviour:
@@ -329,12 +329,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &114472020371701898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,6 +397,15 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
 --- !u!1 &1673024211849270
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,7 +475,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300058, guid: a3e59ff9ae7064d5984b0a1769fca29e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cf0e9da173b120245a332e0e517d3c4f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -6,28 +6,50 @@ public class JobOutfit : MonoBehaviour
 	public string accessory;
 	public List<Access> allowedAccess;
 
-	public string backpack;
+	public BackpackOrPrefab backpack;
 
 	public List<string> backpack_contents = new List<string>();
 	public string belt;
 	public string box;
 	public string duffelbag;
-	public string ears;
+	public HeadsetOrPrefab ears;
 
-	public string glasses;
-	public string gloves;
-	public string head;
+	public ClothOrPrefab glasses;
+	public ClothOrPrefab gloves;
+	public ClothOrPrefab head;
 	public JobType jobType;
 
 	public string l_hand;
 
 	public string l_pocket;
-	public string mask;
+	public ClothOrPrefab mask;
 	public string r_pocket;
 	public string satchel;
-	public string shoes;
-	public string suit;
+	public ClothOrPrefab shoes;
+	public ClothOrPrefab suit;
 
-	public string suit_store;
-	public string uniform;
+	public ClothOrPrefab suit_store;
+	public ClothOrPrefab uniform;
+}
+
+[System.Serializable]
+public class ClothOrPrefab {	public ClothingData Clothing;
+	public GameObject Prefab;
+
+}
+
+[System.Serializable]
+public class BackpackOrPrefab
+{
+	public ContainerData Backpack;
+	public GameObject Prefab;
+
+}
+
+[System.Serializable]
+public class HeadsetOrPrefab
+{
+	public HeadsetData Headset;
+	public GameObject Prefab;
+
 }

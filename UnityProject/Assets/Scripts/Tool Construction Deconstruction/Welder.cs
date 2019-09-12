@@ -92,8 +92,8 @@ public class Welder : NBHandActivateInteractable
 
 		damageOff = itemAtts.hitDamage;
 
-		leftHandOriginal = itemAtts.inHandReferenceLeft;
-		rightHandOriginal = itemAtts.inHandReferenceRight;
+		//leftHandOriginal = itemAtts.inHandReferenceLeft;
+		//rightHandOriginal = itemAtts.inHandReferenceRight;
 
 		leftHandFlame = leftHandOriginal + 4;
 		rightHandFlame = rightHandOriginal + 4;
@@ -124,8 +124,8 @@ public class Welder : NBHandActivateInteractable
 	{
 		if (isOn && !isBurning && clientFuelAmt > 0f)
 		{
-			itemAtts.inHandReferenceLeft = leftHandFlame;
-			itemAtts.inHandReferenceRight = rightHandFlame;
+			//itemAtts.inHandReferenceLeft = leftHandFlame;
+			//itemAtts.inHandReferenceRight = rightHandFlame;
 			isBurning = true;
 			itemAtts.damageType = DamageType.Burn;
 			itemAtts.hitDamage = damageOn;
@@ -137,8 +137,8 @@ public class Welder : NBHandActivateInteractable
 
 		if (!isOn || clientFuelAmt <= 0f)
 		{
-			itemAtts.inHandReferenceLeft = leftHandOriginal;
-			itemAtts.inHandReferenceRight = rightHandOriginal;
+			//itemAtts.inHandReferenceLeft = leftHandOriginal;
+			//itemAtts.inHandReferenceRight = rightHandOriginal;
 			isBurning = false;
 			if (coBurnFuel != null)
 			{
@@ -168,11 +168,11 @@ public class Welder : NBHandActivateInteractable
 
 		//Server also needs to know which player is holding the item so that it can sync
 		//the inhand image when the player turns it on and off:
-		if (isServer && heldByPlayer != null)
-		{
-			var clientPNA = heldByPlayer.GetComponent<PlayerNetworkActions>();
-			heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, clientPNA.activeHand);
-		}
+		//if (isServer && heldByPlayer != null)
+		//{
+		//	var clientPNA = heldByPlayer.GetComponent<PlayerNetworkActions>();
+		//	heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, clientPNA.activeHand);
+		//}
 	}
 
 	IEnumerator BurnFuel()

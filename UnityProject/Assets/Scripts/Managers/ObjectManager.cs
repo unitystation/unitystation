@@ -5,6 +5,10 @@ public class ObjectManager : MonoBehaviour
 {
 	private static ObjectManager objectManager;
 
+	public GameObject ClothPrefab;
+
+
+
 	[Header("How many prefabs to preload")] public int preLoadClothAmount = 15;
 
 	public static ObjectManager Instance
@@ -31,10 +35,10 @@ public class ObjectManager : MonoBehaviour
 			return;
 		}
 
-		clothFactory = pM.GetComponent<ClothFactory>();
 
 		//Preload to save on Instantiation during gameplay
-		ClothFactory.PreLoadCloth(Instance.preLoadClothAmount);
+		Instance.preLoadClothAmount = 0;
+
 	}
 }
 

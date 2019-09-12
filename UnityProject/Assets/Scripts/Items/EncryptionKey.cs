@@ -23,7 +23,9 @@ public enum EncryptionKeyType
 	ChiefMedicalOfficer,
 	Binary,
 	Syndicate,
-	CentComm
+	CentComm,
+	Mining,
+	Genetics,
 }
 
 /// <summary>
@@ -52,7 +54,9 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.Security, ChatChannel.Common | ChatChannel.Security},
 		{EncryptionKeyType.Service, ChatChannel.Common | ChatChannel.Service},
 		{EncryptionKeyType.Syndicate, ChatChannel.Common | ChatChannel.Syndicate | ChatChannel.Command | ChatChannel.Security |
-		                              ChatChannel.Engineering | ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science}
+		                              ChatChannel.Engineering | ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science},
+		{EncryptionKeyType.Mining, ChatChannel.Common | ChatChannel.Supply | ChatChannel.Science},
+		{EncryptionKeyType.Genetics, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Science}
 	};
 
 	private static readonly string genericDescription = "An encryption key for a radio headset. \n";

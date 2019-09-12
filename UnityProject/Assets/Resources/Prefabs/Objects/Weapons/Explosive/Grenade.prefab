@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 1000
-  m_Sprite: {fileID: 21300072, guid: c2d71b86cf2f34f3da1011088ef0f723, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9e33c5ac9bd9b5841ae5ab45b683b6ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114501387999760508}
   - component: {fileID: 114006909984101046}
   - component: {fileID: 114217806038025902}
+  - component: {fileID: 114083320015762204}
   m_Layer: 10
   m_Name: Grenade
   m_TagString: Untagged
@@ -204,10 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothingReference: -1
-  hierarchy: 
-  inHandReferenceLeft: 0
-  inHandReferenceRight: 0
+  spriteHandlerData: {fileID: 0}
+  InventoryIcon: {fileID: 0}
   itemName: Grenade
   itemDescription: It's a metal can with a pretty ring attached to it.
   itemType: 0
@@ -215,6 +214,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 0
+  damageType: 0
   throwDamage: 0
   throwSpeed: 2
   throwRange: 7
@@ -232,12 +232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &4342641648236371693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,3 +340,30 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &114083320015762204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5134582746904691057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []

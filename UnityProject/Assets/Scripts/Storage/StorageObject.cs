@@ -78,17 +78,10 @@ public class StorageObject : NetworkBehaviour
 		return invSlot;
 	}
 
-	public InventorySlot GetSlot(EquipSlot equipSlot)
+	public void SetUpFromStorageObjectData(StorageObjectData Data)
 	{
-		InventorySlot invSlot = null;
-		for (int i = 0; i < storageSlots.inventorySlots.Count; i++)
-		{
-			if (storageSlots.inventorySlots[i].equipSlot == equipSlot)
-			{
-				return storageSlots.inventorySlots[i];
-			}
-		}
-		return invSlot;
+		maxItemSize = Data.maxItemSize;
+		maxSlots = Data.maxSlots;
 	}
 }
 

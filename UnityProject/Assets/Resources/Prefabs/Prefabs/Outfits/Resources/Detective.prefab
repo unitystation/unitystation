@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1961709938469034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4371063069824940}
+  - component: {fileID: 114271083428414816}
+  m_Layer: 0
+  m_Name: Detective
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4371063069824940
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961709938469034}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114271083428414816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961709938469034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef832313bc8da84b8fa31c209efe06e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  accessory: 
+  allowedAccess: 060000001b0000002200000023000000430000004400000031000000
+  backpack:
+    Backpack: {fileID: 0}
+    Prefab: {fileID: 0}
+  backpack_contents:
+  - /obj/item/weapon/storage/box/evidence
+  - /obj/item/device/detective_scanner
+  - /obj/item/weapon/melee/classic_baton
+  belt: /obj/item/device/pda/detective
+  box: 
+  duffelbag: 
+  ears:
+    Headset: {fileID: 11400000, guid: d81ff42a8ea91754b95541d07403cfbe, type: 2}
+    Prefab: {fileID: 0}
+  glasses:
+    Clothing: {fileID: 11400000, guid: f496ec88cfc8a364982418d100b198b0, type: 2}
+    Prefab: {fileID: 0}
+  gloves:
+    Clothing: {fileID: 11400000, guid: 90875af41838ba343a8bde75046a1b5e, type: 2}
+    Prefab: {fileID: 0}
+  head:
+    Clothing: {fileID: 11400000, guid: f54e20bdb980ca34b9a14d654445e3bb, type: 2}
+    Prefab: {fileID: 0}
+  jobType: 17
+  l_hand: 
+  l_pocket: /obj/item/toy/crayon/white
+  mask:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  r_pocket: /obj/item/weapon/lighter
+  satchel: 
+  shoes:
+    Clothing: {fileID: 11400000, guid: 2fa3983339cbf9b40a9ca43f116be3fb, type: 2}
+    Prefab: {fileID: 0}
+  suit:
+    Clothing: {fileID: 11400000, guid: 506102dad4ddf3e4991c0916586fd56f, type: 2}
+    Prefab: {fileID: 0}
+  suit_store:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  uniform:
+    Clothing: {fileID: 11400000, guid: c6ad5241a42c02643b80e7cd2e1baa5c, type: 2}
+    Prefab: {fileID: 0}

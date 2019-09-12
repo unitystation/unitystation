@@ -7,6 +7,7 @@ public class DNAscanner : ClosetControl, IAPCPowered
 {
 	public LivingHealthBehaviour occupant;
 	public string statusString;
+
 	public bool Powered => powered;
 	[SyncVar(hook = nameof(SyncPowered))] private bool powered;
 	//tracks whether we've recieved our first power update from electriciy.
@@ -16,6 +17,9 @@ public class DNAscanner : ClosetControl, IAPCPowered
 	public Sprite closedWithOccupant;
 	public Sprite doorClosedPowerless;
 	public Sprite doorOpenPowerless;
+
+
+	public SpriteHandler spriteHandler;
 
 	public override void OnStartServer()
 	{
@@ -72,30 +76,30 @@ public class DNAscanner : ClosetControl, IAPCPowered
 
 	public override void SyncSprite(ClosetStatus value)
 	{
+		//Logger.Log("TTTTTTTTTTTTT" + value.ToString());
 		if (value == ClosetStatus.Open)
 		{
 			if (!powered)
 			{
-				spriteRenderer.sprite = doorOpenPowerless;
+				spriteHandler.ChangeSprite(5);
 			}
 			else
 			{
-				spriteRenderer.sprite = doorOpened;
+				spriteHandler.ChangeSprite(3);
 			}
 		}
 		else if (!powered)
 		{
-			spriteRenderer.sprite = doorClosedPowerless;
+			spriteHandler.ChangeSprite(6);
 		}
 		else if (value == ClosetStatus.Closed)
 		{
-			spriteRenderer.sprite = doorClosed;
+			spriteHandler.ChangeSprite(0);
 		}
 		else if(value == ClosetStatus.ClosedWithOccupant)
 		{
-			spriteRenderer.sprite = closedWithOccupant;
+			spriteHandler.ChangeSprite(2);
 		}
-
 	}
 
 	private void SyncPowered(bool value)

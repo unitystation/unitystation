@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -14,13 +15,69 @@ MonoBehaviour:
   LayerType: 2
   TileType: 4
   RequiredTiles: []
+  AtmosPassable: 1
+  IsSealed: 0
+  Passable: 0
   PassableException:
     m_keys: 
     m_values: 
-  Passable: 0
-  AtmosPassable: 1
-  IsSealed: 0
-  spriteSheet: {fileID: 2800000, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
-  texturePath: Tables
+  MaxHealth: 0
+  HealthStates: []
+  ItemSpawn: {fileID: 0}
+  amount: 0
+  DestroyedTile: {fileID: 0}
   connectCategory: 2
   connectType: 1
+  spriteSheet:
+    Texture: {fileID: 2800000, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300002, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300004, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300006, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300008, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300010, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300012, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300014, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300016, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300018, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300020, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300022, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300024, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300026, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300028, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300030, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300032, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300034, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300036, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300038, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300040, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300042, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300044, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300046, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300048, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300050, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300052, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300054, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300056, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300058, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300060, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300062, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300064, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300066, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300068, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300070, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300072, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300074, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300076, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300078, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300080, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300082, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300084, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300086, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300088, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300090, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300092, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    - {fileID: 21300094, guid: fa4608352c8b8294d9b7cdfbb03f1747, type: 3}
+    EquippedData: {fileID: 0}
+  texturePath: Tables

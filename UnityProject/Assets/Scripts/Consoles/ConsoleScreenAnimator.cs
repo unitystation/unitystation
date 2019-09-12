@@ -12,9 +12,10 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	public float timeBetweenFrames = 0.1f;
 	public SpriteRenderer spriteRenderer;
 	public GameObject screenGlow;
-	public Sprite[] onSprites;
-
+	public SpriteSheetAndData onSprites;
+	public List<List<SpriteHandlerData.SpriteInfo>> sprites = new List<List<SpriteHandlerData.SpriteInfo>>();
 	private int sIndex = 0;
+	public float Delay;
 
 	private void ToggleOn(bool turnOn)
 	{
@@ -48,12 +49,11 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 			ToggleOn(false);
 		}
 		else {
-			ToggleOn(true);
-		}
+			if (isOn != true) { 
+				isOn = true;
+				StartCoroutine(Animator());
+			}
 
-		if (!stateInit)
-		{
-			stateInit = true;
 		}
 	}
 
@@ -66,13 +66,19 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 
 		while (isOn)
 		{
-			spriteRenderer.sprite = onSprites[sIndex];
+			if (sprites.Count == 0) {
+				if (onSprites.Texture != null) {
+					sprites = StaticSpriteHandler.CompleteSpriteSetup(onSprites);
+				}
+			}
+			spriteRenderer.sprite = sprites[0][sIndex].sprite;
+			Delay = sprites[0][sIndex].waitTime;
 			sIndex++;
-			if (sIndex == onSprites.Length)
+			if (sIndex == sprites[0].Count)
 			{
 				sIndex = 0;
 			}
-			yield return WaitFor.Seconds(timeBetweenFrames);
+			yield return WaitFor.Seconds(Delay);
 		}
 	}
 }
