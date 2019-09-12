@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114383244954830430}
   - component: {fileID: 114849399154925666}
   - component: {fileID: 114991468272272648}
+  - component: {fileID: 2968783916849105110}
   m_Layer: 10
   m_Name: glass sheet
   m_TagString: Untagged
@@ -340,3 +341,15 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &2968783916849105110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d64b846e302138e41a183dd59c1acb96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
