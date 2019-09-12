@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class glassSheet : MonoBehaviour
+public class GlassSheet : MonoBehaviour
 {
 
 }
