@@ -19,7 +19,7 @@ public class GamePad : MonoBehaviour
 	{
 		if ( Keys.Count == 0 )
 		{
-			foreach ( var gameKey in GetComponentsInChildren<GameKey>() )
+			foreach ( var gameKey in GetComponentsInChildren<GameKey>(true) )
 			{
 				Keys.Add( gameKey );
 			}
