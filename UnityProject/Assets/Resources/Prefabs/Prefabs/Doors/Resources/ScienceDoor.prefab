@@ -383,6 +383,7 @@ GameObject:
   - component: {fileID: 114628056186747552}
   - component: {fileID: 114218133984102536}
   - component: {fileID: 114542259333970298}
+  - component: {fileID: 114505900221247960}
   m_Layer: 17
   m_Name: ScienceDoor
   m_TagString: Untagged
@@ -802,6 +803,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114505900221247960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703130924713270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 1917876103
 --- !u!1 &1780058016609078
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 114718624142887478}
   - component: {fileID: 114550244440620130}
   - component: {fileID: 114302351363566878}
+  - component: {fileID: 114027456587909922}
   m_Layer: 11
   m_Name: equipment_86
   m_TagString: Untagged
@@ -209,6 +210,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114027456587909922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370979911323750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2127154532
 --- !u!1 &1875389674981576
 GameObject:
   m_ObjectHideFlags: 0

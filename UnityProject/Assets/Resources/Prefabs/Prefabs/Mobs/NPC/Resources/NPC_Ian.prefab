@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 114721267536428640}
   - component: {fileID: 2215143835289934263}
   - component: {fileID: 114477129915142950}
+  - component: {fileID: 114379009499332576}
   m_Layer: 8
   m_Name: NPC_Ian
   m_TagString: Untagged
@@ -447,3 +448,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &114379009499332576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 3942238064

@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 114674513833633886}
   - component: {fileID: 114784546776582578}
   - component: {fileID: 114013628232825724}
+  - component: {fileID: 114660200964279046}
   m_Layer: 10
   m_Name: Screwdriver
   m_TagString: Untagged
@@ -391,6 +392,22 @@ MonoBehaviour:
   SuccessChance: 100
   IsSyndicateVariant: 0
   SpeedMultiplier: 1
+--- !u!114 &114660200964279046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 330007696
 --- !u!1 &5751769075716656209
 GameObject:
   m_ObjectHideFlags: 0

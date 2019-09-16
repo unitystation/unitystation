@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 114077426834687316}
   - component: {fileID: 114756124129542138}
   - component: {fileID: 6354374949080783350}
+  - component: {fileID: 114302809726908850}
   m_Layer: 11
   m_Name: Communications_Console
   m_TagString: Untagged
@@ -446,6 +447,22 @@ MonoBehaviour:
     - {fileID: 21300014, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
     EquippedData: {fileID: 4900000, guid: 503b6f0f4adc4f54fbadb8ac51d1c8a1, type: 3}
   Delay: 0
+--- !u!114 &114302809726908850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832449994204696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 4106508302
 --- !u!1 &3145195423426570531
 GameObject:
   m_ObjectHideFlags: 0

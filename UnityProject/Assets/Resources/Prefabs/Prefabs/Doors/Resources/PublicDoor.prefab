@@ -258,6 +258,7 @@ GameObject:
   - component: {fileID: 114246988198392272}
   - component: {fileID: 114936201514075140}
   - component: {fileID: 114120275764581544}
+  - component: {fileID: 114852647110043552}
   m_Layer: 18
   m_Name: PublicDoor
   m_TagString: Untagged
@@ -747,6 +748,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114852647110043552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013208201100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 1900772482
 --- !u!1 &1252112242230248
 GameObject:
   m_ObjectHideFlags: 0

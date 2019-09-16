@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114663582793708206}
   - component: {fileID: 114789380910347572}
   - component: {fileID: 114225723971362842}
+  - component: {fileID: 114100650871773364}
   m_Layer: 10
   m_Name: Wirecutter
   m_TagString: Untagged
@@ -383,3 +384,19 @@ MonoBehaviour:
     AID: 0
     Serialized: []
   spriteList: []
+--- !u!114 &114100650871773364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2702979634

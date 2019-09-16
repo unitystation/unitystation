@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 114179000841655036}
   - component: {fileID: 114290277025970052}
   - component: {fileID: 114441333679474912}
+  - component: {fileID: 114328215321065798}
   m_Layer: 11
   m_Name: atmos_25
   m_TagString: Untagged
@@ -225,6 +226,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114328215321065798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291213769265592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 401750885
 --- !u!1 &1842100756337960
 GameObject:
   m_ObjectHideFlags: 0

@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114905964018138316}
   - component: {fileID: 114767665931269096}
   - component: {fileID: 114526822079318106}
+  - component: {fileID: 114669015140344374}
   m_Layer: 10
   m_Name: ID
   m_TagString: Untagged
@@ -454,3 +455,19 @@ MonoBehaviour:
   spriteList:
   - {fileID: 21300000, guid: e398857a754d23b43b2d4f8a18d2682d, type: 3}
   - {fileID: 21300000, guid: da457933363dc1e40a814917dc3aaf52, type: 3}
+--- !u!114 &114669015140344374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748120534729806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 3399761053

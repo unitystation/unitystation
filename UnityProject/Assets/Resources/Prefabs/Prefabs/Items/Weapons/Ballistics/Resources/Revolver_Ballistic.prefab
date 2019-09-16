@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114117284983500122}
   - component: {fileID: 114844005999312400}
   - component: {fileID: 114223204492019564}
+  - component: {fileID: 114486861544395548}
   m_Layer: 10
   m_Name: Revolver_Ballistic
   m_TagString: Untagged
@@ -373,3 +374,19 @@ MonoBehaviour:
     AID: 0
     Serialized: []
   spriteList: []
+--- !u!114 &114486861544395548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863058284462694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 322690297

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 114258488119912856}
   - component: {fileID: 114722768857009208}
   - component: {fileID: 114211369790186800}
+  - component: {fileID: 114104876763743222}
   m_Layer: 11
   m_Name: FieldGenerator
   m_TagString: Untagged
@@ -326,6 +327,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114104876763743222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305738920282892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 3846155517
 --- !u!1 &1712574560713454
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,6 +419,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

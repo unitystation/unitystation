@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114849399154925666}
   - component: {fileID: 114991468272272648}
   - component: {fileID: 114652567487495318}
+  - component: {fileID: 114739776609663992}
   m_Layer: 10
   m_Name: Metal
   m_TagString: Untagged
@@ -433,3 +434,19 @@ MonoBehaviour:
   spriteList:
   - {fileID: 21300000, guid: f9e4a5ecbb42bef4eaf93b9484a19027, type: 3}
   - {fileID: 21300000, guid: cd822dad686a23d4ab3e308cb0b36b38, type: 3}
+--- !u!114 &114739776609663992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 1147727179

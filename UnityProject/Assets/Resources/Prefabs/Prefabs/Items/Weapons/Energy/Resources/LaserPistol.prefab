@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114613202640146834}
   - component: {fileID: 114089709833932218}
   - component: {fileID: 114751323075751822}
+  - component: {fileID: 114001467022758570}
   m_Layer: 10
   m_Name: LaserPistol
   m_TagString: Untagged
@@ -374,6 +375,22 @@ MonoBehaviour:
     AID: 0
     Serialized: []
   spriteList: []
+--- !u!114 &114001467022758570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245908573886190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 4083734517
 --- !u!1 &5028027096888106743
 GameObject:
   m_ObjectHideFlags: 0

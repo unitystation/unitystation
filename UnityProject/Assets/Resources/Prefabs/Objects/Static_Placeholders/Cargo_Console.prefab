@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114212155062859864}
   - component: {fileID: 114322071421580458}
   - component: {fileID: 114711192283274066}
+  - component: {fileID: 114251416167812810}
   m_Layer: 11
   m_Name: Cargo_Console
   m_TagString: Untagged
@@ -279,6 +280,7 @@ MonoBehaviour:
     - {fileID: 21300044, guid: f5308591cc4521f46b692728a503283e, type: 3}
     - {fileID: 21300046, guid: f5308591cc4521f46b692728a503283e, type: 3}
     EquippedData: {fileID: 4900000, guid: 358adbd5ff13fa94786d934434c6ec1a, type: 3}
+  Delay: 0
 --- !u!114 &5210483117512304919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,6 +371,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114251416167812810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3365708065215268791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 26907812
 --- !u!1 &3365832635514216189
 GameObject:
   m_ObjectHideFlags: 0

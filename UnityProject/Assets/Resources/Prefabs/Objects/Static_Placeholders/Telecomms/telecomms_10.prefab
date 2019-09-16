@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 114695484631775568}
   - component: {fileID: 114046381311963218}
   - component: {fileID: 114182564427891154}
+  - component: {fileID: 114061157936040952}
   m_Layer: 11
   m_Name: telecomms_10
   m_TagString: Untagged
@@ -224,6 +225,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114061157936040952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090834208327486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 3162540500
 --- !u!1 &1746354791454660
 GameObject:
   m_ObjectHideFlags: 0

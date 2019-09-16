@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 114362888853509944}
   - component: {fileID: 114027227449301930}
   - component: {fileID: 114181335398386338}
+  - component: {fileID: 114608116729339272}
   m_Layer: 11
   m_Name: selfdestruct_0
   m_TagString: Untagged
@@ -288,3 +289,19 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114608116729339272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851128464198592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2519686032

@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 114696329622343504}
   - component: {fileID: 114833393703594538}
   - component: {fileID: 114639833623588114}
+  - component: {fileID: 114722453196611254}
   m_Layer: 11
   m_Name: virology_16
   m_TagString: Untagged
@@ -214,6 +215,31 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &114722453196611254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277573235473004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2855153747
 --- !u!1 &1399995917686288
 GameObject:
   m_ObjectHideFlags: 0

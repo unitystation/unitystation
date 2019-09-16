@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 3024129255899388916}
   - component: {fileID: 3023104479544448774}
   - component: {fileID: 3023489747755219198}
+  - component: {fileID: 114695737729270508}
   m_Layer: 11
   m_Name: SecurityRecords_Console
   m_TagString: Untagged
@@ -388,6 +389,7 @@ MonoBehaviour:
     - {fileID: 21300068, guid: c22300827353aa542a60396fd375f526, type: 3}
     - {fileID: 21300070, guid: c22300827353aa542a60396fd375f526, type: 3}
     EquippedData: {fileID: 4900000, guid: ff4215a50230ab846978694403e706f8, type: 3}
+  Delay: 0
 --- !u!114 &6930270276971121339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,6 +493,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114695737729270508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492998437866873883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 4292187471
 --- !u!1 &493082733683129681
 GameObject:
   m_ObjectHideFlags: 0

@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 114424193572042698}
   - component: {fileID: 114277093133318622}
   - component: {fileID: 114254690631665046}
+  - component: {fileID: 114135642198018370}
   m_Layer: 11
   m_Name: Cloning_Console
   m_TagString: Untagged
@@ -438,6 +439,7 @@ MonoBehaviour:
     - {fileID: 21300172, guid: 9c816bd48a093fa419b56d16946eb9d1, type: 3}
     - {fileID: 21300174, guid: 9c816bd48a093fa419b56d16946eb9d1, type: 3}
     EquippedData: {fileID: 4900000, guid: c27f276fbc6c24846b10f6e0e6e13bbd, type: 3}
+  Delay: 0
 --- !u!114 &7421829385032138288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,6 +530,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114135642198018370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581020911112336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 899038551
 --- !u!1 &1753008131445868
 GameObject:
   m_ObjectHideFlags: 0

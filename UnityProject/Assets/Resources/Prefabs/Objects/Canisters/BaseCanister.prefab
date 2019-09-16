@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 2681417881209337471}
   - component: {fileID: 114781037357294102}
   - component: {fileID: 114615155852173970}
+  - component: {fileID: 114835659847540804}
   m_Layer: 11
   m_Name: BaseCanister
   m_TagString: Untagged
@@ -241,12 +242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &114623103168110180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,6 +364,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 1000
+--- !u!114 &114835659847540804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513316462072450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 1054874985
 --- !u!1 &3261001144065486905
 GameObject:
   m_ObjectHideFlags: 0

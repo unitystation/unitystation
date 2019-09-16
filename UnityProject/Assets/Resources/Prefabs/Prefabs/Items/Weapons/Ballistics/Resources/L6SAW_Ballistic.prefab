@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 114243777355016984}
   - component: {fileID: 114246698634477076}
   - component: {fileID: 114177405083156228}
+  - component: {fileID: 114335367358435480}
   m_Layer: 10
   m_Name: L6SAW_Ballistic
   m_TagString: Untagged
@@ -295,6 +296,22 @@ MonoBehaviour:
     AID: 0
     Serialized: []
   spriteList: []
+--- !u!114 &114335367358435480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228446059428988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 4142484348
 --- !u!1 &1863557299626290
 GameObject:
   m_ObjectHideFlags: 0

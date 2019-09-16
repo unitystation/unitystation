@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 212141020776055332}
   - component: {fileID: 3598992240861632872}
   - component: {fileID: 6110929993443821120}
+  - component: {fileID: 114112699088108080}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &3598992240861632872
@@ -136,6 +137,22 @@ MonoBehaviour:
   spriteIndex: 0
   VariantIndex: 0
   SynchroniseVariant: 1
+--- !u!114 &114112699088108080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457108674043874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 1879807976
 --- !u!1 &1639223380925416
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,6 +175,7 @@ GameObject:
   - component: {fileID: 114836303297071654}
   - component: {fileID: 114050234975852216}
   - component: {fileID: 1326262103296388165}
+  - component: {fileID: 114477311402312970}
   m_Layer: 10
   m_Name: UniHeadSet
   m_TagString: Untagged
@@ -307,12 +325,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &114189084348342176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,9 +446,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4988eef284d24f4dbc16a62462df71e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
+  Variant: -1
+  clothingData: {fileID: 0}
+  containerData: {fileID: 0}
+  headsetData: {fileID: 0}
+  Initialised: 0
+  SynchronisedString: 
   VariantList: 
   SpriteInfo:
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
     Serialized: []
+--- !u!114 &114477311402312970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639223380925416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 1742558111

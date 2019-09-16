@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114924540586458310}
   - component: {fileID: 114242611032700334}
   - component: {fileID: 114897351131677626}
+  - component: {fileID: 114514137679665224}
   m_Layer: 11
   m_Name: vending_175
   m_TagString: Untagged
@@ -240,6 +241,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114514137679665224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308360596603050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 3881093063
 --- !u!1 &1647500721339698
 GameObject:
   m_ObjectHideFlags: 0

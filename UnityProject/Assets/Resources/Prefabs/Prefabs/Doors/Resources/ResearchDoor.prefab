@@ -555,6 +555,7 @@ GameObject:
   - component: {fileID: 114499061253949106}
   - component: {fileID: 114411665271381982}
   - component: {fileID: 114808882908742840}
+  - component: {fileID: 114908063341546646}
   m_Layer: 17
   m_Name: ResearchDoor
   m_TagString: Untagged
@@ -974,6 +975,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114908063341546646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471265584270754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 3721837061
 --- !u!1 &1491549408370048
 GameObject:
   m_ObjectHideFlags: 0

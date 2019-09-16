@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 1502216706390324168}
   - component: {fileID: 2504760058904090374}
   - component: {fileID: 114897658894920132}
+  - component: {fileID: 114429980035310924}
   m_Layer: 11
   m_Name: SMES
   m_TagString: Untagged
@@ -414,6 +415,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &114429980035310924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2191385680
 --- !u!1 &1610444276709522
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &114270088461518110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8672364265012114058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 0
 --- !u!1001 &8673665716575084552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -140,6 +156,11 @@ PrefabInstance:
       propertyPath: Resistances.Flammable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: Gases.Array.data[2]
+      value: 60933
+      objectReference: {fileID: 0}
     - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
       propertyPath: PrimaryUITint.r
@@ -210,10 +231,11 @@ PrefabInstance:
       propertyPath: ContentsName
       value: Nitrogen
       objectReference: {fileID: 0}
-    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
-        type: 3}
-      propertyPath: Gases.Array.data[2]
-      value: 60933
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
+--- !u!1 &8672364265012114058 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1513316462072450, guid: e9620f26b24f33c4cbe56a85ae95865d,
+    type: 3}
+  m_PrefabInstance: {fileID: 8673665716575084552}
+  m_PrefabAsset: {fileID: 0}

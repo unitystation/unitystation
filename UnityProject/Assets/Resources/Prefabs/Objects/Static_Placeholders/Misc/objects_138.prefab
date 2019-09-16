@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 114279471893966168}
   - component: {fileID: 114909814810923794}
   - component: {fileID: 114852730518150532}
+  - component: {fileID: 114382011287854426}
   m_Layer: 11
   m_Name: objects_138
   m_TagString: Untagged
@@ -209,6 +210,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114382011287854426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210769973395188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 1104839461
 --- !u!1 &1605840454402600
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114057145851387186}
   - component: {fileID: 114203140017427936}
   - component: {fileID: 114971658974239060}
+  - component: {fileID: 114085600953189384}
   m_Layer: 11
   m_Name: Microwave
   m_TagString: Untagged
@@ -307,6 +308,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114085600953189384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010765165894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2681867310
 --- !u!1 &1000010906387252
 GameObject:
   m_ObjectHideFlags: 0

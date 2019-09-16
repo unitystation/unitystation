@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 2731523975421391927}
   - component: {fileID: 3919982737323789382}
   - component: {fileID: 114392163303621646}
+  - component: {fileID: 114042349333397026}
   m_Layer: 11
   m_Name: Transformer
   m_TagString: Untagged
@@ -137,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
   Passable: 0
@@ -236,6 +238,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &114042349333397026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 1779824575
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

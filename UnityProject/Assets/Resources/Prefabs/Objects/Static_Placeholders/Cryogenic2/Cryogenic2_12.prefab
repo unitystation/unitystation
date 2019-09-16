@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 114067914942104522}
   - component: {fileID: 114837746968723888}
   - component: {fileID: 114018429479872388}
+  - component: {fileID: 114963427405820402}
   m_Layer: 11
   m_Name: Cryogenic2_12
   m_TagString: Untagged
@@ -209,6 +210,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114963427405820402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592598708461892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 230255139
 --- !u!1 &1941829748320182
 GameObject:
   m_ObjectHideFlags: 0

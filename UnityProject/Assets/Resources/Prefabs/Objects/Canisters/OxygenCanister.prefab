@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114835659847540804, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1513316462072450, guid: e9620f26b24f33c4cbe56a85ae95865d, type: 3}
       propertyPath: m_Name
       value: OxygenCanister
@@ -140,6 +145,21 @@ PrefabInstance:
       propertyPath: Resistances.Flammable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: Gases.Array.data[2]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: Gases.Array.data[1]
+      value: 60932.953
+      objectReference: {fileID: 0}
+    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
+        type: 3}
+      propertyPath: ReleasePressure
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 114271548548165924, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}
       propertyPath: PrimaryUITint.g
@@ -204,21 +224,6 @@ PrefabInstance:
         type: 3}
       propertyPath: ContentsName
       value: Oxygen
-      objectReference: {fileID: 0}
-    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
-        type: 3}
-      propertyPath: Gases.Array.data[2]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
-        type: 3}
-      propertyPath: Gases.Array.data[1]
-      value: 60932.953
-      objectReference: {fileID: 0}
-    - target: {fileID: 114104253718565984, guid: e9620f26b24f33c4cbe56a85ae95865d,
-        type: 3}
-      propertyPath: ReleasePressure
-      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 212658998864179832, guid: e9620f26b24f33c4cbe56a85ae95865d,
         type: 3}

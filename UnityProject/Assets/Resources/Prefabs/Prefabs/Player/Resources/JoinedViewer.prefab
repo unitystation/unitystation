@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6509307852538629207}
   - component: {fileID: 6036270995742557828}
   - component: {fileID: 1861113167134029659}
+  - component: {fileID: 114786359944261024}
   m_Layer: 0
   m_Name: JoinedViewer
   m_TagString: Untagged
@@ -77,5 +78,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa02d1321e08d4b7dab957611904b315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1133514949248654, guid: 44a8a3be9127f4465a50b7811d059bb3,
-    type: 3}
+--- !u!114 &114786359944261024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2821122072132512938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2696621317

@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 114189442814561830}
   - component: {fileID: 114651961981478966}
   - component: {fileID: 114500040489965280}
+  - component: {fileID: 114400107952342984}
   m_Layer: 10
   m_Name: MiningLamp
   m_TagString: Untagged
@@ -538,3 +539,19 @@ MonoBehaviour:
   spriteList:
   - {fileID: 21300000, guid: 8883262a51cab9e458c112c75bd0d919, type: 3}
   - {fileID: 21300000, guid: e34ead5ba72de4644b78692425b0287e, type: 3}
+--- !u!114 &114400107952342984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869747887731904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2265220775

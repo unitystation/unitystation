@@ -462,6 +462,7 @@ GameObject:
   - component: {fileID: 114369509130701644}
   - component: {fileID: 114054792819298036}
   - component: {fileID: 114948840395722872}
+  - component: {fileID: 114646079871242220}
   m_Layer: 17
   m_Name: EngineeringDoor
   m_TagString: Untagged
@@ -881,6 +882,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114646079871242220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636844411894304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2467653741
 --- !u!1 &1811374188611904
 GameObject:
   m_ObjectHideFlags: 0

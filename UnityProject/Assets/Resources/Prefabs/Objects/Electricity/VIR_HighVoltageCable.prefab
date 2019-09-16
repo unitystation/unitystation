@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114605427988546660}
   - component: {fileID: 61191429627008892}
   - component: {fileID: 114380047310127628}
+  - component: {fileID: 114841479210732828}
   m_Layer: 22
   m_Name: VIR_HighVoltageCable
   m_TagString: Untagged
@@ -277,6 +278,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &114841479210732828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042895037894172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2000520742
 --- !u!1 &1282939714934272
 GameObject:
   m_ObjectHideFlags: 0

@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114850502447124420}
   - component: {fileID: 114596150240161284}
   - component: {fileID: 114976959642827926}
+  - component: {fileID: 114877070699459104}
   m_Layer: 10
   m_Name: Crowbar
   m_TagString: Untagged
@@ -435,3 +436,19 @@ MonoBehaviour:
   spriteList:
   - {fileID: 21300002, guid: 3f03294dc4abcc04b8a302f6c1b197eb, type: 3}
   - {fileID: 21300004, guid: 837d56557a43cca4cbfd2c3728061f8c, type: 3}
+--- !u!114 &114877070699459104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 1758144006

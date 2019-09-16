@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 1176408661413567387}
   - component: {fileID: 7173000214615596525}
   - component: {fileID: 1105258743114886135}
+  - component: {fileID: 114960620051331706}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -298,3 +299,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 0
+--- !u!114 &114960620051331706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2533179041

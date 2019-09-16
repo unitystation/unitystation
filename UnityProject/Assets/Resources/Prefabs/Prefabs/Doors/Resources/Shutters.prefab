@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114254577639162406}
   - component: {fileID: 114857803639874670}
   - component: {fileID: 114878883059172016}
+  - component: {fileID: 114072514322392988}
   m_Layer: 16
   m_Name: Shutters
   m_TagString: Untagged
@@ -231,6 +232,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114072514322392988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010316053548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2405976065
 --- !u!1 &1000014037698914
 GameObject:
   m_ObjectHideFlags: 0

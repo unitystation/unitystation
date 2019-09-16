@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 2393274509765689472}
   - component: {fileID: 2711347594170807092}
   - component: {fileID: 114136922186643814}
+  - component: {fileID: 114635495288501910}
   m_Layer: 10
   m_Name: Emergency Oxygen Tank
   m_TagString: Untagged
@@ -441,3 +442,19 @@ MonoBehaviour:
   spriteList:
   - {fileID: 21300000, guid: 8aa71c4eff53a4041a86a32d499079ed, type: 3}
   - {fileID: 21300000, guid: 6716cb39ed798c34ca934f2baa334c7f, type: 3}
+--- !u!114 &114635495288501910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277678737481138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2411198325

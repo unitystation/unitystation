@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114050879831496896}
   - component: {fileID: 114734624565663374}
   - component: {fileID: 114937405476664458}
+  - component: {fileID: 114840722703133820}
   m_Layer: 10
   m_Name: Magazine_46x30mmtT
   m_TagString: Untagged
@@ -359,3 +360,19 @@ MonoBehaviour:
     AID: 0
     Serialized: []
   spriteList: []
+--- !u!114 &114840722703133820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976442409144630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 3353503140

@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 114157843574121182}
   - component: {fileID: 114515549684986276}
   - component: {fileID: 114327552217618110}
+  - component: {fileID: 114340885752221528}
   m_Layer: 11
   m_Name: crates_27
   m_TagString: Untagged
@@ -327,6 +328,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114340885752221528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523863081027030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 584927014
 --- !u!1 &1691532816611442
 GameObject:
   m_ObjectHideFlags: 0

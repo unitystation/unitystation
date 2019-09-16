@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114039584032850022}
   - component: {fileID: 390125877411094447}
   - component: {fileID: 4585042576726451927}
+  - component: {fileID: 114261379763110518}
   m_Layer: 11
   m_Name: DNA_Scanner
   m_TagString: Untagged
@@ -478,3 +479,19 @@ MonoBehaviour:
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   State: 0
+--- !u!114 &114261379763110518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 791732527

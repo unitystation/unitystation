@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114343556704672746}
   - component: {fileID: 114767087319713958}
   - component: {fileID: 114132764856491264}
+  - component: {fileID: 114792794626882886}
   m_Layer: 10
   m_Name: Detective_Gold_Ballistic
   m_TagString: Untagged
@@ -375,3 +376,19 @@ MonoBehaviour:
   spriteList:
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &114792794626882886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946347799520078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2634039030

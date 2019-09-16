@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114097754155958170}
   - component: {fileID: 114793970435373244}
   - component: {fileID: 114605728347079626}
+  - component: {fileID: 114914370789817346}
   m_Layer: 19
   m_Name: Radio
   m_TagString: Untagged
@@ -224,6 +225,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114914370789817346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012293339564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2630992710
 --- !u!1 &1000012442742688
 GameObject:
   m_ObjectHideFlags: 0

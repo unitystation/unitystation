@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114167832024690198}
   - component: {fileID: 114550329151915670}
   - component: {fileID: 114575120587847374}
+  - component: {fileID: 114187735373465402}
   m_Layer: 10
   m_Name: PickAxe
   m_TagString: Untagged
@@ -431,3 +432,19 @@ MonoBehaviour:
   spriteList:
   - {fileID: 21300004, guid: 5d09e4167faed254e939fd0ac5ab4c90, type: 3}
   - {fileID: 21300002, guid: 88a106ae0c1695547bc99b6926c8afd7, type: 3}
+--- !u!114 &114187735373465402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789684726173154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 3280868858

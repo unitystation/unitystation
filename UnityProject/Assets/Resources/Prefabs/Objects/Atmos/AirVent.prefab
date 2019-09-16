@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 3771872541723634421}
   - component: {fileID: 1554776711696640}
   - component: {fileID: 114798627279048580}
+  - component: {fileID: 114511699214781296}
   m_Layer: 10
   m_Name: AirVent
   m_TagString: Untagged
@@ -307,6 +308,22 @@ MonoBehaviour:
     AID: 0
     Serialized: []
   spriteList: []
+--- !u!114 &114511699214781296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010733523080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 851119728
 --- !u!1 &8513106460640881890
 GameObject:
   m_ObjectHideFlags: 0

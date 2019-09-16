@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 114495635206412578}
   - component: {fileID: 114602645757154096}
   - component: {fileID: 114341795367230546}
+  - component: {fileID: 114084463108243954}
   m_Layer: 11
   m_Name: HealthRecords_Console
   m_TagString: Untagged
@@ -291,6 +292,7 @@ MonoBehaviour:
     - {fileID: 21300036, guid: 9862d42c025498447ada85bb043eb227, type: 3}
     - {fileID: 21300038, guid: 9862d42c025498447ada85bb043eb227, type: 3}
     EquippedData: {fileID: 4900000, guid: 9f403ee45301a864db1a925655a951b2, type: 3}
+  Delay: 0
 --- !u!114 &2716908385991569337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +370,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114084463108243954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629775996022798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 3160362875
 --- !u!1 &1866982737474172
 GameObject:
   m_ObjectHideFlags: 0
