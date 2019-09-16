@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 [RequireComponent(typeof(Pickupable))]
 public class Welder : NBHandActivateInteractable

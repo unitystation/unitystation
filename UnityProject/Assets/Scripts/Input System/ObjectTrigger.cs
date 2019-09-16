@@ -1,4 +1,4 @@
-﻿using UnityEngine.Networking;
+﻿using Mirror;
 
 /// <summary>
 /// Base Component for an object that can trigger other objects to do stuff.

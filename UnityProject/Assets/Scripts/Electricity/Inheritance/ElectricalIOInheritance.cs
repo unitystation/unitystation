@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
+using Mirror;
 [System.Serializable]
 public class ElectricalOIinheritance : NetworkBehaviour { //is the Bass class but every node inherits from
 	public Connection WireEndB;

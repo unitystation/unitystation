@@ -1,10 +1,9 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Message a client (or server player) sends to the server to request the server to validate
@@ -19,7 +18,7 @@ public class RequestAimApplyMessage : ClientMessage
 	public static short MessageType = (short) MessageTypes.RequestAimApplyMessage;
 
 	//object that will process the interaction
-	public NetworkInstanceId ProcessorObject;
+	public uint ProcessorObject;
 	//target vector (pointing from the client's player to the position they are targeting)
 	public Vector2 TargetVector;
 	//state of the mouse - whether this is initial press or being held down.

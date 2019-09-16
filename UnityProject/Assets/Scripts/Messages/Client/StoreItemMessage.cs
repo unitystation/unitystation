@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///	Stores an item in a StorageObject
@@ -8,8 +8,8 @@ using UnityEngine.Networking;
 public class StoreItemMessage : ClientMessage
 {
 	public static short MessageType = (short)MessageTypes.StoreItemMessage;
-	public NetworkInstanceId player;
-	public NetworkInstanceId Storage;
+	public uint player;
+	public uint Storage;
 	public EquipSlot PlayerEquipSlot;
 	public EquipSlot StoreEquipSlot;
 	public bool StoreItem;

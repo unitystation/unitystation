@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PathFinding;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine.Profiling;
 
 ///<summary>

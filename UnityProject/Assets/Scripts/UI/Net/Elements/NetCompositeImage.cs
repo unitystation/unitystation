@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine.UI;
 
 /// <summary>
@@ -22,7 +22,7 @@ public class NetCompositeImage : NetUIElement
 			//don't update if it's the same sprite
 			if ( ObjectNetId.ToString() != value && uint.TryParse( value, out var result ) )
 			{
-				ObjectNetId = new NetworkInstanceId(result);
+				ObjectNetId = new uint(result);
 
 				//Don't need to resolve shit and render images on server
 				if ( MasterTab.IsServer )
@@ -42,7 +42,7 @@ public class NetCompositeImage : NetUIElement
 
 	private IEnumerator SetObject()
 	{
-		yield return WaitForNetworkInstanceId( ObjectNetId );
+		yield return WaitForuint( ObjectNetId );
 		UpdateCompositeImage();
 		externalChange = false;
 	}
@@ -73,11 +73,11 @@ public class NetCompositeImage : NetUIElement
 		}
 	}
 
-	private NetworkInstanceId ObjectNetId;
+	private uint ObjectNetId;
 	private GameObject ResolvedObject;
 	private Coroutine handle;
 
-	protected IEnumerator WaitForNetworkInstanceId(NetworkInstanceId id)
+	protected IEnumerator WaitForuint(uint id)
 	{
 		if (id.IsEmpty())
 		{

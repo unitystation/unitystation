@@ -1,6 +1,6 @@
 ﻿﻿using UnityEngine;
  using UnityEngine.Events;
- using UnityEngine.Networking;
+ using Mirror;
 
 public enum ObjectType
 {
@@ -54,7 +54,7 @@ public abstract class RegisterTile : NetworkBehaviour
 	}
 	private Matrix matrix;
 
-	public NetworkInstanceId ParentNetId
+	public uint ParentNetId
 	{
 		get { return parentNetId; }
 		set
@@ -69,7 +69,7 @@ public abstract class RegisterTile : NetworkBehaviour
 	}
 	// Note that syncvar only runs on the client, so server must ensure SetParent
 	// is invoked.
-	[SyncVar(hook = nameof(SetParent))] private NetworkInstanceId parentNetId;
+	[SyncVar(hook = nameof(SetParent))] private uint parentNetId;
 
 	/// <summary>
 	/// Returns the correct client/server version of world position depending on if this is
@@ -135,8 +135,8 @@ public abstract class RegisterTile : NetworkBehaviour
 	/// of the new parentid.
 	/// provided netId
 	/// </summary>
-	/// <param name="netId">NetworkInstanceId of the new parent</param>
-	private void SetParent(NetworkInstanceId netId)
+	/// <param name="netId">uint of the new parent</param>
+	private void SetParent(uint netId)
 	{
 		GameObject parent = ClientScene.FindLocalObject(netId);
 		if (parent == null)

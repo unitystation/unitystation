@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 [Serializable]
 public class InventorySlot
@@ -10,7 +10,7 @@ public class InventorySlot
 	public EquipSlot equipSlot;
 	public bool IsUISlot = false;
 	[NonSerialized]
-	public NetworkInstanceId ItemInstanceId = NetworkInstanceId.Invalid; //Cannot add to any json data, use uint instead
+	public uint ItemInstanceId = uint.Invalid; //Cannot add to any json data, use uint instead
 	public uint netInstanceIdentifier; //serialized for json
 
 	public GameObject Owner;
@@ -22,12 +22,12 @@ public class InventorySlot
 	{
 		get
 		{
-			if (item == null && ItemInstanceId != NetworkInstanceId.Invalid)
+			if (item == null && ItemInstanceId != uint.Invalid)
 			{
 				item = ClientScene.FindLocalObject(ItemInstanceId);
 				ItemAttributes = item.GetComponent<ItemAttributes>();
 			}
-			else if (item != null && ItemInstanceId == NetworkInstanceId.Invalid)
+			else if (item != null && ItemInstanceId == uint.Invalid)
 			{
 				item = null;
 				ItemAttributes = null;
@@ -39,7 +39,7 @@ public class InventorySlot
 		{
 			if (value != null)
 			{
-				NetworkInstanceId netID = value.GetComponent<NetworkIdentity>().netId;
+				uint netID = value.GetComponent<NetworkIdentity>().netId;
 				ItemInstanceId = netID;
 				netInstanceIdentifier = netID.Value;
 				ItemAttributes = value.GetComponent<ItemAttributes>();
@@ -47,7 +47,7 @@ public class InventorySlot
 			}
 			else
 			{
-				ItemInstanceId = NetworkInstanceId.Invalid;
+				ItemInstanceId = uint.Invalid;
 				netInstanceIdentifier = 0;
 				ItemAttributes = null;
 			}
@@ -66,11 +66,11 @@ public class InventorySlot
 	{
 		if (netInstanceIdentifier == 0)
 		{
-			ItemInstanceId = NetworkInstanceId.Invalid;
+			ItemInstanceId = uint.Invalid;
 		}
 		else
 		{
-			ItemInstanceId = new NetworkInstanceId(netInstanceIdentifier);
+			ItemInstanceId = new uint(netInstanceIdentifier);
 		}
 	}
 }

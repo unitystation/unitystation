@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 ///   Tells client to apply PlayerState (update his position, flight direction etc) to the given player
 public class PlayerMoveMessage : ServerMessage
@@ -8,7 +8,7 @@ public class PlayerMoveMessage : ServerMessage
 	public static short MessageType = (short) MessageTypes.PlayerMoveMessage;
 	public PlayerState State;
 	/// Player to be moved
-	public NetworkInstanceId SubjectPlayer;
+	public uint SubjectPlayer;
 
 	///To be run on client
 	public override IEnumerator Process()
@@ -43,7 +43,7 @@ public class PlayerMoveMessage : ServerMessage
 	{
 		var msg = new PlayerMoveMessage
 		{
-			SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : uint.Invalid,
 			State = state,
 		};
 		msg.SendTo(recipient);
@@ -69,7 +69,7 @@ public class PlayerMoveMessage : ServerMessage
 		{
 			var msg = new PlayerMoveMessage
 			{
-				SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+				SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : uint.Invalid,
 				State = state,
 			};
 			msg.SendToAll();

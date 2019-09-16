@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
-using UnityEngine.Networking;
+using Mirror;
 
 public static class NetworkManagerExtensions
 {

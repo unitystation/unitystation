@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Networking;
+using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
 

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
   - component: {fileID: 1218839983739839985}
+  - component: {fileID: 114187032072461858}
   m_Layer: 11
   m_Name: TestObject
   m_TagString: Untagged
@@ -151,7 +152,7 @@ MonoBehaviour:
   PListstring: []
   PListConnection: 
   length: 10
---- !u!114 &2097808879736638467
+--- !u!114 &114187032072461858
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,9 +161,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c74db7b44ac48f44a12a43b3f9248ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2611343446
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +244,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &859891395313516782

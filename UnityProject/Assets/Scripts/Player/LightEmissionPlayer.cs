@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Light2D;
 using UnityEngine;
-using UnityEngine.Networking;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
 
 
 public class LightEmissionPlayer : NetworkBehaviour

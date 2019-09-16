@@ -4,7 +4,8 @@ using UnityEngine;
 using System;
 using System.Linq;
 using System.Reflection;
-using UnityEngine.Networking;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
 
 public class ConstructionHandler : NBHandApplyInteractable
 {

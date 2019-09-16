@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 //Server controls the progress rate and finishedAction is used serverside to determine the action when progress completes
 //As there may be many progress bars being used by multiple players throughout then the server needs to

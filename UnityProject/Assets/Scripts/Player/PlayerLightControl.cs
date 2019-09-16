@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Newtonsoft.Json;
-using UnityEngine.Networking;
+using Mirror;
 
 [Serializable]
 public class PlayerLightData

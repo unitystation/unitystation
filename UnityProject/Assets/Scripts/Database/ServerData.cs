@@ -5,7 +5,7 @@ using Firebase;
 using Firebase.Extensions;
 using Lobby;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 namespace DatabaseAPI
 {

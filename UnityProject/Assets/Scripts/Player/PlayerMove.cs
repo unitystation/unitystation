@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -20,9 +20,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 
 	[SyncVar] public bool allowInput = true;
 
-	//netid of the game object we are buckled to, NetworkInstanceId.Invalid if not buckled
+	//netid of the game object we are buckled to, uint.Invalid if not buckled
 	[SyncVar(hook = nameof(OnBuckledChangedHook))]
-	public NetworkInstanceId buckledObject = NetworkInstanceId.Invalid;
+	public uint buckledObject = uint.Invalid;
 
 	//callback invoked when we are unbuckled.
 	private Action onUnbuckled;
@@ -30,7 +30,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	/// <summary>
 	/// Whether character is buckled to a chair
 	/// </summary>
-	public bool IsBuckled => buckledObject != NetworkInstanceId.Invalid;
+	public bool IsBuckled => buckledObject != uint.Invalid;
 
 	[SyncVar] private bool cuffed;
 
@@ -254,7 +254,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	public void Buckle(GameObject toObject, Action unbuckledAction = null)
 	{
 		var netid = toObject.NetId();
-		if (netid == NetworkInstanceId.Invalid)
+		if (netid == uint.Invalid)
 		{
 			Logger.LogError("attempted to buckle to object " + toObject + " which has no NetworkIdentity. Buckle" +
 			                " can only be used on objects with a Net ID. Ensure this object has one.",
@@ -311,7 +311,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	[Server]
 	public void Unbuckle()
 	{
-		OnBuckledChangedHook(NetworkInstanceId.Invalid);
+		OnBuckledChangedHook(uint.Invalid);
 		//we can be pushed / pulled again
 		PlayerScript.pushPull.isNotPushable = false;
 		PlayerUprightMessage.SendToAll(gameObject, !registerPlayer.IsDownServer, false); //fall or get up depending if the player can stand
@@ -325,10 +325,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 	}
 
 	//syncvar hook invoked client side when the buckledTo changes
-	private void OnBuckledChangedHook(NetworkInstanceId newBuckledTo)
+	private void OnBuckledChangedHook(uint newBuckledTo)
 	{
 		//unsub if we are subbed
-		if (buckledObject != NetworkInstanceId.Invalid)
+		if (buckledObject != uint.Invalid)
 		{
 			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
 			if (directionalObject != null)
@@ -339,12 +339,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable
 		if (PlayerManager.LocalPlayer == gameObject)
 		{
 			//have to do this with a lambda otherwise the Cmd will not fire
-			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != NetworkInstanceId.Invalid, () => CmdUnbuckle());
+			UIManager.AlertUI.ToggleAlertBuckled(newBuckledTo != uint.Invalid, () => CmdUnbuckle());
 		}
 
 		buckledObject = newBuckledTo;
 		//sub
-		if (buckledObject != NetworkInstanceId.Invalid)
+		if (buckledObject != uint.Invalid)
 		{
 			var directionalObject = ClientScene.FindLocalObject(buckledObject).GetComponent<Directional>();
 			if (directionalObject != null)

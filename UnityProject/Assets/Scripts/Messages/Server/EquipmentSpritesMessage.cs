@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public class EquipmentSpritesMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.EquipmentSpritesMessage;
 	public int Reference;
 	public int Index;
-	public NetworkInstanceId EquipmentObject;
-	public NetworkInstanceId Item;
+	public uint EquipmentObject;
+	public uint Item;
 
 	public override IEnumerator Process()
 	{
@@ -16,7 +16,7 @@ public class EquipmentSpritesMessage : ServerMessage
 		yield return WaitFor(EquipmentObject, Item);
 
 		//Logger.Log("bob2?");
-		if (Item == NetworkInstanceId.Invalid)
+		if (Item == uint.Invalid)
 		{
 			//Logger.Log("bob3?");
 			//Clear slot message			//yield return WaitFor(EquipmentObject);
@@ -67,7 +67,7 @@ public class EquipmentSpritesMessage : ServerMessage
 			{
 				Index = index,
 				EquipmentObject = equipmentObject.NetId(),
-				Item = NetworkInstanceId.Invalid
+				Item = uint.Invalid
 			};
 		}
 	}

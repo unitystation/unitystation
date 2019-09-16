@@ -1,7 +1,7 @@
 using System;
 using Objects;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Main component for canister

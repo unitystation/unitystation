@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Tracks the ammo in a magazine. Note that if you are referencing the ammo count stored in this

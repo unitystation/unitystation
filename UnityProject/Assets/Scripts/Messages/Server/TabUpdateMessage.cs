@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public class TabUpdateMessage : ServerMessage {
 	public static short MessageType = (short) MessageTypes.TabUpdateMessage;
 
-	public NetworkInstanceId Provider;
+	public uint Provider;
 	public NetTabType Type;
 	public TabAction Action;
 

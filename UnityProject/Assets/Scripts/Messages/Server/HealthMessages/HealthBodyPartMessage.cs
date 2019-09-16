@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Tells client to update body part health stats
@@ -9,7 +9,7 @@ public class HealthBodyPartMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.HealthBodyPartStats;
 
-	public NetworkInstanceId EntityToUpdate;
+	public uint EntityToUpdate;
 	public BodyPartType BodyPart;
 	public float BruteDamage;
 	public float BurnDamage;

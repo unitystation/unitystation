@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public static class SpawnHandler
 {
@@ -122,7 +122,7 @@ public static class SpawnHandler
 		var registerTile = spawnSpot.GetComponent<RegisterTile>();
 
 		Transform parentTransform;
-		NetworkInstanceId parentNetId;
+		uint parentNetId;
 		Vector3Int spawnPosition;
 
 		if ( registerTile ) //spawnSpot is someone's corpse

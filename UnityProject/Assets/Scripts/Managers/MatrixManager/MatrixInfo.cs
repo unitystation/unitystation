@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// Struct that helps identify matrices
 public struct MatrixInfo
@@ -56,14 +56,14 @@ public struct MatrixInfo
 
 	public MatrixMove MatrixMove;
 
-	private NetworkInstanceId netId;
+	private uint netId;
 
-	public NetworkInstanceId NetId
+	public uint NetId
 	{
 		get
 		{
 			//late init, because server is not yet up during InitMatrices()
-			if (netId.IsEmpty() || netId == NetworkInstanceId.Invalid)
+			if (netId.IsEmpty() || netId == uint.Invalid)
 			{
 				netId = getNetId(Matrix);
 			}
@@ -98,9 +98,9 @@ public struct MatrixInfo
 	}
 
 	///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices
-	private static NetworkInstanceId getNetId(Matrix matrix)
+	private static uint getNetId(Matrix matrix)
 	{
-		var netId = NetworkInstanceId.Invalid;
+		var netId = uint.Invalid;
 		if (!matrix)
 		{
 			return netId;
@@ -108,17 +108,17 @@ public struct MatrixInfo
 
 		NetworkIdentity component = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
 		NetworkIdentity componentInParent = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
-		if (component && component.netId != NetworkInstanceId.Invalid && !component.netId.IsEmpty())
+		if (component && component.netId != uint.Invalid && !component.netId.IsEmpty())
 		{
 			netId = component.netId;
 		}
 
-		if (componentInParent && componentInParent.netId != NetworkInstanceId.Invalid && !componentInParent.netId.IsEmpty())
+		if (componentInParent && componentInParent.netId != uint.Invalid && !componentInParent.netId.IsEmpty())
 		{
 			netId = componentInParent.netId;
 		}
 
-		if (netId == NetworkInstanceId.Invalid)
+		if (netId == uint.Invalid)
 		{
 			Logger.LogWarning($"Invalid NetID for matrix {matrix.gameObject.name}!", Category.Matrix);
 		}

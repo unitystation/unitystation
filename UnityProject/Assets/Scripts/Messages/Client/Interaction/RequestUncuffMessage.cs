@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Sent by the client who wishes to uncuff someone when the "uncuff" button in the right click menu is pressed
@@ -14,7 +14,7 @@ public class RequestUncuffMessage : ClientMessage
 	/// <summary>
 	/// ID of the player who will be uncuffed
 	/// </summary>
-	public NetworkInstanceId PlayerToUncuff;
+	public uint PlayerToUncuff;
 
 	public static void Send(GameObject playerToUncuff)
 	{

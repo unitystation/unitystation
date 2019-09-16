@@ -1,12 +1,12 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public class DoorUpdateMessage : ServerMessage {
 	public static short MessageType = (short) MessageTypes.DoorUpdateMessage;
 
 	public DoorUpdateType Type;
-	public NetworkInstanceId Door;
+	public uint Door;
 	// whether the update should occur instantaneously
 	public bool SkipAnimation;
 

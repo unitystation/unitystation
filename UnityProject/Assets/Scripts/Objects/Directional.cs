@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Component which allows an object to have an orientation (facing) which is synced over the network, supports client
