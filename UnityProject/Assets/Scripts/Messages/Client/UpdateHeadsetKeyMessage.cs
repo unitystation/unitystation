@@ -13,7 +13,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 
 	public override IEnumerator Process()
 	{
-		if ( HeadsetItem.Equals(uint.Invalid) )
+		if ( HeadsetItem.Equals(NetId.Invalid) )
 		{
 			//Failfast
 
@@ -21,7 +21,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 			yield break;
 		}
 
-		if ( EncryptionKey.Equals(uint.Invalid) )
+		if ( EncryptionKey.Equals(NetId.Invalid) )
 		{
 			//No key passed in message -> Removes EncryptionKey from a headset
 			yield return WaitFor(HeadsetItem);
@@ -85,8 +85,8 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 	{
 		UpdateHeadsetKeyMessage msg = new UpdateHeadsetKeyMessage
 		{
-			HeadsetItem = headsetItem ? headsetItem.GetComponent<NetworkIdentity>().netId : uint.Invalid,
-			EncryptionKey = encryptionkey ? encryptionkey.GetComponent<NetworkIdentity>().netId : uint.Invalid
+			HeadsetItem = headsetItem ? headsetItem.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+			EncryptionKey = encryptionkey ? encryptionkey.GetComponent<NetworkIdentity>().netId : NetId.Invalid
 		};
 		msg.Send();
 

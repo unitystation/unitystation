@@ -34,7 +34,7 @@ public class ShootMessage : ServerMessage {
 	///To be run on client
 	public override IEnumerator Process()
 	{
-		if (Shooter.Equals(uint.Invalid)) {
+		if (Shooter.Equals(NetId.Invalid)) {
 			//Failfast
 			Logger.LogWarning($"Shoot request invalid, processing stopped: {ToString()}", Category.Firearms);
 			yield break;
@@ -60,10 +60,10 @@ public class ShootMessage : ServerMessage {
 	public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide)
 	{
 		var msg = new ShootMessage {
-			Weapon = weapon ? weapon.GetComponent<NetworkIdentity>().netId : uint.Invalid,
+			Weapon = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			Direction = direction,
 			DamageZone = damageZone,
-			Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : uint.Invalid,
+			Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			IsSuicideShot = isSuicide
 		};
 		msg.SendToAll();

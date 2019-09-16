@@ -43,7 +43,7 @@ public class PlayerMoveMessage : ServerMessage
 	{
 		var msg = new PlayerMoveMessage
 		{
-			SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : uint.Invalid,
+			SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 		};
 		msg.SendTo(recipient);
@@ -69,7 +69,7 @@ public class PlayerMoveMessage : ServerMessage
 		{
 			var msg = new PlayerMoveMessage
 			{
-				SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : uint.Invalid,
+				SubjectPlayer = subjectPlayer != null ? subjectPlayer.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 				State = state,
 			};
 			msg.SendToAll();

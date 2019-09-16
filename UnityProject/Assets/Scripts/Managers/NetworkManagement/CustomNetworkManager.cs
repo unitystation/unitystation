@@ -36,22 +36,7 @@ public class CustomNetworkManager : NetworkManager
 
 	private void Start()
 	{
-		customConfig = true;
-
 		SetSpawnableList();
-		//		if (!IsClientConnected() && !GameData.IsHeadlessServer &&
-		//		    GameData.IsInGame)
-		//		{
-		//			UIManager.Display.logInWindow.SetActive(true);
-		//		}
-
-		channels.Add(QosType.ReliableSequenced);
-		channels.Add(QosType.UnreliableFragmented);
-
-		ConnectionConfig config = connectionConfig;
-		config.AcksType = ConnectionAcksType.Acks64;
-		config.FragmentSize = 512;
-		config.PacketSize = 1440;
 
 		if (GameData.IsInGame && PoolManager.Instance == null)
 		{
@@ -200,7 +185,7 @@ public class CustomNetworkManager : NetworkManager
 		player.Connection.Dispose();
 	}
 
-	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{
 		//This spawns the player prefab
 		if (GameData.IsHeadlessServer || GameData.Instance.testServer)
@@ -208,13 +193,13 @@ public class CustomNetworkManager : NetworkManager
 			//this is a headless server || testing headless (it removes the server player for localClient)
 			if (conn.address != "localClient")
 			{
-				StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+				StartCoroutine(WaitToSpawnPlayer(conn));
 			}
 		}
 		else
 		{
 			//This is a host server (keep the server player as it is for the host player)
-			StartCoroutine(WaitToSpawnPlayer(conn, playerControllerId));
+			StartCoroutine(WaitToSpawnPlayer(conn));
 		}
 
 		if (_isServer)
@@ -223,10 +208,10 @@ public class CustomNetworkManager : NetworkManager
 			UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 		}
 	}
-	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn, short playerControllerId)
+	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn)
 	{
 		yield return WaitFor.Seconds(1f);
-		OnServerAddPlayerInternal(conn, playerControllerId);
+		OnServerAddPlayerInternal(conn);
 	}
 
 	void Update()
@@ -255,11 +240,11 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
-	private void OnServerAddPlayerInternal(NetworkConnection conn, short playerControllerId)
+	private void OnServerAddPlayerInternal(NetworkConnection conn)
 	{
 		if (playerPrefab == null)
 		{
-			if (!LogFilter.logError)
+			if (!LogFilter.Debug)
 			{
 				return;
 			}
@@ -267,24 +252,24 @@ public class CustomNetworkManager : NetworkManager
 		}
 		else if (playerPrefab.GetComponent<NetworkIdentity>() == null)
 		{
-			if (!LogFilter.logError)
+			if (!LogFilter.Debug)
 			{
 				return;
 			}
 			Logger.LogError("The PlayerPrefab does not have a NetworkIdentity. Please add a NetworkIdentity to the player prefab.", Category.Connections);
 		}
-		else if (playerControllerId < conn.playerControllers.Count && conn.playerControllers[playerControllerId].IsValid &&
-			conn.playerControllers[playerControllerId].gameObject != null)
-		{
-			if (!LogFilter.logError)
-			{
-				return;
-			}
-			Logger.LogError("There is already a player at that playerControllerId for this connections.", Category.Connections);
-		}
+		// else if (playerControllerId < conn.playerControllers.Count && conn.playerControllers[playerControllerId].IsValid &&
+		// 	conn.playerControllers[playerControllerId].gameObject != null)
+		// {
+		// 	if (!LogFilter.Debug)  FIXME!! - need a way to determine if player has already spawned before this round
+		// 	{
+		// 		return;
+		// 	}
+		// 	Logger.LogError("There is already a player at that playerControllerId for this connections.", Category.Connections);
+		// }
 		else
 		{
-			SpawnHandler.SpawnViewer(conn, playerControllerId);
+			SpawnHandler.SpawnViewer(conn);
 		}
 	}
 

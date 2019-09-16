@@ -8,18 +8,19 @@ public class EquipmentSpritesMessage : ServerMessage
 	public int Reference;
 	public int Index;
 	public uint EquipmentObject;
-	public uint Item;
+	public uint ItemNetID;
 
 	public override IEnumerator Process()
 	{
 
-		yield return WaitFor(EquipmentObject, Item);
+		yield return WaitFor(EquipmentObject, ItemNetID);
 
 		//Logger.Log("bob2?");
-		if (Item == uint.Invalid)
+		if (ItemNetID == NetId.Invalid)
 		{
 			//Logger.Log("bob3?");
-			//Clear slot message			//yield return WaitFor(EquipmentObject);
+			//Clear slot message
+			//yield return WaitFor(EquipmentObject);
 			if (NetworkObjects[0] != null)
 			{
 				//Logger.Log("OR?");
@@ -59,7 +60,7 @@ public class EquipmentSpritesMessage : ServerMessage
 			{
 				Index = index,
 				EquipmentObject = equipmentObject.NetId(),
-				Item = _Item.NetId()
+				ItemNetID = _Item.NetId()
 			};
 		}
 		else {
@@ -67,7 +68,7 @@ public class EquipmentSpritesMessage : ServerMessage
 			{
 				Index = index,
 				EquipmentObject = equipmentObject.NetId(),
-				Item = uint.Invalid
+				ItemNetID = NetId.Invalid
 			};
 		}
 	}

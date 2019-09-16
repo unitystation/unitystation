@@ -130,7 +130,7 @@ namespace DatabaseAPI
                 status.PlayerCount = PlayerList.Instance.ConnectionCount;
             }
             status.ServerIP = publicIP;
-            status.ServerPort = CustomNetworkManager.Instance.networkPort;
+            status.ServerPort = 9999; //FIXME: When transport is determined then you get the port from the transport layer
             status.WinDownload = config.WinDownload;
             status.OSXDownload = config.OSXDownload;
             status.LinuxDownload = config.LinuxDownload;

@@ -17,7 +17,7 @@ public class DevDestroyMessage : ClientMessage
 		//TODO: Validate if player is allowed to destroy things, check if they have admin privs.
 		//For now we will let anyone spawn.
 
-		if (ToDestroy.Equals(uint.Invalid))
+		if (ToDestroy.Equals(NetId.Invalid))
 		{
 			Logger.LogWarning("Attempted to destroy an object with invalid netID, destroy will not occur.", Category.ItemSpawn);
 		}
@@ -45,7 +45,7 @@ public class DevDestroyMessage : ClientMessage
 
 		DevDestroyMessage msg = new DevDestroyMessage
 		{
-			ToDestroy = toClone ? toClone.GetComponent<NetworkIdentity>().netId : uint.Invalid
+			ToDestroy = toClone ? toClone.GetComponent<NetworkIdentity>().netId : NetId.Invalid
 		};
 		msg.Send();
 	}

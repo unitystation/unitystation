@@ -7,10 +7,10 @@ public static class SpawnHandler
 {
 	private static readonly CustomNetworkManager networkManager = CustomNetworkManager.Instance;
 
-	public static void SpawnViewer(NetworkConnection conn, short playerControllerId, JobType jobType = JobType.NULL)
+	public static void SpawnViewer(NetworkConnection conn, JobType jobType = JobType.NULL)
 	{
 		GameObject joinedViewer = Object.Instantiate(networkManager.playerPrefab);
-		NetworkServer.AddPlayerForConnection(conn, joinedViewer, 0);
+		NetworkServer.AddPlayerForConnection(conn, joinedViewer, System.Guid.NewGuid());
 	}
 
 	public static void SpawnDummyPlayer(JobType jobType = JobType.NULL)
@@ -19,7 +19,7 @@ public static class SpawnHandler
 		TransferPlayer(null, 0, dummyPlayer, null, EVENT.PlayerSpawned, null);
 	}
 
-	public static void ClonePlayer(NetworkConnection conn, short playerControllerId, JobType jobType, CharacterSettings characterSettings, GameObject oldBody, GameObject spawnSpot)
+	public static void ClonePlayer(NetworkConnection conn, JobType jobType, CharacterSettings characterSettings, GameObject oldBody, GameObject spawnSpot)
 	{
 		GameObject player = CreateMob(spawnSpot, CustomNetworkManager.Instance.humanPlayerPrefab);
 		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
@@ -137,7 +137,7 @@ public static class SpawnHandler
 			spawnPosition = spawnSpot.transform.position.CutToInt();
 
 			var matrixInfo = MatrixManager.AtPoint( spawnPosition, true );
-			parentNetId = matrixInfo.NetId;
+			parentNetId = matrixInfo.NetID;
 			parentTransform = matrixInfo.Objects;
 		}
 

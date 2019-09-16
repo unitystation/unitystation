@@ -16,7 +16,7 @@ public class TransformStateMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 //		Logger.Log("Processed " + ToString());
-		if (TransformedObject == uint.Invalid)
+		if (TransformedObject == NetId.Invalid)
 		{
 			//Doesn't make any sense
 			yield return null;
@@ -38,7 +38,7 @@ public class TransformStateMessage : ServerMessage
 	{
 		var msg = new TransformStateMessage
 		{
-			TransformedObject = transformedObject != null ? transformedObject.GetComponent<NetworkIdentity>().netId : uint.Invalid,
+			TransformedObject = transformedObject != null ? transformedObject.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 			ForceRefresh = forced
 		};
@@ -56,7 +56,7 @@ public class TransformStateMessage : ServerMessage
 	{
 		var msg = new TransformStateMessage
 		{
-			TransformedObject = transformedObject != null ? transformedObject.GetComponent<NetworkIdentity>().netId : uint.Invalid,
+			TransformedObject = transformedObject != null ? transformedObject.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 			ForceRefresh = forced
 		};

@@ -70,7 +70,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	/// mag) accordingly in OnMagNetIDChanged. This field is set to NetworkInstanceID.Invalid when no mag is loaded.
 	/// </summary>
 	[SyncVar(hook = nameof(SyncMagNetID))]
-	private uint magNetID = uint.Invalid;
+	private uint magNetID = NetId.Invalid;
 
 	//TODO connect these with the actual shooting of a projectile
 	/// <summary>
@@ -119,7 +119,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	/// the actual unload / load (updating MagNetID) once the shot queue is empty.
 	/// </summary>
 	private bool queuedUnload = false;
-	private uint queuedLoadMagNetID = uint.Invalid;
+	private uint queuedLoadMagNetID = NetId.Invalid;
 
 	private RegisterTile registerTile;
 
@@ -380,16 +380,16 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 			// done processing shot queue,
 			// perform the queued unload action, causing all clients and server to update their version of this Weapon
 			//due to the syncvar hook
-			SyncMagNetID(uint.Invalid);
+			SyncMagNetID(NetId.Invalid);
 			queuedUnload = false;
 
 		}
-		if (queuedLoadMagNetID != uint.Invalid && queuedShots.Count == 0)
+		if (queuedLoadMagNetID != NetId.Invalid && queuedShots.Count == 0)
 		{
 			//done processing shot queue, perform the reload, causing all clients and server to update their version of this Weapon
 			//due to the syncvar hook
 			SyncMagNetID(queuedLoadMagNetID);
-			queuedLoadMagNetID = uint.Invalid;
+			queuedLoadMagNetID = NetId.Invalid;
 		}
 	}
 
@@ -616,7 +616,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	[Server]
 	public void ServerHandleReloadRequest(uint newMagazineID)
 	{
-		if (queuedLoadMagNetID != uint.Invalid)
+		if (queuedLoadMagNetID != NetId.Invalid)
 		{
 			//can happen if client is spamming CmdLoadWeapon
 			Logger.LogWarning("Player tried to queue a load action while a load action was already queued, ignoring the" +
@@ -640,7 +640,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 			Logger.LogWarning("Player tried to queue an unload action while an unload action was already queued. Ignoring the" +
 			                  " second unload.", Category.Firearms);
 		}
-		else if (queuedLoadMagNetID != uint.Invalid)
+		else if (queuedLoadMagNetID != NetId.Invalid)
 		{
 			Logger.LogWarning("Player tried to queue an unload action while a load action was already queued. Ignoring the unload.", Category.Firearms);
 		}
@@ -670,7 +670,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	{
 		magNetID = magazineID;
 		//if the magazine ID is invalid remove the magazine
-		if (magazineID == uint.Invalid)
+		if (magazineID == NetId.Invalid)
 		{
 			CurrentMagazine = null;
 		}

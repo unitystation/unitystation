@@ -28,7 +28,7 @@ public class MatrixMoveMessage : ServerMessage
 	{
 		var msg = new MatrixMoveMessage
 		{
-			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : uint.Invalid,
+			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 		};
 		msg.SendTo(recipient);
@@ -39,7 +39,7 @@ public class MatrixMoveMessage : ServerMessage
 	{
 		var msg = new MatrixMoveMessage
 		{
-			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : uint.Invalid,
+			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 		};
 		msg.SendToAll();

@@ -59,7 +59,7 @@ public abstract class GameMessageBase : MessageBase
 		for (int i = 0; i < ids.Length; i++)
 		{
 			var netId = ids[i];
-			if ( netId == uint.Invalid ) {
+			if ( netId == NetId.Invalid ) {
 				continue;
 			}
 			GameObject obj = ClientScene.FindLocalObject(netId);

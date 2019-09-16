@@ -58,12 +58,12 @@ public struct MatrixInfo
 
 	private uint netId;
 
-	public uint NetId
+	public uint NetID
 	{
 		get
 		{
 			//late init, because server is not yet up during InitMatrices()
-			if (netId.IsEmpty() || netId == uint.Invalid)
+			if (netId == NetId.Invalid)
 			{
 				netId = getNetId(Matrix);
 			}
@@ -79,7 +79,7 @@ public struct MatrixInfo
 	{
 		return Equals(Invalid)
 			? "[Invalid matrix]"
-			: $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.State},netId={NetId}]";
+			: $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.State},netId={NetID}]";
 	}
 
 	public bool Equals(MatrixInfo other)
@@ -100,7 +100,7 @@ public struct MatrixInfo
 	///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices
 	private static uint getNetId(Matrix matrix)
 	{
-		var netId = uint.Invalid;
+		var netId = NetId.Invalid;
 		if (!matrix)
 		{
 			return netId;
@@ -108,17 +108,17 @@ public struct MatrixInfo
 
 		NetworkIdentity component = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
 		NetworkIdentity componentInParent = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
-		if (component && component.netId != uint.Invalid && !component.netId.IsEmpty())
+		if (component && component.netId != NetId.Invalid)
 		{
 			netId = component.netId;
 		}
 
-		if (componentInParent && componentInParent.netId != uint.Invalid && !componentInParent.netId.IsEmpty())
+		if (componentInParent && componentInParent.netId != NetId.Invalid)
 		{
 			netId = componentInParent.netId;
 		}
 
-		if (netId == uint.Invalid)
+		if (netId == NetId.Invalid)
 		{
 			Logger.LogWarning($"Invalid NetID for matrix {matrix.gameObject.name}!", Category.Matrix);
 		}

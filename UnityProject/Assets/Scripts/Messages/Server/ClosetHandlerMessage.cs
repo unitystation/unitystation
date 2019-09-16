@@ -14,7 +14,7 @@ public class ClosetHandlerMessage : ServerMessage
 
 	public override IEnumerator Process()
 	{
-		if ( Closet == uint.Invalid )
+		if ( Closet == NetId.Invalid )
 		{
 			yield return null;
 		}

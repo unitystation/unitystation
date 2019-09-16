@@ -10,7 +10,7 @@ public class InventorySlot
 	public EquipSlot equipSlot;
 	public bool IsUISlot = false;
 	[NonSerialized]
-	public uint ItemInstanceId = uint.Invalid; //Cannot add to any json data, use uint instead
+	public uint ItemInstanceId = NetId.Invalid; //Cannot add to any json data, use uint instead
 	public uint netInstanceIdentifier; //serialized for json
 
 	public GameObject Owner;
@@ -22,12 +22,12 @@ public class InventorySlot
 	{
 		get
 		{
-			if (item == null && ItemInstanceId != uint.Invalid)
+			if (item == null && ItemInstanceId != NetId.Invalid)
 			{
 				item = ClientScene.FindLocalObject(ItemInstanceId);
 				ItemAttributes = item.GetComponent<ItemAttributes>();
 			}
-			else if (item != null && ItemInstanceId == uint.Invalid)
+			else if (item != null && ItemInstanceId == NetId.Invalid)
 			{
 				item = null;
 				ItemAttributes = null;
@@ -47,7 +47,7 @@ public class InventorySlot
 			}
 			else
 			{
-				ItemInstanceId = uint.Invalid;
+				ItemInstanceId = NetId.Invalid;
 				netInstanceIdentifier = 0;
 				ItemAttributes = null;
 			}
@@ -66,7 +66,7 @@ public class InventorySlot
 	{
 		if (netInstanceIdentifier == 0)
 		{
-			ItemInstanceId = uint.Invalid;
+			ItemInstanceId = NetId.Invalid;
 		}
 		else
 		{

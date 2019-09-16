@@ -69,7 +69,7 @@ public class InformPullMessage : ServerMessage
 		}
 		InformPullMessage msg =
 			new InformPullMessage { Subject = subject.gameObject.NetId(),
-									PulledBy = pulledBy == null ? uint.Invalid : pulledBy.gameObject.NetId(),
+									PulledBy = pulledBy == null ? NetId.Invalid : pulledBy.gameObject.NetId(),
 			};
 
 		msg.SendTo(recipient.gameObject);

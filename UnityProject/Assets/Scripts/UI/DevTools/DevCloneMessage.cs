@@ -19,7 +19,7 @@ public class DevCloneMessage : ClientMessage
 		//TODO: Validate if player is allowed to spawn things, check if they have admin privs.
 		//For now we will let anyone spawn.
 
-		if (ToClone.Equals(uint.Invalid))
+		if (ToClone.Equals(NetId.Invalid))
 		{
 			Logger.LogWarning("Attempted to clone an object with invalid netID, clone will not occur.", Category.ItemSpawn);
 		}
@@ -52,7 +52,7 @@ public class DevCloneMessage : ClientMessage
 
 		DevCloneMessage msg = new DevCloneMessage
 		{
-			ToClone = toClone ? toClone.GetComponent<NetworkIdentity>().netId : uint.Invalid,
+			ToClone = toClone ? toClone.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			WorldPosition = worldPosition
 		};
 		msg.Send();
