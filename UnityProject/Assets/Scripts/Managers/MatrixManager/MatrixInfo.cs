@@ -63,7 +63,7 @@ public struct MatrixInfo
 		get
 		{
 			//late init, because server is not yet up during InitMatrices()
-			if (netId == NetId.Invalid)
+			if (netId == NetId.Invalid || netId == NetId.Empty)
 			{
 				netId = getNetId(Matrix);
 			}
@@ -108,12 +108,12 @@ public struct MatrixInfo
 
 		NetworkIdentity component = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
 		NetworkIdentity componentInParent = matrix.gameObject.GetComponentInParent<NetworkIdentity>();
-		if (component && component.netId != NetId.Invalid)
+		if (component && component.netId != NetId.Invalid && component.netId != NetId.Empty)
 		{
 			netId = component.netId;
 		}
 
-		if (componentInParent && componentInParent.netId != NetId.Invalid)
+		if (componentInParent && componentInParent.netId != NetId.Invalid && component.netId != NetId.Empty)
 		{
 			netId = componentInParent.netId;
 		}

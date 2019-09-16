@@ -79,7 +79,7 @@ public class NetCompositeImage : NetUIElement
 
 	protected IEnumerator WaitForuint(uint id)
 	{
-		if (id == NetId.Invalid)
+		if (id == NetId.Empty)
 		{
 			Logger.LogWarningFormat( "{0} tried to wait on an empty (0) id", Category.NetMessage, this.GetType().Name );
 			yield break;

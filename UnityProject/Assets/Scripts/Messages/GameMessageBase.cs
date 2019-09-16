@@ -18,7 +18,7 @@ public abstract class GameMessageBase : MessageBase
 
 	protected IEnumerator WaitFor(uint id)
 	{
-		if (id.IsEmpty())
+		if (id == NetId.Empty)
 		{
 			Logger.LogWarningFormat( "{0} tried to wait on an empty (0) id", Category.NetMessage, this.GetType().Name );
 			yield break;

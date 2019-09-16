@@ -176,7 +176,7 @@ public static class SpawnHandler
 			return null;
 		}
 
-		List<SpawnPoint> spawnPoints = networkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>())
+		List<SpawnPoint> spawnPoints = CustomNetworkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>())
 			.Where(x => x.JobRestrictions.Contains(jobType)).ToList();
 
 		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;

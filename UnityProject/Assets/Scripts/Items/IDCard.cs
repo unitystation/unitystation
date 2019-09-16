@@ -77,7 +77,7 @@ public class IDCard : NetworkBehaviour
 		}
 
 		isInit = true;
-		accessSyncList.Callback = SyncAccess;
+		accessSyncList.Callback += SyncAccess;
 
 		//This will add the access from ManuallyAddedAccess list
 		if (isServer)
@@ -123,7 +123,7 @@ public class IDCard : NetworkBehaviour
 		}
 	}
 
-	public void SyncAccess(SyncList<int>.Operation op, int index)
+	public void SyncAccess(SyncList<int>.Operation op, int index, int item)
 	{
 		//Do anything special when the synclist changes on the client
 	}

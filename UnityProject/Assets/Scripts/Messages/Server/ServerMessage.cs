@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using Mirror;
 
 /// <summary>
@@ -23,12 +24,10 @@ public abstract class ServerMessage : GameMessageBase
 
 		var excludedConnection = excluded.GetComponent<NetworkIdentity>().connectionToClient;
 
-		for (int index = 0; index < NetworkServer.connections.Values.Count; ++index)
-		{
-			var connection = NetworkServer.connections.Values[index];
-			if ( connection != null && connection != excludedConnection )
+		foreach(KeyValuePair<int, NetworkConnection> connection in NetworkServer.connections){
+			if ( connection.Value != null && connection.Value != excludedConnection )
 			{
-				connection.Send(GetMessageType(), this);
+				connection.Value.Send(GetMessageType(), this);
 			}
 		}
 		Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, this, excluded.name);
