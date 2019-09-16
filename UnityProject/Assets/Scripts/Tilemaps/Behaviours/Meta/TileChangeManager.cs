@@ -49,37 +49,37 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void UpdateTile(Vector3Int position, TileType tileType, string tileName)
+	public void UpdateTile(Vector3Int cellPosition, TileType tileType, string tileName)
 	{
-		if (IsDifferent(position, tileType, tileName))
+		if (IsDifferent(cellPosition, tileType, tileName))
 		{
-			RpcUpdateTile(position, tileType, tileName);
+			RpcUpdateTile(cellPosition, tileType, tileName);
 
-			AddToChangeList(position, tileType:tileType, tileName:tileName);
+			AddToChangeList(cellPosition, tileType:tileType, tileName:tileName);
 		}
 	}
 
 	[Server]
-	public void RemoveTile(Vector3Int position, LayerType layerType)
+	public void RemoveTile(Vector3Int cellPosition, LayerType layerType)
 	{
-		if(metaTileMap.HasTile(position, layerType, true))
+		if(metaTileMap.HasTile(cellPosition, layerType, true))
 		{
-			RpcRemoveTile(position, layerType, false);
+			RpcRemoveTile(cellPosition, layerType, false);
 
-			AddToChangeList(position, layerType);
+			AddToChangeList(cellPosition, layerType);
 		}
 	}
 
 	[Server]
-	public void RemoveEffect(Vector3Int position, LayerType layerType)
+	public void RemoveEffect(Vector3Int cellPosition, LayerType layerType)
 	{
-		position.z = -1;
+		cellPosition.z = -1;
 
-		if (metaTileMap.HasTile(position, layerType, true))
+		if (metaTileMap.HasTile(cellPosition, layerType, true))
 		{
-			RpcRemoveTile(position, layerType, true);
+			RpcRemoveTile(cellPosition, layerType, true);
 
-			AddToChangeList(position, layerType, removeAll:true);
+			AddToChangeList(cellPosition, layerType, removeAll:true);
 		}
 	}
 

@@ -32,7 +32,7 @@ public class ProgressBar : NetworkBehaviour
 	[Server]
 	public void StartProgress(Vector3 pos, float timeForCompletion,
 		FinishProgressAction finishProgressAction, GameObject _player,
-		string _additionalSfx = "", float _additionalSfxPitch = 1f)
+		string _additionalSfx = "", float _additionalSfxPitch = 1f, bool _allowTurning = true)
 	{
 		var _playerDirectional = _player.GetComponent<Directional>();
 		playerProgress.Add(new PlayerProgressEntry
@@ -42,10 +42,11 @@ public class ProgressBar : NetworkBehaviour
 				completedAction = finishProgressAction,
 				position = pos,
 				playerDirectional = _playerDirectional,
-				playerPositionCache = _player.transform.position,
+				playerPositionCache = _player.TileWorldPosition(),
 				facingDirectionCache = _playerDirectional.CurrentDirection,
 				additionalSfx = _additionalSfx,
-				additionalSfxPitch = _additionalSfxPitch
+				additionalSfxPitch = _additionalSfxPitch,
+				allowTurning = _allowTurning
 		});
 
 		//Start the progress for the player:
@@ -128,10 +129,11 @@ public class PlayerProgressEntry
 	public float timeToFinish;
 	public GameObject player;
 	public Directional playerDirectional;
-	public Vector3 playerPositionCache;
+	public Vector2Int playerPositionCache;
 	public Orientation facingDirectionCache;
 	public FinishProgressAction completedAction;
 	public Vector3 position;
+	public bool allowTurning;
 	public float progUnit { get { return timeToFinish / 21f; } }
 	public int spriteIndex { get { return Mathf.Clamp((int) (progress / progUnit), 0, 20); } }
 	public int lastSpriteIndex = 0;
@@ -142,8 +144,8 @@ public class PlayerProgressEntry
 	//has the player moved away while the progress bar is in progress?
 	public bool HasMovedAway()
 	{
-		if (playerDirectional.CurrentDirection != facingDirectionCache ||
-			player.transform.position != playerPositionCache)
+		if ((!allowTurning && playerDirectional.CurrentDirection != facingDirectionCache) ||
+			player.TileWorldPosition() != playerPositionCache)
 		{
 			return true;
 		}

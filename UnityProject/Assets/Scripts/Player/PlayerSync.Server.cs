@@ -412,7 +412,13 @@ public partial class PlayerSync
 				BumpInteract( state.WorldPosition, (Vector2) action.Direction() );
 			}
 
-			playerDirectional.FaceDirection( Orientation.From( action.Direction() ) );
+			//don't change facing when diagonally opening a door
+			var dir = action.Direction();
+			if (!(dir.x != 0 && dir.y != 0 && serverBump == BumpType.ClosedDoor))
+			{
+				playerDirectional.FaceDirection( Orientation.From( action.Direction() ) );
+			}
+
 			return state;
 		}
 

@@ -47,7 +47,7 @@ namespace Objects
 			metaDataLayer.UpdateSystemsAt(position);
 			ChatRelay.Instance.AddToChatLogServer(ChatEvent.Local($"{name} exploded!", gameObject.TileWorldPosition()));
 
-			ItemFactory.SpawnMetal(2, tileWorldPosition.To2Int(), parent: transform.parent);
+			ObjectFactory.SpawnMetal(2, tileWorldPosition.To2Int(), parent: transform.parent);
 
 			ExplosionUtils.PlaySoundAndShake(tileWorldPosition, shakeIntensity, (int) shakeDistance);
 		}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class ItemAttributesData 
+public class ItemAttributesData
 {
 	public string itemName;
 	public string itemDescription;
@@ -11,6 +11,7 @@ public class ItemAttributesData
 	public ItemSize size;
 	public SpriteType spriteType;
 	public bool CanConnectToTank;
+	public bool IsEVACapable;
 
 	[Tooltip("Damage when we click someone with harm intent")]
 	[Range(0, 100)]

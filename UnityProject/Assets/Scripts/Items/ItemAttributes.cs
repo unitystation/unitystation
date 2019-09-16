@@ -67,7 +67,8 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	public void SetUpFromClothingData(EquippedData equippedData, ItemAttributesData ItemAttributes) {
 		if (spriteHandlerData == null) {
 			spriteHandlerData = new SpriteHandlerData();
-		}		spriteHandlerData.Infos = new SpriteDataForSH();
+		}
+		spriteHandlerData.Infos = new SpriteDataForSH();
 		spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsLeft));
 		spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsRight));
 		InventoryIcon.Infos = new SpriteDataForSH();
@@ -91,6 +92,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		throwRange = ItemAttributes.throwRange;
 		hitSound = ItemAttributes.hitSound;
 		attackVerb = ItemAttributes.attackVerb;
+		IsEVACapable = ItemAttributes.IsEVACapable;
 
 	}
 
