@@ -82,17 +82,17 @@ public class RequestHandApplyMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ProcessorObject = reader.ReadNetworkId();
-		TargetObject = reader.ReadNetworkId();
-		TargetBodyPart = (BodyPartType) reader.ReadUInt32();
+		ProcessorObject = reader.ReadUInt32();;
+		TargetObject = reader.ReadUInt32();;
+		TargetBodyPart = (BodyPartType) reader.ReadUInt32();;
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(ProcessorObject);
-		writer.Write(TargetObject);
-		writer.Write((int) TargetBodyPart);
+		writer.WriteUInt32(ProcessorObject);
+		writer.WriteUInt32(TargetObject);
+		writer.WriteInt32((int) TargetBodyPart);
 	}
 
 }

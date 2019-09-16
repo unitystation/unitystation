@@ -75,13 +75,13 @@ public class RequestHandActivateMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ProcessorObject = reader.ReadNetworkId();
+		ProcessorObject = reader.ReadUInt32();;
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(ProcessorObject);
+		writer.WriteUInt32(ProcessorObject);
 	}
 
 }

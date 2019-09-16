@@ -127,14 +127,14 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		HeadsetItem = reader.ReadNetworkId();
-		EncryptionKey = reader.ReadNetworkId();
+		HeadsetItem = reader.ReadUInt32();
+		EncryptionKey = reader.ReadUInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(HeadsetItem);
-		writer.Write(EncryptionKey);
+		writer.WriteUInt32(HeadsetItem);
+		writer.WriteUInt32(EncryptionKey);
 	}
 }

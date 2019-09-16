@@ -61,14 +61,14 @@ public class DevCloneMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ToClone = reader.ReadNetworkId();
+		ToClone = reader.ReadUInt32();
 		WorldPosition = reader.ReadVector2();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(ToClone);
-		writer.Write(WorldPosition);
+		writer.WriteUInt32(ToClone);
+		writer.WriteVector2(WorldPosition);
 	}
 }

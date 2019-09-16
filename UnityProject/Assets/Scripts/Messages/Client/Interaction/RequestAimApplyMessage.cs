@@ -81,7 +81,7 @@ public class RequestAimApplyMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ProcessorObject = reader.ReadNetworkId();
+		ProcessorObject = reader.ReadUInt32();;
 		TargetVector = reader.ReadVector2();
 		MouseButtonState = reader.ReadBoolean() ? MouseButtonState.PRESS : MouseButtonState.HOLD;
 	}
@@ -89,9 +89,9 @@ public class RequestAimApplyMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(ProcessorObject);
-		writer.Write(TargetVector);
-		writer.Write(MouseButtonState == MouseButtonState.PRESS);
+		writer.WriteUInt32(ProcessorObject);
+		writer.WriteVector2(TargetVector);
+		writer.WriteBoolean(MouseButtonState == MouseButtonState.PRESS);
 	}
 
 }

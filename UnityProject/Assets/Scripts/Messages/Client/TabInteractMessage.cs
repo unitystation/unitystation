@@ -95,7 +95,7 @@ public class TabInteractMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		TabProvider = reader.ReadNetworkId();
+		TabProvider = reader.ReadUInt32();
 		NetTabType = (NetTabType) reader.ReadInt32();
 		ElementId = reader.ReadString();
 		ElementValue = reader.ReadString();
@@ -104,9 +104,9 @@ public class TabInteractMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(TabProvider);
-		writer.Write( (int)NetTabType );
-		writer.Write( ElementId );
-		writer.Write( ElementValue );
+		writer.WriteUInt32(TabProvider);
+		writer.WriteInt32( (int)NetTabType );
+		writer.WriteString( ElementId );
+		writer.WriteString( ElementValue );
 	}
 }

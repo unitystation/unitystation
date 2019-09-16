@@ -79,17 +79,17 @@ public class RequestMouseDropMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ProcessorObject = reader.ReadNetworkId();
-		TargetObject = reader.ReadNetworkId();
-		UsedObject = reader.ReadNetworkId();
+		ProcessorObject = reader.ReadUInt32();
+		TargetObject = reader.ReadUInt32();
+		UsedObject = reader.ReadUInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(ProcessorObject);
-		writer.Write(TargetObject);
-		writer.Write(UsedObject);
+		writer.WriteUInt32(ProcessorObject);
+		writer.WriteUInt32(TargetObject);
+		writer.WriteUInt32(UsedObject);
 	}
 
 }

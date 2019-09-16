@@ -78,20 +78,20 @@ public class ShootMessage : ServerMessage {
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Weapon = reader.ReadNetworkId();
+		Weapon = reader.ReadUInt32();
 		Direction = reader.ReadVector2();
-		DamageZone = (BodyPartType)reader.ReadUInt32();
-		Shooter = reader.ReadNetworkId();
+		DamageZone = (BodyPartType)reader.ReadUInt32();;
+		Shooter = reader.ReadUInt32();
 		IsSuicideShot = reader.ReadBoolean();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(Weapon);
-		writer.Write(Direction);
-		writer.Write((int)DamageZone);
-		writer.Write(Shooter);
-		writer.Write(IsSuicideShot);
+		writer.WriteUInt32(Weapon);
+		writer.WriteVector2(Direction);
+		writer.WriteInt32((int)DamageZone);
+		writer.WriteUInt32(Shooter);
+		writer.WriteBoolean(IsSuicideShot);
 	}
 }

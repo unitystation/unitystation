@@ -152,7 +152,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		if (pingUpdate >= 5f)
 		{
 			pingUpdate = 0f;
-			int ping = CustomNetworkManager.Instance.client.GetRTT();
+			int ping = (int)NetworkTime.rtt;
 			UIManager.SetPingDisplay = string.Format("ping: {0,-5:D}", ping);
 		}
 	}

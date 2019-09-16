@@ -111,7 +111,8 @@ using Facepunch.Steamworks;
 			if (BuildPreferences.isForRelease)
 			{
 				networkManager.networkAddress = Managers.instance.serverIP;
-				networkManager.networkPort = 7777;
+				Debug.LogError("FIXME: Do something about ports!");
+			//	networkManager.networkPort = 7777;
 				networkManager.StartClient();
 				return;
 			}
@@ -124,11 +125,13 @@ using Facepunch.Steamworks;
 			}
 			if (port == 0)
 			{
-				networkManager.networkPort = 7777;
+				Debug.LogError("FIXME: Do something about ports!");
+			//	networkManager.networkPort = 7777;
 			}
 			else
 			{
-				networkManager.networkPort = port;
+				Debug.LogError("FIXME: Do something about ports!");
+			//	networkManager.networkPort = port;
 			}
 			networkManager.StartClient();
 		}

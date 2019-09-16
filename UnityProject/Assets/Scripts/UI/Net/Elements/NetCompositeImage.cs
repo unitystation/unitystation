@@ -22,7 +22,7 @@ public class NetCompositeImage : NetUIElement
 			//don't update if it's the same sprite
 			if ( ObjectNetId.ToString() != value && uint.TryParse( value, out var result ) )
 			{
-				ObjectNetId = new uint(result);
+				ObjectNetId = result;
 
 				//Don't need to resolve shit and render images on server
 				if ( MasterTab.IsServer )
@@ -79,7 +79,7 @@ public class NetCompositeImage : NetUIElement
 
 	protected IEnumerator WaitForuint(uint id)
 	{
-		if (id.IsEmpty())
+		if (id == NetId.Invalid)
 		{
 			Logger.LogWarningFormat( "{0} tried to wait on an empty (0) id", Category.NetMessage, this.GetType().Name );
 			yield break;

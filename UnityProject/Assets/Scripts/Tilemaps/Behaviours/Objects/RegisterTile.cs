@@ -171,7 +171,7 @@ public abstract class RegisterTile : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
-		if (!parentNetId.IsEmpty())
+		if (parentNetId != NetId.Invalid)
 		{
 			SetParent(parentNetId);
 		}

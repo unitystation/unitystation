@@ -144,14 +144,14 @@ public class PostToChatMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Channels = (ChatChannel) reader.ReadUInt32();
+		Channels = (ChatChannel) reader.ReadUInt32();;
 		ChatMessageText = reader.ReadString();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write((int) Channels);
-		writer.Write(ChatMessageText);
+		writer.WriteInt32((int) Channels);
+		writer.WriteString(ChatMessageText);
 	}
 }

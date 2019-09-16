@@ -50,12 +50,12 @@ public class RequestUncuffMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(PlayerToUncuff);
+		writer.WriteUInt32(PlayerToUncuff);
 	}
 
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		PlayerToUncuff = reader.ReadNetworkId();
+		PlayerToUncuff = reader.ReadUInt32();
 	}
 }

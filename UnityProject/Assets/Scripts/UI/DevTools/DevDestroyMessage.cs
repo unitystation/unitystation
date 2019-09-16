@@ -53,12 +53,12 @@ public class DevDestroyMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ToDestroy = reader.ReadNetworkId();
+		ToDestroy = reader.ReadUInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(ToDestroy);
+		writer.WriteUInt32(ToDestroy);
 	}
 }

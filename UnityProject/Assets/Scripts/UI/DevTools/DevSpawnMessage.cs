@@ -73,8 +73,8 @@ public class DevSpawnMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(Name);
-		writer.Write(IsUniCloth);
-		writer.Write(WorldPosition);
+		writer.WriteString(Name);
+		writer.WriteBoolean(IsUniCloth);
+		writer.WriteVector2(WorldPosition);
 	}
 }

@@ -49,14 +49,14 @@ public class RequestElectricalStats : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Player = reader.ReadNetworkId();
-		ElectricalItem = reader.ReadNetworkId();
+		Player = reader.ReadUInt32();
+		ElectricalItem = reader.ReadUInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(Player);
-		writer.Write(ElectricalItem);
+		writer.WriteUInt32(Player);
+		writer.WriteUInt32(ElectricalItem);
 	}
 }
