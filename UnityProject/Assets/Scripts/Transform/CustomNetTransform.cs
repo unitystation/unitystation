@@ -402,7 +402,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	private void SyncMatrix() {
 		if ( registerTile && !serverState.IsUninitialized) {
-			registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetId;
+			registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetID;
 		}
 	}
 

@@ -336,7 +336,8 @@ namespace Lobby
 
 			// Init network client
 			networkManager.networkAddress = serverAddress;
-			networkManager.networkPort = serverPort;
+			Debug.LogError("FIXME: Network Ports need to be addressed!");
+//			networkManager.networkPort = serverPort;
 			networkManager.StartClient();
 		}
 

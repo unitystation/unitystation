@@ -41,7 +41,7 @@ public class InventorySlot
 			{
 				uint netID = value.GetComponent<NetworkIdentity>().netId;
 				ItemInstanceId = netID;
-				netInstanceIdentifier = netID.Value;
+				netInstanceIdentifier = netID;
 				ItemAttributes = value.GetComponent<ItemAttributes>();
 				value.BroadcastMessage("OnAddToInventorySlot", this, SendMessageOptions.DontRequireReceiver);
 			}
@@ -70,7 +70,7 @@ public class InventorySlot
 		}
 		else
 		{
-			ItemInstanceId = new uint(netInstanceIdentifier);
+			ItemInstanceId = netInstanceIdentifier;
 		}
 	}
 }

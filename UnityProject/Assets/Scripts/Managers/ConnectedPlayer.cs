@@ -20,7 +20,7 @@ public class ConnectedPlayer
 
     public static readonly ConnectedPlayer Invalid = new ConnectedPlayer
     {
-        connection = new NetworkConnection(),
+        connection = new NetworkConnection("0.0.0.0"),
         gameObject = null,
         name = "kek",
         job = JobType.NULL,
