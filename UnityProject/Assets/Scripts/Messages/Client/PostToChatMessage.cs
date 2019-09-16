@@ -144,7 +144,7 @@ public class PostToChatMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Channels = (ChatChannel) reader.ReadUInt32();;
+		Channels = (ChatChannel) reader.ReadUInt32();
 		ChatMessageText = reader.ReadString();
 	}
 

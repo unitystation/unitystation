@@ -80,7 +80,7 @@ public class ShootMessage : ServerMessage {
 		base.Deserialize(reader);
 		Weapon = reader.ReadUInt32();
 		Direction = reader.ReadVector2();
-		DamageZone = (BodyPartType)reader.ReadUInt32();;
+		DamageZone = (BodyPartType)reader.ReadUInt32();
 		Shooter = reader.ReadUInt32();
 		IsSuicideShot = reader.ReadBoolean();
 	}

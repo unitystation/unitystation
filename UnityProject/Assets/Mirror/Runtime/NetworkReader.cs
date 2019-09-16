@@ -155,7 +155,7 @@ namespace Mirror
         public static float ReadSingle(this NetworkReader reader)
         {
             UIntFloat converter = new UIntFloat();
-            converter.intValue = reader.ReadUInt32();;
+            converter.intValue = reader.ReadUInt32();
             return converter.floatValue;
         }
         public static double ReadDouble(this NetworkReader reader)

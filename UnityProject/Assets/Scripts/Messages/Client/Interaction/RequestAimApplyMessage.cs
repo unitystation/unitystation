@@ -81,7 +81,7 @@ public class RequestAimApplyMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ProcessorObject = reader.ReadUInt32();;
+		ProcessorObject = reader.ReadUInt32();
 		TargetVector = reader.ReadVector2();
 		MouseButtonState = reader.ReadBoolean() ? MouseButtonState.PRESS : MouseButtonState.HOLD;
 	}

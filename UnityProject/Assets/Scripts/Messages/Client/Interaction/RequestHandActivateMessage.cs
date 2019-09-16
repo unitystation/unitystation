@@ -75,7 +75,7 @@ public class RequestHandActivateMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ProcessorObject = reader.ReadUInt32();;
+		ProcessorObject = reader.ReadUInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
