@@ -90,7 +90,6 @@ GameObject:
   - component: {fileID: 4854478120677698}
   - component: {fileID: 61143840767580364}
   - component: {fileID: 61645807559194036}
-  - component: {fileID: 114922154882281400}
   - component: {fileID: 114271548548165924}
   - component: {fileID: 6725492196284391236}
   - component: {fileID: 114623103168110180}
@@ -176,39 +175,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114922154882281400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513316462072450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114271548548165924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   UIBGTint: {r: 0, g: 0, b: 0, a: 0}
   UIInnerPanelTint: {r: 0, g: 0, b: 0, a: 0}
   ContentsName: 
@@ -242,6 +210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   registerTile: {fileID: 0}
   parentContainer: {fileID: 0}
   isNotPushable: 0
@@ -257,6 +227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
@@ -273,6 +245,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &114104253718565984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Opened: 0
   ReleasePressure: 101.325
   Volume: 1
@@ -344,6 +320,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Armor:
     Melee: 50
     Bullet: 50
@@ -379,7 +357,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1054874985
+  m_SceneId: 4135068362
 --- !u!1 &3261001144065486905
 GameObject:
   m_ObjectHideFlags: 0

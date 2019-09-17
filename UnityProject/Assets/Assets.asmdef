@@ -2,7 +2,8 @@
     "name": "Assets",
     "references": [
         "Mirror",
-        "Mirror.Components"
+        "Mirror.Components",
+        "com.unity.multiplayer-hlapi.Runtime"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
@@ -11,5 +12,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }

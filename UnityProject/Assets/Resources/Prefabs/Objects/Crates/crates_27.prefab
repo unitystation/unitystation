@@ -90,7 +90,6 @@ GameObject:
   - component: {fileID: 4969404728272716}
   - component: {fileID: 61192281597667100}
   - component: {fileID: 61806154779726060}
-  - component: {fileID: 114924782040466904}
   - component: {fileID: 114502689129448986}
   - component: {fileID: 114041722743958658}
   - component: {fileID: 1749361335863143025}
@@ -174,39 +173,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.85, y: 0.85}
   m_EdgeRadius: 0
---- !u!114 &114924782040466904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1523863081027030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114502689129448986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &114041722743958658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   DefaultContents: []
   IsClosed: 0
   IsLocked: 0
@@ -251,6 +221,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   registerTile: {fileID: 0}
   parentContainer: {fileID: 0}
   isNotPushable: 0
@@ -266,6 +238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
@@ -308,6 +282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Armor:
     Melee: 0
     Bullet: 0
@@ -343,7 +319,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 584927014
+  m_SceneId: 1690974956
 --- !u!1 &1691532816611442
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 114590706900826186}
   - component: {fileID: 61697181358093446}
   - component: {fileID: 61444365541677466}
-  - component: {fileID: 114870889522965122}
   - component: {fileID: 114469741977146778}
   - component: {fileID: 114460259331596316}
   - component: {fileID: 3903394726411491279}
@@ -56,6 +55,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5abc7c87dbf4367935e3e1dbce8d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   connectedToOther: 0
   offSprite: {fileID: 21300000, guid: 9f8a5f444b0e4da4eb84cef9f7829521, type: 3}
   onSprite: {fileID: 21300000, guid: d586c68ec2013504b85cc0ae65cd6f2e, type: 3}
@@ -130,39 +131,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114870889522965122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1305738920282892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114469741977146778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
@@ -191,6 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &3903394726411491279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Node: {fileID: 1120991291872144437}
   ApplianceType: 3
   ListCanConnectTo: 01000000
@@ -249,6 +223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   WireEndB: 9
   WireEndA: 8
   Data:
@@ -307,6 +283,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Armor:
     Melee: 0
     Bullet: 0
@@ -342,7 +320,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3846155517
+  m_SceneId: 2659409449
 --- !u!1 &1712574560713454
 GameObject:
   m_ObjectHideFlags: 0
