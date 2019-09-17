@@ -1,7 +1,9 @@
 {
     "name": "WireEditor",
     "references": [
-        "Assets"
+        "Assets",
+        "Mirror",
+        "Mirror.Components"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
@@ -12,5 +14,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }
