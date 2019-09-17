@@ -4,13 +4,14 @@ using DatabaseAPI;
 using Facepunch.Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
 namespace Lobby
 {
 	public class GUI_LobbyDialogue : MonoBehaviour
 	{
 		private const string DefaultServerAddress = "localhost";
-		private const int DefaultServerPort = 7777;
+		private const ushort DefaultServerPort = 7777;
 		private const string UserNamePlayerPref = "PlayerName";
 
 		public GameObject accountLoginPanel;
@@ -57,7 +58,7 @@ namespace Lobby
 			{
 				serverAddressInput.text = DefaultServerAddress;
 			}
-			serverPortInput.text = DefaultServerPort.ToString();
+			serverPortInput.text = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>().port.ToString();
 
 			OnHostToggle();
 
@@ -324,10 +325,10 @@ namespace Lobby
 			}
 
 			// Set network port
-			int serverPort = 0;
+			ushort serverPort = 0;
 			if (serverPortInput.text.Length >= 4)
 			{
-				int.TryParse(serverPortInput.text, out serverPort);
+				ushort.TryParse(serverPortInput.text, out serverPort);
 			}
 			if (serverPort == 0)
 			{
@@ -336,8 +337,7 @@ namespace Lobby
 
 			// Init network client
 			networkManager.networkAddress = serverAddress;
-			Debug.LogError("FIXME: Network Ports need to be addressed!");
-//			networkManager.networkPort = serverPort;
+			networkManager.GetComponent<TelepathyTransport>().port = serverPort;
 			networkManager.StartClient();
 		}
 

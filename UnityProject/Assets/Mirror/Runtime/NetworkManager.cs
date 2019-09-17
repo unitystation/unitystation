@@ -300,7 +300,7 @@ namespace Mirror
         /// called when quitting the application by closing the window / pressing stop in the editor
         /// <para>virtual so that inheriting classes' OnApplicationQuit() can call base.OnApplicationQuit() too</para>
         /// </summary>
-        public virtual void OnApplicationQuit()
+        public virtual void OnDestroy()
         {
             // stop client first
             // (we want to send the quit packet to the server instead of waiting
@@ -676,14 +676,6 @@ namespace Mirror
                 loadingSceneAsync.allowSceneActivation = true;
                 loadingSceneAsync = null;
             }
-        }
-
-        /// <summary>
-        /// virtual so that inheriting classes' OnDestroy() can call base.OnDestroy() too
-        /// </summary>
-        public virtual void OnDestroy()
-        {
-            if (LogFilter.Debug) Debug.Log("NetworkManager destroyed");
         }
 
         /// <summary>

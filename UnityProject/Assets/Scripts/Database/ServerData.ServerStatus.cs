@@ -40,6 +40,7 @@ namespace DatabaseAPI
         private const string hubUpdate = hubRoot + "/statusupdate?data=";
         private float updateWait = 0f;
         private string publicIP;
+        private TelepathyTransport activeTransport;
 
         void AttemptConfigLoad()
         {
@@ -48,6 +49,7 @@ namespace DatabaseAPI
 
             if (File.Exists(path))
             {
+                activeTransport = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>();
                 config = JsonUtility.FromJson<ServerConfig>(File.ReadAllText(path));
                 AttemptHubConnection();
             }
@@ -130,7 +132,7 @@ namespace DatabaseAPI
                 status.PlayerCount = PlayerList.Instance.ConnectionCount;
             }
             status.ServerIP = publicIP;
-            status.ServerPort = 9999; //FIXME: When transport is determined then you get the port from the transport layer
+            status.ServerPort = Convert.ToInt32(activeTransport.port);
             status.WinDownload = config.WinDownload;
             status.OSXDownload = config.OSXDownload;
             status.LinuxDownload = config.LinuxDownload;
