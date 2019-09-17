@@ -517,7 +517,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.mind.jobType, playerScript.characterSettings, gameObject);
+			SpawnHandler.RespawnPlayer(connectionToClient, playerScript.mind.jobType, playerScript.characterSettings, gameObject);
 			RpcAfterRespawn();
 		}
 	}
@@ -536,7 +536,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if(GetComponent<LivingHealthBehaviour>().IsDead)
 		{
-			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
+			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, gameObject, playerScript.characterSettings);
 			playerScript.mind.Ghosting(newGhost);
 		}
 	}
@@ -551,7 +551,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		playerScript.mind.StopGhosting();
 		var body = playerScript.mind.body.gameObject;
-		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, body, gameObject, EVENT.PlayerSpawned, null);
+		SpawnHandler.TransferPlayer(connectionToClient, body, gameObject, EVENT.PlayerSpawned, null);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(body);
 		RpcAfterRespawn();
 	}

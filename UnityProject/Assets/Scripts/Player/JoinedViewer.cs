@@ -24,16 +24,16 @@ public class JoinedViewer : NetworkBehaviour
 		// Send steamId to server for player setup.
 		if (BuildPreferences.isSteamServer)
 		{
-			CmdServerSetupPlayer(Client.Instance.SteamId);
+			CmdServerSetupPlayer(Client.Instance.SteamId, DatabaseAPI.ServerData.Auth.CurrentUser.UserId);
 		}
 		else
 		{
-			CmdServerSetupPlayer(0);
+			CmdServerSetupPlayer(0, DatabaseAPI.ServerData.Auth.CurrentUser.UserId);
 		}
 	}
 
 	[Command]
-	private void CmdServerSetupPlayer(ulong steamId)
+	private void CmdServerSetupPlayer(ulong steamId, string userId)
 	{
 		//Add player to player list
 		PlayerList.Instance.Add(new ConnectedPlayer
@@ -103,14 +103,14 @@ public class JoinedViewer : NetworkBehaviour
 		/// Verifies that the player has no job
 		if (player.Job == JobType.NULL)
 		{
-			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
+			SpawnHandler.RespawnPlayer(connectionToClient,
 			GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings, gameObject);
 
 		}
 		/// Spawns in player if they have a job but aren't spawned
 		else if (player.GameObject == null)
 		{
-			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId,
+			SpawnHandler.RespawnPlayer(connectionToClient,
 			GameManager.Instance.GetRandomFreeOccupation(player.Job), characterSettings, gameObject);
 
 		}
@@ -130,7 +130,7 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	public void CmdRejoin(GameObject loggedOffPlayer)
 	{
-		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, loggedOffPlayer, gameObject, EVENT.PlayerSpawned, null);
+		SpawnHandler.TransferPlayer(connectionToClient, loggedOffPlayer, gameObject, EVENT.PlayerSpawned, null);
 		loggedOffPlayer.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(loggedOffPlayer);
 	}
 }

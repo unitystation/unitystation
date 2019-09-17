@@ -16,22 +16,22 @@ public static class SpawnHandler
 	public static void SpawnDummyPlayer(JobType jobType = JobType.NULL)
 	{
 		GameObject dummyPlayer = CreatePlayer(jobType);
-		TransferPlayer(null, 0, dummyPlayer, null, EVENT.PlayerSpawned, null);
+		TransferPlayer(null, dummyPlayer, null, EVENT.PlayerSpawned, null);
 	}
 
 	public static void ClonePlayer(NetworkConnection conn, JobType jobType, CharacterSettings characterSettings, GameObject oldBody, GameObject spawnSpot)
 	{
 		GameObject player = CreateMob(spawnSpot, CustomNetworkManager.Instance.humanPlayerPrefab);
-		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
+		TransferPlayer(conn, player, oldBody, EVENT.PlayerSpawned, characterSettings);
 		var playerScript = player.GetComponent<PlayerScript>();
 		var oldPlayerScript = oldBody.GetComponent<PlayerScript>();
 		oldPlayerScript.mind.SetNewBody(playerScript);
 	}
 
-	public static void RespawnPlayer(NetworkConnection conn, short playerControllerId, JobType jobType, CharacterSettings characterSettings, GameObject oldBody)
+	public static void RespawnPlayer(NetworkConnection conn, JobType jobType, CharacterSettings characterSettings, GameObject oldBody)
 	{
 		GameObject player = CreatePlayer(jobType);
-		TransferPlayer(conn, playerControllerId, player, oldBody, EVENT.PlayerSpawned, characterSettings);
+		TransferPlayer(conn, player, oldBody, EVENT.PlayerSpawned, characterSettings);
 		new Mind(player, jobType);
 		var equipment = player.GetComponent<Equipment>();
 
@@ -48,10 +48,10 @@ public static class SpawnHandler
 		}
 	}
 
-	public static GameObject SpawnPlayerGhost(NetworkConnection conn, short playerControllerId, GameObject oldBody, CharacterSettings characterSettings)
+	public static GameObject SpawnPlayerGhost(NetworkConnection conn, GameObject oldBody, CharacterSettings characterSettings)
 	{
 		GameObject ghost = CreateMob(oldBody, CustomNetworkManager.Instance.ghostPrefab);
-		TransferPlayer(conn, playerControllerId, ghost, oldBody, EVENT.GhostSpawned, characterSettings);
+		TransferPlayer(conn, ghost, oldBody, EVENT.GhostSpawned, characterSettings);
 		return ghost;
 	}
 
@@ -63,7 +63,7 @@ public static class SpawnHandler
 	/// <param name="newBody">The character gameobject to be transfered into.</param>
 	/// <param name="oldBody">The old body of the character.</param>
 	/// <param name="eventType">Event type for the player sync.</param>
-	public static void TransferPlayer(NetworkConnection conn, short playerControllerId, GameObject newBody, GameObject oldBody, EVENT eventType, CharacterSettings characterSettings)
+	public static void TransferPlayer(NetworkConnection conn, GameObject newBody, GameObject oldBody, EVENT eventType, CharacterSettings characterSettings)
 	{
 		var oldPlayerNetworkActions = oldBody.GetComponent<PlayerNetworkActions>();
 		if(oldPlayerNetworkActions)
@@ -80,8 +80,8 @@ public static class SpawnHandler
 		else
 		{
 			PlayerList.Instance.UpdatePlayer(conn, newBody);
-			NetworkServer.ReplacePlayerForConnection(conn, newBody, playerControllerId);
-			NetworkServer.ReplacePlayerForConnection(new NetworkConnection(), oldBody, 0);
+			NetworkServer.ReplacePlayerForConnection(conn, newBody);
+			NetworkServer.ReplacePlayerForConnection(new NetworkConnection("0.0.0.0"), oldBody);
 			TriggerEventMessage.Send(newBody, eventType);
 		}
 		var playerScript = newBody.GetComponent<PlayerScript>();

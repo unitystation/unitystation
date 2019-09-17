@@ -33,8 +33,7 @@ public class Mind
 	{
 		GameObject oldBody = GetCurrentMob();
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
-		var playerID = oldBody.GetComponent<NetworkBehaviour>().playerControllerId;
-		SpawnHandler.ClonePlayer(connection, playerID, jobType, characterSettings, oldBody, spawnPoint);
+		SpawnHandler.ClonePlayer(connection, jobType, characterSettings, oldBody, spawnPoint);
 	}
 
 	public GameObject GetCurrentMob()

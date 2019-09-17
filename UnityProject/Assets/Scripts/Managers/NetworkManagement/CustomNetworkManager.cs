@@ -187,6 +187,7 @@ public class CustomNetworkManager : NetworkManager
 
 	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{
+		//Verify if the user has logged in first via PlayerAccounts. If not then they can't go any further.
 		if (string.IsNullOrEmpty(extraMessage.userID))
 		{
 			conn.Disconnect();
@@ -199,13 +200,13 @@ public class CustomNetworkManager : NetworkManager
 			//this is a headless server || testing headless (it removes the server player for localClient)
 			if (conn.address != "localClient")
 			{
-				StartCoroutine(WaitToSpawnPlayer(conn, extraMessage));
+				StartCoroutine(WaitToSpawnPlayer(conn));
 			}
 		}
 		else
 		{
 			//This is a host server (keep the server player as it is for the host player)
-			StartCoroutine(WaitToSpawnPlayer(conn, extraMessage));
+			StartCoroutine(WaitToSpawnPlayer(conn));
 		}
 
 		if (_isServer)
@@ -214,10 +215,10 @@ public class CustomNetworkManager : NetworkManager
 			UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 		}
 	}
-	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
+	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn)
 	{
 		yield return WaitFor.Seconds(1f);
-		OnServerAddPlayerInternal(conn, extraMessage);
+		OnServerAddPlayerInternal(conn);
 	}
 
 	void Update()
@@ -246,7 +247,7 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
-	private void OnServerAddPlayerInternal(NetworkConnection conn, AddPlayerMessage extraMessage)
+	private void OnServerAddPlayerInternal(NetworkConnection conn)
 	{
 		if (playerPrefab == null)
 		{
@@ -275,7 +276,7 @@ public class CustomNetworkManager : NetworkManager
 		// }
 		else
 		{
-			SpawnHandler.SpawnViewer(conn, extraMessage);
+			SpawnHandler.SpawnViewer(conn);
 		}
 	}
 
