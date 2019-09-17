@@ -109,7 +109,8 @@ public class SpriteHandler : SpriteHandlerData
 
 	public void SyncVariantIndex(int _VariantIndex)
 	{
-
+		if(Infos.List.Count == 0) return;
+		
 		if (SynchroniseVariant)
 		{
 			VariantIndex = _VariantIndex;

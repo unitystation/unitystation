@@ -13,8 +13,9 @@ using UnityEngine.Serialization;
 /// </summary>
 public class PlayerMove : NetworkBehaviour, IRightClickable
 {
+	[SerializeField]
 	private PlayerScript playerScript;
-	public PlayerScript PlayerScript => playerScript ? playerScript : (playerScript = GetComponent<PlayerScript>());
+	public PlayerScript PlayerScript => playerScript;
 
 	public bool diagonalMovement;
 
