@@ -2,7 +2,9 @@
     "name": "PerformanceTests",
     "references": [
         "Unity.PerformanceTesting",
-        "Assets"
+        "Assets",
+        "Mirror",
+        "Mirror.Components"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
@@ -13,5 +15,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }
