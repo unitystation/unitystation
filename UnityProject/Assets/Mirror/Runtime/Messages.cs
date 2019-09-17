@@ -158,16 +158,16 @@ namespace Mirror
 
     public struct AddPlayerMessage : IMessageBase
     {
-        public string userID;
+        public byte[] value;
 
         public void Deserialize(NetworkReader reader)
         {
-            userID = reader.ReadString();
+            value = reader.ReadBytesAndSize();
         }
 
         public void Serialize(NetworkWriter writer)
         {
-            writer.WriteString(userID);
+            writer.WriteBytesAndSize(value);
         }
     }
 

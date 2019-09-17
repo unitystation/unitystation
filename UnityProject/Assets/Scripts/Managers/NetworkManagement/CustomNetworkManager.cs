@@ -187,13 +187,6 @@ public class CustomNetworkManager : NetworkManager
 
 	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{
-		//Verify if the user has logged in first via PlayerAccounts. If not then they can't go any further.
-		if (string.IsNullOrEmpty(extraMessage.userID))
-		{
-			conn.Disconnect();
-			Logger.Log($"Connection was attempted without being authed via player accounts. IP: {conn.address}", Category.Server);
-			return;
-		}
 		//This spawns the player prefab
 		if (GameData.IsHeadlessServer || GameData.Instance.testServer)
 		{
@@ -311,15 +304,7 @@ public class CustomNetworkManager : NetworkManager
 			return;
 		}
 
-		if (!clientLoadedScene)
-		{
-			// Ready/AddPlayer is usually triggered by a scene load completing. if no scene was loaded, then Ready/AddPlayer it here instead.
-			if (!ClientScene.ready) ClientScene.Ready(conn);
-			if (autoCreatePlayer)
-			{
-				ClientScene.AddPlayer(conn, DatabaseAPI.ServerData.Auth.CurrentUser.UserId);
-			}
-		}
+		base.OnClientConnect(conn);
 	}
 
 	///Sync some position data explicitly, if it is required
