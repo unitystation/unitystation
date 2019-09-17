@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 
 	[CustomEditor(typeof(LevelBrush))]
-	public class LevelBrushEditor : GridBrushEditor
+	public class LevelBrushEditor : UnityEditor.Tilemaps.GridBrushEditor
 	{
 		private TileBase _currentPreviewTile;
 		private MetaTileMap _currentPreviewTilemap;
