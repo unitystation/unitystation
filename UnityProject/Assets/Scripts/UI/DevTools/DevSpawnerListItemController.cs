@@ -24,7 +24,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	public GameObject cursorPrefab;
 	// prefab to spawn
 	private GameObject prefab;
-	private string hier;
+	private ClothingData clothingData;
 
 	// sprite under cursor for showing what will be spawned
 	private GameObject cursorObject;
@@ -47,7 +47,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 	/// <param name="resultDoc">document to display</param>
 	public void Initialize(Document resultDoc)
 	{
-		if (resultDoc.Get("type").Equals(DevSpawnerDocument.PREFAB_TYPE))
+		if (resultDoc.Get("isClothing").Equals("0"))
 		{
 			prefab = PoolManager.GetPrefabByName(resultDoc.Get("name"));
 			Sprite toUse = prefab.GetComponentInChildren<SpriteRenderer>()?.sprite;
@@ -60,15 +60,10 @@ public class DevSpawnerListItemController : MonoBehaviour
 		}
 		else
 		{
-			hier = resultDoc.Get("hier");
-			Sprite toUse = UniItemUtils.GetInventoryIconSprite(hier);
-			if (toUse != null)
-			{
-				image.sprite = toUse;
-			}
-			//determine which prefab this is for
-			GameObject prefab = ClothFactory.GetClothPrefabForHier(hier);
-			detailText.text = $"{prefab.name}\n{hier}";
+			var newClothingData = ClothFactory.Instance.ClothingStoredData[resultDoc.Get("name")];
+			detailText.text = $"{newClothingData.name}";
+			clothingData = newClothingData;
+			image.sprite = newClothingData.Base.ItemIcon.Sprites[0];
 		}
 		titleText.text = resultDoc.Get("name");
 	}
@@ -142,9 +137,9 @@ public class DevSpawnerListItemController : MonoBehaviour
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				if (hier != null)
+				if (clothingData != null)
 				{
-					ClothFactory.CreateCloth(hier, position);
+					ClothFactory.CreateCloth(clothingData, position);
 				}
 				else
 				{
@@ -154,9 +149,9 @@ public class DevSpawnerListItemController : MonoBehaviour
 			}
 			else
 			{
-				if (hier != null)
+				if (clothingData != null)
 				{
-					DevSpawnMessage.Send(hier, true, (Vector3) position);
+					DevSpawnMessage.Send(clothingData.name, true, (Vector3) position);
 				}
 				else
 				{

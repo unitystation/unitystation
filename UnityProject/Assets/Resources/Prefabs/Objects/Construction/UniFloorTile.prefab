@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 114197504116165090}
   - component: {fileID: 114002554109735238}
   - component: {fileID: 114018975004714514}
+  - component: {fileID: 114794553342207796}
   m_Layer: 10
   m_Name: UniFloorTile
   m_TagString: Untagged
@@ -112,10 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothingReference: -1
-  hierarchy: 
-  inHandReferenceLeft: 216
-  inHandReferenceRight: 228
+  spriteHandlerData: {fileID: 0}
+  InventoryIcon: {fileID: 0}
   itemName: floor tile
   itemDescription: Floor tile
   itemType: 0
@@ -123,6 +122,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 6
+  damageType: 0
   throwDamage: 10
   throwSpeed: 2
   throwRange: 7
@@ -141,12 +141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &114469368480071740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +253,33 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &114794553342207796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417416714511440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
 --- !u!1 &1485591792757996
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +348,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 3746bf8a432c844979f88db7e1b135bf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b16790bd650051044ae96a3849a79d70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

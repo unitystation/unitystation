@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1011004731350688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4350242904132210}
+  - component: {fileID: 114921848515463808}
+  m_Layer: 0
+  m_Name: Mime
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4350242904132210
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011004731350688}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114921848515463808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011004731350688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef832313bc8da84b8fa31c209efe06e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  accessory: /obj/item/clothing/accessory/pocketprotector/cosmetology
+  allowedAccess: 220000001a0000003100000034000000
+  backpack:
+    Backpack: {fileID: 0}
+    Prefab: {fileID: 0}
+  backpack_contents:
+  - /obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing
+  belt: /obj/item/device/pda/mime
+  box: 
+  duffelbag: 
+  ears:
+    Headset: {fileID: 11400000, guid: 0bdc62ebe3b1c0f47a307aa3f46272c2, type: 2}
+    Prefab: {fileID: 0}
+  glasses:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  gloves:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  head:
+    Clothing: {fileID: 11400000, guid: b7f985c8ddc8cf8478d133e3062b11c2, type: 2}
+    Prefab: {fileID: 0}
+  jobType: 27
+  l_hand: 
+  l_pocket: 
+  mask:
+    Clothing: {fileID: 11400000, guid: e5ef51a685b24984cb84da33bf28987f, type: 2}
+    Prefab: {fileID: 0}
+  r_pocket: 
+  satchel: /obj/item/weapon/storage/backpack/mime
+  shoes:
+    Clothing: {fileID: 11400000, guid: 8dc94143a69f613479aecde9255e9c1c, type: 2}
+    Prefab: {fileID: 0}
+  suit:
+    Clothing: {fileID: 11400000, guid: 5fb643d1d7f26344897b43b8033eb80c, type: 2}
+    Prefab: {fileID: 0}
+  suit_store:
+    Clothing: {fileID: 0}
+    Prefab: {fileID: 0}
+  uniform:
+    Clothing: {fileID: 11400000, guid: 3ff5e1c6dbafaa440883d35ef64243a5, type: 2}
+    Prefab: {fileID: 0}

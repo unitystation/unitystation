@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 114121219251840654}
   - component: {fileID: 114208883059431984}
   - component: {fileID: 114471841111005130}
+  - component: {fileID: 114299846275532744}
   m_Layer: 10
   m_Name: Wet floor sign
   m_TagString: Untagged
@@ -110,10 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothingReference: -1
-  hierarchy: 
-  inHandReferenceLeft: 320
-  inHandReferenceRight: 332
+  spriteHandlerData: {fileID: 0}
+  InventoryIcon: {fileID: 0}
   itemName: Wet floor sign
   itemDescription: Caution! Wet Floor!
   itemType: 0
@@ -121,6 +120,7 @@ MonoBehaviour:
   spriteType: 0
   CanConnectToTank: 0
   hitDamage: 1
+  damageType: 0
   throwDamage: 3
   throwSpeed: 2
   throwRange: 5
@@ -158,12 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &114121219251840654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +204,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &114299846275532744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110193000772614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []
 --- !u!1 &1469747287601084
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +290,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 570
-  m_Sprite: {fileID: 21300000, guid: ea189f77b4a3246baa4a2e08c3e3cbb1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e8faf6a6e16520846a63b47b73d66735, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

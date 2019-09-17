@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 70
-  m_Sprite: {fileID: 21300138, guid: 0bccb8bbbef5f45b798662f9614b955c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 18cd7fb17fa20c346bc0bd71a2b07f9b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 114383244954830430}
   - component: {fileID: 114849399154925666}
   - component: {fileID: 114991468272272648}
-  - component: {fileID: 2842683083626410034}
+  - component: {fileID: 2968783916849105110}
   m_Layer: 10
   m_Name: glass sheet
   m_TagString: Untagged
@@ -219,10 +219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothingReference: -1
-  hierarchy: 
-  inHandReferenceLeft: 364
-  inHandReferenceRight: 376
+  spriteHandlerData: {fileID: 0}
+  InventoryIcon: {fileID: 0}
   itemName: Metal Sheet
   itemDescription: 
   itemType: 0
@@ -265,12 +263,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &114185907784239616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,7 +341,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
---- !u!114 &2842683083626410034
+--- !u!114 &2968783916849105110
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

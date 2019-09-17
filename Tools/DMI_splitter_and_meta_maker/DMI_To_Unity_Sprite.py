@@ -80,6 +80,7 @@ WorkingOnIndex = {}
 for root, dirs, files in os.walk(path):
     print(root)
     for _name in files:
+        
         if _name.endswith((".dmi")):
             
             File_Time = time.time()

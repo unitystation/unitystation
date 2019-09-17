@@ -14,6 +14,7 @@ public abstract class BasicTile : LayerTile
 	public bool AtmosPassable;
 	public bool IsSealed;
 	public bool Passable;
+	public bool Mineable;
 	public PassableDictionary PassableException;
 
 	public float MaxHealth;

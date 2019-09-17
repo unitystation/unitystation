@@ -128,18 +128,43 @@ public class MetaTileMap : MonoBehaviour
 		Layers[tile.LayerType].SetTile(position, tile, Matrix4x4.identity);
 	}
 
-	public LayerTile GetTile(Vector3Int position, LayerType layerType)
+	/// <summary>
+	/// Gets the tile with the specified layer type at the specified world position
+	/// </summary>
+	/// <param name="worldPosition">world position to check</param>
+	/// <param name="layerType"></param>
+	/// <returns></returns>
+	public LayerTile GetTileAtWorldPos(Vector3 worldPosition, LayerType layerType)
+	{
+		var cellPos = WorldToCell(worldPosition.RoundToInt());
+		return GetTile(cellPos, layerType);
+	}
+
+	/// <summary>
+	/// Gets the tile with the specified layer type at the specified cell position
+	/// </summary>
+	/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
+	/// as world position.</param>
+	/// <param name="layerType"></param>
+	/// <returns></returns>
+	public LayerTile GetTile(Vector3Int cellPosition, LayerType layerType)
 	{
 		Layer layer = null;
 		Layers.TryGetValue(layerType, out layer);
-		return layer ? Layers[layerType].GetTile(position) : null;
+		return layer ? Layers[layerType].GetTile(cellPosition) : null;
 	}
 
-	public LayerTile GetTile(Vector3Int position)
+	/// <summary>
+	/// Gets the topmost tile at the specified cell position
+	/// </summary>
+	/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
+	/// as world position.</param>
+	/// <returns></returns>
+	public LayerTile GetTile(Vector3Int cellPosition)
 	{
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
-			LayerTile tile = LayersValues[i].GetTile(position);
+			LayerTile tile = LayersValues[i].GetTile(cellPosition);
 			if (tile != null)
 			{
 				return tile;

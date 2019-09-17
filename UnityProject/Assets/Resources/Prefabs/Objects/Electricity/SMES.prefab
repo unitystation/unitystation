@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 14
-  m_Sprite: {fileID: 21300262, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e73cd4cbf0bd8da408c2bd7a125ba83c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,7 +93,6 @@ GameObject:
   - component: {fileID: 114943457949527232}
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
-  - component: {fileID: 2791910100822242023}
   - component: {fileID: 114705152130084640}
   - component: {fileID: 1302529419740996430}
   - component: {fileID: 2683382063024116834}
@@ -238,113 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2791910100822242023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfa7d96b5297053428ff5656cc555321, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ThingsToDrop: []
-  ConstructionStages:
-  - StageSprite: {fileID: 0}
-    StageAdvances:
-    - RequiredTool: 4
-      ConstructionTime: 0
-      JumpToStage: 1
-      SuccessChance: 100
-      SuccessText: 
-      FailedText: 
-      Construction: 0
-    NeededParts: []
-    IncludePartsInitialisation: 0
-    ObjectStateofStage: 0
-    MissingParts: 0
-    PresentParts: []
-    FinalDeconstructedResult: {fileID: 0}
-  - StageSprite: {fileID: 21300338, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
-    StageAdvances:
-    - RequiredTool: 4
-      ConstructionTime: 0
-      JumpToStage: 0
-      SuccessChance: 100
-      SuccessText: 
-      FailedText: 
-      Construction: 1
-    - RequiredTool: 0
-      ConstructionTime: 0
-      JumpToStage: 2
-      SuccessChance: 100
-      SuccessText: 
-      FailedText: 
-      Construction: 0
-    NeededParts: []
-    IncludePartsInitialisation: 0
-    ObjectStateofStage: 1
-    MissingParts: 0
-    PresentParts: []
-    FinalDeconstructedResult: {fileID: 0}
-  - StageSprite: {fileID: 21300034, guid: 534b1f0ede003498d9a12c59a679544f, type: 3}
-    StageAdvances:
-    - RequiredTool: 4
-      ConstructionTime: 0
-      JumpToStage: 1
-      SuccessChance: 100
-      SuccessText: 
-      FailedText: 
-      Construction: 1
-    - RequiredTool: 0
-      ConstructionTime: 0
-      JumpToStage: 3
-      SuccessChance: 100
-      SuccessText: 
-      FailedText: 
-      Construction: 0
-    NeededParts:
-    - GameObject: {fileID: 0}
-      IdentifyingComponent: 
-      NumberNeeded: 4
-      CType: 6
-      level: 0
-      NumberPresent: 0
-    - GameObject: {fileID: 0}
-      IdentifyingComponent: 
-      NumberNeeded: 1
-      CType: 2
-      level: 0
-      NumberPresent: 0
-    IncludePartsInitialisation: 1
-    ObjectStateofStage: 1
-    MissingParts: 0
-    PresentParts: []
-    FinalDeconstructedResult: {fileID: 0}
-  - StageSprite: {fileID: 0}
-    StageAdvances: []
-    NeededParts: []
-    IncludePartsInitialisation: 0
-    ObjectStateofStage: 1
-    MissingParts: 0
-    PresentParts: []
-    FinalDeconstructedResult: {fileID: 1575520830166772, guid: b43cb41060d0928478def13fcd64abf6,
-      type: 3}
-  TSpriteRenderer: {fileID: 8730191553135436193, guid: ae67ebb257dca914bbb7c735f7581aca,
-    type: 3}
-  registerObject: {fileID: 0}
-  otherSpriteRenderer: []
-  ListChance: 
-  CurrentStage: 0
-  GenerateComponents: 1
-  PrefabCircuitBoard: {fileID: 1519710982558066, guid: 739f323199724aa4288934198e48e460,
-    type: 3}
-  CircuitBoard: {fileID: 0}
-  DisabledMonoBehaviours: []
-  StandardConstructionComponent: {fileID: 1519710982558066, guid: 3beffbd1402c7314f8f6c2d1049478b2,
-    type: 3}
 --- !u!114 &114705152130084640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,17 +251,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ResistanceChange: 0
   currentCharge: 0
-  offlineSprite: {fileID: 21300264, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
-  onlineSprite: {fileID: 21300266, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  offlineSprite: {fileID: 21300000, guid: a26830e3359196c4abfd80933b70aba2, type: 3}
+  onlineSprite: {fileID: 21300000, guid: 03e8bd3eeae9aeb4a8f984ce5db604a7, type: 3}
   chargeIndicatorSprites:
   - {fileID: 21300254, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300256, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300258, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300260, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
   - {fileID: 21300262, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
-  statusCriticalSprite: {fileID: 21300268, guid: 0fc938f537a804eeeac7529d8c81d9d8,
+  statusCriticalSprite: {fileID: 21300000, guid: 01d0b5d200837a1438f548434178888d,
     type: 3}
-  statusSupplySprite: {fileID: 21300270, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  statusSupplySprite: {fileID: 21300000, guid: 4135247828c256c4dbd1fdb1a39a2d1b, type: 3}
   statusIndicator: {fileID: 212307946053701930}
   OnOffIndicator: {fileID: 212962152979335194}
   chargeIndicator: {fileID: 212327025118819594}
@@ -590,7 +482,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 12
-  m_Sprite: {fileID: 21300268, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2cea459d2cb20ee43b38e0d85f1e6420, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -669,7 +561,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300252, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fdad960831cb8814b8e6bc07999353e8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -748,7 +640,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 13
-  m_Sprite: {fileID: 21300264, guid: 0fc938f537a804eeeac7529d8c81d9d8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a26830e3359196c4abfd80933b70aba2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

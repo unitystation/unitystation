@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
+  m_Name: chef's uniform
+  m_EditorClassIdentifier: 
+  PrefabVariant: {fileID: 0}
+  Base:
+    Equipped:
+      Texture: {fileID: 2800000, guid: 27a5ead404a66c948817d570eaa13bae, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 27a5ead404a66c948817d570eaa13bae, type: 3}
+      - {fileID: 21300002, guid: 27a5ead404a66c948817d570eaa13bae, type: 3}
+      - {fileID: 21300004, guid: 27a5ead404a66c948817d570eaa13bae, type: 3}
+      - {fileID: 21300006, guid: 27a5ead404a66c948817d570eaa13bae, type: 3}
+      EquippedData: {fileID: 4900000, guid: 16d98ba596c3995459248ea9a2338ae1, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ItemIcon:
+      Texture: {fileID: 2800000, guid: aea7ada13df471c409a41f1cb41993a4, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: aea7ada13df471c409a41f1cb41993a4, type: 3}
+      EquippedData: {fileID: 0}
+  Base_Adjusted:
+    Equipped:
+      Texture: {fileID: 2800000, guid: 636ffbce5e23fe04ebb2049fc8e7ea58, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 636ffbce5e23fe04ebb2049fc8e7ea58, type: 3}
+      - {fileID: 21300002, guid: 636ffbce5e23fe04ebb2049fc8e7ea58, type: 3}
+      - {fileID: 21300004, guid: 636ffbce5e23fe04ebb2049fc8e7ea58, type: 3}
+      - {fileID: 21300006, guid: 636ffbce5e23fe04ebb2049fc8e7ea58, type: 3}
+      EquippedData: {fileID: 4900000, guid: feed48de44cada8498db6e9bffcceebe, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+  DressVariant:
+    Equipped:
+      Texture: {fileID: 2800000, guid: 6863bfc974640fb4ca4157a12cbedabd, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 6863bfc974640fb4ca4157a12cbedabd, type: 3}
+      - {fileID: 21300002, guid: 6863bfc974640fb4ca4157a12cbedabd, type: 3}
+      - {fileID: 21300004, guid: 6863bfc974640fb4ca4157a12cbedabd, type: 3}
+      - {fileID: 21300006, guid: 6863bfc974640fb4ca4157a12cbedabd, type: 3}
+      EquippedData: {fileID: 4900000, guid: 5b4b032dc0a8c69479a425e28512bc6e, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ItemIcon:
+      Texture: {fileID: 2800000, guid: 6ac604b8c67e724408a6e5189cbe1f96, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 6ac604b8c67e724408a6e5189cbe1f96, type: 3}
+      EquippedData: {fileID: 0}
+  Variants: []
+  ItemAttributes:
+    itemName: 
+    itemDescription: 
+    itemType: 7
+    size: 0
+    spriteType: 0
+    CanConnectToTank: 0
+    hitDamage: 0
+    damageType: 0
+    throwDamage: 0
+    throwSpeed: 2
+    throwRange: 7
+    hitSound: GenericHit
+    attackVerb: []

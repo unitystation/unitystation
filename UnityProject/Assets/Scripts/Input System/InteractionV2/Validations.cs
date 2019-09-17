@@ -236,4 +236,15 @@ public static class Validations
 
 		return will;
 	}
+
+	public static bool IsMineableAt(Vector2 targetWorldPosition, MetaTileMap metaTileMap)
+	{
+		var wallTile = metaTileMap.GetTileAtWorldPos(targetWorldPosition, LayerType.Walls);
+		if (wallTile == null) return false;
+		if (!(wallTile is BasicTile)) return false;
+
+		var basicWallTile = wallTile as BasicTile;
+		return basicWallTile.Mineable;
+	}
+
 }

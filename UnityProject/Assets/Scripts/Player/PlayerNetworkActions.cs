@@ -87,8 +87,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 			cnt.DisappearFromWorldServer();
 		}
+				if (Inventory[equipSlot].Item != null && !replaceIfOccupied)
+		{
+			return false;
+		}
 
-		if(originPNA != null)
+
+		if (originPNA != null)
 		{
 			var fromSlot = InventoryManager.GetSlotFromItem(itemObject, originPNA);
 			InventoryManager.ClearInvSlot(fromSlot);
@@ -143,16 +148,96 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void UpdateInventorySlots()
 	{
-		for (int i = 0; i < playerSlots.Length; i++)
-		{
-			InventorySlot inventorySlot = Inventory[playerSlots[i]];
-			if(inventorySlot.Item != null)
-			{
-				UpdateSlotMessage.Send(inventorySlot.Owner, inventorySlot.Item, false, inventorySlot.equipSlot);
-			}
-		}
+		//for (int i = 0; i < playerSlots.Length; i++)
+		//{
+		//	InventorySlot inventorySlot = Inventory[playerSlots[i]];
+		//	if(inventorySlot.Item != null)
+		//	{
+		//		if (IsEquipSpriteSlot(fromSlot))
+		//		{
+		//			if (fromSlot.Item == null)
+		//			{
+		//				//clear equip sprite
+		//				SyncEquipSpritesFor(fromSlot, null);
+		//			}
+		//		}
+		//	}
+		//}
+
+		//if (toSlot != null)
+		//{
+		//	if (toSlot.IsUISlot)
+		//	{
+		//		if (IsEquipSpriteSlot(toSlot))
+		//		{
+		//			if (toSlot.Item != null)
+		//			{
+		//				var att = toSlot.Item.GetComponent<ItemAttributes>();
+
+		//				if (toSlot.SlotName == "leftHand" || toSlot.SlotName == "rightHand")
+		//				{
+		//					equipment.SetHandItemSprite(att, toSlot.SlotName);
+		//				}
+		//				else
+		//				{
+		//					SyncEquipSpritesFor(toSlot, att.gameObject);
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
 	}
 
+	private bool IsEquipSpriteSlot(InventorySlot slot)
+	{
+		return slot.IsUISlot;
+	}
+
+	[Server]
+	private void SyncEquipSpritesFor(InventorySlot slot, GameObject Item)
+	{
+		//clear equip sprite
+		//if (slot.Owner.gameObject == gameObject)
+		//{
+		//	SyncEquipSprite(slot, Item);
+		//}
+		//else
+		//{
+		//	slot.Owner.GetComponent<PlayerNetworkActions>()?.SyncEquipSprite(slot, Item);
+		//}
+	}
+
+	[Server]
+	private void SyncEquipSprite(string slotName, GameObject Item)
+	{
+		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
+		equipment.SetReference((int)enumA, Item);
+	}
+
+	/// Drop an item from a slot. use forceSlotUpdate=false when doing cThelientside prediction,
+	/// otherwise client will forcefully receive update slot messages
+	public void RequestDropItem(string handUUID, bool forceClientInform = true)
+	{
+		//InventoryInteractMessage.Send("", handUUID, InventoryManager.GetSlotFromUUID(handUUID, isServer).Item, forceClientInform);
+	}
+
+	//Dropping from a slot on the UI
+	[Server]
+	public bool ValidateDropItem(InventorySlot invSlot, bool forceClientInform /* = false*/ )
+	{
+		//decline if not dropped from hands?
+		//if (Inventory.ContainsKey(invSlot.SlotName) && Inventory[invSlot.SlotName].Item)
+		//{
+		//	DropItem(invSlot.SlotName, forceClientInform);
+		//	return true;
+		//}
+
+		Logger.Log("Object not found in Inventory", Category.Inventory);
+		return false;
+	}
+
+	///     Imperative drop.
+	/// Pass empty slot to drop a random ones
 	[Server]
 	public void DropItem(EquipSlot equipSlot)
 	{

@@ -29,6 +29,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 	private ObjectBehaviour objectBehaviour;
 
 	[SyncVar(hook = nameof(SyncStatus))] public ClosetStatus statusSync;
+
 	protected Sprite doorClosed;
 	public Sprite doorOpened;
 	public SpriteRenderer spriteRenderer;
@@ -48,7 +49,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 		SetIsLocked(false);
 		SetIsClosed(false);
 
-		ItemFactory.SpawnMetal(2, gameObject.TileWorldPosition(), parent: transform.parent);
+		ObjectFactory.SpawnMetal(2, gameObject.TileWorldPosition(), parent: transform.parent);
 	}
 
 	public override void OnStartServer()

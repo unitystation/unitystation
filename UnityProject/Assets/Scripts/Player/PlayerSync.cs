@@ -143,43 +143,47 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			return null;
 		}
 
-		Vector2Int xDirection = new Vector2Int(direction.x, 0);
-		Vector2Int yDirection = new Vector2Int(0, direction.y);
-		BumpType xBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), xDirection, playerMove, isServer);
-		BumpType yBump = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), yDirection, playerMove, isServer);
+		var facingUpDown = playerDirectional.CurrentDirection == Orientation.Up || playerDirectional.CurrentDirection == Orientation.Down;
+
+		//depending on facing, check x / y direction first (this is for
+		//better diagonal movement logic without cutting corners)
+		Vector2Int dir1 = new Vector2Int(facingUpDown ? direction.x : 0, facingUpDown ? 0 : direction.y);
+		Vector2Int dir2 = new Vector2Int(facingUpDown ? 0 : direction.x, facingUpDown ? direction.y : 0);
+		BumpType bump1 = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), dir1, playerMove, isServer);
+		BumpType bump2 = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), dir2, playerMove, isServer);
 
 		MoveAction? newAction = null;
 		BumpType? newBump = null;
 
-		if (xBump == BumpType.None || xBump == BumpType.HelpIntent)
+		if (bump1 == BumpType.None || bump1 == BumpType.HelpIntent)
 		{
-			newAction = PlayerAction.GetMoveAction(xDirection);
-			newBump = xBump;
+			newAction = PlayerAction.GetMoveAction(dir1);
+			newBump = bump1;
 		}
-		else if (yBump == BumpType.None || yBump == BumpType.HelpIntent)
+		else if (bump2 == BumpType.None || bump2 == BumpType.HelpIntent)
 		{
-			newAction = PlayerAction.GetMoveAction(yDirection);
-			newBump = yBump;
+			newAction = PlayerAction.GetMoveAction(dir2);
+			newBump = bump2;
 		}
-		else if (xBump == BumpType.Push)
+		else if (bump1 == BumpType.Push)
 		{
-			newAction = PlayerAction.GetMoveAction(xDirection);
-			newBump = xBump;
+			newAction = PlayerAction.GetMoveAction(dir1);
+			newBump = bump1;
 		}
-		else if (yBump == BumpType.Push)
+		else if (bump2 == BumpType.Push)
 		{
-			newAction = PlayerAction.GetMoveAction(yDirection);
-			newBump = yBump;
+			newAction = PlayerAction.GetMoveAction(dir2);
+			newBump = bump2;
 		}
-		else if (xBump == BumpType.ClosedDoor)
+		else if (bump1 == BumpType.ClosedDoor)
 		{
-			newAction = PlayerAction.GetMoveAction(xDirection);
-			newBump = xBump;
+			newAction = PlayerAction.GetMoveAction(dir1);
+			newBump = bump1;
 		}
-		else if (yBump == BumpType.ClosedDoor)
+		else if (bump2 == BumpType.ClosedDoor)
 		{
-			newAction = PlayerAction.GetMoveAction(yDirection);
-			newBump = yBump;
+			newAction = PlayerAction.GetMoveAction(dir2);
+			newBump = bump2;
 		}
 
 		if (newAction.HasValue)
@@ -208,7 +212,33 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			return BumpType.None;
 		}
+
 		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, playerMove, isServer);
+		//on diagonal movement, don't allow cutting corners or pushing (check x and y tile passability)
+		var dir = playerAction.Direction();
+		if (dir.x != 0 && dir.y != 0)
+		{
+			if (bump == BumpType.Push)
+			{
+				bump = BumpType.Blocked;
+			}
+			var xBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(dir.x, 0), playerMove, isServer);
+			var yBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(0, dir.y), playerMove, isServer);
+
+			//opening doors diagonally is allowed only if x or y are blocked (assumes we are sliding along a
+			//wall and we hit a door).
+			//if both are open, then we will instead slide to one of the open spaces.
+			//This gives better behavior on opening side by side doors while sliding on a wall
+			if ((xBump == BumpType.Blocked || yBump == BumpType.Blocked) && bump != BumpType.ClosedDoor)
+			{
+				bump = BumpType.Blocked;
+			}
+			else if (xBump != BumpType.Blocked && yBump != BumpType.Blocked && bump == BumpType.ClosedDoor)
+			{
+				bump = BumpType.Blocked;
+			}
+		}
+
 		// if movement is blocked, try to slide
 		if (bump == BumpType.Blocked)
 		{

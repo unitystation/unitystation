@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -15,10 +16,15 @@ MonoBehaviour:
   TileType: 3
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
+  AtmosPassable: 1
+  IsSealed: 1
+  Passable: 1
   PassableException:
     m_keys: 01000000
     m_values: 00
-  Passable: 1
-  AtmosPassable: 1
-  IsSealed: 1
-  sprite: {fileID: 21301762, guid: 2e616eb771f994ec8be36be7a2c5f4a6, type: 3}
+  MaxHealth: 0
+  HealthStates: []
+  ItemSpawn: {fileID: 0}
+  amount: 0
+  DestroyedTile: {fileID: 0}
+  sprite: {fileID: 21300004, guid: 05cfd4c2c5c9cdb4ab0690bab1aeb8dd, type: 3}

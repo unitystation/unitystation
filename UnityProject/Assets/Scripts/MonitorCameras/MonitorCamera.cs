@@ -9,13 +9,13 @@ public class MonitorCamera : MonoBehaviour
 	private Sprite[] sprites;
 	public float time = 0.3f;
 
-	private void Start()
-	{
-		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		sprites = SpriteManager.MonitorSprites["monitors"];
-		int.TryParse(spriteRenderer.sprite.name.Substring(9), out baseSprite);
-		StartCoroutine(Animate());
-	}
+	//private void Start()
+	//{
+	//	spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+	//	sprites = SpriteManager.MonitorSprites["monitors"];
+	//	int.TryParse(spriteRenderer.sprite.name, out baseSprite);
+	//	StartCoroutine(Animate());
+	//}
 
 	private IEnumerator Animate()
 	{

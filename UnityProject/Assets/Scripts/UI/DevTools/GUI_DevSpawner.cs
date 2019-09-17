@@ -34,35 +34,24 @@ public class GUI_DevSpawner : MonoBehaviour
 
 	private bool isFocused;
 
-
-    void Start()
+	void Start()
     {
 	    ConfigureLucene();
 
 	    //get prefabs
 	    var toIndex = PoolManager.SpawnablePrefabs.Select(DevSpawnerDocument.ForPrefab).ToList();
 
-	    //get unicloths
-	    TextAsset asset = Resources.Load(Path.Combine("metadata", "hier"))as TextAsset;
-	    if (asset != null)
+	    //get clothing
+	    var data = Resources.FindObjectsOfTypeAll<ClothingData>();
+	    //force clothfactory to load all clothing data
+	    foreach (var clothData in data)
 	    {
-		    var unicloths =
-			    asset.text
-					.Split('\n')
-					//filter by things allowed to spawn
-					.Where(str => str.Contains(UniItemUtils.BagHierIdentifier) ||
-					              str.Contains(UniItemUtils.HeadsetHierIdentifier) ||
-					              str.Contains(UniItemUtils.ClothingHierIdentifier) ||
-					              str.Contains(UniItemUtils.BackPackHierIdentifier))
-					.Select(str => str.Trim())
-					.Select(DevSpawnerDocument.ForUniCloth)
-					.ToList();
-		    toIndex.AddRange(unicloths);
-	    }
-	    else
-	    {
-		    Logger.LogError("Unable to load unicloths from metadata/hier directory. They will be unavailable" +
-		                    " in the dev spawner.");
+		    if (!ClothFactory.Instance.ClothingStoredData.ContainsKey(clothData.name))
+		    {
+			    ClothFactory.Instance.ClothingStoredData.Add(clothData.name, clothData);
+		    }
+
+		    toIndex.Add(DevSpawnerDocument.ForClothing(clothData));
 	    }
 
 	    //start indexing
@@ -149,8 +138,7 @@ public class GUI_DevSpawner : MonoBehaviour
 
 		    lucene.DefineIndexField<DevSpawnerDocument>("id", doc => doc.Name, IndexOptions.PrimaryKey);
 		    lucene.DefineIndexField<DevSpawnerDocument>("name", doc => doc.Name, IndexOptions.IndexTermsAndStore);
-		    lucene.DefineIndexField<DevSpawnerDocument>("hier", doc => doc.Hier, IndexOptions.IndexTermsAndStore);
-		    lucene.DefineIndexField<DevSpawnerDocument>("type", doc => doc.Type, IndexOptions.IndexTermsAndStore);
+		    lucene.DefineIndexField<DevSpawnerDocument>("isClothing", doc => doc.Type == SpawnableType.CLOTHING_DATA ? "1" : "0", IndexOptions.StoreOnly);
 	    }
     }
 

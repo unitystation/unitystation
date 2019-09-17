@@ -1,4 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class ObjectBehaviour : PushPull {}
+public class ObjectBehaviour : PushPull {
+	
+}

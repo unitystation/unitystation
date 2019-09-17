@@ -68,7 +68,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 420
-  m_Sprite: {fileID: 21300052, guid: 0bccb8bbbef5f45b798662f9614b955c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4ec7654feae1a634d86565eade3ed7e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 2664584551837523149}
   - component: {fileID: 2664584551837519923}
   - component: {fileID: 2092252848639280625}
+  - component: {fileID: 114187339857744694}
   m_Layer: 10
   m_Name: Handcuffs
   m_TagString: Untagged
@@ -201,10 +202,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothingReference: 45
-  hierarchy: 
-  inHandReferenceLeft: 140
-  inHandReferenceRight: 148
+  spriteHandlerData: {fileID: 0}
+  InventoryIcon: {fileID: 0}
   itemName: Handcuffs
   itemDescription: Use this to keep prisoners in line.
   itemType: 0
@@ -247,12 +246,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &2664584551837519923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,3 +282,21 @@ MonoBehaviour:
   applyTime: 3
   removeTime: 3
   sound: Handcuffs
+--- !u!114 &114187339857744694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2664584551837519869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fef738c78305541bcd6c7e3abca116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infos:
+    spriteIndex: 0
+    VariantIndex: 0
+    AID: 0
+    Serialized: []
+  spriteList: []

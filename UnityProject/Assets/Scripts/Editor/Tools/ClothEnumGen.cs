@@ -73,26 +73,26 @@ public class ClothEnumGen : MonoBehaviour
 	private static Dictionary<string, string> prepareObjects()
 	{
 		Dictionary<string, string> tmpDic = new Dictionary<string, string>();
-		DmObjectData dm = Resources.Load("DmObjectData") as DmObjectData;
-		foreach (Dictionary<string, string> dic in dm.ObjectList)
-		{
-			string hier = ItemAttributes.TryGetAttr(dic, "hierarchy");
-			if (!hier.Equals("") && hier.StartsWith("/obj/item/clothing/")) // these might require fine-tunung
-			{
+		//DmObjectData dm = Resources.Load("DmObjectData") as DmObjectData;
+		//foreach (Dictionary<string, string> dic in dm.ObjectList)
+		//{
+			//string hier = ItemAttributes.TryGetAttr(dic, "hierarchy");
+			//if (!hier.Equals("") && hier.StartsWith("/obj/item/clothing/")) // these might require fine-tunung
+			//{
 				//                                var name = ItemAttributes.tryGetAttr(dic, "name").Trim()
 				//                                        .Replace('-', '_').Replace("\'","")
 				//                                        .Replace(' ', '_').Replace("\\","")
 				//                                        .Replace("`", "").Replace(".","")
 				//                                        .Replace("(", "").Replace("!","")
 				//                                        .ToLower();
-				string[] hierz = hier.Split('/');
-				string name = Regex.Replace(ItemAttributes.TryGetAttr(dic, "name").Trim().Replace('-', '_').Replace(' ', '_'), @"[^a-zA-Z0-9_]", "") + "__" +
-				              hierz[hierz.GetUpperBound(0) - 2] + "_" + hierz[hierz.GetUpperBound(0) - 1] + "_" + hierz[hierz.GetUpperBound(0)];
+				//string[] hierz = hier.Split('/');
+				//string name = Regex.Replace(ItemAttributes.TryGetAttr(dic, "name").Trim().Replace('-', '_').Replace(' ', '_'), @"[^a-zA-Z0-9_]", "") + "__" +
+				              //hierz[hierz.GetUpperBound(0) - 2] + "_" + hierz[hierz.GetUpperBound(0) - 1] + "_" + hierz[hierz.GetUpperBound(0)];
 
-				tmpDic.Add(hier, name);
-			}
-		}
-		Logger.LogFormat("Prepared objects, tmpDic.size={0}", Category.ItemSpawn, tmpDic.Count);
+				//tmpDic.Add(hier, name);
+			//}
+		//}
+		//Logger.LogFormat("Prepared objects, tmpDic.size={0}", Category.ItemSpawn, tmpDic.Count);
 		return tmpDic;
 	}
 #endif

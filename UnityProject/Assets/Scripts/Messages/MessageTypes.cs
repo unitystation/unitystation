@@ -41,7 +41,7 @@ internal enum MessageTypes : short
 	HealthTemperatureStats = 1037,
 	HealthPressureStats = 1038,
 	EquipmentSpritesMessage = 1039,
-	PlayerSpritesMessage = 1040,
+	PlayerCustomisationMessage = 1040,
 	BookNetMessage = 1041,
 	BookshelfNetMessage = 1042,
 	SubBookshelfNetMessage = 1043,

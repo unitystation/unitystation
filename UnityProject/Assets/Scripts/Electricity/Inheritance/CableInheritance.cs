@@ -7,6 +7,7 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 {
 	public bool SelfDestruct = false;
 	public WiringColor CableType;
+	public SpriteSheetAndData CableSprites;
 	public Connection WireEndA { get { return wireConnect.WireEndA; } set { wireConnect.WireEndA = value; } }
 	public Connection WireEndB { get { return wireConnect.WireEndB; } set { wireConnect.WireEndB = value; } }
 	public WireConnect wireConnect;
@@ -286,12 +287,6 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 	[ContextMenu("FindConnections")]
 	private void SetSprite()
 	{
-		Sprite[] Color = SpriteManager.WireSprites[CableType.ToString()];
-		if (Color == null)
-		{
-			SpriteManager.Instance.InitWireSprites();
-			Color = SpriteManager.WireSprites[CableType.ToString()];
-		}
 		SpriteRenderer SR = gameObject.GetComponentInChildren<SpriteRenderer>();
 		//the red sprite is spliced differently than the rest for some reason :^(
 		string Compound;
@@ -308,7 +303,7 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 			spriteIndex += 36;
 		}
 
-		SR.sprite = Color[spriteIndex];
+		SR.sprite = CableSprites.Sprites[spriteIndex];
 		if (SR.sprite == null)
 		{
 			Logger.LogError("SetSprite: Couldn't find wire sprite, sprite value didn't return anything!", Category.Electrical);

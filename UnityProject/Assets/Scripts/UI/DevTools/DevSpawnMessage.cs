@@ -30,7 +30,8 @@ public class DevSpawnMessage : ClientMessage
 			}
 			else
 			{
-				ClothFactory.CreateCloth(Name, WorldPosition);
+				var clothData = ClothFactory.Instance.ClothingStoredData[Name];
+				ClothFactory.CreateCloth(clothData, WorldPosition);
 			}
 		}
 
