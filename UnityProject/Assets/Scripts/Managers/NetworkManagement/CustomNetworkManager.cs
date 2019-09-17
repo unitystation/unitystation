@@ -283,27 +283,6 @@ public class CustomNetworkManager : NetworkManager
 			ObjectManager.StartPoolManager();
 		}
 
-		if (DatabaseAPI.ServerData.Auth == null)
-		{
-			conn.Disconnect();
-			Logger.LogError("No auth provided to server for validation", Category.Server);
-			return;
-		}
-
-		if (DatabaseAPI.ServerData.Auth.CurrentUser == null)
-		{
-			conn.Disconnect();
-			Logger.LogError("No auth provided to server for validation", Category.Server);
-			return;
-		}
-
-		if (string.IsNullOrEmpty(DatabaseAPI.ServerData.Auth.CurrentUser.UserId))
-		{
-			conn.Disconnect();
-			Logger.LogError("No auth provided to server for validation", Category.Server);
-			return;
-		}
-
 		base.OnClientConnect(conn);
 	}
 
