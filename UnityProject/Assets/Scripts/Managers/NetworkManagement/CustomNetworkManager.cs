@@ -187,19 +187,25 @@ public class CustomNetworkManager : NetworkManager
 
 	public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{
+		if (string.IsNullOrEmpty(extraMessage.userID))
+		{
+			conn.Disconnect();
+			Logger.Log($"Connection was attempted without being authed via player accounts. IP: {conn.address}", Category.Server);
+			return;
+		}
 		//This spawns the player prefab
 		if (GameData.IsHeadlessServer || GameData.Instance.testServer)
 		{
 			//this is a headless server || testing headless (it removes the server player for localClient)
 			if (conn.address != "localClient")
 			{
-				StartCoroutine(WaitToSpawnPlayer(conn));
+				StartCoroutine(WaitToSpawnPlayer(conn, extraMessage));
 			}
 		}
 		else
 		{
 			//This is a host server (keep the server player as it is for the host player)
-			StartCoroutine(WaitToSpawnPlayer(conn));
+			StartCoroutine(WaitToSpawnPlayer(conn, extraMessage));
 		}
 
 		if (_isServer)
@@ -208,10 +214,10 @@ public class CustomNetworkManager : NetworkManager
 			UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 		}
 	}
-	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn)
+	private IEnumerator WaitToSpawnPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{
 		yield return WaitFor.Seconds(1f);
-		OnServerAddPlayerInternal(conn);
+		OnServerAddPlayerInternal(conn, extraMessage);
 	}
 
 	void Update()
@@ -240,7 +246,7 @@ public class CustomNetworkManager : NetworkManager
 		}
 	}
 
-	private void OnServerAddPlayerInternal(NetworkConnection conn)
+	private void OnServerAddPlayerInternal(NetworkConnection conn, AddPlayerMessage extraMessage)
 	{
 		if (playerPrefab == null)
 		{
@@ -269,29 +275,50 @@ public class CustomNetworkManager : NetworkManager
 		// }
 		else
 		{
-			SpawnHandler.SpawnViewer(conn);
+			SpawnHandler.SpawnViewer(conn, extraMessage);
 		}
 	}
 
 	public override void OnClientConnect(NetworkConnection conn)
 	{
+		//Does this need to happen all the time? OnClientConnect can be called multiple times
 		this.RegisterClientHandlers(conn);
-		//		if (_isServer)
-		//		{
-		//			//do special server wizardry here
-		//			PlayerList.Instance.Add(new ConnectedPlayer
-		//			{
-		//				Connection = conn,
-		//			});
-		//		}
 
 		if (GameData.IsInGame && PoolManager.Instance == null)
 		{
 			ObjectManager.StartPoolManager();
 		}
 
-		//This client connecting to server, wait for the spawnable prefabs to register
-		StartCoroutine(WaitForSpawnListSetUp(conn));
+		if (DatabaseAPI.ServerData.Auth == null)
+		{
+			conn.Disconnect();
+			Logger.LogError("No auth provided to server for validation", Category.Server);
+			return;
+		}
+
+		if (DatabaseAPI.ServerData.Auth.CurrentUser == null)
+		{
+			conn.Disconnect();
+			Logger.LogError("No auth provided to server for validation", Category.Server);
+			return;
+		}
+
+		if (string.IsNullOrEmpty(DatabaseAPI.ServerData.Auth.CurrentUser.UserId))
+		{
+			conn.Disconnect();
+			Logger.LogError("No auth provided to server for validation", Category.Server);
+			return;
+		}
+
+		if (!clientLoadedScene)
+		{
+			// Ready/AddPlayer is usually triggered by a scene load completing. if no scene was loaded, then Ready/AddPlayer it here instead.
+			if (!ClientScene.ready) ClientScene.Ready(conn);
+			if (autoCreatePlayer)
+			{
+				ClientScene.AddPlayer(conn, DatabaseAPI.ServerData.Auth.CurrentUser.UserId);
+			}
+		}
 	}
 
 	///Sync some position data explicitly, if it is required
@@ -343,16 +370,6 @@ public class CustomNetworkManager : NetworkManager
 			doors[i].NotifyPlayer(playerGameObject);
 		}
 		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
-	}
-
-	private IEnumerator WaitForSpawnListSetUp(NetworkConnection conn)
-	{
-		while (!spawnableListReady)
-		{
-			yield return WaitFor.Seconds(1);
-		}
-
-		base.OnClientConnect(conn);
 	}
 
 	/// server actions when client disconnects

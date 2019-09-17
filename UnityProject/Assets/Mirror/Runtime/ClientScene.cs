@@ -106,7 +106,7 @@ namespace Mirror
         /// <param name="readyConn">The connection to become ready for this client.</param>
         /// <param name="extraData">An extra message object that can be passed to the server for this player.</param>
         /// <returns>True if player was added.</returns>
-        public static bool AddPlayer(NetworkConnection readyConn, byte[] extraData)
+        public static bool AddPlayer(NetworkConnection readyConn, string userId)
         {
             // ensure valid ready connection
             if (readyConn != null)
@@ -131,7 +131,7 @@ namespace Mirror
 
             AddPlayerMessage message = new AddPlayerMessage()
             {
-                value = extraData
+                userID = userId
             };
             readyConnection.Send(message);
             return true;
