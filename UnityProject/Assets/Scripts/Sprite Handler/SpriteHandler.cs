@@ -101,7 +101,7 @@ public class SpriteHandler : SpriteHandlerData
 				UpdateManager.Instance.Remove(UpdateMe);
 			}
 		}
-		else { 
+		else {
 			UpdateManager.Instance.Remove(UpdateMe);
 		}
 
@@ -109,14 +109,11 @@ public class SpriteHandler : SpriteHandlerData
 
 	public void SyncVariantIndex(int _VariantIndex)
 	{
-		if(Infos.List.Count == 0) return;
-		
 		if (SynchroniseVariant)
 		{
-			VariantIndex = _VariantIndex;
 			animationIndex = 0;
-			SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
-			if (Infos.List[spriteIndex][VariantIndex].Count > 1)
+			SetSprite(Infos.List[spriteIndex][_VariantIndex][animationIndex]);
+			if (Infos.List[spriteIndex][_VariantIndex].Count > 1)
 			{
 				UpdateManager.Instance.Add(UpdateMe);
 			}

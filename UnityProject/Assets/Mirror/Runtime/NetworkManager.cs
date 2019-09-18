@@ -22,6 +22,11 @@ namespace Mirror
     [HelpURL("https://mirror-networking.com/xmldocs/articles/Components/NetworkManager.html")]
     public class NetworkManager : MonoBehaviour
     {
+	    /// <summary>
+	    /// Late Update manager for Mirror components
+	    /// </summary>
+
+	    public event Action lateUpdateAction;
         [Header("Configuration")]
 
         /// <summary>
@@ -294,6 +299,8 @@ namespace Mirror
             NetworkServer.Update();
             NetworkClient.Update();
             UpdateScene();
+
+            lateUpdateAction?.Invoke();
         }
 
         /// <summary>
@@ -637,7 +644,7 @@ namespace Mirror
                 loadSceneMode = sceneMode,
                 localPhysicsMode = physicsMode,
             });
-            networkSceneName = newSceneName; //This should probably not change if additive is used          
+            networkSceneName = newSceneName; //This should probably not change if additive is used
         }
 
         void FinishLoadScene()
