@@ -22,7 +22,10 @@
 				if (isClosed != value)
 				{
 					isClosed = value;
-					SubsystemManager.UpdateAt(LocalPositionServer);
+					if (SubsystemManager != null)
+					{
+						SubsystemManager.UpdateAt(LocalPositionServer);
+					}
 				}
 			}
 		}

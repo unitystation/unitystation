@@ -6,9 +6,8 @@ using UnityEngine;
 public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 {
 	private bool isOn;
-	//whether we received our initial power state
-	private bool stateInit;
 
+	private bool isAnimating = false;
 	public float timeBetweenFrames = 0.1f;
 	public SpriteRenderer spriteRenderer;
 	public GameObject screenGlow;
@@ -17,15 +16,20 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	private int sIndex = 0;
 	public float Delay;
 
+	private void OnEnable()
+	{
+		CheckAnimatorState();
+	}
+
 	private void ToggleOn(bool turnOn)
 	{
-		if (turnOn && (!isOn || !stateInit))
+		if (turnOn)
 		{
 			isOn = true;
 			sIndex = 0;
-			StartCoroutine(Animator());
+			CheckAnimatorState();
 		}
-		else if (!turnOn && (isOn || !stateInit))
+		else
 		{
 			isOn = false;
 			//an unknown evil is enabling the spriteRenderer when power is initially off on client side
@@ -39,7 +43,17 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 		}
 	}
 
-	public void PowerNetworkUpdate(float Voltage) {
+	public void PowerNetworkUpdate(float Voltage)
+	{
+	}
+
+	void CheckAnimatorState()
+	{
+		if (!gameObject.activeInHierarchy) return;
+		if (isOn && !isAnimating)
+		{
+			StartCoroutine(Animator());
+		}
 	}
 
 	public void StateUpdate(PowerStates State)
@@ -48,17 +62,15 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 		{
 			ToggleOn(false);
 		}
-		else {
-			if (isOn != true) { 
-				isOn = true;
-				StartCoroutine(Animator());
-			}
-
+		else
+		{
+			ToggleOn(true);
 		}
 	}
 
 	IEnumerator Animator()
 	{
+		isAnimating = true;
 		if (screenGlow != null)
 		{
 			screenGlow.SetActive(true);
@@ -66,11 +78,14 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 
 		while (isOn)
 		{
-			if (sprites.Count == 0) {
-				if (onSprites.Texture != null) {
+			if (sprites.Count == 0)
+			{
+				if (onSprites.Texture != null)
+				{
 					sprites = StaticSpriteHandler.CompleteSpriteSetup(onSprites);
 				}
 			}
+
 			spriteRenderer.sprite = sprites[0][sIndex].sprite;
 			Delay = sprites[0][sIndex].waitTime;
 			sIndex++;
@@ -78,7 +93,10 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 			{
 				sIndex = 0;
 			}
+
 			yield return WaitFor.Seconds(Delay);
 		}
+
+		isAnimating = false;
 	}
 }

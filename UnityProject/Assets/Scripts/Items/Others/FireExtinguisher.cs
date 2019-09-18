@@ -16,7 +16,9 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 	public Sprite[] spriteList;
 
 	public ParticleSystem particleSystem;
-	[SyncVar(hook = nameof(SyncParticles))] public float particleSync;
+
+	[SyncVar(hook = nameof(SyncParticles))]
+	public float particleSync;
 
 	public override void OnStartClient()
 	{
@@ -44,15 +46,19 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 		{
 			return true;
 		}
+
 		return false;
 	}
 
 	protected override void ServerPerformInteraction(AimApply interaction)
 	{
-		if(reagentContainer.CurrentCapacity >= 5 && !safety)
+		if (reagentContainer.CurrentCapacity >= 5 && !safety)
 		{
-			Vector2 startPos = interaction.Performer.transform.position; //TODO: use registeritem position once picked up items get fixed
-			Vector2 targetPos = new Vector2(Mathf.RoundToInt(interaction.WorldPositionTarget.x), Mathf.RoundToInt(interaction.WorldPositionTarget.y));
+			Vector2
+				startPos = interaction.Performer.transform
+					.position; //TODO: use registeritem position once picked up items get fixed
+			Vector2 targetPos = new Vector2(Mathf.RoundToInt(interaction.WorldPositionTarget.x),
+				Mathf.RoundToInt(interaction.WorldPositionTarget.y));
 			List<Vector3Int> positionList = MatrixManager.GetTiles(startPos, targetPos, travelDistance);
 			StartCoroutine(Fire(positionList));
 
@@ -80,7 +86,7 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 		Vector2 rotated = Vector2.Perpendicular(difference).normalized;
 		Vector2 paralelStart;
 		Vector2 paralelTarget;
-		if(rightSide)
+		if (rightSide)
 		{
 			paralelStart = startPos - rotated;
 			paralelTarget = startPos - rotated + difference;
@@ -90,9 +96,10 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 			paralelStart = startPos + rotated;
 			paralelTarget = startPos + rotated + difference;
 		}
+
 		paralelStart = new Vector2(Mathf.RoundToInt(paralelStart.x), Mathf.RoundToInt(paralelStart.y));
 		paralelTarget = new Vector2(Mathf.RoundToInt(paralelTarget.x), Mathf.RoundToInt(paralelTarget.y));
-		var points = new Vector2[]{paralelStart, paralelTarget };
+		var points = new Vector2[] {paralelStart, paralelTarget};
 		return points;
 	}
 
@@ -125,6 +132,8 @@ public class FireExtinguisher : NBAimApplyHandActivateInteractable
 
 	public void SyncParticles(float value)
 	{
+		if (!gameObject.activeInHierarchy) return;
+		
 		particleSystem.transform.position = registerItem.WorldPositionClient;
 		particleSystem.transform.rotation = Quaternion.Euler(0, 0, value);
 		var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();

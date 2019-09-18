@@ -17,6 +17,7 @@ public class APC  : NBHandApplyInteractable, INodeControl
 	/// The current voltage of this APC. Calls OnVoltageChange when changed.
 	/// </summary>
 	[SyncVar (hook=nameof(SyncVoltage))] private float voltageSync;
+
 	private bool voltageInit;
 
 	public bool PowerMachinery = true;
@@ -39,20 +40,19 @@ public class APC  : NBHandApplyInteractable, INodeControl
 	private void SyncVoltage(float newVoltage)
 	{
 		//optimization - do nothing if voltage already initialized and is unchanged
-		if (voltageSync == newVoltage && voltageInit) return;
-		voltageSync = newVoltage;
+		if (voltageSync == newVoltage && voltageInit || !gameObject.activeInHierarchy) return;
 		UpdateDisplay();
 	}
 
 	public override void OnStartServer()
 	{
-		SyncVoltage(voltageSync);
+		base.OnStartServer();
 		voltageInit = true;
 	}
 
 	public override void OnStartClient()
 	{
-		SyncVoltage(voltageSync);
+		base.OnStartClient();
 		voltageInit = true;
 	}
 
