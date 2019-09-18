@@ -23,6 +23,16 @@ public class APCPoweredDevice : NetworkBehaviour
 		Powered = gameObject.GetComponent<IAPCPowered>();
 	}
 
+	public override void OnStartClient()
+	{
+		UpdateSynchronisedState(State);
+	}
+
+	public override void OnStartServer()
+	{
+		UpdateSynchronisedState(State);
+	}
+
 	void Start()
 	{
 		Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
@@ -110,9 +120,10 @@ public class APCPoweredDevice : NetworkBehaviour
 			Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), State, _State);
 		}
 
+		State = _State;
 		if (Powered != null)
 		{
-			Powered.StateUpdate(_State);
+			Powered.StateUpdate(State);
 		}
 	}
 }

@@ -17,7 +17,7 @@ public class APC  : NBHandApplyInteractable, INodeControl
 	/// The current voltage of this APC. Calls OnVoltageChange when changed.
 	/// </summary>
 	[SyncVar (hook=nameof(SyncVoltage))] private float voltageSync;
-
+	private bool voltageInit;
 	public bool PowerMachinery = true;
 	public bool PowerLights = true;
 	public bool PowerEnvironment = true;
@@ -38,8 +38,21 @@ public class APC  : NBHandApplyInteractable, INodeControl
 	private void SyncVoltage(float newVoltage)
 	{
 		//optimization - do nothing if voltage already initialized and is unchanged
-		if (voltageSync == newVoltage) return;
+		if (voltageSync == newVoltage && voltageInit) return;
+		voltageSync = newVoltage;
 		UpdateDisplay();
+	}
+
+	public override void OnStartServer()
+	{
+		SyncVoltage(voltageSync);
+		voltageInit = true;
+	}
+
+	public override void OnStartClient()
+	{
+		SyncVoltage(voltageSync);
+		voltageInit = true;
 	}
 
 	private void OnDisable()
