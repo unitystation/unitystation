@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Globalization;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -107,8 +107,8 @@ public partial class GameManager : MonoBehaviour
 		{
 			Vector3 proposedPosition = RandomPositionInSolarSystem();
 			bool failedChecks =
-				Vector3.Distance(proposedPosition, MatrixManager.Instance.spaceMatrix.transform.parent.transform.position)
-								< minDistanceBetweenSpaceBodies;
+				Vector3.Distance(proposedPosition, MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
+				minDistanceBetweenSpaceBodies;
 			//Make sure it is away from the middle of space matrix
 
 			for (int i = 0; i < SpaceBodies.Count; i++)
@@ -152,7 +152,7 @@ public partial class GameManager : MonoBehaviour
 			PendingSpaceBodies = new Queue<MatrixMove>();
 			counting = true;
 			RespawnCurrentlyAllowed = RespawnAllowed;
-			StartCoroutine( WaitToInitEscape() );
+			StartCoroutine(WaitToInitEscape());
 		}
 		GameOver = false;
 		// if (scene.name != "Lobby")
@@ -174,7 +174,7 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			stationTime = DateTime.ParseExact(currentTime,"O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
+			stationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
 			counting = true;
 		}
 	}
@@ -185,6 +185,12 @@ public partial class GameManager : MonoBehaviour
 		waitForRestart = false;
 		counting = true;
 		restartTime = 10f;
+		StartCoroutine(NotifyClientsRoundTime());
+	}
+
+	IEnumerator NotifyClientsRoundTime()
+	{
+		yield return WaitFor.EndOfFrame;
 		UpdateRoundTimeMessage.Send(stationTime.ToString("O"));
 	}
 

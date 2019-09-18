@@ -21,7 +21,7 @@ public class PlayerList : NetworkBehaviour
 
 	public static PlayerList Instance;
 	public int ConnectionCount => values.Count;
-	public List<ConnectedPlayer> InGamePlayers => values.FindAll( player => player.GameObject != null );
+	public List<ConnectedPlayer> InGamePlayers => values.FindAll( player => player.Script != null );
 
 	public bool reportDone = false;
 
@@ -36,7 +36,6 @@ public class PlayerList : NetworkBehaviour
 	//Kill counts for crew members and syndicate for display at end of round, similar to past TDM department scores
 	public int crewKills;
 	public int syndicateKills;
-
 
 	private void Awake()
 	{
