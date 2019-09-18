@@ -83,15 +83,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			var objectBehaviour = itemObject.GetComponent<ObjectBehaviour>();
 			if (objectBehaviour != null)
 			{
-				objectBehaviour.parentContainer = objectBehaviour;
+				objectBehaviour.parentContainer = playerScript.pushPull;
 			}
 			cnt.DisappearFromWorldServer();
 		}
-				if (Inventory[equipSlot].Item != null && !replaceIfOccupied)
+
+		if (Inventory[equipSlot].Item != null && !replaceIfOccupied)
 		{
 			return false;
 		}
-
 
 		if (originPNA != null)
 		{

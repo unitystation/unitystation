@@ -166,7 +166,7 @@ public class PlayerList : NetworkBehaviour
 	/// </summary>
 	public List<ConnectedPlayer> GetPlayersOnMatrix( MatrixInfo matrix )
 	{
-		return InGamePlayers.FindAll( p => p.Script.registerTile.Matrix.Id == matrix.Id );
+		return InGamePlayers.FindAll( p => (p.Script != null) && p.Script.registerTile.Matrix.Id == matrix.Id );
 	}
 
 	public List<ConnectedPlayer> GetAlivePlayers(List<ConnectedPlayer> players = null)
