@@ -10,38 +10,26 @@ using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
+
 #endif
 
-public class SpriteHandlerData : NetworkBehaviour
+public class SpriteHandlerData : MonoBehaviour
 {
 	//TODO
 	//Maybe a dictionary so you can easily look up in hands and stuff like that
 	//With enum
-	[FormerlySerializedAs("SpriteInfos")]
-	public SpriteDataForSH Infos;
+	[FormerlySerializedAs("SpriteInfos")] public SpriteDataForSH Infos;
 	public List<Sprite> spriteList = new List<Sprite>();
+
 	private SpriteJson spriteJson;
+
 	// Start is called before the first frame update
-	void Start()
+	public virtual void Start()
 	{
 		Infos.DeSerializeT();
 	}
-	public void HELP()
-	{
-		if (Infos == null)
-		{
-			Logger.Log("OH FUCK!!");
-		}
-		else {
-			Logger.Log("itit ok~");
-		}
-	}
 
-	//public SpriteDataForSH GetSpriteData() { 
-	//	return(SpriteInfos)
-
-	//}
-	#if UNITY_EDITOR
+#if UNITY_EDITOR
 	public void SetUpSheet()
 	{
 		Infos = new SpriteDataForSH();
@@ -49,7 +37,8 @@ public class SpriteHandlerData : NetworkBehaviour
 		for (int i = 0; i < spriteList.Count; i++)
 		{
 			Infos.List.Add(new List<List<SpriteInfo>>());
-			var path = AssetDatabase.GetAssetPath(spriteList[i]).Substring(17);//Substring(17) To remove the "Assets/Resources/"
+			var path = AssetDatabase.GetAssetPath(spriteList[i])
+				.Substring(17); //Substring(17) To remove the "Assets/Resources/"
 			Sprite[] spriteSheetSprites = Resources.LoadAll<Sprite>(path.Remove(path.Length - 4));
 			if (spriteSheetSprites.Length > 1)
 			{
@@ -96,7 +85,8 @@ public class SpriteHandlerData : NetworkBehaviour
 					}
 				}
 			}
-			else {
+			else
+			{
 				var info = new SpriteInfo()
 				{
 					sprite = spriteSheetSprites[0],
@@ -106,11 +96,12 @@ public class SpriteHandlerData : NetworkBehaviour
 				Infos.List[i][0].Add(info);
 				Logger.Log("added");
 			}
-
 		}
+
 		Infos.SerializeT();
 		var IA = this.GetComponent<ItemAttributes>();
-		if (IA != null) {
+		if (IA != null)
+		{
 			IA.spriteHandlerData = this;
 		}
 
@@ -120,9 +111,8 @@ public class SpriteHandlerData : NetworkBehaviour
 			EditorSceneManager.MarkSceneDirty(prefabStage.scene);
 			Logger.Log("YOYO");
 		}
-
 	}
-	#endif
+#endif
 
 	public class SpriteInfo
 	{

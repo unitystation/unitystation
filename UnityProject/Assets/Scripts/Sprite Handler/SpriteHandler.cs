@@ -15,10 +15,10 @@ public class SpriteHandler : SpriteHandlerData
 {
 	public SpriteRenderer spriteRenderer;
 
-	[SyncVar(hook = nameof(SyncIndexSprite))]
+//	[SyncVar(hook = nameof(SyncIndexSprite))]
 	public int spriteIndex;
 
-	[SyncVar(hook = nameof(SyncVariantIndex))]
+//	[SyncVar(hook = nameof(SyncVariantIndex))]
 	public int VariantIndex;
 
 	private SpriteJson spriteJson;
@@ -27,18 +27,10 @@ public class SpriteHandler : SpriteHandlerData
 	private float timeElapsed = 0;
 	private float waitTime;
 
-	[SyncVar(hook = nameof(setSynchroniseVariant))]
+//	[SyncVar(hook = nameof(setSynchroniseVariant))]
 	public bool SynchroniseVariant = true; //Used for stuff like in hands where you dont want any delays / Miss match While it synchronises Requires manual synchronisation
 
-	public override void OnStartClient()
-	{
-		Start();
-		setSynchroniseVariant(SynchroniseVariant);
-		SyncIndexSprite(spriteIndex);
-		SyncVariantIndex(VariantIndex);
-	}
-
-	void Start()
+	public override void Start()
 	{
 		Infos.DeSerializeT();
 		if (Infos.List[spriteIndex][VariantIndex].Count > 1)
