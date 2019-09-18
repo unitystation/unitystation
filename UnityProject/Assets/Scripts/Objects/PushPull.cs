@@ -25,7 +25,22 @@ public class PushPull : NetworkBehaviour, IRightClickable {
 	/// <summary>
 	/// Server only: The object that this object is contained inside
 	/// </summary>
-	public PushPull parentContainer = null;
+	public PushPull parentContainer
+	{
+		get => _parentContainer;
+		set
+		{
+			if ( value == this )
+			{
+				Logger.LogError( gameObject.name + " tried to set parentContainer to itself!", Category.Transform );
+				return;
+			}
+
+			_parentContainer = value;
+		}
+	}
+
+	private PushPull _parentContainer = null;
 
 	/// <summary>
 	/// World position of highest object this object is contained in
