@@ -111,9 +111,10 @@ public class SpriteHandler : SpriteHandlerData
 	{
 		if (SynchroniseVariant)
 		{
+			VariantIndex = _VariantIndex;
 			animationIndex = 0;
-			SetSprite(Infos.List[spriteIndex][_VariantIndex][animationIndex]);
-			if (Infos.List[spriteIndex][_VariantIndex].Count > 1)
+			SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
+			if (Infos.List[spriteIndex][VariantIndex].Count > 1)
 			{
 				UpdateManager.Instance.Add(UpdateMe);
 			}

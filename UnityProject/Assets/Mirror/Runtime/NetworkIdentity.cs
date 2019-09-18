@@ -288,14 +288,21 @@ namespace Mirror
 			}
 		}
 
+		private float waitTime = 0f;
+
 		private void LateUpdateMe()
 		{
 			if (!gameObject.activeInHierarchy) return;
 
 			if (payLoadQueue.Count > 0)
 			{
-				Debug.Log("PROCESS QUEUED MESSAGE");
-				ProcessPayloadQueue(payLoadQueue.Dequeue());
+				//Just ensures that all prefabs had a chance to init
+				waitTime += Time.deltaTime;
+
+				if (waitTime > 1f)
+				{
+					ProcessPayloadQueue(payLoadQueue.Dequeue());
+				}
 			}
 		}
 
@@ -972,7 +979,6 @@ namespace Mirror
 		{
 			if (!gameObject.activeInHierarchy)
 			{
-				Debug.Log("ADD PAYLOAD TO QUEUE!!");
 				payLoadQueue.Enqueue(new PayloadItem {payloadReader = reader, initialPayload = initialState});
 			}
 			else
