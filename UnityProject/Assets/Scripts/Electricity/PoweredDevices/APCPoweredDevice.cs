@@ -109,10 +109,10 @@ public class APCPoweredDevice : NetworkBehaviour
 		{
 			Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), State, _State);
 		}
-		
+
 		if (Powered != null)
 		{
-			Powered.StateUpdate(State);
+			Powered.StateUpdate(_State);
 		}
 	}
 }
