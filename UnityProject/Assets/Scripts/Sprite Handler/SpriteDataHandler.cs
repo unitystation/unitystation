@@ -34,7 +34,7 @@ public class SpriteDataHandler : MonoBehaviour
 	}
 
 #if UNITY_EDITOR
-	public void SetUpSheet()
+	public virtual void SetUpSheet()
 	{
 		Infos = new SpriteData();
 		Infos.List = new List<List<List<SpriteInfo>>>();

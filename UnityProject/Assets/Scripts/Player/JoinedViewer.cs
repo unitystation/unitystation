@@ -46,7 +46,10 @@ public class JoinedViewer : NetworkBehaviour
 
 		CustomNetworkManager.Instance.SyncPlayerData(gameObject);
 		// If they have a player to rejoin send the client the player to rejoin, otherwise send a null gameobject.
-		TargetLocalPlayerSetupPlayer(connectionToClient, PlayerList.Instance.TakeLoggedOffPlayer(steamId));
+
+		//TargetLocalPlayerSetupPlayer(connectionToClient, PlayerList.Instance.TakeLoggedOffPlayer(steamId));
+		TargetLocalPlayerSetupPlayer(connectionToClient, null);
+		Debug.Log("FIXME: Handle reclaiming old player");
 	}
 
 	[TargetRpc]

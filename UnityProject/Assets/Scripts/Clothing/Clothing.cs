@@ -93,6 +93,10 @@ public class Clothing : NetworkBehaviour
 	{
 		if (Initialised != true)
 		{
+			if (!string.IsNullOrEmpty(SynchronisedString))
+			{
+				Debug.Log("Initializing with : " + SynchronisedString);
+			}
 			if (clothingData != null)
 			{
 				var _Clothing = GetComponent<Clothing>();
@@ -139,6 +143,10 @@ public class Clothing : NetworkBehaviour
 				Headset.EncryptionKey = headsetData.Key.EncryptionKey;
 				Initialised = true;
 			}
+		}
+		else
+		{
+			Debug.Log("ALREADY INIT!! Tried to init with : " + SynchronisedString);
 		}
 	}
 }

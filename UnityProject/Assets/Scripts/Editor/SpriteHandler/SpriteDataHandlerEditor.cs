@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(SpriteDataHandler))]
-public class SpriteDataHandlerEditor : Editor
+[CustomEditor(typeof(SpriteHandler))]
+public class SpriteHandlerEditor : Editor
 {
 	public override void OnInspectorGUI()
 	{
 		DrawDefaultInspector();
 
-		SpriteDataHandler myScript = (SpriteDataHandler) target;
+		SpriteHandler myScript = (SpriteHandler) target;
 
 		if (GUILayout.Button("SetUpSheet"))
 		{

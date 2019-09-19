@@ -5,6 +5,7 @@ using Mirror;
 using UnityEditor;
 using System.Linq;
 using Newtonsoft.Json;
+
 //using UnityEditor.Experimental.SceneManagement;
 //using UnityEditor.SceneManagement;
 
@@ -28,7 +29,9 @@ public class SpriteHandler : SpriteDataHandler
 	private float waitTime;
 
 //	[SyncVar(hook = nameof(setSynchroniseVariant))]
-	public bool SynchroniseVariant = true; //Used for stuff like in hands where you dont want any delays / Miss match While it synchronises Requires manual synchronisation
+	public bool
+		SynchroniseVariant =
+			true; //Used for stuff like in hands where you dont want any delays / Miss match While it synchronises Requires manual synchronisation
 
 	public override void Start()
 	{
@@ -61,15 +64,18 @@ public class SpriteHandler : SpriteDataHandler
 					//Logger.Log(Infos.List[spriteIndex][VariantIndex][animationIndex].sprite.name);
 					SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
 				}
-				else {
+				else
+				{
 					spriteRenderer.sprite = null;
 				}
 			}
-			else {
+			else
+			{
 				spriteRenderer.sprite = null;
 			}
 		}
-		else {
+		else
+		{
 			spriteRenderer.sprite = null;
 		}
 	}
@@ -86,17 +92,19 @@ public class SpriteHandler : SpriteDataHandler
 				{
 					animationIndex = 0;
 				}
+
 				SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
 			}
+
 			if (!(Infos.List[spriteIndex][VariantIndex].Count > 1))
 			{
 				UpdateManager.Instance.Remove(UpdateMe);
 			}
 		}
-		else {
+		else
+		{
 			UpdateManager.Instance.Remove(UpdateMe);
 		}
-
 	}
 
 	public void SyncVariantIndex(int _VariantIndex)
@@ -110,8 +118,8 @@ public class SpriteHandler : SpriteDataHandler
 			{
 				UpdateManager.Instance.Add(UpdateMe);
 			}
-			else {
-
+			else
+			{
 				UpdateManager.Instance.Remove(UpdateMe);
 			}
 		}
@@ -134,8 +142,8 @@ public class SpriteHandler : SpriteDataHandler
 			{
 				UpdateManager.Instance.Add(UpdateMe);
 			}
-			else {
-
+			else
+			{
 				UpdateManager.Instance.Remove(UpdateMe);
 			}
 		}
@@ -164,7 +172,8 @@ public class SpriteHandler : SpriteDataHandler
 					{
 						UpdateManager.Instance.Add(UpdateMe);
 					}
-					else {
+					else
+					{
 						UpdateManager.Instance.Remove(UpdateMe);
 					}
 				}
@@ -193,12 +202,19 @@ public class SpriteHandler : SpriteDataHandler
 					{
 						UpdateManager.Instance.Add(UpdateMe);
 					}
-					else {
+					else
+					{
 						UpdateManager.Instance.Remove(UpdateMe);
 					}
 				}
 			}
 		}
 	}
-}
 
+#if UNITY_EDITOR
+	public override void SetUpSheet()
+	{
+		base.SetUpSheet();
+	}
+#endif
+}
