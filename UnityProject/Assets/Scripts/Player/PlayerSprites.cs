@@ -30,6 +30,7 @@ public class PlayerSprites : MonoBehaviour
 	public ClothingItem[] characterSprites;
 
 	public CharacterSettings ThisCharacter;
+
 	//clothes for each clothing slot
 	public readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
@@ -40,6 +41,7 @@ public class PlayerSprites : MonoBehaviour
 	private PlayerScript playerScript;
 	private PlayerHealth playerHealth;
 	private PlayerSync playerSync;
+
 	[Tooltip("Muzzle flash, should be on a child of the player gameobject")]
 	public LightSprite muzzleFlash;
 
@@ -75,8 +77,10 @@ public class PlayerSprites : MonoBehaviour
 		{
 			clothes[c.name] = c;
 		}
+
 		SetupBodySprites();
 	}
+
 	public void SetupCharacterData(CharacterSettings Character)
 	{
 		ThisCharacter = Character;
@@ -90,16 +94,18 @@ public class PlayerSprites : MonoBehaviour
 		if (ThisCharacter.underwearName != "_None_")
 		{
 			clothes["underwear"].spriteHandler.Infos = new SpriteData();
-			clothes["underwear"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothFactory.Instance.playerCustomisationData[
-				PlayerCustomisation.Underwear][ThisCharacter.underwearName].Equipped));
+			clothes["underwear"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
+				ClothFactory.Instance.playerCustomisationData[
+					PlayerCustomisation.Underwear][ThisCharacter.underwearName].Equipped));
 			clothes["underwear"].spriteHandler.PushTexture();
 		}
 
 		if (ThisCharacter.socksName != "_None_")
 		{
 			clothes["socks"].spriteHandler.Infos = new SpriteData();
-			clothes["socks"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothFactory.Instance.playerCustomisationData[
-				PlayerCustomisation.Socks][ThisCharacter.socksName].Equipped));
+			clothes["socks"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
+				ClothFactory.Instance.playerCustomisationData[
+					PlayerCustomisation.Socks][ThisCharacter.socksName].Equipped));
 			clothes["socks"].spriteHandler.PushTexture();
 		}
 
@@ -108,17 +114,20 @@ public class PlayerSprites : MonoBehaviour
 		{
 			ColorUtility.TryParseHtmlString(ThisCharacter.facialHairColor, out var newColor);
 			clothes["beard"].spriteHandler.Infos = new SpriteData();
-			clothes["beard"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothFactory.Instance.playerCustomisationData[
-				PlayerCustomisation.FacialHair][ThisCharacter.facialHairName].Equipped));
+			clothes["beard"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
+				ClothFactory.Instance.playerCustomisationData[
+					PlayerCustomisation.FacialHair][ThisCharacter.facialHairName].Equipped));
 			clothes["beard"].spriteHandler.SetColor(newColor);
 			clothes["beard"].spriteHandler.PushTexture();
 		}
+
 		if (ThisCharacter.hairStyleName != "_None_")
 		{
 			ColorUtility.TryParseHtmlString(ThisCharacter.hairColor, out var newColor);
 			clothes["Hair"].spriteHandler.Infos = new SpriteData();
-			clothes["Hair"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(ClothFactory.Instance.playerCustomisationData[
-				PlayerCustomisation.HairStyle][ThisCharacter.hairStyleName].Equipped));
+			clothes["Hair"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
+				ClothFactory.Instance.playerCustomisationData[
+					PlayerCustomisation.HairStyle][ThisCharacter.hairStyleName].Equipped));
 			clothes["Hair"].spriteHandler.SetColor(newColor);
 			clothes["Hair"].spriteHandler.PushTexture();
 		}
@@ -133,7 +142,8 @@ public class PlayerSprites : MonoBehaviour
 		{
 			SexSetupBodySprites(RaceTexture.Female);
 		}
-		else {
+		else
+		{
 			SexSetupBodySprites(RaceTexture.Male);
 		}
 	}
@@ -155,7 +165,8 @@ public class PlayerSprites : MonoBehaviour
 		if (Variant.LegRight.Texture != null)
 		{
 			clothes["body_rightleg"].spriteHandler.Infos = new SpriteData();
-			clothes["body_rightleg"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.LegRight));
+			clothes["body_rightleg"].spriteHandler.Infos.List
+				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.LegRight));
 			clothes["body_rightleg"].spriteHandler.SetColor(newColor);
 			clothes["body_rightleg"].spriteHandler.PushTexture();
 		}
@@ -164,7 +175,8 @@ public class PlayerSprites : MonoBehaviour
 		if (Variant.LegLeft.Texture != null)
 		{
 			clothes["body_leftleg"].spriteHandler.Infos = new SpriteData();
-			clothes["body_leftleg"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.LegLeft));
+			clothes["body_leftleg"].spriteHandler.Infos.List
+				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.LegLeft));
 			clothes["body_leftleg"].spriteHandler.SetColor(newColor);
 			clothes["body_leftleg"].spriteHandler.PushTexture();
 		}
@@ -172,7 +184,8 @@ public class PlayerSprites : MonoBehaviour
 		if (Variant.ArmRight.Texture != null)
 		{
 			clothes["body_rightarm"].spriteHandler.Infos = new SpriteData();
-			clothes["body_rightarm"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.ArmRight));
+			clothes["body_rightarm"].spriteHandler.Infos.List
+				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.ArmRight));
 			clothes["body_rightarm"].spriteHandler.SetColor(newColor);
 			clothes["body_rightarm"].spriteHandler.PushTexture();
 		}
@@ -181,7 +194,8 @@ public class PlayerSprites : MonoBehaviour
 		if (Variant.ArmLeft.Texture != null)
 		{
 			clothes["body_leftarm"].spriteHandler.Infos = new SpriteData();
-			clothes["body_leftarm"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.ArmLeft));
+			clothes["body_leftarm"].spriteHandler.Infos.List
+				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.ArmLeft));
 			clothes["body_leftarm"].spriteHandler.SetColor(newColor);
 			clothes["body_leftarm"].spriteHandler.PushTexture();
 		}
@@ -199,7 +213,8 @@ public class PlayerSprites : MonoBehaviour
 		if (Variant.HandRight.Texture != null)
 		{
 			clothes["body_right_hand"].spriteHandler.Infos = new SpriteData();
-			clothes["body_right_hand"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.HandRight));
+			clothes["body_right_hand"].spriteHandler.Infos.List
+				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.HandRight));
 			clothes["body_right_hand"].spriteHandler.SetColor(newColor);
 			clothes["body_right_hand"].spriteHandler.PushTexture();
 		}
@@ -208,7 +223,8 @@ public class PlayerSprites : MonoBehaviour
 		if (Variant.HandLeft.Texture != null)
 		{
 			clothes["body_left_hand"].spriteHandler.Infos = new SpriteData();
-			clothes["body_left_hand"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.HandLeft));
+			clothes["body_left_hand"].spriteHandler.Infos.List
+				.Add(StaticSpriteHandler.CompleteSpriteSetup(Variant.HandLeft));
 			clothes["body_left_hand"].spriteHandler.SetColor(newColor);
 			clothes["body_left_hand"].spriteHandler.PushTexture();
 		}
@@ -266,14 +282,19 @@ public class PlayerSprites : MonoBehaviour
 		}
 	}
 
-	public void NotifyPlayer(GameObject recipient)
+	public void NotifyPlayer(GameObject recipient, bool clothItems = false)
 	{
-		PlayerCustomisationMessage.SendTo(gameObject, recipient, ThisCharacter);
-
-		for (int i = 0; i < characterSprites.Length; i++)
+		if (!clothItems)
 		{
-			var clothItem = characterSprites[i];
-			EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, true);
+			PlayerCustomisationMessage.SendTo(gameObject, recipient, ThisCharacter);
+		}
+		else
+		{
+			for (int i = 0; i < characterSprites.Length; i++)
+			{
+				var clothItem = characterSprites[i];
+				EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, true);
+			}
 		}
 	}
 
@@ -283,6 +304,7 @@ public class PlayerSprites : MonoBehaviour
 		{
 			characterSettings = new CharacterSettings();
 		}
+
 		SetupCharacterData(characterSettings);
 		//Torso
 		PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);

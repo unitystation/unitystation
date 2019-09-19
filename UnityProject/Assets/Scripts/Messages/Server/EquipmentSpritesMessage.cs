@@ -17,36 +17,44 @@ public class EquipmentSpritesMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(EquipmentObject, ItemNetID);
+		Debug.Log(
+			$"Received EquipMsg: Index {Index} ItemID: {ItemNetID} EquipID: {EquipmentObject} ForceInit: {ForceInit} IsBody: {IsBodySprites}");
 
-		//Logger.Log("bob2?");
-		if (ItemNetID == NetId.Invalid)
+		if (NetworkObjects[0] != null)
 		{
-			//Logger.Log("bob3?");
-			//Clear slot message
-			//yield return WaitFor(EquipmentObject);
-			if (NetworkObjects[0] != null)
+			if (!IsBodySprites)
 			{
-				//Logger.Log("OR?");
-				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference(null);
-			}
-		}
-		else
-		{
-			//yield return WaitFor(EquipmentObject, Item);
-			if (NetworkObjects[0] != null)
-			{
-				//Logger.Log("this? " + NetworkObjects[0].name + " " + NetworkObjects[1].name);
-				if (!IsBodySprites)
+				ClothingItem c = NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index];
+				if (ItemNetID == NetId.Invalid)
 				{
-					ClothingItem c = NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index];
-					c.SetReference(NetworkObjects[1]);
-					if (ForceInit) c.PushTexture();
+					c.SetReference(null);
 				}
 				else
 				{
-					ClothingItem c = NetworkObjects[0].GetComponent<PlayerSprites>().characterSprites[Index];
 					c.SetReference(NetworkObjects[1]);
-					if (ForceInit) c.PushTexture();
+				}
+
+				if (ForceInit)
+				{
+					c.PushTexture();
+					Debug.Log("FORCE INIT FOR CLOTHING");
+				}
+			}
+			else
+			{
+				ClothingItem c = NetworkObjects[0].GetComponent<PlayerSprites>().characterSprites[Index];
+				if (ItemNetID == NetId.Invalid)
+				{
+					c.SetReference(null);
+				}
+				else
+				{
+					c.SetReference(NetworkObjects[1]);
+				}
+				if (ForceInit)
+				{
+					c.PushTexture();
+					Debug.Log("FORCE INIT FOR BODY PARTS");
 				}
 			}
 		}

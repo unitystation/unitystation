@@ -235,7 +235,7 @@ public class Equipment : NetworkBehaviour
 		}
 
 		NotifyPlayer(gameObject);
-		playerScript.playerSprites.NotifyPlayer(gameObject);
+		playerScript.playerSprites.NotifyPlayer(gameObject, true);
 	}
 	private void AddifPresent(Dictionary<EquipSlot, ClothOrPrefab> gear, EquipSlot key, ClothOrPrefab clothOrPrefab)
 	{
