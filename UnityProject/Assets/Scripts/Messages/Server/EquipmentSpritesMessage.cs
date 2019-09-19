@@ -17,8 +17,8 @@ public class EquipmentSpritesMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(EquipmentObject, ItemNetID);
-		Debug.Log(
-			$"Received EquipMsg: Index {Index} ItemID: {ItemNetID} EquipID: {EquipmentObject} ForceInit: {ForceInit} IsBody: {IsBodySprites}");
+	//	Debug.Log(
+	//		$"Received EquipMsg: Index {Index} ItemID: {ItemNetID} EquipID: {EquipmentObject} ForceInit: {ForceInit} IsBody: {IsBodySprites}");
 
 		if (NetworkObjects[0] != null)
 		{
@@ -27,35 +27,28 @@ public class EquipmentSpritesMessage : ServerMessage
 				ClothingItem c = NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index];
 				if (ItemNetID == NetId.Invalid)
 				{
-					c.SetReference(null);
+					if (!ForceInit) c.SetReference(null);
 				}
 				else
 				{
 					c.SetReference(NetworkObjects[1]);
 				}
 
-				if (ForceInit)
-				{
-					c.PushTexture();
-					Debug.Log("FORCE INIT FOR CLOTHING");
-				}
+				if (ForceInit) c.PushTexture();
 			}
 			else
 			{
 				ClothingItem c = NetworkObjects[0].GetComponent<PlayerSprites>().characterSprites[Index];
 				if (ItemNetID == NetId.Invalid)
 				{
-					c.SetReference(null);
+					if (!ForceInit) c.SetReference(null);
 				}
 				else
 				{
 					c.SetReference(NetworkObjects[1]);
 				}
-				if (ForceInit)
-				{
-					c.PushTexture();
-					Debug.Log("FORCE INIT FOR BODY PARTS");
-				}
+
+				if (ForceInit) c.PushTexture();
 			}
 		}
 	}

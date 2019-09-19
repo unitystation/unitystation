@@ -234,9 +234,16 @@ public class Equipment : NetworkBehaviour
 			}
 		}
 
+		StartCoroutine(RefreshPlayerClothItems());
+	}
+
+	IEnumerator RefreshPlayerClothItems()
+	{
+		yield return WaitFor.Seconds(1);
 		NotifyPlayer(gameObject);
 		playerScript.playerSprites.NotifyPlayer(gameObject, true);
 	}
+	
 	private void AddifPresent(Dictionary<EquipSlot, ClothOrPrefab> gear, EquipSlot key, ClothOrPrefab clothOrPrefab)
 	{
 		if (clothOrPrefab?.Clothing?.Base?.Equipped != null || clothOrPrefab?.Prefab != null)
