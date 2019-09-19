@@ -318,7 +318,7 @@ public class CustomNetworkManager : NetworkManager
 			var equipment = playerBody.GetComponent<Equipment>();
 			if (equipment)
 			{
-				equipment.CmdNotifyPlayer(playerGameObject);
+				equipment.NotifyPlayer(playerGameObject);
 			}
 		}
 		//TileChange Data

@@ -77,19 +77,6 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.ItemIcon));
 		InventoryIcon.PushTexture();
 		AttributesFromCD(itemAttributes);
-
-		if (isClient)
-		{
-			if (PlayerManager.LocalPlayer != null)
-			{
-				var slot = InventoryManager.GetSlotFromItem(gameObject,
-					PlayerManager.PlayerScript.playerNetworkActions);
-				if (slot != null)
-				{
-					PlayerManager.PlayerScript.playerSprites.RefreshClothingItems();
-				}
-			}
-		}
 	}
 
 	public void AttributesFromCD(ItemAttributesData ItemAttributes)

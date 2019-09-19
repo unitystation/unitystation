@@ -56,8 +56,7 @@ public class Equipment : NetworkBehaviour
 		UnregisisterInternals();
 	}
 
-	[Command]
-	public void CmdNotifyPlayer(GameObject recipient)
+	public void NotifyPlayer(GameObject recipient)
 	{
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
@@ -234,6 +233,8 @@ public class Equipment : NetworkBehaviour
 													"We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
 			}
 		}
+
+		NotifyPlayer(gameObject);
 	}
 	private void AddifPresent(Dictionary<EquipSlot, ClothOrPrefab> gear, EquipSlot key, ClothOrPrefab clothOrPrefab)
 	{

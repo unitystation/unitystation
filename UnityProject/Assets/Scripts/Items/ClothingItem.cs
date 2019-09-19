@@ -152,6 +152,9 @@ public class ClothingItem : MonoBehaviour
 
 	public void PushTexture()
 	{
-		spriteHandler.PushTexture();
+		if (spriteHandler != null)
+		{
+			spriteHandler.PushTexture();
+		}
 	}
 }

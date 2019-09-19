@@ -88,14 +88,6 @@ public class PlayerSprites : MonoBehaviour
 		SetupCustomisations();
 	}
 
-	public void RefreshClothingItems()
-	{
-		foreach (KeyValuePair<string, ClothingItem> c in clothes)
-		{
-			c.Value.PushTexture();
-		}
-	}
-
 	public void SetupCustomisations()
 	{
 		if (ThisCharacter.underwearName != "_None_")
