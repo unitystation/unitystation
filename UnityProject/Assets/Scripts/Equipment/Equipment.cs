@@ -164,19 +164,19 @@ public class Equipment : NetworkBehaviour
 				{
 					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent, PrefabOverride: gearItem.Value.Clothing.PrefabVariant); //Where it is made
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-					SetItem(gearItem.Key, itemAtts.gameObject);
+					SetItem(gearItem.Key, itemAtts.gameObject, true);
 				}
 				else {
 					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent);
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-					SetItem(gearItem.Key, itemAtts.gameObject);
+					SetItem(gearItem.Key, itemAtts.gameObject, true);
 				}
 			}
 			else if (gearItem.Value.Prefab != null)
 			{
 				var obj = PoolManager.PoolNetworkInstantiate(gearItem.Value.Prefab, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(gearItem.Key, itemAtts.gameObject);
+				SetItem(gearItem.Key, itemAtts.gameObject, true);
 			}
 		}
 		if (Backpack.Backpack != null)
@@ -185,19 +185,19 @@ public class Equipment : NetworkBehaviour
 			{
 				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent, PrefabOverride: Backpack.Backpack.PrefabVariant); //Where it is made
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.back, itemAtts.gameObject);
+				SetItem(EquipSlot.back, itemAtts.gameObject, true);
 			}
 			else {
 				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.back, itemAtts.gameObject);
+				SetItem(EquipSlot.back, itemAtts.gameObject, true);
 			}
 		}
 		else if (Backpack.Prefab)
 		{
 			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
 			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(EquipSlot.back, itemAtts.gameObject);
+			SetItem(EquipSlot.back, itemAtts.gameObject, true);
 		}
 
 
@@ -207,19 +207,19 @@ public class Equipment : NetworkBehaviour
 			{
 				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent, PrefabOverride: Ears.Headset.PrefabVariant); //Where it is made
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.ear, itemAtts.gameObject);
+				SetItem(EquipSlot.ear, itemAtts.gameObject, true);
 			}
 			else {
 				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.ear, itemAtts.gameObject);
+				SetItem(EquipSlot.ear, itemAtts.gameObject, true);
 			}
 		}
 		else if (Ears.Prefab)
 		{
 			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
 			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(EquipSlot.ear, itemAtts.gameObject);
+			SetItem(EquipSlot.ear, itemAtts.gameObject, true);
 		}
 		SpawnID(jobOutfit);
 
@@ -233,15 +233,6 @@ public class Equipment : NetworkBehaviour
 													"We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
 			}
 		}
-
-		//StartCoroutine(RefreshPlayerClothItems());
-	}
-
-	IEnumerator RefreshPlayerClothItems()
-	{
-		yield return WaitFor.EndOfFrame;
-		NotifyPlayer(gameObject);
-		playerScript.playerSprites.NotifyPlayer(gameObject, true);
 	}
 
 	private void AddifPresent(Dictionary<EquipSlot, ClothOrPrefab> gear, EquipSlot key, ClothOrPrefab clothOrPrefab)

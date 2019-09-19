@@ -34,7 +34,7 @@ public class EquipmentSpritesMessage : ServerMessage
 					c.SetReference(NetworkObjects[1]);
 				}
 
-				if (ForceInit) {c.PushTexture(); Debug.Log("SET CLOTH Force");}
+				if (ForceInit) c.PushTexture();
 			}
 			else
 			{
