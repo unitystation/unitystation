@@ -438,6 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14ed3befbaf4893bc7f04d3a44e9639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableDrag: 0
   resetPositionOnDisable: 0
 --- !u!114 &8424668702801436378
 MonoBehaviour:
@@ -451,7 +452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b48dc017580ce4295bfd44c0dd12eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPrefab: {fileID: 1812040679061594, guid: d443494833c3bf746b9e1f25c17eaf77,
+  buttonPrefab: {fileID: 6841219424616931615, guid: f911aba3224cf47bcb38ce2c82b53c19,
     type: 3}
   hasPickedAJob: 0
   isUpToDate: 0
@@ -1191,7 +1192,7 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 1
   m_StartCorner: 0
-  m_StartAxis: 0
+  m_StartAxis: 1
   m_CellSize: {x: 250, y: 30}
   m_Spacing: {x: 10, y: 8}
   m_Constraint: 1
@@ -1420,6 +1421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14ed3befbaf4893bc7f04d3a44e9639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableDrag: 0
   resetPositionOnDisable: 0
 --- !u!114 &8424100502890186148
 MonoBehaviour:
