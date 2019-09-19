@@ -4,15 +4,18 @@ using Mirror;
 
 public class EquipmentSpritesMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.EquipmentSpritesMessage;
+	public static short MessageType = (short) MessageTypes.EquipmentSpritesMessage;
 	public int Reference;
 	public int Index;
 	public uint EquipmentObject;
 	public uint ItemNetID;
+	public bool forceInit;
+
+	//Is this for the body parts or for the clothing items:
+	public bool isBodySprites;
 
 	public override IEnumerator Process()
 	{
-
 		yield return WaitFor(EquipmentObject, ItemNetID);
 
 		//Logger.Log("bob2?");
@@ -24,35 +27,48 @@ public class EquipmentSpritesMessage : ServerMessage
 			if (NetworkObjects[0] != null)
 			{
 				//Logger.Log("OR?");
-				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference( null);
+				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference(null);
 			}
 		}
-		else {
+		else
+		{
 			//yield return WaitFor(EquipmentObject, Item);
 			if (NetworkObjects[0] != null)
 			{
 				//Logger.Log("this? " + NetworkObjects[0].name + " " + NetworkObjects[1].name);
-				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference( NetworkObjects[1]);
+				if (!isBodySprites)
+				{
+					ClothingItem c = NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index];
+					c.SetReference(NetworkObjects[1]);
+					if (forceInit) c.PushTexture();
+				}
+				else
+				{
+					ClothingItem c = NetworkObjects[0].GetComponent<PlayerSprites>().characterSprites[Index];
+					c.SetReference(NetworkObjects[1]);
+					if (forceInit) c.PushTexture();
+				}
 			}
-
 		}
 	}
 
 	public static EquipmentSpritesMessage SendToAll(GameObject equipmentObject, int index, GameObject _Item)
 	{
-		var msg = CreateMsg(equipmentObject, index, _Item);
+		var msg = CreateMsg(equipmentObject, index, _Item, false, false);
 		msg.SendToAll();
 		return msg;
 	}
 
-	public static EquipmentSpritesMessage SendTo(GameObject equipmentObject, int index, GameObject recipient, GameObject _Item)
+	public static EquipmentSpritesMessage SendTo(GameObject equipmentObject, int index, GameObject recipient,
+		GameObject _Item, bool _forceInit, bool _isBodyParts)
 	{
-		var msg = CreateMsg(equipmentObject, index, _Item);
+		var msg = CreateMsg(equipmentObject, index, _Item, _forceInit, _isBodyParts);
 		msg.SendTo(recipient);
 		return msg;
 	}
 
-	public static EquipmentSpritesMessage CreateMsg(GameObject equipmentObject, int index, GameObject _Item)
+	public static EquipmentSpritesMessage CreateMsg(GameObject equipmentObject, int index, GameObject _Item,
+		bool _forceInit, bool _isBodyParts)
 	{
 		if (_Item != null)
 		{
@@ -63,7 +79,8 @@ public class EquipmentSpritesMessage : ServerMessage
 				ItemNetID = _Item.NetId()
 			};
 		}
-		else {
+		else
+		{
 			return new EquipmentSpritesMessage
 			{
 				Index = index,

@@ -61,7 +61,7 @@ public class Equipment : NetworkBehaviour
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
 			var clothItem = clothingSlots[i];
-			EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference);
+			EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, false);
 		}
 	}
 
@@ -235,6 +235,7 @@ public class Equipment : NetworkBehaviour
 		}
 
 		NotifyPlayer(gameObject);
+		playerScript.playerSprites.NotifyPlayer(gameObject);
 	}
 	private void AddifPresent(Dictionary<EquipSlot, ClothOrPrefab> gear, EquipSlot key, ClothOrPrefab clothOrPrefab)
 	{
