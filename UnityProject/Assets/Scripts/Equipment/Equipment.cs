@@ -56,7 +56,8 @@ public class Equipment : NetworkBehaviour
 		UnregisisterInternals();
 	}
 
-	public void NotifyPlayer(GameObject recipient)
+	[Command]
+	public void CmdNotifyPlayer(GameObject recipient)
 	{
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
@@ -167,7 +168,7 @@ public class Equipment : NetworkBehaviour
 					SetItem(gearItem.Key, itemAtts.gameObject);
 				}
 				else {
-					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent); 
+					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent);
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 					SetItem(gearItem.Key, itemAtts.gameObject);
 				}
@@ -188,7 +189,7 @@ public class Equipment : NetworkBehaviour
 				SetItem(EquipSlot.back, itemAtts.gameObject);
 			}
 			else {
-				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent); 
+				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 				SetItem(EquipSlot.back, itemAtts.gameObject);
 			}
@@ -210,7 +211,7 @@ public class Equipment : NetworkBehaviour
 				SetItem(EquipSlot.ear, itemAtts.gameObject);
 			}
 			else {
-				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent); 
+				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
 				SetItem(EquipSlot.ear, itemAtts.gameObject);
 			}

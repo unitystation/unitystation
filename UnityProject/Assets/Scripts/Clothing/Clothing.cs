@@ -103,6 +103,7 @@ public class Clothing : NetworkBehaviour
 				var Item = GetComponent<ItemAttributes>();
 				_Clothing.SpriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(clothingData, this);
 				Item.SetUpFromClothingData(clothingData.Base, clothingData.ItemAttributes);
+
 				switch (Type)
 				{
 					case ClothingVariantType.Default:

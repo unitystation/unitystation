@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using IngameDebugConsole;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
@@ -67,22 +68,16 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		InventoryIcon = GetComponentInChildren<SpriteHandler>();
 	}
 
-	public void SetUpFromClothingData(EquippedData equippedData, ItemAttributesData ItemAttributes)
+	public void SetUpFromClothingData(EquippedData equippedData, ItemAttributesData itemAttributes)
 	{
-		if (spriteDataHandler == null)
-		{
-			spriteDataHandler = new SpriteDataHandler();
-		}
-
 		spriteDataHandler.Infos = new SpriteData();
 		spriteDataHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsLeft));
 		spriteDataHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsRight));
 		InventoryIcon.Infos = new SpriteData();
 		InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.ItemIcon));
 		InventoryIcon.PushTexture();
-		AttributesFromCD(ItemAttributes);
+		AttributesFromCD(itemAttributes);
 	}
-
 
 	public void AttributesFromCD(ItemAttributesData ItemAttributes)
 	{

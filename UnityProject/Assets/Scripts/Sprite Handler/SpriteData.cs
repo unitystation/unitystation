@@ -11,7 +11,6 @@ public class SpriteData
 	public uint AID;
 	public List<SpriteHListPoint> Serialized = new List<SpriteHListPoint>();
 
-
 	//Serialise is the sprite data so it can be stored by the unity prefab
 	public void SerializeT()
 	{

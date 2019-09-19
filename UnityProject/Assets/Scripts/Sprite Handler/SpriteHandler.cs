@@ -1,13 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Mirror;
-using UnityEditor;
-using System.Linq;
-using Newtonsoft.Json;
-
-//using UnityEditor.Experimental.SceneManagement;
-//using UnityEditor.SceneManagement;
+﻿using UnityEngine;
 
 ///	<summary>
 ///	Handles sprite syncing between server and clients and contains a custom animator
@@ -16,10 +7,8 @@ public class SpriteHandler : SpriteDataHandler
 {
 	public SpriteRenderer spriteRenderer;
 
-//	[SyncVar(hook = nameof(SyncIndexSprite))]
 	public int spriteIndex;
 
-//	[SyncVar(hook = nameof(SyncVariantIndex))]
 	public int VariantIndex;
 
 	private SpriteJson spriteJson;
@@ -27,19 +16,20 @@ public class SpriteHandler : SpriteDataHandler
 
 	private float timeElapsed = 0;
 	private float waitTime;
+	private bool initialized = false;
+	private bool isAnimation = false;
 
-//	[SyncVar(hook = nameof(setSynchroniseVariant))]
 	public bool
 		SynchroniseVariant =
 			true; //Used for stuff like in hands where you dont want any delays / Miss match While it synchronises Requires manual synchronisation
 
-	public override void Start()
+	public override void OnEnable()
 	{
-		Infos.DeSerializeT();
-		if (Infos.List[spriteIndex][VariantIndex].Count > 1)
-		{
-			UpdateManager.Instance.Add(UpdateMe);
-		}
+	}
+
+	void OnDisable()
+	{
+		TryToggleAnimationState(false);
 	}
 
 	public void SetColor(Color value)
@@ -48,25 +38,35 @@ public class SpriteHandler : SpriteDataHandler
 		spriteRenderer.color = value;
 	}
 
+	void TryInit()
+	{
+		if (!initialized)
+		{
+			Infos.DeSerializeT();
+			initialized = true;
+		}
+	}
+
 	public void PushTexture()
 	{
-		//Logger.Log("PushTexture > " + this.name);
-		//Logger.Log("1");
 		if (Infos != null)
 		{
-			//Logger.Log("2");
-			if (!(spriteIndex >= Infos.List.Count))
+			if (!initialized)
 			{
-				//Logger.Log("3");
-				if (!(VariantIndex >= Infos.List[spriteIndex].Count))
+				TryInit();
+			}
+
+			if (spriteIndex < Infos.List.Count)
+			{
+				if (VariantIndex < Infos.List[spriteIndex].Count)
 				{
-					//Logger.Log("4");
-					//Logger.Log(Infos.List[spriteIndex][VariantIndex][animationIndex].sprite.name);
 					SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
+					TryToggleAnimationState(Infos.List[spriteIndex][VariantIndex].Count > 1);
 				}
 				else
 				{
 					spriteRenderer.sprite = null;
+					TryToggleAnimationState(false);
 				}
 			}
 			else
@@ -77,6 +77,7 @@ public class SpriteHandler : SpriteDataHandler
 		else
 		{
 			spriteRenderer.sprite = null;
+			TryToggleAnimationState(false);
 		}
 	}
 
@@ -95,63 +96,11 @@ public class SpriteHandler : SpriteDataHandler
 
 				SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
 			}
-
-			if (!(Infos.List[spriteIndex][VariantIndex].Count > 1))
-			{
-				UpdateManager.Instance.Remove(UpdateMe);
-			}
-		}
-		else
-		{
-			UpdateManager.Instance.Remove(UpdateMe);
-		}
-	}
-
-	public void SyncVariantIndex(int _VariantIndex)
-	{
-		if (SynchroniseVariant)
-		{
-			VariantIndex = _VariantIndex;
-			animationIndex = 0;
-			SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
-			if (Infos.List[spriteIndex][VariantIndex].Count > 1)
-			{
-				UpdateManager.Instance.Add(UpdateMe);
-			}
-			else
-			{
-				UpdateManager.Instance.Remove(UpdateMe);
-			}
-		}
-	}
-
-	public void setSynchroniseVariant(bool Sync)
-	{
-		SynchroniseVariant = Sync;
-	}
-
-	public void SyncIndexSprite(int _spriteIndex)
-	{
-		spriteIndex = _spriteIndex;
-		animationIndex = 0;
-		if (Infos.List.Count > 0)
-		{
-			SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
-
-			if (Infos.List[spriteIndex][VariantIndex].Count > 1)
-			{
-				UpdateManager.Instance.Add(UpdateMe);
-			}
-			else
-			{
-				UpdateManager.Instance.Remove(UpdateMe);
-			}
 		}
 	}
 
 	void SetSprite(SpriteInfo animationStills)
 	{
-		//Logger.Log("Pushed");
 		timeElapsed = 0;
 		waitTime = animationStills.waitTime;
 		spriteRenderer.sprite = animationStills.sprite;
@@ -168,14 +117,7 @@ public class SpriteHandler : SpriteDataHandler
 					spriteIndex = newSprites;
 					animationIndex = 0;
 					SetSprite(Infos.List[spriteIndex][VariantIndex][animationIndex]);
-					if (Infos.List[spriteIndex][VariantIndex].Count > 1)
-					{
-						UpdateManager.Instance.Add(UpdateMe);
-					}
-					else
-					{
-						UpdateManager.Instance.Remove(UpdateMe);
-					}
+					TryToggleAnimationState(Infos.List[spriteIndex][VariantIndex].Count > 1);
 				}
 			}
 		}
@@ -183,30 +125,37 @@ public class SpriteHandler : SpriteDataHandler
 
 	public void ChangeSpriteVariant(int SpriteVariant)
 	{
-		//Logger.Log("Updating " + SpriteVariant);
-		//Logger.Log(spriteIndex + " < > " + Infos.List.Count);
-		//Logger.Log(SpriteVariant + " < > " + Infos.List[spriteIndex].Count);
 		if (!(spriteIndex >= Infos.List.Count))
 		{
 			if (!(SpriteVariant >= Infos.List[spriteIndex].Count))
 			{
-				//Logger.Log("Setting " + spriteIndex + " " +  SpriteVariant + " " + animationIndex);
-
 				if (VariantIndex != SpriteVariant)
 				{
 					SetSprite(Infos.List[spriteIndex][SpriteVariant][animationIndex]);
 					animationIndex = 0;
 					VariantIndex = SpriteVariant;
-
-					if (Infos.List[spriteIndex][VariantIndex].Count > 1)
-					{
-						UpdateManager.Instance.Add(UpdateMe);
-					}
-					else
-					{
-						UpdateManager.Instance.Remove(UpdateMe);
-					}
+					TryToggleAnimationState(Infos.List[spriteIndex][VariantIndex].Count > 1);
 				}
+			}
+		}
+	}
+
+	void TryToggleAnimationState(bool turnOn)
+	{
+		if (turnOn)
+		{
+			if (!isAnimation)
+			{
+				UpdateManager.Instance.Add(UpdateMe);
+				isAnimation = true;
+			}
+		}
+		else
+		{
+			if (isAnimation)
+			{
+				UpdateManager.Instance.Remove(UpdateMe);
+				isAnimation = false;
 			}
 		}
 	}

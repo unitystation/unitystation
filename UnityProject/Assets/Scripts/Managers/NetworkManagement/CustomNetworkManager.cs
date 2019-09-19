@@ -60,7 +60,7 @@ public class CustomNetworkManager : NetworkManager
 			spawnPrefabs.Add(netObj.gameObject);
 		}
 
-		string[] dirs = Directory.GetDirectories(Application.dataPath, "Resources/Prefabs", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times 
+		string[] dirs = Directory.GetDirectories(Application.dataPath, "Resources/Prefabs", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times
 		foreach (string dir in dirs)
 		{
 			//Should yield For a frame to Increase performance
@@ -318,7 +318,7 @@ public class CustomNetworkManager : NetworkManager
 			var equipment = playerBody.GetComponent<Equipment>();
 			if (equipment)
 			{
-				equipment.NotifyPlayer(playerGameObject);
+				equipment.CmdNotifyPlayer(playerGameObject);
 			}
 		}
 		//TileChange Data

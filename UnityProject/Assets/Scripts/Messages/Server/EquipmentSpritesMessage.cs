@@ -27,7 +27,7 @@ public class EquipmentSpritesMessage : ServerMessage
 				NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index].SetReference( null);
 			}
 		}
-		else { 
+		else {
 			//yield return WaitFor(EquipmentObject, Item);
 			if (NetworkObjects[0] != null)
 			{

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public enum SpriteHandType
 {
@@ -23,6 +24,7 @@ public class ClothingItem : MonoBehaviour
 	public Color color = Color.white;
 
 	public SpriteHandler spriteHandler;
+
 	//public SpriteRenderer spriteRenderer;
 	private Sprite[] sprites;
 
@@ -63,9 +65,6 @@ public class ClothingItem : MonoBehaviour
 			spriteHandler.SetColor(value);
 		}
 	}
-	public void SetCustomisation(string Name, PlayerCustomisation type, BodyPartSpriteName part = BodyPartSpriteName.Null) {
-	}
-
 
 	public void SetReference(GameObject Item)
 	{
@@ -78,6 +77,7 @@ public class ClothingItem : MonoBehaviour
 				spriteHandler.PushTexture();
 			}
 		}
+
 		if (Item != null)
 		{
 			GameObjectReference = Item;
@@ -95,10 +95,12 @@ public class ClothingItem : MonoBehaviour
 					{
 						spriteHandler.ChangeSprite(0);
 					}
+
 					spriteHandler.PushTexture();
 				}
 			}
-			else {
+			else
+			{
 				var clothing = Item.GetComponent<Clothing>();
 				if (clothing != null)
 				{
@@ -108,6 +110,7 @@ public class ClothingItem : MonoBehaviour
 				}
 			}
 		}
+
 		UpdateReferenceOffset();
 	}
 
@@ -117,14 +120,17 @@ public class ClothingItem : MonoBehaviour
 		{
 			referenceOffset = 0;
 		}
+
 		if (currentDirection == Orientation.Up)
 		{
 			referenceOffset = 1;
 		}
+
 		if (currentDirection == Orientation.Right)
 		{
 			referenceOffset = 2;
 		}
+
 		if (currentDirection == Orientation.Left)
 		{
 			referenceOffset = 3;
@@ -140,6 +146,7 @@ public class ClothingItem : MonoBehaviour
 			if (spriteHandler.Infos != null)
 			{
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
+				spriteHandler.PushTexture();
 			}
 		}
 	}
