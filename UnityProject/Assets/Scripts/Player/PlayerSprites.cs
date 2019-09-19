@@ -269,11 +269,11 @@ public class PlayerSprites : MonoBehaviour
 	public void NotifyPlayer(GameObject recipient)
 	{
 		PlayerCustomisationMessage.SendTo(gameObject, recipient, ThisCharacter);
-		return;
+
 		for (int i = 0; i < characterSprites.Length; i++)
 		{
 			var clothItem = characterSprites[i];
-			EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, false);
+			EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, true);
 		}
 	}
 

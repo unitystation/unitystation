@@ -9,10 +9,10 @@ public class EquipmentSpritesMessage : ServerMessage
 	public int Index;
 	public uint EquipmentObject;
 	public uint ItemNetID;
-	public bool forceInit;
+	public bool ForceInit;
 
 	//Is this for the body parts or for the clothing items:
-	public bool isBodySprites;
+	public bool IsBodySprites;
 
 	public override IEnumerator Process()
 	{
@@ -36,17 +36,17 @@ public class EquipmentSpritesMessage : ServerMessage
 			if (NetworkObjects[0] != null)
 			{
 				//Logger.Log("this? " + NetworkObjects[0].name + " " + NetworkObjects[1].name);
-				if (!isBodySprites)
+				if (!IsBodySprites)
 				{
 					ClothingItem c = NetworkObjects[0].GetComponent<Equipment>().clothingSlots[Index];
 					c.SetReference(NetworkObjects[1]);
-					if (forceInit) c.PushTexture();
+					if (ForceInit) c.PushTexture();
 				}
 				else
 				{
 					ClothingItem c = NetworkObjects[0].GetComponent<PlayerSprites>().characterSprites[Index];
 					c.SetReference(NetworkObjects[1]);
-					if (forceInit) c.PushTexture();
+					if (ForceInit) c.PushTexture();
 				}
 			}
 		}
@@ -76,7 +76,9 @@ public class EquipmentSpritesMessage : ServerMessage
 			{
 				Index = index,
 				EquipmentObject = equipmentObject.NetId(),
-				ItemNetID = _Item.NetId()
+				ItemNetID = _Item.NetId(),
+				ForceInit = _forceInit,
+				IsBodySprites = _isBodyParts
 			};
 		}
 		else
@@ -85,7 +87,9 @@ public class EquipmentSpritesMessage : ServerMessage
 			{
 				Index = index,
 				EquipmentObject = equipmentObject.NetId(),
-				ItemNetID = NetId.Invalid
+				ItemNetID = NetId.Invalid,
+				ForceInit = _forceInit,
+				IsBodySprites = _isBodyParts
 			};
 		}
 	}
