@@ -8,7 +8,7 @@ namespace Lobby
 	public class CharacterSprites : MonoBehaviour
 	{
 		private CharacterDir currentDir = CharacterDir.down;
-		public List<List<SpriteHandlerData.SpriteInfo>> sprites = new List<List<SpriteHandlerData.SpriteInfo>>();
+		public List<List<SpriteDataHandler.SpriteInfo>> sprites = new List<List<SpriteDataHandler.SpriteInfo>>();
 
 		private int referenceOffset;
 		private CharacterView characterView;

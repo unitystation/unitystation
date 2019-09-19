@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+
 [System.Serializable]
-public class SpriteDataForSH
+public class SpriteData
 {
 	public List<List<List<SpriteHandler.SpriteInfo>>> List = new List<List<List<SpriteHandler.SpriteInfo>>>();
 	public int spriteIndex;
@@ -21,7 +21,7 @@ public class SpriteDataForSH
 		{
 			var TopListPoint = new SpriteHListPoint();
 			TopListPoint.listID = AID;
-			AID++; 
+			AID++;
 
 			foreach (var Mid in Top)
 			{
@@ -74,7 +74,8 @@ public class SpriteDataForSH
 		int i = 0;
 
 		//Using this information using the ID to assess which layer and therefore which list it would be in
-		foreach (var Top in TopParentList) {			int c = 0;
+		foreach (var Top in TopParentList) {
+			int c = 0;
 			List.Add(new List<List<SpriteHandler.SpriteInfo>>());
 			foreach (var Mid in MidParentList.Where(m => m.inlistID == Top.listID))
 			{

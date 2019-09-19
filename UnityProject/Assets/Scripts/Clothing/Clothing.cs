@@ -6,7 +6,6 @@ using Mirror;
 
 public class Clothing : NetworkBehaviour
 {
-
 	public ClothingVariantType Type;
 	public int Variant = -1;
 
@@ -16,44 +15,36 @@ public class Clothing : NetworkBehaviour
 
 	public bool Initialised;
 
-	[HideInInspector]
-	[SyncVar(hook = nameof(SyncFindData))]
+	[HideInInspector] [SyncVar(hook = nameof(SyncFindData))]
 	public string SynchronisedString;
-
-
-
 
 	public Dictionary<ClothingVariantType, int> VariantStore = new Dictionary<ClothingVariantType, int>();
 	public List<int> VariantList;
-	public SpriteDataForSH SpriteInfo;
+	public SpriteData SpriteInfo;
 
-	public override void OnStartServer()
+	public void SyncFindData(string syncString)
 	{
-		SyncFindData(this.SynchronisedString);
-		base.OnStartServer();
-	}
+		if (string.IsNullOrEmpty(syncString)) return;
 
-	public override void OnStartClient()
-	{
-		SyncFindData(this.SynchronisedString);
-		base.OnStartClient();
-	}
-
-	public void SyncFindData(string SynchString)
-	{		this.SynchronisedString = SynchString;
-		if (ClothFactory.Instance.ClothingStoredData.ContainsKey(SynchString))
+		SynchronisedString = syncString;
+		if (ClothFactory.Instance.ClothingStoredData.ContainsKey(syncString))
 		{
-			clothingData = ClothFactory.Instance.ClothingStoredData[SynchString];
-			Start();
+			clothingData = ClothFactory.Instance.ClothingStoredData[syncString];
+			TryInit();
 		}
-		else if (ClothFactory.Instance.BackpackStoredData.ContainsKey(SynchString))
+		else if (ClothFactory.Instance.BackpackStoredData.ContainsKey(syncString))
 		{
-			containerData = ClothFactory.Instance.BackpackStoredData[SynchString];
-			Start();
-		} else if (ClothFactory.Instance.HeadSetStoredData.ContainsKey(SynchString))
+			containerData = ClothFactory.Instance.BackpackStoredData[syncString];
+			TryInit();
+		}
+		else if (ClothFactory.Instance.HeadSetStoredData.ContainsKey(syncString))
 		{
-			headsetData = ClothFactory.Instance.HeadSetStoredData[SynchString];
-			Start();
+			headsetData = ClothFactory.Instance.HeadSetStoredData[syncString];
+			TryInit();
+		}
+		else
+		{
+			Logger.LogError($"No Cloth Data found for {syncString}", Category.SpriteHandler);
 		}
 	}
 
@@ -64,16 +55,20 @@ public class Clothing : NetworkBehaviour
 		{
 			return (VariantStore[CVT]);
 		}
+
 		return (0);
 	}
+
 	public int ReturnVariant(int VI)
 	{
 		if (VariantList.Count > VI)
 		{
 			return (VariantList[VI]);
 		}
+
 		return (0);
 	}
+
 	public void SetSynchronise(ClothingData CD = null, ContainerData ConD = null, HeadsetData HD = null)
 	{
 		if (CD != null)
@@ -88,23 +83,20 @@ public class Clothing : NetworkBehaviour
 		}
 		else if (HD != null)
 		{
-			SynchronisedString = HD.name;			headsetData = HD;
+			SynchronisedString = HD.name;
+			headsetData = HD;
 		}
-
 	}
 
-
-
-
-	public void Start()
+	//Attempt to apply the data to the Clothing Item
+	private void TryInit()
 	{
 		if (Initialised != true)
 		{
-
 			if (clothingData != null)
 			{
-				var _Clothing = this.GetComponent<Clothing>();
-				var Item = this.GetComponent<ItemAttributes>();
+				var _Clothing = GetComponent<Clothing>();
+				var Item = GetComponent<ItemAttributes>();
 				_Clothing.SpriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(clothingData, this);
 				Item.SetUpFromClothingData(clothingData.Base, clothingData.ItemAttributes);
 				switch (Type)
@@ -117,6 +109,7 @@ public class Clothing : NetworkBehaviour
 								Item.SetUpFromClothingData(clothingData.Variants[Variant], clothingData.ItemAttributes);
 							}
 						}
+
 						break;
 					case ClothingVariantType.Skirt:
 						Item.SetUpFromClothingData(clothingData.DressVariant, clothingData.ItemAttributes);
@@ -124,14 +117,14 @@ public class Clothing : NetworkBehaviour
 					case ClothingVariantType.Tucked:
 						Item.SetUpFromClothingData(clothingData.Base_Adjusted, clothingData.ItemAttributes);
 						break;
-
 				}
+
 				Initialised = true;
 			}
 			else if (containerData != null)
 			{
-				var Item = this.GetComponent<ItemAttributes>();
-				var Storage = this.GetComponent<StorageObject>();
+				var Item = GetComponent<ItemAttributes>();
+				var Storage = GetComponent<StorageObject>();
 				this.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
 				Item.SetUpFromClothingData(containerData.Sprites, containerData.ItemAttributes);
 				Storage.SetUpFromStorageObjectData(containerData.StorageData);
@@ -139,9 +132,8 @@ public class Clothing : NetworkBehaviour
 			}
 			else if (headsetData != null)
 			{
-
-				var Item = this.GetComponent<ItemAttributes>();
-				var Headset = this.GetComponent<Headset>();
+				var Item = GetComponent<ItemAttributes>();
+				var Headset = GetComponent<Headset>();
 				this.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
 				Item.SetUpFromClothingData(headsetData.Sprites, headsetData.ItemAttributes);
 				Headset.EncryptionKey = headsetData.Key.EncryptionKey;

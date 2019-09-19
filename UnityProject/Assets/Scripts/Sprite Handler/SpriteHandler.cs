@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 ///	<summary>
 ///	Handles sprite syncing between server and clients and contains a custom animator
 ///	</summary>
-public class SpriteHandler : SpriteHandlerData
+public class SpriteHandler : SpriteDataHandler
 {
 	public SpriteRenderer spriteRenderer;
 

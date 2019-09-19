@@ -13,12 +13,16 @@ using UnityEditor.SceneManagement;
 
 #endif
 
-public class SpriteHandlerData : MonoBehaviour
+/// <summary>
+/// Stores and Process SpriteData
+/// To be used in SpriteHandler
+/// </summary>
+public class SpriteDataHandler : MonoBehaviour
 {
 	//TODO
 	//Maybe a dictionary so you can easily look up in hands and stuff like that
 	//With enum
-	[FormerlySerializedAs("SpriteInfos")] public SpriteDataForSH Infos;
+	[FormerlySerializedAs("SpriteInfos")] public SpriteData Infos;
 	public List<Sprite> spriteList = new List<Sprite>();
 
 	private SpriteJson spriteJson;
@@ -32,7 +36,7 @@ public class SpriteHandlerData : MonoBehaviour
 #if UNITY_EDITOR
 	public void SetUpSheet()
 	{
-		Infos = new SpriteDataForSH();
+		Infos = new SpriteData();
 		Infos.List = new List<List<List<SpriteInfo>>>();
 		for (int i = 0; i < spriteList.Count; i++)
 		{
@@ -53,15 +57,11 @@ public class SpriteHandlerData : MonoBehaviour
 				int cone = 0;
 				for (int J = 0; J < spriteJson.Number_Of_Variants; J++)
 				{
-					Logger.Log("J > " + J.ToString());
 					Infos.List[i].Add(new List<SpriteInfo>());
 				}
 
 				foreach (var SP in spriteSheetSprites)
 				{
-					Logger.Log("c > " + c.ToString());
-					Logger.Log("cone > " + cone.ToString());
-					//Logger.Log("spriteJson.Delays[c] > " + spriteJson.Delays[c].Count.ToString());
 					var info = new SpriteInfo();
 					info.sprite = SP;
 					if (spriteJson.Delays.Count > 0)
@@ -69,11 +69,8 @@ public class SpriteHandlerData : MonoBehaviour
 						info.waitTime = spriteJson.Delays[c][cone];
 					}
 
-					Logger.Log("i > " + i.ToString());
-					Logger.Log("c > " + c.ToString());
-
 					Infos.List[i][c].Add(info);
-					Logger.Log("added");
+
 					if (c >= (spriteJson.Number_Of_Variants - 1))
 					{
 						c = 0;
@@ -94,7 +91,6 @@ public class SpriteHandlerData : MonoBehaviour
 				};
 				Infos.List[i].Add(new List<SpriteInfo>());
 				Infos.List[i][0].Add(info);
-				Logger.Log("added");
 			}
 		}
 
@@ -102,14 +98,14 @@ public class SpriteHandlerData : MonoBehaviour
 		var IA = this.GetComponent<ItemAttributes>();
 		if (IA != null)
 		{
-			IA.spriteHandlerData = this;
+			IA.spriteDataHandler = this;
 		}
 
 		var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
 		if (prefabStage != null)
 		{
 			EditorSceneManager.MarkSceneDirty(prefabStage.scene);
-			Logger.Log("YOYO");
+			Logger.Log("Setup Complete", Category.SpriteHandler);
 		}
 	}
 #endif

@@ -7,6 +7,9 @@ public enum SpriteHandType
 	LeftHand
 }
 
+/// <summary>
+/// For the Individual clothing player sprite renderers
+/// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
 public class ClothingItem : MonoBehaviour
 {
@@ -54,27 +57,22 @@ public class ClothingItem : MonoBehaviour
 
 	public void SetColor(Color value)
 	{
-
-
 		color = value;
 		if (spriteHandler != null)
 		{
 			spriteHandler.SetColor(value);
 		}
-		//SetColor
-		//spriteRenderer.color = value;
 	}
-	public void SetCustomisation(string Name, PlayerCustomisation type, BodyPartSpriteName part = BodyPartSpriteName.Null) { 
+	public void SetCustomisation(string Name, PlayerCustomisation type, BodyPartSpriteName part = BodyPartSpriteName.Null) {
 	}
 
 
 	public void SetReference(GameObject Item)
 	{
 		UpdateReferenceOffset();
-		//Logger.Log("Received!!" + this.name);
 		if (Item == null)
 		{
-			if (spriteHandler != null) //need to remove 
+			if (spriteHandler != null) //need to remove
 			{
 				spriteHandler.Infos = null;
 				spriteHandler.PushTexture();
@@ -83,11 +81,9 @@ public class ClothingItem : MonoBehaviour
 		if (Item != null)
 		{
 			GameObjectReference = Item;
-			//Logger.Log("DD!!" + Item.name);
-			//Logger.Log("is here!");
 			if (spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand)
 			{
-				var SHD = Item.GetComponent<ItemAttributes>()?.spriteHandlerData;
+				var SHD = Item.GetComponent<ItemAttributes>()?.spriteDataHandler;
 				if (SHD != null)
 				{
 					spriteHandler.Infos = SHD.Infos;
@@ -104,11 +100,8 @@ public class ClothingItem : MonoBehaviour
 			}
 			else {
 				var clothing = Item.GetComponent<Clothing>();
-				//Logger.Log("1");
 				if (clothing != null)
 				{
-					//Logger.Log("2");
-					clothing.Start(); //lagyy?
 					spriteHandler.Infos = clothing.SpriteInfo;
 					spriteHandler.ChangeSprite(clothing.ReturnState(ClothingVariantType.Default));
 					spriteHandler.PushTexture();
@@ -120,7 +113,6 @@ public class ClothingItem : MonoBehaviour
 
 	private void UpdateReferenceOffset()
 	{
-		//Logger.Log("UpdateReferenceOffset" + currentDirection);
 		if (currentDirection == Orientation.Down)
 		{
 			referenceOffset = 0;
@@ -143,18 +135,12 @@ public class ClothingItem : MonoBehaviour
 
 	public void UpdateSprite()
 	{
-		//Logger.Log("UpdateSprite");
-		//Logger.Log(this.name);
-		//Logger.Log("A");
 		if (spriteHandler != null)
 		{
-			//Logger.Log("B");
 			if (spriteHandler.Infos != null)
 			{
-				//Logger.Log("C");
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
 			}
-
 		}
 	}
 }

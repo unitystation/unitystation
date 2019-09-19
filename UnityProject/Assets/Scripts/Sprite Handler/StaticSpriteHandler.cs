@@ -8,11 +8,10 @@ using Newtonsoft.Json;
 
 public static class StaticSpriteHandler
 {
-	public static SpriteDataForSH SetUpSheetForClothingData(ClothingData ClothingData, Clothing Clothing)
+	public static SpriteData SetUpSheetForClothingData(ClothingData ClothingData, Clothing Clothing)
 	{
-
-		var SpriteInfos = new SpriteDataForSH();
-		SpriteInfos.List = new List<List<List<SpriteHandlerData.SpriteInfo>>>();
+		var SpriteInfos = new SpriteData();
+		SpriteInfos.List = new List<List<List<SpriteDataHandler.SpriteInfo>>>();
 		int c = 0;
 
 		SpriteInfos.List.Add(CompleteSpriteSetup(ClothingData.Base.Equipped));
@@ -44,31 +43,30 @@ public static class StaticSpriteHandler
 		return (SpriteInfos);
 	}
 
-	public static List<List<SpriteHandlerData.SpriteInfo>> CompleteSpriteSetup(SpriteSheetAndData textureAndData)
+	public static List<List<SpriteDataHandler.SpriteInfo>> CompleteSpriteSetup(SpriteSheetAndData textureAndData)
 	{
-		var SpriteInfos = new List<List<SpriteHandlerData.SpriteInfo>>();
+		var SpriteInfos = new List<List<SpriteDataHandler.SpriteInfo>>();
 
 		if (textureAndData.Sprites.Length > 1)
 		{
-			SpriteHandlerData.SpriteJson spriteJson;
-			//Logger.Log(textureAndData.Texture.name);
-			spriteJson = JsonConvert.DeserializeObject<SpriteHandlerData.SpriteJson>(textureAndData.EquippedData.text);
-
+			SpriteDataHandler.SpriteJson spriteJson;
+			spriteJson = JsonConvert.DeserializeObject<SpriteDataHandler.SpriteJson>(textureAndData.EquippedData.text);
 			int c = 0;
 			int cone = 0;
 			for (int J = 0; J < spriteJson.Number_Of_Variants; J++)
 			{
-				SpriteInfos.Add(new List<SpriteHandlerData.SpriteInfo>());
+				SpriteInfos.Add(new List<SpriteDataHandler.SpriteInfo>());
 			}
 
 			foreach (var SP in textureAndData.Sprites)
 			{
-				var info = new SpriteHandlerData.SpriteInfo();
+				var info = new SpriteDataHandler.SpriteInfo();
 				info.sprite = SP;
 				if (spriteJson.Delays.Count > 0)
 				{
 					info.waitTime = spriteJson.Delays[c][cone];
 				}
+
 				SpriteInfos[c].Add(info);
 				if (c >= (spriteJson.Number_Of_Variants - 1))
 				{
@@ -84,30 +82,27 @@ public static class StaticSpriteHandler
 		else {
 			if (textureAndData.Sprites.Length > 0)
 			{
-				var info = new SpriteHandlerData.SpriteInfo()
+				var info = new SpriteDataHandler.SpriteInfo()
 				{
 					sprite = textureAndData.Sprites[0],
 					waitTime = 0
 				};
-				SpriteInfos.Add(new List<SpriteHandlerData.SpriteInfo>());
+				SpriteInfos.Add(new List<SpriteDataHandler.SpriteInfo>());
 				SpriteInfos[0].Add(info);
 			}
 			//else {
-			//	Logger.LogError("HELP!!!!!");
+			//	Logger.LogError("HELP!!!!!"); // Nope, you got us into this mess
 			//}
 		}
 		return (SpriteInfos);
 	}
 
 
-	public static SpriteDataForSH SetupSingleSprite(SpriteSheetAndData textureAndData) { 
-		var SpriteInfos = new SpriteDataForSH();
-		SpriteInfos.List = new List<List<List<SpriteHandlerData.SpriteInfo>>>();
+	public static SpriteData SetupSingleSprite(SpriteSheetAndData textureAndData) {
+		var SpriteInfos = new SpriteData();
+		SpriteInfos.List = new List<List<List<SpriteDataHandler.SpriteInfo>>>();
 		SpriteInfos.List.Add(CompleteSpriteSetup(textureAndData));
 		return (SpriteInfos);
 	}
-
-
-
 }
 

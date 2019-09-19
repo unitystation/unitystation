@@ -12,7 +12,7 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	public SpriteRenderer spriteRenderer;
 	public GameObject screenGlow;
 	public SpriteSheetAndData onSprites;
-	public List<List<SpriteHandlerData.SpriteInfo>> sprites = new List<List<SpriteHandlerData.SpriteInfo>>();
+	public List<List<SpriteDataHandler.SpriteInfo>> sprites = new List<List<SpriteDataHandler.SpriteInfo>>();
 	private int sIndex = 0;
 	public float Delay;
 

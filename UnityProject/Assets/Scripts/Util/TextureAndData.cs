@@ -23,17 +23,16 @@ public class SpriteSheetAndData
 		if (Texture != null)
 		{
 #if UNITY_EDITOR
-			var path = AssetDatabase.GetAssetPath(Texture).Substring(17);//Substring(17) To remove the "Assets/Resources/"
+			var path = AssetDatabase.GetAssetPath(Texture)
+				.Substring(17); //Substring(17) To remove the "Assets/Resources/"
 			Sprites = Resources.LoadAll<Sprite>(path.Remove(path.Length - 4));
 			EquippedData = Resources.Load<TextAsset>(path.Remove(path.Length - 4)); //Resources.Load("test");
 #endif
 		}
-		else {
+		else
+		{
 			Sprites = null;
 			EquippedData = null;
 		}
 	}
-
-
-
 }

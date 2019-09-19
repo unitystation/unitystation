@@ -16,13 +16,12 @@ public class ResourceTracker : MonoBehaviour
 	public List<HeadsetData> DataHeadsetData = new List<HeadsetData>();
 	public List<PlayerTextureData> DataRaceData = new List<PlayerTextureData>();
 
-	public void GatherData() {
+	public void GatherData()
+	{
 		PlayerCustomisationData.getPlayerCustomisationDatas(DataPCD);
 		ClothingData.getClothingDatas(DataClothingData);
 		ContainerData.getContainerData(DataContainerData);
 		HeadsetData.getHeadsetData(DataHeadsetData);
 		PlayerTextureData.getClothingDatas(DataRaceData);
 	}
-
-
 }

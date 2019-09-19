@@ -8,18 +8,18 @@ using Mirror;
 using UnityEngine.Serialization;
 using Random = System.Random;
 
-[RequireComponent(typeof(SpriteHandlerData))]
+[RequireComponent(typeof(SpriteDataHandler))]
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ObjectBehaviour))]
 [RequireComponent(typeof(RegisterItem))]
 [RequireComponent(typeof(CustomNetTransform))]
 public class ItemAttributes : NetworkBehaviour, IRightClickable
 {
-
 	/// <summary>
 	/// Remember in hands is Left then right so [0] = Left, [1] = right
 	/// </summary>
-	public SpriteHandlerData spriteHandlerData;
+	[FormerlySerializedAs("spriteHandlerData")]
+	public SpriteDataHandler spriteDataHandler;
 
 	public SpriteHandler InventoryIcon;
 
@@ -38,21 +38,18 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 
 
 	/// throw-related fields
-	[Tooltip("Damage when we click someone with harm intent")]
-	[Range(0, 100)]
+	[Tooltip("Damage when we click someone with harm intent")] [Range(0, 100)]
 	public float hitDamage = 0;
 
 	public DamageType damageType = DamageType.Brute;
 
-	[Tooltip("How painful it is when someone throws it at you")]
-	[Range(0, 100)]
+	[Tooltip("How painful it is when someone throws it at you")] [Range(0, 100)]
 	public float throwDamage = 0;
 
 	[Tooltip("How many tiles to move per 0.1s when being thrown")]
 	public float throwSpeed = 2;
 
-	[Tooltip("Max throw distance")]
-	public float throwRange = 7;
+	[Tooltip("Max throw distance")] public float throwRange = 7;
 
 	[Tooltip("Sound to be played when we click someone with harm intent")]
 	public string hitSound = "GenericHit";
@@ -64,21 +61,31 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 
 	public List<string> attackVerb = new List<string>();
 
-	public void SetUpFromClothingData(EquippedData equippedData, ItemAttributesData ItemAttributes) {
-		if (spriteHandlerData == null) {
-			spriteHandlerData = new SpriteHandlerData();
+	private void OnEnable()
+	{
+		spriteDataHandler = GetComponentInChildren<SpriteDataHandler>();
+		InventoryIcon = GetComponentInChildren<SpriteHandler>();
+	}
+
+	public void SetUpFromClothingData(EquippedData equippedData, ItemAttributesData ItemAttributes)
+	{
+		if (spriteDataHandler == null)
+		{
+			spriteDataHandler = new SpriteDataHandler();
 		}
-		spriteHandlerData.Infos = new SpriteDataForSH();
-		spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsLeft));
-		spriteHandlerData.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsRight));
-		InventoryIcon.Infos = new SpriteDataForSH();
+
+		spriteDataHandler.Infos = new SpriteData();
+		spriteDataHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsLeft));
+		spriteDataHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.InHandsRight));
+		InventoryIcon.Infos = new SpriteData();
 		InventoryIcon.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(equippedData.ItemIcon));
 		InventoryIcon.PushTexture();
 		AttributesFromCD(ItemAttributes);
 	}
 
 
-	public void AttributesFromCD(ItemAttributesData ItemAttributes) {
+	public void AttributesFromCD(ItemAttributesData ItemAttributes)
+	{
 		itemName = ItemAttributes.itemName;
 		itemDescription = ItemAttributes.itemDescription;
 		itemType = ItemAttributes.itemType;
@@ -93,7 +100,6 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		hitSound = ItemAttributes.hitSound;
 		attackVerb = ItemAttributes.attackVerb;
 		IsEVACapable = ItemAttributes.IsEVACapable;
-
 	}
 
 	private static string GetMasterTypeHandsString(SpriteType masterType)
@@ -112,9 +118,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 		// Show the parenthesis for an item's description only if the item has a description
 		UIManager.SetToolTip =
 			itemName +
-			(String.IsNullOrEmpty(itemDescription) ?
-				"" :
-				$" ({itemDescription})");
+			(String.IsNullOrEmpty(itemDescription) ? "" : $" ({itemDescription})");
 	}
 
 	public void OnHoverEnd()
