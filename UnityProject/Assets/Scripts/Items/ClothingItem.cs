@@ -74,7 +74,7 @@ public class ClothingItem : MonoBehaviour
 			if (spriteHandler != null) //need to remove
 			{
 				spriteHandler.Infos = null;
-				spriteHandler.PushTexture();
+				PushTexture();
 			}
 		}
 
@@ -96,7 +96,7 @@ public class ClothingItem : MonoBehaviour
 						spriteHandler.ChangeSprite(0);
 					}
 
-					spriteHandler.PushTexture();
+					PushTexture();
 				}
 			}
 			else
@@ -106,7 +106,7 @@ public class ClothingItem : MonoBehaviour
 				{
 					spriteHandler.Infos = clothing.SpriteInfo;
 					spriteHandler.ChangeSprite(clothing.ReturnState(ClothingVariantType.Default));
-					spriteHandler.PushTexture();
+					PushTexture();
 				}
 			}
 		}
@@ -146,8 +146,12 @@ public class ClothingItem : MonoBehaviour
 			if (spriteHandler.Infos != null)
 			{
 				spriteHandler.ChangeSpriteVariant(referenceOffset);
-				spriteHandler.PushTexture();
 			}
 		}
+	}
+
+	public void PushTexture()
+	{
+		spriteHandler.PushTexture();
 	}
 }

@@ -32,6 +32,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	public PlayerHealth playerHealth { get; set; }
 
 	public PlayerMove playerMove { get; set; }
+	public PlayerSprites playerSprites { get; set; }
 
 	/// <summary>
 	/// Will be null if player is a ghost.
@@ -86,6 +87,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	private void Awake()
 	{
+		playerSprites = GetComponent<PlayerSprites>();
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		registerTile = GetComponent<RegisterPlayer>();
 		playerHealth = GetComponent<PlayerHealth>();

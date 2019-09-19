@@ -86,7 +86,14 @@ public class PlayerSprites : MonoBehaviour
 		RaceTexture = ClothFactory.Instance.RaceData["human"];
 		SetupBodySprites();
 		SetupCustomisations();
+	}
 
+	public void RefreshClothingItems()
+	{
+		foreach (KeyValuePair<string, ClothingItem> c in clothes)
+		{
+			c.Value.PushTexture();
+		}
 	}
 
 	public void SetupCustomisations()
