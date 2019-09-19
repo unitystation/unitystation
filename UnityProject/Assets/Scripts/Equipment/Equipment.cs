@@ -234,16 +234,16 @@ public class Equipment : NetworkBehaviour
 			}
 		}
 
-		StartCoroutine(RefreshPlayerClothItems());
+		//StartCoroutine(RefreshPlayerClothItems());
 	}
 
 	IEnumerator RefreshPlayerClothItems()
 	{
-		yield return WaitFor.Seconds(1);
+		yield return WaitFor.EndOfFrame;
 		NotifyPlayer(gameObject);
 		playerScript.playerSprites.NotifyPlayer(gameObject, true);
 	}
-	
+
 	private void AddifPresent(Dictionary<EquipSlot, ClothOrPrefab> gear, EquipSlot key, ClothOrPrefab clothOrPrefab)
 	{
 		if (clothOrPrefab?.Clothing?.Base?.Equipped != null || clothOrPrefab?.Prefab != null)
@@ -376,9 +376,9 @@ public class Equipment : NetworkBehaviour
 		return slot != EquipSlot.id && slot != EquipSlot.storage01 && slot != EquipSlot.storage02 && slot != EquipSlot.suitStorage;
 	}
 
-	private void SetItem(EquipSlot slotName, GameObject obj)
+	private void SetItem(EquipSlot slotName, GameObject obj, bool isInit = false)
 	{
-		playerNetworkActions.AddItemToUISlot(obj, slotName);
+		playerNetworkActions.AddItemToUISlot(obj, slotName, null, false, isInit);
 	}
 
 	private void InitInternals()

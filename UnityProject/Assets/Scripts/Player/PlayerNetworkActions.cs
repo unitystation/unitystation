@@ -68,9 +68,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	/// <summary>
 	/// Get the item in the player's active hand
+	/// IsInit = is for initial spawning
 	/// </summary>
 	[Server]
-	public bool AddItemToUISlot(GameObject itemObject, EquipSlot equipSlot, PlayerNetworkActions originPNA = null, bool replaceIfOccupied = false)
+	public bool AddItemToUISlot(GameObject itemObject, EquipSlot equipSlot, PlayerNetworkActions originPNA = null, bool replaceIfOccupied = false, bool isInit = false)
 	{
 		if (Inventory[equipSlot].Item != null && !replaceIfOccupied)
 		{
@@ -99,7 +100,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			InventoryManager.ClearInvSlot(fromSlot);
 		}
 		var toSlot = Inventory[equipSlot];
-		InventoryManager.EquipInInvSlot(toSlot, itemObject);
+		InventoryManager.EquipInInvSlot(toSlot, itemObject, isInit);
 
 		return true;
 	}

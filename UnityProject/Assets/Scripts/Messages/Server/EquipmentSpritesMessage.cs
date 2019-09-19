@@ -17,8 +17,8 @@ public class EquipmentSpritesMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(EquipmentObject, ItemNetID);
-	//	Debug.Log(
-	//		$"Received EquipMsg: Index {Index} ItemID: {ItemNetID} EquipID: {EquipmentObject} ForceInit: {ForceInit} IsBody: {IsBodySprites}");
+		Debug.Log(
+			$"Received EquipMsg: Index {Index} ItemID: {ItemNetID} EquipID: {EquipmentObject} ForceInit: {ForceInit} IsBody: {IsBodySprites}");
 
 		if (NetworkObjects[0] != null)
 		{
@@ -34,7 +34,7 @@ public class EquipmentSpritesMessage : ServerMessage
 					c.SetReference(NetworkObjects[1]);
 				}
 
-				if (ForceInit) c.PushTexture();
+				if (ForceInit) {c.PushTexture(); Debug.Log("SET CLOTH Force");}
 			}
 			else
 			{
@@ -53,9 +53,10 @@ public class EquipmentSpritesMessage : ServerMessage
 		}
 	}
 
-	public static EquipmentSpritesMessage SendToAll(GameObject equipmentObject, int index, GameObject _Item)
+	public static EquipmentSpritesMessage SendToAll(GameObject equipmentObject, int index, GameObject _Item,
+		bool _forceInit = false, bool _isBodyParts = false)
 	{
-		var msg = CreateMsg(equipmentObject, index, _Item, false, false);
+		var msg = CreateMsg(equipmentObject, index, _Item, _forceInit, _isBodyParts);
 		msg.SendToAll();
 		return msg;
 	}
