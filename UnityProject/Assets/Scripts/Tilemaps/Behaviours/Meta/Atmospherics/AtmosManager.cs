@@ -14,9 +14,16 @@ public class AtmosManager : MonoBehaviour
 	public bool Running { get; private set; }
 
 	public bool roundStartedServer = false;
-	public List<Pipe> roundStartPipes = new List<Pipe>();
+	public List<Pipe> inGamePipes = new List<Pipe>();
+
+	public static int currentTick;
+	public static float tickRateComplete = 1f; //currently set to update every second
+	public static float tickRate;
+	private static float tickCount = 0f;
+	private const int Steps = 5;
 
 	private static AtmosManager atmosManager;
+
 	public static AtmosManager Instance
 	{
 		get
@@ -25,6 +32,7 @@ public class AtmosManager : MonoBehaviour
 			{
 				atmosManager = FindObjectOfType<AtmosManager>();
 			}
+
 			return atmosManager;
 		}
 	}
@@ -52,11 +60,37 @@ public class AtmosManager : MonoBehaviour
 			{
 				AtmosThread.RunStep();
 			}
-			catch ( Exception e )
+			catch (Exception e)
 			{
-				Logger.LogError( $"Exception in Atmos Thread! Will no longer mix gases!\n{e.StackTrace}", Category.Atmos );
+				Logger.LogError($"Exception in Atmos Thread! Will no longer mix gases!\n{e.StackTrace}",
+					Category.Atmos);
 				throw;
 			}
+		}
+
+		if (roundStartedServer)
+		{
+			if (tickRate == 0)
+			{
+				tickRate = tickRateComplete / Steps;
+			}
+
+			tickCount += Time.deltaTime;
+
+			if (tickCount > tickRate)
+			{
+				DoTick();
+				tickCount = 0f;
+				currentTick = ++currentTick % Steps;
+			}
+		}
+	}
+
+	void DoTick()
+	{
+		foreach (Pipe p in inGamePipes)
+		{
+			p.TickUpdate();
 		}
 	}
 
@@ -80,11 +114,12 @@ public class AtmosManager : MonoBehaviour
 	private IEnumerator SetPipes() /// TODO: FIX ALL MANAGERS LOADING ORDER AND REMOVE ANY WAITFORSECONDS
 	{
 		yield return new WaitForSeconds(2);
-		roundStartedServer = true;
-		for (int i = 0; i < roundStartPipes.Count; i++)
+		for (int i = 0; i < inGamePipes.Count; i++)
 		{
-			roundStartPipes[i].Attach();
+			inGamePipes[i].Attach();
 		}
+
+		roundStartedServer = true;
 	}
 
 	void OnRoundEnd()

@@ -48,6 +48,7 @@ public class ElectricalManager : MonoBehaviour
 	void OnRoundEnd()
 	{
 		roundStartedServer = false;
+		ElectricalSynchronisation.Reset();
 		Logger.Log("Round Ended", Category.Electrical);
 	}
 }

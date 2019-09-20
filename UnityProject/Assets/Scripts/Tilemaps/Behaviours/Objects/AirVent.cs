@@ -25,8 +25,9 @@ public class AirVent : AdvancedPipe
 		metaNode = metaDataLayer.Get(registerTile.WorldPositionServer, false);
 	}
 
-	public override void UpdateMe()
+	public override void TickUpdate()
 	{
+		base.TickUpdate();
 		if (anchored)
 		{
 			CheckAtmos();
