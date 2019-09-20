@@ -217,7 +217,10 @@ public class ControlTabs : MonoBehaviour
 
 			((RectTransform)headerButton.transform).anchoredPosition = Vector2.right * (i * 40);
 			//need to wait till the next frame to set proper position
-			StartCoroutine(SetHeaderPosition(headerButton.gameObject, i));
+			if (gameObject.activeInHierarchy)
+			{
+				StartCoroutine(SetHeaderPosition(headerButton.gameObject, i));
+			}
 
 			approvedHeaders.Add(headerButton);
 		}
