@@ -384,11 +384,11 @@ public class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public GameObject TakeLoggedOffPlayer(ulong steamId)
+	public GameObject TakeLoggedOffPlayer(string clientId)
 	{
 		foreach (var player in loggedOff)
 		{
-			if (player.SteamId == steamId)
+			if (player.ClientId == clientId)
 			{
 				loggedOff.Remove(player);
 				return player.GameObject;

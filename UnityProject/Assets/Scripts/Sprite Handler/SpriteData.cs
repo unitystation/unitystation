@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 [System.Serializable]
 public class SpriteData
@@ -81,7 +82,6 @@ public class SpriteData
 				List[i].Add(new List<SpriteHandler.SpriteInfo>());
 				foreach (var Bot in BotListPoint.Where(m => m.inlistID == Mid.listID))
 				{
-					//Logger.Log("addedddddd");
 					List[i][c].Add(new SpriteHandler.SpriteInfo()
 					{
 						sprite = Bot.sprite,

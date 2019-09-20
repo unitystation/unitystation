@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class ControlDisplays : MonoBehaviour
 {
@@ -7,17 +8,39 @@ public class ControlDisplays : MonoBehaviour
 	public GameObject jobSelectWindow;
 	public GameObject teamSelectionWindow;
 	public RectTransform panelRight;
-	public UIManager parentScript;
 
 	public GameObject nukeOpsGameMode;
 
-	[SerializeField]
-	private Animator uiAnimator;
+	[SerializeField] private Animator uiAnimator;
 
 	void OnEnable()
 	{
 		EventManager.AddHandler(EVENT.PlayerSpawned, HumanUI);
 		EventManager.AddHandler(EVENT.GhostSpawned, GhostUI);
+		EventManager.AddHandler(EVENT.PlayerRejoined, RejoinedEvent);
+	}
+
+	void RejoinedEvent()
+	{
+		StartCoroutine(DetermineRejoinUI());
+	}
+
+	IEnumerator DetermineRejoinUI()
+	{
+		//Wait for the assigning
+		while (PlayerManager.LocalPlayerScript == null)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		if (PlayerManager.LocalPlayerScript.playerHealth == null)
+		{
+			GhostUI();
+		}
+		else
+		{
+			HumanUI();
+		}
 	}
 
 	void HumanUI()
@@ -84,5 +107,4 @@ public class ControlDisplays : MonoBehaviour
 		nukeOpsGameMode.SetActive(true);
 		//}
 	}
-
 }

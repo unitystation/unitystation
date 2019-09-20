@@ -720,15 +720,6 @@ public partial class PlayerSync
 		}
 	}
 
-	private void OnEnable()
-	{
-		onTileReached.AddListener(Cross);
-	}
-	private void OnDisable()
-	{
-		onTileReached.RemoveListener(Cross);
-	}
-
 	private void Cross(Vector3Int position)
 	{
 		CheckTileSlip();

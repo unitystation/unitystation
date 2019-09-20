@@ -25,7 +25,8 @@ public enum EVENT
 	GhostSpawned,
 	LogLevelAdjusted,
 	UpdateChatChannels,
-	ToggleChatBubbles
+	ToggleChatBubbles,
+	PlayerRejoined
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]

@@ -17,8 +17,8 @@ public class EquipmentSpritesMessage : ServerMessage
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(EquipmentObject, ItemNetID);
-		Debug.Log(
-			$"Received EquipMsg: Index {Index} ItemID: {ItemNetID} EquipID: {EquipmentObject} ForceInit: {ForceInit} IsBody: {IsBodySprites}");
+		//Debug.Log(
+		//	$"Received EquipMsg: Index {Index} ItemID: {ItemNetID} EquipID: {EquipmentObject} ForceInit: {ForceInit} IsBody: {IsBodySprites}");
 
 		if (NetworkObjects[0] != null)
 		{

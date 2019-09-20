@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Facepunch.Steamworks;
@@ -12,49 +13,61 @@ using Mirror;
 /// </summary>
 public class JoinedViewer : NetworkBehaviour
 {
-	public override void OnStartServer()
-	{
-		base.OnStartServer();
-	}
-
 	public override void OnStartLocalPlayer()
 	{
 		base.OnStartLocalPlayer();
 
+		if (!PlayerPrefs.HasKey(PlayerPrefKeys.ClientID))
+		{
+			PlayerPrefs.SetString(PlayerPrefKeys.ClientID, "");
+			PlayerPrefs.Save();
+		}
+
 		// Send steamId to server for player setup.
 		if (BuildPreferences.isSteamServer)
 		{
-			CmdServerSetupPlayer(Client.Instance.SteamId, DatabaseAPI.ServerData.Auth.CurrentUser.UserId);
+			CmdServerSetupPlayer(Client.Instance.SteamId, PlayerPrefs.GetString(PlayerPrefKeys.ClientID));
 		}
 		else
 		{
-			CmdServerSetupPlayer(0, DatabaseAPI.ServerData.Auth.CurrentUser.UserId);
+			CmdServerSetupPlayer(0, PlayerPrefs.GetString(PlayerPrefKeys.ClientID));
 		}
 	}
 
 	[Command]
-	private void CmdServerSetupPlayer(ulong steamId, string userId)
+	private void CmdServerSetupPlayer(ulong steamId, string clientID)
 	{
-		//Add player to player list
-		PlayerList.Instance.Add(new ConnectedPlayer
+		var connPlayer = new ConnectedPlayer
 		{
 			Connection = connectionToClient,
 			GameObject = gameObject,
 			Job = JobType.NULL,
-			SteamId = steamId
-		});
+			SteamId = steamId,
+			ClientId = clientID
+		};
+		//Add player to player list
+		PlayerList.Instance.Add(connPlayer);
 
 		CustomNetworkManager.Instance.SyncPlayerData(gameObject);
 		// If they have a player to rejoin send the client the player to rejoin, otherwise send a null gameobject.
+		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayer(clientID);
+		if (loggedOffPlayer == null)
+		{
+			//This is the players first time connecting to this round, assign them a Client ID;
+			clientID = System.Guid.NewGuid().ToString();
+			connPlayer.ClientId = clientID;
+		}
 
-		//TargetLocalPlayerSetupPlayer(connectionToClient, PlayerList.Instance.TakeLoggedOffPlayer(steamId));
-		TargetLocalPlayerSetupPlayer(connectionToClient, null);
-		Debug.Log("FIXME: Handle reclaiming old player");
+		TargetLocalPlayerSetupPlayer(connectionToClient, loggedOffPlayer, clientID);
 	}
 
 	[TargetRpc]
-	private void TargetLocalPlayerSetupPlayer(NetworkConnection target, GameObject loggedOffPlayer)
+	private void TargetLocalPlayerSetupPlayer(NetworkConnection target, GameObject loggedOffPlayer,
+		string serverClientID)
 	{
+		PlayerPrefs.SetString(PlayerPrefKeys.ClientID, serverClientID);
+		PlayerPrefs.Save();
+
 		PlayerManager.SetViewerForControl(this);
 		UIManager.ResetAllUI();
 
@@ -71,9 +84,8 @@ public class JoinedViewer : NetworkBehaviour
 		}
 		else
 		{
+			loggedOffPlayer.GetComponent<NetworkIdentity>().SetLocal();
 			CmdRejoin(loggedOffPlayer);
-			loggedOffPlayer.GetComponent<PlayerSync>().setLocalPlayer();
-			loggedOffPlayer.GetComponent<PlayerScript>().Init();
 		}
 	}
 
@@ -107,23 +119,18 @@ public class JoinedViewer : NetworkBehaviour
 		if (player.Job == JobType.NULL)
 		{
 			SpawnHandler.RespawnPlayer(connectionToClient,
-			GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings, gameObject);
-
+				GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings, gameObject);
 		}
 		/// Spawns in player if they have a job but aren't spawned
 		else if (player.GameObject == null)
 		{
 			SpawnHandler.RespawnPlayer(connectionToClient,
-			GameManager.Instance.GetRandomFreeOccupation(player.Job), characterSettings, gameObject);
-
+				GameManager.Instance.GetRandomFreeOccupation(player.Job), characterSettings, gameObject);
 		}
 		else
 		{
 			Logger.LogWarning("[Jobs] Request Job Failed: Already Has Job", Category.Jobs);
-
-
 		}
-
 	}
 
 	/// <summary>
@@ -133,7 +140,7 @@ public class JoinedViewer : NetworkBehaviour
 	[Command]
 	public void CmdRejoin(GameObject loggedOffPlayer)
 	{
-		SpawnHandler.TransferPlayer(connectionToClient, loggedOffPlayer, gameObject, EVENT.PlayerSpawned, null);
+		SpawnHandler.TransferPlayer(connectionToClient, loggedOffPlayer, gameObject, EVENT.PlayerRejoined, null);
 		loggedOffPlayer.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(loggedOffPlayer);
 	}
 }

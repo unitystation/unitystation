@@ -6,7 +6,6 @@ using UnityEngine;
 using Mirror;
 
 
-
 /// <summary>
 /// Holds player state information used for interpolation, such as player position, flight direction etc.
 /// Gives client enough information to be able to smoothly interpolate the player position.
@@ -14,10 +13,13 @@ using Mirror;
 public struct PlayerState
 {
 	public bool Active => Position != TransformState.HiddenPos;
+
 	///Don't set directly, use Speed instead.
 	///public in order to be serialized :\
 	public float speed;
-	public float Speed {
+
+	public float Speed
+	{
 		get => speed;
 		set => speed = value < 0 ? 0 : value;
 	}
@@ -33,6 +35,7 @@ public struct PlayerState
 			{
 				return TransformState.HiddenPos;
 			}
+
 			return MatrixManager.LocalToWorld(Position, MatrixManager.Get(MatrixId));
 		}
 		set
@@ -68,13 +71,15 @@ public struct PlayerState
 
 	/// Means that this player is hidden
 	public static readonly PlayerState HiddenState =
-		new PlayerState { Position = TransformState.HiddenPos, MatrixId = 0 };
+		new PlayerState {Position = TransformState.HiddenPos, MatrixId = 0};
 
 	public override string ToString()
 	{
 		return
-			Equals(HiddenState) ? "[Hidden]" : $"[Move #{MoveNumber}, localPos:{(Vector2)Position}, worldPos:{(Vector2)WorldPosition} {nameof(NoLerp)}:{NoLerp}, {nameof(Impulse)}:{Impulse}, " +
-			$"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, follow: {IsFollowUpdate}, matrix #{MatrixId}]";
+			Equals(HiddenState)
+				? "[Hidden]"
+				: $"[Move #{MoveNumber}, localPos:{(Vector2) Position}, worldPos:{(Vector2) WorldPosition} {nameof(NoLerp)}:{NoLerp}, {nameof(Impulse)}:{Impulse}, " +
+				  $"reset: {ResetClientQueue}, flight: {ImportantFlightUpdate}, follow: {IsFollowUpdate}, matrix #{MatrixId}]";
 	}
 }
 
@@ -112,12 +117,15 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// Note - can be null if this is a ghost player
 	/// </summary>
 	private PushPull pushPull;
+
 	public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
 	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
 
 	private RegisterTile registerTile;
 
-	public void Nudge( NudgeInfo info ){}
+	public void Nudge(NudgeInfo info)
+	{
+	}
 
 	/// <summary>
 	/// Checks both directions of a diagonal movement
@@ -143,7 +151,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			return null;
 		}
 
-		var facingUpDown = playerDirectional.CurrentDirection == Orientation.Up || playerDirectional.CurrentDirection == Orientation.Down;
+		var facingUpDown = playerDirectional.CurrentDirection == Orientation.Up ||
+		                   playerDirectional.CurrentDirection == Orientation.Down;
 
 		//depending on facing, check x / y direction first (this is for
 		//better diagonal movement logic without cutting corners)
@@ -188,7 +197,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		if (newAction.HasValue)
 		{
-			action.moveActions = new int[] { (int)newAction };
+			action.moveActions = new int[] {(int) newAction};
 			return newBump;
 		}
 		else
@@ -222,8 +231,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			{
 				bump = BumpType.Blocked;
 			}
-			var xBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(dir.x, 0), playerMove, isServer);
-			var yBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(0, dir.y), playerMove, isServer);
+
+			var xBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(dir.x, 0),
+				playerMove, isServer);
+			var yBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(0, dir.y),
+				playerMove, isServer);
 
 			//opening doors diagonally is allowed only if x or y are blocked (assumes we are sliding along a
 			//wall and we hit a door).
@@ -277,7 +289,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		return false;
 	}
 
-	private bool HasPushablesAt(Vector3 stateWorldPosition, bool isServer, out PushPull firstPushable, GameObject except = null)
+	private bool HasPushablesAt(Vector3 stateWorldPosition, bool isServer, out PushPull firstPushable,
+		GameObject except = null)
 	{
 		firstPushable = null;
 		var pushables = MatrixManager.GetAt<PushPull>(stateWorldPosition.CutToInt(), isServer);
@@ -293,6 +306,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			{
 				continue;
 			}
+
 			firstPushable = pushable;
 			return true;
 		}
@@ -366,7 +380,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	{
 		if (isServer)
 		{
-			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Lerp, name, (Vector2)serverState.WorldPosition, toWorldPosition.To2Int());
+			Logger.LogFormat("Swap {0} from {1} to {2}", Category.Lerp, name, (Vector2) serverState.WorldPosition,
+				toWorldPosition.To2Int());
 			PlayerState nextStateServer = NextStateSwap(serverState, toWorldPosition, true);
 			serverState = nextStateServer;
 			if (pushPull != null && pushPull.IsBeingPulled && !pushPull.PulledBy == swapper)
@@ -374,6 +389,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 				pushPull.StopFollowing();
 			}
 		}
+
 		PlayerState nextPredictedState = NextStateSwap(predictedState, toWorldPosition, false);
 		//must set this on both client and server so server shows the lerp instantly as well as the client
 		predictedState = nextPredictedState;
@@ -405,15 +421,28 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			setLocalPlayer();
 		}
+
 		//Init pending actions queue for server
 		if (isServer)
 		{
 			serverPendingActions = new Queue<PlayerAction>();
 		}
+
 		playerScript = GetComponent<PlayerScript>();
 		registerTile = GetComponent<RegisterTile>();
 		pushPull = GetComponent<PushPull>();
 		playerDirectional = GetComponent<Directional>();
+	}
+
+	private void OnEnable()
+	{
+		onTileReached.AddListener(Cross);
+		EventManager.AddHandler(EVENT.PlayerRejoined, setLocalPlayer);
+	}
+	private void OnDisable()
+	{
+		onTileReached.RemoveListener(Cross);
+		EventManager.RemoveHandler(EVENT.PlayerRejoined, setLocalPlayer);
 	}
 
 	/// <summary>
@@ -421,9 +450,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	/// </summary>
 	public void setLocalPlayer()
 	{
-		pendingActions = new Queue<PlayerAction>();
-		UpdatePredictedState();
-		predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
+		if (isLocalPlayer)
+		{
+			pendingActions = new Queue<PlayerAction>();
+			UpdatePredictedState();
+			predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
+		}
 	}
 
 	/// <summary>
@@ -438,7 +470,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			didWiggle = false;
 
-			if ( !playerScript.canNotInteract() && KeyboardInputManager.IsMovementPressed() )
+			if (!playerScript.canNotInteract() && KeyboardInputManager.IsMovementPressed())
 			{
 				//	If being pulled by another player and you try to break free
 				if (pushPull != null && pushPull.IsBeingPulledClient)
@@ -446,11 +478,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 					pushPull.CmdStopFollowing();
 					didWiggle = true;
 				}
-				else if ( Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform )
+				else if (Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform)
 				{
 					//	Leaving locker
 					var closet = Camera2DFollow.followControl.target.GetComponent<ClosetControl>();
-					if ( closet )
+					if (closet)
 					{
 						closet.Interact(HandApply.ByLocalPlayer(closet.gameObject));
 						didWiggle = true;
@@ -467,6 +499,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 		Synchronize();
 	}
+
 	private void Synchronize()
 	{
 		if (isLocalPlayer && GameData.IsHeadlessServer)
@@ -482,16 +515,19 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 			{
 				CheckMovementServer();
 			}
+
 			if (!ClientPositionReady)
 			{
 				Lerp();
 			}
+
 			if (server)
 			{
 				if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
 				{
 					SpawnHandler.SpawnDummyPlayer(JobType.ASSISTANT);
 				}
+
 				if (serverState.Position != serverLerpState.Position)
 				{
 					ServerLerp();
@@ -500,7 +536,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 				{
 					TryUpdateServerTarget();
 				}
-
 			}
 		}
 
@@ -509,6 +544,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			registerTile.UpdatePositionClient();
 		}
+
 		if (registerTile.LocalPositionServer != Vector3Int.RoundToInt(serverState.Position))
 		{
 			registerTile.UpdatePositionServer();
@@ -540,7 +576,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	{
 		var newState = state;
 		newState.MoveNumber++;
-		newState.Position = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.Position), action, isReplay, MatrixManager.Get(newState.MatrixId).Matrix);
+		newState.Position = playerMove.GetNextPosition(Vector3Int.RoundToInt(state.Position), action, isReplay,
+			MatrixManager.Get(newState.MatrixId).Matrix);
 
 		var proposedWorldPos = newState.WorldPosition;
 
@@ -560,26 +597,26 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 #if UNITY_EDITOR
 	//Visual debug
-	[NonSerialized]
-	private readonly Vector3 size1 = Vector3.one,
-							 size2 = new Vector3(0.9f, 0.9f, 0.9f),
-							 size3 = new Vector3(0.8f, 0.8f, 0.8f),
-							 size4 = new Vector3(0.7f, 0.7f, 0.7f),
-							 size5 = new Vector3(1.1f, 1.1f, 1.1f),
-							 size6 = new Vector3(0.6f, 0.6f, 0.6f);
+	[NonSerialized] private readonly Vector3 size1 = Vector3.one,
+		size2 = new Vector3(0.9f, 0.9f, 0.9f),
+		size3 = new Vector3(0.8f, 0.8f, 0.8f),
+		size4 = new Vector3(0.7f, 0.7f, 0.7f),
+		size5 = new Vector3(1.1f, 1.1f, 1.1f),
+		size6 = new Vector3(0.6f, 0.6f, 0.6f);
 
-	[NonSerialized] private readonly Color color0 = DebugTools.HexToColor( "5566ff55" ), //blue
+	[NonSerialized] private readonly Color color0 = DebugTools.HexToColor("5566ff55"), //blue
 		color1 = Color.red,
-		color2 = DebugTools.HexToColor( "fd7c6e" ), //pink
-		color3 = DebugTools.HexToColor( "22e600" ), //green
-		color4 = DebugTools.HexToColor( "ebfceb" ), //white
-		color6 = DebugTools.HexToColor( "666666" ), //grey
-		color7 = DebugTools.HexToColor( "ff666655" );//reddish
+		color2 = DebugTools.HexToColor("fd7c6e"), //pink
+		color3 = DebugTools.HexToColor("22e600"), //green
+		color4 = DebugTools.HexToColor("ebfceb"), //white
+		color6 = DebugTools.HexToColor("666666"), //grey
+		color7 = DebugTools.HexToColor("ff666655"); //reddish
+
 	private static readonly bool drawMoves = true;
 
 	private void OnDrawGizmos()
 	{
-		if(!Application.isPlaying) return;
+		if (!Application.isPlaying) return;
 
 		//registerTile S pos
 		Gizmos.color = color7;
@@ -610,7 +647,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		Vector3 clientPrediction = predictedState.WorldPosition;
 		Gizmos.DrawWireCube(clientPrediction, size3);
 		DebugGizmoUtils.DrawArrow(clientPrediction + Vector3.left / 5, predictedState.Impulse);
-		if (drawMoves) DebugGizmoUtils.DrawText(predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15);
+		if (drawMoves)
+			DebugGizmoUtils.DrawText(predictedState.MoveNumber.ToString(), clientPrediction + Vector3.left, 15);
 
 		//client playerState
 		Gizmos.color = color4;
@@ -620,10 +658,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		if (drawMoves) DebugGizmoUtils.DrawText(playerState.MoveNumber.ToString(), clientState + Vector3.right, 15);
 
 		//help intent
-		Gizmos.color = isLocalPlayer ?  color4 : color1;
+		Gizmos.color = isLocalPlayer ? color4 : color1;
 		if (playerMove.IsHelpIntent)
 		{
-			DebugGizmoUtils.DrawText("Help", clientState + Vector3.up/2, 15);
+			DebugGizmoUtils.DrawText("Help", clientState + Vector3.up / 2, 15);
 		}
 	}
 #endif
