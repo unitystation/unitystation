@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public class APCPoweredDevice : NetworkBehaviour
 {
@@ -18,6 +18,11 @@ public class APCPoweredDevice : NetworkBehaviour
 	[SyncVar(hook = nameof(UpdateSynchronisedState))]
 	public PowerStates State;
 
+	private void Awake()
+	{
+		Powered = gameObject.GetComponent<IAPCPowered>();
+	}
+
 	public override void OnStartClient()
 	{
 		UpdateSynchronisedState(State);
@@ -26,11 +31,6 @@ public class APCPoweredDevice : NetworkBehaviour
 	public override void OnStartServer()
 	{
 		UpdateSynchronisedState(State);
-	}
-
-	private void Awake()
-	{
-		Powered = gameObject.GetComponent<IAPCPowered>();
 	}
 
 	void Start()

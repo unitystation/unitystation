@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 ///   Tells client to make given player appear laying down or back up on feet
 public class PlayerUprightMessage : ServerMessage
@@ -9,7 +9,7 @@ public class PlayerUprightMessage : ServerMessage
 	public static short MessageType = (short) MessageTypes.PlayerUprightMessage;
 	public bool Upright;
 	/// Whom is it about
-	public NetworkInstanceId SubjectPlayer;
+	public uint SubjectPlayer;
 
 	///To be run on client
 	public override IEnumerator Process()

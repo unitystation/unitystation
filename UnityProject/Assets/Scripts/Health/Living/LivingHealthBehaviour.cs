@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using Atmospherics;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
 
 /// <summary>
 /// The Required component for all living creatures

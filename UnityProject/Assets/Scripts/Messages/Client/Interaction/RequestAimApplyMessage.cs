@@ -1,10 +1,9 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Message a client (or server player) sends to the server to request the server to validate
@@ -19,7 +18,7 @@ public class RequestAimApplyMessage : ClientMessage
 	public static short MessageType = (short) MessageTypes.RequestAimApplyMessage;
 
 	//object that will process the interaction
-	public NetworkInstanceId ProcessorObject;
+	public uint ProcessorObject;
 	//target vector (pointing from the client's player to the position they are targeting)
 	public Vector2 TargetVector;
 	//state of the mouse - whether this is initial press or being held down.
@@ -82,7 +81,7 @@ public class RequestAimApplyMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ProcessorObject = reader.ReadNetworkId();
+		ProcessorObject = reader.ReadUInt32();
 		TargetVector = reader.ReadVector2();
 		MouseButtonState = reader.ReadBoolean() ? MouseButtonState.PRESS : MouseButtonState.HOLD;
 	}
@@ -90,9 +89,9 @@ public class RequestAimApplyMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(ProcessorObject);
-		writer.Write(TargetVector);
-		writer.Write(MouseButtonState == MouseButtonState.PRESS);
+		writer.WriteUInt32(ProcessorObject);
+		writer.WriteVector2(TargetVector);
+		writer.WriteBoolean(MouseButtonState == MouseButtonState.PRESS);
 	}
 
 }

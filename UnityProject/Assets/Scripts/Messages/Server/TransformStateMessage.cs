@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Tells client to change world object's transform state ((dis)appear/change pos/start floating)
@@ -10,13 +10,13 @@ public class TransformStateMessage : ServerMessage
 	public static short MessageType = (short) MessageTypes.TransformStateMessage;
 	public bool ForceRefresh;
 	public TransformState State;
-	public NetworkInstanceId TransformedObject;
+	public uint TransformedObject;
 
 	///To be run on client
 	public override IEnumerator Process()
 	{
 //		Logger.Log("Processed " + ToString());
-		if (TransformedObject == NetworkInstanceId.Invalid)
+		if (TransformedObject == NetId.Invalid)
 		{
 			//Doesn't make any sense
 			yield return null;
@@ -38,7 +38,7 @@ public class TransformStateMessage : ServerMessage
 	{
 		var msg = new TransformStateMessage
 		{
-			TransformedObject = transformedObject != null ? transformedObject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			TransformedObject = transformedObject != null ? transformedObject.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 			ForceRefresh = forced
 		};
@@ -56,7 +56,7 @@ public class TransformStateMessage : ServerMessage
 	{
 		var msg = new TransformStateMessage
 		{
-			TransformedObject = transformedObject != null ? transformedObject.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			TransformedObject = transformedObject != null ? transformedObject.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 			ForceRefresh = forced
 		};

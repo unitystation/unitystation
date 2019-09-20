@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Light2D;
 using UnityEngine;
-using UnityEngine.Networking;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
 
 
 public class LightEmissionPlayer : NetworkBehaviour
@@ -20,6 +21,8 @@ public class LightEmissionPlayer : NetworkBehaviour
 	private HashSet<PlayerLightData> PresentLights = new HashSet<PlayerLightData>();
 	private PlayerLightData CurrentLight = new PlayerLightData();
 
+	[SerializeField]
+	private LightSprite lightSprite;
 	public GameObject mLightRendererObject;
 
 	[SyncVar(hook = nameof(UpdateHook))]
@@ -74,9 +77,13 @@ public class LightEmissionPlayer : NetworkBehaviour
 	}
 	public void UpdatelightSource()
 	{
-		this.GetComponentInChildren<LightSprite>().Color = CurrentLight.Colour;
-		this.GetComponentInChildren<LightSprite>().Sprite = DictionarySprites[CurrentLight.EnumSprite];
-		this.GetComponentInChildren<LightSprite>().Color.a = CurrentLight.Intensity;
+		if(CurrentLight == null){
+			//CurrentLight not updated yet
+			return;
+		}
+		lightSprite.Color = CurrentLight.Colour;
+		lightSprite.Sprite = DictionarySprites[CurrentLight.EnumSprite];
+		lightSprite.Color.a = CurrentLight.Intensity;
 		mLightRendererObject.transform.localScale = new Vector3(CurrentLight.Size, CurrentLight.Size, CurrentLight.Size);
 		if (isServer)
 		{

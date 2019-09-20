@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
 
 public class WeaponNetworkActions : ManagedNetworkBehaviour
 {
@@ -43,7 +44,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	public void CmdLoadMagazine(GameObject gunObject, GameObject magazine, string hand)
 	{
 		Gun gun = gunObject.GetComponent<Gun>();
-		NetworkInstanceId networkID = magazine.GetComponent<NetworkIdentity>().netId;
+		uint networkID = magazine.GetComponent<NetworkIdentity>().netId;
 		gun.ServerHandleReloadRequest(networkID);
 		//var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 		//InventoryManager.ClearInvSlot(slot);

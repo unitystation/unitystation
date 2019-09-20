@@ -1,13 +1,13 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 ///     Tells client to 
 public class MatrixMoveMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.MatrixMoveMessage;
 	public MatrixState State;
-	public NetworkInstanceId Matrix;
+	public uint Matrix;
 	//Reset client's prediction queue
 //	public bool ResetQueue;
 
@@ -28,7 +28,7 @@ public class MatrixMoveMessage : ServerMessage
 	{
 		var msg = new MatrixMoveMessage
 		{
-			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 		};
 		msg.SendTo(recipient);
@@ -39,7 +39,7 @@ public class MatrixMoveMessage : ServerMessage
 	{
 		var msg = new MatrixMoveMessage
 		{
-			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			Matrix = matrix != null ? matrix.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			State = state,
 		};
 		msg.SendToAll();

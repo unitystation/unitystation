@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Tells client to update conscious state
@@ -9,7 +9,7 @@ public class HealthConsciousMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.HealthConsciousState;
 
-	public NetworkInstanceId EntityToUpdate;
+	public uint EntityToUpdate;
 	public ConsciousState ConsciousState;
 
 	public override IEnumerator Process()

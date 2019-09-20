@@ -22,7 +22,7 @@ namespace Tests
 
 		PlayerSync player;
 
-		[PerformanceUnityTest]
+		[UnityTest, Performance]
         public IEnumerator ElectricityGeneratorTest()
 		{
 			yield return LoadSceneAndSetActive();

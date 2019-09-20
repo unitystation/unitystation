@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public class InteractableFireCabinet : NBHandApplyInteractable
 {
@@ -12,15 +12,11 @@ public class InteractableFireCabinet : NBHandApplyInteractable
 	public Sprite spriteClosed;
 	public Sprite spriteOpenedEmpty;
 	public Sprite spriteOpenedOccupied;
+	[SerializeField]
 	private SpriteRenderer spriteRenderer;
 
 	//For storing extinguishers server side
 	private GameObject storedObject;
-
-	private void Start()
-	{
-		spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
-	}
 
 	public override void OnStartServer()
 	{

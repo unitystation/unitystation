@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4833550011112600}
   - component: {fileID: 61073988275347620}
   - component: {fileID: 61187366832375296}
-  - component: {fileID: 114473011698291292}
   - component: {fileID: 114836981699317108}
   - component: {fileID: 114325905384881024}
   - component: {fileID: 3578799147172016980}
@@ -20,6 +19,7 @@ GameObject:
   - component: {fileID: 114689867610377938}
   - component: {fileID: 114523164427909220}
   - component: {fileID: 114238733534567912}
+  - component: {fileID: 114132597043430612}
   m_Layer: 11
   m_Name: Closet_Oxygen
   m_TagString: Untagged
@@ -95,39 +95,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5410156, y: 0.8852539}
   m_EdgeRadius: 0
---- !u!114 &114473011698291292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146263997293372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114836981699317108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &114325905384881024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e27ef87b09cc84988939559a2f51ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   DefaultContents:
   - {fileID: 1277678737481138, guid: f99902d04c3b1fe47b0e4e4ec36b7971, type: 3}
   - {fileID: 1639223380925416, guid: 611c366b2d389b94193a817e11987cdc, type: 3}
@@ -177,6 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   registerTile: {fileID: 0}
   parentContainer: {fileID: 0}
   isNotPushable: 0
@@ -192,6 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc4af3ee3e2140f79050f19644af5e8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
@@ -246,6 +221,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Armor:
     Melee: 0
     Bullet: 0
@@ -266,6 +243,22 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114132597043430612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146263997293372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 2230487993
 --- !u!1 &1324576255968780
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,6 +316,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -432,6 +426,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

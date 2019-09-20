@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
 
 /// <summary>
 ///     Request electrical stats from the server
@@ -9,8 +10,8 @@ public class RequestElectricalStats : ClientMessage
 {
 	public static short MessageType = (short)MessageTypes.RequestElectricalStats;
 
-	public NetworkInstanceId Player;
-	public NetworkInstanceId ElectricalItem;
+	public uint Player;
+	public uint ElectricalItem;
 
 	public override IEnumerator Process()
 	{
@@ -48,14 +49,14 @@ public class RequestElectricalStats : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Player = reader.ReadNetworkId();
-		ElectricalItem = reader.ReadNetworkId();
+		Player = reader.ReadUInt32();
+		ElectricalItem = reader.ReadUInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(Player);
-		writer.Write(ElectricalItem);
+		writer.WriteUInt32(Player);
+		writer.WriteUInt32(ElectricalItem);
 	}
 }

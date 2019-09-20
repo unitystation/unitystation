@@ -3,7 +3,7 @@ guid: 3db0783b58c2429b9bc1f560ba323d05
 labels:
 - gvh
 - gvh_dotnet-4.5
-- gvh_version-6.2.1
+- gvh_version-6.5.0
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -15,6 +15,18 @@ PluginImporter:
   isExplicitlyReferenced: 0
   validateReferences: 1
   platformData:
+  - first:
+      '': Linux
+    second:
+      enabled: 1
+      settings:
+        CPU: x86
+  - first:
+      '': LinuxUniversal
+    second:
+      enabled: 1
+      settings:
+        CPU: AnyCPU
   - first:
       '': OSXIntel
     second:
@@ -59,27 +71,15 @@ PluginImporter:
     second:
       enabled: 1
       settings:
-        CPU: AnyCPU
+        CPU: x86
   - first:
       Facebook: Win64
     second:
       enabled: 1
       settings:
-        CPU: AnyCPU
-  - first:
-      Standalone: Linux
-    second:
-      enabled: 1
-      settings:
-        CPU: x86
-  - first:
-      Standalone: Linux64
-    second:
-      enabled: 1
-      settings:
         CPU: x86_64
   - first:
-      Standalone: LinuxUniversal
+      Standalone: Linux64
     second:
       enabled: 1
       settings:
@@ -95,13 +95,13 @@ PluginImporter:
     second:
       enabled: 1
       settings:
-        CPU: AnyCPU
+        CPU: x86
   - first:
       Standalone: Win64
     second:
       enabled: 1
       settings:
-        CPU: AnyCPU
+        CPU: x86_64
   - first:
       Windows Store Apps: WindowsStoreApps
     second:

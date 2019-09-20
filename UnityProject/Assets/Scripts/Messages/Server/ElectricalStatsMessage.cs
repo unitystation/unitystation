@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
 
 public class ElectricalStatsMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.ElectricalStatsMessage;
 	public string JsonData;
-	public NetworkInstanceId Recipient;//fixme: Recipient is redundant! Can be safely removed
+	public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
 
 	public override IEnumerator Process()
 	{

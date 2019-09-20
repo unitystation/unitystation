@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using UnityEngine;
-using UnityEngine.Networking;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
 using UnityEngine.Tilemaps;
 
 public class TileChangeManager : NetworkBehaviour

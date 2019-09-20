@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4198876866591856}
   - component: {fileID: 212971218565283798}
-  - component: {fileID: 2015221164485275038}
   - component: {fileID: 5613584594651815714}
   m_Layer: 10
   m_Name: Sprite
@@ -58,6 +57,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -81,39 +81,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2015221164485275038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1221988661958348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &5613584594651815714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +113,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4270568441178048}
   - component: {fileID: 61348684147172340}
-  - component: {fileID: 114195744768688632}
   - component: {fileID: 114187095344708746}
   - component: {fileID: 114768507001769714}
   - component: {fileID: 114677721502774396}
@@ -159,6 +125,7 @@ GameObject:
   - component: {fileID: 114013691186649456}
   - component: {fileID: 114144300265124736}
   - component: {fileID: 8134703155087779743}
+  - component: {fileID: 114254203349742134}
   m_Layer: 10
   m_Name: UniBackPack
   m_TagString: Untagged
@@ -207,39 +174,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114195744768688632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1585232330438968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114187095344708746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &114768507001769714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +200,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2aa599081d4bc09565dfcb42993bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   spriteHandlerData: {fileID: 114144300265124736}
   InventoryIcon: {fileID: 5613584594651815714}
   itemName: 
@@ -291,12 +229,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoredSpriteRenderers: []
+  syncMode: 0
+  syncInterval: 0.1
   registerTile: {fileID: 0}
-  visibleState: 1
-  isNotPushable: 0
-  closetHandlerCache: {fileID: 0}
   parentContainer: {fileID: 0}
+  isNotPushable: 0
 --- !u!114 &114120662618608678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,12 +246,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
   crossed:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: OnCrossed, Assets, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114336348675555448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,10 +277,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eac5b97f2a9c42ac9f2e98c0316ba2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   storageSlots:
     inventorySlots: []
   maxSlots: 7
   maxItemSize: 3
+  inventorySlotList: []
 --- !u!114 &114465317721107106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,11 +296,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   OnDropServer:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114166600190300968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +338,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Armor:
     Melee: 0
     Bullet: 0
@@ -447,9 +390,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4988eef284d24f4dbc16a62462df71e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Type: 0
+  Variant: -1
+  clothingData: {fileID: 0}
+  containerData: {fileID: 0}
+  headsetData: {fileID: 0}
+  Initialised: 0
+  SynchronisedString: 
   VariantList: 
   SpriteInfo:
     spriteIndex: 0
     VariantIndex: 0
     AID: 0
     Serialized: []
+--- !u!114 &114254203349742134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585232330438968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: b22b8a1b805c44b77a8d1759a6d4e119
+  m_SceneId: 0

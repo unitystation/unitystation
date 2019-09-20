@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     This Server to Client message is sent when a player is stored inside a closet or crate.
@@ -10,11 +10,11 @@ using UnityEngine.Networking;
 public class ClosetHandlerMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.ClosetHandlerMessage;
-	public NetworkInstanceId Closet;
+	public uint Closet;
 
 	public override IEnumerator Process()
 	{
-		if ( Closet == NetworkInstanceId.Invalid )
+		if ( Closet == NetId.Invalid )
 		{
 			yield return null;
 		}

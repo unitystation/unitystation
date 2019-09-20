@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Objects;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using Newtonsoft.Json;
 
 public class Equipment : NetworkBehaviour
@@ -61,7 +61,7 @@ public class Equipment : NetworkBehaviour
 		for (int i = 0; i < clothingSlots.Length; i++)
 		{
 			var clothItem = clothingSlots[i];
-			EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference);
+			EquipmentSpritesMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, false);
 		}
 	}
 
@@ -164,19 +164,19 @@ public class Equipment : NetworkBehaviour
 				{
 					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent, PrefabOverride: gearItem.Value.Clothing.PrefabVariant); //Where it is made
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-					SetItem(gearItem.Key, itemAtts.gameObject);
+					SetItem(gearItem.Key, itemAtts.gameObject, true);
 				}
 				else {
-					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent); 
+					var obj = ClothFactory.CreateCloth(gearItem.Value.Clothing, TransformState.HiddenPos, transform.parent);
 					ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-					SetItem(gearItem.Key, itemAtts.gameObject);
+					SetItem(gearItem.Key, itemAtts.gameObject, true);
 				}
 			}
 			else if (gearItem.Value.Prefab != null)
 			{
 				var obj = PoolManager.PoolNetworkInstantiate(gearItem.Value.Prefab, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(gearItem.Key, itemAtts.gameObject);
+				SetItem(gearItem.Key, itemAtts.gameObject, true);
 			}
 		}
 		if (Backpack.Backpack != null)
@@ -185,19 +185,19 @@ public class Equipment : NetworkBehaviour
 			{
 				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent, PrefabOverride: Backpack.Backpack.PrefabVariant); //Where it is made
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.back, itemAtts.gameObject);
+				SetItem(EquipSlot.back, itemAtts.gameObject, true);
 			}
 			else {
-				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent); 
+				var obj = ClothFactory.CreateBackpackCloth(Backpack.Backpack, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.back, itemAtts.gameObject);
+				SetItem(EquipSlot.back, itemAtts.gameObject, true);
 			}
 		}
 		else if (Backpack.Prefab)
 		{
 			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
 			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(EquipSlot.back, itemAtts.gameObject);
+			SetItem(EquipSlot.back, itemAtts.gameObject, true);
 		}
 
 
@@ -207,19 +207,19 @@ public class Equipment : NetworkBehaviour
 			{
 				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent, PrefabOverride: Ears.Headset.PrefabVariant); //Where it is made
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.ear, itemAtts.gameObject);
+				SetItem(EquipSlot.ear, itemAtts.gameObject, true);
 			}
 			else {
-				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent); 
+				var obj = ClothFactory.CreateHeadsetCloth(Ears.Headset, TransformState.HiddenPos, transform.parent);
 				ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-				SetItem(EquipSlot.ear, itemAtts.gameObject);
+				SetItem(EquipSlot.ear, itemAtts.gameObject, true);
 			}
 		}
 		else if (Ears.Prefab)
 		{
 			var obj = PoolManager.PoolNetworkInstantiate(Backpack.Prefab, TransformState.HiddenPos, transform.parent);
 			ItemAttributes itemAtts = obj.GetComponent<ItemAttributes>();
-			SetItem(EquipSlot.ear, itemAtts.gameObject);
+			SetItem(EquipSlot.ear, itemAtts.gameObject, true);
 		}
 		SpawnID(jobOutfit);
 
@@ -234,6 +234,7 @@ public class Equipment : NetworkBehaviour
 			}
 		}
 	}
+
 	private void AddifPresent(Dictionary<EquipSlot, ClothOrPrefab> gear, EquipSlot key, ClothOrPrefab clothOrPrefab)
 	{
 		if (clothOrPrefab?.Clothing?.Base?.Equipped != null || clothOrPrefab?.Prefab != null)
@@ -366,9 +367,9 @@ public class Equipment : NetworkBehaviour
 		return slot != EquipSlot.id && slot != EquipSlot.storage01 && slot != EquipSlot.storage02 && slot != EquipSlot.suitStorage;
 	}
 
-	private void SetItem(EquipSlot slotName, GameObject obj)
+	private void SetItem(EquipSlot slotName, GameObject obj, bool isInit = false)
 	{
-		playerNetworkActions.AddItemToUISlot(obj, slotName);
+		playerNetworkActions.AddItemToUISlot(obj, slotName, null, false, isInit);
 	}
 
 	private void InitInternals()

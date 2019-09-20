@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4025345055859194}
-  - component: {fileID: 114245114617401278}
   - component: {fileID: 114947796331066130}
   - component: {fileID: 114906788329055910}
   - component: {fileID: 114008051345712512}
@@ -17,6 +16,7 @@ GameObject:
   - component: {fileID: 61506100139303226}
   - component: {fileID: 3643008678441238377}
   - component: {fileID: 114854152648262332}
+  - component: {fileID: 114828964617408344}
   m_Layer: 22
   m_Name: VIR_MediumMachine character
   m_TagString: Untagged
@@ -43,39 +43,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114245114617401278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127054139694796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114947796331066130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,6 +55,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 0
   crossed:
@@ -106,6 +75,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc533543a506934aba1cf4b6642c3f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   RelatedWire: {fileID: 114008051345712512}
   ApplianceType: 4
 --- !u!114 &114008051345712512
@@ -120,6 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c50f14e3b584c1996d019edd96fc01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   WireEndB: 0
   WireEndA: 0
   Data:
@@ -154,6 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!61 &61506100139303226
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -192,6 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6904f4e88bfe5834ea84b6c258dc98f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   InNorth: 0
   InSouth: 0
   InWest: 0
@@ -215,6 +192,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+--- !u!114 &114828964617408344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127054139694796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 806681598
 --- !u!1 &1816013858564998
 GameObject:
   m_ObjectHideFlags: 0

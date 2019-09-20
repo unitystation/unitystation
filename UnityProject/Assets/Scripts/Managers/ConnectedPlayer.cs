@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// Server-only full player information class
 public class ConnectedPlayer
@@ -10,6 +10,8 @@ public class ConnectedPlayer
     private GameObject gameObject;
     private PlayerScript playerScript;
     private NetworkConnection connection;
+    private string clientID;
+
     /// Flags if player received a bunch of sync messages upon joining
     private bool synced;
 
@@ -20,12 +22,13 @@ public class ConnectedPlayer
 
     public static readonly ConnectedPlayer Invalid = new ConnectedPlayer
     {
-        connection = new NetworkConnection(),
+        connection = new NetworkConnection("0.0.0.0"),
         gameObject = null,
         name = "kek",
         job = JobType.NULL,
         steamId = 0,
-        synced = true
+        synced = true,
+        clientID = ""
     };
 
     public static ConnectedPlayer ArchivedPlayer( ConnectedPlayer player )
@@ -37,7 +40,8 @@ public class ConnectedPlayer
             name = player.Name,
             job = player.Job,
             steamId = player.SteamId,
-            synced = player.synced
+            synced = player.synced,
+            clientID = player.clientID
         };
     }
 
@@ -100,6 +104,12 @@ public class ConnectedPlayer
     public bool Synced {
         get { return synced; }
         set { synced = value; }
+    }
+
+    public string ClientId
+    {
+	    get => clientID;
+	    set => clientID = value;
     }
 
     public bool HasNoName()

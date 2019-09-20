@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
+using Mirror;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 /// Current state of transform, server modifies these and sends to clients.
@@ -402,7 +402,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	private void SyncMatrix() {
 		if ( registerTile && !serverState.IsUninitialized) {
-			registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetId;
+			registerTile.ParentNetId = MatrixManager.Get( serverState.MatrixId ).NetID;
 		}
 	}
 

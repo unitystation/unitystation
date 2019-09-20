@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public class PlayerCustomisationMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.PlayerCustomisationMessage;
 	public CharacterSettings Character;
 	public BodyPartSpriteName Part = BodyPartSpriteName.Null;
-	public NetworkInstanceId EquipmentObject;
+	public uint EquipmentObject;
 
 	public override IEnumerator Process()
 	{

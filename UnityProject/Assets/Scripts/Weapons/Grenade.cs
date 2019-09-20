@@ -4,7 +4,7 @@ using System.Linq;
 using Light2D;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     shape of explosion that occurs

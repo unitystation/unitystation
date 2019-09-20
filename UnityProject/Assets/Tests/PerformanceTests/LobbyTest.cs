@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.PerformanceTesting;
 using UnityEngine;
 using UnityEngine.Profiling;
+using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -32,7 +33,7 @@ namespace Tests
 		#endregion
 
 		#region Tests
-		[PerformanceUnityTest]
+		[UnityTest, Performance]
 		public IEnumerator NanotrasenAssistant()
 		{
 			StartTime();
@@ -57,7 +58,7 @@ namespace Tests
 			EndBenchmark();
 		}
 
-		[PerformanceUnityTest]
+		[UnityTest, Performance]
 		public IEnumerator NukeOps()
 		{
 			StartTime();

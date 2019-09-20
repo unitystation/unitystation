@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Tells client to update blood health stats
@@ -9,7 +9,7 @@ public class HealthBloodMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.HealthBloodStats;
 
-	public NetworkInstanceId EntityToUpdate;
+	public uint EntityToUpdate;
 	public int HeartRate;
 	public float BloodLevel;
 	public float OxygenDamage;

@@ -48,7 +48,7 @@ public class InventoryManager : MonoBehaviour
 	/// <summary>
 	/// Sets the item to the slot and sends network messages to update character sprites and the player's UI
 	/// </summary>
-	public static void EquipInInvSlot(InventorySlot inventorySlot, GameObject item)
+	public static void EquipInInvSlot(InventorySlot inventorySlot, GameObject item, bool isInit = false)
 	{
 		if (inventorySlot.IsUISlot)
 		{
@@ -56,12 +56,10 @@ public class InventoryManager : MonoBehaviour
 
 			if (IsEquipSpriteSlot(inventorySlot.equipSlot))
 			{
-				EquipmentSpritesMessage.SendToAll(inventorySlot.Owner, (int)inventorySlot.equipSlot, item);
-
+				EquipmentSpritesMessage.SendToAll(inventorySlot.Owner, (int)inventorySlot.equipSlot, item, isInit);
 			}
 		}
 		inventorySlot.Item = item;
-
 	}
 
 	public static void ClientEquipInInvSlot(PlayerNetworkActions pna, GameObject item, EquipSlot equipSlot)

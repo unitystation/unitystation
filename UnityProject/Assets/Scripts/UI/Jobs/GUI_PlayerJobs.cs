@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class GUI_PlayerJobs : MonoBehaviour
@@ -15,13 +17,13 @@ public class GUI_PlayerJobs : MonoBehaviour
 	{
 		//We only want the job selection screen to show up once
 		//And only when we've received the connectedPlayers list from the server
-		if (canBeUpdated())
+		if (CanBeUpdated())
 		{
 			UpdateJobsList();
 		}
 	}
 
-	public void BtnOk(JobType preference)
+	private void BtnOk(JobType preference)
 	{
 		SoundManager.Play("Click01");
 		PlayerManager.LocalViewerScript.CmdRequestJob(preference, PlayerManager.CurrentCharacterSettings);
@@ -32,34 +34,43 @@ public class GUI_PlayerJobs : MonoBehaviour
 	private void UpdateJobsList()
 	{
 		screen_Jobs.SetActive(false);
+
 		foreach (Transform child in screen_Jobs.transform)
 		{
 			Destroy(child.gameObject);
 		}
 
-		foreach (GameObject occupationGo in GameManager.Instance.Occupations)
-		{
+		var occupations = GameManager.Instance.Occupations.OrderBy(
+			o => Array.IndexOf(JobTypeExtensions.DisplayOrder, o.GetComponent<OccupationRoster>().Type)).ToList();
 
-			GameObject occupation = Instantiate(buttonPrefab);
+		foreach (GameObject occupationGo in occupations)
+		{
 			JobType jobType = occupationGo.GetComponent<OccupationRoster>().Type;
-			//For nuke ops mode, syndis spawn via a different button
-			if(jobType == JobType.SYNDICATE){
+
+			// For nuke ops mode, syndis spawn via a different button
+			if (jobType == JobType.SYNDICATE)
+			{
 				continue;
 			}
+
 			int active = GameManager.Instance.GetOccupationsCount(jobType);
 			int available = GameManager.Instance.GetOccupationMaxCount(jobType);
 
+			GameObject occupation = Instantiate(buttonPrefab, screen_Jobs.transform);
+
 			occupation.name = jobType.ToString();
-			occupation.GetComponentInChildren<Text>().text = jobType + " (" + active + " of " + available + ")";
-			occupation.transform.SetParent(screen_Jobs.transform);
+			var color = jobType.GetDisplayColor();
+
+			occupation.GetComponent<Image>().color = color;
+			occupation.GetComponentInChildren<Text>().text = jobType.ToDisplayString() + " (" + active + " of " + available + ")";
 			occupation.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-			//Disabled button for full jobs
+			// Disabled button for full jobs
 			if (active >= available)
 			{
 				occupation.GetComponentInChildren<Button>().interactable = false;
 			}
-			else //Enabled button with listener for vacant jobs
+			else // Enabled button with listener for vacant jobs
 			{
 				occupation.GetComponent<Button>().onClick.AddListener(() => { BtnOk(jobType); });
 			}
@@ -70,7 +81,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 		isUpToDate = true;
 	}
 
-	private bool canBeUpdated()
+	private bool CanBeUpdated()
 	{
 		if (isUpToDate || hasPickedAJob)
 		{

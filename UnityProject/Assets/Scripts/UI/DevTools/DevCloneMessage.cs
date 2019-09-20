@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Message allowing a client dev / admin to clone something, validated server side.
@@ -10,7 +10,7 @@ public class DevCloneMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.DevCloneMessage;
 	// Net ID of the object to destroy
-	public NetworkInstanceId ToClone;
+	public uint ToClone;
 	// position to spawn at.
 	public Vector2 WorldPosition;
 
@@ -19,7 +19,7 @@ public class DevCloneMessage : ClientMessage
 		//TODO: Validate if player is allowed to spawn things, check if they have admin privs.
 		//For now we will let anyone spawn.
 
-		if (ToClone.Equals(NetworkInstanceId.Invalid))
+		if (ToClone.Equals(NetId.Invalid))
 		{
 			Logger.LogWarning("Attempted to clone an object with invalid netID, clone will not occur.", Category.ItemSpawn);
 		}
@@ -52,7 +52,7 @@ public class DevCloneMessage : ClientMessage
 
 		DevCloneMessage msg = new DevCloneMessage
 		{
-			ToClone = toClone ? toClone.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			ToClone = toClone ? toClone.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			WorldPosition = worldPosition
 		};
 		msg.Send();
@@ -61,14 +61,14 @@ public class DevCloneMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ToClone = reader.ReadNetworkId();
+		ToClone = reader.ReadUInt32();
 		WorldPosition = reader.ReadVector2();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(ToClone);
-		writer.Write(WorldPosition);
+		writer.WriteUInt32(ToClone);
+		writer.WriteVector2(WorldPosition);
 	}
 }

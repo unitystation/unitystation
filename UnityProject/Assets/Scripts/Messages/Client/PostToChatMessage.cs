@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Attempts to send a chat message to the server
@@ -151,7 +151,7 @@ public class PostToChatMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write((int) Channels);
-		writer.Write(ChatMessageText);
+		writer.WriteInt32((int) Channels);
+		writer.WriteString(ChatMessageText);
 	}
 }

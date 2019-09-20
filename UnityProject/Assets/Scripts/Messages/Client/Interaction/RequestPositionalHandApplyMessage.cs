@@ -1,10 +1,9 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Message a client (or server player) sends to the server to request the server to validate
@@ -19,9 +18,9 @@ public class RequestPositionalHandApplyMessage : ClientMessage
 	public static short MessageType = (short) MessageTypes.RequestPositionalHandApplyMessage;
 
 	//object that will process the interaction
-	public NetworkInstanceId ProcessorObject;
+	public uint ProcessorObject;
 	//netid of the object being targeted
-	public NetworkInstanceId TargetObject;
+	public uint TargetObject;
 	//target vector pointing from performer to targeted position
 	public Vector2 TargetVector;
 
@@ -83,17 +82,17 @@ public class RequestPositionalHandApplyMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ProcessorObject = reader.ReadNetworkId();
-		TargetObject = reader.ReadNetworkId();
+		ProcessorObject = reader.ReadUInt32();
+		TargetObject = reader.ReadUInt32();
 		TargetVector = reader.ReadVector2();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(ProcessorObject);
-		writer.Write(TargetObject);
-		writer.Write(TargetVector);
+		writer.WriteUInt32(ProcessorObject);
+		writer.WriteUInt32(TargetObject);
+		writer.WriteVector2(TargetVector);
 	}
 
 }

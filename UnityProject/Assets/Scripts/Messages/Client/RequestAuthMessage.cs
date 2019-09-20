@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using UnityEngine.Networking;
+using Mirror;
 using Facepunch.Steamworks;
 
 
@@ -82,8 +82,8 @@ public class RequestAuthMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(SteamID);
-		writer.Write(TicketBinary.Length);
-		writer.Write(TicketBinary, TicketBinary.Length);
+		writer.WriteInt64((long)SteamID);
+		writer.WriteInt32(TicketBinary.Length);
+		writer.WriteBytesAndSize(TicketBinary, 0, TicketBinary.Length);
 	}
 }

@@ -233,11 +233,12 @@ public enum Category
 	Camera,
 	Exploits, //Used when (potentially illegal/invalid) actions occur that are likely caused due to exploits, cheats or hacking
 	Graphics,
-	Server, 
+	Server,
 	Tests,
 	Editor,
 	VariableViewer,
-	Themes
+	Themes,
+	SpriteHandler
 }
 
 [Serializable]

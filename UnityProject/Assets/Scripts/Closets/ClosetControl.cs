@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Allows closet to be opened / closed / locked
@@ -348,7 +348,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 	/// in the closet, passing the update on to their RegisterTile behaviors.
 	/// </summary>
 	/// <param name="parentNetId">new parent net ID</param>
-	public void OnParentChangeComplete(NetworkInstanceId parentNetId)
+	public void OnParentChangeComplete(uint parentNetId)
 	{
 		foreach (ObjectBehaviour objectBehaviour in heldItems)
 		{

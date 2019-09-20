@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;

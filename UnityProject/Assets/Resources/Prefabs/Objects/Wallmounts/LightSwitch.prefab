@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -91,7 +92,6 @@ GameObject:
   - component: {fileID: 61000012989894210}
   - component: {fileID: 82306546317105916}
   - component: {fileID: 114156815017434572}
-  - component: {fileID: 114465338665296638}
   - component: {fileID: 114942625721484022}
   - component: {fileID: 114056794007261734}
   - component: {fileID: 114773043881674562}
@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 114148094876921124}
   - component: {fileID: 114783072045832552}
   - component: {fileID: 114026713173586346}
+  - component: {fileID: 114330810423114948}
   m_Layer: 19
   m_Name: LightSwitch
   m_TagString: Untagged
@@ -255,6 +256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a9eb64b31264686a68cf26e202e62c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isOn: 1
   AtShutOffVoltage: 50
   lightOff: {fileID: 21300000, guid: 4d81eb053d9b3f84d8ec165484e526a1, type: 3}
@@ -265,39 +268,6 @@ MonoBehaviour:
   radius: 10
   SelfPowered: 0
   SelfPowerLights: []
---- !u!114 &114465338665296638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000014236108730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114942625721484022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
@@ -351,6 +323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
 --- !u!114 &114148094876921124
@@ -365,6 +339,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &114783072045832552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,6 +365,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Armor:
     Melee: 0
     Bullet: 0
@@ -409,3 +387,19 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
+--- !u!114 &114330810423114948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014236108730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverOnly: 0
+  localPlayerAuthority: 0
+  m_AssetId: 
+  m_SceneId: 4001728366

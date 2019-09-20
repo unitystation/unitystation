@@ -1,10 +1,9 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Message a client (or server player) sends to the server to request the server to validate
@@ -19,7 +18,7 @@ public class RequestHandActivateMessage : ClientMessage
 	public static short MessageType = (short) MessageTypes.RequestHandActivateMessage;
 
 	//object that will process the interaction
-	public NetworkInstanceId ProcessorObject;
+	public uint ProcessorObject;
 
 	public override IEnumerator Process()
 	{
@@ -76,13 +75,13 @@ public class RequestHandActivateMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ProcessorObject = reader.ReadNetworkId();
+		ProcessorObject = reader.ReadUInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(ProcessorObject);
+		writer.WriteUInt32(ProcessorObject);
 	}
 
 }

@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Networking;
+using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
+using Utility = UnityEngine.Networking.Utility;
+using Mirror;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
 
@@ -38,6 +40,7 @@ namespace DatabaseAPI
         private const string hubUpdate = hubRoot + "/statusupdate?data=";
         private float updateWait = 0f;
         private string publicIP;
+        private TelepathyTransport activeTransport;
 
         void AttemptConfigLoad()
         {
@@ -46,6 +49,7 @@ namespace DatabaseAPI
 
             if (File.Exists(path))
             {
+                activeTransport = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>();
                 config = JsonUtility.FromJson<ServerConfig>(File.ReadAllText(path));
                 AttemptHubConnection();
             }
@@ -128,7 +132,7 @@ namespace DatabaseAPI
                 status.PlayerCount = PlayerList.Instance.ConnectionCount;
             }
             status.ServerIP = publicIP;
-            status.ServerPort = CustomNetworkManager.Instance.networkPort;
+            status.ServerPort = Convert.ToInt32(activeTransport.port);
             status.WinDownload = config.WinDownload;
             status.OSXDownload = config.OSXDownload;
             status.LinuxDownload = config.LinuxDownload;

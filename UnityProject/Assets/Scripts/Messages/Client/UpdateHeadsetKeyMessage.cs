@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Requests a Headset Encryption Key update
@@ -8,12 +8,12 @@ using UnityEngine.Networking;
 public class UpdateHeadsetKeyMessage : ClientMessage
 {
 	public static short MessageType = ( short ) MessageTypes.UpdateHeadsetKeyMessage;
-	public NetworkInstanceId EncryptionKey;
-	public NetworkInstanceId HeadsetItem;
+	public uint EncryptionKey;
+	public uint HeadsetItem;
 
 	public override IEnumerator Process()
 	{
-		if ( HeadsetItem.Equals(NetworkInstanceId.Invalid) )
+		if ( HeadsetItem.Equals(NetId.Invalid) )
 		{
 			//Failfast
 
@@ -21,7 +21,7 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 			yield break;
 		}
 
-		if ( EncryptionKey.Equals(NetworkInstanceId.Invalid) )
+		if ( EncryptionKey.Equals(NetId.Invalid) )
 		{
 			//No key passed in message -> Removes EncryptionKey from a headset
 			yield return WaitFor(HeadsetItem);
@@ -85,8 +85,8 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 	{
 		UpdateHeadsetKeyMessage msg = new UpdateHeadsetKeyMessage
 		{
-			HeadsetItem = headsetItem ? headsetItem.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
-			EncryptionKey = encryptionkey ? encryptionkey.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid
+			HeadsetItem = headsetItem ? headsetItem.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
+			EncryptionKey = encryptionkey ? encryptionkey.GetComponent<NetworkIdentity>().netId : NetId.Invalid
 		};
 		msg.Send();
 
@@ -127,14 +127,14 @@ public class UpdateHeadsetKeyMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		HeadsetItem = reader.ReadNetworkId();
-		EncryptionKey = reader.ReadNetworkId();
+		HeadsetItem = reader.ReadUInt32();
+		EncryptionKey = reader.ReadUInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(HeadsetItem);
-		writer.Write(EncryptionKey);
+		writer.WriteUInt32(HeadsetItem);
+		writer.WriteUInt32(EncryptionKey);
 	}
 }

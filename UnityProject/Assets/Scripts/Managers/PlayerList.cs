@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
@@ -21,7 +21,7 @@ public class PlayerList : NetworkBehaviour
 
 	public static PlayerList Instance;
 	public int ConnectionCount => values.Count;
-	public List<ConnectedPlayer> InGamePlayers => values.FindAll( player => player.GameObject != null );
+	public List<ConnectedPlayer> InGamePlayers => values.FindAll( player => player.Script != null );
 
 	public bool reportDone = false;
 
@@ -36,7 +36,6 @@ public class PlayerList : NetworkBehaviour
 	//Kill counts for crew members and syndicate for display at end of round, similar to past TDM department scores
 	public int crewKills;
 	public int syndicateKills;
-
 
 	private void Awake()
 	{
@@ -167,7 +166,7 @@ public class PlayerList : NetworkBehaviour
 	/// </summary>
 	public List<ConnectedPlayer> GetPlayersOnMatrix( MatrixInfo matrix )
 	{
-		return InGamePlayers.FindAll( p => p.Script.registerTile.Matrix.Id == matrix.Id );
+		return InGamePlayers.FindAll( p => (p.Script != null) && p.Script.registerTile.Matrix.Id == matrix.Id );
 	}
 
 	public List<ConnectedPlayer> GetAlivePlayers(List<ConnectedPlayer> players = null)
@@ -385,11 +384,11 @@ public class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public GameObject TakeLoggedOffPlayer(ulong steamId)
+	public GameObject TakeLoggedOffPlayer(string clientId)
 	{
 		foreach (var player in loggedOff)
 		{
-			if (player.SteamId == steamId)
+			if (player.ClientId == clientId)
 			{
 				loggedOff.Remove(player);
 				return player.GameObject;

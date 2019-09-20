@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
  using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 using UnityEngine.Serialization;
  /// <summary>
 ///  Allows an object to behave like a gun and fire shots. Server authoritative with client prediction.
@@ -70,7 +70,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	/// mag) accordingly in OnMagNetIDChanged. This field is set to NetworkInstanceID.Invalid when no mag is loaded.
 	/// </summary>
 	[SyncVar(hook = nameof(SyncMagNetID))]
-	private NetworkInstanceId magNetID = NetworkInstanceId.Invalid;
+	private uint magNetID = NetId.Invalid;
 
 	//TODO connect these with the actual shooting of a projectile
 	/// <summary>
@@ -119,7 +119,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	/// the actual unload / load (updating MagNetID) once the shot queue is empty.
 	/// </summary>
 	private bool queuedUnload = false;
-	private NetworkInstanceId queuedLoadMagNetID = NetworkInstanceId.Invalid;
+	private uint queuedLoadMagNetID = NetId.Invalid;
 
 	private RegisterTile registerTile;
 
@@ -380,16 +380,16 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 			// done processing shot queue,
 			// perform the queued unload action, causing all clients and server to update their version of this Weapon
 			//due to the syncvar hook
-			SyncMagNetID(NetworkInstanceId.Invalid);
+			SyncMagNetID(NetId.Invalid);
 			queuedUnload = false;
 
 		}
-		if (queuedLoadMagNetID != NetworkInstanceId.Invalid && queuedShots.Count == 0)
+		if (queuedLoadMagNetID != NetId.Invalid && queuedShots.Count == 0)
 		{
 			//done processing shot queue, perform the reload, causing all clients and server to update their version of this Weapon
 			//due to the syncvar hook
 			SyncMagNetID(queuedLoadMagNetID);
-			queuedLoadMagNetID = NetworkInstanceId.Invalid;
+			queuedLoadMagNetID = NetId.Invalid;
 		}
 	}
 
@@ -614,9 +614,9 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 	/// </summary>
 	/// <param name="newMagazineID">id of the new magazine</param>
 	[Server]
-	public void ServerHandleReloadRequest(NetworkInstanceId newMagazineID)
+	public void ServerHandleReloadRequest(uint newMagazineID)
 	{
-		if (queuedLoadMagNetID != NetworkInstanceId.Invalid)
+		if (queuedLoadMagNetID != NetId.Invalid)
 		{
 			//can happen if client is spamming CmdLoadWeapon
 			Logger.LogWarning("Player tried to queue a load action while a load action was already queued, ignoring the" +
@@ -640,7 +640,7 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 			Logger.LogWarning("Player tried to queue an unload action while an unload action was already queued. Ignoring the" +
 			                  " second unload.", Category.Firearms);
 		}
-		else if (queuedLoadMagNetID != NetworkInstanceId.Invalid)
+		else if (queuedLoadMagNetID != NetId.Invalid)
 		{
 			Logger.LogWarning("Player tried to queue an unload action while a load action was already queued. Ignoring the unload.", Category.Firearms);
 		}
@@ -666,11 +666,11 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 		}
 	}
 
-	private void SyncMagNetID(NetworkInstanceId magazineID)
+	private void SyncMagNetID(uint magazineID)
 	{
 		magNetID = magazineID;
 		//if the magazine ID is invalid remove the magazine
-		if (magazineID == NetworkInstanceId.Invalid)
+		if (magazineID == NetId.Invalid)
 		{
 			CurrentMagazine = null;
 		}

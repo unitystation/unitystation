@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 [RequireComponent(typeof(Directional))]
 [RequireComponent(typeof(SpriteMatrixRotation))]

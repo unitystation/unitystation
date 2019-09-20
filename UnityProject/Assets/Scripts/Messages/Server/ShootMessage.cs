@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Informs all clients that a shot has been performed so they can display it (but they needn't
@@ -13,11 +13,11 @@ public class ShootMessage : ServerMessage {
 	/// <summary>
 	/// GameObject of the player performing the shot
 	/// </summary>
-	public NetworkInstanceId Shooter;
+	public uint Shooter;
 	/// <summary>
 	/// Weapon being used to perform the shot
 	/// </summary>
-	public NetworkInstanceId Weapon;
+	public uint Weapon;
 	/// <summary>
 	/// Direction of shot, originating from Shooter)
 	/// </summary>
@@ -34,7 +34,7 @@ public class ShootMessage : ServerMessage {
 	///To be run on client
 	public override IEnumerator Process()
 	{
-		if (Shooter.Equals(NetworkInstanceId.Invalid)) {
+		if (Shooter.Equals(NetId.Invalid)) {
 			//Failfast
 			Logger.LogWarning($"Shoot request invalid, processing stopped: {ToString()}", Category.Firearms);
 			yield break;
@@ -60,10 +60,10 @@ public class ShootMessage : ServerMessage {
 	public static ShootMessage SendToAll(Vector2 direction, BodyPartType damageZone, GameObject shooter, GameObject weapon, bool isSuicide)
 	{
 		var msg = new ShootMessage {
-			Weapon = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			Weapon = weapon ? weapon.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			Direction = direction,
 			DamageZone = damageZone,
-			Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid,
+			Shooter = shooter ? shooter.GetComponent<NetworkIdentity>().netId : NetId.Invalid,
 			IsSuicideShot = isSuicide
 		};
 		msg.SendToAll();
@@ -78,20 +78,20 @@ public class ShootMessage : ServerMessage {
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Weapon = reader.ReadNetworkId();
+		Weapon = reader.ReadUInt32();
 		Direction = reader.ReadVector2();
 		DamageZone = (BodyPartType)reader.ReadUInt32();
-		Shooter = reader.ReadNetworkId();
+		Shooter = reader.ReadUInt32();
 		IsSuicideShot = reader.ReadBoolean();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(Weapon);
-		writer.Write(Direction);
-		writer.Write((int)DamageZone);
-		writer.Write(Shooter);
-		writer.Write(IsSuicideShot);
+		writer.WriteUInt32(Weapon);
+		writer.WriteVector2(Direction);
+		writer.WriteInt32((int)DamageZone);
+		writer.WriteUInt32(Shooter);
+		writer.WriteBoolean(IsSuicideShot);
 	}
 }

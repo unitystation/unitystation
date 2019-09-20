@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
-using UnityEngine.Networking;
 
 [RequireComponent(typeof(Pickupable))]
 public class StunBaton : NBHandActivateInteractable
@@ -27,7 +27,7 @@ public class StunBaton : NBHandActivateInteractable
 	private Sprite spriteInactive;
 
 	[SyncVar(hook = nameof(UpdateState))]
-	private bool active;
+	public bool active;
 
 	public bool isActive => active;
 
@@ -54,10 +54,13 @@ public class StunBaton : NBHandActivateInteractable
 			spriteRenderer.sprite = spriteInactive;
 		}
 
-		// UIManager doesn't update held item sprites automatically
-		if (UIManager.Hands.CurrentSlot.Item == gameObject)
+		if (UIManager.Hands.CurrentSlot != null)
 		{
-			UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
+			// UIManager doesn't update held item sprites automatically
+			if (UIManager.Hands.CurrentSlot.Item == gameObject)
+			{
+				UIManager.Hands.CurrentSlot.UpdateImage(gameObject);
+			}
 		}
 	}
 

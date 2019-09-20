@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 ///     Message that tells client that "Subject" is now pulled by "PulledBy"
 public class InformPullMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.InformPull;
 
-	public NetworkInstanceId Subject;
-	public NetworkInstanceId PulledBy;
+	public uint Subject;
+	public uint PulledBy;
 
 	public override IEnumerator Process()
 	{
@@ -69,7 +69,7 @@ public class InformPullMessage : ServerMessage
 		}
 		InformPullMessage msg =
 			new InformPullMessage { Subject = subject.gameObject.NetId(),
-									PulledBy = pulledBy == null ? NetworkInstanceId.Invalid : pulledBy.gameObject.NetId(),
+									PulledBy = pulledBy == null ? NetId.Invalid : pulledBy.gameObject.NetId(),
 			};
 
 		msg.SendTo(recipient.gameObject);

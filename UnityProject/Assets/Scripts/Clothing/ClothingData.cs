@@ -14,7 +14,7 @@ public class ClothingData : ScriptableObject
 
 	public EquippedData Base; //Your Basic clothing, If any missing data on any of the other points it will take it from here
 	public EquippedData Base_Adjusted; //Variant for if it is Worn differently
-	public EquippedData DressVariant; //humm yeah Dresses 
+	public EquippedData DressVariant; //humm yeah Dresses
 	public List<EquippedData> Variants; //For when you have 1 million colour variants
 
 	public ItemAttributesData ItemAttributes;
@@ -28,13 +28,12 @@ public class ClothingData : ScriptableObject
 
 	private void OnEnable()
 	{
-		
 		SceneManager.sceneLoaded -= OnSceneLoaded;
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		
+
 		InitializePool();
 	}
 
@@ -43,7 +42,7 @@ public class ClothingData : ScriptableObject
 	{
 		if (ClothFactoryReference == null)
 		{
-			ClothFactoryReference = UnityEngine.Object.FindObjectOfType<ClothFactory>();
+			ClothFactoryReference = FindObjectOfType<ClothFactory>();
 		}
 
 		if (ClothFactoryReference != null)

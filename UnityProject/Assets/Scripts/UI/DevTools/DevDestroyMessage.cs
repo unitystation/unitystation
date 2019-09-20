@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Message allowing a client dev / admin to clone something, validated server side.
@@ -10,14 +10,14 @@ public class DevDestroyMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.DevDestroyMessage;
 	// Net ID of the object to destroy
-	public NetworkInstanceId ToDestroy;
+	public uint ToDestroy;
 
 	public override IEnumerator Process()
 	{
 		//TODO: Validate if player is allowed to destroy things, check if they have admin privs.
 		//For now we will let anyone spawn.
 
-		if (ToDestroy.Equals(NetworkInstanceId.Invalid))
+		if (ToDestroy.Equals(NetId.Invalid))
 		{
 			Logger.LogWarning("Attempted to destroy an object with invalid netID, destroy will not occur.", Category.ItemSpawn);
 		}
@@ -45,7 +45,7 @@ public class DevDestroyMessage : ClientMessage
 
 		DevDestroyMessage msg = new DevDestroyMessage
 		{
-			ToDestroy = toClone ? toClone.GetComponent<NetworkIdentity>().netId : NetworkInstanceId.Invalid
+			ToDestroy = toClone ? toClone.GetComponent<NetworkIdentity>().netId : NetId.Invalid
 		};
 		msg.Send();
 	}
@@ -53,12 +53,12 @@ public class DevDestroyMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		ToDestroy = reader.ReadNetworkId();
+		ToDestroy = reader.ReadUInt32();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(ToDestroy);
+		writer.WriteUInt32(ToDestroy);
 	}
 }

@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using UnityEngine.Networking;
+using Mirror;
 
 public abstract class ClientMessage : GameMessageBase
 {
@@ -16,16 +16,16 @@ public abstract class ClientMessage : GameMessageBase
 
 	public void Send()
 	{
-		CustomNetworkManager.Instance.client.connection.Send(GetMessageType(), this);
+		NetworkClient.Send(GetMessageType(), this);
 //		Logger.Log($"Sent {this}");
 	}
 
 	public void SendUnreliable()
 	{
-		CustomNetworkManager.Instance.client.connection.SendUnreliable(GetMessageType(), this);
+		NetworkClient.Send(GetMessageType(), this);
 	}
 
-	private static NetworkInstanceId LocalPlayerId()
+	private static uint LocalPlayerId()
 	{
 
 		return PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>().netId;

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Tells client to update certain slot (place an object)
@@ -8,8 +8,8 @@ using UnityEngine.Networking;
 public class UpdateSlotMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateSlotMessage;
-	public NetworkInstanceId Item;
-	public NetworkInstanceId Recipient;
+	public uint Item;
+	public uint Recipient;
 	public EquipSlot equipSlot;
 	public bool RemoveItem;
 

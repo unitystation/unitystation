@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Tells client to update brain health stats
@@ -9,7 +9,7 @@ public class HealthBrainMessage : ServerMessage
 {
 	public static short MessageType = (short)MessageTypes.HealthBrainStats;
 
-	public NetworkInstanceId EntityToUpdate;
+	public uint EntityToUpdate;
 	public bool IsHusk;
 	public int BrainDamage;
 

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public class APC  : NBHandApplyInteractable, INodeControl
 {
@@ -18,7 +18,6 @@ public class APC  : NBHandApplyInteractable, INodeControl
 	/// </summary>
 	[SyncVar (hook=nameof(SyncVoltage))] private float voltageSync;
 	private bool voltageInit;
-
 	public bool PowerMachinery = true;
 	public bool PowerLights = true;
 	public bool PowerEnvironment = true;

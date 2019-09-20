@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
+using Mirror;
 
 public class PlayerScript : ManagedNetworkBehaviour
 {
@@ -32,6 +32,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 	public PlayerHealth playerHealth { get; set; }
 
 	public PlayerMove playerMove { get; set; }
+	public PlayerSprites playerSprites { get; set; }
 
 	/// <summary>
 	/// Will be null if player is a ghost.
@@ -84,8 +85,19 @@ public class PlayerScript : ManagedNetworkBehaviour
 		base.OnStartServer();
 	}
 
+	void OnEnable()
+	{
+		EventManager.AddHandler(EVENT.PlayerRejoined, RejoinInit);
+	}
+
+	void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.PlayerRejoined, RejoinInit);
+	}
+
 	private void Awake()
 	{
+		playerSprites = GetComponent<PlayerSprites>();
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		registerTile = GetComponent<RegisterPlayer>();
 		playerHealth = GetComponent<PlayerHealth>();
@@ -97,10 +109,17 @@ public class PlayerScript : ManagedNetworkBehaviour
 		playerDirectional = GetComponent<Directional>();
 	}
 
+	void RejoinInit()
+	{
+		Init();
+	}
+
 	public void Init()
 	{
+		Debug.Log("TRY INIT");
 		if (isLocalPlayer)
 		{
+			Debug.Log("INIT!");
 			UIManager.ResetAllUI();
 			UIManager.DisplayManager.SetCameraFollowPos();
 			GetComponent<MouseInputController>().enabled = true;
@@ -152,7 +171,7 @@ public class PlayerScript : ManagedNetworkBehaviour
 		if (pingUpdate >= 5f)
 		{
 			pingUpdate = 0f;
-			int ping = CustomNetworkManager.Instance.client.GetRTT();
+			int ping = (int)NetworkTime.rtt;
 			UIManager.SetPingDisplay = string.Format("ping: {0,-5:D}", ping);
 		}
 	}

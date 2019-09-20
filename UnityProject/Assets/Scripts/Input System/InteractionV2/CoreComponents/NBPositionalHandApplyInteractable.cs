@@ -1,7 +1,6 @@
-
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// Version of Interactable which supports PositionalHandApply and extends NetworkBehavior rather than MonoBehavior

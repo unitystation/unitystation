@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Request from client to deconstruct a tile
@@ -9,8 +9,8 @@ public class RequestTileDeconstructMessage : ClientMessage
 {
 	public static short MessageType = (short) MessageTypes.RequestTileDeconstructMessage;
 
-	public NetworkInstanceId Player;
-	public NetworkInstanceId MatrixRoot;
+	public uint Player;
+	public uint MatrixRoot;
 	public int TileType;
 	public Vector3 CellPos;
 	public Vector3 CellWorldPos;
@@ -39,8 +39,8 @@ public class RequestTileDeconstructMessage : ClientMessage
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Player = reader.ReadNetworkId();
-		MatrixRoot = reader.ReadNetworkId();
+		Player = reader.ReadUInt32();
+		MatrixRoot = reader.ReadUInt32();
 		TileType = reader.ReadInt32();
 		CellPos = reader.ReadVector3();
 		CellWorldPos = reader.ReadVector3();
@@ -49,10 +49,10 @@ public class RequestTileDeconstructMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(Player);
-		writer.Write(MatrixRoot);
-		writer.Write(TileType);
-		writer.Write(CellPos);
-		writer.Write(CellWorldPos);
+		writer.WriteUInt32(Player);
+		writer.WriteUInt32(MatrixRoot);
+		writer.WriteInt32(TileType);
+		writer.WriteVector3(CellPos);
+		writer.WriteVector3(CellWorldPos);
 	}
 }

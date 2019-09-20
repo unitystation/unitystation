@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 ///     Informs server of predicted movement action
@@ -44,10 +44,10 @@ public class RequestMoveMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.Write(Action.moveActions.Length);
+		writer.WriteInt32(Action.moveActions.Length);
 		for ( var i = 0; i < Action.moveActions.Length; i++ )
 		{
-			writer.Write(Action.moveActions[i]);
+			writer.WriteInt32(Action.moveActions[i]);
 		}
 	}
 }

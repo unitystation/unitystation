@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -68,9 +68,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	/// <summary>
 	/// Get the item in the player's active hand
+	/// IsInit = is for initial spawning
 	/// </summary>
 	[Server]
-	public bool AddItemToUISlot(GameObject itemObject, EquipSlot equipSlot, PlayerNetworkActions originPNA = null, bool replaceIfOccupied = false)
+	public bool AddItemToUISlot(GameObject itemObject, EquipSlot equipSlot, PlayerNetworkActions originPNA = null, bool replaceIfOccupied = false, bool isInit = false)
 	{
 		if (Inventory[equipSlot].Item != null && !replaceIfOccupied)
 		{
@@ -83,15 +84,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			var objectBehaviour = itemObject.GetComponent<ObjectBehaviour>();
 			if (objectBehaviour != null)
 			{
-				objectBehaviour.parentContainer = objectBehaviour;
+				objectBehaviour.parentContainer = playerScript.pushPull;
 			}
 			cnt.DisappearFromWorldServer();
 		}
-				if (Inventory[equipSlot].Item != null && !replaceIfOccupied)
+
+		if (Inventory[equipSlot].Item != null && !replaceIfOccupied)
 		{
 			return false;
 		}
-
 
 		if (originPNA != null)
 		{
@@ -99,7 +100,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			InventoryManager.ClearInvSlot(fromSlot);
 		}
 		var toSlot = Inventory[equipSlot];
-		InventoryManager.EquipInInvSlot(toSlot, itemObject);
+		InventoryManager.EquipInInvSlot(toSlot, itemObject, isInit);
 
 		return true;
 	}
@@ -517,7 +518,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			SpawnHandler.RespawnPlayer(connectionToClient, playerControllerId, playerScript.mind.jobType, playerScript.characterSettings, gameObject);
+			SpawnHandler.RespawnPlayer(connectionToClient, playerScript.mind.jobType, playerScript.characterSettings, gameObject);
 			RpcAfterRespawn();
 		}
 	}
@@ -536,7 +537,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if(GetComponent<LivingHealthBehaviour>().IsDead)
 		{
-			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, playerControllerId, gameObject, playerScript.characterSettings);
+			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, gameObject, playerScript.characterSettings);
 			playerScript.mind.Ghosting(newGhost);
 		}
 	}
@@ -551,7 +552,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		playerScript.mind.StopGhosting();
 		var body = playerScript.mind.body.gameObject;
-		SpawnHandler.TransferPlayer(connectionToClient, playerControllerId, body, gameObject, EVENT.PlayerSpawned, null);
+		SpawnHandler.TransferPlayer(connectionToClient, body, gameObject, EVENT.PlayerSpawned, null);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(body);
 		RpcAfterRespawn();
 	}

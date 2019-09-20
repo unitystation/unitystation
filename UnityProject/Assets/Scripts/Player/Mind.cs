@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Mirror;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -33,8 +33,7 @@ public class Mind
 	{
 		GameObject oldBody = GetCurrentMob();
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
-		var playerID = oldBody.GetComponent<NetworkBehaviour>().playerControllerId;
-		SpawnHandler.ClonePlayer(connection, playerID, jobType, characterSettings, oldBody, spawnPoint);
+		SpawnHandler.ClonePlayer(connection, jobType, characterSettings, oldBody, spawnPoint);
 	}
 
 	public GameObject GetCurrentMob()
