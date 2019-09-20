@@ -6,7 +6,8 @@ using Mirror;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
-	private readonly EquipSlot[] playerSlots = {
+	private readonly EquipSlot[] playerSlots =
+	{
 		EquipSlot.exosuit,
 		EquipSlot.belt,
 		EquipSlot.feet,
@@ -67,11 +68,29 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Get the item in the player's active hand
-	/// IsInit = is for initial spawning
+	/// Sends messages to a client to update every slot in the player's clientside inventory.
 	/// </summary>
 	[Server]
-	public bool AddItemToUISlot(GameObject itemObject, EquipSlot equipSlot, PlayerNetworkActions originPNA = null, bool replaceIfOccupied = false, bool isInit = false)
+	public void UpdateInventorySlots()
+	{
+		foreach (KeyValuePair<EquipSlot, InventorySlot> slot in Inventory)
+		{
+			if (slot.Value.Item != null)
+			{
+				UpdateSlotMessage.Send(gameObject, slot.Value.Item, false, slot.Key);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Sets the Equipped Item to the UI slot on client
+	/// Stores a collection of items for the UI slot on the server as well
+	/// IsInit is for initial spawning and forces a SpriteHandler.PushTexture
+	/// on the client so that we know they are showing the correct sprites
+	/// </summary>
+	[Server]
+	public bool AddItemToUISlot(GameObject itemObject, EquipSlot equipSlot, PlayerNetworkActions originPNA = null,
+		bool replaceIfOccupied = false, bool isInit = false)
 	{
 		if (Inventory[equipSlot].Item != null && !replaceIfOccupied)
 		{
@@ -86,6 +105,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				objectBehaviour.parentContainer = playerScript.pushPull;
 			}
+
 			cnt.DisappearFromWorldServer();
 		}
 
@@ -99,6 +119,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			var fromSlot = InventoryManager.GetSlotFromItem(itemObject, originPNA);
 			InventoryManager.ClearInvSlot(fromSlot);
 		}
+
 		var toSlot = Inventory[equipSlot];
 		InventoryManager.EquipInInvSlot(toSlot, itemObject, isInit);
 
@@ -140,53 +161,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				return true;
 			}
 		}
+
 		return false;
-	}
-
-	/// <summary>
-	/// Sends messages to a client to update every slot in the player's clientside inventory.
-	/// </summary>
-	[Server]
-	public void UpdateInventorySlots()
-	{
-		//for (int i = 0; i < playerSlots.Length; i++)
-		//{
-		//	InventorySlot inventorySlot = Inventory[playerSlots[i]];
-		//	if(inventorySlot.Item != null)
-		//	{
-		//		if (IsEquipSpriteSlot(fromSlot))
-		//		{
-		//			if (fromSlot.Item == null)
-		//			{
-		//				//clear equip sprite
-		//				SyncEquipSpritesFor(fromSlot, null);
-		//			}
-		//		}
-		//	}
-		//}
-
-		//if (toSlot != null)
-		//{
-		//	if (toSlot.IsUISlot)
-		//	{
-		//		if (IsEquipSpriteSlot(toSlot))
-		//		{
-		//			if (toSlot.Item != null)
-		//			{
-		//				var att = toSlot.Item.GetComponent<ItemAttributes>();
-
-		//				if (toSlot.SlotName == "leftHand" || toSlot.SlotName == "rightHand")
-		//				{
-		//					equipment.SetHandItemSprite(att, toSlot.SlotName);
-		//				}
-		//				else
-		//				{
-		//					SyncEquipSpritesFor(toSlot, att.gameObject);
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
 	}
 
 	private bool IsEquipSpriteSlot(InventorySlot slot)
@@ -211,8 +187,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private void SyncEquipSprite(string slotName, GameObject Item)
 	{
-		EquipSlot enumA = (EquipSlot)Enum.Parse(typeof(EquipSlot), slotName);
-		equipment.SetReference((int)enumA, Item);
+		EquipSlot enumA = (EquipSlot) Enum.Parse(typeof(EquipSlot), slotName);
+		equipment.SetReference((int) enumA, Item);
 	}
 
 	/// Drop an item from a slot. use forceSlotUpdate=false when doing cThelientside prediction,
@@ -224,7 +200,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	//Dropping from a slot on the UI
 	[Server]
-	public bool ValidateDropItem(InventorySlot invSlot, bool forceClientInform /* = false*/ )
+	public bool ValidateDropItem(InventorySlot invSlot, bool forceClientInform /* = false*/)
 	{
 		//decline if not dropped from hands?
 		//if (Inventory.ContainsKey(invSlot.SlotName) && Inventory[invSlot.SlotName].Item)
@@ -266,10 +242,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdDropItem(EquipSlot equipSlot)
 	{
-		if (playerScript.canNotInteract() || equipSlot != EquipSlot.leftHand && equipSlot != EquipSlot.rightHand || !SlotNotEmpty(equipSlot))
+		if (playerScript.canNotInteract() || equipSlot != EquipSlot.leftHand && equipSlot != EquipSlot.rightHand ||
+		    !SlotNotEmpty(equipSlot))
 		{
 			return;
 		}
+
 		DropItem(equipSlot);
 	}
 
@@ -280,10 +258,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdThrow(EquipSlot equipSlot, Vector3 worldTargetPos, int aim)
 	{
 		var inventorySlot = Inventory[equipSlot];
-		if (playerScript.canNotInteract() || equipSlot != EquipSlot.leftHand && equipSlot != EquipSlot.rightHand || !SlotNotEmpty(equipSlot))
+		if (playerScript.canNotInteract() || equipSlot != EquipSlot.leftHand && equipSlot != EquipSlot.rightHand ||
+		    !SlotNotEmpty(equipSlot))
 		{
 			return;
 		}
+
 		GameObject throwable = inventorySlot.Item;
 		Vector3 playerPos = playerScript.PlayerSync.ServerState.WorldPosition;
 
@@ -292,11 +272,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var throwInfo = new ThrowInfo
 		{
 			ThrownBy = gameObject,
-				Aim = (BodyPartType)aim,
-				OriginPos = playerPos,
-				TargetPos = worldTargetPos,
-				//Clockwise spin from left hand and Counterclockwise from the right hand
-				SpinMode = equipSlot == EquipSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise,
+			Aim = (BodyPartType) aim,
+			OriginPos = playerPos,
+			TargetPos = worldTargetPos,
+			//Clockwise spin from left hand and Counterclockwise from the right hand
+			SpinMode = equipSlot == EquipSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise,
 		};
 		throwable.GetComponent<CustomNetTransform>().Throw(throwInfo);
 
@@ -330,6 +310,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				item.transform.parent = newParent.transform;
 			}
+
 			// TODO
 			//ReorderGameobjectsOnTile(pos);
 		}
@@ -340,7 +321,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		var formInvSlot = Inventory[from];
 		var targetInvSlot = Inventory[target];
-		if(UIManager.CanPutItemToSlot(targetInvSlot, formInvSlot.Item, playerScript))
+		if (UIManager.CanPutItemToSlot(targetInvSlot, formInvSlot.Item, playerScript))
 		{
 			InventoryManager.EquipInInvSlot(targetInvSlot, formInvSlot.Item);
 			InventoryManager.ClearInvSlot(formInvSlot);
@@ -393,7 +374,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarningFormat("Player {0} attempted to interact with shutter switch through wall," +
-				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
+			                        " this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
 
@@ -407,15 +388,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				s.isOn = LightSwitch.States.Off;
 			}
-			else if (s.isOn == LightSwitch.States.Off) {
+			else if (s.isOn == LightSwitch.States.Off)
+			{
 				s.isOn = LightSwitch.States.On;
 			}
-
 		}
 		else
 		{
 			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
-				" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
+			                        " this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
 
@@ -462,8 +443,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos( "Bodyfall", transform.position );
+					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
 				}
+
 				break;
 			case ConsciousState.UNCONSCIOUS:
 				//Drop items when unconscious
@@ -473,10 +455,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos( "Bodyfall", transform.position );
+					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
 				}
+
 				break;
 		}
+
 		playerScript.pushPull.CmdStopPulling();
 	}
 
@@ -484,7 +468,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.jobType == JobType.NULL)
-		|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)
+		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
@@ -508,7 +492,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdCommitSuicide()
 	{
-		GetComponent<LivingHealthBehaviour>().ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute, BodyPartType.Chest);
+		GetComponent<LivingHealthBehaviour>()
+			.ApplyDamage(gameObject, 1000, AttackType.Internal, DamageType.Brute, BodyPartType.Chest);
 	}
 
 	//Respawn action for Deathmatch v 0.1.3
@@ -518,7 +503,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (GameManager.Instance.RespawnCurrentlyAllowed)
 		{
-			SpawnHandler.RespawnPlayer(connectionToClient, playerScript.mind.jobType, playerScript.characterSettings, gameObject);
+			SpawnHandler.RespawnPlayer(connectionToClient, playerScript.mind.jobType, playerScript.characterSettings,
+				gameObject);
 			RpcAfterRespawn();
 		}
 	}
@@ -535,9 +521,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSpawnPlayerGhost()
 	{
-		if(GetComponent<LivingHealthBehaviour>().IsDead)
+		if (GetComponent<LivingHealthBehaviour>().IsDead)
 		{
-			var newGhost = SpawnHandler.SpawnPlayerGhost(connectionToClient, gameObject, playerScript.characterSettings);
+			var newGhost =
+				SpawnHandler.SpawnPlayerGhost(connectionToClient, gameObject, playerScript.characterSettings);
 			playerScript.mind.Ghosting(newGhost);
 		}
 	}
@@ -592,12 +579,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Edible baseFood = food.GetComponent<Edible>();
 		if (isDrink)
 		{
-			SoundManager.PlayNetworkedAtPos( "Slurp", transform.position );
+			SoundManager.PlayNetworkedAtPos("Slurp", transform.position);
 		}
 		else
 		{
-			SoundManager.PlayNetworkedAtPos( "EatFood", transform.position );
+			SoundManager.PlayNetworkedAtPos("EatFood", transform.position);
 		}
+
 		PlayerHealth playerHealth = GetComponent<PlayerHealth>();
 
 		//FIXME: remove blood changes after TDM
@@ -809,6 +797,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	//admin only commands
+
 	#region Admin
 
 	[Command]

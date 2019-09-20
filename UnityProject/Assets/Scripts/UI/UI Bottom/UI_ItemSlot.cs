@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	public string eventName;
 	public string hoverName;
 	public EquipSlot equipSlot;
-	[HideInInspector]
 	public InventorySlot inventorySlot;
 
 	[HideInInspector]
@@ -37,6 +37,19 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		set
 		{
 			inventorySlot.Item = value;
+		}
+	}
+
+	[ContextMenu("Debug Item")]
+	void DebugItem()
+	{
+		if (Item == null)
+		{
+			Debug.Log("No Item in this slot");
+		}
+		else
+		{
+			Debug.Log($"Item found in slot: {Item.name}");
 		}
 	}
 
