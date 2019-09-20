@@ -346,8 +346,8 @@ public partial class GameManager : MonoBehaviour
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			//TODO allow map change from admin portal
-			// until then it is just OPDM on repeat:
 
+			EventManager.Broadcast(EVENT.RoundEnded);
 			CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
 		}
 	}

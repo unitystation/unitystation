@@ -17,8 +17,9 @@ public class Connector : AdvancedPipe
 		canister = null;
 	}
 
-	public override void UpdateMe()
+	public override void TickUpdate()
 	{
+		base.TickUpdate();
 		if ( anchored && canister != null)
 		{
 			MergeAir();

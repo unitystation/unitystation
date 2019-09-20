@@ -34,9 +34,12 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 		WEST = 4,
 		EAST = 8
 	}
-	public static readonly Direction[] allDirections = { Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST, };
 
-	public void Awake() {
+	public static readonly Direction[] allDirections =
+		{Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST,};
+
+	public void Awake()
+	{
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 		directional = GetComponent<Directional>();
@@ -59,12 +62,27 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 		ServerInit();
 	}
 
-	public void Start(){
+	public virtual void OnEnable()
+	{
 		if (AtmosManager.Instance.roundStartedServer == false)
 		{
-			AtmosManager.Instance.roundStartPipes.Add(this);
+			AtmosManager.Instance.inGamePipes.Add(this);
 		}
 	}
+
+	public virtual void OnDisable()
+	{
+		if (AtmosManager.Instance.roundStartedServer == false)
+		{
+			AtmosManager.Instance.inGamePipes.Remove(this);
+		}
+	}
+
+	/// <summary>
+	/// One update tick from AtmosManager
+	/// Check AtmosManager for adjusting tick rate
+	/// </summary>
+	public virtual void TickUpdate() { }
 
 	public void WrenchAct()
 	{
@@ -75,12 +93,13 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 		}
 		else
 		{
-			if(Attach() == false)
+			if (Attach() == false)
 			{
 				// show message to the player 'theres something attached in this direction already'
 				return;
 			}
 		}
+
 		SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 	}
 
@@ -91,10 +110,11 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 		{
 			return false;
 		}
+
 		CalculateAttachedNodes();
 
 		Pipenet foundPipenet;
-		if(nodes.Count > 0)
+		if (nodes.Count > 0)
 		{
 			foundPipenet = nodes[0].pipenet;
 		}
@@ -102,6 +122,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 		{
 			foundPipenet = new Pipenet();
 		}
+
 		foundPipenet.AddPipe(this);
 		SetAnchored(true);
 		SetSpriteLayer(true);
@@ -125,7 +146,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 
 	public void SyncSprite(int value)
 	{
-		if(value == 0) // its using the item sprite
+		if (value == 0) // its using the item sprite
 		{
 			SetSpriteLayer(false);
 		}
@@ -134,6 +155,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 			transform.rotation = Quaternion.identity; //counter shuttle rotation
 			SetSpriteLayer(true);
 		}
+
 		SetSprite(value);
 	}
 
@@ -146,7 +168,6 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 
 	public void Detach()
 	{
-
 		var foundMeters = MatrixManager.GetAt<Meter>(registerTile.WorldPositionServer, true);
 		for (int i = 0; i < foundMeters.Count; i++)
 		{
@@ -156,6 +177,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 				foundMeters[i].Detach();
 			}
 		}
+
 		//TODO: release gas to environmental air
 		SetAnchored(false);
 		SetSpriteLayer(false);
@@ -167,6 +189,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 			pipe.CalculateSprite();
 			neighboorPipes++;
 		}
+
 		nodes = new List<Pipe>();
 
 		Pipenet oldPipenet = pipenet;
@@ -184,6 +207,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 			//we're at an edge of the pipenet, safe to remove
 			return;
 		}
+
 		oldPipenet.Separate();
 	}
 
@@ -211,6 +235,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 				}
 			}
 		}
+
 		return null;
 	}
 
@@ -219,9 +244,10 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 		for (int i = 0; i < allDirections.Length; i++)
 		{
 			var dir = allDirections[i];
-			if(HasDirection(direction, dir))
+			if (HasDirection(direction, dir))
 			{
-				var adjacentTurf = MetaUtils.GetNeighbors(registerTile.WorldPositionServer, DirectionToVector3IntList(dir));
+				var adjacentTurf =
+					MetaUtils.GetNeighbors(registerTile.WorldPositionServer, DirectionToVector3IntList(dir));
 				var pipe = GetAnchoredPipe(adjacentTurf[0], OppositeDirection(dir));
 				if (pipe)
 				{
@@ -237,7 +263,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 	{
 		float rotation = transform.rotation.eulerAngles.z;
 		var orientation = Orientation.GetOrientation(rotation);
-		if(orientation == Orientation.Up)	//look over later
+		if (orientation == Orientation.Up) //look over later
 		{
 			orientation = Orientation.Down;
 		}
@@ -245,13 +271,14 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 		{
 			orientation = Orientation.Up;
 		}
+
 		SetDirection(orientation);
 		directional.FaceDirection(orientation);
 	}
 
 	private void OnDirectionChange(Orientation direction)
 	{
-		if(anchored)
+		if (anchored)
 		{
 			SetDirection(direction);
 			CalculateSprite();
@@ -284,18 +311,22 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 		{
 			return Direction.SOUTH;
 		}
+
 		if (dir == Direction.SOUTH)
 		{
 			return Direction.NORTH;
 		}
+
 		if (dir == Direction.WEST)
 		{
 			return Direction.EAST;
 		}
+
 		if (dir == Direction.EAST)
 		{
 			return Direction.WEST;
 		}
+
 		return Direction.NONE;
 	}
 
@@ -303,20 +334,24 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 	{
 		if (dir == Direction.NORTH)
 		{
-			return new Vector3Int[] { Vector3Int.up };
+			return new Vector3Int[] {Vector3Int.up};
 		}
+
 		if (dir == Direction.SOUTH)
 		{
-			return new Vector3Int[] { Vector3Int.down };
+			return new Vector3Int[] {Vector3Int.down};
 		}
+
 		if (dir == Direction.WEST)
 		{
-			return new Vector3Int[] { Vector3Int.left };
+			return new Vector3Int[] {Vector3Int.left};
 		}
+
 		if (dir == Direction.EAST)
 		{
-			return new Vector3Int[] { Vector3Int.right };
+			return new Vector3Int[] {Vector3Int.right};
 		}
+
 		return null;
 	}
 
@@ -324,7 +359,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 	{
 		if (anchored == false)
 		{
-			SetSprite(0);   //not anchored, item sprite
+			SetSprite(0); //not anchored, item sprite
 		}
 	}
 
@@ -360,7 +395,7 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 
 	public virtual void SetSpriteLayer(bool anchoredLayer)
 	{
-		if(anchoredLayer)
+		if (anchoredLayer)
 		{
 			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Objects");
 		}
@@ -369,5 +404,4 @@ public class Pipe : NetworkBehaviour, IOnStageServer
 			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Items");
 		}
 	}
-
 }

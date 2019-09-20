@@ -349,6 +349,7 @@ public class CustomNetworkManager : NetworkManager
 	{
 		if (newScene.name != "Lobby")
 		{
+			Debug.Log("START OF IN GAME ROUND");
 			//INGAME:
 			EventManager.Broadcast(EVENT.RoundStarted);
 			if (PoolManager.Instance == null)
@@ -356,10 +357,6 @@ public class CustomNetworkManager : NetworkManager
 				ObjectManager.StartPoolManager();
 				StartCoroutine(DoHeadlessCheck());
 			}
-		}
-		else
-		{
-			EventManager.Broadcast(EVENT.RoundEnded);
 		}
 	}
 

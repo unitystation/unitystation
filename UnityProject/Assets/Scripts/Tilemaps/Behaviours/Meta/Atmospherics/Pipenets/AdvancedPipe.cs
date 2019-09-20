@@ -1,23 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 //scrubbers, vents, pumps, etc
 public class AdvancedPipe : Pipe
 {
-	private void Start()
+	//Do any advanced pipe updates here:
+	public override void TickUpdate()
 	{
-		var registerTile = GetComponent<RegisterTile>();
-		if (registerTile.isServer)
-		{
-			UpdateManager.Instance.Add(UpdateMe);
-		}
-		base.Start();
+		base.TickUpdate();
 	}
-
-	public virtual void UpdateMe()
-	{
-
-	}
-
 }
