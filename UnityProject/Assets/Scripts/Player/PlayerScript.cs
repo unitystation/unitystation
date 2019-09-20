@@ -87,12 +87,12 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(EVENT.PlayerRejoined, RejoinInit);
+		EventManager.AddHandler(EVENT.PlayerRejoined, Init);
 	}
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.PlayerRejoined, RejoinInit);
+		EventManager.RemoveHandler(EVENT.PlayerRejoined, Init);
 	}
 
 	private void Awake()
@@ -109,17 +109,10 @@ public class PlayerScript : ManagedNetworkBehaviour
 		playerDirectional = GetComponent<Directional>();
 	}
 
-	void RejoinInit()
-	{
-		Init();
-	}
-
 	public void Init()
 	{
-		Debug.Log("TRY INIT");
 		if (isLocalPlayer)
 		{
-			Debug.Log("INIT!");
 			UIManager.ResetAllUI();
 			UIManager.DisplayManager.SetCameraFollowPos();
 			GetComponent<MouseInputController>().enabled = true;
