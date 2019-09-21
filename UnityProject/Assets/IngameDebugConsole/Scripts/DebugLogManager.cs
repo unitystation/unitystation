@@ -27,8 +27,8 @@ namespace IngameDebugConsole
 	/// Debug/Log entry: a Debug.Log/LogError/LogWarning/LogException/LogAssertion request made by
 	///                   the client and intercepted by this manager object
 	/// Debug/Log item: a visual (uGUI) representation of a debug entry
-	/// 
-	/// There can be a lot of debug entries in the system but there will only be a handful of log items 
+	///
+	/// There can be a lot of debug entries in the system but there will only be a handful of log items
 	/// to show their properties on screen (these log items are recycled as the list is scrolled)
 	/// </remarks>
 	public class DebugLogManager : MonoBehaviour
@@ -177,7 +177,7 @@ namespace IngameDebugConsole
 		private Dictionary<DebugLogEntry, int> collapsedLogEntriesMap;
 
 		/// <summary>
-		/// The order the collapsedLogEntries are received 
+		/// The order the collapsedLogEntries are received
 		/// (duplicate entries have the same index (value))
 		/// </summary>
 		private DebugLogIndexList uncollapsedLogEntriesIndices;
@@ -321,11 +321,12 @@ namespace IngameDebugConsole
 				if (popupManager.isLogPopupVisible || isLogWindowVisible)
 				{
 					Hide();
-					popupManager.Hide();
+					// popupManager.Hide();
 				}
 				else
 				{
-					popupManager.ShowWithoutReset();
+					// popupManager.ShowWithoutReset();
+					Show();
 				}
 
 			}

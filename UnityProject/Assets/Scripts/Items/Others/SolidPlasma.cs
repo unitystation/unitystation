@@ -37,6 +37,14 @@ public class SolidPlasma : NetworkBehaviour
 		}
 	}
 
+	void OnDisable()
+	{
+		if (burningPlasma)
+		{
+			UpdateManager.Instance.Remove(UpdateMe);
+		}
+	}
+
 	//UpdateManager
 	void UpdateMe()
 	{

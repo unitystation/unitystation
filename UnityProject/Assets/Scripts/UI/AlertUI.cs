@@ -20,6 +20,22 @@ public class AlertUI : MonoBehaviour
 		onClick?.Invoke();
 	}
 
+	private void OnEnable()
+	{
+		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
+	}
+
+	private void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
+	}
+
+	void OnRoundEnd()
+	{
+		onClick = null;
+		buckled.SetActive(false);
+	}
+
 
 	/// <summary>
 	/// Show/hide restrained alert
