@@ -156,9 +156,6 @@ public static class ElectricalSynchronisation
 		_ResistanceWorkOnNextListWait.Clear();
 
 		AliveSupplies.Clear();
-		OrderList.Clear();
-		UnconditionalSupplies.Clear();
-		ReactiveSuppliesSet.Clear();
 		TotalSupplies.Clear();
 		ToRemove.Clear();
 	}

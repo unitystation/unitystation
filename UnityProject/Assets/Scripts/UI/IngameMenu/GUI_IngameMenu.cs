@@ -49,7 +49,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	}
 
 	public void OpenOptionsScreen()
-	{	
+	{
 		Unitystation.Options.OptionsMenu.Instance.Open();
 		HideAllMenus();
 	}
@@ -62,6 +62,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	}
 	public void LogoutConfirmYesButton()
 	{
+		EventManager.Broadcast(EVENT.RoundEnded);
 		SoundManager.Play("Click01");
 		HideAllMenus();
 		StopNetworking();
