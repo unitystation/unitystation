@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AtmosManager : MonoBehaviour
 {
@@ -98,12 +99,14 @@ public class AtmosManager : MonoBehaviour
 	{
 		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
 		EventManager.AddHandler(EVENT.RoundEnded, OnRoundEnd);
+		SceneManager.activeSceneChanged += OnSceneChange;
 	}
 
 	void OnDisable()
 	{
 		EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
 		EventManager.RemoveHandler(EVENT.RoundEnded, OnRoundEnd);
+		SceneManager.activeSceneChanged -= OnSceneChange;
 	}
 
 	void OnRoundStart()
@@ -153,6 +156,15 @@ public class AtmosManager : MonoBehaviour
 	public static void Update(MetaDataNode node)
 	{
 		AtmosThread.Enqueue(node);
+	}
+
+	void OnSceneChange(Scene oldScene, Scene newScene)
+	{
+		if (newScene.name == "Lobby")
+		{
+			roundStartedServer = false;
+		}
+		inGamePipes.Clear();
 	}
 }
 

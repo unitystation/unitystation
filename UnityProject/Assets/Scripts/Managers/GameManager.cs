@@ -75,12 +75,12 @@ public partial class GameManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged += OnSceneChange;
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged -= OnSceneChange;
 	}
 
 	///<summary>
@@ -143,9 +143,9 @@ public partial class GameManager : MonoBehaviour
 	//		}
 	//	}
 
-	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	private void OnSceneChange(Scene oldScene, Scene newScene)
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance._isServer && newScene.name != "Lobby")
 		{
 			stationTime = DateTime.Today.AddHours(12);
 			SpaceBodies.Clear();
@@ -155,10 +155,6 @@ public partial class GameManager : MonoBehaviour
 			StartCoroutine(WaitToInitEscape());
 		}
 		GameOver = false;
-		// if (scene.name != "Lobby")
-		// {
-		// 	SetUpGameMode();
-		// }
 	}
 
 	//this could all still be used in the future for selecting traitors/culties/revs at game start:
