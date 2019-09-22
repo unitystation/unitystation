@@ -22,6 +22,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 	[SyncVar(hook = nameof(SetIsLocked))] public bool IsLocked;
 	public LockLightController lockLight;
 	public int playerLimit = 3;
+	public int metalDroppedOnDestroy = 2;
 
 	private RegisterCloset registerTile;
 	private PushPull pushPull;
@@ -49,7 +50,10 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 		SetIsLocked(false);
 		SetIsClosed(false);
 
-		ObjectFactory.SpawnMetal(2, gameObject.TileWorldPosition(), parent: transform.parent);
+		if (metalDroppedOnDestroy > 0)
+		{
+			ObjectFactory.SpawnMetal(metalDroppedOnDestroy, gameObject.TileWorldPosition(), parent: transform.parent);
+		}
 	}
 
 	public override void OnStartServer()
@@ -64,7 +68,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 	private IEnumerator WaitForServerReg()
 	{
 		yield return WaitFor.Seconds(1f);
-		SetIsClosed(true);
+		SetIsClosed(registerTile.IsClosed);
 	}
 
 	public override void OnStartClient()
@@ -377,5 +381,10 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 	private void RightClickInteract()
 	{
 		Interact(HandApply.ByLocalPlayer(gameObject));
+	}
+
+	public bool IsEmpty()
+	{
+		return heldItems.Count() + heldPlayers.Count == 0;
 	}
 }

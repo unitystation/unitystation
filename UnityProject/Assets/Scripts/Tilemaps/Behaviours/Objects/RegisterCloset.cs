@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 [ExecuteInEditMode]
 [RequireComponent(typeof(ClosetControl))]
 public class RegisterCloset : RegisterObject
@@ -57,5 +56,6 @@ public class RegisterCloset : RegisterObject
 public enum ClosetType
 {
 	LOCKER,
-	CRATE
+	CRATE,
+	OTHER
 }
