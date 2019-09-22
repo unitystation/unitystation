@@ -91,7 +91,7 @@ public class PlayerSprites : MonoBehaviour
 
 	public void SetupCustomisations()
 	{
-		if (ThisCharacter.underwearName != "_None_")
+		if (ThisCharacter.underwearName != "None")
 		{
 			clothes["underwear"].spriteHandler.Infos = new SpriteData();
 			clothes["underwear"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
@@ -100,7 +100,7 @@ public class PlayerSprites : MonoBehaviour
 			clothes["underwear"].spriteHandler.PushTexture();
 		}
 
-		if (ThisCharacter.socksName != "_None_")
+		if (ThisCharacter.socksName != "None")
 		{
 			clothes["socks"].spriteHandler.Infos = new SpriteData();
 			clothes["socks"].spriteHandler.Infos.List.Add(StaticSpriteHandler.CompleteSpriteSetup(
@@ -110,7 +110,7 @@ public class PlayerSprites : MonoBehaviour
 		}
 
 
-		if (ThisCharacter.facialHairName != "_None_")
+		if (ThisCharacter.facialHairName != "None")
 		{
 			ColorUtility.TryParseHtmlString(ThisCharacter.facialHairColor, out var newColor);
 			clothes["beard"].spriteHandler.Infos = new SpriteData();
@@ -121,7 +121,7 @@ public class PlayerSprites : MonoBehaviour
 			clothes["beard"].spriteHandler.PushTexture();
 		}
 
-		if (ThisCharacter.hairStyleName != "_None_")
+		if (ThisCharacter.hairStyleName != "None")
 		{
 			ColorUtility.TryParseHtmlString(ThisCharacter.hairColor, out var newColor);
 			clothes["Hair"].spriteHandler.Infos = new SpriteData();

@@ -201,8 +201,9 @@ namespace Lobby
 				}
 
 			}
-			itemOptions.Add("_None_");
 			itemOptions.Sort();
+			// Ensure "None" is at the top of the option lists
+			itemOptions.Insert(0, "None");
 			itemDropdown.AddOptions(itemOptions);
 		}
 
@@ -226,7 +227,8 @@ namespace Lobby
 			}
 			else
 			{
-				Logger.LogError($"Unable to find index of {currentSetting}!", Category.UI);
+				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.UI);
+				itemDropdown.value = 0;
 			}
 		}
 
@@ -307,6 +309,7 @@ namespace Lobby
 			}
 			else
 			{
+				Logger.LogWarning("User is not logged in! Returning to login screen.");
 				LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
 			}
 			gameObject.SetActive(false);
@@ -390,9 +393,9 @@ namespace Lobby
 			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Underwear))
 			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Underwear], underwearDropdown); }
 
-			// Set underwear and facial hair to default setting (nude, and shaved)
-			SetDropdownValue(underwearDropdown, "Nude");
-			SetDropdownValue(facialHairDropdown, "Shaved");
+			// Set underwear and facial hair to default setting (None)
+			SetDropdownValue(underwearDropdown, "None");
+			SetDropdownValue(facialHairDropdown, "None");
 
 			RefreshGender();
 		}
@@ -409,7 +412,7 @@ namespace Lobby
 				torsoSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Female.Torso);
 			}
 			else
-			{ 
+			{
 				headSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Male.Head);
 				torsoSpriteController.sprites = StaticSpriteHandler.CompleteSpriteSetup(playerTextureData.Male.Torso);
 			}
@@ -617,7 +620,7 @@ namespace Lobby
 			if (playerCustomisationData[PlayerCustomisation.Socks].ContainsKey(currentCharacter.socksName)){
 				socksSpriteController.sprites =
 				StaticSpriteHandler.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Socks][currentCharacter.socksName].Equipped);}
-			
+
 			else { socksSpriteController.sprites = null; }
 			socksSpriteController.UpdateSprite();
 		}
@@ -654,29 +657,29 @@ public class CharacterSettings
 	public Gender Gender = Gender.Male;
 	public int Age = 22;
 	public int hairStyleOffset = -1;  //#
-	public string hairStyleName = "_None_"; 
+	public string hairStyleName = "None";
 	public int hairCollectionIndex = 4; //#
-	public string hairColor = "black"; 
-	public string eyeColor = "black";  
+	public string hairColor = "black";
+	public string eyeColor = "black";
 	public int facialHairOffset = -1; //#
-	public string facialHairName = "_None_"; 
+	public string facialHairName = "None";
 	public int facialHairCollectionIndex = 4; //#
-	public string facialHairColor = "black"; 
+	public string facialHairColor = "black";
 	public string skinTone = "#ffe0d1";
-	public int underwearOffset = 20; //# 
-	public string underwearName = "Mankini"; 
+	public int underwearOffset = 20; //#
+	public string underwearName = "Mankini";
 	public int underwearCollectionIndex = 1; //#
-	public int socksOffset = 376; //# 
-	public string socksName = "Knee-High (Freedom)"; 
+	public int socksOffset = 376; //#
+	public string socksName = "Knee-High (Freedom)";
 	public int socksCollectionIndex = 3; //#
 
 	int maleHeadIndex = 20; //#
-	int femaleHeadIndex = 24; //# 
-	int maleTorsoIndex = 28; //# 
+	int femaleHeadIndex = 24; //#
+	int maleTorsoIndex = 28; //#
 	int femaleTorsoIndex = 32; //#
 
 	public int headSpriteIndex = 20; //#
-	public int torsoSpriteIndex = 28; //# 
+	public int torsoSpriteIndex = 28; //#
 	public int rightLegSpriteIndex = 12; //#
 	public int leftLegSpriteIndex = 16; //#
 	public int rightArmSpriteIndex = 4; //#
