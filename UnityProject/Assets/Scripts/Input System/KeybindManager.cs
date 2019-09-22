@@ -28,6 +28,7 @@ public enum KeyAction
 	ActionThrow,
 	ActionDrop,
 	ActionResist,
+	ActionStopPull,
 
 	// Hands
 	HandSwap,
@@ -267,6 +268,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ActionThrow,	new KeybindMetadata("Throw", ActionType.Action)},
 		{ KeyAction.ActionDrop,		new KeybindMetadata("Drop", ActionType.Action)},
 		{ KeyAction.ActionResist,	new KeybindMetadata("Resist", ActionType.Action)},
+		{ KeyAction.ActionStopPull,	new KeybindMetadata("Stop Pulling", ActionType.Action)},
 
 		{  KeyAction.HandSwap, 		new KeybindMetadata("Swap Hands", ActionType.Hand)},
 		{  KeyAction.HandActivate,	new KeybindMetadata("Activate Item", ActionType.Hand)},
@@ -307,6 +309,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ActionThrow,	new DualKeyCombo(new KeyCombo(KeyCode.R),	new KeyCombo(KeyCode.End))},
 		{ KeyAction.ActionDrop,		new DualKeyCombo(new KeyCombo(KeyCode.Q), 	new KeyCombo(KeyCode.Home))},
 		{ KeyAction.ActionResist,	new DualKeyCombo(new KeyCombo(KeyCode.V), 	null)},
+		{ KeyAction.ActionStopPull, new DualKeyCombo(new KeyCombo(KeyCode.H), new KeyCombo(KeyCode.Delete))},
 
 		{  KeyAction.HandSwap, 		new DualKeyCombo(new KeyCombo(KeyCode.X),	new KeyCombo(KeyCode.Mouse2))},
 		{  KeyAction.HandActivate,	new DualKeyCombo(new KeyCombo(KeyCode.Z),	new KeyCombo(KeyCode.PageDown))},
