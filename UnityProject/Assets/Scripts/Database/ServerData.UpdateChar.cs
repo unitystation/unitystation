@@ -11,6 +11,11 @@ namespace DatabaseAPI
 	{
 		public static void UpdateCharacterProfile(CharacterSettings updateSettings, Action<string> callBack, Action<string> errorCallBack)
 		{
+			if (Instance.user == null)
+			{
+				Logger.LogWarning("User is not logged in! Skipping character upload.", Category.DatabaseAPI);
+				return;
+			}
 			var json = JsonUtility.ToJson(updateSettings);
 			var url = FirebaseRoot + $"/users/{Instance.user.UserId}/?updateMask.fieldPaths=character";
 			Instance.StartCoroutine(Instance.TryUpdateChar(url, json, callBack, errorCallBack));
