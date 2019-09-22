@@ -21,7 +21,7 @@ namespace DatabaseAPI
     {
         private ServerConfig config;
         /// <summary>
-        /// The server config that holds the values 
+        /// The server config that holds the values
         /// for your RCON and Unitystation HUB API connections
         /// </summary>
         public static ServerConfig ServerConfig
@@ -49,7 +49,7 @@ namespace DatabaseAPI
 
             if (File.Exists(path))
             {
-                activeTransport = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>();
+                activeTransport = FindObjectOfType<TelepathyTransport>();
                 config = JsonUtility.FromJson<ServerConfig>(File.ReadAllText(path));
                 AttemptHubConnection();
             }
