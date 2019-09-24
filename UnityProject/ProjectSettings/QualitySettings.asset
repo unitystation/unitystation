@@ -18,7 +18,7 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.19999999, z: 0.46666664}
     shadowmaskMode: 1
-    blendWeights: 4
+    skinWeights: 4
     textureQuality: 0
     anisotropicTextures: 0
     antiAliasing: 0
@@ -26,7 +26,7 @@ QualitySettings:
     softVegetation: 1
     realtimeReflectionProbes: 0
     billboardsFaceCameraPosition: 0
-    vSyncCount: 1
+    vSyncCount: 0
     lodBias: 2
     maximumLODLevel: 0
     streamingMipmapsActive: 0
@@ -41,4 +41,6 @@ QualitySettings:
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
     excludedTargetPlatforms: []
-  m_PerPlatformDefaultQuality: {}
+  m_PerPlatformDefaultQuality:
+    Standalone: 0
+    WebGL: 0
