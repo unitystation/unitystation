@@ -122,8 +122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d80668073924c6a819f2671001f1fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   prefabVariant: {fileID: 5620111257449852176, guid: a21353068392d4a7298ca43e3c7f997b,
     type: 3}
 --- !u!114 &5190175475481606144
@@ -146,6 +144,7 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   playerLimit: 2
   metalDroppedOnDestroy: 0
+  soundOnOpen: zip
   statusSync: 2
   doorOpened: {fileID: 21300000, guid: c4c8e4f0eae328d4abb69b55a4a37752, type: 3}
   spriteRenderer: {fileID: 7293602500519226833}

@@ -23,6 +23,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 	public LockLightController lockLight;
 	public int playerLimit = 3;
 	public int metalDroppedOnDestroy = 2;
+	public string soundOnOpen = "OpenClose";
 
 	private RegisterCloset registerTile;
 	private PushPull pushPull;
@@ -102,7 +103,7 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 
 	public void ToggleLocker()
 	{
-		SoundManager.PlayNetworkedAtPos("OpenClose", registerTile.WorldPositionServer, 1f);
+		SoundManager.PlayNetworkedAtPos(soundOnOpen, registerTile.WorldPositionServer, 1f);
 		if (IsClosed)
 		{
 			SetIsClosed(false);

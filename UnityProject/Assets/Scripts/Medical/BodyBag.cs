@@ -1,28 +1,33 @@
-using Mirror;
 using UnityEngine;
 
-public class BodyBag : NetworkBehaviour, IInteractable<MouseDrop>
+public class BodyBag : Interactable<MouseDrop>
 {
 	public GameObject prefabVariant;
 
-	public bool Interact(MouseDrop interaction)
+	protected override bool WillInteract(MouseDrop interaction, NetworkSide side)
 	{
-		var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
-
-		if (interaction.Performer != PlayerManager.LocalPlayer
-		    || interaction.DroppedObject != gameObject
-		    || interaction.TargetObject != PlayerManager.LocalPlayer
-		    || pna.GetActiveHandItem() != null)
+		if (!base.WillInteract(interaction, side))
 		{
 			return false;
 		}
 
-		TryFoldUp(pna);
+		var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
+
+		if (!pna
+			|| interaction.Performer != interaction.TargetObject
+		    || interaction.DroppedObject != gameObject
+			|| pna.GetActiveHandItem() != null)
+		{
+			return false;
+		}
+
 		return true;
 	}
 
-	public virtual void TryFoldUp(PlayerNetworkActions pna)
+	protected override void ServerPerformInteraction(MouseDrop interaction)
 	{
+		var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
+
 		var closetControl = GetComponent<ClosetControl>();
 		if (!closetControl.IsClosed)
 		{
@@ -38,11 +43,11 @@ public class BodyBag : NetworkBehaviour, IInteractable<MouseDrop>
 			return;
 		}
 
-		// Remove from world
-		PoolManager.PoolNetworkDestroy(gameObject);
-
 		// Add folded to player inventory
 		InventoryManager.EquipInInvSlot(pna.Inventory[pna.activeHand],
 			PoolManager.PoolNetworkInstantiate(prefabVariant));
+
+		// Remove from world
+		Destroy(gameObject);
 	}
 }

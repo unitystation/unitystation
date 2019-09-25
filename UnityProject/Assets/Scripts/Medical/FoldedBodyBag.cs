@@ -30,7 +30,7 @@ public class FoldedBodyBag  : Interactable<PositionalHandApply>
 	protected override void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		// Place the opened body bag in the world
-		PoolManager.PoolNetworkInstantiate(prefabVariant, interaction.WorldPositionTarget);
+		PoolManager.PoolNetworkInstantiate(prefabVariant, interaction.WorldPositionTarget.RoundToInt());
 
 		// Remove the body bag from the player's inventory
 		var handObj = interaction.HandObject;
