@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -160,7 +161,7 @@ MonoBehaviour:
   layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
-  Passable: 0
+  Passable: 1
 --- !u!114 &114617202130299316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,5 +249,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1591554975
+  m_AssetId: 87a790d0570611341a896de8ea839924
+  m_SceneId: 0
