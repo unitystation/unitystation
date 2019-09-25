@@ -97,7 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandlerData: {fileID: 114077084986960180}
+  spriteDataHandler: {fileID: 114077084986960180}
   InventoryIcon: {fileID: 2620878637528213898}
   itemName: 
   itemDescription: 
@@ -144,7 +144,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114776788309089574
 MonoBehaviour:
@@ -355,7 +354,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 40
-  m_Sprite: {fileID: 21300322, guid: 762b43037f5c42799f7be9fe36632e5f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 68180b1e5bc197b458e349ee87c1c030, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -363,7 +362,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &2620878637528213898
