@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class TestVariableViewerScript : MonoBehaviour
 {
@@ -10,6 +11,26 @@ public class TestVariableViewerScript : MonoBehaviour
 	private string PVstring = "My porn collection"; //Me private variables!!!
 	public Teststruct pTeststruct;
 	public Connection pConnection  = Connection.Overlap;
+
+
+	public Tuple<int, string> Trees;
+
+	private Connection _state;
+	public Connection State
+	{
+		get
+		{
+			return _state;
+		}
+		set
+		{
+			if (_state != value)
+			{
+				_state = value;
+			}
+		}
+	}
+
 	public List<int> PListInt = new List<int>();
 	public List<bool> PListbool = new List<bool>();
 	public List<string> PListstring = new List<string>();
@@ -35,6 +56,7 @@ public class TestVariableViewerScript : MonoBehaviour
 
 	void Start()
     {
+		Trees = new Tuple<int, string>(2, "ggggggg");
         for (int i = 0; i < length; i++)
 		{
 			PListInt.Add(i);
