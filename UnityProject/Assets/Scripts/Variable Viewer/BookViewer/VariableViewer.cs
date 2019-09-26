@@ -392,7 +392,7 @@ public static class Librarian
 				Book.BindedPagesAdd(Page);
 			}
 		}
-		if (TupleTypeReference == monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
+		if (TupleTypeReference != monoType) //Causes an error if this is not here and Tuples can not get Custom properties so it is I needed to get the properties
 		{
 			foreach (PropertyInfo Properties in monoType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static))
 			{
