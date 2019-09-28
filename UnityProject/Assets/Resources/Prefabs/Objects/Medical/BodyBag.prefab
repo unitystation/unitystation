@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 8742827382765301170}
   - component: {fileID: 5549330274845593174}
   - component: {fileID: 7759675923938615605}
+  - component: {fileID: 1803236228575155476}
   m_Layer: 11
   m_Name: BodyBag
   m_TagString: Untagged
@@ -276,6 +277,22 @@ MonoBehaviour:
   shadow: {fileID: 21300000, guid: a636233b3b2cbc5428dabd88543d6523, type: 3}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 0
+--- !u!114 &1803236228575155476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529109779100470021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54c3d183673c904882b6d1e8484ca73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameOverride: 
+  backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  iconOverride: {fileID: 0}
+  backgroundSprite: {fileID: 0}
 --- !u!1 &4715760299441447869
 GameObject:
   m_ObjectHideFlags: 0

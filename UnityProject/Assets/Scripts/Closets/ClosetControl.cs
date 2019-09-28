@@ -103,15 +103,20 @@ public class ClosetControl : NBMouseDropHandApplyInteractable, IRightClickable
 
 	public void ToggleLocker()
 	{
-		SoundManager.PlayNetworkedAtPos(soundOnOpen, registerTile.WorldPositionServer, 1f);
 		if (IsClosed)
 		{
-			SetIsClosed(false);
+			ToggleLocker(false);
 		}
 		else
 		{
-			SetIsClosed(true);
+			ToggleLocker(true);
 		}
+	}
+
+	public void ToggleLocker(bool isClosed)
+	{
+		SoundManager.PlayNetworkedAtPos(soundOnOpen, registerTile.WorldPositionServer, 1f);
+		SetIsClosed(isClosed);
 	}
 
 	private void SetIsClosed(bool value)
