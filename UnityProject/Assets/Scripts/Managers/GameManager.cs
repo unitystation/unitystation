@@ -229,8 +229,8 @@ public partial class GameManager : MonoBehaviour
 			CurrentRoundState = RoundState.PreRound;
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
-			// Wait for the minimum amount of players to join before starting countdown
-			StartCoroutine(WaitForPlayers());
+			// Wait for the PlayerList instance to init before checking player count
+			StartCoroutine(WaitToCheckPlayers());
 		}
 	}
 
@@ -283,15 +283,25 @@ public partial class GameManager : MonoBehaviour
 		}
 	}
 
-	private IEnumerator WaitForPlayers()
+	/// <summary>
+	/// Wait for the PlayerList Instance to init before checking
+	/// </summary>
+	private IEnumerator WaitToCheckPlayers()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		while (PlayerList.Instance == null)
 		{
-			// TODO this is broken for some reason
-			while (PlayerList.Instance.ConnectionCount < MinPlayersForCountdown)
-			{
-				yield return WaitFor.EndOfFrame;
-			}
+			yield return WaitFor.EndOfFrame;
+		}
+		CheckPlayerCount();
+	}
+
+	/// <summary>
+	/// Checks if there are enough players to start the pre-round countdown
+	/// </summary>
+	public void CheckPlayerCount()
+	{
+		if (CustomNetworkManager.Instance._isServer && PlayerList.Instance.ConnectionCount >= MinPlayersForCountdown)
+		{
 			StartCountdown();
 		}
 	}

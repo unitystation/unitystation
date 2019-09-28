@@ -62,9 +62,16 @@ public class JoinedViewer : NetworkBehaviour
 		}
 
 		// Only sync the pre-round countdown if it's already started
-		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
+		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 		{
-			TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, GameManager.Instance.startTime);
+			if (GameManager.Instance.waitForStart)
+			{
+				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, GameManager.Instance.startTime);
+			}
+			else
+			{
+				GameManager.Instance.CheckPlayerCount();
+			}
 		}
 
 		TargetLocalPlayerSetupPlayer(connectionToClient, loggedOffPlayer, clientID, GameManager.Instance.CurrentRoundState);
