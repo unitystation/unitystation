@@ -84,7 +84,7 @@ public class SpriteHandler : SpriteDataHandler
 	public void UpdateMe()
 	{
 		timeElapsed += Time.deltaTime;
-		if (Infos.List.Count >= spriteIndex)
+		if (Infos.List.Count > spriteIndex)
 		{
 			if (timeElapsed >= waitTime)
 			{
@@ -108,11 +108,11 @@ public class SpriteHandler : SpriteDataHandler
 
 	public void ChangeSprite(int newSprites)
 	{
-		if (!(newSprites >= Infos.List.Count))
+		if ((newSprites < Infos.List.Count))
 		{
 			if (spriteIndex != newSprites)
 			{
-				if (!(VariantIndex >= Infos.List[newSprites].Count))
+				if ((VariantIndex < Infos.List[newSprites].Count))
 				{
 					spriteIndex = newSprites;
 					animationIndex = 0;
@@ -125,14 +125,17 @@ public class SpriteHandler : SpriteDataHandler
 
 	public void ChangeSpriteVariant(int SpriteVariant)
 	{
-		if (!(spriteIndex >= Infos.List.Count))
+		if ((spriteIndex < Infos.List.Count))
 		{
-			if (!(SpriteVariant >= Infos.List[spriteIndex].Count))
+			if ((SpriteVariant < Infos.List[spriteIndex].Count))
 			{
 				if (VariantIndex != SpriteVariant)
 				{
+					if (Infos.List[spriteIndex][SpriteVariant].Count <= animationIndex) { 
+						animationIndex = 0;
+					}
 					SetSprite(Infos.List[spriteIndex][SpriteVariant][animationIndex]);
-					animationIndex = 0;
+
 					VariantIndex = SpriteVariant;
 					TryToggleAnimationState(Infos.List[spriteIndex][VariantIndex].Count > 1);
 				}

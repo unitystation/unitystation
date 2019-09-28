@@ -105,7 +105,7 @@ public class ClothingItem : MonoBehaviour
 				if (clothing != null)
 				{
 					spriteHandler.Infos = clothing.SpriteInfo;
-					spriteHandler.ChangeSprite(clothing.ReturnState(ClothingVariantType.Default));
+					spriteHandler.ChangeSprite(clothing.ReturnSetState());
 					PushTexture();
 				}
 			}
