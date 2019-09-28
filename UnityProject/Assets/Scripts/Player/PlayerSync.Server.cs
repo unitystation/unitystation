@@ -178,7 +178,12 @@ public partial class PlayerSync
 		if ( followMode ) {
 			playerDirectional.FaceDirection(Orientation.From(direction));
 			//force directional update of client, since it can't predict where it's being pulled
-			playerDirectional.TargetForceSyncDirection(playerScript.connectionToClient);
+			var conn = playerScript.connectionToClient;
+			if (conn != null)
+			{
+				playerDirectional.TargetForceSyncDirection(conn);
+			}
+
 		}
 		else if ( !float.IsNaN( speed ) && speed >= playerMove.PushFallSpeed )
 		{

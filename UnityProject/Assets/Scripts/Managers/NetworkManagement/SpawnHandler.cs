@@ -65,10 +65,13 @@ public static class SpawnHandler
 	/// <param name="eventType">Event type for the player sync.</param>
 	public static void TransferPlayer(NetworkConnection conn, GameObject newBody, GameObject oldBody, EVENT eventType, CharacterSettings characterSettings)
 	{
-		var oldPlayerNetworkActions = oldBody.GetComponent<PlayerNetworkActions>();
-		if(oldPlayerNetworkActions)
+		if (oldBody)
 		{
-			oldPlayerNetworkActions.RpcBeforeBodyTransfer();
+			var oldPlayerNetworkActions = oldBody.GetComponent<PlayerNetworkActions>();
+			if(oldPlayerNetworkActions)
+			{
+				oldPlayerNetworkActions.RpcBeforeBodyTransfer();
+			}
 		}
 
 		var connectedPlayer = PlayerList.Instance.Get(conn);
