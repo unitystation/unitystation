@@ -46,26 +46,23 @@ public class CentComm : MonoBehaviour
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		EventManager.AddHandler(EVENT.RoundStarted, OnRoundStart);
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		EventManager.RemoveHandler(EVENT.RoundStarted, OnRoundStart);
 	}
 
-	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	private void OnRoundStart()
 	{
 		AsteroidLocations.Clear();
-		if (!scene.name.Contains("Lobby"))
-		{
-			StartCoroutine(WaitToPrepareReport());
-		}
+		StartCoroutine(WaitToPrepareReport());
 	}
 
 	IEnumerator WaitToPrepareReport()
 	{
-		yield return WaitFor.EndOfFrame; //OnStartServer starts one frame after OnLevelFinishedLoading
+		yield return WaitFor.EndOfFrame; //OnStartServer starts one frame after OnRoundStart
 		//Server only:
 		if (!CustomNetworkManager.Instance._isServer)
 		{

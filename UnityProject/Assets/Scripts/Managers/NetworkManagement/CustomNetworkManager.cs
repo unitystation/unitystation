@@ -350,7 +350,8 @@ public class CustomNetworkManager : NetworkManager
 		if (newScene.name != "Lobby")
 		{
 			//INGAME:
-			EventManager.Broadcast(EVENT.RoundStarted);
+			// TODO check if this is needed
+			// EventManager.Broadcast(EVENT.RoundStarted);
 			if (PoolManager.Instance == null)
 			{
 				ObjectManager.StartPoolManager();

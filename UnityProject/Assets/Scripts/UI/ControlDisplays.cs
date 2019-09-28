@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Serialization;
 
 public class ControlDisplays : MonoBehaviour
 {
 	public GameObject hudBottomHuman;
 	public GameObject hudBottomGhost;
 	public GameObject jobSelectWindow;
+	public GameObject preRoundWindow;
 	public GameObject teamSelectionWindow;
 	public RectTransform panelRight;
-
-	public GameObject nukeOpsGameMode;
 
 	[SerializeField] private Animator uiAnimator;
 
@@ -83,6 +83,7 @@ public class ControlDisplays : MonoBehaviour
 		panelRight.gameObject.SetActive(false);
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
+		preRoundWindow.SetActive(false);
 	}
 
 	public void SetScreenForGame()
@@ -96,15 +97,20 @@ public class ControlDisplays : MonoBehaviour
 		SoundManager.StopMusic();
 	}
 
+	public void SetScreenForPreRound()
+	{
+		preRoundWindow.SetActive(true);
+	}
+
+	public void SetScreenForJobSelect()
+	{
+		preRoundWindow.SetActive(false);
+		jobSelectWindow.SetActive(true);
+	}
+
 	public void PlayNukeDetVideo()
 	{
 		uiAnimator.Play("NukeDetVideo");
 	}
 
-	public void DetermineGameMode()
-	{
-		//if(GameManager.Instance.gameMode == GameMode.nukeops){
-		nukeOpsGameMode.SetActive(true);
-		//}
-	}
 }
