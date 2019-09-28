@@ -6,7 +6,10 @@ using Mirror;
 
 public class Clothing : NetworkBehaviour
 {
+
+	[SyncVar(hook = nameof(SyncType))]
 	public ClothingVariantType Type;
+
 	public int Variant = -1;
 
 	public ClothingData clothingData;
@@ -48,6 +51,20 @@ public class Clothing : NetworkBehaviour
 		}
 	}
 
+	public void SyncType(ClothingVariantType _Type) {
+		Type = _Type;
+
+	}
+
+	public int ReturnSetState()
+	{
+		if (VariantStore.ContainsKey(Type))
+		{
+			return (VariantStore[Type]);
+		}
+
+		return (0);
+	}
 
 	public int ReturnState(ClothingVariantType CVT)
 	{
@@ -88,6 +105,11 @@ public class Clothing : NetworkBehaviour
 		}
 	}
 
+
+	void Start() {
+		TryInit();
+	}
+
 	//Attempt to apply the data to the Clothing Item
 	private void TryInit()
 	{
@@ -95,6 +117,10 @@ public class Clothing : NetworkBehaviour
 		{
 			if (clothingData != null)
 			{
+				if (clothingData.ItemAttributes.itemName != "")
+				{this.name = clothingData.ItemAttributes.itemName;}
+				else {this.name = clothingData.name;}
+
 				var _Clothing = GetComponent<Clothing>();
 				var Item = GetComponent<ItemAttributes>();
 				_Clothing.SpriteInfo = StaticSpriteHandler.SetUpSheetForClothingData(clothingData, this);
@@ -124,6 +150,11 @@ public class Clothing : NetworkBehaviour
 			}
 			else if (containerData != null)
 			{
+
+				if (containerData.ItemAttributes.itemName != "")
+				{this.name = containerData.ItemAttributes.itemName;}
+				else {this.name = containerData.name;}
+
 				var Item = GetComponent<ItemAttributes>();
 				var Storage = GetComponent<StorageObject>();
 				this.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(containerData.Sprites.Equipped);
@@ -133,6 +164,11 @@ public class Clothing : NetworkBehaviour
 			}
 			else if (headsetData != null)
 			{
+
+				if (headsetData.ItemAttributes.itemName != "")
+				{this.name = headsetData.ItemAttributes.itemName;}
+				else {this.name = headsetData.name;}
+
 				var Item = GetComponent<ItemAttributes>();
 				var Headset = GetComponent<Headset>();
 				this.SpriteInfo = StaticSpriteHandler.SetupSingleSprite(headsetData.Sprites.Equipped);
