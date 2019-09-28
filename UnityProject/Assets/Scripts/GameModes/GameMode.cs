@@ -71,7 +71,7 @@ public abstract class GameMode : MonoBehaviour
 	/// </summary>
 	public virtual void StartRound()
 	{
-		UIManager.Instance.RpcSelectJobs();
+		// UIManager.Instance.RpcSelectJobs();
 	}
 
 	/// <summary>

@@ -26,6 +26,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	void OnDisable()
 	{
 		doCountdown = false;
+		adminPanel.SetActive(false);
 	}
 
 	void Update()
@@ -39,6 +40,12 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		if (doCountdown)
 		{
 			countdownTime -= Time.deltaTime;
+			if (countdownTime <= 0)
+			{
+				doCountdown = false;
+				// Let the players choose their job after the countdown for now
+				UIManager.Display.SetScreenForJobSelect();
+			}
 		}
 
 		playerCount.text = PlayerList.Instance.ClientConnectedPlayers.Count.ToString();

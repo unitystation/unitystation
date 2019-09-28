@@ -45,6 +45,7 @@ internal enum MessageTypes : short
 	BookNetMessage = 1041,
 	BookshelfNetMessage = 1042,
 	SubBookshelfNetMessage = 1043,
+	UpdateCountdownMessage = 1044,
 
 	//Client messages - 2xxx
 	UpdateHeadsetKeyMessage = 2000,

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Mirror;
 
-public class UIManager : NetworkBehaviour
+public class UIManager : MonoBehaviour
 {
 	private static UIManager uiManager;
 	public GUI_VariableViewer VariableViewer;
@@ -230,24 +229,4 @@ public class UIManager : NetworkBehaviour
 		}
 		return true;
 	}
-
-	/// <summary>
-	/// Tells all clients to open the job selection window
-	/// </summary>
-	[ClientRpc]
-	public void RpcSelectJobs()
-	{
-		Display.SetScreenForJobSelect();
-	}
-
-	/// <summary>
-	/// Tells all clients to start the pre-round countdown
-	/// </summary>
-	[ClientRpc]
-	public void RpcStartCountdown(float countdownTime)
-	{
-		Logger.Log("Starting countdown!", Category.Round);
-		Instance.displayControl.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(true, countdownTime);
-	}
-
 }

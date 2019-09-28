@@ -287,6 +287,7 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
+			// TODO this is broken for some reason
 			while (PlayerList.Instance.ConnectionCount < MinPlayersForCountdown)
 			{
 				yield return WaitFor.EndOfFrame;
@@ -299,7 +300,7 @@ public partial class GameManager : MonoBehaviour
 	{
 		startTime = PreRoundTime;
 		waitForStart = true;
-		UIManager.Instance.RpcStartCountdown(startTime);
+		UpdateCountdownMessage.Send(waitForStart, startTime);
 	}
 
 	public int GetOccupationsCount(JobType jobType)
