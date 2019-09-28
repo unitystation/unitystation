@@ -75,11 +75,13 @@ public class RightclickManager : MonoBehaviour
 		{
 			List<GameObject> objects = null;
 			// Check if mouse point occluded by FoV system.
-			if (!lightingSystem.enabled || lightingSystem.IsScreenPointVisible(CommonInput.mousePosition)) {
+			if (!lightingSystem.enabled || lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
+			{
 				// Gets Items on the position of the mouse that are able to be right clicked
 				objects = GetRightClickableObjects();
 			}
-			else {
+			else
+			{
 				objects = new List<GameObject>();
 			}
 
@@ -90,8 +92,15 @@ public class RightclickManager : MonoBehaviour
 				position = CommonInput.mousePosition,
 			};
 			EventSystem.current.RaycastAll(pointerData, raycastResults);
+#pragma warning disable UEA0005 // Ignore warning about using GetComponent() inside Update()
 			// Searching for UI_ItemSwap instead of UI_ItemSlot for the larger and more consistent hitbox.
-			objects.AddRange(raycastResults.Select(rc => rc.gameObject.GetComponent<UI_ItemSwap>()?.GetComponentInChildren<UI_ItemSlot>()?.Item).Where(go => go != null));
+			objects.AddRange(raycastResults.Select(rc => {
+				// Verbose workaround since you should not use null propagation on Unity objects. Thanks, Unity.
+				var itemSwap = rc.gameObject.GetComponent<UI_ItemSwap>();
+				var itemSlot = itemSwap == null ? null : itemSwap.GetComponentInChildren<UI_ItemSlot>();
+				return itemSlot == null ? null : itemSlot.Item;
+				}).Where(go => go != null));
+#pragma warning restore UEA0005
 
 			//Generates menus
 			var options = Generate(objects);
