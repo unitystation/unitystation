@@ -243,10 +243,12 @@ public partial class GameManager : MonoBehaviour
 		// Only do this stuff on the server
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			if (SecretGameMode && GameMode == null)
-			{
-				ChooseGameMode();
-			}
+			// TODO hard coding gamemode for testing purposes
+			SelectGameMode("NukeOps");
+			// if (SecretGameMode && GameMode == null)
+			// {
+			// 	ChooseGameMode();
+			// }
 			// Game mode specific setup
 			GameMode.SetupRound();
 			GameMode.StartRound();

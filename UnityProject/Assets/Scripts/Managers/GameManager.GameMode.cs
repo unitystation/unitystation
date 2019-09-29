@@ -83,18 +83,16 @@ public partial class GameManager
 	/// </summary>
 	private void ChooseGameMode()
 	{
-		// TODO hard coding traitor for testing purposes
-		// List<GameMode> possibleGMs = new List<GameMode>();
-		// foreach (var gm in AllGameModes)
-		// {
-		// 	if (gm.IsPossible())
-		// 	{
-		// 		possibleGMs.Add(gm);
-		// 	}
-		// }
-		// int index = Random.Range(0, possibleGMs.Count);
-		// GameMode = possibleGMs[index];
-		SelectGameMode("Traitor");
+		List<GameMode> possibleGMs = new List<GameMode>();
+		foreach (var gm in AllGameModes)
+		{
+			if (gm.IsPossible())
+			{
+				possibleGMs.Add(gm);
+			}
+		}
+		int index = Random.Range(0, possibleGMs.Count);
+		GameMode = possibleGMs[index];
 		Logger.Log($"Selected game mode: {GameMode.Name}", Category.GameMode);
 	}
 }

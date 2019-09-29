@@ -84,4 +84,7 @@ public abstract class GameMode : MonoBehaviour
 	/// End the round and display any relevant reports
 	/// </summary>
 	public abstract void EndRound();
+
+	// TODO
+	// public abstract void ChooseAntags();
 }

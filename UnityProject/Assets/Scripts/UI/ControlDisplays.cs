@@ -13,6 +13,7 @@ public class ControlDisplays : MonoBehaviour
 		Lobby,
 		Game,
 		PreRound,
+		TeamSelect,
 		JobSelect
 	}
 	public GameObject hudBottomHuman;
@@ -93,6 +94,9 @@ public class ControlDisplays : MonoBehaviour
 			case Screens.PreRound:
 				SetScreenForPreRound();
 				break;
+			case Screens.TeamSelect:
+				SetScreenForTeamSelect();
+				break;
 			case Screens.JobSelect:
 				SetScreenForJobSelect();
 				break;
@@ -137,7 +141,20 @@ public class ControlDisplays : MonoBehaviour
 
 	public void SetScreenForPreRound()
 	{
+		ResetUI(); //Make sure UI is back to default for next play
+		UIManager.PlayerHealthUI.gameObject.SetActive(false);
+		hudBottomHuman.gameObject.SetActive(false);
+		hudBottomGhost.gameObject.SetActive(false);
+		panelRight.gameObject.SetActive(false);
+		jobSelectWindow.SetActive(false);
+		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(true);
+	}
+
+	public void SetScreenForTeamSelect()
+	{
+		preRoundWindow.SetActive(false);
+		teamSelectionWindow.SetActive(true);
 	}
 
 	public void SetScreenForJobSelect()

@@ -100,7 +100,9 @@ public class JoinedViewer : NetworkBehaviour
 				// Round hasn't yet started, give players the pre-game screen
 				UIManager.Display.SetScreenForPreRound();
 				break;
-			case RoundState.Started:
+			// case RoundState.Started:
+			// TODO spawn a ghost if round has already ended?
+			default:
 				// If player is joining for the first time let them pick a job, otherwise rejoin character.
 				if (loggedOffPlayer == null)
 				{
@@ -111,9 +113,6 @@ public class JoinedViewer : NetworkBehaviour
 					loggedOffPlayer.GetComponent<NetworkIdentity>().SetLocal();
 					CmdRejoin(loggedOffPlayer);
 				}
-				break;
-			default:
-				// TODO spawn a ghost?
 				break;
 		}
 	}
