@@ -47,6 +47,11 @@ public class GUI_PreRoundWindow : MonoBehaviour
 			}
 		}
 
+		UpdateUI();
+	}
+
+	public void UpdateUI()
+	{
 		playerCount.text = PlayerList.Instance.ClientConnectedPlayers.Count.ToString();
 		currentGameMode.text = GameManager.Instance.GetGameModeName();
 		timer.text = TimeSpan.FromSeconds(this.countdownTime).ToString(@"mm\:ss");
@@ -62,6 +67,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		Logger.Log($"SyncCountdown called with: started={started}, time={time}", Category.Round);
 		countdownTime = time;
 		doCountdown = started;
+		UpdateUI();
 		countdownPanel.SetActive(started);
 		playerWaitPanel.SetActive(!started);
 	}
