@@ -68,9 +68,9 @@ public class ChatEvent
 	{
 		var player = speaker.Script;
 		this.channels = channels;
-		this.modifiers = player.GetCurrentChatModifiers();
-		this.speaker = player.name;
-		this.position = ( Vector2 ) player.gameObject.transform.position;
+		this.modifiers = (player == null) ? ChatModifier.None : player.GetCurrentChatModifiers();
+		this.speaker = (player == null) ? speaker.Name : player.name;
+		this.position = ( Vector2 ) ((player == null) ?  speaker.GameObject.transform.position : player.gameObject.transform.position);
 		this.message = ProcessMessage(message, this.speaker, this.channels, modifiers);
 	}
 

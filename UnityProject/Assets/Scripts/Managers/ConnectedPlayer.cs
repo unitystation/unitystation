@@ -9,6 +9,7 @@ public class ConnectedPlayer
     private ulong steamId;
     private GameObject gameObject;
     private PlayerScript playerScript;
+    private JoinedViewer viewerScript;
     private NetworkConnection connection;
     private string clientID;
 
@@ -46,6 +47,7 @@ public class ConnectedPlayer
     }
 
     public PlayerScript Script => playerScript;
+    public JoinedViewer ViewerScript => viewerScript;
 
     public NetworkConnection Connection
     {
@@ -65,6 +67,7 @@ public class ConnectedPlayer
             }
             gameObject = value;
             playerScript = value.GetComponent<PlayerScript>();
+            viewerScript = value.GetComponent<JoinedViewer>();
         }
     }
 

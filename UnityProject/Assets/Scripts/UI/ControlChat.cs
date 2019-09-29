@@ -35,6 +35,16 @@ public class ControlChat : MonoBehaviour
 	private Color toggleOnCol;
 	private bool windowCoolDown = false;
 
+	private ChatChannel selectedChannels;
+	/// <summary>
+	/// The currently selected chat channels. Prunes all unavailable ones on get.
+	/// </summary>
+	public ChatChannel SelectedChannels
+	{
+		get { return selectedChannels & GetAvailableChannels(); }
+		set { selectedChannels = value; }
+	}
+
 	/// <summary>
 	/// A map of channel names and their toggles for UI manipulation
 	/// </summary>
@@ -210,7 +220,7 @@ public class ControlChat : MonoBehaviour
 	private void PlayerSendChat()
 	{
 		// Selected channels already masks all unavailable channels in it's get method
-		PostToChatMessage.Send(InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
+		PostToChatMessage.Send(InputFieldChat.text, SelectedChannels);
 
 		// if (GameManager.Instance.GameOver)
 		// {
@@ -227,14 +237,14 @@ public class ControlChat : MonoBehaviour
 		// 	else
 		// 	{
 		// 		// Selected channels already masks all unavailable channels in it's get method
-		// 		PostToChatMessage.Send (InputFieldChat.text, PlayerManager.LocalPlayerScript.SelectedChannels);
+		// 		PostToChatMessage.Send (InputFieldChat.text, SelectedChannels);
 		// 	}
 		// }
 
 		if (PlayerChatShown())
 		{
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true, InputFieldChat.text,
-				PlayerManager.LocalPlayerScript.SelectedChannels);
+				SelectedChannels);
 		}
 		InputFieldChat.text = "";
 	}
@@ -244,11 +254,11 @@ public class ControlChat : MonoBehaviour
 	/// </summary>
 	private bool PlayerChatShown()
 	{
-		// Don't show if player is dead, crit, talking in OOC or sent an empty message
-		if (PlayerManager.LocalPlayerScript.IsGhost ||
+		// Don't show if player is talking in OOC, dead, crit, or sent an empty message
+		if (SelectedChannels.Equals(ChatChannel.OOC) ||
+			PlayerManager.LocalPlayerScript.IsGhost ||
 			PlayerManager.LocalPlayerScript.playerHealth.IsCrit ||
-			InputFieldChat.text == "" ||
-			PlayerManager.LocalPlayerScript.SelectedChannels.Equals(ChatChannel.OOC))
+			InputFieldChat.text == "")
 		{
 			return false;
 		}
@@ -265,8 +275,8 @@ public class ControlChat : MonoBehaviour
 	/// <summary>
 	/// Opens the chat window to send messages
 	/// </summary>
-	/// <param name="selectedChannel">The chat channels to select when opening it</param>
-	public void OpenChatWindow(ChatChannel selectedChannel = ChatChannel.None)
+	/// <param name="newChannel">The chat channels to select when opening it</param>
+	public void OpenChatWindow(ChatChannel newChannel = ChatChannel.None)
 	{
 		//Prevent input spam
 		if (windowCoolDown) return;
@@ -279,23 +289,20 @@ public class ControlChat : MonoBehaviour
 			return;
 		}
 
-		if (PlayerManager.LocalPlayer == null)
-		{
-			Logger.LogWarning("You cannot use the chat without the LocalPlayer object being set in PlayerManager", Category.Telecoms);
-			return;
-		}
-		var availChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+		var availChannels = GetAvailableChannels();
 
 		// Change the selected channel if one is passed to the function and it's available
-		if (selectedChannel != ChatChannel.None && (availChannels & selectedChannel) == selectedChannel)
+		if (newChannel != ChatChannel.None && (availChannels & newChannel) == newChannel)
 		{
-			EnableChannel(selectedChannel);
+			EnableChannel(newChannel);
 		}
-		else if (PlayerManager.LocalPlayerScript.SelectedChannels == ChatChannel.None)
+		else if (SelectedChannels == ChatChannel.None)
 		{
 			// Make sure the player has at least one channel selected
 			TrySelectDefaultChannel();
 		}
+		// Otherwise use the previously selected channels again
+
 		EventManager.Broadcast(EVENT.ChatFocused);
 		chatInputWindow.SetActive(true);
 		background.SetActive(true);
@@ -327,7 +334,7 @@ public class ControlChat : MonoBehaviour
 	private void RefreshChannelPanel()
 	{
 		Logger.LogTrace("Refreshing channel panel!", Category.UI);
-		Logger.Log("Selected channels: " + ListChannels(PlayerManager.LocalPlayerScript.SelectedChannels), Category.UI);
+		Logger.Log("Selected channels: " + ListChannels(SelectedChannels), Category.UI);
 		RefreshToggles();
 		RefreshRadioChannelPanel();
 		UpdateInputLabel();
@@ -353,7 +360,7 @@ public class ControlChat : MonoBehaviour
 	/// </summary>
 	private void TrySelectDefaultChannel()
 	{
-		var availChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+		var availChannels = GetAvailableChannels();
 
 		// Relies on the order of the channels being Local, Ghost then OOC!
 		foreach (ChatChannel channel in MainChannels)
@@ -440,7 +447,7 @@ public class ControlChat : MonoBehaviour
 	/// </summary>
 	private void RefreshToggles()
 	{
-		ChatChannel availChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+		ChatChannel availChannels = GetAvailableChannels();
 
 		foreach (var entry in ChannelToggles)
 		{
@@ -467,7 +474,7 @@ public class ControlChat : MonoBehaviour
 		foreach (var radioChannel in RadioChannels)
 		{
 			// Check if the radioChannel is set in SelectedChannels
-			if ((PlayerManager.LocalPlayerScript.SelectedChannels & radioChannel) == radioChannel)
+			if ((SelectedChannels & radioChannel) == radioChannel)
 			{
 				activeRadioChannelPanel.SetActive(true);
 				return;
@@ -506,7 +513,7 @@ public class ControlChat : MonoBehaviour
 		// Disable OOC if it's on
 		if (ChannelToggles.ContainsKey(ChatChannel.OOC) && ChannelToggles[ChatChannel.OOC].isOn)
 		{
-			PlayerManager.LocalPlayerScript.SelectedChannels &= ~ChatChannel.OOC;
+			SelectedChannels &= ~ChatChannel.OOC;
 			ChannelToggles[ChatChannel.OOC].isOn = false;
 		}
 	}
@@ -548,12 +555,11 @@ public class ControlChat : MonoBehaviour
 	/// </summary>
 	private void UpdateInputLabel()
 	{
-		ChatChannel channelsSelected = PlayerManager.LocalPlayerScript.SelectedChannels;
-		if ((channelsSelected & ChatChannel.OOC) == ChatChannel.OOC)
+		if ((SelectedChannels & ChatChannel.OOC) == ChatChannel.OOC)
 		{
 			chatInputLabel.text = "OOC:";
 		}
-		else if ((channelsSelected & ChatChannel.Ghost) == ChatChannel.Ghost)
+		else if ((SelectedChannels & ChatChannel.Ghost) == ChatChannel.Ghost)
 		{
 			chatInputLabel.text = "Ghost:";
 		}
@@ -568,7 +574,7 @@ public class ControlChat : MonoBehaviour
 	/// </summary>
 	private bool isChannelListUpToDate()
 	{
-		ChatChannel availableChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+		ChatChannel availableChannels = GetAvailableChannels();
 
 		// See if available channels have changed
 		if (availableChannelCache != availableChannels)
@@ -604,19 +610,19 @@ public class ControlChat : MonoBehaviour
 		{
 			ClearTogglesExcept(channel);
 			ClearActiveRadioChannels();
-			PlayerManager.LocalPlayerScript.SelectedChannels = channel;
+			SelectedChannels = channel;
 		}
 		else
 		{
 			// Disable OOC and enable the channel
 			TryDisableOOC();
-			PlayerManager.LocalPlayerScript.SelectedChannels |= channel;
+			SelectedChannels |= channel;
 
 			// Only enable local if it's a radio channel
 			if (RadioChannels.Contains(channel))
 			{
 				// Activate local channel again
-				PlayerManager.LocalPlayerScript.SelectedChannels |= ChatChannel.Local;
+				SelectedChannels |= ChatChannel.Local;
 
 				if (ChannelToggles.ContainsKey(channel))
 				{
@@ -652,12 +658,12 @@ public class ControlChat : MonoBehaviour
 
 			// Make sure toggle is still on so player can't disable them all
 			ChannelToggles[channel].isOn = true;
-			PlayerManager.LocalPlayerScript.SelectedChannels = channel;
+			SelectedChannels = channel;
 		}
 		else
 		{
 			// Remove channel from SelectedChannels and disable toggle
-			PlayerManager.LocalPlayerScript.SelectedChannels &= ~channel;
+			SelectedChannels &= ~channel;
 			if (ChannelToggles.ContainsKey(channel))
 			{
 				ChannelToggles[channel].isOn = false;
@@ -671,5 +677,17 @@ public class ControlChat : MonoBehaviour
 		}
 
 		UpdateInputLabel();
+	}
+
+	private ChatChannel GetAvailableChannels()
+	{
+		if (PlayerManager.LocalPlayerScript == null)
+		{
+			return ChatChannel.OOC;
+		}
+		else
+		{
+			return PlayerManager.LocalPlayerScript.GetAvailableChannelsMask();
+		}
 	}
 }
