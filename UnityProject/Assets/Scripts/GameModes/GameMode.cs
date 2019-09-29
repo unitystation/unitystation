@@ -71,7 +71,8 @@ public abstract class GameMode : MonoBehaviour
 	/// </summary>
 	public virtual void StartRound()
 	{
-		// UIManager.Instance.RpcSelectJobs();
+		// TODO remove once random job allocation is done
+		UpdateUIMessage.Send(ControlDisplays.Screens.JobSelect);
 	}
 
 	/// <summary>

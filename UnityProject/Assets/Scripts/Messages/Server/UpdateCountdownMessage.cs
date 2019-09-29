@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 
 /// <summary>
-///     Message that tells client what is the current round time
+///     Message that tells client the status of the preround countdown
 /// </summary>
 public class UpdateCountdownMessage : ServerMessage
 {

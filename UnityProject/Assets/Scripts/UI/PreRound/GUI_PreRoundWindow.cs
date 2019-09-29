@@ -43,8 +43,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 			if (countdownTime <= 0)
 			{
 				doCountdown = false;
-				// Let the players choose their job after the countdown for now
-				UIManager.Display.SetScreenForJobSelect();
+				// Server should tell client what to do at the end of the countdown
 			}
 		}
 
@@ -55,7 +54,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	public void StartNowButton()
 	{
-		GameManager.Instance.RoundStart();
+		PlayerManager.LocalViewerScript.CmdStartRound();
 	}
 
 	public void SyncCountdown(bool started, float time)
