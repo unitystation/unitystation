@@ -26,21 +26,22 @@ public class JoinedViewer : NetworkBehaviour
 		// Send steamId to server for player setup.
 		if (BuildPreferences.isSteamServer)
 		{
-			CmdServerSetupPlayer(Client.Instance.SteamId, PlayerPrefs.GetString(PlayerPrefKeys.ClientID));
+			CmdServerSetupPlayer(Client.Instance.SteamId, PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
 		}
 		else
 		{
-			CmdServerSetupPlayer(0, PlayerPrefs.GetString(PlayerPrefKeys.ClientID));
+			CmdServerSetupPlayer(0, PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
 		}
 	}
 
 	[Command]
-	private void CmdServerSetupPlayer(ulong steamId, string clientID)
+	private void CmdServerSetupPlayer(ulong steamId, string clientID, string username)
 	{
 		var connPlayer = new ConnectedPlayer
 		{
 			Connection = connectionToClient,
 			GameObject = gameObject,
+			Username = username,
 			Job = JobType.NULL,
 			SteamId = steamId,
 			ClientId = clientID

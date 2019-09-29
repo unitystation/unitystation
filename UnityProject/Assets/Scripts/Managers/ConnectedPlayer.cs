@@ -4,6 +4,7 @@ using Mirror;
 /// Server-only full player information class
 public class ConnectedPlayer
 {
+    private string username;
     private string name;
     private JobType job;
     private ulong steamId;
@@ -25,6 +26,7 @@ public class ConnectedPlayer
     {
         connection = new NetworkConnection("0.0.0.0"),
         gameObject = null,
+        username = null,
         name = "kek",
         job = JobType.NULL,
         steamId = 0,
@@ -38,6 +40,7 @@ public class ConnectedPlayer
         {
             connection = Invalid.Connection,
             gameObject = player.GameObject,
+            username = player.Username,
             name = player.Name,
             job = player.Job,
             steamId = player.SteamId,
@@ -69,6 +72,12 @@ public class ConnectedPlayer
             playerScript = value.GetComponent<PlayerScript>();
             viewerScript = value.GetComponent<JoinedViewer>();
         }
+    }
+
+    public string Username
+    {
+	    get => username;
+	    set => username = value;
     }
 
     public string Name
