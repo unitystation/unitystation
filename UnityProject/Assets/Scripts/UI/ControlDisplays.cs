@@ -4,6 +4,17 @@ using UnityEngine.Serialization;
 
 public class ControlDisplays : MonoBehaviour
 {
+	/// <summary>
+	/// Represents which screen to open with generic function
+	/// </summary>
+	public enum Screens
+	{
+		SlotReset,
+		Lobby,
+		Game,
+		PreRound,
+		JobSelect
+	}
 	public GameObject hudBottomHuman;
 	public GameObject hudBottomGhost;
 	public GameObject jobSelectWindow;
@@ -58,6 +69,33 @@ public class ControlDisplays : MonoBehaviour
 		{
 			hudBottomHuman.gameObject.SetActive(false);
 			hudBottomGhost.gameObject.SetActive(true);
+		}
+	}
+
+	/// <summary>
+	/// Generic UI changing function for net messages
+	/// </summary>
+	/// <param name="screen">The UI action to perform</param>
+	public void SetScreenFor(Screens screen)
+	{
+		Logger.Log($"Setting screen for {screen}", Category.UI);
+		switch (screen)
+		{
+			case Screens.SlotReset:
+				ResetUI();
+				break;
+			case Screens.Lobby:
+				SetScreenForLobby();
+				break;
+			case Screens.Game:
+				SetScreenForGame();
+				break;
+			case Screens.PreRound:
+				SetScreenForPreRound();
+				break;
+			case Screens.JobSelect:
+				SetScreenForJobSelect();
+				break;
 		}
 	}
 
