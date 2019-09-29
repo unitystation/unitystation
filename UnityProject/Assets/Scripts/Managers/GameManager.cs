@@ -422,6 +422,7 @@ public partial class GameManager : MonoBehaviour
 		{
 			//TODO allow map change from admin portal
 
+			CurrentRoundState = RoundState.Ended;
 			EventManager.Broadcast(EVENT.RoundEnded);
 			CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
 		}

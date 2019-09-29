@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 /// </summary>
 public enum RoundState
 {
+	None,
 	PreRound,
 	Started,
 	Ended
