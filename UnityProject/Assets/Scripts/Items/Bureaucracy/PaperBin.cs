@@ -212,8 +212,8 @@ namespace Items.Bureaucracy
 			// First, get the papers that players have put in the bin
 			if (storedPaper.Count > 0)
 			{
-				paper = storedPaper[0];
-				storedPaper.RemoveAt(0);
+				paper = storedPaper[storedPaper.Count - 1];
+				storedPaper.RemoveAt(storedPaper.Count - 1);
 				SyncBlankPaperCount(blankPaperCount);
 			}
 			else // Otherwise, take from blank paper stash
