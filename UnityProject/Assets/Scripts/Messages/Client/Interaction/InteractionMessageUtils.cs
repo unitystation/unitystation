@@ -26,7 +26,8 @@ public static class InteractionMessageUtils
 	/// <typeparamref name="T">Interaction subtype
 	/// for the interaction that the processor can handle (such as MouseDrop for a mouse drop interaction).
 	/// Must be a subtype of Interaction.</typeparamref>
-	public static void SendRequest<T>(T info, IInteractionProcessor<T> processor)
+	/// <param name="specificComponent"> Name of specific Component on the gameobject to be targeted by the interaction. </param>
+	public static void SendRequest<T>(T info, IInteractionProcessor<T> processor, string specificComponent = null)
 		where T : Interaction
 	{
 		if (!info.Performer.Equals(PlayerManager.LocalPlayer))
@@ -52,7 +53,7 @@ public static class InteractionMessageUtils
 		}
 		else if (typeof(T) == typeof(HandApply))
 		{
-			RequestHandApplyMessage.Send(info as HandApply, processorObject);
+			RequestHandApplyMessage.Send(info as HandApply, processorObject, specificComponent);
 			return;
 		}
 		else if (typeof(T) == typeof(AimApply))
@@ -82,13 +83,17 @@ public static class InteractionMessageUtils
 	/// the specified type.
 	/// </summary>
 	/// <param name="gameObject">object to check</param>
+	/// <param name="specificComponent">Component name to match</param>
 	/// <typeparam name="T">type of interaction whose processors should be retrieved</typeparam>
 	/// <returns>the processors found. Null if none found.</returns>
-	public static IInteractionProcessor<T>[] TryGetProcessors<T>(GameObject gameObject)
+	public static IInteractionProcessor<T>[] TryGetProcessors<T>(GameObject gameObject, string specificComponent = null)
 		where T : Interaction
 	{
 		var processorComponents = gameObject.GetComponents<IInteractionProcessor<T>>()
-			.Where(proc => proc != null && (proc as MonoBehaviour).enabled).ToArray();
+			.Where(proc => proc != null && (proc as MonoBehaviour).enabled)
+			.Where(proc => specificComponent == null ? true : (proc as Component).GetType().ToString() == specificComponent)
+			.ToArray();
+
 		if (processorComponents == null || processorComponents.Length == 0)
 		{
 			Logger.LogError("Processor component could not be looked up by the ID sent by the client, " +

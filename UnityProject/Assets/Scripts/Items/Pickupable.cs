@@ -145,7 +145,7 @@ public class Pickupable : NBHandApplyInteractable, IRightClickable
 	private void RightClickInteract()
 	{
 		//trigger the interaction manually, triggered via the right click menu
-		Interact(HandApply.ByLocalPlayer(gameObject));
+		Interact(HandApply.ByLocalPlayer(gameObject), "Pickupable");
 	}
 
 	//Broadcast from InventoryManager on server

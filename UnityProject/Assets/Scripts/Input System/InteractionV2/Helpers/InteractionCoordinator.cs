@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Helper class for coordinating an interaction between client / server.
@@ -50,11 +51,12 @@ public class InteractionCoordinator<T>
 	/// to perform the interaction.
 	/// </summary>
 	/// <param name="interaction">interaction being performed.</param>
+	/// <param name="specificComponent">Name of specific component on the object to be targeted by the interaction.</param>
 	/// <returns>if validation succeeded</returns>
-	public bool ClientValidateAndRequest(T interaction)
+	public bool ClientValidateAndRequest(T interaction, string specificComponent = null)
 	{
 		if (willInteract != null && !willInteract.Invoke(interaction, NetworkSide.Client)) return false;
-		InteractionMessageUtils.SendRequest(interaction, processor);
+		InteractionMessageUtils.SendRequest(interaction, processor, specificComponent);
 		return true;
 
 	}

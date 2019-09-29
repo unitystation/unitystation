@@ -1,5 +1,6 @@
 
 using System;
+using UnityEngine;
 
 /// <summary>
 /// Utilities used in IF2 for various core interaction components
@@ -35,10 +36,10 @@ public static class InteractionComponentUtils
 	/// <returns>If validation succeeds and coordinator sends the interaciton msg, invokes
 	/// onValidationSuccess and returns STOP_PROCESSING. Otherwise returns CONTINUE_PROCESSING.</returns>
 	public static bool CoordinatedInteract<T>(T info, InteractionCoordinator<T> coordinator,
-		Action<T> onValidationSuccess)
+		Action<T> onValidationSuccess, string specificComponent = null)
 		where T : Interaction
 	{
-		var validated = coordinator.ClientValidateAndRequest(info);
+		var validated = coordinator.ClientValidateAndRequest(info, specificComponent);
 		if (validated)
 		{
 			//success, so do client prediction if not server player

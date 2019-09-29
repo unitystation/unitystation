@@ -27,7 +27,8 @@ public enum ChatChannel
 	[Description(":t")] Syndicate 	= 1 << 13,
 	[Description("")] 	System 		= 1 << 14,
 	[Description(":g")] Ghost 		= 1 << 15,
-	[Description("")] 	Combat 		= 1 << 16
+	[Description("")] 	Combat 		= 1 << 16,
+	[Description("")]	Warning		= 1 << 17
 }
 
 /// <summary>
@@ -119,6 +120,14 @@ public class ChatEvent
 			this.channels = ChatChannel.Examine;
 			this.modifiers = ChatModifier.None;
 			return $"<b><i>{message}</i></b>";
+		}
+
+		// Skip everything if the message is a local warning
+		if ((channels & ChatChannel.Warning) == ChatChannel.Warning)
+		{
+			this.channels = ChatChannel.Warning;
+			this.modifiers = ChatModifier.None;
+			return $"<i>{message}</i>";
 		}
 
 		//Check for emote. If found skip chat modifiers, make sure emote is only in Local channel
