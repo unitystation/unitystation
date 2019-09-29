@@ -57,20 +57,18 @@ public class ControlDisplays : MonoBehaviour
 
 	void HumanUI()
 	{
-		if (hudBottomGhost != null && hudBottomGhost != null)
-		{
-			hudBottomHuman.gameObject.SetActive(true);
-			hudBottomGhost.gameObject.SetActive(false);
-		}
+		hudBottomHuman.gameObject.SetActive(true);
+		hudBottomGhost.gameObject.SetActive(false);
+		UIManager.PlayerHealthUI.gameObject.SetActive(true);
+		panelRight.gameObject.SetActive(true);
 	}
 
 	void GhostUI()
 	{
-		if (hudBottomGhost != null && hudBottomGhost != null)
-		{
-			hudBottomHuman.gameObject.SetActive(false);
-			hudBottomGhost.gameObject.SetActive(true);
-		}
+		hudBottomHuman.gameObject.SetActive(false);
+		hudBottomGhost.gameObject.SetActive(true);
+		UIManager.PlayerHealthUI.gameObject.SetActive(true);
+		panelRight.gameObject.SetActive(true);
 	}
 
 	/// <summary>
