@@ -333,7 +333,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 
 	public void OnDrag(PointerEventData data)
 	{
-		UIManager.DragAndDrop.UI_ItemDrag(this);
+		if (data.button == PointerEventData.InputButton.Left)
+		{
+			UIManager.DragAndDrop.UI_ItemDrag(this);
+		}
 	}
 
 	public void OnEndDrag(PointerEventData data)

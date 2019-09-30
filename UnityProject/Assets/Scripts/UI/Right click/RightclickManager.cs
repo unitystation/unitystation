@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Main logic for managing right click behavior.
@@ -23,6 +24,7 @@ public class RightclickManager : MonoBehaviour
 
 	//cached methods attributed with RightClickMethod
 	private List<RightClickAttributedComponent> attributedTypes;
+	private List<RaycastResult> raycastResults = new List<RaycastResult>();
 
 	//defines a particular component that has one or more methods which have been attributed with RightClickMethod. Cached
 	// in the above list to avoid expensive lookup at click-time.
@@ -68,11 +70,38 @@ public class RightclickManager : MonoBehaviour
 
 	void Update()
 	{
-		// Get right mouse click and check if mouse point occluded by FoV system.
-		if (CommonInput.GetMouseButtonDown(1) &&  (!lightingSystem.enabled || lightingSystem.IsScreenPointVisible(CommonInput.mousePosition)))
+		// Get right mouse click
+		if (CommonInput.GetMouseButtonDown(1))
 		{
-			//gets Items on the position of the mouse that are able to be right clicked
-			List<GameObject> objects = GetRightClickableObjects();
+			List<GameObject> objects = null;
+			// Check if mouse point occluded by FoV system.
+			if (!lightingSystem.enabled || lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
+			{
+				// Gets Items on the position of the mouse that are able to be right clicked
+				objects = GetRightClickableObjects();
+			}
+			else
+			{
+				objects = new List<GameObject>();
+			}
+
+			// Gets UI elements
+			var pointerData = new PointerEventData(EventSystem.current)
+			{
+				pointerId = -1, // Mouse
+				position = CommonInput.mousePosition,
+			};
+			EventSystem.current.RaycastAll(pointerData, raycastResults);
+#pragma warning disable UEA0005 // Ignore warning about using GetComponent() inside Update()
+			// Searching for UI_ItemSwap instead of UI_ItemSlot for the larger and more consistent hitbox.
+			objects.AddRange(raycastResults.Select(rc => {
+				// Verbose workaround since you should not use null propagation on Unity objects. Thanks, Unity.
+				var itemSwap = rc.gameObject.GetComponent<UI_ItemSwap>();
+				var itemSlot = itemSwap == null ? null : itemSwap.GetComponentInChildren<UI_ItemSlot>();
+				return itemSlot == null ? null : itemSlot.Item;
+				}).Where(go => go != null));
+#pragma warning restore UEA0005
+
 			//Generates menus
 			var options = Generate(objects);
 			//Logger.Log ("yo", Category.UI);
