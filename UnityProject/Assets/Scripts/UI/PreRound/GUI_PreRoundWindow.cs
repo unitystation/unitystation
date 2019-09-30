@@ -59,7 +59,12 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	public void StartNowButton()
 	{
-		PlayerManager.LocalViewerScript.CmdStartRound();
+		if (CustomNetworkManager.Instance._isServer == false)
+		{
+			Logger.LogError("Can only execute command from server.", Category.DebugConsole);
+			return;
+		}
+		GameManager.Instance.RoundStart();
 	}
 
 	public void SyncCountdown(bool started, float time)

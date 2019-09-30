@@ -182,14 +182,4 @@ public class JoinedViewer : NetworkBehaviour
 		Logger.Log("Syncing countdown!", Category.Round);
 		UIManager.Instance.displayControl.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, countdownTime);
 	}
-
-	/// <summary>
-	/// Tells the server to start the round
-	/// </summary>
-	[Command]
-	public void CmdStartRound()
-	{
-		GameManager.Instance.RoundStart();
-	}
-
 }

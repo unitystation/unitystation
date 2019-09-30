@@ -43,17 +43,19 @@ public partial class GameManager
 	private void RefreshAllGameModes()
 	{
 		// Only do this stuff on the server
-		if (CustomNetworkManager.Instance._isServer)
+		if (!CustomNetworkManager.Instance._isServer)
 		{
-			AllGameModes.Clear();
-			Logger.Log("Finding available gamemodes...", Category.GameMode);
-			var prefabs = Resources.LoadAll("Prefabs/GameModes", typeof(GameObject));
-			foreach(Object obj in prefabs)
-			{
-				var gm = ((GameObject) obj).GetComponent<GameMode>();
-				Logger.Log($"Found GM: {gm.Name}", Category.GameMode);
-				AllGameModes.Add(gm);
-			}
+			return;
+		}
+
+		AllGameModes.Clear();
+		Logger.Log("Finding available gamemodes...", Category.GameMode);
+		var prefabs = Resources.LoadAll("Prefabs/GameModes", typeof(GameObject));
+		foreach(Object obj in prefabs)
+		{
+			var gm = ((GameObject) obj).GetComponent<GameMode>();
+			Logger.Log($"Found GM: {gm.Name}", Category.GameMode);
+			AllGameModes.Add(gm);
 		}
 	}
 
