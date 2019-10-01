@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GeneralMoveBrain
   m_EditorClassIdentifier: 
   brainParameters:
-    vectorObservationSize: 16
+    vectorObservationSize: 10
     numStackedVectorObservations: 1
     vectorActionSize: 09000000
     cameraResolutions: []
