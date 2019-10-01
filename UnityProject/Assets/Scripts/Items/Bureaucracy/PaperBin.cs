@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
@@ -10,14 +11,13 @@ namespace Items.Bureaucracy
 		public int initialPaperCount = 20;
 		public GameObject blankPaper;
 
-		[SyncVar (hook = nameof(SyncBlankPaperCount))]
-		private int blankPaperCount;
-
-		private readonly SyncListPaper storedPaper = new SyncListPaper();
+		[SyncVar (hook = nameof(SyncPaperCount))]
+		private int paperCount;
 
 		[SyncVar (hook = nameof(SyncStoredPen))]
 		private GameObject storedPen;
 
+		private List<GameObject> storedPaper = new List<GameObject>();
 		private SpriteRenderer binRenderer;
 		private SpriteRenderer penRenderer;
 		private Sprite binEmpty;
@@ -25,17 +25,15 @@ namespace Items.Bureaucracy
 
 		#region Networking and Sync
 
-		private void SyncBlankPaperCount(int newCount)
+		private void SyncPaperCount(int newCount)
 		{
-			blankPaperCount = newCount;
-
+			paperCount = newCount;
 			UpdateSpriteState();
 		}
 
 		private void SyncStoredPen(GameObject pen)
 		{
 			storedPen = pen;
-
 			UpdateSpriteState();
 		}
 
@@ -59,20 +57,32 @@ namespace Items.Bureaucracy
 			binEmpty = Resources.Load<Sprite>("textures/items/bureaucracy/bureaucracy_paper_bin0");
 			binLoaded = Resources.Load<Sprite>("textures/items/bureaucracy/bureaucracy_paper_bin1");
 
-			SyncBlankPaperCount(blankPaperCount);
+			SyncPaperCount(paperCount);
 			SyncStoredPen(storedPen);
 		}
 
-		#endregion
+		private void Awake()
+		{
+			SetupInitialValues();
+		}
 
 		public void GoingOnStageServer(OnStageInfo info)
 		{
-			blankPaperCount = initialPaperCount;
+			SetupInitialValues();
+		}
+
+		private void SetupInitialValues()
+		{
+			paperCount = initialPaperCount;
 			storedPaper.Clear();
 			storedPen = null;
 
 			SyncEverything();
 		}
+
+		#endregion
+
+		#region Interactions
 
 		public void OnExamine()
 		{
@@ -184,20 +194,23 @@ namespace Items.Bureaucracy
 			}
 		}
 
+		#endregion
+
 		private bool HasPaper()
 		{
-			return blankPaperCount > 0 || storedPaper.Count > 0;
+			return paperCount > 0;
 		}
 
 		private int PaperCount()
 		{
-			return blankPaperCount + storedPaper.Count;
+			return paperCount;
 		}
 
 		private void AddPaperToStack(GameObject paper)
 		{
+
 			storedPaper.Add(paper);
-			SyncBlankPaperCount(blankPaperCount);
+			SyncPaperCount(paperCount + 1);
 		}
 
 		private GameObject GetPaperFromStack()
@@ -212,16 +225,16 @@ namespace Items.Bureaucracy
 			// First, get the papers that players have put in the bin
 			if (storedPaper.Count > 0)
 			{
-				paper = storedPaper[storedPaper.Count - 1];
-				storedPaper.RemoveAt(storedPaper.Count - 1);
-				SyncBlankPaperCount(blankPaperCount);
+				var pos = storedPaper.Count - 1;
+				paper = storedPaper[pos];
+				storedPaper.RemoveAt(pos);
 			}
 			else // Otherwise, take from blank paper stash
 			{
-				SyncBlankPaperCount(blankPaperCount - 1);
 				paper = PoolManager.PoolNetworkInstantiate(blankPaper);
 			}
 
+			SyncPaperCount(paperCount - 1);
 			return paper;
 		}
 
