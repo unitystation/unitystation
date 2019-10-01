@@ -126,9 +126,17 @@ public class PostToChatMessage : ClientMessage
 
 	public bool ValidRequest(ConnectedPlayer player)
 	{
-		PlayerScript playerScript = player.Script;
 		//Need to add system channel here so player can transmit system level events but not select it in the UI
-		ChatChannel availableChannels = playerScript.GetAvailableChannelsMask() | ChatChannel.System;
+		ChatChannel availableChannels = ChatChannel.System;
+		if (player.Script == null)
+		{
+			availableChannels |= ChatChannel.OOC;
+		}
+		else
+		{
+			availableChannels |= player.Script.GetAvailableChannelsMask();
+		}
+
 		if ((availableChannels & Channels) == Channels)
 		{
 			return true;

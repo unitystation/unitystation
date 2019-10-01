@@ -78,7 +78,7 @@ public class ChatRelay : NetworkBehaviour
 		}
 		else
 		{
-			players = PlayerList.Instance.InGamePlayers;
+			players = PlayerList.Instance.AllPlayers;
 		}
 
 		//Local chat range checks:
@@ -93,7 +93,7 @@ public class ChatRelay : NetworkBehaviour
 					players.Remove(players[i]);
 				} else {
 					//within range, but check if they are in another room or hiding behind a wall
-					if (Physics2D.Linecast(chatEvent.position,//speaker.GameObject.transform.position, 
+					if (Physics2D.Linecast(chatEvent.position,//speaker.GameObject.transform.position,
 										  players[i].GameObject.transform.position, layerMask)) {
 						//if it hit a wall remove that player
 						players.Remove(players[i]);
@@ -103,7 +103,15 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		for (var i = 0; i < players.Count; i++) {
-			ChatChannel channels = players[i].Script.GetAvailableChannelsMask(false) & chatEvent.channels;
+			ChatChannel channels = chatEvent.channels;
+			if (players[i].Script == null)
+			{
+				channels &= ChatChannel.OOC;
+			}
+			else
+			{
+				channels &= players[i].Script.GetAvailableChannelsMask(false);
+			}
 			UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.message);
 		}
 
@@ -131,7 +139,7 @@ public class ChatRelay : NetworkBehaviour
 			}
 		}
 
-        ChatEvent chatEvent = new ChatEvent(message, channels, true);
+		ChatEvent chatEvent = new ChatEvent(message, channels, true);
 
 		if (channels == ChatChannel.None) {
 			return;
@@ -142,16 +150,26 @@ public class ChatRelay : NetworkBehaviour
 			name = "<b>[" + channels + "]</b> ";
 		}
 
-		if ((PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false) & channels) == channels && (chatEvent.channels & channels) == channels) {
-            //Chatevent UI entry:
+		ChatChannel checkChannels;
+		if (PlayerManager.LocalPlayerScript == null)
+		{
+			checkChannels = ChatChannel.OOC;
+		}
+		else
+		{
+			checkChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false);
+		}
+
+		if ((checkChannels & channels) == channels && (chatEvent.channels & channels) == channels) {
+			//Chatevent UI entry:
 			//FIXME at the moment all chat entries are white because of the new system, its a WIP
 			//string colorMessage = "<color=#" + GetCannelColor(channels) + ">" + name + message + "</color>";
-            string colorMessage = "<color=white>" + name + message + "</color>";
-            GameObject chatEntry = Instantiate(ControlChat.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
-            Text text = chatEntry.GetComponent<Text>();
-            text.text = colorMessage;
+			string colorMessage = "<color=white>" + name + message + "</color>";
+			GameObject chatEntry = Instantiate(ControlChat.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
+			Text text = chatEntry.GetComponent<Text>();
+			text.text = colorMessage;
 			chatEntry.transform.SetParent(ControlChat.Instance.content, false);
-            chatEntry.transform.localScale = Vector3.one;
-        }
-    }
+			chatEntry.transform.localScale = Vector3.one;
+		}
+	}
 }

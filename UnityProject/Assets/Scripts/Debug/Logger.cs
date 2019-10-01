@@ -238,7 +238,8 @@ public enum Category
 	Editor,
 	VariableViewer,
 	Themes,
-	SpriteHandler
+	SpriteHandler,
+	GameMode
 }
 
 [Serializable]

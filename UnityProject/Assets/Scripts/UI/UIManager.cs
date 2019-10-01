@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Mirror;
 
-public class UIManager : NetworkBehaviour
+public class UIManager : MonoBehaviour
 {
 	private static UIManager uiManager;
 	public GUI_VariableViewer VariableViewer;

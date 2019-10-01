@@ -26,21 +26,22 @@ public class JoinedViewer : NetworkBehaviour
 		// Send steamId to server for player setup.
 		if (BuildPreferences.isSteamServer)
 		{
-			CmdServerSetupPlayer(Client.Instance.SteamId, PlayerPrefs.GetString(PlayerPrefKeys.ClientID));
+			CmdServerSetupPlayer(Client.Instance.SteamId, PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
 		}
 		else
 		{
-			CmdServerSetupPlayer(0, PlayerPrefs.GetString(PlayerPrefKeys.ClientID));
+			CmdServerSetupPlayer(0, PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.username);
 		}
 	}
 
 	[Command]
-	private void CmdServerSetupPlayer(ulong steamId, string clientID)
+	private void CmdServerSetupPlayer(ulong steamId, string clientID, string username)
 	{
 		var connPlayer = new ConnectedPlayer
 		{
 			Connection = connectionToClient,
 			GameObject = gameObject,
+			Username = username,
 			Job = JobType.NULL,
 			SteamId = steamId,
 			ClientId = clientID
@@ -48,7 +49,10 @@ public class JoinedViewer : NetworkBehaviour
 		//Add player to player list
 		PlayerList.Instance.Add(connPlayer);
 
+		// Sync all player data and the connected player count
 		CustomNetworkManager.Instance.SyncPlayerData(gameObject);
+		UpdateConnectedPlayersMessage.Send();
+
 		// If they have a player to rejoin send the client the player to rejoin, otherwise send a null gameobject.
 		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayer(clientID);
 		if (loggedOffPlayer == null)
@@ -58,12 +62,25 @@ public class JoinedViewer : NetworkBehaviour
 			connPlayer.ClientId = clientID;
 		}
 
-		TargetLocalPlayerSetupPlayer(connectionToClient, loggedOffPlayer, clientID);
+		// Only sync the pre-round countdown if it's already started
+		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
+		{
+			if (GameManager.Instance.waitForStart)
+			{
+				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, GameManager.Instance.startTime);
+			}
+			else
+			{
+				GameManager.Instance.CheckPlayerCount();
+			}
+		}
+
+		TargetLocalPlayerSetupPlayer(connectionToClient, loggedOffPlayer, clientID, GameManager.Instance.CurrentRoundState);
 	}
 
 	[TargetRpc]
 	private void TargetLocalPlayerSetupPlayer(NetworkConnection target, GameObject loggedOffPlayer,
-		string serverClientID)
+		string serverClientID, RoundState roundState)
 	{
 		PlayerPrefs.SetString(PlayerPrefKeys.ClientID, serverClientID);
 		PlayerPrefs.Save();
@@ -77,15 +94,27 @@ public class JoinedViewer : NetworkBehaviour
 			StartCoroutine(WaitUntilServerInit());
 		}
 
-		// If player is joining for the first time let them pick faction and job, otherwise rejoin character.
-		if (loggedOffPlayer == null)
+		// Determine what to do depending on the state of the round
+		switch (roundState)
 		{
-			UIManager.Display.DetermineGameMode();
-		}
-		else
-		{
-			loggedOffPlayer.GetComponent<NetworkIdentity>().SetLocal();
-			CmdRejoin(loggedOffPlayer);
+			case RoundState.PreRound:
+				// Round hasn't yet started, give players the pre-game screen
+				UIManager.Display.SetScreenForPreRound();
+				break;
+			// case RoundState.Started:
+			// TODO spawn a ghost if round has already ended?
+			default:
+				// If player is joining for the first time let them pick a job, otherwise rejoin character.
+				if (loggedOffPlayer == null)
+				{
+					UIManager.Display.SetScreenForJobSelect();
+				}
+				else
+				{
+					loggedOffPlayer.GetComponent<NetworkIdentity>().SetLocal();
+					CmdRejoin(loggedOffPlayer);
+				}
+				break;
 		}
 	}
 
@@ -142,5 +171,15 @@ public class JoinedViewer : NetworkBehaviour
 	{
 		SpawnHandler.TransferPlayer(connectionToClient, loggedOffPlayer, gameObject, EVENT.PlayerRejoined, null);
 		loggedOffPlayer.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates(loggedOffPlayer);
+	}
+
+	/// <summary>
+	/// Tells the client to start the countdown if it's already started
+	/// </summary>
+	[TargetRpc]
+	private void TargetSyncCountdown(NetworkConnection target, bool started, float countdownTime)
+	{
+		Logger.Log("Syncing countdown!", Category.Round);
+		UIManager.Instance.displayControl.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, countdownTime);
 	}
 }
