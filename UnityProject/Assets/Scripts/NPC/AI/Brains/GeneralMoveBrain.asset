@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: GeneralMoveBrain
   m_EditorClassIdentifier: 
   brainParameters:
-    vectorObservationSize: 1
+    vectorObservationSize: 16
     numStackedVectorObservations: 1
-    vectorActionSize: 01000000
+    vectorActionSize: 09000000
     cameraResolutions: []
     vectorActionDescriptions:
-    - 
+    - MoveDir
     vectorActionSpaceType: 0
   model: {fileID: 0}
   inferenceDevice: 0

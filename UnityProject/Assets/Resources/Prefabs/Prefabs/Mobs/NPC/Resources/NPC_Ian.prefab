@@ -158,13 +158,13 @@ GameObject:
   - component: {fileID: 114386898746361270}
   - component: {fileID: 114405087929252270}
   - component: {fileID: 114123688984495052}
+  - component: {fileID: 3908098568572463412}
   - component: {fileID: 114653357792706156}
   - component: {fileID: 114536369792164230}
   - component: {fileID: 114721267536428640}
   - component: {fileID: 2215143835289934263}
   - component: {fileID: 114477129915142950}
   - component: {fileID: 114379009499332576}
-  - component: {fileID: 3908098568572463412}
   m_Layer: 8
   m_Name: NPC_Ian
   m_TagString: Untagged
@@ -317,6 +317,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
+--- !u!114 &3908098568572463412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e16004dedecb6d54e8bde3e5d6279b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
+  agentParameters:
+    agentCameras: []
+    agentRenderTextures: []
+    maxStep: 0
+    resetOnDone: 1
+    onDemandDecision: 1
+    numberOfActionsBetweenDecisions: 1
+  testTarget: {fileID: 0}
+  cnt: {fileID: 114386898746361270}
+  registerObj: {fileID: 114713267190622314}
 --- !u!114 &114653357792706156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,27 +462,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2476661813
---- !u!114 &3908098568572463412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e16004dedecb6d54e8bde3e5d6279b4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
-  agentParameters:
-    agentCameras: []
-    agentRenderTextures: []
-    maxStep: 0
-    resetOnDone: 1
-    onDemandDecision: 1
-    numberOfActionsBetweenDecisions: 1
-  testTarget: {fileID: 0}
-  cnt: {fileID: 114386898746361270}
+  m_AssetId: 045023acf668941c190d73047ed87e74
+  m_SceneId: 0
