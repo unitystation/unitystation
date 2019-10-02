@@ -20,10 +20,20 @@ public class NpcMoveAgent : Agent
 	public int rewardDay = 7;
 	private int decisionCount = 0;
 	private float distanceCache = 0;
+	private Vector3 startPos;
 
 	void Awake()
 	{
 		agentParameters.onDemandDecision = true;
+	}
+
+	public override void AgentReset()
+	{
+		Debug.Log("Agent Reset!");
+		cnt.SetPosition(startPos);
+		rewardCache = 0f;
+		decisionCount = 0;
+		distanceCache = 0;
 	}
 
 	public override void OnEnable()
@@ -31,6 +41,7 @@ public class NpcMoveAgent : Agent
 		base.OnEnable();
 		cnt.OnTileReached().AddListener(OnTileReached);
 		UpdateManager.Instance.Add(UpdateMe);
+		startPos = transform.position;
 		move = true;
 	}
 
@@ -43,19 +54,26 @@ public class NpcMoveAgent : Agent
 
 	public override void CollectObservations()
 	{
-		distanceCache = Vector2.Distance(testTarget.transform.position, transform.position);
-
+		var curDist = Vector2.Distance(testTarget.transform.position, transform.position);
+		if (distanceCache == 0)
+		{
+			distanceCache = curDist;
+		}
+		AddVectorObs(curDist / 100f);
+		AddVectorObs(distanceCache / 100f);
 		//Observe the direction to target
 		AddVectorObs(((Vector2) (testTarget.transform.position - transform.position)).normalized);
 
 		var curPos = registerObj.LocalPositionServer;
 
+		var act = 0;
 		//Observe adjacent tiles
 		for (int y = 1; y > -2; y--)
 		{
 			for (int x = -1; x < 2; x++)
 			{
 				if (x == 0 && y == 0) continue;
+				act++;
 
 				var checkPos = curPos;
 				checkPos.x += x;
@@ -63,21 +81,42 @@ public class NpcMoveAgent : Agent
 				var passable = registerObj.Matrix.IsPassableAt(checkPos, true);
 
 				//Record the passable observation:
-				AddVectorObs(passable);
-
 				if (!passable)
 				{
 					//Is the path blocked because of a door?
 					//Feed observations to AI
-					DoorController tryGetDoor;
-					if (registerObj.Matrix.TryGetComponent(out tryGetDoor))
+					DoorController tryGetDoor = registerObj.Matrix.GetFirst<DoorController>(checkPos, true);
+					if (tryGetDoor == null)
 					{
-						//	AddVectorObs(true);
+						if (checkPos == Vector3Int.RoundToInt(testTarget.localPosition))
+						{
+							AddVectorObs(true);
+						}
+						else
+						{
+							// if it is just a solid wall then remove the possibility of
+							// using this direction as an action
+							SetActionMask(0, act);
+							AddVectorObs(false);
+						}
 					}
 					else
 					{
-						//	AddVectorObs(false);
+						//NPCs can open doors with no access restrictions
+						if ((int) tryGetDoor.AccessRestrictions.restriction == 0)
+						{
+							AddVectorObs(true);
+						}
+						else
+						{
+							AddVectorObs(false);
+							SetActionMask(0, act);
+						}
 					}
+				}
+				else
+				{
+					AddVectorObs(true);
 				}
 			}
 		}
@@ -94,6 +133,7 @@ public class NpcMoveAgent : Agent
 		if (act == 0)
 		{
 			performingDecision = false;
+			MonitorRewards();
 		}
 		else
 		{
@@ -117,15 +157,30 @@ public class NpcMoveAgent : Agent
 				}
 			}
 
+			var dest = registerObj.LocalPositionServer + (Vector3Int) dirToMove;
+			if (dest == Vector3Int.RoundToInt(testTarget.transform.localPosition))
+			{
+				SetReward(1f);
+				Done();
+				return;
+			}
+
 			if (!cnt.Push(dirToMove))
 			{
 				//Path is blocked try again
 				performingDecision = false;
+				MonitorRewards();
+				DoorController tryGetDoor =
+					registerObj.Matrix.GetFirst<DoorController>(
+						registerObj.LocalPositionServer + (Vector3Int) dirToMove, true);
+				if (tryGetDoor)
+				{
+					tryGetDoor.TryOpen(gameObject);
+				}
 			}
 		}
 
 		decisionCount++;
-		MonitorRewards();
 	}
 
 	void OnTileReached(Vector3Int tilePos)
@@ -134,16 +189,34 @@ public class NpcMoveAgent : Agent
 
 		if (compareDist < distanceCache)
 		{
-			rewardCache += 0.1f;
+			rewardCache += calculateReward(compareDist);
+			distanceCache = compareDist;
 		}
+
+		MonitorRewards();
 
 		if (compareDist < 0.5f)
 		{
 			Done();
-			move = false;
+			SetReward(2f);
 		}
 
 		if (performingDecision) performingDecision = false;
+	}
+
+	float calculateReward(float dist)
+	{
+		float reward = 0f;
+		if (dist > 50f)
+		{
+			return reward;
+		}
+		else
+		{
+			reward = Mathf.Lerp(1f, 0f, dist / 50f);
+		}
+
+		return reward;
 	}
 
 	void MonitorRewards()

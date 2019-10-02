@@ -475,7 +475,7 @@ namespace MLAgents
         /// </summary>
         public void RequestDecision()
         {
-	        requestDecision = true;
+            requestDecision = true;
             RequestAction();
         }
 
@@ -484,7 +484,7 @@ namespace MLAgents
         /// </summary>
         public void RequestAction()
         {
-        requestAction = true;
+            requestAction = true;
         }
 
         /// <summary>
@@ -1034,7 +1034,7 @@ namespace MLAgents
         {
             if (requestDecision)
             {
-	            SendInfoToBrain();
+                SendInfoToBrain();
                 ResetReward();
                 done = false;
                 maxStepReached = false;
@@ -1047,7 +1047,7 @@ namespace MLAgents
         /// Used by the brain to make the agent perform a step.
         void AgentStep()
         {
-	        if (terminate)
+            if (terminate)
             {
                 terminate = false;
                 ResetReward();
