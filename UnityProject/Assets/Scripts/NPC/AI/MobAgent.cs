@@ -12,7 +12,7 @@ public class MobAgent : Agent
 	protected CustomNetTransform cnt;
 	protected RegisterObject registerObj;
 
-//	private Vector3 startPos;
+	private Vector3 startPos;
 
 	protected bool isServer;
 
@@ -29,7 +29,7 @@ public class MobAgent : Agent
 	//lines present for any future retraining
 	public override void AgentReset()
 	{
-		//	cnt.SetPosition(startPos);
+			cnt.SetPosition(startPos);
 	}
 
 	public override void OnEnable()
@@ -41,7 +41,7 @@ public class MobAgent : Agent
 		{
 			cnt.OnTileReached().AddListener(OnTileReached);
 			UpdateManager.Instance.Add(UpdateMe);
-			//	startPos = transform.position;
+			startPos = transform.position;
 			isServer = true;
 			base.OnEnable();
 			AgentServerStart();
