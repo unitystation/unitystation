@@ -1,59 +1,30 @@
 ﻿using UnityEngine;
-using MLAgents;
 
 /// <summary>
 /// AI brain specifically trained to perform
 /// following behaviours
 /// </summary>
-public class MobFollow : Agent
+public class MobFollow : MobAgent
 {
 	public Transform followTarget;
-	public CustomNetTransform cnt;
-	public RegisterObject registerObj;
-	public bool performingDecision;
-	public bool move;
 
-	private float rewardCache;
-	public int rewardDay = 7;
-	private int decisionCount = 0;
-	private Vector3 startPos;
+	public bool performingDecision;
+	public bool following;
 
 	private float distanceCache = 0;
-	private bool isServer;
-
-	void Awake()
-	{
-		agentParameters.onDemandDecision = true;
-	}
 
 	public override void AgentReset()
 	{
-		//	cnt.SetPosition(startPos);
-		rewardCache = 0f;
-		decisionCount = 0;
 		distanceCache = 0;
+		base.AgentReset();
 	}
 
-	public override void OnEnable()
+	protected override void AgentServerStart()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		//begin following:
+		if (followTarget != null)
 		{
-			cnt.OnTileReached().AddListener(OnTileReached);
-			UpdateManager.Instance.Add(UpdateMe);
-			startPos = transform.position;
-			move = true;
-			isServer = true;
-			base.OnEnable();
-		}
-	}
-
-	public override void OnDisable()
-	{
-		base.OnDisable();
-		if (isServer)
-		{
-			cnt.OnTileReached().RemoveListener(OnTileReached);
-			UpdateManager.Instance.Remove(UpdateMe);
+			following = true;
 		}
 	}
 
@@ -72,14 +43,12 @@ public class MobFollow : Agent
 
 		var curPos = registerObj.LocalPositionServer;
 
-		var act = 0;
 		//Observe adjacent tiles
 		for (int y = 1; y > -2; y--)
 		{
 			for (int x = -1; x < 2; x++)
 			{
 				if (x == 0 && y == 0) continue;
-				act++;
 
 				var checkPos = curPos;
 				checkPos.x += x;
@@ -139,7 +108,6 @@ public class MobFollow : Agent
 		if (act == 0)
 		{
 			performingDecision = false;
-			MonitorRewards();
 		}
 		else
 		{
@@ -169,7 +137,6 @@ public class MobFollow : Agent
 			{
 				//Path is blocked try again
 				performingDecision = false;
-				MonitorRewards();
 				DoorController tryGetDoor =
 					registerObj.Matrix.GetFirst<DoorController>(
 						dest, true);
@@ -186,21 +153,17 @@ public class MobFollow : Agent
 				}
 			}
 		}
-
-		decisionCount++;
 	}
 
-	void OnTileReached(Vector3Int tilePos)
+	protected override void OnTileReached(Vector3Int tilePos)
 	{
 		var compareDist = Vector2.Distance(followTarget.transform.position, transform.position);
 
 		if (compareDist < distanceCache)
 		{
-			rewardCache += calculateReward(compareDist);
+			SetReward(calculateReward(compareDist));
 			distanceCache = compareDist;
 		}
-
-		MonitorRewards();
 
 		if (compareDist < 0.5f)
 		{
@@ -226,27 +189,14 @@ public class MobFollow : Agent
 		return reward;
 	}
 
-	//This method allows us to give rewards every 2 or 3 steps for example.
-	//Generally it is better to keep reward day at 0 for simple problem
-	//solving.
-	void MonitorRewards()
-	{
-		if (decisionCount >= rewardDay)
-		{
-			decisionCount = 0;
-			SetReward(rewardCache);
-			rewardCache = 0;
-		}
-	}
-
-	void UpdateMe()
+	protected override void UpdateMe()
 	{
 		MonitorDecisionMaking();
 	}
 
 	void MonitorDecisionMaking()
 	{
-		if (!move || performingDecision) return;
+		if (!following || performingDecision) return;
 		performingDecision = true;
 		RequestDecision();
 	}
