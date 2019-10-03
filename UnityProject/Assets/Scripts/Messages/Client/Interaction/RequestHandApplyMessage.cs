@@ -23,6 +23,7 @@ public class RequestHandApplyMessage : ClientMessage
 	public uint TargetObject;
 	//targeted body part
 	public BodyPartType TargetBodyPart;
+	public string TargetComponent;
 
 	public override IEnumerator Process()
 	{
@@ -35,14 +36,14 @@ public class RequestHandApplyMessage : ClientMessage
 		var processorObj = NetworkObjects[1];
 		var performerObj = SentByPlayer.GameObject;
 
-		ProcessHandApply(usedObject, targetObj, processorObj, performerObj, usedSlot);
+		ProcessHandApply(usedObject, targetObj, processorObj, performerObj, usedSlot, TargetComponent);
 	}
 
 
-	private void ProcessHandApply(GameObject handObject, GameObject targetObj, GameObject processorObj, GameObject performerObj, HandSlot usedSlot)
+	private void ProcessHandApply(GameObject handObject, GameObject targetObj, GameObject processorObj, GameObject performerObj, HandSlot usedSlot, string specificComponent)
 	{
 		//try to look up the components on the processor that can handle this interaction
-		var processorComponents = InteractionMessageUtils.TryGetProcessors<HandApply>(processorObj);
+		var processorComponents = InteractionMessageUtils.TryGetProcessors<HandApply>(processorObj, specificComponent);
 		//invoke each component that can handle this interaction
 		var handApply = HandApply.ByClient(performerObj, handObject, targetObj, TargetBodyPart, usedSlot);
 		foreach (var processorComponent in processorComponents)
@@ -67,17 +68,18 @@ public class RequestHandApplyMessage : ClientMessage
 	/// of this component on the object. For organization, we suggest that the component which is sending this message
 	/// should be on the processorObject, as such this parameter should almost always be passed using "this.gameObject", and
 	/// should almost always be either a component on the target object or a component on the used object</param>
-	public static void Send(HandApply handApply, GameObject processorObject)
+	/// <param name="specificComponent">Name of the specific component to be targeted by the interaction</param>
+	public static void Send(HandApply handApply, GameObject processorObject, string specificComponent = null)
 	{
 		var msg = new RequestHandApplyMessage
 		{
 			TargetObject = handApply.TargetObject.GetComponent<NetworkIdentity>().netId,
 			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId,
-			TargetBodyPart = handApply.TargetBodyPart
+			TargetBodyPart = handApply.TargetBodyPart,
+			TargetComponent = specificComponent
 		};
 		msg.Send();
 	}
-
 
 	public override void Deserialize(NetworkReader reader)
 	{
@@ -85,6 +87,7 @@ public class RequestHandApplyMessage : ClientMessage
 		ProcessorObject = reader.ReadUInt32();
 		TargetObject = reader.ReadUInt32();
 		TargetBodyPart = (BodyPartType) reader.ReadUInt32();
+		TargetComponent = reader.ReadString();
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -93,6 +96,7 @@ public class RequestHandApplyMessage : ClientMessage
 		writer.WriteUInt32(ProcessorObject);
 		writer.WriteUInt32(TargetObject);
 		writer.WriteInt32((int) TargetBodyPart);
+		writer.WriteString(TargetComponent);
 	}
 
 }
