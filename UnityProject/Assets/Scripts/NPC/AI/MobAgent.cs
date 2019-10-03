@@ -29,7 +29,7 @@ public class MobAgent : Agent
 	//lines present for any future retraining
 	public override void AgentReset()
 	{
-			cnt.SetPosition(startPos);
+			//cnt.SetPosition(startPos);
 	}
 
 	public override void OnEnable()

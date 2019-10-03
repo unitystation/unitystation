@@ -72,6 +72,12 @@ public class MobExplore : MobAgent
 							AddVectorObs(false);
 						}
 					}
+					else
+					{
+						AddVectorObs(false);
+						// No the target is not here
+						AddVectorObs(false);
+					}
 				}
 				else
 				{
@@ -113,7 +119,7 @@ public class MobExplore : MobAgent
 				{
 					alreadyEaten.Add(checkPos);
 				}
-				//edible.TryEat();
+				edible.TryEat();
 				break;
 		}
 	}

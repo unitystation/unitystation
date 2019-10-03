@@ -13,8 +13,8 @@ default:
     num_epoch: 3
     num_layers: 3
     time_horizon: 32
-    sequence_length: 8
-    summary_freq: 1000
+    sequence_length: 16
+    summary_freq: 4000
     use_recurrent: True
     reward_signals:
         extrinsic:
