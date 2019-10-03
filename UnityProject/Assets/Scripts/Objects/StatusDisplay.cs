@@ -76,7 +76,7 @@ public class StatusDisplay : NetworkBehaviour, IOnStageServer, IOffStageServer
 
 		int shownChars = textField.cachedTextGenerator.characterCount;
 
-		if ( shownChars == statusText.Length )
+		if ( shownChars >= statusText.Length )
 		{
 			yield break;
 		}
