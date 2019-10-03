@@ -48,6 +48,20 @@ public class Edible : NetworkBehaviour, IInteractable<HandActivate>, IInteractab
             UIManager.Hands.CurrentSlot.equipSlot, isDrink);
 	}
 
+	/// <summary>
+	/// Used by NPC's' server side
+	/// </summary>
+	public void NPCTryEat()
+	{
+		SoundManager.PlayNetworkedAtPos("EatFood", transform.position);
+		if (leavings != null)
+		{
+			PoolManager.PoolNetworkInstantiate(leavings, transform.position, transform.parent);
+		}
+
+		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+	}
+
 	public bool Interact(HandActivate interaction)
 	{
 		//eat on activate

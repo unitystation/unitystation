@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using MLAgents.CommunicatorObjects;
 
 /// <summary>
 /// AI brain specifically trained to explore
@@ -18,6 +17,8 @@ public class MobExplore : MobAgent
 
 	public bool performingDecision;
 	public bool exploring;
+	public float tickRate = 1f;
+	private float tickWait = 0f;
 
 	protected override void AgentServerStart()
 	{
@@ -101,7 +102,8 @@ public class MobExplore : MobAgent
 		switch (target)
 		{
 			case Target.food:
-				if (registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null && !alreadyEaten.Contains(checkPos)) return true;
+				if (registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null &&
+				    !alreadyEaten.Contains(checkPos)) return true;
 				return false;
 		}
 
@@ -119,7 +121,8 @@ public class MobExplore : MobAgent
 				{
 					alreadyEaten.Add(checkPos);
 				}
-				edible.TryEat();
+
+				edible.NPCTryEat();
 				break;
 		}
 	}
@@ -195,8 +198,14 @@ public class MobExplore : MobAgent
 
 	void MonitorDecisionMaking()
 	{
-		if (!exploring || performingDecision) return;
-		performingDecision = true;
-		RequestDecision();
+		tickWait += Time.deltaTime;
+		if (tickWait >= tickRate)
+		{
+			tickWait = 0f;
+			
+			if (!exploring || performingDecision) return;
+			performingDecision = true;
+			RequestDecision();
+		}
 	}
 }
