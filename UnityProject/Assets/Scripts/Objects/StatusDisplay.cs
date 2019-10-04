@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 /// Status display that will show short text messages sent to currently selected channel.
 /// Escape Shuttle channel is a priority one and will overtake other channels.
 /// </summary>
-public class StatusDisplay : NetworkBehaviour, IOffStageServer
+public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 {
 	public static readonly int MAX_CHARS_PER_PAGE = 18;
 
@@ -17,7 +18,7 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer
 	[SerializeField]
 	private Text textField;
 
-	[SyncVar(hook = nameof(SetStatusText))]
+	[SyncVar(hook = nameof(SyncStatusText))]
 	private string statusText;
 
 	public StatusDisplayChannel Channel
@@ -40,6 +41,33 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer
 	/// </summary>
 	private string cachedText;
 
+	#region syncvar boilerplate and init
+
+	public override void OnStartClient()
+	{
+		SyncStatusText();
+	}
+	
+	public override void OnStartServer()
+	{
+		SyncStatusText();
+	}
+
+	public void GoingOnStageServer( OnStageInfo info )
+	{
+		SyncStatusText();
+	}
+
+	/// <summary>
+	/// cleaning up for reuse
+	/// </summary>
+	public void GoingOffStageServer( OffStageInfo info )
+	{
+		GameManager.Instance.CentComm.OnStatusDisplayUpdate.RemoveListener( OnTextBroadcastReceived() );
+		channel = StatusDisplayChannel.Command;
+		textField.text = string.Empty;
+		this.TryStopCoroutine( ref blinkHandle );
+	}
 
 	private void Start()
 	{
@@ -49,13 +77,20 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer
 		}
 		GameManager.Instance.CentComm.OnStatusDisplayUpdate.AddListener( OnTextBroadcastReceived() );
 	}
+	
+	#endregion
 
 	/// <summary>
 	/// SyncVar hook to show text on client.
 	/// Text should be 2 pages max
 	/// </summary>
-	private void SetStatusText(string newText)
+	private void SyncStatusText(string newText = null)
 	{
+		if ( newText == null)
+		{
+			newText = string.Empty;
+		}
+		
 		//display font doesn't have lowercase chars!
 		statusText = newText.ToUpper().Substring( 0, Mathf.Min(newText.Length, MAX_CHARS_PER_PAGE*2) );
 
@@ -73,8 +108,8 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer
 
 		textField.text = statusText.Substring( 0, Mathf.Min( statusText.Length, MAX_CHARS_PER_PAGE ) );
 
-		yield return WaitFor.EndOfFrame;
-
+		yield return WaitFor.Seconds( 3 );
+		
 		int shownChars = textField.cachedTextGenerator.characterCount;
 
 		if ( shownChars >= statusText.Length )
@@ -82,24 +117,11 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer
 			yield break;
 		}
 
-		yield return WaitFor.Seconds( 3 );
-
 		textField.text = statusText.Substring( shownChars );
 
 		yield return WaitFor.Seconds( 3 );
 
-		StartCoroutine( BlinkText() );
-	}
-
-	/// <summary>
-	/// cleaning up for reuse
-	/// </summary>
-	public void GoingOffStageServer( OffStageInfo info )
-	{
-		GameManager.Instance.CentComm.OnStatusDisplayUpdate.RemoveListener( OnTextBroadcastReceived() );
-		channel = StatusDisplayChannel.Command;
-		textField.text = string.Empty;
-		this.TryStopCoroutine( ref blinkHandle );
+		this.StartCoroutine( BlinkText(), ref blinkHandle);
 	}
 
 	private UnityAction<StatusDisplayChannel, string> OnTextBroadcastReceived()
@@ -113,7 +135,7 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer
 			{
 				if ( broadcastedChannel == StatusDisplayChannel.EscapeShuttle )
 				{
-					statusText = textIsEmpty ? cachedText : broadcastedText;
+					SyncStatusText( textIsEmpty ? cachedText : broadcastedText );
 				} else
 				{
 					//ignoring other channels
@@ -121,7 +143,7 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer
 			} else
 			{
 				cachedText = broadcastedText;
-				statusText = broadcastedText;
+				SyncStatusText( broadcastedText );
 			}
 		};
 	}
