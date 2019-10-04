@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// Status display that will show short text messages sent to currently selected channel.
 /// Escape Shuttle channel is a priority one and will overtake other channels.
 /// </summary>
-public class StatusDisplay : NetworkBehaviour, IOnStageServer, IOffStageServer
+public class StatusDisplay : NetworkBehaviour, IOffStageServer
 {
 	public static readonly int MAX_CHARS_PER_PAGE = 18;
 
@@ -47,6 +47,7 @@ public class StatusDisplay : NetworkBehaviour, IOnStageServer, IOffStageServer
 		{
 			textField = GetComponentInChildren<Text>();
 		}
+		GameManager.Instance.CentComm.OnStatusDisplayUpdate.AddListener( OnTextBroadcastReceived() );
 	}
 
 	/// <summary>
@@ -90,10 +91,6 @@ public class StatusDisplay : NetworkBehaviour, IOnStageServer, IOffStageServer
 		StartCoroutine( BlinkText() );
 	}
 
-	public void GoingOnStageServer( OnStageInfo info )
-	{
-		GameManager.Instance.CentComm.OnStatusDisplayUpdate.AddListener( OnTextBroadcastReceived() );
-	}
 	/// <summary>
 	/// cleaning up for reuse
 	/// </summary>
