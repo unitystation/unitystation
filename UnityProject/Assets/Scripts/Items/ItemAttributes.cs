@@ -24,6 +24,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 
 	public SpriteHandler InventoryIcon;
 
+	[SyncVar(hook = nameof(SyncItemName))]
 	public string itemName;
 	public string itemDescription;
 
@@ -36,7 +37,6 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	/// </summary>
 	[FormerlySerializedAs("ConnectedToTank")]
 	public bool CanConnectToTank;
-
 
 	/// throw-related fields
 	[Tooltip("Damage when we click someone with harm intent")] [Range(0, 100)]
@@ -62,6 +62,38 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 
 	public List<string> attackVerb = new List<string>();
 
+	public void SetItemName(string newName)
+	{
+		SyncItemName(newName);
+	}
+
+	private void SyncItemName(string newName)
+	{
+		itemName = newName;
+	}
+
+	public override void OnStartClient()
+	{
+		SyncItemName(itemName);
+		base.OnStartClient();
+	}
+
+	public override void OnStartServer()
+	{
+		SyncItemName(itemName);
+		base.OnStartServer();
+	}
+
+	private void Awake()
+	{
+		SyncItemName(itemName);
+	}
+
+	public void GoingOnStageServer(OnStageInfo info)
+	{
+		SyncItemName(itemName);
+	}
+
 	private void OnEnable()
 	{
 		spriteDataHandler = GetComponentInChildren<SpriteDataHandler>();
@@ -81,7 +113,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 
 	public void AttributesFromCD(ItemAttributesData ItemAttributes)
 	{
-		itemName = ItemAttributes.itemName;
+		SyncItemName(ItemAttributes.itemName);
 		itemDescription = ItemAttributes.itemDescription;
 		itemType = ItemAttributes.itemType;
 		size = ItemAttributes.size;

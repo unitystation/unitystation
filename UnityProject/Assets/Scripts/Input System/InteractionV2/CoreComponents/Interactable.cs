@@ -81,6 +81,12 @@ public abstract class Interactable<T>
 		return InteractionComponentUtils.CoordinatedInteract(info, coordinator, ClientPredictInteraction);
 	}
 
+	public bool Interact(T info, string specificComponent)
+	{
+		EnsureCoordinatorInit();
+		return InteractionComponentUtils.CoordinatedInteract(info, coordinator, ClientPredictInteraction, specificComponent);
+	}
+
 	public bool ServerProcessInteraction(T info)
 	{
 		EnsureCoordinatorInit();

@@ -68,7 +68,7 @@ public static class InteractionMessageUtils
 		}
 		else if (typeof(T) == typeof(HandActivate))
 		{
-			RequestHandActivateMessage.Send(info as HandActivate, processorObject);
+			RequestHandActivateMessage.Send(info as HandActivate, processorObject, specificComponent);
 			return;
 		}
 

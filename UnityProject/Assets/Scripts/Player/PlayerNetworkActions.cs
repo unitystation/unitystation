@@ -660,6 +660,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+	[Command]
+	public void CmdRequestRename(GameObject target, string customName)
+	{
+		var rename = target.GetComponent<Renameable>();
+
+		if (rename != null)
+		{
+			rename.SetCustomName(customName);
+		}
+	}
+
 	/// <summary>
 	/// Performs a hug from one player to another.
 	/// </summary>

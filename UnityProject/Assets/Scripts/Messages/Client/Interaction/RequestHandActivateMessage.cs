@@ -19,6 +19,7 @@ public class RequestHandActivateMessage : ClientMessage
 
 	//object that will process the interaction
 	public uint ProcessorObject;
+	public string TargetComponent;
 
 	public override IEnumerator Process()
 	{
@@ -37,7 +38,7 @@ public class RequestHandActivateMessage : ClientMessage
 	private void ProcessActivate(GameObject activatedObject, GameObject processorObj, GameObject performerObj, HandSlot handSlot)
 	{
 		//try to look up the components on the processor that can handle this interaction
-		var processorComponents = InteractionMessageUtils.TryGetProcessors<HandActivate>(processorObj);
+		var processorComponents = InteractionMessageUtils.TryGetProcessors<HandActivate>(processorObj, TargetComponent);
 		//invoke each component that can handle this interaction
 		var activate = HandActivate.ByClient(performerObj, activatedObject, handSlot);
 		foreach (var processorComponent in processorComponents)
@@ -62,11 +63,12 @@ public class RequestHandActivateMessage : ClientMessage
 	/// of this component on the object. For organization, we suggest that the component which is sending this message
 	/// should be on the processorObject, as such this parameter should almost always be passed using "this.gameObject", and
 	/// should almost always be either a component on the target object or a component on the used object</param>
-	public static void Send(HandActivate handActivate, GameObject processorObject)
+	public static void Send(HandActivate handActivate, GameObject processorObject, string specificComponent = null)
 	{
 		var msg = new RequestHandActivateMessage
 		{
-			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId
+			ProcessorObject = processorObject.GetComponent<NetworkIdentity>().netId,
+			TargetComponent = specificComponent
 		};
 		msg.Send();
 	}
@@ -76,12 +78,14 @@ public class RequestHandActivateMessage : ClientMessage
 	{
 		base.Deserialize(reader);
 		ProcessorObject = reader.ReadUInt32();
+		TargetComponent = reader.ReadString();
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
 		writer.WriteUInt32(ProcessorObject);
+		writer.WriteString(TargetComponent);
 	}
 
 }
