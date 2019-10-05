@@ -374,6 +374,19 @@ public class MatrixManager : MonoBehaviour
 		return isAtInternal(condition, Instance.ActiveMatrices);
 	}
 
+	public static bool IsTableAt(Vector3Int worldTarget, bool isServer)
+	{
+		foreach (MatrixInfo mat in Instance.ActiveMatrices)
+		{
+			if (mat.Matrix.IsTableAt(WorldToLocalInt(worldTarget, mat), isServer))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/// <Summary>
 	/// Cross-matrix edition of GetFirst
 	/// Use a Vector3Int of the WorldPosition to use

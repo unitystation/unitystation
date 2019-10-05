@@ -133,32 +133,35 @@ public class DevSpawnerListItemController : MonoBehaviour
 	{
 		Vector3Int position = cursorObject.transform.position.RoundToInt();
 		position.z = 0;
-		if (MatrixManager.IsPassableAt(position, true))
-		{
-			if (CustomNetworkManager.IsServer)
-			{
-				if (clothingData != null)
-				{
-					ClothFactory.CreateCloth(clothingData, position);
-				}
-				else
-				{
-					PoolManager.PoolNetworkInstantiate(prefab, position);
-				}
 
+		if (!MatrixManager.IsPassableAt(position, true) && !MatrixManager.IsTableAt(position, true))
+		{
+			return;
+		}
+
+		if (CustomNetworkManager.IsServer)
+		{
+			if (clothingData != null)
+			{
+				ClothFactory.CreateCloth(clothingData, position);
 			}
 			else
 			{
-				if (clothingData != null)
-				{
-					DevSpawnMessage.Send(clothingData.name, true, (Vector3) position);
-				}
-				else
-				{
-					DevSpawnMessage.Send(prefab.name, false, (Vector3) position);
-				}
-
+				PoolManager.PoolNetworkInstantiate(prefab, position);
 			}
+
+		}
+		else
+		{
+			if (clothingData != null)
+			{
+				DevSpawnMessage.Send(clothingData.name, true, (Vector3) position);
+			}
+			else
+			{
+				DevSpawnMessage.Send(prefab.name, false, (Vector3) position);
+			}
+
 		}
 	}
 }
