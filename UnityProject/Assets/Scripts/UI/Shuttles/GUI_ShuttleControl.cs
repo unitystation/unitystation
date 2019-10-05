@@ -208,7 +208,13 @@ public class GUI_ShuttleControl : NetTab
 		}
 		EntryList.RefreshTrackedPos();
 		//Logger.Log((MatrixMove.shuttleFuelSystem.FuelLevel * 100).ToString());
-		this["FuelGauge"].SetValue = Math.Round((MatrixMove.shuttleFuelSystem.FuelLevel * 100)).ToString();
+		if (MatrixMove.shuttleFuelSystem == null)
+		{
+			this["FuelGauge"].SetValue = (100).ToString();
+		}
+		else { 
+			this["FuelGauge"].SetValue = Math.Round((MatrixMove.shuttleFuelSystem.FuelLevel * 100)).ToString();
+		}
 		yield return WaitFor.Seconds(2f);
 
 		if (RefreshRadar)

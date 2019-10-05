@@ -4,6 +4,10 @@ using UnityEngine;
 using Atmospherics;
 using Mirror;
 
+
+/// <summary>
+/// Used to monitor the fuel level and to remove fuel from the canister and also stop the shuttle if the fuel has run out
+/// </summary>
 public class ShuttleFuelSystem : ManagedNetworkBehaviour
 {
 	public float FuelLevel;

@@ -222,6 +222,8 @@ namespace Atmospherics
 			Pressure = AtmosUtils.CalcPressure(Volume, Moles, Temperature);
 		}
 
+
+		//Used to change the pressure instead of temperature when removing/Adding gas
 		private void RecalculateTemCash(float TemperatureCash )
 		{
 			Pressure = AtmosUtils.CalcPressure(Volume, Moles, TemperatureCash);
