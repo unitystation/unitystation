@@ -13,6 +13,8 @@ public class CentComm : MonoBehaviour
 {
 	public GameManager gameManager;
 
+	public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
+
 	//Server only:
 	private List<Vector2> AsteroidLocations = new List<Vector2>();
 	private int PlasmaOrderRequestAmt;

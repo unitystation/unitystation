@@ -34,7 +34,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 
 	private LightingSystem lightingSystem;
 
-	private void Start()
+	private void OnEnable()
 	{
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();

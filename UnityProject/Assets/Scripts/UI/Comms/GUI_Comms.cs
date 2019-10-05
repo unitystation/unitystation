@@ -13,7 +13,7 @@ public class GUI_Comms : NetTab
 	private NetPageSwitcher mainSwitcher;
 	[SerializeField]
 	private NetPage menuPage;
-	
+
 	[SerializeField]
 	private NetPageSwitcher captainOnlySwitcher;
 	[SerializeField]
@@ -158,10 +158,12 @@ public class GUI_Comms : NetTab
 		shuttleCallResultLabel.SetValue = String.Empty;
 	}
 
-	public void SetStatusDisplay()
+	public void SetStatusDisplay(string text)
 	{
-		//todo XOC XYECOC
 		Logger.Log( nameof(SetStatusDisplay), Category.NetUI );
+		GameManager.Instance.CentComm.OnStatusDisplayUpdate
+			.Invoke( StatusDisplayChannel.Command, text.Substring( 0,Mathf.Min(text.Length, 50) ) );
+		OpenMenu();
 	}
 	public void MakeAnAnnouncement(string text)
 	{
