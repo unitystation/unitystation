@@ -4,11 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// Server only stuff
-public class GUI_ShuttleControl : NetTab {
+public class GUI_ShuttleControl : NetTab
+{
+
 	private RadarList entryList;
-	private RadarList EntryList {
-		get {
-			if ( !entryList ) {
+	private RadarList EntryList
+	{
+		get
+		{
+			if (!entryList)
+			{
 				entryList = this["EntryList"] as RadarList;
 			}
 			return entryList;
@@ -16,9 +21,12 @@ public class GUI_ShuttleControl : NetTab {
 	}
 	private MatrixMove matrixMove;
 	[HideInInspector]
-	public MatrixMove MatrixMove {
-		get {
-			if ( !matrixMove ) {
+	public MatrixMove MatrixMove
+	{
+		get
+		{
+			if (!matrixMove)
+			{
 				matrixMove = Provider.GetComponent<ShuttleConsole>().ShuttleMatrixMove;
 			}
 
@@ -47,23 +55,25 @@ public class GUI_ShuttleControl : NetTab {
 			yield return WaitFor.EndOfFrame;
 		}
 		Trigger = Provider.GetComponent<ShuttleConsole>();
-		Trigger.OnStateChange.AddListener( OnStateChange );
+		Trigger.OnStateChange.AddListener(OnStateChange);
 
 		MatrixMove.coordReadoutScript = CoordReadout;
 
 		//Not doing this for clients
-		if ( IsServer ) {
+		if (IsServer)
+		{
 			EntryList.Origin = MatrixMove;
 			//Init listeners
-			MatrixMove.OnStart.AddListener( () => this["StartButton"].SetValue = "1" );
-			MatrixMove.OnStop.AddListener( () =>
-			{
-				this["StartButton"].SetValue = "0";
-				HideWaypoint();
-			} );
+			MatrixMove.OnStart.AddListener(() => this["StartButton"].SetValue = "1");
+			MatrixMove.OnStop.AddListener(() =>
+		   {
+			   this["StartButton"].SetValue = "0";
+			   HideWaypoint();
+		   });
 
-			if ( !Waypoint ) {
-				Waypoint = new GameObject( $"{MatrixMove.gameObject.name}Waypoint" );
+			if (!Waypoint)
+			{
+				Waypoint = new GameObject($"{MatrixMove.gameObject.name}Waypoint");
 			}
 			HideWaypoint(false);
 
@@ -71,19 +81,19 @@ public class GUI_ShuttleControl : NetTab {
 			rayColor = this["RadarScanRay"].Value;
 			crosshairColor = this["Crosshair"].Value;
 
-			OnStateChange( State );
+			OnStateChange(State);
 		}
 	}
 
 	private void StartNormalOperation()
 	{
-//			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
-		EntryList.AddItems( MapIconType.Ship, GetObjectsOf( new HashSet<MatrixMove>( new[] {MatrixMove} ) ) );
-		var stationBounds = MatrixManager.Get( 0 ).MetaTileMap.GetBounds();
-		int stationRadius = (int) Mathf.Abs( stationBounds.center.x - stationBounds.xMin );
-		EntryList.AddStaticItem( MapIconType.Station, stationBounds.center, stationRadius );
+		//			EntryList.AddItems( MapIconType.Airlock, GetObjectsOf<AirLockAnimator>( null, "AirLock" ) );
+		EntryList.AddItems(MapIconType.Ship, GetObjectsOf(new HashSet<MatrixMove>(new[] { MatrixMove })));
+		var stationBounds = MatrixManager.Get(0).MetaTileMap.GetBounds();
+		int stationRadius = (int)Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
+		EntryList.AddStaticItem(MapIconType.Station, stationBounds.center, stationRadius);
 
-		EntryList.AddItems( MapIconType.Waypoint, new List<GameObject>( new[] {Waypoint} ) );
+		EntryList.AddItems(MapIconType.Waypoint, new List<GameObject>(new[] { Waypoint }));
 
 		RescanElements();
 
@@ -94,56 +104,65 @@ public class GUI_ShuttleControl : NetTab {
 	/// </summary>
 	private void AddEmagItems()
 	{
-		EntryList.AddItems( MapIconType.Human, GetObjectsOf<PlayerSync>() );
-		EntryList.AddItems( MapIconType.Ian, GetObjectsOf<Ian>() );
+		EntryList.AddItems(MapIconType.Human, GetObjectsOf<PlayerSync>());
+		EntryList.AddItems(MapIconType.Ian, GetObjectsOf<Ian>());
 		RescanElements();
 
 		StartRefresh();
 	}
 
 	private bool Autopilot = true;
-	public void SetAutopilot( bool on ) {
+	public void SetAutopilot(bool on)
+	{
 		Autopilot = on;
-		if ( on ) {
+		if (on)
+		{
 			//touchscreen on
-		} else {
+		}
+		else {
 			//touchscreen off, hide waypoint, invalidate MM target
 			HideWaypoint();
 			MatrixMove.DisableAutopilotTarget();
 		}
 	}
 
-	public void SetSafetyProtocols( bool on ) {
+	public void SetSafetyProtocols(bool on)
+	{
 		MatrixMove.SafetyProtocolsOn = on;
 	}
 
-	public void SetWaypoint( string position )
+	public void SetWaypoint(string position)
 	{
-		if ( !Autopilot ) {
+		if (!Autopilot)
+		{
 			return;
 		}
 		Vector3 proposedPos = position.Vectorized();
-		if ( proposedPos == TransformState.HiddenPos ) {
+		if (proposedPos == TransformState.HiddenPos)
+		{
 			return;
 		}
 
 		//Ignoring requests to set waypoint outside intended radar window
-		if ( RadarList.ProjectionMagnitude( proposedPos ) > EntryList.Range ) {
+		if (RadarList.ProjectionMagnitude(proposedPos) > EntryList.Range)
+		{
 			return;
 		}
 		//Mind the ship's actual position
-		Waypoint.transform.position = (Vector2) proposedPos + Vector2Int.RoundToInt(MatrixMove.State.Position);
+		Waypoint.transform.position = (Vector2)proposedPos + Vector2Int.RoundToInt(MatrixMove.State.Position);
 
-		EntryList.UpdateExclusive( Waypoint );
+		EntryList.UpdateExclusive(Waypoint);
 
-//		Logger.Log( $"Ordering travel to {Waypoint.transform.position}" );
-		MatrixMove.AutopilotTo( Waypoint.transform.position );
+		//		Logger.Log( $"Ordering travel to {Waypoint.transform.position}" );
+		MatrixMove.AutopilotTo(Waypoint.transform.position);
 	}
 
-	public void HideWaypoint( bool updateImmediately = true ) {
+	public void HideWaypoint(bool updateImmediately = true)
+	{
 		Waypoint.transform.position = TransformState.HiddenPos;
-		if ( updateImmediately ) {
-			EntryList.UpdateExclusive( Waypoint );
+		if (updateImmediately)
+		{
+			EntryList.UpdateExclusive(Waypoint);
 		}
 	}
 
@@ -151,19 +170,22 @@ public class GUI_ShuttleControl : NetTab {
 	private ShuttleConsole Trigger;
 	private TabState State => Trigger.State;
 
-	private void StartRefresh() {
+	private void StartRefresh()
+	{
 		RefreshRadar = true;
-//		Logger.Log( "Starting radar refresh" );
-		StartCoroutine( Refresh() );
+		//		Logger.Log( "Starting radar refresh" );
+		StartCoroutine(Refresh());
 	}
 
-	public void RefreshOnce() {
+	public void RefreshOnce()
+	{
 		RefreshRadar = false;
-		StartCoroutine( Refresh() );
+		StartCoroutine(Refresh());
 	}
 
-	private void StopRefresh() {
-//		Logger.Log( "Stopping radar refresh" );
+	private void StopRefresh()
+	{
+		//		Logger.Log( "Stopping radar refresh" );
 		RefreshRadar = false;
 	}
 
@@ -174,56 +196,62 @@ public class GUI_ShuttleControl : NetTab {
 	{
 		EntryList.Clear();
 		StopRefresh();
-		TurnOnOff( false );
+		TurnOnOff(false);
 		RescanElements();
 	}
 
-	private IEnumerator Refresh() {
-		if ( State == TabState.Off )
+	private IEnumerator Refresh()
+	{
+		if (State == TabState.Off)
 		{
 			yield break;
 		}
 		EntryList.RefreshTrackedPos();
-		yield return WaitFor.Seconds( 2f );
+		//Logger.Log((MatrixMove.shuttleFuelSystem.FuelLevel * 100).ToString());
+		this["FuelGauge"].SetValue = Math.Round((MatrixMove.shuttleFuelSystem.FuelLevel * 100)).ToString();
+		yield return WaitFor.Seconds(2f);
 
-		if ( RefreshRadar ) {
-			StartCoroutine( Refresh() );
+		if (RefreshRadar)
+		{
+			StartCoroutine(Refresh());
 		}
 	}
 
 	/// Get a list of positions for objects of given type within certain range from provided origin
 	/// todo: move, make it an util method
-	public static List<GameObject> GetObjectsOf<T>( HashSet<T> except = null, string nameFilter="" )
+	public static List<GameObject> GetObjectsOf<T>(HashSet<T> except = null, string nameFilter = "")
 		where T : Behaviour
 	{
 		T[] foundBehaviours = FindObjectsOfType<T>();
 		var foundObjects = new List<GameObject>();
 
-		for ( var i = 0; i < foundBehaviours.Length; i++ )
+		for (var i = 0; i < foundBehaviours.Length; i++)
 		{
-			if ( except != null && except.Contains(foundBehaviours[i]) ) {
+			if (except != null && except.Contains(foundBehaviours[i]))
+			{
 				continue;
 			}
 			var foundObject = foundBehaviours[i].gameObject;
-			if ( nameFilter != "" && !foundObject.name.Contains( nameFilter ) ) {
+			if (nameFilter != "" && !foundObject.name.Contains(nameFilter))
+			{
 				continue;
 			}
 
-			foundObjects.Add( foundObject );
+			foundObjects.Add(foundObject);
 		}
 
 		return foundObjects;
 	}
 
 
-	private void OnStateChange( TabState newState )
+	private void OnStateChange(TabState newState)
 	{
 		//Important: if you get NREs out of nowhere, make sure your server code doesn't accidentally run on client as well
-		if ( !IsServer )
+		if (!IsServer)
 		{
 			return;
 		}
-		switch ( newState )
+		switch (newState)
 		{
 			case TabState.Normal:
 				PowerOff();
@@ -241,8 +269,8 @@ public class GUI_ShuttleControl : NetTab {
 				//Remove overlay
 				this["OffOverlay"].SetValue = DebugTools.ColorToHex(Color.clear);
 				//Repaint radar to evil colours
-				this["Rulers"].SetValue = ChangeColorHue( rulersColor, -80 );
-				this["RadarScanRay"].SetValue = ChangeColorHue( rayColor, -80 );
+				this["Rulers"].SetValue = ChangeColorHue(rulersColor, -80);
+				this["RadarScanRay"].SetValue = ChangeColorHue(rayColor, -80);
 				this["Crosshair"].SetValue = ChangeColorHue( crosshairColor, -80 );
 				AddEmagItems();
 
@@ -258,19 +286,22 @@ public class GUI_ShuttleControl : NetTab {
 		}
 	}
 
-	private static string ChangeColorHue( string srcHexColour, int amount )
+	private static string ChangeColorHue(string srcHexColour, int amount)
 	{
-		return DebugTools.ColorToHex( HSVUtil.ChangeColorHue( DebugTools.HexToColor( srcHexColour ), amount ) );
+		return DebugTools.ColorToHex(HSVUtil.ChangeColorHue(DebugTools.HexToColor(srcHexColour), amount));
 	}
 
 	/// <summary>
 	/// Starts or stops the shuttle.
 	/// </summary>
 	/// <param name="off">Toggle parameter</param>
-	public void TurnOnOff( bool on ) {
-		if ( on && State != TabState.Off ) {
+	public void TurnOnOff(bool on)
+	{
+		if (on && State != TabState.Off)
+		{
 			MatrixMove.StartMovement();
-		} else {
+		}
+		else {
 			MatrixMove.StopMovement();
 		}
 	}
@@ -278,32 +309,35 @@ public class GUI_ShuttleControl : NetTab {
 	/// <summary>
 	/// Turns the shuttle right.
 	/// </summary>
-	public void TurnRight() {
-		if ( State == TabState.Off )
+	public void TurnRight()
+	{
+		if (State == TabState.Off)
 		{
 			return;
 		}
-		MatrixMove.TryRotate( true );
+		MatrixMove.TryRotate(true);
 	}
 
 	/// <summary>
 	/// Turns the shuttle left.
 	/// </summary>
-	public void TurnLeft() {
-		if ( State == TabState.Off )
+	public void TurnLeft()
+	{
+		if (State == TabState.Off)
 		{
 			return;
 		}
-		MatrixMove.TryRotate( false );
+		MatrixMove.TryRotate(false);
 	}
 
 	/// <summary>
 	/// Sets shuttle speed.
 	/// </summary>
 	/// <param name="speedMultiplier"></param>
-	public void SetSpeed( float speedMultiplier ) {
-		float speed = speedMultiplier * ( MatrixMove.maxSpeed - 1 ) + 1;
-//		Logger.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
-		MatrixMove.SetSpeed( speed );
+	public void SetSpeed(float speedMultiplier)
+	{
+		float speed = speedMultiplier * (MatrixMove.maxSpeed - 1) + 1;
+		//		Logger.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
+		MatrixMove.SetSpeed(speed);
 	}
 }

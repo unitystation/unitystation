@@ -133,6 +133,7 @@ namespace Atmospherics
 		}
 
 		public void ChangeVolumeValue(float value){
+			var TemperatureCash = Temperature;
 			Volume += value;
 			Recalculate();
 		}
@@ -179,16 +180,25 @@ namespace Atmospherics
 
 		public void AddGas(Gas gas, float moles)
 		{
+			var TemperatureCash = Temperature;
 			Gases[gas] += moles;
 
-			Recalculate();
+			RecalculateTemCash(TemperatureCash);
 		}
 
 		public void RemoveGas(Gas gas, float moles)
 		{
+			var TemperatureCash = Temperature;
 			Gases[gas] -= moles;
+			RecalculateTemCash(TemperatureCash);
+		}
 
-			Recalculate();
+		public GasMix RemoveGasReturn(Gas gas, float moles)
+		{
+			var TemperatureCash = Temperature;
+			Gases[gas] -= moles;
+			RecalculateTemCash(TemperatureCash);
+			return (this);
 		}
 
 		public void Copy(GasMix other)
@@ -210,6 +220,11 @@ namespace Atmospherics
 		private void Recalculate()
 		{
 			Pressure = AtmosUtils.CalcPressure(Volume, Moles, Temperature);
+		}
+
+		private void RecalculateTemCash(float TemperatureCash )
+		{
+			Pressure = AtmosUtils.CalcPressure(Volume, Moles, TemperatureCash);
 		}
 	}
 }

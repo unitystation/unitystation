@@ -13,7 +13,7 @@ public class GUI_FuelGauge : MonoBehaviour
 	public RectTransform pointerTransform;
 
 	private float fuelGaugeMaxWidth = 0f;
-	
+	public float PercentageFuel;
 	void Start()
     {
 		if (fuelGaugeTransform == null || colourBarTransform == null || pointerTransform == null)
@@ -31,12 +31,12 @@ public class GUI_FuelGauge : MonoBehaviour
 	/// <param name="percentageFuel"></param>
 	public void UpdateFuelLevel(float percentageFuel)
 	{
+		PercentageFuel = percentageFuel;
 		if (percentageFuel < 0f || percentageFuel > 100f)
 		{
 			Logger.LogWarning("Can't set fuel to a non-percent value", Category.UI);
 			return;
 		}
-
 		float fuelGaugeWidth = (fuelGaugeMaxWidth) / 100 * percentageFuel;
 		colourBarTransform.sizeDelta = new Vector2(fuelGaugeWidth, colourBarTransform.sizeDelta.y);
 		pointerTransform.anchoredPosition = new Vector2(fuelGaugeWidth - 2f, pointerTransform.anchoredPosition.y);
