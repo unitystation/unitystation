@@ -66,6 +66,11 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsSpaceAt(position, isServer);
 	}
 
+	public bool IsTableAt(Vector3Int position, bool isServer)
+	{
+		return MetaTileMap.IsTileTypeAt(position, isServer, TileType.Table);
+	}
+
 	public bool IsEmptyAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsEmptyAt(position, isServer);

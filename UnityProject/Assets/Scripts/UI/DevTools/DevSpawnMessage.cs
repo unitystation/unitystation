@@ -21,17 +21,20 @@ public class DevSpawnMessage : ClientMessage
 		//TODO: Validate if player is allowed to spawn things, check if they have admin privs.
 		//For now we will let anyone spawn.
 
-		if (MatrixManager.IsPassableAt(WorldPosition.RoundToInt(), true))
+		var pos = WorldPosition.RoundToInt();
+		var isPassable = MatrixManager.IsPassableAt(pos, true);
+		var isTableAt = MatrixManager.IsTableAt(pos, true);
+		
+		if (isPassable || isTableAt)
 		{
-			if (!IsUniCloth)
-			{
-
-				PoolManager.PoolNetworkInstantiate(Name, WorldPosition);
-			}
-			else
+			if (IsUniCloth)
 			{
 				var clothData = ClothFactory.Instance.ClothingStoredData[Name];
 				ClothFactory.CreateCloth(clothData, WorldPosition);
+			}
+			else
+			{
+				PoolManager.PoolNetworkInstantiate(Name, WorldPosition);
 			}
 		}
 
