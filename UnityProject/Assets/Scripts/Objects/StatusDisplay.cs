@@ -19,7 +19,7 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 	private Text textField;
 
 	[SyncVar(hook = nameof(SyncStatusText))]
-	private string statusText;
+	private string statusText = string.Empty;
 
 	public StatusDisplayChannel Channel
 	{
@@ -45,17 +45,17 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 
 	public override void OnStartClient()
 	{
-		SyncStatusText();
+		SyncStatusText(statusText);
 	}
 	
 	public override void OnStartServer()
 	{
-		SyncStatusText();
+		SyncStatusText(statusText);
 	}
 
 	public void GoingOnStageServer( OnStageInfo info )
 	{
-		SyncStatusText();
+		SyncStatusText(statusText);
 	}
 
 	/// <summary>
@@ -84,13 +84,8 @@ public class StatusDisplay : NetworkBehaviour, IOffStageServer, IOnStageServer
 	/// SyncVar hook to show text on client.
 	/// Text should be 2 pages max
 	/// </summary>
-	private void SyncStatusText(string newText = null)
+	private void SyncStatusText(string newText)
 	{
-		if ( newText == null)
-		{
-			newText = string.Empty;
-		}
-		
 		//display font doesn't have lowercase chars!
 		statusText = newText.ToUpper().Substring( 0, Mathf.Min(newText.Length, MAX_CHARS_PER_PAGE*2) );
 
