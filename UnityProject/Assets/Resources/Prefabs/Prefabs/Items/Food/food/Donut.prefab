@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 114828422824226692}
   - component: {fileID: 114931546224579044}
   - component: {fileID: 114121219251840654}
-  - component: {fileID: 114298061437451200}
+  - component: {fileID: -6646073547375968554}
   - component: {fileID: 114208883059431984}
   - component: {fileID: 114464710893759880}
   - component: {fileID: 114033023355979274}
@@ -86,8 +86,8 @@ MonoBehaviour:
   syncInterval: 0.1
   spriteDataHandler: {fileID: 114908400867966552}
   InventoryIcon: {fileID: 0}
-  itemName: Meat Steak
-  itemDescription: 
+  itemName: Donut
+  itemDescription: Goes great with robust coffee.
   itemType: 14
   size: 1
   spriteType: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   crossed:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &114298061437451200
+--- !u!114 &-6646073547375968554
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,12 +143,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1110193000772614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c0c3fdf2ebd41beb789f2d99f818ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  leavings: {fileID: 1110193000772614, guid: 252b1325bc181714a9aaadbaf3c8147d, type: 3}
+  leavings: {fileID: 0}
   healAmount: 30
   healHungerAmount: 10
 --- !u!114 &114208883059431984
@@ -359,7 +359,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 6c6ba17bac93976419230baf6df34bed
+  m_AssetId: 
   m_SceneId: 0
 --- !u!1 &1469747287601084
 GameObject:
