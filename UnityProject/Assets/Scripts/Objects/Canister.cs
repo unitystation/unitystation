@@ -121,10 +121,9 @@ public class Canister : NBHandApplyInteractable
 			}
 			else
 			{
-				var foundConnectors = MatrixManager.GetAt<Connector>(registerTile.WorldPositionServer, true);
-				for (int n = 0; n < foundConnectors.Count; n++)
+				var foundConnectors = registerTile.Matrix.Get<Connector>(registerTile.LocalPositionServer, true);
+				foreach (var conn in foundConnectors)
 				{
-					var conn = foundConnectors[n];
 					if (conn.objectBehaviour.isNotPushable)
 					{
 						SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
@@ -138,7 +137,8 @@ public class Canister : NBHandApplyInteractable
 					}
 				}
 
-				foreach (var conn in MatrixManager.GetAt<ShuttleFuelConnector>(registerTile.WorldPositionServer, true))
+				var foundFuelConnectors = registerTile.Matrix.Get<ShuttleFuelConnector>(registerTile.LocalPositionServer, true);
+				foreach (var conn in foundFuelConnectors)
 				{
 					SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 					isConnected = true;
