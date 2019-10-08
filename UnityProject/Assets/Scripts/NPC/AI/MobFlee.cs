@@ -10,5 +10,21 @@ public class MobFlee : MobAgent
 {
 	public Transform fleeTarget;
 
+	protected override void AgentServerStart()
+	{
+		if (fleeTarget != null)
+		{
+			activated = true;
+		}
+	}
 
+	public override void CollectObservations()
+	{
+
+	}
+
+	public override void AgentAction(float[] vectorAction, string textAction)
+	{
+		PerformMoveAction(Mathf.FloorToInt(vectorAction[0]));
+	}
 }

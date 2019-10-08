@@ -32,7 +32,10 @@ public class MobExplore : MobAgent
 	{
 		var curPos = registerObj.LocalPositionServer;
 		AddVectorObs((Vector2Int)curPos);
-		//Observe adjacent tiles
+
+		ObserveAdjacentTiles();
+
+		//Search surrounding tiles for the food
 		for (int y = 1; y > -2; y--)
 		{
 			for (int x = -1; x < 2; x++)
@@ -42,51 +45,15 @@ public class MobExplore : MobAgent
 				var checkPos = curPos;
 				checkPos.x += x;
 				checkPos.y += y;
-				var passable = registerObj.Matrix.IsPassableAt(checkPos, true);
 
-				//Record the passable observation:
-				if (!passable)
+				if (IsTargetFound(checkPos))
 				{
-					//Is the path blocked because of a door?
-					//Feed observations to AI
-					DoorController tryGetDoor = registerObj.Matrix.GetFirst<DoorController>(checkPos, true);
-					if (tryGetDoor != null)
-					{
-						//NPCs can open doors with no access restrictions
-						if ((int) tryGetDoor.AccessRestrictions.restriction == 0)
-						{
-							AddVectorObs(true);
-							// No the target is not here
-							AddVectorObs(false);
-						}
-						else
-						{
-							//NPC does not have the access required
-							//TODO: Allow id cards to be placed on mobs
-							AddVectorObs(false);
-							// No the target is not here
-							AddVectorObs(false);
-						}
-					}
-					else
-					{
-						AddVectorObs(false);
-						// No the target is not here
-						AddVectorObs(false);
-					}
+					// Yes the target is here!
+					AddVectorObs(true);
 				}
 				else
 				{
-					AddVectorObs(true);
-					if (IsTargetFound(checkPos))
-					{
-						// Yes the target is here!
-						AddVectorObs(true);
-					}
-					else
-					{
-						AddVectorObs(false);
-					}
+					AddVectorObs(false);
 				}
 			}
 		}
@@ -127,57 +94,13 @@ public class MobExplore : MobAgent
 		PerformMoveAction(Mathf.FloorToInt(vectorAction[0]));
 	}
 
-	void PerformMoveAction(int act)
+
+	protected override void OnPushSolid(Vector3Int destination)
 	{
-		//0 = no move (1 - 8 are directions to move in reading from left to right)
-		if (act == 0)
+		if (IsTargetFound(destination))
 		{
-			performingDecision = false;
-		}
-		else
-		{
-			Vector2Int dirToMove = Vector2Int.zero;
-			int count = 1;
-			for (int y = 1; y > -2; y--)
-			{
-				for (int x = -1; x < 2; x++)
-				{
-					if (count == act)
-					{
-						dirToMove.x += x;
-						dirToMove.y += y;
-						y = -100;
-						break;
-					}
-					else
-					{
-						count++;
-					}
-				}
-			}
-
-			var dest = registerObj.LocalPositionServer + (Vector3Int) dirToMove;
-
-			if (!cnt.Push(dirToMove))
-			{
-				//Path is blocked try again
-				performingDecision = false;
-				DoorController tryGetDoor =
-					registerObj.Matrix.GetFirst<DoorController>(
-						dest, true);
-				if (tryGetDoor)
-				{
-					tryGetDoor.TryOpen(gameObject);
-				}
-			}
-			else
-			{
-				if (IsTargetFound(dest))
-				{
-					SetReward(1f);
-					PerformTargetAction(dest);
-				}
-			}
+			SetReward(1f);
+			PerformTargetAction(destination);
 		}
 	}
 
