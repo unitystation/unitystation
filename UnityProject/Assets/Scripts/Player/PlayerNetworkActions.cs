@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using Mirror;
 
@@ -665,10 +666,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		var rename = target.GetComponent<Renameable>();
 
-		if (rename != null)
+		if (rename == null)
 		{
-			rename.SetCustomName(customName);
+			return;
 		}
+
+		if (customName.Length > 42)
+		{
+			customName = customName.Substring(0, 42);
+		}
+
+		customName = Regex.Replace(customName, "<size=\"(.*)\">", "");
+		customName = customName.Replace("</size>", "");
+
+		rename.SetCustomName(customName);
 	}
 
 	/// <summary>
