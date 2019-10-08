@@ -26,6 +26,8 @@ public class MobFlee : MobAgent
 	public override void CollectObservations()
 	{
 		ObserveAdjacentTiles();
+		var dist = Vector3.Distance(transform.position, fleeTarget.position);
+		AddVectorObs(dist);
 	}
 
 	public override void AgentAction(float[] vectorAction, string textAction)
