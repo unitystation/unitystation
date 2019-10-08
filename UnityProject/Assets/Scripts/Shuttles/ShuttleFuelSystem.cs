@@ -66,23 +66,23 @@ public class ShuttleFuelSystem : ManagedNetworkBehaviour
 		var Plasma = Connector.canister.container.GasMix.GetMoles(Gas.Plasma);		var Oxygen = Connector.canister.container.GasMix.GetMoles(Gas.Oxygen);
 		var Ratio = ((Plasma / Oxygen) / (7f / 3f));
 		//Logger.Log("Ratio > " + Ratio);
-		Ratio = Ratio * 2;
+		Ratio = Ratio * 2f;
 		//Logger.Log("Ratio1 > " + Ratio);
 		if (Ratio > 1)
 		{
 			Ratio = Ratio - 1;
 		}
 		else { 
-			Ratio = Ratio / 5;
+			Ratio = Ratio / 5f;
 		}
 
 		if (Ratio > 1)
 		{
-			Ratio = 1 / Ratio;
+			Ratio = 1f / Ratio;
 		}
 		//Logger.Log("Ratio2 > " + Ratio);
 
-		var CMassconsumption = 1 / Ratio;
+		var CMassconsumption = 1f / Ratio;
 		if (CMassconsumption > 6)
 		{
 			CMassconsumption = 6;
@@ -90,7 +90,7 @@ public class ShuttleFuelSystem : ManagedNetworkBehaviour
 		//Logger.Log("Ratio3 > " + Ratio);
 		CalculatedMassConsumption = (CMassconsumption * OptimumMassConsumption * FuelConsumption);
 
-		if ((Plasma > (CalculatedMassConsumption)  * (7 / 10)) && (Oxygen > (CalculatedMassConsumption)  * (3 / 10)))
+		if ((Plasma > (CalculatedMassConsumption)  * (0.7f)) && (Oxygen > (CalculatedMassConsumption)  * (0.3f)))
 		{
 			
 			return (true);
@@ -104,8 +104,8 @@ public class ShuttleFuelSystem : ManagedNetworkBehaviour
 		if (IsFuelledOptimum())
 		{
 			//Logger.Log("CalculatedMassConsumption > " + CalculatedMassConsumption*massConsumption);
-			Connector.canister.container.GasMix = Connector.canister.container.GasMix.RemoveGasReturn(Gas.Plasma, CalculatedMassConsumption * massConsumption  * (7f / 10f));
-			Connector.canister.container.GasMix = Connector.canister.container.GasMix.RemoveGasReturn(Gas.Oxygen, CalculatedMassConsumption * massConsumption  * (3f / 10f));
+			Connector.canister.container.GasMix = Connector.canister.container.GasMix.RemoveGasReturn(Gas.Plasma, CalculatedMassConsumption * massConsumption  * (0.7f));
+			Connector.canister.container.GasMix = Connector.canister.container.GasMix.RemoveGasReturn(Gas.Oxygen, CalculatedMassConsumption * massConsumption  * (0.3f));
 		}
 		else if (Connector.canister.container.GasMix.GetMoles(Gas.Plasma) > massConsumption * FuelConsumption)
 		{

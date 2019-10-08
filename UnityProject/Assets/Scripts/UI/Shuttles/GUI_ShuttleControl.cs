@@ -210,7 +210,10 @@ public class GUI_ShuttleControl : NetTab
 		//Logger.Log((MatrixMove.shuttleFuelSystem.FuelLevel * 100).ToString());
 		if (MatrixMove.shuttleFuelSystem == null)
 		{
-			this["FuelGauge"].SetValue = (100).ToString();
+			if (this["FuelGauge"].Value != "100") { 
+				this["FuelGauge"].SetValue = (100).ToString();
+			}
+
 		}
 		else { 
 			this["FuelGauge"].SetValue = Math.Round((MatrixMove.shuttleFuelSystem.FuelLevel * 100)).ToString();

@@ -137,19 +137,16 @@ public class Canister : NBHandApplyInteractable
 						return;
 					}
 				}
-				var foundeFuelConnectors = MatrixManager.GetAt<ShuttleFuelConnector>(registerTile.WorldPositionServer, true);
 
-				foreach (var bob in foundeFuelConnectors)
+				foreach (var conn in MatrixManager.GetAt<ShuttleFuelConnector>(registerTile.WorldPositionServer, true))
 				{
-					var conn = bob;
 					SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
 					isConnected = true;
-					connectorFuel = bob;
+					connectorFuel = conn;
 					conn.ConnectCanister(this);
 					SetConnectedSprite(connectorSprite);
 					objectBehaviour.isNotPushable = true;
 					ServerOnConnectionStatusChange.Invoke(true);
-					return;
 				}
 			}
 		}
