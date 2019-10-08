@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: MobExploreBrain
   m_EditorClassIdentifier: 
   brainParameters:
-    vectorObservationSize: 18
+    vectorObservationSize: 16
     numStackedVectorObservations: 1
     vectorActionSize: 09000000
     cameraResolutions: []
     vectorActionDescriptions:
     - MoveDir
     vectorActionSpaceType: 0
-  model: {fileID: 0}
+  model: {fileID: 5022602860645237092, guid: bd50e0f37812a394ea98ed8e083fbe92, type: 3}
   inferenceDevice: 0

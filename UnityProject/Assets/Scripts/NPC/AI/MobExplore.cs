@@ -31,7 +31,7 @@ public class MobExplore : MobAgent
 	public override void CollectObservations()
 	{
 		var curPos = registerObj.LocalPositionServer;
-		AddVectorObs((Vector2Int)curPos);
+	//	AddVectorObs((Vector2Int)curPos);
 
 		ObserveAdjacentTiles();
 
@@ -84,7 +84,7 @@ public class MobExplore : MobAgent
 					alreadyEaten.Add(checkPos);
 				}
 
-			//	edible.NPCTryEat();
+				edible.NPCTryEat();
 				break;
 		}
 	}

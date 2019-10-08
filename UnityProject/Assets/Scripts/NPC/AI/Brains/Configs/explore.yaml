@@ -2,7 +2,7 @@ default:
     trainer: ppo
     batch_size: 32
     beta: 0.00455000018700957
-    buffer_size: 2048
+    buffer_size: 4096
     epsilon: 0.216
     hidden_units: 64
     lambd: 0.9144
@@ -18,10 +18,10 @@ default:
     use_recurrent: True
     reward_signals:
         extrinsic:
-            strength: 1
+            strength: 0.6
             gamma: 0.99
     curiosity:
-        strength: 0.02
+        strength: 0.8
         gamma: 0.99
         encoding_size: 256
 
