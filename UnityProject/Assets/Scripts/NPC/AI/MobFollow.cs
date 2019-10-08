@@ -8,9 +8,6 @@ public class MobFollow : MobAgent
 {
 	public Transform followTarget;
 
-	public bool performingDecision;
-	public bool following;
-
 	private float distanceCache = 0;
 
 	public override void AgentReset()
@@ -24,7 +21,7 @@ public class MobFollow : MobAgent
 		//begin following:
 		if (followTarget != null)
 		{
-			following = true;
+			activated = true;
 		}
 	}
 
@@ -187,17 +184,5 @@ public class MobFollow : MobAgent
 		}
 
 		return reward;
-	}
-
-	protected override void UpdateMe()
-	{
-		MonitorDecisionMaking();
-	}
-
-	void MonitorDecisionMaking()
-	{
-		if (!following || performingDecision) return;
-		performingDecision = true;
-		RequestDecision();
 	}
 }

@@ -15,14 +15,9 @@ public class MobExplore : MobAgent
 
 	public Target target;
 
-	public bool performingDecision;
-	public bool exploring;
-	public float tickRate = 1f;
-	private float tickWait = 0f;
-
 	protected override void AgentServerStart()
 	{
-		exploring = true;
+		activated = true;
 	}
 
 	private List<Vector3Int> alreadyEaten = new List<Vector3Int>();
@@ -36,7 +31,7 @@ public class MobExplore : MobAgent
 	public override void CollectObservations()
 	{
 		var curPos = registerObj.LocalPositionServer;
-
+		AddVectorObs((Vector2Int)curPos);
 		//Observe adjacent tiles
 		for (int y = 1; y > -2; y--)
 		{
@@ -122,7 +117,7 @@ public class MobExplore : MobAgent
 					alreadyEaten.Add(checkPos);
 				}
 
-				edible.NPCTryEat();
+			//	edible.NPCTryEat();
 				break;
 		}
 	}
@@ -189,23 +184,5 @@ public class MobExplore : MobAgent
 	protected override void OnTileReached(Vector3Int tilePos)
 	{
 		if (performingDecision) performingDecision = false;
-	}
-
-	protected override void UpdateMe()
-	{
-		MonitorDecisionMaking();
-	}
-
-	void MonitorDecisionMaking()
-	{
-		tickWait += Time.deltaTime;
-		if (tickWait >= tickRate)
-		{
-			tickWait = 0f;
-			
-			if (!exploring || performingDecision) return;
-			performingDecision = true;
-			RequestDecision();
-		}
 	}
 }

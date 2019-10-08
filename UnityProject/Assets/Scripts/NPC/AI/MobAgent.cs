@@ -16,6 +16,11 @@ public class MobAgent : Agent
 
 	protected bool isServer;
 
+	public bool performingDecision;
+	public bool activated;
+	public float tickRate = 1f;
+	private float tickWait = 0f;
+
 	void Awake()
 	{
 		cnt = GetComponent<CustomNetTransform>();
@@ -29,7 +34,7 @@ public class MobAgent : Agent
 	//lines present for any future retraining
 	public override void AgentReset()
 	{
-			//cnt.SetPosition(startPos);
+		cnt.SetPosition(startPos);
 	}
 
 	public override void OnEnable()
@@ -58,13 +63,31 @@ public class MobAgent : Agent
 		}
 	}
 
-	protected virtual void OnTileReached(Vector3Int tilePos) { }
+	protected virtual void OnTileReached(Vector3Int tilePos)
+	{
+	}
 
-	protected virtual void UpdateMe() { }
+	protected virtual void UpdateMe()
+	{
+		MonitorDecisionMaking();
+	}
 
 	/// <summary>
 	/// Convenience method for when the bot has been initialized
 	/// successfully on the server side
 	/// </summary>
-	protected virtual void AgentServerStart(){}
+	protected virtual void AgentServerStart() { }
+
+	void MonitorDecisionMaking()
+	{
+		tickWait += Time.deltaTime;
+		if (tickWait >= tickRate)
+		{
+			tickWait = 0f;
+
+			if (!activated || performingDecision) return;
+			performingDecision = true;
+			RequestDecision();
+		}
+	}
 }
