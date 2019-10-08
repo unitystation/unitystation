@@ -70,7 +70,7 @@ public class MobFollow : MobAgent
 			SetReward(2f);
 		}
 
-		if (performingDecision) performingDecision = false;
+		base.OnTileReached(tilePos);
 	}
 
 	float calculateReward(float dist)

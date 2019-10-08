@@ -19,7 +19,8 @@ public class MobAgent : Agent
 	public bool performingDecision;
 	public bool activated;
 	public float tickRate = 1f;
-	private float tickWait = 0f;
+	private float tickWait;
+	private float decisionTimeOut;
 
 	void Awake()
 	{
@@ -65,6 +66,7 @@ public class MobAgent : Agent
 
 	protected virtual void OnTileReached(Vector3Int tilePos)
 	{
+		if (performingDecision) performingDecision = false;
 	}
 
 	/// <summary>
@@ -91,11 +93,25 @@ public class MobAgent : Agent
 	void MonitorDecisionMaking()
 	{
 		tickWait += Time.deltaTime;
+
+		if (performingDecision && activated)
+		{
+			decisionTimeOut += Time.deltaTime;
+			if (decisionTimeOut > 10f)
+			{
+				decisionTimeOut = 0f;
+				//The NPC could be stuck, lets
+				//try another move
+				RequestDecision();
+			}
+		}
+
 		if (tickWait >= tickRate)
 		{
 			tickWait = 0f;
 
 			if (!activated || performingDecision) return;
+			decisionTimeOut = 0f;
 			performingDecision = true;
 			RequestDecision();
 		}

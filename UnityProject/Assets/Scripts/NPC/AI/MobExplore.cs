@@ -103,9 +103,4 @@ public class MobExplore : MobAgent
 			PerformTargetAction(destination);
 		}
 	}
-
-	protected override void OnTileReached(Vector3Int tilePos)
-	{
-		if (performingDecision) performingDecision = false;
-	}
 }
