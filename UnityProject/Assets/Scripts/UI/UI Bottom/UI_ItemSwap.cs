@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHandler
+public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHandler,
+	IPointerEnterHandler, IPointerExitHandler
 {
 	private UI_ItemSlot itemSlot;
 	public override string Tooltip => itemSlot.hoverName;
+
+	private Color32 successOverlayColor = new Color32(0, 255, 0, 235); // 92% transparency
+	private Color32 failOverlayColor = new Color32(255, 0, 0, 235);
 
 	public void OnPointerClick(BaseEventData eventData)
 	{
 		OnPointerClick((PointerEventData)eventData);
 	}
+
 	public void OnPointerClick(PointerEventData eventData)
 	{
 		if (eventData.button == PointerEventData.InputButton.Left)
@@ -30,6 +35,28 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 	private void Start()
 	{
 		itemSlot = GetComponentInChildren<UI_ItemSlot>();
+	}
+
+	public new void OnPointerEnter(PointerEventData eventData)
+	{
+		base.OnPointerEnter(eventData);
+
+		var item = UIManager.Hands.CurrentSlot.Item;
+		if (item == null || itemSlot.Item != null)
+		{
+			return;
+		}
+
+		itemSlot.UpdateImage(item,
+			UIManager.CanPutItemToSlot(itemSlot.inventorySlot, item, PlayerManager.LocalPlayerScript)
+			? successOverlayColor : failOverlayColor);
+	}
+
+	public new void OnPointerExit(PointerEventData eventData)
+	{
+		base.OnPointerExit(eventData);
+
+		itemSlot.UpdateImage(null);
 	}
 
 	//Means OnDrop while drag and dropping an Item. OnDrop is the UISlot that the mouse pointer is over when the user drops the item
