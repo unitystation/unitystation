@@ -203,7 +203,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DefaultContents: []
+  DefaultContents:
+  - {fileID: 1907679543779350, guid: 7920a824df456044381e381e90277a5d, type: 3}
+  - {fileID: 1907679543779350, guid: 7920a824df456044381e381e90277a5d, type: 3}
+  - {fileID: 1869747887731904, guid: 9c91a985c48aef648b219b1d267a9cab, type: 3}
   IsClosed: 0
   IsLocked: 0
   lockLight: {fileID: 0}
@@ -226,7 +229,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114440515152274470
 MonoBehaviour:
@@ -320,8 +322,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 3724488775
+  m_AssetId: 4fdae0bf999fe4d8e9df1b81aecffa66
+  m_SceneId: 0
 --- !u!1 &1660108514398418
 GameObject:
   m_ObjectHideFlags: 0
