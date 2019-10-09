@@ -35,6 +35,7 @@ public class ProgressBar : NetworkBehaviour
 		string _additionalSfx = "", float _additionalSfxPitch = 1f, bool _allowTurning = true)
 	{
 		var _playerDirectional = _player.GetComponent<Directional>();
+		pos.y += 1;
 		playerProgress.Add(new PlayerProgressEntry
 		{
 			player = _player,
