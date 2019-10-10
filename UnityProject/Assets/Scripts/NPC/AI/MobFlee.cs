@@ -7,27 +7,29 @@
 public class MobFlee : MobAgent
 {
 	public Transform fleeTarget;
-	private float lastDist;
+	private float distCache;
 
 	protected override void AgentServerStart()
 	{
 		if (fleeTarget != null)
 		{
-			activated = true;
+		//	activated = true;
 		}
 	}
 
 	public override void AgentReset()
 	{
 		base.AgentReset();
-		lastDist = 0f;
+		distCache = Vector3.Distance(transform.position, fleeTarget.position);
 	}
 
 	public override void CollectObservations()
 	{
 		ObserveAdjacentTiles();
 		var dist = Vector3.Distance(transform.position, fleeTarget.position);
-		AddVectorObs(dist);
+		AddVectorObs(dist / 100f);
+		//Observe the direction to target
+		AddVectorObs(((Vector2) (fleeTarget.position - transform.position)).normalized);
 	}
 
 	public override void AgentAction(float[] vectorAction, string textAction)
@@ -38,26 +40,25 @@ public class MobFlee : MobAgent
 	protected override void OnTileReached(Vector3Int tilePos)
 	{
 		var dist = Vector3.Distance(transform.position, fleeTarget.position);
-		if (dist > lastDist)
+		if (dist > distCache)
 		{
-			lastDist = dist;
+			distCache = dist;
 			SetReward(calculateReward(dist));
+		}
+		else
+		{
+			SetReward(calculatePunishment(dist));
 		}
 		base.OnTileReached(tilePos);
 	}
 
 	float calculateReward(float dist)
 	{
-		float reward = 0f;
-		if (dist > 100f)
-		{
-			return 1f;
-		}
-		else
-		{
-			reward = Mathf.Lerp(0, 1f, dist / 100f);
-		}
+		return Mathf.Lerp(0, 10f, dist / 50f);
+	}
 
-		return reward;
+	float calculatePunishment(float dist)
+	{
+		return Mathf.Lerp(-0.1f, 0f, dist / 100f);
 	}
 }

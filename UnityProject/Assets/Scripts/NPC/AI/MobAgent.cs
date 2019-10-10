@@ -38,6 +38,12 @@ public class MobAgent : Agent
 		cnt.SetPosition(startPos);
 	}
 
+	[ContextMenu("Force Activate")]
+	void ForceActivate()
+	{
+		activated = true;
+	}
+
 	public override void OnEnable()
 	{
 		//only needed for starting via a map scene through the editor:

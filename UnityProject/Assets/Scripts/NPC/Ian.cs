@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using PathFinding;
 using UnityEngine;
-using Mirror;
-using UnityEngine.Profiling;
 
 ///<summary>
 /// README:
@@ -13,7 +10,7 @@ using UnityEngine.Profiling;
 
 public class Ian : MonoBehaviour
 {
-	private PathFinder pathFinder;
+	private MobPathFinder mobPathFinder;
 	private CustomNetTransform customNetTransform;
 
 	public Vector2Int[] TestTargetWaypoints;
@@ -31,38 +28,8 @@ public class Ian : MonoBehaviour
 
 	private void Awake()
 	{
-		pathFinder = GetComponent<PathFinder>();
+		mobPathFinder = GetComponent<MobPathFinder>();
 		customNetTransform = GetComponent<CustomNetTransform>();
-	}
-
-	[ContextMenu("TestPathMany")]
-	private void TestTargetPathMany()
-	{
-		var sw = new System.Diagnostics.Stopwatch();
-		var times = new List<float>();
-		List<Node> path = null;
-		for (int i = 0; i < 100; ++i) {
-			sw.Restart();
-			path = pathFinder.FindNewPath(Vector2Int.RoundToInt(transform.localPosition), TestTargetWaypoints[index]);
-			times.Add(sw.ElapsedMilliseconds);
-		}
-		times.Sort();
-		Logger.LogFormat("Finished running {amount} times...\n" +
-		"Mean: {mean}ms\n" +
-		"Median: {median}ms\n" +
-		"Best: {best}ms\n" +
-		"Worst: {worst}ms", Category.NetMessage,
-		args: new
-		{
-			amount = times.Count,
-			mean = times.Average(),
-			media = times[times.Count / 2],
-			best = times[0],
-			worst = times[times.Count - 1]
-		});
-
-		if (path != null)
-			PathFound(path);
 	}
 
 	//Test can only be performed from Inspector. Right click the component and choose TestPath at runtime
@@ -80,7 +47,7 @@ public class Ian : MonoBehaviour
 	private void FindPath()
 	{
 		testStatus = TestStatus.FindingPath;
-		var path = pathFinder.FindNewPath(Vector2Int.RoundToInt(transform.localPosition), TestTargetWaypoints[index]);
+		var path = mobPathFinder.FindNewPath(Vector2Int.RoundToInt(transform.localPosition), TestTargetWaypoints[index]);
 		if (path == null) NoPathFound();
 		else PathFound(path);
 	}

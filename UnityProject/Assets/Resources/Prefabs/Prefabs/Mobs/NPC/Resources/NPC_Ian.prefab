@@ -157,14 +157,13 @@ GameObject:
   - component: {fileID: 114713267190622314}
   - component: {fileID: 114386898746361270}
   - component: {fileID: 114405087929252270}
-  - component: {fileID: 114123688984495052}
   - component: {fileID: 114653357792706156}
   - component: {fileID: 114536369792164230}
   - component: {fileID: 114721267536428640}
   - component: {fileID: 2215143835289934263}
   - component: {fileID: 114477129915142950}
   - component: {fileID: 114379009499332576}
-  - component: {fileID: 2035443897573073435}
+  - component: {fileID: 435527929895662257}
   m_Layer: 8
   m_Name: NPC_Ian
   m_TagString: Untagged
@@ -304,19 +303,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114123688984495052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a42c936e2703a848bf73f3a8de5b6fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 0
 --- !u!114 &114653357792706156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,9 +425,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 045023acf668941c190d73047ed87e74
-  m_SceneId: 0
---- !u!114 &2035443897573073435
+  m_AssetId: 
+  m_SceneId: 1643782764
+--- !u!114 &435527929895662257
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -450,17 +436,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1722833055556988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1b8bd5d209198a459a56b1b6032b5bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 0fade882731d3484cb3c63dfcad2def4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: ce26c971a96f49243b68ea8a875ac9c5, type: 2}
-  agentParameters:
-    agentCameras: []
-    agentRenderTextures: []
-    maxStep: 0
-    resetOnDone: 1
-    onDemandDecision: 1
-    numberOfActionsBetweenDecisions: 1
-  target: 0
-  performingDecision: 0
-  exploring: 0
