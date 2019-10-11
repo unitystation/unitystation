@@ -49,6 +49,29 @@ public class MobFleePath : MobPathFinder
 
 			yield return WaitFor.EndOfFrame;
 		}
+
+		//Find a decent reference point to scan for a good waypoint
+		var refPoint = registerTile.LocalPositionServer;
+
+		//See if there is a decent door for the ref point
+		if (visibleDoors.Count != 0)
+		{
+			var door = 0;
+			var dist = 0f;
+			for (int i = 0; i < visibleDoors.Count; i++)
+			{
+				var checkDist = Vector3.Distance(fleeTarget.position, visibleDoors[i].transform.position);
+				if (checkDist > dist)
+				{
+					dist = checkDist;
+					door = i;
+				}
+			}
+			//Try to escape through the furthest door:
+			refPoint = visibleDoors[door].GetComponent<RegisterTile>().LocalPositionServer;
+		}
+
+
 	}
 
 	private bool CanNPCAccessDoor(DoorController doorController)

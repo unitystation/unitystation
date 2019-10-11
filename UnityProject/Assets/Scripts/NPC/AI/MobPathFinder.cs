@@ -5,7 +5,7 @@ using PathFinding;
 
 public class MobPathFinder : MonoBehaviour
 {
-	private RegisterTile registerTile;
+	protected RegisterTile registerTile;
 	protected Matrix matrix => registerTile.Matrix;
 	protected CustomNetTransform cnt;
 
