@@ -1,11 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.XR;
+using PathFinding;
 
+[RequireComponent(typeof(ConeOfSight))]
 public class MobFleePath : MobPathFinder
 {
+	private ConeOfSight coneOfSight;
 	public Transform fleeTarget;
+	private int doorMask;
+	private int obstacleMask;
+	private int doorAndObstacleMask;
+
+	public override void OnEnable()
+	{
+		base.OnEnable();
+		doorMask = LayerMask.GetMask("Door Open", "Door Closed");
+		obstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects");
+		doorAndObstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects", "Door Open",
+			"Door Closed");
+	}
 
 	[ContextMenu("Force Activate")]
 	void ForceActivate()
@@ -22,17 +36,14 @@ public class MobFleePath : MobPathFinder
 	IEnumerator FindValidWayPoint(Vector2 oppositeDir)
 	{
 		//First try to escape the room by looking for a door
-		var doorMask = LayerMask.GetMask("Door Open", "Door Closed");
-		var possibleDoors = Physics2D.OverlapCircleAll(transform.position, 10f, doorMask);
+		var possibleDoors = Physics2D.OverlapCircleAll(transform.position, 20f, doorMask);
 
 		//See if the door is visible to npc:
 		List<Collider2D> visibleDoors = new List<Collider2D>();
 
-		var obstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects");
 		foreach (Collider2D coll in possibleDoors)
 		{
-			RaycastHit2D hit = Physics2D.Raycast(transform.position, coll.transform.position - transform.position, 12f,
-				obstacleMask);
+			RaycastHit2D hit = Physics2D.Linecast(transform.position, coll.transform.position, doorAndObstacleMask);
 
 			if (hit.collider != null)
 			{
@@ -50,8 +61,8 @@ public class MobFleePath : MobPathFinder
 			yield return WaitFor.EndOfFrame;
 		}
 
-		//Find a decent reference point to scan for a good waypoint
-		var refPoint = registerTile.LocalPositionServer;
+		//Find a decent reference point to scan for a good goal waypoint
+		var refPoint = transform.position;
 
 		//See if there is a decent door for the ref point
 		if (visibleDoors.Count != 0)
@@ -61,17 +72,63 @@ public class MobFleePath : MobPathFinder
 			for (int i = 0; i < visibleDoors.Count; i++)
 			{
 				var checkDist = Vector3.Distance(fleeTarget.position, visibleDoors[i].transform.position);
-				if (checkDist > dist)
+				var checkNpcDist = Vector3.Distance(transform.position, visibleDoors[i].transform.position);
+
+				//if check dist is smaller then the checkNpcDist that means the danger
+				//is between the npc and the door, so avoid it
+				if (checkDist > dist && checkDist > checkNpcDist)
 				{
 					dist = checkDist;
 					door = i;
 				}
 			}
+
 			//Try to escape through the furthest door:
-			refPoint = visibleDoors[door].GetComponent<RegisterTile>().LocalPositionServer;
+			refPoint = visibleDoors[door].transform.position;
 		}
 
+		var tryGetGoalPos =
+			Vector3Int.RoundToInt(coneOfSight.GetFurthestPositionInSight(refPoint, doorAndObstacleMask, oppositeDir, 20f, 10));
 
+		if (!MatrixManager.IsPassableAt(tryGetGoalPos, true))
+		{
+			// Not passable! Try to find an adjacent tile:
+			for (int y = 1; y > -2; y--)
+			{
+				for (int x = -1; x < 2; x++)
+				{
+					if (x == 0 && y == 0) continue;
+
+					var checkPos = tryGetGoalPos;
+					checkPos.x += x;
+					checkPos.y += y;
+
+					if (MatrixManager.IsPassableAt(checkPos, true))
+					{
+						RaycastHit2D hit = Physics2D.Linecast(refPoint, (Vector3) checkPos, doorAndObstacleMask);
+						if (hit.collider == null)
+						{
+							tryGetGoalPos = checkPos;
+							y = -100;
+							x = 100;
+						}
+					}
+				}
+			}
+		}
+
+		//Lets try to get a path:
+		var path = FindNewPath((Vector2Int) registerTile.LocalPositionServer,
+			(Vector2Int) registerTile.LocalPositionServer + Vector2Int.RoundToInt(tryGetGoalPos - transform.position));
+
+		if (path.Count == 0)
+		{
+			Debug.Log("Path not found! oh well");
+		}
+		else
+		{
+			FollowPath(path);
+		}
 	}
 
 	private bool CanNPCAccessDoor(DoorController doorController)
