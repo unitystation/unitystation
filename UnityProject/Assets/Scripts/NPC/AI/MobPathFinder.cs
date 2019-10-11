@@ -244,7 +244,7 @@ public class MobPathFinder : MonoBehaviour
 
 	IEnumerator PerformFollowPath(List<Node> path)
 	{
-		int node = 0;
+		int node = 1;
 
 		while (node < path.Count)
 		{
@@ -252,6 +252,7 @@ public class MobPathFinder : MonoBehaviour
 			{
 				var dir = path[node].position - Vector2Int.RoundToInt(transform.localPosition);
 				cnt.Push(dir);
+				Debug.Log($"Push in dir: {dir}");
 				movingToTile = true;
 			}
 			else
@@ -274,6 +275,7 @@ public class MobPathFinder : MonoBehaviour
 						arrivedAtTile = false;
 						timeOut = 0f;
 						status = Status.idle;
+						Debug.Log("Time out");
 						yield break;
 					}
 				}
@@ -283,6 +285,7 @@ public class MobPathFinder : MonoBehaviour
 		}
 
 		status = Status.idle;
+		Debug.Log("Follow path completed");
 	}
 
 	/// <summary>
@@ -317,7 +320,7 @@ public class MobPathFinder : MonoBehaviour
 		else
 		{
 			var getDoor = matrix.GetFirst<DoorController>(checkPos, true);
-			if (!getDoor)
+			if (getDoor)
 			{
 				if ((int) getDoor.AccessRestrictions.restriction == 0)
 				{

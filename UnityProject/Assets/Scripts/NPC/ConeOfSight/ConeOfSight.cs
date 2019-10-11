@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class ConeOfSight : MonoBehaviour
 {
 	[Range(0, 360)] [Header("Field of View in Degrees")]
-	public float fieldOfView = 90f;
+	public float fieldOfView = 180f;
 
 	/// <summary>
 	/// Returns all colliders found in the cone of sight
@@ -65,6 +65,7 @@ public class ConeOfSight : MonoBehaviour
 
 		//First see how far the initial direction is
 		RaycastHit2D dirHit = Physics2D.Raycast(originWorldPos, direction, lengthOfSight, hitMask);
+		Debug.DrawRay(originWorldPos, direction, Color.red, 10f);
 		if (dirHit.collider == null)
 		{
 			furthestDist = lengthOfSight;
@@ -79,11 +80,13 @@ public class ConeOfSight : MonoBehaviour
 		//now test all rays in the cone of sight:
 		for (int i = 0; i < rayCount; i++)
 		{
-			var offset = Mathf.Lerp(-offsetDegrees, offsetDegrees, (float)i / (float)rayCount - 1);
+			var step = (float) i / ((float) rayCount - 1);
+			var offset = Mathf.Lerp(-offsetDegrees, offsetDegrees, step);
+
 			var castDir = (Quaternion.AngleAxis(-angleOfDir, Vector3.forward) * Quaternion.Euler(0,0, -offset)) * Vector3.up;
 
 			RaycastHit2D hit = Physics2D.Raycast(originWorldPos, castDir, lengthOfSight, hitMask);
-
+			Debug.DrawRay(originWorldPos, castDir, Color.blue, 10f);
 			if (hit.collider != null)
 			{
 				if (hit.distance > furthestDist)

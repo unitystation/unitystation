@@ -15,7 +15,8 @@ public class MobFleePath : MobPathFinder
 	public override void OnEnable()
 	{
 		base.OnEnable();
-		doorMask = LayerMask.GetMask("Door Open", "Door Closed");
+		coneOfSight = GetComponent<ConeOfSight>();
+		doorMask = LayerMask.GetMask("Door Open", "Door Closed", "Windows");
 		obstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects");
 		doorAndObstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects", "Door Open",
 			"Door Closed");
@@ -49,11 +50,19 @@ public class MobFleePath : MobPathFinder
 			{
 				if (hit.collider == coll)
 				{
-					//Can the NPC access this door
-					if (CanNPCAccessDoor(coll.GetComponent<DoorController>()))
+					var tryGetDoor = coll.GetComponent<DoorController>();
+					if (tryGetDoor != null)
 					{
-						visibleDoors.Add(coll);
-						Debug.Log("Found escape route: Npc Can Access this door");
+						//Can the NPC access this door
+						if (CanNPCAccessDoor(tryGetDoor))
+						{
+							visibleDoors.Add(coll);
+							Debug.Log("Found escape route: Npc Can Access this door");
+						}
+					}
+					else
+					{
+						Debug.Log($"This is not a door? {coll.gameObject.name}");
 					}
 				}
 			}
@@ -88,8 +97,9 @@ public class MobFleePath : MobPathFinder
 		}
 
 		var tryGetGoalPos =
-			Vector3Int.RoundToInt(coneOfSight.GetFurthestPositionInSight(refPoint, doorAndObstacleMask, oppositeDir, 20f, 10));
+			Vector3Int.RoundToInt(coneOfSight.GetFurthestPositionInSight(refPoint + (Vector3)oppositeDir, doorAndObstacleMask, oppositeDir, 20f, 10));
 
+		Debug.Log($"1: CurrentPos: {transform.position} goalPos {tryGetGoalPos}");
 		if (!MatrixManager.IsPassableAt(tryGetGoalPos, true))
 		{
 			// Not passable! Try to find an adjacent tile:
@@ -105,7 +115,7 @@ public class MobFleePath : MobPathFinder
 
 					if (MatrixManager.IsPassableAt(checkPos, true))
 					{
-						RaycastHit2D hit = Physics2D.Linecast(refPoint, (Vector3) checkPos, doorAndObstacleMask);
+						RaycastHit2D hit = Physics2D.Linecast(refPoint + (Vector3)oppositeDir, (Vector3) checkPos, doorAndObstacleMask);
 						if (hit.collider == null)
 						{
 							tryGetGoalPos = checkPos;
@@ -117,6 +127,12 @@ public class MobFleePath : MobPathFinder
 			}
 		}
 
+		Debug.Log($"2: CurrentPos: {transform.position} goalPos {tryGetGoalPos}");
+
+		cnt.SetPosition(tryGetGoalPos);
+
+
+		/*
 		//Lets try to get a path:
 		var path = FindNewPath((Vector2Int) registerTile.LocalPositionServer,
 			(Vector2Int) registerTile.LocalPositionServer + Vector2Int.RoundToInt(tryGetGoalPos - transform.position));
@@ -129,6 +145,7 @@ public class MobFleePath : MobPathFinder
 		{
 			FollowPath(path);
 		}
+		*/
 	}
 
 	private bool CanNPCAccessDoor(DoorController doorController)
