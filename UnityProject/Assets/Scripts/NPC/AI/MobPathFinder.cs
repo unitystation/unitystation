@@ -121,6 +121,7 @@ public class MobPathFinder : MonoBehaviour
 				isComplete = true;
 				//This could be because you are trying to use a goal node that is inside a wall
 				Logger.LogError("Pathing finding could not find a path where one was expected to be found", Category.Movement);
+				Debug.Log($"Goalnode {goalNode.position}");
 				return null;
 			}
 
@@ -272,6 +273,7 @@ public class MobPathFinder : MonoBehaviour
 					else
 					{
 						ResetMovingValues();
+						FollowCompleted();
 						Logger.Log("Path following timed out. Something must be in the way", Category.Movement);
 						yield break;
 					}
@@ -298,6 +300,7 @@ public class MobPathFinder : MonoBehaviour
 					{
 						ResetMovingValues();
 						Logger.Log("Path following timed out. Something must be in the way", Category.Movement);
+						FollowCompleted();
 						yield break;
 					}
 				}
@@ -309,8 +312,11 @@ public class MobPathFinder : MonoBehaviour
 		yield return WaitFor.EndOfFrame;
 
 		ResetMovingValues();
-		Debug.Log("Follow path completed");
+		FollowCompleted();
 	}
+
+	protected virtual void FollowCompleted()
+	{ }
 
 	private void ResetMovingValues()
 	{

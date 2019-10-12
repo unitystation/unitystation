@@ -28,6 +28,11 @@ public class MobFleePath : MobPathFinder
 		TryToFlee();
 	}
 
+	protected override void FollowCompleted()
+	{
+		TryToFlee();
+	}
+
 	void TryToFlee()
 	{
 		var oppositeDir = ((fleeTarget.localPosition - transform.localPosition).normalized) * -1f;
@@ -67,6 +72,7 @@ public class MobFleePath : MobPathFinder
 				}
 			}
 		}
+
 		yield return WaitFor.EndOfFrame;
 
 		//Find a decent reference point to scan for a good goal waypoint
@@ -117,7 +123,8 @@ public class MobFleePath : MobPathFinder
 		}
 
 		var tryGetGoalPos =
-			Vector3Int.RoundToInt(coneOfSight.GetFurthestPositionInSight(refPoint + (Vector3)oppositeDir, doorAndObstacleMask, oppositeDir, 20f, 10));
+			Vector3Int.RoundToInt(coneOfSight.GetFurthestPositionInSight(refPoint + (Vector3) oppositeDir,
+				doorAndObstacleMask, oppositeDir, 20f, 10));
 
 		if (!MatrixManager.IsPassableAt(tryGetGoalPos, true))
 		{
@@ -134,7 +141,8 @@ public class MobFleePath : MobPathFinder
 
 					if (MatrixManager.IsPassableAt(checkPos, true))
 					{
-						RaycastHit2D hit = Physics2D.Linecast(refPoint + (Vector3)oppositeDir, (Vector3) checkPos, doorAndObstacleMask);
+						RaycastHit2D hit = Physics2D.Linecast(refPoint + (Vector3) oppositeDir, (Vector3) checkPos,
+							doorAndObstacleMask);
 						if (hit.collider == null)
 						{
 							tryGetGoalPos = checkPos;
@@ -150,17 +158,25 @@ public class MobFleePath : MobPathFinder
 		var path = FindNewPath((Vector2Int) registerTile.LocalPositionServer,
 			(Vector2Int) registerTile.LocalPositionServer + Vector2Int.RoundToInt(tryGetGoalPos - transform.position));
 
-	//	cnt.SetPosition(tryGetGoalPos);
-		if (path.Count == 0)
+		//	cnt.SetPosition(tryGetGoalPos);
+		if (path != null)
 		{
-			Debug.Log("Path not found! oh well");
+			if (path.Count == 0)
+			{
+				Debug.Log("Path not found! oh well");
+				TryToFlee();
+			}
+			else
+			{
+				Debug.Log("Path start!");
+				FollowPath(path);
+			}
 		}
 		else
 		{
-			Debug.Log("Path start!");
-			FollowPath(path);
+			TryToFlee();
+			Debug.Log("Path not found! oh well");
 		}
-
 	}
 
 	private bool CanNPCAccessDoor(DoorController doorController)
