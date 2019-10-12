@@ -42,7 +42,10 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		base.OnPointerEnter(eventData);
 
 		var item = UIManager.Hands.CurrentSlot.Item;
-		if (item == null || itemSlot.Item != null)
+		if (item == null
+		    || itemSlot.Item != null
+		    || itemSlot.equipSlot == EquipSlot.leftHand
+		    || itemSlot.equipSlot == EquipSlot.rightHand)
 		{
 			return;
 		}
