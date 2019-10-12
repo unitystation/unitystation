@@ -50,11 +50,6 @@ public class Renameable : NBHandActivateInteractable, IRightClickable
 		attributes.SetItemName(itemName);
 	}
 
-	public string GetCustomName()
-	{
-		return customName;
-	}
-
 	protected override bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
 		if (!base.WillInteract(interaction, side)) return false;
