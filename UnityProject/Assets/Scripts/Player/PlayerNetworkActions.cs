@@ -676,7 +676,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			customName = customName.Substring(0, 42);
 		}
 
-		customName = Regex.Replace(customName, "<size=\"(.*)\">", "");
+		customName = Regex.Replace(customName, "<size=\"(.*)\">", "", RegexOptions.IgnoreCase);
 		customName = customName.Replace("</size>", "");
 
 		rename.SetCustomName(customName);
