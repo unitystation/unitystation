@@ -66,9 +66,8 @@ public class MobFleePath : MobPathFinder
 					}
 				}
 			}
-
-			yield return WaitFor.EndOfFrame;
 		}
+		yield return WaitFor.EndOfFrame;
 
 		//Find a decent reference point to scan for a good goal waypoint
 		var refPoint = transform.position;
@@ -94,6 +93,27 @@ public class MobFleePath : MobPathFinder
 
 			//Try to escape through the furthest door:
 			refPoint = visibleDoors[door].transform.position;
+			//find the correct leaving direction from the door:
+			var doorOppositeDir = ((visibleDoors[door].transform.position - transform.position).normalized) * -1f;
+			//Get the degree quadrant this dir is pointing through from the door
+			var angleOfDir = Vector3.Angle(doorOppositeDir, transform.up);
+			var cw = Vector3.Cross(transform.up, doorOppositeDir).z < 0f;
+			if (!cw)
+			{
+				angleOfDir = -angleOfDir;
+			}
+
+			//Get new direction from the door
+			var tryNewDir = GetDirFromDoor(angleOfDir, refPoint);
+			if (tryNewDir != Vector2.zero)
+			{
+				oppositeDir = tryNewDir;
+			}
+			else
+			{
+				//ignore the door, can't pass through it
+				refPoint = transform.position;
+			}
 		}
 
 		var tryGetGoalPos =
@@ -158,5 +178,45 @@ public class MobFleePath : MobPathFinder
 		{
 			return false;
 		}
+	}
+
+	private Vector2 GetDirFromDoor(float dirDegrees, Vector3 doorWorldPos)
+	{
+		if (dirDegrees > 0f)
+		{
+			//Test the tile to the left:
+			if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.left), true))
+			{
+				return Vector2.left;
+			}
+		}
+		else
+		{
+			//Test the tile to the right:
+			if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.right), true))
+			{
+				return Vector2.right;
+			}
+		}
+
+		//It could be up or down:
+		if (Mathf.Abs(dirDegrees) > 45f)
+		{
+			//Test the tile up:
+			if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.up), true))
+			{
+				return Vector2.up;
+			}
+		}
+		else
+		{
+			//Test the tile down:
+			if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.down), true))
+			{
+				return Vector2.down;
+			}
+		}
+
+		return Vector2.zero;
 	}
 }
