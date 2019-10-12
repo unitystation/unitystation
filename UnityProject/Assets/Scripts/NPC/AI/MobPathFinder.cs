@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using PathFinding;
+using UnityScript.Macros;
 
 public class MobPathFinder : MonoBehaviour
 {
@@ -260,8 +261,23 @@ public class MobPathFinder : MonoBehaviour
 			if (!movingToTile)
 			{
 				var dir = path[node].position - Vector2Int.RoundToInt(transform.localPosition);
+				if (!registerTile.Matrix.IsPassableAt(registerTile.LocalPositionServer + (Vector3Int) dir, true))
+				{
+					var dC = registerTile.Matrix.GetFirst<DoorController>(registerTile.LocalPositionServer + (Vector3Int) dir, true);
+					if (dC != null)
+					{
+						dC.TryOpen(gameObject);
+						yield return WaitFor.Seconds(1f);
+					}
+					else
+					{
+						ResetMovingValues();
+						Logger.Log("Path following timed out. Something must be in the way", Category.Movement);
+						yield break;
+					}
+				}
+
 				cnt.Push(dir);
-				Debug.Log($"Push in dir: {dir}");
 				movingToTile = true;
 			}
 			else
@@ -280,11 +296,8 @@ public class MobPathFinder : MonoBehaviour
 					timeOut += Time.deltaTime;
 					if (timeOut > 5f)
 					{
-						movingToTile = false;
-						arrivedAtTile = false;
-						timeOut = 0f;
-						status = Status.idle;
-						Debug.Log("Time out");
+						ResetMovingValues();
+						Logger.Log("Path following timed out. Something must be in the way", Category.Movement);
 						yield break;
 					}
 				}
@@ -295,8 +308,16 @@ public class MobPathFinder : MonoBehaviour
 
 		yield return WaitFor.EndOfFrame;
 
-		status = Status.idle;
+		ResetMovingValues();
 		Debug.Log("Follow path completed");
+	}
+
+	private void ResetMovingValues()
+	{
+		movingToTile = false;
+		arrivedAtTile = false;
+		timeOut = 0f;
+		status = Status.idle;
 	}
 
 	/// <summary>
