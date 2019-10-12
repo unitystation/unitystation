@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -197,7 +198,8 @@ MonoBehaviour:
   connector: {fileID: 0}
   isConnected: 0
   connectorRenderer: {fileID: 2306500756203524534}
-  connectorSprite: {fileID: 21300022, guid: 73b44edfc9994ce4a7fb1bd22c556761, type: 3}
+  connectorFuel: {fileID: 0}
+  connectorSprite: {fileID: 21300000, guid: a7172f3398019e044a68e8bb2fefbb72, type: 3}
 --- !u!114 &6725492196284391236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +215,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 0
 --- !u!114 &114623103168110180
 MonoBehaviour:
@@ -356,8 +357,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 4135068362
+  m_AssetId: e9620f26b24f33c4cbe56a85ae95865d
+  m_SceneId: 0
 --- !u!1 &3261001144065486905
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +415,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

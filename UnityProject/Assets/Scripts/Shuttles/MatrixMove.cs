@@ -87,7 +87,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private MatrixState serverTargetState = MatrixState.Invalid;
 
 	public bool SafetyProtocolsOn { get; set; } = true;
-	private bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
+	public bool isMovingServer => serverState.IsMoving && serverState.Speed > 0f;
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	private bool isRotatingServer => ClientNeedsRotation; //todo: calculate rotation time on server instead
 	private bool isAutopilotEngaged => Target != TransformState.HiddenPos;
@@ -131,6 +131,18 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// save this info for firing the OnRotateEnd event,
 	/// </summary>
 	private RotationOffset previousRotation;
+
+
+	/// <summary>
+	/// If it is currently fuelled
+	/// </summary>
+	public bool IsFueled;
+
+	/// <summary>
+	/// Requires Fuel
+	/// </summary>
+	public bool RequiresFuel;
+
 	/// <summary>
 	/// True iff the previous call to UpdateMe involved rotation. Used to check when rotation has ended.
 	/// </summary>
@@ -166,6 +178,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 	/// max flying speed from editor
 	public float maxSpeed = 20f;
+
+	public ShuttleFuelSystem shuttleFuelSystem;
 
 	private readonly int rotTime = 90;
 	public KeyCode startKey = KeyCode.G;
@@ -358,15 +372,18 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	public void StartMovement()
 	{
-		//Setting speed if there is none
-		if (serverTargetState.Speed <= 0)
+		if (IsFueled || !RequiresFuel)
 		{
-			SetSpeed(1);
-		}
+			//Setting speed if there is none
+			if (serverTargetState.Speed <= 0)
+			{
+				SetSpeed(1);
+			}
 
-		Logger.LogTrace(gameObject.name+ " started moving with speed " + serverTargetState.Speed, Category.Matrix);
-		serverTargetState.IsMoving = true;
-		RequestNotify();
+			Logger.LogTrace(gameObject.name + " started moving with speed " + serverTargetState.Speed, Category.Matrix);
+			serverTargetState.IsMoving = true;
+			RequestNotify();
+		}
 	}
 
 	/// Stop movement
