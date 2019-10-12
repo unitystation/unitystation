@@ -679,7 +679,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		customName = Regex.Replace(customName, "<size=\"(.*)\">", "", RegexOptions.IgnoreCase);
 		customName = customName.Replace("</size>", "");
 
-		rename.SetCustomName(customName, rename.originalName);
+		rename.SetCustomName(customName);
 	}
 
 	/// <summary>

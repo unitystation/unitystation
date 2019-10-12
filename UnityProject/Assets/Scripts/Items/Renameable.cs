@@ -5,9 +5,16 @@ using WebSocketSharp;
 public class Renameable : NBHandActivateInteractable, IRightClickable
 {
 	public NetTabType NetTabType = NetTabType.Rename;
+	[SerializeField]
+	private string originalName;
+	[SerializeField]
+	private string customName;
 
-	public string originalName;
-	public string customName;
+	public string CustomName
+	{
+		get => customName;
+		private set => SetCustomName( value );
+	}
 
 	private ItemAttributes attributes;
 
@@ -23,7 +30,7 @@ public class Renameable : NBHandActivateInteractable, IRightClickable
 		base.OnStartServer();
 	}
 
-	public void SetCustomName(string custom, string original)
+	public void SetCustomName(string custom)
 	{
 		var itemName = originalName;
 
@@ -38,10 +45,6 @@ public class Renameable : NBHandActivateInteractable, IRightClickable
 		if (!string.IsNullOrEmpty(custom))
 		{
 			itemName += " - '" + custom + "'";
-		}
-		else
-		{
-			itemName = original;
 		}
 
 		attributes.SetItemName(itemName);
