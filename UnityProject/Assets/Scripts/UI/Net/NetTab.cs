@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum NetTabType {
 	None = -1,
@@ -18,6 +19,7 @@ public enum NetTabType {
 	Canister = 10,
 	Comms = 11,
 	IdConsole = 12,
+	Rename = 13,
 	//add your tabs here
 }
 /// Descriptor for unique Net UI Tab
@@ -39,6 +41,11 @@ public class NetTab : Tab {
 	public HashSet<ConnectedPlayer> Peepers => peepers;
 	private HashSet<ConnectedPlayer> peepers = new HashSet<ConnectedPlayer>();
 	public bool IsUnobserved => Peepers.Count == 0;
+	
+	/// <summary>
+	/// Invoked when there is a new peeper to this tab
+	/// </summary>
+	public ConnectedPlayerEvent OnTabOpened = new ConnectedPlayerEvent();
 
 	public ElementValue[] ElementValues => CachedElements.Values.Select( element => element.ElementValue ).ToArray(); //likely expensive
 
@@ -71,8 +78,11 @@ public class NetTab : Tab {
 	public NetUIElement this[ string elementId ] => CachedElements.ContainsKey(elementId) ? CachedElements[elementId] : null;
 
 	//for server
-	public void AddPlayer( GameObject player ) {
-		Peepers.Add( PlayerList.Instance.Get( player ) );
+	public void AddPlayer( GameObject player )
+	{
+		ConnectedPlayer newPeeper = PlayerList.Instance.Get( player );
+		Peepers.Add( newPeeper );
+		OnTabOpened.Invoke( newPeeper );
 	}
 	public void RemovePlayer( GameObject player ) {
 		Peepers.Remove( PlayerList.Instance.Get( player ) );
@@ -189,3 +199,4 @@ public class NetTab : Tab {
         }
 	}
 }
+public class ConnectedPlayerEvent : UnityEvent<ConnectedPlayer> { }

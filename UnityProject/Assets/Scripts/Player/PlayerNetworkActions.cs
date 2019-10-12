@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using Mirror;
 
@@ -658,6 +659,27 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				paperComponent.UpdatePlayer(gameObject);
 			}
 		}
+	}
+
+	[Command]
+	public void CmdRequestRename(GameObject target, string customName)
+	{
+		var rename = target.GetComponent<Renameable>();
+
+		if (rename == null)
+		{
+			return;
+		}
+
+		if (customName.Length > 42)
+		{
+			customName = customName.Substring(0, 42);
+		}
+
+		customName = Regex.Replace(customName, "<size=\"(.*)\">", "", RegexOptions.IgnoreCase);
+		customName = customName.Replace("</size>", "");
+
+		rename.SetCustomName(customName);
 	}
 
 	/// <summary>
