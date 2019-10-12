@@ -22,8 +22,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	private Image secondaryImage; //For sprites that require two images
 	public ItemSize maxItemSize;
 
-	/// pointer is over the actual item in the slot due to raycast target
-	public override string Tooltip => Item.GetComponent<ItemAttributes>().itemName;
+	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
+	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<ItemAttributes>().itemName;
 
 	/// set back to the slot name since the pointer is still over the slot background
 	public override string ExitTooltip => hoverName;
@@ -43,14 +43,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 	[ContextMenu("Debug Item")]
 	void DebugItem()
 	{
-		if (Item == null)
-		{
-			Debug.Log("No Item in this slot");
-		}
-		else
-		{
-			Debug.Log($"Item found in slot: {Item.name}");
-		}
+		Debug.Log(Item == null ? "No Item in this slot" : $"Item found in slot: { Item.name }");
 	}
 
 	private void Awake() {
@@ -93,28 +86,68 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 		}
 		Logger.LogTraceFormat("Setting item {0} to {1}", Category.UI, item.name, eventName);
 
+		Item = item;
+
 		UpdateImage(item);
 
-		image.enabled = true;
-		image.preserveAspect = true;
-		Item = item;
 		item.transform.position = TransformState.HiddenPos;
 	}
 
 	public void UpdateImage(GameObject item)
 	{
-		var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
-		if (image == null)
-		{
-			image = GetComponent<Image>();
+		UpdateImage(item, Color.white);
+	}
+
+	public void UpdateImage(GameObject item, Color color)
+	{
+		var nullItem = item == null;
+		var forceColor = color != Color.white;
+
+		if (nullItem && Item != null)
+		{ // Case for when we have a hovered image and insert, then stop hovering
+			return;
 		}
-		image.sprite = spriteRends[0].sprite;
-		if (spriteRends.Length > 1)
+
+		if (!nullItem)
 		{
-			if (spriteRends[1].sprite != null)
+			var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
+			if (image == null)
 			{
-				SetSecondaryImage(spriteRends[1].sprite);
+				image = GetComponent<Image>();
 			}
+			image.sprite = spriteRends[0].sprite;
+			image.color = spriteRends[0].color;
+			if (spriteRends.Length > 1)
+			{
+				if (spriteRends[1].sprite != null)
+				{
+					SetSecondaryImage(spriteRends[1].sprite);
+					secondaryImage.color = spriteRends[1].color;
+				}
+			}
+		}
+		else
+		{
+			Clear();
+		}
+
+		if (forceColor)
+		{
+			image.color = color;
+		}
+
+		image.enabled = !nullItem;
+		image.preserveAspect = !nullItem;
+
+		if (secondaryImage)
+		{
+			if (forceColor)
+			{
+				secondaryImage.color = color;
+			}
+
+			secondaryImage.enabled = secondaryImage.sprite != null && !nullItem;
+			secondaryImage.preserveAspect = !nullItem;
 		}
 	}
 
@@ -132,20 +165,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IDragHandler, IEndDragHandler
 			secondaryImage.enabled = false;
 		}
 	}
-
-	//        public bool TrySetItem(GameObject item) {
-	//            if(!IsFull && item != null && CheckItemFit(item)) {
-	////                Debug.LogErrorFormat("TrySetItem TRUE for {0}", item.GetComponent<ItemAttributes>().hierarchy);
-	//                InventoryInteractMessage.Send(eventName, item, true);
-	//               //predictions:
-	//                UIManager.UpdateSlot(new UISlotObject(eventName, item));
-	////                SetItem(item);
-	//
-	//                return true;
-	//            }
-	////            Debug.LogErrorFormat("TrySetItem FALSE for {0}", item.GetComponent<ItemAttributes>().hierarchy);
-	//            return false;
-	//        }
 
 	/// <summary>
 	///     removes item from slot
