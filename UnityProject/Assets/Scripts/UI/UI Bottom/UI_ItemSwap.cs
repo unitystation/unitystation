@@ -7,8 +7,8 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 	private UI_ItemSlot itemSlot;
 	public override string Tooltip => itemSlot.hoverName;
 
-	private Color32 successOverlayColor = new Color32(0, 255, 0, 235); // 92% transparency
-	private Color32 failOverlayColor = new Color32(255, 0, 0, 235);
+	private Color32 successOverlayColor = new Color32(0, 255, 0, 92);
+	private Color32 failOverlayColor = new Color32(255, 0, 0, 92);
 
 	public void OnPointerClick(BaseEventData eventData)
 	{
