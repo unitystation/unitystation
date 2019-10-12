@@ -93,7 +93,7 @@ public class ConeOfSight : MonoBehaviour
 				{
 					//this ray is longer, calculate the general position:
 					furthestDist = hit.distance;
-					furthestPoint = originWorldPos + (Vector2)((castDir * hit.distance) - castDir);
+					furthestPoint = originWorldPos + (Vector2)((castDir * hit.distance) - (castDir * 1.5f));
 				}
 			}
 		}

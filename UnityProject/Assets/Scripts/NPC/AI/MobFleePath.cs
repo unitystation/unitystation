@@ -119,7 +119,6 @@ public class MobFleePath : MobPathFinder
 		var tryGetGoalPos =
 			Vector3Int.RoundToInt(coneOfSight.GetFurthestPositionInSight(refPoint + (Vector3)oppositeDir, doorAndObstacleMask, oppositeDir, 20f, 10));
 
-		Debug.Log($"1: CurrentPos: {transform.position} goalPos {tryGetGoalPos}");
 		if (!MatrixManager.IsPassableAt(tryGetGoalPos, true))
 		{
 			// Not passable! Try to find an adjacent tile:
@@ -147,25 +146,21 @@ public class MobFleePath : MobPathFinder
 			}
 		}
 
-		Debug.Log($"2: CurrentPos: {transform.position} goalPos {tryGetGoalPos}");
-
-		cnt.SetPosition(tryGetGoalPos);
-
-
-		/*
 		//Lets try to get a path:
 		var path = FindNewPath((Vector2Int) registerTile.LocalPositionServer,
 			(Vector2Int) registerTile.LocalPositionServer + Vector2Int.RoundToInt(tryGetGoalPos - transform.position));
 
+	//	cnt.SetPosition(tryGetGoalPos);
 		if (path.Count == 0)
 		{
 			Debug.Log("Path not found! oh well");
 		}
 		else
 		{
+			Debug.Log("Path start!");
 			FollowPath(path);
 		}
-		*/
+
 	}
 
 	private bool CanNPCAccessDoor(DoorController doorController)

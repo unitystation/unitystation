@@ -111,9 +111,18 @@ public class MobPathFinder : MonoBehaviour
 	List<Node> SearchForRoute()
 	{
 		status = Status.searching;
-
+		int timeOut = 0;
 		while (!isComplete)
 		{
+			timeOut++;
+			if (timeOut > 1000)
+			{
+				isComplete = true;
+				//This could be because you are trying to use a goal node that is inside a wall
+				Logger.LogError("Pathing finding could not find a path where one was expected to be found", Category.Movement);
+				return null;
+			}
+
 			if (frontierNodes.Count > 0)
 			{
 				Node currentNode = frontierNodes.Dequeue();
@@ -156,7 +165,6 @@ public class MobPathFinder : MonoBehaviour
 		}
 
 		status = Status.idle;
-		Logger.LogTrace("SearchForRoute: Search complete", Category.Movement);
 		return null;
 	}
 
@@ -220,9 +228,10 @@ public class MobPathFinder : MonoBehaviour
 				neighbor.previous = node;
 				neighbor.distanceTraveled = newDistanceTraveled;
 				neighbor.priority = newPriority;
-
 				if (node == goalNode)
+				{
 					pathFound = true;
+				}
 				else
 				{
 					frontierNodes.Remove(neighbor); // Re-sort if the node existed already.
@@ -238,7 +247,7 @@ public class MobPathFinder : MonoBehaviour
 	protected void FollowPath(List<Node> path)
 	{
 		status = Status.followingPath;
-		debugPath = path;
+	//	debugPath = path;
 		StartCoroutine(PerformFollowPath(path));
 	}
 
@@ -283,6 +292,8 @@ public class MobPathFinder : MonoBehaviour
 
 			yield return WaitFor.EndOfFrame;
 		}
+
+		yield return WaitFor.EndOfFrame;
 
 		status = Status.idle;
 		Debug.Log("Follow path completed");
