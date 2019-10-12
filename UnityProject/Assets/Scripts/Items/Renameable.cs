@@ -6,66 +6,50 @@ public class Renameable : NBHandActivateInteractable, IRightClickable
 {
 	public NetTabType NetTabType = NetTabType.Rename;
 
-	[SyncVar(hook = nameof(SyncOriginalName))]
 	public string originalName;
-
-	[SyncVar(hook = nameof(SyncCustomName))]
 	public string customName;
 
 	private ItemAttributes attributes;
 
-	private void SyncOriginalName(string original)
-	{
-		originalName = original;
-	}
-
-	private void SyncCustomName(string custom)
-	{
-		customName = custom;
-
-		var itemName = originalName;
-
-		if (itemName.IsNullOrEmpty())
-		{
-			itemName = attributes.itemName;
-			SyncOriginalName(itemName);
-		}
-
-		if (!string.IsNullOrEmpty(custom))
-		{
-			itemName += " - '" + custom + "'";
-		}
-
-		attributes.SetItemName(itemName);
-	}
-
 	public override void OnStartClient()
 	{
-		SyncEverything();
+		attributes = gameObject.GetComponent<ItemAttributes>();
 		base.OnStartClient();
 	}
 
 	public override void OnStartServer()
 	{
-		SyncEverything();
+		attributes = gameObject.GetComponent<ItemAttributes>();
 		base.OnStartServer();
 	}
 
-	public void SetCustomName(string msg)
+	public void SetCustomName(string custom, string original)
 	{
-		SyncCustomName(msg);
+		var itemName = originalName;
+
+		if (itemName.IsNullOrEmpty())
+		{
+			itemName = attributes.itemName;
+			originalName = itemName;
+		}
+
+		customName = custom;
+
+		if (!string.IsNullOrEmpty(custom))
+		{
+			itemName += " - '" + custom + "'";
+		}
+		else
+		{
+			itemName = original;
+		}
+
+		attributes.SetItemName(itemName);
 	}
 
 	public string GetCustomName()
 	{
 		return customName;
-	}
-
-	private void SyncEverything()
-	{
-		attributes = gameObject.GetComponent<ItemAttributes>();
-		SyncOriginalName(originalName);
-		SyncCustomName(customName);
 	}
 
 	protected override bool WillInteract(HandActivate interaction, NetworkSide side)

@@ -25,23 +25,8 @@ public class GUI_Rename : NetTab
 		{
 			yield return WaitFor.EndOfFrame;
 		}
-		RefreshText();
 	}
-
-	public override void RefreshTab()
-	{
-		RefreshText();
-		base.RefreshTab();
-	}
-
-	public void RefreshText()
-	{
-		if (Provider != null)
-		{
-			textField.text = Provider.GetComponent<Renameable>().GetCustomName();
-		}
-	}
-
+	
 	public void CloseDialog()
 	{
 		ControlTabs.CloseTab(Type, Provider);
