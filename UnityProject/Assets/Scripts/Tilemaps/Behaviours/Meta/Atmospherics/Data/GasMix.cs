@@ -23,7 +23,7 @@ namespace Atmospherics
 			set => Pressure = AtmosUtils.CalcPressure(Volume, Moles, value);
 		}
 
-		public float TemperatureCash { get; private set; }
+		public float TemperatureCache { get; private set; }
 
 		public float HeatCapacity
 		{
@@ -44,7 +44,7 @@ namespace Atmospherics
 			Gases = gases;
 			Pressure = pressure;
 			Volume = volume;
-			TemperatureCash = 0f;
+			TemperatureCache = 0f;
 		}
 
 		public GasMix(GasMix other)
@@ -183,7 +183,7 @@ namespace Atmospherics
 
 		public void AddGas(Gas gas, float moles)
 		{
-			TemperatureCash = Temperature;
+			TemperatureCache = Temperature;
 			Gases[gas] += moles;
 
 			RecalculateTemperatureCache();
@@ -191,14 +191,14 @@ namespace Atmospherics
 
 		public void RemoveGas(Gas gas, float moles)
 		{
-			TemperatureCash = Temperature;
+			TemperatureCache = Temperature;
 			Gases[gas] -= moles;
 			RecalculateTemperatureCache();
 		}
 
 		public GasMix RemoveGasReturn(Gas gas, float moles)
 		{
-			TemperatureCash = Temperature;
+			TemperatureCache = Temperature;
 			Gases[gas] -= moles;
 			RecalculateTemperatureCache();
 			return (this);
@@ -229,7 +229,7 @@ namespace Atmospherics
 		//Used to change the pressure instead of temperature when removing/Adding gas
 		private void RecalculateTemperatureCache()
 		{
-			Pressure = AtmosUtils.CalcPressure(Volume, Moles, TemperatureCash);
+			Pressure = AtmosUtils.CalcPressure(Volume, Moles, TemperatureCache);
 		}
 	}
 }
