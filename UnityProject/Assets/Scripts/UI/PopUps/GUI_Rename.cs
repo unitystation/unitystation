@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -6,11 +7,35 @@ using UnityEngine.UI;
 
 public class GUI_Rename : NetTab
 {
+	[SerializeField]
+	private InputField textField;
+	[SerializeField]
+	private NetFilledInputField networkedInputField;
+	[SerializeField]
+	private ContentSizeFitter contentSizeFitter;
 
-	public InputField textField;
-	public ContentSizeFitter contentSizeFitter;
+	private Renameable renameable;
 
 	private const int MAX_NAME_LENGTH = 42;
+
+	private void Awake()
+	{
+		if ( IsServer )
+		{
+			OnTabOpened.AddListener( newPeeper =>
+			{
+				if ( renameable == null )
+				{
+					return;
+				}
+
+				if ( renameable.CustomName.Length > 0 )
+				{
+					networkedInputField.SetValue = renameable.CustomName;
+				}
+			} );
+		}
+	}
 
 	public override void OnEnable()
 	{
@@ -25,6 +50,8 @@ public class GUI_Rename : NetTab
 		{
 			yield return WaitFor.EndOfFrame;
 		}
+
+		renameable = Provider.GetComponent<Renameable>();
 	}
 	
 	public void CloseDialog()
