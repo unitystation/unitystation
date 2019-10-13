@@ -58,6 +58,8 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnS
 	         " won't ignite.")]
 	public float HeatResistance = 100;
 
+	public float initialIntegrity = 100f;
+
 	[SyncVar(hook = nameof(SyncOnFire))]
 	private bool onFire = false;
 	private BurningOverlay burningObjectOverlay;
@@ -118,7 +120,7 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnS
 		else
 		{
 			//spawned
-			integrity = 100f;
+			integrity = initialIntegrity;
 			timeSinceLastBurn = 0;
 			destroyed = false;
 			if (burningObjectOverlay != null)

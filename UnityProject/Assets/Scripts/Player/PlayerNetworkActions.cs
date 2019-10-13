@@ -165,6 +165,21 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return false;
 	}
 
+	// If the player has item in an inventory slot, get it
+	[Server]
+	public InventorySlot GetInventorySlot(GameObject item)
+	{
+		foreach (var slot in Inventory)
+		{
+			if (item == slot.Value.Item)
+			{
+				return slot.Value;
+			}
+		}
+
+		return null;
+	}
+
 	private bool IsEquipSpriteSlot(InventorySlot slot)
 	{
 		return slot.IsUISlot;
