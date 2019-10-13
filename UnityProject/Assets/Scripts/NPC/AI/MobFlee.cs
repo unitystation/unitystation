@@ -157,19 +157,16 @@ public class MobFlee : MobPathFinder
 		{
 			if (path.Count == 0)
 			{
-				Debug.Log("Path not found! oh well");
 				TryToFlee();
 			}
 			else
 			{
-				Debug.Log("Path start!");
 				FollowPath(path);
 			}
 		}
 		else
 		{
 			TryToFlee();
-			Debug.Log("Path not found! oh well");
 		}
 	}
 

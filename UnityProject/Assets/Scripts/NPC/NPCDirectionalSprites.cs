@@ -53,12 +53,8 @@ public class NPCDirectionalSprites : NetworkBehaviour
 	public void CheckSpriteServer(float angleDirection)
 	{
 		var tryGetDir = GetDirNumber(angleDirection);
-		Debug.Log($"angle {angleDirection} dirNum: {tryGetDir}");
-		if (tryGetDir != dir)
-		{
-			ChangeSprite(tryGetDir);
-			dir = tryGetDir;
-		}
+		ChangeSprite(tryGetDir);
+		dir = tryGetDir;
 	}
 
 	/// <summary>

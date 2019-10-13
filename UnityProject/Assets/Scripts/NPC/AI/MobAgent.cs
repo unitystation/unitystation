@@ -176,7 +176,7 @@ public class MobAgent : Agent
 			{
 				OnPushSolid(dest);
 			}
-			
+
 			var angleOfDir = Vector2.Angle(dirToMove, transform.up);
 			if (dirToMove.x < 0f)
 			{
