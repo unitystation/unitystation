@@ -85,6 +85,8 @@ public class MobPathFinder : MonoBehaviour
 	///</summary>
 	public List<Node> FindNewPath(Vector2Int startPos, Vector2Int targetPos)
 	{
+		if (startPos == targetPos) return null;
+
 		pathFound = false;
 
 		startNode = new Node
@@ -116,12 +118,11 @@ public class MobPathFinder : MonoBehaviour
 		while (!isComplete)
 		{
 			timeOut++;
-			if (timeOut > 1000)
+			if (timeOut > 500)
 			{
 				isComplete = true;
-				//This could be because you are trying to use a goal node that is inside a wall
+				//This could be because you are trying to use a goal node that is inside a wall or the path was blocked
 				Logger.LogError("Pathing finding could not find a path where one was expected to be found", Category.Movement);
-				Debug.Log($"Goalnode {goalNode.position}");
 				return null;
 			}
 
@@ -315,9 +316,6 @@ public class MobPathFinder : MonoBehaviour
 		FollowCompleted();
 	}
 
-	protected virtual void FollowCompleted()
-	{ }
-
 	private void ResetMovingValues()
 	{
 		movingToTile = false;
@@ -327,15 +325,19 @@ public class MobPathFinder : MonoBehaviour
 	}
 
 	/// <summary>
+	/// This is called whenever a follow path has been completed
+	/// It is also called on a path follow timeout or if something has
+	/// blocked the path and the NPC cannot go any further
+	/// </summary>
+	protected virtual void FollowCompleted() { }
+
+	/// <summary>
 	/// This method is called if something has moved into the path
 	/// and has been blocking the agents path forward for
 	/// more then 5 seconds. PathFinder will go back to idle when
 	/// this is called
 	/// </summary>
-	protected virtual void PathMoveTimedOut()
-	{
-		Debug.Log("Path move timed out");
-	}
+	protected virtual void PathMoveTimedOut() { }
 
 	protected virtual void OnTileReached(Vector3Int tilePos)
 	{

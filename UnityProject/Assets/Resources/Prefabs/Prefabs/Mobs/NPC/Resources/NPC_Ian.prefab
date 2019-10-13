@@ -163,7 +163,8 @@ GameObject:
   - component: {fileID: 2215143835289934263}
   - component: {fileID: 114477129915142950}
   - component: {fileID: 114379009499332576}
-  - component: {fileID: 435527929895662257}
+  - component: {fileID: 1750259749}
+  - component: {fileID: 1750259750}
   m_Layer: 8
   m_Name: NPC_Ian
   m_TagString: Untagged
@@ -272,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0.232
   layer: {fileID: 0}
   ObjectType: 1
   AtmosPassable: 1
@@ -426,8 +427,8 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1643782764
---- !u!114 &435527929895662257
+  m_SceneId: 1791246901
+--- !u!114 &1750259749
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -439,3 +440,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fade882731d3484cb3c63dfcad2def4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  performingDecision: 0
+  tickRate: 1
+  status: 0
+  fleeTarget: {fileID: 0}
+--- !u!114 &1750259750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d7861cc0289714b8989f7181986a18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldOfView: 140

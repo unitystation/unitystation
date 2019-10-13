@@ -1,64 +1,227 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using PathFinding;
 
-/// <summary>
-/// AI brain specifically trained to flee
-/// from a specific target
-/// </summary>
-public class MobFlee : MobAgent
+[RequireComponent(typeof(ConeOfSight))]
+public class MobFlee : MobPathFinder
 {
+	private ConeOfSight coneOfSight;
 	public Transform fleeTarget;
-	private float distCache;
+	private int doorMask;
+	private int obstacleMask;
+	private int doorAndObstacleMask;
 
-	protected override void AgentServerStart()
+	public override void OnEnable()
 	{
-		if (fleeTarget != null)
+		base.OnEnable();
+		coneOfSight = GetComponent<ConeOfSight>();
+		doorMask = LayerMask.GetMask("Door Open", "Door Closed", "Windows");
+		obstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects");
+		doorAndObstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects", "Door Open",
+			"Door Closed");
+	}
+
+	[ContextMenu("Force Activate")]
+	void ForceActivate()
+	{
+		TryToFlee();
+	}
+
+	protected override void FollowCompleted()
+	{
+		TryToFlee();
+	}
+
+	void TryToFlee()
+	{
+		var oppositeDir = ((fleeTarget.localPosition - transform.localPosition).normalized) * -1f;
+		StartCoroutine(FindValidWayPoint(oppositeDir));
+	}
+
+	IEnumerator FindValidWayPoint(Vector2 oppositeDir)
+	{
+		//First try to escape the room by looking for a door
+		var possibleDoors = Physics2D.OverlapCircleAll(transform.position, 20f, doorMask);
+
+		//See if the door is visible to npc:
+		List<Collider2D> visibleDoors = new List<Collider2D>();
+
+		foreach (Collider2D coll in possibleDoors)
 		{
-		//	activated = true;
+			RaycastHit2D hit = Physics2D.Linecast(transform.position, coll.transform.position, doorAndObstacleMask);
+
+			if (hit.collider != null)
+			{
+				if (hit.collider == coll)
+				{
+					var tryGetDoor = coll.GetComponent<DoorController>();
+					if (tryGetDoor != null)
+					{
+						//Can the NPC access this door
+						if (CanNPCAccessDoor(tryGetDoor))
+						{
+							visibleDoors.Add(coll);
+						}
+					}
+				}
+			}
 		}
-	}
 
-	public override void AgentReset()
-	{
-		base.AgentReset();
-		distCache = Vector3.Distance(transform.position, fleeTarget.position);
-	}
+		yield return WaitFor.EndOfFrame;
 
-	public override void CollectObservations()
-	{
-		ObserveAdjacentTiles();
-		var dist = Vector3.Distance(transform.position, fleeTarget.position);
-		AddVectorObs(dist / 100f);
-		//Observe the direction to target
-		AddVectorObs(((Vector2) (fleeTarget.position - transform.position)).normalized);
-	}
+		//Find a decent reference point to scan for a good goal waypoint
+		var refPoint = transform.position;
 
-	public override void AgentAction(float[] vectorAction, string textAction)
-	{
-		PerformMoveAction(Mathf.FloorToInt(vectorAction[0]));
-	}
-
-	protected override void OnTileReached(Vector3Int tilePos)
-	{
-		var dist = Vector3.Distance(transform.position, fleeTarget.position);
-		if (dist > distCache)
+		//See if there is a decent door for the ref point
+		if (visibleDoors.Count != 0)
 		{
-			distCache = dist;
-			SetReward(calculateReward(dist));
+			var door = 0;
+			var dist = 0f;
+			for (int i = 0; i < visibleDoors.Count; i++)
+			{
+				var checkDist = Vector3.Distance(fleeTarget.position, visibleDoors[i].transform.position);
+				var checkNpcDist = Vector3.Distance(transform.position, visibleDoors[i].transform.position);
+
+				//if check dist is smaller then the checkNpcDist that means the danger
+				//is between the npc and the door, so avoid it
+				if (checkDist > dist && checkDist > checkNpcDist)
+				{
+					dist = checkDist;
+					door = i;
+				}
+			}
+
+			//Try to escape through the furthest door:
+			refPoint = visibleDoors[door].transform.position;
+			//find the correct leaving direction from the door:
+			var doorOppositeDir = ((visibleDoors[door].transform.position - transform.position).normalized) * -1f;
+			//Get the degree quadrant this dir is pointing through from the door
+			var angleOfDir = Vector3.Angle(doorOppositeDir, transform.up);
+			var cw = Vector3.Cross(transform.up, doorOppositeDir).z < 0f;
+			if (!cw)
+			{
+				angleOfDir = -angleOfDir;
+			}
+
+			//Get new direction from the door
+			var tryNewDir = GetDirFromDoor(angleOfDir, refPoint);
+			if (tryNewDir != Vector2.zero)
+			{
+				oppositeDir = tryNewDir;
+			}
+			else
+			{
+				//ignore the door, can't pass through it
+				refPoint = transform.position;
+			}
+		}
+
+		var tryGetGoalPos =
+			Vector3Int.RoundToInt(coneOfSight.GetFurthestPositionInSight(refPoint + (Vector3) oppositeDir,
+				doorAndObstacleMask, oppositeDir, 20f, 10));
+
+		if (!MatrixManager.IsPassableAt(tryGetGoalPos, true))
+		{
+			// Not passable! Try to find an adjacent tile:
+			for (int y = 1; y > -2; y--)
+			{
+				for (int x = -1; x < 2; x++)
+				{
+					if (x == 0 && y == 0) continue;
+
+					var checkPos = tryGetGoalPos;
+					checkPos.x += x;
+					checkPos.y += y;
+
+					if (MatrixManager.IsPassableAt(checkPos, true))
+					{
+						RaycastHit2D hit = Physics2D.Linecast(refPoint + (Vector3) oppositeDir, (Vector3) checkPos,
+							doorAndObstacleMask);
+						if (hit.collider == null)
+						{
+							tryGetGoalPos = checkPos;
+							y = -100;
+							x = 100;
+						}
+					}
+				}
+			}
+		}
+
+		//Lets try to get a path:
+		var path = FindNewPath((Vector2Int) registerTile.LocalPositionServer,
+			(Vector2Int) registerTile.LocalPositionServer + Vector2Int.RoundToInt(tryGetGoalPos - transform.position));
+
+		if (path != null)
+		{
+			if (path.Count == 0)
+			{
+				Debug.Log("Path not found! oh well");
+				TryToFlee();
+			}
+			else
+			{
+				Debug.Log("Path start!");
+				FollowPath(path);
+			}
 		}
 		else
 		{
-			SetReward(calculatePunishment(dist));
+			TryToFlee();
+			Debug.Log("Path not found! oh well");
 		}
-		base.OnTileReached(tilePos);
 	}
 
-	float calculateReward(float dist)
+	private bool CanNPCAccessDoor(DoorController doorController)
 	{
-		return Mathf.Lerp(0, 10f, dist / 50f);
+		if ((int) doorController.AccessRestrictions.restriction == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
-	float calculatePunishment(float dist)
+	private Vector2 GetDirFromDoor(float dirDegrees, Vector3 doorWorldPos)
 	{
-		return Mathf.Lerp(-0.1f, 0f, dist / 100f);
+		if (dirDegrees > 0f)
+		{
+			//Test the tile to the left:
+			if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.left), true))
+			{
+				return Vector2.left;
+			}
+		}
+		else
+		{
+			//Test the tile to the right:
+			if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.right), true))
+			{
+				return Vector2.right;
+			}
+		}
+
+		//It could be up or down:
+		if (Mathf.Abs(dirDegrees) > 45f)
+		{
+			//Test the tile up:
+			if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.up), true))
+			{
+				return Vector2.up;
+			}
+		}
+		else
+		{
+			//Test the tile down:
+			if (MatrixManager.IsPassableAt(Vector3Int.RoundToInt(doorWorldPos + Vector3.down), true))
+			{
+				return Vector2.down;
+			}
+		}
+
+		return Vector2.zero;
 	}
 }
