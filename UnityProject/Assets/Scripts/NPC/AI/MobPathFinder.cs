@@ -125,7 +125,8 @@ public class MobPathFinder : MonoBehaviour
 			{
 				isComplete = true;
 				//This could be because you are trying to use a goal node that is inside a wall or the path was blocked
-				Logger.LogError("Pathing finding could not find a path where one was expected to be found", Category.Movement);
+				Logger.LogError("Pathing finding could not find a path where one was expected to be found",
+					Category.Movement);
 				return null;
 			}
 
@@ -253,7 +254,7 @@ public class MobPathFinder : MonoBehaviour
 	protected void FollowPath(List<Node> path)
 	{
 		status = Status.followingPath;
-	//	debugPath = path;
+		//	debugPath = path;
 		StartCoroutine(PerformFollowPath(path));
 	}
 
@@ -268,7 +269,8 @@ public class MobPathFinder : MonoBehaviour
 				var dir = path[node].position - Vector2Int.RoundToInt(transform.localPosition);
 				if (!registerTile.Matrix.IsPassableAt(registerTile.LocalPositionServer + (Vector3Int) dir, true))
 				{
-					var dC = registerTile.Matrix.GetFirst<DoorController>(registerTile.LocalPositionServer + (Vector3Int) dir, true);
+					var dC = registerTile.Matrix.GetFirst<DoorController>(
+						registerTile.LocalPositionServer + (Vector3Int) dir, true);
 					if (dC != null)
 					{
 						dC.TryOpen(gameObject);
@@ -282,13 +284,18 @@ public class MobPathFinder : MonoBehaviour
 						yield break;
 					}
 				}
+
 				var angleOfDir = Vector2.Angle(dir, transform.up);
 				if (dir.x < 0f)
 				{
 					angleOfDir = -angleOfDir;
 				}
 
-				dirSprites.CheckSpriteServer(angleOfDir);
+				if (dirSprites != null)
+				{
+					dirSprites.CheckSpriteServer(angleOfDir);
+				}
+
 				cnt.Push(dir);
 				movingToTile = true;
 			}
@@ -338,7 +345,9 @@ public class MobPathFinder : MonoBehaviour
 	/// It is also called on a path follow timeout or if something has
 	/// blocked the path and the NPC cannot go any further
 	/// </summary>
-	protected virtual void FollowCompleted() { }
+	protected virtual void FollowCompleted()
+	{
+	}
 
 	/// <summary>
 	/// This method is called if something has moved into the path
@@ -346,7 +355,9 @@ public class MobPathFinder : MonoBehaviour
 	/// more then 5 seconds. PathFinder will go back to idle when
 	/// this is called
 	/// </summary>
-	protected virtual void PathMoveTimedOut() { }
+	protected virtual void PathMoveTimedOut()
+	{
+	}
 
 	protected virtual void OnTileReached(Vector3Int tilePos)
 	{

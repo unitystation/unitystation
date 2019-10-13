@@ -11,6 +11,7 @@ public class MobAgent : Agent
 {
 	protected CustomNetTransform cnt;
 	protected RegisterObject registerObj;
+	protected NPCDirectionalSprites dirSprites;
 
 	private Vector3 startPos;
 
@@ -26,6 +27,7 @@ public class MobAgent : Agent
 	{
 		cnt = GetComponent<CustomNetTransform>();
 		registerObj = GetComponent<RegisterObject>();
+		dirSprites = GetComponent<NPCDirectionalSprites>();
 		agentParameters.onDemandDecision = true;
 	}
 
@@ -173,6 +175,17 @@ public class MobAgent : Agent
 			else
 			{
 				OnPushSolid(dest);
+			}
+			
+			var angleOfDir = Vector2.Angle(dirToMove, transform.up);
+			if (dirToMove.x < 0f)
+			{
+				angleOfDir = -angleOfDir;
+			}
+
+			if (dirSprites != null)
+			{
+				dirSprites.CheckSpriteServer(angleOfDir);
 			}
 		}
 	}
