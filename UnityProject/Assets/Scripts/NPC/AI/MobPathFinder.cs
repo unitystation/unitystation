@@ -10,6 +10,8 @@ public class MobPathFinder : MonoBehaviour
 	protected Matrix matrix => registerTile.Matrix;
 	protected CustomNetTransform cnt;
 
+	protected NPCDirectionalSprites dirSprites;
+
 	protected bool isServer;
 
 	public bool performingDecision;
@@ -45,6 +47,7 @@ public class MobPathFinder : MonoBehaviour
 	{
 		registerTile = GetComponent<RegisterTile>();
 		cnt = GetComponent<CustomNetTransform>();
+		dirSprites = GetComponent<NPCDirectionalSprites>();
 	}
 
 	public virtual void OnEnable()
@@ -279,7 +282,13 @@ public class MobPathFinder : MonoBehaviour
 						yield break;
 					}
 				}
+				var angleOfDir = Vector2.Angle(dir, transform.up);
+				if (dir.x < 0f)
+				{
+					angleOfDir = -angleOfDir;
+				}
 
+				dirSprites.CheckSpriteServer(angleOfDir);
 				cnt.Push(dir);
 				movingToTile = true;
 			}
