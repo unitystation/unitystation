@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(MobFollow))]
@@ -13,6 +10,8 @@ public class MobAI : MonoBehaviour
 	protected MobExplore mobExplore;
 	protected MobFlee mobFlee;
 	protected LivingHealthBehaviour health;
+	protected NPCDirectionalSprites dirSprites;
+	protected CustomNetTransform cnt;
 	protected bool isServer;
 
 	private float followingTime = 0f;
@@ -35,6 +34,8 @@ public class MobAI : MonoBehaviour
 		mobExplore = GetComponent<MobExplore>();
 		mobFlee = GetComponent<MobFlee>();
 		health = GetComponent<LivingHealthBehaviour>();
+		dirSprites = GetComponent<NPCDirectionalSprites>();
+		cnt = GetComponent<CustomNetTransform>();
 	}
 
 	public virtual void OnEnable()
@@ -181,7 +182,45 @@ public class MobAI : MonoBehaviour
 		fleeingStopped.Invoke();
 	}
 
-	void ResetBehaviours()
+	/// <summary>
+	/// please use these values:
+	/// 1 = N, 2 = NE, 3 = E, 4 = SE, 5 = S, 6 = SW, 7 = W, 8 = NW
+	/// This is because it is better to not allow any variations between the
+	/// defined directions
+	/// </summary>
+	protected void NudgeInDir(int dir)
+	{
+		switch (dir)
+		{
+			case 1: //N
+				cnt.Push(Vector2Int.up);
+				break;
+			case 2: //NE
+				cnt.Push(Vector2Int.one);
+				break;
+			case 3: //E
+				cnt.Push(Vector2Int.right);
+				break;
+			case 4: //SE
+				cnt.Push(new Vector2Int(1, -1));
+				break;
+			case 5: //S
+				cnt.Push(Vector2Int.down);
+				break;
+			case 6: //SW
+				cnt.Push(Vector2Int.one * -1);
+				break;
+			case 7: //W
+				cnt.Push(Vector2Int.left);
+				break;
+			case 8: //NW
+				cnt.Push(new Vector2Int(-1, 1));
+				break;
+		}
+	}
+
+	//Resets all the behaviours:
+	protected void ResetBehaviours()
 	{
 		if (mobFlee.activated)
 		{
@@ -197,5 +236,12 @@ public class MobAI : MonoBehaviour
 		{
 			mobExplore.Deactivate();
 		}
+
+		fleeTimeMax = -1f;
+		fleeingTime = 0f;
+		exploreTimeMax = -1f;
+		exploringTime = 0f;
+		followTimeMax = -1f;
+		followingTime = 0f;
 	}
 }

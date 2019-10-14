@@ -15,6 +15,23 @@ public class IanAI : MobAI
 
 	public override void LocalChatReceived(ChatEvent chatEvent)
 	{
+		var sanitize = chatEvent.message.ToLower();
+		Debug.Log(sanitize);
+		if (sanitize.Contains("ian come"))
+		{
+			FollowTarget(PlayerList.Instance.Get(chatEvent.speaker, false).GameObject.transform);
+		}
+
+		if (sanitize.Contains("ian stay"))
+		{
+			ResetBehaviours();
+		}
+
+		if (sanitize.Contains("ian explore"))
+		{
+			BeginExploring();
+		}
+
 		base.LocalChatReceived(chatEvent);
 	}
 
