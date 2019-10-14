@@ -25,6 +25,15 @@ public class MobFollow : MobAgent
 		}
 	}
 
+	/// <summary>
+	/// Make the mob start following a target
+	/// </summary>
+	public void StartFollowing(Transform target)
+	{
+		followTarget = target;
+		Activate();
+	}
+
 	public override void CollectObservations()
 	{
 		var curDist = Vector2.Distance(followTarget.transform.position, transform.position);

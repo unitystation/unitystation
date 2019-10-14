@@ -15,7 +15,7 @@ public class MobPathFinder : MonoBehaviour
 
 	protected bool isServer;
 
-	public bool performingDecision;
+	public bool activated;
 
 	public float tickRate = 1f;
 	private float tickWait;
@@ -73,6 +73,17 @@ public class MobPathFinder : MonoBehaviour
 		}
 	}
 
+	public virtual void Deactivate()
+	{
+		activated = false;
+		status = Status.idle;
+	}
+
+	public virtual void Activate()
+	{
+		activated = true;
+	}
+
 	void OnDrawGizmos()
 	{
 		if (debugPath != null)
@@ -90,7 +101,7 @@ public class MobPathFinder : MonoBehaviour
 			foreach (KeyValuePair<Vector2, Color> kvp in debugSearch)
 			{
 				Gizmos.color = kvp.Value;
-				Gizmos.DrawCube(transform.parent.TransformPoint((Vector3)kvp.Key), Vector3.one * 0.9f);
+				Gizmos.DrawCube(transform.parent.TransformPoint((Vector3) kvp.Key), Vector3.one * 0.9f);
 			}
 		}
 	}
@@ -118,7 +129,7 @@ public class MobPathFinder : MonoBehaviour
 		if (Vector2Int.Distance(startNode.position, goalNode.position) < 2f)
 		{
 			//This is just the next tile over, create a path with start and goal nodes
-			return new List<Node>(new Node[]{startNode, goalNode});
+			return new List<Node>(new Node[] {startNode, goalNode});
 		}
 
 		isComplete = false;
@@ -142,10 +153,10 @@ public class MobPathFinder : MonoBehaviour
 			timeOut++;
 			if (timeOut > 200)
 			{
-
 				isComplete = true;
 				//This could be because you are trying to use a goal node that is inside a wall or the path was blocked
-				Logger.Log($"Pathing finding could not find a path where one was expected to be found. StartNode {startNode.position} GoalNode {goalNode.position}",
+				Logger.Log(
+					$"Pathing finding could not find a path where one was expected to be found. StartNode {startNode.position} GoalNode {goalNode.position}",
 					Category.Movement);
 				return null;
 			}
@@ -239,7 +250,6 @@ public class MobPathFinder : MonoBehaviour
 			Node neighbor = node.neighbors[i];
 
 
-
 			if (exploredNodes.Contains(neighbor))
 			{
 				continue;
@@ -284,8 +294,10 @@ public class MobPathFinder : MonoBehaviour
 		if (health.IsDead || health.IsCrit || health.IsCardiacArrest)
 		{
 			Logger.Log("You are trying to follow a path when living thing is dead or in crit", Category.Movement);
+			status = Status.idle;
 			return;
 		}
+
 		status = Status.followingPath;
 		//	debugPath = path;
 		StartCoroutine(PerformFollowPath(path));
@@ -297,6 +309,12 @@ public class MobPathFinder : MonoBehaviour
 
 		while (node < path.Count)
 		{
+			if (!activated)
+			{
+				yield return WaitFor.EndOfFrame;
+				yield break;
+			}
+
 			if (!movingToTile)
 			{
 				if (tickRate != 0f)

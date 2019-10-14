@@ -23,7 +23,7 @@ public class MobAgent : Agent
 	public float tickRate = 1f;
 	private float tickWait;
 	private float decisionTimeOut;
-
+	
 	void Awake()
 	{
 		cnt = GetComponent<CustomNetTransform>();
@@ -43,9 +43,17 @@ public class MobAgent : Agent
 	}
 
 	[ContextMenu("Force Activate")]
-	void ForceActivate()
+	public virtual void Activate()
 	{
 		activated = true;
+	}
+
+	public virtual void Deactivate()
+	{
+		activated = false;
+		performingDecision = false;
+		decisionTimeOut = 0f;
+		tickWait = 0f;
 	}
 
 	public override void OnEnable()

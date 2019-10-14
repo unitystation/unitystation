@@ -15,23 +15,27 @@ public class MobExplore : MobAgent
 
 	public Target target;
 
-	protected override void AgentServerStart()
+	/// <summary>
+	/// Begin searching for the predefined target
+	/// </summary>
+	public void BeginExploring()
 	{
-		activated = true;
+		Activate();
 	}
 
-	private List<Vector3Int> alreadyEaten = new List<Vector3Int>();
-
-	public override void AgentReset()
+	/// <summary>
+	/// Begin exploring for the given target type
+	/// </summary>
+	/// <param name="target"></param>
+	public void BeginExploring(Target _target)
 	{
-		base.AgentReset();
-		alreadyEaten.Clear();
+		target = _target;
+		Activate();
 	}
 
 	public override void CollectObservations()
 	{
 		var curPos = registerObj.LocalPositionServer;
-	//	AddVectorObs((Vector2Int)curPos);
 
 		ObserveAdjacentTiles();
 
@@ -64,26 +68,22 @@ public class MobExplore : MobAgent
 		switch (target)
 		{
 			case Target.food:
-				if (registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null &&
-				    !alreadyEaten.Contains(checkPos)) return true;
+				if (registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null) return true;
 				return false;
 		}
 
 		return false;
 	}
 
-	//This is really for training:
-	void PerformTargetAction(Vector3Int checkPos)
+	/// <summary>
+	/// Override this for custom target actions
+	/// </summary>
+	protected virtual void PerformTargetAction(Vector3Int checkPos)
 	{
 		switch (target)
 		{
 			case Target.food:
 				var edible = registerObj.Matrix.GetFirst<Edible>(checkPos, true);
-				if (edible != null)
-				{
-					alreadyEaten.Add(checkPos);
-				}
-
 				edible.NPCTryEat();
 				break;
 		}

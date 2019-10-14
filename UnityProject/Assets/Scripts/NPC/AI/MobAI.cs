@@ -14,6 +14,9 @@ public class MobAI : MonoBehaviour
 	protected LivingHealthBehaviour health;
 	protected bool isServer;
 
+	private float followingTime = 0f;
+	private float followTimeMax;
+
 	protected virtual void Awake()
 	{
 		mobFollow = GetComponent<MobFollow>();
@@ -42,15 +45,62 @@ public class MobAI : MonoBehaviour
 		}
 	}
 
-	//Server only update loop
-	protected virtual void UpdateMe() { }
+	/// <summary>
+	/// Server only update loop. Make sure to call base.UpdateMe() if overriding
+	/// </summary>
+	protected virtual void UpdateMe()
+	{
+		MonitorFollowingTime();
+	}
+
+	void MonitorFollowingTime()
+	{
+		if (mobFollow.activated && followTimeMax != -1f)
+		{
+			followingTime += Time.deltaTime;
+			if (followingTime > followTimeMax)
+			{
+				StopFollowing();
+			}
+		}
+	}
 
 	/// <summary>
 	/// Called on the server whenever a localchat event has been heard
 	/// by the NPC
 	/// </summary>
-	public virtual void LocalChatReceived(ChatEvent chatEvent)
-	{
+	public virtual void LocalChatReceived(ChatEvent chatEvent) { }
 
+	protected void FollowTarget(Transform target, float followDuration = -1f)
+	{
+		ResetBehaviours();
+		followTimeMax = followDuration;
+		followingTime = 0f;
+		mobFollow.StartFollowing(target);
+	}
+
+	protected void StopFollowing()
+	{
+		mobFollow.Deactivate();
+		followTimeMax = -1f;
+		followingTime = 0f;
+	}
+
+	void ResetBehaviours()
+	{
+		if (mobFlee.activated)
+		{
+			mobFlee.Deactivate();
+		}
+
+		if (mobFollow.activated)
+		{
+			mobFollow.Deactivate();
+		}
+
+		if (mobExplore.activated)
+		{
+			mobExplore.Deactivate();
+		}
 	}
 }

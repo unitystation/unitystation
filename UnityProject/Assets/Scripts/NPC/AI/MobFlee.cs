@@ -22,6 +22,14 @@ public class MobFlee : MobPathFinder
 	[ContextMenu("Force Activate")]
 	void ForceActivate()
 	{
+		Activate();
+		TryToFlee();
+	}
+
+	public void FleeFromTarget(Transform target)
+	{
+		fleeTarget = target;
+		Activate();
 		TryToFlee();
 	}
 
@@ -33,6 +41,8 @@ public class MobFlee : MobPathFinder
 
 	void TryToFlee()
 	{
+		if (!activated) return;
+
 		var oppositeDir = ((fleeTarget.localPosition - transform.localPosition).normalized) * -1f;
 		StartCoroutine(FindValidWayPoint(oppositeDir));
 	}
