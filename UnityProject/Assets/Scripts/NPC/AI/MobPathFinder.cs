@@ -25,6 +25,7 @@ public class MobPathFinder : MonoBehaviour
 
 	//For OnDrawGizmos
 	private List<Node> debugPath;
+	private Dictionary<Vector2, Color> debugSearch = new Dictionary<Vector2, Color>();
 
 	public enum Status
 	{
@@ -81,6 +82,15 @@ public class MobPathFinder : MonoBehaviour
 				Gizmos.DrawLine(from, to);
 			}
 		}
+
+		if (debugSearch.Count > 0)
+		{
+			foreach (KeyValuePair<Vector2, Color> kvp in debugSearch)
+			{
+				Gizmos.color = kvp.Value;
+				Gizmos.DrawCube(transform.parent.TransformPoint((Vector3)kvp.Key), Vector3.one * 0.9f);
+			}
+		}
 	}
 
 	///<summary>
@@ -103,8 +113,14 @@ public class MobPathFinder : MonoBehaviour
 			position = targetPos
 		};
 
-		isComplete = false;
+		if (Vector2Int.Distance(startNode.position, goalNode.position) < 2f)
+		{
+			//This is just the next tile over, create a path with start and goal nodes
+			return new List<Node>(new Node[]{startNode, goalNode});
+		}
 
+		isComplete = false;
+		isComplete = false;
 		frontierNodes = new PriorityQueue<Node>();
 		frontierNodes.Enqueue(startNode);
 		exploredNodes.Clear();
@@ -118,14 +134,16 @@ public class MobPathFinder : MonoBehaviour
 	{
 		status = Status.searching;
 		int timeOut = 0;
+
 		while (!isComplete)
 		{
 			timeOut++;
-			if (timeOut > 500)
+			if (timeOut > 200)
 			{
+
 				isComplete = true;
 				//This could be because you are trying to use a goal node that is inside a wall or the path was blocked
-				Logger.LogError("Pathing finding could not find a path where one was expected to be found",
+				Logger.Log($"Pathing finding could not find a path where one was expected to be found. StartNode {startNode.position} GoalNode {goalNode.position}",
 					Category.Movement);
 				return null;
 			}
@@ -218,13 +236,19 @@ public class MobPathFinder : MonoBehaviour
 		{
 			Node neighbor = node.neighbors[i];
 
+
+
 			if (exploredNodes.Contains(neighbor))
+			{
 				continue;
+			}
 
 			RefreshNodeType(neighbor);
 
 			if (node.neighbors[i].nodeType == PathFinding.NodeType.Blocked)
+			{
 				continue;
+			}
 
 			float distanceToNeighbor = GetNodeDistance(node, neighbor);
 			float newDistanceTraveled = distanceToNeighbor + node.distanceTraveled + (int) node.nodeType;
@@ -235,9 +259,11 @@ public class MobPathFinder : MonoBehaviour
 				neighbor.previous = node;
 				neighbor.distanceTraveled = newDistanceTraveled;
 				neighbor.priority = newPriority;
-				if (node == goalNode)
+
+				if (node == goalNode || neighbor == goalNode)
 				{
 					pathFound = true;
+					break;
 				}
 				else
 				{
@@ -372,6 +398,12 @@ public class MobPathFinder : MonoBehaviour
 		Vector3Int checkPos = new Vector3Int(node.position.x,
 			node.position.y, 0);
 
+		if (checkPos == registerTile.LocalPositionServer)
+		{
+			node.nodeType = PathFinding.NodeType.Open;
+			return;
+		}
+
 		if (matrix.IsPassableAt(checkPos, true))
 		{
 			node.nodeType = PathFinding.NodeType.Open;
@@ -400,15 +432,6 @@ public class MobPathFinder : MonoBehaviour
 
 	private static float GetNodeDistance(Node source, Node target)
 	{
-		int dx = Mathf.Abs(source.position.x - target.position.x);
-		int dy = Mathf.Abs(source.position.y - target.position.y);
-
-		int min = Mathf.Min(dx, dy);
-		int max = Mathf.Max(dx, dy);
-
-		int diagonalSteps = min;
-		int straightSteps = max - min;
-
-		return (1.4f * diagonalSteps + straightSteps);
+		return Vector2.Distance(source.position, target.position);
 	}
 }

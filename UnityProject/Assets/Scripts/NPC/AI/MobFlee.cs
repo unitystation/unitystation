@@ -19,7 +19,7 @@ public class MobFlee : MobPathFinder
 		doorMask = LayerMask.GetMask("Door Open", "Door Closed", "Windows");
 		obstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects");
 		doorAndObstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects", "Door Open",
-			"Door Closed");
+			"Door Closed", "Players");
 	}
 
 	[ContextMenu("Force Activate")]
@@ -59,7 +59,7 @@ public class MobFlee : MobPathFinder
 					if (tryGetDoor != null)
 					{
 						//Can the NPC access this door
-						if (CanNPCAccessDoor(tryGetDoor))
+						if (CanNPCAccessDoor(tryGetDoor) && tryGetDoor.doorType != DoorType.sliding)
 						{
 							visibleDoors.Add(coll);
 						}
@@ -136,7 +136,7 @@ public class MobFlee : MobPathFinder
 
 					if (MatrixManager.IsPassableAt(checkPos, true))
 					{
-						RaycastHit2D hit = Physics2D.Linecast(refPoint + (Vector3) oppositeDir, (Vector3) checkPos,
+						RaycastHit2D hit = Physics2D.Linecast(refPoint + (checkPos - refPoint).normalized, (Vector3) checkPos,
 							doorAndObstacleMask);
 						if (hit.collider == null)
 						{

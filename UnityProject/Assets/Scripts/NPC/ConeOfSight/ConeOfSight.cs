@@ -65,7 +65,7 @@ public class ConeOfSight : MonoBehaviour
 
 		//First see how far the initial direction is
 		RaycastHit2D dirHit = Physics2D.Raycast(originWorldPos, direction, lengthOfSight, hitMask);
-		Debug.DrawRay(originWorldPos, direction, Color.red, 10f);
+	//	Debug.DrawRay(originWorldPos, direction, Color.red, 10f);
 		if (dirHit.collider == null)
 		{
 			furthestDist = lengthOfSight;
