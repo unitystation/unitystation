@@ -42,7 +42,14 @@ public class MobAI : MonoBehaviour
 		}
 	}
 
-	protected virtual void UpdateMe()
+	//Server only update loop
+	protected virtual void UpdateMe() { }
+
+	/// <summary>
+	/// Called on the server whenever a localchat event has been heard
+	/// by the NPC
+	/// </summary>
+	public virtual void LocalChatReceived(ChatEvent chatEvent)
 	{
 
 	}

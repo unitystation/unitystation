@@ -85,7 +85,7 @@ public class ChatRelay : NetworkBehaviour
 		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat) {
 			//			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
 			RaycastHit2D hit;
-			LayerMask layerMask = 1 << 9; //Walls layer
+			LayerMask layerMask = LayerMask.GetMask("Walls","Door Closed");
 			for (int i = 0; i < players.Count(); i++) {
 				if (Vector2.Distance(chatEvent.position,//speaker.GameObject.transform.position,
 									players[i].GameObject.transform.position) > 14f) {
@@ -93,10 +93,26 @@ public class ChatRelay : NetworkBehaviour
 					players.Remove(players[i]);
 				} else {
 					//within range, but check if they are in another room or hiding behind a wall
-					if (Physics2D.Linecast(chatEvent.position,//speaker.GameObject.transform.position, 
+					if (Physics2D.Linecast(chatEvent.position,//speaker.GameObject.transform.position,
 										  players[i].GameObject.transform.position, layerMask)) {
 						//if it hit a wall remove that player
 						players.Remove(players[i]);
+					}
+				}
+			}
+
+			//Get NPCs in vicinity
+			var npcMask = LayerMask.GetMask("NPC");
+			var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
+			foreach (Collider2D coll in npcs)
+			{
+				if (!Physics2D.Linecast(chatEvent.position,
+					coll.transform.position, layerMask)) {
+					//NPC is in hearing range, pass the message on:
+					var mobAi = coll.GetComponent<MobAI>();
+					if (mobAi != null)
+					{
+						mobAi.LocalChatReceived(chatEvent);
 					}
 				}
 			}
