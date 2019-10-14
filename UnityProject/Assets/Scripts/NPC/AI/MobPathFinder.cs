@@ -11,6 +11,7 @@ public class MobPathFinder : MonoBehaviour
 	protected CustomNetTransform cnt;
 
 	protected NPCDirectionalSprites dirSprites;
+	protected LivingHealthBehaviour health;
 
 	protected bool isServer;
 
@@ -49,6 +50,7 @@ public class MobPathFinder : MonoBehaviour
 		registerTile = GetComponent<RegisterTile>();
 		cnt = GetComponent<CustomNetTransform>();
 		dirSprites = GetComponent<NPCDirectionalSprites>();
+		health = GetComponent<LivingHealthBehaviour>();
 	}
 
 	public virtual void OnEnable()
@@ -279,6 +281,11 @@ public class MobPathFinder : MonoBehaviour
 	/// </summary>
 	protected void FollowPath(List<Node> path)
 	{
+		if (health.IsDead || health.IsCrit || health.IsCardiacArrest)
+		{
+			Logger.Log("You are trying to follow a path when living thing is dead or in crit", Category.Movement);
+			return;
+		}
 		status = Status.followingPath;
 		//	debugPath = path;
 		StartCoroutine(PerformFollowPath(path));
@@ -292,6 +299,11 @@ public class MobPathFinder : MonoBehaviour
 		{
 			if (!movingToTile)
 			{
+				if (tickRate != 0f)
+				{
+					yield return WaitFor.Seconds(tickRate);
+				}
+
 				var dir = path[node].position - Vector2Int.RoundToInt(transform.localPosition);
 				if (!registerTile.Matrix.IsPassableAt(registerTile.LocalPositionServer + (Vector3Int) dir, true))
 				{

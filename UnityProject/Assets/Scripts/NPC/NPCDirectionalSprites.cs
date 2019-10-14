@@ -52,6 +52,8 @@ public class NPCDirectionalSprites : NetworkBehaviour
 	/// <param name="angleDirection"></param>
 	public void CheckSpriteServer(float angleDirection)
 	{
+		if (health.IsDead || health.IsCrit) return;
+
 		var tryGetDir = GetDirNumber(angleDirection);
 		ChangeSprite(tryGetDir);
 		dir = tryGetDir;

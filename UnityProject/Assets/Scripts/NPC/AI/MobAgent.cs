@@ -12,6 +12,7 @@ public class MobAgent : Agent
 	protected CustomNetTransform cnt;
 	protected RegisterObject registerObj;
 	protected NPCDirectionalSprites dirSprites;
+	protected LivingHealthBehaviour health;
 
 	private Vector3 startPos;
 
@@ -28,6 +29,7 @@ public class MobAgent : Agent
 		cnt = GetComponent<CustomNetTransform>();
 		registerObj = GetComponent<RegisterObject>();
 		dirSprites = GetComponent<NPCDirectionalSprites>();
+		health = GetComponent<LivingHealthBehaviour>();
 		agentParameters.onDemandDecision = true;
 	}
 
@@ -100,6 +102,12 @@ public class MobAgent : Agent
 
 	void MonitorDecisionMaking()
 	{
+		if (health.IsDead || health.IsCrit || health.IsCardiacArrest)
+		{
+			//can't do anything this NPC is not capable of movement
+			return;
+		}
+
 		tickWait += Time.deltaTime;
 
 		if (performingDecision && activated)

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PathFinding;
 
 [RequireComponent(typeof(ConeOfSight))]
 public class MobFlee : MobPathFinder
@@ -9,7 +8,6 @@ public class MobFlee : MobPathFinder
 	private ConeOfSight coneOfSight;
 	public Transform fleeTarget;
 	private int doorMask;
-	private int obstacleMask;
 	private int doorAndObstacleMask;
 
 	public override void OnEnable()
@@ -17,7 +15,6 @@ public class MobFlee : MobPathFinder
 		base.OnEnable();
 		coneOfSight = GetComponent<ConeOfSight>();
 		doorMask = LayerMask.GetMask("Door Open", "Door Closed", "Windows");
-		obstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects");
 		doorAndObstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects", "Door Open",
 			"Door Closed", "Players");
 	}
@@ -30,6 +27,7 @@ public class MobFlee : MobPathFinder
 
 	protected override void FollowCompleted()
 	{
+		if (health.IsDead || health.IsCrit || health.IsCardiacArrest || fleeTarget == null) return;
 		TryToFlee();
 	}
 
