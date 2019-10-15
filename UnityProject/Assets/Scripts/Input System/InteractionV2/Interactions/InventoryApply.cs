@@ -31,8 +31,8 @@ public class InventoryApply : TargetedInteraction
 	/// </summary>
 	/// <param name="performer">The gameobject of the player performing the InventoryApply</param>
 	/// <param name="handObject">Object in the player's active hand. Null if player's hand is empty.</param>
+	/// <param name="targetSlot">object that the player applying the used object to</param>
 	/// <param name="handSlot">hand slot of handObject</param>
-	/// <param name="targetObject">object that the player applying the used object to</param>
 	private InventoryApply(GameObject performer, GameObject handObject, InventorySlot targetSlot, HandSlot handSlot) :
 		base(performer, handObject, targetSlot.Item)
 	{

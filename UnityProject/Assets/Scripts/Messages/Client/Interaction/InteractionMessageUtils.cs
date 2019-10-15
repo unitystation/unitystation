@@ -40,7 +40,8 @@ public static class InteractionMessageUtils
 
 		if (!(processor is Component))
 		{
-			Logger.LogError("processor must be a component, but isn't. The message will not be sent.", Category.NetMessage);
+			Logger.LogError("processor must be a component, but isn't. The message will not be sent.",
+				Category.NetMessage);
 			return;
 		}
 
@@ -69,6 +70,11 @@ public static class InteractionMessageUtils
 		else if (typeof(T) == typeof(HandActivate))
 		{
 			RequestHandActivateMessage.Send(info as HandActivate, processorObject, specificComponent);
+			return;
+		}
+		else if (typeof(T) == typeof(InventoryApply))
+		{
+			RequestInventoryApplyMessage.Send(info as InventoryApply, processorObject);
 			return;
 		}
 
