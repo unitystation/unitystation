@@ -23,7 +23,7 @@ public class MobAgent : Agent
 	public float tickRate = 1f;
 	private float tickWait;
 	private float decisionTimeOut;
-	
+
 	void Awake()
 	{
 		cnt = GetComponent<CustomNetTransform>();
@@ -39,7 +39,7 @@ public class MobAgent : Agent
 	//lines present for any future retraining
 	public override void AgentReset()
 	{
-		cnt.SetPosition(startPos);
+	//	cnt.SetPosition(startPos);
 	}
 
 	[ContextMenu("Force Activate")]

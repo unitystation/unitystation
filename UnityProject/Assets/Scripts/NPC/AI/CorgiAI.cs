@@ -37,7 +37,6 @@ public class CorgiAI : MobAI
 
 	public override void LocalChatReceived(ChatEvent chatEvent)
 	{
-		Debug.Log(chatEvent.speaker);
 		ProcessLocalChat(chatEvent);
 		base.LocalChatReceived(chatEvent);
 	}
