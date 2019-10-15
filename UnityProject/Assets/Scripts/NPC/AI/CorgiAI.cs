@@ -49,7 +49,7 @@ public class CorgiAI : MobAI
 		if (speaker.Script == null) return;
 		if (speaker.Script.playerNetworkActions == null) return;
 
-			// Check for an ID card (could not find a better solution)
+		// Check for an ID card (could not find a better solution)
 		var PNA = speaker.Script.playerNetworkActions;
 		IDCard card = null;
 		if (PNA.Inventory.ContainsKey(EquipSlot.id) &&
@@ -95,11 +95,12 @@ public class CorgiAI : MobAI
 		//Slight delay for the others:
 		yield return WaitFor.Seconds(0.5f);
 
-		if (msg.Contains($"{dogName} come") || msg.Contains($"{dogName} follow"))
+		if (msg.Contains($"{dogName} come") || msg.Contains($"{dogName} follow")
+		                                    || msg.Contains($"come {dogName}"))
 		{
 			if (Random.value > 0.8f)
 			{
-				yield return ChaseTail(1);
+				yield return StartCoroutine(ChaseTail(1));
 			}
 
 			FollowTarget(speaker.GameObject.transform);
@@ -110,7 +111,7 @@ public class CorgiAI : MobAI
 		{
 			if (Random.value > 0.8f)
 			{
-				yield return ChaseTail(2);
+				yield return StartCoroutine(ChaseTail(2));
 			}
 
 			BeginExploring();
@@ -127,7 +128,7 @@ public class CorgiAI : MobAI
 			for (int spriteDir = 1; spriteDir < 5; spriteDir++)
 			{
 				dirSprites.DoManualChange(spriteDir);
-				yield return WaitFor.Seconds(0.4f);
+				yield return WaitFor.Seconds(0.3f);
 			}
 
 			timesSpun++;
@@ -162,13 +163,13 @@ public class CorgiAI : MobAI
 	{
 		//TODO monitor hunger when it is added
 
-		if (!IsPerformingTask) return;
+		if (IsPerformingTask) return;
 
 		timeWaiting += Time.deltaTime;
 		if (timeWaiting > timeForNextRandomAction)
 		{
 			timeWaiting = 0f;
-			timeForNextRandomAction = Random.Range(10f, 100f);
+			timeForNextRandomAction = Random.Range(8f, 30f);
 
 			DoRandomAction(Random.Range(1, 3));
 		}

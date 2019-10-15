@@ -418,7 +418,7 @@ public class MobPathFinder : MonoBehaviour
 	protected virtual void OnTileReached(Vector3Int tilePos)
 	{
 		if (!activated) return;
-		
+
 		if (movingToTile && !arrivedAtTile)
 		{
 			arrivedAtTile = true;
