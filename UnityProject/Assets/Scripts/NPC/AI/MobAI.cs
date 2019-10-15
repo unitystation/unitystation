@@ -28,6 +28,22 @@ public class MobAI : MonoBehaviour
 	protected UnityEvent exploringStopped = new UnityEvent();
 	protected UnityEvent fleeingStopped = new UnityEvent();
 
+	/// <summary>
+	/// Is MobAI currently performing an AI task like following or exploring
+	/// </summary>
+	public bool IsPerformingTask
+	{
+		get
+		{
+			if (mobExplore.activated || mobFollow.activated || mobFlee.activated)
+			{
+				return true;
+			}
+
+			return false;
+		}
+	}
+
 	protected virtual void Awake()
 	{
 		mobFollow = GetComponent<MobFollow>();
@@ -190,32 +206,45 @@ public class MobAI : MonoBehaviour
 	/// </summary>
 	protected void NudgeInDir(int dir)
 	{
+		Vector2Int nudgeDir = Vector2Int.zero;
 		switch (dir)
 		{
 			case 1: //N
-				cnt.Push(Vector2Int.up);
+				nudgeDir = Vector2Int.up;
 				break;
 			case 2: //NE
-				cnt.Push(Vector2Int.one);
+				nudgeDir = Vector2Int.one;
 				break;
 			case 3: //E
-				cnt.Push(Vector2Int.right);
+				nudgeDir = Vector2Int.right;
 				break;
 			case 4: //SE
-				cnt.Push(new Vector2Int(1, -1));
+				nudgeDir = new Vector2Int(1, -1);
 				break;
 			case 5: //S
-				cnt.Push(Vector2Int.down);
+				nudgeDir = Vector2Int.down;
 				break;
 			case 6: //SW
-				cnt.Push(Vector2Int.one * -1);
+				nudgeDir = Vector2Int.one * -1;
 				break;
 			case 7: //W
-				cnt.Push(Vector2Int.left);
+				nudgeDir = Vector2Int.left;
 				break;
 			case 8: //NW
-				cnt.Push(new Vector2Int(-1, 1));
+				nudgeDir = new Vector2Int(-1, 1);
 				break;
+		}
+
+		if (nudgeDir != Vector2Int.zero)
+		{
+			cnt.Push(nudgeDir);
+			var angleOfDir = Vector3.Angle((Vector2)nudgeDir, transform.up);
+			if (nudgeDir.x < 0f)
+			{
+				angleOfDir = -angleOfDir;
+			}
+
+			dirSprites.CheckSpriteServer(angleOfDir);
 		}
 	}
 

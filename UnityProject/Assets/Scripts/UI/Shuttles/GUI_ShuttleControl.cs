@@ -95,7 +95,7 @@ public class GUI_ShuttleControl : NetTab {
 	private void AddEmagItems()
 	{
 		EntryList.AddItems( MapIconType.Human, GetObjectsOf<PlayerSync>() );
-		EntryList.AddItems( MapIconType.Ian , GetObjectsOf<IanAI>() );
+		EntryList.AddItems( MapIconType.Ian , GetObjectsOf<CorgiAI>() );
 		RescanElements();
 
 		StartRefresh();

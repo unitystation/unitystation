@@ -360,8 +360,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 045023acf668941c190d73047ed87e74
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 1226608153
 --- !u!114 &1750259749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fade882731d3484cb3c63dfcad2def4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  performingDecision: 0
+  activated: 0
   tickRate: 0
   status: 0
   fleeTarget: {fileID: 0}
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d7861cc0289714b8989f7181986a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldOfView: 140
+  fieldOfView: 180
 --- !u!114 &8251347940129356532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,6 +470,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 715d7edbfa5ae6742b05a85634ad752c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dogName: Ian
+  allowedToGiveCommands: 0600000016000000
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0

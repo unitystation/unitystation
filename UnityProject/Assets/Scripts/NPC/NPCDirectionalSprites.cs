@@ -47,7 +47,7 @@ public class NPCDirectionalSprites : NetworkBehaviour
 
 	/// <summary>
 	/// Use this method to update the direction sprite based on an angle
-	/// in degrees (-90f to 90f);
+	/// in degrees (-180f to 180f);
 	/// </summary>
 	/// <param name="angleDirection"></param>
 	public void CheckSpriteServer(float angleDirection)
@@ -60,8 +60,18 @@ public class NPCDirectionalSprites : NetworkBehaviour
 	}
 
 	/// <summary>
+	/// For setting the sprite dir num manually
+	/// server side
+	/// </summary>
+	public void DoManualChange(int spriteNum)
+	{
+		ChangeSprite(spriteNum);
+		dir = spriteNum;
+	}
+
+	/// <summary>
 	/// Gets the directional number used in the syncvar based
-	/// on an angle. Angle should be in -Pi, Pi values (-90, 90)
+	/// on an angle. Angle should be in -Pi, Pi values (-180, 180)
 	/// </summary>
 	/// 1=up ,2=right ,3=down ,4=left
 	private int GetDirNumber(float angle)

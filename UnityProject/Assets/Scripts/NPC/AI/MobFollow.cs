@@ -65,6 +65,8 @@ public class MobFollow : MobAgent
 
 	protected override void OnTileReached(Vector3Int tilePos)
 	{
+		if (!activated || followTarget == null) return;
+
 		var compareDist = Vector2.Distance(followTarget.transform.position, transform.position);
 
 		if (compareDist < distanceCache)
