@@ -11,6 +11,16 @@ public class AccessRestrictions : MonoBehaviour
 		IDCard card;
 		PlayerNetworkActions PNA = Player.GetComponent<PlayerNetworkActions>();
 
+		//this isn't a player. It could be an npc:
+		if (PNA == null)
+		{
+			if ((int) restriction == 0)
+			{
+				return true;
+			}
+			return false;
+		}
+
 		// Check for an ID card
 		if (PNA.Inventory.ContainsKey(EquipSlot.id) &&
 		    PNA.Inventory[EquipSlot.id].Item?.GetComponent<IDCard>() != null)

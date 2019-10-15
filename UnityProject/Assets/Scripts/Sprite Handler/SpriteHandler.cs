@@ -106,6 +106,14 @@ public class SpriteHandler : SpriteDataHandler
 		spriteRenderer.sprite = animationStills.sprite;
 	}
 
+	public int test;
+
+	[ContextMenu("Test Change Sprite")]
+	void ChangeIt()
+	{
+		ChangeSprite(test);
+	}
+
 	public void ChangeSprite(int newSprites)
 	{
 		if ((newSprites < Infos.List.Count))
@@ -131,7 +139,7 @@ public class SpriteHandler : SpriteDataHandler
 			{
 				if (VariantIndex != SpriteVariant)
 				{
-					if (Infos.List[spriteIndex][SpriteVariant].Count <= animationIndex) { 
+					if (Infos.List[spriteIndex][SpriteVariant].Count <= animationIndex) {
 						animationIndex = 0;
 					}
 					SetSprite(Infos.List[spriteIndex][SpriteVariant][animationIndex]);
