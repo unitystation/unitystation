@@ -13,6 +13,7 @@ public class MetaTileMap : MonoBehaviour
 	//Using arrays for iteration speed
 	private LayerType[] LayersKeys { get; set; }
 	private Layer[] LayersValues { get; set; }
+
 	/// <summary>
 	/// Array of only layers that can ever contain solid stuff
 	/// </summary>
@@ -31,8 +32,8 @@ public class MetaTileMap : MonoBehaviour
 			Layers[type] = layer;
 			layersKeys.Add(type);
 			layersValues.Add(layer);
-			if ( type != LayerType.Effects
-			  && type != LayerType.None)
+			if (type != LayerType.Effects
+			    && type != LayerType.None)
 			{
 				solidLayersValues.Add(layer);
 			}
@@ -49,27 +50,32 @@ public class MetaTileMap : MonoBehaviour
 	}
 
 	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-							 CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 		Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
-		return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context) && _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context) ||
-		       _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context) && _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context);
+		return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context) &&
+		       _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context) ||
+		       _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context) &&
+		       _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context);
 	}
 
 	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-							   CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
 	{
 		for (var i = 0; i < SolidLayersValues.Length; i++)
 		{
 			// Skip floor & base collisions if this is not a shuttle
 			if (collisionType != CollisionType.Shuttle &&
-				(SolidLayersValues[i].LayerType == LayerType.Floors || SolidLayersValues[i].LayerType == LayerType.Base ))
+			    (SolidLayersValues[i].LayerType == LayerType.Floors ||
+			     SolidLayersValues[i].LayerType == LayerType.Base))
 			{
 				continue;
 			}
-			if (!SolidLayersValues[i].IsPassableAt(origin, to, isServer, collisionType: collisionType, inclPlayers: inclPlayers, context: context))
+
+			if (!SolidLayersValues[i].IsPassableAt(origin, to, isServer, collisionType: collisionType,
+				inclPlayers: inclPlayers, context: context))
 			{
 				return false;
 			}
@@ -116,6 +122,20 @@ public class MetaTileMap : MonoBehaviour
 		}
 
 		return true;
+	}
+
+	public bool IsTileTypeAt(Vector3Int position, bool isServer, TileType tileType)
+	{
+		for (var i = 0; i < LayersValues.Length; i++)
+		{
+			LayerTile tile = LayersValues[i].GetTile(position);
+			if (tile != null && tile.TileType == tileType)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
@@ -186,9 +206,9 @@ public class MetaTileMap : MonoBehaviour
 
 			if (layer == LayerType.Objects)
 			{
-				foreach ( RegisterTile o in isServer ?
-					((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
-					: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position) )
+				foreach (RegisterTile o in isServer
+					? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
+					: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position))
 				{
 					if (!o.IsPassable(isServer))
 					{
@@ -210,21 +230,22 @@ public class MetaTileMap : MonoBehaviour
 			{
 				return false;
 			}
+
 			if (layer == LayerType.Objects)
 			{
-				foreach ( RegisterTile o in isServer ?
-					((ObjectLayer) LayersValues[i]).ServerObjects.Get(position)
-					: ((ObjectLayer) LayersValues[i]).ClientObjects.Get(position) )
+				foreach (RegisterTile o in isServer
+					? ((ObjectLayer) LayersValues[i]).ServerObjects.Get(position)
+					: ((ObjectLayer) LayersValues[i]).ClientObjects.Get(position))
 				{
-					if ( o is RegisterObject )
+					if (o is RegisterObject)
 					{
 						PushPull pushPull = o.GetComponent<PushPull>();
-						if ( !pushPull )
+						if (!pushPull)
 						{
-							return o.IsPassable( isServer );
+							return o.IsPassable(isServer);
 						}
 
-						if ( pushPull.isNotPushable )
+						if (pushPull.isNotPushable)
 						{
 							return false;
 						}
@@ -248,9 +269,9 @@ public class MetaTileMap : MonoBehaviour
 
 			if (layer == LayerType.Objects)
 			{
-				foreach ( RegisterTile o in isServer ?
-					((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
-					: ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position) )
+				foreach (RegisterTile o in isServer
+					? ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
+					: ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position))
 				{
 					if (!o.IsPassable(isServer))
 					{

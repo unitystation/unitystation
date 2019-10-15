@@ -69,14 +69,14 @@ MonoBehaviour:
   Cleanable: 1
   SecondsUntilDisappear: 15
   PossibleSprites:
-  - {fileID: 21300000, guid: 66ff06282c4d4fcea2f559b38508bfe4, type: 3}
-  - {fileID: 21300002, guid: 66ff06282c4d4fcea2f559b38508bfe4, type: 3}
-  - {fileID: 21300004, guid: 66ff06282c4d4fcea2f559b38508bfe4, type: 3}
-  - {fileID: 21300006, guid: 66ff06282c4d4fcea2f559b38508bfe4, type: 3}
-  - {fileID: 21300008, guid: 66ff06282c4d4fcea2f559b38508bfe4, type: 3}
-  - {fileID: 21300010, guid: 66ff06282c4d4fcea2f559b38508bfe4, type: 3}
-  - {fileID: 21300012, guid: 66ff06282c4d4fcea2f559b38508bfe4, type: 3}
-  - {fileID: 21300016, guid: 66ff06282c4d4fcea2f559b38508bfe4, type: 3}
+  - {fileID: 21300000, guid: 199d4b701619abd4e8e9e05af31e0d80, type: 3}
+  - {fileID: 21300002, guid: 199d4b701619abd4e8e9e05af31e0d80, type: 3}
+  - {fileID: 21300004, guid: 199d4b701619abd4e8e9e05af31e0d80, type: 3}
+  - {fileID: 21300006, guid: 199d4b701619abd4e8e9e05af31e0d80, type: 3}
+  - {fileID: 21300008, guid: 199d4b701619abd4e8e9e05af31e0d80, type: 3}
+  - {fileID: 21300010, guid: 199d4b701619abd4e8e9e05af31e0d80, type: 3}
+  - {fileID: 21300012, guid: 199d4b701619abd4e8e9e05af31e0d80, type: 3}
+  - {fileID: 21300014, guid: 199d4b701619abd4e8e9e05af31e0d80, type: 3}
 --- !u!114 &3880655971207283369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +111,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  parentContainer: {fileID: 0}
   isNotPushable: 1
 --- !u!114 &5970883310966741463
 MonoBehaviour:
@@ -153,7 +152,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3354414245
+  m_SceneId: 2587691571
 --- !u!1 &3880655971395685414
 GameObject:
   m_ObjectHideFlags: 0

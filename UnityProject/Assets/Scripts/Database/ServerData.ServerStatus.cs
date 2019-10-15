@@ -125,7 +125,7 @@ namespace DatabaseAPI
             status.ForkName = buildInfo.ForkName;
             status.BuildVersion = buildInfo.BuildNumber;
             status.CurrentMap = SceneManager.GetActiveScene().name;
-            status.GameMode = GameManager.Instance.gameMode.ToString();
+            status.GameMode = GameManager.Instance.GetGameModeName();
             status.IngameTime = GameManager.Instance.roundTimer.text;
             if (PlayerList.Instance != null)
             {

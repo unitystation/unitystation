@@ -12,11 +12,17 @@ using UnityEngine.UI;
 public partial class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
-
-	//TODO: How to network this and change before connecting:
-	public GameMode gameMode = GameMode.nukeops; //for demo
 	public bool counting;
 	public List<GameObject> Occupations = new List<GameObject>();
+	/// <summary>
+	/// The minimum number of players needed to start the pre-round countdown
+	/// </summary>
+	public int MinPlayersForCountdown = 1;
+	/// <summary>
+	/// How long the pre-round stage should last
+	/// </summary>
+	public float PreRoundTime = 30f;
+	public float startTime;
 	public float restartTime = 10f;
 	/// <summary>
 	/// Is respawning currently allowed? Can be set during a game to disable, such as when a nuke goes off.
@@ -33,6 +39,7 @@ public partial class GameManager : MonoBehaviour
 	public Text roundTimer;
 
 	public GameObject StandardOutfit;
+	public bool waitForStart;
 	public bool waitForRestart;
 
 	public DateTime stationTime;
@@ -43,8 +50,6 @@ public partial class GameManager : MonoBehaviour
 
 	private int MapRotationCount = 0;
 	private int MapRotationMapsCounter = 0;
-
-	public bool GameOver = false;
 
 	//Space bodies in the solar system <Only populated ServerSide>:
 	//---------------------------------
@@ -147,24 +152,9 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer && newScene.name != "Lobby")
 		{
-			stationTime = DateTime.Today.AddHours(12);
-			SpaceBodies.Clear();
-			PendingSpaceBodies = new Queue<MatrixMove>();
-			counting = true;
-			RespawnCurrentlyAllowed = RespawnAllowed;
-			StartCoroutine(WaitToInitEscape());
+			PreRoundStart();
 		}
-		GameOver = false;
 	}
-
-	//this could all still be used in the future for selecting traitors/culties/revs at game start:
-	// private void SetUpGameMode()
-	// {
-	// 	if(gameMode == GameMode.nukeops){
-	// 		//Show nuke opes selection
-	// 		Debug.Log("TODO Set up UI for nuke ops game");
-	// 	}
-	// }
 
 	public void SyncTime(string currentTime)
 	{
@@ -200,12 +190,18 @@ public partial class GameManager : MonoBehaviour
 
 		if (waitForRestart)
 		{
-
 			restartTime -= Time.deltaTime;
 			if (restartTime <= 0f)
 			{
-				waitForRestart = false;
 				RestartRound();
+			}
+		}
+		else if (waitForStart)
+		{
+			startTime -= Time.deltaTime;
+			if (startTime <= 0f)
+			{
+				RoundStart();
 			}
 		}
 		else if (counting)
@@ -215,8 +211,62 @@ public partial class GameManager : MonoBehaviour
 		}
 	}
 
+
 	/// <summary>
-	/// Calls the end of the round.true Server only
+	/// Calls the start of the preround
+	/// </summary>
+	public void PreRoundStart()
+	{
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			// Clear up any space bodies
+			SpaceBodies.Clear();
+			PendingSpaceBodies = new Queue<MatrixMove>();
+
+			// Find all available game modes
+			RefreshAllGameModes();
+
+			CurrentRoundState = RoundState.PreRound;
+			EventManager.Broadcast(EVENT.PreRoundStarted);
+
+			// Wait for the PlayerList instance to init before checking player count
+			StartCoroutine(WaitToCheckPlayers());
+		}
+	}
+
+	/// <summary>
+	/// Setup the station and then begin the round for the selected game mode
+	/// </summary>
+	public void RoundStart()
+	{
+		waitForStart = false;
+		// Only do this stuff on the server
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			// TODO hard coding gamemode for testing purposes
+			SelectGameMode("NukeOps");
+			// if (SecretGameMode && GameMode == null)
+			// {
+			// 	ChooseGameMode();
+			// }
+			// Game mode specific setup
+			GameMode.SetupRound();
+			GameMode.StartRound();
+			// TODO make job selection stuff
+
+			// Standard round start setup
+			stationTime = DateTime.Today.AddHours(12);
+			counting = true;
+			RespawnCurrentlyAllowed = GameMode.CanRespawn;
+			StartCoroutine(WaitToInitEscape());
+
+			CurrentRoundState = RoundState.Started;
+			EventManager.Broadcast(EVENT.RoundStarted);
+		}
+	}
+
+	/// <summary>
+	/// Calls the end of the round. Server only
 	/// </summary>
 	public void RoundEnd()
 	{
@@ -233,6 +283,36 @@ public partial class GameManager : MonoBehaviour
 			waitForRestart = true;
 			PlayerList.Instance.ReportScores();
 		}
+	}
+
+	/// <summary>
+	/// Wait for the PlayerList Instance to init before checking
+	/// </summary>
+	private IEnumerator WaitToCheckPlayers()
+	{
+		while (PlayerList.Instance == null)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+		CheckPlayerCount();
+	}
+
+	/// <summary>
+	/// Checks if there are enough players to start the pre-round countdown
+	/// </summary>
+	public void CheckPlayerCount()
+	{
+		if (CustomNetworkManager.Instance._isServer && PlayerList.Instance.ConnectionCount >= MinPlayersForCountdown)
+		{
+			StartCountdown();
+		}
+	}
+
+	public void StartCountdown()
+	{
+		startTime = PreRoundTime;
+		waitForStart = true;
+		UpdateCountdownMessage.Send(waitForStart, startTime);
 	}
 
 	public int GetOccupationsCount(JobType jobType)
@@ -339,18 +419,14 @@ public partial class GameManager : MonoBehaviour
 
 	public void RestartRound()
 	{
+		waitForRestart = false;
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			//TODO allow map change from admin portal
 
+			CurrentRoundState = RoundState.Ended;
 			EventManager.Broadcast(EVENT.RoundEnded);
 			CustomNetworkManager.Instance.ServerChangeScene(Maps[0]);
 		}
 	}
-}
-
-public enum GameMode
-{
-	extended,
-	nukeops
 }

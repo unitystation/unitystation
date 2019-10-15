@@ -19,8 +19,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	[SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
 
-	private ChatChannel selectedChannels;
-
 	public PlayerNetworkActions playerNetworkActions { get; set; }
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
@@ -51,15 +49,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 	public HitIcon hitIcon { get; set; }
 
 	public Vector3Int WorldPos => registerTile.WorldPositionServer;
-
-	/// <summary>
-	/// The currently selected chat channels. Prunes all unavailable ones on get.
-	/// </summary>
-	public ChatChannel SelectedChannels
-	{
-		get { return selectedChannels & GetAvailableChannelsMask(); }
-		set { selectedChannels = value; }
-	}
 
 	private static bool verified;
 	private static ulong SteamID;
@@ -237,10 +226,6 @@ public class PlayerScript : ManagedNetworkBehaviour
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		if (this == null)
-		{
-			return ChatChannel.OOC;
-		}
 		if (IsGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;

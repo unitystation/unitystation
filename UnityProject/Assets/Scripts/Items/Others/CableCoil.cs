@@ -45,6 +45,13 @@ public class CableCoil : NBPositionalHandApplyInteractable
 		if (!base.WillInteract(interaction, side)) return false;
 		//can only be used on tiles
 		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
+
+		// If there's a table, we should drop there
+		if (MatrixManager.IsTableAt(interaction.WorldPositionTarget.RoundToInt(), side == NetworkSide.Server))
+		{
+			return false;
+		}
+
 		return true;
 	}
 

@@ -63,6 +63,12 @@ public abstract class NBHandApplyInteractable
 		return InteractionComponentUtils.CoordinatedInteract(info, coordinator, ClientPredictInteraction);
 	}
 
+	public bool Interact(HandApply info, string specificComponent)
+	{
+		EnsureCoordinatorInit();
+		return InteractionComponentUtils.CoordinatedInteract(info, coordinator, ClientPredictInteraction, specificComponent);
+	}
+
 	public bool ServerProcessInteraction(HandApply info)
 	{
 		EnsureCoordinatorInit();

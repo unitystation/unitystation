@@ -1,6 +1,8 @@
 
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Escape-related part of GameManager
@@ -35,9 +37,19 @@ public partial class GameManager
 		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.SetPosition( PrimaryEscapeShuttle.CentcomDest.Position );
 
 		bool beenToStation = false;
-		
+
 		PrimaryEscapeShuttle.OnShuttleUpdate?.AddListener( status =>
 		{
+			//status display ETA tracking
+			if ( status == ShuttleStatus.OnRouteStation )
+			{
+				PrimaryEscapeShuttle.OnTimerUpdate.AddListener( TrackETA );
+			} else
+			{
+				PrimaryEscapeShuttle.OnTimerUpdate.RemoveListener( TrackETA );
+				CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, string.Empty);
+			}
+
 			if ( status == ShuttleStatus.DockedCentcom && beenToStation )
 			{
 				RoundEnd();
@@ -55,11 +67,42 @@ public partial class GameManager
 		} );
 	}
 
+	private void TrackETA(int eta)
+	{
+		CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime( eta, "STATION\nETA: " ) );
+	}
+
+	private static string FormatTime( int timerSeconds, string prefix = "ETA: " )
+	{
+		if ( timerSeconds < 1 )
+		{
+			return string.Empty;
+		}
+
+		return prefix+TimeSpan.FromSeconds( timerSeconds ).ToString( "mm\\:ss" );
+	}
+
 	private IEnumerator SendEscapeShuttle( int seconds )
 	{
-		yield return WaitFor.Seconds( seconds );
+		//departure countdown
+		for ( int i = seconds - 1; i >= 0; i-- )
+		{
+			CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "Departing in\n") );
+			yield return WaitFor.Seconds(1);
+		}
+
 		PrimaryEscapeShuttle.SendShuttle();
-		yield return WaitFor.Seconds( seconds * 2 );
+
+		//centcom round end countdown
+		int timeToCentcom = (seconds * 2);
+		for ( int i = timeToCentcom - 1; i >= 0; i-- )
+		{
+			CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "CENTCOM\nETA: ") );
+			yield return WaitFor.Seconds(1);
+		}
+
+		CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, string.Empty);
+
 		PrimaryEscapeShuttle.Status = ShuttleStatus.DockedCentcom; //pretending that we docked for round to end
 	}
 

@@ -22,7 +22,7 @@ public class PlayerList : NetworkBehaviour
 	public static PlayerList Instance;
 	public int ConnectionCount => values.Count;
 	public List<ConnectedPlayer> InGamePlayers => values.FindAll( player => player.Script != null );
-
+	public List<ConnectedPlayer> AllPlayers => values.FindAll( player => (player.Script != null || player.ViewerScript != null));
 	public bool reportDone = false;
 
 	//For TDM demo

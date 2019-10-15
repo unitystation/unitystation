@@ -109,6 +109,11 @@ public class CustomNetworkManager : NetworkManager
 		{
 			SteamServerStart();
 		}
+		// Fixes loading directly into the station scene
+		if (GameManager.Instance.CurrentRoundState == RoundState.None)
+		{
+			GameManager.Instance.PreRoundStart();
+		}
 	}
 
 	public void SteamServerStart()
@@ -350,7 +355,8 @@ public class CustomNetworkManager : NetworkManager
 		if (newScene.name != "Lobby")
 		{
 			//INGAME:
-			EventManager.Broadcast(EVENT.RoundStarted);
+			// TODO check if this is needed
+			// EventManager.Broadcast(EVENT.RoundStarted);
 			if (PoolManager.Instance == null)
 			{
 				ObjectManager.StartPoolManager();
