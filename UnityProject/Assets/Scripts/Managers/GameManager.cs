@@ -137,7 +137,7 @@ public partial class GameManager : MonoBehaviour
 
 	public Vector3 RandomPositionInSolarSystem()
 	{
-		return UnityEngine.Random.insideUnitCircle * solarSystemRadius;
+		return (UnityEngine.Random.insideUnitCircle * solarSystemRadius).RoundToInt();
 	}
 
 	//	private void OnValidate()
