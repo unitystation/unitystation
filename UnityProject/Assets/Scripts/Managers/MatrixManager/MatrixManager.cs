@@ -25,6 +25,7 @@ public class MatrixManager : MonoBehaviour
 	private static LayerMask tileDmgMask;
 
 	private MatrixInfo[] ActiveMatrices = new MatrixInfo[0];
+	public MatrixInfo[] MovableMatrices { get; } = new MatrixInfo[0];
 
 	public static bool IsInitialized;
 

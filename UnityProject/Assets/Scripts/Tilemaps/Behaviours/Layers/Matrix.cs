@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Light2D;
 using UnityEngine;
 
 /// <summary>
@@ -215,4 +216,46 @@ public class Matrix : MonoBehaviour
 			return null;
 		}
 	}
+
+#if UNITY_EDITOR
+	//Visual debug
+	private Color[] colors = new []{
+		DebugTools.HexToColor( "a6caf0" ), //winterblue
+		DebugTools.HexToColor( "e3949e" ), //brick
+		DebugTools.HexToColor( "a8e4a0" ), //cyanish
+		DebugTools.HexToColor( "ffff99" ), //canary yellow
+		DebugTools.HexToColor( "cbbac5" ), //purplish
+		DebugTools.HexToColor( "ffcfab" ), //peach
+		DebugTools.HexToColor( "ccccff" ), //bluish
+		DebugTools.HexToColor( "caf28d" ), //avocado
+		DebugTools.HexToColor( "ffb28b" ), //pinkorange
+		DebugTools.HexToColor( "98ff98" ), //mintygreen
+		DebugTools.HexToColor( "fcdd76" ), //sand
+		DebugTools.HexToColor( "afc797" ), //swamp green
+		DebugTools.HexToColor( "ffca86" ), //orange
+		DebugTools.HexToColor( "b0e0e6" ), //blue-cyanish
+		DebugTools.HexToColor( "d1ba73" ), //khaki
+		DebugTools.HexToColor( "c7fcec" ), //also greenish
+		DebugTools.HexToColor( "cdb891" ), //brownish
+	};
+
+	private void OnDrawGizmos()
+	{
+		if (!Application.isPlaying) return;
+		Gizmos.color = colors.Wrap( Id ).WithAlpha( 80 );
+		BoundsInt bounds = MetaTileMap.GetBounds();
+		MatrixInfo matrixInfo = MatrixManager.Get( this );
+		Vector3Int min = MatrixManager.LocalToWorldInt(bounds.min, matrixInfo);
+		Vector3Int max = MatrixManager.LocalToWorldInt(bounds.max, matrixInfo);
+		DebugGizmoUtils.DrawText( gameObject.name, max, 11, 5 );
+		//bottom
+		Gizmos.DrawLine( min, new Vector2(max.x,min.y) );
+		//top
+		Gizmos.DrawLine( new Vector2(min.x,max.y), max );
+		//left
+		Gizmos.DrawLine( min, new Vector2(min.x,max.y) );
+		//right
+		Gizmos.DrawLine( new Vector2(max.x,min.y), max );
+	}
+#endif
 }
