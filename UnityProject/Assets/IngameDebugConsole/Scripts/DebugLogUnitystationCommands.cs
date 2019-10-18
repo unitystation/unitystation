@@ -208,13 +208,16 @@ namespace IngameDebugConsole
 		}
 
 		private static HashSet<MatrixInfo> usedMatrices = new HashSet<MatrixInfo>();
+		private static Tuple<MatrixInfo, Vector3> lastUsedMatrix;
 
-		[MenuItem("Networking/Crash random matrix into station (Server only)")]
+		[MenuItem("Networking/Crash random matrix into station")]
 		private static void CrashIntoStation()
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				var appearPos = new Vector2Int(-37, 37);
+				StopLastCrashed();
+
+				Vector2 appearPos = new Vector2Int(-37, 37);
 				foreach ( var movableMatrix in MatrixManager.Instance.MovableMatrices )
 				{
 					if ( movableMatrix.GameObject.name.ToLower().Contains( "large" ) )
@@ -228,9 +231,29 @@ namespace IngameDebugConsole
 					}
 
 					usedMatrices.Add( movableMatrix );
+					lastUsedMatrix = new Tuple<MatrixInfo, Vector3>(movableMatrix, movableMatrix.MatrixMove.State.Position);
+					var mm = movableMatrix.MatrixMove;
+					mm.SetPosition( appearPos );
+					mm.RequiresFuel = false;
+					mm.SafetyProtocolsOn = false;
+					mm.RotateTo( Orientation.Right );
+					mm.SetSpeed( 4 );
+					mm.StartMovement();
 
-					//todo: teleport, turn right, start moving with lowish speed
-
+					break;
+				}
+			}
+		}
+		[MenuItem("Networking/Stop last crashed matrix")]
+		private static void StopLastCrashed()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				if ( lastUsedMatrix != null )
+				{
+					lastUsedMatrix.Item1.MatrixMove.StopMovement();
+					lastUsedMatrix.Item1.MatrixMove.SetPosition( lastUsedMatrix.Item2 );
+					lastUsedMatrix = null;
 				}
 			}
 		}

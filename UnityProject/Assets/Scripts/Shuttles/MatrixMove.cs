@@ -123,6 +123,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private bool ClientPositionsMatch => clientTargetState.Position == clientState.Position;
 
 	//editor (global) values
+	public UnityEvent OnClientStart = new UnityEvent();
+	public UnityEvent OnClientStop = new UnityEvent();
 	public UnityEvent OnStart = new UnityEvent();
 	public UnityEvent OnStop = new UnityEvent();
 
@@ -382,6 +384,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			Logger.LogTrace(gameObject.name + " started moving with speed " + serverTargetState.Speed, Category.Matrix);
 			serverTargetState.IsMoving = true;
+			OnStart.Invoke();
+
 			RequestNotify();
 		}
 	}
@@ -392,6 +396,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	{
 		Logger.LogTrace(gameObject.name+ " stopped movement", Category.Matrix);
 		serverTargetState.IsMoving = false;
+		OnStop.Invoke();
 
 		//To stop autopilot
 		DisableAutopilotTarget();
@@ -685,6 +690,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		Vector3Int intPos = Vector3Int.RoundToInt(pos);
 		serverState.Position = intPos;
 		serverTargetState.Position = intPos;
+		serverState.Inform = true;
 		if (notify)
 		{
 			NotifyPlayers();
@@ -726,12 +732,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		if (!oldState.IsMoving && newState.IsMoving)
 		{
-			OnStart.Invoke();
+			OnClientStart.Invoke();
 		}
 
 		if (oldState.IsMoving && !newState.IsMoving)
 		{
-			OnStop.Invoke();
+			OnClientStop.Invoke();
 		}
 
 		if ((int) oldState.Speed != (int) newState.Speed)
@@ -794,7 +800,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 		{
 			serverState.RotationTime = rotTime;
 
-			MatrixMoveMessage.SendToAll(gameObject, serverState);
+			//fixme: this whole class behaves like shit!
+			MatrixMoveMessage.SendToAll(gameObject, serverTargetState);
 			//Clear inform flags
 			serverTargetState.Inform = false;
 			serverState.Inform = false;

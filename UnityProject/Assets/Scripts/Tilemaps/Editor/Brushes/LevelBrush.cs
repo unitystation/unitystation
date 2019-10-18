@@ -56,7 +56,7 @@ public class LevelBrush : GridBrush
 			}
 			else
 			{
-				layer.GetComponent<Tilemap>().SetTile(position, null);
+				layer.GetComponent<Layer>().SetTile(position, null, Matrix4x4.identity);
 			}
 		}
 	}

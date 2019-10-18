@@ -243,19 +243,9 @@ public class Matrix : MonoBehaviour
 	{
 		if (!Application.isPlaying) return;
 		Gizmos.color = colors.Wrap( Id ).WithAlpha( 80 );
-		BoundsInt bounds = MetaTileMap.GetBounds();
-		MatrixInfo matrixInfo = MatrixManager.Get( this );
-		Vector3Int min = MatrixManager.LocalToWorldInt(bounds.min, matrixInfo);
-		Vector3Int max = MatrixManager.LocalToWorldInt(bounds.max, matrixInfo);
-		DebugGizmoUtils.DrawText( gameObject.name, max, 11, 5 );
-		//bottom
-		Gizmos.DrawLine( min, new Vector2(max.x,min.y) );
-		//top
-		Gizmos.DrawLine( new Vector2(min.x,max.y), max );
-		//left
-		Gizmos.DrawLine( min, new Vector2(min.x,max.y) );
-		//right
-		Gizmos.DrawLine( new Vector2(max.x,min.y), max );
+		BoundsInt bounds = MetaTileMap.GetWorldBounds();
+		DebugGizmoUtils.DrawText( gameObject.name, bounds.max, 11, 5 );
+		DebugGizmoUtils.DrawRect( bounds );
 	}
 #endif
 }

@@ -24,7 +24,7 @@ public class ObjectLayer : Layer
 		{
 			if (!objectTile.IsItem)
 			{
-				tilemap.SetTile(position, null);
+				base.InternalSetTile(position, null);
 			}
 
 			objectTile.SpawnObject(position, tilemap, transformMatrix);

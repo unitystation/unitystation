@@ -11,6 +11,8 @@ public struct MatrixInfo
 	public MetaDataLayer MetaDataLayer;
 	public SubsystemManager SubsystemManager;
 	public GameObject GameObject;
+	public BoundsInt Bounds => MetaTileMap.GetBounds();
+	public BoundsInt WorldBounds => MetaTileMap.GetWorldBounds();
 	public Vector3Int CachedOffset;
 	// position we were at when offset was last cached, to check if it is invalid
 	private Vector3 cachedPosition;
@@ -149,5 +151,39 @@ public struct MatrixInfo
 	public static bool operator !=( MatrixInfo left, MatrixInfo right )
 	{
 		return !left.Equals( right );
+	}
+}
+
+public static class MatrixExtensions
+{
+	public static bool BoundsIntersect( this MatrixInfo matrix, MatrixInfo otherMatrix )
+	{
+		if ( matrix == otherMatrix )
+		{
+			return false;
+		}
+
+		var rect = matrix.WorldBounds.Extend( 1 ).ToRect();
+
+		return rect.Overlaps( otherMatrix.WorldBounds.Extend( 1 ).ToRect() );
+	}
+
+	public static Rect ToRect( this BoundsInt bounds )
+	{
+		return new Rect( (Vector3)bounds.position, (Vector3)bounds.size );
+	}
+	public static RectInt ToRectInt( this BoundsInt bounds )
+	{
+		return new RectInt( bounds.position.To2Int(), bounds.size.To2Int() );
+	}
+
+	/// <summary>
+	/// Extend/shrink bounds on all sides by integer amount
+	/// </summary>
+	public static BoundsInt Extend( this BoundsInt bounds, int amount )
+	{
+		var min = bounds.min - ( Vector3Int.one * amount );
+		var max = bounds.max + ( Vector3Int.one * amount );
+		return new BoundsInt(min, max - min);
 	}
 }

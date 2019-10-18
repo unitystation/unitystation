@@ -346,6 +346,18 @@ public class MetaTileMap : MonoBehaviour
 		}
 	}
 
+	public Vector3 LocalToWorld( Vector3 localPos ) => LayersValues[0].LocalToWorld( localPos );
+	public Vector3 WorldToLocal( Vector3 worldPos ) => LayersValues[0].WorldToLocal( worldPos );
+
+	public BoundsInt GetWorldBounds()
+	{
+		var bounds = GetBounds();
+		//???
+		var min = LocalToWorld( bounds.min ).RoundToInt();//MatrixManager.LocalToWorldInt(bounds.min, );
+		var max = LocalToWorld( bounds.max ).RoundToInt(); //MatrixManager.LocalToWorldInt(bounds.max, matrix);
+		return new BoundsInt(min, max - min);
+	}
+
 	public BoundsInt GetBounds()
 	{
 		Vector3Int minPosition = Vector3Int.one * int.MaxValue;

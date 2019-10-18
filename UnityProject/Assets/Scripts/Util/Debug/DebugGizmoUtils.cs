@@ -50,4 +50,33 @@ public static class DebugGizmoUtils
 		Gizmos.DrawRay(pos + direction, up * arrowHeadLength);
 		Gizmos.DrawRay(pos + direction, down * arrowHeadLength);
 	}
+
+	public static void DrawRect( Bounds bounds )
+	{
+		DrawRect( bounds.min, bounds.max );
+	}
+	public static void DrawRect( BoundsInt bounds )
+	{
+		DrawRect( bounds.min, bounds.max );
+	}
+	public static void DrawRect( Rect bounds )
+	{
+		DrawRect( bounds.min, bounds.max );
+	}
+	public static void DrawRect( RectInt bounds )
+	{
+		DrawRect( (Vector2)bounds.min, (Vector2)bounds.max );
+	}
+
+	public static void DrawRect(Vector3 min, Vector3 max)
+	{
+		//bottom
+		Gizmos.DrawLine( min, new Vector2(max.x,min.y) );
+		//top
+		Gizmos.DrawLine( new Vector2(min.x,max.y), max );
+		//left
+		Gizmos.DrawLine( min, new Vector2(min.x,max.y) );
+		//right
+		Gizmos.DrawLine( new Vector2(max.x,min.y), max );
+	}
 }

@@ -5,6 +5,7 @@ using System.Security.Policy;
 using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 public class TileChangeManager : NetworkBehaviour
@@ -161,3 +162,5 @@ public class TileChangeEntry
 
 	public bool RemoveAll;
 }
+
+public class TileChangeEvent : UnityEvent<Vector3Int, GenericTile> { }
