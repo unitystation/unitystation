@@ -44,6 +44,7 @@ public class Pickaxe : Interactable<PositionalHandApply>
 			//Start the progress bar:
 			UIManager.ProgressBar.StartProgress(interaction.WorldPositionTarget.RoundToInt(),
 				5f, progressFinishAction, interaction.Performer);
+			SoundManager.PlayNetworkedAtPos("pickaxe#", interaction.WorldPositionTarget);
 		}
 	}
 
@@ -56,6 +57,7 @@ public class Pickaxe : Interactable<PositionalHandApply>
 		}
 		else
 		{
+			SoundManager.PlayNetworkedAtPos("BreakStone", interaction.WorldPositionTarget);
 			var cellPos = interactableTiles.MetaTileMap.WorldToCell(interaction.WorldPositionTarget);
 			interactableTiles.TileChangeManager.RemoveTile(cellPos, LayerType.Walls);
 			if (Random.value > PLASMA_SPAWN_CHANCE)
