@@ -165,7 +165,7 @@ public class ChatEvent
 			// if message + modifiers leads to no text, do not display
 			this.channels = ChatChannel.None;
 		}
-		message = "<b>" + speaker + "</b> says: \"" + message + "\"";
+		message = $"<color=#{ChatRelay.Instance.GetChannelColor(channels)}><b>" + speaker + "</b> says:</color><color=white> \"" + message + "\"</color>";
 
 		return message;
 	}

@@ -28,32 +28,44 @@ public class ChatRelay : NetworkBehaviour
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System | ChatChannel.Combat;
 	}
 
-	//Get it every time so that colors can be adjusted from inspector (to tweak asthetics)
-	public string GetCannelColor(ChatChannel channel)
+	public string GetChannelColor(ChatChannel channel)
 	{
-		var chatColors = new Dictionary<ChatChannel, String>
-		 {
-			{ChatChannel.Binary, "ff00ff"},
-			{ChatChannel.Supply, "a8732b"},
-			{ChatChannel.CentComm, "686868"},
-			{ChatChannel.Command, "204090"},
-			{ChatChannel.Common, "008000"},
-			{ChatChannel.Engineering, "fb5613"},
-			{ChatChannel.Examine, "white"},
-			{ChatChannel.Local, "white"},
-			{ChatChannel.Medical, "337296"},
-			{ChatChannel.None, ""},
-			{ChatChannel.OOC, "386aff"},
-			{ChatChannel.Science, "993399"},
-			{ChatChannel.Security, "a30000"},
-			{ChatChannel.Service, "6eaa2c"},
-			{ChatChannel.Syndicate, "6d3f40"},
-			{ChatChannel.System, "dd5555"},
-			{ChatChannel.Ghost, "386aff"},
-			{ChatChannel.Combat, "dd0000"}
-		};
+		if (channel.HasFlag(ChatChannel.OOC)) return "386aff";
+		if (channel.HasFlag(ChatChannel.Ghost)) return "386aff";
+		if (channel.HasFlag(ChatChannel.Binary)) return "ff00ff";
+		if (channel.HasFlag(ChatChannel.Supply)) return "a8732b";
+		if (channel.HasFlag(ChatChannel.CentComm)) return "686868";
+		if (channel.HasFlag(ChatChannel.Command)) return "204090";
+		if (channel.HasFlag(ChatChannel.Common)) return "008000";
+		if (channel.HasFlag(ChatChannel.Engineering)) return "fb5613";
+		if (channel.HasFlag(ChatChannel.Medical)) return "337296";
+		if (channel.HasFlag(ChatChannel.Science)) return "993399";
+		if (channel.HasFlag(ChatChannel.Security)) return "a30000";
+		if (channel.HasFlag(ChatChannel.Service)) return "6eaa2c";
+		if (channel.HasFlag(ChatChannel.Local)) return "white";
+		return "white";
 
-		return chatColors[channel];
+		//Leaving values here incase nameless channels need them in the future
+		/*
+		{ChatChannel.Binary, "ff00ff"},
+		{ChatChannel.Supply, "a8732b"},
+		{ChatChannel.CentComm, "686868"},
+		{ChatChannel.Command, "204090"},
+		{ChatChannel.Common, "008000"},
+		{ChatChannel.Engineering, "fb5613"},
+		{ChatChannel.Examine, "white"},
+		{ChatChannel.Local, "white"},
+		{ChatChannel.Medical, "337296"},
+		{ChatChannel.None, ""},
+		{ChatChannel.OOC, "386aff"},
+		{ChatChannel.Science, "993399"},
+		{ChatChannel.Security, "a30000"},
+		{ChatChannel.Service, "6eaa2c"},
+		{ChatChannel.Syndicate, "6d3f40"},
+		{ChatChannel.System, "dd5555"},
+		{ChatChannel.Ghost, "386aff"},
+		{ChatChannel.Combat, "dd0000"}
+		*/
 	}
 
 	[Server]
@@ -151,7 +163,6 @@ public class ChatRelay : NetworkBehaviour
 				string saysString = ":";
 				var messageString = ttsString.Substring(ttsString.IndexOf(saysString) + saysString.Length);
 				MaryTTS.Instance.Synthesize(messageString);
-				// GoogleCloudTTS.Instance.Synthesize(messageString);
 			}
 		}
 
@@ -159,11 +170,6 @@ public class ChatRelay : NetworkBehaviour
 
 		if (channels == ChatChannel.None) {
 			return;
-		}
-
-		string name = "";
-		if ((namelessChannels & channels) != channels) {
-			name = "<b>[" + channels + "]</b> ";
 		}
 
 		ChatChannel checkChannels;
@@ -177,13 +183,9 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		if ((checkChannels & channels) == channels && (chatEvent.channels & channels) == channels) {
-			//Chatevent UI entry:
-			//FIXME at the moment all chat entries are white because of the new system, its a WIP
-			//string colorMessage = "<color=#" + GetCannelColor(channels) + ">" + name + message + "</color>";
-			string colorMessage = "<color=white>" + name + message + "</color>";
 			GameObject chatEntry = Instantiate(ControlChat.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
 			Text text = chatEntry.GetComponent<Text>();
-			text.text = colorMessage;
+			text.text = message;
 			chatEntry.transform.SetParent(ControlChat.Instance.content, false);
 			chatEntry.transform.localScale = Vector3.one;
 		}
