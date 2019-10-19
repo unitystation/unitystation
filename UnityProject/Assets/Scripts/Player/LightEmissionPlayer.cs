@@ -40,6 +40,22 @@ public class LightEmissionPlayer : NetworkBehaviour
 
 	}
 
+	public bool ContainsLight(PlayerLightData Light)
+	{
+		return PresentLights.Contains(Light);
+	}
+
+	public void UpdateLight(PlayerLightData Light)
+	{
+		if (!PresentLights.Contains(Light))
+		{
+			return;
+		}
+
+		PresentLights.Remove(Light);
+		AddLight(Light);
+	}
+
 	public void AddLight(PlayerLightData Light)
 	{
 		if (!(PresentLights.Contains(Light)))
