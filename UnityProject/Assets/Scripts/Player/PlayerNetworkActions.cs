@@ -742,7 +742,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		);
 
 		doingCPR = true;
-		UIManager.ProgressBar.StartProgress(cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
+		UIManager.ServerStartProgress(cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
 			rescuer);
 		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
 		{

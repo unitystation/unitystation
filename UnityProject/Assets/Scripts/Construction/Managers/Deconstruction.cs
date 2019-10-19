@@ -39,6 +39,7 @@ public class Deconstruction : MonoBehaviour
 				{
 					if (finishReason == FinishProgressAction.FinishReason.COMPLETED)
 					{
+						SoundManager.PlayNetworkedAtPos("Weld", worldCellPos, 0.8f);
 						CraftingManager.Deconstruction.TryTileDeconstruct(
 							matrixRoot.GetComponent<TileChangeManager>(), tileType, cellPos, worldCellPos);
 					}
@@ -46,8 +47,8 @@ public class Deconstruction : MonoBehaviour
 			);
 
 			//Start the progress bar:
-			UIManager.ProgressBar.StartProgress(Vector3Int.RoundToInt(worldCellPos),
-				10f, progressFinishAction, player, "Weld", 0.8f);
+			UIManager.ServerStartProgress(Vector3Int.RoundToInt(worldCellPos),
+				10f, progressFinishAction, player);
 
 			SoundManager.PlayNetworkedAtPos("Weld", worldCellPos, Random.Range(0.9f, 1.1f));
 		}

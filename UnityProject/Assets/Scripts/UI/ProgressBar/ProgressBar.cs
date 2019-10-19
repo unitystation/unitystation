@@ -1,164 +1,181 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Mirror;
 
-//Server controls the progress rate and finishedAction is used serverside to determine the action when progress completes
-//As there may be many progress bars being used by multiple players throughout then the server needs to
-//be capable of keeping track of more then 1 progress state at any given time
-public class ProgressBar : NetworkBehaviour
+/// <summary>
+/// Main behavior for progress bars. Progress bars progress is tracked on the server and the client
+/// that initiated the action only gets sprite index updates. Other players do not receive any updates.
+/// </summary>
+public class ProgressBar : MonoBehaviour
 {
+	private static readonly int COMPLETE_INDEX = -1;
+
 	public Sprite[] progressSprites;
+	//unique id of this progress bar - unique across all players
+	private int id;
+	/// <summary>
+	/// Unique id of this progress bar.
+	/// </summary>
+	public int ID => id;
+
+	//all of the below fields are valid only on the server
+	//how much time progress has been going on for
+	private float progress = 0f;
+	//total duration until this progress bar should be complete
+	private float timeToFinish;
+	private bool done;
+	//player who initiated it
+	private GameObject player;
+	//directional of the player who initiated it
+	private Directional playerDirectional;
+	//position at which the player initiated it
+	private Vector2Int playerWorldPosCache;
+	//initial orientation of player when they initiated it
+	private Orientation facingDirectionCache;
+	//Action which should be invoked when progress is done (for one reason or another)
+	private FinishProgressAction completedAction;
+	//whether player turning is allowed during progress
+	private bool allowTurning;
+	private float progUnit { get { return timeToFinish / 21f; } }
+	private int spriteIndex { get { return Mathf.Clamp((int) (progress / progUnit), 0, 20); } }
+	private int lastSpriteIndex = 0;
+	private bool timeToNotifyPlayer { get { return lastSpriteIndex != spriteIndex; } }
 
 	private SpriteRenderer spriteRenderer;
 
-	//only useful serverside:
-	private List<PlayerProgressEntry> playerProgress = new List<PlayerProgressEntry>();
-
-	void Start()
+	private void Awake()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		spriteRenderer.gameObject.SetActive(false);
-		UIManager.Instance.progressBar = this;
 	}
-
-	///<Summary>
-	/// To use send the worldpos, time it should take to complete, the
-	/// ServerSide method that should be called on completion and the
-	/// Player the progress bar is for.
-	///</Summary>
-
-	[Server]
-	public void StartProgress(Vector3 pos, float timeForCompletion,
-		FinishProgressAction finishProgressAction, GameObject _player,
-		string _additionalSfx = "", float _additionalSfxPitch = 1f, bool _allowTurning = true)
-	{
-		var _playerDirectional = _player.GetComponent<Directional>();
-		pos.y += 1;
-		playerProgress.Add(new PlayerProgressEntry
-		{
-			player = _player,
-				timeToFinish = timeForCompletion,
-				completedAction = finishProgressAction,
-				position = pos,
-				playerDirectional = _playerDirectional,
-				playerPositionCache = _player.TileWorldPosition(),
-				facingDirectionCache = _playerDirectional.CurrentDirection,
-				additionalSfx = _additionalSfx,
-				additionalSfxPitch = _additionalSfxPitch,
-				allowTurning = _allowTurning
-		});
-
-		//Start the progress for the player:
-		ProgressBarMessage.Send(_player, 0, pos);
-	}
-
-	public void ClientUpdateProgress(Vector3 pos, int spriteIndex)
-	{
-		if (!spriteRenderer.gameObject.activeInHierarchy)
-		{
-			spriteRenderer.gameObject.SetActive(true);
-		}
-
-		// -1 sent from server means the crafting is complete. dismiss the progress bar:
-		if (spriteIndex == -1)
-		{
-			spriteRenderer.gameObject.SetActive(false);
-			return;
-		}
-
-		transform.position = pos;
-		spriteRenderer.sprite = progressSprites[spriteIndex];
-	}
-
-	void Update()
-	{
-		if (playerProgress.Count > 0)
-		{
-			UpdateProgressBars();
-		}
-	}
-
-	//Server only:
-	private void UpdateProgressBars()
-	{
-		for (int i = playerProgress.Count - 1; i >= 0; i--)
-		{
-			playerProgress[i].progress += Time.deltaTime;
-			if (playerProgress[i].timeToNotifyPlayer)
-			{
-				//Update the players progress bar
-				ProgressBarMessage.Send(playerProgress[i].player,
-					playerProgress[i].spriteIndex, playerProgress[i].position);
-
-				if(playerProgress[i].spriteIndex == 12){
-					//Almost done, check to see if there is an additionalSFX to play:
-					playerProgress[i].PlayAdditionalSound();
-				}
-			}
-
-			//Cancel the progress bar if the player moves away or faces another direction:
-			if (playerProgress[i].HasMovedAway())
-			{
-				playerProgress[i].completedAction.Finish(FinishProgressAction.FinishReason.INTERRUPTED);
-				CloseProgressBar(playerProgress[i]);
-				continue;
-			}
-
-			//Finished! Invoke the action and close the progress bar for the player
-			if (playerProgress[i].progress >= playerProgress[i].timeToFinish)
-			{
-				playerProgress[i].completedAction.Finish(FinishProgressAction.FinishReason.COMPLETED);
-				CloseProgressBar(playerProgress[i]);
-			}
-		}
-	}
-
-	private void CloseProgressBar(PlayerProgressEntry playerProg)
-	{
-		//Notify player to turn off progress bar:
-		ProgressBarMessage.Send(playerProg.player, -1, playerProg.position);
-		//remove from the player progress list:
-		playerProgress.Remove(playerProg);
-	}
-}
-
-public class PlayerProgressEntry
-{
-	public float progress = 0f;
-	public float timeToFinish;
-	public GameObject player;
-	public Directional playerDirectional;
-	public Vector2Int playerPositionCache;
-	public Orientation facingDirectionCache;
-	public FinishProgressAction completedAction;
-	public Vector3 position;
-	public bool allowTurning;
-	public float progUnit { get { return timeToFinish / 21f; } }
-	public int spriteIndex { get { return Mathf.Clamp((int) (progress / progUnit), 0, 20); } }
-	public int lastSpriteIndex = 0;
-	public bool timeToNotifyPlayer { get { return lastSpriteIndex != spriteIndex; } }
-	public string additionalSfx = "";  // leave empty if you don't want one to play (plays at sprite index 12)
-	public float additionalSfxPitch = 1f;
 
 	//has the player moved away while the progress bar is in progress?
-	public bool HasMovedAway()
+	private bool HasMovedAway()
 	{
+		//TODO: This won't work correctly on moving or rotating matrices. Instead, manually interrupt progress when player
+		//movement or turning happens.
+
 		if ((!allowTurning && playerDirectional.CurrentDirection != facingDirectionCache) ||
-			player.TileWorldPosition() != playerPositionCache)
+		    player.TileWorldPosition() != playerWorldPosCache)
 		{
 			return true;
 		}
 		return false;
 	}
 
-	public void PlayAdditionalSound()
+
+	/// <summary>
+	/// Initiate this progress bar's behavior on server side. Assumes position is already set to where the progress
+	/// bar should appear.
+	/// </summary>
+	/// <param name="timeForCompletion">how long in seconds the action should take</param>
+	/// <param name="finishProgressAction">callback for when action completes or is interrupted</param>
+	/// <param name="player">player performing the action</param>
+	/// <param name="allowTurning">if true (default), turning won't interrupt progress</param>
+	public void ServerStartProgress(float timeForCompletion,
+		FinishProgressAction finishProgressAction, GameObject player, bool allowTurning = true)
 	{
-		if (!string.IsNullOrEmpty(additionalSfx))
+		playerDirectional = player.GetComponent<Directional>();
+		progress = 0f;
+		lastSpriteIndex = 0;
+		timeToFinish = timeForCompletion;
+		completedAction = finishProgressAction;
+		playerWorldPosCache = player.TileWorldPosition();
+		facingDirectionCache = playerDirectional.CurrentDirection;
+		this.player = player;
+		this.allowTurning = allowTurning;
+		id = GetInstanceID();
+
+		if (player != PlayerManager.LocalPlayer)
 		{
-			SoundManager.PlayNetworkedAtPos(additionalSfx, position, additionalSfxPitch);
+			//server should not see clients progress bar
+			spriteRenderer.enabled = false;
 		}
+		else
+		{
+			spriteRenderer.enabled = true;
+		}
+		spriteRenderer.sprite = progressSprites[0];
+
+
+
+		done = false;
+
+		//Start the progress for the player:
+		//okay to use transform.position here since it's just been spawned
+		ProgressBarMessage.SendCreate(player, 0, transform.position.To2Int() - playerWorldPosCache, id);
+	}
+
+	/// <summary>
+	/// Invoke when bar is created client side, assigns the id
+	/// </summary>
+	/// <param name="progressBarId">id to assign to this bar</param>
+	public void ClientStartProgress(int progressBarId)
+	{
+		id = progressBarId;
+	}
+
+	public void ClientUpdateProgress(int newSpriteIndex)
+	{
+
+		// -1 sent from server means the crafting is complete. dismiss the progress bar:
+		if (newSpriteIndex == -1)
+		{
+			spriteRenderer.enabled = false;
+			UIManager.DestroyProgressBar(id);
+			return;
+		}
+
+		if (player != null && player != PlayerManager.LocalPlayer)
+		{
+			//this is for server's copy of client's progress bar -
+			//server should not render clients progress bar
+			return;
+		}
+
+		if (!spriteRenderer.enabled)
+		{
+			spriteRenderer.enabled = true;
+		}
+
+		spriteRenderer.sprite = progressSprites[newSpriteIndex];
+	}
+
+	void Update()
+	{
+		//server only
+		if (player == null || done) return;
+
+		progress += Time.deltaTime;
+		if (timeToNotifyPlayer)
+		{
+			//Update the players progress bar
+			ProgressBarMessage.SendUpdate(player, spriteIndex, id);
+		}
+
+		//Cancel the progress bar if the player moves away or faces another direction:
+		if (HasMovedAway())
+		{
+			completedAction.Finish(FinishProgressAction.FinishReason.INTERRUPTED);
+			ServerCloseProgressBar();
+			return;
+		}
+
+		//Finished! Invoke the action and close the progress bar for the player
+		if (progress >= timeToFinish)
+		{
+			completedAction.Finish(FinishProgressAction.FinishReason.COMPLETED);
+			ServerCloseProgressBar();
+		}
+	}
+
+	private void ServerCloseProgressBar()
+	{
+		done = true;
+		//Notify player to turn off progress bar:
+		ProgressBarMessage.SendUpdate(player, COMPLETE_INDEX, id);
 	}
 }
 

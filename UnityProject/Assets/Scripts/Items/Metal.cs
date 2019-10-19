@@ -36,7 +36,7 @@ public class Metal : NBHandActivateInteractable
 				}
 			);
 			isBuilding = true;
-			UIManager.ProgressBar.StartProgress(position.RoundToInt(), 5f, progressFinishAction, interaction.Performer);
+			UIManager.ServerStartProgress(position.RoundToInt(), 5f, progressFinishAction, interaction.Performer);
 		}
 	}
 

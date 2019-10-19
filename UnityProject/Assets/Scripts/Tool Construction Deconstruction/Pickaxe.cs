@@ -42,7 +42,7 @@ public class Pickaxe : Interactable<PositionalHandApply>
 			isMining = true;
 
 			//Start the progress bar:
-			UIManager.ProgressBar.StartProgress(interaction.WorldPositionTarget.RoundToInt(),
+			UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
 				5f, progressFinishAction, interaction.Performer);
 			SoundManager.PlayNetworkedAtPos("pickaxe#", interaction.WorldPositionTarget);
 		}

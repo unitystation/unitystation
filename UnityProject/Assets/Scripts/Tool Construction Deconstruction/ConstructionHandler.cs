@@ -69,7 +69,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 										ExceptItem(slot, interaction);
 									}
 								});
-								UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
+								UIManager.ServerStartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
 							}
 							else {
 								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
@@ -90,7 +90,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 											ExceptItem(slot, interaction);
 										}
 									});
-									UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
+									UIManager.ServerStartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
 								}
 								else {
 									ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
@@ -121,7 +121,7 @@ public class ConstructionHandler : NBHandApplyInteractable
 						JumpLanding(tool);
 					}
 				});
-				UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, Jump.ConstructionTime/tool.SpeedMultiplier, progressFinishAction, interaction.Performer);
+				UIManager.ServerStartProgress(registerObject.WorldPositionServer, Jump.ConstructionTime/tool.SpeedMultiplier, progressFinishAction, interaction.Performer);
 			}
 			else {
 				JumpLanding(tool);

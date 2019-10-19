@@ -56,6 +56,6 @@ public class Restraint : Interactable<HandApply>
 		);
 
 		SoundManager.PlayNetworkedAtPos(sound, target.transform.position);
-		UIManager.ProgressBar.StartProgress(target.transform.position, applyTime, progressFinishAction, performer);
+		UIManager.ServerStartProgress(target.transform.position, applyTime, progressFinishAction, performer);
 	}
 }

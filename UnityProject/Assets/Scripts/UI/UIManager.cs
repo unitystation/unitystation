@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,7 +29,8 @@ public class UIManager : MonoBehaviour
 	public static GamePad GamePad => Instance.gamePad;
 	public GamePad gamePad;
 	[HideInInspector]
-	public ProgressBar progressBar;
+	//map from progress bar id to actual progress bar component.
+	private Dictionary<int, ProgressBar> progressBars = new Dictionary<int, ProgressBar>();
 
 	///Global flag for focused input field. Movement keystrokes are ignored if true.
 	/// <see cref="InputFieldFocus"/> handles this flag automatically
@@ -88,7 +90,6 @@ public class UIManager : MonoBehaviour
 #endif
 
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
-	public static ProgressBar ProgressBar => Instance.progressBar;
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
 	public static AlertUI AlertUI => Instance.alertUI;
 
@@ -228,5 +229,76 @@ public class UIManager : MonoBehaviour
 			return false;
 		}
 		return true;
+	}
+
+	/// <summary>
+	/// Gets the progress bar with the specified unique id. Creates it at the specified position if it doesn't
+	/// exist yet
+	/// </summary>
+	/// <param name="id"></param>
+	/// <returns></returns>
+	public static ProgressBar GetProgressBar(int id)
+	{
+		if (Instance.progressBars.ContainsKey(id))
+		{
+			return Instance.progressBars[id];
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	/// Creates a new progress bar for local player with the specified id and specified offset from player
+	/// (parented to same matrix as player)
+	/// </summary>
+	/// <param name="offsetFromPlayer">offset position from local player</param>
+	/// <param name="progressBarId">id to assign to the new progress bar</param>
+	/// <returns> the new bar</returns>
+	public static ProgressBar CreateProgressBar(Vector2Int offsetFromPlayer, int progressBarId)
+	{
+		var targetWorldPosition = PlayerManager.LocalPlayer.TileWorldPosition() + offsetFromPlayer;
+		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition.To3Int());
+		var progressBar = barObject.GetComponent<ProgressBar>();
+
+		progressBar.ClientStartProgress(progressBarId);
+
+		Instance.progressBars.Add(progressBarId, progressBar);
+
+		return progressBar;
+	}
+
+	/// <summary>
+	/// Destroys the progress bar.
+	/// </summary>
+	/// <param name="progressBarId"></param>
+	public static void DestroyProgressBar(int progressBarId)
+	{
+		var bar = GetProgressBar(progressBarId);
+		if (bar == null)
+		{
+			Logger.LogWarningFormat("Tried to destroy progress bar with unrecognized id {0}, nothing will be done.", Category.UI, progressBarId);
+		}
+		else
+		{
+			Instance.progressBars.Remove(progressBarId);
+			PoolManager.PoolClientDestroy(bar.gameObject);
+		}
+	}
+
+	/// <summary>
+	/// Create and begin animating a progress bar for a specific player.
+	/// </summary>
+	/// <param name="worldPos">position the action is being performed on</param>
+	/// <param name="timeForCompletion">how long in seconds the action should take</param>
+	/// <param name="finishProgressAction">callback for when action completes or is interrupted</param>
+	/// <param name="player">player performing the action</param>
+	/// <param name="allowTurning">if true (default), turning won't interrupt progress</param>
+	public static void ServerStartProgress(Vector3 worldPos, float timeForCompletion,
+		FinishProgressAction finishProgressAction, GameObject player, bool allowTurning = true)
+	{
+		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", worldPos);
+		var progressBar = barObject.GetComponent<ProgressBar>();
+		progressBar.ServerStartProgress(timeForCompletion, finishProgressAction, player, allowTurning);
+		Instance.progressBars.Add(progressBar.ID, progressBar);
 	}
 }

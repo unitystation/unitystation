@@ -44,7 +44,7 @@ public class RequestUncuffMessage : ClientMessage
 		var restraint = playerToUncuff.GetComponent<PlayerNetworkActions>().Inventory[EquipSlot.handcuffs]?.Item?.GetComponent<Restraint>();
 
 		if (restraint)
-			UIManager.ProgressBar.StartProgress(actor.transform.position, restraint.RemoveTime, finishProgressAction, actor);
+			UIManager.ServerStartProgress(actor.transform.position, restraint.RemoveTime, finishProgressAction, actor);
 	}
 
 	public override void Serialize(NetworkWriter writer)

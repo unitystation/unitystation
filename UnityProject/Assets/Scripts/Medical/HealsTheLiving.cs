@@ -80,7 +80,7 @@ public class HealsTheLiving : NBHandApplyInteractable, IOnStageServer
 				}
 			);
 			isSelfHealing = true;
-			UIManager.ProgressBar.StartProgress(originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator);
+			UIManager.ServerStartProgress(originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator);
 		}
 	}
 }

@@ -87,7 +87,7 @@ public class RackParts : Interactable<PositionalHandApply, InventoryApply>
 		);
 		isBuilding = true;
 
-		UIManager.ProgressBar.StartProgress(interaction.WorldPositionTarget.RoundToInt(),
+		UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
 			5f, progressFinishAction, interaction.Performer);
 	}
 

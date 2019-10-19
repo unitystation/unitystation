@@ -50,7 +50,7 @@ public class Girder : NBHandApplyInteractable
 					}
 				}
 			);
-			UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
+			UIManager.ServerStartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
 		}
 		else if (Validations.IsTool(interaction.HandObject, ToolType.Wrench))
 		{
@@ -64,7 +64,7 @@ public class Girder : NBHandApplyInteractable
 					}
 				}
 			);
-			UIManager.ProgressBar.StartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
+			UIManager.ServerStartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
 		}
 	}
 

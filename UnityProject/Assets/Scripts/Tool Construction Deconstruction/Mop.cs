@@ -40,7 +40,7 @@ public class Mop : Interactable<PositionalHandApply>
 			isCleaning = true;
 
 			//Start the progress bar:
-			UIManager.ProgressBar.StartProgress(interaction.WorldPositionTarget.RoundToInt(),
+			UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
 				5f, progressFinishAction, interaction.Performer);
 		}
 	}
