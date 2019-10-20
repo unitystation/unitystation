@@ -6,9 +6,6 @@
 [RequireComponent(typeof(Pickupable))]
 public class Mop : Interactable<PositionalHandApply>
 {
-	//server-side only, tracks if mop is currently cleaning.
-	private bool isCleaning;
-
 	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!base.WillInteract(interaction, side)) return false;
@@ -19,30 +16,21 @@ public class Mop : Interactable<PositionalHandApply>
 
 	protected override void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		if (!isCleaning)
-		{
-			//server is performing server-side logic for the interaction
-			//do the mopping
-			var progressFinishAction = new FinishProgressAction(
-				reason =>
+		//server is performing server-side logic for the interaction
+		//do the mopping
+		var progressFinishAction = new FinishProgressAction(
+			reason =>
+			{
+				if (reason == FinishReason.COMPLETED)
 				{
-					if (reason == FinishReason.INTERRUPTED)
-					{
-						CancelCleanTile();
-					}
-					else if (reason == FinishReason.COMPLETED)
-					{
-						CleanTile(interaction.WorldPositionTarget);
-						isCleaning = false;
-					}
+					CleanTile(interaction.WorldPositionTarget);
 				}
-			);
-			isCleaning = true;
+			}
+		);
 
-			//Start the progress bar:
-			UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
-				5f, progressFinishAction, interaction.Performer, true);
-		}
+		//Start the progress bar:
+		UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
+			5f, progressFinishAction, interaction.Performer, true);
 	}
 
 	public void CleanTile(Vector3 worldPos)
@@ -52,12 +40,4 @@ public class Mop : Interactable<PositionalHandApply>
 		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
 		matrix.MetaDataLayer.Clean(worldPosInt, localPosInt, true);
 	}
-
-
-	private void CancelCleanTile()
-	{
-		//stop the in progress cleaning
-		isCleaning = false;
-	}
-
 }

@@ -7,8 +7,6 @@ using UnityEngine;
 public class Pickaxe : Interactable<PositionalHandApply>
 {
 	private const float PLASMA_SPAWN_CHANCE = 0.5f;
-	//server-side only, tracks if pick is currently mining a rock
-	private bool isMining;
 
 	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -21,31 +19,22 @@ public class Pickaxe : Interactable<PositionalHandApply>
 
 	protected override void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		if (!isMining)
-		{
-			//server is performing server-side logic for the interaction
-			//do the mining
-			var progressFinishAction = new FinishProgressAction(
-				reason =>
+		//server is performing server-side logic for the interaction
+		//do the mining
+		var progressFinishAction = new FinishProgressAction(
+			reason =>
+			{
+				if (reason == FinishReason.COMPLETED)
 				{
-					if (reason == FinishReason.INTERRUPTED)
-					{
-						CancelMine();
-					}
-					else if (reason == FinishReason.COMPLETED)
-					{
-						FinishMine(interaction);
-						isMining = false;
-					}
+					FinishMine(interaction);
 				}
-			);
-			isMining = true;
+			}
+		);
 
-			//Start the progress bar:
-			UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
-				5f, progressFinishAction, interaction.Performer, true);
-			SoundManager.PlayNetworkedAtPos("pickaxe#", interaction.WorldPositionTarget);
-		}
+		//Start the progress bar:
+		UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
+			5f, progressFinishAction, interaction.Performer, true);
+		SoundManager.PlayNetworkedAtPos("pickaxe#", interaction.WorldPositionTarget);
 	}
 
 	private void FinishMine(PositionalHandApply interaction)
@@ -66,12 +55,5 @@ public class Pickaxe : Interactable<PositionalHandApply>
 				ObjectFactory.SpawnPlasma(1, interaction.WorldPositionTarget.RoundToInt().To2Int());
 			}
 		}
-	}
-
-
-	private void CancelMine()
-	{
-		//stop the in progress cleaning
-		isMining = false;
 	}
 }

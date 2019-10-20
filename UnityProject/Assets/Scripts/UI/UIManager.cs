@@ -305,7 +305,8 @@ public class UIManager : MonoBehaviour
 	/// <param name="usingHandItem">true if interaction is being performed using item in active hand.
 	/// If this item is dropped or swapped to different slot or active slot is changed, interaction will be interrupted.</param>
 	/// <param name="allowTurning">if true (default), turning won't interrupt progress</param>
-	/// <returns>progress bar associated with this action (can use this to interrupt progress)</returns>
+	/// <returns>progress bar associated with this action (can use this to interrupt progress). Returns the
+	/// original progress bar if there already was one created for this player at the specified position</returns>
 	public static ProgressBar ServerStartProgress(Vector3 worldTilePos, float timeForCompletion,
 		FinishProgressAction finishProgressAction, GameObject player, bool usingHandItem = false, bool allowTurning = true)
 	{
@@ -319,6 +320,18 @@ public class UIManager : MonoBehaviour
 		var targetParent = targetMatrixInfo.Objects;
 		//snap to local position
 		var targetLocalPosition = targetParent.transform.InverseTransformPoint(targetWorldPosition).RoundToInt();
+
+		//check if there is already progress at this location
+		var existingBar = Instance.progressBars.Values
+			.Where(pb => pb.RegisterPlayer.gameObject == player)
+			.Where(pb => pb.transform.parent == targetParent)
+			.FirstOrDefault(pb => Vector3.Distance(pb.transform.localPosition, targetLocalPosition) < 0.1);
+
+		if (existingBar != null)
+		{
+			return existingBar;
+		}
+
 		//back to world so we can call PoolClientInstantiate
 		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
 		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition, targetParent);

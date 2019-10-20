@@ -4,7 +4,6 @@ public class RackParts : Interactable<PositionalHandApply, InventoryApply>
 {
 
 	public GameObject rackPrefab;
-	private bool isBuilding;
 
 	protected override bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -55,22 +54,13 @@ public class RackParts : Interactable<PositionalHandApply, InventoryApply>
 			return;
 		}
 
-		if (isBuilding)
-		{
-			return;
-		}
-
 		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
 			"You start constructing a rack...");
 
 		var progressFinishAction = new FinishProgressAction(
 			reason =>
 			{
-				if (reason == FinishReason.INTERRUPTED)
-				{
-					isBuilding = false;
-				}
-				else if (reason == FinishReason.COMPLETED)
+				if (reason == FinishReason.COMPLETED)
 				{
 					UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
 						"You assemble a rack.");
@@ -80,12 +70,9 @@ public class RackParts : Interactable<PositionalHandApply, InventoryApply>
 					var handObj = interaction.HandObject;
 					var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 					handObj.GetComponent<Pickupable>().DisappearObject(slot);
-
-					isBuilding = false;
 				}
 			}
 		);
-		isBuilding = true;
 
 		UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
 			5f, progressFinishAction, interaction.Performer, true);

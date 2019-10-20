@@ -12,7 +12,6 @@ public class HealsTheLiving : NBHandApplyInteractable, IOnStageServer
 	//total number of times this can be used
 	public int uses = 6;  //TODO: move into some stack component (metal sheets, ores, etc)
 	private int timesUsed;
-	private bool isSelfHealing;
 
 	public void GoingOnStageServer(OnStageInfo info)
 	{
@@ -63,24 +62,15 @@ public class HealsTheLiving : NBHandApplyInteractable, IOnStageServer
 	[Server]
 	private void SelfHeal(GameObject originator, BodyPartBehaviour targetBodyPart)
 	{
-		if (!isSelfHealing)
-		{
-			var progressFinishAction = new FinishProgressAction(
-				reason =>
+		var progressFinishAction = new FinishProgressAction(
+			reason =>
+			{
+				if (reason == FinishReason.COMPLETED)
 				{
-					if (reason == FinishReason.INTERRUPTED)
-					{
-						isSelfHealing = false;
-					}
-					else if (reason == FinishReason.COMPLETED)
-					{
-						ApplyHeal(targetBodyPart);
-						isSelfHealing = false;
-					}
+					ApplyHeal(targetBodyPart);
 				}
-			);
-			isSelfHealing = true;
-			UIManager.ServerStartProgress(originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator, true);
-		}
+			}
+		);
+		UIManager.ServerStartProgress(originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator, true);
 	}
 }

@@ -39,6 +39,12 @@ public class ProgressBar : MonoBehaviour
 	private bool done;
 	//registerPlayer of player who initiated it
 	private RegisterPlayer registerPlayer;
+
+	/// <summary>
+	/// registerPlayer of player who initiated it
+	/// </summary>
+	public RegisterPlayer RegisterPlayer => registerPlayer;
+
 	//playerSync of player who initiated it
 	private PlayerSync playerSync;
 	//directional of the player who initiated it
@@ -170,18 +176,27 @@ public class ProgressBar : MonoBehaviour
 
 	}
 
+	private void DestroyProgressBar()
+	{
+		done = true;
+		spriteRenderer.enabled = false;
+		if (this.usedItem != null)
+		{
+			this.usedItem.OnDropServer.RemoveListener(ServerInterruptOnDrop);
+		}
+		if (matrixMove != null)
+		{
+			matrixMove.OnRotateEnd.RemoveListener(OnRotationEnd);
+		}
+		UIManager.DestroyProgressBar(id);
+	}
+
 	public void ClientUpdateProgress(int newSpriteIndex)
 	{
-
 		// -1 sent from server means the crafting is complete. dismiss the progress bar:
 		if (newSpriteIndex == -1)
 		{
-			spriteRenderer.enabled = false;
-			if (matrixMove != null)
-			{
-				matrixMove.OnRotateEnd.RemoveListener(OnRotationEnd);
-			}
-			UIManager.DestroyProgressBar(id);
+			DestroyProgressBar();
 			return;
 		}
 
@@ -267,17 +282,14 @@ public class ProgressBar : MonoBehaviour
 
 	private void ServerCloseProgressBar()
 	{
-		done = true;
-		if (this.usedItem != null)
-		{
-			this.usedItem.OnDropServer.RemoveListener(ServerInterruptOnDrop);
-		}
-
-		if (matrixMove != null)
-		{
-			matrixMove.OnRotateEnd.RemoveListener(OnRotationEnd);
-		}
 		//Notify player to turn off progress bar:
 		ProgressBarMessage.SendUpdate(registerPlayer.gameObject, COMPLETE_INDEX, id);
+		if (PlayerManager.LocalPlayer != registerPlayer.gameObject)
+		{
+			//destroy server's own copy of the bar
+			DestroyProgressBar();
+		}
+
+
 	}
 }
