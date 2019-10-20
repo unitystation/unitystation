@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 
+/// <summary>
+/// ChatRelay is only to be used internally via Chat.cs
+/// Do not change any protection levels in this script
+/// </summary>
 public class ChatRelay : NetworkBehaviour
 {
 	public static ChatRelay Instance;
@@ -16,16 +20,21 @@ public class ChatRelay : NetworkBehaviour
 	private void Awake()
 	{
 		//ensures the static instance is cleaned up after scene changes:
-		if(Instance == null){
+		if (Instance == null)
+		{
 			Instance = this;
-		} else {
+			Chat.RegisterChatRelay(Instance, AddToChatLogServer, AddToChatLogClient);
+		}
+		else
+		{
 			Destroy(gameObject);
 		}
 	}
 
 	public void Start()
 	{
-		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System | ChatChannel.Combat;
+		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System |
+		                   ChatChannel.Combat;
 	}
 
 	public string GetChannelColor(ChatChannel channel)
@@ -69,24 +78,19 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Server]
-	public void AddToChatLogServer(ChatEvent chatEvent)
+	private void AddToChatLogServer(ChatEvent chatEvent)
 	{
 		PropagateChatToClients(chatEvent);
-	}
-
-	[Client]
-	public void AddToChatLogClient(string message, ChatChannel channels)
-	{
-		UpdateClientChat(message, channels);
 	}
 
 	[Server]
 	private void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<ConnectedPlayer> players;
-		if ( chatEvent.matrix != MatrixInfo.Invalid )
-		{ //get players only on provided matrix
-			players = PlayerList.Instance.GetPlayersOnMatrix( chatEvent.matrix );
+		if (chatEvent.matrix != MatrixInfo.Invalid)
+		{
+			//get players only on provided matrix
+			players = PlayerList.Instance.GetPlayersOnMatrix(chatEvent.matrix);
 		}
 		else
 		{
@@ -94,19 +98,25 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		//Local chat range checks:
-		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat) {
+		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat)
+		{
 			//			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
 			RaycastHit2D hit;
-			LayerMask layerMask = LayerMask.GetMask("Walls","Door Closed");
-			for (int i = 0; i < players.Count(); i++) {
-				if (Vector2.Distance(chatEvent.position,//speaker.GameObject.transform.position,
-									players[i].GameObject.transform.position) > 14f) {
+			LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
+			for (int i = 0; i < players.Count(); i++)
+			{
+				if (Vector2.Distance(chatEvent.position, //speaker.GameObject.transform.position,
+					    players[i].GameObject.transform.position) > 14f)
+				{
 					//Player in the list is too far away for local chat, remove them:
 					players.Remove(players[i]);
-				} else {
+				}
+				else
+				{
 					//within range, but check if they are in another room or hiding behind a wall
-					if (Physics2D.Linecast(chatEvent.position,//speaker.GameObject.transform.position,
-										  players[i].GameObject.transform.position, layerMask)) {
+					if (Physics2D.Linecast(chatEvent.position, //speaker.GameObject.transform.position,
+						players[i].GameObject.transform.position, layerMask))
+					{
 						//if it hit a wall remove that player
 						players.Remove(players[i]);
 					}
@@ -119,7 +129,8 @@ public class ChatRelay : NetworkBehaviour
 			foreach (Collider2D coll in npcs)
 			{
 				if (!Physics2D.Linecast(chatEvent.position,
-					coll.transform.position, layerMask)) {
+					coll.transform.position, layerMask))
+				{
 					//NPC is in hearing range, pass the message on:
 					var mobAi = coll.GetComponent<MobAI>();
 					if (mobAi != null)
@@ -130,8 +141,21 @@ public class ChatRelay : NetworkBehaviour
 			}
 		}
 
-		for (var i = 0; i < players.Count; i++) {
+		for (var i = 0; i < players.Count; i++)
+		{
 			ChatChannel channels = chatEvent.channels;
+
+			if (channels.HasFlag(ChatChannel.None) || channels.HasFlag(ChatChannel.Combat) ||
+			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine)
+			    || channels.HasFlag(ChatChannel.Local))
+			{
+				if (!channels.HasFlag(ChatChannel.Binary))
+				{
+					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.message, chatEvent.speaker);
+					continue;
+				}
+			}
+
 			if (players[i].Script == null)
 			{
 				channels &= ChatChannel.OOC;
@@ -140,26 +164,42 @@ public class ChatRelay : NetworkBehaviour
 			{
 				channels &= players[i].Script.GetAvailableChannelsMask(false);
 			}
-			UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.message);
+
+			//if the mask ends up being a big fat 0 then don't do anything
+			if (channels != ChatChannel.None)
+			{
+				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.message, chatEvent.speaker);
+			}
 		}
 
-		if(RconManager.Instance != null){
+		if (RconManager.Instance != null)
+		{
 			string name = "";
-			if ((namelessChannels & chatEvent.channels) != chatEvent.channels) {
+			if ((namelessChannels & chatEvent.channels) != chatEvent.channels)
+			{
 				name = "<b>[" + chatEvent.channels + "]</b> ";
 			}
+
 			RconManager.AddChatLog(name + chatEvent.message);
 		}
 	}
 
 	[Client]
-	private void UpdateClientChat(string message, ChatChannel channels)
+	private void AddToChatLogClient(string message, ChatChannel channels, string speaker)
 	{
-		if (UIManager.Instance.ttsToggle) {
+		UpdateClientChat(message, channels, speaker);
+	}
+
+	[Client]
+	private void UpdateClientChat(string message, ChatChannel channels, string speaker)
+	{
+		if (UIManager.Instance.ttsToggle)
+		{
 			//Text to Speech:
 			var ttsString = Regex.Replace(message, @"<[^>]*>", String.Empty);
 			//message only atm
-			if (ttsString.Contains(":")) {
+			if (ttsString.Contains(":"))
+			{
 				string saysString = ":";
 				var messageString = ttsString.Substring(ttsString.IndexOf(saysString) + saysString.Length);
 				MaryTTS.Instance.Synthesize(messageString);
@@ -168,7 +208,8 @@ public class ChatRelay : NetworkBehaviour
 
 		ChatEvent chatEvent = new ChatEvent(message, channels, true);
 
-		if (channels == ChatChannel.None) {
+		if (channels == ChatChannel.None)
+		{
 			return;
 		}
 
@@ -182,11 +223,12 @@ public class ChatRelay : NetworkBehaviour
 			checkChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false);
 		}
 
-		if ((checkChannels & channels) == channels && (chatEvent.channels & channels) == channels) {
-			GameObject chatEntry = Instantiate(ControlChat.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
+		if ((checkChannels & channels) == channels && (chatEvent.channels & channels) == channels)
+		{
+			GameObject chatEntry = Instantiate(ChatUI.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
 			Text text = chatEntry.GetComponent<Text>();
 			text.text = message;
-			chatEntry.transform.SetParent(ControlChat.Instance.content, false);
+			chatEntry.transform.SetParent(ChatUI.Instance.content, false);
 			chatEntry.transform.localScale = Vector3.one;
 		}
 	}

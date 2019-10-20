@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ControlChat : MonoBehaviour
+public class ChatUI : MonoBehaviour
 {
-	public static ControlChat Instance;
+	public static ChatUI Instance;
 	public GameObject chatInputWindow;
 	public Transform content;
 	public GameObject chatEntryPrefab;

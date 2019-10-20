@@ -28,7 +28,8 @@ public enum ChatChannel
 	[Description("")] 	System 		= 1 << 14,
 	[Description(":g")] Ghost 		= 1 << 15,
 	[Description("")] 	Combat 		= 1 << 16,
-	[Description("")]	Warning		= 1 << 17
+	[Description("")]	Warning		= 1 << 17,
+	[Description("")]	Action		= 1 << 18
 }
 
 /// <summary>
@@ -50,6 +51,7 @@ public class ChatEvent
 {
 	public ChatChannel channels;
 	public string message;
+	public string messageOthers;
 	public ChatModifier modifiers = ChatModifier.None;
 	public string speaker;
 	public double timestamp;

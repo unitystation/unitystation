@@ -9,27 +9,37 @@ public class UpdateChatMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateChatMessage;
 	public ChatChannel Channels;
-	public string ChatMessageText;
-	public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
+	public string ChatMessage;
+	//For Action/Combat based messages an Originator chat message is given also
+	//(i.e. 'You hugged ian' instead of 'Cuban Pete hugged ian')
+	public string OriginatorChatMessage;
+	public uint Recipient;
+	public uint Originator;
 
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(Recipient);
 
-		ChatRelay.Instance.AddToChatLogClient(ChatMessageText, Channels);
+		ChatRelay.Instance.AddToChatLogClient(ChatMessage, Channels);
 	}
 
-	public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, string message)
+	public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, string chatMessage, string originatorMsg = "", GameObject originator = null)
 	{
+		uint origin = NetId.Empty;
+		if (originator != null)
+		{
+			origin = recipient.GetComponent<NetworkIdentity>().netId;
+		}
+
 		UpdateChatMessage msg =
-			new UpdateChatMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId, Channels = channels, ChatMessageText = message};
+			new UpdateChatMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId,
+				Channels = channels,
+				ChatMessage = chatMessage,
+				OriginatorChatMessage = originatorMsg,
+				Originator = origin
+			};
 
 		msg.SendTo(recipient);
 		return msg;
-	}
-
-	public override string ToString()
-	{
-		return string.Format("[UpdateChatMessage Recipient={0} Channels={1} ChatMessageText={2}]", Recipient, Channels, ChatMessageText);
 	}
 }
