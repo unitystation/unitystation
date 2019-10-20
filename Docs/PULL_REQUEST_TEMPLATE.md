@@ -10,6 +10,7 @@ _Don't forget to use "Fixes #issuenumber" to select issues and auto close them o
 - [ ]  This PR does not include any unnecessary .meta, .prefab or .unity (scene) changes
 - [ ]  This PR does not bring up any new compile errors
 - [ ]  This PR has been tested in editor
+- [ ]  This PR has been tested on moving / rotating matrices
 - [ ]  This PR has been tested in multiplayer (with 2 clients and late joiners, if applicable)
 
 ### Notes:
