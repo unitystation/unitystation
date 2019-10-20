@@ -66,11 +66,11 @@ public class RackParts : Interactable<PositionalHandApply, InventoryApply>
 		var progressFinishAction = new FinishProgressAction(
 			reason =>
 			{
-				if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
+				if (reason == FinishReason.INTERRUPTED)
 				{
 					isBuilding = false;
 				}
-				else if (reason == FinishProgressAction.FinishReason.COMPLETED)
+				else if (reason == FinishReason.COMPLETED)
 				{
 					UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
 						"You assemble a rack.");
@@ -88,7 +88,7 @@ public class RackParts : Interactable<PositionalHandApply, InventoryApply>
 		isBuilding = true;
 
 		UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
-			5f, progressFinishAction, interaction.Performer);
+			5f, progressFinishAction, interaction.Performer, true);
 	}
 
 	protected override void ServerPerformInteraction(InventoryApply interaction)

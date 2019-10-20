@@ -26,11 +26,11 @@ public class Mop : Interactable<PositionalHandApply>
 			var progressFinishAction = new FinishProgressAction(
 				reason =>
 				{
-					if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
+					if (reason == FinishReason.INTERRUPTED)
 					{
 						CancelCleanTile();
 					}
-					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
+					else if (reason == FinishReason.COMPLETED)
 					{
 						CleanTile(interaction.WorldPositionTarget);
 						isCleaning = false;
@@ -41,7 +41,7 @@ public class Mop : Interactable<PositionalHandApply>
 
 			//Start the progress bar:
 			UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
-				5f, progressFinishAction, interaction.Performer);
+				5f, progressFinishAction, interaction.Performer, true);
 		}
 	}
 

@@ -34,7 +34,7 @@ public class RequestUncuffMessage : ClientMessage
 		var finishProgressAction = new FinishProgressAction(
 			finishReason =>
 			{
-				if (finishReason == FinishProgressAction.FinishReason.COMPLETED)
+				if (finishReason == FinishReason.COMPLETED)
 				{
 					playerToUncuff.GetComponent<PlayerMove>().RequestUncuff(actor);
 				}

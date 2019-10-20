@@ -44,13 +44,14 @@ public class Girder : NBHandApplyInteractable
 			var progressFinishAction = new FinishProgressAction(
 				reason =>
 				{
-					if (reason == FinishProgressAction.FinishReason.COMPLETED)
+					if (reason == FinishReason.COMPLETED)
 					{
 						ConstructWall(interaction);
 					}
 				}
 			);
-			UIManager.ServerStartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
+			UIManager.ServerStartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer,
+				true);
 		}
 		else if (Validations.IsTool(interaction.HandObject, ToolType.Wrench))
 		{
@@ -58,13 +59,13 @@ public class Girder : NBHandApplyInteractable
 			var progressFinishAction = new FinishProgressAction(
 				reason =>
 				{
-					if (reason == FinishProgressAction.FinishReason.COMPLETED)
+					if (reason == FinishReason.COMPLETED)
 					{
 						Disassemble();
 					}
 				}
 			);
-			UIManager.ServerStartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
+			UIManager.ServerStartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer, true);
 		}
 	}
 

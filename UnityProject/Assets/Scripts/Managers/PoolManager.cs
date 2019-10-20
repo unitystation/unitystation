@@ -431,6 +431,21 @@ public class PoolManager : NetworkBehaviour
 	/// <returns>the gameobject of the prefab</returns>
 	public static GameObject GetPrefabByName(string prefabName)
 	{
+		if (!Instance.nameToSpawnablePrefab.ContainsKey(prefabName))
+		{
+			//try to load it ourselves
+			var prefab = Resources.Load<GameObject>(prefabName);
+			if (prefab == null)
+			{
+				Logger.LogErrorFormat("Could not find prefab with name {0}, please ensure it is correctly spelled.", Category.ItemSpawn,
+					prefabName);
+				return null;
+			}
+			else
+			{
+				Instance.nameToSpawnablePrefab.Add(prefabName, prefab);
+			}
+		}
 		return Instance.nameToSpawnablePrefab[prefabName];
 	}
 

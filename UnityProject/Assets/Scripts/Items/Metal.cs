@@ -25,18 +25,18 @@ public class Metal : NBHandActivateInteractable
 			var progressFinishAction = new FinishProgressAction(
 				reason =>
 				{
-					if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
+					if (reason == FinishReason.INTERRUPTED)
 					{
 						CancelBuild();
 					}
-					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
+					else if (reason == FinishReason.COMPLETED)
 					{
 						BuildGirder(interaction, position);
 					}
 				}
 			);
 			isBuilding = true;
-			UIManager.ServerStartProgress(position.RoundToInt(), 5f, progressFinishAction, interaction.Performer);
+			UIManager.ServerStartProgress(position.RoundToInt(), 5f, progressFinishAction, interaction.Performer, true);
 		}
 	}
 

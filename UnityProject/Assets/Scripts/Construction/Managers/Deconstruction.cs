@@ -24,11 +24,8 @@ public class Deconstruction : MonoBehaviour
 	public void ProcessDeconstructRequest(GameObject player, GameObject matrixRoot, TileType tileType,
 		Vector3 cellPos, Vector3 worldCellPos)
 	{
-		if (player.Player().Script.IsInReach(worldCellPos, true) == false)
-		{
-			//Not in range on the server, do not process any further:
-			return;
-		}
+		//TODO: This should probably be refactored to use IF2 so validations can be used, we shouldn't need
+		// a custom net message for deconstruction
 
 		//Process Wall deconstruct request:
 		if (tileType == TileType.Wall)
@@ -37,7 +34,7 @@ public class Deconstruction : MonoBehaviour
 			var progressFinishAction = new FinishProgressAction(
 				finishReason =>
 				{
-					if (finishReason == FinishProgressAction.FinishReason.COMPLETED)
+					if (finishReason == FinishReason.COMPLETED)
 					{
 						SoundManager.PlayNetworkedAtPos("Weld", worldCellPos, 0.8f);
 						CraftingManager.Deconstruction.TryTileDeconstruct(
@@ -48,7 +45,7 @@ public class Deconstruction : MonoBehaviour
 
 			//Start the progress bar:
 			UIManager.ServerStartProgress(Vector3Int.RoundToInt(worldCellPos),
-				10f, progressFinishAction, player);
+				10f, progressFinishAction, player, true);
 
 			SoundManager.PlayNetworkedAtPos("Weld", worldCellPos, Random.Range(0.9f, 1.1f));
 		}

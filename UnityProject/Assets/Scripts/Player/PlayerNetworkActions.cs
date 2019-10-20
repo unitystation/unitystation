@@ -729,11 +729,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				switch (reason)
 				{
-					case FinishProgressAction.FinishReason.INTERRUPTED:
+					case FinishReason.INTERRUPTED:
 						CancelCPR();
 						doingCPR = false;
 						break;
-					case FinishProgressAction.FinishReason.COMPLETED:
+					case FinishReason.COMPLETED:
 						DoCPR(rescuer, cardiacArrestPlayer);
 						doingCPR = false;
 						break;

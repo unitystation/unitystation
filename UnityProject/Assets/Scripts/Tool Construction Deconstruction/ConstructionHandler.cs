@@ -64,12 +64,12 @@ public class ConstructionHandler : NBHandApplyInteractable
 							{
 								var progressFinishAction = new FinishProgressAction(reason =>
 								{
-									if (reason == FinishProgressAction.FinishReason.COMPLETED)
+									if (reason == FinishReason.COMPLETED)
 									{
 										ExceptItem(slot, interaction);
 									}
 								});
-								UIManager.ServerStartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
+								UIManager.ServerStartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer, true);
 							}
 							else {
 								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
@@ -85,12 +85,12 @@ public class ConstructionHandler : NBHandApplyInteractable
 								if (_Object.TimeNeeded > 0) {
 									var progressFinishAction = new FinishProgressAction(reason =>
 									{
-										if (reason == FinishProgressAction.FinishReason.COMPLETED)
+										if (reason == FinishReason.COMPLETED)
 										{
 											ExceptItem(slot, interaction);
 										}
 									});
-									UIManager.ServerStartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
+									UIManager.ServerStartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer, true);
 								}
 								else {
 									ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
@@ -116,12 +116,12 @@ public class ConstructionHandler : NBHandApplyInteractable
 			{
 				var progressFinishAction = new FinishProgressAction(reason =>
 				{
-					if (reason == FinishProgressAction.FinishReason.COMPLETED)
+					if (reason == FinishReason.COMPLETED)
 					{
 						JumpLanding(tool);
 					}
 				});
-				UIManager.ServerStartProgress(registerObject.WorldPositionServer, Jump.ConstructionTime/tool.SpeedMultiplier, progressFinishAction, interaction.Performer);
+				UIManager.ServerStartProgress(registerObject.WorldPositionServer, Jump.ConstructionTime/tool.SpeedMultiplier, progressFinishAction, interaction.Performer, true);
 			}
 			else {
 				JumpLanding(tool);

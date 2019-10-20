@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -8,6 +7,9 @@ using Mirror;
 /// <summary>
 /// Main behavior for progress bars. Progress bars progress is tracked on the server and the client
 /// that initiated the action only gets sprite index updates. Other players do not receive any updates.
+///
+/// Due to the pecularities of how it only needs to appear for one player, this doesn't use monobehavior /
+/// registertile / CNT...it is just a regular game object and is updated in response to net messages.
 /// </summary>
 public class ProgressBar : MonoBehaviour
 {
@@ -28,11 +30,14 @@ public class ProgressBar : MonoBehaviour
 	private float timeToFinish;
 	private bool done;
 	//player who initiated it
-	private GameObject player;
+	private RegisterPlayer player;
 	//directional of the player who initiated it
 	private Directional playerDirectional;
-	//position at which the player initiated it
-	private Vector2Int playerWorldPosCache;
+	//pickupable item associated with the action (if any)
+	//progress will be cancelled on drop
+	private Pickupable usedItem;
+	//position the player was at when they initiated it
+	private Vector2Int playerLocalPosCache;
 	//initial orientation of player when they initiated it
 	private Orientation facingDirectionCache;
 	//Action which should be invoked when progress is done (for one reason or another)
@@ -52,17 +57,26 @@ public class ProgressBar : MonoBehaviour
 	}
 
 	//has the player moved away while the progress bar is in progress?
-	private bool HasMovedAway()
+	private bool Interrupted()
 	{
-		//TODO: This won't work correctly on moving or rotating matrices. Instead, manually interrupt progress when player
-		//movement or turning happens.
+		return TurnInterrupt() ||
+		       PlayerMovedAway() ||
+		       TargetMovedAway();
+	}
 
-		if ((!allowTurning && playerDirectional.CurrentDirection != facingDirectionCache) ||
-		    player.TileWorldPosition() != playerWorldPosCache)
-		{
-			return true;
-		}
-		return false;
+	private bool TargetMovedAway()
+	{
+		return (transform.position.RoundToInt() - player.WorldPosition).magnitude > 1.5f;
+	}
+
+	private bool PlayerMovedAway()
+	{
+		return player.LocalPosition.To2Int() != playerLocalPosCache;
+	}
+
+	private bool TurnInterrupt()
+	{
+		return !allowTurning && playerDirectional.CurrentDirection != facingDirectionCache;
 	}
 
 
@@ -73,20 +87,43 @@ public class ProgressBar : MonoBehaviour
 	/// <param name="timeForCompletion">how long in seconds the action should take</param>
 	/// <param name="finishProgressAction">callback for when action completes or is interrupted</param>
 	/// <param name="player">player performing the action</param>
+	/// <param name="usingHandItem">true if interaction is being performed using item in active hand.
+	/// If this item is dropped or swapped to different slot or active slot is changed, progress will be interrupted.</param>
 	/// <param name="allowTurning">if true (default), turning won't interrupt progress</param>
 	public void ServerStartProgress(float timeForCompletion,
-		FinishProgressAction finishProgressAction, GameObject player, bool allowTurning = true)
+		FinishProgressAction finishProgressAction, GameObject player, bool usingHandItem = false, bool allowTurning = true)
 	{
+		done = true;
 		playerDirectional = player.GetComponent<Directional>();
 		progress = 0f;
 		lastSpriteIndex = 0;
 		timeToFinish = timeForCompletion;
 		completedAction = finishProgressAction;
-		playerWorldPosCache = player.TileWorldPosition();
+		playerLocalPosCache = player.TileLocalPosition();
 		facingDirectionCache = playerDirectional.CurrentDirection;
-		this.player = player;
+		this.player = player.GetComponent<RegisterPlayer>();
 		this.allowTurning = allowTurning;
 		id = GetInstanceID();
+
+		if (usingHandItem)
+		{
+			var usedItemObj = player.Player().Script.playerNetworkActions.GetActiveHandItem();
+			if (usedItemObj == null)
+			{
+				//nothing in hand, do not process any further
+				Logger.LogWarningFormat("For player {0}, usingHandItem=true but no item in hand. Progress action will not proceed", Category.UI, player.name);
+				return;
+			}
+
+			usedItem  = usedItemObj.GetComponent<Pickupable>();
+			if (usedItem == null)
+			{
+				//item in hand not pickupable, do not process further
+				Logger.LogWarningFormat("For player {0}, usingHandItem=true but {1} is not pickupable. Progress action will not proceed", Category.UI, player.name, usedItemObj.name);
+				return;
+			}
+		}
+
 
 		if (player != PlayerManager.LocalPlayer)
 		{
@@ -100,12 +137,23 @@ public class ProgressBar : MonoBehaviour
 		spriteRenderer.sprite = progressSprites[0];
 
 
+		if (this.usedItem != null)
+		{
+			this.usedItem.OnDropServer.AddListener(ServerInterruptOnDrop);
+		}
 
 		done = false;
 
 		//Start the progress for the player:
-		//okay to use transform.position here since it's just been spawned
-		ProgressBarMessage.SendCreate(player, 0, transform.position.To2Int() - playerWorldPosCache, id);
+		ProgressBarMessage.SendCreate(player, 0, transform.position.To2Int() - player.TileWorldPosition(), id);
+
+
+	}
+
+	private void ServerInterruptOnDrop()
+	{
+		//called when item is dropped, interrupts progress
+		ServerInterruptProgress();
 	}
 
 	/// <summary>
@@ -128,7 +176,7 @@ public class ProgressBar : MonoBehaviour
 			return;
 		}
 
-		if (player != null && player != PlayerManager.LocalPlayer)
+		if (player != null && player.gameObject != PlayerManager.LocalPlayer)
 		{
 			//this is for server's copy of client's progress bar -
 			//server should not render clients progress bar
@@ -152,13 +200,14 @@ public class ProgressBar : MonoBehaviour
 		if (timeToNotifyPlayer)
 		{
 			//Update the players progress bar
-			ProgressBarMessage.SendUpdate(player, spriteIndex, id);
+			ProgressBarMessage.SendUpdate(player.gameObject, spriteIndex, id);
+			lastSpriteIndex = spriteIndex;
 		}
 
 		//Cancel the progress bar if the player moves away or faces another direction:
-		if (HasMovedAway())
+		if (Interrupted())
 		{
-			completedAction.Finish(FinishProgressAction.FinishReason.INTERRUPTED);
+			completedAction.Finish(FinishReason.INTERRUPTED);
 			ServerCloseProgressBar();
 			return;
 		}
@@ -166,57 +215,30 @@ public class ProgressBar : MonoBehaviour
 		//Finished! Invoke the action and close the progress bar for the player
 		if (progress >= timeToFinish)
 		{
-			completedAction.Finish(FinishProgressAction.FinishReason.COMPLETED);
+			completedAction.Finish(FinishReason.COMPLETED);
 			ServerCloseProgressBar();
 		}
 	}
 
+	/// <summary>
+	/// Interrupt the progress bar, closing it prematurely
+	/// </summary>
+	/// <param name="finishReason">reason progress was interrupted</param>
+	public void ServerInterruptProgress(FinishReason finishReason = FinishReason.INTERRUPTED)
+	{
+		completedAction.Finish(finishReason);
+		ServerCloseProgressBar();
+	}
+
+
 	private void ServerCloseProgressBar()
 	{
 		done = true;
+		if (this.usedItem != null)
+		{
+			this.usedItem.OnDropServer.RemoveListener(ServerInterruptOnDrop);
+		}
 		//Notify player to turn off progress bar:
-		ProgressBarMessage.SendUpdate(player, COMPLETE_INDEX, id);
-	}
-}
-
-/// <summary>
-/// Defines what to do when finishing progress bar, which could be due to the progress completing
-/// or being interrupted. Pretty sure this runs only on the server.
-/// </summary>
-public class FinishProgressAction
-{
-	/// <summary>
-	/// Denotes why the action in progress is now done
-	/// </summary>
-	public enum FinishReason
-	{
-		//completed successfully
-		COMPLETED,
-		//interrupted before completion
-		INTERRUPTED
-		//Add whatever else you need here
-	}
-
-	//callback invoked when action completes
-	private Action<FinishReason> onFinished;
-
-	/// <summary>
-	/// Finish progress action with a specified callback when finished
-	/// </summary>
-	/// <param name="onFinished">function to invoke when progress is finished, including an indicator
-	/// of why the progress finished (such as if it was interrupted). The function should
-	/// take care of whatever needs to be done based on FinishStatus status.</param>
-	public FinishProgressAction(Action<FinishReason> onFinished)
-	{
-		this.onFinished = onFinished;
-	}
-
-	/// <summary>
-	/// Finish the action with the specified reason, invoke the callback.
-	/// </summary>
-	/// <param name="completed">reason for completion</param>
-	public void Finish(FinishReason reason)
-	{
-		this.onFinished.Invoke(reason);
+		ProgressBarMessage.SendUpdate(player.gameObject, COMPLETE_INDEX, id);
 	}
 }

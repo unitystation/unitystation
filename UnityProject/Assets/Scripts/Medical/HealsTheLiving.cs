@@ -68,11 +68,11 @@ public class HealsTheLiving : NBHandApplyInteractable, IOnStageServer
 			var progressFinishAction = new FinishProgressAction(
 				reason =>
 				{
-					if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
+					if (reason == FinishReason.INTERRUPTED)
 					{
 						isSelfHealing = false;
 					}
-					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
+					else if (reason == FinishReason.COMPLETED)
 					{
 						ApplyHeal(targetBodyPart);
 						isSelfHealing = false;
@@ -80,7 +80,7 @@ public class HealsTheLiving : NBHandApplyInteractable, IOnStageServer
 				}
 			);
 			isSelfHealing = true;
-			UIManager.ServerStartProgress(originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator);
+			UIManager.ServerStartProgress(originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator, true);
 		}
 	}
 }

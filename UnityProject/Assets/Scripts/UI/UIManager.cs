@@ -249,7 +249,7 @@ public class UIManager : MonoBehaviour
 
 	/// <summary>
 	/// Creates a new progress bar for local player with the specified id and specified offset from player
-	/// (parented to same matrix as player)
+	/// (parented to the matrix at the position being targeted so it moves with it)
 	/// </summary>
 	/// <param name="offsetFromPlayer">offset position from local player</param>
 	/// <param name="progressBarId">id to assign to the new progress bar</param>
@@ -257,7 +257,9 @@ public class UIManager : MonoBehaviour
 	public static ProgressBar CreateProgressBar(Vector2Int offsetFromPlayer, int progressBarId)
 	{
 		var targetWorldPosition = PlayerManager.LocalPlayer.TileWorldPosition() + offsetFromPlayer;
-		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition.To3Int());
+		var targetMatrixInfo = MatrixManager.AtPoint(targetWorldPosition.To3Int(), true);
+		var targetParent = targetMatrixInfo.Objects;
+		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition.To3Int(), targetParent);
 		var progressBar = barObject.GetComponent<ProgressBar>();
 
 		progressBar.ClientStartProgress(progressBarId);
@@ -292,13 +294,20 @@ public class UIManager : MonoBehaviour
 	/// <param name="timeForCompletion">how long in seconds the action should take</param>
 	/// <param name="finishProgressAction">callback for when action completes or is interrupted</param>
 	/// <param name="player">player performing the action</param>
+	/// <param name="usingHandItem">true if interaction is being performed using item in active hand.
+	/// If this item is dropped or swapped to different slot or active slot is changed, interaction will be interrupted.</param>
 	/// <param name="allowTurning">if true (default), turning won't interrupt progress</param>
-	public static void ServerStartProgress(Vector3 worldPos, float timeForCompletion,
-		FinishProgressAction finishProgressAction, GameObject player, bool allowTurning = true)
+	/// <returns>progress bar associated with this action (can use this to interrupt progress)</returns>
+	public static ProgressBar ServerStartProgress(Vector3 worldPos, float timeForCompletion,
+		FinishProgressAction finishProgressAction, GameObject player, bool usingHandItem = false, bool allowTurning = true)
 	{
-		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", worldPos);
+		var targetMatrixInfo = MatrixManager.AtPoint(worldPos.RoundToInt(), true);
+		var targetParent = targetMatrixInfo.Objects;
+		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", worldPos, targetParent);
 		var progressBar = barObject.GetComponent<ProgressBar>();
-		progressBar.ServerStartProgress(timeForCompletion, finishProgressAction, player, allowTurning);
+		progressBar.ServerStartProgress(timeForCompletion, finishProgressAction, player, usingHandItem, allowTurning);
 		Instance.progressBars.Add(progressBar.ID, progressBar);
+
+		return progressBar;
 	}
 }

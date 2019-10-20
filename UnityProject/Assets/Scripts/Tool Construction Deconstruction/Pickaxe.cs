@@ -28,11 +28,11 @@ public class Pickaxe : Interactable<PositionalHandApply>
 			var progressFinishAction = new FinishProgressAction(
 				reason =>
 				{
-					if (reason == FinishProgressAction.FinishReason.INTERRUPTED)
+					if (reason == FinishReason.INTERRUPTED)
 					{
 						CancelMine();
 					}
-					else if (reason == FinishProgressAction.FinishReason.COMPLETED)
+					else if (reason == FinishReason.COMPLETED)
 					{
 						FinishMine(interaction);
 						isMining = false;
@@ -43,7 +43,7 @@ public class Pickaxe : Interactable<PositionalHandApply>
 
 			//Start the progress bar:
 			UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
-				5f, progressFinishAction, interaction.Performer);
+				5f, progressFinishAction, interaction.Performer, true);
 			SoundManager.PlayNetworkedAtPos("pickaxe#", interaction.WorldPositionTarget);
 		}
 	}
