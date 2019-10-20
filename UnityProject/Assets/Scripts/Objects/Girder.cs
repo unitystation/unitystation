@@ -41,31 +41,19 @@ public class Girder : NBHandApplyInteractable
 		if (interaction.TargetObject != gameObject) return;
 
 		if (Validations.HasComponent<Metal>(interaction.HandObject)){
-			var progressFinishAction = new FinishProgressAction(
-				reason =>
-				{
-					if (reason == FinishReason.COMPLETED)
-					{
-						ConstructWall(interaction);
-					}
-				}
-			);
-			UIManager.ServerStartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer,
-				true);
+			var progressFinishAction = new ProgressCompleteAction(() =>
+						ConstructWall(interaction));
+			UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
 		}
 		else if (Validations.IsTool(interaction.HandObject, ToolType.Wrench))
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", transform.localPosition, 1f);
-			var progressFinishAction = new FinishProgressAction(
-				reason =>
-				{
-					if (reason == FinishReason.COMPLETED)
-					{
-						Disassemble();
-					}
-				}
-			);
-			UIManager.ServerStartProgress(registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer, true);
+
+			var progressFinishAction = new ProgressCompleteAction(Disassemble);
+			var bar = UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, 5f, progressFinishAction, interaction.Performer);
+			if (bar != null)
+			{
+				SoundManager.PlayNetworkedAtPos("Wrench", transform.localPosition, 1f);
+			}
 		}
 	}
 

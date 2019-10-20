@@ -21,20 +21,17 @@ public class Pickaxe : Interactable<PositionalHandApply>
 	{
 		//server is performing server-side logic for the interaction
 		//do the mining
-		var progressFinishAction = new FinishProgressAction(
-			reason =>
-			{
-				if (reason == FinishReason.COMPLETED)
-				{
-					FinishMine(interaction);
-				}
-			}
-		);
+		var progressFinishAction = new ProgressCompleteAction(() => FinishMine(interaction));
 
 		//Start the progress bar:
-		UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
-			5f, progressFinishAction, interaction.Performer, true);
-		SoundManager.PlayNetworkedAtPos("pickaxe#", interaction.WorldPositionTarget);
+		//technically pickaxe is deconstruction, so it would interrupt any construction / deconstruction being done
+		//on that tile
+		var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
+			5f, progressFinishAction, interaction.Performer);
+		if (bar != null)
+		{
+			SoundManager.PlayNetworkedAtPos("pickaxe#", interaction.WorldPositionTarget);
+		}
 	}
 
 	private void FinishMine(PositionalHandApply interaction)

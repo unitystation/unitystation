@@ -19,7 +19,9 @@ public class ProgressBar : MonoBehaviour
 {
 	private static readonly int COMPLETE_INDEX = -1;
 
-
+	private float anim;
+	private int animIdx;
+	private float animSpd;
 	private SpriteRenderer spriteRenderer;
 	public Sprite[] progressSprites;
 	//unique id of this progress bar - unique across all players
@@ -40,6 +42,7 @@ public class ProgressBar : MonoBehaviour
 	//registerPlayer of player who initiated it
 	private RegisterPlayer registerPlayer;
 
+	private ProgressAction progressAction;
 	/// <summary>
 	/// registerPlayer of player who initiated it
 	/// </summary>
@@ -55,13 +58,14 @@ public class ProgressBar : MonoBehaviour
 	//initial orientation of player when they initiated it
 	private Orientation facingDirectionCache;
 	//Action which should be invoked when progress is done (for one reason or another)
-	private FinishProgressAction completedAction;
-	//whether player turning is allowed during progress
-	private bool allowTurning;
+	private IProgressEndAction completedEndAction;
 	private float progUnit { get { return timeToFinish / 21f; } }
 	private int spriteIndex { get { return Mathf.Clamp((int) (progress / progUnit), 0, 20); } }
 	private int lastSpriteIndex = 0;
 	private bool timeToNotifyPlayer { get { return lastSpriteIndex != spriteIndex; } }
+
+	public ProgressAction ProgressAction => progressAction;
+
 	//matrix move the progress bar is on, null if none.
 	private MatrixMove matrixMove;
 
@@ -74,46 +78,35 @@ public class ProgressBar : MonoBehaviour
 	/// Initiate this progress bar's behavior on server side. Assumes position is already set to where the progress
 	/// bar should appear.
 	/// </summary>
+	/// <param name="progressAction">progress action being performed</param>
 	/// <param name="timeForCompletion">how long in seconds the action should take</param>
-	/// <param name="finishProgressAction">callback for when action completes or is interrupted</param>
+	/// <param name="progressEndAction">callback for when action completes or is interrupted</param>
 	/// <param name="player">player performing the action</param>
-	/// <param name="usingHandItem">true if interaction is being performed using item in active hand.
-	/// If this item is dropped or swapped to different slot or active slot is changed, progress will be interrupted.</param>
-	/// <param name="allowTurning">if true (default), turning won't interrupt progress</param>
-	public void ServerStartProgress(float timeForCompletion,
-		FinishProgressAction finishProgressAction, GameObject player, bool usingHandItem = false, bool allowTurning = true)
+	public void ServerStartProgress(ProgressAction progressAction, float timeForCompletion,
+		IProgressEndAction progressEndAction, GameObject player)
 	{
 		done = true;
 		playerDirectional = player.GetComponent<Directional>();
 		progress = 0f;
 		lastSpriteIndex = 0;
 		timeToFinish = timeForCompletion;
-		completedAction = finishProgressAction;
+		completedEndAction = progressEndAction;
 		facingDirectionCache = playerDirectional.CurrentDirection;
 		registerPlayer = player.GetComponent<RegisterPlayer>();
 		playerSync = player.GetComponent<PlayerSync>();
-		this.allowTurning = allowTurning;
+		this.progressAction = progressAction;
 		id = GetInstanceID();
 
-		if (usingHandItem)
+		//check if something is in hand so we can interrupt if it's dropped
+		var usedItemObj = player.Player().Script.playerNetworkActions.GetActiveHandItem();
+		if (usedItemObj != null)
 		{
-			var usedItemObj = player.Player().Script.playerNetworkActions.GetActiveHandItem();
-			if (usedItemObj == null)
-			{
-				//nothing in hand, do not process any further
-				Logger.LogWarningFormat("For player {0}, usingHandItem=true but no item in hand. Progress action will not proceed", Category.UI, player.name);
-				return;
-			}
-
 			usedItem  = usedItemObj.GetComponent<Pickupable>();
-			if (usedItem == null)
+			if (usedItem != null)
 			{
-				//item in hand not pickupable, do not process further
-				Logger.LogWarningFormat("For player {0}, usingHandItem=true but {1} is not pickupable. Progress action will not proceed", Category.UI, player.name, usedItemObj.name);
-				return;
+				usedItem.OnDropServer.AddListener(ServerInterruptOnDrop);
 			}
 		}
-
 
 		if (player != PlayerManager.LocalPlayer)
 		{
@@ -126,26 +119,46 @@ public class ProgressBar : MonoBehaviour
 		}
 		spriteRenderer.sprite = progressSprites[0];
 
+		CommonStartProgress();
 
-		if (this.usedItem != null)
-		{
-			this.usedItem.OnDropServer.AddListener(ServerInterruptOnDrop);
-		}
+		//Start the progress for the player:
+		//note: using transform position for the offset, because progress bar has no register tile and
+		//otherwise it would give an incorrect offset if player is on moving matrix
+		ProgressBarMessage.SendCreate(player, 0, (transform.position - player.transform.position).To2Int(), id);
+	}
 
+	/// <summary>
+	/// Invoke when bar is created client side, assigns the id
+	/// </summary>
+	/// <param name="progressBarId">id to assign to this bar</param>
+	public void ClientStartProgress(int progressBarId)
+	{
+		id = progressBarId;
+		CommonStartProgress();
+
+	}
+
+	private void CommonStartProgress()
+	{
+		done = false;
+		//common logic used between client / server progress start logic
 		matrixMove = GetComponentInParent<MatrixMove>();
 		if (matrixMove != null)
 		{
 			matrixMove.OnRotateEnd.AddListener(OnRotationEnd);
 		}
 
-		done = false;
-
-		//Start the progress for the player:
-		//note: using transform position for the offset, because progress bar has no register tile and
-		//otherwise it would give an incorrect offset if player is on moving matrix
-		ProgressBarMessage.SendCreate(player, 0, (transform.position - player.transform.position).To2Int(), id);
-
-
+		anim = 0f;
+		if (Random.value < 0.02f)
+		{
+			spriteRenderer.transform.parent.localRotation = Quaternion.identity;
+			animIdx = Random.Range(1, progressSprites.Length / 2);
+			animSpd = Random.Range(360f, 720f);
+		}
+		else
+		{
+			animIdx = -1;
+		}
 	}
 
 	private void OnRotationEnd(RotationOffset arg0, bool arg1)
@@ -160,25 +173,11 @@ public class ProgressBar : MonoBehaviour
 		ServerInterruptProgress();
 	}
 
-	/// <summary>
-	/// Invoke when bar is created client side, assigns the id
-	/// </summary>
-	/// <param name="progressBarId">id to assign to this bar</param>
-	/// <param name="offsetFromPlayer">offset of bar from player, to ensure positioning is correct</param>
-	public void ClientStartProgress(int progressBarId, Vector2Int offsetFromPlayer)
-	{
-		id = progressBarId;
-		matrixMove = GetComponentInParent<MatrixMove>();
-		if (matrixMove != null)
-		{
-			matrixMove.OnRotateEnd.AddListener(OnRotationEnd);
-		}
-
-	}
 
 	private void DestroyProgressBar()
 	{
 		done = true;
+		spriteRenderer.transform.parent.localRotation = Quaternion.identity;
 		spriteRenderer.enabled = false;
 		if (this.usedItem != null)
 		{
@@ -193,6 +192,7 @@ public class ProgressBar : MonoBehaviour
 
 	public void ClientUpdateProgress(int newSpriteIndex)
 	{
+		lastSpriteIndex = newSpriteIndex;
 		// -1 sent from server means the crafting is complete. dismiss the progress bar:
 		if (newSpriteIndex == -1)
 		{
@@ -217,8 +217,20 @@ public class ProgressBar : MonoBehaviour
 
 	void Update()
 	{
+		if (done) return;
+		if (animIdx != -1 && lastSpriteIndex >= animIdx)
+		{
+			anim += Time.deltaTime * animSpd;
+			var deg = Mathf.Lerp(0, 360, Mathf.SmoothStep(0f, 1f, Mathf.SmoothStep(0f, 1f, anim / 360f)));
+			spriteRenderer.transform.parent.localRotation = Quaternion.Euler(0, 0, deg);
+			if (deg >= 360)
+			{
+				spriteRenderer.transform.parent.localRotation = Quaternion.identity;
+				animIdx = -1;
+			}
+		}
 		//server only
-		if (registerPlayer == null || done) return;
+		if (registerPlayer == null) return;
 
 		progress += Time.deltaTime;
 		if (timeToNotifyPlayer)
@@ -231,7 +243,7 @@ public class ProgressBar : MonoBehaviour
 		//Cancel the progress bar if the player moves away or faces another direction:
 		if (Interrupted())
 		{
-			completedAction.Finish(FinishReason.INTERRUPTED);
+			completedEndAction.OnEnd(ProgressEndReason.INTERRUPTED);
 			ServerCloseProgressBar();
 			return;
 		}
@@ -239,7 +251,13 @@ public class ProgressBar : MonoBehaviour
 		//Finished! Invoke the action and close the progress bar for the player
 		if (progress >= timeToFinish)
 		{
-			completedAction.Finish(FinishReason.COMPLETED);
+			completedEndAction.OnEnd(ProgressEndReason.COMPLETED);
+			if (progressAction.InterruptsOverlapping)
+			{
+				//interrupt all other progress actions of this type at this location
+				UIManager.ServerInterruptProgress(this, progressAction, transform.localPosition, transform.parent);
+
+			}
 			ServerCloseProgressBar();
 		}
 	}
@@ -266,30 +284,35 @@ public class ProgressBar : MonoBehaviour
 
 	private bool TurnInterrupt()
 	{
-		return !allowTurning && playerDirectional.CurrentDirection != facingDirectionCache;
+		return !progressAction.AllowTurning && playerDirectional.CurrentDirection != facingDirectionCache;
 	}
 
 	/// <summary>
 	/// Interrupt the progress bar, closing it prematurely
 	/// </summary>
-	/// <param name="finishReason">reason progress was interrupted</param>
-	public void ServerInterruptProgress(FinishReason finishReason = FinishReason.INTERRUPTED)
+	/// <param name="progressEndReason">reason progress was interrupted</param>
+	public void ServerInterruptProgress(ProgressEndReason progressEndReason = ProgressEndReason.INTERRUPTED)
 	{
-		completedAction.Finish(finishReason);
+		completedEndAction.OnEnd(progressEndReason);
 		ServerCloseProgressBar();
 	}
 
 
 	private void ServerCloseProgressBar()
 	{
+		done = true;
 		//Notify player to turn off progress bar:
-		ProgressBarMessage.SendUpdate(registerPlayer.gameObject, COMPLETE_INDEX, id);
-		if (PlayerManager.LocalPlayer != registerPlayer.gameObject)
+		if (PlayerManager.LocalPlayer == registerPlayer.gameObject)
 		{
-			//destroy server's own copy of the bar
+			//server player's bar, just destroy it
 			DestroyProgressBar();
 		}
-
-
+		else
+		{
+			//inform client
+			ProgressBarMessage.SendUpdate(registerPlayer.gameObject, COMPLETE_INDEX, id);
+			//destroy server's local copy
+			DestroyProgressBar();
+		}
 	}
 }

@@ -33,9 +33,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
 	[NonSerialized] public EquipSlot activeHand = EquipSlot.rightHand;
 
-
-	private bool doingCPR = false;
-
 	private PlayerChatBubble playerChatBubble;
 
 	private Equipment equipment;
@@ -719,37 +716,23 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestCPR(GameObject rescuer, GameObject cardiacArrestPlayer)
 	{
+		//TODO: Probably refactor this to IF2
+
 		var cardiacArrestPlayerRegister = cardiacArrestPlayer.GetComponent<RegisterPlayer>();
 
-		if (doingCPR)
-			return;
+		var progressFinishAction = new ProgressCompleteAction(() => DoCPR(rescuer, cardiacArrestPlayer));
 
-		var progressFinishAction = new FinishProgressAction(
-			reason =>
-			{
-				switch (reason)
-				{
-					case FinishReason.INTERRUPTED:
-						CancelCPR();
-						doingCPR = false;
-						break;
-					case FinishReason.COMPLETED:
-						DoCPR(rescuer, cardiacArrestPlayer);
-						doingCPR = false;
-						break;
-				}
-			}
-		);
-
-		doingCPR = true;
-		UIManager.ServerStartProgress(cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
+		var bar = UIManager.ServerStartProgress(ProgressAction.CPR, cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
 			rescuer);
-		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+		if (bar != null)
 		{
-			channels = ChatChannel.Local,
-			message = $"{rescuer.Player()?.Name} is trying to perform CPR on {cardiacArrestPlayer.Player()?.Name}.",
-			position = cardiacArrestPlayerRegister.WorldPosition.To2Int()
-		});
+			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
+			{
+				channels = ChatChannel.Local,
+				message = $"{rescuer.Player()?.Name} is trying to perform CPR on {cardiacArrestPlayer.Player()?.Name}.",
+				position = cardiacArrestPlayerRegister.WorldPosition.To2Int()
+			});
+		}
 	}
 
 	[Server]
@@ -757,20 +740,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		var CardiacArrestPlayerRegister = CardiacArrestPlayer.GetComponent<RegisterPlayer>();
 		CardiacArrestPlayer.GetComponent<PlayerHealth>().bloodSystem.oxygenDamage -= 7f;
-		doingCPR = false;
 		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
 		{
 			channels = ChatChannel.Local,
 			message = $"{rescuer.Player()?.Name} has performed CPR on {CardiacArrestPlayer.Player()?.Name}.",
 			position = CardiacArrestPlayerRegister.WorldPositionServer.To2Int()
 		});
-	}
-
-	[Server]
-	private void CancelCPR()
-	{
-		// Stop the in progress CPR.
-		doingCPR = false;
 	}
 
 	/// <summary>

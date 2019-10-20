@@ -269,7 +269,7 @@ public class UIManager : MonoBehaviour
 		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition, targetParent);
 		var progressBar = barObject.GetComponent<ProgressBar>();
 
-		progressBar.ClientStartProgress(progressBarId, offsetFromPlayer);
+		progressBar.ClientStartProgress(progressBarId);
 
 		Instance.progressBars.Add(progressBarId, progressBar);
 
@@ -296,20 +296,31 @@ public class UIManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Create and begin animating a progress bar for a specific player.
+	/// Tries to create and begin animating a progress bar for a specific player. Returns null
+	/// if progress did not begin for some reason.
 	/// </summary>
+	/// <param name="progressAction">progress action being performed</param>
 	/// <param name="worldTilePos">tile position the action is being performed on</param>
 	/// <param name="timeForCompletion">how long in seconds the action should take</param>
-	/// <param name="finishProgressAction">callback for when action completes or is interrupted</param>
+	/// <param name="progressEndAction">callback for when action completes or is interrupted</param>
 	/// <param name="player">player performing the action</param>
-	/// <param name="usingHandItem">true if interaction is being performed using item in active hand.
-	/// If this item is dropped or swapped to different slot or active slot is changed, interaction will be interrupted.</param>
-	/// <param name="allowTurning">if true (default), turning won't interrupt progress</param>
-	/// <returns>progress bar associated with this action (can use this to interrupt progress). Returns the
-	/// original progress bar if there already was one created for this player at the specified position</returns>
-	public static ProgressBar ServerStartProgress(Vector3 worldTilePos, float timeForCompletion,
-		FinishProgressAction finishProgressAction, GameObject player, bool usingHandItem = false, bool allowTurning = true)
+	/// <returns>progress bar associated with this action (can use this to interrupt progress). Null if
+	/// progress was not started for some reason (such as already in progress for this action on the specified tile).</returns>
+	public static ProgressBar ServerStartProgress(ProgressAction progressAction, Vector3 worldTilePos, float timeForCompletion,
+		IProgressEndAction progressEndAction, GameObject player)
 	{
+		if (!progressAction.AllowMultiple)
+		{
+			//check if we are already doing this action anywhere else
+			var existingAction = Instance.progressBars.Values
+				.Where(pb => pb.RegisterPlayer.gameObject == player)
+				.FirstOrDefault(pb => pb.ProgressAction == progressAction);
+			if (existingAction != null)
+			{
+				//already doing this action, and multiple is not allowed
+				return null;
+			}
+		}
 		//convert to an offset so local position ends up being correct even on moving matrix
 		var offsetFromPlayer = worldTilePos.To2Int() - player.TileWorldPosition();
 		//convert to local position so it appears correct on moving matrix
@@ -321,7 +332,7 @@ public class UIManager : MonoBehaviour
 		//snap to local position
 		var targetLocalPosition = targetParent.transform.InverseTransformPoint(targetWorldPosition).RoundToInt();
 
-		//check if there is already progress at this location
+		//check if there is already progress at this location by this player
 		var existingBar = Instance.progressBars.Values
 			.Where(pb => pb.RegisterPlayer.gameObject == player)
 			.Where(pb => pb.transform.parent == targetParent)
@@ -329,17 +340,38 @@ public class UIManager : MonoBehaviour
 
 		if (existingBar != null)
 		{
-			return existingBar;
+			return null;
 		}
 
 		//back to world so we can call PoolClientInstantiate
 		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
 		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition, targetParent);
 		var progressBar = barObject.GetComponent<ProgressBar>();
-		progressBar.ServerStartProgress(timeForCompletion, finishProgressAction, player, usingHandItem, allowTurning);
+		progressBar.ServerStartProgress(progressAction, timeForCompletion, progressEndAction, player);
 		Instance.progressBars.Add(progressBar.ID, progressBar);
 
-
 		return progressBar;
+	}
+
+	/// <summary>
+	/// Interrupts all other actions of the given progressaction at the specified local position in the specified parent.
+	/// </summary>
+	/// <param name="progressBar">progressbar which is causing the interruption</param>
+	/// <param name="progressAction">action type to interrupt</param>
+	/// <param name="transformLocalPosition">local position to interrupt at</param>
+	/// <param name="transformParent">parent to check children of for progress actions</param>
+	public static void ServerInterruptProgress(ProgressBar cause, ProgressAction progressAction, Vector3 transformLocalPosition, Transform transformParent)
+	{
+		var existingBars = Instance.progressBars.Values
+			.Where(pb => pb != cause)
+			.Where(pb => pb.ProgressAction == progressAction)
+			.Where(pb => pb.transform.parent == transformParent)
+			.Where(pb => Vector3.Distance(pb.transform.localPosition, transformLocalPosition) < 0.1)
+			.ToList();
+
+		foreach (var existingBar in existingBars)
+		{
+			existingBar.ServerInterruptProgress();
+		}
 	}
 }

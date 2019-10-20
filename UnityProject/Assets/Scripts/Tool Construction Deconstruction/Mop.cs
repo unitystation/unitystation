@@ -18,19 +18,10 @@ public class Mop : Interactable<PositionalHandApply>
 	{
 		//server is performing server-side logic for the interaction
 		//do the mopping
-		var progressFinishAction = new FinishProgressAction(
-			reason =>
-			{
-				if (reason == FinishReason.COMPLETED)
-				{
-					CleanTile(interaction.WorldPositionTarget);
-				}
-			}
-		);
-
+		var progressFinishAction = new ProgressCompleteAction(() => CleanTile(interaction.WorldPositionTarget));
 		//Start the progress bar:
-		UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
-			5f, progressFinishAction, interaction.Performer, true);
+		UIManager.ServerStartProgress(ProgressAction.Mop, interaction.WorldPositionTarget.RoundToInt(),
+			5f, progressFinishAction, interaction.Performer);
 	}
 
 	public void CleanTile(Vector3 worldPos)

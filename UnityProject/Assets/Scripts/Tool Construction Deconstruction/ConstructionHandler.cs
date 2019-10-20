@@ -62,14 +62,8 @@ public class ConstructionHandler : NBHandApplyInteractable
 						{
 							if (_Object.TimeNeeded > 0)
 							{
-								var progressFinishAction = new FinishProgressAction(reason =>
-								{
-									if (reason == FinishReason.COMPLETED)
-									{
-										ExceptItem(slot, interaction);
-									}
-								});
-								UIManager.ServerStartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer, true);
+								var progressFinishAction = new ProgressCompleteAction(() => ExceptItem(slot, interaction));
+								UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
 							}
 							else {
 								ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
@@ -83,14 +77,8 @@ public class ConstructionHandler : NBHandApplyInteractable
 						if (Item != null) {
 							if (Item.CType == _Object.CType && Item.level >= _Object.level) {
 								if (_Object.TimeNeeded > 0) {
-									var progressFinishAction = new FinishProgressAction(reason =>
-									{
-										if (reason == FinishReason.COMPLETED)
-										{
-											ExceptItem(slot, interaction);
-										}
-									});
-									UIManager.ServerStartProgress(registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer, true);
+									var progressFinishAction = new ProgressCompleteAction(() => ExceptItem(slot, interaction));
+									UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, _Object.TimeNeeded, progressFinishAction, interaction.Performer);
 								}
 								else {
 									ConstructionStages[CurrentStage].PresentParts.Add(slot.Item);
@@ -114,14 +102,8 @@ public class ConstructionHandler : NBHandApplyInteractable
 			var Jump = ConstructionStages[CurrentStage].ToolStage[tool.ToolType];
 			if (Jump.ConstructionTime > 0)
 			{
-				var progressFinishAction = new FinishProgressAction(reason =>
-				{
-					if (reason == FinishReason.COMPLETED)
-					{
-						JumpLanding(tool);
-					}
-				});
-				UIManager.ServerStartProgress(registerObject.WorldPositionServer, Jump.ConstructionTime/tool.SpeedMultiplier, progressFinishAction, interaction.Performer, true);
+				var progressFinishAction = new ProgressCompleteAction(() => JumpLanding(tool));
+				UIManager.ServerStartProgress(ProgressAction.Construction, registerObject.WorldPositionServer, Jump.ConstructionTime/tool.SpeedMultiplier, progressFinishAction, interaction.Performer);
 			}
 			else {
 				JumpLanding(tool);

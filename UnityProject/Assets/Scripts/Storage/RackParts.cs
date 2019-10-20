@@ -54,28 +54,26 @@ public class RackParts : Interactable<PositionalHandApply, InventoryApply>
 			return;
 		}
 
-		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
-			"You start constructing a rack...");
-
-		var progressFinishAction = new FinishProgressAction(
-			reason =>
+		var progressFinishAction = new ProgressCompleteAction(() =>
 			{
-				if (reason == FinishReason.COMPLETED)
-				{
-					UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
-						"You assemble a rack.");
-
-					PoolManager.PoolNetworkInstantiate(rackPrefab, interaction.WorldPositionTarget.RoundToInt(), interaction.Performer.transform.parent);
-
-					var handObj = interaction.HandObject;
-					var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
-					handObj.GetComponent<Pickupable>().DisappearObject(slot);
-				}
+				UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
+					"You assemble a rack.");
+				PoolManager.PoolNetworkInstantiate(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
+					interaction.Performer.transform.parent);
+				var handObj = interaction.HandObject;
+				var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer,
+					interaction.HandSlot.equipSlot);
+				handObj.GetComponent<Pickupable>().DisappearObject(slot);
 			}
 		);
 
-		UIManager.ServerStartProgress(interaction.WorldPositionTarget.RoundToInt(),
-			5f, progressFinishAction, interaction.Performer, true);
+		var bar = UIManager.ServerStartProgress(ProgressAction.Construction, interaction.WorldPositionTarget.RoundToInt(),
+			5f, progressFinishAction, interaction.Performer);
+		if (bar != null)
+		{
+			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
+				"You start constructing a rack...");
+		}
 	}
 
 	protected override void ServerPerformInteraction(InventoryApply interaction)

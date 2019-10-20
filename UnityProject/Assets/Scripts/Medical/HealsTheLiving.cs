@@ -62,15 +62,7 @@ public class HealsTheLiving : NBHandApplyInteractable, IOnStageServer
 	[Server]
 	private void SelfHeal(GameObject originator, BodyPartBehaviour targetBodyPart)
 	{
-		var progressFinishAction = new FinishProgressAction(
-			reason =>
-			{
-				if (reason == FinishReason.COMPLETED)
-				{
-					ApplyHeal(targetBodyPart);
-				}
-			}
-		);
-		UIManager.ServerStartProgress(originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator, true);
+		var progressFinishAction = new ProgressCompleteAction(() => ApplyHeal(targetBodyPart));
+		UIManager.ServerStartProgress(ProgressAction.SelfHeal, originator.transform.position.RoundToInt(), 5f, progressFinishAction, originator);
 	}
 }

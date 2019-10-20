@@ -31,23 +31,22 @@ public class Deconstruction : MonoBehaviour
 		if (tileType == TileType.Wall)
 		{
 			//Set up the action to be invoked when progress bar finishes:
-			var progressFinishAction = new FinishProgressAction(
-				finishReason =>
+			var progressFinishAction = new ProgressCompleteAction(
+				() =>
 				{
-					if (finishReason == FinishReason.COMPLETED)
-					{
-						SoundManager.PlayNetworkedAtPos("Weld", worldCellPos, 0.8f);
-						CraftingManager.Deconstruction.TryTileDeconstruct(
-							matrixRoot.GetComponent<TileChangeManager>(), tileType, cellPos, worldCellPos);
-					}
+					SoundManager.PlayNetworkedAtPos("Weld", worldCellPos, 0.8f);
+					CraftingManager.Deconstruction.TryTileDeconstruct(
+						matrixRoot.GetComponent<TileChangeManager>(), tileType, cellPos, worldCellPos);
 				}
 			);
 
 			//Start the progress bar:
-			UIManager.ServerStartProgress(Vector3Int.RoundToInt(worldCellPos),
-				10f, progressFinishAction, player, true);
-
-			SoundManager.PlayNetworkedAtPos("Weld", worldCellPos, Random.Range(0.9f, 1.1f));
+			var bar = UIManager.ServerStartProgress(ProgressAction.Construction, Vector3Int.RoundToInt(worldCellPos),
+				10f, progressFinishAction, player);
+			if (bar != null)
+			{
+				SoundManager.PlayNetworkedAtPos("Weld", worldCellPos, Random.Range(0.9f, 1.1f));
+			}
 		}
 	}
 

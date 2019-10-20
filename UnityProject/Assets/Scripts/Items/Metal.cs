@@ -18,16 +18,8 @@ public class Metal : NBHandActivateInteractable
 	[Server]
 	private void startBuilding(HandActivate interaction)
 	{
-		var progressFinishAction = new FinishProgressAction(
-			reason =>
-			{
-				if (reason == FinishReason.COMPLETED)
-				{
-					BuildGirder(interaction);
-				}
-			}
-		);
-		UIManager.ServerStartProgress(interaction.Performer.TileWorldPosition().To3Int(), 5f, progressFinishAction, interaction.Performer, true);
+		var progressFinishAction = new ProgressCompleteAction(() => BuildGirder(interaction));
+		UIManager.ServerStartProgress(ProgressAction.Construction, interaction.Performer.TileWorldPosition().To3Int(), 5f, progressFinishAction, interaction.Performer);
 	}
 
 	[Server]

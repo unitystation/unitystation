@@ -2,7 +2,7 @@
 /// <summary>
 /// Denotes why the action in progress is now done
 /// </summary>
-public enum FinishReason
+public enum ProgressEndReason
 {
 	//completed successfully
 	COMPLETED,

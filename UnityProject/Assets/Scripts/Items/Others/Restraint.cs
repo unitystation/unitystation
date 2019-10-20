@@ -43,19 +43,19 @@ public class Restraint : Interactable<HandApply>
 		GameObject target = interaction.TargetObject;
 		GameObject performer = interaction.Performer;
 
-		var progressFinishAction = new FinishProgressAction(
-			reason =>
+		var progressFinishAction = new ProgressCompleteAction(
+			() =>
 			{
-				if (reason == FinishReason.COMPLETED)
-				{
-					if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) ?? false) {
-						target.GetComponent<PlayerMove>().Cuff(gameObject, interaction.Performer.GetComponent<PlayerNetworkActions>());
-					}
+				if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) ?? false) {
+					target.GetComponent<PlayerMove>().Cuff(gameObject, interaction.Performer.GetComponent<PlayerNetworkActions>());
 				}
 			}
 		);
 
-		SoundManager.PlayNetworkedAtPos(sound, target.transform.position);
-		UIManager.ServerStartProgress(target.transform.position, applyTime, progressFinishAction, performer, true);
+		var bar = UIManager.ServerStartProgress(ProgressAction.Restrain,  target.transform.position, applyTime, progressFinishAction, performer);
+		if (bar != null)
+		{
+			SoundManager.PlayNetworkedAtPos(sound, target.transform.position);
+		}
 	}
 }
