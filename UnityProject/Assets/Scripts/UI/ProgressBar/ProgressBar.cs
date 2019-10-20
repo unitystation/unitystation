@@ -10,11 +10,17 @@ using Mirror;
 ///
 /// Due to the pecularities of how it only needs to appear for one player, this doesn't use monobehavior /
 /// registertile / CNT...it is just a regular game object and is updated in response to net messages.
+///
+/// NOTE: Might want to turn this into a more re-usable system if there are other things that should have
+/// this sort of behavior - known only to one client and the server but still being able to use
+/// registerTile.
 /// </summary>
 public class ProgressBar : MonoBehaviour
 {
 	private static readonly int COMPLETE_INDEX = -1;
 
+
+	private SpriteRenderer spriteRenderer;
 	public Sprite[] progressSprites;
 	//unique id of this progress bar - unique across all players
 	private int id;
@@ -23,21 +29,23 @@ public class ProgressBar : MonoBehaviour
 	/// </summary>
 	public int ID => id;
 
-	//all of the below fields are valid only on the server
+
+	//---all of the below fields are valid only on the server---
+
 	//how much time progress has been going on for
 	private float progress = 0f;
 	//total duration until this progress bar should be complete
 	private float timeToFinish;
 	private bool done;
-	//player who initiated it
-	private RegisterPlayer player;
+	//registerPlayer of player who initiated it
+	private RegisterPlayer registerPlayer;
+	//playerSync of player who initiated it
+	private PlayerSync playerSync;
 	//directional of the player who initiated it
 	private Directional playerDirectional;
 	//pickupable item associated with the action (if any)
 	//progress will be cancelled on drop
 	private Pickupable usedItem;
-	//position the player was at when they initiated it
-	private Vector2Int playerLocalPosCache;
 	//initial orientation of player when they initiated it
 	private Orientation facingDirectionCache;
 	//Action which should be invoked when progress is done (for one reason or another)
@@ -48,37 +56,13 @@ public class ProgressBar : MonoBehaviour
 	private int spriteIndex { get { return Mathf.Clamp((int) (progress / progUnit), 0, 20); } }
 	private int lastSpriteIndex = 0;
 	private bool timeToNotifyPlayer { get { return lastSpriteIndex != spriteIndex; } }
-
-	private SpriteRenderer spriteRenderer;
+	//matrix move the progress bar is on, null if none.
+	private MatrixMove matrixMove;
 
 	private void Awake()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 	}
-
-	//has the player moved away while the progress bar is in progress?
-	private bool Interrupted()
-	{
-		return TurnInterrupt() ||
-		       PlayerMovedAway() ||
-		       TargetMovedAway();
-	}
-
-	private bool TargetMovedAway()
-	{
-		return (transform.position.RoundToInt() - player.WorldPosition).magnitude > 1.5f;
-	}
-
-	private bool PlayerMovedAway()
-	{
-		return player.LocalPosition.To2Int() != playerLocalPosCache;
-	}
-
-	private bool TurnInterrupt()
-	{
-		return !allowTurning && playerDirectional.CurrentDirection != facingDirectionCache;
-	}
-
 
 	/// <summary>
 	/// Initiate this progress bar's behavior on server side. Assumes position is already set to where the progress
@@ -99,9 +83,9 @@ public class ProgressBar : MonoBehaviour
 		lastSpriteIndex = 0;
 		timeToFinish = timeForCompletion;
 		completedAction = finishProgressAction;
-		playerLocalPosCache = player.TileLocalPosition();
 		facingDirectionCache = playerDirectional.CurrentDirection;
-		this.player = player.GetComponent<RegisterPlayer>();
+		registerPlayer = player.GetComponent<RegisterPlayer>();
+		playerSync = player.GetComponent<PlayerSync>();
 		this.allowTurning = allowTurning;
 		id = GetInstanceID();
 
@@ -142,12 +126,26 @@ public class ProgressBar : MonoBehaviour
 			this.usedItem.OnDropServer.AddListener(ServerInterruptOnDrop);
 		}
 
+		matrixMove = GetComponentInParent<MatrixMove>();
+		if (matrixMove != null)
+		{
+			matrixMove.OnRotateEnd.AddListener(OnRotationEnd);
+		}
+
 		done = false;
 
 		//Start the progress for the player:
-		ProgressBarMessage.SendCreate(player, 0, transform.position.To2Int() - player.TileWorldPosition(), id);
+		//note: using transform position for the offset, because progress bar has no register tile and
+		//otherwise it would give an incorrect offset if player is on moving matrix
+		ProgressBarMessage.SendCreate(player, 0, (transform.position - player.transform.position).To2Int(), id);
 
 
+	}
+
+	private void OnRotationEnd(RotationOffset arg0, bool arg1)
+	{
+		//reset orientation to upright
+		transform.rotation = Quaternion.identity;
 	}
 
 	private void ServerInterruptOnDrop()
@@ -160,9 +158,16 @@ public class ProgressBar : MonoBehaviour
 	/// Invoke when bar is created client side, assigns the id
 	/// </summary>
 	/// <param name="progressBarId">id to assign to this bar</param>
-	public void ClientStartProgress(int progressBarId)
+	/// <param name="offsetFromPlayer">offset of bar from player, to ensure positioning is correct</param>
+	public void ClientStartProgress(int progressBarId, Vector2Int offsetFromPlayer)
 	{
 		id = progressBarId;
+		matrixMove = GetComponentInParent<MatrixMove>();
+		if (matrixMove != null)
+		{
+			matrixMove.OnRotateEnd.AddListener(OnRotationEnd);
+		}
+
 	}
 
 	public void ClientUpdateProgress(int newSpriteIndex)
@@ -172,11 +177,15 @@ public class ProgressBar : MonoBehaviour
 		if (newSpriteIndex == -1)
 		{
 			spriteRenderer.enabled = false;
+			if (matrixMove != null)
+			{
+				matrixMove.OnRotateEnd.RemoveListener(OnRotationEnd);
+			}
 			UIManager.DestroyProgressBar(id);
 			return;
 		}
 
-		if (player != null && player.gameObject != PlayerManager.LocalPlayer)
+		if (registerPlayer != null && registerPlayer.gameObject != PlayerManager.LocalPlayer)
 		{
 			//this is for server's copy of client's progress bar -
 			//server should not render clients progress bar
@@ -194,13 +203,13 @@ public class ProgressBar : MonoBehaviour
 	void Update()
 	{
 		//server only
-		if (player == null || done) return;
+		if (registerPlayer == null || done) return;
 
 		progress += Time.deltaTime;
 		if (timeToNotifyPlayer)
 		{
 			//Update the players progress bar
-			ProgressBarMessage.SendUpdate(player.gameObject, spriteIndex, id);
+			ProgressBarMessage.SendUpdate(registerPlayer.gameObject, spriteIndex, id);
 			lastSpriteIndex = spriteIndex;
 		}
 
@@ -218,6 +227,31 @@ public class ProgressBar : MonoBehaviour
 			completedAction.Finish(FinishReason.COMPLETED);
 			ServerCloseProgressBar();
 		}
+	}
+
+	//has the player moved away while the progress bar is in progress?
+	private bool Interrupted()
+	{
+		return TurnInterrupt() ||
+		       PlayerMoved() ||
+		       TargetMovedAway();
+	}
+
+	private bool TargetMovedAway()
+	{
+		//NOTE: using transform position for this check because otherwise it would
+		//return invalid distance when matrix rotates
+		return (transform.position - registerPlayer.transform.position).magnitude > 1.5f;
+	}
+
+	private bool PlayerMoved()
+	{
+		return playerSync.IsMoving;
+	}
+
+	private bool TurnInterrupt()
+	{
+		return !allowTurning && playerDirectional.CurrentDirection != facingDirectionCache;
 	}
 
 	/// <summary>
@@ -238,7 +272,12 @@ public class ProgressBar : MonoBehaviour
 		{
 			this.usedItem.OnDropServer.RemoveListener(ServerInterruptOnDrop);
 		}
+
+		if (matrixMove != null)
+		{
+			matrixMove.OnRotateEnd.RemoveListener(OnRotationEnd);
+		}
 		//Notify player to turn off progress bar:
-		ProgressBarMessage.SendUpdate(player.gameObject, COMPLETE_INDEX, id);
+		ProgressBarMessage.SendUpdate(registerPlayer.gameObject, COMPLETE_INDEX, id);
 	}
 }

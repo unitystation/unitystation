@@ -21,7 +21,6 @@ public class Metal : NBHandActivateInteractable
 	{
 		if (!isBuilding)
 		{
-			var position = interaction.Performer.transform.position;
 			var progressFinishAction = new FinishProgressAction(
 				reason =>
 				{
@@ -31,19 +30,19 @@ public class Metal : NBHandActivateInteractable
 					}
 					else if (reason == FinishReason.COMPLETED)
 					{
-						BuildGirder(interaction, position);
+						BuildGirder(interaction);
 					}
 				}
 			);
 			isBuilding = true;
-			UIManager.ServerStartProgress(position.RoundToInt(), 5f, progressFinishAction, interaction.Performer, true);
+			UIManager.ServerStartProgress(interaction.Performer.TileWorldPosition().To3Int(), 5f, progressFinishAction, interaction.Performer, true);
 		}
 	}
 
 	[Server]
-	private void BuildGirder(HandActivate interaction, Vector3 position)
+	private void BuildGirder(HandActivate interaction)
 	{
-		PoolManager.PoolNetworkInstantiate(girderPrefab, position);
+		PoolManager.PoolNetworkInstantiate(girderPrefab, interaction.Performer.TileWorldPosition().To3Int());
 		isBuilding = false;
 		var slot = InventoryManager.GetSlotFromOriginatorHand(interaction.Performer, interaction.HandSlot.equipSlot);
 		GetComponent<Pickupable>().DisappearObject(slot);

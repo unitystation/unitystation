@@ -256,13 +256,20 @@ public class UIManager : MonoBehaviour
 	/// <returns> the new bar</returns>
 	public static ProgressBar CreateProgressBar(Vector2Int offsetFromPlayer, int progressBarId)
 	{
-		var targetWorldPosition = PlayerManager.LocalPlayer.TileWorldPosition() + offsetFromPlayer;
-		var targetMatrixInfo = MatrixManager.AtPoint(targetWorldPosition.To3Int(), true);
+		//convert to local position so it appears correct on moving matrix
+		//do not use tileworldposition for actual spawn position - bar will appear shifted on moving matrix
+		var targetWorldPosition = PlayerManager.LocalPlayer.transform.position + offsetFromPlayer.To3Int();
+		var targetTilePosition = PlayerManager.LocalPlayer.TileWorldPosition() + offsetFromPlayer;
+		var targetMatrixInfo = MatrixManager.AtPoint(targetTilePosition.To3Int(), true);
 		var targetParent = targetMatrixInfo.Objects;
-		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition.To3Int(), targetParent);
+		//snap to local position
+		var targetLocalPosition = targetParent.transform.InverseTransformPoint(targetWorldPosition).RoundToInt();
+		//back to world so we can call PoolClientInstantiate
+		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
+		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition, targetParent);
 		var progressBar = barObject.GetComponent<ProgressBar>();
 
-		progressBar.ClientStartProgress(progressBarId);
+		progressBar.ClientStartProgress(progressBarId, offsetFromPlayer);
 
 		Instance.progressBars.Add(progressBarId, progressBar);
 
@@ -283,6 +290,7 @@ public class UIManager : MonoBehaviour
 		else
 		{
 			Instance.progressBars.Remove(progressBarId);
+			//note: not using poolmanager since this has no object behavior
 			PoolManager.PoolClientDestroy(bar.gameObject);
 		}
 	}
@@ -290,7 +298,7 @@ public class UIManager : MonoBehaviour
 	/// <summary>
 	/// Create and begin animating a progress bar for a specific player.
 	/// </summary>
-	/// <param name="worldPos">position the action is being performed on</param>
+	/// <param name="worldTilePos">tile position the action is being performed on</param>
 	/// <param name="timeForCompletion">how long in seconds the action should take</param>
 	/// <param name="finishProgressAction">callback for when action completes or is interrupted</param>
 	/// <param name="player">player performing the action</param>
@@ -298,15 +306,26 @@ public class UIManager : MonoBehaviour
 	/// If this item is dropped or swapped to different slot or active slot is changed, interaction will be interrupted.</param>
 	/// <param name="allowTurning">if true (default), turning won't interrupt progress</param>
 	/// <returns>progress bar associated with this action (can use this to interrupt progress)</returns>
-	public static ProgressBar ServerStartProgress(Vector3 worldPos, float timeForCompletion,
+	public static ProgressBar ServerStartProgress(Vector3 worldTilePos, float timeForCompletion,
 		FinishProgressAction finishProgressAction, GameObject player, bool usingHandItem = false, bool allowTurning = true)
 	{
-		var targetMatrixInfo = MatrixManager.AtPoint(worldPos.RoundToInt(), true);
+		//convert to an offset so local position ends up being correct even on moving matrix
+		var offsetFromPlayer = worldTilePos.To2Int() - player.TileWorldPosition();
+		//convert to local position so it appears correct on moving matrix
+		//do not use tileworldposition for actual spawn position - bar will appear shifted on moving matrix
+		var targetWorldPosition = player.transform.position + offsetFromPlayer.To3Int();
+		var targetTilePosition = player.TileWorldPosition() + offsetFromPlayer;
+		var targetMatrixInfo = MatrixManager.AtPoint(targetTilePosition.To3Int(), true);
 		var targetParent = targetMatrixInfo.Objects;
-		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", worldPos, targetParent);
+		//snap to local position
+		var targetLocalPosition = targetParent.transform.InverseTransformPoint(targetWorldPosition).RoundToInt();
+		//back to world so we can call PoolClientInstantiate
+		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
+		var barObject = PoolManager.PoolClientInstantiate("ProgressBar", targetWorldPosition, targetParent);
 		var progressBar = barObject.GetComponent<ProgressBar>();
 		progressBar.ServerStartProgress(timeForCompletion, finishProgressAction, player, usingHandItem, allowTurning);
 		Instance.progressBars.Add(progressBar.ID, progressBar);
+
 
 		return progressBar;
 	}
