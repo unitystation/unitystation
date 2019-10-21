@@ -9,6 +9,8 @@ using Mirror;
 /// </summary>
 public class RequestUncuffMessage : ClientMessage
 {
+	//TODO: This class shouldn't be needed, IF2 can be used instead
+
 	public static short MessageType = (short)MessageTypes.RequestUncuffMessage;
 
 	/// <summary>

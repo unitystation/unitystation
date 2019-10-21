@@ -77,4 +77,5 @@ internal enum MessageTypes : short
 	RequestBookshelfNetMessage = 2027,
 	RequestOpenBookIDNetMessage = 2028,
 	RequestUncuffMessage = 2029,
+	RequestUAction = 2030
 }
