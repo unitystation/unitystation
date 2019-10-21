@@ -222,25 +222,6 @@ public class ChatUI : MonoBehaviour
 		// Selected channels already masks all unavailable channels in it's get method
 		PostToChatMessage.Send(InputFieldChat.text, SelectedChannels);
 
-		// if (GameManager.Instance.GameOver)
-		// {
-		// 	//OOC only
-		// 	PostToChatMessage.Send(InputFieldChat.text, ChatChannel.OOC);
-		// }
-		// else
-		// {
-		// 	if (PlayerManager.LocalPlayerScript.IsGhost)
-		// 	{
-		// 		//dead chat only
-		// 		PostToChatMessage.Send(InputFieldChat.text, ChatChannel.Ghost);
-		// 	}
-		// 	else
-		// 	{
-		// 		// Selected channels already masks all unavailable channels in it's get method
-		// 		PostToChatMessage.Send (InputFieldChat.text, SelectedChannels);
-		// 	}
-		// }
-
 		if (PlayerChatShown())
 		{
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleChatIcon(true, InputFieldChat.text,

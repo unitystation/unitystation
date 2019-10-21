@@ -56,8 +56,7 @@ public class ChatEvent
 	public string speaker;
 	public double timestamp;
 	public Vector2 position;
-	public float radius;
-	public float sizeMod = 1f;
+
 	/// <summary>
 	/// Send chat message only to those on this matrix
 	/// </summary>
@@ -65,30 +64,6 @@ public class ChatEvent
 
 	public ChatEvent() {
 		timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
-	}
-
-	public ChatEvent(string message, ConnectedPlayer speaker, ChatChannel channels)
-	{
-		var player = speaker.Script;
-		this.channels = channels;
-		this.modifiers = (player == null) ? ChatModifier.None : player.GetCurrentChatModifiers();
-		this.speaker = ((channels & ChatChannel.OOC) == ChatChannel.OOC) ? speaker.Username : player.name;
-		this.position = ((player == null) ? Vector2.zero : (Vector2) player.gameObject.transform.position);
-		this.message = ProcessMessage(message, this.speaker, this.channels, modifiers);
-	}
-
-	public ChatEvent(string message, ChatChannel channels, bool skipProcessing = false)
-	{
-		this.channels = channels;
-		speaker = "";
-		if (skipProcessing)
-		{
-			this.message = message;
-		}
-		else
-		{
-			this.message = ProcessMessage(message, speaker, this.channels, modifiers);
-		}
 	}
 
 	public static ChatChannel GetNonNetworkedChannels()
@@ -318,18 +293,4 @@ public class ChatEvent
 	}
 
 	#endregion
-
-	/// <summary>
-    /// Convenient static factory for creating a ChatChannel.Local message.
-    /// </summary>
-    public static ChatEvent Local(string message, Vector2 atWorldPosition, float range = 9f)
-    {
-    	return new ChatEvent
-    	{
-    		message = message,
-    		channels = ChatChannel.Local,
-    		position = atWorldPosition,
-    		radius = range
-    	};
-    }
 }

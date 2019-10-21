@@ -116,7 +116,7 @@ public class GUI_Vendor : NetTab
 		Vector3 spawnPos = vendor.gameObject.RegisterTile().WorldPositionServer;
 		var spawnedItem = PoolManager.PoolNetworkInstantiate(itemToSpawn.Item, spawnPos, vendor.transform.parent);
 		itemToSpawn.Stock--;
-		PostToChatMessage.Send("Item given", ChatChannel.Examine);
+		Chat.AddLocalMsgToChat($"{vendor.name} spits out {item.Item.name}", spawnPos);
 
 		//Ejecting in direction
 		if (vendor.EjectObjects && vendor.EjectDirection != EjectDirection.None)
@@ -162,14 +162,7 @@ public class GUI_Vendor : NetTab
 
 	private void SendToChat(string messageToSend)
 	{
-		ChatEvent chatEvent = new ChatEvent();
-
-		chatEvent.speaker = vendor.name;
-		chatEvent.channels = ChatChannel.Local;
-		chatEvent.message = messageToSend;
-		chatEvent.position = vendor.transform.position;
-		chatEvent.radius = 3f;
-		ChatRelay.Instance.AddToChatLogServer(chatEvent);
+		Chat.AddLocalMsgToChat(messageToSend, vendor.transform.position);
 	}
 
 	private IEnumerator VendorInputCoolDown()

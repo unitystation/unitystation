@@ -45,7 +45,7 @@ namespace Objects
 			var shakeDistance = Mathf.Lerp(1, 64, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 			node.GasMix += GasMix;
 			metaDataLayer.UpdateSystemsAt(position);
-			ChatRelay.Instance.AddToChatLogServer(ChatEvent.Local($"{name} exploded!", gameObject.TileWorldPosition()));
+			Chat.AddLocalMsgToChat($"{name} exploded!", gameObject.TileWorldPosition());
 
 			ObjectFactory.SpawnMetal(2, tileWorldPosition.To2Int(), parent: transform.parent);
 

@@ -185,13 +185,15 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	private void AddToChatLogClient(string message, ChatChannel channels, string speaker)
+	private void AddToChatLogClient(string message, ChatChannel channels)
 	{
-		UpdateClientChat(message, channels, speaker);
+		Debug.Log(message + " " + channels);
+		Debug.Log("TODO! STILL NEED TO ADD SPEAKER NAME AND COLOR FORMATTING ON CLIENT SIDE!");
+		UpdateClientChat(message, channels);
 	}
 
 	[Client]
-	private void UpdateClientChat(string message, ChatChannel channels, string speaker)
+	private void UpdateClientChat(string message, ChatChannel channels)
 	{
 		if (UIManager.Instance.ttsToggle)
 		{
@@ -205,8 +207,6 @@ public class ChatRelay : NetworkBehaviour
 				MaryTTS.Instance.Synthesize(messageString);
 			}
 		}
-
-		ChatEvent chatEvent = new ChatEvent(message, channels, true);
 
 		if (channels == ChatChannel.None)
 		{
@@ -223,7 +223,7 @@ public class ChatRelay : NetworkBehaviour
 			checkChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false);
 		}
 
-		if ((checkChannels & channels) == channels && (chatEvent.channels & channels) == channels)
+		if ((checkChannels & channels) == channels)
 		{
 			GameObject chatEntry = Instantiate(ChatUI.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
 			Text text = chatEntry.GetComponent<Text>();

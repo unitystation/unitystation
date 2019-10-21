@@ -110,7 +110,7 @@ public class PlayerList : NetworkBehaviour
 
 			if (nukeSetOff)
 			{
-				PostToChatMessage.Send("Nuke has been detonated, <b>Syndicate wins.</b>", ChatChannel.System);
+				Chat.AddGameWideSystemMsgToChat("Nuke has been detonated, <b>Syndicate wins.</b>");
 				ReportKills();
 			}
 			else
@@ -119,22 +119,21 @@ public class PlayerList : NetworkBehaviour
 				int crewCountOnboard = GetAliveShuttleCrew().Count;
 				if (alivePlayers > 0 && crewCountOnboard == 0)
 				{
-					PostToChatMessage.Send("Station crew failed to escape, <b>Syndicate wins.</b>", ChatChannel.System);
+					Chat.AddGameWideSystemMsgToChat("Station crew failed to escape, <b>Syndicate wins.</b>");
 					ReportKills();
 				}
 				else if (alivePlayers == 0)
 				{
-					PostToChatMessage.Send("All crew members are dead, <b>Syndicate wins.</b>", ChatChannel.System);
+					Chat.AddGameWideSystemMsgToChat("All crew members are dead, <b>Syndicate wins.</b>");
 					ReportKills();
 				}
 				else if (alivePlayers > 0 && crewCountOnboard > 0)
 				{
-					PostToChatMessage.Send(crewCountOnboard + " Crew member(s) have managed to escape the station. <b>Syndicate lost.</b>", ChatChannel.System);
+					Chat.AddGameWideSystemMsgToChat(crewCountOnboard + " Crew member(s) have managed to escape the station. <b>Syndicate lost.</b>");
 					ReportKills();
 				}
 			}
-
-			PostToChatMessage.Send("Game Restarting in 30 seconds...", ChatChannel.System);
+			Chat.AddGameWideSystemMsgToChat("Game Restarting in 30 seconds...");
 			reportDone = true;
 		}
 
@@ -150,12 +149,12 @@ public class PlayerList : NetworkBehaviour
 	{
 		if (syndicateKills != 0)
 		{
-			PostToChatMessage.Send("Syndicate managed to kill " + syndicateKills + " crew members.", ChatChannel.System);
+			Chat.AddGameWideSystemMsgToChat("Syndicate managed to kill " + syndicateKills + " crew members.");
 		}
 
 		if (crewKills != 0)
 		{
-			PostToChatMessage.Send("Crew managed to kill " + crewKills + " Syndicate operators.", ChatChannel.System);
+			Chat.AddGameWideSystemMsgToChat("Crew managed to kill " + crewKills + " Syndicate operators.");
 		}
 	}
 

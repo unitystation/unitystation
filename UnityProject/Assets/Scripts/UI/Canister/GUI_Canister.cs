@@ -321,13 +321,8 @@ public class GUI_Canister : NetTab
 		container.Opened = isOpen;
 		if (isOpen)
 		{
-			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
-			{
-				channels = ChatChannel.Local,
-				message = $"Canister releasing at {container.ReleasePressure}",
-				position = container.transform.position,
-				radius = 3f
-			});
+			Chat.AddLocalMsgToChat($"Canister releasing at {container.ReleasePressure}",
+				container.transform.position);
 		}
 	}
 
