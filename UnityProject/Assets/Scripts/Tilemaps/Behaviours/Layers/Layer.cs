@@ -38,6 +38,7 @@ using UnityEngine.Tilemaps;
 		public Vector3Int WorldToCell(Vector3 pos) => tilemap.WorldToCell(pos);
 		public Vector3Int LocalToCell(Vector3 pos) => tilemap.LocalToCell(pos);
 		public Vector3 LocalToWorld( Vector3 localPos ) => tilemap.LocalToWorld( localPos );
+		public Vector3 CellToWorld( Vector3Int cellPos ) => tilemap.CellToWorld( cellPos );
 		public Vector3 WorldToLocal( Vector3 worldPos ) => tilemap.WorldToLocal( worldPos );
 
 		public void Awake()
@@ -68,7 +69,7 @@ using UnityEngine.Tilemaps;
 			RecalculateBounds();
 		}
 
-		private void RecalculateBounds()
+		public void RecalculateBounds()
 		{
 			boundsCache = tilemap.cellBounds;
 			this.TryStopCoroutine( ref recalculateBoundsHandle );

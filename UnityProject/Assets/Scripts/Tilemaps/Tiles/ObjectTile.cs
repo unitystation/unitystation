@@ -10,7 +10,6 @@ using UnityEditor;
 	public class ObjectTile : LayerTile
 	{
 		private GameObject objectCurrent;
-		public bool IsItem;
 		public bool KeepOrientation;
 		public GameObject Object;
 		public bool Offset;
@@ -58,11 +57,6 @@ using UnityEditor;
 			}
 
 			objectCurrent = Object;
-
-			if (objectCurrent != null && objectCurrent.GetComponentInChildren<RegisterItem>() != null)
-			{
-				IsItem = true;
-			}
 		}
 #endif
 

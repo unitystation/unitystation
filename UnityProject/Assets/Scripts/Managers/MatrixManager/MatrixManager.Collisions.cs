@@ -185,9 +185,9 @@ public partial class MatrixManager
 			return;
 		}
 
-		foreach ( var trackedIntersection in trackedIntersections )
+		for ( var i = trackedIntersections.Count - 1; i >= 0; i-- )
 		{
-			CheckTileCollisions( trackedIntersection );
+			CheckTileCollisions( trackedIntersections[i] );
 		}
 	}
 

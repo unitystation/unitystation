@@ -357,14 +357,15 @@ public class MetaTileMap : MonoBehaviour
 	}
 
 	public Vector3 LocalToWorld( Vector3 localPos ) => LayersValues[0].LocalToWorld( localPos );
+	public Vector3 CellToWorld( Vector3Int cellPos ) => LayersValues[0].CellToWorld( cellPos );
 	public Vector3 WorldToLocal( Vector3 worldPos ) => LayersValues[0].WorldToLocal( worldPos );
 
 	public BoundsInt GetWorldBounds()
 	{
 		var bounds = GetBounds();
 		//???
-		var min = LocalToWorld( bounds.min ).RoundToInt();//MatrixManager.LocalToWorldInt(bounds.min, );
-		var max = LocalToWorld( bounds.max ).RoundToInt(); //MatrixManager.LocalToWorldInt(bounds.max, matrix);
+		var min = CellToWorld( bounds.min ).RoundToInt();
+		var max = CellToWorld( bounds.max ).RoundToInt();
 		return new BoundsInt(min, max - min);
 	}
 

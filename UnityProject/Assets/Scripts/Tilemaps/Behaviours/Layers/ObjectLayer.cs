@@ -22,11 +22,7 @@ public class ObjectLayer : Layer
 
 		if (objectTile)
 		{
-			if (!objectTile.IsItem)
-			{
-				base.InternalSetTile(position, null);
-			}
-
+			base.InternalSetTile(position, null);
 			objectTile.SpawnObject(position, tilemap, transformMatrix);
 		}
 		else
