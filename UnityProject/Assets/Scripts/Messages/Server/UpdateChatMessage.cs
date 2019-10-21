@@ -12,20 +12,23 @@ public class UpdateChatMessage : ServerMessage
 {
 	public static short MessageType = (short) MessageTypes.UpdateChatMessage;
 	public ChatChannel Channels;
+	public ChatModifier ChatModifiers;
 	public string Message;
 	//If OthersMessage is empty then Message is meant for everyone, otherwise Message is meant for originator
 	// and others is meant for everyone else
 	public string OthersMessage;
 	public uint Recipient;
 	public uint Originator;
+	public string Speaker;
 
 	public override IEnumerator Process()
 	{
 		yield return WaitFor(Recipient);
-		Chat.ProcessUpdateChatMessage(Recipient, Originator, Message, OthersMessage, Channels);
+		Chat.ProcessUpdateChatMessage(Recipient, Originator, Message, OthersMessage, Channels, ChatModifiers, Speaker);
 	}
 
-	public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, string chatMessage, string othersMsg = "", GameObject originator = null)
+	public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage, string othersMsg = "",
+		GameObject originator = null, string speaker = "")
 	{
 		uint origin = NetId.Empty;
 		if (originator != null)
@@ -36,9 +39,11 @@ public class UpdateChatMessage : ServerMessage
 		UpdateChatMessage msg =
 			new UpdateChatMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId,
 				Channels = channels,
+				ChatModifiers = chatMods,
 				Message = chatMessage,
 				OthersMessage = othersMsg,
-				Originator = origin
+				Originator = origin,
+				Speaker = speaker
 			};
 
 		msg.SendTo(recipient);

@@ -37,46 +37,6 @@ public class ChatRelay : NetworkBehaviour
 		                   ChatChannel.Combat;
 	}
 
-	public string GetChannelColor(ChatChannel channel)
-	{
-		if (channel.HasFlag(ChatChannel.OOC)) return "386aff";
-		if (channel.HasFlag(ChatChannel.Ghost)) return "386aff";
-		if (channel.HasFlag(ChatChannel.Binary)) return "ff00ff";
-		if (channel.HasFlag(ChatChannel.Supply)) return "a8732b";
-		if (channel.HasFlag(ChatChannel.CentComm)) return "686868";
-		if (channel.HasFlag(ChatChannel.Command)) return "204090";
-		if (channel.HasFlag(ChatChannel.Common)) return "008000";
-		if (channel.HasFlag(ChatChannel.Engineering)) return "fb5613";
-		if (channel.HasFlag(ChatChannel.Medical)) return "337296";
-		if (channel.HasFlag(ChatChannel.Science)) return "993399";
-		if (channel.HasFlag(ChatChannel.Security)) return "a30000";
-		if (channel.HasFlag(ChatChannel.Service)) return "6eaa2c";
-		if (channel.HasFlag(ChatChannel.Local)) return "white";
-		return "white";
-
-		//Leaving values here incase nameless channels need them in the future
-		/*
-		{ChatChannel.Binary, "ff00ff"},
-		{ChatChannel.Supply, "a8732b"},
-		{ChatChannel.CentComm, "686868"},
-		{ChatChannel.Command, "204090"},
-		{ChatChannel.Common, "008000"},
-		{ChatChannel.Engineering, "fb5613"},
-		{ChatChannel.Examine, "white"},
-		{ChatChannel.Local, "white"},
-		{ChatChannel.Medical, "337296"},
-		{ChatChannel.None, ""},
-		{ChatChannel.OOC, "386aff"},
-		{ChatChannel.Science, "993399"},
-		{ChatChannel.Security, "a30000"},
-		{ChatChannel.Service, "6eaa2c"},
-		{ChatChannel.Syndicate, "6d3f40"},
-		{ChatChannel.System, "dd5555"},
-		{ChatChannel.Ghost, "386aff"},
-		{ChatChannel.Combat, "dd0000"}
-		*/
-	}
-
 	[Server]
 	private void AddToChatLogServer(ChatEvent chatEvent)
 	{
@@ -145,13 +105,13 @@ public class ChatRelay : NetworkBehaviour
 		{
 			ChatChannel channels = chatEvent.channels;
 
-			if (channels.HasFlag(ChatChannel.None) || channels.HasFlag(ChatChannel.Combat) ||
-			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine)
-			    || channels.HasFlag(ChatChannel.Local))
+			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Local) ||
+			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine))
 			{
 				if (!channels.HasFlag(ChatChannel.Binary))
 				{
-					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.message, chatEvent.speaker);
+					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, chatEvent.messageOthers,
+						chatEvent.originator, chatEvent.speaker);
 					continue;
 				}
 			}
@@ -168,7 +128,8 @@ public class ChatRelay : NetworkBehaviour
 			//if the mask ends up being a big fat 0 then don't do anything
 			if (channels != ChatChannel.None)
 			{
-				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.message, chatEvent.speaker);
+				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, chatEvent.messageOthers,
+					chatEvent.originator, chatEvent.speaker);
 			}
 		}
 
@@ -187,8 +148,6 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	private void AddToChatLogClient(string message, ChatChannel channels)
 	{
-		Debug.Log(message + " " + channels);
-		Debug.Log("TODO! STILL NEED TO ADD SPEAKER NAME AND COLOR FORMATTING ON CLIENT SIDE!");
 		UpdateClientChat(message, channels);
 	}
 
@@ -208,22 +167,12 @@ public class ChatRelay : NetworkBehaviour
 			}
 		}
 
-		if (channels == ChatChannel.None)
-		{
-			return;
-		}
-
-		ChatChannel checkChannels;
 		if (PlayerManager.LocalPlayerScript == null)
 		{
-			checkChannels = ChatChannel.OOC;
-		}
-		else
-		{
-			checkChannels = PlayerManager.LocalPlayerScript.GetAvailableChannelsMask(false);
+			channels = ChatChannel.OOC;
 		}
 
-		if ((checkChannels & channels) == channels)
+		if (channels != ChatChannel.None)
 		{
 			GameObject chatEntry = Instantiate(ChatUI.Instance.chatEntryPrefab, Vector3.zero, Quaternion.identity);
 			Text text = chatEntry.GetComponent<Text>();

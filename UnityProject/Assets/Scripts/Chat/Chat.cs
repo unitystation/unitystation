@@ -8,7 +8,7 @@ using System;
 /// Use the public methods for anything related
 /// to chat stream
 /// </summary>
-public class Chat : MonoBehaviour
+public partial class Chat : MonoBehaviour
 {
 	private static Chat chat;
 
@@ -43,6 +43,7 @@ public class Chat : MonoBehaviour
 
 	/// <summary>
 	/// Send a Chat Msg from a player to the selected Chat Channels
+	/// Server only
 	/// </summary>
 	public static void AddChatMsgToChat(ConnectedPlayer sentByPlayer, string message, ChatChannel channels)
 	{
@@ -53,7 +54,9 @@ public class Chat : MonoBehaviour
 			message = message,
 			modifiers = (player == null) ? ChatModifier.None : player.GetCurrentChatModifiers(),
 			speaker = ((channels & ChatChannel.OOC) == ChatChannel.OOC) ? sentByPlayer.Username : player.name,
-			position = ((player == null) ? Vector2.zero : (Vector2) player.gameObject.transform.position)
+			position = ((player == null) ? Vector2.zero : (Vector2) player.gameObject.transform.position),
+			channels = channels,
+			originator = sentByPlayer.GameObject
 		});
 	}
 
@@ -65,11 +68,7 @@ public class Chat : MonoBehaviour
 	/// <param name="stationMatrix"> the matrix to broadcast the message too</param>
 	public static void AddSystemMsgToChat(string message, MatrixInfo stationMatrix)
 	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			Logger.LogError("A server only method was called on a client in chat.cs", Category.Chat);
-			return;
-		}
+		if (!IsServer()) return;
 
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{
@@ -85,11 +84,7 @@ public class Chat : MonoBehaviour
 	/// </summary>
 	public static void AddGameWideSystemMsgToChat(string message)
 	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			Logger.LogError("A server only method was called on a client in chat.cs", Category.Chat);
-			return;
-		}
+		if (!IsServer()) return;
 
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{
@@ -109,11 +104,7 @@ public class Chat : MonoBehaviour
 	public static void AddActionMsgToChat(GameObject originator, string originatorMessage,
 		string othersMessage)
 	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			Logger.LogError("A server only method was called on a client in chat.cs", Category.Chat);
-			return;
-		}
+		if (!IsServer()) return;
 
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{
@@ -121,7 +112,8 @@ public class Chat : MonoBehaviour
 			speaker = originator.name,
 			message = originatorMessage,
 			messageOthers = othersMessage,
-			position = originator.transform.position
+			position = originator.transform.position,
+			originator = originator
 		});
 	}
 
@@ -135,11 +127,7 @@ public class Chat : MonoBehaviour
 	public static void AddCombatMsgToChat(GameObject originator, string originatorMsg,
 		string othersMsg, BodyPartType hitZone = BodyPartType.None)
 	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			Logger.LogError("A server only method was called on a client in chat.cs", Category.Chat);
-			return;
-		}
+		if (!IsServer()) return;
 
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{
@@ -147,7 +135,8 @@ public class Chat : MonoBehaviour
 			message = originatorMsg,
 			messageOthers = othersMsg,
 			speaker = originator.name,
-			position = originator.transform.position
+			position = originator.transform.position,
+			originator = originator
 		});
 	}
 
@@ -203,7 +192,8 @@ public class Chat : MonoBehaviour
 			message = message,
 			messageOthers = messageOthers,
 			position = attacker.transform.position,
-			speaker = attacker.name
+			speaker = attacker.name,
+			originator = attacker
 		});
 	}
 
@@ -214,11 +204,7 @@ public class Chat : MonoBehaviour
 	public static void AddThrowHitMsgToChat(GameObject item, GameObject victim,
 		BodyPartType hitZone = BodyPartType.None)
 	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			Logger.LogError("A server only method was called on a client in chat.cs", Category.Chat);
-			return;
-		}
+		if (!IsServer()) return;
 
 		var player = victim.Player();
 		if (player == null)
@@ -244,11 +230,7 @@ public class Chat : MonoBehaviour
 	/// <param name="worldPos">The position of the local message</param>
 	public static void AddLocalMsgToChat(string message, Vector2 worldPos)
 	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			Logger.LogError("A server only method was called on a client in chat.cs", Category.Chat);
-			return;
-		}
+		if (!IsServer()) return;
 
 		Instance.addChatLogServer.Invoke(new ChatEvent
 		{
@@ -256,6 +238,18 @@ public class Chat : MonoBehaviour
 			message = message,
 			position = worldPos
 		});
+	}
+
+	/// <summary>
+	/// Used on the server to send examine messages to a player
+	/// Server only
+	/// </summary>
+	/// <param name="recipient">The player object to send the message too</param>
+	/// <param name="msg">The examine message</param>
+	public static void AddExamineMsgFromServer(GameObject recipient, string msg)
+	{
+		if (!IsServer()) return;
+		UpdateChatMessage.Send(recipient, ChatChannel.Examine, ChatModifier.None, msg);
 	}
 
 	/// <summary>
@@ -273,7 +267,7 @@ public class Chat : MonoBehaviour
 	/// on the client. Do not use for anything else!
 	/// </summary>
 	public static void ProcessUpdateChatMessage(uint recipient, uint originator, string message,
-		string messageOthers, ChatChannel channels)
+		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker)
 	{
 		//If there is a message in MessageOthers then determine
 		//if it should be the main message or not.
@@ -286,11 +280,23 @@ public class Chat : MonoBehaviour
 			}
 		}
 
-		Instance.addChatLogClient.Invoke(message, channels);
+		var msg = ProcessMessageFurther(message, speaker, channels, modifiers);
+		Instance.addChatLogClient.Invoke(msg, channels);
 	}
 
 	private static string InTheZone(BodyPartType hitZone)
 	{
 		return hitZone == BodyPartType.None ? "" : $" in the {hitZone.ToString().ToLower().Replace("_", " ")}";
+	}
+
+	private static bool IsServer()
+	{
+		if (!CustomNetworkManager.Instance._isServer)
+		{
+			Logger.LogError("A server only method was called on a client in chat.cs", Category.Chat);
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -34,8 +34,9 @@ public class Rack : NBPositionalHandApplyInteractable
 
 		if (interaction.HandObject == null)
 		{ // No item in hand, so let's TEACH THIS RACK A LESSON
-			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Combat,
-				 interaction.Performer.ExpensiveName() + " kicks the rack.");
+			Chat.AddCombatMsgToChat(interaction.Performer, "You kick the rack. Nice job!",
+				interaction.Performer.ExpensiveName() + " kicks the rack.");
+
 			integrity.ApplyDamage(Random.Range(4, 8), AttackType.Melee, DamageType.Brute);
 			return;
 		}

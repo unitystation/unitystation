@@ -185,7 +185,7 @@ public class GUI_Spawner : NetTab
 		{
 			SoundManager.PlayNetworkedAtPos( "Notice1", Provider.transform.position );
 			//Get mob's gameobject and do something good to it
-			UpdateChatMessage.Send(mob.TrackedObject, ChatChannel.Common, "You feel like you're being hugged by something invisible");
+			Chat.AddActionMsgToChat(mob.TrackedObject, $"You hugged {mob.name}", $"{mob.TrackedObject.name} hugged {mob.name}");
 		}
 	}
 	public void RemoveMobByIndex( string index )
