@@ -131,12 +131,12 @@ public class SoundManager : MonoBehaviour
 	/// Serverside: Play sound at given position for all clients.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayNetworkedAtPos(string sndName, Vector3 pos, float pitch = -1,
+	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.SendToAll(sndName, pos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+		PlaySoundMessage.SendToAll(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
 	}
 
 	/// <summary>
@@ -157,12 +157,12 @@ public class SoundManager : MonoBehaviour
 	/// ("Doctor, there are voices in my head!")
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 pos, string sndName, float pitch = -1,
+	public static void PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos, string sndName, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, pos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+		PlaySoundMessage.Send(recipient, sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
 	}
 
 	/// <summary>
@@ -218,7 +218,7 @@ public class SoundManager : MonoBehaviour
 	/// Play sound locally at given world position.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayAtPosition(string name, Vector3 pos, float pitch = -1, bool polyphonic = false)
+	public static void PlayAtPosition(string name, Vector3 worldPos, float pitch = -1, bool polyphonic = false)
 	{
 		name = Instance.ResolveSoundPattern(name);
 		if (Instance.sounds.ContainsKey(name))
@@ -228,7 +228,7 @@ public class SoundManager : MonoBehaviour
 			{
 				sound.pitch = pitch;
 			}
-			sound.transform.position = pos;
+			sound.transform.position = worldPos;
 			Play(name, polyphonic);
 		}
 	}

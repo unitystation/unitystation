@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 ///     Message that tells clients what their ConnectedPlayers list should contain
@@ -24,7 +25,18 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 	public static UpdateConnectedPlayersMessage Send()
 	{
 		UpdateConnectedPlayersMessage msg = new UpdateConnectedPlayersMessage();
-		msg.Players = PlayerList.Instance.ClientConnectedPlayerList.ToArray();
+		var prepareConnectedPlayers = new List<ClientConnectedPlayer>();
+
+		foreach (ConnectedPlayer c in PlayerList.Instance.AllPlayers)
+		{
+			prepareConnectedPlayers.Add(new ClientConnectedPlayer
+			{
+				Name = c.Name,
+				Job = c.Job
+			});
+		}
+
+		msg.Players = prepareConnectedPlayers.ToArray();
 
 		msg.SendToAll();
 		return msg;
