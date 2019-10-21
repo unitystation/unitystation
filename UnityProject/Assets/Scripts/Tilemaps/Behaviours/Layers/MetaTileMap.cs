@@ -11,13 +11,13 @@ public class MetaTileMap : MonoBehaviour
 	public Dictionary<LayerType, Layer> Layers { get; private set; }
 
 	//Using arrays for iteration speed
-	private LayerType[] LayersKeys { get; set; }
-	private Layer[] LayersValues { get; set; }
+	public LayerType[] LayersKeys { get; private set; }
+	public Layer[] LayersValues { get; private set; }
 
 	/// <summary>
 	/// Array of only layers that can ever contain solid stuff
 	/// </summary>
-	private Layer[] SolidLayersValues { get; set; }
+	public Layer[] SolidLayersValues { get; private set; }
 
 	private void OnEnable()
 	{
@@ -156,7 +156,17 @@ public class MetaTileMap : MonoBehaviour
 	/// <returns></returns>
 	public LayerTile GetTileAtWorldPos(Vector3 worldPosition, LayerType layerType)
 	{
-		var cellPos = WorldToCell(worldPosition.RoundToInt());
+		return GetTileAtWorldPos(worldPosition.RoundToInt(), layerType);
+	}
+	/// <summary>
+	/// Gets the tile with the specified layer type at the specified world position
+	/// </summary>
+	/// <param name="worldPosition">world position to check</param>
+	/// <param name="layerType"></param>
+	/// <returns></returns>
+	public LayerTile GetTileAtWorldPos(Vector3Int worldPosition, LayerType layerType)
+	{
+		var cellPos = WorldToCell(worldPosition);
 		return GetTile(cellPos, layerType);
 	}
 

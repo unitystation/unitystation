@@ -62,6 +62,15 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
+	public void RemoveTile( Vector3Int cellPosition )
+	{
+		foreach ( var layerType in metaTileMap.LayersKeys )
+		{
+			RemoveTile( cellPosition, layerType );
+		}
+	}
+
+	[Server]
 	public void RemoveTile(Vector3Int cellPosition, LayerType layerType)
 	{
 		if(metaTileMap.HasTile(cellPosition, layerType, true))

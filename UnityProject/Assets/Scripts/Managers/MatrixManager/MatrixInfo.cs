@@ -10,12 +10,17 @@ public struct MatrixInfo
 	public MetaTileMap MetaTileMap;
 	public MetaDataLayer MetaDataLayer;
 	public SubsystemManager SubsystemManager;
+	public TileChangeManager TileChangeManager;
 	public GameObject GameObject;
 	public BoundsInt Bounds => MetaTileMap.GetBounds();
 	public BoundsInt WorldBounds => MetaTileMap.GetWorldBounds();
 	public Vector3Int CachedOffset;
 	// position we were at when offset was last cached, to check if it is invalid
 	private Vector3 cachedPosition;
+
+	//todo: placeholder, should depend on solid tiles count instead (and use caching)
+	public float Mass => Bounds.size.sqrMagnitude;
+	public bool IsMovable => MatrixMove != null;
 
 	/// <summary>
 	/// Transform containing all the physical objects on the map

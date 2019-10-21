@@ -39,6 +39,12 @@ public static class BoundsExtensions
 		return new RectInt( bounds.position.To2Int(), bounds.size.To2Int() );
 	}
 
+	private static readonly Vector3Int ZOneVector3Int = new Vector3Int(0,0,1);
+	public static BoundsInt ToBoundsInt( this Rect rect )
+	{ //Bounds are 3d and require Z of at least 1 to work, so it's Z 0 -> 1 here
+		return new BoundsInt(rect.min.RoundToInt(), rect.size.RoundToInt() + ZOneVector3Int);
+	}
+
 	/// <summary>
 	/// Extend/shrink bounds on all sides by integer amount
 	/// </summary>

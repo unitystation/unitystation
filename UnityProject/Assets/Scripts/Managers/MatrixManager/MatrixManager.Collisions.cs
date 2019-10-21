@@ -24,6 +24,11 @@ public partial class MatrixManager
 
 	private void InitCollisions()
 	{
+		if (!CustomNetworkManager.Instance._isServer)
+		{
+			return;
+		}
+
 		foreach ( var movableMatrix in MovableMatrices )
 		{
 			movableMatrix.MatrixMove.OnStart.AddListener( () =>
@@ -168,6 +173,10 @@ public partial class MatrixManager
 
 	private void Update()
 	{
+		if (!CustomNetworkManager.Instance._isServer)
+		{
+			return;
+		}
 
 		RefreshIntersections();
 
@@ -182,9 +191,54 @@ public partial class MatrixManager
 		}
 	}
 
-	private void CheckTileCollisions( MatrixIntersection intersection )
+	private void CheckTileCollisions( MatrixIntersection i )
 	{
-		//todo: check tiles inside rect
+//		List<Vector3Int> nonEmpty = null;
+		Vector3Int cellPos1;
+		Vector3Int cellPos2;
+		int collisions = 0;
+		foreach ( Vector3Int worldPos in i.Rect.ToBoundsInt().allPositionsWithin )
+		{
+			cellPos1 = i.Matrix1.MetaTileMap.WorldToCell( worldPos );
+			if ( i.Matrix1.Matrix.IsEmptyAt( cellPos1, true ) )
+			{
+				continue;
+			}
+
+			cellPos2 = i.Matrix2.MetaTileMap.WorldToCell( worldPos );
+			if ( i.Matrix2.Matrix.IsEmptyAt( cellPos2, true ) )
+			{
+				continue;
+			}
+
+			i.Matrix1.TileChangeManager.RemoveTile( cellPos1 );
+			i.Matrix2.TileChangeManager.RemoveTile( cellPos2 );
+			collisions++;
+		}
+
+		if ( collisions > 0 )
+		{
+			SlowDown( i, collisions );
+		}
+	}
+
+	//todo: consider mass, wall hardness, speed. reduce speed depending on destroyed tile amount and mass
+	private void SlowDown( MatrixIntersection i, int collisions )
+	{
+		if ( i.Matrix1.IsMovable && i.Matrix1.MatrixMove.isMovingServer )
+		{
+			InternalSlowDown( i.Matrix1.MatrixMove );
+		}
+		if ( i.Matrix2.IsMovable && i.Matrix2.MatrixMove.isMovingServer )
+		{
+			InternalSlowDown( i.Matrix2.MatrixMove );
+		}
+
+		void InternalSlowDown( MatrixMove matrixMove )
+		{
+			float slowdownFactor = 1f - ( Mathf.Clamp( collisions, 1, 50 ) / 100f );
+			matrixMove.SetSpeed( ( matrixMove.State.Speed * slowdownFactor ) - 0.1f );
+		}
 	}
 
 	private void OnDrawGizmos()

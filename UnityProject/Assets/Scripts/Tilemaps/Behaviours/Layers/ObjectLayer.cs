@@ -42,13 +42,16 @@ public class ObjectLayer : Layer
 
 	public override void RemoveTile(Vector3Int position, bool removeAll = false)
 	{
-		foreach ( RegisterTile obj in ClientObjects.Get(position) )
+		List<RegisterTile> objs = ClientObjects.Get(position);
+		for ( var i = objs.Count - 1; i >= 0; i-- )
 		{
-			DestroyImmediate(obj.gameObject);
+			DestroyImmediate( objs[i].gameObject );
 		}
-		foreach ( RegisterTile obj in ServerObjects.Get(position) )
+
+		List<RegisterTile> list = ServerObjects.Get(position);
+		for ( var i = list.Count - 1; i >= 0; i-- )
 		{
-			DestroyImmediate(obj.gameObject);
+			DestroyImmediate( list[i].gameObject );
 		}
 
 		base.RemoveTile(position, removeAll);
