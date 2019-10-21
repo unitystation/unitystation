@@ -343,6 +343,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 1000
+  initialIntegrity: 100
 --- !u!114 &114835659847540804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,8 +358,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: e9620f26b24f33c4cbe56a85ae95865d
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 3771512773
 --- !u!1 &3261001144065486905
 GameObject:
   m_ObjectHideFlags: 0
