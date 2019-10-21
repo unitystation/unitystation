@@ -18,6 +18,8 @@ public struct MatrixInfo
 	// position we were at when offset was last cached, to check if it is invalid
 	private Vector3 cachedPosition;
 
+	public Color Color => Matrix ? Matrix.Color : Color.red;
+
 	//todo: placeholder, should depend on solid tiles count instead (and use caching)
 	public float Mass => Bounds.size.sqrMagnitude;
 	public bool IsMovable => MatrixMove != null;

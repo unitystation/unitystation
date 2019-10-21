@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -945,6 +946,15 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 	private void OnDrawGizmos()
 	{
+		if ( !Application.isPlaying )
+		{ //Showing matrix pivot if game is stopped
+			Gizmos.color = color1.WithAlpha( 0.6f );
+			Gizmos.DrawCube(transform.position, Vector3.one );
+			Gizmos.color = color1;
+			Gizmos.DrawWireCube(transform.position, Vector3.one );
+			return;
+		}
+
 		//serverState
 		Gizmos.color = color1;
 		Vector3 serverPos = serverState.Position;

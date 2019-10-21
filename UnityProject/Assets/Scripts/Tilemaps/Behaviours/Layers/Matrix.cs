@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Light2D;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -25,11 +26,21 @@ public class Matrix : MonoBehaviour
 	public MetaDataLayer MetaDataLayer => metaDataLayer;
 	private MetaDataLayer metaDataLayer;
 
+	public Color Color => colors.Wrap( Id ).WithAlpha( 0.7f );
+
 	private void Awake()
 	{
 		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
 		reactionManager = GetComponent<ReactionManager>();
 		metaDataLayer = GetComponent<MetaDataLayer>();
+	}
+
+	public void CompressAllBounds()
+	{
+		foreach ( var tilemap in GetComponentsInChildren<Tilemap>() )
+		{
+			tilemap.CompressBounds();
+		}
 	}
 
 	public bool IsPassableAt(Vector3Int position, bool isServer)
@@ -217,9 +228,8 @@ public class Matrix : MonoBehaviour
 		}
 	}
 
-#if UNITY_EDITOR
 	//Visual debug
-	private Color[] colors = new []{
+	private static Color[] colors = new []{
 		DebugTools.HexToColor( "a6caf0" ), //winterblue
 		DebugTools.HexToColor( "e3949e" ), //brick
 		DebugTools.HexToColor( "a8e4a0" ), //cyanish
@@ -238,11 +248,10 @@ public class Matrix : MonoBehaviour
 		DebugTools.HexToColor( "c7fcec" ), //also greenish
 		DebugTools.HexToColor( "cdb891" ), //brownish
 	};
-
+#if UNITY_EDITOR
 	private void OnDrawGizmos()
 	{
-		if (!Application.isPlaying) return;
-		Gizmos.color = colors.Wrap( Id ).WithAlpha( 80 );
+		Gizmos.color = Color;
 		BoundsInt bounds = MetaTileMap.GetWorldBounds();
 		DebugGizmoUtils.DrawText( gameObject.name, bounds.max, 11, 5 );
 		DebugGizmoUtils.DrawRect( bounds );

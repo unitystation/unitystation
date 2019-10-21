@@ -18,6 +18,7 @@ public enum CollisionType
 /// Matrix manager keeps a list of matrices that you can access from both client and server.
 /// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.
 /// Also very common use scenario is Get()'ting matrix info using matrixId from PlayerState
+[ExecuteInEditMode]
 public partial class MatrixManager : MonoBehaviour
 {
 	//Declare in awake as MatrixManager needs to be destroyed on each scene change
