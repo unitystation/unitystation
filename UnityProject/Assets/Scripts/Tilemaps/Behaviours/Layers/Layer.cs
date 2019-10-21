@@ -16,6 +16,7 @@ using UnityEngine.Tilemaps;
 
 		public LayerType LayerType;
 		protected Tilemap tilemap;
+		public TilemapDamage TilemapDamage { get; private set; }
 
 		public BoundsInt Bounds => boundsCache;
 		private BoundsInt boundsCache;
@@ -44,6 +45,7 @@ using UnityEngine.Tilemaps;
 		public void Awake()
 		{
 			tilemap = GetComponent<Tilemap>();
+			TilemapDamage = GetComponent<TilemapDamage>();
 			subsystemManager = GetComponentInParent<SubsystemManager>();
 			RecalculateBounds();
 

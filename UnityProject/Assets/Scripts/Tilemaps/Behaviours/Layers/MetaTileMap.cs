@@ -18,6 +18,10 @@ public class MetaTileMap : MonoBehaviour
 	/// Array of only layers that can ever contain solid stuff
 	/// </summary>
 	public Layer[] SolidLayersValues { get; private set; }
+	/// <summary>
+	/// Layers that contain TilemapDamage
+	/// </summary>
+	public Layer[] DamageableLayers { get; private set; }
 
 	private void OnEnable()
 	{
@@ -25,6 +29,7 @@ public class MetaTileMap : MonoBehaviour
 		var layersKeys = new List<LayerType>();
 		var layersValues = new List<Layer>();
 		var solidLayersValues = new List<Layer>();
+		var damageableLayersValues = new List<Layer>();
 
 		foreach (Layer layer in GetComponentsInChildren<Layer>(true))
 		{
@@ -37,11 +42,17 @@ public class MetaTileMap : MonoBehaviour
 			{
 				solidLayersValues.Add(layer);
 			}
+
+			if ( layer.GetComponent<TilemapDamage>() )
+			{
+				damageableLayersValues.Add( layer );
+			}
 		}
 
 		LayersKeys = layersKeys.ToArray();
 		LayersValues = layersValues.ToArray();
 		SolidLayersValues = solidLayersValues.ToArray();
+		DamageableLayers = damageableLayersValues.ToArray();
 	}
 
 	public bool IsPassableAt(Vector3Int position, bool isServer)

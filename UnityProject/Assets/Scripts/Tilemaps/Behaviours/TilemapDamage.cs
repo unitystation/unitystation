@@ -247,23 +247,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			if (!(exposure.Temperature > TILE_MIN_SCORCH_TEMPERATURE)) return;
 
 			if (!metaTileMap.HasTile(cellPos, true)) return;
-			//is it already scorched
-			var metaData = metaDataLayer.Get(exposure.ExposedLocalPosition.To3Int());
-			if (metaData.IsScorched) return;
-
-			//scorch the tile, choose appearance randomly
-			//TODO: This should be done using an overlay system which hasn't been implemented yet, this replaces
-			//the tile's original appearance
-			if (Random.value >= 0.5)
-			{
-				tileChangeManager.UpdateTile(cellPos, TileType.Floor, "floorscorched1");
-			}
-			else
-			{
-				tileChangeManager.UpdateTile(cellPos, TileType.Floor, "floorscorched2");
-			}
-
-			metaData.IsScorched = true;
+			TryScorch( cellPos );
 		}
 		else if (Layer.LayerType == LayerType.Windows)
 		{
@@ -292,5 +276,26 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				}
 			}
 		}
+	}
+
+	public void TryScorch( Vector3Int cellPos )
+	{
+		//is it already scorched
+		var metaData = metaDataLayer.Get( cellPos );
+		if ( metaData.IsScorched )
+			return;
+
+		//scorch the tile, choose appearance randomly
+		//TODO: This should be done using an overlay system which hasn't been implemented yet, this replaces
+		//the tile's original appearance
+		if ( Random.value >= 0.5 )
+		{
+			tileChangeManager.UpdateTile( cellPos, TileType.Floor, "floorscorched1" );
+		} else
+		{
+			tileChangeManager.UpdateTile( cellPos, TileType.Floor, "floorscorched2" );
+		}
+
+		metaData.IsScorched = true;
 	}
 }

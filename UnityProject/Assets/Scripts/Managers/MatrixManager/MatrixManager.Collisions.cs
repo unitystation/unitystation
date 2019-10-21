@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Collision-related stuff
@@ -197,6 +198,7 @@ public partial class MatrixManager
 		Vector3Int cellPos1;
 		Vector3Int cellPos2;
 		int collisions = 0;
+		float speedDifference = 0f;
 		foreach ( Vector3Int worldPos in i.Rect.ToBoundsInt().allPositionsWithin )
 		{
 			cellPos1 = i.Matrix1.MetaTileMap.WorldToCell( worldPos );
@@ -211,33 +213,106 @@ public partial class MatrixManager
 				continue;
 			}
 
-			i.Matrix1.TileChangeManager.RemoveTile( cellPos1 );
-			i.Matrix2.TileChangeManager.RemoveTile( cellPos2 );
 			collisions++;
+
+			//todo: placeholder, must take movement vectors in account!
+			speedDifference = i.Matrix1.Speed + i.Matrix2.Speed;
+
+			//
+			// ******** DESTROY STUFF!!! ********
+			//
+
+			float damage = 50 * speedDifference;
+
+			//Integrity
+			foreach ( var integrity in GetAt<Integrity>(worldPos, true) )
+			{
+				integrity.ApplyDamage( damage, AttackType.Melee, DamageType.Brute );
+			}
+
+			//LivingHealthBehaviour
+			foreach ( var healthBehaviour in GetAt<LivingHealthBehaviour>(worldPos, true) )
+			{
+				healthBehaviour.ApplyDamage( null, damage, AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize( 0 ) );
+			}
+
+			//TilemapDamage
+			foreach ( var damageableLayer in i.Matrix1.MetaTileMap.DamageableLayers )
+			{
+				if ( Random.value >= 0.5 )
+				{
+					i.Matrix1.TileChangeManager.RemoveTile( cellPos1, damageableLayer.LayerType );
+				} else
+				{
+					if ( damageableLayer.LayerType == LayerType.Floors )
+					{
+						damageableLayer.TilemapDamage.TryScorch( cellPos1 );
+					}
+
+					damageableLayer.TilemapDamage.DoMeleeDamage( cellPos1.To2Int(), i.Matrix2.GameObject, ( int ) damage );
+				}
+			}
+			foreach ( var damageableLayer in i.Matrix2.MetaTileMap.DamageableLayers )
+			{
+				if ( Random.value >= 0.5 )
+				{
+					i.Matrix2.TileChangeManager.RemoveTile( cellPos2, damageableLayer.LayerType );
+				} else
+				{
+					if ( damageableLayer.LayerType == LayerType.Floors )
+					{
+						damageableLayer.TilemapDamage.TryScorch( cellPos2 );
+					}
+
+					damageableLayer.TilemapDamage.DoMeleeDamage( cellPos2.To2Int(), i.Matrix1.GameObject, ( int ) damage );
+				}
+			}
+
+			//Heat shit up
+			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, 150 * collisions, collisions/10f );
+			i.Matrix2.ReactionManager.ExposeHotspot( cellPos2, 150 * collisions, collisions/10f );
+
+			//Other
+			foreach ( var layer in otherLayers )
+			{
+				i.Matrix1.TileChangeManager.RemoveTile( cellPos1, layer );
+				i.Matrix2.TileChangeManager.RemoveTile( cellPos2, layer );
+			}
 		}
 
 		if ( collisions > 0 )
 		{
+			ExplosionUtils.PlaySoundAndShake(
+				i.Rect.position.RoundToInt(),
+				(byte) Mathf.Clamp(collisions*4, 5, byte.MaxValue),
+				Mathf.Clamp(collisions, 15, 60)
+				);
 			SlowDown( i, collisions );
 		}
 	}
+	private static LayerType[] otherLayers = { LayerType.Effects, LayerType.Base, LayerType.Objects };
 
 	//todo: consider mass, wall hardness, speed. reduce speed depending on destroyed tile amount and mass
 	private void SlowDown( MatrixIntersection i, int collisions )
 	{
 		if ( i.Matrix1.IsMovable && i.Matrix1.MatrixMove.isMovingServer )
 		{
-			InternalSlowDown( i.Matrix1.MatrixMove );
+			InternalSlowDown( i.Matrix1 );
 		}
 		if ( i.Matrix2.IsMovable && i.Matrix2.MatrixMove.isMovingServer )
 		{
-			InternalSlowDown( i.Matrix2.MatrixMove );
+			InternalSlowDown( i.Matrix2 );
 		}
 
-		void InternalSlowDown( MatrixMove matrixMove )
+		void InternalSlowDown( MatrixInfo info )
 		{
-			float slowdownFactor = 1f - ( Mathf.Clamp( collisions, 1, 50 ) / 100f );
-			matrixMove.SetSpeed( ( matrixMove.State.Speed * slowdownFactor ) - 0.1f );
+			float slowdownFactor = Mathf.Clamp(
+				1f - ( Mathf.Clamp( collisions, 1, 50 ) / 100f ) + info.Mass,
+				0.1f,
+				0.95f
+				);
+			float speed = ( info.MatrixMove.State.Speed * slowdownFactor ) - 0.1f;
+			info.MatrixMove.SetSpeed( speed < 1 ? 0 : speed );
 		}
 	}
 

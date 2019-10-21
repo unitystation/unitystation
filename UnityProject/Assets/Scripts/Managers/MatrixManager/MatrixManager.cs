@@ -472,6 +472,7 @@ public partial class MatrixManager : MonoBehaviour
 				MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
 				MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
 				SubsystemManager = gameObj.GetComponentInParent<SubsystemManager>(),
+				ReactionManager = gameObj.GetComponentInParent<ReactionManager>(),
 				TileChangeManager = gameObj.GetComponentInParent<TileChangeManager>(),
 //				NetId is initialized later
 				InitialOffset = matrix.InitialOffset
