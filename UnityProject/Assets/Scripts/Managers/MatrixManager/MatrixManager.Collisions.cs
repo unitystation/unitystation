@@ -18,9 +18,9 @@ public partial class MatrixManager
 	/// <summary>
 	/// bounds intersections that should be actively checked for actual tile collisions
 	/// </summary>
-	private List<Tuple<MatrixInfo,MatrixInfo>> trackedIntersections = new List<Tuple<MatrixInfo,MatrixInfo>>();
+	private List<MatrixIntersection> trackedIntersections = new List<MatrixIntersection>();
 
-	public List<Tuple<MatrixInfo, MatrixInfo>> TrackedIntersections => trackedIntersections;
+	public List<MatrixIntersection> TrackedIntersections => trackedIntersections;
 
 	private void InitCollisions()
 	{
@@ -38,7 +38,7 @@ public partial class MatrixManager
 				if ( movingMatrices.Contains( movableMatrix ) )
 				{
 					movingMatrices.Remove( movableMatrix );
-					trackedIntersections.RemoveAll( intersection => intersection.Item1 == movableMatrix );
+					trackedIntersections.RemoveAll( intersection => intersection.Matrix1 == movableMatrix );
 				}
 			} );
 		}
@@ -60,27 +60,53 @@ public partial class MatrixManager
 
 		void PruneTracking()
 		{
-			List<Tuple<MatrixInfo, MatrixInfo>> stopTracking = null;
+			List<MatrixIntersection> toRemove = null;
+			List<MatrixIntersection> toUpdate = null;
+
 			foreach ( var trackedIntersection in trackedIntersections )
 			{
-				if ( !trackedIntersection.Item1.BoundsIntersect( trackedIntersection.Item2 ) )
-				{
-					if ( stopTracking == null )
+				if ( trackedIntersection.Matrix1.BoundsIntersect( trackedIntersection.Matrix2, out Rect hotZone ) )
+				{ //refresh rect
+					if ( toUpdate == null )
 					{
-						stopTracking = new List<Tuple<MatrixInfo, MatrixInfo>>();
+						toUpdate = new List<MatrixIntersection>();
 					}
 
-					stopTracking.Add( trackedIntersection );
+					toUpdate.Add( new MatrixIntersection
+					{
+						Matrix1 = trackedIntersection.Matrix1,
+						Matrix2 = trackedIntersection.Matrix2,
+						Rect = hotZone
+					} );
+				}
+				else
+				{ //stop tracking non-intersecting ones
+					if ( toRemove == null )
+					{
+						toRemove = new List<MatrixIntersection>();
+					}
+
+					toRemove.Add( trackedIntersection );
 				}
 			}
 
-			if ( stopTracking != null )
+			if ( toUpdate != null )
 			{
-				foreach ( var toRemove in stopTracking )
+				foreach ( var updateMe in toUpdate )
 				{
-					trackedIntersections.Remove( toRemove );
+					trackedIntersections.Remove( updateMe );
+					trackedIntersections.Add( updateMe );
 				}
 			}
+
+			if ( toRemove != null )
+			{
+				foreach ( var removeMe in toRemove )
+				{
+					trackedIntersections.Remove( removeMe );
+				}
+			}
+
 		}
 
 		void TrackNewIntersections()
@@ -93,11 +119,8 @@ public partial class MatrixManager
 					continue;
 				}
 
-				foreach ( var intersectingMatrix in intersections )
+				foreach ( var intersection in intersections )
 				{
-					var intersection = new Tuple<MatrixInfo, MatrixInfo>( movingMatrix, intersectingMatrix );
-					//todo: figure out situation with 2 shuttles ramming each other
-					//		because then there will be 2 mirrored intersections - (one, two) and (two, one)
 					if ( trackedIntersections.Contains( intersection ) )
 					{
 						continue;
@@ -109,25 +132,30 @@ public partial class MatrixManager
 		}
 	}
 
-	private static readonly MatrixInfo[] noIntersections = new MatrixInfo[0];
+	private static readonly MatrixIntersection[] noIntersections = new MatrixIntersection[0];
 
-	private MatrixInfo[] GetIntersections( MatrixInfo matrix )
+	private MatrixIntersection[] GetIntersections( MatrixInfo matrix )
 	{
-		List<MatrixInfo> intersections = null;
+		List<MatrixIntersection> intersections = null;
 		foreach ( var otherMatrix in ActiveMatrices )
 		{
 			if ( matrix == otherMatrix )
 			{
 				continue;
 			}
-			if ( matrix.BoundsIntersect( otherMatrix ) )
+			if ( matrix.BoundsIntersect( otherMatrix, out Rect hotZone ) )
 			{
 				if ( intersections == null )
 				{
-					intersections = new List<MatrixInfo>();
+					intersections = new List<MatrixIntersection>();
 				}
 
-				intersections.Add( otherMatrix );
+				intersections.Add( new MatrixIntersection
+				{
+					Matrix1 = matrix,
+					Matrix2 = otherMatrix,
+					Rect = hotZone
+				} );
 			}
 		}
 
@@ -150,13 +178,13 @@ public partial class MatrixManager
 
 		foreach ( var trackedIntersection in trackedIntersections )
 		{
-			CheckCollisions( trackedIntersection.Item1, trackedIntersection.Item2 );
+			CheckTileCollisions( trackedIntersection );
 		}
 	}
 
-	private void CheckCollisions( MatrixInfo firstMatrix, MatrixInfo secondMatrix )
+	private void CheckTileCollisions( MatrixIntersection intersection )
 	{
-		//todo: calculate intersection rect and check tiles inside it
+		//todo: check tiles inside rect
 	}
 
 	private void OnDrawGizmos()
@@ -165,10 +193,47 @@ public partial class MatrixManager
 		foreach ( var intersection in Instance.TrackedIntersections )
 		{
 			Gizmos.color = Color.red;
-			DebugGizmoUtils.DrawRect( intersection.Item1.WorldBounds );
+			DebugGizmoUtils.DrawRect( intersection.Matrix1.WorldBounds );
 			Gizmos.color = Color.blue;
-			DebugGizmoUtils.DrawRect( intersection.Item2.WorldBounds );
-
+			DebugGizmoUtils.DrawRect( intersection.Matrix2.WorldBounds );
+			Gizmos.color = Color.yellow;
+			DebugGizmoUtils.DrawRect( intersection.Rect );
 		}
+	}
+}
+
+/// <summary>
+/// First and second matrix are swappable – intersections (m1,m2) and (m2,m1) will be considered equal.
+/// Rect isn't checked for equality
+/// </summary>
+public struct MatrixIntersection
+{
+	public MatrixInfo Matrix1;
+	public MatrixInfo Matrix2;
+	public Rect Rect;
+
+	public override int GetHashCode()
+	{
+		return Matrix1.GetHashCode() ^ Matrix2.GetHashCode();
+	}
+
+	public bool Equals( MatrixIntersection other )
+	{
+		return (Matrix1.Equals( other.Matrix1 ) && Matrix2.Equals( other.Matrix2 ))
+		       || (Matrix1.Equals( other.Matrix2 ) && Matrix2.Equals( other.Matrix1 ));	}
+
+	public override bool Equals( object obj )
+	{
+		return obj is MatrixIntersection other && Equals( other );
+	}
+
+	public static bool operator ==( MatrixIntersection left, MatrixIntersection right )
+	{
+		return left.Equals( right );
+	}
+
+	public static bool operator !=( MatrixIntersection left, MatrixIntersection right )
+	{
+		return !left.Equals( right );
 	}
 }
