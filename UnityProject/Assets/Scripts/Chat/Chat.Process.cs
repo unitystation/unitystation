@@ -13,7 +13,7 @@ public partial class Chat
 		//Skip everything if system message
 		if (channels.HasFlag(ChatChannel.System))
 		{
-			return AddMsgColor(channels, $"<b><i>{message}</i></b>");
+			return $"<b><i>{message}</i></b>";
 		}
 
 		//Skip everything in case of combat channel
@@ -213,7 +213,7 @@ public partial class Chat
 
 	private static string AddMsgColor(ChatChannel channel, string message)
 	{
-		return $"<color={GetChannelColor(channel)}>{message}</color>";
+		return $"<color=#{GetChannelColor(channel)}>{message}</color>";
 	}
 
 	private static string GetChannelColor(ChatChannel channel)
@@ -233,5 +233,17 @@ public partial class Chat
 		if (channel.HasFlag(ChatChannel.Local)) return "white";
 		if (channel.HasFlag(ChatChannel.Combat)) return "dd0000";
 		return "white";
+	}
+
+	private static bool IsNamelessChan(ChatChannel channel)
+	{
+		if (channel.HasFlag(ChatChannel.System) ||
+		    channel.HasFlag(ChatChannel.Combat) ||
+		    channel.HasFlag(ChatChannel.Action) ||
+		    channel.HasFlag(ChatChannel.Examine))
+		{
+			return true;
+		}
+		return false;
 	}
 }

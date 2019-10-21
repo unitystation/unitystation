@@ -33,7 +33,7 @@ public class RequestSyncMessage : ClientMessage
 
 		var msg = $"{newPlayer.Job.JobString()} {newPlayer.Name} has arrived at the station. " +
 		          $"Have a pleasant day! Try not to die...";
-		Chat.AddSystemMsgToChat(msg, MatrixManager.MainStationMatrix);
+		Chat.AddSystemMsgToChat($"<color=white>{msg}</color>", MatrixManager.MainStationMatrix);
 		AnnouncementMessage.SendToAll( msg );
 	}
 

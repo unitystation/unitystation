@@ -58,7 +58,8 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		//Local chat range checks:
-		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat)
+		if (chatEvent.channels == ChatChannel.Local || chatEvent.channels == ChatChannel.Combat
+		                                            || chatEvent.channels == ChatChannel.Action)
 		{
 			//			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
 			RaycastHit2D hit;
@@ -106,7 +107,8 @@ public class ChatRelay : NetworkBehaviour
 			ChatChannel channels = chatEvent.channels;
 
 			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Local) ||
-			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine))
+			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
+			    channels.HasFlag(ChatChannel.Action))
 			{
 				if (!channels.HasFlag(ChatChannel.Binary))
 				{

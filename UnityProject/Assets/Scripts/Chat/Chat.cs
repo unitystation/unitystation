@@ -62,6 +62,7 @@ public partial class Chat : MonoBehaviour
 
 	/// <summary>
 	/// Adds a system message to all players on the given matrix
+	/// You must color your own system messages as they are not done automatically!
 	/// Server side only
 	/// </summary>
 	/// <param name="message"> message to add to each clients chat stream</param>
@@ -80,7 +81,8 @@ public partial class Chat : MonoBehaviour
 
 	/// <summary>
 	/// For game wide system messages like admin messages or
-	/// messages related to the round itself
+	/// messages related to the round itself.
+	/// You must color your own system messages as they are not done automatically!
 	/// </summary>
 	public static void AddGameWideSystemMsgToChat(string message)
 	{
@@ -280,8 +282,27 @@ public partial class Chat : MonoBehaviour
 			}
 		}
 
-		var msg = ProcessMessageFurther(message, speaker, channels, modifiers);
-		Instance.addChatLogClient.Invoke(msg, channels);
+		foreach (Enum value in Enum.GetValues(channels.GetType()))
+		{
+			if (channels.HasFlag((ChatChannel)value))
+			{
+				//Using HasFlag will always return true for flag at value 0 so skip it
+				if ((ChatChannel) value == ChatChannel.None) continue;
+
+				if (IsNamelessChan((ChatChannel)value))
+				{
+					var msg = ProcessMessageFurther(message, speaker, channels, modifiers);
+					Instance.addChatLogClient.Invoke(msg, channels);
+					break;
+				}
+				else
+				{
+
+					var msg = ProcessMessageFurther(message, speaker, (ChatChannel)value, modifiers);
+					Instance.addChatLogClient.Invoke(msg, channels);
+				}
+			}
+		}
 	}
 
 	private static string InTheZone(BodyPartType hitZone)
