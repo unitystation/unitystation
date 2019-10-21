@@ -231,7 +231,7 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnS
 	{
 		//just a guess - objects which can be picked up should have a smaller amount of ash
 		EffectsFactory.Instance.Ash(registerTile.WorldPosition.To2Int(), isLarge);
-		ChatRelay.Instance.AddToChatLogServer(ChatEvent.Local($"{name} burnt to ash.", gameObject.TileWorldPosition()));
+		Chat.AddLocalMsgToChat($"{name} burnt to ash.", gameObject.TileWorldPosition());
 		Logger.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.onFire, burningObjectOverlay?.enabled);
 		PoolManager.PoolNetworkDestroy(gameObject);
 	}
@@ -241,13 +241,13 @@ public class Integrity : NetworkBehaviour, IFireExposable, IRightClickable, IOnS
 	{
 		if (info.DamageType == DamageType.Brute)
 		{
-			ChatRelay.Instance.AddToChatLogServer(ChatEvent.Local($"{name} was smashed to pieces.", gameObject.TileWorldPosition()));
+			Chat.AddLocalMsgToChat($"{name} was smashed to pieces.", gameObject.TileWorldPosition());
 			PoolManager.PoolNetworkDestroy(gameObject);
 		}
 		//TODO: Other damage types (acid)
 		else
 		{
-			ChatRelay.Instance.AddToChatLogServer(ChatEvent.Local($"{name} was destroyed.",gameObject.TileWorldPosition()));
+			Chat.AddLocalMsgToChat($"{name} was destroyed.", gameObject.TileWorldPosition());
 			PoolManager.PoolNetworkDestroy(gameObject);
 		}
 	}

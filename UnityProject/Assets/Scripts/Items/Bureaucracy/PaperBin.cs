@@ -110,7 +110,7 @@ namespace Items.Bureaucracy
 				message += " There is a pen inside.";
 			}
 
-			ChatRelay.Instance.AddToChatLogClient(message, ChatChannel.Examine);
+			Chat.AddExamineMsgToClient(message);
 		}
 
 		protected override bool WillInteract(HandApply interaction, NetworkSide side)
