@@ -20,8 +20,6 @@ public class GUI_Vendor : NetTab
 	private NetColorChanger hullColor;
 	private bool inited = false;
 	[SerializeField]
-	private string vendMessage = "Item given.";
-	[SerializeField]
 	private string deniedMessage = "Bzzt.";
 	[SerializeField]
 	private string restockMessage = "Items restocked.";
@@ -116,7 +114,8 @@ public class GUI_Vendor : NetTab
 		Vector3 spawnPos = vendor.gameObject.RegisterTile().WorldPositionServer;
 		var spawnedItem = PoolManager.PoolNetworkInstantiate(itemToSpawn.Item, spawnPos, vendor.transform.parent);
 		itemToSpawn.Stock--;
-		Chat.AddLocalMsgToChat($"{vendor.name} spits out {item.Item.name}", spawnPos);
+
+		SendToChat($"{item.Item.name} was dispensed from the vending machine");
 
 		//Ejecting in direction
 		if (vendor.EjectObjects && vendor.EjectDirection != EjectDirection.None)
@@ -144,7 +143,6 @@ public class GUI_Vendor : NetTab
 			});
 		}
 
-		SendToChat(vendMessage);
 		UpdateList();
 		allowSell = false;
 		StartCoroutine(VendorInputCoolDown());

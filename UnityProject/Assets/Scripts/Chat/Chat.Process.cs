@@ -5,15 +5,29 @@ using System.Text.RegularExpressions;
 
 public partial class Chat
 {
+	public Color oocColor;
+	public Color ghostColor;
+	public Color binaryColor;
+	public Color supplyColor;
+	public Color centComColor;
+	public Color commandColor;
+	public Color commonColor;
+	public Color engineeringColor;
+	public Color medicalColor;
+	public Color scienceColor;
+	public Color securityColor;
+	public Color serviceColor;
+	public Color localColor;
+	public Color combatColor;
+	public Color defaultColor;
+
 	public static string ProcessMessageFurther(string message, string speaker, ChatChannel channels,
 		ChatModifier modifiers)
 	{
-		message = StripTags(message);
-
 		//Skip everything if system message
 		if (channels.HasFlag(ChatChannel.System))
 		{
-			return $"<b><i>{message}</i></b>";
+			return message;
 		}
 
 		//Skip everything in case of combat channel
@@ -22,10 +36,12 @@ public partial class Chat
 			return AddMsgColor(channels, $"<b>{message}</b>"); //POC
 		}
 
-		//Skip everything if examining something
-		if (channels.HasFlag(ChatChannel.Examine))
+		//Skip everything if it is an action or examine message or if it is a local message
+		//without a speaker (which is used by machines)
+		if (channels.HasFlag(ChatChannel.Examine) || channels.HasFlag(ChatChannel.Action)
+		    || channels.HasFlag(ChatChannel.Local) && string.IsNullOrEmpty(speaker))
 		{
-			return AddMsgColor(channels, $"<b><i>{message}</i></b>");
+			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
 
 		// Skip everything if the message is a local warning
@@ -33,6 +49,8 @@ public partial class Chat
 		{
 			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
+
+		message = StripTags(message);
 
 		//Check for emote. If found skip chat modifiers, make sure emote is only in Local channel
 		Regex rx = new Regex("^(/me )");
@@ -216,23 +234,25 @@ public partial class Chat
 		return $"<color=#{GetChannelColor(channel)}>{message}</color>";
 	}
 
+
+
 	private static string GetChannelColor(ChatChannel channel)
 	{
-		if (channel.HasFlag(ChatChannel.OOC)) return "386aff";
-		if (channel.HasFlag(ChatChannel.Ghost)) return "386aff";
-		if (channel.HasFlag(ChatChannel.Binary)) return "ff00ff";
-		if (channel.HasFlag(ChatChannel.Supply)) return "a8732b";
-		if (channel.HasFlag(ChatChannel.CentComm)) return "686868";
-		if (channel.HasFlag(ChatChannel.Command)) return "204090";
-		if (channel.HasFlag(ChatChannel.Common)) return "008000";
-		if (channel.HasFlag(ChatChannel.Engineering)) return "fb5613";
-		if (channel.HasFlag(ChatChannel.Medical)) return "337296";
-		if (channel.HasFlag(ChatChannel.Science)) return "993399";
-		if (channel.HasFlag(ChatChannel.Security)) return "a30000";
-		if (channel.HasFlag(ChatChannel.Service)) return "6eaa2c";
-		if (channel.HasFlag(ChatChannel.Local)) return "white";
-		if (channel.HasFlag(ChatChannel.Combat)) return "dd0000";
-		return "white";
+		if (channel.HasFlag(ChatChannel.OOC)) return ColorUtility.ToHtmlStringRGBA(Instance.oocColor);
+		if (channel.HasFlag(ChatChannel.Ghost)) return ColorUtility.ToHtmlStringRGBA(Instance.ghostColor);
+		if (channel.HasFlag(ChatChannel.Binary)) return ColorUtility.ToHtmlStringRGBA(Instance.binaryColor);
+		if (channel.HasFlag(ChatChannel.Supply)) return ColorUtility.ToHtmlStringRGBA(Instance.supplyColor);
+		if (channel.HasFlag(ChatChannel.CentComm)) return ColorUtility.ToHtmlStringRGBA(Instance.centComColor);
+		if (channel.HasFlag(ChatChannel.Command)) return ColorUtility.ToHtmlStringRGBA(Instance.commandColor);
+		if (channel.HasFlag(ChatChannel.Common)) return ColorUtility.ToHtmlStringRGBA(Instance.commonColor);
+		if (channel.HasFlag(ChatChannel.Engineering)) return ColorUtility.ToHtmlStringRGBA(Instance.engineeringColor);
+		if (channel.HasFlag(ChatChannel.Medical)) return ColorUtility.ToHtmlStringRGBA(Instance.medicalColor);
+		if (channel.HasFlag(ChatChannel.Science)) return ColorUtility.ToHtmlStringRGBA(Instance.scienceColor);
+		if (channel.HasFlag(ChatChannel.Security)) return ColorUtility.ToHtmlStringRGBA(Instance.securityColor);
+		if (channel.HasFlag(ChatChannel.Service)) return ColorUtility.ToHtmlStringRGBA(Instance.serviceColor);
+		if (channel.HasFlag(ChatChannel.Local)) return ColorUtility.ToHtmlStringRGBA(Instance.localColor);
+		if (channel.HasFlag(ChatChannel.Combat)) return ColorUtility.ToHtmlStringRGBA(Instance.combatColor);
+		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor);;
 	}
 
 	private static bool IsNamelessChan(ChatChannel channel)

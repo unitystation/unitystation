@@ -178,7 +178,7 @@ public partial class Chat : MonoBehaviour
 		string victimName;
 		if (attacker == victim)
 		{
-			victimName = "self";
+			victimName = "yourself";
 		}
 		else
 		{
@@ -225,7 +225,8 @@ public partial class Chat : MonoBehaviour
 	}
 
 	/// <summary>
-	/// For any other local messages that are not an Action or a Combat Action
+	/// For any other local messages that are not an Action or a Combat Action.
+	/// I.E for machines
 	/// Server side only
 	/// </summary>
 	/// <param name="message">The message to show in the chat stream</param>
