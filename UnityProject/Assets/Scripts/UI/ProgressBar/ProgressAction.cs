@@ -42,5 +42,6 @@ public sealed class ProgressAction
 	{
 		InterruptsOverlapping = interruptsOverlapping;
 		AllowTurning = allowTurning;
+		AllowMultiple = allowMultiple;
 	}
 }
