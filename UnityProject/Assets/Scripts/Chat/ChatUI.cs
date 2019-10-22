@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ControlChat : MonoBehaviour
+public class ChatUI : MonoBehaviour
 {
-	public static ControlChat Instance;
+	public static ChatUI Instance;
 	public GameObject chatInputWindow;
 	public Transform content;
 	public GameObject chatEntryPrefab;
@@ -221,25 +221,6 @@ public class ControlChat : MonoBehaviour
 	{
 		// Selected channels already masks all unavailable channels in it's get method
 		PostToChatMessage.Send(InputFieldChat.text, SelectedChannels);
-
-		// if (GameManager.Instance.GameOver)
-		// {
-		// 	//OOC only
-		// 	PostToChatMessage.Send(InputFieldChat.text, ChatChannel.OOC);
-		// }
-		// else
-		// {
-		// 	if (PlayerManager.LocalPlayerScript.IsGhost)
-		// 	{
-		// 		//dead chat only
-		// 		PostToChatMessage.Send(InputFieldChat.text, ChatChannel.Ghost);
-		// 	}
-		// 	else
-		// 	{
-		// 		// Selected channels already masks all unavailable channels in it's get method
-		// 		PostToChatMessage.Send (InputFieldChat.text, SelectedChannels);
-		// 	}
-		// }
 
 		if (PlayerChatShown())
 		{

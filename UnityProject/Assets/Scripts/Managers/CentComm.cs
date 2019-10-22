@@ -108,12 +108,7 @@ public class CentComm : MonoBehaviour
 			paper.SetServerString(CreateStartGameReport());
 		}
 
-		ChatEvent announcement = new ChatEvent{
-			channels = ChatChannel.System,
-			message = CommandUpdateAnnouncementString(),
-			matrix = MatrixManager.MainStationMatrix
-		};
-		ChatRelay.Instance.AddToChatLogServer(announcement);
+		Chat.AddSystemMsgToChat(CommandUpdateAnnouncementString(), MatrixManager.MainStationMatrix);
 
 		SoundManager.PlayNetworked("Notice1", 1f);
 		SoundManager.PlayNetworked("InterceptMessage", 1f);
@@ -126,13 +121,8 @@ public class CentComm : MonoBehaviour
 			return;
 		}
 
-		ChatEvent announcement = new ChatEvent{
-			channels = ChatChannel.System,
-			message = string.Format( CaptainAnnounceTemplate, text ),
-			matrix = MatrixManager.MainStationMatrix
-		};
 		SoundManager.PlayNetworked( "Announce" );
-		ChatRelay.Instance.AddToChatLogServer(announcement);
+		Chat.AddSystemMsgToChat(string.Format( CaptainAnnounceTemplate, text ), MatrixManager.MainStationMatrix);
 	}
 
 	/// <summary>
@@ -145,12 +135,8 @@ public class CentComm : MonoBehaviour
 			return;
 		}
 
-		ChatEvent announcement = new ChatEvent{
-			channels = ChatChannel.System,
-			message = string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleCallSubTemplate,minutes,text) ),
-			matrix = MatrixManager.MainStationMatrix
-		};
-		ChatRelay.Instance.AddToChatLogServer(announcement);
+		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleCallSubTemplate,minutes,text) ),
+			MatrixManager.MainStationMatrix);
 	}
 
 	/// <summary>
@@ -158,12 +144,8 @@ public class CentComm : MonoBehaviour
 	/// </summary>
 	public static void MakeShuttleRecallAnnouncement( string text )
 	{
-		ChatEvent announcement = new ChatEvent{
-			channels = ChatChannel.System,
-			message = string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleRecallSubTemplate,text) ),
-			matrix = MatrixManager.MainStationMatrix
-		};
-		ChatRelay.Instance.AddToChatLogServer(announcement);
+		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleRecallSubTemplate,text) ),
+			MatrixManager.MainStationMatrix);
 	}
 
 	private string CreateStartGameReport()

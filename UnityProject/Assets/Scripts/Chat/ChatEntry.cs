@@ -14,7 +14,7 @@ public class ChatEntry : MonoBehaviour {
     {
         EventManager.AddHandler(EVENT.ChatFocused, OnChatFocused);
         EventManager.AddHandler(EVENT.ChatUnfocused, OnChatUnfocused);
-        if (!ControlChat.Instance.chatInputWindow.gameObject.activeInHierarchy){
+        if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy){
             if (isCoolingDown)
             {
 				coCoolDown = StartCoroutine(CoolDown());
@@ -57,7 +57,7 @@ public class ChatEntry : MonoBehaviour {
 		sizeDelta.x = 472f;
 		rect.sizeDelta = sizeDelta;
         yield return WaitFor.Seconds(12f);
-        if (!ControlChat.Instance.chatInputWindow.gameObject.activeInHierarchy)
+        if (!ChatUI.Instance.chatInputWindow.gameObject.activeInHierarchy)
         {
             text.CrossFadeAlpha(0.01f, 3f, false);
         } else

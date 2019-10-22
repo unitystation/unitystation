@@ -175,9 +175,9 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.IntentHarm, 	() => { UIManager.Intent.SetIntent(Intent.Harm); }},
 
 		// Chat
-		{ KeyAction.ChatLocal,		() => { ControlChat.Instance.OpenChatWindow(); }},
-		{ KeyAction.ChatRadio,		() => { ControlChat.Instance.OpenChatWindow(ChatChannel.Common); }},
-		{ KeyAction.ChatOOC,		() => { ControlChat.Instance.OpenChatWindow(ChatChannel.OOC); }},
+		{ KeyAction.ChatLocal,		() => { ChatUI.Instance.OpenChatWindow(); }},
+		{ KeyAction.ChatRadio,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.Common); }},
+		{ KeyAction.ChatOOC,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.OOC); }},
 
 		// Body part selection
 		{ KeyAction.TargetHead,		() => { UIManager.ZoneSelector.CycleHead(); }},

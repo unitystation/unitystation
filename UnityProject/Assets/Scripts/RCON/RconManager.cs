@@ -136,8 +136,7 @@ public class RconManager : RconConsole
 		{
 			var msg = rconChatQueue.Dequeue();
 			msg = msg.Substring(1, msg.Length - 1);
-			ChatEvent chatEvent = new ChatEvent("[Server]: " + msg, ChatChannel.System);
-			ChatRelay.Instance.AddToChatLogServer(chatEvent);
+			Chat.AddGameWideSystemMsgToChat("[SERVER] " + msg);
 		}
 
 		if (commandQueue.Count > 0)

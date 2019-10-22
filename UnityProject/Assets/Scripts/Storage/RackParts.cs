@@ -56,8 +56,8 @@ public class RackParts : Interactable<PositionalHandApply, InventoryApply>
 
 		var progressFinishAction = new ProgressCompleteAction(() =>
 			{
-				UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
-					"You assemble a rack.");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+						"You assemble a rack.");
 				PoolManager.PoolNetworkInstantiate(rackPrefab, interaction.WorldPositionTarget.RoundToInt(),
 					interaction.Performer.transform.parent);
 				var handObj = interaction.HandObject;

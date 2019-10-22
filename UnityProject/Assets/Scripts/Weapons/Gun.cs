@@ -416,15 +416,12 @@ public class Gun : NBAimApplyInteractable, IInteractable<HandActivate>, IInterac
 					}
 					if (AmmoType != ammoType)
 					{
-						ChatRelay.Instance.AddToChatLogClient("You try to load the wrong ammo into your weapon",
-							ChatChannel.Examine);
+						Chat.AddExamineMsgToClient("You try to load the wrong ammo into your weapon");
 					}
 				}
 				else  if (AmmoType == magazine.ammoType)
 				{
-					ChatRelay.Instance.AddToChatLogClient(
-						"You weapon is already loaded, you can't fit more Magazines in it, silly!",
-						ChatChannel.Examine);
+					Chat.AddExamineMsgToClient("You weapon is already loaded, you can't fit more Magazines in it, silly!");
 				}
 			}
 		}
