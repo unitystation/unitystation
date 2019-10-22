@@ -801,8 +801,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 		{
 			serverState.RotationTime = rotTime;
 
-			//fixme: this whole class behaves like shit!
-			MatrixMoveMessage.SendToAll(gameObject, serverTargetState);
+			//fixme: this whole class behaves like ass!
+			if ( serverState.RotationTime != serverTargetState.RotationTime )
+			{ //Doesn't guarantee that matrix will stop
+				MatrixMoveMessage.SendToAll(gameObject, serverState);
+			} else
+			{ //Ends up in instant rotations
+				MatrixMoveMessage.SendToAll(gameObject, serverTargetState);
+			}
 			//Clear inform flags
 			serverTargetState.Inform = false;
 			serverState.Inform = false;
