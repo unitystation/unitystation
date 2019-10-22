@@ -53,6 +53,7 @@ public abstract class RegisterTile : NetworkBehaviour
 		}
 	}
 	private Matrix matrix;
+	public bool MatrixIsMovable => Matrix && Matrix.MatrixMove;
 
 	public uint ParentNetId
 	{

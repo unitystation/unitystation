@@ -162,7 +162,7 @@ public class ExplodeWhenShot : NetworkBehaviour
 
 		//Shake if the player is on the same matrix (check for null in case this is a headless server)
 		if (PlayerManager.LocalPlayer != null &&
-			PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterPlayer>() == registerObject.Matrix)
+			PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterPlayer>().Matrix == registerObject.Matrix)
 		{
 			Camera2DFollow.followControl.Shake(0.2f, 0.2f);
 		}

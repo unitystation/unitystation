@@ -398,7 +398,7 @@ public class MetaTileMap : MonoBehaviour
 
 	public Vector3Int WorldToCell(Vector3 worldPosition)
 	{
-		return Layers.First().Value.WorldToCell(worldPosition);
+		return LayersValues[0].WorldToCell(worldPosition);
 	}
 
 

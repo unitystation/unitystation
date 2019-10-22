@@ -26,6 +26,8 @@ public class Matrix : MonoBehaviour
 	public MetaDataLayer MetaDataLayer => metaDataLayer;
 	private MetaDataLayer metaDataLayer;
 
+	public MatrixMove MatrixMove { get; private set; }
+
 	public Color Color => colors.Wrap( Id ).WithAlpha( 0.7f );
 
 	private void Awake()
@@ -33,6 +35,7 @@ public class Matrix : MonoBehaviour
 		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
 		reactionManager = GetComponent<ReactionManager>();
 		metaDataLayer = GetComponent<MetaDataLayer>();
+		MatrixMove = GetComponentInParent<MatrixMove>();
 	}
 
 	public void CompressAllBounds()
