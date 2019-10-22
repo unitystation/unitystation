@@ -33,7 +33,7 @@ public partial class Chat
 		//Skip everything in case of combat channel
 		if (channels.HasFlag(ChatChannel.Combat))
 		{
-			return AddMsgColor(channels, $"<b>{message}</b>"); //POC
+			return AddMsgColor(channels, $"<i>{message}</i>"); //POC
 		}
 
 		//Skip everything if it is an action or examine message or if it is a local message
