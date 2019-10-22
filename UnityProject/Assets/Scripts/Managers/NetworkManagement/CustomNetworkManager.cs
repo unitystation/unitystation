@@ -185,7 +185,7 @@ public class CustomNetworkManager : NetworkManager
 		}
 		Logger.Log($"Kicking {player} : {raisins}", Category.Connections);
 		InfoWindowMessage.Send(player.GameObject, $"Kicked: {raisins}", "Kicked");
-		PostToChatMessage.Send($"Player '{player.Name}' got kicked: {raisins}", ChatChannel.System);
+		Chat.AddGameWideSystemMsgToChat($"Player '{player.Name}' got kicked: {raisins}");
 		player.Connection.Disconnect();
 		player.Connection.Dispose();
 	}

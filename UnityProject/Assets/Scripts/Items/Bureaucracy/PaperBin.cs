@@ -110,7 +110,7 @@ namespace Items.Bureaucracy
 				message += " There is a pen inside.";
 			}
 
-			ChatRelay.Instance.AddToChatLogClient(message, ChatChannel.Examine);
+			Chat.AddExamineMsgToClient(message);
 		}
 
 		protected override bool WillInteract(HandApply interaction, NetworkSide side)
@@ -159,8 +159,7 @@ namespace Items.Bureaucracy
 				// Pen comes out before the paper
 				if (storedPen)
 				{
-					UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,
-						"You take the pen out of the paper bin.");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "You take the pen out of the paper bin.");
 					InventoryManager.EquipInInvSlot(pna.Inventory[pna.activeHand], GetStoredPen());
 					return;
 				}
@@ -168,11 +167,12 @@ namespace Items.Bureaucracy
 				// Player is picking up a piece of paper
 				if (!HasPaper())
 				{
-					UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine,"The paper bin is empty!");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "The paper bin is empty!");
 					return;
 				}
 
-				UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, "You take the paper out of the paper bin.");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You take the paper out of the paper bin.");
+
 				InventoryManager.EquipInInvSlot(pna.Inventory[pna.activeHand], GetPaperFromStack());
 			}
 			else
@@ -185,11 +185,11 @@ namespace Items.Bureaucracy
 				if (handObj.GetComponent<Pen>())
 				{
 					SyncStoredPen(handObj);
-					UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, "You put the pen in the paper bin.");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "You put the pen in the paper bin.");
 					return;
 				}
 
-				UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, "You put the paper in the paper bin.");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You put the paper in the paper bin.");
 				AddPaperToStack(handObj);
 			}
 		}

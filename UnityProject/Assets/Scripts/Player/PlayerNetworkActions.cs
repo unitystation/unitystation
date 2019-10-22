@@ -704,13 +704,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdRequestHug(string hugger, GameObject huggedPlayer)
 	{
 		string hugged = huggedPlayer.GetComponent<PlayerScript>().playerName;
-		var huggedPlayerRegister = huggedPlayer.GetComponent<RegisterPlayer>();
-		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
-		{
-			channels = ChatChannel.Local,
-			message = $"{hugger} has hugged {hugged}.",
-			position = huggedPlayerRegister.WorldPosition.To2Int()
-		});
+		Chat.AddActionMsgToChat(gameObject, $"You hugged {hugged}.", $"{hugger} has hugged {hugged}.");
 	}
 
 	/// <summary>
@@ -744,26 +738,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		doingCPR = true;
 		UIManager.ProgressBar.StartProgress(cardiacArrestPlayerRegister.WorldPosition, 5f, progressFinishAction,
 			rescuer);
-		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
-		{
-			channels = ChatChannel.Local,
-			message = $"{rescuer.Player()?.Name} is trying to perform CPR on {cardiacArrestPlayer.Player()?.Name}.",
-			position = cardiacArrestPlayerRegister.WorldPosition.To2Int()
-		});
+
+		Chat.AddActionMsgToChat(rescuer, $"You begin performing CPR on {cardiacArrestPlayer.Player()?.Name}.",
+			$"{rescuer.Player()?.Name} is trying to perform CPR on {cardiacArrestPlayer.Player()?.Name}.");
 	}
 
 	[Server]
 	private void DoCPR(GameObject rescuer, GameObject CardiacArrestPlayer)
 	{
-		var CardiacArrestPlayerRegister = CardiacArrestPlayer.GetComponent<RegisterPlayer>();
 		CardiacArrestPlayer.GetComponent<PlayerHealth>().bloodSystem.oxygenDamage -= 7f;
 		doingCPR = false;
-		ChatRelay.Instance.AddToChatLogServer(new ChatEvent
-		{
-			channels = ChatChannel.Local,
-			message = $"{rescuer.Player()?.Name} has performed CPR on {CardiacArrestPlayer.Player()?.Name}.",
-			position = CardiacArrestPlayerRegister.WorldPositionServer.To2Int()
-		});
+		Chat.AddActionMsgToChat(rescuer, $"You have performed CPR on {CardiacArrestPlayer.Player()?.Name}.",
+			$"{rescuer.Player()?.Name} has performed CPR on {CardiacArrestPlayer.Player()?.Name}.");
 	}
 
 	[Server]
@@ -793,13 +779,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			disarmedPlayerRegister.Stun(6f, false);
 			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
-			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
-			{
-				channels = ChatChannel.Local,
-				message = $"{disarmerName} has knocked {playerToDisarmName} down!",
-				position = disarmedPlayerRegister.WorldPositionServer.To2Int()
-			});
+
+			Chat.AddCombatMsgToChat(gameObject, $"You have knocked {playerToDisarmName} down!",
+				$"{disarmerName} has knocked {playerToDisarmName} down!");
 		}
+
 		else if (50 >= rng.Next(1, 100))
 		{
 			// Disarms
@@ -814,22 +798,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
-			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
-			{
-				channels = ChatChannel.Local,
-				message = $"{disarmerName} has disarmed {playerToDisarmName}!",
-				position = disarmedPlayerRegister.WorldPositionServer.To2Int()
-			});
+
+			Chat.AddCombatMsgToChat(gameObject, $"You have disarmed {playerToDisarmName}!",
+				$"{disarmerName} has disarmed {playerToDisarmName}!");
 		}
 		else
 		{
 			SoundManager.PlayNetworkedAtPos("PunchMiss", disarmedPlayerRegister.WorldPositionServer);
-			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
-			{
-				channels = ChatChannel.Local,
-				message = $"{disarmerName} has attempted to disarm {playerToDisarmName}!",
-				position = disarmedPlayerRegister.WorldPositionServer.To2Int()
-			});
+
+			Chat.AddCombatMsgToChat(gameObject, $"You attempted to disarm {playerToDisarmName}!",
+				$"{disarmerName} has attempted to disarm {playerToDisarmName}!");
 		}
 	}
 

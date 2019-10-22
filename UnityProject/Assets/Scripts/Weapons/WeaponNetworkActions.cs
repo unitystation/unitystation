@@ -183,7 +183,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 
 		if (weaponAttr.hitDamage > 0)
 		{
-			PostToChatMessage.SendAttackMessage(gameObject, victim, (int) weaponAttr.hitDamage, damageZone, weapon);
+			Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weapon);
 		}
 
 
@@ -222,7 +222,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			victimHealth.ApplyDamage(gameObject, (int) fistDamage, AttackType.Melee, DamageType.Brute, damageZone);
 			if (fistDamage > 0)
 			{
-				PostToChatMessage.SendAttackMessage(gameObject, victim, (int) fistDamage, damageZone);
+				Chat.AddAttackMsgToChat(gameObject, victim, damageZone);
 			}
 
 			// Make a random punch hit sound.
@@ -235,11 +235,8 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			// The punch missed.
 			string victimName = victim.Player()?.Name;
 			SoundManager.PlayNetworkedAtPos("PunchMiss", transform.position);
-			ChatRelay.Instance.AddToChatLogServer(new ChatEvent
-			{
-				channels = ChatChannel.Local,
-				message = $"{gameObject.Player()?.Name} has attempted to punch {victimName}!"
-			});
+			Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
+				$"{gameObject.Player()?.Name} has attempted to punch {victimName}!");
 		}
 	}
 

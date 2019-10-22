@@ -59,9 +59,8 @@ public class Horn : Interactable<HandActivate, PositionalHandApply>
 		// honking in someone's face
 		if ( inCloseRange && (targetHealth != null) )
 		{
-			interaction.Performer.GetComponent<WeaponNetworkActions>().RpcMeleeAttackLerp( interaction.TargetVector, this.gameObject );
-
-			PostToChatMessage.SendAttackMessage(interaction.Performer, interaction.TargetObject, isCrit ? 100 : 1, BodyPartType.None, this.gameObject);
+			interaction.Performer.GetComponent<WeaponNetworkActions>().RpcMeleeAttackLerp( interaction.TargetVector, gameObject );
+			Chat.AddAttackMsgToChat(interaction.Performer, interaction.TargetObject,BodyPartType.None, gameObject);
 
 			ClassicHonk();
 

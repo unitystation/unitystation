@@ -239,7 +239,8 @@ public enum Category
 	VariableViewer,
 	Themes,
 	SpriteHandler,
-	GameMode
+	GameMode,
+	Chat
 }
 
 [Serializable]
