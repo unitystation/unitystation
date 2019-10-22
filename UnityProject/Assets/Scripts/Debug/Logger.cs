@@ -240,6 +240,7 @@ public enum Category
 	Themes,
 	SpriteHandler,
 	GameMode,
+	Chat,
 	Interaction
 }
 

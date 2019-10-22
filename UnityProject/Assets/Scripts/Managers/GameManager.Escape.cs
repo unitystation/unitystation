@@ -60,7 +60,7 @@ public partial class GameManager
 			{
 				beenToStation = true;
 				SoundManager.PlayNetworked( "Disembark" );
-				PostToChatMessage.Send("Escape shuttle has arrived! Crew has 1 minute to get on it.", ChatChannel.System);
+				Chat.AddSystemMsgToChat("<color=white>Escape shuttle has arrived! Crew has 1 minute to get on it.</color>", MatrixManager.MainStationMatrix);
 				//should be changed to manual send later
 				StartCoroutine( SendEscapeShuttle( 60 ) );
 			}

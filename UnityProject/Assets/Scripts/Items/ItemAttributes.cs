@@ -172,7 +172,7 @@ public class ItemAttributes : NetworkBehaviour, IRightClickable
 	{
 		if (!string.IsNullOrEmpty(itemDescription))
 		{
-			ChatRelay.Instance.AddToChatLogClient(itemDescription, ChatChannel.Examine);
+			Chat.AddExamineMsgToClient(itemDescription);
 		}
 	}
 

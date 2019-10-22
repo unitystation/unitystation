@@ -113,7 +113,7 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<PositionalHandAp
 					if (con.WireEndA == Connection.Overlap || con.WireEndB == Connection.Overlap) {
 						if (con.WireEndA == WireEndB || con.WireEndB == WireEndB)
 						{
-							ChatRelay.Instance.AddToChatLogClient("There is already a cable at that position", ChatChannel.Examine);
+							Chat.AddExamineMsgToClient("There is already a cable at that position");
 							return;
 						}
 						foreach (var Econ in econs)
@@ -121,11 +121,11 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<PositionalHandAp
 							if (Econ.WireEndA == WireEndB || Econ.WireEndB == WireEndB)
 							{
 								if (con.WireEndA == Econ.WireEndA || con.WireEndB == Econ.WireEndA){
-									ChatRelay.Instance.AddToChatLogClient("There is already a cable at that position", ChatChannel.Examine);
+									Chat.AddExamineMsgToClient("There is already a cable at that position");
 									return;
 								}
 								else if (con.WireEndA == Econ.WireEndB || con.WireEndB == Econ.WireEndB){
-									ChatRelay.Instance.AddToChatLogClient("There is already a cable at that position", ChatChannel.Examine);
+									Chat.AddExamineMsgToClient("There is already a cable at that position");
 									return;
 								}
 							}

@@ -9,6 +9,6 @@ public class MessageOnInteract : MonoBehaviour, IInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, Message);
+		Chat.AddExamineMsgFromServer(interaction.Performer, Message);
 	}
 }

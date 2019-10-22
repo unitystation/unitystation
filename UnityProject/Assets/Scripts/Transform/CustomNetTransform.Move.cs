@@ -553,7 +553,7 @@ public partial class CustomNetTransform
 				var damage = (int)(ItemAttributes.throwDamage * 2);
 				var hitZone = info.Aim.Randomize();
 				objects[i].ApplyDamage(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
-				PostToChatMessage.SendThrowHitMessage(gameObject, objects[i].gameObject, damage, hitZone);
+				Chat.AddThrowHitMsgToChat(gameObject,objects[i].gameObject, hitZone);
 			}
 			//hit sound
 			SoundManager.PlayNetworkedAtPos("GenericHit", transform.position, 1f);

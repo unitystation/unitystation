@@ -30,7 +30,7 @@ public class UIToggleChannel : MonoBehaviour
 		EventTrigger trigger = toggle.GetComponent<EventTrigger>();
 		EventTrigger.Entry entry = new EventTrigger.Entry();
 		entry.eventID = EventTriggerType.PointerClick;
-		entry.callback.AddListener((eventData) => ControlChat.Instance.Toggle_Channel(toggle.isOn));
+		entry.callback.AddListener((eventData) => ChatUI.Instance.Toggle_Channel(toggle.isOn));
 		trigger.triggers.Add(entry);
 		return toggle;
 	}

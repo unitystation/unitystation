@@ -40,7 +40,7 @@ public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			ToShow += $"Cellular Damage Level: {livingHealth.cloningDamage}";
 		}
-		UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, ToShow);
 
+		Chat.AddExamineMsgFromServer(interaction.Performer, ToShow);
 	}
 }

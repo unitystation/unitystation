@@ -183,7 +183,7 @@ public class Equipment : NetworkBehaviour
 			Nuke nuke = FindObjectOfType<Nuke>();
 			if (nuke != null)
 			{
-				UpdateChatMessage.Send(gameObject, ChatChannel.Syndicate,
+				UpdateChatMessage.Send(gameObject, ChatChannel.Syndicate, ChatModifier.None,
 					"We have intercepted the code for the nuclear weapon: " + nuke.NukeCode);
 			}
 		}

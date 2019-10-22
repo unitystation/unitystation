@@ -30,10 +30,11 @@ public class RequestSyncMessage : ClientMessage
 		if ( newPlayer.Job == JobType.SYNDICATE ) {
 			return;
 		}
-		var chatEvent = new ChatEvent( $"{newPlayer.Job.JobString()} {newPlayer.Name} has arrived at the station. " +
-		                               $"Have a pleasant day! Try not to die...", ChatChannel.System, true );
-		AnnouncementMessage.SendToAll( chatEvent.message );
-		ChatRelay.Instance.AddToChatLogServer( chatEvent );
+
+		var msg = $"{newPlayer.Job.JobString()} {newPlayer.Name} has arrived at the station. " +
+		          $"Have a pleasant day! Try not to die...";
+		Chat.AddSystemMsgToChat($"<color=white>{msg}</color>", MatrixManager.MainStationMatrix);
+		AnnouncementMessage.SendToAll( msg );
 	}
 
 	public override string ToString()

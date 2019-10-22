@@ -45,14 +45,13 @@ public class PlayerHealth : LivingHealthBehaviour
 			string playerName = player.Name ?? "dummy";
 			if (killerName == playerName)
 			{
-				PostToChatMessage.Send(playerName + " commited suicide", ChatChannel.System); //Killfeed
+				Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
 			}
 			else if (killerName.EndsWith(playerName))
 			{
 				// chain reactions
-				PostToChatMessage.Send(
-					playerName + " screwed himself up with some help (" + killerName + ")",
-					ChatChannel.System); //Killfeed
+				Chat.AddActionMsgToChat(gameObject, $" You screwed yourself up with some help (" + killerName + ")",
+					"{playerName} screwed himself up with some help (" + killerName + ")");
 			}
 			else
 			{

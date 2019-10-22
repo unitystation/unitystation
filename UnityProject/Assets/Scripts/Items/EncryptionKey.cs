@@ -248,6 +248,6 @@ public class EncryptionKey : NetworkBehaviour
 
 	public void OnExamine()
 	{
-		ChatRelay.Instance.AddToChatLogClient(ExamineTexts[Type], ChatChannel.Examine);
+		Chat.AddExamineMsgToClient(ExamineTexts[Type]);
 	}
 }

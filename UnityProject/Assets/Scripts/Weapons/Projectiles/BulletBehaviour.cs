@@ -136,8 +136,7 @@ public class BulletBehaviour : MonoBehaviour
 		{
 			//damage object
 			integrity.ApplyDamage(damage, attackType, damageType);
-
-			PostToChatMessage.SendAttackMessage( shooter, coll.gameObject, damage, BodyPartType.None, weapon.gameObject);
+			Chat.AddAttackMsgToChat(shooter, coll.gameObject, BodyPartType.None, weapon.gameObject);
 			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, integrity.gameObject.name, damage);
 		}
 		else
@@ -153,7 +152,7 @@ public class BulletBehaviour : MonoBehaviour
 
 			var aim = isSuicide ? bodyAim : bodyAim.Randomize();
 			livingHealth.ApplyDamage(shooter, damage, attackType, damageType, aim);
-			PostToChatMessage.SendAttackMessage( shooter, coll.gameObject, damage, aim, weapon.gameObject);
+			Chat.AddAttackMsgToChat(shooter, coll.gameObject, aim, weapon.gameObject);
 			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, livingHealth.gameObject.name, damage);
 		}
 
