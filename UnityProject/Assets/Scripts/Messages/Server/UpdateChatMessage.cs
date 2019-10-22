@@ -27,6 +27,11 @@ public class UpdateChatMessage : ServerMessage
 		Chat.ProcessUpdateChatMessage(Recipient, Originator, Message, OthersMessage, Channels, ChatModifiers, Speaker);
 	}
 
+	/// <summary>
+	/// Do not use this message directly. If you need to do work with the chat system use
+	/// the Chat API (the only exception to this rule is if you just need to send 1 msg to 1 client from the server
+	/// i.e syndi special roles)
+	/// </summary>
 	public static UpdateChatMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage, string othersMsg = "",
 		GameObject originator = null, string speaker = "")
 	{
