@@ -22,7 +22,11 @@ public class ObjectLayer : Layer
 
 		if (objectTile)
 		{
-			base.InternalSetTile(position, null);
+			if (!objectTile.IsItem)
+			{
+				base.InternalSetTile(position, null);
+			}
+
 			objectTile.SpawnObject(position, tilemap, transformMatrix);
 		}
 		else
@@ -38,16 +42,22 @@ public class ObjectLayer : Layer
 
 	public override void RemoveTile(Vector3Int position, bool removeAll = false)
 	{
-		List<RegisterTile> objs = ClientObjects.Get(position);
-		for ( var i = objs.Count - 1; i >= 0; i-- )
-		{
-			DestroyImmediate( objs[i].gameObject );
-		}
-
 		List<RegisterTile> list = ServerObjects.Get(position);
 		for ( var i = list.Count - 1; i >= 0; i-- )
 		{
-			DestroyImmediate( list[i].gameObject );
+			PoolManager.PoolNetworkDestroy( list[i].gameObject );
+		}
+
+		List<RegisterTile> objs = ClientObjects.Get(position);
+		for ( var i = objs.Count - 1; i >= 0; i-- )
+		{
+			if ( CustomNetworkManager.IsServer )
+			{
+				PoolManager.PoolNetworkDestroy( objs[i].gameObject );
+			} else
+			{
+				DestroyImmediate( objs[i].gameObject );
+			}
 		}
 
 		base.RemoveTile(position, removeAll);

@@ -194,20 +194,16 @@ public partial class MatrixManager
 
 	private void CheckTileCollisions( MatrixIntersection i )
 	{
-//		List<Vector3Int> nonEmpty = null;
-		Vector3Int cellPos1;
-		Vector3Int cellPos2;
-		int collisions = 0;
-		float speedDifference = 0f;
+		byte collisions = 0;
 		foreach ( Vector3Int worldPos in i.Rect.ToBoundsInt().allPositionsWithin )
 		{
-			cellPos1 = i.Matrix1.MetaTileMap.WorldToCell( worldPos );
+			Vector3Int cellPos1 = i.Matrix1.MetaTileMap.WorldToCell( worldPos );
 			if ( i.Matrix1.Matrix.IsEmptyAt( cellPos1, true ) )
 			{
 				continue;
 			}
 
-			cellPos2 = i.Matrix2.MetaTileMap.WorldToCell( worldPos );
+			Vector3Int cellPos2 = i.Matrix2.MetaTileMap.WorldToCell( worldPos );
 			if ( i.Matrix2.Matrix.IsEmptyAt( cellPos2, true ) )
 			{
 				continue;
@@ -215,58 +211,29 @@ public partial class MatrixManager
 
 			collisions++;
 
-			//todo: placeholder, must take movement vectors in account!
-			speedDifference = i.Matrix1.Speed + i.Matrix2.Speed;
 
 			//
 			// ******** DESTROY STUFF!!! ********
 			//
 
-			float damage = 50 * speedDifference;
+			//todo: placeholder, must take movement vectors in account!
+			ushort damage =  (ushort) (50 * (i.Matrix1.Speed + i.Matrix2.Speed));
 
 			//Integrity
-			foreach ( var integrity in GetAt<Integrity>(worldPos, true) )
-			{
-				integrity.ApplyDamage( damage, AttackType.Melee, DamageType.Brute );
-			}
+			ApplyIntegrityDamage( i.Matrix1, cellPos1, damage );
+			ApplyIntegrityDamage( i.Matrix2, cellPos2, damage );
 
 			//LivingHealthBehaviour
-			foreach ( var healthBehaviour in GetAt<LivingHealthBehaviour>(worldPos, true) )
-			{
-				healthBehaviour.ApplyDamage( null, damage, AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize( 0 ) );
-			}
+			ApplyLivingDamage( i.Matrix1, cellPos1, damage );
+			ApplyLivingDamage( i.Matrix2, cellPos2, damage );
 
 			//TilemapDamage
-			foreach ( var damageableLayer in i.Matrix1.MetaTileMap.DamageableLayers )
-			{
-				if ( Random.value >= 0.5 )
-				{
-					i.Matrix1.TileChangeManager.RemoveTile( cellPos1, damageableLayer.LayerType );
-				} else
-				{
-					if ( damageableLayer.LayerType == LayerType.Floors )
-					{
-						damageableLayer.TilemapDamage.TryScorch( cellPos1 );
-					}
+			ApplyTilemapDamage( i.Matrix1, cellPos1, damage );
+			ApplyTilemapDamage( i.Matrix2, cellPos2, damage );
 
-					damageableLayer.TilemapDamage.DoMeleeDamage( cellPos1.To2Int(), i.Matrix2.GameObject, ( int ) damage );
-				}
-			}
-			foreach ( var damageableLayer in i.Matrix2.MetaTileMap.DamageableLayers )
-			{
-				if ( Random.value >= 0.5 )
-				{
-					i.Matrix2.TileChangeManager.RemoveTile( cellPos2, damageableLayer.LayerType );
-				} else
-				{
-					if ( damageableLayer.LayerType == LayerType.Floors )
-					{
-						damageableLayer.TilemapDamage.TryScorch( cellPos2 );
-					}
-
-					damageableLayer.TilemapDamage.DoMeleeDamage( cellPos2.To2Int(), i.Matrix1.GameObject, ( int ) damage );
-				}
-			}
+			//Wires (since they don't have Integrity)
+			ApplyWireDamage( i.Matrix1, cellPos1, damage );
+			ApplyWireDamage( i.Matrix2, cellPos2, damage );
 
 			//Heat shit up
 			i.Matrix1.ReactionManager.ExposeHotspot( cellPos1, 150 * collisions, collisions/10f );
@@ -276,7 +243,9 @@ public partial class MatrixManager
 			foreach ( var layer in otherLayers )
 			{
 				i.Matrix1.TileChangeManager.RemoveTile( cellPos1, layer );
+				i.Matrix1.TileChangeManager.RemoveEffect( cellPos1, layer );
 				i.Matrix2.TileChangeManager.RemoveTile( cellPos2, layer );
+				i.Matrix2.TileChangeManager.RemoveEffect( cellPos2, layer );
 			}
 		}
 
@@ -289,10 +258,61 @@ public partial class MatrixManager
 				);
 			SlowDown( i, collisions );
 		}
-	}
-	private static LayerType[] otherLayers = { LayerType.Effects, LayerType.Base, LayerType.Objects };
 
-	//todo: consider mass, wall hardness, speed. reduce speed depending on destroyed tile amount and mass
+		//Damage methods
+
+		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
+		{
+			foreach ( var damageableLayer in matrix.MetaTileMap.DamageableLayers )
+			{
+				if ( Random.value >= 0.5 && damageableLayer.LayerType != LayerType.Objects )
+				{ //faking tile destruction by damage. remove when wall
+					matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType );
+				} else
+				{
+					if ( damageableLayer.LayerType == LayerType.Floors )
+					{
+						damageableLayer.TilemapDamage.TryScorch( cellPos );
+					}
+
+					damageableLayer.TilemapDamage.DoMeleeDamage( cellPos.To2Int(), null, ( int ) damage );
+				}
+			}
+		}
+
+		void ApplyWireDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
+		{
+			foreach ( var wire in matrix.Matrix.Get<CableInheritance>( cellPos, true ) )
+			{
+				if ( Random.value >= 0.5 )
+				{ //Sparks
+					wire.QueueForDemolition( wire );
+				} else
+				{ //Destruction
+					wire.toDestroy();
+				}
+			}
+		}
+
+		void ApplyIntegrityDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
+		{
+			foreach ( var integrity in matrix.Matrix.Get<Integrity>( cellPos, true ) )
+			{
+				integrity.ApplyDamage( damage, AttackType.Melee, DamageType.Brute );
+			}
+		}
+
+		void ApplyLivingDamage( MatrixInfo matrix, Vector3Int cellPos, float damage )
+		{
+			foreach ( var healthBehaviour in matrix.Matrix.Get<LivingHealthBehaviour>( cellPos, true ) )
+			{
+				healthBehaviour.ApplyDamage( null, damage, AttackType.Melee, DamageType.Brute, BodyPartType.Chest.Randomize( 0 ) );
+			}
+		}
+	}
+
+	private static LayerType[] otherLayers = { LayerType.Effects, LayerType.Base };
+
 	private void SlowDown( MatrixIntersection i, int collisions )
 	{
 		if ( i.Matrix1.IsMovable && i.Matrix1.MatrixMove.isMovingServer )

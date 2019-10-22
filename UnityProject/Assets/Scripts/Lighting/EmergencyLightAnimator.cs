@@ -29,11 +29,14 @@ public class EmergencyLightAnimator : MonoBehaviour
 		{
 			isOn = _isOn;
 			StartCoroutine(Animate());
-			lightSource.Trigger(_isOn);
 		}
 		else
 		{
 			isOn = _isOn;
+		}
+
+		if ( lightSource )
+		{
 			lightSource.Trigger(_isOn);
 		}
 	}

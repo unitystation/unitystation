@@ -952,6 +952,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 			Gizmos.DrawCube(transform.position, Vector3.one );
 			Gizmos.color = color1;
 			Gizmos.DrawWireCube(transform.position, Vector3.one );
+
+			DebugGizmoUtils.DrawArrow(transform.position, flyingDirection*2);
 			return;
 		}
 

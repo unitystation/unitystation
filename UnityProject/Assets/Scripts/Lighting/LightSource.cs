@@ -94,7 +94,10 @@ public class LightSource : ObjectTrigger
 		if (Renderer == null)
 		{
 			waitToCheckState = true;
-			StartCoroutine(WaitToTryAgain());
+			if ( this != null )
+			{
+				StartCoroutine(WaitToTryAgain());
+			}
 			return;
 		}
 		else

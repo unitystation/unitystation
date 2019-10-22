@@ -119,7 +119,7 @@ public static class ElectricalSynchronisation
 
 #if UNITY_EDITOR
 	public const string updateName = nameof(ElectricalSynchronisation) + "." + nameof(DoUpdate);
-	private static ProfilerMarker update = new ProfilerMarker(updateName);
+//	private static ProfilerMarker update = new ProfilerMarker(updateName);
 
 	public static readonly string[] markerNames = new[]
 	{
@@ -183,7 +183,7 @@ public static class ElectricalSynchronisation
 	{
 		//The beating heart
 #if UNITY_EDITOR
-		update.Begin();
+//		update.Begin();
 #endif
 		if (!Initialise)
 		{
@@ -213,7 +213,7 @@ public static class ElectricalSynchronisation
 			currentTick = ++currentTick % Steps;
 		}
 #if UNITY_EDITOR
-		update.End();
+//		update.End();
 #endif
 	}
 
@@ -263,7 +263,7 @@ public static class ElectricalSynchronisation
 
 	private static void IfStructureChange()
 	{
-		Profiler.BeginSample("IfStructureChange");
+//		Profiler.BeginSample("IfStructureChange");
 		//Logger.Log("PowerUpdateStructureChange", Category.Electrical);
 		foreach (CableInheritance cabel in NUCableStructureChange)
 		{
@@ -273,7 +273,7 @@ public static class ElectricalSynchronisation
 		NUCableStructureChange.Clear();
 		if (!StructureChange)
 		{
-			Profiler.EndSample();
+//			Profiler.EndSample();
 			return;
 		}
 
@@ -292,7 +292,7 @@ public static class ElectricalSynchronisation
 			ToWork.PowerUpdateStructureChange();
 		}
 
-		Profiler.EndSample();
+//		Profiler.EndSample();
 	}
 
 	/// <summary>
@@ -300,7 +300,7 @@ public static class ElectricalSynchronisation
 	/// </summary>
 	private static void PowerUpdateStructureChangeReact()
 	{
-		Profiler.BeginSample("PowerUpdateStructureChangeReact");
+//		Profiler.BeginSample("PowerUpdateStructureChangeReact");
 		//Logger.Log("PowerUpdateStructureChangeReact", Category.Electrical);
 		for (int i = 0; i < OrderList.Count; i++)
 		{
@@ -315,7 +315,7 @@ public static class ElectricalSynchronisation
 			}
 		}
 
-		Profiler.EndSample();
+//		Profiler.EndSample();
 	}
 
 	/// <summary>
@@ -323,7 +323,7 @@ public static class ElectricalSynchronisation
 	/// </summary>
 	private static void PowerUpdateResistanceChange()
 	{
-		Profiler.BeginSample("PowerUpdateResistanceChange");
+//		Profiler.BeginSample("PowerUpdateResistanceChange");
 		//Logger.Log("PowerUpdateResistanceChange/InitialPowerUpdateResistance", Category.Electrical);
 		foreach (ElectricalNodeControl PoweredDevice in InitialiseResistanceChange)
 		{
@@ -353,7 +353,7 @@ public static class ElectricalSynchronisation
 
 		//Logger.Log("CircuitResistanceLoop");
 		CircuitResistanceLoop();
-		Profiler.EndSample();
+//		Profiler.EndSample();
 	}
 
 	/// <summary>
@@ -361,7 +361,7 @@ public static class ElectricalSynchronisation
 	/// </summary>
 	private static void PowerUpdateCurrentChange()
 	{
-		Profiler.BeginSample("PowerUpdateCurrentChange");
+//		Profiler.BeginSample("PowerUpdateCurrentChange");
 		for (int i = 0; i < UnconditionalSupplies.Count; i++)
 		{
 			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
@@ -441,7 +441,7 @@ public static class ElectricalSynchronisation
 			QToRemove = new List<ElectricalNodeControl>();
 		}
 
-		Profiler.EndSample();
+//		Profiler.EndSample();
 	}
 
 	/// <summary>
@@ -449,7 +449,7 @@ public static class ElectricalSynchronisation
 	/// </summary>
 	private static void PowerNetworkUpdate()
 	{
-		Profiler.BeginSample("PowerNetworkUpdate");
+//		Profiler.BeginSample("PowerNetworkUpdate");
 		for (int i = 0; i < OrderList.Count; i++)
 		{
 			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
@@ -477,7 +477,7 @@ public static class ElectricalSynchronisation
 			CableToDestroy = null;
 		}
 
-		Profiler.EndSample();
+//		Profiler.EndSample();
 	}
 
 	public static int NumberOfReactiveSupplies_f()

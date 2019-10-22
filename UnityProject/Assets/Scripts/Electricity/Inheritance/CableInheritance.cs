@@ -145,7 +145,11 @@ public class CableInheritance : NBPositionalHandApplyInteractable, IDeviceContro
 				}
 				Smoke.Stop();
 			}
-			Sparks.Stop();
+
+			if ( Sparks )
+			{
+				Sparks.Stop();
+			}
 		}
 	}
 
